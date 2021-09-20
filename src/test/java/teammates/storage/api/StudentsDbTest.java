@@ -67,7 +67,6 @@ public class StudentsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
                 .withTeamName("validTeamName")
                 .withSectionName("validSectionName")
                 .withGoogleId("validGoogleId")
-                .withLastName("student")
                 .build();
 
         ______TS("fail : invalid params");
@@ -173,7 +172,6 @@ public class StudentsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
         updatedStudent = studentsDb.updateStudent(
                 StudentAttributes.updateOptionsBuilder(s.getCourse(), s.getEmail())
                         .withName(s.getName())
-                        .withLastName(s.getLastName())
                         .withComment(s.getComments())
                         .withGoogleId(s.getGoogleId())
                         .withTeamName(s.getTeam())
@@ -279,15 +277,6 @@ public class StudentsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
                 studentsDb.getStudentForEmail(typicalStudent.getCourse(), typicalStudent.getEmail());
         assertEquals("John Doe", updatedStudent.getName());
         assertEquals("John Doe", actualStudent.getName());
-
-        assertNotEquals("Wu", actualStudent.getLastName());
-        updatedStudent = studentsDb.updateStudent(
-                StudentAttributes.updateOptionsBuilder(typicalStudent.getCourse(), typicalStudent.getEmail())
-                        .withLastName("Wu")
-                        .build());
-        actualStudent = studentsDb.getStudentForEmail(typicalStudent.getCourse(), typicalStudent.getEmail());
-        assertEquals("Wu", updatedStudent.getLastName());
-        assertEquals("Wu", actualStudent.getLastName());
 
         assertNotEquals("Comment", actualStudent.getComments());
         updatedStudent = studentsDb.updateStudent(
