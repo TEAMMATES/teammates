@@ -27,7 +27,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     private boolean hasAssignedWeights;
     private List<Double> mcqWeights;
     private double mcqOtherWeight;
-    private int numOfMcqChoices;
+    private int McqChoices;
     private List<String> mcqChoices;
     private boolean otherEnabled;
     private FeedbackParticipantType generateOptionsFor;
