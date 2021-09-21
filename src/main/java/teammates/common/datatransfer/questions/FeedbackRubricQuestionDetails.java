@@ -32,7 +32,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     private List<List<Double>> rubricWeightsForEachCell;
     private int RubricChoices;
     private List<String> rubricChoices;
-    private int numOfRubricSubQuestions;
+    private int RubricSubQuestions;
     private List<String> rubricSubQuestions;
     private List<List<String>> rubricDescriptions;
 
