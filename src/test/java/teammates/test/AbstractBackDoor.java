@@ -338,6 +338,7 @@ public abstract class AbstractBackDoor {
         return CourseAttributes.builder(courseData.getCourseId())
                 .withName(courseData.getCourseName())
                 .withTimezone(ZoneId.of(courseData.getTimeZone()))
+                .withInstitute(courseData.getInstitute())
                 .build();
     }
 
@@ -381,6 +382,7 @@ public abstract class AbstractBackDoor {
         return CourseAttributes.builder(courseData.getCourseId())
                 .withName(courseData.getCourseName())
                 .withTimezone(ZoneId.of(courseData.getTimeZone()))
+                .withInstitute(courseData.getInstitute())
                 .build();
     }
 
@@ -491,9 +493,6 @@ public abstract class AbstractBackDoor {
         }
         if (studentData.getComments() != null) {
             builder.withComment(studentData.getComments());
-        }
-        if (studentData.getLastName() != null) {
-            builder.withLastName(studentData.getLastName());
         }
         StudentAttributes student = builder.build();
         if (studentData.getKey() != null) {

@@ -12,6 +12,7 @@
     "ICJoinConf.CS1101": {
       "id": "tm.e2e.ICJoinConf.CS1101",
       "name": "Programming Methodology",
+      "institute": "TEAMMATES Test Institute 1",
       "timeZone": "UTC"
     }
   },

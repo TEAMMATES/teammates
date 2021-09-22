@@ -43,7 +43,6 @@ describe('StudentCourseDetailsPageComponent', () => {
     const student: Student = {
       courseId: '1.1.c-demo2',
       email: '1@1.com',
-      lastName: '1',
       name: '1',
       comments: '',
       joinState: JoinState.NOT_JOINED,
@@ -65,6 +64,7 @@ describe('StudentCourseDetailsPageComponent', () => {
     const course: Course = {
       courseId: '1.1.c-demo2',
       courseName: 'Sample Course 101',
+      institute: 'Test Institute',
       creationTimestamp: 1552472130000,
       deletionTimestamp: 0,
       timeZone: 'UTC',

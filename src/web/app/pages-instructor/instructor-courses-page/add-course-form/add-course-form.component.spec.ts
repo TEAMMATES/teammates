@@ -36,6 +36,7 @@ describe('AddCourseFormComponent', () => {
     courseId: 'testId',
     courseName: 'Test Course',
     timeZone: 'Asia/Singapore',
+    institute: 'Test Institute',
     creationTimestamp: 0,
     deletionTimestamp: 1000,
   };

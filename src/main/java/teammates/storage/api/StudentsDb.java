@@ -19,7 +19,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
 import teammates.common.util.Logger;
-import teammates.common.util.StringHelper;
 import teammates.storage.entity.CourseStudent;
 import teammates.storage.search.SearchManagerFactory;
 import teammates.storage.search.StudentSearchManager;
@@ -155,19 +154,7 @@ public final class StudentsDb extends EntitiesDb<CourseStudent, StudentAttribute
     public StudentAttributes getStudentForRegistrationKey(String registrationKey) {
         assert registrationKey != null;
 
-        StudentAttributes student = makeAttributesOrNull(getCourseStudentEntityForRegistrationKey(registrationKey.trim()));
-        if (student != null) {
-            return student;
-        }
-
-        // Try to find student whose key is not yet encrypted
-        // TODO remove this block after data migration
-        try {
-            String decryptedKey = StringHelper.decrypt(registrationKey.trim());
-            return makeAttributesOrNull(getCourseStudentEntityForRegistrationKey(decryptedKey));
-        } catch (InvalidParametersException e) {
-            return null; // invalid registration key cannot be decrypted
-        }
+        return makeAttributesOrNull(getCourseStudentEntityForRegistrationKey(registrationKey.trim()));
     }
 
     /**
@@ -255,7 +242,6 @@ public final class StudentsDb extends EntitiesDb<CourseStudent, StudentAttribute
             // update only if change
             boolean hasSameAttributes =
                     this.<String>hasSameValue(student.getName(), newAttributes.getName())
-                    && this.<String>hasSameValue(student.getLastName(), newAttributes.getLastName())
                     && this.<String>hasSameValue(student.getComments(), newAttributes.getComments())
                     && this.<String>hasSameValue(student.getGoogleId(), newAttributes.getGoogleId())
                     && this.<String>hasSameValue(student.getTeamName(), newAttributes.getTeam())
@@ -266,7 +252,6 @@ public final class StudentsDb extends EntitiesDb<CourseStudent, StudentAttribute
             }
 
             student.setName(newAttributes.getName());
-            student.setLastName(newAttributes.getLastName());
             student.setComments(newAttributes.getComments());
             student.setGoogleId(newAttributes.getGoogleId());
             student.setTeamName(newAttributes.getTeam());

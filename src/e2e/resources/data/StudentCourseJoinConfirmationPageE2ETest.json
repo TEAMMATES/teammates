@@ -19,11 +19,13 @@
     "SCJoinConf.CS2104": {
       "id": "tm.e2e.SCJoinConf.CS2104",
       "name": "Programming Language Concepts",
+      "institute": "TEAMMATES Test Institute 1",
       "timeZone": "UTC"
     },
     "SCJoinConf.CS1101": {
       "id": "tm.e2e.SCJoinConf.CS1101",
       "name": "Programming Methodology",
+      "institute": "TEAMMATES Test Institute 1",
       "timeZone": "UTC"
     }
   },
