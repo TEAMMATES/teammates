@@ -182,6 +182,7 @@
           </div>
         </div>
       </div>
+      <tm-feedback-path-panel></tm-feedback-path-panel>
       <div class="margin-top-15px padding-15px" [ngClass]="{ 'background-color-light-green': !model.isQuestionHasResponses, 'alert alert-danger': model.isQuestionHasResponses }">
         <div>
           <div *ngIf="model.isQuestionHasResponses">
@@ -239,6 +240,7 @@
           </ul>
         </div>
       </div>
+      <tm-visibility-panel></tm-visibility-panel>
       <div class="row margin-top-15px" *ngIf="!isDisplayOnly">
         <div class="col-12 text-right">
           <button type="button" class="btn btn-light btn-margin-right" *ngIf="model.isEditable"

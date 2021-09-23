@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbCollapseModule, NgbDropdownModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { AjaxLoadingModule } from '../ajax-loading/ajax-loading.module';
+import { FeedbackPathPanelModule } from '../feedback-path-panel/feedback-path-panel.module';
+import { VisibilityPanelModule } from '../visibility-panel/visibility-panel.module';
 import { PanelChevronModule } from '../panel-chevron/panel-chevron.module';
 import {
   QuestionEditDetailsFormModule,
@@ -34,6 +36,8 @@ import {
     RichTextEditorModule,
     QuestionEditDetailsFormModule,
     PanelChevronModule,
+    FeedbackPathPanelModule,
+    VisibilityPanelModule,
   ],
   declarations: [
     QuestionEditFormComponent,
