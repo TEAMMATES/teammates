@@ -36,21 +36,28 @@ export class AddingQuestionPanelComponent implements OnInit {
   }
 
   /**
-   * TODO: FILL IN
+   * Handles display of template question modal.
    */
   templateQuestionModalHandler(): void {
     this.templateQuestionModalEvent.emit();
   }
 
   /**
-   * TODO: FILL IN
+   * Populates and shows new question edit form.
    */
   populateAndShowNewQuestionFormHandler(type: FeedbackQuestionType): void {
     this.populateAndShowNewQuestionFormEvent.emit(type);
   }
 
   /**
-   * TODO: FILL IN
+   * Redirects info button
+   */
+   //infoButtonHandler(): void {
+      // TODO
+   //}
+
+  /**
+   * Handles 'Copy Question' click event.
    */
    copyQuestionsFromOtherSessionsHandler(): void {
     this.copyQuestionsFromOtherSessionsEvent.emit();
