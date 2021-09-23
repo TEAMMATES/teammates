@@ -12,6 +12,7 @@ import { InstructorHelpPageComponent } from './instructor-help-page.component';
 import { AddingQuestionPanelModule } from '../../components/adding-question-panel/adding-question-panel.module';
 import { FeedbackPathPanelModule } from '../../components/feedback-path-panel/feedback-path-panel.module';
 import { VisibilityPanelModule } from '../../components/visibility-panel/visibility-panel.module';
+import { PreviewSessionPanelModule } from '../../components/preview-session-panel/preview-session-panel.module';
 import {
   CommentBoxModule,
 } from '../../components/comment-box/comment-box.module';
@@ -86,6 +87,7 @@ const routes: Routes = [
     PanelChevronModule,
     TeammatesRouterModule,
     VisibilityPanelModule,
+    PreviewSessionPanelModule,
   ],
   declarations: [
     InstructorHelpPageComponent,

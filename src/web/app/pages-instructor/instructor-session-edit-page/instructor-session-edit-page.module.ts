@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { NgbCollapseModule, NgbDropdownModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { AddingQuestionPanelModule } from '../../components/adding-question-panel/adding-question-panel.module';
+import { PreviewSessionPanelModule } from '../../components/preview-session-panel/preview-session-panel.module';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
 import { CopySessionModalModule } from '../../components/copy-session-modal/copy-session-modal.module';
 import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
@@ -46,6 +47,7 @@ const routes: Routes = [
     LoadingSpinnerModule,
     LoadingRetryModule,
     TeammatesRouterModule,
+    PreviewSessionPanelModule,
   ],
   entryComponents: [
     TemplateQuestionModalComponent,
