@@ -74,6 +74,11 @@ class CreateFeedbackSessionAction extends Action {
         if (createRequest.getToCopyCourseId() != null) {
             createFeedbackQuestions(createRequest.getToCopyCourseId(), courseId, createRequest.getFeedbackSessionName(),
                     createRequest.getToCopySessionName());
+        //     throw new InvalidHttpRequestBodyException("A session named " + feedbackSessionName
+        //             + " exists already in the course " + course.getName()
+        //             + " (Course ID: " + courseId + ").", e);
+        // } catch (InvalidParametersException e) {
+        //     throw new InvalidHttpRequestBodyException(e.getMessage(), e);
         }
 
         fs = getNonNullFeedbackSession(fs.getFeedbackSessionName(), fs.getCourseId());
