@@ -49,9 +49,6 @@ public class CourseStudent extends BaseEntity {
     private String name;
 
     @Unindex
-    private String lastName;
-
-    @Unindex
     private String comments;
 
     private String teamName;
@@ -134,25 +131,7 @@ public class CourseStudent extends BaseEntity {
      * Sets the full name of the student.
      */
     public void setName(String name) {
-        String trimmedName = name.trim();
-        String processedFullName = StringHelper.splitName(trimmedName)[2];
-        this.name = processedFullName.trim();
-        this.setLastName(StringHelper.splitName(trimmedName)[1]);
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName.trim();
-    }
-
-    /**
-     * Gets the last name of the student.
-     */
-    public String getLastName() {
-        // for legacy data. do not remove even if not covered in test.
-        if (this.lastName == null) {
-            this.lastName = StringHelper.splitName(this.name)[1];
-        }
-        return lastName;
+        this.name = name.trim();
     }
 
     public String getComments() {

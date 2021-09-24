@@ -12,7 +12,6 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.JsonUtils;
-import teammates.common.util.StringHelper;
 
 /**
  * Base class for all test cases which are allowed to access the database.
@@ -206,8 +205,6 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
         if (actual.getKey() != null) {
             expected.setKey(actual.getKey());
         }
-
-        expected.setLastName(StringHelper.splitName(expected.getName())[1]);
     }
 
     protected abstract StudentProfileAttributes getStudentProfile(StudentProfileAttributes studentProfileAttributes);

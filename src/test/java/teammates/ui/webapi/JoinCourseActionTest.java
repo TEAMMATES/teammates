@@ -51,8 +51,7 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
         ______TS("Failure case: student is already registered");
 
         String registeredStudentKey =
-                logic.getStudentForEmail("idOfTypicalCourse1", "student1InCourse1@gmail.tmt")
-                        .getEncryptedKey();
+                logic.getStudentForEmail("idOfTypicalCourse1", "student1InCourse1@gmail.tmt").getKey();
 
         params = new String[] {
                 Const.ParamsNames.REGKEY, registeredStudentKey,
@@ -67,8 +66,7 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
         ______TS("Normal case: student is not registered");
 
         String unregisteredStudentKey =
-                logic.getStudentForEmail("idOfUnregisteredCourse", "student1InUnregisteredCourse@gmail.tmt")
-                        .getEncryptedKey();
+                logic.getStudentForEmail("idOfUnregisteredCourse", "student1InUnregisteredCourse@gmail.tmt").getKey();
 
         params = new String[] {
                 Const.ParamsNames.REGKEY, unregisteredStudentKey,
@@ -100,7 +98,7 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
         ______TS("Failure case: instructor is already registered");
 
         String registeredInstructorKey =
-                logic.getInstructorForEmail("idOfTypicalCourse1", "instructor1@course1.tmt").getEncryptedKey();
+                logic.getInstructorForEmail("idOfTypicalCourse1", "instructor1@course1.tmt").getKey();
 
         params = new String[] {
                 Const.ParamsNames.REGKEY, registeredInstructorKey,
@@ -115,8 +113,7 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
         ______TS("Normal case: instructor is not registered");
 
         String unregisteredInstructorKey =
-                logic.getInstructorForEmail("idOfTypicalCourse1", "instructorNotYetJoinedCourse1@email.tmt")
-                        .getEncryptedKey();
+                logic.getInstructorForEmail("idOfTypicalCourse1", "instructorNotYetJoinedCourse1@email.tmt").getKey();
 
         params = new String[] {
                 Const.ParamsNames.REGKEY, unregisteredInstructorKey,

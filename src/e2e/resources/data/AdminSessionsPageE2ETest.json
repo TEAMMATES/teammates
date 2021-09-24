@@ -12,6 +12,7 @@
     "typicalCourse1": {
       "id": "tm.e2e.ASess.idOfTypicalCourse1",
       "name": "Typical Course 1",
+      "institute": "TEAMMATES Test Institute 1",
       "timeZone": "UTC"
     }
   },

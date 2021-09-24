@@ -5,7 +5,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.StringHelper;
 import teammates.ui.output.JoinState;
 import teammates.ui.output.StudentData;
 
@@ -31,13 +30,6 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
         assertEquals(student.getEmail(), studentData.getEmail());
         assertEquals(student.getCourse(), studentData.getCourseId());
         assertEquals(student.getName(), studentData.getName());
-
-        if (student.getLastName() == null) {
-            String[] name = StringHelper.splitName(student.getName());
-            assertEquals(name[1], studentData.getLastName());
-        } else {
-            assertEquals(student.getLastName(), studentData.getLastName());
-        }
 
         assertEquals(student.getTeam(), studentData.getTeamName());
         assertEquals(student.getSection(), studentData.getSectionName());
@@ -92,7 +84,7 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, unregStudent.getCourse(),
-                Const.ParamsNames.REGKEY, unregStudent.getEncryptedKey(),
+                Const.ParamsNames.REGKEY, unregStudent.getKey(),
         };
 
         GetStudentAction action = getAction(submissionParams);
@@ -262,7 +254,7 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, unregStudent.getCourse(),
-                Const.ParamsNames.REGKEY, unregStudent.getEncryptedKey(),
+                Const.ParamsNames.REGKEY, unregStudent.getKey(),
         };
 
         verifyAccessibleForUnregisteredUsers(submissionParams);
