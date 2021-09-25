@@ -128,7 +128,6 @@ public class CourseRosterTest extends BaseTestCase {
                         "Jean", "ins2@email.com"));
         CourseRoster.ParticipantInfo info = roster.getInfoForIdentifier("john@gmail.com");
         assertEquals("John Doe", info.getName());
-        assertEquals("Doe", info.getLastName());
         assertEquals("John Doe", info.getTeamName());
         assertEquals("John Doe's Section", info.getSectionName());
     }
@@ -145,7 +144,6 @@ public class CourseRosterTest extends BaseTestCase {
                         "Jean", "ins2@email.com"));
         CourseRoster.ParticipantInfo info = roster.getInfoForIdentifier("john@email.com");
         assertEquals("John Doe", info.getName());
-        assertEquals("Doe", info.getLastName());
         assertEquals(Const.USER_TEAM_FOR_INSTRUCTOR, info.getTeamName());
         assertEquals(Const.DEFAULT_SECTION, info.getSectionName());
     }
@@ -162,7 +160,6 @@ public class CourseRosterTest extends BaseTestCase {
                         "Jean", "ins2@email.com"));
         CourseRoster.ParticipantInfo info = roster.getInfoForIdentifier("s1");
         assertEquals("s1", info.getName());
-        assertEquals("s1", info.getLastName());
         assertEquals("s1", info.getTeamName());
         assertEquals("s1's Section", info.getSectionName());
     }
@@ -179,7 +176,6 @@ public class CourseRosterTest extends BaseTestCase {
                         "Jean", "ins2@email.com"));
         CourseRoster.ParticipantInfo info = roster.getInfoForIdentifier("random");
         assertEquals(Const.USER_NOBODY_TEXT, info.getName());
-        assertEquals(Const.USER_NOBODY_TEXT, info.getLastName());
         assertEquals(Const.USER_NOBODY_TEXT, info.getTeamName());
         assertEquals(Const.DEFAULT_SECTION, info.getSectionName());
     }
