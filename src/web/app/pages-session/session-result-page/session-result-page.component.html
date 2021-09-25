@@ -15,7 +15,7 @@
     </div>
   </div>
 </div>
-<div *ngIf="!isFeedbackSessionResultsEmpty" class="alert alert-primary" role="alert">
+<div *ngIf="!isFeedbackSessionResultsLoading && questions.length !== 0" class="alert alert-primary" role="alert">
   <i class="fas fa-exclamation-circle"></i> Note: Questions without responses (i.e., no responses received or responses are not meant to be visible to you) are not shown below.
 </div>
 <div class="card card-plain mt-3">
@@ -46,7 +46,7 @@
 
 <tm-loading-retry [shouldShowRetry]="hasFeedbackSessionResultsLoadingFailed" [message]="'Failed to load results'" (retryEvent)="retryLoadingFeedbackSessionResults()">
   <div *tmIsLoading="isFeedbackSessionResultsLoading">
-    <div *ngIf="isFeedbackSessionResultsEmpty" class="mt-4">
+    <div *ngIf="questions.length === 0" class="mt-4">
       <div class="alert alert-primary d-flex align-items-center justify-content-center" style="background-color: #D1ECF1;" role="alert">
         Nothing to show. The responses are either not configured to be visible or there are no responses.
       </div>
