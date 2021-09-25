@@ -40,12 +40,12 @@
       </div>
       <a type="button" class="btn btn-link" target="_blank" rel="noopener noreferrer" tmRouterLink="/web/instructor/help" [queryParams]="{questionId: 'questions', section: 'questions'}"><i class="fas fa-info-circle"></i></a>
       <button id="btn-copy-question" class="btn btn-primary" (click)="copyQuestionsFromOtherSessionsHandler()" [disabled]="isCopyingQuestion"><tm-ajax-loading *ngIf="isCopyingQuestion"></tm-ajax-loading>Copy Question</button>
+    </div>
+    <tm-adding-question-panel (templateQuestionModalEvent)="templateQuestionModalHandler()"
+                              (populateAndShowNewQuestionFormEvent)="populateAndShowNewQuestionForm($event)"
+                              (copyQuestionsFromOtherSessionsEvent)="copyQuestionsFromOtherSessionsHandler()"
+                              [isCopyingQuestion]="isCopyingQuestion" [FeedbackQuestionTypes]="FeedbackQuestionType" ></tm-adding-question-panel>
   </div>
-  </div>
-  <tm-adding-question-panel (templateQuestionModalEvent)="templateQuestionModalHandler()"
-                            (populateAndShowNewQuestionFormEvent)="populateAndShowNewQuestionForm($event)"
-                            (copyQuestionsFromOtherSessionsEvent)="copyQuestionsFromOtherSessionsHandler()"
-                            [isCopyingQuestion]="isCopyingQuestion" [FeedbackQuestionTypes]="FeedbackQuestionType" ></tm-adding-question-panel>
   <tm-question-edit-form *ngIf="isAddingQuestionPanelExpanded"
                          [formMode]="QuestionEditFormMode.ADD"
                          [numOfQuestions]="questionEditFormModels.length + 1"
