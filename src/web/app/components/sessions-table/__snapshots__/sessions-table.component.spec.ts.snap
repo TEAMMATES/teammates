@@ -274,7 +274,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                   <div
                     class="padding-left-7px"
                   >
-
+                    
                   </div>
                 </button>
               </div>
@@ -442,7 +442,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                   <div
                     class="padding-left-7px"
                   >
-
+                    
                   </div>
                 </button>
               </div>
@@ -707,6 +707,7 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                   <div
                     class="padding-left-7px"
                   >
+                    
                   </div>
                 </button>
               </div>
@@ -865,6 +866,7 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                   <div
                     class="padding-left-7px"
                   >
+                    
                   </div>
                 </button>
               </div>
