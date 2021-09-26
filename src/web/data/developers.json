@@ -819,6 +819,7 @@
       "username": "lejolly"
     },
     {
+      "multiple": true,
       "name": "Josiah Khoo",
       "username": "josiahkhoo"
     },
@@ -1746,6 +1747,7 @@
       "username": "tomelliott1988"
     },
     {
+      "multiple": true,
       "username": "TomKemperNL"
     },
     {
@@ -1939,6 +1941,7 @@
       "name": "Zheng Pingxia"
     },
     {
+      "multiple": true,
       "name": "Zheng Yong",
       "username": "arsatis"
     },
