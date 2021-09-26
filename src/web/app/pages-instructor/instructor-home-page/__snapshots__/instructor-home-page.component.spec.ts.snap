@@ -805,7 +805,6 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                                 <div
                                   class="padding-left-7px"
                                 >
-
                                 </div>
                               </button>
                             </div>
@@ -1318,7 +1317,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                                 <div
                                   class="padding-left-7px"
                                 >
-
                                 </div>
                               </button>
                             </div>
@@ -1481,7 +1479,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                                 <div
                                   class="padding-left-7px"
                                 >
-
                                 </div>
                               </button>
                             </div>
