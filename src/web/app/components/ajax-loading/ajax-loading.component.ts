@@ -13,6 +13,9 @@ export class AjaxLoadingComponent implements OnInit {
   @Input()
   useBlueSpinner: boolean = false;
 
+  @Input()
+  color: string = 'white';
+
   constructor() { }
 
   ngOnInit(): void {

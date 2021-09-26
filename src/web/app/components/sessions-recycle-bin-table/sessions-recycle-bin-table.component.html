@@ -71,7 +71,9 @@
               <button id="btn-restore-{{ i }}" type="button" class="btn btn-light btn-sm" (click)="restoreSessionEvent.emit(recycleBinFeedbackSessionRowModel)">Restore</button>
               <button id="btn-delete-{{ i }}" type="button" class="btn btn-light btn-sm text-danger align-row" (click)="permanentlyDeleteSessionEvent.emit(recycleBinFeedbackSessionRowModel); setRowClicked(i)">
                 <span>Delete Permanently</span>
-                <div [ngClass]="{ 'loading': isPermanentDeleteLoading && rowClicked === i }"></div>
+                <div class="padding-left-7px">
+                  <tm-ajax-loading [color]="'#000000'" *ngIf="isPermanentDeleteLoading && rowClicked === i"></tm-ajax-loading>
+                </div>
               </button>
             </td>
           </tr>

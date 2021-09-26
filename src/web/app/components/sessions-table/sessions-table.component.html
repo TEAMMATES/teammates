@@ -109,7 +109,9 @@
                     [disabled]="sessionsTableRowModel.feedbackSession.submissionStatus !== FeedbackSessionSubmissionStatus.OPEN ||
                           !sessionsTableRowModel.instructorPrivilege.canModifySession">
               <span>Remind</span>
-              <div [ngClass]="{ 'loading': isSendReminderLoading && rowClicked === idx }"></div>
+              <div class="padding-left-7px">
+                <tm-ajax-loading [color]="'#000000'" *ngIf="isSendReminderLoading && rowClicked === idx"></tm-ajax-loading>
+              </div>
             </button>
           </div>
         </td>
