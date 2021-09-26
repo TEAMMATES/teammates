@@ -182,7 +182,8 @@
           </div>
         </div>
       </div>
-      <tm-feedback-path-panel></tm-feedback-path-panel>
+      <tm-feedback-path-panel [model]="model" [commonFeedbackPaths]="this.commonFeedbackPaths" [allowedFeedbackPaths]="this.allowedFeedbackPaths" (changeGiverRecipientTypeEvent)="changeGiverRecipientType($event, $event)" (triggerModelChangeEvent)="triggerModelChange($event, $event)">
+      </tm-feedback-path-panel>
       <div class="margin-top-15px padding-15px" [ngClass]="{ 'background-color-light-green': !model.isQuestionHasResponses, 'alert alert-danger': model.isQuestionHasResponses }">
         <div>
           <div *ngIf="model.isQuestionHasResponses">
