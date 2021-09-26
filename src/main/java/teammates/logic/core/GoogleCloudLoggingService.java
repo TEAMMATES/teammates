@@ -32,17 +32,13 @@ import teammates.common.datatransfer.logs.LogEvent;
 import teammates.common.datatransfer.logs.LogSeverity;
 import teammates.common.datatransfer.logs.QueryLogsParams;
 import teammates.common.datatransfer.logs.SourceLocation;
-import teammates.common.exception.LogServiceException;
 import teammates.common.util.Config;
 import teammates.common.util.JsonUtils;
-import teammates.common.util.Logger;
 
 /**
  * Holds functions for operations related to Google Cloud Logging.
  */
 public class GoogleCloudLoggingService implements LogService {
-
-    private static final Logger log = Logger.getLogger();
 
     private static final String RESOURCE_TYPE_GAE_APP = "gae_app";
 
@@ -71,13 +67,9 @@ public class GoogleCloudLoggingService implements LogService {
         List<LogEntry> logEntries = new ArrayList<>();
         List<ErrorLogEntry> errorLogs = new ArrayList<>();
 
-        try {
-            Page<LogEntry> entries = getLogEntries(logSearchParams, 0);
-            for (LogEntry entry : entries.iterateAll()) {
-                logEntries.add(entry);
-            }
-        } catch (LogServiceException e) {
-            // TODO
+        Page<LogEntry> entries = getLogEntries(logSearchParams, 0);
+        for (LogEntry entry : entries.iterateAll()) {
+            logEntries.add(entry);
         }
 
         for (LogEntry logEntry : logEntries) {
@@ -121,7 +113,7 @@ public class GoogleCloudLoggingService implements LogService {
     }
 
     @Override
-    public QueryLogsResults queryLogs(QueryLogsParams queryLogsParams) throws LogServiceException {
+    public QueryLogsResults queryLogs(QueryLogsParams queryLogsParams) {
 
         LogSearchParams logSearchParams = LogSearchParams.from(queryLogsParams)
                 .addLogName(STDOUT_LOG_NAME)
@@ -194,7 +186,7 @@ public class GoogleCloudLoggingService implements LogService {
 
     @Override
     public List<FeedbackSessionLogEntry> getFeedbackSessionLogs(String courseId, String email,
-            long startTime, long endTime, String fsName) throws LogServiceException {
+            long startTime, long endTime, String fsName) {
         List<String> filters = new ArrayList<>();
         if (courseId != null) {
             filters.add("jsonPayload.courseId=\"" + courseId + "\"");
@@ -243,7 +235,7 @@ public class GoogleCloudLoggingService implements LogService {
         return fsLogEntries;
     }
 
-    private Page<LogEntry> getLogEntries(LogSearchParams s, int pageSize) throws LogServiceException {
+    private Page<LogEntry> getLogEntries(LogSearchParams s, int pageSize) {
         LoggingOptions options = LoggingOptions.getDefaultInstance();
         QueryLogsParams q = s.queryLogsParams;
 
@@ -310,34 +302,29 @@ public class GoogleCloudLoggingService implements LogService {
         }
         String logFilter = logFilters.stream().collect(Collectors.joining("\n"));
 
-        Page<LogEntry> entries;
+        List<EntryListOption> entryListOptions = new ArrayList<>();
 
-        try (Logging logging = LoggingOptions.getDefaultInstance().getService()) {
-            List<EntryListOption> entryListOptions = new ArrayList<>();
+        entryListOptions.add(EntryListOption.filter(logFilter));
 
-            entryListOptions.add(EntryListOption.filter(logFilter));
+        if (pageSize > 0) {
+            entryListOptions.add(EntryListOption.pageSize(pageSize));
+        }
 
-            if (pageSize > 0) {
-                entryListOptions.add(EntryListOption.pageSize(pageSize));
+        if (q.getOrder() != null) {
+            if (ASCENDING_ORDER.equals(q.getOrder())) {
+                entryListOptions.add(EntryListOption.sortOrder(SortingField.TIMESTAMP, SortingOrder.ASCENDING));
+            } else {
+                entryListOptions.add(EntryListOption.sortOrder(SortingField.TIMESTAMP, SortingOrder.DESCENDING));
             }
+        }
 
-            if (q.getOrder() != null) {
-                if (ASCENDING_ORDER.equals(q.getOrder())) {
-                    entryListOptions.add(EntryListOption.sortOrder(SortingField.TIMESTAMP, SortingOrder.ASCENDING));
-                } else {
-                    entryListOptions.add(EntryListOption.sortOrder(SortingField.TIMESTAMP, SortingOrder.DESCENDING));
-                }
-            }
+        Logging logging = options.getService();
+        Page<LogEntry> entries = logging.listLogEntries(entryListOptions.toArray(new EntryListOption[] {}));
 
-            EntryListOption[] entryListOptionsArray = new EntryListOption[entryListOptions.size()];
-            for (int i = 0; i < entryListOptions.size(); i++) {
-                entryListOptionsArray[i] = entryListOptions.get(i);
-            }
-
-            entries = logging.listLogEntries(entryListOptionsArray);
+        try {
+            logging.close();
         } catch (Exception e) {
-            log.severe("Error while fetching logs", e);
-            throw new LogServiceException(e);
+            // ignore exception when closing resource
         }
         return entries;
     }
