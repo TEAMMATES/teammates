@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { InstructorAuditLogsPageComponent } from '../app/pages-instructor/instructor-audit-logs-page/instructor-audit-logs-page.component';
 import moment from 'moment-timezone';
 import { SortBy, SortOrder } from '../types/sort-properties';
 
@@ -19,9 +18,9 @@ export class TableComparatorService {
    * If either string cannot be parsed into a date, it will be seen as 'smaller'.
    * If both strings cannot be parsed into dates, strA will always be seen as 'larger'.
    */
-  compareChronologically(strA: string, strB: string, order: SortOrder, dateTimeFormat: string): number {
-    const dateA: moment.Moment = moment(strA, dateTimeFormat);
-    const dateB: moment.Moment = moment(strB, dateTimeFormat);
+  compareChronologically(strA: string, strB: string, order: SortOrder): number {
+    const dateA: moment.Moment = moment(strA);
+    const dateB: moment.Moment = moment(strB);
 
     if (!dateA.isValid()) {
       return 1;
@@ -170,7 +169,7 @@ export class TableComparatorService {
       case SortBy.MSQ_WEIGHT_AVERAGE:
         return this.compareNumbers(strA, strB, order);
       case SortBy.LOG_DATE:
-        return this.compareChronologically(strA, strB, order, InstructorAuditLogsPageComponent.LOG_DATE_TIME_FORMAT);
+        return this.compareChronologically(strA, strB, order);
       default:
         return 0;
     }
