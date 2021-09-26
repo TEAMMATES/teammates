@@ -12,13 +12,7 @@ import {
 import { RichTextEditorModule } from '../rich-text-editor/rich-text-editor.module';
 import { TeammatesCommonModule } from '../teammates-common/teammates-common.module';
 import { VisibilityMessagesModule } from '../visibility-messages/visibility-messages.module';
-import { GiverTypeDescriptionPipe, RecipientTypeDescriptionPipe } from './feedback-path.pipe';
 import { QuestionEditFormComponent } from './question-edit-form.component';
-import {
-  VisibilityControlNamePipe,
-  VisibilityTypeDescriptionPipe,
-  VisibilityTypeNamePipe,
-} from './visibility-setting.pipe';
 
 /**
  * Module for all question edit UI in session edit page.
@@ -41,11 +35,6 @@ import {
   ],
   declarations: [
     QuestionEditFormComponent,
-    GiverTypeDescriptionPipe,
-    RecipientTypeDescriptionPipe,
-    VisibilityTypeDescriptionPipe,
-    VisibilityTypeNamePipe,
-    VisibilityControlNamePipe,
   ],
   exports: [
     QuestionEditFormComponent,

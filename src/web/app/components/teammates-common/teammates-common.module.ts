@@ -8,6 +8,7 @@ import { EnumToArrayPipe } from './enum-to-array.pipe';
 import { FormatDateBriefPipe } from './format-date-brief.pipe';
 import { FormatDateDetailPipe } from './format-date-detail.pipe';
 import { FormatPhotoUrlPipe } from './format-photo-url.pipe';
+import { GiverTypeDescriptionPipe, RecipientTypeDescriptionPipe } from './feedback-path.pipe';
 import { GeneratedChoicePipe } from './generated-choice.pipe';
 import { InstructorRoleDescriptionPipe } from './instructor-role-description.pipe';
 import { InstructorRoleNamePipe } from './instructor-role-name.pipe';
@@ -19,6 +20,7 @@ import { StudentNameWithPhotoComponent } from './student-name/student-name-with-
 import { GenderFormatPipe } from './student-profile-gender.pipe';
 import { SubmissionStatusNamePipe } from './submission-status-name.pipe';
 import { ViewPhotoPopoverComponent } from './view-photo-popover/view-photo-popover.component';
+import { VisibilityControlNamePipe, VisibilityTypeDescriptionPipe, VisibilityTypeNamePipe } from './visibility-setting.pipe';
 
 /**
  * Common module in the project.
@@ -47,6 +49,11 @@ import { ViewPhotoPopoverComponent } from './view-photo-popover/view-photo-popov
     GeneratedChoicePipe,
     ViewPhotoPopoverComponent,
     StudentNameWithPhotoComponent,
+    GiverTypeDescriptionPipe,
+    RecipientTypeDescriptionPipe,
+    VisibilityControlNamePipe,
+    VisibilityTypeDescriptionPipe,
+    VisibilityTypeNamePipe,
   ],
   exports: [
     EnumToArrayPipe,
@@ -64,6 +71,11 @@ import { ViewPhotoPopoverComponent } from './view-photo-popover/view-photo-popov
     GeneratedChoicePipe,
     ViewPhotoPopoverComponent,
     StudentNameWithPhotoComponent,
+    GiverTypeDescriptionPipe,
+    RecipientTypeDescriptionPipe,
+    VisibilityControlNamePipe,
+    VisibilityTypeDescriptionPipe,
+    VisibilityTypeNamePipe,
   ],
 })
 export class TeammatesCommonModule { }
