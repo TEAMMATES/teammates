@@ -52,6 +52,9 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
         CreateCourseAction action = getAction(courseCreateRequest);
 
         JsonResult result = getJsonResult(action);
+
+        verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
+
         CourseData courseData = (CourseData) result.getOutput();
         assertEquals(courseData.getCourseId(), "new-course");
         assertEquals(courseData.getCourseName(), "New Course");

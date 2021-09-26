@@ -26,8 +26,7 @@ public interface LogService {
     /**
      * Creates a feedback session log.
      */
-    @Deprecated
-    void createFeedbackSessionLog(String courseId, String email, String fsName, String fslType) throws LogServiceException;
+    void createFeedbackSessionLog(String courseId, String email, String fsName, String fslType);
 
     /**
      * Gets the feedback session logs as filtered by the given parameters.
