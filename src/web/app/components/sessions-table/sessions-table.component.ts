@@ -32,7 +32,7 @@ export class SessionsTableComponent implements OnInit {
   SessionsTableHeaderColorScheme: typeof SessionsTableHeaderColorScheme = SessionsTableHeaderColorScheme;
 
   // variable
-  rowClicked: Number = -1;
+  rowClicked: number = -1;
 
   @Input()
   sessionsTableRowModels: SessionsTableRowModel[] = [];
