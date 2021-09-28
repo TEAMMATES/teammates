@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import {
+  Instructor,
+  Student,
+} from '../../../types/api-output';
 
 @Component({
   selector: 'tm-preview-session-panel',
@@ -7,6 +11,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PreviewSessionPanelComponent implements OnInit {
 
+  @Input()
+  emailOfStudentToPreview: string = '';
+  
+  @Input()
+  studentsOfCourse: Student[] = [];
+  
+  @Input()
+  instructorsCanBePreviewedAs: Instructor[] = [];
+   
+  @Input()
+  emailOfInstructorToPreview: string = '';
+  
   constructor() { }
 
   ngOnInit(): void {

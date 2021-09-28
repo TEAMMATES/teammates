@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-
+import { FormsModule } from '@angular/forms';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { PreviewSessionPanelComponent } from './preview-session-panel.component';
 
 /**
@@ -9,6 +10,8 @@ import { PreviewSessionPanelComponent } from './preview-session-panel.component'
 @NgModule({
   imports: [
     CommonModule,
+    FormsModule,
+    NgbTooltipModule,
   ],
   declarations: [
     PreviewSessionPanelComponent,
