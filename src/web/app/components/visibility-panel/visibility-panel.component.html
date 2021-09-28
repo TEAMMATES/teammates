@@ -1,5 +1,24 @@
-<div class="background-color-light-green margin-top-15px padding-15px">
+<div class="margin-top-15px padding-15px" [ngClass]="{ 'background-color-light-green': !model.isQuestionHasResponses, 'alert alert-danger': model.isQuestionHasResponses }">
   <div>
-    <p>Visibility-panel works!</p>
+    <div *ngIf="model.isQuestionHasResponses">
+      <h5>Changing the visibility after collecting responses is not recommended.</h5>
+      <p>Reason: The existing responses were submitted under the 'promise' of a certain visibility and changing the visibility later 'breaks' that promise.</p>
+    </div>
+    <b [ngClass]="{ 'visibility-title': !model.isQuestionHasResponses }">Visibility</b> (Who can see the responses?)
+  </div>
+  <div ngbDropdown class="margin-top-15px">
+    <button id="btn-question-visibility" class="btn btn-light white-space-normal" ngbDropdownToggle [disabled]="!model.isEditable">
+            <span *ngIf="!model.isUsingOtherVisibilitySetting">
+              {{ model.commonVisibilitySettingName }}
+            </span>
+      <span *ngIf="model.isUsingOtherVisibilitySetting">Custom visibility options</span>
+    </button>
+    <ul id="question-visibility-dropdown" ngbDropdownMenu>
+      <li class="dropdown-header">Common visibility options</li>
+      <li class="dropdown-item" *ngFor="let visibilityOption of commonFeedbackVisibilitySettings"
+          >{{ visibilityOption.name }}</li>
+      <li class="dropdown-divider" *ngIf="isCustomFeedbackVisibilitySettingAllowed"></li>
+      <li class="dropdown-item" *ngIf="isCustomFeedbackVisibilitySettingAllowed" >Custom visibility options...</li>
+    </ul>
   </div>
 </div>
