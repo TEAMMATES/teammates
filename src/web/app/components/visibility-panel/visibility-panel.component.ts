@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
   FeedbackParticipantType,
   FeedbackQuestionType,
@@ -81,10 +81,39 @@ export class VisibilityPanelComponent implements OnInit {
   @Input()
   visibilityStateMachine: VisibilityStateMachine = new VisibilityStateMachine(this.model.giverType, this.model.recipientType);
     
+  @Output()
+  applyCommonVisibilitySettingsEvent: EventEmitter<CommonVisibilitySetting> = new EventEmitter<CommonVisibilitySetting>()
+  
+  @Output()
+  triggerModelChangeEvent: EventEmitter<{field: keyof QuestionEditFormModel,
+                                                                data: QuestionEditFormModel[keyof QuestionEditFormModel]}> = new EventEmitter<{field: keyof QuestionEditFormModel, data: QuestionEditFormModel[keyof QuestionEditFormModel]}>()
+  
+  @Output()
+  modifyVisibilityControlEvent: EventEmitter<{isAllowed: boolean, visibilityType: FeedbackVisibilityType, visibilityControl: VisibilityControl}> = new EventEmitter<{isAllowed: boolean, visibilityType: FeedbackVisibilityType, visibilityControl: VisibilityControl}>()
+  
   constructor() { }
 
   ngOnInit(): void {
   }
   
-
+  /**
+   * Handles application of the common visibility setting.
+   */
+  applyCommonVisibilitySettingsHandler(commonSettings: CommonVisibilitySetting): void {
+    this.applyCommonVisibilitySettingsEvent.emit(commonSettings);
+  }
+  
+  /**
+   * Handles the triggering of the change of the model for the form.
+   */
+  triggerModelChangeHandler(field: keyof QuestionEditFormModel, data: QuestionEditFormModel[keyof QuestionEditFormModel]): void {
+    this.triggerModelChangeEvent.emit({field, data})
+  }
+  
+  /**
+   * Handles modifying of visibility control of visibility type based on {@code isAllowed}.
+   */
+  modifyVisibilityControlHandler(isAllowed: boolean, visibilityType: FeedbackVisibilityType, visibilityControl: VisibilityControl): void {
+    this.modifyVisibilityControlEvent.emit({isAllowed, visibilityType, visibilityControl})
+  }
 }
