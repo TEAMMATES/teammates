@@ -9,7 +9,7 @@ import {
 import { CommonVisibilitySetting } from '../../../services/feedback-questions.service';
 import { QuestionEditFormModel } from '../question-edit-form/question-edit-form-model';
 import { VisibilityControl } from '../../../types/visibility-control';
-//import { VisibilityStateMachine } from '../../../services/visibility-state-machine';
+import { VisibilityStateMachine } from '../../../services/visibility-state-machine';
 
 @Component({
   selector: 'tm-visibility-panel',
@@ -78,8 +78,8 @@ export class VisibilityPanelComponent implements OnInit {
   @Input()
   commonFeedbackVisibilitySettings: CommonVisibilitySetting[] = [];
   
-  //@Input()
-  //visibilityStateMachine: VisibilityStateMachine;
+  @Input()
+  visibilityStateMachine: VisibilityStateMachine = new VisibilityStateMachine(this.model.giverType, this.model.recipientType);
     
   constructor() { }
 
