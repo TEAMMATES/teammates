@@ -14,7 +14,6 @@ export class TableComparatorService {
 
   /**
    * Compares two strings which are expected to be dates depending on order given.
-   * Assumes that the strings are formatted in the format 'ddd, DD MMM YYYY hh:mm:ss A'.
    * If either string cannot be parsed into a date, it will be seen as 'smaller'.
    * If both strings cannot be parsed into dates, strA will always be seen as 'larger'.
    */
