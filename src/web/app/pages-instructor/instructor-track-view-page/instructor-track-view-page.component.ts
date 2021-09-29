@@ -30,7 +30,6 @@ import { SimpleModalType } from '../../components/simple-modal/simple-modal-type
 import { ColumnData, SortableTableCellData } from '../../components/sortable-table/sortable-table.component';
 import { TimeFormat } from '../../components/timepicker/timepicker.component';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { InstructorAuditLogsPageComponent } from '../instructor-audit-logs-page/instructor-audit-logs-page.component';
 
 /**
  * Model for searching of logs
@@ -61,6 +60,7 @@ interface FeedbackSessionLogModel {
   styleUrls: ['./instructor-track-view-page.component.scss'],
 })
 export class InstructorTrackViewPageComponent implements OnInit {
+  LOGS_DATE_TIME_FORMAT: string = 'ddd, DD MMM YYYY hh:mm:ss A';
   LOGS_RETENTION_PERIOD_IN_DAYS: number = ApiConst.LOGS_RETENTION_PERIOD;
   LOGS_RETENTION_PERIOD_IN_MILLISECONDS: number = this.LOGS_RETENTION_PERIOD_IN_DAYS * 24 * 60 * 60 * 1000;
   ONE_MINUTE_IN_MILLISECONDS: number = 60 * 1000;
@@ -261,7 +261,7 @@ export class InstructorTrackViewPageComponent implements OnInit {
       courseId: this.formModel.courseId,
       feedbackSessionName: this.formModel.feedbackSessionName,
       publishedDate: this.timezoneService.formatToString(
-          this.publishedTime, log.feedbackSessionData.timeZone, InstructorAuditLogsPageComponent.LOG_DATE_TIME_FORMAT),
+          this.publishedTime, log.feedbackSessionData.timeZone, this.LOGS_DATE_TIME_FORMAT),
       logColumnsData: [
         { header: 'Status', sortBy: SortBy.RESULT_VIEW_STATUS },
         { header: 'Name', sortBy: SortBy.GIVER_NAME },
@@ -275,9 +275,9 @@ export class InstructorTrackViewPageComponent implements OnInit {
           let dataStyle: string = 'font-family:monospace; white-space:pre;';
           if (student.email in this.studentToLog) {
             const entry: FeedbackSessionLogEntry = this.studentToLog[student.email];
-            status = `Viewed last at   ${this.timezoneService.formatToString(entry.timestamp, log.feedbackSessionData.timeZone, InstructorAuditLogsPageComponent.LOG_DATE_TIME_FORMAT)}`;
+            status = `Viewed last at   ${this.timezoneService.formatToString(entry.timestamp, log.feedbackSessionData.timeZone, this.LOGS_DATE_TIME_FORMAT)}`;
           } else {
-            status = `Not viewed since ${this.timezoneService.formatToString(this.notViewedSince, log.feedbackSessionData.timeZone, InstructorAuditLogsPageComponent.LOG_DATE_TIME_FORMAT)}`;
+            status = `Not viewed since ${this.timezoneService.formatToString(this.notViewedSince, log.feedbackSessionData.timeZone, this.LOGS_DATE_TIME_FORMAT)}`;
             dataStyle += 'color:red;';
           }
           return [
