@@ -34,7 +34,7 @@
       </div>
       <div class="row">
         <div class="col-12">
-          <select id="giver-type" class="form-control" [ngModel]="model.giverType"  [disabled]="!model.isEditable">
+          <select id="giver-type" class="form-control" [ngModel]="model.giverType"  (ngModelChange)="changeGiverRecipientTypeHandler($event, model.recipientType)" [disabled]="!model.isEditable">
             <option *ngFor="let path of this.allowedFeedbackPaths | keyvalue" [ngValue]="path.key">{{ path.key | giverTypeDescription }}</option>
           </select>
         </div>
@@ -48,7 +48,7 @@
       </div>
       <div class="row">
         <div class="col-12">
-          <select id="receiver-type" class="form-control" [ngModel]="model.recipientType" [disabled]="!model.isEditable">
+          <select id="receiver-type" class="form-control" [ngModel]="model.recipientType" (ngModelChange)="changeGiverRecipientTypeHandler(model.giverType, $event)" [disabled]="!model.isEditable">
             <option *ngFor="let recipientType of this.allowedFeedbackPaths.get(model.giverType)" [ngValue]="recipientType">{{ recipientType | recipientTypeDescription }}</option>
           </select>
         </div>
@@ -65,18 +65,19 @@
         <div class="input-group-prepend">
           <div class="input-group-text">
             <input id="custom-recipients" type="radio" [name]="model.feedbackQuestionId + 'numOfRecipients'" [ngModel]="model.numberOfEntitiesToGiveFeedbackToSetting"
+                   (ngModelChange)="triggerModelChangeHandler('numberOfEntitiesToGiveFeedbackToSetting', $event)"
                    [value]="NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM"
                    [disabled]="!model.isEditable">
           </div>
         </div>
-        <input id="custom-recipients-number" type="number" min="1" class="form-control" [ngModel]="model.customNumberOfEntitiesToGiveFeedbackTo" [disabled]="model.numberOfEntitiesToGiveFeedbackToSetting != NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM || !model.isEditable">
+        <input id="custom-recipients-number" type="number" min="1" class="form-control" [ngModel]="model.customNumberOfEntitiesToGiveFeedbackTo" (ngModelChange)="triggerModelChangeHandler('customNumberOfEntitiesToGiveFeedbackTo', $event)" [disabled]="model.numberOfEntitiesToGiveFeedbackToSetting != NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM || !model.isEditable">
       </div>
     </div>
     <div class="col-md-2">
       <div class="form-check">
         <label class="form-check-label">
           <input id="unlimited-recipients" class="form-check-input" type="radio" [name]="model.feedbackQuestionId + 'numOfRecipients'"
-                 [ngModel]="model.numberOfEntitiesToGiveFeedbackToSetting"
+                 [ngModel]="model.numberOfEntitiesToGiveFeedbackToSetting" (ngModelChange)="triggerModelChangeHandler('numberOfEntitiesToGiveFeedbackToSetting', $event)"
                  [value]="NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED"
                  [disabled]="!model.isEditable">
           Unlimited
