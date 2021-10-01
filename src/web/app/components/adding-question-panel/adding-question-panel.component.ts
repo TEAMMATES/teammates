@@ -13,7 +13,7 @@ export class AddingQuestionPanelComponent implements OnInit {
 
   //enum
   FeedbackQuestionType: typeof FeedbackQuestionType = FeedbackQuestionType;
-
+  
   @Input()
   isCopyingQuestion: boolean = false;
 
@@ -50,18 +50,10 @@ export class AddingQuestionPanelComponent implements OnInit {
   }
 
   /**
-   * Redirects info button
-   */
-   //infoButtonHandler(): void {
-      // TODO
-   //}
-
-  /**
    * Handles 'Copy Question' click event.
    */
-   copyQuestionsFromOtherSessionsHandler(): void {
+  copyQuestionsFromOtherSessionsHandler(): void {
     this.copyQuestionsFromOtherSessionsEvent.emit();
-   }
-
+  }
 
 }
