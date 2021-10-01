@@ -12,6 +12,12 @@ import {
 export class PreviewSessionPanelComponent implements OnInit {
 
   @Input()
+  courseId: string = '';
+
+  @Input()
+  feedbackSessionName: string = '';
+
+  @Input()
   emailOfStudentToPreview: string = '';
   
   @Input()
