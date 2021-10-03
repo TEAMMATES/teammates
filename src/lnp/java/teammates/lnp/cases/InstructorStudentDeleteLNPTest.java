@@ -105,8 +105,8 @@ public class InstructorStudentDeleteLNPTest extends BaseLNPTestCase {
             protected Map<String, FeedbackResponseAttributes> generateFeedbackResponses() {
                 Map<String, FeedbackResponseAttributes> feedbackResponses = new HashMap<>();
 
-                for (int i = 1; i <= NUMBER_OF_FEEDBACK_QUESTIONS; i++) {
-                    for (int j = 0; j <= NUM_STUDENTS; j++) {
+                for (int i = 1; i < NUMBER_OF_FEEDBACK_QUESTIONS; i++) {
+                    for (int j = 0; j < NUM_STUDENTS; j++) {
                         String responseText = FEEDBACK_RESPONSE_PREFIX
                                 + " some random text to make the response has a reasonable length " + j;
                         FeedbackTextResponseDetails details =
@@ -139,7 +139,7 @@ public class InstructorStudentDeleteLNPTest extends BaseLNPTestCase {
                         feedbackResponseComments.put(responseText,
                                 FeedbackResponseCommentAttributes.builder()
                                         .withCourseId(COURSE_ID)
-                                        .withFeedbackResponseId(String.valueOf(i))
+                                        .withFeedbackResponseId("null" + "%" + STUDENT_NAME_PREFIX + i + STUDENT_EMAIL_SUBFIX + "%" + STUDENT_NAME_PREFIX + j + STUDENT_EMAIL_SUBFIX)
                                         .withFeedbackSessionName(FEEDBACK_SESSION_NAME)
                                         .withGiverSection(String.valueOf(j / NUM_STUDENTS_PER_SECTION))
                                         .withCommentGiver(String.valueOf(j / NUM_STUDENTS_PER_SECTION))
