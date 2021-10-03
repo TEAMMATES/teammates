@@ -13,6 +13,8 @@ import { AddingQuestionPanelModule } from '../../components/adding-question-pane
 import { FeedbackPathPanelModule } from '../../components/feedback-path-panel/feedback-path-panel.module';
 import { VisibilityPanelModule } from '../../components/visibility-panel/visibility-panel.module';
 import { PreviewSessionPanelModule } from '../../components/preview-session-panel/preview-session-panel.module';
+import { ViewResultsPanelModule } from '../../components/view-results-panel/view-results-panel.module';
+import { QuestionResponsePanelModule } from '../../components/question-response-panel/question-response-panel.module';
 import {
   CommentBoxModule,
 } from '../../components/comment-box/comment-box.module';
@@ -88,6 +90,8 @@ const routes: Routes = [
     TeammatesRouterModule,
     VisibilityPanelModule,
     PreviewSessionPanelModule,
+    ViewResultsPanelModule,
+    QuestionResponsePanelModule,
   ],
   declarations: [
     InstructorHelpPageComponent,
