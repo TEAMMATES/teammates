@@ -38,7 +38,7 @@ public class InstructorStudentDeleteLNPTest extends BaseLNPTestCase {
     private static final int NUM_INSTRUCTORS = 1;
     private static final int RAMP_UP_PERIOD = NUM_INSTRUCTORS * 2;
 
-    private static final int NUM_STUDENTS = 50;
+    private static final int NUM_STUDENTS = 100;
     private static final int NUM_STUDENTS_PER_SECTION = 50;
     private static final int NUMBER_OF_FEEDBACK_QUESTIONS = 20;
 
