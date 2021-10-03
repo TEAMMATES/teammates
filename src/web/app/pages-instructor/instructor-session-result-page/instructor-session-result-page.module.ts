@@ -11,7 +11,7 @@ import { TeammatesRouterModule } from '../../components/teammates-router/teammat
 import { InstructorSessionResultPageComponent } from './instructor-session-result-page.component';
 import { InstructorSessionResultViewModule } from './instructor-session-result-view.module';
 import { ViewResultsPanelModule } from '../../components/view-results-panel/view-results-panel.module';
-import { SectionTypeDescriptionPipe } from './section-type-description.pipe';
+import { SectionTypeDescriptionModule } from './section-type-description.module'
 
 const routes: Routes = [
   {
@@ -26,7 +26,6 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     InstructorSessionResultPageComponent,
-    SectionTypeDescriptionPipe,
   ],
   exports: [
     InstructorSessionResultPageComponent,
@@ -44,6 +43,7 @@ const routes: Routes = [
     LoadingRetryModule,
     TeammatesRouterModule,
     ViewResultsPanelModule,
+    SectionTypeDescriptionModule,
   ],
 })
 export class InstructorSessionResultPageModule { }

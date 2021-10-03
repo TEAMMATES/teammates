@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
   FeedbackSession,
   SessionVisibleSetting,
@@ -44,8 +44,8 @@ export class ViewResultsPanelComponent implements OnInit {
   @Input()
   viewType: string = InstructorSessionResultViewType.QUESTION;
 
-  //@Input()
-  //InstructorSessionResultViewType:
+  @Input()
+  InstructorSessionResultSectionTypes: InstructorSessionResultSectionType[] = []
 
   @Input()
   section: string = '';
@@ -65,9 +65,19 @@ export class ViewResultsPanelComponent implements OnInit {
   @Input()
   indicateMissingResponses: boolean = true;
 
+  @Output()
+  handleViewTypeChangeEvent: EventEmitter<InstructorSessionResultViewType> = new EventEmitter<InstructorSessionResultViewType>()
+
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  /**
+   * Handles view type changes.
+   */
+  handleViewTypeChangeHandler(newViewType: InstructorSessionResultViewType): void {
+    this.handleViewTypeChangeEvent.emit(newViewType);
   }
 
 }

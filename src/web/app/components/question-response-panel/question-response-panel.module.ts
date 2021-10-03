@@ -1,10 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-
 import { QuestionResponsePanelComponent } from './question-response-panel.component';
 
 /**
- * X module.
+ * Question Response Panel module.
  */
 @NgModule({
   imports: [

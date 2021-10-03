@@ -112,7 +112,12 @@
         </div>
       </div>
     </div>
-    <tm-view-results-panel></tm-view-results-panel>
+    <tm-view-results-panel [session]="session" [viewTooltipText]="viewTooltipText" [viewType]="viewType"
+                           [section]="section" [sectionsModel]="sectionsModel" [sectionType]="sectionType"
+                           [groupByTeam]="groupByTeam" [showStatistics]="showStatistics"
+                           [indicateMissingResponses]="indicateMissingResponses"
+                           [InstructorSessionResultSectionTypes]="InstructorSessionResultViewType"
+    ></tm-view-results-panel>
   </div>
   <div *tmIsLoading="!isSectionsLoaded || !isQuestionsLoaded">
     <div class="top-padded offset-md-10 margin-vertical-20px">
