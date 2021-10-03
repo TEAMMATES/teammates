@@ -34,6 +34,9 @@ import teammates.lnp.util.LNPTestData;
 import teammates.lnp.util.TestProperties;
 import teammates.ui.request.StudentsEnrollRequest;
 
+/**
+ * L&P Test Case for batch deleting students.
+ */
 public class InstructorStudentDeleteLNPTest extends BaseLNPTestCase {
     private static final int NUM_INSTRUCTORS = 1;
     private static final int RAMP_UP_PERIOD = NUM_INSTRUCTORS * 2;
