@@ -4,6 +4,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { SingleStatisticsModule } from '../../components/question-responses/single-statistics/single-statistics.module';
+import { QuestionResponsePanelModule } from '../../components/question-response-panel/question-response-panel.module';
+
 import {
   StudentViewResponsesModule,
 } from '../../components/question-responses/student-view-responses/student-view-responses.module';
@@ -29,6 +31,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     LoadingSpinnerModule,
     LoadingRetryModule,
+    QuestionResponsePanelModule,
   ],
   declarations: [
     SessionResultPageComponent,
