@@ -41,7 +41,7 @@ public class InstructorStudentDeleteLNPTest extends BaseLNPTestCase {
     private static final int NUM_INSTRUCTORS = 1;
     private static final int RAMP_UP_PERIOD = NUM_INSTRUCTORS * 2;
 
-    private static final int NUM_STUDENTS = 100;
+    private static final int NUM_STUDENTS = 1000;
     private static final int NUM_STUDENTS_PER_SECTION = 50;
     private static final int NUMBER_OF_FEEDBACK_QUESTIONS = 20;
 
@@ -114,8 +114,8 @@ public class InstructorStudentDeleteLNPTest extends BaseLNPTestCase {
 
                         feedbackResponses.put(responseText,
                                 FeedbackResponseAttributes.builder(String.valueOf(i),
-                                        STUDENT_ID_PREFIX + j,
-                                        STUDENT_ID_PREFIX + j)
+                                        STUDENT_NAME_PREFIX + i + STUDENT_EMAIL_SUBFIX,
+                                        STUDENT_NAME_PREFIX + j + STUDENT_EMAIL_SUBFIX)
                                         .withCourseId(COURSE_ID)
                                         .withFeedbackSessionName(FEEDBACK_SESSION_NAME)
                                         .withGiverSection(String.valueOf(j / NUM_STUDENTS_PER_SECTION))
@@ -132,8 +132,8 @@ public class InstructorStudentDeleteLNPTest extends BaseLNPTestCase {
             protected Map<String, FeedbackResponseCommentAttributes> generateFeedbackResponseComments() {
                 Map<String, FeedbackResponseCommentAttributes> feedbackResponseComments = new HashMap<>();
 
-                for (int i = 1; i <= NUMBER_OF_FEEDBACK_QUESTIONS; i++) {
-                    for (int j = 0; j <= NUM_STUDENTS; j++) {
+                for (int i = 1; i < NUMBER_OF_FEEDBACK_QUESTIONS; i++) {
+                    for (int j = 0; j < NUM_STUDENTS; j++) {
                         String responseText = "This is a comment " + j;
 
                         feedbackResponseComments.put(responseText,
