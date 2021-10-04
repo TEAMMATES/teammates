@@ -85,6 +85,8 @@
         </div>
       </div>
     </div>
-    <tm-question-response-panel></tm-question-response-panel>
+    <tm-question-response-panel [questions]="questions" [session]="session"
+                                (canUserSeeResponsesEvent)="canUserSeeResponses($event)"
+    ></tm-question-response-panel>
   </div>
 </tm-loading-retry>
