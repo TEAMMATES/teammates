@@ -185,7 +185,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
 
     modalRef.result.then((result: CopyFromOtherSessionsResult) => {
       this.copyFeedbackSession(result.fromFeedbackSession, result.newFeedbackSessionName, result.copyToCourseId,
-        result.copyToCourseId)
+        result.fromFeedbackSession.courseId)
           .pipe(finalize(() => this.isCopyOtherSessionLoading = false))
           .subscribe((createdFeedbackSession: FeedbackSession) => {
             this.navigationService.navigateWithSuccessMessage(this.router, '/web/instructor/sessions/edit',
