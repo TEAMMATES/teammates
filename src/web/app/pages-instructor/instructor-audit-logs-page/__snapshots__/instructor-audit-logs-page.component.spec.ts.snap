@@ -2,6 +2,7 @@
 
 exports[`InstructorAuditLogsPageComponent should snap when page is still loading 1`] = `
 <tm-instructor-audit-logs-page
+  LOGS_DATE_TIME_FORMAT={[Function String]}
   LOGS_RETENTION_PERIOD={[Function Number]}
   SortBy={[Function Object]}
   courseService={[Function CourseService]}
@@ -57,6 +58,7 @@ exports[`InstructorAuditLogsPageComponent should snap when page is still loading
 
 exports[`InstructorAuditLogsPageComponent should snap when searching for details in search form 1`] = `
 <tm-instructor-audit-logs-page
+  LOGS_DATE_TIME_FORMAT={[Function String]}
   LOGS_RETENTION_PERIOD={[Function Number]}
   SortBy={[Function Object]}
   courseService={[Function CourseService]}
@@ -541,6 +543,7 @@ exports[`InstructorAuditLogsPageComponent should snap when searching for details
 
 exports[`InstructorAuditLogsPageComponent should snap with default fields 1`] = `
 <tm-instructor-audit-logs-page
+  LOGS_DATE_TIME_FORMAT={[Function String]}
   LOGS_RETENTION_PERIOD={[Function Number]}
   SortBy={[Function Object]}
   courseService={[Function CourseService]}
@@ -596,6 +599,7 @@ exports[`InstructorAuditLogsPageComponent should snap with default fields 1`] = 
 
 exports[`InstructorAuditLogsPageComponent should snap with results of a search 1`] = `
 <tm-instructor-audit-logs-page
+  LOGS_DATE_TIME_FORMAT={[Function String]}
   LOGS_RETENTION_PERIOD={[Function Number]}
   SortBy={[Function Object]}
   courseService={[Function CourseService]}
