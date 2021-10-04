@@ -139,7 +139,9 @@ public class InstructorStudentDeleteLNPTest extends BaseLNPTestCase {
                         feedbackResponseComments.put(responseText,
                                 FeedbackResponseCommentAttributes.builder()
                                         .withCourseId(COURSE_ID)
-                                        .withFeedbackResponseId("null" + "%" + STUDENT_NAME_PREFIX + i + STUDENT_EMAIL_SUBFIX + "%" + STUDENT_NAME_PREFIX + j + STUDENT_EMAIL_SUBFIX)
+                                        .withFeedbackResponseId("null" + "%" + STUDENT_NAME_PREFIX + i
+                                                + STUDENT_EMAIL_SUBFIX + "%" + STUDENT_NAME_PREFIX
+                                                + j + STUDENT_EMAIL_SUBFIX)
                                         .withFeedbackSessionName(FEEDBACK_SESSION_NAME)
                                         .withGiverSection(String.valueOf(j / NUM_STUDENTS_PER_SECTION))
                                         .withCommentGiver(String.valueOf(j / NUM_STUDENTS_PER_SECTION))
