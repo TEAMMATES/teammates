@@ -66,21 +66,16 @@ class CreateFeedbackSessionAction extends Action {
         try {
             logic.createFeedbackSession(fs);
         } catch (EntityAlreadyExistsException e) {
-            throw new InvalidOperationException(e);
+            throw new InvalidOperationException("A session named " + feedbackSessionName
+                     + " exists already in the course " + course.getName()
+                     + " (Course ID: " + courseId + ")", e);
         } catch (InvalidParametersException e) {
             throw new InvalidHttpRequestBodyException(e);
         }
-
         if (createRequest.getToCopyCourseId() != null) {
             createFeedbackQuestions(createRequest.getToCopyCourseId(), courseId, createRequest.getFeedbackSessionName(),
                     createRequest.getToCopySessionName());
-        //     throw new InvalidHttpRequestBodyException("A session named " + feedbackSessionName
-        //             + " exists already in the course " + course.getName()
-        //             + " (Course ID: " + courseId + ").", e);
-        // } catch (InvalidParametersException e) {
-        //     throw new InvalidHttpRequestBodyException(e.getMessage(), e);
         }
-
         fs = getNonNullFeedbackSession(fs.getFeedbackSessionName(), fs.getCourseId());
         FeedbackSessionData output = new FeedbackSessionData(fs);
         InstructorPrivilegeData privilege = constructInstructorPrivileges(instructor, feedbackSessionName);

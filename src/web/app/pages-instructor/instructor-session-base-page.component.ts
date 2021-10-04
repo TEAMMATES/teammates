@@ -205,18 +205,10 @@ export abstract class InstructorSessionBasePageComponent {
   }
 
   getCopyErrorMessage(): string {
-    const templateErrorString: string = Object.values(this.failedToCopySessions)[0];
-    if (templateErrorString.match(' exists already in the course ')) {
-      const courseNameStartIndex: number = templateErrorString.indexOf(' exists already in the course ')
-          + ' exists already in the course '.length;
-      return `${templateErrorString.substring(0, courseNameStartIndex)}
-          ${Object.values(this.failedToCopySessions).map((value: string) =>
-              value.slice(courseNameStartIndex, -1)).join(', ')}.
-          Tip: If you can't find such a session in that course, also check the 'Recycle bin'
-          (shown at the bottom of the 'Sessions' page).`;
-    }
-    return Object.keys(this.failedToCopySessions).map((key: string) =>
-        `Error copying to ${key}: ${this.failedToCopySessions[key]}`).join(' ');
+    return (Object.keys(this.failedToCopySessions).map((key: string) =>
+        `Error copying to ${key}: ${this.failedToCopySessions[key]}`).join(' ')).concat(
+        ` Tip: If you can't find such a session in that course, also check the 'Recycle bin'
+         (shown at the bottom of the 'Sessions' page).`);
   }
 
   /**

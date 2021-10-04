@@ -193,7 +193,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
                 { courseid: createdFeedbackSession.courseId, fsname: createdFeedbackSession.feedbackSessionName });
           }, (resp: ErrorMessageOutput) => {
             this.statusMessageService.showErrorToast(
-                this.formatErrorMessgae(resp.error.message));
+                this.formatErrorMessage(resp.error.message));
           });
     }).catch(() => this.isCopyOtherSessionLoading = false);
   }
@@ -350,11 +350,11 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
     }, (resp: ErrorMessageOutput) => {
       this.sessionEditFormModel.isSaving = false;
       this.statusMessageService.showErrorToast(
-          this.formatErrorMessgae(resp.error.message));
+          this.formatErrorMessage(resp.error.message));
     });
   }
 
-  formatErrorMessgae(errorMessage: string): string {
+  formatErrorMessage(errorMessage: string): string {
     if (errorMessage.match('exists already in the course')) {
       return `${errorMessage}
           Tip: If you can't find such a session in that course, also check the 'Recycle bin'
