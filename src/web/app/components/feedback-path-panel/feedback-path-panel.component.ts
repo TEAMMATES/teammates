@@ -38,7 +38,7 @@ export class FeedbackPathPanelComponent implements OnInit {
                                      } as FeedbackTextQuestionDetails,
 
                                      giverType: FeedbackParticipantType.STUDENTS,
-                                     recipientType: FeedbackParticipantType.STUDENTS,
+                                     recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
 
                                      numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
                                      customNumberOfEntitiesToGiveFeedbackTo: 1,

@@ -180,18 +180,6 @@
       Instructors can see who received what feedback, and who gave the feedback.
     </p>
     <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.SESSION_QUESTIONS]" @collapseAnim>
-      <div class="margin-top-15px padding-15px background-color-light-green">
-        <div>
-          <b>Visibility</b> (Who can see the responses?)
-        </div>
-        <div ngbDropdown class="margin-top-15px">
-          <button class="btn btn-light" ngbDropdownToggle [disabled]="true">
-            <span>
-              Shown anonymously to recipient and giver's team members, visible to instructor
-            </span>
-          </button>
-        </div>
-      </div>
       <tm-feedback-path-panel></tm-feedback-path-panel>
       <tm-visibility-panel></tm-visibility-panel>
     </tm-example-box>

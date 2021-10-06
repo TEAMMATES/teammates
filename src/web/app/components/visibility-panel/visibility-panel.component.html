@@ -8,9 +8,9 @@
   </div>
   <div ngbDropdown class="margin-top-15px">
     <button id="btn-question-visibility" class="btn btn-light white-space-normal" ngbDropdownToggle [disabled]="!model.isEditable">
-            <span *ngIf="!model.isUsingOtherVisibilitySetting">
-              {{ model.commonVisibilitySettingName }}
-            </span>
+      <span *ngIf="!model.isUsingOtherVisibilitySetting">
+        {{ model.commonVisibilitySettingName }}
+      </span>
       <span *ngIf="model.isUsingOtherVisibilitySetting">Custom visibility options</span>
     </button>
     <ul id="question-visibility-dropdown" ngbDropdownMenu>

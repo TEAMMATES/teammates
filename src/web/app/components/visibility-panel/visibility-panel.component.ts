@@ -48,14 +48,14 @@ export class VisibilityPanelComponent implements OnInit {
                                      giverType: FeedbackParticipantType.STUDENTS,
                                      recipientType: FeedbackParticipantType.STUDENTS,
 
-                                     numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
+                                     numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM,
                                      customNumberOfEntitiesToGiveFeedbackTo: 1,
 
                                      showResponsesTo: [],
                                      showGiverNameTo: [],
                                      showRecipientNameTo: [],
 
-                                     commonVisibilitySettingName: '',
+                                     commonVisibilitySettingName: 'Please select a visibility option',
 
                                      isUsingOtherFeedbackPath: false,
                                      isUsingOtherVisibilitySetting: false,
@@ -73,7 +73,7 @@ export class VisibilityPanelComponent implements OnInit {
   VisibilityControls: VisibilityControl = VisibilityControl.SHOW_RESPONSE
   
   @Input()
-  FeedbackVisibilityTypes: FeedbackVisibilityType = FeedbackVisibilityType.STUDENTS
+  FeedbackVisibilityTypes: FeedbackVisibilityType = FeedbackVisibilityType.INSTRUCTORS
   
   @Input()
   commonFeedbackVisibilitySettings: CommonVisibilitySetting[] = [];
