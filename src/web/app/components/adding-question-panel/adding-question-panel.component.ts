@@ -13,12 +13,12 @@ export class AddingQuestionPanelComponent implements OnInit {
 
   //enum
   FeedbackQuestionType: typeof FeedbackQuestionType = FeedbackQuestionType;
-  
+
   @Input()
   isCopyingQuestion: boolean = false;
 
   @Input()
-  FeedbackQuestionTypes: FeedbackQuestionType = FeedbackQuestionType.TEXT;
+  FeedbackQuestionTypes: FeedbackQuestionType[] = [];
 
   @Output()
   templateQuestionModalEvent: EventEmitter<void> = new EventEmitter<void>();
