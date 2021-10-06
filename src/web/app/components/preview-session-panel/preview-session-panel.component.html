@@ -15,7 +15,7 @@
         <ng-container *ngTemplateOutlet="previewStudentBtn"></ng-container>
       </a>
       <ng-template #previewStudentBtn>
-        <button id="btn-preview-student" class="btn btn-primary" [disabled]="emailOfStudentToPreview.length === 0">Preview as Student</button>
+        <button id="btn-preview-student" class="btn btn-primary" [disabled]="emailOfStudentToPreview.length === 0 || forDisplayOnly">Preview as Student</button>
       </ng-template>
     </div>
     <div class="col-lg-5">
@@ -30,7 +30,7 @@
         <ng-container *ngTemplateOutlet="previewInstructorBtn"></ng-container>
       </a>
       <ng-template #previewInstructorBtn>
-        <button id="btn-preview-instructor" class="btn btn-primary" [disabled]="emailOfInstructorToPreview.length === 0">Preview as Instructor</button>
+        <button id="btn-preview-instructor" class="btn btn-primary" [disabled]="emailOfInstructorToPreview.length === 0 || forDisplayOnly">Preview as Instructor</button>
       </ng-template>
     </div>
   </div>

@@ -198,28 +198,9 @@
       panel is located at the bottom of the Edit Feedback Session page.
     </p>
     <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.SESSION_PREVIEW]" @collapseAnim>
-      <div class="card">
-        <div class="card-body background-color-light-blue text-center">
-          <div class="row align-items-center">
-            <div class="col-2 text-right">
-              <b>Preview Session:</b>
-            </div>
-            <div class="col-5">
-              <select class="form-control preview-select">
-                <option *ngFor="let student of exampleStudents" [ngValue]="student.email">[{{ student.teamName }}] {{ student.name }}</option>
-              </select>
-              <button class="btn btn-primary" [disabled]="true" >Preview as Student</button>
-            </div>
-            <div class="col-5" ngbTooltip="View how this session would look like to an instructor who is submitting feedback. Only instructors with submit privileges are included in the list.">
-              <select class="form-control preview-select">
-                <option *ngFor="let instructor of exampleInstructors" [ngValue]="instructor.email">{{ instructor.name }}</option>
-              </select>
-              <button class="btn btn-primary" [disabled]="true" >Preview as Instructor</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <tm-preview-session-panel></tm-preview-session-panel>
+      <tm-preview-session-panel [studentsOfCourse]="exampleStudents" [instructorsCanBePreviewedAs]="exampleInstructors"
+                                [forDisplayOnly]="true"
+      ></tm-preview-session-panel>
     </tm-example-box>
   </tm-instructor-help-panel>
 

@@ -28,6 +28,9 @@ export class PreviewSessionPanelComponent implements OnInit {
    
   @Input()
   emailOfInstructorToPreview: string = '';
+
+  @Input()
+  forDisplayOnly: boolean = false;
   
   constructor() { }
 
