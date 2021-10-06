@@ -245,69 +245,6 @@
       Additionally, you can group the results by team, show or hide statistics, view missing responses and filter responses from a particular section.
     </p>
     <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.SESSION_VIEW_RESULTS]" @collapseAnim>
-      <div class="card-body row">
-        <div class="col-md-6">
-          <div>
-            <label class="control-label" ngbTooltip="View results in different formats">
-              View:
-            </label>
-            <div>
-              <select class="form-control">
-                <option [value]="InstructorSessionResultViewType.QUESTION">Group by - Question</option>
-                <option [value]="InstructorSessionResultViewType.GRQ">Group by - Giver > Recipient > Question</option>
-                <option [value]="InstructorSessionResultViewType.RGQ">Group by - Recipient > Giver > Question</option>
-                <option [value]="InstructorSessionResultViewType.GQR">Group by - Giver > Question > Recipient</option>
-                <option [value]="InstructorSessionResultViewType.RQG">Group by - Recipient > Question > Giver</option>
-              </select>
-            </div>
-          </div>
-          <div>
-            <label class="control-label" ngbTooltip="View results by sections">
-              Section:
-            </label>
-            <div>
-              <select class="form-control">
-                <option value="">All</option>
-              </select>
-            </div>
-          </div>
-          <div>
-            <label class="control-label" ngbTooltip="Choose the way responses for the selected section is viewed">
-              If showing only a section:
-            </label>
-            <div>
-              <select class="form-control">
-                <option [ngValue]="InstructorSessionResultSectionType.EITHER">
-                  Show response if either the giver or evaluee is in the selected section
-                </option>
-                <option [ngValue]="InstructorSessionResultSectionType.GIVER">
-                  Show response if the giver is in the selected section
-                </option>
-                <option [ngValue]="InstructorSessionResultSectionType.EVALUEE">
-                  Show response if the evaluee is in the selected section
-                </option>
-                <option [ngValue]="InstructorSessionResultSectionType.BOTH">
-                  Show response only if both are in the selected section
-                </option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <label class="control-label">
-            Additional settings:
-          </label>
-          <div>
-            <input type="checkbox"> Group by Teams
-          </div>
-          <div>
-            <input type="checkbox"> Show Statistics
-          </div>
-          <div>
-            <input type="checkbox"> Indicate Missing Responses
-          </div>
-        </div>
-      </div>
       <tm-view-results-panel></tm-view-results-panel>
     </tm-example-box>
     <p>
