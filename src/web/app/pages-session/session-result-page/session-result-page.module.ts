@@ -1,15 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+
 import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { SingleStatisticsModule } from '../../components/question-responses/single-statistics/single-statistics.module';
-import { QuestionResponsePanelModule } from '../../components/question-response-panel/question-response-panel.module';
-
 import {
   StudentViewResponsesModule,
 } from '../../components/question-responses/student-view-responses/student-view-responses.module';
+import { QuestionResponsePanelModule } from '../../components/question-response-panel/question-response-panel.module';
 import { QuestionTextWithInfoModule } from '../../components/question-text-with-info/question-text-with-info.module';
+
 import { SessionResultPageComponent } from './session-result-page.component';
 
 const routes: Routes = [

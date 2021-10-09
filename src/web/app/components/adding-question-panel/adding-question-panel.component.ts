@@ -1,24 +1,24 @@
-import { EventEmitter, Component, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FeedbackQuestionType } from '../../../types/api-output';
 
 /**
- * Panel for adding questions
+ * Displaying the adding questions panel.
  */
 @Component({
   selector: 'tm-adding-question-panel',
   templateUrl: './adding-question-panel.component.html',
-  styleUrls: ['./adding-question-panel.component.scss']
+  styleUrls: ['./adding-question-panel.component.scss'],
 })
 export class AddingQuestionPanelComponent implements OnInit {
 
-  //enum
+  // enum
   FeedbackQuestionType: typeof FeedbackQuestionType = FeedbackQuestionType;
 
   @Input()
   isCopyingQuestion: boolean = false;
 
   @Input()
-  FeedbackQuestionTypes: FeedbackQuestionType[] = [];
+  feedbackQuestionTypes: FeedbackQuestionType[] = [];
 
   @Output()
   templateQuestionModalEvent: EventEmitter<void> = new EventEmitter<void>();

@@ -8,7 +8,7 @@ describe('AdditionalQuestionPanelComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AdditionalQuestionPanelComponent ]
+      declarations: [AdditionalQuestionPanelComponent],
     })
     .compileComponents();
   }));

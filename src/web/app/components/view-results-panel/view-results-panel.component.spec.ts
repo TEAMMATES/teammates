@@ -8,7 +8,7 @@ describe('ViewResultsPanelComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ViewResultsPanelComponent ]
+      declarations: [ViewResultsPanelComponent],
     })
     .compileComponents();
   }));

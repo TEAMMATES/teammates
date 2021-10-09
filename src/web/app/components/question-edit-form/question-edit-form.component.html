@@ -95,13 +95,13 @@
         </div>
       </div>
       <tm-feedback-path-panel [model]="model" [commonFeedbackPaths]="this.commonFeedbackPaths"
-                              [allowedFeedbackPaths]="this.allowedFeedbackPaths" 
-                              (changeGiverRecipientTypeEvent)="changeGiverRecipientType($event, $event)" 
+                              [allowedFeedbackPaths]="this.allowedFeedbackPaths"
+                              (changeGiverRecipientTypeEvent)="changeGiverRecipientType($event, $event)"
                               (triggerModelChangeEvent)="triggerModelChange($event, $event)">
       </tm-feedback-path-panel>
       <tm-visibility-panel [model]="model" [isCustomFeedbackVisibilitySettingAllowed]="isCustomFeedbackVisibilitySettingAllowed"
-                           [VisibilityControls]="VisibilityControl"
-                           [FeedbackVisibilityTypes]="FeedbackVisibilityType"
+                           [visibilityControls]="VisibilityControl"
+                           [feedbackVisibilityTypes]="FeedbackVisibilityType"
                            [commonFeedbackVisibilitySettings]="commonFeedbackVisibilitySettings"
                            [visibilityStateMachine]="visibilityStateMachine"
       ></tm-visibility-panel>

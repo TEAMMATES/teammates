@@ -8,7 +8,7 @@ describe('VisibilityPanelComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ VisibilityPanelComponent ]
+      declarations: [VisibilityPanelComponent],
     })
     .compileComponents();
   }));

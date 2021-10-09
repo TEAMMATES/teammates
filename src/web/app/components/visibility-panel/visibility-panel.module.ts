@@ -2,9 +2,10 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbDropdownModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
-import { VisibilityPanelComponent } from './visibility-panel.component';
-import { VisibilityMessagesModule } from '../visibility-messages/visibility-messages.module';
+
 import { TeammatesCommonModule } from '../teammates-common/teammates-common.module';
+import { VisibilityMessagesModule } from '../visibility-messages/visibility-messages.module';
+import { VisibilityPanelComponent } from './visibility-panel.component';
 
 /**
  * Visibility panel module.
@@ -15,7 +16,7 @@ import { TeammatesCommonModule } from '../teammates-common/teammates-common.modu
     FormsModule,
     NgbDropdownModule,
     NgbTooltipModule,
-    TeammatesCommonModule, 
+    TeammatesCommonModule,
     VisibilityMessagesModule,
   ],
   declarations: [
@@ -25,4 +26,5 @@ import { TeammatesCommonModule } from '../teammates-common/teammates-common.modu
     VisibilityPanelComponent,
   ],
 })
+
 export class VisibilityPanelModule { }

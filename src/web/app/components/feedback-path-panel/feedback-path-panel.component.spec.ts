@@ -8,7 +8,7 @@ describe('FeedbackPathPanelComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FeedbackPathPanelComponent ]
+      declarations: [FeedbackPathPanelComponent],
     })
     .compileComponents();
   }));

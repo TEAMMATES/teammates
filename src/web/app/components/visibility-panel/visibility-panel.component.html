@@ -25,11 +25,11 @@
     <thead>
     <tr>
       <th scope="col" class="text-left">User/Group</th>
-      <th scope="col" class="text-center" *ngFor="let visibilityControl of VisibilityControls | enumToArray">{{ visibilityControl | visibilityControlName }}</th>
+      <th scope="col" class="text-center" *ngFor="let visibilityControl of visibilityControls | enumToArray">{{ visibilityControl | visibilityControlName }}</th>
     </tr>
     </thead>
     <tbody id="custom-visibility-table">
-    <ng-container *ngFor="let visibilityType of FeedbackVisibilityTypes | enumToArray">
+    <ng-container *ngFor="let visibilityType of feedbackVisibilityTypes | enumToArray">
       <tr *ngIf="visibilityStateMachine.isVisibilityTypeApplicable(visibilityType)">
         <td><span class="ngb-tooltip-class" [ngbTooltip]="visibilityType | visibilityTypeDescription" container="body">{{ visibilityType | visibilityTypeName }}</span></td>
         <td *ngFor="let visibilityControl of VisibilityControls | enumToArray" class="text-center">

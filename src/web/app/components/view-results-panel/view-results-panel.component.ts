@@ -1,42 +1,48 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import {
-  FeedbackSession,
-  SessionVisibleSetting,
-  ResponseVisibleSetting,
-  FeedbackSessionPublishStatus,
-  FeedbackSessionSubmissionStatus,
-} from '../../../types/api-output';
-import { SectionTabModel } from '../../pages-instructor/instructor-session-result-page/instructor-session-result-page.component'
+
+import { SectionTabModel } from '../../pages-instructor/instructor-session-result-page/instructor-session-result-page.component';
 import { InstructorSessionResultSectionType } from '../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
 import { InstructorSessionResultViewType } from '../../pages-instructor/instructor-session-result-page/instructor-session-result-view-type.enum';
 
+import {
+  FeedbackSession,
+  FeedbackSessionPublishStatus,
+  FeedbackSessionSubmissionStatus,
+  ResponseVisibleSetting,
+  SessionVisibleSetting,
+} from '../../../types/api-output';
+
+/**
+ * Displaying the view results panel.
+ */
 @Component({
   selector: 'tm-view-results-panel',
   templateUrl: './view-results-panel.component.html',
-  styleUrls: ['./view-results-panel.component.scss']
+  styleUrls: ['./view-results-panel.component.scss'],
 })
+
 export class ViewResultsPanelComponent implements OnInit {
 
-  //enum
+  // enum
   InstructorSessionResultViewType: typeof InstructorSessionResultViewType = InstructorSessionResultViewType;
 
   @Input()
   session: FeedbackSession = {
-      courseId: '',
-      timeZone: '',
-      feedbackSessionName: '',
-      instructions: '',
-      submissionStartTimestamp: 0,
-      submissionEndTimestamp: 0,
-      gracePeriod: 0,
-      sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
-      responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
-      submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
-      publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
-      isClosingEmailEnabled: true,
-      isPublishedEmailEnabled: true,
-      createdAtTimestamp: 0,
-    };
+    courseId: '',
+    timeZone: '',
+    feedbackSessionName: '',
+    instructions: '',
+    submissionStartTimestamp: 0,
+    submissionEndTimestamp: 0,
+    gracePeriod: 0,
+    sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+    responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+    submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+    publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
+    isClosingEmailEnabled: true,
+    isPublishedEmailEnabled: true,
+    createdAtTimestamp: 0,
+  };
 
   @Input()
   viewTooltipText: string = 'View results in different formats';
@@ -45,7 +51,7 @@ export class ViewResultsPanelComponent implements OnInit {
   viewType: string = InstructorSessionResultViewType.QUESTION;
 
   @Input()
-  InstructorSessionResultSectionTypes: InstructorSessionResultSectionType[] = []
+  instructorSessionResultSectionTypes: InstructorSessionResultSectionType[] = [];
 
   @Input()
   section: string = '';
@@ -66,7 +72,8 @@ export class ViewResultsPanelComponent implements OnInit {
   indicateMissingResponses: boolean = true;
 
   @Output()
-  handleViewTypeChangeEvent: EventEmitter<InstructorSessionResultViewType> = new EventEmitter<InstructorSessionResultViewType>()
+  handleViewTypeChangeEvent: EventEmitter<InstructorSessionResultViewType> =
+    new EventEmitter<InstructorSessionResultViewType>();
 
   constructor() { }
 
