@@ -2,7 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 import { CourseService } from '../services/course.service';
 import { NavigationService } from '../services/navigation.service';
@@ -124,13 +124,13 @@ describe('UserJoinPageComponent', () => {
     expect(navSpy.calls.mostRecent().args[1]).toEqual(`/web/${params[1]}`);
   });
 
-  it('should redirect user to home page if user is logged in', () => {
+  it('should redirect user to home page if user is logged in and join URL has been used', () => {
     spyOn(authService, 'getAuthUser').and.returnValue(of({
       user: {
         id: 'user',
         isAdmin: false,
         isInstructor: false,
-        isStudent: true,
+        isStudent: false,
         isMaintainer: false,
       },
       masquerade: false,
@@ -146,6 +146,27 @@ describe('UserJoinPageComponent', () => {
     expect(component.userId).toEqual('user');
     expect(navSpy.calls.count()).toEqual(1);
     expect(navSpy.calls.mostRecent().args[1]).toEqual('/web/student/home');
+  });
+
+  it('should stop loading and show error message if 404 is returned', () => {
+    spyOn(authService, 'getAuthUser').and.returnValue(of({
+      user: {
+        id: 'user',
+        isAdmin: false,
+        isInstructor: false,
+        isStudent: false,
+        isMaintainer: false,
+      },
+      masquerade: false,
+    }));
+    spyOn(courseService, 'getJoinCourseStatus').and.returnValue(throwError({
+      status: 404,
+    }));
+
+    component.ngOnInit();
+
+    expect(component.isLoading).toBeFalsy();
+    expect(component.validUrl).toBeFalsy();
   });
 
   it('should stop loading and redirect if user is not logged in', () => {

@@ -62,6 +62,11 @@ export class UserJoinPageComponent implements OnInit {
             this.isLoading = false;
           }
         }, (resp: ErrorMessageOutput) => {
+          if (resp.status === 404) {
+            this.validUrl = false;
+            this.isLoading = false;
+            return;
+          }
           const modalRef: any = this.ngbModal.open(ErrorReportComponent);
           modalRef.componentInstance.requestId = resp.error.requestId;
           modalRef.componentInstance.errorMessage = resp.error.message;

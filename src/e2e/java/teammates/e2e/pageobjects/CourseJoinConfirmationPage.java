@@ -19,7 +19,8 @@ public class CourseJoinConfirmationPage extends AppPage {
 
     @Override
     public boolean containsExpectedPageContents() {
-        return waitForElementPresence(By.tagName("h3")).getText().contains("Confirm your Google account");
+        // This page has no unique indicator as the content depends on whether it follows the happy path or not
+        return true;
     }
 
     public void verifyJoiningUser(String googleId) {
@@ -30,5 +31,9 @@ public class CourseJoinConfirmationPage extends AppPage {
         click(confirmButton);
         waitForPageToLoad();
         return changePageType(typeOfPage);
+    }
+
+    public void verifyDisplayedMessage(String message) {
+        assertEquals(browser.driver.findElement(By.className("card-body")).getText(), message);
     }
 }
