@@ -101,14 +101,14 @@ public final class Logger {
      * Logs an HTTP request.
      */
     public void request(HttpServletRequest request, int statusCode, String message) {
-        request(request, statusCode, message, new RequestLogUser(), null);
+        request(request, statusCode, message, new RequestLogUser(), null, null);
     }
 
     /**
      * Logs an HTTP request.
      */
     public void request(HttpServletRequest request, int statusCode, String message,
-                        RequestLogUser userInfo, String actionClass) {
+                        RequestLogUser userInfo, String requestBody, String actionClass) {
         long timeElapsed = RequestTracer.getTimeElapsedMillis();
         String method = request.getMethod();
         String requestUrl = request.getRequestURI();
@@ -128,6 +128,7 @@ public final class Logger {
             userInfo.setRegkey(request.getParameter(Const.ParamsNames.REGKEY));
         }
         details.setUserInfo(userInfo);
+        details.setRequestBody(requestBody);
         details.setActionClass(actionClass);
 
         String logMessage = String.format("[%s] [%sms] [%s %s] %s",
