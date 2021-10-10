@@ -72,6 +72,7 @@ describe('UserJoinPageComponent', () => {
   });
 
   it('should snap with invalid course join link', () => {
+    component.userId = 'user';
     component.validUrl = false;
     component.isLoading = false;
 
@@ -81,6 +82,7 @@ describe('UserJoinPageComponent', () => {
   });
 
   it('should snap with valid course join link that has been used', () => {
+    component.userId = 'user';
     component.validUrl = true;
     component.hasJoined = true;
     component.isLoading = false;
@@ -127,24 +129,19 @@ describe('UserJoinPageComponent', () => {
   });
 
   it('should redirect user to home page if user is logged in', () => {
-    spyOn(authService, 'getAuthUser').and.returnValue(
-      of({
-        user: {
-          id: 'user',
-          isAdmin: false,
-          isInstructor: false,
-          isStudent: true,
-          isMaintainer: false,
-        },
-        masquerade: false,
-      }),
-    );
-
-    spyOn(courseService, 'getJoinCourseStatus').and.returnValue(
-      of({
-        hasJoined: true,
-      }),
-    );
+    spyOn(authService, 'getAuthUser').and.returnValue(of({
+      user: {
+        id: 'user',
+        isAdmin: false,
+        isInstructor: false,
+        isStudent: true,
+        isMaintainer: false,
+      },
+      masquerade: false,
+    }));
+    spyOn(courseService, 'getJoinCourseStatus').and.returnValue(of({
+      hasJoined: true,
+    }));
     const navSpy: Spy = spyOn(navService, 'navigateByURL');
 
     component.ngOnInit();
@@ -155,18 +152,13 @@ describe('UserJoinPageComponent', () => {
     expect(navSpy.calls.mostRecent().args[1]).toEqual('/web/student/home');
   });
 
-  it('should stop loading if user is not logged in', () => {
-    spyOn(authService, 'getAuthUser').and.returnValue(
-      of({
-        masquerade: false,
-      }),
-    );
-
-    spyOn(courseService, 'getJoinCourseStatus').and.returnValue(
-      of({
-        hasJoined: true,
-      }),
-    );
+  it('should stop loading and redirect if user is not logged in', () => {
+    spyOn(authService, 'getAuthUser').and.returnValue(of({
+      masquerade: false,
+    }));
+    spyOn(courseService, 'getJoinCourseStatus').and.returnValue(of({
+      hasJoined: true,
+    }));
 
     component.ngOnInit();
 

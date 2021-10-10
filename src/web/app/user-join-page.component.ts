@@ -60,12 +60,12 @@ export class UserJoinPageComponent implements OnInit {
           }
           return;
         }
-        this.userId = auth.user.id || '';
+        this.userId = auth.user.id;
         this.courseService.getJoinCourseStatus(this.key, this.entityType).subscribe((resp: JoinStatus) => {
           this.hasJoined = resp.hasJoined;
-          if (this.hasJoined && this.userId) {
-          // The regkey has been used and there is a logged in user.
-          // Simply redirect the user to their home page, regardless of whether the regkey matches or not.
+          if (this.hasJoined) {
+            // The regkey has been used; simply redirect the user to their home page,
+            // regardless of whether the regkey matches or not.
             this.navigationService.navigateByURL(this.router, `/web/${this.entityType}/home`);
           } else {
             this.isLoading = false;

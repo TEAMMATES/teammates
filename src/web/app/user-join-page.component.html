@@ -7,7 +7,7 @@
       You are not logged in. Please log in first.
     </div>
   </div>
-  <div class="card bg-light mx-auto" style="max-width: 800px;" *ngIf="!validUrl || hasJoined">
+  <div class="card bg-light mx-auto" style="max-width: 800px;" *ngIf="userId && (!validUrl || hasJoined)">
     <div class="card-header bg-warning">
       <h3 style="margin-bottom: 0;">Invalid course join link</h3>
     </div>
