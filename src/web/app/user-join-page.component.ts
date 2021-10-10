@@ -24,8 +24,6 @@ export class UserJoinPageComponent implements OnInit {
   validUrl: boolean = true;
   entityType: string = '';
   key: string = '';
-  institute: string = '';
-  mac: string = '';
   userId: string = '';
 
   private backendUrl: string = environment.backendUrl;
@@ -41,13 +39,6 @@ export class UserJoinPageComponent implements OnInit {
     this.route.queryParams.subscribe((queryParams: any) => {
       this.entityType = queryParams.entitytype;
       this.key = queryParams.key;
-      this.institute = queryParams.instructorinstitution;
-      this.mac = queryParams.mac;
-
-      if (this.institute != null && this.mac == null) {
-        this.validUrl = false;
-        return;
-      }
 
       const nextUrl: string = `${window.location.pathname}${window.location.search.replace(/&/g, '%26')}`;
       this.authService.getAuthUser(undefined, nextUrl).subscribe((auth: AuthInfo) => {
@@ -83,8 +74,7 @@ export class UserJoinPageComponent implements OnInit {
    * Joins the course.
    */
   joinCourse(): void {
-
-    this.courseService.joinCourse(this.key, this.entityType, this.institute, this.mac).subscribe(() => {
+    this.courseService.joinCourse(this.key, this.entityType).subscribe(() => {
       this.navigationService.navigateByURL(this.router, `/web/${this.entityType}`);
     }, (resp: ErrorMessageOutput) => {
       const modalRef: any = this.ngbModal.open(ErrorReportComponent);

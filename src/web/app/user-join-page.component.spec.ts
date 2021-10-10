@@ -33,8 +33,6 @@ describe('UserJoinPageComponent', () => {
             queryParams: of({
               entitytype: 'student',
               key: 'key',
-              instructorinstitution: 'nus',
-              mac: 'mac',
             }),
           },
         },
@@ -104,14 +102,12 @@ describe('UserJoinPageComponent', () => {
   });
 
   it('should join course when join course button is clicked on', () => {
-    const params: string[] = ['key', 'student', 'NUS', 'mac'];
+    const params: string[] = ['key', 'student'];
     component.isLoading = false;
     component.hasJoined = false;
     component.userId = 'user';
     component.key = params[0];
     component.entityType = params[1];
-    component.institute = params[2];
-    component.mac = params[3];
     component.validUrl = true;
 
     const courseSpy: Spy = spyOn(courseService, 'joinCourse').and.returnValue(of({}));
