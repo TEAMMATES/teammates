@@ -30,9 +30,4 @@ export const config: any = {
    */
   maintenance: false,
 
-  /**
-   * Indicates whether search feature warning should be displayed.
-   */
-  searchWarningDisplayed: false,
-
 };
