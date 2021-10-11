@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FeedbackPathPanelComponent } from './feedback-path-panel.component';
+import { FeedbackPathPanelModule } from './feedback-path-panel.module';
 
 describe('FeedbackPathPanelComponent', () => {
   let component: FeedbackPathPanelComponent;

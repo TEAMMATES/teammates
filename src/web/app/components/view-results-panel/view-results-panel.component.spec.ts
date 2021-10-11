@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ViewResultsPanelComponent } from './view-results-panel.component';
+import { ViewResultsPanelModule } from './view-results-panel.module';
 
 describe('ViewResultsPanelComponent', () => {
   let component: ViewResultsPanelComponent;

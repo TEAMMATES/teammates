@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { QuestionResponsePanelComponent } from './question-response-panel.component';
+import { QuestionResponsePanelModule } from './question-response-panel.module';
 
 describe('QuestionResponsePanelComponent', () => {
   let component: QuestionResponsePanelComponent;
