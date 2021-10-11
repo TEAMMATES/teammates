@@ -1,9 +1,3 @@
-<div class="text-muted" style="margin: 10px 0;" *ngIf="searchWarningDisplayed">
-  NOTE: We are currently upgrading the search infrastructure of the system.
-  During this period, you may find your search results not up-to-date, particularly for older data.
-  <br>
-  The upgrade is expected to finish by Aug 16, 2021. We apologize for any inconvenience caused.
-</div>
 <tm-instructor-search-bar (searched)="search()" [(searchParams)]="searchParams"></tm-instructor-search-bar>
 
 <div *tmIsLoading="isSearching">

@@ -204,11 +204,18 @@ public abstract class Action {
     /**
      * Returns the request body payload.
      */
-    String getRequestBody() {
-        if (requestBody == null) {
+    public String getRequestBody() {
+        if (!hasDefinedRequestBody()) {
             requestBody = HttpRequestHelper.getRequestBody(req);
         }
         return requestBody;
+    }
+
+    /**
+     * Returns true if the action has a request body already defined in it.
+     */
+    public boolean hasDefinedRequestBody() {
+        return requestBody != null;
     }
 
     FeedbackSessionAttributes getNonNullFeedbackSession(String feedbackSessionName, String courseId) {

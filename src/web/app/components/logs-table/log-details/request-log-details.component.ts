@@ -14,6 +14,7 @@ export class RequestLogDetailsComponent implements OnInit {
   logValue!: GeneralLogEntry;
   details!: RequestLogDetails;
   userInfo?: RequestLogUser;
+  requestBody?: any;
 
   @Output()
   addUserInfoEvent: EventEmitter<RequestLogUser> = new EventEmitter<RequestLogUser>();
@@ -29,6 +30,16 @@ export class RequestLogDetailsComponent implements OnInit {
       const details: RequestLogDetails = JSON.parse(JSON.stringify(log.details)) as RequestLogDetails;
       this.userInfo = details.userInfo;
       details.userInfo = undefined;
+
+      if (details.requestBody) {
+        try {
+          this.requestBody = JSON.parse(details.requestBody);
+          details.requestBody = undefined;
+        } catch (err) {
+          // request body is not JSON; while generally it should not happen, it is not impossible
+        }
+      }
+
       this.details = details;
     }
   }

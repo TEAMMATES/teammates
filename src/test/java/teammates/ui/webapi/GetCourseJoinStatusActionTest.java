@@ -51,7 +51,6 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
 
         JoinStatus output = (JoinStatus) result.getOutput();
         assertTrue(output.getHasJoined());
-        assertEquals("unreg.user", output.getUserId());
 
         ______TS("Normal case: student is not registered");
 
@@ -68,7 +67,6 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
 
         output = (JoinStatus) result.getOutput();
         assertFalse(output.getHasJoined());
-        assertEquals("unreg.user", output.getUserId());
 
         ______TS("Failure case: regkey is not valid for student");
 
@@ -94,7 +92,6 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
 
         output = (JoinStatus) result.getOutput();
         assertTrue(output.getHasJoined());
-        assertEquals("unreg.user", output.getUserId());
 
         ______TS("Normal case: instructor is not registered");
 
@@ -111,7 +108,6 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
 
         output = (JoinStatus) result.getOutput();
         assertFalse(output.getHasJoined());
-        assertEquals("unreg.user", output.getUserId());
 
         ______TS("Failure case: regkey is not valid for instructor");
 
