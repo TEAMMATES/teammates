@@ -272,9 +272,9 @@
     <p>If you choose to publish the results of the session, students will receive an email with a link to access the
       session's results. What they can see is governed by the visibility levels you set when setting up the session.
       Here is an example of what a student might see:
-    </p>
+    </pControl
     <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.SESSION_VIEW_RESULTS]" @collapseAnim>
-      <tm-question-response-panel [questions]="exampleQuestionsWithResponses"></tm-question-response-panel>
+      <tm-question-response-panel questions="exampleQuestionsWithResponses"></tm-question-response-panel>
     </tm-example-box>
   </tm-instructor-help-panel>
   <!--Question-->
