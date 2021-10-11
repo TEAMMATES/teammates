@@ -20,7 +20,6 @@ import {
   templateUrl: './view-results-panel.component.html',
   styleUrls: ['./view-results-panel.component.scss'],
 })
-
 export class ViewResultsPanelComponent implements OnInit {
 
   // enum

@@ -17,7 +17,6 @@ import {
   templateUrl: './question-response-panel.component.html',
   styleUrls: ['./question-response-panel.component.scss'],
 })
-
 export class QuestionResponsePanelComponent implements OnInit {
 
   RESPONSE_HIDDEN_QUESTIONS: FeedbackQuestionType[] = [

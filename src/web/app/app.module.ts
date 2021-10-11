@@ -15,6 +15,7 @@ import { LoaderBarModule } from './components/loader-bar/loader-bar.module';
 import { LoadingSpinnerModule } from './components/loading-spinner/loading-spinner.module';
 import { SessionEditFormModule } from './components/session-edit-form/session-edit-form.module';
 import { SimpleModalModule } from './components/simple-modal/simple-modal.module';
+import { TeammatesCommonModule } from './components/teammates-common/teammates-common.module';
 import { TeammatesRouterModule } from './components/teammates-router/teammates-router.module';
 import { ToastModule } from './components/toast/toast.module';
 import { CustomUrlSerializer } from './custom-url-serializer';
@@ -162,6 +163,7 @@ if (environment.maintenance) {
       registrationStrategy: 'registerImmediately',
     }),
     LoadingSpinnerModule,
+    TeammatesCommonModule,
     TeammatesRouterModule,
     FormsModule,
     NgbDatepickerModule,

@@ -21,7 +21,6 @@ import { VisibilityControl } from '../../../types/visibility-control';
   templateUrl: './visibility-panel.component.html',
   styleUrls: ['./visibility-panel.component.scss'],
 })
-
 export class VisibilityPanelComponent implements OnInit {
 
   // enum

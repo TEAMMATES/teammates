@@ -12,7 +12,6 @@ import {
   templateUrl: './preview-session-panel.component.html',
   styleUrls: ['./preview-session-panel.component.scss'],
 })
-
 export class PreviewSessionPanelComponent implements OnInit {
 
   @Input()
