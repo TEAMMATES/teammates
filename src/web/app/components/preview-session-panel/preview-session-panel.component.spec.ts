@@ -1,7 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PreviewSessionPanelComponent } from './preview-session-panel.component';
-import { PreviewSessionPanelModule } from './preview-session-panel.module';
 
 describe('PreviewSessionPanelComponent', () => {
   let component: PreviewSessionPanelComponent;

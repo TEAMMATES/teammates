@@ -1,9 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AdditionalQuestionPanelComponent } from './additional-question-panel.component';
-import { AdditionalQuestionPanelModule } from './additional-question-panel.module';
+import { AddingQuestionPanelComponent } from './additional-question-panel.component';
 
-describe('AdditionalQuestionPanelComponent', () => {
+describe('AddingQuestionPanelComponent', () => {
   let component: AdditionalQuestionPanelComponent;
   let fixture: ComponentFixture<AdditionalQuestionPanelComponent>;
 

@@ -1,7 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { VisibilityPanelComponent } from './visibility-panel.component';
-import { VisibilityPanelComponentModule } from './visibility-panel.module';
 
 describe('VisibilityPanelComponent', () => {
   let component: VisibilityPanelComponent;
