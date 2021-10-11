@@ -51,7 +51,7 @@
         Nothing to show. The responses are either not configured to be visible or there are no responses.
       </div>
     </div>
-    <tm-question-response-panel questions="questions" session="session"
+    <tm-question-response-panel [questions]="questions" [session]="session"
                                 (canUserSeeResponsesEvent)="canUserSeeResponses($event)"
     ></tm-question-response-panel>
   </div>

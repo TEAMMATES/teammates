@@ -94,16 +94,16 @@
           </div>
         </div>
       </div>
-      <tm-feedback-path-panel model="model" commonFeedbackPaths="this.commonFeedbackPaths"
-                              allowedFeedbackPaths="this.allowedFeedbackPaths"
+      <tm-feedback-path-panel [model]="model" [commonFeedbackPaths]="this.commonFeedbackPaths"
+                              [allowedFeedbackPaths]="this.allowedFeedbackPaths"
                               (changeGiverRecipientTypeEvent)="changeGiverRecipientType($event, $event)"
                               (triggerModelChangeEvent)="triggerModelChange($event, $event)">
       </tm-feedback-path-panel>
-      <tm-visibility-panel model="model" isCustomFeedbackVisibilitySettingAllowed="isCustomFeedbackVisibilitySettingAllowed"
-                           visibilityControls="VisibilityControl"
-                           feedbackVisibilityTypes="FeedbackVisibilityType"
-                           commonFeedbackVisibilitySettings="commonFeedbackVisibilitySettings"
-                           visibilityStateMachine="visibilityStateMachine"
+      <tm-visibility-panel [model]="model" [isCustomFeedbackVisibilitySettingAllowed]="isCustomFeedbackVisibilitySettingAllowed"
+                           [visibilityControls]="VisibilityControl"
+                           [feedbackVisibilityTypes]="FeedbackVisibilityType"
+                           [commonFeedbackVisibilitySettings]="commonFeedbackVisibilitySettings"
+                           [visibilityStateMachine]="visibilityStateMachine"
       ></tm-visibility-panel>
       <div class="row margin-top-15px" *ngIf="!isDisplayOnly">
         <div class="col-12 text-right">
