@@ -287,6 +287,31 @@ public class EmailGeneratorTest extends BaseLogicTest {
         verifyEmail(email, unregisteredStudent.getEmail(), subject,
                 "/summaryOfFeedbackSessionsOfCourseEmailForRegeneratedUnregisteredStudent.html");
 
+        ______TS("send summary of all regenerated feedback session links of course email to instructor. "
+                + "Instructor has joined the course");
+
+        email = emailGenerator.generateFeedbackSessionSummaryOfCourse(
+                session.getCourseId(), instructor1.getEmail(), EmailType.INSTRUCTOR_COURSE_LINKS_REGENERATED);
+        subject = String.format(EmailType.INSTRUCTOR_COURSE_LINKS_REGENERATED.getSubject(),
+                course.getName(), course.getId());
+
+        verifyEmail(email, instructor1.getEmail(), subject,
+                "/summaryOfFeedbackSessionsOfCourseEmailForRegeneratedInstructor.html");
+
+        ______TS("send summary of all regenerated feedback session links of course email to instructor. "
+                + "Instructor has not joined the course");
+
+        InstructorAttributes unregisteredInstructor = instructorsLogic.getInstructorForEmail("idOfTypicalCourse1",
+                "instructorNotYetJoinedCourse1@email.tmt");
+
+        email = emailGenerator.generateFeedbackSessionSummaryOfCourse(
+                session.getCourseId(), unregisteredInstructor.getEmail(), EmailType.INSTRUCTOR_COURSE_LINKS_REGENERATED);
+        subject = String.format(EmailType.INSTRUCTOR_COURSE_LINKS_REGENERATED.getSubject(),
+                course.getName(), course.getId());
+
+        verifyEmail(email, unregisteredInstructor.getEmail(), subject,
+                "/summaryOfFeedbackSessionsOfCourseEmailForRegeneratedUnregisteredInstructor.html");
+
         ______TS("no email alerts sent for sessions not answerable/viewable for students");
 
         FeedbackSessionAttributes notAnswerableSession =
@@ -432,6 +457,20 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         verifyEmail(email, noLinksStudent.getEmail(), subject,
                     "/summaryOfFeedbackSessionsOfCourseEmailForNoLinksRegeneratedStudent.html");
+
+        ______TS("send summary of all regenerated feedback session links of course email to instructor. "
+                + "No feedback session opening or published emails have been sent");
+
+        InstructorAttributes noLinksInstructor = instructorsLogic.getInstructorForEmail(
+                course.getId(), "instructor1@noemailssent.tmt");
+
+        email = emailGenerator.generateFeedbackSessionSummaryOfCourse(
+                session.getCourseId(), noLinksInstructor.getEmail(), EmailType.INSTRUCTOR_COURSE_LINKS_REGENERATED);
+        subject = String.format(EmailType.INSTRUCTOR_COURSE_LINKS_REGENERATED.getSubject(),
+                course.getName(), course.getId());
+
+        verifyEmail(email, noLinksInstructor.getEmail(), subject,
+                "/summaryOfFeedbackSessionsOfCourseEmailForNoLinksRegeneratedInstructor.html");
     }
 
     @Test

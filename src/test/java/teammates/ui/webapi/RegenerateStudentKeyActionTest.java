@@ -84,7 +84,7 @@ public class RegenerateStudentKeyActionTest extends BaseActionTest<RegenerateStu
     }
 
     @Test
-    protected void testExecute_regenerateCourseStudent() {
+    protected void testExecute_regenerateStudentKey() {
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         ______TS("Successfully sent regenerated links email");
 
