@@ -190,13 +190,15 @@ public final class EmailGenerator {
 
     /**
      * Generates the email containing the summary of the feedback sessions
-     * email for the given {@code courseId} for {@code student}.
+     * email for the given {@code courseId} for {@code studentEmail}.
      * @param courseId - ID of the course
      * @param studentEmail - Email of student to send feedback session summary to
-     * @param resendLinksTemplate - The email template including the reason behind why the links are being resent
+     * @param emailType - The email type which corresponds to the reason behind why the links are being resent
      */
     public EmailWrapper generateFeedbackSessionSummaryOfCourse(
-            String courseId, String studentEmail, String resendLinksTemplate) {
+            String courseId, String studentEmail, EmailType emailType) {
+        assert emailType == EmailType.STUDENT_EMAIL_CHANGED
+                || emailType == EmailType.STUDENT_COURSE_LINKS_REGENERATED;
 
         CourseAttributes course = coursesLogic.getCourse(courseId);
         StudentAttributes student = studentsLogic.getStudentForEmail(courseId, studentEmail);
@@ -259,28 +261,23 @@ public final class EmailGenerator {
         }
 
         String additionalContactInformation = getAdditionalContactInformationFragment(course);
+        String resendLinksTemplate = emailType == EmailType.STUDENT_EMAIL_CHANGED
+                ? Templates.EmailTemplates.USER_FEEDBACK_SESSION_RESEND_ALL_LINKS
+                : Templates.EmailTemplates.USER_REGKEY_REGENERATION_RESEND_ALL_COURSE_LINKS;
 
         String emailBody = Templates.populateTemplate(resendLinksTemplate,
                 "${userName}", SanitizationHelper.sanitizeForHtml(student.getName()),
-                "${userEmail}", student.getEmail(),
+                "${studentEmail}", student.getEmail(),
                 "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
                 "${courseId}", course.getId(),
                 "${joinFragment}", joinFragmentValue,
                 "${linksFragment}", linksFragmentValue.toString(),
                 "${additionalContactInformation}", additionalContactInformation);
 
-        EmailWrapper email = getEmptyEmailAddressedToEmail(student.getEmail());
+        EmailWrapper email = getEmptyEmailAddressedToEmail(studentEmail);
         email.setContent(emailBody);
-
-        // Set appropriate email subject, depending on the email template
-        if (resendLinksTemplate.equals(Templates.EmailTemplates.USER_FEEDBACK_SESSION_RESEND_ALL_LINKS)) {
-            email.setType(EmailType.STUDENT_EMAIL_CHANGED);
-            email.setSubjectFromType(course.getName(), course.getId());
-        } else if (resendLinksTemplate.equals(Templates.EmailTemplates.USER_REGKEY_REGENERATION_RESEND_ALL_COURSE_LINKS)) {
-            email.setType(EmailType.STUDENT_COURSE_LINKS_REGENERATED);
-            email.setSubjectFromType(course.getName(), course.getId());
-        }
-
+        email.setType(emailType);
+        email.setSubjectFromType(course.getName(), course.getId());
         return email;
     }
 

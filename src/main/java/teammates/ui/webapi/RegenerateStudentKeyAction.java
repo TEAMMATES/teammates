@@ -7,8 +7,8 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailSendingStatus;
+import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
-import teammates.common.util.Templates;
 import teammates.ui.output.RegenerateKeyData;
 
 /**
@@ -59,8 +59,8 @@ class RegenerateStudentKeyAction extends AdminOnlyAction {
      * @return true if the email was sent successfully, and false otherwise.
      */
     private boolean sendEmail(StudentAttributes student) {
-        EmailWrapper email = emailGenerator.generateFeedbackSessionSummaryOfCourse(student.getCourse(), student.getEmail(),
-                                            Templates.EmailTemplates.USER_REGKEY_REGENERATION_RESEND_ALL_COURSE_LINKS);
+        EmailWrapper email = emailGenerator.generateFeedbackSessionSummaryOfCourse(
+                student.getCourse(), student.getEmail(), EmailType.STUDENT_COURSE_LINKS_REGENERATED);
         EmailSendingStatus status = emailSender.sendEmail(email);
         return status.isSuccess();
     }
