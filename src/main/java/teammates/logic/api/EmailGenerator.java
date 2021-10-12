@@ -225,14 +225,17 @@ public final class EmailGenerator {
                 isInstructor ? instructor.getRegistrationUrl() : student.getRegistrationUrl()).toAbsoluteString();
         boolean isYetToJoinCourse = isInstructor ? isYetToJoinCourse(instructor) : isYetToJoinCourse(student);
         String joinFragmentTemplate = isInstructor
-                ? EmailTemplates.FRAGMENT_INSTRUCTOR_COURSE_JOIN
-                : EmailTemplates.FRAGMENT_STUDENT_COURSE_JOIN;
+                ? EmailTemplates.FRAGMENT_INSTRUCTOR_COURSE_REJOIN_AFTER_REGKEY_RESET
+                : emailType == EmailType.STUDENT_EMAIL_CHANGED
+                        ? EmailTemplates.FRAGMENT_STUDENT_COURSE_JOIN
+                        : EmailTemplates.FRAGMENT_STUDENT_COURSE_REJOIN_AFTER_REGKEY_RESET;
 
         String joinFragmentValue = isYetToJoinCourse
                 ? Templates.populateTemplate(joinFragmentTemplate,
                         "${joinUrl}", joinUrl,
                         "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
-                        "${coOwnersEmails}", generateCoOwnersEmailsLine(course.getId()))
+                        "${coOwnersEmails}", generateCoOwnersEmailsLine(course.getId()),
+                        "${supportEmail}", Config.SUPPORT_EMAIL)
                 : "";
 
         for (FeedbackSessionAttributes fsa : sessions) {
