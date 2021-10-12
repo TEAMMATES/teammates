@@ -3,6 +3,7 @@ import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { finalize } from 'rxjs/operators';
 import { AccountService } from '../../../services/account.service';
 import { EmailGenerationService } from '../../../services/email-generation.service';
+import { InstructorService } from '../../../services/instructor.service';
 import { LoadingBarService } from '../../../services/loading-bar.service';
 import {
   AdminSearchResult,
@@ -38,6 +39,7 @@ export class AdminSearchPageComponent {
     private statusMessageService: StatusMessageService,
     private simpleModalService: SimpleModalService,
     private accountService: AccountService,
+    private instructorService: InstructorService,
     private studentService: StudentService,
     private searchService: SearchService,
     private emailGenerationService: EmailGenerationService,
@@ -176,6 +178,26 @@ export class AdminSearchPageComponent {
   }
 
   /**
+   * Regenerates the instructor's registration key.
+   */
+  regenerateInstructorKey(instructor: InstructorAccountSearchResult): void {
+    const modalContent: string = `Are you sure you want to regenerate the registration key for <strong>${ instructor.name }</strong> for the course <strong>${ instructor.courseId }</strong>?
+        An email will be sent to the instructor with all the new course registration and feedback session links.`;
+    const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
+        `Regenerate <strong>${ instructor.name }</strong>'s course links?`, SimpleModalType.WARNING, modalContent);
+
+    modalRef.result.then(() => {
+      this.instructorService.regenerateInstructorKey(instructor.courseId, instructor.email)
+          .subscribe((resp: RegenerateKey) => {
+            this.statusMessageService.showSuccessToast(resp.message);
+            this.updateDisplayedInstructorCourseLinks(instructor, resp.newRegistrationKey);
+          }, (response: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorToast(response.error.message);
+          });
+    }, () => {});
+  }
+
+  /**
    * Updates the student's displayed course join and feedback session links with the value of the newKey.
    */
   private updateDisplayedStudentCourseLinks(student: StudentAccountSearchResult, newKey: string): void {
@@ -190,6 +212,13 @@ export class AdminSearchPageComponent {
     updateSessions(student.openSessions);
     updateSessions(student.notOpenSessions);
     updateSessions(student.publishedSessions);
+  }
+
+  /**
+   * Updates the instructor's displayed course join and feedback session links with the value of the newKey.
+   */
+  private updateDisplayedInstructorCourseLinks(instructor: InstructorAccountSearchResult, newKey: string): void {
+    instructor.courseJoinLink = this.getUpdatedUrl(instructor.courseJoinLink, newKey);
   }
 
   /**
