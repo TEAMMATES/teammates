@@ -507,7 +507,7 @@ describe('AdminSearchPageComponent', () => {
       };
     });
 
-    spyOn(studentService, 'regenerateStudentCourseLinks').and.returnValue(of({
+    spyOn(studentService, 'regenerateStudentKey').and.returnValue(of({
       message: 'success',
       newRegistrationKey: 'newKey',
     }));
@@ -574,7 +574,7 @@ describe('AdminSearchPageComponent', () => {
       };
     });
 
-    spyOn(studentService, 'regenerateStudentCourseLinks').and.returnValue(throwError({
+    spyOn(studentService, 'regenerateStudentKey').and.returnValue(throwError({
       error: {
         message: 'This is the error message.',
       },

@@ -77,9 +77,9 @@ public class AdminSearchPage extends AppPage {
         waitForPageToLoad();
     }
 
-    public void regenerateLinksForStudent(StudentAttributes student) {
+    public void regenerateStudentKey(StudentAttributes student) {
         WebElement studentRow = getStudentRow(student);
-        studentRow.findElement(By.xpath("//button[text()='Regenerate links']")).click();
+        studentRow.findElement(By.xpath("//button[text()='Regenerate key']")).click();
 
         waitForConfirmationModalAndClickOk();
         waitForPageToLoad(true);
@@ -347,8 +347,8 @@ public class AdminSearchPage extends AppPage {
         assertNotEquals(numExpandedInstructorRows, 0);
     }
 
-    public void verifyRegenerateStudentCourseLinks(StudentAttributes student, String originalJoinLink) {
-        verifyStatusMessage("Student's links for this course have been successfully regenerated,"
+    public void verifyRegenerateStudentKey(StudentAttributes student, String originalJoinLink) {
+        verifyStatusMessage("Student's key for this course has been successfully regenerated,"
                 + " and the email has been sent.");
 
         String regeneratedJoinLink = getStudentJoinLink(student);

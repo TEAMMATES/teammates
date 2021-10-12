@@ -94,7 +94,7 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 QueryLogsAction.class,
                 SessionLinksRecoveryAction.class,
                 SendJoinReminderEmailAction.class,
-                RegenerateStudentCourseLinksAction.class,
+                RegenerateStudentKeyAction.class,
                 CompileLogsAction.class,
                 GetAuthInfoAction.class,
                 GetFeedbackSessionSubmittedGiverSetAction.class,

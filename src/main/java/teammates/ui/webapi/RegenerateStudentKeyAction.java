@@ -9,24 +9,25 @@ import teammates.common.util.Const;
 import teammates.common.util.EmailSendingStatus;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Templates;
-import teammates.ui.output.RegenerateStudentCourseLinksData;
+import teammates.ui.output.RegenerateKeyData;
 
 /**
- * Regenerates the course join and feedback session links for a given student in a course.
+ * Regenerates the key for a given student in a course. This will also resend the course registration
+ * and feedback session links to the affected student, as any previously sent links will no longer work.
  */
-class RegenerateStudentCourseLinksAction extends AdminOnlyAction {
+class RegenerateStudentKeyAction extends AdminOnlyAction {
 
     private static final String SUCCESSFUL_REGENERATION =
-            "Student's links for this course have been successfully regenerated,";
+            "Student's key for this course has been successfully regenerated,";
 
-    /** Message indicating that the links regeneration was successful, and corresponding email was sent. */
+    /** Message indicating that the key regeneration was successful, and corresponding email was sent. */
     static final String SUCCESSFUL_REGENERATION_WITH_EMAIL_SENT =
             SUCCESSFUL_REGENERATION + " and the email has been sent.";
 
     private static final String UNSUCCESSFUL_REGENERATION =
-            "Regeneration of the student's links for this course was unsuccessful.";
+            "Regeneration of the student's key was unsuccessful.";
 
-    /** Message indicating that the links regeneration was successful, but corresponding email could not be sent. */
+    /** Message indicating that the key regeneration was successful, but corresponding email could not be sent. */
     private static final String SUCCESSFUL_REGENERATION_BUT_EMAIL_FAILED =
             SUCCESSFUL_REGENERATION + " but the email failed to send.";
 
@@ -50,8 +51,7 @@ class RegenerateStudentCourseLinksAction extends AdminOnlyAction {
                                 ? SUCCESSFUL_REGENERATION_WITH_EMAIL_SENT
                                 : SUCCESSFUL_REGENERATION_BUT_EMAIL_FAILED;
 
-        return new JsonResult(
-                new RegenerateStudentCourseLinksData(statusMessage, updatedStudent.getKey()));
+        return new JsonResult(new RegenerateKeyData(statusMessage, updatedStudent.getKey()));
     }
 
     /**

@@ -64,12 +64,12 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         searchPage.verifyStudentRowContent(student, studentAccount, studentDetails, studentManageAccountLink,
                 studentHomePageLink);
 
-        ______TS("Typical case: Regenerate all links for a course student");
+        ______TS("Typical case: Regenerate registration key for a course student");
         searchPage.clickExpandStudentLinks();
         String originalJoinLink = searchPage.getStudentJoinLink(student);
 
-        searchPage.regenerateLinksForStudent(student);
-        searchPage.verifyRegenerateStudentCourseLinks(student, originalJoinLink);
+        searchPage.regenerateStudentKey(student);
+        searchPage.verifyRegenerateStudentKey(student, originalJoinLink);
         searchPage.waitForPageToLoad();
 
         ______TS("Typical case: Search for instructor email");

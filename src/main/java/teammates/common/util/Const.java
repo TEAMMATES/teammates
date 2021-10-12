@@ -308,6 +308,7 @@ public final class Const {
         public static final String RESULT = URI_PREFIX + "/result";
         public static final String STUDENTS = URI_PREFIX + "/students";
         public static final String STUDENT = URI_PREFIX + "/student";
+        public static final String STUDENT_KEY = URI_PREFIX + "/student/key";
         public static final String SESSIONS_ONGOING = URI_PREFIX + "/sessions/ongoing";
         public static final String SESSION = URI_PREFIX + "/session";
         public static final String SESSION_PUBLISH = URI_PREFIX + "/session/publish";
@@ -337,7 +338,6 @@ public final class Const {
 
         public static final String STUDENT_PROFILE_PICTURE = URI_PREFIX + "/student/profilePic";
         public static final String STUDENT_PROFILE = URI_PREFIX + "/student/profile";
-        public static final String STUDENT_COURSE_LINKS_REGENERATION = URI_PREFIX + "/student/courselinks/regeneration";
     }
 
     /**
