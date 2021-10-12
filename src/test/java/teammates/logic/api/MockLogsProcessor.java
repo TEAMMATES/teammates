@@ -7,8 +7,6 @@ import java.util.List;
 import teammates.common.datatransfer.ErrorLogEntry;
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
 import teammates.common.datatransfer.QueryLogsResults;
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.logs.GeneralLogEntry;
 import teammates.common.datatransfer.logs.LogDetails;
 import teammates.common.datatransfer.logs.LogSeverity;
@@ -34,9 +32,9 @@ public class MockLogsProcessor extends LogsProcessor {
     /**
      * Simulates insertion of feedback session logs.
      */
-    public void insertFeedbackSessionLog(StudentAttributes student, FeedbackSessionAttributes fs,
+    public void insertFeedbackSessionLog(String studentEmail, String feedbackSessionName,
             String fslType, long timestamp) {
-        feedbackSessionLogs.add(new FeedbackSessionLogEntry(student, fs, fslType, timestamp));
+        feedbackSessionLogs.add(new FeedbackSessionLogEntry(studentEmail, feedbackSessionName, fslType, timestamp));
     }
 
     @Override

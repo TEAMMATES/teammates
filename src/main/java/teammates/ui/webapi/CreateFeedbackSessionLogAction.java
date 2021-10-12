@@ -1,10 +1,7 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.datatransfer.logs.FeedbackSessionAuditLogDetails;
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
-import teammates.common.exception.LogServiceException;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
 
@@ -38,14 +35,8 @@ class CreateFeedbackSessionLogAction extends Action {
         String studentEmail = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
         // Skip rigorous validations to avoid incurring extra db reads and to keep the endpoint light
 
-        // The usage of separate logsProcessor to write logs is no longer needed
-        // after structured logging is incorporated.
-        // TODO remove this block 30 days after V8.0.0 is released.
-        try {
-            logsProcessor.createFeedbackSessionLog(courseId, studentEmail, fsName, fslType);
-        } catch (LogServiceException e) {
-            return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
-        }
+        // Necessary to assist local testing. For production usage, this will be a no-op.
+        logsProcessor.createFeedbackSessionLog(courseId, studentEmail, fsName, fslType);
 
         FeedbackSessionAuditLogDetails details = new FeedbackSessionAuditLogDetails();
         details.setCourseId(courseId);
