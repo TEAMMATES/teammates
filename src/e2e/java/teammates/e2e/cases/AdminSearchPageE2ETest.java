@@ -91,6 +91,14 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         searchPage.verifyInstructorRowContent(instructor, instructorAccount, instructorManageAccountLink,
                 instructorHomePageLink);
 
+        ______TS("Typical case: Regenerate registration key for an instructor");
+        searchPage.clickExpandInstructorLinks();
+        originalJoinLink = searchPage.getInstructorJoinLink(instructor);
+
+        searchPage.regenerateInstructorKey(instructor);
+        searchPage.verifyRegenerateInstructorKey(instructor, originalJoinLink);
+        searchPage.waitForPageToLoad();
+
         ______TS("Typical case: Search common course id");
         searchPage.clearSearchBox();
         searchContent = student.getCourse();

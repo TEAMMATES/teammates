@@ -85,6 +85,14 @@ public class AdminSearchPage extends AppPage {
         waitForPageToLoad(true);
     }
 
+    public void regenerateInstructorKey(InstructorAttributes instructor) {
+        WebElement instructorRow = getInstructorRow(instructor);
+        instructorRow.findElement(By.xpath("//button[text()='Regenerate key']")).click();
+
+        waitForConfirmationModalAndClickOk();
+        waitForPageToLoad(true);
+    }
+
     public void clickExpandStudentLinks() {
         click(expandStudentLinksButton);
         waitForPageToLoad();
@@ -206,6 +214,11 @@ public class AdminSearchPage extends AppPage {
 
     public String getInstructorJoinLink(WebElement instructorRow) {
         return getExpandedRowInputValue(instructorRow, EXPANDED_ROWS_HEADER_COURSE_JOIN_LINK);
+    }
+
+    public String getInstructorJoinLink(InstructorAttributes instructor) {
+        WebElement instructorRow = getInstructorRow(instructor);
+        return getInstructorJoinLink(instructorRow);
     }
 
     public void resetInstructorGoogleId(InstructorAttributes instructor) {
@@ -352,6 +365,14 @@ public class AdminSearchPage extends AppPage {
                 + " and the email has been sent.");
 
         String regeneratedJoinLink = getStudentJoinLink(student);
+        assertNotEquals(regeneratedJoinLink, originalJoinLink);
+    }
+
+    public void verifyRegenerateInstructorKey(InstructorAttributes instructor, String originalJoinLink) {
+        verifyStatusMessage("Instructor's key for this course has been successfully regenerated,"
+                + " and the email has been sent.");
+
+        String regeneratedJoinLink = getInstructorJoinLink(instructor);
         assertNotEquals(regeneratedJoinLink, originalJoinLink);
     }
 
