@@ -33,8 +33,6 @@ describe('UserJoinPageComponent', () => {
             queryParams: of({
               entitytype: 'student',
               key: 'key',
-              instructorinstitution: 'nus',
-              mac: 'mac',
             }),
           },
         },
@@ -72,6 +70,7 @@ describe('UserJoinPageComponent', () => {
   });
 
   it('should snap with invalid course join link', () => {
+    component.userId = 'user';
     component.validUrl = false;
     component.isLoading = false;
 
@@ -81,6 +80,7 @@ describe('UserJoinPageComponent', () => {
   });
 
   it('should snap with valid course join link that has been used', () => {
+    component.userId = 'user';
     component.validUrl = true;
     component.hasJoined = true;
     component.isLoading = false;
@@ -102,14 +102,12 @@ describe('UserJoinPageComponent', () => {
   });
 
   it('should join course when join course button is clicked on', () => {
-    const params: string[] = ['key', 'student', 'NUS', 'mac'];
+    const params: string[] = ['key', 'student'];
     component.isLoading = false;
     component.hasJoined = false;
     component.userId = 'user';
     component.key = params[0];
     component.entityType = params[1];
-    component.institute = params[2];
-    component.mac = params[3];
     component.validUrl = true;
 
     const courseSpy: Spy = spyOn(courseService, 'joinCourse').and.returnValue(of({}));
@@ -126,10 +124,19 @@ describe('UserJoinPageComponent', () => {
     expect(navSpy.calls.mostRecent().args[1]).toEqual(`/web/${params[1]}`);
   });
 
-  it('should redirect user to home page if user is logged in', () => {
+  it('should redirect user to home page if user is logged in and join URL has been used', () => {
+    spyOn(authService, 'getAuthUser').and.returnValue(of({
+      user: {
+        id: 'user',
+        isAdmin: false,
+        isInstructor: false,
+        isStudent: false,
+        isMaintainer: false,
+      },
+      masquerade: false,
+    }));
     spyOn(courseService, 'getJoinCourseStatus').and.returnValue(of({
       hasJoined: true,
-      userId: 'user',
     }));
     const navSpy: Spy = spyOn(navService, 'navigateByURL');
 
@@ -141,28 +148,37 @@ describe('UserJoinPageComponent', () => {
     expect(navSpy.calls.mostRecent().args[1]).toEqual('/web/student/home');
   });
 
-  it('should stop loading if user is not logged in', () => {
-    spyOn(courseService, 'getJoinCourseStatus').and.returnValue(of({
-      hasJoined: true,
-      userId: '',
+  it('should stop loading and show error message if 404 is returned', () => {
+    spyOn(authService, 'getAuthUser').and.returnValue(of({
+      user: {
+        id: 'user',
+        isAdmin: false,
+        isInstructor: false,
+        isStudent: false,
+        isMaintainer: false,
+      },
+      masquerade: false,
+    }));
+    spyOn(courseService, 'getJoinCourseStatus').and.returnValue(throwError({
+      status: 404,
     }));
 
     component.ngOnInit();
 
     expect(component.isLoading).toBeFalsy();
+    expect(component.validUrl).toBeFalsy();
   });
 
-  it('should fetch user auth information on error', () => {
-    const navParams: any[] = [undefined, window.location.pathname + window.location.search];
-    spyOn(courseService, 'getJoinCourseStatus').and.returnValue(throwError({
-      status: 403,
+  it('should stop loading and redirect if user is not logged in', () => {
+    spyOn(authService, 'getAuthUser').and.returnValue(of({
+      masquerade: false,
     }));
-    const authSpy: Spy = spyOn(authService, 'getAuthUser');
+    spyOn(courseService, 'getJoinCourseStatus').and.returnValue(of({
+      hasJoined: true,
+    }));
 
     component.ngOnInit();
 
     expect(component.isLoading).toBeFalsy();
-    expect(authSpy.calls.count()).toEqual(1);
-    expect(authSpy.calls.mostRecent().args).toEqual(navParams);
   });
 });
