@@ -1,5 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
+import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
+import { SectionTypeDescriptionModule } from '../../pages-instructor/instructor-session-result-page/section-type-description.module';
 import { ViewResultsPanelComponent } from './view-results-panel.component';
 
 describe('ViewResultsPanelComponent', () => {
@@ -8,7 +11,14 @@ describe('ViewResultsPanelComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ViewResultsPanelComponent],
+      declarations: [
+        ViewResultsPanelComponent,
+      ],
+      imports: [
+        NgbTooltipModule,
+        TeammatesCommonModule,
+        SectionTypeDescriptionModule,
+      ],
     })
     .compileComponents();
   }));

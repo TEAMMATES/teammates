@@ -1,5 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { SingleStatisticsModule } from '../../components/question-responses/single-statistics/single-statistics.module';
+import {
+  StudentViewResponsesModule,
+} from '../../components/question-responses/student-view-responses/student-view-responses.module';
+import { QuestionTextWithInfoModule } from '../../components/question-text-with-info/question-text-with-info.module';
 import { QuestionResponsePanelComponent } from './question-response-panel.component';
 
 describe('QuestionResponsePanelComponent', () => {
@@ -8,7 +13,14 @@ describe('QuestionResponsePanelComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [QuestionResponsePanelComponent],
+      declarations: [
+        QuestionResponsePanelComponent,
+      ],
+      imports: [
+        SingleStatisticsModule,
+        StudentViewResponsesModule,
+        QuestionTextWithInfoModule,
+      ],
     })
     .compileComponents();
   }));

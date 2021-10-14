@@ -24,6 +24,7 @@ import {
 import { QuestionTextWithInfoModule } from '../../components/question-text-with-info/question-text-with-info.module';
 import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
 import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';
+import { ViewResultsPanelModule } from '../../components/view-results-panel/view-results-panel.module';
 import { InstructorSessionNoResponsePanelComponent } from './instructor-session-no-response-panel.component';
 import { InstructorSessionResultGqrViewComponent } from './instructor-session-result-gqr-view.component';
 import { InstructorSessionResultGrqViewComponent } from './instructor-session-result-grq-view.component';
@@ -65,6 +66,7 @@ describe('InstructorSessionResultPageComponent', () => {
         LoadingRetryModule,
         PanelChevronModule,
         TeammatesRouterModule,
+        ViewResultsPanelModule,
       ],
       providers: [
         CommentsToCommentTableModelPipe,

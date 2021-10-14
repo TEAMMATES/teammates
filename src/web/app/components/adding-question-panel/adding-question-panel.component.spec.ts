@@ -1,20 +1,28 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { AddingQuestionPanelComponent } from './additional-question-panel.component';
+import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
+import { AddingQuestionPanelComponent } from './adding-question-panel.component';
 
 describe('AddingQuestionPanelComponent', () => {
-  let component: AdditionalQuestionPanelComponent;
-  let fixture: ComponentFixture<AdditionalQuestionPanelComponent>;
+  let component: AddingQuestionPanelComponent;
+  let fixture: ComponentFixture<AddingQuestionPanelComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [AdditionalQuestionPanelComponent],
+      declarations: [
+        AddingQuestionPanelComponent,
+      ],
+      imports: [
+        NgbDropdownModule,
+        TeammatesCommonModule,
+      ],
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AdditionalQuestionPanelComponent);
+    fixture = TestBed.createComponent(AddingQuestionPanelComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

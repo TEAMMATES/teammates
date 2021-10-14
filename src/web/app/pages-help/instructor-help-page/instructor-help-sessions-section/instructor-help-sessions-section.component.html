@@ -274,7 +274,7 @@
       Here is an example of what a student might see:
     </p>
     <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.SESSION_VIEW_RESULTS]" @collapseAnim>
-      <tm-question-response-panel questions="exampleQuestionsWithResponses"></tm-question-response-panel>
+      <tm-question-response-panel [questions]="exampleQuestionsWithResponses"></tm-question-response-panel>
     </tm-example-box>
   </tm-instructor-help-panel>
   <!--Question-->

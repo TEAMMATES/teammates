@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { PreviewSessionPanelComponent } from './preview-session-panel.component';
 
@@ -8,7 +9,12 @@ describe('PreviewSessionPanelComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [PreviewSessionPanelComponent],
+      declarations: [
+        PreviewSessionPanelComponent,
+      ],
+      imports: [
+        NgbTooltipModule,
+      ],
     })
     .compileComponents();
   }));

@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { TeammatesCommonModule } from '../teammates-common/teammates-common.module';
-
 import { FeedbackPathPanelComponent } from './feedback-path-panel.component';
 
 /**
