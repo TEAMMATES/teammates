@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { TeammatesCommonModule } from '../teammates-common/teammates-common.module';
@@ -14,6 +15,7 @@ describe('FeedbackPathPanelComponent', () => {
         FeedbackPathPanelComponent,
       ],
       imports: [
+        FormsModule,
         NgbDropdownModule,
         TeammatesCommonModule,
       ],
