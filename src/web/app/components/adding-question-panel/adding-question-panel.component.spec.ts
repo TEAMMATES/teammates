@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterModule } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
@@ -17,7 +17,7 @@ describe('AddingQuestionPanelComponent', () => {
       ],
       imports: [
         AjaxLoadingModule,
-        RouterModule,
+        RouterTestingModule,
         NgbDropdownModule,
         TeammatesCommonModule,
       ],
