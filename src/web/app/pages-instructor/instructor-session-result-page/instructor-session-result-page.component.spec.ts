@@ -32,7 +32,7 @@ import { InstructorSessionResultPageComponent } from './instructor-session-resul
 import { InstructorSessionResultQuestionViewComponent } from './instructor-session-result-question-view.component';
 import { InstructorSessionResultRgqViewComponent } from './instructor-session-result-rgq-view.component';
 import { InstructorSessionResultRqgViewComponent } from './instructor-session-result-rqg-view.component';
-import { SectionTypeDescriptionPipe } from './section-type-description.pipe';
+import { SectionTypeDescriptionModule } from './section-type-description.module';
 
 describe('InstructorSessionResultPageComponent', () => {
   let component: InstructorSessionResultPageComponent;
@@ -48,7 +48,6 @@ describe('InstructorSessionResultPageComponent', () => {
         InstructorSessionResultRqgViewComponent,
         InstructorSessionResultGqrViewComponent,
         InstructorSessionNoResponsePanelComponent,
-        SectionTypeDescriptionPipe,
       ],
       imports: [
         HttpClientTestingModule,
@@ -67,6 +66,7 @@ describe('InstructorSessionResultPageComponent', () => {
         PanelChevronModule,
         TeammatesRouterModule,
         ViewResultsPanelModule,
+        SectionTypeDescriptionModule,
       ],
       providers: [
         CommentsToCommentTableModelPipe,

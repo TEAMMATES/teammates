@@ -50,8 +50,10 @@ describe('InstructorHelpSessionsSectionComponent', () => {
         CommentBoxModule, FormsModule, HttpClientTestingModule, NgbModule, ExampleBoxModule,
         RouterTestingModule, NgxPageScrollCoreModule, NoopAnimationsModule,
         SessionEditFormModule, SessionsRecycleBinTableModule, TeammatesRouterModule,
-        InstructorSearchComponentsModule, InstructorSessionResultViewModule, QuestionTextWithInfoModule,
-        SingleStatisticsModule, StudentViewResponsesModule, PanelChevronModule],
+        InstructorSearchComponentsModule, InstructorSessionResultViewModule,
+        PreviewSessionPanelModule, QuestionTextWithInfoModule, FeedbackPathPanelModule,
+        SingleStatisticsModule, StudentViewResponsesModule, ViewResultsPanelModule,
+        QuestionResponsePanelModule, VisibilityPanelModule, PanelChevronModule],
     })
     .compileComponents();
   }));

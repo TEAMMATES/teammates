@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { PreviewSessionPanelComponent } from './preview-session-panel.component';
@@ -15,6 +16,7 @@ describe('PreviewSessionPanelComponent', () => {
       ],
       imports: [
         FormsModule,
+        RouterModule,
         NgbTooltipModule,
       ],
     })
