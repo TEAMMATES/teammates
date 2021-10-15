@@ -51,8 +51,8 @@ describe('InstructorHelpSessionsSectionComponent', () => {
         RouterTestingModule, NgxPageScrollCoreModule, NoopAnimationsModule,
         SessionEditFormModule, SessionsRecycleBinTableModule, TeammatesRouterModule,
         InstructorSearchComponentsModule, InstructorSessionResultViewModule,
-        PreviewSessionPanelModule, QuestionTextWithInfoModule, FeedbackPathPanelModule,
-        SingleStatisticsModule, StudentViewResponsesModule, ViewResultsPanelModule,
+        PreviewSessionPanelModule, QuestionTextWithInfoModule, AddingQuestionPanelModule,
+        FeedbackPathPanelModule, SingleStatisticsModule, StudentViewResponsesModule, ViewResultsPanelModule,
         QuestionResponsePanelModule, VisibilityPanelModule, PanelChevronModule],
     })
     .compileComponents();

@@ -34,10 +34,8 @@ import {
   Student,
   Students,
 } from '../../../types/api-output';
-import { AddingQuestionPanelModule } from '../../components/adding-question-panel/adding-question-panel.module';
 import { CopySessionModalResult } from '../../components/copy-session-modal/copy-session-modal-model';
 import { CopySessionModalComponent } from '../../components/copy-session-modal/copy-session-modal.component';
-import { PreviewSessionPanelModule } from '../../components/preview-session-panel/preview-session-panel.module';
 import { QuestionEditFormModel } from '../../components/question-edit-form/question-edit-form-model';
 import { SessionEditFormModel } from '../../components/session-edit-form/session-edit-form-model';
 import { CopyQuestionsFromOtherSessionsModalComponent } from './copy-questions-from-other-sessions-modal/copy-questions-from-other-sessions-modal.component';
@@ -258,8 +256,6 @@ describe('InstructorSessionEditPageComponent', () => {
         InstructorSessionEditPageModule,
         BrowserAnimationsModule,
         RouterTestingModule,
-        AddingQuestionPanelModule,
-        PreviewSessionPanelModule,
       ],
       providers: [
         CourseService,
