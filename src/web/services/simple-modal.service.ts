@@ -76,4 +76,8 @@ export class SimpleModalService {
     };
     return this.open(header, type, content, modalOptions);
   }
+
+  closeOpenModals(): void {
+    this.ngbModal.dismissAll();
+  }
 }

@@ -220,9 +220,16 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
    */
   deleteAllStudentsFromCourse(courseId: string): void {
     this.isDeleting = true;
-
+    this.simpleModalService.openInformationModal(
+        'Deleting all students',
+        SimpleModalType.INFO,
+        'This process can take some time, please do not leave this page.',
+    );
     this.studentService.deleteAllStudentsFromCourse({ courseId })
-      .pipe(finalize(() => this.isDeleting = false))
+      .pipe(finalize(() => {
+        this.isDeleting = false;
+        this.simpleModalService.closeOpenModals();
+      }))
       .subscribe((resp: MessageOutput) => {
         // Reset list of students and course stats
         this.students = [];
