@@ -1,5 +1,5 @@
 import { Injectable, TemplateRef } from '@angular/core';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalOptions, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { SimpleModalType } from '../app/components/simple-modal/simple-modal-type';
 import { SimpleModalComponent } from '../app/components/simple-modal/simple-modal.component';
 
@@ -9,6 +9,7 @@ import { SimpleModalComponent } from '../app/components/simple-modal/simple-moda
 export interface SimpleModalOptions {
   // determines if there should be 2 buttons for confirmation or only 1 button to close the modal
   isInformationOnly?: boolean;
+  isCloseDisabled?: boolean; // disable modal from closing manually by hiding close, confirm and cancel buttons
   confirmMessage?: string; // custom text message for confirm button
   cancelMessage?: string; // custom text message for cancel button
 }
@@ -30,16 +31,19 @@ export class SimpleModalService {
    * @param header to be displayed on the modal
    * @param type which determines the look of the modal
    * @param content to be displayed in the body of the modal. content supports HTML tags
-   * @param options See {@code SimpleModalOptions}
+   * @param simpleModalOptions See {@code SimpleModalOptions}
+   * @param ngbModalOptions custom options to tweak the internal behaviour of the modal
    */
   private open(header: string, type: SimpleModalType,
-       content: string | TemplateRef<any>, options?: SimpleModalOptions): NgbModalRef {
-    const modalRef: NgbModalRef = this.ngbModal.open(SimpleModalComponent);
+               content: string | TemplateRef<any>,
+               simpleModalOptions?: SimpleModalOptions,
+               ngbModalOptions?: NgbModalOptions): NgbModalRef {
+    const modalRef: NgbModalRef = this.ngbModal.open(SimpleModalComponent, ngbModalOptions);
     modalRef.componentInstance.header = header;
     modalRef.componentInstance.content = content;
     modalRef.componentInstance.type = type;
-    if (options) {
-      Object.entries(options).map(([key, value]: [string, string | boolean]) => {
+    if (simpleModalOptions) {
+      Object.entries(simpleModalOptions).map(([key, value]: [string, string | boolean]) => {
         modalRef.componentInstance[key] = value;
       });
     }
@@ -68,7 +72,7 @@ export class SimpleModalService {
   }
 
   openLoadingModal(header: string, type: SimpleModalType,
-                       content: string | TemplateRef<any>, options?: SimpleModalOptions): NgbModalRef {
+                   content: string | TemplateRef<any>, options?: SimpleModalOptions): NgbModalRef {
     const modalOptions: SimpleModalOptions = {
       isInformationOnly: true,
       confirmMessage: 'Abort',
@@ -77,7 +81,17 @@ export class SimpleModalService {
     return this.open(header, type, content, modalOptions);
   }
 
-  closeOpenModals(): void {
-    this.ngbModal.dismissAll();
+  openSpinnerModal(header: string, type: SimpleModalType,
+                   content: string | TemplateRef<any>, options?: SimpleModalOptions): NgbModalRef {
+    const modalOptions: SimpleModalOptions = {
+      isCloseDisabled: true,
+      ...options,
+    };
+    // Disable closing from clicking outside the modal
+    const ngbModalOptions: NgbModalOptions = {
+      backdrop: 'static',
+      keyboard: false,
+    };
+    return this.open(header, type, content, modalOptions, ngbModalOptions);
   }
 }

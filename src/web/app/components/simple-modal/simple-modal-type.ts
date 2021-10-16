@@ -22,4 +22,8 @@ export enum SimpleModalType {
    * Load modal.
    */
   LOAD,
+  /**
+   * Spinner modal.
+   */
+  SPINNER,
 }

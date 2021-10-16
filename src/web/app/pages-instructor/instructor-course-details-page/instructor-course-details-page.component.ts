@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { saveAs } from 'file-saver';
 import { finalize } from 'rxjs/operators';
 import { CourseService, CourseStatistics } from '../../../services/course.service';
@@ -220,15 +220,15 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
    */
   deleteAllStudentsFromCourse(courseId: string): void {
     this.isDeleting = true;
-    this.simpleModalService.openInformationModal(
+    const spinnerModal: NgbModalRef = this.simpleModalService.openSpinnerModal(
         'Deleting all students',
-        SimpleModalType.INFO,
-        'This process can take some time, please do not leave this page.',
+        SimpleModalType.SPINNER,
+        'This process can take some time, please wait...',
     );
     this.studentService.deleteAllStudentsFromCourse({ courseId })
       .pipe(finalize(() => {
         this.isDeleting = false;
-        this.simpleModalService.closeOpenModals();
+        spinnerModal.close();
       }))
       .subscribe((resp: MessageOutput) => {
         // Reset list of students and course stats

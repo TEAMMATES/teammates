@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ProgressBarModule } from '../../components/progress-bar/progress-bar.module';
+import { AjaxLoadingModule } from '../ajax-loading/ajax-loading.module';
+import { ProgressBarModule } from '../progress-bar/progress-bar.module';
 import { SimpleModalComponent } from './simple-modal.component';
 
 /**
@@ -12,6 +13,7 @@ import { SimpleModalComponent } from './simple-modal.component';
   imports: [
     CommonModule,
     ProgressBarModule,
+    AjaxLoadingModule,
   ],
   entryComponents: [SimpleModalComponent],
 })

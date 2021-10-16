@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { AjaxLoadingModule } from '../ajax-loading/ajax-loading.module';
 import { ProgressBarModule } from '../progress-bar/progress-bar.module';
 import { SimpleModalComponent } from './simple-modal.component';
 
@@ -11,9 +12,9 @@ describe('SimpleModalComponent', () => {
     TestBed.configureTestingModule({
       declarations: [SimpleModalComponent],
       providers: [NgbActiveModal],
-      imports: [ProgressBarModule],
+      imports: [ProgressBarModule, AjaxLoadingModule],
     })
-    .compileComponents();
+        .compileComponents();
   }));
 
   beforeEach(() => {

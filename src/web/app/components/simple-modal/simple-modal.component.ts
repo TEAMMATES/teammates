@@ -21,6 +21,7 @@ export class SimpleModalComponent implements OnInit {
   @Input() isInformationOnly: boolean =  false; // true will cause modal to only have 1 button
   @Input() confirmMessage: string = 'Yes'; // custom text message for confirm button
   @Input() cancelMessage: string = 'No, cancel the operation'; // custom text message for cancel button
+  @Input() isCloseDisabled: boolean = false; // true will cause modal to have no buttons
 
   get isTemplate(): boolean {
     return this.content instanceof TemplateRef;
