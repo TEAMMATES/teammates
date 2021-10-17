@@ -477,14 +477,11 @@ public final class EmailGenerator {
             CourseAttributes course, FeedbackSessionAttributes session, InstructorAttributes instructor,
             String template, String additionalContactInformation) {
 
-        String submitUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_SUBMISSION_PAGE)
+        String submitUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
                 .withCourseId(course.getId())
                 .withSessionName(session.getFeedbackSessionName())
-                .toAbsoluteString();
-
-        String reportUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_RESULTS_PAGE)
-                .withCourseId(course.getId())
-                .withSessionName(session.getFeedbackSessionName())
+                .withRegistrationKey(instructor.getKey())
+                .withEntityType(Const.EntityType.INSTRUCTOR)
                 .toAbsoluteString();
 
         Instant endTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
@@ -499,7 +496,6 @@ public final class EmailGenerator {
                 "${instructorFragment}", "",
                 "${sessionInstructions}", session.getInstructionsString(),
                 "${submitUrl}", submitUrl,
-                "${reportUrl}", reportUrl,
                 "${feedbackAction}", FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW,
                 "${additionalContactInformation}", additionalContactInformation);
 
