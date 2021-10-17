@@ -287,7 +287,6 @@ public final class EmailGenerator {
                         .withCourseId(course.getId())
                         .withSessionName(fsa.getFeedbackSessionName())
                         .withRegistrationKey(userKey)
-                        .withStudentEmail(userEmail)
                         .toAbsoluteString();
                 submitUrlHtml = "<a href=\"" + submitUrl + "\">" + submitUrl + "</a>";
             }
@@ -297,7 +296,6 @@ public final class EmailGenerator {
                         .withCourseId(course.getId())
                         .withSessionName(fsa.getFeedbackSessionName())
                         .withRegistrationKey(userKey)
-                        .withStudentEmail(userEmail)
                         .toAbsoluteString();
                 reportUrlHtml = "<a href=\"" + reportUrl + "\">" + reportUrl + "</a>";
             }
@@ -420,7 +418,6 @@ public final class EmailGenerator {
                         .withCourseId(course.getId())
                         .withSessionName(session.getFeedbackSessionName())
                         .withRegistrationKey(student.getKey())
-                        .withStudentEmail(student.getEmail())
                         .toAbsoluteString();
                 submitUrlHtml = "[<a href=\"" + submitUrl + "\">submission link</a>]";
             }
@@ -430,7 +427,6 @@ public final class EmailGenerator {
                         .withCourseId(course.getId())
                         .withSessionName(session.getFeedbackSessionName())
                         .withRegistrationKey(student.getKey())
-                        .withStudentEmail(student.getEmail())
                         .toAbsoluteString();
                 reportUrlHtml = "[<a href=\"" + reportUrl + "\">result link</a>]";
             }
@@ -691,14 +687,12 @@ public final class EmailGenerator {
                 .withCourseId(course.getId())
                 .withSessionName(session.getFeedbackSessionName())
                 .withRegistrationKey(student.getKey())
-                .withStudentEmail(student.getEmail())
                 .toAbsoluteString();
 
         String reportUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_RESULTS_PAGE)
                 .withCourseId(course.getId())
                 .withSessionName(session.getFeedbackSessionName())
                 .withRegistrationKey(student.getKey())
-                .withStudentEmail(student.getEmail())
                 .toAbsoluteString();
 
         Instant endTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
