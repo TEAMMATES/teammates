@@ -6,6 +6,7 @@ exports[`SessionResultPageComponent should snap when session results failed to l
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   courseId={[Function String]}
+  entityType={[Function String]}
   feedbackSessionName={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   formattedSessionClosingTime=""
@@ -168,6 +169,7 @@ exports[`SessionResultPageComponent should snap with an open feedback session wi
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   courseId={[Function String]}
+  entityType={[Function String]}
   feedbackSessionName={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   formattedSessionClosingTime=""
@@ -331,6 +333,7 @@ exports[`SessionResultPageComponent should snap with default fields 1`] = `
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   courseId={[Function String]}
+  entityType={[Function String]}
   feedbackSessionName={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   formattedSessionClosingTime=""
@@ -494,6 +497,7 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   courseId={[Function String]}
+  entityType={[Function String]}
   feedbackSessionName={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   formattedSessionClosingTime=""
@@ -1161,6 +1165,7 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   courseId={[Function String]}
+  entityType={[Function String]}
   feedbackSessionName={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   formattedSessionClosingTime=""
@@ -1674,6 +1679,7 @@ exports[`SessionResultPageComponent should snap with session results are loading
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   courseId={[Function String]}
+  entityType={[Function String]}
   feedbackSessionName={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   formattedSessionClosingTime=""
@@ -1835,6 +1841,7 @@ exports[`SessionResultPageComponent should snap with user that is logged in and 
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   courseId={[Function String]}
+  entityType={[Function String]}
   feedbackSessionName={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   formattedSessionClosingTime=""
@@ -1999,6 +2006,7 @@ exports[`SessionResultPageComponent should snap with user that is not logged in 
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   courseId={[Function String]}
+  entityType={[Function String]}
   feedbackSessionName={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   formattedSessionClosingTime=""

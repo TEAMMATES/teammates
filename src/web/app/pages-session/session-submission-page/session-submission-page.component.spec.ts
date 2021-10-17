@@ -780,7 +780,7 @@ describe('SessionSubmissionPageComponent', () => {
 
   it('should join course for unregistered student', () => {
     const navSpy: Spy = spyOn(navService, 'navigateByURL');
-    component.joinCourseForUnregisteredStudent();
+    component.joinCourseForUnregisteredEntity();
     expect(navSpy.calls.count()).toEqual(1);
     expect(navSpy.calls.mostRecent().args[1]).toEqual('/web/join');
     expect(navSpy.calls.mostRecent().args[2]).toEqual({ entitytype: 'student', key: testQueryParams.key });
