@@ -14,7 +14,6 @@ import { AbstractFeedbackQuestionDetails } from './abstract-feedback-question-de
 export class FeedbackConstantSumOptionsQuestionDetailsImpl extends AbstractFeedbackQuestionDetails
     implements FeedbackConstantSumQuestionDetails {
 
-  numOfConstSumOptions: number = 2;
   constSumOptions: string[] = ['', ''];
   distributeToRecipients: boolean = false;
   pointsPerOption: boolean = false;

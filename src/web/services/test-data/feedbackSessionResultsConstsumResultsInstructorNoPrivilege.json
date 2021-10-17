@@ -6,7 +6,6 @@
         "questionNumber": 2,
         "questionBrief": "Split points among the teams",
         "questionDetails": {
-          "numOfConstSumOptions": 0,
           "constSumOptions": [],
           "distributeToRecipients": true,
           "pointsPerOption": true,
