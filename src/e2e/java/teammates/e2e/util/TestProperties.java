@@ -68,6 +68,14 @@ public final class TestProperties {
     /** The flag to indicate whether search-related functions should be tested. */
     public static final boolean INCLUDE_SEARCH_TESTS;
 
+    /**
+     * Line separator to be used when performing text comparison.
+     *
+     * <p>It needs to be redefined here because either the browser or Selenium uses a predetermined line separator
+     * instead of the system's line separator.
+     */
+    public static final String LINE_SEPARATOR = "\n";
+
     /** The directory where credentials used in Gmail API are stored. */
     static final String TEST_GMAIL_API_FOLDER = "src/e2e/resources/gmail-api";
 
