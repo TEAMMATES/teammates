@@ -412,7 +412,6 @@ describe('SessionSubmissionPageComponent', () => {
     questionDescription: 'question description',
     questionType: FeedbackQuestionType.CONSTSUM_RECIPIENTS,
     questionDetails: {
-      numOfConstSumOptions: 2,
       constSumOptions: ['option 1', 'option 2'],
       distributeToRecipients: true,
       pointsPerOption: true,
@@ -460,9 +459,7 @@ describe('SessionSubmissionPageComponent', () => {
     questionDetails: {
       hasAssignedWeights: false,
       rubricWeightsForEachCell: [[1, 2], [2, 1]],
-      numOfRubricChoices: 2,
       rubricChoices: ['choice 1', 'choice 2'],
-      numOfRubricSubQuestions: 2,
       rubricSubQuestions: ['subquestion 1', 'subquestion 2'],
       rubricDescriptions: [['description 1', 'description 2'], ['description 3', 'description 4']],
     } as FeedbackRubricQuestionDetails,

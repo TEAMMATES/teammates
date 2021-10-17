@@ -535,7 +535,6 @@ export const EXAMPLE_FEEDBACK_SESSION: FeedbackSession = {
  * Structure for example of distrution point option question detail
  */
 export const EXAMPLE_DISTRIBUTE_POINT_OPTION_QUESTION_DETAIL: FeedbackConstantSumQuestionDetails = {
-  numOfConstSumOptions: 2,
   constSumOptions: ['Option A', 'Option B'],
   distributeToRecipients: false,
   pointsPerOption: false,
@@ -1015,9 +1014,7 @@ export const EXAMPLE_RUBRIC_QUESTION_MODEL: QuestionEditFormModel = {
   questionType: FeedbackQuestionType.RUBRIC,
   questionDetails: {
     ...DEFAULT_RUBRIC_QUESTION_DETAILS(),
-    numOfRubricChoices: 4,
     rubricChoices: ['Strongly Disagree', 'Disagree', 'Agree', 'Strongly Agree'],
-    numOfRubricSubQuestions: 2,
     rubricSubQuestions:
       ['This student participates well in online discussions.', 'This student completes assigned tasks on time.'],
     rubricDescriptions: [
@@ -1439,7 +1436,6 @@ export const EXAMPLE_MCQ_QUESTION_WITHOUT_WEIGHTS_MODEL: QuestionEditFormModel =
   questionType: FeedbackQuestionType.MCQ,
   questionDetails: {
     ...DEFAULT_MCQ_QUESTION_DETAILS(),
-    numOfMcqChoices: 3,
     mcqChoices: ['I did great!', 'I performed satisfactorily.', 'I did not contribute as much as I wanted to.'],
     hasAssignedWeights: false,
     mcqWeights: [],
@@ -1478,7 +1474,6 @@ export const EXAMPLE_MCQ_QUESTION_WITH_WEIGHTS_MODEL: QuestionEditFormModel = {
   questionType: FeedbackQuestionType.MCQ,
   questionDetails: {
     ...DEFAULT_MCQ_QUESTION_DETAILS(),
-    numOfMcqChoices: 3,
     mcqChoices: ['I did great!', 'I performed satisfactorily.', 'I did not contribute as much as I wanted to.'],
     hasAssignedWeights: true,
     mcqWeights: [1, 3, 5],
@@ -1546,9 +1541,7 @@ export const EXAMPLE_RESPONDER_RUBRIC_SUBMISSION_FORM_MODEL: QuestionSubmissionF
   showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
   questionDetails: {
     ...DEFAULT_RUBRIC_QUESTION_DETAILS(),
-    numOfRubricChoices: 4,
     rubricChoices: ['Strongly Disagree', 'Disagree', 'Agree', 'Strongly Agree'],
-    numOfRubricSubQuestions: 2,
     rubricSubQuestions: [
       'This student participates well in online discussions.',
       'This student completes assigned tasks on time.',
