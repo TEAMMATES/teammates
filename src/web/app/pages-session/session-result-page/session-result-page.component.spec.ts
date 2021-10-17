@@ -71,7 +71,6 @@ describe('SessionResultPageComponent', () => {
       hasAssignedWeights: false,
       mcqWeights: [],
       mcqOtherWeight: 0,
-      numOfMcqChoices: 3,
       mcqChoices: [
         '<p>Good</p>',
         '<p>Normal</p>',
@@ -122,9 +121,7 @@ describe('SessionResultPageComponent', () => {
       questionText: 'Rate your teammates proficiency',
       hasAssignedWeights: false,
       rubricWeightsForEachCell: [[]],
-      numOfRubricChoices: 3,
       rubricChoices: ['Poor', 'Average', 'Good'],
-      numOfRubricSubQuestions: 0,
       rubricSubQuestions: [],
       rubricDescriptions: [[]],
     } as FeedbackRubricQuestionDetails,

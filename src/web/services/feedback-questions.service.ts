@@ -350,7 +350,6 @@ export class FeedbackQuestionsService {
       case FeedbackQuestionType.MCQ:
 
         const mcqQuestionDetails: FeedbackMcqQuestionDetails = DEFAULT_MCQ_QUESTION_DETAILS();
-        mcqQuestionDetails.numOfMcqChoices = 2;
         mcqQuestionDetails.mcqChoices = ['', ''];
 
         return {
@@ -440,9 +439,7 @@ export class FeedbackQuestionsService {
       case FeedbackQuestionType.RUBRIC:
 
         const rubricQuestionDetails: FeedbackRubricQuestionDetails = DEFAULT_RUBRIC_QUESTION_DETAILS();
-        rubricQuestionDetails.numOfRubricChoices = 4;
         rubricQuestionDetails.rubricChoices = ['Strongly Disagree', 'Disagree', 'Agree', 'Strongly Agree'];
-        rubricQuestionDetails.numOfRubricSubQuestions = 2;
         rubricQuestionDetails.rubricSubQuestions =
             ['This student participates well in online discussions.', 'This student completes assigned tasks on time.'];
         rubricQuestionDetails.rubricDescriptions = [

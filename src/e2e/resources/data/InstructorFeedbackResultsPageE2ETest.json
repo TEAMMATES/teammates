@@ -243,7 +243,6 @@
       "feedbackSessionName": "First Session",
       "courseId": "tm.e2e.IFRes.CS2104",
       "questionDetails": {
-        "numOfMcqChoices": 2,
         "mcqChoices": [
           "UI",
           "Algo"
@@ -310,7 +309,6 @@
       "feedbackSessionName": "First Session",
       "courseId": "tm.e2e.IFRes.CS2103",
       "questionDetails": {
-        "numOfMcqChoices": 2,
         "mcqChoices": [
           "UI",
           "Algo"
