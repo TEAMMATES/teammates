@@ -270,12 +270,6 @@ public final class EmailGenerator {
                 : "";
 
         for (FeedbackSessionAttributes fsa : sessions) {
-            if (isInstructor) {
-                // Currently, it is pointless to list down session links for instructor
-                // as instructor needs to register before submitting/viewing session responses.
-                continue;
-            }
-
             String submitUrlHtml = "(Feedback session is not yet opened)";
             String reportUrlHtml = "(Feedback session is not yet published)";
 
@@ -286,6 +280,7 @@ public final class EmailGenerator {
                         .withCourseId(course.getId())
                         .withSessionName(fsa.getFeedbackSessionName())
                         .withRegistrationKey(userKey)
+                        .withEntityType(isInstructor ? Const.EntityType.INSTRUCTOR : "")
                         .toAbsoluteString();
                 submitUrlHtml = "<a href=\"" + submitUrl + "\">" + submitUrl + "</a>";
             }
@@ -295,6 +290,7 @@ public final class EmailGenerator {
                         .withCourseId(course.getId())
                         .withSessionName(fsa.getFeedbackSessionName())
                         .withRegistrationKey(userKey)
+                        .withEntityType(isInstructor ? Const.EntityType.INSTRUCTOR : "")
                         .toAbsoluteString();
                 reportUrlHtml = "<a href=\"" + reportUrl + "\">" + reportUrl + "</a>";
             }
