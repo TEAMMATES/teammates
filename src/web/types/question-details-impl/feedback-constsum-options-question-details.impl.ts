@@ -25,6 +25,7 @@ export class FeedbackConstantSumOptionsQuestionDetailsImpl extends AbstractFeedb
 
   constructor(apiOutput: FeedbackConstantSumQuestionDetails) {
     super();
+    this.numOfConstSumOptions = apiOutput.numOfConstSumOptions;
     this.constSumOptions = apiOutput.constSumOptions;
     this.pointsPerOption = apiOutput.pointsPerOption;
     this.forceUnevenDistribution = apiOutput.forceUnevenDistribution;

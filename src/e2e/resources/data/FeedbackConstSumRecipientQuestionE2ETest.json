@@ -158,6 +158,7 @@
         "distributeToRecipients": true,
         "pointsPerOption": false,
         "questionText": "Split points among the teams, according to how well you think each team did.",
+        "numOfConstSumOptions": 0,
         "questionType": "CONSTSUM_RECIPIENTS",
         "points": 100,
         "forceUnevenDistribution": true,
@@ -185,6 +186,7 @@
       "feedbackSessionName": "Second Session",
       "courseId": "tm.e2e.FCSumRcptQn.CS1101",
       "questionDetails": {
+        "numOfConstSumOptions": 0,
         "constSumOptions": [],
         "distributeToRecipients": true,
         "pointsPerOption": true,

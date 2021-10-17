@@ -700,13 +700,13 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public void verifyRubricQuestionDetails(int questionNum, FeedbackRubricQuestionDetails questionDetails) {
-        int numChoices = questionDetails.getRubricChoices().size();
+        int numChoices = questionDetails.getNumOfRubricChoices();
         List<String> choices = questionDetails.getRubricChoices();
         for (int i = 0; i < numChoices; i++) {
             assertEquals(choices.get(i), getRubricChoiceInputs(questionNum).get(i).getAttribute("value"));
         }
 
-        int numSubQn = questionDetails.getRubricSubQuestions().size();
+        int numSubQn = questionDetails.getNumOfRubricSubQuestions();
         List<String> subQuestions = questionDetails.getRubricSubQuestions();
         List<List<String>> descriptions = questionDetails.getRubricDescriptions();
         for (int i = 0; i < numSubQn; i++) {
@@ -1505,8 +1505,8 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private void inputRubricDetails(int questionNum, FeedbackRubricQuestionDetails questionDetails) {
-        int numSubQn = questionDetails.getRubricSubQuestions().size();
-        int numChoices = questionDetails.getRubricChoices().size();
+        int numSubQn = questionDetails.getNumOfRubricSubQuestions();
+        int numChoices = questionDetails.getNumOfRubricChoices();
         adjustNumRubricFields(questionNum, numSubQn, numChoices);
 
         List<String> choices = questionDetails.getRubricChoices();

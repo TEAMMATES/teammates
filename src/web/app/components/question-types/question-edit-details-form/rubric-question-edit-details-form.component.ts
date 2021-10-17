@@ -82,18 +82,19 @@ export class RubricQuestionEditDetailsFormComponent
     newSubQuestions.push('');
 
     const newDescriptions: string[][] = this.model.rubricDescriptions.map((arr: string[]) => arr.slice());
-    newDescriptions.push(Array(this.model.rubricChoices.length).fill(''));
+    newDescriptions.push(Array(this.model.numOfRubricChoices).fill(''));
 
     // update weights
     let newWeightsForEachCell: number[][] = [];
     if (this.model.hasAssignedWeights) {
       newWeightsForEachCell = this.model.rubricWeightsForEachCell.map((arr: number[]) => arr.slice());
-      newWeightsForEachCell.push(Array(this.model.rubricChoices.length).fill(0));
+      newWeightsForEachCell.push(Array(this.model.numOfRubricChoices).fill(0));
     }
 
     this.triggerModelChangeBatch({
       rubricSubQuestions: newSubQuestions,
       rubricDescriptions: newDescriptions,
+      numOfRubricSubQuestions: this.model.numOfRubricSubQuestions + 1,
       rubricWeightsForEachCell: newWeightsForEachCell,
     });
   }
@@ -123,6 +124,7 @@ export class RubricQuestionEditDetailsFormComponent
     this.triggerModelChangeBatch({
       rubricChoices: newChoices,
       rubricDescriptions: newDescriptions,
+      numOfRubricChoices: this.model.numOfRubricChoices + 1,
       rubricWeightsForEachCell: newWeightsForEachCell,
     });
   }
@@ -160,7 +162,7 @@ export class RubricQuestionEditDetailsFormComponent
    * Deletes a sub question.
    */
   deleteSubQuestion(index: number): void {
-    if (this.model.rubricSubQuestions.length === 1 || !this.isEditable) {
+    if (this.model.numOfRubricSubQuestions === 1 || !this.isEditable) {
       // ignore deletion
       return;
     }
@@ -185,6 +187,7 @@ export class RubricQuestionEditDetailsFormComponent
           this.triggerModelChangeBatch({
             rubricSubQuestions: newSubQuestions,
             rubricDescriptions: newDescriptions,
+            numOfRubricSubQuestions: this.model.numOfRubricSubQuestions - 1,
             rubricWeightsForEachCell: newWeightsForEachCell,
           });
 
@@ -218,6 +221,7 @@ export class RubricQuestionEditDetailsFormComponent
 
           this.triggerModelChangeBatch({
             rubricChoices: newChoices,
+            numOfRubricChoices: this.model.numOfRubricChoices - 1,
             rubricDescriptions: newDescriptions,
             rubricWeightsForEachCell: newWeightsForEachCell,
           });

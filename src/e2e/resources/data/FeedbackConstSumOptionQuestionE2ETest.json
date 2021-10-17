@@ -160,6 +160,7 @@
         "distributePointsFor": "All options",
         "pointsPerOption": false,
         "questionText": "How well did you do in each area? Give points accordingly.",
+        "numOfConstSumOptions": 3,
         "questionType": "CONSTSUM_OPTIONS",
         "points": 100,
         "constSumOptions": [
@@ -192,6 +193,7 @@
         "distributePointsFor": "None",
         "pointsPerOption": true,
         "questionText": "How much did you contribute to this area? Give points accordingly.",
+        "numOfConstSumOptions": 3,
         "questionType": "CONSTSUM_OPTIONS",
         "points": 20,
         "constSumOptions": [

@@ -232,6 +232,7 @@
       "feedbackSessionName": "First Session",
       "courseId": "tm.e2e.SFRes.CS2104",
       "questionDetails": {
+        "numOfMcqChoices": 2,
         "mcqChoices": [
           "UI",
           "Algo"
@@ -323,6 +324,7 @@
         "distributeToRecipients": false,
         "pointsPerOption": false,
         "questionText": "How important are the following factors to you? Give points accordingly.",
+        "numOfConstSumOptions": 2,
         "questionType": "CONSTSUM_OPTIONS",
         "points": 100,
         "constSumOptions": [
@@ -360,6 +362,7 @@
         "distributeToRecipients": true,
         "pointsPerOption": true,
         "questionText": "Split points among your team members by how much they contributed.",
+        "numOfConstSumOptions": 0,
         "questionType": "CONSTSUM_RECIPIENTS",
         "points": 100,
         "constSumOptions": []
@@ -447,6 +450,8 @@
           "This teammate displayed teamwork."
         ],
         "questionText": "Please choose the best choice for the following sub-questions.",
+        "numOfRubricChoices": 5,
+        "numOfRubricSubQuestions": 3,
         "questionType": "RUBRIC",
         "hasAssignedWeights": true,
         "rubricWeightsForEachCell": [

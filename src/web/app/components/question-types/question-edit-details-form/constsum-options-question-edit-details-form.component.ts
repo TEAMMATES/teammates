@@ -35,6 +35,7 @@ export class ConstsumOptionsQuestionEditDetailsFormComponent
     newOptions.push('');
 
     this.triggerModelChangeBatch({
+      numOfConstSumOptions: this.model.numOfConstSumOptions + 1,
       constSumOptions: newOptions,
     });
   }
@@ -73,6 +74,7 @@ export class ConstsumOptionsQuestionEditDetailsFormComponent
     newOptions.splice(event, 1);
 
     this.triggerModelChangeBatch({
+      numOfConstSumOptions: this.model.numOfConstSumOptions - 1,
       constSumOptions: newOptions,
     });
   }

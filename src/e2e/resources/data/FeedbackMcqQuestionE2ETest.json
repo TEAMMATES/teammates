@@ -130,6 +130,7 @@
       "questionDetails": {
         "questionType": "MCQ",
         "questionText": "Which area did you work on the most?",
+        "numOfMcqChoices": 3,
         "mcqChoices": [
           "UI",
           "Algo",
@@ -163,6 +164,7 @@
       "feedbackSessionName": "Second Session",
       "courseId": "tm.e2e.FMcqQn.CS1101",
       "questionDetails": {
+        "numOfMcqChoices": 0,
         "mcqChoices": [],
         "questionText": "Who is the best student?",
         "questionType": "MCQ",

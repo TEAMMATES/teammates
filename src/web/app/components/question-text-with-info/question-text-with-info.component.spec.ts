@@ -49,6 +49,7 @@ describe('QuestionTextWithInfoComponent', () => {
     hasAssignedWeights: false,
     mcqWeights: [],
     mcqOtherWeight: 0,
+    numOfMcqChoices: 2,
     mcqChoices: ['a', 'b'],
     otherEnabled: false,
     generateOptionsFor: FeedbackParticipantType.NONE,

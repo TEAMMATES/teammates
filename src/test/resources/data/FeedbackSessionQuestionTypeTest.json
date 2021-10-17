@@ -612,6 +612,7 @@
         "hasAssignedWeights": false,
         "mcqWeights": [],
         "mcqOtherWeight": 0.0,
+        "numOfMcqChoices": 2,
         "mcqChoices": [
           "It's good",
           "It's perfect"
@@ -642,6 +643,7 @@
         "hasAssignedWeights": false,
         "mcqWeights": [],
         "mcqOtherWeight": 0.0,
+        "numOfMcqChoices": 2,
         "mcqChoices": [
           "It's good",
           "It's perfect"
@@ -672,6 +674,7 @@
         "hasAssignedWeights": false,
         "mcqWeights": [],
         "mcqOtherWeight": 0.0,
+        "numOfMcqChoices": 2,
         "mcqChoices": [
           "Content",
           "Teaching style"
@@ -705,6 +708,7 @@
           1.7
         ],
         "mcqOtherWeight": 3.0,
+        "numOfMcqChoices": 2,
         "mcqChoices": [
           "It's good",
           "It's perfect"
@@ -869,6 +873,7 @@
         "distributeToRecipients": false,
         "pointsPerOption": false,
         "questionText": "How important are the following factors to you? Give points accordingly.",
+        "numOfConstSumOptions": 2,
         "questionType": "CONSTSUM",
         "points": 100,
         "constSumOptions": [
@@ -897,6 +902,7 @@
         "distributeToRecipients": true,
         "pointsPerOption": true,
         "questionText": "Split points among the teams",
+        "numOfConstSumOptions": 0,
         "questionType": "CONSTSUM",
         "points": 100,
         "constSumOptions": []
@@ -922,6 +928,7 @@
         "distributeToRecipients": true,
         "pointsPerOption": true,
         "questionText": "How much has each student worked?",
+        "numOfConstSumOptions": 0,
         "questionType": "CONSTSUM",
         "points": 100,
         "constSumOptions": []
@@ -980,6 +987,8 @@
           ]
         ],
         "questionText": "Please choose the best choice for the following sub-questions.",
+        "numOfRubricChoices": 2,
+        "numOfRubricSubQuestions": 2,
         "questionType": "RUBRIC",
         "hasAssignedWeights": true,
         "rubricChoices": [
@@ -1030,6 +1039,8 @@
           ]
         ],
         "questionText": "Please choose the best choice for the following sub-questions. Only first subquestion has responses",
+        "numOfRubricChoices": 2,
+        "numOfRubricSubQuestions": 2,
         "questionType": "RUBRIC",
         "hasAssignedWeights": true,
         "rubricChoices": [

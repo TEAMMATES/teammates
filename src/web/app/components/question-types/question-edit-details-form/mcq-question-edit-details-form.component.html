@@ -29,7 +29,7 @@
                           (mcqText)="onMcqOptionEntered($event, i)"
                           [index]="i"
                           [isEditable]="isEditable"
-                          [numberOfMcqChoices]="model.mcqChoices.length"
+                          [numberOfMcqChoices]="model.numOfMcqChoices"
                           [text]="model.mcqChoices[i]"></tm-mcq-field>
           </div>
           <div class="col-sm-3" *ngIf="model.hasAssignedWeights">

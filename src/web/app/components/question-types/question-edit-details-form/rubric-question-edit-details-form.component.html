@@ -47,9 +47,9 @@
                   (click)="moveChoice(j, j - 1)"><i class="fas fa-arrow-left"></i></button>
           <button id="btn-delete-choice" type="button" class="btn btn-light" (click)="deleteChoice(j)"
                   (mouseover)="columnToHighlight = j" (mouseleave)="columnToHighlight = -1"
-                  [disabled]="model.rubricChoices.length === 1 || !isEditable"
+                  [disabled]="model.numOfRubricChoices === 1 || !isEditable"
           ><i class="fas fa-times"></i></button>
-          <button type="button" class="btn btn-light" [disabled]="j === this.model.rubricChoices.length - 1 || !isEditable"
+          <button type="button" class="btn btn-light" [disabled]="j === this.model.numOfRubricChoices - 1 || !isEditable"
                   ngbTooltip="Move column right"
                   (click)="moveChoice(j, j + 1)"><i class="fas fa-arrow-right"></i></button>
         </div>

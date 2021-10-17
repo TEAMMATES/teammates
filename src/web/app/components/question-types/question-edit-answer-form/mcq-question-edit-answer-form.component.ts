@@ -40,7 +40,7 @@ export class McqQuestionEditAnswerFormComponent
 
   // sync the internal status with the input data
   ngOnChanges(): void {
-    this.isMcqOptionSelected = Array(this.questionDetails.mcqChoices.length).fill(false);
+    this.isMcqOptionSelected = Array(this.questionDetails.numOfMcqChoices).fill(false);
     if (this.responseDetails.answer !== '' && !this.responseDetails.isOther) {
       const indexOfAnswerInPreviousSubmission: number =
           this.questionDetails.mcqChoices.indexOf(this.responseDetails.answer);
