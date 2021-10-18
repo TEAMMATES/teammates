@@ -178,6 +178,7 @@ public class TestDataValidityTest extends BaseTestCase {
                 .replace("Course", "C")
                 .replace("Question", "Qn")
                 .replaceFirst("Session(s?)", "Ses$1")
+                .replaceFirst("Reports?", "Rep")
                 .replaceFirst("Results?", "Res")
                 .replace("Details", "Det")
                 .replace("Confirmation", "Conf")

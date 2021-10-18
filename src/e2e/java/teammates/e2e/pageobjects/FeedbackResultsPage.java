@@ -36,9 +36,9 @@ import teammates.common.datatransfer.questions.FeedbackRubricResponseDetails;
 import teammates.common.util.Const;
 
 /**
- * Page Object Model for student feedback results page.
+ * Page Object Model for feedback results page.
  */
-public class StudentFeedbackResultsPage extends AppPage {
+public class FeedbackResultsPage extends AppPage {
     private static final String CURRENT_STUDENT_IDENTIFIER = "You";
 
     @FindBy(id = "course-id")
@@ -53,7 +53,7 @@ public class StudentFeedbackResultsPage extends AppPage {
     @FindBy(id = "closing-time")
     private WebElement sessionClosingTime;
 
-    public StudentFeedbackResultsPage(Browser browser) {
+    public FeedbackResultsPage(Browser browser) {
         super(browser);
     }
 
@@ -176,11 +176,13 @@ public class StudentFeedbackResultsPage extends AppPage {
             boolean isGiverVisible = visibleGivers.contains(response.getGiver())
                     || (visibleGivers.contains("RECEIVER") && response.getRecipient().equals(CURRENT_STUDENT_IDENTIFIER))
                     || response.getGiver().equals(CURRENT_STUDENT_IDENTIFIER);
+            boolean isGiverVisibleToInstructor = question.getRecipientType() == FeedbackParticipantType.INSTRUCTORS
+                    && visibleGivers.contains("INSTRUCTORS");
             if (isRecipientVisible) {
                 int recipientIndex = getRecipientIndex(question.getQuestionNumber(), recipient);
                 WebElement responseView = responseViews.get(recipientIndex);
                 List<WebElement> responsesFields = getAllResponseFields(responseView);
-                if (isGiverVisible) {
+                if (isGiverVisible || isGiverVisibleToInstructor) {
                     int giverIndex = getGiverIndex(responseView, response.getGiver());
                     assertTrue(isResponseEqual(question, responsesFields.get(giverIndex), response));
                 } else {
