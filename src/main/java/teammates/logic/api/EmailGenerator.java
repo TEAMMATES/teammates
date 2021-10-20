@@ -129,6 +129,15 @@ public final class EmailGenerator {
             CourseAttributes course, FeedbackSessionAttributes session,
             InstructorAttributes coOwner, EmailType type, String editUrl) {
 
+        String additionalNotes;
+
+        // If instructor has not joined the course, populate additional notes with information to join course.
+        if (!coOwner.isRegistered()) {
+            additionalNotes = fillUpJoinCourseBeforeEditDetailsFragment(editUrl, getInstructorCourseJoinUrl(coOwner));
+        } else {
+            additionalNotes = fillUpEditDetailsFragment(editUrl);
+        }
+
         String emailBody = Templates.populateTemplate(EmailTemplates.OWNER_FEEDBACK_SESSION_OPENING_SOON,
                 "${userName}", SanitizationHelper.sanitizeForHtml(coOwner.getName()),
                 "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
@@ -140,8 +149,7 @@ public final class EmailGenerator {
                 "${sessionInstructions}", session.getInstructionsString(),
                 "${startTime}", SanitizationHelper.sanitizeForHtml(TimeHelper.formatInstant(
                         session.getStartTime(), session.getTimeZone(), DATETIME_DISPLAY_FORMAT)),
-                "${sessionEditUrl}", editUrl,
-                "${additionalNotes}", "",
+                "${additionalNotes}", additionalNotes,
                 "${additionalContactInformation}", "");
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(coOwner.getEmail());
@@ -149,6 +157,18 @@ public final class EmailGenerator {
         email.setSubjectFromType(course.getName(), session.getFeedbackSessionName());
         email.setContent(emailBody);
         return email;
+    }
+
+    private String fillUpEditDetailsFragment(String editUrl) {
+        return Templates.populateTemplate(EmailTemplates.FRAGMENT_OPENING_SOON_EDIT_DETAILS,
+                "${sessionEditUrl}", editUrl);
+    }
+
+    private String fillUpJoinCourseBeforeEditDetailsFragment(String editUrl, String joinUrl) {
+        return Templates.populateTemplate(EmailTemplates.FRAGMENT_OPENING_SOON_JOIN_COURSE_BEFORE_EDIT_DETAILS,
+                "${sessionEditUrl}", editUrl,
+                "${joinUrl}", joinUrl
+        );
     }
 
     /**
