@@ -131,10 +131,11 @@ public final class EmailGenerator {
         String additionalNotes;
 
         // If instructor has not joined the course, populate additional notes with information to join course.
-        if (!coOwner.isRegistered()) {
-            additionalNotes = fillUpJoinCourseBeforeEditDetailsFragment(editUrl, getInstructorCourseJoinUrl(coOwner));
+        if (coOwner.isRegistered()) {
+            additionalNotes = fillUpEditFeedbackSessionDetailsFragment(editUrl);
         } else {
-            additionalNotes = fillUpEditDetailsFragment(editUrl);
+            additionalNotes = fillUpJoinCourseBeforeEditFeedbackSessionDetailsFragment(editUrl,
+                    getInstructorCourseJoinUrl(coOwner));
         }
 
         String emailBody = Templates.populateTemplate(EmailTemplates.OWNER_FEEDBACK_SESSION_OPENING_SOON,
@@ -158,12 +159,19 @@ public final class EmailGenerator {
         return email;
     }
 
-    private String fillUpEditDetailsFragment(String editUrl) {
+    /**
+     * Generates the fragment for instructions on how to edit details for feedback session at {@code editUrl}.
+     */
+    private String fillUpEditFeedbackSessionDetailsFragment(String editUrl) {
         return Templates.populateTemplate(EmailTemplates.FRAGMENT_OPENING_SOON_EDIT_DETAILS,
                 "${sessionEditUrl}", editUrl);
     }
 
-    private String fillUpJoinCourseBeforeEditDetailsFragment(String editUrl, String joinUrl) {
+    /**
+     * Generates the fragment for instructions on how to edit details for feedback session at {@code editUrl} and
+     * how to join the course at {@code joinUrl}.
+     */
+    private String fillUpJoinCourseBeforeEditFeedbackSessionDetailsFragment(String editUrl, String joinUrl) {
         return Templates.populateTemplate(EmailTemplates.FRAGMENT_OPENING_SOON_JOIN_COURSE_BEFORE_EDIT_DETAILS,
                 "${sessionEditUrl}", editUrl,
                 "${joinUrl}", joinUrl
