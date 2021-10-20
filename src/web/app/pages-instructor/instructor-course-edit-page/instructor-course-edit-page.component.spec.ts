@@ -7,6 +7,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
 import { CourseService } from '../../../services/course.service';
 import { InstructorService } from '../../../services/instructor.service';
+import { SimpleModalService } from '../../../services/simple-modal.service';
 import { Course, Instructor, InstructorPermissionRole, JoinState } from '../../../types/api-output';
 import { InstructorCreateRequest } from '../../../types/api-request';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
@@ -86,6 +87,7 @@ describe('InstructorCourseEditPageComponent', () => {
   let fixture: ComponentFixture<InstructorCourseEditPageComponent>;
   let courseService: CourseService;
   let instructorService: InstructorService;
+  let simpleModalService: SimpleModalService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -117,6 +119,7 @@ describe('InstructorCourseEditPageComponent', () => {
     component = fixture.componentInstance;
     courseService = TestBed.inject(CourseService);
     instructorService = TestBed.inject(InstructorService);
+    simpleModalService = TestBed.inject(SimpleModalService);
     fixture.detectChanges();
   });
 
@@ -257,8 +260,13 @@ describe('InstructorCourseEditPageComponent', () => {
     expect(component.newInstructorPanel).toEqual(emptyInstructorPanel);
   });
 
-  it('should re-order if instructor is deleted', () => {
+  it('should re-order if instructor is deleted', async () => {
     spyOn(instructorService, 'deleteInstructor').and.returnValue(of({}));
+
+    const promise: Promise<void> = Promise.resolve();
+    spyOn(simpleModalService, 'openConfirmationModal').and.returnValue({
+      result: promise,
+    });
 
     component.course = testCourse;
     component.isCourseLoading = false;
@@ -275,13 +283,10 @@ describe('InstructorCourseEditPageComponent', () => {
       },
     ];
 
-    component.deleteInstructor(0);
     fixture.detectChanges();
 
-    // using document instead of fixture as modal gets added into the dom outside the viewRef
-    const button: any = document.getElementsByClassName('modal-btn-ok').item(0);
-    button.click();
-    fixture.detectChanges();
+    component.deleteInstructor(0);
+    await promise;
 
     expect(component.instructorDetailPanels.length).toBe(1);
     expect(component.instructorDetailPanels[0].originalInstructor).toEqual(testInstructor2);
