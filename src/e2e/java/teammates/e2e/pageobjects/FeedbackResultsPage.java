@@ -34,6 +34,7 @@ import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackRubricQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackRubricResponseDetails;
 import teammates.common.util.Const;
+import teammates.e2e.util.TestProperties;
 
 /**
  * Page Object Model for feedback results page.
@@ -305,13 +306,13 @@ public class FeedbackResultsPage extends AppPage {
     }
 
     private String getMcqAddInfo(FeedbackMcqQuestionDetails questionDetails) {
-        String additionalInfo = "Multiple-choice (single answer) question options:" + System.lineSeparator();
+        String additionalInfo = "Multiple-choice (single answer) question options:" + TestProperties.LINE_SEPARATOR;
         return appendMultiChoiceInfo(additionalInfo, questionDetails.getGenerateOptionsFor(),
                 questionDetails.getMcqChoices(), questionDetails.isOtherEnabled());
     }
 
     private String getMsqAddInfo(FeedbackMsqQuestionDetails questionDetails) {
-        String additionalInfo = "Multiple-choice (multiple answers) question options:" + System.lineSeparator();
+        String additionalInfo = "Multiple-choice (multiple answers) question options:" + TestProperties.LINE_SEPARATOR;
         return appendMultiChoiceInfo(additionalInfo, questionDetails.getGenerateOptionsFor(),
                 questionDetails.getMsqChoices(), questionDetails.isOtherEnabled());
     }
@@ -322,7 +323,7 @@ public class FeedbackResultsPage extends AppPage {
         if (generateOptionsFor.equals(FeedbackParticipantType.NONE)) {
             additionalInfo = appendOptions(additionalInfo, choices);
             if (isOtherEnabled) {
-                additionalInfo.append(System.lineSeparator()).append("Other");
+                additionalInfo.append(TestProperties.LINE_SEPARATOR).append("Other");
             }
         } else {
             additionalInfo.append("The options for this question is automatically generated from the list of all ")
@@ -335,26 +336,28 @@ public class FeedbackResultsPage extends AppPage {
 
     private String getRubricAddInfo(FeedbackRubricQuestionDetails questionDetails) {
         StringBuilder additionalInfo = new StringBuilder("Rubric question sub-questions:");
-        additionalInfo.append(System.lineSeparator());
+        additionalInfo.append(TestProperties.LINE_SEPARATOR);
         return appendOptions(additionalInfo, questionDetails.getRubricSubQuestions()).toString();
     }
 
     private String getNumScaleAddInfo(FeedbackNumericalScaleQuestionDetails questionDetails) {
-        return "Numerical-scale question:" + System.lineSeparator() + "Minimum value: " + questionDetails.getMinScale()
-                + ". Increment: " + questionDetails.getStep() + ". Maximum value: " + questionDetails.getMaxScale() + ".";
+        return "Numerical-scale question:" + TestProperties.LINE_SEPARATOR
+                + "Minimum value: " + questionDetails.getMinScale()
+                + ". Increment: " + questionDetails.getStep()
+                + ". Maximum value: " + questionDetails.getMaxScale() + ".";
     }
 
     private String getRankOptionsAddInfo(FeedbackRankOptionsQuestionDetails questionDetails) {
         StringBuilder additionalInfo = new StringBuilder("Rank (options) question options:");
-        additionalInfo.append(System.lineSeparator());
+        additionalInfo.append(TestProperties.LINE_SEPARATOR);
         return appendOptions(additionalInfo, questionDetails.getOptions()).toString();
     }
 
     private String getConstSumOptionsAddInfo(FeedbackConstantSumQuestionDetails questionDetails) {
         StringBuilder additionalInfo = new StringBuilder("Distribute points (among options) question options:");
-        additionalInfo.append(System.lineSeparator());
+        additionalInfo.append(TestProperties.LINE_SEPARATOR);
         additionalInfo = appendOptions(additionalInfo, questionDetails.getConstSumOptions());
-        additionalInfo.append(System.lineSeparator());
+        additionalInfo.append(TestProperties.LINE_SEPARATOR);
         if (questionDetails.isPointsPerOption()) {
             additionalInfo.append("Points per option: ");
         } else {
@@ -366,7 +369,7 @@ public class FeedbackResultsPage extends AppPage {
 
     private String getConstSumRecipientsAddInfo(FeedbackConstantSumQuestionDetails questionDetails) {
         StringBuilder additionalInfo = new StringBuilder("Distribute points (among recipients) question");
-        additionalInfo.append(System.lineSeparator());
+        additionalInfo.append(TestProperties.LINE_SEPARATOR);
         if (questionDetails.isPointsPerOption()) {
             additionalInfo.append("Points per recipient: ");
         } else {
@@ -379,7 +382,7 @@ public class FeedbackResultsPage extends AppPage {
     private StringBuilder appendOptions(StringBuilder info, List<String> options) {
         StringBuilder additionalInfo = info;
         for (String option : options) {
-            additionalInfo.append(option).append(System.lineSeparator());
+            additionalInfo.append(option).append(TestProperties.LINE_SEPARATOR);
         }
         return additionalInfo.deleteCharAt(additionalInfo.length() - 1);
     }
@@ -454,7 +457,7 @@ public class FeedbackResultsPage extends AppPage {
             return response.getAnswerString();
         case MCQ:
         case MSQ:
-            return response.getAnswerString().replace(", ", System.lineSeparator());
+            return response.getAnswerString().replace(", ", TestProperties.LINE_SEPARATOR);
         case RANK_OPTIONS:
             return getRankOptionsAnsString((FeedbackRankOptionsQuestionDetails) question.getQuestionDetailsCopy(),
                     (FeedbackRankOptionsResponseDetails) response);
@@ -477,7 +480,7 @@ public class FeedbackResultsPage extends AppPage {
         for (int i = 1; i <= options.size(); i++) {
             answerStrings.add(i + ": " + options.get(answers.indexOf(i)));
         }
-        return String.join(System.lineSeparator(), answerStrings);
+        return String.join(TestProperties.LINE_SEPARATOR, answerStrings);
     }
 
     private String getConstSumOptionsAnsString(FeedbackConstantSumQuestionDetails question,
@@ -492,7 +495,7 @@ public class FeedbackResultsPage extends AppPage {
             answerStrings.add(options.get(i) + ": " + answers.get(i));
         }
         answerStrings.sort(Comparator.naturalOrder());
-        return String.join(System.lineSeparator(), answerStrings);
+        return String.join(TestProperties.LINE_SEPARATOR, answerStrings);
     }
 
     private List<WebElement> getAllResponseViews(int questionNumber) {

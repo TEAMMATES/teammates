@@ -12,6 +12,7 @@ import org.openqa.selenium.WebElement;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.e2e.util.TestProperties;
 import teammates.test.ThreadHelper;
 
 /**
@@ -68,7 +69,7 @@ public class InstructorStudentListPage extends AppPage {
             String noStudentText = targetCourse.findElement(By.className("card-body")).getText();
             // Need to account for the text from the enroll students button as well
             String expectedText = "There are no students in this course."
-                    + System.lineSeparator() + "Enroll Students";
+                    + TestProperties.LINE_SEPARATOR + "Enroll Students";
             assertEquals(expectedText, noStudentText);
         } else {
             WebElement studentList = targetCourse.findElement(By.tagName("table"));

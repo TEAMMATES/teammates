@@ -41,6 +41,8 @@ public final class TestProperties {
     public static final String BROWSER_CHROME = "chrome";
     /** One of the allowed values of "test.selenium.browser" in test.properties file. */
     public static final String BROWSER_FIREFOX = "firefox";
+    /** One of the allowed values of "test.selenium.browser" in test.properties file. */
+    public static final String BROWSER_EDGE = "edge";
 
     /** The value of "test.browser.closeonfailure" in test.properties file. */
     public static final boolean CLOSE_BROWSER_ON_FAILURE;
@@ -54,6 +56,9 @@ public final class TestProperties {
     /** The value of "test.geckodriver.path" in test.properties file. */
     public static final String GECKODRIVER_PATH;
 
+    /** The value of "test.edgedriver.path" in test.properties file. */
+    public static final String EDGEDRIVER_PATH;
+
     /** The value of "test.timeout" in test.properties file. */
     public static final int TEST_TIMEOUT;
 
@@ -62,6 +67,14 @@ public final class TestProperties {
 
     /** The flag to indicate whether search-related functions should be tested. */
     public static final boolean INCLUDE_SEARCH_TESTS;
+
+    /**
+     * Line separator to be used when performing text comparison.
+     *
+     * <p>It needs to be redefined here because either the browser or Selenium uses a predetermined line separator
+     * instead of the system's line separator.
+     */
+    public static final String LINE_SEPARATOR = "\n";
 
     /** The directory where credentials used in Gmail API are stored. */
     static final String TEST_GMAIL_API_FOLDER = "src/e2e/resources/gmail-api";
@@ -87,6 +100,7 @@ public final class TestProperties {
             FIREFOX_PATH = prop.getProperty("test.firefox.path");
             CHROMEDRIVER_PATH = prop.getProperty("test.chromedriver.path");
             GECKODRIVER_PATH = prop.getProperty("test.geckodriver.path");
+            EDGEDRIVER_PATH = prop.getProperty("test.edgedriver.path");
 
             TEST_TIMEOUT = Integer.parseInt(prop.getProperty("test.timeout"));
 
