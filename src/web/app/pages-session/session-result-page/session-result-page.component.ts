@@ -37,6 +37,9 @@ import { ErrorMessageOutput } from '../../error-message-output';
 })
 export class SessionResultPageComponent implements OnInit {
 
+  // enum
+  Intent: typeof Intent = Intent;
+
   session: FeedbackSession = {
     courseId: '',
     timeZone: '',
@@ -239,6 +242,11 @@ export class SessionResultPageComponent implements OnInit {
    */
   joinCourseForUnregisteredStudent(): void {
     this.navigationService.navigateByURL(this.router, '/web/join', { entitytype: 'student', key: this.regKey });
+  }
+
+  navigateToSessionReportPage(): void {
+    this.navigationService.navigateByURL(this.router, '/web/instructor/sessions/report',
+        { courseid: this.courseId, fsname: this.feedbackSessionName });
   }
 
   retryLoadingFeedbackSessionResults(): void {

@@ -23,7 +23,7 @@ E2E tests in TEAMMATES can be found in the package `teammates.e2e`.
 
 ### Configuring browsers for E2E Testing
 
-TEAMMATES E2E testing requires Firefox or Chrome.
+TEAMMATES E2E testing requires Firefox, Chrome, or Edge (Chromium-based).
 
 Before running tests, modify `src/e2e/resources/test.properties` if necessary, e.g. to configure which browser and test accounts to use.
 
@@ -53,6 +53,20 @@ Before running tests, modify `src/e2e/resources/test.properties` if necessary, e
   * On Windows, use the Task Manager or `taskkill /f /im chromedriver.exe` command.
   * On OS X, use the Activity Monitor or `sudo killall chromedriver` command.
 
+#### Using Edge
+
+Only modern Edge (Chromium-based) is supported.
+
+* You need to use edgedriver for testing with Edge.
+  * Download the latest stable edgedriver from [here](https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/).
+    The site will also inform the versions of Edge that can be used with the driver.
+  * Specify the path to the edgedriver executable in `test.edgedriver.path` value in `test.properties`.
+
+* If the test suite or any test leaves the browser open (e.g. due to failure), you will have a dangling edgedriver process.<br>
+  You may want to manually kill these processes after the tests are done.
+  * On Windows, use the Task Manager or `taskkill /f /im msedgedriver.exe` command.
+  * On OS X, use the Activity Monitor or `sudo killall msedgedriver` command.
+ 
 ### Running the tests
 E2E tests follow this configuration:
 
