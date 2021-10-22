@@ -38,7 +38,7 @@
   ></tm-question-edit-form>
   <br/>
   <div *ngIf="!isLoadingFeedbackQuestions" class="card">
-    <tm-preview-session-panel courseId="courseId" feedbackSessionName="feedbackSessionName"
+    <tm-preview-session-panel [courseId]="courseId" [feedbackSessionName]="feedbackSessionName"
                               [emailOfStudentToPreview]="emailOfStudentToPreview" [studentsOfCourse]="studentsOfCourse"
                               [instructorsCanBePreviewedAs]="instructorsCanBePreviewedAs" [emailOfInstructorToPreview]="emailOfInstructorToPreview"
     ></tm-preview-session-panel>
