@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Objects;
 
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.InstructorPrivilegesLegacy;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
@@ -76,8 +77,9 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
             instructorAttributes.privileges =
                     new InstructorPrivileges(instructorAttributes.role);
         } else {
-            instructorAttributes.privileges =
-                    JsonUtils.fromJson(instructor.getInstructorPrivilegesAsText(), InstructorPrivileges.class);
+            InstructorPrivilegesLegacy privilegesLegacy =
+                    JsonUtils.fromJson(instructor.getInstructorPrivilegesAsText(), InstructorPrivilegesLegacy.class);
+            instructorAttributes.privileges = new InstructorPrivileges(privilegesLegacy);
         }
         if (instructor.getCreatedAt() != null) {
             instructorAttributes.createdAt = instructor.getCreatedAt();
@@ -109,7 +111,7 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
     }
 
     public String getInstructorPrivilegesAsText() {
-        return JsonUtils.toJson(privileges, InstructorPrivileges.class);
+        return JsonUtils.toJson(privileges.toLegacyFormat(), InstructorPrivilegesLegacy.class);
     }
 
     public String getName() {
