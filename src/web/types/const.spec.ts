@@ -1,6 +1,13 @@
 import { ApiConst } from './api-const';
 import { FeedbackQuestionType } from './api-output';
 import {
+  DEFAULT_INSTRUCTOR_PRIVILEGE,
+  DEFAULT_PRIVILEGE_COOWNER,
+  DEFAULT_PRIVILEGE_MANAGER,
+  DEFAULT_PRIVILEGE_OBSERVER,
+  DEFAULT_PRIVILEGE_TUTOR,
+} from './default-instructor-privilege';
+import {
   DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS,
   DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS,
   DEFAULT_CONSTSUM_RESPONSE_DETAILS,
@@ -131,5 +138,23 @@ describe('Constants', () => {
 
     expect(DEFAULT_TEXT_RESPONSE_DETAILS().questionType).toEqual(FeedbackQuestionType.TEXT);
     expect(DEFAULT_TEXT_RESPONSE_DETAILS().answer).toEqual('');
+  });
+
+  // Here we just test that the string is parseable to JSON and one representative privilege is correct
+  it('should generate instructor privileges correctly', () => {
+    expect(DEFAULT_INSTRUCTOR_PRIVILEGE()).toBeTruthy();
+    expect(DEFAULT_INSTRUCTOR_PRIVILEGE().canModifyCourse).toBeFalsy();
+
+    expect(DEFAULT_PRIVILEGE_COOWNER()).toBeTruthy();
+    expect(DEFAULT_PRIVILEGE_COOWNER().canModifyCourse).toBeTruthy();
+
+    expect(DEFAULT_PRIVILEGE_MANAGER()).toBeTruthy();
+    expect(DEFAULT_PRIVILEGE_MANAGER().canModifyStudent).toBeTruthy();
+
+    expect(DEFAULT_PRIVILEGE_OBSERVER()).toBeTruthy();
+    expect(DEFAULT_PRIVILEGE_OBSERVER().canViewStudentInSections).toBeTruthy();
+
+    expect(DEFAULT_PRIVILEGE_TUTOR()).toBeTruthy();
+    expect(DEFAULT_PRIVILEGE_TUTOR().canSubmitSessionInSections).toBeTruthy();
   });
 });
