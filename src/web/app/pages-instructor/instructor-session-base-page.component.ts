@@ -220,16 +220,6 @@ export abstract class InstructorSessionBasePageComponent {
   }
 
   /**
-   * Views the result of a feedback session.
-   */
-  viewSessionResult(model: SessionsTableRowModel): void {
-    this.navigationService.navigateByURLWithParamEncoding(
-        this.router,
-        '/web/instructor/sessions/result',
-        { courseid: model.feedbackSession.courseId, fsname: model.feedbackSession.feedbackSessionName });
-  }
-
-  /**
    * Downloads the result of a feedback session in csv.
    */
   downloadSessionResult(model: SessionsTableRowModel): void {
