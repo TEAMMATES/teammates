@@ -3,12 +3,10 @@ package teammates.ui.webapi;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.datatransfer.InstructorPrivileges;
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
-import teammates.ui.output.InstructorPermissionRole;
 import teammates.ui.output.InstructorPrivilegeData;
 
 /**
@@ -105,17 +103,20 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
 
         GetInstructorPrivilegeAction a = getAction(anotherInstructorParams);
         InstructorPrivilegeData response = (InstructorPrivilegeData) getJsonResult(a).getOutput();
+        InstructorPrivileges privileges = response.getPrivileges();
+        InstructorPermissionSet courseLevelPrivilege = privileges.getCourseLevelPrivileges();
 
-        assertFalse(response.isCanModifyCourse());
-        assertTrue(response.isCanModifyStudent());
-        assertTrue(response.isCanModifyInstructor());
-        assertTrue(response.isCanModifySession());
+        assertFalse(courseLevelPrivilege.isCanModifyCourse());
+        assertTrue(courseLevelPrivilege.isCanModifyStudent());
+        assertTrue(courseLevelPrivilege.isCanModifyInstructor());
+        assertTrue(courseLevelPrivilege.isCanModifySession());
+        assertTrue(courseLevelPrivilege.isCanViewStudentInSections());
+        assertTrue(courseLevelPrivilege.isCanModifySessionCommentsInSections());
+        assertTrue(courseLevelPrivilege.isCanViewSessionInSections());
+        assertTrue(courseLevelPrivilege.isCanSubmitSessionInSections());
 
-        assertTrue(response.isCanViewStudentInSections());
-
-        assertTrue(response.isCanModifySessionCommentsInSections());
-        assertTrue(response.isCanViewSessionInSections());
-        assertTrue(response.isCanSubmitSessionInSections());
+        assertTrue(privileges.getSectionLevelPrivileges().isEmpty());
+        assertTrue(privileges.getSessionLevelPrivileges().isEmpty());
     }
 
     @Test
@@ -132,17 +133,20 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
 
         GetInstructorPrivilegeAction a = getAction(anotherInstructorParams);
         InstructorPrivilegeData response = (InstructorPrivilegeData) getJsonResult(a).getOutput();
+        InstructorPrivileges privileges = response.getPrivileges();
+        InstructorPermissionSet courseLevelPrivilege = privileges.getCourseLevelPrivileges();
 
-        assertFalse(response.isCanModifyCourse());
-        assertTrue(response.isCanModifyStudent());
-        assertTrue(response.isCanModifyInstructor());
-        assertTrue(response.isCanModifySession());
+        assertFalse(courseLevelPrivilege.isCanModifyCourse());
+        assertTrue(courseLevelPrivilege.isCanModifyStudent());
+        assertTrue(courseLevelPrivilege.isCanModifyInstructor());
+        assertTrue(courseLevelPrivilege.isCanModifySession());
+        assertTrue(courseLevelPrivilege.isCanViewStudentInSections());
+        assertTrue(courseLevelPrivilege.isCanModifySessionCommentsInSections());
+        assertTrue(courseLevelPrivilege.isCanViewSessionInSections());
+        assertTrue(courseLevelPrivilege.isCanSubmitSessionInSections());
 
-        assertTrue(response.isCanViewStudentInSections());
-
-        assertTrue(response.isCanModifySessionCommentsInSections());
-        assertTrue(response.isCanViewSessionInSections());
-        assertTrue(response.isCanSubmitSessionInSections());
+        assertTrue(privileges.getSectionLevelPrivileges().isEmpty());
+        assertTrue(privileges.getSessionLevelPrivileges().isEmpty());
     }
 
     @Test
@@ -154,7 +158,7 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
     }
 
     @Test
-    protected void testExecute_withCourseId_shouldReturnGeneralPrivilege() {
+    protected void testExecute_fetchPrivilegeOfSelf_shouldSucceed() {
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         loginAsInstructor(instructor1ofCourse1.getGoogleId());
         ______TS("Request with course id to fetch general privileges");
@@ -165,225 +169,48 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
 
         GetInstructorPrivilegeAction a = getAction(courseIdParam);
         InstructorPrivilegeData response = (InstructorPrivilegeData) getJsonResult(a).getOutput();
+        InstructorPrivileges privileges = response.getPrivileges();
+        InstructorPermissionSet courseLevelPrivilege = privileges.getCourseLevelPrivileges();
 
-        assertTrue(response.isCanModifyCourse());
-        assertTrue(response.isCanModifyStudent());
-        assertFalse(response.isCanModifyInstructor());
-        assertFalse(response.isCanModifySession());
+        assertTrue(courseLevelPrivilege.isCanModifyCourse());
+        assertTrue(courseLevelPrivilege.isCanModifyStudent());
+        assertFalse(courseLevelPrivilege.isCanModifyInstructor());
+        assertFalse(courseLevelPrivilege.isCanModifySession());
+        assertFalse(courseLevelPrivilege.isCanViewStudentInSections());
+        assertFalse(courseLevelPrivilege.isCanModifySessionCommentsInSections());
+        assertFalse(courseLevelPrivilege.isCanViewSessionInSections());
+        assertFalse(courseLevelPrivilege.isCanSubmitSessionInSections());
 
-        assertFalse(response.isCanViewStudentInSections());
+        String section1 = dataBundle.students.get("student1InCourse1").getSection();
 
-        assertFalse(response.isCanModifySessionCommentsInSections());
-        assertFalse(response.isCanViewSessionInSections());
-        assertFalse(response.isCanSubmitSessionInSections());
-    }
+        assertEquals(1, privileges.getSectionLevelPrivileges().size());
+        InstructorPermissionSet sectionLevelPrivilege = privileges.getSectionLevelPrivileges().get(section1);
 
-    @Test
-    protected void testExecute_withCourseIdAndSectionName_shouldReturnSectionLevelPrivilege() {
-        InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
-        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
-        loginAsInstructor(instructor1ofCourse1.getGoogleId());
-        ______TS("Request with course id and section name to fetch section level privileges");
+        assertFalse(sectionLevelPrivilege.isCanModifyCourse());
+        assertFalse(sectionLevelPrivilege.isCanModifyStudent());
+        assertFalse(sectionLevelPrivilege.isCanModifyInstructor());
+        assertFalse(sectionLevelPrivilege.isCanModifySession());
 
-        String[] sectionParams = {
-                Const.ParamsNames.COURSE_ID, instructor1ofCourse1.getCourseId(),
-                Const.ParamsNames.SECTION_NAME, student1InCourse1.getSection(),
-        };
+        assertTrue(sectionLevelPrivilege.isCanViewStudentInSections());
+        assertTrue(sectionLevelPrivilege.isCanModifySessionCommentsInSections());
+        assertFalse(sectionLevelPrivilege.isCanViewSessionInSections());
+        assertFalse(sectionLevelPrivilege.isCanSubmitSessionInSections());
 
-        GetInstructorPrivilegeAction a = getAction(sectionParams);
-        InstructorPrivilegeData response = (InstructorPrivilegeData) getJsonResult(a).getOutput();
+        String session1 = dataBundle.feedbackSessions.get("session1InCourse1").getFeedbackSessionName();
 
-        assertTrue(response.isCanModifyCourse());
-        assertTrue(response.isCanModifyStudent());
-        assertFalse(response.isCanModifyInstructor());
-        assertFalse(response.isCanModifySession());
+        assertEquals(1, privileges.getSessionLevelPrivileges().size());
+        assertEquals(1, privileges.getSessionLevelPrivileges().get(section1).size());
+        InstructorPermissionSet sessionLevelPrivilege = privileges.getSessionLevelPrivileges().get(section1).get(session1);
 
-        assertTrue(response.isCanViewStudentInSections());
+        assertFalse(sessionLevelPrivilege.isCanModifyCourse());
+        assertFalse(sessionLevelPrivilege.isCanModifyStudent());
+        assertFalse(sessionLevelPrivilege.isCanModifyInstructor());
+        assertFalse(sessionLevelPrivilege.isCanModifySession());
+        assertFalse(sessionLevelPrivilege.isCanViewStudentInSections());
 
-        assertTrue(response.isCanModifySessionCommentsInSections());
-        assertFalse(response.isCanViewSessionInSections());
-        assertFalse(response.isCanSubmitSessionInSections());
-    }
-
-    @Test
-    protected void testExecute_withCourseIdAndSectionNameAndSessionName_shouldReturnSessionLevelPrivilege() {
-        InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
-        FeedbackSessionAttributes session1ofCourse1 = dataBundle.feedbackSessions.get("session1InCourse1");
-        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
-        loginAsInstructor(instructor1ofCourse1.getGoogleId());
-        ______TS("Request with course id, section name and session name to fetch session level privileges");
-
-        String[] sessionParams = {
-                Const.ParamsNames.COURSE_ID, instructor1ofCourse1.getCourseId(),
-                Const.ParamsNames.SECTION_NAME, student1InCourse1.getSection(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session1ofCourse1.getFeedbackSessionName(),
-        };
-
-        GetInstructorPrivilegeAction a = getAction(sessionParams);
-        InstructorPrivilegeData response = (InstructorPrivilegeData) getJsonResult(a).getOutput();
-
-        assertTrue(response.isCanModifyCourse());
-        assertTrue(response.isCanModifyStudent());
-        assertFalse(response.isCanModifyInstructor());
-        assertFalse(response.isCanModifySession());
-
-        assertTrue(response.isCanViewStudentInSections());
-
-        assertTrue(response.isCanModifySessionCommentsInSections());
-        assertTrue(response.isCanViewSessionInSections());
-        assertTrue(response.isCanSubmitSessionInSections());
-    }
-
-    @Test
-    protected void testExecute_withCourseIdAndSessionName_shouldReturnHybridPrivilege() {
-        InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
-        FeedbackSessionAttributes session1ofCourse1 = dataBundle.feedbackSessions.get("session1InCourse1");
-        loginAsInstructor(instructor1ofCourse1.getGoogleId());
-        ______TS("Request with course id, section name and session name to fetch session level privileges");
-
-        String[] sessionParams = {
-                Const.ParamsNames.COURSE_ID, instructor1ofCourse1.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session1ofCourse1.getFeedbackSessionName(),
-        };
-
-        GetInstructorPrivilegeAction a = getAction(sessionParams);
-        InstructorPrivilegeData response = (InstructorPrivilegeData) getJsonResult(a).getOutput();
-
-        assertTrue(response.isCanModifyCourse());
-        assertTrue(response.isCanModifyStudent());
-        assertFalse(response.isCanModifyInstructor());
-        assertFalse(response.isCanModifySession());
-
-        assertFalse(response.isCanViewStudentInSections());
-
-        assertTrue(response.isCanModifySessionCommentsInSections());
-        assertTrue(response.isCanViewSessionInSections());
-        assertTrue(response.isCanSubmitSessionInSections());
-    }
-
-    @Test
-    protected void testExecute_withCourseIdAndSectionNameAndInvalidSessionName_shouldReturnSectionLevelPrivilege() {
-        InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
-        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
-        loginAsInstructor(instructor1ofCourse1.getGoogleId());
-        ______TS("Request with course id,"
-                + " section name and invalid session name, return section level privilege.");
-
-        String[] invalidSessionParams = {
-                Const.ParamsNames.COURSE_ID, instructor1ofCourse1.getCourseId(),
-                Const.ParamsNames.SECTION_NAME, student1InCourse1.getSection(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, "invalid session",
-        };
-
-        GetInstructorPrivilegeAction a = getAction(invalidSessionParams);
-        InstructorPrivilegeData response = (InstructorPrivilegeData) getJsonResult(a).getOutput();
-
-        assertTrue(response.isCanModifyCourse());
-        assertTrue(response.isCanModifyStudent());
-        assertFalse(response.isCanModifyInstructor());
-        assertFalse(response.isCanModifySession());
-
-        assertTrue(response.isCanViewStudentInSections());
-
-        assertTrue(response.isCanModifySessionCommentsInSections());
-        assertFalse(response.isCanViewSessionInSections());
-        assertFalse(response.isCanSubmitSessionInSections());
-    }
-
-    @Test
-    protected void testExecute_withCourseIdAndInvalidSectionName_shouldReturnGeneralPrivilege() {
-        InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
-        loginAsInstructor(instructor1ofCourse1.getGoogleId());
-        ______TS("Request with course id and invalid section name, return general privilege.");
-
-        String[] invalidSectionParams = {
-                Const.ParamsNames.COURSE_ID, instructor1ofCourse1.getCourseId(),
-                Const.ParamsNames.SECTION_NAME, "invalid section",
-        };
-
-        GetInstructorPrivilegeAction a = getAction(invalidSectionParams);
-        InstructorPrivilegeData response = (InstructorPrivilegeData) getJsonResult(a).getOutput();
-
-        assertTrue(response.isCanModifyCourse());
-        assertTrue(response.isCanModifyStudent());
-        assertFalse(response.isCanModifyInstructor());
-        assertFalse(response.isCanModifySession());
-
-        assertFalse(response.isCanViewStudentInSections());
-
-        assertFalse(response.isCanModifySessionCommentsInSections());
-        assertFalse(response.isCanViewSessionInSections());
-        assertFalse(response.isCanSubmitSessionInSections());
-    }
-
-    @Test
-    protected void testExecute_withCourseIdAndInvalidSessionName_shouldReturnGeneralPrivilege() {
-        InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
-        loginAsInstructor(instructor1ofCourse1.getGoogleId());
-
-        ______TS("Request with course id and invalid session name, return general privilege.");
-
-        String[] invalidSectionAndCourseIdParams = {
-                Const.ParamsNames.COURSE_ID, instructor1ofCourse1.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, "invalid session",
-        };
-
-        GetInstructorPrivilegeAction a = getAction(invalidSectionAndCourseIdParams);
-        InstructorPrivilegeData response = (InstructorPrivilegeData) getJsonResult(a).getOutput();
-
-        assertTrue(response.isCanModifyCourse());
-        assertTrue(response.isCanModifyStudent());
-        assertFalse(response.isCanModifyInstructor());
-        assertFalse(response.isCanModifySession());
-
-        assertFalse(response.isCanViewStudentInSections());
-
-        assertTrue(response.isCanModifySessionCommentsInSections());
-        assertFalse(response.isCanViewSessionInSections());
-        assertFalse(response.isCanSubmitSessionInSections());
-    }
-
-    @Test
-    protected void testExecute_withCourseIdAndInstructorRole_shouldReturnPrivilegeForRole() {
-        InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
-        loginAsInstructor(instructor1ofCourse1.getGoogleId());
-        ______TS("Request with course id and instructor role to fetch privilege for an instructor role");
-
-        // course id is used for instructor identify verification here.
-        String[] courseAndSessionParams = {
-                Const.ParamsNames.COURSE_ID, instructor1ofCourse1.getCourseId(),
-                Const.ParamsNames.INSTRUCTOR_ROLE_NAME,
-                InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER.toString(),
-        };
-
-        GetInstructorPrivilegeAction a = getAction(courseAndSessionParams);
-        InstructorPrivilegeData response = (InstructorPrivilegeData) getJsonResult(a).getOutput();
-
-        assertTrue(response.isCanModifyCourse());
-        assertTrue(response.isCanModifyStudent());
-        assertTrue(response.isCanModifyInstructor());
-        assertTrue(response.isCanModifySession());
-
-        assertTrue(response.isCanViewStudentInSections());
-
-        assertTrue(response.isCanModifySessionCommentsInSections());
-        // has privilege in any of the sections.
-        assertTrue(response.isCanViewSessionInSections());
-        assertTrue(response.isCanSubmitSessionInSections());
-    }
-
-    @Test
-    protected void testExecute_withCourseIdAndInvalidInstructorRole_shouldFail() {
-        InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
-        loginAsInstructor(instructor1ofCourse1.getGoogleId());
-        ______TS("Failure: Request with invalid instructor role.");
-        String[] invalidRoleParams = {
-                Const.ParamsNames.COURSE_ID, instructor1ofCourse1.getCourseId(),
-                Const.ParamsNames.INSTRUCTOR_ROLE_NAME, "invalid role",
-        };
-
-        InvalidHttpParameterException ihpe = verifyHttpParameterFailure(invalidRoleParams);
-        assertEquals("Invalid instructor role.", ihpe.getMessage());
+        assertTrue(sessionLevelPrivilege.isCanModifySessionCommentsInSections());
+        assertTrue(sessionLevelPrivilege.isCanViewSessionInSections());
+        assertTrue(sessionLevelPrivilege.isCanSubmitSessionInSections());
     }
 
     @Test

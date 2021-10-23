@@ -1,10 +1,10 @@
 package teammates.ui.webapi;
 
+import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.ui.output.CourseData;
-import teammates.ui.output.InstructorPrivilegeData;
 
 /**
  * Get a course for an instructor or student.
@@ -53,7 +53,7 @@ class GetCourseAction extends Action {
         if (Const.EntityType.INSTRUCTOR.equals(entityType)) {
             InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
             if (instructor != null) {
-                InstructorPrivilegeData privilege = constructInstructorPrivileges(instructor, null);
+                InstructorPermissionSet privilege = constructInstructorPrivileges(instructor, null);
                 output.setPrivileges(privilege);
             }
         }
