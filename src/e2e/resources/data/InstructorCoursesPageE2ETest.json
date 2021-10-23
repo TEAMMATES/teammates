@@ -50,14 +50,14 @@
       "displayedName": "Instructor",
       "privileges": {
         "courseLevel": {
-          "canviewstudentinsection": true,
-          "cansubmitsessioninsection": true,
-          "canmodifysessioncommentinsection": true,
-          "canmodifycourse": false,
-          "canviewsessioninsection": true,
-          "canmodifysession": true,
-          "canmodifystudent": false,
-          "canmodifyinstructor": true
+          "canViewStudentInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true,
+          "canModifyCourse": false,
+          "canViewSessionInSections": true,
+          "canModifySession": true,
+          "canModifyStudent": false,
+          "canModifyInstructor": true
         },
         "sectionLevel": {},
         "sessionLevel": {}
@@ -73,14 +73,14 @@
       "displayedName": "Instructor",
       "privileges": {
         "courseLevel": {
-          "canviewstudentinsection": true,
-          "cansubmitsessioninsection": true,
-          "canmodifysessioncommentinsection": true,
-          "canmodifycourse": true,
-          "canviewsessioninsection": true,
-          "canmodifysession": true,
-          "canmodifystudent": true,
-          "canmodifyinstructor": true
+          "canViewStudentInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true,
+          "canModifyCourse": true,
+          "canViewSessionInSections": true,
+          "canModifySession": true,
+          "canModifyStudent": true,
+          "canModifyInstructor": true
         },
         "sectionLevel": {},
         "sessionLevel": {}
@@ -97,14 +97,14 @@
       "isArchived": true,
       "privileges": {
         "courseLevel": {
-          "canviewstudentinsection": true,
-          "cansubmitsessioninsection": true,
-          "canmodifysessioncommentinsection": true,
-          "canmodifycourse": true,
-          "canviewsessioninsection": true,
-          "canmodifysession": true,
-          "canmodifystudent": true,
-          "canmodifyinstructor": true
+          "canViewStudentInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true,
+          "canModifyCourse": true,
+          "canViewSessionInSections": true,
+          "canModifySession": true,
+          "canModifyStudent": true,
+          "canModifyInstructor": true
         },
         "sectionLevel": {},
         "sessionLevel": {}
@@ -120,14 +120,14 @@
       "displayedName": "Instructor",
       "privileges": {
         "courseLevel": {
-          "canviewstudentinsection": true,
-          "cansubmitsessioninsection": true,
-          "canmodifysessioncommentinsection": true,
-          "canmodifycourse": true,
-          "canviewsessioninsection": true,
-          "canmodifysession": true,
-          "canmodifystudent": true,
-          "canmodifyinstructor": true
+          "canViewStudentInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true,
+          "canModifyCourse": true,
+          "canViewSessionInSections": true,
+          "canModifySession": true,
+          "canModifyStudent": true,
+          "canModifyInstructor": true
         },
         "sectionLevel": {},
         "sessionLevel": {}
