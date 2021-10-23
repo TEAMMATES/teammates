@@ -108,7 +108,7 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
         return instructorAttributes;
     }
 
-    public String getTextFromInstructorPrivileges() {
+    public String getInstructorPrivilegesAsText() {
         return JsonUtils.toJson(privileges, InstructorPrivileges.class);
     }
 
@@ -182,7 +182,7 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
     @Override
     public Instructor toEntity() {
         return new Instructor(googleId, courseId, isArchived, name, email, role,
-                              isDisplayedToStudents, displayedName, getTextFromInstructorPrivileges());
+                              isDisplayedToStudents, displayedName, getInstructorPrivilegesAsText());
     }
 
     @Override
