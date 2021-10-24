@@ -2,6 +2,7 @@
 
 exports[`InstructorTrackViewPageComponent should snap when page is still loading 1`] = `
 <tm-instructor-track-view-page
+  LOGS_DATE_TIME_FORMAT={[Function String]}
   LOGS_RETENTION_PERIOD_IN_DAYS={[Function Number]}
   LOGS_RETENTION_PERIOD_IN_MILLISECONDS={[Function Number]}
   ONE_MINUTE_IN_MILLISECONDS={[Function Number]}
@@ -59,6 +60,7 @@ exports[`InstructorTrackViewPageComponent should snap when page is still loading
 
 exports[`InstructorTrackViewPageComponent should snap when searching for details in search form 1`] = `
 <tm-instructor-track-view-page
+  LOGS_DATE_TIME_FORMAT={[Function String]}
   LOGS_RETENTION_PERIOD_IN_DAYS={[Function Number]}
   LOGS_RETENTION_PERIOD_IN_MILLISECONDS={[Function Number]}
   ONE_MINUTE_IN_MILLISECONDS={[Function Number]}
@@ -203,6 +205,7 @@ exports[`InstructorTrackViewPageComponent should snap when searching for details
 
 exports[`InstructorTrackViewPageComponent should snap with default fields 1`] = `
 <tm-instructor-track-view-page
+  LOGS_DATE_TIME_FORMAT={[Function String]}
   LOGS_RETENTION_PERIOD_IN_DAYS={[Function Number]}
   LOGS_RETENTION_PERIOD_IN_MILLISECONDS={[Function Number]}
   ONE_MINUTE_IN_MILLISECONDS={[Function Number]}
@@ -260,6 +263,7 @@ exports[`InstructorTrackViewPageComponent should snap with default fields 1`] = 
 
 exports[`InstructorTrackViewPageComponent should snap with results of a search 1`] = `
 <tm-instructor-track-view-page
+  LOGS_DATE_TIME_FORMAT={[Function String]}
   LOGS_RETENTION_PERIOD_IN_DAYS={[Function Number]}
   LOGS_RETENTION_PERIOD_IN_MILLISECONDS={[Function Number]}
   ONE_MINUTE_IN_MILLISECONDS={[Function Number]}
