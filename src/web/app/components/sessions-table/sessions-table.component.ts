@@ -71,9 +71,6 @@ export class SessionsTableComponent implements OnInit {
   submitSessionAsInstructorEvent: EventEmitter<number> = new EventEmitter();
 
   @Output()
-  viewSessionResultEvent: EventEmitter<number> = new EventEmitter();
-
-  @Output()
   publishSessionEvent: EventEmitter<number> = new EventEmitter();
 
   @Output()

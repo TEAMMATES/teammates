@@ -760,7 +760,14 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                                   href="/web/instructor/sessions/result?courseid=CS1231&fsname=First%20Session"
                                   tmrouterlink="/web/instructor/sessions/result"
                                 >
-                                  View Results
+                                  View Results (from/to me)
+                                </a>
+                                <a
+                                  class="btn dropdown-item clickable disabled"
+                                  href="/web/instructor/sessions/report?courseid=CS1231&fsname=First%20Session"
+                                  tmrouterlink="/web/instructor/sessions/report"
+                                >
+                                  View Results (course-wide)
                                 </a>
                                 
                                 <button
@@ -1271,7 +1278,14 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                                   href="/web/instructor/sessions/result?courseid=CS1231&fsname=First%20Session"
                                   tmrouterlink="/web/instructor/sessions/result"
                                 >
-                                  View Results
+                                  View Results (from/to me)
+                                </a>
+                                <a
+                                  class="btn dropdown-item clickable disabled"
+                                  href="/web/instructor/sessions/report?courseid=CS1231&fsname=First%20Session"
+                                  tmrouterlink="/web/instructor/sessions/report"
+                                >
+                                  View Results (course-wide)
                                 </a>
                                 
                                 <button
@@ -1434,7 +1448,14 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                                   href="/web/instructor/sessions/result?courseid=CS1231&fsname=Second%20Session"
                                   tmrouterlink="/web/instructor/sessions/result"
                                 >
-                                  View Results
+                                  View Results (from/to me)
+                                </a>
+                                <a
+                                  class="btn dropdown-item clickable disabled"
+                                  href="/web/instructor/sessions/report?courseid=CS1231&fsname=Second%20Session"
+                                  tmrouterlink="/web/instructor/sessions/report"
+                                >
+                                  View Results (course-wide)
                                 </a>
                                 
                                 <button
