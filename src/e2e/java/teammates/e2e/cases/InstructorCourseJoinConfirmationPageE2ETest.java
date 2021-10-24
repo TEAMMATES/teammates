@@ -6,7 +6,6 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.e2e.pageobjects.CourseJoinConfirmationPage;
-import teammates.e2e.pageobjects.ErrorReportingModal;
 import teammates.e2e.pageobjects.InstructorHomePage;
 
 /**
@@ -32,9 +31,11 @@ public class InstructorCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase
         AppUrl joinLink = createUrl(Const.WebPageURIs.JOIN_PAGE)
                 .withRegistrationKey(invalidKey)
                 .withEntityType(Const.EntityType.INSTRUCTOR);
-        ErrorReportingModal errorPage = loginToPage(joinLink, ErrorReportingModal.class, newInstructor.getGoogleId());
+        CourseJoinConfirmationPage confirmationPage = loginToPage(
+                joinLink, CourseJoinConfirmationPage.class, newInstructor.getGoogleId());
 
-        errorPage.verifyErrorMessage("No instructor with given registration key: " + invalidKey);
+        confirmationPage.verifyDisplayedMessage("The course join link is invalid. You may have "
+                + "entered the URL incorrectly or the URL may correspond to a/an instructor that does not exist.");
 
         ______TS("Click join link: valid key");
         String courseId = testData.courses.get("ICJoinConf.CS1101").getId();
@@ -42,7 +43,7 @@ public class InstructorCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase
         joinLink = createUrl(Const.WebPageURIs.JOIN_PAGE)
                 .withRegistrationKey(getKeyForInstructor(courseId, instructorEmail))
                 .withEntityType(Const.EntityType.INSTRUCTOR);
-        CourseJoinConfirmationPage confirmationPage = getNewPageInstance(joinLink, CourseJoinConfirmationPage.class);
+        confirmationPage = getNewPageInstance(joinLink, CourseJoinConfirmationPage.class);
 
         confirmationPage.verifyJoiningUser(newInstructor.getGoogleId());
         confirmationPage.confirmJoinCourse(InstructorHomePage.class);

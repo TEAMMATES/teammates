@@ -73,16 +73,16 @@ public class WebApiServlet extends HttpServlet {
             throwErrorBasedOnRequester(req, resp, e, statusCode);
         } catch (UnauthorizedAccessException uae) {
             statusCode = HttpStatus.SC_FORBIDDEN;
-            log.warning(uae.getClass().getSimpleName() + " caught by WebApiServlet", uae);
+            log.warning(uae.getClass().getSimpleName() + " caught by WebApiServlet: " + uae.getMessage(), uae);
             throwError(resp, statusCode,
                     uae.isShowErrorMessage() ? uae.getMessage() : "You are not authorized to access this resource.");
         } catch (EntityNotFoundException enfe) {
             statusCode = HttpStatus.SC_NOT_FOUND;
-            log.warning(enfe.getClass().getSimpleName() + " caught by WebApiServlet", enfe);
+            log.warning(enfe.getClass().getSimpleName() + " caught by WebApiServlet: " + enfe.getMessage(), enfe);
             throwError(resp, statusCode, enfe.getMessage());
         } catch (InvalidOperationException ioe) {
             statusCode = HttpStatus.SC_CONFLICT;
-            log.warning(ioe.getClass().getSimpleName() + " caught by WebApiServlet", ioe);
+            log.warning(ioe.getClass().getSimpleName() + " caught by WebApiServlet: " + ioe.getMessage(), ioe);
             throwError(resp, statusCode, ioe.getMessage());
         } catch (DeadlineExceededException dee) {
             statusCode = HttpStatus.SC_GATEWAY_TIMEOUT;
@@ -90,22 +90,26 @@ public class WebApiServlet extends HttpServlet {
             throwError(resp, statusCode, "The request exceeded the server timeout limit. Please try again later.");
         } catch (DatastoreException e) {
             statusCode = HttpStatus.SC_INTERNAL_SERVER_ERROR;
-            log.severe(e.getClass().getSimpleName() + " caught by WebApiServlet", e);
+            log.severe(e.getClass().getSimpleName() + " caught by WebApiServlet: " + e.getMessage(), e);
             throwError(resp, statusCode, e.getMessage());
         } catch (Throwable t) {
             statusCode = HttpStatus.SC_INTERNAL_SERVER_ERROR;
-            log.severe(t.getClass().getSimpleName() + " caught by WebApiServlet", t);
+            log.severe(t.getClass().getSimpleName() + " caught by WebApiServlet: " + t.getMessage(), t);
             throwError(resp, statusCode,
                     "The server encountered an error when processing your request.");
         } finally {
             RequestLogUser userInfo = new RequestLogUser();
+            String requestBody = null;
             String actionClass = null;
             if (action != null) {
+                if (action.hasDefinedRequestBody()) {
+                    requestBody = action.getRequestBody();
+                }
                 actionClass = action.getClass().getSimpleName();
                 userInfo = action.getUserInfoForLogging();
             }
 
-            log.request(req, statusCode, actionClass, userInfo, actionClass);
+            log.request(req, statusCode, actionClass, userInfo, requestBody, actionClass);
         }
     }
 
@@ -116,7 +120,7 @@ public class WebApiServlet extends HttpServlet {
         boolean isRequestFromAppEngineQueue = req.getHeader("X-AppEngine-QueueName") != null;
 
         if (isRequestFromAppEngineQueue) {
-            log.severe(e.getClass().getSimpleName() + " caught by WebApiServlet", e);
+            log.severe(e.getClass().getSimpleName() + " caught by WebApiServlet: " + e.getMessage(), e);
 
             // Response status is not set to 4XX to 5XX to prevent Cloud Tasks retry mechanism because
             // if the cause of the exception is improper request URL, no amount of retry is going to help.
@@ -124,7 +128,7 @@ public class WebApiServlet extends HttpServlet {
             // to trace the origin of the problem.
             throwError(resp, HttpStatus.SC_ACCEPTED, e.getMessage());
         } else {
-            log.warning(e.getClass().getSimpleName() + " caught by WebApiServlet", e);
+            log.warning(e.getClass().getSimpleName() + " caught by WebApiServlet: " + e.getMessage(), e);
             throwError(resp, statusCode, e.getMessage());
         }
     }

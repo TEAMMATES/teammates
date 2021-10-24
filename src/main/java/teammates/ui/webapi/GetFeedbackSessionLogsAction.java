@@ -7,15 +7,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
-import teammates.common.exception.LogServiceException;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.ui.output.FeedbackSessionLogsData;
@@ -86,43 +83,39 @@ public class GetFeedbackSessionLogsAction extends Action {
             );
         }
 
-        try {
-            List<FeedbackSessionLogEntry> fsLogEntries =
-                    logsProcessor.getFeedbackSessionLogs(courseId, email, startTime, endTime, feedbackSessionName);
-            Map<String, StudentAttributes> studentsMap = new HashMap<>();
-            Map<String, FeedbackSessionAttributes> sessionsMap = new HashMap<>();
-            List<FeedbackSessionAttributes> feedbackSessions = logic.getFeedbackSessionsForCourse(courseId);
-            feedbackSessions.forEach(fs -> sessionsMap.put(fs.getFeedbackSessionName(), fs));
+        List<FeedbackSessionLogEntry> fsLogEntries =
+                logsProcessor.getFeedbackSessionLogs(courseId, email, startTime, endTime, feedbackSessionName);
+        Map<String, StudentAttributes> studentsMap = new HashMap<>();
+        Map<String, FeedbackSessionAttributes> sessionsMap = new HashMap<>();
+        List<FeedbackSessionAttributes> feedbackSessions = logic.getFeedbackSessionsForCourse(courseId);
+        feedbackSessions.forEach(fs -> sessionsMap.put(fs.getFeedbackSessionName(), fs));
 
-            fsLogEntries = fsLogEntries.stream().filter(logEntry -> {
-                String fslType = logEntry.getFeedbackSessionLogType();
-                FeedbackSessionLogType convertedFslType = FeedbackSessionLogType.valueOfLabel(fslType);
-                if (convertedFslType == null) {
-                    // If the feedback session log type retrieved from the log is invalid, ignore the log
+        fsLogEntries = fsLogEntries.stream().filter(logEntry -> {
+            String fslType = logEntry.getFeedbackSessionLogType();
+            FeedbackSessionLogType convertedFslType = FeedbackSessionLogType.valueOfLabel(fslType);
+            if (convertedFslType == null) {
+                // If the feedback session log type retrieved from the log is invalid, ignore the log
+                return false;
+            }
+
+            if (!studentsMap.containsKey(logEntry.getStudentEmail())) {
+                StudentAttributes student = logic.getStudentForEmail(courseId, logEntry.getStudentEmail());
+                if (student == null) {
+                    // If the student email retrieved from the log is invalid, ignore the log
                     return false;
                 }
+                studentsMap.put(logEntry.getStudentEmail(), student);
+            }
+            // If the feedback session retrieved from the log is invalid, ignore the log
+            return sessionsMap.containsKey(logEntry.getFeedbackSessionName());
+        }).collect(Collectors.toList());
 
-                if (!studentsMap.containsKey(logEntry.getStudentEmail())) {
-                    StudentAttributes student = logic.getStudentForEmail(courseId, logEntry.getStudentEmail());
-                    if (student == null) {
-                        // If the student email retrieved from the log is invalid, ignore the log
-                        return false;
-                    }
-                    studentsMap.put(logEntry.getStudentEmail(), student);
-                }
-                // If the feedback session retrieved from the log is invalid, ignore the log
-                return sessionsMap.containsKey(logEntry.getFeedbackSessionName());
-            }).collect(Collectors.toList());
+        Map<String, List<FeedbackSessionLogEntry>> groupedEntries =
+                groupFeedbackSessionLogEntries(fsLogEntries);
+        feedbackSessions.forEach(fs -> groupedEntries.putIfAbsent(fs.getFeedbackSessionName(), new ArrayList<>()));
 
-            Map<String, List<FeedbackSessionLogEntry>> groupedEntries =
-                    groupFeedbackSessionLogEntries(fsLogEntries);
-            feedbackSessions.forEach(fs -> groupedEntries.putIfAbsent(fs.getFeedbackSessionName(), new ArrayList<>()));
-
-            FeedbackSessionLogsData fslData = new FeedbackSessionLogsData(groupedEntries, studentsMap, sessionsMap);
-            return new JsonResult(fslData);
-        } catch (LogServiceException e) {
-            return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_GATEWAY);
-        }
+        FeedbackSessionLogsData fslData = new FeedbackSessionLogsData(groupedEntries, studentsMap, sessionsMap);
+        return new JsonResult(fslData);
     }
 
     private Map<String, List<FeedbackSessionLogEntry>> groupFeedbackSessionLogEntries(

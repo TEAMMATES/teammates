@@ -2,7 +2,6 @@ package teammates.logic.core;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -33,23 +32,17 @@ import teammates.common.datatransfer.logs.LogEvent;
 import teammates.common.datatransfer.logs.LogSeverity;
 import teammates.common.datatransfer.logs.QueryLogsParams;
 import teammates.common.datatransfer.logs.SourceLocation;
-import teammates.common.exception.LogServiceException;
 import teammates.common.util.Config;
 import teammates.common.util.JsonUtils;
-import teammates.common.util.Logger;
 
 /**
  * Holds functions for operations related to Google Cloud Logging.
  */
 public class GoogleCloudLoggingService implements LogService {
 
-    private static final Logger log = Logger.getLogger();
+    private static final String RESOURCE_TYPE_GAE_APP = "gae_app";
 
     private static final String REQUEST_LOG_NAME = "appengine.googleapis.com%2Frequest_log";
-    private static final String REQUEST_LOG_RESOURCE_TYPE = "gae_app";
-    private static final String REQUEST_LOG_MODULE_ID_LABEL = "module_id";
-    private static final String REQUEST_LOG_MODULE_ID_LABEL_VALUE = "default";
-
     private static final String STDOUT_LOG_NAME = "stdout";
     private static final String STDERR_LOG_NAME = "stderr";
 
@@ -69,19 +62,14 @@ public class GoogleCloudLoggingService implements LogService {
                 .build();
         LogSearchParams logSearchParams = LogSearchParams.from(queryLogsParams)
                 .addLogName(REQUEST_LOG_NAME)
-                .setResourceType(REQUEST_LOG_RESOURCE_TYPE)
-                .addResourceLabel(REQUEST_LOG_MODULE_ID_LABEL, REQUEST_LOG_MODULE_ID_LABEL_VALUE);
+                .setResourceType(RESOURCE_TYPE_GAE_APP);
 
         List<LogEntry> logEntries = new ArrayList<>();
         List<ErrorLogEntry> errorLogs = new ArrayList<>();
 
-        try {
-            Page<LogEntry> entries = getLogEntries(logSearchParams, 0);
-            for (LogEntry entry : entries.iterateAll()) {
-                logEntries.add(entry);
-            }
-        } catch (LogServiceException e) {
-            // TODO
+        Page<LogEntry> entries = getLogEntries(logSearchParams, 0);
+        for (LogEntry entry : entries.iterateAll()) {
+            logEntries.add(entry);
         }
 
         for (LogEntry logEntry : logEntries) {
@@ -125,11 +113,12 @@ public class GoogleCloudLoggingService implements LogService {
     }
 
     @Override
-    public QueryLogsResults queryLogs(QueryLogsParams queryLogsParams) throws LogServiceException {
+    public QueryLogsResults queryLogs(QueryLogsParams queryLogsParams) {
 
         LogSearchParams logSearchParams = LogSearchParams.from(queryLogsParams)
                 .addLogName(STDOUT_LOG_NAME)
-                .addLogName(STDERR_LOG_NAME);
+                .addLogName(STDERR_LOG_NAME)
+                .setResourceType(RESOURCE_TYPE_GAE_APP);
 
         Page<LogEntry> logEntriesInPage = getLogEntries(logSearchParams, queryLogsParams.getPageSize());
         List<GeneralLogEntry> logEntries = new ArrayList<>();
@@ -197,7 +186,7 @@ public class GoogleCloudLoggingService implements LogService {
 
     @Override
     public List<FeedbackSessionLogEntry> getFeedbackSessionLogs(String courseId, String email,
-            long startTime, long endTime, String fsName) throws LogServiceException {
+            long startTime, long endTime, String fsName) {
         List<String> filters = new ArrayList<>();
         if (courseId != null) {
             filters.add("jsonPayload.courseId=\"" + courseId + "\"");
@@ -214,7 +203,8 @@ public class GoogleCloudLoggingService implements LogService {
                 .withExtraFilters(String.join("\n", filters))
                 .build();
         LogSearchParams logSearchParams = LogSearchParams.from(queryLogsParams)
-                .addLogName(STDOUT_LOG_NAME);
+                .addLogName(STDOUT_LOG_NAME)
+                .setResourceType(RESOURCE_TYPE_GAE_APP);
         Page<LogEntry> entries = getLogEntries(logSearchParams, 0);
         List<LogEntry> logEntries = new ArrayList<>();
         for (LogEntry entry : entries.iterateAll()) {
@@ -245,7 +235,7 @@ public class GoogleCloudLoggingService implements LogService {
         return fsLogEntries;
     }
 
-    private Page<LogEntry> getLogEntries(LogSearchParams s, int pageSize) throws LogServiceException {
+    private Page<LogEntry> getLogEntries(LogSearchParams s, int pageSize) {
         LoggingOptions options = LoggingOptions.getDefaultInstance();
         QueryLogsParams q = s.queryLogsParams;
 
@@ -310,39 +300,31 @@ public class GoogleCloudLoggingService implements LogService {
         if (q.getExtraFilters() != null) {
             logFilters.add(q.getExtraFilters());
         }
-        for (Map.Entry<String, String> entry : s.resourceLabels.entrySet()) {
-            logFilters.add("resource.labels." + entry.getKey() + "=\"" + entry.getValue() + "\"");
-        }
         String logFilter = logFilters.stream().collect(Collectors.joining("\n"));
 
-        Page<LogEntry> entries;
+        List<EntryListOption> entryListOptions = new ArrayList<>();
 
-        try (Logging logging = LoggingOptions.getDefaultInstance().getService()) {
-            List<EntryListOption> entryListOptions = new ArrayList<>();
+        entryListOptions.add(EntryListOption.filter(logFilter));
 
-            entryListOptions.add(EntryListOption.filter(logFilter));
+        if (pageSize > 0) {
+            entryListOptions.add(EntryListOption.pageSize(pageSize));
+        }
 
-            if (pageSize > 0) {
-                entryListOptions.add(EntryListOption.pageSize(pageSize));
+        if (q.getOrder() != null) {
+            if (ASCENDING_ORDER.equals(q.getOrder())) {
+                entryListOptions.add(EntryListOption.sortOrder(SortingField.TIMESTAMP, SortingOrder.ASCENDING));
+            } else {
+                entryListOptions.add(EntryListOption.sortOrder(SortingField.TIMESTAMP, SortingOrder.DESCENDING));
             }
+        }
 
-            if (q.getOrder() != null) {
-                if (ASCENDING_ORDER.equals(q.getOrder())) {
-                    entryListOptions.add(EntryListOption.sortOrder(SortingField.TIMESTAMP, SortingOrder.ASCENDING));
-                } else {
-                    entryListOptions.add(EntryListOption.sortOrder(SortingField.TIMESTAMP, SortingOrder.DESCENDING));
-                }
-            }
+        Logging logging = options.getService();
+        Page<LogEntry> entries = logging.listLogEntries(entryListOptions.toArray(new EntryListOption[] {}));
 
-            EntryListOption[] entryListOptionsArray = new EntryListOption[entryListOptions.size()];
-            for (int i = 0; i < entryListOptions.size(); i++) {
-                entryListOptionsArray[i] = entryListOptions.get(i);
-            }
-
-            entries = logging.listLogEntries(entryListOptionsArray);
+        try {
+            logging.close();
         } catch (Exception e) {
-            log.severe("Error while fetching logs", e);
-            throw new LogServiceException(e);
+            // ignore exception when closing resource
         }
         return entries;
     }
@@ -353,7 +335,6 @@ public class GoogleCloudLoggingService implements LogService {
     private static class LogSearchParams {
         private List<String> logName = new ArrayList<>();
         private String resourceType;
-        private Map<String, String> resourceLabels = new HashMap<>();
         private QueryLogsParams queryLogsParams;
 
         private static LogSearchParams from(QueryLogsParams queryLogsParams) {
@@ -372,13 +353,6 @@ public class GoogleCloudLoggingService implements LogService {
 
         private LogSearchParams setQueryLogsParams(QueryLogsParams queryLogsParams) {
             this.queryLogsParams = queryLogsParams;
-            return this;
-        }
-
-        private LogSearchParams addResourceLabel(String key, String value) {
-            if (key != null && value != null) {
-                this.resourceLabels.put(key, value);
-            }
             return this;
         }
     }
