@@ -88,7 +88,7 @@
             <tm-sessions-table *tmIsLoading="!courseTabModel.hasPopulated"
                 [sessionsTableRowModels]="courseTabModel.sessionsTableRowModels" [sessionsTableRowModelsSortBy]="courseTabModel.sessionsTableRowModelsSortBy"
                 [sessionsTableRowModelsSortOrder]="courseTabModel.sessionsTableRowModelsSortOrder" [courseCandidates]="courseCandidates"
-                [headerColorScheme]="SessionsTableHeaderColorScheme.WHITE" [columnsToShow]="[ SessionsTableColumn.START_DATE, SessionsTableColumn.END_DATE ]"
+                [headerColorScheme]="SessionsTableHeaderColorScheme.WHITE" [columnsToShow]="[ SessionsTableColumn.START_DATE, SessionsTableColumn.END_DATE ]" [isSendReminderLoading]="isSendReminderLoading"
                 (sortSessionsTableRowModelsEvent)="sortSessionsTableRowModelsEvent(idx, $event)"
                 (loadResponseRateEvent)="loadResponseRateEventHandler(idx, $event)"
                 (moveSessionToRecycleBinEvent)="moveSessionToRecycleBinEventHandler(idx, $event)" (copySessionEvent)="copySessionEventHandler(idx, $event)"
