@@ -26,3 +26,12 @@
 .session-form-buttons > button {
   margin-left: var(--btn-margin);
 }
+
+.align-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.padding-left-7px {
+  padding-left: 7px;
+}

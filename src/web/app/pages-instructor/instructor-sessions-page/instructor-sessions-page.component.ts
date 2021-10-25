@@ -499,13 +499,6 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
   }
 
   /**
-   * Views the result of a feedback session.
-   */
-  viewSessionResultEventHandler(rowIndex: number): void {
-    this.viewSessionResult(this.sessionsTableRowModels[rowIndex]);
-  }
-
-  /**
    * Publishes a feedback session.
    */
   publishSessionEventHandler(rowIndex: number): void {
