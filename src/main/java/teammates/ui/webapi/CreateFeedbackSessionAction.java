@@ -72,7 +72,7 @@ class CreateFeedbackSessionAction extends Action {
         } catch (InvalidParametersException e) {
             throw new InvalidHttpRequestBodyException(e);
         }
-        
+
         if (createRequest.getToCopyCourseId() != null) {
             createFeedbackQuestions(createRequest.getToCopyCourseId(), courseId, createRequest.getFeedbackSessionName(),
                     createRequest.getToCopySessionName());
