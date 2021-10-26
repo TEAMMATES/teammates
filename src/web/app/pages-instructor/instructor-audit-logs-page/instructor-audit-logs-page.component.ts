@@ -54,6 +54,7 @@ interface FeedbackSessionLogModel {
   styleUrls: ['./instructor-audit-logs-page.component.scss'],
 })
 export class InstructorAuditLogsPageComponent implements OnInit {
+  LOGS_DATE_TIME_FORMAT: string = 'ddd, DD MMM YYYY hh:mm:ss A';
   LOGS_RETENTION_PERIOD: number = ApiConst.LOGS_RETENTION_PERIOD;
 
   // enum
@@ -182,7 +183,9 @@ export class InstructorAuditLogsPageComponent implements OnInit {
             !== 'VIEW_RESULT')
         .map((entry: FeedbackSessionLogEntry) => {
           return [
-            { value: this.timezoneService.formatToString(entry.timestamp, log.feedbackSessionData.timeZone, 'ddd, DD MMM, YYYY hh:mm:ss A'),
+            { value: this.timezoneService.formatToString(
+                entry.timestamp, log.feedbackSessionData.timeZone,
+                this.LOGS_DATE_TIME_FORMAT),
               style: 'font-family:monospace;'},
             { value: entry.studentData.name },
             { value: entry.feedbackSessionLogType.toString() as keyof typeof FeedbackSessionLogType

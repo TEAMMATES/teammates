@@ -3864,16 +3864,6 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
   </tm-loading-retry><tm-loading-retry>
     
     
-    <div
-      class="offset-md-10 margin-vertical-20px"
-    >
-      <button
-        class="btn expand-btn btn-light margin-top-30px"
-        id="btn-collapse-expand"
-      >
-         Collapse All 
-      </button>
-    </div>
     
     <div>
       

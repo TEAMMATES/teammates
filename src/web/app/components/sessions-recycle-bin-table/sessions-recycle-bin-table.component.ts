@@ -25,6 +25,9 @@ export class SessionsRecycleBinTableComponent implements OnInit {
   SortBy: typeof SortBy = SortBy;
   SortOrder: typeof SortOrder = SortOrder;
 
+  // variable
+  rowClicked: number = -1;
+
   @Input()
   isRecycleBinExpanded: boolean = false;
 
@@ -36,6 +39,9 @@ export class SessionsRecycleBinTableComponent implements OnInit {
 
   @Input()
   recycleBinFeedbackSessionRowModelsSortOrder: SortOrder = SortOrder.ASC;
+
+  @Input()
+  isPermanentDeleteLoading: boolean = false;
 
   @Output()
   restoreSessionEvent: EventEmitter<RecycleBinFeedbackSessionRowModel> = new EventEmitter();
@@ -62,6 +68,13 @@ export class SessionsRecycleBinTableComponent implements OnInit {
    */
   sortRecycleBinFeedbackSessionRows(by: SortBy): void {
     this.sortRecycleBinFeedbackSessionRowsEvent.emit(by);
+  }
+
+  /**
+   * Set row number of button clicked.
+   */
+  setRowClicked(rowIndex: number): void {
+    this.rowClicked = rowIndex;
   }
 
   ngOnInit(): void {
