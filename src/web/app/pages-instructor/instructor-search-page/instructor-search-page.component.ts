@@ -12,6 +12,7 @@ import { StudentListRowModel } from '../../components/student-list/student-list.
 import { ErrorMessageOutput } from '../../error-message-output';
 import { SearchParams } from './instructor-search-bar/instructor-search-bar.component';
 import { SearchStudentsListRowTable } from './student-result-table/student-result-table.component';
+import { ApiConst } from '../../../types/api-const';
 
 /**
  * Instructor search page.
@@ -28,7 +29,7 @@ export class InstructorSearchPageComponent implements OnInit {
   };
   studentsListRowTables: SearchStudentsListRowTable[] = [];
   isSearching: boolean = false;
-  maxResultsToShow: number = 50;
+  maxResultsToShow: number = ApiConst.SEARCH_QUERY_SIZE_LIMIT_EXCEEDED;
 
   constructor(
     private statusMessageService: StatusMessageService,
