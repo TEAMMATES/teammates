@@ -13,11 +13,13 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
   courseCandidates={[Function Array]}
   downloadSessionResultsEvent={[Function EventEmitter]}
   headerColorScheme="0"
+  isSendReminderLoading="false"
   loadResponseRateEvent={[Function EventEmitter]}
   moveSessionToRecycleBinEvent={[Function EventEmitter]}
   ngbModal={[Function NgbModal]}
   publishSessionEvent={[Function EventEmitter]}
   resendResultsLinkToStudentsEvent={[Function EventEmitter]}
+  rowClicked={[Function Number]}
   sendRemindersToStudentsEvent={[Function EventEmitter]}
   sessionsTableRowModels={[Function Array]}
   sessionsTableRowModelsSortBy={[Function Number]}
@@ -269,10 +271,17 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                 ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
               >
                 <button
-                  class="btn btn-light btn-sm"
+                  class="btn btn-light btn-sm align-row"
                   id="btn-remind-0"
                 >
-                  Remind
+                  <span>
+                    Remind
+                  </span>
+                  <div
+                    class="padding-left-7px"
+                  >
+                    
+                  </div>
                 </button>
               </div>
             </td>
@@ -436,11 +445,18 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                 ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
               >
                 <button
-                  class="btn btn-light btn-sm"
+                  class="btn btn-light btn-sm align-row"
                   disabled=""
                   id="btn-remind-1"
                 >
-                  Remind
+                  <span>
+                    Remind
+                  </span>
+                  <div
+                    class="padding-left-7px"
+                  >
+                    
+                  </div>
                 </button>
               </div>
             </td>
@@ -465,11 +481,13 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
   courseCandidates={[Function Array]}
   downloadSessionResultsEvent={[Function EventEmitter]}
   headerColorScheme="0"
+  isSendReminderLoading="false"
   loadResponseRateEvent={[Function EventEmitter]}
   moveSessionToRecycleBinEvent={[Function EventEmitter]}
   ngbModal={[Function NgbModal]}
   publishSessionEvent={[Function EventEmitter]}
   resendResultsLinkToStudentsEvent={[Function EventEmitter]}
+  rowClicked={[Function Number]}
   sendRemindersToStudentsEvent={[Function EventEmitter]}
   sessionsTableRowModels={[Function Array]}
   sessionsTableRowModelsSortBy={[Function Number]}
@@ -699,10 +717,17 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                 ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
               >
                 <button
-                  class="btn btn-light btn-sm"
+                  class="btn btn-light btn-sm align-row"
                   id="btn-remind-0"
                 >
-                  Remind
+                  <span>
+                    Remind
+                  </span>
+                  <div
+                    class="padding-left-7px"
+                  >
+                    
+                  </div>
                 </button>
               </div>
             </td>
@@ -857,11 +882,18 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                 ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
               >
                 <button
-                  class="btn btn-light btn-sm"
+                  class="btn btn-light btn-sm align-row"
                   disabled=""
                   id="btn-remind-1"
                 >
-                  Remind
+                  <span>
+                    Remind
+                  </span>
+                  <div
+                    class="padding-left-7px"
+                  >
+                    
+                  </div>
                 </button>
               </div>
             </td>
@@ -886,11 +918,13 @@ exports[`SessionsTableComponent should snap with default fields 1`] = `
   courseCandidates={[Function Array]}
   downloadSessionResultsEvent={[Function EventEmitter]}
   headerColorScheme="0"
+  isSendReminderLoading="false"
   loadResponseRateEvent={[Function EventEmitter]}
   moveSessionToRecycleBinEvent={[Function EventEmitter]}
   ngbModal={[Function NgbModal]}
   publishSessionEvent={[Function EventEmitter]}
   resendResultsLinkToStudentsEvent={[Function EventEmitter]}
+  rowClicked={[Function Number]}
   sendRemindersToStudentsEvent={[Function EventEmitter]}
   sessionsTableRowModels={[Function Array]}
   sessionsTableRowModelsSortBy="0"
