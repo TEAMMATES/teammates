@@ -270,8 +270,9 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
                 () -> studentsLogic.regenerateStudentRegistrationKey(student1InCourse1.getCourse(), nonExistentEmail));
-        assertEquals("Student does not exist: [" + student1InCourse1.getCourse() + "/" + nonExistentEmail + "]",
-                      ednee.getMessage());
+        assertEquals("The student with the email " + nonExistentEmail + " could not be found for the course "
+                        + "with ID [" + student1InCourse1.getCourse() + "].",
+                ednee.getMessage());
     }
 
     private void testGetStudentForEmail() {
@@ -310,7 +311,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         String course1Id = dataBundle.courses.get("typicalCourse1").getId();
         String studentKey = studentsLogic.getStudentForCourseIdAndGoogleId(
-                course1Id, student1InCourse1.getGoogleId()).getEncryptedKey();
+                course1Id, student1InCourse1.getGoogleId()).getKey();
         StudentAttributes actualStudent = studentsLogic.getStudentForRegistrationKey(studentKey);
         assertEquals(student1InCourse1.getGoogleId(), actualStudent.getGoogleId());
     }

@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -46,9 +45,7 @@ public class BinFeedbackSessionActionTest extends BaseActionTest<BinFeedbackSess
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
         };
         BinFeedbackSessionAction a = getAction(params);
-        JsonResult r = getJsonResult(a);
-
-        assertEquals(r.getStatusCode(), HttpStatus.SC_OK);
+        getJsonResult(a);
 
         assertNull(logic.getFeedbackSession(fs.getFeedbackSessionName(), fs.getCourseId()));
         assertNotNull(logic.getFeedbackSessionFromRecycleBin(fs.getFeedbackSessionName(), fs.getCourseId()));
@@ -68,7 +65,7 @@ public class BinFeedbackSessionActionTest extends BaseActionTest<BinFeedbackSess
         };
 
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
-        verifyEntityNotFound(submissionParams);
+        verifyEntityNotFoundAcl(submissionParams);
 
         ______TS("other verifications");
 

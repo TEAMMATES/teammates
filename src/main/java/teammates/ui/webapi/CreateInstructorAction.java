@@ -1,17 +1,14 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.InvalidOperationException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
 import teammates.ui.output.InstructorData;
 import teammates.ui.request.InstructorCreateRequest;
+import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * Action: adds another instructor to a course that already exists.
@@ -41,7 +38,7 @@ class CreateInstructorAction extends Action {
     }
 
     @Override
-    public JsonResult execute() {
+    public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         InstructorCreateRequest instructorRequest = getAndValidateRequestBody(InstructorCreateRequest.class);
         InstructorAttributes instructorToAdd = createInstructorWithBasicAttributes(courseId,
@@ -52,7 +49,7 @@ class CreateInstructorAction extends Action {
         try {
             InstructorAttributes createdInstructor = logic.createInstructor(instructorToAdd);
             taskQueuer.scheduleCourseRegistrationInviteToInstructor(
-                    userInfo.id, instructorToAdd.getEmail(), instructorToAdd.getCourseId(), null, false);
+                    userInfo.id, instructorToAdd.getEmail(), instructorToAdd.getCourseId(), false);
             taskQueuer.scheduleInstructorForSearchIndexing(createdInstructor.getCourseId(), createdInstructor.getEmail());
 
             return new JsonResult(new InstructorData(createdInstructor));
@@ -60,7 +57,7 @@ class CreateInstructorAction extends Action {
             throw new InvalidOperationException(
                     "An instructor with the same email address already exists in the course.", e);
         } catch (InvalidParametersException e) {
-            return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
+            throw new InvalidHttpRequestBodyException(e);
         }
 
     }

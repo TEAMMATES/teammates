@@ -10,7 +10,10 @@
 runtime: java11
 
 # Command to run the application as how it would be done in command line.
-entrypoint: 'java -ea -Djava.util.logging.config.file=WEB-INF/logging.properties -cp "WEB-INF/lib/*:WEB-INF/classes/." teammates.main.Application'
+entrypoint: >
+  java -ea -Djava.util.logging.config.file=WEB-INF/logging.properties
+  -Djava.time.zone.DefaultZoneRulesProvider=teammates.common.util.TzdbResourceZoneRulesProvider
+  -cp "WEB-INF/lib/*:WEB-INF/classes/." teammates.main.Application
 
 # GAE instance class that determines compute resources available to the application.
 instance_class: F1

@@ -12,6 +12,7 @@ public class CourseData extends ApiOutput {
     private final String courseId;
     private final String courseName;
     private final String timeZone;
+    private final String institute;
     private long creationTimestamp;
     private long deletionTimestamp;
     @Nullable
@@ -21,6 +22,7 @@ public class CourseData extends ApiOutput {
         this.courseId = courseAttributes.getId();
         this.courseName = courseAttributes.getName();
         this.timeZone = courseAttributes.getTimeZone().getId();
+        this.institute = courseAttributes.getInstitute();
         this.creationTimestamp = courseAttributes.getCreatedAt().toEpochMilli();
         if (courseAttributes.getDeletedAt() != null) {
             this.deletionTimestamp = courseAttributes.getDeletedAt().toEpochMilli();
@@ -33,6 +35,10 @@ public class CourseData extends ApiOutput {
 
     public String getCourseName() {
         return courseName;
+    }
+
+    public String getInstitute() {
+        return institute;
     }
 
     public String getTimeZone() {

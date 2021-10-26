@@ -13,12 +13,14 @@
       "createdAt": "2012-04-01T23:58:00Z",
       "id": "tm.e2e.IHome.CS2104",
       "name": "Programming Language Concepts",
+      "institute": "TEAMMATES Test Institute 1",
       "timeZone": "UTC"
     },
     "IHome.CS1101": {
       "createdAt": "2013-04-01T23:59:00Z",
       "id": "tm.e2e.IHome.CS1101",
       "name": "Programming Methodology",
+      "institute": "TEAMMATES Test Institute 1",
       "timeZone": "UTC"
     }
   },
@@ -157,6 +159,7 @@
       "resultsVisibleFromTime": "2027-05-01T15:59:00Z",
       "timeZone": "Asia/Singapore",
       "gracePeriod": 10,
+      "sentOpeningSoonEmail": true,
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -197,6 +200,7 @@
       "resultsVisibleFromTime": "2027-05-01T15:59:00Z",
       "timeZone": "Asia/Singapore",
       "gracePeriod": 10,
+      "sentOpeningSoonEmail": true,
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -217,6 +221,7 @@
       "resultsVisibleFromTime": "2012-05-01T15:59:00Z",
       "timeZone": "Asia/Singapore",
       "gracePeriod": 10,
+      "sentOpeningSoonEmail": true,
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -237,6 +242,7 @@
       "resultsVisibleFromTime": "2012-05-01T15:59:00Z",
       "timeZone": "Asia/Singapore",
       "gracePeriod": 10,
+      "sentOpeningSoonEmail": true,
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,

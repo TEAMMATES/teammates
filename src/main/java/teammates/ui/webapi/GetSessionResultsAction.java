@@ -4,10 +4,6 @@ import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.EntityNotFoundException;
-import teammates.common.exception.InvalidHttpParameterException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.ui.output.SessionResultsData;
 import teammates.ui.request.Intent;
@@ -28,11 +24,6 @@ class GetSessionResultsAction extends Action {
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
         FeedbackSessionAttributes fs = getNonNullFeedbackSession(feedbackSessionName, courseId);
-
-        if (fs == null) {
-            throw new EntityNotFoundException(new EntityDoesNotExistException("Feedback session is not found"));
-        }
-
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
         switch (intent) {
         case INSTRUCTOR_RESULT:

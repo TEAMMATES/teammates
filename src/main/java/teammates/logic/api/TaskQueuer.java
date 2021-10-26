@@ -145,16 +145,13 @@ public class TaskQueuer {
      * @param instructorEmail the email address of the invited instructor
      */
     public void scheduleCourseRegistrationInviteToInstructor(String inviterGoogleId,
-            String instructorEmail, String courseId, String institute, boolean isRejoining) {
+            String instructorEmail, String courseId, boolean isRejoining) {
         Map<String, String> paramMap = new HashMap<>();
         if (inviterGoogleId != null) {
             paramMap.put(ParamsNames.INVITER_ID, inviterGoogleId);
         }
         paramMap.put(ParamsNames.INSTRUCTOR_EMAIL, instructorEmail);
         paramMap.put(ParamsNames.COURSE_ID, courseId);
-        if (institute != null) {
-            paramMap.put(ParamsNames.INSTRUCTOR_INSTITUTION, institute);
-        }
         paramMap.put(ParamsNames.IS_INSTRUCTOR_REJOINING, String.valueOf(isRejoining));
 
         addTask(TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_QUEUE_NAME,

@@ -1,7 +1,5 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -11,16 +9,13 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.EntityNotFoundException;
-import teammates.common.exception.InvalidHttpParameterException;
-import teammates.common.exception.InvalidOperationException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.ui.output.FeedbackResponseCommentData;
 import teammates.ui.request.FeedbackResponseCommentCreateRequest;
 import teammates.ui.request.Intent;
+import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * Creates a new feedback response comment.
@@ -39,12 +34,11 @@ class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
             feedbackResponseId = StringHelper.decrypt(
                     getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID));
         } catch (InvalidParametersException ipe) {
-            throw new InvalidHttpParameterException(ipe.getMessage(), ipe);
+            throw new InvalidHttpParameterException(ipe);
         }
         FeedbackResponseAttributes response = logic.getFeedbackResponse(feedbackResponseId);
         if (response == null) {
-            throw new EntityNotFoundException(
-                    new EntityDoesNotExistException("The feedback response does not exist."));
+            throw new EntityNotFoundException("The feedback response does not exist.");
         }
 
         String courseId = response.getCourseId();
@@ -58,7 +52,7 @@ class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
         case STUDENT_SUBMISSION:
             StudentAttributes studentAttributes = getStudentOfCourseFromRequest(courseId);
             if (studentAttributes == null) {
-                throw new EntityNotFoundException(new EntityDoesNotExistException("Student does not exist."));
+                throw new EntityNotFoundException("Student does not exist.");
             }
 
             gateKeeper.verifyAnswerableForStudent(question);
@@ -74,7 +68,7 @@ class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
         case INSTRUCTOR_SUBMISSION:
             InstructorAttributes instructorAsFeedbackParticipant = getInstructorOfCourseFromRequest(courseId);
             if (instructorAsFeedbackParticipant == null) {
-                throw new EntityNotFoundException(new EntityDoesNotExistException("Instructor does not exist."));
+                throw new EntityNotFoundException("Instructor does not exist.");
             }
 
             gateKeeper.verifyAnswerableForInstructor(question);
@@ -104,24 +98,24 @@ class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
     }
 
     @Override
-    public JsonResult execute() {
+    public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
         String feedbackResponseId;
         try {
             feedbackResponseId = StringHelper.decrypt(
                     getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID));
         } catch (InvalidParametersException ipe) {
-            throw new InvalidHttpParameterException(ipe.getMessage(), ipe);
+            throw new InvalidHttpParameterException(ipe);
         }
 
         FeedbackResponseAttributes response = logic.getFeedbackResponse(feedbackResponseId);
         if (response == null) {
-            throw new EntityNotFoundException(new EntityDoesNotExistException("The feedback response does not exist."));
+            throw new EntityNotFoundException("The feedback response does not exist.");
         }
         FeedbackResponseCommentCreateRequest comment = getAndValidateRequestBody(FeedbackResponseCommentCreateRequest.class);
 
         String commentText = comment.getCommentText();
         if (commentText.trim().isEmpty()) {
-            return new JsonResult(FEEDBACK_RESPONSE_COMMENT_EMPTY, HttpStatus.SC_BAD_REQUEST);
+            throw new InvalidHttpRequestBodyException(FEEDBACK_RESPONSE_COMMENT_EMPTY);
         }
         String questionId = response.getFeedbackQuestionId();
         FeedbackQuestionAttributes question = logic.getFeedbackQuestion(questionId);
@@ -186,11 +180,11 @@ class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
         try {
             createdComment = logic.createFeedbackResponseComment(feedbackResponseComment);
         } catch (EntityDoesNotExistException e) {
-            return new JsonResult(e.getMessage(), HttpStatus.SC_NOT_FOUND);
+            throw new EntityNotFoundException(e);
         } catch (EntityAlreadyExistsException e) {
             throw new InvalidOperationException(e);
         } catch (InvalidParametersException e) {
-            return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
+            throw new InvalidHttpRequestBodyException(e);
         }
 
         return new JsonResult(new FeedbackResponseCommentData(createdComment));

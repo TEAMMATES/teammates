@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
@@ -8,7 +7,6 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.ui.output.CourseData;
-import teammates.ui.output.MessageOutput;
 
 /**
  * SUT: {@link GetCourseAction}.
@@ -47,7 +45,6 @@ public class GetCourseActionTest extends BaseActionTest<GetCourseAction> {
         GetCourseAction getCourseAction = getAction(params);
         JsonResult response = getJsonResult(getCourseAction);
 
-        assertEquals(HttpStatus.SC_OK, response.getStatusCode());
         CourseData courseData = (CourseData) response.getOutput();
 
         assertEquals(expectedCourse.getId(), courseData.getCourseId());
@@ -67,7 +64,6 @@ public class GetCourseActionTest extends BaseActionTest<GetCourseAction> {
         getCourseAction = getAction(params);
         response = getJsonResult(getCourseAction);
 
-        assertEquals(HttpStatus.SC_OK, response.getStatusCode());
         courseData = (CourseData) response.getOutput();
 
         assertEquals(expectedCourse.getId(), courseData.getCourseId());
@@ -110,12 +106,8 @@ public class GetCourseActionTest extends BaseActionTest<GetCourseAction> {
 
         assertNull(logic.getCourse("fake-course"));
 
-        GetCourseAction getCourseAction = getAction(params);
-        JsonResult response = getJsonResult(getCourseAction);
-        MessageOutput messageOutput = (MessageOutput) response.getOutput();
-
-        assertEquals(HttpStatus.SC_NOT_FOUND, response.getStatusCode());
-        assertEquals("No course with id: fake-course", messageOutput.getMessage());
+        EntityNotFoundException enfe = verifyEntityNotFound(params);
+        assertEquals("No course with id: fake-course", enfe.getMessage());
     }
 
     @Test

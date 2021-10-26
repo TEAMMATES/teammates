@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
@@ -111,7 +110,6 @@ public class GetStudentProfileActionTest extends BaseActionTest<GetStudentProfil
 
         GetStudentProfileAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action);
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         StudentProfileData actualProfile = (StudentProfileData) result.getOutput();
         assertEquals("unregistered student in course 1", actualProfile.getName());
         assertNull(actualProfile.getEmail());
@@ -126,7 +124,6 @@ public class GetStudentProfileActionTest extends BaseActionTest<GetStudentProfil
                                        String expectedName, String... submissionParams) {
         GetStudentProfileAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action);
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         StudentProfileData actualProfile = (StudentProfileData) result.getOutput();
         assertEquals(expectedName, actualProfile.getName());
         assertEquals(expectedProfile.getEmail(), actualProfile.getEmail());

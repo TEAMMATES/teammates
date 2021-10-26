@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.servlet.http.Cookie;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.test.BaseTestCase;
@@ -30,7 +29,6 @@ public class JsonResultTest extends BaseTestCase {
 
         MockHttpServletResponse resp = new MockHttpServletResponse();
         result.send(resp);
-        assertEquals(HttpStatus.SC_OK, resp.getStatus());
         assertEquals(0, resp.getCookies().size());
 
         ______TS("json result with output message and cookies");
@@ -45,7 +43,6 @@ public class JsonResultTest extends BaseTestCase {
 
         MockHttpServletResponse respWithCookie = new MockHttpServletResponse();
         result.send(respWithCookie);
-        assertEquals(HttpStatus.SC_OK, respWithCookie.getStatus());
         assertEquals(1, respWithCookie.getCookies().size());
     }
 }

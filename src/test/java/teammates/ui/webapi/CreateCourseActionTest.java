@@ -2,12 +2,10 @@ package teammates.ui.webapi;
 
 import java.time.ZoneId;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.exception.InvalidOperationException;
 import teammates.common.util.Const;
 import teammates.ui.output.CourseData;
 import teammates.ui.request.CourseCreateRequest;
@@ -33,7 +31,7 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
 
         ______TS("Not enough parameters");
 
-        verifyHttpParameterFailure();
+        verifyHttpRequestBodyFailure(null);
 
         ______TS("Typical case with new course id");
 
@@ -54,12 +52,14 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
         CreateCourseAction action = getAction(courseCreateRequest);
 
         JsonResult result = getJsonResult(action);
+
+        verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
+
         CourseData courseData = (CourseData) result.getOutput();
         assertEquals(courseData.getCourseId(), "new-course");
         assertEquals(courseData.getCourseName(), "New Course");
         assertEquals(courseData.getTimeZone(), "UTC");
-
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
+        assertEquals(courseData.getInstitute(), "TEAMMATES Test Institute 1");
 
         CourseAttributes createdCourse = logic.getCourse("new-course");
         assertNotNull(createdCourse);
@@ -83,10 +83,7 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
         courseCreateRequest.setTimeZone("UTC");
         courseCreateRequest.setCourseId("");
 
-        action = getAction(courseCreateRequest);
-        result = getJsonResult(action);
-
-        assertEquals(HttpStatus.SC_BAD_REQUEST, result.getStatusCode());
+        verifyHttpRequestBodyFailure(courseCreateRequest);
     }
 
     @Override

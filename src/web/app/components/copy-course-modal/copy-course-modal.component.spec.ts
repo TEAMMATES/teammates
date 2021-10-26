@@ -39,16 +39,38 @@ describe('CopyCourseModalComponent', () => {
   });
 
   it('should snap with default fields', () => {
+    component.timezones = [{
+      id: 'Asia/Singapore',
+      offset: 'UTC +08:00',
+    }, {
+      id: 'UTC',
+      offset: 'UTC',
+    }];
+    fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
 
   it('should snap with some course id', () => {
+    component.timezones = [{
+      id: 'Asia/Singapore',
+      offset: 'UTC +08:00',
+    }, {
+      id: 'UTC',
+      offset: 'UTC',
+    }];
     component.newCourseId = 'Test02';
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
 
   it('should snap when copying from other sessions', () => {
+    component.timezones = [{
+      id: 'Asia/Singapore',
+      offset: 'UTC +08:00',
+    }, {
+      id: 'UTC',
+      offset: 'UTC',
+    }];
     component.isCopyFromOtherSession = true;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();

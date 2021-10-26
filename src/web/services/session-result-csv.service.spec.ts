@@ -108,13 +108,6 @@ describe('SessionResultCsvService', () => {
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
   });
 
-  it('should display student last name displayed properly for feedbackSessionResultsC1S1NewLastName', () => {
-    const sessionResult: SessionResults = loadTestData('feedbackSessionResultsC1S1NewLastName.json');
-
-    const result: string = service.getCsvForSessionResult(sessionResult, false, false);
-    expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
-  });
-
   it('should show missing responses', () => {
     const sessionResult: SessionResults = loadTestData('feedbackSessionResultsMissingResponsesShown.json');
 

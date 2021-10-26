@@ -126,6 +126,7 @@ public class CourseAttributesTest extends BaseTestCase {
                 .builder(veryLongId)
                 .withName(emptyName)
                 .withTimezone(ZoneId.of("UTC"))
+                .withInstitute("Test institute")
                 .build();
 
         assertFalse("invalid value", invalidCourse.isValid());

@@ -1,11 +1,8 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.ui.output.StudentData;
 
@@ -76,12 +73,12 @@ class GetStudentAction extends Action {
         }
 
         if (student == null) {
-            return new JsonResult(STUDENT_NOT_FOUND, HttpStatus.SC_NOT_FOUND);
+            throw new EntityNotFoundException(STUDENT_NOT_FOUND);
         }
 
         StudentData studentData = new StudentData(student);
         if (userInfo != null && userInfo.isAdmin) {
-            studentData.setKey(student.getEncryptedKey());
+            studentData.setKey(student.getKey());
             studentData.setGoogleId(student.getGoogleId());
         }
 

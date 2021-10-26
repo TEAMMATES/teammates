@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
@@ -31,7 +30,6 @@ public class GetTimeZonesActionTest extends BaseActionTest<GetTimeZonesAction> {
 
         TimeZonesData output = (TimeZonesData) r.getOutput();
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
         // This test does not check the timezone database used is the latest
         // Only check that the version number is returned, and some sample values for timezone offset
         assertNotNull(output.getVersion());

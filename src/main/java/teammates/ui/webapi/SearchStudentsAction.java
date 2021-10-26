@@ -3,14 +3,10 @@ package teammates.ui.webapi;
 import java.util.ArrayList;
 import java.util.List;
 
-import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.SearchServiceException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
-import teammates.common.util.StringHelper;
 import teammates.ui.output.StudentData;
 import teammates.ui.output.StudentsData;
 
@@ -30,45 +26,6 @@ class SearchStudentsAction extends Action {
         if (!userInfo.isInstructor && !userInfo.isAdmin) {
             throw new UnauthorizedAccessException("Instructor or Admin privilege is required to access this resource.");
         }
-    }
-
-    private String getInstituteFromCourseId(String courseId) {
-        String instructorForCourseGoogleId = findAvailableInstructorGoogleIdForCourse(courseId);
-        if (instructorForCourseGoogleId == null) {
-            return null;
-        }
-
-        AccountAttributes account = logic.getAccount(instructorForCourseGoogleId);
-        if (account == null) {
-            return null;
-        }
-
-        return StringHelper.isEmpty(account.getInstitute()) ? Const.UNKNOWN_INSTITUTION : account.getInstitute();
-    }
-
-    /**
-     * Finds the googleId of a registered instructor with co-owner privileges.
-     * If there is no such instructor, finds the googleId of a registered
-     * instructor with the privilege to modify instructors.
-     *
-     * @param courseId
-     *            the ID of the course
-     * @return the googleId of a suitable instructor if found, otherwise an
-     *         empty string
-     */
-    private String findAvailableInstructorGoogleIdForCourse(String courseId) {
-        List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(courseId);
-
-        for (InstructorAttributes instructor : instructorList) {
-            if (instructor.isRegistered()
-                    && (instructor.hasCoownerPrivileges()
-                    || instructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR))) {
-                return instructor.getGoogleId();
-            }
-
-        }
-
-        return "";
     }
 
     @Override
@@ -96,12 +53,11 @@ class SearchStudentsAction extends Action {
 
             if (userInfo.isAdmin && entity.equals(Const.EntityType.ADMIN)) {
                 studentData.addAdditionalInformationForAdminSearch(
-                        s.getEncryptedKey(),
-                        getInstituteFromCourseId(s.getCourse()),
+                        s.getKey(),
+                        logic.getCourseInstitute(s.getCourse()),
                         s.getGoogleId()
                 );
             }
-            studentData.hideLastName();
 
             studentDataList.add(studentData);
         }

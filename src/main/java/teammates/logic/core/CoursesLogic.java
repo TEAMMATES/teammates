@@ -69,6 +69,15 @@ public final class CoursesLogic {
     }
 
     /**
+     * Gets the institute associated with the course.
+     */
+    public String getCourseInstitute(String courseId) {
+        CourseAttributes cd = getCourse(courseId);
+        assert cd != null : "Trying to getCourseInstitute for inexistent course with id " + courseId;
+        return cd.getInstitute();
+    }
+
+    /**
      * Creates a course.
      *
      * @return the created course

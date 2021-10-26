@@ -47,6 +47,7 @@
     "FSubmit.CS2104": {
       "id": "tm.e2e.FSubmit.CS2104",
       "name": "Programming Language Concepts",
+      "institute": "TEAMMATES Test Institute 1",
       "timeZone": "UTC"
     }
   },
@@ -158,6 +159,7 @@
       "resultsVisibleFromTime": "2026-05-01T15:59:00Z",
       "timeZone": "Asia/Singapore",
       "gracePeriod": 10,
+      "sentOpeningSoonEmail": true,
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -178,6 +180,7 @@
       "resultsVisibleFromTime": "2026-05-01T15:59:00Z",
       "timeZone": "Asia/Singapore",
       "gracePeriod": 10,
+      "sentOpeningSoonEmail": true,
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,

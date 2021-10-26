@@ -1,11 +1,9 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.exception.NullHttpParameterException;
 import teammates.common.util.Const;
 import teammates.ui.output.MessageOutput;
 
@@ -44,7 +42,6 @@ public class RestoreCourseActionTest
         JsonResult result = getJsonResult(action);
         MessageOutput message = (MessageOutput) result.getOutput();
 
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         assertEquals("The course " + courseId + " has been restored.", message.getMessage());
         assertNull(logic.getCourse(instructor1OfCourse1.getCourseId()).getDeletedAt());
 
@@ -63,26 +60,19 @@ public class RestoreCourseActionTest
         result = getJsonResult(action);
         message = (MessageOutput) result.getOutput();
 
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         assertEquals("The course " + courseId + " has been restored.", message.getMessage());
         assertNull(logic.getCourse(instructor1OfCourse1.getCourseId()).getDeletedAt());
 
         ______TS("Not enough parameters");
 
-        assertThrows(NullHttpParameterException.class, () -> {
-            RestoreCourseAction emptyParamsAction = getAction();
-            getJsonResult(emptyParamsAction);
-        });
+        verifyHttpParameterFailure();
 
         ______TS("Non-Existent Course");
 
         String[] nonExistentCourse = new String[] {
                 Const.ParamsNames.COURSE_ID, "123C",
         };
-        action = getAction(nonExistentCourse);
-        result = getJsonResult(action);
-
-        assertEquals(HttpStatus.SC_NOT_FOUND, result.getStatusCode());
+        verifyEntityNotFound(nonExistentCourse);
     }
 
     @Override

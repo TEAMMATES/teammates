@@ -12,11 +12,13 @@
     "course": {
       "id": "tm.e2e.FRankOptQn.CS2104",
       "name": "Programming Language Concepts",
+      "institute": "TEAMMATES Test Institute 1",
       "timeZone": "Africa/Johannesburg"
     },
     "course2": {
       "id": "tm.e2e.FRankOptQn.CS1101",
       "name": "Programming Methodology",
+      "institute": "TEAMMATES Test Institute 1",
       "timeZone": "Africa/Johannesburg"
     }
   },

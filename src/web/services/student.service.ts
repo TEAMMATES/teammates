@@ -151,7 +151,7 @@ export class StudentService {
     csvRows.push([]);
     const hasSection: boolean =
         students.some((student: Student) => student.sectionName !== 'None' && student.sectionName !== '');
-    const headers: string[] = ['Team', 'Full Name', 'Last Name', 'Status', 'Email'];
+    const headers: string[] = ['Team', 'Name', 'Status', 'Email'];
     csvRows.push(hasSection ? ['Section'].concat(headers) : headers);
     students.sort((a: Student, b: Student) => {
       return this.tableComparatorService.compare(SortBy.SECTION_NAME, SortOrder.ASC, a.sectionName, b.sectionName)
@@ -163,7 +163,6 @@ export class StudentService {
       const studentRow: string[] = [
         student.teamName ? student.teamName : '',
         student.name,
-        student.lastName ? student.lastName : '',
         joinStatePipe.transform(student.joinState),
         student.email,
       ];

@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
@@ -43,7 +42,6 @@ public class DeleteAccountActionTest extends BaseActionTest<DeleteAccountAction>
         MessageOutput msg = (MessageOutput) result.getOutput();
 
         assertEquals(msg.getMessage(), "Account is successfully deleted.");
-        assertEquals(result.getStatusCode(), HttpStatus.SC_OK);
 
         assertNull(logic.getAccount(acc.getGoogleId()));
 
@@ -55,10 +53,10 @@ public class DeleteAccountActionTest extends BaseActionTest<DeleteAccountAction>
 
         action = getAction(submissionParams);
         result = getJsonResult(action);
+        msg = (MessageOutput) result.getOutput();
 
         // should fail silently.
         assertEquals(msg.getMessage(), "Account is successfully deleted.");
-        assertEquals(result.getStatusCode(), HttpStatus.SC_OK);
 
     }
 

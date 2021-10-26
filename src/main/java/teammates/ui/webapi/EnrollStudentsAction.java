@@ -10,13 +10,12 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.RequestTracer;
 import teammates.ui.output.EnrollStudentsData;
 import teammates.ui.output.StudentsData;
+import teammates.ui.request.InvalidHttpRequestBodyException;
 import teammates.ui.request.StudentsEnrollRequest;
 
 /**
@@ -48,7 +47,7 @@ class EnrollStudentsAction extends Action {
     }
 
     @Override
-    public JsonResult execute() {
+    public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         StudentsEnrollRequest enrollRequests = getAndValidateRequestBody(StudentsEnrollRequest.class);
@@ -65,7 +64,7 @@ class EnrollStudentsAction extends Action {
         try {
             logic.validateSectionsAndTeams(studentsToEnroll, courseId);
         } catch (EnrollException e) {
-            throw new InvalidHttpRequestBodyException(e.getMessage(), e);
+            throw new InvalidOperationException(e);
         }
 
         List<StudentAttributes> existingStudents = logic.getStudentsForCourse(courseId);

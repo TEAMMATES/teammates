@@ -53,6 +53,7 @@ public class DataBundleLogicTest extends BaseLogicTest {
                 .builder("invalid id")
                 .withName("valid course name")
                 .withTimezone(ZoneId.of("UTC"))
+                .withInstitute("Test institute")
                 .build();
         dataBundle = new DataBundle();
         dataBundle.courses.put("invalid", invalidCourse);

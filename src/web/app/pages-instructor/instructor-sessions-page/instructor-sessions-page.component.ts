@@ -185,13 +185,16 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
 
     modalRef.result.then((result: CopyFromOtherSessionsResult) => {
       this.copyFeedbackSession(result.fromFeedbackSession, result.newFeedbackSessionName, result.copyToCourseId,
-        result.copyToCourseId)
+        result.fromFeedbackSession.courseId)
           .pipe(finalize(() => this.isCopyOtherSessionLoading = false))
           .subscribe((createdFeedbackSession: FeedbackSession) => {
             this.navigationService.navigateWithSuccessMessage(this.router, '/web/instructor/sessions/edit',
                 'The feedback session has been copied. Please modify settings/questions as necessary.',
                 { courseid: createdFeedbackSession.courseId, fsname: createdFeedbackSession.feedbackSessionName });
-          }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
+          }, (resp: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorToast(
+                this.formatErrorMessage(resp.error.message));
+          });
     }).catch(() => this.isCopyOtherSessionLoading = false);
   }
 
@@ -346,8 +349,18 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
       });
     }, (resp: ErrorMessageOutput) => {
       this.sessionEditFormModel.isSaving = false;
-      this.statusMessageService.showErrorToast(resp.error.message);
+      this.statusMessageService.showErrorToast(
+          this.formatErrorMessage(resp.error.message));
     });
+  }
+
+  formatErrorMessage(errorMessage: string): string {
+    if (errorMessage.match('exists already in the course')) {
+      return `${errorMessage}
+          Tip: If you can't find such a session in that course, also check the 'Recycle bin'
+          (shown at the bottom of the 'Sessions' page).`;
+    }
+    return errorMessage;
   }
 
   /**
@@ -483,13 +496,6 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
    */
   submitSessionAsInstructorEventHandler(rowIndex: number): void {
     this.submitSessionAsInstructor(this.sessionsTableRowModels[rowIndex]);
-  }
-
-  /**
-   * Views the result of a feedback session.
-   */
-  viewSessionResultEventHandler(rowIndex: number): void {
-    this.viewSessionResult(this.sessionsTableRowModels[rowIndex]);
   }
 
   /**

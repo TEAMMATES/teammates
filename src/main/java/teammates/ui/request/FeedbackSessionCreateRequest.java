@@ -37,7 +37,7 @@ public class FeedbackSessionCreateRequest extends FeedbackSessionBasicRequest {
     }
 
     @Override
-    public void validate() {
+    public void validate() throws InvalidHttpRequestBodyException {
         super.validate();
 
         assertTrue(feedbackSessionName != null, "Session name cannot be null");

@@ -87,6 +87,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
   course: Course = {
     courseName: '',
     courseId: '',
+    institute: '',
     timeZone: 'UTC',
     creationTimestamp: 0,
     deletionTimestamp: 0,
@@ -94,6 +95,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
   originalCourse: Course = {
     courseName: '',
     courseId: '',
+    institute: '',
     timeZone: 'UTC',
     creationTimestamp: 0,
     deletionTimestamp: 0,

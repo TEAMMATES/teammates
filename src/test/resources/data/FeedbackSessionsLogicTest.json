@@ -111,38 +111,45 @@
       "createdAt": "2012-04-01T23:58:00Z",
       "id": "idOfTypicalCourse1",
       "name": "Typical Course 1 with 2 Evals",
+      "institute": "TEAMMATES Test Institute 1",
       "timeZone": "UTC"
     },
     "typicalCourse2": {
       "createdAt": "2012-04-01T23:59:00Z",
       "id": "idOfTypicalCourse2",
       "name": "Typical Course 2 with 1 Evals",
+      "institute": "TEAMMATES Test Institute 1",
       "timeZone": "UTC"
     },
     "typicalCourse3": {
       "createdAt": "2012-04-01T23:59:00Z",
       "id": "idOfTypicalCourse3",
       "name": "Typical Course 3 with 1 Evals",
+      "institute": "TEAMMATES Test Institute 1",
       "timeZone": "UTC"
     },
     "courseNoEvals": {
       "id": "idOfCourseNoEvals",
       "name": "Typical Course 3 with 0 Evals",
+      "institute": "TEAMMATES Test Institute 1",
       "timeZone": "UTC"
     },
     "sampleCourse": {
       "id": "idOfSampleCourse-demo",
       "name": "Sample Course",
+      "institute": "TEAMMATES Test Institute 7",
       "timeZone": "UTC"
     },
     "archivedCourse": {
       "id": "idOfArchivedCourse",
       "name": "Archived Course",
+      "institute": "TEAMMATES Test Institute 5",
       "timeZone": "UTC"
     },
     "unregisteredCourse": {
       "id": "idOfUnregisteredCourse",
       "name": "Unregistered Course",
+      "institute": "TEAMMATES Test Institute 1",
       "timeZone": "UTC"
     }
   },
@@ -585,6 +592,7 @@
       "resultsVisibleFromTime": "2037-05-01T21:59:00Z",
       "timeZone": "Africa/Johannesburg",
       "gracePeriod": 10,
+      "sentOpeningSoonEmail": true,
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -605,6 +613,7 @@
       "resultsVisibleFromTime": "2030-04-29T21:59:00Z",
       "timeZone": "Africa/Johannesburg",
       "gracePeriod": 5,
+      "sentOpeningSoonEmail": true,
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -625,6 +634,7 @@
       "resultsVisibleFromTime": "2030-04-29T21:59:00Z",
       "timeZone": "Africa/Johannesburg",
       "gracePeriod": 1440,
+      "sentOpeningSoonEmail": true,
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -645,6 +655,7 @@
       "resultsVisibleFromTime": "2030-04-29T21:59:00Z",
       "timeZone": "Africa/Johannesburg",
       "gracePeriod": 5,
+      "sentOpeningSoonEmail": true,
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -665,6 +676,7 @@
       "resultsVisibleFromTime": "2013-04-29T23:57:00Z",
       "timeZone": "UTC",
       "gracePeriod": 5,
+      "sentOpeningSoonEmail": false,
       "sentOpenEmail": false,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -685,6 +697,7 @@
       "resultsVisibleFromTime": "2030-04-29T23:00:00Z",
       "timeZone": "UTC",
       "gracePeriod": 5,
+      "sentOpeningSoonEmail": false,
       "sentOpenEmail": false,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -705,6 +718,7 @@
       "resultsVisibleFromTime": "2030-04-29T23:00:00Z",
       "timeZone": "UTC",
       "gracePeriod": 5,
+      "sentOpeningSoonEmail": true,
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -725,6 +739,7 @@
       "resultsVisibleFromTime": "2030-05-01T15:59:00Z",
       "timeZone": "Asia/Singapore",
       "gracePeriod": 0,
+      "sentOpeningSoonEmail": true,
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -746,6 +761,7 @@
       "resultsVisibleFromTime": "2037-05-01T21:59:00Z",
       "timeZone": "Africa/Johannesburg",
       "gracePeriod": 10,
+      "sentOpeningSoonEmail": true,
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -766,6 +782,7 @@
       "resultsVisibleFromTime": "2037-05-01T21:59:00Z",
       "timeZone": "Africa/Johannesburg",
       "gracePeriod": 10,
+      "sentOpeningSoonEmail": true,
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,

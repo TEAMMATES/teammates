@@ -1,10 +1,9 @@
 package teammates.ui.webapi;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.exception.InvalidOperationException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.ui.request.FeedbackSessionRespondentRemindRequest;
+import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * Remind the student about the published result of a feedback session.
@@ -29,7 +28,7 @@ class RemindFeedbackSessionResultAction extends Action {
     }
 
     @Override
-    public JsonResult execute() {
+    public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 

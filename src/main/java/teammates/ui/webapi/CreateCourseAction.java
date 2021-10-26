@@ -2,19 +2,17 @@ package teammates.ui.webapi;
 
 import java.time.ZoneId;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.InvalidOperationException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.ui.output.CourseData;
 import teammates.ui.request.CourseCreateRequest;
+import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * Create a new course for an instructor.
@@ -34,14 +32,14 @@ class CreateCourseAction extends Action {
     }
 
     @Override
-    public JsonResult execute() {
+    public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
         CourseCreateRequest courseCreateRequest = getAndValidateRequestBody(CourseCreateRequest.class);
 
         String newCourseTimeZone = courseCreateRequest.getTimeZone();
 
         String timeZoneErrorMessage = FieldValidator.getInvalidityInfoForTimeZone(newCourseTimeZone);
         if (!timeZoneErrorMessage.isEmpty()) {
-            return new JsonResult(timeZoneErrorMessage, HttpStatus.SC_BAD_REQUEST);
+            throw new InvalidHttpRequestBodyException(timeZoneErrorMessage);
         }
 
         String newCourseId = courseCreateRequest.getCourseId();
@@ -62,12 +60,16 @@ class CreateCourseAction extends Action {
 
         try {
             logic.createCourseAndInstructor(userInfo.getId(), courseAttributes);
+
+            InstructorAttributes instructorCreatedForCourse = logic.getInstructorForGoogleId(newCourseId, userInfo.getId());
+            taskQueuer.scheduleInstructorForSearchIndexing(instructorCreatedForCourse.getCourseId(),
+                    instructorCreatedForCourse.getEmail());
         } catch (EntityAlreadyExistsException e) {
             throw new InvalidOperationException("The course ID " + courseAttributes.getId()
                     + " has been used by another course, possibly by some other user."
                     + " Please try again with a different course ID.", e);
         } catch (InvalidParametersException e) {
-            return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
+            throw new InvalidHttpRequestBodyException(e);
         }
 
         return new JsonResult(new CourseData(logic.getCourse(newCourseId)));

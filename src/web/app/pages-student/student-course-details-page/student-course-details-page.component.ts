@@ -39,7 +39,6 @@ export class StudentCourseDetailsPageComponent implements OnInit {
     email: '',
     courseId: '',
     name: '',
-    lastName: '',
     comments: '',
     joinState: JoinState.NOT_JOINED,
     teamName: '',
@@ -49,6 +48,7 @@ export class StudentCourseDetailsPageComponent implements OnInit {
   course: Course = {
     courseId: '',
     courseName: '',
+    institute: '',
     timeZone: 'UTC',
     creationTimestamp: 0,
     deletionTimestamp: 0,

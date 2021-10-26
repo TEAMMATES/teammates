@@ -11,11 +11,6 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.logs.RequestLogUser;
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.EntityNotFoundException;
-import teammates.common.exception.InvalidHttpParameterException;
-import teammates.common.exception.NullHttpParameterException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
@@ -31,6 +26,7 @@ import teammates.logic.api.TaskQueuer;
 import teammates.logic.api.UserProvision;
 import teammates.ui.output.InstructorPrivilegeData;
 import teammates.ui.request.BasicRequest;
+import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * An "action" to be performed by the system.
@@ -174,7 +170,7 @@ public abstract class Action {
     String getNonNullRequestParamValue(String paramName) {
         String value = req.getParameter(paramName);
         if (value == null) {
-            throw new NullHttpParameterException(String.format("The [%s] HTTP parameter is null.", paramName));
+            throw new InvalidHttpParameterException(String.format("The [%s] HTTP parameter is null.", paramName));
         }
         return value;
     }
@@ -208,17 +204,24 @@ public abstract class Action {
     /**
      * Returns the request body payload.
      */
-    String getRequestBody() {
-        if (requestBody == null) {
+    public String getRequestBody() {
+        if (!hasDefinedRequestBody()) {
             requestBody = HttpRequestHelper.getRequestBody(req);
         }
         return requestBody;
     }
 
+    /**
+     * Returns true if the action has a request body already defined in it.
+     */
+    public boolean hasDefinedRequestBody() {
+        return requestBody != null;
+    }
+
     FeedbackSessionAttributes getNonNullFeedbackSession(String feedbackSessionName, String courseId) {
         FeedbackSessionAttributes feedbackSession = logic.getFeedbackSession(feedbackSessionName, courseId);
         if (feedbackSession == null) {
-            throw new EntityNotFoundException(new EntityDoesNotExistException("Feedback session not found"));
+            throw new EntityNotFoundException("Feedback session not found");
         }
         return feedbackSession;
     }
@@ -226,10 +229,10 @@ public abstract class Action {
     /**
      * Deserializes and validates the request body payload.
      */
-    <T extends BasicRequest> T getAndValidateRequestBody(Type typeOfBody) {
+    <T extends BasicRequest> T getAndValidateRequestBody(Type typeOfBody) throws InvalidHttpRequestBodyException {
         T requestBody = JsonUtils.fromJson(getRequestBody(), typeOfBody);
         if (requestBody == null) {
-            throw new NullHttpParameterException("The request body is null");
+            throw new InvalidHttpRequestBodyException("The request body is null");
         }
         requestBody.validate();
         return requestBody;
@@ -285,6 +288,6 @@ public abstract class Action {
     /**
      * Executes the action.
      */
-    public abstract ActionResult execute();
+    public abstract ActionResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException;
 
 }

@@ -1,7 +1,6 @@
 package teammates.ui.webapi;
 
 import teammates.common.datatransfer.UserInfoCookie;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;

@@ -47,6 +47,7 @@
     "FQLogicPCT.CS2104": {
       "id": "FQLogicPCT.CS2104",
       "name": "Programming Language Concepts",
+      "institute": "TEAMMATES Test Institute 1",
       "timeZone": "UTC"
     }
   },
@@ -153,6 +154,7 @@
       "resultsVisibleFromTime": "2012-05-01T15:59:00Z",
       "timeZone": "Asia/Singapore",
       "gracePeriod": 10,
+      "sentOpeningSoonEmail": true,
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,

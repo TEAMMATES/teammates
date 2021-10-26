@@ -4,12 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.ui.output.HasResponsesData;
 
@@ -118,10 +115,6 @@ class GetHasResponsesAction extends Action {
         }
 
         FeedbackSessionAttributes feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
-        if (feedbackSession == null) {
-            return new JsonResult("No feedback session found with name: " + feedbackSessionName,
-                    HttpStatus.SC_NOT_FOUND);
-        }
 
         StudentAttributes student = logic.getStudentForGoogleId(courseId, userInfo.getId());
         return new JsonResult(new HasResponsesData(
@@ -132,7 +125,7 @@ class GetHasResponsesAction extends Action {
         String feedbackQuestionID = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
         if (feedbackQuestionID != null) {
             if (logic.getFeedbackQuestion(feedbackQuestionID) == null) {
-                return new JsonResult("No feedback question with id: " + feedbackQuestionID, HttpStatus.SC_NOT_FOUND);
+                throw new EntityNotFoundException("No feedback question with id: " + feedbackQuestionID);
             }
 
             boolean hasResponses = logic.areThereResponsesForQuestion(feedbackQuestionID);
@@ -141,7 +134,7 @@ class GetHasResponsesAction extends Action {
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         if (logic.getCourse(courseId) == null) {
-            return new JsonResult("No course with id: " + courseId, HttpStatus.SC_NOT_FOUND);
+            throw new EntityNotFoundException("No course with id: " + courseId);
         }
 
         boolean hasResponses = logic.hasResponsesForCourse(courseId);

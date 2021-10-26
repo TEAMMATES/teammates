@@ -74,7 +74,7 @@ public class Logic {
     }
 
     public String getCourseInstitute(String courseId) {
-        return accountsLogic.getCourseInstitute(courseId);
+        return coursesLogic.getCourseInstitute(courseId);
     }
 
     /**
@@ -292,13 +292,13 @@ public class Logic {
      * Preconditions: <br>
      * * Parameters regkey and googleId are non-null.
      */
-    public InstructorAttributes joinCourseForInstructor(String regkey, String googleId, String institute, String mac)
+    public InstructorAttributes joinCourseForInstructor(String regkey, String googleId)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
 
         assert googleId != null;
         assert regkey != null;
 
-        return accountsLogic.joinCourseForInstructor(regkey, googleId, institute, mac);
+        return accountsLogic.joinCourseForInstructor(regkey, googleId);
     }
 
     /**
@@ -1314,6 +1314,10 @@ public class Logic {
 
     public List<FeedbackSessionAttributes> getFeedbackSessionsClosingWithinTimeLimit() {
         return feedbackSessionsLogic.getFeedbackSessionsClosingWithinTimeLimit();
+    }
+
+    public List<FeedbackSessionAttributes> getFeedbackSessionsOpeningWithinTimeLimit() {
+        return feedbackSessionsLogic.getFeedbackSessionsOpeningWithinTimeLimit();
     }
 
     /**

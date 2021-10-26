@@ -68,11 +68,13 @@
     "typicalCourse1": {
       "id": "FSRTest.idOfTypicalCourse1",
       "name": "Typical Course 1",
+      "institute": "TEAMMATES Test Institute 1",
       "timeZone": "UTC"
     },
     "course.no.sessions": {
       "id": "FSRTest.idOfNoSessionsCourse",
       "name": "No Sessions Course",
+      "institute": "TEAMMATES Test Institute 1",
       "timeZone": "UTC"
     }
   },
@@ -243,6 +245,7 @@
       "resultsVisibleFromTime": "2027-05-01T15:59:00Z",
       "timeZone": "Asia/Singapore",
       "gracePeriod": 10,
+      "sentOpeningSoonEmail": true,
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,

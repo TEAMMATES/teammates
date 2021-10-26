@@ -12,6 +12,7 @@
     "course": {
       "id": "tm.e2e.IAuditLogs.CS2104",
       "name": "Programming Language Concepts",
+      "institute": "TEAMMATES Test Institute 1",
       "timeZone": "Africa/Johannesburg"
     }
   },

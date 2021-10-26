@@ -3,6 +3,7 @@ package teammates.logic.api;
 import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.logs.EmailSentLogDetails;
+import teammates.common.exception.EmailSendingException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.EmailSendingStatus;
@@ -55,13 +56,19 @@ public class EmailSender {
         }
 
         EmailSendingStatus status;
+        EmailSendingException caughtE = null;
         try {
             status = service.sendEmail(message);
-        } catch (Exception e) {
-            status = new EmailSendingStatus(HttpStatus.SC_INTERNAL_SERVER_ERROR, e.getMessage());
+        } catch (EmailSendingException e) {
+            caughtE = e;
+            status = new EmailSendingStatus(e.getStatusCode(), e.getMessage());
         }
         if (!status.isSuccess()) {
-            log.severe("Email failed to send: " + status.getMessage());
+            if (caughtE == null) {
+                log.severe("Email failed to send: " + status.getMessage());
+            } else {
+                log.severe("Email failed to send: " + status.getMessage(), caughtE);
+            }
         }
 
         EmailSentLogDetails details = new EmailSentLogDetails();

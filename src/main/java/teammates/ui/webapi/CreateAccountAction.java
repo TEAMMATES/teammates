@@ -13,18 +13,22 @@ import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
+import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
 import teammates.ui.output.JoinLinkData;
 import teammates.ui.request.AccountCreateRequest;
+import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * Creates a new instructor account with sample courses.
  */
 class CreateAccountAction extends AdminOnlyAction {
 
+    private static final Logger log = Logger.getLogger();
+
     @Override
-    public JsonResult execute() {
+    public JsonResult execute() throws InvalidHttpRequestBodyException {
         AccountCreateRequest createRequest = getAndValidateRequestBody(AccountCreateRequest.class);
 
         String instructorName = createRequest.getInstructorName().trim();
@@ -35,13 +39,13 @@ class CreateAccountAction extends AdminOnlyAction {
         try {
             courseId = importDemoData(instructorEmail, instructorName, instructorInstitution);
         } catch (InvalidParametersException e) {
-            return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
+            // There should not be any invalid parameter here
+            log.severe("Unexpected error", e);
+            return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
         List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(courseId);
         String joinLink = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
-                .withRegistrationKey(instructorList.get(0).getEncryptedKey())
-                .withInstructorInstitution(instructorInstitution)
-                .withInstitutionMac(StringHelper.generateSignature(instructorInstitution))
+                .withRegistrationKey(instructorList.get(0).getKey())
                 .withEntityType(Const.EntityType.INSTRUCTOR)
                 .toAbsoluteString();
         EmailWrapper email = emailGenerator.generateNewInstructorAccountJoinEmail(

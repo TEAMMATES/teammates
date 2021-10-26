@@ -11,6 +11,7 @@ import java.util.Map;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.Part;
 
+import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -23,11 +24,6 @@ import teammates.common.datatransfer.UserInfo;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.ActionMappingException;
-import teammates.common.exception.EntityNotFoundException;
-import teammates.common.exception.InvalidHttpParameterException;
-import teammates.common.exception.InvalidOperationException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
@@ -44,6 +40,7 @@ import teammates.test.FileHelper;
 import teammates.test.MockHttpServletRequest;
 import teammates.test.MockPart;
 import teammates.ui.request.BasicRequest;
+import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * Base class for all action tests.
@@ -577,12 +574,27 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
     // The next few methods are for parsing results
 
     /**
-     * Executes the action and returns the result.
+     * Executes the action, verifies the status code as 200 OK, and returns the result.
      *
      * <p>Assumption: The action returns a {@link JsonResult}.
      */
     protected JsonResult getJsonResult(Action a) {
-        return (JsonResult) a.execute();
+        return getJsonResult(a, HttpStatus.SC_OK);
+    }
+
+    /**
+     * Executes the action, verifies the status code, and returns the result.
+     *
+     * <p>Assumption: The action returns a {@link JsonResult}.
+     */
+    protected JsonResult getJsonResult(Action a, int statusCode) {
+        try {
+            ActionResult r = a.execute();
+            assertEquals(statusCode, r.getStatusCode());
+            return (JsonResult) r;
+        } catch (InvalidOperationException | InvalidHttpRequestBodyException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -591,18 +603,70 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
      * <p>Assumption: The action returns a {@link ImageResult}.
      */
     protected ImageResult getImageResult(Action a) {
-        return (ImageResult) a.execute();
+        try {
+            return (ImageResult) a.execute();
+        } catch (InvalidOperationException | InvalidHttpRequestBodyException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     // The next few methods are for verifying action results
 
     /**
-     * Verifies that the {@code parameters} violates an assumption of the
-     * matching {@link Action}. e.g., missing a compulsory parameter.
+     * Verifies that the executed action results in {@link InvalidHttpParameterException} being thrown.
      */
-    protected void verifyHttpParameterFailure(String... params) {
+    protected InvalidHttpParameterException verifyHttpParameterFailure(String... params) {
         Action c = getAction(params);
-        assertThrows(InvalidHttpParameterException.class, c::execute);
+        return assertThrows(InvalidHttpParameterException.class, c::execute);
+    }
+
+    /**
+     * Verifies that the executed action results in {@link InvalidHttpParameterException} being thrown.
+     */
+    protected InvalidHttpParameterException verifyHttpParameterFailure(BasicRequest requestBody, String... params) {
+        Action c = getAction(requestBody, params);
+        return assertThrows(InvalidHttpParameterException.class, c::execute);
+    }
+
+    /**
+     * Verifies that the action results in {@link InvalidHttpParameterException} being thrown
+     * when checking for access control.
+     */
+    protected InvalidHttpParameterException verifyHttpParameterFailureAcl(String... params) {
+        Action c = getAction(params);
+        return assertThrows(InvalidHttpParameterException.class, c::checkAccessControl);
+    }
+
+    /**
+     * Verifies that the executed action results in {@link InvalidHttpRequestBodyException} being thrown.
+     */
+    protected InvalidHttpRequestBodyException verifyHttpRequestBodyFailure(BasicRequest requestBody, String... params) {
+        Action c = getAction(requestBody, params);
+        return assertThrows(InvalidHttpRequestBodyException.class, c::execute);
+    }
+
+    /**
+     * Verifies that the executed action results in {@link EntityNotFoundException} being thrown.
+     */
+    protected EntityNotFoundException verifyEntityNotFound(String... params) {
+        Action c = getAction(params);
+        return assertThrows(EntityNotFoundException.class, c::execute);
+    }
+
+    /**
+     * Verifies that the executed action results in {@link EntityNotFoundException} being thrown.
+     */
+    protected EntityNotFoundException verifyEntityNotFound(BasicRequest requestBody, String... params) {
+        Action c = getAction(requestBody, params);
+        return assertThrows(EntityNotFoundException.class, c::execute);
+    }
+
+    /**
+     * Verifies that the action results in {@link EntityNotFoundException} being thrown when checking for access control.
+     */
+    protected EntityNotFoundException verifyEntityNotFoundAcl(String... params) {
+        Action c = getAction(params);
+        return assertThrows(EntityNotFoundException.class, c::checkAccessControl);
     }
 
     /**
@@ -656,14 +720,6 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
      */
     protected void verifyNumberOfEmailsSent(int emailCount) {
         assertEquals(emailCount, mockEmailSender.getEmailsSent().size());
-    }
-
-    /**
-     * Verifies that the executed action results in {@link EntityNotFoundException} being thrown.
-     */
-    protected void verifyEntityNotFound(String... params) {
-        Action c = getAction(params);
-        assertThrows(EntityNotFoundException.class, c::checkAccessControl);
     }
 
     /**

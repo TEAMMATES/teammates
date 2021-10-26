@@ -3,7 +3,6 @@ package teammates.ui.webapi;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -67,7 +66,6 @@ public class GetOngoingSessionsActionTest extends BaseActionTest<GetOngoingSessi
         getOngoingSessionsAction = getAction(params);
         r = getJsonResult(getOngoingSessionsAction);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
         OngoingSessionsData response = (OngoingSessionsData) r.getOutput();
 
         assertEquals(0, response.getTotalAwaitingSessions());
@@ -116,7 +114,6 @@ public class GetOngoingSessionsActionTest extends BaseActionTest<GetOngoingSessi
     }
 
     private void verifyNoExistingSession(JsonResult r) {
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
         OngoingSessionsData response = (OngoingSessionsData) r.getOutput();
 
         assertEquals(0, response.getTotalAwaitingSessions());

@@ -3,12 +3,10 @@ package teammates.ui.webapi;
 import java.time.ZoneId;
 import java.util.List;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.exception.EntityNotFoundException;
 import teammates.common.util.Const;
 import teammates.ui.output.CourseData;
 
@@ -50,13 +48,14 @@ public class BinCourseActionTest extends BaseActionTest<BinCourseAction> {
         logic.createCourseAndInstructor(instructorId,
                 CourseAttributes.builder("icdct.tpa.id1")
                         .withName("New course")
-                        .withTimezone(ZoneId.of("UTC")).build());
+                        .withTimezone(ZoneId.of("UTC"))
+                        .withInstitute("Test institute")
+                        .build());
 
         BinCourseAction binCourseAction = getAction(submissionParams);
         JsonResult result = getJsonResult(binCourseAction);
         CourseData courseData = (CourseData) result.getOutput();
 
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         verifyCourseData(courseData, courseToBeDeleted.getId(), courseToBeDeleted.getName(),
                 courseToBeDeleted.getTimeZone().getId());
 
@@ -78,7 +77,6 @@ public class BinCourseActionTest extends BaseActionTest<BinCourseAction> {
         binCourseAction = getAction(addUserIdToParams(instructorId, submissionParams));
         result = getJsonResult(binCourseAction);
 
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         courseData = (CourseData) result.getOutput();
 
         verifyCourseData(courseData, "icdct.tpa.id1", "New course", "UTC");
@@ -99,8 +97,7 @@ public class BinCourseActionTest extends BaseActionTest<BinCourseAction> {
 
         assertNull(logic.getCourse("fake-course"));
 
-        EntityNotFoundException e = assertThrows(EntityNotFoundException.class, () ->
-                getAction(submissionParams).execute());
+        EntityNotFoundException e = verifyEntityNotFound(submissionParams);
         assertEquals("Trying to update non-existent Entity: ", e.getMessage());
     }
 
@@ -123,7 +120,6 @@ public class BinCourseActionTest extends BaseActionTest<BinCourseAction> {
         JsonResult result = getJsonResult(binCourseAction);
         CourseData courseData = (CourseData) result.getOutput();
 
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         verifyCourseData(courseData, courseInformation.getId(), courseInformation.getName(),
                 courseInformation.getTimeZone().getId());
     }

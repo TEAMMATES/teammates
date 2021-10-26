@@ -26,7 +26,7 @@ public class DevServerLoginServlet extends AuthServlet {
         if (nextUrl == null) {
             nextUrl = "/";
         }
-        if (!Config.isDevServer()) {
+        if (!Config.isDevServerLoginEnabled()) {
             resp.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
             resp.setHeader("Location", Const.WebPageURIs.LOGIN + "?nextUrl=" + nextUrl.replace("&", "%26"));
             return;
@@ -48,7 +48,7 @@ public class DevServerLoginServlet extends AuthServlet {
 
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        if (!Config.isDevServer()) {
+        if (!Config.isDevServerLoginEnabled()) {
             resp.setStatus(HttpStatus.SC_FORBIDDEN);
             return;
         }

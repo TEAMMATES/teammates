@@ -248,7 +248,9 @@ public final class StudentsLogic {
 
         StudentAttributes originalStudent = studentsDb.getStudentForEmail(courseId, email);
         if (originalStudent == null) {
-            throw new EntityDoesNotExistException("Student does not exist: [" + courseId + "/" + email + "]");
+            String errorMessage = String.format(
+                    "The student with the email %s could not be found for the course with ID [%s].", email, courseId);
+            throw new EntityDoesNotExistException(errorMessage);
         }
 
         return studentsDb.regenerateEntityKey(originalStudent);

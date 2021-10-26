@@ -139,50 +139,6 @@ public class StringHelperTest extends BaseTestCase {
     }
 
     @Test
-    public void testSplitName() {
-
-        String fullName = "singleWord";
-        String[] splitName = StringHelper.splitName(fullName);
-
-        assertEquals(splitName[0], "");
-        assertEquals(splitName[1], "singleWord");
-
-        fullName = "";
-        splitName = StringHelper.splitName(fullName);
-
-        assertEquals(splitName[0], "");
-        assertEquals(splitName[1], "");
-
-        splitName = StringHelper.splitName(null);
-        assertEquals(0, splitName.length);
-
-        fullName = "two words";
-        splitName = StringHelper.splitName(fullName);
-
-        assertEquals(splitName[0], "two");
-        assertEquals(splitName[1], "words");
-
-        fullName = "now three words";
-        splitName = StringHelper.splitName(fullName);
-
-        assertEquals(splitName[0], "now three");
-        assertEquals(splitName[1], "words");
-
-        fullName = "what if four words";
-        splitName = StringHelper.splitName(fullName);
-
-        assertEquals(splitName[0], "what if four");
-        assertEquals(splitName[1], "words");
-
-        fullName = "first name firstName {last Name}";
-        splitName = StringHelper.splitName(fullName);
-
-        assertEquals(splitName[0], "first name firstName");
-        assertEquals(splitName[1], "last Name");
-
-    }
-
-    @Test
     public void testRemoveExtraSpace() {
 
         assertNull(StringHelper.removeExtraSpace((String) null));

@@ -2,7 +2,6 @@ package teammates.ui.webapi;
 
 import java.util.List;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -47,9 +46,7 @@ public class StudentSearchIndexingWorkerActionTest extends BaseActionTest<Studen
         };
 
         StudentSearchIndexingWorkerAction action = getAction(submissionParams);
-        JsonResult actionOutput = getJsonResult(action);
-
-        assertEquals(HttpStatus.SC_OK, actionOutput.getStatusCode());
+        getJsonResult(action);
 
         studentList = logic.searchStudentsInWholeSystem(student1.getEmail());
         assertEquals(1, studentList.size());

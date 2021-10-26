@@ -176,7 +176,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
 
         InstructorAttributes instr = instructorsDb.getInstructorForEmail(courseId, email);
 
-        InstructorAttributes retrieved = instructorsLogic.getInstructorForRegistrationKey(instr.getEncryptedKey());
+        InstructorAttributes retrieved = instructorsLogic.getInstructorForRegistrationKey(instr.getKey());
 
         assertEquals(instr.getCourseId(), retrieved.getCourseId());
         assertEquals(instr.getName(), retrieved.getName());
@@ -216,6 +216,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
                 CourseAttributes.builder(courseId)
                         .withName("New course")
                         .withTimezone(ZoneId.of("UTC"))
+                        .withInstitute("Test institute")
                         .build());
 
         instructors = instructorsLogic.getInstructorsForCourse(courseId);

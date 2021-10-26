@@ -5,27 +5,28 @@
       "name": "Instructor1 of Course1",
       "isInstructor": true,
       "email": "ASearch.instructor1@gmail.tmt",
-      "institute": "TEAMMATES Institute 1"
+      "institute": "TEAMMATES Test Institute 1"
     },
     "instructor2OfCourse1": {
       "googleId": "tm.e2e.ASearch.instr2",
       "name": "Instructor2 of Course1",
       "isInstructor": true,
       "email": "ASearch.instructor2@gmail.tmt",
-      "institute": "TEAMMATES Institute 1"
+      "institute": "TEAMMATES Test Institute 1"
     },
     "student1InCourse1": {
       "googleId": "tm.e2e.ASearch.student1",
       "name": "Student1 in course1",
       "isInstructor": false,
       "email": "ASearch.student1@gmail.tmt",
-      "institute": "TEAMMATES Institute 1"
+      "institute": "TEAMMATES Test Institute 1"
     }
   },
   "courses": {
     "typicalCourse1": {
       "id": "tm.e2e.ASearch.course1",
       "name": "Typical Course 1",
+      "institute": "TEAMMATES Test Institute 1",
       "timeZone": "UTC"
     }
   },
@@ -101,6 +102,7 @@
       "resultsVisibleFromTime": "2012-05-01T21:59:00Z",
       "timeZone": "Africa/Johannesburg",
       "gracePeriod": 10,
+      "sentOpeningSoonEmail": true,
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -121,6 +123,7 @@
     "resultsVisibleFromTime": "2012-05-01T21:59:00Z",
     "timeZone": "Africa/Johannesburg",
     "gracePeriod": 10,
+    "sentOpeningSoonEmail": true,
     "sentOpenEmail": true,
     "sentClosingEmail": false,
     "sentClosedEmail": false,

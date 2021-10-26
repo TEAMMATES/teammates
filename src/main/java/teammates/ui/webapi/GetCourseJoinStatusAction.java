@@ -1,7 +1,5 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
@@ -32,14 +30,14 @@ class GetCourseJoinStatusAction extends Action {
         case Const.EntityType.INSTRUCTOR:
             return getInstructorJoinStatus(regkey);
         default:
-            return new JsonResult("Error: invalid entity type", HttpStatus.SC_BAD_REQUEST);
+            throw new InvalidHttpParameterException("Error: invalid entity type");
         }
     }
 
     private JsonResult getStudentJoinStatus(String regkey) {
         StudentAttributes student = logic.getStudentForRegistrationKey(regkey);
         if (student == null) {
-            return new JsonResult("No student with given registration key: " + regkey, HttpStatus.SC_NOT_FOUND);
+            throw new EntityNotFoundException("No student with given registration key: " + regkey);
         }
         return getJoinStatusResult(student.isRegistered());
     }
@@ -47,13 +45,13 @@ class GetCourseJoinStatusAction extends Action {
     private JsonResult getInstructorJoinStatus(String regkey) {
         InstructorAttributes instructor = logic.getInstructorForRegistrationKey(regkey);
         if (instructor == null) {
-            return new JsonResult("No instructor with given registration key: " + regkey, HttpStatus.SC_NOT_FOUND);
+            throw new EntityNotFoundException("No instructor with given registration key: " + regkey);
         }
         return getJoinStatusResult(instructor.isRegistered());
     }
 
     private JsonResult getJoinStatusResult(boolean hasJoined) {
-        JoinStatus result = new JoinStatus(hasJoined, userInfo.id);
+        JoinStatus result = new JoinStatus(hasJoined);
         return new JsonResult(result);
     }
 }

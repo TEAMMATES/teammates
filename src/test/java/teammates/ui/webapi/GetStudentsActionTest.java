@@ -2,7 +2,6 @@ package teammates.ui.webapi;
 
 import java.util.List;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -48,7 +47,6 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
         };
         GetStudentsAction action = getAction(submissionParams);
         JsonResult jsonResult = getJsonResult(action);
-        assertEquals(HttpStatus.SC_OK, jsonResult.getStatusCode());
 
         StudentsData output = (StudentsData) jsonResult.getOutput();
         List<StudentData> students = output.getStudents();
@@ -60,7 +58,6 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
         assertEquals("idOfTypicalCourse1", typicalStudent.getCourseId());
         assertEquals("student1InCourse1@gmail.tmt", typicalStudent.getEmail());
         assertEquals("student1 In Course1</td></div>'\"", typicalStudent.getName());
-        assertEquals("Course1</td></div>'\"", typicalStudent.getLastName());
         assertEquals(JoinState.JOINED, typicalStudent.getJoinState());
         assertEquals("comment for student1InCourse1</td></div>'\"", typicalStudent.getComments());
         assertEquals("Team 1.1</td></div>'\"", typicalStudent.getTeamName());
@@ -78,7 +75,6 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
         };
         GetStudentsAction action = getAction(submissionParams);
         JsonResult jsonResult = getJsonResult(action);
-        assertEquals(HttpStatus.SC_OK, jsonResult.getStatusCode());
 
         StudentsData output = (StudentsData) jsonResult.getOutput();
         List<StudentData> students = output.getStudents();
@@ -90,7 +86,6 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
         assertEquals("idOfTypicalCourse1", typicalStudent.getCourseId());
         assertEquals("student1InCourse1@gmail.tmt", typicalStudent.getEmail());
         assertEquals("student1 In Course1</td></div>'\"", typicalStudent.getName());
-        assertEquals("Course1</td></div>'\"", typicalStudent.getLastName());
         assertNull(typicalStudent.getJoinState()); // information is hidden
         assertNull(typicalStudent.getComments()); // information is hidden
         assertEquals("Team 1.1</td></div>'\"", typicalStudent.getTeamName());

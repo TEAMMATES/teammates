@@ -2,22 +2,20 @@ package teammates.ui.webapi;
 
 import java.util.List;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.StringHelper;
 import teammates.common.util.StringHelperExtension;
 import teammates.ui.output.JoinLinkData;
 import teammates.ui.request.AccountCreateRequest;
+import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * SUT: {@link CreateAccountAction}.
@@ -44,16 +42,13 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
 
         ______TS("Not enough parameters");
 
-        Exception ex = assertThrows(InvalidHttpRequestBodyException.class,
-                () -> getAction(buildCreateRequest(null, institute, email)).execute());
+        InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(buildCreateRequest(null, institute, email));
         assertEquals("name cannot be null", ex.getMessage());
 
-        ex = assertThrows(InvalidHttpRequestBodyException.class,
-                () -> getAction(buildCreateRequest(name, null, email)).execute());
+        ex = verifyHttpRequestBodyFailure(buildCreateRequest(name, null, email));
         assertEquals("institute cannot be null", ex.getMessage());
 
-        ex = assertThrows(InvalidHttpRequestBodyException.class,
-                () -> getAction(buildCreateRequest(name, institute, null)).execute());
+        ex = verifyHttpRequestBodyFailure(buildCreateRequest(name, institute, null));
         assertEquals("email cannot be null", ex.getMessage());
 
         verifyNoTasksAdded();
@@ -68,8 +63,6 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
         CreateAccountAction a = getAction(req);
         JsonResult r = getJsonResult(a);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
-
         String courseId = generateNextDemoCourseId(email, FieldValidator.COURSE_ID_MAX_LENGTH);
 
         CourseAttributes course = logic.getCourse(courseId);
@@ -80,9 +73,7 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
         InstructorAttributes instructor = logic.getInstructorForEmail(courseId, email);
 
         String joinLink = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
-                .withRegistrationKey(instructor.getEncryptedKey())
-                .withInstructorInstitution(institute)
-                .withInstitutionMac(StringHelper.generateSignature(institute))
+                .withRegistrationKey(instructor.getKey())
                 .withEntityType(Const.EntityType.INSTRUCTOR)
                 .toAbsoluteString();
         JoinLinkData output = (JoinLinkData) r.getOutput();
@@ -106,9 +97,7 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
 
         req = buildCreateRequest(invalidName, institute, emailWithSpaces);
 
-        final CreateAccountAction finalA = getAction(req);
-
-        ex = assertThrows(InvalidHttpRequestBodyException.class, finalA::execute);
+        ex = verifyHttpRequestBodyFailure(req);
         assertEquals("\"" + invalidName + "\" is not acceptable to TEAMMATES as a/an person name because "
                 + "it contains invalid characters. A/An person name must start with an "
                 + "alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%).",

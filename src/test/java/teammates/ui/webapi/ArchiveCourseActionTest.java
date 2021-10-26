@@ -1,10 +1,8 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.exception.NullHttpParameterException;
 import teammates.common.util.Const;
 import teammates.ui.output.CourseArchiveData;
 import teammates.ui.request.CourseArchiveRequest;
@@ -41,9 +39,8 @@ public class ArchiveCourseActionTest extends BaseActionTest<ArchiveCourseAction>
 
         ______TS("Not enough parameters");
         verifyHttpParameterFailure();
-        verifyHttpParameterFailure(submissionParams);
-        ArchiveCourseAction archiveCourseActionWithoutParam = getAction(courseArchiveRequest);
-        assertThrows(NullHttpParameterException.class, () -> getJsonResult(archiveCourseActionWithoutParam));
+        verifyHttpRequestBodyFailure(null, submissionParams);
+        verifyHttpParameterFailure(courseArchiveRequest);
 
         ______TS("Typical case: archive a course");
 
@@ -54,7 +51,6 @@ public class ArchiveCourseActionTest extends BaseActionTest<ArchiveCourseAction>
         InstructorAttributes theInstructor = logic.getInstructorForGoogleId(
                 instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getGoogleId());
 
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         assertTrue(theInstructor.isArchived());
         verifyCourseArchive(courseArchiveData, instructor1OfCourse1.getCourseId(), true);
 
@@ -69,7 +65,6 @@ public class ArchiveCourseActionTest extends BaseActionTest<ArchiveCourseAction>
         theInstructor = logic.getInstructorForGoogleId(
                 instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getGoogleId());
 
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         assertTrue(theInstructor.isArchived());
         verifyCourseArchive(courseArchiveData, instructor1OfCourse1.getCourseId(), true);
 
@@ -84,7 +79,6 @@ public class ArchiveCourseActionTest extends BaseActionTest<ArchiveCourseAction>
         theInstructor = logic.getInstructorForGoogleId(instructor1OfCourse1.getCourseId(),
                 instructor1OfCourse1.getGoogleId());
 
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         assertFalse(theInstructor.isArchived());
         verifyCourseArchive(courseArchiveData, instructor1OfCourse1.getCourseId(), false);
 
@@ -99,7 +93,6 @@ public class ArchiveCourseActionTest extends BaseActionTest<ArchiveCourseAction>
         theInstructor = logic.getInstructorForGoogleId(
                 instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getGoogleId());
 
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         assertFalse(theInstructor.isArchived());
         verifyCourseArchive(courseArchiveData, instructor1OfCourse1.getCourseId(), false);
 
@@ -115,7 +108,6 @@ public class ArchiveCourseActionTest extends BaseActionTest<ArchiveCourseAction>
         theInstructor = logic.getInstructorForGoogleId(
                 instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getGoogleId());
 
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         assertTrue(theInstructor.isArchived());
         verifyCourseArchive(courseArchiveData, instructor1OfCourse1.getCourseId(), true);
     }

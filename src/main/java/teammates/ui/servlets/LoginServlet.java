@@ -30,7 +30,7 @@ public class LoginServlet extends AuthServlet {
         if (nextUrl == null) {
             nextUrl = "/";
         }
-        if (Config.isDevServer()) {
+        if (Config.isDevServerLoginEnabled()) {
             resp.setStatus(HttpStatus.SC_MOVED_PERMANENTLY);
             resp.setHeader("Location", "/devServerLogin?nextUrl=" + nextUrl.replace("&", "%26"));
             log.request(req, HttpStatus.SC_MOVED_PERMANENTLY, "Redirect to dev server login page");

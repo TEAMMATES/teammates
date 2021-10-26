@@ -38,6 +38,7 @@ public class CoursesDbTest extends BaseTestCaseWithLocalDatabaseAccess {
                 .builder("CDbT.tCC.newCourse")
                 .withName("Basic Computing")
                 .withTimezone(ZoneId.of("UTC"))
+                .withInstitute("Test institute")
                 .build();
         coursesDb.createEntity(c);
         verifyPresentInDatabase(c);
@@ -55,6 +56,7 @@ public class CoursesDbTest extends BaseTestCaseWithLocalDatabaseAccess {
                 .builder("Invalid id")
                 .withName("Basic Computing")
                 .withTimezone(ZoneId.of("UTC"))
+                .withInstitute("Test institute")
                 .build();
         InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
                 () -> coursesDb.createEntity(invalidIdCourse));
@@ -67,9 +69,22 @@ public class CoursesDbTest extends BaseTestCaseWithLocalDatabaseAccess {
                 .builder("CDbT.tCC.newCourse")
                 .withName(longCourseName)
                 .withTimezone(ZoneId.of("UTC"))
+                .withInstitute("Test institute")
                 .build();
         ipe = assertThrows(InvalidParametersException.class, () -> coursesDb.createEntity(invalidNameCourse));
         AssertHelper.assertContains("not acceptable to TEAMMATES as a/an course name because it is too long",
+                ipe.getMessage());
+
+        String longCourseInstitute = StringHelperExtension.generateStringOfLength(
+                FieldValidator.INSTITUTE_NAME_MAX_LENGTH + 1);
+        CourseAttributes invalidInstituteCourse = CourseAttributes
+                .builder("CDbT.tCC.newCourse")
+                .withName("Basic computing")
+                .withTimezone(ZoneId.of("UTC"))
+                .withInstitute(longCourseInstitute)
+                .build();
+        ipe = assertThrows(InvalidParametersException.class, () -> coursesDb.createEntity(invalidInstituteCourse));
+        AssertHelper.assertContains("not acceptable to TEAMMATES as a/an institute name because it is too long",
                 ipe.getMessage());
 
         ______TS("Failure: null parameter");
@@ -264,6 +279,7 @@ public class CoursesDbTest extends BaseTestCaseWithLocalDatabaseAccess {
                 .builder("Computing101")
                 .withName("Basic Computing")
                 .withTimezone(ZoneId.of("UTC"))
+                .withInstitute("Test institute")
                 .build();
 
         return coursesDb.putEntity(c);

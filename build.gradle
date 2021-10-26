@@ -72,7 +72,7 @@ dependencies {
     testAnnotationProcessor(testng)
 
     testImplementation("com.tngtech.archunit:archunit:0.11.0")
-    testImplementation("org.seleniumhq.selenium:selenium-java:3.141.59")
+    testImplementation("org.seleniumhq.selenium:selenium-java:4.0.0")
     testImplementation(testng)
     // For access to Google APIs such as HTTP transport, authentication and JSON parsing
     testImplementation("com.google.api-client:google-api-client:1.30.9")
@@ -158,6 +158,9 @@ task generateApiRequestFormat(type: cz.habarta.typescript.generator.gradle.Gener
     classPatterns = [
         "teammates.ui.request.**",
         "teammates.common.util.EmailType"
+    ]
+    excludeClasses = [
+        "teammates.ui.request.InvalidHttpRequestBodyException"
     ]
     outputFile = "src/web/types/api-request.ts"
 }
@@ -259,7 +262,8 @@ task copyDistToExplodedWar {
 task serverRun(type: JavaExec) {
     classpath "${explodeWar.destinationDir}/WEB-INF/lib/*", "${explodeWar.destinationDir}/WEB-INF/classes/."
     mainClass = "teammates.main.Application"
-    jvmArgs "-ea", "-Djava.util.logging.config.file=${explodeWar.destinationDir}/WEB-INF/logging-dev.properties"
+    jvmArgs "-ea", "-Djava.util.logging.config.file=${explodeWar.destinationDir}/WEB-INF/logging-dev.properties",
+            "-Djava.time.zone.DefaultZoneRulesProvider=teammates.common.util.TzdbResourceZoneRulesProvider"
     dependsOn explodeWar, copyDistToExplodedWar
 }
 

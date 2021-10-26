@@ -34,7 +34,7 @@ public class FeedbackQuestionBasicRequest extends BasicRequest {
     private List<FeedbackVisibilityType> showRecipientNameTo;
 
     @Override
-    public void validate() {
+    public void validate() throws InvalidHttpRequestBodyException {
         assertTrue(questionNumber >= 1, "Invalid question number");
         assertTrue(questionBrief != null, "Question brief cannot be null");
         assertTrue(!questionBrief.isEmpty(), "Question brief cannot be empty");

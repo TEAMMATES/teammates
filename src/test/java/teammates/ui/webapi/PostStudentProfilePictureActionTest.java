@@ -1,11 +1,10 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
-import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.util.Const;
+import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * SUT: {@link PostStudentProfilePictureAction}.
@@ -33,9 +32,8 @@ public class PostStudentProfilePictureActionTest extends BaseActionTest<PostStud
 
         String filePath = "src/test/resources/images/profile_pic.png";
         PostStudentProfilePictureAction action = getActionWithParts("studentprofilephoto", filePath);
-        JsonResult result = getJsonResult(action);
+        getJsonResult(action);
 
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         assertTrue(doesFileExist(student1.getGoogleId()));
 
         ______TS("Typical case: profile picture is null");

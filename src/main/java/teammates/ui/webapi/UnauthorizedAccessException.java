@@ -1,9 +1,10 @@
-package teammates.common.exception;
+package teammates.ui.webapi;
 
 /**
  * Exception thrown when an entity is attempting to request for resources it does not have permission for.
+ *
+ * <p>This corresponds to HTTP 403 error.
  */
-@SuppressWarnings("serial")
 public class UnauthorizedAccessException extends Exception {
 
     /**

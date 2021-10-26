@@ -1,12 +1,10 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.InvalidOperationException;
 import teammates.common.util.Const;
 import teammates.ui.request.FeedbackSessionRespondentRemindRequest;
 
@@ -75,9 +73,8 @@ public class RemindFeedbackSessionSubmissionActionTest extends BaseActionTest<Re
         };
 
         RemindFeedbackSessionSubmissionAction validAction = getAction(remindRequest, paramsTypical);
-        JsonResult result = getJsonResult(validAction);
+        getJsonResult(validAction);
 
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         verifySpecifiedTasksAdded(Const.TaskQueue.FEEDBACK_SESSION_REMIND_PARTICULAR_USERS_EMAIL_QUEUE_NAME, 1);
     }
 

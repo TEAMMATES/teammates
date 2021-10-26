@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import com.google.common.collect.Sets;
@@ -48,8 +47,6 @@ public class GetFeedbackSessionSubmittedGiverSetActionTest
 
         GetFeedbackSessionSubmittedGiverSetAction pageAction = getAction(submissionParams);
         JsonResult result = getJsonResult(pageAction);
-
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
 
         FeedbackSessionSubmittedGiverSet output = (FeedbackSessionSubmittedGiverSet) result.getOutput();
         assertEquals(Sets.newHashSet("student1InCourse1@gmail.tmt", "student2InCourse1@gmail.tmt",

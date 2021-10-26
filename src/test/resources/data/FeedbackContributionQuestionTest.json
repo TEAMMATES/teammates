@@ -132,12 +132,14 @@
       "createdAt": "2012-04-01T23:58:00Z",
       "id": "idOfTypicalCourse1",
       "name": "Typical Course 1 with 2 Evals",
+      "institute": "TEAMMATES Test Institute 1",
       "timeZone": "Africa/Johannesburg"
     },
     "typicalCourse2": {
       "createdAt": "2012-04-01T23:59:00Z",
       "id": "idOfTypicalCourse2",
       "name": "Typical Course 2 with 1 Evals",
+      "institute": "TEAMMATES Test Institute 1",
       "timeZone": "UTC"
     },
     "typicalCourse3": {
@@ -145,44 +147,52 @@
       "deletedAt": "2012-04-12T23:58:00Z",
       "id": "idOfTypicalCourse3",
       "name": "Typical Course 3 with 1 Evals",
+      "institute": "TEAMMATES Test Institute 1",
       "timeZone": "UTC"
     },
     "typicalCourse4": {
       "createdAt": "2012-04-02T23:58:00Z",
       "id": "idOfTypicalCourse4",
       "name": "Typical Course 4 with 1 Evals",
+      "institute": "TEAMMATES Test Institute 1",
       "timeZone": "UTC"
     },
     "courseNoEvals": {
       "id": "idOfCourseNoEvals",
       "name": "Typical Course 3 with 0 Evals",
+      "institute": "TEAMMATES Test Institute 1",
       "timeZone": "UTC"
     },
     "sampleCourse": {
       "id": "idOfSampleCourse-demo",
       "name": "Sample Course",
+      "institute": "TEAMMATES Test Institute 7",
       "timeZone": "UTC"
     },
     "archivedCourse": {
       "id": "idOfArchivedCourse",
       "name": "Archived Course",
+      "institute": "TEAMMATES Test Institute 5",
       "timeZone": "UTC"
     },
     "unregisteredCourse": {
       "id": "idOfUnregisteredCourse",
       "name": "Unregistered Course",
+      "institute": "TEAMMATES Test Institute 1",
       "timeZone": "UTC"
     },
     "testingInstructorsDisplayedCourse": {
       "createdAt": "2012-04-01T23:58:00Z",
       "id": "idOfTestingInstructorsDisplayedCourse",
       "name": "Testing<script> alert('hi!'); </script>",
+      "institute": "TEAMMATES Test Institute 1",
       "timeZone": "UTC"
     },
     "testingSanitizationCourse": {
       "createdAt": "2012-04-01T23:58:00Z",
       "id": "idOfTestingSanitizationCourse",
       "name": "Testing<script> alert('hi!'); </script>",
+      "institute": "inst<script> alert('hi!'); </script>",
       "timeZone": "UTC"
     }
   },
@@ -729,6 +739,7 @@
       "resultsVisibleFromTime": "2027-05-01T21:59:00Z",
       "timeZone": "Africa/Johannesburg",
       "gracePeriod": 10,
+      "sentOpeningSoonEmail": true,
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -749,6 +760,7 @@
       "resultsVisibleFromTime": "2026-04-29T21:59:00Z",
       "timeZone": "Africa/Johannesburg",
       "gracePeriod": 5,
+      "sentOpeningSoonEmail": true,
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -769,6 +781,7 @@
       "resultsVisibleFromTime": "2026-04-29T21:59:00Z",
       "timeZone": "Africa/Johannesburg",
       "gracePeriod": 1440,
+      "sentOpeningSoonEmail": true,
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -789,6 +802,7 @@
       "resultsVisibleFromTime": "2013-04-29T21:59:00Z",
       "timeZone": "Africa/Johannesburg",
       "gracePeriod": 5,
+      "sentOpeningSoonEmail": true,
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -809,6 +823,7 @@
       "resultsVisibleFromTime": "2013-04-29T23:57:00Z",
       "timeZone": "Africa/Johannesburg",
       "gracePeriod": 5,
+      "sentOpeningSoonEmail": false,
       "sentOpenEmail": false,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -829,6 +844,7 @@
       "resultsVisibleFromTime": "2026-04-29T23:00:00Z",
       "timeZone": "Africa/Johannesburg",
       "gracePeriod": 5,
+      "sentOpeningSoonEmail": false,
       "sentOpenEmail": false,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -849,6 +865,7 @@
       "resultsVisibleFromTime": "2026-04-29T23:00:00Z",
       "timeZone": "Africa/Johannesburg",
       "gracePeriod": 5,
+      "sentOpeningSoonEmail": true,
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -869,6 +886,7 @@
       "resultsVisibleFromTime": "2027-05-01T15:59:00Z",
       "timeZone": "Asia/Singapore",
       "gracePeriod": 0,
+      "sentOpeningSoonEmail": true,
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -889,6 +907,7 @@
       "resultsVisibleFromTime": "1970-01-01T00:00:00Z",
       "timeZone": "Asia/Singapore",
       "gracePeriod": 0,
+      "sentOpeningSoonEmail": true,
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -909,6 +928,7 @@
       "resultsVisibleFromTime": "2027-05-01T21:59:00Z",
       "timeZone": "Africa/Johannesburg",
       "gracePeriod": 10,
+      "sentOpeningSoonEmail": true,
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -930,6 +950,7 @@
       "resultsVisibleFromTime": "2027-05-01T21:59:00Z",
       "timeZone": "Africa/Johannesburg",
       "gracePeriod": 10,
+      "sentOpeningSoonEmail": true,
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -951,6 +972,7 @@
       "resultsVisibleFromTime": "2027-05-01T21:59:00Z",
       "timeZone": "Africa/Johannesburg",
       "gracePeriod": 10,
+      "sentOpeningSoonEmail": true,
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -971,6 +993,7 @@
       "resultsVisibleFromTime": "2027-05-01T21:59:00Z",
       "timeZone": "Africa/Johannesburg",
       "gracePeriod": 10,
+      "sentOpeningSoonEmail": true,
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,

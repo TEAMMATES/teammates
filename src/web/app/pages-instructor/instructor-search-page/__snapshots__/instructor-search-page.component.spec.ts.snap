@@ -7,7 +7,6 @@ exports[`InstructorSearchPageComponent should snap with a search key 1`] = `
   maxResultsToShow={[Function Number]}
   searchParams={[Function Object]}
   searchService={[Function SearchService]}
-  searchWarningDisplayed="false"
   statusMessageService={[Function StatusMessageService]}
   studentsListRowTables={[Function Array]}
 >
@@ -80,7 +79,6 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
   maxResultsToShow={[Function Number]}
   searchParams={[Function Object]}
   searchService={[Function SearchService]}
-  searchWarningDisplayed="false"
   statusMessageService={[Function StatusMessageService]}
   studentsListRowTables={[Function Array]}
 >
@@ -611,7 +609,6 @@ exports[`InstructorSearchPageComponent should snap with default fields 1`] = `
   maxResultsToShow={[Function Number]}
   searchParams={[Function Object]}
   searchService={[Function SearchService]}
-  searchWarningDisplayed="false"
   statusMessageService={[Function StatusMessageService]}
   studentsListRowTables={[Function Array]}
 >

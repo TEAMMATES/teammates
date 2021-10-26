@@ -1,12 +1,10 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.util.Const;
 import teammates.ui.output.AccountData;
-import teammates.ui.output.MessageOutput;
 
 /**
  * SUT: {@link GetAccountAction}.
@@ -40,13 +38,8 @@ public class GetAccountActionTest extends BaseActionTest<GetAccountAction> {
                 Const.ParamsNames.INSTRUCTOR_ID, "non-exist-account",
         };
 
-        GetAccountAction a = getAction(nonExistParams);
-        JsonResult r = getJsonResult(a);
-
-        assertEquals(HttpStatus.SC_NOT_FOUND, r.getStatusCode());
-        MessageOutput messageOutput = (MessageOutput) r.getOutput();
-
-        assertEquals("Account does not exist.", messageOutput.getMessage());
+        EntityNotFoundException enfe = verifyEntityNotFound(nonExistParams);
+        assertEquals("Account does not exist.", enfe.getMessage());
 
         ______TS("typical success case");
 
@@ -54,10 +47,9 @@ public class GetAccountActionTest extends BaseActionTest<GetAccountAction> {
                 Const.ParamsNames.INSTRUCTOR_ID, instructor1OfCourse1.getGoogleId(),
         };
 
-        a = getAction(params);
-        r = getJsonResult(a);
+        GetAccountAction a = getAction(params);
+        JsonResult r = getJsonResult(a);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
         AccountData response = (AccountData) r.getOutput();
 
         assertEquals(response.getGoogleId(), instructor1OfCourse1.getGoogleId());
@@ -72,12 +64,8 @@ public class GetAccountActionTest extends BaseActionTest<GetAccountAction> {
                 Const.ParamsNames.INSTRUCTOR_ID, "invalid-google-id",
         };
 
-        a = getAction(invalidParams);
-        r = getJsonResult(a);
-        MessageOutput output = (MessageOutput) r.getOutput();
-
-        assertEquals(HttpStatus.SC_NOT_FOUND, r.getStatusCode());
-        assertEquals("Account does not exist.", output.getMessage());
+        enfe = verifyEntityNotFound(invalidParams);
+        assertEquals("Account does not exist.", enfe.getMessage());
 
     }
 

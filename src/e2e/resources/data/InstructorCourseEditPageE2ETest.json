@@ -19,6 +19,7 @@
     "ICEdit.CS2104": {
       "id": "tm.e2e.ICEdit.CS2104",
       "name": "Programming Language Concepts",
+      "institute": "TEAMMATES Test Institute 1",
       "timeZone": "UTC"
     }
   },
@@ -181,6 +182,7 @@
       "resultsVisibleFromTime": "2027-05-01T21:59:00Z",
       "timeZone": "Africa/Johannesburg",
       "gracePeriod": 10,
+      "sentOpeningSoonEmail": true,
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,

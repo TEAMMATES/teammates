@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
@@ -26,8 +25,6 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
     @Test
     @Override
     protected void testExecute() {
-        JsonResult actionOutput;
-
         CourseAttributes course1 = typicalBundle.courses.get("typicalCourse1");
         String courseId1 = course1.getId();
         FeedbackSessionAttributes fsa1 = typicalBundle.feedbackSessions.get("session1InCourse1");
@@ -55,8 +52,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, "invalid log type",
                 Const.ParamsNames.STUDENT_EMAIL, student1.getEmail(),
         };
-        actionOutput = getJsonResult(getAction(paramsInvalid));
-        assertEquals(HttpStatus.SC_BAD_REQUEST, actionOutput.getStatusCode());
+        verifyHttpParameterFailure(paramsInvalid);
 
         ______TS("Success case: typical access");
         String[] paramsSuccessfulAccess = {
@@ -65,8 +61,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.ACCESS.getLabel(),
                 Const.ParamsNames.STUDENT_EMAIL, student1.getEmail(),
         };
-        actionOutput = getJsonResult(getAction(paramsSuccessfulAccess));
-        assertEquals(HttpStatus.SC_OK, actionOutput.getStatusCode());
+        getJsonResult(getAction(paramsSuccessfulAccess));
 
         ______TS("Success case: typical submission");
         String[] paramsSuccessfulSubmission = {
@@ -75,8 +70,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.getLabel(),
                 Const.ParamsNames.STUDENT_EMAIL, student2.getEmail(),
         };
-        actionOutput = getJsonResult(getAction(paramsSuccessfulSubmission));
-        assertEquals(HttpStatus.SC_OK, actionOutput.getStatusCode());
+        getJsonResult(getAction(paramsSuccessfulSubmission));
 
         ______TS("Success case: should create even for invalid parameters");
         String[] paramsNonExistentCourseId = {
@@ -85,8 +79,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.getLabel(),
                 Const.ParamsNames.STUDENT_EMAIL, student1.getEmail(),
         };
-        actionOutput = getJsonResult(getAction(paramsNonExistentCourseId));
-        assertEquals(HttpStatus.SC_OK, actionOutput.getStatusCode());
+        getJsonResult(getAction(paramsNonExistentCourseId));
 
         String[] paramsNonExistentFsName = {
                 Const.ParamsNames.COURSE_ID, courseId1,
@@ -94,8 +87,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.getLabel(),
                 Const.ParamsNames.STUDENT_EMAIL, student1.getEmail(),
         };
-        actionOutput = getJsonResult(getAction(paramsNonExistentFsName));
-        assertEquals(HttpStatus.SC_OK, actionOutput.getStatusCode());
+        getJsonResult(getAction(paramsNonExistentFsName));
 
         String[] paramsNonExistentStudentEmail = {
                 Const.ParamsNames.COURSE_ID, courseId1,
@@ -103,8 +95,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.getLabel(),
                 Const.ParamsNames.STUDENT_EMAIL, "non-existent-student@email.com",
         };
-        actionOutput = getJsonResult(getAction(paramsNonExistentStudentEmail));
-        assertEquals(HttpStatus.SC_OK, actionOutput.getStatusCode());
+        getJsonResult(getAction(paramsNonExistentStudentEmail));
 
         ______TS("Success case: should create even when student cannot access feedback session in course");
         String[] paramsWithoutAccess = {
@@ -113,8 +104,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.getLabel(),
                 Const.ParamsNames.STUDENT_EMAIL, student3.getEmail(),
         };
-        actionOutput = getJsonResult(getAction(paramsWithoutAccess));
-        assertEquals(HttpStatus.SC_OK, actionOutput.getStatusCode());
+        getJsonResult(getAction(paramsWithoutAccess));
     }
 
     @Test

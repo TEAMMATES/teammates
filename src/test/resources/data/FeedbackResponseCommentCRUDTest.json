@@ -61,11 +61,13 @@
     "idOfCourse1": {
       "id": "idOfCourse1",
       "name": "Programming Language Concepts",
+      "institute": "TEAMMATES Test Institute 1",
       "timeZone": "UTC"
     },
     "idOfCourse2": {
       "id": "idOfCourse2",
       "name": "Computer Security",
+      "institute": "TEAMMATES Test Institute 1",
       "timeZone": "UTC"
     }
   },
@@ -215,6 +217,7 @@
       "resultsVisibleFromTime": "2026-05-01T15:59:00Z",
       "timeZone": "Asia/Singapore",
       "gracePeriod": 10,
+      "sentOpeningSoonEmail": true,
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,

@@ -9,9 +9,10 @@
 </div>
 
 <div class="margin-top-30px" *ngIf="isSessionEditFormExpanded && !isCoursesLoading" @collapseAnim>
-  <div *tmIsLoading= "isCopyOtherSessionLoading">
+  <div>
     <tm-session-edit-form [formMode]="SessionEditFormMode.ADD" [(model)]="sessionEditFormModel"
                           [courseCandidates]="courseCandidates" [templateSessions]="templateSessions"
+                          [isCopyOtherSessionLoading]="isCopyOtherSessionLoading"
                           (addNewSessionEvent)="addNewSessionHandler()" (copyOtherSessionsEvent)="copyFromOtherSessionsHandler()"
                           (closeEditFormEvent)="isSessionEditFormExpanded = false"
     ></tm-session-edit-form>
@@ -21,7 +22,7 @@
 <tm-loading-retry [shouldShowRetry]="hasCourseLoadingFailed || hasFeedbackSessionLoadingFailed" [message]="'Failed to load data'"
                   (retryEvent)="retryLoadingAllData()">
   <div class="margin-top-30px">
-    <div *tmIsLoading="isCoursesLoading || isMoveToRecycleBinLoading || isCopySessionLoading || isSendReminderLoading || isResultActionLoading">
+    <div *tmIsLoading="isCoursesLoading || isMoveToRecycleBinLoading || isCopySessionLoading || isResultActionLoading">
       <div class="alert alert-warning margin-top-30px" role="alert" *ngIf="sessionsTableRowModels.length === 0 && !isFeedbackSessionsLoading">
         You have not created any sessions yet. Use the form above to create a session.
       </div>
@@ -29,10 +30,11 @@
                          [sessionsTableRowModels]="sessionsTableRowModels" [sessionsTableRowModelsSortBy]="sessionsTableRowModelsSortBy" [sessionsTableRowModelsSortOrder]="sessionsTableRowModelsSortOrder"
                          [courseCandidates]="courseCandidates" [columnsToShow]="[ SessionsTableColumn.COURSE_ID ]"
                          [headerColorScheme]="SessionsTableHeaderColorScheme.BLUE"
+                         [isSendReminderLoading]="isSendReminderLoading"
                          (sortSessionsTableRowModelsEvent)="sortSessionsTableRowModelsEvent($event)"
                          (loadResponseRateEvent)="loadResponseRateEventHandler($event)"
                          (moveSessionToRecycleBinEvent)="moveSessionToRecycleBinEventHandler($event)" (copySessionEvent)="copySessionEventHandler($event)"
-                         (submitSessionAsInstructorEvent)="submitSessionAsInstructorEventHandler($event)" (viewSessionResultEvent)="viewSessionResultEventHandler($event)"
+                         (submitSessionAsInstructorEvent)="submitSessionAsInstructorEventHandler($event)"
                          (publishSessionEvent)="publishSessionEventHandler($event)" (unpublishSessionEvent)="unpublishSessionEventHandler($event)"
                          (downloadSessionResultsEvent)="downloadSessionResultEventHandler($event)"
                          (resendResultsLinkToStudentsEvent)="resendResultsLinkToRespondentsEventHandler(sessionsTableRowModels[$event])"
@@ -44,7 +46,7 @@
   <div class="row">
     <div class="col-12 text-muted">
       <p>
-        Note: The table above doesn't contain sessions from archived courses and soft-deleted courses.
+        Note: The table above doesn't contain sessions from archived courses and courses in recycle bin.
         To view sessions from an archived course, unarchive the course first; to view sessions from a course in recycle bin, restore the course first.
       </p>
     </div>
@@ -52,11 +54,12 @@
 
   <div class="margin-top-30px">
     <tm-sessions-recycle-bin-table
-        *tmIsLoading="isRecycleBinLoading || isRestoreFeedbackSessionLoading || isPermanentDeleteLoading"
+        *tmIsLoading="isRecycleBinLoading || isRestoreFeedbackSessionLoading"
         [isRecycleBinExpanded]="isRecycleBinExpanded"
         [recycleBinFeedbackSessionRowModels]="recycleBinFeedbackSessionRowModels"
         [recycleBinFeedbackSessionRowModelsSortBy]="recycleBinFeedbackSessionRowModelsSortBy"
         [recycleBinFeedbackSessionRowModelsSortOrder]="recycleBinFeedbackSessionRowModelsSortOrder"
+        [isPermanentDeleteLoading]="isPermanentDeleteLoading"
         (restoreSessionEvent)="restoreRecycleBinFeedbackSession($event)"
         (restoreAllRecycleBinFeedbackSessionEvent)="restoreAllRecycleBinFeedbackSession()"
         (permanentlyDeleteSessionEvent)="permanentDeleteSession($event)"
