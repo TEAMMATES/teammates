@@ -4,6 +4,7 @@ import { finalize, map, mergeMap } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import { InstructorSearchResult, SearchService } from '../../../services/search.service';
 import { StatusMessageService } from '../../../services/status-message.service';
+import { ApiConst } from '../../../types/api-const';
 import {
   InstructorPrivilege,
   Student,
@@ -12,7 +13,6 @@ import { StudentListRowModel } from '../../components/student-list/student-list.
 import { ErrorMessageOutput } from '../../error-message-output';
 import { SearchParams } from './instructor-search-bar/instructor-search-bar.component';
 import { SearchStudentsListRowTable } from './student-result-table/student-result-table.component';
-import { ApiConst } from '../../../types/api-const';
 
 /**
  * Instructor search page.
