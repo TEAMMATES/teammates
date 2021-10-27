@@ -959,6 +959,10 @@ public class InstructorFeedbackEditPage extends AppPage {
         return browser.driver.findElements(By.tagName("tm-question-edit-form")).get(questionNum - 1);
     }
 
+    private WebElement getFeedbackPathPanel(int questionNum) {
+        return browser.driver.findElements(By.tagName("tm-feedback-path-panel")).get(questionNum - 1);
+    }
+
     private FeedbackQuestionType getQuestionType(int questionNum) {
         String questionDetails = getQuestionForm(questionNum).findElement(By.id("question-header")).getText();
         String questionType = questionDetails.split(" \\d+ ")[1].trim();
@@ -1036,7 +1040,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         FeedbackParticipantType newGiver = feedbackQuestion.getGiverType();
         FeedbackParticipantType newRecipient = feedbackQuestion.getRecipientType();
         String feedbackPath = getFeedbackPath(questionNum);
-        WebElement questionForm = getQuestionForm(questionNum);
+        WebElement questionForm = getFeedbackPathPanel(questionNum);
         if (!feedbackPath.equals(CUSTOM_FEEDBACK_PATH_OPTION)) {
             selectFeedbackPathDropdownOption(questionNum, CUSTOM_FEEDBACK_PATH_OPTION + "...");
         }
