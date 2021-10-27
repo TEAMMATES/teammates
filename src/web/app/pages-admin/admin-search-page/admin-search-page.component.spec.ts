@@ -6,6 +6,7 @@ import { NgbModal, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { of, throwError } from 'rxjs';
 import { AccountService } from '../../../services/account.service';
 import { EmailGenerationService } from '../../../services/email-generation.service';
+import { InstructorService } from '../../../services/instructor.service';
 import {
   FeedbackSessionsGroup, InstructorAccountSearchResult,
   SearchService, StudentAccountSearchResult,
@@ -43,11 +44,25 @@ const DEFAULT_STUDENT_SEARCH_RESULT: StudentAccountSearchResult = {
   publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
 };
 
+const DEFAULT_INSTRUCTOR_SEARCH_RESULT: InstructorAccountSearchResult = {
+  name: 'name',
+  email: 'email',
+  googleId: 'googleId',
+  courseId: 'courseId',
+  courseName: 'courseName',
+  institute: 'institute',
+  courseJoinLink: 'courseJoinLink',
+  homePageLink: 'homePageLink',
+  manageAccountLink: 'manageAccountLink',
+  showLinks: false,
+};
+
 describe('AdminSearchPageComponent', () => {
   let component: AdminSearchPageComponent;
   let fixture: ComponentFixture<AdminSearchPageComponent>;
   let accountService: AccountService;
   let searchService: SearchService;
+  let instructorService: InstructorService;
   let studentService: StudentService;
   let statusMessageService: StatusMessageService;
   let emailGenerationService: EmailGenerationService;
@@ -72,6 +87,7 @@ describe('AdminSearchPageComponent', () => {
     component = fixture.componentInstance;
     accountService = TestBed.inject(AccountService);
     searchService = TestBed.inject(SearchService);
+    instructorService = TestBed.inject(InstructorService);
     studentService = TestBed.inject(StudentService);
     statusMessageService = TestBed.inject(StatusMessageService);
     emailGenerationService = TestBed.inject(EmailGenerationService);
@@ -500,14 +516,12 @@ describe('AdminSearchPageComponent', () => {
 
     spyOn(ngbModal, 'open').and.callFake(() => {
       return {
-        componentInstance: {
-          studentName: 'dummy', regenerateLinksCourseId: 'dummy',
-        },
+        componentInstance: {},
         result: Promise.resolve(),
       };
     });
 
-    spyOn(studentService, 'regenerateStudentCourseLinks').and.returnValue(of({
+    spyOn(studentService, 'regenerateStudentKey').and.returnValue(of({
       message: 'success',
       newRegistrationKey: 'newKey',
     }));
@@ -567,14 +581,12 @@ describe('AdminSearchPageComponent', () => {
 
     spyOn(ngbModal, 'open').and.callFake(() => {
       return {
-        componentInstance: {
-          studentName: 'dummy', regenerateLinksCourseId: 'dummy',
-        },
+        componentInstance: {},
         result: Promise.resolve(),
       };
     });
 
-    spyOn(studentService, 'regenerateStudentCourseLinks').and.returnValue(throwError({
+    spyOn(studentService, 'regenerateStudentKey').and.returnValue(throwError({
       error: {
         message: 'This is the error message.',
       },
@@ -585,6 +597,70 @@ describe('AdminSearchPageComponent', () => {
     });
 
     const regenerateButton: any = fixture.debugElement.nativeElement.querySelector('#regenerate-student-key-0');
+    regenerateButton.click();
+
+    expect(spyStatusMessageService).toBeCalled();
+  });
+
+  it('should show success message and update all keys if successfully regenerated instructor registration key', () => {
+    const instructorResult: InstructorAccountSearchResult = {
+      ...DEFAULT_INSTRUCTOR_SEARCH_RESULT,
+      courseJoinLink: 'courseJoinLink?key=oldKey',
+    };
+    component.instructors = [instructorResult];
+    fixture.detectChanges();
+
+    spyOn(ngbModal, 'open').and.callFake(() => {
+      return {
+        componentInstance: {},
+        result: Promise.resolve(),
+      };
+    });
+
+    spyOn(instructorService, 'regenerateInstructorKey').and.returnValue(of({
+      message: 'success',
+      newRegistrationKey: 'newKey',
+    }));
+
+    const spyStatusMessageService: any = spyOn(statusMessageService, 'showSuccessToast')
+        .and.callFake((args: string) => {
+          expect(args).toEqual('success');
+        });
+
+    const regenerateButton: any = fixture.debugElement.nativeElement.querySelector('#regenerate-instructor-key-0');
+    regenerateButton.click();
+
+    expect(spyStatusMessageService).toBeCalled();
+
+    expect(instructorResult.courseJoinLink).toEqual('courseJoinLink?key=newKey');
+  });
+
+  it('should show error message if fail to regenerate registration key for instructor in a course', () => {
+    const instructorResult: InstructorAccountSearchResult = {
+      ...DEFAULT_INSTRUCTOR_SEARCH_RESULT,
+      courseJoinLink: 'courseJoinLink?key=oldKey',
+    };
+    component.instructors = [instructorResult];
+    fixture.detectChanges();
+
+    spyOn(ngbModal, 'open').and.callFake(() => {
+      return {
+        componentInstance: {},
+        result: Promise.resolve(),
+      };
+    });
+
+    spyOn(instructorService, 'regenerateInstructorKey').and.returnValue(throwError({
+      error: {
+        message: 'This is the error message.',
+      },
+    }));
+
+    const spyStatusMessageService: any = spyOn(statusMessageService, 'showErrorToast').and.callFake((args: string) => {
+      expect(args).toEqual('This is the error message.');
+    });
+
+    const regenerateButton: any = fixture.debugElement.nativeElement.querySelector('#regenerate-instructor-key-0');
     regenerateButton.click();
 
     expect(spyStatusMessageService).toBeCalled();

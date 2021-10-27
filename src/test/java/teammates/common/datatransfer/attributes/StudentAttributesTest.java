@@ -425,8 +425,6 @@ public class StudentAttributesTest extends BaseTestCase {
         sd.setKey(key);
         String regUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
                 .withRegistrationKey(key)
-                .withStudentEmail("email@email.com")
-                .withCourseId("course1")
                 .withEntityType(Const.EntityType.STUDENT)
                 .toString();
         assertEquals(regUrl, sd.getRegistrationUrl());
