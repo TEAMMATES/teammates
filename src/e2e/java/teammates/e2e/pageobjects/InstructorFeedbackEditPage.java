@@ -1160,9 +1160,9 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private WebElement getRecommendedTextLengthField(int questionNum) {
-        return getQuestionForm(questionNum).
-                findElement(By.tagName("tm-text-question-edit-details-form")).
-                findElement(By.id("recommended-length"));
+        return getQuestionForm(questionNum)
+                .findElement(By.tagName("tm-text-question-edit-details-form"))
+                .findElement(By.id("recommended-length"));
     }
 
     private WebElement getGenerateOptionsCheckbox(int questionNum) {
