@@ -1491,16 +1491,12 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                         ngbdropdowntoggle=""
                       >
                         
+                        
                         <span
                           style=""
                         >
-                           Students in this course will give feedback on 
-                          <i
-                            class="fas fa-arrow-right"
-                          />
-                           Instructors in the course 
+                          Custom feedback path
                         </span>
-                        
                       </button>
                       <ul
                         class="dropdown-menu"
@@ -1661,6 +1657,129 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                       </ul>
                     </div>
                     
+                    <div
+                      class="row margin-top-15px"
+                      style=""
+                    >
+                      <div
+                        class="col-6"
+                      >
+                        <div
+                          class="row"
+                        >
+                          <div
+                            class="col-12"
+                          >
+                            <strong>
+                              Who will give the feedback:
+                            </strong>
+                          </div>
+                        </div>
+                        <div
+                          class="row"
+                        >
+                          <div
+                            class="col-12"
+                          >
+                            <select
+                              class="form-control ng-untouched ng-pristine ng-valid"
+                              id="giver-type"
+                            >
+                              
+                              <option
+                                value="0: INSTRUCTORS"
+                              >
+                                Instructors in this course
+                              </option>
+                              <option
+                                value="1: SELF"
+                              >
+                                Feedback session creator (i.e., me)
+                              </option>
+                              <option
+                                value="2: STUDENTS"
+                              >
+                                Students in this course
+                              </option>
+                              <option
+                                value="3: TEAMS"
+                              >
+                                Teams in this course
+                              </option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="col-6"
+                      >
+                        <div
+                          class="row"
+                        >
+                          <div
+                            class="col-12"
+                          >
+                            <strong>
+                              Who the feedback is about:
+                            </strong>
+                          </div>
+                        </div>
+                        <div
+                          class="row"
+                        >
+                          <div
+                            class="col-12"
+                          >
+                            <select
+                              class="form-control ng-untouched ng-pristine ng-valid"
+                              id="receiver-type"
+                            >
+                              
+                              <option
+                                value="0: SELF"
+                              >
+                                Giver (Self feedback)
+                              </option>
+                              <option
+                                value="1: STUDENTS"
+                              >
+                                Other students in the course
+                              </option>
+                              <option
+                                value="2: INSTRUCTORS"
+                              >
+                                Instructors in the course
+                              </option>
+                              <option
+                                value="3: TEAMS"
+                              >
+                                Other teams in the course
+                              </option>
+                              <option
+                                value="4: OWN_TEAM"
+                              >
+                                Giver's team
+                              </option>
+                              <option
+                                value="5: OWN_TEAM_MEMBERS"
+                              >
+                                Giver's team members
+                              </option>
+                              <option
+                                value="6: OWN_TEAM_MEMBERS_INCLUDING_SELF"
+                              >
+                                Giver's team members and Giver
+                              </option>
+                              <option
+                                value="7: NONE"
+                              >
+                                Nobody specific (For general class feedback)
+                              </option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                     
                     <div
                       class="row margin-top-15px align-items-center"
@@ -2324,16 +2443,12 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                         ngbdropdowntoggle=""
                       >
                         
+                        
                         <span
                           style=""
                         >
-                           Students in this course will give feedback on 
-                          <i
-                            class="fas fa-arrow-right"
-                          />
-                           Instructors in the course 
+                          Custom feedback path
                         </span>
-                        
                       </button>
                       <ul
                         class="dropdown-menu"
@@ -2494,6 +2609,129 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                       </ul>
                     </div>
                     
+                    <div
+                      class="row margin-top-15px"
+                      style=""
+                    >
+                      <div
+                        class="col-6"
+                      >
+                        <div
+                          class="row"
+                        >
+                          <div
+                            class="col-12"
+                          >
+                            <strong>
+                              Who will give the feedback:
+                            </strong>
+                          </div>
+                        </div>
+                        <div
+                          class="row"
+                        >
+                          <div
+                            class="col-12"
+                          >
+                            <select
+                              class="form-control ng-untouched ng-pristine ng-valid"
+                              id="giver-type"
+                            >
+                              
+                              <option
+                                value="0: INSTRUCTORS"
+                              >
+                                Instructors in this course
+                              </option>
+                              <option
+                                value="1: SELF"
+                              >
+                                Feedback session creator (i.e., me)
+                              </option>
+                              <option
+                                value="2: STUDENTS"
+                              >
+                                Students in this course
+                              </option>
+                              <option
+                                value="3: TEAMS"
+                              >
+                                Teams in this course
+                              </option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="col-6"
+                      >
+                        <div
+                          class="row"
+                        >
+                          <div
+                            class="col-12"
+                          >
+                            <strong>
+                              Who the feedback is about:
+                            </strong>
+                          </div>
+                        </div>
+                        <div
+                          class="row"
+                        >
+                          <div
+                            class="col-12"
+                          >
+                            <select
+                              class="form-control ng-untouched ng-pristine ng-valid"
+                              id="receiver-type"
+                            >
+                              
+                              <option
+                                value="0: SELF"
+                              >
+                                Giver (Self feedback)
+                              </option>
+                              <option
+                                value="1: STUDENTS"
+                              >
+                                Other students in the course
+                              </option>
+                              <option
+                                value="2: INSTRUCTORS"
+                              >
+                                Instructors in the course
+                              </option>
+                              <option
+                                value="3: TEAMS"
+                              >
+                                Other teams in the course
+                              </option>
+                              <option
+                                value="4: OWN_TEAM"
+                              >
+                                Giver's team
+                              </option>
+                              <option
+                                value="5: OWN_TEAM_MEMBERS"
+                              >
+                                Giver's team members
+                              </option>
+                              <option
+                                value="6: OWN_TEAM_MEMBERS_INCLUDING_SELF"
+                              >
+                                Giver's team members and Giver
+                              </option>
+                              <option
+                                value="7: NONE"
+                              >
+                                Nobody specific (For general class feedback)
+                              </option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                     
                     <div
                       class="row margin-top-15px align-items-center"

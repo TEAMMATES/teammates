@@ -263,16 +263,12 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                 ngbdropdowntoggle=""
               >
                 
+                
                 <span
                   style=""
                 >
-                   Students in this course will give feedback on 
-                  <i
-                    class="fas fa-arrow-right"
-                  />
-                   Other students in the course 
+                  Custom feedback path
                 </span>
-                
               </button>
               <ul
                 class="dropdown-menu"
@@ -297,6 +293,71 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
               </ul>
             </div>
             
+            <div
+              class="row margin-top-15px"
+              style=""
+            >
+              <div
+                class="col-6"
+              >
+                <div
+                  class="row"
+                >
+                  <div
+                    class="col-12"
+                  >
+                    <strong>
+                      Who will give the feedback:
+                    </strong>
+                  </div>
+                </div>
+                <div
+                  class="row"
+                >
+                  <div
+                    class="col-12"
+                  >
+                    <select
+                      class="form-control ng-untouched ng-pristine ng-valid"
+                      disabled=""
+                      id="giver-type"
+                    >
+                      
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="col-6"
+              >
+                <div
+                  class="row"
+                >
+                  <div
+                    class="col-12"
+                  >
+                    <strong>
+                      Who the feedback is about:
+                    </strong>
+                  </div>
+                </div>
+                <div
+                  class="row"
+                >
+                  <div
+                    class="col-12"
+                  >
+                    <select
+                      class="form-control ng-untouched ng-pristine ng-valid"
+                      disabled=""
+                      id="receiver-type"
+                    >
+                      
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
             
             <div
               class="row margin-top-15px align-items-center"
@@ -384,12 +445,12 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                 ngbdropdowntoggle=""
               >
                 
+                
                 <span
                   style=""
                 >
-                    
+                  Custom visibility options
                 </span>
-                
               </button>
               <ul
                 class="dropdown-menu"
@@ -418,6 +479,235 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
               </ul>
             </div>
             
+            <table
+              class="table margin-top-15px background-color-white table-striped"
+              style=""
+            >
+              <thead>
+                <tr>
+                  <th
+                    class="text-left"
+                    scope="col"
+                  >
+                    User/Group
+                  </th>
+                  
+                  <th
+                    class="text-center"
+                    scope="col"
+                  >
+                    Can see answer
+                  </th>
+                  <th
+                    class="text-center"
+                    scope="col"
+                  >
+                    Can see giver's name
+                  </th>
+                  <th
+                    class="text-center"
+                    scope="col"
+                  >
+                    Can see recipient's name
+                  </th>
+                </tr>
+              </thead>
+              <tbody
+                id="custom-visibility-table"
+              >
+                
+                
+                
+                <tr>
+                  <td>
+                    <span
+                      class="ngb-tooltip-class"
+                      container="body"
+                    >
+                      Recipient(s)
+                    </span>
+                  </td>
+                  
+                  <td
+                    class="text-center"
+                  >
+                    <input
+                      disabled=""
+                      type="checkbox"
+                    />
+                  </td>
+                  <td
+                    class="text-center"
+                  >
+                    <input
+                      disabled=""
+                      type="checkbox"
+                    />
+                  </td>
+                  <td
+                    class="text-center"
+                  >
+                    <input
+                      disabled=""
+                      type="checkbox"
+                    />
+                  </td>
+                </tr>
+                
+                
+                
+                <tr>
+                  <td>
+                    <span
+                      class="ngb-tooltip-class"
+                      container="body"
+                    >
+                      Giver's Team Members
+                    </span>
+                  </td>
+                  
+                  <td
+                    class="text-center"
+                  >
+                    <input
+                      disabled=""
+                      type="checkbox"
+                    />
+                  </td>
+                  <td
+                    class="text-center"
+                  >
+                    <input
+                      disabled=""
+                      type="checkbox"
+                    />
+                  </td>
+                  <td
+                    class="text-center"
+                  >
+                    <input
+                      disabled=""
+                      type="checkbox"
+                    />
+                  </td>
+                </tr>
+                
+                
+                
+                <tr>
+                  <td>
+                    <span
+                      class="ngb-tooltip-class"
+                      container="body"
+                    >
+                      Recipient's Team Members
+                    </span>
+                  </td>
+                  
+                  <td
+                    class="text-center"
+                  >
+                    <input
+                      disabled=""
+                      type="checkbox"
+                    />
+                  </td>
+                  <td
+                    class="text-center"
+                  >
+                    <input
+                      disabled=""
+                      type="checkbox"
+                    />
+                  </td>
+                  <td
+                    class="text-center"
+                  >
+                    <input
+                      disabled=""
+                      type="checkbox"
+                    />
+                  </td>
+                </tr>
+                
+                
+                
+                <tr>
+                  <td>
+                    <span
+                      class="ngb-tooltip-class"
+                      container="body"
+                    >
+                      Other students
+                    </span>
+                  </td>
+                  
+                  <td
+                    class="text-center"
+                  >
+                    <input
+                      disabled=""
+                      type="checkbox"
+                    />
+                  </td>
+                  <td
+                    class="text-center"
+                  >
+                    <input
+                      disabled=""
+                      type="checkbox"
+                    />
+                  </td>
+                  <td
+                    class="text-center"
+                  >
+                    <input
+                      disabled=""
+                      type="checkbox"
+                    />
+                  </td>
+                </tr>
+                
+                
+                
+                <tr>
+                  <td>
+                    <span
+                      class="ngb-tooltip-class"
+                      container="body"
+                    >
+                      Instructors
+                    </span>
+                  </td>
+                  
+                  <td
+                    class="text-center"
+                  >
+                    <input
+                      disabled=""
+                      type="checkbox"
+                    />
+                  </td>
+                  <td
+                    class="text-center"
+                  >
+                    <input
+                      disabled=""
+                      type="checkbox"
+                    />
+                  </td>
+                  <td
+                    class="text-center"
+                  >
+                    <input
+                      disabled=""
+                      type="checkbox"
+                    />
+                  </td>
+                </tr>
+                
+              </tbody>
+            </table>
             <div
               class="margin-top-15px visibility-message"
             >
