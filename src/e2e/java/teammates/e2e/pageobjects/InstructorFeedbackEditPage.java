@@ -1036,25 +1036,26 @@ public class InstructorFeedbackEditPage extends AppPage {
         FeedbackParticipantType newGiver = feedbackQuestion.getGiverType();
         FeedbackParticipantType newRecipient = feedbackQuestion.getRecipientType();
         String feedbackPath = getFeedbackPath(questionNum);
-        WebElement questionForm = getQuestionForm(questionNum).findElement(By.tagName("tm-feedback-path-panel"));
+        WebElement questionForm = getQuestionForm(questionNum);
+        WebElement feedbackPathPanel = questionForm.findElement(By.tagName("tm-feedback-path-panel"));
         if (!feedbackPath.equals(CUSTOM_FEEDBACK_PATH_OPTION)) {
             selectFeedbackPathDropdownOption(questionNum, CUSTOM_FEEDBACK_PATH_OPTION + "...");
         }
         // Set to type STUDENT first to adjust NumberOfEntitiesToGiveFeedbackTo
-        selectDropdownOptionByText(questionForm.findElement(By.id("giver-type")),
+        selectDropdownOptionByText(feedbackPathPanel.findElement(By.id("giver-type")),
                 getDisplayGiverName(FeedbackParticipantType.STUDENTS));
-        selectDropdownOptionByText(questionForm.findElement(By.id("receiver-type")),
+        selectDropdownOptionByText(feedbackPathPanel.findElement(By.id("receiver-type")),
                 getDisplayRecipientName(FeedbackParticipantType.STUDENTS));
         if (feedbackQuestion.getNumberOfEntitiesToGiveFeedbackTo() == Const.MAX_POSSIBLE_RECIPIENTS) {
-            click(questionForm.findElement(By.id("unlimited-recipients")));
+            click(feedbackPathPanel.findElement(By.id("unlimited-recipients")));
         } else {
-            click(questionForm.findElement(By.id("custom-recipients")));
-            fillTextBox(questionForm.findElement(By.id("custom-recipients-number")),
+            click(feedbackPathPanel.findElement(By.id("custom-recipients")));
+            fillTextBox(feedbackPathPanel.findElement(By.id("custom-recipients-number")),
                     Integer.toString(feedbackQuestion.getNumberOfEntitiesToGiveFeedbackTo()));
         }
 
-        selectDropdownOptionByText(questionForm.findElement(By.id("giver-type")), getDisplayGiverName(newGiver));
-        selectDropdownOptionByText(questionForm.findElement(By.id("receiver-type")),
+        selectDropdownOptionByText(feedbackPathPanel.findElement(By.id("giver-type")), getDisplayGiverName(newGiver));
+        selectDropdownOptionByText(feedbackPathPanel.findElement(By.id("receiver-type")),
                 getDisplayRecipientName(newRecipient));
     }
 
@@ -1159,7 +1160,9 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private WebElement getRecommendedTextLengthField(int questionNum) {
-        return getQuestionForm(questionNum).findElement(By.tagName("tm-text-question-edit-details-form")).findElement(By.id("recommended-length"));
+        return getQuestionForm(questionNum).
+                findElement(By.tagName("tm-text-question-edit-details-form")).
+                findElement(By.id("recommended-length"));
     }
 
     private WebElement getGenerateOptionsCheckbox(int questionNum) {
