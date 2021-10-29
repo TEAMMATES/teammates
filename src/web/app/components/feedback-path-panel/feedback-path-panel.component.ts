@@ -32,6 +32,20 @@ export class FeedbackPathPanelComponent implements OnInit {
       NumberOfEntitiesToGiveFeedbackToSetting;
 
   @Input()
+  set formModel(model: QuestionEditFormModel) {
+    this.model = model;
+
+    if (!model.isUsingOtherFeedbackPath) {
+      // find if the feedback path is in the common feedback paths
+      this.model.isUsingOtherFeedbackPath = true;
+      if (this.commonFeedbackPaths.has(model.giverType) &&
+          // tslint:disable-next-line:no-non-null-assertion
+          this.commonFeedbackPaths.get(model.giverType)!.includes(model.recipientType)) {
+        this.model.isUsingOtherFeedbackPath = false;
+      }
+    }
+  }
+
   model: QuestionEditFormModel = {
     feedbackQuestionId: '',
 
@@ -78,7 +92,7 @@ export class FeedbackPathPanelComponent implements OnInit {
   allowedFeedbackPaths: Map<FeedbackParticipantType, FeedbackParticipantType[]> = new Map();
 
   @Output()
-  modelChange : EventEmitter<QuestionEditFormModel> = new EventEmitter<QuestionEditFormModel>();
+  formModelChange: EventEmitter<QuestionEditFormModel> = new EventEmitter<QuestionEditFormModel>();
 
   constructor() { }
 
@@ -90,7 +104,7 @@ export class FeedbackPathPanelComponent implements OnInit {
    */
   triggerModelChange(field: keyof QuestionEditFormModel,
                      data: QuestionEditFormModel[keyof QuestionEditFormModel]): void {
-    this.modelChange.emit({
+    this.formModelChange.emit({
       ...this.model,
       [field]: data,
       ...(!this.model.isFeedbackPathChanged && FEEDBACK_PATH_PROPERTIES.has(field)
@@ -102,7 +116,7 @@ export class FeedbackPathPanelComponent implements OnInit {
    * Triggers the change of the model for the form.
    */
   triggerModelChangeBatch(obj: Partial<QuestionEditFormModel>): void {
-    this.modelChange.emit({
+    this.formModelChange.emit({
       ...this.model,
       ...obj,
       ...(!this.model.isFeedbackPathChanged
@@ -112,40 +126,37 @@ export class FeedbackPathPanelComponent implements OnInit {
   }
 
   /**
-     * Change the {@code giverType} and {@code recipientType} and reset the visibility settings.
-     */
-    changeGiverRecipientType(giverType: FeedbackParticipantType, recipientType: FeedbackParticipantType): void {
-      // check if current recipientType is allowed for giverType,
-      // if not, set default recipientType to the first allowed type as default.
-      /* tslint:disable-next-line: no-non-null-assertion */
-      const allowedRecipientTypes: FeedbackParticipantType[] = this.allowedFeedbackPaths.get(giverType)!;
-
-      let newRecipientType: FeedbackParticipantType = recipientType;
-      if (allowedRecipientTypes.indexOf(recipientType) === -1) {
-        newRecipientType = allowedRecipientTypes[0];
-      }
-      if (this.model.giverType === giverType && this.model.recipientType === newRecipientType) {
-        // do not reset the visibility settings if reverting feedback path to preset template provided
-        if (this.model.isUsingOtherFeedbackPath) {
-          // remove the custom feedback if selecting a common feedback path
-          this.modelChange.emit({
-            ...this.model,
-            isUsingOtherFeedbackPath: true,
-          });
-        }
-      } else {
-        this.modelChange.emit({
-          ...this.model,
-          giverType,
-          recipientType: newRecipientType,
-          commonVisibilitySettingName: 'Please select a visibility option',
+   * Change the {@code giverType} and {@code recipientType} and reset the visibility settings.
+   */
+  changeGiverRecipientType(giverType: FeedbackParticipantType, recipientType: FeedbackParticipantType): void {
+    // check if current recipientType is allowed for giverType,
+    // if not, set default recipientType to the first allowed type as default.
+    /* tslint:disable-next-line: no-non-null-assertion */
+    const allowedRecipientTypes: FeedbackParticipantType[] = this.allowedFeedbackPaths.get(giverType)!;
+    let newRecipientType: FeedbackParticipantType = recipientType;
+    if (allowedRecipientTypes.indexOf(recipientType) === -1) {
+      newRecipientType = allowedRecipientTypes[0];
+    }
+    if (this.model.giverType === giverType && this.model.recipientType === newRecipientType) {
+      // do not reset the visibility settings if reverting feedback path to preset template provided
+      if (this.model.isUsingOtherFeedbackPath) {
+        // remove the custom feedback if selecting a common feedback path
+        this.triggerModelChangeBatch({
           isUsingOtherFeedbackPath: false,
-          isUsingOtherVisibilitySetting: false,
-          showResponsesTo: [],
-          showGiverNameTo: [],
-          showRecipientNameTo: [],
         });
       }
+    } else {
+      this.triggerModelChangeBatch({
+        giverType,
+        recipientType: newRecipientType,
+        commonVisibilitySettingName: 'Please select a visibility option',
+        isUsingOtherFeedbackPath: false,
+        isUsingOtherVisibilitySetting: false,
+        showResponsesTo: [],
+        showGiverNameTo: [],
+        showRecipientNameTo: [],
+      });
     }
+  }
 
 }
