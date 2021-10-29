@@ -94,14 +94,12 @@
           </div>
         </div>
       </div>
-      <tm-feedback-path-panel [model]="model" [commonFeedbackPaths]="this.commonFeedbackPaths"
-                              [allowedFeedbackPaths]="this.allowedFeedbackPaths"
-                              (changeGiverRecipientTypeEvent)="changeGiverRecipientType($event, $event)"
-                              (triggerModelChangeEvent)="triggerModelChange($event, $event)">
+      <tm-feedback-path-panel [(formModel)]="model" [commonFeedbackPaths]="this.commonFeedbackPaths"
+                              [allowedFeedbackPaths]="this.allowedFeedbackPaths">
       </tm-feedback-path-panel>
-      <tm-visibility-panel [model]="model" [isCustomFeedbackVisibilitySettingAllowed]="isCustomFeedbackVisibilitySettingAllowed"
-                           [visibilityControls]="VisibilityControl"
+      <tm-visibility-panel [(formModel)]="model" [isCustomFeedbackVisibilitySettingAllowed]="isCustomFeedbackVisibilitySettingAllowed"
                            [feedbackVisibilityTypes]="FeedbackVisibilityType"
+                           [visibilityControls]="VisibilityControl"
                            [commonFeedbackVisibilitySettings]="commonFeedbackVisibilitySettings"
                            [visibilityStateMachine]="visibilityStateMachine"
       ></tm-visibility-panel>

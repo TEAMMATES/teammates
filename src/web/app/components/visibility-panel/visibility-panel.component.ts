@@ -13,6 +13,14 @@ import {
 } from '../../../types/api-output';
 import { VisibilityControl } from '../../../types/visibility-control';
 
+const VISIBILITY_PROPERTIES: Set<string> = new Set<string>([
+  'isUsingOtherVisibilitySetting',
+  'showResponsesTo',
+  'showGiverNameTo',
+  'showRecipientNameTo',
+  'commonVisibilitySettingName',
+]);
+
 /**
  * Displaying the visibility panel.
  */
@@ -35,6 +43,33 @@ export class VisibilityPanelComponent implements OnInit {
   isCustomFeedbackVisibilitySettingAllowed: boolean = false;
 
   @Input()
+  set formModel(model: QuestionEditFormModel) {
+    this.model = model;
+
+    const visibilitySetting: {[TKey in VisibilityControl]: FeedbackVisibilityType[]} = {
+      SHOW_RESPONSE: model.showResponsesTo,
+      SHOW_GIVER_NAME: model.showGiverNameTo,
+      SHOW_RECIPIENT_NAME: model.showRecipientNameTo,
+    };
+    this.visibilityStateMachine.applyVisibilitySettings(visibilitySetting);
+
+    if (!model.commonVisibilitySettingName && !model.isUsingOtherVisibilitySetting) {
+      // find if the visibility settings is in the common visibility settings
+      this.model.isUsingOtherVisibilitySetting = true;
+      for (const commonVisibilityOption of this.commonFeedbackVisibilitySettings) {
+        if (this.isSameSet(visibilitySetting.SHOW_RESPONSE, commonVisibilityOption.visibilitySettings.SHOW_RESPONSE)
+            && this.isSameSet(visibilitySetting.SHOW_GIVER_NAME,
+                commonVisibilityOption.visibilitySettings.SHOW_GIVER_NAME)
+            && this.isSameSet(visibilitySetting.SHOW_RECIPIENT_NAME,
+                commonVisibilityOption.visibilitySettings.SHOW_RECIPIENT_NAME)) {
+          this.model.commonVisibilitySettingName = commonVisibilityOption.name;
+          this.model.isUsingOtherVisibilitySetting = false;
+          break;
+        }
+      }
+    }
+  }
+
   model: QuestionEditFormModel = {
     feedbackQuestionId: '',
 
@@ -88,44 +123,74 @@ export class VisibilityPanelComponent implements OnInit {
     new VisibilityStateMachine(this.model.giverType, this.model.recipientType);
 
   @Output()
-  applyCommonVisibilitySettingsEvent: EventEmitter<CommonVisibilitySetting> =
-    new EventEmitter<CommonVisibilitySetting>();
-
-  @Output()
-  triggerModelChangeEvent: EventEmitter<{ field: keyof QuestionEditFormModel,
-    data: QuestionEditFormModel[keyof QuestionEditFormModel] }> = new EventEmitter<{ field: keyof QuestionEditFormModel,
-      data: QuestionEditFormModel[keyof QuestionEditFormModel] }>();
-
-  @Output()
-  modifyVisibilityControlEvent: EventEmitter<{ isAllowed: boolean, visibilityType: FeedbackVisibilityType,
-    visibilityControl: VisibilityControl }> = new EventEmitter<{ isAllowed: boolean,
-      visibilityType: FeedbackVisibilityType, visibilityControl: VisibilityControl }>();
+  formModelChange: EventEmitter<QuestionEditFormModel> = new EventEmitter<QuestionEditFormModel>();
 
   constructor() { }
+
+  private isSameSet(setA: FeedbackVisibilityType[], setB: FeedbackVisibilityType[]): boolean {
+    return setA.length === setB.length && setA.every((ele: FeedbackVisibilityType) => setB.includes(ele));
+  }
 
   ngOnInit(): void {
   }
 
   /**
-   * Handles application of the common visibility setting.
+   * Triggers the change of the model for the form.
    */
-  applyCommonVisibilitySettingsHandler(commonSettings: CommonVisibilitySetting): void {
-    this.applyCommonVisibilitySettingsEvent.emit(commonSettings);
+  triggerModelChange(field: keyof QuestionEditFormModel,
+                     data: QuestionEditFormModel[keyof QuestionEditFormModel]): void {
+    this.formModelChange.emit({
+      ...this.model,
+      [field]: data,
+      ...(!this.model.isVisibilityChanged && VISIBILITY_PROPERTIES.has(field)
+        && { isVisibilityChanged: true }),
+    });
   }
 
   /**
-   * Handles the triggering of the change of the model for the form.
+   * Triggers the change of the model for the form.
    */
-  triggerModelChangeHandler(field: keyof QuestionEditFormModel,
-    data: QuestionEditFormModel[keyof QuestionEditFormModel]): void {
-    this.triggerModelChangeEvent.emit({ field, data });
+  triggerModelChangeBatch(obj: Partial<QuestionEditFormModel>): void {
+    this.formModelChange.emit({
+      ...this.model,
+      ...obj,
+      ...(!this.model.isVisibilityChanged
+          && Object.keys(obj).some((key: string) => VISIBILITY_PROPERTIES.has(key))
+          && { isVisibilityChanged: true }),
+    });
   }
 
   /**
-   * Handles modifying of visibility control of visibility type based on {@code isAllowed}.
+   * Applies the common visibility setting.
    */
-  modifyVisibilityControlHandler(isAllowed: boolean, visibilityType: FeedbackVisibilityType,
-    visibilityControl: VisibilityControl): void {
-    this.modifyVisibilityControlEvent.emit({ isAllowed, visibilityType, visibilityControl });
+  applyCommonVisibilitySettings(commonSettings: CommonVisibilitySetting): void {
+    this.triggerModelChangeBatch({
+      showResponsesTo: commonSettings.visibilitySettings.SHOW_RESPONSE,
+      showGiverNameTo: commonSettings.visibilitySettings.SHOW_GIVER_NAME,
+      showRecipientNameTo: commonSettings.visibilitySettings.SHOW_RECIPIENT_NAME,
+      commonVisibilitySettingName: commonSettings.name,
+      isUsingOtherVisibilitySetting: false,
+      isVisibilityChanged: true,
+    });
+  }
+
+  /**
+   * Modifies visibility control of visibility type based on {@code isAllowed}.
+   */
+  modifyVisibilityControl(
+      isAllowed: boolean, visibilityType: FeedbackVisibilityType, visibilityControl: VisibilityControl): void {
+    if (isAllowed) {
+      this.visibilityStateMachine.allowToSee(visibilityType, visibilityControl);
+    } else {
+      this.visibilityStateMachine.disallowToSee(visibilityType, visibilityControl);
+    }
+    this.triggerModelChangeBatch({
+      showResponsesTo:
+          this.visibilityStateMachine.getVisibilityTypesUnderVisibilityControl(VisibilityControl.SHOW_RESPONSE),
+      showGiverNameTo:
+          this.visibilityStateMachine.getVisibilityTypesUnderVisibilityControl(VisibilityControl.SHOW_GIVER_NAME),
+      showRecipientNameTo:
+          this.visibilityStateMachine.getVisibilityTypesUnderVisibilityControl(VisibilityControl.SHOW_RECIPIENT_NAME),
+    });
   }
 }
