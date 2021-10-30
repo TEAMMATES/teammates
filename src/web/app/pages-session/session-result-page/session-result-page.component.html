@@ -58,7 +58,8 @@
       </div>
     </div>
     <tm-question-response-panel [questions]="questions" [session]="session"
-                                (canUserSeeResponsesEvent)="canUserSeeResponses($event)"
+                                [responseHiddenQuestions]="RESPONSE_HIDDEN_QUESTIONS"
+                                [intent]="intent"
     ></tm-question-response-panel>
   </div>
 </tm-loading-retry>

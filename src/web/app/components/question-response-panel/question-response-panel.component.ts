@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import {
   FeedbackQuestionType,
   FeedbackSession,
@@ -8,6 +8,7 @@ import {
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../types/api-output';
+import { FeedbackVisibilityType, Intent } from '../../../types/api-request';
 
 /**
  * Displaying the question response panel.
@@ -18,10 +19,6 @@ import {
   styleUrls: ['./question-response-panel.component.scss'],
 })
 export class QuestionResponsePanelComponent implements OnInit {
-
-  RESPONSE_HIDDEN_QUESTIONS: FeedbackQuestionType[] = [
-    FeedbackQuestionType.CONTRIB,
-  ];
 
   @Input()
   questions: QuestionOutput[] = [];
@@ -44,16 +41,28 @@ export class QuestionResponsePanelComponent implements OnInit {
     createdAtTimestamp: 0,
   };
 
-  @Output()
-  canUserSeeResponsesEvent: EventEmitter<QuestionOutput> = new EventEmitter<QuestionOutput>();
+  @Input()
+  responseHiddenQuestions: FeedbackQuestionType[] = [];
+
+  @Input()
+  intent: Intent = Intent.STUDENT_RESULT;
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
-  canUserSeeResponsesHandler(question: QuestionOutput): boolean {
-    this.canUserSeeResponsesEvent.emit(question);
+  canUserSeeResponses(question: QuestionOutput): boolean {
+    const showResponsesTo: FeedbackVisibilityType[] = question.feedbackQuestion.showResponsesTo;
+
+    if (this.intent === Intent.STUDENT_RESULT) {
+      return showResponsesTo.filter((visibilityType: FeedbackVisibilityType) =>
+          visibilityType !== FeedbackVisibilityType.INSTRUCTORS).length > 0;
+    }
+    if (this.intent === Intent.INSTRUCTOR_RESULT) {
+      return showResponsesTo.filter((visibilityType: FeedbackVisibilityType) =>
+          visibilityType === FeedbackVisibilityType.INSTRUCTORS).length > 0;
+    }
     return false;
   }
 

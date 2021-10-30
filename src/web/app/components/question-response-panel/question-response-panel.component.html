@@ -1,12 +1,12 @@
 <div class="card bg-light mt-4" *ngFor="let question of questions">
   <div id="question-{{ question.feedbackQuestion.questionNumber }}-responses" class="card-body">
     <tm-question-text-with-info [questionNumber]="question.feedbackQuestion.questionNumber" [questionDetails]="question.feedbackQuestion.questionDetails" class="question-text"></tm-question-text-with-info>
-    <div id="other-responses" *ngIf="canUserSeeResponsesHandler(question), else nonViewableResponse">
+    <div id="other-responses" *ngIf="canUserSeeResponses(question), else nonViewableResponse">
       <tm-single-statistics [question]="question.feedbackQuestion.questionDetails"
                             [responses]="question.allResponses"
                             [statistics]="question.questionStatistics"
                             [isStudent]="true"></tm-single-statistics>
-      <div *ngIf="RESPONSE_HIDDEN_QUESTIONS.includes(question.feedbackQuestion.questionType), else dontShowAdditionalMsg">
+      <div *ngIf="responseHiddenQuestions.includes(question.feedbackQuestion.questionType), else dontShowAdditionalMsg">
         <p style="color: gray; font-size: small;"><i class="fas fa-info-circle" style="color: #087CFC;"></i> Individual Responses are not configured to be shown for this question type.</p>
       </div>
       <ng-template #dontShowAdditionalMsg>
