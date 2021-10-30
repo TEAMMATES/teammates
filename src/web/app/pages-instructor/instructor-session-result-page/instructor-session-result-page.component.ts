@@ -567,41 +567,6 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
       });
   }
 
-  /**
-   * Handles view type changes.
-   */
-  handleViewTypeChange(newViewType: InstructorSessionResultViewType): void {
-    if (this.viewType === newViewType) {
-      // do nothing
-      return;
-    }
-    this.viewType = newViewType;
-
-    // change tooltip text based on currently selected view type
-    switch (this.viewType) {
-      case InstructorSessionResultViewType.QUESTION:
-        this.viewTooltipText = 'Group responses by question';
-        break;
-      case InstructorSessionResultViewType.GRQ:
-        this.viewTooltipText = 'Group responses by giver, then by recipient, and then by question';
-        break;
-      case InstructorSessionResultViewType.RGQ:
-        this.viewTooltipText = 'Group responses by recipient, then by giver, and then by question';
-        break;
-      case InstructorSessionResultViewType.GQR:
-        this.viewTooltipText = 'Group responses by giver, then by question, and then by recipient';
-        break;
-      case InstructorSessionResultViewType.RQG:
-        this.viewTooltipText = 'Group responses by recipient, then by question, and then by giver';
-        break;
-      default:
-        this.viewTooltipText = 'View results in different formats';
-    }
-
-    // the expand all will be reset if the view type changed
-    this.collapseAllTabs();
-  }
-
   navigateToIndividualSessionResultPage(): void {
     this.navigationService.navigateByURL(this.router, '/web/instructor/sessions/result',
         { courseid: this.courseId, fsname: this.fsName });

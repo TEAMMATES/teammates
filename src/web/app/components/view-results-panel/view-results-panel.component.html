@@ -6,7 +6,7 @@
           <b ngbTooltip="{{viewTooltipText}}" class="ngb-tooltip-class">View:</b>
         </label>
         <div>
-          <select id="view-type-dropdown" class="form-control" [ngModel]="viewType" (ngModelChange)="handleViewTypeChangeHandler($event)">
+          <select id="view-type-dropdown" class="form-control" [ngModel]="viewType" (ngModelChange)="handleViewTypeChange($event)">
             <option [value]="InstructorSessionResultViewType.QUESTION">Group by - Question</option>
             <option [value]="InstructorSessionResultViewType.GRQ">Group by - Giver &#8594; Recipient &#8594; Question</option>
             <option [value]="InstructorSessionResultViewType.RGQ">Group by - Recipient &#8594; Giver &#8594; Question</option>

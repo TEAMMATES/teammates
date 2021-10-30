@@ -71,19 +71,54 @@ export class ViewResultsPanelComponent implements OnInit {
   indicateMissingResponses: boolean = true;
 
   @Output()
-  handleViewTypeChangeEvent: EventEmitter<InstructorSessionResultViewType> =
-    new EventEmitter<InstructorSessionResultViewType>();
+  viewTypeChange: EventEmitter<string> = new EventEmitter<string>();
+
+  @Output()
+  viewTooltipTextChange: EventEmitter<string> = new EventEmitter<string>();
+
+  @Output()
+  collapseAllTabsEvent: EventEmitter<void> = new EventEmitter<void>();
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  collapseAllTabsHandler(): void {
+    this.collapseAllTabsEvent.emit();
+  }
+
   /**
    * Handles view type changes.
    */
-  handleViewTypeChangeHandler(newViewType: InstructorSessionResultViewType): void {
-    this.handleViewTypeChangeEvent.emit(newViewType);
+  handleViewTypeChange(newViewType: InstructorSessionResultViewType): void {
+    if (this.viewType === newViewType) {
+      // do nothing
+      return;
+    }
+    this.viewTypeChange.emit(newViewType);
+
+    // change tooltip text based on currently selected view type
+    switch (this.viewType) {
+      case InstructorSessionResultViewType.QUESTION:
+        this.viewTooltipText = 'Group responses by recipient, then by giver, and then by question';
+        this.viewTooltipTextChange.emit(this.viewTooltipText);
+        break;
+      case InstructorSessionResultViewType.GQR:
+        this.viewTooltipText = 'Group responses by giver, then by question, and then by recipient';
+        this.viewTooltipTextChange.emit(this.viewTooltipText);
+        break;
+      case InstructorSessionResultViewType.RQG:
+        this.viewTooltipText = 'Group responses by recipient, then by question, and then by giver';
+        this.viewTooltipTextChange.emit(this.viewTooltipText);
+        break;
+      default:
+        this.viewTooltipText = 'View results in different formats';
+        this.viewTooltipTextChange.emit(this.viewTooltipText);
+    }
+
+    // the expand all will be reset if the view type changed
+    this.collapseAllTabsHandler();
   }
 
 }
