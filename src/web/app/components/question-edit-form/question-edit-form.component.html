@@ -94,15 +94,151 @@
           </div>
         </div>
       </div>
-      <tm-feedback-path-panel [(formModel)]="model" [commonFeedbackPaths]="this.commonFeedbackPaths"
-                              [allowedFeedbackPaths]="this.allowedFeedbackPaths">
-      </tm-feedback-path-panel>
-      <tm-visibility-panel [(formModel)]="model" [isCustomFeedbackVisibilitySettingAllowed]="isCustomFeedbackVisibilitySettingAllowed"
-                           [feedbackVisibilityTypes]="FeedbackVisibilityType"
-                           [visibilityControls]="VisibilityControl"
-                           [commonFeedbackVisibilitySettings]="commonFeedbackVisibilitySettings"
-                           [visibilityStateMachine]="visibilityStateMachine"
-      ></tm-visibility-panel>
+      <div class="background-color-light-green margin-top-15px padding-15px">
+        <div>
+          <b class="feedback-path-title">Feedback Path</b> (Who is giving feedback about whom?)
+        </div>
+        <div ngbDropdown #mainMenu="ngbDropdown" class="margin-top-15px" autoClose="outside">
+          <button id="btn-feedback-path" class="btn btn-light white-space-normal" ngbDropdownToggle [disabled]="!model.isEditable || this.commonFeedbackPaths.size === 1">
+            <span *ngIf="!model.isUsingOtherFeedbackPath">
+              {{ model.giverType | giverTypeDescription }} will give feedback on <i class="fas fa-arrow-right"></i> {{ model.recipientType | recipientTypeDescription }}
+            </span>
+            <span *ngIf="model.isUsingOtherFeedbackPath">Custom feedback path</span>
+          </button>
+          <ul id="feedback-path-dropdown" ngbDropdownMenu>
+            <li class="dropdown-header">Common feedback path combinations</li>
+            <li class="dropdown-item" *ngFor="let path of this.commonFeedbackPaths | keyvalue">
+              <div ngbDropdown #subMenu="ngbDropdown" placement="right" (mouseenter)="subMenu.open()" (mouseleave)="subMenu.close()">
+                <span ngbDropdownAnchor class="float-right invisible"></span>
+                {{ path.key | giverTypeDescription }} will give feedback on ... <i class="fas fa-caret-right"></i>
+                <ul ngbDropdownMenu>
+                  <li class="dropdown-item" *ngFor="let recipient of path.value"
+                      (click)="changeGiverRecipientType(path.key, recipient); mainMenu.close()">{{ recipient | recipientTypeDescription }}</li>
+                </ul>
+              </div>
+            </li>
+            <li class="dropdown-divider"></li>
+            <li class="dropdown-item" (click)="triggerModelChange('isUsingOtherFeedbackPath', true); mainMenu.close()">Custom feedback path...</li>
+          </ul>
+        </div>
+        <div class="row margin-top-15px" *ngIf="model.isUsingOtherFeedbackPath">
+          <div class="col-6">
+            <div class="row">
+              <div class="col-12">
+                <strong>Who will give the feedback:</strong>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <select id="giver-type" class="form-control" [ngModel]="model.giverType" (ngModelChange)="changeGiverRecipientType($event, model.recipientType)" [disabled]="!model.isEditable">
+                  <option *ngFor="let path of this.allowedFeedbackPaths | keyvalue" [ngValue]="path.key">{{ path.key | giverTypeDescription }}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="row">
+              <div class="col-12">
+                <strong>Who the feedback is about:</strong>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <select id="receiver-type" class="form-control" [ngModel]="model.recipientType" (ngModelChange)="changeGiverRecipientType(model.giverType, $event)" [disabled]="!model.isEditable">
+                  <option *ngFor="let recipientType of this.allowedFeedbackPaths.get(model.giverType)" [ngValue]="recipientType">{{ recipientType | recipientTypeDescription }}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row margin-top-15px align-items-center"
+             *ngIf="model.recipientType === FeedbackParticipantType.STUDENTS || model.recipientType === FeedbackParticipantType.TEAMS || model.recipientType === FeedbackParticipantType.INSTRUCTORS">
+          <div class="offset-1 col-md-4 text-md-right">
+            The maximum number of {{ model.recipientType | lowercase }} each respondent should give feedback to:
+          </div>
+          <div class="col-md-2">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <div class="input-group-text">
+                  <input id="custom-recipients" type="radio" [name]="model.feedbackQuestionId + 'numOfRecipients'" [ngModel]="model.numberOfEntitiesToGiveFeedbackToSetting"
+                         (ngModelChange)="triggerModelChange('numberOfEntitiesToGiveFeedbackToSetting', $event)"
+                         [value]="NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM"
+                         [disabled]="!model.isEditable">
+                </div>
+              </div>
+              <input id="custom-recipients-number" type="number" min="1" class="form-control" [ngModel]="model.customNumberOfEntitiesToGiveFeedbackTo" (ngModelChange)="triggerModelChange('customNumberOfEntitiesToGiveFeedbackTo', $event)" [disabled]="model.numberOfEntitiesToGiveFeedbackToSetting != NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM || !model.isEditable">
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-check">
+              <label class="form-check-label">
+                <input id="unlimited-recipients" class="form-check-input" type="radio" [name]="model.feedbackQuestionId + 'numOfRecipients'"
+                       [ngModel]="model.numberOfEntitiesToGiveFeedbackToSetting" (ngModelChange)="triggerModelChange('numberOfEntitiesToGiveFeedbackToSetting', $event)"
+                       [value]="NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED"
+                       [disabled]="!model.isEditable">
+                Unlimited
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="margin-top-15px padding-15px" [ngClass]="{ 'background-color-light-green': !model.isQuestionHasResponses, 'alert alert-danger': model.isQuestionHasResponses }">
+        <div>
+          <div *ngIf="model.isQuestionHasResponses">
+            <h5>Changing the visibility after collecting responses is not recommended.</h5>
+            <p>Reason: The existing responses were submitted under the 'promise' of a certain visibility and changing the visibility later 'breaks' that promise.</p>
+          </div>
+          <b [ngClass]="{ 'visibility-title': !model.isQuestionHasResponses }">Visibility</b> (Who can see the responses?)
+        </div>
+        <div ngbDropdown class="margin-top-15px">
+          <button id="btn-question-visibility" class="btn btn-light white-space-normal" ngbDropdownToggle [disabled]="!model.isEditable">
+            <span *ngIf="!model.isUsingOtherVisibilitySetting">
+              {{ model.commonVisibilitySettingName }}
+            </span>
+            <span *ngIf="model.isUsingOtherVisibilitySetting">Custom visibility options</span>
+          </button>
+          <ul id="question-visibility-dropdown" ngbDropdownMenu>
+            <li class="dropdown-header">Common visibility options</li>
+            <li class="dropdown-item" *ngFor="let visibilityOption of commonFeedbackVisibilitySettings"
+                (click)="applyCommonVisibilitySettings(visibilityOption)">{{ visibilityOption.name }}</li>
+            <li class="dropdown-divider" *ngIf="isCustomFeedbackVisibilitySettingAllowed"></li>
+            <li class="dropdown-item" *ngIf="isCustomFeedbackVisibilitySettingAllowed" (click)="triggerModelChange('isUsingOtherVisibilitySetting', true)">Custom visibility options...</li>
+          </ul>
+        </div>
+        <table class="table margin-top-15px background-color-white table-striped" *ngIf="model.isUsingOtherVisibilitySetting">
+          <thead>
+          <tr>
+            <th scope="col" class="text-left">User/Group</th>
+            <th scope="col" class="text-center" *ngFor="let visibilityControl of VisibilityControl | enumToArray">{{ visibilityControl | visibilityControlName }}</th>
+          </tr>
+          </thead>
+          <tbody id="custom-visibility-table">
+          <ng-container *ngFor="let visibilityType of FeedbackVisibilityType | enumToArray">
+            <tr *ngIf="visibilityStateMachine.isVisibilityTypeApplicable(visibilityType)">
+              <td><span class="ngb-tooltip-class" [ngbTooltip]="visibilityType | visibilityTypeDescription" container="body">{{ visibilityType | visibilityTypeName }}</span></td>
+              <td *ngFor="let visibilityControl of VisibilityControl | enumToArray" class="text-center">
+                <input type="checkbox"
+                       (click)="modifyVisibilityControl($event.target.checked, visibilityType, visibilityControl)"
+                       [checked]="visibilityStateMachine.isVisible(visibilityType, visibilityControl)"
+                       [disabled]="!visibilityStateMachine.isCellEditable(visibilityType, visibilityControl) || !model.isEditable">
+              </td>
+            </tr>
+          </ng-container>
+          </tbody>
+        </table>
+        <div class="margin-top-15px visibility-message">
+          This is the visibility hint as seen by the feedback giver:
+          <ul class="text-muted background-color-warning">
+            <li *ngIf="model.recipientType === FeedbackParticipantType.SELF">You can see your own feedback in the results page later on.</li>
+            <ng-container *ngFor="let visibilityType of FeedbackVisibilityType | enumToArray">
+              <li *ngIf="visibilityStateMachine.isVisibilityTypeApplicable(visibilityType) && visibilityStateMachine.hasAnyVisibilityControl(visibilityType)">
+                {{ visibilityType | visibilityEntityName:model.recipientType:model.numberOfEntitiesToGiveFeedbackToSetting:model.customNumberOfEntitiesToGiveFeedbackTo }} {{ visibilityStateMachine.getVisibilityControlUnderVisibilityType(visibilityType) | visibilityCapability }}
+              </li>
+            </ng-container>
+            <li *ngIf="!visibilityStateMachine.hasAnyVisibilityControlForAll()">No-one can see your responses</li>
+          </ul>
+        </div>
+      </div>
       <div class="row margin-top-15px" *ngIf="!isDisplayOnly">
         <div class="col-12 text-right">
           <button type="button" class="btn btn-light btn-margin-right" *ngIf="model.isEditable"

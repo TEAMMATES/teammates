@@ -1466,689 +1466,566 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                     </div>
                   </div>
                 </div>
-                <tm-feedback-path-panel>
+                <div
+                  class="background-color-light-green margin-top-15px padding-15px"
+                >
+                  <div>
+                    <b
+                      class="feedback-path-title"
+                    >
+                      Feedback Path
+                    </b>
+                     (Who is giving feedback about whom?) 
+                  </div>
                   <div
-                    class="background-color-light-green margin-top-15px padding-15px"
+                    autoclose="outside"
+                    class="margin-top-15px"
+                    ngbdropdown=""
                   >
-                    <div>
-                      <b
-                        class="feedback-path-title"
-                      >
-                        Feedback Path
-                      </b>
-                       (Who is giving feedback about whom?) 
-                    </div>
-                    <div
-                      autoclose="outside"
-                      class="margin-top-15px"
-                      ngbdropdown=""
+                    <button
+                      aria-expanded="false"
+                      aria-haspopup="true"
+                      class="btn btn-light white-space-normal dropdown-toggle"
+                      id="btn-feedback-path"
+                      ngbdropdowntoggle=""
                     >
-                      <button
-                        aria-expanded="false"
-                        aria-haspopup="true"
-                        class="btn btn-light white-space-normal dropdown-toggle"
-                        id="btn-feedback-path"
-                        ngbdropdowntoggle=""
+                      
+                      <span
+                        style=""
                       >
-                        
-                        
-                        <span
-                          style=""
-                        >
-                          Custom feedback path
-                        </span>
-                      </button>
-                      <ul
-                        class="dropdown-menu"
-                        id="feedback-path-dropdown"
-                        ngbdropdownmenu=""
-                        x-placement="bottom"
-                      >
-                        <li
-                          class="dropdown-header"
-                        >
-                          Common feedback path combinations
-                        </li>
-                        
-                        <li
-                          class="dropdown-item"
-                          style=""
-                        >
-                          <div
-                            ngbdropdown=""
-                            placement="right"
-                          >
-                            <span
-                              aria-expanded="false"
-                              aria-haspopup="true"
-                              class="float-right invisible dropdown-toggle"
-                              ngbdropdownanchor=""
-                            />
-                             Instructors in this course will give feedback on ... 
-                            <i
-                              class="fas fa-caret-right"
-                            />
-                            <ul
-                              class="dropdown-menu"
-                              ngbdropdownmenu=""
-                              x-placement="bottom"
-                            >
-                              
-                              <li
-                                class="dropdown-item"
-                              >
-                                Nobody specific (For general class feedback)
-                              </li>
-                              <li
-                                class="dropdown-item"
-                              >
-                                Giver (Self feedback)
-                              </li>
-                              <li
-                                class="dropdown-item"
-                              >
-                                Instructors in the course
-                              </li>
-                            </ul>
-                          </div>
-                        </li>
-                        <li
-                          class="dropdown-item"
-                          style=""
-                        >
-                          <div
-                            ngbdropdown=""
-                            placement="right"
-                          >
-                            <span
-                              aria-expanded="false"
-                              aria-haspopup="true"
-                              class="float-right invisible dropdown-toggle"
-                              ngbdropdownanchor=""
-                            />
-                             Feedback session creator (i.e., me) will give feedback on ... 
-                            <i
-                              class="fas fa-caret-right"
-                            />
-                            <ul
-                              class="dropdown-menu"
-                              ngbdropdownmenu=""
-                              x-placement="bottom"
-                            >
-                              
-                              <li
-                                class="dropdown-item"
-                              >
-                                Nobody specific (For general class feedback)
-                              </li>
-                              <li
-                                class="dropdown-item"
-                              >
-                                Giver (Self feedback)
-                              </li>
-                              <li
-                                class="dropdown-item"
-                              >
-                                Instructors in the course
-                              </li>
-                            </ul>
-                          </div>
-                        </li>
-                        <li
-                          class="dropdown-item"
-                          style=""
-                        >
-                          <div
-                            ngbdropdown=""
-                            placement="right"
-                          >
-                            <span
-                              aria-expanded="false"
-                              aria-haspopup="true"
-                              class="float-right invisible dropdown-toggle"
-                              ngbdropdownanchor=""
-                            />
-                             Students in this course will give feedback on ... 
-                            <i
-                              class="fas fa-caret-right"
-                            />
-                            <ul
-                              class="dropdown-menu"
-                              ngbdropdownmenu=""
-                              x-placement="bottom"
-                            >
-                              
-                              <li
-                                class="dropdown-item"
-                              >
-                                Nobody specific (For general class feedback)
-                              </li>
-                              <li
-                                class="dropdown-item"
-                              >
-                                Giver (Self feedback)
-                              </li>
-                              <li
-                                class="dropdown-item"
-                              >
-                                Instructors in the course
-                              </li>
-                              <li
-                                class="dropdown-item"
-                              >
-                                Giver's team members
-                              </li>
-                              <li
-                                class="dropdown-item"
-                              >
-                                Giver's team members and Giver
-                              </li>
-                            </ul>
-                          </div>
-                        </li>
-                        <li
-                          class="dropdown-divider"
+                         Students in this course will give feedback on 
+                        <i
+                          class="fas fa-arrow-right"
                         />
-                        <li
-                          class="dropdown-item"
-                        >
-                          Custom feedback path...
-                        </li>
-                      </ul>
-                    </div>
-                    
-                    <div
-                      class="row margin-top-15px"
-                      style=""
+                         Instructors in the course 
+                      </span>
+                      
+                    </button>
+                    <ul
+                      class="dropdown-menu"
+                      id="feedback-path-dropdown"
+                      ngbdropdownmenu=""
+                      x-placement="bottom"
                     >
-                      <div
-                        class="col-6"
+                      <li
+                        class="dropdown-header"
+                      >
+                        Common feedback path combinations
+                      </li>
+                      
+                      <li
+                        class="dropdown-item"
+                        style=""
                       >
                         <div
-                          class="row"
+                          ngbdropdown=""
+                          placement="right"
                         >
-                          <div
-                            class="col-12"
-                          >
-                            <strong>
-                              Who will give the feedback:
-                            </strong>
-                          </div>
-                        </div>
-                        <div
-                          class="row"
-                        >
-                          <div
-                            class="col-12"
-                          >
-                            <select
-                              class="form-control ng-untouched ng-pristine ng-valid"
-                              id="giver-type"
-                            >
-                              
-                              <option
-                                value="0: INSTRUCTORS"
-                              >
-                                Instructors in this course
-                              </option>
-                              <option
-                                value="1: SELF"
-                              >
-                                Feedback session creator (i.e., me)
-                              </option>
-                              <option
-                                value="2: STUDENTS"
-                              >
-                                Students in this course
-                              </option>
-                              <option
-                                value="3: TEAMS"
-                              >
-                                Teams in this course
-                              </option>
-                            </select>
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        class="col-6"
-                      >
-                        <div
-                          class="row"
-                        >
-                          <div
-                            class="col-12"
-                          >
-                            <strong>
-                              Who the feedback is about:
-                            </strong>
-                          </div>
-                        </div>
-                        <div
-                          class="row"
-                        >
-                          <div
-                            class="col-12"
-                          >
-                            <select
-                              class="form-control ng-untouched ng-pristine ng-valid"
-                              id="receiver-type"
-                            >
-                              
-                              <option
-                                value="0: SELF"
-                              >
-                                Giver (Self feedback)
-                              </option>
-                              <option
-                                value="1: STUDENTS"
-                              >
-                                Other students in the course
-                              </option>
-                              <option
-                                value="2: INSTRUCTORS"
-                              >
-                                Instructors in the course
-                              </option>
-                              <option
-                                value="3: TEAMS"
-                              >
-                                Other teams in the course
-                              </option>
-                              <option
-                                value="4: OWN_TEAM"
-                              >
-                                Giver's team
-                              </option>
-                              <option
-                                value="5: OWN_TEAM_MEMBERS"
-                              >
-                                Giver's team members
-                              </option>
-                              <option
-                                value="6: OWN_TEAM_MEMBERS_INCLUDING_SELF"
-                              >
-                                Giver's team members and Giver
-                              </option>
-                              <option
-                                value="7: NONE"
-                              >
-                                Nobody specific (For general class feedback)
-                              </option>
-                            </select>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div
-                      class="row margin-top-15px align-items-center"
-                      style=""
-                    >
-                      <div
-                        class="offset-1 col-md-4 text-md-right"
-                      >
-                         The maximum number of instructors each respondent should give feedback to: 
-                      </div>
-                      <div
-                        class="col-md-2"
-                      >
-                        <div
-                          class="input-group"
-                        >
-                          <div
-                            class="input-group-prepend"
-                          >
-                            <div
-                              class="input-group-text"
-                            >
-                              <input
-                                class="ng-untouched ng-pristine ng-valid"
-                                id="custom-recipients"
-                                type="radio"
-                              />
-                            </div>
-                          </div>
-                          <input
-                            class="form-control ng-untouched ng-pristine ng-valid"
-                            id="custom-recipients-number"
-                            min="1"
-                            type="number"
+                          <span
+                            aria-expanded="false"
+                            aria-haspopup="true"
+                            class="float-right invisible dropdown-toggle"
+                            ngbdropdownanchor=""
                           />
+                           Instructors in this course will give feedback on ... 
+                          <i
+                            class="fas fa-caret-right"
+                          />
+                          <ul
+                            class="dropdown-menu"
+                            ngbdropdownmenu=""
+                            x-placement="bottom"
+                          >
+                            
+                            <li
+                              class="dropdown-item"
+                            >
+                              Nobody specific (For general class feedback)
+                            </li>
+                            <li
+                              class="dropdown-item"
+                            >
+                              Giver (Self feedback)
+                            </li>
+                            <li
+                              class="dropdown-item"
+                            >
+                              Instructors in the course
+                            </li>
+                          </ul>
                         </div>
-                      </div>
-                      <div
-                        class="col-md-2"
+                      </li>
+                      <li
+                        class="dropdown-item"
+                        style=""
                       >
                         <div
-                          class="form-check"
+                          ngbdropdown=""
+                          placement="right"
                         >
-                          <label
-                            class="form-check-label"
+                          <span
+                            aria-expanded="false"
+                            aria-haspopup="true"
+                            class="float-right invisible dropdown-toggle"
+                            ngbdropdownanchor=""
+                          />
+                           Feedback session creator (i.e., me) will give feedback on ... 
+                          <i
+                            class="fas fa-caret-right"
+                          />
+                          <ul
+                            class="dropdown-menu"
+                            ngbdropdownmenu=""
+                            x-placement="bottom"
+                          >
+                            
+                            <li
+                              class="dropdown-item"
+                            >
+                              Nobody specific (For general class feedback)
+                            </li>
+                            <li
+                              class="dropdown-item"
+                            >
+                              Giver (Self feedback)
+                            </li>
+                            <li
+                              class="dropdown-item"
+                            >
+                              Instructors in the course
+                            </li>
+                          </ul>
+                        </div>
+                      </li>
+                      <li
+                        class="dropdown-item"
+                        style=""
+                      >
+                        <div
+                          ngbdropdown=""
+                          placement="right"
+                        >
+                          <span
+                            aria-expanded="false"
+                            aria-haspopup="true"
+                            class="float-right invisible dropdown-toggle"
+                            ngbdropdownanchor=""
+                          />
+                           Students in this course will give feedback on ... 
+                          <i
+                            class="fas fa-caret-right"
+                          />
+                          <ul
+                            class="dropdown-menu"
+                            ngbdropdownmenu=""
+                            x-placement="bottom"
+                          >
+                            
+                            <li
+                              class="dropdown-item"
+                            >
+                              Nobody specific (For general class feedback)
+                            </li>
+                            <li
+                              class="dropdown-item"
+                            >
+                              Giver (Self feedback)
+                            </li>
+                            <li
+                              class="dropdown-item"
+                            >
+                              Instructors in the course
+                            </li>
+                            <li
+                              class="dropdown-item"
+                            >
+                              Giver's team members
+                            </li>
+                            <li
+                              class="dropdown-item"
+                            >
+                              Giver's team members and Giver
+                            </li>
+                          </ul>
+                        </div>
+                      </li>
+                      <li
+                        class="dropdown-divider"
+                      />
+                      <li
+                        class="dropdown-item"
+                      >
+                        Custom feedback path...
+                      </li>
+                    </ul>
+                  </div>
+                  
+                  
+                  <div
+                    class="row margin-top-15px align-items-center"
+                    style=""
+                  >
+                    <div
+                      class="offset-1 col-md-4 text-md-right"
+                    >
+                       The maximum number of instructors each respondent should give feedback to: 
+                    </div>
+                    <div
+                      class="col-md-2"
+                    >
+                      <div
+                        class="input-group"
+                      >
+                        <div
+                          class="input-group-prepend"
+                        >
+                          <div
+                            class="input-group-text"
                           >
                             <input
-                              class="form-check-input ng-untouched ng-pristine ng-valid"
-                              id="unlimited-recipients"
+                              class="ng-untouched ng-pristine ng-valid"
+                              id="custom-recipients"
                               type="radio"
                             />
-                             Unlimited 
-                          </label>
+                          </div>
                         </div>
+                        <input
+                          class="form-control ng-untouched ng-pristine ng-valid"
+                          id="custom-recipients-number"
+                          min="1"
+                          type="number"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      class="col-md-2"
+                    >
+                      <div
+                        class="form-check"
+                      >
+                        <label
+                          class="form-check-label"
+                        >
+                          <input
+                            class="form-check-input ng-untouched ng-pristine ng-valid"
+                            id="unlimited-recipients"
+                            type="radio"
+                          />
+                           Unlimited 
+                        </label>
                       </div>
                     </div>
                   </div>
-                </tm-feedback-path-panel>
-                <tm-visibility-panel>
-                  <div
-                    class="margin-top-15px padding-15px background-color-light-green"
-                  >
-                    <div>
-                      
-                      <b
-                        class="visibility-title"
-                      >
-                        Visibility
-                      </b>
-                       (Who can see the responses?) 
-                    </div>
-                    <div
-                      class="margin-top-15px"
-                      ngbdropdown=""
-                    >
-                      <button
-                        aria-expanded="false"
-                        aria-haspopup="true"
-                        class="btn btn-light white-space-normal dropdown-toggle"
-                        id="btn-question-visibility"
-                        ngbdropdowntoggle=""
-                      >
-                        
-                        
-                        <span
-                          style=""
-                        >
-                          Custom visibility options
-                        </span>
-                      </button>
-                      <ul
-                        class="dropdown-menu"
-                        id="question-visibility-dropdown"
-                        ngbdropdownmenu=""
-                        x-placement="bottom"
-                      >
-                        <li
-                          class="dropdown-header"
-                        >
-                          Common visibility options
-                        </li>
-                        
-                        <li
-                          class="dropdown-item"
-                          style=""
-                        >
-                          Shown anonymously to recipient and instructors
-                        </li>
-                        <li
-                          class="dropdown-item"
-                          style=""
-                        >
-                          Shown anonymously to recipient, visible to instructors
-                        </li>
-                        <li
-                          class="dropdown-item"
-                          style=""
-                        >
-                          Shown anonymously to recipient and giver's team members, visible to instructors
-                        </li>
-                        <li
-                          class="dropdown-item"
-                          style=""
-                        >
-                          Visible to instructors only
-                        </li>
-                        <li
-                          class="dropdown-item"
-                          style=""
-                        >
-                          Visible to recipient and instructors
-                        </li>
-                        
-                        <li
-                          class="dropdown-divider"
-                          style=""
-                        />
-                        
-                        <li
-                          class="dropdown-item"
-                          style=""
-                        >
-                          Custom visibility options...
-                        </li>
-                      </ul>
-                    </div>
+                </div>
+                <div
+                  class="margin-top-15px padding-15px background-color-light-green"
+                >
+                  <div>
                     
-                    <table
-                      class="table margin-top-15px background-color-white table-striped"
-                      style=""
+                    <b
+                      class="visibility-title"
                     >
-                      <thead>
-                        <tr>
-                          <th
-                            class="text-left"
-                            scope="col"
-                          >
-                            User/Group
-                          </th>
-                          
-                          <th
-                            class="text-center"
-                            scope="col"
-                          >
-                            Can see answer
-                          </th>
-                          <th
-                            class="text-center"
-                            scope="col"
-                          >
-                            Can see giver's name
-                          </th>
-                          <th
-                            class="text-center"
-                            scope="col"
-                          >
-                            Can see recipient's name
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody
-                        id="custom-visibility-table"
-                      >
-                        
-                        
-                        
-                        <tr>
-                          <td>
-                            <span
-                              class="ngb-tooltip-class"
-                              container="body"
-                            >
-                              Recipient(s)
-                            </span>
-                          </td>
-                          
-                          <td
-                            class="text-center"
-                          >
-                            <input
-                              type="checkbox"
-                            />
-                          </td>
-                          <td
-                            class="text-center"
-                          >
-                            <input
-                              type="checkbox"
-                            />
-                          </td>
-                          <td
-                            class="text-center"
-                          >
-                            <input
-                              disabled=""
-                              type="checkbox"
-                            />
-                          </td>
-                        </tr>
-                        
-                        
-                        
-                        <tr>
-                          <td>
-                            <span
-                              class="ngb-tooltip-class"
-                              container="body"
-                            >
-                              Giver's Team Members
-                            </span>
-                          </td>
-                          
-                          <td
-                            class="text-center"
-                          >
-                            <input
-                              type="checkbox"
-                            />
-                          </td>
-                          <td
-                            class="text-center"
-                          >
-                            <input
-                              type="checkbox"
-                            />
-                          </td>
-                          <td
-                            class="text-center"
-                          >
-                            <input
-                              type="checkbox"
-                            />
-                          </td>
-                        </tr>
-                        
-                        
-                        
-                        
-                        
-                        
-                        <tr>
-                          <td>
-                            <span
-                              class="ngb-tooltip-class"
-                              container="body"
-                            >
-                              Other students
-                            </span>
-                          </td>
-                          
-                          <td
-                            class="text-center"
-                          >
-                            <input
-                              type="checkbox"
-                            />
-                          </td>
-                          <td
-                            class="text-center"
-                          >
-                            <input
-                              type="checkbox"
-                            />
-                          </td>
-                          <td
-                            class="text-center"
-                          >
-                            <input
-                              type="checkbox"
-                            />
-                          </td>
-                        </tr>
-                        
-                        
-                        
-                        <tr>
-                          <td>
-                            <span
-                              class="ngb-tooltip-class"
-                              container="body"
-                            >
-                              Instructors
-                            </span>
-                          </td>
-                          
-                          <td
-                            class="text-center"
-                          >
-                            <input
-                              type="checkbox"
-                            />
-                          </td>
-                          <td
-                            class="text-center"
-                          >
-                            <input
-                              type="checkbox"
-                            />
-                          </td>
-                          <td
-                            class="text-center"
-                          >
-                            <input
-                              type="checkbox"
-                            />
-                          </td>
-                        </tr>
-                        
-                      </tbody>
-                    </table>
-                    <div
-                      class="margin-top-15px visibility-message"
-                    >
-                       This is the visibility hint as seen by the feedback giver: 
-                      <ul
-                        class="text-muted background-color-warning"
-                      >
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        <li
-                          style=""
-                        >
-                           Your team members can see your response, but not the name of the recipient, or your name 
-                        </li>
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        <li
-                          style=""
-                        >
-                           Instructors in this course can see your response, but not the name of the recipient, or your name 
-                        </li>
-                        
-                        
-                      </ul>
-                    </div>
+                      Visibility
+                    </b>
+                     (Who can see the responses?) 
                   </div>
-                </tm-visibility-panel>
+                  <div
+                    class="margin-top-15px"
+                    ngbdropdown=""
+                  >
+                    <button
+                      aria-expanded="false"
+                      aria-haspopup="true"
+                      class="btn btn-light white-space-normal dropdown-toggle"
+                      id="btn-question-visibility"
+                      ngbdropdowntoggle=""
+                    >
+                      
+                      
+                      <span
+                        style=""
+                      >
+                        Custom visibility options
+                      </span>
+                    </button>
+                    <ul
+                      class="dropdown-menu"
+                      id="question-visibility-dropdown"
+                      ngbdropdownmenu=""
+                      x-placement="bottom"
+                    >
+                      <li
+                        class="dropdown-header"
+                      >
+                        Common visibility options
+                      </li>
+                      
+                      <li
+                        class="dropdown-item"
+                        style=""
+                      >
+                        Shown anonymously to recipient and instructors
+                      </li>
+                      <li
+                        class="dropdown-item"
+                        style=""
+                      >
+                        Shown anonymously to recipient, visible to instructors
+                      </li>
+                      <li
+                        class="dropdown-item"
+                        style=""
+                      >
+                        Shown anonymously to recipient and giver's team members, visible to instructors
+                      </li>
+                      <li
+                        class="dropdown-item"
+                        style=""
+                      >
+                        Visible to instructors only
+                      </li>
+                      <li
+                        class="dropdown-item"
+                        style=""
+                      >
+                        Visible to recipient and instructors
+                      </li>
+                      
+                      <li
+                        class="dropdown-divider"
+                        style=""
+                      />
+                      
+                      <li
+                        class="dropdown-item"
+                        style=""
+                      >
+                        Custom visibility options...
+                      </li>
+                    </ul>
+                  </div>
+                  
+                  <table
+                    class="table margin-top-15px background-color-white table-striped"
+                    style=""
+                  >
+                    <thead>
+                      <tr>
+                        <th
+                          class="text-left"
+                          scope="col"
+                        >
+                          User/Group
+                        </th>
+                        
+                        <th
+                          class="text-center"
+                          scope="col"
+                        >
+                          Can see answer
+                        </th>
+                        <th
+                          class="text-center"
+                          scope="col"
+                        >
+                          Can see giver's name
+                        </th>
+                        <th
+                          class="text-center"
+                          scope="col"
+                        >
+                          Can see recipient's name
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody
+                      id="custom-visibility-table"
+                    >
+                      
+                      
+                      
+                      <tr>
+                        <td>
+                          <span
+                            class="ngb-tooltip-class"
+                            container="body"
+                          >
+                            Recipient(s)
+                          </span>
+                        </td>
+                        
+                        <td
+                          class="text-center"
+                        >
+                          <input
+                            type="checkbox"
+                          />
+                        </td>
+                        <td
+                          class="text-center"
+                        >
+                          <input
+                            type="checkbox"
+                          />
+                        </td>
+                        <td
+                          class="text-center"
+                        >
+                          <input
+                            disabled=""
+                            type="checkbox"
+                          />
+                        </td>
+                      </tr>
+                      
+                      
+                      
+                      <tr>
+                        <td>
+                          <span
+                            class="ngb-tooltip-class"
+                            container="body"
+                          >
+                            Giver's Team Members
+                          </span>
+                        </td>
+                        
+                        <td
+                          class="text-center"
+                        >
+                          <input
+                            type="checkbox"
+                          />
+                        </td>
+                        <td
+                          class="text-center"
+                        >
+                          <input
+                            type="checkbox"
+                          />
+                        </td>
+                        <td
+                          class="text-center"
+                        >
+                          <input
+                            type="checkbox"
+                          />
+                        </td>
+                      </tr>
+                      
+                      
+                      
+                      
+                      
+                      
+                      <tr>
+                        <td>
+                          <span
+                            class="ngb-tooltip-class"
+                            container="body"
+                          >
+                            Other students
+                          </span>
+                        </td>
+                        
+                        <td
+                          class="text-center"
+                        >
+                          <input
+                            type="checkbox"
+                          />
+                        </td>
+                        <td
+                          class="text-center"
+                        >
+                          <input
+                            type="checkbox"
+                          />
+                        </td>
+                        <td
+                          class="text-center"
+                        >
+                          <input
+                            type="checkbox"
+                          />
+                        </td>
+                      </tr>
+                      
+                      
+                      
+                      <tr>
+                        <td>
+                          <span
+                            class="ngb-tooltip-class"
+                            container="body"
+                          >
+                            Instructors
+                          </span>
+                        </td>
+                        
+                        <td
+                          class="text-center"
+                        >
+                          <input
+                            type="checkbox"
+                          />
+                        </td>
+                        <td
+                          class="text-center"
+                        >
+                          <input
+                            type="checkbox"
+                          />
+                        </td>
+                        <td
+                          class="text-center"
+                        >
+                          <input
+                            type="checkbox"
+                          />
+                        </td>
+                      </tr>
+                      
+                    </tbody>
+                  </table>
+                  <div
+                    class="margin-top-15px visibility-message"
+                  >
+                     This is the visibility hint as seen by the feedback giver: 
+                    <ul
+                      class="text-muted background-color-warning"
+                    >
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      <li
+                        style=""
+                      >
+                         Your team members can see your response, but not the name of the recipient, or your name 
+                      </li>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      <li
+                        style=""
+                      >
+                         Instructors in this course can see your response, but not the name of the recipient, or your name 
+                      </li>
+                      
+                      
+                    </ul>
+                  </div>
+                </div>
                 
                 <div
                   class="row margin-top-15px"
@@ -2418,689 +2295,566 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                     </div>
                   </div>
                 </div>
-                <tm-feedback-path-panel>
+                <div
+                  class="background-color-light-green margin-top-15px padding-15px"
+                >
+                  <div>
+                    <b
+                      class="feedback-path-title"
+                    >
+                      Feedback Path
+                    </b>
+                     (Who is giving feedback about whom?) 
+                  </div>
                   <div
-                    class="background-color-light-green margin-top-15px padding-15px"
+                    autoclose="outside"
+                    class="margin-top-15px"
+                    ngbdropdown=""
                   >
-                    <div>
-                      <b
-                        class="feedback-path-title"
-                      >
-                        Feedback Path
-                      </b>
-                       (Who is giving feedback about whom?) 
-                    </div>
-                    <div
-                      autoclose="outside"
-                      class="margin-top-15px"
-                      ngbdropdown=""
+                    <button
+                      aria-expanded="false"
+                      aria-haspopup="true"
+                      class="btn btn-light white-space-normal dropdown-toggle"
+                      id="btn-feedback-path"
+                      ngbdropdowntoggle=""
                     >
-                      <button
-                        aria-expanded="false"
-                        aria-haspopup="true"
-                        class="btn btn-light white-space-normal dropdown-toggle"
-                        id="btn-feedback-path"
-                        ngbdropdowntoggle=""
+                      
+                      <span
+                        style=""
                       >
-                        
-                        
-                        <span
-                          style=""
-                        >
-                          Custom feedback path
-                        </span>
-                      </button>
-                      <ul
-                        class="dropdown-menu"
-                        id="feedback-path-dropdown"
-                        ngbdropdownmenu=""
-                        x-placement="bottom"
-                      >
-                        <li
-                          class="dropdown-header"
-                        >
-                          Common feedback path combinations
-                        </li>
-                        
-                        <li
-                          class="dropdown-item"
-                          style=""
-                        >
-                          <div
-                            ngbdropdown=""
-                            placement="right"
-                          >
-                            <span
-                              aria-expanded="false"
-                              aria-haspopup="true"
-                              class="float-right invisible dropdown-toggle"
-                              ngbdropdownanchor=""
-                            />
-                             Instructors in this course will give feedback on ... 
-                            <i
-                              class="fas fa-caret-right"
-                            />
-                            <ul
-                              class="dropdown-menu"
-                              ngbdropdownmenu=""
-                              x-placement="bottom"
-                            >
-                              
-                              <li
-                                class="dropdown-item"
-                              >
-                                Nobody specific (For general class feedback)
-                              </li>
-                              <li
-                                class="dropdown-item"
-                              >
-                                Giver (Self feedback)
-                              </li>
-                              <li
-                                class="dropdown-item"
-                              >
-                                Instructors in the course
-                              </li>
-                            </ul>
-                          </div>
-                        </li>
-                        <li
-                          class="dropdown-item"
-                          style=""
-                        >
-                          <div
-                            ngbdropdown=""
-                            placement="right"
-                          >
-                            <span
-                              aria-expanded="false"
-                              aria-haspopup="true"
-                              class="float-right invisible dropdown-toggle"
-                              ngbdropdownanchor=""
-                            />
-                             Feedback session creator (i.e., me) will give feedback on ... 
-                            <i
-                              class="fas fa-caret-right"
-                            />
-                            <ul
-                              class="dropdown-menu"
-                              ngbdropdownmenu=""
-                              x-placement="bottom"
-                            >
-                              
-                              <li
-                                class="dropdown-item"
-                              >
-                                Nobody specific (For general class feedback)
-                              </li>
-                              <li
-                                class="dropdown-item"
-                              >
-                                Giver (Self feedback)
-                              </li>
-                              <li
-                                class="dropdown-item"
-                              >
-                                Instructors in the course
-                              </li>
-                            </ul>
-                          </div>
-                        </li>
-                        <li
-                          class="dropdown-item"
-                          style=""
-                        >
-                          <div
-                            ngbdropdown=""
-                            placement="right"
-                          >
-                            <span
-                              aria-expanded="false"
-                              aria-haspopup="true"
-                              class="float-right invisible dropdown-toggle"
-                              ngbdropdownanchor=""
-                            />
-                             Students in this course will give feedback on ... 
-                            <i
-                              class="fas fa-caret-right"
-                            />
-                            <ul
-                              class="dropdown-menu"
-                              ngbdropdownmenu=""
-                              x-placement="bottom"
-                            >
-                              
-                              <li
-                                class="dropdown-item"
-                              >
-                                Nobody specific (For general class feedback)
-                              </li>
-                              <li
-                                class="dropdown-item"
-                              >
-                                Giver (Self feedback)
-                              </li>
-                              <li
-                                class="dropdown-item"
-                              >
-                                Instructors in the course
-                              </li>
-                              <li
-                                class="dropdown-item"
-                              >
-                                Giver's team members
-                              </li>
-                              <li
-                                class="dropdown-item"
-                              >
-                                Giver's team members and Giver
-                              </li>
-                            </ul>
-                          </div>
-                        </li>
-                        <li
-                          class="dropdown-divider"
+                         Students in this course will give feedback on 
+                        <i
+                          class="fas fa-arrow-right"
                         />
-                        <li
-                          class="dropdown-item"
-                        >
-                          Custom feedback path...
-                        </li>
-                      </ul>
-                    </div>
-                    
-                    <div
-                      class="row margin-top-15px"
-                      style=""
+                         Instructors in the course 
+                      </span>
+                      
+                    </button>
+                    <ul
+                      class="dropdown-menu"
+                      id="feedback-path-dropdown"
+                      ngbdropdownmenu=""
+                      x-placement="bottom"
                     >
-                      <div
-                        class="col-6"
+                      <li
+                        class="dropdown-header"
+                      >
+                        Common feedback path combinations
+                      </li>
+                      
+                      <li
+                        class="dropdown-item"
+                        style=""
                       >
                         <div
-                          class="row"
+                          ngbdropdown=""
+                          placement="right"
                         >
-                          <div
-                            class="col-12"
-                          >
-                            <strong>
-                              Who will give the feedback:
-                            </strong>
-                          </div>
-                        </div>
-                        <div
-                          class="row"
-                        >
-                          <div
-                            class="col-12"
-                          >
-                            <select
-                              class="form-control ng-untouched ng-pristine ng-valid"
-                              id="giver-type"
-                            >
-                              
-                              <option
-                                value="0: INSTRUCTORS"
-                              >
-                                Instructors in this course
-                              </option>
-                              <option
-                                value="1: SELF"
-                              >
-                                Feedback session creator (i.e., me)
-                              </option>
-                              <option
-                                value="2: STUDENTS"
-                              >
-                                Students in this course
-                              </option>
-                              <option
-                                value="3: TEAMS"
-                              >
-                                Teams in this course
-                              </option>
-                            </select>
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        class="col-6"
-                      >
-                        <div
-                          class="row"
-                        >
-                          <div
-                            class="col-12"
-                          >
-                            <strong>
-                              Who the feedback is about:
-                            </strong>
-                          </div>
-                        </div>
-                        <div
-                          class="row"
-                        >
-                          <div
-                            class="col-12"
-                          >
-                            <select
-                              class="form-control ng-untouched ng-pristine ng-valid"
-                              id="receiver-type"
-                            >
-                              
-                              <option
-                                value="0: SELF"
-                              >
-                                Giver (Self feedback)
-                              </option>
-                              <option
-                                value="1: STUDENTS"
-                              >
-                                Other students in the course
-                              </option>
-                              <option
-                                value="2: INSTRUCTORS"
-                              >
-                                Instructors in the course
-                              </option>
-                              <option
-                                value="3: TEAMS"
-                              >
-                                Other teams in the course
-                              </option>
-                              <option
-                                value="4: OWN_TEAM"
-                              >
-                                Giver's team
-                              </option>
-                              <option
-                                value="5: OWN_TEAM_MEMBERS"
-                              >
-                                Giver's team members
-                              </option>
-                              <option
-                                value="6: OWN_TEAM_MEMBERS_INCLUDING_SELF"
-                              >
-                                Giver's team members and Giver
-                              </option>
-                              <option
-                                value="7: NONE"
-                              >
-                                Nobody specific (For general class feedback)
-                              </option>
-                            </select>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div
-                      class="row margin-top-15px align-items-center"
-                      style=""
-                    >
-                      <div
-                        class="offset-1 col-md-4 text-md-right"
-                      >
-                         The maximum number of instructors each respondent should give feedback to: 
-                      </div>
-                      <div
-                        class="col-md-2"
-                      >
-                        <div
-                          class="input-group"
-                        >
-                          <div
-                            class="input-group-prepend"
-                          >
-                            <div
-                              class="input-group-text"
-                            >
-                              <input
-                                class="ng-untouched ng-pristine ng-valid"
-                                id="custom-recipients"
-                                type="radio"
-                              />
-                            </div>
-                          </div>
-                          <input
-                            class="form-control ng-untouched ng-pristine ng-valid"
-                            id="custom-recipients-number"
-                            min="1"
-                            type="number"
+                          <span
+                            aria-expanded="false"
+                            aria-haspopup="true"
+                            class="float-right invisible dropdown-toggle"
+                            ngbdropdownanchor=""
                           />
+                           Instructors in this course will give feedback on ... 
+                          <i
+                            class="fas fa-caret-right"
+                          />
+                          <ul
+                            class="dropdown-menu"
+                            ngbdropdownmenu=""
+                            x-placement="bottom"
+                          >
+                            
+                            <li
+                              class="dropdown-item"
+                            >
+                              Nobody specific (For general class feedback)
+                            </li>
+                            <li
+                              class="dropdown-item"
+                            >
+                              Giver (Self feedback)
+                            </li>
+                            <li
+                              class="dropdown-item"
+                            >
+                              Instructors in the course
+                            </li>
+                          </ul>
                         </div>
-                      </div>
-                      <div
-                        class="col-md-2"
+                      </li>
+                      <li
+                        class="dropdown-item"
+                        style=""
                       >
                         <div
-                          class="form-check"
+                          ngbdropdown=""
+                          placement="right"
                         >
-                          <label
-                            class="form-check-label"
+                          <span
+                            aria-expanded="false"
+                            aria-haspopup="true"
+                            class="float-right invisible dropdown-toggle"
+                            ngbdropdownanchor=""
+                          />
+                           Feedback session creator (i.e., me) will give feedback on ... 
+                          <i
+                            class="fas fa-caret-right"
+                          />
+                          <ul
+                            class="dropdown-menu"
+                            ngbdropdownmenu=""
+                            x-placement="bottom"
+                          >
+                            
+                            <li
+                              class="dropdown-item"
+                            >
+                              Nobody specific (For general class feedback)
+                            </li>
+                            <li
+                              class="dropdown-item"
+                            >
+                              Giver (Self feedback)
+                            </li>
+                            <li
+                              class="dropdown-item"
+                            >
+                              Instructors in the course
+                            </li>
+                          </ul>
+                        </div>
+                      </li>
+                      <li
+                        class="dropdown-item"
+                        style=""
+                      >
+                        <div
+                          ngbdropdown=""
+                          placement="right"
+                        >
+                          <span
+                            aria-expanded="false"
+                            aria-haspopup="true"
+                            class="float-right invisible dropdown-toggle"
+                            ngbdropdownanchor=""
+                          />
+                           Students in this course will give feedback on ... 
+                          <i
+                            class="fas fa-caret-right"
+                          />
+                          <ul
+                            class="dropdown-menu"
+                            ngbdropdownmenu=""
+                            x-placement="bottom"
+                          >
+                            
+                            <li
+                              class="dropdown-item"
+                            >
+                              Nobody specific (For general class feedback)
+                            </li>
+                            <li
+                              class="dropdown-item"
+                            >
+                              Giver (Self feedback)
+                            </li>
+                            <li
+                              class="dropdown-item"
+                            >
+                              Instructors in the course
+                            </li>
+                            <li
+                              class="dropdown-item"
+                            >
+                              Giver's team members
+                            </li>
+                            <li
+                              class="dropdown-item"
+                            >
+                              Giver's team members and Giver
+                            </li>
+                          </ul>
+                        </div>
+                      </li>
+                      <li
+                        class="dropdown-divider"
+                      />
+                      <li
+                        class="dropdown-item"
+                      >
+                        Custom feedback path...
+                      </li>
+                    </ul>
+                  </div>
+                  
+                  
+                  <div
+                    class="row margin-top-15px align-items-center"
+                    style=""
+                  >
+                    <div
+                      class="offset-1 col-md-4 text-md-right"
+                    >
+                       The maximum number of instructors each respondent should give feedback to: 
+                    </div>
+                    <div
+                      class="col-md-2"
+                    >
+                      <div
+                        class="input-group"
+                      >
+                        <div
+                          class="input-group-prepend"
+                        >
+                          <div
+                            class="input-group-text"
                           >
                             <input
-                              class="form-check-input ng-untouched ng-pristine ng-valid"
-                              id="unlimited-recipients"
+                              class="ng-untouched ng-pristine ng-valid"
+                              id="custom-recipients"
                               type="radio"
                             />
-                             Unlimited 
-                          </label>
+                          </div>
                         </div>
+                        <input
+                          class="form-control ng-untouched ng-pristine ng-valid"
+                          id="custom-recipients-number"
+                          min="1"
+                          type="number"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      class="col-md-2"
+                    >
+                      <div
+                        class="form-check"
+                      >
+                        <label
+                          class="form-check-label"
+                        >
+                          <input
+                            class="form-check-input ng-untouched ng-pristine ng-valid"
+                            id="unlimited-recipients"
+                            type="radio"
+                          />
+                           Unlimited 
+                        </label>
                       </div>
                     </div>
                   </div>
-                </tm-feedback-path-panel>
-                <tm-visibility-panel>
-                  <div
-                    class="margin-top-15px padding-15px background-color-light-green"
-                  >
-                    <div>
-                      
-                      <b
-                        class="visibility-title"
-                      >
-                        Visibility
-                      </b>
-                       (Who can see the responses?) 
-                    </div>
-                    <div
-                      class="margin-top-15px"
-                      ngbdropdown=""
-                    >
-                      <button
-                        aria-expanded="false"
-                        aria-haspopup="true"
-                        class="btn btn-light white-space-normal dropdown-toggle"
-                        id="btn-question-visibility"
-                        ngbdropdowntoggle=""
-                      >
-                        
-                        
-                        <span
-                          style=""
-                        >
-                          Custom visibility options
-                        </span>
-                      </button>
-                      <ul
-                        class="dropdown-menu"
-                        id="question-visibility-dropdown"
-                        ngbdropdownmenu=""
-                        x-placement="bottom"
-                      >
-                        <li
-                          class="dropdown-header"
-                        >
-                          Common visibility options
-                        </li>
-                        
-                        <li
-                          class="dropdown-item"
-                          style=""
-                        >
-                          Shown anonymously to recipient and instructors
-                        </li>
-                        <li
-                          class="dropdown-item"
-                          style=""
-                        >
-                          Shown anonymously to recipient, visible to instructors
-                        </li>
-                        <li
-                          class="dropdown-item"
-                          style=""
-                        >
-                          Shown anonymously to recipient and giver's team members, visible to instructors
-                        </li>
-                        <li
-                          class="dropdown-item"
-                          style=""
-                        >
-                          Visible to instructors only
-                        </li>
-                        <li
-                          class="dropdown-item"
-                          style=""
-                        >
-                          Visible to recipient and instructors
-                        </li>
-                        
-                        <li
-                          class="dropdown-divider"
-                          style=""
-                        />
-                        
-                        <li
-                          class="dropdown-item"
-                          style=""
-                        >
-                          Custom visibility options...
-                        </li>
-                      </ul>
-                    </div>
+                </div>
+                <div
+                  class="margin-top-15px padding-15px background-color-light-green"
+                >
+                  <div>
                     
-                    <table
-                      class="table margin-top-15px background-color-white table-striped"
-                      style=""
+                    <b
+                      class="visibility-title"
                     >
-                      <thead>
-                        <tr>
-                          <th
-                            class="text-left"
-                            scope="col"
-                          >
-                            User/Group
-                          </th>
-                          
-                          <th
-                            class="text-center"
-                            scope="col"
-                          >
-                            Can see answer
-                          </th>
-                          <th
-                            class="text-center"
-                            scope="col"
-                          >
-                            Can see giver's name
-                          </th>
-                          <th
-                            class="text-center"
-                            scope="col"
-                          >
-                            Can see recipient's name
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody
-                        id="custom-visibility-table"
-                      >
-                        
-                        
-                        
-                        <tr>
-                          <td>
-                            <span
-                              class="ngb-tooltip-class"
-                              container="body"
-                            >
-                              Recipient(s)
-                            </span>
-                          </td>
-                          
-                          <td
-                            class="text-center"
-                          >
-                            <input
-                              type="checkbox"
-                            />
-                          </td>
-                          <td
-                            class="text-center"
-                          >
-                            <input
-                              type="checkbox"
-                            />
-                          </td>
-                          <td
-                            class="text-center"
-                          >
-                            <input
-                              disabled=""
-                              type="checkbox"
-                            />
-                          </td>
-                        </tr>
-                        
-                        
-                        
-                        <tr>
-                          <td>
-                            <span
-                              class="ngb-tooltip-class"
-                              container="body"
-                            >
-                              Giver's Team Members
-                            </span>
-                          </td>
-                          
-                          <td
-                            class="text-center"
-                          >
-                            <input
-                              type="checkbox"
-                            />
-                          </td>
-                          <td
-                            class="text-center"
-                          >
-                            <input
-                              type="checkbox"
-                            />
-                          </td>
-                          <td
-                            class="text-center"
-                          >
-                            <input
-                              type="checkbox"
-                            />
-                          </td>
-                        </tr>
-                        
-                        
-                        
-                        
-                        
-                        
-                        <tr>
-                          <td>
-                            <span
-                              class="ngb-tooltip-class"
-                              container="body"
-                            >
-                              Other students
-                            </span>
-                          </td>
-                          
-                          <td
-                            class="text-center"
-                          >
-                            <input
-                              type="checkbox"
-                            />
-                          </td>
-                          <td
-                            class="text-center"
-                          >
-                            <input
-                              type="checkbox"
-                            />
-                          </td>
-                          <td
-                            class="text-center"
-                          >
-                            <input
-                              type="checkbox"
-                            />
-                          </td>
-                        </tr>
-                        
-                        
-                        
-                        <tr>
-                          <td>
-                            <span
-                              class="ngb-tooltip-class"
-                              container="body"
-                            >
-                              Instructors
-                            </span>
-                          </td>
-                          
-                          <td
-                            class="text-center"
-                          >
-                            <input
-                              type="checkbox"
-                            />
-                          </td>
-                          <td
-                            class="text-center"
-                          >
-                            <input
-                              type="checkbox"
-                            />
-                          </td>
-                          <td
-                            class="text-center"
-                          >
-                            <input
-                              type="checkbox"
-                            />
-                          </td>
-                        </tr>
-                        
-                      </tbody>
-                    </table>
-                    <div
-                      class="margin-top-15px visibility-message"
-                    >
-                       This is the visibility hint as seen by the feedback giver: 
-                      <ul
-                        class="text-muted background-color-warning"
-                      >
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        <li
-                          style=""
-                        >
-                           Your team members can see your response, but not the name of the recipient, or your name 
-                        </li>
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        <li
-                          style=""
-                        >
-                           Instructors in this course can see your response, but not the name of the recipient, or your name 
-                        </li>
-                        
-                        
-                      </ul>
-                    </div>
+                      Visibility
+                    </b>
+                     (Who can see the responses?) 
                   </div>
-                </tm-visibility-panel>
+                  <div
+                    class="margin-top-15px"
+                    ngbdropdown=""
+                  >
+                    <button
+                      aria-expanded="false"
+                      aria-haspopup="true"
+                      class="btn btn-light white-space-normal dropdown-toggle"
+                      id="btn-question-visibility"
+                      ngbdropdowntoggle=""
+                    >
+                      
+                      
+                      <span
+                        style=""
+                      >
+                        Custom visibility options
+                      </span>
+                    </button>
+                    <ul
+                      class="dropdown-menu"
+                      id="question-visibility-dropdown"
+                      ngbdropdownmenu=""
+                      x-placement="bottom"
+                    >
+                      <li
+                        class="dropdown-header"
+                      >
+                        Common visibility options
+                      </li>
+                      
+                      <li
+                        class="dropdown-item"
+                        style=""
+                      >
+                        Shown anonymously to recipient and instructors
+                      </li>
+                      <li
+                        class="dropdown-item"
+                        style=""
+                      >
+                        Shown anonymously to recipient, visible to instructors
+                      </li>
+                      <li
+                        class="dropdown-item"
+                        style=""
+                      >
+                        Shown anonymously to recipient and giver's team members, visible to instructors
+                      </li>
+                      <li
+                        class="dropdown-item"
+                        style=""
+                      >
+                        Visible to instructors only
+                      </li>
+                      <li
+                        class="dropdown-item"
+                        style=""
+                      >
+                        Visible to recipient and instructors
+                      </li>
+                      
+                      <li
+                        class="dropdown-divider"
+                        style=""
+                      />
+                      
+                      <li
+                        class="dropdown-item"
+                        style=""
+                      >
+                        Custom visibility options...
+                      </li>
+                    </ul>
+                  </div>
+                  
+                  <table
+                    class="table margin-top-15px background-color-white table-striped"
+                    style=""
+                  >
+                    <thead>
+                      <tr>
+                        <th
+                          class="text-left"
+                          scope="col"
+                        >
+                          User/Group
+                        </th>
+                        
+                        <th
+                          class="text-center"
+                          scope="col"
+                        >
+                          Can see answer
+                        </th>
+                        <th
+                          class="text-center"
+                          scope="col"
+                        >
+                          Can see giver's name
+                        </th>
+                        <th
+                          class="text-center"
+                          scope="col"
+                        >
+                          Can see recipient's name
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody
+                      id="custom-visibility-table"
+                    >
+                      
+                      
+                      
+                      <tr>
+                        <td>
+                          <span
+                            class="ngb-tooltip-class"
+                            container="body"
+                          >
+                            Recipient(s)
+                          </span>
+                        </td>
+                        
+                        <td
+                          class="text-center"
+                        >
+                          <input
+                            type="checkbox"
+                          />
+                        </td>
+                        <td
+                          class="text-center"
+                        >
+                          <input
+                            type="checkbox"
+                          />
+                        </td>
+                        <td
+                          class="text-center"
+                        >
+                          <input
+                            disabled=""
+                            type="checkbox"
+                          />
+                        </td>
+                      </tr>
+                      
+                      
+                      
+                      <tr>
+                        <td>
+                          <span
+                            class="ngb-tooltip-class"
+                            container="body"
+                          >
+                            Giver's Team Members
+                          </span>
+                        </td>
+                        
+                        <td
+                          class="text-center"
+                        >
+                          <input
+                            type="checkbox"
+                          />
+                        </td>
+                        <td
+                          class="text-center"
+                        >
+                          <input
+                            type="checkbox"
+                          />
+                        </td>
+                        <td
+                          class="text-center"
+                        >
+                          <input
+                            type="checkbox"
+                          />
+                        </td>
+                      </tr>
+                      
+                      
+                      
+                      
+                      
+                      
+                      <tr>
+                        <td>
+                          <span
+                            class="ngb-tooltip-class"
+                            container="body"
+                          >
+                            Other students
+                          </span>
+                        </td>
+                        
+                        <td
+                          class="text-center"
+                        >
+                          <input
+                            type="checkbox"
+                          />
+                        </td>
+                        <td
+                          class="text-center"
+                        >
+                          <input
+                            type="checkbox"
+                          />
+                        </td>
+                        <td
+                          class="text-center"
+                        >
+                          <input
+                            type="checkbox"
+                          />
+                        </td>
+                      </tr>
+                      
+                      
+                      
+                      <tr>
+                        <td>
+                          <span
+                            class="ngb-tooltip-class"
+                            container="body"
+                          >
+                            Instructors
+                          </span>
+                        </td>
+                        
+                        <td
+                          class="text-center"
+                        >
+                          <input
+                            type="checkbox"
+                          />
+                        </td>
+                        <td
+                          class="text-center"
+                        >
+                          <input
+                            type="checkbox"
+                          />
+                        </td>
+                        <td
+                          class="text-center"
+                        >
+                          <input
+                            type="checkbox"
+                          />
+                        </td>
+                      </tr>
+                      
+                    </tbody>
+                  </table>
+                  <div
+                    class="margin-top-15px visibility-message"
+                  >
+                     This is the visibility hint as seen by the feedback giver: 
+                    <ul
+                      class="text-muted background-color-warning"
+                    >
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      <li
+                        style=""
+                      >
+                         Your team members can see your response, but not the name of the recipient, or your name 
+                      </li>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      <li
+                        style=""
+                      >
+                         Instructors in this course can see your response, but not the name of the recipient, or your name 
+                      </li>
+                      
+                      
+                    </ul>
+                  </div>
+                </div>
                 
                 <div
                   class="row margin-top-15px"
@@ -4298,722 +4052,718 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                 </div>
               </div>
             </div>
-            <tm-feedback-path-panel>
+            <div
+              class="background-color-light-green margin-top-15px padding-15px"
+            >
+              <div>
+                <b
+                  class="feedback-path-title"
+                >
+                  Feedback Path
+                </b>
+                 (Who is giving feedback about whom?) 
+              </div>
               <div
-                class="background-color-light-green margin-top-15px padding-15px"
+                autoclose="outside"
+                class="margin-top-15px"
+                ngbdropdown=""
               >
-                <div>
-                  <b
-                    class="feedback-path-title"
-                  >
-                    Feedback Path
-                  </b>
-                   (Who is giving feedback about whom?) 
-                </div>
-                <div
-                  autoclose="outside"
-                  class="margin-top-15px"
-                  ngbdropdown=""
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-light white-space-normal dropdown-toggle"
+                  id="btn-feedback-path"
+                  ngbdropdowntoggle=""
                 >
-                  <button
-                    aria-expanded="false"
-                    aria-haspopup="true"
-                    class="btn btn-light white-space-normal dropdown-toggle"
-                    id="btn-feedback-path"
-                    ngbdropdowntoggle=""
+                  
+                  
+                  <span
+                    style=""
                   >
-                    
-                    
-                    <span
-                      style=""
-                    >
-                      Custom feedback path
-                    </span>
-                  </button>
-                  <ul
-                    class="dropdown-menu"
-                    id="feedback-path-dropdown"
-                    ngbdropdownmenu=""
-                    x-placement="bottom"
-                  >
-                    <li
-                      class="dropdown-header"
-                    >
-                      Common feedback path combinations
-                    </li>
-                    
-                    <li
-                      class="dropdown-item"
-                      style=""
-                    >
-                      <div
-                        ngbdropdown=""
-                        placement="right"
-                      >
-                        <span
-                          aria-expanded="false"
-                          aria-haspopup="true"
-                          class="float-right invisible dropdown-toggle"
-                          ngbdropdownanchor=""
-                        />
-                         Instructors in this course will give feedback on ... 
-                        <i
-                          class="fas fa-caret-right"
-                        />
-                        <ul
-                          class="dropdown-menu"
-                          ngbdropdownmenu=""
-                          x-placement="bottom"
-                        >
-                          
-                          <li
-                            class="dropdown-item"
-                          >
-                            Nobody specific (For general class feedback)
-                          </li>
-                          <li
-                            class="dropdown-item"
-                          >
-                            Giver (Self feedback)
-                          </li>
-                          <li
-                            class="dropdown-item"
-                          >
-                            Instructors in the course
-                          </li>
-                        </ul>
-                      </div>
-                    </li>
-                    <li
-                      class="dropdown-item"
-                      style=""
-                    >
-                      <div
-                        ngbdropdown=""
-                        placement="right"
-                      >
-                        <span
-                          aria-expanded="false"
-                          aria-haspopup="true"
-                          class="float-right invisible dropdown-toggle"
-                          ngbdropdownanchor=""
-                        />
-                         Feedback session creator (i.e., me) will give feedback on ... 
-                        <i
-                          class="fas fa-caret-right"
-                        />
-                        <ul
-                          class="dropdown-menu"
-                          ngbdropdownmenu=""
-                          x-placement="bottom"
-                        >
-                          
-                          <li
-                            class="dropdown-item"
-                          >
-                            Nobody specific (For general class feedback)
-                          </li>
-                          <li
-                            class="dropdown-item"
-                          >
-                            Giver (Self feedback)
-                          </li>
-                          <li
-                            class="dropdown-item"
-                          >
-                            Instructors in the course
-                          </li>
-                        </ul>
-                      </div>
-                    </li>
-                    <li
-                      class="dropdown-item"
-                      style=""
-                    >
-                      <div
-                        ngbdropdown=""
-                        placement="right"
-                      >
-                        <span
-                          aria-expanded="false"
-                          aria-haspopup="true"
-                          class="float-right invisible dropdown-toggle"
-                          ngbdropdownanchor=""
-                        />
-                         Students in this course will give feedback on ... 
-                        <i
-                          class="fas fa-caret-right"
-                        />
-                        <ul
-                          class="dropdown-menu"
-                          ngbdropdownmenu=""
-                          x-placement="bottom"
-                        >
-                          
-                          <li
-                            class="dropdown-item"
-                          >
-                            Nobody specific (For general class feedback)
-                          </li>
-                          <li
-                            class="dropdown-item"
-                          >
-                            Giver (Self feedback)
-                          </li>
-                          <li
-                            class="dropdown-item"
-                          >
-                            Instructors in the course
-                          </li>
-                          <li
-                            class="dropdown-item"
-                          >
-                            Giver's team members
-                          </li>
-                          <li
-                            class="dropdown-item"
-                          >
-                            Giver's team members and Giver
-                          </li>
-                        </ul>
-                      </div>
-                    </li>
-                    <li
-                      class="dropdown-divider"
-                    />
-                    <li
-                      class="dropdown-item"
-                    >
-                      Custom feedback path...
-                    </li>
-                  </ul>
-                </div>
-                
-                <div
-                  class="row margin-top-15px"
-                  style=""
+                    Custom feedback path
+                  </span>
+                </button>
+                <ul
+                  class="dropdown-menu"
+                  id="feedback-path-dropdown"
+                  ngbdropdownmenu=""
+                  x-placement="bottom"
                 >
-                  <div
-                    class="col-6"
+                  <li
+                    class="dropdown-header"
+                  >
+                    Common feedback path combinations
+                  </li>
+                  
+                  <li
+                    class="dropdown-item"
+                    style=""
                   >
                     <div
-                      class="row"
+                      ngbdropdown=""
+                      placement="right"
                     >
-                      <div
-                        class="col-12"
-                      >
-                        <strong>
-                          Who will give the feedback:
-                        </strong>
-                      </div>
-                    </div>
-                    <div
-                      class="row"
-                    >
-                      <div
-                        class="col-12"
-                      >
-                        <select
-                          class="form-control ng-untouched ng-pristine ng-valid"
-                          id="giver-type"
-                        >
-                          
-                          <option
-                            value="0: INSTRUCTORS"
-                          >
-                            Instructors in this course
-                          </option>
-                          <option
-                            value="1: SELF"
-                          >
-                            Feedback session creator (i.e., me)
-                          </option>
-                          <option
-                            value="2: STUDENTS"
-                          >
-                            Students in this course
-                          </option>
-                          <option
-                            value="3: TEAMS"
-                          >
-                            Teams in this course
-                          </option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    class="col-6"
-                  >
-                    <div
-                      class="row"
-                    >
-                      <div
-                        class="col-12"
-                      >
-                        <strong>
-                          Who the feedback is about:
-                        </strong>
-                      </div>
-                    </div>
-                    <div
-                      class="row"
-                    >
-                      <div
-                        class="col-12"
-                      >
-                        <select
-                          class="form-control ng-untouched ng-pristine ng-valid"
-                          id="receiver-type"
-                        >
-                          
-                          <option
-                            value="0: SELF"
-                          >
-                            Giver (Self feedback)
-                          </option>
-                          <option
-                            value="1: STUDENTS"
-                          >
-                            Other students in the course
-                          </option>
-                          <option
-                            value="2: INSTRUCTORS"
-                          >
-                            Instructors in the course
-                          </option>
-                          <option
-                            value="3: TEAMS"
-                          >
-                            Other teams in the course
-                          </option>
-                          <option
-                            value="4: OWN_TEAM"
-                          >
-                            Giver's team
-                          </option>
-                          <option
-                            value="5: OWN_TEAM_MEMBERS"
-                          >
-                            Giver's team members
-                          </option>
-                          <option
-                            value="6: OWN_TEAM_MEMBERS_INCLUDING_SELF"
-                          >
-                            Giver's team members and Giver
-                          </option>
-                          <option
-                            value="7: NONE"
-                          >
-                            Nobody specific (For general class feedback)
-                          </option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                
-                <div
-                  class="row margin-top-15px align-items-center"
-                  style=""
-                >
-                  <div
-                    class="offset-1 col-md-4 text-md-right"
-                  >
-                     The maximum number of students each respondent should give feedback to: 
-                  </div>
-                  <div
-                    class="col-md-2"
-                  >
-                    <div
-                      class="input-group"
-                    >
-                      <div
-                        class="input-group-prepend"
-                      >
-                        <div
-                          class="input-group-text"
-                        >
-                          <input
-                            class="ng-untouched ng-pristine ng-valid"
-                            id="custom-recipients"
-                            type="radio"
-                          />
-                        </div>
-                      </div>
-                      <input
-                        class="form-control ng-untouched ng-pristine ng-valid"
-                        id="custom-recipients-number"
-                        min="1"
-                        type="number"
+                      <span
+                        aria-expanded="false"
+                        aria-haspopup="true"
+                        class="float-right invisible dropdown-toggle"
+                        ngbdropdownanchor=""
                       />
+                       Instructors in this course will give feedback on ... 
+                      <i
+                        class="fas fa-caret-right"
+                      />
+                      <ul
+                        class="dropdown-menu"
+                        ngbdropdownmenu=""
+                        x-placement="bottom"
+                      >
+                        
+                        <li
+                          class="dropdown-item"
+                        >
+                          Nobody specific (For general class feedback)
+                        </li>
+                        <li
+                          class="dropdown-item"
+                        >
+                          Giver (Self feedback)
+                        </li>
+                        <li
+                          class="dropdown-item"
+                        >
+                          Instructors in the course
+                        </li>
+                      </ul>
+                    </div>
+                  </li>
+                  <li
+                    class="dropdown-item"
+                    style=""
+                  >
+                    <div
+                      ngbdropdown=""
+                      placement="right"
+                    >
+                      <span
+                        aria-expanded="false"
+                        aria-haspopup="true"
+                        class="float-right invisible dropdown-toggle"
+                        ngbdropdownanchor=""
+                      />
+                       Feedback session creator (i.e., me) will give feedback on ... 
+                      <i
+                        class="fas fa-caret-right"
+                      />
+                      <ul
+                        class="dropdown-menu"
+                        ngbdropdownmenu=""
+                        x-placement="bottom"
+                      >
+                        
+                        <li
+                          class="dropdown-item"
+                        >
+                          Nobody specific (For general class feedback)
+                        </li>
+                        <li
+                          class="dropdown-item"
+                        >
+                          Giver (Self feedback)
+                        </li>
+                        <li
+                          class="dropdown-item"
+                        >
+                          Instructors in the course
+                        </li>
+                      </ul>
+                    </div>
+                  </li>
+                  <li
+                    class="dropdown-item"
+                    style=""
+                  >
+                    <div
+                      ngbdropdown=""
+                      placement="right"
+                    >
+                      <span
+                        aria-expanded="false"
+                        aria-haspopup="true"
+                        class="float-right invisible dropdown-toggle"
+                        ngbdropdownanchor=""
+                      />
+                       Students in this course will give feedback on ... 
+                      <i
+                        class="fas fa-caret-right"
+                      />
+                      <ul
+                        class="dropdown-menu"
+                        ngbdropdownmenu=""
+                        x-placement="bottom"
+                      >
+                        
+                        <li
+                          class="dropdown-item"
+                        >
+                          Nobody specific (For general class feedback)
+                        </li>
+                        <li
+                          class="dropdown-item"
+                        >
+                          Giver (Self feedback)
+                        </li>
+                        <li
+                          class="dropdown-item"
+                        >
+                          Instructors in the course
+                        </li>
+                        <li
+                          class="dropdown-item"
+                        >
+                          Giver's team members
+                        </li>
+                        <li
+                          class="dropdown-item"
+                        >
+                          Giver's team members and Giver
+                        </li>
+                      </ul>
+                    </div>
+                  </li>
+                  <li
+                    class="dropdown-divider"
+                  />
+                  <li
+                    class="dropdown-item"
+                  >
+                    Custom feedback path...
+                  </li>
+                </ul>
+              </div>
+              
+              <div
+                class="row margin-top-15px"
+                style=""
+              >
+                <div
+                  class="col-6"
+                >
+                  <div
+                    class="row"
+                  >
+                    <div
+                      class="col-12"
+                    >
+                      <strong>
+                        Who will give the feedback:
+                      </strong>
                     </div>
                   </div>
                   <div
-                    class="col-md-2"
+                    class="row"
                   >
                     <div
-                      class="form-check"
+                      class="col-12"
                     >
-                      <label
-                        class="form-check-label"
+                      <select
+                        class="form-control ng-untouched ng-pristine ng-valid"
+                        id="giver-type"
+                      >
+                        
+                        <option
+                          value="0: INSTRUCTORS"
+                        >
+                          Instructors in this course
+                        </option>
+                        <option
+                          value="1: SELF"
+                        >
+                          Feedback session creator (i.e., me)
+                        </option>
+                        <option
+                          value="2: STUDENTS"
+                        >
+                          Students in this course
+                        </option>
+                        <option
+                          value="3: TEAMS"
+                        >
+                          Teams in this course
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="col-6"
+                >
+                  <div
+                    class="row"
+                  >
+                    <div
+                      class="col-12"
+                    >
+                      <strong>
+                        Who the feedback is about:
+                      </strong>
+                    </div>
+                  </div>
+                  <div
+                    class="row"
+                  >
+                    <div
+                      class="col-12"
+                    >
+                      <select
+                        class="form-control ng-untouched ng-pristine ng-valid"
+                        id="receiver-type"
+                      >
+                        
+                        <option
+                          value="0: SELF"
+                        >
+                          Giver (Self feedback)
+                        </option>
+                        <option
+                          value="1: STUDENTS"
+                        >
+                          Other students in the course
+                        </option>
+                        <option
+                          value="2: INSTRUCTORS"
+                        >
+                          Instructors in the course
+                        </option>
+                        <option
+                          value="3: TEAMS"
+                        >
+                          Other teams in the course
+                        </option>
+                        <option
+                          value="4: OWN_TEAM"
+                        >
+                          Giver's team
+                        </option>
+                        <option
+                          value="5: OWN_TEAM_MEMBERS"
+                        >
+                          Giver's team members
+                        </option>
+                        <option
+                          value="6: OWN_TEAM_MEMBERS_INCLUDING_SELF"
+                        >
+                          Giver's team members and Giver
+                        </option>
+                        <option
+                          value="7: NONE"
+                        >
+                          Nobody specific (For general class feedback)
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div
+                class="row margin-top-15px align-items-center"
+                style=""
+              >
+                <div
+                  class="offset-1 col-md-4 text-md-right"
+                >
+                   The maximum number of students each respondent should give feedback to: 
+                </div>
+                <div
+                  class="col-md-2"
+                >
+                  <div
+                    class="input-group"
+                  >
+                    <div
+                      class="input-group-prepend"
+                    >
+                      <div
+                        class="input-group-text"
                       >
                         <input
-                          class="form-check-input ng-untouched ng-pristine ng-valid"
-                          id="unlimited-recipients"
+                          class="ng-untouched ng-pristine ng-valid"
+                          id="custom-recipients"
                           type="radio"
                         />
-                         Unlimited 
-                      </label>
+                      </div>
                     </div>
+                    <input
+                      class="form-control ng-untouched ng-pristine ng-valid"
+                      id="custom-recipients-number"
+                      min="1"
+                      type="number"
+                    />
+                  </div>
+                </div>
+                <div
+                  class="col-md-2"
+                >
+                  <div
+                    class="form-check"
+                  >
+                    <label
+                      class="form-check-label"
+                    >
+                      <input
+                        class="form-check-input ng-untouched ng-pristine ng-valid"
+                        id="unlimited-recipients"
+                        type="radio"
+                      />
+                       Unlimited 
+                    </label>
                   </div>
                 </div>
               </div>
-            </tm-feedback-path-panel>
-            <tm-visibility-panel>
-              <div
-                class="margin-top-15px padding-15px background-color-light-green"
-              >
-                <div>
-                  
-                  <b
-                    class="visibility-title"
-                  >
-                    Visibility
-                  </b>
-                   (Who can see the responses?) 
-                </div>
-                <div
-                  class="margin-top-15px"
-                  ngbdropdown=""
-                >
-                  <button
-                    aria-expanded="false"
-                    aria-haspopup="true"
-                    class="btn btn-light white-space-normal dropdown-toggle"
-                    id="btn-question-visibility"
-                    ngbdropdowntoggle=""
-                  >
-                    
-                    
-                    <span
-                      style=""
-                    >
-                      Custom visibility options
-                    </span>
-                  </button>
-                  <ul
-                    class="dropdown-menu"
-                    id="question-visibility-dropdown"
-                    ngbdropdownmenu=""
-                    x-placement="bottom"
-                  >
-                    <li
-                      class="dropdown-header"
-                    >
-                      Common visibility options
-                    </li>
-                    
-                    <li
-                      class="dropdown-item"
-                      style=""
-                    >
-                      Shown anonymously to recipient and instructors
-                    </li>
-                    <li
-                      class="dropdown-item"
-                      style=""
-                    >
-                      Shown anonymously to recipient, visible to instructors
-                    </li>
-                    <li
-                      class="dropdown-item"
-                      style=""
-                    >
-                      Shown anonymously to recipient and giver/recipient's team members, visible to instructors
-                    </li>
-                    <li
-                      class="dropdown-item"
-                      style=""
-                    >
-                      Shown anonymously to recipient and giver's team members, visible to instructors
-                    </li>
-                    <li
-                      class="dropdown-item"
-                      style=""
-                    >
-                      Visible to instructors only
-                    </li>
-                    <li
-                      class="dropdown-item"
-                      style=""
-                    >
-                      Visible to recipient and instructors
-                    </li>
-                    
-                    <li
-                      class="dropdown-divider"
-                      style=""
-                    />
-                    
-                    <li
-                      class="dropdown-item"
-                      style=""
-                    >
-                      Custom visibility options...
-                    </li>
-                  </ul>
-                </div>
+            </div>
+            <div
+              class="margin-top-15px padding-15px background-color-light-green"
+            >
+              <div>
                 
-                <table
-                  class="table margin-top-15px background-color-white table-striped"
-                  style=""
+                <b
+                  class="visibility-title"
                 >
-                  <thead>
-                    <tr>
-                      <th
-                        class="text-left"
-                        scope="col"
-                      >
-                        User/Group
-                      </th>
-                      
-                      <th
-                        class="text-center"
-                        scope="col"
-                      >
-                        Can see answer
-                      </th>
-                      <th
-                        class="text-center"
-                        scope="col"
-                      >
-                        Can see giver's name
-                      </th>
-                      <th
-                        class="text-center"
-                        scope="col"
-                      >
-                        Can see recipient's name
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody
-                    id="custom-visibility-table"
-                  >
-                    
-                    
-                    
-                    <tr>
-                      <td>
-                        <span
-                          class="ngb-tooltip-class"
-                          container="body"
-                        >
-                          Recipient(s)
-                        </span>
-                      </td>
-                      
-                      <td
-                        class="text-center"
-                      >
-                        <input
-                          type="checkbox"
-                        />
-                      </td>
-                      <td
-                        class="text-center"
-                      >
-                        <input
-                          type="checkbox"
-                        />
-                      </td>
-                      <td
-                        class="text-center"
-                      >
-                        <input
-                          disabled=""
-                          type="checkbox"
-                        />
-                      </td>
-                    </tr>
-                    
-                    
-                    
-                    <tr>
-                      <td>
-                        <span
-                          class="ngb-tooltip-class"
-                          container="body"
-                        >
-                          Giver's Team Members
-                        </span>
-                      </td>
-                      
-                      <td
-                        class="text-center"
-                      >
-                        <input
-                          type="checkbox"
-                        />
-                      </td>
-                      <td
-                        class="text-center"
-                      >
-                        <input
-                          type="checkbox"
-                        />
-                      </td>
-                      <td
-                        class="text-center"
-                      >
-                        <input
-                          type="checkbox"
-                        />
-                      </td>
-                    </tr>
-                    
-                    
-                    
-                    <tr>
-                      <td>
-                        <span
-                          class="ngb-tooltip-class"
-                          container="body"
-                        >
-                          Recipient's Team Members
-                        </span>
-                      </td>
-                      
-                      <td
-                        class="text-center"
-                      >
-                        <input
-                          type="checkbox"
-                        />
-                      </td>
-                      <td
-                        class="text-center"
-                      >
-                        <input
-                          type="checkbox"
-                        />
-                      </td>
-                      <td
-                        class="text-center"
-                      >
-                        <input
-                          type="checkbox"
-                        />
-                      </td>
-                    </tr>
-                    
-                    
-                    
-                    <tr>
-                      <td>
-                        <span
-                          class="ngb-tooltip-class"
-                          container="body"
-                        >
-                          Other students
-                        </span>
-                      </td>
-                      
-                      <td
-                        class="text-center"
-                      >
-                        <input
-                          type="checkbox"
-                        />
-                      </td>
-                      <td
-                        class="text-center"
-                      >
-                        <input
-                          type="checkbox"
-                        />
-                      </td>
-                      <td
-                        class="text-center"
-                      >
-                        <input
-                          type="checkbox"
-                        />
-                      </td>
-                    </tr>
-                    
-                    
-                    
-                    <tr>
-                      <td>
-                        <span
-                          class="ngb-tooltip-class"
-                          container="body"
-                        >
-                          Instructors
-                        </span>
-                      </td>
-                      
-                      <td
-                        class="text-center"
-                      >
-                        <input
-                          type="checkbox"
-                        />
-                      </td>
-                      <td
-                        class="text-center"
-                      >
-                        <input
-                          type="checkbox"
-                        />
-                      </td>
-                      <td
-                        class="text-center"
-                      >
-                        <input
-                          type="checkbox"
-                        />
-                      </td>
-                    </tr>
-                    
-                  </tbody>
-                </table>
-                <div
-                  class="margin-top-15px visibility-message"
-                >
-                   This is the visibility hint as seen by the feedback giver: 
-                  <ul
-                    class="text-muted background-color-warning"
-                  >
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    <li
-                      style=""
-                    >
-                      No-one can see your responses
-                    </li>
-                  </ul>
-                </div>
+                  Visibility
+                </b>
+                 (Who can see the responses?) 
               </div>
-            </tm-visibility-panel>
+              <div
+                class="margin-top-15px"
+                ngbdropdown=""
+              >
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-light white-space-normal dropdown-toggle"
+                  id="btn-question-visibility"
+                  ngbdropdowntoggle=""
+                >
+                  
+                  
+                  <span
+                    style=""
+                  >
+                    Custom visibility options
+                  </span>
+                </button>
+                <ul
+                  class="dropdown-menu"
+                  id="question-visibility-dropdown"
+                  ngbdropdownmenu=""
+                  x-placement="bottom"
+                >
+                  <li
+                    class="dropdown-header"
+                  >
+                    Common visibility options
+                  </li>
+                  
+                  <li
+                    class="dropdown-item"
+                    style=""
+                  >
+                    Shown anonymously to recipient and instructors
+                  </li>
+                  <li
+                    class="dropdown-item"
+                    style=""
+                  >
+                    Shown anonymously to recipient, visible to instructors
+                  </li>
+                  <li
+                    class="dropdown-item"
+                    style=""
+                  >
+                    Shown anonymously to recipient and giver/recipient's team members, visible to instructors
+                  </li>
+                  <li
+                    class="dropdown-item"
+                    style=""
+                  >
+                    Shown anonymously to recipient and giver's team members, visible to instructors
+                  </li>
+                  <li
+                    class="dropdown-item"
+                    style=""
+                  >
+                    Visible to instructors only
+                  </li>
+                  <li
+                    class="dropdown-item"
+                    style=""
+                  >
+                    Visible to recipient and instructors
+                  </li>
+                  
+                  <li
+                    class="dropdown-divider"
+                    style=""
+                  />
+                  
+                  <li
+                    class="dropdown-item"
+                    style=""
+                  >
+                    Custom visibility options...
+                  </li>
+                </ul>
+              </div>
+              
+              <table
+                class="table margin-top-15px background-color-white table-striped"
+                style=""
+              >
+                <thead>
+                  <tr>
+                    <th
+                      class="text-left"
+                      scope="col"
+                    >
+                      User/Group
+                    </th>
+                    
+                    <th
+                      class="text-center"
+                      scope="col"
+                    >
+                      Can see answer
+                    </th>
+                    <th
+                      class="text-center"
+                      scope="col"
+                    >
+                      Can see giver's name
+                    </th>
+                    <th
+                      class="text-center"
+                      scope="col"
+                    >
+                      Can see recipient's name
+                    </th>
+                  </tr>
+                </thead>
+                <tbody
+                  id="custom-visibility-table"
+                >
+                  
+                  
+                  
+                  <tr>
+                    <td>
+                      <span
+                        class="ngb-tooltip-class"
+                        container="body"
+                      >
+                        Recipient(s)
+                      </span>
+                    </td>
+                    
+                    <td
+                      class="text-center"
+                    >
+                      <input
+                        type="checkbox"
+                      />
+                    </td>
+                    <td
+                      class="text-center"
+                    >
+                      <input
+                        type="checkbox"
+                      />
+                    </td>
+                    <td
+                      class="text-center"
+                    >
+                      <input
+                        disabled=""
+                        type="checkbox"
+                      />
+                    </td>
+                  </tr>
+                  
+                  
+                  
+                  <tr>
+                    <td>
+                      <span
+                        class="ngb-tooltip-class"
+                        container="body"
+                      >
+                        Giver's Team Members
+                      </span>
+                    </td>
+                    
+                    <td
+                      class="text-center"
+                    >
+                      <input
+                        type="checkbox"
+                      />
+                    </td>
+                    <td
+                      class="text-center"
+                    >
+                      <input
+                        type="checkbox"
+                      />
+                    </td>
+                    <td
+                      class="text-center"
+                    >
+                      <input
+                        type="checkbox"
+                      />
+                    </td>
+                  </tr>
+                  
+                  
+                  
+                  <tr>
+                    <td>
+                      <span
+                        class="ngb-tooltip-class"
+                        container="body"
+                      >
+                        Recipient's Team Members
+                      </span>
+                    </td>
+                    
+                    <td
+                      class="text-center"
+                    >
+                      <input
+                        type="checkbox"
+                      />
+                    </td>
+                    <td
+                      class="text-center"
+                    >
+                      <input
+                        type="checkbox"
+                      />
+                    </td>
+                    <td
+                      class="text-center"
+                    >
+                      <input
+                        type="checkbox"
+                      />
+                    </td>
+                  </tr>
+                  
+                  
+                  
+                  <tr>
+                    <td>
+                      <span
+                        class="ngb-tooltip-class"
+                        container="body"
+                      >
+                        Other students
+                      </span>
+                    </td>
+                    
+                    <td
+                      class="text-center"
+                    >
+                      <input
+                        type="checkbox"
+                      />
+                    </td>
+                    <td
+                      class="text-center"
+                    >
+                      <input
+                        type="checkbox"
+                      />
+                    </td>
+                    <td
+                      class="text-center"
+                    >
+                      <input
+                        type="checkbox"
+                      />
+                    </td>
+                  </tr>
+                  
+                  
+                  
+                  <tr>
+                    <td>
+                      <span
+                        class="ngb-tooltip-class"
+                        container="body"
+                      >
+                        Instructors
+                      </span>
+                    </td>
+                    
+                    <td
+                      class="text-center"
+                    >
+                      <input
+                        type="checkbox"
+                      />
+                    </td>
+                    <td
+                      class="text-center"
+                    >
+                      <input
+                        type="checkbox"
+                      />
+                    </td>
+                    <td
+                      class="text-center"
+                    >
+                      <input
+                        type="checkbox"
+                      />
+                    </td>
+                  </tr>
+                  
+                </tbody>
+              </table>
+              <div
+                class="margin-top-15px visibility-message"
+              >
+                 This is the visibility hint as seen by the feedback giver: 
+                <ul
+                  class="text-muted background-color-warning"
+                >
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  <li
+                    style=""
+                  >
+                    No-one can see your responses
+                  </li>
+                </ul>
+              </div>
+            </div>
             
             <div
               class="row margin-top-15px"

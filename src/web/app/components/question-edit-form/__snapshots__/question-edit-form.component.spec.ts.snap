@@ -237,511 +237,217 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
             </div>
           </div>
         </div>
-        <tm-feedback-path-panel>
+        <div
+          class="background-color-light-green margin-top-15px padding-15px"
+        >
+          <div>
+            <b
+              class="feedback-path-title"
+            >
+              Feedback Path
+            </b>
+             (Who is giving feedback about whom?) 
+          </div>
           <div
-            class="background-color-light-green margin-top-15px padding-15px"
+            autoclose="outside"
+            class="margin-top-15px dropdown"
+            ngbdropdown=""
           >
-            <div>
-              <b
-                class="feedback-path-title"
-              >
-                Feedback Path
-              </b>
-               (Who is giving feedback about whom?) 
-            </div>
-            <div
-              autoclose="outside"
-              class="margin-top-15px dropdown"
-              ngbdropdown=""
+            <button
+              aria-expanded="false"
+              aria-haspopup="true"
+              class="btn btn-light white-space-normal dropdown-toggle"
+              disabled=""
+              id="btn-feedback-path"
+              ngbdropdowntoggle=""
             >
-              <button
-                aria-expanded="false"
-                aria-haspopup="true"
-                class="btn btn-light white-space-normal dropdown-toggle"
-                disabled=""
-                id="btn-feedback-path"
-                ngbdropdowntoggle=""
+              
+              <span
+                style=""
               >
-                
-                
-                <span
-                  style=""
-                >
-                  Custom feedback path
-                </span>
-              </button>
-              <ul
-                class="dropdown-menu"
-                id="feedback-path-dropdown"
-                ngbdropdownmenu=""
-                x-placement="bottom"
-              >
-                <li
-                  class="dropdown-header"
-                >
-                  Common feedback path combinations
-                </li>
-                
-                <li
-                  class="dropdown-divider"
+                 Students in this course will give feedback on 
+                <i
+                  class="fas fa-arrow-right"
                 />
-                <li
-                  class="dropdown-item"
-                >
-                  Custom feedback path...
-                </li>
-              </ul>
-            </div>
-            
+                 Other students in the course 
+              </span>
+              
+            </button>
+            <ul
+              class="dropdown-menu"
+              id="feedback-path-dropdown"
+              ngbdropdownmenu=""
+              x-placement="bottom"
+            >
+              <li
+                class="dropdown-header"
+              >
+                Common feedback path combinations
+              </li>
+              
+              <li
+                class="dropdown-divider"
+              />
+              <li
+                class="dropdown-item"
+              >
+                Custom feedback path...
+              </li>
+            </ul>
+          </div>
+          
+          
+          <div
+            class="row margin-top-15px align-items-center"
+            style=""
+          >
             <div
-              class="row margin-top-15px"
-              style=""
+              class="offset-1 col-md-4 text-md-right"
+            >
+               The maximum number of students each respondent should give feedback to: 
+            </div>
+            <div
+              class="col-md-2"
             >
               <div
-                class="col-6"
+                class="input-group"
               >
                 <div
-                  class="row"
+                  class="input-group-prepend"
                 >
                   <div
-                    class="col-12"
-                  >
-                    <strong>
-                      Who will give the feedback:
-                    </strong>
-                  </div>
-                </div>
-                <div
-                  class="row"
-                >
-                  <div
-                    class="col-12"
-                  >
-                    <select
-                      class="form-control ng-untouched ng-pristine ng-valid"
-                      disabled=""
-                      id="giver-type"
-                    >
-                      
-                    </select>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="col-6"
-              >
-                <div
-                  class="row"
-                >
-                  <div
-                    class="col-12"
-                  >
-                    <strong>
-                      Who the feedback is about:
-                    </strong>
-                  </div>
-                </div>
-                <div
-                  class="row"
-                >
-                  <div
-                    class="col-12"
-                  >
-                    <select
-                      class="form-control ng-untouched ng-pristine ng-valid"
-                      disabled=""
-                      id="receiver-type"
-                    >
-                      
-                    </select>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <div
-              class="row margin-top-15px align-items-center"
-              style=""
-            >
-              <div
-                class="offset-1 col-md-4 text-md-right"
-              >
-                 The maximum number of students each respondent should give feedback to: 
-              </div>
-              <div
-                class="col-md-2"
-              >
-                <div
-                  class="input-group"
-                >
-                  <div
-                    class="input-group-prepend"
-                  >
-                    <div
-                      class="input-group-text"
-                    >
-                      <input
-                        class="ng-untouched ng-pristine ng-valid"
-                        disabled=""
-                        id="custom-recipients"
-                        type="radio"
-                      />
-                    </div>
-                  </div>
-                  <input
-                    class="form-control ng-untouched ng-pristine ng-valid"
-                    disabled=""
-                    id="custom-recipients-number"
-                    min="1"
-                    type="number"
-                  />
-                </div>
-              </div>
-              <div
-                class="col-md-2"
-              >
-                <div
-                  class="form-check"
-                >
-                  <label
-                    class="form-check-label"
+                    class="input-group-text"
                   >
                     <input
-                      class="form-check-input ng-untouched ng-pristine ng-valid"
+                      class="ng-untouched ng-pristine ng-valid"
                       disabled=""
-                      id="unlimited-recipients"
+                      id="custom-recipients"
                       type="radio"
                     />
-                     Unlimited 
-                  </label>
+                  </div>
                 </div>
+                <input
+                  class="form-control ng-untouched ng-pristine ng-valid"
+                  disabled=""
+                  id="custom-recipients-number"
+                  min="1"
+                  type="number"
+                />
+              </div>
+            </div>
+            <div
+              class="col-md-2"
+            >
+              <div
+                class="form-check"
+              >
+                <label
+                  class="form-check-label"
+                >
+                  <input
+                    class="form-check-input ng-untouched ng-pristine ng-valid"
+                    disabled=""
+                    id="unlimited-recipients"
+                    type="radio"
+                  />
+                   Unlimited 
+                </label>
               </div>
             </div>
           </div>
-        </tm-feedback-path-panel>
-        <tm-visibility-panel>
-          <div
-            class="margin-top-15px padding-15px background-color-light-green"
-          >
-            <div>
-              
-              <b
-                class="visibility-title"
-              >
-                Visibility
-              </b>
-               (Who can see the responses?) 
-            </div>
-            <div
-              class="margin-top-15px dropdown"
-              ngbdropdown=""
-            >
-              <button
-                aria-expanded="false"
-                aria-haspopup="true"
-                class="btn btn-light white-space-normal dropdown-toggle"
-                disabled=""
-                id="btn-question-visibility"
-                ngbdropdowntoggle=""
-              >
-                
-                
-                <span
-                  style=""
-                >
-                  Custom visibility options
-                </span>
-              </button>
-              <ul
-                class="dropdown-menu"
-                id="question-visibility-dropdown"
-                ngbdropdownmenu=""
-                x-placement="bottom"
-              >
-                <li
-                  class="dropdown-header"
-                >
-                  Common visibility options
-                </li>
-                
-                
-                <li
-                  class="dropdown-divider"
-                  style=""
-                />
-                
-                <li
-                  class="dropdown-item"
-                  style=""
-                >
-                  Custom visibility options...
-                </li>
-              </ul>
-            </div>
+        </div>
+        <div
+          class="margin-top-15px padding-15px background-color-light-green"
+        >
+          <div>
             
-            <table
-              class="table margin-top-15px background-color-white table-striped"
-              style=""
+            <b
+              class="visibility-title"
             >
-              <thead>
-                <tr>
-                  <th
-                    class="text-left"
-                    scope="col"
-                  >
-                    User/Group
-                  </th>
-                  
-                  <th
-                    class="text-center"
-                    scope="col"
-                  >
-                    Can see answer
-                  </th>
-                  <th
-                    class="text-center"
-                    scope="col"
-                  >
-                    Can see giver's name
-                  </th>
-                  <th
-                    class="text-center"
-                    scope="col"
-                  >
-                    Can see recipient's name
-                  </th>
-                </tr>
-              </thead>
-              <tbody
-                id="custom-visibility-table"
-              >
-                
-                
-                
-                <tr>
-                  <td>
-                    <span
-                      class="ngb-tooltip-class"
-                      container="body"
-                    >
-                      Recipient(s)
-                    </span>
-                  </td>
-                  
-                  <td
-                    class="text-center"
-                  >
-                    <input
-                      disabled=""
-                      type="checkbox"
-                    />
-                  </td>
-                  <td
-                    class="text-center"
-                  >
-                    <input
-                      disabled=""
-                      type="checkbox"
-                    />
-                  </td>
-                  <td
-                    class="text-center"
-                  >
-                    <input
-                      disabled=""
-                      type="checkbox"
-                    />
-                  </td>
-                </tr>
-                
-                
-                
-                <tr>
-                  <td>
-                    <span
-                      class="ngb-tooltip-class"
-                      container="body"
-                    >
-                      Giver's Team Members
-                    </span>
-                  </td>
-                  
-                  <td
-                    class="text-center"
-                  >
-                    <input
-                      disabled=""
-                      type="checkbox"
-                    />
-                  </td>
-                  <td
-                    class="text-center"
-                  >
-                    <input
-                      disabled=""
-                      type="checkbox"
-                    />
-                  </td>
-                  <td
-                    class="text-center"
-                  >
-                    <input
-                      disabled=""
-                      type="checkbox"
-                    />
-                  </td>
-                </tr>
-                
-                
-                
-                <tr>
-                  <td>
-                    <span
-                      class="ngb-tooltip-class"
-                      container="body"
-                    >
-                      Recipient's Team Members
-                    </span>
-                  </td>
-                  
-                  <td
-                    class="text-center"
-                  >
-                    <input
-                      disabled=""
-                      type="checkbox"
-                    />
-                  </td>
-                  <td
-                    class="text-center"
-                  >
-                    <input
-                      disabled=""
-                      type="checkbox"
-                    />
-                  </td>
-                  <td
-                    class="text-center"
-                  >
-                    <input
-                      disabled=""
-                      type="checkbox"
-                    />
-                  </td>
-                </tr>
-                
-                
-                
-                <tr>
-                  <td>
-                    <span
-                      class="ngb-tooltip-class"
-                      container="body"
-                    >
-                      Other students
-                    </span>
-                  </td>
-                  
-                  <td
-                    class="text-center"
-                  >
-                    <input
-                      disabled=""
-                      type="checkbox"
-                    />
-                  </td>
-                  <td
-                    class="text-center"
-                  >
-                    <input
-                      disabled=""
-                      type="checkbox"
-                    />
-                  </td>
-                  <td
-                    class="text-center"
-                  >
-                    <input
-                      disabled=""
-                      type="checkbox"
-                    />
-                  </td>
-                </tr>
-                
-                
-                
-                <tr>
-                  <td>
-                    <span
-                      class="ngb-tooltip-class"
-                      container="body"
-                    >
-                      Instructors
-                    </span>
-                  </td>
-                  
-                  <td
-                    class="text-center"
-                  >
-                    <input
-                      disabled=""
-                      type="checkbox"
-                    />
-                  </td>
-                  <td
-                    class="text-center"
-                  >
-                    <input
-                      disabled=""
-                      type="checkbox"
-                    />
-                  </td>
-                  <td
-                    class="text-center"
-                  >
-                    <input
-                      disabled=""
-                      type="checkbox"
-                    />
-                  </td>
-                </tr>
-                
-              </tbody>
-            </table>
-            <div
-              class="margin-top-15px visibility-message"
-            >
-               This is the visibility hint as seen by the feedback giver: 
-              <ul
-                class="text-muted background-color-warning"
-              >
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                <li
-                  style=""
-                >
-                  No-one can see your responses
-                </li>
-              </ul>
-            </div>
+              Visibility
+            </b>
+             (Who can see the responses?) 
           </div>
-        </tm-visibility-panel>
+          <div
+            class="margin-top-15px dropdown"
+            ngbdropdown=""
+          >
+            <button
+              aria-expanded="false"
+              aria-haspopup="true"
+              class="btn btn-light white-space-normal dropdown-toggle"
+              disabled=""
+              id="btn-question-visibility"
+              ngbdropdowntoggle=""
+            >
+              
+              <span
+                style=""
+              >
+                  
+              </span>
+              
+            </button>
+            <ul
+              class="dropdown-menu"
+              id="question-visibility-dropdown"
+              ngbdropdownmenu=""
+              x-placement="bottom"
+            >
+              <li
+                class="dropdown-header"
+              >
+                Common visibility options
+              </li>
+              
+              
+              <li
+                class="dropdown-divider"
+                style=""
+              />
+              
+              <li
+                class="dropdown-item"
+                style=""
+              >
+                Custom visibility options...
+              </li>
+            </ul>
+          </div>
+          
+          <div
+            class="margin-top-15px visibility-message"
+          >
+             This is the visibility hint as seen by the feedback giver: 
+            <ul
+              class="text-muted background-color-warning"
+            >
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              <li
+                style=""
+              >
+                No-one can see your responses
+              </li>
+            </ul>
+          </div>
+        </div>
         
         <div
           class="row margin-top-15px"
