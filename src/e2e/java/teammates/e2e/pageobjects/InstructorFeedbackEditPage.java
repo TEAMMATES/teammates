@@ -1005,8 +1005,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     private String getFeedbackGiver(int questionNum) {
         String feedbackPath = getFeedbackPath(questionNum);
         if (feedbackPath.equals(CUSTOM_FEEDBACK_PATH_OPTION)) {
-            return getSelectedDropdownOptionText(getQuestionForm(questionNum)
-                    .findElement(By.id("giver-type")));
+            return getSelectedDropdownOptionText(getQuestionForm(questionNum).findElement(By.id("giver-type")));
         }
         return feedbackPath.split(FEEDBACK_PATH_SEPARATOR)[0];
     }
@@ -1014,15 +1013,14 @@ public class InstructorFeedbackEditPage extends AppPage {
     private String getFeedbackReceiver(int questionNum) {
         String feedbackPath = getFeedbackPath(questionNum);
         if (feedbackPath.equals(CUSTOM_FEEDBACK_PATH_OPTION)) {
-            return getSelectedDropdownOptionText(getQuestionForm(questionNum)
-                    .findElement(By.id("receiver-type")));
+            return getSelectedDropdownOptionText(getQuestionForm(questionNum).findElement(By.id("receiver-type")));
         }
         return feedbackPath.split(FEEDBACK_PATH_SEPARATOR)[1];
     }
 
     private String getFeedbackPath(int questionNum) {
-        WebElement feedbackPathPanel = getQuestionForm(questionNum);
-        return feedbackPathPanel.findElement(By.cssSelector("#btn-feedback-path span")).getText();
+        WebElement questionForm = getQuestionForm(questionNum);
+        return questionForm.findElement(By.cssSelector("#btn-feedback-path span")).getText();
     }
 
     private void setQuestionBrief(int questionNum, String newBrief) {

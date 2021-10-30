@@ -4,14 +4,12 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AjaxLoadingModule } from '../ajax-loading/ajax-loading.module';
-import { FeedbackPathPanelModule } from '../feedback-path-panel/feedback-path-panel.module';
 import {
   QuestionEditDetailsFormModule,
 } from '../question-types/question-edit-details-form/question-edit-details-form.module';
 import { RichTextEditorModule } from '../rich-text-editor/rich-text-editor.module';
 import { TeammatesCommonModule } from '../teammates-common/teammates-common.module';
 import { VisibilityMessagesModule } from '../visibility-messages/visibility-messages.module';
-import { VisibilityPanelModule } from '../visibility-panel/visibility-panel.module';
 import { QuestionEditFormComponent } from './question-edit-form.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -40,9 +38,7 @@ describe('QuestionEditFormComponent', () => {
         RichTextEditorModule,
         QuestionEditDetailsFormModule,
         NgbModule,
-        FeedbackPathPanelModule,
         VisibilityMessagesModule,
-        VisibilityPanelModule,
         BrowserAnimationsModule,
         PanelChevronModule,
       ],

@@ -10,44 +10,6 @@
   background-color: #EAEFF5;
 }
 
-.background-color-warning {
-  background-color: #FCF8E3;
-}
-
-.background-color-white {
-  background-color: white;
-}
-
-.background-color-light-green {
-  background-color: #E0EEEE;
-}
-
-.feedback-path-title {
-  color: #2AABD2;
-}
-
-.dropdown-item {
-  cursor: pointer;
-}
-
-.visibility-title {
-  color: #2AABD2;
-}
-
-.visibility-message > ul {
-  margin-top: 5px;
-  padding: 5px 25px;
-  margin-bottom: 0;
-}
-
-.visibility-message > ul > li {
-  cursor: default;
-}
-
-.white-space-normal {
-  white-space: normal;
-}
-
 .padding-15px {
   padding: 15px;
 }
@@ -61,8 +23,39 @@
   padding-left: 15px;
 }
 
+.background-color-light-green {
+  background-color: #E0EEEE;
+}
+
 .margin-top-15px {
   margin-top: 15px;
+}
+
+.visibility-title,
+.feedback-path-title {
+  color: #2AABD2;
+}
+
+.background-color-white {
+  background-color: white;
+}
+
+.visibility-message > ul {
+  margin-top: 5px;
+  padding: 5px 25px;
+  margin-bottom: 0;
+}
+
+.background-color-warning {
+  background-color: #FCF8E3;
+}
+
+.dropdown-item {
+  cursor: pointer;
+}
+
+.visibility-message > ul > li {
+  cursor: default;
 }
 
 .collapse-caret {
@@ -71,4 +64,8 @@
 
 .collapse-qn-description {
   font-weight: 300;
+}
+
+.white-space-normal {
+  white-space: normal;
 }
