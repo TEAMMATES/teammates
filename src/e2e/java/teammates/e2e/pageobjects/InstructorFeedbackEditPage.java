@@ -333,19 +333,19 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private void verifyNumberOfEntitiesToGiveFeedbackTo(int questionNum, int numberOfEntitiesToGiveFeedbackTo) {
-        WebElement questionForm = getQuestionForm(questionNum);
+        WebElement feedbackPathPanel = getQuestionForm(questionNum).findElement(By.tagName("tm-feedback-path-panel"));
         if (numberOfEntitiesToGiveFeedbackTo == Const.MAX_POSSIBLE_RECIPIENTS) {
-            assertTrue(questionForm.findElement(By.id("unlimited-recipients")).isSelected());
+            assertTrue(feedbackPathPanel.findElement(By.id("unlimited-recipients")).isSelected());
         } else {
-            assertTrue(questionForm.findElement(By.id("custom-recipients")).isSelected());
-            assertEquals(questionForm.findElement(By.id("custom-recipients-number")).getAttribute("value"),
+            assertTrue(feedbackPathPanel.findElement(By.id("custom-recipients")).isSelected());
+            assertEquals(feedbackPathPanel.findElement(By.id("custom-recipients-number")).getAttribute("value"),
                     Integer.toString(numberOfEntitiesToGiveFeedbackTo));
         }
     }
 
     private void verifyQuestionVisibilitySettings(int questionNum, FeedbackQuestionAttributes feedbackQuestion) {
-        WebElement questionForm = getQuestionForm(questionNum);
-        String visibility = questionForm.findElement(By.cssSelector("#btn-question-visibility span")).getText();
+        WebElement visibilityPanel = getQuestionForm(questionNum).findElement(By.tagName("tm-visibility-panel"));
+        String visibility = visibilityPanel.findElement(By.cssSelector("#btn-question-visibility span")).getText();
         List<FeedbackParticipantType> showResponsesTo = feedbackQuestion.getShowResponsesTo();
         List<FeedbackParticipantType> showGiverNameTo = feedbackQuestion.getShowGiverNameTo();
         List<FeedbackParticipantType> showRecipientNameTo = feedbackQuestion.getShowRecipientNameTo();
@@ -437,13 +437,13 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private void verifyCustomQuestionVisibility(int questionNum, FeedbackQuestionAttributes feedbackQuestion) {
-        WebElement questionForm = getQuestionForm(questionNum);
-        String visibility = questionForm.findElement(By.cssSelector("#btn-question-visibility span")).getText();
+        WebElement visibilityPanel = getQuestionForm(questionNum).findElement(By.tagName("tm-visibility-panel"));
+        String visibility = visibilityPanel.findElement(By.cssSelector("#btn-question-visibility span")).getText();
         assertEquals(visibility, CUSTOM_VISIBILITY_OPTION);
 
         FeedbackParticipantType giver = feedbackQuestion.getGiverType();
         FeedbackParticipantType receiver = feedbackQuestion.getRecipientType();
-        WebElement customVisibilityTable = questionForm.findElement(By.id("custom-visibility-table"));
+        WebElement customVisibilityTable = visibilityPanel.findElement(By.id("custom-visibility-table"));
         assertVisibilityBoxesSelected(customVisibilityTable, giver, receiver, feedbackQuestion.getShowResponsesTo(), 1);
         assertVisibilityBoxesSelected(customVisibilityTable, giver, receiver, feedbackQuestion.getShowGiverNameTo(), 2);
         assertVisibilityBoxesSelected(customVisibilityTable, giver, receiver, feedbackQuestion.getShowRecipientNameTo(), 3);
@@ -1023,8 +1023,8 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private String getFeedbackPath(int questionNum) {
-        WebElement questionForm = getQuestionForm(questionNum);
-        return questionForm.findElement(By.cssSelector("#btn-feedback-path span")).getText();
+        WebElement feedbackPathPanel = getQuestionForm(questionNum).findElement(By.tagName("tm-feedback-path-panel"));
+        return feedbackPathPanel.findElement(By.cssSelector("#btn-feedback-path span")).getText();
     }
 
     private void setQuestionBrief(int questionNum, String newBrief) {
@@ -1064,9 +1064,9 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private void selectFeedbackPathDropdownOption(int questionNum, String text) {
-        WebElement questionForm = getQuestionForm(questionNum);
-        click(questionForm.findElement(By.id("btn-feedback-path")));
-        WebElement dropdown = questionForm.findElement(By.id("feedback-path-dropdown"));
+        WebElement feedbackPathPanel = getQuestionForm(questionNum).findElement(By.tagName("tm-feedback-path-panel"));
+        click(feedbackPathPanel.findElement(By.id("btn-feedback-path")));
+        WebElement dropdown = feedbackPathPanel.findElement(By.id("feedback-path-dropdown"));
         List<WebElement> options = dropdown.findElements(By.className("dropdown-item"));
         for (WebElement option : options) {
             if (option.getText().equals(text)) {
@@ -1087,15 +1087,15 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private void setQuestionVisibility(int questionNum, FeedbackQuestionAttributes feedbackQuestion) {
-        WebElement questionForm = getQuestionForm(questionNum);
-        String visibility = questionForm.findElement(By.cssSelector("#btn-question-visibility span")).getText();
+        WebElement visibilityPanel = getQuestionForm(questionNum).findElement(By.tagName("tm-visibility-panel"));
+        String visibility = visibilityPanel.findElement(By.cssSelector("#btn-question-visibility span")).getText();
         if (!visibility.equals(CUSTOM_VISIBILITY_OPTION)) {
             selectVisibilityDropdownOption(questionNum, CUSTOM_VISIBILITY_OPTION + "...");
         }
 
         FeedbackParticipantType giver = feedbackQuestion.getGiverType();
         FeedbackParticipantType receiver = feedbackQuestion.getRecipientType();
-        WebElement customVisibilityTable = questionForm.findElement(By.id("custom-visibility-table"));
+        WebElement customVisibilityTable = visibilityPanel.findElement(By.id("custom-visibility-table"));
         selectVisibilityBoxes(customVisibilityTable, giver, receiver, feedbackQuestion.getShowResponsesTo(), 1);
         selectVisibilityBoxes(customVisibilityTable, giver, receiver, feedbackQuestion.getShowGiverNameTo(), 2);
         selectVisibilityBoxes(customVisibilityTable, giver, receiver, feedbackQuestion.getShowRecipientNameTo(), 3);
@@ -1128,9 +1128,9 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private void selectVisibilityDropdownOption(int questionNum, String text) {
-        WebElement questionForm = getQuestionForm(questionNum);
-        click(questionForm.findElement(By.id("btn-question-visibility")));
-        WebElement dropdown = questionForm.findElement(By.id("question-visibility-dropdown"));
+        WebElement visibilityPanel = getQuestionForm(questionNum).findElement(By.tagName("tm-visibility-panel"));
+        click(visibilityPanel.findElement(By.id("btn-question-visibility")));
+        WebElement dropdown = visibilityPanel.findElement(By.id("question-visibility-dropdown"));
         List<WebElement> options = dropdown.findElements(By.className("dropdown-item"));
         for (WebElement option : options) {
             if (option.getText().equals(text)) {
