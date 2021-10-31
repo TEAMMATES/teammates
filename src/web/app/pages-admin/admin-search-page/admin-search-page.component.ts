@@ -14,7 +14,7 @@ import {
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
-import { Email, RegenerateStudentCourseLinks } from '../../../types/api-output';
+import { Email, MessageOutput, RegenerateStudentCourseLinks } from '../../../types/api-output';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
@@ -233,42 +233,42 @@ export class AdminSearchPageComponent {
   }
 
   /**
-     * Delete an unregistered instructor's account.
-     */
-    deleteUnregisteredAccount(instructor: InstructorAccountSearchResult, event: any): void {
-      if (event) {
-        event.preventDefault();
-        event.stopPropagation();
-      }
-
-      const modalContent: string = `Are you sure you want to delete the instructor account currently associated for <strong>${ instructor.name }</strong>?`;
-      const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-          `Delete instructor account <strong>${ instructor.name }</strong>\?`, SimpleModalType.WARNING, modalContent);
-
-      modalRef.result.then(() => {
-        this.activeRequests += 1;
-        this.accountService.deleteUnregisteredAccount(instructor.courseId, instructor.email)
-            .subscribe(resp => {
-              this.statusMessageService.showSuccessToast(resp.message);
-
-              // on success update tables to remove deleted rows
-              for (var i = this.instructors.length - 1; i >= 0; i--) {
-                  if (this.instructors[i] === instructor) {
-                      this.instructors.splice(i,1);
-                  }
-              }
-              for (var i = this.students.length - 1; i >= 0; i--) {
-                  if (this.students[i].courseId === instructor.courseId) {
-                      this.students.splice(i,1);
-                  }
-              }
-
-              this.activeRequests -= 1;
-            }, (resp: ErrorMessageOutput) => {
-              this.statusMessageService.showErrorToast(resp.error.message);
-              this.activeRequests -= 1;
-            });
-      }, () => {});
+   * Delete an unregistered instructor's account.
+   */
+  deleteUnregisteredAccount(instructor: InstructorAccountSearchResult, event: any): void {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
     }
+
+    const modalContent: string = `Are you sure you want to delete the instructor account currently associated for <strong>${ instructor.name }</strong>?`;
+    const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
+        `Delete instructor account <strong>${ instructor.name }</strong>\?`, SimpleModalType.WARNING, modalContent);
+
+    modalRef.result.then(() => {
+      this.activeRequests += 1;
+      this.accountService.deleteUnregisteredAccount(instructor.courseId, instructor.email)
+          .subscribe((resp: MessageOutput) => {
+            this.statusMessageService.showSuccessToast(resp.message);
+
+            // on success update tables to remove deleted rows
+            for (let i: number = this.instructors.length - 1; i >= 0; i -= 1) {
+              if (this.instructors[i] === instructor) {
+                this.instructors.splice(i, 1);
+              }
+            }
+            for (let i: number = this.students.length - 1; i >= 0; i -= 1) {
+              if (this.students[i].courseId === instructor.courseId) {
+                this.students.splice(i, 1);
+              }
+            }
+
+            this.activeRequests -= 1;
+          }, (resp: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorToast(resp.error.message);
+            this.activeRequests -= 1;
+          });
+    }, () => {});
+  }
 
 }
