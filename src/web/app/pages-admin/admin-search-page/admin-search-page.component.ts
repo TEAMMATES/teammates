@@ -34,7 +34,6 @@ export class AdminSearchPageComponent {
   searchQuery: string = '';
   instructors: InstructorAccountSearchResult[] = [];
   students: StudentAccountSearchResult[] = [];
-  maxResultsToShow: number = ApiConst.SEARCH_QUERY_SIZE_LIMIT_EXCEEDED;
 
   constructor(
     private statusMessageService: StatusMessageService,
@@ -70,16 +69,18 @@ export class AdminSearchPageComponent {
       this.hideAllStudentsLinks();
 
       // prompt user to use more specific terms if search results limit reached
-      if (this.instructors.length >= this.maxResultsToShow && this.students.length >= this.maxResultsToShow) {
-        this.statusMessageService.showWarningToast(`${this.maxResultsToShow} student results and
-            ${this.maxResultsToShow} instructor results have been shown on this page but there may be more
-            results not shown. Consider searching with more specific terms.`);
-      } else if (this.instructors.length >= this.maxResultsToShow) {
-        this.statusMessageService.showWarningToast(`${this.maxResultsToShow} instructor results have been shown
-            on this page but there may be more results not shown. Consider searching with more specific terms.`);
-      } else if (this.students.length >= this.maxResultsToShow) {
-        this.statusMessageService.showWarningToast(`${this.maxResultsToShow} student results have been shown
-            on this page but there may be more results not shown. Consider searching with more specific terms.`);
+      const searchResultsLimitReached: string = `have been shown on this page but there may be more
+          results not shown. Consider searching with more specific terms.`;
+      if (this.instructors.length >= ApiConst.SEARCH_QUERY_SIZE_LIMIT
+          && this.students.length >= ApiConst.SEARCH_QUERY_SIZE_LIMIT) {
+        this.statusMessageService.showWarningToast(`${ApiConst.SEARCH_QUERY_SIZE_LIMIT} student results and
+            ${ApiConst.SEARCH_QUERY_SIZE_LIMIT} instructor results ${searchResultsLimitReached}`);
+      } else if (this.instructors.length >= ApiConst.SEARCH_QUERY_SIZE_LIMIT) {
+        this.statusMessageService.showWarningToast(`${ApiConst.SEARCH_QUERY_SIZE_LIMIT} instructor results
+            ${searchResultsLimitReached}`);
+      } else if (this.students.length >= ApiConst.SEARCH_QUERY_SIZE_LIMIT) {
+        this.statusMessageService.showWarningToast(`${ApiConst.SEARCH_QUERY_SIZE_LIMIT} student results
+            ${searchResultsLimitReached}`);
       }
 
     }, (resp: ErrorMessageOutput) => {
