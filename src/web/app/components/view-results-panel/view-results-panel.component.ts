@@ -71,10 +71,26 @@ export class ViewResultsPanelComponent implements OnInit {
   indicateMissingResponses: boolean = true;
 
   @Output()
+  sectionChange: EventEmitter<string> = new EventEmitter<string>();
+
+  @Output()
   viewTypeChange: EventEmitter<string> = new EventEmitter<string>();
 
   @Output()
   viewTooltipTextChange: EventEmitter<string> = new EventEmitter<string>();
+
+  @Output()
+  sectionTypeChange: EventEmitter<InstructorSessionResultSectionType> =
+    new EventEmitter<InstructorSessionResultSectionType>();
+
+  @Output()
+  groupByTeamChange: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+  @Output()
+  showStatisticsChange: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+  @Output()
+  indicateMissingResponsesChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   @Output()
   collapseAllTabsEvent: EventEmitter<void> = new EventEmitter<void>();
@@ -121,4 +137,28 @@ export class ViewResultsPanelComponent implements OnInit {
     this.collapseAllTabsHandler();
   }
 
+  handleSectionChange(newSection: string): void {
+    this.section = newSection;
+    this.sectionChange.emit(newSection);
+  }
+
+  handleSectionTypeChange(newSectionType: InstructorSessionResultSectionType): void {
+    this.sectionType = newSectionType;
+    this.sectionTypeChange.emit(newSectionType);
+  }
+
+  handleGroupByTeamChange(newGroupByTeam: boolean): void {
+    this.groupByTeam = newGroupByTeam;
+    this.groupByTeamChange.emit(newGroupByTeam);
+  }
+
+  handleShowStatisticsChange(newShowStatistics: boolean): void {
+    this.showStatistics = newShowStatistics;
+    this.showStatisticsChange.emit(newShowStatistics);
+  }
+
+  handleIndicateMissingResponsesChange(newIndicateMissingResponsesChange: boolean): void {
+    this.indicateMissingResponses = newIndicateMissingResponsesChange;
+    this.indicateMissingResponsesChange.emit(newIndicateMissingResponsesChange);
+  }
 }

@@ -53,9 +53,9 @@
       </div>
     </div>
     <tm-view-results-panel [session]="session" [(viewTooltipText)]="viewTooltipText" [(viewType)]="viewType"
-                           [section]="section" [sectionsModel]="sectionsModel" [sectionType]="sectionType"
-                           [groupByTeam]="groupByTeam" [showStatistics]="showStatistics"
-                           [indicateMissingResponses]="indicateMissingResponses"
+                           [(section)]="section" [sectionsModel]="sectionsModel" [(sectionType)]="sectionType"
+                           [(groupByTeam)]="groupByTeam" [(showStatistics)]="showStatistics"
+                           [(indicateMissingResponses)]="indicateMissingResponses"
                            [instructorSessionResultSectionTypes]="InstructorSessionResultSectionType"
                            (collapseAllTabsEvent)="collapseAllTabs()"
     ></tm-view-results-panel>
