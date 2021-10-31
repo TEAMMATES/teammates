@@ -3,6 +3,7 @@ package teammates.common.datatransfer.attributes;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
@@ -434,6 +435,20 @@ public class InstructorAttributesTest extends BaseAttributesTest {
         assertThrows(AssertionError.class, () ->
                 InstructorAttributes.updateOptionsWithGoogleIdBuilder("courseId", "googleId")
                         .withRole(null));
+    }
+
+    @Test
+    public void testGetRegistrationLink() {
+        InstructorAttributes instructor = InstructorAttributes.builder("course1", "email@email.com")
+                .build();
+
+        String key = StringHelper.encrypt("testkey");
+        instructor.setKey(key);
+        String regUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
+                .withRegistrationKey(key)
+                .withEntityType(Const.EntityType.INSTRUCTOR)
+                .toString();
+        assertEquals(regUrl, instructor.getRegistrationUrl());
     }
 
     @Test

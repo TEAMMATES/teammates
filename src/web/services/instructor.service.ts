@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ResourceEndpoints } from '../types/api-const';
-import { Instructor, InstructorPrivilege, Instructors } from '../types/api-output';
+import { Instructor, InstructorPrivilege, Instructors, RegenerateKey } from '../types/api-output';
 import { InstructorCreateRequest, InstructorPrivilegeUpdateRequest, Intent } from '../types/api-request';
 import { HttpRequestService } from './http-request.service';
 
@@ -157,4 +157,16 @@ export class InstructorService {
     };
     return this.httpRequestService.put(ResourceEndpoints.INSTRUCTOR_PRIVILEGE, paramMap, queryParams.requestBody);
   }
+
+  /**
+   * Regenerates the registration key for an instructor in a course.
+   */
+  regenerateInstructorKey(courseId: string, instructorEmail: string): Observable<RegenerateKey> {
+    const paramsMap: Record<string, string> = {
+      courseid: courseId,
+      instructoremail: instructorEmail,
+    };
+    return this.httpRequestService.post(ResourceEndpoints.INSTRUCTOR_KEY, paramsMap);
+  }
+
 }

@@ -95,8 +95,6 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
     public String getRegistrationUrl() {
         return Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
                 .withRegistrationKey(key)
-                .withStudentEmail(email)
-                .withCourseId(course)
                 .withEntityType(Const.EntityType.STUDENT)
                 .toString();
     }
