@@ -332,6 +332,23 @@ public class Logic {
     }
 
     /**
+     * Deletes an unregistered instructor cascade its associated demo course and students.
+     *
+     * <p>Fails silently if the instructor does not exist.
+     *
+     * <br/>Preconditions: <br/>
+     * * All parameters are non-null.
+     */
+    public void deleteUnregisteredInstructorCascade(String courseId, String email) {
+
+        assert courseId != null;
+        assert email != null;
+
+        coursesLogic.deleteCourseCascade(courseId);
+        instructorsLogic.deleteInstructorCascade(courseId, email);
+    }
+
+    /**
      * Creates a course and an associated instructor for the course.
      *
      * <br/>Preconditions: <br/>

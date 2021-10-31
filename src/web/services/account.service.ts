@@ -43,6 +43,17 @@ export class AccountService {
   }
 
   /**
+   * Deletes an unregistered account by calling API.
+   */
+  deleteUnregisteredAccount(id: string, email: string): Observable<MessageOutput> {
+    const paramMap: Record<string, string> = {
+      courseid: id,
+      instructoremail: email,
+    };
+    return this.httpRequestService.delete(ResourceEndpoints.ACCOUNT_UNREGISTERED, paramMap);
+  }
+
+  /**
    * Resets a student account by calling API.
    */
   resetStudentAccount(courseId: string, studentEmail: string): Observable<MessageOutput> {

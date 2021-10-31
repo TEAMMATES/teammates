@@ -44,6 +44,7 @@ public final class ActionFactory {
         map(ResourceURIs.ACCOUNT, GET, GetAccountAction.class);
         map(ResourceURIs.ACCOUNT, POST, CreateAccountAction.class);
         map(ResourceURIs.ACCOUNT, DELETE, DeleteAccountAction.class);
+        map(ResourceURIs.ACCOUNT_UNREGISTERED, DELETE, DeleteUnregisteredAccountAction.class);
         map(ResourceURIs.ACCOUNT_DOWNGRADE, PUT, DowngradeAccountAction.class);
         map(ResourceURIs.ACCOUNT_RESET, PUT, ResetAccountAction.class);
         map(ResourceURIs.COURSE, GET, GetCourseAction.class);

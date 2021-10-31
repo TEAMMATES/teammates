@@ -34,6 +34,8 @@ export class AdminSearchPageComponent {
   instructors: InstructorAccountSearchResult[] = [];
   students: StudentAccountSearchResult[] = [];
 
+  activeRequests: number = 0;
+
   constructor(
     private statusMessageService: StatusMessageService,
     private simpleModalService: SimpleModalService,
@@ -229,5 +231,44 @@ export class AdminSearchPageComponent {
           this.statusMessageService.showErrorToast(err.error.message);
         });
   }
+
+  /**
+     * Delete an unregistered instructor's account.
+     */
+    deleteUnregisteredAccount(instructor: InstructorAccountSearchResult, event: any): void {
+      if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+
+      const modalContent: string = `Are you sure you want to delete the instructor account currently associated for <strong>${ instructor.name }</strong>?`;
+      const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
+          `Delete instructor account <strong>${ instructor.name }</strong>\?`, SimpleModalType.WARNING, modalContent);
+
+      modalRef.result.then(() => {
+        this.activeRequests += 1;
+        this.accountService.deleteUnregisteredAccount(instructor.courseId, instructor.email)
+            .subscribe(resp => {
+              this.statusMessageService.showSuccessToast(resp.message);
+
+              // on success update tables to remove deleted rows
+              for (var i = this.instructors.length - 1; i >= 0; i--) {
+                  if (this.instructors[i] === instructor) {
+                      this.instructors.splice(i,1);
+                  }
+              }
+              for (var i = this.students.length - 1; i >= 0; i--) {
+                  if (this.students[i].courseId === instructor.courseId) {
+                      this.students.splice(i,1);
+                  }
+              }
+
+              this.activeRequests -= 1;
+            }, (resp: ErrorMessageOutput) => {
+              this.statusMessageService.showErrorToast(resp.error.message);
+              this.activeRequests -= 1;
+            });
+      }, () => {});
+    }
 
 }

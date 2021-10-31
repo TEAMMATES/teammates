@@ -53,10 +53,15 @@
               {{ instructor.googleId }}</a></td>
             <td>{{ instructor.institute }}</td>
             <td>
-              <a href="{{ instructor.manageAccountLink }}" *ngIf="instructor.manageAccountLink"
+              <a href="{{ instructor.manageAccountLink }}" *ngIf="instructor.manageAccountLink && instructor.googleId"
                  (click)="$event.stopPropagation()" target="_blank" rel="noopener noreferrer">
                 <i class="fas fa-info-circle"></i> Manage this account
               </a>
+              <button class="btn btn-danger" *ngIf="!instructor.googleId"
+                 (click)="deleteUnregisteredAccount(instructor, $event)" target="_blank" rel="noopener noreferrer">
+                <i class="fas fa-exclamation-circle"></i> Delete this account
+              </button>
+              <p class="text-danger" *ngIf="!instructor.googleId">This account is unregistered.</p>
               <br>
               <a id="reset-instructor-id-{{i}}" href="javascript:;" (click)="resetInstructorGoogleId(instructor, $event)" *ngIf="instructor.googleId">
                 <i class="fas fa-sync"></i> Reset Google ID
