@@ -14,10 +14,10 @@ class DeleteUnregisteredAccountAction extends AdminOnlyAction {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
         InstructorAttributes instructor;
-        if (instructorEmail != null) {
-            instructor = logic.getInstructorForEmail(courseId, instructorEmail);
-        } else {
+        if (instructorEmail == null) {
             throw new InvalidHttpParameterException("Instructor to delete not specified");
+        } else {
+            instructor = logic.getInstructorForEmail(courseId, instructorEmail);
         }
         if (instructor == null) {
             return new JsonResult("Instructor is successfully deleted.");
