@@ -143,22 +143,18 @@ export class ViewResultsPanelComponent implements OnInit {
   }
 
   handleSectionTypeChange(newSectionType: InstructorSessionResultSectionType): void {
-    this.sectionType = newSectionType;
     this.sectionTypeChange.emit(newSectionType);
   }
 
   handleGroupByTeamChange(newGroupByTeam: boolean): void {
-    this.groupByTeam = newGroupByTeam;
     this.groupByTeamChange.emit(newGroupByTeam);
   }
 
   handleShowStatisticsChange(newShowStatistics: boolean): void {
-    this.showStatistics = newShowStatistics;
     this.showStatisticsChange.emit(newShowStatistics);
   }
 
   handleIndicateMissingResponsesChange(newIndicateMissingResponsesChange: boolean): void {
-    this.indicateMissingResponses = newIndicateMissingResponsesChange;
     this.indicateMissingResponsesChange.emit(newIndicateMissingResponsesChange);
   }
 }
