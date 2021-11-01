@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { NgbCollapseModule, NgbDropdownModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AjaxLoadingModule } from '../ajax-loading/ajax-loading.module';
+import { FeedbackPathPanelModule } from '../feedback-path-panel/feedback-path-panel.module';
 import { PanelChevronModule } from '../panel-chevron/panel-chevron.module';
 import {
   QuestionEditDetailsFormModule,
@@ -11,6 +12,7 @@ import {
 import { RichTextEditorModule } from '../rich-text-editor/rich-text-editor.module';
 import { TeammatesCommonModule } from '../teammates-common/teammates-common.module';
 import { VisibilityMessagesModule } from '../visibility-messages/visibility-messages.module';
+import { VisibilityPanelModule } from '../visibility-panel/visibility-panel.module';
 
 import { QuestionEditFormComponent } from './question-edit-form.component';
 
@@ -30,6 +32,8 @@ import { QuestionEditFormComponent } from './question-edit-form.component';
     RichTextEditorModule,
     QuestionEditDetailsFormModule,
     PanelChevronModule,
+    FeedbackPathPanelModule,
+    VisibilityPanelModule,
   ],
   declarations: [
     QuestionEditFormComponent,

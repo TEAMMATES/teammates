@@ -7,14 +7,6 @@ import {
 } from '../../../types/api-output';
 import { QuestionEditFormModel } from '../question-edit-form/question-edit-form-model';
 
-const FEEDBACK_PATH_PROPERTIES: Set<string> = new Set<string>([
-  'giverType',
-  'recipientType',
-  'isUsingOtherFeedbackPath',
-  'numberOfEntitiesToGiveFeedbackToSetting',
-  'customNumberOfEntitiesToGiveFeedbackTo',
-]);
-
 /**
  * Displaying the feedback path panel.
  */
@@ -32,20 +24,6 @@ export class FeedbackPathPanelComponent implements OnInit {
       NumberOfEntitiesToGiveFeedbackToSetting;
 
   @Input()
-  set formModel(model: QuestionEditFormModel) {
-    this.model = model;
-
-    if (!model.isUsingOtherFeedbackPath) {
-      // find if the feedback path is in the common feedback paths
-      this.model.isUsingOtherFeedbackPath = true;
-      if (this.commonFeedbackPaths.has(model.giverType) &&
-          // tslint:disable-next-line:no-non-null-assertion
-          this.commonFeedbackPaths.get(model.giverType)!.includes(model.recipientType)) {
-        this.model.isUsingOtherFeedbackPath = false;
-      }
-    }
-  }
-
   model: QuestionEditFormModel = {
     feedbackQuestionId: '',
 
@@ -92,37 +70,27 @@ export class FeedbackPathPanelComponent implements OnInit {
   allowedFeedbackPaths: Map<FeedbackParticipantType, FeedbackParticipantType[]> = new Map();
 
   @Output()
-  formModelChange: EventEmitter<QuestionEditFormModel> = new EventEmitter<QuestionEditFormModel>();
+  customFeedbackPath: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+  @Output()
+  numberOfEntitiesToGiveFeedbackToSetting: EventEmitter<NumberOfEntitiesToGiveFeedbackToSetting> =
+    new EventEmitter<NumberOfEntitiesToGiveFeedbackToSetting>();
+
+  @Output()
+  triggerModelChangeBatch: EventEmitter<Partial<QuestionEditFormModel>> =
+    new EventEmitter<Partial<QuestionEditFormModel>>();
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
-  /**
-   * Triggers the change of the model for the form.
-   */
-  triggerModelChange(field: keyof QuestionEditFormModel,
-                     data: QuestionEditFormModel[keyof QuestionEditFormModel]): void {
-    this.formModelChange.emit({
-      ...this.model,
-      [field]: data,
-      ...(!this.model.isFeedbackPathChanged && FEEDBACK_PATH_PROPERTIES.has(field)
-        && { isFeedbackPathChanged: true }),
-    });
+  triggerModelChangeHandler(data: NumberOfEntitiesToGiveFeedbackToSetting): void {
+    this.numberOfEntitiesToGiveFeedbackToSetting.emit(data);
   }
 
-  /**
-   * Triggers the change of the model for the form.
-   */
-  triggerModelChangeBatch(obj: Partial<QuestionEditFormModel>): void {
-    this.formModelChange.emit({
-      ...this.model,
-      ...obj,
-      ...(!this.model.isFeedbackPathChanged
-        && Object.keys(obj).some((key: string) => FEEDBACK_PATH_PROPERTIES.has(key))
-        && { isFeedbackPathChanged: true }),
-    });
+  triggerCustomFeedbackPath(): void {
+    this.customFeedbackPath.emit(true);
   }
 
   /**
@@ -141,12 +109,12 @@ export class FeedbackPathPanelComponent implements OnInit {
       // do not reset the visibility settings if reverting feedback path to preset template provided
       if (this.model.isUsingOtherFeedbackPath) {
         // remove the custom feedback if selecting a common feedback path
-        this.triggerModelChangeBatch({
+        this.triggerModelChangeBatch.emit({
           isUsingOtherFeedbackPath: false,
         });
       }
     } else {
-      this.triggerModelChangeBatch({
+      this.triggerModelChangeBatch.emit({
         giverType,
         recipientType: newRecipientType,
         commonVisibilitySettingName: 'Please select a visibility option',
@@ -158,5 +126,4 @@ export class FeedbackPathPanelComponent implements OnInit {
       });
     }
   }
-
 }

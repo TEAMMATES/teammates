@@ -13,14 +13,6 @@ import {
 } from '../../../types/api-output';
 import { VisibilityControl } from '../../../types/visibility-control';
 
-const VISIBILITY_PROPERTIES: Set<string> = new Set<string>([
-  'isUsingOtherVisibilitySetting',
-  'showResponsesTo',
-  'showGiverNameTo',
-  'showRecipientNameTo',
-  'commonVisibilitySettingName',
-]);
-
 /**
  * Displaying the visibility panel.
  */
@@ -40,36 +32,6 @@ export class VisibilityPanelComponent implements OnInit {
   FeedbackVisibilityType: typeof FeedbackVisibilityType = FeedbackVisibilityType;
 
   @Input()
-  isCustomFeedbackVisibilitySettingAllowed: boolean = false;
-
-  @Input()
-  set formModel(model: QuestionEditFormModel) {
-    this.model = model;
-
-    const visibilitySetting: {[TKey in VisibilityControl]: FeedbackVisibilityType[]} = {
-      SHOW_RESPONSE: model.showResponsesTo,
-      SHOW_GIVER_NAME: model.showGiverNameTo,
-      SHOW_RECIPIENT_NAME: model.showRecipientNameTo,
-    };
-    this.visibilityStateMachine.applyVisibilitySettings(visibilitySetting);
-
-    if (!model.commonVisibilitySettingName && !model.isUsingOtherVisibilitySetting) {
-      // find if the visibility settings is in the common visibility settings
-      this.model.isUsingOtherVisibilitySetting = true;
-      for (const commonVisibilityOption of this.commonFeedbackVisibilitySettings) {
-        if (this.isSameSet(visibilitySetting.SHOW_RESPONSE, commonVisibilityOption.visibilitySettings.SHOW_RESPONSE)
-            && this.isSameSet(visibilitySetting.SHOW_GIVER_NAME,
-                commonVisibilityOption.visibilitySettings.SHOW_GIVER_NAME)
-            && this.isSameSet(visibilitySetting.SHOW_RECIPIENT_NAME,
-                commonVisibilityOption.visibilitySettings.SHOW_RECIPIENT_NAME)) {
-          this.model.commonVisibilitySettingName = commonVisibilityOption.name;
-          this.model.isUsingOtherVisibilitySetting = false;
-          break;
-        }
-      }
-    }
-  }
-
   model: QuestionEditFormModel = {
     feedbackQuestionId: '',
 
@@ -110,6 +72,9 @@ export class VisibilityPanelComponent implements OnInit {
   };
 
   @Input()
+  isCustomFeedbackVisibilitySettingAllowed: boolean = false;
+
+  @Input()
   visibilityControls: VisibilityControl = VisibilityControl.SHOW_RESPONSE;
 
   @Input()
@@ -123,54 +88,30 @@ export class VisibilityPanelComponent implements OnInit {
     new VisibilityStateMachine(this.model.giverType, this.model.recipientType);
 
   @Output()
-  formModelChange: EventEmitter<QuestionEditFormModel> = new EventEmitter<QuestionEditFormModel>();
+  customVisibilitySetting: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+  @Output()
+  triggerModelChangeBatch: EventEmitter<Partial<QuestionEditFormModel>> =
+    new EventEmitter<Partial<QuestionEditFormModel>>();
+
+  @Output()
+  visibilityStateMachineChange: EventEmitter<VisibilityStateMachine> = new EventEmitter<VisibilityStateMachine>();
 
   constructor() { }
 
-  private isSameSet(setA: FeedbackVisibilityType[], setB: FeedbackVisibilityType[]): boolean {
-    return setA.length === setB.length && setA.every((ele: FeedbackVisibilityType) => setB.includes(ele));
-  }
-
   ngOnInit(): void {
-  }
-
-  /**
-   * Triggers the change of the model for the form.
-   */
-  triggerModelChange(field: keyof QuestionEditFormModel,
-                     data: QuestionEditFormModel[keyof QuestionEditFormModel]): void {
-    this.formModelChange.emit({
-      ...this.model,
-      [field]: data,
-      ...(!this.model.isVisibilityChanged && VISIBILITY_PROPERTIES.has(field)
-        && { isVisibilityChanged: true }),
-    });
-  }
-
-  /**
-   * Triggers the change of the model for the form.
-   */
-  triggerModelChangeBatch(obj: Partial<QuestionEditFormModel>): void {
-    this.formModelChange.emit({
-      ...this.model,
-      ...obj,
-      ...(!this.model.isVisibilityChanged
-          && Object.keys(obj).some((key: string) => VISIBILITY_PROPERTIES.has(key))
-          && { isVisibilityChanged: true }),
-    });
   }
 
   /**
    * Applies the common visibility setting.
    */
   applyCommonVisibilitySettings(commonSettings: CommonVisibilitySetting): void {
-    this.triggerModelChangeBatch({
+    this.triggerModelChangeBatch.emit({
       showResponsesTo: commonSettings.visibilitySettings.SHOW_RESPONSE,
       showGiverNameTo: commonSettings.visibilitySettings.SHOW_GIVER_NAME,
       showRecipientNameTo: commonSettings.visibilitySettings.SHOW_RECIPIENT_NAME,
       commonVisibilitySettingName: commonSettings.name,
       isUsingOtherVisibilitySetting: false,
-      isVisibilityChanged: true,
     });
   }
 
@@ -181,10 +122,12 @@ export class VisibilityPanelComponent implements OnInit {
       isAllowed: boolean, visibilityType: FeedbackVisibilityType, visibilityControl: VisibilityControl): void {
     if (isAllowed) {
       this.visibilityStateMachine.allowToSee(visibilityType, visibilityControl);
+      this.visibilityStateMachineChange.emit(this.visibilityStateMachine);
     } else {
       this.visibilityStateMachine.disallowToSee(visibilityType, visibilityControl);
+      this.visibilityStateMachineChange.emit(this.visibilityStateMachine);
     }
-    this.triggerModelChangeBatch({
+    this.triggerModelChangeBatch.emit({
       showResponsesTo:
           this.visibilityStateMachine.getVisibilityTypesUnderVisibilityControl(VisibilityControl.SHOW_RESPONSE),
       showGiverNameTo:
