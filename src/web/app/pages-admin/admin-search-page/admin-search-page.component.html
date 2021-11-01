@@ -66,6 +66,8 @@
               <a id="reset-instructor-id-{{i}}" href="javascript:;" (click)="resetInstructorGoogleId(instructor, $event)" *ngIf="instructor.googleId">
                 <i class="fas fa-sync"></i> Reset Google ID
               </a>
+              <br>
+              <button id="regenerate-instructor-key-{{i}}" class="btn btn-danger" (click)="instructor.showLinks = !instructor.showLinks; regenerateInstructorKey(instructor);">Regenerate key</button>
             </td>
           </tr>
           <tr *ngIf="instructor.showLinks">
@@ -142,7 +144,7 @@
                 <i class="fas fa-sync"></i> Reset Google ID
               </a>
               <br>
-              <button id="regenerate-student-key-{{i}}" class="btn btn-danger" (click)="student.showLinks = !student.showLinks; regenerateFeedbackSessionLinks(student);">Regenerate links</button>
+              <button id="regenerate-student-key-{{i}}" class="btn btn-danger" (click)="student.showLinks = !student.showLinks; regenerateStudentKey(student);">Regenerate key</button>
             </td>
           </tr>
           <tr>

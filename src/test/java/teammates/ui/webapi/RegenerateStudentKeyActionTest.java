@@ -7,16 +7,16 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
-import teammates.ui.output.RegenerateStudentCourseLinksData;
+import teammates.ui.output.RegenerateKeyData;
 
 /**
- * SUT: {@link RegenerateStudentCourseLinksAction}.
+ * SUT: {@link RegenerateStudentKeyAction}.
  */
-public class RegenerateStudentCourseLinksActionTest extends BaseActionTest<RegenerateStudentCourseLinksAction> {
+public class RegenerateStudentKeyActionTest extends BaseActionTest<RegenerateStudentKeyAction> {
 
     @Override
     protected String getActionUri() {
-        return Const.ResourceURIs.STUDENT_COURSE_LINKS_REGENERATION;
+        return Const.ResourceURIs.STUDENT_KEY;
     }
 
     @Override
@@ -84,7 +84,7 @@ public class RegenerateStudentCourseLinksActionTest extends BaseActionTest<Regen
     }
 
     @Test
-    protected void testExecute_regenerateCourseStudent() {
+    protected void testExecute_regenerateStudentKey() {
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         ______TS("Successfully sent regenerated links email");
 
@@ -93,12 +93,12 @@ public class RegenerateStudentCourseLinksActionTest extends BaseActionTest<Regen
                 Const.ParamsNames.COURSE_ID, student1InCourse1.getCourse(),
         };
 
-        RegenerateStudentCourseLinksAction a = getAction(param);
+        RegenerateStudentKeyAction a = getAction(param);
         JsonResult result = getJsonResult(a);
 
-        RegenerateStudentCourseLinksData output = (RegenerateStudentCourseLinksData) result.getOutput();
+        RegenerateKeyData output = (RegenerateKeyData) result.getOutput();
 
-        assertEquals(RegenerateStudentCourseLinksAction.SUCCESSFUL_REGENERATION_WITH_EMAIL_SENT, output.getMessage());
+        assertEquals(RegenerateStudentKeyAction.SUCCESSFUL_REGENERATION_WITH_EMAIL_SENT, output.getMessage());
         assertNotEquals(student1InCourse1.getKey(), output.getNewRegistrationKey());
 
         verifyNumberOfEmailsSent(1);
