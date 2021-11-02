@@ -22,6 +22,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
   isDisplayOnly="false"
   model={[Function Object]}
   numOfQuestions="0"
+  saveChangeClicked="false"
   saveExistingQuestionEvent={[Function EventEmitter]}
   simpleModalService={[Function SimpleModalService]}
   visibilityStateMachine={[Function VisibilityStateMachine]}
