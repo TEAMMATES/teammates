@@ -2,6 +2,7 @@ package teammates.ui.request;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Objects;
 
 import javax.annotation.Nullable;
 
@@ -127,7 +128,9 @@ public class FeedbackSessionBasicRequest extends BasicRequest {
     @Override
     public void validate() throws InvalidHttpRequestBodyException {
         assertTrue(instructions != null, "Instructions cannot be null");
+        assertTrue(!Objects.isNull(submissionStartTimestamp), "Submission Start Time Stamp cannot be null");
         assertTrue(submissionStartTimestamp > 0L, "Start timestamp should be more than zero");
+        assertTrue(!Objects.isNull(submissionEndTimestamp), "Submission End Time Stamp cannot be null");
         assertTrue(submissionEndTimestamp > 0L, "End timestamp should be more than zero");
 
         assertTrue(sessionVisibleSetting != null, "sessionVisibleSetting cannot be null");
