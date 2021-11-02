@@ -64,6 +64,9 @@ export class FeedbackPathPanelComponent implements OnInit {
   };
 
   @Input()
+  saveChangeClicked: boolean = false;
+
+  @Input()
   commonFeedbackPaths: Map<FeedbackParticipantType, FeedbackParticipantType[]> = new Map();
 
   @Input()
@@ -86,7 +89,9 @@ export class FeedbackPathPanelComponent implements OnInit {
   }
 
   triggerModelChangeHandler(data: NumberOfEntitiesToGiveFeedbackToSetting): void {
-    this.numberOfEntitiesToGiveFeedbackToSetting.emit(data);
+    if (this.saveChangeClicked) {
+      this.numberOfEntitiesToGiveFeedbackToSetting.emit(data);
+    }
   }
 
   triggerCustomFeedbackPath(): void {

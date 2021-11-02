@@ -1043,7 +1043,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         FeedbackParticipantType newGiver = feedbackQuestion.getGiverType();
         FeedbackParticipantType newRecipient = feedbackQuestion.getRecipientType();
         String feedbackPath = getFeedbackPath(questionNum);
-        WebElement questionForm = getQuestionForm(questionNum);
+        WebElement questionForm = getQuestionForm(questionNum).findElement(By.tagName("tm-feedback-path-panel"));
         if (!feedbackPath.equals(CUSTOM_FEEDBACK_PATH_OPTION)) {
             selectFeedbackPathDropdownOption(questionNum, CUSTOM_FEEDBACK_PATH_OPTION + "...");
         }

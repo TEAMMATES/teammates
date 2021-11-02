@@ -179,6 +179,8 @@ export class QuestionEditFormComponent implements OnInit {
   @Output()
   createNewQuestionEvent: EventEmitter<void> = new EventEmitter();
 
+  saveChangeClicked: boolean = false;
+
   commonFeedbackPaths: Map<FeedbackParticipantType, FeedbackParticipantType[]> = new Map();
 
   allowedFeedbackPaths: Map<FeedbackParticipantType, FeedbackParticipantType[]> = new Map();
@@ -297,6 +299,7 @@ export class QuestionEditFormComponent implements OnInit {
    * Saves the question.
    */
   saveQuestionHandler(): void {
+    this.saveChangeClicked = true;
     if (this.formMode === QuestionEditFormMode.EDIT) {
       const doChangesNeedWarning: boolean = this.model.isQuestionDetailsChanged
         || this.model.isVisibilityChanged
