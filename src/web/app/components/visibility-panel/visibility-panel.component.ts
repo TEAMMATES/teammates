@@ -102,6 +102,10 @@ export class VisibilityPanelComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  triggerCustomVisibilitySetting(): void {
+    this.customVisibilitySetting.emit(true);
+  }
+
   /**
    * Applies the common visibility setting.
    */

@@ -1091,7 +1091,7 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     private void setQuestionVisibility(int questionNum, FeedbackQuestionAttributes feedbackQuestion) {
         WebElement questionForm = getQuestionForm(questionNum);
-        WebElement visibilityPanel = getQuestionForm(questionNum).findElement(By.tagName("tm-visibility-panel"));
+        WebElement visibilityPanel = questionForm.findElement(By.tagName("tm-visibility-panel"));
         String visibility = visibilityPanel.findElement(By.cssSelector("#btn-question-visibility span")).getText();
         if (!visibility.equals(CUSTOM_VISIBILITY_OPTION)) {
             selectVisibilityDropdownOption(questionNum, CUSTOM_VISIBILITY_OPTION + "...");
