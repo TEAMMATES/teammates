@@ -515,11 +515,9 @@ public final class EmailGenerator {
     }
 
     private String generateInstructorJoinReminderFragment(InstructorAttributes instructor) {
-        String joinUrl = Config.getFrontEndAppUrl(instructor.getRegistrationUrl()).toAbsoluteString();
-
         return Templates.populateTemplate(EmailTemplates.FRAGMENT_INSTRUCTOR_COURSE_JOIN_REMINDER,
                 "${feedbackAction}", FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW,
-                "${joinUrl}", joinUrl);
+                "${joinUrl}", getInstructorCourseJoinUrl(instructor));
     }
 
     /**
@@ -906,12 +904,17 @@ public final class EmailGenerator {
                 "${supportEmail}", Config.SUPPORT_EMAIL);
     }
 
-    private String fillUpInstructorJoinFragment(InstructorAttributes instructor) {
-        String joinUrl = Config.getFrontEndAppUrl(instructor.getRegistrationUrl()).toAbsoluteString();
+    private String getInstructorCourseJoinUrl(InstructorAttributes instructor) {
+        return Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
+                .withRegistrationKey(instructor.getKey())
+                .withEntityType(Const.EntityType.INSTRUCTOR)
+                .toAbsoluteString();
+    }
 
+    private String fillUpInstructorJoinFragment(InstructorAttributes instructor) {
         return Templates.populateTemplate(EmailTemplates.USER_COURSE_JOIN,
                 "${joinFragment}", EmailTemplates.FRAGMENT_INSTRUCTOR_COURSE_JOIN,
-                "${joinUrl}", joinUrl);
+                "${joinUrl}", getInstructorCourseJoinUrl(instructor));
     }
 
     private String fillUpInstructorRejoinAfterGoogleIdResetFragment(InstructorAttributes instructor) {
