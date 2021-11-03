@@ -226,7 +226,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
         verifyEmailReceivedCorrectly(emails, coOwnerNotJoined.getEmail(), subject,
                 "/sessionOpeningSoonEmailForCoOwnerNotJoined.html");
 
-        // this instructor email has been given co-owner privileges in the test file but has not joined
+        // this instructor email has been given co-owner privileges in the test file and has joined
         InstructorAttributes coOwnerJoined =
                 instructorsLogic.getInstructorForEmail(course.getId(), "instructor1@course1.tmt");
 
