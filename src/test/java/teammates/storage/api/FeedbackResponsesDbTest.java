@@ -375,7 +375,7 @@ public class FeedbackResponsesDbTest extends BaseTestCaseWithLocalDatabaseAccess
         ______TS("non-existent response");
 
         assertNull(frDb.getFeedbackResponse(expected.getFeedbackQuestionId(), "student1InCourse1@gmail.tmt",
-                "student3InCourse1@gmail.tmt"));
+                                            "student3InCourse1@gmail.tmt"));
 
         ______TS("null fqId");
 

@@ -14,7 +14,7 @@ describe('SimpleModalComponent', () => {
       providers: [NgbActiveModal],
       imports: [ProgressBarModule, AjaxLoadingModule],
     })
-        .compileComponents();
+    .compileComponents();
   }));
 
   beforeEach(() => {
