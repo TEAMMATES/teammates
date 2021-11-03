@@ -905,10 +905,7 @@ public final class EmailGenerator {
     }
 
     private String getInstructorCourseJoinUrl(InstructorAttributes instructor) {
-        return Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
-                .withRegistrationKey(instructor.getKey())
-                .withEntityType(Const.EntityType.INSTRUCTOR)
-                .toAbsoluteString();
+        return Config.getFrontEndAppUrl(instructor.getRegistrationUrl()).toAbsoluteString();
     }
 
     private String fillUpInstructorJoinFragment(InstructorAttributes instructor) {
