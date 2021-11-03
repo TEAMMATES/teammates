@@ -176,6 +176,19 @@ public final class StudentsDb extends EntitiesDb<CourseStudent, StudentAttribute
     }
 
     /**
+     * Gets all students of a course. The student only contains the `courseId` and `email` field.
+     */
+    public List<StudentAttributes> getStudentIdsForCourse(String courseId) {
+        assert courseId != null;
+
+        List<StudentAttributes> studentIds = makeAttributes(getCourseStudentEmailEntitiesForCourse(courseId));
+
+        // courseId cannot be retrieved from projection and needs to be embedded from outside
+        studentIds.forEach(studentId -> studentId.setCourse(courseId));
+        return studentIds;
+    }
+
+    /**
      * Gets all students of a team of a course.
      */
     public List<StudentAttributes> getStudentsForTeam(String teamName, String courseId) {
@@ -333,6 +346,10 @@ public final class StudentsDb extends EntitiesDb<CourseStudent, StudentAttribute
 
     private List<CourseStudent> getCourseStudentEntitiesForCourse(String courseId) {
         return getCourseStudentsForCourseQuery(courseId).list();
+    }
+
+    private List<CourseStudent> getCourseStudentEmailEntitiesForCourse(String courseId) {
+        return getCourseStudentsForCourseQuery(courseId).project("email").list();
     }
 
     private Query<CourseStudent> getCourseStudentsForGoogleIdQuery(String googleId) {

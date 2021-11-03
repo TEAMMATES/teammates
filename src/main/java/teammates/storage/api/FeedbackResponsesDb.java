@@ -202,6 +202,17 @@ public final class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, Feed
     }
 
     /**
+     * Gets all responses given to a user in a course. This response object only supports `getId` operation.
+     */
+    public List<FeedbackResponseAttributes> getFeedbackResponseIdsForReceiverForCourse(
+            String courseId, String receiver) {
+        assert courseId != null;
+        assert receiver != null;
+
+        return makeAttributes(getFeedbackResponseIdEntitiesForReceiverForCourse(courseId, receiver));
+    }
+
+    /**
      * Gets all responses given by a user in a course.
      */
     public List<FeedbackResponseAttributes> getFeedbackResponsesFromGiverForCourse(
@@ -213,9 +224,20 @@ public final class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, Feed
     }
 
     /**
-     * Get all responses given and received by a user in a course.
+     * Gets all responses given by a user in a course. This response object only supports `getId` operation.
      */
-    public List<FeedbackResponseAttributes> getFeedbackResponsesFromAndToUsersInCourse(
+    public List<FeedbackResponseAttributes> getFeedbackResponseIdsFromGiverForCourse(
+            String courseId, String giverEmail) {
+        assert courseId != null;
+        assert giverEmail != null;
+
+        return makeAttributes(getFeedbackResponseIdEntitiesFromGiverForCourse(courseId, giverEmail));
+    }
+
+    /**
+     * Get all response given and received by a user in a course. This responses only supports `getId` operation.
+     */
+    public List<FeedbackResponseAttributes> getFeedbackResponseIdsFromAndToUsersInCourse(
             String courseId,
             List<String> userEmails) {
 
@@ -225,7 +247,7 @@ public final class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, Feed
                         .parallelStream()
                         .map(userEmail ->
                                 OfyHelper.run(() ->
-                                        getFeedbackResponsesFromGiverForCourse(courseId, userEmail))
+                                        getFeedbackResponseIdsFromGiverForCourse(courseId, userEmail))
                         );
 
         // Get all feedback responses to email
@@ -233,7 +255,7 @@ public final class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, Feed
                 userEmails
                         .parallelStream()
                         .map(userEmail -> OfyHelper.run(() ->
-                                getFeedbackResponsesForReceiverForCourse(
+                                getFeedbackResponseIdsForReceiverForCourse(
                                         courseId,
                                         userEmail
                                 ))
@@ -445,11 +467,29 @@ public final class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, Feed
                 .list();
     }
 
+    private List<FeedbackResponse> getFeedbackResponseIdEntitiesForReceiverForCourse(
+            String courseId, String receiver) {
+        return load()
+                .filter("courseId =", courseId)
+                .filter("receiver =", receiver)
+                .project("feedbackResponseId")
+                .list();
+    }
+
     private List<FeedbackResponse> getFeedbackResponseEntitiesFromGiverForCourse(
             String courseId, String giverEmail) {
         return load()
                 .filter("courseId =", courseId)
                 .filter("giverEmail =", giverEmail)
+                .list();
+    }
+
+    private List<FeedbackResponse> getFeedbackResponseIdEntitiesFromGiverForCourse(
+            String courseId, String giverEmail) {
+        return load()
+                .filter("courseId =", courseId)
+                .filter("giverEmail =", giverEmail)
+                .project("feedbackResponseId")
                 .list();
     }
 

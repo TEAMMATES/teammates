@@ -96,10 +96,11 @@ public final class FeedbackResponseCommentsLogic {
 
     /**
      * Gets all response comments for multiple responses.
+     * This feedback response comment only supports `getId` operation.
      */
-    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForResponses(
+    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentIdsForResponses(
             List<String> feedbackResponseIds) {
-        return frcDb.getFeedbackResponseCommentsForResponses(feedbackResponseIds);
+        return frcDb.getFeedbackResponseCommentIdsForResponses(feedbackResponseIds);
     }
 
     /**

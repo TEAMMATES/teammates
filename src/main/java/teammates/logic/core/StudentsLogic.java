@@ -106,6 +106,13 @@ public final class StudentsLogic {
     }
 
     /**
+     * Gets all student ids inside a course.
+     */
+    public List<StudentAttributes> getStudentIdsForCourse(String courseId) {
+        return studentsDb.getStudentIdsForCourse(courseId);
+    }
+
+    /**
      * Gets all students of a team.
      */
     public List<StudentAttributes> getStudentsForTeam(String teamName, String courseId) {

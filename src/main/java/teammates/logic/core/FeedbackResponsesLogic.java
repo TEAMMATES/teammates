@@ -189,11 +189,11 @@ public final class FeedbackResponsesLogic {
     }
 
     /**
-     * Gets all responses given by an user for a question.
+     * Gets all responses given by a user for a question. This responses only supports `getId` operation.
      */
-    public List<FeedbackResponseAttributes> getFeedbackResponsesFromAndToUsersInCourse(String courseId,
-                                                                                       List<String> userEmails) {
-        return frDb.getFeedbackResponsesFromAndToUsersInCourse(courseId, userEmails);
+    public List<FeedbackResponseAttributes> getFeedbackResponseIdsFromAndToUsersInCourse(String courseId,
+                                                                                         List<String> userEmails) {
+        return frDb.getFeedbackResponseIdsFromAndToUsersInCourse(courseId, userEmails);
     }
 
     /**

@@ -568,6 +568,18 @@ public class Logic {
     }
 
     /**
+     * Returns a list of students that only supports the `getId` operation.
+     *
+     * <p>Preconditions: <br>
+     * * All parameters are non-null.
+     * @return Empty list if none found.
+     */
+    public List<StudentAttributes> getStudentIdsForCourse(String courseId) {
+        assert courseId != null;
+        return studentsLogic.getStudentIdsForCourse(courseId);
+    }
+
+    /**
      * Returns a list of section names for the course with ID courseId.
      *
      * <p>Preconditions: <br>
@@ -759,34 +771,34 @@ public class Logic {
         assert courseId != null;
 
         // Get all students in course
-        List<StudentAttributes> studentsInCourse = getStudentsForCourse(courseId);
+        List<StudentAttributes> studentIdsInCourse = getStudentIdsForCourse(courseId);
 
         // Get all feedback responses from and to student ids
-        List<FeedbackResponseAttributes> responsesInCourse =
-                feedbackResponsesLogic.getFeedbackResponsesFromAndToUsersInCourse(
+        List<FeedbackResponseAttributes> responsesIdsInCourse =
+                feedbackResponsesLogic.getFeedbackResponseIdsFromAndToUsersInCourse(
                         courseId,
-                        studentsInCourse
+                        studentIdsInCourse
                                 .stream()
                                 .map(StudentAttributes::getEmail)
                                 .collect(Collectors.toList()));
 
         // Get all feedback response comments from response
-        List<FeedbackResponseCommentAttributes> responseComments =
-                feedbackResponseCommentsLogic.getFeedbackResponseCommentsForResponses(
-                        responsesInCourse
+        List<FeedbackResponseCommentAttributes> responseCommentIds =
+                feedbackResponseCommentsLogic.getFeedbackResponseCommentIdsForResponses(
+                        responsesIdsInCourse
                                 .stream()
                                 .map(FeedbackResponseAttributes::getId)
                                 .collect(Collectors.toList())
                 );
 
         // Delete all response comments
-        feedbackResponseCommentsLogic.deleteFeedbackResponseComments(responseComments);
+        feedbackResponseCommentsLogic.deleteFeedbackResponseComments(responseCommentIds);
 
         // Delete all feedback responses
-        feedbackResponsesLogic.deleteFeedbackResponses(responsesInCourse);
+        feedbackResponsesLogic.deleteFeedbackResponses(responsesIdsInCourse);
 
         // Delete all students
-        studentsLogic.deleteStudents(studentsInCourse);
+        studentsLogic.deleteStudents(studentIdsInCourse);
     }
 
     /**

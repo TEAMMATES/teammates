@@ -83,14 +83,23 @@ public final class FeedbackResponseCommentsDb
     }
 
     /**
-     * Gets all response comments for a response.
+     * Gets all response comments for a response. The response comment only contains id.
      */
-    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForResponses(
+    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentIdsForResponse(String feedbackResponseId) {
+        assert feedbackResponseId != null;
+
+        return makeAttributes(getFeedbackResponseCommentIdEntitiesForResponse(feedbackResponseId));
+    }
+
+    /**
+     * Gets all response comments for multiple responses. The response comment only contains id.
+     */
+    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentIdsForResponses(
             List<String> feedbackResponseIds) {
         return feedbackResponseIds
                 .parallelStream()
                 .map(feedbackResponseId -> OfyHelper
-                        .run(() -> getFeedbackResponseCommentsForResponse(feedbackResponseId))
+                        .run(() -> getFeedbackResponseCommentIdsForResponse(feedbackResponseId))
                 )
                 .flatMap(Collection::stream)
                 .collect(Collectors.toList());
@@ -343,6 +352,10 @@ public final class FeedbackResponseCommentsDb
 
     private List<FeedbackResponseComment> getFeedbackResponseCommentEntitiesForResponse(String feedbackResponseId) {
         return getFeedbackResponseCommentsForResponseQuery(feedbackResponseId).list();
+    }
+
+    private List<FeedbackResponseComment> getFeedbackResponseCommentIdEntitiesForResponse(String feedbackResponseId) {
+        return getFeedbackResponseCommentsForResponseQuery(feedbackResponseId).project("feedbackResponseCommentId").list();
     }
 
     private List<FeedbackResponseComment> getFeedbackResponseCommentEntitiesForSession(
