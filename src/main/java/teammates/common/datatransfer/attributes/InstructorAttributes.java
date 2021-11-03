@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Objects;
 
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
@@ -169,6 +170,13 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
 
     public boolean isRegistered() {
         return googleId != null && !googleId.trim().isEmpty();
+    }
+
+    public String getRegistrationUrl() {
+        return Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
+                .withRegistrationKey(key)
+                .withEntityType(Const.EntityType.INSTRUCTOR)
+                .toString();
     }
 
     @Override

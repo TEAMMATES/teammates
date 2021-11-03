@@ -2,8 +2,9 @@ package teammates.e2e.pageobjects;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.Arrays;
 import java.util.List;
-import java.util.StringJoiner;
+import java.util.stream.Collectors;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -13,6 +14,7 @@ import org.openqa.selenium.support.FindBy;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.e2e.util.TestProperties;
 import teammates.test.ThreadHelper;
 
 /**
@@ -95,11 +97,9 @@ public class InstructorCourseDetailsPage extends AppPage {
     }
 
     private String getExpectedInstructorString(InstructorAttributes[] instructors) {
-        StringJoiner expected = new StringJoiner(System.lineSeparator());
-        for (InstructorAttributes instructor : instructors) {
-            expected.add(instructor.getRole() + ": " + instructor.getName() + " (" + instructor.getEmail() + ")");
-        }
-        return expected.toString();
+        return Arrays.stream(instructors)
+                .map(instructor -> instructor.getRole() + ": " + instructor.getName() + " (" + instructor.getEmail() + ")")
+                .collect(Collectors.joining(TestProperties.LINE_SEPARATOR));
     }
 
     private WebElement getStudentList() {

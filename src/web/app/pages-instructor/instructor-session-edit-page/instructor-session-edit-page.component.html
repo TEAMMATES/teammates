@@ -4,7 +4,7 @@
 </tm-loading-retry>
 
 <tm-loading-retry [shouldShowRetry]="hasLoadingFeedbackQuestionsFailed" [message]="'Failed to load feedback questions'" (retryEvent)="loadFeedbackQuestions()">
-  <div *ngIf="!isLoadingFeedbackQuestions" class="offset-md-10 margin-vertical-20px">
+  <div *ngIf="!isLoadingFeedbackQuestions && questionEditFormModels.length" class="offset-md-10 margin-vertical-20px">
     <button id="btn-collapse-expand" class="btn expand-btn btn-light margin-top-30px" (click)="isAllCollapsed ? expandAll() : collapseAll()">
       {{isAllCollapsed ? "Expand" : "Collapse" }} All
     </button>

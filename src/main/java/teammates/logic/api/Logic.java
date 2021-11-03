@@ -615,6 +615,23 @@ public class Logic {
     }
 
     /**
+     * Regenerates the registration key for the instructor with email address {@code email} in course {@code courseId}.
+     *
+     * @return the instructor attributes with the new registration key.
+     * @throws EntityAlreadyExistsException if the newly generated instructor has the same registration key as the
+     *          original one.
+     * @throws EntityDoesNotExistException if the instructor does not exist.
+     */
+    public InstructorAttributes regenerateInstructorRegistrationKey(String courseId, String email)
+            throws EntityDoesNotExistException, EntityAlreadyExistsException {
+
+        assert courseId != null;
+        assert email != null;
+
+        return instructorsLogic.regenerateInstructorRegistrationKey(courseId, email);
+    }
+
+    /**
      * Regenerates the registration key for the student with email address {@code email} in course {@code courseId}.
      *
      * @return the student attributes with the new registration key.

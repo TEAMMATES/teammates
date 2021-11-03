@@ -107,9 +107,14 @@
             </div>
           </div>
           <div ngbDropdown class="d-inline-block" ngbTooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so">
-            <button id="btn-remind-{{ idx }}" class="btn btn-light btn-sm" (click)="sendRemindersToStudents(idx)"
-              [disabled]="sessionsTableRowModel.feedbackSession.submissionStatus !== FeedbackSessionSubmissionStatus.OPEN ||
-                          !sessionsTableRowModel.instructorPrivilege.canModifySession">Remind</button>
+            <button id="btn-remind-{{ idx }}" class="btn btn-light btn-sm align-row" (click)="sendRemindersToStudents(idx); setRowClicked(idx)"
+                    [disabled]="sessionsTableRowModel.feedbackSession.submissionStatus !== FeedbackSessionSubmissionStatus.OPEN ||
+                          !sessionsTableRowModel.instructorPrivilege.canModifySession">
+              <span>Remind</span>
+              <div class="padding-left-7px">
+                <tm-ajax-loading [color]="'#000000'" *ngIf="isSendReminderLoading && rowClicked === idx"></tm-ajax-loading>
+              </div>
+            </button>
           </div>
         </td>
       </tr>
