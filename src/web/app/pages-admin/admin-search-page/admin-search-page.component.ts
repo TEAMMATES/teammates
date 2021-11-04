@@ -15,6 +15,7 @@ import {
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
+import { ApiConst } from '../../../types/api-const';
 import { Email, RegenerateKey } from '../../../types/api-output';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
@@ -61,12 +62,28 @@ export class AdminSearchPageComponent {
         this.statusMessageService.showWarningToast('No results found.');
         this.instructors = [];
         this.students = [];
-      } else {
-        this.instructors = resp.instructors;
-        this.students = resp.students;
-        this.hideAllInstructorsLinks();
-        this.hideAllStudentsLinks();
+        return;
       }
+
+      this.instructors = resp.instructors;
+      this.students = resp.students;
+      this.hideAllInstructorsLinks();
+      this.hideAllStudentsLinks();
+
+      // prompt user to use more specific terms if search results limit reached
+      const limit: number = ApiConst.SEARCH_QUERY_SIZE_LIMIT;
+      const limitsReached: string[] = [];
+      if (this.students.length >= limit) {
+        limitsReached.push(`${limit} student results`);
+      }
+      if (this.instructors.length >= limit) {
+        limitsReached.push(`${limit} instructor results`);
+      }
+      if (limitsReached.length) {
+        this.statusMessageService.showWarningToast(`${limitsReached.join(' and ')} have been shown on this page
+            but there may be more results not shown. Consider searching with more specific terms.`);
+      }
+
     }, (resp: ErrorMessageOutput) => {
       this.instructors = [];
       this.students = [];
