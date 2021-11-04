@@ -2,8 +2,6 @@ package teammates.logic.core;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -12,7 +10,6 @@ import com.google.api.gax.paging.Page;
 import com.google.appengine.logging.v1.LogLine;
 import com.google.appengine.logging.v1.RequestLog;
 import com.google.appengine.logging.v1.SourceReference;
-import com.google.cloud.MonitoredResource;
 import com.google.cloud.logging.LogEntry;
 import com.google.cloud.logging.Logging;
 import com.google.cloud.logging.Logging.EntryListOption;
@@ -20,7 +17,6 @@ import com.google.cloud.logging.Logging.SortingField;
 import com.google.cloud.logging.Logging.SortingOrder;
 import com.google.cloud.logging.LoggingOptions;
 import com.google.cloud.logging.Payload;
-import com.google.cloud.logging.Payload.StringPayload;
 import com.google.cloud.logging.Severity;
 import com.google.protobuf.Any;
 import com.google.protobuf.InvalidProtocolBufferException;
@@ -29,46 +25,30 @@ import com.google.protobuf.util.JsonFormat;
 import teammates.common.datatransfer.ErrorLogEntry;
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
 import teammates.common.datatransfer.QueryLogsResults;
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.datatransfer.logs.FeedbackSessionLogType;
+import teammates.common.datatransfer.logs.FeedbackSessionAuditLogDetails;
 import teammates.common.datatransfer.logs.GeneralLogEntry;
 import teammates.common.datatransfer.logs.LogDetails;
+import teammates.common.datatransfer.logs.LogEvent;
 import teammates.common.datatransfer.logs.LogSeverity;
 import teammates.common.datatransfer.logs.QueryLogsParams;
 import teammates.common.datatransfer.logs.SourceLocation;
-import teammates.common.exception.LogServiceException;
 import teammates.common.util.Config;
 import teammates.common.util.JsonUtils;
-import teammates.common.util.Logger;
 
 /**
  * Holds functions for operations related to Google Cloud Logging.
  */
 public class GoogleCloudLoggingService implements LogService {
 
-    private static final Logger log = Logger.getLogger();
+    private static final String RESOURCE_TYPE_GAE_APP = "gae_app";
 
     private static final String REQUEST_LOG_NAME = "appengine.googleapis.com%2Frequest_log";
-    private static final String REQUEST_LOG_RESOURCE_TYPE = "gae_app";
-    private static final String REQUEST_LOG_MODULE_ID_LABEL = "module_id";
-    private static final String REQUEST_LOG_MODULE_ID_LABEL_VALUE = "default";
-
-    private static final String FEEDBACK_SESSION_LOG_NAME = "feedback-session-logs";
-    private static final String FEEDBACK_SESSION_LOG_COURSE_ID_LABEL = "courseId";
-    private static final String FEEDBACK_SESSION_LOG_EMAIL_LABEL = "email";
-    private static final String FEEDBACK_SESSION_LOG_NAME_LABEL = "fsName";
-    private static final String FEEDBACK_SESSION_LOG_TYPE_LABEL = "fslType";
-
     private static final String STDOUT_LOG_NAME = "stdout";
     private static final String STDERR_LOG_NAME = "stderr";
 
     private static final String ASCENDING_ORDER = "asc";
 
     private static final String TRACE_PREFIX = String.format("projects/%s/traces/", Config.APP_ID);
-
-    private final StudentsLogic studentsLogic = StudentsLogic.inst();
-    private final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
 
     @Override
     public List<ErrorLogEntry> getRecentErrorLogs() {
@@ -82,19 +62,14 @@ public class GoogleCloudLoggingService implements LogService {
                 .build();
         LogSearchParams logSearchParams = LogSearchParams.from(queryLogsParams)
                 .addLogName(REQUEST_LOG_NAME)
-                .setResourceType(REQUEST_LOG_RESOURCE_TYPE)
-                .addResourceLabel(REQUEST_LOG_MODULE_ID_LABEL, REQUEST_LOG_MODULE_ID_LABEL_VALUE);
+                .setResourceType(RESOURCE_TYPE_GAE_APP);
 
         List<LogEntry> logEntries = new ArrayList<>();
         List<ErrorLogEntry> errorLogs = new ArrayList<>();
 
-        try {
-            Page<LogEntry> entries = getLogEntries(logSearchParams, 0);
-            for (LogEntry entry : entries.iterateAll()) {
-                logEntries.add(entry);
-            }
-        } catch (LogServiceException e) {
-            // TODO
+        Page<LogEntry> entries = getLogEntries(logSearchParams, 0);
+        for (LogEntry entry : entries.iterateAll()) {
+            logEntries.add(entry);
         }
 
         for (LogEntry logEntry : logEntries) {
@@ -138,11 +113,12 @@ public class GoogleCloudLoggingService implements LogService {
     }
 
     @Override
-    public QueryLogsResults queryLogs(QueryLogsParams queryLogsParams) throws LogServiceException {
+    public QueryLogsResults queryLogs(QueryLogsParams queryLogsParams) {
 
         LogSearchParams logSearchParams = LogSearchParams.from(queryLogsParams)
                 .addLogName(STDOUT_LOG_NAME)
-                .addLogName(STDERR_LOG_NAME);
+                .addLogName(STDERR_LOG_NAME)
+                .setResourceType(RESOURCE_TYPE_GAE_APP);
 
         Page<LogEntry> logEntriesInPage = getLogEntries(logSearchParams, queryLogsParams.getPageSize());
         List<GeneralLogEntry> logEntries = new ArrayList<>();
@@ -202,40 +178,33 @@ public class GoogleCloudLoggingService implements LogService {
     }
 
     @Override
-    public void createFeedbackSessionLog(String courseId, String email, String fsName, String fslType)
-            throws LogServiceException {
-        String payload = "Feedback session log: course ID=" + courseId + ", email=" + email
-                + ", feedback session name=" + fsName + ", log type=" + fslType;
-        LogEntry entry = LogEntry.newBuilder(StringPayload.of(payload))
-                .setLogName(FEEDBACK_SESSION_LOG_NAME)
-                .addLabel(FEEDBACK_SESSION_LOG_COURSE_ID_LABEL, courseId)
-                .addLabel(FEEDBACK_SESSION_LOG_EMAIL_LABEL, email)
-                .addLabel(FEEDBACK_SESSION_LOG_NAME_LABEL, fsName)
-                .addLabel(FEEDBACK_SESSION_LOG_TYPE_LABEL, fslType)
-                .setResource(MonitoredResource.newBuilder("global").build())
-                .build();
-        createLogEntry(entry);
-    }
-
-    private void createLogEntry(LogEntry entry) throws LogServiceException {
-        try (Logging logging = LoggingOptions.getDefaultInstance().getService()) {
-            logging.write(Collections.singleton(entry));
-        } catch (Exception e) {
-            log.severe("Error while creating log entry", e);
-            throw new LogServiceException(e);
-        }
+    public void createFeedbackSessionLog(String courseId, String email, String fsName, String fslType) {
+        // This method is not necessary for production usage because a feedback session log
+        // is already separately created through the standardized logging infrastructure.
+        // However, this method is not removed as it is necessary to assist in local testing.
     }
 
     @Override
     public List<FeedbackSessionLogEntry> getFeedbackSessionLogs(String courseId, String email,
-            long startTime, long endTime, String fsName) throws LogServiceException {
+            long startTime, long endTime, String fsName) {
+        List<String> filters = new ArrayList<>();
+        if (courseId != null) {
+            filters.add("jsonPayload.courseId=\"" + courseId + "\"");
+        }
+        if (email != null) {
+            filters.add("jsonPayload.studentEmail=\"" + email + "\"");
+        }
+        if (fsName != null) {
+            filters.add("jsonPayload.feedbackSessionName=\"" + fsName + "\"");
+        }
         QueryLogsParams queryLogsParams = QueryLogsParams.builder(startTime, endTime)
+                .withLogEvent(LogEvent.FEEDBACK_SESSION_AUDIT.name())
+                .withSeverityLevel(LogSeverity.INFO)
+                .withExtraFilters(String.join("\n", filters))
                 .build();
         LogSearchParams logSearchParams = LogSearchParams.from(queryLogsParams)
-                .addLogName(FEEDBACK_SESSION_LOG_NAME)
-                .addLabel(FEEDBACK_SESSION_LOG_COURSE_ID_LABEL, courseId)
-                .addLabel(FEEDBACK_SESSION_LOG_EMAIL_LABEL, email)
-                .addLabel(FEEDBACK_SESSION_LOG_NAME_LABEL, fsName);
+                .addLogName(STDOUT_LOG_NAME)
+                .setResourceType(RESOURCE_TYPE_GAE_APP);
         Page<LogEntry> entries = getLogEntries(logSearchParams, 0);
         List<LogEntry> logEntries = new ArrayList<>();
         for (LogEntry entry : entries.iterateAll()) {
@@ -244,30 +213,29 @@ public class GoogleCloudLoggingService implements LogService {
 
         List<FeedbackSessionLogEntry> fsLogEntries = new ArrayList<>();
         for (LogEntry entry : logEntries) {
-            String fslType = entry.getLabels().get(FEEDBACK_SESSION_LOG_TYPE_LABEL);
             long timestamp = entry.getTimestamp();
-            String entryEmail = entry.getLabels().get(FEEDBACK_SESSION_LOG_EMAIL_LABEL);
-            String entryFsName = entry.getLabels().get(FEEDBACK_SESSION_LOG_NAME_LABEL);
-            StudentAttributes student = studentsLogic.getStudentForEmail(courseId, entryEmail);
-            FeedbackSessionAttributes fs = fsLogic.getFeedbackSession(entryFsName, courseId);
-            if (student == null || fs == null) {
-                // If the student email or feedback session retrieved from the logs are invalid, discard it
-                continue;
-            }
-            FeedbackSessionLogType convertedFslType = FeedbackSessionLogType.valueOfLabel(fslType);
-            if (convertedFslType == null) {
-                // If the feedback session log type retrieved from the logs is invalid, discard it
+            Payload<?> payload = entry.getPayload();
+            FeedbackSessionAuditLogDetails details;
+            if (payload.getType() == Payload.Type.JSON) {
+                Map<String, Object> jsonPayloadMap = ((Payload.JsonPayload) payload).getDataAsMap();
+                LogDetails logDetails = JsonUtils.fromJson(JsonUtils.toCompactJson(jsonPayloadMap), LogDetails.class);
+                if (!(logDetails instanceof FeedbackSessionAuditLogDetails)) {
+                    continue;
+                }
+                details = (FeedbackSessionAuditLogDetails) logDetails;
+            } else {
                 continue;
             }
 
-            FeedbackSessionLogEntry fslEntry = new FeedbackSessionLogEntry(student, fs, fslType, timestamp);
+            FeedbackSessionLogEntry fslEntry = new FeedbackSessionLogEntry(details.getStudentEmail(),
+                    details.getFeedbackSessionName(), details.getAccessType(), timestamp);
             fsLogEntries.add(fslEntry);
         }
 
         return fsLogEntries;
     }
 
-    private Page<LogEntry> getLogEntries(LogSearchParams s, int pageSize) throws LogServiceException {
+    private Page<LogEntry> getLogEntries(LogSearchParams s, int pageSize) {
         LoggingOptions options = LoggingOptions.getDefaultInstance();
         QueryLogsParams q = s.queryLogsParams;
 
@@ -332,42 +300,31 @@ public class GoogleCloudLoggingService implements LogService {
         if (q.getExtraFilters() != null) {
             logFilters.add(q.getExtraFilters());
         }
-        for (Map.Entry<String, String> entry : s.labels.entrySet()) {
-            logFilters.add("labels." + entry.getKey() + "=\"" + entry.getValue() + "\"");
-        }
-        for (Map.Entry<String, String> entry : s.resourceLabels.entrySet()) {
-            logFilters.add("resource.labels." + entry.getKey() + "=\"" + entry.getValue() + "\"");
-        }
         String logFilter = logFilters.stream().collect(Collectors.joining("\n"));
 
-        Page<LogEntry> entries;
+        List<EntryListOption> entryListOptions = new ArrayList<>();
 
-        try (Logging logging = LoggingOptions.getDefaultInstance().getService()) {
-            List<EntryListOption> entryListOptions = new ArrayList<>();
+        entryListOptions.add(EntryListOption.filter(logFilter));
 
-            entryListOptions.add(EntryListOption.filter(logFilter));
+        if (pageSize > 0) {
+            entryListOptions.add(EntryListOption.pageSize(pageSize));
+        }
 
-            if (pageSize > 0) {
-                entryListOptions.add(EntryListOption.pageSize(pageSize));
+        if (q.getOrder() != null) {
+            if (ASCENDING_ORDER.equals(q.getOrder())) {
+                entryListOptions.add(EntryListOption.sortOrder(SortingField.TIMESTAMP, SortingOrder.ASCENDING));
+            } else {
+                entryListOptions.add(EntryListOption.sortOrder(SortingField.TIMESTAMP, SortingOrder.DESCENDING));
             }
+        }
 
-            if (q.getOrder() != null) {
-                if (ASCENDING_ORDER.equals(q.getOrder())) {
-                    entryListOptions.add(EntryListOption.sortOrder(SortingField.TIMESTAMP, SortingOrder.ASCENDING));
-                } else {
-                    entryListOptions.add(EntryListOption.sortOrder(SortingField.TIMESTAMP, SortingOrder.DESCENDING));
-                }
-            }
+        Logging logging = options.getService();
+        Page<LogEntry> entries = logging.listLogEntries(entryListOptions.toArray(new EntryListOption[] {}));
 
-            EntryListOption[] entryListOptionsArray = new EntryListOption[entryListOptions.size()];
-            for (int i = 0; i < entryListOptions.size(); i++) {
-                entryListOptionsArray[i] = entryListOptions.get(i);
-            }
-
-            entries = logging.listLogEntries(entryListOptionsArray);
+        try {
+            logging.close();
         } catch (Exception e) {
-            log.severe("Error while fetching logs", e);
-            throw new LogServiceException(e);
+            // ignore exception when closing resource
         }
         return entries;
     }
@@ -378,8 +335,6 @@ public class GoogleCloudLoggingService implements LogService {
     private static class LogSearchParams {
         private List<String> logName = new ArrayList<>();
         private String resourceType;
-        private Map<String, String> labels = new HashMap<>();
-        private Map<String, String> resourceLabels = new HashMap<>();
         private QueryLogsParams queryLogsParams;
 
         private static LogSearchParams from(QueryLogsParams queryLogsParams) {
@@ -398,20 +353,6 @@ public class GoogleCloudLoggingService implements LogService {
 
         private LogSearchParams setQueryLogsParams(QueryLogsParams queryLogsParams) {
             this.queryLogsParams = queryLogsParams;
-            return this;
-        }
-
-        private LogSearchParams addLabel(String key, String value) {
-            if (key != null && value != null) {
-                this.labels.put(key, value);
-            }
-            return this;
-        }
-
-        private LogSearchParams addResourceLabel(String key, String value) {
-            if (key != null && value != null) {
-                this.resourceLabels.put(key, value);
-            }
             return this;
         }
     }

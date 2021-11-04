@@ -72,7 +72,7 @@ dependencies {
     testAnnotationProcessor(testng)
 
     testImplementation("com.tngtech.archunit:archunit:0.11.0")
-    testImplementation("org.seleniumhq.selenium:selenium-java:3.141.59")
+    testImplementation("org.seleniumhq.selenium:selenium-java:4.0.0")
     testImplementation(testng)
     // For access to Google APIs such as HTTP transport, authentication and JSON parsing
     testImplementation("com.google.api-client:google-api-client:1.30.9")

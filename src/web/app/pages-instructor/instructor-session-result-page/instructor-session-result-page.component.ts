@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { saveAs } from 'file-saver';
 import { concat, Observable } from 'rxjs';
@@ -9,6 +9,7 @@ import { FeedbackQuestionsService } from '../../../services/feedback-questions.s
 import { FeedbackResponseCommentService } from '../../../services/feedback-response-comment.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { InstructorService } from '../../../services/instructor.service';
+import { NavigationService } from '../../../services/navigation.service';
 import { ProgressBarService } from '../../../services/progress-bar.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -143,6 +144,8 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
               private simpleModalService: SimpleModalService,
               private commentsToCommentTableModel: CommentsToCommentTableModelPipe,
               private progressBarService: ProgressBarService,
+              private navigationService: NavigationService,
+              private router: Router,
               statusMessageService: StatusMessageService,
               commentService: FeedbackResponseCommentService,
               commentToCommentRowModel: CommentToCommentRowModelPipe,
@@ -598,4 +601,10 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
     // the expand all will be reset if the view type changed
     this.collapseAllTabs();
   }
+
+  navigateToIndividualSessionResultPage(): void {
+    this.navigationService.navigateByURL(this.router, '/web/instructor/sessions/result',
+        { courseid: this.courseId, fsname: this.fsName });
+  }
+
 }

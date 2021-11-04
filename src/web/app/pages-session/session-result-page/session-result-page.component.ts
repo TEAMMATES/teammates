@@ -13,6 +13,7 @@ import { StudentService } from '../../../services/student.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import {
   AuthInfo,
+  FeedbackQuestionType,
   FeedbackSession, FeedbackSessionLogType,
   FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus,
   Instructor,
@@ -35,6 +36,9 @@ import { ErrorMessageOutput } from '../../error-message-output';
   styleUrls: ['./session-result-page.component.scss'],
 })
 export class SessionResultPageComponent implements OnInit {
+
+  // enum
+  Intent: typeof Intent = Intent;
 
   session: FeedbackSession = {
     courseId: '',
@@ -61,8 +65,12 @@ export class SessionResultPageComponent implements OnInit {
   feedbackSessionName: string = '';
   regKey: string = '';
   loggedInUser: string = '';
+  visibilityRecipient: FeedbackVisibilityType = FeedbackVisibilityType.RECIPIENT;
 
   intent: Intent = Intent.STUDENT_RESULT;
+  RESPONSE_HIDDEN_QUESTIONS: FeedbackQuestionType[] = [
+    FeedbackQuestionType.CONTRIB,
+  ];
 
   isFeedbackSessionResultsLoading: boolean = false;
   hasFeedbackSessionResultsLoadingFailed: boolean = false;
@@ -234,6 +242,11 @@ export class SessionResultPageComponent implements OnInit {
    */
   joinCourseForUnregisteredStudent(): void {
     this.navigationService.navigateByURL(this.router, '/web/join', { entitytype: 'student', key: this.regKey });
+  }
+
+  navigateToSessionReportPage(): void {
+    this.navigationService.navigateByURL(this.router, '/web/instructor/sessions/report',
+        { courseid: this.courseId, fsname: this.feedbackSessionName });
   }
 
   retryLoadingFeedbackSessionResults(): void {

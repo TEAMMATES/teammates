@@ -3,21 +3,20 @@ package teammates.e2e.cases;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
+import teammates.e2e.pageobjects.FeedbackSubmitPage;
 import teammates.e2e.pageobjects.InstructorAuditLogsPage;
-import teammates.e2e.pageobjects.StudentFeedbackSubmissionPage;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_AUDIT_LOGS_PAGE}.
@@ -62,24 +61,24 @@ public class InstructorAuditLogsPageE2ETest extends BaseE2ETestCase {
         assertEquals(currentLogsFromTime, "23:59H");
         assertEquals(currentLogsToTime, "23:59H");
 
-        ______TS("verify empty logs output");
-        auditLogsPage.setCourseId(course.getId());
-        auditLogsPage.startSearching();
-
-        List<String> sessions = new ArrayList<>(Arrays.asList(feedbackSession.getFeedbackSessionName()));
-        for (String sessionName : sessions) {
-            assertFalse(auditLogsPage.isLogPresentForSession(sessionName));
-        }
-
         ______TS("verify logs output");
         logout();
         AppUrl studentSubmissionPageUrl = createUrl(Const.WebPageURIs.STUDENT_SESSION_SUBMISSION_PAGE)
                 .withCourseId(course.getId())
                 .withSessionName(feedbackSession.getFeedbackSessionName());
-        StudentFeedbackSubmissionPage studentSubmissionPage = loginToPage(studentSubmissionPageUrl,
-                StudentFeedbackSubmissionPage.class, student.getGoogleId());
-        studentSubmissionPage.populateResponse();
-        studentSubmissionPage.submit();
+        FeedbackSubmitPage studentSubmissionPage = loginToPage(studentSubmissionPageUrl,
+                FeedbackSubmitPage.class, student.getGoogleId());
+
+        StudentAttributes receiver = testData.students.get("benny.tmms@IAuditLogs.CS2104");
+        FeedbackQuestionAttributes question = testData.feedbackQuestions.get("qn1");
+        String questionId = getFeedbackQuestion(question).getId();
+        FeedbackTextResponseDetails details = new FeedbackTextResponseDetails("Response");
+        FeedbackResponseAttributes response =
+                FeedbackResponseAttributes.builder(questionId, student.getEmail(), instructor.getEmail())
+                        .withResponseDetails(details)
+                        .build();
+
+        studentSubmissionPage.submitTextResponse(1, receiver.getName(), response);
 
         logout();
         auditLogsPage = loginToPage(url, InstructorAuditLogsPage.class, instructor.getGoogleId());

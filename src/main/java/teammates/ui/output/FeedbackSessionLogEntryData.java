@@ -12,8 +12,7 @@ public class FeedbackSessionLogEntryData {
     private final FeedbackSessionLogType feedbackSessionLogType;
     private final long timestamp;
 
-    public FeedbackSessionLogEntryData(FeedbackSessionLogEntry logEntry) {
-        StudentAttributes student = logEntry.getStudent();
+    public FeedbackSessionLogEntryData(FeedbackSessionLogEntry logEntry, StudentAttributes student) {
         StudentData studentData = new StudentData(student);
         FeedbackSessionLogType logType = FeedbackSessionLogType.valueOfLabel(logEntry.getFeedbackSessionLogType());
         long timestamp = logEntry.getTimestamp();

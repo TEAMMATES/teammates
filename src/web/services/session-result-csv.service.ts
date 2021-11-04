@@ -91,8 +91,8 @@ export class SessionResultCsvService {
       question.allResponses = question.allResponses.filter((response: ResponseOutput) => !response.isMissingResponse);
     }
 
-    const header: string[] = ['Team', "Giver's Full Name", "Giver's Last Name", "Giver's Email", "Recipient's Team",
-      "Recipient's Full Name", "Recipient's Last Name", "Recipient's Email",
+    const header: string[] = ['Team', "Giver's Name", "Giver's Email", "Recipient's Team",
+      "Recipient's Name", "Recipient's Email",
       ...this.getQuestionSpecificHeaders(question.feedbackQuestion)];
 
     const isParticipantCommentsOnResponsesAllowed: boolean =
@@ -123,12 +123,9 @@ export class SessionResultCsvService {
     for (const response of question.allResponses) {
       const giverTeamName: string = StringHelper.removeExtraSpace(response.giverTeam);
       const giverName: string = StringHelper.removeExtraSpace(response.giver);
-      const giverLastName: string = response.giverLastName ? StringHelper.removeExtraSpace(response.giverLastName) : '';
       const giverEmail: string = response.giverEmail ? StringHelper.removeExtraSpace(response.giverEmail) : '';
       const recipientTeamName: string = StringHelper.removeExtraSpace(response.recipientTeam);
       const recipientName: string = StringHelper.removeExtraSpace(response.recipient);
-      const recipientLastName: string =
-          response.recipientLastName ? StringHelper.removeExtraSpace(response.recipientLastName) : '';
       const recipientEmail: string =
           response.recipientEmail ? StringHelper.removeExtraSpace(response.recipientEmail) : '';
 
@@ -139,8 +136,8 @@ export class SessionResultCsvService {
         responseAnswers = this.getResponseAnswers(response, question.feedbackQuestion);
       }
       for (const responseAnswer of responseAnswers) {
-        const currRow: string[] = [giverTeamName, giverName, giverLastName, giverEmail,
-          recipientTeamName, recipientName, recipientLastName, recipientEmail, ...responseAnswer];
+        const currRow: string[] = [giverTeamName, giverName, giverEmail,
+          recipientTeamName, recipientName, recipientEmail, ...responseAnswer];
 
         if (isParticipantCommentsOnResponsesAllowed) {
           const participantCommentHtml: string =
