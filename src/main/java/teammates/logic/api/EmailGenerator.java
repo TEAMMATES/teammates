@@ -129,6 +129,16 @@ public final class EmailGenerator {
             CourseAttributes course, FeedbackSessionAttributes session,
             InstructorAttributes coOwner, EmailType type, String editUrl) {
 
+        String additionalNotes;
+
+        // If instructor has not joined the course, populate additional notes with information to join course.
+        if (coOwner.isRegistered()) {
+            additionalNotes = fillUpEditFeedbackSessionDetailsFragment(editUrl);
+        } else {
+            additionalNotes = fillUpJoinCourseBeforeEditFeedbackSessionDetailsFragment(editUrl,
+                    getInstructorCourseJoinUrl(coOwner));
+        }
+
         String emailBody = Templates.populateTemplate(EmailTemplates.OWNER_FEEDBACK_SESSION_OPENING_SOON,
                 "${userName}", SanitizationHelper.sanitizeForHtml(coOwner.getName()),
                 "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
@@ -140,8 +150,7 @@ public final class EmailGenerator {
                 "${sessionInstructions}", session.getInstructionsString(),
                 "${startTime}", SanitizationHelper.sanitizeForHtml(TimeHelper.formatInstant(
                         session.getStartTime(), session.getTimeZone(), DATETIME_DISPLAY_FORMAT)),
-                "${sessionEditUrl}", editUrl,
-                "${additionalNotes}", "",
+                "${additionalNotes}", additionalNotes,
                 "${additionalContactInformation}", "");
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(coOwner.getEmail());
@@ -149,6 +158,25 @@ public final class EmailGenerator {
         email.setSubjectFromType(course.getName(), session.getFeedbackSessionName());
         email.setContent(emailBody);
         return email;
+    }
+
+    /**
+     * Generates the fragment for instructions on how to edit details for feedback session at {@code editUrl}.
+     */
+    private String fillUpEditFeedbackSessionDetailsFragment(String editUrl) {
+        return Templates.populateTemplate(EmailTemplates.FRAGMENT_OPENING_SOON_EDIT_DETAILS,
+                "${sessionEditUrl}", editUrl);
+    }
+
+    /**
+     * Generates the fragment for instructions on how to edit details for feedback session at {@code editUrl} and
+     * how to join the course at {@code joinUrl}.
+     */
+    private String fillUpJoinCourseBeforeEditFeedbackSessionDetailsFragment(String editUrl, String joinUrl) {
+        return Templates.populateTemplate(EmailTemplates.FRAGMENT_OPENING_SOON_JOIN_COURSE_BEFORE_EDIT_DETAILS,
+                "${sessionEditUrl}", editUrl,
+                "${joinUrl}", joinUrl
+        );
     }
 
     /**
@@ -487,11 +515,9 @@ public final class EmailGenerator {
     }
 
     private String generateInstructorJoinReminderFragment(InstructorAttributes instructor) {
-        String joinUrl = Config.getFrontEndAppUrl(instructor.getRegistrationUrl()).toAbsoluteString();
-
         return Templates.populateTemplate(EmailTemplates.FRAGMENT_INSTRUCTOR_COURSE_JOIN_REMINDER,
                 "${feedbackAction}", FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW,
-                "${joinUrl}", joinUrl);
+                "${joinUrl}", getInstructorCourseJoinUrl(instructor));
     }
 
     /**
@@ -878,12 +904,14 @@ public final class EmailGenerator {
                 "${supportEmail}", Config.SUPPORT_EMAIL);
     }
 
-    private String fillUpInstructorJoinFragment(InstructorAttributes instructor) {
-        String joinUrl = Config.getFrontEndAppUrl(instructor.getRegistrationUrl()).toAbsoluteString();
+    private String getInstructorCourseJoinUrl(InstructorAttributes instructor) {
+        return Config.getFrontEndAppUrl(instructor.getRegistrationUrl()).toAbsoluteString();
+    }
 
+    private String fillUpInstructorJoinFragment(InstructorAttributes instructor) {
         return Templates.populateTemplate(EmailTemplates.USER_COURSE_JOIN,
                 "${joinFragment}", EmailTemplates.FRAGMENT_INSTRUCTOR_COURSE_JOIN,
-                "${joinUrl}", joinUrl);
+                "${joinUrl}", getInstructorCourseJoinUrl(instructor));
     }
 
     private String fillUpInstructorRejoinAfterGoogleIdResetFragment(InstructorAttributes instructor) {
