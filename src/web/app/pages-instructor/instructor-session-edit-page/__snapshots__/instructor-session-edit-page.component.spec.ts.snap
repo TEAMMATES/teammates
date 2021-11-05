@@ -3030,8 +3030,8 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
             class="btn btn-link"
             href="/web/instructor/help?questionId=questions&section=questions"
             rel="noopener noreferrer"
-            routerlink="/web/instructor/help"
             target="_blank"
+            tmrouterlink="/web/instructor/help"
             type="button"
           >
             <i

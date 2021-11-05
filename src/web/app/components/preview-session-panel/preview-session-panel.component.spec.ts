@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
-
+import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
 import { PreviewSessionPanelComponent } from './preview-session-panel.component';
 
 describe('PreviewSessionPanelComponent', () => {
@@ -18,6 +18,7 @@ describe('PreviewSessionPanelComponent', () => {
         FormsModule,
         RouterTestingModule,
         NgbTooltipModule,
+        TeammatesRouterModule,
       ],
     })
     .compileComponents();

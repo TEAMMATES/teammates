@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
 import { PreviewSessionPanelComponent } from './preview-session-panel.component';
 
 /**
@@ -13,7 +13,7 @@ import { PreviewSessionPanelComponent } from './preview-session-panel.component'
     CommonModule,
     FormsModule,
     NgbTooltipModule,
-    RouterModule,
+    TeammatesRouterModule,
   ],
   declarations: [
     PreviewSessionPanelComponent,

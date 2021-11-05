@@ -7,7 +7,7 @@
       <select id="preview-student" class="form-control preview-select" [(ngModel)]="emailOfStudentToPreview">
         <option *ngFor="let student of studentsOfCourse" [ngValue]="student.email">[{{ student.teamName }}] {{ student.name }}</option>
       </select>
-      <a *ngIf="emailOfStudentToPreview.length !== 0; else previewStudentBtn" routerLink="/web/sessions/submission"
+      <a *ngIf="emailOfStudentToPreview.length !== 0; else previewStudentBtn" tmRouterLink="/web/sessions/submission"
          [queryParams]="{ courseid: courseId, fsname: feedbackSessionName, previewas: emailOfStudentToPreview }"
          target="_blank"
          rel="noopener noreferrer"
@@ -22,7 +22,7 @@
       <select id="preview-instructor" class="form-control preview-select" [(ngModel)]="emailOfInstructorToPreview">
         <option *ngFor="let instructor of instructorsCanBePreviewedAs" [ngValue]="instructor.email">{{ instructor.name }}</option>
       </select>
-      <a *ngIf="emailOfInstructorToPreview.length !== 0; else previewInstructorBtn" routerLink="/web/instructor/sessions/submission"
+      <a *ngIf="emailOfInstructorToPreview.length !== 0; else previewInstructorBtn" tmRouterLink="/web/instructor/sessions/submission"
          [queryParams]="{ courseid: courseId, fsname: feedbackSessionName, previewas: emailOfInstructorToPreview }"
          target="_blank"
          rel="noopener noreferrer"

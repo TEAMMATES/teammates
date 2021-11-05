@@ -12,6 +12,6 @@
       </ng-container>
     </div>
   </div>
-  <a type="button" class="btn btn-link" target="_blank" rel="noopener noreferrer" routerLink="/web/instructor/help" [queryParams]="{questionId: 'questions', section: 'questions'}"><i class="fas fa-info-circle"></i></a>
+  <a type="button" class="btn btn-link" target="_blank" rel="noopener noreferrer" tmRouterLink="/web/instructor/help" [queryParams]="{questionId: 'questions', section: 'questions'}"><i class="fas fa-info-circle"></i></a>
   <button id="btn-copy-question" class="btn btn-primary" (click)="copyQuestionsFromOtherSessionsHandler()" [disabled]="isCopyingQuestion"><tm-ajax-loading *ngIf="isCopyingQuestion"></tm-ajax-loading>Copy Question</button>
 </div>
