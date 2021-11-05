@@ -4,6 +4,7 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
 import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
+import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
 import { AddingQuestionPanelComponent } from './adding-question-panel.component';
 
 describe('AddingQuestionPanelComponent', () => {
@@ -20,6 +21,7 @@ describe('AddingQuestionPanelComponent', () => {
         RouterTestingModule,
         NgbDropdownModule,
         TeammatesCommonModule,
+        TeammatesRouterModule,
       ],
     })
     .compileComponents();
