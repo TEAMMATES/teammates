@@ -20,7 +20,7 @@ import { FeedbackVisibilityType, Intent } from '../../../types/api-request';
 })
 export class QuestionResponsePanelComponent implements OnInit {
 
-  RESPONSE_HIDDEN_QUESTIONS: FeedbackQuestionType[] = [
+  readonly RESPONSE_HIDDEN_QUESTIONS: FeedbackQuestionType[] = [
     FeedbackQuestionType.CONTRIB,
   ];
 

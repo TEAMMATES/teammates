@@ -26,6 +26,8 @@ export class ViewResultsPanelComponent implements OnInit {
   InstructorSessionResultSectionType: typeof InstructorSessionResultSectionType = InstructorSessionResultSectionType;
   InstructorSessionResultViewType: typeof InstructorSessionResultViewType = InstructorSessionResultViewType;
 
+  viewTooltipText: string = 'View results in different formats';
+
   @Input()
   session: FeedbackSession = {
     courseId: '',
@@ -43,9 +45,6 @@ export class ViewResultsPanelComponent implements OnInit {
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
   };
-
-  @Input()
-  viewTooltipText: string = 'View results in different formats';
 
   @Input()
   viewType: string = InstructorSessionResultViewType.QUESTION;
@@ -73,9 +72,6 @@ export class ViewResultsPanelComponent implements OnInit {
 
   @Output()
   viewTypeChange: EventEmitter<string> = new EventEmitter<string>();
-
-  @Output()
-  viewTooltipTextChange: EventEmitter<string> = new EventEmitter<string>();
 
   @Output()
   sectionTypeChange: EventEmitter<InstructorSessionResultSectionType> =
@@ -115,20 +111,22 @@ export class ViewResultsPanelComponent implements OnInit {
     // change tooltip text based on currently selected view type
     switch (this.viewType) {
       case InstructorSessionResultViewType.QUESTION:
+        this.viewTooltipText = 'Group responses by question';
+        break;
+      case InstructorSessionResultViewType.GRQ:
+        this.viewTooltipText = 'Group responses by giver, then by recipient, and then by question';
+        break;
+      case InstructorSessionResultViewType.RGQ:
         this.viewTooltipText = 'Group responses by recipient, then by giver, and then by question';
-        this.viewTooltipTextChange.emit(this.viewTooltipText);
         break;
       case InstructorSessionResultViewType.GQR:
         this.viewTooltipText = 'Group responses by giver, then by question, and then by recipient';
-        this.viewTooltipTextChange.emit(this.viewTooltipText);
         break;
       case InstructorSessionResultViewType.RQG:
         this.viewTooltipText = 'Group responses by recipient, then by question, and then by giver';
-        this.viewTooltipTextChange.emit(this.viewTooltipText);
         break;
       default:
         this.viewTooltipText = 'View results in different formats';
-        this.viewTooltipTextChange.emit(this.viewTooltipText);
     }
 
     // the expand all will be reset if the view type changed

@@ -85,7 +85,6 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
   courseId: string = '';
   fsName: string = '';
   viewType: string = InstructorSessionResultViewType.QUESTION;
-  viewTooltipText: string = 'View results in different formats';
   section: string = '';
   sectionType: InstructorSessionResultSectionType = InstructorSessionResultSectionType.EITHER;
   groupByTeam: boolean = true;
