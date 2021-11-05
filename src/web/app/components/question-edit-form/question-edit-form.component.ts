@@ -239,26 +239,6 @@ export class QuestionEditFormComponent implements OnInit {
   }
 
   /**
-   * Modifies visibility control of visibility type based on {@code isAllowed}.
-   */
-  modifyVisibilityControl(
-      isAllowed: boolean, visibilityType: FeedbackVisibilityType, visibilityControl: VisibilityControl): void {
-    if (isAllowed) {
-      this.visibilityStateMachine.allowToSee(visibilityType, visibilityControl);
-    } else {
-      this.visibilityStateMachine.disallowToSee(visibilityType, visibilityControl);
-    }
-    this.triggerModelChangeBatch({
-      showResponsesTo:
-          this.visibilityStateMachine.getVisibilityTypesUnderVisibilityControl(VisibilityControl.SHOW_RESPONSE),
-      showGiverNameTo:
-          this.visibilityStateMachine.getVisibilityTypesUnderVisibilityControl(VisibilityControl.SHOW_GIVER_NAME),
-      showRecipientNameTo:
-          this.visibilityStateMachine.getVisibilityTypesUnderVisibilityControl(VisibilityControl.SHOW_RECIPIENT_NAME),
-    });
-  }
-
-  /**
    * Helper methods to create a range.
    */
   range(num: number): number[] {

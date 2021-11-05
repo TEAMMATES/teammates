@@ -27,7 +27,7 @@
     <tm-adding-question-panel (templateQuestionModalEvent)="templateQuestionModalHandler()"
                               (populateAndShowNewQuestionFormEvent)="populateAndShowNewQuestionForm($event)"
                               (copyQuestionsFromOtherSessionsEvent)="copyQuestionsFromOtherSessionsHandler()"
-                              [isCopyingQuestion]="isCopyingQuestion" [feedbackQuestionTypes]="FeedbackQuestionType" ></tm-adding-question-panel>
+                              [isCopyingQuestion]="isCopyingQuestion"></tm-adding-question-panel>
   </div>
   <tm-question-edit-form *ngIf="isAddingQuestionPanelExpanded"
                          [formMode]="QuestionEditFormMode.ADD"
