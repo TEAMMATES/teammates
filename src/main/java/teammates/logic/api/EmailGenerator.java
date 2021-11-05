@@ -129,6 +129,16 @@ public final class EmailGenerator {
             CourseAttributes course, FeedbackSessionAttributes session,
             InstructorAttributes coOwner, EmailType type, String editUrl) {
 
+        String additionalNotes;
+
+        // If instructor has not joined the course, populate additional notes with information to join course.
+        if (coOwner.isRegistered()) {
+            additionalNotes = fillUpEditFeedbackSessionDetailsFragment(editUrl);
+        } else {
+            additionalNotes = fillUpJoinCourseBeforeEditFeedbackSessionDetailsFragment(editUrl,
+                    getInstructorCourseJoinUrl(coOwner));
+        }
+
         String emailBody = Templates.populateTemplate(EmailTemplates.OWNER_FEEDBACK_SESSION_OPENING_SOON,
                 "${userName}", SanitizationHelper.sanitizeForHtml(coOwner.getName()),
                 "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
@@ -140,8 +150,7 @@ public final class EmailGenerator {
                 "${sessionInstructions}", session.getInstructionsString(),
                 "${startTime}", SanitizationHelper.sanitizeForHtml(TimeHelper.formatInstant(
                         session.getStartTime(), session.getTimeZone(), DATETIME_DISPLAY_FORMAT)),
-                "${sessionEditUrl}", editUrl,
-                "${additionalNotes}", "",
+                "${additionalNotes}", additionalNotes,
                 "${additionalContactInformation}", "");
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(coOwner.getEmail());
@@ -149,6 +158,25 @@ public final class EmailGenerator {
         email.setSubjectFromType(course.getName(), session.getFeedbackSessionName());
         email.setContent(emailBody);
         return email;
+    }
+
+    /**
+     * Generates the fragment for instructions on how to edit details for feedback session at {@code editUrl}.
+     */
+    private String fillUpEditFeedbackSessionDetailsFragment(String editUrl) {
+        return Templates.populateTemplate(EmailTemplates.FRAGMENT_OPENING_SOON_EDIT_DETAILS,
+                "${sessionEditUrl}", editUrl);
+    }
+
+    /**
+     * Generates the fragment for instructions on how to edit details for feedback session at {@code editUrl} and
+     * how to join the course at {@code joinUrl}.
+     */
+    private String fillUpJoinCourseBeforeEditFeedbackSessionDetailsFragment(String editUrl, String joinUrl) {
+        return Templates.populateTemplate(EmailTemplates.FRAGMENT_OPENING_SOON_JOIN_COURSE_BEFORE_EDIT_DETAILS,
+                "${sessionEditUrl}", editUrl,
+                "${joinUrl}", joinUrl
+        );
     }
 
     /**
@@ -190,16 +218,26 @@ public final class EmailGenerator {
 
     /**
      * Generates the email containing the summary of the feedback sessions
-     * email for the given {@code courseId} for {@code student}.
+     * email for the given {@code courseId} for {@code userEmail}.
      * @param courseId - ID of the course
-     * @param studentEmail - Email of student to send feedback session summary to
-     * @param resendLinksTemplate - The email template including the reason behind why the links are being resent
+     * @param userEmail - Email of student to send feedback session summary to
+     * @param emailType - The email type which corresponds to the reason behind why the links are being resent
      */
     public EmailWrapper generateFeedbackSessionSummaryOfCourse(
-            String courseId, String studentEmail, String resendLinksTemplate) {
+            String courseId, String userEmail, EmailType emailType) {
+        assert emailType == EmailType.STUDENT_EMAIL_CHANGED
+                || emailType == EmailType.STUDENT_COURSE_LINKS_REGENERATED
+                || emailType == EmailType.INSTRUCTOR_COURSE_LINKS_REGENERATED;
 
         CourseAttributes course = coursesLogic.getCourse(courseId);
-        StudentAttributes student = studentsLogic.getStudentForEmail(courseId, studentEmail);
+        boolean isInstructor = emailType == EmailType.INSTRUCTOR_COURSE_LINKS_REGENERATED;
+        StudentAttributes student = null;
+        InstructorAttributes instructor = null;
+        if (isInstructor) {
+            instructor = instructorsLogic.getInstructorForEmail(courseId, userEmail);
+        } else {
+            student = studentsLogic.getStudentForEmail(courseId, userEmail);
+        }
 
         List<FeedbackSessionAttributes> sessions = new ArrayList<>();
         List<FeedbackSessionAttributes> fsInCourse = fsLogic.getFeedbackSessionsForCourse(courseId);
@@ -210,27 +248,42 @@ public final class EmailGenerator {
             }
         }
 
-        StringBuffer linksFragmentValue = new StringBuffer(1000);
-        String joinUrl = Config.getFrontEndAppUrl(student.getRegistrationUrl()).toAbsoluteString();
+        StringBuilder linksFragmentValue = new StringBuilder(1000);
+        String joinUrl = Config.getFrontEndAppUrl(
+                isInstructor ? instructor.getRegistrationUrl() : student.getRegistrationUrl()).toAbsoluteString();
+        boolean isYetToJoinCourse = isInstructor ? isYetToJoinCourse(instructor) : isYetToJoinCourse(student);
+        String joinFragmentTemplate = isInstructor
+                ? EmailTemplates.FRAGMENT_INSTRUCTOR_COURSE_REJOIN_AFTER_REGKEY_RESET
+                : emailType == EmailType.STUDENT_EMAIL_CHANGED
+                        ? EmailTemplates.FRAGMENT_STUDENT_COURSE_JOIN
+                        : EmailTemplates.FRAGMENT_STUDENT_COURSE_REJOIN_AFTER_REGKEY_RESET;
 
-        String joinFragmentValue = isYetToJoinCourse(student)
-                                   ? Templates.populateTemplate(EmailTemplates.FRAGMENT_STUDENT_COURSE_JOIN,
-                                           "${joinUrl}", joinUrl,
-                                           "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
-                                           "${coOwnersEmails}", generateCoOwnersEmailsLine(course.getId()))
-                                   : "";
+        String joinFragmentValue = isYetToJoinCourse
+                ? Templates.populateTemplate(joinFragmentTemplate,
+                        "${joinUrl}", joinUrl,
+                        "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
+                        "${coOwnersEmails}", generateCoOwnersEmailsLine(course.getId()),
+                        "${supportEmail}", Config.SUPPORT_EMAIL)
+                : "";
 
         for (FeedbackSessionAttributes fsa : sessions) {
+            if (isInstructor) {
+                // Currently, it is pointless to list down session links for instructor
+                // as instructor needs to register before submitting/viewing session responses.
+                continue;
+            }
 
             String submitUrlHtml = "(Feedback session is not yet opened)";
             String reportUrlHtml = "(Feedback session is not yet published)";
+
+            String userKey = isInstructor ? instructor.getKey() : student.getKey();
 
             if (fsa.isOpened() || fsa.isClosed()) {
                 String submitUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
                         .withCourseId(course.getId())
                         .withSessionName(fsa.getFeedbackSessionName())
-                        .withRegistrationKey(student.getKey())
-                        .withStudentEmail(student.getEmail())
+                        .withRegistrationKey(userKey)
+                        .withStudentEmail(userEmail)
                         .toAbsoluteString();
                 submitUrlHtml = "<a href=\"" + submitUrl + "\">" + submitUrl + "</a>";
             }
@@ -239,8 +292,8 @@ public final class EmailGenerator {
                 String reportUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_RESULTS_PAGE)
                         .withCourseId(course.getId())
                         .withSessionName(fsa.getFeedbackSessionName())
-                        .withRegistrationKey(student.getKey())
-                        .withStudentEmail(student.getEmail())
+                        .withRegistrationKey(userKey)
+                        .withStudentEmail(userEmail)
                         .toAbsoluteString();
                 reportUrlHtml = "<a href=\"" + reportUrl + "\">" + reportUrl + "</a>";
             }
@@ -259,28 +312,24 @@ public final class EmailGenerator {
         }
 
         String additionalContactInformation = getAdditionalContactInformationFragment(course);
+        String resendLinksTemplate = emailType == EmailType.STUDENT_EMAIL_CHANGED
+                ? Templates.EmailTemplates.USER_FEEDBACK_SESSION_RESEND_ALL_LINKS
+                : Templates.EmailTemplates.USER_REGKEY_REGENERATION_RESEND_ALL_COURSE_LINKS;
 
+        String userName = isInstructor ? instructor.getName() : student.getName();
         String emailBody = Templates.populateTemplate(resendLinksTemplate,
-                "${userName}", SanitizationHelper.sanitizeForHtml(student.getName()),
-                "${userEmail}", student.getEmail(),
+                "${userName}", SanitizationHelper.sanitizeForHtml(userName),
+                "${userEmail}", userEmail,
                 "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
                 "${courseId}", course.getId(),
                 "${joinFragment}", joinFragmentValue,
                 "${linksFragment}", linksFragmentValue.toString(),
                 "${additionalContactInformation}", additionalContactInformation);
 
-        EmailWrapper email = getEmptyEmailAddressedToEmail(student.getEmail());
+        EmailWrapper email = getEmptyEmailAddressedToEmail(userEmail);
         email.setContent(emailBody);
-
-        // Set appropriate email subject, depending on the email template
-        if (resendLinksTemplate.equals(Templates.EmailTemplates.USER_FEEDBACK_SESSION_RESEND_ALL_LINKS)) {
-            email.setType(EmailType.STUDENT_EMAIL_CHANGED);
-            email.setSubjectFromType(course.getName(), course.getId());
-        } else if (resendLinksTemplate.equals(Templates.EmailTemplates.USER_REGKEY_REGENERATION_RESEND_ALL_COURSE_LINKS)) {
-            email.setType(EmailType.STUDENT_COURSE_LINKS_REGENERATED);
-            email.setSubjectFromType(course.getName(), course.getId());
-        }
-
+        email.setType(emailType);
+        email.setSubjectFromType(course.getName(), course.getId());
         return email;
     }
 
@@ -713,6 +762,10 @@ public final class EmailGenerator {
         return student.getGoogleId() == null || student.getGoogleId().isEmpty();
     }
 
+    private boolean isYetToJoinCourse(InstructorAttributes instructor) {
+        return instructor.getGoogleId() == null || instructor.getGoogleId().isEmpty();
+    }
+
     /**
      * Generates the new instructor account join email for the given {@code instructor}.
      */
@@ -852,10 +905,7 @@ public final class EmailGenerator {
     }
 
     private String getInstructorCourseJoinUrl(InstructorAttributes instructor) {
-        return Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
-                .withRegistrationKey(instructor.getKey())
-                .withEntityType(Const.EntityType.INSTRUCTOR)
-                .toAbsoluteString();
+        return Config.getFrontEndAppUrl(instructor.getRegistrationUrl()).toAbsoluteString();
     }
 
     private String fillUpInstructorJoinFragment(InstructorAttributes instructor) {
@@ -865,10 +915,7 @@ public final class EmailGenerator {
     }
 
     private String fillUpInstructorRejoinAfterGoogleIdResetFragment(InstructorAttributes instructor) {
-        String joinUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
-                .withRegistrationKey(instructor.getKey())
-                .withEntityType(Const.EntityType.INSTRUCTOR)
-                .toAbsoluteString();
+        String joinUrl = Config.getFrontEndAppUrl(instructor.getRegistrationUrl()).toAbsoluteString();
 
         return Templates.populateTemplate(EmailTemplates.USER_COURSE_JOIN,
                 "${joinFragment}", EmailTemplates.FRAGMENT_INSTRUCTOR_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET,

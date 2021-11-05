@@ -31,6 +31,9 @@ export class SessionsTableComponent implements OnInit {
   FeedbackSessionPublishStatus: typeof FeedbackSessionPublishStatus = FeedbackSessionPublishStatus;
   SessionsTableHeaderColorScheme: typeof SessionsTableHeaderColorScheme = SessionsTableHeaderColorScheme;
 
+  // variable
+  rowClicked: number = -1;
+
   @Input()
   sessionsTableRowModels: SessionsTableRowModel[] = [];
 
@@ -48,6 +51,9 @@ export class SessionsTableComponent implements OnInit {
 
   @Input()
   headerColorScheme: SessionsTableHeaderColorScheme = SessionsTableHeaderColorScheme.BLUE;
+
+  @Input()
+  isSendReminderLoading: boolean = false;
 
   @Output()
   sortSessionsTableRowModelsEvent: EventEmitter<SortBy> = new EventEmitter();
@@ -170,6 +176,13 @@ export class SessionsTableComponent implements OnInit {
    */
   downloadSessionResults(rowIndex: number): void {
     this.downloadSessionResultsEvent.emit(rowIndex);
+  }
+
+  /**
+   * Set row number of button clicked.
+   */
+  setRowClicked(rowIndex: number): void {
+    this.rowClicked = rowIndex;
   }
 
   ngOnInit(): void {

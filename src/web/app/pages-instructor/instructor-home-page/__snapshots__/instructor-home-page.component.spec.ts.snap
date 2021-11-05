@@ -803,10 +803,17 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                               ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
                             >
                               <button
-                                class="btn btn-light btn-sm"
+                                class="btn btn-light btn-sm align-row"
                                 id="btn-remind-0"
                               >
-                                Remind
+                                <span>
+                                  Remind
+                                </span>
+                                <div
+                                  class="padding-left-7px"
+                                >
+                                  
+                                </div>
                               </button>
                             </div>
                           </td>
@@ -1315,11 +1322,18 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                               ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
                             >
                               <button
-                                class="btn btn-light btn-sm"
+                                class="btn btn-light btn-sm align-row"
                                 disabled=""
                                 id="btn-remind-0"
                               >
-                                Remind
+                                <span>
+                                  Remind
+                                </span>
+                                <div
+                                  class="padding-left-7px"
+                                >
+                                  
+                                </div>
                               </button>
                             </div>
                           </td>
@@ -1478,11 +1492,18 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                               ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
                             >
                               <button
-                                class="btn btn-light btn-sm"
+                                class="btn btn-light btn-sm align-row"
                                 disabled=""
                                 id="btn-remind-1"
                               >
-                                Remind
+                                <span>
+                                  Remind
+                                </span>
+                                <div
+                                  class="padding-left-7px"
+                                >
+                                  
+                                </div>
                               </button>
                             </div>
                           </td>

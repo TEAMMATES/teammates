@@ -16,6 +16,7 @@ public enum EmailType {
     FEEDBACK_UNPUBLISHED("TEAMMATES: Feedback session results unpublished [Course: %s][Feedback Session: %s]"),
     STUDENT_EMAIL_CHANGED("TEAMMATES: Summary of course [%s][Course ID: %s]"),
     STUDENT_COURSE_LINKS_REGENERATED("TEAMMATES: Your updated links for course [%s][Course ID: %s]"),
+    INSTRUCTOR_COURSE_LINKS_REGENERATED("TEAMMATES: Your updated links for course [%s][Course ID: %s]"),
     NEW_INSTRUCTOR_ACCOUNT("TEAMMATES: Welcome to TEAMMATES! %s"),
     STUDENT_COURSE_JOIN("TEAMMATES: Invitation to join course [%s][Course ID: %s]"),
     STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET("TEAMMATES: Your account has been reset for course [%s][Course ID: %s]"),

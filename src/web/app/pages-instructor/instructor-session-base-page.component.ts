@@ -205,8 +205,10 @@ export abstract class InstructorSessionBasePageComponent {
   }
 
   getCopyErrorMessage(): string {
-    return Object.keys(this.failedToCopySessions).map((key: string) =>
-        `Error copying to ${key}: ${this.failedToCopySessions[key]}`).join(' ');
+    return (Object.keys(this.failedToCopySessions).map((key: string) =>
+        `Error copying to ${key}: ${this.failedToCopySessions[key]}`).join(' ')).concat(
+        ` Tip: If you can't find such a session in that course, also check the 'Recycle bin'
+         (shown at the bottom of the 'Sessions' page).`);
   }
 
   /**
