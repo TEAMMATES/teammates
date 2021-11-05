@@ -34,7 +34,7 @@
         </label>
         <div>
           <select id="section-type-dropdown" class="form-control" [ngModel]="sectionType" (ngModelChange)="handleSectionTypeChange($event)">
-            <option *ngFor="let sectionType of instructorSessionResultSectionTypes | enumToArray" [ngValue]="sectionType">
+            <option *ngFor="let sectionType of InstructorSessionResultSectionType | enumToArray" [ngValue]="sectionType">
               {{ sectionType | sectionTypeDescription }}
             </option>
           </select>

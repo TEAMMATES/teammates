@@ -20,6 +20,10 @@ import { FeedbackVisibilityType, Intent } from '../../../types/api-request';
 })
 export class QuestionResponsePanelComponent implements OnInit {
 
+  RESPONSE_HIDDEN_QUESTIONS: FeedbackQuestionType[] = [
+    FeedbackQuestionType.CONTRIB,
+  ];
+
   @Input()
   questions: QuestionOutput[] = [];
 
@@ -40,9 +44,6 @@ export class QuestionResponsePanelComponent implements OnInit {
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
   };
-
-  @Input()
-  responseHiddenQuestions: FeedbackQuestionType[] = [];
 
   @Input()
   intent: Intent = Intent.STUDENT_RESULT;

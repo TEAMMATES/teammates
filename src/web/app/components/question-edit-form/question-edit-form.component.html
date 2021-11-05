@@ -101,8 +101,6 @@
                               (numberOfEntitiesToGiveFeedbackToSetting)="triggerModelChange('numberOfEntitiesToGiveFeedbackToSetting', $event)"
                               (triggerModelChangeBatch)="triggerModelChangeBatch($event)"></tm-feedback-path-panel>
       <tm-visibility-panel [model]="model" [isCustomFeedbackVisibilitySettingAllowed]="isCustomFeedbackVisibilitySettingAllowed"
-                           [feedbackVisibilityTypes]="FeedbackVisibilityType"
-                           [visibilityControls]="VisibilityControl"
                            [commonFeedbackVisibilitySettings]="commonFeedbackVisibilitySettings"
                            (customVisibilitySetting)="triggerModelChange('isUsingOtherVisibilitySetting', $event)"
                            (triggerModelChangeBatch)="triggerModelChangeBatch($event)"

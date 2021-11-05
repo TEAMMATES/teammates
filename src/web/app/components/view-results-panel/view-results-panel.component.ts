@@ -23,6 +23,7 @@ import {
 export class ViewResultsPanelComponent implements OnInit {
 
   // enum
+  InstructorSessionResultSectionType: typeof InstructorSessionResultSectionType = InstructorSessionResultSectionType;
   InstructorSessionResultViewType: typeof InstructorSessionResultViewType = InstructorSessionResultViewType;
 
   @Input()
@@ -48,9 +49,6 @@ export class ViewResultsPanelComponent implements OnInit {
 
   @Input()
   viewType: string = InstructorSessionResultViewType.QUESTION;
-
-  @Input()
-  instructorSessionResultSectionTypes: InstructorSessionResultSectionType[] = [];
 
   @Input()
   section: string = '';

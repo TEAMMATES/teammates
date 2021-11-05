@@ -13,7 +13,6 @@ import { StudentService } from '../../../services/student.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import {
   AuthInfo,
-  FeedbackQuestionType,
   FeedbackSession, FeedbackSessionLogType,
   FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus,
   Instructor,
@@ -39,9 +38,6 @@ export class SessionResultPageComponent implements OnInit {
 
   // enum
   Intent: typeof Intent = Intent;
-  RESPONSE_HIDDEN_QUESTIONS: FeedbackQuestionType[] = [
-    FeedbackQuestionType.CONTRIB,
-  ];
 
   session: FeedbackSession = {
     courseId: '',

@@ -25,14 +25,14 @@
     <thead>
     <tr>
       <th scope="col" class="text-left">User/Group</th>
-      <th scope="col" class="text-center" *ngFor="let visibilityControl of visibilityControls | enumToArray">{{ visibilityControl | visibilityControlName }}</th>
+      <th scope="col" class="text-center" *ngFor="let visibilityControl of VisibilityControl | enumToArray">{{ visibilityControl | visibilityControlName }}</th>
     </tr>
     </thead>
     <tbody id="custom-visibility-table">
-    <ng-container *ngFor="let visibilityType of feedbackVisibilityTypes | enumToArray">
+    <ng-container *ngFor="let visibilityType of FeedbackVisibilityType | enumToArray">
       <tr *ngIf="visibilityStateMachine.isVisibilityTypeApplicable(visibilityType)">
         <td><span class="ngb-tooltip-class" [ngbTooltip]="visibilityType | visibilityTypeDescription" container="body">{{ visibilityType | visibilityTypeName }}</span></td>
-        <td *ngFor="let visibilityControl of visibilityControls | enumToArray" class="text-center">
+        <td *ngFor="let visibilityControl of VisibilityControl | enumToArray" class="text-center">
           <input type="checkbox"
                  (click)="modifyVisibilityControl($event.target.checked, visibilityType, visibilityControl)"
                  [checked]="visibilityStateMachine.isVisible(visibilityType, visibilityControl)"
@@ -46,7 +46,7 @@
     This is the visibility hint as seen by the feedback giver:
     <ul class="text-muted background-color-warning">
       <li *ngIf="model.recipientType === FeedbackParticipantType.SELF">You can see your own feedback in the results page later on.</li>
-      <ng-container *ngFor="let visibilityType of feedbackVisibilityTypes | enumToArray">
+      <ng-container *ngFor="let visibilityType of FeedbackVisibilityType | enumToArray">
         <li *ngIf="visibilityStateMachine.isVisibilityTypeApplicable(visibilityType) && visibilityStateMachine.hasAnyVisibilityControl(visibilityType)">
           {{ visibilityType | visibilityEntityName:model.recipientType:model.numberOfEntitiesToGiveFeedbackToSetting:model.customNumberOfEntitiesToGiveFeedbackTo }} {{ visibilityStateMachine.getVisibilityControlUnderVisibilityType(visibilityType) | visibilityCapability }}
         </li>

@@ -75,12 +75,6 @@ export class VisibilityPanelComponent implements OnInit {
   isCustomFeedbackVisibilitySettingAllowed: boolean = false;
 
   @Input()
-  visibilityControls: VisibilityControl = VisibilityControl.SHOW_RESPONSE;
-
-  @Input()
-  feedbackVisibilityTypes: FeedbackVisibilityType = FeedbackVisibilityType.INSTRUCTORS;
-
-  @Input()
   commonFeedbackVisibilitySettings: CommonVisibilitySetting[] = [];
 
   @Input()

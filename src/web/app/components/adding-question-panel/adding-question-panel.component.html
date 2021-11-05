@@ -4,7 +4,7 @@
     <div id="new-question-dropdown" ngbDropdownMenu>
       <button class="dropdown-item" (click)="templateQuestionModalHandler()">Choose from template questions</button>
       <div class="dropdown-divider"></div>
-      <ng-container *ngFor="let questionType of feedbackQuestionTypes | enumToArray">
+      <ng-container *ngFor="let questionType of FeedbackQuestionType | enumToArray">
       <button class="dropdown-item" *ngIf="questionType !== FeedbackQuestionType.CONSTSUM"
               (click)="populateAndShowNewQuestionFormHandler(questionType)">
         {{ questionType | questionTypeName }}
