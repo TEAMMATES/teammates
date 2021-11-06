@@ -154,7 +154,7 @@
       </li>
     </ol>
     <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.SESSION_QUESTIONS]" @collapseAnim>
-      <tm-adding-question-panel></tm-adding-question-panel>
+      <tm-adding-question-panel [isLinkDisabled]="true"></tm-adding-question-panel>
     </tm-example-box>
     <p>
       TEAMMATES gives you fine-grained control of each question. In addition to providing a range of different
@@ -198,7 +198,8 @@
       panel is located at the bottom of the Edit Feedback Session page.
     </p>
     <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.SESSION_PREVIEW]" @collapseAnim>
-      <tm-preview-session-panel [studentsOfCourse]="exampleStudents" [instructorsCanBePreviewedAs]="exampleInstructors"
+      <tm-preview-session-panel [emailOfStudentToPreview]="exampleStudents[0].email" [emailOfInstructorToPreview]="exampleInstructors[0].email"
+                                [studentsOfCourse]="exampleStudents" [instructorsCanBePreviewedAs]="exampleInstructors"
                                 [forDisplayOnly]="true"
       ></tm-preview-session-panel>
     </tm-example-box>

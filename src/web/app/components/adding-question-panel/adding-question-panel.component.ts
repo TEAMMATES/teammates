@@ -17,6 +17,9 @@ export class AddingQuestionPanelComponent implements OnInit {
   @Input()
   isCopyingQuestion: boolean = false;
 
+  @Input()
+  isLinkDisabled: boolean = false;
+
   @Output()
   templateQuestionModalEvent: EventEmitter<void> = new EventEmitter<void>();
 

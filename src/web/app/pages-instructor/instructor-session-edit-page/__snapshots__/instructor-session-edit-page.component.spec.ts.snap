@@ -3026,6 +3026,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
               
             </div>
           </div>
+          
           <a
             class="btn btn-link"
             href="/web/instructor/help?questionId=questions&section=questions"
@@ -3038,6 +3039,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
               class="fas fa-info-circle"
             />
           </a>
+          
           <button
             class="btn btn-primary"
             id="btn-copy-question"
