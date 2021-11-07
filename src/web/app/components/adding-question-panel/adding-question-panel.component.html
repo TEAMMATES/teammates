@@ -1,0 +1,18 @@
+<div class="card-body background-color-light-blue text-center">
+  <div ngbDropdown class="d-inline-block">
+    <button id="btn-new-question" class="btn btn-primary" ngbDropdownToggle>Add New Question</button>
+    <div id="new-question-dropdown" ngbDropdownMenu>
+      <button class="dropdown-item" (click)="templateQuestionModalHandler()">Choose from template questions</button>
+      <div class="dropdown-divider"></div>
+      <ng-container *ngFor="let questionType of FeedbackQuestionType | enumToArray">
+      <button class="dropdown-item" *ngIf="questionType !== FeedbackQuestionType.CONSTSUM"
+              (click)="populateAndShowNewQuestionFormHandler(questionType)">
+        {{ questionType | questionTypeName }}
+      </button>
+      </ng-container>
+    </div>
+  </div>
+  <a type="button" class="btn btn-link" *ngIf="!isLinkDisabled" target="_blank" rel="noopener noreferrer" tmRouterLink="/web/instructor/help" [queryParams]="{questionId: 'questions', section: 'questions'}"><i class="fas fa-info-circle"></i></a>
+  <a type="button" class="btn btn-link" *ngIf="isLinkDisabled"><i class="fas fa-info-circle"></i></a>
+  <button id="btn-copy-question" class="btn btn-primary" (click)="copyQuestionsFromOtherSessionsHandler()" [disabled]="isCopyingQuestion"><tm-ajax-loading *ngIf="isCopyingQuestion"></tm-ajax-loading>Copy Question</button>
+</div>
