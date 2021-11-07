@@ -43,7 +43,6 @@ describe('StudentCourseDetailsPageComponent', () => {
     const student: Student = {
       courseId: '1.1.c-demo2',
       email: '1@1.com',
-      lastName: '1',
       name: '1',
       comments: '',
       joinState: JoinState.NOT_JOINED,

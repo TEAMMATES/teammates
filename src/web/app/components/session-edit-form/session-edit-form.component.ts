@@ -84,8 +84,12 @@ export class SessionEditFormComponent implements OnInit {
   // add mode specific
   @Input()
   courseCandidates: Course[] = [];
+
   @Input()
   templateSessions: TemplateSession[] = [];
+
+  @Input()
+  isCopyOtherSessionLoading: boolean = false;
 
   // event emission
   @Output()

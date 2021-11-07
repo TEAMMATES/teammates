@@ -4,6 +4,7 @@ exports[`AdminSearchPageComponent should snap with a search key 1`] = `
 <tm-admin-search-page
   accountService={[Function AccountService]}
   emailGenerationService={[Function EmailGenerationService]}
+  instructorService={[Function InstructorService]}
   instructors={[Function Array]}
   loadingBarService={[Function LoadingBarService]}
   searchQuery={[Function String]}
@@ -52,6 +53,7 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
 <tm-admin-search-page
   accountService={[Function AccountService]}
   emailGenerationService={[Function EmailGenerationService]}
+  instructorService={[Function InstructorService]}
   instructors={[Function Array]}
   loadingBarService={[Function LoadingBarService]}
   searchQuery=""
@@ -211,6 +213,13 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
                 />
                  Reset Google ID 
               </a>
+              <br />
+              <button
+                class="btn btn-danger"
+                id="regenerate-instructor-key-0"
+              >
+                Regenerate key
+              </button>
             </td>
           </tr>
           
@@ -258,6 +267,7 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
 <tm-admin-search-page
   accountService={[Function AccountService]}
   emailGenerationService={[Function EmailGenerationService]}
+  instructorService={[Function InstructorService]}
   instructors={[Function Array]}
   loadingBarService={[Function LoadingBarService]}
   searchQuery=""
@@ -429,7 +439,7 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
                 class="btn btn-danger"
                 id="regenerate-student-key-0"
               >
-                Regenerate links
+                Regenerate key
               </button>
             </td>
           </tr>
@@ -565,6 +575,7 @@ exports[`AdminSearchPageComponent should snap with default fields 1`] = `
 <tm-admin-search-page
   accountService={[Function AccountService]}
   emailGenerationService={[Function EmailGenerationService]}
+  instructorService={[Function InstructorService]}
   instructors={[Function Array]}
   loadingBarService={[Function LoadingBarService]}
   searchQuery=""

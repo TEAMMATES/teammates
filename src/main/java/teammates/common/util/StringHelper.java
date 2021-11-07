@@ -184,63 +184,6 @@ public final class StringHelper {
     }
 
     /**
-     * split a full name string into first and last names
-     * <br>
-     * 1.If passed in empty string, both last and first name will be empty string
-     * <br>
-     * 2.If single word, this will be last name and first name will be an empty string
-     * <br>
-     * 3.If more than two words, the last word will be last name and
-     * the rest will be first name.
-     * <br>
-     * 4.If the last name is enclosed with braces "{}" such as first {Last1 Last2},
-     * the last name will be the String inside the braces
-     * <br>
-     * Example:
-     * <br><br>
-     * full name "Danny Tim Lin"<br>
-     * first name: "Danny Tim" <br>
-     * last name: "Lin" <br>
-     * processed full name: "Danny Tim Lin" <br>
-     * <br>
-     * full name "Danny {Tim Lin}"<br>
-     * first name: "Danny" <br>
-     * last name: "Tim Lin" <br>
-     * processed full name: "Danny Tim Lin" <br>
-     *
-     *
-     * @return split name array{0--> first name, 1--> last name, 2--> processed full name by removing "{}"}
-     */
-    public static String[] splitName(String fullName) {
-
-        if (fullName == null) {
-            return new String[] {};
-        }
-
-        String lastName;
-        String firstName;
-
-        if (fullName.contains("{") && fullName.contains("}")) {
-            int startIndex = fullName.indexOf('{');
-            int endIndex = fullName.indexOf('}');
-            lastName = fullName.substring(startIndex + 1, endIndex);
-            firstName = fullName.replace("{", "")
-                                .replace("}", "")
-                                .replace(lastName, "")
-                                .trim();
-
-        } else {
-            lastName = fullName.substring(fullName.lastIndexOf(' ') + 1).trim();
-            firstName = fullName.replace(lastName, "").trim();
-        }
-
-        String processedfullName = fullName.replace("{", "")
-                                           .replace("}", "");
-
-        return new String[] {firstName, lastName, processedfullName};
-    }
-
-    /**
      * Trims the string and reduces consecutive white spaces to only one space.
      * Example: " a   a  " --> "a a".
      * @return processed string, returns null if parameter is null

@@ -58,7 +58,6 @@ class SearchStudentsAction extends Action {
                         s.getGoogleId()
                 );
             }
-            studentData.hideLastName();
 
             studentDataList.add(studentData);
         }

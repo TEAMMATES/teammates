@@ -152,7 +152,6 @@ export const EXAMPLE_STUDENTS: Student[] = [
     email: 'alice@email.com',
     courseId: 'test.exa-demo',
     name: 'Alice Betsy',
-    lastName: 'Betsy',
     comments: 'Alice is a transfer student.',
     teamName: 'Team A',
     sectionName: 'Section A',

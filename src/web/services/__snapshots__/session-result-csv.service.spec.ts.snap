@@ -1,57 +1,21 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`SessionResultCsvService should display student last name displayed properly for feedbackSessionResultsC1S1NewLastName 1`] = `
-"
-
-Question 1,What is the best selling point of your product?
-
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment
-\\"Team 1.1</td></div>'\\"\\"\\",new name new last name,new last name,student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",new name new last name,new last name,student1InCourse1@gmail.tmt,Student 1 self feedback.,Instructor1 Course1,Instructor 1 comment to student 1 self feedback
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,I'm cool'
-
-
-Question 2,Rate 1 other student's product
-
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,Response from student 2 to student 5.,Instructor1 Course1,Instructor 1 comment to response from student 2 to student 5 in feedback Question 2
-\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Response from student 3 \\"\\"to\\"\\" student 2. Multiline test.\\"
-Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,Response from student 5 to student 2.
-
-
-Question 3,My comments on the class
-
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment
-Instructors,Instructor1 Course1,Course1,instructor1@course1.tmt,-,-,,,\\"Good work, keep it up!\\",Instructor1 Course1,Instructor 1 comment to instructor 1 self feedback Question 3
-
-
-Question 4,Instructor comments on the class
-
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
-
-
-Question 5,New format Text question
-
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
-
-"
-`;
-
 exports[`SessionResultCsvService should generate results for CONSTSUM question (restricted responses) 1`] = `
 "
 
 Question 1,How important are the following factors to you? Give points accordingly.
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Grades,Fun
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback,Grades,Fun
 
 
 Question 2,Split points among the teams
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback
 
 
 Question 3,How much has each student worked?
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback
 
 "
 `;
@@ -67,12 +31,12 @@ Fun,101,50.5,20,81
 Grades,99,49.5,19,80
 
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Grades,Fun
-\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,,19,81
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,,80,20
-\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,No Response
-Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,No Response
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback,Grades,Fun
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,,19,81
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,,80,20
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,No Response
+Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,No Response
 
 
 Question 2,Split points among the teams
@@ -83,9 +47,9 @@ Team,Recipient,Total Points,Average Points,Points Received
 ,Team 1.2,20,20,20
 
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
-Instructors,Instructor1 Course1,Course1,instructor1@course1.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"Team 1.1</td></div>'\\"\\"\\",\\"Team 1.1</td></div>'\\"\\"\\",,80
-Instructors,Instructor1 Course1,Course1,instructor1@course1.tmt,Team 1.2,Team 1.2,Team 1.2,,20
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback
+Instructors,Instructor1 Course1,instructor1@course1.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"Team 1.1</td></div>'\\"\\"\\",,80
+Instructors,Instructor1 Course1,instructor1@course1.tmt,Team 1.2,Team 1.2,,20
 
 
 Question 3,How much has each student worked?
@@ -99,22 +63,22 @@ Team,Recipient,Total Points,Average Points,Points Received
 Team 1.2,student5 In Course1,10,10,10
 
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
-Instructors,Instructor1 Course1,Course1,instructor1@course1.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,30
-Instructors,Instructor1 Course1,Course1,instructor1@course1.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,20
-Instructors,Instructor1 Course1,Course1,instructor1@course1.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,30
-Instructors,Instructor1 Course1,Course1,instructor1@course1.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,10
-Instructors,Instructor1 Course1,Course1,instructor1@course1.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,10
-Instructors,Instructor2 Course1,Course1,instructor2@course1.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,No Response
-Instructors,Instructor2 Course1,Course1,instructor2@course1.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,No Response
-Instructors,Instructor2 Course1,Course1,instructor2@course1.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,No Response
-Instructors,Instructor2 Course1,Course1,instructor2@course1.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,No Response
-Instructors,Instructor2 Course1,Course1,instructor2@course1.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,No Response
-Instructors,Instructor3 Course1,Course1,instructor3@course1.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,No Response
-Instructors,Instructor3 Course1,Course1,instructor3@course1.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,No Response
-Instructors,Instructor3 Course1,Course1,instructor3@course1.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,No Response
-Instructors,Instructor3 Course1,Course1,instructor3@course1.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,No Response
-Instructors,Instructor3 Course1,Course1,instructor3@course1.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,No Response
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback
+Instructors,Instructor1 Course1,instructor1@course1.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,30
+Instructors,Instructor1 Course1,instructor1@course1.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,20
+Instructors,Instructor1 Course1,instructor1@course1.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,30
+Instructors,Instructor1 Course1,instructor1@course1.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,10
+Instructors,Instructor1 Course1,instructor1@course1.tmt,Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,10
+Instructors,Instructor2 Course1,instructor2@course1.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,No Response
+Instructors,Instructor2 Course1,instructor2@course1.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,No Response
+Instructors,Instructor2 Course1,instructor2@course1.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,No Response
+Instructors,Instructor2 Course1,instructor2@course1.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,No Response
+Instructors,Instructor2 Course1,instructor2@course1.tmt,Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,No Response
+Instructors,Instructor3 Course1,instructor3@course1.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,No Response
+Instructors,Instructor3 Course1,instructor3@course1.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,No Response
+Instructors,Instructor3 Course1,instructor3@course1.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,No Response
+Instructors,Instructor3 Course1,instructor3@course1.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,No Response
+Instructors,Instructor3 Course1,instructor3@course1.tmt,Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,No Response
 
 "
 `;
@@ -132,9 +96,9 @@ Team,Name,Email,CC,PC,Ratings Received
 Team 2,student3 In Course With Sections,student3InCourseWithSections@gmail.tmt,100,N/A,N/A
 
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
-Team 2,student3 In Course With Sections,Sections,student3InCourseWithSections@gmail.tmt,Team 2,student3 In Course With Sections,Sections,student3InCourseWithSections@gmail.tmt,Equal share
-Team 3,student4 In Course With Sections,Sections,student4InCourseWithSections@gmail.tmt,Team 3,student4 In Course With Sections,Sections,student4InCourseWithSections@gmail.tmt,No Response
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback
+Team 2,student3 In Course With Sections,student3InCourseWithSections@gmail.tmt,Team 2,student3 In Course With Sections,student3InCourseWithSections@gmail.tmt,Equal share
+Team 3,student4 In Course With Sections,student4InCourseWithSections@gmail.tmt,Team 3,student4 In Course With Sections,student4InCourseWithSections@gmail.tmt,No Response
 
 "
 `;
@@ -155,24 +119,24 @@ Team,Name,Email,CC,PC,Ratings Received
 \\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,Not Submitted,122,122,N/A,N/A
 
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
-\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,Equal share
-\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,Equal share - 20%
-\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,Equal share + 10%
-\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,Equal share + 30%
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,No Response
-Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,No Response
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,Equal share
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,Equal share - 20%
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,Equal share + 10%
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,Equal share + 30%
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,No Response
+Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,No Response
 
 "
 `;
@@ -188,12 +152,12 @@ It's good,1,33.33
 It's perfect,2,66.67
 
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Giver's Comments,Comment From,Comment
-\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,It's good,
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,It's perfect,Student 2 comment,Instructor1 Course1,Instructor 1 comment to student 2
-\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,It's perfect,Student 3 comment
-\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,No Response,
-Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,No Response,
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback,Giver's Comments,Comment From,Comment
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,It's good,
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,It's perfect,Student 2 comment,Instructor1 Course1,Instructor 1 comment to student 2
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,It's perfect,Student 3 comment
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,No Response,
+Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,No Response,
 
 
 Question 2,What do you like best about the class' product?
@@ -204,10 +168,10 @@ It's good,1,50
 It's perfect,1,50
 
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Giver's Comments
-Instructors,Instructor1 Course1,Course1,instructor1@course1.tmt,Instructors,Instructor1 Course1,Course1,instructor1@course1.tmt,It's good,
-Instructors,Instructor2 Course1,Course1,instructor2@course1.tmt,Instructors,Instructor2 Course1,Course1,instructor2@course1.tmt,It's perfect,
-Instructors,Instructor3 Course1,Course1,instructor3@course1.tmt,Instructors,Instructor3 Course1,Course1,instructor3@course1.tmt,No Response,
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback,Giver's Comments
+Instructors,Instructor1 Course1,instructor1@course1.tmt,Instructors,Instructor1 Course1,instructor1@course1.tmt,It's good,
+Instructors,Instructor2 Course1,instructor2@course1.tmt,Instructors,Instructor2 Course1,instructor2@course1.tmt,It's perfect,
+Instructors,Instructor3 Course1,instructor3@course1.tmt,Instructors,Instructor3 Course1,instructor3@course1.tmt,No Response,
 
 
 Question 3,What can be improved for this class?
@@ -219,12 +183,12 @@ Other,1,100
 Teaching style,0,0
 
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Giver's Comments
-\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,Lecture notes,
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,No Response,
-\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,No Response,
-\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,No Response,
-Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,No Response,
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback,Giver's Comments
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,Lecture notes,
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,No Response,
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,No Response,
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,No Response,
+Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,No Response,
 
 
 Question 4,What do you like best about our product?
@@ -240,12 +204,12 @@ Team,Recipient Name,It's good [1.25],It's perfect [1.7],Other [3],Total,Average
 \\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",1,0,0,1.25,1.25
 
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Giver's Comments
-\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,It's good,
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,No Response,
-\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,No Response,
-\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,No Response,
-Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,No Response,
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback,Giver's Comments
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,It's good,
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,No Response,
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,No Response,
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,No Response,
+Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,No Response,
 
 "
 `;
@@ -261,12 +225,12 @@ It's good,2,66.67
 It's perfect,1,33.33
 
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,It's good,It's perfect
-\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,,It's good,It's perfect
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,,It's good,
-\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,
-\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,No Response
-Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,No Response
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback,It's good,It's perfect
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,,It's good,It's perfect
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,,It's good,
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,No Response
+Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,No Response
 
 
 Question 2,What do you like best about the class' product?
@@ -277,10 +241,10 @@ It's good,1,33.33
 It's perfect,2,66.67
 
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,It's good,It's perfect
-Instructors,Instructor1 Course1,Course1,instructor1@course1.tmt,Instructors,Instructor1 Course1,Course1,instructor1@course1.tmt,,It's good,It's perfect
-Instructors,Instructor2 Course1,Course1,instructor2@course1.tmt,Instructors,Instructor2 Course1,Course1,instructor2@course1.tmt,,,It's perfect
-Instructors,Instructor3 Course1,Course1,instructor3@course1.tmt,Instructors,Instructor3 Course1,Course1,instructor3@course1.tmt,
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback,It's good,It's perfect
+Instructors,Instructor1 Course1,instructor1@course1.tmt,Instructors,Instructor1 Course1,instructor1@course1.tmt,,It's good,It's perfect
+Instructors,Instructor2 Course1,instructor2@course1.tmt,Instructors,Instructor2 Course1,instructor2@course1.tmt,,,It's perfect
+Instructors,Instructor3 Course1,instructor3@course1.tmt,Instructors,Instructor3 Course1,instructor3@course1.tmt,
 
 
 Question 3,Choose all the food you like
@@ -299,12 +263,12 @@ Team,Recipient Name,Pizza [1],Pasta [2],Chicken rice [0],Other [3],Total,Average
 \\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,0,0,0,1,3,3
 
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Pizza,Pasta,Chicken rice
-\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,,Pizza,Pasta,Chicken rice
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,,,Pasta,
-\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,,,,
-\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,No Response
-Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,No Response
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback,Pizza,Pasta,Chicken rice
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,,Pizza,Pasta,Chicken rice
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,,,Pasta,
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,,,,
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,No Response
+Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,No Response
 
 "
 `;
@@ -320,12 +284,12 @@ Team,Recipient,Average,Minimum,Maximum
 \\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,2,2,2
 
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
-\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,3.5
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,2
-\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,No Response
-Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,No Response
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,3.5
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,2
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,No Response
+Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,No Response
 
 
 Question 2,Rate our product.
@@ -336,10 +300,10 @@ Instructors,Instructor1 Course1,4.5,4.5,4.5
 Instructors,Instructor2 Course1,1,1,1
 
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
-Instructors,Instructor1 Course1,Course1,instructor1@course1.tmt,Instructors,Instructor1 Course1,Course1,instructor1@course1.tmt,4.5
-Instructors,Instructor2 Course1,Course1,instructor2@course1.tmt,Instructors,Instructor2 Course1,Course1,instructor2@course1.tmt,1
-Instructors,Instructor3 Course1,Course1,instructor3@course1.tmt,Instructors,Instructor3 Course1,Course1,instructor3@course1.tmt,No Response
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback
+Instructors,Instructor1 Course1,instructor1@course1.tmt,Instructors,Instructor1 Course1,instructor1@course1.tmt,4.5
+Instructors,Instructor2 Course1,instructor2@course1.tmt,Instructors,Instructor2 Course1,instructor2@course1.tmt,1
+Instructors,Instructor3 Course1,instructor3@course1.tmt,Instructors,Instructor3 Course1,instructor3@course1.tmt,No Response
 
 "
 `;
@@ -357,31 +321,31 @@ Team,Recipient,Self Rank,Overall Rank,Overall Rank Excluding Self,Ranks Received
 \\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,3,3,2,1,3,4
 
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
-\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,4
-\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,3
-\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,2
-\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,1
-\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,2
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,3
-\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,4
-\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,3
-\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,No Response
-Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,No Response
-Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,No Response
-Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,No Response
-Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,No Response
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,4
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,3
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,2
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,1
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,2
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,3
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,4
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,3
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,No Response
+Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,No Response
+Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,No Response
+Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,No Response
+Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,No Response
 
 
 Question 2,Rank the areas of improvement you think your team should make progress in.
@@ -395,12 +359,12 @@ Teamwork and communication,1,1,1,1,4
 Time management,2,1,2,2,3
 
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Rank 1,Rank 2,Rank 3,Rank 4,Rank 5
-\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"Team 1.1</td></div>'\\"\\"\\",\\"Team 1.1</td></div>'\\"\\"\\",,,Quality of work,Quality of progress reports,Time management,Teamwork and communication,
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"Team 1.1</td></div>'\\"\\"\\",\\"Team 1.1</td></div>'\\"\\"\\",,,Teamwork and communication,Time management,Quality of progress reports,Quality of work,
-\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"Team 1.1</td></div>'\\"\\"\\",\\"Team 1.1</td></div>'\\"\\"\\",,,\\"Time management, Teamwork and communication\\",Quality of work,,,
-\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"Team 1.1</td></div>'\\"\\"\\",\\"Team 1.1</td></div>'\\"\\"\\",,,Teamwork and communication,Time management,Quality of work,,
-Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,Team 1.2,Team 1.2,Team 1.2,,,Quality of work,,,,
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback,Rank 1,Rank 2,Rank 3,Rank 4,Rank 5
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"Team 1.1</td></div>'\\"\\"\\",,,Quality of work,Quality of progress reports,Time management,Teamwork and communication,
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"Team 1.1</td></div>'\\"\\"\\",,,Teamwork and communication,Time management,Quality of progress reports,Quality of work,
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"Team 1.1</td></div>'\\"\\"\\",,,\\"Time management, Teamwork and communication\\",Quality of work,,,
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"Team 1.1</td></div>'\\"\\"\\",,,Teamwork and communication,Time management,Quality of work,,
+Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,Team 1.2,Team 1.2,,,Quality of work,,,,
 
 "
 `;
@@ -434,28 +398,28 @@ Team,Recipient Name,Recipient's Email,Average,Breakdown
 \\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,0.63,\\"0,1.25\\"
 
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Sub Question,Choice Value,Choice Number
-\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,a,Yes,1
-\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,b,No,2
-\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,a,No,2
-\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,b,Yes,1
-\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,a,Yes,1
-\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,b,Yes,1
-\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,a,No Response,
-\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,b,Yes,1
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,All Sub-Questions,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,All Sub-Questions,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,All Sub-Questions,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,All Sub-Questions,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,All Sub-Questions,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,All Sub-Questions,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,All Sub-Questions,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,All Sub-Questions,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,All Sub-Questions,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,All Sub-Questions,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,All Sub-Questions,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,All Sub-Questions,No Response
-Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,All Sub-Questions,No Response
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Sub Question,Choice Value,Choice Number
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,a,Yes,1
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,b,No,2
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,a,No,2
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,b,Yes,1
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,a,Yes,1
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,b,Yes,1
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,a,No Response,
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,b,Yes,1
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,All Sub-Questions,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,All Sub-Questions,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,All Sub-Questions,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,All Sub-Questions,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,All Sub-Questions,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,All Sub-Questions,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,All Sub-Questions,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,All Sub-Questions,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,All Sub-Questions,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,All Sub-Questions,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,All Sub-Questions,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,All Sub-Questions,No Response
+Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,All Sub-Questions,No Response
 
 
 Question 2,Please choose the best choice for the following sub-questions. Only first subquestion has responses
@@ -481,27 +445,27 @@ Team,Recipient Name,Recipient's Email,Average,Breakdown
 \\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,0.63,\\"1.25,0\\"
 
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Sub Question,Choice Value,Choice Number
-\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,All Sub-Questions,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,a,Yes,1
-\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,b,No Response,
-\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,All Sub-Questions,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,All Sub-Questions,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,All Sub-Questions,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,All Sub-Questions,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,a,No,2
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,b,No Response,
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,All Sub-Questions,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,All Sub-Questions,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,All Sub-Questions,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,All Sub-Questions,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,a,Yes,1
-\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,b,No Response,
-\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,All Sub-Questions,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,All Sub-Questions,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,All Sub-Questions,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,All Sub-Questions,No Response
-Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,All Sub-Questions,No Response
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Sub Question,Choice Value,Choice Number
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,All Sub-Questions,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,a,Yes,1
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,b,No Response,
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,All Sub-Questions,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,All Sub-Questions,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,All Sub-Questions,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,All Sub-Questions,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,a,No,2
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,b,No Response,
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,All Sub-Questions,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,All Sub-Questions,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,All Sub-Questions,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,All Sub-Questions,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,a,Yes,1
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,b,No Response,
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,All Sub-Questions,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,All Sub-Questions,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,All Sub-Questions,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,All Sub-Questions,No Response
+Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,All Sub-Questions,No Response
 
 "
 `;
@@ -511,9 +475,9 @@ exports[`SessionResultCsvService should generate results for a specific question
 
 Question 1,What is the best selling point of your product?
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment
-\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,Student 1 self feedback.,Instructor1 Course1,Instructor 1 comment to student 1 self feedback
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,I'm cool'
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback,Comment From,Comment
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,Student 1 self feedback.,Instructor1 Course1,Instructor 1 comment to student 1 self feedback
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,I'm cool'
 
 "
 `;
@@ -523,27 +487,27 @@ exports[`SessionResultCsvService should generate results for a specific question
 
 Question 2,Rate 1 other student's product
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment
-\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,Response from student 2 to student 5.,Instructor1 Course1,Instructor 1 comment to response from student 2 to student 5 in feedback Question 2
-\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Response from student 3 \\"\\"to\\"\\" student 2. Multiline test.\\"
-\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,No Response
-Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,No Response
-Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,Response from student 5 to student 2.
-Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,No Response
-Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,No Response
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback,Comment From,Comment
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,Response from student 2 to student 5.,Instructor1 Course1,Instructor 1 comment to response from student 2 to student 5 in feedback Question 2
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,\\"Response from student 3 \\"\\"to\\"\\" student 2. Multiline test.\\"
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,No Response
+Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,No Response
+Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,Response from student 5 to student 2.
+Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,No Response
+Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,No Response
 
 "
 `;
@@ -555,10 +519,10 @@ Section View Detail,Show response if either the giver or evaluee is in the selec
 
 Question 2,Rate 1 other student's product
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,Response from student 2 to student 5.,Instructor1 Course1,Instructor 1 comment to response from student 2 to student 5 in feedback Question 2
-\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Response from student 3 \\"\\"to\\"\\" student 2. Multiline test.\\"
-Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,Response from student 5 to student 2.
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback,Comment From,Comment
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,Response from student 2 to student 5.,Instructor1 Course1,Instructor 1 comment to response from student 2 to student 5 in feedback Question 2
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,\\"Response from student 3 \\"\\"to\\"\\" student 2. Multiline test.\\"
+Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,Response from student 5 to student 2.
 
 "
 `;
@@ -570,8 +534,8 @@ Section View Detail,Show response only if both are in the selected section
 
 Question 2,Rate 1 other student's product
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
-\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Response from student 3 \\"\\"to\\"\\" student 2. Multiline test.\\"
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,\\"Response from student 3 \\"\\"to\\"\\" student 2. Multiline test.\\"
 
 "
 `;
@@ -583,9 +547,9 @@ Section View Detail,Show response if the giver is in the selected section
 
 Question 2,Rate 1 other student's product
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,Response from student 2 to student 5.,Instructor1 Course1,Instructor 1 comment to response from student 2 to student 5 in feedback Question 2
-\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Response from student 3 \\"\\"to\\"\\" student 2. Multiline test.\\"
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback,Comment From,Comment
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,Response from student 2 to student 5.,Instructor1 Course1,Instructor 1 comment to response from student 2 to student 5 in feedback Question 2
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,\\"Response from student 3 \\"\\"to\\"\\" student 2. Multiline test.\\"
 
 "
 `;
@@ -597,9 +561,9 @@ Section View Detail,Show response if the evaluee is in the selected section
 
 Question 2,Rate 1 other student's product
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
-\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Response from student 3 \\"\\"to\\"\\" student 2. Multiline test.\\"
-Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,Response from student 5 to student 2.
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,\\"Response from student 3 \\"\\"to\\"\\" student 2. Multiline test.\\"
+Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,Response from student 5 to student 2.
 
 "
 `;
@@ -609,33 +573,33 @@ exports[`SessionResultCsvService should hide missing responses 1`] = `
 
 Question 1,What is the best selling point of your product?
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment
-\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,Student 1 self feedback.,Instructor1 Course1,Instructor 1 comment to student 1 self feedback
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,I'm cool'
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback,Comment From,Comment
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,Student 1 self feedback.,Instructor1 Course1,Instructor 1 comment to student 1 self feedback
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,I'm cool'
 
 
 Question 2,Rate 1 other student's product
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,Response from student 2 to student 5.,Instructor1 Course1,Instructor 1 comment to response from student 2 to student 5 in feedback Question 2
-\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Response from student 3 \\"\\"to\\"\\" student 2. Multiline test.\\"
-Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,Response from student 5 to student 2.
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback,Comment From,Comment
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,Response from student 2 to student 5.,Instructor1 Course1,Instructor 1 comment to response from student 2 to student 5 in feedback Question 2
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,\\"Response from student 3 \\"\\"to\\"\\" student 2. Multiline test.\\"
+Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,Response from student 5 to student 2.
 
 
 Question 3,My comments on the class
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment
-Instructors,Instructor1 Course1,Course1,instructor1@course1.tmt,-,-,,,\\"Good work, keep it up!\\",Instructor1 Course1,Instructor 1 comment to instructor 1 self feedback Question 3
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback,Comment From,Comment
+Instructors,Instructor1 Course1,instructor1@course1.tmt,-,-,,\\"Good work, keep it up!\\",Instructor1 Course1,Instructor 1 comment to instructor 1 self feedback Question 3
 
 
 Question 4,Instructor comments on the class
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback
 
 
 Question 5,New format Text question
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback
 
 "
 `;
@@ -645,8 +609,8 @@ exports[`SessionResultCsvService should hide stats 1`] = `
 
 Question 1,What is the best selling point of your product?
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Giver's Comments
-\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,Quality,
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback,Giver's Comments
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,Quality,
 
 "
 `;
@@ -658,30 +622,30 @@ Section View Detail,Show response only if both are in the selected section
 
 Question 1,What is the best selling point of your product?
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment
-\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,Student 1 self feedback.,Instructor1 Course1,Instructor 1 comment to student 1 self feedback
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,I'm cool'
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback,Comment From,Comment
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,Student 1 self feedback.,Instructor1 Course1,Instructor 1 comment to student 1 self feedback
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,I'm cool'
 
 
 Question 2,Rate 1 other student's product
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
-\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Response from student 3 \\"\\"to\\"\\" student 2. Multiline test.\\"
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,\\"Response from student 3 \\"\\"to\\"\\" student 2. Multiline test.\\"
 
 
 Question 3,My comments on the class
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback
 
 
 Question 4,Instructor comments on the class
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback
 
 
 Question 5,New format Text question
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback
 
 "
 `;
@@ -693,31 +657,31 @@ Section View Detail,Show response if the giver is in the selected section
 
 Question 1,What is the best selling point of your product?
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment
-\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,Student 1 self feedback.,Instructor1 Course1,Instructor 1 comment to student 1 self feedback
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,I'm cool'
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback,Comment From,Comment
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,Student 1 self feedback.,Instructor1 Course1,Instructor 1 comment to student 1 self feedback
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,I'm cool'
 
 
 Question 2,Rate 1 other student's product
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,Response from student 2 to student 5.,Instructor1 Course1,Instructor 1 comment to response from student 2 to student 5 in feedback Question 2
-\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Response from student 3 \\"\\"to\\"\\" student 2. Multiline test.\\"
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback,Comment From,Comment
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,Response from student 2 to student 5.,Instructor1 Course1,Instructor 1 comment to response from student 2 to student 5 in feedback Question 2
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,\\"Response from student 3 \\"\\"to\\"\\" student 2. Multiline test.\\"
 
 
 Question 3,My comments on the class
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback
 
 
 Question 4,Instructor comments on the class
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback
 
 
 Question 5,New format Text question
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback
 
 "
 `;
@@ -729,31 +693,31 @@ Section View Detail,Show response if the evaluee is in the selected section
 
 Question 1,What is the best selling point of your product?
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment
-\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,Student 1 self feedback.,Instructor1 Course1,Instructor 1 comment to student 1 self feedback
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,I'm cool'
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback,Comment From,Comment
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,Student 1 self feedback.,Instructor1 Course1,Instructor 1 comment to student 1 self feedback
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,I'm cool'
 
 
 Question 2,Rate 1 other student's product
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
-\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Response from student 3 \\"\\"to\\"\\" student 2. Multiline test.\\"
-Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,Response from student 5 to student 2.
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,\\"Response from student 3 \\"\\"to\\"\\" student 2. Multiline test.\\"
+Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,Response from student 5 to student 2.
 
 
 Question 3,My comments on the class
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback
 
 
 Question 4,Instructor comments on the class
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback
 
 
 Question 5,New format Text question
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback
 
 "
 `;
@@ -763,59 +727,59 @@ exports[`SessionResultCsvService should show missing responses 1`] = `
 
 Question 1,What is the best selling point of your product?
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment
-\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,Student 1 self feedback.,Instructor1 Course1,Instructor 1 comment to student 1 self feedback
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,I'm cool'
-\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,No Response
-Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,No Response
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback,Comment From,Comment
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,Student 1 self feedback.,Instructor1 Course1,Instructor 1 comment to student 1 self feedback
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,I'm cool'
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,No Response
+Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,No Response
 
 
 Question 2,Rate 1 other student's product
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment
-\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,Response from student 2 to student 5.,Instructor1 Course1,Instructor 1 comment to response from student 2 to student 5 in feedback Question 2
-\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Response from student 3 \\"\\"to\\"\\" student 2. Multiline test.\\"
-\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,No Response
-Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,No Response
-Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,Response from student 5 to student 2.
-Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,No Response
-Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,No Response
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback,Comment From,Comment
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,Response from student 2 to student 5.,Instructor1 Course1,Instructor 1 comment to response from student 2 to student 5 in feedback Question 2
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,\\"Response from student 3 \\"\\"to\\"\\" student 2. Multiline test.\\"
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,No Response
+Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,No Response
+Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,Response from student 5 to student 2.
+Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,No Response
+Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,No Response
 
 
 Question 3,My comments on the class
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment
-Instructors,Instructor1 Course1,Course1,instructor1@course1.tmt,-,-,,,\\"Good work, keep it up!\\",Instructor1 Course1,Instructor 1 comment to instructor 1 self feedback Question 3
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback,Comment From,Comment
+Instructors,Instructor1 Course1,instructor1@course1.tmt,-,-,,\\"Good work, keep it up!\\",Instructor1 Course1,Instructor 1 comment to instructor 1 self feedback Question 3
 
 
 Question 4,Instructor comments on the class
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
-Instructors,Helper Course1,Course1,helper@course1.tmt,-,-,,,No Response
-Instructors,Instructor Not Yet Joined Course 1,1,instructorNotYetJoinedCourse1@email.tmt,-,-,,,No Response
-Instructors,Instructor1 Course1,Course1,instructor1@course1.tmt,-,-,,,No Response
-Instructors,Instructor2 Course1,Course1,instructor2@course1.tmt,-,-,,,No Response
-Instructors,Instructor3 Course1,Course1,instructor3@course1.tmt,-,-,,,No Response
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback
+Instructors,Helper Course1,helper@course1.tmt,-,-,,No Response
+Instructors,Instructor Not Yet Joined Course 1,instructorNotYetJoinedCourse1@email.tmt,-,-,,No Response
+Instructors,Instructor1 Course1,instructor1@course1.tmt,-,-,,No Response
+Instructors,Instructor2 Course1,instructor2@course1.tmt,-,-,,No Response
+Instructors,Instructor3 Course1,instructor3@course1.tmt,-,-,,No Response
 
 
 Question 5,New format Text question
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
-Instructors,Instructor1 Course1,Course1,instructor1@course1.tmt,-,-,,,No Response
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback
+Instructors,Instructor1 Course1,instructor1@course1.tmt,-,-,,No Response
 
 "
 `;
@@ -825,59 +789,59 @@ exports[`SessionResultCsvService should show missing responses for feedbackSessi
 
 Question 1,What is the best selling point of your product?
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment
-\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,Student 1 self feedback.,Instructor1 Course1,Instructor 1 comment to student 1 self feedback
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,I'm cool'
-\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,No Response
-Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,No Response
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback,Comment From,Comment
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,Student 1 self feedback.,Instructor1 Course1,Instructor 1 comment to student 1 self feedback
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,I'm cool'
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,No Response
+Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,No Response
 
 
 Question 2,Rate 1 other student's product
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment
-\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,Response from student 2 to student 5.,Instructor1 Course1,Instructor 1 comment to response from student 2 to student 5 in feedback Question 2
-\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Response from student 3 \\"\\"to\\"\\" student 2. Multiline test.\\"
-\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,No Response
-\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,No Response
-Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,No Response
-Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,Response from student 5 to student 2.
-Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,No Response
-Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,No Response
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback,Comment From,Comment
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,Response from student 2 to student 5.,Instructor1 Course1,Instructor 1 comment to response from student 2 to student 5 in feedback Question 2
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,\\"Response from student 3 \\"\\"to\\"\\" student 2. Multiline test.\\"
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,No Response
+Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,No Response
+Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,Response from student 5 to student 2.
+Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,No Response
+Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,No Response
 
 
 Question 3,My comments on the class
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment
-Instructors,Instructor1 Course1,Course1,instructor1@course1.tmt,-,-,,,\\"Good work, keep it up!\\",Instructor1 Course1,Instructor 1 comment to instructor 1 self feedback Question 3
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback,Comment From,Comment
+Instructors,Instructor1 Course1,instructor1@course1.tmt,-,-,,\\"Good work, keep it up!\\",Instructor1 Course1,Instructor 1 comment to instructor 1 self feedback Question 3
 
 
 Question 4,Instructor comments on the class
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
-Instructors,Helper Course1,Course1,helper@course1.tmt,-,-,,,No Response
-Instructors,Instructor Not Yet Joined Course 1,1,instructorNotYetJoinedCourse1@email.tmt,-,-,,,No Response
-Instructors,Instructor1 Course1,Course1,instructor1@course1.tmt,-,-,,,No Response
-Instructors,Instructor2 Course1,Course1,instructor2@course1.tmt,-,-,,,No Response
-Instructors,Instructor3 Course1,Course1,instructor3@course1.tmt,-,-,,,No Response
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback
+Instructors,Helper Course1,helper@course1.tmt,-,-,,No Response
+Instructors,Instructor Not Yet Joined Course 1,instructorNotYetJoinedCourse1@email.tmt,-,-,,No Response
+Instructors,Instructor1 Course1,instructor1@course1.tmt,-,-,,No Response
+Instructors,Instructor2 Course1,instructor2@course1.tmt,-,-,,No Response
+Instructors,Instructor3 Course1,instructor3@course1.tmt,-,-,,No Response
 
 
 Question 5,New format Text question
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
-Instructors,Instructor1 Course1,Course1,instructor1@course1.tmt,-,-,,,No Response
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback
+Instructors,Instructor1 Course1,instructor1@course1.tmt,-,-,,No Response
 
 "
 `;
@@ -887,33 +851,33 @@ exports[`SessionResultCsvService should show responses along with stats for feed
 
 Question 1,What is the best selling point of your product?
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment
-\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,Student 1 self feedback.,Instructor1 Course1,Instructor 1 comment to student 1 self feedback
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,I'm cool'
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback,Comment From,Comment
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,Student 1 self feedback.,Instructor1 Course1,Instructor 1 comment to student 1 self feedback
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,I'm cool'
 
 
 Question 2,Rate 1 other student's product
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,Response from student 2 to student 5.,Instructor1 Course1,Instructor 1 comment to response from student 2 to student 5 in feedback Question 2
-\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Response from student 3 \\"\\"to\\"\\" student 2. Multiline test.\\"
-Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,Response from student 5 to student 2.
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback,Comment From,Comment
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,Response from student 2 to student 5.,Instructor1 Course1,Instructor 1 comment to response from student 2 to student 5 in feedback Question 2
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,\\"Response from student 3 \\"\\"to\\"\\" student 2. Multiline test.\\"
+Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,Response from student 5 to student 2.
 
 
 Question 3,My comments on the class
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment
-Instructors,Instructor1 Course1,Course1,instructor1@course1.tmt,-,-,,,\\"Good work, keep it up!\\",Instructor1 Course1,Instructor 1 comment to instructor 1 self feedback Question 3
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback,Comment From,Comment
+Instructors,Instructor1 Course1,instructor1@course1.tmt,-,-,,\\"Good work, keep it up!\\",Instructor1 Course1,Instructor 1 comment to instructor 1 self feedback Question 3
 
 
 Question 4,Instructor comments on the class
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback
 
 
 Question 5,New format Text question
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback
 
 "
 `;
@@ -923,33 +887,33 @@ exports[`SessionResultCsvService should show responses for feedbackSessionResult
 
 Question 1,What is the best selling point of your product?
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment
-\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,Student 1 self feedback.,Instructor1 Course1,Instructor 1 comment to student 1 self feedback
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,I'm cool'
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback,Comment From,Comment
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,Student 1 self feedback.,Instructor1 Course1,Instructor 1 comment to student 1 self feedback
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,I'm cool'
 
 
 Question 2,Rate 1 other student's product
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,Response from student 2 to student 5.,Instructor1 Course1,Instructor 1 comment to response from student 2 to student 5 in feedback Question 2
-\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Response from student 3 \\"\\"to\\"\\" student 2. Multiline test.\\"
-Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,Response from student 5 to student 2.
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback,Comment From,Comment
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,Response from student 2 to student 5.,Instructor1 Course1,Instructor 1 comment to response from student 2 to student 5 in feedback Question 2
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,\\"Response from student 3 \\"\\"to\\"\\" student 2. Multiline test.\\"
+Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,Response from student 5 to student 2.
 
 
 Question 3,My comments on the class
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment
-Instructors,Instructor1 Course1,Course1,instructor1@course1.tmt,-,-,,,\\"Good work, keep it up!\\",Instructor1 Course1,Instructor 1 comment to instructor 1 self feedback Question 3
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback,Comment From,Comment
+Instructors,Instructor1 Course1,instructor1@course1.tmt,-,-,,\\"Good work, keep it up!\\",Instructor1 Course1,Instructor 1 comment to instructor 1 self feedback Question 3
 
 
 Question 4,Instructor comments on the class
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback
 
 
 Question 5,New format Text question
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback
 
 "
 `;
@@ -961,32 +925,32 @@ Section View Detail,Show response if either the giver or evaluee is in the selec
 
 Question 1,What is the best selling point of your product?
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment
-\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,Student 1 self feedback.,Instructor1 Course1,Instructor 1 comment to student 1 self feedback
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,I'm cool'
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback,Comment From,Comment
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,Student 1 self feedback.,Instructor1 Course1,Instructor 1 comment to student 1 self feedback
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,I'm cool'
 
 
 Question 2,Rate 1 other student's product
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,Response from student 2 to student 5.,Instructor1 Course1,Instructor 1 comment to response from student 2 to student 5 in feedback Question 2
-\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Response from student 3 \\"\\"to\\"\\" student 2. Multiline test.\\"
-Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,Response from student 5 to student 2.
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback,Comment From,Comment
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,Response from student 2 to student 5.,Instructor1 Course1,Instructor 1 comment to response from student 2 to student 5 in feedback Question 2
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,\\"Response from student 3 \\"\\"to\\"\\" student 2. Multiline test.\\"
+Team 1.2,student5 In Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,Response from student 5 to student 2.
 
 
 Question 3,My comments on the class
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback
 
 
 Question 4,Instructor comments on the class
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback
 
 
 Question 5,New format Text question
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback
 
 "
 `;
@@ -1002,8 +966,8 @@ Price,0,0
 Quality,1,100
 
 
-Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Giver's Comments
-\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,Quality,
+Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback,Giver's Comments
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,Quality,
 
 "
 `;
