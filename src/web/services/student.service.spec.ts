@@ -91,10 +91,10 @@ describe('StudentService', () => {
     };
     spyOn(spyHttpRequestService, 'post').and.stub();
 
-    service.regenerateStudentCourseLinks(paramMap.courseid, paramMap.studentemail);
+    service.regenerateStudentKey(paramMap.courseid, paramMap.studentemail);
 
     expect(spyHttpRequestService.post)
-        .toHaveBeenCalledWith(ResourceEndpoints.STUDENT_COURSE_LINKS_REGENERATION, paramMap);
+        .toHaveBeenCalledWith(ResourceEndpoints.STUDENT_KEY, paramMap);
   });
 
   it('should generate course student list with section as csv', (done: DoneCallback) => {
