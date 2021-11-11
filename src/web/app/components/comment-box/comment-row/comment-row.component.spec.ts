@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { CommentEditFormComponent } from '../comment-edit-form/comment-edit-form.component';
+import {CommentEditFormComponent, CommentEditFormModel} from '../comment-edit-form/comment-edit-form.component';
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -10,7 +10,9 @@ import {
   CommentVisibilityControlNamePipe, CommentVisibilityTypeDescriptionPipe, CommentVisibilityTypeNamePipe,
   CommentVisibilityTypesJointNamePipe,
 } from '../comment-visibility-setting.pipe';
-import { CommentRowComponent } from './comment-row.component';
+import {CommentRowComponent, CommentRowModel} from './comment-row.component';
+import {of} from "rxjs";
+import {BrowserAnimationsModule, NoopAnimationsModule} from "@angular/platform-browser/animations";
 
 describe('CommentRowComponent', () => {
   let component: CommentRowComponent;
@@ -32,6 +34,8 @@ describe('CommentRowComponent', () => {
         HttpClientTestingModule,
         NgbModule,
         RichTextEditorModule,
+        BrowserAnimationsModule,
+        NoopAnimationsModule
       ],
     })
     .compileComponents();
@@ -46,4 +50,56 @@ describe('CommentRowComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should raises the selected event when closeEditingEvent is invoked', () => {
+    const button = fixture.nativeElement.querySelector('button');
+
+    spyOn(component.closeEditingEvent, 'emit');
+
+    button.click();
+    fixture.detectChanges();
+
+    component.triggerCloseEditing();
+
+    expect(component.closeEditingEvent.emit).toHaveBeenCalled();
+  });
+
+  it('should raises the selected event when saveCommentEvent is invoked', () => {
+    const button = fixture.nativeElement.querySelector('button');
+
+    spyOn(component.saveCommentEvent, 'emit');
+
+    button.click();
+    fixture.detectChanges();
+
+    component.triggerSaveCommentEvent();
+
+    expect(component.saveCommentEvent.emit).toHaveBeenCalled();
+  });
+
+  it('should raises the selected event when modelChange is invoked', () => {
+    const button = fixture.nativeElement.querySelector('button');
+    const field = 'test field';
+    const data = {};
+    const commentEditFormModel: CommentEditFormModel = {
+      commentText: '',
+
+      isUsingCustomVisibilities: false,
+      showCommentTo: [],
+      showGiverNameTo: [],
+    };
+    const commentRowModel: CommentRowModel = {
+      commentEditFormModel: commentEditFormModel,
+      isEditing: false,
+    };
+
+    spyOn(component.modelChange, 'emit').and.returnValue(of(Object.assign({}, commentRowModel, { [field]: data })));
+
+    button.click();
+    fixture.detectChanges();
+
+    component.triggerModelChange(field, data);
+
+    expect(component.modelChange.emit).toHaveBeenCalledWith(Object.assign({}, commentRowModel, { [field]: data }));
+  })
 });
