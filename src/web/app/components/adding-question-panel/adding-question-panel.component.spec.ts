@@ -6,6 +6,8 @@ import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.mo
 import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
 import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
 import { AddingQuestionPanelComponent } from './adding-question-panel.component';
+import { FeedbackQuestionType } from "../../../types/api-request";
+import { of } from "rxjs/internal/observable/of";
 
 describe('AddingQuestionPanelComponent', () => {
   let component: AddingQuestionPanelComponent;
@@ -35,5 +37,43 @@ describe('AddingQuestionPanelComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('raises the selected event when templateQuestionModalEvent is invoked', () => {
+    spyOn(component.templateQuestionModalEvent, 'emit');
+
+    const button = fixture.nativeElement.querySelector('button');
+
+    button.click();
+    fixture.detectChanges();
+
+    component.templateQuestionModalHandler();
+
+    expect(component.templateQuestionModalEvent.emit).toHaveBeenCalled();
+  });
+
+  it('raises the selected event when populateAndShowNewQuestionFormEvent is invoked', () => {
+    const type: FeedbackQuestionType = FeedbackQuestionType.MCQ;
+    const button = fixture.nativeElement.querySelector('button');
+
+    spyOn(component.populateAndShowNewQuestionFormEvent, 'emit').and.returnValue(of(type));
+    button.click();
+    fixture.detectChanges();
+
+    component.populateAndShowNewQuestionFormHandler(FeedbackQuestionType.MCQ);
+
+    expect(component.populateAndShowNewQuestionFormEvent.emit).toHaveBeenCalledWith(type);
+  });
+
+  it('raises the selected event when templateQuestionModalEvent is invoked', () => {
+    const button = fixture.nativeElement.querySelector('button');
+
+    spyOn(component.copyQuestionsFromOtherSessionsEvent, 'emit');
+    button.click();
+    fixture.detectChanges();
+
+    component.copyQuestionsFromOtherSessionsHandler();
+
+    expect(component.copyQuestionsFromOtherSessionsEvent.emit).toHaveBeenCalled();
   });
 });
