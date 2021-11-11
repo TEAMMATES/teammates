@@ -6,7 +6,7 @@ import { VisibilityControl } from '../types/visibility-control';
 /**
  * The state machine for visibility settings for comments.
  */
-export class CommentVisibilityStateMachineService {
+export class CommentVisibilityStateMachine {
 
   private visibility: Map<CommentVisibilityType, Map<CommentVisibilityControl, boolean>> = new Map();
 
