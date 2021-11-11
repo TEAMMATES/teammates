@@ -18,6 +18,7 @@ import com.googlecode.objectify.cmd.Query;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -209,7 +210,14 @@ public final class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, Feed
         assert courseId != null;
         assert receiver != null;
 
-        return makeAttributes(getFeedbackResponseIdEntitiesForReceiverForCourse(courseId, receiver));
+        List<FeedbackResponse> feedbackResponseIds = getFeedbackResponseIdEntitiesForReceiverForCourse(courseId, receiver);
+
+        // Fill compulsory fills with placeholder values
+        feedbackResponseIds.forEach(feedbackResponseId->feedbackResponseId.setAnswer(""));
+        feedbackResponseIds.forEach(feedbackResponseId->feedbackResponseId.setFeedbackQuestionType(
+                FeedbackQuestionType.TEXT));
+
+        return makeAttributes(feedbackResponseIds);
     }
 
     /**
@@ -231,7 +239,14 @@ public final class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, Feed
         assert courseId != null;
         assert giverEmail != null;
 
-        return makeAttributes(getFeedbackResponseIdEntitiesFromGiverForCourse(courseId, giverEmail));
+        List<FeedbackResponse> feedbackResponseIds = getFeedbackResponseIdEntitiesFromGiverForCourse(courseId, giverEmail);
+
+        // Fill compulsory fills with placeholder values
+        feedbackResponseIds.forEach(feedbackResponseId->feedbackResponseId.setAnswer(""));
+        feedbackResponseIds.forEach(feedbackResponseId->feedbackResponseId.setFeedbackQuestionType(
+                FeedbackQuestionType.TEXT));
+
+        return makeAttributes(feedbackResponseIds);
     }
 
     /**
@@ -472,7 +487,7 @@ public final class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, Feed
         return load()
                 .filter("courseId =", courseId)
                 .filter("receiver =", receiver)
-                .project("feedbackResponseId")
+                .project("giverEmail", "feedbackQuestionId")
                 .list();
     }
 
@@ -489,7 +504,7 @@ public final class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, Feed
         return load()
                 .filter("courseId =", courseId)
                 .filter("giverEmail =", giverEmail)
-                .project("feedbackResponseId")
+                .project("receiver", "feedbackQuestionId")
                 .list();
     }
 

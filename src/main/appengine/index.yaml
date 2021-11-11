@@ -49,17 +49,23 @@ indexes:
     name: sentOpeningSoonEmail
   - direction: asc
     name: startTime
-- kind: Student
+- kind: CourseStudent
   properties:
   - name: courseId
   - name: email
 - kind: FeedbackResponse
   properties:
   - name: courseId
+  - name: giverEmail
+  - name: feedbackQuestionId
   - name: receiver
-  - name: feedbackResponseId
 - kind: FeedbackResponse
   properties:
-  - name: courseId
-  - name: giver
-  - name: feedbackResponseId
+    - name: courseId
+    - name: receiver
+    - name: feedbackQuestionId
+    - name: giverEmail
+- kind: FeedbackResponseComment
+  properties:
+    - name: feedbackResponseId
+    - name: feedbackResponseCommentId
