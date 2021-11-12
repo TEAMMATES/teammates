@@ -213,8 +213,8 @@ public final class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, Feed
         List<FeedbackResponse> feedbackResponseIds = getFeedbackResponseIdEntitiesForReceiverForCourse(courseId, receiver);
 
         // Fill compulsory fills with placeholder values
-        feedbackResponseIds.forEach(feedbackResponseId->feedbackResponseId.setAnswer(""));
-        feedbackResponseIds.forEach(feedbackResponseId->feedbackResponseId.setFeedbackQuestionType(
+        feedbackResponseIds.forEach(feedbackResponseId -> feedbackResponseId.setAnswer(""));
+        feedbackResponseIds.forEach(feedbackResponseId -> feedbackResponseId.setFeedbackQuestionType(
                 FeedbackQuestionType.TEXT));
 
         return makeAttributes(feedbackResponseIds);
@@ -242,8 +242,8 @@ public final class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, Feed
         List<FeedbackResponse> feedbackResponseIds = getFeedbackResponseIdEntitiesFromGiverForCourse(courseId, giverEmail);
 
         // Fill compulsory fills with placeholder values
-        feedbackResponseIds.forEach(feedbackResponseId->feedbackResponseId.setAnswer(""));
-        feedbackResponseIds.forEach(feedbackResponseId->feedbackResponseId.setFeedbackQuestionType(
+        feedbackResponseIds.forEach(feedbackResponseId -> feedbackResponseId.setAnswer(""));
+        feedbackResponseIds.forEach(feedbackResponseId -> feedbackResponseId.setFeedbackQuestionType(
                 FeedbackQuestionType.TEXT));
 
         return makeAttributes(feedbackResponseIds);
