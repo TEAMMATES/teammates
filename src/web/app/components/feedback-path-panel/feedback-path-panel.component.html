@@ -56,7 +56,8 @@
     </div>
   </div>
   <div class="row margin-top-15px align-items-center"
-       *ngIf="model.recipientType === FeedbackParticipantType.STUDENTS || model.recipientType === FeedbackParticipantType.TEAMS || model.recipientType === FeedbackParticipantType.INSTRUCTORS">
+       *ngIf="model.recipientType === FeedbackParticipantType.STUDENTS || model.recipientType === FeedbackParticipantType.STUDENTS_IN_SAME_SECTION || model.recipientType === FeedbackParticipantType.TEAMS
+       || model.recipientType === FeedbackParticipantType.TEAMS_IN_SAME_SECTION || model.recipientType === FeedbackParticipantType.INSTRUCTORS">
     <div class="offset-1 col-md-4 text-md-right">
       The maximum number of {{ model.recipientType | lowercase }} each respondent should give feedback to:
     </div>

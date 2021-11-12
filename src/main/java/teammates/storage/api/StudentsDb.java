@@ -176,6 +176,16 @@ public final class StudentsDb extends EntitiesDb<CourseStudent, StudentAttribute
     }
 
     /**
+     * Gets all students of a section of a course.
+     */
+    public List<StudentAttributes> getStudentsForSection(String sectionName, String courseId) {
+        assert sectionName != null;
+        assert courseId != null;
+
+        return makeAttributes(getCourseStudentEntitiesForSection(sectionName, courseId));
+    }
+
+    /**
      * Gets all students of a team of a course.
      */
     public List<StudentAttributes> getStudentsForTeam(String teamName, String courseId) {
@@ -337,6 +347,13 @@ public final class StudentsDb extends EntitiesDb<CourseStudent, StudentAttribute
     private List<CourseStudent> getCourseStudentEntitiesForTeam(String teamName, String courseId) {
         return load()
                 .filter("teamName =", teamName)
+                .filter("courseId =", courseId)
+                .list();
+    }
+
+    private List<CourseStudent> getCourseStudentEntitiesForSection(String sectionName, String courseId) {
+        return load()
+                .filter("sectionName =", sectionName)
                 .filter("courseId =", courseId)
                 .list();
     }

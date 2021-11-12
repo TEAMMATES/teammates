@@ -1193,10 +1193,12 @@ public class InstructorFeedbackEditPage extends AppPage {
     private String getGeneratedOptionString(FeedbackParticipantType type) {
         switch (type) {
         case STUDENTS:
+        case STUDENTS_IN_SAME_SECTION:
             return "students";
         case STUDENTS_EXCLUDING_SELF:
             return "students (excluding self)";
         case TEAMS:
+        case TEAMS_IN_SAME_SECTION:
             return "teams";
         case TEAMS_EXCLUDING_SELF:
             return "teams (excluding own team)";
