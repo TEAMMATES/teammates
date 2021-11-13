@@ -1,13 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
-
-import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
-import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
+import { of } from 'rxjs/internal/observable/of';
+import { FeedbackQuestionType } from '../../../types/api-request';
+import { AjaxLoadingModule } from '../ajax-loading/ajax-loading.module';
+import { TeammatesCommonModule } from '../teammates-common/teammates-common.module';
 import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
 import { AddingQuestionPanelComponent } from './adding-question-panel.component';
-import { FeedbackQuestionType } from "../../../types/api-request";
-import { of } from "rxjs/internal/observable/of";
 
 describe('AddingQuestionPanelComponent', () => {
   let component: AddingQuestionPanelComponent;
@@ -42,7 +41,7 @@ describe('AddingQuestionPanelComponent', () => {
   it('raises the selected event when templateQuestionModalEvent is invoked', () => {
     spyOn(component.templateQuestionModalEvent, 'emit');
 
-    const button = fixture.nativeElement.querySelector('button');
+    const button: any = fixture.nativeElement.querySelector('button');
 
     button.click();
     fixture.detectChanges();
@@ -54,7 +53,7 @@ describe('AddingQuestionPanelComponent', () => {
 
   it('raises the selected event when populateAndShowNewQuestionFormEvent is invoked', () => {
     const type: FeedbackQuestionType = FeedbackQuestionType.MCQ;
-    const button = fixture.nativeElement.querySelector('button');
+    const button: any = fixture.nativeElement.querySelector('button');
 
     spyOn(component.populateAndShowNewQuestionFormEvent, 'emit').and.returnValue(of(type));
     button.click();
@@ -66,7 +65,7 @@ describe('AddingQuestionPanelComponent', () => {
   });
 
   it('raises the selected event when templateQuestionModalEvent is invoked', () => {
-    const button = fixture.nativeElement.querySelector('button');
+    const button: any = fixture.nativeElement.querySelector('button');
 
     spyOn(component.copyQuestionsFromOtherSessionsEvent, 'emit');
     button.click();

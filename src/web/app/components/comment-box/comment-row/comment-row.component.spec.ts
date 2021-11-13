@@ -1,18 +1,19 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import {CommentEditFormComponent, CommentEditFormModel} from '../comment-edit-form/comment-edit-form.component';
-
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { of } from 'rxjs';
 import { RichTextEditorModule } from '../../rich-text-editor/rich-text-editor.module';
 import { TeammatesCommonModule } from '../../teammates-common/teammates-common.module';
+import { CommentEditFormComponent } from '../comment-edit-form/comment-edit-form.component';
 import {
-  CommentVisibilityControlNamePipe, CommentVisibilityTypeDescriptionPipe, CommentVisibilityTypeNamePipe,
+  CommentVisibilityControlNamePipe,
+  CommentVisibilityTypeDescriptionPipe,
+  CommentVisibilityTypeNamePipe,
   CommentVisibilityTypesJointNamePipe,
 } from '../comment-visibility-setting.pipe';
-import {CommentRowComponent, CommentRowModel} from './comment-row.component';
-import {of} from "rxjs";
-import {BrowserAnimationsModule, NoopAnimationsModule} from "@angular/platform-browser/animations";
+import { CommentRowComponent, CommentRowModel } from './comment-row.component';
 
 describe('CommentRowComponent', () => {
   let component: CommentRowComponent;
@@ -35,7 +36,7 @@ describe('CommentRowComponent', () => {
         NgbModule,
         RichTextEditorModule,
         BrowserAnimationsModule,
-        NoopAnimationsModule
+        NoopAnimationsModule,
       ],
     })
     .compileComponents();
@@ -52,7 +53,7 @@ describe('CommentRowComponent', () => {
   });
 
   it('should raises the selected event when closeEditingEvent is invoked', () => {
-    const button = fixture.nativeElement.querySelector('button');
+    const button: any = fixture.nativeElement.querySelector('button');
 
     spyOn(component.closeEditingEvent, 'emit');
 
@@ -65,7 +66,7 @@ describe('CommentRowComponent', () => {
   });
 
   it('should raises the selected event when saveCommentEvent is invoked', () => {
-    const button = fixture.nativeElement.querySelector('button');
+    const button: any = fixture.nativeElement.querySelector('button');
 
     spyOn(component.saveCommentEvent, 'emit');
 
@@ -78,18 +79,16 @@ describe('CommentRowComponent', () => {
   });
 
   it('should raises the selected event when modelChange is invoked', () => {
-    const button = fixture.nativeElement.querySelector('button');
-    const field = 'test field';
-    const data = {};
-    const commentEditFormModel: CommentEditFormModel = {
-      commentText: '',
-
-      isUsingCustomVisibilities: false,
-      showCommentTo: [],
-      showGiverNameTo: [],
-    };
+    const button: any = fixture.nativeElement.querySelector('button');
+    const field: string = 'test field';
+    const data: any = {};
     const commentRowModel: CommentRowModel = {
-      commentEditFormModel: commentEditFormModel,
+      commentEditFormModel: {
+        commentText: '',
+        isUsingCustomVisibilities: false,
+        showCommentTo: [],
+        showGiverNameTo: [],
+      },
       isEditing: false,
     };
 
@@ -101,5 +100,5 @@ describe('CommentRowComponent', () => {
     component.triggerModelChange(field, data);
 
     expect(component.modelChange.emit).toHaveBeenCalledWith(Object.assign({}, commentRowModel, { [field]: data }));
-  })
+  });
 });
