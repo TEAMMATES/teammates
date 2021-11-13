@@ -622,16 +622,16 @@ public abstract class AppPage {
         switch (type) {
         case SELF:
             return "Giver (Self feedback)";
-        case STUDENTS:
         case STUDENTS_IN_SAME_SECTION:
             return "Other students in the same section";
+        case STUDENTS:
         case STUDENTS_EXCLUDING_SELF:
             return "Other students in the course";
         case INSTRUCTORS:
             return "Instructors in the course";
-        case TEAMS:
         case TEAMS_IN_SAME_SECTION:
             return "Other teams in the same section";
+        case TEAMS:
         case TEAMS_EXCLUDING_SELF:
             return "Other teams in the course";
         case OWN_TEAM:

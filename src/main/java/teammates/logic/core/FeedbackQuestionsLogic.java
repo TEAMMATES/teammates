@@ -446,7 +446,8 @@ public final class FeedbackQuestionsLogic {
             } else {
                 final String finalGiverSection = giverSection;
                 studentsInSection = courseRoster.getStudents().stream()
-                        .filter(studentAttributes -> studentAttributes.getSection().equals(finalGiverSection)).toList();
+                        .filter(studentAttributes -> studentAttributes.getSection()
+                                .equals(finalGiverSection)).collect(Collectors.toList());
             }
             for (StudentAttributes student : studentsInSection) {
                 if (isInstructorGiver && !instructorGiver.isAllowedForPrivilege(
