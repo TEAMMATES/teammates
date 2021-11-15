@@ -29,6 +29,9 @@ public class AccountRequest extends BaseEntity {
     private String institute;
 
     @Translate(InstantTranslatorFactory.class)
+    private Instant registeredAt;
+
+    @Translate(InstantTranslatorFactory.class)
     private Instant createdAt;
 
     @SuppressWarnings("unused")
@@ -83,6 +86,14 @@ public class AccountRequest extends BaseEntity {
 
     public void setInstitute(String institute) {
         this.institute = institute.trim();
+    }
+
+    public Instant getRegisteredAt() {
+        return registeredAt;
+    }
+
+    public void setRegisteredAt(Instant registeredAt) {
+        this.registeredAt = registeredAt;
     }
 
     public Instant getCreatedAt() {

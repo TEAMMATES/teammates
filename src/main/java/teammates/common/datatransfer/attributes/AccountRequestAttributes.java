@@ -1,5 +1,6 @@
 package teammates.common.datatransfer.attributes;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -16,7 +17,9 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
     private String email;
     private String name;
     private String institute;
-    private String registrationKey;
+    private Instant registeredAt;
+    private transient String registrationKey;
+    private transient Instant createdAt;
 
     private AccountRequestAttributes(String email, String institute) {
         this.email = email;
@@ -24,6 +27,8 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
 
         this.name = null;
         this.registrationKey = null;
+        this.registeredAt = null;
+        this.createdAt = null;
     }
 
     /**
@@ -35,7 +40,9 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
 
         accountRequestAttributes.registrationKey = accountRequest.getRegistrationKey();
         accountRequestAttributes.name = accountRequest.getName();
-
+        accountRequestAttributes.registeredAt = accountRequest.getRegisteredAt();
+        accountRequestAttributes.createdAt = accountRequestAttributes.getCreatedAt();
+        
         return accountRequestAttributes;
     }
 
@@ -62,6 +69,18 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
         return institute;
     }
 
+    public Instant getRegisteredAt() {
+        return registeredAt;
+    }
+
+    public void setRegisteredAt(Instant registeredAt) {
+        this.registeredAt = registeredAt;
+    }
+
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
     @Override
     public List<String> getInvalidityInfo() {
 
@@ -79,7 +98,15 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
         AccountRequest accountRequest = new AccountRequest(getEmail(), getName(), getInstitute());
 
         if (this.getRegistrationKey() != null) {
-            accountRequest.setRegistrationKey(getRegistrationKey());
+            accountRequest.setRegistrationKey(this.getRegistrationKey());
+        }
+
+        if (this.getCreatedAt() != null) {
+            accountRequest.setCreatedAt(this.getCreatedAt());
+        }
+
+        if (this.getRegisteredAt() != null) {
+            accountRequest.setRegisteredAt(this.getRegisteredAt());
         }
 
         return accountRequest;
@@ -87,13 +114,13 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
 
     @Override
     public String toString() {
-        return "[" + AccountRequestAttributes.class.getSimpleName() + "] registrationKey: " + getRegistrationKey()
-                + " email: " + getEmail() + " name: " + getName() + " institute: " + getInstitute();
+        return "[" + AccountRequestAttributes.class.getSimpleName() + "] email: " 
+                + getEmail() + " name: " + getName() + " institute: " + getInstitute();
     }
 
     @Override
     public int hashCode() {
-        return (this.email + this.name + this.institute + this.registrationKey).hashCode();
+        return (this.email + this.name + this.institute).hashCode();
     }
 
     @Override
@@ -103,11 +130,10 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
         } else if (this == other) {
             return true;
         } else if (this.getClass() == other.getClass()) {
-            AccountRequestAttributes otherCourse = (AccountRequestAttributes) other;
-            return Objects.equals(this.email, otherCourse.email)
-                    && Objects.equals(this.institute, otherCourse.institute)
-                    && Objects.equals(this.name, otherCourse.name)
-                    && Objects.equals(this.registrationKey, otherCourse.registrationKey);
+            AccountRequestAttributes otherAccountRequest = (AccountRequestAttributes) other;
+            return Objects.equals(this.email, otherAccountRequest.email)
+                    && Objects.equals(this.institute, otherAccountRequest.institute)
+                    && Objects.equals(this.name, otherAccountRequest.name);
         } else {
             return false;
         }
