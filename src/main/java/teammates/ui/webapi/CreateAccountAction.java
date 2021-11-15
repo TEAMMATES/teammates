@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import java.time.Instant;
 import java.util.List;
 
 import org.apache.http.HttpStatus;
@@ -48,6 +49,10 @@ class CreateAccountAction extends Action {
             throw new EntityNotFoundException(ednee);
         }
 
+        if (accountRequestAttributes.getRegisteredAt() != null) {
+            throw new InvalidOperationException("The registration key " + registrationKey + " has already been used.");
+        }
+
         String instructorEmail = accountRequestAttributes.getEmail();
         String instructorName = accountRequestAttributes.getName();
         String instructorInstitution = accountRequestAttributes.getInstitute();
@@ -66,6 +71,8 @@ class CreateAccountAction extends Action {
 
         try {
             logic.joinCourseForInstructor(instructorList.get(0).getKey(), userInfo.id);
+            accountRequestAttributes.setRegisteredAt(Instant.now());
+            logic.createOrUpdateAccountRequest(accountRequestAttributes);
         } catch (EntityDoesNotExistException ednee) {
             throw new EntityNotFoundException(ednee);
         } catch (EntityAlreadyExistsException eaee) {
@@ -73,9 +80,6 @@ class CreateAccountAction extends Action {
         } catch (InvalidParametersException ipe) {
             throw new InvalidHttpRequestBodyException(ipe);
         }
-
-        // Delete account request as it is no longer needed
-        logic.deleteAccountRequest(instructorEmail, instructorInstitution);
 
         return new JsonResult("Account successfully created", HttpStatus.SC_OK);
     }
