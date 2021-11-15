@@ -7,7 +7,7 @@ import { AccountService } from '../services/account.service';
 import { AuthService } from '../services/auth.service';
 import { CourseService } from '../services/course.service';
 import { NavigationService } from '../services/navigation.service';
-import { AuthInfo, JoinStatus, MessageOutput } from '../types/api-output';
+import { AuthInfo, JoinStatus } from '../types/api-output';
 import { ErrorReportComponent } from './components/error-report/error-report.component';
 import { ErrorMessageOutput } from './error-message-output';
 
@@ -59,7 +59,25 @@ export class UserJoinPageComponent implements OnInit {
         this.userId = auth.user.id;
 
         if (this.isCreatingAccount) {
-          // TODO Handle creation of account
+          this.accountService.getRegisteredStatus(this.key).subscribe((resp: JoinStatus) => {
+            this.hasJoined = resp.hasJoined;
+            if (this.hasJoined) {
+              // The regkey has been used; simply redirect the user to their home page,
+              // regardless of whether the regkey matches or not.
+              this.navigationService.navigateByURL(this.router, `/web/${this.entityType}/home`);
+            } else {
+              this.isLoading = false;
+            }
+          }, (resp: ErrorMessageOutput) => {
+            if (resp.status === 404) {
+              this.validUrl = false;
+              this.isLoading = false;
+              return;
+            }
+            const modalRef: any = this.ngbModal.open(ErrorReportComponent);
+            modalRef.componentInstance.requestId = resp.error.requestId;
+            modalRef.componentInstance.errorMessage = resp.error.message;
+          });
         } else {
           this.courseService.getJoinCourseStatus(this.key, this.entityType).subscribe((resp: JoinStatus) => {
             this.hasJoined = resp.hasJoined;
