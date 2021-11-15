@@ -25,6 +25,7 @@ public class GetAccountRequestActionTest extends BaseActionTest<GetAccountReques
     @Test
     protected void testExecute() {
         AccountRequestAttributes accountRequest = typicalBundle.accountRequests.get("accountRequest1");
+        accountRequest = logic.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
 
         loginAsAdmin();
 
@@ -58,6 +59,7 @@ public class GetAccountRequestActionTest extends BaseActionTest<GetAccountReques
         assertEquals(response.getEmail(), accountRequest.getEmail());
         assertEquals(response.getRegistrationKey(), accountRequest.getRegistrationKey());
         assertEquals(response.getInstitute(), accountRequest.getInstitute());
+        assertEquals(response.getRegisteredAt(), accountRequest.getRegisteredAt());
     }
 
     @Override

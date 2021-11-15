@@ -58,8 +58,6 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
         CreateAccountRequestAction a = getAction(req);
         JsonResult r = getJsonResult(a);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
-
         AccountRequestAttributes accountRequestAttributes = logic.getAccountRequest(email, institute);
 
         assertEquals(name, accountRequestAttributes.getName());
@@ -70,6 +68,7 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
         String joinLink = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
                 .withIsCreatingAccount(String.valueOf(true))
                 .withRegistrationKey(accountRequestAttributes.getRegistrationKey())
+                .withEntityType(Const.EntityType.INSTRUCTOR)
                 .toAbsoluteString();
 
         JoinLinkData output = (JoinLinkData) r.getOutput();

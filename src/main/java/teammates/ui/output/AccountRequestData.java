@@ -1,5 +1,7 @@
 package teammates.ui.output;
 
+import java.time.Instant;
+
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
 
 /**
@@ -11,12 +13,14 @@ public class AccountRequestData extends ApiOutput {
     private final String name;
     private final String institute;
     private final String registrationKey;
+    private final Instant registeredAt;
 
     public AccountRequestData(AccountRequestAttributes accountRequestInfo) {
         this.name = accountRequestInfo.getName();
         this.email = accountRequestInfo.getEmail();
         this.institute = accountRequestInfo.getInstitute();
         this.registrationKey = accountRequestInfo.getRegistrationKey();
+        this.registeredAt = accountRequestInfo.getRegisteredAt();
     }
 
     public String getInstitute() {
@@ -33,6 +37,10 @@ public class AccountRequestData extends ApiOutput {
 
     public String getRegistrationKey() {
         return registrationKey;
+    }
+
+    public Instant getRegisteredAt() {
+        return registeredAt;
     }
 
 }

@@ -75,10 +75,6 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
         return registeredAt;
     }
 
-    public void setRegisteredAt(Instant registeredAt) {
-        this.registeredAt = registeredAt;
-    }
-
     public Instant getCreatedAt() {
         return createdAt;
     }
@@ -162,6 +158,7 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
     public void update(UpdateOptions updateOptions) {
         updateOptions.registrationKeyOption.ifPresent(s -> registrationKey = s);
         updateOptions.nameOption.ifPresent(s -> name = s);
+        updateOptions.registeredAtOption.ifPresent(s -> registeredAt = s);
     }
 
     /**
@@ -202,6 +199,7 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
 
         private UpdateOption<String> nameOption = UpdateOption.empty();
         private UpdateOption<String> registrationKeyOption = UpdateOption.empty();
+        private UpdateOption<Instant> registeredAtOption = UpdateOption.empty();
 
         private UpdateOptions(String email, String institute) {
             assert email != null;
@@ -218,6 +216,7 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
                     + ", institute = " + institute
                     + ", name = " + nameOption
                     + ", registrationKey = " + registrationKeyOption
+                    + ", registeredAt = " + registeredAtOption
                     + "]";
         }
 
@@ -266,6 +265,13 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
             assert registationKey != null;
 
             updateOptions.registrationKeyOption = UpdateOption.of(registationKey);
+            return thisBuilder;
+        }
+
+        public B withRegisteredAt(Instant registeredAt) {
+            assert registeredAt != null;
+
+            updateOptions.registeredAtOption = UpdateOption.of(registeredAt);
             return thisBuilder;
         }
 

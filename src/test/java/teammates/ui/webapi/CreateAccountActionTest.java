@@ -75,8 +75,13 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
         verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME,
                 studentList.size() + instructorList.size());
 
+        ______TS("Error: registration key already used");
+        verifyInvalidOperation(params);
+        verifyNoTasksAdded();
+
         ______TS("Error: account request not found");
 
+        params = new String[] { Const.ParamsNames.REGKEY, "unknownregkey", };
         verifyEntityNotFound(params);
         verifyNoTasksAdded();
     }

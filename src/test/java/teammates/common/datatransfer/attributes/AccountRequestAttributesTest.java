@@ -2,6 +2,7 @@ package teammates.common.datatransfer.attributes;
 
 import org.testng.annotations.Test;
 
+import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.AccountRequest;
@@ -23,6 +24,18 @@ public class AccountRequestAttributesTest extends BaseTestCase {
         assertEquals("Valid Name", accountRequestAttributes.getName());
         assertEquals("valid@test.com", accountRequestAttributes.getEmail());
         assertEquals("Valid Institute", accountRequestAttributes.getInstitute());
+        assertNull(accountRequestAttributes.getRegisteredAt());
+    }
+
+    @Test
+    public void testValueOf_registeredWithTypicalData_shouldGenerateAttributesCorrectly() {
+        AccountRequest accountRequest =
+                new AccountRequest("valid@test.com", "Valid Name", "Valid Institute");
+        accountRequest.setRegisteredAt(Const.TIME_REPRESENTS_NOW);
+
+        AccountRequestAttributes accountRequestAttributes = AccountRequestAttributes.valueOf(accountRequest);
+
+        assertEquals(Const.TIME_REPRESENTS_NOW, accountRequestAttributes.getRegisteredAt());
     }
 
     @Test
@@ -53,6 +66,7 @@ public class AccountRequestAttributesTest extends BaseTestCase {
         assertEquals("valid institute", accountRequestAttributes.getInstitute());
         assertNull(accountRequestAttributes.getName());
         assertNull(accountRequestAttributes.getRegistrationKey());
+        assertNull(accountRequestAttributes.getRegisteredAt());
     }
 
     @Test
@@ -117,7 +131,7 @@ public class AccountRequestAttributesTest extends BaseTestCase {
     @Test
     public void testToString() {
         AccountRequestAttributes a = getValidAccountRequestAttributesObject();
-        assertEquals("[AccountRequestAttributes] registrationKey: valid123 email: valid@test.com "
+        assertEquals("[AccountRequestAttributes] email: valid@test.com "
                 + "name: valid-name institute: valid-institute", a.toString());
     }
 
