@@ -24,8 +24,8 @@ public class GetAccountRequestActionTest extends BaseActionTest<GetAccountReques
     @Override
     @Test
     protected void testExecute() {
-        AccountRequestAttributes accountRequest = typicalBundle.accountRequests.get("accountRequest1");
-        accountRequest = logic.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
+        AccountRequestAttributes accountRequest =
+                logic.getAccountRequest("typical@gmail.tmt", "TEAMMATES Test Institute 1");
 
         loginAsAdmin();
 

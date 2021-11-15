@@ -44,7 +44,7 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
         accountRequestAttributes.name = accountRequest.getName();
         accountRequestAttributes.registeredAt = accountRequest.getRegisteredAt();
         accountRequestAttributes.createdAt = accountRequestAttributes.getCreatedAt();
-        
+
         return accountRequestAttributes;
     }
 
@@ -120,7 +120,7 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
 
     @Override
     public String toString() {
-        return "[" + AccountRequestAttributes.class.getSimpleName() + "] email: " 
+        return "[" + AccountRequestAttributes.class.getSimpleName() + "] email: "
                 + getEmail() + " name: " + getName() + " institute: " + getInstitute();
     }
 
