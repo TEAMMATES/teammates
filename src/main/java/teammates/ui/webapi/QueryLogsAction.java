@@ -2,15 +2,12 @@ package teammates.ui.webapi;
 
 import java.time.Instant;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.datatransfer.QueryLogsResults;
 import teammates.common.datatransfer.logs.GeneralLogEntry;
 import teammates.common.datatransfer.logs.LogSeverity;
 import teammates.common.datatransfer.logs.QueryLogsParams;
 import teammates.common.datatransfer.logs.RequestLogUser;
 import teammates.common.datatransfer.logs.SourceLocation;
-import teammates.common.exception.LogServiceException;
 import teammates.common.util.Const;
 import teammates.ui.output.GeneralLogsData;
 
@@ -125,14 +122,11 @@ public class QueryLogsAction extends AdminOnlyAction {
                 .withOrder(order)
                 .withPageSize(DEFAULT_PAGE_SIZE)
                 .build();
-        try {
-            QueryLogsResults queryResults = logsProcessor.queryLogs(queryLogsParams);
-            removeSensitiveFields(queryResults);
-            GeneralLogsData generalLogsData = new GeneralLogsData(queryResults);
-            return new JsonResult(generalLogsData);
-        } catch (LogServiceException e) {
-            return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_GATEWAY);
-        }
+
+        QueryLogsResults queryResults = logsProcessor.queryLogs(queryLogsParams);
+        removeSensitiveFields(queryResults);
+        GeneralLogsData generalLogsData = new GeneralLogsData(queryResults);
+        return new JsonResult(generalLogsData);
     }
 
     private void removeSensitiveFields(QueryLogsResults queryResults) {

@@ -7,12 +7,13 @@
       You are not logged in. Please log in first.
     </div>
   </div>
-  <div class="card bg-light mx-auto" style="max-width: 800px;" *ngIf="!validUrl || hasJoined">
+  <div class="card bg-light mx-auto" style="max-width: 800px;" *ngIf="userId && (!validUrl || hasJoined)">
     <div class="card-header bg-warning">
       <h3 style="margin-bottom: 0;">Invalid course join link</h3>
     </div>
     <div class="card-body" *ngIf="!validUrl">
-      Please check that you copied the entire join link URL, or have it resent to you if this message persists.
+      The course join link is invalid. You may have entered the URL incorrectly or the URL may correspond
+      to a/an {{ entityType }} that does not exist.
     </div>
     <div class="card-body" *ngIf="hasJoined && validUrl">
       The course join link has been used and is no longer valid.

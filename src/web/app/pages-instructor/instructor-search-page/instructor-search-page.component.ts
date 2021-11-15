@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { forkJoin, Observable, of } from 'rxjs';
 import { finalize, map, mergeMap } from 'rxjs/operators';
-import { environment } from '../../../environments/environment';
 import { CourseService } from '../../../services/course.service';
 import { InstructorSearchResult, SearchService } from '../../../services/search.service';
 import { StatusMessageService } from '../../../services/status-message.service';
+import { ApiConst } from '../../../types/api-const';
 import {
   InstructorPrivilege,
   Student,
@@ -29,7 +29,6 @@ export class InstructorSearchPageComponent implements OnInit {
   };
   studentsListRowTables: SearchStudentsListRowTable[] = [];
   isSearching: boolean = false;
-  searchWarningDisplayed: boolean = !!environment.searchWarningDisplayed;
 
   constructor(
     private statusMessageService: StatusMessageService,
@@ -66,6 +65,10 @@ export class InstructorSearchPageComponent implements OnInit {
 
       if (hasStudents) {
         this.studentsListRowTables = searchStudentsTable;
+        if (searchStudentsTable.length >= ApiConst.SEARCH_QUERY_SIZE_LIMIT) {
+          this.statusMessageService.showWarningToast(`${ApiConst.SEARCH_QUERY_SIZE_LIMIT} results have been shown on this page
+              but there may be more results not shown. Consider searching with more specific terms.`);
+        }
       } else {
         this.studentsListRowTables = [];
       }

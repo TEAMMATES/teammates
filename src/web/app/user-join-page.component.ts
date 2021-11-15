@@ -27,8 +27,6 @@ export class UserJoinPageComponent implements OnInit {
   validUrl: boolean = true;
   entityType: string = '';
   key: string = '';
-  institute: string = '';
-  mac: string = '';
   userId: string = '';
 
   private backendUrl: string = environment.backendUrl;
@@ -45,72 +43,39 @@ export class UserJoinPageComponent implements OnInit {
     this.route.queryParams.subscribe((queryParams: any) => {
       this.entityType = queryParams.entitytype;
       this.key = queryParams.key;
-      this.institute = queryParams.instructorinstitution;
-      this.mac = queryParams.mac;
-      this.isCreatingAccount = queryParams.iscreatingaccount === 'true';
 
-      if (this.key == null || (this.institute != null && this.mac == null)) {
-        this.validUrl = false;
-        return;
-      }
-
-      if (this.isCreatingAccount) {
-        this.setupForCreateAccount();
-      } else {
-        this.setupForJoinCourse();
-      }
-    });
-  }
-
-  /**
-   * Setup page for instructor to join course.
-   */
-  setupForJoinCourse(): void {
-    this.courseService.getJoinCourseStatus(this.key, this.entityType).subscribe((resp: JoinStatus) => {
-      this.hasJoined = resp.hasJoined;
-      this.userId = resp.userId || '';
-      if (this.hasJoined && this.userId) {
-        // The regkey has been used and there is a logged in user.
-        // Simply redirect the user to their home page, regardless of whether the regkey matches or not.
-        this.navigationService.navigateByURL(this.router, `/web/${this.entityType}/home`);
-      } else {
-        this.isLoading = false;
-      }
-    }, (resp: ErrorMessageOutput) => {
-      if (resp.status === 403) {
-        this.isLoading = false;
-        const nextUrl: string = `${window.location.pathname}${window.location.search.replace(/&/g, '%26')}`;
-        this.authService.getAuthUser(undefined, nextUrl).subscribe((auth: AuthInfo) => {
-          if (!auth.user) {
+      const nextUrl: string = `${window.location.pathname}${window.location.search.replace(/&/g, '%26')}`;
+      this.authService.getAuthUser(undefined, nextUrl).subscribe((auth: AuthInfo) => {
+        if (!auth.user) {
+          this.isLoading = false;
+          if (this.entityType === 'student') {
             window.location.href = `${this.backendUrl}${auth.studentLoginUrl}`;
+          } else if (this.entityType === 'instructor') {
+            window.location.href = `${this.backendUrl}${auth.instructorLoginUrl}`;
           }
+          return;
+        }
+        this.userId = auth.user.id;
+        this.courseService.getJoinCourseStatus(this.key, this.entityType).subscribe((resp: JoinStatus) => {
+          this.hasJoined = resp.hasJoined;
+          if (this.hasJoined) {
+            // The regkey has been used; simply redirect the user to their home page,
+            // regardless of whether the regkey matches or not.
+            this.navigationService.navigateByURL(this.router, `/web/${this.entityType}/home`);
+          } else {
+            this.isLoading = false;
+          }
+        }, (resp: ErrorMessageOutput) => {
+          if (resp.status === 404) {
+            this.validUrl = false;
+            this.isLoading = false;
+            return;
+          }
+          const modalRef: any = this.ngbModal.open(ErrorReportComponent);
+          modalRef.componentInstance.requestId = resp.error.requestId;
+          modalRef.componentInstance.errorMessage = resp.error.message;
         });
-      } else {
-        const modalRef: any = this.ngbModal.open(ErrorReportComponent);
-        modalRef.componentInstance.requestId = resp.error.requestId;
-        modalRef.componentInstance.errorMessage = resp.error.message;
-      }
-    });
-  }
-
-  /**
-   * Setup page for instructor to create account.
-   */
-  setupForCreateAccount(): void {
-    const nextUrl: string = `${window.location.pathname}${window.location.search.replace(/&/g, '%26')}`;
-    this.authService.getAuthUser(undefined, nextUrl).subscribe((resp: AuthInfo) => {
-      this.userId = resp.user?.id || '';
-
-      if (!resp.user) {
-        window.location.href = `${this.backendUrl}${resp.instructorLoginUrl}`;
-      }
-
-      if (resp.user?.isInstructor) {
-        // User already has instructor account
-        this.navigationService.navigateByURL(this.router, '/web/instructor');
-      }
-
-      this.isLoading = false;
+      });
     });
   }
 
@@ -118,8 +83,7 @@ export class UserJoinPageComponent implements OnInit {
    * Joins the course.
    */
   joinCourse(): void {
-
-    this.courseService.joinCourse(this.key, this.entityType, this.institute, this.mac).subscribe(() => {
+    this.courseService.joinCourse(this.key, this.entityType).subscribe(() => {
       this.navigationService.navigateByURL(this.router, `/web/${this.entityType}`);
     }, (resp: ErrorMessageOutput) => {
       const modalRef: any = this.ngbModal.open(ErrorReportComponent);

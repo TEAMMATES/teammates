@@ -496,9 +496,6 @@ public abstract class AbstractBackDoor {
         if (studentData.getComments() != null) {
             builder.withComment(studentData.getComments());
         }
-        if (studentData.getLastName() != null) {
-            builder.withLastName(studentData.getLastName());
-        }
         StudentAttributes student = builder.build();
         if (studentData.getKey() != null) {
             student.setKey(studentData.getKey());

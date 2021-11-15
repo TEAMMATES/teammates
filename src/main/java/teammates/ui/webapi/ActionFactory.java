@@ -98,7 +98,8 @@ public final class ActionFactory {
         map(ResourceURIs.SESSIONS, GET, GetFeedbackSessionsAction.class);
         map(ResourceURIs.BIN_SESSION, PUT, BinFeedbackSessionAction.class);
         map(ResourceURIs.BIN_SESSION, DELETE, RestoreFeedbackSessionAction.class);
-        map(ResourceURIs.STUDENT_COURSE_LINKS_REGENERATION, POST, RegenerateStudentCourseLinksAction.class);
+        map(ResourceURIs.INSTRUCTOR_KEY, POST, RegenerateInstructorKeyAction.class);
+        map(ResourceURIs.STUDENT_KEY, POST, RegenerateStudentKeyAction.class);
         map(ResourceURIs.QUESTIONS, GET, GetFeedbackQuestionsAction.class);
         map(ResourceURIs.QUESTION, POST, CreateFeedbackQuestionAction.class);
         map(ResourceURIs.QUESTION, PUT, UpdateFeedbackQuestionAction.class);

@@ -39,7 +39,6 @@ export class StudentCourseDetailsPageComponent implements OnInit {
     email: '',
     courseId: '',
     name: '',
-    lastName: '',
     comments: '',
     joinState: JoinState.NOT_JOINED,
     teamName: '',

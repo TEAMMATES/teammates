@@ -359,4 +359,26 @@ public final class InstructorsLogic {
             instructorToEdit.getPrivileges().updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, true);
         }
     }
+
+    /**
+     * Regenerates the registration key for the instructor with email address {@code email} in course {@code courseId}.
+     *
+     * @return the instructor attributes with the new registration key.
+     * @throws EntityAlreadyExistsException if the newly generated instructor has the same registration key as the
+     *          original one.
+     * @throws EntityDoesNotExistException if the instructor does not exist.
+     */
+    public InstructorAttributes regenerateInstructorRegistrationKey(String courseId, String email)
+            throws EntityDoesNotExistException, EntityAlreadyExistsException {
+
+        InstructorAttributes originalInstructor = instructorsDb.getInstructorForEmail(courseId, email);
+        if (originalInstructor == null) {
+            String errorMessage = String.format(
+                    "The instructor with the email %s could not be found for the course with ID [%s].", email, courseId);
+            throw new EntityDoesNotExistException(errorMessage);
+        }
+
+        return instructorsDb.regenerateEntityKey(originalInstructor);
+    }
+
 }

@@ -10,7 +10,6 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
-import teammates.common.util.StringHelper;
 import teammates.storage.entity.CourseStudent;
 
 /**
@@ -22,7 +21,6 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
     private String course;
     private String name;
     private String googleId;
-    private String lastName;
     private String comments;
     private String team;
     private String section;
@@ -46,7 +44,6 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
     public static StudentAttributes valueOf(CourseStudent student) {
         StudentAttributes studentAttributes = new StudentAttributes(student.getCourseId(), student.getEmail());
         studentAttributes.name = student.getName();
-        studentAttributes.lastName = student.getLastName();
         if (student.getGoogleId() != null) {
             studentAttributes.googleId = student.getGoogleId();
         }
@@ -80,7 +77,6 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
         StudentAttributes studentAttributes = new StudentAttributes(course, email);
 
         studentAttributes.name = name;
-        studentAttributes.lastName = lastName;
         studentAttributes.googleId = googleId;
         studentAttributes.team = team;
         studentAttributes.section = section;
@@ -99,8 +95,6 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
     public String getRegistrationUrl() {
         return Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
                 .withRegistrationKey(key)
-                .withStudentEmail(email)
-                .withCourseId(course)
                 .withEntityType(Const.EntityType.STUDENT)
                 .toString();
     }
@@ -111,14 +105,6 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
     }
 
     public String getEmail() {
@@ -294,11 +280,7 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
      */
     public void update(UpdateOptions updateOptions) {
         updateOptions.newEmailOption.ifPresent(s -> email = s);
-        updateOptions.nameOption.ifPresent(s -> {
-            name = s;
-            lastName = StringHelper.splitName(s)[1];
-        });
-        updateOptions.lastNameOption.ifPresent(s -> lastName = s);
+        updateOptions.nameOption.ifPresent(s -> name = s);
         updateOptions.commentOption.ifPresent(s -> comments = s);
         updateOptions.googleIdOption.ifPresent(s -> googleId = s);
         updateOptions.teamNameOption.ifPresent(s -> team = s);
@@ -343,7 +325,6 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
 
         private UpdateOption<String> newEmailOption = UpdateOption.empty();
         private UpdateOption<String> nameOption = UpdateOption.empty();
-        private UpdateOption<String> lastNameOption = UpdateOption.empty();
         private UpdateOption<String> commentOption = UpdateOption.empty();
         private UpdateOption<String> googleIdOption = UpdateOption.empty();
         private UpdateOption<String> teamNameOption = UpdateOption.empty();
@@ -372,7 +353,6 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
                     + ", email = " + email
                     + ", newEmail = " + newEmailOption
                     + ", name = " + nameOption
-                    + ", lastName = " + lastNameOption
                     + ", comment = " + commentOption
                     + ", googleId = " + googleIdOption
                     + ", teamName = " + teamNameOption
@@ -425,13 +405,6 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
             assert name != null;
 
             updateOptions.nameOption = UpdateOption.of(name);
-            return thisBuilder;
-        }
-
-        public B withLastName(String name) {
-            assert name != null;
-
-            updateOptions.lastNameOption = UpdateOption.of(name);
             return thisBuilder;
         }
 

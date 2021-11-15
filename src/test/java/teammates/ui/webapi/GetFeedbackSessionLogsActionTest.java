@@ -38,6 +38,8 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
         String courseId = course.getId();
         FeedbackSessionAttributes fsa1 = typicalBundle.feedbackSessions.get("session1InCourse1");
         FeedbackSessionAttributes fsa2 = typicalBundle.feedbackSessions.get("session2InCourse1");
+        String fsa1Name = fsa1.getFeedbackSessionName();
+        String fsa2Name = fsa2.getFeedbackSessionName();
         StudentAttributes student1 = typicalBundle.students.get("student1InCourse1");
         StudentAttributes student2 = typicalBundle.students.get("student2InCourse1");
         String student1Email = student1.getEmail();
@@ -46,15 +48,15 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
         long startTime = endTime - (Const.LOGS_RETENTION_PERIOD.toDays() - 1) * 24 * 60 * 60 * 1000;
         long invalidStartTime = endTime - (Const.LOGS_RETENTION_PERIOD.toDays() + 1) * 24 * 60 * 60 * 1000;
 
-        mockLogsProcessor.insertFeedbackSessionLog(student1, fsa1,
+        mockLogsProcessor.insertFeedbackSessionLog(student1Email, fsa1Name,
                 FeedbackSessionLogType.ACCESS.getLabel(), startTime);
-        mockLogsProcessor.insertFeedbackSessionLog(student1, fsa2,
+        mockLogsProcessor.insertFeedbackSessionLog(student1Email, fsa2Name,
                 FeedbackSessionLogType.ACCESS.getLabel(), startTime + 1000);
-        mockLogsProcessor.insertFeedbackSessionLog(student1, fsa2,
+        mockLogsProcessor.insertFeedbackSessionLog(student1Email, fsa2Name,
                 FeedbackSessionLogType.SUBMISSION.getLabel(), startTime + 2000);
-        mockLogsProcessor.insertFeedbackSessionLog(student2, fsa1,
+        mockLogsProcessor.insertFeedbackSessionLog(student2Email, fsa1Name,
                 FeedbackSessionLogType.ACCESS.getLabel(), startTime + 3000);
-        mockLogsProcessor.insertFeedbackSessionLog(student2, fsa1,
+        mockLogsProcessor.insertFeedbackSessionLog(student2Email, fsa1Name,
                 FeedbackSessionLogType.SUBMISSION.getLabel(), startTime + 4000);
 
         ______TS("Failure case: not enough parameters");
@@ -123,15 +125,15 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
         FeedbackSessionLogsData fslData = (FeedbackSessionLogsData) actionOutput.getOutput();
         List<FeedbackSessionLogData> fsLogs = fslData.getFeedbackSessionLogs();
 
-        // Course has 6 feedback sessions, first 4 of which have no log entries
+        // Course has 6 feedback sessions, last 4 of which have no log entries
         assertEquals(fsLogs.size(), 6);
-        assertEquals(fsLogs.get(0).getFeedbackSessionLogEntries().size(), 0);
-        assertEquals(fsLogs.get(1).getFeedbackSessionLogEntries().size(), 0);
         assertEquals(fsLogs.get(2).getFeedbackSessionLogEntries().size(), 0);
         assertEquals(fsLogs.get(3).getFeedbackSessionLogEntries().size(), 0);
+        assertEquals(fsLogs.get(4).getFeedbackSessionLogEntries().size(), 0);
+        assertEquals(fsLogs.get(5).getFeedbackSessionLogEntries().size(), 0);
 
-        List<FeedbackSessionLogEntryData> fsLogEntries1 = fsLogs.get(4).getFeedbackSessionLogEntries();
-        List<FeedbackSessionLogEntryData> fsLogEntries2 = fsLogs.get(5).getFeedbackSessionLogEntries();
+        List<FeedbackSessionLogEntryData> fsLogEntries1 = fsLogs.get(0).getFeedbackSessionLogEntries();
+        List<FeedbackSessionLogEntryData> fsLogEntries2 = fsLogs.get(1).getFeedbackSessionLogEntries();
 
         assertEquals(fsLogEntries1.size(), 3);
         assertEquals(fsLogEntries1.get(0).getStudentData().getEmail(), student1Email);

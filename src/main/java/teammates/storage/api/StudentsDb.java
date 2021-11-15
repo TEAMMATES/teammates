@@ -242,7 +242,6 @@ public final class StudentsDb extends EntitiesDb<CourseStudent, StudentAttribute
             // update only if change
             boolean hasSameAttributes =
                     this.<String>hasSameValue(student.getName(), newAttributes.getName())
-                    && this.<String>hasSameValue(student.getLastName(), newAttributes.getLastName())
                     && this.<String>hasSameValue(student.getComments(), newAttributes.getComments())
                     && this.<String>hasSameValue(student.getGoogleId(), newAttributes.getGoogleId())
                     && this.<String>hasSameValue(student.getTeamName(), newAttributes.getTeam())
@@ -253,7 +252,6 @@ public final class StudentsDb extends EntitiesDb<CourseStudent, StudentAttribute
             }
 
             student.setName(newAttributes.getName());
-            student.setLastName(newAttributes.getLastName());
             student.setComments(newAttributes.getComments());
             student.setGoogleId(newAttributes.getGoogleId());
             student.setTeamName(newAttributes.getTeam());

@@ -36,6 +36,9 @@ import { ErrorMessageOutput } from '../../error-message-output';
 })
 export class SessionResultPageComponent implements OnInit {
 
+  // enum
+  Intent: typeof Intent = Intent;
+
   session: FeedbackSession = {
     courseId: '',
     timeZone: '',
@@ -61,6 +64,7 @@ export class SessionResultPageComponent implements OnInit {
   feedbackSessionName: string = '';
   regKey: string = '';
   loggedInUser: string = '';
+  visibilityRecipient: FeedbackVisibilityType = FeedbackVisibilityType.RECIPIENT;
 
   intent: Intent = Intent.STUDENT_RESULT;
 
@@ -215,25 +219,16 @@ export class SessionResultPageComponent implements OnInit {
     });
   }
 
-  canUserSeeResponses(question: QuestionOutput): boolean {
-    const showResponsesTo: FeedbackVisibilityType[] = question.feedbackQuestion.showResponsesTo;
-
-    if (this.intent === Intent.STUDENT_RESULT) {
-      return showResponsesTo.filter((visibilityType: FeedbackVisibilityType) =>
-          visibilityType !== FeedbackVisibilityType.INSTRUCTORS).length > 0;
-    }
-    if (this.intent === Intent.INSTRUCTOR_RESULT) {
-      return showResponsesTo.filter((visibilityType: FeedbackVisibilityType) =>
-          visibilityType === FeedbackVisibilityType.INSTRUCTORS).length > 0;
-    }
-    return false;
-  }
-
   /**
    * Redirects to join course link for unregistered student.
    */
   joinCourseForUnregisteredStudent(): void {
     this.navigationService.navigateByURL(this.router, '/web/join', { entitytype: 'student', key: this.regKey });
+  }
+
+  navigateToSessionReportPage(): void {
+    this.navigationService.navigateByURL(this.router, '/web/instructor/sessions/report',
+        { courseid: this.courseId, fsname: this.feedbackSessionName });
   }
 
   retryLoadingFeedbackSessionResults(): void {

@@ -16,7 +16,10 @@ import {
   FeedbackQuestionType, FeedbackRubricQuestionDetails, FeedbackRubricResponseDetails,
   FeedbackSession,
   FeedbackSessionPublishStatus,
-  FeedbackSessionSubmissionStatus, NumberOfEntitiesToGiveFeedbackToSetting, QuestionOutput,
+  FeedbackSessionSubmissionStatus, FeedbackTextQuestionDetails, FeedbackTextResponseDetails,
+  FeedbackVisibilityType,
+  NumberOfEntitiesToGiveFeedbackToSetting,
+  QuestionOutput,
   RegkeyValidity,
   ResponseVisibleSetting, SessionResults,
   SessionVisibleSetting,
@@ -24,6 +27,7 @@ import {
 import { Intent } from '../../../types/api-request';
 import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
+import { QuestionResponsePanelModule } from '../../components/question-response-panel/question-response-panel.module';
 import { SingleStatisticsModule } from '../../components/question-responses/single-statistics/single-statistics.module';
 import { StudentViewResponsesModule } from '../../components/question-responses/student-view-responses/student-view-responses.module';
 import { QuestionTextWithInfoModule } from '../../components/question-text-with-info/question-text-with-info.module';
@@ -135,6 +139,46 @@ describe('SessionResultPageComponent', () => {
     customNumberOfEntitiesToGiveFeedbackTo: 0,
   };
 
+  const testQuestionAnonymousResponse1: FeedbackQuestion = {
+    feedbackQuestionId: 'feedbackQuestionAnonymousResponse1',
+    questionNumber: 1,
+    questionBrief: 'What comments do you have regarding each of your team members? (response is confidential and will only be shown to the instructor).',
+    questionDescription: '',
+    questionDetails: {
+      shouldAllowRichText: true,
+      questionType: FeedbackQuestionType.TEXT,
+      questionText: 'What comments do you have regarding each of your team members? (response is confidential and will only be shown to the instructor).',
+    } as FeedbackTextQuestionDetails,
+    questionType: FeedbackQuestionType.TEXT,
+    giverType: FeedbackParticipantType.STUDENTS,
+    recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
+    numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
+    showResponsesTo: [FeedbackVisibilityType.INSTRUCTORS],
+    showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
+    showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS],
+    customNumberOfEntitiesToGiveFeedbackTo: 0,
+  };
+
+  const testQuestionAnonymousResponse2: FeedbackQuestion = {
+    feedbackQuestionId: 'feedbackQuestionAnonymousResponse2',
+    questionNumber: 2,
+    questionBrief: 'How are the team dynamics thus far? (response is confidential and will only be shown to the instructor).',
+    questionDescription: '',
+    questionDetails: {
+      shouldAllowRichText: true,
+      questionType: FeedbackQuestionType.TEXT,
+      questionText: 'How are the team dynamics thus far? (response is confidential and will only be shown to the instructor).',
+    } as FeedbackTextQuestionDetails,
+    questionType: FeedbackQuestionType.TEXT,
+    giverType: FeedbackParticipantType.STUDENTS,
+    recipientType: FeedbackParticipantType.OWN_TEAM,
+    numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
+    showResponsesTo: [FeedbackVisibilityType.INSTRUCTORS],
+    showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
+    showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS],
+    customNumberOfEntitiesToGiveFeedbackTo: 0,
+  };
+
   let component: SessionResultPageComponent;
   let fixture: ComponentFixture<SessionResultPageComponent>;
   let authService: AuthService;
@@ -156,6 +200,7 @@ describe('SessionResultPageComponent', () => {
         RouterTestingModule,
         StudentViewResponsesModule,
         QuestionTextWithInfoModule,
+        QuestionResponsePanelModule,
         SingleStatisticsModule,
         LoadingSpinnerModule,
         LoadingRetryModule,
@@ -370,6 +415,147 @@ describe('SessionResultPageComponent', () => {
           },
         ],
         otherResponses: [[]],
+      },
+    ];
+
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should snap with feedback session with questions of anonymous responses', () => {
+    component.session = testFeedbackSession;
+    component.questions = [
+      {
+        feedbackQuestion: testQuestionAnonymousResponse1,
+        questionStatistics: '',
+        allResponses: [
+          {
+            isMissingResponse: false,
+            responseId: 'resp-id-1',
+            giver: 'giver1',
+            giverTeam: 'team1',
+            giverSection: 'section1',
+            recipient: 'recipient1',
+            recipientTeam: 'team1',
+            recipientSection: 'section1',
+            responseDetails: {
+              answer: '<p>asdf</p>',
+            } as FeedbackTextResponseDetails,
+            instructorComments: [],
+          },
+          {
+            isMissingResponse: false,
+            responseId: 'resp-id-2',
+            giver: 'giver1',
+            giverTeam: 'team1',
+            giverSection: 'section1',
+            recipient: 'recipient2',
+            recipientTeam: 'team1',
+            recipientSection: 'section1',
+            responseDetails: {
+              answer: '<p>asdf</p>',
+            } as FeedbackTextResponseDetails,
+            instructorComments: [],
+          },
+          {
+            isMissingResponse: false,
+            responseId: 'resp-id-3',
+            giver: 'giver1',
+            giverTeam: 'team1',
+            giverSection: 'section1',
+            recipient: 'recipient3',
+            recipientTeam: 'team1',
+            recipientSection: 'section1',
+            responseDetails: {
+              answer: '<p>asdf</p>',
+            } as FeedbackTextResponseDetails,
+            instructorComments: [],
+          },
+        ],
+        responsesToSelf: [],
+        responsesFromSelf: [
+          {
+            isMissingResponse: false,
+            responseId: 'resp-id-1',
+            giver: 'giver1',
+            giverTeam: 'team1',
+            giverSection: 'section1',
+            recipient: 'recipient1',
+            recipientTeam: 'team1',
+            recipientSection: 'section1',
+            responseDetails: {
+              answer: '<p>asdf</p>',
+            } as FeedbackTextResponseDetails,
+            instructorComments: [],
+          },
+          {
+            isMissingResponse: false,
+            responseId: 'resp-id-2',
+            giver: 'giver1',
+            giverTeam: 'team1',
+            giverSection: 'section1',
+            recipient: 'recipient2',
+            recipientTeam: 'team1',
+            recipientSection: 'section1',
+            responseDetails: {
+              answer: '<p>asdf</p>',
+            } as FeedbackTextResponseDetails,
+            instructorComments: [],
+          },
+          {
+            isMissingResponse: false,
+            responseId: 'resp-id-3',
+            giver: 'giver1',
+            giverTeam: 'team1',
+            giverSection: 'section1',
+            recipient: 'recipient3',
+            recipientTeam: 'team1',
+            recipientSection: 'section1',
+            responseDetails: {
+              answer: '<p>asdf</p>',
+            } as FeedbackTextResponseDetails,
+            instructorComments: [],
+          },
+        ],
+        otherResponses: [],
+      },
+      {
+        feedbackQuestion: testQuestionAnonymousResponse2,
+        questionStatistics: '',
+        allResponses: [
+          {
+            isMissingResponse: false,
+            responseId: 'resp-id-4',
+            giver: 'giver1',
+            giverTeam: 'team1',
+            giverSection: 'section1',
+            recipient: 'team1',
+            recipientTeam: 'team1',
+            recipientSection: 'section1',
+            responseDetails: {
+              answer: '<p>asdf</p>',
+            } as FeedbackTextResponseDetails,
+            instructorComments: [],
+          },
+        ],
+        responsesToSelf: [],
+        responsesFromSelf: [
+          {
+            isMissingResponse: false,
+            responseId: 'resp-id-4',
+            giver: 'giver1',
+            giverTeam: 'team1',
+            giverSection: 'section1',
+            recipient: 'team1',
+            recipientTeam: 'team1',
+            recipientSection: 'section1',
+            responseDetails: {
+              answer: '<p>asdf</p>',
+            } as FeedbackTextResponseDetails,
+            instructorComments: [],
+          },
+        ],
+        otherResponses: [],
       },
     ];
 
