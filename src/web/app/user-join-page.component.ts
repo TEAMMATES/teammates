@@ -43,6 +43,7 @@ export class UserJoinPageComponent implements OnInit {
     this.route.queryParams.subscribe((queryParams: any) => {
       this.entityType = queryParams.entitytype;
       this.key = queryParams.key;
+      this.isCreatingAccount = queryParams.iscreatingaccount === 'true';
 
       const nextUrl: string = `${window.location.pathname}${window.location.search.replace(/&/g, '%26')}`;
       this.authService.getAuthUser(undefined, nextUrl).subscribe((auth: AuthInfo) => {
@@ -56,25 +57,30 @@ export class UserJoinPageComponent implements OnInit {
           return;
         }
         this.userId = auth.user.id;
-        this.courseService.getJoinCourseStatus(this.key, this.entityType).subscribe((resp: JoinStatus) => {
-          this.hasJoined = resp.hasJoined;
-          if (this.hasJoined) {
-            // The regkey has been used; simply redirect the user to their home page,
-            // regardless of whether the regkey matches or not.
-            this.navigationService.navigateByURL(this.router, `/web/${this.entityType}/home`);
-          } else {
-            this.isLoading = false;
-          }
-        }, (resp: ErrorMessageOutput) => {
-          if (resp.status === 404) {
-            this.validUrl = false;
-            this.isLoading = false;
-            return;
-          }
-          const modalRef: any = this.ngbModal.open(ErrorReportComponent);
-          modalRef.componentInstance.requestId = resp.error.requestId;
-          modalRef.componentInstance.errorMessage = resp.error.message;
-        });
+
+        if (this.isCreatingAccount) {
+          // TODO Handle creation of account
+        } else {
+          this.courseService.getJoinCourseStatus(this.key, this.entityType).subscribe((resp: JoinStatus) => {
+            this.hasJoined = resp.hasJoined;
+            if (this.hasJoined) {
+              // The regkey has been used; simply redirect the user to their home page,
+              // regardless of whether the regkey matches or not.
+              this.navigationService.navigateByURL(this.router, `/web/${this.entityType}/home`);
+            } else {
+              this.isLoading = false;
+            }
+          }, (resp: ErrorMessageOutput) => {
+            if (resp.status === 404) {
+              this.validUrl = false;
+              this.isLoading = false;
+              return;
+            }
+            const modalRef: any = this.ngbModal.open(ErrorReportComponent);
+            modalRef.componentInstance.requestId = resp.error.requestId;
+            modalRef.componentInstance.errorMessage = resp.error.message;
+          });
+        }
       });
     });
   }
@@ -101,7 +107,7 @@ export class UserJoinPageComponent implements OnInit {
       .createAccount(this.key)
       .pipe(finalize(() => (this.isLoading = false)))
       .subscribe(
-        (_resp: MessageOutput) => {
+        () => {
           this.navigationService.navigateByURL(this.router, '/web/instructor');
         },
         (resp: ErrorMessageOutput) => {
