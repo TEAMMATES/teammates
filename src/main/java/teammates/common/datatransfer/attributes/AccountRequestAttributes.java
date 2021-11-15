@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import teammates.common.util.Config;
+import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.AccountRequest;
@@ -79,6 +81,14 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
 
     public Instant getCreatedAt() {
         return createdAt;
+    }
+
+    public String getRegistrationUrl() {
+        return Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
+                .withIsCreatingAccount(String.valueOf(true))
+                .withRegistrationKey(this.getRegistrationKey())
+                .withEntityType(Const.EntityType.INSTRUCTOR)
+                .toAbsoluteString();
     }
 
     @Override
