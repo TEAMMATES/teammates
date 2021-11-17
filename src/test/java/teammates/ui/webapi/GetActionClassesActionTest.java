@@ -91,6 +91,7 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 CreateAccountAction.class,
                 CreateAccountRequestAction.class,
                 GetAccountRequestAction.class,
+                GetAccountRequestStatusAction.class,
                 DeleteAccountRequestAction.class,
                 GetAccountAction.class,
                 FeedbackSessionPublishedRemindersAction.class,

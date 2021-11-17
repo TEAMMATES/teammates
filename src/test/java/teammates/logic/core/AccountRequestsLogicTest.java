@@ -105,7 +105,8 @@ public class AccountRequestsLogicTest extends BaseLogicTest {
 
     @Test
     public void testGetAccountRequestForRegistrationKey() throws Exception {
-        AccountRequestAttributes a = dataBundle.accountRequests.get("accountRequest1");
+        AccountRequestAttributes a =
+                accountRequestsLogic.getAccountRequest("typical@gmail.tmt", "TEAMMATES Test Institute 1");
 
         ______TS("typical success case");
 
