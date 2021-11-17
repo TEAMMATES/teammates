@@ -85,8 +85,8 @@ export class AccountService {
   /**
    * Get the status of whether the registration key has been used by calling API.
    */
-   getRegisteredStatus(regKey: string): Observable<JoinStatus> {
-    const paramMap: Record<string, string> = { key: regKey, };
+  getRegisteredStatus(regKey: string): Observable<JoinStatus> {
+    const paramMap: Record<string, string> = { key: regKey };
     return this.httpRequestService.get(ResourceEndpoints.ACCOUNT_REQUEST_STATUS, paramMap);
   }
 
