@@ -149,7 +149,7 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
             courseId: this.courseId,
             feedbackSessionName: feedbackSession.feedbackSessionName,
             groupBySection: this.studentSection,
-            intent: Intent.INSTRUCTOR_RESULT,
+            intent: Intent.FULL_DETAIL,
           }).pipe(map((results: SessionResults) => {
             // sort questions by question number
             results.questions.sort((a: QuestionOutput, b: QuestionOutput) =>
