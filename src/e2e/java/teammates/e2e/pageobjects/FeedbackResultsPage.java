@@ -5,7 +5,6 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.time.Instant;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -281,18 +280,18 @@ public class FeedbackResultsPage extends AppPage {
         return sessionClosingTime.getText();
     }
 
-    private void assertDateEquals(String actual, Instant instant, ZoneId timeZone) {
+    private void assertDateEquals(String actual, Instant instant, String timeZone) {
         String dateStrWithAbbr = getDateStringWithAbbr(instant, timeZone);
         String dateStrWithOffset = getDateStringWithOffset(instant, timeZone);
 
         assertTrue(actual.equals(dateStrWithAbbr) || actual.equals(dateStrWithOffset));
     }
 
-    private String getDateStringWithAbbr(Instant instant, ZoneId timeZone) {
+    private String getDateStringWithAbbr(Instant instant, String timeZone) {
         return getDisplayedDateTime(instant, timeZone, "EE, dd MMM, yyyy, hh:mm a z");
     }
 
-    private String getDateStringWithOffset(Instant instant, ZoneId timeZone) {
+    private String getDateStringWithOffset(Instant instant, String timeZone) {
         return getDisplayedDateTime(instant, timeZone, "EE, dd MMM, yyyy, hh:mm a X");
     }
 

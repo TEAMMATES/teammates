@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.time.Instant;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
@@ -783,7 +782,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
                 + getDateString(feedbackSession.getEndTime(), feedbackSession.getTimeZone());
     }
 
-    private String getDateString(Instant date, ZoneId timeZone) {
+    private String getDateString(Instant date, String timeZone) {
         return getDisplayedDateTime(date, timeZone, "EEE, dd MMM, yyyy, hh:mm a X");
     }
 

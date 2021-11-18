@@ -1,7 +1,5 @@
 package teammates.ui.webapi;
 
-import java.time.ZoneId;
-
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -38,7 +36,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         FeedbackSessionAttributes feedbackSessionAttributes = typicalBundle.feedbackSessions.get("session1InCourse1");
-        ZoneId timeZone = feedbackSessionAttributes.getTimeZone();
+        String timeZone = feedbackSessionAttributes.getTimeZone();
 
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
 
@@ -64,7 +62,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         FeedbackSessionData response = (FeedbackSessionData) r.getOutput();
         assertEquals(feedbackSessionAttributes.getCourseId(), response.getCourseId());
         assertEquals(feedbackSessionAttributes.getFeedbackSessionName(), response.getFeedbackSessionName());
-        assertEquals(timeZone.getId(), response.getTimeZone());
+        assertEquals(timeZone, response.getTimeZone());
         assertEquals(feedbackSessionAttributes.getInstructions(), response.getInstructions());
 
         assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(feedbackSessionAttributes.getStartTime(),

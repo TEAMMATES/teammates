@@ -3,7 +3,6 @@ package teammates.e2e.pageobjects;
 import static org.junit.Assert.assertEquals;
 
 import java.time.Instant;
-import java.time.ZoneId;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -76,7 +75,7 @@ public class AdminSessionsPage extends AppPage {
         String timezone = getSelectedDropdownOptionText(timezoneElement);
 
         WebElement startDate = browser.driver.findElement(By.id("start-date"));
-        fillTextBox(startDate, formatDateTimeForFilter(instant, ZoneId.of(timezone)));
+        fillTextBox(startDate, formatDateTimeForFilter(instant, timezone));
     }
 
     public void setFilterEndDate(Instant instant) {
@@ -84,7 +83,7 @@ public class AdminSessionsPage extends AppPage {
         String timezone = getSelectedDropdownOptionText(timezoneElement);
 
         WebElement endDate = browser.driver.findElement(By.id("end-date"));
-        fillTextBox(endDate, formatDateTimeForFilter(instant, ZoneId.of(timezone)));
+        fillTextBox(endDate, formatDateTimeForFilter(instant, timezone));
     }
 
     public void filterSessions() {
@@ -95,7 +94,7 @@ public class AdminSessionsPage extends AppPage {
         waitUntilAnimationFinish();
     }
 
-    private String formatDateTimeForFilter(Instant instant, ZoneId timeZone) {
+    private String formatDateTimeForFilter(Instant instant, String timeZone) {
         return TimeHelper.formatInstant(instant, timeZone, "yyyy-MM-dd");
     }
 

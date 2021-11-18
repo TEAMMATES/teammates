@@ -1,7 +1,6 @@
 package teammates.ui.webapi;
 
 import java.time.Instant;
-import java.time.ZoneId;
 
 import org.apache.http.HttpStatus;
 
@@ -49,7 +48,7 @@ class UpdateFeedbackSessionAction extends Action {
         FeedbackSessionUpdateRequest updateRequest =
                 getAndValidateRequestBody(FeedbackSessionUpdateRequest.class);
 
-        ZoneId timeZone = feedbackSession.getTimeZone();
+        String timeZone = feedbackSession.getTimeZone();
         Instant startTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
                 updateRequest.getSubmissionStartTime(), timeZone, true);
         Instant endTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(

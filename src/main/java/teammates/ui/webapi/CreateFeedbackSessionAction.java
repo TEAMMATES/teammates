@@ -1,7 +1,6 @@
 package teammates.ui.webapi;
 
 import java.time.Instant;
-import java.time.ZoneId;
 
 import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.datatransfer.attributes.CourseAttributes;
@@ -52,7 +51,7 @@ class CreateFeedbackSessionAction extends Action {
 
         String feedbackSessionName = SanitizationHelper.sanitizeTitle(createRequest.getFeedbackSessionName());
 
-        ZoneId timeZone = course.getTimeZone();
+        String timeZone = course.getTimeZone();
         Instant startTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
                 createRequest.getSubmissionStartTime(), timeZone, true);
         Instant endTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(

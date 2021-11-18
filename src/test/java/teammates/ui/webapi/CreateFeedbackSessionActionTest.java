@@ -57,7 +57,7 @@ public class CreateFeedbackSessionActionTest extends BaseActionTest<CreateFeedba
         FeedbackSessionAttributes createdSession =
                 logic.getFeedbackSession(createRequest.getFeedbackSessionName(), course.getId());
         assertEquals(createdSession.getCourseId(), response.getCourseId());
-        assertEquals(createdSession.getTimeZone().getId(), response.getTimeZone());
+        assertEquals(createdSession.getTimeZone(), response.getTimeZone());
         assertEquals(createdSession.getFeedbackSessionName(), response.getFeedbackSessionName());
 
         assertEquals(createdSession.getInstructions(), response.getInstructions());
@@ -136,7 +136,7 @@ public class CreateFeedbackSessionActionTest extends BaseActionTest<CreateFeedba
         FeedbackSessionAttributes copiedSession =
                 logic.getFeedbackSession(createRequest.getFeedbackSessionName(), course.getId());
         assertEquals(copiedSession.getCourseId(), response.getCourseId());
-        assertEquals(copiedSession.getTimeZone().getId(), response.getTimeZone());
+        assertEquals(copiedSession.getTimeZone(), response.getTimeZone());
         assertEquals(copiedSession.getFeedbackSessionName(), response.getFeedbackSessionName());
         assertEquals(copiedSession.getInstructions(), response.getInstructions());
 

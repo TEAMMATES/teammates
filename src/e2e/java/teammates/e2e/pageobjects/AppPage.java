@@ -648,9 +648,9 @@ public abstract class AppPage {
         }
     }
 
-    String getDisplayedDateTime(Instant instant, ZoneId timeZone, String pattern) {
+    String getDisplayedDateTime(Instant instant, String timeZone, String pattern) {
         ZonedDateTime zonedDateTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(instant, timeZone, false)
-                .atZone(timeZone);
+                .atZone(ZoneId.of(timeZone));
         return DateTimeFormatter.ofPattern(pattern).format(zonedDateTime);
     }
 

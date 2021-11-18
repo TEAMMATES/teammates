@@ -1,7 +1,6 @@
 package teammates.ui.webapi;
 
 import java.time.Instant;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -298,9 +297,9 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
     }
 
     private void assertPartialInformationMatch(FeedbackSessionData data, FeedbackSessionAttributes expectedSession) {
-        ZoneId timeZone = expectedSession.getTimeZone();
+        String timeZone = expectedSession.getTimeZone();
         assertEquals(expectedSession.getCourseId(), data.getCourseId());
-        assertEquals(timeZone.getId(), data.getTimeZone());
+        assertEquals(timeZone, data.getTimeZone());
         assertEquals(expectedSession.getFeedbackSessionName(), data.getFeedbackSessionName());
         assertEquals(expectedSession.getInstructions(), data.getInstructions());
         assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(expectedSession.getStartTime(),
@@ -332,9 +331,9 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
     }
 
     private void assertAllInformationMatch(FeedbackSessionData data, FeedbackSessionAttributes expectedSession) {
-        ZoneId timeZone = expectedSession.getTimeZone();
+        String timeZone = expectedSession.getTimeZone();
         assertEquals(expectedSession.getCourseId(), data.getCourseId());
-        assertEquals(timeZone.getId(), data.getTimeZone());
+        assertEquals(timeZone, data.getTimeZone());
         assertEquals(expectedSession.getFeedbackSessionName(), data.getFeedbackSessionName());
         assertEquals(expectedSession.getInstructions(), data.getInstructions());
         assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(expectedSession.getStartTime(),

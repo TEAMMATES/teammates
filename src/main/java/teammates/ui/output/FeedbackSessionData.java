@@ -1,7 +1,6 @@
 package teammates.ui.output;
 
 import java.time.Instant;
-import java.time.ZoneId;
 
 import javax.annotation.Nullable;
 
@@ -48,9 +47,9 @@ public class FeedbackSessionData extends ApiOutput {
     private InstructorPermissionSet privileges;
 
     public FeedbackSessionData(FeedbackSessionAttributes feedbackSessionAttributes) {
-        ZoneId timeZone = feedbackSessionAttributes.getTimeZone();
+        String timeZone = feedbackSessionAttributes.getTimeZone();
         this.courseId = feedbackSessionAttributes.getCourseId();
-        this.timeZone = timeZone.getId();
+        this.timeZone = timeZone;
         this.feedbackSessionName = feedbackSessionAttributes.getFeedbackSessionName();
         this.instructions = feedbackSessionAttributes.getInstructions();
         this.submissionStartTimestamp = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
