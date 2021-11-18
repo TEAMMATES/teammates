@@ -115,8 +115,5 @@
       }
     }
   },
-  "defaultProject": "teammates",
-  "cli": {
-    "analytics": false
-  }
+  "defaultProject": "teammates"
 }
