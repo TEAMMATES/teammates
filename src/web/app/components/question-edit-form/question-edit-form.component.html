@@ -98,6 +98,7 @@
                               [saveChangeClicked]="saveChangeClicked"
                               [allowedFeedbackPaths]="allowedFeedbackPaths"
                               (customFeedbackPath)="triggerModelChange('isUsingOtherFeedbackPath', $event)"
+                              (customNumberOfEntitiesToGiveFeedbackTo)="triggerModelChange('customNumberOfEntitiesToGiveFeedbackTo', $event)"
                               (numberOfEntitiesToGiveFeedbackToSetting)="triggerModelChange('numberOfEntitiesToGiveFeedbackToSetting', $event)"
                               (triggerModelChangeBatch)="triggerModelChangeBatch($event)"></tm-feedback-path-panel>
       <tm-visibility-panel [model]="model" [isCustomFeedbackVisibilitySettingAllowed]="isCustomFeedbackVisibilitySettingAllowed"

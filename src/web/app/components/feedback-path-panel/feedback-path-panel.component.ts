@@ -76,6 +76,9 @@ export class FeedbackPathPanelComponent implements OnInit {
   customFeedbackPath: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   @Output()
+  customNumberOfEntitiesToGiveFeedbackTo: EventEmitter<number> = new EventEmitter<number>();
+
+  @Output()
   numberOfEntitiesToGiveFeedbackToSetting: EventEmitter<NumberOfEntitiesToGiveFeedbackToSetting> =
     new EventEmitter<NumberOfEntitiesToGiveFeedbackToSetting>();
 
@@ -88,10 +91,12 @@ export class FeedbackPathPanelComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  triggerModelChangeHandler(data: NumberOfEntitiesToGiveFeedbackToSetting): void {
-    if (this.saveChangeClicked) {
-      this.numberOfEntitiesToGiveFeedbackToSetting.emit(data);
-    }
+  triggerCustomNumberOfEntities(data: number): void {
+    this.customNumberOfEntitiesToGiveFeedbackTo.emit(data);
+  }
+
+  triggerNumberOfEntitiesSetting(data: NumberOfEntitiesToGiveFeedbackToSetting): void {
+    this.numberOfEntitiesToGiveFeedbackToSetting.emit(data);
   }
 
   triggerCustomFeedbackPath(): void {
