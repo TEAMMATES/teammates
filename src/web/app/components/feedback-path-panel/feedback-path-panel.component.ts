@@ -64,9 +64,6 @@ export class FeedbackPathPanelComponent implements OnInit {
   };
 
   @Input()
-  saveChangeClicked: boolean = false;
-
-  @Input()
   commonFeedbackPaths: Map<FeedbackParticipantType, FeedbackParticipantType[]> = new Map();
 
   @Input()
