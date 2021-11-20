@@ -38,7 +38,7 @@ public final class AccountRequestsLogic {
     }
 
     /**
-     * Deletes the account request associated with the {@code id}.
+     * Deletes the account request associated with the email address and institute.
      *
      * <p>Fails silently if the account request doesn't exist.</p>
      */

@@ -46,6 +46,7 @@ public class AccountRequest extends BaseEntity {
         this.setId(generateId(email, institute));
         this.setRegistrationKey(generateRegistrationKey());
         this.setCreatedAt(Instant.now());
+        this.setRegisteredAt(null);
     }
 
     public String getId() {

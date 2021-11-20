@@ -14,6 +14,7 @@ public class AccountRequestData extends ApiOutput {
     private final String institute;
     private final String registrationKey;
     private final Instant registeredAt;
+    private final Instant createdAt;
 
     public AccountRequestData(AccountRequestAttributes accountRequestInfo) {
         this.name = accountRequestInfo.getName();
@@ -21,6 +22,7 @@ public class AccountRequestData extends ApiOutput {
         this.institute = accountRequestInfo.getInstitute();
         this.registrationKey = accountRequestInfo.getRegistrationKey();
         this.registeredAt = accountRequestInfo.getRegisteredAt();
+        this.createdAt = accountRequestInfo.getCreatedAt();
     }
 
     public String getInstitute() {
@@ -41,6 +43,10 @@ public class AccountRequestData extends ApiOutput {
 
     public Instant getRegisteredAt() {
         return registeredAt;
+    }
+
+    public Instant getCreatedAt() {
+        return createdAt;
     }
 
 }

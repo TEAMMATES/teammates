@@ -20,13 +20,12 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
     private String name;
     private String institute;
     private Instant registeredAt;
+    private Instant createdAt;
     private transient String registrationKey;
-    private transient Instant createdAt;
 
     private AccountRequestAttributes(String email, String institute) {
         this.email = email;
         this.institute = institute;
-
         this.name = null;
         this.registrationKey = null;
         this.registeredAt = null;
@@ -89,7 +88,6 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
 
     @Override
     public List<String> getInvalidityInfo() {
-
         List<String> errors = new ArrayList<>();
 
         addNonEmptyError(FieldValidator.getInvalidityInfoForEmail(getEmail()), errors);
@@ -162,7 +160,7 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
     }
 
     /**
-     * Returns a {@link UpdateOptions.Builder} to build {@link UpdateOptions} for an accountRequest.
+     * Returns a {@link UpdateOptions.Builder} to build {@link UpdateOptions} for an account request.
      */
     public static UpdateOptions.Builder updateOptionsBuilder(String email, String institute) {
         return new UpdateOptions.Builder(email, institute);
@@ -172,7 +170,6 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
      * A builder for {@link AccountRequestAttributes}.
      */
     public static class Builder extends BasicBuilder<AccountRequestAttributes, Builder> {
-
         private final AccountRequestAttributes accountRequestAttributes;
 
         private Builder(String email, String institute) {
@@ -224,7 +221,6 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
          * Builder class to build {@link UpdateOptions}.
          */
         public static class Builder extends BasicBuilder<UpdateOptions, Builder> {
-
             private Builder(String email, String institute) {
                 super(new UpdateOptions(email, institute));
                 thisBuilder = this;
