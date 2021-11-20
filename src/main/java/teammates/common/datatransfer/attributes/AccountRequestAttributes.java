@@ -42,7 +42,7 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
         accountRequestAttributes.registrationKey = accountRequest.getRegistrationKey();
         accountRequestAttributes.name = accountRequest.getName();
         accountRequestAttributes.registeredAt = accountRequest.getRegisteredAt();
-        accountRequestAttributes.createdAt = accountRequestAttributes.getCreatedAt();
+        accountRequestAttributes.createdAt = accountRequest.getCreatedAt();
 
         return accountRequestAttributes;
     }

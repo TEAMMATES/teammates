@@ -45,6 +45,7 @@ public class AccountRequestsLogicTest extends BaseLogicTest {
         assertEquals(accountRequest.getName(), createdAccountRequest.getName());
         assertEquals(accountRequest.getInstitute(), createdAccountRequest.getInstitute());
         assertNotNull(createdAccountRequest.getRegistrationKey());
+        assertNotNull(createdAccountRequest.getCreatedAt());
 
         ______TS("duplicate account request, account request updated");
 
