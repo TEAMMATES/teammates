@@ -4,6 +4,7 @@ import java.time.Instant;
 
 import javax.annotation.Nullable;
 
+import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.Const;
 
@@ -40,7 +41,7 @@ public class FeedbackSessionData extends ApiOutput {
     @Nullable
     private final Long deletedAtTimestamp;
     @Nullable
-    private InstructorPrivilegeData privileges;
+    private InstructorPermissionSet privileges;
 
     public FeedbackSessionData(FeedbackSessionAttributes feedbackSessionAttributes) {
         this.courseId = feedbackSessionAttributes.getCourseId();
@@ -215,11 +216,11 @@ public class FeedbackSessionData extends ApiOutput {
         return deletedAtTimestamp;
     }
 
-    public InstructorPrivilegeData getPrivileges() {
+    public InstructorPermissionSet getPrivileges() {
         return privileges;
     }
 
-    public void setPrivileges(InstructorPrivilegeData privileges) {
+    public void setPrivileges(InstructorPermissionSet privileges) {
         this.privileges = privileges;
     }
 

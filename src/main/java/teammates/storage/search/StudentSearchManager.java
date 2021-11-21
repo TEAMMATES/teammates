@@ -14,7 +14,6 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.SearchServiceException;
-import teammates.common.util.Const;
 import teammates.storage.api.CoursesDb;
 import teammates.storage.api.StudentsDb;
 
@@ -71,8 +70,7 @@ public class StudentSearchManager extends SearchManager<StudentAttributes> {
             courseIdsWithViewStudentPrivilege = new ArrayList<>();
         } else {
             courseIdsWithViewStudentPrivilege = instructors.stream()
-                    .filter(i -> i.getPrivileges().getCourseLevelPrivileges()
-                            .get(Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS))
+                    .filter(i -> i.getPrivileges().getCourseLevelPrivileges().isCanViewStudentInSections())
                     .map(ins -> ins.getCourseId())
                     .collect(Collectors.toList());
             if (courseIdsWithViewStudentPrivilege.isEmpty()) {
