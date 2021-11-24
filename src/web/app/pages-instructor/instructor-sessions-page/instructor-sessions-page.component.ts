@@ -26,7 +26,7 @@ import {
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../types/api-output';
-import { DEFAULT_INSTRUCTOR_PRIVILEGE } from '../../../types/instructor-privilege';
+import { DEFAULT_INSTRUCTOR_PRIVILEGE } from '../../../types/default-instructor-privilege';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import {
   SessionEditFormMode,
@@ -376,7 +376,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
               feedbackSession: session,
               responseRate: '',
               isLoadingResponseRate: false,
-              instructorPrivilege: session.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE,
+              instructorPrivilege: session.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE(),
             };
             this.sessionsTableRowModels.push(model);
           });
@@ -433,7 +433,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
             feedbackSession,
             responseRate: '',
             isLoadingResponseRate: false,
-            instructorPrivilege: feedbackSession.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE,
+            instructorPrivilege: feedbackSession.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE(),
           };
           this.sessionsTableRowModels.push(m);
           this.statusMessageService.showSuccessToast('The feedback session has been restored.');
@@ -481,7 +481,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
                 feedbackSession: session,
                 responseRate: '',
                 isLoadingResponseRate: false,
-                instructorPrivilege: session.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE,
+                instructorPrivilege: session.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE(),
               };
               this.sessionsTableRowModels.push(model);
             });
@@ -561,7 +561,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
             feedbackSession: session,
             responseRate: '',
             isLoadingResponseRate: false,
-            instructorPrivilege: session.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE,
+            instructorPrivilege: session.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE(),
           };
           this.sessionsTableRowModels.push(m);
         });

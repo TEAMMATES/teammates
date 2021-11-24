@@ -5,7 +5,7 @@ import { of } from 'rxjs';
 
 import { HttpRequestService } from '../../../services/http-request.service';
 import { ResourceEndpoints } from '../../../types/api-const';
-import { InstructorPrivilege, JoinState, Student, Students } from '../../../types/api-output';
+import { InstructorPermissionSet, InstructorPrivilege, JoinState, Student, Students } from '../../../types/api-output';
 import { StudentListRowModel } from '../../components/student-list/student-list.component';
 import { InstructorSearchPageComponent } from './instructor-search-page.component';
 import { InstructorSearchPageModule } from './instructor-search-page.module';
@@ -207,33 +207,36 @@ describe('InstructorSearchPageComponent', () => {
     spyHttpRequestService.get.mockImplementation((endpoint: string) => {
       expect(endpoint).toEqual(ResourceEndpoints.INSTRUCTOR_PRIVILEGE);
       return of<InstructorPrivilege>({
-        canModifyCourse: true,
-        canModifySession: true,
-        canModifyStudent: true,
-        canModifyInstructor: true,
-        canViewStudentInSections: true,
-        canModifySessionCommentsInSections: true,
-        canViewSessionInSections: true,
-        canSubmitSessionInSections: true,
+        privileges: {
+          courseLevel: {
+            canModifyCourse: true,
+            canModifySession: true,
+            canModifyStudent: true,
+            canModifyInstructor: true,
+            canViewStudentInSections: true,
+            canModifySessionCommentsInSections: true,
+            canViewSessionInSections: true,
+            canSubmitSessionInSections: true,
+          },
+          sectionLevel: {},
+          sessionLevel: {},
+        },
       });
     });
     component.getPrivileges(coursesWithStudents);
 
     for (const course of coursesWithStudents) {
-      for (const studentModel of course.students) {
-        expect(spyHttpRequestService.get).toHaveBeenCalledWith(
+      expect(spyHttpRequestService.get).toHaveBeenCalledWith(
           ResourceEndpoints.INSTRUCTOR_PRIVILEGE,
-          {
-            courseid: course.courseId,
-            sectionname: studentModel.student.sectionName,
-          },
-        );
-      }
+        {
+          courseid: course.courseId,
+        },
+      );
     }
   });
 
   it('should combine privileges and course data correctly', () => {
-    const basePrivilege: InstructorPrivilege = {
+    const basePrivilege: InstructorPermissionSet = {
       canModifyCourse: true,
       canModifySession: true,
       canModifyStudent: true,
@@ -244,21 +247,45 @@ describe('InstructorSearchPageComponent', () => {
       canSubmitSessionInSections: true,
     };
     const mockPrivilegesArray: InstructorPrivilege[] = [
-      basePrivilege,
       {
-        ...basePrivilege,
-        canViewStudentInSections: false,
-        canModifyStudent: true,
+        privileges: {
+          courseLevel: basePrivilege,
+          sectionLevel: {},
+          sessionLevel: {},
+        },
       },
       {
-        ...basePrivilege,
-        canViewStudentInSections: true,
-        canModifyStudent: false,
+        privileges: {
+          courseLevel: {
+            ...basePrivilege,
+            canViewStudentInSections: false,
+            canModifyStudent: true,
+          },
+          sectionLevel: {},
+          sessionLevel: {},
+        },
       },
       {
-        ...basePrivilege,
-        canViewStudentInSections: false,
-        canModifyStudent: false,
+        privileges: {
+          courseLevel: {
+            ...basePrivilege,
+            canViewStudentInSections: true,
+            canModifyStudent: false,
+          },
+          sectionLevel: {},
+          sessionLevel: {},
+        },
+      },
+      {
+        privileges: {
+          courseLevel: {
+            ...basePrivilege,
+            canViewStudentInSections: false,
+            canModifyStudent: false,
+          },
+          sectionLevel: {},
+          sessionLevel: {},
+        },
       },
     ];
     component.combinePrivileges([coursesWithStudents, mockPrivilegesArray]);

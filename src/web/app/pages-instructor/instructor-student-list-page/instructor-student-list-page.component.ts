@@ -5,7 +5,14 @@ import { InstructorService } from '../../../services/instructor.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
-import { Course, Courses, InstructorPrivilege, Student, Students } from '../../../types/api-output';
+import {
+  Course,
+  Courses,
+  InstructorPermissionSet,
+  InstructorPrivilege,
+  Student,
+  Students,
+} from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { JoinStatePipe } from '../../components/student-list/join-state.pipe';
 import { StudentListRowModel } from '../../components/student-list/student-list.component';
@@ -113,42 +120,35 @@ export class InstructorStudentListPageComponent implements OnInit {
             return acc;
           }, {});
 
-          Object.keys(sections).forEach((key: string) => {
-            const studentsInSection: Student[] = sections[key];
-            const studentList: StudentListRowModel[] = studentsInSection.map((studentInSection: Student) => {
-              return {
-                student: studentInSection,
-                isAllowedToModifyStudent: false,
-                isAllowedToViewStudentInSection: false,
-              };
+          this.instructorService.loadInstructorPrivilege({
+            courseId: courseTab.course.courseId,
+          }).subscribe((instructorPrivilege: InstructorPrivilege) => {
+            const courseLevelPrivilege: InstructorPermissionSet = instructorPrivilege.privileges.courseLevel;
+
+            Object.keys(sections).forEach((sectionName: string) => {
+              const sectionLevelPrivilege: InstructorPermissionSet =
+                  instructorPrivilege.privileges.sectionLevel[sectionName] || courseLevelPrivilege;
+
+              const studentsInSection: Student[] = sections[sectionName];
+              const studentModels: StudentListRowModel[] = studentsInSection.map((studentInSection: Student) => {
+                return {
+                  student: studentInSection,
+                  isAllowedToViewStudentInSection: sectionLevelPrivilege.canViewStudentInSections,
+                  isAllowedToModifyStudent: sectionLevelPrivilege.canModifyStudent,
+                };
+              });
+
+              courseTab.studentList.push(...studentModels);
+              courseTab.studentList.sort(this.sortStudentBy(SortBy.NONE, SortOrder.ASC));
             });
 
-            this.loadPrivilege(courseTab, key, studentList);
+            courseTab.stats = this.courseService.calculateCourseStatistics(students.students);
+
+          }, (resp: ErrorMessageOutput) => {
+            courseTab.hasLoadingFailed = true;
+            courseTab.studentList = [];
+            this.statusMessageService.showErrorToast(resp.error.message);
           });
-
-          courseTab.stats = this.courseService.calculateCourseStatistics(students.students);
-        }, (resp: ErrorMessageOutput) => {
-          courseTab.hasLoadingFailed = true;
-          courseTab.studentList = [];
-          this.statusMessageService.showErrorToast(resp.error.message);
-        });
-  }
-
-  /**
-   * Loads privilege of an instructor for a specified course and section.
-   */
-  loadPrivilege(courseTab: CourseTab, sectionName: string, students: StudentListRowModel[]): void {
-    this.instructorService.loadInstructorPrivilege({ sectionName, courseId: courseTab.course.courseId })
-        .subscribe((instructorPrivilege: InstructorPrivilege) => {
-          students.forEach((studentModel: StudentListRowModel) => {
-            if (studentModel.student.sectionName === sectionName) {
-              studentModel.isAllowedToViewStudentInSection = instructorPrivilege.canViewStudentInSections;
-              studentModel.isAllowedToModifyStudent = instructorPrivilege.canModifyStudent;
-            }
-          });
-
-          courseTab.studentList.push(...students);
-          courseTab.studentList.sort(this.sortStudentBy(SortBy.NONE, SortOrder.ASC));
         }, (resp: ErrorMessageOutput) => {
           courseTab.hasLoadingFailed = true;
           courseTab.studentList = [];

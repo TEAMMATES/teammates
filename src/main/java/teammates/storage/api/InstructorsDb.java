@@ -197,7 +197,7 @@ public final class InstructorsDb extends EntitiesDb<Instructor, InstructorAttrib
                 && this.<Boolean>hasSameValue(instructor.isDisplayedToStudents(), newAttributes.isDisplayedToStudents())
                 && this.<String>hasSameValue(instructor.getDisplayedName(), newAttributes.getDisplayedName())
                 && this.<String>hasSameValue(
-                        instructor.getInstructorPrivilegesAsText(), newAttributes.getTextFromInstructorPrivileges());
+                        instructor.getInstructorPrivilegesAsText(), newAttributes.getInstructorPrivilegesAsText());
         if (hasSameAttributes) {
             log.info(String.format(
                     OPTIMIZED_SAVING_POLICY_APPLIED, Instructor.class.getSimpleName(), updateOptions));
@@ -210,7 +210,7 @@ public final class InstructorsDb extends EntitiesDb<Instructor, InstructorAttrib
         instructor.setRole(newAttributes.getRole());
         instructor.setIsDisplayedToStudents(newAttributes.isDisplayedToStudents());
         instructor.setDisplayedName(newAttributes.getDisplayedName());
-        instructor.setInstructorPrivilegeAsText(newAttributes.getTextFromInstructorPrivileges());
+        instructor.setInstructorPrivilegeAsText(newAttributes.getInstructorPrivilegesAsText());
 
         saveEntity(instructor);
 
@@ -252,7 +252,7 @@ public final class InstructorsDb extends EntitiesDb<Instructor, InstructorAttrib
                 && this.<Boolean>hasSameValue(instructor.isDisplayedToStudents(), newAttributes.isDisplayedToStudents())
                 && this.<String>hasSameValue(instructor.getDisplayedName(), newAttributes.getDisplayedName())
                 && this.<String>hasSameValue(
-                        instructor.getInstructorPrivilegesAsText(), newAttributes.getTextFromInstructorPrivileges());
+                        instructor.getInstructorPrivilegesAsText(), newAttributes.getInstructorPrivilegesAsText());
         if (hasSameAttributes) {
             log.info(String.format(OPTIMIZED_SAVING_POLICY_APPLIED, Instructor.class.getSimpleName(), updateOptions));
             return newAttributes;
@@ -264,7 +264,7 @@ public final class InstructorsDb extends EntitiesDb<Instructor, InstructorAttrib
         instructor.setRole(newAttributes.getRole());
         instructor.setIsDisplayedToStudents(newAttributes.isDisplayedToStudents());
         instructor.setDisplayedName(newAttributes.getDisplayedName());
-        instructor.setInstructorPrivilegeAsText(newAttributes.getTextFromInstructorPrivileges());
+        instructor.setInstructorPrivilegeAsText(newAttributes.getInstructorPrivilegesAsText());
 
         saveEntity(instructor);
 

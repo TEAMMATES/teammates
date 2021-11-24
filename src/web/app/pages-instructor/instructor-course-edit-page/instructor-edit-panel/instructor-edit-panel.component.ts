@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { InstructorPermissionRole, InstructorPrivilege, JoinState } from '../../../../types/api-output';
+import { InstructorPermissionRole, InstructorPermissionSet, JoinState } from '../../../../types/api-output';
 import {
   InstructorOverallPermission,
 } from '../custom-privilege-setting-panel/custom-privilege-setting-panel.component';
@@ -91,7 +91,7 @@ export class InstructorEditPanelComponent implements OnInit {
   instructorChange: EventEmitter<InstructorEditPanel> = new EventEmitter();
 
   @Input()
-  currInstructorCoursePrivilege: InstructorPrivilege = {
+  currInstructorCoursePrivilege: InstructorPermissionSet = {
     canModifyCourse: true,
     canModifySession: true,
     canModifyStudent: true,

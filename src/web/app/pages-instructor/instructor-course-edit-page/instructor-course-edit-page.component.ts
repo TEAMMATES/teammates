@@ -1,10 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-
-import { FormGroup } from '@angular/forms';
-import { forkJoin, Observable, of } from 'rxjs';
-import { concatAll, finalize, tap } from 'rxjs/operators';
+import { forkJoin } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 import { AuthService } from '../../../services/auth.service';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
@@ -21,16 +20,24 @@ import {
   FeedbackSessions,
   Instructor,
   InstructorPermissionRole,
+  InstructorPermissionSet,
   InstructorPrivilege,
+  InstructorPrivileges,
   Instructors,
   JoinState,
   MessageOutput,
   Student,
   Students,
 } from '../../../types/api-output';
-import { InstructorCreateRequest, InstructorPrivilegeUpdateRequest, Intent } from '../../../types/api-request';
+import { InstructorCreateRequest, Intent } from '../../../types/api-request';
+import {
+  DEFAULT_INSTRUCTOR_PRIVILEGE,
+  DEFAULT_PRIVILEGE_COOWNER,
+  DEFAULT_PRIVILEGE_MANAGER,
+  DEFAULT_PRIVILEGE_OBSERVER,
+  DEFAULT_PRIVILEGE_TUTOR,
+} from '../../../types/default-instructor-privilege';
 import { FormValidator } from '../../../types/form-validator';
-import { DEFAULT_INSTRUCTOR_PRIVILEGE } from '../../../types/instructor-privilege';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
@@ -101,7 +108,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
     deletionTimestamp: 0,
   };
   currInstructorGoogleId: string = '';
-  currInstructorCoursePrivilege: InstructorPrivilege = {
+  currInstructorCoursePrivilege: InstructorPermissionSet = {
     canModifyCourse: true,
     canModifySession: true,
     canModifyStudent: true,
@@ -219,7 +226,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
       this.isCourseLoading = false;
     })).subscribe((resp: Course) => {
       this.course = resp;
-      this.currInstructorCoursePrivilege = resp.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE;
+      this.currInstructorCoursePrivilege = resp.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE();
       this.originalCourse = Object.assign({}, resp);
     }, (resp: ErrorMessageOutput) => {
       this.hasCourseLoadingFailed = true;
@@ -357,15 +364,26 @@ export class InstructorCourseEditPageComponent implements OnInit {
   viewRolePrivilegeModel(role: InstructorPermissionRole): void {
     const modalRef: NgbModalRef = this.ngbModal.open(ViewRolePrivilegesModalComponent);
     modalRef.result.then(() => {}, () => {});
-    this.instructorService.loadInstructorPrivilege({
-      courseId: this.courseId,
-      instructorRole: role,
-    }).subscribe((resp: InstructorPrivilege) => {
-      modalRef.componentInstance.instructorPrivilege = resp;
-      modalRef.componentInstance.role = role;
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorToast(resp.error.message);
-    });
+    let privilege: InstructorPermissionSet;
+    switch (role) {
+      case InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER:
+        privilege = DEFAULT_PRIVILEGE_COOWNER();
+        break;
+      case InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_MANAGER:
+        privilege = DEFAULT_PRIVILEGE_MANAGER();
+        break;
+      case InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_OBSERVER:
+        privilege = DEFAULT_PRIVILEGE_OBSERVER();
+        break;
+      case InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_TUTOR:
+        privilege = DEFAULT_PRIVILEGE_TUTOR();
+        break;
+      case InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM:
+      default:
+        privilege = DEFAULT_INSTRUCTOR_PRIVILEGE();
+    }
+    modalRef.componentInstance.instructorPrivilege = privilege;
+    modalRef.componentInstance.role = role;
   }
 
   /**
@@ -545,77 +563,30 @@ export class InstructorCourseEditPageComponent implements OnInit {
       return;
     }
 
-    // only need to load for custom role.
-    const requests: Observable<any>[] = [];
-
-    requests.push(this.instructorService.loadInstructorPrivilege({
+    this.instructorService.loadInstructorPrivilege({
       courseId: instructor.courseId,
       instructorEmail: instructor.email,
-    })
-        .pipe(tap((resp: InstructorPrivilege) => {
-          permission.privilege.canModifyCourse = resp.canModifyCourse;
-          permission.privilege.canModifySession = resp.canModifySession;
-          permission.privilege.canModifyStudent = resp.canModifyStudent;
-          permission.privilege.canModifyInstructor = resp.canModifyInstructor;
-          permission.privilege.canViewStudentInSections = resp.canViewStudentInSections;
-          permission.privilege.canModifySessionCommentsInSections = resp.canModifySessionCommentsInSections;
-          permission.privilege.canViewSessionInSections = resp.canViewSessionInSections;
-          permission.privilege.canSubmitSessionInSections = resp.canSubmitSessionInSections;
-        })));
+    }).subscribe((resp: InstructorPrivilege) => {
+      permission.privilege = resp.privileges.courseLevel;
 
-    this.allSections.forEach((sectionName: string) => {
-      const sectionLevelPermission: InstructorSectionLevelPermission = {
-        sectionNames: [sectionName],
-        privilege: {
-          canModifyCourse: false,
-          canModifySession: false,
-          canModifyStudent: false,
-          canModifyInstructor: false,
-          canViewStudentInSections: false,
-          canModifySessionCommentsInSections: false,
-          canViewSessionInSections: false,
-          canSubmitSessionInSections: false,
-        },
-        sessionLevel: [],
-      };
-      permission.sectionLevel.push(sectionLevelPermission);
+      this.allSections.forEach((sectionName: string) => {
+        const sectionLevelPermission: InstructorSectionLevelPermission = {
+          sectionNames: [sectionName],
+          privilege: resp.privileges.sectionLevel[sectionName] || permission.privilege,
+          sessionLevel: [],
+        };
 
-      requests.push(this.instructorService.loadInstructorPrivilege({
-        sectionName,
-        courseId: instructor.courseId,
-        instructorEmail: instructor.email,
-      }).pipe(tap((resp: InstructorPrivilege) => {
-        sectionLevelPermission.privilege.canViewStudentInSections = resp.canViewStudentInSections;
-        sectionLevelPermission.privilege.canModifySessionCommentsInSections = resp.canModifySessionCommentsInSections;
-        sectionLevelPermission.privilege.canViewSessionInSections = resp.canViewSessionInSections;
-        sectionLevelPermission.privilege.canSubmitSessionInSections = resp.canSubmitSessionInSections;
-      })));
-      this.allSessions.forEach((sessionName: string) => {
-        requests.push(this.instructorService.loadInstructorPrivilege({
-          sectionName,
-          feedbackSessionName: sessionName,
-          courseId: instructor.courseId,
-          instructorEmail: instructor.email,
-        }).pipe(tap((resp: InstructorPrivilege) => {
-          sectionLevelPermission.sessionLevel.push({
+        this.allSessions.forEach((sessionName: string) => {
+          const sessionLevelPermission: InstructorSessionLevelPermission = {
             sessionName,
-            privilege: {
-              canModifyCourse: false,
-              canModifySession: false,
-              canModifyStudent: false,
-              canModifyInstructor: false,
-              canViewStudentInSections: false,
-              canModifySessionCommentsInSections: resp.canModifySessionCommentsInSections,
-              canViewSessionInSections: resp.canViewSessionInSections,
-              canSubmitSessionInSections: resp.canSubmitSessionInSections,
-            },
-          });
-        })));
+            privilege: (resp.privileges.sessionLevel[sectionName] || {})[sessionName]
+                || sectionLevelPermission.privilege,
+          };
+          sectionLevelPermission.sessionLevel.push(sessionLevelPermission);
+        });
+        permission.sectionLevel.push(sectionLevelPermission);
       });
-    });
 
-    // get all permission
-    forkJoin(requests).pipe(finalize(() => this.isInstructorsLoading = false)).subscribe(() => {
       permission.sectionLevel = permission.sectionLevel
           .filter((sectionLevelPermission: InstructorSectionLevelPermission) => {
             // discard section level permission that is consistent with the overall permission
@@ -639,31 +610,28 @@ export class InstructorCourseEditPageComponent implements OnInit {
             return sectionLevelPermission.sessionLevel
                 .some((sessionLevelPermission: InstructorSessionLevelPermission) => {
                   return sectionLevelPermission.privilege.canModifySessionCommentsInSections
-                      !== sessionLevelPermission.privilege.canModifySessionCommentsInSections ||
-                      sectionLevelPermission.privilege.canViewSessionInSections
-                      !== sessionLevelPermission.privilege.canViewSessionInSections ||
-                      sectionLevelPermission.privilege.canSubmitSessionInSections
-                      !== sessionLevelPermission.privilege.canSubmitSessionInSections;
+                          !== sessionLevelPermission.privilege.canModifySessionCommentsInSections
+                      || sectionLevelPermission.privilege.canViewSessionInSections
+                          !== sessionLevelPermission.privilege.canViewSessionInSections
+                      || sectionLevelPermission.privilege.canSubmitSessionInSections
+                          !== sessionLevelPermission.privilege.canSubmitSessionInSections;
                 });
           });
 
       permission.sectionLevel.forEach((sectionLevel: InstructorSectionLevelPermission) => {
         if (sectionLevel.sessionLevel.every((sessionLevel: InstructorSessionLevelPermission) => {
           return sectionLevel.privilege.canModifySessionCommentsInSections
-              === sessionLevel.privilege.canModifySessionCommentsInSections &&
-              sectionLevel.privilege.canViewSessionInSections
-              === sessionLevel.privilege.canViewSessionInSections &&
-              sectionLevel.privilege.canSubmitSessionInSections
-              === sessionLevel.privilege.canSubmitSessionInSections;
+                  === sessionLevel.privilege.canModifySessionCommentsInSections
+              && sectionLevel.privilege.canViewSessionInSections
+                  === sessionLevel.privilege.canViewSessionInSections
+              && sectionLevel.privilege.canSubmitSessionInSections
+                  === sessionLevel.privilege.canSubmitSessionInSections;
         })) {
           // session level is consistent with the section level, we can remove it.
           sectionLevel.sessionLevel = [];
         }
       });
       panel.originalPanel = JSON.parse(JSON.stringify(panel.editPanel));
-    }, (resp: ErrorMessageOutput) => {
-      this.hasInstructorsLoadingFailed = true;
-      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 
@@ -675,76 +643,27 @@ export class InstructorCourseEditPageComponent implements OnInit {
       return;
     }
 
-    // only need to update for custom role.
-    const requests: Observable<any>[] = [];
-
-    requests.push(
-        this.instructorService.updateInstructorPrivilege({
-          courseId: instructor.courseId,
-          instructorEmail: instructor.email,
-          requestBody: {
-            canModifyCourse: permission.privilege.canModifyCourse,
-            canModifySession: permission.privilege.canModifySession,
-            canModifyStudent: permission.privilege.canModifyStudent,
-            canModifyInstructor: permission.privilege.canModifyInstructor,
-            canViewStudentInSections: permission.privilege.canViewStudentInSections,
-            canModifySessionCommentsInSections: permission.privilege.canModifySessionCommentsInSections,
-            canViewSessionInSections: permission.privilege.canViewSessionInSections,
-            canSubmitSessionInSections: permission.privilege.canSubmitSessionInSections,
-          } as InstructorPrivilegeUpdateRequest,
-        }).pipe(tap((resp: InstructorPrivilege) => {
-          permission.privilege.canModifyCourse = resp.canModifyCourse;
-          permission.privilege.canModifySession = resp.canModifySession;
-          permission.privilege.canModifyStudent = resp.canModifyStudent;
-          permission.privilege.canModifyInstructor = resp.canModifyInstructor;
-          permission.privilege.canViewStudentInSections = resp.canViewStudentInSections;
-          permission.privilege.canModifySessionCommentsInSections = resp.canModifySessionCommentsInSections;
-          permission.privilege.canViewSessionInSections = resp.canViewSessionInSections;
-          permission.privilege.canSubmitSessionInSections = resp.canSubmitSessionInSections;
-        })));
-
+    const privileges: InstructorPrivileges = {
+      courseLevel: permission.privilege,
+      sectionLevel: {},
+      sessionLevel: {},
+    };
     permission.sectionLevel.forEach((sectionLevel: InstructorSectionLevelPermission) => {
       sectionLevel.sectionNames.forEach((sectionName: string) => {
-        requests.push(
-            this.instructorService.updateInstructorPrivilege({
-              courseId: instructor.courseId,
-              instructorEmail: instructor.email,
-              requestBody: {
-                sectionName,
-                canViewStudentInSections: sectionLevel.privilege.canViewStudentInSections,
-                canModifySessionCommentsInSections: sectionLevel.privilege.canModifySessionCommentsInSections,
-                canViewSessionInSections: sectionLevel.privilege.canViewSessionInSections,
-                canSubmitSessionInSections: sectionLevel.privilege.canSubmitSessionInSections,
-              } as InstructorPrivilegeUpdateRequest,
-            }).pipe(tap((resp: InstructorPrivilege) => {
-              sectionLevel.privilege.canViewStudentInSections = resp.canViewStudentInSections;
-              sectionLevel.privilege.canModifySessionCommentsInSections = resp.canModifySessionCommentsInSections;
-              sectionLevel.privilege.canViewSessionInSections = resp.canViewSessionInSections;
-              sectionLevel.privilege.canSubmitSessionInSections = resp.canSubmitSessionInSections;
-            })));
+        privileges.sectionLevel[sectionName] = sectionLevel.privilege;
+        privileges.sessionLevel[sectionName] = {};
 
         sectionLevel.sessionLevel.forEach((sessionLevel: InstructorSessionLevelPermission) => {
-          requests.push(
-              this.instructorService.updateInstructorPrivilege({
-                courseId: instructor.courseId,
-                instructorEmail: instructor.email,
-                requestBody: {
-                  sectionName,
-                  feedbackSessionName: sessionLevel.sessionName,
-                  canModifySessionCommentsInSections: sessionLevel.privilege.canModifySessionCommentsInSections,
-                  canViewSessionInSections: sessionLevel.privilege.canViewSessionInSections,
-                  canSubmitSessionInSections: sessionLevel.privilege.canSubmitSessionInSections,
-                } as InstructorPrivilegeUpdateRequest,
-              }).pipe(tap((resp: InstructorPrivilege) => {
-                sessionLevel.privilege.canModifySessionCommentsInSections = resp.canModifySessionCommentsInSections;
-                sessionLevel.privilege.canViewSessionInSections = resp.canViewSessionInSections;
-                sessionLevel.privilege.canSubmitSessionInSections = resp.canSubmitSessionInSections;
-              })));
+          privileges.sessionLevel[sectionName][sessionLevel.sessionName] = sessionLevel.privilege;
         });
       });
     });
 
-    of(...requests).pipe(concatAll()).subscribe(() => {
+    this.instructorService.updateInstructorPrivilege({
+      courseId: instructor.courseId,
+      instructorEmail: instructor.email,
+      requestBody: { privileges },
+    }).subscribe((_: InstructorPrivilege) => {
       // privileges updated
       // filter out empty permission setting
       permission.sectionLevel = permission.sectionLevel.filter(
