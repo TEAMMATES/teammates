@@ -42,6 +42,28 @@ public class StudentProfilePageE2ETest extends BaseE2ETestCase {
         profilePage.editProfilePhoto();
         profilePage.verifyPhotoSize("220px", "220px");
 
+        ______TS("Typical case: Profile picture ratios");
+        profilePage.fillProfilePic("src/test/resources/images/profile_pic_too_wide.jpg"); //TODO: chose profile pic
+        profilePage.uploadPicture();
+        profilePage.verifyStatusMessage("Your profile picture has been saved successfully");
+
+        profilePage.showPictureEditor(); // In order to upload
+        profilePage.waitForUploadEditModalVisible();
+
+        profilePage.editProfilePhoto();
+        profilePage.verifyPhotoMaxHeight(220);
+
+        profilePage.fillProfilePic("src/test/resources/images/profile_pic_too_tall.jpg"); //TODO: chose profile pic
+        profilePage.uploadPicture();
+        profilePage.verifyStatusMessage("Your profile picture has been saved successfully");
+
+        profilePage.showPictureEditor(); // In order to upload
+        profilePage.waitForUploadEditModalVisible();
+
+        profilePage.editProfilePhoto();
+        profilePage.verifyPhotoMaxWidth(220);
+
+
         ______TS("Typical case: edit profile page");
         profilePage.editProfileThroughUi("short.name", "e@email.tmt", "inst", "American",
                 StudentProfileAttributes.Gender.FEMALE, "this is enough!$%&*</>");

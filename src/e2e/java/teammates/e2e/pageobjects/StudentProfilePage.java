@@ -7,6 +7,7 @@ import static org.junit.Assert.fail;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.FindBy;
@@ -162,6 +163,46 @@ public class StudentProfilePage extends AppPage {
     public void verifyPhotoSize(String height, String width) {
         assertEquals(height, browser.driver.findElement(By.className("profile-pic")).getCssValue("height"));
         assertEquals(width, browser.driver.findElement(By.className("profile-pic")).getCssValue("width"));
+        click(uploadEditModal.findElement(By.className("close")));
+    }
+
+    public void verifyPhotoMaxWidth(int maxWidth) {
+        String actualHeight = browser.driver.findElement(By.className("profile-pic")).getCssValue("height");
+        float imageHeight = Float.parseFloat(actualHeight.substring(0,actualHeight.length() - 2));
+        assertTrue(imageHeight <= scaledDown(getProfilePicAspectRatio(), maxWidth).getHeight());
+        verifyPhotoClose();
+    }
+
+    public void verifyPhotoMaxHeight(int maxHeight) {
+        String actualWidth = browser.driver.findElement(By.className("profile-pic")).getCssValue("width");
+        float imageWidth = Float.parseFloat(actualWidth.substring(0,actualWidth.length() - 2));
+        assertTrue(imageWidth <= scaledDown(getProfilePicAspectRatio(),maxHeight).getWidth());
+        verifyPhotoClose();
+    }
+
+    private Dimension getProfilePicAspectRatio() {
+        String imageWidth = browser.driver.findElement(By.className("profile-pic")).getCssValue("width");
+        String imageHeight = browser.driver.findElement(By.className("profile-pic")).getCssValue("height");
+        int width = Integer.parseInt(imageWidth.substring(0,imageWidth.length() - 2));
+        int height = Integer.parseInt(imageHeight.substring(0,imageHeight.length() - 2));
+        return new Dimension(width, height);
+    }
+
+    private Dimension scaledDown(Dimension start, int maxVal) {
+        if(start.getHeight() > start.getWidth() && start.getHeight() > maxVal) {
+            float percent = (((float) maxVal)/ start.getHeight()) * 100;
+            int scaleDown = Math.round(start.getWidth() * (percent)/100);
+            return new Dimension(scaleDown, maxVal);
+        }
+        else if(start.getWidth() > start.getHeight() && start.getWidth() > maxVal) {
+            float percent = (((float) maxVal)/ start.getWidth()) * 100;
+            int scaleDown = Math.round(start.getHeight() * (percent)/100);
+            return new Dimension(maxVal, scaleDown);
+        }
+        return start;
+    }
+
+    private void verifyPhotoClose() {
         click(uploadEditModal.findElement(By.className("close")));
     }
 
