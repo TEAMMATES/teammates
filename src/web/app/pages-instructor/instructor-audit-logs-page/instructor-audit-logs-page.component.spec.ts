@@ -220,17 +220,11 @@ describe('InstructorAuditLogsPageComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should load all courses and students that instructor has on init', () => {
+  it('should load all courses that instructor has on init', () => {
     const courseSpy: Spy = spyOn(courseService, 'getAllCoursesAsInstructor').and
         .returnValue(of({
           courses: [
             testCourse1, testCourse2, testCourse3,
-          ],
-        }));
-    const studentSpy: Spy = spyOn(studentService, 'getStudentsFromCourse').and
-        .returnValue(of({
-          students: [
-            testStudent,
           ],
         }));
 
@@ -239,11 +233,45 @@ describe('InstructorAuditLogsPageComponent', () => {
     expect(component.isLoading).toBeFalsy();
     expect(courseSpy).toBeCalledWith('active');
     expect(component.courses.length).toEqual(2);
+    expect(component.courses).toContainEqual(testCourse1);
+    expect(component.courses).toContainEqual(testCourse2);
     expect(component.courses).not.toContainEqual(testCourse3);
+
+    // courseToStudents not loaded on init
+    expect(component.courseToStudents).toMatchObject({});
+  });
+
+  it('should load all students of selected course has on select', () => {
+    const studentSpy: Spy = spyOn(studentService, 'getStudentsFromCourse').and
+        .returnValue(of({
+          students: [
+            testStudent,
+          ],
+        }));
+
+    component.formModel.courseId = testCourse1.courseId;
+    component.loadStudents();
+
     expect(component.courseToStudents[testCourse1.courseId][0]).toEqual(emptyStudent);
     expect(component.courseToStudents[testCourse1.courseId][1]).toEqual(testStudent);
     expect(studentSpy).toHaveBeenNthCalledWith(1, { courseId: testCourse1.courseId });
-    expect(studentSpy).toHaveBeenNthCalledWith(2, { courseId: testCourse2.courseId });
+  });
+
+  it('should load students from cache if present', () => {
+    const studentSpy: Spy = spyOn(studentService, 'getStudentsFromCourse').and
+        .returnValue(of({
+          students: [
+            testStudent,
+          ],
+        }));
+
+    component.formModel.courseId = testCourse1.courseId;
+    component.courseToStudents[testCourse1.courseId] = [emptyStudent];
+    component.loadStudents();
+
+    expect(component.courseToStudents[testCourse1.courseId].length).toEqual(1);
+    expect(component.courseToStudents[testCourse1.courseId][0]).toEqual(emptyStudent);
+    expect(studentSpy).not.toHaveBeenCalled();
   });
 
   it('should search for logs using feedback course timezone when search button is clicked', () => {
