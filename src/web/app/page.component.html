@@ -34,7 +34,8 @@
           <a class="dropdown-item" tmRouterLink="/web/student" *ngIf="isStudent" (click)="closeModal()">To student pages</a>
           <a class="dropdown-item" tmRouterLink="/web/instructor" *ngIf="isInstructor" (click)="closeModal()">To instructor pages</a>
           <a class="dropdown-item" tmRouterLink="/web/admin" *ngIf="isAdmin" (click)="closeModal()">To admin pages</a>
-          <div class="dropdown-divider" *ngIf="isStudent || isInstructor || isAdmin"></div>
+          <a class="dropdown-item" tmRouterLink="/web/maintainer" *ngIf="isMaintainer" (click)="closeModal()">To maintainer pages</a>
+          <div class="dropdown-divider" *ngIf="isStudent || isInstructor || isAdmin || isMaintainer"></div>
           <a class="dropdown-item" id="logout-btn" [href]="logoutUrl">Log Out</a>
         </div>
       </li>
@@ -68,7 +69,7 @@
       </div>
     </div>
     <div *ngIf="!isValidUser">
-      <div *ngIf="isStudent || isInstructor || isAdmin">
+      <div *ngIf="isStudent || isInstructor || isAdmin || isMaintainer">
         <div class="row">
           <div class="alert alert-light col-sm-4 offset-sm-4">
             <img src="assets/images/angry.png" style="float: left; height: 90px; margin: 0 10px 10px 0;">
@@ -78,7 +79,7 @@
           </div>
         </div>
       </div>
-      <div *ngIf="!(isStudent || isInstructor || isAdmin)">
+      <div *ngIf="!(isStudent || isInstructor || isAdmin || isMaintainer)">
         <div class="row">
           <div class="alert alert-danger col-sm-8 offset-sm-2">
             <div class="align-left">

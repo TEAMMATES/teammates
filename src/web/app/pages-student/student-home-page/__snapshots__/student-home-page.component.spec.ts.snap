@@ -165,14 +165,16 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
       <div
         class="card-header bg-primary text-white"
       >
-        <strong>
+        <strong
+          class="text-break"
+        >
           [CS1231]: Discrete Structures
         </strong>
         <div
           class="card-header-btn-toolbar"
         >
           <a
-            class="btn btn-primary btn-sm button"
+            class="btn btn-primary btn-sm button text-nowrap"
             href="/web/student/course?courseid=CS1231"
             id="view-team-btn-0"
             tmrouterlink="/web/student/course"
@@ -211,7 +213,9 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
             
             <tr>
               
-              <td>
+              <td
+                class="text-break"
+              >
                 First Session
               </td>
               
@@ -253,7 +257,9 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
             </tr>
             <tr>
               
-              <td>
+              <td
+                class="text-break"
+              >
                 Second Session
               </td>
               
@@ -306,14 +312,16 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
       <div
         class="card-header bg-primary text-white"
       >
-        <strong>
+        <strong
+          class="text-break"
+        >
           [LSM1306]: Forensic Science
         </strong>
         <div
           class="card-header-btn-toolbar"
         >
           <a
-            class="btn btn-primary btn-sm button"
+            class="btn btn-primary btn-sm button text-nowrap"
             href="/web/student/course?courseid=LSM1306"
             id="view-team-btn-1"
             tmrouterlink="/web/student/course"
@@ -352,7 +360,9 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
             
             <tr>
               
-              <td>
+              <td
+                class="text-break"
+              >
                 Third Session
               </td>
               
@@ -394,7 +404,9 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
             </tr>
             <tr>
               
-              <td>
+              <td
+                class="text-break"
+              >
                 Fourth Session
               </td>
               
@@ -566,14 +578,16 @@ exports[`StudentHomePageComponent should snap with feedback sessions 1`] = `
       <div
         class="card-header bg-primary text-white"
       >
-        <strong>
+        <strong
+          class="text-break"
+        >
           [CS2103]: Software Engineering
         </strong>
         <div
           class="card-header-btn-toolbar"
         >
           <a
-            class="btn btn-primary btn-sm button"
+            class="btn btn-primary btn-sm button text-nowrap"
             href="/web/student/course?courseid=CS2103"
             id="view-team-btn-0"
             tmrouterlink="/web/student/course"
@@ -612,7 +626,9 @@ exports[`StudentHomePageComponent should snap with feedback sessions 1`] = `
             
             <tr>
               
-              <td>
+              <td
+                class="text-break"
+              >
                 First Session
               </td>
               
@@ -660,7 +676,9 @@ exports[`StudentHomePageComponent should snap with feedback sessions 1`] = `
             </tr>
             <tr>
               
-              <td>
+              <td
+                class="text-break"
+              >
                 Second Session
               </td>
               
@@ -825,14 +843,16 @@ exports[`StudentHomePageComponent should snap with no feedback session over 2 co
       <div
         class="card-header bg-primary text-white"
       >
-        <strong>
+        <strong
+          class="text-break"
+        >
           [CS3281]: Thematic Systems I
         </strong>
         <div
           class="card-header-btn-toolbar"
         >
           <a
-            class="btn btn-primary btn-sm button"
+            class="btn btn-primary btn-sm button text-nowrap"
             href="/web/student/course?courseid=CS3281"
             id="view-team-btn-0"
             tmrouterlink="/web/student/course"
@@ -869,14 +889,16 @@ exports[`StudentHomePageComponent should snap with no feedback session over 2 co
       <div
         class="card-header bg-primary text-white"
       >
-        <strong>
+        <strong
+          class="text-break"
+        >
           [CS3282]: Thematic Systems II
         </strong>
         <div
           class="card-header-btn-toolbar"
         >
           <a
-            class="btn btn-primary btn-sm button"
+            class="btn btn-primary btn-sm button text-nowrap"
             href="/web/student/course?courseid=CS3282"
             id="view-team-btn-1"
             tmrouterlink="/web/student/course"
@@ -982,14 +1004,16 @@ exports[`StudentHomePageComponent should snap with no feedback sessions 1`] = `
       <div
         class="card-header bg-primary text-white"
       >
-        <strong>
+        <strong
+          class="text-break"
+        >
           [CS3281]: Thematic Systems
         </strong>
         <div
           class="card-header-btn-toolbar"
         >
           <a
-            class="btn btn-primary btn-sm button"
+            class="btn btn-primary btn-sm button text-nowrap"
             href="/web/student/course?courseid=CS3281"
             id="view-team-btn-0"
             tmrouterlink="/web/student/course"

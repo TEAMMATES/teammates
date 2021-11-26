@@ -32,7 +32,7 @@ public class InstructorCourseDetailsPageE2ETest extends BaseE2ETestCase {
     protected void prepareTestData() {
         testData = loadDataBundle("/InstructorCourseDetailsPageE2ETest.json");
         student = testData.students.get("charlie.tmms@ICDet.CS2104");
-        student.email = TestProperties.TEST_EMAIL;
+        student.setEmail(TestProperties.TEST_EMAIL);
 
         removeAndRestoreDataBundle(testData);
         course = testData.courses.get("ICDet.CS2104");
@@ -50,7 +50,7 @@ public class InstructorCourseDetailsPageE2ETest extends BaseE2ETestCase {
         AppUrl detailsPageUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)
                 .withCourseId(course.getId());
         InstructorCourseDetailsPage detailsPage = loginToPage(detailsPageUrl, InstructorCourseDetailsPage.class,
-                testData.instructors.get("ICDet.instr").googleId);
+                testData.instructors.get("ICDet.instr").getGoogleId());
 
         ______TS("verify loaded details");
         InstructorAttributes[] instructors = {
@@ -107,9 +107,8 @@ public class InstructorCourseDetailsPageE2ETest extends BaseE2ETestCase {
 
         ______TS("download student list");
         detailsPage.downloadStudentList();
-        String status = student.googleId.isEmpty() ? "Yet to Join" : "Joined";
-        String lastName = student.getName().split(" ")[1];
-        String[] studentInfo = { student.getTeam(), student.getName(), lastName, status, student.getEmail() };
+        String status = student.getGoogleId().isEmpty() ? "Yet to Join" : "Joined";
+        String[] studentInfo = { student.getTeam(), student.getName(), status, student.getEmail() };
         List<String> expectedContent = Arrays.asList("Course ID," + course.getId(),
                 "Course Name," + course.getName(), String.join(",", studentInfo));
         verifyDownloadedFile(fileName, expectedContent);

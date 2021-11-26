@@ -1,0 +1,12 @@
+<details *ngIf="details" open>
+  <summary class="title">details:</summary>
+  <pre class="margin-left-3em wrap">{{ details | json }}</pre>
+</details>
+<details *ngIf="requestBody" open>
+  <summary class="title">request body:</summary>
+  <pre class="margin-left-3em wrap">{{ requestBody | json }}</pre>
+</details>
+<details *ngIf="userInfo">
+  <summary class="title">user info:</summary>
+  <pre class="clickable margin-left-3em wrap" ngbTooltip="Click to add to filter" (click)="addUserInfoToFilter(userInfo)">{{ userInfo | json }}</pre>
+</details>

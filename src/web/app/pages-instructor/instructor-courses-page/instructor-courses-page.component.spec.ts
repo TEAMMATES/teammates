@@ -13,6 +13,7 @@ import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.mo
 import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { PanelChevronModule } from '../../components/panel-chevron/panel-chevron.module';
+import { ProgressBarModule } from '../../components/progress-bar/progress-bar.module';
 import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';
 import { AddCourseFormModule } from './add-course-form/add-course-form.module';
 import { InstructorCoursesPageComponent } from './instructor-courses-page.component';
@@ -125,6 +126,7 @@ describe('InstructorCoursesPageComponent', () => {
     creationTimestamp: date1.getTime(),
     deletionTimestamp: 0,
     timeZone: 'UTC',
+    institute: 'Test Institute',
   };
 
   const courseCS3281: Course = {
@@ -133,6 +135,7 @@ describe('InstructorCoursesPageComponent', () => {
     creationTimestamp: date3.getTime(),
     deletionTimestamp: date4.getTime(),
     timeZone: 'UTC',
+    institute: 'Test Institute',
   };
 
   const courseCS3282: Course = {
@@ -141,6 +144,7 @@ describe('InstructorCoursesPageComponent', () => {
     creationTimestamp: date5.getTime(),
     deletionTimestamp: date6.getTime(),
     timeZone: 'UTC',
+    institute: 'Test Institute',
   };
 
   const courseST4234: Course = {
@@ -149,6 +153,7 @@ describe('InstructorCoursesPageComponent', () => {
     creationTimestamp: date2.getTime(),
     deletionTimestamp: 0,
     timeZone: 'UTC',
+    institute: 'Test Institute',
   };
 
   const courseModelCS1231: any = {
@@ -185,7 +190,6 @@ describe('InstructorCoursesPageComponent', () => {
         email: 'alice.b.tmms@gmail.tmt',
         courseId: 'test.exa-demo',
         name: 'Alice Betsy',
-        lastName: 'Betsy',
         comments: "This student's name is Alice Betsy",
         joinState: JoinState.JOINED,
         teamName: 'Team 1',
@@ -195,7 +199,6 @@ describe('InstructorCoursesPageComponent', () => {
         email: 'benny.c.tmms@gmail.tmt',
         courseId: 'test.exa-demo',
         name: 'Benny Charles',
-        lastName: 'Charles',
         comments: "This student's name is Benny Charles",
         joinState: JoinState.JOINED,
         teamName: 'Team 1',
@@ -205,7 +208,6 @@ describe('InstructorCoursesPageComponent', () => {
         email: 'charlie.d.tmms@gmail.tmt',
         courseId: 'test.exa-demo',
         name: 'Charlie Davis',
-        lastName: 'Davis',
         comments: "This student's name is Charlie Davis",
         joinState: JoinState.JOINED,
         teamName: 'Team 2',
@@ -215,7 +217,6 @@ describe('InstructorCoursesPageComponent', () => {
         email: 'danny.e.tmms@gmail.tmt',
         courseId: 'test.exa-demo',
         name: 'Danny Engrid',
-        lastName: 'Engrid',
         comments: "This student's name is Danny Engrid",
         joinState: JoinState.JOINED,
         teamName: 'Team 1',
@@ -225,7 +226,6 @@ describe('InstructorCoursesPageComponent', () => {
         email: 'emma.f.tmms@gmail.tmt',
         courseId: 'test.exa-demo',
         name: 'Emma Farrell',
-        lastName: 'Farrell',
         comments: "This student's name is Emma Farrell",
         joinState: JoinState.JOINED,
         teamName: 'Team 1',
@@ -235,7 +235,6 @@ describe('InstructorCoursesPageComponent', () => {
         email: 'francis.g.tmms@gmail.tmt',
         courseId: 'test.exa-demo',
         name: 'Francis Gabriel',
-        lastName: 'Gabriel',
         comments: "This student's name is Francis Gabriel",
         joinState: JoinState.JOINED,
         teamName: 'Team 2',
@@ -245,7 +244,6 @@ describe('InstructorCoursesPageComponent', () => {
         email: 'gene.h.tmms@gmail.tmt',
         courseId: 'test.exa-demo',
         name: 'Gene Hudson',
-        lastName: 'Hudson',
         comments: "This student's name is Gene Hudson",
         joinState: JoinState.JOINED,
         teamName: 'Team 2',
@@ -255,7 +253,6 @@ describe('InstructorCoursesPageComponent', () => {
         email: 'hugh.i.tmms@gmail.tmt',
         courseId: 'test.exa-demo',
         name: 'Hugh Ivanov',
-        lastName: 'Ivanov',
         comments: "This student's name is Hugh Ivanov",
         joinState: JoinState.NOT_JOINED,
         teamName: 'Team 3',
@@ -280,6 +277,7 @@ describe('InstructorCoursesPageComponent', () => {
         AddCourseFormModule,
         LoadingRetryModule,
         PanelChevronModule,
+        ProgressBarModule,
       ],
     })
     .compileComponents();

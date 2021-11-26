@@ -1,66 +1,10 @@
 {
-  "accounts": {
-    "alice.b.tmms": {
-      "googleId": "alice.b.tmms.sampleData",
-      "name": "Alice Betsy",
-      "isInstructor": false,
-      "email": "alice.b.tmms@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 2"
-    },
-    "benny.c.tmms": {
-      "googleId": "benny.c.tmms.sampleData",
-      "name": "Benny Charles",
-      "isInstructor": false,
-      "email": "benny.c.tmms@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 3"
-    },
-    "danny.e.tmms": {
-      "googleId": "danny.e.tmms.sampleData",
-      "name": "Danny Engrid",
-      "isInstructor": false,
-      "email": "danny.e.tmms@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 4"
-    },
-    "emma.f.tmms": {
-      "googleId": "emma.f.tmms.sampleData",
-      "name": "Emma Farrell",
-      "isInstructor": false,
-      "email": "emma.f.tmms@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 5"
-    },
-    "charlie.d.tmms": {
-      "googleId": "charlie.d.tmms.sampleData",
-      "name": "Charlie Davis",
-      "isInstructor": false,
-      "email": "charlie.d.tmms@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 5"
-    },
-    "teammates.demo.instructor@demo.course": {
-      "googleId": "teammates.demo.instructor",
-      "name": "Demo_Instructor",
-      "isInstructor": false,
-      "email": "teammates.demo.instructor@demo.course",
-      "institute": "TEAMMATES Test Institute 1"
-    },
-    "francis.g.tmms@demo.course": {
-      "googleId": "francis.g.tmms.sampleData",
-      "name": "Francis Gabriel",
-      "isInstructor": false,
-      "email": "francis.g.tmms@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
-    },
-    "gene.h.tmms@demo.course": {
-      "googleId": "gene.h.tmms.sampleData",
-      "name": "Gene Hudson",
-      "isInstructor": false,
-      "email": "gene.h.tmms@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 6"
-    }
-  },
+  "accounts": {},
   "courses": {
     "Demo Course": {
       "id": "demo.course",
       "name": "Sample Course 101",
+      "institute": "demo.institute",
       "timeZone": "UTC"
     }
   },
@@ -90,7 +34,7 @@
   },
   "students": {
     "alice.b.tmms@demo.course": {
-      "googleId": "alice.b.tmms.sampleData",
+      "googleId": "",
       "email": "alice.b.tmms@gmail.tmt",
       "course": "demo.course",
       "name": "Alice Betsy",
@@ -99,7 +43,7 @@
       "section": "Tutorial Group 1"
     },
     "benny.c.tmms@demo.course": {
-      "googleId": "benny.c.tmms.sampleData",
+      "googleId": "",
       "email": "benny.c.tmms@gmail.tmt",
       "course": "demo.course",
       "name": "Benny Charles",
@@ -108,7 +52,7 @@
       "section": "Tutorial Group 1"
     },
     "danny.e.tmms@demo.course": {
-      "googleId": "danny.e.tmms.sampleData",
+      "googleId": "",
       "email": "danny.e.tmms@gmail.tmt",
       "course": "demo.course",
       "name": "Danny Engrid",
@@ -117,7 +61,7 @@
       "section": "Tutorial Group 1"
     },
     "emma.f.tmms@demo.course": {
-      "googleId": "emma.f.tmms.sampleData",
+      "googleId": "",
       "email": "emma.f.tmms@gmail.tmt",
       "course": "demo.course",
       "name": "Emma Farrell",
@@ -126,7 +70,7 @@
       "section": "Tutorial Group 1"
     },
     "charlie.d.tmms@demo.course": {
-      "googleId": "charlie.d.tmms.sampleData",
+      "googleId": "",
       "email": "charlie.d.tmms@gmail.tmt",
       "course": "demo.course",
       "name": "Charlie Davis",
@@ -135,7 +79,7 @@
       "section": "Tutorial Group 2"
     },
     "teammates.demo.instructor@demo.course": {
-      "googleId": "teammates.demo.instructor",
+      "googleId": "",
       "email": "teammates.demo.instructor@demo.course",
       "course": "demo.course",
       "name": "Demo_Instructor",
@@ -144,7 +88,7 @@
       "section": "Tutorial Group 2"
     },
     "francis.g.tmms@demo.course": {
-      "googleId": "francis.g.tmms.sampleData",
+      "googleId": "",
       "email": "francis.g.tmms@gmail.tmt",
       "course": "demo.course",
       "name": "Francis Gabriel",
@@ -153,7 +97,7 @@
       "section": "Tutorial Group 2"
     },
     "gene.h.tmms@demo.course": {
-      "googleId": "gene.h.tmms.sampleData",
+      "googleId": "",
       "email": "gene.h.tmms@gmail.tmt",
       "course": "demo.course",
       "name": "Gene Hudson",
@@ -178,12 +122,13 @@
       "creatorEmail": "teammates.demo.instructor@demo.course",
       "instructions": "Please give your feedback based on the following questions.",
       "createdTime": "2012-04-01T23:59:00Z",
-      "startTime": "2012-04-01T15:59:00Z",
-      "endTime": "2012-04-02T15:59:00Z",
-      "sessionVisibleFromTime": "2012-04-01T15:59:00Z",
-      "resultsVisibleFromTime": "2012-05-01T15:59:00Z",
-      "timeZone": "Asia/Singapore",
+      "startTime": "2012-04-01T23:59:00Z",
+      "endTime": "2012-04-02T23:59:00Z",
+      "sessionVisibleFromTime": "2012-04-01T23:59:00Z",
+      "resultsVisibleFromTime": "2012-05-01T23:59:00Z",
+      "timeZone": "UTC",
       "gracePeriod": 10,
+      "sentOpeningSoonEmail": true,
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -198,12 +143,13 @@
       "creatorEmail": "teammates.demo.instructor@demo.course",
       "instructions": "Please give your feedback based on the following questions.",
       "createdTime": "2012-04-01T23:59:00Z",
-      "startTime": "2012-04-01T15:59:00Z",
-      "endTime": "2012-04-02T15:59:00Z",
-      "sessionVisibleFromTime": "2012-04-01T15:59:00Z",
-      "resultsVisibleFromTime": "2012-05-01T15:59:00Z",
-      "timeZone": "Asia/Singapore",
+      "startTime": "2012-04-01T23:59:00Z",
+      "endTime": "2012-04-02T23:59:00Z",
+      "sessionVisibleFromTime": "2012-04-01T23:59:00Z",
+      "resultsVisibleFromTime": "2012-05-01T23:59:00Z",
+      "timeZone": "UTC",
       "gracePeriod": 10,
+      "sentOpeningSoonEmail": true,
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -218,12 +164,13 @@
       "creatorEmail": "teammates.demo.instructor@demo.course",
       "instructions": "Please give your feedback based on the following questions.",
       "createdTime": "2012-04-01T23:59:00Z",
-      "startTime": "2012-04-01T15:59:00Z",
-      "endTime": "2037-04-02T15:59:00Z",
-      "sessionVisibleFromTime": "2012-04-01T15:59:00Z",
+      "startTime": "2012-04-01T23:59:00Z",
+      "endTime": "2037-04-02T23:59:00Z",
+      "sessionVisibleFromTime": "2012-04-01T23:59:00Z",
       "resultsVisibleFromTime": "1970-01-01T00:00:00Z",
-      "timeZone": "Asia/Singapore",
+      "timeZone": "UTC",
       "gracePeriod": 10,
+      "sentOpeningSoonEmail": true,
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -3019,51 +2966,5 @@
       "commentText": "<p>Design could have been more interactive.</p>"
     }
   },
-  "profiles": {
-    "alice.b.tmms": {
-      "googleId": "alice.b.tmms.sampleData",
-      "shortName": "Alice",
-      "email": "alice@b.tmt",
-      "institute": "TEAMMATES Test Institute 5",
-      "nationality": "Chinese",
-      "gender": "FEMALE",
-      "moreInfo": "I am Alice from TEAMMATES Test Institute 1 and am here at Cambridge for exchange. My Major in TEAMMATES Test Institute 5 is Art History with Minor in Business Administration. I really look forward to a great and fruitful semester ahead!"
-    },
-    "danny.e.tmms": {
-      "googleId": "danny.e.tmms.sampleData",
-      "shortName": "Danny",
-      "email": "danny@e.tmt",
-      "institute": "TEAMMATES Test Institute 7",
-      "nationality": "Singaporean",
-      "gender": "MALE",
-      "moreInfo": ""
-    },
-    "emma.f.tmms": {
-      "googleId": "emma.f.tmms.sampleData",
-      "shortName": "Emm",
-      "email": "emma@f.tmt",
-      "institute": "TEAMMATES Test Institute 8",
-      "nationality": "Indian",
-      "gender": "FEMALE",
-      "moreInfo": "I am Emma from TEAMMATES Test Institute 8 India and am here at TEAMMATES Test Institute 5 for exchange. "
-    },
-    "charlie.d.tmms": {
-      "googleId": "charlie.d.tmms.sampleData",
-      "shortName": "Char",
-      "email": "charlie@d.tmt",
-      "institute": "TEAMMATES Test Institute 8",
-      "nationality": "American",
-      "gender": "MALE",
-      "moreInfo": "I am Charlie - an exchange student"
-    },
-    "gene.h.tmms@demo.course": {
-      "googleId": "gene.h.tmms.sampleData",
-      "shortName": "Gene",
-      "email": "gene@h.tmt",
-      "institute": "TEAMMATES Test Institute 5",
-      "nationality": "Nigerian",
-      "gender": "FEMALE",
-      "moreInfo": ""
-    }
-  }
+  "profiles": {}
 }

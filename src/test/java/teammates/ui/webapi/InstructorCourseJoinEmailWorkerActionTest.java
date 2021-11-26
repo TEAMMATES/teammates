@@ -28,7 +28,7 @@ public class InstructorCourseJoinEmailWorkerActionTest
 
     @Override
     @Test
-    protected void testAccessControl() throws Exception {
+    protected void testAccessControl() {
         verifyOnlyAdminCanAccess();
     }
 
@@ -44,8 +44,8 @@ public class InstructorCourseJoinEmailWorkerActionTest
 
         String[] submissionParams = new String[] {
                 ParamsNames.COURSE_ID, course1.getId(),
-                ParamsNames.INSTRUCTOR_EMAIL, instr1InCourse1.email,
-                ParamsNames.INVITER_ID, inviter.googleId,
+                ParamsNames.INSTRUCTOR_EMAIL, instr1InCourse1.getEmail(),
+                ParamsNames.INVITER_ID, inviter.getGoogleId(),
                 ParamsNames.IS_INSTRUCTOR_REJOINING, "false",
         };
 
@@ -59,14 +59,13 @@ public class InstructorCourseJoinEmailWorkerActionTest
         assertEquals(String.format(EmailType.INSTRUCTOR_COURSE_JOIN.getSubject(), course1.getName(),
                                    course1.getId()),
                      email.getSubject());
-        assertEquals(instr1InCourse1.email, email.getRecipient());
+        assertEquals(instr1InCourse1.getEmail(), email.getRecipient());
 
         ______TS("typical case: old instructor rejoining (after google id reset)");
 
         submissionParams = new String[] {
                 ParamsNames.COURSE_ID, course1.getId(),
-                ParamsNames.INSTRUCTOR_EMAIL, instr1InCourse1.email,
-                ParamsNames.INSTRUCTOR_INSTITUTION, "Test Institute",
+                ParamsNames.INSTRUCTOR_EMAIL, instr1InCourse1.getEmail(),
                 ParamsNames.IS_INSTRUCTOR_REJOINING, "true",
         };
 
@@ -80,7 +79,7 @@ public class InstructorCourseJoinEmailWorkerActionTest
         assertEquals(String.format(EmailType.INSTRUCTOR_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET.getSubject(), course1.getName(),
                 course1.getId()),
                 email.getSubject());
-        assertEquals(instr1InCourse1.email, email.getRecipient());
+        assertEquals(instr1InCourse1.getEmail(), email.getRecipient());
 
     }
 

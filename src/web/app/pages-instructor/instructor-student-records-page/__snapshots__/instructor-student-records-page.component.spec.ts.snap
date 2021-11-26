@@ -33,7 +33,7 @@ exports[`InstructorStudentRecordsPageComponent should snap when student results 
   >
     John Doe's Records
     <small
-      class="text-muted"
+      class="text-muted text-break"
     >
        - CS1111
     </small>
@@ -104,7 +104,7 @@ exports[`InstructorStudentRecordsPageComponent should snap with default fields 1
   >
     's Records
     <small
-      class="text-muted"
+      class="text-muted text-break"
     >
        - su1337
     </small>
@@ -203,7 +203,7 @@ exports[`InstructorStudentRecordsPageComponent should snap with populated fields
   >
     Not John Doe's Records
     <small
-      class="text-muted"
+      class="text-muted text-break"
     >
        - su1337
     </small>

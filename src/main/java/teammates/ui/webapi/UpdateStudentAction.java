@@ -2,19 +2,17 @@ package teammates.ui.webapi;
 
 import java.util.Arrays;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailSendingStatus;
+import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
-import teammates.common.util.Templates;
+import teammates.ui.request.InvalidHttpRequestBodyException;
 import teammates.ui.request.StudentUpdateRequest;
 
 /**
@@ -30,7 +28,7 @@ class UpdateStudentAction extends Action {
 
     @Override
     AuthType getMinAuthLevel() {
-        return authType.LOGGED_IN;
+        return AuthType.LOGGED_IN;
     }
 
     @Override
@@ -46,13 +44,13 @@ class UpdateStudentAction extends Action {
     }
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String studentEmail = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
 
         StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
         if (student == null) {
-            return new JsonResult(STUDENT_NOT_FOUND_FOR_EDIT, HttpStatus.SC_NOT_FOUND);
+            throw new EntityNotFoundException(STUDENT_NOT_FOUND_FOR_EDIT);
         }
 
         StudentUpdateRequest updateRequest = getAndValidateRequestBody(StudentUpdateRequest.class);
@@ -69,11 +67,11 @@ class UpdateStudentAction extends Action {
             //we swap out email before we validate
             //TODO: this is duct tape at the moment, need to refactor how we do the validation
             String newEmail = studentToUpdate.getEmail();
-            studentToUpdate.email = student.getEmail();
-            logic.validateSectionsAndTeams(Arrays.asList(studentToUpdate), student.course);
-            studentToUpdate.email = newEmail;
+            studentToUpdate.setEmail(student.getEmail());
+            logic.validateSectionsAndTeams(Arrays.asList(studentToUpdate), student.getCourse());
+            studentToUpdate.setEmail(newEmail);
 
-            logic.updateStudentCascade(
+            StudentAttributes updatedStudent = logic.updateStudentCascade(
                     StudentAttributes.updateOptionsBuilder(courseId, studentEmail)
                             .withName(updateRequest.getName())
                             .withNewEmail(updateRequest.getEmail())
@@ -81,8 +79,9 @@ class UpdateStudentAction extends Action {
                             .withSectionName(updateRequest.getSection())
                             .withComment(updateRequest.getComments())
                             .build());
+            taskQueuer.scheduleStudentForSearchIndexing(updatedStudent.getCourse(), updatedStudent.getEmail());
 
-            if (!student.email.equals(updateRequest.getEmail())) {
+            if (!student.getEmail().equals(updateRequest.getEmail())) {
                 logic.resetStudentGoogleId(updateRequest.getEmail(), courseId);
 
                 if (updateRequest.getIsSessionSummarySendEmail()) {
@@ -92,13 +91,14 @@ class UpdateStudentAction extends Action {
                     return new JsonResult(statusMessage);
                 }
             }
-        } catch (EnrollException | InvalidParametersException e) {
-            return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
+        } catch (EnrollException e) {
+            throw new InvalidOperationException(e);
+        } catch (InvalidParametersException e) {
+            throw new InvalidHttpRequestBodyException(e);
         } catch (EntityDoesNotExistException ednee) {
-            return new JsonResult(ednee.getMessage(), HttpStatus.SC_NOT_FOUND);
+            throw new EntityNotFoundException(ednee);
         } catch (EntityAlreadyExistsException e) {
-            return new JsonResult("Trying to update to an email that is already in use",
-                    HttpStatus.SC_CONFLICT);
+            throw new InvalidOperationException("Trying to update to an email that is already in use", e);
         }
 
         return new JsonResult(SUCCESSFUL_UPDATE);
@@ -111,7 +111,7 @@ class UpdateStudentAction extends Action {
      */
     private boolean sendEmail(String courseId, String studentEmail) {
         EmailWrapper email = emailGenerator.generateFeedbackSessionSummaryOfCourse(
-                                courseId, studentEmail, Templates.EmailTemplates.USER_FEEDBACK_SESSION_RESEND_ALL_LINKS);
+                courseId, studentEmail, EmailType.STUDENT_EMAIL_CHANGED);
         EmailSendingStatus status = emailSender.sendEmail(email);
         return status.isSuccess();
     }

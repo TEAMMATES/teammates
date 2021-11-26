@@ -3,6 +3,9 @@ package teammates.common.datatransfer.questions;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Contains specific structure and processing logic for rubric feedback responses.
+ */
 public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
 
     /**

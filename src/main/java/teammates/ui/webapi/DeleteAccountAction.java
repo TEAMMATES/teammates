@@ -1,7 +1,5 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.util.Const;
 
 /**
@@ -10,13 +8,13 @@ import teammates.common.util.Const;
 class DeleteAccountAction extends AdminOnlyAction {
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         String googleId = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
         if (fileStorage.doesFileExist(googleId)) {
             fileStorage.delete(googleId);
         }
         logic.deleteAccountCascade(googleId);
-        return new JsonResult("Account is successfully deleted.", HttpStatus.SC_OK);
+        return new JsonResult("Account is successfully deleted.");
     }
 
 }

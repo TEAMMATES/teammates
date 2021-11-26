@@ -6,7 +6,6 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.e2e.pageobjects.CourseJoinConfirmationPage;
-import teammates.e2e.pageobjects.ErrorReportingModal;
 import teammates.e2e.pageobjects.StudentHomePage;
 
 /**
@@ -21,7 +20,7 @@ public class StudentCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase {
         removeAndRestoreDataBundle(testData);
 
         newStudent = testData.students.get("alice.tmms@SCJoinConf.CS2104");
-        newStudent.googleId = testData.accounts.get("alice.tmms").googleId;
+        newStudent.setGoogleId(testData.accounts.get("alice.tmms").getGoogleId());
     }
 
     @Test
@@ -29,23 +28,25 @@ public class StudentCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase {
     public void testAll() {
         ______TS("Click join link: invalid key");
         String courseId = testData.courses.get("SCJoinConf.CS2104").getId();
-        String invalidEncryptedKey = "invalidKey";
+        String invalidKey = "invalidKey";
         AppUrl joinLink = createUrl(Const.WebPageURIs.JOIN_PAGE)
-                .withRegistrationKey(invalidEncryptedKey)
+                .withRegistrationKey(invalidKey)
                 .withCourseId(courseId)
                 .withEntityType(Const.EntityType.STUDENT);
-        ErrorReportingModal errorPage = loginToPage(joinLink, ErrorReportingModal.class, newStudent.googleId);
+        CourseJoinConfirmationPage confirmationPage = loginToPage(
+                joinLink, CourseJoinConfirmationPage.class, newStudent.getGoogleId());
 
-        errorPage.verifyErrorMessage("No student with given registration key: " + invalidEncryptedKey);
+        confirmationPage.verifyDisplayedMessage("The course join link is invalid. You may have "
+                + "entered the URL incorrectly or the URL may correspond to a/an student that does not exist.");
 
         ______TS("Click join link: valid key");
         joinLink = createUrl(Const.WebPageURIs.JOIN_PAGE)
                 .withRegistrationKey(getKeyForStudent(newStudent))
                 .withCourseId(courseId)
                 .withEntityType(Const.EntityType.STUDENT);
-        CourseJoinConfirmationPage confirmationPage = getNewPageInstance(joinLink, CourseJoinConfirmationPage.class);
+        confirmationPage = getNewPageInstance(joinLink, CourseJoinConfirmationPage.class);
 
-        confirmationPage.verifyJoiningUser(newStudent.googleId);
+        confirmationPage.verifyJoiningUser(newStudent.getGoogleId());
         confirmationPage.confirmJoinCourse(StudentHomePage.class);
 
         ______TS("Already joined, no confirmation page");

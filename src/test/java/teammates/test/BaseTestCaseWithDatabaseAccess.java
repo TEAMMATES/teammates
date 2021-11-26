@@ -12,13 +12,11 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.JsonUtils;
-import teammates.common.util.StringHelper;
-import teammates.common.util.ThreadHelper;
 
 /**
  * Base class for all test cases which are allowed to access the database.
  */
-public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCaseWithObjectifyAccess {
+public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
 
     private static final int VERIFICATION_RETRY_COUNT = 5;
     private static final int VERIFICATION_RETRY_DELAY_IN_MS = 1000;
@@ -120,10 +118,10 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCaseWithObj
         } else if (expected instanceof FeedbackResponseCommentAttributes) {
             FeedbackResponseCommentAttributes expectedFrc = (FeedbackResponseCommentAttributes) expected;
             FeedbackResponseCommentAttributes actualFrc = (FeedbackResponseCommentAttributes) actual;
-            assertEquals(expectedFrc.courseId, actualFrc.courseId);
-            assertEquals(expectedFrc.commentGiver, actualFrc.commentGiver);
-            assertEquals(expectedFrc.feedbackSessionName, actualFrc.feedbackSessionName);
-            assertEquals(expectedFrc.commentText, actualFrc.commentText);
+            assertEquals(expectedFrc.getCourseId(), actualFrc.getCourseId());
+            assertEquals(expectedFrc.getCommentGiver(), actualFrc.getCommentGiver());
+            assertEquals(expectedFrc.getFeedbackSessionName(), actualFrc.getFeedbackSessionName());
+            assertEquals(expectedFrc.getCommentText(), actualFrc.getCommentText());
 
         } else if (expected instanceof FeedbackResponseAttributes) {
             FeedbackResponseAttributes expectedFr = (FeedbackResponseAttributes) expected;
@@ -158,16 +156,16 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCaseWithObj
 
     private void equalizeIrrelevantData(AccountAttributes expected, AccountAttributes actual) {
         // Ignore time field as it is stamped at the time of creation in testing
-        expected.createdAt = actual.createdAt;
+        expected.setCreatedAt(actual.getCreatedAt());
     }
 
     private void equalizeIrrelevantData(StudentProfileAttributes expected, StudentProfileAttributes actual) {
-        expected.modifiedDate = actual.modifiedDate;
+        expected.setModifiedDate(actual.getModifiedDate());
     }
 
     private void equalizeIrrelevantData(CourseAttributes expected, CourseAttributes actual) {
         // Ignore time field as it is stamped at the time of creation in testing
-        expected.createdAt = actual.createdAt;
+        expected.setCreatedAt(actual.getCreatedAt());
     }
 
     private void equalizeIrrelevantData(FeedbackQuestionAttributes expected, FeedbackQuestionAttributes actual) {
@@ -186,29 +184,27 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCaseWithObj
 
     private void equalizeIrrelevantData(InstructorAttributes expected, InstructorAttributes actual) {
         // pretend keys match because the key is generated only before storing into database
-        if (actual.key != null) {
-            expected.key = actual.key;
+        if (actual.getKey() != null) {
+            expected.setKey(actual.getKey());
         }
     }
 
     private void equalizeIrrelevantData(StudentAttributes expected, StudentAttributes actual) {
         // For these fields, we consider null and "" equivalent.
-        if (expected.googleId == null && actual.googleId.isEmpty()) {
-            expected.googleId = "";
+        if (expected.getGoogleId() == null && actual.getGoogleId().isEmpty()) {
+            expected.setGoogleId("");
         }
-        if (expected.team == null && actual.team.isEmpty()) {
-            expected.team = "";
+        if (expected.getTeam() == null && actual.getTeam().isEmpty()) {
+            expected.setTeam("");
         }
-        if (expected.comments == null && actual.comments.isEmpty()) {
-            expected.comments = "";
+        if (expected.getComments() == null && actual.getComments().isEmpty()) {
+            expected.setComments("");
         }
 
         // pretend keys match because the key is generated only before storing into database
-        if (actual.key != null) {
-            expected.key = actual.key;
+        if (actual.getKey() != null) {
+            expected.setKey(actual.getKey());
         }
-
-        expected.lastName = StringHelper.splitName(expected.name)[1];
     }
 
     protected abstract StudentProfileAttributes getStudentProfile(StudentProfileAttributes studentProfileAttributes);

@@ -6,10 +6,10 @@ import java.util.List;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.TeammatesException;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
 import teammates.ui.request.FeedbackSessionRemindRequest;
+import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * Task queue worker action: sends feedback session reminder email to particular students of a course.
@@ -19,7 +19,7 @@ class FeedbackSessionResendPublishedEmailWorkerAction extends AdminOnlyAction {
     private static final Logger log = Logger.getLogger();
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() throws InvalidHttpRequestBodyException {
         FeedbackSessionRemindRequest remindRequest = getAndValidateRequestBody(FeedbackSessionRemindRequest.class);
         String feedbackSessionName = remindRequest.getFeedbackSessionName();
         String courseId = remindRequest.getCourseId();
@@ -46,7 +46,7 @@ class FeedbackSessionResendPublishedEmailWorkerAction extends AdminOnlyAction {
                     session, studentsToEmailList, instructorsToEmailList);
             taskQueuer.scheduleEmailsForSending(emails);
         } catch (Exception e) {
-            log.severe("Unexpected error while sending emails: " + TeammatesException.toStringWithStackTrace(e));
+            log.severe("Unexpected error while sending emails", e);
         }
         return new JsonResult("Successful");
     }

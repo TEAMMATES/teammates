@@ -57,6 +57,7 @@ import teammates.ui.output.FeedbackSessionsData;
 import teammates.ui.output.FeedbackVisibilityType;
 import teammates.ui.output.InstructorData;
 import teammates.ui.output.InstructorsData;
+import teammates.ui.output.MessageOutput;
 import teammates.ui.output.NumberOfEntitiesToGiveFeedbackToSetting;
 import teammates.ui.output.ResponseVisibleSetting;
 import teammates.ui.output.SessionVisibleSetting;
@@ -68,10 +69,19 @@ import teammates.ui.request.Intent;
  */
 public abstract class AbstractBackDoor {
 
+    /**
+     * Gets the URL of the back-end.
+     */
     protected abstract String getAppUrl();
 
+    /**
+     * Gets the backdoor key used to authenticate with the back-end.
+     */
     protected abstract String getBackdoorKey();
 
+    /**
+     * Gets the CSRF key used to authenticate with the back-end.
+     */
     protected abstract String getCsrfKey();
 
     /**
@@ -208,8 +218,8 @@ public abstract class AbstractBackDoor {
     }
 
     private void addAuthKeys(HttpRequestBase request) {
-        request.addHeader("Backdoor-Key", getBackdoorKey());
-        request.addHeader("CSRF-Key", getCsrfKey());
+        request.addHeader(Const.HeaderNames.BACKDOOR_KEY, getBackdoorKey());
+        request.addHeader(Const.HeaderNames.CSRF_KEY, getCsrfKey());
     }
 
     /**
@@ -255,6 +265,18 @@ public abstract class AbstractBackDoor {
      */
     public void removeDataBundle(DataBundle dataBundle) {
         executePutRequest(Const.ResourceURIs.DATABUNDLE, null, JsonUtils.toJson(dataBundle));
+    }
+
+    /**
+     * Gets the cookie format for the given user ID.
+     */
+    public String getUserCookie(String userId) {
+        Map<String, String> params = new HashMap<>();
+        params.put(Const.ParamsNames.USER_ID, userId);
+        ResponseBodyAndCode response = executePostRequest(Const.ResourceURIs.USER_COOKIE, params, null);
+
+        MessageOutput output = JsonUtils.fromJson(response.responseBody, MessageOutput.class);
+        return output.getMessage();
     }
 
     /**
@@ -316,6 +338,7 @@ public abstract class AbstractBackDoor {
         return CourseAttributes.builder(courseData.getCourseId())
                 .withName(courseData.getCourseName())
                 .withTimezone(ZoneId.of(courseData.getTimeZone()))
+                .withInstitute(courseData.getInstitute())
                 .build();
     }
 
@@ -359,6 +382,7 @@ public abstract class AbstractBackDoor {
         return CourseAttributes.builder(courseData.getCourseId())
                 .withName(courseData.getCourseName())
                 .withTimezone(ZoneId.of(courseData.getTimeZone()))
+                .withInstitute(courseData.getInstitute())
                 .build();
     }
 
@@ -426,7 +450,7 @@ public abstract class AbstractBackDoor {
         }
         InstructorAttributes instructorAttributes = instructor.build();
         if (instructorData.getKey() != null) {
-            instructorAttributes.key = instructorData.getKey();
+            instructorAttributes.setKey(instructorData.getKey());
         }
         return instructorAttributes;
     }
@@ -470,12 +494,9 @@ public abstract class AbstractBackDoor {
         if (studentData.getComments() != null) {
             builder.withComment(studentData.getComments());
         }
-        if (studentData.getLastName() != null) {
-            builder.withLastName(studentData.getLastName());
-        }
         StudentAttributes student = builder.build();
         if (studentData.getKey() != null) {
-            student.key = studentData.getKey();
+            student.setKey(studentData.getKey());
         }
         return student;
     }

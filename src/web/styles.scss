@@ -70,10 +70,14 @@ h6,
 
 .modal-header {
   padding: .75rem 1rem;
+  word-break: break-word !important;
+  word-wrap: break-word !important;
 }
 
 .modal-body {
   padding: 1rem 1.25rem;
+  word-break: break-word !important;
+  word-wrap: break-word !important;
 }
 
 .modal-footer {
@@ -274,12 +278,35 @@ h6,
   color: blue;
 }
 
-.handsontable .invalid-row {
-  background: red;
-  color: white;
+.handsontable .invalid-row,
+.red-box {
+  background: #F19491;
+}
+
+.handsontable .new-row,
+.green-box {
+  background: #AEEBA6;
+}
+
+.handsontable .modified-row,
+.yellow-box {
+  background: #FCF4B3;
+}
+
+.handsontable .unchanged-row,
+.grey-box {
+  background: #DDD;
 }
 
 .handsontable .valid-row {
   background: white;
-  color: black;
+}
+
+// text-break on current version of bootstrap (4.5.0) does not work on some tags.
+// This class overrides bootstrap's text-break with a working implementation,
+// can be removed once bootstrap version is upgraded.
+// See https://github.com/twbs/bootstrap/issues/30803.
+.text-break {
+  word-break: break-word !important;
+  word-wrap: break-word !important;
 }

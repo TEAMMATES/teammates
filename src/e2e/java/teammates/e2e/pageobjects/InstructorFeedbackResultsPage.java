@@ -33,6 +33,7 @@ import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackRubricQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackRubricResponseDetails;
 import teammates.common.util.TimeHelper;
+import teammates.e2e.util.TestProperties;
 
 /**
  * Represents the "Results" page for Instructors.
@@ -275,7 +276,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     private void verifyQuestionText(WebElement questionPanel, FeedbackQuestionAttributes question) {
-        assertEquals(question.getQuestionDetails().getQuestionText(), getQuestionText(questionPanel));
+        assertEquals(question.getQuestionDetailsCopy().getQuestionText(), getQuestionText(questionPanel));
     }
 
     private void verifyGroupedResponses(FeedbackQuestionAttributes question, WebElement userPanel, String userName,
@@ -297,14 +298,14 @@ public class InstructorFeedbackResultsPage extends AppPage {
             return;
         }
 
-        WebElement questionPanel = getQuestionPanel(groupedResponses, question.questionNumber);
+        WebElement questionPanel = getQuestionPanel(groupedResponses, question.getQuestionNumber());
         verifyQuestionText(questionPanel, question);
         WebElement singleResponse = questionPanel.findElement(By.id("response"));
         if (isMissingResponse(response)) {
             // Missing response will only be shown if this user has some real responses
             assertEquals(NO_RESPONSE_LABEL, singleResponse.getText());
         } else {
-            assertEquals(getAnswerString(question, response.getResponseDetails()), singleResponse.getText());
+            assertEquals(getAnswerString(question, response.getResponseDetailsCopy()), singleResponse.getText());
         }
     }
 
@@ -613,7 +614,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
             if (isMissingResponse(response)) {
                 expected[i][4] = NO_RESPONSE_LABEL;
             } else {
-                expected[i][4] = getAnswerString(question, response.getResponseDetails());
+                expected[i][4] = getAnswerString(question, response.getResponseDetailsCopy());
             }
         }
         return expected;
@@ -635,7 +636,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         if (response.getFeedbackSessionName() == null) {
             expected[2] = NO_RESPONSE_LABEL;
         } else {
-            expected[2] = getAnswerString(question, response.getResponseDetails());
+            expected[2] = getAnswerString(question, response.getResponseDetailsCopy());
         }
         return expected;
     }
@@ -656,18 +657,18 @@ public class InstructorFeedbackResultsPage extends AppPage {
         if (response.getFeedbackSessionName() == null) {
             expected[2] = NO_RESPONSE_LABEL;
         } else {
-            expected[2] = getAnswerString(question, response.getResponseDetails());
+            expected[2] = getAnswerString(question, response.getResponseDetailsCopy());
         }
         return expected;
     }
 
     private String[][] getMcqResponseSummary(FeedbackQuestionAttributes question) {
-        FeedbackMcqQuestionDetails questionDetails = (FeedbackMcqQuestionDetails) question.getQuestionDetails();
+        FeedbackMcqQuestionDetails questionDetails = (FeedbackMcqQuestionDetails) question.getQuestionDetailsCopy();
         List<String> choices = questionDetails.getMcqChoices();
         List<Double> weights = questionDetails.getMcqWeights();
         Double otherWeight = questionDetails.getMcqOtherWeight();
         boolean isOtherEnabled = questionDetails.isOtherEnabled();
-        boolean hasAssignedWeights = questionDetails.hasAssignedWeights();
+        boolean hasAssignedWeights = questionDetails.isHasAssignedWeights();
 
         int numRows = isOtherEnabled ? choices.size() + 1 : choices.size();
         String[][] expectedStatistics = new String[numRows][2];
@@ -694,8 +695,8 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
         for (int i = 0; i < recipients.size(); i++) {
             String recipient = recipients.get(i);
-            expectedStatistics[i][0] = getTeam(question.recipientType, recipient, students);
-            expectedStatistics[i][1] = getName(question.recipientType, recipient, instructors, students);
+            expectedStatistics[i][0] = getTeam(question.getRecipientType(), recipient, students);
+            expectedStatistics[i][1] = getName(question.getRecipientType(), recipient, instructors, students);
         }
 
         return expectedStatistics;
@@ -709,15 +710,15 @@ public class InstructorFeedbackResultsPage extends AppPage {
             return response.getAnswerString();
         case MCQ:
         case MSQ:
-            return response.getAnswerString().replace(", ", System.lineSeparator());
+            return response.getAnswerString().replace(", ", TestProperties.LINE_SEPARATOR);
         case RUBRIC:
-            return getRubricAnsString((FeedbackRubricQuestionDetails) question.getQuestionDetails(),
+            return getRubricAnsString((FeedbackRubricQuestionDetails) question.getQuestionDetailsCopy(),
                     (FeedbackRubricResponseDetails) response);
         case RANK_OPTIONS:
-            return getRankOptionsAnsString((FeedbackRankOptionsQuestionDetails) question.getQuestionDetails(),
+            return getRankOptionsAnsString((FeedbackRankOptionsQuestionDetails) question.getQuestionDetailsCopy(),
                     (FeedbackRankOptionsResponseDetails) response);
         case CONSTSUM:
-            return getConstSumOptionsAnsString((FeedbackConstantSumQuestionDetails) question.getQuestionDetails(),
+            return getConstSumOptionsAnsString((FeedbackConstantSumQuestionDetails) question.getQuestionDetailsCopy(),
                     (FeedbackConstantSumResponseDetails) response);
         case CONTRIB:
             return getContribAnsString((FeedbackContributionResponseDetails) response);
@@ -734,7 +735,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         for (int answer : answers) {
             answerStrings.add(choices.get(answer) + " (Choice " + (answer + 1) + ")");
         }
-        return String.join(System.lineSeparator(), answerStrings);
+        return String.join(TestProperties.LINE_SEPARATOR, answerStrings);
     }
 
     private String getRankOptionsAnsString(FeedbackRankOptionsQuestionDetails question,
@@ -745,7 +746,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         for (int i = 1; i <= options.size(); i++) {
             answerStrings.add(i + ": " + options.get(answers.indexOf(i)));
         }
-        return String.join(System.lineSeparator(), answerStrings);
+        return String.join(TestProperties.LINE_SEPARATOR, answerStrings);
     }
 
     private String getConstSumOptionsAnsString(FeedbackConstantSumQuestionDetails question,
@@ -760,7 +761,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
             answerStrings.add(options.get(i) + ": " + answers.get(i));
         }
         answerStrings.sort(Comparator.naturalOrder());
-        return String.join(System.lineSeparator(), answerStrings);
+        return String.join(TestProperties.LINE_SEPARATOR, answerStrings);
     }
 
     private String getContribAnsString(FeedbackContributionResponseDetails responseDetails) {
@@ -779,7 +780,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     private String getSessionDurationString(FeedbackSessionAttributes feedbackSession) {
-        return getDateString(feedbackSession.getStartTime(), feedbackSession.getTimeZone()) + "   to   "
+        return getDateString(feedbackSession.getStartTime(), feedbackSession.getTimeZone()) + "   to\n"
                 + getDateString(feedbackSession.getEndTime(), feedbackSession.getTimeZone());
     }
 

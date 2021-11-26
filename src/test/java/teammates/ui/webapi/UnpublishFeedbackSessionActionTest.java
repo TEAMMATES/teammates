@@ -1,13 +1,11 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
-import teammates.ui.output.MessageOutput;
 
 /**
  * SUT: {@link UnpublishFeedbackSessionAction}.
@@ -26,7 +24,7 @@ public class UnpublishFeedbackSessionActionTest extends BaseActionTest<Unpublish
 
     @Test
     @Override
-    protected void testExecute() throws Exception {
+    protected void testExecute() {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         CourseAttributes typicalCourse1 = typicalBundle.courses.get("typicalCourse1");
         FeedbackSessionAttributes sessionPublishedInCourse1 = typicalBundle.feedbackSessions.get("closedSession");
@@ -50,9 +48,7 @@ public class UnpublishFeedbackSessionActionTest extends BaseActionTest<Unpublish
         };
 
         UnpublishFeedbackSessionAction a = getAction(params);
-        JsonResult r = getJsonResult(a);
-
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+        getJsonResult(a);
 
         // session is unpublished
         assertFalse(logic.getFeedbackSession(sessionPublishedInCourse1.getFeedbackSessionName(),
@@ -61,21 +57,23 @@ public class UnpublishFeedbackSessionActionTest extends BaseActionTest<Unpublish
         // sent unpublish email task is added
         assertEquals(1, mockTaskQueuer.getTasksAdded().size());
 
-        ______TS("Failed case, session is not published yet");
+        ______TS("Typical case, session is not published yet");
 
         assertFalse(session1InCourse1.isPublished());
-        String[] failedParams = new String[] {
+        params = new String[] {
                 Const.ParamsNames.COURSE_ID, typicalCourse1.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session1InCourse1.getFeedbackSessionName(),
         };
 
-        a = getAction(failedParams);
-        r = getJsonResult(a);
-        MessageOutput out = (MessageOutput) r.getOutput();
+        a = getAction(params);
+        getJsonResult(a);
 
-        assertEquals(out.getMessage(),
-                "Error unpublishing feedback session: Session has already been unpublished.");
-        assertEquals(HttpStatus.SC_BAD_REQUEST, r.getStatusCode());
+        // session is still unpublished
+        assertFalse(logic.getFeedbackSession(sessionPublishedInCourse1.getFeedbackSessionName(),
+                typicalCourse1.getId()).isPublished());
+
+        // sent unpublish email task should not be added
+        verifyNoEmailsSent();
     }
 
     @Test
@@ -84,7 +82,7 @@ public class UnpublishFeedbackSessionActionTest extends BaseActionTest<Unpublish
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         FeedbackSessionAttributes session1InCourse1 = typicalBundle.feedbackSessions.get("session1InCourse1");
 
-        loginAsInstructor(instructor1OfCourse1.googleId);
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
 
         ______TS("non-existent course");
 
@@ -93,7 +91,7 @@ public class UnpublishFeedbackSessionActionTest extends BaseActionTest<Unpublish
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session1InCourse1.getFeedbackSessionName(),
         };
 
-        verifyEntityNotFound(nonExistParams);
+        verifyEntityNotFoundAcl(nonExistParams);
 
         ______TS("non-existent feedback session");
 
@@ -102,7 +100,7 @@ public class UnpublishFeedbackSessionActionTest extends BaseActionTest<Unpublish
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "abcRandomSession",
         };
 
-        verifyEntityNotFound(nonExistParams);
+        verifyEntityNotFoundAcl(nonExistParams);
 
         ______TS("accessible only for instructor with ModifySessionPrivilege");
 

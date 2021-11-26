@@ -33,6 +33,7 @@
       "createdAt": "2012-04-01T23:58:00Z",
       "id": "idOfTypicalCourse1",
       "name": "Typical Course 1 with 2 Evals",
+      "institute": "TEAMMATES Test Institute 1",
       "timeZone": "Africa/Johannesburg"
     }
   },
@@ -76,6 +77,7 @@
       "resultsVisibleFromTime": "2027-05-01T21:59:00Z",
       "timeZone": "Africa/Johannesburg",
       "gracePeriod": 10,
+      "sentOpeningSoonEmail": true,
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -89,7 +91,6 @@
     "qn1InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
-      "feedbackQuestionId": "qn1InSession1InCourse1",
       "questionDetails": {
         "questionType": "TEXT",
         "questionText": "What is the best selling point of your product?"
@@ -111,7 +112,6 @@
     "qn2InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
-      "feedbackQuestionId": "qn2InSession1InCourse1",
       "questionDetails": {
         "questionType": "TEXT",
         "questionText": "Rate 1 other student's product"
@@ -135,7 +135,6 @@
     "qn3InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
-      "feedbackQuestionId": "qn3InSession1InCourse1",
       "questionDetails": {
         "questionType": "TEXT",
         "questionText": "My comments on the class"
@@ -168,12 +167,11 @@
     "response1ForQ1S1C1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
-      "feedbackQuestionId": "qn1InSession1InCourse1",
+      "feedbackQuestionId": "1",
       "giver": "student1InCourse1@gmail.tmt",
       "recipient": "student1InCourse1@gmail.tmt",
       "giverSection": "Section 1",
       "recipientSection": "Section 1",
-      "feedbackResponseId": "response1ForQ1S1C1",
       "responseDetails": {
         "questionType": "TEXT",
         "answer": "Student 1 self feedback."
@@ -182,12 +180,11 @@
     "response2ForQ1S1C1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
-      "feedbackQuestionId": "qn1InSession1InCourse1",
+      "feedbackQuestionId": "1",
       "giver": "student2InCourse1@gmail.tmt",
       "recipient": "student2InCourse1@gmail.tmt",
       "giverSection": "Section 1",
       "recipientSection": "Section 1",
-      "feedbackResponseId": "response2ForQ1S1C1",
       "responseDetails": {
         "questionType": "TEXT",
         "answer": "I'm cool'"
@@ -196,12 +193,11 @@
     "response1ForQ2S1C1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
-      "feedbackQuestionId": "qn2InSession1InCourse1",
+      "feedbackQuestionId": "2",
       "giver": "student2InCourse1@gmail.tmt",
       "recipient": "student1InCourse1@gmail.tmt",
       "giverSection": "Section 1",
       "recipientSection": "Section 1",
-      "feedbackResponseId": "response1ForQ2S1C1",
       "responseDetails": {
         "questionType": "TEXT",
         "answer": "Response from student 2 to student 1."
@@ -210,12 +206,11 @@
     "response2ForQ2S1C1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
-      "feedbackQuestionId": "qn2InSession1InCourse1",
+      "feedbackQuestionId": "2",
       "giver": "student1InCourse1@gmail.tmt",
       "recipient": "student2InCourse1@gmail.tmt",
       "giverSection": "Section 1",
       "recipientSection": "Section 1",
-      "feedbackResponseId": "response2ForQ2S1C1",
       "responseDetails": {
         "questionType": "TEXT",
         "answer": "Response from student 1 to student 2."
@@ -224,12 +219,11 @@
     "response3ForQ2S1C1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
-      "feedbackQuestionId": "qn2InSession1InCourse1",
+      "feedbackQuestionId": "2",
       "giver": "student3InCourse1@gmail.tmt",
       "recipient": "student2InCourse1@gmail.tmt",
       "giverSection": "Section 1",
       "recipientSection": "Section 1",
-      "feedbackResponseId": "response3ForQ2S1C1",
       "responseDetails": {
         "questionType": "TEXT",
         "answer": "Response from student 3 \"to\" student 2.\r\nMultiline test."
@@ -245,7 +239,7 @@
       "commentGiver": "instructor1@course1.tmt",
       "giverSection": "None",
       "receiverSection": "None",
-      "feedbackResponseId": "qn1InSession1InCourse1%student1InCourse1@gmail.tmt%student1InCourse1@gmail.tmt",
+      "feedbackResponseId": "1%student1InCourse1@gmail.tmt%student1InCourse1@gmail.tmt",
       "showCommentTo": [],
       "showGiverNameTo": [],
       "commentGiverType": "INSTRUCTORS",
@@ -264,7 +258,7 @@
       "commentGiver": "student1InCourse1@gmail.tmt",
       "giverSection": "None",
       "receiverSection": "None",
-      "feedbackResponseId": "qn1InSession1InCourse1%student1InCourse1@gmail.tmt%student1InCourse1@gmail.tmt",
+      "feedbackResponseId": "1%student1InCourse1@gmail.tmt%student1InCourse1@gmail.tmt",
       "showCommentTo": [],
       "showGiverNameTo": [],
       "commentGiverType": "STUDENTS",

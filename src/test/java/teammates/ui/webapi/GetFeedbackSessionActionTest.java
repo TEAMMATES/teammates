@@ -1,13 +1,10 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.ui.output.FeedbackSessionData;
 import teammates.ui.output.FeedbackSessionPublishStatus;
@@ -33,13 +30,13 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
     @Override
     @Test
-    protected void testExecute() throws Exception {
+    protected void testExecute() {
         // TODO: Add test cases
 
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         FeedbackSessionAttributes feedbackSessionAttributes = typicalBundle.feedbackSessions.get("session1InCourse1");
 
-        loginAsInstructor(instructor1OfCourse1.googleId);
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
 
         ______TS("Not enough parameters");
 
@@ -60,7 +57,6 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         GetFeedbackSessionAction a = getAction(params);
         JsonResult r = getJsonResult(a);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
         FeedbackSessionData response = (FeedbackSessionData) r.getOutput();
         assertEquals(feedbackSessionAttributes.getCourseId(), response.getCourseId());
         assertEquals(feedbackSessionAttributes.getFeedbackSessionName(), response.getFeedbackSessionName());
@@ -91,7 +87,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
     @Override
     @Test
-    protected void testAccessControl() throws Exception {
+    protected void testAccessControl() {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
 
@@ -103,8 +99,8 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
                 Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),
         };
 
-        loginAsInstructor(instructor1OfCourse1.googleId);
-        verifyEntityNotFound(submissionParams);
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
+        verifyEntityNotFoundAcl(submissionParams);
 
         ______TS("only instructors of the same course can access full detail");
 
@@ -142,7 +138,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
     }
 
     @Test
-    protected void testAccessControl_studentResult() throws InvalidParametersException, EntityDoesNotExistException {
+    protected void testAccessControl_studentResult() throws Exception {
         FeedbackSessionAttributes feedbackSession = typicalBundle.feedbackSessions.get("session1InCourse1");
         Intent intent = Intent.STUDENT_SUBMISSION;
         String[] params = generateParameters(feedbackSession, intent, "", "", "");
@@ -160,7 +156,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         ______TS("Instructor cannot directly get student session");
 
-        loginAsInstructor(typicalBundle.instructors.get("instructor1OfCourse1").googleId);
+        loginAsInstructor(typicalBundle.instructors.get("instructor1OfCourse1").getGoogleId());
         verifyCannotAccess(params);
 
         ______TS("student cannot access other course session");
@@ -170,13 +166,13 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         ______TS("Instructor with correct privilege moderate student session");
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
-        params = generateParameters(feedbackSession, intent, "", student1InCourse1.email, "");
+        params = generateParameters(feedbackSession, intent, "", student1InCourse1.getEmail(), "");
 
         verifyInaccessibleForInstructorsOfOtherCourses(params);
         verifyInaccessibleForStudents(params);
 
         InstructorAttributes helperOfCourse1 = typicalBundle.instructors.get("helperOfCourse1");
-        loginAsInstructor(helperOfCourse1.googleId);
+        loginAsInstructor(helperOfCourse1.getGoogleId());
         verifyCannotAccess(params);
 
         grantInstructorWithSectionPrivilege(helperOfCourse1,
@@ -186,7 +182,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         verifyAccessibleForAdminToMasqueradeAsInstructor(helperOfCourse1, params);
 
         ______TS("Instructor preview student session");
-        params = generateParameters(feedbackSession, intent, "", "", student1InCourse1.email);
+        params = generateParameters(feedbackSession, intent, "", "", student1InCourse1.getEmail());
 
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
                 Const.InstructorPermissions.CAN_MODIFY_SESSION, params);
@@ -200,7 +196,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
     }
 
     @Test
-    protected void testAccessControl_instructorResult() throws InvalidParametersException, EntityDoesNotExistException {
+    protected void testAccessControl_instructorResult() throws Exception {
         FeedbackSessionAttributes feedbackSession = typicalBundle.feedbackSessions.get("session1InCourse1");
         Intent intent = Intent.INSTRUCTOR_RESULT;
         String[] params = generateParameters(feedbackSession, intent, "", "", "");
@@ -213,7 +209,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         ______TS("Instructor moderates instructor submission with correct privilege will pass");
 
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        params = generateParameters(feedbackSession, Intent.INSTRUCTOR_SUBMISSION, "", instructor1OfCourse1.email, "");
+        params = generateParameters(feedbackSession, Intent.INSTRUCTOR_SUBMISSION, "", instructor1OfCourse1.getEmail(), "");
 
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
                 Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS, params);
@@ -222,7 +218,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         String[] previewInstructorSubmissionParams =
                 generateParameters(feedbackSession, Intent.INSTRUCTOR_SUBMISSION,
-                        "", "", instructor1OfCourse1.email);
+                        "", "", instructor1OfCourse1.getEmail());
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
                 Const.InstructorPermissions.CAN_MODIFY_SESSION, previewInstructorSubmissionParams);
     }

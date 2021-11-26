@@ -1,7 +1,5 @@
 package teammates.test;
 
-import java.io.IOException;
-
 import org.testng.annotations.Test;
 
 import teammates.common.util.Config;
@@ -12,7 +10,7 @@ import teammates.common.util.Config;
 public class EmailCheckerTest {
 
     @Test
-    public void testEmailContentChecking() throws IOException {
+    public void testEmailContentChecking() throws Exception {
         String actual = FileHelper.readFile(TestProperties.TEST_EMAILS_FOLDER + "/sampleEmailActual.html");
         actual = injectContextDependentValuesForTest(actual);
         actual = EmailChecker.processEmailForComparison(actual);

@@ -1,9 +1,6 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 
 /**
@@ -27,15 +24,15 @@ class DeleteStudentProfilePictureAction extends Action {
     }
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         String googleId = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_ID);
         StudentProfileAttributes studentProfileAttributes = logic.getStudentProfile(googleId);
         if (studentProfileAttributes == null) {
-            return new JsonResult("Invalid student profile", HttpStatus.SC_NOT_FOUND);
+            throw new EntityNotFoundException("Invalid student profile");
         }
-        if (fileStorage.doesFileExist(studentProfileAttributes.googleId)) {
-            fileStorage.delete(studentProfileAttributes.googleId);
+        if (fileStorage.doesFileExist(studentProfileAttributes.getGoogleId())) {
+            fileStorage.delete(studentProfileAttributes.getGoogleId());
         }
-        return new JsonResult("Your profile picture has been deleted successfully", HttpStatus.SC_OK);
+        return new JsonResult("Your profile picture has been deleted successfully");
     }
 }

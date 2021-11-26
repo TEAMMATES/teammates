@@ -8,6 +8,9 @@ import java.util.Set;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.util.Const;
 
+/**
+ * Contains specific structure and processing logic for rank recipients feedback questions.
+ */
 public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionDetails {
 
     public FeedbackRankRecipientsQuestionDetails() {

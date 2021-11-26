@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { LogEvent, RequestLogUser, SourceLocation } from '../../../types/api-output';
 import { LogsTableRowModel } from './logs-table-model';
 
 /**
@@ -11,8 +12,23 @@ import { LogsTableRowModel } from './logs-table-model';
 })
 export class LogsTableComponent implements OnInit {
 
+  LogEvent: typeof LogEvent = LogEvent;
+
   @Input()
   logs: LogsTableRowModel[] = [];
+  @Input()
+  isAdmin: boolean = false;
+
+  @Output()
+  addTraceEvent: EventEmitter<string> = new EventEmitter<string>();
+  @Output()
+  addActionClassEvent: EventEmitter<string> = new EventEmitter<string>();
+  @Output()
+  addExceptionClassEvent: EventEmitter<string> = new EventEmitter<string>();
+  @Output()
+  addSourceLocationEvent: EventEmitter<SourceLocation> = new EventEmitter<SourceLocation>();
+  @Output()
+  addUserInfoEvent: EventEmitter<RequestLogUser> = new EventEmitter<RequestLogUser>();
 
   constructor() { }
 
@@ -21,20 +37,6 @@ export class LogsTableComponent implements OnInit {
 
   expandDetails(logsTableRowModel: LogsTableRowModel): void {
     logsTableRowModel.isDetailsExpanded = !logsTableRowModel.isDetailsExpanded;
-  }
-
-  getClassForStatus(httpStatus: number): string {
-    const num: number = Math.floor(httpStatus / 100);
-    switch (num) {
-      case 2:
-        return 'green-font';
-      case 4:
-        return 'orange-font';
-      case 5:
-        return 'red-font';
-      default:
-        return '';
-    }
   }
 
   getClassForSeverity(severity: string): string {
@@ -48,5 +50,25 @@ export class LogsTableComponent implements OnInit {
       default:
         return '';
     }
+  }
+
+  addTraceToFilter(trace: string): void {
+    this.addTraceEvent.emit(trace);
+  }
+
+  addActionClassToFilter(actionClass: string): void {
+    this.addActionClassEvent.emit(actionClass);
+  }
+
+  addExceptionClassToFilter(exceptionClass: string): void {
+    this.addExceptionClassEvent.emit(exceptionClass);
+  }
+
+  addSourceLocationToFilter(sourceLocation: SourceLocation): void {
+    this.addSourceLocationEvent.emit(sourceLocation);
+  }
+
+  addUserInfoToFilter(userInfo: RequestLogUser): void {
+    this.addUserInfoEvent.emit(userInfo);
   }
 }

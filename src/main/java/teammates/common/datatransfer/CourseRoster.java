@@ -8,7 +8,6 @@ import java.util.Map;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.StringHelper;
 
 /**
  * Contains a list of students and instructors in a course. Useful for caching
@@ -39,6 +38,9 @@ public class CourseRoster {
         return teamToMembersTable;
     }
 
+    /**
+     * Checks whether a student is in course.
+     */
     public boolean isStudentInCourse(String studentEmail) {
         return studentListByEmail.containsKey(studentEmail);
     }
@@ -50,22 +52,34 @@ public class CourseRoster {
         return teamToMembersTable.containsKey(teamName);
     }
 
+    /**
+     * Checks whether a student is in team.
+     */
     public boolean isStudentInTeam(String studentEmail, String targetTeamName) {
         StudentAttributes student = studentListByEmail.get(studentEmail);
-        return student != null && student.team.equals(targetTeamName);
+        return student != null && student.getTeam().equals(targetTeamName);
     }
 
+    /**
+     * Checks whether two students are in the same team.
+     */
     public boolean isStudentsInSameTeam(String studentEmail1, String studentEmail2) {
         StudentAttributes student1 = studentListByEmail.get(studentEmail1);
         StudentAttributes student2 = studentListByEmail.get(studentEmail2);
         return student1 != null && student2 != null
-                && student1.team != null && student1.team.equals(student2.team);
+                && student1.getTeam() != null && student1.getTeam().equals(student2.getTeam());
     }
 
+    /**
+     * Returns the student object for the given email.
+     */
     public StudentAttributes getStudentForEmail(String email) {
         return studentListByEmail.get(email);
     }
 
+    /**
+     * Returns the instructor object for the given email.
+     */
     public InstructorAttributes getInstructorForEmail(String email) {
         return instructorListByEmail.get(email);
     }
@@ -77,7 +91,7 @@ public class CourseRoster {
         }
 
         for (StudentAttributes s : students) {
-            studentListByEmail.put(s.email, s);
+            studentListByEmail.put(s.getEmail(), s);
         }
     }
 
@@ -88,7 +102,7 @@ public class CourseRoster {
         }
 
         for (InstructorAttributes i : instructors) {
-            instructorListByEmail.put(i.email, i);
+            instructorListByEmail.put(i.getEmail(), i);
         }
     }
 
@@ -112,7 +126,6 @@ public class CourseRoster {
      */
     public ParticipantInfo getInfoForIdentifier(String identifier) {
         String name = Const.USER_NOBODY_TEXT;
-        String lastName = Const.USER_NOBODY_TEXT;
         String teamName = Const.USER_NOBODY_TEXT;
         String sectionName = Const.DEFAULT_SECTION;
 
@@ -123,26 +136,23 @@ public class CourseRoster {
             StudentAttributes student = getStudentForEmail(identifier);
 
             name = student.getName();
-            lastName = student.getLastName();
             teamName = student.getTeam();
             sectionName = student.getSection();
         } else if (isInstructor) {
             InstructorAttributes instructor = getInstructorForEmail(identifier);
 
             name = instructor.getName();
-            lastName = StringHelper.splitName(name)[1]; // get the last name from full name
             teamName = Const.USER_TEAM_FOR_INSTRUCTOR;
             sectionName = Const.DEFAULT_SECTION;
         } else if (isTeam) {
             StudentAttributes teamMember = getTeamToMembersTable().get(identifier).iterator().next();
 
             name = identifier;
-            lastName = identifier;
             teamName = identifier;
             sectionName = teamMember.getSection();
         }
 
-        return new ParticipantInfo(name, lastName, teamName, sectionName);
+        return new ParticipantInfo(name, teamName, sectionName);
     }
 
     /**
@@ -151,23 +161,17 @@ public class CourseRoster {
     public static class ParticipantInfo {
 
         private final String name;
-        private final String lastName;
         private final String teamName;
         private final String sectionName;
 
-        private ParticipantInfo(String name, String lastName, String teamName, String sectionName) {
+        private ParticipantInfo(String name, String teamName, String sectionName) {
             this.name = name;
-            this.lastName = lastName;
             this.teamName = teamName;
             this.sectionName = sectionName;
         }
 
         public String getName() {
             return name;
-        }
-
-        public String getLastName() {
-            return lastName;
         }
 
         public String getTeamName() {

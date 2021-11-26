@@ -1,10 +1,7 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 
 /**
@@ -34,7 +31,7 @@ class DeleteStudentAction extends Action {
     }
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String studentId = getRequestParamValue(Const.ParamsNames.STUDENT_ID);
 
@@ -53,7 +50,7 @@ class DeleteStudentAction extends Action {
             logic.deleteStudentCascade(courseId, studentEmail);
         }
 
-        return new JsonResult("Student is successfully deleted.", HttpStatus.SC_OK);
+        return new JsonResult("Student is successfully deleted.");
     }
 
 }

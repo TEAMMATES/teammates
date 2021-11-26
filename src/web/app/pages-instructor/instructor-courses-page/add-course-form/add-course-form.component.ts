@@ -1,8 +1,13 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../../services/course.service';
+import { FeedbackSessionsService } from '../../../../services/feedback-sessions.service';
 import { StatusMessageService } from '../../../../services/status-message.service';
 import { TimezoneService } from '../../../../services/timezone.service';
+import { Course, FeedbackSessions } from '../../../../types/api-output';
+import { CopyCourseModalResult } from '../../../components/copy-course-modal/copy-course-modal-model';
+import { CopyCourseModalComponent } from '../../../components/copy-course-modal/copy-course-modal.component';
 import { ErrorMessageOutput } from '../../../error-message-output';
 
 interface Timezone {
@@ -28,8 +33,12 @@ const formatTwoDigits: Function = (n: number): string => {
 export class AddCourseFormComponent implements OnInit {
 
   @Input() isEnabled: boolean = true;
+  @Input() isCopyingCourse: boolean = false;
+  @Input() activeCourses: Course[] = [];
+  @Input() allCourses: Course[] = [];
   @Output() courseAdded: EventEmitter<void> = new EventEmitter<void>();
   @Output() closeCourseFormEvent: EventEmitter<void> = new EventEmitter<void>();
+  @Output() copyCourseEvent: EventEmitter<CopyCourseModalResult> = new EventEmitter<CopyCourseModalResult>();
 
   timezones: Timezone[] = [];
   timezone: string = '';
@@ -39,7 +48,9 @@ export class AddCourseFormComponent implements OnInit {
 
   constructor(private statusMessageService: StatusMessageService,
               private courseService: CourseService,
-              private timezoneService: TimezoneService) { }
+              private timezoneService: TimezoneService,
+              private feedbackSessionsService: FeedbackSessionsService,
+              private ngbModal: NgbModal) { }
 
   ngOnInit(): void {
     for (const [id, offset] of Object.entries(this.timezoneService.getTzOffsets())) {
@@ -99,5 +110,28 @@ export class AddCourseFormComponent implements OnInit {
    */
   closeEditFormHandler(): void {
     this.closeCourseFormEvent.emit();
+  }
+
+  /**
+   * Handles copying from other courses event
+   */
+  onCopy(): void {
+    const modalRef: NgbModalRef = this.ngbModal.open(CopyCourseModalComponent);
+    modalRef.componentInstance.isCopyFromOtherSession = true;
+    modalRef.componentInstance.allCourses = this.allCourses;
+    modalRef.componentInstance.activeCourses = this.activeCourses;
+
+    modalRef.componentInstance.fetchFeedbackSessionsEvent.subscribe((courseId: string) => {
+      this.feedbackSessionsService
+        .getFeedbackSessionsForInstructor(courseId)
+        .subscribe((feedbackSessions: FeedbackSessions) => {
+          modalRef.componentInstance.courseToFeedbackSession[courseId] = [...feedbackSessions.feedbackSessions];
+        });
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorToast(resp.error.message);
+    });
+
+    modalRef.result.then((result: CopyCourseModalResult) => this.copyCourseEvent.emit(result),
+      (resp: ErrorMessageOutput) => this.statusMessageService.showErrorToast(resp.error.message));
   }
 }

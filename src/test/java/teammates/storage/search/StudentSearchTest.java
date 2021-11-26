@@ -1,13 +1,12 @@
 package teammates.storage.search;
 
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
-import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.SearchServiceException;
@@ -21,7 +20,7 @@ import teammates.test.TestProperties;
  */
 public class StudentSearchTest extends BaseSearchTest {
 
-    private final StudentsDb studentsDb = new StudentsDb();
+    private final StudentsDb studentsDb = StudentsDb.inst();
 
     @Test
     public void allTests() throws Exception {
@@ -83,39 +82,11 @@ public class StudentSearchTest extends BaseSearchTest {
 
         ______TS("success: search for students; deleted student no longer searchable");
 
-        studentsDb.deleteStudent(stu1InCourse1.course, stu1InCourse1.email);
+        studentsDb.deleteStudent(stu1InCourse1.getCourse(), stu1InCourse1.getEmail());
 
         studentList = studentsDb.search("student1", ins1OfCourse1);
 
         assertEquals(0, studentList.size());
-
-    }
-
-    @Test
-    public void testSearchStudent_createNewStudent_studentShouldBeSearchable() throws Exception {
-        if (!TestProperties.isSearchServiceActive()) {
-            return;
-        }
-
-        CourseAttributes courseAttributes = dataBundle.courses.get("typicalCourse1");
-
-        List<StudentAttributes> studentList =
-                studentsDb.searchStudentsInWholeSystem("studentABCDE");
-
-        assertEquals(0, studentList.size());
-
-        // create a new student
-        studentsDb.createEntity(
-                StudentAttributes.builder(courseAttributes.getId(), "studentABCDE@email.com")
-                        .withName("studentABCDE")
-                        .withTeamName("TEAM-ABCDE")
-                        .withComment("")
-                        .build());
-
-        // the newly created student is searchable
-        studentList = studentsDb.searchStudentsInWholeSystem("studentABCDE");
-        assertEquals(1, studentList.size());
-        assertEquals("studentABCDE", studentList.get(0).getName());
 
     }
 
@@ -170,8 +141,10 @@ public class StudentSearchTest extends BaseSearchTest {
             return;
         }
 
+        List<InstructorAttributes> ins1OfCourse1 = Collections.singletonList(
+                dataBundle.instructors.get("instructor1OfCourse1"));
         assertThrows(SearchServiceException.class,
-                () -> studentsDb.search("anything", new ArrayList<>()));
+                () -> studentsDb.search("anything", ins1OfCourse1));
         assertThrows(SearchServiceException.class,
                 () -> studentsDb.searchStudentsInWholeSystem("anything"));
     }

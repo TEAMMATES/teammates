@@ -1,6 +1,6 @@
 <tm-loading-retry *tmIsLoading="isLoadingCourseEnrollPage" [shouldShowRetry]="!coursePresent" [message]="'Failed to load course'" (retryEvent)="getCourseEnrollPageData(courseId)">
   <div *ngIf="coursePresent">
-    <h1 id="enroll-header">Enroll Students for {{ courseId }}</h1>
+    <h1 id="enroll-header" class="text-break">Enroll Students for {{ courseId }}</h1>
     <tm-loading-retry [shouldShowRetry]="hasLoadingStudentsFailed" [message]="'Failed to load students'" (retryEvent)="getCourseEnrollPageData(courseId)">
       <div *ngIf='!hasLoadingStudentsFailed' class="card card-primary">
         <div class="card-body fill-plain">
@@ -107,6 +107,12 @@
                   Enroll students
                 </button>
               </div>
+            </div>
+            <div class="row mt-3" style="align-items: center;">
+              <div class="box red-box"></div><span class="mr-5">Student failed to be enrolled</span>
+              <div class="box green-box"></div><span class="mr-5">Student added</span>
+              <div class="box yellow-box"></div><span class="mr-5">Student modified</span>
+              <div class="box grey-box"></div><span class="mr-5">Student updated with no changes</span>
             </div>
           </div>
         </div>
@@ -241,12 +247,12 @@
 </tm-loading-retry>
 <hr>
 <div id="results-panel" *ngIf="coursePresent && showEnrollResults">
-  <h1>Enrollment Results for {{ courseId }}</h1>
+  <h1 class="text-break">Enrollment Results for {{ courseId }}</h1>
   <div *ngFor="let enrollResultPanel of enrollResultPanelList">
     <div class="card enroll-results-panel" *ngIf="enrollResultPanel.studentList.length > 0">
-      <div class="card-header" [ngClass]="{'bg-primary': enrollResultPanel.status === EnrollStatus.NEW,
+      <div class="card-header" [ngClass]="{'bg-success': enrollResultPanel.status === EnrollStatus.NEW,
        'bg-warning': enrollResultPanel.status === EnrollStatus.MODIFIED,
-       'bg-info': enrollResultPanel.status === EnrollStatus.MODIFIED_UNCHANGED,
+       'bg-secondary': enrollResultPanel.status === EnrollStatus.MODIFIED_UNCHANGED,
        'bg-danger': enrollResultPanel.status === EnrollStatus.ERROR,
        'bg-default': enrollResultPanel.status === EnrollStatus.UNMODIFIED}" [style.color]="enrollResultPanel.status ===
        EnrollStatus.NEW || enrollResultPanel.status === EnrollStatus.MODIFIED_UNCHANGED ? 'white' : 'black' ">

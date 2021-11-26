@@ -4,19 +4,41 @@
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
+  <div class="row" >
+    <div class="col-md-6">
+      <div class="row align-items-center">
+        <div class="col-md-6">
+          <h5 class="text-center">Create new Course</h5>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="row text-center align-items-center mt-1">
+        <div class="col-md-3">
+          <h5 class="text-md-right">Or: </h5>
+        </div>
+        <div class="col-md-9 text-md-left">
+          <button id="btn-copy-course" type="button" class="btn btn-info" (click)="onCopy()" [disabled]="isCopyingCourse">
+            <tm-ajax-loading *ngIf="isCopyingCourse"></tm-ajax-loading>
+            Copy from previous courses
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="card-body text-center">
     <div class="form-group row">
       <label class="col-md-3 text-md-right col-form-label">Course ID:</label>
       <div class="col-md-6 text-md-left">
         <input id="new-course-id" class="form-control" type="text" [(ngModel)]="newCourseId"
-            [maxlength]="40" [disabled]="isAddingCourse" placeholder="e.g. CS3215-2013Semester1"/>
+            [maxlength]="64" [disabled]="isAddingCourse" placeholder="e.g. CS3215-2013Semester1"/>
       </div>
     </div>
     <div class="form-group row">
       <label class="col-md-3 text-md-right col-form-label">Course Name:</label>
       <div class="col-md-6 text-md-left">
         <input id="new-course-name" class="form-control" type="text" [(ngModel)]="newCourseName"
-            [maxlength]="64" [disabled]="isAddingCourse" placeholder="e.g. Software Engineering"/>
+            [maxlength]="80" [disabled]="isAddingCourse" placeholder="e.g. Software Engineering"/>
       </div>
     </div>
     <div class="form-group row">

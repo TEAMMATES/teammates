@@ -22,6 +22,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
   isDisplayOnly="false"
   model={[Function Object]}
   numOfQuestions="0"
+  saveChangeClicked="false"
   saveExistingQuestionEvent={[Function EventEmitter]}
   simpleModalService={[Function SimpleModalService]}
   visibilityStateMachine={[Function VisibilityStateMachine]}
@@ -237,217 +238,221 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
             </div>
           </div>
         </div>
-        <div
-          class="background-color-light-green margin-top-15px padding-15px"
-        >
-          <div>
-            <b
-              class="feedback-path-title"
-            >
-              Feedback Path
-            </b>
-             (Who is giving feedback about whom?) 
-          </div>
+        <tm-feedback-path-panel>
           <div
-            autoclose="outside"
-            class="margin-top-15px dropdown"
-            ngbdropdown=""
+            class="background-color-light-green margin-top-15px padding-15px"
           >
-            <button
-              aria-expanded="false"
-              aria-haspopup="true"
-              class="btn btn-light white-space-normal dropdown-toggle"
-              disabled=""
-              id="btn-feedback-path"
-              ngbdropdowntoggle=""
-            >
-              
-              <span
-                style=""
+            <div>
+              <b
+                class="feedback-path-title"
               >
-                 Students in this course will give feedback on 
-                <i
-                  class="fas fa-arrow-right"
-                />
-                 Other students in the course 
-              </span>
-              
-            </button>
-            <ul
-              class="dropdown-menu"
-              id="feedback-path-dropdown"
-              ngbdropdownmenu=""
-              x-placement="bottom"
-            >
-              <li
-                class="dropdown-header"
-              >
-                Common feedback path combinations
-              </li>
-              
-              <li
-                class="dropdown-divider"
-              />
-              <li
-                class="dropdown-item"
-              >
-                Custom feedback path...
-              </li>
-            </ul>
-          </div>
-          
-          
-          <div
-            class="row margin-top-15px align-items-center"
-            style=""
-          >
-            <div
-              class="offset-1 col-md-4 text-md-right"
-            >
-               The maximum number of students each respondent should give feedback to: 
+                Feedback Path
+              </b>
+               (Who is giving feedback about whom?) 
             </div>
             <div
-              class="col-md-2"
+              autoclose="outside"
+              class="margin-top-15px dropdown"
+              ngbdropdown=""
+            >
+              <button
+                aria-expanded="false"
+                aria-haspopup="true"
+                class="btn btn-light white-space-normal dropdown-toggle"
+                disabled=""
+                id="btn-feedback-path"
+                ngbdropdowntoggle=""
+              >
+                
+                <span
+                  style=""
+                >
+                   Students in this course will give feedback on 
+                  <i
+                    class="fas fa-arrow-right"
+                  />
+                   Other students in the course 
+                </span>
+                
+              </button>
+              <ul
+                class="dropdown-menu"
+                id="feedback-path-dropdown"
+                ngbdropdownmenu=""
+                x-placement="bottom"
+              >
+                <li
+                  class="dropdown-header"
+                >
+                  Common feedback path combinations
+                </li>
+                
+                <li
+                  class="dropdown-divider"
+                />
+                <li
+                  class="dropdown-item"
+                >
+                  Custom feedback path...
+                </li>
+              </ul>
+            </div>
+            
+            
+            <div
+              class="row margin-top-15px align-items-center"
+              style=""
             >
               <div
-                class="input-group"
+                class="offset-1 col-md-4 text-md-right"
+              >
+                 The maximum number of students each respondent should give feedback to: 
+              </div>
+              <div
+                class="col-md-2"
               >
                 <div
-                  class="input-group-prepend"
+                  class="input-group"
                 >
                   <div
-                    class="input-group-text"
+                    class="input-group-prepend"
+                  >
+                    <div
+                      class="input-group-text"
+                    >
+                      <input
+                        class="ng-untouched ng-pristine ng-valid"
+                        disabled=""
+                        id="custom-recipients"
+                        type="radio"
+                      />
+                    </div>
+                  </div>
+                  <input
+                    class="form-control ng-untouched ng-pristine ng-valid"
+                    disabled=""
+                    id="custom-recipients-number"
+                    min="1"
+                    type="number"
+                  />
+                </div>
+              </div>
+              <div
+                class="col-md-2"
+              >
+                <div
+                  class="form-check"
+                >
+                  <label
+                    class="form-check-label"
                   >
                     <input
-                      class="ng-untouched ng-pristine ng-valid"
+                      class="form-check-input ng-untouched ng-pristine ng-valid"
                       disabled=""
-                      id="custom-recipients"
+                      id="unlimited-recipients"
                       type="radio"
                     />
-                  </div>
+                     Unlimited 
+                  </label>
                 </div>
-                <input
-                  class="form-control ng-untouched ng-pristine ng-valid"
-                  disabled=""
-                  id="custom-recipients-number"
-                  min="1"
-                  type="number"
-                />
               </div>
+            </div>
+          </div>
+        </tm-feedback-path-panel>
+        <tm-visibility-panel>
+          <div
+            class="margin-top-15px padding-15px background-color-light-green"
+          >
+            <div>
+              
+              <b
+                class="visibility-title"
+              >
+                Visibility
+              </b>
+               (Who can see the responses?) 
             </div>
             <div
-              class="col-md-2"
+              class="margin-top-15px dropdown"
+              ngbdropdown=""
             >
-              <div
-                class="form-check"
+              <button
+                aria-expanded="false"
+                aria-haspopup="true"
+                class="btn btn-light white-space-normal dropdown-toggle"
+                disabled=""
+                id="btn-question-visibility"
+                ngbdropdowntoggle=""
               >
-                <label
-                  class="form-check-label"
+                
+                <span
+                  style=""
                 >
-                  <input
-                    class="form-check-input ng-untouched ng-pristine ng-valid"
-                    disabled=""
-                    id="unlimited-recipients"
-                    type="radio"
-                  />
-                   Unlimited 
-                </label>
-              </div>
+                    
+                </span>
+                
+              </button>
+              <ul
+                class="dropdown-menu"
+                id="question-visibility-dropdown"
+                ngbdropdownmenu=""
+                x-placement="bottom"
+              >
+                <li
+                  class="dropdown-header"
+                >
+                  Common visibility options
+                </li>
+                
+                
+                <li
+                  class="dropdown-divider"
+                  style=""
+                />
+                
+                <li
+                  class="dropdown-item"
+                  style=""
+                >
+                  Custom visibility options...
+                </li>
+              </ul>
+            </div>
+            
+            <div
+              class="margin-top-15px visibility-message"
+            >
+               This is the visibility hint as seen by the feedback giver: 
+              <ul
+                class="text-muted background-color-warning"
+              >
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                <li
+                  style=""
+                >
+                  No-one can see your responses
+                </li>
+              </ul>
             </div>
           </div>
-        </div>
-        <div
-          class="margin-top-15px padding-15px background-color-light-green"
-        >
-          <div>
-            
-            <b
-              class="visibility-title"
-            >
-              Visibility
-            </b>
-             (Who can see the responses?) 
-          </div>
-          <div
-            class="margin-top-15px dropdown"
-            ngbdropdown=""
-          >
-            <button
-              aria-expanded="false"
-              aria-haspopup="true"
-              class="btn btn-light white-space-normal dropdown-toggle"
-              disabled=""
-              id="btn-question-visibility"
-              ngbdropdowntoggle=""
-            >
-              
-              <span
-                style=""
-              >
-                  
-              </span>
-              
-            </button>
-            <ul
-              class="dropdown-menu"
-              id="question-visibility-dropdown"
-              ngbdropdownmenu=""
-              x-placement="bottom"
-            >
-              <li
-                class="dropdown-header"
-              >
-                Common visibility options
-              </li>
-              
-              
-              <li
-                class="dropdown-divider"
-                style=""
-              />
-              
-              <li
-                class="dropdown-item"
-                style=""
-              >
-                Custom visibility options...
-              </li>
-            </ul>
-          </div>
-          
-          <div
-            class="margin-top-15px visibility-message"
-          >
-             This is the visibility hint as seen by the feedback giver: 
-            <ul
-              class="text-muted background-color-warning"
-            >
-              
-              
-              
-              
-              
-              
-              
-              
-              
-              
-              
-              
-              
-              
-              
-              
-              
-              
-              <li
-                style=""
-              >
-                No-one can see your responses
-              </li>
-            </ul>
-          </div>
-        </div>
+        </tm-visibility-panel>
         
         <div
           class="row margin-top-15px"

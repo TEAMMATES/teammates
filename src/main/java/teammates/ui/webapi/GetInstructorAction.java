@@ -1,13 +1,7 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.EntityNotFoundException;
-import teammates.common.exception.InvalidHttpParameterException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.ui.output.InstructorData;
 import teammates.ui.request.Intent;
@@ -30,15 +24,10 @@ class GetInstructorAction extends BasicFeedbackSubmissionAction {
             String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
             String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
             FeedbackSessionAttributes feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
-
-            if (feedbackSession == null) {
-                throw new EntityNotFoundException(new EntityDoesNotExistException("Feedback Session could not be "
-                        + "found"));
-            }
-
             InstructorAttributes instructorAttributes = getInstructorOfCourseFromRequest(feedbackSession.getCourseId());
             checkAccessControlForInstructorFeedbackSubmission(instructorAttributes, feedbackSession);
             break;
+        case INSTRUCTOR_RESULT:
         case FULL_DETAIL:
             gateKeeper.verifyLoggedInUserPrivileges(userInfo);
             break;
@@ -48,8 +37,14 @@ class GetInstructorAction extends BasicFeedbackSubmissionAction {
     }
 
     @Override
-    JsonResult execute() {
-        Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
+    public JsonResult execute() {
+        String intentString = getNonNullRequestParamValue(Const.ParamsNames.INTENT);
+        Intent intent;
+        try {
+            intent = Intent.valueOf(intentString);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidHttpParameterException("Invalid intent: " + intentString, e);
+        }
 
         InstructorAttributes instructorAttributes;
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
@@ -58,6 +53,7 @@ class GetInstructorAction extends BasicFeedbackSubmissionAction {
         case INSTRUCTOR_SUBMISSION:
             instructorAttributes = getInstructorOfCourseFromRequest(courseId);
             break;
+        case INSTRUCTOR_RESULT:
         case FULL_DETAIL:
             instructorAttributes = logic.getInstructorForGoogleId(courseId, userInfo.getId());
             break;
@@ -66,12 +62,12 @@ class GetInstructorAction extends BasicFeedbackSubmissionAction {
         }
 
         if (instructorAttributes == null) {
-            return new JsonResult("Instructor could not be found for this course", HttpStatus.SC_NOT_FOUND);
+            throw new EntityNotFoundException("Instructor could not be found for this course");
         }
 
         InstructorData instructorData = new InstructorData(instructorAttributes);
         if (intent == Intent.FULL_DETAIL) {
-            instructorData.setGoogleId(instructorAttributes.googleId);
+            instructorData.setGoogleId(instructorAttributes.getGoogleId());
         }
 
         return new JsonResult(instructorData);

@@ -3,10 +3,7 @@ package teammates.ui.webapi;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.ui.output.InstructorPermissionRole;
 import teammates.ui.output.InstructorPrivilegeData;
@@ -101,7 +98,7 @@ class GetInstructorPrivilegeAction extends Action {
     }
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         String instructorRole = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_ROLE_NAME);
 
         if (instructorRole != null) {
@@ -112,7 +109,7 @@ class GetInstructorPrivilegeAction extends Action {
                                 InstructorPermissionRole.valueOf(instructorRole).getRoleName(), null);
                 return new JsonResult(rolePrivilege);
             } catch (IllegalArgumentException e) {
-                return new JsonResult("Invalid instructor role.", HttpStatus.SC_BAD_REQUEST);
+                throw new InvalidHttpParameterException("Invalid instructor role.", e);
             }
         }
 
@@ -133,7 +130,7 @@ class GetInstructorPrivilegeAction extends Action {
         } else {
             instructor = logic.getInstructorForGoogleId(courseId, instructorOfInterest);
             if (instructor == null) {
-                return new JsonResult("Instructor does not exist.", HttpStatus.SC_NOT_FOUND);
+                throw new EntityNotFoundException("Instructor does not exist.");
             }
         }
 
@@ -141,9 +138,9 @@ class GetInstructorPrivilegeAction extends Action {
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         InstructorPrivilegeData response = constructInstructorPrivileges(instructor, feedbackSessionName);
         if (sectionName != null) {
-            response.constructSectionLevelPrivilege(instructor.privileges, sectionName);
+            response.constructSectionLevelPrivilege(instructor.getPrivileges(), sectionName);
             if (feedbackSessionName != null) {
-                response.constructSessionLevelPrivilege(instructor.privileges, sectionName, feedbackSessionName);
+                response.constructSessionLevelPrivilege(instructor.getPrivileges(), sectionName, feedbackSessionName);
             }
         }
 

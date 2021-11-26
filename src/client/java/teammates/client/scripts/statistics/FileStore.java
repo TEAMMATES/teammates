@@ -41,9 +41,7 @@ public class FileStore {
 
     private static final String BASE_URI = "src/client/java/teammates/client/scripts/statistics/data/";
 
-    /*
-     * Creates the folder that will contain the stored data.
-     */
+    // Creates the folder that will contain the stored data.
     static {
         new File(BASE_URI).mkdir();
     }

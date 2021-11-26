@@ -6,27 +6,15 @@
     <!-- Ignore auto-generated code -->
     <suppress checks="." files="com[/\\]google[/\\]appengine[/\\]logging[/\\]v1[/\\].*\.java"/>
 
-    <!-- Most variables in scripts are constants -->
-    <suppress checks="ConstantName" files="client[/\\]scripts[/\\].*\.java"/>
-
     <!-- Scripts inherently need main method to run -->
     <suppress checks="UncommentedMain" files="client[/\\]scripts[/\\].*\.java"/>
 
     <!-- To be implemented slowly -->
-    <suppress checks="MissingJavadocMethod" files="teammates[/\\]common[/\\]datatransfer[/\\].*\.java"/>
-    <suppress checks="MissingJavadocType" files="teammates[/\\]common[/\\]datatransfer[/\\].*\.java"/>
-    <suppress checks="JavadocVariable" files="teammates[/\\]common[/\\]datatransfer[/\\].*\.java"/>
-    <suppress checks="MissingJavadocMethod" files="teammates[/\\]common[/\\]util[/\\]AppUrl\.java"/>
-    <suppress checks="MissingJavadocMethod" files="teammates[/\\]common[/\\]util[/\\]FieldValidator\.java"/>
-    <suppress checks="MissingJavadocMethod" files="teammates[/\\]common[/\\]util[/\\]Url\.java"/>
-    <suppress checks="MissingJavadocType" files="teammates[/\\]common[/\\]util[/\\]Const\.java"/>
-    <suppress checks="MissingJavadocType" files="teammates[/\\]common[/\\]util[/\\]Templates\.java"/>
     <suppress checks="JavadocVariable" files="teammates[/\\]common[/\\]util[/\\]Const\.java"/>
     <suppress checks="JavadocVariable" files="teammates[/\\]common[/\\]util[/\\]FieldValidator\.java"/>
     <suppress checks="JavadocVariable" files="teammates[/\\]common[/\\]util[/\\]Templates\.java"/>
     <suppress checks="MissingJavadocMethod" files="teammates[/\\]logic[/\\]api[/\\]Logic\.java"/>
     <suppress checks="MissingJavadocMethod" files="teammates[/\\]logic[/\\]api[/\\]LogicExtension\.java"/>
-    <suppress checks="MissingJavadocMethod" files="teammates[/\\]logic[/\\]core[/\\].*\.java"/>
+    <suppress checks="MissingJavadocMethod" files="teammates[/\\]test[/\\]Base.*\.java"/>
     <suppress checks="MissingJavadocMethod" files="teammates[/\\]e2e[/\\]pageobjects[/\\].*\.java"/>
-    <suppress checks="JavadocVariable" files="teammates[/\\]e2e[/\\]pageobjects[/\\].*\.java"/>
 </suppressions>

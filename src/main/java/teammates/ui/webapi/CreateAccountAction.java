@@ -7,46 +7,49 @@ import org.apache.http.HttpStatus;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
+import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
 import teammates.ui.output.JoinLinkData;
 import teammates.ui.request.AccountCreateRequest;
+import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * Creates a new instructor account with sample courses.
  */
 class CreateAccountAction extends AdminOnlyAction {
 
+    private static final Logger log = Logger.getLogger();
+
     @Override
-    JsonResult execute() {
+    public JsonResult execute() throws InvalidHttpRequestBodyException {
         AccountCreateRequest createRequest = getAndValidateRequestBody(AccountCreateRequest.class);
 
         String instructorName = createRequest.getInstructorName().trim();
         String instructorEmail = createRequest.getInstructorEmail().trim();
-        String courseId = null;
+        String instructorInstitution = createRequest.getInstructorInstitution().trim();
+        String courseId;
 
         try {
-            courseId = importDemoData(instructorEmail, instructorName);
-        } catch (InvalidParametersException | EntityDoesNotExistException e) {
-            return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
+            courseId = importDemoData(instructorEmail, instructorName, instructorInstitution);
+        } catch (InvalidParametersException e) {
+            // There should not be any invalid parameter here
+            log.severe("Unexpected error", e);
+            return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
-        String instructorInstitution = createRequest.getInstructorInstitution().trim();
         List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(courseId);
         String joinLink = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
-                .withRegistrationKey(StringHelper.encrypt(instructorList.get(0).key))
-                .withInstructorInstitution(instructorInstitution)
-                .withInstitutionMac(StringHelper.generateSignature(instructorInstitution))
+                .withRegistrationKey(instructorList.get(0).getKey())
                 .withEntityType(Const.EntityType.INSTRUCTOR)
                 .toAbsoluteString();
         EmailWrapper email = emailGenerator.generateNewInstructorAccountJoinEmail(
-                instructorList.get(0).email, instructorName, joinLink);
+                instructorList.get(0).getEmail(), instructorName, joinLink);
         emailSender.sendEmail(email);
 
         JoinLinkData output = new JoinLinkData(joinLink);
@@ -58,8 +61,8 @@ class CreateAccountAction extends AdminOnlyAction {
      *
      * @return the ID of demo course
      */
-    private String importDemoData(String instructorEmail, String instructorName)
-            throws InvalidParametersException, EntityDoesNotExistException {
+    private String importDemoData(String instructorEmail, String instructorName, String instructorInstitute)
+            throws InvalidParametersException {
 
         String courseId = generateDemoCourseId(instructorEmail);
 
@@ -69,7 +72,9 @@ class CreateAccountAction extends AdminOnlyAction {
                 // replace name
                 "Demo_Instructor", instructorName,
                 // replace course
-                "demo.course", courseId);
+                "demo.course", courseId,
+                // replace institute
+                "demo.institute", instructorInstitute);
 
         DataBundle data = JsonUtils.fromJson(jsonString, DataBundle.class);
 
@@ -78,8 +83,13 @@ class CreateAccountAction extends AdminOnlyAction {
         List<StudentAttributes> students = logic.getStudentsForCourse(courseId);
         List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
 
-        logic.putStudentDocuments(students);
-        logic.putInstructorDocuments(instructors);
+        for (StudentAttributes student : students) {
+            taskQueuer.scheduleStudentForSearchIndexing(student.getCourse(), student.getEmail());
+        }
+
+        for (InstructorAttributes instructor : instructors) {
+            taskQueuer.scheduleInstructorForSearchIndexing(instructor.getCourseId(), instructor.getEmail());
+        }
 
         return courseId;
     }

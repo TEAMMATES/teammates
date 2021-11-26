@@ -25,7 +25,7 @@ public class StudentUpdateRequest extends BasicRequest {
     }
 
     @Override
-    public void validate() {
+    public void validate() throws InvalidHttpRequestBodyException {
         assertTrue(name != null, "name cannot be null");
         assertTrue(email != null, "email cannot be null");
         assertTrue(team != null, "team cannot be null");

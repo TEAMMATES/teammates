@@ -10,9 +10,9 @@ import {
   Course,
   FeedbackSession,
   FeedbackSessionLog,
+  FeedbackSessionLogType,
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
-  LogType,
   ResponseVisibleSetting,
   SessionVisibleSetting,
   Student,
@@ -42,6 +42,7 @@ describe('InstructorAuditLogsPageComponent', () => {
   const testCourse1: Course = {
     courseId: 'CS9999',
     courseName: 'CS9999',
+    institute: 'Test Institute',
     timeZone: 'Asia/Singapore',
     creationTimestamp: 0,
     deletionTimestamp: 0,
@@ -59,6 +60,7 @@ describe('InstructorAuditLogsPageComponent', () => {
   const testCourse2: Course = {
     courseId: 'MA1234',
     courseName: 'MA1234',
+    institute: 'Test Institute',
     timeZone: 'Asia/Singapore',
     creationTimestamp: 0,
     deletionTimestamp: 0,
@@ -76,6 +78,7 @@ describe('InstructorAuditLogsPageComponent', () => {
   const testCourse3: Course = {
     courseId: 'EE1111',
     courseName: 'EE1111',
+    institute: 'Test Institute',
     timeZone: 'Asia/Singapore',
     creationTimestamp: 0,
     deletionTimestamp: 0,
@@ -121,7 +124,7 @@ describe('InstructorAuditLogsPageComponent', () => {
     feedbackSessionLogEntries: [
       {
         studentData: testStudent,
-        feedbackSessionLogType: LogType.FEEDBACK_SESSION_SUBMISSION,
+        feedbackSessionLogType: FeedbackSessionLogType.SUBMISSION,
         timestamp: 0,
       },
     ],
@@ -131,7 +134,7 @@ describe('InstructorAuditLogsPageComponent', () => {
     feedbackSessionLogEntries: [
       {
         studentData: testStudent,
-        feedbackSessionLogType: LogType.FEEDBACK_SESSION_SUBMISSION,
+        feedbackSessionLogType: FeedbackSessionLogType.SUBMISSION,
         timestamp: 0,
       },
     ],
@@ -243,11 +246,11 @@ describe('InstructorAuditLogsPageComponent', () => {
     expect(studentSpy).toHaveBeenNthCalledWith(2, { courseId: testCourse2.courseId });
   });
 
-  it('should search for logs when search button is clicked', () => {
+  it('should search for logs using feedback course timezone when search button is clicked', () => {
     const logSpy: Spy = spyOn(logService, 'searchFeedbackSessionLog').and
         .returnValue(of({ feedbackSessionLogs: [testLogs1, testLogs2] }));
-    const timeSpy: Spy = spyOn(timezoneService, 'getResolvedTimestamp').and
-        .returnValue(of({ timestamp: 0, message: '' }));
+    const timeSpy: Spy = spyOn(timezoneService, 'resolveLocalDateTime').and.callThrough();
+    const tzOffset: number = timezoneService.getTzOffsets()[testCourse1.timeZone];
 
     component.isLoading = false;
     component.isSearching = false;
@@ -259,15 +262,24 @@ describe('InstructorAuditLogsPageComponent', () => {
       courseId: testCourse1.courseId,
       studentEmail: testStudent.email,
     };
+    component.courses = [testCourse1];
     component.courseToStudents = { CS9999: [testStudent] };
     fixture.detectChanges();
 
     fixture.debugElement.nativeElement.querySelector('#search-button').click();
 
     expect(timeSpy).toHaveBeenCalledTimes(2);
+    expect(timeSpy).toHaveBeenCalledWith(
+      component.formModel.logsDateFrom,
+      component.formModel.logsTimeFrom,
+      testCourse1.timeZone,
+    );
     expect(logSpy).toHaveBeenCalled();
     expect(logSpy).toHaveBeenCalledWith({
-      courseId: testCourse1.courseId, searchFrom: '0', searchUntil: '0', studentEmail: testStudent.email,
+      courseId: testCourse1.courseId,
+      searchFrom: (new Date('2020-12-30T23:59+00:00').getTime() - tzOffset * 60 * 1000).toString(),
+      searchUntil: (new Date('2020-12-31T23:59+00:00').getTime() - tzOffset * 60 * 1000).toString(),
+      studentEmail: testStudent.email,
     });
 
     expect(component.searchResults.length).toEqual(2);

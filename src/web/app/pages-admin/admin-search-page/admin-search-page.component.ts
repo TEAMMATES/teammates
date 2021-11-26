@@ -3,6 +3,7 @@ import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { finalize } from 'rxjs/operators';
 import { AccountService } from '../../../services/account.service';
 import { EmailGenerationService } from '../../../services/email-generation.service';
+import { InstructorService } from '../../../services/instructor.service';
 import { LoadingBarService } from '../../../services/loading-bar.service';
 import {
   AdminSearchResult,
@@ -14,7 +15,8 @@ import {
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
-import { Email, RegenerateStudentCourseLinks } from '../../../types/api-output';
+import { ApiConst } from '../../../types/api-const';
+import { Email, RegenerateKey } from '../../../types/api-output';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
@@ -38,6 +40,7 @@ export class AdminSearchPageComponent {
     private statusMessageService: StatusMessageService,
     private simpleModalService: SimpleModalService,
     private accountService: AccountService,
+    private instructorService: InstructorService,
     private studentService: StudentService,
     private searchService: SearchService,
     private emailGenerationService: EmailGenerationService,
@@ -59,13 +62,31 @@ export class AdminSearchPageComponent {
         this.statusMessageService.showWarningToast('No results found.');
         this.instructors = [];
         this.students = [];
-      } else {
-        this.instructors = resp.instructors;
-        this.students = resp.students;
-        this.hideAllInstructorsLinks();
-        this.hideAllStudentsLinks();
+        return;
       }
+
+      this.instructors = resp.instructors;
+      this.students = resp.students;
+      this.hideAllInstructorsLinks();
+      this.hideAllStudentsLinks();
+
+      // prompt user to use more specific terms if search results limit reached
+      const limit: number = ApiConst.SEARCH_QUERY_SIZE_LIMIT;
+      const limitsReached: string[] = [];
+      if (this.students.length >= limit) {
+        limitsReached.push(`${limit} student results`);
+      }
+      if (this.instructors.length >= limit) {
+        limitsReached.push(`${limit} instructor results`);
+      }
+      if (limitsReached.length) {
+        this.statusMessageService.showWarningToast(`${limitsReached.join(' and ')} have been shown on this page
+            but there may be more results not shown. Consider searching with more specific terms.`);
+      }
+
     }, (resp: ErrorMessageOutput) => {
+      this.instructors = [];
+      this.students = [];
       this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
@@ -154,22 +175,42 @@ export class AdminSearchPageComponent {
   }
 
   /**
-   * Regenerates the student's course join and feedback session links.
+   * Regenerates the student's registration key.
    */
-  regenerateFeedbackSessionLinks(student: StudentAccountSearchResult): void {
-    const modalContent: string = `Are you sure you want to regenerate the course registration and feedback session links for <strong>${ student.name }</strong> for the course <strong>${ student.courseId }</strong>?
-        An email will be sent to the student with all the new links.`;
+  regenerateStudentKey(student: StudentAccountSearchResult): void {
+    const modalContent: string = `Are you sure you want to regenerate the registration key for <strong>${ student.name }</strong> for the course <strong>${ student.courseId }</strong>?
+        An email will be sent to the student with all the new course registration and feedback session links.`;
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
         `Regenerate <strong>${ student.name }</strong>\'s course links?`, SimpleModalType.WARNING, modalContent);
 
     modalRef.result.then(() => {
-      this.studentService.regenerateStudentCourseLinks(student.courseId, student.email)
-        .subscribe((resp: RegenerateStudentCourseLinks) => {
+      this.studentService.regenerateStudentKey(student.courseId, student.email)
+        .subscribe((resp: RegenerateKey) => {
           this.statusMessageService.showSuccessToast(resp.message);
           this.updateDisplayedStudentCourseLinks(student, resp.newRegistrationKey);
         }, (response: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(response.error.message);
         });
+    }, () => {});
+  }
+
+  /**
+   * Regenerates the instructor's registration key.
+   */
+  regenerateInstructorKey(instructor: InstructorAccountSearchResult): void {
+    const modalContent: string = `Are you sure you want to regenerate the registration key for <strong>${ instructor.name }</strong> for the course <strong>${ instructor.courseId }</strong>?
+        An email will be sent to the instructor with all the new course registration and feedback session links.`;
+    const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
+        `Regenerate <strong>${ instructor.name }</strong>'s course links?`, SimpleModalType.WARNING, modalContent);
+
+    modalRef.result.then(() => {
+      this.instructorService.regenerateInstructorKey(instructor.courseId, instructor.email)
+          .subscribe((resp: RegenerateKey) => {
+            this.statusMessageService.showSuccessToast(resp.message);
+            this.updateDisplayedInstructorCourseLinks(instructor, resp.newRegistrationKey);
+          }, (response: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorToast(response.error.message);
+          });
     }, () => {});
   }
 
@@ -184,10 +225,17 @@ export class AdminSearchPageComponent {
     };
 
     student.courseJoinLink = this.getUpdatedUrl(student.courseJoinLink, newKey);
-
+    updateSessions(student.awaitingSessions);
     updateSessions(student.openSessions);
     updateSessions(student.notOpenSessions);
     updateSessions(student.publishedSessions);
+  }
+
+  /**
+   * Updates the instructor's displayed course join and feedback session links with the value of the newKey.
+   */
+  private updateDisplayedInstructorCourseLinks(instructor: InstructorAccountSearchResult, newKey: string): void {
+    instructor.courseJoinLink = this.getUpdatedUrl(instructor.courseJoinLink, newKey);
   }
 
   /**

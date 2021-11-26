@@ -2,6 +2,7 @@
 
 exports[`InstructorAuditLogsPageComponent should snap when page is still loading 1`] = `
 <tm-instructor-audit-logs-page
+  LOGS_DATE_TIME_FORMAT={[Function String]}
   LOGS_RETENTION_PERIOD={[Function Number]}
   SortBy={[Function Object]}
   courseService={[Function CourseService]}
@@ -57,6 +58,7 @@ exports[`InstructorAuditLogsPageComponent should snap when page is still loading
 
 exports[`InstructorAuditLogsPageComponent should snap when searching for details in search form 1`] = `
 <tm-instructor-audit-logs-page
+  LOGS_DATE_TIME_FORMAT={[Function String]}
   LOGS_RETENTION_PERIOD={[Function Number]}
   SortBy={[Function Object]}
   courseService={[Function CourseService]}
@@ -170,7 +172,7 @@ exports[`InstructorAuditLogsPageComponent should snap when searching for details
               class="col-md-3"
               id="logs-from-timepicker"
             >
-              <tm-time-picker>
+              <tm-timepicker>
                 <select
                   class="form-control ng-untouched ng-pristine ng-valid"
                 >
@@ -297,7 +299,7 @@ exports[`InstructorAuditLogsPageComponent should snap when searching for details
                   </option>
                   
                 </select>
-              </tm-time-picker>
+              </tm-timepicker>
             </div>
           </div>
         </div>
@@ -372,7 +374,7 @@ exports[`InstructorAuditLogsPageComponent should snap when searching for details
               class="col-md-3"
               id="logs-to-timepicker"
             >
-              <tm-time-picker>
+              <tm-timepicker>
                 <select
                   class="form-control ng-untouched ng-pristine ng-valid"
                 >
@@ -499,7 +501,7 @@ exports[`InstructorAuditLogsPageComponent should snap when searching for details
                   </option>
                   
                 </select>
-              </tm-time-picker>
+              </tm-timepicker>
             </div>
             <div
               class="col-md-2"
@@ -541,6 +543,7 @@ exports[`InstructorAuditLogsPageComponent should snap when searching for details
 
 exports[`InstructorAuditLogsPageComponent should snap with default fields 1`] = `
 <tm-instructor-audit-logs-page
+  LOGS_DATE_TIME_FORMAT={[Function String]}
   LOGS_RETENTION_PERIOD={[Function Number]}
   SortBy={[Function Object]}
   courseService={[Function CourseService]}
@@ -596,6 +599,7 @@ exports[`InstructorAuditLogsPageComponent should snap with default fields 1`] = 
 
 exports[`InstructorAuditLogsPageComponent should snap with results of a search 1`] = `
 <tm-instructor-audit-logs-page
+  LOGS_DATE_TIME_FORMAT={[Function String]}
   LOGS_RETENTION_PERIOD={[Function Number]}
   SortBy={[Function Object]}
   courseService={[Function CourseService]}
@@ -703,7 +707,7 @@ exports[`InstructorAuditLogsPageComponent should snap with results of a search 1
               class="col-md-3"
               id="logs-from-timepicker"
             >
-              <tm-time-picker>
+              <tm-timepicker>
                 <select
                   class="form-control ng-untouched ng-pristine ng-valid"
                 >
@@ -830,7 +834,7 @@ exports[`InstructorAuditLogsPageComponent should snap with results of a search 1
                   </option>
                   
                 </select>
-              </tm-time-picker>
+              </tm-timepicker>
             </div>
           </div>
         </div>
@@ -900,7 +904,7 @@ exports[`InstructorAuditLogsPageComponent should snap with results of a search 1
               class="col-md-3"
               id="logs-to-timepicker"
             >
-              <tm-time-picker>
+              <tm-timepicker>
                 <select
                   class="form-control ng-untouched ng-pristine ng-valid"
                 >
@@ -1027,7 +1031,7 @@ exports[`InstructorAuditLogsPageComponent should snap with results of a search 1
                   </option>
                   
                 </select>
-              </tm-time-picker>
+              </tm-timepicker>
             </div>
             <div
               class="col-md-2"
@@ -1055,7 +1059,7 @@ exports[`InstructorAuditLogsPageComponent should snap with results of a search 1
           class="card mb-3 alert-success-border"
         >
           <div
-            class="card-header alert-success cursor-pointer"
+            class="card-header cursor-pointer text-break alert-success"
           >
              Feedback session 1 
             <div
@@ -1275,10 +1279,10 @@ exports[`InstructorAuditLogsPageComponent should snap with results of a search 1
       </div>
       <div>
         <div
-          class="card mb-3 alert-success-border"
+          class="card mb-3 alert-failure-border"
         >
           <div
-            class="card-header alert-success cursor-pointer"
+            class="card-header cursor-pointer text-break alert-failure"
           >
              Feedback session 2 
             <div

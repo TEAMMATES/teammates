@@ -10,26 +10,23 @@ import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.EntityNotFoundException;
-import teammates.common.exception.InvalidHttpParameterException;
-import teammates.common.exception.NullHttpParameterException;
-import teammates.common.exception.UnauthorizedAccessException;
+import teammates.common.datatransfer.logs.RequestLogUser;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.JsonUtils;
-import teammates.common.util.RecaptchaVerifier;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.EmailGenerator;
 import teammates.logic.api.EmailSender;
 import teammates.logic.api.FileStorage;
 import teammates.logic.api.Logic;
 import teammates.logic.api.LogsProcessor;
+import teammates.logic.api.RecaptchaVerifier;
 import teammates.logic.api.TaskQueuer;
 import teammates.logic.api.UserProvision;
 import teammates.ui.output.InstructorPrivilegeData;
 import teammates.ui.request.BasicRequest;
+import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * An "action" to be performed by the system.
@@ -38,19 +35,20 @@ import teammates.ui.request.BasicRequest;
  */
 public abstract class Action {
 
-    Logic logic = new Logic();
-    UserProvision userProvision = new UserProvision();
-    GateKeeper gateKeeper = new GateKeeper();
-    EmailGenerator emailGenerator = new EmailGenerator();
-    TaskQueuer taskQueuer = new TaskQueuer();
-    EmailSender emailSender = new EmailSender();
-    FileStorage fileStorage = new FileStorage();
-    RecaptchaVerifier recaptchaVerifier = new RecaptchaVerifier(Config.CAPTCHA_SECRET_KEY);
-    LogsProcessor logsProcessor = new LogsProcessor();
+    Logic logic = Logic.inst();
+    UserProvision userProvision = UserProvision.inst();
+    GateKeeper gateKeeper = GateKeeper.inst();
+    EmailGenerator emailGenerator = EmailGenerator.inst();
+    TaskQueuer taskQueuer = TaskQueuer.inst();
+    EmailSender emailSender = EmailSender.inst();
+    FileStorage fileStorage = FileStorage.inst();
+    RecaptchaVerifier recaptchaVerifier = RecaptchaVerifier.inst();
+    LogsProcessor logsProcessor = LogsProcessor.inst();
 
     HttpServletRequest req;
     UserInfo userInfo;
     AuthType authType;
+    private StudentAttributes unregisteredStudent;
 
     // buffer to store the request body
     private String requestBody;
@@ -90,7 +88,7 @@ public abstract class Action {
     /**
      * Checks if the requesting user has sufficient authority to access the resource.
      */
-    void checkAccessControl() throws UnauthorizedAccessException {
+    public void checkAccessControl() throws UnauthorizedAccessException {
         String userParam = getRequestParamValue(Const.ParamsNames.USER_ID);
         if (userInfo != null && userParam != null && !userInfo.isAdmin && !userInfo.id.equals(userParam)) {
             throw new UnauthorizedAccessException("User " + userInfo.id
@@ -111,8 +109,26 @@ public abstract class Action {
         checkSpecificAccessControl();
     }
 
+    /**
+     * Gets the user information of the current user.
+     */
+    public RequestLogUser getUserInfoForLogging() {
+        RequestLogUser user = new RequestLogUser();
+
+        String googleId = userInfo == null ? null : userInfo.getId();
+
+        user.setGoogleId(googleId);
+        if (unregisteredStudent == null) {
+            user.setRegkey(getRequestParamValue(Const.ParamsNames.REGKEY));
+        } else {
+            user.setRegkey(unregisteredStudent.getKey());
+            user.setEmail(unregisteredStudent.getEmail());
+        }
+        return user;
+    }
+
     private void initAuthInfo() {
-        if (Config.BACKDOOR_KEY.equals(req.getHeader("Backdoor-Key"))) {
+        if (Config.BACKDOOR_KEY.equals(req.getHeader(Const.HeaderNames.BACKDOOR_KEY))) {
             authType = AuthType.ALL_ACCESS;
             userInfo = userProvision.getAdminOnlyUser(getRequestParamValue(Const.ParamsNames.USER_ID));
             userInfo.isStudent = true;
@@ -154,7 +170,7 @@ public abstract class Action {
     String getNonNullRequestParamValue(String paramName) {
         String value = req.getParameter(paramName);
         if (value == null) {
-            throw new NullHttpParameterException(String.format("The [%s] HTTP parameter is null.", paramName));
+            throw new InvalidHttpParameterException(String.format("The [%s] HTTP parameter is null.", paramName));
         }
         return value;
     }
@@ -162,45 +178,50 @@ public abstract class Action {
     /**
      * Returns the first value for the specified parameter expected to be present in the HTTP request as boolean.
      */
-    @SuppressWarnings("PMD.PreserveStackTrace")
     boolean getBooleanRequestParamValue(String paramName) {
         String value = getNonNullRequestParamValue(paramName);
         try {
             return Boolean.parseBoolean(value);
         } catch (IllegalArgumentException e) {
             throw new InvalidHttpParameterException(
-                    "Expected boolean value for " + paramName + " parameter, but found: [" + value + "]");
+                    "Expected boolean value for " + paramName + " parameter, but found: [" + value + "]", e);
         }
     }
 
     /**
      * Returns the first value for the specified parameter expected to be present in the HTTP request as long.
      */
-    @SuppressWarnings("PMD.PreserveStackTrace")
     long getLongRequestParamValue(String paramName) {
         String value = getNonNullRequestParamValue(paramName);
         try {
             return Long.parseLong(value);
         } catch (IllegalArgumentException e) {
             throw new InvalidHttpParameterException(
-                    "Expected long value for " + paramName + " parameter, but found: [" + value + "]");
+                    "Expected long value for " + paramName + " parameter, but found: [" + value + "]", e);
         }
     }
 
     /**
      * Returns the request body payload.
      */
-    String getRequestBody() {
-        if (requestBody == null) {
+    public String getRequestBody() {
+        if (!hasDefinedRequestBody()) {
             requestBody = HttpRequestHelper.getRequestBody(req);
         }
         return requestBody;
     }
 
+    /**
+     * Returns true if the action has a request body already defined in it.
+     */
+    public boolean hasDefinedRequestBody() {
+        return requestBody != null;
+    }
+
     FeedbackSessionAttributes getNonNullFeedbackSession(String feedbackSessionName, String courseId) {
         FeedbackSessionAttributes feedbackSession = logic.getFeedbackSession(feedbackSessionName, courseId);
         if (feedbackSession == null) {
-            throw new EntityNotFoundException(new EntityDoesNotExistException("Feedback session not found"));
+            throw new EntityNotFoundException("Feedback session not found");
         }
         return feedbackSession;
     }
@@ -208,10 +229,10 @@ public abstract class Action {
     /**
      * Deserializes and validates the request body payload.
      */
-    <T extends BasicRequest> T getAndValidateRequestBody(Type typeOfBody) {
+    <T extends BasicRequest> T getAndValidateRequestBody(Type typeOfBody) throws InvalidHttpRequestBodyException {
         T requestBody = JsonUtils.fromJson(getRequestBody(), typeOfBody);
         if (requestBody == null) {
-            throw new NullHttpParameterException("The request body is null");
+            throw new InvalidHttpRequestBodyException("The request body is null");
         }
         requestBody.validate();
         return requestBody;
@@ -227,6 +248,7 @@ public abstract class Action {
             if (studentAttributes == null) {
                 return Optional.empty();
             }
+            unregisteredStudent = studentAttributes;
             return Optional.of(studentAttributes);
         }
         return Optional.empty();
@@ -234,7 +256,7 @@ public abstract class Action {
 
     InstructorPrivilegeData constructInstructorPrivileges(InstructorAttributes instructor, String feedbackSessionName) {
         InstructorPrivilegeData privilege = new InstructorPrivilegeData();
-        privilege.constructCourseLevelPrivilege(instructor.privileges);
+        privilege.constructCourseLevelPrivilege(instructor.getPrivileges());
         if (feedbackSessionName != null) {
             privilege.setCanSubmitSessionInSections(
                     instructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS)
@@ -266,6 +288,6 @@ public abstract class Action {
     /**
      * Executes the action.
      */
-    abstract ActionResult execute();
+    public abstract ActionResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException;
 
 }

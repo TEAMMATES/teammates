@@ -10,22 +10,21 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
-import teammates.common.util.StringHelper;
 import teammates.storage.entity.CourseStudent;
 
+/**
+ * The data transfer object for {@link CourseStudent} entities.
+ */
 public class StudentAttributes extends EntityAttributes<CourseStudent> {
 
-    public String email;
-    public String course;
-
-    public String name;
-    public String googleId;
-    public String lastName;
-    public String comments;
-    public String team;
-    public String section;
-    public String key;
-
+    private String email;
+    private String course;
+    private String name;
+    private String googleId;
+    private String comments;
+    private String team;
+    private String section;
+    private transient String key;
     private transient Instant createdAt;
     private transient Instant updatedAt;
 
@@ -39,10 +38,12 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
         this.updatedAt = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
     }
 
+    /**
+     * Gets the {@link StudentAttributes} instance of the given {@link CourseStudent}.
+     */
     public static StudentAttributes valueOf(CourseStudent student) {
         StudentAttributes studentAttributes = new StudentAttributes(student.getCourseId(), student.getEmail());
         studentAttributes.name = student.getName();
-        studentAttributes.lastName = student.getLastName();
         if (student.getGoogleId() != null) {
             studentAttributes.googleId = student.getGoogleId();
         }
@@ -69,11 +70,13 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
         return new Builder(courseId, email);
     }
 
+    /**
+     * Gets a deep copy of this object.
+     */
     public StudentAttributes getCopy() {
         StudentAttributes studentAttributes = new StudentAttributes(course, email);
 
         studentAttributes.name = name;
-        studentAttributes.lastName = lastName;
         studentAttributes.googleId = googleId;
         studentAttributes.team = team;
         studentAttributes.section = section;
@@ -91,9 +94,7 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
 
     public String getRegistrationUrl() {
         return Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
-                .withRegistrationKey(StringHelper.encrypt(key))
-                .withStudentEmail(email)
-                .withCourseId(course)
+                .withRegistrationKey(key)
                 .withEntityType(Const.EntityType.STUDENT)
                 .toString();
     }
@@ -102,24 +103,40 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
         return name;
     }
 
-    public String getLastName() {
-        return lastName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {
         return email;
     }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public String getCourse() {
         return course;
+    }
+
+    public void setCourse(String course) {
+        this.course = course;
     }
 
     public String getGoogleId() {
         return googleId;
     }
 
+    public void setGoogleId(String googleId) {
+        this.googleId = googleId;
+    }
+
     public String getKey() {
         return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 
     /**
@@ -133,12 +150,24 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
         return section;
     }
 
+    public void setSection(String section) {
+        this.section = section;
+    }
+
     public String getTeam() {
         return team;
     }
 
+    public void setTeam(String team) {
+        this.team = team;
+    }
+
     public String getComments() {
         return comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
     }
 
     @Override
@@ -188,12 +217,18 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
         return errors;
     }
 
+    /**
+     * Sorts the list of students by the section name, then team name, then name.
+     */
     public static void sortBySectionName(List<StudentAttributes> students) {
         students.sort(Comparator.comparing((StudentAttributes student) -> student.section)
                 .thenComparing(student -> student.team)
                 .thenComparing(student -> student.name));
     }
 
+    /**
+     * Sorts the list of students by the team name, then name.
+     */
     public static void sortByTeamName(List<StudentAttributes> students) {
         students.sort(Comparator.comparing((StudentAttributes student) -> student.team)
                 .thenComparing(student -> student.name));
@@ -245,11 +280,7 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
      */
     public void update(UpdateOptions updateOptions) {
         updateOptions.newEmailOption.ifPresent(s -> email = s);
-        updateOptions.nameOption.ifPresent(s -> {
-            name = s;
-            lastName = StringHelper.splitName(s)[1];
-        });
-        updateOptions.lastNameOption.ifPresent(s -> lastName = s);
+        updateOptions.nameOption.ifPresent(s -> name = s);
         updateOptions.commentOption.ifPresent(s -> comments = s);
         updateOptions.googleIdOption.ifPresent(s -> googleId = s);
         updateOptions.teamNameOption.ifPresent(s -> team = s);
@@ -294,7 +325,6 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
 
         private UpdateOption<String> newEmailOption = UpdateOption.empty();
         private UpdateOption<String> nameOption = UpdateOption.empty();
-        private UpdateOption<String> lastNameOption = UpdateOption.empty();
         private UpdateOption<String> commentOption = UpdateOption.empty();
         private UpdateOption<String> googleIdOption = UpdateOption.empty();
         private UpdateOption<String> teamNameOption = UpdateOption.empty();
@@ -323,7 +353,6 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
                     + ", email = " + email
                     + ", newEmail = " + newEmailOption
                     + ", name = " + nameOption
-                    + ", lastName = " + lastNameOption
                     + ", comment = " + commentOption
                     + ", googleId = " + googleIdOption
                     + ", teamName = " + teamNameOption
@@ -376,13 +405,6 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
             assert name != null;
 
             updateOptions.nameOption = UpdateOption.of(name);
-            return thisBuilder;
-        }
-
-        public B withLastName(String name) {
-            assert name != null;
-
-            updateOptions.lastNameOption = UpdateOption.of(name);
             return thisBuilder;
         }
 

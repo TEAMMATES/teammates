@@ -24,8 +24,6 @@ export class UserJoinPageComponent implements OnInit {
   validUrl: boolean = true;
   entityType: string = '';
   key: string = '';
-  institute: string = '';
-  mac: string = '';
   userId: string = '';
 
   private backendUrl: string = environment.backendUrl;
@@ -41,38 +39,38 @@ export class UserJoinPageComponent implements OnInit {
     this.route.queryParams.subscribe((queryParams: any) => {
       this.entityType = queryParams.entitytype;
       this.key = queryParams.key;
-      this.institute = queryParams.instructorinstitution;
-      this.mac = queryParams.mac;
 
-      if (this.institute != null && this.mac == null) {
-        this.validUrl = false;
-        return;
-      }
-
-      this.courseService.getJoinCourseStatus(this.key, this.entityType).subscribe((resp: JoinStatus) => {
-        this.hasJoined = resp.hasJoined;
-        this.userId = resp.userId || '';
-        if (this.hasJoined && this.userId) {
-          // The regkey has been used and there is a logged in user.
-          // Simply redirect the user to their home page, regardless of whether the regkey matches or not.
-          this.navigationService.navigateByURL(this.router, `/web/${this.entityType}/home`);
-        } else {
+      const nextUrl: string = `${window.location.pathname}${window.location.search.replace(/&/g, '%26')}`;
+      this.authService.getAuthUser(undefined, nextUrl).subscribe((auth: AuthInfo) => {
+        if (!auth.user) {
           this.isLoading = false;
+          if (this.entityType === 'student') {
+            window.location.href = `${this.backendUrl}${auth.studentLoginUrl}`;
+          } else if (this.entityType === 'instructor') {
+            window.location.href = `${this.backendUrl}${auth.instructorLoginUrl}`;
+          }
+          return;
         }
-      }, (resp: ErrorMessageOutput) => {
-        if (resp.status === 403) {
-          this.isLoading = false;
-          const nextUrl: string = `${window.location.pathname}${window.location.search}`;
-          this.authService.getAuthUser(undefined, nextUrl).subscribe((auth: AuthInfo) => {
-            if (!auth.user) {
-              window.location.href = `${this.backendUrl}${auth.studentLoginUrl}`;
-            }
-          });
-        } else {
+        this.userId = auth.user.id;
+        this.courseService.getJoinCourseStatus(this.key, this.entityType).subscribe((resp: JoinStatus) => {
+          this.hasJoined = resp.hasJoined;
+          if (this.hasJoined) {
+            // The regkey has been used; simply redirect the user to their home page,
+            // regardless of whether the regkey matches or not.
+            this.navigationService.navigateByURL(this.router, `/web/${this.entityType}/home`);
+          } else {
+            this.isLoading = false;
+          }
+        }, (resp: ErrorMessageOutput) => {
+          if (resp.status === 404) {
+            this.validUrl = false;
+            this.isLoading = false;
+            return;
+          }
           const modalRef: any = this.ngbModal.open(ErrorReportComponent);
           modalRef.componentInstance.requestId = resp.error.requestId;
           modalRef.componentInstance.errorMessage = resp.error.message;
-        }
+        });
       });
     });
   }
@@ -81,8 +79,7 @@ export class UserJoinPageComponent implements OnInit {
    * Joins the course.
    */
   joinCourse(): void {
-
-    this.courseService.joinCourse(this.key, this.entityType, this.institute, this.mac).subscribe(() => {
+    this.courseService.joinCourse(this.key, this.entityType).subscribe(() => {
       this.navigationService.navigateByURL(this.router, `/web/${this.entityType}`);
     }, (resp: ErrorMessageOutput) => {
       const modalRef: any = this.ngbModal.open(ErrorReportComponent);

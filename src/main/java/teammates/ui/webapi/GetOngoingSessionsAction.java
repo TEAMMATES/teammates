@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.util.Const;
 import teammates.ui.output.OngoingSession;
 import teammates.ui.output.OngoingSessionsData;
@@ -22,29 +21,34 @@ import teammates.ui.output.OngoingSessionsData;
  */
 class GetOngoingSessionsAction extends AdminOnlyAction {
 
-    private static final String UNKNOWN_INSTITUTION = "Unknown Institution";
-
     @Override
-    @SuppressWarnings("PMD.PreserveStackTrace")
-    JsonResult execute() {
+    public JsonResult execute() {
         String startTimeString = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTTIME);
         long startTime;
         try {
             startTime = Long.parseLong(startTimeString);
-            //test for bounds
+        } catch (NumberFormatException e) {
+            throw new InvalidHttpParameterException("Invalid startTime parameter", e);
+        }
+        try {
+            // test for bounds
             Instant.ofEpochMilli(startTime).minus(Const.FEEDBACK_SESSIONS_SEARCH_WINDOW).toEpochMilli();
-        } catch (NumberFormatException | ArithmeticException e) {
-            throw new InvalidHttpParameterException("Invalid startTime parameter");
+        } catch (ArithmeticException e) {
+            throw new InvalidHttpParameterException("Invalid startTime parameter", e);
         }
 
         String endTimeString = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDTIME);
         long endTime;
         try {
             endTime = Long.parseLong(endTimeString);
-            //test for bounds
+        } catch (NumberFormatException e) {
+            throw new InvalidHttpParameterException("Invalid endTime parameter", e);
+        }
+        try {
+            // test for bounds
             Instant.ofEpochMilli(endTime).plus(Const.FEEDBACK_SESSIONS_SEARCH_WINDOW).toEpochMilli();
-        } catch (NumberFormatException | ArithmeticException e) {
-            throw new InvalidHttpParameterException("Invalid endTime parameter");
+        } catch (ArithmeticException e) {
+            throw new InvalidHttpParameterException("Invalid endTime parameter", e);
         }
 
         if (startTime > endTime) {
@@ -82,7 +86,7 @@ class GetOngoingSessionsAction extends AdminOnlyAction {
             List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
             AccountAttributes account = getRegisteredInstructorAccountFromInstructors(instructors);
 
-            String institute = account == null ? UNKNOWN_INSTITUTION : account.institute;
+            String institute = logic.getCourseInstitute(courseId);
             List<OngoingSession> sessions = courseIdToFeedbackSessionsMap.get(courseId).stream()
                     .map(session -> new OngoingSession(session, account))
                     .collect(Collectors.toList());
@@ -91,7 +95,7 @@ class GetOngoingSessionsAction extends AdminOnlyAction {
         }
 
         long totalInstitutes = instituteToFeedbackSessionsMap.keySet().stream()
-                .filter(key -> !key.equals(UNKNOWN_INSTITUTION))
+                .filter(key -> !key.equals(Const.UNKNOWN_INSTITUTION))
                 .count();
 
         OngoingSessionsData output = new OngoingSessionsData();
@@ -108,7 +112,7 @@ class GetOngoingSessionsAction extends AdminOnlyAction {
     private AccountAttributes getRegisteredInstructorAccountFromInstructors(List<InstructorAttributes> instructors) {
         for (InstructorAttributes instructor : instructors) {
             if (instructor.isRegistered()) {
-                return logic.getAccount(instructor.googleId);
+                return logic.getAccount(instructor.getGoogleId());
             }
         }
         return null;

@@ -1,15 +1,12 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.ui.output.FeedbackSessionData;
 import teammates.ui.request.FeedbackSessionUpdateRequest;
+import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * Updates a feedback session.
@@ -34,7 +31,7 @@ class UpdateFeedbackSessionAction extends Action {
     }
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() throws InvalidHttpRequestBodyException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
@@ -56,9 +53,9 @@ class UpdateFeedbackSessionAction extends Action {
 
             return new JsonResult(new FeedbackSessionData(updateFeedbackSession));
         } catch (InvalidParametersException ipe) {
-            throw new InvalidHttpRequestBodyException(ipe.getMessage(), ipe);
+            throw new InvalidHttpRequestBodyException(ipe);
         } catch (EntityDoesNotExistException ednee) {
-            return new JsonResult(ednee.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
+            throw new EntityNotFoundException(ednee);
         }
     }
 

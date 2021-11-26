@@ -34,7 +34,7 @@ public class InstructorStudentListPageE2ETest extends BaseE2ETestCase {
         ______TS("verify loaded data");
 
         InstructorAttributes instructor = testData.instructors.get("instructorOfCourse1");
-        String instructorId = instructor.googleId;
+        String instructorId = instructor.getGoogleId();
 
         AppUrl listPageUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_STUDENT_LIST_PAGE);
         InstructorStudentListPage listPage = loginToPage(listPageUrl, InstructorStudentListPage.class, instructorId);

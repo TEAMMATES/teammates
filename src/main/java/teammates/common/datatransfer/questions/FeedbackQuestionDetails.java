@@ -119,11 +119,17 @@ public abstract class FeedbackQuestionDetails {
         return this.getJsonString().hashCode();
     }
 
+    /**
+     * Returns a JSON string representation of the question details.
+     */
     public String getJsonString() {
         assert questionType != null;
         return JsonUtils.toJson(this, questionType.getQuestionDetailsClass());
     }
 
+    /**
+     * Returns a deep copy of the question details.
+     */
     public FeedbackQuestionDetails getDeepCopy() {
         assert questionType != null;
         String serializedDetails = getJsonString();

@@ -161,11 +161,10 @@ public class SearchInstructorsActionTest extends BaseActionTest<SearchInstructor
                 Const.ParamsNames.SEARCH_KEY, "anything",
         };
         SearchInstructorsAction a = getAction(params);
-        JsonResult result = getJsonResult(a);
+        JsonResult result = getJsonResult(a, HttpStatus.SC_NOT_IMPLEMENTED);
         MessageOutput output = (MessageOutput) result.getOutput();
 
-        assertEquals(HttpStatus.SC_NOT_IMPLEMENTED, result.getStatusCode());
-        assertEquals("Search service is not implemented.", output.getMessage());
+        assertEquals("Full-text search is not available.", output.getMessage());
     }
 
     @Override

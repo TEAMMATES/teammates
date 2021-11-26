@@ -22,6 +22,7 @@ import { MaintenancePageComponent } from './maintenance-page.component';
 import { ClickOutsideDirective, PageComponent } from './page.component';
 import { AdminPageComponent } from './pages-admin/admin-page.component';
 import { InstructorPageComponent } from './pages-instructor/instructor-page.component';
+import { MaintainerPageComponent } from './pages-maintainer/maintainer-page.component';
 import { StaticPageComponent } from './pages-static/static-page.component';
 import { StudentPageComponent } from './pages-student/student-page.component';
 import { PublicPageComponent } from './public-page.component';
@@ -53,6 +54,9 @@ let routes: Routes = [
             path: 'result',
             loadChildren: () => import('./pages-session/session-result-page/session-result-page.module')
                 .then((m: any) => m.SessionResultPageModule),
+            data: {
+              intent: Intent.STUDENT_RESULT,
+            },
           },
           {
             path: 'submission',
@@ -80,6 +84,12 @@ let routes: Routes = [
         path: 'admin',
         component: AdminPageComponent,
         loadChildren: () => import('./pages-admin/admin-pages.module').then((m: any) => m.AdminPagesModule),
+      },
+      {
+        path: 'maintainer',
+        component: MaintainerPageComponent,
+        loadChildren: () => import('./pages-maintainer/maintainer-page.module')
+            .then((m: any) => m.MaintainerPageModule),
       },
       {
         path: '**',
@@ -134,6 +144,7 @@ if (environment.maintenance) {
     InstructorPageComponent,
     AdminPageComponent,
     MaintenancePageComponent,
+    MaintainerPageComponent,
   ],
   imports: [
     SimpleModalModule,

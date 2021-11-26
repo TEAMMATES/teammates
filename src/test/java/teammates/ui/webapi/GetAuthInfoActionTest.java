@@ -5,7 +5,6 @@ import java.util.Arrays;
 
 import javax.servlet.http.Cookie;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.UserInfo;
@@ -39,12 +38,11 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
         GetAuthInfoAction a = getAction();
         JsonResult r = getJsonResult(a);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
-
         AuthInfo output = (AuthInfo) r.getOutput();
         assertEquals(a.createLoginUrl("", Const.WebPageURIs.STUDENT_HOME_PAGE), output.getStudentLoginUrl());
         assertEquals(a.createLoginUrl("", Const.WebPageURIs.INSTRUCTOR_HOME_PAGE), output.getInstructorLoginUrl());
         assertEquals(a.createLoginUrl("", Const.WebPageURIs.ADMIN_HOME_PAGE), output.getAdminLoginUrl());
+        assertEquals(a.createLoginUrl("", Const.WebPageURIs.MAINTAINER_HOME_PAGE), output.getMaintainerLoginUrl());
         assertNull(output.getUser());
         assertNull(output.getInstitute());
         assertFalse(output.isMasquerade());
@@ -57,12 +55,11 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
         a = getAction(new String[] { "nextUrl", nextUrl });
         r = getJsonResult(a);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
-
         output = (AuthInfo) r.getOutput();
         assertEquals(a.createLoginUrl("", nextUrl), output.getStudentLoginUrl());
         assertEquals(a.createLoginUrl("", nextUrl), output.getInstructorLoginUrl());
         assertEquals(a.createLoginUrl("", nextUrl), output.getAdminLoginUrl());
+        assertEquals(a.createLoginUrl("", nextUrl), output.getMaintainerLoginUrl());
         assertNull(output.getUser());
         assertNull(output.getInstitute());
         assertFalse(output.isMasquerade());
@@ -74,12 +71,11 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
         a = getAction();
         r = getJsonResult(a);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
-
         output = (AuthInfo) r.getOutput();
         assertNull(output.getStudentLoginUrl());
         assertNull(output.getInstructorLoginUrl());
         assertNull(output.getAdminLoginUrl());
+        assertNull(output.getMaintainerLoginUrl());
         assertFalse(output.isMasquerade());
 
         UserInfo user = output.getUser();
@@ -99,12 +95,11 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
         });
         r = getJsonResult(a);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
-
         output = (AuthInfo) r.getOutput();
         assertNull(output.getStudentLoginUrl());
         assertNull(output.getInstructorLoginUrl());
         assertNull(output.getAdminLoginUrl());
+        assertNull(output.getMaintainerLoginUrl());
         assertTrue(output.isMasquerade());
 
         assertEquals("TEAMMATES Test Institute 1", output.getInstitute());
@@ -120,12 +115,12 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
 
         a = getAction();
         r = getJsonResult(a);
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
 
         output = (AuthInfo) r.getOutput();
         assertNull(output.getStudentLoginUrl());
         assertNull(output.getInstructorLoginUrl());
         assertNull(output.getAdminLoginUrl());
+        assertNull(output.getMaintainerLoginUrl());
         assertFalse(output.isMasquerade());
 
         user = output.getUser();

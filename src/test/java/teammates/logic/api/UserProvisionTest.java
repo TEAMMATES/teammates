@@ -4,7 +4,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.datatransfer.UserInfoCookie;
-import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Config;
@@ -14,30 +13,27 @@ import teammates.common.util.Config;
  */
 public class UserProvisionTest extends BaseLogicTest {
 
-    private static UserProvision userProvision = new UserProvision();
+    private static UserProvision userProvision = UserProvision.inst();
 
     @Test
-    public void testGetCurrentUser() throws Exception {
+    public void testGetCurrentUser() {
 
-        ______TS("instructor+student");
+        ______TS("instructor");
 
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
-        CourseAttributes course = dataBundle.courses.get("typicalCourse2");
-        // also make this user a student of another course
-        StudentAttributes instructorAsStudent = StudentAttributes
-                .builder(course.getId(), "instructorasstudent@yahoo.com")
-                .withName("Instructor As Student")
-                .withSectionName("Section 1")
-                .withTeamName("Team 1")
-                .withComment("")
-                .build();
-        instructorAsStudent.googleId = instructor.googleId;
-        logic.createStudent(instructorAsStudent);
-
-        UserInfo user = userProvision.getCurrentUser(new UserInfoCookie(instructor.googleId));
-        assertEquals(instructor.googleId, user.id);
+        UserInfo user = userProvision.getCurrentUser(new UserInfoCookie(instructor.getGoogleId()));
+        assertEquals(instructor.getGoogleId(), user.id);
         assertFalse(user.isAdmin);
         assertTrue(user.isInstructor);
+        assertFalse(user.isStudent);
+
+        ______TS("student");
+
+        StudentAttributes student = dataBundle.students.get("student1InCourse1");
+        user = userProvision.getCurrentUser(new UserInfoCookie(student.getGoogleId()));
+        assertEquals(student.getGoogleId(), user.id);
+        assertFalse(user.isAdmin);
+        assertFalse(user.isInstructor);
         assertTrue(user.isStudent);
 
         ______TS("admin");

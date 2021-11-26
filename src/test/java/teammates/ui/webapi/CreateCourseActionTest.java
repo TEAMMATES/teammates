@@ -1,13 +1,13 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
+import java.time.ZoneId;
+
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
-import teammates.test.AssertHelper;
 import teammates.ui.output.CourseData;
-import teammates.ui.output.MessageOutput;
 import teammates.ui.request.CourseCreateRequest;
 
 /**
@@ -27,17 +27,17 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
 
     @Override
     @Test
-    public void testExecute() throws Exception {
+    public void testExecute() {
 
         ______TS("Not enough parameters");
 
-        verifyHttpParameterFailure();
+        verifyHttpRequestBodyFailure(null);
 
         ______TS("Typical case with new course id");
 
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        String instructorId = instructor1OfCourse1.googleId;
-        String courseId = instructor1OfCourse1.courseId;
+        String instructorId = instructor1OfCourse1.getGoogleId();
+        String courseId = instructor1OfCourse1.getCourseId();
 
         CourseCreateRequest courseCreateRequest = new CourseCreateRequest();
         courseCreateRequest.setCourseName("New Course");
@@ -52,13 +52,20 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
         CreateCourseAction action = getAction(courseCreateRequest);
 
         JsonResult result = getJsonResult(action);
+
+        verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
+
         CourseData courseData = (CourseData) result.getOutput();
         assertEquals(courseData.getCourseId(), "new-course");
         assertEquals(courseData.getCourseName(), "New Course");
         assertEquals(courseData.getTimeZone(), "UTC");
+        assertEquals(courseData.getInstitute(), "TEAMMATES Test Institute 1");
 
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
-        assertNotNull(logic.getCourse("new-course"));
+        CourseAttributes createdCourse = logic.getCourse("new-course");
+        assertNotNull(createdCourse);
+        assertEquals("New Course", createdCourse.getName());
+        assertEquals(ZoneId.of("UTC"), createdCourse.getTimeZone());
+        assertEquals("TEAMMATES Test Institute 1", createdCourse.getInstitute());
 
         ______TS("Typical case with existing course id");
 
@@ -66,12 +73,9 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
         courseCreateRequest.setTimeZone("UTC");
         courseCreateRequest.setCourseId(courseId);
 
-        action = getAction(courseCreateRequest);
-        result = getJsonResult(action);
-        MessageOutput message = (MessageOutput) result.getOutput();
-
-        assertEquals(HttpStatus.SC_CONFLICT, result.getStatusCode());
-        AssertHelper.assertContains("has been used by another course, possibly by some other user.", message.getMessage());
+        InvalidOperationException ioe = verifyInvalidOperation(courseCreateRequest);
+        assertEquals("The course ID idOfTypicalCourse1 has been used by another course, possibly by some other user. "
+                + "Please try again with a different course ID.", ioe.getMessage());
 
         ______TS("Typical case missing course id");
 
@@ -79,15 +83,12 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
         courseCreateRequest.setTimeZone("UTC");
         courseCreateRequest.setCourseId("");
 
-        action = getAction(courseCreateRequest);
-        result = getJsonResult(action);
-
-        assertEquals(HttpStatus.SC_BAD_REQUEST, result.getStatusCode());
+        verifyHttpRequestBodyFailure(courseCreateRequest);
     }
 
     @Override
     @Test
-    protected void testAccessControl() throws Exception {
+    protected void testAccessControl() {
         String[] submissionParams = new String[] {};
 
         verifyOnlyInstructorsCanAccess(submissionParams);

@@ -24,16 +24,15 @@ public class StudentAttributesTest extends BaseTestCase {
                 .builder("courseId", "e@e.com")
                 .build();
 
-        assertEquals("courseId", student.course);
-        assertEquals("e@e.com", student.email);
+        assertEquals("courseId", student.getCourse());
+        assertEquals("e@e.com", student.getEmail());
 
-        assertNull(student.name);
-        assertNull(student.lastName);
-        assertEquals("", student.googleId);
-        assertNull(student.team);
-        assertEquals(Const.DEFAULT_SECTION, student.section);
-        assertNull(student.comments);
-        assertNull(student.key);
+        assertNull(student.getName());
+        assertEquals("", student.getGoogleId());
+        assertNull(student.getTeam());
+        assertEquals(Const.DEFAULT_SECTION, student.getSection());
+        assertNull(student.getComments());
+        assertNull(student.getKey());
         assertEquals(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP, student.getCreatedAt());
         assertEquals(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP, student.getUpdatedAt());
     }
@@ -56,13 +55,6 @@ public class StudentAttributesTest extends BaseTestCase {
             StudentAttributes
                     .builder("course", "email@email.com")
                     .withName(null)
-                    .build();
-        });
-
-        assertThrows(AssertionError.class, () -> {
-            StudentAttributes
-                    .builder("course", "email@email.com")
-                    .withLastName(null)
                     .build();
         });
 
@@ -96,15 +88,14 @@ public class StudentAttributesTest extends BaseTestCase {
 
         StudentAttributes copyStudent = originalStudent.getCopy();
 
-        assertEquals(originalStudent.course, copyStudent.course);
-        assertEquals(originalStudent.name, copyStudent.name);
-        assertEquals(originalStudent.email, copyStudent.email);
-        assertEquals(originalStudent.googleId, copyStudent.googleId);
-        assertEquals(originalStudent.comments, copyStudent.comments);
-        assertEquals(originalStudent.key, copyStudent.key);
-        assertEquals(originalStudent.lastName, copyStudent.lastName);
-        assertEquals(originalStudent.section, copyStudent.section);
-        assertEquals(originalStudent.team, copyStudent.team);
+        assertEquals(originalStudent.getCourse(), copyStudent.getCourse());
+        assertEquals(originalStudent.getName(), copyStudent.getName());
+        assertEquals(originalStudent.getEmail(), copyStudent.getEmail());
+        assertEquals(originalStudent.getGoogleId(), copyStudent.getGoogleId());
+        assertEquals(originalStudent.getComments(), copyStudent.getComments());
+        assertEquals(originalStudent.getKey(), copyStudent.getKey());
+        assertEquals(originalStudent.getSection(), copyStudent.getSection());
+        assertEquals(originalStudent.getTeam(), copyStudent.getTeam());
         assertEquals(originalStudent.getCreatedAt(), copyStudent.getCreatedAt());
         assertEquals(originalStudent.getUpdatedAt(), copyStudent.getUpdatedAt());
     }
@@ -115,15 +106,14 @@ public class StudentAttributesTest extends BaseTestCase {
                 "comment 1", "courseId1", "team 1", "sect 1");
         StudentAttributes copyStudent = StudentAttributes.valueOf(originalStudent);
 
-        assertEquals(originalStudent.getCourseId(), copyStudent.course);
-        assertEquals(originalStudent.getName(), copyStudent.name);
-        assertEquals(originalStudent.getEmail(), copyStudent.email);
-        assertEquals(originalStudent.getGoogleId(), copyStudent.googleId);
-        assertEquals(originalStudent.getComments(), copyStudent.comments);
-        assertEquals(originalStudent.getRegistrationKey(), copyStudent.key);
-        assertEquals(originalStudent.getLastName(), copyStudent.lastName);
-        assertEquals(originalStudent.getSectionName(), copyStudent.section);
-        assertEquals(originalStudent.getTeamName(), copyStudent.team);
+        assertEquals(originalStudent.getCourseId(), copyStudent.getCourse());
+        assertEquals(originalStudent.getName(), copyStudent.getName());
+        assertEquals(originalStudent.getEmail(), copyStudent.getEmail());
+        assertEquals(originalStudent.getGoogleId(), copyStudent.getGoogleId());
+        assertEquals(originalStudent.getComments(), copyStudent.getComments());
+        assertEquals(originalStudent.getRegistrationKey(), copyStudent.getKey());
+        assertEquals(originalStudent.getSectionName(), copyStudent.getSection());
+        assertEquals(originalStudent.getTeamName(), copyStudent.getTeam());
         assertEquals(originalStudent.getCreatedAt(), copyStudent.getCreatedAt());
         assertEquals(originalStudent.getUpdatedAt(), copyStudent.getUpdatedAt());
     }
@@ -136,27 +126,25 @@ public class StudentAttributesTest extends BaseTestCase {
         originalStudent.setLastUpdate(null);
         StudentAttributes copyStudent = StudentAttributes.valueOf(originalStudent);
 
-        assertEquals(originalStudent.getCourseId(), copyStudent.course);
-        assertEquals(originalStudent.getName(), copyStudent.name);
-        assertEquals(originalStudent.getEmail(), copyStudent.email);
-        assertEquals("", copyStudent.googleId);
-        assertEquals(originalStudent.getComments(), copyStudent.comments);
-        assertEquals(originalStudent.getRegistrationKey(), copyStudent.key);
-        assertEquals(originalStudent.getLastName(), copyStudent.lastName);
-        assertEquals(Const.DEFAULT_SECTION, copyStudent.section);
-        assertEquals(originalStudent.getTeamName(), copyStudent.team);
+        assertEquals(originalStudent.getCourseId(), copyStudent.getCourse());
+        assertEquals(originalStudent.getName(), copyStudent.getName());
+        assertEquals(originalStudent.getEmail(), copyStudent.getEmail());
+        assertEquals("", copyStudent.getGoogleId());
+        assertEquals(originalStudent.getComments(), copyStudent.getComments());
+        assertEquals(originalStudent.getRegistrationKey(), copyStudent.getKey());
+        assertEquals(Const.DEFAULT_SECTION, copyStudent.getSection());
+        assertEquals(originalStudent.getTeamName(), copyStudent.getTeam());
         assertEquals(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP, copyStudent.getCreatedAt());
         assertEquals(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP, copyStudent.getUpdatedAt());
     }
 
     @Test
-    public void testBuilder_withTypicalData_shouldBuildAttributeWithCorrectValue() throws Exception {
+    public void testBuilder_withTypicalData_shouldBuildAttributeWithCorrectValue() {
         CourseStudent expected = generateTypicalStudentObject();
 
         StudentAttributes studentUnderTest = StudentAttributes
                 .builder(expected.getCourseId(), expected.getEmail())
                 .withName(expected.getName())
-                .withLastName(expected.getLastName())
                 .withComment(expected.getComments())
                 .withTeamName(expected.getTeamName())
                 .withSectionName(expected.getSectionName())
@@ -165,7 +153,6 @@ public class StudentAttributesTest extends BaseTestCase {
 
         assertEquals(expected.getCourseId(), studentUnderTest.getCourse());
         assertEquals(expected.getName(), studentUnderTest.getName());
-        assertEquals(expected.getLastName(), studentUnderTest.getLastName());
         assertEquals(expected.getComments(), studentUnderTest.getComments());
         assertEquals(expected.getSectionName(), studentUnderTest.getSection());
         assertEquals(expected.getTeamName(), studentUnderTest.getTeam());
@@ -183,12 +170,12 @@ public class StudentAttributesTest extends BaseTestCase {
 
         assertTrue("valid value", s.isValid());
 
-        s.googleId = "invalid@google@id";
-        s.name = "";
-        s.email = "invalid email";
-        s.course = "";
-        s.comments = StringHelperExtension.generateStringOfLength(FieldValidator.STUDENT_ROLE_COMMENTS_MAX_LENGTH + 1);
-        s.team = StringHelperExtension.generateStringOfLength(FieldValidator.TEAM_NAME_MAX_LENGTH + 1);
+        s.setGoogleId("invalid@google@id");
+        s.setName("");
+        s.setEmail("invalid email");
+        s.setCourse("");
+        s.setComments(StringHelperExtension.generateStringOfLength(FieldValidator.STUDENT_ROLE_COMMENTS_MAX_LENGTH + 1));
+        s.setTeam(StringHelperExtension.generateStringOfLength(FieldValidator.TEAM_NAME_MAX_LENGTH + 1));
 
         assertFalse("invalid value", s.isValid());
         String errorMessage =
@@ -209,7 +196,7 @@ public class StudentAttributesTest extends BaseTestCase {
                       FieldValidator.TEAM_NAME_FIELD_NAME, FieldValidator.REASON_TOO_LONG,
                       FieldValidator.TEAM_NAME_MAX_LENGTH) + System.lineSeparator()
                 + getPopulatedErrorMessage(
-                      FieldValidator.SIZE_CAPPED_POSSIBLY_EMPTY_STRING_ERROR_MESSAGE, s.comments,
+                      FieldValidator.SIZE_CAPPED_POSSIBLY_EMPTY_STRING_ERROR_MESSAGE, s.getComments(),
                       FieldValidator.STUDENT_ROLE_COMMENTS_FIELD_NAME, FieldValidator.REASON_TOO_LONG,
                       FieldValidator.STUDENT_ROLE_COMMENTS_MAX_LENGTH) + System.lineSeparator()
                 + getPopulatedEmptyStringErrorMessage(
@@ -294,7 +281,7 @@ public class StudentAttributesTest extends BaseTestCase {
 
         assertFalse(invalidStudent.isValid());
         assertEquals(getPopulatedErrorMessage(
-                FieldValidator.COURSE_ID_ERROR_MESSAGE, invalidStudent.course,
+                FieldValidator.COURSE_ID_ERROR_MESSAGE, invalidStudent.getCourse(),
                 FieldValidator.COURSE_ID_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
                 FieldValidator.COURSE_ID_MAX_LENGTH),
                 invalidStudent.getInvalidityInfo().get(0));
@@ -307,7 +294,6 @@ public class StudentAttributesTest extends BaseTestCase {
                 StudentAttributes.updateOptionsBuilder("courseId", "email@email.com")
                         .withNewEmail("new@email.com")
                         .withName("John Doe")
-                        .withLastName("Wu")
                         .withComment("Comment")
                         .withGoogleId("googleId")
                         .withTeamName("teamName")
@@ -320,32 +306,21 @@ public class StudentAttributesTest extends BaseTestCase {
         StudentAttributes studentAttributes =
                 StudentAttributes.builder("course", "alice@gmail.tmt")
                         .withName("Alice")
-                        .withLastName("Li")
                         .withComment("Comment B")
                         .withGoogleId("googleIdC")
                         .withTeamName("TEAM B")
                         .withSectionName("Section C")
                         .build();
 
-        // last name is specified in updateOptions, use the value.
         studentAttributes.update(updateOptions);
 
         assertEquals("new@email.com", studentAttributes.getEmail());
         assertEquals("John Doe", studentAttributes.getName());
-        assertEquals("Wu", studentAttributes.getLastName());
         assertEquals("Comment", studentAttributes.getComments());
-        assertEquals("googleId", studentAttributes.googleId);
+        assertEquals("googleId", studentAttributes.getGoogleId());
         assertEquals("teamName", studentAttributes.getTeam());
         assertEquals("sectionName", studentAttributes.getSection());
 
-        updateOptions =
-                StudentAttributes.updateOptionsBuilder("courseId", "new@email.com")
-                        .withName("John Doe")
-                        .build();
-
-        // last name not specified in updateOptions, split the name.
-        studentAttributes.update(updateOptions);
-        assertEquals("Doe", studentAttributes.getLastName());
     }
 
     @Test
@@ -360,9 +335,6 @@ public class StudentAttributesTest extends BaseTestCase {
         assertThrows(AssertionError.class, () ->
                 StudentAttributes.updateOptionsBuilder("course", "email@email.com")
                         .withName(null));
-        assertThrows(AssertionError.class, () ->
-                StudentAttributes.updateOptionsBuilder("course", "email@email.com")
-                        .withLastName(null));
         assertThrows(AssertionError.class, () ->
                 StudentAttributes.updateOptionsBuilder("course", "email@email.com")
                         .withComment(null));
@@ -418,11 +390,11 @@ public class StudentAttributesTest extends BaseTestCase {
         assertFalse(sd.isRegistered());
 
         // Id empty
-        sd.googleId = "";
+        sd.setGoogleId("");
         assertFalse(sd.isRegistered());
 
         // Id given
-        sd.googleId = "googleId.1";
+        sd.setGoogleId("googleId.1");
         assertTrue(sd.isRegistered());
     }
 
@@ -449,11 +421,10 @@ public class StudentAttributesTest extends BaseTestCase {
                 .withTeamName("team 1")
                 .build();
 
-        sd.key = "testkey";
+        String key = StringHelper.encrypt("testkey");
+        sd.setKey(key);
         String regUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
-                .withRegistrationKey(StringHelper.encrypt("testkey"))
-                .withStudentEmail("email@email.com")
-                .withCourseId("course1")
+                .withRegistrationKey(key)
                 .withEntityType(Const.EntityType.STUDENT)
                 .toString();
         assertEquals(regUrl, sd.getRegistrationUrl());

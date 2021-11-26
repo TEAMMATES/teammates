@@ -30,8 +30,8 @@
     <div *ngIf="courseTabModels.length > 0">
       <div id="course-tab" class="card" *ngFor="let courseTabModel of courseTabModels; let idx = index">
         <div id="course-tab-header" class="card-header bg-primary text-white cursor-pointer" (click)="courseTabModel.isTabExpanded = handleClick($event, courseTabModel); this.loadFeedbackSessions(idx);">
-          <b id="course-details">[{{ courseTabModel.course.courseId }}]: {{ courseTabModel.course.courseName }}</b>
-          <div class="card-header-btn-toolbar" *ngIf="courseTabModel.isAjaxSuccess">
+          <b id="course-details" class="text-break">[{{ courseTabModel.course.courseId }}]: {{ courseTabModel.course.courseName }}</b>
+          <div class="card-header-btn-toolbar flex-lg-shrink-0" *ngIf="courseTabModel.isAjaxSuccess">
             <span ngbDropdown>
               <button class="btn btn-primary btn-sm" ngbDropdownToggle> Students </button>
               <div ngbDropdownMenu (click)="$event.stopPropagation()">
@@ -88,11 +88,11 @@
             <tm-sessions-table *tmIsLoading="!courseTabModel.hasPopulated"
                 [sessionsTableRowModels]="courseTabModel.sessionsTableRowModels" [sessionsTableRowModelsSortBy]="courseTabModel.sessionsTableRowModelsSortBy"
                 [sessionsTableRowModelsSortOrder]="courseTabModel.sessionsTableRowModelsSortOrder" [courseCandidates]="courseCandidates"
-                [headerColorScheme]="SessionsTableHeaderColorScheme.WHITE" [columnsToShow]="[ SessionsTableColumn.START_DATE, SessionsTableColumn.END_DATE ]"
+                [headerColorScheme]="SessionsTableHeaderColorScheme.WHITE" [columnsToShow]="[ SessionsTableColumn.START_DATE, SessionsTableColumn.END_DATE ]" [isSendReminderLoading]="isSendReminderLoading"
                 (sortSessionsTableRowModelsEvent)="sortSessionsTableRowModelsEvent(idx, $event)"
                 (loadResponseRateEvent)="loadResponseRateEventHandler(idx, $event)"
                 (moveSessionToRecycleBinEvent)="moveSessionToRecycleBinEventHandler(idx, $event)" (copySessionEvent)="copySessionEventHandler(idx, $event)"
-                (submitSessionAsInstructorEvent)="submitSessionAsInstructorEventHandler(idx, $event)" (viewSessionResultEvent)="viewSessionResultEventHandler(idx, $event)"
+                (submitSessionAsInstructorEvent)="submitSessionAsInstructorEventHandler(idx, $event)"
                 (publishSessionEvent)="publishSessionEventHandler(idx, $event)" (unpublishSessionEvent)="unpublishSessionEventHandler(idx, $event)"
                 (downloadSessionResultsEvent)="downloadSessionResultEventHandler(idx, $event)"
                 (resendResultsLinkToStudentsEvent)="resendResultsLinkToRespondentsEventHandler(courseTabModel.sessionsTableRowModels[$event])"

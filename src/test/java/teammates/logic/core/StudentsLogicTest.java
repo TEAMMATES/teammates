@@ -26,11 +26,11 @@ import teammates.test.AssertHelper;
  */
 public class StudentsLogicTest extends BaseLogicTest {
 
-    private static AccountsLogic accountsLogic = AccountsLogic.inst();
-    private static StudentsLogic studentsLogic = StudentsLogic.inst();
-    private static CoursesLogic coursesLogic = CoursesLogic.inst();
-    private static FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
-    private static FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
+    private final AccountsLogic accountsLogic = AccountsLogic.inst();
+    private final StudentsLogic studentsLogic = StudentsLogic.inst();
+    private final CoursesLogic coursesLogic = CoursesLogic.inst();
+    private final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
+    private final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
 
     @Override
     protected void prepareTestData() {
@@ -144,34 +144,34 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         StudentAttributes student4InCourse1 = dataBundle.students.get("student4InCourse1");
         verifyPresentInDatabase(student4InCourse1);
-        String originalEmail = student4InCourse1.email;
-        student4InCourse1 = studentsLogic.getStudentForEmail(student4InCourse1.course, student4InCourse1.email);
-        student4InCourse1.name = student4InCourse1.name + "y";
-        student4InCourse1.googleId = student4InCourse1.googleId + "y";
-        student4InCourse1.comments = student4InCourse1.comments + "y";
-        student4InCourse1.email = student4InCourse1.email + "y";
-        student4InCourse1.section = "Section 2";
-        student4InCourse1.team = "Team 1.2"; // move to a different team
+        String originalEmail = student4InCourse1.getEmail();
+        student4InCourse1 = studentsLogic.getStudentForEmail(student4InCourse1.getCourse(), student4InCourse1.getEmail());
+        student4InCourse1.setName(student4InCourse1.getName() + "y");
+        student4InCourse1.setGoogleId(student4InCourse1.getGoogleId() + "y");
+        student4InCourse1.setComments(student4InCourse1.getComments() + "y");
+        student4InCourse1.setEmail(student4InCourse1.getEmail() + "y");
+        student4InCourse1.setSection("Section 2");
+        student4InCourse1.setTeam("Team 1.2"); // move to a different team
 
         StudentAttributes updatedStudent = studentsLogic.updateStudentCascade(
-                StudentAttributes.updateOptionsBuilder(student4InCourse1.course, originalEmail)
-                        .withName(student4InCourse1.name)
-                        .withGoogleId(student4InCourse1.googleId)
-                        .withComment(student4InCourse1.comments)
-                        .withNewEmail(student4InCourse1.email)
-                        .withSectionName(student4InCourse1.section)
-                        .withTeamName(student4InCourse1.team)
+                StudentAttributes.updateOptionsBuilder(student4InCourse1.getCourse(), originalEmail)
+                        .withName(student4InCourse1.getName())
+                        .withGoogleId(student4InCourse1.getGoogleId())
+                        .withComment(student4InCourse1.getComments())
+                        .withNewEmail(student4InCourse1.getEmail())
+                        .withSectionName(student4InCourse1.getSection())
+                        .withTeamName(student4InCourse1.getTeam())
                         .build()
         );
         StudentAttributes actualStudent =
-                studentsLogic.getStudentForEmail(student4InCourse1.course, student4InCourse1.email);
+                studentsLogic.getStudentForEmail(student4InCourse1.getCourse(), student4InCourse1.getEmail());
         assertFalse(student4InCourse1.getUpdatedAt().equals(actualStudent.getUpdatedAt()));
         assertEquals(student4InCourse1.getName(), actualStudent.getName());
         assertEquals(student4InCourse1.getName(), updatedStudent.getName());
         assertEquals(student4InCourse1.getEmail(), actualStudent.getEmail());
         assertEquals(student4InCourse1.getEmail(), updatedStudent.getEmail());
-        assertEquals(student4InCourse1.googleId, actualStudent.googleId);
-        assertEquals(student4InCourse1.googleId, updatedStudent.googleId);
+        assertEquals(student4InCourse1.getGoogleId(), actualStudent.getGoogleId());
+        assertEquals(student4InCourse1.getGoogleId(), updatedStudent.getGoogleId());
         assertEquals(student4InCourse1.getSection(), actualStudent.getSection());
         assertEquals(student4InCourse1.getSection(), updatedStudent.getSection());
         assertEquals(student4InCourse1.getTeam(), actualStudent.getTeam());
@@ -181,12 +181,12 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         ______TS("change email only");
 
-        originalEmail = student4InCourse1.email;
-        student4InCourse1.email = student4InCourse1.email + "y";
+        originalEmail = student4InCourse1.getEmail();
+        student4InCourse1.setEmail(student4InCourse1.getEmail() + "y");
 
         studentsLogic.updateStudentCascade(
-                StudentAttributes.updateOptionsBuilder(student4InCourse1.course, originalEmail)
-                        .withNewEmail(student4InCourse1.email)
+                StudentAttributes.updateOptionsBuilder(student4InCourse1.getCourse(), originalEmail)
+                        .withNewEmail(student4InCourse1.getEmail())
                         .build()
         );
         verifyPresentInDatabase(student4InCourse1);
@@ -194,7 +194,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         ______TS("update nothing");
 
         studentsLogic.updateStudentCascade(
-                StudentAttributes.updateOptionsBuilder(student4InCourse1.course, student4InCourse1.email)
+                StudentAttributes.updateOptionsBuilder(student4InCourse1.getCourse(), student4InCourse1.getEmail())
                         .build()
         );
         verifyPresentInDatabase(student4InCourse1);
@@ -203,7 +203,7 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         StudentAttributes finalStudent4InCourse1 = student4InCourse1;
         StudentAttributes.UpdateOptions updateOptions =
-                StudentAttributes.updateOptionsBuilder(finalStudent4InCourse1.course, "non-existent@email")
+                StudentAttributes.updateOptionsBuilder(finalStudent4InCourse1.getCourse(), "non-existent@email")
                         .withName("test")
                         .build();
         assertThrows(EntityDoesNotExistException.class,
@@ -213,7 +213,8 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
                 () -> studentsLogic.updateStudentCascade(
-                        StudentAttributes.updateOptionsBuilder(finalStudent4InCourse1.course, finalStudent4InCourse1.email)
+                        StudentAttributes.updateOptionsBuilder(finalStudent4InCourse1.getCourse(),
+                                finalStudent4InCourse1.getEmail())
                                 .withNewEmail("invalid email")
                                 .build()
                 ));
@@ -227,12 +228,12 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         FeedbackResponseAttributes responseToBeDeleted = dataBundle.feedbackResponses.get("response2ForQ2S2C1");
         FeedbackQuestionAttributes feedbackQuestionInDb =
-                fqLogic.getFeedbackQuestion(responseToBeDeleted.feedbackSessionName,
-                        responseToBeDeleted.courseId,
-                        Integer.parseInt(responseToBeDeleted.feedbackQuestionId));
+                fqLogic.getFeedbackQuestion(responseToBeDeleted.getFeedbackSessionName(),
+                        responseToBeDeleted.getCourseId(),
+                        Integer.parseInt(responseToBeDeleted.getFeedbackQuestionId()));
         responseToBeDeleted =
                 frLogic.getFeedbackResponse(feedbackQuestionInDb.getId(),
-                        responseToBeDeleted.giver, responseToBeDeleted.recipient);
+                        responseToBeDeleted.getGiver(), responseToBeDeleted.getRecipient());
 
         // response exist
         assertNotNull(responseToBeDeleted);
@@ -244,7 +245,7 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         responseToBeDeleted =
                 frLogic.getFeedbackResponse(feedbackQuestionInDb.getId(),
-                        responseToBeDeleted.giver, responseToBeDeleted.recipient);
+                        responseToBeDeleted.getGiver(), responseToBeDeleted.getRecipient());
 
         // response should not exist
         assertNull(responseToBeDeleted);
@@ -258,19 +259,20 @@ public class StudentsLogicTest extends BaseLogicTest {
         verifyPresentInDatabase(student1InCourse1);
 
         StudentAttributes updatedStudent =
-                        studentsLogic.regenerateStudentRegistrationKey(student1InCourse1.course, student1InCourse1.email);
+                studentsLogic.regenerateStudentRegistrationKey(student1InCourse1.getCourse(), student1InCourse1.getEmail());
 
         assertNotEquals(student1InCourse1.getKey(), updatedStudent.getKey());
 
         ______TS("non-existent student");
 
         String nonExistentEmail = "non-existent@email";
-        assertNull(studentsLogic.getStudentForEmail(student1InCourse1.course, nonExistentEmail));
+        assertNull(studentsLogic.getStudentForEmail(student1InCourse1.getCourse(), nonExistentEmail));
 
         EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
-                () -> studentsLogic.regenerateStudentRegistrationKey(student1InCourse1.course, nonExistentEmail));
-        assertEquals("Student does not exist: [" + student1InCourse1.course + "/" + nonExistentEmail + "]",
-                      ednee.getMessage());
+                () -> studentsLogic.regenerateStudentRegistrationKey(student1InCourse1.getCourse(), nonExistentEmail));
+        assertEquals("The student with the email " + nonExistentEmail + " could not be found for the course "
+                        + "with ID [" + student1InCourse1.getCourse() + "].",
+                ednee.getMessage());
     }
 
     private void testGetStudentForEmail() {
@@ -289,8 +291,8 @@ public class StudentsLogicTest extends BaseLogicTest {
         ______TS("typical case");
 
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
-        assertEquals(student1InCourse1.googleId,
-                     studentsLogic.getStudentForEmail(course1Id, student1InCourse1.email).googleId);
+        assertEquals(student1InCourse1.getGoogleId(),
+                studentsLogic.getStudentForEmail(course1Id, student1InCourse1.getEmail()).getGoogleId());
     }
 
     private void testGetStudentForRegistrationKey() {
@@ -308,9 +310,10 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         String course1Id = dataBundle.courses.get("typicalCourse1").getId();
-        String studentKey = studentsLogic.getStudentForCourseIdAndGoogleId(course1Id, student1InCourse1.googleId).key;
-        StudentAttributes actualStudent = studentsLogic.getStudentForRegistrationKey(StringHelper.encrypt(studentKey));
-        assertEquals(student1InCourse1.googleId, actualStudent.googleId);
+        String studentKey = studentsLogic.getStudentForCourseIdAndGoogleId(
+                course1Id, student1InCourse1.getGoogleId()).getKey();
+        StudentAttributes actualStudent = studentsLogic.getStudentForRegistrationKey(studentKey);
+        assertEquals(student1InCourse1.getGoogleId(), actualStudent.getGoogleId());
     }
 
     private void testGetStudentsForGoogleId() {
@@ -318,13 +321,13 @@ public class StudentsLogicTest extends BaseLogicTest {
         ______TS("student in one course");
 
         StudentAttributes studentInCourse1 = dataBundle.students.get("student1InCourse1");
-        assertEquals(1, studentsLogic.getStudentsForGoogleId(studentInCourse1.googleId).size());
-        assertEquals(studentInCourse1.email,
-                studentsLogic.getStudentsForGoogleId(studentInCourse1.googleId).get(0).email);
-        assertEquals(studentInCourse1.name,
-                studentsLogic.getStudentsForGoogleId(studentInCourse1.googleId).get(0).name);
-        assertEquals(studentInCourse1.course,
-                studentsLogic.getStudentsForGoogleId(studentInCourse1.googleId).get(0).course);
+        assertEquals(1, studentsLogic.getStudentsForGoogleId(studentInCourse1.getGoogleId()).size());
+        assertEquals(studentInCourse1.getEmail(),
+                studentsLogic.getStudentsForGoogleId(studentInCourse1.getGoogleId()).get(0).getEmail());
+        assertEquals(studentInCourse1.getName(),
+                studentsLogic.getStudentsForGoogleId(studentInCourse1.getGoogleId()).get(0).getName());
+        assertEquals(studentInCourse1.getCourse(),
+                studentsLogic.getStudentsForGoogleId(studentInCourse1.getGoogleId()).get(0).getCourse());
 
         ______TS("student in two courses");
 
@@ -334,39 +337,39 @@ public class StudentsLogicTest extends BaseLogicTest {
         StudentAttributes studentInTwoCoursesInCourse1 = dataBundle.students
                 .get("student2InCourse1");
         List<StudentAttributes> listReceivedUsingStudentInCourse1 = studentsLogic
-                .getStudentsForGoogleId(studentInTwoCoursesInCourse1.googleId);
+                .getStudentsForGoogleId(studentInTwoCoursesInCourse1.getGoogleId());
         assertEquals(2, listReceivedUsingStudentInCourse1.size());
 
         // get list using student data from course 2
         StudentAttributes studentInTwoCoursesInCourse2 = dataBundle.students
                 .get("student2InCourse2");
         List<StudentAttributes> listReceivedUsingStudentInCourse2 = studentsLogic
-                .getStudentsForGoogleId(studentInTwoCoursesInCourse2.googleId);
+                .getStudentsForGoogleId(studentInTwoCoursesInCourse2.getGoogleId());
         assertEquals(2, listReceivedUsingStudentInCourse2.size());
 
         // check the content from first list (we assume the content of the
         // second list is similar.
 
-        listReceivedUsingStudentInCourse1.sort(Comparator.comparing(student -> student.course));
+        listReceivedUsingStudentInCourse1.sort(Comparator.comparing(student -> student.getCourse()));
 
         StudentAttributes firstStudentReceived = listReceivedUsingStudentInCourse1.get(1);
         // First student received turned out to be the one from course 2
-        assertEquals(studentInTwoCoursesInCourse2.email,
-                firstStudentReceived.email);
-        assertEquals(studentInTwoCoursesInCourse2.name,
-                firstStudentReceived.name);
-        assertEquals(studentInTwoCoursesInCourse2.course,
-                firstStudentReceived.course);
+        assertEquals(studentInTwoCoursesInCourse2.getEmail(),
+                firstStudentReceived.getEmail());
+        assertEquals(studentInTwoCoursesInCourse2.getName(),
+                firstStudentReceived.getName());
+        assertEquals(studentInTwoCoursesInCourse2.getCourse(),
+                firstStudentReceived.getCourse());
 
         // then the second student received must be from course 1
         StudentAttributes secondStudentReceived = listReceivedUsingStudentInCourse1
                 .get(0);
-        assertEquals(studentInTwoCoursesInCourse1.email,
-                secondStudentReceived.email);
-        assertEquals(studentInTwoCoursesInCourse1.name,
-                secondStudentReceived.name);
-        assertEquals(studentInTwoCoursesInCourse1.course,
-                secondStudentReceived.course);
+        assertEquals(studentInTwoCoursesInCourse1.getEmail(),
+                secondStudentReceived.getEmail());
+        assertEquals(studentInTwoCoursesInCourse1.getName(),
+                secondStudentReceived.getName());
+        assertEquals(studentInTwoCoursesInCourse1.getCourse(),
+                secondStudentReceived.getCourse());
 
         ______TS("non existent student");
 
@@ -384,18 +387,18 @@ public class StudentsLogicTest extends BaseLogicTest {
         StudentAttributes studentInTwoCoursesInCourse1 = dataBundle.students
                 .get("student2InCourse1");
 
-        String googleIdOfstudentInTwoCourses = studentInTwoCoursesInCourse1.googleId;
-        assertEquals(studentInTwoCoursesInCourse1.email,
+        String googleIdOfstudentInTwoCourses = studentInTwoCoursesInCourse1.getGoogleId();
+        assertEquals(studentInTwoCoursesInCourse1.getEmail(),
                 studentsLogic.getStudentForCourseIdAndGoogleId(
-                        studentInTwoCoursesInCourse1.course,
-                        googleIdOfstudentInTwoCourses).email);
+                        studentInTwoCoursesInCourse1.getCourse(),
+                        googleIdOfstudentInTwoCourses).getEmail());
 
         StudentAttributes studentInTwoCoursesInCourse2 = dataBundle.students
                 .get("student2InCourse2");
-        assertEquals(studentInTwoCoursesInCourse2.email,
+        assertEquals(studentInTwoCoursesInCourse2.getEmail(),
                 studentsLogic.getStudentForCourseIdAndGoogleId(
-                        studentInTwoCoursesInCourse2.course,
-                        googleIdOfstudentInTwoCourses).email);
+                        studentInTwoCoursesInCourse2.getCourse(),
+                        googleIdOfstudentInTwoCourses).getEmail());
 
         ______TS("student in zero courses");
 
@@ -417,7 +420,7 @@ public class StudentsLogicTest extends BaseLogicTest {
                 .getStudentsForCourse(course1OfInstructor1.getId());
         assertEquals(5, studentList.size());
         for (StudentAttributes s : studentList) {
-            assertEquals(course1OfInstructor1.getId(), s.course);
+            assertEquals(course1OfInstructor1.getId(), s.getCourse());
         }
 
         ______TS("course with 0 students");
@@ -447,7 +450,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         ______TS("typical case");
 
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
-        assertTrue(studentsLogic.isStudentInAnyCourse(student1InCourse1.googleId));
+        assertTrue(studentsLogic.isStudentInAnyCourse(student1InCourse1.getGoogleId()));
     }
 
     private void testIsStudentInTeam() {
@@ -465,8 +468,8 @@ public class StudentsLogicTest extends BaseLogicTest {
         assertFalse(studentsLogic.isStudentInTeam(course1.getId(), teamName, nonExistStudentEmail));
 
         ______TS("typical case");
-        teamName = student1InCourse1.team;
-        assertTrue(studentsLogic.isStudentInTeam(course1.getId(), teamName, student1InCourse1.email));
+        teamName = student1InCourse1.getTeam();
+        assertTrue(studentsLogic.isStudentInTeam(course1.getId(), teamName, student1InCourse1.getEmail()));
     }
 
     private void testIsStudentsInSameTeam() {
@@ -477,21 +480,21 @@ public class StudentsLogicTest extends BaseLogicTest {
         StudentAttributes student2InCourse1 = dataBundle.students.get("student2InCourse1");
         String nonExistStudentEmail = "nonExist@google.tmt";
         assertFalse(studentsLogic.isStudentsInSameTeam(course1.getId(), nonExistStudentEmail,
-                                                       student2InCourse1.email));
+                student2InCourse1.getEmail()));
 
         ______TS("students of different teams");
 
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
-        assertTrue(studentsLogic.isStudentsInSameTeam(course1.getId(), student2InCourse1.email,
-                                                      student1InCourse1.email));
+        assertTrue(studentsLogic.isStudentsInSameTeam(course1.getId(), student2InCourse1.getEmail(),
+                student1InCourse1.getEmail()));
 
         StudentAttributes student5InCourse1 = dataBundle.students.get("student5InCourse1");
-        assertFalse(studentsLogic.isStudentsInSameTeam(course1.getId(), student2InCourse1.email,
-                                                        student5InCourse1.email));
+        assertFalse(studentsLogic.isStudentsInSameTeam(course1.getId(), student2InCourse1.getEmail(),
+                student5InCourse1.getEmail()));
     }
 
     @Test
-    public void testDeleteStudentCascade_lastPersonInTeam_shouldDeleteTeamResponses() throws Exception {
+    public void testDeleteStudentCascade_lastPersonInTeam_shouldDeleteTeamResponses() {
         StudentAttributes student1InCourse2 = dataBundle.students.get("student1InCourse2");
         StudentAttributes student2InCourse2 = dataBundle.students.get("student2InCourse2");
         // they are in the same team
@@ -505,21 +508,21 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         // get the response from DB
         FeedbackResponseAttributes fra = dataBundle.feedbackResponses.get("response1ForQ1S1C2");
-        int qnNumber = Integer.parseInt(fra.feedbackQuestionId);
-        String qnId = fqLogic.getFeedbackQuestion(fra.feedbackSessionName, fra.courseId, qnNumber).getId();
-        fra = frLogic.getFeedbackResponse(qnId, fra.giver, fra.recipient);
+        int qnNumber = Integer.parseInt(fra.getFeedbackQuestionId());
+        String qnId = fqLogic.getFeedbackQuestion(fra.getFeedbackSessionName(), fra.getCourseId(), qnNumber).getId();
+        fra = frLogic.getFeedbackResponse(qnId, fra.getGiver(), fra.getRecipient());
         assertNotNull(fra);
         // the team is the recipient of the response
-        assertEquals(student2InCourse2.getTeam(), fra.recipient);
+        assertEquals(student2InCourse2.getTeam(), fra.getRecipient());
         // this is the only response the instructor has given for the session
-        String feedbackSessionName = fra.feedbackSessionName;
-        assertEquals(1, frLogic.getFeedbackResponsesFromGiverForCourse(fra.courseId, fra.giver).stream()
-                .filter(response -> response.feedbackSessionName.equals(feedbackSessionName))
+        String feedbackSessionName = fra.getFeedbackSessionName();
+        assertEquals(1, frLogic.getFeedbackResponsesFromGiverForCourse(fra.getCourseId(), fra.getGiver()).stream()
+                .filter(response -> response.getFeedbackSessionName().equals(feedbackSessionName))
                 .count());
         // suppose the instructor has responses for the session
         assertTrue(
                 frLogic.getGiverSetThatAnswerFeedbackSession(fra.getCourseId(),
-                        fra.getFeedbackSessionName()).contains(fra.giver));
+                        fra.getFeedbackSessionName()).contains(fra.getGiver()));
 
         // after the student is moved from the course
         // team response will also be removed
@@ -530,7 +533,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         // the instructor no longer has responses for the session
         assertFalse(
                 frLogic.getGiverSetThatAnswerFeedbackSession(fra.getCourseId(),
-                        fra.getFeedbackSessionName()).contains(fra.giver));
+                        fra.getFeedbackSessionName()).contains(fra.getGiver()));
     }
 
     @Test
@@ -541,7 +544,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         ______TS("delete non-existent student");
 
         // should fail silently.
-        studentsLogic.deleteStudentCascade(student2InCourse1.course, student2InCourse1.email);
+        studentsLogic.deleteStudentCascade(student2InCourse1.getCourse(), student2InCourse1.getEmail());
 
         ______TS("typical delete");
 
@@ -553,7 +556,7 @@ public class StudentsLogicTest extends BaseLogicTest {
                 frLogic.getFeedbackResponsesForReceiverForCourse(
                         student2InCourse1.getCourse(), student2InCourse1.getEmail()).isEmpty());
 
-        studentsLogic.deleteStudentCascade(student2InCourse1.course, student2InCourse1.email);
+        studentsLogic.deleteStudentCascade(student2InCourse1.getCourse(), student2InCourse1.getEmail());
 
         verifyAbsentInDatabase(student2InCourse1);
         // verify responses of the student are gone
@@ -579,7 +582,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
 
         assertNotNull(studentsLogic.getStudentForEmail(student1InCourse1.getCourse(), student1InCourse1.getEmail()));
-        assertNotNull(student1InCourse1.googleId);
+        assertNotNull(student1InCourse1.getGoogleId());
 
         // the student has response
         assertFalse(
@@ -589,7 +592,7 @@ public class StudentsLogicTest extends BaseLogicTest {
                 frLogic.getFeedbackResponsesForReceiverForCourse(
                         student1InCourse1.getCourse(), student1InCourse1.getEmail()).isEmpty());
 
-        studentsLogic.deleteStudentsForGoogleIdCascade(student1InCourse1.googleId);
+        studentsLogic.deleteStudentsForGoogleIdCascade(student1InCourse1.getGoogleId());
 
         // verify that the student is deleted
         assertNull(studentsLogic.getStudentForEmail(student1InCourse1.getCourse(), student1InCourse1.getEmail()));
@@ -677,6 +680,6 @@ public class StudentsLogicTest extends BaseLogicTest {
 
     @AfterClass
     public void classTearDown() {
-        accountsLogic.deleteAccountCascade(dataBundle.students.get("student4InCourse1").googleId);
+        accountsLogic.deleteAccountCascade(dataBundle.students.get("student4InCourse1").getGoogleId());
     }
 }

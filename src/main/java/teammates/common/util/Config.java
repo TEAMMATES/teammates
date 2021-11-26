@@ -6,8 +6,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
-import teammates.common.exception.TeammatesException;
-
 /**
  * Represents the deployment-specific configuration values of the system.
  * This can be used to access values in the build.properties file too.
@@ -53,11 +51,17 @@ public final class Config {
     /** The value of the "app.oauth2.client.secret" in build.properties file. */
     public static final String OAUTH2_CLIENT_SECRET;
 
+    /** The value of the "app.enable.devserver.login" in build.properties file. */
+    public static final boolean ENABLE_DEVSERVER_LOGIN;
+
     /** The value of the "app.captcha.secretkey" in build.properties file. */
     public static final String CAPTCHA_SECRET_KEY;
 
     /** The value of the "app.admins" in build.properties file. */
     public static final List<String> APP_ADMINS;
+
+    /** The value of the "app.maintainers" in build.properties file. */
+    public static final List<String> APP_MAINTAINERS;
 
     /** The value of the "app.crashreport.email" in build.properties file. */
     public static final String SUPPORT_EMAIL;
@@ -103,7 +107,7 @@ public final class Config {
         try (InputStream buildPropStream = FileHelper.getResourceAsStream("build.properties")) {
             properties.load(buildPropStream);
         } catch (IOException e) {
-            assert false : TeammatesException.toStringWithStackTrace(e);
+            assert false;
         }
         APP_ID = properties.getProperty("app.id");
         APP_REGION = properties.getProperty("app.region");
@@ -118,8 +122,10 @@ public final class Config {
         ENCRYPTION_KEY = properties.getProperty("app.encryption.key");
         OAUTH2_CLIENT_ID = properties.getProperty("app.oauth2.client.id");
         OAUTH2_CLIENT_SECRET = properties.getProperty("app.oauth2.client.secret");
+        ENABLE_DEVSERVER_LOGIN = Boolean.parseBoolean(properties.getProperty("app.enable.devserver.login", "true"));
         CAPTCHA_SECRET_KEY = properties.getProperty("app.captcha.secretkey");
         APP_ADMINS = Arrays.asList(properties.getProperty("app.admins", "").split(","));
+        APP_MAINTAINERS = Arrays.asList(properties.getProperty("app.maintainers", "").split(","));
         SUPPORT_EMAIL = properties.getProperty("app.crashreport.email");
         EMAIL_SENDEREMAIL = properties.getProperty("app.email.senderemail");
         EMAIL_SENDERNAME = properties.getProperty("app.email.sendername");
@@ -155,6 +161,17 @@ public final class Config {
     }
 
     /**
+     * Returns the GAE instance ID.
+     */
+    public static String getInstanceId() {
+        String instanceId = System.getenv("GAE_INSTANCE");
+        if (instanceId == null) {
+            return "dev_server_instance_id";
+        }
+        return instanceId;
+    }
+
+    /**
      * Returns true if the server is configured to be the dev server.
      */
     public static boolean isDevServer() {
@@ -177,6 +194,13 @@ public final class Config {
 
         // GAE flexible; GAE_ENV variable should not exist in GAE flexible environment
         return env != null;
+    }
+
+    /**
+     * Indicates whether dev server login is enabled.
+     */
+    public static boolean isDevServerLoginEnabled() {
+        return Config.isDevServer() && ENABLE_DEVSERVER_LOGIN;
     }
 
     /**

@@ -13,7 +13,6 @@ import com.google.cloud.tasks.v2.Task;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.Timestamp;
 
-import teammates.common.exception.TeammatesException;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
@@ -62,7 +61,7 @@ public class GoogleCloudTasksService implements TaskQueueService {
 
             client.createTask(queuePath, taskBuilder.build());
         } catch (IOException e) {
-            log.severe("Cannot create Cloud Tasks client: " + TeammatesException.toStringWithStackTrace(e));
+            log.severe("Cannot create Cloud Tasks client", e);
         }
     }
 

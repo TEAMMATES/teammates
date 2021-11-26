@@ -132,12 +132,14 @@
       "createdAt": "2012-04-01T23:58:00Z",
       "id": "idOfTypicalCourse1",
       "name": "Typical Course 1 with 2 Evals",
+      "institute": "TEAMMATES Test Institute 1",
       "timeZone": "Africa/Johannesburg"
     },
     "typicalCourse2": {
       "createdAt": "2012-04-01T23:59:00Z",
       "id": "idOfTypicalCourse2",
       "name": "Typical Course 2 with 1 Evals",
+      "institute": "TEAMMATES Test Institute 1",
       "timeZone": "UTC"
     },
     "typicalCourse3": {
@@ -145,44 +147,52 @@
       "deletedAt": "2012-04-12T23:58:00Z",
       "id": "idOfTypicalCourse3",
       "name": "Typical Course 3 with 1 Evals",
+      "institute": "TEAMMATES Test Institute 1",
       "timeZone": "UTC"
     },
     "typicalCourse4": {
       "createdAt": "2012-04-02T23:58:00Z",
       "id": "idOfTypicalCourse4",
       "name": "Typical Course 4 with 1 Evals",
+      "institute": "TEAMMATES Test Institute 1",
       "timeZone": "UTC"
     },
     "courseNoEvals": {
       "id": "idOfCourseNoEvals",
       "name": "Typical Course 3 with 0 Evals",
+      "institute": "TEAMMATES Test Institute 1",
       "timeZone": "UTC"
     },
     "sampleCourse": {
       "id": "idOfSampleCourse-demo",
       "name": "Sample Course",
+      "institute": "TEAMMATES Test Institute 7",
       "timeZone": "UTC"
     },
     "archivedCourse": {
       "id": "idOfArchivedCourse",
       "name": "Archived Course",
+      "institute": "TEAMMATES Test Institute 5",
       "timeZone": "UTC"
     },
     "unregisteredCourse": {
       "id": "idOfUnregisteredCourse",
       "name": "Unregistered Course",
+      "institute": "TEAMMATES Test Institute 1",
       "timeZone": "UTC"
     },
     "testingInstructorsDisplayedCourse": {
       "createdAt": "2012-04-01T23:58:00Z",
       "id": "idOfTestingInstructorsDisplayedCourse",
       "name": "Testing<script> alert('hi!'); </script>",
+      "institute": "TEAMMATES Test Institute 1",
       "timeZone": "UTC"
     },
     "testingSanitizationCourse": {
       "createdAt": "2012-04-01T23:58:00Z",
       "id": "idOfTestingSanitizationCourse",
       "name": "Testing<script> alert('hi!'); </script>",
+      "institute": "inst<script> alert('hi!'); </script>",
       "timeZone": "UTC"
     }
   },
@@ -263,7 +273,6 @@
       "courseId": "idOfTypicalCourse1",
       "name": "Instructor Not Yet Joined Course 1",
       "email": "instructorNotYetJoinedCourse1@email.tmt",
-      "key": "regKeyForInstrNotYetJoinCourse1",
       "isArchived": false,
       "role": "Co-owner",
       "isDisplayedToStudents": true,
@@ -599,7 +608,6 @@
       "courseId": "idOfSampleCourse-demo",
       "name": "Instructor Not Yet Joined Course",
       "email": "instructorNotYetJoined@email.tmt",
-      "key": "regKeyForInstrNotYetJoinCourse",
       "isArchived": false,
       "role": "Co-owner",
       "isDisplayedToStudents": true,
@@ -731,6 +739,7 @@
       "resultsVisibleFromTime": "2027-05-01T21:59:00Z",
       "timeZone": "Africa/Johannesburg",
       "gracePeriod": 10,
+      "sentOpeningSoonEmail": true,
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -751,6 +760,7 @@
       "resultsVisibleFromTime": "2026-04-29T21:59:00Z",
       "timeZone": "Africa/Johannesburg",
       "gracePeriod": 5,
+      "sentOpeningSoonEmail": true,
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -771,6 +781,7 @@
       "resultsVisibleFromTime": "2026-04-29T21:59:00Z",
       "timeZone": "Africa/Johannesburg",
       "gracePeriod": 1440,
+      "sentOpeningSoonEmail": true,
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -791,6 +802,7 @@
       "resultsVisibleFromTime": "2013-04-29T21:59:00Z",
       "timeZone": "Africa/Johannesburg",
       "gracePeriod": 5,
+      "sentOpeningSoonEmail": true,
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -811,6 +823,7 @@
       "resultsVisibleFromTime": "2013-04-29T23:57:00Z",
       "timeZone": "Africa/Johannesburg",
       "gracePeriod": 5,
+      "sentOpeningSoonEmail": false,
       "sentOpenEmail": false,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -831,6 +844,7 @@
       "resultsVisibleFromTime": "2026-04-29T23:00:00Z",
       "timeZone": "Africa/Johannesburg",
       "gracePeriod": 5,
+      "sentOpeningSoonEmail": false,
       "sentOpenEmail": false,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -851,6 +865,7 @@
       "resultsVisibleFromTime": "2026-04-29T23:00:00Z",
       "timeZone": "Africa/Johannesburg",
       "gracePeriod": 5,
+      "sentOpeningSoonEmail": true,
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -871,6 +886,7 @@
       "resultsVisibleFromTime": "2027-05-01T15:59:00Z",
       "timeZone": "Asia/Singapore",
       "gracePeriod": 0,
+      "sentOpeningSoonEmail": true,
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -891,6 +907,7 @@
       "resultsVisibleFromTime": "1970-01-01T00:00:00Z",
       "timeZone": "Asia/Singapore",
       "gracePeriod": 0,
+      "sentOpeningSoonEmail": true,
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -911,6 +928,7 @@
       "resultsVisibleFromTime": "2027-05-01T21:59:00Z",
       "timeZone": "Africa/Johannesburg",
       "gracePeriod": 10,
+      "sentOpeningSoonEmail": true,
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -932,6 +950,7 @@
       "resultsVisibleFromTime": "2027-05-01T21:59:00Z",
       "timeZone": "Africa/Johannesburg",
       "gracePeriod": 10,
+      "sentOpeningSoonEmail": true,
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -953,6 +972,7 @@
       "resultsVisibleFromTime": "2027-05-01T21:59:00Z",
       "timeZone": "Africa/Johannesburg",
       "gracePeriod": 10,
+      "sentOpeningSoonEmail": true,
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -973,6 +993,7 @@
       "resultsVisibleFromTime": "2027-05-01T21:59:00Z",
       "timeZone": "Africa/Johannesburg",
       "gracePeriod": 10,
+      "sentOpeningSoonEmail": true,
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -986,7 +1007,6 @@
     "qn1InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
-      "feedbackQuestionId": "qn1InSession1InCourse1",
       "questionDetails": {
         "questionText": "How much has each team member including yourself, contributed to the project?",
         "questionType": "CONTRIB"
@@ -1008,7 +1028,6 @@
     "qn2InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
-      "feedbackQuestionId": "qn2InSession1InCourse1",
       "questionDetails": {
         "questionText": "How much has each team member including yourself, contributed to the project?",
         "questionType": "CONTRIB"
@@ -1032,7 +1051,6 @@
     "qn3InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
-      "feedbackQuestionId": "qn3InSession1InCourse1",
       "questionDetails": {
         "questionText": "How much has each team member including yourself, contributed to the project?",
         "questionType": "CONTRIB"
@@ -1063,7 +1081,6 @@
     "qn4InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
-      "feedbackQuestionId": "qn4InSession1InCourse1",
       "questionDetails": {
         "questionText": "How much has each team member including yourself, contributed to the project?",
         "questionType": "CONTRIB"
@@ -1094,7 +1111,6 @@
     "qn5InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
-      "feedbackQuestionId": "qn5InSession1InCourse1",
       "questionDetails": {
         "questionText": "How much has each team member including yourself, contributed to the project?",
         "questionType": "CONTRIB"
@@ -1118,7 +1134,7 @@
     "response1ForQ1S1C1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
-      "feedbackQuestionId": "qn1InSession1InCourse1",
+      "feedbackQuestionId": "1",
       "giver": "student1InCourse1@gmail.tmt",
       "recipient": "student1InCourse1@gmail.tmt",
       "giverSection": "Section 1",
@@ -1131,7 +1147,7 @@
     "response2ForQ1S1C1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
-      "feedbackQuestionId": "qn1InSession1InCourse1",
+      "feedbackQuestionId": "1",
       "giver": "student1InCourse1@gmail.tmt",
       "recipient": "student2InCourse1@gmail.tmt",
       "giverSection": "Section 1",
@@ -1144,7 +1160,7 @@
     "response3ForQ1S1C1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
-      "feedbackQuestionId": "qn1InSession1InCourse1",
+      "feedbackQuestionId": "1",
       "giver": "student1InCourse1@gmail.tmt",
       "recipient": "student3InCourse1@gmail.tmt",
       "giverSection": "Section 1",
@@ -1157,7 +1173,7 @@
     "response4ForQ1S1C1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
-      "feedbackQuestionId": "qn1InSession1InCourse1",
+      "feedbackQuestionId": "1",
       "giver": "student2InCourse1@gmail.tmt",
       "recipient": "student1InCourse1@gmail.tmt",
       "giverSection": "Section 1",
@@ -1170,7 +1186,7 @@
     "response5ForQ1S1C1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
-      "feedbackQuestionId": "qn1InSession1InCourse1",
+      "feedbackQuestionId": "1",
       "giver": "student2InCourse1@gmail.tmt",
       "recipient": "student2InCourse1@gmail.tmt",
       "giverSection": "Section 1",
@@ -1183,7 +1199,7 @@
     "response6ForQ1S1C1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
-      "feedbackQuestionId": "qn1InSession1InCourse1",
+      "feedbackQuestionId": "1",
       "giver": "student2InCourse1@gmail.tmt",
       "recipient": "student3InCourse1@gmail.tmt",
       "giverSection": "Section 1",
@@ -1196,7 +1212,7 @@
     "response7ForQ1S1C1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
-      "feedbackQuestionId": "qn1InSession1InCourse1",
+      "feedbackQuestionId": "1",
       "giver": "student3InCourse1@gmail.tmt",
       "recipient": "student1InCourse1@gmail.tmt",
       "giverSection": "Section 1",
@@ -1209,7 +1225,7 @@
     "response8ForQ1S1C1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
-      "feedbackQuestionId": "qn1InSession1InCourse1",
+      "feedbackQuestionId": "1",
       "giver": "student3InCourse1@gmail.tmt",
       "recipient": "student2InCourse1@gmail.tmt",
       "giverSection": "Section 1",
@@ -1222,7 +1238,7 @@
     "response9ForQ1S1C1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
-      "feedbackQuestionId": "qn1InSession1InCourse1",
+      "feedbackQuestionId": "1",
       "giver": "student3InCourse1@gmail.tmt",
       "recipient": "student3InCourse1@gmail.tmt",
       "giverSection": "Section 1",
@@ -1235,7 +1251,7 @@
     "response1ForQ2S1C1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
-      "feedbackQuestionId": "qn2InSession1InCourse1",
+      "feedbackQuestionId": "2",
       "giver": "student5InCourse1@gmail.tmt",
       "recipient": "student5InCourse1@gmail.tmt",
       "giverSection": "Section 1",
@@ -1248,7 +1264,7 @@
     "response2ForQ2S1C1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
-      "feedbackQuestionId": "qn2InSession1InCourse1",
+      "feedbackQuestionId": "2",
       "giver": "student5InCourse1@gmail.tmt",
       "recipient": "student6InCourse1@gmail.tmt",
       "giverSection": "Section 2",
@@ -1261,7 +1277,7 @@
     "response3ForQ2S1C1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
-      "feedbackQuestionId": "qn2InSession1InCourse1",
+      "feedbackQuestionId": "2",
       "giver": "student6InCourse1@gmail.tmt",
       "recipient": "student5InCourse1@gmail.tmt",
       "giverSection": "Section 1",
@@ -1274,7 +1290,7 @@
     "response4ForQ2S1C1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
-      "feedbackQuestionId": "qn2InSession1InCourse1",
+      "feedbackQuestionId": "2",
       "giver": "student6InCourse1@gmail.tmt",
       "recipient": "student6InCourse1@gmail.tmt",
       "giverSection": "Section 1",

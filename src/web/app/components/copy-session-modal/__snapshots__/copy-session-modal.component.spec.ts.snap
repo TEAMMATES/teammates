@@ -53,11 +53,11 @@ exports[`CopySessionModalComponent should snap with default fields 1`] = `
           <input
             class="form-control ng-untouched ng-pristine ng-valid"
             id="copy-session-name"
-            maxlength="38"
+            maxlength="64"
             type="text"
           />
           <span>
-            38 characters left
+            64 characters left
           </span>
         </div>
         
@@ -137,11 +137,11 @@ exports[`CopySessionModalComponent should snap with some session and courses can
           <input
             class="form-control ng-untouched ng-pristine ng-valid"
             id="copy-session-name"
-            maxlength="38"
+            maxlength="64"
             type="text"
           />
           <span>
-            26 characters left
+            52 characters left
           </span>
         </div>
         
@@ -149,7 +149,7 @@ exports[`CopySessionModalComponent should snap with some session and courses can
           class="form-check"
         >
           <label
-            class="form-check-label"
+            class="form-check-label text-break"
           >
             <input
               class="form-check-input"
@@ -175,7 +175,7 @@ exports[`CopySessionModalComponent should snap with some session and courses can
           class="form-check"
         >
           <label
-            class="form-check-label"
+            class="form-check-label text-break"
           >
             <input
               class="form-check-input"

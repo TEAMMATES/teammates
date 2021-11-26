@@ -11,10 +11,11 @@ import {
   SessionVisibleSetting,
 } from '../../../types/api-output';
 import { FEEDBACK_SESSION_NAME_MAX_LENGTH } from '../../../types/field-validator';
+import { DateFormat } from '../datepicker/datepicker.component';
 import { SimpleModalType } from '../simple-modal/simple-modal-type';
 import { collapseAnim } from '../teammates-common/collapse-anim';
 import { SessionEditFormDatePickerFormatter } from './session-edit-form-datepicker-formatter';
-import { DateFormat, SessionEditFormMode, SessionEditFormModel } from './session-edit-form-model';
+import { SessionEditFormMode, SessionEditFormModel } from './session-edit-form-model';
 
 /**
  * Form to Add/Edit feedback sessions.
@@ -83,8 +84,12 @@ export class SessionEditFormComponent implements OnInit {
   // add mode specific
   @Input()
   courseCandidates: Course[] = [];
+
   @Input()
   templateSessions: TemplateSession[] = [];
+
+  @Input()
+  isCopyOtherSessionLoading: boolean = false;
 
   // event emission
   @Output()
@@ -150,8 +155,8 @@ export class SessionEditFormComponent implements OnInit {
       case ResponseVisibleSetting.AT_VISIBLE:
         return this.model.submissionStartDate;
       case ResponseVisibleSetting.CUSTOM:
-        const submissionStartDate: any = this.getMomentInstance(this.model.submissionStartDate);
-        const responseVisibleDate: any = this.getMomentInstance(this.model.customResponseVisibleDate);
+        const submissionStartDate: moment.Moment = this.getMomentInstance(this.model.submissionStartDate);
+        const responseVisibleDate: moment.Moment = this.getMomentInstance(this.model.customResponseVisibleDate);
         if (submissionStartDate.isBefore(responseVisibleDate)) {
           return this.model.submissionStartDate;
         }
@@ -187,8 +192,8 @@ export class SessionEditFormComponent implements OnInit {
   /**
    * Gets a moment instance from a date.
    */
-  getMomentInstance(date: DateFormat): any {
-    const inst: any = moment();
+  getMomentInstance(date: DateFormat): moment.Moment {
+    const inst: moment.Moment = moment();
     inst.set('year', date.year);
     inst.set('month', date.month - 1); // moment month is from 0-11
     inst.set('date', date.day);

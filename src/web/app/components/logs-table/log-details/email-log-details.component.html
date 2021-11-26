@@ -1,0 +1,8 @@
+<details *ngIf="details" open>
+  <summary class="title">details:</summary>
+  <pre class="margin-left-3em wrap">{{ details | json }}</pre>
+</details>
+<details *ngIf="emailContent">
+  <summary class="title">email content:</summary>
+  <pre class="margin-left-3em wrap">{{ emailContent }}</pre>
+</details>

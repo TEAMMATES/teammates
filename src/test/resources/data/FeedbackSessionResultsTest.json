@@ -68,11 +68,13 @@
     "typicalCourse1": {
       "id": "FSRTest.idOfTypicalCourse1",
       "name": "Typical Course 1",
+      "institute": "TEAMMATES Test Institute 1",
       "timeZone": "UTC"
     },
     "course.no.sessions": {
       "id": "FSRTest.idOfNoSessionsCourse",
       "name": "No Sessions Course",
+      "institute": "TEAMMATES Test Institute 1",
       "timeZone": "UTC"
     }
   },
@@ -243,6 +245,7 @@
       "resultsVisibleFromTime": "2027-05-01T15:59:00Z",
       "timeZone": "Asia/Singapore",
       "gracePeriod": 10,
+      "sentOpeningSoonEmail": true,
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -581,7 +584,7 @@
       "feedbackSessionName": "Standard feedback session",
       "courseId": "FSRTest.idOfTypicalCourse1",
       "feedbackQuestionId": "7",
-      "giver": "FSRTest.student1InCourse1@gmail.tmt",
+      "giver": "Team 1.1</td></div>'\"",
       "recipient": "FSRTest.student2InCourse1@gmail.tmt",
       "giverSection": "Section A",
       "recipientSection": "Section A",
@@ -594,7 +597,7 @@
       "feedbackSessionName": "Standard feedback session",
       "courseId": "FSRTest.idOfTypicalCourse1",
       "feedbackQuestionId": "7",
-      "giver": "FSRTest.student2InCourse1@gmail.tmt",
+      "giver": "Team 1.1</td></div>'\"",
       "recipient": "FSRTest.student4InCourse1@gmail.tmt",
       "giverSection": "Section A",
       "recipientSection": "Section B",
@@ -607,7 +610,7 @@
       "feedbackSessionName": "Standard feedback session",
       "courseId": "FSRTest.idOfTypicalCourse1",
       "feedbackQuestionId": "8",
-      "giver": "FSRTest.student1InCourse1@gmail.tmt",
+      "giver": "Team 1.1</td></div>'\"",
       "recipient": "Team 1.2",
       "giverSection": "Section A",
       "recipientSection": "Section B",
@@ -620,7 +623,7 @@
       "feedbackSessionName": "Standard feedback session",
       "courseId": "FSRTest.idOfTypicalCourse1",
       "feedbackQuestionId": "8",
-      "giver": "FSRTest.student4InCourse1@gmail.tmt",
+      "giver": "Team 1.2",
       "recipient": "Team 1.1</td></div>'\"",
       "giverSection": "Section B",
       "recipientSection": "Section A",

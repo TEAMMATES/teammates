@@ -1,15 +1,15 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
-
+import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
 import teammates.ui.output.InstructorData;
 import teammates.ui.request.InstructorCreateRequest;
+import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * Edits an instructor in a course.
@@ -35,7 +35,7 @@ class UpdateInstructorAction extends Action {
     }
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
         InstructorCreateRequest instructorRequest = getAndValidateRequestBody(InstructorCreateRequest.class);
@@ -45,35 +45,44 @@ class UpdateInstructorAction extends Action {
                         instructorRequest.getRoleName(), instructorRequest.getIsDisplayedToStudent(),
                         instructorRequest.getDisplayName());
 
+        logic.updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToEdit);
+
         try {
             InstructorAttributes updatedInstructor;
             if (instructorRequest.getId() == null) {
                 updatedInstructor = logic.updateInstructor(
                         InstructorAttributes
-                                .updateOptionsWithEmailBuilder(instructorToEdit.courseId, instructorRequest.getEmail())
-                                .withName(instructorToEdit.name)
-                                .withDisplayedName(instructorToEdit.displayedName)
-                                .withIsDisplayedToStudents(instructorToEdit.isDisplayedToStudents)
-                                .withRole(instructorToEdit.role)
+                                .updateOptionsWithEmailBuilder(instructorToEdit.getCourseId(), instructorRequest.getEmail())
+                                .withName(instructorToEdit.getName())
+                                .withDisplayedName(instructorToEdit.getDisplayedName())
+                                .withIsDisplayedToStudents(instructorToEdit.isDisplayedToStudents())
+                                .withRole(instructorToEdit.getRole())
+                                .withPrivileges(instructorToEdit.getPrivileges())
                                 .build());
             } else {
                 updatedInstructor = logic.updateInstructorCascade(
                         InstructorAttributes
-                                .updateOptionsWithGoogleIdBuilder(instructorToEdit.courseId, instructorRequest.getId())
-                                .withEmail(instructorToEdit.email)
-                                .withName(instructorToEdit.name)
-                                .withDisplayedName(instructorToEdit.displayedName)
-                                .withIsDisplayedToStudents(instructorToEdit.isDisplayedToStudents)
-                                .withRole(instructorToEdit.role)
+                                .updateOptionsWithGoogleIdBuilder(instructorToEdit.getCourseId(), instructorRequest.getId())
+                                .withEmail(instructorToEdit.getEmail())
+                                .withName(instructorToEdit.getName())
+                                .withDisplayedName(instructorToEdit.getDisplayedName())
+                                .withIsDisplayedToStudents(instructorToEdit.isDisplayedToStudents())
+                                .withRole(instructorToEdit.getRole())
+                                .withPrivileges(instructorToEdit.getPrivileges())
                                 .build());
             }
             InstructorData newInstructorData = new InstructorData(updatedInstructor);
             newInstructorData.setGoogleId(updatedInstructor.getGoogleId());
+
+            taskQueuer.scheduleInstructorForSearchIndexing(updatedInstructor.getCourseId(), updatedInstructor.getEmail());
+
             return new JsonResult(newInstructorData);
         } catch (InvalidParametersException e) {
-            return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
+            throw new InvalidHttpRequestBodyException(e);
+        } catch (InstructorUpdateException e) {
+            throw new InvalidOperationException(e);
         } catch (EntityDoesNotExistException ednee) {
-            return new JsonResult(ednee.getMessage(), HttpStatus.SC_NOT_FOUND);
+            throw new EntityNotFoundException(ednee);
         }
     }
 
@@ -103,14 +112,15 @@ class UpdateInstructorAction extends Action {
 
         String newDisplayedName = displayedName;
         if (newDisplayedName == null || newDisplayedName.isEmpty()) {
-            newDisplayedName = InstructorAttributes.DEFAULT_DISPLAY_NAME;
+            newDisplayedName = Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR;
         }
 
-        instructorToEdit.name = SanitizationHelper.sanitizeName(instructorName);
-        instructorToEdit.email = SanitizationHelper.sanitizeEmail(instructorEmail);
-        instructorToEdit.role = SanitizationHelper.sanitizeName(instructorRole);
-        instructorToEdit.displayedName = SanitizationHelper.sanitizeName(newDisplayedName);
-        instructorToEdit.isDisplayedToStudents = isDisplayedToStudents;
+        instructorToEdit.setName(SanitizationHelper.sanitizeName(instructorName));
+        instructorToEdit.setEmail(SanitizationHelper.sanitizeEmail(instructorEmail));
+        instructorToEdit.setRole(SanitizationHelper.sanitizeName(instructorRole));
+        instructorToEdit.setPrivileges(new InstructorPrivileges(instructorToEdit.getRole()));
+        instructorToEdit.setDisplayedName(SanitizationHelper.sanitizeName(newDisplayedName));
+        instructorToEdit.setDisplayedToStudents(isDisplayedToStudents);
 
         return instructorToEdit;
     }

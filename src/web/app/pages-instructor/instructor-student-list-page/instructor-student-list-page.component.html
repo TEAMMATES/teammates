@@ -11,7 +11,7 @@
     <div class="course-table" *ngFor="let courseTab of courseTabList">
       <div class="card">
         <div class="card-header cursor-pointer bg-primary text-white" (click)="toggleCard(courseTab)">
-          <strong>[{{courseTab.course.courseId}}]: {{courseTab.course.courseName}}</strong>
+          <strong class="text-break">[{{courseTab.course.courseId}}]: {{courseTab.course.courseName}}</strong>
           <div class="card-header-btn-toolbar">
             <tm-panel-chevron [isExpanded]="courseTab.hasTabExpanded"></tm-panel-chevron>
           </div>

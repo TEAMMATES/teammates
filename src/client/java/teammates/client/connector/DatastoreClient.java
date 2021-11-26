@@ -1,7 +1,5 @@
 package teammates.client.connector;
 
-import java.io.IOException;
-
 import com.google.cloud.datastore.DatastoreOptions;
 import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyFactory;
@@ -10,6 +8,7 @@ import com.googlecode.objectify.util.Closeable;
 
 import teammates.client.util.ClientProperties;
 import teammates.common.util.Config;
+import teammates.logic.core.LogicStarter;
 import teammates.storage.api.OfyHelper;
 
 /**
@@ -17,11 +16,18 @@ import teammates.storage.api.OfyHelper;
  */
 public abstract class DatastoreClient {
 
+    /**
+     * Gets the Objectify instance.
+     */
     protected Objectify ofy() {
         return ObjectifyService.ofy();
     }
 
-    protected void doOperationRemotely() throws IOException {
+    /**
+     * Performs the entire operation routine: setting up connection to the back-end,
+     * performing the operation itself, and tearing down the connection.
+     */
+    protected void doOperationRemotely() {
 
         String appUrl = ClientProperties.TARGET_URL.replaceAll("^https?://", "");
         String appDomain = appUrl.split(":")[0];
@@ -37,6 +43,7 @@ public abstract class DatastoreClient {
         ObjectifyService.init(new ObjectifyFactory(builder.build().getService()));
         OfyHelper.registerEntityClasses();
         Closeable objectifySession = ObjectifyService.begin();
+        LogicStarter.initializeDependencies();
 
         try {
             doOperation();
@@ -48,7 +55,7 @@ public abstract class DatastoreClient {
     }
 
     /**
-     * This operation is meant to be overridden by child classes.
+     * Performs the remote operation to the back-end.
      */
     protected abstract void doOperation();
 }

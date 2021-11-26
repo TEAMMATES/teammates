@@ -2,7 +2,6 @@ package teammates.ui.webapi;
 
 import java.util.List;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -29,7 +28,7 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
 
     @Test
     @Override
-    protected void testExecute() throws Exception {
+    protected void testExecute() {
         InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         loginAsInstructor(instructor.getGoogleId());
 
@@ -44,11 +43,10 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
         loginAsInstructor(instructor.getGoogleId());
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor.courseId,
+                Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
         };
         GetStudentsAction action = getAction(submissionParams);
         JsonResult jsonResult = getJsonResult(action);
-        assertEquals(HttpStatus.SC_OK, jsonResult.getStatusCode());
 
         StudentsData output = (StudentsData) jsonResult.getOutput();
         List<StudentData> students = output.getStudents();
@@ -60,7 +58,6 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
         assertEquals("idOfTypicalCourse1", typicalStudent.getCourseId());
         assertEquals("student1InCourse1@gmail.tmt", typicalStudent.getEmail());
         assertEquals("student1 In Course1</td></div>'\"", typicalStudent.getName());
-        assertEquals("Course1</td></div>'\"", typicalStudent.getLastName());
         assertEquals(JoinState.JOINED, typicalStudent.getJoinState());
         assertEquals("comment for student1InCourse1</td></div>'\"", typicalStudent.getComments());
         assertEquals("Team 1.1</td></div>'\"", typicalStudent.getTeamName());
@@ -70,7 +67,7 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
     @Test
     public void testExecute_withCourseIdAndTeamName_shouldReturnAllStudentsOfTheTeam() {
         StudentAttributes studentAttributes = typicalBundle.students.get("student1InCourse1");
-        loginAsStudent(studentAttributes.googleId);
+        loginAsStudent(studentAttributes.getGoogleId());
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, studentAttributes.getCourse(),
@@ -78,7 +75,6 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
         };
         GetStudentsAction action = getAction(submissionParams);
         JsonResult jsonResult = getJsonResult(action);
-        assertEquals(HttpStatus.SC_OK, jsonResult.getStatusCode());
 
         StudentsData output = (StudentsData) jsonResult.getOutput();
         List<StudentData> students = output.getStudents();
@@ -90,7 +86,6 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
         assertEquals("idOfTypicalCourse1", typicalStudent.getCourseId());
         assertEquals("student1InCourse1@gmail.tmt", typicalStudent.getEmail());
         assertEquals("student1 In Course1</td></div>'\"", typicalStudent.getName());
-        assertEquals("Course1</td></div>'\"", typicalStudent.getLastName());
         assertNull(typicalStudent.getJoinState()); // information is hidden
         assertNull(typicalStudent.getComments()); // information is hidden
         assertEquals("Team 1.1</td></div>'\"", typicalStudent.getTeamName());
@@ -99,7 +94,7 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
 
     @Test
     @Override
-    protected void testAccessControl() throws Exception {
+    protected void testAccessControl() {
         ______TS("unknown courseId for (instructor access)");
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
@@ -112,7 +107,7 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
         ______TS("unknown courseId and/or teamName (student access)");
         StudentAttributes studentAttributes = typicalBundle.students.get("student1InCourse1");
 
-        loginAsStudent(studentAttributes.googleId);
+        loginAsStudent(studentAttributes.getGoogleId());
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, "randomId",
         };
@@ -150,7 +145,7 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
         };
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
     }
@@ -158,7 +153,7 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
     @Test
     public void testAccessControl_withCourseIdAndTeamName_shouldDoAuthenticationOfStudent() {
         StudentAttributes studentAttributes = typicalBundle.students.get("student1InCourse1");
-        loginAsStudent(studentAttributes.googleId);
+        loginAsStudent(studentAttributes.getGoogleId());
 
         ______TS("Acccess students' own team should pass");
         String[] submissionParams = new String[] {

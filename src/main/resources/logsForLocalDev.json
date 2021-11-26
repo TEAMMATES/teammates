@@ -1,0 +1,1917 @@
+[
+  {
+    "insertId": "60d295c40000209229cb51e8",
+    "details": {
+      "message": "Failed to put document(s) [SolrInputDocument(fields: [googleId=john, courseName=course2, role=Co-owner, displayedName=Instructor, name=John, id=john@gmail.com%course2, courseId=CS2222, email=john@gmail.com])] into Solr.",
+      "event": "EXCEPTION_LOG",
+      "exceptionMessages": [
+        "Server refused connection at: http://localhost:8983/solr",
+        "Connect to localhost:8983 [localhost/127.0.0.1] failed: Connection refused (Connection refused)",
+        "Connection refused (Connection refused)"
+      ],
+      "exceptionStackTraces": [
+        [
+          "org.apache.solr.client.solrj.impl.HttpSolrClient.executeMethod(HttpSolrClient.java:688)",
+          "org.apache.solr.client.solrj.impl.HttpSolrClient.request(HttpSolrClient.java:266)",
+          "org.apache.solr.client.solrj.impl.HttpSolrClient.request(HttpSolrClient.java:248)",
+          "org.apache.solr.client.solrj.SolrRequest.process(SolrRequest.java:214)",
+          "org.apache.solr.client.solrj.SolrClient.add(SolrClient.java:106)",
+          "org.apache.solr.client.solrj.SolrClient.add(SolrClient.java:71)",
+          "teammates.storage.search.SearchManager.putDocuments(SearchManager.java:118)",
+          "teammates.storage.search.InstructorSearchManager.putDocuments(InstructorSearchManager.java:19)",
+          "teammates.storage.api.InstructorsDb.putDocument(InstructorsDb.java:44)",
+          "teammates.storage.api.InstructorsDb.createEntity(InstructorsDb.java:95)",
+          "teammates.logic.core.InstructorsLogic.createInstructor(InstructorsLogic.java:81)",
+          "teammates.logic.core.CoursesLogic.createCourseAndInstructor(CoursesLogic.java:101)",
+          "teammates.logic.api.Logic.createCourseAndInstructor(Logic.java:326)",
+          "teammates.ui.webapi.CreateCourseAction.execute(CreateCourseAction.java:53)",
+          "teammates.ui.webapi.CreateCourseAction.execute(CreateCourseAction.java:18)",
+          "teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:70)",
+          "teammates.ui.webapi.WebApiServlet.doPost(WebApiServlet.java:48)",
+          "javax.servlet.http.HttpServlet.service(HttpServlet.java:707)",
+          "javax.servlet.http.HttpServlet.service(HttpServlet.java:790)",
+          "..."
+        ],
+        [
+          "org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:156)",
+          "org.apache.http.impl.conn.PoolingHttpClientConnectionManager.connect(PoolingHttpClientConnectionManager.java:376)",
+          "org.apache.http.impl.execchain.MainClientExec.establishRoute(MainClientExec.java:393)",
+          "org.apache.http.impl.execchain.MainClientExec.execute(MainClientExec.java:236)",
+          "org.apache.http.impl.execchain.ProtocolExec.execute(ProtocolExec.java:186)",
+          "org.apache.http.impl.execchain.RetryExec.execute(RetryExec.java:89)",
+          "org.apache.http.impl.execchain.RedirectExec.execute(RedirectExec.java:110)",
+          "org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:185)",
+          "org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:83)",
+          "org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:56)",
+          "org.apache.solr.client.solrj.impl.HttpSolrClient.executeMethod(HttpSolrClient.java:571)",
+          "... 32 more"
+        ],
+        [
+          "java.base/java.net.PlainSocketImpl.socketConnect(Native Method)",
+          "java.base/java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:399)",
+          "java.base/java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:242)",
+          "java.base/java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:224)",
+          "java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)",
+          "java.base/java.net.Socket.connect(Socket.java:609)",
+          "org.apache.http.conn.socket.PlainConnectionSocketFactory.connectSocket(PlainConnectionSocketFactory.java:75)",
+          "org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:142)",
+          "... 42 more"
+        ]
+      ],
+      "exceptionClass": "SolrServerException",
+      "exceptionClasses": [
+        "org.apache.solr.client.solrj.SolrServerException",
+        "org.apache.http.conn.HttpHostConnectException",
+        "java.net.ConnectException"
+      ],
+      "loggerSourceLocation": {
+        "file": "teammates.storage.search.SearchManager",
+        "line": "121",
+        "function": "putDocuments"
+      }
+    },
+    "resourceIdentifier": {
+      "module_id": "default",
+      "version_id": "8-0-0",
+      "project_id": "teammates-john",
+      "zone": "asia-east2-3"
+    },
+    "severity": "ERROR",
+    "logName": "projects/teammates-john/logs/stderr",
+    "trace": "2c9634f520c5c5555d145dc8ca2fd530",
+    "sourceLocation": {
+      "file": "org.apache.solr.client.solrj.impl.HttpSolrClient",
+      "line": "688",
+      "function": "executeMethod"
+    }
+  },
+  {
+    "insertId": "60d2f041000c0a0af5595190",
+    "details": {
+      "message": "Failed to put document(s) [SolrInputDocument(fields: [googleId=john, courseName=course1, role=Co-owner, displayedName=Instructor, name=John, id=john@gmail.com%CS1111, courseId=CS1111, email=john@gmail.com])] into Solr.",
+      "event": "EXCEPTION_LOG",
+      "exceptionMessages": [
+        "Server refused connection at: http://localhost:8983/solr",
+        "Connect to localhost:8983 [localhost/127.0.0.1] failed: Connection refused (Connection refused)",
+        "Connection refused (Connection refused)"
+      ],
+      "exceptionStackTraces": [
+        [
+          "org.apache.solr.client.solrj.impl.HttpSolrClient.executeMethod(HttpSolrClient.java:688)",
+          "org.apache.solr.client.solrj.impl.HttpSolrClient.request(HttpSolrClient.java:266)",
+          "org.apache.solr.client.solrj.impl.HttpSolrClient.request(HttpSolrClient.java:248)",
+          "org.apache.solr.client.solrj.SolrRequest.process(SolrRequest.java:214)",
+          "org.apache.solr.client.solrj.SolrClient.add(SolrClient.java:106)",
+          "org.apache.solr.client.solrj.SolrClient.add(SolrClient.java:71)",
+          "teammates.storage.search.SearchManager.putDocuments(SearchManager.java:118)",
+          "teammates.storage.search.InstructorSearchManager.putDocuments(InstructorSearchManager.java:19)",
+          "teammates.storage.api.InstructorsDb.putDocument(InstructorsDb.java:44)",
+          "teammates.storage.api.InstructorsDb.createEntity(InstructorsDb.java:95)",
+          "teammates.logic.core.InstructorsLogic.createInstructor(InstructorsLogic.java:81)",
+          "teammates.logic.core.CoursesLogic.createCourseAndInstructor(CoursesLogic.java:101)",
+          "teammates.logic.api.Logic.createCourseAndInstructor(Logic.java:326)",
+          "teammates.ui.webapi.CreateCourseAction.execute(CreateCourseAction.java:53)",
+          "teammates.ui.webapi.CreateCourseAction.execute(CreateCourseAction.java:18)",
+          "teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:70)",
+          "teammates.ui.webapi.WebApiServlet.doPost(WebApiServlet.java:48)",
+          "javax.servlet.http.HttpServlet.service(HttpServlet.java:707)",
+          "javax.servlet.http.HttpServlet.service(HttpServlet.java:790)",
+          "..."
+        ],
+        [
+          "org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:156)",
+          "org.apache.http.impl.conn.PoolingHttpClientConnectionManager.connect(PoolingHttpClientConnectionManager.java:376)",
+          "org.apache.http.impl.execchain.MainClientExec.establishRoute(MainClientExec.java:393)",
+          "org.apache.http.impl.execchain.MainClientExec.execute(MainClientExec.java:236)",
+          "org.apache.http.impl.execchain.ProtocolExec.execute(ProtocolExec.java:186)",
+          "org.apache.http.impl.execchain.RetryExec.execute(RetryExec.java:89)",
+          "org.apache.http.impl.execchain.RedirectExec.execute(RedirectExec.java:110)",
+          "org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:185)",
+          "org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:83)",
+          "org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:56)",
+          "org.apache.solr.client.solrj.impl.HttpSolrClient.executeMethod(HttpSolrClient.java:571)",
+          "... 32 more"
+        ],
+        [
+          "java.base/java.net.PlainSocketImpl.socketConnect(Native Method)",
+          "java.base/java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:399)",
+          "java.base/java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:242)",
+          "java.base/java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:224)",
+          "java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)",
+          "java.base/java.net.Socket.connect(Socket.java:609)",
+          "org.apache.http.conn.socket.PlainConnectionSocketFactory.connectSocket(PlainConnectionSocketFactory.java:75)",
+          "org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:142)",
+          "... 42 more"
+        ]
+      ],
+      "exceptionClass": "SolrServerException",
+      "exceptionClasses": [
+        "org.apache.solr.client.solrj.SolrServerException",
+        "org.apache.http.conn.HttpHostConnectException",
+        "java.net.ConnectException"
+      ],
+      "loggerSourceLocation": {
+        "file": "teammates.storage.search.SearchManager",
+        "line": "121",
+        "function": "putDocuments"
+      }
+    },
+    "resourceIdentifier": {
+      "module_id": "default",
+      "version_id": "8-0-0",
+      "project_id": "teammates-john",
+      "zone": "asia-east2-3"
+    },
+    "severity": "ERROR",
+    "logName": "projects/teammates-john/logs/stderr",
+    "trace": "7646fa1144abdc2c0e49ed44473db83d",
+    "sourceLocation": {
+      "file": "org.apache.solr.client.solrj.impl.HttpSolrClient",
+      "line": "688",
+      "function": "executeMethod"
+    }
+  },
+  {
+    "insertId": "60dace46000b929ccc84c427",
+    "details": {
+      "message": "Failed to search for document(s) course from Solr.",
+      "event": "EXCEPTION_LOG",
+      "exceptionMessages": [
+        "Server refused connection at: http://localhost:8983/solr",
+        "Connect to localhost:8983 [localhost/127.0.0.1] failed: Connection refused (Connection refused)",
+        "Connection refused (Connection refused)"
+      ],
+      "exceptionStackTraces": [
+        [
+          "org.apache.solr.client.solrj.impl.HttpSolrClient.executeMethod(HttpSolrClient.java:688)",
+          "org.apache.solr.client.solrj.impl.HttpSolrClient.request(HttpSolrClient.java:266)",
+          "org.apache.solr.client.solrj.impl.HttpSolrClient.request(HttpSolrClient.java:248)",
+          "org.apache.solr.client.solrj.SolrRequest.process(SolrRequest.java:214)",
+          "org.apache.solr.client.solrj.SolrClient.query(SolrClient.java:1003)",
+          "teammates.storage.search.SearchManager.performQuery(SearchManager.java:80)",
+          "teammates.storage.search.InstructorSearchManager.searchInstructors(InstructorSearchManager.java:60)",
+          "teammates.storage.api.InstructorsDb.searchInstructorsInWholeSystem(InstructorsDb.java:81)",
+          "teammates.logic.core.InstructorsLogic.searchInstructorsInWholeSystem(InstructorsLogic.java:65)",
+          "teammates.logic.api.Logic.searchInstructorsInWholeSystem(Logic.java:134)",
+          "teammates.ui.webapi.SearchInstructorsAction.execute(SearchInstructorsAction.java:36)",
+          "teammates.ui.webapi.SearchInstructorsAction.execute(SearchInstructorsAction.java:19)",
+          "teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:70)",
+          "teammates.ui.webapi.WebApiServlet.doGet(WebApiServlet.java:43)",
+          "javax.servlet.http.HttpServlet.service(HttpServlet.java:687)",
+          "javax.servlet.http.HttpServlet.service(HttpServlet.java:790),",
+          "..."
+        ],
+        [
+          "org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:156)",
+          "org.apache.http.impl.conn.PoolingHttpClientConnectionManager.connect(PoolingHttpClientConnectionManager.java:376)",
+          "org.apache.http.impl.execchain.MainClientExec.establishRoute(MainClientExec.java:393)",
+          "org.apache.http.impl.execchain.MainClientExec.execute(MainClientExec.java:236)",
+          "org.apache.http.impl.execchain.ProtocolExec.execute(ProtocolExec.java:186)",
+          "org.apache.http.impl.execchain.RetryExec.execute(RetryExec.java:89)",
+          "org.apache.http.impl.execchain.RedirectExec.execute(RedirectExec.java:110)",
+          "org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:185)",
+          "org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:83)",
+          "org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:56)",
+          "org.apache.solr.client.solrj.impl.HttpSolrClient.executeMethod(HttpSolrClient.java:571)",
+          "... 29 more"
+        ],
+        [
+          "java.base/java.net.PlainSocketImpl.socketConnect(Native Method)",
+          "java.base/java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:399)",
+          "java.base/java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:242)",
+          "java.base/java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:224)",
+          "java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)",
+          "java.base/java.net.Socket.connect(Socket.java:609)",
+          "org.apache.http.conn.socket.PlainConnectionSocketFactory.connectSocket(PlainConnectionSocketFactory.java:75)",
+          "org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:142)",
+          "... 39 more"
+        ]
+      ],
+      "exceptionClass": "SolrServerException",
+      "exceptionClasses": [
+        "org.apache.solr.client.solrj.SolrServerException",
+        "org.apache.http.conn.HttpHostConnectException",
+        "java.net.ConnectException"
+      ],
+      "loggerSourceLocation": {
+        "file": "teammates.storage.search.SearchManager",
+        "line": "82",
+        "function": "performQuery"
+      }
+    },
+    "resourceIdentifier": {
+      "module_id": "default",
+      "version_id": "8-0-0",
+      "project_id": "teammates-john",
+      "zone": "asia-east2-3"
+    },
+    "severity": "ERROR",
+    "logName": "projects/teammates-john/logs/stderr",
+    "trace": "28b2e71f6637a81ca80b4ff6e298b76f",
+    "sourceLocation": {
+      "file": "org.apache.solr.client.solrj.impl.HttpSolrClient",
+      "line": "688",
+      "function": "executeMethod"
+    }
+  },
+  {
+    "insertId": "60dc12a80000eafd09219e25",
+    "details": {
+      "message": "UnsupportedOperationException caught by WebApiServlet",
+      "event": "EXCEPTION_LOG",
+      "exceptionMessages": [
+        "remove"
+      ],
+      "exceptionStackTraces": [
+        [
+          "java.base/java.util.Iterator.remove(Iterator.java:102)",
+          "java.base/java.util.Collection.removeIf(Collection.java:545)",
+          "teammates.ui.webapi.QueryLogsAction.parseSeverities(QueryLogsAction.java:83)",
+          "teammates.ui.webapi.QueryLogsAction.execute(QueryLogsAction.java:42)",
+          "teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:70)",
+          "teammates.ui.webapi.WebApiServlet.doGet(WebApiServlet.java:43)",
+          "javax.servlet.http.HttpServlet.service(HttpServlet.java:687)",
+          "javax.servlet.http.HttpServlet.service(HttpServlet.java:790),",
+          "..."
+        ]
+      ],
+      "exceptionClass": "UnsupportedOperationException",
+      "exceptionClasses": [
+        "java.lang.UnsupportedOperationException"
+      ],
+      "loggerSourceLocation": {
+        "file": "teammates.ui.webapi.WebApiServlet",
+        "line": "97",
+        "function": "invokeServlet"
+      }
+    },
+    "resourceIdentifier": {
+      "module_id": "default",
+      "version_id": "8-0-0",
+      "project_id": "teammates-john",
+      "zone": "asia-east2-3"
+    },
+    "severity": "ERROR",
+    "logName": "projects/teammates-john/logs/stderr",
+    "trace": "00a2977fe8042522ad5a7623426838d5",
+    "sourceLocation": {
+      "file": "java.base/java.util.Iterator",
+      "line": "102",
+      "function": "remove"
+    }
+  },
+  {
+    "insertId": "60dc2766000d4c6853e01f7d",
+    "details": {
+      "message": "UnsupportedOperationException caught by WebApiServlet",
+      "event": "EXCEPTION_LOG",
+      "exceptionMessages": [
+        "remove"
+      ],
+      "exceptionStackTraces": [
+        [
+          "java.base/java.util.Iterator.remove(Iterator.java:102)",
+          "java.base/java.util.Collection.removeIf(Collection.java:545)",
+          "teammates.ui.webapi.QueryLogsAction.parseSeverities(QueryLogsAction.java:83)",
+          "teammates.ui.webapi.QueryLogsAction.execute(QueryLogsAction.java:42)",
+          "teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:70)",
+          "teammates.ui.webapi.WebApiServlet.doGet(WebApiServlet.java:43)",
+          "javax.servlet.http.HttpServlet.service(HttpServlet.java:687)",
+          "javax.servlet.http.HttpServlet.service(HttpServlet.java:790),",
+          "..."
+        ]
+      ],
+      "exceptionClass": "UnsupportedOperationException",
+      "exceptionClasses": [
+        "java.lang.UnsupportedOperationException"
+      ],
+      "loggerSourceLocation": {
+        "file": "teammates.ui.webapi.WebApiServlet",
+        "line": "97",
+        "function": "invokeServlet"
+      }
+    },
+    "severity": "ERROR",
+    "resourceIdentifier": {
+      "module_id": "default",
+      "version_id": "8-0-0",
+      "project_id": "teammates-john",
+      "zone": "asia-east2-3"
+    },
+    "logName": "projects/teammates-john/logs/stderr",
+    "trace": "13e37c50d69eb5fcf9b0894a972615de",
+    "sourceLocation": {
+      "file": "java.base/java.util.Iterator",
+      "line": "102",
+      "function": "remove"
+    }
+  },
+  {
+    "insertId": "60e80b670005d3219004a3dc",
+    "details": {
+      "message": "NullPointerException caught by WebApiServlet",
+      "event": "EXCEPTION_LOG",
+      "exceptionMessages": [
+        ""
+      ],
+      "exceptionStackTraces": [
+        [
+          "teammates.logic.core.GoogleCloudLoggingService.getLogEntries(GoogleCloudLoggingService.java:304)",
+          "teammates.logic.core.GoogleCloudLoggingService.getRecentErrorLogs(GoogleCloudLoggingService.java:80)",
+          "teammates.logic.api.LogsProcessor.getRecentErrorLogs(LogsProcessor.java:38)",
+          "teammates.ui.webapi.CompileLogsAction.execute(CompileLogsAction.java:15)",
+          "teammates.ui.webapi.CompileLogsAction.execute(CompileLogsAction.java:11)",
+          "teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:70)",
+          "teammates.ui.webapi.WebApiServlet.doGet(WebApiServlet.java:43)",
+          "javax.servlet.http.HttpServlet.service(HttpServlet.java:687)",
+          "javax.servlet.http.HttpServlet.service(HttpServlet.java:790),",
+          "..."
+        ]
+      ],
+      "exceptionClass": "NullPointerException",
+      "exceptionClasses": [
+        "java.lang.NullPointerException"
+      ],
+      "loggerSourceLocation": {
+        "file": "teammates.ui.webapi.WebApiServlet",
+        "line": "97",
+        "function": "invokeServlet"
+      }
+    },
+    "severity": "ERROR",
+    "resourceIdentifier": {
+      "module_id": "default",
+      "version_id": "8-0-0",
+      "project_id": "teammates-john",
+      "zone": "asia-east2-3"
+    },
+    "logName": "projects/teammates-john/logs/stderr",
+    "trace": "427800dc172e7dd1273058587f623d44",
+    "sourceLocation": {
+      "file": "teammates.logic.core.GoogleCloudLoggingService",
+      "line": "304",
+      "function": "getLogEntries"
+    }
+  },
+  {
+    "insertId": "60e80c8c0006c129c19f422f",
+    "details": {
+      "message": "NullPointerException caught by WebApiServlet",
+      "event": "EXCEPTION_LOG",
+      "exceptionMessages": [
+        ""
+      ],
+      "exceptionStackTraces": [
+        [
+          "teammates.logic.core.GoogleCloudLoggingService.getLogEntries(GoogleCloudLoggingService.java:304)",
+          "teammates.logic.core.GoogleCloudLoggingService.getRecentErrorLogs(GoogleCloudLoggingService.java:80)",
+          "teammates.logic.api.LogsProcessor.getRecentErrorLogs(LogsProcessor.java:38)",
+          "teammates.ui.webapi.CompileLogsAction.execute(CompileLogsAction.java:15)",
+          "teammates.ui.webapi.CompileLogsAction.execute(CompileLogsAction.java:11)",
+          "teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:70)",
+          "teammates.ui.webapi.WebApiServlet.doGet(WebApiServlet.java:43)",
+          "javax.servlet.http.HttpServlet.service(HttpServlet.java:687)",
+          "javax.servlet.http.HttpServlet.service(HttpServlet.java:790),",
+          "..."
+        ]
+      ],
+      "exceptionClass": "NullPointerException",
+      "exceptionClasses": [
+        "java.lang.NullPointerException"
+      ],
+      "loggerSourceLocation": {
+        "file": "teammates.ui.webapi.WebApiServlet",
+        "line": "97",
+        "function": "invokeServlet"
+      }
+    },
+    "severity": "ERROR",
+    "resourceIdentifier": {
+      "module_id": "default",
+      "version_id": "8-0-0",
+      "project_id": "teammates-john",
+      "zone": "asia-east2-3"
+    },
+    "logName": "projects/teammates-john/logs/stderr",
+    "trace": "38ba471e420a8ab6824dd27587606455",
+    "sourceLocation": {
+      "file": "teammates.logic.core.GoogleCloudLoggingService",
+      "line": "304",
+      "function": "getLogEntries"
+    }
+  },
+  {
+    "insertId": "60e80db8000729fa21eca28d",
+    "details": {
+      "message": "NullPointerException caught by WebApiServlet",
+      "event": "EXCEPTION_LOG",
+      "exceptionMessages": [
+        ""
+      ],
+      "exceptionStackTraces": [
+        [
+          "teammates.logic.core.GoogleCloudLoggingService.getLogEntries(GoogleCloudLoggingService.java:304)",
+          "teammates.logic.core.GoogleCloudLoggingService.getRecentErrorLogs(GoogleCloudLoggingService.java:80)",
+          "teammates.logic.api.LogsProcessor.getRecentErrorLogs(LogsProcessor.java:38)",
+          "teammates.ui.webapi.CompileLogsAction.execute(CompileLogsAction.java:15)",
+          "teammates.ui.webapi.CompileLogsAction.execute(CompileLogsAction.java:11)",
+          "teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:70)",
+          "teammates.ui.webapi.WebApiServlet.doGet(WebApiServlet.java:43)",
+          "javax.servlet.http.HttpServlet.service(HttpServlet.java:687)",
+          "javax.servlet.http.HttpServlet.service(HttpServlet.java:790),",
+          "..."
+        ]
+      ],
+      "exceptionClass": "NullPointerException",
+      "exceptionClasses": [
+        "java.lang.NullPointerException"
+      ],
+      "loggerSourceLocation": {
+        "file": "teammates.ui.webapi.WebApiServlet",
+        "line": "97",
+        "function": "invokeServlet"
+      }
+    },
+    "severity": "ERROR",
+    "resourceIdentifier": {
+      "module_id": "default",
+      "version_id": "8-0-0",
+      "project_id": "teammates-john",
+      "zone": "asia-east2-3"
+    },
+    "logName": "projects/teammates-john/logs/stderr",
+    "trace": "390cccd2e016a2453fda9334a16380f3",
+    "sourceLocation": {
+      "file": "teammates.logic.core.GoogleCloudLoggingService",
+      "line": "304",
+      "function": "getLogEntries"
+    }
+  },
+  {
+    "insertId": "60f52e6b00025db1f7397061",
+    "details": {
+      "message": "ActionMappingException caught by WebApiServlet",
+      "event": "EXCEPTION_LOG",
+      "exceptionMessages": [
+        "Resource with URI /webapi/actionclass is not found."
+      ],
+      "exceptionStackTraces": [
+        [
+          "teammates.ui.webapi.ActionFactory.getAction(ActionFactory.java:168)",
+          "teammates.ui.webapi.ActionFactory.getAction(ActionFactory.java:163)",
+          "teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:67)",
+          "teammates.ui.webapi.WebApiServlet.doGet(WebApiServlet.java:44)",
+          "javax.servlet.http.HttpServlet.service(HttpServlet.java:687)",
+          "javax.servlet.http.HttpServlet.service(HttpServlet.java:790),",
+          "javax.servlet.http.HttpServlet.service(HttpServlet.java:790),",
+          "..."
+        ]
+      ],
+      "exceptionClass": "ActionMappingException",
+      "exceptionClasses": [
+        "teammates.common.exception.ActionMappingException"
+      ],
+      "loggerSourceLocation": {
+        "file": "teammates.ui.webapi.WebApiServlet",
+        "line": "141",
+        "function": "throwErrorBasedOnRequester"
+      }
+    },
+    "severity": "WARNING",
+    "resourceIdentifier": {
+      "module_id": "default",
+      "version_id": "8-0-0",
+      "project_id": "teammates-john",
+      "zone": "asia-east2-3"
+    },
+    "logName": "projects/teammates-john/logs/stdout",
+    "trace": "c259ca3dcee1b766a04c0cd11788df72",
+    "sourceLocation": {
+      "file": "teammates.ui.webapi.ActionFactory",
+      "line": "168",
+      "function": "getAction"
+    }
+  },
+  {
+    "insertId": "60f52e7d000d0e48c0254a5b",
+    "details": {
+      "message": "ActionMappingException caught by WebApiServlet",
+      "event": "EXCEPTION_LOG",
+      "exceptionMessages": [
+        "Resource with URI /webapi/actionclass is not found."
+      ],
+      "exceptionStackTraces": [
+        [
+          "teammates.ui.webapi.ActionFactory.getAction(ActionFactory.java:168)",
+          "teammates.ui.webapi.ActionFactory.getAction(ActionFactory.java:163)",
+          "teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:67)",
+          "teammates.ui.webapi.WebApiServlet.doGet(WebApiServlet.java:44)",
+          "javax.servlet.http.HttpServlet.service(HttpServlet.java:687)",
+          "javax.servlet.http.HttpServlet.service(HttpServlet.java:790),",
+          "javax.servlet.http.HttpServlet.service(HttpServlet.java:790),",
+          "..."
+        ]
+      ],
+      "exceptionClass": "ActionMappingException",
+      "exceptionClasses": [
+        "teammates.common.exception.ActionMappingException"
+      ],
+      "loggerSourceLocation": {
+        "file": "teammates.ui.webapi.WebApiServlet",
+        "line": "141",
+        "function": "throwErrorBasedOnRequester"
+      }
+    },
+    "severity": "WARNING",
+    "resourceIdentifier": {
+      "module_id": "default",
+      "version_id": "8-0-0",
+      "project_id": "teammates-john",
+      "zone": "asia-east2-3"
+    },
+    "logName": "projects/teammates-john/logs/stdout",
+    "trace": "347963879f8558f877a1b3c5138481e6",
+    "sourceLocation": {
+      "file": "teammates.ui.webapi.ActionFactory",
+      "line": "168",
+      "function": "getAction"
+    }
+  },
+  {
+    "insertId": "12345479000406a02fdc8b15",
+    "details": {
+      "event": "REQUEST_LOG",
+      "requestUrl": "/webapi/logs/query",
+      "requestParams": {
+        "endtime": "1627315140000",
+        "minseverity": "INFO",
+        "starttime": "1627228740000"
+      },
+      "message": "[200] [4798ms] [GET /webapi/logs/query] QueryLogsAction",
+      "responseTime": 4798,
+      "requestHeaders": {
+        "X-Cloud-Trace-Context": "b5e8ad59e0bc03e1691197b9654acd47/5531960319092037144",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+        "X-WEB-VERSION": "8.0.0",
+        "sec-fetch-mode": "cors",
+        "X-AppEngine-Default-Version-Hostname": "teammates-john.df.r.appspot.com",
+        "X-Forwarded-Proto": "https",
+        "Accept-Encoding": "gzip, deflate, br",
+        "X-AppEngine-Https": "on",
+        "sec-fetch-site": "same-origin",
+        "X-AppEngine-Api-Ticket": "ChAyMmYzNmJmOWFlNWQ5MjkxGhMIv5jnoIyA8gIVjEhcCh3w7QL2",
+        "Host": "teammates-john.appspot.com",
+        "X-AppEngine-City": "singapore",
+        "sec-ch-ua-mobile": "?0",
+        "X-AppEngine-User-IP": "1234:1234:1234:1234:1234:1234:1234:1234",
+        "X-AppEngine-CityLatLong": "1.234567,100.123456",
+        "X-Forwarded-For": "1234:1234:1234:1234:1234:1234:1234:1234, 169.254.1.1",
+        "Accept-Language": "en;q=0.8,en-US;q=0.7",
+        "ngsw-bypass": "true",
+        "X-AppEngine-Country": "SG",
+        "Referer": "https://teammates-john.appspot.com/web/admin/logs",
+        "X-Client-Data": "CgSM6ZsV",
+        "X-AppEngine-Timeout-Ms": "599999",
+        "X-AppEngine-Region": "?",
+        "sec-ch-ua": "\" Not;A Brand\";v=\"99\", \"Google Chrome\";v=\"91\", \"Chromium\";v=\"91\"",
+        "Forwarded": "for=\"1234:1234:1234:1234:1234:1234:1234:1234\";proto=https",
+        "Accept": "application/json, text/plain, */*",
+        "sec-fetch-dest": "empty",
+        "traceparent": "00-b5e8ad59e0bc03e1691197b9654acd47-4cc57899c3099618-00",
+        "X-AppEngine-Request-Log-Id": "1234547300ff02097f61dd99bf00016e7e7465616d6d617465732d70696e687375616e0001372d302d30000100"
+      },
+      "userInfo": {
+        "googleId": "john"
+      },
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+      "webVersion": "8.0.0",
+      "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
+      "responseStatus": 200,
+      "requestMethod": "GET",
+      "actionClass": "QueryLogsAction"
+    },
+    "resourceIdentifier": {
+      "project_id": "teammates-john",
+      "module_id": "default",
+      "zone": "asia-east2-3",
+      "version_id": "8-0-0"
+    },
+    "severity": "INFO",
+    "logName": "projects/teammates-john/logs/stdout",
+    "trace": "b5e8ad59e0bc03e1691197b9654acd47",
+    "sourceLocation": {
+      "file": "teammates.ui.servlets.WebApiServlet",
+      "line": "118",
+      "function": "invokeServlet"
+    }
+  },
+  {
+    "insertId": "1234547c0009f767db5f55be",
+    "details": {
+      "responseTime": 144,
+      "responseStatus": 200,
+      "actionClass": "GetAuthInfoAction",
+      "event": "REQUEST_LOG",
+      "requestHeaders": {
+        "sec-fetch-dest": "empty",
+        "Accept-Encoding": "gzip, deflate, br",
+        "X-AppEngine-User-IP": "1234:1234:1234:1234:1234:1234:1234:1234",
+        "X-AppEngine-Request-Log-Id": "1234547c00ff07b0fa9699e5df00016e7e7465616d6d617465732d70696e687375616e0001372d302d30000100",
+        "Accept": "application/json, text/plain, */*",
+        "X-Forwarded-Proto": "https",
+        "sec-fetch-site": "same-origin",
+        "X-Client-Data": "CgSM6ZsV",
+        "traceparent": "00-90c752d425907fa195d43ea4d69dec53-0e2d1327bdcebf2e-00",
+        "sec-ch-ua": "\" Not;A Brand\";v=\"99\", \"Google Chrome\";v=\"91\", \"Chromium\";v=\"91\"",
+        "Referer": "https://teammates-john.appspot.com/web/admin/logs",
+        "X-AppEngine-City": "singapore",
+        "X-Cloud-Trace-Context": "90c752d425907fa195d43ea4d69dec53/1021493751892066094",
+        "X-AppEngine-Default-Version-Hostname": "teammates-john.df.r.appspot.com",
+        "X-AppEngine-Timeout-Ms": "599999",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+        "X-WEB-VERSION": "8.0.0",
+        "X-AppEngine-Api-Ticket": "ChBhZTk3MWUzMzMxNDk3YWVkGhMI+o+jpYyA8gIVFQVYCB0M1Qdt",
+        "X-AppEngine-Https": "on",
+        "Forwarded": "for=\"1234:1234:1234:1234:1234:1234:1234:1234\";proto=https",
+        "ngsw-bypass": "true",
+        "Accept-Language": "en;q=0.8,en-US;q=0.7",
+        "X-AppEngine-Country": "SG",
+        "X-Forwarded-For": "1234:1234:1234:1234:1234:1234:1234:1234, 169.254.1.1",
+        "X-AppEngine-Region": "?",
+        "sec-fetch-mode": "cors",
+        "sec-ch-ua-mobile": "?0",
+        "Host": "teammates-john.appspot.com",
+        "X-AppEngine-CityLatLong": "1.234567,100.123456"
+      },
+      "requestUrl": "/webapi/auth",
+      "requestParams": {},
+      "message": "[200] [144ms] [GET /webapi/auth] GetAuthInfoAction",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+      "webVersion": "8.0.0",
+      "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
+      "userInfo": {
+        "googleId": "john"
+      },
+      "requestMethod": "GET"
+    },
+    "resourceIdentifier": {
+      "project_id": "teammates-john",
+      "module_id": "default",
+      "version_id": "8-0-0",
+      "zone": "asia-east2-3"
+    },
+    "severity": "INFO",
+    "logName": "projects/teammates-john/logs/stdout",
+    "trace": "90c752d425907fa195d43ea4d69dec53",
+    "sourceLocation": {
+      "file": "teammates.ui.servlets.WebApiServlet",
+      "line": "118",
+      "function": "invokeServlet"
+    }
+  },
+  {
+    "insertId": "1234547c000dfcc8afbb2ea4",
+    "details": {
+      "requestMethod": "GET",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+      "webVersion": "8.0.0",
+      "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
+      "requestParams": {},
+      "message": "[200] [115ms] [GET /webapi/actionclass] GetActionClassesAction",
+      "responseStatus": 200,
+      "event": "REQUEST_LOG",
+      "actionClass": "GetActionClassesAction",
+      "userInfo": {
+        "googleId": "john"
+      },
+      "requestHeaders": {
+        "sec-ch-ua": "\" Not;A Brand\";v=\"99\", \"Google Chrome\";v=\"91\", \"Chromium\";v=\"91\"",
+        "sec-fetch-site": "same-origin",
+        "X-AppEngine-Timeout-Ms": "599999",
+        "X-AppEngine-Region": "?",
+        "ngsw-bypass": "true",
+        "Accept": "application/json, text/plain, */*",
+        "Referer": "https://teammates-john.appspot.com/web/admin/logs",
+        "Host": "teammates-john.appspot.com",
+        "Forwarded": "for=\"1234:1234:1234:1234:1234:1234:1234:1234\";proto=https",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+        "X-WEB-VERSION": "8.0.0",
+        "X-AppEngine-Request-Log-Id": "1234547c00ff0c2ab07e663e1500016e7e7465616d6d617465732d70696e687375616e0001372d302d30000100",
+        "X-Cloud-Trace-Context": "436675c565c4ddf520532261f7f2e826/16130292809135566483;o=1",
+        "X-AppEngine-Api-Ticket": "ChBkNmY0YzQ3NWE0Y2ViYzNiGhMIsIO1pYyA8gIVuANYCB188gM8",
+        "X-Client-Data": "CgSM6ZsV",
+        "X-AppEngine-Country": "SG",
+        "sec-fetch-mode": "cors",
+        "X-AppEngine-User-IP": "1234:1234:1234:1234:1234:1234:1234:1234",
+        "sec-ch-ua-mobile": "?0",
+        "X-AppEngine-City": "singapore",
+        "X-AppEngine-Default-Version-Hostname": "teammates-john.df.r.appspot.com",
+        "X-AppEngine-Https": "on",
+        "X-Forwarded-Proto": "https",
+        "traceparent": "00-436675c565c4ddf520532261f7f2e826-dfda4fd913902e93-01",
+        "X-AppEngine-CityLatLong": "1.234567,100.123456",
+        "Accept-Encoding": "gzip, deflate, br",
+        "X-Forwarded-For": "1234:1234:1234:1234:1234:1234:1234:1234, 169.254.1.1",
+        "sec-fetch-dest": "empty",
+        "Accept-Language": "en;q=0.8,en-US;q=0.7"
+      },
+      "requestUrl": "/webapi/actionclass",
+      "responseTime": 115
+    },
+    "resourceIdentifier": {
+      "version_id": "8-0-0",
+      "zone": "asia-east2-3",
+      "project_id": "teammates-john",
+      "module_id": "default"
+    },
+    "severity": "INFO",
+    "logName": "projects/teammates-john/logs/stdout",
+    "trace": "436675c565c4ddf520532261f7f2e826",
+    "sourceLocation": {
+      "file": "teammates.ui.servlets.WebApiServlet",
+      "line": "118",
+      "function": "invokeServlet"
+    }
+  },
+  {
+    "insertId": "123454840002d64b962e3c43",
+    "details": {
+      "message": "[200] [2111ms] [GET /webapi/logs/query] QueryLogsAction",
+      "requestHeaders": {
+        "Accept": "application/json, text/plain, */*",
+        "sec-fetch-mode": "cors",
+        "X-AppEngine-User-IP": "1234:1234:1234:1234:1234:1234:1234:1234",
+        "X-AppEngine-Region": "?",
+        "traceparent": "00-d61fb3f22fc3bd21c5ccd958ff31a5e8-c492dafc7cf32710-00",
+        "X-AppEngine-Request-Log-Id": "1234548200ff00fffd6ddbdd315200016e7e7465616d6d617465732d70696e687375616e0001372d302d30000100",
+        "X-AppEngine-Country": "SG",
+        "Referer": "https://teammates-john.appspot.com/web/admin/logs",
+        "Accept-Language": "en;q=0.8,en-US;q=0.7",
+        "X-Forwarded-Proto": "https",
+        "sec-fetch-site": "same-origin",
+        "X-AppEngine-City": "singapore",
+        "X-AppEngine-Https": "on",
+        "ngsw-bypass": "true",
+        "X-Client-Data": "CgSM6ZsV",
+        "Forwarded": "for=\"1234:1234:1234:1234:1234:1234:1234:1234\";proto=https",
+        "sec-ch-ua-mobile": "?0",
+        "X-AppEngine-CityLatLong": "1.234567,100.123456",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+        "X-WEB-VERSION": "8.0.0",
+        "Accept-Encoding": "gzip, deflate, br",
+        "sec-ch-ua": "\" Not;A Brand\";v=\"99\", \"Google Chrome\";v=\"91\", \"Chromium\";v=\"91\"",
+        "X-AppEngine-Api-Ticket": "ChBmZTgzMjAwZDU1YzcwMzRmGhMI7cP2p4yA8gIVFQVYCB0M1Qdt",
+        "X-Forwarded-For": "1234:1234:1234:1234:1234:1234:1234:1234, 169.254.1.1",
+        "Host": "teammates-john.appspot.com",
+        "sec-fetch-dest": "empty",
+        "X-AppEngine-Default-Version-Hostname": "teammates-john.df.r.appspot.com",
+        "X-Cloud-Trace-Context": "d61fb3f22fc3bd21c5ccd958ff31a5e8/14164624555996555024",
+        "X-AppEngine-Timeout-Ms": "599999"
+      },
+      "event": "REQUEST_LOG",
+      "responseStatus": 200,
+      "userInfo": {
+        "googleId": "john"
+      },
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+      "webVersion": "8.0.0",
+      "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
+      "responseTime": 2111,
+      "requestUrl": "/webapi/logs/query",
+      "requestMethod": "GET",
+      "requestParams": {
+        "endtime": "1627280460000",
+        "starttime": "1627276860000",
+        "logevent": "REQUEST_LOG"
+      },
+      "actionClass": "QueryLogsAction"
+    },
+    "resourceIdentifier": {
+      "module_id": "default",
+      "project_id": "teammates-john",
+      "zone": "asia-east2-3",
+      "version_id": "8-0-0"
+    },
+    "severity": "INFO",
+    "logName": "projects/teammates-john/logs/stdout",
+    "trace": "d61fb3f22fc3bd21c5ccd958ff31a5e8",
+    "sourceLocation": {
+      "file": "teammates.ui.servlets.WebApiServlet",
+      "line": "118",
+      "function": "invokeServlet"
+    }
+  },
+  {
+    "insertId": "1234549100025ad320b623cc",
+    "details": {
+      "event": "REQUEST_LOG",
+      "requestUrl": "/webapi/logs/query",
+      "responseStatus": 200,
+      "requestHeaders": {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+        "X-WEB-VERSION": "8.0.0",
+        "X-Cloud-Trace-Context": "f8873a234ed8ea3d59c7a2a9d42be2d8/1447767642330079431;o=1",
+        "X-AppEngine-Region": "?",
+        "sec-fetch-dest": "empty",
+        "Referer": "https://teammates-john.appspot.com/web/admin/logs",
+        "X-AppEngine-CityLatLong": "1.234567,100.123456",
+        "Accept-Language": "en;q=0.8,en-US;q=0.7",
+        "X-Client-Data": "CgSM6ZsV",
+        "X-AppEngine-Request-Log-Id": "1234548e00ff0987a6a0e56d8b00016e7e7465616d6d617465732d70696e687375616e0001372d302d30000100",
+        "X-AppEngine-Country": "SG",
+        "X-AppEngine-User-IP": "1234:1234:1234:1234:1234:1234:1234:1234",
+        "sec-fetch-mode": "cors",
+        "Accept-Encoding": "gzip, deflate, br",
+        "X-Forwarded-Proto": "https",
+        "X-Forwarded-For": "1234:1234:1234:1234:1234:1234:1234:1234, 169.254.1.1",
+        "sec-ch-ua-mobile": "?0",
+        "Forwarded": "for=\"1234:1234:1234:1234:1234:1234:1234:1234\";proto=https",
+        "traceparent": "00-f8873a234ed8ea3d59c7a2a9d42be2d8-141781000663a0c7-01",
+        "X-AppEngine-Api-Ticket": "ChA2MzI5Mzc5NDE0MGEyNTU0GhMIpo71rYyA8gIVFQVYCB0M1Qdt",
+        "X-AppEngine-City": "singapore",
+        "Accept": "application/json, text/plain, */*",
+        "ngsw-bypass": "true",
+        "X-AppEngine-Timeout-Ms": "599999",
+        "X-AppEngine-Default-Version-Hostname": "teammates-john.df.r.appspot.com",
+        "sec-ch-ua": "\" Not;A Brand\";v=\"99\", \"Google Chrome\";v=\"91\", \"Chromium\";v=\"91\"",
+        "X-AppEngine-Https": "on",
+        "Host": "teammates-john.appspot.com",
+        "sec-fetch-site": "same-origin"
+      },
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+      "webVersion": "8.0.0",
+      "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
+      "message": "[200] [2525ms] [GET /webapi/logs/query] QueryLogsAction",
+      "requestMethod": "GET",
+      "userInfo": {
+        "googleId": "john"
+      },
+      "requestParams": {
+        "endtime": "1627280460000",
+        "starttime": "1627276860000",
+        "minseverity": "INFO"
+      },
+      "responseTime": 2525,
+      "actionClass": "QueryLogsAction"
+    },
+    "resourceIdentifier": {
+      "project_id": "teammates-john",
+      "module_id": "default",
+      "zone": "asia-east2-3",
+      "version_id": "8-0-0"
+    },
+    "severity": "INFO",
+    "logName": "projects/teammates-john/logs/stdout",
+    "trace": "f8873a234ed8ea3d59c7a2a9d42be2d8",
+    "sourceLocation": {
+      "file": "teammates.ui.servlets.WebApiServlet",
+      "line": "118",
+      "function": "invokeServlet"
+    }
+  },
+  {
+    "insertId": "123454b00007bf14712b4db4",
+    "details": {
+      "requestParams": {},
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+      "webVersion": "8.0.0",
+      "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
+      "requestHeaders": {
+        "Accept-Encoding": "gzip, deflate, br",
+        "X-AppEngine-Timeout-Ms": "599999",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+        "X-WEB-VERSION": "8.0.0",
+        "X-AppEngine-Api-Ticket": "ChA3NWIwNDI2MDMxZGI0OTE3GhMI+MP8vYyA8gIVagJYCB35awGd",
+        "X-AppEngine-Https": "on",
+        "X-AppEngine-City": "singapore",
+        "X-AppEngine-Request-Log-Id": "123454b000ff0495f8dd5c3dc200016e7e7465616d6d617465732d70696e687375616e0001372d302d30000100",
+        "traceparent": "00-20cb4d3d0817af5ef2bc16c807928e10-69f1a888262ab10b-00",
+        "sec-fetch-site": "same-origin",
+        "Forwarded": "for=\"1234:1234:1234:1234:1234:1234:1234:1234\";proto=https",
+        "X-AppEngine-Region": "?",
+        "sec-ch-ua": "\" Not;A Brand\";v=\"99\", \"Google Chrome\";v=\"91\", \"Chromium\";v=\"91\"",
+        "ngsw-bypass": "true",
+        "sec-ch-ua-mobile": "?0",
+        "X-AppEngine-Country": "SG",
+        "Accept": "application/json, text/plain, */*",
+        "X-Forwarded-Proto": "https",
+        "X-AppEngine-User-IP": "1234:1234:1234:1234:1234:1234:1234:1234",
+        "Accept-Language": "en;q=0.8,en-US;q=0.7",
+        "sec-fetch-mode": "cors",
+        "X-AppEngine-Default-Version-Hostname": "teammates-john.df.r.appspot.com",
+        "Referer": "https://teammates-john.appspot.com/web/instructor/home",
+        "X-AppEngine-CityLatLong": "1.234567,100.123456",
+        "sec-fetch-dest": "empty",
+        "Host": "teammates-john.appspot.com",
+        "X-Forwarded-For": "1234:1234:1234:1234:1234:1234:1234:1234, 169.254.1.1",
+        "X-Client-Data": "CgSM6ZsV",
+        "X-Cloud-Trace-Context": "20cb4d3d0817af5ef2bc16c807928e10/7634068146079052043"
+      },
+      "message": "[200] [202ms] [GET /webapi/auth] GetAuthInfoAction",
+      "requestUrl": "/webapi/auth",
+      "userInfo": {
+        "googleId": "john"
+      },
+      "responseTime": 202,
+      "responseStatus": 200,
+      "actionClass": "GetAuthInfoAction",
+      "requestMethod": "GET",
+      "event": "REQUEST_LOG"
+    },
+    "resourceIdentifier": {
+      "project_id": "teammates-john",
+      "zone": "asia-east2-3",
+      "version_id": "8-0-0",
+      "module_id": "default"
+    },
+    "severity": "INFO",
+    "logName": "projects/teammates-john/logs/stdout",
+    "trace": "20cb4d3d0817af5ef2bc16c807928e10",
+    "sourceLocation": {
+      "file": "teammates.ui.servlets.WebApiServlet",
+      "line": "118",
+      "function": "invokeServlet"
+    }
+  },
+  {
+    "insertId": "123454b1000584a1efd02b5a",
+    "details": {
+      "requestHeaders": {
+        "X-AppEngine-Api-Ticket": "ChBiNDM5NTVkYzcyNmEzZjJiGhMIpsuOvoyA8gIV8ktcCh3iXg4H",
+        "sec-fetch-dest": "empty",
+        "X-AppEngine-Request-Log-Id": "123454b000ff0919a64b2bea7700016e7e7465616d6d617465732d70696e687375616e0001372d302d30000100",
+        "Accept-Language": "en;q=0.8,en-US;q=0.7",
+        "Host": "teammates-john.appspot.com",
+        "Accept": "application/json, text/plain, */*",
+        "Forwarded": "for=\"1234:1234:1234:1234:1234:1234:1234:1234\";proto=https",
+        "traceparent": "00-d97957d26a9abf2b5c4a061946b6cba4-0496ede31e3cdabe-00",
+        "X-AppEngine-Https": "on",
+        "X-Client-Data": "CgSM6ZsV",
+        "X-AppEngine-CityLatLong": "1.234567,100.123456",
+        "sec-fetch-mode": "cors",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+        "X-WEB-VERSION": "8.0.0",
+        "X-Forwarded-Proto": "https",
+        "X-AppEngine-Region": "?",
+        "X-AppEngine-Timeout-Ms": "599999",
+        "ngsw-bypass": "true",
+        "Referer": "https://teammates-john.appspot.com/web/instructor/home",
+        "sec-ch-ua-mobile": "?0",
+        "Accept-Encoding": "gzip, deflate, br",
+        "sec-ch-ua": "\" Not;A Brand\";v=\"99\", \"Google Chrome\";v=\"91\", \"Chromium\";v=\"91\"",
+        "X-AppEngine-City": "singapore",
+        "X-Forwarded-For": "1234:1234:1234:1234:1234:1234:1234:1234, 169.254.1.1",
+        "X-AppEngine-User-IP": "1234:1234:1234:1234:1234:1234:1234:1234",
+        "X-AppEngine-Default-Version-Hostname": "teammates-john.df.r.appspot.com",
+        "sec-fetch-site": "same-origin",
+        "X-AppEngine-Country": "SG",
+        "X-Cloud-Trace-Context": "d97957d26a9abf2b5c4a061946b6cba4/330713182378973886"
+      },
+      "responseTime": 761,
+      "requestUrl": "/webapi/courses",
+      "message": "[200] [761ms] [GET /webapi/courses] GetCoursesAction",
+      "userInfo": {
+        "googleId": "john"
+      },
+      "requestParams": {
+        "entitytype": "instructor",
+        "coursestatus": "active"
+      },
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+      "webVersion": "8.0.0",
+      "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
+      "event": "REQUEST_LOG",
+      "responseStatus": 200,
+      "actionClass": "GetCoursesAction",
+      "requestMethod": "GET"
+    },
+    "resourceIdentifier": {
+      "version_id": "8-0-0",
+      "zone": "asia-east2-3",
+      "project_id": "teammates-john",
+      "module_id": "default"
+    },
+    "severity": "INFO",
+    "logName": "projects/teammates-john/logs/stdout",
+    "trace": "d97957d26a9abf2b5c4a061946b6cba4",
+    "sourceLocation": {
+      "file": "teammates.ui.servlets.WebApiServlet",
+      "line": "118",
+      "function": "invokeServlet"
+    }
+  },
+  {
+    "insertId": "123454b2000111cf31a70655",
+    "details": {
+      "requestParams": {
+        "courseid": "qq",
+        "entitytype": "instructor"
+      },
+      "userInfo": {
+        "googleId": "john"
+      },
+      "requestMethod": "GET",
+      "event": "REQUEST_LOG",
+      "responseTime": 612,
+      "requestHeaders": {
+        "sec-fetch-mode": "cors",
+        "X-AppEngine-User-IP": "1234:1234:1234:1234:1234:1234:1234:1234",
+        "X-AppEngine-Request-Log-Id": "123454b100ff067ceb6308102c00016e7e7465616d6d617465732d70696e687375616e0001372d302d30000100",
+        "Accept": "application/json, text/plain, */*",
+        "Accept-Language": "en;q=0.8,en-US;q=0.7",
+        "sec-ch-ua-mobile": "?0",
+        "Referer": "https://teammates-john.appspot.com/web/instructor/home",
+        "Forwarded": "for=\"1234:1234:1234:1234:1234:1234:1234:1234\";proto=https",
+        "X-AppEngine-Https": "on",
+        "traceparent": "00-2628bc85cae489ec0ed5927749eb57bf-a6298f30f46af3a0-00",
+        "X-AppEngine-Api-Ticket": "ChAxNzBkOTU3NDlkMzUzZmU3GhMIq5bBvoyA8gIVjEhcCh3w7QL2",
+        "ngsw-bypass": "true",
+        "sec-fetch-site": "same-origin",
+        "Accept-Encoding": "gzip, deflate, br",
+        "sec-fetch-dest": "empty",
+        "X-AppEngine-CityLatLong": "1.234567,100.123456",
+        "X-AppEngine-City": "singapore",
+        "Host": "teammates-john.appspot.com",
+        "X-AppEngine-Region": "?",
+        "X-AppEngine-Timeout-Ms": "599999",
+        "X-Client-Data": "CgSM6ZsV",
+        "X-Forwarded-Proto": "https",
+        "X-Forwarded-For": "1234:1234:1234:1234:1234:1234:1234:1234, 169.254.1.1",
+        "X-AppEngine-Country": "SG",
+        "sec-ch-ua": "\" Not;A Brand\";v=\"99\", \"Google Chrome\";v=\"91\", \"Chromium\";v=\"91\"",
+        "X-Cloud-Trace-Context": "2628bc85cae489ec0ed5927749eb57bf/11973258524763026336",
+        "X-AppEngine-Default-Version-Hostname": "teammates-john.df.r.appspot.com",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+        "X-WEB-VERSION": "8.0.0"
+      },
+      "responseStatus": 200,
+      "actionClass": "GetFeedbackSessionsAction",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+      "webVersion": "8.0.0",
+      "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
+      "requestUrl": "/webapi/sessions",
+      "message": "[200] [612ms] [GET /webapi/sessions] GetFeedbackSessionsAction"
+    },
+    "resourceIdentifier": {
+      "module_id": "default",
+      "project_id": "teammates-john",
+      "version_id": "8-0-0",
+      "zone": "asia-east2-3"
+    },
+    "severity": "INFO",
+    "logName": "projects/teammates-john/logs/stdout",
+    "trace": "2628bc85cae489ec0ed5927749eb57bf",
+    "sourceLocation": {
+      "file": "teammates.ui.servlets.WebApiServlet",
+      "line": "118",
+      "function": "invokeServlet"
+    }
+  },
+  {
+    "insertId": "123454b2000115050e3ce761",
+    "details": {
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+      "webVersion": "8.0.0",
+      "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
+      "userInfo": {
+        "googleId": "john"
+      },
+      "requestMethod": "GET",
+      "requestHeaders": {
+        "X-AppEngine-Timeout-Ms": "599999",
+        "X-Cloud-Trace-Context": "18158d1852e4c1ff0868973e3d198797/10514666439791967057",
+        "Forwarded": "for=\"1234:1234:1234:1234:1234:1234:1234:1234\";proto=https",
+        "X-AppEngine-Country": "SG",
+        "Accept-Language": "en;q=0.8,en-US;q=0.7",
+        "Accept-Encoding": "gzip, deflate, br",
+        "X-AppEngine-Api-Ticket": "ChBkYWE5ZWJlMzE5ZWNhNjlhGhMIsp3BvoyA8gIVFQVYCB0M1Qdt",
+        "X-AppEngine-Https": "on",
+        "Host": "teammates-john.appspot.com",
+        "X-AppEngine-Request-Log-Id": "123454b100ff068072ccabec2800016e7e7465616d6d617465732d70696e687375616e0001372d302d30000100",
+        "sec-fetch-dest": "empty",
+        "X-AppEngine-User-IP": "1234:1234:1234:1234:1234:1234:1234:1234",
+        "X-Forwarded-Proto": "https",
+        "X-AppEngine-Default-Version-Hostname": "teammates-john.df.r.appspot.com",
+        "sec-fetch-site": "same-origin",
+        "sec-ch-ua-mobile": "?0",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+        "X-WEB-VERSION": "8.0.0",
+        "X-AppEngine-Region": "?",
+        "X-Client-Data": "CgSM6ZsV",
+        "X-Forwarded-For": "1234:1234:1234:1234:1234:1234:1234:1234, 169.254.1.1",
+        "X-AppEngine-City": "singapore",
+        "Referer": "https://teammates-john.appspot.com/web/instructor/home",
+        "sec-fetch-mode": "cors",
+        "X-AppEngine-CityLatLong": "1.234567,100.123456",
+        "sec-ch-ua": "\" Not;A Brand\";v=\"99\", \"Google Chrome\";v=\"91\", \"Chromium\";v=\"91\"",
+        "ngsw-bypass": "true",
+        "Accept": "application/json, text/plain, */*",
+        "traceparent": "00-18158d1852e4c1ff0868973e3d198797-91eb996afb857b51-00"
+      },
+      "event": "REQUEST_LOG",
+      "responseTime": 610,
+      "responseStatus": 200,
+      "message": "[200] [610ms] [GET /webapi/sessions] GetFeedbackSessionsAction",
+      "requestUrl": "/webapi/sessions",
+      "actionClass": "GetFeedbackSessionsAction",
+      "requestParams": {
+        "courseid": "abc",
+        "entitytype": "instructor"
+      }
+    },
+    "resourceIdentifier": {
+      "module_id": "default",
+      "project_id": "teammates-john",
+      "version_id": "8-0-0",
+      "zone": "asia-east2-3"
+    },
+    "severity": "INFO",
+    "logName": "projects/teammates-john/logs/stdout",
+    "trace": "18158d1852e4c1ff0868973e3d198797",
+    "sourceLocation": {
+      "file": "teammates.ui.servlets.WebApiServlet",
+      "line": "118",
+      "function": "invokeServlet"
+    }
+  },
+  {
+    "insertId": "123454b70002867f17c2c976",
+    "details": {
+      "requestMethod": "GET",
+      "requestParams": {
+        "courseid": "test",
+        "entitytype": "instructor"
+      },
+      "requestHeaders": {
+        "X-AppEngine-Request-Log-Id": "123454b100ff068618fb60f78100016e7e7465616d6d617465732d70696e687375616e0001372d302d30000100",
+        "Accept-Encoding": "gzip, deflate, br",
+        "sec-fetch-dest": "empty",
+        "ngsw-bypass": "true",
+        "Referer": "https://teammates-john.appspot.com/web/instructor/home",
+        "sec-fetch-site": "same-origin",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+        "X-WEB-VERSION": "8.0.0",
+        "X-AppEngine-Timeout-Ms": "599999",
+        "X-AppEngine-User-IP": "1234:1234:1234:1234:1234:1234:1234:1234",
+        "X-Client-Data": "CgSM6ZsV",
+        "Host": "teammates-john.appspot.com",
+        "Accept-Language": "en;q=0.8,en-US;q=0.7",
+        "X-Cloud-Trace-Context": "e8f58b52d31568bb8226f1c24122126f/3895754277480726425",
+        "X-AppEngine-Region": "?",
+        "sec-ch-ua-mobile": "?0",
+        "Accept": "application/json, text/plain, */*",
+        "X-Forwarded-Proto": "https",
+        "X-Forwarded-For": "1234:1234:1234:1234:1234:1234:1234:1234, 169.254.1.1",
+        "sec-fetch-mode": "cors",
+        "X-AppEngine-Https": "on",
+        "X-AppEngine-Default-Version-Hostname": "teammates-john.df.r.appspot.com",
+        "X-AppEngine-City": "singapore",
+        "X-AppEngine-Country": "SG",
+        "X-AppEngine-CityLatLong": "1.234567,100.123456",
+        "traceparent": "00-e8f58b52d31568bb8226f1c24122126f-36107fdff1727f99-00",
+        "sec-ch-ua": "\" Not;A Brand\";v=\"99\", \"Google Chrome\";v=\"91\", \"Chromium\";v=\"91\"",
+        "X-AppEngine-Api-Ticket": "ChBhZTk0ODQ4ZWZiZGIyNmI2GhMI2KjBvoyA8gIV8ktcCh3iXg4H",
+        "Forwarded": "for=\"1234:1234:1234:1234:1234:1234:1234:1234\";proto=https"
+      },
+      "requestUrl": "/webapi/sessions",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+      "webVersion": "8.0.0",
+      "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
+      "responseTime": 5620,
+      "message": "[200] [5620ms] [GET /webapi/sessions] GetFeedbackSessionsAction",
+      "event": "REQUEST_LOG",
+      "responseStatus": 200,
+      "actionClass": "GetFeedbackSessionsAction",
+      "userInfo": {
+        "googleId": "john"
+      }
+    },
+    "resourceIdentifier": {
+      "module_id": "default",
+      "project_id": "teammates-john",
+      "zone": "asia-east2-3",
+      "version_id": "8-0-0"
+    },
+    "severity": "INFO",
+    "logName": "projects/teammates-john/logs/stdout",
+    "trace": "e8f58b52d31568bb8226f1c24122126f",
+    "sourceLocation": {
+      "file": "teammates.ui.servlets.WebApiServlet",
+      "line": "118",
+      "function": "invokeServlet"
+    }
+  },
+  {
+    "insertId": "123454bb0007143a298e825f",
+    "details": {
+      "requestUrl": "/webapi/auth",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+      "webVersion": "8.0.0",
+      "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
+      "actionClass": "GetAuthInfoAction",
+      "responseStatus": 200,
+      "requestMethod": "GET",
+      "message": "[200] [296ms] [GET /webapi/auth] GetAuthInfoAction",
+      "responseTime": 296,
+      "requestHeaders": {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+        "X-WEB-VERSION": "8.0.0",
+        "sec-fetch-site": "same-origin",
+        "X-Forwarded-For": "1234:1234:1234:1234:1234:1234:1234:1234, 169.254.1.1",
+        "X-AppEngine-Country": "SG",
+        "Host": "teammates-john.appspot.com",
+        "X-AppEngine-CityLatLong": "1.234567,100.123456",
+        "X-AppEngine-Default-Version-Hostname": "teammates-john.df.r.appspot.com",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "ngsw-bypass": "true",
+        "X-Client-Data": "CgSM6ZsV",
+        "X-AppEngine-Api-Ticket": "ChA3YzRlMjk3NTI1NmU5NzM4GhMIkMiNw4yA8gIVFQVYCB0M1Qdt",
+        "X-Cloud-Trace-Context": "3fe1d640a8d66f8e19b1e4344be21acf/7015366302952271490",
+        "X-AppEngine-User-IP": "1234:1234:1234:1234:1234:1234:1234:1234",
+        "Accept": "application/json, text/plain, */*",
+        "X-AppEngine-Https": "on",
+        "Accept-Encoding": "gzip, deflate, br",
+        "X-Forwarded-Proto": "https",
+        "Forwarded": "for=\"1234:1234:1234:1234:1234:1234:1234:1234\";proto=https",
+        "X-AppEngine-Region": "?",
+        "X-AppEngine-Timeout-Ms": "599999",
+        "Accept-Language": "en;q=0.8,en-US;q=0.7",
+        "Referer": "https://teammates-john.appspot.com/web/instructor/courses?isAddNewCourse=true",
+        "sec-ch-ua": "\" Not;A Brand\";v=\"99\", \"Google Chrome\";v=\"91\", \"Chromium\";v=\"91\"",
+        "X-AppEngine-City": "singapore",
+        "traceparent": "00-3fe1d640a8d66f8e19b1e4344be21acf-615b967bc8b72e82-00",
+        "sec-ch-ua-mobile": "?0",
+        "X-AppEngine-Request-Log-Id": "123454bb00ff00ffff005047f7b28c00016e7e7465616d6d617465732d70696e687375616e0001372d302d30000100"
+      },
+      "requestParams": {},
+      "event": "REQUEST_LOG",
+      "userInfo": {
+        "googleId": "john"
+      }
+    },
+    "resourceIdentifier": {
+      "version_id": "8-0-0",
+      "module_id": "default",
+      "zone": "asia-east2-3",
+      "project_id": "teammates-john"
+    },
+    "severity": "INFO",
+    "logName": "projects/teammates-john/logs/stdout",
+    "trace": "3fe1d640a8d66f8e19b1e4344be21acf",
+    "sourceLocation": {
+      "file": "teammates.ui.servlets.WebApiServlet",
+      "line": "118",
+      "function": "invokeServlet"
+    }
+  },
+  {
+    "insertId": "123454bb00087c48305371f8",
+    "details": {
+      "event": "REQUEST_LOG",
+      "requestMethod": "GET",
+      "responseStatus": 200,
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+      "webVersion": "8.0.0",
+      "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
+      "actionClass": "GetCoursesAction",
+      "responseTime": 384,
+      "message": "[200] [384ms] [GET /webapi/courses] GetCoursesAction",
+      "requestUrl": "/webapi/courses",
+      "userInfo": {
+        "googleId": "john"
+      },
+      "requestHeaders": {
+        "Accept-Encoding": "gzip, deflate, br",
+        "sec-fetch-mode": "cors",
+        "X-AppEngine-Country": "SG",
+        "X-AppEngine-City": "singapore",
+        "X-AppEngine-CityLatLong": "1.234567,100.123456",
+        "X-Client-Data": "CgSM6ZsV",
+        "X-Cloud-Trace-Context": "ff0aa2b3ddcbefec3c5ae93519525b99/8108257776560999359",
+        "X-AppEngine-Api-Ticket": "ChA0M2Y1YjJiY2JiYzljZWFiGhMI1J+Ow4yA8gIVjEhcCh3w7QL2",
+        "X-AppEngine-Timeout-Ms": "599999",
+        "X-AppEngine-Region": "?",
+        "Host": "teammates-john.appspot.com",
+        "X-Forwarded-Proto": "https",
+        "Accept-Language": "en;q=0.8,en-US;q=0.7",
+        "Forwarded": "for=\"1234:1234:1234:1234:1234:1234:1234:1234\";proto=https",
+        "sec-fetch-site": "same-origin",
+        "X-AppEngine-User-IP": "1234:1234:1234:1234:1234:1234:1234:1234",
+        "X-Forwarded-For": "1234:1234:1234:1234:1234:1234:1234:1234, 169.254.1.1",
+        "sec-ch-ua": "\" Not;A Brand\";v=\"99\", \"Google Chrome\";v=\"91\", \"Chromium\";v=\"91\"",
+        "traceparent": "00-ff0aa2b3ddcbefec3c5ae93519525b99-7086517d07378bbf-00",
+        "ngsw-bypass": "true",
+        "Accept": "application/json, text/plain, */*",
+        "X-AppEngine-Default-Version-Hostname": "teammates-john.df.r.appspot.com",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+        "X-WEB-VERSION": "8.0.0",
+        "Referer": "https://teammates-john.appspot.com/web/instructor/courses?isAddNewCourse=true",
+        "sec-ch-ua-mobile": "?0",
+        "X-AppEngine-Https": "on",
+        "X-AppEngine-Request-Log-Id": "123454bb00ff012b14d7928a3900016e7e7465616d6d617465732d70696e687375616e0001372d302d30000100",
+        "sec-fetch-dest": "empty"
+      },
+      "requestParams": {
+        "entitytype": "instructor",
+        "coursestatus": "archived"
+      }
+    },
+    "resourceIdentifier": {
+      "module_id": "default",
+      "zone": "asia-east2-3",
+      "version_id": "8-0-0",
+      "project_id": "teammates-john"
+    },
+    "severity": "INFO",
+    "logName": "projects/teammates-john/logs/stdout",
+    "trace": "ff0aa2b3ddcbefec3c5ae93519525b99",
+    "sourceLocation": {
+      "file": "teammates.ui.servlets.WebApiServlet",
+      "line": "118",
+      "function": "invokeServlet"
+    }
+  },
+  {
+    "insertId": "123454bb000ecabe2e557b7b",
+    "details": {
+      "accessType": "access",
+      "courseId": "john.gma-demo",
+      "feedbackSessionName": "test",
+      "message": "Feedback session audit event: access",
+      "event": "FEEDBACK_SESSION_AUDIT",
+      "studentEmail": "john@gmail.com"
+    },
+    "resourceIdentifier": {
+      "zone": "asia-east2-3",
+      "module_id": "default",
+      "version_id": "8-0-0",
+      "project_id": "teammates-john"
+    },
+    "severity": "INFO",
+    "logName": "projects/teammates-john/logs/stdout",
+    "trace": "33f98e49efd563384777ab3e8bfe17bb",
+    "sourceLocation": {
+      "file": "teammates.ui.webapi.CreateFeedbackSessionLogAction",
+      "line": "59",
+      "function": "execute"
+    }
+  },
+  {
+    "insertId": "123454bc00071309557eafaf",
+    "details": {
+      "requestParams": {
+        "courseid": "john.gma-demo",
+        "fsltype": "access",
+        "studentemail": "john@gmail.com",
+        "fsname": "test"
+      },
+      "userInfo": {
+        "googleId": "john"
+      },
+      "message": "[200] [9435ms] [POST /webapi/logs/session] CreateFeedbackSessionLogAction",
+      "requestUrl": "/webapi/logs/session",
+      "responseStatus": 200,
+      "actionClass": "CreateFeedbackSessionLogAction",
+      "responseTime": 9435,
+      "event": "REQUEST_LOG",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+      "webVersion": "8.0.0",
+      "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
+      "requestHeaders": {
+        "X-AppEngine-Api-Ticket": "ChA2YWVlOGRhNDNhZjQ1MDJiGhMIqOOr0IyA8gIVagJYCB35awGd",
+        "Accept-Encoding": "gzip, deflate, br",
+        "X-AppEngine-Default-Version-Hostname": "teammates-john.df.r.appspot.com",
+        "X-AppEngine-Country": "SG",
+        "Origin": "https://teammates-john.appspot.com",
+        "sec-fetch-site": "same-origin",
+        "Accept": "application/json, text/plain, */*",
+        "X-Cloud-Trace-Context": "33f98e49efd563384777ab3e8bfe17bb/2029131084812197857;o=1",
+        "Content-Length": "0",
+        "X-AppEngine-Timeout-Ms": "599999",
+        "sec-ch-ua": "\" Not;A Brand\";v=\"99\", \"Google Chrome\";v=\"91\", \"Chromium\";v=\"91\"",
+        "X-AppEngine-City": "singapore",
+        "sec-ch-ua-mobile": "?0",
+        "x-csrf-token": "7E11E4C7A276F03795B6BB4934F6E3419679036E9A2199FD18D2855D95354993",
+        "Host": "teammates-john.appspot.com",
+        "X-AppEngine-Https": "on",
+        "Accept-Language": "en;q=0.8,en-US;q=0.7",
+        "X-AppEngine-Region": "?",
+        "Referer": "https://teammates-john.appspot.com/web/student/sessions/submission?courseid=john.gma-demo&fsname=test",
+        "X-AppEngine-Request-Log-Id": "123454d600ff0c9028dc6f199400016e7e7465616d6d617465732d70696e687375616e0001372d302d30000100",
+        "X-AppEngine-CityLatLong": "1.234567,100.123456",
+        "sec-fetch-mode": "cors",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+        "X-WEB-VERSION": "8.0.0",
+        "X-Client-Data": "CgSM6ZsV",
+        "X-AppEngine-User-IP": "1234:1234:1234:1234:1234:1234:1234:1234",
+        "X-Forwarded-For": "1234:1234:1234:1234:1234:1234:1234:1234, 169.254.1.1",
+        "Forwarded": "for=\"1234:1234:1234:1234:1234:1234:1234:1234\";proto=https",
+        "X-Forwarded-Proto": "https",
+        "traceparent": "00-33f98e49efd563384777ab3e8bfe17bb-1c28ebf888ef1fe1-01",
+        "sec-fetch-dest": "empty"
+      },
+      "requestMethod": "POST"
+    },
+    "resourceIdentifier": {
+      "project_id": "teammates-john",
+      "version_id": "8-0-0",
+      "zone": "asia-east2-3",
+      "module_id": "default"
+    },
+    "severity": "INFO",
+    "logName": "projects/teammates-john/logs/stdout",
+    "trace": "33f98e49efd563384777ab3e8bfe17bb",
+    "sourceLocation": {
+      "file": "teammates.ui.servlets.WebApiServlet",
+      "line": "118",
+      "function": "invokeServlet"
+    }
+  },
+  {
+    "insertId": "123454ce0008949a06231c24",
+    "details": {
+      "responseTime": 139,
+      "requestUrl": "/webapi/responses",
+      "userInfo": {
+        "googleId": "john"
+      },
+      "event": "REQUEST_LOG",
+      "requestMethod": "GET",
+      "requestParams": {
+        "intent": "STUDENT_SUBMISSION",
+        "questionid": "ahRzfnRlYW1tYXRlcy1waW5oc3VhbnIdCxIQRmVlZGJhY2tRdWVzdGlvbhiAgICY5oiRCQy"
+      },
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+      "webVersion": "8.0.0",
+      "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
+      "requestHeaders": {
+        "X-AppEngine-Country": "SG",
+        "X-AppEngine-Default-Version-Hostname": "teammates-john.df.r.appspot.com",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Referer": "https://teammates-john.appspot.com/web/student/home",
+        "X-AppEngine-Timeout-Ms": "599999",
+        "sec-ch-ua-mobile": "?0",
+        "X-AppEngine-User-IP": "1234:1234:1234:1234:1234:1234:1234:1234",
+        "Accept": "application/json, text/plain, */*",
+        "X-Cloud-Trace-Context": "e9212fb29ca33616705cfa5e487a7a81/16743642529897309422",
+        "Accept-Language": "en;q=0.8,en-US;q=0.7",
+        "sec-fetch-dest": "empty",
+        "X-AppEngine-Region": "?",
+        "Forwarded": "for=\"1234:1234:1234:1234:1234:1234:1234:1234\";proto=https",
+        "X-AppEngine-CityLatLong": "1.234567,100.123456",
+        "X-AppEngine-Request-Log-Id": "123454e000ff04259e516a16fe00016e7e7465616d6d617465732d70696e687375616e0001372d302d30000100",
+        "X-AppEngine-City": "singapore",
+        "sec-ch-ua": "\" Not;A Brand\";v=\"99\", \"Google Chrome\";v=\"91\", \"Chromium\";v=\"91\"",
+        "X-Forwarded-For": "1234:1234:1234:1234:1234:1234:1234:1234, 169.254.1.1",
+        "ngsw-bypass": "true",
+        "X-Client-Data": "CgSM6ZsV",
+        "traceparent": "00-e9212fb29ca33616705cfa5e487a7a81-e85d5e2b58a6e4ee-00",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+        "X-WEB-VERSION": "8.0.0",
+        "sec-fetch-mode": "cors",
+        "X-AppEngine-Api-Ticket": "ChBiODI3MGE1Yjk3MDA0YjRiGhMInrvs1IyA8gIVFQVYCB0M1Qdt",
+        "X-Forwarded-Proto": "https",
+        "X-AppEngine-Https": "on",
+        "sec-fetch-site": "same-origin",
+        "Host": "teammates-john.appspot.com"
+      },
+      "message": "[200] [139ms] [GET /webapi/responses] GetFeedbackResponsesAction",
+      "responseStatus": 200,
+      "actionClass": "GetFeedbackResponsesAction"
+    },
+    "resourceIdentifier": {
+      "version_id": "8-0-0",
+      "zone": "asia-east2-3",
+      "module_id": "default",
+      "project_id": "teammates-john"
+    },
+    "severity": "INFO",
+    "logName": "projects/teammates-john/logs/stdout",
+    "trace": "e9212fb29ca33616705cfa5e487a7a81",
+    "sourceLocation": {
+      "file": "teammates.ui.servlets.WebApiServlet",
+      "line": "118",
+      "function": "invokeServlet"
+    }
+  },
+  {
+    "insertId": "123454cf00043bb2b07d3ae9",
+    "details": {
+      "requestHeaders": {
+        "sec-ch-ua": "\" Not;A Brand\";v=\"99\", \"Google Chrome\";v=\"91\", \"Chromium\";v=\"91\"",
+        "X-Cloud-Trace-Context": "61fc5d1df927fe8626ade271dcf5c563/2251173827025333143",
+        "Accept": "application/json, text/plain, */*",
+        "X-AppEngine-Api-Ticket": "ChA1ZTNjZWVlYzNiZTgwOTcyGhMI1v3r1IyA8gIVFQVYCB0M1Qdt",
+        "X-AppEngine-Timeout-Ms": "599999",
+        "X-AppEngine-Region": "?",
+        "sec-fetch-dest": "empty",
+        "X-AppEngine-City": "singapore",
+        "Accept-Encoding": "gzip, deflate, br",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+        "X-WEB-VERSION": "8.0.0",
+        "X-AppEngine-User-IP": "1234:1234:1234:1234:1234:1234:1234:1234",
+        "sec-fetch-site": "same-origin",
+        "X-Client-Data": "CgSM6ZsV",
+        "sec-fetch-mode": "cors",
+        "X-AppEngine-CityLatLong": "1.234567,100.123456",
+        "Referer": "https://teammates-john.appspot.com/web/student/home",
+        "X-AppEngine-Country": "SG",
+        "traceparent": "00-61fc5d1df927fe8626ade271dcf5c563-1f3dc6ab1f806b97-00",
+        "sec-ch-ua-mobile": "?0",
+        "Host": "teammates-john.appspot.com",
+        "X-Forwarded-Proto": "https",
+        "Accept-Language": "en;q=0.8,en-US;q=0.7",
+        "X-AppEngine-Default-Version-Hostname": "teammates-john.df.r.appspot.com",
+        "Forwarded": "for=\"1234:1234:1234:1234:1234:1234:1234:1234\";proto=https",
+        "X-AppEngine-Request-Log-Id": "123454e000ff0406d68ef362bc00016e7e7465616d6d617465732d70696e687375616e0001372d302d30000100",
+        "X-AppEngine-Https": "on",
+        "X-Forwarded-For": "1234:1234:1234:1234:1234:1234:1234:1234, 169.254.1.1",
+        "ngsw-bypass": "true"
+      },
+      "requestUrl": "/webapi/responses",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+      "webVersion": "8.0.0",
+      "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
+      "actionClass": "GetFeedbackResponsesAction",
+      "requestMethod": "GET",
+      "responseTime": 609,
+      "message": "[200] [609ms] [GET /webapi/responses] GetFeedbackResponsesAction",
+      "responseStatus": 200,
+      "requestParams": {
+        "intent": "STUDENT_SUBMISSION",
+        "questionid": "ahRzfnRlYW1tYXRlcy1waW5oc3VhbnIdCxIQRmVlZGJhY2tRdWVzdGlvbhiAgICYlLGSCwy"
+      },
+      "event": "REQUEST_LOG",
+      "userInfo": {
+        "googleId": "john"
+      }
+    },
+    "resourceIdentifier": {
+      "zone": "asia-east2-3",
+      "module_id": "default",
+      "project_id": "teammates-john",
+      "version_id": "8-0-0"
+    },
+    "severity": "INFO",
+    "logName": "projects/teammates-john/logs/stdout",
+    "trace": "61fc5d1df927fe8626ade271dcf5c563",
+    "sourceLocation": {
+      "file": "teammates.ui.servlets.WebApiServlet",
+      "line": "118",
+      "function": "invokeServlet"
+    }
+  },
+  {
+    "insertId": "123454cf00057d918f7eb435",
+    "details": {
+      "requestMethod": "GET",
+      "message": "[200] [143ms] [GET /webapi/auth] GetAuthInfoAction",
+      "responseTime": 143,
+      "event": "REQUEST_LOG",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+      "webVersion": "8.0.0",
+      "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
+      "userInfo": {
+        "googleId": "john"
+      },
+      "requestUrl": "/webapi/auth",
+      "requestParams": {},
+      "actionClass": "GetAuthInfoAction",
+      "responseStatus": 200,
+      "requestHeaders": {
+        "sec-fetch-site": "same-origin",
+        "Accept-Encoding": "gzip, deflate, br",
+        "sec-fetch-dest": "empty",
+        "X-AppEngine-CityLatLong": "1.234567,100.123456",
+        "X-AppEngine-City": "singapore",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+        "X-WEB-VERSION": "8.0.0",
+        "traceparent": "00-e1fee3136190f7e5e3ad23ff1e1f0b82-30d2584f34931154-00",
+        "Accept": "application/json, text/plain, */*",
+        "X-AppEngine-Api-Ticket": "ChBiYmMxNjM1NzZiZTgzNzczGhMIkv3u1YyA8gIVuANYCB188gM8",
+        "X-AppEngine-User-IP": "1234:1234:1234:1234:1234:1234:1234:1234",
+        "X-Forwarded-Proto": "https",
+        "Host": "teammates-john.appspot.com",
+        "Referer": "https://teammates-john.appspot.com/web/student/sessions/result?courseid=john.gma-demo&fsname=Second%20team%20feedback%20session",
+        "ngsw-bypass": "true",
+        "X-Cloud-Trace-Context": "e1fee3136190f7e5e3ad23ff1e1f0b82/3517971356137492820",
+        "X-Forwarded-For": "1234:1234:1234:1234:1234:1234:1234:1234, 169.254.1.1",
+        "X-AppEngine-Https": "on",
+        "sec-ch-ua-mobile": "?0",
+        "Forwarded": "for=\"1234:1234:1234:1234:1234:1234:1234:1234\";proto=https",
+        "X-AppEngine-Default-Version-Hostname": "teammates-john.df.r.appspot.com",
+        "X-AppEngine-Region": "?",
+        "X-AppEngine-Country": "SG",
+        "sec-ch-ua": "\" Not;A Brand\";v=\"99\", \"Google Chrome\";v=\"91\", \"Chromium\";v=\"91\"",
+        "X-AppEngine-Request-Log-Id": "123454e200ff064212bd3fca1300016e7e7465616d6d617465732d70696e687375616e0001372d302d30000100",
+        "Accept-Language": "en;q=0.8,en-US;q=0.7",
+        "sec-fetch-mode": "cors",
+        "X-Client-Data": "CgSM6ZsV",
+        "X-AppEngine-Timeout-Ms": "599999"
+      }
+    },
+    "resourceIdentifier": {
+      "version_id": "8-0-0",
+      "zone": "asia-east2-3",
+      "project_id": "teammates-john",
+      "module_id": "default"
+    },
+    "severity": "INFO",
+    "logName": "projects/teammates-john/logs/stdout",
+    "trace": "e1fee3136190f7e5e3ad23ff1e1f0b82",
+    "sourceLocation": {
+      "file": "teammates.ui.servlets.WebApiServlet",
+      "line": "118",
+      "function": "invokeServlet"
+    }
+  },
+  {
+    "insertId": "123454cf000700586bdbab8a",
+    "details": {
+      "event": "REQUEST_LOG",
+      "actionClass": "GetAuthInfoAction",
+      "requestParams": {
+        "nextUrl": "/web/student/sessions/result?courseid=john.gma-demo&fsname=Second%20team%20feedback%20session"
+      },
+      "responseStatus": 200,
+      "requestUrl": "/webapi/auth",
+      "requestMethod": "GET",
+      "responseTime": 156,
+      "userInfo": {
+        "googleId": "john"
+      },
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+      "webVersion": "8.0.0",
+      "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
+      "message": "[200] [156ms] [GET /webapi/auth] GetAuthInfoAction",
+      "requestHeaders": {
+        "X-AppEngine-City": "singapore",
+        "X-AppEngine-Https": "on",
+        "sec-ch-ua-mobile": "?0",
+        "Accept-Encoding": "gzip, deflate, br",
+        "X-AppEngine-CityLatLong": "1.234567,100.123456",
+        "Forwarded": "for=\"1234:1234:1234:1234:1234:1234:1234:1234\";proto=https",
+        "Accept": "application/json, text/plain, */*",
+        "Accept-Language": "en;q=0.8,en-US;q=0.7",
+        "X-Forwarded-Proto": "https",
+        "X-AppEngine-Timeout-Ms": "599999",
+        "ngsw-bypass": "true",
+        "sec-ch-ua": "\" Not;A Brand\";v=\"99\", \"Google Chrome\";v=\"91\", \"Chromium\";v=\"91\"",
+        "X-AppEngine-Region": "?",
+        "traceparent": "00-7252cde8e57469c85bd4ed524302a98a-d96aab257621cd2c-00",
+        "Host": "teammates-john.appspot.com",
+        "X-Forwarded-For": "1234:1234:1234:1234:1234:1234:1234:1234, 169.254.1.1",
+        "X-Client-Data": "CgSM6ZsV",
+        "X-AppEngine-User-IP": "1234:1234:1234:1234:1234:1234:1234:1234",
+        "X-AppEngine-Default-Version-Hostname": "teammates-john.df.r.appspot.com",
+        "X-Cloud-Trace-Context": "7252cde8e57469c85bd4ed524302a98a/15666522431145757996",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty",
+        "X-AppEngine-Api-Ticket": "ChBiMWRkN2RmZmM1NjkzZTRmGhMIkoHv1YyA8gIVuANYCB188gM8",
+        "Referer": "https://teammates-john.appspot.com/web/student/sessions/result?courseid=john.gma-demo&fsname=Second%20team%20feedback%20session",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+        "X-WEB-VERSION": "8.0.0",
+        "sec-fetch-site": "same-origin",
+        "X-AppEngine-Country": "SG",
+        "X-AppEngine-Request-Log-Id": "123454e200ff064412ff0056de9700016e7e7465616d6d617465732d70696e687375616e0001372d302d30000100"
+      }
+    },
+    "resourceIdentifier": {
+      "module_id": "default",
+      "project_id": "teammates-john",
+      "zone": "asia-east2-3",
+      "version_id": "8-0-0"
+    },
+    "severity": "INFO",
+    "logName": "projects/teammates-john/logs/stdout",
+    "trace": "7252cde8e57469c85bd4ed524302a98a",
+    "sourceLocation": {
+      "file": "teammates.ui.servlets.WebApiServlet",
+      "line": "118",
+      "function": "invokeServlet"
+    }
+  },
+  {
+    "insertId": "123454d1000d4e520e871023",
+    "details": {
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+      "webVersion": "8.0.0",
+      "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
+      "requestParams": {
+        "courseid": "john.gma-demo",
+        "intent": "STUDENT_RESULT",
+        "fsname": "Second team feedback session"
+      },
+      "message": "[200] [211ms] [GET /webapi/session] GetFeedbackSessionAction",
+      "requestHeaders": {
+        "sec-fetch-dest": "empty",
+        "X-AppEngine-Timeout-Ms": "599999",
+        "traceparent": "00-0b278649bc43783665b659b62eebf9e0-ddc291ae311d5079-00",
+        "X-AppEngine-City": "singapore",
+        "X-Cloud-Trace-Context": "0b278649bc43783665b659b62eebf9e0/15979494605198282873",
+        "X-AppEngine-Region": "?",
+        "Accept-Encoding": "gzip, deflate, br",
+        "ngsw-bypass": "true",
+        "X-AppEngine-Country": "SG",
+        "X-AppEngine-CityLatLong": "1.234567,100.123456",
+        "X-AppEngine-Api-Ticket": "ChA5OTIwZDJiMTg5OWEzZTgzGhMIuJD+1YyA8gIV8ktcCh3iXg4H",
+        "X-Forwarded-Proto": "https",
+        "sec-ch-ua": "\" Not;A Brand\";v=\"99\", \"Google Chrome\";v=\"91\", \"Chromium\";v=\"91\"",
+        "Host": "teammates-john.appspot.com",
+        "Accept-Language": "en;q=0.8,en-US;q=0.7",
+        "Referer": "https://teammates-john.appspot.com/web/student/sessions/result?courseid=john.gma-demo&fsname=Second%20team%20feedback%20session",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+        "X-WEB-VERSION": "8.0.0",
+        "X-AppEngine-Request-Log-Id": "123454e200ff0a0bb8fa87e3ea00016e7e7465616d6d617465732d70696e687375616e0001372d302d30000100",
+        "X-Forwarded-For": "1234:1234:1234:1234:1234:1234:1234:1234, 169.254.1.1",
+        "X-Client-Data": "CgSM6ZsV",
+        "Forwarded": "for=\"1234:1234:1234:1234:1234:1234:1234:1234\";proto=https",
+        "Accept": "application/json, text/plain, */*",
+        "X-AppEngine-Default-Version-Hostname": "teammates-john.df.r.appspot.com",
+        "X-AppEngine-Https": "on",
+        "sec-ch-ua-mobile": "?0",
+        "X-AppEngine-User-IP": "1234:1234:1234:1234:1234:1234:1234:1234",
+        "sec-fetch-site": "same-origin",
+        "sec-fetch-mode": "cors"
+      },
+      "requestUrl": "/webapi/session",
+      "responseTime": 211,
+      "actionClass": "GetFeedbackSessionAction",
+      "userInfo": {
+        "googleId": "john"
+      },
+      "responseStatus": 200,
+      "event": "REQUEST_LOG",
+      "requestMethod": "GET"
+    },
+    "resourceIdentifier": {
+      "zone": "asia-east2-3",
+      "module_id": "default",
+      "version_id": "8-0-0",
+      "project_id": "teammates-john"
+    },
+    "severity": "INFO",
+    "logName": "projects/teammates-john/logs/stdout",
+    "trace": "0b278649bc43783665b659b62eebf9e0",
+    "sourceLocation": {
+      "file": "teammates.ui.servlets.WebApiServlet",
+      "line": "118",
+      "function": "invokeServlet"
+    }
+  },
+  {
+    "insertId": "123454d200028b5407c7fb0d",
+    "details": {
+      "responseTime": 408,
+      "userInfo": {
+        "googleId": "john"
+      },
+      "requestHeaders": {
+        "ngsw-bypass": "true",
+        "X-AppEngine-Request-Log-Id": "123454e200ff0a0d19abf0bdad00016e7e7465616d6d617465732d70696e687375616e0001372d302d30000100",
+        "Accept": "application/json, text/plain, */*",
+        "X-Client-Data": "CgSM6ZsV",
+        "X-AppEngine-Https": "on",
+        "X-Forwarded-For": "1234:1234:1234:1234:1234:1234:1234:1234, 169.254.1.1",
+        "X-Forwarded-Proto": "https",
+        "Host": "teammates-john.appspot.com",
+        "X-AppEngine-Default-Version-Hostname": "teammates-john.df.r.appspot.com",
+        "X-AppEngine-Country": "SG",
+        "X-AppEngine-Timeout-Ms": "599999",
+        "X-AppEngine-City": "singapore",
+        "X-Cloud-Trace-Context": "d6fe5a03aa5db12ddf5b5370c2fecc2d/6396630833359181715",
+        "sec-fetch-site": "same-origin",
+        "sec-fetch-mode": "cors",
+        "X-AppEngine-User-IP": "1234:1234:1234:1234:1234:1234:1234:1234",
+        "Accept-Language": "en;q=0.8,en-US;q=0.7",
+        "sec-fetch-dest": "empty",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua": "\" Not;A Brand\";v=\"99\", \"Google Chrome\";v=\"91\", \"Chromium\";v=\"91\"",
+        "X-AppEngine-Api-Ticket": "ChA0NGYyZGVkNTI1ZjhiNWE4GhMImZP+1YyA8gIVuANYCB188gM8",
+        "Referer": "https://teammates-john.appspot.com/web/student/sessions/result?courseid=john.gma-demo&fsname=Second%20team%20feedback%20session",
+        "Accept-Encoding": "gzip, deflate, br",
+        "X-AppEngine-Region": "?",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+        "X-WEB-VERSION": "8.0.0",
+        "traceparent": "00-d6fe5a03aa5db12ddf5b5370c2fecc2d-58c565da25af5793-00",
+        "X-AppEngine-CityLatLong": "1.234567,100.123456",
+        "Forwarded": "for=\"1234:1234:1234:1234:1234:1234:1234:1234\";proto=https"
+      },
+      "requestUrl": "/webapi/student",
+      "requestMethod": "GET",
+      "event": "REQUEST_LOG",
+      "requestParams": {
+        "courseid": "john.gma-demo"
+      },
+      "actionClass": "GetStudentAction",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+      "webVersion": "8.0.0",
+      "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
+      "responseStatus": 200,
+      "message": "[200] [408ms] [GET /webapi/student] GetStudentAction"
+    },
+    "resourceIdentifier": {
+      "project_id": "teammates-john",
+      "zone": "asia-east2-3",
+      "module_id": "default",
+      "version_id": "8-0-0"
+    },
+    "severity": "INFO",
+    "logName": "projects/teammates-john/logs/stdout",
+    "trace": "d6fe5a03aa5db12ddf5b5370c2fecc2d",
+    "sourceLocation": {
+      "file": "teammates.ui.servlets.WebApiServlet",
+      "line": "118",
+      "function": "invokeServlet"
+    }
+  },
+  {
+    "insertId": "123454d20006fcaeae7dcc52",
+    "details": {
+      "event": "FEEDBACK_SESSION_AUDIT",
+      "accessType": "view result",
+      "message": "Feedback session audit event: view result",
+      "studentEmail": "john@gmail.com",
+      "courseId": "john.gma-demo",
+      "feedbackSessionName": "Second team feedback session"
+    },
+    "resourceIdentifier": {
+      "module_id": "default",
+      "project_id": "teammates-john",
+      "zone": "asia-east2-3",
+      "version_id": "8-0-0"
+    },
+    "severity": "INFO",
+    "logName": "projects/teammates-john/logs/stdout",
+    "trace": "9e39efa77897fc1caf99fed100f582cb",
+    "sourceLocation": {
+      "file": "teammates.ui.webapi.CreateFeedbackSessionLogAction",
+      "line": "59",
+      "function": "execute"
+    }
+  },
+  {
+    "insertId": "123454d20006fcaeaf8dcc52",
+    "details": {
+      "message": "Instance startup: 954845e59212724cae605b074c8c7f5c",
+      "event": "INSTANCE_LOG",
+      "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
+      "instanceEvent": "STARTUP"
+    },
+    "resourceIdentifier": {
+      "module_id": "default",
+      "project_id": "teammates-john",
+      "zone": "asia-east2-3",
+      "version_id": "8-0-0"
+    },
+    "severity": "INFO",
+    "logName": "projects/teammates-john/logs/stdout",
+    "trace": "951f19331e63e19deebf52e6c21577e5",
+    "sourceLocation": {
+      "file": "teammates.main.Application",
+      "line": "59",
+      "function": "execute"
+    }
+  }
+]

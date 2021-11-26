@@ -14,7 +14,7 @@ def jacocoVersion = "0.8.5"
 
 buildscript {
     repositories {
-        jcenter()
+        mavenCentral()
         maven {
             url "https://plugins.gradle.org/m2/"
         }
@@ -34,11 +34,11 @@ configurations {
 }
 
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 def objectify = "com.googlecode.objectify:objectify:6.0.7"
-def testng = "org.testng:testng:7.2.0"
+def testng = "org.testng:testng:7.4.0"
 
 dependencies {
     staticAnalysis("com.puppycrawl.tools:checkstyle:${checkstyleVersion}")
@@ -72,7 +72,7 @@ dependencies {
     testAnnotationProcessor(testng)
 
     testImplementation("com.tngtech.archunit:archunit:0.11.0")
-    testImplementation("org.seleniumhq.selenium:selenium-java:3.141.59")
+    testImplementation("org.seleniumhq.selenium:selenium-java:4.0.0")
     testImplementation(testng)
     // For access to Google APIs such as HTTP transport, authentication and JSON parsing
     testImplementation("com.google.api-client:google-api-client:1.30.9")
@@ -81,10 +81,10 @@ dependencies {
     // For using Gmail API
     testImplementation("com.google.apis:google-api-services-gmail:v1-rev20200601-1.30.9")
     // For using JMeter APIs
-    testImplementation("org.apache.jmeter:ApacheJMeter_core:5.3") {
+    testImplementation("org.apache.jmeter:ApacheJMeter_core:5.4.1") {
         exclude group: "org.apache.jmeter", module: "bom"
     }
-    testImplementation("org.apache.jmeter:ApacheJMeter_http:5.3") {
+    testImplementation("org.apache.jmeter:ApacheJMeter_http:5.4.1") {
         exclude group: "org.apache.jmeter", module: "bom"
     }
 
@@ -141,7 +141,8 @@ tasks.withType(cz.habarta.typescript.generator.gradle.GenerateTask) {
 task generateApiOutputFormat(type: cz.habarta.typescript.generator.gradle.GenerateTask) {
     classPatterns = [
         "teammates.ui.output.**",
-        "teammates.common.datatransfer.questions.**"
+        "teammates.common.datatransfer.questions.**",
+        "teammates.common.datatransfer.logs.**",
     ]
     removeTypeNameSuffix = "Data"
     outputFile = "src/web/types/api-output.ts"
@@ -157,6 +158,9 @@ task generateApiRequestFormat(type: cz.habarta.typescript.generator.gradle.Gener
     classPatterns = [
         "teammates.ui.request.**",
         "teammates.common.util.EmailType"
+    ]
+    excludeClasses = [
+        "teammates.ui.request.InvalidHttpRequestBodyException"
     ]
     outputFile = "src/web/types/api-request.ts"
 }
@@ -257,14 +261,15 @@ task copyDistToExplodedWar {
 
 task serverRun(type: JavaExec) {
     classpath "${explodeWar.destinationDir}/WEB-INF/lib/*", "${explodeWar.destinationDir}/WEB-INF/classes/."
-    main = "teammates.main.Application"
-    jvmArgs "-ea", "-Djava.util.logging.config.file=${explodeWar.destinationDir}/WEB-INF/logging-dev.properties"
+    mainClass = "teammates.main.Application"
+    jvmArgs "-ea", "-Djava.util.logging.config.file=${explodeWar.destinationDir}/WEB-INF/logging-dev.properties",
+            "-Djava.time.zone.DefaultZoneRulesProvider=teammates.common.util.TzdbResourceZoneRulesProvider"
     dependsOn explodeWar, copyDistToExplodedWar
 }
 
 task runDatastoreEmulator(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
-    main = "teammates.storage.api.DatastoreEmulatorRunner"
+    mainClass = "teammates.storage.api.DatastoreEmulatorRunner"
 }
 
 appengine {
@@ -330,6 +335,9 @@ def isWindows = System.getProperty("os.name").toLowerCase().contains("windows")
 checkstyle {
     toolVersion = checkstyleVersion
     configFile = file("static-analysis/teammates-checkstyle.xml")
+    configProperties = [
+        suppressions: file("static-analysis/teammates-checkstyle-suppressions.xml")
+    ]
 }
 
 pmd {
@@ -438,8 +446,8 @@ task architectureTest(type: Test) {
     options.useDefaultListeners = true
     ignoreFailures false
     maxHeapSize = "1g"
-    reports.html.enabled = false
-    reports.junitXml.enabled = false
+    reports.html.required = false
+    reports.junitXml.required = false
     jvmArgs "-Xss2m", "-Dfile.encoding=UTF-8"
     afterTest afterTestClosure
     afterSuite checkTestNgFailureClosure
@@ -468,8 +476,8 @@ task lnpTests(type: Test) {
     options.useDefaultListeners = true
     ignoreFailures false
     maxHeapSize = "1g"
-    reports.html.enabled = false
-    reports.junitXml.enabled = false
+    reports.html.required = false
+    reports.junitXml.required = false
     jvmArgs "-Xss2m", "-Dfile.encoding=UTF-8"
     afterTest afterTestClosure
     afterSuite checkTestNgFailureClosure
@@ -499,8 +507,8 @@ task componentTests(type: Test) {
     options.useDefaultListeners = true
     ignoreFailures false
     maxHeapSize = "1g"
-    reports.html.enabled = false
-    reports.junitXml.enabled = false
+    reports.html.required = false
+    reports.junitXml.required = false
     jvmArgs "-ea", "-Xss2m", "-Dfile.encoding=UTF-8"
     afterTest afterTestClosure
     afterSuite checkTestNgFailureClosure
@@ -525,8 +533,8 @@ task e2eTests {
         options.useDefaultListeners = true
         ignoreFailures = !isLastRetry
         maxHeapSize = "1g"
-        reports.html.enabled = false
-        reports.junitXml.enabled = false
+        reports.html.required = false
+        reports.junitXml.required = false
         jvmArgs "-Xss2m", "-Dfile.encoding=UTF-8"
         testLogging {
             events "passed"
@@ -555,25 +563,12 @@ task jacocoReport(type: JacocoReport) {
     classDirectories.from files(sourceSets.main.output)
     executionData fileTree("${buildDir}/jacoco").files
     reports {
-        xml.enabled true
-        html.enabled true
+        xml.required = true
+        html.required = true
     }
     afterEvaluate {
         classDirectories.from files(classDirectories.files.collect {
             fileTree(dir: it, exclude: ["**/*.jar"])
         })
-    }
-}
-
-// Helper methods
-import groovy.xml.StreamingMarkupBuilder
-import java.nio.charset.StandardCharsets
-
-void writeXmlToPath(Node xml, String pathToWrite) {
-    new File(pathToWrite).withWriter(StandardCharsets.UTF_8.name()) { out ->
-        out << new StreamingMarkupBuilder().bind { mkp.xmlDeclaration() }
-        def xmlNodePrinter = new XmlNodePrinter(new PrintWriter(out))
-        xmlNodePrinter.preserveWhitespace = true
-        xmlNodePrinter.print(xml)
     }
 }

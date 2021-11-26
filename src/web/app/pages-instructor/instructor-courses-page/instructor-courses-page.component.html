@@ -7,7 +7,16 @@
 <div id="add-course-section" class="course-section" *ngIf="isAddNewCourseFormExpanded" @collapseAnim>
   <tm-add-course-form (courseAdded)="loadInstructorCourses()"
                       (closeCourseFormEvent)="isAddNewCourseFormExpanded = false"
+                      (copyCourseEvent)="createCourse($event)"
+                      [isCopyingCourse]="isCopyingCourse"
+                      [activeCourses]="activeCoursesList"
+                      [allCourses]="allCoursesList"
   ></tm-add-course-form>
+</div>
+
+<div *ngIf="isCopyingCourse" class="margin-top-30px">
+  <p>Copy Progress</p>
+  <tm-progress-bar></tm-progress-bar>
 </div>
 
 <tm-loading-retry [shouldShowRetry]="hasLoadingFailed" [message]="'Failed to load courses'" (retryEvent)="loadInstructorCourses()">
@@ -59,8 +68,8 @@
             <tm-ajax-loading [useBlueSpinner]="true"></tm-ajax-loading>
           </ng-template>
           <tr *ngFor="let course of activeCourses; let i = index">
-            <td id="course-id-{{ i }}">{{course.course.courseId}}</td>
-            <td>{{course.course.courseName}}</td>
+            <td id="course-id-{{ i }}" class="text-break">{{course.course.courseId}}</td>
+            <td class="text-break">{{course.course.courseName}}</td>
             <td>
               <span class="ngb-tooltip-class" container="body" [ngbTooltip]="course.course.creationTimestamp | date:'EEE, dd MMM yyyy, h:mma'">
                 {{course.course.creationTimestamp | date:'d MMM yyyy'}}
@@ -129,6 +138,10 @@
                           [queryParams]="{courseid: course.course.courseId}">
                     Edit
                   </a>
+                  <button id="btn-copy-{{ i }}" class="btn btn-primary btn-sm dropdown-item clickable" *ngIf="course.canModifyCourse" (click)="onCopy(course.course.courseId, course.course.courseName, course.course.timeZone)"
+                          ngbTooltip="Copy the course and its corresponding sessions" placement="left" container="body" [disabled]="isCopyingCourse">
+                    Copy
+                  </button>
                   <button id="btn-archive-{{ i }}" class="btn btn-primary btn-sm dropdown-item clickable" (click)="changeArchiveStatus(course.course.courseId, true)"
                           ngbTooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)" placement="left" container="body">
                     Archive
@@ -206,8 +219,8 @@
         </thead>
         <tbody>
         <tr *ngFor="let course of archivedCourses; let i = index">
-          <td id="archived-course-id-{{ i }}">{{course.course.courseId}}</td>
-          <td>{{course.course.courseName}}</td>
+          <td id="archived-course-id-{{ i }}" class="text-break">{{course.course.courseId}}</td>
+          <td class="text-break">{{course.course.courseName}}</td>
           <td>
             <span container="body" class="ngb-tooltip-class" ngbTooltip="{{course.course.creationTimestamp | date:'EEE, dd MMM yyyy, h:mma'}}">{{course.course.creationTimestamp | date:'d MMM yyyy'}}</span>
           </td>
@@ -297,8 +310,8 @@
           </thead>
           <tbody>
             <tr *ngFor="let course of softDeletedCourses; let i = index">
-              <td id="deleted-course-id-{{ i }}">{{course.course.courseId}}</td>
-              <td>{{course.course.courseName}}</td>
+              <td id="deleted-course-id-{{ i }}" class="text-break">{{course.course.courseId}}</td>
+              <td class="text-break">{{course.course.courseName}}</td>
               <td>
                 <span container="body" class="ngb-tooltip-class" [ngbTooltip]="course.course.creationTimestamp | date:'EEE, dd MMM yyyy, h:mma'">
                   {{course.course.creationTimestamp | date:'d MMM yyyy'}}

@@ -1,16 +1,20 @@
 package teammates.main;
 
 import java.io.File;
+import java.time.zone.ZoneRulesProvider;
 
 import org.eclipse.jetty.annotations.AnnotationConfiguration;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletHolder;
+import org.eclipse.jetty.util.component.LifeCycle;
+import org.eclipse.jetty.util.log.StdErrLog;
 import org.eclipse.jetty.webapp.Configuration.ClassList;
 import org.eclipse.jetty.webapp.JettyWebXmlConfiguration;
 import org.eclipse.jetty.webapp.WebAppContext;
 
 import teammates.common.util.Config;
-import teammates.ui.webapi.DevServerLoginServlet;
+import teammates.common.util.Logger;
+import teammates.ui.servlets.DevServerLoginServlet;
 
 /**
  * Entrypoint to the system.
@@ -20,13 +24,15 @@ import teammates.ui.webapi.DevServerLoginServlet;
 // CHECKSTYLE.OFF:UncommentedMain this is the entrypoint class
 public final class Application {
 
+    private static final Logger log = Logger.getLogger();
+
     private Application() {
         // prevent initialization
     }
 
     @SuppressWarnings("PMD.SignatureDeclareThrowsException") // ok to ignore as this is a startup method
     public static void main(String[] args) throws Exception {
-        System.setProperty("org.eclipse.jetty.util.log.class", org.eclipse.jetty.util.log.StdErrLog.class.getName());
+        System.setProperty("org.eclipse.jetty.util.log.class", StdErrLog.class.getName());
         System.setProperty("org.eclipse.jetty.LEVEL", "INFO");
 
         Server server = new Server(Config.getPort());
@@ -38,7 +44,7 @@ public final class Application {
         webapp.setWar(warPath);
         ClassList classlist = ClassList.setServerDefault(server);
 
-        if (Config.isDevServer()) {
+        if (Config.isDevServerLoginEnabled()) {
             // For dev server, we dynamically add servlet to serve the dev server login page.
 
             ServletHolder devServerLoginServlet =
@@ -52,6 +58,33 @@ public final class Application {
                 AnnotationConfiguration.class.getName());
 
         server.setHandler(webapp);
+        server.setStopAtShutdown(true);
+        server.addLifeCycleListener(new LifeCycle.Listener() {
+            @Override
+            public void lifeCycleStarting(LifeCycle event) {
+                log.startup();
+            }
+
+            @Override
+            public void lifeCycleStarted(LifeCycle event) {
+                log.info("Using zone rules version " + ZoneRulesProvider.getVersions("UTC").firstKey());
+            }
+
+            @Override
+            public void lifeCycleFailure(LifeCycle event, Throwable cause) {
+                log.severe("Instance failed to start/stop: " + Config.getInstanceId());
+            }
+
+            @Override
+            public void lifeCycleStopping(LifeCycle event) {
+                log.shutdown();
+            }
+
+            @Override
+            public void lifeCycleStopped(LifeCycle event) {
+                // do nothing
+            }
+        });
 
         server.start();
 

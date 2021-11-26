@@ -3,7 +3,6 @@ package teammates.ui.webapi;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
@@ -16,13 +15,11 @@ import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttribute
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.EntityNotFoundException;
-import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.util.Const;
 import teammates.ui.output.CommentVisibilityType;
-import teammates.ui.output.MessageOutput;
 import teammates.ui.request.FeedbackResponseCommentUpdateRequest;
 import teammates.ui.request.Intent;
+import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * SUT: {@link UpdateFeedbackResponseCommentAction}.
@@ -94,7 +91,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
 
     @Override
     @Test
-    protected void testExecute() throws Exception {
+    protected void testExecute() {
         // see individual test cases.
     }
 
@@ -109,7 +106,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
     @Test
     protected void testExecute_typicalSuccessfulCases_shouldPass() {
         comment1FromInstructor1 = logic.getFeedbackResponseComment(response1ForQn1.getId(),
-                comment1FromInstructor1.commentGiver, comment1FromInstructor1.createdAt);
+                comment1FromInstructor1.getCommentGiver(), comment1FromInstructor1.getCreatedAt());
         assertNotNull("response comment not found", comment1FromInstructor1);
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
 
@@ -121,7 +118,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
         };
 
         FeedbackResponseCommentUpdateRequest requestBody = new FeedbackResponseCommentUpdateRequest(
-                comment1FromInstructor1.commentText + " (Edited)",
+                comment1FromInstructor1.getCommentText() + " (Edited)",
                 Arrays.asList(CommentVisibilityType.GIVER, CommentVisibilityType.INSTRUCTORS),
                 Arrays.asList(CommentVisibilityType.GIVER, CommentVisibilityType.INSTRUCTORS));
         UpdateFeedbackResponseCommentAction action = getAction(requestBody, submissionParams);
@@ -129,10 +126,10 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
 
         FeedbackResponseCommentAttributes frc =
                 logic.getFeedbackResponseComment(comment1FromInstructor1.getId());
-        assertEquals(comment1FromInstructor1.commentText + " (Edited)", frc.commentText);
-        assertEquals(FeedbackParticipantType.INSTRUCTORS, frc.commentGiverType);
-        assertEquals(instructor1OfCourse1.getEmail(), frc.commentGiver);
-        assertTrue(frc.isCommentFromFeedbackParticipant);
+        assertEquals(comment1FromInstructor1.getCommentText() + " (Edited)", frc.getCommentText());
+        assertEquals(FeedbackParticipantType.INSTRUCTORS, frc.getCommentGiverType());
+        assertEquals(instructor1OfCourse1.getEmail(), frc.getCommentGiver());
+        assertTrue(frc.isCommentFromFeedbackParticipant());
 
         ______TS("Typical successful case for STUDENT_SUBMISSION");
         loginAsStudent(student1InCourse1.getGoogleId());
@@ -148,10 +145,10 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
         getJsonResult(action);
 
         frc = logic.getFeedbackResponseComment(comment1FromStudent1.getId());
-        assertEquals(comment1FromStudent1.getCommentText() + " (Edited)", frc.commentText);
-        assertEquals(FeedbackParticipantType.STUDENTS, frc.commentGiverType);
-        assertEquals(student1InCourse1.getEmail(), frc.commentGiver);
-        assertTrue(frc.isCommentFromFeedbackParticipant);
+        assertEquals(comment1FromStudent1.getCommentText() + " (Edited)", frc.getCommentText());
+        assertEquals(FeedbackParticipantType.STUDENTS, frc.getCommentGiverType());
+        assertEquals(student1InCourse1.getEmail(), frc.getCommentGiver());
+        assertTrue(frc.isCommentFromFeedbackParticipant());
 
         ______TS("Typical successful case for INSTRUCTOR_SUBMISSION");
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
@@ -166,16 +163,16 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
         getJsonResult(action);
 
         frc = logic.getFeedbackResponseComment(comment1FromInstructor1.getId());
-        assertEquals(comment1FromInstructor1.getCommentText() + " (Edited)", frc.commentText);
-        assertEquals(FeedbackParticipantType.INSTRUCTORS, frc.commentGiverType);
-        assertEquals(instructor1OfCourse1.getEmail(), frc.commentGiver);
-        assertTrue(frc.isCommentFromFeedbackParticipant);
+        assertEquals(comment1FromInstructor1.getCommentText() + " (Edited)", frc.getCommentText());
+        assertEquals(FeedbackParticipantType.INSTRUCTORS, frc.getCommentGiverType());
+        assertEquals(instructor1OfCourse1.getEmail(), frc.getCommentGiver());
+        assertTrue(frc.isCommentFromFeedbackParticipant());
     }
 
     @Test
     protected void testExecute_emptyVisibilitySettings_shouldPass() {
         comment1FromInstructor1 = logic.getFeedbackResponseComment(response1ForQn1.getId(),
-                comment1FromInstructor1.commentGiver, comment1FromInstructor1.createdAt);
+                comment1FromInstructor1.getCommentGiver(), comment1FromInstructor1.getCreatedAt());
         assertNotNull("response comment not found", comment1FromInstructor1);
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
 
@@ -187,7 +184,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
         };
 
         FeedbackResponseCommentUpdateRequest requestBody = new FeedbackResponseCommentUpdateRequest(
-                comment1FromInstructor1.commentText + " (Edited)", new ArrayList<>(), new ArrayList<>());
+                comment1FromInstructor1.getCommentText() + " (Edited)", new ArrayList<>(), new ArrayList<>());
         UpdateFeedbackResponseCommentAction action = getAction(requestBody, submissionParams);
         getJsonResult(action);
     }
@@ -195,7 +192,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
     @Test
     protected void testExecute_variousVisibilitySettings_shouldPass() {
         comment1FromInstructor1 = logic.getFeedbackResponseComment(response1ForQn1.getId(),
-                comment1FromInstructor1.commentGiver, comment1FromInstructor1.createdAt);
+                comment1FromInstructor1.getCommentGiver(), comment1FromInstructor1.getCreatedAt());
         assertNotNull("response comment not found", comment1FromInstructor1);
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
 
@@ -207,7 +204,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
         };
 
         FeedbackResponseCommentUpdateRequest requestBody = new FeedbackResponseCommentUpdateRequest(
-                comment1FromInstructor1.commentText + " (Edited)", new ArrayList<>(), new ArrayList<>());
+                comment1FromInstructor1.getCommentText() + " (Edited)", new ArrayList<>(), new ArrayList<>());
         UpdateFeedbackResponseCommentAction action = getAction(requestBody, submissionParams);
         getJsonResult(action);
 
@@ -217,7 +214,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
         };
 
         requestBody = new FeedbackResponseCommentUpdateRequest(
-                comment1FromInstructor1.commentText + " (Edited)",
+                comment1FromInstructor1.getCommentText() + " (Edited)",
                 Arrays.asList(CommentVisibilityType.GIVER), new ArrayList<>());
         action = getAction(requestBody, submissionParams);
         getJsonResult(action);
@@ -228,7 +225,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
         };
 
         requestBody = new FeedbackResponseCommentUpdateRequest(
-                comment1FromInstructor1.commentText + " (Edited)",
+                comment1FromInstructor1.getCommentText() + " (Edited)",
                 Arrays.asList(CommentVisibilityType.RECIPIENT), new ArrayList<>());
         action = getAction(requestBody, submissionParams);
         getJsonResult(action);
@@ -239,7 +236,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
         };
 
         requestBody = new FeedbackResponseCommentUpdateRequest(
-                comment1FromInstructor1.commentText + " (Edited)",
+                comment1FromInstructor1.getCommentText() + " (Edited)",
                 Arrays.asList(CommentVisibilityType.GIVER_TEAM_MEMBERS), new ArrayList<>());
         action = getAction(requestBody, submissionParams);
         getJsonResult(action);
@@ -250,7 +247,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
         };
 
         requestBody = new FeedbackResponseCommentUpdateRequest(
-                comment1FromInstructor1.commentText + " (Edited)",
+                comment1FromInstructor1.getCommentText() + " (Edited)",
                 Arrays.asList(CommentVisibilityType.RECIPIENT_TEAM_MEMBERS), new ArrayList<>());
         action = getAction(requestBody, submissionParams);
         getJsonResult(action);
@@ -261,7 +258,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
         };
 
         requestBody = new FeedbackResponseCommentUpdateRequest(
-                comment1FromInstructor1.commentText + " (Edited)",
+                comment1FromInstructor1.getCommentText() + " (Edited)",
                 Arrays.asList(CommentVisibilityType.STUDENTS), new ArrayList<>());
         action = getAction(requestBody, submissionParams);
         getJsonResult(action);
@@ -278,12 +275,10 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
         };
 
         FeedbackResponseCommentUpdateRequest requestBody = new FeedbackResponseCommentUpdateRequest(
-                comment1FromInstructor1.commentText + " (Edited)",
+                comment1FromInstructor1.getCommentText() + " (Edited)",
                 Arrays.asList(CommentVisibilityType.GIVER, CommentVisibilityType.INSTRUCTORS),
                 Arrays.asList(CommentVisibilityType.GIVER, CommentVisibilityType.INSTRUCTORS));
-        UpdateFeedbackResponseCommentAction action = getAction(requestBody, submissionParams);
-        UpdateFeedbackResponseCommentAction action0 = action;
-        assertThrows(EntityNotFoundException.class, () -> getJsonResult(action0));
+        verifyEntityNotFound(requestBody, submissionParams);
     }
 
     @Test
@@ -298,18 +293,18 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
         };
 
         FeedbackResponseCommentUpdateRequest requestBody = new FeedbackResponseCommentUpdateRequest(
-                comment1FromInstructor1Q2.commentText + " (Edited)",
+                comment1FromInstructor1Q2.getCommentText() + " (Edited)",
                 Arrays.asList(CommentVisibilityType.GIVER, CommentVisibilityType.INSTRUCTORS),
                 Arrays.asList(CommentVisibilityType.GIVER, CommentVisibilityType.INSTRUCTORS));
         UpdateFeedbackResponseCommentAction action = getAction(requestBody, submissionParams);
         getJsonResult(action);
 
         FeedbackResponseCommentAttributes frc = logic.getFeedbackResponseComment(comment1FromInstructor1Q2.getId());
-        assertEquals(comment1FromInstructor1Q2.commentText + " (Edited)", frc.commentText);
-        assertEquals(FeedbackParticipantType.INSTRUCTORS, frc.commentGiverType);
-        assertEquals(instructor1OfCourse1.getEmail(), frc.commentGiver);
-        assertEquals(instructor2OfCourse1.getEmail(), frc.lastEditorEmail);
-        assertFalse(frc.isCommentFromFeedbackParticipant);
+        assertEquals(comment1FromInstructor1Q2.getCommentText() + " (Edited)", frc.getCommentText());
+        assertEquals(FeedbackParticipantType.INSTRUCTORS, frc.getCommentGiverType());
+        assertEquals(instructor1OfCourse1.getEmail(), frc.getCommentGiver());
+        assertEquals(instructor2OfCourse1.getEmail(), frc.getLastEditorEmail());
+        assertFalse(frc.isCommentFromFeedbackParticipant());
         assertEquals(
                 Arrays.asList(FeedbackParticipantType.GIVER, FeedbackParticipantType.INSTRUCTORS), frc.getShowCommentTo());
         assertEquals(
@@ -325,7 +320,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
 
         logic.publishFeedbackSession(
-                comment1FromInstructor1Q2.feedbackSessionName, comment1FromInstructor1Q2.courseId);
+                comment1FromInstructor1Q2.getFeedbackSessionName(), comment1FromInstructor1Q2.getCourseId());
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
@@ -333,23 +328,23 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
         };
 
         FeedbackResponseCommentUpdateRequest requestBody = new FeedbackResponseCommentUpdateRequest(
-                comment1FromInstructor1Q2.commentText + " (Edited for published session)",
+                comment1FromInstructor1Q2.getCommentText() + " (Edited for published session)",
                 Arrays.asList(CommentVisibilityType.GIVER, CommentVisibilityType.INSTRUCTORS), new ArrayList<>());
         UpdateFeedbackResponseCommentAction action = getAction(requestBody, submissionParams);
         getJsonResult(action);
 
         FeedbackResponseCommentAttributes frc = logic.getFeedbackResponseComment(comment1FromInstructor1Q2.getId());
-        assertEquals(comment1FromInstructor1Q2.commentText + " (Edited for published session)",
-                frc.commentText);
-        assertEquals(FeedbackParticipantType.INSTRUCTORS, frc.commentGiverType);
-        assertEquals(instructor1OfCourse1.getEmail(), frc.commentGiver);
-        assertFalse(frc.isCommentFromFeedbackParticipant);
+        assertEquals(comment1FromInstructor1Q2.getCommentText() + " (Edited for published session)",
+                frc.getCommentText());
+        assertEquals(FeedbackParticipantType.INSTRUCTORS, frc.getCommentGiverType());
+        assertEquals(instructor1OfCourse1.getEmail(), frc.getCommentGiver());
+        assertFalse(frc.isCommentFromFeedbackParticipant());
     }
 
     @Test
     protected void testExecute_emptyCommentText_shouldFail() {
         comment1FromInstructor1 = logic.getFeedbackResponseComment(response1ForQn1.getId(),
-                comment1FromInstructor1.commentGiver, comment1FromInstructor1.createdAt);
+                comment1FromInstructor1.getCommentGiver(), comment1FromInstructor1.getCreatedAt());
         assertNotNull("response comment not found", comment1FromInstructor1);
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
 
@@ -361,12 +356,8 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
 
         FeedbackResponseCommentUpdateRequest requestBody = new FeedbackResponseCommentUpdateRequest(
                 "", new ArrayList<>(), new ArrayList<>());
-        UpdateFeedbackResponseCommentAction action = getAction(requestBody, submissionParams);
-        JsonResult result = getJsonResult(action);
-        MessageOutput output = (MessageOutput) result.getOutput();
-
-        assertEquals(HttpStatus.SC_BAD_REQUEST, result.getStatusCode());
-        assertEquals(BasicCommentSubmissionAction.FEEDBACK_RESPONSE_COMMENT_EMPTY, output.getMessage());
+        InvalidHttpRequestBodyException ihrbe = verifyHttpRequestBodyFailure(requestBody, submissionParams);
+        assertEquals(BasicCommentSubmissionAction.FEEDBACK_RESPONSE_COMMENT_EMPTY, ihrbe.getMessage());
     }
 
     @Test
@@ -388,7 +379,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
 
     @Override
     @Test
-    protected void testAccessControl() throws Exception {
+    protected void testAccessControl() {
         // see individual test cases
     }
 
@@ -415,7 +406,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
         ______TS("successful case for instructor result");
 
         comment1FromInstructor1 = logic.getFeedbackResponseComment(response1ForQn1.getId(),
-                comment1FromInstructor1.commentGiver, comment1FromInstructor1.createdAt);
+                comment1FromInstructor1.getCommentGiver(), comment1FromInstructor1.getCreatedAt());
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, comment1FromInstructor1.getId().toString(),
@@ -438,14 +429,14 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
                 Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, comment1FromStudent1.getId().toString(),
         };
-        assertThrows(InvalidHttpParameterException.class, () -> getAction(invalidIntent1).checkAccessControl());
+        verifyHttpParameterFailureAcl(invalidIntent1);
 
         ______TS("invalid intent FULL_DETAIL");
         String[] invalidIntent2 = new String[] {
                 Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, comment1FromStudent1.getId().toString(),
         };
-        assertThrows(InvalidHttpParameterException.class, () -> getAction(invalidIntent2).checkAccessControl());
+        verifyHttpParameterFailureAcl(invalidIntent2);
     }
 
     @Test
@@ -497,7 +488,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, "123123123123123",
         };
-        assertThrows(EntityNotFoundException.class, () -> getAction(submissionParams).checkSpecificAccessControl());
+        verifyEntityNotFoundAcl(submissionParams);
     }
 
     @Test
@@ -515,12 +506,12 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
         instructorPrivileges.updatePrivilege("Section B",
                 Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS, true);
 
-        logic.updateInstructor(InstructorAttributes.updateOptionsWithEmailBuilder(course.getId(), instructor.email)
+        logic.updateInstructor(InstructorAttributes.updateOptionsWithEmailBuilder(course.getId(), instructor.getEmail())
                 .withPrivileges(instructorPrivileges).build());
 
-        loginAsInstructor(instructor.googleId);
+        loginAsInstructor(instructor.getGoogleId());
         verifyCanAccess(submissionParams);
-        verifyCanMasquerade(instructor.googleId, submissionParams);
+        verifyCanMasquerade(instructor.getGoogleId(), submissionParams);
     }
 
     @Test
@@ -532,17 +523,17 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
         instructorPrivileges.updatePrivilege("Section A",
                 Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS, true);
 
-        logic.updateInstructor(InstructorAttributes.updateOptionsWithEmailBuilder(course.getId(), instructor.email)
+        logic.updateInstructor(InstructorAttributes.updateOptionsWithEmailBuilder(course.getId(), instructor.getEmail())
                 .withPrivileges(instructorPrivileges).build());
 
-        loginAsInstructor(instructor.googleId);
+        loginAsInstructor(instructor.getGoogleId());
         verifyCannotAccess(submissionParams);
 
         instructorPrivileges.updatePrivilege("Section A",
                 Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS, false);
         instructorPrivileges.updatePrivilege("Section B",
                 Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS, true);
-        logic.updateInstructor(InstructorAttributes.updateOptionsWithEmailBuilder(course.getId(), instructor.email)
+        logic.updateInstructor(InstructorAttributes.updateOptionsWithEmailBuilder(course.getId(), instructor.getEmail())
                 .withPrivileges(instructorPrivileges).build());
 
         verifyCannotAccess(submissionParams);

@@ -36,7 +36,7 @@
       <tbody>
         <ng-container *ngFor="let instructor of instructors; let i = index">
           <tr (click)="instructor.showLinks = !instructor.showLinks">
-            <td>
+            <td class="text-break">
               <span [ngbTooltip]="instructor.courseName">{{ instructor.courseId }}</span>
               <br>
               <div class="col-sm-1">
@@ -61,6 +61,8 @@
               <a id="reset-instructor-id-{{i}}" href="javascript:;" (click)="resetInstructorGoogleId(instructor, $event)" *ngIf="instructor.googleId">
                 <i class="fas fa-sync"></i> Reset Google ID
               </a>
+              <br>
+              <button id="regenerate-instructor-key-{{i}}" class="btn btn-danger" (click)="instructor.showLinks = !instructor.showLinks; regenerateInstructorKey(instructor);">Regenerate key</button>
             </td>
           </tr>
           <tr *ngIf="instructor.showLinks">
@@ -108,7 +110,7 @@
         <ng-container *ngFor="let student of students; let i = index">
           <tr (click)="student.showLinks = !student.showLinks">
             <td>
-              <span [ngbTooltip]="student.courseName">
+              <span class="text-break" [ngbTooltip]="student.courseName">
                 {{ student.courseId }} [{{ student.section }}] ({{ student.team }})
               </span>
               <br>
@@ -137,7 +139,7 @@
                 <i class="fas fa-sync"></i> Reset Google ID
               </a>
               <br>
-              <button id="regenerate-student-key-{{i}}" class="btn btn-danger" (click)="student.showLinks = !student.showLinks; regenerateFeedbackSessionLinks(student);">Regenerate links</button>
+              <button id="regenerate-student-key-{{i}}" class="btn btn-danger" (click)="student.showLinks = !student.showLinks; regenerateStudentKey(student);">Regenerate key</button>
             </td>
           </tr>
           <tr>
@@ -151,6 +153,11 @@
                   <strong>Course Join Link</strong>
                   <button id="send-course-join-button" type="button" class="btn btn-primary margin-left-5px btn-sm" (click)="openCourseJoinEmail(student.courseId, student.email)">Send mail</button>
                   <input [value]="student.courseJoinLink" readonly class="form-control">
+                </li>
+                <li class="list-group-item list-group-item-light" *ngFor="let awaitingFs of student.awaitingSessions | keyvalue">
+                  <strong>{{ awaitingFs.key + ' ' + awaitingFs.value.startTime + ' - ' + awaitingFs.value.endTime }}</strong>
+                  <button id="send-awaiting-session-reminder-button" type="button" class="btn btn-primary margin-left-5px btn-sm" (click)="openFeedbackSessionReminderEmail(student.courseId, student.email, awaitingFs.key)">Send mail</button>
+                  <input [value]="awaitingFs.value.feedbackSessionUrl" readonly class="form-control">
                 </li>
                 <li class="list-group-item list-group-item-warning" *ngFor="let openFs of student.openSessions | keyvalue">
                   <strong>{{ openFs.key + ' ' + openFs.value.startTime + ' - ' + openFs.value.endTime }}</strong>

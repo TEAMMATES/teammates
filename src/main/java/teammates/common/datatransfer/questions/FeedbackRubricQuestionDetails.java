@@ -5,6 +5,9 @@ import java.util.List;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 
+/**
+ * Contains specific structure and processing logic for rubric feedback questions.
+ */
 public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
     static final String QUESTION_TYPE_NAME = "Rubric question";
@@ -193,7 +196,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         return new ArrayList<>();
     }
 
-    public boolean hasAssignedWeights() {
+    public boolean isHasAssignedWeights() {
         return hasAssignedWeights;
     }
 

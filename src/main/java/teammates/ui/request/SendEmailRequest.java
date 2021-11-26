@@ -17,7 +17,7 @@ public class SendEmailRequest extends BasicRequest {
     }
 
     @Override
-    public void validate() {
+    public void validate() throws InvalidHttpRequestBodyException {
         assertTrue(email != null, "Email cannot be null");
         assertTrue(email.getContent() != null, "Email content cannot be null");
         assertTrue(email.getRecipient() != null, "Email recipient's address cannot be null");

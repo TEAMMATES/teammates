@@ -3,7 +3,6 @@ package teammates.ui.webapi;
 import java.util.List;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.exception.TeammatesException;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
@@ -16,7 +15,7 @@ class FeedbackSessionPublishedEmailWorkerAction extends AdminOnlyAction {
     private static final Logger log = Logger.getLogger();
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         String feedbackSessionName = getNonNullRequestParamValue(ParamsNames.FEEDBACK_SESSION_NAME);
         String courseId = getNonNullRequestParamValue(ParamsNames.COURSE_ID);
 
@@ -35,7 +34,7 @@ class FeedbackSessionPublishedEmailWorkerAction extends AdminOnlyAction {
                             .withSentPublishedEmail(true)
                             .build());
         } catch (Exception e) {
-            log.severe("Unexpected error: " + TeammatesException.toStringWithStackTrace(e));
+            log.severe("Unexpected error", e);
         }
         return new JsonResult("Successful");
     }

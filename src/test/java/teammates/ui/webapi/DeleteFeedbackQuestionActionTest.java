@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -26,7 +25,7 @@ public class DeleteFeedbackQuestionActionTest extends BaseActionTest<DeleteFeedb
 
     @Override
     @Test
-    protected void testExecute() throws Exception {
+    protected void testExecute() {
         InstructorAttributes instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         FeedbackSessionAttributes session = typicalBundle.feedbackSessions.get("session1InCourse1");
         FeedbackQuestionAttributes typicalQuestion =
@@ -46,9 +45,7 @@ public class DeleteFeedbackQuestionActionTest extends BaseActionTest<DeleteFeedb
         };
 
         DeleteFeedbackQuestionAction a = getAction(params);
-        JsonResult r = getJsonResult(a);
-
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+        getJsonResult(a);
 
         // question is deleted
         assertNull(logic.getFeedbackQuestion(typicalQuestion.getFeedbackQuestionId()));
@@ -68,7 +65,7 @@ public class DeleteFeedbackQuestionActionTest extends BaseActionTest<DeleteFeedb
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, "randomQuestionId",
         };
 
-        loginAsInstructor(instructor1OfCourse1.googleId);
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
         verifyCannotAccess(submissionParams);
 
         ______TS("inaccessible without ModifySessionPrivilege");

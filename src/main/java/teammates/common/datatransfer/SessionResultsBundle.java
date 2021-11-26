@@ -8,7 +8,6 @@ import java.util.Map;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 
@@ -17,7 +16,6 @@ import teammates.common.util.StringHelper;
  */
 public class SessionResultsBundle {
 
-    private final FeedbackSessionAttributes feedbackSession;
     private final Map<String, FeedbackQuestionAttributes> questionsMap;
     private final Map<String, List<FeedbackResponseAttributes>> questionResponseMap;
     private final Map<String, List<FeedbackResponseAttributes>> questionMissingResponseMap;
@@ -27,8 +25,7 @@ public class SessionResultsBundle {
     private final Map<Long, Boolean> commentGiverVisibilityTable;
     private final CourseRoster roster;
 
-    public SessionResultsBundle(FeedbackSessionAttributes feedbackSession,
-                                Map<String, FeedbackQuestionAttributes> questionsMap,
+    public SessionResultsBundle(Map<String, FeedbackQuestionAttributes> questionsMap,
                                 List<FeedbackResponseAttributes> responses,
                                 List<FeedbackResponseAttributes> missingResponses,
                                 Map<String, Boolean> responseGiverVisibilityTable,
@@ -37,7 +34,6 @@ public class SessionResultsBundle {
                                 Map<Long, Boolean> commentGiverVisibilityTable,
                                 CourseRoster roster) {
 
-        this.feedbackSession = feedbackSession;
         this.questionsMap = questionsMap;
         this.responseCommentsMap = responseCommentsMap;
         this.responseGiverVisibilityTable = responseGiverVisibilityTable;
@@ -84,17 +80,17 @@ public class SessionResultsBundle {
      * Checks if the giver/recipient for a response is visible/hidden from the current user.
      */
     private boolean isResponseParticipantVisible(boolean isGiver, FeedbackResponseAttributes response) {
-        FeedbackQuestionAttributes question = questionsMap.get(response.feedbackQuestionId);
+        FeedbackQuestionAttributes question = questionsMap.get(response.getFeedbackQuestionId());
         FeedbackParticipantType participantType;
         String responseId = response.getId();
 
         boolean isVisible;
         if (isGiver) {
             isVisible = responseGiverVisibilityTable.get(responseId);
-            participantType = question.giverType;
+            participantType = question.getGiverType();
         } else {
             isVisible = responseRecipientVisibilityTable.get(responseId);
-            participantType = question.recipientType;
+            participantType = question.getRecipientType();
         }
         boolean isTypeNone = participantType == FeedbackParticipantType.NONE;
 
@@ -135,10 +131,6 @@ public class SessionResultsBundle {
 
     private static String getHashOfName(String name) {
         return Long.toString(Math.abs((long) name.hashCode()));
-    }
-
-    public FeedbackSessionAttributes getFeedbackSession() {
-        return feedbackSession;
     }
 
     public Map<String, FeedbackQuestionAttributes> getQuestionsMap() {

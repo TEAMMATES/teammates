@@ -39,15 +39,15 @@ public class CourseRosterTest extends BaseTestCase {
         assertFalse(roster.isStudentsInSameTeam("s1@gmail.com", "non-existent@gmail.com"));
         assertTrue(roster.isStudentsInSameTeam("s1@gmail.com", "s1@gmail.com"));
 
-        assertEquals(roster.getStudentForEmail("s1@gmail.com").email, "s1@gmail.com");
-        assertEquals(roster.getStudentForEmail("s1@gmail.com").team, "team 1");
+        assertEquals(roster.getStudentForEmail("s1@gmail.com").getEmail(), "s1@gmail.com");
+        assertEquals(roster.getStudentForEmail("s1@gmail.com").getTeam(), "team 1");
         assertNull(roster.getInstructorForEmail("ins@email.com"));
 
         ______TS("only 1 instructor, no students");
 
         roster = new CourseRoster(null, createInstructorList("John", "ins1@email.com"));
-        assertEquals(roster.getInstructorForEmail("ins1@email.com").email, "ins1@email.com");
-        assertEquals(roster.getInstructorForEmail("ins1@email.com").name, "John");
+        assertEquals(roster.getInstructorForEmail("ins1@email.com").getEmail(), "ins1@email.com");
+        assertEquals(roster.getInstructorForEmail("ins1@email.com").getName(), "John");
 
         assertNull(roster.getInstructorForEmail("non-existent@email.com"));
 
@@ -72,10 +72,10 @@ public class CourseRosterTest extends BaseTestCase {
         assertFalse(roster.isStudentsInSameTeam("s1@gmail.com", "s3@gmail.com"));
         assertTrue(roster.isStudentsInSameTeam("s2@gmail.com", "s1@gmail.com"));
 
-        assertEquals(roster.getInstructorForEmail("ins1@email.com").email, "ins1@email.com");
-        assertEquals(roster.getInstructorForEmail("ins1@email.com").name, "John");
-        assertEquals(roster.getInstructorForEmail("ins2@email.com").email, "ins2@email.com");
-        assertEquals(roster.getInstructorForEmail("ins2@email.com").name, "Jean");
+        assertEquals(roster.getInstructorForEmail("ins1@email.com").getEmail(), "ins1@email.com");
+        assertEquals(roster.getInstructorForEmail("ins1@email.com").getName(), "John");
+        assertEquals(roster.getInstructorForEmail("ins2@email.com").getEmail(), "ins2@email.com");
+        assertEquals(roster.getInstructorForEmail("ins2@email.com").getName(), "Jean");
 
     }
 
@@ -128,7 +128,6 @@ public class CourseRosterTest extends BaseTestCase {
                         "Jean", "ins2@email.com"));
         CourseRoster.ParticipantInfo info = roster.getInfoForIdentifier("john@gmail.com");
         assertEquals("John Doe", info.getName());
-        assertEquals("Doe", info.getLastName());
         assertEquals("John Doe", info.getTeamName());
         assertEquals("John Doe's Section", info.getSectionName());
     }
@@ -145,7 +144,6 @@ public class CourseRosterTest extends BaseTestCase {
                         "Jean", "ins2@email.com"));
         CourseRoster.ParticipantInfo info = roster.getInfoForIdentifier("john@email.com");
         assertEquals("John Doe", info.getName());
-        assertEquals("Doe", info.getLastName());
         assertEquals(Const.USER_TEAM_FOR_INSTRUCTOR, info.getTeamName());
         assertEquals(Const.DEFAULT_SECTION, info.getSectionName());
     }
@@ -162,7 +160,6 @@ public class CourseRosterTest extends BaseTestCase {
                         "Jean", "ins2@email.com"));
         CourseRoster.ParticipantInfo info = roster.getInfoForIdentifier("s1");
         assertEquals("s1", info.getName());
-        assertEquals("s1", info.getLastName());
         assertEquals("s1", info.getTeamName());
         assertEquals("s1's Section", info.getSectionName());
     }
@@ -179,7 +176,6 @@ public class CourseRosterTest extends BaseTestCase {
                         "Jean", "ins2@email.com"));
         CourseRoster.ParticipantInfo info = roster.getInfoForIdentifier("random");
         assertEquals(Const.USER_NOBODY_TEXT, info.getName());
-        assertEquals(Const.USER_NOBODY_TEXT, info.getLastName());
         assertEquals(Const.USER_NOBODY_TEXT, info.getTeamName());
         assertEquals(Const.DEFAULT_SECTION, info.getSectionName());
     }

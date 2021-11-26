@@ -6,7 +6,7 @@
 
     <filter>
         <filter-name>WebSecurityHeaderFilter</filter-name>
-        <filter-class>teammates.ui.webapi.WebSecurityHeaderFilter</filter-class>
+        <filter-class>teammates.ui.servlets.WebSecurityHeaderFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>WebSecurityHeaderFilter</filter-name>
@@ -16,17 +16,21 @@
     </filter-mapping>
     <filter>
         <filter-name>RequestTraceFilter</filter-name>
-        <filter-class>teammates.ui.webapi.RequestTraceFilter</filter-class>
+        <filter-class>teammates.ui.servlets.RequestTraceFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>RequestTraceFilter</filter-name>
+        <url-pattern>/login</url-pattern>
+        <url-pattern>/logout</url-pattern>
+        <url-pattern>/oauth2callback/*</url-pattern>
+        <url-pattern>/page/*</url-pattern>
         <url-pattern>/webapi/*</url-pattern>
         <url-pattern>/auto/*</url-pattern>
         <url-pattern>/worker/*</url-pattern>
     </filter-mapping>
     <filter>
         <filter-name>OriginCheckFilter</filter-name>
-        <filter-class>teammates.ui.webapi.OriginCheckFilter</filter-class>
+        <filter-class>teammates.ui.servlets.OriginCheckFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>OriginCheckFilter</filter-name>
@@ -50,6 +54,9 @@
     <listener>
         <listener-class>teammates.storage.search.SearchManagerStarter</listener-class>
     </listener>
+    <listener>
+        <listener-class>teammates.logic.core.LogicStarter</listener-class>
+    </listener>
 
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
@@ -57,7 +64,7 @@
     <servlet>
         <description>Servlet that handles the single web page application</description>
         <servlet-name>WebPageServlet</servlet-name>
-        <servlet-class>teammates.ui.webapi.WebPageServlet</servlet-class>
+        <servlet-class>teammates.ui.servlets.WebPageServlet</servlet-class>
         <load-on-startup>0</load-on-startup>
     </servlet>
     <servlet-mapping>
@@ -68,7 +75,7 @@
     <servlet>
         <description>Health Check Servlet</description>
         <servlet-name>HealthCheckServlet</servlet-name>
-        <servlet-class>teammates.ui.webapi.HealthCheckServlet</servlet-class>
+        <servlet-class>teammates.ui.servlets.HealthCheckServlet</servlet-class>
         <load-on-startup>0</load-on-startup>
     </servlet>
     <servlet-mapping>
@@ -79,7 +86,7 @@
     <servlet>
         <description>REST API Servlet</description>
         <servlet-name>WebApiServlet</servlet-name>
-        <servlet-class>teammates.ui.webapi.WebApiServlet</servlet-class>
+        <servlet-class>teammates.ui.servlets.WebApiServlet</servlet-class>
         <load-on-startup>0</load-on-startup>
     </servlet>
     <servlet-mapping>
@@ -92,7 +99,7 @@
     <servlet>
         <description>Servlet that handles login requests</description>
         <servlet-name>LoginServlet</servlet-name>
-        <servlet-class>teammates.ui.webapi.LoginServlet</servlet-class>
+        <servlet-class>teammates.ui.servlets.LoginServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
@@ -103,7 +110,7 @@
     <servlet>
         <description>Servlet that handles OAuth2 callback</description>
         <servlet-name>OAuth2CallbackServlet</servlet-name>
-        <servlet-class>teammates.ui.webapi.OAuth2CallbackServlet</servlet-class>
+        <servlet-class>teammates.ui.servlets.OAuth2CallbackServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
@@ -114,7 +121,7 @@
     <servlet>
         <description>Servlet that handles logout requests</description>
         <servlet-name>LogoutServlet</servlet-name>
-        <servlet-class>teammates.ui.webapi.LogoutServlet</servlet-class>
+        <servlet-class>teammates.ui.servlets.LogoutServlet</servlet-class>
         <load-on-startup>0</load-on-startup>
     </servlet>
     <servlet-mapping>
@@ -125,7 +132,7 @@
     <servlet>
         <description>Servlet that handles mapping from legacy URL to new one</description>
         <servlet-name>LegacyUrlMapper</servlet-name>
-        <servlet-class>teammates.ui.webapi.LegacyUrlMapper</servlet-class>
+        <servlet-class>teammates.ui.servlets.LegacyUrlMapper</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LegacyUrlMapper</servlet-name>

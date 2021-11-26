@@ -19,7 +19,7 @@ public class FeedbackRubricQuestionDetailsTest extends BaseTestCase {
         FeedbackRubricQuestionDetails rubricDetails = new FeedbackRubricQuestionDetails();
 
         assertEquals(FeedbackQuestionType.RUBRIC, rubricDetails.getQuestionType());
-        assertFalse(rubricDetails.hasAssignedWeights());
+        assertFalse(rubricDetails.isHasAssignedWeights());
         assertTrue(rubricDetails.getRubricWeights().isEmpty());
     }
 

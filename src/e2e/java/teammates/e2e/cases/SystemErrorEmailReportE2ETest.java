@@ -5,9 +5,6 @@ import org.testng.annotations.Test;
 import com.google.cloud.datastore.DatastoreException;
 
 import teammates.common.exception.DeadlineExceededException;
-import teammates.common.exception.EntityNotFoundException;
-import teammates.common.exception.InvalidHttpParameterException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 
 /**
@@ -98,7 +95,7 @@ public class SystemErrorEmailReportE2ETest extends BaseE2ETestCase {
         ______TS("UnauthorizedAccessException testing");
 
         String url = createUrl(Const.ResourceURIs.EXCEPTION)
-                .withParam(Const.ParamsNames.ERROR, UnauthorizedAccessException.class.getSimpleName())
+                .withParam(Const.ParamsNames.ERROR, "UnauthorizedAccessException")
                 .toString();
 
         BACKDOOR.executeGetRequest(url, null);
@@ -112,7 +109,7 @@ public class SystemErrorEmailReportE2ETest extends BaseE2ETestCase {
         ______TS("InvalidHttpParamException testing");
 
         String url = createUrl(Const.ResourceURIs.EXCEPTION)
-                .withParam(Const.ParamsNames.ERROR, InvalidHttpParameterException.class.getSimpleName())
+                .withParam(Const.ParamsNames.ERROR, "InvalidHttpParameterException")
                 .toString();
 
         BACKDOOR.executeGetRequest(url, null);
@@ -126,7 +123,7 @@ public class SystemErrorEmailReportE2ETest extends BaseE2ETestCase {
         ______TS("EntityNotFoundException testing");
 
         String url = createUrl(Const.ResourceURIs.EXCEPTION)
-                .withParam(Const.ParamsNames.ERROR, EntityNotFoundException.class.getSimpleName())
+                .withParam(Const.ParamsNames.ERROR, "EntityNotFoundException")
                 .toString();
 
         BACKDOOR.executeGetRequest(url, null);

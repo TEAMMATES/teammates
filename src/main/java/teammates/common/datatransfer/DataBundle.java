@@ -15,8 +15,10 @@ import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 
 /**
  * Holds a bundle of *Attributes data transfer objects.
- * This class is mainly used for serializing JSON strings.
+ *
+ * <p>This class is mainly used for serializing JSON strings.
  */
+// CHECKSTYLE.OFF:JavadocVariable each field represents different entity types
 public class DataBundle {
     public Map<String, AccountAttributes> accounts = new LinkedHashMap<>();
     public Map<String, CourseAttributes> courses = new LinkedHashMap<>();

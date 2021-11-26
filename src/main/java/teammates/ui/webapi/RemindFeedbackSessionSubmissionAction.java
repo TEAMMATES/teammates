@@ -1,11 +1,9 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.ui.request.FeedbackSessionRespondentRemindRequest;
+import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * Remind students about the feedback submission.
@@ -31,14 +29,14 @@ class RemindFeedbackSessionSubmissionAction extends Action {
     }
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
         FeedbackSessionAttributes feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
         if (!feedbackSession.isOpened()) {
-            return new JsonResult("Reminder email could not be sent out "
-                    + "as the feedback session is not open for submissions.", HttpStatus.SC_BAD_REQUEST);
+            throw new InvalidOperationException("Reminder email could not be sent out "
+                    + "as the feedback session is not open for submissions.");
         }
 
         FeedbackSessionRespondentRemindRequest remindRequest =

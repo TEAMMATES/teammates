@@ -1,10 +1,7 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.ui.output.StudentProfileData;
@@ -40,12 +37,12 @@ class GetStudentProfileAction extends Action {
                 throw new UnauthorizedAccessException(MESSAGE_STUDENT_NOT_FOUND);
             }
             gateKeeper.verifyAccessibleForCurrentUserAsInstructorOrTeamMember(userInfo.id, courseId,
-                    student.section, studentEmail);
+                    student.getSection(), studentEmail);
         }
     }
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
 
         String studentId;
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
@@ -53,13 +50,13 @@ class GetStudentProfileAction extends Action {
         String studentName = "";
         if (studentEmail == null || courseId == null) {
             if (userInfo == null) {
-                return new JsonResult("No student found", HttpStatus.SC_NOT_FOUND);
+                throw new EntityNotFoundException("No student found");
             }
             studentId = userInfo.id;
         } else {
             StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
             if (student == null) {
-                return new JsonResult("No student found", HttpStatus.SC_NOT_FOUND);
+                throw new EntityNotFoundException("No student found");
             }
             studentId = student.getGoogleId();
             studentName = student.getName();
@@ -71,7 +68,7 @@ class GetStudentProfileAction extends Action {
             studentProfile = StudentProfileAttributes.builder("").build();
         } else {
             studentProfile = logic.getStudentProfile(studentId);
-            studentName = logic.getAccount(studentId).name;
+            studentName = logic.getAccount(studentId).getName();
         }
 
         if (studentProfile == null) {

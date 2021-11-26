@@ -7,6 +7,9 @@ import java.util.List;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 
+/**
+ * Contains specific structure and processing logic for numerical scale feedback questions.
+ */
 public class FeedbackNumericalScaleQuestionDetails extends FeedbackQuestionDetails {
 
     static final String QUESTION_TYPE_NAME = "Numerical-scale question";

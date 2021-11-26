@@ -4,6 +4,7 @@ exports[`AdminSearchPageComponent should snap with a search key 1`] = `
 <tm-admin-search-page
   accountService={[Function AccountService]}
   emailGenerationService={[Function EmailGenerationService]}
+  instructorService={[Function InstructorService]}
   instructors={[Function Array]}
   loadingBarService={[Function LoadingBarService]}
   searchQuery={[Function String]}
@@ -52,6 +53,7 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
 <tm-admin-search-page
   accountService={[Function AccountService]}
   emailGenerationService={[Function EmailGenerationService]}
+  instructorService={[Function InstructorService]}
   instructors={[Function Array]}
   loadingBarService={[Function LoadingBarService]}
   searchQuery=""
@@ -151,7 +153,9 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
           
           
           <tr>
-            <td>
+            <td
+              class="text-break"
+            >
               <span>
                 test-exa.demo
               </span>
@@ -209,6 +213,13 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
                 />
                  Reset Google ID 
               </a>
+              <br />
+              <button
+                class="btn btn-danger"
+                id="regenerate-instructor-key-0"
+              >
+                Regenerate key
+              </button>
             </td>
           </tr>
           
@@ -256,6 +267,7 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
 <tm-admin-search-page
   accountService={[Function AccountService]}
   emailGenerationService={[Function EmailGenerationService]}
+  instructorService={[Function InstructorService]}
   instructors={[Function Array]}
   loadingBarService={[Function LoadingBarService]}
   searchQuery=""
@@ -359,7 +371,9 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
           
           <tr>
             <td>
-              <span>
+              <span
+                class="text-break"
+              >
                  test-exa.demo [section] (team) 
               </span>
               <br />
@@ -425,7 +439,7 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
                 class="btn btn-danger"
                 id="regenerate-student-key-0"
               >
-                Regenerate links
+                Regenerate key
               </button>
             </td>
           </tr>
@@ -458,6 +472,26 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
                   <button
                     class="btn btn-primary margin-left-5px btn-sm"
                     id="send-course-join-button"
+                    type="button"
+                  >
+                    Send mail
+                  </button>
+                  <input
+                    class="form-control"
+                    readonly=""
+                  />
+                </li>
+                
+                <li
+                  class="list-group-item list-group-item-light"
+                  style=""
+                >
+                  <strong>
+                    sessionName startTime - endTime
+                  </strong>
+                  <button
+                    class="btn btn-primary margin-left-5px btn-sm"
+                    id="send-awaiting-session-reminder-button"
                     type="button"
                   >
                     Send mail
@@ -541,6 +575,7 @@ exports[`AdminSearchPageComponent should snap with default fields 1`] = `
 <tm-admin-search-page
   accountService={[Function AccountService]}
   emailGenerationService={[Function EmailGenerationService]}
+  instructorService={[Function InstructorService]}
   instructors={[Function Array]}
   loadingBarService={[Function LoadingBarService]}
   searchQuery=""

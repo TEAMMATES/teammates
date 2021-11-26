@@ -179,6 +179,8 @@ export class QuestionEditFormComponent implements OnInit {
   @Output()
   createNewQuestionEvent: EventEmitter<void> = new EventEmitter();
 
+  saveChangeClicked: boolean = false;
+
   commonFeedbackPaths: Map<FeedbackParticipantType, FeedbackParticipantType[]> = new Map();
 
   allowedFeedbackPaths: Map<FeedbackParticipantType, FeedbackParticipantType[]> = new Map();
@@ -237,73 +239,6 @@ export class QuestionEditFormComponent implements OnInit {
   }
 
   /**
-   * Change the {@code giverType} and {@code recipientType} and reset the visibility settings.
-   */
-  changeGiverRecipientType(giverType: FeedbackParticipantType, recipientType: FeedbackParticipantType): void {
-    // check if current recipientType is allowed for giverType,
-    // if not, set default recipientType to the first allowed type as default.
-    /* tslint:disable-next-line: no-non-null-assertion */
-    const allowedRecipientTypes: FeedbackParticipantType[] = this.allowedFeedbackPaths.get(giverType)!;
-    let newRecipientType: FeedbackParticipantType = recipientType;
-    if (allowedRecipientTypes.indexOf(recipientType) === -1) {
-      newRecipientType = allowedRecipientTypes[0];
-    }
-    if (this.model.giverType === giverType && this.model.recipientType === newRecipientType) {
-      // do not reset the visibility settings if reverting feedback path to preset template provided
-      if (this.model.isUsingOtherFeedbackPath) {
-        // remove the custom feedback if selecting a common feedback path
-        this.triggerModelChangeBatch({
-          isUsingOtherFeedbackPath: false,
-        });
-      }
-    } else {
-      this.triggerModelChangeBatch({
-        giverType,
-        recipientType: newRecipientType,
-        commonVisibilitySettingName: 'Please select a visibility option',
-        isUsingOtherFeedbackPath: false,
-        isUsingOtherVisibilitySetting: false,
-        showResponsesTo: [],
-        showGiverNameTo: [],
-        showRecipientNameTo: [],
-      });
-    }
-  }
-
-  /**
-   * Applies the common visibility setting.
-   */
-  applyCommonVisibilitySettings(commonSettings: CommonVisibilitySetting): void {
-    this.triggerModelChangeBatch({
-      showResponsesTo: commonSettings.visibilitySettings.SHOW_RESPONSE,
-      showGiverNameTo: commonSettings.visibilitySettings.SHOW_GIVER_NAME,
-      showRecipientNameTo: commonSettings.visibilitySettings.SHOW_RECIPIENT_NAME,
-      commonVisibilitySettingName: commonSettings.name,
-      isUsingOtherVisibilitySetting: false,
-    });
-  }
-
-  /**
-   * Modifies visibility control of visibility type based on {@code isAllowed}.
-   */
-  modifyVisibilityControl(
-      isAllowed: boolean, visibilityType: FeedbackVisibilityType, visibilityControl: VisibilityControl): void {
-    if (isAllowed) {
-      this.visibilityStateMachine.allowToSee(visibilityType, visibilityControl);
-    } else {
-      this.visibilityStateMachine.disallowToSee(visibilityType, visibilityControl);
-    }
-    this.triggerModelChangeBatch({
-      showResponsesTo:
-          this.visibilityStateMachine.getVisibilityTypesUnderVisibilityControl(VisibilityControl.SHOW_RESPONSE),
-      showGiverNameTo:
-          this.visibilityStateMachine.getVisibilityTypesUnderVisibilityControl(VisibilityControl.SHOW_GIVER_NAME),
-      showRecipientNameTo:
-          this.visibilityStateMachine.getVisibilityTypesUnderVisibilityControl(VisibilityControl.SHOW_RECIPIENT_NAME),
-    });
-  }
-
-  /**
    * Helper methods to create a range.
    */
   range(num: number): number[] {
@@ -344,6 +279,7 @@ export class QuestionEditFormComponent implements OnInit {
    * Saves the question.
    */
   saveQuestionHandler(): void {
+    this.saveChangeClicked = true;
     if (this.formMode === QuestionEditFormMode.EDIT) {
       const doChangesNeedWarning: boolean = this.model.isQuestionDetailsChanged
         || this.model.isVisibilityChanged

@@ -8,6 +8,9 @@ import java.util.Set;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.util.FieldValidator;
 
+/**
+ * Contains specific structure and processing logic for constant sum feedback questions.
+ */
 public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails {
 
     static final String QUESTION_TYPE_NAME_OPTION = "Distribute points (among options) question";

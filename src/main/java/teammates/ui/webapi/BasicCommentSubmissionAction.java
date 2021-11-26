@@ -6,8 +6,6 @@ import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.InvalidHttpParameterException;
-import teammates.common.exception.UnauthorizedAccessException;
 
 /**
  * Basic action class for feedback response comment related operation.
@@ -20,7 +18,7 @@ abstract class BasicCommentSubmissionAction extends BasicFeedbackSubmissionActio
      * Validates the questionType of the corresponding question.
      */
     void validQuestionForCommentInSubmission(FeedbackQuestionAttributes feedbackQuestion) {
-        if (!feedbackQuestion.getQuestionDetails().isFeedbackParticipantCommentsOnResponsesAllowed()) {
+        if (!feedbackQuestion.getQuestionDetailsCopy().isFeedbackParticipantCommentsOnResponsesAllowed()) {
             throw new InvalidHttpParameterException("Invalid question type for comment in submission");
         }
     }
@@ -28,12 +26,12 @@ abstract class BasicCommentSubmissionAction extends BasicFeedbackSubmissionActio
     /**
      * Validates comment doesn't exist of corresponding response.
      */
-    void verifyCommentNotExist(String feedbackResponseId) {
+    void verifyCommentNotExist(String feedbackResponseId) throws InvalidOperationException {
         FeedbackResponseCommentAttributes comment =
                 logic.getFeedbackResponseCommentForResponseFromParticipant(feedbackResponseId);
 
         if (comment != null) {
-            throw new InvalidHttpParameterException("Comment has been created for the response in submission");
+            throw new InvalidOperationException("Comment has been created for the response in submission");
         }
 
     }

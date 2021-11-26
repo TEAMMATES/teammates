@@ -37,6 +37,7 @@ export class PageComponent {
   @Input() isStudent: boolean = false;
   @Input() isInstructor: boolean = false;
   @Input() isAdmin: boolean = false;
+  @Input() isMaintainer: boolean = false;
   @Input() isValidUser: boolean = false;
   @Input() pageTitle: string = '';
   @Input() hideAuthInfo: boolean = false;

@@ -16,8 +16,6 @@ public class StudentData extends ApiOutput {
     @Nullable
     private String googleId;
     @Nullable
-    private String lastName;
-    @Nullable
     private String comments;
     @Nullable
     private String key;
@@ -33,7 +31,6 @@ public class StudentData extends ApiOutput {
         this.email = studentAttributes.getEmail();
         this.courseId = studentAttributes.getCourse();
         this.name = studentAttributes.getName();
-        this.lastName = studentAttributes.getLastName();
         this.joinState = studentAttributes.isRegistered() ? JoinState.JOINED : JoinState.NOT_JOINED;
         this.comments = studentAttributes.getComments();
         this.teamName = studentAttributes.getTeam();
@@ -54,10 +51,6 @@ public class StudentData extends ApiOutput {
 
     public String getGoogleId() {
         return googleId;
-    }
-
-    public String getLastName() {
-        return lastName;
     }
 
     public String getComments() {
@@ -88,10 +81,6 @@ public class StudentData extends ApiOutput {
         this.googleId = googleId;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
     public void setComments(String comments) {
         this.comments = comments;
     }
@@ -109,13 +98,6 @@ public class StudentData extends ApiOutput {
     }
 
     /**
-     * Hides last name.
-     */
-    public void hideLastName() {
-        setLastName(null);
-    }
-
-    /**
      * Hides some attributes to student.
      */
     public void hideInformationForStudent() {
@@ -125,7 +107,7 @@ public class StudentData extends ApiOutput {
 
     /**
      * Adds additional information only for search result for admin.
-     * @param key The encrypted key
+     * @param key The registration key
      * @param institute The institute of the student
      * @param googleId The googleId of the student
      */

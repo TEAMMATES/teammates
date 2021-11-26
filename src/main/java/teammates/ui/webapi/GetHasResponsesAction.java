@@ -4,12 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.ui.output.HasResponsesData;
 
@@ -90,7 +87,7 @@ class GetHasResponsesAction extends Action {
     }
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         String entityType = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
 
         if (entityType.equals(Const.EntityType.INSTRUCTOR)) {
@@ -111,28 +108,24 @@ class GetHasResponsesAction extends Action {
                     // Skip invisible sessions.
                     continue;
                 }
-                boolean hasResponses = logic.hasStudentSubmittedFeedback(feedbackSession, student.email);
+                boolean hasResponses = logic.hasStudentSubmittedFeedback(feedbackSession, student.getEmail());
                 sessionsHasResponses.put(feedbackSession.getFeedbackSessionName(), hasResponses);
             }
             return new JsonResult(new HasResponsesData(sessionsHasResponses));
         }
 
         FeedbackSessionAttributes feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
-        if (feedbackSession == null) {
-            return new JsonResult("No feedback session found with name: " + feedbackSessionName,
-                    HttpStatus.SC_NOT_FOUND);
-        }
 
         StudentAttributes student = logic.getStudentForGoogleId(courseId, userInfo.getId());
         return new JsonResult(new HasResponsesData(
-                logic.hasStudentSubmittedFeedback(feedbackSession, student.email)));
+                logic.hasStudentSubmittedFeedback(feedbackSession, student.getEmail())));
     }
 
     private JsonResult handleInstructorReq() {
         String feedbackQuestionID = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
         if (feedbackQuestionID != null) {
             if (logic.getFeedbackQuestion(feedbackQuestionID) == null) {
-                return new JsonResult("No feedback question with id: " + feedbackQuestionID, HttpStatus.SC_NOT_FOUND);
+                throw new EntityNotFoundException("No feedback question with id: " + feedbackQuestionID);
             }
 
             boolean hasResponses = logic.areThereResponsesForQuestion(feedbackQuestionID);
@@ -141,7 +134,7 @@ class GetHasResponsesAction extends Action {
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         if (logic.getCourse(courseId) == null) {
-            return new JsonResult("No course with id: " + courseId, HttpStatus.SC_NOT_FOUND);
+            throw new EntityNotFoundException("No course with id: " + courseId);
         }
 
         boolean hasResponses = logic.hasResponsesForCourse(courseId);

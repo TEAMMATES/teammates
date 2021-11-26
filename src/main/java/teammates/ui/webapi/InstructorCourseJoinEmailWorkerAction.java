@@ -3,8 +3,6 @@ package teammates.ui.webapi;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.EntityNotFoundException;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.EmailWrapper;
 
@@ -14,12 +12,11 @@ import teammates.common.util.EmailWrapper;
 class InstructorCourseJoinEmailWorkerAction extends AdminOnlyAction {
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         String courseId = getNonNullRequestParamValue(ParamsNames.COURSE_ID);
         CourseAttributes course = logic.getCourse(courseId);
         if (course == null) {
-            throw new EntityNotFoundException(
-                    new EntityDoesNotExistException("Course with ID " + courseId + " does not exist!"));
+            throw new EntityNotFoundException("Course with ID " + courseId + " does not exist!");
         }
 
         String instructorEmail = getNonNullRequestParamValue(ParamsNames.INSTRUCTOR_EMAIL);
@@ -31,23 +28,19 @@ class InstructorCourseJoinEmailWorkerAction extends AdminOnlyAction {
         // because instructors' email cannot be changed before joining the course.
         InstructorAttributes instructor = logic.getInstructorById(courseId, instructorEmail);
         if (instructor == null) {
-            throw new EntityNotFoundException(
-                    new EntityDoesNotExistException("Instructor does not exist."));
+            throw new EntityNotFoundException("Instructor does not exist.");
         }
 
         boolean isRejoin = getBooleanRequestParamValue(ParamsNames.IS_INSTRUCTOR_REJOINING);
 
         EmailWrapper email;
         if (isRejoin) {
-            String institute = getRequestParamValue(ParamsNames.INSTRUCTOR_INSTITUTION);
-            email = emailGenerator
-                    .generateInstructorCourseRejoinEmailAfterGoogleIdReset(instructor, course, institute);
+            email = emailGenerator.generateInstructorCourseRejoinEmailAfterGoogleIdReset(instructor, course);
         } else {
             String inviterId = getNonNullRequestParamValue(ParamsNames.INVITER_ID);
             AccountAttributes inviter = logic.getAccount(inviterId);
             if (inviter == null) {
-                throw new EntityNotFoundException(
-                        new EntityDoesNotExistException("Inviter account does not exist."));
+                throw new EntityNotFoundException("Inviter account does not exist.");
             }
 
             email = emailGenerator.generateInstructorCourseJoinEmail(inviter, instructor, course);

@@ -18,7 +18,6 @@ import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { TimezoneService } from '../../../services/timezone.service';
-import { LogType } from '../../../types/api-const';
 import {
   AuthInfo,
   FeedbackParticipantType,
@@ -29,6 +28,7 @@ import {
   FeedbackResponseComment,
   FeedbackResponses,
   FeedbackSession,
+  FeedbackSessionLogType,
   FeedbackSessionSubmissionStatus,
   Instructor,
   NumberOfEntitiesToGiveFeedbackToSetting,
@@ -149,7 +149,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
         this.isSubmissionFormsDisabled = true;
       }
 
-      const nextUrl: string = `${window.location.pathname}${window.location.search}`;
+      const nextUrl: string = `${window.location.pathname}${window.location.search.replace(/&/g, '%26')}`;
       this.authService.getAuthUser(undefined, nextUrl).subscribe((auth: AuthInfo) => {
         const isPreviewOrModeration: boolean = !!(auth.user && (this.moderatedPerson || this.previewAsPerson));
         if (auth.user) {
@@ -207,17 +207,47 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
     });
   }
 
+  // Solution for checking partial element visibility adapted from
+  // https://stackoverflow.com/questions/30943662/check-if-element-is-partially-in-viewport
+  /**
+   * Checks if a given element is in view.
+   *
+   * @params e element to perform check for
+   */
+  isInViewport(e: HTMLElement): boolean {
+    const rect: ClientRect = e.getBoundingClientRect();
+    const windowHeight: number = (window.innerHeight || document.documentElement.clientHeight);
+
+    return !(
+      Math.floor(100 - (((rect.top >= 0 ? 0 : rect.top) / +-rect.height) * 100)) < 1 ||
+      Math.floor(100 - ((rect.bottom - windowHeight) / rect.height) * 100) < 1
+    );
+  }
+
+  /**
+   * Scrolls to the question based on its given question id.
+   */
+  scrollToQuestion(): void {
+    const div: HTMLElement | null = document.getElementById(this.moderatedQuestionId);
+
+    // continue scrolling as long as the element to scroll to is yet to be found or not in view
+    if (div == null || !(this.isInViewport(div))) {
+      setTimeout(() => {
+        this.pageScrollService.scroll({
+          document: this.document,
+          scrollTarget: `#${this.moderatedQuestionId}`,
+          scrollOffset: 70,
+        });
+        this.scrollToQuestion();
+      }, 500);
+    }
+  }
+
   ngAfterViewInit(): void {
     if (!this.moderatedQuestionId) {
       return;
     }
-    setTimeout(() => {
-      this.pageScrollService.scroll({
-        document: this.document,
-        scrollTarget: `#${this.moderatedQuestionId}`,
-        scrollOffset: 70,
-      });
-    }, 500);
+    this.scrollToQuestion();
   }
 
   /**
@@ -238,7 +268,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
             courseId: this.courseId,
             feedbackSessionName: this.feedbackSessionName,
             studentEmail: this.personEmail,
-            logType: LogType.FEEDBACK_SESSION_ACCESS,
+            logType: FeedbackSessionLogType.ACCESS,
           }).subscribe(() => {
 
           }, () => {
@@ -344,7 +374,13 @@ this session.`;
       }, (resp: ErrorMessageOutput) => {
         if (resp.status === 404) {
           this.simpleModalService.openInformationModal('Feedback Session Does Not Exist!', SimpleModalType.DANGER,
-            'The session does not exist (most likely deleted by the instructor after the submission link was sent).');
+              'The session does not exist (most likely deleted by the instructor after the submission link was sent).');
+          this.navigationService.navigateByURL(this.router, '/web/student/home');
+        } else if (resp.status === 403) {
+          this.simpleModalService.openInformationModal('Not Authorised To Access!', SimpleModalType.DANGER,
+              resp.error.message);
+          this.navigationService.navigateByURL(this.router, '/web/student/home');
+        } else {
           this.navigationService.navigateWithErrorMessage(this.router, '/web/student/home', resp.error.message);
         }
       });
@@ -573,7 +609,7 @@ this session.`;
       courseId: this.courseId,
       feedbackSessionName: this.feedbackSessionName,
       studentEmail: this.personEmail,
-      logType: LogType.FEEDBACK_SESSION_SUBMISSION,
+      logType: FeedbackSessionLogType.SUBMISSION,
     }).subscribe(() => {
 
     }, () => {

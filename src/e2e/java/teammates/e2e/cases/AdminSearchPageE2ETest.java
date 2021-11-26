@@ -58,18 +58,18 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
 
         ______TS("Typical case: Reset student google id");
         searchPage.resetStudentGoogleId(student);
-        student.googleId = null;
+        student.setGoogleId(null);
         studentManageAccountLink = getExpectedStudentManageAccountLink(student);
         studentHomePageLink = getExpectedStudentHomePageLink(student);
         searchPage.verifyStudentRowContent(student, studentAccount, studentDetails, studentManageAccountLink,
                 studentHomePageLink);
 
-        ______TS("Typical case: Regenerate all links for a course student");
+        ______TS("Typical case: Regenerate registration key for a course student");
         searchPage.clickExpandStudentLinks();
         String originalJoinLink = searchPage.getStudentJoinLink(student);
 
-        searchPage.regenerateLinksForStudent(student);
-        searchPage.verifyRegenerateStudentCourseLinks(student, originalJoinLink);
+        searchPage.regenerateStudentKey(student);
+        searchPage.verifyRegenerateStudentKey(student, originalJoinLink);
         searchPage.waitForPageToLoad();
 
         ______TS("Typical case: Search for instructor email");
@@ -85,12 +85,19 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
 
         ______TS("Typical case: Reset instructor google id");
         searchPage.resetInstructorGoogleId(instructor);
-        instructor.googleId = null;
-        instructorAccount.institute = null;
+        instructor.setGoogleId(null);
         instructorManageAccountLink = getExpectedInstructorManageAccountLink(instructor);
         instructorHomePageLink = getExpectedInstructorHomePageLink(instructor);
         searchPage.verifyInstructorRowContent(instructor, instructorAccount, instructorManageAccountLink,
                 instructorHomePageLink);
+
+        ______TS("Typical case: Regenerate registration key for an instructor");
+        searchPage.clickExpandInstructorLinks();
+        originalJoinLink = searchPage.getInstructorJoinLink(instructor);
+
+        searchPage.regenerateInstructorKey(instructor);
+        searchPage.verifyRegenerateInstructorKey(instructor, originalJoinLink);
+        searchPage.waitForPageToLoad();
 
         ______TS("Typical case: Search common course id");
         searchPage.clearSearchBox();
@@ -107,20 +114,20 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
     }
 
     private String getExpectedStudentDetails(StudentAttributes student) {
-        return String.format("%s [%s] (%s)", student.course,
-                student.section == null ? Const.DEFAULT_SECTION : student.section, student.team);
+        return String.format("%s [%s] (%s)", student.getCourse(),
+                student.getSection() == null ? Const.DEFAULT_SECTION : student.getSection(), student.getTeam());
     }
 
     private String getExpectedStudentHomePageLink(StudentAttributes student) {
         return student.isRegistered() ? createUrl(Const.WebPageURIs.STUDENT_HOME_PAGE)
-                .withUserId(student.googleId)
+                .withUserId(student.getGoogleId())
                 .toAbsoluteString()
                 : "";
     }
 
     private String getExpectedStudentManageAccountLink(StudentAttributes student) {
         return student.isRegistered() ? createUrl(Const.WebPageURIs.ADMIN_ACCOUNTS_PAGE)
-                .withParam(Const.ParamsNames.INSTRUCTOR_ID, student.googleId)
+                .withParam(Const.ParamsNames.INSTRUCTOR_ID, student.getGoogleId())
                 .toAbsoluteString()
                 : "";
     }
@@ -128,7 +135,7 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
     private int getExpectedNumExpandedRows(StudentAttributes student) {
         int expectedNumExpandedRows = 2;
         for (FeedbackSessionAttributes sessions : testData.feedbackSessions.values()) {
-            if (sessions.getCourseId().equals(student.course)) {
+            if (sessions.getCourseId().equals(student.getCourse())) {
                 expectedNumExpandedRows += 1;
                 if (sessions.getResultsVisibleFromTime().isBefore(Instant.now())) {
                     expectedNumExpandedRows += 1;
@@ -139,14 +146,14 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
     }
 
     private String getExpectedInstructorHomePageLink(InstructorAttributes instructor) {
-        String googleId = instructor.isRegistered() ? instructor.googleId : "";
+        String googleId = instructor.isRegistered() ? instructor.getGoogleId() : "";
         return createUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE)
                 .withUserId(googleId)
                 .toAbsoluteString();
     }
 
     private String getExpectedInstructorManageAccountLink(InstructorAttributes instructor) {
-        String googleId = instructor.isRegistered() ? instructor.googleId : "";
+        String googleId = instructor.isRegistered() ? instructor.getGoogleId() : "";
         return createUrl(Const.WebPageURIs.ADMIN_ACCOUNTS_PAGE)
                 .withParam(Const.ParamsNames.INSTRUCTOR_ID, googleId)
                 .toAbsoluteString();

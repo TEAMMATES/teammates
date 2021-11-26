@@ -3,6 +3,7 @@ package teammates.common.datatransfer.questions;
 /**
  * Feedback Question Type Definitions.
  */
+// CHECKSTYLE.OFF:JavadocVariable enum names are self-documenting
 public enum FeedbackQuestionType {
     TEXT(FeedbackTextQuestionDetails.class, FeedbackTextResponseDetails.class),
     MCQ(FeedbackMcqQuestionDetails.class, FeedbackMcqResponseDetails.class),
@@ -11,7 +12,8 @@ public enum FeedbackQuestionType {
 
     CONSTSUM(FeedbackConstantSumQuestionDetails.class, FeedbackConstantSumResponseDetails.class),
 
-    // TODO: dummy enum, need to migrate CONSTSUM to either CONSTSUM_OPTIONS or CONSTSUM_RECIPIENTS
+    // In the back-end, only CONSTSUM and not its branched versions is recognized as a valid question type.
+    // The branching here is done to make it simpler for the front-end to render the right items.
     CONSTSUM_OPTIONS(FeedbackConstantSumQuestionDetails.class, FeedbackConstantSumResponseDetails.class),
     CONSTSUM_RECIPIENTS(FeedbackConstantSumQuestionDetails.class, FeedbackConstantSumResponseDetails.class),
 

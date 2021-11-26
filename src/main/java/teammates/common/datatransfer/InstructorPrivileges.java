@@ -264,18 +264,30 @@ public final class InstructorPrivileges {
         return isAllowedInSessionLevelAnySection(sessionName, privilegeName);
     }
 
+    /**
+     * Returns true if co-owner privilege exists.
+     */
     public boolean hasCoownerPrivileges() {
         return hasSamePrivileges(PRIVILEGES_COOWNER);
     }
 
+    /**
+     * Returns true if manager privilege exists.
+     */
     public boolean hasManagerPrivileges() {
         return hasSamePrivileges(PRIVILEGES_MANAGER);
     }
 
+    /**
+     * Returns true if observer privilege exists.
+     */
     public boolean hasObserverPrivileges() {
         return hasSamePrivileges(PRIVILEGES_OBSERVER);
     }
 
+    /**
+     * Returns true if tutor privilege exists.
+     */
     public boolean hasTutorPrivileges() {
         return hasSamePrivileges(PRIVILEGES_TUTOR);
     }
@@ -366,12 +378,18 @@ public final class InstructorPrivileges {
         return new LinkedHashMap<>(courseLevel);
     }
 
+    /**
+     * Returns the section level privileges of the instructor.
+     */
     public Map<String, Map<String, Boolean>> getSectionLevelPrivileges() {
         Map<String, Map<String, Boolean>> copy = new LinkedHashMap<>();
         sectionLevel.forEach((key, value) -> copy.put(key, new LinkedHashMap<>(value)));
         return copy;
     }
 
+    /**
+     * Returns the session level privileges of the instructor.
+     */
     public Map<String, Map<String, Map<String, Boolean>>> getSessionLevelPrivileges() {
         Map<String, Map<String, Map<String, Boolean>>> copy = new LinkedHashMap<>();
         sessionLevel.forEach((sessionLevelKey, sessionLevelValue) -> {

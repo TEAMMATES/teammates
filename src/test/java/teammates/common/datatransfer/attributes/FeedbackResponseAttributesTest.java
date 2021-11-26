@@ -31,7 +31,7 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
         assertEquals(response.getGiverSection(), fra.getGiverSection());
         assertEquals(response.getRecipientEmail(), fra.getRecipient());
         assertEquals(response.getRecipientSection(), fra.getRecipientSection());
-        assertEquals(response.getResponseMetaData(), fra.getResponseDetails().getAnswerString());
+        assertEquals(response.getAnswer(), fra.getResponseDetailsCopy().getAnswerString());
         assertEquals(response.getCreatedAt(), fra.getCreatedAt());
         assertEquals(response.getUpdatedAt(), fra.getUpdatedAt());
     }
@@ -56,7 +56,7 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
         assertEquals(Const.DEFAULT_SECTION, fra.getGiverSection());
         assertEquals(response.getRecipientEmail(), fra.getRecipient());
         assertEquals(Const.DEFAULT_SECTION, fra.getRecipientSection());
-        assertEquals(response.getResponseMetaData(), fra.getResponseDetails().getAnswerString());
+        assertEquals(response.getAnswer(), fra.getResponseDetailsCopy().getAnswerString());
         assertEquals(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP, fra.getCreatedAt());
         assertEquals(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP, fra.getUpdatedAt());
     }
@@ -154,7 +154,7 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
         assertEquals("giverSection", fra.getGiverSection());
         assertEquals("recipient@email.com", fra.getRecipient());
         assertEquals("recipientSection", fra.getRecipientSection());
-        assertEquals("My answer", fra.getResponseDetails().getAnswerString());
+        assertEquals("My answer", fra.getResponseDetailsCopy().getAnswerString());
     }
 
     @Test
@@ -166,9 +166,9 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
                 .build();
         FeedbackResponseAttributes fra2 = new FeedbackResponseAttributes(fra1);
 
-        ((FeedbackTextResponseDetails) fra2.responseDetails).setAnswer("My second answer");
-        assertEquals(fra1.responseDetails.getAnswerString(), "My original answer");
-        assertEquals(fra2.responseDetails.getAnswerString(), "My second answer");
+        ((FeedbackTextResponseDetails) fra2.getResponseDetails()).setAnswer("My second answer");
+        assertEquals(fra1.getResponseDetails().getAnswerString(), "My original answer");
+        assertEquals(fra2.getResponseDetails().getAnswerString(), "My second answer");
 
     }
 
@@ -179,9 +179,9 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
                         "questionId", "giver@email.com", "recipient@email.com")
                 .withResponseDetails(new FeedbackTextResponseDetails("My original answer"))
                 .build();
-        FeedbackResponseDetails frdDeep = fra.getResponseDetails();
+        FeedbackResponseDetails frdDeep = fra.getResponseDetailsCopy();
 
-        ((FeedbackTextResponseDetails) fra.responseDetails).setAnswer("My second answer");
+        ((FeedbackTextResponseDetails) fra.getResponseDetails()).setAnswer("My second answer");
         assertEquals(frdDeep.getAnswerString(), "My original answer");
     }
 
@@ -197,7 +197,7 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
         updatedDetails.setAnswer("Modified deep copy answer");
 
         assertEquals(updatedDetails.getAnswerString(), "Modified deep copy answer");
-        assertEquals(fra.responseDetails.getAnswerString(), "Updated answer");
+        assertEquals(fra.getResponseDetails().getAnswerString(), "Updated answer");
 
     }
 
@@ -225,15 +225,15 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
 
         feedbackResponseAttributes.update(updateOptions);
 
-        assertEquals("session", feedbackResponseAttributes.feedbackSessionName);
-        assertEquals("course", feedbackResponseAttributes.courseId);
-        assertEquals("questionId", feedbackResponseAttributes.feedbackQuestionId);
+        assertEquals("session", feedbackResponseAttributes.getFeedbackSessionName());
+        assertEquals("course", feedbackResponseAttributes.getCourseId());
+        assertEquals("questionId", feedbackResponseAttributes.getFeedbackQuestionId());
         assertEquals(FeedbackQuestionType.TEXT, feedbackResponseAttributes.getFeedbackQuestionType());
-        assertEquals("giver1", feedbackResponseAttributes.giver);
-        assertEquals("section1", feedbackResponseAttributes.giverSection);
-        assertEquals("recipient1", feedbackResponseAttributes.recipient);
-        assertEquals("section2", feedbackResponseAttributes.recipientSection);
-        assertEquals("Test 1", feedbackResponseAttributes.getResponseDetails().getAnswerString());
+        assertEquals("giver1", feedbackResponseAttributes.getGiver());
+        assertEquals("section1", feedbackResponseAttributes.getGiverSection());
+        assertEquals("recipient1", feedbackResponseAttributes.getRecipient());
+        assertEquals("section2", feedbackResponseAttributes.getRecipientSection());
+        assertEquals("Test 1", feedbackResponseAttributes.getResponseDetailsCopy().getAnswerString());
     }
 
     @Test

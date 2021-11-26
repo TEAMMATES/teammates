@@ -44,7 +44,7 @@ public class FeedbackResponsesRequest extends BasicRequest {
         }
 
         @Override
-        public void validate() {
+        public void validate() throws InvalidHttpRequestBodyException {
             assertTrue(recipient != null && !recipient.isEmpty(), "Recipient cannot be empty");
             assertTrue(responseDetails != null, "Response details cannot be null");
         }

@@ -115,7 +115,7 @@
             <property name="tokens" value="PARAMETER_DEF,VARIABLE_DEF,METHOD_DEF"/>
         </module>
         <module name="ConstantName">
-            <property name="format" value="^([A-Z][A-Z0-9]*(_[A-Z0-9]+)*|log|logic|.*(Db|Logic)|dataBundle|gaeSimulation|dummySessionToken)$"/>
+            <property name="format" value="^([A-Z][A-Z0-9]*(_[A-Z0-9]+)*|log|instance)$"/>
         </module>
         <module name="RegexpSinglelineJava">
             <property name="format" value="\s+$"/>
@@ -140,7 +140,7 @@
         </module>
         <module name="SingleLineJavadoc"/>
         <module name="JavadocVariable">
-            <property name="scope" value="public"/>
+            <property name="scope" value="protected"/>
         </module>
         <module name="CommentsIndentation"/>
         <module name="ImportOrder">
@@ -180,10 +180,10 @@
         </module>
         <module name="MissingJavadocMethod">
             <property name="allowedAnnotations" value="Test, Override, BeforeSuite, BeforeClass, BeforeTest, BeforeMethod, AfterSuite, AfterClass, AfterTest, AfterMethod"/>
-            <property name="scope" value="public"/>
+            <property name="scope" value="protected"/>
             <property name="allowMissingPropertyJavadoc" value="true"/>
             <property name="tokens" value="METHOD_DEF"/>
-            <property name="ignoreMethodNamesRegex" value="main"/>
+            <property name="ignoreMethodNamesRegex" value="main|inst|build|(with.+)"/>
         </module>
         <module name="JavadocContentLocationCheck"/>
         <module name="JavadocMissingWhitespaceAfterAsteriskCheck"/>
@@ -195,7 +195,7 @@
         <property name="lineSeparator" value="lf_cr_crlf"/>
     </module>
     <module name="SuppressionFilter">
-        <property name="file" value="${basedir}/static-analysis/teammates-checkstyle-suppressions.xml"/>
+        <property name="file" value="${suppressions}"/>
     </module>
     <module name="JavadocPackage"/>
     <module name="LineLength">

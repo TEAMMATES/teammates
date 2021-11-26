@@ -16,10 +16,10 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.common.util.ThreadHelper;
 import teammates.common.util.TimeHelper;
 import teammates.e2e.pageobjects.InstructorFeedbackSessionsPage;
 import teammates.e2e.util.TestProperties;
+import teammates.test.ThreadHelper;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSIONS_PAGE}.
@@ -40,7 +40,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
     protected void prepareTestData() {
         testData = loadDataBundle("/InstructorFeedbackSessionsPageE2ETest.json");
         studentToEmail = testData.students.get("charlie.tmms@IFSess.CS1101");
-        studentToEmail.email = TestProperties.TEST_EMAIL;
+        studentToEmail.setEmail(TestProperties.TEST_EMAIL);
         removeAndRestoreDataBundle(testData);
 
         instructor = testData.instructors.get("instructor");
@@ -77,7 +77,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
     public void testAll() {
         AppUrl url = createUrl(Const.WebPageURIs.INSTRUCTOR_SESSIONS_PAGE);
         InstructorFeedbackSessionsPage feedbackSessionsPage =
-                loginToPage(url, InstructorFeedbackSessionsPage.class, instructor.googleId);
+                loginToPage(url, InstructorFeedbackSessionsPage.class, instructor.getGoogleId());
 
         ______TS("verify loaded data");
         FeedbackSessionAttributes[] loadedSessions = { openSession, closedSession };
@@ -190,7 +190,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         feedbackSessionsPage.verifySessionsTable(sessionsForSoftDelete);
         feedbackSessionsPage.verifySoftDeletedSessionsTable(softDeletedSessions);
         assertNotNull(getSoftDeletedSession(closedSession.getFeedbackSessionName(),
-                instructor.googleId));
+                instructor.getGoogleId()));
 
         ______TS("restore session");
         FeedbackSessionAttributes[] sessionsForRestore = { openSession, newSession, closedSession, copiedSession2,
@@ -202,7 +202,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         feedbackSessionsPage.verifySessionsTable(sessionsForRestore);
         feedbackSessionsPage.verifyNumSoftDeleted(0);
         assertNull(getSoftDeletedSession(closedSession.getFeedbackSessionName(),
-                instructor.googleId));
+                instructor.getGoogleId()));
 
         ______TS("permanently delete session");
         FeedbackSessionAttributes[] sessionsForDelete = { copiedSession, copiedSession2, closedSession,
@@ -228,9 +228,9 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         feedbackSessionsPage.verifySessionsTable(sessionsForRestoreAll);
         feedbackSessionsPage.verifyNumSoftDeleted(0);
         assertNull(getSoftDeletedSession(copiedSession.getFeedbackSessionName(),
-                instructor.googleId));
+                instructor.getGoogleId()));
         assertNull(getSoftDeletedSession(copiedSession2.getFeedbackSessionName(),
-                instructor.googleId));
+                instructor.getGoogleId()));
 
         ______TS("delete all session");
         feedbackSessionsPage.moveToRecycleBin(copiedSession);
@@ -250,7 +250,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         String sessionName = session.getFeedbackSessionName();
         boolean hasQuestion = testData.feedbackQuestions.values()
                 .stream()
-                .anyMatch(q -> q.feedbackSessionName.equals(sessionName));
+                .anyMatch(q -> q.getFeedbackSessionName().equals(sessionName));
 
         if (!hasQuestion) {
             return "0 / 0";
@@ -264,8 +264,8 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         Set<String> uniqueGivers = new HashSet<>();
         testData.feedbackResponses.values()
                 .stream()
-                .filter(r -> r.feedbackSessionName.equals(sessionName))
-                .forEach(r -> uniqueGivers.add(r.giver));
+                .filter(r -> r.getFeedbackSessionName().equals(sessionName))
+                .forEach(r -> uniqueGivers.add(r.getGiver()));
         int numResponses = uniqueGivers.size();
 
         return numResponses + " / " + numStudents;

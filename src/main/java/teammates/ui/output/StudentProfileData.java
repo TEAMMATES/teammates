@@ -17,12 +17,12 @@ public class StudentProfileData extends ApiOutput {
 
     public StudentProfileData(String name, StudentProfileAttributes profileAttributes) {
         this.name = name;
-        this.shortName = profileAttributes.shortName;
-        this.email = profileAttributes.email;
-        this.institute = profileAttributes.institute;
-        this.nationality = profileAttributes.nationality;
-        this.gender = profileAttributes.gender;
-        this.moreInfo = profileAttributes.moreInfo;
+        this.shortName = profileAttributes.getShortName();
+        this.email = profileAttributes.getEmail();
+        this.institute = profileAttributes.getInstitute();
+        this.nationality = profileAttributes.getNationality();
+        this.gender = profileAttributes.getGender();
+        this.moreInfo = profileAttributes.getMoreInfo();
     }
 
     public String getMoreInfo() {

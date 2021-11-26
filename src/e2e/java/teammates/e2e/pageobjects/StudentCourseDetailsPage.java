@@ -15,6 +15,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.StringHelper;
+import teammates.e2e.util.TestProperties;
 
 /**
  * Page Object Model for student course details page.
@@ -57,10 +58,10 @@ public class StudentCourseDetailsPage extends AppPage {
     }
 
     public void verifyInstructorsDetails(InstructorAttributes[] instructorDetails) {
-        String[] actualInstructors = instructorsList.getText().split(System.lineSeparator());
+        String[] actualInstructors = instructorsList.getText().split(TestProperties.LINE_SEPARATOR);
         for (int i = 0; i < instructorDetails.length; i++) {
             InstructorAttributes expected = instructorDetails[i];
-            assertEquals(expected.displayedName + ": " + expected.name + " (" + expected.email + ")",
+            assertEquals(expected.getDisplayedName() + ": " + expected.getName() + " (" + expected.getEmail() + ")",
                     actualInstructors[i]);
         }
     }
@@ -99,7 +100,8 @@ public class StudentCourseDetailsPage extends AppPage {
             }
 
             WebElement actualProfile = browser.driver.findElement(By.id("teammates-details-" + i));
-            assertEquals(profileItems.stream().collect(Collectors.joining(System.lineSeparator())), actualProfile.getText());
+            assertEquals(profileItems.stream().collect(Collectors.joining(TestProperties.LINE_SEPARATOR)),
+                    actualProfile.getText());
         }
     }
 

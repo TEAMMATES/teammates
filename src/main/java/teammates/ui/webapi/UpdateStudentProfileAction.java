@@ -1,12 +1,10 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
+import teammates.ui.request.InvalidHttpRequestBodyException;
 import teammates.ui.request.StudentProfileUpdateRequest;
 
 /**
@@ -31,7 +29,7 @@ class UpdateStudentProfileAction extends Action {
     }
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() throws InvalidHttpRequestBodyException {
         String studentId = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_ID);
         StudentProfileUpdateRequest updateRequest = getAndValidateRequestBody(StudentProfileUpdateRequest.class);
 
@@ -39,16 +37,16 @@ class UpdateStudentProfileAction extends Action {
             StudentProfileAttributes studentProfile = sanitizeProfile(extractProfileData(studentId, updateRequest));
             logic.updateOrCreateStudentProfile(
                     StudentProfileAttributes.updateOptionsBuilder(studentId)
-                            .withShortName(studentProfile.shortName)
-                            .withEmail(studentProfile.email)
-                            .withGender(studentProfile.gender)
-                            .withNationality(studentProfile.nationality)
-                            .withInstitute(studentProfile.institute)
-                            .withMoreInfo(studentProfile.moreInfo)
+                            .withShortName(studentProfile.getShortName())
+                            .withEmail(studentProfile.getEmail())
+                            .withGender(studentProfile.getGender())
+                            .withNationality(studentProfile.getNationality())
+                            .withInstitute(studentProfile.getInstitute())
+                            .withMoreInfo(studentProfile.getMoreInfo())
                             .build());
-            return new JsonResult("Your profile has been edited successfully", HttpStatus.SC_ACCEPTED);
+            return new JsonResult("Your profile has been edited successfully");
         } catch (InvalidParametersException ipe) {
-            return new JsonResult(ipe.getMessage(), HttpStatus.SC_BAD_REQUEST);
+            throw new InvalidHttpRequestBodyException(ipe);
         }
     }
 
@@ -56,28 +54,28 @@ class UpdateStudentProfileAction extends Action {
         StudentProfileAttributes editedProfile =
                 StudentProfileAttributes.builder(studentId).build();
 
-        editedProfile.shortName = req.getShortName();
-        editedProfile.email = req.getEmail();
-        editedProfile.institute = req.getInstitute();
-        editedProfile.nationality = req.getNationality();
+        editedProfile.setShortName(req.getShortName());
+        editedProfile.setEmail(req.getEmail());
+        editedProfile.setInstitute(req.getInstitute());
+        editedProfile.setNationality(req.getNationality());
 
-        if ("".equals(editedProfile.nationality)) {
-            editedProfile.nationality = req.getExistingNationality();
+        if ("".equals(editedProfile.getNationality())) {
+            editedProfile.setNationality(req.getExistingNationality());
         }
 
-        editedProfile.gender = StudentProfileAttributes.Gender.getGenderEnumValue(req.getGender());
-        editedProfile.moreInfo = req.getMoreInfo();
+        editedProfile.setGender(StudentProfileAttributes.Gender.getGenderEnumValue(req.getGender()));
+        editedProfile.setMoreInfo(req.getMoreInfo());
 
         sanitizeProfile(editedProfile);
         return editedProfile;
     }
 
     private StudentProfileAttributes sanitizeProfile(StudentProfileAttributes studentProfile) {
-        studentProfile.shortName = StringHelper.trimIfNotNull(studentProfile.shortName);
-        studentProfile.email = StringHelper.trimIfNotNull(studentProfile.email);
-        studentProfile.nationality = StringHelper.trimIfNotNull(studentProfile.nationality);
-        studentProfile.institute = StringHelper.trimIfNotNull(studentProfile.institute);
-        studentProfile.moreInfo = StringHelper.trimIfNotNull(studentProfile.moreInfo);
+        studentProfile.setShortName(StringHelper.trimIfNotNull(studentProfile.getShortName()));
+        studentProfile.setEmail(StringHelper.trimIfNotNull(studentProfile.getEmail()));
+        studentProfile.setNationality(StringHelper.trimIfNotNull(studentProfile.getNationality()));
+        studentProfile.setInstitute(StringHelper.trimIfNotNull(studentProfile.getInstitute()));
+        studentProfile.setMoreInfo(StringHelper.trimIfNotNull(studentProfile.getMoreInfo()));
 
         return studentProfile;
     }

@@ -1,16 +1,14 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
 import teammates.ui.output.InstructorData;
 import teammates.ui.request.InstructorCreateRequest;
+import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * Action: adds another instructor to a course that already exists.
@@ -40,24 +38,26 @@ class CreateInstructorAction extends Action {
     }
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         InstructorCreateRequest instructorRequest = getAndValidateRequestBody(InstructorCreateRequest.class);
         InstructorAttributes instructorToAdd = createInstructorWithBasicAttributes(courseId,
                 instructorRequest.getName(), instructorRequest.getEmail(), instructorRequest.getRoleName(),
                 instructorRequest.getIsDisplayedToStudent(), instructorRequest.getDisplayName());
 
-        /* Process adding the instructor and setup status to be shown to user and admin */
+        // Process adding the instructor and setup status to be shown to user and admin
         try {
             InstructorAttributes createdInstructor = logic.createInstructor(instructorToAdd);
             taskQueuer.scheduleCourseRegistrationInviteToInstructor(
-                    userInfo.id, instructorToAdd.email, instructorToAdd.courseId, null, false);
+                    userInfo.id, instructorToAdd.getEmail(), instructorToAdd.getCourseId(), false);
+            taskQueuer.scheduleInstructorForSearchIndexing(createdInstructor.getCourseId(), createdInstructor.getEmail());
+
             return new JsonResult(new InstructorData(createdInstructor));
         } catch (EntityAlreadyExistsException e) {
-            return new JsonResult("An instructor with the same email address already exists in the course.",
-                    HttpStatus.SC_CONFLICT);
+            throw new InvalidOperationException(
+                    "An instructor with the same email address already exists in the course.", e);
         } catch (InvalidParametersException e) {
-            return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
+            throw new InvalidHttpRequestBodyException(e);
         }
 
     }
@@ -85,7 +85,7 @@ class CreateInstructorAction extends Action {
 
         String instrDisplayedName = displayedName;
         if (displayedName == null || displayedName.isEmpty()) {
-            instrDisplayedName = InstructorAttributes.DEFAULT_DISPLAY_NAME;
+            instrDisplayedName = Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR;
         }
 
         instrDisplayedName = SanitizationHelper.sanitizeName(instrDisplayedName);

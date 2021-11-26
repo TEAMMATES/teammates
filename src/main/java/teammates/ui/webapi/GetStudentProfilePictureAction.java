@@ -1,10 +1,7 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 
@@ -44,7 +41,7 @@ class GetStudentProfilePictureAction extends Action {
     }
 
     @Override
-    ActionResult execute() {
+    public ActionResult execute() {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
 
@@ -55,19 +52,19 @@ class GetStudentProfilePictureAction extends Action {
         } else {
             StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
             if (student == null) {
-                return new JsonResult("No student found", HttpStatus.SC_NOT_FOUND);
+                throw new EntityNotFoundException("No student found");
             }
 
-            if (!StringHelper.isEmpty(student.googleId)) {
-                studentProfile = logic.getStudentProfile(student.googleId);
+            if (!StringHelper.isEmpty(student.getGoogleId())) {
+                studentProfile = logic.getStudentProfile(student.getGoogleId());
             }
         }
 
-        if (studentProfile == null || !fileStorage.doesFileExist(studentProfile.googleId)) {
+        if (studentProfile == null || !fileStorage.doesFileExist(studentProfile.getGoogleId())) {
             return new ImageResult();
         }
 
-        byte[] bytes = fileStorage.getContent(studentProfile.googleId);
+        byte[] bytes = fileStorage.getContent(studentProfile.getGoogleId());
         return new ImageResult(bytes);
     }
 }

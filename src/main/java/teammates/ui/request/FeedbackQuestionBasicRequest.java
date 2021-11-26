@@ -34,7 +34,7 @@ public class FeedbackQuestionBasicRequest extends BasicRequest {
     private List<FeedbackVisibilityType> showRecipientNameTo;
 
     @Override
-    public void validate() {
+    public void validate() throws InvalidHttpRequestBodyException {
         assertTrue(questionNumber >= 1, "Invalid question number");
         assertTrue(questionBrief != null, "Question brief cannot be null");
         assertTrue(!questionBrief.isEmpty(), "Question brief cannot be empty");
@@ -71,7 +71,6 @@ public class FeedbackQuestionBasicRequest extends BasicRequest {
         FeedbackQuestionDetails details =
                 JsonUtils.fromJson(JsonUtils.toCompactJson(questionDetails), questionType.getQuestionDetailsClass());
         details.setQuestionText(questionBrief);
-        // TODO remove this after migrate CONSTSUM to either CONSTSUM_OPTIONS or CONSTSUM_RECIPIENTS
         if (questionType == FeedbackQuestionType.CONSTSUM_OPTIONS
                 || questionType == FeedbackQuestionType.CONSTSUM_RECIPIENTS) {
             details.setQuestionType(FeedbackQuestionType.CONSTSUM);

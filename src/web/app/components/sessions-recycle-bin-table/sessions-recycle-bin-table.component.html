@@ -55,8 +55,8 @@
           </thead>
           <tbody>
           <tr *ngFor="let recycleBinFeedbackSessionRowModel of recycleBinFeedbackSessionRowModels; let i = index">
-            <td>{{ recycleBinFeedbackSessionRowModel.feedbackSession.courseId }}</td>
-            <td>{{ recycleBinFeedbackSessionRowModel.feedbackSession.feedbackSessionName }}</td>
+            <td class="text-break">{{ recycleBinFeedbackSessionRowModel.feedbackSession.courseId }}</td>
+            <td class="text-break">{{ recycleBinFeedbackSessionRowModel.feedbackSession.feedbackSessionName }}</td>
             <td>
               <span class="ngb-tooltip-class" [ngbTooltip]="recycleBinFeedbackSessionRowModel.feedbackSession.createdAtTimestamp | formatDateDetail:recycleBinFeedbackSessionRowModel.feedbackSession.timeZone" container="body">
                 {{ recycleBinFeedbackSessionRowModel.feedbackSession.createdAtTimestamp | recycleBinTableFormatDate:recycleBinFeedbackSessionRowModel.feedbackSession.timeZone }}
@@ -67,9 +67,14 @@
                 {{ recycleBinFeedbackSessionRowModel.feedbackSession.deletedAtTimestamp | recycleBinTableFormatDate:recycleBinFeedbackSessionRowModel.feedbackSession.timeZone }}
               </span>
             </td>
-            <td class="text-center actions-cell">
+            <td class="text-center actions-cell align-row">
               <button id="btn-restore-{{ i }}" type="button" class="btn btn-light btn-sm" (click)="restoreSessionEvent.emit(recycleBinFeedbackSessionRowModel)">Restore</button>
-              <button id="btn-delete-{{ i }}" type="button" class="btn btn-light btn-sm text-danger" (click)="permanentlyDeleteSessionEvent.emit(recycleBinFeedbackSessionRowModel)">Delete Permanently</button>
+              <button id="btn-delete-{{ i }}" type="button" class="btn btn-light btn-sm text-danger align-row" (click)="permanentlyDeleteSessionEvent.emit(recycleBinFeedbackSessionRowModel); setRowClicked(i)">
+                <span>Delete Permanently</span>
+                <div class="padding-left-7px">
+                  <tm-ajax-loading [color]="'#000000'" *ngIf="isPermanentDeleteLoading && rowClicked === i"></tm-ajax-loading>
+                </div>
+              </button>
             </td>
           </tr>
           </tbody>

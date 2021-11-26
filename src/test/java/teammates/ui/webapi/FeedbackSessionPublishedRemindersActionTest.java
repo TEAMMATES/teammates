@@ -24,7 +24,7 @@ public class FeedbackSessionPublishedRemindersActionTest
 
     @Override
     @Test
-    protected void testAccessControl() throws Exception {
+    protected void testAccessControl() {
         verifyOnlyAdminCanAccess();
     }
 
@@ -32,12 +32,12 @@ public class FeedbackSessionPublishedRemindersActionTest
     @Test
     public void testExecute() throws Exception {
 
-        ______TS("default state of typical data bundle: 1 session published with email unsent");
+        ______TS("default state of typical data bundle: no sessions needing published email");
 
         FeedbackSessionPublishedRemindersAction action = getAction();
         action.execute();
 
-        verifySpecifiedTasksAdded(Const.TaskQueue.FEEDBACK_SESSION_PUBLISHED_EMAIL_QUEUE_NAME, 2);
+        verifyNoTasksAdded();
 
         ______TS("1 session published by moving automated publish time, "
                  + "1 session published similarly with disabled published reminder, "
@@ -84,7 +84,7 @@ public class FeedbackSessionPublishedRemindersActionTest
         action = getAction();
         action.execute();
 
-        verifySpecifiedTasksAdded(Const.TaskQueue.FEEDBACK_SESSION_PUBLISHED_EMAIL_QUEUE_NAME, 4);
+        verifySpecifiedTasksAdded(Const.TaskQueue.FEEDBACK_SESSION_PUBLISHED_EMAIL_QUEUE_NAME, 2);
 
         ______TS("1 session unpublished manually");
 
@@ -93,7 +93,7 @@ public class FeedbackSessionPublishedRemindersActionTest
         action = getAction();
         action.execute();
 
-        verifySpecifiedTasksAdded(Const.TaskQueue.FEEDBACK_SESSION_PUBLISHED_EMAIL_QUEUE_NAME, 3);
+        verifySpecifiedTasksAdded(Const.TaskQueue.FEEDBACK_SESSION_PUBLISHED_EMAIL_QUEUE_NAME, 1);
 
         ______TS("1 session published with emails sent");
 
@@ -107,7 +107,7 @@ public class FeedbackSessionPublishedRemindersActionTest
         action = getAction();
         action.execute();
 
-        verifySpecifiedTasksAdded(Const.TaskQueue.FEEDBACK_SESSION_PUBLISHED_EMAIL_QUEUE_NAME, 2);
+        verifyNoTasksAdded();
 
     }
 

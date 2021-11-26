@@ -1,0 +1,33 @@
+.right-padding {
+  padding-right: 1.25em;
+}
+
+.blue-font {
+  color: blue;
+}
+
+.red-font {
+  color: red;
+}
+
+.green-font {
+  color: green;
+}
+
+.orange-font {
+  color: darkorange;
+}
+
+.clickable:hover,
+.clickable:active {
+  background-color: lightblue;
+  cursor: pointer;
+}
+
+.border {
+  border-radius: 20px;
+  background: white;
+  padding: 5px;
+  height: 100%;
+  margin-right: 1.25em;
+}

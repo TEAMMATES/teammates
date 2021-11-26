@@ -13,9 +13,9 @@ import {
   Course,
   FeedbackSession,
   FeedbackSessionLog,
+  FeedbackSessionLogType,
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
-  LogType,
   ResponseVisibleSetting,
   SessionVisibleSetting,
   Student,
@@ -48,6 +48,7 @@ describe('InstructorTrackViewPageComponent', () => {
   const testCourse1: Course = {
     courseId: 'CS1234',
     courseName: 'test-course1',
+    institute: 'Test Institute',
     timeZone: 'Asia/Singapore',
     creationTimestamp: 0,
     deletionTimestamp: 0,
@@ -56,6 +57,7 @@ describe('InstructorTrackViewPageComponent', () => {
   const testCourse2: Course = {
     courseId: 'MA1234',
     courseName: 'test-course2',
+    institute: 'Test Institute',
     timeZone: 'Asia/Singapore',
     creationTimestamp: 0,
     deletionTimestamp: 0,
@@ -109,12 +111,12 @@ describe('InstructorTrackViewPageComponent', () => {
     feedbackSessionLogEntries: [
       {
         studentData: testStudent,
-        feedbackSessionLogType: LogType.FEEDBACK_SESSION_VIEW_RESULT,
+        feedbackSessionLogType: FeedbackSessionLogType.VIEW_RESULT,
         timestamp: 0,
       },
       {
         studentData: testStudent,
-        feedbackSessionLogType: LogType.FEEDBACK_SESSION_VIEW_RESULT,
+        feedbackSessionLogType: FeedbackSessionLogType.VIEW_RESULT,
         timestamp: 1000,
       },
     ],
@@ -216,8 +218,8 @@ describe('InstructorTrackViewPageComponent', () => {
     spyOn(studentService, 'getStudentsFromCourse').and.returnValue(of({ students: [testStudent] }));
     const logSpy: Spy = spyOn(logService, 'searchFeedbackSessionLog').and
         .returnValue(of({ feedbackSessionLogs: [testLogs] }));
-    const timezoneSpy: Spy = spyOn(timezoneService, 'getResolvedTimestamp').and
-        .returnValue(of({ timestamp: 0, message: '' }));
+    const timezoneSpy: Spy = spyOn(timezoneService, 'resolveLocalDateTime').and
+        .returnValue(0);
 
     component.isLoading = false;
     component.isSearching = false;

@@ -1,9 +1,7 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
-import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.util.Const;
 import teammates.ui.request.ErrorReportRequest;
 
@@ -28,13 +26,13 @@ public class SendErrorReportActionTest extends BaseActionTest<SendErrorReportAct
 
     @Override
     @Test
-    protected void testExecute() throws Exception {
+    protected void testExecute() {
         logoutUser();
 
         ______TS("Normal case: valid report with all fields populated");
         ErrorReportRequest report = new ErrorReportRequest(REQUEST_ID, SUBJECT, CONTENT);
         SendErrorReportAction action = getAction(report, PARAMS);
-        JsonResult jsonResult = getJsonResult(action);
+        getJsonResult(action);
 
         String expectedLogMessage = "====== USER FEEDBACK ABOUT ERROR ======" + System.lineSeparator()
                 + "USER: Non-logged in user" + System.lineSeparator()
@@ -42,26 +40,19 @@ public class SendErrorReportActionTest extends BaseActionTest<SendErrorReportAct
                 + "SUBJECT: " + SUBJECT + System.lineSeparator()
                 + "CONTENT: " + CONTENT;
 
-        assertEquals(HttpStatus.SC_OK, jsonResult.getStatusCode());
         assertEquals(expectedLogMessage, action.getUserErrorReportLogMessage(report));
 
         ______TS("Failure: Invalid report with null requestId");
-        assertThrows(InvalidHttpRequestBodyException.class, () -> {
-            ErrorReportRequest badReport = new ErrorReportRequest(null, SUBJECT, CONTENT);
-            getAction(badReport, PARAMS).execute();
-        });
+        ErrorReportRequest badReport = new ErrorReportRequest(null, SUBJECT, CONTENT);
+        verifyHttpRequestBodyFailure(badReport, PARAMS);
 
         ______TS("Failure: Invalid report with null SUBJECT");
-        assertThrows(InvalidHttpRequestBodyException.class, () -> {
-            ErrorReportRequest badReport = new ErrorReportRequest(REQUEST_ID, null, CONTENT);
-            getAction(badReport, PARAMS).execute();
-        });
+        badReport = new ErrorReportRequest(REQUEST_ID, null, CONTENT);
+        verifyHttpRequestBodyFailure(badReport, PARAMS);
 
         ______TS("Failure: Invalid report with null CONTENT");
-        assertThrows(InvalidHttpRequestBodyException.class, () -> {
-            ErrorReportRequest badReport = new ErrorReportRequest(REQUEST_ID, SUBJECT, null);
-            getAction(badReport, PARAMS).execute();
-        });
+        badReport = new ErrorReportRequest(REQUEST_ID, SUBJECT, null);
+        verifyHttpRequestBodyFailure(badReport, PARAMS);
     }
 
     @Override

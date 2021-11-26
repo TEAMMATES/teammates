@@ -36,6 +36,7 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
   isEmailFieldChanged: boolean = false;
   isStudentLoading: boolean = false;
   hasStudentLoadingFailed: boolean = false;
+  isFormSaving: boolean = false;
 
   editForm!: FormGroup;
   teamFieldSubscription?: Subscription;
@@ -55,7 +56,6 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
         email: 'alice@email.com',
         courseId: '',
         name: 'Alice Betsy',
-        lastName: '',
         comments: 'Alice is a transfer student.',
         teamName: 'Team A',
         sectionName: 'Section A',
@@ -188,11 +188,16 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
       isSessionSummarySendEmail: shouldResendPastSessionLinks,
     };
 
+    this.isFormSaving = true;
+
     this.studentService.updateStudent({
       courseId: this.courseId,
       studentEmail: this.student.email,
       requestBody: reqBody,
     })
+      .pipe(finalize(() => {
+        this.isFormSaving = false;
+      }))
       .subscribe((resp: MessageOutput) => {
         this.navigationService.navigateWithSuccessMessage(this.router, '/web/instructor/courses/details',
             resp.message, { courseid: this.courseId });

@@ -1,6 +1,5 @@
 package teammates.lnp.util;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +19,8 @@ import teammates.common.datatransfer.attributes.StudentProfileAttributes;
  * L&P test data generator.
  */
 public abstract class LNPTestData {
+
+    // CHECKSTYLE.OFF:MissingJavadocMethod generator for different entities are self-explained by the method name
 
     protected Map<String, AccountAttributes> generateAccounts() {
         return new HashMap<>();
@@ -57,6 +58,8 @@ public abstract class LNPTestData {
         return new HashMap<>();
     }
 
+    // CHECKSTYLE.ON:MissingJavadocMethod
+
     /**
      * Returns a JSON data bundle containing the data relevant for the performance test.
      */
@@ -90,6 +93,6 @@ public abstract class LNPTestData {
      *
      * @return List of entries, which are made up of a list of field values.
      */
-    public abstract List<List<String>> generateCsvData() throws IOException;
+    public abstract List<List<String>> generateCsvData();
 
 }

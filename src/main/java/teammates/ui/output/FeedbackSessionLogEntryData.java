@@ -2,20 +2,19 @@ package teammates.ui.output;
 
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.ui.constants.LogType;
+import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 
 /**
  * The session log of a student for a single feedback session.
  */
 public class FeedbackSessionLogEntryData {
     private final StudentData studentData;
-    private final LogType feedbackSessionLogType;
+    private final FeedbackSessionLogType feedbackSessionLogType;
     private final long timestamp;
 
-    public FeedbackSessionLogEntryData(FeedbackSessionLogEntry logEntry) {
-        StudentAttributes student = logEntry.getStudent();
+    public FeedbackSessionLogEntryData(FeedbackSessionLogEntry logEntry, StudentAttributes student) {
         StudentData studentData = new StudentData(student);
-        LogType logType = LogType.valueOfLabel(logEntry.getFeedbackSessionLogType());
+        FeedbackSessionLogType logType = FeedbackSessionLogType.valueOfLabel(logEntry.getFeedbackSessionLogType());
         long timestamp = logEntry.getTimestamp();
         this.studentData = studentData;
         this.feedbackSessionLogType = logType;
@@ -26,7 +25,7 @@ public class FeedbackSessionLogEntryData {
         return studentData;
     }
 
-    public LogType getFeedbackSessionLogType() {
+    public FeedbackSessionLogType getFeedbackSessionLogType() {
         return feedbackSessionLogType;
     }
 

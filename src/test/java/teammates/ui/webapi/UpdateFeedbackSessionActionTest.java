@@ -2,18 +2,17 @@ package teammates.ui.webapi;
 
 import java.time.ZoneId;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.util.Const;
 import teammates.ui.output.FeedbackSessionData;
 import teammates.ui.output.ResponseVisibleSetting;
 import teammates.ui.output.SessionVisibleSetting;
 import teammates.ui.request.FeedbackSessionUpdateRequest;
+import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * SUT: {@link UpdateFeedbackSessionAction}.
@@ -32,7 +31,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
 
     @Override
     @Test
-    protected void testExecute() throws Exception {
+    protected void testExecute() {
         InstructorAttributes instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         FeedbackSessionAttributes session = typicalBundle.feedbackSessions.get("session1InCourse1");
 
@@ -55,7 +54,6 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         UpdateFeedbackSessionAction a = getAction(updateRequest, param);
         JsonResult r = getJsonResult(a);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
         FeedbackSessionData response = (FeedbackSessionData) r.getOutput();
 
         session = logic.getFeedbackSession(session.getFeedbackSessionName(), session.getCourseId());
@@ -115,11 +113,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         updateRequest.setCustomSessionVisibleTimestamp(
                 updateRequest.getSubmissionStartTime().plusSeconds(10).toEpochMilli());
 
-        InvalidHttpRequestBodyException ihrbe = assertThrows(InvalidHttpRequestBodyException.class, () -> {
-            UpdateFeedbackSessionAction a = getAction(updateRequest, param);
-            getJsonResult(a);
-        });
-
+        InvalidHttpRequestBodyException ihrbe = verifyHttpRequestBodyFailure(updateRequest, param);
         assertEquals("The start time for this feedback session cannot be "
                 + "earlier than the time when the session will be visible.", ihrbe.getMessage());
     }
@@ -149,9 +143,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         updateRequest.setResponseVisibleSetting(ResponseVisibleSetting.LATER);
 
         UpdateFeedbackSessionAction a = getAction(updateRequest, param);
-        JsonResult r = getJsonResult(a);
-
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+        getJsonResult(a);
 
         session = logic.getFeedbackSession(session.getFeedbackSessionName(), session.getCourseId());
         assertEquals(Const.TIME_REPRESENTS_FOLLOW_OPENING, session.getSessionVisibleFromTime());
@@ -172,9 +164,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         updateRequest.setSessionVisibleSetting(SessionVisibleSetting.AT_OPEN);
 
         a = getAction(updateRequest, param);
-        r = getJsonResult(a);
-
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+        getJsonResult(a);
 
         session = logic.getFeedbackSession(session.getFeedbackSessionName(), session.getCourseId());
         assertEquals(Const.TIME_REPRESENTS_FOLLOW_OPENING, session.getSessionVisibleFromTime());
@@ -197,9 +187,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         updateRequest.setResponseVisibleSetting(ResponseVisibleSetting.LATER);
 
         UpdateFeedbackSessionAction a = getAction(updateRequest, param);
-        JsonResult r = getJsonResult(a);
-
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+        getJsonResult(a);
     }
 
     @Test
@@ -216,10 +204,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         FeedbackSessionUpdateRequest updateRequest = getTypicalFeedbackSessionUpdateRequest();
         updateRequest.setInstructions(null);
 
-        assertThrows(InvalidHttpRequestBodyException.class, () -> {
-            UpdateFeedbackSessionAction a = getAction(updateRequest, param);
-            getJsonResult(a);
-        });
+        verifyHttpRequestBodyFailure(updateRequest, param);
     }
 
     private FeedbackSessionUpdateRequest getTypicalFeedbackSessionUpdateRequest() {
@@ -255,8 +240,8 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "abcSession",
         };
 
-        loginAsInstructor(instructor1OfCourse1.googleId);
-        verifyEntityNotFound(submissionParams);
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
+        verifyEntityNotFoundAcl(submissionParams);
 
         ______TS("inaccessible without ModifySessionPrivilege");
 

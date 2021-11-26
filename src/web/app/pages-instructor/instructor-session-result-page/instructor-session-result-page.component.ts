@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { saveAs } from 'file-saver';
 import { concat, Observable } from 'rxjs';
@@ -9,6 +9,7 @@ import { FeedbackQuestionsService } from '../../../services/feedback-questions.s
 import { FeedbackResponseCommentService } from '../../../services/feedback-response-comment.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { InstructorService } from '../../../services/instructor.service';
+import { NavigationService } from '../../../services/navigation.service';
 import { ProgressBarService } from '../../../services/progress-bar.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -84,7 +85,6 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
   courseId: string = '';
   fsName: string = '';
   viewType: string = InstructorSessionResultViewType.QUESTION;
-  viewTooltipText: string = 'View results in different formats';
   section: string = '';
   sectionType: InstructorSessionResultSectionType = InstructorSessionResultSectionType.EITHER;
   groupByTeam: boolean = true;
@@ -143,6 +143,8 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
               private simpleModalService: SimpleModalService,
               private commentsToCommentTableModel: CommentsToCommentTableModelPipe,
               private progressBarService: ProgressBarService,
+              private navigationService: NavigationService,
+              private router: Router,
               statusMessageService: StatusMessageService,
               commentService: FeedbackResponseCommentService,
               commentToCommentRowModel: CommentToCommentRowModelPipe,
@@ -287,7 +289,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
       questionId,
       courseId: this.session.courseId,
       feedbackSessionName: this.session.feedbackSessionName,
-      intent: Intent.INSTRUCTOR_RESULT,
+      intent: Intent.FULL_DETAIL,
     })
     .subscribe((resp: SessionResults) => {
       if (resp.questions.length) {
@@ -324,7 +326,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
     this.feedbackSessionsService.getFeedbackSessionResults({
       courseId: this.session.courseId,
       feedbackSessionName: this.session.feedbackSessionName,
-      intent: Intent.INSTRUCTOR_RESULT,
+      intent: Intent.FULL_DETAIL,
       groupBySection: sectionName,
     })
     .subscribe((resp: SessionResults) => {
@@ -438,7 +440,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
           this.feedbackSessionsService.downloadSessionResults(
               this.session.courseId,
               this.session.feedbackSessionName,
-              Intent.INSTRUCTOR_RESULT,
+              Intent.FULL_DETAIL,
               this.indicateMissingResponses,
               this.showStatistics,
               this.questionsModel[k].question.feedbackQuestionId,
@@ -478,7 +480,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
     this.feedbackSessionsService.downloadSessionResults(
         this.session.courseId,
         this.session.feedbackSessionName,
-        Intent.INSTRUCTOR_RESULT,
+        Intent.FULL_DETAIL,
         this.indicateMissingResponses,
         this.showStatistics,
         question.questionId,
@@ -564,38 +566,9 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
       });
   }
 
-  /**
-   * Handles view type changes.
-   */
-  handleViewTypeChange(newViewType: InstructorSessionResultViewType): void {
-    if (this.viewType === newViewType) {
-      // do nothing
-      return;
-    }
-    this.viewType = newViewType;
-
-    // change tooltip text based on currently selected view type
-    switch (this.viewType) {
-      case InstructorSessionResultViewType.QUESTION:
-        this.viewTooltipText = 'Group responses by question';
-        break;
-      case InstructorSessionResultViewType.GRQ:
-        this.viewTooltipText = 'Group responses by giver, then by recipient, and then by question';
-        break;
-      case InstructorSessionResultViewType.RGQ:
-        this.viewTooltipText = 'Group responses by recipient, then by giver, and then by question';
-        break;
-      case InstructorSessionResultViewType.GQR:
-        this.viewTooltipText = 'Group responses by giver, then by question, and then by recipient';
-        break;
-      case InstructorSessionResultViewType.RQG:
-        this.viewTooltipText = 'Group responses by recipient, then by question, and then by giver';
-        break;
-      default:
-        this.viewTooltipText = 'View results in different formats';
-    }
-
-    // the expand all will be reset if the view type changed
-    this.collapseAllTabs();
+  navigateToIndividualSessionResultPage(): void {
+    this.navigationService.navigateByURL(this.router, '/web/instructor/sessions/result',
+        { courseid: this.courseId, fsname: this.fsName });
   }
+
 }

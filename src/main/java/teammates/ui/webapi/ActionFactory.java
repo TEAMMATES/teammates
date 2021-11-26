@@ -11,8 +11,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 
-import teammates.common.exception.ActionMappingException;
-import teammates.common.exception.TeammatesException;
 import teammates.common.util.Const.CronJobURIs;
 import teammates.common.util.Const.ResourceURIs;
 import teammates.common.util.Const.TaskQueue;
@@ -20,14 +18,14 @@ import teammates.common.util.Const.TaskQueue;
 /**
  * Generates the matching {@link Action} for a given URI and request method.
  */
-public class ActionFactory {
+public final class ActionFactory {
+
+    static final Map<String, Map<String, Class<? extends Action>>> ACTION_MAPPINGS = new HashMap<>();
 
     private static final String GET = HttpGet.METHOD_NAME;
     private static final String POST = HttpPost.METHOD_NAME;
     private static final String PUT = HttpPut.METHOD_NAME;
     private static final String DELETE = HttpDelete.METHOD_NAME;
-
-    private static final Map<String, Map<String, Class<? extends Action>>> ACTION_MAPPINGS = new HashMap<>();
 
     static {
         map(ResourceURIs.DATABUNDLE, POST, PutDataBundleAction.class);
@@ -35,6 +33,9 @@ public class ActionFactory {
         map(ResourceURIs.DATABUNDLE, PUT, DeleteDataBundleAction.class);
         map(ResourceURIs.DATABUNDLE_DOCUMENTS, PUT, PutDataBundleDocumentsAction.class);
         map(ResourceURIs.EXCEPTION, GET, AdminExceptionTestAction.class);
+        // Even though this is a GET action, POST is used in order to get extra protection from CSRF
+        map(ResourceURIs.USER_COOKIE, POST, GetUserCookieAction.class);
+
         map(ResourceURIs.ERROR_REPORT, POST, SendErrorReportAction.class);
         map(ResourceURIs.TIMEZONE, GET, GetTimeZonesAction.class);
         map(ResourceURIs.NATIONALITIES, GET, GetNationalitiesAction.class);
@@ -94,7 +95,8 @@ public class ActionFactory {
         map(ResourceURIs.SESSIONS, GET, GetFeedbackSessionsAction.class);
         map(ResourceURIs.BIN_SESSION, PUT, BinFeedbackSessionAction.class);
         map(ResourceURIs.BIN_SESSION, DELETE, RestoreFeedbackSessionAction.class);
-        map(ResourceURIs.STUDENT_COURSE_LINKS_REGENERATION, POST, RegenerateStudentCourseLinksAction.class);
+        map(ResourceURIs.INSTRUCTOR_KEY, POST, RegenerateInstructorKeyAction.class);
+        map(ResourceURIs.STUDENT_KEY, POST, RegenerateStudentKeyAction.class);
         map(ResourceURIs.QUESTIONS, GET, GetFeedbackQuestionsAction.class);
         map(ResourceURIs.QUESTION, POST, CreateFeedbackQuestionAction.class);
         map(ResourceURIs.QUESTION, PUT, UpdateFeedbackQuestionAction.class);
@@ -103,7 +105,6 @@ public class ActionFactory {
         map(ResourceURIs.RESPONSES, GET, GetFeedbackResponsesAction.class);
         map(ResourceURIs.RESPONSES, PUT, SubmitFeedbackResponsesAction.class);
         map(ResourceURIs.HAS_RESPONSES, GET, GetHasResponsesAction.class);
-        map(ResourceURIs.LOCAL_DATE_TIME, GET, GetLocalDateTimeInfoAction.class);
         map(ResourceURIs.SESSION_LINKS_RECOVERY, POST, SessionLinksRecoveryAction.class);
         map(ResourceURIs.JOIN, GET, GetCourseJoinStatusAction.class);
         map(ResourceURIs.JOIN, PUT, JoinCourseAction.class);
@@ -120,6 +121,7 @@ public class ActionFactory {
         map(ResourceURIs.SESSION_LOGS, POST, CreateFeedbackSessionLogAction.class);
         map(ResourceURIs.SESSION_LOGS, GET, GetFeedbackSessionLogsAction.class);
         map(ResourceURIs.LOGS, GET, QueryLogsAction.class);
+        map(ResourceURIs.ACTION_CLASS, GET, GetActionClassesAction.class);
 
         // Cron jobs; use GET request
         // Reference: https://cloud.google.com/appengine/docs/standard/java11/scheduling-jobs-with-cron-yaml
@@ -130,6 +132,8 @@ public class ActionFactory {
         map(CronJobURIs.AUTOMATED_FEEDBACK_CLOSED_REMINDERS, GET, FeedbackSessionClosedRemindersAction.class);
         map(CronJobURIs.AUTOMATED_FEEDBACK_CLOSING_REMINDERS, GET, FeedbackSessionClosingRemindersAction.class);
         map(CronJobURIs.AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS, GET, FeedbackSessionPublishedRemindersAction.class);
+        map(CronJobURIs.AUTOMATED_FEEDBACK_OPENING_SOON_REMINDERS, GET,
+                FeedbackSessionOpeningSoonRemindersAction.class);
 
         // Task queue workers; use POST request
         // Reference: https://cloud.google.com/tasks/docs/creating-appengine-tasks
@@ -145,7 +149,13 @@ public class ActionFactory {
         map(TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_WORKER_URL, POST, InstructorCourseJoinEmailWorkerAction.class);
         map(TaskQueue.SEND_EMAIL_WORKER_URL, POST, SendEmailWorkerAction.class);
         map(TaskQueue.STUDENT_COURSE_JOIN_EMAIL_WORKER_URL, POST, StudentCourseJoinEmailWorkerAction.class);
+        map(TaskQueue.INSTRUCTOR_SEARCH_INDEXING_WORKER_URL, POST, InstructorSearchIndexingWorkerAction.class);
+        map(TaskQueue.STUDENT_SEARCH_INDEXING_WORKER_URL, POST, StudentSearchIndexingWorkerAction.class);
 
+    }
+
+    private ActionFactory() {
+        // prevent initialization
     }
 
     private static void map(String uri, String method, Class<? extends Action> actionClass) {
@@ -155,7 +165,7 @@ public class ActionFactory {
     /**
      * Returns the matching {@link Action} object for the URI and method in {@code req}.
      */
-    public Action getAction(HttpServletRequest req, String method) throws ActionMappingException {
+    public static Action getAction(HttpServletRequest req, String method) throws ActionMappingException {
         String uri = req.getRequestURI();
         if (uri.contains(";")) {
             uri = uri.split(";")[0];
@@ -163,7 +173,7 @@ public class ActionFactory {
         return getAction(uri, method);
     }
 
-    private Action getAction(String uri, String method) throws ActionMappingException {
+    private static Action getAction(String uri, String method) throws ActionMappingException {
         if (!ACTION_MAPPINGS.containsKey(uri)) {
             throw new ActionMappingException("Resource with URI " + uri + " is not found.", HttpStatus.SC_NOT_FOUND);
         }
@@ -179,8 +189,7 @@ public class ActionFactory {
         try {
             return controllerClass.newInstance();
         } catch (Exception e) {
-            assert false : "Could not create the action for " + uri + ": "
-                    + TeammatesException.toStringWithStackTrace(e);
+            assert false : "Could not create the action for " + uri;
             return null;
         }
     }

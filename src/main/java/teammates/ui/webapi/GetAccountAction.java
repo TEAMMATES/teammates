@@ -1,7 +1,5 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.util.Const;
 import teammates.ui.output.AccountData;
@@ -12,12 +10,12 @@ import teammates.ui.output.AccountData;
 class GetAccountAction extends AdminOnlyAction {
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         String googleId = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
 
         AccountAttributes accountInfo = logic.getAccount(googleId);
         if (accountInfo == null) {
-            return new JsonResult("Account does not exist.", HttpStatus.SC_NOT_FOUND);
+            throw new EntityNotFoundException("Account does not exist.");
         }
 
         AccountData output = new AccountData(accountInfo);

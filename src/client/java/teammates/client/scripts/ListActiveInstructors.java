@@ -46,7 +46,7 @@ public class ListActiveInstructors extends DatastoreClient {
         System.out.println(results.toString());
     }
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         new ListActiveInstructors().doOperationRemotely();
     }
 }

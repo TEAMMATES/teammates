@@ -16,9 +16,9 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorPrivileges;
-import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.exception.HttpRequestFailedException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.lnp.util.JMeterElements;
@@ -47,11 +47,6 @@ public class InstructorStudentEnrollmentLNPTest extends BaseLNPTestCase {
     @Override
     protected LNPTestData getTestData() {
         return new LNPTestData() {
-            @Override
-            protected Map<String, AccountAttributes> generateAccounts() {
-                return new HashMap<>();
-            }
-
             @Override
             protected Map<String, CourseAttributes> generateCourses() {
                 Map<String, CourseAttributes> courses = new HashMap<>();
@@ -94,7 +89,6 @@ public class InstructorStudentEnrollmentLNPTest extends BaseLNPTestCase {
                 List<String> headers = new ArrayList<>();
 
                 headers.add("loginId");
-                headers.add("isAdmin");
                 headers.add("courseId");
                 headers.add("enrollData");
 
@@ -109,17 +103,16 @@ public class InstructorStudentEnrollmentLNPTest extends BaseLNPTestCase {
                 dataBundle.instructors.forEach((key, instructor) -> {
                     List<String> csvRow = new ArrayList<>();
 
-                    csvRow.add(instructor.googleId);
-                    csvRow.add("no");
-                    csvRow.add(instructor.courseId);
+                    csvRow.add(instructor.getGoogleId());
+                    csvRow.add(instructor.getCourseId());
 
                     // Create and add student enrollment data with a team number corresponding to each section number
                     List<StudentsEnrollRequest.StudentEnrollRequest> enrollRequests = new ArrayList<>();
 
                     for (int i = 0; i < NUM_STUDENTS_PER_INSTRUCTOR; i++) {
 
-                        String name = instructor.name + ".Student" + i;
-                        String email = instructor.name + ".Student" + i + "@gmail.tmt";
+                        String name = instructor.getName() + ".Student" + i;
+                        String email = instructor.getName() + ".Student" + i + "@gmail.tmt";
                         String team = String.valueOf(i / NUM_STUDENTS_PER_SECTION);
                         String section = String.valueOf(i / NUM_STUDENTS_PER_SECTION);
                         String comment = "no comment";
@@ -141,7 +134,7 @@ public class InstructorStudentEnrollmentLNPTest extends BaseLNPTestCase {
     private Map<String, String> getRequestHeaders() {
         Map<String, String> headers = new HashMap<>();
 
-        headers.put("X-CSRF-TOKEN", "${csrfToken}");
+        headers.put(Const.HeaderNames.CSRF_TOKEN, "${csrfToken}");
         headers.put("Content-Type", "text/csv");
 
         return headers;
@@ -182,7 +175,7 @@ public class InstructorStudentEnrollmentLNPTest extends BaseLNPTestCase {
     }
 
     @BeforeClass
-    public void classSetup() {
+    public void classSetup() throws IOException, HttpRequestFailedException {
         generateTimeStamp();
         createTestData();
         setupSpecification();

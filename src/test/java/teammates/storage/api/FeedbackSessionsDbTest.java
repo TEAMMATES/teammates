@@ -21,17 +21,17 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.JsonUtils;
-import teammates.common.util.ThreadHelper;
 import teammates.common.util.TimeHelperExtension;
 import teammates.test.AssertHelper;
-import teammates.test.BaseComponentTestCase;
+import teammates.test.BaseTestCaseWithLocalDatabaseAccess;
+import teammates.test.ThreadHelper;
 
 /**
  * SUT: {@link FeedbackSessionsDb}.
  */
-public class FeedbackSessionsDbTest extends BaseComponentTestCase {
+public class FeedbackSessionsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
 
-    private static final FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
+    private final FeedbackSessionsDb fsDb = FeedbackSessionsDb.inst();
     private DataBundle dataBundle = getTypicalDataBundle();
 
     @BeforeMethod
@@ -308,6 +308,28 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
     }
 
     @Test
+    public void testGetFeedbackSessionsPossiblyNeedingOpeningSoonEmail() throws Exception {
+        ______TS("standard success case");
+
+        List<FeedbackSessionAttributes> fsaList = fsDb.getFeedbackSessionsPossiblyNeedingOpeningSoonEmail();
+
+        assertEquals(1, fsaList.size());
+        for (FeedbackSessionAttributes fsa : fsaList) {
+            assertFalse(fsa.isSentOpeningSoonEmail());
+            assertFalse(fsa.isSessionDeleted());
+        }
+
+        ______TS("soft-deleted session should not appear");
+
+        // soft delete a feedback session now
+        FeedbackSessionAttributes feedbackSession = fsaList.get(0);
+        fsDb.softDeleteFeedbackSession(feedbackSession.getFeedbackSessionName(), feedbackSession.getCourseId());
+
+        fsaList = fsDb.getFeedbackSessionsPossiblyNeedingOpeningSoonEmail();
+        assertEquals(0, fsaList.size());
+    }
+
+    @Test
     public void testGetFeedbackSessionsPossiblyNeedingOpenEmail() throws Exception {
 
         ______TS("standard success case");
@@ -385,7 +407,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
 
         List<FeedbackSessionAttributes> fsaList = fsDb.getFeedbackSessionsPossiblyNeedingPublishedEmail();
 
-        assertEquals(11, fsaList.size());
+        assertEquals(8, fsaList.size());
         for (FeedbackSessionAttributes fsa : fsaList) {
             assertFalse(fsa.isSentPublishedEmail());
             assertTrue(fsa.isPublishedEmailEnabled());
@@ -399,7 +421,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         fsDb.softDeleteFeedbackSession(feedbackSession.getFeedbackSessionName(), feedbackSession.getCourseId());
 
         fsaList = fsDb.getFeedbackSessionsPossiblyNeedingPublishedEmail();
-        assertEquals(10, fsaList.size());
+        assertEquals(7, fsaList.size());
     }
 
     @Test
@@ -570,6 +592,16 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         actualFs = fsDb.getFeedbackSession(typicalFs.getCourseId(), typicalFs.getFeedbackSessionName());
         assertEquals(10, updatedFs.getGracePeriodMinutes());
         assertEquals(10, actualFs.getGracePeriodMinutes());
+
+        assertFalse(actualFs.isSentOpeningSoonEmail());
+        updatedFs = fsDb.updateFeedbackSession(
+                FeedbackSessionAttributes
+                        .updateOptionsBuilder(typicalFs.getFeedbackSessionName(), typicalFs.getCourseId())
+                        .withSentOpeningSoonEmail(true)
+                        .build());
+        actualFs = fsDb.getFeedbackSession(typicalFs.getCourseId(), typicalFs.getFeedbackSessionName());
+        assertTrue(updatedFs.isSentOpeningSoonEmail());
+        assertTrue(actualFs.isSentOpeningSoonEmail());
 
         assertFalse(actualFs.isSentOpenEmail());
         updatedFs = fsDb.updateFeedbackSession(

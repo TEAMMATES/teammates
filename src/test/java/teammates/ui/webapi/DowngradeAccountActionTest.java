@@ -1,11 +1,9 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.EntityNotFoundException;
 import teammates.common.util.Const;
 import teammates.ui.output.MessageOutput;
 
@@ -47,9 +45,8 @@ public class DowngradeAccountActionTest extends BaseActionTest<DowngradeAccountA
 
         MessageOutput response = (MessageOutput) r.getOutput();
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
         assertEquals("Instructor account is successfully downgraded to student.", response.getMessage());
-        assertFalse(logic.getAccount(instructor1ofCourse1.getGoogleId()).isInstructor);
+        assertFalse(logic.getAccount(instructor1ofCourse1.getGoogleId()).isInstructor());
 
         ______TS("Failure: Downgrades an invalid account");
 
@@ -57,7 +54,7 @@ public class DowngradeAccountActionTest extends BaseActionTest<DowngradeAccountA
                 Const.ParamsNames.INSTRUCTOR_ID, "invalid-google-id",
         };
 
-        assertThrows(EntityNotFoundException.class, () -> getJsonResult(getAction(invalidParams)));
+        verifyEntityNotFound(invalidParams);
 
         ______TS("Failure: Tries to downgrade a student account");
 
@@ -65,7 +62,7 @@ public class DowngradeAccountActionTest extends BaseActionTest<DowngradeAccountA
                 Const.ParamsNames.INSTRUCTOR_ID, student1InCourse1.getId(),
         };
 
-        assertThrows(EntityNotFoundException.class, () -> getJsonResult(getAction(paramsStudent)));
+        verifyEntityNotFound(paramsStudent);
     }
 
     @Override

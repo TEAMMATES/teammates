@@ -57,14 +57,14 @@ public class TestDataValidityTest extends BaseTestCase {
                 DataBundle dataBundle = JsonUtils.fromJson(jsonString, DataBundle.class);
 
                 dataBundle.accounts.forEach((id, account) -> {
-                    if (!isValidTestGoogleId(account.googleId, testPage)) {
+                    if (!isValidTestGoogleId(account.getGoogleId(), testPage)) {
                         errors.computeIfAbsent(pathString, k -> new ArrayList<>())
-                                .add("Invalid account google ID: " + account.googleId);
+                                .add("Invalid account google ID: " + account.getGoogleId());
                     }
 
-                    if (!isValidTestEmail(account.email)) {
+                    if (!isValidTestEmail(account.getEmail())) {
                         errors.computeIfAbsent(pathString, k -> new ArrayList<>())
-                                .add("Invalid account email: " + account.email);
+                                .add("Invalid account email: " + account.getEmail());
                     }
                 });
 
@@ -76,26 +76,26 @@ public class TestDataValidityTest extends BaseTestCase {
                 });
 
                 dataBundle.students.forEach((id, student) -> {
-                    if (!isValidTestGoogleId(student.googleId, testPage)) {
+                    if (!isValidTestGoogleId(student.getGoogleId(), testPage)) {
                         errors.computeIfAbsent(pathString, k -> new ArrayList<>())
-                                .add("Invalid student google ID: " + student.googleId);
+                                .add("Invalid student google ID: " + student.getGoogleId());
                     }
 
-                    if (!isValidTestEmail(student.email)) {
+                    if (!isValidTestEmail(student.getEmail())) {
                         errors.computeIfAbsent(pathString, k -> new ArrayList<>())
-                                .add("Invalid student email: " + student.email);
+                                .add("Invalid student email: " + student.getEmail());
                     }
                 });
 
                 dataBundle.instructors.forEach((id, instructor) -> {
-                    if (!isValidTestGoogleId(instructor.googleId, testPage)) {
+                    if (!isValidTestGoogleId(instructor.getGoogleId(), testPage)) {
                         errors.computeIfAbsent(pathString, k -> new ArrayList<>())
-                                .add("Invalid instructor google ID: " + instructor.googleId);
+                                .add("Invalid instructor google ID: " + instructor.getGoogleId());
                     }
 
-                    if (!isValidTestEmail(instructor.email)) {
+                    if (!isValidTestEmail(instructor.getEmail())) {
                         errors.computeIfAbsent(pathString, k -> new ArrayList<>())
-                                .add("Invalid instructor email: " + instructor.email);
+                                .add("Invalid instructor email: " + instructor.getEmail());
                     }
                 });
 
@@ -117,14 +117,14 @@ public class TestDataValidityTest extends BaseTestCase {
                                 .add("Invalid response course ID: " + response.getCourseId());
                     }
 
-                    if (response.giver.contains("@") && !isValidTestEmail(response.giver)) {
+                    if (response.getGiver().contains("@") && !isValidTestEmail(response.getGiver())) {
                         errors.computeIfAbsent(pathString, k -> new ArrayList<>())
-                                .add("Invalid response giver email: " + response.giver);
+                                .add("Invalid response giver email: " + response.getGiver());
                     }
 
-                    if (response.recipient.contains("@") && !isValidTestEmail(response.recipient)) {
+                    if (response.getRecipient().contains("@") && !isValidTestEmail(response.getRecipient())) {
                         errors.computeIfAbsent(pathString, k -> new ArrayList<>())
-                                .add("Invalid response recipient email: " + response.recipient);
+                                .add("Invalid response recipient email: " + response.getRecipient());
                     }
                 });
             });
@@ -178,6 +178,7 @@ public class TestDataValidityTest extends BaseTestCase {
                 .replace("Course", "C")
                 .replace("Question", "Qn")
                 .replaceFirst("Session(s?)", "Ses$1")
+                .replaceFirst("Reports?", "Rep")
                 .replaceFirst("Results?", "Res")
                 .replace("Details", "Det")
                 .replace("Confirmation", "Conf")

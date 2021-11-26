@@ -19,6 +19,7 @@ export class StaticPageComponent implements OnInit {
   isInstructor: boolean = false;
   isStudent: boolean = false;
   isAdmin: boolean = false;
+  isMaintainer: boolean = false;
   navItems: any[] = [
     {
       url: '/web/front',
@@ -76,6 +77,7 @@ export class StaticPageComponent implements OnInit {
         this.isInstructor = res.user.isInstructor;
         this.isStudent = res.user.isStudent;
         this.isAdmin = res.user.isAdmin;
+        this.isMaintainer = res.user.isMaintainer;
       } else {
         this.studentLoginUrl = `${this.backendUrl}${res.studentLoginUrl}`;
         this.instructorLoginUrl = `${this.backendUrl}${res.instructorLoginUrl}`;
@@ -85,6 +87,7 @@ export class StaticPageComponent implements OnInit {
       this.isInstructor = false;
       this.isStudent = false;
       this.isAdmin = false;
+      this.isMaintainer = false;
       this.isFetchingAuthDetails = false;
     });
   }

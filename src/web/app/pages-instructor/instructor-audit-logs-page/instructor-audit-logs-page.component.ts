@@ -1,27 +1,25 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
-import moment from 'moment-timezone';
-import { forkJoin, Observable } from 'rxjs';
-import { concatMap, finalize, map, mergeAll } from 'rxjs/operators';
+import { concatMap, finalize, mergeAll } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import { LogService } from '../../../services/log.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
-import { LOCAL_DATE_TIME_FORMAT, TimeResolvingResult, TimezoneService } from '../../../services/timezone.service';
+import { TimezoneService } from '../../../services/timezone.service';
 import { ApiConst } from '../../../types/api-const';
 import {
   Course,
   Courses,
   FeedbackSessionLog, FeedbackSessionLogEntry,
-  FeedbackSessionLogs, LogType,
+  FeedbackSessionLogs, FeedbackSessionLogType,
   Student,
   Students,
 } from '../../../types/api-output';
 import { SortBy } from '../../../types/sort-properties';
+import { DateFormat } from '../../components/datepicker/datepicker.component';
 import { SessionEditFormDatePickerFormatter } from '../../components/session-edit-form/session-edit-form-datepicker-formatter';
-import { DateFormat } from '../../components/session-edit-form/session-edit-form-model';
-import { TimeFormat } from '../../components/session-edit-form/time-picker/time-picker.component';
 import { ColumnData, SortableTableCellData } from '../../components/sortable-table/sortable-table.component';
+import { TimeFormat } from '../../components/timepicker/timepicker.component';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 /**
@@ -56,6 +54,7 @@ interface FeedbackSessionLogModel {
   styleUrls: ['./instructor-audit-logs-page.component.scss'],
 })
 export class InstructorAuditLogsPageComponent implements OnInit {
+  LOGS_DATE_TIME_FORMAT: string = 'ddd, DD MMM YYYY hh:mm:ss A';
   LOGS_RETENTION_PERIOD: number = ApiConst.LOGS_RETENTION_PERIOD;
 
   // enum
@@ -114,26 +113,27 @@ export class InstructorAuditLogsPageComponent implements OnInit {
   search(): void {
     this.isSearching = true;
     this.searchResults = [];
-    const localDateTime: Observable<number>[] = [
-      this.resolveLocalDateTime(this.formModel.logsDateFrom, this.formModel.logsTimeFrom, 'Search period from'),
-      this.resolveLocalDateTime(this.formModel.logsDateTo, this.formModel.logsTimeTo, 'Search period until'),
-    ];
+    const selectedCourse: Course | undefined =
+      this.courses.find((course: Course) => course.courseId === this.formModel.courseId);
+    const timeZone: string = selectedCourse ? selectedCourse.timeZone : this.timezoneService.guessTimezone();
+    const searchFrom: number = this.timezoneService.resolveLocalDateTime(
+        this.formModel.logsDateFrom, this.formModel.logsTimeFrom, timeZone);
+    const searchUntil: number = this.timezoneService.resolveLocalDateTime(
+        this.formModel.logsDateTo, this.formModel.logsTimeTo, timeZone);
 
-    forkJoin(localDateTime)
-        .pipe(
-            concatMap((timestamp: number[]) => {
-              return this.logsService.searchFeedbackSessionLog({
-                courseId: this.formModel.courseId,
-                searchFrom: timestamp[0].toString(),
-                searchUntil: timestamp[1].toString(),
-                studentEmail: this.formModel.studentEmail,
-              });
-            }),
-            finalize(() => this.isSearching = false))
-        .subscribe((logs: FeedbackSessionLogs) => {
-          logs.feedbackSessionLogs.map((log: FeedbackSessionLog) =>
-              this.searchResults.push(this.toFeedbackSessionLogModel(log)));
-        }, (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
+    this.logsService.searchFeedbackSessionLog({
+      courseId: this.formModel.courseId,
+      searchFrom: searchFrom.toString(),
+      searchUntil: searchUntil.toString(),
+      studentEmail: this.formModel.studentEmail,
+    }).pipe(
+        finalize(() => this.isSearching = false),
+    ).subscribe((logs: FeedbackSessionLogs) => {
+      logs.feedbackSessionLogs.map((log: FeedbackSessionLog) =>
+          this.searchResults.push(this.toFeedbackSessionLogModel(log)));
+    }, (e: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorToast(e.error.message);
+    });
   }
 
   /**
@@ -165,19 +165,6 @@ export class InstructorAuditLogsPageComponent implements OnInit {
             (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
   }
 
-  private resolveLocalDateTime(date: DateFormat, time: TimeFormat, fieldName: string): Observable<number> {
-    const inst: any = moment();
-    inst.set('year', date.year);
-    inst.set('month', date.month - 1); // moment month is from 0-11
-    inst.set('date', date.day);
-    inst.set('hour', time.hour);
-    inst.set('minute', time.minute);
-    const localDateTime: string = inst.format(LOCAL_DATE_TIME_FORMAT);
-
-    return this.timezoneService.getResolvedTimestamp(localDateTime, this.timezoneService.guessTimezone(), fieldName)
-        .pipe(map((result: TimeResolvingResult) => result.timestamp));
-  }
-
   private toFeedbackSessionLogModel(log: FeedbackSessionLog): FeedbackSessionLogModel {
     return {
       isTabExpanded: log.feedbackSessionLogEntries.length === 0,
@@ -192,15 +179,17 @@ export class InstructorAuditLogsPageComponent implements OnInit {
       ],
       logRowsData: log.feedbackSessionLogEntries
         .filter((entry: FeedbackSessionLogEntry) =>
-          LogType[entry.feedbackSessionLogType.toString() as keyof typeof LogType]
-            !== LogType.FEEDBACK_SESSION_VIEW_RESULT)
+            entry.feedbackSessionLogType.toString() as keyof typeof FeedbackSessionLogType
+            !== 'VIEW_RESULT')
         .map((entry: FeedbackSessionLogEntry) => {
           return [
-            { value: this.timezoneService.formatToString(entry.timestamp, log.feedbackSessionData.timeZone, 'ddd, DD MMM, YYYY hh:mm:ss A'),
+            { value: this.timezoneService.formatToString(
+                entry.timestamp, log.feedbackSessionData.timeZone,
+                this.LOGS_DATE_TIME_FORMAT),
               style: 'font-family:monospace;'},
             { value: entry.studentData.name },
-            { value: LogType[entry.feedbackSessionLogType.toString() as keyof typeof LogType]
-              === LogType.FEEDBACK_SESSION_ACCESS ? 'Viewed the submission page' : 'Submitted responses' },
+            { value: entry.feedbackSessionLogType.toString() as keyof typeof FeedbackSessionLogType
+              === 'ACCESS' ? 'Viewed the submission page' : 'Submitted responses' },
             { value: entry.studentData.email },
             { value: entry.studentData.sectionName },
             { value: entry.studentData.teamName },

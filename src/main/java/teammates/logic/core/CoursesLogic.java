@@ -16,7 +16,6 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.TeammatesException;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.storage.api.CoursesDb;
@@ -31,7 +30,7 @@ public final class CoursesLogic {
 
     private static final Logger log = Logger.getLogger();
 
-    private static CoursesLogic instance = new CoursesLogic();
+    private static final CoursesLogic instance = new CoursesLogic();
 
     /* Explanation: This class depends on CoursesDb class but no other *Db classes.
      * That is because reading/writing entities from/to the database is the
@@ -41,15 +40,15 @@ public final class CoursesLogic {
      * other entity types.
      */
 
-    private static final CoursesDb coursesDb = new CoursesDb();
+    private final CoursesDb coursesDb = CoursesDb.inst();
 
-    private static final AccountsLogic accountsLogic = AccountsLogic.inst();
-    private static final FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();
-    private static final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
-    private static final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
-    private static final FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
-    private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
-    private static final StudentsLogic studentsLogic = StudentsLogic.inst();
+    private AccountsLogic accountsLogic;
+    private FeedbackSessionsLogic feedbackSessionsLogic;
+    private FeedbackQuestionsLogic fqLogic;
+    private FeedbackResponsesLogic frLogic;
+    private FeedbackResponseCommentsLogic frcLogic;
+    private InstructorsLogic instructorsLogic;
+    private StudentsLogic studentsLogic;
 
     private CoursesLogic() {
         // prevent initialization
@@ -57,6 +56,25 @@ public final class CoursesLogic {
 
     public static CoursesLogic inst() {
         return instance;
+    }
+
+    void initLogicDependencies() {
+        accountsLogic = AccountsLogic.inst();
+        feedbackSessionsLogic = FeedbackSessionsLogic.inst();
+        fqLogic = FeedbackQuestionsLogic.inst();
+        frLogic = FeedbackResponsesLogic.inst();
+        frcLogic = FeedbackResponseCommentsLogic.inst();
+        instructorsLogic = InstructorsLogic.inst();
+        studentsLogic = StudentsLogic.inst();
+    }
+
+    /**
+     * Gets the institute associated with the course.
+     */
+    public String getCourseInstitute(String courseId) {
+        CourseAttributes cd = getCourse(courseId);
+        assert cd != null : "Trying to getCourseInstitute for inexistent course with id " + courseId;
+        return cd.getInstitute();
     }
 
     /**
@@ -87,7 +105,7 @@ public final class CoursesLogic {
 
         CourseAttributes createdCourse = createCourse(courseToCreate);
 
-        /* Create the initial instructor for the course */
+        // Create the initial instructor for the course
         InstructorPrivileges privileges = new InstructorPrivileges(
                 Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         InstructorAttributes instructor = InstructorAttributes
@@ -103,8 +121,7 @@ public final class CoursesLogic {
             // roll back the transaction
             coursesDb.deleteCourse(createdCourse.getId());
             String errorMessage = "Unexpected exception while trying to create instructor for a new course "
-                                  + System.lineSeparator() + instructor.toString() + System.lineSeparator()
-                                  + TeammatesException.toStringWithStackTrace(e);
+                                  + System.lineSeparator() + instructor.toString();
             assert false : errorMessage;
         }
     }
@@ -144,8 +161,8 @@ public final class CoursesLogic {
 
         Set<String> sectionNameSet = new HashSet<>();
         for (StudentAttributes sd : studentDataList) {
-            if (!sd.section.equals(Const.DEFAULT_SECTION)) {
-                sectionNameSet.add(sd.section);
+            if (!sd.getSection().equals(Const.DEFAULT_SECTION)) {
+                sectionNameSet.add(sd.getSection());
             }
         }
 
@@ -184,7 +201,7 @@ public final class CoursesLogic {
         List<StudentAttributes> studentDataList = studentsLogic.getStudentsForGoogleId(googleId);
 
         List<String> courseIds = studentDataList.stream()
-                .filter(student -> !getCourse(student.course).isCourseDeleted())
+                .filter(student -> !getCourse(student.getCourse()).isCourseDeleted())
                 .map(StudentAttributes::getCourse)
                 .collect(Collectors.toList());
 
@@ -199,7 +216,7 @@ public final class CoursesLogic {
         assert instructorList != null;
 
         List<String> courseIdList = instructorList.stream()
-                .filter(instructor -> !coursesDb.getCourse(instructor.courseId).isCourseDeleted())
+                .filter(instructor -> !coursesDb.getCourse(instructor.getCourseId()).isCourseDeleted())
                 .map(InstructorAttributes::getCourseId)
                 .collect(Collectors.toList());
 
@@ -224,7 +241,7 @@ public final class CoursesLogic {
         assert instructorList != null;
 
         List<String> softDeletedCourseIdList = instructorList.stream()
-                .filter(instructor -> coursesDb.getCourse(instructor.courseId).isCourseDeleted())
+                .filter(instructor -> coursesDb.getCourse(instructor.getCourseId()).isCourseDeleted())
                 .map(InstructorAttributes::getCourseId)
                 .collect(Collectors.toList());
 

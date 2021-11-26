@@ -121,7 +121,7 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
   teammateProfilesSortBy="0"
 >
   <h1
-    class="page-title"
+    class="page-title text-break"
   >
     Team Details for 1.1.c-demo2
   </h1><tm-loading-retry>

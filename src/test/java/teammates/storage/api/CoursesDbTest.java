@@ -14,17 +14,17 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelperExtension;
 import teammates.test.AssertHelper;
-import teammates.test.BaseComponentTestCase;
+import teammates.test.BaseTestCaseWithLocalDatabaseAccess;
 
 /**
  * SUT: {@link CoursesDb}.
  */
-public class CoursesDbTest extends BaseComponentTestCase {
+public class CoursesDbTest extends BaseTestCaseWithLocalDatabaseAccess {
 
-    private CoursesDb coursesDb = new CoursesDb();
+    private final CoursesDb coursesDb = CoursesDb.inst();
 
     @Test
-    public void testCreateCourse() throws EntityAlreadyExistsException, InvalidParametersException {
+    public void testCreateCourse() throws Exception {
 
         /*Explanation:
          * This is an inherited method from EntitiesDb and should be tested in
@@ -38,6 +38,7 @@ public class CoursesDbTest extends BaseComponentTestCase {
                 .builder("CDbT.tCC.newCourse")
                 .withName("Basic Computing")
                 .withTimezone(ZoneId.of("UTC"))
+                .withInstitute("Test institute")
                 .build();
         coursesDb.createEntity(c);
         verifyPresentInDatabase(c);
@@ -55,6 +56,7 @@ public class CoursesDbTest extends BaseComponentTestCase {
                 .builder("Invalid id")
                 .withName("Basic Computing")
                 .withTimezone(ZoneId.of("UTC"))
+                .withInstitute("Test institute")
                 .build();
         InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
                 () -> coursesDb.createEntity(invalidIdCourse));
@@ -67,9 +69,22 @@ public class CoursesDbTest extends BaseComponentTestCase {
                 .builder("CDbT.tCC.newCourse")
                 .withName(longCourseName)
                 .withTimezone(ZoneId.of("UTC"))
+                .withInstitute("Test institute")
                 .build();
         ipe = assertThrows(InvalidParametersException.class, () -> coursesDb.createEntity(invalidNameCourse));
         AssertHelper.assertContains("not acceptable to TEAMMATES as a/an course name because it is too long",
+                ipe.getMessage());
+
+        String longCourseInstitute = StringHelperExtension.generateStringOfLength(
+                FieldValidator.INSTITUTE_NAME_MAX_LENGTH + 1);
+        CourseAttributes invalidInstituteCourse = CourseAttributes
+                .builder("CDbT.tCC.newCourse")
+                .withName("Basic computing")
+                .withTimezone(ZoneId.of("UTC"))
+                .withInstitute(longCourseInstitute)
+                .build();
+        ipe = assertThrows(InvalidParametersException.class, () -> coursesDb.createEntity(invalidInstituteCourse));
+        AssertHelper.assertContains("not acceptable to TEAMMATES as a/an institute name because it is too long",
                 ipe.getMessage());
 
         ______TS("Failure: null parameter");
@@ -79,7 +94,7 @@ public class CoursesDbTest extends BaseComponentTestCase {
     }
 
     @Test
-    public void testGetCourse() throws InvalidParametersException {
+    public void testGetCourse() throws Exception {
         CourseAttributes c = createNewCourse();
 
         ______TS("Success: get an existent course");
@@ -99,7 +114,7 @@ public class CoursesDbTest extends BaseComponentTestCase {
     }
 
     @Test
-    public void testGetCourses() throws InvalidParametersException {
+    public void testGetCourses() throws Exception {
         CourseAttributes c = createNewCourse();
         List<String> courseIds = new ArrayList<>();
 
@@ -209,7 +224,7 @@ public class CoursesDbTest extends BaseComponentTestCase {
     }
 
     @Test
-    public void testDeleteCourse() throws InvalidParametersException {
+    public void testDeleteCourse() throws Exception {
         CourseAttributes c = createNewCourse();
         assertNotNull(coursesDb.getCourse(c.getId()));
 
@@ -238,7 +253,7 @@ public class CoursesDbTest extends BaseComponentTestCase {
     }
 
     @Test
-    public void testSoftDeleteCourse() throws InvalidParametersException, EntityDoesNotExistException {
+    public void testSoftDeleteCourse() throws Exception {
         CourseAttributes c = createNewCourse();
 
         ______TS("Success: soft delete an existing course");
@@ -258,12 +273,13 @@ public class CoursesDbTest extends BaseComponentTestCase {
 
     }
 
-    private CourseAttributes createNewCourse() throws InvalidParametersException {
+    private CourseAttributes createNewCourse() throws Exception {
 
         CourseAttributes c = CourseAttributes
                 .builder("Computing101")
                 .withName("Basic Computing")
                 .withTimezone(ZoneId.of("UTC"))
+                .withInstitute("Test institute")
                 .build();
 
         return coursesDb.putEntity(c);

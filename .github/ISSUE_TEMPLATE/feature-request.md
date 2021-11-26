@@ -6,7 +6,7 @@ about: Request a new or a change to existing user-facing feature
 
 <!-- Issue title: [brief description of feature/enhancement] -->
 
-- **Environment**: <!-- The environment in which the said feature/enhancement is absent, e.g. live server at `V7.0.0`, `master` branch at commit 1234567. -->
+- **Environment**: <!-- The environment in which the said feature/enhancement is absent, e.g. live server at `V8.0.0`, `master` branch at commit 1234567. -->
 
 **Description of feature/enhancement**
 

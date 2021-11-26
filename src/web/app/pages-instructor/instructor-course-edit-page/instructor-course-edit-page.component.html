@@ -25,7 +25,7 @@
     <div class="card-body fill-plain">
       <form #courseForm="ngForm" (ngSubmit)="onSaveCourse()">
         <div class="form-row form-group">
-          <label class="col-sm-3 font-weight-bold text-md-right">Course ID:</label>
+          <label class="col-sm-2 font-weight-bold text-md-right">Course ID:</label>
           <div class="col-sm-9">
             <input id="course-id" class="col-xs-12 form-control" type="text" tabindex="1"
                    #courseId="ngModel" [(ngModel)]="course.courseId" name="courseId"
@@ -33,7 +33,7 @@
           </div>
         </div>
         <div class="form-row form-group">
-          <label class="col-sm-3 font-weight-bold text-md-right">Course Name:</label>
+          <label class="col-sm-2 font-weight-bold text-md-right">Course Name:</label>
           <div class="col-sm-9">
             <input id = "course-name" class="form-control"
                    type="text" tabindex="2" [disabled]="!isEditingCourse" name="courseName"
@@ -47,7 +47,7 @@
           </div>
         </div>
         <div class="form-row form-group">
-          <label class="col-xs-12 col-sm-3 font-weight-bold text-md-right"><span class="ngb-tooltip-class" ngbTooltip="You should not need to change this as it is auto-detected based on your
+          <label class="col-xs-12 col-sm-2 font-weight-bold text-md-right"><span class="ngb-tooltip-class" ngbTooltip="You should not need to change this as it is auto-detected based on your
                 device settings. TEAMMATES automatically adjusts to match the current time offset in your area, including clock changes due to daylight saving time.">
             Time Zone:</span></label>
           <div class="col-xs-12 col-sm-9">

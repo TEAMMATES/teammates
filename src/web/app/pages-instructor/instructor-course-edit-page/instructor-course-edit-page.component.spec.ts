@@ -26,6 +26,7 @@ import { ViewRolePrivilegesModalComponent } from './view-role-privileges-modal/v
 const testCourse: Course = {
   courseId: 'exampleId',
   courseName: 'Example Course',
+  institute: 'Test Institute',
   timeZone: 'UTC (UTC)',
   creationTimestamp: 0,
   deletionTimestamp: 1000,

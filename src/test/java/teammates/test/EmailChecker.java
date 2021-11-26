@@ -13,7 +13,7 @@ import teammates.common.util.Const;
  */
 public final class EmailChecker {
 
-    private static final String REGEX_ENCRYPTED_REGKEY = "[A-F0-9]{32,}";
+    private static final String REGEX_REGKEY = "[A-F0-9]{32,}";
 
     private EmailChecker() {
         // Utility class
@@ -79,7 +79,7 @@ public final class EmailChecker {
      */
     private static String replaceUnpredictableValuesWithPlaceholders(String emailContent) {
         return emailContent // regkey in URLs
-                           .replaceAll(Const.ParamsNames.REGKEY + "=" + REGEX_ENCRYPTED_REGKEY,
+                           .replaceAll(Const.ParamsNames.REGKEY + "=" + REGEX_REGKEY,
                                        Const.ParamsNames.REGKEY + "=\\${regkey\\.enc}");
 
     }

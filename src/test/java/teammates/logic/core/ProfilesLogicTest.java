@@ -9,7 +9,7 @@ import teammates.common.datatransfer.attributes.StudentProfileAttributes;
  */
 public class ProfilesLogicTest extends BaseLogicTest {
 
-    private static final ProfilesLogic profilesLogic = ProfilesLogic.inst();
+    private final ProfilesLogic profilesLogic = ProfilesLogic.inst();
 
     @Override
     protected void prepareTestData() {
@@ -35,17 +35,17 @@ public class ProfilesLogicTest extends BaseLogicTest {
                 .build();
 
         StudentProfileAttributes updateSpa = profilesLogic.updateOrCreateStudentProfile(
-                StudentProfileAttributes.updateOptionsBuilder(expectedSpa.googleId)
-                        .withShortName(expectedSpa.shortName)
-                        .withEmail(expectedSpa.email)
-                        .withInstitute(expectedSpa.institute)
-                        .withNationality(expectedSpa.nationality)
-                        .withGender(expectedSpa.gender)
-                        .withMoreInfo(expectedSpa.moreInfo)
+                StudentProfileAttributes.updateOptionsBuilder(expectedSpa.getGoogleId())
+                        .withShortName(expectedSpa.getShortName())
+                        .withEmail(expectedSpa.getEmail())
+                        .withInstitute(expectedSpa.getInstitute())
+                        .withNationality(expectedSpa.getNationality())
+                        .withGender(expectedSpa.getGender())
+                        .withMoreInfo(expectedSpa.getMoreInfo())
                         .build());
 
-        StudentProfileAttributes actualSpa = profilesLogic.getStudentProfile(expectedSpa.googleId);
-        expectedSpa.modifiedDate = actualSpa.modifiedDate;
+        StudentProfileAttributes actualSpa = profilesLogic.getStudentProfile(expectedSpa.getGoogleId());
+        expectedSpa.setModifiedDate(actualSpa.getModifiedDate());
         assertEquals(expectedSpa.toString(), actualSpa.toString());
         assertEquals(expectedSpa.toString(), updateSpa.toString());
     }

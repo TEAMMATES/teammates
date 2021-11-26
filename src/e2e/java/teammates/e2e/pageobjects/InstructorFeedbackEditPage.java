@@ -34,7 +34,7 @@ import teammates.common.datatransfer.questions.FeedbackRankQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackRubricQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.util.Const;
-import teammates.common.util.ThreadHelper;
+import teammates.test.ThreadHelper;
 
 /**
  * Represents the instructor feedback edit page of the website.
@@ -291,7 +291,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public FeedbackSubmitPage previewAsStudent(StudentAttributes student) {
-        selectDropdownOptionByText(previewAsStudentDropdown, String.format("[%s] %s", student.team, student.name));
+        selectDropdownOptionByText(previewAsStudentDropdown, String.format("[%s] %s", student.getTeam(), student.getName()));
         click(previewAsStudentButton);
         ThreadHelper.waitFor(2000);
         switchToNewWindow();
@@ -299,7 +299,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public FeedbackSubmitPage previewAsInstructor(InstructorAttributes instructor) {
-        selectDropdownOptionByText(previewAsInstructorDropdown, instructor.name);
+        selectDropdownOptionByText(previewAsInstructorDropdown, instructor.getName());
         click(previewAsInstructorButton);
         ThreadHelper.waitFor(2000);
         switchToNewWindow();
@@ -314,7 +314,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         scrollElementToCenter(getQuestionForm(questionNum));
         assertEquals(feedbackQuestion.getQuestionType(), getQuestionType(questionNum));
         assertEquals(feedbackQuestion.getQuestionNumber(), getQuestionNumber(questionNum));
-        assertEquals(feedbackQuestion.getQuestionDetails().getQuestionText(), getQuestionBrief(questionNum));
+        assertEquals(feedbackQuestion.getQuestionDetailsCopy().getQuestionText(), getQuestionBrief(questionNum));
         assertEquals(getQuestionDescription(questionNum), feedbackQuestion.getQuestionDescription());
         verifyFeedbackPathSettings(questionNum, feedbackQuestion);
         verifyQuestionVisibilitySettings(questionNum, feedbackQuestion);
@@ -334,18 +334,20 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     private void verifyNumberOfEntitiesToGiveFeedbackTo(int questionNum, int numberOfEntitiesToGiveFeedbackTo) {
         WebElement questionForm = getQuestionForm(questionNum);
+        WebElement feedbackPathPanel = questionForm.findElement(By.tagName("tm-feedback-path-panel"));
         if (numberOfEntitiesToGiveFeedbackTo == Const.MAX_POSSIBLE_RECIPIENTS) {
-            assertTrue(questionForm.findElement(By.id("unlimited-recipients")).isSelected());
+            assertTrue(feedbackPathPanel.findElement(By.id("unlimited-recipients")).isSelected());
         } else {
-            assertTrue(questionForm.findElement(By.id("custom-recipients")).isSelected());
-            assertEquals(questionForm.findElement(By.id("custom-recipients-number")).getAttribute("value"),
+            assertTrue(feedbackPathPanel.findElement(By.id("custom-recipients")).isSelected());
+            assertEquals(feedbackPathPanel.findElement(By.id("custom-recipients-number")).getAttribute("value"),
                     Integer.toString(numberOfEntitiesToGiveFeedbackTo));
         }
     }
 
     private void verifyQuestionVisibilitySettings(int questionNum, FeedbackQuestionAttributes feedbackQuestion) {
         WebElement questionForm = getQuestionForm(questionNum);
-        String visibility = questionForm.findElement(By.cssSelector("#btn-question-visibility span")).getText();
+        WebElement visibilityPanel = questionForm.findElement(By.tagName("tm-visibility-panel"));
+        String visibility = visibilityPanel.findElement(By.cssSelector("#btn-question-visibility span")).getText();
         List<FeedbackParticipantType> showResponsesTo = feedbackQuestion.getShowResponsesTo();
         List<FeedbackParticipantType> showGiverNameTo = feedbackQuestion.getShowGiverNameTo();
         List<FeedbackParticipantType> showRecipientNameTo = feedbackQuestion.getShowRecipientNameTo();
@@ -438,12 +440,13 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     private void verifyCustomQuestionVisibility(int questionNum, FeedbackQuestionAttributes feedbackQuestion) {
         WebElement questionForm = getQuestionForm(questionNum);
-        String visibility = questionForm.findElement(By.cssSelector("#btn-question-visibility span")).getText();
+        WebElement visibilityPanel = questionForm.findElement(By.tagName("tm-visibility-panel"));
+        String visibility = visibilityPanel.findElement(By.cssSelector("#btn-question-visibility span")).getText();
         assertEquals(visibility, CUSTOM_VISIBILITY_OPTION);
 
         FeedbackParticipantType giver = feedbackQuestion.getGiverType();
         FeedbackParticipantType receiver = feedbackQuestion.getRecipientType();
-        WebElement customVisibilityTable = questionForm.findElement(By.id("custom-visibility-table"));
+        WebElement customVisibilityTable = visibilityPanel.findElement(By.id("custom-visibility-table"));
         assertVisibilityBoxesSelected(customVisibilityTable, giver, receiver, feedbackQuestion.getShowResponsesTo(), 1);
         assertVisibilityBoxesSelected(customVisibilityTable, giver, receiver, feedbackQuestion.getShowGiverNameTo(), 2);
         assertVisibilityBoxesSelected(customVisibilityTable, giver, receiver, feedbackQuestion.getShowRecipientNameTo(), 3);
@@ -452,7 +455,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     private void assertVisibilityBoxesSelected(WebElement table, FeedbackParticipantType giver,
                                                FeedbackParticipantType receiver, List<FeedbackParticipantType> participants,
                                                int colNum) {
-        List<FeedbackParticipantType> possibleTypes = new ArrayList(Arrays.asList(FeedbackParticipantType.RECEIVER,
+        List<FeedbackParticipantType> possibleTypes = new ArrayList<>(Arrays.asList(FeedbackParticipantType.RECEIVER,
                 FeedbackParticipantType.OWN_TEAM_MEMBERS, FeedbackParticipantType.RECEIVER_TEAM_MEMBERS,
                 FeedbackParticipantType.STUDENTS, FeedbackParticipantType.INSTRUCTORS));
         if (!giver.equals(FeedbackParticipantType.STUDENTS)) {
@@ -512,7 +515,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private void inputQuestionDetails(int questionNum, FeedbackQuestionAttributes feedbackQuestion) {
-        setQuestionBrief(questionNum, feedbackQuestion.getQuestionDetails().getQuestionText());
+        setQuestionBrief(questionNum, feedbackQuestion.getQuestionDetailsCopy().getQuestionText());
         setQuestionDescription(questionNum, feedbackQuestion.getQuestionDescription());
         FeedbackQuestionType questionType = feedbackQuestion.getQuestionType();
         if (!questionType.equals(FeedbackQuestionType.CONTRIB)) {
@@ -538,7 +541,8 @@ public class InstructorFeedbackEditPage extends AppPage {
         addNewQuestion(2);
         int questionNum = getNumQuestions();
         inputQuestionDetails(questionNum, feedbackQuestion);
-        FeedbackTextQuestionDetails questionDetails = (FeedbackTextQuestionDetails) feedbackQuestion.getQuestionDetails();
+        FeedbackTextQuestionDetails questionDetails =
+                (FeedbackTextQuestionDetails) feedbackQuestion.getQuestionDetailsCopy();
         fillTextBox(getRecommendedTextLengthField(questionNum), questionDetails.getRecommendedLength().toString());
         clickSaveNewQuestionButton();
     }
@@ -556,7 +560,7 @@ public class InstructorFeedbackEditPage extends AppPage {
             return;
         }
         verifyOptions(questionNum, questionDetails.getMcqChoices());
-        verifyOptionWeights(questionNum, questionDetails.hasAssignedWeights(), questionDetails.getMcqWeights());
+        verifyOptionWeights(questionNum, questionDetails.isHasAssignedWeights(), questionDetails.getMcqWeights());
         verifyOtherOption(questionNum, questionDetails.isOtherEnabled(), questionDetails.getMcqOtherWeight());
     }
 
@@ -564,7 +568,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         addNewQuestion(3);
         int questionNum = getNumQuestions();
         inputQuestionDetails(questionNum, feedbackQuestion);
-        FeedbackMcqQuestionDetails questionDetails = (FeedbackMcqQuestionDetails) feedbackQuestion.getQuestionDetails();
+        FeedbackMcqQuestionDetails questionDetails = (FeedbackMcqQuestionDetails) feedbackQuestion.getQuestionDetailsCopy();
         inputMcqDetails(questionNum, questionDetails);
         clickSaveNewQuestionButton();
     }
@@ -582,7 +586,7 @@ public class InstructorFeedbackEditPage extends AppPage {
             return;
         }
         verifyOptions(questionNum, questionDetails.getMsqChoices());
-        verifyOptionWeights(questionNum, questionDetails.hasAssignedWeights(), questionDetails.getMsqWeights());
+        verifyOptionWeights(questionNum, questionDetails.isHasAssignedWeights(), questionDetails.getMsqWeights());
         verifyOtherOption(questionNum, questionDetails.isOtherEnabled(), questionDetails.getMsqOtherWeight());
     }
 
@@ -590,7 +594,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         addNewQuestion(4);
         int questionNum = getNumQuestions();
         inputQuestionDetails(questionNum, feedbackQuestion);
-        FeedbackMsqQuestionDetails questionDetails = (FeedbackMsqQuestionDetails) feedbackQuestion.getQuestionDetails();
+        FeedbackMsqQuestionDetails questionDetails = (FeedbackMsqQuestionDetails) feedbackQuestion.getQuestionDetailsCopy();
         inputMsqDetails(questionNum, questionDetails);
         clickSaveNewQuestionButton();
     }
@@ -615,7 +619,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         int questionNum = getNumQuestions();
         inputQuestionDetails(questionNum, feedbackQuestion);
         FeedbackNumericalScaleQuestionDetails questionDetails =
-                (FeedbackNumericalScaleQuestionDetails) feedbackQuestion.getQuestionDetails();
+                (FeedbackNumericalScaleQuestionDetails) feedbackQuestion.getQuestionDetailsCopy();
         inputNumScaleDetails(questionNum, questionDetails);
         clickSaveNewQuestionButton();
     }
@@ -667,7 +671,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         int questionNum = getNumQuestions();
         inputQuestionDetails(questionNum, feedbackQuestion);
         FeedbackConstantSumQuestionDetails questionDetails =
-                (FeedbackConstantSumQuestionDetails) feedbackQuestion.getQuestionDetails();
+                (FeedbackConstantSumQuestionDetails) feedbackQuestion.getQuestionDetailsCopy();
         inputConstSumDetails(questionNum, questionDetails);
         clickSaveNewQuestionButton();
     }
@@ -687,7 +691,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         int questionNum = getNumQuestions();
         inputQuestionDetails(questionNum, feedbackQuestion);
         FeedbackContributionQuestionDetails questionDetails =
-                (FeedbackContributionQuestionDetails) feedbackQuestion.getQuestionDetails();
+                (FeedbackContributionQuestionDetails) feedbackQuestion.getQuestionDetailsCopy();
         inputContributionDetails(questionNum, questionDetails);
         clickSaveNewQuestionButton();
     }
@@ -716,7 +720,7 @@ public class InstructorFeedbackEditPage extends AppPage {
             }
         }
 
-        if (questionDetails.hasAssignedWeights()) {
+        if (questionDetails.isHasAssignedWeights()) {
             assertTrue(getWeightCheckbox(questionNum).isSelected());
             List<List<Double>> weights = questionDetails.getRubricWeights();
             for (int i = 0; i < numSubQn; i++) {
@@ -736,7 +740,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         int questionNum = getNumQuestions();
         inputQuestionDetails(questionNum, feedbackQuestion);
         FeedbackRubricQuestionDetails questionDetails =
-                (FeedbackRubricQuestionDetails) feedbackQuestion.getQuestionDetails();
+                (FeedbackRubricQuestionDetails) feedbackQuestion.getQuestionDetailsCopy();
         inputRubricDetails(questionNum, questionDetails);
         clickSaveNewQuestionButton();
     }
@@ -752,7 +756,7 @@ public class InstructorFeedbackEditPage extends AppPage {
             FeedbackRankOptionsQuestionDetails optionDetails = (FeedbackRankOptionsQuestionDetails) questionDetails;
             verifyOptions(questionNum, optionDetails.getOptions());
         }
-        assertEquals(getAllowDuplicateRankCheckbox(questionNum).isSelected(), questionDetails.areDuplicatesAllowed());
+        assertEquals(getAllowDuplicateRankCheckbox(questionNum).isSelected(), questionDetails.isAreDuplicatesAllowed());
         verifyMaxOptions(questionNum, questionDetails.getMaxOptionsToBeRanked());
         verifyMinOptions(questionNum, questionDetails.getMinOptionsToBeRanked());
     }
@@ -762,7 +766,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         int questionNum = getNumQuestions();
         inputQuestionDetails(questionNum, feedbackQuestion);
         FeedbackRankOptionsQuestionDetails questionDetails =
-                (FeedbackRankOptionsQuestionDetails) feedbackQuestion.getQuestionDetails();
+                (FeedbackRankOptionsQuestionDetails) feedbackQuestion.getQuestionDetailsCopy();
         inputRankDetails(questionNum, questionDetails);
         clickSaveNewQuestionButton();
     }
@@ -772,7 +776,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         int questionNum = getNumQuestions();
         inputQuestionDetails(questionNum, feedbackQuestion);
         FeedbackRankQuestionDetails questionDetails =
-                (FeedbackRankQuestionDetails) feedbackQuestion.getQuestionDetails();
+                (FeedbackRankQuestionDetails) feedbackQuestion.getQuestionDetailsCopy();
         inputRankDetails(questionNum, questionDetails);
         clickSaveNewQuestionButton();
     }
@@ -1004,7 +1008,9 @@ public class InstructorFeedbackEditPage extends AppPage {
     private String getFeedbackGiver(int questionNum) {
         String feedbackPath = getFeedbackPath(questionNum);
         if (feedbackPath.equals(CUSTOM_FEEDBACK_PATH_OPTION)) {
-            return getSelectedDropdownOptionText(getQuestionForm(questionNum).findElement(By.id("giver-type")));
+            return getSelectedDropdownOptionText(getQuestionForm(questionNum)
+                    .findElement(By.tagName("tm-feedback-path-panel"))
+                    .findElement(By.id("giver-type")));
         }
         return feedbackPath.split(FEEDBACK_PATH_SEPARATOR)[0];
     }
@@ -1012,14 +1018,16 @@ public class InstructorFeedbackEditPage extends AppPage {
     private String getFeedbackReceiver(int questionNum) {
         String feedbackPath = getFeedbackPath(questionNum);
         if (feedbackPath.equals(CUSTOM_FEEDBACK_PATH_OPTION)) {
-            return getSelectedDropdownOptionText(getQuestionForm(questionNum).findElement(By.id("receiver-type")));
+            return getSelectedDropdownOptionText(getQuestionForm(questionNum)
+                    .findElement(By.tagName("tm-feedback-path-panel"))
+                    .findElement(By.id("receiver-type")));
         }
         return feedbackPath.split(FEEDBACK_PATH_SEPARATOR)[1];
     }
 
     private String getFeedbackPath(int questionNum) {
-        WebElement questionForm = getQuestionForm(questionNum);
-        return questionForm.findElement(By.cssSelector("#btn-feedback-path span")).getText();
+        WebElement feedbackPathPanel = getQuestionForm(questionNum).findElement(By.tagName("tm-feedback-path-panel"));
+        return feedbackPathPanel.findElement(By.cssSelector("#btn-feedback-path span")).getText();
     }
 
     private void setQuestionBrief(int questionNum, String newBrief) {
@@ -1035,7 +1043,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         FeedbackParticipantType newGiver = feedbackQuestion.getGiverType();
         FeedbackParticipantType newRecipient = feedbackQuestion.getRecipientType();
         String feedbackPath = getFeedbackPath(questionNum);
-        WebElement questionForm = getQuestionForm(questionNum);
+        WebElement questionForm = getQuestionForm(questionNum).findElement(By.tagName("tm-feedback-path-panel"));
         if (!feedbackPath.equals(CUSTOM_FEEDBACK_PATH_OPTION)) {
             selectFeedbackPathDropdownOption(questionNum, CUSTOM_FEEDBACK_PATH_OPTION + "...");
         }
@@ -1059,8 +1067,9 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     private void selectFeedbackPathDropdownOption(int questionNum, String text) {
         WebElement questionForm = getQuestionForm(questionNum);
-        click(questionForm.findElement(By.id("btn-feedback-path")));
-        WebElement dropdown = questionForm.findElement(By.id("feedback-path-dropdown"));
+        WebElement feedbackPathPanel = questionForm.findElement(By.tagName("tm-feedback-path-panel"));
+        click(feedbackPathPanel.findElement(By.id("btn-feedback-path")));
+        WebElement dropdown = feedbackPathPanel.findElement(By.id("feedback-path-dropdown"));
         List<WebElement> options = dropdown.findElements(By.className("dropdown-item"));
         for (WebElement option : options) {
             if (option.getText().equals(text)) {
@@ -1082,14 +1091,15 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     private void setQuestionVisibility(int questionNum, FeedbackQuestionAttributes feedbackQuestion) {
         WebElement questionForm = getQuestionForm(questionNum);
-        String visibility = questionForm.findElement(By.cssSelector("#btn-question-visibility span")).getText();
+        WebElement visibilityPanel = questionForm.findElement(By.tagName("tm-visibility-panel"));
+        String visibility = visibilityPanel.findElement(By.cssSelector("#btn-question-visibility span")).getText();
         if (!visibility.equals(CUSTOM_VISIBILITY_OPTION)) {
             selectVisibilityDropdownOption(questionNum, CUSTOM_VISIBILITY_OPTION + "...");
         }
 
         FeedbackParticipantType giver = feedbackQuestion.getGiverType();
         FeedbackParticipantType receiver = feedbackQuestion.getRecipientType();
-        WebElement customVisibilityTable = questionForm.findElement(By.id("custom-visibility-table"));
+        WebElement customVisibilityTable = visibilityPanel.findElement(By.id("custom-visibility-table"));
         selectVisibilityBoxes(customVisibilityTable, giver, receiver, feedbackQuestion.getShowResponsesTo(), 1);
         selectVisibilityBoxes(customVisibilityTable, giver, receiver, feedbackQuestion.getShowGiverNameTo(), 2);
         selectVisibilityBoxes(customVisibilityTable, giver, receiver, feedbackQuestion.getShowRecipientNameTo(), 3);
@@ -1098,7 +1108,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     private void selectVisibilityBoxes(WebElement table, FeedbackParticipantType giver,
                                        FeedbackParticipantType receiver, List<FeedbackParticipantType> participants,
                                        int colNum) {
-        List<FeedbackParticipantType> possibleTypes = new ArrayList(Arrays.asList(FeedbackParticipantType.RECEIVER,
+        List<FeedbackParticipantType> possibleTypes = new ArrayList<>(Arrays.asList(FeedbackParticipantType.RECEIVER,
                 FeedbackParticipantType.OWN_TEAM_MEMBERS, FeedbackParticipantType.RECEIVER_TEAM_MEMBERS,
                 FeedbackParticipantType.STUDENTS, FeedbackParticipantType.INSTRUCTORS));
         if (!giver.equals(FeedbackParticipantType.STUDENTS)) {
@@ -1123,8 +1133,9 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     private void selectVisibilityDropdownOption(int questionNum, String text) {
         WebElement questionForm = getQuestionForm(questionNum);
-        click(questionForm.findElement(By.id("btn-question-visibility")));
-        WebElement dropdown = questionForm.findElement(By.id("question-visibility-dropdown"));
+        WebElement visibilityPanel = questionForm.findElement(By.tagName("tm-visibility-panel"));
+        click(visibilityPanel.findElement(By.id("btn-question-visibility")));
+        WebElement dropdown = visibilityPanel.findElement(By.id("question-visibility-dropdown"));
         List<WebElement> options = dropdown.findElements(By.className("dropdown-item"));
         for (WebElement option : options) {
             if (option.getText().equals(text)) {
@@ -1158,7 +1169,9 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private WebElement getRecommendedTextLengthField(int questionNum) {
-        return getQuestionForm(questionNum).findElement(By.id("recommended-length"));
+        return getQuestionForm(questionNum)
+                .findElement(By.tagName("tm-text-question-edit-details-form"))
+                .findElement(By.id("recommended-length"));
     }
 
     private WebElement getGenerateOptionsCheckbox(int questionNum) {
@@ -1264,7 +1277,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         }
 
         inputOptions(questionNum, questionDetails.getMcqChoices());
-        inputOptionWeights(questionNum, questionDetails.hasAssignedWeights(), questionDetails.getMcqWeights());
+        inputOptionWeights(questionNum, questionDetails.isHasAssignedWeights(), questionDetails.getMcqWeights());
         inputOtherChoice(questionNum, questionDetails.isOtherEnabled(), questionDetails.getMcqOtherWeight());
     }
 
@@ -1366,7 +1379,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         }
 
         inputOptions(questionNum, questionDetails.getMsqChoices());
-        inputOptionWeights(questionNum, questionDetails.hasAssignedWeights(), questionDetails.getMsqWeights());
+        inputOptionWeights(questionNum, questionDetails.isHasAssignedWeights(), questionDetails.getMsqWeights());
         inputOtherChoice(questionNum, questionDetails.isOtherEnabled(), questionDetails.getMsqOtherWeight());
         inputMaxOptions(questionNum, questionDetails.getMaxSelectableChoices());
         inputMinOptions(questionNum, questionDetails.getMinSelectableChoices());
@@ -1529,7 +1542,7 @@ public class InstructorFeedbackEditPage extends AppPage {
             }
         }
 
-        if (questionDetails.hasAssignedWeights()) {
+        if (questionDetails.isHasAssignedWeights()) {
             markOptionAsSelected(getWeightCheckbox(questionNum));
             List<List<Double>> weights = questionDetails.getRubricWeights();
             for (int i = 0; i < numSubQn; i++) {
@@ -1576,7 +1589,7 @@ public class InstructorFeedbackEditPage extends AppPage {
             FeedbackRankOptionsQuestionDetails optionDetails = (FeedbackRankOptionsQuestionDetails) questionDetails;
             inputOptions(questionNum, optionDetails.getOptions());
         }
-        if (questionDetails.areDuplicatesAllowed()) {
+        if (questionDetails.isAreDuplicatesAllowed()) {
             markOptionAsSelected(getAllowDuplicateRankCheckbox(questionNum));
         } else {
             markOptionAsUnselected(getAllowDuplicateRankCheckbox(questionNum));

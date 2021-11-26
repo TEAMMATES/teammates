@@ -354,7 +354,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
               };
               const courseModel: CourseTabModel | undefined = this.courseTabModels.find((tabModel: CourseTabModel) =>
                   tabModel.course.courseId === session.courseId);
-              if (courseModel) {
+              if (courseModel && courseModel.hasPopulated) {
                 courseModel.sessionsTableRowModels.push(model);
               }
             });
@@ -369,13 +369,6 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
    */
   submitSessionAsInstructorEventHandler(tabIndex: number, rowIndex: number): void {
     this.submitSessionAsInstructor(this.courseTabModels[tabIndex].sessionsTableRowModels[rowIndex]);
-  }
-
-  /**
-   * Views the result of a feedback session.
-   */
-  viewSessionResultEventHandler(tabIndex: number, rowIndex: number): void {
-    this.viewSessionResult(this.courseTabModels[tabIndex].sessionsTableRowModels[rowIndex]);
   }
 
   /**

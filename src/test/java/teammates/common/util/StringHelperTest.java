@@ -62,7 +62,7 @@ public class StringHelperTest extends BaseTestCase {
     }
 
     @Test
-    public void testKeyEncryption() throws InvalidParametersException {
+    public void testKeyEncryption() throws Exception {
         String msg = "Test decryption";
         String decrptedMsg;
 
@@ -139,50 +139,6 @@ public class StringHelperTest extends BaseTestCase {
     }
 
     @Test
-    public void testSplitName() {
-
-        String fullName = "singleWord";
-        String[] splitName = StringHelper.splitName(fullName);
-
-        assertEquals(splitName[0], "");
-        assertEquals(splitName[1], "singleWord");
-
-        fullName = "";
-        splitName = StringHelper.splitName(fullName);
-
-        assertEquals(splitName[0], "");
-        assertEquals(splitName[1], "");
-
-        splitName = StringHelper.splitName(null);
-        assertEquals(0, splitName.length);
-
-        fullName = "two words";
-        splitName = StringHelper.splitName(fullName);
-
-        assertEquals(splitName[0], "two");
-        assertEquals(splitName[1], "words");
-
-        fullName = "now three words";
-        splitName = StringHelper.splitName(fullName);
-
-        assertEquals(splitName[0], "now three");
-        assertEquals(splitName[1], "words");
-
-        fullName = "what if four words";
-        splitName = StringHelper.splitName(fullName);
-
-        assertEquals(splitName[0], "what if four");
-        assertEquals(splitName[1], "words");
-
-        fullName = "first name firstName {last Name}";
-        splitName = StringHelper.splitName(fullName);
-
-        assertEquals(splitName[0], "first name firstName");
-        assertEquals(splitName[1], "last Name");
-
-    }
-
-    @Test
     public void testRemoveExtraSpace() {
 
         assertNull(StringHelper.removeExtraSpace((String) null));
@@ -237,28 +193,6 @@ public class StringHelperTest extends BaseTestCase {
         assertEquals("1234567890", StringHelper.truncateHead("1234567890", 10));
         assertEquals("123456789", StringHelper.truncateHead("123456789", 10));
         assertEquals("567890", StringHelper.truncateHead("1234567890", 6));
-    }
-
-    @Test
-    public void testIsTextContainingAny() {
-        assertFalse("null text should return false", StringHelper.isTextContainingAny(null));
-        assertFalse("null text should return false", StringHelper.isTextContainingAny(null, ""));
-        assertFalse("null text should return false",
-                StringHelper.isTextContainingAny(null, "a string", "another string"));
-
-        assertTrue("any string should contain empty string", StringHelper.isTextContainingAny("String", ""));
-
-        String text = "The quick brown fox jumps over the lazy dog.";
-
-        assertTrue("should return true if there exists a string which is contained in text",
-                StringHelper.isTextContainingAny(text, "not contained", "isNotInText", "brown"));
-        assertFalse("should return false if no strings are contained in text",
-                StringHelper.isTextContainingAny(text, "not contained", "notInside", "NotInText"));
-
-        assertTrue("should return true if no strings are given",
-                StringHelper.isTextContainingAny(""));
-        assertTrue("should return true if no strings are given",
-                StringHelper.isTextContainingAny(text));
     }
 
     @Test

@@ -5,7 +5,9 @@ import { FeedbackSessionsService } from '../../../services/feedback-sessions.ser
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import { FeedbackSessionStats, OngoingSession, OngoingSessions } from '../../../types/api-output';
+import { DateFormat } from '../../components/datepicker/datepicker.component';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
+import { TimeFormat } from '../../components/timepicker/timepicker.component';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 interface OngoingSessionModel {
@@ -40,10 +42,10 @@ export class AdminSessionsPageComponent implements OnInit {
   timezones: string[] = [];
   filterTimezone: string = '';
   tableTimezone: string = '';
-  startDate: any = {};
-  startTime: any = {};
-  endDate: any = {};
-  endTime: any = {};
+  startDate: DateFormat = { year: 0, month: 0, day: 0 };
+  startTime: TimeFormat = { hour: 23, minute: 59 };
+  endDate: DateFormat = { year: 0, month: 0, day: 0 };
+  endTime: TimeFormat = { hour: 23, minute: 59 };
 
   timezoneString: string = '';
   startTimeString: string = '';
@@ -60,7 +62,7 @@ export class AdminSessionsPageComponent implements OnInit {
     this.filterTimezone = this.timezoneService.guessTimezone();
     this.tableTimezone = this.timezoneService.guessTimezone();
 
-    const now: any = moment();
+    const now: moment.Moment = moment();
     this.startDate = {
       year: now.year(),
       month: now.month() + 1,
@@ -75,7 +77,7 @@ export class AdminSessionsPageComponent implements OnInit {
       minute: now.minute(),
     };
 
-    const nextWeek: any = moment(now).add(1, 'weeks');
+    const nextWeek: moment.Moment = moment(now).add(1, 'weeks');
     this.endDate = {
       year: nextWeek.year(),
       month: nextWeek.month() + 1,
@@ -110,31 +112,26 @@ export class AdminSessionsPageComponent implements OnInit {
     return this.timezoneService.formatToString(millis, this.tableTimezone, 'ddd, DD MMM YYYY, hh:mm a');
   }
 
-  private getMomentInstant(year: number, month: number, day: number, hour: number, minute: number): any {
-    const inst: any = this.timezoneService.getMomentInstance(null, this.filterTimezone);
-    inst.set('year', year);
-    inst.set('month', month);
-    inst.set('date', day);
-    inst.set('hour', hour);
-    inst.set('minute', minute);
-    return inst;
-  }
-
   /**
    * Gets the feedback sessions which have opening time satisfying the query range.
    */
   getFeedbackSessions(): void {
-    const startTime: any = this.getMomentInstant(this.startDate.year, this.startDate.month - 1,
-        this.startDate.day, this.startTime.hour, this.startTime.minute);
-    const endTime: any = this.getMomentInstant(this.endDate.year, this.endDate.month - 1,
-        this.endDate.day, this.endTime.hour, this.endTime.minute);
+    const timezone: string = this.filterTimezone;
+    const startTime: number = this.timezoneService.resolveLocalDateTime(
+        { year: this.startDate.year, month: this.startDate.month, day: this.startDate.day },
+        { hour: this.startTime.hour, minute: this.startTime.minute },
+        timezone);
+    const endTime: number = this.timezoneService.resolveLocalDateTime(
+        { year: this.endDate.year, month: this.endDate.month, day: this.endDate.day },
+        { hour: this.endTime.hour, minute: this.endTime.minute },
+        timezone);
     const displayFormat: string = 'ddd, DD MMM YYYY, hh:mm a';
-    this.startTimeString = startTime.format(displayFormat);
-    this.endTimeString = endTime.format(displayFormat);
+    this.startTimeString = this.timezoneService.formatToString(startTime, timezone, displayFormat);
+    this.endTimeString = this.timezoneService.formatToString(endTime, timezone, displayFormat);
     this.timezoneString = this.filterTimezone;
     this.isLoadingOngoingSessions = true;
 
-    this.feedbackSessionsService.getOngoingSessions(startTime.toDate().getTime(), endTime.toDate().getTime())
+    this.feedbackSessionsService.getOngoingSessions(startTime, endTime)
         .pipe(finalize(() => this.isLoadingOngoingSessions = false))
         .subscribe((resp: OngoingSessions) => {
           this.totalOngoingSessions = resp.totalOngoingSessions;

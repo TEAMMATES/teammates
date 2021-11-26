@@ -8,9 +8,7 @@ import java.util.Set;
 import javax.annotation.Nullable;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.SessionResultsBundle;
-import teammates.common.datatransfer.UserRole;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -23,8 +21,8 @@ import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.RegenerateStudentException;
 import teammates.common.exception.SearchServiceException;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
@@ -44,17 +42,26 @@ import teammates.logic.core.StudentsLogic;
  */
 public class Logic {
 
-    protected static final AccountsLogic accountsLogic = AccountsLogic.inst();
-    protected static final StudentsLogic studentsLogic = StudentsLogic.inst();
-    protected static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
-    protected static final CoursesLogic coursesLogic = CoursesLogic.inst();
-    protected static final FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();
-    protected static final FeedbackQuestionsLogic feedbackQuestionsLogic = FeedbackQuestionsLogic.inst();
-    protected static final FeedbackResponsesLogic feedbackResponsesLogic = FeedbackResponsesLogic.inst();
-    protected static final FeedbackResponseCommentsLogic feedbackResponseCommentsLogic =
-            FeedbackResponseCommentsLogic.inst();
-    protected static final ProfilesLogic profilesLogic = ProfilesLogic.inst();
-    protected static final DataBundleLogic dataBundleLogic = DataBundleLogic.inst();
+    private static final Logic instance = new Logic();
+
+    final AccountsLogic accountsLogic = AccountsLogic.inst();
+    final StudentsLogic studentsLogic = StudentsLogic.inst();
+    final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
+    final CoursesLogic coursesLogic = CoursesLogic.inst();
+    final FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();
+    final FeedbackQuestionsLogic feedbackQuestionsLogic = FeedbackQuestionsLogic.inst();
+    final FeedbackResponsesLogic feedbackResponsesLogic = FeedbackResponsesLogic.inst();
+    final FeedbackResponseCommentsLogic feedbackResponseCommentsLogic = FeedbackResponseCommentsLogic.inst();
+    final ProfilesLogic profilesLogic = ProfilesLogic.inst();
+    final DataBundleLogic dataBundleLogic = DataBundleLogic.inst();
+
+    Logic() {
+        // prevent initialization
+    }
+
+    public static Logic inst() {
+        return instance;
+    }
 
     /**
      * Preconditions: <br>
@@ -67,7 +74,7 @@ public class Logic {
     }
 
     public String getCourseInstitute(String courseId) {
-        return accountsLogic.getCourseInstitute(courseId);
+        return coursesLogic.getCourseInstitute(courseId);
     }
 
     /**
@@ -135,12 +142,25 @@ public class Logic {
     }
 
     /**
-     * Batch creates or updates documents for the given Instructors.
+     * Creates or updates search document for the given instructor.
      *
-     * @see InstructorsLogic#putDocuments(List)
+     * @see InstructorsLogic#putDocument(InstructorAttributes)
      */
-    public void putInstructorDocuments(List<InstructorAttributes> instructors) {
-        instructorsLogic.putDocuments(instructors);
+    public void putInstructorDocument(InstructorAttributes instructor) throws SearchServiceException {
+        instructorsLogic.putDocument(instructor);
+    }
+
+    /**
+     * Update instructor being edited to ensure validity of instructors for the course.
+     *
+     * @see InstructorsLogic#updateToEnsureValidityOfInstructorsForTheCourse(String, InstructorAttributes)
+     */
+    public void updateToEnsureValidityOfInstructorsForTheCourse(String courseId, InstructorAttributes instructorToEdit) {
+
+        assert courseId != null;
+        assert instructorToEdit != null;
+
+        instructorsLogic.updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToEdit);
     }
 
     /**
@@ -187,11 +207,11 @@ public class Logic {
      * * All parameters are non-null.
      * @return null if not found.
      */
-    public InstructorAttributes getInstructorForRegistrationKey(String encryptedKey) {
+    public InstructorAttributes getInstructorForRegistrationKey(String registrationKey) {
 
-        assert encryptedKey != null;
+        assert registrationKey != null;
 
-        return instructorsLogic.getInstructorForRegistrationKey(encryptedKey);
+        return instructorsLogic.getInstructorForRegistrationKey(registrationKey);
     }
 
     /**
@@ -243,7 +263,7 @@ public class Logic {
      * @throws EntityDoesNotExistException if the instructor cannot be found
      */
     public InstructorAttributes updateInstructorCascade(InstructorAttributes.UpdateOptionsWithGoogleId updateOptions)
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws InstructorUpdateException, InvalidParametersException, EntityDoesNotExistException {
         assert updateOptions != null;
 
         return instructorsLogic.updateInstructorByGoogleIdCascade(updateOptions);
@@ -260,7 +280,7 @@ public class Logic {
      * @throws EntityDoesNotExistException if the instructor cannot be found
      */
     public InstructorAttributes updateInstructor(InstructorAttributes.UpdateOptionsWithEmail updateOptions)
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws InstructorUpdateException, InvalidParametersException, EntityDoesNotExistException {
         assert updateOptions != null;
 
         return instructorsLogic.updateInstructorByEmail(updateOptions);
@@ -270,15 +290,15 @@ public class Logic {
      * Make the instructor join the course, i.e. associate the Google ID to the instructor.<br>
      * Creates an account for the instructor if there is no existing account for him.
      * Preconditions: <br>
-     * * Parameters encryptedKey and googleId are non-null.
+     * * Parameters regkey and googleId are non-null.
      */
-    public InstructorAttributes joinCourseForInstructor(String encryptedKey, String googleId, String institute, String mac)
+    public InstructorAttributes joinCourseForInstructor(String regkey, String googleId)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
 
         assert googleId != null;
-        assert encryptedKey != null;
+        assert regkey != null;
 
-        return accountsLogic.joinCourseForInstructor(encryptedKey, googleId, institute, mac);
+        return accountsLogic.joinCourseForInstructor(regkey, googleId);
     }
 
     /**
@@ -595,15 +615,32 @@ public class Logic {
     }
 
     /**
+     * Regenerates the registration key for the instructor with email address {@code email} in course {@code courseId}.
+     *
+     * @return the instructor attributes with the new registration key.
+     * @throws EntityAlreadyExistsException if the newly generated instructor has the same registration key as the
+     *          original one.
+     * @throws EntityDoesNotExistException if the instructor does not exist.
+     */
+    public InstructorAttributes regenerateInstructorRegistrationKey(String courseId, String email)
+            throws EntityDoesNotExistException, EntityAlreadyExistsException {
+
+        assert courseId != null;
+        assert email != null;
+
+        return instructorsLogic.regenerateInstructorRegistrationKey(courseId, email);
+    }
+
+    /**
      * Regenerates the registration key for the student with email address {@code email} in course {@code courseId}.
      *
      * @return the student attributes with the new registration key.
-     * @throws RegenerateStudentException if the newly generated course student has the same registration key as the
+     * @throws EntityAlreadyExistsException if the newly generated course student has the same registration key as the
      *          original one.
      * @throws EntityDoesNotExistException if the student does not exist.
      */
     public StudentAttributes regenerateStudentRegistrationKey(String courseId, String email)
-            throws EntityDoesNotExistException, RegenerateStudentException {
+            throws EntityDoesNotExistException, EntityAlreadyExistsException {
 
         assert courseId != null;
         assert email != null;
@@ -667,7 +704,7 @@ public class Logic {
      * Create an account for the student if there is no account exist for him.
      * Preconditions: <br>
      * * All parameters are non-null.
-     * @param key the encrypted registration key
+     * @param key the registration key
      */
     public StudentAttributes joinCourseForStudent(String key, String googleId)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
@@ -761,10 +798,12 @@ public class Logic {
     }
 
     /**
-     * Batch creates or updates search documents for the given students.
+     * Creates or updates search document for the given student.
+     *
+     * @see StudentsLogic#putDocument(StudentAttributes)
      */
-    public void putStudentDocuments(List<StudentAttributes> students) {
-        studentsLogic.putDocuments(students);
+    public void putStudentDocument(StudentAttributes student) throws SearchServiceException {
+        studentsLogic.putDocument(student);
     }
 
     /**
@@ -1002,7 +1041,7 @@ public class Logic {
      * Soft-deletes a specific session to Recycle Bin.
      */
     public void moveFeedbackSessionToRecycleBin(String feedbackSessionName, String courseId)
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws EntityDoesNotExistException {
 
         assert feedbackSessionName != null;
         assert courseId != null;
@@ -1014,7 +1053,7 @@ public class Logic {
      * Restores a specific session from Recycle Bin to feedback sessions table.
      */
     public void restoreFeedbackSessionFromRecycleBin(String feedbackSessionName, String courseId)
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws EntityDoesNotExistException {
 
         assert feedbackSessionName != null;
         assert courseId != null;
@@ -1109,18 +1148,33 @@ public class Logic {
     /**
      * Gets the session result for a feedback session.
      *
-     * @see FeedbackSessionsLogic#getSessionResultsForUser(String, String, String, UserRole, String, String)
+     * @see FeedbackResponsesLogic#getSessionResultsForCourse(String, String, String, String, String)
      */
-    public SessionResultsBundle getSessionResultsForUser(
-            String feedbackSessionName, String courseId, String userEmail, UserRole role,
+    public SessionResultsBundle getSessionResultsForCourse(
+            String feedbackSessionName, String courseId, String userEmail,
             @Nullable String questionId, @Nullable String section) {
         assert feedbackSessionName != null;
         assert courseId != null;
         assert userEmail != null;
-        assert role != null;
 
-        return feedbackSessionsLogic.getSessionResultsForUser(
-                feedbackSessionName, courseId, userEmail, role, questionId, section);
+        return feedbackResponsesLogic.getSessionResultsForCourse(
+                feedbackSessionName, courseId, userEmail, questionId, section);
+    }
+
+    /**
+     * Gets the session result for a feedback session for the given user.
+     *
+     * @see FeedbackResponsesLogic#getSessionResultsForUser(String, String, String, boolean, String)
+     */
+    public SessionResultsBundle getSessionResultsForUser(
+            String feedbackSessionName, String courseId, String userEmail, boolean isInstructor,
+            @Nullable String questionId) {
+        assert feedbackSessionName != null;
+        assert courseId != null;
+        assert userEmail != null;
+
+        return feedbackResponsesLogic.getSessionResultsForUser(
+                feedbackSessionName, courseId, userEmail, isInstructor, questionId);
     }
 
     /**
@@ -1227,14 +1281,6 @@ public class Logic {
         return feedbackResponseCommentsLogic.getFeedbackResponseComment(feedbackResponseCommentId);
     }
 
-    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentForGiver(String courseId,
-                                                                                      String giverEmail) {
-        assert courseId != null;
-        assert giverEmail != null;
-
-        return feedbackResponseCommentsLogic.getFeedbackResponseCommentsForGiver(courseId, giverEmail);
-    }
-
     /**
      * Gets comment associated with the response.
      *
@@ -1287,6 +1333,10 @@ public class Logic {
         return feedbackSessionsLogic.getFeedbackSessionsClosingWithinTimeLimit();
     }
 
+    public List<FeedbackSessionAttributes> getFeedbackSessionsOpeningWithinTimeLimit() {
+        return feedbackSessionsLogic.getFeedbackSessionsOpeningWithinTimeLimit();
+    }
+
     /**
      * Returns a list of sessions that require automated emails to be sent as they are published.
      *
@@ -1329,14 +1379,8 @@ public class Logic {
      *
      * @see DataBundleLogic#putDocuments(DataBundle)
      */
-    public void putDocuments(DataBundle dataBundle) {
+    public void putDocuments(DataBundle dataBundle) throws SearchServiceException {
         dataBundleLogic.putDocuments(dataBundle);
-    }
-
-    public int getNumOfGeneratedChoicesForParticipantType(String courseId, FeedbackParticipantType generateOptionsFor) {
-        assert courseId != null;
-        assert generateOptionsFor != null;
-        return feedbackQuestionsLogic.getNumOfGeneratedChoicesForParticipantType(courseId, generateOptionsFor);
     }
 
     public boolean isStudentsInSameTeam(String courseId, String student1Email, String student2Email) {
@@ -1345,5 +1389,4 @@ public class Logic {
         assert student2Email != null;
         return studentsLogic.isStudentsInSameTeam(courseId, student1Email, student2Email);
     }
-
 }

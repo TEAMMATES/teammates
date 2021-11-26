@@ -8,11 +8,7 @@ import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttribute
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.EntityNotFoundException;
-import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.ui.output.FeedbackResponseCommentData;
@@ -35,14 +31,14 @@ class GetFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
             feedbackResponseId = StringHelper.decrypt(
                     getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID));
         } catch (InvalidParametersException ipe) {
-            throw new InvalidHttpParameterException(ipe.getMessage(), ipe);
+            throw new InvalidHttpParameterException(ipe);
         }
         FeedbackResponseAttributes feedbackResponseAttributes = logic.getFeedbackResponse(feedbackResponseId);
 
         if (feedbackResponseAttributes == null) {
-            throw new EntityNotFoundException(new EntityDoesNotExistException("The feedback response does not exist."));
+            throw new EntityNotFoundException("The feedback response does not exist.");
         }
-        String courseId = feedbackResponseAttributes.courseId;
+        String courseId = feedbackResponseAttributes.getCourseId();
         FeedbackSessionAttributes feedbackSession =
                 getNonNullFeedbackSession(feedbackResponseAttributes.getFeedbackSessionName(),
                         feedbackResponseAttributes.getCourseId());
@@ -70,13 +66,13 @@ class GetFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
     }
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         String feedbackResponseId;
         try {
             feedbackResponseId = StringHelper.decrypt(
                     getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID));
         } catch (InvalidParametersException ipe) {
-            throw new InvalidHttpParameterException(ipe.getMessage(), ipe);
+            throw new InvalidHttpParameterException(ipe);
         }
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
 
@@ -88,8 +84,7 @@ class GetFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
             if (comment == null) {
                 FeedbackResponseAttributes fr = logic.getFeedbackResponse(feedbackResponseId);
                 if (fr == null) {
-                    throw new EntityNotFoundException(
-                            new EntityDoesNotExistException("The feedback response does not exist."));
+                    throw new EntityNotFoundException("The feedback response does not exist.");
                 }
                 return new JsonResult("Comment not found", HttpStatus.SC_NO_CONTENT);
             }

@@ -11,7 +11,7 @@ import teammates.common.util.EmailWrapper;
 class CompileLogsAction extends AdminOnlyAction {
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         List<ErrorLogEntry> errorLogs = logsProcessor.getRecentErrorLogs();
         sendEmail(errorLogs);
         return new JsonResult("Successful");

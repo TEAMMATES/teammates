@@ -272,9 +272,10 @@ public class FieldValidatorTest extends BaseTestCase {
         String actual = FieldValidator.getInvalidityInfoForFeedbackSessionName(invalidSessionName);
         assertEquals("Invalid feedback session name (too long) should return error message specific to feedback "
                          + "session name",
-                     "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" is not acceptable to TEAMMATES as a/an "
-                         + "feedback session name because it is too long. The value of a/an feedback session "
-                         + "name should be no longer than 38 characters. It should not be empty.",
+                     "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" "
+                         + "is not acceptable to TEAMMATES as a/an feedback session name because it is too long. "
+                         + "The value of a/an feedback session name should be no longer than 64 characters. "
+                         + "It should not be empty.",
                      actual);
     }
 
@@ -493,7 +494,7 @@ public class FieldValidatorTest extends BaseTestCase {
         assertEquals("Invalid Course ID (empty) should return appropriate error string",
                      "The field 'course ID' is empty. A course ID can contain letters, numbers, "
                          + "fullstops, hyphens, underscores, and dollar signs. It cannot be "
-                         + "longer than 40 characters, cannot be empty and cannot contain spaces.",
+                         + "longer than 64 characters, cannot be empty and cannot contain spaces.",
                      FieldValidator.getInvalidityInfoForCourseId(emptyCourseId));
 
         String untrimmedCourseId = " $cs1101-sem1.2_ ";
@@ -511,17 +512,18 @@ public class FieldValidatorTest extends BaseTestCase {
         String tooLongCourseId = StringHelperExtension.generateStringOfLength(
                                                            FieldValidator.COURSE_ID_MAX_LENGTH + 1);
         assertEquals("Invalid Course ID (too long) should return appropriate error string",
-                     "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" is not acceptable to TEAMMATES as a/an "
-                         + "course ID because it is too long. A course ID can contain letters, numbers, "
-                         + "fullstops, hyphens, underscores, and dollar signs. It cannot be longer than 40 "
-                         + "characters, cannot be empty and cannot contain spaces.",
+                     "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" "
+                         + "is not acceptable to TEAMMATES as a/an course ID because it is too long. "
+                         + "A course ID can contain letters, numbers, fullstops, hyphens, underscores, "
+                         + "and dollar signs. It cannot be longer than 64 characters, "
+                         + "cannot be empty and cannot contain spaces.",
                      FieldValidator.getInvalidityInfoForCourseId(tooLongCourseId));
 
         String courseIdWithSpaces = "my course id with spaces";
         assertEquals("Invalid Course ID (contains spaces) should return appropriate error string",
                      "\"my course id with spaces\" is not acceptable to TEAMMATES as a/an course ID because "
                          + "it is not in the correct format. A course ID can contain letters, numbers, "
-                         + "fullstops, hyphens, underscores, and dollar signs. It cannot be longer than 40 "
+                         + "fullstops, hyphens, underscores, and dollar signs. It cannot be longer than 64 "
                          + "characters, cannot be empty and cannot contain spaces.",
                      FieldValidator.getInvalidityInfoForCourseId(courseIdWithSpaces));
 
@@ -529,7 +531,7 @@ public class FieldValidatorTest extends BaseTestCase {
         assertEquals("Invalid Course ID (invalid char) should return appropriate error string",
                      "\"cour@s*hy#\" is not acceptable to TEAMMATES as a/an course ID because it is not in "
                          + "the correct format. A course ID can contain letters, numbers, fullstops, "
-                         + "hyphens, underscores, and dollar signs. It cannot be longer than 40 characters, "
+                         + "hyphens, underscores, and dollar signs. It cannot be longer than 64 characters, "
                          + "cannot be empty and cannot contain spaces.",
                      FieldValidator.getInvalidityInfoForCourseId(courseIdWithInvalidChar));
     }

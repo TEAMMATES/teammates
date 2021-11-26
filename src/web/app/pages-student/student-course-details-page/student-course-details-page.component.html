@@ -1,4 +1,4 @@
-<h1 class="page-title" *ngIf="course.courseId">Team Details for {{ course.courseId }}</h1>
+<h1 class="page-title text-break" *ngIf="course.courseId">Team Details for {{ course.courseId }}</h1>
 <tm-loading-retry [shouldShowRetry]="hasLoadingFailed" [message]="'Failed to load details'" (retryEvent)="retryLoading()">
   <div class="section" *ngIf="course.courseId">
     <div *tmIsLoading="isLoadingCourse || isLoadingInstructor || isLoadingStudent" class="card">

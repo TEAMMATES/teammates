@@ -243,7 +243,7 @@ public class InstructorFeedbackSessionsPage extends AppPage {
         int rowId = getFeedbackSessionRowId(session.getCourseId(), session.getFeedbackSessionName());
 
         click(browser.driver.findElement(By.id("btn-remind-" + rowId)));
-        selectStudentToEmail(student.email);
+        selectStudentToEmail(student.getEmail());
 
         click(browser.driver.findElement(By.id("btn-confirm-send-reminder")));
     }
@@ -253,7 +253,7 @@ public class InstructorFeedbackSessionsPage extends AppPage {
 
         click(browser.driver.findElement(By.id("btn-results-" + rowId)));
         click(waitForElementPresence(By.id("btn-resend-" + rowId)));
-        selectStudentToEmail(student.email);
+        selectStudentToEmail(student.getEmail());
 
         click(browser.driver.findElement(By.id("btn-confirm-resend-results")));
     }

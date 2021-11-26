@@ -1,0 +1,4885 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`InstructorSessionEditPageComponent should snap when feedback question failed to load 1`] = `
+<tm-instructor-session-edit-page
+  FeedbackQuestionType={[Function Object]}
+  QuestionEditFormMode={[Function Object]}
+  SessionEditFormMode={[Function Object]}
+  changeDetectorRef={[Function ViewRef_]}
+  courseId="undefined"
+  courseName=""
+  courseService={[Function CourseService]}
+  emailOfInstructorToPreview=""
+  emailOfStudentToPreview=""
+  failedToCopySessions={[Function Object]}
+  feedbackQuestionModels={[Function Map]}
+  feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackSessionModelBeforeEditing={[Function Object]}
+  feedbackSessionName="undefined"
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  hasLoadingFeedbackQuestionsFailed={[Function Boolean]}
+  hasLoadingFeedbackSessionFailed="false"
+  instructorService={[Function InstructorService]}
+  instructorsCanBePreviewedAs={[Function Array]}
+  isAddingFromTemplate="false"
+  isAddingQuestionPanelExpanded="false"
+  isCopyingQuestion="false"
+  isEditingMode="false"
+  isLoadingFeedbackQuestions={[Function Boolean]}
+  isLoadingFeedbackSession={[Function Boolean]}
+  isResultActionLoading="false"
+  navigationService={[Function NavigationService]}
+  newQuestionEditFormModel={[Function Object]}
+  ngbModal={[Function NgbModal]}
+  progressBarService={[Function ProgressBarService]}
+  publishUnpublishRetryAttempts={[Function Number]}
+  questionEditFormModels={[Function Array]}
+  route={[Function ActivatedRoute]}
+  router={[Function Router]}
+  sessionEditFormModel={[Function Object]}
+  simpleModalService={[Function SimpleModalService]}
+  statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
+  studentsOfCourse={[Function Array]}
+  tableComparatorService={[Function TableComparatorService]}
+  timezoneService={[Function TimezoneService]}
+>
+  <tm-loading-retry>
+    
+    
+    <tm-loading-spinner>
+      <div
+        class="loading-container"
+      >
+        <div
+          class="row spinner-border text-primary"
+          role="status"
+        />
+        <div
+          class="row text-secondary"
+        >
+          Loading...
+        </div>
+      </div>
+    </tm-loading-spinner>
+    
+    
+  </tm-loading-retry><tm-loading-retry>
+    
+    <div
+      class="text-center"
+    >
+      <p
+        class="text-muted m-1"
+      >
+        Failed to load feedback questions
+      </p>
+      <button
+        class="btn btn-primary"
+      >
+        <i
+          aria-hidden="true"
+          class="fas fa-redo"
+        />
+         Retry
+      </button>
+    </div>
+    
+  </tm-loading-retry>
+</tm-instructor-session-edit-page>
+`;
+
+exports[`InstructorSessionEditPageComponent should snap when feedback questions are loading 1`] = `
+<tm-instructor-session-edit-page
+  FeedbackQuestionType={[Function Object]}
+  QuestionEditFormMode={[Function Object]}
+  SessionEditFormMode={[Function Object]}
+  changeDetectorRef={[Function ViewRef_]}
+  courseId="undefined"
+  courseName=""
+  courseService={[Function CourseService]}
+  emailOfInstructorToPreview=""
+  emailOfStudentToPreview=""
+  failedToCopySessions={[Function Object]}
+  feedbackQuestionModels={[Function Map]}
+  feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackSessionModelBeforeEditing={[Function Object]}
+  feedbackSessionName="undefined"
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  hasLoadingFeedbackQuestionsFailed="false"
+  hasLoadingFeedbackSessionFailed="false"
+  instructorService={[Function InstructorService]}
+  instructorsCanBePreviewedAs={[Function Array]}
+  isAddingFromTemplate="false"
+  isAddingQuestionPanelExpanded="false"
+  isCopyingQuestion="false"
+  isEditingMode="false"
+  isLoadingFeedbackQuestions={[Function Boolean]}
+  isLoadingFeedbackSession={[Function Boolean]}
+  isResultActionLoading="false"
+  navigationService={[Function NavigationService]}
+  newQuestionEditFormModel={[Function Object]}
+  ngbModal={[Function NgbModal]}
+  progressBarService={[Function ProgressBarService]}
+  publishUnpublishRetryAttempts={[Function Number]}
+  questionEditFormModels={[Function Array]}
+  route={[Function ActivatedRoute]}
+  router={[Function Router]}
+  sessionEditFormModel={[Function Object]}
+  simpleModalService={[Function SimpleModalService]}
+  statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
+  studentsOfCourse={[Function Array]}
+  tableComparatorService={[Function TableComparatorService]}
+  timezoneService={[Function TimezoneService]}
+>
+  <tm-loading-retry>
+    
+    
+    <tm-loading-spinner>
+      <div
+        class="loading-container"
+      >
+        <div
+          class="row spinner-border text-primary"
+          role="status"
+        />
+        <div
+          class="row text-secondary"
+        >
+          Loading...
+        </div>
+      </div>
+    </tm-loading-spinner>
+    
+    
+  </tm-loading-retry><tm-loading-retry>
+    
+    
+    
+    <tm-loading-spinner>
+      <div
+        class="loading-container"
+      >
+        <div
+          class="row spinner-border text-primary"
+          role="status"
+        />
+        <div
+          class="row text-secondary"
+        >
+          Loading...
+        </div>
+      </div>
+    </tm-loading-spinner>
+    
+    <div />
+    <br />
+    
+    
+    <br />
+    
+    
+    
+  </tm-loading-retry>
+</tm-instructor-session-edit-page>
+`;
+
+exports[`InstructorSessionEditPageComponent should snap when feedback session failed to load 1`] = `
+<tm-instructor-session-edit-page
+  FeedbackQuestionType={[Function Object]}
+  QuestionEditFormMode={[Function Object]}
+  SessionEditFormMode={[Function Object]}
+  changeDetectorRef={[Function ViewRef_]}
+  courseId="undefined"
+  courseName=""
+  courseService={[Function CourseService]}
+  emailOfInstructorToPreview=""
+  emailOfStudentToPreview=""
+  failedToCopySessions={[Function Object]}
+  feedbackQuestionModels={[Function Map]}
+  feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackSessionModelBeforeEditing={[Function Object]}
+  feedbackSessionName="undefined"
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  hasLoadingFeedbackQuestionsFailed="false"
+  hasLoadingFeedbackSessionFailed={[Function Boolean]}
+  instructorService={[Function InstructorService]}
+  instructorsCanBePreviewedAs={[Function Array]}
+  isAddingFromTemplate="false"
+  isAddingQuestionPanelExpanded="false"
+  isCopyingQuestion="false"
+  isEditingMode="false"
+  isLoadingFeedbackQuestions={[Function Boolean]}
+  isLoadingFeedbackSession={[Function Boolean]}
+  isResultActionLoading="false"
+  navigationService={[Function NavigationService]}
+  newQuestionEditFormModel={[Function Object]}
+  ngbModal={[Function NgbModal]}
+  progressBarService={[Function ProgressBarService]}
+  publishUnpublishRetryAttempts={[Function Number]}
+  questionEditFormModels={[Function Array]}
+  route={[Function ActivatedRoute]}
+  router={[Function Router]}
+  sessionEditFormModel={[Function Object]}
+  simpleModalService={[Function SimpleModalService]}
+  statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
+  studentsOfCourse={[Function Array]}
+  tableComparatorService={[Function TableComparatorService]}
+  timezoneService={[Function TimezoneService]}
+>
+  <tm-loading-retry>
+    
+    <div
+      class="text-center"
+    >
+      <p
+        class="text-muted m-1"
+      >
+        Failed to load feedback session
+      </p>
+      <button
+        class="btn btn-primary"
+      >
+        <i
+          aria-hidden="true"
+          class="fas fa-redo"
+        />
+         Retry
+      </button>
+    </div>
+    
+  </tm-loading-retry><tm-loading-retry>
+    
+    
+    
+    <tm-loading-spinner>
+      <div
+        class="loading-container"
+      >
+        <div
+          class="row spinner-border text-primary"
+          role="status"
+        />
+        <div
+          class="row text-secondary"
+        >
+          Loading...
+        </div>
+      </div>
+    </tm-loading-spinner>
+    
+    <div />
+    <br />
+    
+    
+    <br />
+    
+    
+    
+  </tm-loading-retry>
+</tm-instructor-session-edit-page>
+`;
+
+exports[`InstructorSessionEditPageComponent should snap when feedback session is loading 1`] = `
+<tm-instructor-session-edit-page
+  FeedbackQuestionType={[Function Object]}
+  QuestionEditFormMode={[Function Object]}
+  SessionEditFormMode={[Function Object]}
+  changeDetectorRef={[Function ViewRef_]}
+  courseId="undefined"
+  courseName=""
+  courseService={[Function CourseService]}
+  emailOfInstructorToPreview=""
+  emailOfStudentToPreview=""
+  failedToCopySessions={[Function Object]}
+  feedbackQuestionModels={[Function Map]}
+  feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackSessionModelBeforeEditing={[Function Object]}
+  feedbackSessionName="undefined"
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  hasLoadingFeedbackQuestionsFailed="false"
+  hasLoadingFeedbackSessionFailed="false"
+  instructorService={[Function InstructorService]}
+  instructorsCanBePreviewedAs={[Function Array]}
+  isAddingFromTemplate="false"
+  isAddingQuestionPanelExpanded="false"
+  isCopyingQuestion="false"
+  isEditingMode="false"
+  isLoadingFeedbackQuestions={[Function Boolean]}
+  isLoadingFeedbackSession={[Function Boolean]}
+  isResultActionLoading="false"
+  navigationService={[Function NavigationService]}
+  newQuestionEditFormModel={[Function Object]}
+  ngbModal={[Function NgbModal]}
+  progressBarService={[Function ProgressBarService]}
+  publishUnpublishRetryAttempts={[Function Number]}
+  questionEditFormModels={[Function Array]}
+  route={[Function ActivatedRoute]}
+  router={[Function Router]}
+  sessionEditFormModel={[Function Object]}
+  simpleModalService={[Function SimpleModalService]}
+  statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
+  studentsOfCourse={[Function Array]}
+  tableComparatorService={[Function TableComparatorService]}
+  timezoneService={[Function TimezoneService]}
+>
+  <tm-loading-retry>
+    
+    
+    <tm-loading-spinner>
+      <div
+        class="loading-container"
+      >
+        <div
+          class="row spinner-border text-primary"
+          role="status"
+        />
+        <div
+          class="row text-secondary"
+        >
+          Loading...
+        </div>
+      </div>
+    </tm-loading-spinner>
+    
+    
+  </tm-loading-retry><tm-loading-retry>
+    
+    
+    
+    <tm-loading-spinner>
+      <div
+        class="loading-container"
+      >
+        <div
+          class="row spinner-border text-primary"
+          role="status"
+        />
+        <div
+          class="row text-secondary"
+        >
+          Loading...
+        </div>
+      </div>
+    </tm-loading-spinner>
+    
+    <div />
+    <br />
+    
+    
+    <br />
+    
+    
+    
+  </tm-loading-retry>
+</tm-instructor-session-edit-page>
+`;
+
+exports[`InstructorSessionEditPageComponent should snap with default fields 1`] = `
+<tm-instructor-session-edit-page
+  FeedbackQuestionType={[Function Object]}
+  QuestionEditFormMode={[Function Object]}
+  SessionEditFormMode={[Function Object]}
+  changeDetectorRef={[Function ViewRef_]}
+  courseId="undefined"
+  courseName=""
+  courseService={[Function CourseService]}
+  emailOfInstructorToPreview=""
+  emailOfStudentToPreview=""
+  failedToCopySessions={[Function Object]}
+  feedbackQuestionModels={[Function Map]}
+  feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackSessionModelBeforeEditing={[Function Object]}
+  feedbackSessionName="undefined"
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  hasLoadingFeedbackQuestionsFailed="false"
+  hasLoadingFeedbackSessionFailed="false"
+  instructorService={[Function InstructorService]}
+  instructorsCanBePreviewedAs={[Function Array]}
+  isAddingFromTemplate="false"
+  isAddingQuestionPanelExpanded="false"
+  isCopyingQuestion="false"
+  isEditingMode="false"
+  isLoadingFeedbackQuestions={[Function Boolean]}
+  isLoadingFeedbackSession={[Function Boolean]}
+  isResultActionLoading="false"
+  navigationService={[Function NavigationService]}
+  newQuestionEditFormModel={[Function Object]}
+  ngbModal={[Function NgbModal]}
+  progressBarService={[Function ProgressBarService]}
+  publishUnpublishRetryAttempts={[Function Number]}
+  questionEditFormModels={[Function Array]}
+  route={[Function ActivatedRoute]}
+  router={[Function Router]}
+  sessionEditFormModel={[Function Object]}
+  simpleModalService={[Function SimpleModalService]}
+  statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
+  studentsOfCourse={[Function Array]}
+  tableComparatorService={[Function TableComparatorService]}
+  timezoneService={[Function TimezoneService]}
+>
+  <tm-loading-retry>
+    
+    
+    <tm-loading-spinner>
+      <div
+        class="loading-container"
+      >
+        <div
+          class="row spinner-border text-primary"
+          role="status"
+        />
+        <div
+          class="row text-secondary"
+        >
+          Loading...
+        </div>
+      </div>
+    </tm-loading-spinner>
+    
+    
+  </tm-loading-retry><tm-loading-retry>
+    
+    
+    
+    <tm-loading-spinner>
+      <div
+        class="loading-container"
+      >
+        <div
+          class="row spinner-border text-primary"
+          role="status"
+        />
+        <div
+          class="row text-secondary"
+        >
+          Loading...
+        </div>
+      </div>
+    </tm-loading-spinner>
+    
+    <div />
+    <br />
+    
+    
+    <br />
+    
+    
+    
+  </tm-loading-retry>
+</tm-instructor-session-edit-page>
+`;
+
+exports[`InstructorSessionEditPageComponent should snap with feedback session questions 1`] = `
+<tm-instructor-session-edit-page
+  FeedbackQuestionType={[Function Object]}
+  QuestionEditFormMode={[Function Object]}
+  SessionEditFormMode={[Function Object]}
+  changeDetectorRef={[Function ViewRef_]}
+  courseId={[Function String]}
+  courseName={[Function String]}
+  courseService={[Function CourseService]}
+  emailOfInstructorToPreview=""
+  emailOfStudentToPreview=""
+  failedToCopySessions={[Function Object]}
+  feedbackQuestionModels={[Function Map]}
+  feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackSessionModelBeforeEditing={[Function Object]}
+  feedbackSessionName={[Function String]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  hasLoadingFeedbackQuestionsFailed="false"
+  hasLoadingFeedbackSessionFailed="false"
+  instructorService={[Function InstructorService]}
+  instructorsCanBePreviewedAs={[Function Array]}
+  isAddingFromTemplate="false"
+  isAddingQuestionPanelExpanded="false"
+  isCopyingQuestion="false"
+  isEditingMode="false"
+  isLoadingFeedbackQuestions="false"
+  isLoadingFeedbackSession="false"
+  isResultActionLoading="false"
+  navigationService={[Function NavigationService]}
+  newQuestionEditFormModel={[Function Object]}
+  ngbModal={[Function NgbModal]}
+  progressBarService={[Function ProgressBarService]}
+  publishUnpublishRetryAttempts={[Function Number]}
+  questionEditFormModels={[Function Array]}
+  route={[Function ActivatedRoute]}
+  router={[Function Router]}
+  sessionEditFormModel={[Function Object]}
+  simpleModalService={[Function SimpleModalService]}
+  statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
+  studentsOfCourse={[Function Array]}
+  tableComparatorService={[Function TableComparatorService]}
+  timezoneService={[Function TimezoneService]}
+>
+  <tm-loading-retry>
+    
+    
+    <tm-session-edit-form>
+      <div
+        class="card card-plain"
+      >
+        
+        <div
+          class="card-body"
+        >
+          
+          
+          <div
+            class="row"
+          >
+            <div
+              class="col-12 text-center text-md-right session-form-buttons"
+            >
+              
+              <button
+                class="btn btn-primary"
+                id="btn-fs-edit"
+                type="button"
+              >
+                <i
+                  class="fas fa-pencil-alt"
+                />
+                 Edit
+              </button>
+              
+              
+              <button
+                class="btn btn-primary"
+                id="btn-fs-delete"
+                ngbtooltip="Delete the feedback session"
+                type="button"
+              >
+                
+                <i
+                  class="fas fa-trash"
+                />
+                 Delete
+              </button>
+              <button
+                class="btn btn-primary"
+                id="btn-fs-copy"
+                ngbtooltip="Copy this feedback session to other courses"
+                type="button"
+              >
+                
+                <i
+                  class="far fa-copy"
+                />
+                 Copy
+              </button>
+            </div>
+          </div>
+          <div
+            class="card border-primary margin-top-20px"
+          >
+            <div
+              class="card-body"
+            >
+              <div
+                class="row text-center"
+              >
+                <div
+                  class="col-md-2 text-md-right font-bold"
+                >
+                  <span
+                    class="ngb-tooltip-class"
+                    ngbtooltip="Course for which the feedback session is for."
+                  >
+                    Course ID
+                  </span>
+                </div>
+                <div
+                  class="col-md-auto text-md-left"
+                >
+                  
+                  
+                  <div
+                    id="edit-course-id"
+                  >
+                     testId 
+                  </div>
+                </div>
+              </div>
+              <br />
+              <div
+                class="row text-center"
+              >
+                <div
+                  class="col-md-2 text-md-right font-bold"
+                >
+                   Time Zone 
+                </div>
+                <div
+                  class="col-md-3 text-md-left"
+                  id="time-zone"
+                >
+                  <span
+                    class="ngb-tooltip-class"
+                    ngbtooltip="To change this, edit the course settings. TEAMMATES automatically adjusts to match the current time offset in your area, including clock changes due to daylight saving time."
+                  >
+                    Asia/Singapore
+                  </span>
+                </div>
+              </div>
+              <br />
+              <div
+                class="row text-center"
+              >
+                <div
+                  class="col-md-2 text-md-right font-bold"
+                >
+                   Course Name 
+                </div>
+                <div
+                  class="col-md-10 text-md-left"
+                  id="course-name"
+                >
+                   Test Course 
+                </div>
+              </div>
+              <br />
+              <div
+                class="row text-center"
+              >
+                <div
+                  class="col-md-2 text-md-right font-bold"
+                >
+                  
+                  
+                  <span>
+                    Session Name
+                  </span>
+                </div>
+                <div
+                  class="col-md-10 text-md-left"
+                >
+                  
+                  
+                  <div
+                    id="edit-session-name"
+                  >
+                     test session 
+                  </div>
+                </div>
+              </div>
+              <br />
+              <div
+                class="row text-center"
+              >
+                <div
+                  class="col-md-2 text-md-right font-bold"
+                >
+                  <span
+                    class="ngb-tooltip-class"
+                    ngbtooltip="Will be displayed at the top of the page when users respond to the session."
+                  >
+                    Instructions
+                  </span>
+                </div>
+                <div
+                  class="col-md-10 text-md-left"
+                >
+                  <tm-rich-text-editor
+                    id="instructions"
+                  >
+                    <div
+                      inviewport=""
+                    >
+                      
+                    </div>
+                  </tm-rich-text-editor>
+                </div>
+              </div>
+              <br />
+              
+              <div
+                class="row text-center"
+              >
+                <div
+                  class="col-md-2 text-md-right font-bold"
+                >
+                   Submission Status 
+                </div>
+                <div
+                  class="col-md-4 text-md-left"
+                  id="submission-status"
+                >
+                   Open 
+                </div>
+                <div
+                  class="col-md-2 text-md-right font-bold mt-3 mt-md-0"
+                >
+                   Published Status 
+                </div>
+                <div
+                  class="col-md-4 text-md-left"
+                  id="published-status"
+                >
+                   Not Published 
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="card border-primary margin-top-20px"
+          >
+            <div
+              class="card-body"
+            >
+              <div
+                class="row text-center"
+              >
+                <div
+                  class="col-md-5"
+                >
+                  <div
+                    class="col-12 text-md-left"
+                  >
+                    <div>
+                      <label
+                        class="ngb-tooltip-class label-control font-bold"
+                        ngbtooltip="Users can start submitting responses."
+                      >
+                         Submission opening time 
+                      </label>
+                    </div>
+                  </div>
+                  <div
+                    class="row text-center align-items-center"
+                  >
+                    <div
+                      class="col-md-7 col-xs-center"
+                      id="submission-start-date"
+                    >
+                      <tm-datepicker>
+                        <div
+                          class="input-group"
+                        >
+                          
+                          <input
+                            class="form-control ng-untouched ng-pristine ng-valid"
+                            disabled=""
+                            ngbdatepicker=""
+                            type="text"
+                          />
+                          
+                        </div>
+                      </tm-datepicker>
+                    </div>
+                    <div
+                      class="col-md-5"
+                    >
+                      <tm-timepicker
+                        id="submission-start-time"
+                      >
+                        <select
+                          class="form-control ng-untouched ng-pristine ng-valid"
+                        >
+                          
+                          <option
+                            value="1: Object"
+                          >
+                             01:00H 
+                          </option>
+                          <option
+                            value="2: Object"
+                          >
+                             02:00H 
+                          </option>
+                          <option
+                            value="3: Object"
+                          >
+                             03:00H 
+                          </option>
+                          <option
+                            value="4: Object"
+                          >
+                             04:00H 
+                          </option>
+                          <option
+                            value="5: Object"
+                          >
+                             05:00H 
+                          </option>
+                          <option
+                            value="6: Object"
+                          >
+                             06:00H 
+                          </option>
+                          <option
+                            value="7: Object"
+                          >
+                             07:00H 
+                          </option>
+                          <option
+                            value="8: Object"
+                          >
+                             08:00H 
+                          </option>
+                          <option
+                            value="9: Object"
+                          >
+                             09:00H 
+                          </option>
+                          <option
+                            value="10: Object"
+                          >
+                             10:00H 
+                          </option>
+                          <option
+                            value="11: Object"
+                          >
+                             11:00H 
+                          </option>
+                          <option
+                            value="12: Object"
+                          >
+                             12:00H 
+                          </option>
+                          <option
+                            value="13: Object"
+                          >
+                             13:00H 
+                          </option>
+                          <option
+                            value="14: Object"
+                          >
+                             14:00H 
+                          </option>
+                          <option
+                            value="15: Object"
+                          >
+                             15:00H 
+                          </option>
+                          <option
+                            value="16: Object"
+                          >
+                             16:00H 
+                          </option>
+                          <option
+                            value="17: Object"
+                          >
+                             17:00H 
+                          </option>
+                          <option
+                            value="18: Object"
+                          >
+                             18:00H 
+                          </option>
+                          <option
+                            value="19: Object"
+                          >
+                             19:00H 
+                          </option>
+                          <option
+                            value="20: Object"
+                          >
+                             20:00H 
+                          </option>
+                          <option
+                            value="21: Object"
+                          >
+                             21:00H 
+                          </option>
+                          <option
+                            value="22: Object"
+                          >
+                             22:00H 
+                          </option>
+                          <option
+                            value="23: Object"
+                          >
+                             23:00H 
+                          </option>
+                          <option
+                            value="0: Object"
+                          >
+                            23:59H
+                          </option>
+                          
+                        </select>
+                      </tm-timepicker>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="col-md-5 border-left-gray"
+                >
+                  <div
+                    class="row text-center"
+                  >
+                    <div
+                      class="col-12 text-md-left ml-md-2"
+                    >
+                      <label
+                        class="ngb-tooltip-class label-control font-bold"
+                        ngbtooltip="No more submissions from users."
+                      >
+                         Submission closing time 
+                      </label>
+                    </div>
+                  </div>
+                  <div
+                    class="row align-items-center"
+                  >
+                    <div
+                      class="col-md-7 col-xs-center"
+                      id="submission-end-date"
+                    >
+                      <tm-datepicker>
+                        <div
+                          class="input-group"
+                        >
+                          
+                          <input
+                            class="form-control ng-untouched ng-pristine ng-valid"
+                            disabled=""
+                            ngbdatepicker=""
+                            type="text"
+                          />
+                          
+                        </div>
+                      </tm-datepicker>
+                    </div>
+                    <div
+                      class="col-md-5"
+                    >
+                      <tm-timepicker
+                        id="submission-end-time"
+                      >
+                        <select
+                          class="form-control ng-untouched ng-pristine ng-valid"
+                        >
+                          
+                          <option
+                            value="1: Object"
+                          >
+                             01:00H 
+                          </option>
+                          <option
+                            value="2: Object"
+                          >
+                             02:00H 
+                          </option>
+                          <option
+                            value="3: Object"
+                          >
+                             03:00H 
+                          </option>
+                          <option
+                            value="4: Object"
+                          >
+                             04:00H 
+                          </option>
+                          <option
+                            value="5: Object"
+                          >
+                             05:00H 
+                          </option>
+                          <option
+                            value="6: Object"
+                          >
+                             06:00H 
+                          </option>
+                          <option
+                            value="7: Object"
+                          >
+                             07:00H 
+                          </option>
+                          <option
+                            value="8: Object"
+                          >
+                             08:00H 
+                          </option>
+                          <option
+                            value="9: Object"
+                          >
+                             09:00H 
+                          </option>
+                          <option
+                            value="10: Object"
+                          >
+                             10:00H 
+                          </option>
+                          <option
+                            value="11: Object"
+                          >
+                             11:00H 
+                          </option>
+                          <option
+                            value="12: Object"
+                          >
+                             12:00H 
+                          </option>
+                          <option
+                            value="13: Object"
+                          >
+                             13:00H 
+                          </option>
+                          <option
+                            value="14: Object"
+                          >
+                             14:00H 
+                          </option>
+                          <option
+                            value="15: Object"
+                          >
+                             15:00H 
+                          </option>
+                          <option
+                            value="16: Object"
+                          >
+                             16:00H 
+                          </option>
+                          <option
+                            value="17: Object"
+                          >
+                             17:00H 
+                          </option>
+                          <option
+                            value="18: Object"
+                          >
+                             18:00H 
+                          </option>
+                          <option
+                            value="19: Object"
+                          >
+                             19:00H 
+                          </option>
+                          <option
+                            value="20: Object"
+                          >
+                             20:00H 
+                          </option>
+                          <option
+                            value="21: Object"
+                          >
+                             21:00H 
+                          </option>
+                          <option
+                            value="22: Object"
+                          >
+                             22:00H 
+                          </option>
+                          <option
+                            value="23: Object"
+                          >
+                             23:00H 
+                          </option>
+                          <option
+                            value="0: Object"
+                          >
+                            23:59H
+                          </option>
+                          
+                        </select>
+                      </tm-timepicker>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="col-md-2 border-left-gray"
+                >
+                  <div
+                    class="row text-center"
+                  >
+                    <div
+                      class="ngb-tooltip-class col-12 text-md-left ml-md-2"
+                      ngbtooltip="Amount of time the system will continue accepting submissions after the specified deadline."
+                    >
+                      <label
+                        class="control-label font-bold"
+                      >
+                         Grace period 
+                      </label>
+                    </div>
+                  </div>
+                  <div
+                    class="row text-center"
+                  >
+                    <div
+                      class="col-12"
+                    >
+                      <select
+                        class="form-control ng-untouched ng-pristine ng-valid"
+                        id="grace-period"
+                      >
+                        
+                        <option
+                          value="0: 0"
+                        >
+                          0 min
+                        </option>
+                        <option
+                          value="1: 5"
+                        >
+                          5 min
+                        </option>
+                        <option
+                          value="2: 10"
+                        >
+                          10 min
+                        </option>
+                        <option
+                          value="3: 15"
+                        >
+                          15 min
+                        </option>
+                        <option
+                          value="4: 20"
+                        >
+                          20 min
+                        </option>
+                        <option
+                          value="5: 25"
+                        >
+                          25 min
+                        </option>
+                        <option
+                          value="6: 30"
+                        >
+                          30 min
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div
+            class="margin-top-20px"
+          >
+            <span
+              class="text-muted"
+            >
+              Session is visible at submission opening time, responses are only visible when you publish the results.
+            </span>
+            <button
+              class="btn btn-link"
+              disabled=""
+              id="btn-change-visibility"
+              type="button"
+            >
+              [Change]
+            </button>
+          </div>
+          
+          
+          <div>
+            <span
+              class="text-muted"
+            >
+              Emails are sent when session opens (within 15 minutes), 24 hrs before session closes and when results are published.
+            </span>
+            <button
+              class="btn btn-link"
+              disabled=""
+              id="btn-change-email"
+              type="button"
+            >
+              [Change]
+            </button>
+          </div>
+          
+          <div
+            class="row margin-top-20px"
+          >
+            <div
+              class="col-12 text-center"
+            >
+              <span
+                class="loader"
+              />
+              
+              
+              <div>
+                
+                <button
+                  class="btn btn-success"
+                  disabled=""
+                  type="button"
+                >
+                  
+                  Save Changes 
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </tm-session-edit-form>
+    
+    
+  </tm-loading-retry><tm-loading-retry>
+    
+    
+    <div
+      class="offset-md-10 margin-vertical-20px"
+    >
+      <button
+        class="btn expand-btn btn-light margin-top-30px"
+        id="btn-collapse-expand"
+      >
+         Collapse All 
+      </button>
+    </div>
+    
+    <div>
+      
+      <div>
+        <tm-question-edit-form>
+          <div
+            class="card"
+            id="question-form-1"
+          >
+            <div
+              class="card-header bg-primary text-white cursor-pointer"
+            >
+              <div
+                class="collapse-caret"
+              >
+                <tm-panel-chevron>
+                  <div
+                    class="chevron"
+                  >
+                    
+                    
+                    <i
+                      class="fas fa-chevron-up"
+                    />
+                  </div>
+                </tm-panel-chevron>
+              </div>
+              <div
+                id="question-header"
+              >
+                <strong>
+                  Question 
+                  
+                </strong>
+                
+                <select
+                  class="form-control question-number-select ng-untouched ng-pristine ng-valid"
+                  id="question-number-dropdown"
+                >
+                  
+                  <option
+                    value="0: 1"
+                  >
+                    1
+                  </option>
+                  <option
+                    value="1: 2"
+                  >
+                    2
+                  </option>
+                </select>
+                 Essay question 
+                
+              </div>
+              <div
+                class="card-header-btn-toolbar"
+              >
+                
+                <div>
+                  
+                  
+                  <button
+                    class="btn btn-primary btn-sm"
+                    id="btn-save-question"
+                    type="button"
+                  >
+                    
+                    <i
+                      class="fas fa-check"
+                    />
+                     Save 
+                  </button>
+                  
+                  <button
+                    class="btn btn-primary btn-sm"
+                    type="button"
+                  >
+                    <i
+                      class="fas fa-ban"
+                    />
+                     Cancel 
+                  </button>
+                  <button
+                    class="btn btn-primary btn-sm"
+                    id="btn-delete-question"
+                    type="button"
+                  >
+                    
+                    <i
+                      class="fas fa-trash"
+                    />
+                     Delete 
+                  </button>
+                  <button
+                    class="btn btn-primary btn-sm"
+                    container="body"
+                    id="btn-duplicate-question"
+                    ngbtooltip="Make a copy of the existing question and add to the current feedback session."
+                    type="button"
+                  >
+                    
+                    <i
+                      class="far fa-copy"
+                    />
+                     Duplicate 
+                  </button>
+                </div>
+                
+              </div>
+            </div>
+            
+            <div
+              class="ng-trigger ng-trigger-collapseAnim ng-animating"
+              style=""
+            >
+              <div
+                class="card-body"
+              >
+                <div
+                  class="background-color-light-blue"
+                >
+                  <div
+                    class="row"
+                  >
+                    <div
+                      class="col-12"
+                    >
+                      <div
+                        class="row padding-15px text-left"
+                      >
+                        <div
+                          class="col-md-2"
+                        >
+                          <div
+                            class="question-basic-info"
+                          >
+                            Question
+                          </div>
+                        </div>
+                        <div
+                          class="col-md-10"
+                        >
+                          <textarea
+                            class="form-control ng-untouched ng-pristine ng-valid"
+                            id="question-brief"
+                            placeholder="A concise version of the question e.g. \\"How well did the team member communicate?\\""
+                          />
+                        </div>
+                      </div>
+                      <div
+                        class="row padding-15px text-left"
+                      >
+                        <div
+                          class="col-md-2"
+                        >
+                          <div
+                            class="question-basic-info"
+                          >
+                            [Optional]
+                            <br />
+                            Description
+                          </div>
+                        </div>
+                        <div
+                          class="col-md-10"
+                        >
+                          <tm-rich-text-editor
+                            minheightinpx="100"
+                            placeholdertext="More details about the question e.g. \\"In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.\\""
+                          >
+                            <div
+                              inviewport=""
+                            >
+                              
+                            </div>
+                          </tm-rich-text-editor>
+                        </div>
+                      </div>
+                      <div
+                        class="padding-15px"
+                      >
+                        
+                        <tm-text-question-edit-details-form
+                          style=""
+                        >
+                          <div
+                            class="row padding-15px"
+                          >
+                            <div
+                              class="col-md-10 allow-rich-text"
+                            >
+                              <label>
+                                <input
+                                  type="checkbox"
+                                />
+                                <a>
+                                   Allow rich-text formatting (e.g., bold text, links, bullet lists, colors, etc.) in the answers
+                                </a>
+                              </label>
+                            </div>
+                            <div
+                              class="col-12 question-recommended-length"
+                            >
+                               [Optional] 
+                              <span
+                                class="ngb-tooltip-class"
+                                ngbtooltip="The recommended length is shown to the respondent but not enforced"
+                              >
+                                 Recommended length 
+                              </span>
+                               for the response: 
+                              <input
+                                class="form-control ng-untouched ng-pristine ng-valid"
+                                id="recommended-length"
+                                min="1"
+                                type="number"
+                              />
+                               words 
+                            </div>
+                          </div>
+                        </tm-text-question-edit-details-form>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <tm-feedback-path-panel>
+                  <div
+                    class="background-color-light-green margin-top-15px padding-15px"
+                  >
+                    <div>
+                      <b
+                        class="feedback-path-title"
+                      >
+                        Feedback Path
+                      </b>
+                       (Who is giving feedback about whom?) 
+                    </div>
+                    <div
+                      autoclose="outside"
+                      class="margin-top-15px"
+                      ngbdropdown=""
+                    >
+                      <button
+                        aria-expanded="false"
+                        aria-haspopup="true"
+                        class="btn btn-light white-space-normal dropdown-toggle"
+                        id="btn-feedback-path"
+                        ngbdropdowntoggle=""
+                      >
+                        
+                        <span
+                          style=""
+                        >
+                           Students in this course will give feedback on 
+                          <i
+                            class="fas fa-arrow-right"
+                          />
+                           Instructors in the course 
+                        </span>
+                        
+                      </button>
+                      <ul
+                        class="dropdown-menu"
+                        id="feedback-path-dropdown"
+                        ngbdropdownmenu=""
+                        x-placement="bottom"
+                      >
+                        <li
+                          class="dropdown-header"
+                        >
+                          Common feedback path combinations
+                        </li>
+                        
+                        <li
+                          class="dropdown-item"
+                          style=""
+                        >
+                          <div
+                            ngbdropdown=""
+                            placement="right"
+                          >
+                            <span
+                              aria-expanded="false"
+                              aria-haspopup="true"
+                              class="float-right invisible dropdown-toggle"
+                              ngbdropdownanchor=""
+                            />
+                             Instructors in this course will give feedback on ... 
+                            <i
+                              class="fas fa-caret-right"
+                            />
+                            <ul
+                              class="dropdown-menu"
+                              ngbdropdownmenu=""
+                              x-placement="bottom"
+                            >
+                              
+                              <li
+                                class="dropdown-item"
+                              >
+                                Nobody specific (For general class feedback)
+                              </li>
+                              <li
+                                class="dropdown-item"
+                              >
+                                Giver (Self feedback)
+                              </li>
+                              <li
+                                class="dropdown-item"
+                              >
+                                Instructors in the course
+                              </li>
+                            </ul>
+                          </div>
+                        </li>
+                        <li
+                          class="dropdown-item"
+                          style=""
+                        >
+                          <div
+                            ngbdropdown=""
+                            placement="right"
+                          >
+                            <span
+                              aria-expanded="false"
+                              aria-haspopup="true"
+                              class="float-right invisible dropdown-toggle"
+                              ngbdropdownanchor=""
+                            />
+                             Feedback session creator (i.e., me) will give feedback on ... 
+                            <i
+                              class="fas fa-caret-right"
+                            />
+                            <ul
+                              class="dropdown-menu"
+                              ngbdropdownmenu=""
+                              x-placement="bottom"
+                            >
+                              
+                              <li
+                                class="dropdown-item"
+                              >
+                                Nobody specific (For general class feedback)
+                              </li>
+                              <li
+                                class="dropdown-item"
+                              >
+                                Giver (Self feedback)
+                              </li>
+                              <li
+                                class="dropdown-item"
+                              >
+                                Instructors in the course
+                              </li>
+                            </ul>
+                          </div>
+                        </li>
+                        <li
+                          class="dropdown-item"
+                          style=""
+                        >
+                          <div
+                            ngbdropdown=""
+                            placement="right"
+                          >
+                            <span
+                              aria-expanded="false"
+                              aria-haspopup="true"
+                              class="float-right invisible dropdown-toggle"
+                              ngbdropdownanchor=""
+                            />
+                             Students in this course will give feedback on ... 
+                            <i
+                              class="fas fa-caret-right"
+                            />
+                            <ul
+                              class="dropdown-menu"
+                              ngbdropdownmenu=""
+                              x-placement="bottom"
+                            >
+                              
+                              <li
+                                class="dropdown-item"
+                              >
+                                Nobody specific (For general class feedback)
+                              </li>
+                              <li
+                                class="dropdown-item"
+                              >
+                                Giver (Self feedback)
+                              </li>
+                              <li
+                                class="dropdown-item"
+                              >
+                                Instructors in the course
+                              </li>
+                              <li
+                                class="dropdown-item"
+                              >
+                                Giver's team members
+                              </li>
+                              <li
+                                class="dropdown-item"
+                              >
+                                Giver's team members and Giver
+                              </li>
+                            </ul>
+                          </div>
+                        </li>
+                        <li
+                          class="dropdown-divider"
+                        />
+                        <li
+                          class="dropdown-item"
+                        >
+                          Custom feedback path...
+                        </li>
+                      </ul>
+                    </div>
+                    
+                    
+                    <div
+                      class="row margin-top-15px align-items-center"
+                      style=""
+                    >
+                      <div
+                        class="offset-1 col-md-4 text-md-right"
+                      >
+                         The maximum number of instructors each respondent should give feedback to: 
+                      </div>
+                      <div
+                        class="col-md-2"
+                      >
+                        <div
+                          class="input-group"
+                        >
+                          <div
+                            class="input-group-prepend"
+                          >
+                            <div
+                              class="input-group-text"
+                            >
+                              <input
+                                class="ng-untouched ng-pristine ng-valid"
+                                id="custom-recipients"
+                                type="radio"
+                              />
+                            </div>
+                          </div>
+                          <input
+                            class="form-control ng-untouched ng-pristine ng-valid"
+                            id="custom-recipients-number"
+                            min="1"
+                            type="number"
+                          />
+                        </div>
+                      </div>
+                      <div
+                        class="col-md-2"
+                      >
+                        <div
+                          class="form-check"
+                        >
+                          <label
+                            class="form-check-label"
+                          >
+                            <input
+                              class="form-check-input ng-untouched ng-pristine ng-valid"
+                              id="unlimited-recipients"
+                              type="radio"
+                            />
+                             Unlimited 
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </tm-feedback-path-panel>
+                <tm-visibility-panel>
+                  <div
+                    class="margin-top-15px padding-15px background-color-light-green"
+                  >
+                    <div>
+                      
+                      <b
+                        class="visibility-title"
+                      >
+                        Visibility
+                      </b>
+                       (Who can see the responses?) 
+                    </div>
+                    <div
+                      class="margin-top-15px"
+                      ngbdropdown=""
+                    >
+                      <button
+                        aria-expanded="false"
+                        aria-haspopup="true"
+                        class="btn btn-light white-space-normal dropdown-toggle"
+                        id="btn-question-visibility"
+                        ngbdropdowntoggle=""
+                      >
+                        
+                        
+                        <span
+                          style=""
+                        >
+                          Custom visibility options
+                        </span>
+                      </button>
+                      <ul
+                        class="dropdown-menu"
+                        id="question-visibility-dropdown"
+                        ngbdropdownmenu=""
+                        x-placement="bottom"
+                      >
+                        <li
+                          class="dropdown-header"
+                        >
+                          Common visibility options
+                        </li>
+                        
+                        <li
+                          class="dropdown-item"
+                          style=""
+                        >
+                          Shown anonymously to recipient and instructors
+                        </li>
+                        <li
+                          class="dropdown-item"
+                          style=""
+                        >
+                          Shown anonymously to recipient, visible to instructors
+                        </li>
+                        <li
+                          class="dropdown-item"
+                          style=""
+                        >
+                          Shown anonymously to recipient and giver's team members, visible to instructors
+                        </li>
+                        <li
+                          class="dropdown-item"
+                          style=""
+                        >
+                          Visible to instructors only
+                        </li>
+                        <li
+                          class="dropdown-item"
+                          style=""
+                        >
+                          Visible to recipient and instructors
+                        </li>
+                        
+                        <li
+                          class="dropdown-divider"
+                          style=""
+                        />
+                        
+                        <li
+                          class="dropdown-item"
+                          style=""
+                        >
+                          Custom visibility options...
+                        </li>
+                      </ul>
+                    </div>
+                    
+                    <table
+                      class="table margin-top-15px background-color-white table-striped"
+                      style=""
+                    >
+                      <thead>
+                        <tr>
+                          <th
+                            class="text-left"
+                            scope="col"
+                          >
+                            User/Group
+                          </th>
+                          
+                          <th
+                            class="text-center"
+                            scope="col"
+                          >
+                            Can see answer
+                          </th>
+                          <th
+                            class="text-center"
+                            scope="col"
+                          >
+                            Can see giver's name
+                          </th>
+                          <th
+                            class="text-center"
+                            scope="col"
+                          >
+                            Can see recipient's name
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody
+                        id="custom-visibility-table"
+                      >
+                        
+                        
+                        
+                        <tr>
+                          <td>
+                            <span
+                              class="ngb-tooltip-class"
+                              container="body"
+                            >
+                              Recipient(s)
+                            </span>
+                          </td>
+                          
+                          <td
+                            class="text-center"
+                          >
+                            <input
+                              type="checkbox"
+                            />
+                          </td>
+                          <td
+                            class="text-center"
+                          >
+                            <input
+                              type="checkbox"
+                            />
+                          </td>
+                          <td
+                            class="text-center"
+                          >
+                            <input
+                              disabled=""
+                              type="checkbox"
+                            />
+                          </td>
+                        </tr>
+                        
+                        
+                        
+                        <tr>
+                          <td>
+                            <span
+                              class="ngb-tooltip-class"
+                              container="body"
+                            >
+                              Giver's Team Members
+                            </span>
+                          </td>
+                          
+                          <td
+                            class="text-center"
+                          >
+                            <input
+                              type="checkbox"
+                            />
+                          </td>
+                          <td
+                            class="text-center"
+                          >
+                            <input
+                              type="checkbox"
+                            />
+                          </td>
+                          <td
+                            class="text-center"
+                          >
+                            <input
+                              type="checkbox"
+                            />
+                          </td>
+                        </tr>
+                        
+                        
+                        
+                        
+                        
+                        
+                        <tr>
+                          <td>
+                            <span
+                              class="ngb-tooltip-class"
+                              container="body"
+                            >
+                              Other students
+                            </span>
+                          </td>
+                          
+                          <td
+                            class="text-center"
+                          >
+                            <input
+                              type="checkbox"
+                            />
+                          </td>
+                          <td
+                            class="text-center"
+                          >
+                            <input
+                              type="checkbox"
+                            />
+                          </td>
+                          <td
+                            class="text-center"
+                          >
+                            <input
+                              type="checkbox"
+                            />
+                          </td>
+                        </tr>
+                        
+                        
+                        
+                        <tr>
+                          <td>
+                            <span
+                              class="ngb-tooltip-class"
+                              container="body"
+                            >
+                              Instructors
+                            </span>
+                          </td>
+                          
+                          <td
+                            class="text-center"
+                          >
+                            <input
+                              type="checkbox"
+                            />
+                          </td>
+                          <td
+                            class="text-center"
+                          >
+                            <input
+                              type="checkbox"
+                            />
+                          </td>
+                          <td
+                            class="text-center"
+                          >
+                            <input
+                              type="checkbox"
+                            />
+                          </td>
+                        </tr>
+                        
+                      </tbody>
+                    </table>
+                    <div
+                      class="margin-top-15px visibility-message"
+                    >
+                       This is the visibility hint as seen by the feedback giver: 
+                      <ul
+                        class="text-muted background-color-warning"
+                      >
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <li
+                          style=""
+                        >
+                           Your team members can see your response, but not the name of the recipient, or your name 
+                        </li>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <li
+                          style=""
+                        >
+                           Instructors in this course can see your response, but not the name of the recipient, or your name 
+                        </li>
+                        
+                        
+                      </ul>
+                    </div>
+                  </div>
+                </tm-visibility-panel>
+                
+                <div
+                  class="row margin-top-15px"
+                  style=""
+                >
+                  <div
+                    class="col-12 text-right"
+                  >
+                    
+                    <button
+                      class="btn btn-light btn-margin-right"
+                      type="button"
+                    >
+                      <i
+                        class="fas fa-ban"
+                      />
+                       Cancel 
+                    </button>
+                    <button
+                      class="btn btn-success"
+                    >
+                      
+                      
+                      <span>
+                        <i
+                          class="fas fa-check"
+                        />
+                         Save Changes
+                      </span>
+                      
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </tm-question-edit-form>
+      </div>
+      <div>
+        <tm-question-edit-form>
+          <div
+            class="card"
+            id="question-form-2"
+          >
+            <div
+              class="card-header bg-primary text-white cursor-pointer"
+            >
+              <div
+                class="collapse-caret"
+              >
+                <tm-panel-chevron>
+                  <div
+                    class="chevron"
+                  >
+                    
+                    
+                    <i
+                      class="fas fa-chevron-up"
+                    />
+                  </div>
+                </tm-panel-chevron>
+              </div>
+              <div
+                id="question-header"
+              >
+                <strong>
+                  Question 
+                  
+                </strong>
+                
+                <select
+                  class="form-control question-number-select ng-untouched ng-pristine ng-valid"
+                  id="question-number-dropdown"
+                >
+                  
+                  <option
+                    value="0: 1"
+                  >
+                    1
+                  </option>
+                  <option
+                    value="1: 2"
+                  >
+                    2
+                  </option>
+                </select>
+                 Essay question 
+                
+              </div>
+              <div
+                class="card-header-btn-toolbar"
+              >
+                
+                <div>
+                  
+                  
+                  <button
+                    class="btn btn-primary btn-sm"
+                    id="btn-save-question"
+                    type="button"
+                  >
+                    
+                    <i
+                      class="fas fa-check"
+                    />
+                     Save 
+                  </button>
+                  
+                  <button
+                    class="btn btn-primary btn-sm"
+                    type="button"
+                  >
+                    <i
+                      class="fas fa-ban"
+                    />
+                     Cancel 
+                  </button>
+                  <button
+                    class="btn btn-primary btn-sm"
+                    id="btn-delete-question"
+                    type="button"
+                  >
+                    
+                    <i
+                      class="fas fa-trash"
+                    />
+                     Delete 
+                  </button>
+                  <button
+                    class="btn btn-primary btn-sm"
+                    container="body"
+                    id="btn-duplicate-question"
+                    ngbtooltip="Make a copy of the existing question and add to the current feedback session."
+                    type="button"
+                  >
+                    
+                    <i
+                      class="far fa-copy"
+                    />
+                     Duplicate 
+                  </button>
+                </div>
+                
+              </div>
+            </div>
+            
+            <div
+              class="ng-trigger ng-trigger-collapseAnim ng-animating"
+              style=""
+            >
+              <div
+                class="card-body"
+              >
+                <div
+                  class="background-color-light-blue"
+                >
+                  <div
+                    class="row"
+                  >
+                    <div
+                      class="col-12"
+                    >
+                      <div
+                        class="row padding-15px text-left"
+                      >
+                        <div
+                          class="col-md-2"
+                        >
+                          <div
+                            class="question-basic-info"
+                          >
+                            Question
+                          </div>
+                        </div>
+                        <div
+                          class="col-md-10"
+                        >
+                          <textarea
+                            class="form-control ng-untouched ng-pristine ng-valid"
+                            id="question-brief"
+                            placeholder="A concise version of the question e.g. \\"How well did the team member communicate?\\""
+                          />
+                        </div>
+                      </div>
+                      <div
+                        class="row padding-15px text-left"
+                      >
+                        <div
+                          class="col-md-2"
+                        >
+                          <div
+                            class="question-basic-info"
+                          >
+                            [Optional]
+                            <br />
+                            Description
+                          </div>
+                        </div>
+                        <div
+                          class="col-md-10"
+                        >
+                          <tm-rich-text-editor
+                            minheightinpx="100"
+                            placeholdertext="More details about the question e.g. \\"In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.\\""
+                          >
+                            <div
+                              inviewport=""
+                            >
+                              
+                            </div>
+                          </tm-rich-text-editor>
+                        </div>
+                      </div>
+                      <div
+                        class="padding-15px"
+                      >
+                        
+                        <tm-text-question-edit-details-form
+                          style=""
+                        >
+                          <div
+                            class="row padding-15px"
+                          >
+                            <div
+                              class="col-md-10 allow-rich-text"
+                            >
+                              <label>
+                                <input
+                                  type="checkbox"
+                                />
+                                <a>
+                                   Allow rich-text formatting (e.g., bold text, links, bullet lists, colors, etc.) in the answers
+                                </a>
+                              </label>
+                            </div>
+                            <div
+                              class="col-12 question-recommended-length"
+                            >
+                               [Optional] 
+                              <span
+                                class="ngb-tooltip-class"
+                                ngbtooltip="The recommended length is shown to the respondent but not enforced"
+                              >
+                                 Recommended length 
+                              </span>
+                               for the response: 
+                              <input
+                                class="form-control ng-untouched ng-pristine ng-valid"
+                                id="recommended-length"
+                                min="1"
+                                type="number"
+                              />
+                               words 
+                            </div>
+                          </div>
+                        </tm-text-question-edit-details-form>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <tm-feedback-path-panel>
+                  <div
+                    class="background-color-light-green margin-top-15px padding-15px"
+                  >
+                    <div>
+                      <b
+                        class="feedback-path-title"
+                      >
+                        Feedback Path
+                      </b>
+                       (Who is giving feedback about whom?) 
+                    </div>
+                    <div
+                      autoclose="outside"
+                      class="margin-top-15px"
+                      ngbdropdown=""
+                    >
+                      <button
+                        aria-expanded="false"
+                        aria-haspopup="true"
+                        class="btn btn-light white-space-normal dropdown-toggle"
+                        id="btn-feedback-path"
+                        ngbdropdowntoggle=""
+                      >
+                        
+                        <span
+                          style=""
+                        >
+                           Students in this course will give feedback on 
+                          <i
+                            class="fas fa-arrow-right"
+                          />
+                           Instructors in the course 
+                        </span>
+                        
+                      </button>
+                      <ul
+                        class="dropdown-menu"
+                        id="feedback-path-dropdown"
+                        ngbdropdownmenu=""
+                        x-placement="bottom"
+                      >
+                        <li
+                          class="dropdown-header"
+                        >
+                          Common feedback path combinations
+                        </li>
+                        
+                        <li
+                          class="dropdown-item"
+                          style=""
+                        >
+                          <div
+                            ngbdropdown=""
+                            placement="right"
+                          >
+                            <span
+                              aria-expanded="false"
+                              aria-haspopup="true"
+                              class="float-right invisible dropdown-toggle"
+                              ngbdropdownanchor=""
+                            />
+                             Instructors in this course will give feedback on ... 
+                            <i
+                              class="fas fa-caret-right"
+                            />
+                            <ul
+                              class="dropdown-menu"
+                              ngbdropdownmenu=""
+                              x-placement="bottom"
+                            >
+                              
+                              <li
+                                class="dropdown-item"
+                              >
+                                Nobody specific (For general class feedback)
+                              </li>
+                              <li
+                                class="dropdown-item"
+                              >
+                                Giver (Self feedback)
+                              </li>
+                              <li
+                                class="dropdown-item"
+                              >
+                                Instructors in the course
+                              </li>
+                            </ul>
+                          </div>
+                        </li>
+                        <li
+                          class="dropdown-item"
+                          style=""
+                        >
+                          <div
+                            ngbdropdown=""
+                            placement="right"
+                          >
+                            <span
+                              aria-expanded="false"
+                              aria-haspopup="true"
+                              class="float-right invisible dropdown-toggle"
+                              ngbdropdownanchor=""
+                            />
+                             Feedback session creator (i.e., me) will give feedback on ... 
+                            <i
+                              class="fas fa-caret-right"
+                            />
+                            <ul
+                              class="dropdown-menu"
+                              ngbdropdownmenu=""
+                              x-placement="bottom"
+                            >
+                              
+                              <li
+                                class="dropdown-item"
+                              >
+                                Nobody specific (For general class feedback)
+                              </li>
+                              <li
+                                class="dropdown-item"
+                              >
+                                Giver (Self feedback)
+                              </li>
+                              <li
+                                class="dropdown-item"
+                              >
+                                Instructors in the course
+                              </li>
+                            </ul>
+                          </div>
+                        </li>
+                        <li
+                          class="dropdown-item"
+                          style=""
+                        >
+                          <div
+                            ngbdropdown=""
+                            placement="right"
+                          >
+                            <span
+                              aria-expanded="false"
+                              aria-haspopup="true"
+                              class="float-right invisible dropdown-toggle"
+                              ngbdropdownanchor=""
+                            />
+                             Students in this course will give feedback on ... 
+                            <i
+                              class="fas fa-caret-right"
+                            />
+                            <ul
+                              class="dropdown-menu"
+                              ngbdropdownmenu=""
+                              x-placement="bottom"
+                            >
+                              
+                              <li
+                                class="dropdown-item"
+                              >
+                                Nobody specific (For general class feedback)
+                              </li>
+                              <li
+                                class="dropdown-item"
+                              >
+                                Giver (Self feedback)
+                              </li>
+                              <li
+                                class="dropdown-item"
+                              >
+                                Instructors in the course
+                              </li>
+                              <li
+                                class="dropdown-item"
+                              >
+                                Giver's team members
+                              </li>
+                              <li
+                                class="dropdown-item"
+                              >
+                                Giver's team members and Giver
+                              </li>
+                            </ul>
+                          </div>
+                        </li>
+                        <li
+                          class="dropdown-divider"
+                        />
+                        <li
+                          class="dropdown-item"
+                        >
+                          Custom feedback path...
+                        </li>
+                      </ul>
+                    </div>
+                    
+                    
+                    <div
+                      class="row margin-top-15px align-items-center"
+                      style=""
+                    >
+                      <div
+                        class="offset-1 col-md-4 text-md-right"
+                      >
+                         The maximum number of instructors each respondent should give feedback to: 
+                      </div>
+                      <div
+                        class="col-md-2"
+                      >
+                        <div
+                          class="input-group"
+                        >
+                          <div
+                            class="input-group-prepend"
+                          >
+                            <div
+                              class="input-group-text"
+                            >
+                              <input
+                                class="ng-untouched ng-pristine ng-valid"
+                                id="custom-recipients"
+                                type="radio"
+                              />
+                            </div>
+                          </div>
+                          <input
+                            class="form-control ng-untouched ng-pristine ng-valid"
+                            id="custom-recipients-number"
+                            min="1"
+                            type="number"
+                          />
+                        </div>
+                      </div>
+                      <div
+                        class="col-md-2"
+                      >
+                        <div
+                          class="form-check"
+                        >
+                          <label
+                            class="form-check-label"
+                          >
+                            <input
+                              class="form-check-input ng-untouched ng-pristine ng-valid"
+                              id="unlimited-recipients"
+                              type="radio"
+                            />
+                             Unlimited 
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </tm-feedback-path-panel>
+                <tm-visibility-panel>
+                  <div
+                    class="margin-top-15px padding-15px background-color-light-green"
+                  >
+                    <div>
+                      
+                      <b
+                        class="visibility-title"
+                      >
+                        Visibility
+                      </b>
+                       (Who can see the responses?) 
+                    </div>
+                    <div
+                      class="margin-top-15px"
+                      ngbdropdown=""
+                    >
+                      <button
+                        aria-expanded="false"
+                        aria-haspopup="true"
+                        class="btn btn-light white-space-normal dropdown-toggle"
+                        id="btn-question-visibility"
+                        ngbdropdowntoggle=""
+                      >
+                        
+                        
+                        <span
+                          style=""
+                        >
+                          Custom visibility options
+                        </span>
+                      </button>
+                      <ul
+                        class="dropdown-menu"
+                        id="question-visibility-dropdown"
+                        ngbdropdownmenu=""
+                        x-placement="bottom"
+                      >
+                        <li
+                          class="dropdown-header"
+                        >
+                          Common visibility options
+                        </li>
+                        
+                        <li
+                          class="dropdown-item"
+                          style=""
+                        >
+                          Shown anonymously to recipient and instructors
+                        </li>
+                        <li
+                          class="dropdown-item"
+                          style=""
+                        >
+                          Shown anonymously to recipient, visible to instructors
+                        </li>
+                        <li
+                          class="dropdown-item"
+                          style=""
+                        >
+                          Shown anonymously to recipient and giver's team members, visible to instructors
+                        </li>
+                        <li
+                          class="dropdown-item"
+                          style=""
+                        >
+                          Visible to instructors only
+                        </li>
+                        <li
+                          class="dropdown-item"
+                          style=""
+                        >
+                          Visible to recipient and instructors
+                        </li>
+                        
+                        <li
+                          class="dropdown-divider"
+                          style=""
+                        />
+                        
+                        <li
+                          class="dropdown-item"
+                          style=""
+                        >
+                          Custom visibility options...
+                        </li>
+                      </ul>
+                    </div>
+                    
+                    <table
+                      class="table margin-top-15px background-color-white table-striped"
+                      style=""
+                    >
+                      <thead>
+                        <tr>
+                          <th
+                            class="text-left"
+                            scope="col"
+                          >
+                            User/Group
+                          </th>
+                          
+                          <th
+                            class="text-center"
+                            scope="col"
+                          >
+                            Can see answer
+                          </th>
+                          <th
+                            class="text-center"
+                            scope="col"
+                          >
+                            Can see giver's name
+                          </th>
+                          <th
+                            class="text-center"
+                            scope="col"
+                          >
+                            Can see recipient's name
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody
+                        id="custom-visibility-table"
+                      >
+                        
+                        
+                        
+                        <tr>
+                          <td>
+                            <span
+                              class="ngb-tooltip-class"
+                              container="body"
+                            >
+                              Recipient(s)
+                            </span>
+                          </td>
+                          
+                          <td
+                            class="text-center"
+                          >
+                            <input
+                              type="checkbox"
+                            />
+                          </td>
+                          <td
+                            class="text-center"
+                          >
+                            <input
+                              type="checkbox"
+                            />
+                          </td>
+                          <td
+                            class="text-center"
+                          >
+                            <input
+                              disabled=""
+                              type="checkbox"
+                            />
+                          </td>
+                        </tr>
+                        
+                        
+                        
+                        <tr>
+                          <td>
+                            <span
+                              class="ngb-tooltip-class"
+                              container="body"
+                            >
+                              Giver's Team Members
+                            </span>
+                          </td>
+                          
+                          <td
+                            class="text-center"
+                          >
+                            <input
+                              type="checkbox"
+                            />
+                          </td>
+                          <td
+                            class="text-center"
+                          >
+                            <input
+                              type="checkbox"
+                            />
+                          </td>
+                          <td
+                            class="text-center"
+                          >
+                            <input
+                              type="checkbox"
+                            />
+                          </td>
+                        </tr>
+                        
+                        
+                        
+                        
+                        
+                        
+                        <tr>
+                          <td>
+                            <span
+                              class="ngb-tooltip-class"
+                              container="body"
+                            >
+                              Other students
+                            </span>
+                          </td>
+                          
+                          <td
+                            class="text-center"
+                          >
+                            <input
+                              type="checkbox"
+                            />
+                          </td>
+                          <td
+                            class="text-center"
+                          >
+                            <input
+                              type="checkbox"
+                            />
+                          </td>
+                          <td
+                            class="text-center"
+                          >
+                            <input
+                              type="checkbox"
+                            />
+                          </td>
+                        </tr>
+                        
+                        
+                        
+                        <tr>
+                          <td>
+                            <span
+                              class="ngb-tooltip-class"
+                              container="body"
+                            >
+                              Instructors
+                            </span>
+                          </td>
+                          
+                          <td
+                            class="text-center"
+                          >
+                            <input
+                              type="checkbox"
+                            />
+                          </td>
+                          <td
+                            class="text-center"
+                          >
+                            <input
+                              type="checkbox"
+                            />
+                          </td>
+                          <td
+                            class="text-center"
+                          >
+                            <input
+                              type="checkbox"
+                            />
+                          </td>
+                        </tr>
+                        
+                      </tbody>
+                    </table>
+                    <div
+                      class="margin-top-15px visibility-message"
+                    >
+                       This is the visibility hint as seen by the feedback giver: 
+                      <ul
+                        class="text-muted background-color-warning"
+                      >
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <li
+                          style=""
+                        >
+                           Your team members can see your response, but not the name of the recipient, or your name 
+                        </li>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <li
+                          style=""
+                        >
+                           Instructors in this course can see your response, but not the name of the recipient, or your name 
+                        </li>
+                        
+                        
+                      </ul>
+                    </div>
+                  </div>
+                </tm-visibility-panel>
+                
+                <div
+                  class="row margin-top-15px"
+                  style=""
+                >
+                  <div
+                    class="col-12 text-right"
+                  >
+                    
+                    <button
+                      class="btn btn-light btn-margin-right"
+                      type="button"
+                    >
+                      <i
+                        class="fas fa-ban"
+                      />
+                       Cancel 
+                    </button>
+                    <button
+                      class="btn btn-success"
+                    >
+                      
+                      
+                      <span>
+                        <i
+                          class="fas fa-check"
+                        />
+                         Save Changes
+                      </span>
+                      
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </tm-question-edit-form>
+      </div>
+    </div>
+    
+    <div />
+    <br />
+    
+    <div
+      class="card"
+    >
+      <tm-adding-question-panel>
+        <div
+          class="card-body background-color-light-blue text-center"
+        >
+          <div
+            class="d-inline-block"
+            ngbdropdown=""
+          >
+            <button
+              aria-expanded="false"
+              aria-haspopup="true"
+              class="btn btn-primary dropdown-toggle"
+              id="btn-new-question"
+              ngbdropdowntoggle=""
+            >
+              Add New Question
+            </button>
+            <div
+              class="dropdown-menu"
+              id="new-question-dropdown"
+              ngbdropdownmenu=""
+              x-placement="bottom"
+            >
+              <button
+                class="dropdown-item"
+              >
+                Choose from template questions
+              </button>
+              <div
+                class="dropdown-divider"
+              />
+              
+              
+              
+              <button
+                class="dropdown-item"
+              >
+                 Essay question 
+              </button>
+              
+              
+              
+              <button
+                class="dropdown-item"
+              >
+                 Multiple-choice (single answer) question 
+              </button>
+              
+              
+              
+              <button
+                class="dropdown-item"
+              >
+                 Multiple-choice (multiple answers) question 
+              </button>
+              
+              
+              
+              <button
+                class="dropdown-item"
+              >
+                 Numerical-scale question 
+              </button>
+              
+              
+              
+              
+              
+              
+              <button
+                class="dropdown-item"
+              >
+                 Distribute points (among options) question 
+              </button>
+              
+              
+              
+              <button
+                class="dropdown-item"
+              >
+                 Distribute points (among recipients) question 
+              </button>
+              
+              
+              
+              <button
+                class="dropdown-item"
+              >
+                 Team contribution question 
+              </button>
+              
+              
+              
+              <button
+                class="dropdown-item"
+              >
+                 Rubric question 
+              </button>
+              
+              
+              
+              <button
+                class="dropdown-item"
+              >
+                 Rank (options) question 
+              </button>
+              
+              
+              
+              <button
+                class="dropdown-item"
+              >
+                 Rank (recipients) question 
+              </button>
+              
+            </div>
+          </div>
+          
+          <a
+            class="btn btn-link"
+            href="/web/instructor/help?questionId=questions&section=questions"
+            rel="noopener noreferrer"
+            target="_blank"
+            tmrouterlink="/web/instructor/help"
+            type="button"
+          >
+            <i
+              class="fas fa-info-circle"
+            />
+          </a>
+          
+          <button
+            class="btn btn-primary"
+            id="btn-copy-question"
+          >
+            
+            Copy Question
+          </button>
+        </div>
+      </tm-adding-question-panel>
+    </div>
+    
+    <br />
+    
+    <div
+      class="card"
+    >
+      <tm-preview-session-panel>
+        <div
+          class="card-body background-color-light-blue text-center"
+        >
+          <div
+            class="row align-items-center"
+          >
+            <div
+              class="col-lg-2 text-lg-right"
+            >
+              <b>
+                Preview Session:
+              </b>
+            </div>
+            <div
+              class="col-lg-5"
+            >
+              <select
+                class="form-control preview-select ng-untouched ng-pristine ng-valid"
+                id="preview-student"
+              >
+                
+              </select>
+              
+              <button
+                class="btn btn-primary"
+                disabled=""
+                id="btn-preview-student"
+              >
+                Preview as Student
+              </button>
+              
+            </div>
+            <div
+              class="col-lg-5"
+            >
+              <select
+                class="form-control preview-select ng-untouched ng-pristine ng-valid"
+                id="preview-instructor"
+              >
+                
+              </select>
+              
+              <button
+                class="btn btn-primary"
+                disabled=""
+                id="btn-preview-instructor"
+              >
+                Preview as Instructor
+              </button>
+              
+            </div>
+          </div>
+        </div>
+      </tm-preview-session-panel>
+    </div>
+    
+    
+  </tm-loading-retry>
+</tm-instructor-session-edit-page>
+`;
+
+exports[`InstructorSessionEditPageComponent should snap with new question added 1`] = `
+<tm-instructor-session-edit-page
+  FeedbackQuestionType={[Function Object]}
+  QuestionEditFormMode={[Function Object]}
+  SessionEditFormMode={[Function Object]}
+  changeDetectorRef={[Function ViewRef_]}
+  courseId="undefined"
+  courseName=""
+  courseService={[Function CourseService]}
+  emailOfInstructorToPreview=""
+  emailOfStudentToPreview=""
+  failedToCopySessions={[Function Object]}
+  feedbackQuestionModels={[Function Map]}
+  feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackSessionModelBeforeEditing={[Function Object]}
+  feedbackSessionName="undefined"
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  hasLoadingFeedbackQuestionsFailed="false"
+  hasLoadingFeedbackSessionFailed="false"
+  instructorService={[Function InstructorService]}
+  instructorsCanBePreviewedAs={[Function Array]}
+  isAddingFromTemplate="false"
+  isAddingQuestionPanelExpanded={[Function Boolean]}
+  isCopyingQuestion="false"
+  isEditingMode="false"
+  isLoadingFeedbackQuestions="false"
+  isLoadingFeedbackSession="false"
+  isResultActionLoading="false"
+  navigationService={[Function NavigationService]}
+  newQuestionEditFormModel={[Function Object]}
+  ngbModal={[Function NgbModal]}
+  progressBarService={[Function ProgressBarService]}
+  publishUnpublishRetryAttempts={[Function Number]}
+  questionEditFormModels={[Function Array]}
+  route={[Function ActivatedRoute]}
+  router={[Function Router]}
+  sessionEditFormModel={[Function Object]}
+  simpleModalService={[Function SimpleModalService]}
+  statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
+  studentsOfCourse={[Function Array]}
+  tableComparatorService={[Function TableComparatorService]}
+  timezoneService={[Function TimezoneService]}
+>
+  <tm-loading-retry>
+    
+    
+    <tm-session-edit-form>
+      <div
+        class="card card-plain"
+      >
+        
+        <div
+          class="card-body"
+        >
+          
+          
+          <div
+            class="row"
+          >
+            <div
+              class="col-12 text-center text-md-right session-form-buttons"
+            >
+              
+              <button
+                class="btn btn-primary"
+                id="btn-fs-edit"
+                type="button"
+              >
+                <i
+                  class="fas fa-pencil-alt"
+                />
+                 Edit
+              </button>
+              
+              
+              <button
+                class="btn btn-primary"
+                id="btn-fs-delete"
+                ngbtooltip="Delete the feedback session"
+                type="button"
+              >
+                
+                <i
+                  class="fas fa-trash"
+                />
+                 Delete
+              </button>
+              <button
+                class="btn btn-primary"
+                id="btn-fs-copy"
+                ngbtooltip="Copy this feedback session to other courses"
+                type="button"
+              >
+                
+                <i
+                  class="far fa-copy"
+                />
+                 Copy
+              </button>
+            </div>
+          </div>
+          <div
+            class="card border-primary margin-top-20px"
+          >
+            <div
+              class="card-body"
+            >
+              <div
+                class="row text-center"
+              >
+                <div
+                  class="col-md-2 text-md-right font-bold"
+                >
+                  <span
+                    class="ngb-tooltip-class"
+                    ngbtooltip="Course for which the feedback session is for."
+                  >
+                    Course ID
+                  </span>
+                </div>
+                <div
+                  class="col-md-auto text-md-left"
+                >
+                  
+                  
+                  <div
+                    id="edit-course-id"
+                  >
+                      
+                  </div>
+                </div>
+              </div>
+              <br />
+              <div
+                class="row text-center"
+              >
+                <div
+                  class="col-md-2 text-md-right font-bold"
+                >
+                   Time Zone 
+                </div>
+                <div
+                  class="col-md-3 text-md-left"
+                  id="time-zone"
+                >
+                  <span
+                    class="ngb-tooltip-class"
+                    ngbtooltip="To change this, edit the course settings. TEAMMATES automatically adjusts to match the current time offset in your area, including clock changes due to daylight saving time."
+                  >
+                    UTC
+                  </span>
+                </div>
+              </div>
+              <br />
+              <div
+                class="row text-center"
+              >
+                <div
+                  class="col-md-2 text-md-right font-bold"
+                >
+                   Course Name 
+                </div>
+                <div
+                  class="col-md-10 text-md-left"
+                  id="course-name"
+                >
+                    
+                </div>
+              </div>
+              <br />
+              <div
+                class="row text-center"
+              >
+                <div
+                  class="col-md-2 text-md-right font-bold"
+                >
+                  
+                  
+                  <span>
+                    Session Name
+                  </span>
+                </div>
+                <div
+                  class="col-md-10 text-md-left"
+                >
+                  
+                  
+                  <div
+                    id="edit-session-name"
+                  >
+                      
+                  </div>
+                </div>
+              </div>
+              <br />
+              <div
+                class="row text-center"
+              >
+                <div
+                  class="col-md-2 text-md-right font-bold"
+                >
+                  <span
+                    class="ngb-tooltip-class"
+                    ngbtooltip="Will be displayed at the top of the page when users respond to the session."
+                  >
+                    Instructions
+                  </span>
+                </div>
+                <div
+                  class="col-md-10 text-md-left"
+                >
+                  <tm-rich-text-editor
+                    id="instructions"
+                  >
+                    <div
+                      inviewport=""
+                    >
+                      
+                    </div>
+                  </tm-rich-text-editor>
+                </div>
+              </div>
+              <br />
+              
+              <div
+                class="row text-center"
+              >
+                <div
+                  class="col-md-2 text-md-right font-bold"
+                >
+                   Submission Status 
+                </div>
+                <div
+                  class="col-md-4 text-md-left"
+                  id="submission-status"
+                >
+                   Open 
+                </div>
+                <div
+                  class="col-md-2 text-md-right font-bold mt-3 mt-md-0"
+                >
+                   Published Status 
+                </div>
+                <div
+                  class="col-md-4 text-md-left"
+                  id="published-status"
+                >
+                   Not Published 
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="card border-primary margin-top-20px"
+          >
+            <div
+              class="card-body"
+            >
+              <div
+                class="row text-center"
+              >
+                <div
+                  class="col-md-5"
+                >
+                  <div
+                    class="col-12 text-md-left"
+                  >
+                    <div>
+                      <label
+                        class="ngb-tooltip-class label-control font-bold"
+                        ngbtooltip="Users can start submitting responses."
+                      >
+                         Submission opening time 
+                      </label>
+                    </div>
+                  </div>
+                  <div
+                    class="row text-center align-items-center"
+                  >
+                    <div
+                      class="col-md-7 col-xs-center"
+                      id="submission-start-date"
+                    >
+                      <tm-datepicker>
+                        <div
+                          class="input-group"
+                        >
+                          
+                          <input
+                            class="form-control ng-untouched ng-pristine ng-valid"
+                            disabled=""
+                            ngbdatepicker=""
+                            type="text"
+                          />
+                          
+                        </div>
+                      </tm-datepicker>
+                    </div>
+                    <div
+                      class="col-md-5"
+                    >
+                      <tm-timepicker
+                        id="submission-start-time"
+                      >
+                        <select
+                          class="form-control ng-untouched ng-pristine ng-valid"
+                        >
+                          
+                          <option
+                            value="1: Object"
+                          >
+                             01:00H 
+                          </option>
+                          <option
+                            value="2: Object"
+                          >
+                             02:00H 
+                          </option>
+                          <option
+                            value="3: Object"
+                          >
+                             03:00H 
+                          </option>
+                          <option
+                            value="4: Object"
+                          >
+                             04:00H 
+                          </option>
+                          <option
+                            value="5: Object"
+                          >
+                             05:00H 
+                          </option>
+                          <option
+                            value="6: Object"
+                          >
+                             06:00H 
+                          </option>
+                          <option
+                            value="7: Object"
+                          >
+                             07:00H 
+                          </option>
+                          <option
+                            value="8: Object"
+                          >
+                             08:00H 
+                          </option>
+                          <option
+                            value="9: Object"
+                          >
+                             09:00H 
+                          </option>
+                          <option
+                            value="10: Object"
+                          >
+                             10:00H 
+                          </option>
+                          <option
+                            value="11: Object"
+                          >
+                             11:00H 
+                          </option>
+                          <option
+                            value="12: Object"
+                          >
+                             12:00H 
+                          </option>
+                          <option
+                            value="13: Object"
+                          >
+                             13:00H 
+                          </option>
+                          <option
+                            value="14: Object"
+                          >
+                             14:00H 
+                          </option>
+                          <option
+                            value="15: Object"
+                          >
+                             15:00H 
+                          </option>
+                          <option
+                            value="16: Object"
+                          >
+                             16:00H 
+                          </option>
+                          <option
+                            value="17: Object"
+                          >
+                             17:00H 
+                          </option>
+                          <option
+                            value="18: Object"
+                          >
+                             18:00H 
+                          </option>
+                          <option
+                            value="19: Object"
+                          >
+                             19:00H 
+                          </option>
+                          <option
+                            value="20: Object"
+                          >
+                             20:00H 
+                          </option>
+                          <option
+                            value="21: Object"
+                          >
+                             21:00H 
+                          </option>
+                          <option
+                            value="22: Object"
+                          >
+                             22:00H 
+                          </option>
+                          <option
+                            value="23: Object"
+                          >
+                             23:00H 
+                          </option>
+                          <option
+                            value="0: Object"
+                          >
+                            23:59H
+                          </option>
+                          
+                        </select>
+                      </tm-timepicker>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="col-md-5 border-left-gray"
+                >
+                  <div
+                    class="row text-center"
+                  >
+                    <div
+                      class="col-12 text-md-left ml-md-2"
+                    >
+                      <label
+                        class="ngb-tooltip-class label-control font-bold"
+                        ngbtooltip="No more submissions from users."
+                      >
+                         Submission closing time 
+                      </label>
+                    </div>
+                  </div>
+                  <div
+                    class="row align-items-center"
+                  >
+                    <div
+                      class="col-md-7 col-xs-center"
+                      id="submission-end-date"
+                    >
+                      <tm-datepicker>
+                        <div
+                          class="input-group"
+                        >
+                          
+                          <input
+                            class="form-control ng-untouched ng-pristine ng-valid"
+                            disabled=""
+                            ngbdatepicker=""
+                            type="text"
+                          />
+                          
+                        </div>
+                      </tm-datepicker>
+                    </div>
+                    <div
+                      class="col-md-5"
+                    >
+                      <tm-timepicker
+                        id="submission-end-time"
+                      >
+                        <select
+                          class="form-control ng-untouched ng-pristine ng-valid"
+                        >
+                          
+                          <option
+                            value="1: Object"
+                          >
+                             01:00H 
+                          </option>
+                          <option
+                            value="2: Object"
+                          >
+                             02:00H 
+                          </option>
+                          <option
+                            value="3: Object"
+                          >
+                             03:00H 
+                          </option>
+                          <option
+                            value="4: Object"
+                          >
+                             04:00H 
+                          </option>
+                          <option
+                            value="5: Object"
+                          >
+                             05:00H 
+                          </option>
+                          <option
+                            value="6: Object"
+                          >
+                             06:00H 
+                          </option>
+                          <option
+                            value="7: Object"
+                          >
+                             07:00H 
+                          </option>
+                          <option
+                            value="8: Object"
+                          >
+                             08:00H 
+                          </option>
+                          <option
+                            value="9: Object"
+                          >
+                             09:00H 
+                          </option>
+                          <option
+                            value="10: Object"
+                          >
+                             10:00H 
+                          </option>
+                          <option
+                            value="11: Object"
+                          >
+                             11:00H 
+                          </option>
+                          <option
+                            value="12: Object"
+                          >
+                             12:00H 
+                          </option>
+                          <option
+                            value="13: Object"
+                          >
+                             13:00H 
+                          </option>
+                          <option
+                            value="14: Object"
+                          >
+                             14:00H 
+                          </option>
+                          <option
+                            value="15: Object"
+                          >
+                             15:00H 
+                          </option>
+                          <option
+                            value="16: Object"
+                          >
+                             16:00H 
+                          </option>
+                          <option
+                            value="17: Object"
+                          >
+                             17:00H 
+                          </option>
+                          <option
+                            value="18: Object"
+                          >
+                             18:00H 
+                          </option>
+                          <option
+                            value="19: Object"
+                          >
+                             19:00H 
+                          </option>
+                          <option
+                            value="20: Object"
+                          >
+                             20:00H 
+                          </option>
+                          <option
+                            value="21: Object"
+                          >
+                             21:00H 
+                          </option>
+                          <option
+                            value="22: Object"
+                          >
+                             22:00H 
+                          </option>
+                          <option
+                            value="23: Object"
+                          >
+                             23:00H 
+                          </option>
+                          <option
+                            value="0: Object"
+                          >
+                            23:59H
+                          </option>
+                          
+                        </select>
+                      </tm-timepicker>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="col-md-2 border-left-gray"
+                >
+                  <div
+                    class="row text-center"
+                  >
+                    <div
+                      class="ngb-tooltip-class col-12 text-md-left ml-md-2"
+                      ngbtooltip="Amount of time the system will continue accepting submissions after the specified deadline."
+                    >
+                      <label
+                        class="control-label font-bold"
+                      >
+                         Grace period 
+                      </label>
+                    </div>
+                  </div>
+                  <div
+                    class="row text-center"
+                  >
+                    <div
+                      class="col-12"
+                    >
+                      <select
+                        class="form-control ng-untouched ng-pristine ng-valid"
+                        id="grace-period"
+                      >
+                        
+                        <option
+                          value="0: 0"
+                        >
+                          0 min
+                        </option>
+                        <option
+                          value="1: 5"
+                        >
+                          5 min
+                        </option>
+                        <option
+                          value="2: 10"
+                        >
+                          10 min
+                        </option>
+                        <option
+                          value="3: 15"
+                        >
+                          15 min
+                        </option>
+                        <option
+                          value="4: 20"
+                        >
+                          20 min
+                        </option>
+                        <option
+                          value="5: 25"
+                        >
+                          25 min
+                        </option>
+                        <option
+                          value="6: 30"
+                        >
+                          30 min
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div
+            class="margin-top-20px"
+          >
+            <span
+              class="text-muted"
+            >
+              Session is visible at submission opening time, responses are only visible when you publish the results.
+            </span>
+            <button
+              class="btn btn-link"
+              disabled=""
+              id="btn-change-visibility"
+              type="button"
+            >
+              [Change]
+            </button>
+          </div>
+          
+          
+          <div>
+            <span
+              class="text-muted"
+            >
+              Emails are sent when session opens (within 15 minutes), 24 hrs before session closes and when results are published.
+            </span>
+            <button
+              class="btn btn-link"
+              disabled=""
+              id="btn-change-email"
+              type="button"
+            >
+              [Change]
+            </button>
+          </div>
+          
+          <div
+            class="row margin-top-20px"
+          >
+            <div
+              class="col-12 text-center"
+            >
+              <span
+                class="loader"
+              />
+              
+              
+              <div>
+                
+                <button
+                  class="btn btn-success"
+                  disabled=""
+                  type="button"
+                >
+                  
+                  Save Changes 
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </tm-session-edit-form>
+    
+    
+  </tm-loading-retry><tm-loading-retry>
+    
+    
+    
+    <div>
+      
+    </div>
+    
+    <div />
+    <br />
+    
+    
+    <tm-question-edit-form>
+      <div
+        class="card"
+        id="question-form-0"
+      >
+        <div
+          class="card-header bg-primary text-white cursor-pointer"
+        >
+          <div
+            class="collapse-caret"
+          >
+            <tm-panel-chevron>
+              <div
+                class="chevron"
+              >
+                
+                
+                <i
+                  class="fas fa-chevron-up"
+                />
+              </div>
+            </tm-panel-chevron>
+          </div>
+          <div
+            id="question-header"
+          >
+            <strong>
+              Question 
+              
+            </strong>
+            
+            <select
+              class="form-control question-number-select ng-untouched ng-pristine ng-valid"
+              id="question-number-dropdown"
+            >
+              
+              <option
+                value="0: 1"
+              >
+                1
+              </option>
+            </select>
+             Essay question 
+            
+          </div>
+          <div
+            class="card-header-btn-toolbar"
+          >
+            
+            
+            <div>
+              <button
+                class="btn btn-primary btn-sm"
+                type="button"
+              >
+                <i
+                  class="fas fa-ban"
+                />
+                 Cancel 
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <div
+          class="ng-trigger ng-trigger-collapseAnim ng-animating"
+          style=""
+        >
+          <div
+            class="card-body"
+          >
+            <div
+              class="background-color-light-blue"
+            >
+              <div
+                class="row"
+              >
+                <div
+                  class="col-12"
+                >
+                  <div
+                    class="row padding-15px text-left"
+                  >
+                    <div
+                      class="col-md-2"
+                    >
+                      <div
+                        class="question-basic-info"
+                      >
+                        Question
+                      </div>
+                    </div>
+                    <div
+                      class="col-md-10"
+                    >
+                      <textarea
+                        class="form-control ng-untouched ng-pristine ng-valid"
+                        id="question-brief"
+                        placeholder="A concise version of the question e.g. \\"How well did the team member communicate?\\""
+                      />
+                    </div>
+                  </div>
+                  <div
+                    class="row padding-15px text-left"
+                  >
+                    <div
+                      class="col-md-2"
+                    >
+                      <div
+                        class="question-basic-info"
+                      >
+                        [Optional]
+                        <br />
+                        Description
+                      </div>
+                    </div>
+                    <div
+                      class="col-md-10"
+                    >
+                      <tm-rich-text-editor
+                        minheightinpx="100"
+                        placeholdertext="More details about the question e.g. \\"In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.\\""
+                      >
+                        <div
+                          inviewport=""
+                        >
+                          
+                        </div>
+                      </tm-rich-text-editor>
+                    </div>
+                  </div>
+                  <div
+                    class="padding-15px"
+                  >
+                    
+                    <tm-text-question-edit-details-form
+                      style=""
+                    >
+                      <div
+                        class="row padding-15px"
+                      >
+                        <div
+                          class="col-md-10 allow-rich-text"
+                        >
+                          <label>
+                            <input
+                              type="checkbox"
+                            />
+                            <a>
+                               Allow rich-text formatting (e.g., bold text, links, bullet lists, colors, etc.) in the answers
+                            </a>
+                          </label>
+                        </div>
+                        <div
+                          class="col-12 question-recommended-length"
+                        >
+                           [Optional] 
+                          <span
+                            class="ngb-tooltip-class"
+                            ngbtooltip="The recommended length is shown to the respondent but not enforced"
+                          >
+                             Recommended length 
+                          </span>
+                           for the response: 
+                          <input
+                            class="form-control ng-untouched ng-pristine ng-valid"
+                            id="recommended-length"
+                            min="1"
+                            type="number"
+                          />
+                           words 
+                        </div>
+                      </div>
+                    </tm-text-question-edit-details-form>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+            <tm-feedback-path-panel>
+              <div
+                class="background-color-light-green margin-top-15px padding-15px"
+              >
+                <div>
+                  <b
+                    class="feedback-path-title"
+                  >
+                    Feedback Path
+                  </b>
+                   (Who is giving feedback about whom?) 
+                </div>
+                <div
+                  autoclose="outside"
+                  class="margin-top-15px"
+                  ngbdropdown=""
+                >
+                  <button
+                    aria-expanded="false"
+                    aria-haspopup="true"
+                    class="btn btn-light white-space-normal dropdown-toggle"
+                    id="btn-feedback-path"
+                    ngbdropdowntoggle=""
+                  >
+                    
+                    
+                    <span
+                      style=""
+                    >
+                      Custom feedback path
+                    </span>
+                  </button>
+                  <ul
+                    class="dropdown-menu"
+                    id="feedback-path-dropdown"
+                    ngbdropdownmenu=""
+                    x-placement="bottom"
+                  >
+                    <li
+                      class="dropdown-header"
+                    >
+                      Common feedback path combinations
+                    </li>
+                    
+                    <li
+                      class="dropdown-item"
+                      style=""
+                    >
+                      <div
+                        ngbdropdown=""
+                        placement="right"
+                      >
+                        <span
+                          aria-expanded="false"
+                          aria-haspopup="true"
+                          class="float-right invisible dropdown-toggle"
+                          ngbdropdownanchor=""
+                        />
+                         Instructors in this course will give feedback on ... 
+                        <i
+                          class="fas fa-caret-right"
+                        />
+                        <ul
+                          class="dropdown-menu"
+                          ngbdropdownmenu=""
+                          x-placement="bottom"
+                        >
+                          
+                          <li
+                            class="dropdown-item"
+                          >
+                            Nobody specific (For general class feedback)
+                          </li>
+                          <li
+                            class="dropdown-item"
+                          >
+                            Giver (Self feedback)
+                          </li>
+                          <li
+                            class="dropdown-item"
+                          >
+                            Instructors in the course
+                          </li>
+                        </ul>
+                      </div>
+                    </li>
+                    <li
+                      class="dropdown-item"
+                      style=""
+                    >
+                      <div
+                        ngbdropdown=""
+                        placement="right"
+                      >
+                        <span
+                          aria-expanded="false"
+                          aria-haspopup="true"
+                          class="float-right invisible dropdown-toggle"
+                          ngbdropdownanchor=""
+                        />
+                         Feedback session creator (i.e., me) will give feedback on ... 
+                        <i
+                          class="fas fa-caret-right"
+                        />
+                        <ul
+                          class="dropdown-menu"
+                          ngbdropdownmenu=""
+                          x-placement="bottom"
+                        >
+                          
+                          <li
+                            class="dropdown-item"
+                          >
+                            Nobody specific (For general class feedback)
+                          </li>
+                          <li
+                            class="dropdown-item"
+                          >
+                            Giver (Self feedback)
+                          </li>
+                          <li
+                            class="dropdown-item"
+                          >
+                            Instructors in the course
+                          </li>
+                        </ul>
+                      </div>
+                    </li>
+                    <li
+                      class="dropdown-item"
+                      style=""
+                    >
+                      <div
+                        ngbdropdown=""
+                        placement="right"
+                      >
+                        <span
+                          aria-expanded="false"
+                          aria-haspopup="true"
+                          class="float-right invisible dropdown-toggle"
+                          ngbdropdownanchor=""
+                        />
+                         Students in this course will give feedback on ... 
+                        <i
+                          class="fas fa-caret-right"
+                        />
+                        <ul
+                          class="dropdown-menu"
+                          ngbdropdownmenu=""
+                          x-placement="bottom"
+                        >
+                          
+                          <li
+                            class="dropdown-item"
+                          >
+                            Nobody specific (For general class feedback)
+                          </li>
+                          <li
+                            class="dropdown-item"
+                          >
+                            Giver (Self feedback)
+                          </li>
+                          <li
+                            class="dropdown-item"
+                          >
+                            Instructors in the course
+                          </li>
+                          <li
+                            class="dropdown-item"
+                          >
+                            Giver's team members
+                          </li>
+                          <li
+                            class="dropdown-item"
+                          >
+                            Giver's team members and Giver
+                          </li>
+                        </ul>
+                      </div>
+                    </li>
+                    <li
+                      class="dropdown-divider"
+                    />
+                    <li
+                      class="dropdown-item"
+                    >
+                      Custom feedback path...
+                    </li>
+                  </ul>
+                </div>
+                
+                <div
+                  class="row margin-top-15px"
+                  style=""
+                >
+                  <div
+                    class="col-6"
+                  >
+                    <div
+                      class="row"
+                    >
+                      <div
+                        class="col-12"
+                      >
+                        <strong>
+                          Who will give the feedback:
+                        </strong>
+                      </div>
+                    </div>
+                    <div
+                      class="row"
+                    >
+                      <div
+                        class="col-12"
+                      >
+                        <select
+                          class="form-control ng-untouched ng-pristine ng-valid"
+                          id="giver-type"
+                        >
+                          
+                          <option
+                            value="0: INSTRUCTORS"
+                          >
+                            Instructors in this course
+                          </option>
+                          <option
+                            value="1: SELF"
+                          >
+                            Feedback session creator (i.e., me)
+                          </option>
+                          <option
+                            value="2: STUDENTS"
+                          >
+                            Students in this course
+                          </option>
+                          <option
+                            value="3: TEAMS"
+                          >
+                            Teams in this course
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="col-6"
+                  >
+                    <div
+                      class="row"
+                    >
+                      <div
+                        class="col-12"
+                      >
+                        <strong>
+                          Who the feedback is about:
+                        </strong>
+                      </div>
+                    </div>
+                    <div
+                      class="row"
+                    >
+                      <div
+                        class="col-12"
+                      >
+                        <select
+                          class="form-control ng-untouched ng-pristine ng-valid"
+                          id="receiver-type"
+                        >
+                          
+                          <option
+                            value="0: SELF"
+                          >
+                            Giver (Self feedback)
+                          </option>
+                          <option
+                            value="1: STUDENTS"
+                          >
+                            Other students in the course
+                          </option>
+                          <option
+                            value="2: INSTRUCTORS"
+                          >
+                            Instructors in the course
+                          </option>
+                          <option
+                            value="3: TEAMS"
+                          >
+                            Other teams in the course
+                          </option>
+                          <option
+                            value="4: OWN_TEAM"
+                          >
+                            Giver's team
+                          </option>
+                          <option
+                            value="5: OWN_TEAM_MEMBERS"
+                          >
+                            Giver's team members
+                          </option>
+                          <option
+                            value="6: OWN_TEAM_MEMBERS_INCLUDING_SELF"
+                          >
+                            Giver's team members and Giver
+                          </option>
+                          <option
+                            value="7: NONE"
+                          >
+                            Nobody specific (For general class feedback)
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div
+                  class="row margin-top-15px align-items-center"
+                  style=""
+                >
+                  <div
+                    class="offset-1 col-md-4 text-md-right"
+                  >
+                     The maximum number of students each respondent should give feedback to: 
+                  </div>
+                  <div
+                    class="col-md-2"
+                  >
+                    <div
+                      class="input-group"
+                    >
+                      <div
+                        class="input-group-prepend"
+                      >
+                        <div
+                          class="input-group-text"
+                        >
+                          <input
+                            class="ng-untouched ng-pristine ng-valid"
+                            id="custom-recipients"
+                            type="radio"
+                          />
+                        </div>
+                      </div>
+                      <input
+                        class="form-control ng-untouched ng-pristine ng-valid"
+                        id="custom-recipients-number"
+                        min="1"
+                        type="number"
+                      />
+                    </div>
+                  </div>
+                  <div
+                    class="col-md-2"
+                  >
+                    <div
+                      class="form-check"
+                    >
+                      <label
+                        class="form-check-label"
+                      >
+                        <input
+                          class="form-check-input ng-untouched ng-pristine ng-valid"
+                          id="unlimited-recipients"
+                          type="radio"
+                        />
+                         Unlimited 
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </tm-feedback-path-panel>
+            <tm-visibility-panel>
+              <div
+                class="margin-top-15px padding-15px background-color-light-green"
+              >
+                <div>
+                  
+                  <b
+                    class="visibility-title"
+                  >
+                    Visibility
+                  </b>
+                   (Who can see the responses?) 
+                </div>
+                <div
+                  class="margin-top-15px"
+                  ngbdropdown=""
+                >
+                  <button
+                    aria-expanded="false"
+                    aria-haspopup="true"
+                    class="btn btn-light white-space-normal dropdown-toggle"
+                    id="btn-question-visibility"
+                    ngbdropdowntoggle=""
+                  >
+                    
+                    
+                    <span
+                      style=""
+                    >
+                      Custom visibility options
+                    </span>
+                  </button>
+                  <ul
+                    class="dropdown-menu"
+                    id="question-visibility-dropdown"
+                    ngbdropdownmenu=""
+                    x-placement="bottom"
+                  >
+                    <li
+                      class="dropdown-header"
+                    >
+                      Common visibility options
+                    </li>
+                    
+                    <li
+                      class="dropdown-item"
+                      style=""
+                    >
+                      Shown anonymously to recipient and instructors
+                    </li>
+                    <li
+                      class="dropdown-item"
+                      style=""
+                    >
+                      Shown anonymously to recipient, visible to instructors
+                    </li>
+                    <li
+                      class="dropdown-item"
+                      style=""
+                    >
+                      Shown anonymously to recipient and giver/recipient's team members, visible to instructors
+                    </li>
+                    <li
+                      class="dropdown-item"
+                      style=""
+                    >
+                      Shown anonymously to recipient and giver's team members, visible to instructors
+                    </li>
+                    <li
+                      class="dropdown-item"
+                      style=""
+                    >
+                      Visible to instructors only
+                    </li>
+                    <li
+                      class="dropdown-item"
+                      style=""
+                    >
+                      Visible to recipient and instructors
+                    </li>
+                    
+                    <li
+                      class="dropdown-divider"
+                      style=""
+                    />
+                    
+                    <li
+                      class="dropdown-item"
+                      style=""
+                    >
+                      Custom visibility options...
+                    </li>
+                  </ul>
+                </div>
+                
+                <table
+                  class="table margin-top-15px background-color-white table-striped"
+                  style=""
+                >
+                  <thead>
+                    <tr>
+                      <th
+                        class="text-left"
+                        scope="col"
+                      >
+                        User/Group
+                      </th>
+                      
+                      <th
+                        class="text-center"
+                        scope="col"
+                      >
+                        Can see answer
+                      </th>
+                      <th
+                        class="text-center"
+                        scope="col"
+                      >
+                        Can see giver's name
+                      </th>
+                      <th
+                        class="text-center"
+                        scope="col"
+                      >
+                        Can see recipient's name
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody
+                    id="custom-visibility-table"
+                  >
+                    
+                    
+                    
+                    <tr>
+                      <td>
+                        <span
+                          class="ngb-tooltip-class"
+                          container="body"
+                        >
+                          Recipient(s)
+                        </span>
+                      </td>
+                      
+                      <td
+                        class="text-center"
+                      >
+                        <input
+                          type="checkbox"
+                        />
+                      </td>
+                      <td
+                        class="text-center"
+                      >
+                        <input
+                          type="checkbox"
+                        />
+                      </td>
+                      <td
+                        class="text-center"
+                      >
+                        <input
+                          disabled=""
+                          type="checkbox"
+                        />
+                      </td>
+                    </tr>
+                    
+                    
+                    
+                    <tr>
+                      <td>
+                        <span
+                          class="ngb-tooltip-class"
+                          container="body"
+                        >
+                          Giver's Team Members
+                        </span>
+                      </td>
+                      
+                      <td
+                        class="text-center"
+                      >
+                        <input
+                          type="checkbox"
+                        />
+                      </td>
+                      <td
+                        class="text-center"
+                      >
+                        <input
+                          type="checkbox"
+                        />
+                      </td>
+                      <td
+                        class="text-center"
+                      >
+                        <input
+                          type="checkbox"
+                        />
+                      </td>
+                    </tr>
+                    
+                    
+                    
+                    <tr>
+                      <td>
+                        <span
+                          class="ngb-tooltip-class"
+                          container="body"
+                        >
+                          Recipient's Team Members
+                        </span>
+                      </td>
+                      
+                      <td
+                        class="text-center"
+                      >
+                        <input
+                          type="checkbox"
+                        />
+                      </td>
+                      <td
+                        class="text-center"
+                      >
+                        <input
+                          type="checkbox"
+                        />
+                      </td>
+                      <td
+                        class="text-center"
+                      >
+                        <input
+                          type="checkbox"
+                        />
+                      </td>
+                    </tr>
+                    
+                    
+                    
+                    <tr>
+                      <td>
+                        <span
+                          class="ngb-tooltip-class"
+                          container="body"
+                        >
+                          Other students
+                        </span>
+                      </td>
+                      
+                      <td
+                        class="text-center"
+                      >
+                        <input
+                          type="checkbox"
+                        />
+                      </td>
+                      <td
+                        class="text-center"
+                      >
+                        <input
+                          type="checkbox"
+                        />
+                      </td>
+                      <td
+                        class="text-center"
+                      >
+                        <input
+                          type="checkbox"
+                        />
+                      </td>
+                    </tr>
+                    
+                    
+                    
+                    <tr>
+                      <td>
+                        <span
+                          class="ngb-tooltip-class"
+                          container="body"
+                        >
+                          Instructors
+                        </span>
+                      </td>
+                      
+                      <td
+                        class="text-center"
+                      >
+                        <input
+                          type="checkbox"
+                        />
+                      </td>
+                      <td
+                        class="text-center"
+                      >
+                        <input
+                          type="checkbox"
+                        />
+                      </td>
+                      <td
+                        class="text-center"
+                      >
+                        <input
+                          type="checkbox"
+                        />
+                      </td>
+                    </tr>
+                    
+                  </tbody>
+                </table>
+                <div
+                  class="margin-top-15px visibility-message"
+                >
+                   This is the visibility hint as seen by the feedback giver: 
+                  <ul
+                    class="text-muted background-color-warning"
+                  >
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    <li
+                      style=""
+                    >
+                      No-one can see your responses
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </tm-visibility-panel>
+            
+            <div
+              class="row margin-top-15px"
+              style=""
+            >
+              <div
+                class="col-12 text-right"
+              >
+                
+                <button
+                  class="btn btn-light btn-margin-right"
+                  type="button"
+                >
+                  <i
+                    class="fas fa-ban"
+                  />
+                   Cancel 
+                </button>
+                <button
+                  class="btn btn-success"
+                >
+                  
+                  
+                  
+                  <span
+                    id="btn-save-new"
+                  >
+                    <i
+                      class="fas fa-check"
+                    />
+                     Save Question
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </tm-question-edit-form>
+    <br />
+    
+    <div
+      class="card"
+    >
+      <tm-preview-session-panel>
+        <div
+          class="card-body background-color-light-blue text-center"
+        >
+          <div
+            class="row align-items-center"
+          >
+            <div
+              class="col-lg-2 text-lg-right"
+            >
+              <b>
+                Preview Session:
+              </b>
+            </div>
+            <div
+              class="col-lg-5"
+            >
+              <select
+                class="form-control preview-select ng-untouched ng-pristine ng-valid"
+                id="preview-student"
+              >
+                
+              </select>
+              
+              <button
+                class="btn btn-primary"
+                disabled=""
+                id="btn-preview-student"
+              >
+                Preview as Student
+              </button>
+              
+            </div>
+            <div
+              class="col-lg-5"
+            >
+              <select
+                class="form-control preview-select ng-untouched ng-pristine ng-valid"
+                id="preview-instructor"
+              >
+                
+              </select>
+              
+              <button
+                class="btn btn-primary"
+                disabled=""
+                id="btn-preview-instructor"
+              >
+                Preview as Instructor
+              </button>
+              
+            </div>
+          </div>
+        </div>
+      </tm-preview-session-panel>
+    </div>
+    
+    
+  </tm-loading-retry>
+</tm-instructor-session-edit-page>
+`;

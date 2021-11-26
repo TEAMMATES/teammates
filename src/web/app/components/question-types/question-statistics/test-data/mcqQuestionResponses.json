@@ -1,0 +1,177 @@
+{
+ "responsesNoOther": [
+    {
+      "giver": "Alice",
+      "giverTeam": "Team 1",
+      "giverEmail": "alice@gmail.com",
+      "giverSection": "",
+      "recipient": "Alice",
+      "recipientTeam": "Team 1",
+      "recipientEmail": "",
+      "recipientSection": "",
+      "responseDetails": {
+        "answer": "optionA",
+        "isOther": false,
+        "otherFieldContent": "nothing",
+        "questionType": "FeedbackQuestionType.MCQ"
+      }
+    },
+    {
+      "giver": "Bob",
+      "giverTeam": "Team 2",
+      "giverEmail": "bob@gmail.com",
+      "giverSection": "",
+      "recipient": "Bob",
+      "recipientTeam": "Team 2",
+      "recipientEmail": "",
+      "recipientSection": "",
+      "responseDetails": {
+        "answer": "optionA",
+        "isOther": false,
+        "otherFieldContent": "nothing",
+        "questionType": "FeedbackQuestionType.MCQ"
+      }
+    },
+    {
+      "giver": "Charles",
+      "giverTeam": "Team 1",
+      "giverEmail": "charles@gmail.com",
+      "giverSection": "",
+      "recipient": "Charles",
+      "recipientTeam": "Team 1",
+      "recipientEmail": "",
+      "recipientSection": "",
+      "responseDetails": {
+        "answer": "optionB",
+        "isOther": false,
+        "otherFieldContent": "nothing",
+        "questionType": "FeedbackQuestionType.MCQ"
+      }
+    }
+  ],
+  "responsesWithOther": [
+    {
+      "giver": "Alice",
+      "giverTeam": "Team 1",
+      "giverEmail": "alice@gmail.com",
+      "giverSection": "",
+      "recipient": "Alice",
+      "recipientTeam": "Team 1",
+      "recipientEmail": "",
+      "recipientSection": "",
+      "responseDetails": {
+        "answer": "etcetra",
+        "isOther": true,
+        "otherFieldContent": "nothing",
+        "questionType": "FeedbackQuestionType.MCQ"
+      }
+    },
+    {
+      "giver": "Bob",
+      "giverTeam": "Team 2",
+      "giverEmail": "bob@gmail.com",
+      "giverSection": "",
+      "recipient": "Bob",
+      "recipientTeam": "Team 2",
+      "recipientEmail": "",
+      "recipientSection": "",
+      "responseDetails": {
+        "answer": "optionA",
+        "isOther": false,
+        "otherFieldContent": "nothing",
+        "questionType": "FeedbackQuestionType.MCQ"
+      }
+    },
+    {
+      "giver": "Charles",
+      "giverTeam": "Team 1",
+      "giverEmail": "charles@gmail.com",
+      "giverSection": "",
+      "recipient": "Charles",
+      "recipientTeam": "Team 1",
+      "recipientEmail": "",
+      "recipientSection": "",
+      "responseDetails": {
+        "answer": "optionB",
+        "isOther": false,
+        "otherFieldContent": "nothing",
+        "questionType": "FeedbackQuestionType.MCQ"
+      }
+    }
+  ],
+  "expectedPerRecipientResponses":
+    {
+      "Alice": {
+        "average": 1,
+        "recipient": "Alice",
+        "recipientTeam": "Team 1",
+        "responses": {
+          "optionA": 1,
+          "optionB": 0,
+          "optionC": 0
+        },
+        "total": 1
+      },
+      "Bob": {
+        "average": 1,
+        "recipient": "Bob",
+        "recipientTeam": "Team 2",
+        "responses": {
+          "optionA": 1,
+          "optionB": 0,
+          "optionC": 0
+        },
+        "total": 1
+      },
+      "Charles": {
+        "average": 2,
+        "recipient": "Charles",
+        "recipientTeam": "Team 1",
+        "responses": {
+          "optionA": 0,
+          "optionB": 1,
+          "optionC": 0
+        },
+        "total": 2
+      }
+    },
+    "expectedPerRecipientResponsesWithOther":
+    {
+      "Alice": {
+        "average": 4,
+        "recipient": "Alice",
+        "recipientTeam": "Team 1",
+        "responses": {
+          "Other": 1,
+          "optionA": 0,
+          "optionB": 0,
+          "optionC": 0
+        },
+        "total": 4
+      },
+      "Bob": {
+        "average": 1,
+        "recipient": "Bob",
+        "recipientTeam": "Team 2",
+        "responses": {
+          "Other": 0,
+          "optionA": 1,
+          "optionB": 0,
+          "optionC": 0
+        },
+        "total": 1
+      },
+      "Charles": {
+        "average": 2,
+        "recipient": "Charles",
+        "recipientTeam": "Team 1",
+        "responses": {
+          "Other": 0,
+          "optionA": 0,
+          "optionB": 1,
+          "optionC": 0
+        },
+        "total": 2
+      }
+    }
+}

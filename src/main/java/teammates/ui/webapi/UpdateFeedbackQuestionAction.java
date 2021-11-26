@@ -2,19 +2,14 @@ package teammates.ui.webapi;
 
 import java.util.List;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.EntityNotFoundException;
-import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.ui.output.FeedbackQuestionData;
 import teammates.ui.request.FeedbackQuestionUpdateRequest;
+import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * Updates a feedback question.
@@ -32,7 +27,7 @@ class UpdateFeedbackQuestionAction extends Action {
         FeedbackQuestionAttributes questionAttributes = logic.getFeedbackQuestion(feedbackQuestionId);
 
         if (questionAttributes == null) {
-            throw new EntityNotFoundException(new EntityDoesNotExistException("Unknown question id"));
+            throw new EntityNotFoundException("Unknown question id");
         }
 
         gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(questionAttributes.getCourseId(), userInfo.getId()),
@@ -41,7 +36,7 @@ class UpdateFeedbackQuestionAction extends Action {
     }
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() throws InvalidHttpRequestBodyException {
         String feedbackQuestionId = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
         FeedbackQuestionAttributes oldQuestion = logic.getFeedbackQuestion(feedbackQuestionId);
 
@@ -63,19 +58,12 @@ class UpdateFeedbackQuestionAction extends Action {
         oldQuestion.setShowRecipientNameTo(updateRequest.getShowRecipientNameTo());
 
         // validate questions (giver & recipient)
-        String err = oldQuestion.getQuestionDetails().validateGiverRecipientVisibility(oldQuestion);
+        String err = oldQuestion.getQuestionDetailsCopy().validateGiverRecipientVisibility(oldQuestion);
         if (!err.isEmpty()) {
             throw new InvalidHttpRequestBodyException(err);
         }
         // validate questions (question details)
-        FeedbackQuestionDetails questionDetails = oldQuestion.getQuestionDetails();
-        if (questionDetails instanceof FeedbackMsqQuestionDetails) {
-            FeedbackMsqQuestionDetails msqQuestionDetails = (FeedbackMsqQuestionDetails) questionDetails;
-            int numOfGeneratedMsqChoices = logic.getNumOfGeneratedChoicesForParticipantType(
-                    oldQuestion.getCourseId(), msqQuestionDetails.getGenerateOptionsFor());
-            msqQuestionDetails.setNumOfGeneratedMsqChoices(numOfGeneratedMsqChoices);
-            questionDetails = msqQuestionDetails;
-        }
+        FeedbackQuestionDetails questionDetails = oldQuestion.getQuestionDetailsCopy();
         List<String> questionDetailsErrors = questionDetails.validateQuestionDetails();
 
         if (!questionDetailsErrors.isEmpty()) {
@@ -87,7 +75,7 @@ class UpdateFeedbackQuestionAction extends Action {
                     FeedbackQuestionAttributes.updateOptionsBuilder(oldQuestion.getId())
                             .withQuestionNumber(oldQuestion.getQuestionNumber())
                             .withQuestionDescription(oldQuestion.getQuestionDescription())
-                            .withQuestionDetails(oldQuestion.getQuestionDetails())
+                            .withQuestionDetails(oldQuestion.getQuestionDetailsCopy())
                             .withGiverType(oldQuestion.getGiverType())
                             .withRecipientType(oldQuestion.getRecipientType())
                             .withNumberOfEntitiesToGiveFeedbackTo(oldQuestion.getNumberOfEntitiesToGiveFeedbackTo())
@@ -96,9 +84,9 @@ class UpdateFeedbackQuestionAction extends Action {
                             .withShowRecipientNameTo(oldQuestion.getShowRecipientNameTo())
                             .build());
         } catch (InvalidParametersException e) {
-            throw new InvalidHttpRequestBodyException(e.getMessage(), e);
+            throw new InvalidHttpRequestBodyException(e);
         } catch (EntityDoesNotExistException e) {
-            return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
+            throw new EntityNotFoundException(e);
         }
 
         return new JsonResult(new FeedbackQuestionData(oldQuestion));

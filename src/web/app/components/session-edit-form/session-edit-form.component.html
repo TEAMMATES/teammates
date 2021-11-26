@@ -27,7 +27,12 @@
             <h5 class="text-md-right">Or: </h5>
           </div>
           <div class="col-md-9 text-md-left">
-            <button id="btn-copy-session" type="button" class="btn btn-info" (click)="copyOthersHandler()">Copy from previous feedback sessions</button>
+            <button id="btn-copy-session" type="button" class="btn btn-info align-row" (click)="copyOthersHandler()">
+              <span>Copy from previous feedback sessions</span>
+              <div class="padding-left-7px">
+                <tm-ajax-loading *ngIf="isCopyOtherSessionLoading"></tm-ajax-loading>
+              </div>
+            </button>
           </div>
         </div>
       </div>
@@ -48,7 +53,7 @@
           <div class="col-md-2 text-md-right font-bold" [ngClass]="{'col-form-label': formMode === SessionEditFormMode.ADD}">
             <span class="ngb-tooltip-class" ngbTooltip="Course for which the feedback session is for.">Course ID</span>
           </div>
-          <div class="col-md-4 text-md-left">
+          <div class="col-md-auto text-md-left">
             <div *ngIf="formMode === SessionEditFormMode.ADD">
               <select id="add-course-id" class="form-control" [ngClass]="{'is-invalid': courseCandidates.length === 0}" [ngModel]="model.courseId" (ngModelChange)="courseIdChangeHandler($event)" [disabled]="courseCandidates.length === 0">
                 <option *ngFor="let course of courseCandidates" [ngValue]="course.courseId">{{ course.courseId }}</option>
@@ -59,10 +64,13 @@
             </div>
             <div id="edit-course-id" *ngIf="formMode === SessionEditFormMode.EDIT"> {{ model.courseId }} </div>
           </div>
-          <div class="col-md-2 text-md-right font-bold mt-3 mt-md-0" [ngClass]="{'col-form-label': formMode === SessionEditFormMode.ADD}">
+        </div>
+        <br/>
+        <div class="row text-center">
+          <div class="col-md-2 text-md-right font-bold" [ngClass]="{'col-form-label': formMode === SessionEditFormMode.ADD}">
             Time Zone
           </div>
-          <div id="time-zone" class="col-md-4 text-md-left" [ngClass]="{'col-form-label': formMode === SessionEditFormMode.ADD}">
+          <div id="time-zone" class="col-md-3 text-md-left" [ngClass]="{'col-form-label': formMode === SessionEditFormMode.ADD}">
             <span class="ngb-tooltip-class" ngbTooltip="To change this, edit the course settings. TEAMMATES automatically adjusts to match the current time offset in your area, including clock changes due to daylight saving time.">{{ model.timeZone }}</span>
           </div>
         </div>
@@ -71,7 +79,7 @@
           <div class="col-md-2 text-md-right font-bold">
             Course Name
           </div>
-          <div id="course-name" class="col-md-4 text-md-left">
+          <div id="course-name" class="col-md-10 text-md-left">
             {{ model.courseName }}
           </div>
         </div>
@@ -81,9 +89,9 @@
             <span *ngIf="formMode === SessionEditFormMode.ADD" class="ngb-tooltip-class" ngbTooltip="Enter the name of the feedback session e.g. Feedback Session 1.">Session Name</span>
             <span *ngIf="formMode !== SessionEditFormMode.ADD">Session Name</span>
           </div>
-          <div class="col-md-4 text-md-left">
+          <div class="col-md-10 text-md-left">
             <div *ngIf="formMode === SessionEditFormMode.ADD">
-              <input id="add-session-name" type="text" class="form-control" [ngModel]="model.feedbackSessionName" (ngModelChange)="triggerModelChange('feedbackSessionName', $event)" placeholder="e.g. Feedback for Project Presentation 1" maxlength="38" />
+              <input id="add-session-name" type="text" class="form-control" [ngModel]="model.feedbackSessionName" (ngModelChange)="triggerModelChange('feedbackSessionName', $event)" placeholder="e.g. Feedback for Project Presentation 1" maxlength="64" />
               <div>
                 {{FEEDBACK_SESSION_NAME_MAX_LENGTH - model.feedbackSessionName.length}} characters left
               </div>
@@ -135,7 +143,7 @@
                                      [date]="model.submissionStartDate"></tm-datepicker>
               </div>
               <div class="col-md-5">
-                <tm-time-picker id="submission-start-time" [time]="model.submissionStartTime" (timeChange)="triggerModelChange('submissionStartTime', $event)" [isDisabled]="!model.isEditable"></tm-time-picker>
+                <tm-timepicker id="submission-start-time" [time]="model.submissionStartTime" (timeChange)="triggerModelChange('submissionStartTime', $event)" [isDisabled]="!model.isEditable"></tm-timepicker>
               </div>
             </div>
           </div>
@@ -153,7 +161,7 @@
                                      [minDate]="model.submissionStartDate" [date]="model.submissionEndDate"></tm-datepicker>
               </div>
               <div class="col-md-5">
-                <tm-time-picker id="submission-end-time" [time]="model.submissionEndTime" (timeChange)="triggerModelChange('submissionEndTime', $event)" [isDisabled]="!model.isEditable"></tm-time-picker>
+                <tm-timepicker id="submission-end-time" [time]="model.submissionEndTime" (timeChange)="triggerModelChange('submissionEndTime', $event)" [isDisabled]="!model.isEditable"></tm-timepicker>
               </div>
             </div>
           </div>
@@ -205,7 +213,7 @@
                                      [maxDate]="maxDateForSessionVisible" [date]="model.customSessionVisibleDate"></tm-datepicker>
               </div>
               <div class="col-md-4">
-                <tm-time-picker id="session-visibility-time" [time]="model.customSessionVisibleTime" (timeChange)="triggerModelChange('customSessionVisibleTime', $event)" [isDisabled]="model.sessionVisibleSetting !== SessionVisibleSetting.CUSTOM || !model.isEditable"></tm-time-picker>
+                <tm-timepicker id="session-visibility-time" [time]="model.customSessionVisibleTime" (timeChange)="triggerModelChange('customSessionVisibleTime', $event)" [isDisabled]="model.sessionVisibleSetting !== SessionVisibleSetting.CUSTOM || !model.isEditable"></tm-timepicker>
               </div>
             </div>
             <div class="row mt-md-1 ml-md-3">
@@ -238,7 +246,7 @@
                                        [minDate]="minDateForResponseVisible" [date]="model.customResponseVisibleDate"></tm-datepicker>
                 </div>
                 <div class="col-md-4">
-                  <tm-time-picker id="response-visibility-time" [time]="model.customResponseVisibleTime" (timeChange)="triggerModelChange('customResponseVisibleTime', $event)" [isDisabled]="model.responseVisibleSetting !== ResponseVisibleSetting.CUSTOM || !model.isEditable"></tm-time-picker>
+                  <tm-timepicker id="response-visibility-time" [time]="model.customResponseVisibleTime" (timeChange)="triggerModelChange('customResponseVisibleTime', $event)" [isDisabled]="model.responseVisibleSetting !== ResponseVisibleSetting.CUSTOM || !model.isEditable"></tm-timepicker>
                 </div>
             </div>
             <div class="row mt-md-2 ml-md-1">

@@ -33,7 +33,7 @@ public class FeedbackQuestion extends BaseEntity {
     /**
      * Serialized {@link teammates.common.datatransfer.questions.FeedbackQuestionDetails} stored as a string.
      *
-     * @see teammates.common.datatransfer.attributes.FeedbackQuestionAttributes#getQuestionDetails()
+     * @see teammates.common.datatransfer.attributes.FeedbackQuestionAttributes#getQuestionDetailsCopy()
      */
     @Unindex
     private String questionText;
@@ -153,7 +153,7 @@ public class FeedbackQuestion extends BaseEntity {
         this.courseId = courseId;
     }
 
-    public String getQuestionMetaData() {
+    public String getQuestionText() {
         return questionText;
     }
 

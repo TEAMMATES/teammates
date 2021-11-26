@@ -10,9 +10,9 @@ import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.TaskWrapper;
-import teammates.common.util.ThreadHelper;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.TimeHelperExtension;
+import teammates.test.ThreadHelper;
 import teammates.ui.request.SendEmailRequest;
 
 /**
@@ -33,7 +33,7 @@ public class FeedbackSessionClosingRemindersActionTest
 
     @Override
     @Test
-    protected void testAccessControl() throws Exception {
+    protected void testAccessControl() {
         verifyOnlyAdminCanAccess();
     }
 
@@ -64,6 +64,7 @@ public class FeedbackSessionClosingRemindersActionTest
                         .withStartTime(session1.getStartTime())
                         .withEndTime(session1.getEndTime())
                         .build());
+        session1.setSentOpeningSoonEmail(true); // fsLogic will set the flag to true
         session1.setSentOpenEmail(true); // fsLogic will set the flag to true
         verifyPresentInDatabase(session1);
 
@@ -82,7 +83,8 @@ public class FeedbackSessionClosingRemindersActionTest
                         .withEndTime(session2.getEndTime())
                         .withIsClosingEmailEnabled(session2.isClosingEmailEnabled())
                         .build());
-        session1.setSentOpenEmail(true); // fsLogic will set the flag to true
+        session2.setSentOpeningSoonEmail(true); // fsLogic will set the flag to true
+        session2.setSentOpenEmail(true); // fsLogic will set the flag to true
         verifyPresentInDatabase(session2);
 
         // 1 session not yet opened; do not send the closing reminder
@@ -98,6 +100,7 @@ public class FeedbackSessionClosingRemindersActionTest
                         .withStartTime(session3.getStartTime())
                         .withEndTime(session3.getEndTime())
                         .build());
+        session3.setSentOpeningSoonEmail(true); // fsLogic will set the flag to true
         session3.setSentOpenEmail(false); // fsLogic will set the flag to true
         verifyPresentInDatabase(session3);
 

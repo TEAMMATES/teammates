@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -40,42 +39,37 @@ public class DeleteStudentProfilePictureActionTest extends BaseActionTest<Delete
     private void testValidAction() throws Exception {
         ______TS("Typical case: success scenario");
 
-        loginAsStudent(account.googleId);
+        loginAsStudent(account.getGoogleId());
 
-        writeFileToStorage(account.googleId, "src/test/resources/images/profile_pic.png");
-        assertTrue(doesFileExist(account.googleId));
+        writeFileToStorage(account.getGoogleId(), "src/test/resources/images/profile_pic.png");
+        assertTrue(doesFileExist(account.getGoogleId()));
 
         String[] submissionParams = {
-                Const.ParamsNames.STUDENT_ID, account.googleId,
+                Const.ParamsNames.STUDENT_ID, account.getGoogleId(),
         };
         DeleteStudentProfilePictureAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action);
         MessageOutput messageOutput = (MessageOutput) result.getOutput();
 
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         assertEquals(messageOutput.getMessage(), "Your profile picture has been deleted successfully");
 
-        assertFalse(doesFileExist(account.googleId));
+        assertFalse(doesFileExist(account.getGoogleId()));
     }
 
     private void testInvalidProfileAction() {
         ______TS("Typical case: invalid student profile");
 
-        loginAsStudent(account.googleId);
+        loginAsStudent(account.getGoogleId());
         String[] submissionParams = {
                 Const.ParamsNames.STUDENT_ID, "invalidGoogleId",
         };
-        DeleteStudentProfilePictureAction action = getAction(submissionParams);
-        JsonResult result = getJsonResult(action);
-        MessageOutput messageOutput = (MessageOutput) result.getOutput();
-
-        assertEquals(HttpStatus.SC_NOT_FOUND, result.getStatusCode());
-        assertEquals(messageOutput.getMessage(), "Invalid student profile");
+        EntityNotFoundException enfe = verifyEntityNotFound(submissionParams);
+        assertEquals("Invalid student profile", enfe.getMessage());
     }
 
     @Test
     @Override
-    protected void testAccessControl() throws Exception {
+    protected void testAccessControl() {
         verifyInaccessibleWithoutLogin();
         verifyInaccessibleForUnregisteredUsers();
     }

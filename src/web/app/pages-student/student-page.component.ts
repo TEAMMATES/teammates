@@ -18,6 +18,7 @@ export class StudentPageComponent implements OnInit {
   isInstructor: boolean = false;
   isStudent: boolean = false;
   isAdmin: boolean = false;
+  isMaintainer: boolean = false;
   navItems: any[] = [
     {
       url: '/web/student',
@@ -51,6 +52,7 @@ export class StudentPageComponent implements OnInit {
           this.isInstructor = res.user.isInstructor;
           this.isStudent = res.user.isStudent;
           this.isAdmin = res.user.isAdmin;
+          this.isMaintainer = res.user.isMaintainer;
         } else {
           window.location.href = `${this.backendUrl}${res.studentLoginUrl}`;
         }
@@ -59,6 +61,7 @@ export class StudentPageComponent implements OnInit {
         this.isInstructor = false;
         this.isStudent = false;
         this.isAdmin = false;
+        this.isMaintainer = false;
         this.isFetchingAuthDetails = false;
       });
     });

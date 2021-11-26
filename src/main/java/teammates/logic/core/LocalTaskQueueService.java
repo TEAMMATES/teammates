@@ -16,7 +16,6 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 
-import teammates.common.exception.TeammatesException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
@@ -53,7 +52,7 @@ public class LocalTaskQueueService implements TaskQueueService {
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
             httpClient.execute(post);
         } catch (IOException e) {
-            log.severe("Error when executing HTTP request: " + TeammatesException.toStringWithStackTrace(e));
+            log.severe("Error when executing HTTP request", e);
         }
     }
 

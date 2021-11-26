@@ -20,13 +20,14 @@ public class CourseAttributesTest extends BaseTestCase {
     @Test
     public void testValueOf_withTypicalData_shouldGenerateAttributesCorrectly() {
         Instant typicalInstant = Instant.now();
-        Course course = new Course("testId", "testName", "UTC", typicalInstant, typicalInstant);
+        Course course = new Course("testId", "testName", "UTC", "institute", typicalInstant, typicalInstant);
 
         CourseAttributes courseAttributes = CourseAttributes.valueOf(course);
 
         assertEquals("testId", courseAttributes.getId());
         assertEquals("testName", courseAttributes.getName());
         assertEquals("UTC", courseAttributes.getTimeZone().getId());
+        assertEquals("institute", courseAttributes.getInstitute());
         assertEquals(typicalInstant, courseAttributes.getCreatedAt());
         assertEquals(typicalInstant, courseAttributes.getDeletedAt());
     }
@@ -34,7 +35,7 @@ public class CourseAttributesTest extends BaseTestCase {
     @Test
     public void testValueOf_withInvalidTimezoneStr_shouldFallbackToDefaultTimezone() {
         Instant typicalInstant = Instant.now();
-        Course course = new Course("testId", "testName", "invalid", typicalInstant, typicalInstant);
+        Course course = new Course("testId", "testName", "invalid", "institute", typicalInstant, typicalInstant);
 
         CourseAttributes courseAttributes = CourseAttributes.valueOf(course);
 
@@ -43,7 +44,7 @@ public class CourseAttributesTest extends BaseTestCase {
 
     @Test
     public void testValueOf_withSomeFieldsPopulatedAsNull_shouldUseDefaultValues() {
-        Course course = new Course("testId", "testName", "UTC", null, null);
+        Course course = new Course("testId", "testName", "UTC", "institute", null, null);
         course.setCreatedAt(null);
         course.setDeletedAt(null);
         assertNull(course.getCreatedAt());
@@ -54,6 +55,7 @@ public class CourseAttributesTest extends BaseTestCase {
         assertEquals("testId", courseAttributes.getId());
         assertEquals("testName", courseAttributes.getName());
         assertEquals("UTC", courseAttributes.getTimeZone().getId());
+        assertEquals("institute", courseAttributes.getInstitute());
         assertNotNull(courseAttributes.getCreatedAt());
         assertNull(courseAttributes.getDeletedAt());
     }
@@ -124,6 +126,7 @@ public class CourseAttributesTest extends BaseTestCase {
                 .builder(veryLongId)
                 .withName(emptyName)
                 .withTimezone(ZoneId.of("UTC"))
+                .withInstitute("Test institute")
                 .build();
 
         assertFalse("invalid value", invalidCourse.isValid());
@@ -151,7 +154,8 @@ public class CourseAttributesTest extends BaseTestCase {
     @Test
     public void testToString() {
         CourseAttributes c = generateValidCourseAttributesObject();
-        assertEquals("[CourseAttributes] id: valid-id-$_abc name: valid-name timeZone: UTC", c.toString());
+        assertEquals("[CourseAttributes] id: valid-id-$_abc name: valid-name institute: valid-institute timeZone: UTC",
+                c.toString());
     }
 
     @Test
@@ -195,6 +199,7 @@ public class CourseAttributesTest extends BaseTestCase {
         return CourseAttributes.builder("valid-id-$_abc")
                 .withName("valid-name")
                 .withTimezone(ZoneId.of("UTC"))
+                .withInstitute("valid-institute")
                 .build();
     }
 

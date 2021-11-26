@@ -5,10 +5,15 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
+import { AddingQuestionPanelModule } from '../../../components/adding-question-panel/adding-question-panel.module';
 import {
     CommentBoxModule,
 } from '../../../components/comment-box/comment-box.module';
+import { FeedbackPathPanelModule } from '../../../components/feedback-path-panel/feedback-path-panel.module';
 import { PanelChevronModule } from '../../../components/panel-chevron/panel-chevron.module';
+import { PreviewSessionPanelModule } from '../../../components/preview-session-panel/preview-session-panel.module';
+import { QuestionResponsePanelModule,
+} from '../../../components/question-response-panel/question-response-panel.module';
 import { SingleStatisticsModule,
 } from '../../../components/question-responses/single-statistics/single-statistics.module';
 import { StudentViewResponsesModule,
@@ -19,6 +24,8 @@ import {
   SessionsRecycleBinTableModule,
 } from '../../../components/sessions-recycle-bin-table/sessions-recycle-bin-table.module';
 import { TeammatesRouterModule } from '../../../components/teammates-router/teammates-router.module';
+import { ViewResultsPanelModule } from '../../../components/view-results-panel/view-results-panel.module';
+import { VisibilityPanelModule } from '../../../components/visibility-panel/visibility-panel.module';
 import {
   InstructorSearchComponentsModule,
 } from '../../../pages-instructor/instructor-search-page/instructor-search-components.module';
@@ -43,8 +50,10 @@ describe('InstructorHelpSessionsSectionComponent', () => {
         CommentBoxModule, FormsModule, HttpClientTestingModule, NgbModule, ExampleBoxModule,
         RouterTestingModule, NgxPageScrollCoreModule, NoopAnimationsModule,
         SessionEditFormModule, SessionsRecycleBinTableModule, TeammatesRouterModule,
-        InstructorSearchComponentsModule, InstructorSessionResultViewModule, QuestionTextWithInfoModule,
-        SingleStatisticsModule, StudentViewResponsesModule, PanelChevronModule],
+        InstructorSearchComponentsModule, InstructorSessionResultViewModule,
+        PreviewSessionPanelModule, QuestionTextWithInfoModule, AddingQuestionPanelModule,
+        FeedbackPathPanelModule, SingleStatisticsModule, StudentViewResponsesModule, ViewResultsPanelModule,
+        QuestionResponsePanelModule, VisibilityPanelModule, PanelChevronModule],
     })
     .compileComponents();
   }));

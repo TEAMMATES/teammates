@@ -39,7 +39,7 @@
 
 <div *tmIsLoading="isSearching">
   <div *ngIf="hasResult">
-    <p class="font-weight-bold">{{searchResult.feedbackSessionName}} in {{searchResult.courseId}} (published on: {{searchResult.publishedDate}})</p>
+    <p class="font-weight-bold text-break">{{searchResult.feedbackSessionName}} in {{searchResult.courseId}} (published on: {{searchResult.publishedDate}})</p>
     <tm-sortable-table [rows]="searchResult.logRowsData" [columns]="searchResult.logColumnsData" [initialSortBy]="SortBy.RESULT_VIEW_STATUS"></tm-sortable-table>
   </div>
 </div>

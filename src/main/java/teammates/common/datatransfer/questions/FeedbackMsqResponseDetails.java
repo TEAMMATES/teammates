@@ -5,6 +5,9 @@ import java.util.List;
 
 import teammates.common.util.StringHelper;
 
+/**
+ * Contains specific structure and processing logic for MCQ feedback responses.
+ */
 public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
     private List<String> answers; // answers contain the "other" answer, if any
     private boolean isOther;

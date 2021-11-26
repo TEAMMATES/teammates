@@ -13,11 +13,13 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
   courseCandidates={[Function Array]}
   downloadSessionResultsEvent={[Function EventEmitter]}
   headerColorScheme="0"
+  isSendReminderLoading="false"
   loadResponseRateEvent={[Function EventEmitter]}
   moveSessionToRecycleBinEvent={[Function EventEmitter]}
   ngbModal={[Function NgbModal]}
   publishSessionEvent={[Function EventEmitter]}
   resendResultsLinkToStudentsEvent={[Function EventEmitter]}
+  rowClicked={[Function Number]}
   sendRemindersToStudentsEvent={[Function EventEmitter]}
   sessionsTableRowModels={[Function Array]}
   sessionsTableRowModelsSortBy={[Function Number]}
@@ -26,7 +28,6 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
   sortSessionsTableRowModelsEvent={[Function EventEmitter]}
   submitSessionAsInstructorEvent={[Function EventEmitter]}
   unpublishSessionEvent={[Function EventEmitter]}
-  viewSessionResultEvent={[Function EventEmitter]}
 >
   <div
     class="row"
@@ -117,7 +118,9 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
           
           <tr>
             
-            <td>
+            <td
+              class="text-break"
+            >
               Season 8 Review
             </td>
             
@@ -210,6 +213,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
               
               <div
                 class="d-inline-block dropdown"
+                container="body"
                 ngbdropdown=""
               >
                 <button
@@ -231,7 +235,14 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                     href="/web/instructor/sessions/result?courseid=GOT&fsname=Season%208%20Review"
                     tmrouterlink="/web/instructor/sessions/result"
                   >
-                    View Results
+                    View Results (from/to me)
+                  </a>
+                  <a
+                    class="btn dropdown-item clickable"
+                    href="/web/instructor/sessions/report?courseid=GOT&fsname=Season%208%20Review"
+                    tmrouterlink="/web/instructor/sessions/report"
+                  >
+                    View Results (course-wide)
                   </a>
                   
                   <button
@@ -260,17 +271,26 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                 ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
               >
                 <button
-                  class="btn btn-light btn-sm"
+                  class="btn btn-light btn-sm align-row"
                   id="btn-remind-0"
                 >
-                  Remind
+                  <span>
+                    Remind
+                  </span>
+                  <div
+                    class="padding-left-7px"
+                  >
+                    
+                  </div>
                 </button>
               </div>
             </td>
           </tr>
           <tr>
             
-            <td>
+            <td
+              class="text-break"
+            >
               Season 7 Review
             </td>
             
@@ -359,6 +379,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
               
               <div
                 class="d-inline-block dropdown"
+                container="body"
                 ngbdropdown=""
               >
                 <button
@@ -380,7 +401,14 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                     href="/web/instructor/sessions/result?courseid=GOT&fsname=Season%207%20Review"
                     tmrouterlink="/web/instructor/sessions/result"
                   >
-                    View Results
+                    View Results (from/to me)
+                  </a>
+                  <a
+                    class="btn dropdown-item clickable disabled"
+                    href="/web/instructor/sessions/report?courseid=GOT&fsname=Season%207%20Review"
+                    tmrouterlink="/web/instructor/sessions/report"
+                  >
+                    View Results (course-wide)
                   </a>
                   
                   <button
@@ -417,11 +445,18 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                 ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
               >
                 <button
-                  class="btn btn-light btn-sm"
+                  class="btn btn-light btn-sm align-row"
                   disabled=""
                   id="btn-remind-1"
                 >
-                  Remind
+                  <span>
+                    Remind
+                  </span>
+                  <div
+                    class="padding-left-7px"
+                  >
+                    
+                  </div>
                 </button>
               </div>
             </td>
@@ -446,11 +481,13 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
   courseCandidates={[Function Array]}
   downloadSessionResultsEvent={[Function EventEmitter]}
   headerColorScheme="0"
+  isSendReminderLoading="false"
   loadResponseRateEvent={[Function EventEmitter]}
   moveSessionToRecycleBinEvent={[Function EventEmitter]}
   ngbModal={[Function NgbModal]}
   publishSessionEvent={[Function EventEmitter]}
   resendResultsLinkToStudentsEvent={[Function EventEmitter]}
+  rowClicked={[Function Number]}
   sendRemindersToStudentsEvent={[Function EventEmitter]}
   sessionsTableRowModels={[Function Array]}
   sessionsTableRowModelsSortBy={[Function Number]}
@@ -459,7 +496,6 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
   sortSessionsTableRowModelsEvent={[Function EventEmitter]}
   submitSessionAsInstructorEvent={[Function EventEmitter]}
   unpublishSessionEvent={[Function EventEmitter]}
-  viewSessionResultEvent={[Function EventEmitter]}
 >
   <div
     class="row"
@@ -537,10 +573,14 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
           
           <tr>
             
-            <td>
+            <td
+              class="text-break"
+            >
               GOT
             </td>
-            <td>
+            <td
+              class="text-break"
+            >
               Season 8 Review
             </td>
             
@@ -619,6 +659,7 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
               
               <div
                 class="d-inline-block dropdown"
+                container="body"
                 ngbdropdown=""
               >
                 <button
@@ -640,7 +681,14 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                     href="/web/instructor/sessions/result?courseid=GOT&fsname=Season%208%20Review"
                     tmrouterlink="/web/instructor/sessions/result"
                   >
-                    View Results
+                    View Results (from/to me)
+                  </a>
+                  <a
+                    class="btn dropdown-item clickable"
+                    href="/web/instructor/sessions/report?courseid=GOT&fsname=Season%208%20Review"
+                    tmrouterlink="/web/instructor/sessions/report"
+                  >
+                    View Results (course-wide)
                   </a>
                   
                   <button
@@ -669,20 +717,31 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                 ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
               >
                 <button
-                  class="btn btn-light btn-sm"
+                  class="btn btn-light btn-sm align-row"
                   id="btn-remind-0"
                 >
-                  Remind
+                  <span>
+                    Remind
+                  </span>
+                  <div
+                    class="padding-left-7px"
+                  >
+                    
+                  </div>
                 </button>
               </div>
             </td>
           </tr>
           <tr>
             
-            <td>
+            <td
+              class="text-break"
+            >
               GOT
             </td>
-            <td>
+            <td
+              class="text-break"
+            >
               Season 7 Review
             </td>
             
@@ -757,6 +816,7 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
               
               <div
                 class="d-inline-block dropdown"
+                container="body"
                 ngbdropdown=""
               >
                 <button
@@ -778,7 +838,14 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                     href="/web/instructor/sessions/result?courseid=GOT&fsname=Season%207%20Review"
                     tmrouterlink="/web/instructor/sessions/result"
                   >
-                    View Results
+                    View Results (from/to me)
+                  </a>
+                  <a
+                    class="btn dropdown-item clickable disabled"
+                    href="/web/instructor/sessions/report?courseid=GOT&fsname=Season%207%20Review"
+                    tmrouterlink="/web/instructor/sessions/report"
+                  >
+                    View Results (course-wide)
                   </a>
                   
                   <button
@@ -815,11 +882,18 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                 ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
               >
                 <button
-                  class="btn btn-light btn-sm"
+                  class="btn btn-light btn-sm align-row"
                   disabled=""
                   id="btn-remind-1"
                 >
-                  Remind
+                  <span>
+                    Remind
+                  </span>
+                  <div
+                    class="padding-left-7px"
+                  >
+                    
+                  </div>
                 </button>
               </div>
             </td>
@@ -844,11 +918,13 @@ exports[`SessionsTableComponent should snap with default fields 1`] = `
   courseCandidates={[Function Array]}
   downloadSessionResultsEvent={[Function EventEmitter]}
   headerColorScheme="0"
+  isSendReminderLoading="false"
   loadResponseRateEvent={[Function EventEmitter]}
   moveSessionToRecycleBinEvent={[Function EventEmitter]}
   ngbModal={[Function NgbModal]}
   publishSessionEvent={[Function EventEmitter]}
   resendResultsLinkToStudentsEvent={[Function EventEmitter]}
+  rowClicked={[Function Number]}
   sendRemindersToStudentsEvent={[Function EventEmitter]}
   sessionsTableRowModels={[Function Array]}
   sessionsTableRowModelsSortBy="0"
@@ -857,7 +933,6 @@ exports[`SessionsTableComponent should snap with default fields 1`] = `
   sortSessionsTableRowModelsEvent={[Function EventEmitter]}
   submitSessionAsInstructorEvent={[Function EventEmitter]}
   unpublishSessionEvent={[Function EventEmitter]}
-  viewSessionResultEvent={[Function EventEmitter]}
 >
   <div
     class="no-session-message"

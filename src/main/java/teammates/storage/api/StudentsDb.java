@@ -17,10 +17,8 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.RegenerateStudentException;
 import teammates.common.exception.SearchServiceException;
 import teammates.common.util.Logger;
-import teammates.common.util.StringHelper;
 import teammates.storage.entity.CourseStudent;
 import teammates.storage.search.SearchManagerFactory;
 import teammates.storage.search.StudentSearchManager;
@@ -31,11 +29,21 @@ import teammates.storage.search.StudentSearchManager;
  * @see CourseStudent
  * @see StudentAttributes
  */
-public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
+public final class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
 
     private static final Logger log = Logger.getLogger();
 
-    private static final int MAX_KEY_REGENERATION_TRIES = 5;
+    private static final int MAX_KEY_REGENERATION_TRIES = 10;
+
+    private static final StudentsDb instance = new StudentsDb();
+
+    private StudentsDb() {
+        // prevent initialization
+    }
+
+    public static StudentsDb inst() {
+        return instance;
+    }
 
     private StudentSearchManager getSearchManager() {
         return SearchManagerFactory.getStudentSearchManager();
@@ -44,15 +52,8 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
     /**
      * Creates or updates search document for the given student.
      */
-    public void putDocument(StudentAttributes student) {
-        getSearchManager().putDocuments(Collections.singletonList(student));
-    }
-
-    /**
-     * Batch creates or updates search documents for the given students.
-     */
-    public void putDocuments(List<StudentAttributes> students) {
-        getSearchManager().putDocuments(students);
+    public void putDocument(StudentAttributes student) throws SearchServiceException {
+        getSearchManager().putDocument(student);
     }
 
     /**
@@ -93,47 +94,23 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
     }
 
     /**
-     * Creates a student.
-     *
-     * @return the created student
-     * @throws InvalidParametersException if the student is not valid
-     * @throws EntityAlreadyExistsException if the student already exists in the database
-     */
-    @Override
-    public StudentAttributes createEntity(StudentAttributes student)
-            throws InvalidParametersException, EntityAlreadyExistsException {
-
-        StudentAttributes createdStudent = super.createEntity(student);
-        putDocument(createdStudent);
-
-        return createdStudent;
-    }
-
-    /**
      * Regenerates the registration key of a student in a course.
      *
      * @return the updated student
-     * @throws RegenerateStudentException if a new registration key could not be generated
+     * @throws EntityAlreadyExistsException if a new registration key could not be generated
      */
-    public StudentAttributes regenerateEntityKey(StudentAttributes originalStudent) throws RegenerateStudentException {
+    public StudentAttributes regenerateEntityKey(StudentAttributes originalStudent) throws EntityAlreadyExistsException {
         int numTries = 0;
-
         while (numTries < MAX_KEY_REGENERATION_TRIES) {
-            CourseStudent updatedEntity = originalStudent.toEntity();
-
+            CourseStudent updatedEntity = convertToEntityForSaving(originalStudent);
             if (!updatedEntity.getRegistrationKey().equals(originalStudent.getKey())) {
                 saveEntity(updatedEntity);
-
-                StudentAttributes updatedStudent = makeAttributes(updatedEntity);
-                putDocument(updatedStudent);
-
-                return updatedStudent;
+                return makeAttributes(updatedEntity);
             }
-
             numTries++;
         }
-
-        throw new RegenerateStudentException("Could not regenerate a new course registration key for the student.");
+        log.severe("Failed to generate new registration key for student after " + MAX_KEY_REGENERATION_TRIES + " tries");
+        throw new EntityAlreadyExistsException("Could not regenerate a new course registration key for the student.");
     }
 
     /**
@@ -172,17 +149,12 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
     }
 
     /**
-     * Gets a student by unique constraint encryptedKey.
+     * Gets a student by unique constraint registrationKey.
      */
-    public StudentAttributes getStudentForRegistrationKey(String encryptedRegistrationKey) {
-        assert encryptedRegistrationKey != null;
+    public StudentAttributes getStudentForRegistrationKey(String registrationKey) {
+        assert registrationKey != null;
 
-        try {
-            String decryptedKey = StringHelper.decrypt(encryptedRegistrationKey.trim());
-            return makeAttributesOrNull(getCourseStudentEntityForRegistrationKey(decryptedKey));
-        } catch (InvalidParametersException e) {
-            return null; // invalid registration key cannot be decrypted
-        }
+        return makeAttributesOrNull(getCourseStudentEntityForRegistrationKey(registrationKey.trim()));
     }
 
     /**
@@ -223,7 +195,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
         List<StudentAttributes> unregistered = new ArrayList<>();
 
         for (StudentAttributes s : allStudents) {
-            if (s.googleId == null || s.googleId.trim().isEmpty()) {
+            if (s.getGoogleId() == null || s.getGoogleId().trim().isEmpty()) {
                 unregistered.add(s);
             }
         }
@@ -258,20 +230,18 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
             throw new InvalidParametersException(newAttributes.getInvalidityInfo());
         }
 
-        boolean isEmailChanged = !student.getEmail().equals(newAttributes.email);
+        boolean isEmailChanged = !student.getEmail().equals(newAttributes.getEmail());
 
         if (isEmailChanged) {
             newAttributes = createEntity(newAttributes);
             // delete the old student
             deleteStudent(student.getCourseId(), student.getEmail());
 
-            putDocument(newAttributes);
             return newAttributes;
         } else {
             // update only if change
             boolean hasSameAttributes =
                     this.<String>hasSameValue(student.getName(), newAttributes.getName())
-                    && this.<String>hasSameValue(student.getLastName(), newAttributes.getLastName())
                     && this.<String>hasSameValue(student.getComments(), newAttributes.getComments())
                     && this.<String>hasSameValue(student.getGoogleId(), newAttributes.getGoogleId())
                     && this.<String>hasSameValue(student.getTeamName(), newAttributes.getTeam())
@@ -281,21 +251,15 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
                 return newAttributes;
             }
 
-            student.setName(newAttributes.name);
-            student.setLastName(newAttributes.lastName);
-            student.setComments(newAttributes.comments);
-            student.setGoogleId(newAttributes.googleId);
-            student.setTeamName(newAttributes.team);
-            student.setSectionName(newAttributes.section);
-
-            putDocument(newAttributes);
+            student.setName(newAttributes.getName());
+            student.setComments(newAttributes.getComments());
+            student.setGoogleId(newAttributes.getGoogleId());
+            student.setTeamName(newAttributes.getTeam());
+            student.setSectionName(newAttributes.getSection());
 
             saveEntity(student);
 
-            newAttributes = makeAttributes(student);
-            putDocument(newAttributes);
-
-            return newAttributes;
+            return makeAttributes(student);
         }
     }
 
@@ -343,11 +307,8 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
 
         // If registration key detected is not unique, something is wrong
         if (studentList.size() > 1) {
-            StringBuilder duplicatedStudentsUniqueIds = new StringBuilder();
-            for (CourseStudent s : studentList) {
-                duplicatedStudentsUniqueIds.append(s.getUniqueId() + '\n');
-            }
-            log.severe("Duplicate registration keys detected for: \n" + duplicatedStudentsUniqueIds);
+            log.severe("Duplicate registration keys detected for: "
+                    + studentList.stream().map(s -> s.getUniqueId()).collect(Collectors.joining(", ")));
         }
 
         if (studentList.isEmpty()) {
@@ -400,4 +361,21 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
 
         return StudentAttributes.valueOf(entity);
     }
+
+    @Override
+    CourseStudent convertToEntityForSaving(StudentAttributes attributes) throws EntityAlreadyExistsException {
+        int numTries = 0;
+        while (numTries < MAX_KEY_REGENERATION_TRIES) {
+            CourseStudent student = attributes.toEntity();
+            Key<CourseStudent> existingStudent =
+                    load().filter("registrationKey =", student.getRegistrationKey()).keys().first().now();
+            if (existingStudent == null) {
+                return student;
+            }
+            numTries++;
+        }
+        log.severe("Failed to generate new registration key for student after " + MAX_KEY_REGENERATION_TRIES + " tries");
+        throw new EntityAlreadyExistsException("Unable to create new student");
+    }
+
 }

@@ -5,7 +5,6 @@ import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 
@@ -19,11 +18,11 @@ abstract class BasicFeedbackSubmissionAction extends Action {
      */
     boolean canInstructorSeeQuestion(FeedbackQuestionAttributes feedbackQuestion) {
         boolean isGiverVisibleToInstructor =
-                feedbackQuestion.showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
+                feedbackQuestion.getShowGiverNameTo().contains(FeedbackParticipantType.INSTRUCTORS);
         boolean isRecipientVisibleToInstructor =
-                feedbackQuestion.showRecipientNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
+                feedbackQuestion.getShowRecipientNameTo().contains(FeedbackParticipantType.INSTRUCTORS);
         boolean isResponseVisibleToInstructor =
-                feedbackQuestion.showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS);
+                feedbackQuestion.getShowResponsesTo().contains(FeedbackParticipantType.INSTRUCTORS);
         return isResponseVisibleToInstructor && isGiverVisibleToInstructor && isRecipientVisibleToInstructor;
     }
 
@@ -85,11 +84,11 @@ abstract class BasicFeedbackSubmissionAction extends Action {
                     logic.getInstructorForGoogleId(feedbackSession.getCourseId(), userInfo.getId()), feedbackSession,
                     Const.InstructorPermissions.CAN_MODIFY_SESSION);
         } else {
-            if (!StringHelper.isEmpty(student.googleId)) {
+            if (!StringHelper.isEmpty(student.getGoogleId())) {
                 if (userInfo == null) {
                     // Student is associated to a google ID; even if registration key is passed, do not allow access
                     throw new UnauthorizedAccessException("Login is required to access this feedback session");
-                } else if (!userInfo.id.equals(student.googleId)) {
+                } else if (!userInfo.id.equals(student.getGoogleId())) {
                     // Logged in student is not the same as the student registered for the given key, do not allow access
                     throw new UnauthorizedAccessException("You are not authorized to access this feedback session");
                 }
@@ -176,7 +175,7 @@ abstract class BasicFeedbackSubmissionAction extends Action {
                 return logic.getSectionForTeam(courseId, recipientIdentifier);
             case STUDENTS:
                 StudentAttributes student = logic.getStudentForEmail(courseId, recipientIdentifier);
-                return student == null ? Const.DEFAULT_SECTION : student.section;
+                return student == null ? Const.DEFAULT_SECTION : student.getSection();
             default:
                 assert false : "Invalid giver type " + giverType + " for recipient type " + recipientType;
                 return null;
@@ -191,7 +190,7 @@ abstract class BasicFeedbackSubmissionAction extends Action {
         case OWN_TEAM_MEMBERS:
         case OWN_TEAM_MEMBERS_INCLUDING_SELF:
             StudentAttributes student = logic.getStudentForEmail(courseId, recipientIdentifier);
-            return student == null ? Const.DEFAULT_SECTION : student.section;
+            return student == null ? Const.DEFAULT_SECTION : student.getSection();
         default:
             assert false : "Unknown recipient type " + recipientType;
             return null;

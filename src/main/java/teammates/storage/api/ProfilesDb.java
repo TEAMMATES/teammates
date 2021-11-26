@@ -18,7 +18,17 @@ import teammates.storage.entity.StudentProfile;
  * @see StudentProfile
  * @see StudentProfileAttributes
  */
-public class ProfilesDb extends EntitiesDb<StudentProfile, StudentProfileAttributes> {
+public final class ProfilesDb extends EntitiesDb<StudentProfile, StudentProfileAttributes> {
+
+    private static final ProfilesDb instance = new ProfilesDb();
+
+    private ProfilesDb() {
+        // prevent initialization
+    }
+
+    public static ProfilesDb inst() {
+        return instance;
+    }
 
     /**
      * Gets the student profile associated with {@code accountGoogleId}.
@@ -66,12 +76,12 @@ public class ProfilesDb extends EntitiesDb<StudentProfile, StudentProfileAttribu
             return newAttributes;
         }
 
-        studentProfile.setShortName(newAttributes.shortName);
-        studentProfile.setEmail(newAttributes.email);
-        studentProfile.setInstitute(newAttributes.institute);
-        studentProfile.setNationality(newAttributes.nationality);
-        studentProfile.setGender(newAttributes.gender.name().toLowerCase());
-        studentProfile.setMoreInfo(newAttributes.moreInfo);
+        studentProfile.setShortName(newAttributes.getShortName());
+        studentProfile.setEmail(newAttributes.getEmail());
+        studentProfile.setInstitute(newAttributes.getInstitute());
+        studentProfile.setNationality(newAttributes.getNationality());
+        studentProfile.setGender(newAttributes.getGender().name().toLowerCase());
+        studentProfile.setMoreInfo(newAttributes.getMoreInfo());
         studentProfile.setModifiedDate(Instant.now());
 
         saveEntity(studentProfile);

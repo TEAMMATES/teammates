@@ -143,17 +143,17 @@ The steps for adding a student is almost identical to the steps for adding instr
 - Where appropriate, change the reference to "instructor" to "student".
 - `Students` → `Enroll` to add students for the course.
 
-**Alternative**: Run the test cases, they create several student and instructor accounts in the datastore. Use one of them to log in.
+**Alternative**: Run the E2E test cases, they create several student and instructor accounts in the database. Use one of them to log in.
 
 ### Logging in without UI
 
 In dev server, it is also possible to "log in" without UI (e.g. when only testing API endpoints). In order to do that, you need to submit the following API call:
 
 ```sh
-POST http://localhost:8080/devServerLogin?email=test@example.com&isAdmin=on
+POST http://localhost:8080/devServerLogin?email=test@example.com
 ```
 
-where `email=test@example.com` and `isAdmin=on` can be replaced as appropriate.
+where `email=test@example.com` can be replaced as appropriate.
 
 The back-end server will return cookies which will subsequently be used to authenticate your requests.
 

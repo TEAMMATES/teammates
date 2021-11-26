@@ -12,16 +12,19 @@
     "AAccounts.CS2104": {
       "id": "tm.e2e.AAccounts.CS2104",
       "name": "Programming Languages",
+      "institute": "TEAMMATES Test Institute 1",
       "timeZone": "UTC"
     },
     "AAccounts.CS2103": {
       "id": "tm.e2e.AAccounts.CS2103",
       "name": "Software Engineering",
+      "institute": "TEAMMATES Test Institute 1",
       "timeZone": "UTC"
     },
     "AAccounts.CS1101": {
       "id": "tm.e2e.AAccounts.CS1101",
       "name": "Programming Methodology",
+      "institute": "TEAMMATES Test Institute 1",
       "timeZone": "UTC"
     }
   },

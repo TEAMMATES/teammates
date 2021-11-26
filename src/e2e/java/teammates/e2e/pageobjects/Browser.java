@@ -14,6 +14,8 @@ import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.FirefoxProfile;
@@ -74,13 +76,6 @@ public class Browser {
                 break;
             }
         }
-    }
-
-    /**
-     * Waits for the page to load. This includes all AJAX requests and Angular animations in the page.
-     */
-    public void waitForPageLoad() {
-        waitForPageLoad(false);
     }
 
     /**
@@ -198,6 +193,22 @@ public class Browser {
             }
 
             return new ChromeDriver(options);
+        }
+
+        if (TestProperties.BROWSER_EDGE.equals(browser)) {
+            System.out.println("Using Edge with driver path: " + TestProperties.EDGEDRIVER_PATH);
+            System.setProperty("webdriver.edge.driver", TestProperties.EDGEDRIVER_PATH);
+
+            Map<String, Object> edgePrefs = new HashMap<>();
+            edgePrefs.put("download.default_directory", downloadPath);
+            edgePrefs.put("download.prompt_for_download", false);
+            EdgeOptions options = new EdgeOptions();
+            options.setExperimentalOption("prefs", edgePrefs);
+            if (TestProperties.isDevServer()) {
+                options.addArguments("-inprivate");
+            }
+
+            return new EdgeDriver(options);
         }
 
         throw new RuntimeException("Using " + browser + " is not supported!");

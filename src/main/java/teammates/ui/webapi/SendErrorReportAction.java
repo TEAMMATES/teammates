@@ -2,6 +2,7 @@ package teammates.ui.webapi;
 
 import teammates.common.util.Logger;
 import teammates.ui.request.ErrorReportRequest;
+import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * Actions: sends an error report to the system admin.
@@ -21,7 +22,7 @@ class SendErrorReportAction extends Action {
     }
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() throws InvalidHttpRequestBodyException {
         ErrorReportRequest report = getAndValidateRequestBody(ErrorReportRequest.class);
 
         // Severe logs will trigger email to the system admin

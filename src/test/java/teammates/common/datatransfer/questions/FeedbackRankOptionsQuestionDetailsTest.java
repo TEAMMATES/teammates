@@ -21,7 +21,7 @@ public class FeedbackRankOptionsQuestionDetailsTest extends BaseTestCase {
         assertEquals(FeedbackQuestionType.RANK_OPTIONS, rankDetails.getQuestionType());
         assertEquals(rankDetails.getMinOptionsToBeRanked(), Const.POINTS_NO_VALUE);
         assertEquals(rankDetails.getMaxOptionsToBeRanked(), Const.POINTS_NO_VALUE);
-        assertFalse(rankDetails.areDuplicatesAllowed());
+        assertFalse(rankDetails.isAreDuplicatesAllowed());
     }
 
     @Test

@@ -32,13 +32,13 @@ import teammates.common.util.FieldValidator;
  */
 public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
-    private static AccountsLogic accountsLogic = AccountsLogic.inst();
-    private static FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
-    private static FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
-    private static FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
-    private static FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
-    private static StudentsLogic studentsLogic = StudentsLogic.inst();
-    private static InstructorsLogic instructorsLogic = InstructorsLogic.inst();
+    private final AccountsLogic accountsLogic = AccountsLogic.inst();
+    private final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
+    private final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
+    private final FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
+    private final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
+    private final StudentsLogic studentsLogic = StudentsLogic.inst();
+    private final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
 
     @Override
     protected void prepareTestData() {
@@ -92,33 +92,33 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         ______TS("response to students, total 5");
 
         question = getQuestionFromDatabase("qn2InSession1InCourse1");
-        email = dataBundle.students.get("student1InCourse1").email;
+        email = dataBundle.students.get("student1InCourse1").getEmail();
         recipients = fqLogic.getRecipientsForQuestion(question, email);
         assertEquals(recipients.size(), 4); // 5 students minus giver himself
 
-        email = dataBundle.instructors.get("instructor1OfCourse1").email;
+        email = dataBundle.instructors.get("instructor1OfCourse1").getEmail();
         recipients = fqLogic.getRecipientsForQuestion(question, email);
         assertEquals(recipients.size(), 5); // instructor is not student so he can respond to all 5.
 
         ______TS("response to instructors, total 3");
 
         question = getQuestionFromDatabase("qn2InSession1InCourse2");
-        email = dataBundle.instructors.get("instructor1OfCourse2").email;
+        email = dataBundle.instructors.get("instructor1OfCourse2").getEmail();
         recipients = fqLogic.getRecipientsForQuestion(question, email);
         assertEquals(recipients.size(), 2); // 3 - giver = 2
 
         ______TS("empty case: response to team members, but alone");
 
         question = getQuestionFromDatabase("team.members.feedback");
-        email = dataBundle.students.get("student5InCourse1").email;
+        email = dataBundle.students.get("student5InCourse1").getEmail();
         recipients = fqLogic.getRecipientsForQuestion(question, email);
         assertEquals(recipients.size(), 0);
 
         ______TS("response from team to itself");
 
         question = getQuestionFromDatabase("graceperiod.session.feedbackFromTeamToSelf");
-        email = dataBundle.students.get("student1InCourse1").email;
-        String teamName = dataBundle.students.get("student1InCourse1").team;
+        email = dataBundle.students.get("student1InCourse1").getEmail();
+        String teamName = dataBundle.students.get("student1InCourse1").getTeam();
         recipients = fqLogic.getRecipientsForQuestion(question, email);
         assertEquals(recipients.size(), 1);
         assertTrue(recipients.containsKey(teamName));
@@ -126,8 +126,8 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
         ______TS("special case: response to other team, instructor is also student");
         question = getQuestionFromDatabase("team.feedback");
-        email = dataBundle.students.get("student1InCourse1").email;
-        accountsLogic.makeAccountInstructor(dataBundle.students.get("student1InCourse1").googleId);
+        email = dataBundle.students.get("student1InCourse1").getEmail();
+        accountsLogic.makeAccountInstructor(dataBundle.students.get("student1InCourse1").getGoogleId());
 
         recipients = fqLogic.getRecipientsForQuestion(question, email);
 
@@ -135,8 +135,8 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
         ______TS("to nobody (general feedback)");
         question = getQuestionFromDatabase("qn3InSession1InCourse1");
-        email = dataBundle.students.get("student1InCourse1").email;
-        accountsLogic.makeAccountInstructor(dataBundle.students.get("student1InCourse1").googleId);
+        email = dataBundle.students.get("student1InCourse1").getEmail();
+        accountsLogic.makeAccountInstructor(dataBundle.students.get("student1InCourse1").getGoogleId());
 
         recipients = fqLogic.getRecipientsForQuestion(question, email);
         assertEquals(recipients.get(Const.GENERAL_QUESTION), Const.GENERAL_QUESTION);
@@ -144,8 +144,8 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
         ______TS("to self");
         question = getQuestionFromDatabase("qn1InSession1InCourse1");
-        email = dataBundle.students.get("student1InCourse1").email;
-        accountsLogic.makeAccountInstructor(dataBundle.students.get("student1InCourse1").googleId);
+        email = dataBundle.students.get("student1InCourse1").getEmail();
+        accountsLogic.makeAccountInstructor(dataBundle.students.get("student1InCourse1").getGoogleId());
 
         recipients = fqLogic.getRecipientsForQuestion(question, email);
         assertEquals(recipients.get(email), FeedbackQuestionsLogic.USER_NAME_FOR_SELF);
@@ -176,8 +176,8 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
         instructorGiver = dataBundle.instructors.get("instructor1OfCourse1");
         courseRoster = new CourseRoster(
-                studentsLogic.getStudentsForCourse(instructorGiver.courseId),
-                instructorsLogic.getInstructorsForCourse(instructorGiver.courseId));
+                studentsLogic.getStudentsForCourse(instructorGiver.getCourseId()),
+                instructorsLogic.getInstructorsForCourse(instructorGiver.getCourseId()));
 
         recipients = fqLogic.getRecipientsOfQuestion(question, instructorGiver, null, null);
         assertEquals(recipients.size(), 5); // instructor is not student so he can respond to all 5.
@@ -189,8 +189,8 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         question = getQuestionFromDatabase("qn2InSession1InCourse2");
         instructorGiver = dataBundle.instructors.get("instructor1OfCourse2");
         courseRoster = new CourseRoster(
-                studentsLogic.getStudentsForCourse(instructorGiver.courseId),
-                instructorsLogic.getInstructorsForCourse(instructorGiver.courseId));
+                studentsLogic.getStudentsForCourse(instructorGiver.getCourseId()),
+                instructorsLogic.getInstructorsForCourse(instructorGiver.getCourseId()));
 
         recipients = fqLogic.getRecipientsOfQuestion(question, instructorGiver, null, null);
         assertEquals(recipients.size(), 2); // 3 - giver = 2
@@ -288,15 +288,15 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         ______TS("shift question up");
         List<FeedbackQuestionAttributes> expectedList = new ArrayList<>();
         FeedbackQuestionAttributes q1 = getQuestionFromDatabase("qn1InSession1InCourse1");
-        q1.questionNumber = 2;
+        q1.setQuestionNumber(2);
         FeedbackQuestionAttributes q2 = getQuestionFromDatabase("qn2InSession1InCourse1");
-        q2.questionNumber = 3;
+        q2.setQuestionNumber(3);
         FeedbackQuestionAttributes q3 = getQuestionFromDatabase("qn3InSession1InCourse1");
-        q3.questionNumber = 1;
+        q3.setQuestionNumber(1);
         FeedbackQuestionAttributes q4 = getQuestionFromDatabase("qn4InSession1InCourse1");
-        q4.questionNumber = 4;
+        q4.setQuestionNumber(4);
         FeedbackQuestionAttributes q5 = getQuestionFromDatabase("qn5InSession1InCourse1");
-        q5.questionNumber = 5;
+        q5.setQuestionNumber(5);
 
         expectedList.add(q3);
         expectedList.add(q1);
@@ -305,14 +305,14 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         expectedList.add(q5);
 
         FeedbackQuestionAttributes questionToUpdate = getQuestionFromDatabase("qn3InSession1InCourse1");
-        questionToUpdate.questionNumber = 1;
+        questionToUpdate.setQuestionNumber(1);
         fqLogic.updateFeedbackQuestionCascade(
                 FeedbackQuestionAttributes.updateOptionsBuilder(questionToUpdate.getId())
-                        .withQuestionNumber(questionToUpdate.questionNumber)
+                        .withQuestionNumber(questionToUpdate.getQuestionNumber())
                         .build());
 
-        List<FeedbackQuestionAttributes> actualList =
-                fqLogic.getFeedbackQuestionsForSession(questionToUpdate.feedbackSessionName, questionToUpdate.courseId);
+        List<FeedbackQuestionAttributes> actualList = fqLogic.getFeedbackQuestionsForSession(
+                questionToUpdate.getFeedbackSessionName(), questionToUpdate.getCourseId());
 
         assertEquals(actualList.size(), expectedList.size());
         for (int i = 0; i < actualList.size(); i++) {
@@ -322,15 +322,15 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         ______TS("shift question down");
         expectedList = new ArrayList<>();
         q1 = getQuestionFromDatabase("qn1InSession1InCourse1");
-        q1.questionNumber = 1;
+        q1.setQuestionNumber(1);
         q2 = getQuestionFromDatabase("qn2InSession1InCourse1");
-        q2.questionNumber = 2;
+        q2.setQuestionNumber(2);
         q3 = getQuestionFromDatabase("qn3InSession1InCourse1");
-        q3.questionNumber = 3;
+        q3.setQuestionNumber(3);
         q4 = getQuestionFromDatabase("qn4InSession1InCourse1");
-        q4.questionNumber = 4;
+        q4.setQuestionNumber(4);
         q5 = getQuestionFromDatabase("qn5InSession1InCourse1");
-        q5.questionNumber = 5;
+        q5.setQuestionNumber(5);
 
         expectedList.add(q1);
         expectedList.add(q2);
@@ -339,13 +339,14 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         expectedList.add(q5);
 
         questionToUpdate = getQuestionFromDatabase("qn3InSession1InCourse1");
-        questionToUpdate.questionNumber = 3;
+        questionToUpdate.setQuestionNumber(3);
         fqLogic.updateFeedbackQuestionCascade(
                 FeedbackQuestionAttributes.updateOptionsBuilder(questionToUpdate.getId())
-                        .withQuestionNumber(questionToUpdate.questionNumber)
+                        .withQuestionNumber(questionToUpdate.getQuestionNumber())
                         .build());
 
-        actualList = fqLogic.getFeedbackQuestionsForSession(questionToUpdate.feedbackSessionName, questionToUpdate.courseId);
+        actualList = fqLogic.getFeedbackQuestionsForSession(
+                questionToUpdate.getFeedbackSessionName(), questionToUpdate.getCourseId());
 
         assertEquals(actualList.size(), expectedList.size());
         for (int i = 0; i < actualList.size(); i++) {
@@ -354,7 +355,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
         ______TS("try to shift question up, invalid attributes, questions order remains");
         questionToUpdate = getQuestionFromDatabase("qn3InSession1InCourse1");
-        questionToUpdate.questionNumber = 1;
+        questionToUpdate.setQuestionNumber(1);
         String questionId = questionToUpdate.getId();
         assertThrows(InvalidParametersException.class, () -> {
             fqLogic.updateFeedbackQuestionCascade(
@@ -365,7 +366,8 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
                                     .build());
         });
 
-        actualList = fqLogic.getFeedbackQuestionsForSession(questionToUpdate.feedbackSessionName, questionToUpdate.courseId);
+        actualList = fqLogic.getFeedbackQuestionsForSession(
+                questionToUpdate.getFeedbackSessionName(), questionToUpdate.getCourseId());
 
         assertEquals(actualList.size(), expectedList.size());
         for (int i = 0; i < actualList.size(); i++) {
@@ -378,17 +380,17 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         ______TS("Add questions sequentially");
         List<FeedbackQuestionAttributes> expectedList = new ArrayList<>();
         FeedbackQuestionAttributes q1 = getQuestionFromDatabase("qn1InSession1InCourse1");
-        q1.questionNumber = 1;
+        q1.setQuestionNumber(1);
         FeedbackQuestionAttributes q2 = getQuestionFromDatabase("qn2InSession1InCourse1");
-        q2.questionNumber = 2;
+        q2.setQuestionNumber(2);
         FeedbackQuestionAttributes q3 = getQuestionFromDatabase("qn3InSession1InCourse1");
-        q3.questionNumber = 3;
+        q3.setQuestionNumber(3);
         FeedbackQuestionAttributes q4 = getQuestionFromDatabase("qn4InSession1InCourse1");
-        q4.questionNumber = 4;
+        q4.setQuestionNumber(4);
         FeedbackQuestionAttributes q5 = getQuestionFromDatabase("qn5InSession1InCourse1");
-        q5.questionNumber = 5;
+        q5.setQuestionNumber(5);
         FeedbackQuestionAttributes q6 = getQuestionFromDatabase("qn1InSession1InCourse1");
-        q6.questionNumber = 6;
+        q6.setQuestionNumber(6);
 
         expectedList.add(q1);
         expectedList.add(q2);
@@ -399,12 +401,12 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
         //Appends a question to the back of the current question list
         FeedbackQuestionAttributes newQuestion = getQuestionFromDatabase("qn1InSession1InCourse1");
-        newQuestion.questionNumber = 6;
+        newQuestion.setQuestionNumber(6);
         newQuestion.setId(null); //new question should not have an ID.
         fqLogic.createFeedbackQuestion(newQuestion);
 
         List<FeedbackQuestionAttributes> actualList =
-                fqLogic.getFeedbackQuestionsForSession(q1.feedbackSessionName, q1.courseId);
+                fqLogic.getFeedbackQuestionsForSession(q1.getFeedbackSessionName(), q1.getCourseId());
 
         assertEquals(actualList.size(), expectedList.size());
         for (int i = 0; i < actualList.size(); i++) {
@@ -415,23 +417,23 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
         FeedbackQuestionAttributes q7 = getQuestionFromDatabase("qn4InSession1InCourse1");
 
-        q7.questionNumber = 1;
-        q1.questionNumber = 2;
-        q2.questionNumber = 3;
-        q3.questionNumber = 4;
-        q4.questionNumber = 5;
-        q5.questionNumber = 6;
-        q6.questionNumber = 7;
+        q7.setQuestionNumber(1);
+        q1.setQuestionNumber(2);
+        q2.setQuestionNumber(3);
+        q3.setQuestionNumber(4);
+        q4.setQuestionNumber(5);
+        q5.setQuestionNumber(6);
+        q6.setQuestionNumber(7);
 
         expectedList.add(0, q7);
 
         //Add a question to session1course1 and sets its number to 1
         newQuestion = getQuestionFromDatabase("qn4InSession1InCourse1");
-        newQuestion.questionNumber = 1;
+        newQuestion.setQuestionNumber(1);
         newQuestion.setId(null); //new question should not have an ID.
         fqLogic.createFeedbackQuestion(newQuestion);
 
-        actualList = fqLogic.getFeedbackQuestionsForSession(q1.feedbackSessionName, q1.courseId);
+        actualList = fqLogic.getFeedbackQuestionsForSession(q1.getFeedbackSessionName(), q1.getCourseId());
 
         assertEquals(actualList.size(), expectedList.size());
         for (int i = 0; i < actualList.size(); i++) {
@@ -441,22 +443,22 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         ______TS("add new question inbetween 2 existing questions");
 
         FeedbackQuestionAttributes q8 = getQuestionFromDatabase("qn4InSession1InCourse1");
-        q8.questionNumber = 3;
-        q2.questionNumber = 4;
-        q3.questionNumber = 5;
-        q4.questionNumber = 6;
-        q5.questionNumber = 7;
-        q6.questionNumber = 8;
+        q8.setQuestionNumber(3);
+        q2.setQuestionNumber(4);
+        q3.setQuestionNumber(5);
+        q4.setQuestionNumber(6);
+        q5.setQuestionNumber(7);
+        q6.setQuestionNumber(8);
 
         expectedList.add(2, q8);
 
         //Add a question to session1course1 and place it between existing question 2 and 3
         newQuestion = getQuestionFromDatabase("qn4InSession1InCourse1");
-        newQuestion.questionNumber = 3;
+        newQuestion.setQuestionNumber(3);
         newQuestion.setId(null); //new question should not have an ID.
         fqLogic.createFeedbackQuestion(newQuestion);
 
-        actualList = fqLogic.getFeedbackQuestionsForSession(q1.feedbackSessionName, q1.courseId);
+        actualList = fqLogic.getFeedbackQuestionsForSession(q1.getFeedbackSessionName(), q1.getCourseId());
 
         assertEquals(actualList.size(), expectedList.size());
         for (int i = 0; i < actualList.size(); i++) {
@@ -471,16 +473,16 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
         FeedbackQuestionDetails fqd = new FeedbackTextQuestionDetails("new question text");
         questionToUpdate.setQuestionDetails(fqd);
-        questionToUpdate.questionNumber = 3;
+        questionToUpdate.setQuestionNumber(3);
         List<FeedbackParticipantType> newVisibility = new LinkedList<>();
         newVisibility.add(FeedbackParticipantType.INSTRUCTORS);
-        questionToUpdate.showResponsesTo = newVisibility;
+        questionToUpdate.setShowResponsesTo(newVisibility);
 
         FeedbackQuestionAttributes updatedQuestion = fqLogic.updateFeedbackQuestionCascade(
                 FeedbackQuestionAttributes.updateOptionsBuilder(questionToUpdate.getId())
                         .withQuestionDetails(fqd)
-                        .withQuestionNumber(questionToUpdate.questionNumber)
-                        .withShowResponsesTo(questionToUpdate.showResponsesTo)
+                        .withQuestionNumber(questionToUpdate.getQuestionNumber())
+                        .withShowResponsesTo(questionToUpdate.getShowResponsesTo())
                         .build());
 
         FeedbackQuestionAttributes actualQuestion =
@@ -492,7 +494,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         questionToUpdate = getQuestionFromDatabase("qn2InSession1InCourse1");
         fqd = new FeedbackTextQuestionDetails("new question text 2");
         questionToUpdate.setQuestionDetails(fqd);
-        questionToUpdate.numberOfEntitiesToGiveFeedbackTo = 2;
+        questionToUpdate.setNumberOfEntitiesToGiveFeedbackTo(2);
 
         int numberOfResponses =
                 frLogic.getFeedbackResponsesForQuestion(
@@ -501,7 +503,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         fqLogic.updateFeedbackQuestionCascade(
                 FeedbackQuestionAttributes.updateOptionsBuilder(questionToUpdate.getId())
                         .withQuestionDetails(fqd)
-                        .withNumberOfEntitiesToGiveFeedbackTo(questionToUpdate.numberOfEntitiesToGiveFeedbackTo)
+                        .withNumberOfEntitiesToGiveFeedbackTo(questionToUpdate.getNumberOfEntitiesToGiveFeedbackTo())
                         .build());
         updatedQuestion = fqLogic.getFeedbackQuestion(questionToUpdate.getId());
 
@@ -514,14 +516,14 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         questionToUpdate = getQuestionFromDatabase("qn2InSession1InCourse1");
         fqd = new FeedbackTextQuestionDetails("new question text 3");
         questionToUpdate.setQuestionDetails(fqd);
-        questionToUpdate.recipientType = FeedbackParticipantType.INSTRUCTORS;
+        questionToUpdate.setRecipientType(FeedbackParticipantType.INSTRUCTORS);
 
         assertFalse(frLogic.getFeedbackResponsesForQuestion(questionToUpdate.getId()).isEmpty());
 
         fqLogic.updateFeedbackQuestionCascade(
                 FeedbackQuestionAttributes.updateOptionsBuilder(questionToUpdate.getId())
                         .withQuestionDetails(fqd)
-                        .withRecipientType(questionToUpdate.recipientType)
+                        .withRecipientType(questionToUpdate.getRecipientType())
                         .build());
         updatedQuestion = fqLogic.getFeedbackQuestion(questionToUpdate.getId());
 
@@ -545,14 +547,14 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         ______TS("failure: invalid parameters");
 
         questionToUpdate = getQuestionFromDatabase("qn3InSession1InCourse1");
-        questionToUpdate.giverType = FeedbackParticipantType.TEAMS;
-        questionToUpdate.recipientType = FeedbackParticipantType.OWN_TEAM_MEMBERS;
+        questionToUpdate.setGiverType(FeedbackParticipantType.TEAMS);
+        questionToUpdate.setRecipientType(FeedbackParticipantType.OWN_TEAM_MEMBERS);
         finalFq[0] = questionToUpdate;
         InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
                 () -> fqLogic.updateFeedbackQuestionCascade(
                         FeedbackQuestionAttributes.updateOptionsBuilder(finalFq[0].getId())
-                                .withGiverType(finalFq[0].giverType)
-                                .withRecipientType(finalFq[0].recipientType)
+                                .withGiverType(finalFq[0].getGiverType())
+                                .withRecipientType(finalFq[0].getRecipientType())
                                 .build()));
         assertEquals(
                 String.format(FieldValidator.PARTICIPANT_TYPE_TEAM_ERROR_MESSAGE,
@@ -572,7 +574,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         assertFalse(
                 frcLogic.getFeedbackResponseCommentForSessionInSection(
                         typicalQuestion.getCourseId(), typicalQuestion.getFeedbackSessionName(), null).stream()
-                        .noneMatch(comment -> comment.feedbackQuestionId.equals(typicalQuestion.getId())));
+                        .noneMatch(comment -> comment.getFeedbackQuestionId().equals(typicalQuestion.getId())));
 
         fqLogic.deleteFeedbackQuestionCascade(typicalQuestion.getId());
 
@@ -582,7 +584,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         assertTrue(
                 frcLogic.getFeedbackResponseCommentForSessionInSection(
                         typicalQuestion.getCourseId(), typicalQuestion.getFeedbackSessionName(), null).stream()
-                        .noneMatch(comment -> comment.feedbackQuestionId.equals(typicalQuestion.getId())));
+                        .noneMatch(comment -> comment.getFeedbackQuestionId().equals(typicalQuestion.getId())));
 
         // verify that questions are shifted
         List<FeedbackQuestionAttributes> questionsOfSessions =
@@ -602,27 +604,29 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
     }
 
     @Test
-    public void testDeleteFeedbackQuestionCascade_cascadeDeleteResponseOfStudent_shouldUpdateRespondents() throws Exception {
+    public void testDeleteFeedbackQuestionCascade_cascadeDeleteResponseOfStudent_shouldUpdateRespondents() {
         FeedbackResponseAttributes fra = dataBundle.feedbackResponses.get("response1ForQ1S1C1");
-        FeedbackQuestionAttributes fqa =
-                fqLogic.getFeedbackQuestion(fra.feedbackSessionName, fra.courseId, Integer.parseInt(fra.feedbackQuestionId));
-        FeedbackResponseAttributes responseInDb = frLogic.getFeedbackResponse(fqa.getId(), fra.giver, fra.recipient);
+        FeedbackQuestionAttributes fqa = fqLogic.getFeedbackQuestion(
+                fra.getFeedbackSessionName(), fra.getCourseId(), Integer.parseInt(fra.getFeedbackQuestionId()));
+        FeedbackResponseAttributes responseInDb = frLogic.getFeedbackResponse(
+                fqa.getId(), fra.getGiver(), fra.getRecipient());
         assertNotNull(responseInDb);
 
         // the student only gives this response for the session
-        assertEquals(1, frLogic.getFeedbackResponsesFromGiverForCourse(responseInDb.courseId, responseInDb.giver).stream()
-                .filter(response -> response.feedbackSessionName.equals(responseInDb.feedbackSessionName))
+        assertEquals(1, frLogic.getFeedbackResponsesFromGiverForCourse(responseInDb.getCourseId(), responseInDb.getGiver())
+                .stream()
+                .filter(response -> response.getFeedbackSessionName().equals(responseInDb.getFeedbackSessionName()))
                 .count());
         // he is in the giver set
         assertTrue(frLogic.getGiverSetThatAnswerFeedbackSession(fqa.getCourseId(), fqa.getFeedbackSessionName())
-                .contains(responseInDb.giver));
+                .contains(responseInDb.getGiver()));
 
         // after deletion the question
-        fqLogic.deleteFeedbackQuestionCascade(responseInDb.feedbackQuestionId);
+        fqLogic.deleteFeedbackQuestionCascade(responseInDb.getFeedbackQuestionId());
 
         // the student should not in the giver set
         assertFalse(frLogic.getGiverSetThatAnswerFeedbackSession(fqa.getCourseId(), fqa.getFeedbackSessionName())
-                .contains(responseInDb.giver));
+                .contains(responseInDb.getGiver()));
     }
 
     @Test
@@ -680,14 +684,14 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         fqa.setQuestionDetails(feedbackMcqQuestionDetails);
 
         fqLogic.populateFieldsToGenerateInQuestion(fqa, typicalStudent.getEmail(), typicalStudent.getTeam());
-        assertEquals(expected, ((FeedbackMcqQuestionDetails) fqa.getQuestionDetails()).getMcqChoices());
+        assertEquals(expected, ((FeedbackMcqQuestionDetails) fqa.getQuestionDetailsCopy()).getMcqChoices());
 
         feedbackMcqQuestionDetails.setMcqChoices(Arrays.asList("test"));
         feedbackMcqQuestionDetails.setGenerateOptionsFor(FeedbackParticipantType.NONE);
         fqa.setQuestionDetails(feedbackMcqQuestionDetails);
 
         fqLogic.populateFieldsToGenerateInQuestion(fqa, typicalInstructor.getEmail(), null);
-        assertEquals(expected, ((FeedbackMcqQuestionDetails) fqa.getQuestionDetails()).getMcqChoices());
+        assertEquals(expected, ((FeedbackMcqQuestionDetails) fqa.getQuestionDetailsCopy()).getMcqChoices());
 
         // STUDENTS
         expected = Arrays.asList("student1 In Course1</td></div>'\" (Team 1.1</td></div>'\")",
@@ -701,14 +705,14 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         fqa.setQuestionDetails(feedbackMcqQuestionDetails);
 
         fqLogic.populateFieldsToGenerateInQuestion(fqa, typicalStudent.getEmail(), typicalStudent.getTeam());
-        assertEquals(expected, ((FeedbackMcqQuestionDetails) fqa.getQuestionDetails()).getMcqChoices());
+        assertEquals(expected, ((FeedbackMcqQuestionDetails) fqa.getQuestionDetailsCopy()).getMcqChoices());
 
         feedbackMcqQuestionDetails.setMcqChoices(new ArrayList<>());
         feedbackMcqQuestionDetails.setGenerateOptionsFor(FeedbackParticipantType.STUDENTS);
         fqa.setQuestionDetails(feedbackMcqQuestionDetails);
 
         fqLogic.populateFieldsToGenerateInQuestion(fqa, typicalInstructor.getEmail(), null);
-        assertEquals(expected, ((FeedbackMcqQuestionDetails) fqa.getQuestionDetails()).getMcqChoices());
+        assertEquals(expected, ((FeedbackMcqQuestionDetails) fqa.getQuestionDetailsCopy()).getMcqChoices());
 
         // STUDENTS_EXCLUDING_SELF
         feedbackMcqQuestionDetails.setMcqChoices(new ArrayList<>());
@@ -720,7 +724,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
                 "student3 In Course1 (Team 1.1</td></div>'\")",
                 "student4 In Course1 (Team 1.1</td></div>'\")",
                 "student5 In Course1 (Team 1.2)"),
-                ((FeedbackMcqQuestionDetails) fqa.getQuestionDetails()).getMcqChoices());
+                ((FeedbackMcqQuestionDetails) fqa.getQuestionDetailsCopy()).getMcqChoices());
 
         feedbackMcqQuestionDetails.setMcqChoices(new ArrayList<>());
         feedbackMcqQuestionDetails.setGenerateOptionsFor(FeedbackParticipantType.STUDENTS_EXCLUDING_SELF);
@@ -731,7 +735,8 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
                 "student2 In Course1 (Team 1.1</td></div>'\")",
                 "student3 In Course1 (Team 1.1</td></div>'\")",
                 "student4 In Course1 (Team 1.1</td></div>'\")",
-                "student5 In Course1 (Team 1.2)"), ((FeedbackMcqQuestionDetails) fqa.getQuestionDetails()).getMcqChoices());
+                "student5 In Course1 (Team 1.2)"),
+                ((FeedbackMcqQuestionDetails) fqa.getQuestionDetailsCopy()).getMcqChoices());
 
         // TEAM MEMBERS
         feedbackMcqQuestionDetails.setMcqChoices(new ArrayList<>());
@@ -743,14 +748,14 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
                 "student2 In Course1",
                 "student3 In Course1",
                 "student4 In Course1"),
-                ((FeedbackMcqQuestionDetails) fqa.getQuestionDetails()).getMcqChoices());
+                ((FeedbackMcqQuestionDetails) fqa.getQuestionDetailsCopy()).getMcqChoices());
 
         feedbackMcqQuestionDetails.setMcqChoices(new ArrayList<>());
         feedbackMcqQuestionDetails.setGenerateOptionsFor(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF);
         fqa.setQuestionDetails(feedbackMcqQuestionDetails);
 
         fqLogic.populateFieldsToGenerateInQuestion(fqa, typicalInstructor.getEmail(), null);
-        assertEquals(new ArrayList<>(), ((FeedbackMcqQuestionDetails) fqa.getQuestionDetails()).getMcqChoices());
+        assertEquals(new ArrayList<>(), ((FeedbackMcqQuestionDetails) fqa.getQuestionDetailsCopy()).getMcqChoices());
 
         // TEAM MEMBERS EXCLUDING SELF
         feedbackMcqQuestionDetails.setMcqChoices(new ArrayList<>());
@@ -761,14 +766,14 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         assertEquals(Arrays.asList("student2 In Course1",
                 "student3 In Course1",
                 "student4 In Course1"),
-                ((FeedbackMcqQuestionDetails) fqa.getQuestionDetails()).getMcqChoices());
+                ((FeedbackMcqQuestionDetails) fqa.getQuestionDetailsCopy()).getMcqChoices());
 
         feedbackMcqQuestionDetails.setMcqChoices(new ArrayList<>());
         feedbackMcqQuestionDetails.setGenerateOptionsFor(FeedbackParticipantType.OWN_TEAM_MEMBERS);
         fqa.setQuestionDetails(feedbackMcqQuestionDetails);
 
         fqLogic.populateFieldsToGenerateInQuestion(fqa, typicalInstructor.getEmail(), null);
-        assertEquals(new ArrayList<>(), ((FeedbackMcqQuestionDetails) fqa.getQuestionDetails()).getMcqChoices());
+        assertEquals(new ArrayList<>(), ((FeedbackMcqQuestionDetails) fqa.getQuestionDetailsCopy()).getMcqChoices());
 
         // TEAMS
         expected = Arrays.asList("Team 1.1</td></div>'\"", "Team 1.2");
@@ -778,14 +783,14 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         fqa.setQuestionDetails(feedbackMcqQuestionDetails);
 
         fqLogic.populateFieldsToGenerateInQuestion(fqa, typicalStudent.getEmail(), typicalStudent.getTeam());
-        assertEquals(expected, ((FeedbackMcqQuestionDetails) fqa.getQuestionDetails()).getMcqChoices());
+        assertEquals(expected, ((FeedbackMcqQuestionDetails) fqa.getQuestionDetailsCopy()).getMcqChoices());
 
         feedbackMcqQuestionDetails.setMcqChoices(new ArrayList<>());
         feedbackMcqQuestionDetails.setGenerateOptionsFor(FeedbackParticipantType.TEAMS);
         fqa.setQuestionDetails(feedbackMcqQuestionDetails);
 
         fqLogic.populateFieldsToGenerateInQuestion(fqa, typicalInstructor.getEmail(), null);
-        assertEquals(expected, ((FeedbackMcqQuestionDetails) fqa.getQuestionDetails()).getMcqChoices());
+        assertEquals(expected, ((FeedbackMcqQuestionDetails) fqa.getQuestionDetailsCopy()).getMcqChoices());
 
         // TEAMS_EXCLUDING_SELF
         feedbackMcqQuestionDetails.setMcqChoices(new ArrayList<>());
@@ -794,7 +799,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
         fqLogic.populateFieldsToGenerateInQuestion(fqa, typicalStudent.getEmail(), typicalStudent.getTeam());
         assertEquals(Arrays.asList("Team 1.2"),
-                ((FeedbackMcqQuestionDetails) fqa.getQuestionDetails()).getMcqChoices());
+                ((FeedbackMcqQuestionDetails) fqa.getQuestionDetailsCopy()).getMcqChoices());
 
         feedbackMcqQuestionDetails.setMcqChoices(new ArrayList<>());
         feedbackMcqQuestionDetails.setGenerateOptionsFor(FeedbackParticipantType.TEAMS_EXCLUDING_SELF);
@@ -802,7 +807,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
         fqLogic.populateFieldsToGenerateInQuestion(fqa, typicalInstructor.getEmail(), null);
         assertEquals(Arrays.asList("Team 1.1</td></div>'\"", "Team 1.2"),
-                ((FeedbackMcqQuestionDetails) fqa.getQuestionDetails()).getMcqChoices());
+                ((FeedbackMcqQuestionDetails) fqa.getQuestionDetailsCopy()).getMcqChoices());
 
         // INSTRUCTORS
         expected = Arrays.asList("Helper Course1",
@@ -816,14 +821,14 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         fqa.setQuestionDetails(feedbackMcqQuestionDetails);
 
         fqLogic.populateFieldsToGenerateInQuestion(fqa, typicalStudent.getEmail(), typicalStudent.getTeam());
-        assertEquals(expected, ((FeedbackMcqQuestionDetails) fqa.getQuestionDetails()).getMcqChoices());
+        assertEquals(expected, ((FeedbackMcqQuestionDetails) fqa.getQuestionDetailsCopy()).getMcqChoices());
 
         feedbackMcqQuestionDetails.setMcqChoices(new ArrayList<>());
         feedbackMcqQuestionDetails.setGenerateOptionsFor(FeedbackParticipantType.INSTRUCTORS);
         fqa.setQuestionDetails(feedbackMcqQuestionDetails);
 
         fqLogic.populateFieldsToGenerateInQuestion(fqa, typicalInstructor.getEmail(), null);
-        assertEquals(expected, ((FeedbackMcqQuestionDetails) fqa.getQuestionDetails()).getMcqChoices());
+        assertEquals(expected, ((FeedbackMcqQuestionDetails) fqa.getQuestionDetailsCopy()).getMcqChoices());
     }
 
     @Test
@@ -856,7 +861,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
         fqLogic.populateFieldsToGenerateInQuestion(fqa, typicalStudent.getEmail(), typicalStudent.getTeam());
         assertEquals(Arrays.asList("Team 1.2"),
-                ((FeedbackMsqQuestionDetails) fqa.getQuestionDetails()).getMsqChoices());
+                ((FeedbackMsqQuestionDetails) fqa.getQuestionDetailsCopy()).getMsqChoices());
 
         feedbackMsqQuestionDetails.setMsqChoices(new ArrayList<>());
         feedbackMsqQuestionDetails.setGenerateOptionsFor(FeedbackParticipantType.TEAMS_EXCLUDING_SELF);
@@ -864,7 +869,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
         fqLogic.populateFieldsToGenerateInQuestion(fqa, typicalInstructor.getEmail(), null);
         assertEquals(Arrays.asList("Team 1.1</td></div>'\"", "Team 1.2"),
-                ((FeedbackMsqQuestionDetails) fqa.getQuestionDetails()).getMsqChoices());
+                ((FeedbackMsqQuestionDetails) fqa.getQuestionDetailsCopy()).getMsqChoices());
     }
 
     @Test
@@ -873,11 +878,9 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
                 studentsLogic.getStudentsForCourse("idOfTypicalCourse1"),
                 instructorsLogic.getInstructorsForCourse("idOfTypicalCourse1"));
         FeedbackQuestionAttributes qn1InSession1InCourse1 = getQuestionFromDatabase("qn1InSession1InCourse1");
-        FeedbackSessionAttributes session1 = fsLogic.getFeedbackSession(
-                qn1InSession1InCourse1.getFeedbackSessionName(), qn1InSession1InCourse1.getCourseId());
 
         Map<String, Set<String>> completeGiverRecipientMap =
-                fqLogic.buildCompleteGiverRecipientMap(session1, qn1InSession1InCourse1, courseRoster);
+                fqLogic.buildCompleteGiverRecipientMap(qn1InSession1InCourse1, courseRoster);
 
         assertEquals(5, completeGiverRecipientMap.size());
         assertEquals(1, completeGiverRecipientMap.get("student1InCourse1@gmail.tmt").size());
@@ -898,11 +901,9 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
                 studentsLogic.getStudentsForCourse("idOfTypicalCourse1"),
                 instructorsLogic.getInstructorsForCourse("idOfTypicalCourse1"));
         FeedbackQuestionAttributes qn4InSession1InCourse1 = getQuestionFromDatabase("qn4InSession1InCourse1");
-        FeedbackSessionAttributes session1 = fsLogic.getFeedbackSession(
-                qn4InSession1InCourse1.getFeedbackSessionName(), qn4InSession1InCourse1.getCourseId());
 
         Map<String, Set<String>> completeGiverRecipientMap =
-                fqLogic.buildCompleteGiverRecipientMap(session1, qn4InSession1InCourse1, courseRoster);
+                fqLogic.buildCompleteGiverRecipientMap(qn4InSession1InCourse1, courseRoster);
 
         assertEquals(5, completeGiverRecipientMap.size());
         assertEquals(1, completeGiverRecipientMap.get("instructor1@course1.tmt").size());
@@ -928,7 +929,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
                 qn3InSession1InCourse1.getFeedbackSessionName(), qn3InSession1InCourse1.getCourseId());
 
         Map<String, Set<String>> completeGiverRecipientMap =
-                fqLogic.buildCompleteGiverRecipientMap(session1, qn3InSession1InCourse1, courseRoster);
+                fqLogic.buildCompleteGiverRecipientMap(qn3InSession1InCourse1, courseRoster);
 
         assertEquals(1, completeGiverRecipientMap.size());
         assertEquals(1, completeGiverRecipientMap.get(session1.getCreatorEmail()).size());
@@ -941,11 +942,9 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
                 studentsLogic.getStudentsForCourse("idOfTypicalCourse1"),
                 instructorsLogic.getInstructorsForCourse("idOfTypicalCourse1"));
         FeedbackQuestionAttributes teamFeedbackQuestion = getQuestionFromDatabase("team.feedback");
-        FeedbackSessionAttributes session2 = fsLogic.getFeedbackSession(
-                teamFeedbackQuestion.getFeedbackSessionName(), teamFeedbackQuestion.getCourseId());
 
         Map<String, Set<String>> completeGiverRecipientMap =
-                fqLogic.buildCompleteGiverRecipientMap(session2, teamFeedbackQuestion, courseRoster);
+                fqLogic.buildCompleteGiverRecipientMap(teamFeedbackQuestion, courseRoster);
 
         assertEquals(2, completeGiverRecipientMap.size());
         assertEquals(1, completeGiverRecipientMap.get("Team 1.1</td></div>'\"").size());
@@ -1108,7 +1107,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
     private FeedbackQuestionAttributes getQuestionFromDatabase(String questionKey) {
         FeedbackQuestionAttributes question = dataBundle.feedbackQuestions.get(questionKey);
         question = fqLogic.getFeedbackQuestion(
-                question.feedbackSessionName, question.courseId, question.questionNumber);
+                question.getFeedbackSessionName(), question.getCourseId(), question.getQuestionNumber());
         return question;
     }
 

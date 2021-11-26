@@ -1,10 +1,12 @@
 package teammates.ui.output;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 
 /**
  * The response log of a single feedback session.
@@ -13,16 +15,11 @@ public class FeedbackSessionLogData {
     private final FeedbackSessionData feedbackSessionData;
     private final List<FeedbackSessionLogEntryData> feedbackSessionLogEntries;
 
-    public FeedbackSessionLogData(FeedbackSessionData feedbackSessionData,
-                              List<FeedbackSessionLogEntryData> feedbackSessionLogEntries) {
-        this.feedbackSessionData = feedbackSessionData;
-        this.feedbackSessionLogEntries = feedbackSessionLogEntries;
-    }
-
-    public FeedbackSessionLogData(FeedbackSessionAttributes feedbackSession, List<FeedbackSessionLogEntry> logEntries) {
+    public FeedbackSessionLogData(FeedbackSessionAttributes feedbackSession, List<FeedbackSessionLogEntry> logEntries,
+            Map<String, StudentAttributes> studentsMap) {
         FeedbackSessionData fsData = new FeedbackSessionData(feedbackSession);
         List<FeedbackSessionLogEntryData> fsLogEntryDatas = logEntries.stream()
-                .map(FeedbackSessionLogEntryData::new)
+                .map(log -> new FeedbackSessionLogEntryData(log, studentsMap.get(log.getStudentEmail())))
                 .collect(Collectors.toList());
         this.feedbackSessionData = fsData;
         this.feedbackSessionLogEntries = fsLogEntryDatas;

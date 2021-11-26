@@ -10,8 +10,10 @@ import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
+import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.storage.api.InstructorsDb;
 
@@ -25,13 +27,13 @@ public final class InstructorsLogic {
 
     private static final Logger log = Logger.getLogger();
 
-    private static InstructorsLogic instance = new InstructorsLogic();
+    private static final InstructorsLogic instance = new InstructorsLogic();
 
-    private static final InstructorsDb instructorsDb = new InstructorsDb();
+    private final InstructorsDb instructorsDb = InstructorsDb.inst();
 
-    private static final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
-    private static final FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
-    private static final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
+    private FeedbackResponsesLogic frLogic;
+    private FeedbackResponseCommentsLogic frcLogic;
+    private FeedbackQuestionsLogic fqLogic;
 
     private InstructorsLogic() {
         // prevent initialization
@@ -41,17 +43,19 @@ public final class InstructorsLogic {
         return instance;
     }
 
-    /* ====================================
-     * methods related to google search API
-     * ====================================
-     */
+    void initLogicDependencies() {
+        fqLogic = FeedbackQuestionsLogic.inst();
+        frLogic = FeedbackResponsesLogic.inst();
+        frcLogic = FeedbackResponseCommentsLogic.inst();
+    }
 
     /**
-     * Batch creates or updates documents for the given Instructors.
-     * @param instructors a list of instructors to be put into documents
+     * Creates or updates search document for the given instructor.
+     *
+     * @param instructor the instructor to be put into documents
      */
-    public void putDocuments(List<InstructorAttributes> instructors) {
-        instructorsDb.putDocuments(instructors);
+    public void putDocument(InstructorAttributes instructor) throws SearchServiceException {
+        instructorsDb.putDocument(instructor);
     }
 
     /**
@@ -64,10 +68,6 @@ public final class InstructorsLogic {
             throws SearchServiceException {
         return instructorsDb.searchInstructorsInWholeSystem(queryString);
     }
-
-    /* ====================================
-     * ====================================
-     */
 
     /**
      * Creates an instructor.
@@ -94,53 +94,75 @@ public final class InstructorsLogic {
         );
     }
 
+    /**
+     * Gets an instructor by unique constraint courseId-email.
+     */
     public InstructorAttributes getInstructorForEmail(String courseId, String email) {
-
         return instructorsDb.getInstructorForEmail(courseId, email);
     }
 
+    /**
+     * Gets an instructor by unique ID.
+     */
     public InstructorAttributes getInstructorById(String courseId, String email) {
-
         return instructorsDb.getInstructorById(courseId, email);
     }
 
+    /**
+     * Gets an instructor by unique constraint courseId-googleId.
+     */
     public InstructorAttributes getInstructorForGoogleId(String courseId, String googleId) {
-
         return instructorsDb.getInstructorForGoogleId(courseId, googleId);
     }
 
-    public InstructorAttributes getInstructorForRegistrationKey(String encryptedKey) {
-
-        return instructorsDb.getInstructorForRegistrationKey(encryptedKey);
+    /**
+     * Gets an instructor by unique constraint registrationKey.
+     */
+    public InstructorAttributes getInstructorForRegistrationKey(String registrationKey) {
+        return instructorsDb.getInstructorForRegistrationKey(registrationKey);
     }
 
+    /**
+     * Gets all instructors of a course.
+     */
     public List<InstructorAttributes> getInstructorsForCourse(String courseId) {
         List<InstructorAttributes> instructorReturnList = instructorsDb.getInstructorsForCourse(courseId);
-        instructorReturnList.sort(InstructorAttributes.COMPARE_BY_NAME);
+        InstructorAttributes.sortByName(instructorReturnList);
 
         return instructorReturnList;
     }
 
+    /**
+     * Gets all non-archived instructors associated with a googleId.
+     */
     public List<InstructorAttributes> getInstructorsForGoogleId(String googleId) {
-
         return getInstructorsForGoogleId(googleId, false);
     }
 
+    /**
+     * Gets all instructors associated with a googleId.
+     *
+     * @param omitArchived whether archived instructors should be omitted or not
+     */
     public List<InstructorAttributes> getInstructorsForGoogleId(String googleId, boolean omitArchived) {
-
         return instructorsDb.getInstructorsForGoogleId(googleId, omitArchived);
     }
 
+    /**
+     * Verifies that at least one instructor is displayed to student.
+     *
+     * @throws InstructorUpdateException if there is no instructor displayed to student.
+     */
     void verifyAtLeastOneInstructorIsDisplayed(String courseId, boolean isOriginalInstructorDisplayed,
                                                boolean isEditedInstructorDisplayed)
-            throws InvalidParametersException {
+            throws InstructorUpdateException {
         List<InstructorAttributes> instructorsDisplayed = instructorsDb.getInstructorsDisplayedToStudents(courseId);
         boolean isEditedInstructorChangedToNonVisible = isOriginalInstructorDisplayed && !isEditedInstructorDisplayed;
         boolean isNoInstructorMadeVisible = instructorsDisplayed.isEmpty() && !isEditedInstructorDisplayed;
 
         if (isNoInstructorMadeVisible || (instructorsDisplayed.size() == 1
                 && isEditedInstructorChangedToNonVisible)) {
-            throw new InvalidParametersException("At least one instructor must be displayed to students");
+            throw new InstructorUpdateException("At least one instructor must be displayed to students");
         }
     }
 
@@ -155,7 +177,7 @@ public final class InstructorsLogic {
      */
     public InstructorAttributes updateInstructorByGoogleIdCascade(
             InstructorAttributes.UpdateOptionsWithGoogleId updateOptions)
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws InstructorUpdateException, InvalidParametersException, EntityDoesNotExistException {
 
         InstructorAttributes originalInstructor =
                 instructorsDb.getInstructorForGoogleId(updateOptions.getCourseId(), updateOptions.getGoogleId());
@@ -168,18 +190,18 @@ public final class InstructorsLogic {
         newInstructor.update(updateOptions);
 
         boolean isOriginalInstructorDisplayed = originalInstructor.isDisplayedToStudents();
-        verifyAtLeastOneInstructorIsDisplayed(originalInstructor.courseId, isOriginalInstructorDisplayed,
+        verifyAtLeastOneInstructorIsDisplayed(originalInstructor.getCourseId(), isOriginalInstructorDisplayed,
                 newInstructor.isDisplayedToStudents());
 
         InstructorAttributes updatedInstructor = instructorsDb.updateInstructorByGoogleId(updateOptions);
 
-        if (!originalInstructor.email.equals(updatedInstructor.email)) {
+        if (!originalInstructor.getEmail().equals(updatedInstructor.getEmail())) {
             // cascade responses
             List<FeedbackResponseAttributes> responsesFromUser =
                     frLogic.getFeedbackResponsesFromGiverForCourse(
                             originalInstructor.getCourseId(), originalInstructor.getEmail());
             for (FeedbackResponseAttributes responseFromUser : responsesFromUser) {
-                FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(responseFromUser.feedbackQuestionId);
+                FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(responseFromUser.getFeedbackQuestionId());
                 if (question.getGiverType() == FeedbackParticipantType.INSTRUCTORS
                         || question.getGiverType() == FeedbackParticipantType.SELF) {
                     try {
@@ -196,7 +218,7 @@ public final class InstructorsLogic {
                     frLogic.getFeedbackResponsesForReceiverForCourse(
                             originalInstructor.getCourseId(), originalInstructor.getEmail());
             for (FeedbackResponseAttributes responseToUser : responsesToUser) {
-                FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(responseToUser.feedbackQuestionId);
+                FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(responseToUser.getFeedbackQuestionId());
                 if (question.getRecipientType() == FeedbackParticipantType.INSTRUCTORS
                         || (question.getGiverType() == FeedbackParticipantType.INSTRUCTORS
                         && question.getRecipientType() == FeedbackParticipantType.SELF)) {
@@ -212,7 +234,7 @@ public final class InstructorsLogic {
             }
             // cascade comments
             frcLogic.updateFeedbackResponseCommentsEmails(
-                    updatedInstructor.courseId, originalInstructor.email, updatedInstructor.email);
+                    updatedInstructor.getCourseId(), originalInstructor.getEmail(), updatedInstructor.getEmail());
         }
 
         return updatedInstructor;
@@ -226,7 +248,7 @@ public final class InstructorsLogic {
      * @throws EntityDoesNotExistException if the instructor cannot be found
      */
     public InstructorAttributes updateInstructorByEmail(InstructorAttributes.UpdateOptionsWithEmail updateOptions)
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws InstructorUpdateException, InvalidParametersException, EntityDoesNotExistException {
         assert updateOptions != null;
 
         InstructorAttributes originalInstructor =
@@ -240,7 +262,7 @@ public final class InstructorsLogic {
         newInstructor.update(updateOptions);
 
         boolean isOriginalInstructorDisplayed = originalInstructor.isDisplayedToStudents();
-        verifyAtLeastOneInstructorIsDisplayed(originalInstructor.courseId, isOriginalInstructorDisplayed,
+        verifyAtLeastOneInstructorIsDisplayed(originalInstructor.getCourseId(), isOriginalInstructorDisplayed,
                 newInstructor.isDisplayedToStudents());
 
         return instructorsDb.updateInstructorByEmail(updateOptions);
@@ -276,10 +298,13 @@ public final class InstructorsLogic {
 
         // cascade delete instructors
         for (InstructorAttributes instructor : instructors) {
-            deleteInstructorCascade(instructor.courseId, instructor.email);
+            deleteInstructorCascade(instructor.getCourseId(), instructor.getEmail());
         }
     }
 
+    /**
+     * Gets the list of instructors with co-owner privileges in a course.
+     */
     public List<InstructorAttributes> getCoOwnersForCourse(String courseId) {
         List<InstructorAttributes> instructors = getInstructorsForCourse(courseId);
         List<InstructorAttributes> instructorsWithCoOwnerPrivileges = new ArrayList<>();
@@ -304,6 +329,56 @@ public final class InstructorsLogic {
         } catch (InvalidParametersException e) {
             assert false : "Unexpected invalid parameter.";
         }
+    }
+
+    /**
+     * Checks if there are any other registered instructors that can modify instructors.
+     * If there are none, the instructor currently being edited will be granted the privilege
+     * of modifying instructors automatically.
+     *
+     * @param courseId         Id of the course.
+     * @param instructorToEdit Instructor that will be edited.
+     *                         This may be modified within the method.
+     */
+    public void updateToEnsureValidityOfInstructorsForTheCourse(String courseId, InstructorAttributes instructorToEdit) {
+        List<InstructorAttributes> instructors = getInstructorsForCourse(courseId);
+        int numOfInstrCanModifyInstructor = 0;
+        InstructorAttributes instrWithModifyInstructorPrivilege = null;
+        for (InstructorAttributes instructor : instructors) {
+            if (instructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR)) {
+                numOfInstrCanModifyInstructor++;
+                instrWithModifyInstructorPrivilege = instructor;
+            }
+        }
+        boolean isLastRegInstructorWithPrivilege = numOfInstrCanModifyInstructor <= 1
+                && instrWithModifyInstructorPrivilege != null
+                && (!instrWithModifyInstructorPrivilege.isRegistered()
+                || instrWithModifyInstructorPrivilege.getGoogleId()
+                .equals(instructorToEdit.getGoogleId()));
+        if (isLastRegInstructorWithPrivilege) {
+            instructorToEdit.getPrivileges().updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, true);
+        }
+    }
+
+    /**
+     * Regenerates the registration key for the instructor with email address {@code email} in course {@code courseId}.
+     *
+     * @return the instructor attributes with the new registration key.
+     * @throws EntityAlreadyExistsException if the newly generated instructor has the same registration key as the
+     *          original one.
+     * @throws EntityDoesNotExistException if the instructor does not exist.
+     */
+    public InstructorAttributes regenerateInstructorRegistrationKey(String courseId, String email)
+            throws EntityDoesNotExistException, EntityAlreadyExistsException {
+
+        InstructorAttributes originalInstructor = instructorsDb.getInstructorForEmail(courseId, email);
+        if (originalInstructor == null) {
+            String errorMessage = String.format(
+                    "The instructor with the email %s could not be found for the course with ID [%s].", email, courseId);
+            throw new EntityDoesNotExistException(errorMessage);
+        }
+
+        return instructorsDb.regenerateEntityKey(originalInstructor);
     }
 
 }

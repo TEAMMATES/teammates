@@ -3,7 +3,6 @@ package teammates.ui.webapi;
 import java.util.List;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.exception.TeammatesException;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
 import teammates.common.util.RequestTracer;
@@ -16,7 +15,7 @@ class FeedbackSessionClosingRemindersAction extends AdminOnlyAction {
     private static final Logger log = Logger.getLogger();
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         List<FeedbackSessionAttributes> sessions = logic.getFeedbackSessionsClosingWithinTimeLimit();
 
         for (FeedbackSessionAttributes session : sessions) {
@@ -30,7 +29,7 @@ class FeedbackSessionClosingRemindersAction extends AdminOnlyAction {
                                 .withSentClosingEmail(true)
                                 .build());
             } catch (Exception e) {
-                log.severe("Unexpected error: " + TeammatesException.toStringWithStackTrace(e));
+                log.severe("Unexpected error", e);
             }
         }
         return new JsonResult("Successful");

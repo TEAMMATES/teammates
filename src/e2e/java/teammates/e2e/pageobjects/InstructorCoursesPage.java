@@ -25,6 +25,9 @@ public class InstructorCoursesPage extends AppPage {
     @FindBy(id = "btn-add-course")
     private WebElement addCourseButton;
 
+    @FindBy(id = "btn-confirm-copy-course")
+    private WebElement copyCourseButton;
+
     @FindBy(id = "new-course-id")
     private WebElement courseIdTextBox;
 
@@ -33,6 +36,15 @@ public class InstructorCoursesPage extends AppPage {
 
     @FindBy(id = "new-time-zone")
     private WebElement timeZoneDropdown;
+
+    @FindBy(id = "copy-course-id")
+    private WebElement copyCourseIdTextBox;
+
+    @FindBy(id = "copy-course-name")
+    private WebElement copyCourseNameTextBox;
+
+    @FindBy(id = "copy-time-zone")
+    private WebElement copyTimeZoneDropdown;
 
     @FindBy(id = "btn-save-course")
     private WebElement submitButton;
@@ -141,6 +153,20 @@ public class InstructorCoursesPage extends AppPage {
         WebElement otherActionButton = getOtherActionsButton(courseId);
         click(otherActionButton);
         click(getArchiveButton(courseId));
+
+        waitUntilAnimationFinish();
+    }
+
+    public void copyCourse(String courseId, CourseAttributes newCourse) {
+        WebElement otherActionButton = getOtherActionsButton(courseId);
+        click(otherActionButton);
+        click(getCopyButton(courseId));
+        waitForPageToLoad();
+
+        fillTextBox(copyCourseIdTextBox, newCourse.getId());
+        fillTextBox(copyCourseNameTextBox, newCourse.getName());
+        selectCopyTimeZone(newCourse.getTimeZone().toString());
+        click(copyCourseButton);
 
         waitUntilAnimationFinish();
     }
@@ -270,6 +296,11 @@ public class InstructorCoursesPage extends AppPage {
         dropdown.selectByValue(timeZone);
     }
 
+    private void selectCopyTimeZone(String timeZone) {
+        Select dropdown = new Select(copyTimeZoneDropdown);
+        dropdown.selectByValue(timeZone);
+    }
+
     private WebElement getShowStatisticsLink(String courseId) {
         int courseRowNumber = getRowNumberOfCourse(courseId);
         return getShowStatisticsLinkInRow(courseRowNumber);
@@ -283,6 +314,11 @@ public class InstructorCoursesPage extends AppPage {
     private WebElement getArchiveButton(String courseId) {
         int courseRowNumber = getRowNumberOfCourse(courseId);
         return getArchiveButtonInRow(courseRowNumber);
+    }
+
+    private WebElement getCopyButton(String courseId) {
+        int courseRowNumber = getRowNumberOfCourse(courseId);
+        return getCopyButtonInRow(courseRowNumber);
     }
 
     private WebElement getMoveToRecycleBinButton(String courseId) {
@@ -388,6 +424,11 @@ public class InstructorCoursesPage extends AppPage {
     private WebElement getArchiveButtonInRow(int rowId) {
         By archiveButton = By.id("btn-archive-" + rowId);
         return browser.driver.findElement(archiveButton);
+    }
+
+    private WebElement getCopyButtonInRow(int rowId) {
+        By copyButton = By.id("btn-copy-" + rowId);
+        return browser.driver.findElement(copyButton);
     }
 
     private WebElement getMoveToRecycleBinButtonInRow(int rowId) {

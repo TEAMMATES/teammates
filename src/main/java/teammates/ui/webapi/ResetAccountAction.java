@@ -1,12 +1,8 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
-
-import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.EntityNotFoundException;
 import teammates.common.util.Const;
 
 /**
@@ -15,13 +11,12 @@ import teammates.common.util.Const;
 class ResetAccountAction extends AdminOnlyAction {
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
         String instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
 
         if (studentEmail == null && instructorEmail == null) {
-            return new JsonResult("Either student email or instructor email has to be specified.",
-                    HttpStatus.SC_BAD_REQUEST);
+            throw new InvalidHttpParameterException("Either student email or instructor email has to be specified.");
         }
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
@@ -29,10 +24,9 @@ class ResetAccountAction extends AdminOnlyAction {
         if (studentEmail != null) {
             StudentAttributes existingStudent = logic.getStudentForEmail(courseId, studentEmail);
             if (existingStudent == null) {
-                return new JsonResult("Student does not exist.",
-                        HttpStatus.SC_NOT_FOUND);
+                throw new EntityNotFoundException("Student does not exist.");
             }
-            wrongGoogleId = existingStudent.googleId;
+            wrongGoogleId = existingStudent.getGoogleId();
 
             try {
                 logic.resetStudentGoogleId(studentEmail, courseId);
@@ -43,16 +37,13 @@ class ResetAccountAction extends AdminOnlyAction {
         } else if (instructorEmail != null) {
             InstructorAttributes existingInstructor = logic.getInstructorForEmail(courseId, instructorEmail);
             if (existingInstructor == null) {
-                return new JsonResult("Instructor does not exist.",
-                        HttpStatus.SC_NOT_FOUND);
+                throw new EntityNotFoundException("Instructor does not exist.");
             }
-            wrongGoogleId = existingInstructor.googleId;
-            AccountAttributes account = logic.getAccount(wrongGoogleId);
-            String institute = account.institute;
+            wrongGoogleId = existingInstructor.getGoogleId();
 
             try {
                 logic.resetInstructorGoogleId(instructorEmail, courseId);
-                taskQueuer.scheduleCourseRegistrationInviteToInstructor(null, instructorEmail, courseId, institute, true);
+                taskQueuer.scheduleCourseRegistrationInviteToInstructor(null, instructorEmail, courseId, true);
             } catch (EntityDoesNotExistException e) {
                 throw new EntityNotFoundException(e);
             }
@@ -67,7 +58,7 @@ class ResetAccountAction extends AdminOnlyAction {
             logic.deleteAccountCascade(wrongGoogleId);
         }
 
-        return new JsonResult("Account is successfully reset.", HttpStatus.SC_OK);
+        return new JsonResult("Account is successfully reset.");
     }
 
 }

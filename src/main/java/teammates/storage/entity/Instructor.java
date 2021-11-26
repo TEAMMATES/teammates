@@ -1,11 +1,16 @@
 package teammates.storage.entity;
 
 import java.security.SecureRandom;
+import java.time.Instant;
 
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
+import com.googlecode.objectify.annotation.OnSave;
+import com.googlecode.objectify.annotation.Translate;
 import com.googlecode.objectify.annotation.Unindex;
+
+import teammates.common.util.StringHelper;
 
 /**
  * An association class that represents the association Account
@@ -32,7 +37,7 @@ public class Instructor extends BaseEntity {
     private String courseId;
 
     /** Whether the associated course is archived. */
-    private Boolean isArchived;
+    private boolean isArchived;
 
     /** The instructor's name used for this course. */
     private String name;
@@ -54,6 +59,12 @@ public class Instructor extends BaseEntity {
     @Unindex
     private String instructorPrivilegesAsText;
 
+    @Translate(InstantTranslatorFactory.class)
+    private Instant createdAt;
+
+    @Translate(InstantTranslatorFactory.class)
+    private Instant updatedAt;
+
     @SuppressWarnings("unused")
     private Instructor() {
         // required by Objectify
@@ -74,6 +85,7 @@ public class Instructor extends BaseEntity {
         // setId should be called after setting email and courseId
         this.setUniqueId(generateId(this.getEmail(), this.getCourseId()));
         this.setRegistrationKey(generateRegistrationKey());
+        this.setCreatedAt(Instant.now());
     }
 
     /**
@@ -121,11 +133,6 @@ public class Instructor extends BaseEntity {
      * Gets the archived status of the instructor.
      */
     public boolean getIsArchived() {
-        if (isArchived == null) {
-            // the legacy data corresponding to isArchived is stored as a null value (not a missing value)
-            // in the database
-            return false;
-        }
         return isArchived;
     }
 
@@ -165,7 +172,7 @@ public class Instructor extends BaseEntity {
         String uniqueId = getUniqueId();
         SecureRandom prng = new SecureRandom();
 
-        return uniqueId + prng.nextInt();
+        return StringHelper.encrypt(uniqueId + prng.nextInt());
     }
 
     public String getRole() {
@@ -208,4 +215,33 @@ public class Instructor extends BaseEntity {
     public void setInstructorPrivilegeAsText(String instructorPrivilegesAsText) {
         this.instructorPrivilegesAsText = instructorPrivilegesAsText;
     }
+
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    /**
+     * Sets the createdAt timestamp.
+     */
+    public void setCreatedAt(Instant created) {
+        this.createdAt = created;
+        setLastUpdate(created);
+    }
+
+    public Instant getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setLastUpdate(Instant updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    /**
+     * Updates the updatedAt timestamp when saving.
+     */
+    @OnSave
+    public void updateLastUpdateTimestamp() {
+        this.setLastUpdate(Instant.now());
+    }
+
 }

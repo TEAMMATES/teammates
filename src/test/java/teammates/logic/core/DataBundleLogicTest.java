@@ -16,7 +16,7 @@ import teammates.common.util.FieldValidator;
  */
 public class DataBundleLogicTest extends BaseLogicTest {
 
-    private static final DataBundleLogic dataBundleLogic = DataBundleLogic.inst();
+    private final DataBundleLogic dataBundleLogic = DataBundleLogic.inst();
 
     @Override
     protected void prepareTestData() {
@@ -53,6 +53,7 @@ public class DataBundleLogicTest extends BaseLogicTest {
                 .builder("invalid id")
                 .withName("valid course name")
                 .withTimezone(ZoneId.of("UTC"))
+                .withInstitute("Test institute")
                 .build();
         dataBundle = new DataBundle();
         dataBundle.courses.put("invalid", invalidCourse);

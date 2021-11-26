@@ -16,6 +16,8 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
+import teammates.common.datatransfer.logs.LogDetails;
+import teammates.common.datatransfer.logs.LogEvent;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
@@ -40,6 +42,7 @@ public final class JsonUtils {
                 .registerTypeAdapter(Duration.class, new DurationMinutesAdapter())
                 .registerTypeAdapter(FeedbackQuestionDetails.class, new FeedbackQuestionDetailsAdapter())
                 .registerTypeAdapter(FeedbackResponseDetails.class, new FeedbackResponseDetailsAdapter())
+                .registerTypeAdapter(LogDetails.class, new LogDetailsAdapter())
                 .disableHtmlEscaping();
         if (prettyPrint) {
             builder.setPrettyPrinting();
@@ -183,6 +186,29 @@ public final class JsonUtils {
             FeedbackQuestionType questionType =
                     FeedbackQuestionType.valueOf(json.getAsJsonObject().get("questionType").getAsString());
             return context.deserialize(json, questionType.getQuestionDetailsClass());
+        }
+    }
+
+    private static class LogDetailsAdapter implements JsonSerializer<LogDetails>, JsonDeserializer<LogDetails> {
+
+        @Override
+        public JsonElement serialize(LogDetails src, Type typeOfSrc, JsonSerializationContext context) {
+            return context.serialize(src, src.getEvent().getDetailsClass());
+        }
+
+        @Override
+        public LogDetails deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) {
+            LogEvent event;
+            if (json.getAsJsonObject().has("event")) {
+                try {
+                    event = LogEvent.valueOf(json.getAsJsonObject().get("event").getAsString());
+                } catch (IllegalArgumentException e) {
+                    event = LogEvent.DEFAULT_LOG;
+                }
+            } else {
+                event = LogEvent.DEFAULT_LOG;
+            }
+            return context.deserialize(json, event.getDetailsClass());
         }
     }
 }

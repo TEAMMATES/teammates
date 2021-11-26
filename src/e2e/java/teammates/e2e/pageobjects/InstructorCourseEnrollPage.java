@@ -113,6 +113,9 @@ public class InstructorCourseEnrollPage extends AppPage {
         // number of tables depends on what results are present
         int numTables = 0;
         List<WebElement> tables = resultsPanel.findElements(By.tagName("table"));
+        if (expectedErrorStudents != null) {
+            verifyTableBodyValues(tables.get(numTables++), getEnrollmentData(expectedErrorStudents));
+        }
         if (expectedNewStudents != null) {
             verifyTableBodyValues(tables.get(numTables++), getEnrollmentData(expectedNewStudents));
         }
@@ -121,9 +124,6 @@ public class InstructorCourseEnrollPage extends AppPage {
         }
         if (expectedModifiedWithoutChangeStudents != null) {
             verifyTableBodyValues(tables.get(numTables++), getEnrollmentData(expectedModifiedWithoutChangeStudents));
-        }
-        if (expectedErrorStudents != null) {
-            verifyTableBodyValues(tables.get(numTables++), getEnrollmentData(expectedErrorStudents));
         }
         if (expectedUnmodifiedStudents != null) {
             verifyTableBodyValues(tables.get(numTables++), getEnrollmentData(expectedUnmodifiedStudents));

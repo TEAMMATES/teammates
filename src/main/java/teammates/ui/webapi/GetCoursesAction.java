@@ -5,11 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.ui.output.CourseData;
 import teammates.ui.output.CoursesData;
@@ -37,7 +34,7 @@ class GetCoursesAction extends Action {
     }
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         String entityType = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
         switch (entityType) {
         case Const.EntityType.STUDENT:
@@ -45,8 +42,7 @@ class GetCoursesAction extends Action {
         case Const.EntityType.INSTRUCTOR:
             return getInstructorCourses();
         default:
-            return new JsonResult("Error: invalid entity type", HttpStatus.SC_BAD_REQUEST);
-
+            throw new InvalidHttpParameterException("Error: invalid entity type");
         }
     }
 
@@ -78,11 +74,11 @@ class GetCoursesAction extends Action {
             courses = getSoftDeletedCourse(instructors);
             break;
         default:
-            return new JsonResult("Error: invalid course status", HttpStatus.SC_BAD_REQUEST);
+            throw new InvalidHttpParameterException("Error: invalid course status");
         }
 
         Map<String, InstructorAttributes> courseIdToInstructor = new HashMap<>();
-        instructors.forEach(instructor -> courseIdToInstructor.put(instructor.courseId, instructor));
+        instructors.forEach(instructor -> courseIdToInstructor.put(instructor.getCourseId(), instructor));
 
         CourseAttributes.sortById(courses);
         CoursesData coursesData = new CoursesData(courses);

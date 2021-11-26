@@ -8,8 +8,6 @@ import org.openqa.selenium.support.FindBy;
  */
 public class IanaTimezonePage extends AppPage {
 
-    public static final String IANA_TIMEZONE_DATABASE_URL = "https://www.iana.org/time-zones";
-
     @FindBy(id = "version")
     private WebElement timezoneVersion;
 

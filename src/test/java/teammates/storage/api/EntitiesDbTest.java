@@ -12,15 +12,15 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.FieldValidator;
 import teammates.test.AssertHelper;
-import teammates.test.BaseComponentTestCase;
+import teammates.test.BaseTestCaseWithLocalDatabaseAccess;
 
 /**
  * SUT: {@link teammates.storage.api.EntitiesDb}.
  */
-public class EntitiesDbTest extends BaseComponentTestCase {
+public class EntitiesDbTest extends BaseTestCaseWithLocalDatabaseAccess {
 
     // We are using CoursesDb to test EntitiesDb here.
-    private CoursesDb coursesDb = new CoursesDb();
+    private final CoursesDb coursesDb = CoursesDb.inst();
 
     @Test
     public void testCreateEntity() throws Exception {
@@ -34,6 +34,7 @@ public class EntitiesDbTest extends BaseComponentTestCase {
                 .builder("Computing101-fresh")
                 .withName("Basic Computing")
                 .withTimezone(ZoneId.of("UTC"))
+                .withInstitute("Test institute")
                 .build();
         coursesDb.deleteCourse(c.getId());
         verifyAbsentInDatabase(c);
@@ -52,6 +53,7 @@ public class EntitiesDbTest extends BaseComponentTestCase {
                 .builder("invalid id spaces")
                 .withName("Basic Computing")
                 .withTimezone(ZoneId.of("UTC"))
+                .withInstitute("Test institute")
                 .build();
         InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
                 () -> coursesDb.createEntity(invalidCourse));

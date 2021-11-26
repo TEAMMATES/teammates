@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
@@ -29,9 +28,8 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
 
         String[] params;
 
-        String student1Key = StringHelper.encrypt(
-                logic.getStudentForEmail("idOfTypicalCourse1", "student1InCourse1@gmail.tmt").key
-        );
+        String student1Key =
+                logic.getStudentForEmail("idOfTypicalCourse1", "student1InCourse1@gmail.tmt").getKey();
 
         ______TS("Failure Case: No intent parameter");
 
@@ -61,8 +59,6 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
         GetRegkeyValidityAction a = getAction(params);
         JsonResult r = getJsonResult(a);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
-
         RegkeyValidityData output = (RegkeyValidityData) r.getOutput();
         assertTrue(output.isValid());
         assertTrue(output.isUsed());
@@ -80,8 +76,6 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
         a = getAction(params);
         r = getJsonResult(a);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
-
         output = (RegkeyValidityData) r.getOutput();
         assertTrue(output.isValid());
         assertTrue(output.isUsed());
@@ -93,8 +87,6 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
 
         a = getAction(params);
         r = getJsonResult(a);
-
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
 
         output = (RegkeyValidityData) r.getOutput();
         assertTrue(output.isValid());
@@ -110,8 +102,6 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
         a = getAction(params);
         r = getJsonResult(a);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
-
         output = (RegkeyValidityData) r.getOutput();
         assertTrue(output.isValid());
         assertFalse(output.isUsed());
@@ -124,8 +114,6 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
         a = getAction(params);
         r = getJsonResult(a);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
-
         output = (RegkeyValidityData) r.getOutput();
         assertTrue(output.isValid());
         assertFalse(output.isUsed());
@@ -135,8 +123,6 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
 
         a = getAction(params);
         r = getJsonResult(a);
-
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
 
         output = (RegkeyValidityData) r.getOutput();
         assertTrue(output.isValid());
@@ -152,8 +138,6 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
 
         a = getAction(params);
         r = getJsonResult(a);
-
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
 
         output = (RegkeyValidityData) r.getOutput();
         assertFalse(output.isValid());
@@ -171,8 +155,6 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
 
         a = getAction(params);
         r = getJsonResult(a);
-
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
 
         output = (RegkeyValidityData) r.getOutput();
         assertFalse(output.isValid());

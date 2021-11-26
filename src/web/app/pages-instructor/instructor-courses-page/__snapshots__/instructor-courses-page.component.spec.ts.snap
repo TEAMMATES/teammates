@@ -5,28 +5,38 @@ exports[`InstructorCoursesPageComponent should snap when archived courses are ex
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
   activeCourses={[Function Array]}
+  activeCoursesList={[Function Array]}
   activeTableSortBy={[Function Number]}
   activeTableSortOrder={[Function Number]}
+  allCoursesList={[Function Array]}
   archivedCourses={[Function Array]}
   archivedTableSortBy={[Function Number]}
   archivedTableSortOrder={[Function Number]}
   canDeleteAll={[Function Boolean]}
   canRestoreAll={[Function Boolean]}
+  copyProgressPercentage="0"
+  courseAdded={[Function EventEmitter]}
   courseService={[Function CourseService]}
   courseStats={[Function Object]}
   deletedTableSortBy={[Function Number]}
   deletedTableSortOrder={[Function Number]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadingFailed="false"
   isAddNewCourseFormExpanded="false"
   isArchivedCourseExpanded={[Function Boolean]}
+  isCopyingCourse="false"
   isLoading={[Function Boolean]}
   isRecycleBinExpanded="false"
+  ngbModal={[Function NgbModal]}
+  numberOfSessionsCopied="0"
+  progressBarService={[Function ProgressBarService]}
   route={[Function ActivatedRoute]}
   simpleModalService={[Function SimpleModalService]}
   softDeletedCourses={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
+  totalNumberOfSessionsToCopy="0"
 >
   <div>
     <button
@@ -168,11 +178,14 @@ exports[`InstructorCoursesPageComponent should snap when archived courses are ex
               style=""
             >
               <td
+                class="text-break"
                 id="archived-course-id-0"
               >
                 CS2104
               </td>
-              <td>
+              <td
+                class="text-break"
+              >
                 Can modify archived
               </td>
               <td>
@@ -208,11 +221,14 @@ exports[`InstructorCoursesPageComponent should snap when archived courses are ex
               style=""
             >
               <td
+                class="text-break"
                 id="archived-course-id-1"
               >
                 CS2106
               </td>
-              <td>
+              <td
+                class="text-break"
+              >
                 Cannot modify archived
               </td>
               <td>
@@ -255,28 +271,38 @@ exports[`InstructorCoursesPageComponent should snap when courses are still loadi
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
   activeCourses={[Function Array]}
+  activeCoursesList={[Function Array]}
   activeTableSortBy={[Function Number]}
   activeTableSortOrder={[Function Number]}
+  allCoursesList={[Function Array]}
   archivedCourses={[Function Array]}
   archivedTableSortBy={[Function Number]}
   archivedTableSortOrder={[Function Number]}
   canDeleteAll={[Function Boolean]}
   canRestoreAll={[Function Boolean]}
+  copyProgressPercentage="0"
+  courseAdded={[Function EventEmitter]}
   courseService={[Function CourseService]}
   courseStats={[Function Object]}
   deletedTableSortBy={[Function Number]}
   deletedTableSortOrder={[Function Number]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadingFailed="false"
   isAddNewCourseFormExpanded="false"
   isArchivedCourseExpanded="false"
+  isCopyingCourse="false"
   isLoading={[Function Boolean]}
   isRecycleBinExpanded="false"
+  ngbModal={[Function NgbModal]}
+  numberOfSessionsCopied="0"
+  progressBarService={[Function ProgressBarService]}
   route={[Function ActivatedRoute]}
   simpleModalService={[Function SimpleModalService]}
   softDeletedCourses={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
+  totalNumberOfSessionsToCopy="0"
 >
   <div>
     <button
@@ -318,28 +344,38 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
   activeCourses={[Function Array]}
+  activeCoursesList={[Function Array]}
   activeTableSortBy={[Function Number]}
   activeTableSortOrder={[Function Number]}
+  allCoursesList={[Function Array]}
   archivedCourses={[Function Array]}
   archivedTableSortBy={[Function Number]}
   archivedTableSortOrder={[Function Number]}
   canDeleteAll="false"
   canRestoreAll="false"
+  copyProgressPercentage="0"
+  courseAdded={[Function EventEmitter]}
   courseService={[Function CourseService]}
   courseStats={[Function Object]}
   deletedTableSortBy={[Function Number]}
   deletedTableSortOrder={[Function Number]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadingFailed="false"
   isAddNewCourseFormExpanded="false"
   isArchivedCourseExpanded="false"
+  isCopyingCourse="false"
   isLoading="false"
   isRecycleBinExpanded="false"
+  ngbModal={[Function NgbModal]}
+  numberOfSessionsCopied="0"
+  progressBarService={[Function ProgressBarService]}
   route={[Function ActivatedRoute]}
   simpleModalService={[Function SimpleModalService]}
   softDeletedCourses={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
+  totalNumberOfSessionsToCopy="0"
 >
   <div>
     <button
@@ -446,11 +482,14 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
               
               <tr>
                 <td
+                  class="text-break"
                   id="course-id-0"
                 >
                   CS3281
                 </td>
-                <td>
+                <td
+                  class="text-break"
+                >
                   Modifiable Students and Courses
                 </td>
                 <td>
@@ -536,6 +575,17 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                       >
                          Edit 
                       </a>
+                      
+                      <button
+                        class="btn btn-primary btn-sm dropdown-item clickable"
+                        container="body"
+                        id="btn-copy-0"
+                        ngbtooltip="Copy the course and its corresponding sessions"
+                        placement="left"
+                      >
+                         Copy 
+                      </button>
+                      
                       <button
                         class="btn btn-primary btn-sm dropdown-item clickable"
                         container="body"
@@ -563,11 +613,14 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
               </tr>
               <tr>
                 <td
+                  class="text-break"
                   id="course-id-1"
                 >
                   CS3282
                 </td>
-                <td>
+                <td
+                  class="text-break"
+                >
                   Nothing modifiable
                 </td>
                 <td>
@@ -649,6 +702,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                       >
                          Edit 
                       </a>
+                      
                       <button
                         class="btn btn-primary btn-sm dropdown-item clickable"
                         container="body"
@@ -790,28 +844,38 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
   activeCourses={[Function Array]}
+  activeCoursesList={[Function Array]}
   activeTableSortBy={[Function Number]}
   activeTableSortOrder={[Function Number]}
+  allCoursesList={[Function Array]}
   archivedCourses={[Function Array]}
   archivedTableSortBy={[Function Number]}
   archivedTableSortOrder={[Function Number]}
   canDeleteAll={[Function Boolean]}
   canRestoreAll={[Function Boolean]}
+  copyProgressPercentage="0"
+  courseAdded={[Function EventEmitter]}
   courseService={[Function CourseService]}
   courseStats={[Function Object]}
   deletedTableSortBy={[Function Number]}
   deletedTableSortOrder={[Function Number]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadingFailed="false"
   isAddNewCourseFormExpanded={[Function Boolean]}
   isArchivedCourseExpanded="false"
+  isCopyingCourse="false"
   isLoading={[Function Boolean]}
   isRecycleBinExpanded="false"
+  ngbModal={[Function NgbModal]}
+  numberOfSessionsCopied="0"
+  progressBarService={[Function ProgressBarService]}
   route={[Function ActivatedRoute]}
   simpleModalService={[Function SimpleModalService]}
   softDeletedCourses={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
+  totalNumberOfSessionsToCopy="0"
 >
   <div>
     <button
@@ -849,6 +913,56 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
           </button>
         </div>
         <div
+          class="row"
+        >
+          <div
+            class="col-md-6"
+          >
+            <div
+              class="row align-items-center"
+            >
+              <div
+                class="col-md-6"
+              >
+                <h5
+                  class="text-center"
+                >
+                  Create new Course
+                </h5>
+              </div>
+            </div>
+          </div>
+          <div
+            class="col-md-6"
+          >
+            <div
+              class="row text-center align-items-center mt-1"
+            >
+              <div
+                class="col-md-3"
+              >
+                <h5
+                  class="text-md-right"
+                >
+                  Or: 
+                </h5>
+              </div>
+              <div
+                class="col-md-9 text-md-left"
+              >
+                <button
+                  class="btn btn-info"
+                  id="btn-copy-course"
+                  type="button"
+                >
+                  
+                   Copy from previous courses 
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
           class="card-body text-center"
         >
           <div
@@ -865,7 +979,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
               <input
                 class="form-control ng-untouched ng-pristine ng-valid"
                 id="new-course-id"
-                maxlength="40"
+                maxlength="64"
                 placeholder="e.g. CS3215-2013Semester1"
                 type="text"
               />
@@ -885,7 +999,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
               <input
                 class="form-control ng-untouched ng-pristine ng-valid"
                 id="new-course-name"
-                maxlength="64"
+                maxlength="80"
                 placeholder="e.g. Software Engineering"
                 type="text"
               />
@@ -1002,28 +1116,38 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
   activeCourses={[Function Array]}
+  activeCoursesList={[Function Array]}
   activeTableSortBy={[Function Number]}
   activeTableSortOrder={[Function Number]}
+  allCoursesList={[Function Array]}
   archivedCourses={[Function Array]}
   archivedTableSortBy={[Function Number]}
   archivedTableSortOrder={[Function Number]}
   canDeleteAll={[Function Boolean]}
   canRestoreAll={[Function Boolean]}
+  copyProgressPercentage="0"
+  courseAdded={[Function EventEmitter]}
   courseService={[Function CourseService]}
   courseStats={[Function Object]}
   deletedTableSortBy={[Function Number]}
   deletedTableSortOrder={[Function Number]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadingFailed="false"
   isAddNewCourseFormExpanded="false"
   isArchivedCourseExpanded="false"
+  isCopyingCourse="false"
   isLoading="false"
   isRecycleBinExpanded="false"
+  ngbModal={[Function NgbModal]}
+  numberOfSessionsCopied="0"
+  progressBarService={[Function ProgressBarService]}
   route={[Function ActivatedRoute]}
   simpleModalService={[Function SimpleModalService]}
   softDeletedCourses={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
+  totalNumberOfSessionsToCopy="0"
 >
   <div>
     <button
@@ -1130,11 +1254,14 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
               
               <tr>
                 <td
+                  class="text-break"
                   id="course-id-0"
                 >
                   CS3281
                 </td>
-                <td>
+                <td
+                  class="text-break"
+                >
                   Modifiable Students and Courses
                 </td>
                 <td>
@@ -1220,6 +1347,17 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                       >
                          Edit 
                       </a>
+                      
+                      <button
+                        class="btn btn-primary btn-sm dropdown-item clickable"
+                        container="body"
+                        id="btn-copy-0"
+                        ngbtooltip="Copy the course and its corresponding sessions"
+                        placement="left"
+                      >
+                         Copy 
+                      </button>
+                      
                       <button
                         class="btn btn-primary btn-sm dropdown-item clickable"
                         container="body"
@@ -1247,11 +1385,14 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
               </tr>
               <tr>
                 <td
+                  class="text-break"
                   id="course-id-1"
                 >
                   CS3282
                 </td>
-                <td>
+                <td
+                  class="text-break"
+                >
                   Nothing modifiable
                 </td>
                 <td>
@@ -1333,6 +1474,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                       >
                          Edit 
                       </a>
+                      
                       <button
                         class="btn btn-primary btn-sm dropdown-item clickable"
                         container="body"
@@ -1480,28 +1622,38 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
   activeCourses={[Function Array]}
+  activeCoursesList={[Function Array]}
   activeTableSortBy={[Function Number]}
   activeTableSortOrder={[Function Number]}
+  allCoursesList={[Function Array]}
   archivedCourses={[Function Array]}
   archivedTableSortBy={[Function Number]}
   archivedTableSortOrder={[Function Number]}
   canDeleteAll={[Function Boolean]}
   canRestoreAll={[Function Boolean]}
+  copyProgressPercentage="0"
+  courseAdded={[Function EventEmitter]}
   courseService={[Function CourseService]}
   courseStats={[Function Object]}
   deletedTableSortBy={[Function Number]}
   deletedTableSortOrder={[Function Number]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadingFailed="false"
   isAddNewCourseFormExpanded="false"
   isArchivedCourseExpanded="false"
+  isCopyingCourse="false"
   isLoading={[Function Boolean]}
   isRecycleBinExpanded="false"
+  ngbModal={[Function NgbModal]}
+  numberOfSessionsCopied="0"
+  progressBarService={[Function ProgressBarService]}
   route={[Function ActivatedRoute]}
   simpleModalService={[Function SimpleModalService]}
   softDeletedCourses={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
+  totalNumberOfSessionsToCopy="0"
 >
   <div>
     <button
@@ -1543,28 +1695,38 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
   activeCourses={[Function Array]}
+  activeCoursesList={[Function Array]}
   activeTableSortBy={[Function Number]}
   activeTableSortOrder={[Function Number]}
+  allCoursesList={[Function Array]}
   archivedCourses={[Function Array]}
   archivedTableSortBy={[Function Number]}
   archivedTableSortOrder={[Function Number]}
   canDeleteAll={[Function Boolean]}
   canRestoreAll={[Function Boolean]}
+  copyProgressPercentage="0"
+  courseAdded={[Function EventEmitter]}
   courseService={[Function CourseService]}
   courseStats={[Function Object]}
   deletedTableSortBy={[Function Number]}
   deletedTableSortOrder={[Function Number]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadingFailed="false"
   isAddNewCourseFormExpanded="false"
   isArchivedCourseExpanded="false"
+  isCopyingCourse="false"
   isLoading="false"
   isRecycleBinExpanded="false"
+  ngbModal={[Function NgbModal]}
+  numberOfSessionsCopied="0"
+  progressBarService={[Function ProgressBarService]}
   route={[Function ActivatedRoute]}
   simpleModalService={[Function SimpleModalService]}
   softDeletedCourses={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
+  totalNumberOfSessionsToCopy="0"
 >
   <div>
     <button
@@ -1671,11 +1833,14 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
               
               <tr>
                 <td
+                  class="text-break"
                   id="course-id-0"
                 >
                   CS3281
                 </td>
-                <td>
+                <td
+                  class="text-break"
+                >
                   Modifiable Students and Courses
                 </td>
                 <td>
@@ -1782,6 +1947,17 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                       >
                          Edit 
                       </a>
+                      
+                      <button
+                        class="btn btn-primary btn-sm dropdown-item clickable"
+                        container="body"
+                        id="btn-copy-0"
+                        ngbtooltip="Copy the course and its corresponding sessions"
+                        placement="left"
+                      >
+                         Copy 
+                      </button>
+                      
                       <button
                         class="btn btn-primary btn-sm dropdown-item clickable"
                         container="body"
@@ -1809,11 +1985,14 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
               </tr>
               <tr>
                 <td
+                  class="text-break"
                   id="course-id-1"
                 >
                   CS3282
                 </td>
-                <td>
+                <td
+                  class="text-break"
+                >
                   Nothing modifiable
                 </td>
                 <td>
@@ -1916,6 +2095,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                       >
                          Edit 
                       </a>
+                      
                       <button
                         class="btn btn-primary btn-sm dropdown-item clickable"
                         container="body"

@@ -1,5 +1,8 @@
 package teammates.common.util;
 
+/**
+ * Contains utility methods for creating strings from given templates.
+ */
 public final class Templates {
 
     public static final String INSTRUCTOR_SAMPLE_DATA = FileHelper.readResourceFile("InstructorSampleData.json");
@@ -37,10 +40,16 @@ public final class Templates {
                 FileHelper.readResourceFile("studentEmailFragment-courseJoin.html");
         public static final String FRAGMENT_STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET =
                 FileHelper.readResourceFile("studentEmailFragment-googleIdReset.html");
+        public static final String FRAGMENT_STUDENT_COURSE_REJOIN_AFTER_REGKEY_RESET =
+                FileHelper.readResourceFile("studentEmailFragment-registrationKeyReset.html");
         public static final String FRAGMENT_INSTRUCTOR_COURSE_JOIN =
                 FileHelper.readResourceFile("instructorEmailFragment-courseJoin.html");
+        public static final String FRAGMENT_INSTRUCTOR_COURSE_JOIN_REMINDER =
+                FileHelper.readResourceFile("instructorEmailFragment-reminderToJoinCourseBeforeSubmittingResponse.html");
         public static final String FRAGMENT_INSTRUCTOR_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET =
                 FileHelper.readResourceFile("instructorEmailFragment-googleIdReset.html");
+        public static final String FRAGMENT_INSTRUCTOR_COURSE_REJOIN_AFTER_REGKEY_RESET =
+                FileHelper.readResourceFile("instructorEmailFragment-registrationKeyReset.html");
         public static final String USER_FEEDBACK_SESSION =
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSession.html");
         public static final String USER_FEEDBACK_SESSION_PUBLISHED =
@@ -69,6 +78,12 @@ public final class Templates {
                 FileHelper.readResourceFile("newInstructorAccountWelcome.html");
         public static final String FRAGMENT_SESSION_ADDITIONAL_CONTACT_INFORMATION =
                 FileHelper.readResourceFile("userEmailFragment-sessionAdditionalContactInformationFragment.html");
+        public static final String OWNER_FEEDBACK_SESSION_OPENING_SOON =
+                FileHelper.readResourceFile("ownerEmailTemplate-sessionOpeningSoon.html");
+        public static final String FRAGMENT_OPENING_SOON_EDIT_DETAILS =
+                FileHelper.readResourceFile("ownerEmailFragment-editDetails.html");
+        public static final String FRAGMENT_OPENING_SOON_JOIN_COURSE_BEFORE_EDIT_DETAILS =
+                FileHelper.readResourceFile("ownerEmailFragment-joinCourseBeforeEditDetails.html");
     }
 
 }

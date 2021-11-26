@@ -3,17 +3,19 @@ package teammates.ui.webapi;
 import org.apache.http.HttpStatus;
 
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
+import teammates.common.util.Logger;
 import teammates.ui.output.CourseArchiveData;
 import teammates.ui.request.CourseArchiveRequest;
+import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * Changes the archive status of a course.
  */
 class ArchiveCourseAction extends Action {
+
+    private static final Logger log = Logger.getLogger();
 
     @Override
     AuthType getMinAuthLevel() {
@@ -28,7 +30,7 @@ class ArchiveCourseAction extends Action {
     }
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() throws InvalidHttpRequestBodyException {
         String idOfCourseToArchive = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
         CourseArchiveRequest courseArchiveRequest = getAndValidateRequestBody(CourseArchiveRequest.class);
@@ -38,7 +40,9 @@ class ArchiveCourseAction extends Action {
             // Set the archive status and status shown to user and admin
             logic.setArchiveStatusOfInstructor(userInfo.id, idOfCourseToArchive, isArchive);
         } catch (InvalidParametersException e) {
-            return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
+            // There should not be any invalid parameter here
+            log.severe("Unexpected error", e);
+            return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         } catch (EntityDoesNotExistException e) {
             throw new EntityNotFoundException(e);
         }

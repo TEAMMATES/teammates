@@ -20,6 +20,7 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
+import teammates.common.exception.HttpRequestFailedException;
 import teammates.common.util.Const;
 import teammates.lnp.util.JMeterElements;
 import teammates.lnp.util.LNPSpecification;
@@ -134,7 +135,6 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
                 List<String> headers = new ArrayList<>();
 
                 headers.add("loginId");
-                headers.add("isAdmin");
                 headers.add("googleId");
 
                 return headers;
@@ -148,9 +148,8 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
                 dataBundle.students.forEach((key, student) -> {
                     List<String> csvRow = new ArrayList<>();
 
-                    csvRow.add(student.googleId); // "googleId" is used for logging in, not "email"
-                    csvRow.add("no");
-                    csvRow.add(student.googleId);
+                    csvRow.add(student.getGoogleId()); // "googleId" is used for logging in, not "email"
+                    csvRow.add(student.getGoogleId());
 
                     csvData.add(csvRow);
                 });
@@ -191,7 +190,7 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
     }
 
     @BeforeClass
-    public void classSetup() {
+    public void classSetup() throws IOException, HttpRequestFailedException {
         generateTimeStamp();
         createTestData();
         setupSpecification();

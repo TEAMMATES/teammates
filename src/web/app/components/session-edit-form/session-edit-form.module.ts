@@ -7,9 +7,9 @@ import { DatepickerModule } from '../datepicker/datepicker.module';
 import { RichTextEditorModule } from '../rich-text-editor/rich-text-editor.module';
 import { TeammatesCommonModule } from '../teammates-common/teammates-common.module';
 import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
+import { TimepickerModule } from '../timepicker/timepicker.module';
 import { SessionEditFormComponent } from './session-edit-form.component';
 import { SubmissionStatusNamePipe } from './submission-status-name.pipe';
-import { TimePickerComponent } from './time-picker/time-picker.component';
 
 /**
  * Module for instructor session edit/create form.
@@ -24,15 +24,14 @@ import { TimePickerComponent } from './time-picker/time-picker.component';
     RichTextEditorModule,
     TeammatesRouterModule,
     DatepickerModule,
+    TimepickerModule,
   ],
   declarations: [
     SessionEditFormComponent,
-    TimePickerComponent,
     SubmissionStatusNamePipe,
   ],
   exports: [
     SessionEditFormComponent,
-    TimePickerComponent,
   ],
 })
 export class SessionEditFormModule { }

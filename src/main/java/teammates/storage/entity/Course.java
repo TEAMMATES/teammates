@@ -29,12 +29,15 @@ public class Course extends BaseEntity {
 
     private String timeZone;
 
+    private String institute;
+
     @SuppressWarnings("unused")
     private Course() {
         // required by Objectify
     }
 
-    public Course(String courseId, String courseName, String courseTimeZone, Instant createdAt, Instant deletedAt) {
+    public Course(String courseId, String courseName, String courseTimeZone, String institute,
+            Instant createdAt, Instant deletedAt) {
         this.setUniqueId(courseId);
         this.setName(courseName);
         if (courseTimeZone == null) {
@@ -42,6 +45,7 @@ public class Course extends BaseEntity {
         } else {
             this.setTimeZone(courseTimeZone);
         }
+        this.setInstitute(institute);
         if (createdAt == null) {
             this.setCreatedAt(Instant.now());
         } else {
@@ -89,4 +93,13 @@ public class Course extends BaseEntity {
     public void setTimeZone(String timeZone) {
         this.timeZone = timeZone;
     }
+
+    public String getInstitute() {
+        return institute;
+    }
+
+    public void setInstitute(String institute) {
+        this.institute = institute;
+    }
+
 }

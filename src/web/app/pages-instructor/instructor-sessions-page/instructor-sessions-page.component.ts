@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
 import { forkJoin, Observable, of } from 'rxjs';
-import { concatMap, finalize, map, switchMap, tap } from 'rxjs/operators';
+import { concatMap, finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackSessionsService, TemplateSession } from '../../../services/feedback-sessions.service';
@@ -14,11 +14,7 @@ import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
-import {
-  LOCAL_DATE_TIME_FORMAT,
-  TimeResolvingResult,
-  TimezoneService,
-} from '../../../services/timezone.service';
+import { TimezoneService } from '../../../services/timezone.service';
 import {
   Course,
   Courses,
@@ -33,10 +29,8 @@ import {
 import { DEFAULT_INSTRUCTOR_PRIVILEGE } from '../../../types/instructor-privilege';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import {
-  DateFormat,
   SessionEditFormMode,
   SessionEditFormModel,
-  TimeFormat,
 } from '../../components/session-edit-form/session-edit-form-model';
 import {
   CopySessionResult,
@@ -190,13 +184,17 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
         this.sessionsTableRowModels.map((model: SessionsTableRowModel) => model.feedbackSession);
 
     modalRef.result.then((result: CopyFromOtherSessionsResult) => {
-      this.copyFeedbackSession(result.fromFeedbackSession, result.newFeedbackSessionName, result.copyToCourseId)
+      this.copyFeedbackSession(result.fromFeedbackSession, result.newFeedbackSessionName, result.copyToCourseId,
+        result.fromFeedbackSession.courseId)
           .pipe(finalize(() => this.isCopyOtherSessionLoading = false))
           .subscribe((createdFeedbackSession: FeedbackSession) => {
             this.navigationService.navigateWithSuccessMessage(this.router, '/web/instructor/sessions/edit',
                 'The feedback session has been copied. Please modify settings/questions as necessary.',
                 { courseid: createdFeedbackSession.courseId, fsname: createdFeedbackSession.feedbackSessionName });
-          }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
+          }, (resp: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorToast(
+                this.formatErrorMessage(resp.error.message));
+          });
     }).catch(() => this.isCopyOtherSessionLoading = false);
   }
 
@@ -240,7 +238,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
     }
 
     // set opening time to near future
-    const nearFuture: any = moment().add(1, 'hours');
+    const nearFuture: moment.Moment = moment().add(1, 'hours');
     this.sessionEditFormModel.submissionStartDate = {
       year: nearFuture.year(),
       month: nearFuture.month() + 1, // moment return 0-11 for month
@@ -251,7 +249,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
       hour: nearFuture.hour() === 0 ? 23 : nearFuture.hour(),
     };
     // set the closing time to tomorrow
-    const tomorrow: any = moment().add(1, 'days');
+    const tomorrow: moment.Moment = moment().add(1, 'days');
     this.sessionEditFormModel.submissionEndDate = {
       year: tomorrow.year(),
       month: tomorrow.month() + 1, // moment return 0-11 for month
@@ -269,45 +267,42 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
   addNewSessionHandler(): void {
     this.sessionEditFormModel.isSaving = true;
 
-    const resolvingResultMessages: string[] = [];
-    forkJoin([
-      this.resolveLocalDateTime(this.sessionEditFormModel.submissionStartDate,
-          this.sessionEditFormModel.submissionStartTime, this.sessionEditFormModel.timeZone,
-          'Submission opening time', resolvingResultMessages),
-      this.resolveLocalDateTime(this.sessionEditFormModel.submissionEndDate,
-          this.sessionEditFormModel.submissionEndTime, this.sessionEditFormModel.timeZone,
-          'Submission closing time', resolvingResultMessages),
-      this.sessionEditFormModel.sessionVisibleSetting === SessionVisibleSetting.CUSTOM ?
-          this.resolveLocalDateTime(this.sessionEditFormModel.customSessionVisibleDate,
-              this.sessionEditFormModel.customSessionVisibleTime, this.sessionEditFormModel.timeZone,
-              'Session visible time', resolvingResultMessages)
-          : of(0),
-      this.sessionEditFormModel.responseVisibleSetting === ResponseVisibleSetting.CUSTOM ?
-          this.resolveLocalDateTime(this.sessionEditFormModel.customResponseVisibleDate,
-              this.sessionEditFormModel.customResponseVisibleTime, this.sessionEditFormModel.timeZone,
-              'Response visible time', resolvingResultMessages)
-          : of(0),
-    ]).pipe(
-        switchMap((vals: number[]) => {
-          return this.feedbackSessionsService.createFeedbackSession(this.sessionEditFormModel.courseId, {
-            feedbackSessionName: this.sessionEditFormModel.feedbackSessionName,
-            instructions: this.sessionEditFormModel.instructions,
+    const submissionStartTime: number = this.timezoneService.resolveLocalDateTime(
+        this.sessionEditFormModel.submissionStartDate, this.sessionEditFormModel.submissionStartTime,
+        this.sessionEditFormModel.timeZone);
+    const submissionEndTime: number = this.timezoneService.resolveLocalDateTime(
+        this.sessionEditFormModel.submissionEndDate, this.sessionEditFormModel.submissionEndTime,
+        this.sessionEditFormModel.timeZone);
+    let sessionVisibleTime: number = 0;
+    if (this.sessionEditFormModel.sessionVisibleSetting === SessionVisibleSetting.CUSTOM) {
+      sessionVisibleTime = this.timezoneService.resolveLocalDateTime(
+          this.sessionEditFormModel.customSessionVisibleDate, this.sessionEditFormModel.customSessionVisibleTime,
+          this.sessionEditFormModel.timeZone);
+    }
+    let responseVisibleTime: number = 0;
+    if (this.sessionEditFormModel.responseVisibleSetting === ResponseVisibleSetting.CUSTOM) {
+      responseVisibleTime = this.timezoneService.resolveLocalDateTime(
+          this.sessionEditFormModel.customResponseVisibleDate, this.sessionEditFormModel.customResponseVisibleTime,
+          this.sessionEditFormModel.timeZone);
+    }
 
-            submissionStartTimestamp: vals[0],
-            submissionEndTimestamp: vals[1],
-            gracePeriod: this.sessionEditFormModel.gracePeriod,
+    this.feedbackSessionsService.createFeedbackSession(this.sessionEditFormModel.courseId, {
+      feedbackSessionName: this.sessionEditFormModel.feedbackSessionName,
+      instructions: this.sessionEditFormModel.instructions,
 
-            sessionVisibleSetting: this.sessionEditFormModel.sessionVisibleSetting,
-            customSessionVisibleTimestamp: vals[2],
+      submissionStartTimestamp: submissionStartTime,
+      submissionEndTimestamp: submissionEndTime,
+      gracePeriod: this.sessionEditFormModel.gracePeriod,
 
-            responseVisibleSetting: this.sessionEditFormModel.responseVisibleSetting,
-            customResponseVisibleTimestamp: vals[3],
+      sessionVisibleSetting: this.sessionEditFormModel.sessionVisibleSetting,
+      customSessionVisibleTimestamp: sessionVisibleTime,
 
-            isClosingEmailEnabled: this.sessionEditFormModel.isClosingEmailEnabled,
-            isPublishedEmailEnabled: this.sessionEditFormModel.isPublishedEmailEnabled,
-          });
-        }),
-    ).subscribe((feedbackSession: FeedbackSession) => {
+      responseVisibleSetting: this.sessionEditFormModel.responseVisibleSetting,
+      customResponseVisibleTimestamp: responseVisibleTime,
+
+      isClosingEmailEnabled: this.sessionEditFormModel.isClosingEmailEnabled,
+      isPublishedEmailEnabled: this.sessionEditFormModel.isPublishedEmailEnabled,
+    }).subscribe((feedbackSession: FeedbackSession) => {
 
       // begin to populate session with template
       const templateSession: TemplateSession | undefined =
@@ -348,39 +343,24 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
             '/web/instructor/sessions/edit',
             { courseid: feedbackSession.courseId, fsname: feedbackSession.feedbackSessionName })
             .then(() => {
-              resolvingResultMessages.forEach((msg: string) => {
-                this.statusMessageService.showWarningToast(msg);
-              });
               this.statusMessageService.showSuccessToast('The feedback session has been added.'
                   + 'Click the "Add New Question" button below to begin adding questions for the feedback session.');
             });
       });
     }, (resp: ErrorMessageOutput) => {
       this.sessionEditFormModel.isSaving = false;
-      this.statusMessageService.showErrorToast(resp.error.message);
+      this.statusMessageService.showErrorToast(
+          this.formatErrorMessage(resp.error.message));
     });
   }
 
-  /**
-   * Resolves the local date time to an UNIX timestamp.
-   */
-  private resolveLocalDateTime(date: DateFormat, time: TimeFormat, timeZone: string,
-                               fieldName: string, resolvingResultMessages: string[]): Observable<number> {
-    const inst: any = moment();
-    inst.set('year', date.year);
-    inst.set('month', date.month - 1); // moment month is from 0-11
-    inst.set('date', date.day);
-    inst.set('hour', time.hour);
-    inst.set('minute', time.minute);
-
-    const localDateTime: string = inst.format(LOCAL_DATE_TIME_FORMAT);
-    return this.timezoneService.getResolvedTimestamp(localDateTime, timeZone, fieldName).pipe(
-        tap((result: TimeResolvingResult) => {
-          if (result.message.length !== 0) {
-            resolvingResultMessages.push(result.message);
-          }
-        }),
-        map((result: TimeResolvingResult) => result.timestamp));
+  formatErrorMessage(errorMessage: string): string {
+    if (errorMessage.match('exists already in the course')) {
+      return `${errorMessage}
+          Tip: If you can't find such a session in that course, also check the 'Recycle bin'
+          (shown at the bottom of the 'Sessions' page).`;
+    }
+    return errorMessage;
   }
 
   /**
@@ -516,13 +496,6 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
    */
   submitSessionAsInstructorEventHandler(rowIndex: number): void {
     this.submitSessionAsInstructor(this.sessionsTableRowModels[rowIndex]);
-  }
-
-  /**
-   * Views the result of a feedback session.
-   */
-  viewSessionResultEventHandler(rowIndex: number): void {
-    this.viewSessionResult(this.sessionsTableRowModels[rowIndex]);
   }
 
   /**

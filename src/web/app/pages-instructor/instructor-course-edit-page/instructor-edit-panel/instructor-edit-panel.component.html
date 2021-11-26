@@ -33,7 +33,7 @@
 
   <div class="card-body text-center" [ngClass]="{'fill-plain': editMode == EditMode.ADD}">
     <div class="form-row form-group" *ngIf="editMode == EditMode.EDIT && currInstructorCoursePrivilege.canModifyInstructor">
-      <label class="col-sm-3 control-label">
+      <label class="col-sm-2 control-label">
         Google ID:
       </label>
       <div class="col-sm-9" *ngIf="instructor.joinState == JoinState.JOINED">
@@ -44,7 +44,7 @@
       </span>
     </div>
     <div class="form-row form-group">
-      <label class="col-sm-3 control-label">
+      <label class="col-sm-2 control-label">
         Name:
       </label>
       <div class="col-sm-9">
@@ -53,7 +53,7 @@
       </div>
     </div>
     <div class="form-row form-group">
-      <label class="col-sm-3 control-label">
+      <label class="col-sm-2 control-label">
         Email:
       </label>
       <div class="col-sm-9">
@@ -63,7 +63,7 @@
       </div>
     </div>
     <div class="form-row form-group">
-      <label class="col-sm-3 control-label">
+      <label class="col-sm-2 control-label">
         <input id="checkbox-display-instructor-{{ instructorIndex + 1 }}" checked=""
                type="checkbox" [ngModel]="instructor.isDisplayedToStudents"
                (ngModelChange)="triggerModelChange('isDisplayedToStudents', $event)" [disabled]="!instructor.isEditing">
@@ -81,7 +81,7 @@
       </div>
     </div>
     <div class="form-row form-group align-items-start text-left">
-      <label class="col-sm-3 control-label text-center text-md-right">
+      <label class="col-sm-2 control-label text-center text-md-right">
         Access Level:
       </label>
       <div id="access-levels-instructor-{{ instructorIndex + 1 }}" class="col-sm-9">

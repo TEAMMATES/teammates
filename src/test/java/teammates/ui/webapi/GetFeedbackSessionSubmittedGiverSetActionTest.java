@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import com.google.common.collect.Sets;
@@ -29,9 +28,9 @@ public class GetFeedbackSessionSubmittedGiverSetActionTest
 
     @Test
     @Override
-    protected void testExecute() throws Exception {
+    protected void testExecute() {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        String instructorId = instructor1OfCourse1.googleId;
+        String instructorId = instructor1OfCourse1.getGoogleId();
         CourseAttributes course = typicalBundle.courses.get("typicalCourse1");
         FeedbackSessionAttributes fsa = typicalBundle.feedbackSessions.get("session1InCourse1");
 
@@ -49,8 +48,6 @@ public class GetFeedbackSessionSubmittedGiverSetActionTest
         GetFeedbackSessionSubmittedGiverSetAction pageAction = getAction(submissionParams);
         JsonResult result = getJsonResult(pageAction);
 
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
-
         FeedbackSessionSubmittedGiverSet output = (FeedbackSessionSubmittedGiverSet) result.getOutput();
         assertEquals(Sets.newHashSet("student1InCourse1@gmail.tmt", "student2InCourse1@gmail.tmt",
                 "student5InCourse1@gmail.tmt", "student3InCourse1@gmail.tmt", "instructor1@course1.tmt"),
@@ -59,7 +56,7 @@ public class GetFeedbackSessionSubmittedGiverSetActionTest
 
     @Test
     @Override
-    protected void testAccessControl() throws Exception {
+    protected void testAccessControl() {
         CourseAttributes course = typicalBundle.courses.get("typicalCourse1");
         FeedbackSessionAttributes fsa = typicalBundle.feedbackSessions.get("session1InCourse1");
         String[] submissionParams = new String[] {

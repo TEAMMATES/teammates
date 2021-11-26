@@ -25,6 +25,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
+import teammates.common.exception.HttpRequestFailedException;
 import teammates.common.util.Const;
 import teammates.lnp.util.JMeterElements;
 import teammates.lnp.util.LNPSpecification;
@@ -128,7 +129,7 @@ public class FeedbackSessionViewLNPTest extends BaseLNPTestCase {
                 FeedbackSessionAttributes session = FeedbackSessionAttributes
                                                             .builder(FEEDBACK_SESSION_NAME, COURSE_ID)
                                                             .withCreatorEmail(INSTRUCTOR_EMAIL)
-                                                            .withStartTime(Instant.now())
+                                                            .withStartTime(Instant.now().plusMillis(100))
                                                             .withEndTime(Instant.now().plusSeconds(500))
                                                             .withSessionVisibleFromTime(Instant.now())
                                                             .withResultsVisibleFromTime(Instant.now())
@@ -176,7 +177,6 @@ public class FeedbackSessionViewLNPTest extends BaseLNPTestCase {
                 List<String> headers = new ArrayList<>();
 
                 headers.add("loginId");
-                headers.add("isAdmin");
                 headers.add("googleId");
                 headers.add("courseId");
                 headers.add("fsname");
@@ -192,9 +192,8 @@ public class FeedbackSessionViewLNPTest extends BaseLNPTestCase {
                 dataBundle.students.forEach((key, student) -> {
                     List<String> csvRow = new ArrayList<>();
 
-                    csvRow.add(student.googleId); // "googleId" is used for logging in, not "email"
-                    csvRow.add("no");
-                    csvRow.add(student.googleId);
+                    csvRow.add(student.getGoogleId()); // "googleId" is used for logging in, not "email"
+                    csvRow.add(student.getGoogleId());
                     csvRow.add(COURSE_ID);
                     csvRow.add(FEEDBACK_SESSION_NAME);
 
@@ -241,7 +240,7 @@ public class FeedbackSessionViewLNPTest extends BaseLNPTestCase {
     }
 
     @BeforeClass
-    public void classSetup() {
+    public void classSetup() throws IOException, HttpRequestFailedException {
         generateTimeStamp();
         createTestData();
         setupSpecification();

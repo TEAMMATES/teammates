@@ -2,7 +2,6 @@ package teammates.test;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.security.Principal;
 import java.util.ArrayList;
@@ -320,7 +319,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
     /**
      * Adds Part to the request.
      */
-    public void addPart(String key, Part part) throws IOException {
+    public void addPart(String key, Part part) {
         this.parts.putIfAbsent(key, part);
     }
 

@@ -5,7 +5,7 @@ export const config: any = {
   /**
    * The application version.
    */
-  version: '7.0.0',
+  version: '8.0.0',
 
   /**
    * The URL of page to be loaded for the account request page.
@@ -29,4 +29,5 @@ export const config: any = {
    * Under maintenance mode, all requests to the front-end will be routed to the "under maintenance" page.
    */
   maintenance: false,
+
 };

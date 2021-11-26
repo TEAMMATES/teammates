@@ -1,11 +1,9 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.exception.EntityNotFoundException;
 import teammates.common.util.Const;
 import teammates.ui.output.FeedbackSessionStatsData;
 
@@ -41,8 +39,6 @@ public class GetSessionResponseStatsActionTest extends BaseActionTest<GetSession
         GetSessionResponseStatsAction a = getAction(submissionParams);
         JsonResult r = getJsonResult(a);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
-
         FeedbackSessionStatsData output = (FeedbackSessionStatsData) r.getOutput();
         assertEquals(10, output.getExpectedTotal());
         assertEquals(5, output.getSubmittedTotal());
@@ -55,10 +51,7 @@ public class GetSessionResponseStatsActionTest extends BaseActionTest<GetSession
                 Const.ParamsNames.COURSE_ID, accessibleFeedbackSession.getCourseId(),
         };
 
-        a = getAction(submissionParams);
-        GetSessionResponseStatsAction finalA = a;
-
-        assertThrows(EntityNotFoundException.class, () -> getJsonResult(finalA));
+        verifyEntityNotFound(submissionParams);
 
     }
 

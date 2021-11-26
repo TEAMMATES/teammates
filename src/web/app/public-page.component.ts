@@ -28,9 +28,8 @@ export class PublicPageComponent {
         // Loads institute for student session submission and result
         const courseId: string = queryParams.courseid;
         const regKey: string = queryParams.key;
-        const studentEmail: string = queryParams.studentemail;
-        if (courseId && regKey && studentEmail) {
-          this.studentService.getStudent(courseId, studentEmail, regKey).subscribe((student: Student) => {
+        if (courseId && regKey) {
+          this.studentService.getStudent(courseId, '', regKey).subscribe((student: Student) => {
             this.institute = student.institute || '';
           });
         }

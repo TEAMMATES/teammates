@@ -20,7 +20,17 @@ import teammates.storage.entity.FeedbackQuestion;
  * @see FeedbackQuestion
  * @see FeedbackQuestionAttributes
  */
-public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQuestionAttributes> {
+public final class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQuestionAttributes> {
+
+    private static final FeedbackQuestionsDb instance = new FeedbackQuestionsDb();
+
+    private FeedbackQuestionsDb() {
+        // prevent initialization
+    }
+
+    public static FeedbackQuestionsDb inst() {
+        return instance;
+    }
 
     /**
      * Gets a feedback question by using {@code feedbackQuestionId}.
@@ -105,7 +115,7 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
         boolean hasSameAttributes =
                 this.<Integer>hasSameValue(feedbackQuestion.getQuestionNumber(), newAttributes.getQuestionNumber())
                 && this.<String>hasSameValue(
-                        feedbackQuestion.getQuestionMetaData(), newAttributes.getSerializedQuestionDetails())
+                        feedbackQuestion.getQuestionText(), newAttributes.getSerializedQuestionDetails())
                 && this.<String>hasSameValue(
                         feedbackQuestion.getQuestionDescription(), newAttributes.getQuestionDescription())
                 && this.<FeedbackParticipantType>hasSameValue(
@@ -125,15 +135,15 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
             return newAttributes;
         }
 
-        feedbackQuestion.setQuestionNumber(newAttributes.questionNumber);
+        feedbackQuestion.setQuestionNumber(newAttributes.getQuestionNumber());
         feedbackQuestion.setQuestionText(newAttributes.getSerializedQuestionDetails());
-        feedbackQuestion.setQuestionDescription(newAttributes.questionDescription);
-        feedbackQuestion.setGiverType(newAttributes.giverType);
-        feedbackQuestion.setRecipientType(newAttributes.recipientType);
-        feedbackQuestion.setShowResponsesTo(newAttributes.showResponsesTo);
-        feedbackQuestion.setShowGiverNameTo(newAttributes.showGiverNameTo);
-        feedbackQuestion.setShowRecipientNameTo(newAttributes.showRecipientNameTo);
-        feedbackQuestion.setNumberOfEntitiesToGiveFeedbackTo(newAttributes.numberOfEntitiesToGiveFeedbackTo);
+        feedbackQuestion.setQuestionDescription(newAttributes.getQuestionDescription());
+        feedbackQuestion.setGiverType(newAttributes.getGiverType());
+        feedbackQuestion.setRecipientType(newAttributes.getRecipientType());
+        feedbackQuestion.setShowResponsesTo(newAttributes.getShowResponsesTo());
+        feedbackQuestion.setShowGiverNameTo(newAttributes.getShowGiverNameTo());
+        feedbackQuestion.setShowRecipientNameTo(newAttributes.getShowRecipientNameTo());
+        feedbackQuestion.setNumberOfEntitiesToGiveFeedbackTo(newAttributes.getNumberOfEntitiesToGiveFeedbackTo());
 
         saveEntity(feedbackQuestion);
 
