@@ -680,7 +680,6 @@ describe('SessionResultPageComponent', () => {
 
     expect(navSpy.calls.count()).toEqual(1);
     expect(navSpy.calls.mostRecent().args[1]).toEqual('/web/front');
-    console.log(navSpy.calls.mostRecent().args[2]));
     expect(navSpy.calls.mostRecent().args[2]).toEqual(
         `You are trying to access TEAMMATES using the Google account ${component.loggedInUser}, which
         is not linked to this TEAMMATES account. If you used a different Google account to
