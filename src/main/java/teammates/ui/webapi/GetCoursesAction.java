@@ -5,12 +5,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.ui.output.CourseData;
 import teammates.ui.output.CoursesData;
-import teammates.ui.output.InstructorPrivilegeData;
 
 /**
  * Gets all courses for the instructor, and filtered by active, archived and soft-deleted.
@@ -87,7 +87,7 @@ class GetCoursesAction extends Action {
             if (instructor == null) {
                 return;
             }
-            InstructorPrivilegeData privilege = constructInstructorPrivileges(instructor, null);
+            InstructorPermissionSet privilege = constructInstructorPrivileges(instructor, null);
             courseData.setPrivileges(privilege);
         });
         return new JsonResult(coursesData);

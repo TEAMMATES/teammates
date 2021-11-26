@@ -88,12 +88,6 @@ export class SearchService {
     return this.httpRequestService.get(ResourceEndpoints.SEARCH_INSTRUCTORS, paramMap);
   }
 
-  searchInstructorPrivilege(courseId: string, sectionName: string): Observable<InstructorPrivilege> {
-    return this.instructorService.loadInstructorPrivilege(
-        { courseId, sectionName },
-    );
-  }
-
   createStudentAccountSearchResults(
     students: Student[],
     distinctInstructorsMap: DistinctInstructorsMap,
@@ -158,8 +152,8 @@ export class SearchService {
     for (const instructor of instructors.instructors) {
       const instructorPrivilege: InstructorPrivilege | undefined = instructorPrivileges.shift();
       if (instructor.googleId != null &&
-          (instructorPrivilege != null && instructorPrivilege.canModifyInstructor ||
-           instructor.role === InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER)) {
+          (instructorPrivilege != null && instructorPrivilege.privileges.courseLevel.canModifyInstructor
+              || instructor.role === InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER)) {
         masqueradeGoogleId = instructor.googleId;
         break;
       }

@@ -3,6 +3,7 @@ package teammates.common.datatransfer.attributes;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.InstructorPrivilegesLegacy;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
@@ -121,7 +122,7 @@ public class InstructorAttributesTest extends BaseAttributesTest {
                 new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         Instructor instructor = new Instructor("valid.google.id", "valid-course-id", false,
                 "valid name", "valid@email.com", Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-                true, "Tutor", JsonUtils.toJson(privileges, InstructorPrivileges.class));
+                true, "Tutor", JsonUtils.toJson(privileges.toLegacyFormat(), InstructorPrivilegesLegacy.class));
         InstructorAttributes instructorAttributes = InstructorAttributes.valueOf(instructor);
 
         assertEquals(instructor.getGoogleId(), instructorAttributes.getGoogleId());
@@ -134,7 +135,7 @@ public class InstructorAttributesTest extends BaseAttributesTest {
         assertEquals(instructor.isDisplayedToStudents(), instructorAttributes.isDisplayedToStudents());
         assertEquals(instructor.getDisplayedName(), instructorAttributes.getDisplayedName());
         assertEquals(instructor.getInstructorPrivilegesAsText(),
-                JsonUtils.toJson(instructorAttributes.getPrivileges(), InstructorPrivileges.class));
+                JsonUtils.toJson(instructorAttributes.getPrivileges().toLegacyFormat(), InstructorPrivilegesLegacy.class));
         assertEquals(instructor.getCreatedAt(), instructorAttributes.getCreatedAt());
         assertEquals(instructor.getUpdatedAt(), instructorAttributes.getUpdatedAt());
     }

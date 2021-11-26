@@ -2,13 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { forkJoin, Observable, of } from 'rxjs';
 import { finalize, map, mergeMap } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
+import { InstructorService } from '../../../services/instructor.service';
 import { InstructorSearchResult, SearchService } from '../../../services/search.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { ApiConst } from '../../../types/api-const';
-import {
-  InstructorPrivilege,
-  Student,
-} from '../../../types/api-output';
+import { InstructorPermissionSet, InstructorPrivilege, Student } from '../../../types/api-output';
 import { StudentListRowModel } from '../../components/student-list/student-list.component';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { SearchParams } from './instructor-search-bar/instructor-search-bar.component';
@@ -34,6 +32,7 @@ export class InstructorSearchPageComponent implements OnInit {
     private statusMessageService: StatusMessageService,
     private searchService: SearchService,
     private courseService: CourseService,
+    private instructorService: InstructorService,
   ) {}
 
   ngOnInit(): void {
@@ -116,7 +115,7 @@ export class InstructorSearchPageComponent implements OnInit {
       Array.from(
           new Set(course.students.map((studentModel: StudentListRowModel) => studentModel.student.sectionName)),
       ).forEach((section: string) => {
-        sectionToPrivileges[section] = this.searchService.searchInstructorPrivilege(course.courseId, section);
+        sectionToPrivileges[section] = this.instructorService.loadInstructorPrivilege({ courseId: course.courseId });
       });
       course.students.forEach((studentModel: StudentListRowModel) =>
           privileges.push(sectionToPrivileges[studentModel.student.sectionName]),
@@ -135,11 +134,17 @@ export class InstructorSearchPageComponent implements OnInit {
      */
     for (const course of coursesWithStudents) {
       for (const studentModel of course.students) {
-        const sectionPrivileges: InstructorPrivilege | undefined = privileges.shift();
-        if (!sectionPrivileges) { continue; }
+        const privilege: InstructorPrivilege | undefined = privileges.shift();
+        if (!privilege) {
+          continue;
+        }
+        const sectionName: string = studentModel.student.sectionName;
+        const courseLevel: InstructorPermissionSet = privilege.privileges.courseLevel;
+        const sectionLevel: InstructorPermissionSet = privilege.privileges.sectionLevel[sectionName]
+            || courseLevel;
 
-        studentModel.isAllowedToViewStudentInSection = sectionPrivileges.canViewStudentInSections;
-        studentModel.isAllowedToModifyStudent = sectionPrivileges.canModifyStudent;
+        studentModel.isAllowedToViewStudentInSection = sectionLevel.canViewStudentInSections;
+        studentModel.isAllowedToModifyStudent = sectionLevel.canModifyStudent;
       }
     }
 

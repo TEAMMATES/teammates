@@ -12,6 +12,7 @@ import { TableComparatorService } from '../../../services/table-comparator.servi
 import {
   Course,
   Instructor,
+  InstructorPermissionSet,
   InstructorPrivilege,
   Instructors,
   MessageOutput,
@@ -132,19 +133,38 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
         (acc[term] = acc[term] || []).push(x);
         return acc;
       }, {});
-
       const sectionLength: number = Object.keys(sections).length;
-      Object.keys(sections).forEach((key: string) => {
-        const studentsInSection: Student[] = sections[key];
-        const data: StudentListRowModel[] = studentsInSection.map((studentInSection: Student) => {
-          return {
-            student: studentInSection,
-            isAllowedToViewStudentInSection: false,
-            isAllowedToModifyStudent: false,
-          };
-        });
 
-        this.loadPrivilege(courseid, key, data, sectionLength);
+      this.instructorService.loadInstructorPrivilege({
+        courseId: courseid,
+      }).subscribe((instructorPrivilege: InstructorPrivilege) => {
+        const courseLevelPrivilege: InstructorPermissionSet = instructorPrivilege.privileges.courseLevel;
+
+        Object.keys(sections).forEach((sectionName: string) => {
+          const sectionLevelPrivilege: InstructorPermissionSet =
+              instructorPrivilege.privileges.sectionLevel[sectionName] || courseLevelPrivilege;
+
+          const studentsInSection: Student[] = sections[sectionName];
+          const studentModels: StudentListRowModel[] = studentsInSection.map((studentInSection: Student) => {
+            return {
+              student: studentInSection,
+              isAllowedToViewStudentInSection: sectionLevelPrivilege.canViewStudentInSections,
+              isAllowedToModifyStudent: sectionLevelPrivilege.canModifyStudent,
+            };
+          });
+
+          this.students.push(...studentModels);
+          this.students.sort(this.sortStudentBy(SortBy.NONE, SortOrder.ASC));
+
+          this.sectionsLoaded += 1;
+          if (this.sectionsLoaded === sectionLength) {
+            this.isStudentsLoading = false;
+          }
+        });
+      }, (resp: ErrorMessageOutput) => {
+        this.isStudentsLoading = false;
+        this.hasLoadingStudentsFailed = true;
+        this.statusMessageService.showErrorToast(resp.error.message);
       });
 
       if (!sectionLength) {
@@ -158,37 +178,6 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
       this.hasLoadingStudentsFailed = true;
       this.statusMessageService.showErrorToast(resp.error.message);
     });
-  }
-
-  /**
-   * Loads privilege of an instructor for a specified course and section.
-   */
-  private loadPrivilege(courseid: string, sectionName: string,
-    students: StudentListRowModel[], sectionLength: number): void {
-    this.instructorService.loadInstructorPrivilege({
-      sectionName,
-      courseId: courseid,
-    })
-        .subscribe((instructorPrivilege: InstructorPrivilege) => {
-          students.forEach((studentModel: StudentListRowModel) => {
-            if (studentModel.student.sectionName === sectionName) {
-              studentModel.isAllowedToViewStudentInSection = instructorPrivilege.canViewStudentInSections;
-              studentModel.isAllowedToModifyStudent = instructorPrivilege.canModifyStudent;
-            }
-          });
-          this.students.push(...students);
-          this.students.sort(this.sortStudentBy(SortBy.NONE, SortOrder.ASC));
-
-          this.sectionsLoaded += 1;
-          if (this.sectionsLoaded === sectionLength) {
-            this.isStudentsLoading = false;
-          }
-
-        }, (resp: ErrorMessageOutput) => {
-          this.isStudentsLoading = false;
-          this.hasLoadingStudentsFailed = true;
-          this.statusMessageService.showErrorToast(resp.error.message);
-        });
   }
 
   /**

@@ -97,6 +97,15 @@ public final class JsonUtils {
     }
 
     /**
+     * Deserializes the specified JSON string into an object of the specified class.
+     *
+     * @see Gson#fromJson(String, Class)
+     */
+    public static <T> T fromJson(String json, Class<T> classOfT) {
+        return getGsonInstance(false).fromJson(json, classOfT);
+    }
+
+    /**
      * Parses the specified JSON string into a {@link JsonElement} object.
      *
      * @see JsonParser#parseString(String)
