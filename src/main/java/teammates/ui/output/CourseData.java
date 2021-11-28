@@ -22,7 +22,7 @@ public class CourseData extends ApiOutput {
     public CourseData(CourseAttributes courseAttributes) {
         this.courseId = courseAttributes.getId();
         this.courseName = courseAttributes.getName();
-        this.timeZone = courseAttributes.getTimeZone().getId();
+        this.timeZone = courseAttributes.getTimeZone();
         this.institute = courseAttributes.getInstitute();
         this.creationTimestamp = courseAttributes.getCreatedAt().toEpochMilli();
         if (courseAttributes.getDeletedAt() != null) {

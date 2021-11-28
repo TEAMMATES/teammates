@@ -139,17 +139,21 @@ public final class EmailGenerator {
                     getInstructorCourseJoinUrl(coOwner));
         }
 
+        Instant startTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                session.getStartTime(), session.getTimeZone(), false);
+        Instant endTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                session.getEndTime(), session.getTimeZone(), false);
         String emailBody = Templates.populateTemplate(EmailTemplates.OWNER_FEEDBACK_SESSION_OPENING_SOON,
                 "${userName}", SanitizationHelper.sanitizeForHtml(coOwner.getName()),
                 "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
                 "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
                 "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName()),
                 "${deadline}", SanitizationHelper.sanitizeForHtml(
-                        TimeHelper.formatInstant(session.getEndTime(), session.getTimeZone(), DATETIME_DISPLAY_FORMAT)),
+                        TimeHelper.formatInstant(endTime, session.getTimeZone(), DATETIME_DISPLAY_FORMAT)),
                 "${instructorFragment}", "",
                 "${sessionInstructions}", session.getInstructionsString(),
-                "${startTime}", SanitizationHelper.sanitizeForHtml(TimeHelper.formatInstant(
-                        session.getStartTime(), session.getTimeZone(), DATETIME_DISPLAY_FORMAT)),
+                "${startTime}", SanitizationHelper.sanitizeForHtml(
+                        TimeHelper.formatInstant(startTime, session.getTimeZone(), DATETIME_DISPLAY_FORMAT)),
                 "${additionalNotes}", additionalNotes,
                 "${additionalContactInformation}", "");
 
@@ -298,10 +302,12 @@ public final class EmailGenerator {
                 reportUrlHtml = "<a href=\"" + reportUrl + "\">" + reportUrl + "</a>";
             }
 
+            Instant endTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                    fsa.getEndTime(), fsa.getTimeZone(), false);
             linksFragmentValue.append(Templates.populateTemplate(
                     EmailTemplates.FRAGMENT_SINGLE_FEEDBACK_SESSION_LINKS,
                     "${feedbackSessionName}", fsa.getFeedbackSessionName(),
-                    "${deadline}", TimeHelper.formatInstant(fsa.getEndTime(), fsa.getTimeZone(), DATETIME_DISPLAY_FORMAT)
+                    "${deadline}", TimeHelper.formatInstant(endTime, fsa.getTimeZone(), DATETIME_DISPLAY_FORMAT)
                             + (fsa.isClosed() ? " (Passed)" : ""),
                     "${submitUrl}", submitUrlHtml,
                     "${reportUrl}", reportUrlHtml));
@@ -492,13 +498,15 @@ public final class EmailGenerator {
                  ? ""
                  : generateInstructorJoinReminderFragment(instructor);
 
+        Instant endTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                session.getEndTime(), session.getTimeZone(), false);
         String emailBody = Templates.populateTemplate(template,
                 "${userName}", SanitizationHelper.sanitizeForHtml(instructor.getName()),
                 "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
                 "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
                 "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName()),
                 "${deadline}", SanitizationHelper.sanitizeForHtml(
-                        TimeHelper.formatInstant(session.getEndTime(), session.getTimeZone(), DATETIME_DISPLAY_FORMAT)),
+                        TimeHelper.formatInstant(endTime, session.getTimeZone(), DATETIME_DISPLAY_FORMAT)),
                 "${instructorFragment}", "",
                 "${sessionInstructions}", session.getInstructionsString(),
                 "${submitUrl}", submitUrl,
@@ -693,13 +701,15 @@ public final class EmailGenerator {
                 .withStudentEmail(student.getEmail())
                 .toAbsoluteString();
 
+        Instant endTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                session.getEndTime(), session.getTimeZone(), false);
         String emailBody = Templates.populateTemplate(template,
                 "${userName}", SanitizationHelper.sanitizeForHtml(student.getName()),
                 "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
                 "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
                 "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName()),
                 "${deadline}", SanitizationHelper.sanitizeForHtml(
-                        TimeHelper.formatInstant(session.getEndTime(), session.getTimeZone(), DATETIME_DISPLAY_FORMAT)),
+                        TimeHelper.formatInstant(endTime, session.getTimeZone(), DATETIME_DISPLAY_FORMAT)),
                 "${instructorFragment}", "",
                 "${sessionInstructions}", session.getInstructionsString(),
                 "${submitUrl}", submitUrl,
@@ -736,13 +746,15 @@ public final class EmailGenerator {
 
         String instructorFragment = generateInstructorPreamble(course.getId(), course.getName());
 
+        Instant endTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                session.getEndTime(), session.getTimeZone(), false);
         String emailBody = Templates.populateTemplate(template,
                 "${userName}", SanitizationHelper.sanitizeForHtml(instructor.getName()),
                 "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
                 "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
                 "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName()),
                 "${deadline}", SanitizationHelper.sanitizeForHtml(
-                        TimeHelper.formatInstant(session.getEndTime(), session.getTimeZone(), DATETIME_DISPLAY_FORMAT)),
+                        TimeHelper.formatInstant(endTime, session.getTimeZone(), DATETIME_DISPLAY_FORMAT)),
                 "${instructorFragment}", instructorFragment,
                 "${sessionInstructions}", session.getInstructionsString(),
                 "${submitUrl}", "{in the actual email sent to the students, this will be the unique link}",
