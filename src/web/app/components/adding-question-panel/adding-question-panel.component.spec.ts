@@ -1,7 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
-import { of } from 'rxjs/internal/observable/of';
 import { FeedbackQuestionType } from '../../../types/api-request';
 import { AjaxLoadingModule } from '../ajax-loading/ajax-loading.module';
 import { TeammatesCommonModule } from '../teammates-common/teammates-common.module';
@@ -55,7 +54,7 @@ describe('AddingQuestionPanelComponent', () => {
     const type: FeedbackQuestionType = FeedbackQuestionType.MCQ;
     const button: any = fixture.nativeElement.querySelector('button');
 
-    spyOn(component.populateAndShowNewQuestionFormEvent, 'emit').and.returnValue(of(type));
+    spyOn(component.populateAndShowNewQuestionFormEvent, 'emit');
     button.click();
     fixture.detectChanges();
 

@@ -82,6 +82,7 @@ describe('CommentRowComponent', () => {
     const button: any = fixture.nativeElement.querySelector('button');
     const field: string = 'test field';
     const data: any = {};
+    const object: any = { [field]: data };
     const commentRowModel: CommentRowModel = {
       commentEditFormModel: {
         commentText: '',
@@ -92,13 +93,13 @@ describe('CommentRowComponent', () => {
       isEditing: false,
     };
 
-    spyOn(component.modelChange, 'emit').and.returnValue(of(Object.assign({}, commentRowModel, { [field]: data })));
+    spyOn(component.modelChange, 'emit').and.returnValue(of({ ...commentRowModel, ...object }));
 
     button.click();
     fixture.detectChanges();
 
     component.triggerModelChange(field, data);
 
-    expect(component.modelChange.emit).toHaveBeenCalledWith(Object.assign({}, commentRowModel, { [field]: data }));
+    expect(component.modelChange.emit).toHaveBeenCalledWith({ ...commentRowModel, ...object });
   });
 });

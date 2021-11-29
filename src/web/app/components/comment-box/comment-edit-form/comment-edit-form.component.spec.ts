@@ -18,7 +18,7 @@ import {
 import { CommentEditFormComponent, CommentEditFormModel } from './comment-edit-form.component';
 
 const object: any = { ['key']: 1 };
-const model: CommentEditFormModel = {
+const commentModel: CommentEditFormModel = {
   commentText: '',
 
   isUsingCustomVisibilities: false,
@@ -97,30 +97,30 @@ describe('CommentEditFormComponent', () => {
 
   it('should raises the selected event when modelChange is invoked', () => {
     const button: any = fixture.nativeElement.querySelector('button');
-    const field: string = 'test field';
-    const data: any = {};
+    const field: string = 'key';
+    const data: any = 1;
 
-    spyOn(component.modelChange, 'emit').and.returnValue(of(Object.assign({}, model, { [field]: data })));
+    spyOn(component.modelChange, 'emit').and.returnValue(of({ ...commentModel, ...object }));
 
     button.click();
     fixture.detectChanges();
 
     component.triggerModelChange(field, data);
 
-    expect(component.modelChange.emit).toHaveBeenCalledWith(Object.assign({}, model, { [field]: data }));
+    expect(component.modelChange.emit).toHaveBeenCalledWith({ ...commentModel, ...object });
   });
 
   it('should raises the selected event when modelChange with batch is invoked', () => {
     const button: any = fixture.nativeElement.querySelector('button');
 
-    spyOn(component.modelChange, 'emit').and.returnValue(of({ ...model, ...object }));
+    spyOn(component.modelChange, 'emit').and.returnValue(of({ ...commentModel, ...object }));
 
     button.click();
     fixture.detectChanges();
 
     component.triggerModelChangeBatch(object);
 
-    expect(component.modelChange.emit).toHaveBeenCalledWith({ ...model, ...object });
+    expect(component.modelChange.emit).toHaveBeenCalledWith({ ...commentModel, ...object });
   });
 
   it('should allowToSee visibility in modifyVisibilityControl method', () => {
@@ -129,7 +129,7 @@ describe('CommentEditFormComponent', () => {
 
     component.modifyVisibilityControl(true, visibilityType, visibilityControl);
 
-    expect(spy1).toHaveBeenCalled();
+    expect(spy1).toHaveBeenCalledWith(visibilityType, visibilityControl);
     expect(spy2).toHaveBeenCalled();
   });
 
@@ -139,7 +139,7 @@ describe('CommentEditFormComponent', () => {
 
     component.modifyVisibilityControl(false, visibilityType, visibilityControl);
 
-    expect(spy1).toHaveBeenCalled();
+    expect(spy1).toHaveBeenCalledWith(visibilityType, visibilityControl);
     expect(spy2).toHaveBeenCalled();
   });
 
@@ -149,7 +149,7 @@ describe('CommentEditFormComponent', () => {
 
     component.modifyVisibilityControl(false, visibilityType, visibilityControl);
 
-    expect(spy1).toHaveBeenCalled();
+    expect(spy1).toHaveBeenCalledWith(visibilityType, visibilityControl);
     expect(spy2).toHaveBeenCalled();
   });
 
