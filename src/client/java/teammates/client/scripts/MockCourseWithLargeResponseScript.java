@@ -1,7 +1,6 @@
 package teammates.client.scripts;
 
 import java.time.Instant;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -89,7 +88,7 @@ public final class MockCourseWithLargeResponseScript extends DatastoreClient {
 
         courses.put(COURSE_NAME, CourseAttributes.builder(COURSE_ID)
                 .withName(COURSE_NAME)
-                .withTimezone(ZoneId.of(COURSE_TIME_ZONE))
+                .withTimezone(COURSE_TIME_ZONE)
                 .build());
 
         return courses;

@@ -1,7 +1,6 @@
 package teammates.ui.webapi;
 
 import java.time.Instant;
-import java.time.ZoneId;
 import java.util.List;
 
 import org.testng.annotations.Test;
@@ -54,7 +53,7 @@ public class FeedbackSessionClosedRemindersActionTest
         // Session is closed recently
 
         FeedbackSessionAttributes session1 = typicalBundle.feedbackSessions.get("session1InCourse1");
-        session1.setTimeZone(ZoneId.of("UTC"));
+        session1.setTimeZone("UTC");
         session1.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-2));
         session1.setEndTime(TimeHelperExtension.getInstantHoursOffsetFromNow(-1));
         logic.updateFeedbackSession(
@@ -71,7 +70,7 @@ public class FeedbackSessionClosedRemindersActionTest
         // Ditto, but with disabled closed reminder
 
         FeedbackSessionAttributes session2 = typicalBundle.feedbackSessions.get("session2InCourse1");
-        session2.setTimeZone(ZoneId.of("UTC"));
+        session2.setTimeZone("UTC");
         session2.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-2));
         session2.setEndTime(TimeHelperExtension.getInstantHoursOffsetFromNow(-1));
         session2.setClosingEmailEnabled(false);
@@ -90,7 +89,7 @@ public class FeedbackSessionClosedRemindersActionTest
         // Still in grace period; closed reminder should not be sent
 
         FeedbackSessionAttributes session3 = typicalBundle.feedbackSessions.get("gracePeriodSession");
-        session3.setTimeZone(ZoneId.of("UTC"));
+        session3.setTimeZone("UTC");
         session3.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-2));
         session3.setEndTime(Instant.now());
         logic.updateFeedbackSession(

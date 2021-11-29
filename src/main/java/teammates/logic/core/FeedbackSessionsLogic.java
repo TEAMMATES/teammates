@@ -1,7 +1,6 @@
 package teammates.logic.core;
 
 import java.time.Instant;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -328,7 +327,7 @@ public final class FeedbackSessionsLogic {
     /**
      * Updates all feedback sessions of {@code courseId} to have be in {@code courseTimeZone}.
      */
-    public void updateFeedbackSessionsTimeZoneForCourse(String courseId, ZoneId courseTimeZone) {
+    public void updateFeedbackSessionsTimeZoneForCourse(String courseId, String courseTimeZone) {
         assert courseId != null;
         assert courseTimeZone != null;
 

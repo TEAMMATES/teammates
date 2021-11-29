@@ -3,7 +3,6 @@ package teammates.e2e.pageobjects;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -100,33 +99,29 @@ public class InstructorAuditLogsPage extends AppPage {
         selectDropdownOptionByText(studentNameDropDown, studentName);
     }
 
-    public void setLogsFromDateTime(Instant instant, ZoneId timeZone) {
+    public void setLogsFromDateTime(Instant instant, String timeZone) {
         setDateTime(logsFromDatepicker, logsFromTimepicker.findElement(By.className("form-control")),
                 instant, timeZone);
     }
 
-    public void setLogsToDateTime(Instant instant, ZoneId timeZone) {
+    public void setLogsToDateTime(Instant instant, String timeZone) {
         setDateTime(logsToDatepicker, logsToTimepicker.findElement(By.className("form-control")),
                 instant, timeZone);
     }
 
-    private String getDateString(Instant instant, ZoneId timeZone) {
-        return DateTimeFormatter
-                .ofPattern("EE, dd MMM, yyyy")
-                .format(instant.atZone(timeZone));
+    private String getDateString(Instant instant, String timeZone) {
+        return getDisplayedDateTime(instant, timeZone, "EE, dd MMM, yyyy");
     }
 
-    private String getTimeString(Instant instant, ZoneId timeZone) {
-        ZonedDateTime dateTime = instant.atZone(timeZone);
+    private String getTimeString(Instant instant, String timeZone) {
+        ZonedDateTime dateTime = instant.atZone(ZoneId.of(timeZone));
         if (dateTime.getHour() == 0) {
             return "23:59H";
         }
-        return DateTimeFormatter
-                .ofPattern("HH:00")
-                .format(instant.atZone(timeZone)) + "H";
+        return getDisplayedDateTime(instant, timeZone, "HH:00") + "H";
     }
 
-    private void setDateTime(WebElement dateBox, WebElement timeBox, Instant startInstant, ZoneId timeZone) {
+    private void setDateTime(WebElement dateBox, WebElement timeBox, Instant startInstant, String timeZone) {
         fillTextBox(dateBox, getDateString(startInstant, timeZone));
 
         selectDropdownOptionByText(timeBox, getTimeString(startInstant, timeZone));
