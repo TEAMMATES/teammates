@@ -399,6 +399,8 @@ this session.`;
         .subscribe((response: FeedbackQuestionsResponse) => {
           this.isFeedbackSessionQuestionResponsesLoading = response.questions.length !== 0;
           response.questions.forEach((feedbackQuestion: FeedbackQuestion) => {
+            console.log("HI");
+            console.log(feedbackQuestion.numberOfEntitiesToGiveFeedbackToSetting);
             const model: QuestionSubmissionFormModel = {
               feedbackQuestionId: feedbackQuestion.feedbackQuestionId,
 
@@ -493,7 +495,9 @@ this session.`;
   getQuestionSubmissionFormMode(model: QuestionSubmissionFormModel): QuestionSubmissionFormMode {
     const isNumberOfEntitiesToGiveFeedbackToSettingLimited: boolean
         = (model.recipientType === FeedbackParticipantType.STUDENTS
+        || model.recipientType === FeedbackParticipantType.STUDENTS_IN_SAME_SECTION
         || model.recipientType === FeedbackParticipantType.TEAMS
+        || model.recipientType === FeedbackParticipantType.TEAMS_IN_SAME_SECTION
         || model.recipientType === FeedbackParticipantType.INSTRUCTORS)
         && model.numberOfEntitiesToGiveFeedbackToSetting === NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM
         && model.recipientList.length > model.customNumberOfEntitiesToGiveFeedbackTo;
