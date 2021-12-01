@@ -6,7 +6,6 @@ import static teammates.common.util.FieldValidator.TIME_FRAME_ERROR_MESSAGE;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.time.ZoneId;
 import java.util.List;
 import java.util.Set;
 
@@ -573,15 +572,15 @@ public class FeedbackSessionsDbTest extends BaseTestCaseWithLocalDatabaseAccess 
         assertEquals(resultVisibleTime, updatedFs.getResultsVisibleFromTime());
         assertEquals(resultVisibleTime, actualFs.getResultsVisibleFromTime());
 
-        assertNotEquals("Asia/Singapore", actualFs.getTimeZone().getId());
+        assertNotEquals("Asia/Singapore", actualFs.getTimeZone());
         updatedFs = fsDb.updateFeedbackSession(
                 FeedbackSessionAttributes
                         .updateOptionsBuilder(typicalFs.getFeedbackSessionName(), typicalFs.getCourseId())
-                        .withTimeZone(ZoneId.of("Asia/Singapore"))
+                        .withTimeZone("Asia/Singapore")
                         .build());
         actualFs = fsDb.getFeedbackSession(typicalFs.getCourseId(), typicalFs.getFeedbackSessionName());
-        assertEquals("Asia/Singapore", updatedFs.getTimeZone().getId());
-        assertEquals("Asia/Singapore", actualFs.getTimeZone().getId());
+        assertEquals("Asia/Singapore", updatedFs.getTimeZone());
+        assertEquals("Asia/Singapore", actualFs.getTimeZone());
 
         assertNotEquals(10, actualFs.getGracePeriodMinutes());
         updatedFs = fsDb.updateFeedbackSession(

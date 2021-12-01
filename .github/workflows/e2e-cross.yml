@@ -47,12 +47,14 @@ jobs:
         run: npm ci
       - name: Build Frontend Bundle
         run: npm run build -- --progress=false --serviceWorker=false
-      - name: Start Server and Tests
+      - name: Start Server
         if: matrix.os == 'ubuntu-latest'
         run: |
           ./gradlew serverRun &
           ./wait-for-server.sh
-          xvfb-run --server-args="-screen 0 1024x768x24" ./gradlew e2eTests
+      - name: Start Tests
+        if: matrix.os == 'ubuntu-latest'
+        run: xvfb-run --server-args="-screen 0 1024x768x24" ./gradlew e2eTests
       - name: Start Server and Tests
         if: matrix.os == 'windows-latest'
         run: |

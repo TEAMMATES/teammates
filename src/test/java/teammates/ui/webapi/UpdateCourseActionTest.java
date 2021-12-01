@@ -56,7 +56,7 @@ public class UpdateCourseActionTest extends BaseActionTest<UpdateCourseAction> {
         ______TS("Typical case: edit course name with same name");
 
         // verify time zone will be changed
-        String oldCourseTimeZone = typicalBundle.courses.get("typicalCourse1").getTimeZone().getId();
+        String oldCourseTimeZone = typicalBundle.courses.get("typicalCourse1").getTimeZone();
         assertNotEquals(courseTimeZone, oldCourseTimeZone);
         verifySessionsInCourseHaveTimeZone(courseId, oldCourseTimeZone);
 
@@ -147,7 +147,7 @@ public class UpdateCourseActionTest extends BaseActionTest<UpdateCourseAction> {
     private void verifySessionsInCourseHaveTimeZone(String courseId, String courseTimeZone) {
         List<FeedbackSessionAttributes> sessions = logic.getFeedbackSessionsForCourse(courseId);
         for (FeedbackSessionAttributes session : sessions) {
-            assertEquals(courseTimeZone, session.getTimeZone().getId());
+            assertEquals(courseTimeZone, session.getTimeZone());
         }
     }
 

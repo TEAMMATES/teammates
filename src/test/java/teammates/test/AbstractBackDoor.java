@@ -8,7 +8,6 @@ import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import java.time.Duration;
 import java.time.Instant;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -337,7 +336,7 @@ public abstract class AbstractBackDoor {
         }
         return CourseAttributes.builder(courseData.getCourseId())
                 .withName(courseData.getCourseName())
-                .withTimezone(ZoneId.of(courseData.getTimeZone()))
+                .withTimezone(courseData.getTimeZone())
                 .withInstitute(courseData.getInstitute())
                 .build();
     }
@@ -381,7 +380,7 @@ public abstract class AbstractBackDoor {
         }
         return CourseAttributes.builder(courseData.getCourseId())
                 .withName(courseData.getCourseName())
-                .withTimezone(ZoneId.of(courseData.getTimeZone()))
+                .withTimezone(courseData.getTimeZone())
                 .withInstitute(courseData.getInstitute())
                 .build();
     }
@@ -530,7 +529,7 @@ public abstract class AbstractBackDoor {
                 .withInstructions(sessionData.getInstructions())
                 .withStartTime(Instant.ofEpochMilli(sessionData.getSubmissionStartTimestamp()))
                 .withEndTime(Instant.ofEpochMilli(sessionData.getSubmissionEndTimestamp()))
-                .withTimeZone(ZoneId.of(sessionData.getTimeZone()))
+                .withTimeZone(sessionData.getTimeZone())
                 .withGracePeriod(Duration.ofMinutes(sessionData.getGracePeriod()))
                 .withIsClosingEmailEnabled(sessionData.getIsClosingEmailEnabled())
                 .withIsPublishedEmailEnabled(sessionData.getIsPublishedEmailEnabled())

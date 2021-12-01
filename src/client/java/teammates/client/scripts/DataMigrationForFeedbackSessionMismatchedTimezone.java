@@ -41,17 +41,18 @@ public class DataMigrationForFeedbackSessionMismatchedTimezone extends DataMigra
             currentCourse = coursesLogic.getCourse(currentCourseId);
         }
 
-        return !session.getTimeZone().equals(currentCourse.getTimeZone().getId());
+        return !session.getTimeZone().equals(currentCourse.getTimeZone());
     }
 
     @Override
     protected void migrateEntity(FeedbackSession session) {
         Instant now = Instant.now();
         int offsetOld = ZoneId.of(session.getTimeZone()).getRules().getOffset(now).getTotalSeconds();
-        int offsetNew = currentCourse.getTimeZone().getRules().getOffset(now).getTotalSeconds();
+        ZoneId courseTimeZone = ZoneId.of(currentCourse.getTimeZone());
+        int offsetNew = courseTimeZone.getRules().getOffset(now).getTotalSeconds();
         long offsetDiffMillis = (offsetOld - offsetNew) * 1000L;
 
-        session.setTimeZone(currentCourse.getTimeZone().getId());
+        session.setTimeZone(courseTimeZone.getId());
 
         if (!TimeHelper.isSpecialTime(session.getStartTime())) {
             session.setStartTime(session.getStartTime().plusMillis(offsetDiffMillis));
