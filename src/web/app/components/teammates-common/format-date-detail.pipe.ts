@@ -15,7 +15,7 @@ export class FormatDateDetailPipe implements PipeTransform {
    * Transforms a timestamp to a date string in detail.
    */
   transform(timestamp: number, timeZone: string): string {
-    return this.timezoneService.formatToString(timestamp, timeZone, 'ddd, DD MMM YYYY, HH:mm A z');
+    return this.timezoneService.formatToString(timestamp, timeZone, 'ddd, DD MMM YYYY, hh:mm A z');
   }
 
 }

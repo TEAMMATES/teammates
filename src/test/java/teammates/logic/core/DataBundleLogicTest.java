@@ -1,6 +1,5 @@
 package teammates.logic.core;
 
-import java.time.ZoneId;
 import java.util.Map;
 
 import org.testng.annotations.Test;
@@ -52,7 +51,7 @@ public class DataBundleLogicTest extends BaseLogicTest {
         CourseAttributes invalidCourse = CourseAttributes
                 .builder("invalid id")
                 .withName("valid course name")
-                .withTimezone(ZoneId.of("UTC"))
+                .withTimezone("UTC")
                 .withInstitute("Test institute")
                 .build();
         dataBundle = new DataBundle();

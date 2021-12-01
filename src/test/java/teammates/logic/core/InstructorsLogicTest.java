@@ -1,6 +1,5 @@
 package teammates.logic.core;
 
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -216,7 +215,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
         coursesLogic.createCourse(
                 CourseAttributes.builder(courseId)
                         .withName("New course")
-                        .withTimezone(ZoneId.of("UTC"))
+                        .withTimezone("UTC")
                         .withInstitute("Test institute")
                         .build());
 

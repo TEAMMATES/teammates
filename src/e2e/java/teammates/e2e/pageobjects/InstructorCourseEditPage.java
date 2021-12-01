@@ -80,7 +80,7 @@ public class InstructorCourseEditPage extends AppPage {
     public void verifyCourseDetails(CourseAttributes course) {
         assertEquals(course.getId(), getCourseId());
         assertEquals(course.getName(), getCourseName());
-        assertEquals(course.getTimeZone().toString(), getTimeZone());
+        assertEquals(course.getTimeZone(), getTimeZone());
     }
 
     public void verifyInstructorDetails(InstructorAttributes instructor) {
@@ -196,7 +196,7 @@ public class InstructorCourseEditPage extends AppPage {
     public void editCourse(CourseAttributes newCourse) {
         clickEditCourseButton();
         fillTextBox(courseNameTextBox, newCourse.getName());
-        selectNewTimeZone(newCourse.getTimeZone().toString());
+        selectNewTimeZone(newCourse.getTimeZone());
         clickSaveCourseButton();
     }
 

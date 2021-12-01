@@ -1,5 +1,7 @@
 package teammates.ui.webapi;
 
+import java.time.Instant;
+
 import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -10,6 +12,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
+import teammates.common.util.TimeHelper;
 import teammates.ui.output.FeedbackSessionData;
 import teammates.ui.request.FeedbackSessionCreateRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
@@ -48,17 +51,26 @@ class CreateFeedbackSessionAction extends Action {
 
         String feedbackSessionName = SanitizationHelper.sanitizeTitle(createRequest.getFeedbackSessionName());
 
+        String timeZone = course.getTimeZone();
+        Instant startTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                createRequest.getSubmissionStartTime(), timeZone, true);
+        Instant endTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                createRequest.getSubmissionEndTime(), timeZone, true);
+        Instant sessionVisibleTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                createRequest.getSessionVisibleFromTime(), timeZone, true);
+        Instant resultsVisibleTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                createRequest.getResultsVisibleFromTime(), timeZone, true);
         FeedbackSessionAttributes fs =
                 FeedbackSessionAttributes
                         .builder(feedbackSessionName, course.getId())
                         .withCreatorEmail(instructor.getEmail())
                         .withTimeZone(course.getTimeZone())
                         .withInstructions(createRequest.getInstructions())
-                        .withStartTime(createRequest.getSubmissionStartTime())
-                        .withEndTime(createRequest.getSubmissionEndTime())
+                        .withStartTime(startTime)
+                        .withEndTime(endTime)
                         .withGracePeriod(createRequest.getGracePeriod())
-                        .withSessionVisibleFromTime(createRequest.getSessionVisibleFromTime())
-                        .withResultsVisibleFromTime(createRequest.getResultsVisibleFromTime())
+                        .withSessionVisibleFromTime(sessionVisibleTime)
+                        .withResultsVisibleFromTime(resultsVisibleTime)
                         .withIsClosingEmailEnabled(createRequest.isClosingEmailEnabled())
                         .withIsPublishedEmailEnabled(createRequest.isPublishedEmailEnabled())
                         .build();
