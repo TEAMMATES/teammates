@@ -2,7 +2,6 @@ package teammates.lnp.cases;
 
 import java.io.IOException;
 import java.time.Instant;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -77,7 +76,7 @@ public class FeedbackSessionViewLNPTest extends BaseLNPTestCase {
 
                 courses.put("course", CourseAttributes.builder(COURSE_ID)
                         .withName("Feedback Load Testing")
-                        .withTimezone(ZoneId.of("UTC"))
+                        .withTimezone("UTC")
                         .build()
                 );
 

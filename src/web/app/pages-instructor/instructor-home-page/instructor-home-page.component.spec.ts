@@ -12,7 +12,7 @@ import {
   FeedbackSessionPublishStatus,
   FeedbackSessions,
   FeedbackSessionSubmissionStatus,
-  InstructorPrivilege,
+  InstructorPermissionSet,
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../types/api-output';
@@ -22,7 +22,7 @@ import { TeammatesRouterModule } from '../../components/teammates-router/teammat
 import { CourseTabModel, InstructorHomePageComponent } from './instructor-home-page.component';
 import { InstructorHomePageModule } from './instructor-home-page.module';
 
-const testInstructorPrivilege: InstructorPrivilege = {
+const testInstructorPrivilege: InstructorPermissionSet = {
   canModifyCourse: true,
   canModifySession: true,
   canModifyStudent: true,

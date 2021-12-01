@@ -53,8 +53,8 @@ public class InstructorAuditLogsPageE2ETest extends BaseE2ETestCase {
         String currentLogsToTime = auditLogsPage.getLogsToTime();
 
         auditLogsPage.setLogsFromDateTime(Instant.now().minus(1, ChronoUnit.DAYS),
-                ZoneId.systemDefault());
-        auditLogsPage.setLogsToDateTime(Instant.now(), ZoneId.systemDefault());
+                ZoneId.systemDefault().getId());
+        auditLogsPage.setLogsToDateTime(Instant.now(), ZoneId.systemDefault().getId());
 
         assertEquals(currentLogsFromDate, auditLogsPage.getLogsFromDate());
         assertEquals(currentLogsToDate, auditLogsPage.getLogsToDate());

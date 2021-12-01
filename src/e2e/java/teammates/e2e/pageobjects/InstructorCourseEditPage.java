@@ -12,6 +12,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 
+import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -79,7 +80,7 @@ public class InstructorCourseEditPage extends AppPage {
     public void verifyCourseDetails(CourseAttributes course) {
         assertEquals(course.getId(), getCourseId());
         assertEquals(course.getName(), getCourseName());
-        assertEquals(course.getTimeZone().toString(), getTimeZone());
+        assertEquals(course.getTimeZone(), getTimeZone());
     }
 
     public void verifyInstructorDetails(InstructorAttributes instructor) {
@@ -105,9 +106,9 @@ public class InstructorCourseEditPage extends AppPage {
     public void verifyCustomPrivileges(int instrNum, InstructorPrivileges privileges) {
         clickEditInstructorButton(instrNum);
 
-        Map<String, Boolean> courseLevelPrivileges = privileges.getCourseLevelPrivileges();
-        Map<String, Map<String, Boolean>> sectionLevelPrivileges = privileges.getSectionLevelPrivileges();
-        Map<String, Map<String, Map<String, Boolean>>> sessionLevelPrivileges = privileges.getSessionLevelPrivileges();
+        InstructorPermissionSet courseLevelPrivileges = privileges.getCourseLevelPrivileges();
+        Map<String, InstructorPermissionSet> sectionLevelPrivileges = privileges.getSectionLevelPrivileges();
+        Map<String, Map<String, InstructorPermissionSet>> sessionLevelPrivileges = privileges.getSessionLevelPrivileges();
 
         verifyCourseLevelPrivileges(instrNum, courseLevelPrivileges);
         verifySectionLevelPrivileges(instrNum, sectionLevelPrivileges);
@@ -116,9 +117,12 @@ public class InstructorCourseEditPage extends AppPage {
         clickCancelInstructorButton(instrNum);
     }
 
-    private void verifyCourseLevelPrivileges(int instrNum, Map<String, Boolean> courseLevelPrivileges) {
+    private void verifyCourseLevelPrivileges(int instrNum, InstructorPermissionSet courseLevelPrivileges) {
         List<WebElement> checkboxes = getCourseLevelPanelCheckBoxes(instrNum);
-        for (Map.Entry<String, Boolean> privilege : courseLevelPrivileges.entrySet()) {
+        for (Map.Entry<String, Boolean> privilege : courseLevelPrivileges.toLegacyMapFormat().entrySet()) {
+            if (!InstructorPrivileges.isPrivilegeNameValid(privilege.getKey())) {
+                continue;
+            }
             if (privilege.getValue()) {
                 assertTrue(checkboxes.get(getCourseLevelPrivilegeIndex(privilege.getKey())).isSelected());
             } else {
@@ -127,10 +131,13 @@ public class InstructorCourseEditPage extends AppPage {
         }
     }
 
-    private void verifySectionLevelPrivileges(int instrNum, Map<String, Map<String, Boolean>> sectionLevelPrivileges) {
-        for (Map.Entry<String, Map<String, Boolean>> section : sectionLevelPrivileges.entrySet()) {
+    private void verifySectionLevelPrivileges(int instrNum, Map<String, InstructorPermissionSet> sectionLevelPrivileges) {
+        for (Map.Entry<String, InstructorPermissionSet> section : sectionLevelPrivileges.entrySet()) {
             int panelNum = getSectionLevelPanelNumWithSectionSelected(instrNum, section.getKey());
-            for (Map.Entry<String, Boolean> privilege : section.getValue().entrySet()) {
+            for (Map.Entry<String, Boolean> privilege : section.getValue().toLegacyMapFormat().entrySet()) {
+                if (!InstructorPrivileges.isPrivilegeNameValidForSectionLevel(section.getKey())) {
+                    continue;
+                }
                 if (privilege.getValue()) {
                     assertTrue(getSectionLevelCheckBox(instrNum, panelNum,
                             getSectionLevelPrivilegeIndex(privilege.getKey())).isSelected());
@@ -142,13 +149,16 @@ public class InstructorCourseEditPage extends AppPage {
         }
     }
 
-    private void verifySessionLevelPrivileges(int instrNum,
-                                              Map<String, Map<String, Map<String, Boolean>>> sessionLevelPrivileges) {
-        for (Map.Entry<String, Map<String, Map<String, Boolean>>> section : sessionLevelPrivileges.entrySet()) {
+    private void verifySessionLevelPrivileges(
+            int instrNum, Map<String, Map<String, InstructorPermissionSet>> sessionLevelPrivileges) {
+        for (Map.Entry<String, Map<String, InstructorPermissionSet>> section : sessionLevelPrivileges.entrySet()) {
             int panelNum = getSectionLevelPanelNumWithSectionSelected(instrNum, section.getKey());
-            for (Map.Entry<String, Map<String, Boolean>> session : section.getValue().entrySet()) {
+            for (Map.Entry<String, InstructorPermissionSet> session : section.getValue().entrySet()) {
                 int sessionIndex = getSessionIndex(instrNum, session.getKey());
-                for (Map.Entry<String, Boolean> privilege : session.getValue().entrySet()) {
+                for (Map.Entry<String, Boolean> privilege : session.getValue().toLegacyMapFormat().entrySet()) {
+                    if (!InstructorPrivileges.isPrivilegeNameValidForSessionLevel(privilege.getKey())) {
+                        continue;
+                    }
                     if (privilege.getValue()) {
                         assertTrue(getSessionLevelCheckbox(instrNum, panelNum, sessionIndex,
                                 getSessionLevelPrivilegeIndex(privilege.getKey())).isSelected());
@@ -186,7 +196,7 @@ public class InstructorCourseEditPage extends AppPage {
     public void editCourse(CourseAttributes newCourse) {
         clickEditCourseButton();
         fillTextBox(courseNameTextBox, newCourse.getName());
-        selectNewTimeZone(newCourse.getTimeZone().toString());
+        selectNewTimeZone(newCourse.getTimeZone());
         clickSaveCourseButton();
     }
 

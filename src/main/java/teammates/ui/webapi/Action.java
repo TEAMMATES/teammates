@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
+import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -24,7 +25,6 @@ import teammates.logic.api.LogsProcessor;
 import teammates.logic.api.RecaptchaVerifier;
 import teammates.logic.api.TaskQueuer;
 import teammates.logic.api.UserProvision;
-import teammates.ui.output.InstructorPrivilegeData;
 import teammates.ui.request.BasicRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 
@@ -254,9 +254,8 @@ public abstract class Action {
         return Optional.empty();
     }
 
-    InstructorPrivilegeData constructInstructorPrivileges(InstructorAttributes instructor, String feedbackSessionName) {
-        InstructorPrivilegeData privilege = new InstructorPrivilegeData();
-        privilege.constructCourseLevelPrivilege(instructor.getPrivileges());
+    InstructorPermissionSet constructInstructorPrivileges(InstructorAttributes instructor, String feedbackSessionName) {
+        InstructorPermissionSet privilege = instructor.getPrivileges().getCourseLevelPrivileges();
         if (feedbackSessionName != null) {
             privilege.setCanSubmitSessionInSections(
                     instructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS)

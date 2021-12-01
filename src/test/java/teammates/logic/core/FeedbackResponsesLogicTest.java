@@ -985,7 +985,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
             totalMissingResponse += entry.getValue().size();
         }
         assertEquals(10, totalResponse);
-        assertEquals(19, totalMissingResponse);
+        assertEquals(4, totalMissingResponse);
         // Instructor should still see all questions
         assertEquals(8, bundle.getQuestionsMap().size());
         assertEquals(8, bundle.getQuestionResponseMap().size());
@@ -1049,7 +1049,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
             totalMissingResponse += entry.getValue().size();
         }
         assertEquals(7, totalResponse);
-        assertEquals(13, totalMissingResponse);
+        assertEquals(0, totalMissingResponse);
         // Instructor should still see all questions
         assertEquals(8, bundle.getQuestionsMap().size());
         assertEquals(8, bundle.getQuestionResponseMap().size());
