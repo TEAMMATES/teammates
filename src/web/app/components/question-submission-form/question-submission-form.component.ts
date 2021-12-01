@@ -94,10 +94,22 @@ export class QuestionSubmissionFormComponent implements OnInit {
               private feedbackResponseService: FeedbackResponsesService) {
     this.visibilityStateMachine =
         this.feedbackQuestionsService.getNewVisibilityStateMachine(
-            this.model.giverType, this.model.recipientType);
+          this.model.giverType, this.model.recipientType);
   }
 
   ngOnInit(): void {
+    // Sorts the receipients alphabetically
+    this.model.recipientSubmissionForms.sort((firstRecepient: FeedbackResponseRecipientSubmissionFormModel, secondRecepient: FeedbackResponseRecipientSubmissionFormModel) => {
+      let indexOne = this.model.recipientList.findIndex((x: FeedbackResponseRecipient) => x.recipientIdentifier === firstRecepient.recipientIdentifier);
+      let indexTwo = this.model.recipientList.findIndex((x: FeedbackResponseRecipient) => x.recipientIdentifier === secondRecepient.recipientIdentifier); 
+      if (indexOne < indexTwo) {
+        return -1;
+      } else if (indexOne > indexTwo) {
+        return 1;
+      } else {
+        return 0;
+      }
+    })
   }
 
   /**
