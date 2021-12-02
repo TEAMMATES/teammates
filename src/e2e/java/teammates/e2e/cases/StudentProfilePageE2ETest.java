@@ -1,5 +1,6 @@
 package teammates.e2e.cases;
 
+import org.openqa.selenium.Dimension;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
@@ -43,7 +44,7 @@ public class StudentProfilePageE2ETest extends BaseE2ETestCase {
         profilePage.verifyPhotoSize("220px", "220px");
 
         ______TS("Typical case: Profile picture ratios");
-        profilePage.fillProfilePic("src/test/resources/images/profile_pic_too_wide.jpg"); //TODO: chose profile pic
+        profilePage.fillProfilePic("src/test/resources/images/profile_pic_too_wide.jpg");
         profilePage.uploadPicture();
         profilePage.verifyStatusMessage("Your profile picture has been saved successfully");
 
@@ -51,9 +52,9 @@ public class StudentProfilePageE2ETest extends BaseE2ETestCase {
         profilePage.waitForUploadEditModalVisible();
 
         profilePage.editProfilePhoto();
-        profilePage.verifyPhotoMaxHeight(220);
+        profilePage.verifyPhotoMaxHeight(220, "src/test/resources/images/profile_pic_too_wide.jpg");
 
-        profilePage.fillProfilePic("src/test/resources/images/profile_pic_too_tall.jpg"); //TODO: chose profile pic
+        profilePage.fillProfilePic("src/test/resources/images/profile_pic_too_tall.jpg");
         profilePage.uploadPicture();
         profilePage.verifyStatusMessage("Your profile picture has been saved successfully");
 
@@ -61,8 +62,7 @@ public class StudentProfilePageE2ETest extends BaseE2ETestCase {
         profilePage.waitForUploadEditModalVisible();
 
         profilePage.editProfilePhoto();
-        profilePage.verifyPhotoMaxWidth(220);
-
+        profilePage.verifyPhotoMaxWidth(220, "src/test/resources/images/profile_pic_too_tall.jpg");
 
         ______TS("Typical case: edit profile page");
         profilePage.editProfileThroughUi("short.name", "e@email.tmt", "inst", "American",

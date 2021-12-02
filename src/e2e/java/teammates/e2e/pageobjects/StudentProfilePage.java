@@ -4,6 +4,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -15,6 +18,8 @@ import org.openqa.selenium.support.ui.Select;
 
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.NationalityHelper;
+
+import javax.imageio.ImageIO;
 
 /**
  * Page Object Model for student profile page.
@@ -166,35 +171,42 @@ public class StudentProfilePage extends AppPage {
         click(uploadEditModal.findElement(By.className("close")));
     }
 
-    public void verifyPhotoMaxWidth(int maxWidth) {
+    public void verifyPhotoMaxHeight(int maxWidth, String srcImage) {
         String actualHeight = browser.driver.findElement(By.className("profile-pic")).getCssValue("height");
         float imageHeight = Float.parseFloat(actualHeight.substring(0,actualHeight.length() - 2));
-        assertTrue(imageHeight <= scaledDown(getProfilePicAspectRatio(), maxWidth).getHeight());
+        assertEquals(scaledDown(getProfilePicAspectRatio(srcImage), maxWidth).getHeight(), imageHeight, 0.0);
         verifyPhotoClose();
     }
 
-    public void verifyPhotoMaxHeight(int maxHeight) {
+    public void verifyPhotoMaxWidth(int maxHeight, String srcImage) {
         String actualWidth = browser.driver.findElement(By.className("profile-pic")).getCssValue("width");
         float imageWidth = Float.parseFloat(actualWidth.substring(0,actualWidth.length() - 2));
-        assertTrue(imageWidth <= scaledDown(getProfilePicAspectRatio(),maxHeight).getWidth());
+        assertEquals(scaledDown(getProfilePicAspectRatio(srcImage), maxHeight).getWidth(), imageWidth, 0.0);
         verifyPhotoClose();
     }
 
-    private Dimension getProfilePicAspectRatio() {
-        String imageWidth = browser.driver.findElement(By.className("profile-pic")).getCssValue("width");
-        String imageHeight = browser.driver.findElement(By.className("profile-pic")).getCssValue("height");
-        int width = Integer.parseInt(imageWidth.substring(0,imageWidth.length() - 2));
-        int height = Integer.parseInt(imageHeight.substring(0,imageHeight.length() - 2));
-        return new Dimension(width, height);
+    //I get that this almost has to be tested too
+    private Dimension getProfilePicAspectRatio(String srcImage) {
+        BufferedImage bimg;
+        try {
+            bimg = ImageIO.read(new File(srcImage));
+            int imageWidth = bimg.getWidth();
+            int imageHeight =  bimg.getHeight();
+            return new Dimension(imageWidth, imageHeight);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //Will hopefully never be reached
+        return new Dimension(0,0);
     }
 
     private Dimension scaledDown(Dimension start, int maxVal) {
-        if(start.getHeight() > start.getWidth() && start.getHeight() > maxVal) {
+        if(start.getHeight() > start.getWidth()) {
             float percent = (((float) maxVal)/ start.getHeight()) * 100;
             int scaleDown = Math.round(start.getWidth() * (percent)/100);
             return new Dimension(scaleDown, maxVal);
         }
-        else if(start.getWidth() > start.getHeight() && start.getWidth() > maxVal) {
+        else if(start.getWidth() > start.getHeight()) {
             float percent = (((float) maxVal)/ start.getWidth()) * 100;
             int scaleDown = Math.round(start.getHeight() * (percent)/100);
             return new Dimension(maxVal, scaleDown);
