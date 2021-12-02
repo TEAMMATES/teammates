@@ -99,17 +99,24 @@ export class QuestionSubmissionFormComponent implements OnInit {
 
   ngOnInit(): void {
     // Sorts the receipients alphabetically
-    this.model.recipientSubmissionForms.sort((firstRecepient: FeedbackResponseRecipientSubmissionFormModel, secondRecepient: FeedbackResponseRecipientSubmissionFormModel) => {
-      let indexOne = this.model.recipientList.findIndex((x: FeedbackResponseRecipient) => x.recipientIdentifier === firstRecepient.recipientIdentifier);
-      let indexTwo = this.model.recipientList.findIndex((x: FeedbackResponseRecipient) => x.recipientIdentifier === secondRecepient.recipientIdentifier); 
+    this.model.recipientSubmissionForms.sort((firstRecepient: FeedbackResponseRecipientSubmissionFormModel,
+      secondRecepient: FeedbackResponseRecipientSubmissionFormModel) => {
+      const indexOne: number = this.model.recipientList.findIndex((x: FeedbackResponseRecipient) =>
+        x.recipientIdentifier === firstRecepient.recipientIdentifier);
+
+      const indexTwo: number = this.model.recipientList.findIndex((x: FeedbackResponseRecipient) =>
+        x.recipientIdentifier === secondRecepient.recipientIdentifier);
+
       if (indexOne < indexTwo) {
         return -1;
-      } else if (indexOne > indexTwo) {
-        return 1;
-      } else {
-        return 0;
       }
-    })
+
+      if (indexOne > indexTwo) {
+        return 1;
+      }
+
+      return 0;
+    });
   }
 
   /**
