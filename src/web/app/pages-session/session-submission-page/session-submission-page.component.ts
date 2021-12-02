@@ -399,8 +399,6 @@ this session.`;
         .subscribe((response: FeedbackQuestionsResponse) => {
           this.isFeedbackSessionQuestionResponsesLoading = response.questions.length !== 0;
           response.questions.forEach((feedbackQuestion: FeedbackQuestion) => {
-            console.log("HI");
-            console.log(feedbackQuestion.numberOfEntitiesToGiveFeedbackToSetting);
             const model: QuestionSubmissionFormModel = {
               feedbackQuestionId: feedbackQuestion.feedbackQuestionId,
 
