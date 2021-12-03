@@ -9,6 +9,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import javax.imageio.ImageIO;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebElement;
@@ -18,8 +20,6 @@ import org.openqa.selenium.support.ui.Select;
 
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.NationalityHelper;
-
-import javax.imageio.ImageIO;
 
 /**
  * Page Object Model for student profile page.
@@ -173,14 +173,14 @@ public class StudentProfilePage extends AppPage {
 
     public void verifyPhotoMaxHeight(int maxWidth, String srcImage) {
         String actualHeight = browser.driver.findElement(By.className("profile-pic")).getCssValue("height");
-        float imageHeight = Float.parseFloat(actualHeight.substring(0,actualHeight.length() - 2));
+        float imageHeight = Float.parseFloat(actualHeight.substring(0, actualHeight.length() - 2));
         assertEquals(scaledDown(getProfilePicAspectRatio(srcImage), maxWidth).getHeight(), imageHeight, 1.0);
         verifyPhotoClose();
     }
 
     public void verifyPhotoMaxWidth(int maxHeight, String srcImage) {
         String actualWidth = browser.driver.findElement(By.className("profile-pic")).getCssValue("width");
-        float imageWidth = Float.parseFloat(actualWidth.substring(0,actualWidth.length() - 2));
+        float imageWidth = Float.parseFloat(actualWidth.substring(0, actualWidth.length() - 2));
         assertEquals(scaledDown(getProfilePicAspectRatio(srcImage), maxHeight).getWidth(), imageWidth, 1.0);
         verifyPhotoClose();
     }
@@ -191,24 +191,23 @@ public class StudentProfilePage extends AppPage {
         try {
             bimg = ImageIO.read(new File(srcImage));
             int imageWidth = bimg.getWidth();
-            int imageHeight =  bimg.getHeight();
+            int imageHeight = bimg.getHeight();
             return new Dimension(imageWidth, imageHeight);
         } catch (IOException e) {
             e.printStackTrace();
         }
         //Will hopefully never be reached
-        return new Dimension(0,0);
+        return new Dimension(0, 0);
     }
 
     private Dimension scaledDown(Dimension start, int maxVal) {
-        if(start.getHeight() > start.getWidth()) {
-            float percent = (((float) maxVal)/ start.getHeight()) * 100;
-            int scaleDown = Math.round(start.getWidth() * (percent)/100);
+        if (start.getHeight() > start.getWidth()) {
+            float percent = (((float) maxVal) / start.getHeight()) * 100;
+            int scaleDown = Math.round(start.getWidth() * percent / 100);
             return new Dimension(scaleDown, maxVal);
-        }
-        else if(start.getWidth() > start.getHeight()) {
-            float percent = (((float) maxVal)/ start.getWidth()) * 100;
-            int scaleDown = Math.round(start.getHeight() * (percent)/100);
+        } else if (start.getWidth() > start.getHeight()) {
+            float percent = (((float) maxVal) / start.getWidth()) * 100;
+            int scaleDown = Math.round(start.getHeight() * percent / 100);
             return new Dimension(maxVal, scaleDown);
         }
         return start;

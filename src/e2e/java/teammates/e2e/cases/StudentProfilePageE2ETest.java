@@ -1,6 +1,5 @@
 package teammates.e2e.cases;
 
-import org.openqa.selenium.Dimension;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
