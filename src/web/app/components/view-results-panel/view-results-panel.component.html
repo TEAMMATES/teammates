@@ -1,0 +1,59 @@
+<div class="card bg-light top-padded text-center text-sm-left" *ngIf="session">
+  <div class="card-body row">
+    <div class="col-md-6">
+      <div class="report-config-item">
+        <label class="report-config-label control-label">
+          <b ngbTooltip="{{viewTooltipText}}" class="ngb-tooltip-class">View:</b>
+        </label>
+        <div>
+          <select id="view-type-dropdown" class="form-control" [ngModel]="viewType" (ngModelChange)="handleViewTypeChange($event)">
+            <option [value]="InstructorSessionResultViewType.QUESTION">Group by - Question</option>
+            <option [value]="InstructorSessionResultViewType.GRQ">Group by - Giver &#8594; Recipient &#8594; Question</option>
+            <option [value]="InstructorSessionResultViewType.RGQ">Group by - Recipient &#8594; Giver &#8594; Question</option>
+            <option [value]="InstructorSessionResultViewType.GQR">Group by - Giver &#8594; Question &#8594; Recipient</option>
+            <option [value]="InstructorSessionResultViewType.RQG">Group by - Recipient &#8594; Question &#8594; Giver</option>
+          </select>
+        </div>
+      </div>
+      <div class="report-config-item">
+        <label class="report-config-label control-label mt-md-1">
+          <b ngbTooltip="View results by sections" class="ngb-tooltip-class">Section:</b>
+        </label>
+        <div>
+          <select id="section-dropdown" class="form-control" [ngModel]="section" (ngModelChange)="handleSectionChange($event)">
+            <option value="">All</option>
+            <option *ngFor="let section of sectionsModel | keyvalue" [value]="section.key">
+              {{ section.key === 'None' ? 'No specific section' : section.key }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div *ngIf="section" class="report-config-item">
+        <label class="report-config-label control-label mt-md-1">
+          <b ngbTooltip="Choose the way responses for the selected section is viewed" class="ngb-tooltip-class">If showing only a section:</b>
+        </label>
+        <div>
+          <select id="section-type-dropdown" class="form-control" [ngModel]="sectionType" (ngModelChange)="handleSectionTypeChange($event)">
+            <option *ngFor="let sectionType of InstructorSessionResultSectionType | enumToArray" [ngValue]="sectionType">
+              {{ sectionType | sectionTypeDescription }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6" style="margin-top: 10px;">
+      <label class="control-label">
+        <b>Additional settings:</b>
+      </label>
+      <div>
+        <label class="form-check-label" ><input id="include-team-grouping" type="checkbox" [ngModel]="groupByTeam" (ngModelChange)="handleGroupByTeamChange($event)" [disabled]="viewType === 'QUESTION'"> Group by Teams</label>
+      </div>
+      <div>
+        <label class="form-check-label" ><input id="include-statistics" type="checkbox" [ngModel]="showStatistics" (ngModelChange)="handleShowStatisticsChange($event)" [disabled]="viewType === 'GRQ' || viewType === 'RGQ'"> Show Statistics</label>
+      </div>
+      <div>
+        <label class="form-check-label" ><input id="include-missing-responses" type="checkbox" [ngModel]="indicateMissingResponses" (ngModelChange)="handleIndicateMissingResponsesChange($event)"> Indicate Missing Responses</label>
+      </div>
+    </div>
+  </div>
+</div>

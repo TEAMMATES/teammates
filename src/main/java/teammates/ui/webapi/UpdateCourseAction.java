@@ -1,7 +1,5 @@
 package teammates.ui.webapi;
 
-import java.time.ZoneId;
-
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -52,7 +50,7 @@ class UpdateCourseAction extends Action {
             updatedCourse = logic.updateCourseCascade(
                     CourseAttributes.updateOptionsBuilder(courseId)
                             .withName(courseName)
-                            .withTimezone(ZoneId.of(courseTimeZone))
+                            .withTimezone(courseTimeZone)
                             .build());
         } catch (InvalidParametersException ipe) {
             throw new InvalidHttpRequestBodyException(ipe);

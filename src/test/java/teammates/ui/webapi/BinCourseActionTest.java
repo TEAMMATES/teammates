@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import java.time.ZoneId;
 import java.util.List;
 
 import org.testng.annotations.Test;
@@ -48,7 +47,7 @@ public class BinCourseActionTest extends BaseActionTest<BinCourseAction> {
         logic.createCourseAndInstructor(instructorId,
                 CourseAttributes.builder("icdct.tpa.id1")
                         .withName("New course")
-                        .withTimezone(ZoneId.of("UTC"))
+                        .withTimezone("UTC")
                         .withInstitute("Test institute")
                         .build());
 
@@ -57,7 +56,7 @@ public class BinCourseActionTest extends BaseActionTest<BinCourseAction> {
         CourseData courseData = (CourseData) result.getOutput();
 
         verifyCourseData(courseData, courseToBeDeleted.getId(), courseToBeDeleted.getName(),
-                courseToBeDeleted.getTimeZone().getId());
+                courseToBeDeleted.getTimeZone());
 
         List<InstructorAttributes> instructors = logic.getInstructorsForGoogleId(instructorId, false);
         List<CourseAttributes> courseList = logic.getCoursesForInstructor(instructors);
@@ -121,7 +120,7 @@ public class BinCourseActionTest extends BaseActionTest<BinCourseAction> {
         CourseData courseData = (CourseData) result.getOutput();
 
         verifyCourseData(courseData, courseInformation.getId(), courseInformation.getName(),
-                courseInformation.getTimeZone().getId());
+                courseInformation.getTimeZone());
     }
 
     private void verifyCourseData(CourseData data, String courseId, String courseName, String timeZone) {

@@ -4,7 +4,6 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -77,7 +76,7 @@ public class InstructorStudentCascadingUpdateLNPTest extends BaseLNPTestCase {
 
                 courses.put(COURSE_ID, CourseAttributes.builder(COURSE_ID)
                         .withName(COURSE_NAME)
-                        .withTimezone(ZoneId.of("UTC"))
+                        .withTimezone("UTC")
                         .build()
                 );
 

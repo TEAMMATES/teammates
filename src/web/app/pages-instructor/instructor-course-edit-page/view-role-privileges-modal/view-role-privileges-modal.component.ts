@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { InstructorPermissionRole, InstructorPrivilege } from '../../../../types/api-output';
+import { InstructorPermissionRole, InstructorPermissionSet } from '../../../../types/api-output';
 
 /**
  * View privileges of a role modal.
@@ -16,7 +16,7 @@ export class ViewRolePrivilegesModalComponent implements OnInit {
   role: InstructorPermissionRole = InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM;
 
   @Input()
-  instructorPrivilege: InstructorPrivilege = {
+  instructorPrivilege: InstructorPermissionSet = {
     canModifyCourse: false,
     canModifySession: false,
     canModifyStudent: false,

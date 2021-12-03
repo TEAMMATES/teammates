@@ -1,7 +1,6 @@
 package teammates.lnp.cases;
 
 import java.io.IOException;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -55,7 +54,7 @@ public class InstructorStudentEnrollmentLNPTest extends BaseLNPTestCase {
                 for (int i = 0; i < NUM_INSTRUCTORS; i++) {
                     courses.put(COURSE_NAME + i, CourseAttributes.builder(COURSE_NAME + "." + i)
                             .withName(COURSE_NAME + i)
-                            .withTimezone(ZoneId.of("UTC"))
+                            .withTimezone("UTC")
                             .build()
                     );
                 }

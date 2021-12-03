@@ -74,7 +74,12 @@ export class TimezoneService {
   }
 
   formatToString(timestamp: number, timeZone: string, format: string): string {
-    return moment(timestamp).tz(timeZone).format(format);
+    const inst: moment.Moment = moment(timestamp).tz(timeZone);
+    // Midnight time (00:00 AM) will be displayed as 11:59 PM of the previous day
+    if (inst.hour() === 0 && inst.minute() === 0) {
+      inst.subtract(1, 'minute');
+    }
+    return inst.format(format);
   }
 
   getMomentInstance(timestamp: number | null, timeZone: string): moment.Moment {
@@ -87,7 +92,8 @@ export class TimezoneService {
   /**
    * Resolves the local date time to a UNIX timestamp.
    */
-  resolveLocalDateTime(date: DateFormat, time: TimeFormat, timeZone?: string): number {
+  resolveLocalDateTime(date: DateFormat, time: TimeFormat, timeZone?: string,
+      resolveMidnightTo0000: boolean = false): number {
     const inst: moment.Moment = this.getMomentInstance(null, timeZone || this.guessTimezone());
     inst.set('year', date.year);
     inst.set('month', date.month - 1); // moment month is from 0-11
@@ -96,6 +102,10 @@ export class TimezoneService {
     inst.set('minute', time.minute);
     inst.set('second', 0);
     inst.set('millisecond', 0);
+
+    if (resolveMidnightTo0000 && inst.hour() === 23 && inst.minute() === 59) {
+      inst.add(1, 'minute');
+    }
 
     return inst.toDate().getTime();
   }

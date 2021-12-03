@@ -3,6 +3,7 @@
 exports[`InstructorSearchPageComponent should snap with a search key 1`] = `
 <tm-instructor-search-page
   courseService={[Function CourseService]}
+  instructorService={[Function InstructorService]}
   isSearching="false"
   searchParams={[Function Object]}
   searchService={[Function SearchService]}
@@ -74,6 +75,7 @@ exports[`InstructorSearchPageComponent should snap with a search key 1`] = `
 exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
 <tm-instructor-search-page
   courseService={[Function CourseService]}
+  instructorService={[Function InstructorService]}
   isSearching="false"
   searchParams={[Function Object]}
   searchService={[Function SearchService]}
@@ -603,6 +605,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
 exports[`InstructorSearchPageComponent should snap with default fields 1`] = `
 <tm-instructor-search-page
   courseService={[Function CourseService]}
+  instructorService={[Function InstructorService]}
   isSearching="false"
   searchParams={[Function Object]}
   searchService={[Function SearchService]}

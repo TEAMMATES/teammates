@@ -1,0 +1,88 @@
+<div class="background-color-light-green margin-top-15px padding-15px">
+  <div>
+    <b class="feedback-path-title">Feedback Path</b> (Who is giving feedback about whom?)
+  </div>
+  <div ngbDropdown #mainMenu="ngbDropdown" class="margin-top-15px" autoClose="outside">
+    <button id="btn-feedback-path" class="btn btn-light white-space-normal" ngbDropdownToggle [disabled]="!model.isEditable || commonFeedbackPaths.size === 1">
+      <span *ngIf="!model.isUsingOtherFeedbackPath">
+        {{ model.giverType | giverTypeDescription }} will give feedback on <i class="fas fa-arrow-right"></i> {{ model.recipientType | recipientTypeDescription }}
+      </span>
+      <span *ngIf="model.isUsingOtherFeedbackPath">Custom feedback path</span>
+    </button>
+    <ul id="feedback-path-dropdown" ngbDropdownMenu>
+      <li class="dropdown-header">Common feedback path combinations</li>
+      <li class="dropdown-item" *ngFor="let path of commonFeedbackPaths | keyvalue">
+        <div ngbDropdown #subMenu="ngbDropdown" placement="right" (mouseenter)="subMenu.open()" (mouseleave)="subMenu.close()">
+          <span ngbDropdownAnchor class="float-right invisible"></span>
+          {{ path.key | giverTypeDescription }} will give feedback on ... <i class="fas fa-caret-right"></i>
+          <ul ngbDropdownMenu>
+            <li class="dropdown-item" *ngFor="let recipient of path.value"
+                (click)="changeGiverRecipientType(path.key, recipient); mainMenu.close()">{{ recipient | recipientTypeDescription }}</li>
+          </ul>
+        </div>
+      </li>
+      <li class="dropdown-divider"></li>
+      <li class="dropdown-item" (click)="triggerCustomFeedbackPath(); mainMenu.close()">Custom feedback path...</li>
+    </ul>
+  </div>
+  <div class="row margin-top-15px" *ngIf="model.isUsingOtherFeedbackPath">
+    <div class="col-6">
+      <div class="row">
+        <div class="col-12">
+          <strong>Who will give the feedback:</strong>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <select id="giver-type" class="form-control" [ngModel]="model.giverType"  (ngModelChange)="changeGiverRecipientType($event, model.recipientType)" [disabled]="!model.isEditable">
+            <option *ngFor="let path of allowedFeedbackPaths | keyvalue" [ngValue]="path.key">{{ path.key | giverTypeDescription }}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="row">
+        <div class="col-12">
+          <strong>Who the feedback is about:</strong>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <select id="receiver-type" class="form-control" [ngModel]="model.recipientType" (ngModelChange)="changeGiverRecipientType(model.giverType, $event)" [disabled]="!model.isEditable">
+            <option *ngFor="let recipientType of allowedFeedbackPaths.get(model.giverType)" [ngValue]="recipientType">{{ recipientType | recipientTypeDescription }}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row margin-top-15px align-items-center"
+       *ngIf="model.recipientType === FeedbackParticipantType.STUDENTS || model.recipientType === FeedbackParticipantType.TEAMS || model.recipientType === FeedbackParticipantType.INSTRUCTORS">
+    <div class="offset-1 col-md-4 text-md-right">
+      The maximum number of {{ model.recipientType | lowercase }} each respondent should give feedback to:
+    </div>
+    <div class="col-md-2">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <div class="input-group-text">
+            <input id="custom-recipients" type="radio" [name]="model.feedbackQuestionId + 'numOfRecipients'" [ngModel]="model.numberOfEntitiesToGiveFeedbackToSetting"
+                   (ngModelChange)="triggerNumberOfEntitiesSetting($event)"
+                   [value]="NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM"
+                   [disabled]="!model.isEditable">
+          </div>
+        </div>
+        <input id="custom-recipients-number" type="number" min="1" class="form-control" [ngModel]="model.customNumberOfEntitiesToGiveFeedbackTo" (ngModelChange)="triggerCustomNumberOfEntities($event)" [disabled]="model.numberOfEntitiesToGiveFeedbackToSetting != NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM || !model.isEditable">
+      </div>
+    </div>
+    <div class="col-md-2">
+      <div class="form-check">
+        <label class="form-check-label">
+          <input id="unlimited-recipients" class="form-check-input" type="radio" [name]="model.feedbackQuestionId + 'numOfRecipients'"
+                 [ngModel]="model.numberOfEntitiesToGiveFeedbackToSetting" (ngModelChange)="triggerNumberOfEntitiesSetting($event)"
+                 [value]="NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED"
+                 [disabled]="!model.isEditable">
+          Unlimited
+        </label>
+      </div>
+    </div>
+  </div>
+</div>

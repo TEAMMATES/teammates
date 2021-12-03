@@ -290,10 +290,10 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    */
   getSessionEditFormModel(feedbackSession: FeedbackSession, isEditable: boolean = false): SessionEditFormModel {
     const submissionStart: {date: DateFormat; time: TimeFormat} =
-        this.getDateTimeAtTimezone(feedbackSession.submissionStartTimestamp, feedbackSession.timeZone);
+        this.getDateTimeAtTimezone(feedbackSession.submissionStartTimestamp, feedbackSession.timeZone, true);
 
     const submissionEnd: {date: DateFormat; time: TimeFormat} =
-        this.getDateTimeAtTimezone(feedbackSession.submissionEndTimestamp, feedbackSession.timeZone);
+        this.getDateTimeAtTimezone(feedbackSession.submissionEndTimestamp, feedbackSession.timeZone, true);
 
     const model: SessionEditFormModel = {
       isEditable,
@@ -335,14 +335,14 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
 
     if (feedbackSession.customSessionVisibleTimestamp) {
       const customSessionVisible: {date: DateFormat; time: TimeFormat} =
-          this.getDateTimeAtTimezone(feedbackSession.customSessionVisibleTimestamp, feedbackSession.timeZone);
+          this.getDateTimeAtTimezone(feedbackSession.customSessionVisibleTimestamp, feedbackSession.timeZone, true);
       model.customSessionVisibleTime = customSessionVisible.time;
       model.customSessionVisibleDate = customSessionVisible.date;
     }
 
     if (feedbackSession.customResponseVisibleTimestamp) {
       const customResponseVisible: {date: DateFormat; time: TimeFormat} =
-          this.getDateTimeAtTimezone(feedbackSession.customResponseVisibleTimestamp, feedbackSession.timeZone);
+          this.getDateTimeAtTimezone(feedbackSession.customResponseVisibleTimestamp, feedbackSession.timeZone, true);
       model.customResponseVisibleTime = customResponseVisible.time;
       model.customResponseVisibleDate = customResponseVisible.date;
     }
@@ -353,8 +353,12 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   /**
    * Get the local date and time of timezone from timestamp.
    */
-  private getDateTimeAtTimezone(timestamp: number, timeZone: string): {date: DateFormat; time: TimeFormat} {
-    const momentInstance: moment.Moment = this.timezoneService.getMomentInstance(timestamp, timeZone);
+  private getDateTimeAtTimezone(timestamp: number, timeZone: string, resolveMidnightTo2359: boolean):
+      {date: DateFormat; time: TimeFormat} {
+    let momentInstance: moment.Moment = this.timezoneService.getMomentInstance(timestamp, timeZone);
+    if (resolveMidnightTo2359 && momentInstance.hour() === 0 && momentInstance.minute() === 0) {
+      momentInstance = momentInstance.subtract(1, 'minute');
+    }
     const date: DateFormat = {
       year: momentInstance.year(),
       month: momentInstance.month() + 1, // moment return 0-11 for month
@@ -380,21 +384,21 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
 
     const submissionStartTime: number = this.timezoneService.resolveLocalDateTime(
         this.sessionEditFormModel.submissionStartDate, this.sessionEditFormModel.submissionStartTime,
-        this.sessionEditFormModel.timeZone);
+        this.sessionEditFormModel.timeZone, true);
     const submissionEndTime: number = this.timezoneService.resolveLocalDateTime(
         this.sessionEditFormModel.submissionEndDate, this.sessionEditFormModel.submissionEndTime,
-        this.sessionEditFormModel.timeZone);
+        this.sessionEditFormModel.timeZone, true);
     let sessionVisibleTime: number = 0;
     if (this.sessionEditFormModel.sessionVisibleSetting === SessionVisibleSetting.CUSTOM) {
       sessionVisibleTime = this.timezoneService.resolveLocalDateTime(
           this.sessionEditFormModel.customSessionVisibleDate, this.sessionEditFormModel.customSessionVisibleTime,
-          this.sessionEditFormModel.timeZone);
+          this.sessionEditFormModel.timeZone, true);
     }
     let responseVisibleTime: number = 0;
     if (this.sessionEditFormModel.responseVisibleSetting === ResponseVisibleSetting.CUSTOM) {
       responseVisibleTime = this.timezoneService.resolveLocalDateTime(
           this.sessionEditFormModel.customResponseVisibleDate, this.sessionEditFormModel.customResponseVisibleTime,
-          this.sessionEditFormModel.timeZone);
+          this.sessionEditFormModel.timeZone, true);
     }
 
     this.feedbackSessionsService.updateFeedbackSession(this.courseId, this.feedbackSessionName, {

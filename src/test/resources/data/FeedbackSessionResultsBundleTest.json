@@ -49,14 +49,14 @@
       "displayedName": "Instructor",
       "privileges": {
         "courseLevel": {
-          "canviewstudentinsection": true,
-          "cansubmitsessioninsection": true,
-          "canmodifysessioncommentinsection": true,
-          "canmodifycourse": true,
-          "canviewsessioninsection": true,
-          "canmodifysession": true,
-          "canmodifystudent": true,
-          "canmodifyinstructor": true
+          "canViewStudentInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true,
+          "canModifyCourse": true,
+          "canViewSessionInSections": true,
+          "canModifySession": true,
+          "canModifyStudent": true,
+          "canModifyInstructor": true
         },
         "sectionLevel": {},
         "sessionLevel": {}
@@ -71,10 +71,10 @@
       "creatorEmail": "instructor1@course1.tmt",
       "instructions": "Please please fill in the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
-      "startTime": "2012-04-01T21:59:00Z",
-      "endTime": "2027-04-30T21:59:00Z",
-      "sessionVisibleFromTime": "2012-03-28T21:59:00Z",
-      "resultsVisibleFromTime": "2027-05-01T21:59:00Z",
+      "startTime": "2012-04-01T22:00:00Z",
+      "endTime": "2027-04-30T22:00:00Z",
+      "sessionVisibleFromTime": "2012-03-28T22:00:00Z",
+      "resultsVisibleFromTime": "2027-05-01T22:00:00Z",
       "timeZone": "Africa/Johannesburg",
       "gracePeriod": 10,
       "sentOpeningSoonEmail": true,

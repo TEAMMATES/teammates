@@ -13,7 +13,6 @@ import { StudentService } from '../../../services/student.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import {
   AuthInfo,
-  FeedbackQuestionType,
   FeedbackSession, FeedbackSessionLogType,
   FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus,
   Instructor,
@@ -68,9 +67,6 @@ export class SessionResultPageComponent implements OnInit {
   visibilityRecipient: FeedbackVisibilityType = FeedbackVisibilityType.RECIPIENT;
 
   intent: Intent = Intent.STUDENT_RESULT;
-  RESPONSE_HIDDEN_QUESTIONS: FeedbackQuestionType[] = [
-    FeedbackQuestionType.CONTRIB,
-  ];
 
   isFeedbackSessionResultsLoading: boolean = false;
   hasFeedbackSessionResultsLoadingFailed: boolean = false;
@@ -221,20 +217,6 @@ export class SessionResultPageComponent implements OnInit {
       this.isFeedbackSessionResultsLoading = false;
       this.handleError(resp);
     });
-  }
-
-  canUserSeeResponses(question: QuestionOutput): boolean {
-    const showResponsesTo: FeedbackVisibilityType[] = question.feedbackQuestion.showResponsesTo;
-
-    if (this.intent === Intent.STUDENT_RESULT) {
-      return showResponsesTo.filter((visibilityType: FeedbackVisibilityType) =>
-          visibilityType !== FeedbackVisibilityType.INSTRUCTORS).length > 0;
-    }
-    if (this.intent === Intent.INSTRUCTOR_RESULT) {
-      return showResponsesTo.filter((visibilityType: FeedbackVisibilityType) =>
-          visibilityType === FeedbackVisibilityType.INSTRUCTORS).length > 0;
-    }
-    return false;
   }
 
   /**
