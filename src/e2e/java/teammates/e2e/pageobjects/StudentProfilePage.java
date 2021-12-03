@@ -174,14 +174,14 @@ public class StudentProfilePage extends AppPage {
     public void verifyPhotoMaxHeight(int maxWidth, String srcImage) {
         String actualHeight = browser.driver.findElement(By.className("profile-pic")).getCssValue("height");
         float imageHeight = Float.parseFloat(actualHeight.substring(0,actualHeight.length() - 2));
-        assertEquals(scaledDown(getProfilePicAspectRatio(srcImage), maxWidth).getHeight(), imageHeight, 0.0);
+        assertEquals(scaledDown(getProfilePicAspectRatio(srcImage), maxWidth).getHeight(), imageHeight, 1.0);
         verifyPhotoClose();
     }
 
     public void verifyPhotoMaxWidth(int maxHeight, String srcImage) {
         String actualWidth = browser.driver.findElement(By.className("profile-pic")).getCssValue("width");
         float imageWidth = Float.parseFloat(actualWidth.substring(0,actualWidth.length() - 2));
-        assertEquals(scaledDown(getProfilePicAspectRatio(srcImage), maxHeight).getWidth(), imageWidth, 0.0);
+        assertEquals(scaledDown(getProfilePicAspectRatio(srcImage), maxHeight).getWidth(), imageWidth, 1.0);
         verifyPhotoClose();
     }
 
