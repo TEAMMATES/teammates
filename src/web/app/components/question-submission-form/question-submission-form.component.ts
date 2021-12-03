@@ -106,16 +106,8 @@ export class QuestionSubmissionFormComponent implements OnInit {
 
       const indexTwo: number = this.model.recipientList.findIndex((x: FeedbackResponseRecipient) =>
         x.recipientIdentifier === secondRecepient.recipientIdentifier);
-
-      if (indexOne < indexTwo) {
-        return -1;
-      }
-
-      if (indexOne > indexTwo) {
-        return 1;
-      }
-
-      return 0;
+      
+      return indexOne - indexTwo;
     });
   }
 
