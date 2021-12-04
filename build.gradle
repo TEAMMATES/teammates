@@ -7,10 +7,10 @@ apply plugin: "com.github.spotbugs"
 apply plugin: "jacoco"
 apply plugin: "cz.habarta.typescript-generator"
 
-def checkstyleVersion = "8.33"
-def pmdVersion = "6.24.0"
+def checkstyleVersion = "9.3"
+def pmdVersion = "6.43.0"
 def spotbugsVersion = "4.5.3"
-def jacocoVersion = "0.8.5"
+def jacocoVersion = "0.8.7"
 
 buildscript {
     repositories {
