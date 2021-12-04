@@ -35,7 +35,6 @@ public class UpdateCourseActionTest extends BaseActionTest<UpdateCourseAction> {
         String courseId = instructor.getCourseId();
         String courseName = logic.getCourse(courseId).getName();
         String courseTimeZone = "UTC";
-        String statusMessage = "";
         String[] submissionParams;
 
         loginAsInstructor(instructorId);
@@ -91,7 +90,7 @@ public class UpdateCourseActionTest extends BaseActionTest<UpdateCourseAction> {
         courseUpdateRequest.setTimeZone(courseTimeZone);
 
         InvalidHttpRequestBodyException ihrbe = verifyHttpRequestBodyFailure(courseUpdateRequest, submissionParams);
-        statusMessage = getPopulatedEmptyStringErrorMessage(
+        String statusMessage = getPopulatedEmptyStringErrorMessage(
                 FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
                 FieldValidator.COURSE_NAME_FIELD_NAME, FieldValidator.COURSE_NAME_MAX_LENGTH);
         assertEquals(statusMessage, ihrbe.getMessage());

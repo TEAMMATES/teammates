@@ -1,6 +1,5 @@
 package teammates.ui.request;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -18,7 +17,7 @@ public class StudentsEnrollRequest extends BasicRequest {
             + "Please input at least one student detail.";
 
     // Initialize to handle users make a http request with empty body.
-    private List<StudentEnrollRequest> studentEnrollRequests = new ArrayList<>();
+    private List<StudentEnrollRequest> studentEnrollRequests;
 
     public StudentsEnrollRequest(List<StudentEnrollRequest> studentEnrollRequests) {
         this.studentEnrollRequests = studentEnrollRequests;

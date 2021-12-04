@@ -103,7 +103,7 @@ class UpdateInstructorAction extends Action {
     private InstructorAttributes retrieveEditedInstructor(String courseId, String instructorId, String instructorName,
                                                           String instructorEmail, String instructorRole,
                                                           boolean isDisplayedToStudents, String displayedName) {
-        InstructorAttributes instructorToEdit = null;
+        InstructorAttributes instructorToEdit;
         if (instructorId == null) {
             instructorToEdit = logic.getInstructorForEmail(courseId, instructorEmail);
         } else {

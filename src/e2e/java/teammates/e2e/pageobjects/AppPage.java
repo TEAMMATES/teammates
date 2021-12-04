@@ -191,8 +191,7 @@ public abstract class AppPage {
 
     /**
      * Waits until an element is no longer attached to the DOM or the timeout expires.
-     * @param element the WebElement
-     * {@link TestProperties#TEST_TIMEOUT} expires
+     * @param element the WebElement that expires after {@link TestProperties#TEST_TIMEOUT}
      * @see org.openqa.selenium.support.ui.FluentWait#until(java.util.function.Function)
      */
     public void waitForElementStaleness(WebElement element) {
@@ -200,7 +199,7 @@ public abstract class AppPage {
     }
 
     public void verifyUnclickable(WebElement element) {
-        if (element.getTagName().equals("a")) {
+        if ("a".equals(element.getTagName())) {
             assertTrue(element.getAttribute("class").contains("disabled"));
         } else {
             assertNotNull(element.getAttribute("disabled"));

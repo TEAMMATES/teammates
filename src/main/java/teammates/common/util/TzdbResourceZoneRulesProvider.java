@@ -103,10 +103,9 @@ public final class TzdbResourceZoneRulesProvider extends ZoneRulesProvider {
      * Loads the rules from a DateInputStream, often in a jar file.
      *
      * @param dis  the DateInputStream to load, not null
-     * @throws Exception if an error occurs
+     * @throws IOException if an error occurs
      */
-    @SuppressWarnings("PMD.SignatureDeclareThrowsException") // follow original method signature
-    private void load(DataInputStream dis) throws Exception {
+    private void load(DataInputStream dis) throws IOException {
         if (dis.readByte() != 1) {
             throw new StreamCorruptedException("File format not recognised");
         }
@@ -169,6 +168,7 @@ public final class TzdbResourceZoneRulesProvider extends ZoneRulesProvider {
         }
     }
 
+    @SuppressWarnings("PMD.AvoidAccessibilityAlteration")
     private static Object invokeReadExternal(Class<?> cls, DataInput in) throws IOException {
         try {
             Method m = cls.getDeclaredMethod("readExternal", DataInput.class);

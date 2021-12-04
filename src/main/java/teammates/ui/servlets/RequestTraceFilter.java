@@ -83,7 +83,7 @@ public class RequestTraceFilter implements Filter {
             // Make sure that all parameters are valid UTF-8
             request.getParameterMap();
         } catch (RuntimeException e) {
-            if (e.getClass().getSimpleName().equals("BadMessageException")) {
+            if ("BadMessageException".equals(e.getClass().getSimpleName())) {
                 throwError(request, response, HttpStatus.SC_BAD_REQUEST, e.getMessage());
                 return;
             }

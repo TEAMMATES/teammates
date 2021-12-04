@@ -54,9 +54,8 @@ public class MailjetService implements EmailSenderService {
     public EmailSendingStatus sendEmail(EmailWrapper wrapper) throws EmailSendingException {
         MailjetRequest email = parseToEmail(wrapper);
         MailjetClient mailjet = new MailjetClient(Config.MAILJET_APIKEY, Config.MAILJET_SECRETKEY);
-        MailjetResponse response = null;
         try {
-            response = mailjet.post(email);
+            MailjetResponse response = mailjet.post(email);
             return new EmailSendingStatus(response.getStatus(), response.getData().toString());
         } catch (MailjetException e) {
             throw new EmailSendingException(e, HttpStatus.SC_BAD_GATEWAY);

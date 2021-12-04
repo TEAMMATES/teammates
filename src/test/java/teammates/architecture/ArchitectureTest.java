@@ -263,7 +263,7 @@ public class ArchitectureTest {
                     @Override
                     public boolean apply(JavaClass input) {
                         return input.getPackageName().startsWith(STORAGE_PACKAGE)
-                                && !input.getPackageName().equals(STORAGE_ENTITY_PACKAGE);
+                                && !STORAGE_ENTITY_PACKAGE.equals(input.getPackageName());
                     }
                 }).check(forClasses(STORAGE_PACKAGE));
     }
@@ -369,7 +369,7 @@ public class ArchitectureTest {
                     @Override
                     public boolean apply(JavaClass input) {
                         return input.getPackageName().startsWith(E2E_PACKAGE)
-                                && !input.getPackageName().equals(E2E_UTIL_PACKAGE);
+                                && !E2E_UTIL_PACKAGE.equals(input.getPackageName());
                     }
                 }).check(forClasses(E2E_PACKAGE));
     }
@@ -390,8 +390,8 @@ public class ArchitectureTest {
                     @Override
                     public boolean apply(JavaClass input) {
                         return input.getPackageName().startsWith(UI_PACKAGE)
-                                && !input.getPackageName().equals(UI_OUTPUT_PACKAGE)
-                                && !input.getPackageName().equals(UI_REQUEST_PACKAGE);
+                                && !UI_OUTPUT_PACKAGE.equals(input.getPackageName())
+                                && !UI_REQUEST_PACKAGE.equals(input.getPackageName());
                     }
                 }).check(ALL_CLASSES);
     }
@@ -420,7 +420,7 @@ public class ArchitectureTest {
                     @Override
                     public boolean apply(JavaClass input) {
                         return input.getPackageName().startsWith(LNP_PACKAGE)
-                                && !input.getPackageName().equals(LNP_UTIL_PACKAGE);
+                                && !LNP_UTIL_PACKAGE.equals(input.getPackageName());
                     }
                 }).check(forClasses(LNP_PACKAGE));
     }
@@ -453,7 +453,7 @@ public class ArchitectureTest {
                     @Override
                     public boolean apply(JavaClass input) {
                         return input.getPackageName().startsWith(CLIENT_PACKAGE)
-                                && !input.getPackageName().equals(CLIENT_UTIL_PACKAGE);
+                                && !CLIENT_UTIL_PACKAGE.equals(input.getPackageName());
                     }
                 }).check(forClasses(CLIENT_PACKAGE));
     }
