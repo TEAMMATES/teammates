@@ -132,7 +132,7 @@ public class GoogleCloudLoggingService implements LogService {
             com.google.cloud.logging.SourceLocation sourceLocation = entry.getSourceLocation();
             Map<String, String> resourceIdentifier = entry.getResource().getLabels();
             Payload<?> payload = entry.getPayload();
-            long timestamp = entry.getTimestamp();
+            long timestamp = entry.getInstantTimestamp().toEpochMilli();
 
             String file = "";
             Long line = 0L;
@@ -213,7 +213,7 @@ public class GoogleCloudLoggingService implements LogService {
 
         List<FeedbackSessionLogEntry> fsLogEntries = new ArrayList<>();
         for (LogEntry entry : logEntries) {
-            long timestamp = entry.getTimestamp();
+            long timestamp = entry.getInstantTimestamp().toEpochMilli();
             Payload<?> payload = entry.getPayload();
             FeedbackSessionAuditLogDetails details;
             if (payload.getType() == Payload.Type.JSON) {
