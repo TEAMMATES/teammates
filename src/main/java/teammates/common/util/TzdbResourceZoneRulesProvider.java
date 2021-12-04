@@ -6,12 +6,17 @@ import java.io.DataInput;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.StreamCorruptedException;
-import java.lang.reflect.Method;
+import java.time.DayOfWeek;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.Month;
+import java.time.ZoneOffset;
 import java.time.zone.ZoneOffsetTransition;
 import java.time.zone.ZoneOffsetTransitionRule;
 import java.time.zone.ZoneRules;
 import java.time.zone.ZoneRulesException;
 import java.time.zone.ZoneRulesProvider;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -152,30 +157,135 @@ public final class TzdbResourceZoneRulesProvider extends ZoneRulesProvider {
     }
 
     /**
-     * Modified from {@link java.time.zone.Ser#read}.
+     * Modified from {@link java.time.zone.Ser#read(DataInput)}.
      */
     private static Object serRead(DataInput in) throws IOException {
         byte type = in.readByte();
         switch (type) {
         case ZRULES:
-            return invokeReadExternal(ZoneRules.class, in); // ZoneRules.readExternal(in)
+            return zrulesReadExternal(in); // ZoneRules.readExternal(in)
         case ZOT:
-            return invokeReadExternal(ZoneOffsetTransition.class, in); // ZoneOffsetTransition.readExternal(in)
+            return zotReadExternal(in); // ZoneOffsetTransition.readExternal(in)
         case ZOTRULE:
-            return invokeReadExternal(ZoneOffsetTransitionRule.class, in); // ZoneOffsetTransitionRule.readExternal(in)
+            return zotruleReadExternal(in); // ZoneOffsetTransitionRule.readExternal(in)
         default:
             throw new StreamCorruptedException("Unknown serialized type");
         }
     }
 
-    @SuppressWarnings("PMD.AvoidAccessibilityAlteration")
-    private static Object invokeReadExternal(Class<?> cls, DataInput in) throws IOException {
-        try {
-            Method m = cls.getDeclaredMethod("readExternal", DataInput.class);
-            m.setAccessible(true);
-            return m.invoke(null, in);
-        } catch (ReflectiveOperationException e) {
-            throw new IOException(e);
+    /**
+     * Modified from {@link java.time.zone.ZoneRules#readExternal(DataInput)}.
+     */
+    private static ZoneRules zrulesReadExternal(DataInput in) throws IOException {
+        int stdSize = in.readInt();
+        long[] stdTrans = new long[stdSize];
+        for (int i = 0; i < stdSize; i++) {
+            stdTrans[i] = serReadEpochSec(in);
         }
+        ZoneOffset[] stdOffsets = new ZoneOffset[stdSize + 1];
+        for (int i = 0; i < stdOffsets.length; i++) {
+            stdOffsets[i] = serReadOffset(in);
+        }
+        int savSize = in.readInt();
+        long[] savTrans = new long[savSize];
+        for (int i = 0; i < savSize; i++) {
+            savTrans[i] = serReadEpochSec(in);
+        }
+        ZoneOffset[] savOffsets = new ZoneOffset[savSize + 1];
+        for (int i = 0; i < savOffsets.length; i++) {
+            savOffsets[i] = serReadOffset(in);
+        }
+        int ruleSize = in.readByte();
+        ZoneOffsetTransitionRule[] rules = new ZoneOffsetTransitionRule[ruleSize];
+        for (int i = 0; i < ruleSize; i++) {
+            rules[i] = zotruleReadExternal(in);
+        }
+        // return new ZoneRules(stdTrans, stdOffsets, savTrans, savOffsets, rules);
+
+        List<ZoneOffsetTransition> standardOffsetTransitionList = new ArrayList<>();
+        List<ZoneOffsetTransition> transitionList = new ArrayList<>();
+        for (int i = 0; i < stdTrans.length; i++) {
+            ZoneOffset zofBefore = stdOffsets[i];
+            ZoneOffset zofAfter = stdOffsets[i + 1];
+            ZoneOffsetTransition zot = ZoneOffsetTransition.of(
+                    LocalDateTime.ofEpochSecond(stdTrans[i], 0, zofBefore), zofBefore, zofAfter);
+            standardOffsetTransitionList.add(zot);
+        }
+        for (int i = 0; i < savTrans.length; i++) {
+            ZoneOffset zofBefore = savOffsets[i];
+            ZoneOffset zofAfter = savOffsets[i + 1];
+            ZoneOffsetTransition zot = ZoneOffsetTransition.of(
+                    LocalDateTime.ofEpochSecond(savTrans[i], 0, zofBefore), zofBefore, zofAfter);
+            transitionList.add(zot);
+        }
+        return ZoneRules.of(stdOffsets[0], savOffsets[0], standardOffsetTransitionList, transitionList,
+                Arrays.asList(rules));
     }
+
+    /**
+     * Modified from {@link java.time.zone.ZoneOffsetTransition#readExternal(DataInput)}.
+     */
+    private static ZoneOffsetTransition zotReadExternal(DataInput in) throws IOException {
+        @SuppressWarnings("PMD.PrematureDeclaration") // DataInput needs to be read in a specific sequence
+        long epochSecond = serReadEpochSec(in);
+        ZoneOffset before = serReadOffset(in);
+        ZoneOffset after = serReadOffset(in);
+        if (before.equals(after)) {
+            throw new IllegalArgumentException("Offsets must not be equal");
+        }
+        // return new ZoneOffsetTransition(epochSecond, before, after);
+
+        return ZoneOffsetTransition.of(LocalDateTime.ofEpochSecond(epochSecond, 0, before), before, after);
+    }
+
+    /**
+     * Modified from {@link java.time.zone.ZoneOffsetTransitionRule#readExternal(DataInput)}.
+     */
+    private static ZoneOffsetTransitionRule zotruleReadExternal(DataInput in) throws IOException {
+        int data = in.readInt();
+        Month month = Month.of(data >>> 28);
+        int dom = ((data & (63 << 22)) >>> 22) - 32;
+        int dowByte = (data & (7 << 19)) >>> 19;
+        DayOfWeek dow = dowByte == 0 ? null : DayOfWeek.of(dowByte);
+        int timeByte = (data & (31 << 14)) >>> 14;
+        ZoneOffsetTransitionRule.TimeDefinition defn =
+                ZoneOffsetTransitionRule.TimeDefinition.values()[(data & (3 << 12)) >>> 12];
+        int stdByte = (data & (255 << 4)) >>> 4;
+        int beforeByte = (data & (3 << 2)) >>> 2;
+        int afterByte = data & 3;
+        LocalTime time = timeByte == 31 ? LocalTime.ofSecondOfDay(in.readInt()) : LocalTime.of(timeByte % 24, 0);
+        ZoneOffset std = stdByte == 255
+                ? ZoneOffset.ofTotalSeconds(in.readInt())
+                : ZoneOffset.ofTotalSeconds((stdByte - 128) * 900);
+        ZoneOffset before = beforeByte == 3
+                ? ZoneOffset.ofTotalSeconds(in.readInt())
+                : ZoneOffset.ofTotalSeconds(std.getTotalSeconds() + beforeByte * 1800);
+        ZoneOffset after = afterByte == 3
+                ? ZoneOffset.ofTotalSeconds(in.readInt())
+                : ZoneOffset.ofTotalSeconds(std.getTotalSeconds() + afterByte * 1800);
+        return ZoneOffsetTransitionRule.of(month, dom, dow, time, timeByte == 24, defn, std, before, after);
+    }
+
+    /**
+     * Modified from {@link java.time.zone.Ser#readEpochSec(DataInput)}.
+     */
+    private static long serReadEpochSec(DataInput in) throws IOException {
+        int hiByte = in.readByte() & 255;
+        if (hiByte == 255) {
+            return in.readLong();
+        }
+        int midByte = in.readByte() & 255;
+        int loByte = in.readByte() & 255;
+        long tot = (hiByte << 16) + (midByte << 8) + loByte;
+        return (tot * 900) - 4575744000L;
+    }
+
+    /**
+     * Modified from {@link java.time.zone.Ser#readOffset(DataInput)}.
+     */
+    private static ZoneOffset serReadOffset(DataInput in) throws IOException {
+        int offsetByte = in.readByte();
+        return offsetByte == 127 ? ZoneOffset.ofTotalSeconds(in.readInt()) : ZoneOffset.ofTotalSeconds(offsetByte * 900);
+    }
+
 }
