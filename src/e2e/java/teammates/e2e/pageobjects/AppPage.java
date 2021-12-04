@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -146,7 +147,7 @@ public abstract class AppPage {
     }
 
     public <E> E waitFor(ExpectedCondition<E> expectedCondition) {
-        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
+        WebDriverWait wait = new WebDriverWait(browser.driver, Duration.ofSeconds(TestProperties.TEST_TIMEOUT));
         return wait.until(expectedCondition);
     }
 
@@ -180,7 +181,7 @@ public abstract class AppPage {
     }
 
     public static void waitUntilAnimationFinish(Browser browser) {
-        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
+        WebDriverWait wait = new WebDriverWait(browser.driver, Duration.ofSeconds(TestProperties.TEST_TIMEOUT));
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.className("ng-animating")));
         ThreadHelper.waitFor(1000);
     }
