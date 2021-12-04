@@ -85,7 +85,6 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
   courseId: string = '';
   fsName: string = '';
   viewType: string = InstructorSessionResultViewType.QUESTION;
-  viewTooltipText: string = 'View results in different formats';
   section: string = '';
   sectionType: InstructorSessionResultSectionType = InstructorSessionResultSectionType.EITHER;
   groupByTeam: boolean = true;
@@ -177,7 +176,15 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
           .formatToString(this.session.submissionStartTimestamp, this.session.timeZone, TIME_FORMAT);
       this.formattedSessionClosingTime = this.timezoneService
           .formatToString(this.session.submissionEndTimestamp, this.session.timeZone, TIME_FORMAT);
-      if (this.session.resultVisibleFromTimestamp) {
+      if (this.session.responseVisibleSetting === ResponseVisibleSetting.AT_VISIBLE) {
+        if (this.session.sessionVisibleSetting === SessionVisibleSetting.AT_OPEN) {
+          this.formattedResultVisibleFromTime = this.timezoneService
+              .formatToString(this.session.submissionStartTimestamp, this.session.timeZone, TIME_FORMAT);
+        } else if (this.session.sessionVisibleFromTimestamp) {
+          this.formattedResultVisibleFromTime = this.timezoneService
+              .formatToString(this.session.sessionVisibleFromTimestamp, this.session.timeZone, TIME_FORMAT);
+        }
+      } else if (this.session.resultVisibleFromTimestamp) {
         this.formattedResultVisibleFromTime = this.timezoneService
             .formatToString(this.session.resultVisibleFromTimestamp, this.session.timeZone, TIME_FORMAT);
       } else {
@@ -565,41 +572,6 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
       });
-  }
-
-  /**
-   * Handles view type changes.
-   */
-  handleViewTypeChange(newViewType: InstructorSessionResultViewType): void {
-    if (this.viewType === newViewType) {
-      // do nothing
-      return;
-    }
-    this.viewType = newViewType;
-
-    // change tooltip text based on currently selected view type
-    switch (this.viewType) {
-      case InstructorSessionResultViewType.QUESTION:
-        this.viewTooltipText = 'Group responses by question';
-        break;
-      case InstructorSessionResultViewType.GRQ:
-        this.viewTooltipText = 'Group responses by giver, then by recipient, and then by question';
-        break;
-      case InstructorSessionResultViewType.RGQ:
-        this.viewTooltipText = 'Group responses by recipient, then by giver, and then by question';
-        break;
-      case InstructorSessionResultViewType.GQR:
-        this.viewTooltipText = 'Group responses by giver, then by question, and then by recipient';
-        break;
-      case InstructorSessionResultViewType.RQG:
-        this.viewTooltipText = 'Group responses by recipient, then by question, and then by giver';
-        break;
-      default:
-        this.viewTooltipText = 'View results in different formats';
-    }
-
-    // the expand all will be reset if the view type changed
-    this.collapseAllTabs();
   }
 
   navigateToIndividualSessionResultPage(): void {

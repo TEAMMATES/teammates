@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.time.Instant;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
@@ -32,7 +31,6 @@ import teammates.common.datatransfer.questions.FeedbackRankOptionsResponseDetail
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackRubricQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackRubricResponseDetails;
-import teammates.common.util.TimeHelper;
 import teammates.e2e.util.TestProperties;
 
 /**
@@ -784,8 +782,8 @@ public class InstructorFeedbackResultsPage extends AppPage {
                 + getDateString(feedbackSession.getEndTime(), feedbackSession.getTimeZone());
     }
 
-    private String getDateString(Instant date, ZoneId timeZone) {
-        return TimeHelper.formatInstant(date, timeZone, "EEE, dd MMM, yyyy, hh:mm a X");
+    private String getDateString(Instant date, String timeZone) {
+        return getDisplayedDateTime(date, timeZone, "EEE, dd MMM, yyyy, hh:mm a X");
     }
 
     private String getDoubleString(double value) {

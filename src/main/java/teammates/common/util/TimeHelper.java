@@ -50,17 +50,34 @@ public final class TimeHelper {
      * @param pattern  formatting pattern, see Oracle docs for DateTimeFormatter for pattern table
      * @return the formatted datetime stamp string
      */
-    public static String formatInstant(Instant instant, ZoneId timeZone, String pattern) {
+    public static String formatInstant(Instant instant, String timeZone, String pattern) {
         if (instant == null || timeZone == null || pattern == null) {
             return "";
         }
-        ZonedDateTime zonedDateTime = instant.atZone(timeZone);
+        ZonedDateTime zonedDateTime = instant.atZone(ZoneId.of(timeZone));
         String processedPattern = pattern;
         if (zonedDateTime.getHour() == 12 && zonedDateTime.getMinute() == 0) {
             processedPattern = pattern.replace("a", "'NOON'");
         }
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(processedPattern);
         return zonedDateTime.format(formatter);
+    }
+
+    /**
+     * Gets an Instant which is adjusted for midnight time (23:59 and 00:00) at the specified time zone.
+     * The direction of adjustment (23:59 to 00:00 or vice versa) is determined by {@code isForward} parameter.
+     */
+    public static Instant getMidnightAdjustedInstantBasedOnZone(Instant instant, String timeZone, boolean isForward) {
+        if (isSpecialTime(instant)) {
+            return instant;
+        }
+        ZonedDateTime zonedDateTime = instant.atZone(ZoneId.of(timeZone));
+        if (isForward && zonedDateTime.getHour() == 23 && zonedDateTime.getMinute() == 59) {
+            zonedDateTime = zonedDateTime.plusMinutes(1L);
+        } else if (!isForward && zonedDateTime.getHour() == 0 && zonedDateTime.getMinute() == 0) {
+            zonedDateTime = zonedDateTime.minusMinutes(1L);
+        }
+        return zonedDateTime.toInstant();
     }
 
     /**

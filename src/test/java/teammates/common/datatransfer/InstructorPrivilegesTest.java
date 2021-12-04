@@ -1,7 +1,5 @@
 package teammates.common.datatransfer;
 
-import java.util.Map;
-
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
@@ -15,7 +13,7 @@ public class InstructorPrivilegesTest extends BaseTestCase {
     @Test
     public void testSetDefault() {
         InstructorPrivileges privileges = new InstructorPrivileges();
-        Map<String, Boolean> courseLevelMap;
+        InstructorPermissionSet courseLevelMap;
 
         // co-owner: all true
         privileges.setDefaultPrivilegesForCoowner();
@@ -29,7 +27,7 @@ public class InstructorPrivilegesTest extends BaseTestCase {
         assertTrue(courseLevelMap.get(Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS));
         assertTrue(courseLevelMap.get(Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS));
         String invalidKey = "invalid key";
-        assertNull(courseLevelMap.get(invalidKey));
+        assertFalse(courseLevelMap.get(invalidKey));
         assertTrue(privileges.getSessionLevelPrivileges().isEmpty());
 
         // manager: only one false
@@ -170,7 +168,7 @@ public class InstructorPrivilegesTest extends BaseTestCase {
                 new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
 
         privileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_COURSE, false);
-        Map<String, Boolean> courseLevelPrivileges = privileges.getCourseLevelPrivileges();
+        InstructorPermissionSet courseLevelPrivileges = privileges.getCourseLevelPrivileges();
         assertFalse(courseLevelPrivileges.get(Const.InstructorPermissions.CAN_MODIFY_COURSE));
         assertTrue(courseLevelPrivileges.get(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
         assertTrue(courseLevelPrivileges.get(Const.InstructorPermissions.CAN_MODIFY_SESSION));
@@ -183,7 +181,7 @@ public class InstructorPrivilegesTest extends BaseTestCase {
         String invalidPrivilegeName = "invalidPrivilegeName";
         privileges.updatePrivilege(invalidPrivilegeName, false);
         courseLevelPrivileges = privileges.getCourseLevelPrivileges();
-        assertFalse(courseLevelPrivileges.containsKey(invalidPrivilegeName));
+        assertFalse(courseLevelPrivileges.get(invalidPrivilegeName));
         assertFalse(courseLevelPrivileges.get(Const.InstructorPermissions.CAN_MODIFY_COURSE));
         assertTrue(courseLevelPrivileges.get(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
         assertTrue(courseLevelPrivileges.get(Const.InstructorPermissions.CAN_MODIFY_SESSION));
@@ -205,10 +203,10 @@ public class InstructorPrivilegesTest extends BaseTestCase {
         assertTrue(privileges.getSectionLevelPrivileges().containsKey(sectionId));
 
         privileges.updatePrivilege(sectionId, Const.InstructorPermissions.CAN_MODIFY_COURSE, false);
-        Map<String, Boolean> sectionPrivileges = privileges.getSectionLevelPrivileges().get(sectionId);
+        InstructorPermissionSet sectionPrivileges = privileges.getSectionLevelPrivileges().get(sectionId);
         assertEquals(1, privileges.getSectionLevelPrivileges().size());
         assertTrue(privileges.getSectionLevelPrivileges().containsKey(sectionId));
-        assertNull(sectionPrivileges.get(Const.InstructorPermissions.CAN_MODIFY_COURSE));
+        assertFalse(sectionPrivileges.get(Const.InstructorPermissions.CAN_MODIFY_COURSE));
         assertFalse(sectionPrivileges.get(Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS));
         assertTrue(sectionPrivileges.get(Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS));
         assertTrue(sectionPrivileges.get(Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS));
@@ -218,7 +216,6 @@ public class InstructorPrivilegesTest extends BaseTestCase {
         privileges.updatePrivilege(sectionId, invalidPrivilegeName, false);
         assertEquals(1, privileges.getSectionLevelPrivileges().size());
         assertTrue(privileges.getSectionLevelPrivileges().containsKey(sectionId));
-        assertEquals(4, privileges.getSectionLevelPrivileges().get(sectionId).size());
 
     }
 
@@ -237,15 +234,13 @@ public class InstructorPrivilegesTest extends BaseTestCase {
         assertTrue(privileges.getSessionLevelPrivileges().containsKey(sectionId));
         assertEquals(1, privileges.getSessionLevelPrivileges().get(sectionId).size());
         assertTrue(privileges.getSessionLevelPrivileges().get(sectionId).containsKey(sessionId));
-        Map<String, Boolean> sessionPrivileges = privileges.getSessionLevelPrivileges().get(sectionId).get(sessionId);
-        assertEquals(2, sessionPrivileges.size());
+        InstructorPermissionSet sessionPrivileges = privileges.getSessionLevelPrivileges().get(sectionId).get(sessionId);
         assertFalse(sessionPrivileges.get(Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS));
         assertFalse(sessionPrivileges.get(Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS));
 
         String invalidPrivilegeName = "invalidPrivilegeName";
         privileges.updatePrivilege(sectionId, sessionId, invalidPrivilegeName, false);
         sessionPrivileges = privileges.getSessionLevelPrivileges().get(sectionId).get(sessionId);
-        assertEquals(2, sessionPrivileges.size());
         assertFalse(sessionPrivileges.get(Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS));
         assertFalse(sessionPrivileges.get(Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS));
     }

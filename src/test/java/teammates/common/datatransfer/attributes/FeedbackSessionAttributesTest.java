@@ -2,7 +2,6 @@ package teammates.common.datatransfer.attributes;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.time.ZoneId;
 import java.util.Arrays;
 
 import org.testng.annotations.Test;
@@ -181,7 +180,7 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
     @Test
     public void testBuilder_withTypicalData_shouldBuildCorrectly() {
 
-        ZoneId timeZone = ZoneId.of("Asia/Singapore");
+        String timeZone = "Asia/Singapore";
         Instant startTime = TimeHelper.parseInstant("2016-05-09T10:00:00+08:00");
         Instant endTime = TimeHelper.parseInstant("2017-05-09T10:00:00+08:00");
 
@@ -230,7 +229,7 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
                 .withEndTime(TimeHelperExtension.getInstantHoursOffsetFromNow(5))
                 .withSessionVisibleFromTime(TimeHelperExtension.getInstantHoursOffsetFromNow(1))
                 .withResultsVisibleFromTime(TimeHelperExtension.getInstantHoursOffsetFromNow(6))
-                .withTimeZone(ZoneId.of("Asia/Singapore"))
+                .withTimeZone("Asia/Singapore")
                 .withGracePeriod(Duration.ZERO)
                 .withIsClosingEmailEnabled(false)
                 .withIsPublishedEmailEnabled(false)
@@ -303,7 +302,7 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
                         .withEndTime(endTime)
                         .withSessionVisibleFromTime(sessionVisibleTime)
                         .withResultsVisibleFromTime(resultVisibleTime)
-                        .withTimeZone(ZoneId.of("Asia/Singapore"))
+                        .withTimeZone("Asia/Singapore")
                         .withGracePeriod(Duration.ofMinutes(5))
                         .withSentOpeningSoonEmail(true)
                         .withSentOpenEmail(true)
@@ -325,7 +324,7 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
                         .withEndTime(TimeHelper.getInstantDaysOffsetFromNow(2))
                         .withSessionVisibleFromTime(sessionVisibleTime.minusSeconds(60))
                         .withResultsVisibleFromTime(Instant.now().minusSeconds(60))
-                        .withTimeZone(ZoneId.of("UTC"))
+                        .withTimeZone("UTC")
                         .withGracePeriod(Duration.ofMinutes(20))
                         .withIsClosingEmailEnabled(false)
                         .withIsPublishedEmailEnabled(false)
@@ -338,7 +337,7 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
         assertEquals(endTime, feedbackSessionAttributes.getEndTime());
         assertEquals(sessionVisibleTime, feedbackSessionAttributes.getSessionVisibleFromTime());
         assertEquals(resultVisibleTime, feedbackSessionAttributes.getResultsVisibleFromTime());
-        assertEquals(ZoneId.of("Asia/Singapore"), feedbackSessionAttributes.getTimeZone());
+        assertEquals("Asia/Singapore", feedbackSessionAttributes.getTimeZone());
         assertEquals(5, feedbackSessionAttributes.getGracePeriodMinutes());
         assertTrue(feedbackSessionAttributes.isSentOpeningSoonEmail());
         assertTrue(feedbackSessionAttributes.isSentOpenEmail());
@@ -442,7 +441,7 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
     }
 
     private FeedbackSessionAttributes generateTypicalFeedbackSessionAttributesObject() {
-        ZoneId timeZone = ZoneId.of("Asia/Singapore");
+        String timeZone = "Asia/Singapore";
         Instant startTime = TimeHelper.parseInstant("2016-05-09T10:00:00+08:00");
         Instant endTime = TimeHelper.parseInstant("2017-05-09T10:00:00+08:00");
 

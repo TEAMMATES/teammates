@@ -1,9 +1,8 @@
 package teammates.ui.webapi;
 
-import java.util.Map;
-
 import org.apache.http.HttpStatus;
 
+import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InstructorUpdateException;
@@ -47,26 +46,10 @@ class UpdateInstructorPrivilegeAction extends Action {
         }
 
         InstructorPrivilegeUpdateRequest request = getAndValidateRequestBody(InstructorPrivilegeUpdateRequest.class);
+        InstructorPrivileges newPrivileges = request.getPrivileges();
+        newPrivileges.validatePrivileges();
 
-        String sectionName = request.getSectionName();
-        String sessionName = request.getFeedbackSessionName();
-
-        Map<String, Boolean> courseLevelPrivilegesMap = request.getAllPresentCourseLevelPrivileges();
-        Map<String, Boolean> sectionLevelPrivilegesMap = request.getAllPresentSectionLevelPrivileges();
-        Map<String, Boolean> sessionLevelPrivilegesMap = request.getAllPresentSessionLevelPrivileges();
-
-        if (sectionName == null && sessionName == null) {
-            updateCourseLevelPrivileges(courseLevelPrivilegesMap, instructorToUpdate);
-            updateCourseLevelPrivileges(sectionLevelPrivilegesMap, instructorToUpdate);
-            updateCourseLevelPrivileges(sessionLevelPrivilegesMap, instructorToUpdate);
-        } else if (sessionName == null) {
-            updateSectionLevelPrivileges(sectionName, sectionLevelPrivilegesMap, instructorToUpdate);
-            updateSectionLevelPrivileges(sectionName, sessionLevelPrivilegesMap, instructorToUpdate);
-        } else {
-            updateSessionLevelPrivileges(sectionName, sessionName, sessionLevelPrivilegesMap, instructorToUpdate);
-        }
-
-        instructorToUpdate.getPrivileges().validatePrivileges();
+        instructorToUpdate.setPrivileges(newPrivileges);
         logic.updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToUpdate);
 
         try {
@@ -83,36 +66,8 @@ class UpdateInstructorPrivilegeAction extends Action {
             throw new EntityNotFoundException(ednee);
         }
 
-        InstructorPrivilegeData response = new InstructorPrivilegeData();
-
-        response.constructCourseLevelPrivilege(instructorToUpdate.getPrivileges());
-
-        if (sessionName != null) {
-            response.constructSessionLevelPrivilege(instructorToUpdate.getPrivileges(), sectionName, sessionName);
-        } else if (sectionName != null) {
-            response.constructSectionLevelPrivilege(instructorToUpdate.getPrivileges(), sectionName);
-        }
-
+        InstructorPrivilegeData response = new InstructorPrivilegeData(instructorToUpdate.getPrivileges());
         return new JsonResult(response);
     }
 
-    private void updateCourseLevelPrivileges(Map<String, Boolean> privilegesMap, InstructorAttributes toUpdate) {
-        for (Map.Entry<String, Boolean> entry : privilegesMap.entrySet()) {
-            toUpdate.getPrivileges().updatePrivilege(entry.getKey(), entry.getValue());
-        }
-    }
-
-    private void updateSectionLevelPrivileges(
-            String sectionName, Map<String, Boolean> privilegesMap, InstructorAttributes toUpdate) {
-        for (Map.Entry<String, Boolean> entry : privilegesMap.entrySet()) {
-            toUpdate.getPrivileges().updatePrivilege(sectionName, entry.getKey(), entry.getValue());
-        }
-    }
-
-    private void updateSessionLevelPrivileges(
-            String sectionName, String sessionName, Map<String, Boolean> privilegesMap, InstructorAttributes toUpdate) {
-        for (Map.Entry<String, Boolean> entry : privilegesMap.entrySet()) {
-            toUpdate.getPrivileges().updatePrivilege(sectionName, sessionName, entry.getKey(), entry.getValue());
-        }
-    }
 }

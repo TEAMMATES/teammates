@@ -1,7 +1,5 @@
 package teammates.e2e.cases;
 
-import java.time.ZoneId;
-
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
@@ -109,7 +107,7 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
 
         ______TS("edit course");
         String newName = "New Course Name";
-        ZoneId newTimeZone = ZoneId.of("Asia/Singapore");
+        String newTimeZone = "Asia/Singapore";
         course.setName(newName);
         course.setTimeZone(newTimeZone);
 

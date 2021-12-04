@@ -140,7 +140,7 @@
       "id": "idOfTypicalCourse2",
       "name": "Typical Course 2 with 1 Evals",
       "institute": "TEAMMATES Test Institute 1",
-      "timeZone": "UTC"
+      "timeZone": "Asia/Singapore"
     },
     "typicalCourse3": {
       "createdAt": "2012-04-02T23:58:00Z",
@@ -148,45 +148,45 @@
       "id": "idOfTypicalCourse3",
       "name": "Typical Course 3 with 1 Evals",
       "institute": "TEAMMATES Test Institute 1",
-      "timeZone": "UTC"
+      "timeZone": "Africa/Johannesburg"
     },
     "typicalCourse4": {
       "createdAt": "2012-04-02T23:58:00Z",
       "id": "idOfTypicalCourse4",
       "name": "Typical Course 4 with 1 Evals",
       "institute": "TEAMMATES Test Institute 1",
-      "timeZone": "UTC"
+      "timeZone": "Africa/Johannesburg"
     },
     "courseNoEvals": {
       "id": "idOfCourseNoEvals",
       "name": "Typical Course 3 with 0 Evals",
       "institute": "TEAMMATES Test Institute 1",
-      "timeZone": "UTC"
+      "timeZone": "Africa/Johannesburg"
     },
     "sampleCourse": {
       "id": "idOfSampleCourse-demo",
       "name": "Sample Course",
       "institute": "TEAMMATES Test Institute 7",
-      "timeZone": "UTC"
+      "timeZone": "Africa/Johannesburg"
     },
     "archivedCourse": {
       "id": "idOfArchivedCourse",
       "name": "Archived Course",
       "institute": "TEAMMATES Test Institute 5",
-      "timeZone": "UTC"
+      "timeZone": "Africa/Johannesburg"
     },
     "unregisteredCourse": {
       "id": "idOfUnregisteredCourse",
       "name": "Unregistered Course",
       "institute": "TEAMMATES Test Institute 1",
-      "timeZone": "UTC"
+      "timeZone": "Africa/Johannesburg"
     },
     "testingSanitizationCourse": {
       "createdAt": "2012-04-01T23:58:00Z",
       "id": "idOfTestingSanitizationCourse",
       "name": "Testing<script> alert('hi!'); </script>",
       "institute": "inst<script> alert('hi!'); </script>",
-      "timeZone": "UTC"
+      "timeZone": "Africa/Johannesburg"
     }
   },
   "instructors": {
@@ -201,14 +201,14 @@
       "displayedName": "Instructor",
       "privileges": {
         "courseLevel": {
-          "canviewstudentinsection": true,
-          "cansubmitsessioninsection": true,
-          "canmodifysessioncommentinsection": true,
-          "canmodifycourse": true,
-          "canviewsessioninsection": true,
-          "canmodifysession": true,
-          "canmodifystudent": true,
-          "canmodifyinstructor": true
+          "canViewStudentInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true,
+          "canModifyCourse": true,
+          "canViewSessionInSections": true,
+          "canModifySession": true,
+          "canModifyStudent": true,
+          "canModifyInstructor": true
         },
         "sectionLevel": {},
         "sessionLevel": {}
@@ -225,14 +225,14 @@
       "displayedName": "Manager",
       "privileges": {
         "courseLevel": {
-          "canviewstudentinsection": true,
-          "cansubmitsessioninsection": true,
-          "canmodifysessioncommentinsection": true,
-          "canmodifycourse": false,
-          "canviewsessioninsection": true,
-          "canmodifysession": true,
-          "canmodifystudent": true,
-          "canmodifyinstructor": true
+          "canViewStudentInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true,
+          "canModifyCourse": false,
+          "canViewSessionInSections": true,
+          "canModifySession": true,
+          "canModifyStudent": true,
+          "canModifyInstructor": true
         },
         "sectionLevel": {},
         "sessionLevel": {}
@@ -249,14 +249,14 @@
       "displayedName": "Helper",
       "privileges": {
         "courseLevel": {
-          "canviewstudentinsection": false,
-          "cansubmitsessioninsection": false,
-          "canmodifysessioncommentinsection": false,
-          "canmodifycourse": false,
-          "canviewsessioninsection": false,
-          "canmodifysession": false,
-          "canmodifystudent": false,
-          "canmodifyinstructor": false
+          "canViewStudentInSections": false,
+          "canSubmitSessionInSections": false,
+          "canModifySessionCommentsInSections": false,
+          "canModifyCourse": false,
+          "canViewSessionInSections": false,
+          "canModifySession": false,
+          "canModifyStudent": false,
+          "canModifyInstructor": false
         },
         "sectionLevel": {},
         "sessionLevel": {}
@@ -272,14 +272,14 @@
       "displayedName": "Instructor",
       "privileges": {
         "courseLevel": {
-          "canviewstudentinsection": true,
-          "cansubmitsessioninsection": true,
-          "canmodifysessioncommentinsection": true,
-          "canmodifycourse": true,
-          "canviewsessioninsection": true,
-          "canmodifysession": true,
-          "canmodifystudent": true,
-          "canmodifyinstructor": true
+          "canViewStudentInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true,
+          "canModifyCourse": true,
+          "canViewSessionInSections": true,
+          "canModifySession": true,
+          "canModifyStudent": true,
+          "canModifyInstructor": true
         },
         "sectionLevel": {},
         "sessionLevel": {}
@@ -296,14 +296,14 @@
       "displayedName": "Instructor",
       "privileges": {
         "courseLevel": {
-          "canviewstudentinsection": true,
-          "cansubmitsessioninsection": true,
-          "canmodifysessioncommentinsection": true,
-          "canmodifycourse": true,
-          "canviewsessioninsection": true,
-          "canmodifysession": true,
-          "canmodifystudent": true,
-          "canmodifyinstructor": true
+          "canViewStudentInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true,
+          "canModifyCourse": true,
+          "canViewSessionInSections": true,
+          "canModifySession": true,
+          "canModifyStudent": true,
+          "canModifyInstructor": true
         },
         "sectionLevel": {},
         "sessionLevel": {}
@@ -320,14 +320,14 @@
       "displayedName": "Instructor",
       "privileges": {
         "courseLevel": {
-          "canviewstudentinsection": true,
-          "cansubmitsessioninsection": true,
-          "canmodifysessioncommentinsection": true,
-          "canmodifycourse": true,
-          "canviewsessioninsection": true,
-          "canmodifysession": true,
-          "canmodifystudent": true,
-          "canmodifyinstructor": true
+          "canViewStudentInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true,
+          "canModifyCourse": true,
+          "canViewSessionInSections": true,
+          "canModifySession": true,
+          "canModifyStudent": true,
+          "canModifyInstructor": true
         },
         "sectionLevel": {},
         "sessionLevel": {}
@@ -344,14 +344,14 @@
       "displayedName": "Instructor",
       "privileges": {
         "courseLevel": {
-          "canviewstudentinsection": true,
-          "cansubmitsessioninsection": true,
-          "canmodifysessioncommentinsection": true,
-          "canmodifycourse": true,
-          "canviewsessioninsection": true,
-          "canmodifysession": true,
-          "canmodifystudent": true,
-          "canmodifyinstructor": true
+          "canViewStudentInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true,
+          "canModifyCourse": true,
+          "canViewSessionInSections": true,
+          "canModifySession": true,
+          "canModifyStudent": true,
+          "canModifyInstructor": true
         },
         "sectionLevel": {},
         "sessionLevel": {}
@@ -368,14 +368,14 @@
       "displayedName": "Instructor",
       "privileges": {
         "courseLevel": {
-          "canviewstudentinsection": true,
-          "cansubmitsessioninsection": true,
-          "canmodifysessioncommentinsection": true,
-          "canmodifycourse": false,
-          "canviewsessioninsection": true,
-          "canmodifysession": false,
-          "canmodifystudent": true,
-          "canmodifyinstructor": true
+          "canViewStudentInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true,
+          "canModifyCourse": false,
+          "canViewSessionInSections": true,
+          "canModifySession": false,
+          "canModifyStudent": true,
+          "canModifyInstructor": true
         },
         "sectionLevel": {},
         "sessionLevel": {}
@@ -392,14 +392,14 @@
       "displayedName": "Instructor",
       "privileges": {
         "courseLevel": {
-          "canviewstudentinsection": true,
-          "cansubmitsessioninsection": true,
-          "canmodifysessioncommentinsection": true,
-          "canmodifycourse": true,
-          "canviewsessioninsection": true,
-          "canmodifysession": false,
-          "canmodifystudent": true,
-          "canmodifyinstructor": true
+          "canViewStudentInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true,
+          "canModifyCourse": true,
+          "canViewSessionInSections": true,
+          "canModifySession": false,
+          "canModifyStudent": true,
+          "canModifyInstructor": true
         },
         "sectionLevel": {},
         "sessionLevel": {}
@@ -416,14 +416,14 @@
       "displayedName": "Instructor",
       "privileges": {
         "courseLevel": {
-          "canviewstudentinsection": true,
-          "cansubmitsessioninsection": true,
-          "canmodifysessioncommentinsection": true,
-          "canmodifycourse": true,
-          "canviewsessioninsection": true,
-          "canmodifysession": true,
-          "canmodifystudent": true,
-          "canmodifyinstructor": true
+          "canViewStudentInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true,
+          "canModifyCourse": true,
+          "canViewSessionInSections": true,
+          "canModifySession": true,
+          "canModifyStudent": true,
+          "canModifyInstructor": true
         },
         "sectionLevel": {},
         "sessionLevel": {}
@@ -440,14 +440,14 @@
       "displayedName": "Instructor",
       "privileges": {
         "courseLevel": {
-          "canviewstudentinsection": true,
-          "cansubmitsessioninsection": true,
-          "canmodifysessioncommentinsection": true,
-          "canmodifycourse": true,
-          "canviewsessioninsection": true,
-          "canmodifysession": true,
-          "canmodifystudent": true,
-          "canmodifyinstructor": true
+          "canViewStudentInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true,
+          "canModifyCourse": true,
+          "canViewSessionInSections": true,
+          "canModifySession": true,
+          "canModifyStudent": true,
+          "canModifyInstructor": true
         },
         "sectionLevel": {},
         "sessionLevel": {}
@@ -464,14 +464,14 @@
       "displayedName": "Instructor",
       "privileges": {
         "courseLevel": {
-          "canviewstudentinsection": true,
-          "cansubmitsessioninsection": true,
-          "canmodifysessioncommentinsection": true,
-          "canmodifycourse": true,
-          "canviewsessioninsection": true,
-          "canmodifysession": true,
-          "canmodifystudent": true,
-          "canmodifyinstructor": true
+          "canViewStudentInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true,
+          "canModifyCourse": true,
+          "canViewSessionInSections": true,
+          "canModifySession": true,
+          "canModifyStudent": true,
+          "canModifyInstructor": true
         },
         "sectionLevel": {},
         "sessionLevel": {}
@@ -488,14 +488,14 @@
       "displayedName": "Instructor",
       "privileges": {
         "courseLevel": {
-          "canviewstudentinsection": true,
-          "cansubmitsessioninsection": true,
-          "canmodifysessioncommentinsection": true,
-          "canmodifycourse": true,
-          "canviewsessioninsection": true,
-          "canmodifysession": true,
-          "canmodifystudent": true,
-          "canmodifyinstructor": true
+          "canViewStudentInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true,
+          "canModifyCourse": true,
+          "canViewSessionInSections": true,
+          "canModifySession": true,
+          "canModifyStudent": true,
+          "canModifyInstructor": true
         },
         "sectionLevel": {},
         "sessionLevel": {}
@@ -512,14 +512,14 @@
       "displayedName": "Instructor",
       "privileges": {
         "courseLevel": {
-          "canviewstudentinsection": true,
-          "cansubmitsessioninsection": true,
-          "canmodifysessioncommentinsection": true,
-          "canmodifycourse": true,
-          "canviewsessioninsection": true,
-          "canmodifysession": true,
-          "canmodifystudent": true,
-          "canmodifyinstructor": true
+          "canViewStudentInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true,
+          "canModifyCourse": true,
+          "canViewSessionInSections": true,
+          "canModifySession": true,
+          "canModifyStudent": true,
+          "canModifyInstructor": true
         },
         "sectionLevel": {},
         "sessionLevel": {}
@@ -536,14 +536,14 @@
       "displayedName": "Instructor",
       "privileges": {
         "courseLevel": {
-          "canviewstudentinsection": true,
-          "cansubmitsessioninsection": true,
-          "canmodifysessioncommentinsection": true,
-          "canmodifycourse": true,
-          "canviewsessioninsection": true,
-          "canmodifysession": true,
-          "canmodifystudent": true,
-          "canmodifyinstructor": true
+          "canViewStudentInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true,
+          "canModifyCourse": true,
+          "canViewSessionInSections": true,
+          "canModifySession": true,
+          "canModifyStudent": true,
+          "canModifyInstructor": true
         },
         "sectionLevel": {},
         "sessionLevel": {}
@@ -559,14 +559,14 @@
       "displayedName": "Instructor",
       "privileges": {
         "courseLevel": {
-          "canviewstudentinsection": true,
-          "cansubmitsessioninsection": true,
-          "canmodifysessioncommentinsection": true,
-          "canmodifycourse": true,
-          "canviewsessioninsection": true,
-          "canmodifysession": true,
-          "canmodifystudent": true,
-          "canmodifyinstructor": true
+          "canViewStudentInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true,
+          "canModifyCourse": true,
+          "canViewSessionInSections": true,
+          "canModifySession": true,
+          "canModifyStudent": true,
+          "canModifyInstructor": true
         },
         "sectionLevel": {},
         "sessionLevel": {}
@@ -583,14 +583,14 @@
       "displayedName": "inst'\"/><script>alert('hi!');</script>",
       "privileges": {
         "courseLevel": {
-          "canviewstudentinsection": true,
-          "cansubmitsessioninsection": true,
-          "canmodifysessioncommentinsection": true,
-          "canmodifycourse": true,
-          "canviewsessioninsection": true,
-          "canmodifysession": true,
-          "canmodifystudent": true,
-          "canmodifyinstructor": true
+          "canViewStudentInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true,
+          "canModifyCourse": true,
+          "canViewSessionInSections": true,
+          "canModifySession": true,
+          "canModifyStudent": true,
+          "canModifyInstructor": true
         },
         "sectionLevel": {},
         "sessionLevel": {}
@@ -714,10 +714,10 @@
       "creatorEmail": "instructor1@course1.tmt",
       "instructions": "Please please fill in the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
-      "startTime": "2012-04-01T21:59:00Z",
-      "endTime": "2027-04-30T21:59:00Z",
-      "sessionVisibleFromTime": "2012-03-28T21:59:00Z",
-      "resultsVisibleFromTime": "2027-05-01T21:59:00Z",
+      "startTime": "2012-04-01T22:00:00Z",
+      "endTime": "2027-04-30T22:00:00Z",
+      "sessionVisibleFromTime": "2012-03-28T22:00:00Z",
+      "resultsVisibleFromTime": "2027-05-01T22:00:00Z",
       "timeZone": "Africa/Johannesburg",
       "gracePeriod": 10,
       "sentOpeningSoonEmail": true,
@@ -735,10 +735,10 @@
       "creatorEmail": "instructor1@course1.tmt",
       "instructions": "Please please fill in the following questions.",
       "createdTime": "2013-03-20T23:59:00Z",
-      "startTime": "2013-06-01T21:59:00Z",
-      "endTime": "2026-04-28T21:59:00Z",
-      "sessionVisibleFromTime": "2013-03-20T21:59:00Z",
-      "resultsVisibleFromTime": "2026-04-29T21:59:00Z",
+      "startTime": "2013-06-01T22:00:00Z",
+      "endTime": "2026-04-28T22:00:00Z",
+      "sessionVisibleFromTime": "2013-03-20T22:00:00Z",
+      "resultsVisibleFromTime": "2026-04-29T22:00:00Z",
       "timeZone": "Africa/Johannesburg",
       "gracePeriod": 5,
       "sentOpeningSoonEmail": true,
@@ -756,10 +756,10 @@
       "creatorEmail": "instructor1@course1.tmt",
       "instructions": "Please please fill in the following questions.",
       "createdTime": "2013-03-20T23:59:00Z",
-      "startTime": "2013-06-01T21:59:00Z",
-      "endTime": "2026-04-28T21:59:00Z",
-      "sessionVisibleFromTime": "2013-03-20T21:59:00Z",
-      "resultsVisibleFromTime": "2026-04-29T21:59:00Z",
+      "startTime": "2013-06-01T22:00:00Z",
+      "endTime": "2026-04-28T22:00:00Z",
+      "sessionVisibleFromTime": "2013-03-20T22:00:00Z",
+      "resultsVisibleFromTime": "2026-04-29T22:00:00Z",
       "timeZone": "Africa/Johannesburg",
       "gracePeriod": 1440,
       "sentOpeningSoonEmail": true,
@@ -777,10 +777,10 @@
       "creatorEmail": "instructor1@course1.tmt",
       "instructions": "Please please fill in the following questions.",
       "createdTime": "2013-03-20T23:59:00Z",
-      "startTime": "2013-06-01T21:58:00Z",
-      "endTime": "2013-06-01T21:59:00Z",
-      "sessionVisibleFromTime": "2013-03-20T21:59:00Z",
-      "resultsVisibleFromTime": "2013-04-29T21:59:00Z",
+      "startTime": "2013-06-01T22:00:00Z",
+      "endTime": "2013-06-01T22:00:00Z",
+      "sessionVisibleFromTime": "2013-03-20T22:00:00Z",
+      "resultsVisibleFromTime": "2013-04-29T22:00:00Z",
       "timeZone": "Africa/Johannesburg",
       "gracePeriod": 5,
       "sentOpeningSoonEmail": true,
@@ -798,10 +798,10 @@
       "creatorEmail": "instructor2@course1.tmt",
       "instructions": "Please please fill in the following questions.",
       "createdTime": "2013-01-20T23:57:00Z",
-      "startTime": "2013-02-01T23:57:00Z",
-      "endTime": "2013-04-28T23:57:00Z",
-      "sessionVisibleFromTime": "2013-01-20T23:57:00Z",
-      "resultsVisibleFromTime": "2013-04-29T23:57:00Z",
+      "startTime": "2013-02-02T00:00:00Z",
+      "endTime": "2013-04-29T00:00:00Z",
+      "sessionVisibleFromTime": "2013-01-21T00:00:00Z",
+      "resultsVisibleFromTime": "2013-04-30T00:00:00Z",
       "timeZone": "Africa/Johannesburg",
       "gracePeriod": 5,
       "sentOpeningSoonEmail": false,
@@ -861,10 +861,10 @@
       "creatorEmail": "instructor1@course2.tmt",
       "instructions": "Please please fill in the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
-      "startTime": "2012-04-01T15:59:00Z",
-      "endTime": "2027-04-30T15:59:00Z",
-      "sessionVisibleFromTime": "2012-03-28T15:59:00Z",
-      "resultsVisibleFromTime": "2027-05-01T15:59:00Z",
+      "startTime": "2012-04-01T16:00:00Z",
+      "endTime": "2027-04-30T16:00:00Z",
+      "sessionVisibleFromTime": "2012-03-28T16:00:00Z",
+      "resultsVisibleFromTime": "2027-05-01T16:00:00Z",
       "timeZone": "Asia/Singapore",
       "gracePeriod": 0,
       "sentOpeningSoonEmail": true,
@@ -882,8 +882,8 @@
       "creatorEmail": "instructor1@course2.tmt",
       "instructions": "Please please fill in the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
-      "startTime": "2012-04-01T15:59:00Z",
-      "endTime": "2027-04-30T15:59:00Z",
+      "startTime": "2012-04-01T16:00:00Z",
+      "endTime": "2027-04-30T16:00:00Z",
       "sessionVisibleFromTime": "1970-11-27T00:00:00Z",
       "resultsVisibleFromTime": "1970-01-01T00:00:00Z",
       "timeZone": "Asia/Singapore",
@@ -903,10 +903,10 @@
       "creatorEmail": "instructor1@course3.tmt",
       "instructions": "Please please fill in the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
-      "startTime": "2012-04-01T21:59:00Z",
-      "endTime": "2027-04-30T21:59:00Z",
-      "sessionVisibleFromTime": "2012-03-28T21:59:00Z",
-      "resultsVisibleFromTime": "2027-05-01T21:59:00Z",
+      "startTime": "2012-04-01T22:00:00Z",
+      "endTime": "2027-04-30T22:00:00Z",
+      "sessionVisibleFromTime": "2012-03-28T22:00:00Z",
+      "resultsVisibleFromTime": "2027-05-01T22:00:00Z",
       "timeZone": "Africa/Johannesburg",
       "gracePeriod": 10,
       "sentOpeningSoonEmail": true,
@@ -925,10 +925,10 @@
       "instructions": "Please please fill in the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
       "deletedTime": "2012-05-20T23:59:00Z",
-      "startTime": "2012-04-01T21:59:00Z",
-      "endTime": "2027-04-30T21:59:00Z",
-      "sessionVisibleFromTime": "2012-03-28T21:59:00Z",
-      "resultsVisibleFromTime": "2027-05-01T21:59:00Z",
+      "startTime": "2012-04-01T22:00:00Z",
+      "endTime": "2027-04-30T22:00:00Z",
+      "sessionVisibleFromTime": "2012-03-28T22:00:00Z",
+      "resultsVisibleFromTime": "2027-05-01T22:00:00Z",
       "timeZone": "Africa/Johannesburg",
       "gracePeriod": 10,
       "sentOpeningSoonEmail": true,
@@ -947,10 +947,10 @@
       "instructions": "Please please fill in the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
       "deletedTime": "2012-05-20T23:59:00Z",
-      "startTime": "2012-04-01T21:59:00Z",
-      "endTime": "2027-04-30T21:59:00Z",
-      "sessionVisibleFromTime": "2012-03-28T21:59:00Z",
-      "resultsVisibleFromTime": "2027-05-01T21:59:00Z",
+      "startTime": "2012-04-01T22:00:00Z",
+      "endTime": "2027-04-30T22:00:00Z",
+      "sessionVisibleFromTime": "2012-03-28T22:00:00Z",
+      "resultsVisibleFromTime": "2027-05-01T22:00:00Z",
       "timeZone": "Africa/Johannesburg",
       "gracePeriod": 10,
       "sentOpeningSoonEmail": true,
@@ -968,10 +968,10 @@
       "creatorEmail": "instructor1@sanitization.tmt",
       "instructions": "unclosed tags </td></div> Attempted script injection '\" <script>alert('hello');</script>",
       "createdTime": "2012-03-20T23:59:00Z",
-      "startTime": "2012-04-01T21:59:00Z",
-      "endTime": "2027-04-30T21:59:00Z",
-      "sessionVisibleFromTime": "2012-03-28T21:59:00Z",
-      "resultsVisibleFromTime": "2027-05-01T21:59:00Z",
+      "startTime": "2012-04-01T22:00:00Z",
+      "endTime": "2027-04-30T22:00:00Z",
+      "sessionVisibleFromTime": "2012-03-28T22:00:00Z",
+      "resultsVisibleFromTime": "2027-05-01T22:00:00Z",
       "timeZone": "Africa/Johannesburg",
       "gracePeriod": 10,
       "sentOpeningSoonEmail": true,

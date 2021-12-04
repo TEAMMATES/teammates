@@ -1,4 +1,4 @@
-import { FeedbackSession, InstructorPrivilege } from '../../../types/api-output';
+import { FeedbackSession, InstructorPermissionSet } from '../../../types/api-output';
 
 /**
  * The model for a row of the sessions table.
@@ -8,7 +8,7 @@ export interface SessionsTableRowModel {
   responseRate: string;
   isLoadingResponseRate: boolean;
 
-  instructorPrivilege: InstructorPrivilege;
+  instructorPrivilege: InstructorPermissionSet;
 }
 
 /**

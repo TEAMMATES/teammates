@@ -49,7 +49,7 @@ public class GetCourseActionTest extends BaseActionTest<GetCourseAction> {
 
         assertEquals(expectedCourse.getId(), courseData.getCourseId());
         assertEquals(expectedCourse.getName(), courseData.getCourseName());
-        assertEquals(expectedCourse.getTimeZone().getId(), courseData.getTimeZone());
+        assertEquals(expectedCourse.getTimeZone(), courseData.getTimeZone());
 
         StudentAttributes student1OfCourse1 = typicalBundle.students.get("student1InCourse1");
         expectedCourse = logic.getCourse(student1OfCourse1.getCourse());
@@ -68,7 +68,7 @@ public class GetCourseActionTest extends BaseActionTest<GetCourseAction> {
 
         assertEquals(expectedCourse.getId(), courseData.getCourseId());
         assertEquals(expectedCourse.getName(), courseData.getCourseName());
-        assertEquals(expectedCourse.getTimeZone().getId(), courseData.getTimeZone());
+        assertEquals(expectedCourse.getTimeZone(), courseData.getTimeZone());
     }
 
     @Test
