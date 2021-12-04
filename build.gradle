@@ -297,7 +297,7 @@ appengine {
 
 task removeWarFromStagedApp {
     doLast {
-        delete "${buildDir}/staged-app/${war.archiveName}"
+        delete "${buildDir}/staged-app/${war.archiveFileName}"
     }
 }
 
