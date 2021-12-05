@@ -17,14 +17,16 @@
     "importHelpers": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
-    "target": "es2015",
+    "target": "es2017",
     "lib": [
       "es2018",
       "dom"
     ]
   },
   "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
     "fullTemplateTypeCheck": true,
-    "strictInjectionParameters": true
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true
   }
 }
