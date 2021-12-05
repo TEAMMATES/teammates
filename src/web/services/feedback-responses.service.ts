@@ -185,8 +185,8 @@ export class FeedbackResponsesService {
   /**
    * Submits a list of feedback responses for a feedback question by calling API.
    */
-  submitFeedbackResponses(questionId: string, additionalParams: { [key: string]: string } = {},
-                          request: FeedbackResponsesRequest): Observable<FeedbackResponses> {
+  submitFeedbackResponses(questionId: string, request: FeedbackResponsesRequest,
+                          additionalParams: { [key: string]: string } = {}): Observable<FeedbackResponses> {
     return this.httpRequestService.put(ResourceEndpoints.RESPONSES, {
       questionid: questionId,
       ...additionalParams,

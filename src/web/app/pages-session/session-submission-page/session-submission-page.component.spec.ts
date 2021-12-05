@@ -985,21 +985,21 @@ describe('SessionSubmissionPageComponent', () => {
 
     expect(responseSpy).toBeCalledTimes(2);
     expect(responseSpy).toHaveBeenNthCalledWith(1, 'feedback-question-id-mcq', {
-      intent: 'STUDENT_SUBMISSION',
-      key: 'reg-key',
-      moderatedperson: '',
-    }, {
       responses: [{
         recipient: testMcqRecipientSubmissionForm.recipientIdentifier,
         responseDetails: testResponseDetails1,
       }],
-    });
-    expect(responseSpy).toHaveBeenLastCalledWith('feedback-question-id-text', {
+    }, {
       intent: 'STUDENT_SUBMISSION',
       key: 'reg-key',
       moderatedperson: '',
-    }, {
+    });
+    expect(responseSpy).toHaveBeenLastCalledWith('feedback-question-id-text', {
       responses: [], // do not call for empty response details
+    }, {
+      intent: 'STUDENT_SUBMISSION',
+      key: 'reg-key',
+      moderatedperson: '',
     });
 
     expect(mockModalRef.componentInstance.requestIds).toEqual({

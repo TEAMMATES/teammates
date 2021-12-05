@@ -654,11 +654,11 @@ this session.`;
       if (!failToSaveQuestions[questionSubmissionFormModel.questionNumber]) {
         savingRequests.push(
             this.feedbackResponsesService.submitFeedbackResponses(questionSubmissionFormModel.feedbackQuestionId, {
+              responses,
+            }, {
               intent: this.intent,
               key: this.regKey,
               moderatedperson: this.moderatedPerson,
-            }, {
-              responses,
             }).pipe(
                 tap((resp: FeedbackResponses) => {
                   const responsesMap: Record<string, FeedbackResponse> = {};
