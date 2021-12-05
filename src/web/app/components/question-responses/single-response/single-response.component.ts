@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import {
   FeedbackQuestionDetails,
   FeedbackQuestionType,
@@ -13,7 +13,7 @@ import {
   templateUrl: './single-response.component.html',
   styleUrls: ['./single-response.component.scss'],
 })
-export class SingleResponseComponent implements OnInit {
+export class SingleResponseComponent {
 
   @Input() responseDetails: FeedbackResponseDetails = {
     questionType: FeedbackQuestionType.TEXT,
@@ -31,8 +31,5 @@ export class SingleResponseComponent implements OnInit {
 
   // enum
   FeedbackQuestionType: typeof FeedbackQuestionType = FeedbackQuestionType;
-
-  ngOnInit(): void {
-  }
 
 }

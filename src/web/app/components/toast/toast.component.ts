@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, TemplateRef } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, TemplateRef } from '@angular/core';
 import { Toast } from './toast';
 
 /**
@@ -9,13 +9,10 @@ import { Toast } from './toast';
   templateUrl: './toast.component.html',
   styleUrls: ['./toast.component.scss'],
 })
-export class ToastComponent implements OnInit {
+export class ToastComponent implements OnChanges {
 
   @Input() toast: Toast | null = null;
   @Output() toastChange: EventEmitter<Toast | null> = new EventEmitter<Toast | null>();
-
-  ngOnInit(): void {
-  }
 
   ngOnChanges(): void {
     // reset autohide timing

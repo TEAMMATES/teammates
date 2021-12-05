@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import {
   FeedbackResponseComment, FeedbackVisibilityType, ResponseOutput,
 } from '../../../../types/api-output';
@@ -25,7 +25,7 @@ export interface CommentTableModel {
   styleUrls: ['./comment-table.component.scss'],
   animations: [collapseAnim],
 })
-export class CommentTableComponent implements OnInit {
+export class CommentTableComponent {
 
   // enum
   CommentRowMode: typeof CommentRowMode = CommentRowMode;
@@ -69,9 +69,6 @@ export class CommentTableComponent implements OnInit {
 
   @Output()
   updateCommentEvent: EventEmitter<number> = new EventEmitter();
-
-  ngOnInit(): void {
-  }
 
   /**
    * Triggers the delete comment event.

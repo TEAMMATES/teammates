@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { CourseService } from '../../../services/course.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
@@ -26,7 +26,7 @@ export interface StudentListRowModel {
   templateUrl: './student-list.component.html',
   styleUrls: ['./student-list.component.scss'],
 })
-export class StudentListComponent implements OnInit {
+export class StudentListComponent {
   @Input() courseId: string = '';
   @Input() useGrayHeading: boolean = true;
   @Input() listOfStudentsToHide: string[] = [];
@@ -48,9 +48,6 @@ export class StudentListComponent implements OnInit {
   constructor(private statusMessageService: StatusMessageService,
               private courseService: CourseService,
               private simpleModalService: SimpleModalService) {
-  }
-
-  ngOnInit(): void {
   }
 
   /**

@@ -1,4 +1,4 @@
-import { Directive, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Directive, EventEmitter, Input, Output } from '@angular/core';
 import { FeedbackQuestionDetails, FeedbackResponseDetails } from '../../../../types/api-output';
 
 /**
@@ -7,7 +7,7 @@ import { FeedbackQuestionDetails, FeedbackResponseDetails } from '../../../../ty
 @Directive()
 // eslint-disable-next-line @angular-eslint/directive-class-suffix
 export abstract class QuestionEditAnswerFormComponent<
-    Q extends FeedbackQuestionDetails, R extends FeedbackResponseDetails> implements OnInit {
+    Q extends FeedbackQuestionDetails, R extends FeedbackResponseDetails> {
 
   @Input()
   isDisabled: boolean = false;
@@ -24,9 +24,6 @@ export abstract class QuestionEditAnswerFormComponent<
   protected constructor(questionDetails: Q, responseDetails: R) {
     this.questionDetails = questionDetails;
     this.responseDetails = responseDetails;
-  }
-
-  ngOnInit(): void {
   }
 
   /**

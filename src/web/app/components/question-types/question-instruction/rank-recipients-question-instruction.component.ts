@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FeedbackRankRecipientsQuestionDetails } from '../../../../types/api-output';
 import {
   DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS,
@@ -13,14 +13,11 @@ import { NO_VALUE } from '../../../../types/feedback-response-details';
   templateUrl: './rank-recipients-question-instruction.component.html',
   styleUrls: ['./rank-recipients-question-instruction.component.scss'],
 })
-export class RankRecipientsQuestionInstructionComponent implements OnInit {
+export class RankRecipientsQuestionInstructionComponent {
 
   @Input()
   questionDetails: FeedbackRankRecipientsQuestionDetails = DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS();
 
   readonly NO_VALUE: number = NO_VALUE;
-
-  ngOnInit(): void {
-  }
 
 }

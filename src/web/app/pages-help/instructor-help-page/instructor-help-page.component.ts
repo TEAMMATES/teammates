@@ -1,5 +1,5 @@
 import { DOCUMENT } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Inject, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { PageScrollService } from 'ngx-page-scroll-core';
 import { environment } from '../../../environments/environment';
@@ -19,7 +19,7 @@ import { Sections } from './sections';
   templateUrl: './instructor-help-page.component.html',
   styleUrls: ['./instructor-help-page.component.scss'],
 })
-export class InstructorHelpPageComponent implements OnInit, AfterViewInit {
+export class InstructorHelpPageComponent implements AfterViewInit {
   // enum
   Sections: typeof Sections = Sections;
   readonly supportEmail: string = environment.supportEmail;
@@ -47,9 +47,6 @@ export class InstructorHelpPageComponent implements OnInit, AfterViewInit {
     r.data.subscribe((resp: any) => {
       this.instructorGettingStartedPath = resp.instructorGettingStartedPath;
     });
-  }
-
-  ngOnInit(): void {
   }
 
   ngAfterViewInit(): void {

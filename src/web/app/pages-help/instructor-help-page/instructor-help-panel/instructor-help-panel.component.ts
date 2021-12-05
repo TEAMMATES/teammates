@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output } from '@angular/core';
 import { collapseAnim } from './collapse-anim';
 
 /**
@@ -10,7 +10,7 @@ import { collapseAnim } from './collapse-anim';
   styleUrls: ['./instructor-help-panel.component.scss'],
   animations: [collapseAnim],
 })
-export class InstructorHelpPanelComponent implements OnInit {
+export class InstructorHelpPanelComponent {
 
   @Input() id: string = '';
   @Input() headerText: string = '';
@@ -28,8 +28,5 @@ export class InstructorHelpPanelComponent implements OnInit {
   }
 
   constructor(public elementRef: ElementRef) { }
-
-  ngOnInit(): void {
-  }
 
 }

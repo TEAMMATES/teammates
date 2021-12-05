@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { saveAs } from 'file-saver';
 import { TimezoneService } from '../../../../services/timezone.service';
@@ -14,7 +14,7 @@ import { QuestionSubmissionFormModel } from '../../../components/question-submis
   templateUrl: './saving-complete-modal.component.html',
   styleUrls: ['./saving-complete-modal.component.scss'],
 })
-export class SavingCompleteModalComponent implements OnInit {
+export class SavingCompleteModalComponent {
 
   @Input()
   courseId: string = '';
@@ -56,9 +56,6 @@ export class SavingCompleteModalComponent implements OnInit {
 
   constructor(public activeModal: NgbActiveModal,
               private timezoneService: TimezoneService) {}
-
-  ngOnInit(): void {
-  }
 
   downloadProofOfSubmission(): void {
     const time: number = new Date().getTime();

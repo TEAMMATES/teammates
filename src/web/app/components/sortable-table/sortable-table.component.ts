@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Type } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, Type } from '@angular/core';
 import { TableComparatorService } from '../../../services/table-comparator.service';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 
@@ -39,7 +39,7 @@ export interface SortableTableCellData {
   templateUrl: './sortable-table.component.html',
   styleUrls: ['./sortable-table.component.scss'],
 })
-export class SortableTableComponent implements OnInit {
+export class SortableTableComponent implements OnInit, OnChanges {
 
   // enum
   SortOrder: typeof SortOrder = SortOrder;

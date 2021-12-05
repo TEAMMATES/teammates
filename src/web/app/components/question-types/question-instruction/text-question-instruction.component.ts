@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 /**
  * Instruction of text question.
@@ -8,9 +8,4 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './text-question-instruction.component.html',
   styleUrls: ['./text-question-instruction.component.scss'],
 })
-export class TextQuestionInstructionComponent implements OnInit {
-
-  ngOnInit(): void {
-  }
-
-}
+export class TextQuestionInstructionComponent {}

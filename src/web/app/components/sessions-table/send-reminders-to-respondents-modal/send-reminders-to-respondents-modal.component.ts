@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   InstructorListInfoTableRowModel,
@@ -13,7 +13,7 @@ import {
   templateUrl: './send-reminders-to-respondents-modal.component.html',
   styleUrls: ['./send-reminders-to-respondents-modal.component.scss'],
 })
-export class SendRemindersToRespondentsModalComponent implements OnInit {
+export class SendRemindersToRespondentsModalComponent {
 
   // values below will be injected by other component
   courseId: string = '';
@@ -22,9 +22,6 @@ export class SendRemindersToRespondentsModalComponent implements OnInit {
   instructorListInfoTableRowModels: InstructorListInfoTableRowModel[] = [];
 
   constructor(public activeModal: NgbActiveModal) {
-  }
-
-  ngOnInit(): void {
   }
 
   /**

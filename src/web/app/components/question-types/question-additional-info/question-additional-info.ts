@@ -1,4 +1,4 @@
-import { Directive, Input, OnInit } from '@angular/core';
+import { Directive, Input } from '@angular/core';
 import { FeedbackQuestionDetails } from '../../../../types/api-output';
 
 /**
@@ -6,16 +6,13 @@ import { FeedbackQuestionDetails } from '../../../../types/api-output';
  */
 @Directive()
 // eslint-disable-next-line @angular-eslint/directive-class-suffix
-export abstract class QuestionAdditionalInfo<Q extends FeedbackQuestionDetails> implements OnInit {
+export abstract class QuestionAdditionalInfo<Q extends FeedbackQuestionDetails> {
 
   @Input()
   questionDetails: Q;
 
   protected constructor(questionDetails: Q) {
     this.questionDetails = questionDetails;
-  }
-
-  ngOnInit(): void {
   }
 
 }

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { GeneralLogEntry, LogEvent, RequestLogDetails } from '../../../../types/api-output';
 
 /**
@@ -9,7 +9,7 @@ import { GeneralLogEntry, LogEvent, RequestLogDetails } from '../../../../types/
   templateUrl: './request-log-line.component.html',
   styleUrls: ['./request-log-line.component.scss', './log-line.component.scss'],
 })
-export class RequestLogLineComponent implements OnInit {
+export class RequestLogLineComponent {
 
   logValue!: GeneralLogEntry;
   responseTime: number = 0;
@@ -34,9 +34,6 @@ export class RequestLogLineComponent implements OnInit {
       this.actionClass = details.actionClass;
       this.summary = `${details.requestMethod} ${details.requestUrl}`;
     }
-  }
-
-  ngOnInit(): void {
   }
 
   getClassForStatus(httpStatus: number): string {

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import {
   Instructor,
   Student,
@@ -12,7 +12,7 @@ import {
   templateUrl: './preview-session-panel.component.html',
   styleUrls: ['./preview-session-panel.component.scss'],
 })
-export class PreviewSessionPanelComponent implements OnInit {
+export class PreviewSessionPanelComponent {
 
   @Input()
   courseId: string = '';
@@ -34,8 +34,5 @@ export class PreviewSessionPanelComponent implements OnInit {
 
   @Input()
   forDisplayOnly: boolean = false;
-
-  ngOnInit(): void {
-  }
 
 }

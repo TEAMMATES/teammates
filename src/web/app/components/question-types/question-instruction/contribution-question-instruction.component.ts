@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 /**
  * Instruction of contribution question.
@@ -8,9 +8,4 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './contribution-question-instruction.component.html',
   styleUrls: ['./contribution-question-instruction.component.scss'],
 })
-export class ContributionQuestionInstructionComponent implements OnInit {
-
-  ngOnInit(): void {
-  }
-
-}
+export class ContributionQuestionInstructionComponent {}

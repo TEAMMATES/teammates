@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import {
   CONTRIBUTION_POINT_NOT_INITIALIZED,
   CONTRIBUTION_POINT_NOT_SUBMITTED,
@@ -12,15 +12,12 @@ import {
   templateUrl: './contribution.component.html',
   styleUrls: ['./contribution.component.scss'],
 })
-export class ContributionComponent implements OnInit {
+export class ContributionComponent {
 
   CONTRIBUTION_POINT_NOT_INITIALIZED: number = CONTRIBUTION_POINT_NOT_INITIALIZED;
   CONTRIBUTION_POINT_NOT_SUBMITTED: number = CONTRIBUTION_POINT_NOT_SUBMITTED;
 
   @Input() value: number = 100;
   @Input() diffOnly: boolean = false;
-
-  ngOnInit(): void {
-  }
 
 }

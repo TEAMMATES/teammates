@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Student } from '../../../../types/api-output';
 
 /**
@@ -9,12 +9,9 @@ import { Student } from '../../../../types/api-output';
   templateUrl: './course-related-info.component.html',
   styleUrls: ['./course-related-info.component.scss'],
 })
-export class CourseRelatedInfoComponent implements OnInit {
+export class CourseRelatedInfoComponent {
 
   @Input() student?: Student;
   @Input() isDisplayOnly: boolean = false;
-
-  ngOnInit(): void {
-  }
 
 }

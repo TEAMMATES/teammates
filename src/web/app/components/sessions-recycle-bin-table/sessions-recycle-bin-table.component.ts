@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FeedbackSession } from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { collapseAnim } from '../teammates-common/collapse-anim';
@@ -19,7 +19,7 @@ export interface RecycleBinFeedbackSessionRowModel {
   styleUrls: ['./sessions-recycle-bin-table.component.scss'],
   animations: [collapseAnim],
 })
-export class SessionsRecycleBinTableComponent implements OnInit {
+export class SessionsRecycleBinTableComponent {
 
   // enum
   SortBy: typeof SortBy = SortBy;
@@ -73,9 +73,6 @@ export class SessionsRecycleBinTableComponent implements OnInit {
    */
   setRowClicked(rowIndex: number): void {
     this.rowClicked = rowIndex;
-  }
-
-  ngOnInit(): void {
   }
 
 }

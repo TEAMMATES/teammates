@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 /**
  * Retry button for when loading fails.
@@ -8,15 +8,12 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
   templateUrl: './loading-retry.component.html',
   styleUrls: ['./loading-retry.component.scss'],
 })
-export class LoadingRetryComponent implements OnInit {
+export class LoadingRetryComponent {
 
   @Input() message: string = '';
 
   @Input() shouldShowRetry: boolean = false;
 
   @Output() retryEvent: EventEmitter<any> = new EventEmitter<any>();
-
-  ngOnInit(): void {
-  }
 
 }

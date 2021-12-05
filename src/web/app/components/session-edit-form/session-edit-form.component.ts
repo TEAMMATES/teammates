@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgbCalendar, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
 import { TemplateSession } from '../../../services/feedback-sessions.service';
@@ -27,7 +27,7 @@ import { SessionEditFormMode, SessionEditFormModel } from './session-edit-form-m
   providers: [{ provide: NgbDateParserFormatter, useClass: SessionEditFormDatePickerFormatter }],
   animations: [collapseAnim],
 })
-export class SessionEditFormComponent implements OnInit {
+export class SessionEditFormComponent {
 
   // enum
   SessionEditFormMode: typeof SessionEditFormMode = SessionEditFormMode;
@@ -114,9 +114,6 @@ export class SessionEditFormComponent implements OnInit {
   closeEditFormEvent: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(private simpleModalService: SimpleModalService, public calendar: NgbCalendar) { }
-
-  ngOnInit(): void {
-  }
 
   /**
    * Triggers the change of the model for the form.

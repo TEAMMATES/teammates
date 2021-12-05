@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TableComparatorService } from '../../../../services/table-comparator.service';
 import { SortBy, SortOrder } from '../../../../types/sort-properties';
 import { InstructorListInfoTableRowModel, StudentListInfoTableRowModel } from './respondent-list-info-table-model';
@@ -11,7 +11,7 @@ import { InstructorListInfoTableRowModel, StudentListInfoTableRowModel } from '.
   templateUrl: './respondent-list-info-table.component.html',
   styleUrls: ['./respondent-list-info-table.component.scss'],
 })
-export class RespondentListInfoTableComponent implements OnInit {
+export class RespondentListInfoTableComponent {
 
   // enum
   SortBy: typeof SortBy = SortBy;
@@ -39,9 +39,6 @@ export class RespondentListInfoTableComponent implements OnInit {
   instructorListInfoTableSortOrder: SortOrder = SortOrder.ASC;
 
   constructor(private tableComparatorService: TableComparatorService) { }
-
-  ngOnInit(): void {
-  }
 
   /**
    * Sorts the students according to selection option.

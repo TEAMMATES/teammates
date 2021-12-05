@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { Course, FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus } from '../../../types/api-output';
@@ -21,7 +21,7 @@ import {
   templateUrl: './sessions-table.component.html',
   styleUrls: ['./sessions-table.component.scss'],
 })
-export class SessionsTableComponent implements OnInit {
+export class SessionsTableComponent {
 
   // enum
   SortBy: typeof SortBy = SortBy;
@@ -193,9 +193,6 @@ export class SessionsTableComponent implements OnInit {
    */
   setRowClicked(rowIndex: number): void {
     this.rowClicked = rowIndex;
-  }
-
-  ngOnInit(): void {
   }
 
 }

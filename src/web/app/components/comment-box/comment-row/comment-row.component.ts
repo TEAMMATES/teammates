@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { CommentVisibilityStateMachine } from '../../../../services/comment-visibility-state-machine';
 import { FeedbackResponseCommentService } from '../../../../services/feedback-response-comment.service';
@@ -52,7 +52,7 @@ export enum CommentRowMode {
   templateUrl: './comment-row.component.html',
   styleUrls: ['./comment-row.component.scss'],
 })
-export class CommentRowComponent implements OnInit, OnChanges {
+export class CommentRowComponent implements OnChanges {
 
   // enum
   CommentRowMode: typeof CommentRowMode = CommentRowMode;
@@ -115,9 +115,6 @@ export class CommentRowComponent implements OnInit, OnChanges {
   constructor(private simpleModalService: SimpleModalService,
               private commentService: FeedbackResponseCommentService) {
     this.visibilityStateMachine = this.commentService.getNewVisibilityStateMachine(this.questionShowResponsesTo);
-  }
-
-  ngOnInit(): void {
   }
 
   ngOnChanges(): void {

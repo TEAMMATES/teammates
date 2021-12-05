@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnChanges, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnChanges, ViewChild } from '@angular/core';
 import {
   FeedbackMsqQuestionDetails,
   FeedbackMsqResponseDetails,
@@ -17,7 +17,7 @@ import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
 })
 export class MsqQuestionEditAnswerFormComponent
     extends QuestionEditAnswerFormComponent<FeedbackMsqQuestionDetails, FeedbackMsqResponseDetails>
-    implements OnInit, OnChanges {
+    implements OnChanges {
 
   readonly NO_VALUE: number = NO_VALUE;
   isMsqOptionSelected: boolean[] = [];
@@ -26,9 +26,6 @@ export class MsqQuestionEditAnswerFormComponent
 
   constructor() {
     super(DEFAULT_MSQ_QUESTION_DETAILS(), DEFAULT_MSQ_RESPONSE_DETAILS());
-  }
-
-  ngOnInit(): void {
   }
 
   // sync the internal status with the input data

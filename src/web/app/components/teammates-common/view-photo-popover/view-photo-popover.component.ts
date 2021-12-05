@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 /**
  * Component to display a popover for photos
@@ -8,7 +8,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
   templateUrl: './view-photo-popover.component.html',
   styleUrls: ['./view-photo-popover.component.scss'],
 })
-export class ViewPhotoPopoverComponent implements OnInit {
+export class ViewPhotoPopoverComponent {
 
   @Input()
   photoUrl: string = '';
@@ -20,9 +20,6 @@ export class ViewPhotoPopoverComponent implements OnInit {
   showPhotoEvent: EventEmitter<any> = new EventEmitter();
 
   isPhotoShown: boolean = false;
-
-  ngOnInit(): void {
-  }
 
   missingPhotoEventHandler(): void {
     this.photoUrl = '/assets/images/profile_picture_default.png';

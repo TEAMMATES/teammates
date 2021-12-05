@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ExceptionLogDetails, GeneralLogEntry, LogEvent } from '../../../../types/api-output';
 
 /**
@@ -9,7 +9,7 @@ import { ExceptionLogDetails, GeneralLogEntry, LogEvent } from '../../../../type
   templateUrl: './exception-log-line.component.html',
   styleUrls: ['./exception-log-line.component.scss', './log-line.component.scss'],
 })
-export class ExceptionLogLineComponent implements OnInit {
+export class ExceptionLogLineComponent {
 
   logValue!: GeneralLogEntry;
   exceptionClass: string = '';
@@ -30,9 +30,6 @@ export class ExceptionLogLineComponent implements OnInit {
       this.exceptionClass = details.exceptionClass;
       this.summary = details.message || '';
     }
-  }
-
-  ngOnInit(): void {
   }
 
   addExceptionClassToFilter(exceptionClass: string): void {

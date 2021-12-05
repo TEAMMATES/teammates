@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, TemplateRef } from '@angular/core';
+import { Component, Input, TemplateRef } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { SimpleModalType } from './simple-modal-type';
 
@@ -10,7 +10,7 @@ import { SimpleModalType } from './simple-modal-type';
   templateUrl: './simple-modal.component.html',
   styleUrls: ['./simple-modal.component.scss'],
 })
-export class SimpleModalComponent implements OnInit {
+export class SimpleModalComponent {
 
   // enum
   SimpleModalType: typeof  SimpleModalType = SimpleModalType;
@@ -27,8 +27,5 @@ export class SimpleModalComponent implements OnInit {
   }
 
   constructor(public activeModal: NgbActiveModal) { }
-
-  ngOnInit(): void {
-  }
 
 }

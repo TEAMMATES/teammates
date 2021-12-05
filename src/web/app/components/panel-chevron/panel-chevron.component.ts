@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 /**
  * Chevron icon used in panel headers.
@@ -10,11 +10,8 @@ import { Component, Input, OnInit } from '@angular/core';
   templateUrl: './panel-chevron.component.html',
   styleUrls: ['./panel-chevron.component.scss'],
 })
-export class PanelChevronComponent implements OnInit {
+export class PanelChevronComponent {
 
   @Input() isExpanded: boolean = false;
-
-  ngOnInit(): void {
-  }
 
 }

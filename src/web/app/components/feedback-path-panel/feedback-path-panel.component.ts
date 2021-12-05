@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import {
   FeedbackParticipantType,
   FeedbackQuestionType,
@@ -15,7 +15,7 @@ import { QuestionEditFormModel } from '../question-edit-form/question-edit-form-
   templateUrl: './feedback-path-panel.component.html',
   styleUrls: ['./feedback-path-panel.component.scss'],
 })
-export class FeedbackPathPanelComponent implements OnInit {
+export class FeedbackPathPanelComponent {
 
   // enum
   FeedbackParticipantType: typeof FeedbackParticipantType = FeedbackParticipantType;
@@ -82,9 +82,6 @@ export class FeedbackPathPanelComponent implements OnInit {
   @Output()
   triggerModelChangeBatch: EventEmitter<Partial<QuestionEditFormModel>> =
     new EventEmitter<Partial<QuestionEditFormModel>>();
-
-  ngOnInit(): void {
-  }
 
   triggerCustomNumberOfEntities(data: number): void {
     this.customNumberOfEntitiesToGiveFeedbackTo.emit(data);

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { GeneralLogEntry } from '../../../../types/api-output';
 
 /**
@@ -9,7 +9,7 @@ import { GeneralLogEntry } from '../../../../types/api-output';
   templateUrl: './generic-log-line.component.html',
   styleUrls: ['./generic-log-line.component.scss'],
 })
-export class GenericLogLineComponent implements OnInit {
+export class GenericLogLineComponent {
 
   logValue!: GeneralLogEntry;
   summary: string = '';
@@ -26,9 +26,6 @@ export class GenericLogLineComponent implements OnInit {
     } else if (log.details) {
       this.summary = log.details.message || '';
     }
-  }
-
-  ngOnInit(): void {
   }
 
 }

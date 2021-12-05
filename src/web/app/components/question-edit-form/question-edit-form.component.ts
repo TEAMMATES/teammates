@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { CommonVisibilitySetting, FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
@@ -45,7 +45,7 @@ const QUESTION_DETAIL_PROPERTIES: Set<string> = new Set<string>([
   styleUrls: ['./question-edit-form.component.scss'],
   animations: [collapseAnim],
 })
-export class QuestionEditFormComponent implements OnInit {
+export class QuestionEditFormComponent {
 
   // enum
   FeedbackQuestionType: typeof FeedbackQuestionType = FeedbackQuestionType;
@@ -197,8 +197,6 @@ export class QuestionEditFormComponent implements OnInit {
   private isSameSet(setA: FeedbackVisibilityType[], setB: FeedbackVisibilityType[]): boolean {
     return setA.length === setB.length && setA.every((ele: FeedbackVisibilityType) => setB.includes(ele));
   }
-
-  ngOnInit(): void {}
 
   /**
    * Triggers the change of the model for the form.

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { forkJoin, Observable, of } from 'rxjs';
 import { finalize, map, mergeMap } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
@@ -20,7 +20,7 @@ import { SearchStudentsListRowTable } from './student-result-table/student-resul
   templateUrl: './instructor-search-page.component.html',
   styleUrls: ['./instructor-search-page.component.scss'],
 })
-export class InstructorSearchPageComponent implements OnInit {
+export class InstructorSearchPageComponent {
 
   searchParams: SearchParams = {
     searchKey: '',
@@ -34,9 +34,6 @@ export class InstructorSearchPageComponent implements OnInit {
     private courseService: CourseService,
     private instructorService: InstructorService,
   ) {}
-
-  ngOnInit(): void {
-  }
 
   /**
    * Searches for students matching the search query.

@@ -1,4 +1,4 @@
-import { Directive, Input, OnInit } from '@angular/core';
+import { Directive, Input } from '@angular/core';
 import {
   FeedbackParticipantType,
   FeedbackQuestionDetails,
@@ -29,8 +29,7 @@ export interface Response<R extends FeedbackResponseDetails> {
  */
 @Directive()
 // eslint-disable-next-line @angular-eslint/directive-class-suffix
-export class QuestionStatistics<Q extends FeedbackQuestionDetails, R extends FeedbackResponseDetails>
-    implements OnInit {
+export class QuestionStatistics<Q extends FeedbackQuestionDetails, R extends FeedbackResponseDetails> {
 
   @Input() responses: Response<R>[] = [];
   @Input() question: Q;
@@ -39,9 +38,6 @@ export class QuestionStatistics<Q extends FeedbackQuestionDetails, R extends Fee
 
   constructor(question: Q) {
     this.question = question;
-  }
-
-  ngOnInit(): void {
   }
 
 }

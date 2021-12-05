@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { GeneralLogEntry } from '../../../../types/api-output';
 
 /**
@@ -9,7 +9,7 @@ import { GeneralLogEntry } from '../../../../types/api-output';
   templateUrl: './generic-log-details.component.html',
   styleUrls: ['./generic-log-details.component.scss', './log-details.component.scss'],
 })
-export class GenericLogDetailsComponent implements OnInit {
+export class GenericLogDetailsComponent {
 
   logValue!: GeneralLogEntry;
 
@@ -20,9 +20,6 @@ export class GenericLogDetailsComponent implements OnInit {
 
   set log(log: GeneralLogEntry) {
     this.logValue = log;
-  }
-
-  ngOnInit(): void {
   }
 
 }

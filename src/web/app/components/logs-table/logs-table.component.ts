@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { LogEvent, RequestLogUser, SourceLocation } from '../../../types/api-output';
 import { LogsTableRowModel } from './logs-table-model';
 
@@ -10,7 +10,7 @@ import { LogsTableRowModel } from './logs-table-model';
   templateUrl: './logs-table.component.html',
   styleUrls: ['./logs-table.component.scss'],
 })
-export class LogsTableComponent implements OnInit {
+export class LogsTableComponent {
 
   LogEvent: typeof LogEvent = LogEvent;
 
@@ -29,9 +29,6 @@ export class LogsTableComponent implements OnInit {
   addSourceLocationEvent: EventEmitter<SourceLocation> = new EventEmitter<SourceLocation>();
   @Output()
   addUserInfoEvent: EventEmitter<RequestLogUser> = new EventEmitter<RequestLogUser>();
-
-  ngOnInit(): void {
-  }
 
   expandDetails(logsTableRowModel: LogsTableRowModel): void {
     logsTableRowModel.isDetailsExpanded = !logsTableRowModel.isDetailsExpanded;

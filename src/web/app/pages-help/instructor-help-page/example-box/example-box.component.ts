@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit } from '@angular/core';
+import { Component, Injectable } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 /**
@@ -21,9 +21,4 @@ export class DisabledNgbModal {
   styleUrls: ['./example-box.component.scss'],
   providers: [{ provide: NgbModal, useClass: DisabledNgbModal }],
 })
-export class ExampleBoxComponent implements OnInit {
-
-  ngOnInit(): void {
-  }
-
-}
+export class ExampleBoxComponent {}

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   InstructorListInfoTableRowModel,
@@ -13,7 +13,7 @@ import {
   templateUrl: './resend-results-link-to-respondent-modal.component.html',
   styleUrls: ['./resend-results-link-to-respondent-modal.component.scss'],
 })
-export class ResendResultsLinkToRespondentModalComponent implements OnInit {
+export class ResendResultsLinkToRespondentModalComponent {
 
   // values below will be injected by other component
   courseId: string = '';
@@ -22,9 +22,6 @@ export class ResendResultsLinkToRespondentModalComponent implements OnInit {
   instructorListInfoTableRowModels: InstructorListInfoTableRowModel[] = [];
 
   constructor(public activeModal: NgbActiveModal) {
-  }
-
-  ngOnInit(): void {
   }
 
   /**
