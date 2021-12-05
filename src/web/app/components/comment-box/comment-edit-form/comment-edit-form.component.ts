@@ -10,7 +10,7 @@ import {
 } from '../../../../types/api-output';
 import { CommentVisibilityControl } from '../../../../types/comment-visibility-control';
 import { collapseAnim } from '../../teammates-common/collapse-anim';
-import { CommentRowMode } from '../comment-row/comment-row.component';
+import { CommentRowMode } from '../comment-row/comment-row.mode';
 
 /**
  * Model for comment edit form.

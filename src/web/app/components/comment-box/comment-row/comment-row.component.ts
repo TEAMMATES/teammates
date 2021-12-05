@@ -8,6 +8,7 @@ import { CommentVisibilityType, FeedbackResponseComment, FeedbackVisibilityType,
 import { CommentVisibilityControl } from '../../../../types/comment-visibility-control';
 import { SimpleModalType } from '../../simple-modal/simple-modal-type';
 import { CommentEditFormModel } from '../comment-edit-form/comment-edit-form.component';
+import { CommentRowMode } from './comment-row.mode';
 
 /**
  * Model for a comment row.
@@ -27,21 +28,6 @@ export interface CommentRowModel {
 
   commentEditFormModel: CommentEditFormModel;
   isEditing: boolean;
-}
-
-/**
- * Mode of current comment row.
- */
-export enum CommentRowMode {
-  /**
-   * Add new comment.
-   */
-  ADD,
-
-  /**
-   * Edit existing comment.
-   */
-  EDIT,
 }
 
 /**

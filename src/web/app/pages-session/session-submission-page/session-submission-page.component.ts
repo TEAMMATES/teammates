@@ -9,7 +9,7 @@ import { environment } from '../../../environments/environment';
 import { AuthService } from '../../../services/auth.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackResponseCommentService } from '../../../services/feedback-response-comment.service';
-import { FeedbackResponsesService } from '../../../services/feedback-responses.service';
+import { FeedbackResponsesResponse, FeedbackResponsesService } from '../../../services/feedback-responses.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { InstructorService } from '../../../services/instructor.service';
 import { LogService } from '../../../services/log.service';
@@ -51,13 +51,6 @@ import { SavingCompleteModalComponent } from './saving-complete-modal/saving-com
 
 interface FeedbackQuestionsResponse {
   questions: FeedbackQuestion[];
-}
-
-/**
- * A collection of feedback responses.
- */
-export interface FeedbackResponsesResponse {
-  responses: FeedbackResponse[];
 }
 
 /**

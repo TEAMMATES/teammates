@@ -5,7 +5,7 @@ import {
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../../types/api-output';
-import { CommentRowMode } from '../../comment-box/comment-row/comment-row.component';
+import { CommentRowMode } from '../../comment-box/comment-row/comment-row.mode';
 import { CommentTableModel } from '../../comment-box/comment-table/comment-table.component';
 import { InstructorResponsesViewBase } from '../instructor-responses-view-base';
 

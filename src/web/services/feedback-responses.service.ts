@@ -3,9 +3,6 @@ import { Observable } from 'rxjs';
 import {
   InstructorSessionResultSectionType,
 } from '../app/pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
-import {
-  FeedbackResponsesResponse,
-} from '../app/pages-session/session-submission-page/session-submission-page.component';
 import { ResourceEndpoints } from '../types/api-const';
 import {
   FeedbackConstantSumResponseDetails,
@@ -17,6 +14,7 @@ import {
   FeedbackRankOptionsResponseDetails,
   FeedbackRankRecipientsResponseDetails,
   FeedbackResponseDetails,
+  FeedbackResponse,
   FeedbackResponses,
   FeedbackRubricResponseDetails,
   FeedbackTextResponseDetails,
@@ -41,6 +39,13 @@ import {
   RANK_RECIPIENTS_ANSWER_NOT_SUBMITTED, RUBRIC_ANSWER_NOT_CHOSEN,
 } from '../types/feedback-response-details';
 import { HttpRequestService } from './http-request.service';
+
+/**
+ * A collection of feedback responses.
+ */
+export interface FeedbackResponsesResponse {
+  responses: FeedbackResponse[];
+}
 
 /**
  * Handles feedback response settings provision.

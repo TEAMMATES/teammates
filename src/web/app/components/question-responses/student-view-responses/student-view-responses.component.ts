@@ -5,7 +5,7 @@ import {
   FeedbackQuestionType, NumberOfEntitiesToGiveFeedbackToSetting,
   ResponseOutput,
 } from '../../../../types/api-output';
-import { CommentRowMode } from '../../comment-box/comment-row/comment-row.component';
+import { CommentRowMode } from '../../comment-box/comment-row/comment-row.mode';
 
 /**
  * Feedback response in student results page view.

@@ -3,7 +3,8 @@ import {
   FeedbackResponseComment, FeedbackVisibilityType, ResponseOutput,
 } from '../../../../types/api-output';
 import { collapseAnim } from '../../teammates-common/collapse-anim';
-import { CommentRowMode, CommentRowModel } from '../comment-row/comment-row.component';
+import { CommentRowModel } from '../comment-row/comment-row.component';
+import { CommentRowMode } from '../comment-row/comment-row.mode';
 
 /**
  * Model for CommentTableComponent.

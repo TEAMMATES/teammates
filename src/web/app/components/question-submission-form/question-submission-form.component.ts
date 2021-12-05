@@ -9,7 +9,8 @@ import {
   NumberOfEntitiesToGiveFeedbackToSetting,
 } from '../../../types/api-output';
 import { VisibilityControl } from '../../../types/visibility-control';
-import { CommentRowMode, CommentRowModel } from '../comment-box/comment-row/comment-row.component';
+import { CommentRowModel } from '../comment-box/comment-row/comment-row.component';
+import { CommentRowMode } from '../comment-box/comment-row/comment-row.mode';
 import {
   FeedbackResponseRecipient,
   FeedbackResponseRecipientSubmissionFormModel,

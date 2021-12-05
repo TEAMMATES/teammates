@@ -10,7 +10,7 @@ import {
   Student,
 } from '../../../../types/api-output';
 import { CommentEditFormModel } from '../../../components/comment-box/comment-edit-form/comment-edit-form.component';
-import { CommentRowMode } from '../../../components/comment-box/comment-row/comment-row.component';
+import { CommentRowMode } from '../../../components/comment-box/comment-row/comment-row.mode';
 import { CommentTableModel } from '../../../components/comment-box/comment-table/comment-table.component';
 import {
   SessionEditFormMode,
