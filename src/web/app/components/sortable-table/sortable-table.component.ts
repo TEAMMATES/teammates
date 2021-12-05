@@ -70,11 +70,8 @@ export class SortableTableComponent implements OnInit, OnChanges {
   }
 
   onClickHeader(columnHeader: string): void {
-    this.sortOrder = (this.columnToSortBy === columnHeader) ?
-        this.sortOrder === SortOrder.ASC ?
-            SortOrder.DESC :
-            SortOrder.ASC :
-        SortOrder.ASC;
+    this.sortOrder = this.columnToSortBy === columnHeader && this.sortOrder === SortOrder.ASC
+        ? SortOrder.DESC : SortOrder.ASC;
     this.columnToSortBy = columnHeader;
     this.sortRows();
   }

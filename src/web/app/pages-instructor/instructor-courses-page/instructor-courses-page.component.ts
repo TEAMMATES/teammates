@@ -539,11 +539,8 @@ export class InstructorCoursesPageComponent implements OnInit {
    * Sorts the active courses table
    */
   sortCoursesEvent(by: SortBy): void {
-    this.activeTableSortOrder = (this.activeTableSortBy === by) ?
-        this.activeTableSortOrder === SortOrder.ASC ?
-            SortOrder.DESC :
-            SortOrder.ASC :
-        SortOrder.ASC;
+    this.activeTableSortOrder = this.activeTableSortBy === by && this.activeTableSortOrder === SortOrder.ASC
+        ? SortOrder.DESC : SortOrder.ASC;
     this.activeTableSortBy = by;
     this.activeCourses.sort(this.sortBy(by, this.activeTableSortOrder));
   }
@@ -561,11 +558,8 @@ export class InstructorCoursesPageComponent implements OnInit {
    * Sorts the archived courses table
    */
   sortArchivedCoursesEvent(by: SortBy): void {
-    this.archivedTableSortOrder = (this.archivedTableSortBy === by) ?
-        this.archivedTableSortOrder === SortOrder.ASC ?
-            SortOrder.DESC :
-            SortOrder.ASC :
-        SortOrder.ASC;
+    this.archivedTableSortOrder = this.archivedTableSortBy === by && this.archivedTableSortOrder === SortOrder.ASC
+        ? SortOrder.DESC : SortOrder.ASC;
     this.archivedTableSortBy = by;
     this.archivedCourses.sort(this.sortBy(by, this.archivedTableSortOrder));
   }
@@ -583,11 +577,8 @@ export class InstructorCoursesPageComponent implements OnInit {
    * Sorts the soft-deleted courses table
    */
   sortDeletedCoursesEvent(by: SortBy): void {
-    this.deletedTableSortOrder = (this.deletedTableSortBy === by) ?
-        this.deletedTableSortOrder === SortOrder.ASC ?
-            SortOrder.DESC :
-            SortOrder.ASC :
-        SortOrder.ASC;
+    this.deletedTableSortOrder = this.deletedTableSortBy === by && this.deletedTableSortOrder === SortOrder.ASC
+        ? SortOrder.DESC : SortOrder.ASC;
     this.deletedTableSortBy = by;
     this.softDeletedCourses.sort(this.sortBy(by, this.deletedTableSortOrder));
   }

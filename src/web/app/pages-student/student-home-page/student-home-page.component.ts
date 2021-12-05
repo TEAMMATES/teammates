@@ -184,9 +184,15 @@ export class StudentHomePageComponent implements OnInit {
   sortFeedbackSessions(fss: FeedbackSessions): FeedbackSession[] {
     return fss.feedbackSessions
       .map((fs: FeedbackSession) => ({ ...fs }))
-      .sort((a: FeedbackSession, b: FeedbackSession) => (a.createdAtTimestamp >
-        b.createdAtTimestamp) ? 1 : (a.createdAtTimestamp === b.createdAtTimestamp) ?
-        ((a.submissionEndTimestamp > b.submissionEndTimestamp) ? 1 : -1) : -1);
+      .sort((a: FeedbackSession, b: FeedbackSession) => {
+        if (a.createdAtTimestamp > b.createdAtTimestamp) {
+          return 1;
+        }
+        if (a.createdAtTimestamp === b.createdAtTimestamp) {
+          return a.submissionEndTimestamp > b.submissionEndTimestamp ? 1 : -1;
+        }
+        return -1;
+      });
   }
 
   sortCoursesBy(by: SortBy): void {
