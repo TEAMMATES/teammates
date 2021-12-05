@@ -34,8 +34,7 @@ import { CommentTableModel } from '../../../components/comment-box/comment-table
 import {
   QuestionEditFormModel,
 } from '../../../components/question-edit-form/question-edit-form-model';
-import { QuestionSubmissionFormModel,
-} from '../../../components/question-submission-form/question-submission-form-model';
+import { QuestionSubmissionFormModel } from '../../../components/question-submission-form/question-submission-form-model';
 import { Response } from '../../../components/question-types/question-statistics/question-statistics';
 import {
     QuestionTabModel,

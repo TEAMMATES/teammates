@@ -281,8 +281,10 @@ export class InstructorTrackViewPageComponent implements OnInit {
             dataStyle += 'color:red;';
           }
           return [
-            { value: status,
-              style: dataStyle },
+            {
+              value: status,
+              style: dataStyle,
+            },
             { value: student.name },
             { value: student.email },
             { value: student.sectionName },

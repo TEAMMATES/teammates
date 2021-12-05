@@ -207,23 +207,31 @@ describe('ConstsumRecipientsQuestionStatisticsComponent', () => {
     component.responses = responses;
 
     const expectedPointsPerOption: Record<string, number[]> = {
-      'bob@gmail.com': [2, 3, 5, 5], 'emma@gmail.com': [4, 6, 7, 9],
-      'fred@gmail.com': [2], 'henry@gmail.com': [5],
+      'bob@gmail.com': [2, 3, 5, 5],
+      'emma@gmail.com': [4, 6, 7, 9],
+      'fred@gmail.com': [2],
+      'henry@gmail.com': [5],
       'greg@gmail.com': [7, 9],
     };
     const expectedTotalPointsPerOption: Record<string, number> = {
-      'bob@gmail.com': 15, 'emma@gmail.com': 26,
-      'fred@gmail.com': 2, 'henry@gmail.com': 5,
+      'bob@gmail.com': 15,
+      'emma@gmail.com': 26,
+      'fred@gmail.com': 2,
+      'henry@gmail.com': 5,
       'greg@gmail.com': 16,
     };
     const expectedAveragePointsPerOption: Record<string, number> = {
-      'bob@gmail.com': 3.75, 'emma@gmail.com': 6.5,
-      'fred@gmail.com': 2, 'henry@gmail.com': 5,
+      'bob@gmail.com': 3.75,
+      'emma@gmail.com': 6.5,
+      'fred@gmail.com': 2,
+      'henry@gmail.com': 5,
       'greg@gmail.com': 8,
     };
     const expectedAveragePointsExcludingSelf: Record<string, number> = {
-      'bob@gmail.com': 3.33, 'emma@gmail.com': 6.33,
-      'fred@gmail.com': 0, 'henry@gmail.com': 5,
+      'bob@gmail.com': 3.33,
+      'emma@gmail.com': 6.33,
+      'fred@gmail.com': 0,
+      'henry@gmail.com': 5,
       'greg@gmail.com': 8,
     };
 

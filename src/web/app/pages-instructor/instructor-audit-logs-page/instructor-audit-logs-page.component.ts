@@ -191,13 +191,17 @@ export class InstructorAuditLogsPageComponent implements OnInit {
             !== 'VIEW_RESULT')
         .map((entry: FeedbackSessionLogEntry) => {
           return [
-            { value: this.timezoneService.formatToString(
-                entry.timestamp, log.feedbackSessionData.timeZone,
-                this.LOGS_DATE_TIME_FORMAT),
-              style: 'font-family:monospace;'},
+            {
+              value: this.timezoneService.formatToString(
+                  entry.timestamp, log.feedbackSessionData.timeZone,
+                  this.LOGS_DATE_TIME_FORMAT),
+              style: 'font-family:monospace;',
+            },
             { value: entry.studentData.name },
-            { value: entry.feedbackSessionLogType.toString() as keyof typeof FeedbackSessionLogType
-              === 'ACCESS' ? 'Viewed the submission page' : 'Submitted responses' },
+            {
+              value: entry.feedbackSessionLogType.toString() as keyof typeof FeedbackSessionLogType
+                  === 'ACCESS' ? 'Viewed the submission page' : 'Submitted responses',
+            },
             { value: entry.studentData.email },
             { value: entry.studentData.sectionName },
             { value: entry.studentData.teamName },

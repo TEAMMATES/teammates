@@ -6,8 +6,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
 import { PanelChevronModule } from '../../../components/panel-chevron/panel-chevron.module';
 import { QuestionEditFormModule } from '../../../components/question-edit-form/question-edit-form.module';
-import { QuestionSubmissionFormModule,
-} from '../../../components/question-submission-form/question-submission-form.module';
+import { QuestionSubmissionFormModule } from '../../../components/question-submission-form/question-submission-form.module';
 import {
     QuestionStatisticsModule,
 } from '../../../components/question-types/question-statistics/question-statistics.module';

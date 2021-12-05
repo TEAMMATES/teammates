@@ -57,13 +57,22 @@ export class ContributionQuestionStatisticsComponent
     this.columnsData = [
       { header: 'Team', sortBy: SortBy.CONTRIBUTION_TEAM },
       { header: 'Recipient', sortBy: SortBy.CONTRIBUTION_RECIPIENT },
-      { header: 'CC', sortBy: SortBy.CONTRIBUTION_VALUE,
-        headerToolTip: "Claimed Contribution: This is the student's own estimation of his/her contributions" },
-      { header: 'PC', sortBy: SortBy.CONTRIBUTION_VALUE,
-        headerToolTip: 'Perceived Contribution: This is the average of what other team members think' +
-            ' this student contributed' },
-      { header: 'Diff', sortBy: SortBy.CONTRIBUTION_VALUE,
-        headerToolTip: 'Perceived Contribution - Claimed Contribution' },
+      {
+        header: 'CC',
+        sortBy: SortBy.CONTRIBUTION_VALUE,
+        headerToolTip: "Claimed Contribution: This is the student's own estimation of his/her contributions",
+      },
+      {
+        header: 'PC',
+        sortBy: SortBy.CONTRIBUTION_VALUE,
+        headerToolTip: 'Perceived Contribution: This is the average of what other team members think'
+            + ' this student contributed',
+      },
+      {
+        header: 'Diff',
+        sortBy: SortBy.CONTRIBUTION_VALUE,
+        headerToolTip: 'Perceived Contribution - Claimed Contribution',
+      },
       { header: 'Ratings Received', headerToolTip: 'The list of points that this student received from others' },
     ];
 
@@ -71,12 +80,15 @@ export class ContributionQuestionStatisticsComponent
       return [
         { value: this.emailToTeamName[email] },
         { value: this.emailToName[email] },
-        { value: statistics.results[email].claimed,
+        {
+          value: statistics.results[email].claimed,
           customComponent: {
             component: ContributionComponent,
-            componentData: { value: statistics.results[email].claimed } },
+            componentData: { value: statistics.results[email].claimed },
+          },
         },
-        { value: statistics.results[email].perceived,
+        {
+          value: statistics.results[email].perceived,
           customComponent: {
             component: ContributionComponent,
             componentData: { value: statistics.results[email].perceived },

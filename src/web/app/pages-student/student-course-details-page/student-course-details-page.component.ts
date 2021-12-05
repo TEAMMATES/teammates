@@ -8,8 +8,9 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentProfileService } from '../../../services/student-profile.service';
 import { StudentService } from '../../../services/student.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
-import { Course, Gender, Instructor, Instructors, JoinState, Student, StudentProfile,
-  Students } from '../../../types/api-output';
+import {
+  Course, Gender, Instructor, Instructors, JoinState, Student, StudentProfile, Students,
+} from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { ErrorMessageOutput } from '../../error-message-output';
 
