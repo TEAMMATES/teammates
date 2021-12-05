@@ -195,7 +195,7 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
    * instructor comments associated with the response will be deleted.
    */
   preprocessComments(responses: ResponseOutput[]): void {
-    const timezone: string = this.sessionTabs[0] != null ? this.sessionTabs[0].feedbackSession.timeZone : '';
+    const timezone: string = this.sessionTabs[0] ? this.sessionTabs[0].feedbackSession.timeZone : '';
     responses.forEach((response: ResponseOutput) => {
       this.instructorCommentTableModel[response.responseId] =
           this.commentsToCommentTableModel.transform(response.instructorComments, false, timezone);

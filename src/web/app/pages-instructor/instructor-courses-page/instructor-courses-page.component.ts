@@ -429,7 +429,7 @@ export class InstructorCoursesPageComponent implements OnInit {
     const activeCourseToBeRemoved: CourseModel | undefined = this.findCourse(this.activeCourses, courseId);
     this.activeCourses = this.removeCourse(this.activeCourses, courseId);
     this.activeCoursesList = this.activeCourses.map((courseModel: CourseModel) => courseModel.course);
-    if (activeCourseToBeRemoved !== undefined) {
+    if (activeCourseToBeRemoved) {
       activeCourseToBeRemoved.course.deletionTimestamp = deletionTimeStamp;
       this.softDeletedCourses.push(activeCourseToBeRemoved);
       this.softDeletedCourses.sort(this.sortBy(this.deletedTableSortBy, this.deletedTableSortOrder));

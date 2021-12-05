@@ -461,10 +461,10 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
    * Handle expand all questions button event.
    */
   toggleExpandAllHandler(): void {
-    if (!this.isExpandAll) {
-      this.expandAllTabs();
-    } else {
+    if (this.isExpandAll) {
       this.collapseAllTabs();
+    } else {
+      this.expandAllTabs();
     }
   }
 

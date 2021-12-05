@@ -265,10 +265,10 @@ export abstract class InstructorSessionBasePageComponent {
               + 'Please allow up to 1 hour for all the notification emails to be sent out.');
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
-          if (!this.publishUnpublishRetryAttempts) {
-            this.openErrorReportModal(resp);
-          } else {
+          if (this.publishUnpublishRetryAttempts) {
             this.publishUnpublishRetryAttempts -= 1;
+          } else {
+            this.openErrorReportModal(resp);
           }
         });
   }
@@ -290,10 +290,10 @@ export abstract class InstructorSessionBasePageComponent {
           this.statusMessageService.showSuccessToast('The feedback session has been unpublished.');
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
-          if (!this.publishUnpublishRetryAttempts) {
-            this.openErrorReportModal(resp);
-          } else {
+          if (this.publishUnpublishRetryAttempts) {
             this.publishUnpublishRetryAttempts -= 1;
+          } else {
+            this.openErrorReportModal(resp);
           }
         });
   }

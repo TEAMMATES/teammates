@@ -547,7 +547,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
 
     this.studentService.getStudentsFromCourse({ courseId: this.courseId }).subscribe(
         (resp: Students) => {
-          if (resp.students.length !== 0) {
+          if (resp.students.length) {
             this.loadExistingStudentsData(existingStudentsHOTInstance, resp.students);
           } else {
             // Shows a message if there are no existing students. Panel would not be expanded.
