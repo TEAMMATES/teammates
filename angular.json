@@ -55,6 +55,14 @@
                 "src/web/sitemap.xml",
                 "src/web/manifest.webmanifest"
               ],
+              "optimization": {
+                "scripts": true,
+                "styles": {
+                  "minify": true,
+                  "inlineCritical": false
+                },
+                "fonts": true
+              },
               "outputHashing": "all",
               "serviceWorker": true,
               "ngswConfigPath": "ngsw-config.json",
