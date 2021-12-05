@@ -1,9 +1,11 @@
-import { EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Directive, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FeedbackQuestionDetails } from '../../../../types/api-output';
 
 /**
  * The abstract question details edit form component.
  */
+@Directive()
+// tslint:disable-next-line:directive-class-suffix
 export abstract class QuestionEditDetailsFormComponent<D extends FeedbackQuestionDetails> implements OnInit {
 
   model: D;

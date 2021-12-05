@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Injectable, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 /**
  * Mock NgbModal to disable modal dialogs
  */
+@Injectable()
 export class DisabledNgbModal {
   /**
    * Mock open

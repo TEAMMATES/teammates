@@ -18,6 +18,7 @@ export class TeammatesRouterDirective extends RouterLinkWithHref {
   }
 
   @Input()
+  // @ts-ignore
   set queryParams(params: { [k: string]: any }) {
     this._queryParams = params;
   }

@@ -1,10 +1,12 @@
-import { EventEmitter, Input, Output } from '@angular/core';
+import { Directive, EventEmitter, Input, Output } from '@angular/core';
 import { FeedbackQuestionDetails } from '../../../../types/api-output';
 import { FeedbackResponseRecipientSubmissionFormModel } from '../../question-submission-form/question-submission-form-model';
 
 /**
  * Base class for constraint components.
  */
+@Directive()
+// tslint:disable-next-line:directive-class-suffix
 export abstract class QuestionConstraintComponent<Q extends FeedbackQuestionDetails> {
 
   @Input()

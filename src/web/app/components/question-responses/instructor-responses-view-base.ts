@@ -1,4 +1,4 @@
-import { EventEmitter, Input, Output } from '@angular/core';
+import { Directive, EventEmitter, Input, Output } from '@angular/core';
 import {
   FeedbackParticipantType,
   FeedbackQuestion,
@@ -10,6 +10,8 @@ import { CommentTableModel } from '../comment-box/comment-table/comment-table.co
 /**
  * Abstract component for instructor related views.
  */
+@Directive()
+// tslint:disable-next-line:directive-class-suffix
 export abstract class InstructorResponsesViewBase {
   @Input() question: FeedbackQuestion = {
     feedbackQuestionId: '',

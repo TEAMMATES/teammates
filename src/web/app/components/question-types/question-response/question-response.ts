@@ -1,9 +1,11 @@
-import { Input, OnInit } from '@angular/core';
+import { Directive, Input, OnInit } from '@angular/core';
 import { FeedbackQuestionDetails, FeedbackResponseDetails } from '../../../../types/api-output';
 
 /**
  * The abstract question response.
  */
+@Directive()
+// tslint:disable-next-line:directive-class-suffix
 export abstract class QuestionResponse<R extends FeedbackResponseDetails, Q extends FeedbackQuestionDetails>
     implements OnInit {
 

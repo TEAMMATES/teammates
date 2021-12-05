@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { DynamicComponentModule } from 'ng-dynamic-component';
+import { DynamicModule } from 'ng-dynamic-component';
 import { SortableTableComponent } from './sortable-table.component';
 
 describe('SortableTableComponent', () => {
@@ -11,7 +11,7 @@ describe('SortableTableComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [SortableTableComponent],
-      imports: [NgbModule, DynamicComponentModule],
+      imports: [NgbModule, DynamicModule],
     })
     .compileComponents();
   }));
