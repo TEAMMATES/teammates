@@ -4,7 +4,7 @@ exports[`QuestionTextWithInfoComponent should not show control link and question
 <tm-question-text-with-info
   FeedbackQuestionType={[Function Object]}
   additionalInfoIsExpanded="false"
-  downloadQuestionResultEvent={[Function EventEmitter]}
+  downloadQuestionResultEvent={[Function EventEmitter_]}
   questionDetails={[Function Object]}
   questionNumber="0"
   shouldShowDownloadQuestionResult="false"
@@ -36,7 +36,7 @@ exports[`QuestionTextWithInfoComponent should show control link when question ty
 <tm-question-text-with-info
   FeedbackQuestionType={[Function Object]}
   additionalInfoIsExpanded="false"
-  downloadQuestionResultEvent={[Function EventEmitter]}
+  downloadQuestionResultEvent={[Function EventEmitter_]}
   questionDetails={[Function Object]}
   questionNumber="0"
   shouldShowDownloadQuestionResult="false"
@@ -76,7 +76,7 @@ exports[`QuestionTextWithInfoComponent should show question detail when click co
 <tm-question-text-with-info
   FeedbackQuestionType={[Function Object]}
   additionalInfoIsExpanded={[Function Boolean]}
-  downloadQuestionResultEvent={[Function EventEmitter]}
+  downloadQuestionResultEvent={[Function EventEmitter_]}
   questionDetails={[Function Object]}
   questionNumber="0"
   shouldShowDownloadQuestionResult="false"

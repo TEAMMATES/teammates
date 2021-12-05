@@ -413,7 +413,6 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
               >
                 <button
                   aria-expanded="false"
-                  aria-haspopup="true"
                   class="btn btn-primary btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
@@ -448,7 +447,6 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
               >
                 <button
                   aria-expanded="false"
-                  aria-haspopup="true"
                   class="btn btn-primary btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
@@ -474,7 +472,6 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
               >
                 <button
                   aria-expanded="false"
-                  aria-haspopup="true"
                   class="btn btn-primary btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
@@ -500,7 +497,6 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
               >
                 <button
                   aria-expanded="false"
-                  aria-haspopup="true"
                   class="btn btn-primary btn-sm dropdown-toggle"
                   id="btn-course"
                   ngbdropdowntoggle=""
@@ -750,7 +746,6 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                               >
                                 <button
                                   aria-expanded="false"
-                                  aria-haspopup="true"
                                   class="btn btn-light btn-sm dropdown-toggle"
                                   id="btn-results-0"
                                   ngbdropdowntoggle=""
@@ -811,7 +806,6 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                               >
                                 <button
                                   aria-expanded="false"
-                                  aria-haspopup="true"
                                   class="btn btn-light btn-sm dropdown-toggle"
                                   id="btn-remind-0"
                                   ngbdropdowntoggle=""
@@ -987,7 +981,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
               >
                 <button
                   aria-expanded="false"
-                  aria-haspopup="true"
                   class="btn btn-primary btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
@@ -1014,7 +1007,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
               >
                 <button
                   aria-expanded="false"
-                  aria-haspopup="true"
                   class="btn btn-primary btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
@@ -1040,7 +1032,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
               >
                 <button
                   aria-expanded="false"
-                  aria-haspopup="true"
                   class="btn btn-primary btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
@@ -1066,7 +1057,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
               >
                 <button
                   aria-expanded="false"
-                  aria-haspopup="true"
                   class="btn btn-primary btn-sm dropdown-toggle"
                   id="btn-course"
                   ngbdropdowntoggle=""
@@ -1298,7 +1288,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                               >
                                 <button
                                   aria-expanded="false"
-                                  aria-haspopup="true"
                                   class="btn btn-light btn-sm dropdown-toggle"
                                   id="btn-results-0"
                                   ngbdropdowntoggle=""
@@ -1360,7 +1349,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                               >
                                 <button
                                   aria-expanded="false"
-                                  aria-haspopup="true"
                                   class="btn btn-light btn-sm dropdown-toggle"
                                   disabled=""
                                   id="btn-remind-0"
@@ -1497,7 +1485,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                               >
                                 <button
                                   aria-expanded="false"
-                                  aria-haspopup="true"
                                   class="btn btn-light btn-sm dropdown-toggle"
                                   id="btn-results-1"
                                   ngbdropdowntoggle=""
@@ -1559,7 +1546,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                               >
                                 <button
                                   aria-expanded="false"
-                                  aria-haspopup="true"
                                   class="btn btn-light btn-sm dropdown-toggle"
                                   disabled=""
                                   id="btn-remind-1"
@@ -1736,7 +1722,6 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
               >
                 <button
                   aria-expanded="false"
-                  aria-haspopup="true"
                   class="btn btn-primary btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
@@ -1771,7 +1756,6 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
               >
                 <button
                   aria-expanded="false"
-                  aria-haspopup="true"
                   class="btn btn-primary btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
@@ -1797,7 +1781,6 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
               >
                 <button
                   aria-expanded="false"
-                  aria-haspopup="true"
                   class="btn btn-primary btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
@@ -1823,7 +1806,6 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
               >
                 <button
                   aria-expanded="false"
-                  aria-haspopup="true"
                   class="btn btn-primary btn-sm dropdown-toggle"
                   id="btn-course"
                   ngbdropdowntoggle=""
@@ -2001,7 +1983,6 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
               >
                 <button
                   aria-expanded="false"
-                  aria-haspopup="true"
                   class="btn btn-primary btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
@@ -2036,7 +2017,6 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
               >
                 <button
                   aria-expanded="false"
-                  aria-haspopup="true"
                   class="btn btn-primary btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
@@ -2062,7 +2042,6 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
               >
                 <button
                   aria-expanded="false"
-                  aria-haspopup="true"
                   class="btn btn-primary btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
@@ -2088,7 +2067,6 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
               >
                 <button
                   aria-expanded="false"
-                  aria-haspopup="true"
                   class="btn btn-primary btn-sm dropdown-toggle"
                   id="btn-course"
                   ngbdropdowntoggle=""
@@ -2294,7 +2272,6 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
               >
                 <button
                   aria-expanded="false"
-                  aria-haspopup="true"
                   class="btn btn-primary btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
@@ -2329,7 +2306,6 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
               >
                 <button
                   aria-expanded="false"
-                  aria-haspopup="true"
                   class="btn btn-primary btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
@@ -2355,7 +2331,6 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
               >
                 <button
                   aria-expanded="false"
-                  aria-haspopup="true"
                   class="btn btn-primary btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
@@ -2381,7 +2356,6 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
               >
                 <button
                   aria-expanded="false"
-                  aria-haspopup="true"
                   class="btn btn-primary btn-sm dropdown-toggle"
                   id="btn-course"
                   ngbdropdowntoggle=""

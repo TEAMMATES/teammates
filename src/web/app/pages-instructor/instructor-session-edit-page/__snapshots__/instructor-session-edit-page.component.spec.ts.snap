@@ -1491,7 +1491,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                     >
                       <button
                         aria-expanded="false"
-                        aria-haspopup="true"
                         class="btn btn-light white-space-normal dropdown-toggle"
                         id="btn-feedback-path"
                         ngbdropdowntoggle=""
@@ -1530,7 +1529,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           >
                             <span
                               aria-expanded="false"
-                              aria-haspopup="true"
                               class="float-right invisible dropdown-toggle"
                               ngbdropdownanchor=""
                             />
@@ -1572,7 +1570,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           >
                             <span
                               aria-expanded="false"
-                              aria-haspopup="true"
                               class="float-right invisible dropdown-toggle"
                               ngbdropdownanchor=""
                             />
@@ -1614,7 +1611,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           >
                             <span
                               aria-expanded="false"
-                              aria-haspopup="true"
                               class="float-right invisible dropdown-toggle"
                               ngbdropdownanchor=""
                             />
@@ -1744,7 +1740,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                     >
                       <button
                         aria-expanded="false"
-                        aria-haspopup="true"
                         class="btn btn-light white-space-normal dropdown-toggle"
                         id="btn-question-visibility"
                         ngbdropdowntoggle=""
@@ -2324,7 +2319,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                     >
                       <button
                         aria-expanded="false"
-                        aria-haspopup="true"
                         class="btn btn-light white-space-normal dropdown-toggle"
                         id="btn-feedback-path"
                         ngbdropdowntoggle=""
@@ -2363,7 +2357,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           >
                             <span
                               aria-expanded="false"
-                              aria-haspopup="true"
                               class="float-right invisible dropdown-toggle"
                               ngbdropdownanchor=""
                             />
@@ -2405,7 +2398,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           >
                             <span
                               aria-expanded="false"
-                              aria-haspopup="true"
                               class="float-right invisible dropdown-toggle"
                               ngbdropdownanchor=""
                             />
@@ -2447,7 +2439,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           >
                             <span
                               aria-expanded="false"
-                              aria-haspopup="true"
                               class="float-right invisible dropdown-toggle"
                               ngbdropdownanchor=""
                             />
@@ -2577,7 +2568,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                     >
                       <button
                         aria-expanded="false"
-                        aria-haspopup="true"
                         class="btn btn-light white-space-normal dropdown-toggle"
                         id="btn-question-visibility"
                         ngbdropdowntoggle=""
@@ -2925,7 +2915,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
           >
             <button
               aria-expanded="false"
-              aria-haspopup="true"
               class="btn btn-primary dropdown-toggle"
               id="btn-new-question"
               ngbdropdowntoggle=""
@@ -4088,7 +4077,6 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                 >
                   <button
                     aria-expanded="false"
-                    aria-haspopup="true"
                     class="btn btn-light white-space-normal dropdown-toggle"
                     id="btn-feedback-path"
                     ngbdropdowntoggle=""
@@ -4123,7 +4111,6 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                       >
                         <span
                           aria-expanded="false"
-                          aria-haspopup="true"
                           class="float-right invisible dropdown-toggle"
                           ngbdropdownanchor=""
                         />
@@ -4165,7 +4152,6 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                       >
                         <span
                           aria-expanded="false"
-                          aria-haspopup="true"
                           class="float-right invisible dropdown-toggle"
                           ngbdropdownanchor=""
                         />
@@ -4207,7 +4193,6 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                       >
                         <span
                           aria-expanded="false"
-                          aria-haspopup="true"
                           class="float-right invisible dropdown-toggle"
                           ngbdropdownanchor=""
                         />
@@ -4470,7 +4455,6 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                 >
                   <button
                     aria-expanded="false"
-                    aria-haspopup="true"
                     class="btn btn-light white-space-normal dropdown-toggle"
                     id="btn-question-visibility"
                     ngbdropdowntoggle=""

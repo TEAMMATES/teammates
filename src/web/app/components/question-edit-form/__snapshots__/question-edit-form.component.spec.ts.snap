@@ -11,18 +11,18 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
   allowedFeedbackPaths={[Function Map]}
   commonFeedbackPaths={[Function Map]}
   commonFeedbackVisibilitySettings={[Function Array]}
-  createNewQuestionEvent={[Function EventEmitter]}
-  deleteCurrentQuestionEvent={[Function EventEmitter]}
-  discardExistingQuestionChangesEvent={[Function EventEmitter]}
-  discardNewQuestionEvent={[Function EventEmitter]}
-  duplicateCurrentQuestionEvent={[Function EventEmitter]}
+  createNewQuestionEvent={[Function EventEmitter_]}
+  deleteCurrentQuestionEvent={[Function EventEmitter_]}
+  discardExistingQuestionChangesEvent={[Function EventEmitter_]}
+  discardNewQuestionEvent={[Function EventEmitter_]}
+  duplicateCurrentQuestionEvent={[Function EventEmitter_]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   formMode={[Function Number]}
-  formModelChange={[Function EventEmitter]}
+  formModelChange={[Function EventEmitter_]}
   isDisplayOnly="false"
   model={[Function Object]}
   numOfQuestions="0"
-  saveExistingQuestionEvent={[Function EventEmitter]}
+  saveExistingQuestionEvent={[Function EventEmitter_]}
   simpleModalService={[Function SimpleModalService]}
   visibilityStateMachine={[Function VisibilityStateMachine]}
 >
@@ -256,7 +256,6 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
             >
               <button
                 aria-expanded="false"
-                aria-haspopup="true"
                 class="btn btn-light white-space-normal dropdown-toggle"
                 disabled=""
                 id="btn-feedback-path"
@@ -377,7 +376,6 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
             >
               <button
                 aria-expanded="false"
-                aria-haspopup="true"
                 class="btn btn-light white-space-normal dropdown-toggle"
                 disabled=""
                 id="btn-question-visibility"

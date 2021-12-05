@@ -9,26 +9,26 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
   columnsToShow={[Function Array]}
-  copySessionEvent={[Function EventEmitter]}
+  copySessionEvent={[Function EventEmitter_]}
   courseCandidates={[Function Array]}
-  downloadSessionResultsEvent={[Function EventEmitter]}
+  downloadSessionResultsEvent={[Function EventEmitter_]}
   headerColorScheme="0"
   isSendReminderLoading="false"
-  loadResponseRateEvent={[Function EventEmitter]}
-  moveSessionToRecycleBinEvent={[Function EventEmitter]}
+  loadResponseRateEvent={[Function EventEmitter_]}
+  moveSessionToRecycleBinEvent={[Function EventEmitter_]}
   ngbModal={[Function NgbModal]}
-  publishSessionEvent={[Function EventEmitter]}
-  resendResultsLinkToStudentsEvent={[Function EventEmitter]}
+  publishSessionEvent={[Function EventEmitter_]}
+  resendResultsLinkToStudentsEvent={[Function EventEmitter_]}
   rowClicked={[Function Number]}
-  sendRemindersToAllNonSubmittersEvent={[Function EventEmitter]}
-  sendRemindersToSelectedNonSubmittersEvent={[Function EventEmitter]}
+  sendRemindersToAllNonSubmittersEvent={[Function EventEmitter_]}
+  sendRemindersToSelectedNonSubmittersEvent={[Function EventEmitter_]}
   sessionsTableRowModels={[Function Array]}
   sessionsTableRowModelsSortBy={[Function Number]}
   sessionsTableRowModelsSortOrder={[Function Number]}
   simpleModalService={[Function SimpleModalService]}
-  sortSessionsTableRowModelsEvent={[Function EventEmitter]}
-  submitSessionAsInstructorEvent={[Function EventEmitter]}
-  unpublishSessionEvent={[Function EventEmitter]}
+  sortSessionsTableRowModelsEvent={[Function EventEmitter_]}
+  submitSessionAsInstructorEvent={[Function EventEmitter_]}
+  unpublishSessionEvent={[Function EventEmitter_]}
 >
   <div
     class="row"
@@ -222,7 +222,6 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                 >
                   <button
                     aria-expanded="false"
-                    aria-haspopup="true"
                     class="btn btn-light btn-sm dropdown-toggle"
                     id="btn-results-0"
                     ngbdropdowntoggle=""
@@ -276,7 +275,6 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                 >
                   <button
                     aria-expanded="false"
-                    aria-haspopup="true"
                     class="btn btn-light btn-sm dropdown-toggle"
                     id="btn-remind-0"
                     ngbdropdowntoggle=""
@@ -417,7 +415,6 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                 >
                   <button
                     aria-expanded="false"
-                    aria-haspopup="true"
                     class="btn btn-light btn-sm dropdown-toggle"
                     id="btn-results-1"
                     ngbdropdowntoggle=""
@@ -479,7 +476,6 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                 >
                   <button
                     aria-expanded="false"
-                    aria-haspopup="true"
                     class="btn btn-light btn-sm dropdown-toggle"
                     disabled=""
                     id="btn-remind-1"
@@ -536,26 +532,26 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
   columnsToShow={[Function Array]}
-  copySessionEvent={[Function EventEmitter]}
+  copySessionEvent={[Function EventEmitter_]}
   courseCandidates={[Function Array]}
-  downloadSessionResultsEvent={[Function EventEmitter]}
+  downloadSessionResultsEvent={[Function EventEmitter_]}
   headerColorScheme="0"
   isSendReminderLoading="false"
-  loadResponseRateEvent={[Function EventEmitter]}
-  moveSessionToRecycleBinEvent={[Function EventEmitter]}
+  loadResponseRateEvent={[Function EventEmitter_]}
+  moveSessionToRecycleBinEvent={[Function EventEmitter_]}
   ngbModal={[Function NgbModal]}
-  publishSessionEvent={[Function EventEmitter]}
-  resendResultsLinkToStudentsEvent={[Function EventEmitter]}
+  publishSessionEvent={[Function EventEmitter_]}
+  resendResultsLinkToStudentsEvent={[Function EventEmitter_]}
   rowClicked={[Function Number]}
-  sendRemindersToAllNonSubmittersEvent={[Function EventEmitter]}
-  sendRemindersToSelectedNonSubmittersEvent={[Function EventEmitter]}
+  sendRemindersToAllNonSubmittersEvent={[Function EventEmitter_]}
+  sendRemindersToSelectedNonSubmittersEvent={[Function EventEmitter_]}
   sessionsTableRowModels={[Function Array]}
   sessionsTableRowModelsSortBy={[Function Number]}
   sessionsTableRowModelsSortOrder={[Function Number]}
   simpleModalService={[Function SimpleModalService]}
-  sortSessionsTableRowModelsEvent={[Function EventEmitter]}
-  submitSessionAsInstructorEvent={[Function EventEmitter]}
-  unpublishSessionEvent={[Function EventEmitter]}
+  sortSessionsTableRowModelsEvent={[Function EventEmitter_]}
+  submitSessionAsInstructorEvent={[Function EventEmitter_]}
+  unpublishSessionEvent={[Function EventEmitter_]}
 >
   <div
     class="row"
@@ -727,7 +723,6 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                 >
                   <button
                     aria-expanded="false"
-                    aria-haspopup="true"
                     class="btn btn-light btn-sm dropdown-toggle"
                     id="btn-results-0"
                     ngbdropdowntoggle=""
@@ -781,7 +776,6 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                 >
                   <button
                     aria-expanded="false"
-                    aria-haspopup="true"
                     class="btn btn-light btn-sm dropdown-toggle"
                     id="btn-remind-0"
                     ngbdropdowntoggle=""
@@ -913,7 +907,6 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                 >
                   <button
                     aria-expanded="false"
-                    aria-haspopup="true"
                     class="btn btn-light btn-sm dropdown-toggle"
                     id="btn-results-1"
                     ngbdropdowntoggle=""
@@ -975,7 +968,6 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                 >
                   <button
                     aria-expanded="false"
-                    aria-haspopup="true"
                     class="btn btn-light btn-sm dropdown-toggle"
                     disabled=""
                     id="btn-remind-1"
@@ -1032,26 +1024,26 @@ exports[`SessionsTableComponent should snap with default fields 1`] = `
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
   columnsToShow={[Function Array]}
-  copySessionEvent={[Function EventEmitter]}
+  copySessionEvent={[Function EventEmitter_]}
   courseCandidates={[Function Array]}
-  downloadSessionResultsEvent={[Function EventEmitter]}
+  downloadSessionResultsEvent={[Function EventEmitter_]}
   headerColorScheme="0"
   isSendReminderLoading="false"
-  loadResponseRateEvent={[Function EventEmitter]}
-  moveSessionToRecycleBinEvent={[Function EventEmitter]}
+  loadResponseRateEvent={[Function EventEmitter_]}
+  moveSessionToRecycleBinEvent={[Function EventEmitter_]}
   ngbModal={[Function NgbModal]}
-  publishSessionEvent={[Function EventEmitter]}
-  resendResultsLinkToStudentsEvent={[Function EventEmitter]}
+  publishSessionEvent={[Function EventEmitter_]}
+  resendResultsLinkToStudentsEvent={[Function EventEmitter_]}
   rowClicked={[Function Number]}
-  sendRemindersToAllNonSubmittersEvent={[Function EventEmitter]}
-  sendRemindersToSelectedNonSubmittersEvent={[Function EventEmitter]}
+  sendRemindersToAllNonSubmittersEvent={[Function EventEmitter_]}
+  sendRemindersToSelectedNonSubmittersEvent={[Function EventEmitter_]}
   sessionsTableRowModels={[Function Array]}
   sessionsTableRowModelsSortBy="0"
   sessionsTableRowModelsSortOrder={[Function Number]}
   simpleModalService={[Function SimpleModalService]}
-  sortSessionsTableRowModelsEvent={[Function EventEmitter]}
-  submitSessionAsInstructorEvent={[Function EventEmitter]}
-  unpublishSessionEvent={[Function EventEmitter]}
+  sortSessionsTableRowModelsEvent={[Function EventEmitter_]}
+  submitSessionAsInstructorEvent={[Function EventEmitter_]}
+  unpublishSessionEvent={[Function EventEmitter_]}
 >
   <div
     class="no-session-message"

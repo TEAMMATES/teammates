@@ -15,7 +15,7 @@ exports[`InstructorCoursesPageComponent should snap when archived courses are ex
   canDeleteAll={[Function Boolean]}
   canRestoreAll={[Function Boolean]}
   copyProgressPercentage="0"
-  courseAdded={[Function EventEmitter]}
+  courseAdded={[Function EventEmitter_]}
   courseService={[Function CourseService]}
   courseStats={[Function Object]}
   deletedTableSortBy={[Function Number]}
@@ -281,7 +281,7 @@ exports[`InstructorCoursesPageComponent should snap when courses are still loadi
   canDeleteAll={[Function Boolean]}
   canRestoreAll={[Function Boolean]}
   copyProgressPercentage="0"
-  courseAdded={[Function EventEmitter]}
+  courseAdded={[Function EventEmitter_]}
   courseService={[Function CourseService]}
   courseStats={[Function Object]}
   deletedTableSortBy={[Function Number]}
@@ -354,7 +354,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
   canDeleteAll="false"
   canRestoreAll="false"
   copyProgressPercentage="0"
-  courseAdded={[Function EventEmitter]}
+  courseAdded={[Function EventEmitter_]}
   courseService={[Function CourseService]}
   courseStats={[Function Object]}
   deletedTableSortBy={[Function Number]}
@@ -549,7 +549,6 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                   >
                     <button
                       aria-expanded="false"
-                      aria-haspopup="true"
                       class="btn btn-light btn-sm dropdown-toggle"
                       id="btn-other-actions-0"
                       ngbdropdowntoggle=""
@@ -676,7 +675,6 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                   >
                     <button
                       aria-expanded="false"
-                      aria-haspopup="true"
                       class="btn btn-light btn-sm dropdown-toggle"
                       id="btn-other-actions-1"
                       ngbdropdowntoggle=""
@@ -854,7 +852,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
   canDeleteAll={[Function Boolean]}
   canRestoreAll={[Function Boolean]}
   copyProgressPercentage="0"
-  courseAdded={[Function EventEmitter]}
+  courseAdded={[Function EventEmitter_]}
   courseService={[Function CourseService]}
   courseStats={[Function Object]}
   deletedTableSortBy={[Function Number]}
@@ -1126,7 +1124,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
   canDeleteAll={[Function Boolean]}
   canRestoreAll={[Function Boolean]}
   copyProgressPercentage="0"
-  courseAdded={[Function EventEmitter]}
+  courseAdded={[Function EventEmitter_]}
   courseService={[Function CourseService]}
   courseStats={[Function Object]}
   deletedTableSortBy={[Function Number]}
@@ -1321,7 +1319,6 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                   >
                     <button
                       aria-expanded="false"
-                      aria-haspopup="true"
                       class="btn btn-light btn-sm dropdown-toggle"
                       id="btn-other-actions-0"
                       ngbdropdowntoggle=""
@@ -1448,7 +1445,6 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                   >
                     <button
                       aria-expanded="false"
-                      aria-haspopup="true"
                       class="btn btn-light btn-sm dropdown-toggle"
                       id="btn-other-actions-1"
                       ngbdropdowntoggle=""
@@ -1632,7 +1628,7 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
   canDeleteAll={[Function Boolean]}
   canRestoreAll={[Function Boolean]}
   copyProgressPercentage="0"
-  courseAdded={[Function EventEmitter]}
+  courseAdded={[Function EventEmitter_]}
   courseService={[Function CourseService]}
   courseStats={[Function Object]}
   deletedTableSortBy={[Function Number]}
@@ -1705,7 +1701,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
   canDeleteAll={[Function Boolean]}
   canRestoreAll={[Function Boolean]}
   copyProgressPercentage="0"
-  courseAdded={[Function EventEmitter]}
+  courseAdded={[Function EventEmitter_]}
   courseService={[Function CourseService]}
   courseStats={[Function Object]}
   deletedTableSortBy={[Function Number]}
@@ -1921,7 +1917,6 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                   >
                     <button
                       aria-expanded="false"
-                      aria-haspopup="true"
                       class="btn btn-light btn-sm dropdown-toggle"
                       id="btn-other-actions-0"
                       ngbdropdowntoggle=""
@@ -2069,7 +2064,6 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                   >
                     <button
                       aria-expanded="false"
-                      aria-haspopup="true"
                       class="btn btn-light btn-sm dropdown-toggle"
                       id="btn-other-actions-1"
                       ngbdropdowntoggle=""
