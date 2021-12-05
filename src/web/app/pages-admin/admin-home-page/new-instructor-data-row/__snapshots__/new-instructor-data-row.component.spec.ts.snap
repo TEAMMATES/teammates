@@ -14,34 +14,26 @@ exports[`NewInstructorDataRowComponent should snap with default view 1`] = `
   toggleEditModeEvent={[Function EventEmitter_]}
 >
   <td>
-    
     <span
       id="instructor-0-name"
     >
       Instructor
     </span>
-    
   </td><td>
-    
     <span
       id="instructor-0-email"
     >
       instructor@instruct.or
     </span>
-    
   </td><td>
-    
     <span
       id="instructor-0-institution"
     >
       Institutional Institution of Institute
     </span>
-    
   </td><td
     style="width: 17%;"
   >
-    
-    
     <div
       class="button-group"
     >
@@ -73,8 +65,6 @@ exports[`NewInstructorDataRowComponent should snap with default view 1`] = `
   </td><td
     style="width: 40%;"
   >
-    
-    
   </td>
 </tr>
 `;
@@ -93,34 +83,26 @@ exports[`NewInstructorDataRowComponent should snap with edit cancelled 1`] = `
   toggleEditModeEvent={[Function EventEmitter_]}
 >
   <td>
-    
     <span
       id="instructor-0-name"
     >
       Instructor
     </span>
-    
   </td><td>
-    
     <span
       id="instructor-0-email"
     >
       instructor@instruct.or
     </span>
-    
   </td><td>
-    
     <span
       id="instructor-0-institution"
     >
       Institutional Institution of Institute
     </span>
-    
   </td><td
     style="width: 17%;"
   >
-    
-    
     <div
       class="button-group"
     >
@@ -152,8 +134,6 @@ exports[`NewInstructorDataRowComponent should snap with edit cancelled 1`] = `
   </td><td
     style="width: 40%;"
   >
-    
-    
   </td>
 </tr>
 `;
@@ -172,34 +152,26 @@ exports[`NewInstructorDataRowComponent should snap with edit confirmed 1`] = `
   toggleEditModeEvent={[Function EventEmitter_]}
 >
   <td>
-    
     <span
       id="instructor-0-name"
     >
       Edited Name
     </span>
-    
   </td><td>
-    
     <span
       id="instructor-0-email"
     >
       Edited@ema.il
     </span>
-    
   </td><td>
-    
     <span
       id="instructor-0-institution"
     >
       Edited Institution
     </span>
-    
   </td><td
     style="width: 17%;"
   >
-    
-    
     <div
       class="button-group"
     >
@@ -231,8 +203,6 @@ exports[`NewInstructorDataRowComponent should snap with edit confirmed 1`] = `
   </td><td
     style="width: 40%;"
   >
-    
-    
   </td>
 </tr>
 `;
@@ -251,24 +221,18 @@ exports[`NewInstructorDataRowComponent should snap with instructor details edite
   toggleEditModeEvent={[Function EventEmitter_]}
 >
   <td>
-    
-    
     <input
       class="form-control ng-untouched ng-pristine ng-valid"
       id="instructor-0-name-input"
       type="text"
     />
   </td><td>
-    
-    
     <input
       class="form-control ng-untouched ng-pristine ng-valid"
       id="instructor-0-email-input"
       type="text"
     />
   </td><td>
-    
-    
     <input
       class="form-control ng-untouched ng-pristine ng-valid"
       id="instructor-0-institution-input"
@@ -277,7 +241,6 @@ exports[`NewInstructorDataRowComponent should snap with instructor details edite
   </td><td
     style="width: 17%;"
   >
-    
     <div
       class="button-group"
     >
@@ -296,7 +259,6 @@ exports[`NewInstructorDataRowComponent should snap with instructor details edite
         Cancel
       </button>
     </div>
-    
   </td><td
     style="width: 8%;"
   >
@@ -304,8 +266,6 @@ exports[`NewInstructorDataRowComponent should snap with instructor details edite
   </td><td
     style="width: 40%;"
   >
-    
-    
   </td>
 </tr>
 `;
@@ -324,24 +284,18 @@ exports[`NewInstructorDataRowComponent should snap with start of edit 1`] = `
   toggleEditModeEvent={[Function EventEmitter_]}
 >
   <td>
-    
-    
     <input
       class="form-control ng-untouched ng-pristine ng-valid"
       id="instructor-0-name-input"
       type="text"
     />
   </td><td>
-    
-    
     <input
       class="form-control ng-untouched ng-pristine ng-valid"
       id="instructor-0-email-input"
       type="text"
     />
   </td><td>
-    
-    
     <input
       class="form-control ng-untouched ng-pristine ng-valid"
       id="instructor-0-institution-input"
@@ -350,7 +304,6 @@ exports[`NewInstructorDataRowComponent should snap with start of edit 1`] = `
   </td><td
     style="width: 17%;"
   >
-    
     <div
       class="button-group"
     >
@@ -369,7 +322,6 @@ exports[`NewInstructorDataRowComponent should snap with start of edit 1`] = `
         Cancel
       </button>
     </div>
-    
   </td><td
     style="width: 8%;"
   >
@@ -377,8 +329,6 @@ exports[`NewInstructorDataRowComponent should snap with start of edit 1`] = `
   </td><td
     style="width: 40%;"
   >
-    
-    
   </td>
 </tr>
 `;

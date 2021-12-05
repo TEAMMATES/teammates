@@ -40,8 +40,6 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
           <div
             class="chevron"
           >
-            
-            
             <i
               class="fas fa-chevron-up"
             />
@@ -53,23 +51,18 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
       >
         <strong>
           Question 
-          
           <span
             id="question-number"
           >
             0
           </span>
         </strong>
-        
          Essay question 
-        
       </div>
       <div
         class="card-header-btn-toolbar"
       >
-        
         <div>
-          
           <button
             class="btn btn-primary btn-sm"
             id="btn-edit-question"
@@ -80,14 +73,11 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
             />
              Edit 
           </button>
-          
-          
           <button
             class="btn btn-primary btn-sm"
             id="btn-delete-question"
             type="button"
           >
-            
             <i
               class="fas fa-trash"
             />
@@ -100,17 +90,14 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
             ngbtooltip="Make a copy of the existing question and add to the current feedback session."
             type="button"
           >
-            
             <i
               class="far fa-copy"
             />
              Duplicate 
           </button>
         </div>
-        
       </div>
     </div>
-    
     <div
       class="ng-trigger ng-trigger-collapseAnim"
       style=""
@@ -174,7 +161,6 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                     <div
                       inviewport=""
                     >
-                      
                     </div>
                   </tm-rich-text-editor>
                 </div>
@@ -182,7 +168,6 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
               <div
                 class="padding-15px"
               >
-                
                 <tm-text-question-edit-details-form
                   style=""
                 >
@@ -224,15 +209,6 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                     </div>
                   </div>
                 </tm-text-question-edit-details-form>
-                
-                
-                
-                
-                
-                
-                
-                
-                
               </div>
             </div>
           </div>
@@ -261,7 +237,6 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                 id="btn-feedback-path"
                 ngbdropdowntoggle=""
               >
-                
                 <span
                   style=""
                 >
@@ -271,7 +246,6 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                   />
                    Other students in the course 
                 </span>
-                
               </button>
               <ul
                 class="dropdown-menu"
@@ -284,7 +258,6 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                 >
                   Common feedback path combinations
                 </li>
-                
                 <li
                   class="dropdown-divider"
                 />
@@ -295,8 +268,6 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                 </li>
               </ul>
             </div>
-            
-            
             <div
               class="row margin-top-15px align-items-center"
               style=""
@@ -362,7 +333,6 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
             class="margin-top-15px padding-15px background-color-light-green"
           >
             <div>
-              
               <b
                 class="visibility-title"
               >
@@ -381,13 +351,10 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                 id="btn-question-visibility"
                 ngbdropdowntoggle=""
               >
-                
                 <span
                   style=""
                 >
-                    
                 </span>
-                
               </button>
               <ul
                 class="dropdown-menu"
@@ -400,13 +367,10 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                 >
                   Common visibility options
                 </li>
-                
-                
                 <li
                   class="dropdown-divider"
                   style=""
                 />
-                
                 <li
                   class="dropdown-item"
                   style=""
@@ -415,7 +379,6 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                 </li>
               </ul>
             </div>
-            
             <div
               class="margin-top-15px visibility-message"
             >
@@ -423,24 +386,6 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
               <ul
                 class="text-muted background-color-warning"
               >
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
                 <li
                   style=""
                 >
@@ -450,7 +395,6 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
             </div>
           </div>
         </tm-visibility-panel>
-        
         <div
           class="row margin-top-15px"
           style=""
@@ -458,20 +402,16 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
           <div
             class="col-12 text-right"
           >
-            
             <button
               class="btn btn-success"
               disabled=""
             >
-              
-              
               <span>
                 <i
                   class="fas fa-check"
                 />
                  Save Changes
               </span>
-              
             </button>
           </div>
         </div>

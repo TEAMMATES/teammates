@@ -38,18 +38,11 @@ exports[`InstructorStudentRecordsPageComponent should snap when student results 
        - CS1111
     </small>
   </h1><tm-loading-retry>
-    
-    
     <tm-student-profile />
-    
     <tm-more-info />
-    
-    
   </tm-loading-retry><h2>
     Records in feedback sessions
   </h2><tm-loading-retry>
-    
-    
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -65,8 +58,6 @@ exports[`InstructorStudentRecordsPageComponent should snap when student results 
         </div>
       </div>
     </tm-loading-spinner>
-    
-    
   </tm-loading-retry>
 </tm-instructor-student-records-page>
 `;
@@ -109,8 +100,6 @@ exports[`InstructorStudentRecordsPageComponent should snap with default fields 1
        - su1337
     </small>
   </h1><tm-loading-retry>
-    
-    
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -126,7 +115,6 @@ exports[`InstructorStudentRecordsPageComponent should snap with default fields 1
         </div>
       </div>
     </tm-loading-spinner>
-    
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -142,13 +130,9 @@ exports[`InstructorStudentRecordsPageComponent should snap with default fields 1
         </div>
       </div>
     </tm-loading-spinner>
-    
-    
   </tm-loading-retry><h2>
     Records in feedback sessions
   </h2><tm-loading-retry>
-    
-    
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -164,8 +148,6 @@ exports[`InstructorStudentRecordsPageComponent should snap with default fields 1
         </div>
       </div>
     </tm-loading-spinner>
-    
-    
   </tm-loading-retry>
 </tm-instructor-student-records-page>
 `;
@@ -208,23 +190,13 @@ exports[`InstructorStudentRecordsPageComponent should snap with populated fields
        - su1337
     </small>
   </h1><tm-loading-retry>
-    
-    
     <tm-student-profile />
-    
     <tm-more-info />
-    
-    
   </tm-loading-retry><h2>
     Records in feedback sessions
   </h2><tm-loading-retry>
-    
-    
     <div>
-      
     </div>
-    
-    
   </tm-loading-retry>
 </tm-instructor-student-records-page>
 `;

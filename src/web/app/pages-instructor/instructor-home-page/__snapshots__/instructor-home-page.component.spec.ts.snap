@@ -46,8 +46,6 @@ exports[`InstructorHomePageComponent should snap when courses are still loading 
       </div>
     </div>
   </tm-loading-spinner><tm-loading-retry>
-    
-    
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -63,8 +61,6 @@ exports[`InstructorHomePageComponent should snap when courses are still loading 
         </div>
       </div>
     </tm-loading-spinner>
-    
-    
   </tm-loading-retry>
 </tm-instructor-home-page>
 `;
@@ -115,8 +111,6 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
       </div>
     </div>
   </tm-loading-spinner><tm-loading-retry>
-    
-    
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -132,8 +126,6 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
         </div>
       </div>
     </tm-loading-spinner>
-    
-    
   </tm-loading-retry>
 </tm-instructor-home-page>
 `;
@@ -186,7 +178,6 @@ exports[`InstructorHomePageComponent should snap with one course with error load
          Add New Course 
       </a>
     </div>
-    
     <div
       class="col-8"
     >
@@ -225,12 +216,8 @@ exports[`InstructorHomePageComponent should snap with one course with error load
       </div>
     </div>
   </div><tm-loading-retry>
-    
-    
     <div>
-      
       <div>
-        
         <div
           class="card"
           id="course-tab"
@@ -245,27 +232,21 @@ exports[`InstructorHomePageComponent should snap with one course with error load
             >
               [CS3281]: Thematic Systems I
             </b>
-            
             <tm-panel-chevron>
               <div
                 class="chevron"
               >
-                
-                
                 <i
                   class="fas fa-chevron-up"
                 />
               </div>
             </tm-panel-chevron>
           </div>
-          
           <div
             class="card-body padding-0 ng-trigger ng-trigger-collapseAnim ng-animating"
             style=""
           >
             <tm-loading-retry>
-              
-              
               <tm-loading-spinner
                 style=""
               >
@@ -283,15 +264,11 @@ exports[`InstructorHomePageComponent should snap with one course with error load
                   </div>
                 </div>
               </tm-loading-spinner>
-              
-              
             </tm-loading-retry>
           </div>
         </div>
       </div>
     </div>
-    
-    
   </tm-loading-retry>
 </tm-instructor-home-page>
 `;
@@ -344,7 +321,6 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
          Add New Course 
       </a>
     </div>
-    
     <div
       class="col-8"
     >
@@ -383,12 +359,8 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
       </div>
     </div>
   </div><tm-loading-retry>
-    
-    
     <div>
-      
       <div>
-        
         <div
           class="card"
           id="course-tab"
@@ -403,7 +375,6 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
             >
               [CS1231]: Discrete Structures
             </b>
-            
             <div
               class="card-header-btn-toolbar flex-lg-shrink-0"
             >
@@ -423,8 +394,6 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                   ngbdropdownmenu=""
                   x-placement="bottom"
                 >
-                  
-                  
                   <a
                     class="btn btn-info btn-sm dropdown-item"
                     href="/web/instructor/courses/enroll?courseid=CS1231"
@@ -522,8 +491,6 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                   >
                      View / Edit 
                   </a>
-                  
-                  
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     id="btn-delete-course"
@@ -531,7 +498,6 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                   >
                      Delete 
                   </a>
-                  
                 </div>
               </span>
             </div>
@@ -539,26 +505,20 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
               <div
                 class="chevron"
               >
-                
-                
                 <i
                   class="fas fa-chevron-up"
                 />
               </div>
             </tm-panel-chevron>
           </div>
-          
           <div
             class="card-body padding-0 ng-trigger ng-trigger-collapseAnim ng-animating"
             style=""
           >
             <tm-loading-retry>
-              
-              
               <tm-sessions-table
                 style=""
               >
-                
                 <div
                   class="row"
                 >
@@ -571,7 +531,6 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                     >
                       <thead>
                         <tr>
-                          
                           <th
                             class="sortable-header"
                             id="sort-session-name"
@@ -583,11 +542,8 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                               <i
                                 class="fas fa-sort"
                               />
-                              
-                              
                             </span>
                           </th>
-                          
                           <th
                             class="sortable-header"
                           >
@@ -598,11 +554,8 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                               <i
                                 class="fas fa-sort"
                               />
-                              
-                              
                             </span>
                           </th>
-                          
                           <th
                             class="sortable-header"
                           >
@@ -613,8 +566,6 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                               <i
                                 class="fas fa-sort"
                               />
-                              
-                              
                             </span>
                           </th>
                           <th>
@@ -640,15 +591,12 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                         </tr>
                       </thead>
                       <tbody>
-                        
                         <tr>
-                          
                           <td
                             class="text-break"
                           >
                             First Session
                           </td>
-                          
                           <td>
                             <span
                               class="ngb-tooltip-class"
@@ -656,7 +604,6 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                               1 Jan 7:30 AM
                             </span>
                           </td>
-                          
                           <td>
                             <span
                               class="ngb-tooltip-class"
@@ -679,14 +626,11 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                             </span>
                           </td>
                           <td>
-                            
-                            
                             <div
                               id="response-rate-0"
                             >
                               0 / 6
                             </div>
-                            
                           </td>
                           <td
                             class="actions-cell"
@@ -694,12 +638,10 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                             <div
                               class="d-flex"
                             >
-                              
                               <a
                                 href="/web/instructor/sessions/edit?courseid=CS1231&fsname=First%20Session&editingMode=true"
                                 tmrouterlink="/web/instructor/sessions/edit"
                               >
-                                
                                 <button
                                   class="btn btn-light btn-sm"
                                   type="button"
@@ -707,7 +649,6 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                                    Edit 
                                 </button>
                               </a>
-                              
                               <button
                                 class="btn btn-light btn-sm"
                                 id="btn-soft-delete-0"
@@ -723,12 +664,10 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                               >
                                 Copy
                               </button>
-                              
                               <a
                                 href="/web/instructor/sessions/submission?courseid=CS1231&fsname=First%20Session"
                                 tmrouterlink="/web/instructor/sessions/submission"
                               >
-                                
                                 <button
                                   class="btn btn-light btn-sm"
                                   ngbtooltip="Start submitting feedback"
@@ -736,9 +675,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                                 >
                                   Submit
                                 </button>
-                                
                               </a>
-                              
                               <div
                                 class="d-inline-block dropdown"
                                 container="body"
@@ -771,7 +708,6 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                                   >
                                     View Results (course-wide)
                                   </a>
-                                  
                                   <button
                                     class="btn dropdown-item clickable"
                                     container="body"
@@ -781,9 +717,6 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                                   >
                                     Unpublish Results
                                   </button>
-                                  
-                                  
-                                  
                                   <button
                                     class="btn dropdown-item clickable"
                                     id="btn-resend-0"
@@ -819,7 +752,6 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                                     <div
                                       class="padding-left-7px"
                                     >
-                                      
                                     </div>
                                   </div>
                                 </button>
@@ -849,17 +781,12 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                     </table>
                   </div>
                 </div>
-                
               </tm-sessions-table>
-              
-              
             </tm-loading-retry>
           </div>
         </div>
       </div>
     </div>
-    
-    
   </tm-loading-retry>
 </tm-instructor-home-page>
 `;
@@ -912,7 +839,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
          Add New Course 
       </a>
     </div>
-    
     <div
       class="col-8"
     >
@@ -951,12 +877,8 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
       </div>
     </div>
   </div><tm-loading-retry>
-    
-    
     <div>
-      
       <div>
-        
         <div
           class="card"
           id="course-tab"
@@ -971,7 +893,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
             >
               [CS3281]: Thematic Systems I
             </b>
-            
             <div
               class="card-header-btn-toolbar flex-lg-shrink-0"
             >
@@ -991,7 +912,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                   ngbdropdownmenu=""
                   x-placement="bottom"
                 >
-                  
                   <a
                     class="btn btn-info btn-sm dropdown-item"
                     href="/web/instructor/courses/details?courseid=CS3281"
@@ -1082,7 +1002,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                   >
                      View / Edit 
                   </a>
-                  
                 </div>
               </span>
             </div>
@@ -1090,26 +1009,20 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
               <div
                 class="chevron"
               >
-                
-                
                 <i
                   class="fas fa-chevron-up"
                 />
               </div>
             </tm-panel-chevron>
           </div>
-          
           <div
             class="card-body padding-0 ng-trigger ng-trigger-collapseAnim ng-animating"
             style=""
           >
             <tm-loading-retry>
-              
-              
               <tm-sessions-table
                 style=""
               >
-                
                 <div
                   class="row"
                 >
@@ -1122,7 +1035,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                     >
                       <thead>
                         <tr>
-                          
                           <th
                             class="sortable-header"
                             id="sort-session-name"
@@ -1134,11 +1046,8 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                               <i
                                 class="fas fa-sort"
                               />
-                              
-                              
                             </span>
                           </th>
-                          
                           <th
                             class="sortable-header"
                           >
@@ -1149,11 +1058,8 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                               <i
                                 class="fas fa-sort"
                               />
-                              
-                              
                             </span>
                           </th>
-                          
                           <th
                             class="sortable-header"
                           >
@@ -1164,8 +1070,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                               <i
                                 class="fas fa-sort"
                               />
-                              
-                              
                             </span>
                           </th>
                           <th>
@@ -1191,15 +1095,12 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                         </tr>
                       </thead>
                       <tbody>
-                        
                         <tr>
-                          
                           <td
                             class="text-break"
                           >
                             First Session
                           </td>
-                          
                           <td>
                             <span
                               class="ngb-tooltip-class"
@@ -1207,7 +1108,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                               1 Jan 7:30 AM
                             </span>
                           </td>
-                          
                           <td>
                             <span
                               class="ngb-tooltip-class"
@@ -1230,14 +1130,11 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                             </span>
                           </td>
                           <td>
-                            
-                            
                             <div
                               id="response-rate-0"
                             >
                               0 / 6
                             </div>
-                            
                           </td>
                           <td
                             class="actions-cell"
@@ -1245,7 +1142,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                             <div
                               class="d-flex"
                             >
-                              
                               <button
                                 class="btn btn-light btn-sm"
                                 disabled=""
@@ -1253,7 +1149,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                               >
                                  Edit 
                               </button>
-                              
                               <button
                                 class="btn btn-light btn-sm"
                                 disabled=""
@@ -1270,7 +1165,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                               >
                                 Copy
                               </button>
-                              
                               <button
                                 class="btn btn-light btn-sm"
                                 disabled=""
@@ -1279,8 +1173,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                               >
                                 Submit
                               </button>
-                              
-                              
                               <div
                                 class="d-inline-block dropdown"
                                 container="body"
@@ -1313,7 +1205,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                                   >
                                     View Results (course-wide)
                                   </a>
-                                  
                                   <button
                                     class="btn dropdown-item clickable"
                                     container="body"
@@ -1324,9 +1215,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                                   >
                                     Unpublish Results
                                   </button>
-                                  
-                                  
-                                  
                                   <button
                                     class="btn dropdown-item clickable"
                                     id="btn-resend-0"
@@ -1363,7 +1251,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                                     <div
                                       class="padding-left-7px"
                                     >
-                                      
                                     </div>
                                   </div>
                                 </button>
@@ -1390,13 +1277,11 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                           </td>
                         </tr>
                         <tr>
-                          
                           <td
                             class="text-break"
                           >
                             Second Session
                           </td>
-                          
                           <td>
                             <span
                               class="ngb-tooltip-class"
@@ -1404,7 +1289,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                               1 Jan 7:30 AM
                             </span>
                           </td>
-                          
                           <td>
                             <span
                               class="ngb-tooltip-class"
@@ -1427,14 +1311,11 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                             </span>
                           </td>
                           <td>
-                            
-                            
                             <div
                               id="response-rate-1"
                             >
                               5 / 6
                             </div>
-                            
                           </td>
                           <td
                             class="actions-cell"
@@ -1442,7 +1323,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                             <div
                               class="d-flex"
                             >
-                              
                               <button
                                 class="btn btn-light btn-sm"
                                 disabled=""
@@ -1450,7 +1330,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                               >
                                  Edit 
                               </button>
-                              
                               <button
                                 class="btn btn-light btn-sm"
                                 disabled=""
@@ -1467,7 +1346,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                               >
                                 Copy
                               </button>
-                              
                               <button
                                 class="btn btn-light btn-sm"
                                 disabled=""
@@ -1476,8 +1354,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                               >
                                 Submit
                               </button>
-                              
-                              
                               <div
                                 class="d-inline-block dropdown"
                                 container="body"
@@ -1510,7 +1386,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                                   >
                                     View Results (course-wide)
                                   </a>
-                                  
                                   <button
                                     class="btn dropdown-item clickable"
                                     container="body"
@@ -1521,9 +1396,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                                   >
                                     Unpublish Results
                                   </button>
-                                  
-                                  
-                                  
                                   <button
                                     class="btn dropdown-item clickable"
                                     id="btn-resend-1"
@@ -1560,7 +1432,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                                     <div
                                       class="padding-left-7px"
                                     >
-                                      
                                     </div>
                                   </div>
                                 </button>
@@ -1590,17 +1461,12 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                     </table>
                   </div>
                 </div>
-                
               </tm-sessions-table>
-              
-              
             </tm-loading-retry>
           </div>
         </div>
       </div>
     </div>
-    
-    
   </tm-loading-retry>
 </tm-instructor-home-page>
 `;
@@ -1653,7 +1519,6 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
          Add New Course 
       </a>
     </div>
-    
     <div
       class="col-8"
     >
@@ -1692,12 +1557,8 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
       </div>
     </div>
   </div><tm-loading-retry>
-    
-    
     <div>
-      
       <div>
-        
         <div
           class="card"
           id="course-tab"
@@ -1712,7 +1573,6 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
             >
               [CS3281]: Thematic Systems I
             </b>
-            
             <div
               class="card-header-btn-toolbar flex-lg-shrink-0"
             >
@@ -1732,8 +1592,6 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                   ngbdropdownmenu=""
                   x-placement="bottom"
                 >
-                  
-                  
                   <a
                     class="btn btn-info btn-sm dropdown-item"
                     href="/web/instructor/courses/enroll?courseid=CS3281"
@@ -1831,8 +1689,6 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                   >
                      View / Edit 
                   </a>
-                  
-                  
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     id="btn-delete-course"
@@ -1840,7 +1696,6 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                   >
                      Delete 
                   </a>
-                  
                 </div>
               </span>
             </div>
@@ -1848,20 +1703,15 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
               <div
                 class="chevron"
               >
-                
                 <i
                   class="fas fa-chevron-down"
                 />
-                
               </div>
             </tm-panel-chevron>
           </div>
-          
         </div>
       </div>
     </div>
-    
-    
   </tm-loading-retry>
 </tm-instructor-home-page>
 `;
@@ -1914,7 +1764,6 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
          Add New Course 
       </a>
     </div>
-    
     <div
       class="col-8"
     >
@@ -1953,12 +1802,8 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
       </div>
     </div>
   </div><tm-loading-retry>
-    
-    
     <div>
-      
       <div>
-        
         <div
           class="card"
           id="course-tab"
@@ -1973,7 +1818,6 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
             >
               [CS3281]: Thematic Systems I
             </b>
-            
             <div
               class="card-header-btn-toolbar flex-lg-shrink-0"
             >
@@ -1993,8 +1837,6 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                   ngbdropdownmenu=""
                   x-placement="bottom"
                 >
-                  
-                  
                   <a
                     class="btn btn-info btn-sm dropdown-item"
                     href="/web/instructor/courses/enroll?courseid=CS3281"
@@ -2092,8 +1934,6 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                   >
                      View / Edit 
                   </a>
-                  
-                  
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     id="btn-delete-course"
@@ -2101,7 +1941,6 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                   >
                      Delete 
                   </a>
-                  
                 </div>
               </span>
             </div>
@@ -2109,22 +1948,17 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
               <div
                 class="chevron"
               >
-                
-                
                 <i
                   class="fas fa-chevron-up"
                 />
               </div>
             </tm-panel-chevron>
           </div>
-          
           <div
             class="card-body padding-0 ng-trigger ng-trigger-collapseAnim ng-animating"
             style=""
           >
             <tm-loading-retry>
-              
-              
               <tm-loading-spinner
                 style=""
               >
@@ -2142,15 +1976,11 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                   </div>
                 </div>
               </tm-loading-spinner>
-              
-              
             </tm-loading-retry>
           </div>
         </div>
       </div>
     </div>
-    
-    
   </tm-loading-retry>
 </tm-instructor-home-page>
 `;
@@ -2203,7 +2033,6 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
          Add New Course 
       </a>
     </div>
-    
     <div
       class="col-8"
     >
@@ -2242,12 +2071,8 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
       </div>
     </div>
   </div><tm-loading-retry>
-    
-    
     <div>
-      
       <div>
-        
         <div
           class="card"
           id="course-tab"
@@ -2262,7 +2087,6 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
             >
               [CS1231]: Discrete Structures
             </b>
-            
             <div
               class="card-header-btn-toolbar flex-lg-shrink-0"
             >
@@ -2282,8 +2106,6 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                   ngbdropdownmenu=""
                   x-placement="bottom"
                 >
-                  
-                  
                   <a
                     class="btn btn-info btn-sm dropdown-item"
                     href="/web/instructor/courses/enroll?courseid=CS1231"
@@ -2381,8 +2203,6 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                   >
                      View / Edit 
                   </a>
-                  
-                  
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     id="btn-delete-course"
@@ -2390,7 +2210,6 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                   >
                      Delete 
                   </a>
-                  
                 </div>
               </span>
             </div>
@@ -2398,42 +2217,31 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
               <div
                 class="chevron"
               >
-                
-                
                 <i
                   class="fas fa-chevron-up"
                 />
               </div>
             </tm-panel-chevron>
           </div>
-          
           <div
             class="card-body padding-0 ng-trigger ng-trigger-collapseAnim ng-animating"
             style=""
           >
             <tm-loading-retry>
-              
-              
               <tm-sessions-table
                 style=""
               >
-                
                 <div
                   class="no-session-message"
                 >
                    There are no feedback sessions in this course. 
                 </div>
-                
               </tm-sessions-table>
-              
-              
             </tm-loading-retry>
           </div>
         </div>
       </div>
     </div>
-    
-    
   </tm-loading-retry>
 </tm-instructor-home-page>
 `;

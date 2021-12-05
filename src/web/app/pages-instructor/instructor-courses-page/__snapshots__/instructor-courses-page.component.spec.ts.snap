@@ -49,9 +49,6 @@ exports[`InstructorCoursesPageComponent should snap when archived courses are ex
        Add New Course 
     </button>
   </div><tm-loading-retry>
-    
-    
-    
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -67,8 +64,6 @@ exports[`InstructorCoursesPageComponent should snap when archived courses are ex
         </div>
       </div>
     </tm-loading-spinner>
-    
-    
   </tm-loading-retry><div
     class="course-section"
   >
@@ -97,8 +92,6 @@ exports[`InstructorCoursesPageComponent should snap when archived courses are ex
             <div
               class="chevron"
             >
-              
-              
               <i
                 class="fas fa-chevron-up"
               />
@@ -106,7 +99,6 @@ exports[`InstructorCoursesPageComponent should snap when archived courses are ex
           </tm-panel-chevron>
         </div>
       </div>
-      
       <div
         class="card-body archive-body table-responsive ng-trigger ng-trigger-collapseAnim ng-animating"
         style=""
@@ -129,8 +121,6 @@ exports[`InstructorCoursesPageComponent should snap when archived courses are ex
                   <i
                     class="fas fa-sort"
                   />
-                  
-                  
                 </span>
               </th>
               <th
@@ -143,8 +133,6 @@ exports[`InstructorCoursesPageComponent should snap when archived courses are ex
                   <i
                     class="fas fa-sort"
                   />
-                  
-                  
                   <i
                     class="fas fa-sort-up"
                     style=""
@@ -161,8 +149,6 @@ exports[`InstructorCoursesPageComponent should snap when archived courses are ex
                   <i
                     class="fas fa-sort"
                   />
-                  
-                  
                 </span>
               </th>
               <th
@@ -173,7 +159,6 @@ exports[`InstructorCoursesPageComponent should snap when archived courses are ex
             </tr>
           </thead>
           <tbody>
-            
             <tr
               style=""
             >
@@ -205,7 +190,6 @@ exports[`InstructorCoursesPageComponent should snap when archived courses are ex
                 >
                    Unarchive 
                 </button>
-                
                 <button
                   class="btn btn-light btn-sm"
                   id="btn-soft-delete-archived-0"
@@ -213,8 +197,6 @@ exports[`InstructorCoursesPageComponent should snap when archived courses are ex
                 >
                    Delete 
                 </button>
-                
-                
               </td>
             </tr>
             <tr
@@ -248,8 +230,6 @@ exports[`InstructorCoursesPageComponent should snap when archived courses are ex
                 >
                    Unarchive 
                 </button>
-                
-                
                 <button
                   class="btn btn-light btn-sm disabled"
                   id="btn-soft-delete-archived-disabled-1"
@@ -315,9 +295,6 @@ exports[`InstructorCoursesPageComponent should snap when courses are still loadi
        Add New Course 
     </button>
   </div><tm-loading-retry>
-    
-    
-    
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -333,8 +310,6 @@ exports[`InstructorCoursesPageComponent should snap when courses are still loadi
         </div>
       </div>
     </tm-loading-spinner>
-    
-    
   </tm-loading-retry>
 </tm-instructor-courses-page>
 `;
@@ -388,11 +363,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
        Add New Course 
     </button>
   </div><tm-loading-retry>
-    
-    
-    
     <div>
-      
       <div
         class="course-section"
       >
@@ -421,8 +392,6 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                     <i
                       class="fas fa-sort"
                     />
-                    
-                    
                   </span>
                 </th>
                 <th
@@ -436,8 +405,6 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                     <i
                       class="fas fa-sort"
                     />
-                    
-                    
                   </span>
                 </th>
                 <th
@@ -451,8 +418,6 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                     <i
                       class="fas fa-sort"
                     />
-                    
-                    
                     <i
                       class="fas fa-sort-up"
                     />
@@ -478,8 +443,6 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
               </tr>
             </thead>
             <tbody>
-              
-              
               <tr>
                 <td
                   class="text-break"
@@ -501,29 +464,21 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                   </span>
                 </td>
                 <td>
-                  
-                  
                   <span>
                      1 
                   </span>
                 </td>
                 <td>
-                  
-                  
                   <span>
                      1 
                   </span>
                 </td>
                 <td>
-                  
-                  
                   <span>
                      1 
                   </span>
                 </td>
                 <td>
-                  
-                  
                   <span>
                      1 
                   </span>
@@ -531,7 +486,6 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                 <td
                   class="text-center actions-cell"
                 >
-                  
                   <a
                     class="btn btn-light btn-sm"
                     href="/web/instructor/courses/enroll?courseid=CS3281"
@@ -541,8 +495,6 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                   >
                      Enroll 
                   </a>
-                  
-                  
                   <div
                     class="d-inline-block dropdown"
                     ngbdropdown=""
@@ -574,7 +526,6 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                       >
                          Edit 
                       </a>
-                      
                       <button
                         class="btn btn-primary btn-sm dropdown-item clickable"
                         container="body"
@@ -584,7 +535,6 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                       >
                          Copy 
                       </button>
-                      
                       <button
                         class="btn btn-primary btn-sm dropdown-item clickable"
                         container="body"
@@ -594,7 +544,6 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                       >
                          Archive 
                       </button>
-                      
                       <button
                         class="btn btn-primary btn-sm dropdown-item clickable"
                         container="body"
@@ -604,8 +553,6 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                       >
                          Delete 
                       </button>
-                      
-                      
                     </div>
                   </div>
                 </td>
@@ -631,29 +578,21 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                   </span>
                 </td>
                 <td>
-                  
-                  
                   <span>
                      2 
                   </span>
                 </td>
                 <td>
-                  
-                  
                   <span>
                      2 
                   </span>
                 </td>
                 <td>
-                  
-                  
                   <span>
                      2 
                   </span>
                 </td>
                 <td>
-                  
-                  
                   <span>
                      2 
                   </span>
@@ -661,8 +600,6 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                 <td
                   class="text-center actions-cell"
                 >
-                  
-                  
                   <button
                     class="btn btn-light btn-sm disabled"
                     id="btn-enroll-disabled-1"
@@ -700,7 +637,6 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                       >
                          Edit 
                       </a>
-                      
                       <button
                         class="btn btn-primary btn-sm dropdown-item clickable"
                         container="body"
@@ -710,8 +646,6 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                       >
                          Archive 
                       </button>
-                      
-                      
                       <button
                         class="btn btn-primary btn-sm dropdown-item disabled"
                         id="btn-soft-delete-disabled-1"
@@ -723,14 +657,10 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                 </td>
               </tr>
             </tbody>
-            
           </table>
-          
         </div>
       </div>
     </div>
-    
-    
   </tm-loading-retry><div
     class="course-section"
   >
@@ -759,16 +689,13 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
             <div
               class="chevron"
             >
-              
               <i
                 class="fas fa-chevron-down"
               />
-              
             </div>
           </tm-panel-chevron>
         </div>
       </div>
-      
     </div>
   </div><div
     class="row course-section margin-top-30px"
@@ -797,8 +724,6 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
           <div
             class="card-header-btn-toolbar"
           >
-            
-            
             <button
               class="btn btn-secondary btn-sm disabled"
             >
@@ -807,8 +732,6 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
               />
                Restore All 
             </button>
-            
-            
             <button
               class="btn btn-secondary btn-sm disabled"
             >
@@ -821,16 +744,13 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
               <div
                 class="chevron"
               >
-                
                 <i
                   class="fas fa-chevron-down"
                 />
-                
               </div>
             </tm-panel-chevron>
           </div>
         </div>
-        
       </div>
     </div>
   </div>
@@ -953,7 +873,6 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                   id="btn-copy-course"
                   type="button"
                 >
-                  
                    Copy from previous courses 
                 </button>
               </div>
@@ -1027,7 +946,6 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                   class="form-control ng-untouched ng-pristine ng-valid"
                   id="new-time-zone"
                 >
-                  
                   <option
                     style=""
                     value="Jamaica"
@@ -1076,7 +994,6 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                 class="btn btn-success"
                 id="btn-save-course"
               >
-                
                  Add Course 
               </button>
             </div>
@@ -1085,9 +1002,6 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
       </div>
     </tm-add-course-form>
   </div><tm-loading-retry>
-    
-    
-    
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -1103,8 +1017,6 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
         </div>
       </div>
     </tm-loading-spinner>
-    
-    
   </tm-loading-retry>
 </tm-instructor-courses-page>
 `;
@@ -1158,11 +1070,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
        Add New Course 
     </button>
   </div><tm-loading-retry>
-    
-    
-    
     <div>
-      
       <div
         class="course-section"
       >
@@ -1191,8 +1099,6 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                     <i
                       class="fas fa-sort"
                     />
-                    
-                    
                   </span>
                 </th>
                 <th
@@ -1206,8 +1112,6 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                     <i
                       class="fas fa-sort"
                     />
-                    
-                    
                   </span>
                 </th>
                 <th
@@ -1221,8 +1125,6 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                     <i
                       class="fas fa-sort"
                     />
-                    
-                    
                     <i
                       class="fas fa-sort-up"
                     />
@@ -1248,8 +1150,6 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
               </tr>
             </thead>
             <tbody>
-              
-              
               <tr>
                 <td
                   class="text-break"
@@ -1271,29 +1171,21 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                   </span>
                 </td>
                 <td>
-                  
-                  
                   <span>
                      1 
                   </span>
                 </td>
                 <td>
-                  
-                  
                   <span>
                      1 
                   </span>
                 </td>
                 <td>
-                  
-                  
                   <span>
                      1 
                   </span>
                 </td>
                 <td>
-                  
-                  
                   <span>
                      1 
                   </span>
@@ -1301,7 +1193,6 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                 <td
                   class="text-center actions-cell"
                 >
-                  
                   <a
                     class="btn btn-light btn-sm"
                     href="/web/instructor/courses/enroll?courseid=CS3281"
@@ -1311,8 +1202,6 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                   >
                      Enroll 
                   </a>
-                  
-                  
                   <div
                     class="d-inline-block dropdown"
                     ngbdropdown=""
@@ -1344,7 +1233,6 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                       >
                          Edit 
                       </a>
-                      
                       <button
                         class="btn btn-primary btn-sm dropdown-item clickable"
                         container="body"
@@ -1354,7 +1242,6 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                       >
                          Copy 
                       </button>
-                      
                       <button
                         class="btn btn-primary btn-sm dropdown-item clickable"
                         container="body"
@@ -1364,7 +1251,6 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                       >
                          Archive 
                       </button>
-                      
                       <button
                         class="btn btn-primary btn-sm dropdown-item clickable"
                         container="body"
@@ -1374,8 +1260,6 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                       >
                          Delete 
                       </button>
-                      
-                      
                     </div>
                   </div>
                 </td>
@@ -1401,29 +1285,21 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                   </span>
                 </td>
                 <td>
-                  
-                  
                   <span>
                      2 
                   </span>
                 </td>
                 <td>
-                  
-                  
                   <span>
                      2 
                   </span>
                 </td>
                 <td>
-                  
-                  
                   <span>
                      2 
                   </span>
                 </td>
                 <td>
-                  
-                  
                   <span>
                      2 
                   </span>
@@ -1431,8 +1307,6 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                 <td
                   class="text-center actions-cell"
                 >
-                  
-                  
                   <button
                     class="btn btn-light btn-sm disabled"
                     id="btn-enroll-disabled-1"
@@ -1470,7 +1344,6 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                       >
                          Edit 
                       </a>
-                      
                       <button
                         class="btn btn-primary btn-sm dropdown-item clickable"
                         container="body"
@@ -1480,8 +1353,6 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                       >
                          Archive 
                       </button>
-                      
-                      
                       <button
                         class="btn btn-primary btn-sm dropdown-item disabled"
                         id="btn-soft-delete-disabled-1"
@@ -1493,14 +1364,10 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                 </td>
               </tr>
             </tbody>
-            
           </table>
-          
         </div>
       </div>
     </div>
-    
-    
   </tm-loading-retry><div
     class="course-section"
   >
@@ -1529,16 +1396,13 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
             <div
               class="chevron"
             >
-              
               <i
                 class="fas fa-chevron-down"
               />
-              
             </div>
           </tm-panel-chevron>
         </div>
       </div>
-      
     </div>
   </div><div
     class="row course-section margin-top-30px"
@@ -1567,7 +1431,6 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
           <div
             class="card-header-btn-toolbar"
           >
-            
             <button
               class="btn btn-secondary btn-sm"
               id="btn-restore-all"
@@ -1578,9 +1441,6 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
               />
                Restore All 
             </button>
-            
-            
-            
             <button
               class="btn btn-secondary btn-sm"
               id="btn-delete-all"
@@ -1591,22 +1451,17 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
               />
                Delete All 
             </button>
-            
-            
             <tm-panel-chevron>
               <div
                 class="chevron"
               >
-                
                 <i
                   class="fas fa-chevron-down"
                 />
-                
               </div>
             </tm-panel-chevron>
           </div>
         </div>
-        
       </div>
     </div>
   </div>
@@ -1662,9 +1517,6 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
        Add New Course 
     </button>
   </div><tm-loading-retry>
-    
-    
-    
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -1680,8 +1532,6 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
         </div>
       </div>
     </tm-loading-spinner>
-    
-    
   </tm-loading-retry>
 </tm-instructor-courses-page>
 `;
@@ -1735,11 +1585,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
        Add New Course 
     </button>
   </div><tm-loading-retry>
-    
-    
-    
     <div>
-      
       <div
         class="course-section"
       >
@@ -1768,8 +1614,6 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                     <i
                       class="fas fa-sort"
                     />
-                    
-                    
                   </span>
                 </th>
                 <th
@@ -1783,8 +1627,6 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                     <i
                       class="fas fa-sort"
                     />
-                    
-                    
                   </span>
                 </th>
                 <th
@@ -1798,8 +1640,6 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                     <i
                       class="fas fa-sort"
                     />
-                    
-                    
                     <i
                       class="fas fa-sort-up"
                     />
@@ -1825,8 +1665,6 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
               </tr>
             </thead>
             <tbody>
-              
-              
               <tr>
                 <td
                   class="text-break"
@@ -1848,21 +1686,16 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                   </span>
                 </td>
                 <td>
-                  
                   <span>
-                    
                     <a
                       href="null"
                     >
                        Show 
                     </a>
                   </span>
-                  
                 </td>
                 <td>
-                  
                   <span>
-                    
                     <a
                       href="null"
                       id="show-statistics-0"
@@ -1870,36 +1703,28 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                        Show 
                     </a>
                   </span>
-                  
                 </td>
                 <td>
-                  
                   <span>
-                    
                     <a
                       href="null"
                     >
                        Show 
                     </a>
                   </span>
-                  
                 </td>
                 <td>
-                  
                   <span>
-                    
                     <a
                       href="null"
                     >
                        Show 
                     </a>
                   </span>
-                  
                 </td>
                 <td
                   class="text-center actions-cell"
                 >
-                  
                   <a
                     class="btn btn-light btn-sm"
                     href="/web/instructor/courses/enroll?courseid=CS3281"
@@ -1909,8 +1734,6 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                   >
                      Enroll 
                   </a>
-                  
-                  
                   <div
                     class="d-inline-block dropdown"
                     ngbdropdown=""
@@ -1942,7 +1765,6 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                       >
                          Edit 
                       </a>
-                      
                       <button
                         class="btn btn-primary btn-sm dropdown-item clickable"
                         container="body"
@@ -1952,7 +1774,6 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                       >
                          Copy 
                       </button>
-                      
                       <button
                         class="btn btn-primary btn-sm dropdown-item clickable"
                         container="body"
@@ -1962,7 +1783,6 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                       >
                          Archive 
                       </button>
-                      
                       <button
                         class="btn btn-primary btn-sm dropdown-item clickable"
                         container="body"
@@ -1972,8 +1792,6 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                       >
                          Delete 
                       </button>
-                      
-                      
                     </div>
                   </div>
                 </td>
@@ -1999,21 +1817,16 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                   </span>
                 </td>
                 <td>
-                  
                   <span>
-                    
                     <a
                       href="null"
                     >
                        Show 
                     </a>
                   </span>
-                  
                 </td>
                 <td>
-                  
                   <span>
-                    
                     <a
                       href="null"
                       id="show-statistics-1"
@@ -2021,37 +1834,28 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                        Show 
                     </a>
                   </span>
-                  
                 </td>
                 <td>
-                  
                   <span>
-                    
                     <a
                       href="null"
                     >
                        Show 
                     </a>
                   </span>
-                  
                 </td>
                 <td>
-                  
                   <span>
-                    
                     <a
                       href="null"
                     >
                        Show 
                     </a>
                   </span>
-                  
                 </td>
                 <td
                   class="text-center actions-cell"
                 >
-                  
-                  
                   <button
                     class="btn btn-light btn-sm disabled"
                     id="btn-enroll-disabled-1"
@@ -2089,7 +1893,6 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                       >
                          Edit 
                       </a>
-                      
                       <button
                         class="btn btn-primary btn-sm dropdown-item clickable"
                         container="body"
@@ -2099,8 +1902,6 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                       >
                          Archive 
                       </button>
-                      
-                      
                       <button
                         class="btn btn-primary btn-sm dropdown-item disabled"
                         id="btn-soft-delete-disabled-1"
@@ -2112,14 +1913,10 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                 </td>
               </tr>
             </tbody>
-            
           </table>
-          
         </div>
       </div>
     </div>
-    
-    
   </tm-loading-retry>
 </tm-instructor-courses-page>
 `;

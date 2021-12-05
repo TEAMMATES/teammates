@@ -81,7 +81,6 @@ exports[`AddCourseFormComponent should snap when not enabled 1`] = `
               id="btn-copy-course"
               type="button"
             >
-              
                Copy from previous courses 
             </button>
           </div>
@@ -155,7 +154,6 @@ exports[`AddCourseFormComponent should snap when not enabled 1`] = `
               class="form-control ng-untouched ng-pristine ng-valid"
               id="new-time-zone"
             >
-              
               <option
                 value="GMT"
               >
@@ -185,7 +183,6 @@ exports[`AddCourseFormComponent should snap when not enabled 1`] = `
             class="btn btn-success"
             id="btn-save-course"
           >
-            
              Add Course 
           </button>
         </div>
@@ -276,7 +273,6 @@ exports[`AddCourseFormComponent should snap with default fields 1`] = `
               id="btn-copy-course"
               type="button"
             >
-              
                Copy from previous courses 
             </button>
           </div>
@@ -350,7 +346,6 @@ exports[`AddCourseFormComponent should snap with default fields 1`] = `
               class="form-control ng-untouched ng-pristine ng-valid"
               id="new-time-zone"
             >
-              
               <option
                 value="GMT"
               >
@@ -380,7 +375,6 @@ exports[`AddCourseFormComponent should snap with default fields 1`] = `
             class="btn btn-success"
             id="btn-save-course"
           >
-            
              Add Course 
           </button>
         </div>
