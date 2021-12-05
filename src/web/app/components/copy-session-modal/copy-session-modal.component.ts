@@ -42,6 +42,10 @@ export class CopySessionModalComponent {
    * Toggles selection of course to copy to in set.
    */
   select(courseId: string): void {
-    this.copyToCourseSet.has(courseId) ? this.copyToCourseSet.delete(courseId) : this.copyToCourseSet.add(courseId);
+    if (this.copyToCourseSet.has(courseId)) {
+      this.copyToCourseSet.delete(courseId);
+    } else {
+      this.copyToCourseSet.add(courseId);
+    }
   }
 }

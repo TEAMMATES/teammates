@@ -63,9 +63,11 @@ export class SessionLinksRecoveryPageComponent implements OnInit {
     }).pipe(finalize(() => {
       this.isFormSubmitting = false;
     })).subscribe((resp: SessionLinksRecoveryResponse) => {
-      resp.isEmailSent
-            ? this.statusMessageService.showSuccessToast(resp.message)
-            : this.statusMessageService.showErrorToast(resp.message);
+      if (resp.isEmailSent) {
+        this.statusMessageService.showSuccessToast(resp.message);
+      } else {
+        this.statusMessageService.showErrorToast(resp.message);
+      }
     }, (response: ErrorMessageOutput) => {
       this.statusMessageService.showErrorToast(response.error.message);
     });
