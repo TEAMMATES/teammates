@@ -9,7 +9,7 @@ import { TimezoneService } from '../../services/timezone.service';
 import { GeneralLogEntry, LogEvent, LogSeverity } from '../../types/api-output';
 import { LogsPageComponent } from './logs-page.component';
 import { LogsPageModule } from './logs-page.module';
-import Spy = jasmine.Spy;
+import SpyInstance = jest.SpyInstance;
 
 describe('LogsPageComponent', () => {
   let component: LogsPageComponent;
@@ -69,10 +69,10 @@ describe('LogsPageComponent', () => {
   });
 
   it('should search for logs when search button is clicked', () => {
-    const logSpy: Spy = spyOn(logService, 'searchLogs').and
-        .returnValue(of({ logEntries: [] }));
-    const timeSpy: Spy = spyOn(timezoneService, 'resolveLocalDateTime').and
-        .returnValue(0);
+    const logSpy: SpyInstance = jest.spyOn(logService, 'searchLogs')
+        .mockReturnValue(of({ logEntries: [], hasNextPage: false }));
+    const timeSpy: SpyInstance = jest.spyOn(timezoneService, 'resolveLocalDateTime')
+        .mockReturnValue(0);
 
     component.isLoading = false;
     component.isSearching = false;
@@ -104,10 +104,10 @@ describe('LogsPageComponent', () => {
   });
 
   it('should search for logs with minimum severity', () => {
-    const logSpy: Spy = spyOn(logService, 'searchLogs').and
-        .returnValue(of({ logEntries: [] }));
-    const timeSpy: Spy = spyOn(timezoneService, 'resolveLocalDateTime').and
-        .returnValue(0);
+    const logSpy: SpyInstance = jest.spyOn(logService, 'searchLogs')
+        .mockReturnValue(of({ logEntries: [], hasNextPage: false }));
+    const timeSpy: SpyInstance = jest.spyOn(timezoneService, 'resolveLocalDateTime')
+        .mockReturnValue(0);
 
     component.isLoading = false;
     component.isSearching = false;
@@ -139,10 +139,10 @@ describe('LogsPageComponent', () => {
   });
 
   it('should search for logs with event type', () => {
-    const logSpy: Spy = spyOn(logService, 'searchLogs').and
-        .returnValue(of({ logEntries: [] }));
-    const timeSpy: Spy = spyOn(timezoneService, 'resolveLocalDateTime').and
-        .returnValue(0);
+    const logSpy: SpyInstance = jest.spyOn(logService, 'searchLogs')
+        .mockReturnValue(of({ logEntries: [], hasNextPage: false }));
+    const timeSpy: SpyInstance = jest.spyOn(timezoneService, 'resolveLocalDateTime')
+        .mockReturnValue(0);
 
     component.isLoading = false;
     component.isSearching = false;
@@ -215,15 +215,15 @@ describe('LogsPageComponent', () => {
         },
       },
     };
-    const spy: Spy = spyOn(statusMessageService, 'showErrorToast');
+    const spy: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast');
     fixture.detectChanges();
     fixture.debugElement.nativeElement.querySelector('#query-button').click();
     expect(spy).lastCalledWith('Please fill in Source location file or clear Source location function');
   });
 
   it('should disable load button if there is no next page', () => {
-    spyOn(logService, 'searchLogs').and.returnValue(of({ logEntries: [] }));
-    spyOn(timezoneService, 'resolveLocalDateTime').and.returnValue(0);
+    jest.spyOn(logService, 'searchLogs').mockReturnValue(of({ logEntries: [], hasNextPage: false }));
+    jest.spyOn(timezoneService, 'resolveLocalDateTime').mockReturnValue(0);
     component.formModel = {
       logsDateFrom: { year: 2021, month: 6, day: 1 },
       logsTimeFrom: { hour: 23, minute: 59 },
@@ -259,10 +259,11 @@ describe('LogsPageComponent', () => {
       timestamp: 1549095330000,
       message: 'message',
     };
-    const logSpy: Spy = spyOn(logService, 'searchLogs').and
-      .returnValues(of({ logEntries: [testLog1], hasNextPage: true }), of({ logEntries: [], hasNextPage: false }));
-    const timeSpy: Spy = spyOn(timezoneService, 'resolveLocalDateTime').and
-      .returnValue(0);
+    const logSpy: SpyInstance = jest.spyOn(logService, 'searchLogs')
+        .mockReturnValueOnce(of({ logEntries: [testLog1], hasNextPage: true }))
+        .mockReturnValueOnce(of({ logEntries: [], hasNextPage: false }));
+    const timeSpy: SpyInstance = jest.spyOn(timezoneService, 'resolveLocalDateTime')
+        .mockReturnValue(0);
 
     component.isLoading = false;
     component.isSearching = false;
@@ -273,12 +274,12 @@ describe('LogsPageComponent', () => {
 
     expect(timeSpy).toHaveBeenCalledTimes(2);
     expect(logSpy).toHaveBeenCalledTimes(2);
-    expect(logSpy.calls.mostRecent().args).toEqual([{
+    expect(logSpy).toHaveBeenLastCalledWith({
       startTime: 0,
       endTime: 1549095330000,
       order: 'desc',
       severity: 'ERROR',
-    }]);
+    });
   });
 
   it('should sort logs based on source location', () => {
@@ -322,9 +323,9 @@ describe('LogsPageComponent', () => {
       timestamp: 1549095330000,
       message: 'message',
     };
-    spyOn(logService, 'searchLogs').and
-      .returnValue(of({ logEntries: [testLog1, testLog2, testLog3] }));
-    spyOn(timezoneService, 'resolveLocalDateTime').and.returnValue(0);
+    jest.spyOn(logService, 'searchLogs')
+      .mockReturnValue(of({ logEntries: [testLog1, testLog2, testLog3], hasNextPage: false }));
+    jest.spyOn(timezoneService, 'resolveLocalDateTime').mockReturnValue(0);
 
     component.isLoading = false;
     component.isSearching = false;

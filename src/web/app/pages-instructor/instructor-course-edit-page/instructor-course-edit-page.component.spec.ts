@@ -125,7 +125,7 @@ describe('InstructorCourseEditPageComponent', () => {
   });
 
   it('should load correct course details for given API output', () => {
-    spyOn(courseService, 'getCourseAsInstructor').and.returnValue(of(testCourse));
+    jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
 
     component.loadCourseInfo();
 
@@ -163,10 +163,11 @@ describe('InstructorCourseEditPageComponent', () => {
     component.course.courseName = 'Example Course Changed';
     fixture.detectChanges();
 
-    spyOn(courseService, 'updateCourse').and.returnValue(of({
+    jest.spyOn(courseService, 'updateCourse').mockReturnValue(of({
       courseId: 'exampleId',
       courseName: 'Example Course Changed',
       timeZone: 'UTC (UTC)',
+      institute: 'Test institute',
       creationTimestamp: 0,
       deletionTimestamp: 1000,
     }));
@@ -179,7 +180,7 @@ describe('InstructorCourseEditPageComponent', () => {
   });
 
   it('should load correct instructors details for given API output', () => {
-    spyOn(instructorService, 'loadInstructors').and.returnValue(of({
+    jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(of({
       instructors: [testInstructor1, testInstructor2],
     }));
 
@@ -218,12 +219,12 @@ describe('InstructorCourseEditPageComponent', () => {
   });
 
   it('should add instructor details', () => {
-    spyOn(instructorService, 'createInstructor').and
-      .callFake(({ courseId, requestBody }: { courseId: string, requestBody: InstructorCreateRequest }) => of({
-        courseId,
-        email: requestBody.email,
+    jest.spyOn(instructorService, 'createInstructor')
+      .mockImplementation((params: { courseId: string, requestBody: InstructorCreateRequest }) => of({
+        courseId: params.courseId,
+        email: params.requestBody.email,
         joinState: JoinState.NOT_JOINED,
-        name: requestBody.name,
+        name: params.requestBody.name,
       }));
 
     component.course = testCourse;
@@ -258,7 +259,7 @@ describe('InstructorCourseEditPageComponent', () => {
   });
 
   it('should re-order if instructor is deleted', () => {
-    spyOn(instructorService, 'deleteInstructor').and.returnValue(of({}));
+    jest.spyOn(instructorService, 'deleteInstructor').mockReturnValue(of({}));
 
     component.course = testCourse;
     component.isCourseLoading = false;
@@ -291,7 +292,7 @@ describe('InstructorCourseEditPageComponent', () => {
     const mockReminderFunction: jest.MockedFunction<any> = jest.fn((_: string, email: string) => of({
       message: `An email has been sent to ${email}`,
     }));
-    spyOn(courseService, 'remindInstructorForJoin').and.callFake(mockReminderFunction);
+    jest.spyOn(courseService, 'remindInstructorForJoin').mockImplementation(mockReminderFunction);
 
     component.course = testCourse;
     component.isCourseLoading = false;

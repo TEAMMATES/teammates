@@ -336,9 +336,9 @@ describe('StudentHomePageComponent', () => {
       hasResponsesBySession: { 'First Session': false, 'Second Session': true },
     };
 
-    spyOn(courseService, 'getAllCoursesAsStudent').and.returnValue(of(studentCourses));
-    spyOn(feedbackSessionsService, 'getFeedbackSessionsForStudent').and.returnValue(of(studentFeedbackSessions1));
-    spyOn(feedbackSessionsService, 'hasStudentResponseForAllFeedbackSessionsInCourse').and.returnValue(of(hasRes));
+    jest.spyOn(courseService, 'getAllCoursesAsStudent').mockReturnValue(of(studentCourses));
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSessionsForStudent').mockReturnValue(of(studentFeedbackSessions1));
+    jest.spyOn(feedbackSessionsService, 'hasStudentResponseForAllFeedbackSessionsInCourse').mockReturnValue(of(hasRes));
 
     component.loadStudentCourses();
 
@@ -392,9 +392,9 @@ describe('StudentHomePageComponent', () => {
       hasResponsesBySession: { 'First Session': false },
     };
 
-    spyOn(courseService, 'getAllCoursesAsStudent').and.returnValue(of(studentCourses));
-    spyOn(feedbackSessionsService, 'getFeedbackSessionsForStudent').and.returnValue(of(studentFeedbackSessions1));
-    spyOn(feedbackSessionsService, 'hasStudentResponseForAllFeedbackSessionsInCourse').and.returnValue(of(hasRes));
+    jest.spyOn(courseService, 'getAllCoursesAsStudent').mockReturnValue(of(studentCourses));
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSessionsForStudent').mockReturnValue(of(studentFeedbackSessions1));
+    jest.spyOn(feedbackSessionsService, 'hasStudentResponseForAllFeedbackSessionsInCourse').mockReturnValue(of(hasRes));
 
     component.loadStudentCourses();
 
@@ -411,9 +411,9 @@ describe('StudentHomePageComponent', () => {
       },
     };
 
-    spyOn(courseService, 'getAllCoursesAsStudent').and.returnValue(of(studentCourses));
-    spyOn(feedbackSessionsService, 'getFeedbackSessionsForStudent').and.returnValue(of(studentFeedbackSessions));
-    spyOn(feedbackSessionsService, 'hasStudentResponseForAllFeedbackSessionsInCourse').and.returnValue(of(hasRes));
+    jest.spyOn(courseService, 'getAllCoursesAsStudent').mockReturnValue(of(studentCourses));
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSessionsForStudent').mockReturnValue(of(studentFeedbackSessions));
+    jest.spyOn(feedbackSessionsService, 'hasStudentResponseForAllFeedbackSessionsInCourse').mockReturnValue(of(hasRes));
 
     component.loadStudentCourses();
 
@@ -434,9 +434,9 @@ describe('StudentHomePageComponent', () => {
       },
     };
 
-    spyOn(courseService, 'getAllCoursesAsStudent').and.returnValue(of(studentCourses));
-    spyOn(feedbackSessionsService, 'getFeedbackSessionsForStudent').and.returnValue(of(studentFeedbackSessions));
-    spyOn(feedbackSessionsService, 'hasStudentResponseForAllFeedbackSessionsInCourse').and.returnValue(of(hasRes));
+    jest.spyOn(courseService, 'getAllCoursesAsStudent').mockReturnValue(of(studentCourses));
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSessionsForStudent').mockReturnValue(of(studentFeedbackSessions));
+    jest.spyOn(feedbackSessionsService, 'hasStudentResponseForAllFeedbackSessionsInCourse').mockReturnValue(of(hasRes));
 
     component.loadStudentCourses();
 

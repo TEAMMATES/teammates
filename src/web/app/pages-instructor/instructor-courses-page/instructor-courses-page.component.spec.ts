@@ -8,6 +8,8 @@ import { CourseService } from '../../../services/course.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StudentService } from '../../../services/student.service';
 import { TimezoneService } from '../../../services/timezone.service';
+import SpyInstance = jest.SpyInstance;
+import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
 import { Course, CourseArchive, Courses, JoinState, Students } from '../../../types/api-output';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
 import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
@@ -17,7 +19,6 @@ import { ProgressBarModule } from '../../components/progress-bar/progress-bar.mo
 import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';
 import { AddCourseFormModule } from './add-course-form/add-course-form.module';
 import { InstructorCoursesPageComponent } from './instructor-courses-page.component';
-import Spy = jasmine.Spy;
 
 describe('InstructorCoursesPageComponent', () => {
   let component: InstructorCoursesPageComponent;
@@ -298,7 +299,7 @@ describe('InstructorCoursesPageComponent', () => {
   });
 
   it('should load all courses by the instructor', () => {
-    const courseSpy: Spy = spyOn(courseService, 'getAllCoursesAsInstructor').and.callFake(
+    const courseSpy: SpyInstance = jest.spyOn(courseService, 'getAllCoursesAsInstructor').mockImplementation(
       (courseStatus: string): Observable<Courses> => {
         if (courseStatus === 'active') {
           return of({ courses: [courseCS1231] });
@@ -312,10 +313,10 @@ describe('InstructorCoursesPageComponent', () => {
 
     component.loadInstructorCourses();
 
-    expect(courseSpy.calls.count()).toEqual(3);
-    expect(courseSpy.calls.all()[0].args[0]).toEqual('active');
-    expect(courseSpy.calls.all()[1].args[0]).toEqual('archived');
-    expect(courseSpy.calls.all()[2].args[0]).toEqual('softDeleted');
+    expect(courseSpy).toHaveBeenCalledTimes(3);
+    expect(courseSpy).toHaveBeenNthCalledWith(1, 'active');
+    expect(courseSpy).toHaveBeenNthCalledWith(2, 'archived');
+    expect(courseSpy).toHaveBeenNthCalledWith(3, 'softDeleted');
 
     expect(component.activeCourses.length).toEqual(1);
     expect(component.activeCourses[0].course.courseId).toEqual('CS1231');
@@ -334,11 +335,11 @@ describe('InstructorCoursesPageComponent', () => {
 
   it('should get the course statistics', () => {
     component.activeCourses = [courseModelCS1231];
-    const studentSpy: Spy = spyOn(studentService, 'getStudentsFromCourse').and.returnValue(of(students));
+    const studentSpy: SpyInstance = jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
     component.getCourseStats(0);
 
-    expect(studentSpy.calls.count()).toEqual(1);
-    expect(studentSpy.calls.mostRecent().args[0]).toEqual({ courseId: 'CS1231' });
+    expect(studentSpy).toHaveBeenCalledTimes(1);
+    expect(studentSpy).toHaveBeenLastCalledWith({ courseId: 'CS1231' });
 
     expect(component.courseStats.CS1231.sections).toEqual(2);
     expect(component.courseStats.CS1231.teams).toEqual(3);
@@ -352,12 +353,12 @@ describe('InstructorCoursesPageComponent', () => {
       isArchived: true,
     };
     component.activeCourses = [courseModelCS1231];
-    const courseSpy: Spy = spyOn(courseService, 'changeArchiveStatus').and.returnValue(of(courseArchiveCS1231));
+    const courseSpy: SpyInstance = jest.spyOn(courseService, 'changeArchiveStatus')
+        .mockReturnValue(of(courseArchiveCS1231));
     component.changeArchiveStatus('CS1231', true);
 
-    expect(courseSpy.calls.count()).toEqual(1);
-    expect(courseSpy.calls.mostRecent().args[0]).toEqual('CS1231');
-    expect(courseSpy.calls.mostRecent().args[1]).toEqual({ archiveStatus: true });
+    expect(courseSpy).toHaveBeenCalledTimes(1);
+    expect(courseSpy).toHaveBeenLastCalledWith('CS1231', { archiveStatus: true });
 
     expect(component.activeCourses.length).toEqual(0);
     expect(component.archivedCourses.length).toEqual(1);
@@ -370,12 +371,12 @@ describe('InstructorCoursesPageComponent', () => {
       isArchived: false,
     };
     component.archivedCourses = [courseModelCS1231];
-    const courseSpy: Spy = spyOn(courseService, 'changeArchiveStatus').and.returnValue(of(courseArchiveCS1231));
+    const courseSpy: SpyInstance = jest.spyOn(courseService, 'changeArchiveStatus')
+        .mockReturnValue(of(courseArchiveCS1231));
     component.changeArchiveStatus('CS1231', false);
 
-    expect(courseSpy.calls.count()).toEqual(1);
-    expect(courseSpy.calls.mostRecent().args[0]).toEqual('CS1231');
-    expect(courseSpy.calls.mostRecent().args[1]).toEqual({ archiveStatus: false });
+    expect(courseSpy).toHaveBeenCalledTimes(1);
+    expect(courseSpy).toHaveBeenNthCalledWith(1, 'CS1231', { archiveStatus: false });
 
     expect(component.archivedCourses.length).toEqual(0);
     expect(component.activeCourses.length).toEqual(1);
@@ -384,12 +385,13 @@ describe('InstructorCoursesPageComponent', () => {
 
   it('should soft delete a course', (done: any) => {
     component.activeCourses = [courseModelCS1231];
-    const courseSpy: Spy = spyOn(courseService, 'binCourse').and.returnValue(of(courseCS1231));
-    spyOn(simpleModalService, 'openConfirmationModal').and.returnValue({ result: Promise.resolve() });
+    const courseSpy: SpyInstance = jest.spyOn(courseService, 'binCourse').mockReturnValue(of(courseCS1231));
+    jest.spyOn(simpleModalService, 'openConfirmationModal')
+        .mockReturnValue(createMockNgbModalRef());
 
     component.onDelete('CS1231').then(() => {
-      expect(courseSpy.calls.count()).toEqual(1);
-      expect(courseSpy.calls.mostRecent().args[0]).toEqual('CS1231');
+      expect(courseSpy).toHaveBeenCalledTimes(1);
+      expect(courseSpy).toHaveBeenLastCalledWith('CS1231');
 
       expect(component.softDeletedCourses.length).toEqual(1);
       expect(component.activeCourses.length).toEqual(0);
@@ -399,15 +401,14 @@ describe('InstructorCoursesPageComponent', () => {
 
   it('should permanently delete a course', (done: any) => {
     component.archivedCourses = [courseModelCS1231];
-    const courseSpy: Spy = spyOn(courseService, 'deleteCourse').and.returnValue(of(courseCS1231));
-    spyOn(simpleModalService, 'openConfirmationModal').and.returnValue({
-      componentInstance: {},
-      result: Promise.resolve(),
-    });
+    const courseSpy: SpyInstance = jest.spyOn(courseService, 'deleteCourse')
+        .mockReturnValue(of({ message: 'Message' }));
+    jest.spyOn(simpleModalService, 'openConfirmationModal').mockReturnValue(
+        createMockNgbModalRef());
 
     component.onDeletePermanently('CS1231').then(() => {
-      expect(courseSpy.calls.count()).toEqual(1);
-      expect(courseSpy.calls.mostRecent().args[0]).toEqual('CS1231');
+      expect(courseSpy).toHaveBeenCalledTimes(1);
+      expect(courseSpy).toHaveBeenLastCalledWith('CS1231');
 
       expect(component.activeCourses.length).toEqual(0);
       expect(component.softDeletedCourses.length).toEqual(0);
@@ -560,7 +561,7 @@ describe('InstructorCoursesPageComponent', () => {
       Singapore: 8 * 60,
       Turkey: 3 * 60,
     };
-    spyOn(timezoneService, 'getTzOffsets').and.returnValue(timezones);
+    jest.spyOn(timezoneService, 'getTzOffsets').mockReturnValue(timezones);
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });

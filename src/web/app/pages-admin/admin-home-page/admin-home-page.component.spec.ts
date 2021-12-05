@@ -166,7 +166,7 @@ describe('AdminHomePageComponent', () => {
         message: 'This should not be displayed',
       },
     ];
-    spyOn(service, 'createAccountRequest').and.returnValue(of({
+    jest.spyOn(service, 'createAccountRequest').mockReturnValue(of({
       joinLink: 'http://localhost:4200/web/join',
     }));
     fixture.detectChanges();
@@ -191,7 +191,7 @@ describe('AdminHomePageComponent', () => {
         message: 'This should not be displayed',
       },
     ];
-    spyOn(service, 'createAccountRequest').and.returnValue(throwError({
+    jest.spyOn(service, 'createAccountRequest').mockReturnValue(throwError({
       error: {
         message: 'This is the error message',
       },

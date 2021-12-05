@@ -6,11 +6,11 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
 
-import { CopyCourseModalComponent } from '../../../../app/components/copy-course-modal/copy-course-modal.component';
 import { CourseService } from '../../../../services/course.service';
 import { FeedbackSessionsService } from '../../../../services/feedback-sessions.service';
 import { StatusMessageService } from '../../../../services/status-message.service';
 import { TimezoneService } from '../../../../services/timezone.service';
+import { createMockNgbModalRef } from '../../../../test-helpers/mock-ngb-modal-ref';
 import {
   Course,
   FeedbackSession,
@@ -20,6 +20,7 @@ import {
   SessionVisibleSetting,
 } from '../../../../types/api-output';
 import { AjaxLoadingModule } from '../../../components/ajax-loading/ajax-loading.module';
+import { CopyCourseModalComponent } from '../../../components/copy-course-modal/copy-course-modal.component';
 import { AddCourseFormComponent } from './add-course-form.component';
 
 describe('AddCourseFormComponent', () => {
@@ -118,17 +119,12 @@ describe('AddCourseFormComponent', () => {
   });
 
   it('should open copy course modal', () => {
-    class MockNgbModalRef {
-      componentInstance: any = {
-        isCopyFromOtherSession: false,
-        courses: [],
-        courseToFeedbackSession: {},
-        fetchFeedbackSessionsEvent: new EventEmitter<string>(),
-      };
-      result: Promise<any> = Promise.resolve();
-    }
-
-    const mockModalRef: MockNgbModalRef = new MockNgbModalRef();
+    const mockModalRef: any = createMockNgbModalRef({
+      isCopyFromOtherSession: false,
+      courses: [],
+      courseToFeedbackSession: {},
+      fetchFeedbackSessionsEvent: new EventEmitter<string>(),
+    });
 
     const testFeedbackSession: FeedbackSession = {
       courseId: 'testId',
@@ -147,9 +143,10 @@ describe('AddCourseFormComponent', () => {
       createdAtTimestamp: 0,
     };
 
-    spyOn(feedbackSessionsService, 'getFeedbackSessionsForInstructor')
-      .and.returnValue(of({ feedbackSessions: [testFeedbackSession] }));
-    spyOn(ngbModal, 'open').and.returnValue(mockModalRef);
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSessionsForInstructor')
+      .mockReturnValue(of({ feedbackSessions: [testFeedbackSession] }));
+    jest.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef);
+
     component.activeCourses = [testCourse];
 
     component.onCopy();

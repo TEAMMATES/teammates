@@ -24,8 +24,8 @@ const studentCsvListTester:
     (courseId: string, service: StudentService, spyCourseService: any, done: DoneCallback): void => {
       const course: Course = require(`./test-data/${courseId}`).course;
       const students: Students = require(`./test-data/${courseId}`).students;
-      spyOn(spyCourseService, 'getCourseAsInstructor').and.returnValue(of(course));
-      spyOn(service, 'getStudentsFromCourse').and.returnValue(of(students));
+      jest.spyOn(spyCourseService, 'getCourseAsInstructor').mockReturnValue(of(course));
+      jest.spyOn(service, 'getStudentsFromCourse').mockReturnValue(of(students));
       service.loadStudentListAsCsv({ courseId }).subscribe((csvResult: string) => {
         expect(csvResult).toMatchSnapshot();
         done();
@@ -58,7 +58,7 @@ describe('StudentService', () => {
       courseid: 'CS3281',
       studentemail: 'johndoe@gmail.com',
     };
-    spyOn(spyHttpRequestService, 'put').and.stub();
+    jest.spyOn(spyHttpRequestService, 'put');
 
     service.updateStudent({
       courseId: paramMap.courseid,
@@ -74,7 +74,7 @@ describe('StudentService', () => {
     const paramMap: Record<string, string> = {
       courseid: 'CS3281',
     };
-    spyOn(spyHttpRequestService, 'delete').and.stub();
+    jest.spyOn(spyHttpRequestService, 'delete');
 
     service.deleteAllStudentsFromCourse({
       courseId: paramMap.courseid,
@@ -89,7 +89,7 @@ describe('StudentService', () => {
       courseid: 'CS3281',
       studentemail: 'johndoe@gmail.com',
     };
-    spyOn(spyHttpRequestService, 'post').and.stub();
+    jest.spyOn(spyHttpRequestService, 'post');
 
     service.regenerateStudentKey(paramMap.courseid, paramMap.studentemail);
 
