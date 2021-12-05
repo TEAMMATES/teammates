@@ -62,10 +62,10 @@ describe('AccountService', () => {
   });
 
   it('should execute POST on account request endpoint', () => {
-    const testRequest: AccountCreateRequest = new class implements AccountCreateRequest {
-      instructorEmail: string = 'testEmail';
-      instructorInstitution: string = 'testInstitution';
-      instructorName: string = 'testName';
+    const testRequest: AccountCreateRequest = {
+      instructorEmail: 'testEmail',
+      instructorInstitution: 'testInstitution',
+      instructorName: 'testName',
     };
     service.createAccountRequest(testRequest);
     expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT_REQUEST, {}, testRequest);

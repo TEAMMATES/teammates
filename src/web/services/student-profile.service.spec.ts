@@ -61,14 +61,14 @@ describe('StudentProfileService', () => {
 
   it('should execute PUT on student profile endpoint', () => {
     const googleId: string = '';
-    const requestBody: StudentProfileUpdateRequest = new class implements StudentProfileUpdateRequest {
-      email: string = '';
-      existingNationality: string = '';
-      gender: string = '';
-      institute: string = '';
-      moreInfo: string = '';
-      nationality: string = '';
-      shortName: string = '';
+    const requestBody: StudentProfileUpdateRequest = {
+      email: '',
+      existingNationality: '',
+      gender: '',
+      institute: '',
+      moreInfo: '',
+      nationality: '',
+      shortName: '',
     };
     const paramsMap: Record<string, string> = {
       googleid: googleId,
