@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
 import { forkJoin, Observable, of } from 'rxjs';
-import { concatMap, finalize, flatMap, map, switchMap } from 'rxjs/operators';
+import { concatMap, finalize, map, mergeMap, switchMap } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import {
   CommonVisibilitySetting,
@@ -897,7 +897,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
 
     this.feedbackSessionsService.getFeedbackSessionsForInstructor().pipe(
         switchMap((sessions: FeedbackSessions) => of(...sessions.feedbackSessions)),
-        flatMap((session: FeedbackSession) => {
+        mergeMap((session: FeedbackSession) => {
           return this.feedbackQuestionsService.getFeedbackQuestions({
             courseId: session.courseId,
             feedbackSessionName: session.feedbackSessionName,

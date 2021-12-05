@@ -21,7 +21,6 @@ The version number of all the tool stacks are declared in `build.gradle` or `pac
 | [SpotBugs](https://spotbugs.github.io/) | [`teammates-spotbugs.xml`](../static-analysis/teammates-spotbugs.xml) |
 | [ArchUnit](https://github.com/TNG/ArchUnit) | - |
 | [TSLint](https://palantir.github.io/tslint/) | [`teammates-tslint.yml`](../static-analysis/teammates-tslint.yml) |
-| [JSONlint](https://github.com/marionebl/jsonlint-cli) | - |
 | [stylelint](http://stylelint.io) | [`teammates-stylelint.yml`](../static-analysis/teammates-stylelint.yml) |
 | [lintspaces](https://github.com/evanshortiss/lintspaces-cli) | - |
 
@@ -48,7 +47,6 @@ General rule of thumb when suppressing rules:
 | SpotBugs | `./gradlew spotbugsMain`, `./gradlew spotbugsTest` |
 | ArchUnit | `./gradlew architectureTest` |
 | TSLint | `npm run lint:ts` |
-| JSONlint | `npm run lint:json` |
 | stylelint | `npm run lint:css` |
 | lintspaces | `npm run lint:spaces` |
 

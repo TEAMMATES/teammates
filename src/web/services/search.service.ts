@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { forkJoin, Observable, of } from 'rxjs';
-import { flatMap, map } from 'rxjs/operators';
+import { map, mergeMap } from 'rxjs/operators';
 import { ResourceEndpoints } from '../types/api-const';
 import {
   AccountRequest,
@@ -59,7 +59,7 @@ export class SearchService {
       map((value: [Students, Instructors, AccountRequests]): [Student[], Instructor[], AccountRequest[]] =>
         [value[0].students, value[1].instructors, value[2].accountRequests],
       ),
-      flatMap((value: [Student[], Instructor[], AccountRequest[]]) => {
+      mergeMap((value: [Student[], Instructor[], AccountRequest[]]) => {
         const [students, instructors, accountRequests]: [Student[], Instructor[], AccountRequest[]] = value;
         return forkJoin([
           of(students),
@@ -323,7 +323,7 @@ export class SearchService {
       this.getDistinctCourses(distinctCourseIds),
       this.getDistinctFeedbackSessions(distinctCourseIds),
     ]).pipe(
-      flatMap((value: [
+      mergeMap((value: [
         DistinctInstructorsMap,
         DistinctCoursesMap,
         DistinctFeedbackSessionsMap],
