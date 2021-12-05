@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { FeedbackConstantSumResponseDetails } from '../../../../types/api-output';
 import { FeedbackQuestionType } from '../../../../types/api-request';
@@ -10,7 +10,7 @@ describe('ConstsumRecipientsQuestionStatisticsComponent', () => {
   let component: ConstsumRecipientsQuestionStatisticsComponent;
   let fixture: ComponentFixture<ConstsumRecipientsQuestionStatisticsComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ConstsumRecipientsQuestionStatisticsComponent],
       imports: [SortableTableModule],

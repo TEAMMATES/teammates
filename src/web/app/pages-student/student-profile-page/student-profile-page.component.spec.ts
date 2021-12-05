@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -15,7 +15,7 @@ describe('StudentProfilePageComponent', () => {
   let component: StudentProfilePageComponent;
   let fixture: ComponentFixture<StudentProfilePageComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         StudentProfilePageComponent,

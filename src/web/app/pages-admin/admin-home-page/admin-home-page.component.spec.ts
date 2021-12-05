@@ -1,5 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { of, throwError } from 'rxjs';
 import { AccountService } from '../../../services/account.service';
@@ -14,7 +14,7 @@ describe('AdminHomePageComponent', () => {
   let fixture: ComponentFixture<AdminHomePageComponent>;
   let service: AccountService;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         AdminHomePageComponent,

@@ -1,5 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -247,7 +247,7 @@ describe('InstructorSessionEditPageComponent', () => {
   let simpleModalService: SimpleModalService;
   let ngbModal: NgbModal;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         NgbModule,
@@ -607,7 +607,7 @@ describe('InstructorSessionEditPageComponent', () => {
       .toEqual(duplicateFeedbackQuestion);
   });
 
-  it('should delete existing question', async() => {
+  it('should delete existing question', async () => {
     const promise: Promise<void> = Promise.resolve();
     spyOn(simpleModalService, 'openConfirmationModal').and.returnValue({ result: promise });
     component.questionEditFormModels = [testQuestionEditFormModel1];
@@ -623,7 +623,7 @@ describe('InstructorSessionEditPageComponent', () => {
     expect(component.questionEditFormModels.length).toEqual(0);
   });
 
-  it('should display template questions', async() => {
+  it('should display template questions', async () => {
     const promise: any = Promise.resolve([testFeedbackQuestion1]);
     spyOn(ngbModal, 'open').and.returnValue({ result: promise });
     const feedbackQuestionSpy: Spy = spyOn(feedbackQuestionsService, 'createFeedbackQuestion')

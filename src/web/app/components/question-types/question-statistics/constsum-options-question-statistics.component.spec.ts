@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { SortableTableModule } from '../../sortable-table/sortable-table.module';
 import { ConstsumOptionsQuestionStatisticsComponent } from './constsum-options-question-statistics.component';
@@ -8,7 +8,7 @@ describe('ConstsumOptionsQuestionStatisticsComponent', () => {
   let component: ConstsumOptionsQuestionStatisticsComponent;
   let fixture: ComponentFixture<ConstsumOptionsQuestionStatisticsComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ConstsumOptionsQuestionStatisticsComponent],
       imports: [SortableTableModule],

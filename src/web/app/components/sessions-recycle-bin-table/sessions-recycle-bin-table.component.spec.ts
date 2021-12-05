@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { SessionsRecycleBinTableComponent } from './sessions-recycle-bin-table.component';
@@ -8,7 +8,7 @@ describe('SessionsRecycleBinTableComponent', () => {
   let component: SessionsRecycleBinTableComponent;
   let fixture: ComponentFixture<SessionsRecycleBinTableComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [SessionsRecycleBinTableModule, HttpClientTestingModule],
     })

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -8,7 +8,7 @@ describe('SavingCompleteModalComponent', () => {
   let component: SavingCompleteModalComponent;
   let fixture: ComponentFixture<SavingCompleteModalComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [SavingCompleteModalComponent],
       imports: [HttpClientTestingModule],

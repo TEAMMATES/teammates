@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { FormsModule } from '@angular/forms';
 import {
@@ -9,7 +9,7 @@ describe('ConstsumRecipientsQuestionEditDetailsFormComponent', () => {
   let component: ConstsumRecipientsQuestionEditDetailsFormComponent;
   let fixture: ComponentFixture<ConstsumRecipientsQuestionEditDetailsFormComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ConstsumRecipientsQuestionEditDetailsFormComponent],
       imports: [

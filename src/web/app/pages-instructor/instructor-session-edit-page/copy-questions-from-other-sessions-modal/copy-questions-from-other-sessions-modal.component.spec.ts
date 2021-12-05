@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -10,7 +10,7 @@ describe('CopyQuestionsFromOtherSessionsModalComponent', () => {
   let component: CopyQuestionsFromOtherSessionsModalComponent;
   let fixture: ComponentFixture<CopyQuestionsFromOtherSessionsModalComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [CopyQuestionsFromOtherSessionsModalComponent],
       imports: [

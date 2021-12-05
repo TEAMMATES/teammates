@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -11,7 +11,7 @@ describe('AddingQuestionPanelComponent', () => {
   let component: AddingQuestionPanelComponent;
   let fixture: ComponentFixture<AddingQuestionPanelComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         AddingQuestionPanelComponent,

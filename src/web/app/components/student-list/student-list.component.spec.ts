@@ -1,5 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { JoinState } from '../../../types/api-output';
@@ -12,7 +12,7 @@ describe('StudentListComponent', () => {
   let component: StudentListComponent;
   let fixture: ComponentFixture<StudentListComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [StudentListComponent, JoinStatePipe],
       imports: [

@@ -1,5 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { of } from 'rxjs';
 
 import { CourseService } from '../../../services/course.service';
@@ -140,7 +140,7 @@ describe('InstructorAuditLogsPageComponent', () => {
     ],
   };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [InstructorAuditLogsPageModule, HttpClientTestingModule],
     }).compileComponents();

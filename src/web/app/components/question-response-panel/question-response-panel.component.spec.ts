@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { SingleStatisticsModule } from '../../components/question-responses/single-statistics/single-statistics.module';
 import {
@@ -11,7 +11,7 @@ describe('QuestionResponsePanelComponent', () => {
   let component: QuestionResponsePanelComponent;
   let fixture: ComponentFixture<QuestionResponsePanelComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         QuestionResponsePanelComponent,

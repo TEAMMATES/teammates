@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { FormsModule } from '@angular/forms';
@@ -9,7 +9,7 @@ describe('RankOptionsQuestionEditDetailsFormComponent', () => {
   let component: RankOptionsQuestionEditDetailsFormComponent;
   let fixture: ComponentFixture<RankOptionsQuestionEditDetailsFormComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         RankOptionsQuestionEditDetailsFormComponent,

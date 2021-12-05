@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 // tslint:disable-next-line:max-line-length
 import { ResponseModerationButtonModule } from '../../../pages-instructor/instructor-session-result-page/response-moderation-button/response-moderation-button.module';
@@ -13,7 +13,7 @@ describe('GroupedResponsesComponent', () => {
   let component: GroupedResponsesComponent;
   let fixture: ComponentFixture<GroupedResponsesComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [GroupedResponsesComponent],
       imports: [

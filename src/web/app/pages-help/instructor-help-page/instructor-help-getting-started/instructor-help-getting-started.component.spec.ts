@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { Component, Input } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -14,7 +14,7 @@ describe('InstructorHelpGettingStartedComponent', () => {
   let component: InstructorHelpGettingStartedComponent;
   let fixture: ComponentFixture<InstructorHelpGettingStartedComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         InstructorHelpGettingStartedComponent,

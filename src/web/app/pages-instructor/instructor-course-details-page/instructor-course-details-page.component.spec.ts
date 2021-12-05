@@ -1,5 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Course, Instructor, InstructorPermissionRole, JoinState, Student } from '../../../types/api-output';
 import { StudentListRowModel } from '../../components/student-list/student-list.component';
@@ -29,7 +29,7 @@ describe('InstructorCourseDetailsPageComponent', () => {
   let component: InstructorCourseDetailsPageComponent;
   let fixture: ComponentFixture<InstructorCourseDetailsPageComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
