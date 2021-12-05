@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
-import { finalize } from 'rxjs/operators';
+import { concatMap, finalize, mergeAll } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import { LogService } from '../../../services/log.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -9,9 +9,11 @@ import { TimezoneService } from '../../../services/timezone.service';
 import { ApiConst } from '../../../types/api-const';
 import {
   Course,
+  Courses,
   FeedbackSessionLog, FeedbackSessionLogEntry,
   FeedbackSessionLogs, FeedbackSessionLogType,
   Student,
+  Students,
 } from '../../../types/api-output';
 import { SortBy } from '../../../types/sort-properties';
 import { DateFormat } from '../../components/datepicker/datepicker.component';
@@ -102,7 +104,7 @@ export class InstructorAuditLogsPageComponent implements OnInit {
     this.formModel.logsDateTo = { ...this.dateToday };
     this.formModel.logsTimeFrom = { hour: 23, minute: 59 };
     this.formModel.logsTimeTo = { hour: 23, minute: 59 };
-    this.loadCourses();
+    this.loadData();
   }
 
   /**
@@ -135,42 +137,32 @@ export class InstructorAuditLogsPageComponent implements OnInit {
   }
 
   /**
-   * Load all courses that the instructor has
+   * Load all courses and students that the instructor have
    */
-  private loadCourses(): void {
+  private loadData(): void {
+    const emptyStudent: Student = {
+      courseId: '', email: '', name: '', sectionName: '', teamName: '',
+    };
     this.courseService
         .getAllCoursesAsInstructor('active')
-        .pipe(finalize(() => this.isLoading = false))
-        .subscribe(({ courses }: { courses: Course[] }) => courses
-            .filter((course: Course) =>
-                course.privileges?.canModifyStudent
-                && course.privileges?.canModifySession
-                && course.privileges?.canModifySession)
-            .forEach((course: Course) => {
-              this.courses.push(course);
-            }),
+        .pipe(
+            concatMap((courses: Courses) => courses.courses
+                .filter((course: Course) =>
+                    course.privileges?.canModifyStudent
+                    && course.privileges?.canModifySession
+                    && course.privileges?.canModifySession)
+                .map((course: Course) => {
+                  this.courses.push(course);
+                  return this.studentService.getStudentsFromCourse({ courseId: course.courseId });
+                })),
+            mergeAll(),
+            finalize(() => this.isLoading = false))
+        .subscribe(((student: Students) => {
+          student.students.sort((a: Student, b: Student): number => a.name.localeCompare(b.name));
+          // Student with no name is selectable to search for all students since the field is optional
+          this.courseToStudents[student.students[0].courseId] = [emptyStudent, ...student.students];
+        }),
             (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
-  }
-
-  /**
-   * Load all students for the selected course
-   */
-  loadStudents(): void {
-    const courseId: string = this.formModel.courseId;
-    if (!this.courseToStudents[courseId]) {
-      this.isLoading = true;
-      this.studentService.getStudentsFromCourse({ courseId })
-          .pipe(finalize(() => { this.isLoading = false; }))
-          .subscribe(({ students }: { students: Student[] }) => {
-            const emptyStudent: Student = {
-              courseId: '', email: '', name: '', sectionName: '', teamName: '',
-            };
-            students.sort((a: Student, b: Student): number => a.name.localeCompare(b.name));
-
-            // Student with no name is selectable to search for all students since the field is optional
-            this.courseToStudents[courseId] = [emptyStudent, ...students];
-          });
-    }
   }
 
   private toFeedbackSessionLogModel(log: FeedbackSessionLog): FeedbackSessionLogModel {

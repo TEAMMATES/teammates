@@ -10,7 +10,7 @@
           <label for="course-id-dropdown" class="font-weight-bold">Course ID</label>
         </div>
         <div class="col-12">
-          <select id="course-id-dropdown" class="form-control col-12" [(ngModel)]="formModel.courseId" (change)="loadStudents()">
+          <select id="course-id-dropdown" class="form-control col-12" [(ngModel)]="formModel.courseId">
             <option value="" disabled selected hidden>Select Course ID</option>
             <option *ngFor="let course of courses">
               {{course.courseId}}
