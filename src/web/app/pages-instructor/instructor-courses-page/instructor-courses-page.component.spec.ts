@@ -107,7 +107,7 @@ describe('InstructorCoursesPageComponent', () => {
   ];
 
   const courseStatsSnap: Record<string, Record<string, number>> = {
-    CS3281 : {
+    CS3281: {
       sections: 1,
       teams: 1,
       students: 1,

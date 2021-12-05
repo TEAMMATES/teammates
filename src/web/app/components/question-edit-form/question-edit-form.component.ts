@@ -68,7 +68,7 @@ export class QuestionEditFormComponent {
         this.feedbackQuestionsService.getCommonFeedbackVisibilitySettings(
             this.visibilityStateMachine, model.questionType);
 
-    const visibilitySetting: {[TKey in VisibilityControl]: FeedbackVisibilityType[]} = {
+    const visibilitySetting: { [TKey in VisibilityControl]: FeedbackVisibilityType[] } = {
       SHOW_RESPONSE: model.showResponsesTo,
       SHOW_GIVER_NAME: model.showGiverNameTo,
       SHOW_RECIPIENT_NAME: model.showRecipientNameTo,

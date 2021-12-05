@@ -43,7 +43,7 @@ export class StudentListComponent {
   // enum
   SortBy: typeof SortBy = SortBy;
   SortOrder: typeof SortOrder = SortOrder;
-  JoinState: typeof JoinState =  JoinState;
+  JoinState: typeof JoinState = JoinState;
 
   constructor(private statusMessageService: StatusMessageService,
               private courseService: CourseService,
@@ -70,7 +70,7 @@ export class StudentListComponent {
    */
   openRemindModal(studentModel: StudentListRowModel): void {
     const modalContent: string = `Usually, there is no need to use this feature because TEAMMATES sends an automatic invite to students
-          at the opening time of each session. Send a join request to <strong>${ studentModel.student.email }</strong> anyway?`;
+          at the opening time of each session. Send a join request to <strong>${studentModel.student.email}</strong> anyway?`;
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
         'Send join request?', SimpleModalType.INFO, modalContent);
     modalRef.result.then(() => {
@@ -82,9 +82,9 @@ export class StudentListComponent {
    * Open the delete student confirmation modal.
    */
   openDeleteModal(studentModel: StudentListRowModel): void {
-    const modalContent: string = `Are you sure you want to remove <strong>${ studentModel.student.name }</strong> from the course <strong>${ this.courseId }?</strong>`;
+    const modalContent: string = `Are you sure you want to remove <strong>${studentModel.student.name}</strong> from the course <strong>${this.courseId}?</strong>`;
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        `Delete student <strong>${ studentModel.student.name }</strong>?`, SimpleModalType.DANGER, modalContent);
+        `Delete student <strong>${studentModel.student.name}</strong>?`, SimpleModalType.DANGER, modalContent);
     modalRef.result.then(() => {
       this.removeStudentFromCourse(studentModel.student.email);
     }, () => {});

@@ -46,7 +46,7 @@ export class QuestionSubmissionFormComponent implements OnInit {
     this.model = model;
     this.visibilityStateMachine =
         this.feedbackQuestionsService.getNewVisibilityStateMachine(model.giverType, model.recipientType);
-    const visibilitySetting: {[TKey in VisibilityControl]: FeedbackVisibilityType[]} = {
+    const visibilitySetting: { [TKey in VisibilityControl]: FeedbackVisibilityType[] } = {
       SHOW_RESPONSE: model.showResponsesTo,
       SHOW_GIVER_NAME: model.showGiverNameTo,
       SHOW_RECIPIENT_NAME: model.showRecipientNameTo,

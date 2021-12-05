@@ -103,7 +103,7 @@ export class SessionsTableComponent {
   moveSessionToRecycleBin(rowIndex: number): void {
     const modalContent: string = 'Session will be moved to the recycle bin. This action can be reverted by going to the "Sessions" tab and restoring the desired session(s).';
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        `Delete session <strong>${ this.sessionsTableRowModels[rowIndex].feedbackSession.feedbackSessionName }</strong>?`,
+        `Delete session <strong>${this.sessionsTableRowModels[rowIndex].feedbackSession.feedbackSessionName}</strong>?`,
         SimpleModalType.WARNING, modalContent);
     modalRef.result.then(() => {
       this.moveSessionToRecycleBinEvent.emit(rowIndex);
@@ -135,7 +135,7 @@ export class SessionsTableComponent {
     const model: SessionsTableRowModel = this.sessionsTableRowModels[rowIndex];
 
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        `Publish session <strong>${ model.feedbackSession.feedbackSessionName }</strong>?`,
+        `Publish session <strong>${model.feedbackSession.feedbackSessionName}</strong>?`,
         SimpleModalType.WARNING, 'An email will be sent to students to inform them that the responses are ready for viewing.');
 
     modalRef.result.then(() => {
@@ -152,7 +152,7 @@ export class SessionsTableComponent {
         and the session responses will no longer be viewable by students.`;
 
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        `Unpublish session <strong>${ model.feedbackSession.feedbackSessionName }</strong>?`,
+        `Unpublish session <strong>${model.feedbackSession.feedbackSessionName}</strong>?`,
         SimpleModalType.WARNING, modalContent);
 
     modalRef.result.then(() => {

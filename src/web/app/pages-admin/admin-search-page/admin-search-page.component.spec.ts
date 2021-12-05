@@ -602,7 +602,7 @@ describe('AdminSearchPageComponent', () => {
           feedbackSessionUrl: 'openSession?key=oldKey',
         },
       },
-      notOpenSessions:  {
+      notOpenSessions: {
         ...DEFAULT_FEEDBACK_SESSION_GROUP,
         sessionName: {
           ...DEFAULT_FEEDBACK_SESSION_GROUP.sessionName,
@@ -664,7 +664,7 @@ describe('AdminSearchPageComponent', () => {
           feedbackSessionUrl: 'openSession?key=oldKey',
         },
       },
-      notOpenSessions:  {
+      notOpenSessions: {
         ...DEFAULT_FEEDBACK_SESSION_GROUP,
         sessionName: {
           ...DEFAULT_FEEDBACK_SESSION_GROUP.sessionName,

@@ -73,7 +73,7 @@ export class CommentVisibilityStateMachine {
   /**
    * Clears existing visibility settings and applied the given visibility settings.
    */
-  applyVisibilitySettings(visibilitySettings: {[TKey in CommentVisibilityControl]: CommentVisibilityType[] }): void {
+  applyVisibilitySettings(visibilitySettings: { [TKey in CommentVisibilityControl]: CommentVisibilityType[] }): void {
     this.resetVisibility();
     for (const visibilityType of visibilitySettings.SHOW_COMMENT) {
       this.allowToSee(visibilityType, CommentVisibilityControl.SHOW_COMMENT);

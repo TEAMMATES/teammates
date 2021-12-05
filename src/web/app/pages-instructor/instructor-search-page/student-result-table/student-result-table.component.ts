@@ -46,7 +46,7 @@ export class StudentResultTableComponent {
    * Returns a function to determine the order of sort for students.
    */
   sortStudentBy(by: SortBy, order: SortOrder):
-      ((a: StudentListRowModel , b: StudentListRowModel) => number) {
+      ((a: StudentListRowModel, b: StudentListRowModel) => number) {
     const joinStatePipe: JoinStatePipe = new JoinStatePipe();
     if (by === SortBy.NONE) {
       // Default order: section name > team name > student name

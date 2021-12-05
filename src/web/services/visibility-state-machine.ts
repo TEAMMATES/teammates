@@ -127,7 +127,7 @@ export class VisibilityStateMachine {
   /**
    * Clears existing visibility settings and applied the given visibility settings.
    */
-  applyVisibilitySettings(visibilitySettings: {[TKey in VisibilityControl]: FeedbackVisibilityType[] }): void {
+  applyVisibilitySettings(visibilitySettings: { [TKey in VisibilityControl]: FeedbackVisibilityType[] }): void {
     this.resetVisibility();
     for (const visibilityType of visibilitySettings.SHOW_RESPONSE) {
       this.allowToSee(visibilityType, VisibilityControl.SHOW_RESPONSE);
@@ -244,7 +244,7 @@ export class VisibilityStateMachine {
    * Gets the visibility control for a certain {@code visibilityType}.
    */
   getVisibilityControlUnderVisibilityType(visibilityType: FeedbackVisibilityType)
-      : {[TKey in VisibilityControl]: boolean} {
+      : { [TKey in VisibilityControl]: boolean } {
     return {
       SHOW_RESPONSE: this.isVisible(visibilityType, VisibilityControl.SHOW_RESPONSE),
       SHOW_GIVER_NAME: this.isVisible(visibilityType, VisibilityControl.SHOW_GIVER_NAME),

@@ -13,12 +13,12 @@ import { SimpleModalType } from './simple-modal-type';
 export class SimpleModalComponent {
 
   // enum
-  SimpleModalType: typeof  SimpleModalType = SimpleModalType;
+  SimpleModalType: typeof SimpleModalType = SimpleModalType;
 
   @Input() header: string = '';
   @Input() content: string | TemplateRef<any> = '';
   @Input() type: SimpleModalType = SimpleModalType.NEUTRAL;
-  @Input() isInformationOnly: boolean =  false; // true will cause modal to only have 1 button
+  @Input() isInformationOnly: boolean = false; // true will cause modal to only have 1 button
   @Input() confirmMessage: string = 'Yes'; // custom text message for confirm button
   @Input() cancelMessage: string = 'No, cancel the operation'; // custom text message for cancel button
 

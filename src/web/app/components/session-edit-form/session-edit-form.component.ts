@@ -225,7 +225,7 @@ export class SessionEditFormComponent {
    * Handles delete current feedback session button click event.
    */
   deleteHandler(): void {
-    this.simpleModalService.openConfirmationModal(`Delete the session <strong>${ this.model.feedbackSessionName }</strong>?`,
+    this.simpleModalService.openConfirmationModal(`Delete the session <strong>${this.model.feedbackSessionName}</strong>?`,
         SimpleModalType.WARNING,
         'The session will be moved to the recycle bin. This action can be reverted by going to the "Sessions" tab and restoring the desired session(s).',
     ).result.then(() => {

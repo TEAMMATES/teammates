@@ -79,7 +79,7 @@ export class FeedbackContributionQuestionDetailsImpl extends AbstractFeedbackQue
       });
     }
     // sort by team then name
-    stats.sort(((a: {teamName: string, name: string}, b: {teamName: string, name: string}): number => {
+    stats.sort(((a: { teamName: string, name: string }, b: { teamName: string, name: string }): number => {
       return a.teamName.localeCompare(b.teamName) || a.name.localeCompare(b.name);
     }));
     // construct lines

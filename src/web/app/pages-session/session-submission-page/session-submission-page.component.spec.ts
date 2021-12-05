@@ -96,7 +96,7 @@ describe('SessionSubmissionPageComponent', () => {
     timeZone: 'Asia/Singapore',
     instructions: 'Instructions',
     submissionStartTimestamp: 1000000000000,
-    submissionEndTimestamp: Date.now() + 10 * 60 * 1000,  // 10 minutes before closing
+    submissionEndTimestamp: Date.now() + 10 * 60 * 1000, // 10 minutes before closing
     gracePeriod: 0,
     sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
     responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
@@ -377,7 +377,7 @@ describe('SessionSubmissionPageComponent', () => {
     questionDescription: 'question description',
     questionType: FeedbackQuestionType.MSQ,
     questionDetails: {
-      msqChoices: ['first', 'second' , 'third'],
+      msqChoices: ['first', 'second', 'third'],
       otherEnabled: false,
       hasAssignedWeights: true,
       msqWeights: [1, 2, 3],

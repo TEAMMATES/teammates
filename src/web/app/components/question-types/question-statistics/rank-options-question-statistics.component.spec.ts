@@ -49,7 +49,7 @@ describe('RankOptionsQuestionStatisticsComponent', () => {
 
   it('should calculate statistics correctly if there are equal ranks', () => {
     component.question.options = ['optionA', 'optionB', 'optionC', 'optionD'];
-    component.responses = ResponseTestData.responsesSameRank  as Response<FeedbackRankOptionsResponseDetails>[];
+    component.responses = ResponseTestData.responsesSameRank as Response<FeedbackRankOptionsResponseDetails>[];
 
     const expectedRankReceivedPerOption: Record<string, number[]> = {
       optionA: [1, 2, 4], optionB: [1, 2, 3],

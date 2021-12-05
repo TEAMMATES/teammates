@@ -632,7 +632,7 @@ export class FeedbackQuestionsService {
  */
 export interface CommonVisibilitySetting {
   name: string;
-  visibilitySettings: {[TKey in VisibilityControl]: FeedbackVisibilityType[]};
+  visibilitySettings: { [TKey in VisibilityControl]: FeedbackVisibilityType[] };
 }
 
 /**

@@ -148,7 +148,7 @@ export class StudentCourseDetailsPageComponent implements OnInit {
                     ...studentProfile,
                     email: student.email,
                     name: student.name,
-                    photoUrl : newPhotoUrl,
+                    photoUrl: newPhotoUrl,
                   };
 
                   this.teammateProfiles.push(newTeammateProfile);

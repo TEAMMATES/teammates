@@ -110,7 +110,7 @@ export class CommentRowComponent implements OnChanges {
         // follow the question's visibilities settings
         this.visibilityStateMachine.allowAllApplicableTypesToSee();
       } else {
-        const visibilitySetting: {[TKey in CommentVisibilityControl]: CommentVisibilityType[]} = {
+        const visibilitySetting: { [TKey in CommentVisibilityControl]: CommentVisibilityType[] } = {
           SHOW_COMMENT: this.model.originalComment.showCommentTo,
           SHOW_GIVER_NAME: this.model.originalComment.showCommentTo,
         };

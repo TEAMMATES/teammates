@@ -97,7 +97,7 @@ export class LogsHistogramComponent implements OnInit, OnChanges {
       .enter()
       .append('rect')
       .attr('class', 'bar')
-      .attr('x', (d: LogsHistogramDataModel) => this.xScale(d.sourceLocation.file  + d.sourceLocation.function))
+      .attr('x', (d: LogsHistogramDataModel) => this.xScale(d.sourceLocation.file + d.sourceLocation.function))
       .attr('y', (d: LogsHistogramDataModel) => this.yScale(d.numberOfTimes))
       .attr('height', (d: LogsHistogramDataModel) => this.height - this.yScale(d.numberOfTimes))
       .attr('width', this.xScale.bandwidth())

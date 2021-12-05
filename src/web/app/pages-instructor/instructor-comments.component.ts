@@ -29,7 +29,7 @@ export abstract class InstructorCommentsComponent {
   /**
    * Deletes an instructor comment.
    */
-  deleteComment(data: { responseId: string, index: number}): void {
+  deleteComment(data: { responseId: string, index: number }): void {
     const commentTableModel: CommentTableModel = this.instructorCommentTableModel[data.responseId];
     const commentToDelete: FeedbackResponseComment =
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -49,7 +49,7 @@ export abstract class InstructorCommentsComponent {
   /**
    * Updates an instructor comment.
    */
-  updateComment(data: { responseId: string, index: number}, timezone: string): void {
+  updateComment(data: { responseId: string, index: number }, timezone: string): void {
     const commentTableModel: CommentTableModel = this.instructorCommentTableModel[data.responseId];
     const commentRowToUpdate: CommentRowModel = commentTableModel.commentRows[data.index];
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

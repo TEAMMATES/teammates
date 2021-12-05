@@ -302,7 +302,7 @@ export class SearchService {
     accountRequestResult.createdAt = this.formatTimestampAsString(createdAt, timezone);
     accountRequestResult.registeredAt = registeredAt
         ? this.formatTimestampAsString(registeredAt, timezone)
-        : 'Not Registered Yet' ;
+        : 'Not Registered Yet';
 
     const registrationLink: string = this.linkService.generateAccountRegistrationLink(registrationKey);
     accountRequestResult = { ...accountRequestResult, name, email, institute, registrationLink };

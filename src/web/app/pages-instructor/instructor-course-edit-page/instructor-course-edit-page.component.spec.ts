@@ -212,7 +212,7 @@ describe('InstructorCourseEditPageComponent', () => {
     fixture.detectChanges();
 
     const button: any = fixture.debugElement.nativeElement
-        .querySelector(`#btn-cancel-instructor-${ component.instructorDetailPanels.length + 1 }`);
+        .querySelector(`#btn-cancel-instructor-${component.instructorDetailPanels.length + 1}`);
     button.click();
 
     expect(component.isAddingNewInstructor).toBeFalsy();
@@ -248,7 +248,7 @@ describe('InstructorCourseEditPageComponent', () => {
     fixture.detectChanges();
 
     const button: any = fixture.debugElement.nativeElement
-        .querySelector(`#btn-save-instructor-${ component.instructorDetailPanels.length + 1 }`);
+        .querySelector(`#btn-save-instructor-${component.instructorDetailPanels.length + 1}`);
     button.click();
 
     expect(component.isAddingNewInstructor).toBeFalsy();
@@ -311,7 +311,7 @@ describe('InstructorCourseEditPageComponent', () => {
     fixture.detectChanges();
 
     let button: any = fixture.debugElement.nativeElement
-        .querySelector(`#btn-resend-invite-${ component.instructorDetailPanels.length }`);
+        .querySelector(`#btn-resend-invite-${component.instructorDetailPanels.length}`);
     button.click();
 
     // using document instead of fixture as modal gets added into the dom outside the viewRef

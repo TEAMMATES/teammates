@@ -15,7 +15,7 @@ export class VisibilityCapabilityPipe implements PipeTransform {
    * @param controls a map where the key is the visibility control
    * and the value indicates whether the visibility control is granted or not.
    */
-  transform(controls: {[TKey in VisibilityControl]: boolean}): string {
+  transform(controls: { [TKey in VisibilityControl]: boolean }): string {
     let message: string = 'can see your response';
 
     if (controls.SHOW_RECIPIENT_NAME) {

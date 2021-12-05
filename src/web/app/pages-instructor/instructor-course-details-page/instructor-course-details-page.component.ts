@@ -189,7 +189,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
 
   openRemindStudentModal(): void {
     const modalContent: string = `Usually, there is no need to use this feature because TEAMMATES sends an automatic invite to students at the opening
-      time of each session. Send a join request to all yet-to-join students in ${ this.courseDetails.course.courseId } anyway?`;
+      time of each session. Send a join request to all yet-to-join students in ${this.courseDetails.course.courseId} anyway?`;
     this.simpleModalService.openConfirmationModal(
         'Sending join requests?', SimpleModalType.INFO, modalContent).result.then(() => {
           this.remindAllStudentsFromCourse(this.courseDetails.course.courseId);
@@ -197,7 +197,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
   }
 
   openDeleteAllStudentsModal(): void {
-    const modalContent: string = `Are you sure you want to remove all students from the course ${ this.courseDetails.course.courseId }?`;
+    const modalContent: string = `Are you sure you want to remove all students from the course ${this.courseDetails.course.courseId}?`;
     this.simpleModalService.openConfirmationModal(
         'Delete all students?', SimpleModalType.DANGER, modalContent).result.then(() => {
           this.deleteAllStudentsFromCourse(this.courseDetails.course.courseId);
@@ -322,7 +322,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
    * Returns a function to determine the order of sort for students.
    */
   sortStudentBy(by: SortBy, order: SortOrder):
-    ((a: StudentListRowModel , b: StudentListRowModel) => number) {
+    ((a: StudentListRowModel, b: StudentListRowModel) => number) {
     const joinStatePipe: JoinStatePipe = new JoinStatePipe();
     if (by === SortBy.NONE) {
       // Default order: section name > team name > student name

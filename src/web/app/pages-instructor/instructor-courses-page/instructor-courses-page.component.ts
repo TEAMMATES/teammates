@@ -457,7 +457,7 @@ export class InstructorCoursesPageComponent implements OnInit {
         All instructors of these courses will not be able to access them hereafter as well.`;
 
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        `Delete course <strong>${ courseId }</strong> permanently?`, SimpleModalType.DANGER, modalContent);
+        `Delete course <strong>${courseId}</strong> permanently?`, SimpleModalType.DANGER, modalContent);
     modalRef.componentInstance.courseId = courseId;
     return modalRef.result.then(() => {
       this.courseService.deleteCourse(courseId).subscribe(() => {
@@ -603,7 +603,7 @@ export class InstructorCoursesPageComponent implements OnInit {
    * Returns a function to determine the order of sort
    */
   sortBy(by: SortBy, order: SortOrder):
-      ((a: CourseModel , b: CourseModel) => number) {
+      ((a: CourseModel, b: CourseModel) => number) {
     return (a: CourseModel, b: CourseModel): number => {
       let strA: string;
       let strB: string;

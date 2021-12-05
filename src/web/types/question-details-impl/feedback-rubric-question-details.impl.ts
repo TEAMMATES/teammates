@@ -60,9 +60,9 @@ export class FeedbackRubricQuestionDetailsImpl extends AbstractFeedbackQuestionD
       const currRow: string[] = [
         `${StringHelper.integerToLowerCaseAlphabeticalIndex(questionIndex + 1)}) ${subQuestion}`,
         ...statsCalculation.choices.map((_: string, choiceIndex: number) => {
-          return `${ statsCalculation.percentages[questionIndex][choiceIndex] }% \
-(${ statsCalculation.answers[questionIndex][choiceIndex] }) \
-${ statsCalculation.hasWeights ? `[${ statsCalculation.weights[questionIndex][choiceIndex] }]` : '' }`;
+          return `${statsCalculation.percentages[questionIndex][choiceIndex]}% \
+(${statsCalculation.answers[questionIndex][choiceIndex]}) \
+${statsCalculation.hasWeights ? `[${statsCalculation.weights[questionIndex][choiceIndex]}]` : ''}`;
         }),
       ];
       if (statsCalculation.hasWeights) {
@@ -99,9 +99,9 @@ ${ statsCalculation.hasWeights ? `[${ statsCalculation.weights[questionIndex][ch
               perRecipientStats.recipientEmail ? perRecipientStats.recipientEmail : '',
               `${StringHelper.integerToLowerCaseAlphabeticalIndex(questionIndex + 1)}) ${subQuestion}`,
               ...statsCalculation.choices.map((_: string, choiceIndex: number) => {
-                return `${ perRecipientStats.percentages[questionIndex][choiceIndex] }% \
-(${ perRecipientStats.answers[questionIndex][choiceIndex] }) \
-[${ statsCalculation.weights[questionIndex][choiceIndex] }]`;
+                return `${perRecipientStats.percentages[questionIndex][choiceIndex]}% \
+(${perRecipientStats.answers[questionIndex][choiceIndex]}) \
+[${statsCalculation.weights[questionIndex][choiceIndex]}]`;
               }),
               String(perRecipientStats.subQuestionTotalChosenWeight[questionIndex]),
               String(perRecipientStats.subQuestionWeightAverage[questionIndex]),

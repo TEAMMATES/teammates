@@ -53,7 +53,7 @@ describe('NumScaleQuestionStatisticsComponent', () => {
   });
 
   it('should calculate statistics correctly if responses are zero', () => {
-    component.responses = ResponseTestData.responsesAtZero  as Response<FeedbackNumericalScaleResponseDetails>[];
+    component.responses = ResponseTestData.responsesAtZero as Response<FeedbackNumericalScaleResponseDetails>[];
     component.question.maxScale = 5;
     component.question.minScale = 0;
 
