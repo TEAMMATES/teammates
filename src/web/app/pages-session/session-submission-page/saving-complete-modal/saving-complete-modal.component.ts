@@ -3,8 +3,12 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { saveAs } from 'file-saver';
 import { TimezoneService } from '../../../../services/timezone.service';
 import { FeedbackResponse } from '../../../../types/api-output';
-import { FeedbackResponseDetailsFactory } from '../../../../types/response-details-impl/feedback-response-details-factory';
-import { QuestionSubmissionFormModel } from '../../../components/question-submission-form/question-submission-form-model';
+import {
+  FeedbackResponseDetailsFactory,
+} from '../../../../types/response-details-impl/feedback-response-details-factory';
+import {
+  QuestionSubmissionFormModel,
+} from '../../../components/question-submission-form/question-submission-form-model';
 
 /**
  * Modal to inform the completion of the saving process

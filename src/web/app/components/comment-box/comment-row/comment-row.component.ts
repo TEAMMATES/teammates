@@ -3,7 +3,12 @@ import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { CommentVisibilityStateMachine } from '../../../../services/comment-visibility-state-machine';
 import { FeedbackResponseCommentService } from '../../../../services/feedback-response-comment.service';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
-import { CommentVisibilityType, FeedbackResponseComment, FeedbackVisibilityType, ResponseOutput } from '../../../../types/api-output';
+import {
+  CommentVisibilityType,
+  FeedbackResponseComment,
+  FeedbackVisibilityType,
+  ResponseOutput,
+} from '../../../../types/api-output';
 import { CommentVisibilityControl } from '../../../../types/comment-visibility-control';
 import { SimpleModalType } from '../../simple-modal/simple-modal-type';
 import { CommentEditFormModel } from '../comment-edit-form/comment-edit-form.component';

@@ -4,7 +4,9 @@ import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { mockTinyMceUuid } from '../../../test-helpers/mock-tinymce-uuid';
-import { EXAMPLE_ESSAY_QUESTION_MODEL } from '../../pages-help/instructor-help-page/instructor-help-questions-section/instructor-help-questions-data';
+import {
+  EXAMPLE_ESSAY_QUESTION_MODEL,
+} from '../../pages-help/instructor-help-page/instructor-help-questions-section/instructor-help-questions-data';
 import { AjaxLoadingModule } from '../ajax-loading/ajax-loading.module';
 import { FeedbackPathPanelModule } from '../feedback-path-panel/feedback-path-panel.module';
 import { PanelChevronModule } from '../panel-chevron/panel-chevron.module';

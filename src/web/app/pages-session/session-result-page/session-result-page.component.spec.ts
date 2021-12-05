@@ -31,7 +31,9 @@ import { LoadingRetryModule } from '../../components/loading-retry/loading-retry
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { QuestionResponsePanelModule } from '../../components/question-response-panel/question-response-panel.module';
 import { SingleStatisticsModule } from '../../components/question-responses/single-statistics/single-statistics.module';
-import { StudentViewResponsesModule } from '../../components/question-responses/student-view-responses/student-view-responses.module';
+import {
+  StudentViewResponsesModule,
+} from '../../components/question-responses/student-view-responses/student-view-responses.module';
 import { QuestionTextWithInfoModule } from '../../components/question-text-with-info/question-text-with-info.module';
 import { SessionResultPageComponent } from './session-result-page.component';
 
@@ -140,12 +142,14 @@ describe('SessionResultPageComponent', () => {
   const testQuestionAnonymousResponse1: FeedbackQuestion = {
     feedbackQuestionId: 'feedbackQuestionAnonymousResponse1',
     questionNumber: 1,
-    questionBrief: 'What comments do you have regarding each of your team members? (response is confidential and will only be shown to the instructor).',
+    questionBrief: 'What comments do you have regarding each of your team members? '
+        + '(response is confidential and will only be shown to the instructor).',
     questionDescription: '',
     questionDetails: {
       shouldAllowRichText: true,
       questionType: FeedbackQuestionType.TEXT,
-      questionText: 'What comments do you have regarding each of your team members? (response is confidential and will only be shown to the instructor).',
+      questionText: 'What comments do you have regarding each of your team members? '
+          + '(response is confidential and will only be shown to the instructor).',
     } as FeedbackTextQuestionDetails,
     questionType: FeedbackQuestionType.TEXT,
     giverType: FeedbackParticipantType.STUDENTS,
@@ -160,12 +164,14 @@ describe('SessionResultPageComponent', () => {
   const testQuestionAnonymousResponse2: FeedbackQuestion = {
     feedbackQuestionId: 'feedbackQuestionAnonymousResponse2',
     questionNumber: 2,
-    questionBrief: 'How are the team dynamics thus far? (response is confidential and will only be shown to the instructor).',
+    questionBrief: 'How are the team dynamics thus far? '
+        + '(response is confidential and will only be shown to the instructor).',
     questionDescription: '',
     questionDetails: {
       shouldAllowRichText: true,
       questionType: FeedbackQuestionType.TEXT,
-      questionText: 'How are the team dynamics thus far? (response is confidential and will only be shown to the instructor).',
+      questionText: 'How are the team dynamics thus far? '
+          + '(response is confidential and will only be shown to the instructor).',
     } as FeedbackTextQuestionDetails,
     questionType: FeedbackQuestionType.TEXT,
     giverType: FeedbackParticipantType.STUDENTS,

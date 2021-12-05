@@ -1,5 +1,7 @@
-// eslint-disable-next-line max-len
-import { PerRecipientStats, RubricQuestionStatisticsCalculation } from '../../app/components/question-types/question-statistics/question-statistics-calculation/rubric-question-statistics-calculation';
+import {
+  PerRecipientStats,
+  RubricQuestionStatisticsCalculation,
+} from '../../app/components/question-types/question-statistics/question-statistics-calculation/rubric-question-statistics-calculation';
 import { StringHelper } from '../../services/string-helper';
 import {
   FeedbackQuestionType,

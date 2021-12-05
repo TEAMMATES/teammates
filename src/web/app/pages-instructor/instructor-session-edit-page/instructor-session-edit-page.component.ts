@@ -59,8 +59,12 @@ import { SimpleModalType } from '../../components/simple-modal/simple-modal-type
 import { TimeFormat } from '../../components/timepicker/timepicker.component';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorSessionBasePageComponent } from '../instructor-session-base-page.component';
-import { QuestionToCopyCandidate } from './copy-questions-from-other-sessions-modal/copy-questions-from-other-sessions-modal-model';
-import { CopyQuestionsFromOtherSessionsModalComponent } from './copy-questions-from-other-sessions-modal/copy-questions-from-other-sessions-modal.component';
+import {
+  QuestionToCopyCandidate,
+} from './copy-questions-from-other-sessions-modal/copy-questions-from-other-sessions-modal-model';
+import {
+  CopyQuestionsFromOtherSessionsModalComponent,
+} from './copy-questions-from-other-sessions-modal/copy-questions-from-other-sessions-modal.component';
 import { TemplateQuestionModalComponent } from './template-question-modal/template-question-modal.component';
 
 /**
@@ -684,9 +688,10 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Deletes the existing question.
    */
   deleteExistingQuestionHandler(index: number): void {
-    const modalRef: NgbModalRef = this.simpleModalService
-        .openConfirmationModal('Delete the question?', SimpleModalType.DANGER,
-            'Warning: Deleted question cannot be recovered. <b>All existing responses for this question to be deleted.</b>');
+    const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
+        'Delete the question?', SimpleModalType.DANGER,
+        'Warning: Deleted question cannot be recovered. '
+        + '<b>All existing responses for this question to be deleted.</b>');
     modalRef.result.then(() => {
       const questionEditFormModel: QuestionEditFormModel = this.questionEditFormModels[index];
       questionEditFormModel.isDeleting = true;

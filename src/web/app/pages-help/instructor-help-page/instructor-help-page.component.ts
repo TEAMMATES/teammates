@@ -3,11 +3,19 @@ import { AfterViewInit, Component, ElementRef, Inject, ViewChild } from '@angula
 import { ActivatedRoute, Params } from '@angular/router';
 import { PageScrollService } from 'ngx-page-scroll-core';
 import { environment } from '../../../environments/environment';
-import { InstructorHelpCoursesSectionComponent } from './instructor-help-courses-section/instructor-help-courses-section.component';
-import { InstructorHelpQuestionsSectionComponent } from './instructor-help-questions-section/instructor-help-questions-section.component';
-import { InstructorHelpSessionsSectionComponent } from './instructor-help-sessions-section/instructor-help-sessions-section.component';
+import {
+  InstructorHelpCoursesSectionComponent,
+} from './instructor-help-courses-section/instructor-help-courses-section.component';
+import {
+  InstructorHelpQuestionsSectionComponent,
+} from './instructor-help-questions-section/instructor-help-questions-section.component';
+import {
+  InstructorHelpSessionsSectionComponent,
+} from './instructor-help-sessions-section/instructor-help-sessions-section.component';
 import { SessionsSectionQuestions } from './instructor-help-sessions-section/sessions-section-questions';
-import { InstructorHelpStudentsSectionComponent } from './instructor-help-students-section/instructor-help-students-section.component';
+import {
+  InstructorHelpStudentsSectionComponent,
+} from './instructor-help-students-section/instructor-help-students-section.component';
 import { StudentsSectionQuestions } from './instructor-help-students-section/students-section-questions';
 import { Sections } from './sections';
 

@@ -153,8 +153,9 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
     }
 
     if (this.isTeamnameFieldChanged) {
-      const modalContent: string = `Editing these fields will result in some existing responses from this student to be deleted.
-            You may download the data before you make the changes.`;
+      const modalContent: string =
+          `Editing these fields will result in some existing responses from this student to be deleted.
+          You may download the data before you make the changes.`;
       const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
           'Delete existing responses?', SimpleModalType.WARNING, modalContent);
       modalRef.result.then(() => {

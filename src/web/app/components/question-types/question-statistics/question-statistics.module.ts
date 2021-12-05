@@ -7,8 +7,12 @@ import { SortableTableModule } from '../../sortable-table/sortable-table.module'
 import { TeammatesRouterModule } from '../../teammates-router/teammates-router.module';
 import { ConstsumOptionsQuestionStatisticsComponent } from './constsum-options-question-statistics.component';
 import { ConstsumRecipientsQuestionStatisticsComponent } from './constsum-recipients-question-statistics.component';
-import { ContributionQuestionStatisticsComponent } from './contribution-question-statistics/contribution-question-statistics.component';
-import { ContributionQuestionStatisticsModule } from './contribution-question-statistics/contribution-question-statistics.module';
+import {
+  ContributionQuestionStatisticsComponent,
+} from './contribution-question-statistics/contribution-question-statistics.component';
+import {
+  ContributionQuestionStatisticsModule,
+} from './contribution-question-statistics/contribution-question-statistics.module';
 import { McqQuestionStatisticsComponent } from './mcq-question-statistics.component';
 import { MsqQuestionStatisticsComponent } from './msq-question-statistics.component';
 import { NumScaleQuestionStatisticsComponent } from './num-scale-question-statistics.component';

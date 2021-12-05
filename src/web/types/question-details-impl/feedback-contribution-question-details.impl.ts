@@ -1,5 +1,6 @@
-// eslint-disable-next-line max-len
-import { ContributionQuestionStatisticsCalculation } from '../../app/components/question-types/question-statistics/question-statistics-calculation/contribution-question-statistics-calculation';
+import {
+  ContributionQuestionStatisticsCalculation,
+} from '../../app/components/question-types/question-statistics/question-statistics-calculation/contribution-question-statistics-calculation';
 import {
   FeedbackContributionQuestionDetails,
   FeedbackQuestionType, QuestionOutput,

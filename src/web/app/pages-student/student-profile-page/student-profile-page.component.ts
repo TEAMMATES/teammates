@@ -12,7 +12,9 @@ import { StudentProfileService } from '../../../services/student-profile.service
 import { AuthInfo, Gender, MessageOutput, Nationalities, StudentProfile } from '../../../types/api-output';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { UploadEditProfilePictureModalComponent } from './upload-edit-profile-picture-modal/upload-edit-profile-picture-modal.component';
+import {
+  UploadEditProfilePictureModalComponent,
+} from './upload-edit-profile-picture-modal/upload-edit-profile-picture-modal.component';
 
 /**
  * Student profile page.
@@ -116,7 +118,8 @@ export class StudentProfilePageComponent implements OnInit {
    */
   onSubmit(): void {
     const modalRef: NgbModalRef = this.simpleModalService
-        .openConfirmationModal('Save Changes?', SimpleModalType.INFO, 'Are you sure you want to make changes to your profile?');
+        .openConfirmationModal('Save Changes?', SimpleModalType.INFO,
+            'Are you sure you want to make changes to your profile?');
     modalRef.result.then(() => this.submitEditForm(), () => {});
   }
 

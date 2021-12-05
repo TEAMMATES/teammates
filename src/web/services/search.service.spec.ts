@@ -16,7 +16,12 @@ import {
   Student,
 } from '../types/api-output';
 import { HttpRequestService } from './http-request.service';
-import { AccountRequestSearchResult, InstructorAccountSearchResult, SearchService, StudentAccountSearchResult } from './search.service';
+import {
+  AccountRequestSearchResult,
+  InstructorAccountSearchResult,
+  SearchService,
+  StudentAccountSearchResult,
+} from './search.service';
 import { TimezoneService } from './timezone.service';
 
 describe('SearchService', () => {

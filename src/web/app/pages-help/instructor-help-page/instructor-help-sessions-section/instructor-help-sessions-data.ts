@@ -28,7 +28,9 @@ import {
 import {
   RecycleBinFeedbackSessionRowModel,
 } from '../../../components/sessions-recycle-bin-table/sessions-recycle-bin-table.component';
-import { SectionTabModel } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-page.component';
+import {
+  SectionTabModel,
+} from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-page.component';
 
 /**
  * Structure of example session edit form model

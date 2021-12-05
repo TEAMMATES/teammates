@@ -1,5 +1,6 @@
-// eslint-disable-next-line max-len
-import { RankRecipientsQuestionStatisticsCalculation } from '../../app/components/question-types/question-statistics/question-statistics-calculation/rank-recipients-question-statistics-calculation';
+import {
+  RankRecipientsQuestionStatisticsCalculation,
+} from '../../app/components/question-types/question-statistics/question-statistics-calculation/rank-recipients-question-statistics-calculation';
 import {
   FeedbackQuestionType,
   FeedbackRankRecipientsQuestionDetails, QuestionOutput,

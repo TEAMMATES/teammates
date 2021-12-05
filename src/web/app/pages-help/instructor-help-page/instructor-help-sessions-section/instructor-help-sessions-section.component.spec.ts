@@ -12,9 +12,15 @@ import {
 import { FeedbackPathPanelModule } from '../../../components/feedback-path-panel/feedback-path-panel.module';
 import { PanelChevronModule } from '../../../components/panel-chevron/panel-chevron.module';
 import { PreviewSessionPanelModule } from '../../../components/preview-session-panel/preview-session-panel.module';
-import { QuestionResponsePanelModule } from '../../../components/question-response-panel/question-response-panel.module';
-import { SingleStatisticsModule } from '../../../components/question-responses/single-statistics/single-statistics.module';
-import { StudentViewResponsesModule } from '../../../components/question-responses/student-view-responses/student-view-responses.module';
+import {
+  QuestionResponsePanelModule,
+} from '../../../components/question-response-panel/question-response-panel.module';
+import {
+  SingleStatisticsModule,
+} from '../../../components/question-responses/single-statistics/single-statistics.module';
+import {
+  StudentViewResponsesModule,
+} from '../../../components/question-responses/student-view-responses/student-view-responses.module';
 import { QuestionTextWithInfoModule } from '../../../components/question-text-with-info/question-text-with-info.module';
 import { SessionEditFormModule } from '../../../components/session-edit-form/session-edit-form.module';
 import {

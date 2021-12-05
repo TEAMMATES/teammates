@@ -121,7 +121,8 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
    * Archives the entire course from the instructor
    */
   archiveCourse(courseId: string): void {
-    const modalContent: string = 'This action can be reverted by going to the "Courses" tab and unarchiving the desired course(s).';
+    const modalContent: string =
+        'This action can be reverted by going to the "Courses" tab and unarchiving the desired course(s).';
 
     const modalRef: NgbModalRef =
         this.simpleModalService.openConfirmationModal(
@@ -145,7 +146,8 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
    * Deletes the entire course from the instructor
    */
   deleteCourse(courseId: string): void {
-    const modalContent: string = 'This action can be reverted by going to the "Courses" tab and restoring the desired course(s).';
+    const modalContent: string =
+        'This action can be reverted by going to the "Courses" tab and restoring the desired course(s).';
 
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
         `Move course <strong>${courseId}</strong> to Recycle Bin`, SimpleModalType.WARNING, modalContent);

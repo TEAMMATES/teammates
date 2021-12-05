@@ -101,7 +101,8 @@ export class SessionsTableComponent {
    * Moves the feedback session to the recycle bin.
    */
   moveSessionToRecycleBin(rowIndex: number): void {
-    const modalContent: string = 'Session will be moved to the recycle bin. This action can be reverted by going to the "Sessions" tab and restoring the desired session(s).';
+    const modalContent: string = 'Session will be moved to the recycle bin. '
+        + 'This action can be reverted by going to the "Sessions" tab and restoring the desired session(s).';
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
         `Delete session <strong>${this.sessionsTableRowModels[rowIndex].feedbackSession.feedbackSessionName}</strong>?`,
         SimpleModalType.WARNING, modalContent);
@@ -136,7 +137,8 @@ export class SessionsTableComponent {
 
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
         `Publish session <strong>${model.feedbackSession.feedbackSessionName}</strong>?`,
-        SimpleModalType.WARNING, 'An email will be sent to students to inform them that the responses are ready for viewing.');
+        SimpleModalType.WARNING,
+        'An email will be sent to students to inform them that the responses are ready for viewing.');
 
     modalRef.result.then(() => {
       this.publishSessionEvent.emit(rowIndex);

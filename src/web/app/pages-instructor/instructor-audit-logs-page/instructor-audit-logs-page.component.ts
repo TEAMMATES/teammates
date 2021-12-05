@@ -15,7 +15,9 @@ import {
 } from '../../../types/api-output';
 import { SortBy } from '../../../types/sort-properties';
 import { DateFormat } from '../../components/datepicker/datepicker.component';
-import { SessionEditFormDatePickerFormatter } from '../../components/session-edit-form/session-edit-form-datepicker-formatter';
+import {
+  SessionEditFormDatePickerFormatter,
+} from '../../components/session-edit-form/session-edit-form-datepicker-formatter';
 import { ColumnData, SortableTableCellData } from '../../components/sortable-table/sortable-table.component';
 import { TimeFormat } from '../../components/timepicker/timepicker.component';
 import { ErrorMessageOutput } from '../../error-message-output';

@@ -64,7 +64,8 @@ export class InstructorSearchPageComponent {
       if (hasStudents) {
         this.studentsListRowTables = searchStudentsTable;
         if (searchStudentsTable.length >= ApiConst.SEARCH_QUERY_SIZE_LIMIT) {
-          this.statusMessageService.showWarningToast(`${ApiConst.SEARCH_QUERY_SIZE_LIMIT} results have been shown on this page
+          this.statusMessageService.showWarningToast(
+              `${ApiConst.SEARCH_QUERY_SIZE_LIMIT} results have been shown on this page
               but there may be more results not shown. Consider searching with more specific terms.`);
         }
       } else {

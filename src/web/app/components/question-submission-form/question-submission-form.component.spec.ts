@@ -19,7 +19,10 @@ import { QuestionInstructionModule } from '../question-types/question-instructio
 import { RichTextEditorModule } from '../rich-text-editor/rich-text-editor.module';
 import { TeammatesCommonModule } from '../teammates-common/teammates-common.module';
 import { VisibilityMessagesModule } from '../visibility-messages/visibility-messages.module';
-import { FeedbackResponseRecipientSubmissionFormModel, QuestionSubmissionFormModel } from './question-submission-form-model';
+import {
+  FeedbackResponseRecipientSubmissionFormModel,
+  QuestionSubmissionFormModel,
+} from './question-submission-form-model';
 import { QuestionSubmissionFormComponent } from './question-submission-form.component';
 import { RecipientTypeNamePipe } from './recipient-type-name.pipe';
 

@@ -41,7 +41,9 @@ import { FormValidator } from '../../../types/form-validator';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { CoursesSectionQuestions } from '../../pages-help/instructor-help-page/instructor-help-courses-section/courses-section-questions';
+import {
+  CoursesSectionQuestions,
+} from '../../pages-help/instructor-help-page/instructor-help-courses-section/courses-section-questions';
 import { Sections } from '../../pages-help/instructor-help-page/sections';
 import {
   InstructorOverallPermission,
@@ -446,9 +448,11 @@ export class InstructorCourseEditPageComponent implements OnInit {
     const panelDetail: InstructorEditPanelDetail = this.instructorDetailPanels[index];
     const isDeletingSelf: boolean = panelDetail.originalInstructor.googleId === this.currInstructorGoogleId;
     const modalContent: string = isDeletingSelf
-        ? `Are you sure you want to delete your instructor role from the course <strong>${panelDetail.originalInstructor.courseId}</strong>?
+        ? `Are you sure you want to delete your instructor role
+        from the course <strong>${panelDetail.originalInstructor.courseId}</strong>?
         You will not be able to access the course anymore.`
-        : `Are you sure you want to delete the instructor <strong>${panelDetail.originalInstructor.name}</strong> from the course <strong>${panelDetail.originalInstructor.courseId}</strong>?
+        : `Are you sure you want to delete the instructor <strong>${panelDetail.originalInstructor.name}</strong>
+        from the course <strong>${panelDetail.originalInstructor.courseId}</strong>?
         He/she will not be able to access the course anymore.`;
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
         `Delete instructor <strong>${panelDetail.originalInstructor.name}</strong>?`,
@@ -477,7 +481,8 @@ export class InstructorCourseEditPageComponent implements OnInit {
    */
   resendReminderEmail(index: number): void {
     const panelDetail: InstructorEditPanelDetail = this.instructorDetailPanels[index];
-    const modalContent: string = `Do you wish to re-send the invitation email to instructor ${panelDetail.originalInstructor.name} from course ${panelDetail.originalInstructor.courseId}?`;
+    const modalContent: string = `Do you wish to re-send the invitation email to instructor
+      ${panelDetail.originalInstructor.name} from course ${panelDetail.originalInstructor.courseId}?`;
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
         'Re-send invitation email?', SimpleModalType.INFO, modalContent);
 

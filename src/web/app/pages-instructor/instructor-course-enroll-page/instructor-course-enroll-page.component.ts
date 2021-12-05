@@ -579,7 +579,8 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
    * Handsontable context menu
    */
   showPasteModalBox(): void {
-    const modalContent: string = `Pasting data through the context menu is not supported due to browser restrictions.<br>
+    const modalContent: string =
+      `Pasting data through the context menu is not supported due to browser restrictions.<br>
       Please use <kbd>Ctrl + V</kbd> or <kbd>⌘ + V</kbd> to paste your data instead.`;
     this.simpleModalService.openInformationModal('Pasting data through the context menu',
         SimpleModalType.WARNING, modalContent);

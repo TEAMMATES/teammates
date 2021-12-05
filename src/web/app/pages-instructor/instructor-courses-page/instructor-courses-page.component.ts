@@ -410,8 +410,9 @@ export class InstructorCoursesPageComponent implements OnInit {
       this.statusMessageService.showErrorToast(`Course ${courseId} is not found!`);
       return Promise.resolve();
     }
-    const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal('Warning: The course will be moved to the recycle bin.',
-            SimpleModalType.WARNING, 'Are you sure you want to continue?');
+    const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
+        'Warning: The course will be moved to the recycle bin.',
+        SimpleModalType.WARNING, 'Are you sure you want to continue?');
     return modalRef.result.then(() => {
       this.courseService.binCourse(courseId).subscribe((course: Course) => {
         this.moveCourseToRecycleBin(courseId, course.deletionTimestamp);
@@ -493,7 +494,8 @@ export class InstructorCoursesPageComponent implements OnInit {
    * Permanently deletes all soft-deleted courses in Recycle Bin.
    */
   onDeleteAll(): void {
-    const modalContent: string = `<strong>Are you sure you want to permanently delete all the courses in the Recycle Bin?</strong><br>
+    const modalContent: string =
+        `<strong>Are you sure you want to permanently delete all the courses in the Recycle Bin?</strong><br>
         This operation will delete all students and sessions in these courses.
         All instructors of these courses will not be able to access them hereafter as well.`;
 

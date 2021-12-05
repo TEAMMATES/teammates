@@ -806,22 +806,26 @@ describe('AdminSearchPageComponent', () => {
           expect(args).toEqual('This is the error message.');
         });
 
-    const sendAwaitingSessionReminderButton: any = fixture.debugElement.nativeElement.querySelector('#send-awaiting-session-reminder-button');
+    const sendAwaitingSessionReminderButton: any =
+        fixture.debugElement.nativeElement.querySelector('#send-awaiting-session-reminder-button');
     sendAwaitingSessionReminderButton.click();
 
     expect(spyStatusMessageService).toBeCalled();
 
-    const sendOpenSessionReminderButton: any = fixture.debugElement.nativeElement.querySelector('#send-open-session-reminder-button');
+    const sendOpenSessionReminderButton: any =
+        fixture.debugElement.nativeElement.querySelector('#send-open-session-reminder-button');
     sendOpenSessionReminderButton.click();
 
     expect(spyStatusMessageService).toBeCalled();
 
-    const sendNotOpenSessionReminderButton: any = fixture.debugElement.nativeElement.querySelector('#send-not-open-session-reminder-button');
+    const sendNotOpenSessionReminderButton: any =
+        fixture.debugElement.nativeElement.querySelector('#send-not-open-session-reminder-button');
     sendNotOpenSessionReminderButton.click();
 
     expect(spyStatusMessageService).toBeCalled();
 
-    const sendPublishedSessionReminderButton: any = fixture.debugElement.nativeElement.querySelector('#send-published-session-reminder-button');
+    const sendPublishedSessionReminderButton: any =
+        fixture.debugElement.nativeElement.querySelector('#send-published-session-reminder-button');
     sendPublishedSessionReminderButton.click();
 
     expect(spyStatusMessageService).toBeCalled();

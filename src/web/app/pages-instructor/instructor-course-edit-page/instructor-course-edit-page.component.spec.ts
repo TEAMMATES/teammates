@@ -15,11 +15,13 @@ import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-s
 import { SimpleModalModule } from '../../components/simple-modal/simple-modal.module';
 import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
 import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';
-import { CustomPrivilegeSettingPanelComponent } from './custom-privilege-setting-panel/custom-privilege-setting-panel.component';
+import {
+  CustomPrivilegeSettingPanelComponent,
+} from './custom-privilege-setting-panel/custom-privilege-setting-panel.component';
 import { InstructorCourseEditPageComponent } from './instructor-course-edit-page.component';
 import {
-    InstructorEditPanel,
-    InstructorEditPanelComponent,
+  InstructorEditPanel,
+  InstructorEditPanelComponent,
 } from './instructor-edit-panel/instructor-edit-panel.component';
 import { ViewRolePrivilegesModalComponent } from './view-role-privileges-modal/view-role-privileges-modal.component';
 

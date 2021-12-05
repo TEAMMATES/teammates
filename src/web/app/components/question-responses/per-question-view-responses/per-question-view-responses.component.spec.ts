@@ -2,8 +2,9 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 
-// eslint-disable-next-line max-len
-import { ResponseModerationButtonModule } from '../../../pages-instructor/instructor-session-result-page/response-moderation-button/response-moderation-button.module';
+import {
+  ResponseModerationButtonModule,
+} from '../../../pages-instructor/instructor-session-result-page/response-moderation-button/response-moderation-button.module';
 import { CommentBoxModule } from '../../comment-box/comment-box.module';
 import { RichTextEditorModule } from '../../rich-text-editor/rich-text-editor.module';
 import { TeammatesCommonModule } from '../../teammates-common/teammates-common.module';

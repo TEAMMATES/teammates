@@ -56,7 +56,8 @@ export class StudentHomePageComponent implements OnInit {
   studentFeedbackSessionStatusClosed: string = ' The session is now closed for submissions.';
 
   // Error messages
-  allStudentFeedbackSessionsNotReturned: string = 'Something went wrong with fetching responses for all Feedback Sessions.';
+  allStudentFeedbackSessionsNotReturned: string =
+      'Something went wrong with fetching responses for all Feedback Sessions.';
 
   courses: StudentCourse[] = [];
   isCoursesLoading: boolean = false;

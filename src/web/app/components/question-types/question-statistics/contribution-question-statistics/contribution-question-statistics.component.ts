@@ -3,14 +3,18 @@ import { SimpleModalService } from '../../../../../services/simple-modal.service
 import { ContributionStatistics } from '../../../../../types/api-output';
 import { DEFAULT_CONTRIBUTION_QUESTION_DETAILS } from '../../../../../types/default-question-structs';
 import { SortBy } from '../../../../../types/sort-properties';
-import { QuestionsSectionQuestions } from '../../../../pages-help/instructor-help-page/instructor-help-questions-section/questions-section-questions';
+import {
+  QuestionsSectionQuestions,
+} from '../../../../pages-help/instructor-help-page/instructor-help-questions-section/questions-section-questions';
 import { Sections } from '../../../../pages-help/instructor-help-page/sections';
 import { SimpleModalType } from '../../../simple-modal/simple-modal-type';
 import {
   ColumnData,
   SortableTableCellData,
 } from '../../../sortable-table/sortable-table.component';
-import { ContributionQuestionStatisticsCalculation } from '../question-statistics-calculation/contribution-question-statistics-calculation';
+import {
+  ContributionQuestionStatisticsCalculation,
+} from '../question-statistics-calculation/contribution-question-statistics-calculation';
 import { ContributionRatingsListComponent } from './contribution-ratings-list.component';
 import { ContributionComponent } from './contribution.component';
 

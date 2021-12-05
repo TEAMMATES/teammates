@@ -25,7 +25,9 @@ import {
 import { Intent } from '../../../types/api-request';
 import { SortBy } from '../../../types/sort-properties';
 import { DateFormat } from '../../components/datepicker/datepicker.component';
-import { SessionEditFormDatePickerFormatter } from '../../components/session-edit-form/session-edit-form-datepicker-formatter';
+import {
+  SessionEditFormDatePickerFormatter,
+} from '../../components/session-edit-form/session-edit-form-datepicker-formatter';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { ColumnData, SortableTableCellData } from '../../components/sortable-table/sortable-table.component';
 import { TimeFormat } from '../../components/timepicker/timepicker.component';
@@ -279,9 +281,13 @@ export class InstructorTrackViewPageComponent implements OnInit {
           let dataStyle: string = 'font-family:monospace; white-space:pre;';
           if (student.email in this.studentToLog) {
             const entry: FeedbackSessionLogEntry = this.studentToLog[student.email];
-            status = `Viewed last at   ${this.timezoneService.formatToString(entry.timestamp, log.feedbackSessionData.timeZone, this.LOGS_DATE_TIME_FORMAT)}`;
+            const timestamp: string = this.timezoneService.formatToString(
+                entry.timestamp, log.feedbackSessionData.timeZone, this.LOGS_DATE_TIME_FORMAT);
+            status = `Viewed last at   ${timestamp}`;
           } else {
-            status = `Not viewed since ${this.timezoneService.formatToString(this.notViewedSince, log.feedbackSessionData.timeZone, this.LOGS_DATE_TIME_FORMAT)}`;
+            const timestamp: string = this.timezoneService.formatToString(
+                this.notViewedSince, log.feedbackSessionData.timeZone, this.LOGS_DATE_TIME_FORMAT);
+            status = `Not viewed since ${timestamp}`;
             dataStyle += 'color:red;';
           }
           return [

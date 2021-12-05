@@ -33,7 +33,9 @@ import {
 import { Intent } from '../../../types/api-request';
 import { CommentToCommentRowModelPipe } from '../../components/comment-box/comment-to-comment-row-model.pipe';
 import { CommentsToCommentTableModelPipe } from '../../components/comment-box/comments-to-comment-table-model.pipe';
-import { StudentListInfoTableRowModel } from '../../components/sessions-table/respondent-list-info-table/respondent-list-info-table-model';
+import {
+  StudentListInfoTableRowModel,
+} from '../../components/sessions-table/respondent-list-info-table/respondent-list-info-table-model';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorCommentsComponent } from '../instructor-comments.component';
@@ -375,13 +377,15 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
     const isPublished: boolean = this.session.publishStatus === FeedbackSessionPublishStatus.PUBLISHED;
     let modalRef: NgbModalRef;
     if (isPublished) {
-      const modalContent: string = `An email will be sent to students to inform them that the session has been unpublished and the session responses
-          will no longer be viewable by students.`;
+      const modalContent: string =
+          `An email will be sent to students to inform them that the session has been unpublished
+          and the session responses will no longer be viewable by students.`;
       modalRef = this.simpleModalService.openConfirmationModal(
           `Unpublish this session <strong>${this.session.feedbackSessionName}</strong>?`,
           SimpleModalType.WARNING, modalContent);
     } else {
-      const modalContent: string = 'An email will be sent to students to inform them that the responses are ready for viewing.';
+      const modalContent: string =
+          'An email will be sent to students to inform them that the responses are ready for viewing.';
       modalRef = this.simpleModalService.openConfirmationModal(
           `Publish this session <strong>${this.session.feedbackSessionName}</strong>?`,
           SimpleModalType.WARNING, modalContent);

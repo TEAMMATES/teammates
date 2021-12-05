@@ -19,7 +19,7 @@ import {
 import { Intent } from '../../types/api-request';
 import {
   ResendResultsLinkToRespondentModalComponent,
-} from "../components/sessions-table/resend-results-link-to-respondent-modal/resend-results-link-to-respondent-modal.component"; // eslint-disable-line
+} from '../components/sessions-table/resend-results-link-to-respondent-modal/resend-results-link-to-respondent-modal.component';
 import {
     InstructorListInfoTableRowModel,
     StudentListInfoTableRowModel,

@@ -159,7 +159,8 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
               if (resp.isUsed) {
                 // The logged in user matches the registration key; redirect to the logged in URL
 
-                this.navigationService.navigateByURLWithParamEncoding(this.router, `/web/${this.entityType}/sessions/submission`,
+                this.navigationService.navigateByURLWithParamEncoding(
+                    this.router, `/web/${this.entityType}/sessions/submission`,
                     { courseid: this.courseId, fsname: this.feedbackSessionName });
               } else {
                 // Valid, unused registration key; load information based on the key
@@ -369,9 +370,9 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
         const mobileDeviceWidth: number = 768;
         if (this.feedbackSessionSubmissionStatus === FeedbackSessionSubmissionStatus.OPEN
           && window.innerWidth < mobileDeviceWidth) {
-          const modalContent: string = `Note that you can use the Submit button to save responses already entered, and continue to
-answer remaining questions after that. You may also edit your submission any number of times before the closing time of
-this session.`;
+          const modalContent: string = `Note that you can use the Submit button to save responses already entered,
+              and continue to answer remaining questions after that.
+              You may also edit your submission any number of times before the closing time of this session.`;
           this.simpleModalService.openInformationModal(
               'Note On Submission', SimpleModalType.INFO, modalContent);
         }

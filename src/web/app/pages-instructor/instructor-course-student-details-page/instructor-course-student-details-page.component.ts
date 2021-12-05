@@ -41,8 +41,8 @@ export class InstructorCourseStudentDetailsPageComponent implements OnInit {
       this.studentEmail = queryParams.studentemail;
 
       this.loadStudentDetails(this.courseId, this.studentEmail);
-      this.photoUrl =
-          `${environment.backendUrl}/webapi/student/profilePic?courseid=${this.courseId}&studentemail=${this.studentEmail}`;
+      this.photoUrl = `${environment.backendUrl}/webapi/student/profilePic`
+          + `?courseid=${this.courseId}&studentemail=${this.studentEmail}`;
     });
   }
 
