@@ -89,7 +89,9 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
     this.isStudentLoading = true;
     this.studentService.getStudent(
         courseId, studentEmail,
-    ).pipe(finalize(() => this.isStudentLoading = false)).subscribe((student: Student) => {
+    ).pipe(finalize(() => {
+      this.isStudentLoading = false;
+    })).subscribe((student: Student) => {
       this.student = student;
       this.initEditForm();
     }, (resp: ErrorMessageOutput) => {
@@ -122,7 +124,9 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
 
     this.emailFieldSubscription =
         (this.editForm.get('newstudentemail') as AbstractControl).valueChanges
-            .subscribe(() => this.isEmailFieldChanged = true);
+            .subscribe(() => {
+              this.isEmailFieldChanged = true;
+            });
   }
 
   /**

@@ -81,7 +81,9 @@ export class StudentProfilePageComponent implements OnInit {
 
         // retrieve profile once we have the student's googleId
         this.studentProfileService.getStudentProfile()
-            .pipe(finalize(() => this.isLoadingStudentProfile = false))
+            .pipe(finalize(() => {
+              this.isLoadingStudentProfile = false;
+            }))
             .subscribe((response: StudentProfile) => {
               if (response) {
                 this.student = response;
@@ -180,7 +182,9 @@ export class StudentProfilePageComponent implements OnInit {
       gender: this.editForm.controls.studentgender.value,
       moreInfo: this.editForm.controls.studentprofilemoreinfo.value,
       existingNationality: this.editForm.controls.existingNationality.value,
-    }).pipe(finalize(() => this.isSavingProfileEdit = false)).subscribe((response: MessageOutput) => {
+    }).pipe(finalize(() => {
+      this.isSavingProfileEdit = false;
+    })).subscribe((response: MessageOutput) => {
       if (response) {
         this.statusMessageService.showSuccessToast(response.message);
       }

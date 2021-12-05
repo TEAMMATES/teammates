@@ -434,7 +434,9 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
       Object.values(this.questionsModel).map((questionTabModel: QuestionTabModel) => questionTabModel.question),
       this.section.length === 0 ? undefined : this.section,
       this.section.length === 0 ? undefined : this.sectionType,
-    )).pipe(finalize(() => this.isDownloadingResults = false))
+    )).pipe(finalize(() => {
+      this.isDownloadingResults = false;
+    }))
       .subscribe();
   }
 

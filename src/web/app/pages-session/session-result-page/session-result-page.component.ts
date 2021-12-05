@@ -218,7 +218,9 @@ export class SessionResultPageComponent implements OnInit {
         intent: this.intent,
         key: this.regKey,
       })
-          .pipe(finalize(() => this.isFeedbackSessionResultsLoading = false))
+          .pipe(finalize(() => {
+            this.isFeedbackSessionResultsLoading = false;
+          }))
           .subscribe((sessionResults: SessionResults) => {
             this.questions = sessionResults.questions.sort(
                 (a: QuestionOutput, b: QuestionOutput) =>

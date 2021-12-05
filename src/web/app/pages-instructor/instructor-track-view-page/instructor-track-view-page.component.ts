@@ -117,7 +117,9 @@ export class InstructorTrackViewPageComponent implements OnInit {
             return this.feedbackSessionsService.getFeedbackSessionsForInstructor(course.courseId);
           })),
           mergeAll(),
-          finalize(() => this.isLoading = false))
+          finalize(() => {
+            this.isLoading = false;
+          }))
       .subscribe(((feedbackSessions: FeedbackSessions) => {
         if (feedbackSessions.feedbackSessions.length > 0) {
           this.courseToFeedbackSession[feedbackSessions.feedbackSessions[0].courseId] =
@@ -221,7 +223,9 @@ export class InstructorTrackViewPageComponent implements OnInit {
                 .filter((entry: FeedbackSessionLogEntry) =>
                     !(entry.studentData.email in this.studentToLog)
                     || this.studentToLog[entry.studentData.email].timestamp < entry.timestamp)
-                .forEach((entry: FeedbackSessionLogEntry) => this.studentToLog[entry.studentData.email] = entry);
+                .forEach((entry: FeedbackSessionLogEntry) => {
+                  this.studentToLog[entry.studentData.email] = entry;
+                });
 
             this.searchResult = this.toFeedbackSessionLogModel(targetFeedbackSessionLog);
           });

@@ -92,7 +92,9 @@ export class StudentCourseDetailsPageComponent implements OnInit {
   loadCourse(courseId: string): void {
     this.isLoadingCourse = true;
     this.courseService.getCourseAsStudent(courseId)
-        .pipe(finalize(() => this.isLoadingCourse = false))
+        .pipe(finalize(() => {
+          this.isLoadingCourse = false;
+        }))
         .subscribe((course: Course) => {
           this.course = course;
         }, (resp: ErrorMessageOutput) => {
@@ -108,7 +110,9 @@ export class StudentCourseDetailsPageComponent implements OnInit {
   loadStudent(courseId: string): void {
     this.isLoadingStudent = true;
     this.studentService.getStudent(courseId)
-        .pipe(finalize(() => this.isLoadingStudent = false))
+        .pipe(finalize(() => {
+          this.isLoadingStudent = false;
+        }))
         .subscribe((student: Student) => {
           this.student = student;
           this.loadTeammates(courseId, student.teamName);
@@ -139,7 +143,9 @@ export class StudentCourseDetailsPageComponent implements OnInit {
           }
 
           this.studentProfileService.getStudentProfile(student.email, courseId)
-                .pipe(finalize(() => this.isLoadingTeammates = false))
+                .pipe(finalize(() => {
+                  this.isLoadingTeammates = false;
+                }))
                 .subscribe((studentProfile: StudentProfile) => {
                   const newPhotoUrl: string =
                     `${environment.backendUrl}/webapi/student/profilePic`
@@ -172,7 +178,9 @@ export class StudentCourseDetailsPageComponent implements OnInit {
   loadInstructors(courseId: string): void {
     this.isLoadingInstructor = true;
     this.instructorService.loadInstructors({ courseId })
-        .pipe(finalize(() => this.isLoadingInstructor = false))
+        .pipe(finalize(() => {
+          this.isLoadingInstructor = false;
+        }))
         .subscribe((instructors: Instructors) => {
           this.instructorDetails = instructors.instructors;
         }, (resp: ErrorMessageOutput) => {

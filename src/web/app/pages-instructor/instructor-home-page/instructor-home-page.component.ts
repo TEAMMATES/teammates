@@ -343,7 +343,9 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
       this.copySingleSession(requestList[0]);
     }
     if (requestList.length > 1) {
-      forkJoin(requestList).pipe(finalize(() => this.isCopyLoading = false))
+      forkJoin(requestList).pipe(finalize(() => {
+          this.isCopyLoading = false;
+        }))
         .subscribe((newSessions: FeedbackSession[]) => {
           if (newSessions.length > 0) {
             newSessions.forEach((session: FeedbackSession) => {

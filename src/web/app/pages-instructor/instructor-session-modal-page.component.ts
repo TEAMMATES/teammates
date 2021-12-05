@@ -70,7 +70,9 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
     forkJoin([
       this.studentService.getStudentsFromCourse({ courseId }),
       this.instructorService.loadInstructors({ courseId, intent: Intent.FULL_DETAIL }),
-    ]).pipe(finalize(() => this.isSendReminderLoading = false))
+    ]).pipe(finalize(() => {
+      this.isSendReminderLoading = false;
+    }))
       .subscribe((result: any[]) => {
         const students: Student[] = (result[0] as Students).students;
         const instructors: Instructor[] = (result[1] as Instructors).instructors;
@@ -103,7 +105,9 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
           this.isSendReminderLoading = true;
           this.feedbackSessionsService.remindResultsLinkToRespondents(courseId, feedbackSessionName, {
             usersToRemind: respondentsToRemind.map((m: any) => m.email),
-          }).pipe(finalize(() => this.isSendReminderLoading = false))
+          }).pipe(finalize(() => {
+            this.isSendReminderLoading = false;
+          }))
             .subscribe(() => {
               this.statusMessageService.showSuccessToast(
                   'Session published notification emails have been resent to those students and instructors. '
@@ -125,7 +129,9 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
       this.studentService.getStudentsFromCourse({ courseId }),
       this.feedbackSessionsService.getFeedbackSessionSubmittedGiverSet({ courseId, feedbackSessionName }),
       this.instructorService.loadInstructors({ courseId, intent: Intent.FULL_DETAIL }),
-    ]).pipe(finalize(() => this.isSendReminderLoading = false))
+    ]).pipe(finalize(() => {
+      this.isSendReminderLoading = false;
+    }))
       .subscribe((result: any[]) => {
         const students: Student[] = (result[0] as Students).students;
         const giverSet: Set<string> = new Set((result[1] as FeedbackSessionSubmittedGiverSet).giverIdentifiers);
@@ -159,7 +165,9 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
           this.isSendReminderLoading = true;
           this.feedbackSessionsService.remindFeedbackSessionSubmissionForRespondents(courseId, feedbackSessionName, {
             usersToRemind: respondentsToRemind.map((m: any) => m.email),
-          }).pipe(finalize(() => this.isSendReminderLoading = false))
+          }).pipe(finalize(() => {
+            this.isSendReminderLoading = false;
+          }))
             .subscribe(() => {
               this.statusMessageService.showSuccessToast(
                   'Reminder e-mails have been sent out to those students and instructors. '

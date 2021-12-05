@@ -56,7 +56,9 @@ export class AdminSearchPageComponent {
     this.loadingBarService.showLoadingBar();
     this.searchService.searchAdmin(
         this.searchQuery,
-    ).pipe(finalize(() => this.loadingBarService.hideLoadingBar())).subscribe((resp: AdminSearchResult) => {
+    ).pipe(finalize(() => {
+      this.loadingBarService.hideLoadingBar();
+    })).subscribe((resp: AdminSearchResult) => {
       const hasStudents: boolean = !!(resp.students && resp.students.length);
       const hasInstructors: boolean = !!(resp.instructors && resp.instructors.length);
       const hasAccountRequests: boolean = !!(resp.accountRequests && resp.accountRequests.length);

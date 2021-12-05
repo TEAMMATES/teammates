@@ -188,7 +188,9 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
     modalRef.result.then((result: CopyFromOtherSessionsResult) => {
       this.copyFeedbackSession(result.fromFeedbackSession, result.newFeedbackSessionName, result.copyToCourseId,
         result.fromFeedbackSession.courseId)
-          .pipe(finalize(() => this.isCopyOtherSessionLoading = false))
+          .pipe(finalize(() => {
+            this.isCopyOtherSessionLoading = false;
+          }))
           .subscribe((createdFeedbackSession: FeedbackSession) => {
             this.navigationService.navigateWithSuccessMessage(this.router, '/web/instructor/sessions/edit',
                 'The feedback session has been copied. Please modify settings/questions as necessary.',
@@ -197,7 +199,9 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
             this.statusMessageService.showErrorToast(
                 this.formatErrorMessage(resp.error.message));
           });
-    }).catch(() => this.isCopyOtherSessionLoading = false);
+    }).catch(() => {
+      this.isCopyOtherSessionLoading = false;
+    });
   }
 
   /**
@@ -206,7 +210,9 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
   loadCandidatesCourse(): void {
     this.isCoursesLoading = true;
     this.courseService.getInstructorCoursesThatAreActive()
-        .pipe(finalize(() => this.isCoursesLoading = false)).subscribe((courses: Courses) => {
+        .pipe(finalize(() => {
+          this.isCoursesLoading = false;
+        })).subscribe((courses: Courses) => {
           this.courseCandidates = courses.courses;
 
           this.initDefaultValuesForSessionEditForm();
@@ -371,7 +377,9 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
   loadFeedbackSessions(): void {
     this.isFeedbackSessionsLoading = true;
     this.feedbackSessionsService.getFeedbackSessionsForInstructor()
-        .pipe(finalize(() => this.isFeedbackSessionsLoading = false))
+        .pipe(finalize(() => {
+          this.isFeedbackSessionsLoading = false;
+        }))
         .subscribe((response: FeedbackSessions) => {
           response.feedbackSessions.forEach((session: FeedbackSession) => {
             const model: SessionsTableRowModel = {
@@ -427,7 +435,9 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
         model.feedbackSession.courseId,
         model.feedbackSession.feedbackSessionName,
     )
-        .pipe(finalize(() => this.isRestoreFeedbackSessionLoading = false))
+        .pipe(finalize(() => {
+          this.isRestoreFeedbackSessionLoading = false;
+        }))
         .subscribe((feedbackSession: FeedbackSession) => {
           this.recycleBinFeedbackSessionRowModels.splice(
               this.recycleBinFeedbackSessionRowModels.indexOf(model), 1);
@@ -452,7 +462,9 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
         model.feedbackSession.courseId,
         model.feedbackSession.feedbackSessionName,
     )
-        .pipe(finalize(() => this.isMoveToRecycleBinLoading = false))
+        .pipe(finalize(() => {
+          this.isMoveToRecycleBinLoading = false;
+        }))
         .subscribe((feedbackSession: FeedbackSession) => {
           this.sessionsTableRowModels.splice(this.sessionsTableRowModels.indexOf(model), 1);
           this.recycleBinFeedbackSessionRowModels.push({
@@ -475,7 +487,9 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
       this.copySingleSession(requestList[0]);
     }
     if (requestList.length > 1) {
-      forkJoin(requestList).pipe(finalize(() => this.isCopySessionLoading = false))
+      forkJoin(requestList).pipe(finalize(() => {
+        this.isCopySessionLoading = false;
+      }))
         .subscribe((newSessions: FeedbackSession[]) => {
           if (newSessions.length > 0) {
             newSessions.forEach((session: FeedbackSession) => {
@@ -527,7 +541,9 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
   loadRecycleBinFeedbackSessions(): void {
     this.isRecycleBinLoading = true;
     this.feedbackSessionsService.getFeedbackSessionsInRecycleBinForInstructor()
-        .pipe(finalize(() => this.isRecycleBinLoading = false))
+        .pipe(finalize(() => {
+          this.isRecycleBinLoading = false;
+        }))
         .subscribe((response: FeedbackSessions) => {
           response.feedbackSessions.forEach((session: FeedbackSession) => {
             this.recycleBinFeedbackSessionRowModels.push({
@@ -555,7 +571,9 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
           ));
     });
 
-    forkJoin(restoreRequests).pipe(finalize(() => this.isRestoreFeedbackSessionLoading = false))
+    forkJoin(restoreRequests).pipe(finalize(() => {
+      this.isRestoreFeedbackSessionLoading = false;
+    }))
       .subscribe((restoredSessions: FeedbackSession[]) => {
         restoredSessions.forEach((session: FeedbackSession) => {
           this.recycleBinFeedbackSessionRowModels = [];
@@ -587,7 +605,9 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
           model.feedbackSession.courseId,
           model.feedbackSession.feedbackSessionName,
       )
-        .pipe(finalize(() => this.isPermanentDeleteLoading = false))
+        .pipe(finalize(() => {
+          this.isPermanentDeleteLoading = false;
+        }))
         .subscribe(() => {
           this.recycleBinFeedbackSessionRowModels.splice(
               this.recycleBinFeedbackSessionRowModels.indexOf(model), 1);
@@ -595,7 +615,9 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
         });
-    }).catch(() => this.isPermanentDeleteLoading = false);
+    }).catch(() => {
+      this.isPermanentDeleteLoading = false;
+    });
   }
 
   /**
@@ -618,14 +640,18 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
         ));
       });
 
-      forkJoin(deleteRequests).pipe(finalize(() => this.isPermanentDeleteLoading = false))
+      forkJoin(deleteRequests).pipe(finalize(() => {
+        this.isPermanentDeleteLoading = false;
+      }))
         .subscribe(() => {
           this.recycleBinFeedbackSessionRowModels = [];
           this.statusMessageService.showSuccessToast('All sessions have been permanently deleted.');
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
         });
-    }).catch(() => this.isPermanentDeleteLoading = false);
+    }).catch(() => {
+      this.isPermanentDeleteLoading = false;
+    });
   }
 
   /**

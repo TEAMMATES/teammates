@@ -194,7 +194,9 @@ export class InstructorCoursesPageComponent implements OnInit {
     }
     course.isLoadingCourseStats = true;
     this.studentService.getStudentsFromCourse({ courseId })
-        .pipe(finalize(() => course.isLoadingCourseStats = false))
+        .pipe(finalize(() => {
+          course.isLoadingCourseStats = false;
+        }))
         .subscribe((students: Students) => {
           this.courseStats[courseId] = {
             sections: (new Set(students.students.map((value: Student) => value.sectionName))).size,

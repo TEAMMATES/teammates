@@ -56,7 +56,9 @@ export class InstructorCourseStudentDetailsPageComponent implements OnInit {
     this.isStudentLoading = true;
     this.studentProfileService.getStudentProfile(
         studentEmail, courseId,
-    ).pipe(finalize(() => this.isStudentProfileLoading = false)).subscribe((studentProfile: StudentProfile) => {
+    ).pipe(finalize(() => {
+      this.isStudentProfileLoading = false;
+    })).subscribe((studentProfile: StudentProfile) => {
       this.studentProfile = studentProfile;
     }, (resp: ErrorMessageOutput) => {
       this.hasStudentLoadingFailed = true;
@@ -64,7 +66,9 @@ export class InstructorCourseStudentDetailsPageComponent implements OnInit {
     });
     this.studentService.getStudent(
         courseId, studentEmail,
-    ).pipe(finalize(() => this.isStudentLoading = false)).subscribe((student: Student) => {
+    ).pipe(finalize(() => {
+      this.isStudentLoading = false;
+    })).subscribe((student: Student) => {
       this.student = student;
     }, (resp: ErrorMessageOutput) => {
       this.hasStudentProfileLoadingFailed = true;

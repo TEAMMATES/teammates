@@ -124,7 +124,9 @@ export abstract class InstructorSessionBasePageComponent {
         model.feedbackSession.courseId,
         model.feedbackSession.feedbackSessionName,
     )
-        .pipe(finalize(() => model.isLoadingResponseRate = false))
+        .pipe(finalize(() => {
+          model.isLoadingResponseRate = false;
+        }))
         .subscribe((resp: FeedbackSessionStats) => {
           model.responseRate = `${resp.submittedTotal} / ${resp.expectedTotal}`;
         }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
@@ -242,7 +244,9 @@ export abstract class InstructorSessionBasePageComponent {
           questions,
         ));
       }),
-      finalize(() => this.isResultActionLoading = false),
+      finalize(() => {
+        this.isResultActionLoading = false;
+      }),
     )
       .subscribe();
   }
@@ -256,7 +260,9 @@ export abstract class InstructorSessionBasePageComponent {
         model.feedbackSession.courseId,
         model.feedbackSession.feedbackSessionName,
     )
-        .pipe(finalize(() => this.isResultActionLoading = false))
+        .pipe(finalize(() => {
+          this.isResultActionLoading = false;
+        }))
         .subscribe((feedbackSession: FeedbackSession) => {
           model.feedbackSession = feedbackSession;
           model.responseRate = '';
@@ -282,7 +288,9 @@ export abstract class InstructorSessionBasePageComponent {
         model.feedbackSession.courseId,
         model.feedbackSession.feedbackSessionName,
     )
-        .pipe(finalize(() => this.isResultActionLoading = false))
+        .pipe(finalize(() => {
+          this.isResultActionLoading = false;
+        }))
         .subscribe((feedbackSession: FeedbackSession) => {
           model.feedbackSession = feedbackSession;
           model.responseRate = '';

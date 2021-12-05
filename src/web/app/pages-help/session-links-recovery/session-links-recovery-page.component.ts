@@ -60,7 +60,9 @@ export class SessionLinksRecoveryPageComponent implements OnInit {
     this.feedbackSessionsService.sendFeedbackSessionLinkToRecoveryEmail({
       sessionLinksRecoveryEmail: sessionLinksRecoveryForm.controls.email.value,
       captchaResponse: this.captchaResponse,
-    }).pipe(finalize(() => this.isFormSubmitting = false)).subscribe((resp: SessionLinksRecoveryResponse) => {
+    }).pipe(finalize(() => {
+      this.isFormSubmitting = false;
+    })).subscribe((resp: SessionLinksRecoveryResponse) => {
       resp.isEmailSent
             ? this.statusMessageService.showSuccessToast(resp.message)
             : this.statusMessageService.showErrorToast(resp.message);

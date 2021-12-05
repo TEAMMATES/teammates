@@ -116,7 +116,9 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
     this.isStudentProfileLoading = true;
     this.studentService.getStudent(
         this.courseId, this.studentEmail,
-    ).pipe(finalize(() => this.isStudentLoading = false)).subscribe((resp: Student) => {
+    ).pipe(finalize(() => {
+      this.isStudentLoading = false;
+    })).subscribe((resp: Student) => {
       this.studentName = resp.name;
       this.studentTeam = resp.teamName;
       this.studentSection = resp.sectionName;
@@ -126,7 +128,9 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
     });
     this.studentProfileService.getStudentProfile(
         this.studentEmail, this.courseId,
-    ).pipe(finalize(() => this.isStudentProfileLoading = false)).subscribe((resp: StudentProfile) => {
+    ).pipe(finalize(() => {
+      this.isStudentProfileLoading = false;
+    })).subscribe((resp: StudentProfile) => {
       this.studentProfile = resp;
     }, (resp: ErrorMessageOutput) => {
       this.hasStudentProfileLoadingFailed = true;
@@ -156,7 +160,9 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
             return { results, feedbackSession };
           }));
         }),
-        finalize(() => this.isStudentResultsLoading = false),
+        finalize(() => {
+          this.isStudentResultsLoading = false;
+        }),
     ).subscribe(
         ({ results, feedbackSession }: { results: SessionResults, feedbackSession: FeedbackSession }) => {
           const giverQuestions: QuestionOutput[] = JSON.parse(JSON.stringify(results.questions));

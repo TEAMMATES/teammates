@@ -269,7 +269,9 @@ export class InstructorCourseEditPageComponent implements OnInit {
     this.courseService.updateCourse(this.courseId, {
       courseName: this.course.courseName,
       timeZone: this.course.timeZone,
-    }).pipe(finalize(() => this.isSavingCourseEdit = false)).subscribe((resp: Course) => {
+    }).pipe(finalize(() => {
+      this.isSavingCourseEdit = false;
+    })).subscribe((resp: Course) => {
       this.statusMessageService.showSuccessToast('The course has been edited.');
       this.isEditingCourse = false;
       this.course = resp;
@@ -416,7 +418,9 @@ export class InstructorCourseEditPageComponent implements OnInit {
     this.instructorService.updateInstructor({
       courseId: panelDetail.originalInstructor.courseId,
       requestBody: reqBody,
-    }).pipe(finalize(() => panelDetail.editPanel.isSavingInstructorEdit = false)).subscribe((resp: Instructor) => {
+    }).pipe(finalize(() => {
+      panelDetail.editPanel.isSavingInstructorEdit = false;
+    })).subscribe((resp: Instructor) => {
       panelDetail.editPanel.isEditing = false;
       panelDetail.originalInstructor = { ...resp };
       const permission: InstructorOverallPermission = panelDetail.editPanel.permission;
@@ -502,7 +506,9 @@ export class InstructorCourseEditPageComponent implements OnInit {
     } as InstructorCreateRequest;
 
     this.instructorService.createInstructor({ courseId: this.courseId, requestBody: reqBody })
-        .pipe(finalize(() => this.isSavingNewInstructor = false))
+        .pipe(finalize(() => {
+          this.isSavingNewInstructor = false;
+        }))
         .subscribe((resp: Instructor) => {
           const newDetailPanels: InstructorEditPanelDetail = {
             originalInstructor: { ...resp },

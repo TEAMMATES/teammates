@@ -211,7 +211,9 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
     this.isDeleting = true;
 
     this.studentService.deleteAllStudentsFromCourse({ courseId })
-      .pipe(finalize(() => this.isDeleting = false))
+      .pipe(finalize(() => {
+        this.isDeleting = false;
+      }))
       .subscribe((resp: MessageOutput) => {
         // Reset list of students and course stats
         this.students = [];
@@ -235,7 +237,9 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
     let blob: any;
 
     this.studentService.loadStudentListAsCsv({ courseId })
-      .pipe(finalize(() => this.isLoadingCsv = false))
+      .pipe(finalize(() => {
+        this.isLoadingCsv = false;
+      }))
       .subscribe((resp: string) => {
         blob = new Blob([resp], { type: 'text/csv' });
         saveAs(blob, filename);

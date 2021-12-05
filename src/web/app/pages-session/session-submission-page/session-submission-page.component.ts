@@ -316,7 +316,9 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
       key: this.regKey,
       moderatedPerson: this.moderatedPerson,
       previewAs: this.previewAsPerson,
-    }).pipe(finalize(() => this.isFeedbackSessionLoading = false))
+    }).pipe(finalize(() => {
+      this.isFeedbackSessionLoading = false;
+    }))
       .subscribe((feedbackSession: FeedbackSession) => {
         this.feedbackSessionInstructions = feedbackSession.instructions;
         this.formattedSessionOpeningTime = this.timezoneService
@@ -402,7 +404,9 @@ this session.`;
       key: this.regKey,
       moderatedPerson: this.moderatedPerson,
       previewAs: this.previewAsPerson,
-    }).pipe(finalize(() => this.isFeedbackSessionQuestionsLoading = false))
+    }).pipe(finalize(() => {
+      this.isFeedbackSessionQuestionsLoading = false;
+    }))
         .subscribe((response: FeedbackQuestionsResponse) => {
           this.isFeedbackSessionQuestionResponsesLoading = response.questions.length !== 0;
           response.questions.forEach((feedbackQuestion: FeedbackQuestion) => {
@@ -520,7 +524,9 @@ this session.`;
       intent: this.intent,
       key: this.regKey,
       moderatedPerson: this.moderatedPerson,
-    }).pipe(finalize(() => this.isFeedbackSessionQuestionResponsesLoading = false))
+    }).pipe(finalize(() => {
+      this.isFeedbackSessionQuestionResponsesLoading = false;
+    }))
       .subscribe((existingResponses: FeedbackResponsesResponse) => {
         if (this.getQuestionSubmissionFormMode(model) === QuestionSubmissionFormMode.FIXED_RECIPIENT) {
           // need to generate a full list of submission forms

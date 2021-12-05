@@ -188,7 +188,9 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
         }),
     );
 
-    enrollRequests.pipe(finalize(() => this.isEnrolling = false)).subscribe({
+    enrollRequests.pipe(finalize(() => {
+      this.isEnrolling = false;
+    })).subscribe({
       next: (resp: EnrollStudents) => {
         enrolledStudents.push(...resp.studentsData.students);
 

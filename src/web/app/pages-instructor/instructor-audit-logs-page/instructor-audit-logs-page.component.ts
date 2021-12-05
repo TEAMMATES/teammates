@@ -125,7 +125,9 @@ export class InstructorAuditLogsPageComponent implements OnInit {
       searchUntil: searchUntil.toString(),
       studentEmail: this.formModel.studentEmail,
     }).pipe(
-        finalize(() => this.isSearching = false),
+        finalize(() => {
+          this.isSearching = false;
+        }),
     ).subscribe((logs: FeedbackSessionLogs) => {
       logs.feedbackSessionLogs.map((log: FeedbackSessionLog) =>
           this.searchResults.push(this.toFeedbackSessionLogModel(log)));
@@ -140,7 +142,9 @@ export class InstructorAuditLogsPageComponent implements OnInit {
   private loadCourses(): void {
     this.courseService
         .getAllCoursesAsInstructor('active')
-        .pipe(finalize(() => this.isLoading = false))
+        .pipe(finalize(() => {
+          this.isLoading = false;
+        }))
         .subscribe(({ courses }: { courses: Course[] }) => courses
             .filter((course: Course) =>
                 course.privileges?.canModifyStudent

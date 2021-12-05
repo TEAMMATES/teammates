@@ -67,7 +67,9 @@ export class InstructorStudentListPageComponent implements OnInit {
     this.hasLoadingFailed = false;
     this.isLoadingCourses = true;
     this.courseService.getAllCoursesAsInstructor('active')
-        .pipe(finalize(() => this.isLoadingCourses = false))
+        .pipe(finalize(() => {
+          this.isLoadingCourses = false;
+        }))
         .subscribe((courses: Courses) => {
           courses.courses.forEach((course: Course) => {
             const courseTab: CourseTab = {
@@ -122,7 +124,9 @@ export class InstructorStudentListPageComponent implements OnInit {
           this.instructorService.loadInstructorPrivilege({
             courseId: courseTab.course.courseId,
           })
-          .pipe(finalize(() => courseTab.hasStudentLoaded = true))
+          .pipe(finalize(() => {
+            courseTab.hasStudentLoaded = true;
+          }))
           .subscribe((instructorPrivilege: InstructorPrivilege) => {
             const courseLevelPrivilege: InstructorPermissionSet = instructorPrivilege.privileges.courseLevel;
 

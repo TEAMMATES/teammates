@@ -52,7 +52,9 @@ export class InstructorSearchPageComponent {
             ]),
         ),
         map((res: [SearchStudentsListRowTable[], InstructorPrivilege[]]) => this.combinePrivileges(res)),
-        finalize(() => this.isSearching = false),
+        finalize(() => {
+          this.isSearching = false;
+        }),
     ).subscribe((resp: TransformedInstructorSearchResult) => {
       const searchStudentsTable: SearchStudentsListRowTable[] = resp.searchStudentTables;
       const hasStudents: boolean = !!(
