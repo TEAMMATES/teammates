@@ -151,7 +151,7 @@ export class SessionEditFormComponent {
       case ResponseVisibleSetting.LATER:
       case ResponseVisibleSetting.AT_VISIBLE:
         return this.model.submissionStartDate;
-      case ResponseVisibleSetting.CUSTOM:
+      case ResponseVisibleSetting.CUSTOM: {
         const submissionStartDate: moment.Moment = this.getMomentInstance(this.model.submissionStartDate);
         const responseVisibleDate: moment.Moment = this.getMomentInstance(this.model.customResponseVisibleDate);
         if (submissionStartDate.isBefore(responseVisibleDate)) {
@@ -159,6 +159,7 @@ export class SessionEditFormComponent {
         }
 
         return this.model.customResponseVisibleDate;
+      }
       default:
         return {
           year: 0,
