@@ -371,7 +371,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     const statuses: (string | EnrollStatus)[] = Object.values(EnrollStatus)
         .filter((value: string | EnrollStatus) => typeof value === 'string');
 
-    for (const _ of statuses) {
+    for (let i = 0; i < statuses.length; i += 1) {
       studentLists.push([]);
     }
 

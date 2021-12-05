@@ -18,7 +18,7 @@ export class FeedbackTextResponseDetailsImpl extends AbstractFeedbackResponseDet
     this.answer = apiOutput.answer;
   }
 
-  getResponseCsvAnswers(_: FeedbackTextQuestionDetails): string[][] {
+  getResponseCsvAnswers(): string[][] {
     return [[StringHelper.getTextFromHtml(this.answer)]];
   }
 

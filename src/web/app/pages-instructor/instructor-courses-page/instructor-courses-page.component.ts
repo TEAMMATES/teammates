@@ -313,7 +313,7 @@ export class InstructorCoursesPageComponent implements OnInit {
     })
     .subscribe(() => {
       // Wrap in a Promise to wait for all feedback sessions to be copied
-      const promise: Promise<void> = new Promise<void>((resolve: () => void, _reject: () => void) => {
+      const promise: Promise<void> = new Promise<void>((resolve: () => void) => {
         result.selectedFeedbackSessionList.forEach((session: FeedbackSession) => {
           this.copyFeedbackSession(session, result.newCourseId, result.oldCourseId)
             .pipe(finalize(() => {

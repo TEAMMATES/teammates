@@ -9,7 +9,7 @@ export class DisabledNgbModal {
   /**
    * Mock open
    */
-  open(_content: any): void {}
+  open(): void {}
 }
 
 /**

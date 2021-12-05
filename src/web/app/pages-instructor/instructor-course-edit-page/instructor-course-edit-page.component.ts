@@ -663,7 +663,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
       courseId: instructor.courseId,
       instructorEmail: instructor.email,
       requestBody: { privileges },
-    }).subscribe((_: InstructorPrivilege) => {
+    }).subscribe(() => {
       // privileges updated
       // filter out empty permission setting
       permission.sectionLevel = permission.sectionLevel.filter(

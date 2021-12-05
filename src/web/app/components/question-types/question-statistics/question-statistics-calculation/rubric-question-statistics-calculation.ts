@@ -61,9 +61,9 @@ export class RubricQuestionStatisticsCalculation
     this.weights = this.question.rubricWeightsForEachCell;
 
     const emptyAnswers: number[][] = [];
-    for (const _ of this.question.rubricSubQuestions) {
+    for (let i = 0; i < this.question.rubricSubQuestions.length; i += 1) {
       const subQuestionAnswers: number[] = [];
-      for (const __ of this.question.rubricChoices) {
+      for (let j = 0; j < this.question.rubricChoices.length; j += 1) {
         subQuestionAnswers.push(0);
       }
       emptyAnswers.push(subQuestionAnswers);
