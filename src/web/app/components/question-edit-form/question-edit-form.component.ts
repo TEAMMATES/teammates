@@ -78,9 +78,9 @@ export class QuestionEditFormComponent {
     if (!model.isUsingOtherFeedbackPath) {
       // find if the feedback path is in the common feedback paths
       this.model.isUsingOtherFeedbackPath = true;
-      if (this.commonFeedbackPaths.has(model.giverType) &&
+      if (this.commonFeedbackPaths.has(model.giverType)
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          this.commonFeedbackPaths.get(model.giverType)!.includes(model.recipientType)) {
+          && this.commonFeedbackPaths.get(model.giverType)!.includes(model.recipientType)) {
         this.model.isUsingOtherFeedbackPath = false;
       }
     }

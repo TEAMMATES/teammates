@@ -30,8 +30,8 @@ export class FeedbackContributionQuestionDetailsImpl extends AbstractFeedbackQue
   getQuestionCsvStats(question: QuestionOutput): string[][] {
     const statsRows: string[][] = [];
 
-    const statsCalculation: ContributionQuestionStatisticsCalculation
-        = new ContributionQuestionStatisticsCalculation(this);
+    const statsCalculation: ContributionQuestionStatisticsCalculation =
+        new ContributionQuestionStatisticsCalculation(this);
     this.populateQuestionStatistics(statsCalculation, question);
     statsCalculation.statistics = question.questionStatistics;
     statsCalculation.parseStatistics();
@@ -39,11 +39,11 @@ export class FeedbackContributionQuestionDetailsImpl extends AbstractFeedbackQue
       return [];
     }
 
-    statsRows.push(['In the points given below, an equal share is equal to 100 points. ' +
-        'e.g. 80 means "Equal share - 20%" and 110 means "Equal share + 10%".']);
+    statsRows.push(['In the points given below, an equal share is equal to 100 points. '
+        + 'e.g. 80 means "Equal share - 20%" and 110 means "Equal share + 10%".']);
     statsRows.push(['Claimed Contribution (CC) = the contribution claimed by the student.']);
-    statsRows.push(['Perceived Contribution (PC) = the average value of ' +
-        "student's contribution as perceived by the team members."]);
+    statsRows.push(['Perceived Contribution (PC) = the average value of '
+        + "student's contribution as perceived by the team members."]);
     statsRows.push(['Team', 'Name', 'Email', 'CC', 'PC', 'Ratings Received']);
 
     const stats: {

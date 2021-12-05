@@ -93,9 +93,8 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
 
       this.loadStudentRecords();
       this.loadStudentResults();
-      this.photoUrl
-          = `${environment.backendUrl}/webapi/student/profilePic?`
-            + `courseid=${this.courseId}&studentemail=${this.studentEmail}`;
+      this.photoUrl = `${environment.backendUrl}/webapi/student/profilePic?`
+          + `courseid=${this.courseId}&studentemail=${this.studentEmail}`;
       this.instructorService.getInstructor({
         courseId: queryParams.courseid,
         intent: Intent.FULL_DETAIL,

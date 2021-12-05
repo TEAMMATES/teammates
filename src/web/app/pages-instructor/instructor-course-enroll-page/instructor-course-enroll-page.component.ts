@@ -143,16 +143,16 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
         .forEach((row: string[], index: number) => {
           if (!row.every((cell: string) => cell === null || cell === '')) {
             studentEnrollRequests.set(index, {
-              section: row[hotInstanceColHeaders.indexOf(this.colHeaders[0])] === null ?
-                  '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[0])].trim(),
-              team: row[hotInstanceColHeaders.indexOf(this.colHeaders[1])] === null ?
-                  '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[1])].trim(),
-              name: row[hotInstanceColHeaders.indexOf(this.colHeaders[2])] === null ?
-                  '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[2])].trim(),
-              email: row[hotInstanceColHeaders.indexOf(this.colHeaders[3])] === null ?
-                  '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[3])].trim(),
-              comments: row[hotInstanceColHeaders.indexOf(this.colHeaders[4])] === null ?
-                  '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[4])].trim(),
+              section: row[hotInstanceColHeaders.indexOf(this.colHeaders[0])] === null
+                  ? '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[0])].trim(),
+              team: row[hotInstanceColHeaders.indexOf(this.colHeaders[1])] === null
+                  ? '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[1])].trim(),
+              name: row[hotInstanceColHeaders.indexOf(this.colHeaders[2])] === null
+                  ? '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[2])].trim(),
+              email: row[hotInstanceColHeaders.indexOf(this.colHeaders[3])] === null
+                  ? '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[3])].trim(),
+              comments: row[hotInstanceColHeaders.indexOf(this.colHeaders[4])] === null
+                  ? '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[4])].trim(),
             });
           }
         });

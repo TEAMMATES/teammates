@@ -42,14 +42,11 @@ describe('NumScaleQuestionStatisticsComponent', () => {
 
     const team: string = 'Instructors';
     const recipient: string = 'Instructor';
-    expect(component.teamToRecipientToScores
-        [team][recipient].min).toEqual(expectedMin);
-    expect(component.teamToRecipientToScores
-        [team][recipient].max).toEqual(expectedMax);
-    expect(component.teamToRecipientToScores
-        [team][recipient].average).toEqual(expectedAverage);
-    expect(component.teamToRecipientToScores
-        [team][recipient].averageExcludingSelf).toEqual(expectedAverageExcludingSelf);
+    expect(component.teamToRecipientToScores[team][recipient].min).toEqual(expectedMin);
+    expect(component.teamToRecipientToScores[team][recipient].max).toEqual(expectedMax);
+    expect(component.teamToRecipientToScores[team][recipient].average).toEqual(expectedAverage);
+    expect(component.teamToRecipientToScores[team][recipient].averageExcludingSelf)
+        .toEqual(expectedAverageExcludingSelf);
   });
 
   it('should calculate statistics correctly if responses are zero', () => {
@@ -66,15 +63,11 @@ describe('NumScaleQuestionStatisticsComponent', () => {
 
     const team: string = 'Instructors';
     const recipient: string = 'Instructor';
-    expect(component.teamToRecipientToScores
-        [team][recipient].min).toEqual(expectedMin);
-    expect(component.teamToRecipientToScores
-        [team][recipient].max).toEqual(expectedMax);
-    expect(component.teamToRecipientToScores
-        [team][recipient].average).toEqual(expectedAverage);
-    expect(component.teamToRecipientToScores
-        [team][recipient].averageExcludingSelf).toEqual(expectedAverageExcludingSelf);
-
+    expect(component.teamToRecipientToScores[team][recipient].min).toEqual(expectedMin);
+    expect(component.teamToRecipientToScores[team][recipient].max).toEqual(expectedMax);
+    expect(component.teamToRecipientToScores[team][recipient].average).toEqual(expectedAverage);
+    expect(component.teamToRecipientToScores[team][recipient].averageExcludingSelf)
+        .toEqual(expectedAverageExcludingSelf);
   });
 
   it('should calculate statistics correctly if self-response exists', () => {
@@ -91,13 +84,10 @@ describe('NumScaleQuestionStatisticsComponent', () => {
 
     const team: string = 'Instructors';
     const recipient: string = 'Instructor';
-    expect(component.teamToRecipientToScores
-        [team][recipient].min).toEqual(expectedMin);
-    expect(component.teamToRecipientToScores
-        [team][recipient].max).toEqual(expectedMax);
-    expect(component.teamToRecipientToScores
-        [team][recipient].average).toEqual(expectedAverage);
-    expect(component.teamToRecipientToScores
-        [team][recipient].averageExcludingSelf).toEqual(expectedAverageExcludingSelf);
+    expect(component.teamToRecipientToScores[team][recipient].min).toEqual(expectedMin);
+    expect(component.teamToRecipientToScores[team][recipient].max).toEqual(expectedMax);
+    expect(component.teamToRecipientToScores[team][recipient].average).toEqual(expectedAverage);
+    expect(component.teamToRecipientToScores[team][recipient].averageExcludingSelf)
+        .toEqual(expectedAverageExcludingSelf);
   });
 });

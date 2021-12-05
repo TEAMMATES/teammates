@@ -388,11 +388,11 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
     }
 
     modalRef.result.then(() => {
-      const response: Observable<any> = isPublished ?
-          this.feedbackSessionsService.unpublishFeedbackSession(
+      const response: Observable<any> = isPublished
+          ? this.feedbackSessionsService.unpublishFeedbackSession(
             this.session.courseId, this.session.feedbackSessionName,
-          ) :
-          this.feedbackSessionsService.publishFeedbackSession(
+          )
+          : this.feedbackSessionsService.publishFeedbackSession(
             this.session.courseId, this.session.feedbackSessionName,
           );
 

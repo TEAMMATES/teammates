@@ -120,8 +120,8 @@ export class InstructorTrackViewPageComponent implements OnInit {
           finalize(() => this.isLoading = false))
       .subscribe(((feedbackSessions: FeedbackSessions) => {
         if (feedbackSessions.feedbackSessions.length > 0) {
-          this.courseToFeedbackSession[feedbackSessions.feedbackSessions[0].courseId]
-            = [...feedbackSessions.feedbackSessions];
+          this.courseToFeedbackSession[feedbackSessions.feedbackSessions[0].courseId] =
+              [...feedbackSessions.feedbackSessions];
         }
       }),
       (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));

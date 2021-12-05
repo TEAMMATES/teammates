@@ -31,8 +31,8 @@ export class FeedbackRankRecipientsQuestionDetailsImpl extends AbstractFeedbackQ
     const statsRows: string[][] = [];
     const emptyStr: string = '-';
 
-    const statsCalculation: RankRecipientsQuestionStatisticsCalculation
-        = new RankRecipientsQuestionStatisticsCalculation(this);
+    const statsCalculation: RankRecipientsQuestionStatisticsCalculation =
+        new RankRecipientsQuestionStatisticsCalculation(this);
     this.populateQuestionStatistics(statsCalculation, question);
     if (statsCalculation.responses.length === 0) {
       // skip stats for no response
@@ -55,15 +55,15 @@ export class FeedbackRankRecipientsQuestionDetailsImpl extends AbstractFeedbackQ
       statsRows.push([
         statsCalculation.emailToTeamName[recipient],
         statsCalculation.emailToName[recipient],
-        statsCalculation.selfRankPerOption[recipient] ?
-            String(statsCalculation.selfRankPerOption[recipient]) : emptyStr,
+        statsCalculation.selfRankPerOption[recipient]
+            ? String(statsCalculation.selfRankPerOption[recipient]) : emptyStr,
         statsCalculation.rankPerOption[recipient] ? String(statsCalculation.rankPerOption[recipient]) : emptyStr,
-        statsCalculation.rankPerOptionExcludeSelf[recipient] ?
-            String(statsCalculation.rankPerOptionExcludeSelf[recipient]) : emptyStr,
-        statsCalculation.rankPerOptionInTeam[recipient] ?
-            String(statsCalculation.rankPerOptionInTeam[recipient]) : emptyStr,
-        statsCalculation.rankPerOptionInTeamExcludeSelf[recipient] ?
-            String(statsCalculation.rankPerOptionInTeamExcludeSelf[recipient]) : emptyStr,
+        statsCalculation.rankPerOptionExcludeSelf[recipient]
+            ? String(statsCalculation.rankPerOptionExcludeSelf[recipient]) : emptyStr,
+        statsCalculation.rankPerOptionInTeam[recipient]
+            ? String(statsCalculation.rankPerOptionInTeam[recipient]) : emptyStr,
+        statsCalculation.rankPerOptionInTeamExcludeSelf[recipient]
+            ? String(statsCalculation.rankPerOptionInTeamExcludeSelf[recipient]) : emptyStr,
         ...statsCalculation.ranksReceivedPerOption[recipient].map(String),
       ]);
     });

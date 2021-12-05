@@ -215,8 +215,8 @@ export class StudentProfilePageComponent implements OnInit {
             this.profilePicLink = '/assets/images/profile_picture_default.png';
           }
         }, (response: ErrorMessageOutput) => {
-          this.statusMessageService.
-            showErrorToast(`Could not delete your profile picture! ${response.error.message}`);
+          this.statusMessageService
+            .showErrorToast(`Could not delete your profile picture! ${response.error.message}`);
         });
   }
 

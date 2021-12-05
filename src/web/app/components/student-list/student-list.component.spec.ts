@@ -217,8 +217,8 @@ describe('StudentListComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should snap with enable remind button set to true, one student yet to join when not allowed to modify' +
-      ' student', () => {
+  it('should snap with enable remind button set to true, one student yet to join when not allowed to modify'
+      + ' student', () => {
     component.students = [
       {
         student: {

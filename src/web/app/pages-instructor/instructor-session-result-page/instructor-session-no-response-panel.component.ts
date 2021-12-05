@@ -91,8 +91,8 @@ export class InstructorSessionNoResponsePanelComponent implements OnInit, OnChan
     const modalRef: NgbModalRef = this.ngbModal.open(SendRemindersToRespondentsModalComponent);
     modalRef.componentInstance.courseId = courseId;
     modalRef.componentInstance.feedbackSessionName = feedbackSessionName;
-    modalRef.componentInstance.studentListInfoTableRowModels
-      = this.allStudents.map((student: Student) => ({
+    modalRef.componentInstance.studentListInfoTableRowModels =
+      this.allStudents.map((student: Student) => ({
         email: student.email,
         name: student.name,
         teamName: student.teamName,

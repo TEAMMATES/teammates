@@ -37,8 +37,8 @@ export class FeedbackRankOptionsQuestionDetailsImpl extends AbstractFeedbackQues
   getQuestionCsvStats(question: QuestionOutput): string[][] {
     const statsRows: string[][] = [];
 
-    const statsCalculation: RankOptionsQuestionStatisticsCalculation
-        = new RankOptionsQuestionStatisticsCalculation(this);
+    const statsCalculation: RankOptionsQuestionStatisticsCalculation =
+        new RankOptionsQuestionStatisticsCalculation(this);
     this.populateQuestionStatistics(statsCalculation, question);
     if (statsCalculation.responses.length === 0) {
       // skip stats for no response

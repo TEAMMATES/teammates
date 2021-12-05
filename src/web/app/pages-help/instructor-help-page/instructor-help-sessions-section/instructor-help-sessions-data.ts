@@ -356,8 +356,8 @@ export const EXAMPLE_QUESTIONS_WITH_RESPONSES: QuestionOutput[] = [{
   allResponses: [EXAMPLE_RESPONSE_WITH_COMMENT],
   responsesToSelf: [
     {
-      responseId: 'ag50ZWFtbWF0ZXMtam9obnIdCxIQRmVlZGJhY2tRdWVzdGlvbhiAgICAgIDICQw' +
-          '%benny.c.tmms@gmail.tmt%alice.b.tmms@gmail.tmt',
+      responseId: 'ag50ZWFtbWF0ZXMtam9obnIdCxIQRmVlZGJhY2tRdWVzdGlvbhiAgICAgIDICQw'
+          + '%benny.c.tmms@gmail.tmt%alice.b.tmms@gmail.tmt',
       giver: 'Benny Charles',
       giverTeam: 'Team A',
       giverSection: 'Section A',
@@ -374,8 +374,8 @@ export const EXAMPLE_QUESTIONS_WITH_RESPONSES: QuestionOutput[] = [{
   ],
   responsesFromSelf: [
     {
-      responseId: 'ag50ZWFtbWF0ZXMtam9obnIdCxIQRmVlZGJhY2tRdWVzdGlvbhiAgICAgIDICQw' +
-          '%alice.b.tmms@gmail.tmt%alice.b.tmms@gmail.tmt',
+      responseId: 'ag50ZWFtbWF0ZXMtam9obnIdCxIQRmVlZGJhY2tRdWVzdGlvbhiAgICAgIDICQw'
+          + '%alice.b.tmms@gmail.tmt%alice.b.tmms@gmail.tmt',
       giver: 'You',
       giverTeam: 'Team A',
       giverSection: 'Section A',
@@ -390,8 +390,8 @@ export const EXAMPLE_QUESTIONS_WITH_RESPONSES: QuestionOutput[] = [{
       isMissingResponse: false,
     },
     {
-      responseId: 'ag50ZWFtbWF0ZXMtam9obnIdCxIQRmVlZGJhY2tRdWVzdGlvbhiAgICAgIDICQw' +
-          '     %alice.b.tmms@gmail.tmt%benny.c.tmms@gmail.tmt',
+      responseId: 'ag50ZWFtbWF0ZXMtam9obnIdCxIQRmVlZGJhY2tRdWVzdGlvbhiAgICAgIDICQw'
+          + '     %alice.b.tmms@gmail.tmt%benny.c.tmms@gmail.tmt',
       giver: 'You',
       giverTeam: 'Team A',
       giverSection: 'Section A',

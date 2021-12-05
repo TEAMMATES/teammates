@@ -221,8 +221,8 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
     const windowHeight: number = (window.innerHeight || document.documentElement.clientHeight);
 
     return !(
-      Math.floor(100 - (((rect.top >= 0 ? 0 : rect.top) / +-rect.height) * 100)) < 1 ||
-      Math.floor(100 - ((rect.bottom - windowHeight) / rect.height) * 100) < 1
+      Math.floor(100 - (((rect.top >= 0 ? 0 : rect.top) / +-rect.height) * 100)) < 1
+      || Math.floor(100 - ((rect.bottom - windowHeight) / rect.height) * 100) < 1
     );
   }
 
@@ -469,9 +469,8 @@ this session.`;
         // generate a list of empty response box
         const formMode: QuestionSubmissionFormMode = this.getQuestionSubmissionFormMode(model);
         model.recipientList.forEach((recipient: FeedbackResponseRecipient) => {
-          if (formMode === QuestionSubmissionFormMode.FLEXIBLE_RECIPIENT &&
-            model.recipientSubmissionForms.length >=
-            model.customNumberOfEntitiesToGiveFeedbackTo) {
+          if (formMode === QuestionSubmissionFormMode.FLEXIBLE_RECIPIENT
+              && model.recipientSubmissionForms.length >= model.customNumberOfEntitiesToGiveFeedbackTo) {
             return;
           }
 
@@ -498,12 +497,12 @@ this session.`;
    * Gets the form mode of the question submission form.
    */
   getQuestionSubmissionFormMode(model: QuestionSubmissionFormModel): QuestionSubmissionFormMode {
-    const isNumberOfEntitiesToGiveFeedbackToSettingLimited: boolean
-        = (model.recipientType === FeedbackParticipantType.STUDENTS
-        || model.recipientType === FeedbackParticipantType.STUDENTS_IN_SAME_SECTION
-        || model.recipientType === FeedbackParticipantType.TEAMS
-        || model.recipientType === FeedbackParticipantType.TEAMS_IN_SAME_SECTION
-        || model.recipientType === FeedbackParticipantType.INSTRUCTORS)
+    const isNumberOfEntitiesToGiveFeedbackToSettingLimited: boolean =
+        (model.recipientType === FeedbackParticipantType.STUDENTS
+            || model.recipientType === FeedbackParticipantType.STUDENTS_IN_SAME_SECTION
+            || model.recipientType === FeedbackParticipantType.TEAMS
+            || model.recipientType === FeedbackParticipantType.TEAMS_IN_SAME_SECTION
+            || model.recipientType === FeedbackParticipantType.INSTRUCTORS)
         && model.numberOfEntitiesToGiveFeedbackToSetting === NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM
         && model.recipientList.length > model.customNumberOfEntitiesToGiveFeedbackTo;
 

@@ -441,8 +441,8 @@ export class InstructorCourseEditPageComponent implements OnInit {
   deleteInstructor(index: number): void {
     const panelDetail: InstructorEditPanelDetail = this.instructorDetailPanels[index];
     const isDeletingSelf: boolean = panelDetail.originalInstructor.googleId === this.currInstructorGoogleId;
-    const modalContent: string = isDeletingSelf ?
-        `Are you sure you want to delete your instructor role from the course <strong>${panelDetail.originalInstructor.courseId}</strong>?
+    const modalContent: string = isDeletingSelf
+        ? `Are you sure you want to delete your instructor role from the course <strong>${panelDetail.originalInstructor.courseId}</strong>?
         You will not be able to access the course anymore.`
         : `Are you sure you want to delete the instructor <strong>${panelDetail.originalInstructor.name}</strong> from the course <strong>${panelDetail.originalInstructor.courseId}</strong>?
         He/she will not be able to access the course anymore.`;

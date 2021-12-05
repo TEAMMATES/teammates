@@ -83,8 +83,8 @@ describe('StudentProfilePageComponent', () => {
       moreInfo: 'I like to party',
     };
     component.student = studentDetails;
-    component.profilePicLink = `${environment.backendUrl}/webapi/students/` +
-        'profilePic?blob-key=$photo.jpg&time=1552509888215';
+    component.profilePicLink = `${environment.backendUrl}/webapi/students/`
+        + 'profilePic?blob-key=$photo.jpg&time=1552509888215';
     component.nationalities = ['Derpistan', 'Blablaland'];
     // Note: we are not using the full list of countries as the purpose of the snapshot test is to only check whether
     // the page is being rendered correctly.

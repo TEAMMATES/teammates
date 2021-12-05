@@ -33,8 +33,8 @@ export class MsqQuestionEditAnswerFormComponent
     this.isMsqOptionSelected = Array(this.questionDetails.msqChoices.length).fill(false);
     if (!this.isNoneOfTheAboveEnabled) {
       for (let i: number = 0; i < this.questionDetails.msqChoices.length; i += 1) {
-        const indexOfElementInAnswerArray: number
-            = this.responseDetails.answers.indexOf(this.questionDetails.msqChoices[i]);
+        const indexOfElementInAnswerArray: number =
+            this.responseDetails.answers.indexOf(this.questionDetails.msqChoices[i]);
         if (indexOfElementInAnswerArray > -1) {
           this.isMsqOptionSelected[i] = true;
         }
