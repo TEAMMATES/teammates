@@ -122,8 +122,6 @@ export class InstructorEditPanelComponent implements OnInit {
   @Output()
   viewRolePrivilegeModel: EventEmitter<InstructorPermissionRole> = new EventEmitter();
 
-  constructor() { }
-
   ngOnInit(): void {
   }
 

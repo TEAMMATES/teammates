@@ -11,8 +11,6 @@ export class ProgressBarService {
 
   progressPercentage: Subject<number> = new Subject<number>();
 
-  constructor() { }
-
   /**
    * Update the progress percentage on the progress bar.
    */

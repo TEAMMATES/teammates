@@ -61,8 +61,6 @@ export class SessionsRecycleBinTableComponent implements OnInit {
   @Output()
   recycleBinExpandEvent: EventEmitter<any> = new EventEmitter<any>();
 
-  constructor() { }
-
   /**
    * Sorts the list of deleted feedback session row
    */

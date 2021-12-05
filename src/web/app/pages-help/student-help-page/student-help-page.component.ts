@@ -13,8 +13,6 @@ export class StudentHelpPageComponent implements OnInit {
 
   readonly supportEmail: string = environment.supportEmail;
 
-  constructor() { }
-
   ngOnInit(): void {
   }
 

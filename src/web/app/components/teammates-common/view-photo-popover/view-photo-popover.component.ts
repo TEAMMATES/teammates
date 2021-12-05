@@ -21,8 +21,6 @@ export class ViewPhotoPopoverComponent implements OnInit {
 
   isPhotoShown: boolean = false;
 
-  constructor() { }
-
   ngOnInit(): void {
   }
 

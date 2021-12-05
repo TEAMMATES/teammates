@@ -24,8 +24,6 @@ export class ConstsumOptionsQuestionInstructionComponent implements OnInit {
   FeedbackConstantSumDistributePointsType: typeof FeedbackConstantSumDistributePointsType =
       FeedbackConstantSumDistributePointsType;
 
-  constructor() { }
-
   ngOnInit(): void {
   }
 

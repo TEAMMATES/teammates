@@ -28,8 +28,6 @@ export class GenericLogLineComponent implements OnInit {
     }
   }
 
-  constructor() { }
-
   ngOnInit(): void {
   }
 

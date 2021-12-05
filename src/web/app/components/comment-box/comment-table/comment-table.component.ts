@@ -70,8 +70,6 @@ export class CommentTableComponent implements OnInit {
   @Output()
   updateCommentEvent: EventEmitter<number> = new EventEmitter();
 
-  constructor() { }
-
   ngOnInit(): void {
   }
 

@@ -46,8 +46,6 @@ export class ResponseModerationButtonComponent implements OnInit {
   @Input()
   btnStyle: 'PRIMARY' | 'LIGHT' = 'LIGHT';
 
-  constructor() { }
-
   ngOnInit(): void { }
 
 }

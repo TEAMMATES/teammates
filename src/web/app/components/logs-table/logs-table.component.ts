@@ -30,8 +30,6 @@ export class LogsTableComponent implements OnInit {
   @Output()
   addUserInfoEvent: EventEmitter<RequestLogUser> = new EventEmitter<RequestLogUser>();
 
-  constructor() { }
-
   ngOnInit(): void {
   }
 

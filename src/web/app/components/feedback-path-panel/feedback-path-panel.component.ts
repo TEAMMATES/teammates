@@ -83,8 +83,6 @@ export class FeedbackPathPanelComponent implements OnInit {
   triggerModelChangeBatch: EventEmitter<Partial<QuestionEditFormModel>> =
     new EventEmitter<Partial<QuestionEditFormModel>>();
 
-  constructor() { }
-
   ngOnInit(): void {
   }
 

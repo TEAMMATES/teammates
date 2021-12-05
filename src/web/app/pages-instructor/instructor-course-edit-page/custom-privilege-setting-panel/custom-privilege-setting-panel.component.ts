@@ -61,8 +61,6 @@ export class CustomPrivilegeSettingPanelComponent implements OnInit {
   @Input()
   allSessions: string[] = [];
 
-  constructor() { }
-
   ngOnInit(): void {
   }
 

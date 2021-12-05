@@ -14,8 +14,6 @@ export class ToastComponent implements OnInit {
   @Input() toast: Toast | null = null;
   @Output() toastChange: EventEmitter<Toast | null> = new EventEmitter<Toast | null>();
 
-  constructor() { }
-
   ngOnInit(): void {
   }
 

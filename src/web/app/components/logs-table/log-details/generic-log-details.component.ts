@@ -22,8 +22,6 @@ export class GenericLogDetailsComponent implements OnInit {
     this.logValue = log;
   }
 
-  constructor() { }
-
   ngOnInit(): void {
   }
 

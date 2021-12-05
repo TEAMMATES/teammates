@@ -32,8 +32,6 @@ export class SingleResponseComponent implements OnInit {
   // enum
   FeedbackQuestionType: typeof FeedbackQuestionType = FeedbackQuestionType;
 
-  constructor() { }
-
   ngOnInit(): void {
   }
 

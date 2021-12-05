@@ -21,10 +21,6 @@ export class ConstsumRecipientsQuestionStatisticsCalculation
   averagePointsPerOption: Record<string, number> = {};
   averagePointsExcludingSelf: Record<string, number> = {};
 
-  constructor(question: FeedbackConstantSumQuestionDetails) {
-    super(question);
-  }
-
   calculateStatistics(): void {
     this.emailToTeamName = {};
     this.emailToName = {};

@@ -46,10 +46,6 @@ export abstract class InstructorResponsesViewBase {
     index: number,
   }> = new EventEmitter();
 
-  constructor() {
-
-  }
-
   /**
    * Triggers the delete comment event.
    */

@@ -24,8 +24,6 @@ export class LogsHistogramComponent implements OnInit, OnChanges {
   private yScale: any;
   private yAxis: any;
 
-  constructor() { }
-
   ngOnInit(): void {
     this.createSvg();
     this.drawBars();

@@ -18,8 +18,6 @@ export class UsermapPageComponent implements OnInit {
   nInstitutions: number = 0;
   nCountries: number = 0;
 
-  constructor() {}
-
   ngOnInit(): void {
     this.lastUpdated = userMapData.lastUpdated;
     this.nInstitutions = 0;

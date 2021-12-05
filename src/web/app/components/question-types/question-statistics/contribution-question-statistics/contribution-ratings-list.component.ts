@@ -16,8 +16,6 @@ export class ContributionRatingsListComponent implements OnInit {
   @Input()
   ratingsList: number[] = [];
 
-  constructor() { }
-
   ngOnInit(): void {
   }
 

@@ -35,8 +35,6 @@ export class PreviewSessionPanelComponent implements OnInit {
   @Input()
   forDisplayOnly: boolean = false;
 
-  constructor() { }
-
   ngOnInit(): void {
   }
 

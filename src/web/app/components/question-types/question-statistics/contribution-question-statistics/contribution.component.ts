@@ -20,8 +20,6 @@ export class ContributionComponent implements OnInit {
   @Input() value: number = 100;
   @Input() diffOnly: boolean = false;
 
-  constructor() { }
-
   ngOnInit(): void {
   }
 

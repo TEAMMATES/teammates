@@ -32,8 +32,6 @@ export class ExceptionLogLineComponent implements OnInit {
     }
   }
 
-  constructor() {}
-
   ngOnInit(): void {
   }
 

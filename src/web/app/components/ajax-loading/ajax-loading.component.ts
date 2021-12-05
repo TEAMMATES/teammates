@@ -16,8 +16,6 @@ export class AjaxLoadingComponent implements OnInit {
   @Input()
   color: string = 'white';
 
-  constructor() { }
-
   ngOnInit(): void {
   }
 

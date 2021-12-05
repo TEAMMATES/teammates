@@ -28,10 +28,6 @@ export class ContributionQuestionStatisticsCalculation
   questionOverallStatistics?: ContributionStatistics;
   questionStatisticsForStudent?: ContributionStatisticsEntryExt;
 
-  constructor(question: FeedbackContributionQuestionDetails) {
-    super(question);
-  }
-
   parseStatistics(): void {
     this.emailToTeamName = {};
     this.emailToName = {};

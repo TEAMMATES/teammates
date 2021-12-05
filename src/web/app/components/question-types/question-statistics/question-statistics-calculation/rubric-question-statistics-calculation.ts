@@ -42,10 +42,6 @@ export class RubricQuestionStatisticsCalculation
 
   perRecipientStatsMap: Record<string, PerRecipientStats> = {};
 
-  constructor(question: FeedbackRubricQuestionDetails) {
-    super(question);
-  }
-
   calculateStatistics(): void {
     this.answers = [];
     this.percentages = [];

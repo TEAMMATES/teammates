@@ -89,8 +89,6 @@ export class ViewResultsPanelComponent implements OnInit {
   @Output()
   collapseAllTabsEvent: EventEmitter<void> = new EventEmitter<void>();
 
-  constructor() { }
-
   ngOnInit(): void {
   }
 

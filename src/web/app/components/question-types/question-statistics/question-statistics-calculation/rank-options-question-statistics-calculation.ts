@@ -17,10 +17,6 @@ export class RankOptionsQuestionStatisticsCalculation
   ranksReceivedPerOption: Record<string, number[]> = {};
   rankPerOption: Record<string, number> = {};
 
-  constructor(question: FeedbackRankOptionsQuestionDetails) {
-    super(question);
-  }
-
   calculateStatistics(): void {
     this.ranksReceivedPerOption = {};
     this.rankPerOption = {};

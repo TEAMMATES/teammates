@@ -26,8 +26,6 @@ export class NewInstructorDataRowComponent implements OnInit {
   editedInstructorEmail!: string;
   editedInstructorInstitution!: string;
 
-  constructor() { }
-
   ngOnInit(): void {
     this.resetEditedInstructorDetails();
   }

@@ -48,8 +48,6 @@ export class QuestionResponsePanelComponent implements OnInit {
   @Input()
   intent: Intent = Intent.STUDENT_RESULT;
 
-  constructor() { }
-
   ngOnInit(): void {
   }
 

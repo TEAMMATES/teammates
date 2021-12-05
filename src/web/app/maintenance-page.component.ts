@@ -10,8 +10,6 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MaintenancePageComponent implements OnInit {
 
-  constructor() { }
-
   ngOnInit(): void {
   }
 

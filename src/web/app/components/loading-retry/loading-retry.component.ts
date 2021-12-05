@@ -16,8 +16,6 @@ export class LoadingRetryComponent implements OnInit {
 
   @Output() retryEvent: EventEmitter<any> = new EventEmitter<any>();
 
-  constructor() { }
-
   ngOnInit(): void {
   }
 

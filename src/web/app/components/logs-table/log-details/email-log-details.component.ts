@@ -30,8 +30,6 @@ export class EmailLogDetailsComponent implements OnInit {
     }
   }
 
-  constructor() { }
-
   ngOnInit(): void {
   }
 

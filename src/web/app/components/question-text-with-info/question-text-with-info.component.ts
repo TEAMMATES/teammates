@@ -25,8 +25,6 @@ export class QuestionTextWithInfoComponent implements OnInit {
 
   additionalInfoIsExpanded: boolean = false;
 
-  constructor() { }
-
   /**
    * Returns true if the question has additional info.
    */

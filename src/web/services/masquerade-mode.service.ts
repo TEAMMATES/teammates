@@ -8,8 +8,6 @@ import { Injectable } from '@angular/core';
 })
 export class MasqueradeModeService {
 
-  constructor() { }
-
   /**
    * Gets the masquerade user.
    */

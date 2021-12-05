@@ -19,8 +19,6 @@ export class TimepickerComponent implements OnInit {
   @Output()
   timeChange: EventEmitter<TimeFormat> = new EventEmitter();
 
-  constructor() { }
-
   ngOnInit(): void {
   }
 

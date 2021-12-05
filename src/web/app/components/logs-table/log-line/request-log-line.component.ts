@@ -36,8 +36,6 @@ export class RequestLogLineComponent implements OnInit {
     }
   }
 
-  constructor() {}
-
   ngOnInit(): void {
   }
 

@@ -23,10 +23,6 @@ export class RankRecipientsQuestionStatisticsCalculation
   rankPerOptionInTeam: Record<string, number> = {};
   rankPerOptionInTeamExcludeSelf: Record<string, number> = {};
 
-  constructor(question: FeedbackRankRecipientsQuestionDetails) {
-    super(question);
-  }
-
   calculateStatistics(): void {
     this.emailToTeamName = {};
     this.emailToName = {};

@@ -13,8 +13,6 @@ export class ContactPageComponent implements OnInit {
 
   readonly supportEmail: string = environment.supportEmail;
 
-  constructor() { }
-
   ngOnInit(): void {
   }
 

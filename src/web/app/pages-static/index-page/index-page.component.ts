@@ -16,8 +16,6 @@ export class IndexPageComponent implements OnInit {
   private testimonials: any[] = [];
   private testimonialIndex: number = -1;
 
-  constructor() {}
-
   ngOnInit(): void {
     const formatNumber: (n: number) => string = (n: number): string => {
       let number: string = String(n);

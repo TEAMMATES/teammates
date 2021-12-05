@@ -14,8 +14,6 @@ export class CourseRelatedInfoComponent implements OnInit {
   @Input() student?: Student;
   @Input() isDisplayOnly: boolean = false;
 
-  constructor() { }
-
   ngOnInit(): void {
   }
 

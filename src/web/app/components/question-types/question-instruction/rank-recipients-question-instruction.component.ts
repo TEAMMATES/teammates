@@ -20,8 +20,6 @@ export class RankRecipientsQuestionInstructionComponent implements OnInit {
 
   readonly NO_VALUE: number = NO_VALUE;
 
-  constructor() { }
-
   ngOnInit(): void {
   }
 

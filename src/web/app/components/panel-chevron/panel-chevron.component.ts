@@ -14,8 +14,6 @@ export class PanelChevronComponent implements OnInit {
 
   @Input() isExpanded: boolean = false;
 
-  constructor() { }
-
   ngOnInit(): void {
   }
 

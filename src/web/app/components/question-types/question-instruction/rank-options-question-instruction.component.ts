@@ -18,6 +18,4 @@ export class RankOptionsQuestionInstructionComponent {
 
   readonly NO_VALUE: number = NO_VALUE;
 
-  constructor() { }
-
 }

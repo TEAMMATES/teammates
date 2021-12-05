@@ -37,7 +37,7 @@ export class QuestionStatistics<Q extends FeedbackQuestionDetails, R extends Fee
   @Input() recipientType: FeedbackParticipantType = FeedbackParticipantType.NONE;
   @Input() isStudent: boolean = false;
 
-  protected constructor(question: Q) {
+  constructor(question: Q) {
     this.question = question;
   }
 

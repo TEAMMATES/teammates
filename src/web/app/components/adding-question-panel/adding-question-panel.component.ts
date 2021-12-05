@@ -29,9 +29,6 @@ export class AddingQuestionPanelComponent implements OnInit {
   @Output()
   copyQuestionsFromOtherSessionsEvent: EventEmitter<void> = new EventEmitter<void>();
 
-  constructor() {
-  }
-
   ngOnInit(): void {
   }
 

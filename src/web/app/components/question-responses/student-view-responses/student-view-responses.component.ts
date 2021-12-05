@@ -44,8 +44,6 @@ export class StudentViewResponsesComponent implements OnInit {
 
   recipient: string = '';
 
-  constructor() { }
-
   ngOnInit(): void {
     this.recipient = this.responses.length ? this.responses[0].recipient : '';
   }

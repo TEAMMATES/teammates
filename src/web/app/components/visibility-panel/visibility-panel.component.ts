@@ -91,8 +91,6 @@ export class VisibilityPanelComponent implements OnInit {
   @Output()
   visibilityStateMachineChange: EventEmitter<VisibilityStateMachine> = new EventEmitter<VisibilityStateMachine>();
 
-  constructor() { }
-
   ngOnInit(): void {
   }
 

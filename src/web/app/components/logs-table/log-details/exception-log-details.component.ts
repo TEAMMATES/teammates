@@ -35,8 +35,6 @@ export class ExceptionLogDetailsComponent implements OnInit {
     }
   }
 
-  constructor() { }
-
   ngOnInit(): void {
   }
 

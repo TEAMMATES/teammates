@@ -25,8 +25,6 @@ export class InstructorSearchBarComponent implements OnInit {
 
   @Output() searchParamsChange: EventEmitter<SearchParams> = new EventEmitter();
 
-  constructor() {}
-
   ngOnInit(): void {}
 
   /**

@@ -18,10 +18,6 @@ export class McqQuestionStatisticsCalculation
   weightedPercentagePerOption: Record<string, number> = {};
   perRecipientResponses: Record<string, any> = {};
 
-  constructor(question: FeedbackMcqQuestionDetails) {
-    super(question);
-  }
-
   calculateStatistics(): void {
     this.answerFrequency = {};
     this.percentagePerOption = {};

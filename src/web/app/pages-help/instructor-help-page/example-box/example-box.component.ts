@@ -23,8 +23,6 @@ export class DisabledNgbModal {
 })
 export class ExampleBoxComponent implements OnInit {
 
-  constructor() { }
-
   ngOnInit(): void {
   }
 
