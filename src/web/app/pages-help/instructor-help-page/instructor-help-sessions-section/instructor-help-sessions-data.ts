@@ -74,7 +74,7 @@ export const EXAMPLE_SESSION_EDIT_FORM_MODEL: SessionEditFormModel = {
 /**
  * Structure of example of comment edit form model
  */
-export let EXAMPLE_COMMENT_EDIT_FORM_MODEL: CommentEditFormModel = {
+export const EXAMPLE_COMMENT_EDIT_FORM_MODEL: CommentEditFormModel = {
   commentText: '',
 
   isUsingCustomVisibilities: false,

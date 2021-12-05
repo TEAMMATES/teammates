@@ -22,7 +22,7 @@ export class MoreInfoComponent {
    */
   openMoreInfoModal(): void {
     this.simpleModalService
-        .openInformationModal(`<b>${this.studentName}\'s Profile - More Info</b>`, SimpleModalType.NEUTRAL,
+        .openInformationModal(`<b>${this.studentName}'s Profile - More Info</b>`, SimpleModalType.NEUTRAL,
             this.moreInfoText, { confirmMessage: 'Close' });
   }
 

@@ -84,7 +84,7 @@ export class McqQuestionStatisticsCalculation
       for (const response of this.responses) {
         const isOther: boolean = response.responseDetails.isOther;
         const answer: string = isOther ? 'Other' : response.responseDetails.answer;
-        perRecipientResponse[response.recipient][answer] = perRecipientResponse[response.recipient][answer] + 1;
+        perRecipientResponse[response.recipient][answer] += 1;
       }
 
       for (const recipient of Object.keys(perRecipientResponse)) {

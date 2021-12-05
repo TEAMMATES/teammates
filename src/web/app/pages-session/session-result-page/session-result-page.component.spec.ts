@@ -741,5 +741,4 @@ describe('SessionResultPageComponent', () => {
     expect(navSpy).toHaveBeenCalledTimes(1);
     expect(navSpy).toHaveBeenLastCalledWith(expect.anything(), '/web/join', { entitytype: 'student', key: 'reg-key' });
   });
-})
-;
+});

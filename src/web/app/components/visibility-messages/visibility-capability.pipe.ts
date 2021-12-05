@@ -26,12 +26,10 @@ export class VisibilityCapabilityPipe implements PipeTransform {
       } else {
         message += ', but not your name';
       }
+    } else if (controls.SHOW_GIVER_NAME) {
+      message += ', and your name, but not the name of the recipient';
     } else {
-      if (controls.SHOW_GIVER_NAME) {
-        message += ', and your name, but not the name of the recipient';
-      } else {
-        message += ', but not the name of the recipient, or your name';
-      }
+      message += ', but not the name of the recipient, or your name';
     }
 
     return message;

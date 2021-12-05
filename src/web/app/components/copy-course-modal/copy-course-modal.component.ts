@@ -10,6 +10,8 @@ interface Timezone {
   offset: string;
 }
 
+const zeroPad: (num: number) => string = (num: number) => String(num).padStart(2, '0');
+
 /**
  * Copy course modal.
  */
@@ -129,5 +131,3 @@ export class CopyCourseModalComponent implements OnInit {
     }
   }
 }
-
-const zeroPad: (num: number) => string = (num: number) => String(num).padStart(2, '0');

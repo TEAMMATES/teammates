@@ -531,5 +531,5 @@ type DistinctFields = [
   DistinctInstructorsMap,
   DistinctCoursesMap,
   DistinctFeedbackSessionsMap,
-  DistinctInstructorPrivilegesMap
+  DistinctInstructorPrivilegesMap,
 ];

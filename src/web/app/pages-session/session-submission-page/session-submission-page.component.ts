@@ -179,6 +179,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                     ${environment.supportEmail} for help.`);
               } else {
                 // There is no logged in user for a valid, used registration key, redirect to login page
+                // eslint-disable-next-line no-lonely-if
                 if (this.entityType === 'student') {
                   window.location.href = `${this.backendUrl}${auth.studentLoginUrl}`;
                 } else if (this.entityType === 'instructor') {

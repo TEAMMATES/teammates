@@ -286,7 +286,7 @@ export class AdminSearchPageComponent {
    */
   private getUpdatedUrl(link: string, newVal: string): string {
     const param: string = 'key';
-    const regex: RegExp = new RegExp(`(${param}=)[^\&]+`);
+    const regex: RegExp = new RegExp(`(${param}=)[^&]+`);
 
     return link.replace(regex, `$1${newVal}`);
   }

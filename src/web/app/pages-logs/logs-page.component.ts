@@ -420,7 +420,7 @@ export class LogsPageComponent implements OnInit {
     this.isSearching = true;
     this.queryParams.order = DESCENDING_ORDER;
     this.queryParams.startTime = this.searchStartTime;
-    this.searchStartTime = this.searchStartTime - TEN_MINUTES_IN_MILLISECONDS;
+    this.searchStartTime -= TEN_MINUTES_IN_MILLISECONDS;
     this.queryParams.endTime = this.searchStartTime;
     this.searchPreviousLogs();
   }
@@ -429,7 +429,7 @@ export class LogsPageComponent implements OnInit {
     this.isSearching = true;
     this.queryParams.order = ASCENDING_ORDER;
     this.queryParams.startTime = this.searchEndTime;
-    this.searchEndTime = this.searchEndTime + TEN_MINUTES_IN_MILLISECONDS;
+    this.searchEndTime += TEN_MINUTES_IN_MILLISECONDS;
     this.queryParams.endTime = this.searchEndTime;
     this.searchLaterLogs();
   }

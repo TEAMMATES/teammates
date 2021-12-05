@@ -76,7 +76,7 @@ export abstract class InstructorHelpSectionComponent implements OnInit, OnChange
 
         // remove punctuation
       keywords = keywords.map((word: string) =>
-        word.replace(/\b[-.,()?&$#!\[\]{}']+\B|\B[-.,()&?$#!\[\]{}']+\b/g, ''));
+        word.replace(/\b[-.,()?&$#![\]{}']+\B|\B[-.,()&?$#![\]{}']+\b/g, ''));
 
       const newQuestion: QuestionDetail = {
         id,

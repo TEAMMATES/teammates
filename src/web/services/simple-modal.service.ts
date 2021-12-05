@@ -40,7 +40,7 @@ export class SimpleModalService {
     modalRef.componentInstance.content = content;
     modalRef.componentInstance.type = type;
     if (options) {
-      Object.entries(options).map(([key, value]: [string, string | boolean]) => {
+      Object.entries(options).forEach(([key, value]: [string, string | boolean]) => {
         modalRef.componentInstance[key] = value;
       });
     }

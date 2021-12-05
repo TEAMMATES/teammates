@@ -138,7 +138,7 @@ export class StudentHomePageComponent implements OnInit {
 
             this.courses.push({ course, feedbackSessions: studentSessions });
             this.courses.sort((a: StudentCourse, b: StudentCourse) =>
-              (a.course.courseId > b.course.courseId) ? 1 : -1);
+              ((a.course.courseId > b.course.courseId) ? 1 : -1));
           }, (error: ErrorMessageOutput) => {
             this.hasCoursesLoadingFailed = true;
             this.statusMessageService.showErrorToast(error.error.message);

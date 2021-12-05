@@ -82,7 +82,7 @@ export class UsermapPageComponent implements OnInit {
         .enter().insert('path')
         .attr('class', 'usermap-country')
         .attr('d', d3.geoPath().projection(projection))
-        .style('fill', (d: any) => countryNames.indexOf(d.properties.name) === -1 ? 'F2F2F2' : '428BCA')
+        .style('fill', (d: any) => (countryNames.indexOf(d.properties.name) === -1 ? 'F2F2F2' : '428BCA'))
         .on('mouseover', (event: any) => {
           const country: string = event.properties.name;
           if (!institutes[country]) {

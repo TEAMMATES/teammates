@@ -10,7 +10,7 @@ import { MasqueradeModeService } from '../../../services/masquerade-mode.service
   selector: 'a[tmRouterLink]',
 })
 export class TeammatesRouterDirective extends RouterLinkWithHref {
-  private _queryParams: { [k: string]: any } = {};
+  private queryParamsInternal: { [k: string]: any } = {};
 
   @Input()
   set tmRouterLink(commands: any[] | string) {
@@ -20,15 +20,15 @@ export class TeammatesRouterDirective extends RouterLinkWithHref {
   @Input()
   // @ts-ignore
   set queryParams(params: { [k: string]: any }) {
-    this._queryParams = params;
+    this.queryParamsInternal = params;
   }
 
   get queryParams(): { [k: string]: any } {
     const userParam: string = this.masqueradeModeService.getMasqueradeUser();
     if (userParam !== '') {
-      return { ...this._queryParams, user: userParam };
+      return { ...this.queryParamsInternal, user: userParam };
     }
-    return this._queryParams;
+    return this.queryParamsInternal;
   }
 
   constructor(router: Router, route: ActivatedRoute, locationStrategy: LocationStrategy,

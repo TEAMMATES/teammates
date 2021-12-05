@@ -13,6 +13,7 @@ import { SessionResultCsvService } from './session-result-csv.service';
  * Loads data for testing.
  */
 const loadTestData: (filename: string) => SessionResults = (filename: string): SessionResults => {
+  // eslint-disable-next-line import/no-dynamic-require,global-require
   return require(`./test-data/${filename}`);
 };
 
@@ -50,7 +51,9 @@ describe('SessionResultCsvService', () => {
         HttpClientTestingModule,
       ],
     });
+  });
 
+  it('should be created', () => {
     service = TestBed.inject(SessionResultCsvService);
     expect(service).toBeTruthy();
   });

@@ -115,7 +115,7 @@ export class InstructorHelpPageComponent implements AfterViewInit {
       duration: 500,
       scrollTarget: `#${target}`,
       scrollOffset: 70,
-    }), timeout ? timeout : 500);
+    }), timeout || 500);
   }
 
   /**
