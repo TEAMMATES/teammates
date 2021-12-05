@@ -542,7 +542,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   saveExistingQuestionHandler(index: number): void {
     const questionEditFormModel: QuestionEditFormModel = this.questionEditFormModels[index];
     const originalQuestionNumber: number =
-        // tslint:disable-next-line:no-non-null-assertion
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         this.feedbackQuestionModels.get(questionEditFormModel.feedbackQuestionId)!.questionNumber;
 
     questionEditFormModel.isSaving = true;
@@ -610,7 +610,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     for (let i: number = 1; i <= this.questionEditFormModels.length; i += 1) {
       const questionEditFormModel: QuestionEditFormModel = this.questionEditFormModels[i - 1];
       questionEditFormModel.questionNumber = i;
-      // tslint:disable-next-line:no-non-null-assertion
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       this.feedbackQuestionModels.get(questionEditFormModel.feedbackQuestionId)!.questionNumber = i;
     }
   }
@@ -621,7 +621,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   discardExistingQuestionHandler(index: number): void {
     const questionEditFormModel: QuestionEditFormModel = this.questionEditFormModels[index];
     const feedbackQuestion: FeedbackQuestion =
-        // tslint:disable-next-line:no-non-null-assertion
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         this.feedbackQuestionModels.get(questionEditFormModel.feedbackQuestionId)!;
     this.questionEditFormModels[index] = this.getQuestionEditFormModel(feedbackQuestion);
   }
@@ -783,7 +783,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
           this.feedbackQuestionsService.getAllowedFeedbackPaths(type);
       // inherit feedback path if applicable
       if (newQuestionAllowedFeedbackPaths.has(lastQuestionEditFormModel.giverType)
-          // tslint:disable-next-line:no-non-null-assertion
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           && newQuestionAllowedFeedbackPaths.get(lastQuestionEditFormModel.giverType)!
               .indexOf(lastQuestionEditFormModel.recipientType) !== -1) {
         this.newQuestionEditFormModel.giverType = lastQuestionEditFormModel.giverType;

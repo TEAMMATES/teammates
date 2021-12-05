@@ -28,7 +28,7 @@ export interface Response<R extends FeedbackResponseDetails> {
  * The abstract question statistics.
  */
 @Directive()
-// tslint:disable-next-line:directive-class-suffix
+// eslint-disable-next-line @angular-eslint/directive-class-suffix
 export class QuestionStatistics<Q extends FeedbackQuestionDetails, R extends FeedbackResponseDetails>
     implements OnInit {
 

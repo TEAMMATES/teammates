@@ -5,7 +5,7 @@ import { FeedbackQuestionDetails } from '../../../../types/api-output';
  * The abstract question additional info section.
  */
 @Directive()
-// tslint:disable-next-line:directive-class-suffix
+// eslint-disable-next-line @angular-eslint/directive-class-suffix
 export abstract class QuestionAdditionalInfo<Q extends FeedbackQuestionDetails> implements OnInit {
 
   @Input()

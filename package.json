@@ -6,7 +6,7 @@
     "analyze": "webpack-bundle-analyzer src/main/webapp/stats-es2015.json",
     "test": "ng test --watch",
     "coverage": "rimraf coverage && ng test --coverage",
-    "lint:ts": "ng lint --tslint-config static-analysis/teammates-tslint.yml",
+    "lint:ts": "ng lint --eslint-config static-analysis/teammates-eslint.yml",
     "lint:css": "stylelint \"src/web/**/*.css\" \"src/web/**/*.scss\" \"src/web/**/*.html\" --config static-analysis/teammates-stylelint.yml",
     "lint:spaces": "lintspaces -n -t -d spaces -l 1 -. \"src/main/**/*.html\" \"src/web/**/*.html\" \"src/**/*.xml\" \"src/**/*.json\" \"src/**/*.properties\" \"*.yml\" \"*.json\" \"*.gradle\" \"static-analysis/*.*ml\" \".gitattributes\"",
     "lint": "npm-run-all lint:* -c"

@@ -1,4 +1,4 @@
-// tslint:disable-next-line:max-line-length
+// eslint-disable-next-line max-len
 import { MsqQuestionStatisticsCalculation } from '../../app/components/question-types/question-statistics/question-statistics-calculation/msq-question-statistics-calculation';
 import {
   FeedbackMsqQuestionDetails,

@@ -14,7 +14,7 @@ import { InstructorSessionResultViewType } from './instructor-session-result-vie
  * Abstract component for all different view type components of instructor sessions result page.
  */
 @Directive()
-// tslint:disable-next-line:directive-class-suffix
+// eslint-disable-next-line @angular-eslint/directive-class-suffix
 export abstract class InstructorSessionResultView implements OnInit {
 
   @Input() section: string = '';

@@ -24,7 +24,7 @@ export interface PerRecipientStats {
  * Class to calculate stats for rubric question.
  */
 @Directive()
-// tslint:disable-next-line:directive-class-suffix
+// eslint-disable-next-line @angular-eslint/directive-class-suffix
 export class RubricQuestionStatisticsCalculation
     extends QuestionStatistics<FeedbackRubricQuestionDetails, FeedbackRubricResponseDetails> {
 

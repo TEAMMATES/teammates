@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
-// tslint:disable-next-line:max-line-length
+// eslint-disable-next-line max-len
 import { ResponseModerationButtonModule } from '../../../pages-instructor/instructor-session-result-page/response-moderation-button/response-moderation-button.module';
 
 import { CommentBoxModule } from '../../comment-box/comment-box.module';

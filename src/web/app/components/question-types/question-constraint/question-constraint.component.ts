@@ -6,7 +6,7 @@ import { FeedbackResponseRecipientSubmissionFormModel } from '../../question-sub
  * Base class for constraint components.
  */
 @Directive()
-// tslint:disable-next-line:directive-class-suffix
+// eslint-disable-next-line @angular-eslint/directive-class-suffix
 export abstract class QuestionConstraintComponent<Q extends FeedbackQuestionDetails> {
 
   @Input()

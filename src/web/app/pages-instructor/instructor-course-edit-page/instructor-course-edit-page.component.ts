@@ -330,12 +330,12 @@ export class InstructorCourseEditPageComponent implements OnInit {
       googleId: i.googleId,
       courseId: i.courseId,
       email: i.email,
-      // tslint:disable-next-line
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       isDisplayedToStudents: i.isDisplayedToStudents!,
-      // tslint:disable-next-line
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       displayedToStudentsAs: i.displayedToStudentsAs!,
       name: i.name,
-      // tslint:disable-next-line
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       role: i.role!,
       joinState: i.joinState,
 

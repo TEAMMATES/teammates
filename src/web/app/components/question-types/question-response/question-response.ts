@@ -5,7 +5,7 @@ import { FeedbackQuestionDetails, FeedbackResponseDetails } from '../../../../ty
  * The abstract question response.
  */
 @Directive()
-// tslint:disable-next-line:directive-class-suffix
+// eslint-disable-next-line @angular-eslint/directive-class-suffix
 export abstract class QuestionResponse<R extends FeedbackResponseDetails, Q extends FeedbackQuestionDetails>
     implements OnInit {
 

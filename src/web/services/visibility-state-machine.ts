@@ -1,7 +1,7 @@
 import { FeedbackParticipantType, FeedbackVisibilityType } from '../types/api-output';
 import { VisibilityControl } from '../types/visibility-control';
 
-/* tslint:disable: no-non-null-assertion */
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /**
  * The state machine for visibility settings for responses.
  */
@@ -252,4 +252,4 @@ export class VisibilityStateMachine {
     };
   }
 }
-/* tslint:enable: no-non-null-assertion */
+/* eslint-enable @typescript-eslint/no-non-null-assertion */

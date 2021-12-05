@@ -1,4 +1,4 @@
-// tslint:disable-next-line:max-line-length
+// eslint-disable-next-line max-len
 import { NumScaleQuestionStatisticsCalculation } from '../../app/components/question-types/question-statistics/question-statistics-calculation/num-scale-question-statistics-calculation';
 import {
   FeedbackNumericalScaleQuestionDetails, FeedbackParticipantType,

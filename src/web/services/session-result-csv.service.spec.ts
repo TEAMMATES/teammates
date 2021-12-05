@@ -20,7 +20,7 @@ const loadTestData: (filename: string) => SessionResults = (filename: string): S
  * Substitutes values that are different across different properties configuration.
  */
 const replaceUnpredictableValuesWithPlaceholders: (str: string) => string = (str: string): string => {
-  // tslint:disable-next-line:no-invalid-template-strings
+  // eslint-disable-next-line no-template-curly-in-string
   return str.replace(/Anonymous (student|instructor|team) [0-9]{1,10}/g, 'Anonymous $1 ${participant.hash}');
 };
 

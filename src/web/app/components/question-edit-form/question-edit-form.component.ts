@@ -79,7 +79,7 @@ export class QuestionEditFormComponent implements OnInit {
       // find if the feedback path is in the common feedback paths
       this.model.isUsingOtherFeedbackPath = true;
       if (this.commonFeedbackPaths.has(model.giverType) &&
-          // tslint:disable-next-line:no-non-null-assertion
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           this.commonFeedbackPaths.get(model.giverType)!.includes(model.recipientType)) {
         this.model.isUsingOtherFeedbackPath = false;
       }

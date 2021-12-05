@@ -12,7 +12,7 @@ import { McqMsqQuestionStatisticsCalculation } from './mcq-msq-question-statisti
  * Class to calculate stats for msq question.
  */
 @Directive()
-// tslint:disable-next-line:directive-class-suffix
+// eslint-disable-next-line @angular-eslint/directive-class-suffix
 export class MsqQuestionStatisticsCalculation
     extends QuestionStatistics<FeedbackMsqQuestionDetails, FeedbackMsqResponseDetails>
     implements McqMsqQuestionStatisticsCalculation {

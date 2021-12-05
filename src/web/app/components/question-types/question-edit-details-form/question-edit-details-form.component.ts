@@ -5,7 +5,7 @@ import { FeedbackQuestionDetails } from '../../../../types/api-output';
  * The abstract question details edit form component.
  */
 @Directive()
-// tslint:disable-next-line:directive-class-suffix
+// eslint-disable-next-line @angular-eslint/directive-class-suffix
 export abstract class QuestionEditDetailsFormComponent<D extends FeedbackQuestionDetails> implements OnInit {
 
   model: D;

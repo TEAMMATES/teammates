@@ -10,7 +10,7 @@ import { QuestionStatistics } from '../question-statistics';
  * Class to calculate stats for constsum recipients question.
  */
 @Directive()
-// tslint:disable-next-line:directive-class-suffix
+// eslint-disable-next-line @angular-eslint/directive-class-suffix
 export class ConstsumRecipientsQuestionStatisticsCalculation
     extends QuestionStatistics<FeedbackConstantSumQuestionDetails, FeedbackConstantSumResponseDetails> {
 
