@@ -95,6 +95,7 @@ export class SessionLinksRecoveryPageComponent implements OnInit {
 
   /**
    * Handles successful completion recaptcha challenge.
+   *
    * @param captchaResponse User's captcha response token
    */
   handleSuccess(captchaResponse: string): void {

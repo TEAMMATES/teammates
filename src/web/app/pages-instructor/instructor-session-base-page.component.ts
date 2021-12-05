@@ -133,7 +133,8 @@ export abstract class InstructorSessionBasePageComponent {
   }
 
   /**
-   * Creates list of copy session requests from params
+   * Creates list of copy session requests from params.
+   *
    * @param model the source session model
    * @param result the result of the copy session modal
    * @returns the list of copy session requests
@@ -155,7 +156,8 @@ export abstract class InstructorSessionBasePageComponent {
   }
 
   /**
-   * Creates list of copy session requests from params
+   * Creates list of copy session requests from params.
+   *
    * @param result the result of the copy session modal
    * @param courseId the source courseId
    * @param feedbackSessionName the source feedback session name

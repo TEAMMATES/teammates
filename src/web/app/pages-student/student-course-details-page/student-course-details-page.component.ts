@@ -87,7 +87,8 @@ export class StudentCourseDetailsPageComponent implements OnInit {
 
   /**
    * Loads the course details.
-   * @param courseid: id of the course queried
+   *
+   * @param courseId id of the course queried
    */
   loadCourse(courseId: string): void {
     this.isLoadingCourse = true;
@@ -105,7 +106,8 @@ export class StudentCourseDetailsPageComponent implements OnInit {
 
   /**
    * Loads the current logged-in student of the course.
-   * @param courseid: id of the course queried
+   *
+   * @param courseId id of the course queried
    */
   loadStudent(courseId: string): void {
     this.isLoadingStudent = true;
@@ -124,8 +126,9 @@ export class StudentCourseDetailsPageComponent implements OnInit {
 
   /**
    * Loads the teammates of the current student.
-   * @param courseid: id of the course queried
-   * @param teamName: team of current student
+   *
+   * @param courseId id of the course queried
+   * @param teamName team of current student
    */
   loadTeammates(courseId: string, teamName: string): void {
     this.isLoadingTeammates = true;
@@ -173,7 +176,8 @@ export class StudentCourseDetailsPageComponent implements OnInit {
 
   /**
    * Loads the instructors of the course.
-   * @param courseid: id of the course queried
+   *
+   * @param courseId id of the course queried
    */
   loadInstructors(courseId: string): void {
     this.isLoadingInstructor = true;
@@ -198,7 +202,8 @@ export class StudentCourseDetailsPageComponent implements OnInit {
 
   /**
    * Checks the option selected to sort teammates.
-   * @param sortOption: option for sorting
+   *
+   * @param sortOption option for sorting
    */
   isSelectedForSorting(sortOption: SortBy): boolean {
     return this.teammateProfilesSortBy === sortOption;
@@ -206,7 +211,8 @@ export class StudentCourseDetailsPageComponent implements OnInit {
 
   /**
    * Sorts the teammates according to selected option.
-   * @param sortOption: option for sorting
+   *
+   * @param sortOption option for sorting
    */
   sortTeammatesBy(sortOption: SortBy): void {
     this.teammateProfilesSortBy = sortOption;
@@ -218,7 +224,8 @@ export class StudentCourseDetailsPageComponent implements OnInit {
 
   /**
    * Sorts the panels of teammates in order.
-   * @param sortOption: option for sorting
+   *
+   * @param sortOption option for sorting
    */
   sortPanelsBy(sortOption: SortBy):
       ((a: StudentProfile, b: StudentProfile) => number) {

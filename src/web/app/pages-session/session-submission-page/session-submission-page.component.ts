@@ -214,7 +214,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   /**
    * Checks if a given element is in view.
    *
-   * @params e element to perform check for
+   * @param e element to perform check for
    */
   isInViewport(e: HTMLElement): boolean {
     const rect: ClientRect = e.getBoundingClientRect();

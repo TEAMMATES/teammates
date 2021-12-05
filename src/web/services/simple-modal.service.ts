@@ -26,7 +26,8 @@ export class SimpleModalService {
   }
 
   /**
-   * Opens a confirmation modal
+   * Opens a confirmation modal.
+   *
    * @param header to be displayed on the modal
    * @param type which determines the look of the modal
    * @param content to be displayed in the body of the modal. content supports HTML tags
