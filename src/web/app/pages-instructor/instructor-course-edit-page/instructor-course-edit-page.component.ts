@@ -227,7 +227,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
     })).subscribe((resp: Course) => {
       this.course = resp;
       this.currInstructorCoursePrivilege = resp.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE();
-      this.originalCourse = Object.assign({}, resp);
+      this.originalCourse = { ...resp };
     }, (resp: ErrorMessageOutput) => {
       this.hasCourseLoadingFailed = true;
       this.statusMessageService.showErrorToast(resp.error.message);
@@ -273,7 +273,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
       this.statusMessageService.showSuccessToast('The course has been edited.');
       this.isEditingCourse = false;
       this.course = resp;
-      this.originalCourse = Object.assign({}, resp);
+      this.originalCourse = { ...resp };
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorToast(resp.error.message);
     });
@@ -285,7 +285,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
    * Cancels editing the course details.
    */
   cancelEditingCourse(): void {
-    this.course = Object.assign({}, this.originalCourse);
+    this.course = { ...this.originalCourse };
     this.isEditingCourse = false;
     Object.values(this.form.controls).forEach((control: any) => control.markAsPristine());
     Object.values(this.form.controls).forEach((control: any) => control.markAsUntouched());
@@ -303,7 +303,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
     })
         .subscribe((resp: Instructors) => {
           this.instructorDetailPanels = resp.instructors.map((i: Instructor) => ({
-            originalInstructor: Object.assign({}, i),
+            originalInstructor: { ...i },
             originalPanel: this.getInstructorEditPanelModel(i),
             editPanel: this.getInstructorEditPanelModel(i),
             isSavingInstructorEdit: false,
@@ -418,7 +418,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
       requestBody: reqBody,
     }).pipe(finalize(() => panelDetail.editPanel.isSavingInstructorEdit = false)).subscribe((resp: Instructor) => {
       panelDetail.editPanel.isEditing = false;
-      panelDetail.originalInstructor = Object.assign({}, resp);
+      panelDetail.originalInstructor = { ...resp };
       const permission: InstructorOverallPermission = panelDetail.editPanel.permission;
 
       panelDetail.editPanel = this.getInstructorEditPanelModel(resp);
@@ -505,7 +505,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
         .pipe(finalize(() => this.isSavingNewInstructor = false))
         .subscribe((resp: Instructor) => {
           const newDetailPanels: InstructorEditPanelDetail = {
-            originalInstructor: Object.assign({}, resp),
+            originalInstructor: { ...resp },
             originalPanel: this.getInstructorEditPanelModel(resp),
             editPanel: this.getInstructorEditPanelModel(resp),
           };

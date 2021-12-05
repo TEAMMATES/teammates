@@ -55,7 +55,7 @@ export class CommentTableModalComponent implements OnChanges {
   ngOnChanges(): void {
     if (!this.model.isAddingNewComment) {
       // in the model, we should always let the new comment box open regardless of upstream's settings
-      this.modelChange.emit(Object.assign({}, this.model, { isAddingNewComment: true }));
+      this.modelChange.emit({ ...this.model, isAddingNewComment: true });
     }
   }
 

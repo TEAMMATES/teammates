@@ -49,7 +49,7 @@ export class RespondentListInfoTableComponent {
         this.studentListInfoTableSortOrder === SortOrder.DESC ? SortOrder.ASC : SortOrder.DESC;
 
     this.studentListInfoTableRowModelsChange.emit(
-        this.studentListInfoTableRowModels.map((oldModel: StudentListInfoTableRowModel) => Object.assign({}, oldModel))
+        this.studentListInfoTableRowModels.map((oldModel: StudentListInfoTableRowModel) => ({ ...oldModel }))
             .sort(this.sortStudentRowsBy(by, this.studentListInfoTableSortOrder)),
     );
     this.studentListInfoTableSortBy = by;
@@ -62,7 +62,7 @@ export class RespondentListInfoTableComponent {
 
     this.instructorListInfoTableRowModelsChange.emit(
         this.instructorListInfoTableRowModels.map(
-            (oldModel: InstructorListInfoTableRowModel) => Object.assign({}, oldModel))
+            (oldModel: InstructorListInfoTableRowModel) => ({ ...oldModel }))
             .sort(this.sortInstructorRowsBy(by, this.instructorListInfoTableSortOrder)),
     );
     this.instructorListInfoTableSortBy = by;
@@ -75,11 +75,9 @@ export class RespondentListInfoTableComponent {
     this.studentListInfoTableRowModelsChange.emit(
         this.studentListInfoTableRowModels.map((oldModel: StudentListInfoTableRowModel) => {
           if (oldModel === model) {
-            return Object.assign({}, oldModel, {
-              isSelected: !oldModel.isSelected,
-            });
+            return { ...oldModel, isSelected: !oldModel.isSelected };
           }
-          return Object.assign({}, oldModel);
+          return { ...oldModel };
         }),
     );
   }
@@ -88,11 +86,9 @@ export class RespondentListInfoTableComponent {
     this.instructorListInfoTableRowModelsChange.emit(
         this.instructorListInfoTableRowModels.map((oldModel: InstructorListInfoTableRowModel) => {
           if (oldModel === model) {
-            return Object.assign({}, oldModel, {
-              isSelected: !oldModel.isSelected,
-            });
+            return { ...oldModel, isSelected: !oldModel.isSelected };
           }
-          return Object.assign({}, oldModel);
+          return { ...oldModel };
         }),
     );
   }
@@ -175,9 +171,8 @@ export class RespondentListInfoTableComponent {
    */
   changeSelectionStatusForAllStudentsHandler(shouldSelect: boolean): void {
     this.studentListInfoTableRowModelsChange.emit(
-        this.studentListInfoTableRowModels.map((model: StudentListInfoTableRowModel) => Object.assign({}, model, {
-          isSelected: shouldSelect,
-        })),
+        this.studentListInfoTableRowModels.map(
+            (model: StudentListInfoTableRowModel) => ({ ...model, isSelected: shouldSelect })),
     );
   }
 
@@ -193,9 +188,8 @@ export class RespondentListInfoTableComponent {
    */
   changeSelectionStatusForAllInstructorsHandler(shouldSelect: boolean): void {
     this.instructorListInfoTableRowModelsChange.emit(
-        this.instructorListInfoTableRowModels.map((model: InstructorListInfoTableRowModel) => Object.assign({}, model, {
-          isSelected: shouldSelect,
-        })),
+        this.instructorListInfoTableRowModels.map(
+            (model: InstructorListInfoTableRowModel) => ({ ...model, isSelected: shouldSelect })),
     );
   }
 }

@@ -122,8 +122,9 @@ export class InstructorCoursesPageComponent implements OnInit {
           canModifyStudent = course.privileges.canModifyStudent;
         }
         const isLoadingCourseStats: boolean = false;
-        const activeCourse: CourseModel = Object.assign({},
-            { course, canModifyCourse, canModifyStudent, isLoadingCourseStats });
+        const activeCourse: CourseModel = {
+          course, canModifyCourse, canModifyStudent, isLoadingCourseStats,
+        };
         this.activeCourses.push(activeCourse);
       });
       this.activeCoursesDefaultSort();
@@ -144,8 +145,9 @@ export class InstructorCoursesPageComponent implements OnInit {
           canModifyStudent = course.privileges.canModifyStudent;
         }
         const isLoadingCourseStats: boolean = false;
-        const archivedCourse: CourseModel = Object.assign({},
-            { course, canModifyCourse, canModifyStudent, isLoadingCourseStats });
+        const archivedCourse: CourseModel = {
+          course, canModifyCourse, canModifyStudent, isLoadingCourseStats,
+        };
         this.archivedCourses.push(archivedCourse);
         this.archivedCoursesDefaultSort();
       }
@@ -164,8 +166,9 @@ export class InstructorCoursesPageComponent implements OnInit {
           canModifyStudent = course.privileges.canModifyStudent;
         }
         const isLoadingCourseStats: boolean = false;
-        const softDeletedCourse: CourseModel = Object.assign({},
-            { course, canModifyCourse, canModifyStudent, isLoadingCourseStats });
+        const softDeletedCourse: CourseModel = {
+          course, canModifyCourse, canModifyStudent, isLoadingCourseStats,
+        };
         this.softDeletedCourses.push(softDeletedCourse);
         this.deletedCoursesDefaultSort();
         if (!softDeletedCourse.canModifyCourse) {

@@ -124,15 +124,16 @@ export class StudentHomePageComponent implements OnInit {
                   const isPublished: boolean = fs.publishStatus === FeedbackSessionPublishStatus.PUBLISHED;
 
                   const isSubmitted: boolean = hasRes.hasResponsesBySession[fs.feedbackSessionName];
-                  studentSessions.push(Object.assign({},
-                    { isOpened, isWaitingToOpen, isPublished, isSubmitted, session: fs }));
+                  studentSessions.push({
+                    isOpened, isWaitingToOpen, isPublished, isSubmitted, session: fs,
+                  });
                 }
               }, (error: ErrorMessageOutput) => {
                 this.hasCoursesLoadingFailed = true;
                 this.statusMessageService.showErrorToast(error.error.message);
               });
 
-            this.courses.push(Object.assign({}, { course, feedbackSessions: studentSessions }));
+            this.courses.push({ course, feedbackSessions: studentSessions });
             this.courses.sort((a: StudentCourse, b: StudentCourse) =>
               (a.course.courseId > b.course.courseId) ? 1 : -1);
           }, (error: ErrorMessageOutput) => {
@@ -180,7 +181,7 @@ export class StudentHomePageComponent implements OnInit {
    */
   sortFeedbackSessions(fss: FeedbackSessions): FeedbackSession[] {
     return fss.feedbackSessions
-      .map((fs: FeedbackSession) => Object.assign({}, fs))
+      .map((fs: FeedbackSession) => ({ ...fs }))
       .sort((a: FeedbackSession, b: FeedbackSession) => (a.createdAtTimestamp >
         b.createdAtTimestamp) ? 1 : (a.createdAtTimestamp === b.createdAtTimestamp) ?
         ((a.submissionEndTimestamp > b.submissionEndTimestamp) ? 1 : -1) : -1);

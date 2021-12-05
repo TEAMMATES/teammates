@@ -150,6 +150,6 @@ export class CommentRowComponent implements OnChanges {
    * Triggers the change of the model for the form.
    */
   triggerModelChange(field: string, data: any): void {
-    this.modelChange.emit(Object.assign({}, this.model, { [field]: data }));
+    this.modelChange.emit({ ...this.model, [field]: data });
   }
 }

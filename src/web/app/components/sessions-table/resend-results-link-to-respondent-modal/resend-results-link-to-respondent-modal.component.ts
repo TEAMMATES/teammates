@@ -30,11 +30,11 @@ export class ResendResultsLinkToRespondentModalComponent {
   collateRespondentsToSendHandler(): (StudentListInfoTableRowModel | InstructorListInfoTableRowModel)[] {
     const studentsToSend: (StudentListInfoTableRowModel | InstructorListInfoTableRowModel)[] =
         this.studentListInfoTableRowModels.map(
-            (model: StudentListInfoTableRowModel) => Object.assign({}, model))
+            (model: StudentListInfoTableRowModel) => ({ ...model }))
             .filter((model: StudentListInfoTableRowModel) => model.isSelected);
     const instructorsToSend: (StudentListInfoTableRowModel | InstructorListInfoTableRowModel)[] =
         this.instructorListInfoTableRowModels.map(
-            (model: InstructorListInfoTableRowModel) => Object.assign({}, model))
+            (model: InstructorListInfoTableRowModel) => ({ ...model }))
             .filter((model: InstructorListInfoTableRowModel) => model.isSelected);
     return studentsToSend.concat(instructorsToSend);
   }

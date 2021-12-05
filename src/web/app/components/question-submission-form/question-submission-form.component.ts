@@ -205,12 +205,13 @@ export class QuestionSubmissionFormComponent implements OnInit {
       return;
     }
     this.triggerRecipientSubmissionFormChange(index, 'commentByGiver',
-        Object.assign({}, commentModel, {
+        {
+          ...commentModel,
           commentEditFormModel: {
             commentText: commentModel.originalComment.commentText,
           },
           isEditing: false,
-        }));
+        });
   }
 
   /**
@@ -228,7 +229,7 @@ export class QuestionSubmissionFormComponent implements OnInit {
     if (this.model.recipientSubmissionForms.length === 0) { return; }
     const recipientSubmissionForms: FeedbackResponseRecipientSubmissionFormModel[] =
         this.model.recipientSubmissionForms.slice().map(
-            (model: FeedbackResponseRecipientSubmissionFormModel) => Object.assign({}, model, { isValid }));
+            (model: FeedbackResponseRecipientSubmissionFormModel) => ({ ...model, isValid }));
     this.formModelChange.emit({
       ...this.model,
       recipientSubmissionForms,

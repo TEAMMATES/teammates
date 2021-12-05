@@ -30,13 +30,13 @@ export abstract class QuestionEditAnswerFormComponent<
    * Triggers the change of the response details for the form.
    */
   triggerResponseDetailsChange(field: string, data: any): void {
-    this.responseDetailsChange.emit(Object.assign({}, this.responseDetails, { [field]: data }));
+    this.responseDetailsChange.emit({ ...this.responseDetails, [field]: data });
   }
 
   /**
    * Triggers changes of the response details for the form.
    */
   triggerResponseDetailsChangeBatch(obj: {[key: string]: any}): void {
-    this.responseDetailsChange.emit(Object.assign({}, this.responseDetails, obj));
+    this.responseDetailsChange.emit({ ...this.responseDetails, ...obj });
   }
 }

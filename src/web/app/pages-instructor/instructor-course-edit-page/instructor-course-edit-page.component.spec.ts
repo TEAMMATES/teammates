@@ -140,7 +140,7 @@ describe('InstructorCourseEditPageComponent', () => {
   it('should not change course details if CANCEL is requested', () => {
     component.course = testCourse;
     component.isCourseLoading = false;
-    component.originalCourse = Object.assign({}, component.course);
+    component.originalCourse = { ...component.course };
     fixture.detectChanges();
 
     component.isEditingCourse = true;
@@ -196,12 +196,12 @@ describe('InstructorCourseEditPageComponent', () => {
     component.isCourseLoading = false;
     component.instructorDetailPanels = [
       {
-        originalInstructor: Object.assign({}, testInstructor1),
+        originalInstructor: { ...testInstructor1 },
         originalPanel: component.getInstructorEditPanelModel(testInstructor1),
         editPanel: component.getInstructorEditPanelModel(testInstructor1),
       },
       {
-        originalInstructor: Object.assign({}, testInstructor2),
+        originalInstructor: { ...testInstructor2 },
         originalPanel: component.getInstructorEditPanelModel(testInstructor2),
         editPanel: component.getInstructorEditPanelModel(testInstructor2),
       },
@@ -232,12 +232,12 @@ describe('InstructorCourseEditPageComponent', () => {
     component.isCourseLoading = false;
     component.instructorDetailPanels = [
       {
-        originalInstructor: Object.assign({}, testInstructor1),
+        originalInstructor: { ...testInstructor1 },
         originalPanel: component.getInstructorEditPanelModel(testInstructor1),
         editPanel: component.getInstructorEditPanelModel(testInstructor1),
       },
       {
-        originalInstructor: Object.assign({}, testInstructor2),
+        originalInstructor: { ...testInstructor2 },
         originalPanel: component.getInstructorEditPanelModel(testInstructor2),
         editPanel: component.getInstructorEditPanelModel(testInstructor2),
       },
@@ -265,12 +265,12 @@ describe('InstructorCourseEditPageComponent', () => {
     component.isCourseLoading = false;
     component.instructorDetailPanels = [
       {
-        originalInstructor: Object.assign({}, testInstructor1),
+        originalInstructor: { ...testInstructor1 },
         originalPanel: component.getInstructorEditPanelModel(testInstructor1),
         editPanel: component.getInstructorEditPanelModel(testInstructor1),
       },
       {
-        originalInstructor: Object.assign({}, testInstructor2),
+        originalInstructor: { ...testInstructor2 },
         originalPanel: component.getInstructorEditPanelModel(testInstructor2),
         editPanel: component.getInstructorEditPanelModel(testInstructor2),
       },
@@ -298,12 +298,12 @@ describe('InstructorCourseEditPageComponent', () => {
     component.isCourseLoading = false;
     component.instructorDetailPanels = [
       {
-        originalInstructor: Object.assign({}, testInstructor1),
+        originalInstructor: { ...testInstructor1 },
         originalPanel: component.getInstructorEditPanelModel(testInstructor1),
         editPanel: component.getInstructorEditPanelModel(testInstructor1),
       },
       {
-        originalInstructor: Object.assign({}, testInstructor2),
+        originalInstructor: { ...testInstructor2 },
         originalPanel: component.getInstructorEditPanelModel(testInstructor2),
         editPanel: component.getInstructorEditPanelModel(testInstructor2),
       },
