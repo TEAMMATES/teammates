@@ -383,36 +383,34 @@ describe('InstructorCoursesPageComponent', () => {
     expect(component.activeCourses[0].course.courseId).toEqual('CS1231');
   });
 
-  it('should soft delete a course', (done: any) => {
+  it('should soft delete a course', async () => {
     component.activeCourses = [courseModelCS1231];
     const courseSpy: SpyInstance = jest.spyOn(courseService, 'binCourse').mockReturnValue(of(courseCS1231));
     jest.spyOn(simpleModalService, 'openConfirmationModal')
         .mockReturnValue(createMockNgbModalRef());
 
-    component.onDelete('CS1231').then(() => {
+    await component.onDelete('CS1231').then(() => {
       expect(courseSpy).toHaveBeenCalledTimes(1);
       expect(courseSpy).toHaveBeenLastCalledWith('CS1231');
 
       expect(component.softDeletedCourses.length).toEqual(1);
       expect(component.activeCourses.length).toEqual(0);
-      done();
     });
   });
 
-  it('should permanently delete a course', (done: any) => {
+  it('should permanently delete a course', async () => {
     component.archivedCourses = [courseModelCS1231];
     const courseSpy: SpyInstance = jest.spyOn(courseService, 'deleteCourse')
         .mockReturnValue(of({ message: 'Message' }));
     jest.spyOn(simpleModalService, 'openConfirmationModal').mockReturnValue(
         createMockNgbModalRef());
 
-    component.onDeletePermanently('CS1231').then(() => {
+    await component.onDeletePermanently('CS1231').then(() => {
       expect(courseSpy).toHaveBeenCalledTimes(1);
       expect(courseSpy).toHaveBeenLastCalledWith('CS1231');
 
       expect(component.activeCourses.length).toEqual(0);
       expect(component.softDeletedCourses.length).toEqual(0);
-      done();
     });
   });
 

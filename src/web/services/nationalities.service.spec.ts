@@ -2,7 +2,6 @@ import { TestBed } from '@angular/core/testing';
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { of } from 'rxjs';
-import DoneCallback = jest.DoneCallback;
 import { ResourceEndpoints } from '../types/api-const';
 import { Nationalities } from '../types/api-output';
 import { HttpRequestService } from './http-request.service';
@@ -39,14 +38,13 @@ describe('NationalitiesService', () => {
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.NATIONALITIES);
   });
 
-  it('should return nationalities', (done: DoneCallback) => {
+  it('should return nationalities', () => {
     const mockNationalities: Nationalities = {
       nationalities: ['Singapore'],
     };
     spyHttpRequestService.get.mockReturnValue(of<Nationalities>(mockNationalities));
     service.getNationalities().subscribe((nationalities: Nationalities) => {
       expect(nationalities).toEqual(mockNationalities);
-      done();
     });
   });
 });
