@@ -1,21 +1,21 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
-import { NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
-import { saveAs } from "file-saver";
-import { concat, Observable } from "rxjs";
-import { takeWhile } from "rxjs/operators";
-import { CourseService } from "../../../services/course.service";
-import { FeedbackQuestionsService } from "../../../services/feedback-questions.service";
-import { FeedbackResponseCommentService } from "../../../services/feedback-response-comment.service";
-import { FeedbackSessionsService } from "../../../services/feedback-sessions.service";
-import { InstructorService } from "../../../services/instructor.service";
-import { NavigationService } from "../../../services/navigation.service";
-import { ProgressBarService } from "../../../services/progress-bar.service";
-import { SimpleModalService } from "../../../services/simple-modal.service";
-import { StatusMessageService } from "../../../services/status-message.service";
-import { StudentService } from "../../../services/student.service";
-import { TableComparatorService } from "../../../services/table-comparator.service";
-import { TimezoneService } from "../../../services/timezone.service";
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { saveAs } from 'file-saver';
+import { concat, Observable } from 'rxjs';
+import { takeWhile } from 'rxjs/operators';
+import { CourseService } from '../../../services/course.service';
+import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
+import { FeedbackResponseCommentService } from '../../../services/feedback-response-comment.service';
+import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
+import { InstructorService } from '../../../services/instructor.service';
+import { NavigationService } from '../../../services/navigation.service';
+import { ProgressBarService } from '../../../services/progress-bar.service';
+import { SimpleModalService } from '../../../services/simple-modal.service';
+import { StatusMessageService } from '../../../services/status-message.service';
+import { StudentService } from '../../../services/student.service';
+import { TableComparatorService } from '../../../services/table-comparator.service';
+import { TimezoneService } from '../../../services/timezone.service';
 import {
   CourseSectionNames,
   FeedbackQuestion,
@@ -32,17 +32,17 @@ import {
   SessionVisibleSetting,
   Student,
   Students,
-} from "../../../types/api-output";
-import { Intent } from "../../../types/api-request";
-import { CommentToCommentRowModelPipe } from "../../components/comment-box/comment-to-comment-row-model.pipe";
-import { CommentsToCommentTableModelPipe } from "../../components/comment-box/comments-to-comment-table-model.pipe";
-import { StudentListInfoTableRowModel } from "../../components/sessions-table/respondent-list-info-table/respondent-list-info-table-model";
-import { SimpleModalType } from "../../components/simple-modal/simple-modal-type";
-import { ErrorMessageOutput } from "../../error-message-output";
-import { InstructorCommentsComponent } from "../instructor-comments.component";
-import { InstructorSessionNoResponsePanelComponent } from "./instructor-session-no-response-panel.component";
-import { InstructorSessionResultSectionType } from "./instructor-session-result-section-type.enum";
-import { InstructorSessionResultViewType } from "./instructor-session-result-view-type.enum";
+} from '../../../types/api-output';
+import { Intent } from '../../../types/api-request';
+import { CommentToCommentRowModelPipe } from '../../components/comment-box/comment-to-comment-row-model.pipe';
+import { CommentsToCommentTableModelPipe } from '../../components/comment-box/comments-to-comment-table-model.pipe';
+import { StudentListInfoTableRowModel } from '../../components/sessions-table/respondent-list-info-table/respondent-list-info-table-model';
+import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
+import { ErrorMessageOutput } from '../../error-message-output';
+import { InstructorCommentsComponent } from '../instructor-comments.component';
+import { InstructorSessionNoResponsePanelComponent } from './instructor-session-no-response-panel.component';
+import { InstructorSessionResultSectionType } from './instructor-session-result-section-type.enum';
+import { InstructorSessionResultViewType } from './instructor-session-result-view-type.enum';
 
 /**
  * Per section view tab model.
@@ -65,15 +65,15 @@ export interface QuestionTabModel {
   isTabExpanded: boolean;
 }
 
-const TIME_FORMAT: string = "ddd, DD MMM, YYYY, hh:mm A zz";
+const TIME_FORMAT: string = 'ddd, DD MMM, YYYY, hh:mm A zz';
 
 /**
  * Instructor feedback session result page.
  */
 @Component({
-  selector: "tm-instructor-session-result-page",
-  templateUrl: "./instructor-session-result-page.component.html",
-  styleUrls: ["./instructor-session-result-page.component.scss"],
+  selector: 'tm-instructor-session-result-page',
+  templateUrl: './instructor-session-result-page.component.html',
+  styleUrls: ['./instructor-session-result-page.component.scss'],
 })
 export class InstructorSessionResultPageComponent
   extends InstructorCommentsComponent
@@ -85,14 +85,14 @@ export class InstructorSessionResultPageComponent
   InstructorSessionResultViewType: typeof InstructorSessionResultViewType =
     InstructorSessionResultViewType;
 
-  formattedSessionOpeningTime: string = "";
-  formattedSessionClosingTime: string = "";
-  formattedResultVisibleFromTime: string = "";
+  formattedSessionOpeningTime: string = '';
+  formattedSessionClosingTime: string = '';
+  formattedResultVisibleFromTime: string = '';
 
-  courseId: string = "";
-  fsName: string = "";
+  courseId: string = '';
+  fsName: string = '';
   viewType: string = InstructorSessionResultViewType.QUESTION;
-  section: string = "";
+  section: string = '';
   sectionType: InstructorSessionResultSectionType =
     InstructorSessionResultSectionType.EITHER;
   groupByTeam: boolean = true;
@@ -123,10 +123,10 @@ export class InstructorSessionResultPageComponent
   isExpandAll: boolean = false;
 
   session: FeedbackSession = {
-    courseId: "",
-    timeZone: "",
-    feedbackSessionName: "",
-    instructions: "",
+    courseId: '',
+    timeZone: '',
+    feedbackSessionName: '',
+    instructions: '',
     submissionStartTimestamp: 0,
     submissionEndTimestamp: 0,
     gracePeriod: 0,
@@ -158,13 +158,13 @@ export class InstructorSessionResultPageComponent
     statusMessageService: StatusMessageService,
     commentService: FeedbackResponseCommentService,
     commentToCommentRowModel: CommentToCommentRowModelPipe,
-    tableComparatorService: TableComparatorService
+    tableComparatorService: TableComparatorService,
   ) {
     super(
       commentToCommentRowModel,
       commentService,
       statusMessageService,
-      tableComparatorService
+      tableComparatorService,
     );
     this.timezoneService.getTzVersion(); // import timezone service to load timezone data
   }
@@ -179,7 +179,7 @@ export class InstructorSessionResultPageComponent
 
   loadFeedbackSessionResults(
     courseId: string,
-    feedbackSessionName: string
+    feedbackSessionName: string,
   ): void {
     this.hasQuestionsLoadingFailed = false;
     this.hasSectionsLoadingFailed = false;
@@ -198,13 +198,13 @@ export class InstructorSessionResultPageComponent
             this.timezoneService.formatToString(
               this.session.submissionStartTimestamp,
               this.session.timeZone,
-              TIME_FORMAT
+              TIME_FORMAT,
             );
           this.formattedSessionClosingTime =
             this.timezoneService.formatToString(
               this.session.submissionEndTimestamp,
               this.session.timeZone,
-              TIME_FORMAT
+              TIME_FORMAT,
             );
           if (
             this.session.responseVisibleSetting ===
@@ -218,14 +218,14 @@ export class InstructorSessionResultPageComponent
                 this.timezoneService.formatToString(
                   this.session.submissionStartTimestamp,
                   this.session.timeZone,
-                  TIME_FORMAT
+                  TIME_FORMAT,
                 );
             } else if (this.session.sessionVisibleFromTimestamp) {
               this.formattedResultVisibleFromTime =
                 this.timezoneService.formatToString(
                   this.session.sessionVisibleFromTimestamp,
                   this.session.timeZone,
-                  TIME_FORMAT
+                  TIME_FORMAT,
                 );
             }
           } else if (this.session.resultVisibleFromTimestamp) {
@@ -233,10 +233,10 @@ export class InstructorSessionResultPageComponent
               this.timezoneService.formatToString(
                 this.session.resultVisibleFromTimestamp,
                 this.session.timeZone,
-                TIME_FORMAT
+                TIME_FORMAT,
               );
           } else {
-            this.formattedResultVisibleFromTime = "Not applicable";
+            this.formattedResultVisibleFromTime = 'Not applicable';
           }
           this.isFeedbackSessionLoading = false;
 
@@ -260,7 +260,7 @@ export class InstructorSessionResultPageComponent
             (resp: ErrorMessageOutput) => {
               this.hasSectionsLoadingFailed = true;
               this.statusMessageService.showErrorToast(resp.error.message);
-            }
+            },
           );
 
           // load question tabs
@@ -276,7 +276,7 @@ export class InstructorSessionResultPageComponent
                   this.questionsModel[question.feedbackQuestionId] = {
                     question,
                     responses: [],
-                    statistics: "",
+                    statistics: '',
                     hasPopulated: false,
                     isTabExpanded: false,
                   };
@@ -286,7 +286,7 @@ export class InstructorSessionResultPageComponent
               (resp: ErrorMessageOutput) => {
                 this.hasQuestionsLoadingFailed = true;
                 this.statusMessageService.showErrorToast(resp.error.message);
-              }
+              },
             );
 
           // load all students in course
@@ -301,7 +301,7 @@ export class InstructorSessionResultPageComponent
               },
               (resp: ErrorMessageOutput) => {
                 this.statusMessageService.showErrorToast(resp.error.message);
-              }
+              },
             );
 
           // load current instructor name
@@ -318,7 +318,7 @@ export class InstructorSessionResultPageComponent
           this.isFeedbackSessionLoading = false;
           this.hasFeedbackSessionLoadingFailed = true;
           this.statusMessageService.showErrorToast(resp.error.message);
-        }
+        },
       );
   }
 
@@ -332,20 +332,20 @@ export class InstructorSessionResultPageComponent
       })
       .subscribe(
         (
-          feedbackSessionSubmittedGiverSet: FeedbackSessionSubmittedGiverSet
+          feedbackSessionSubmittedGiverSet: FeedbackSessionSubmittedGiverSet,
         ) => {
           // TODO team is missing
           this.noResponseStudents = this.allStudentsInCourse.filter(
             (student: Student) =>
               !feedbackSessionSubmittedGiverSet.giverIdentifiers.includes(
-                student.email
-              )
+                student.email,
+              ),
           );
         },
         (resp: ErrorMessageOutput) => {
           this.hasNoResponseLoadingFailed = true;
           this.statusMessageService.showErrorToast(resp.error.message);
-        }
+        },
       );
     this.isNoResponsePanelLoaded = true;
   }
@@ -390,7 +390,7 @@ export class InstructorSessionResultPageComponent
         },
         (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
-        }
+        },
       );
   }
 
@@ -429,7 +429,7 @@ export class InstructorSessionResultPageComponent
           resp.questions.sort(
             (a: QuestionOutput, b: QuestionOutput) =>
               a.feedbackQuestion.questionNumber -
-              b.feedbackQuestion.questionNumber
+              b.feedbackQuestion.questionNumber,
           );
           resp.questions.forEach((question: QuestionOutput) => {
             this.preprocessComments(question.allResponses);
@@ -437,7 +437,7 @@ export class InstructorSessionResultPageComponent
         },
         (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
-        }
+        },
       );
   }
 
@@ -453,7 +453,7 @@ export class InstructorSessionResultPageComponent
         this.commentsToCommentTableModel.transform(
           response.instructorComments,
           false,
-          this.session.timeZone
+          this.session.timeZone,
         );
       this.sortComments(this.instructorCommentTableModel[response.responseId]);
       // clear the original comments for safe as instructorCommentTableModel will become the single point of truth
@@ -474,15 +474,15 @@ export class InstructorSessionResultPageComponent
       modalRef = this.simpleModalService.openConfirmationModal(
         `Unpublish this session <strong>${this.session.feedbackSessionName}</strong>?`,
         SimpleModalType.WARNING,
-        modalContent
+        modalContent,
       );
     } else {
       const modalContent: string =
-        "An email will be sent to students to inform them that the responses are ready for viewing.";
+        'An email will be sent to students to inform them that the responses are ready for viewing.';
       modalRef = this.simpleModalService.openConfirmationModal(
         `Publish this session <strong>${this.session.feedbackSessionName}</strong>?`,
         SimpleModalType.WARNING,
-        modalContent
+        modalContent,
       );
     }
 
@@ -491,11 +491,11 @@ export class InstructorSessionResultPageComponent
         const response: Observable<any> = isPublished
           ? this.feedbackSessionsService.unpublishFeedbackSession(
               this.session.courseId,
-              this.session.feedbackSessionName
+              this.session.feedbackSessionName,
             )
           : this.feedbackSessionsService.publishFeedbackSession(
               this.session.courseId,
-              this.session.feedbackSessionName
+              this.session.feedbackSessionName,
             );
 
         response.subscribe(
@@ -506,25 +506,25 @@ export class InstructorSessionResultPageComponent
                 this.timezoneService.formatToString(
                   this.session.resultVisibleFromTimestamp,
                   this.session.timeZone,
-                  TIME_FORMAT
+                  TIME_FORMAT,
                 );
               this.statusMessageService.showSuccessToast(
-                "The feedback session has been published. " +
-                  "Please allow up to 1 hour for all the notification emails to be sent out."
+                'The feedback session has been published. ' +
+                  'Please allow up to 1 hour for all the notification emails to be sent out.',
               );
             } else {
-              this.formattedResultVisibleFromTime = "Not applicable";
+              this.formattedResultVisibleFromTime = 'Not applicable';
               this.statusMessageService.showSuccessToast(
-                "The feedback session has been unpublished."
+                'The feedback session has been unpublished.',
               );
             }
           },
           (resp: ErrorMessageOutput) => {
             this.statusMessageService.showErrorToast(resp.error.message);
-          }
+          },
         );
       },
-      () => {}
+      () => {},
     );
   }
 
@@ -547,11 +547,11 @@ export class InstructorSessionResultPageComponent
 
     let numberOfQuestionsDownloaded: number = 0;
     const modalContent: string =
-      "Downloading the results of your feedback session...";
+      'Downloading the results of your feedback session...';
     const loadingModal: NgbModalRef = this.simpleModalService.openLoadingModal(
-      "Download Progress",
+      'Download Progress',
       SimpleModalType.LOAD,
-      modalContent
+      modalContent,
     );
     loadingModal.result.then(() => {
       this.isDownloadingResults = false;
@@ -571,9 +571,9 @@ export class InstructorSessionResultPageComponent
           this.showStatistics,
           this.questionsModel[k].question.feedbackQuestionId,
           this.section.length === 0 ? undefined : this.section,
-          this.section.length === 0 ? undefined : this.sectionType
-        )
-      )
+          this.section.length === 0 ? undefined : this.sectionType,
+        ),
+      ),
     )
       // .pipe(finalize(() => (this.isDownloadingResults = false)))
       .pipe(takeWhile(() => this.isDownloadingResults))
@@ -582,10 +582,10 @@ export class InstructorSessionResultPageComponent
           out.push(resp);
           numberOfQuestionsDownloaded += 1;
           const totalNumberOfQuestions: number = Object.keys(
-            this.questionsModel
+            this.questionsModel,
           ).length;
           const progressPercentage: number = Math.round(
-            (99 * numberOfQuestionsDownloaded) / totalNumberOfQuestions
+            (99 * numberOfQuestionsDownloaded) / totalNumberOfQuestions,
           );
           this.progressBarService.updateProgress(progressPercentage);
         },
@@ -594,15 +594,15 @@ export class InstructorSessionResultPageComponent
             return;
           }
           // add non-submitters list
-          out.push("Participants who have not responded to any question\n\n");
-          out.push("Team,Name\n");
+          out.push('Participants who have not responded to any question\n\n');
+          out.push('Team,Name\n');
 
           for (const student of this.noResponseStudents) {
             out.push(`${student.teamName},${student.name}\n`);
           }
           this.progressBarService.updateProgress(100);
           loadingModal.close();
-          blob = new Blob(out, { type: "text/csv" });
+          blob = new Blob(out, { type: 'text/csv' });
           saveAs(blob, filename);
         },
         error: (resp: ErrorMessageOutput) => {
@@ -625,16 +625,16 @@ export class InstructorSessionResultPageComponent
         Intent.FULL_DETAIL,
         this.indicateMissingResponses,
         this.showStatistics,
-        question.questionId
+        question.questionId,
       )
       .subscribe(
         (resp: string) => {
-          const blob: any = new Blob([resp], { type: "text/csv" });
+          const blob: any = new Blob([resp], { type: 'text/csv' });
           saveAs(blob, filename);
         },
         (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
-        }
+        },
       );
   }
 
@@ -699,36 +699,36 @@ export class InstructorSessionResultPageComponent
    * Handles the sending of reminders to students.
    */
   sendReminderToStudents(
-    studentsToRemindData: StudentListInfoTableRowModel[]
+    studentsToRemindData: StudentListInfoTableRowModel[],
   ): void {
     this.feedbackSessionsService
       .remindFeedbackSessionSubmissionForRespondents(
         this.session.courseId,
         this.session.feedbackSessionName,
-        {
-          usersToRemind: studentsToRemindData.map(
-            (m: StudentListInfoTableRowModel) => m.email
-          ),
-        }
+      {
+        usersToRemind: studentsToRemindData.map(
+          (m: StudentListInfoTableRowModel) => m.email,
+        ),
+      },
       )
       .subscribe(
         () => {
           this.statusMessageService.showSuccessToast(
-            "Reminder e-mails have been sent out to those students and instructors. " +
-              "Please allow up to 1 hour for all the notification emails to be sent out."
+            'Reminder e-mails have been sent out to those students and instructors. ' +
+              'Please allow up to 1 hour for all the notification emails to be sent out.',
           );
         },
         (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
-        }
+        },
       );
   }
 
   navigateToIndividualSessionResultPage(): void {
     this.navigationService.navigateByURL(
       this.router,
-      "/web/instructor/sessions/result",
-      { courseid: this.courseId, fsname: this.fsName }
+      '/web/instructor/sessions/result',
+      { courseid: this.courseId, fsname: this.fsName },
     );
   }
 }
