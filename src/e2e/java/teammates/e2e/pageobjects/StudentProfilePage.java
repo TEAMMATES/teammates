@@ -165,52 +165,14 @@ public class StudentProfilePage extends AppPage {
         waitForUploadEditModalVisible();
     }
 
-    public void verifyPhotoSize(String height, String width) {
-        assertEquals(height, browser.driver.findElement(By.className("profile-pic")).getCssValue("height"));
-        assertEquals(width, browser.driver.findElement(By.className("profile-pic")).getCssValue("width"));
+    public void verifyPhotoSize(int height, int width) {
+        String browserHeight = browser.driver.findElement(By.className("profile-pic")).getCssValue("height");
+        float imageHeight = Float.parseFloat(browserHeight.substring(0, browserHeight.length() - 2));
+        String browserWidth = browser.driver.findElement(By.className("profile-pic")).getCssValue("width");
+        float imageWidth = Float.parseFloat(browserWidth.substring(0, browserWidth.length() - 2));
+        assertEquals(height, imageHeight, 1.0);
+        assertEquals(width, imageWidth, 1.0);
         click(uploadEditModal.findElement(By.className("close")));
-    }
-
-    public void verifyPhotoMaxHeight(int maxWidth, String srcImage) {
-        String actualHeight = browser.driver.findElement(By.className("profile-pic")).getCssValue("height");
-        float imageHeight = Float.parseFloat(actualHeight.substring(0, actualHeight.length() - 2));
-        assertEquals(scaledDown(getProfilePicAspectRatio(srcImage), maxWidth).getHeight(), imageHeight, 1.0);
-        verifyPhotoClose();
-    }
-
-    public void verifyPhotoMaxWidth(int maxHeight, String srcImage) {
-        String actualWidth = browser.driver.findElement(By.className("profile-pic")).getCssValue("width");
-        float imageWidth = Float.parseFloat(actualWidth.substring(0, actualWidth.length() - 2));
-        assertEquals(scaledDown(getProfilePicAspectRatio(srcImage), maxHeight).getWidth(), imageWidth, 1.0);
-        verifyPhotoClose();
-    }
-
-    //I get that this almost has to be tested too
-    private Dimension getProfilePicAspectRatio(String srcImage) {
-        BufferedImage bimg;
-        try {
-            bimg = ImageIO.read(new File(srcImage));
-            int imageWidth = bimg.getWidth();
-            int imageHeight = bimg.getHeight();
-            return new Dimension(imageWidth, imageHeight);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        //Will hopefully never be reached
-        return new Dimension(0, 0);
-    }
-
-    private Dimension scaledDown(Dimension start, int maxVal) {
-        if (start.getHeight() > start.getWidth()) {
-            float percent = (((float) maxVal) / start.getHeight()) * 100;
-            int scaleDown = Math.round(start.getWidth() * percent / 100);
-            return new Dimension(scaleDown, maxVal);
-        } else if (start.getWidth() > start.getHeight()) {
-            float percent = (((float) maxVal) / start.getWidth()) * 100;
-            int scaleDown = Math.round(start.getHeight() * percent / 100);
-            return new Dimension(maxVal, scaleDown);
-        }
-        return start;
     }
 
     private void verifyPhotoClose() {
