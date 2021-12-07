@@ -23,7 +23,7 @@ public class GetAccountRequestActionTest extends BaseActionTest<GetAccountReques
 
     @Override
     @Test
-    protected void testExecute() {
+    protected void testExecute() throws Exception {
         AccountRequestAttributes accountRequest =
                 logic.getAccountRequest("typical@gmail.tmt", "TEAMMATES Test Institute 1");
 
@@ -59,7 +59,7 @@ public class GetAccountRequestActionTest extends BaseActionTest<GetAccountReques
         assertEquals(response.getEmail(), accountRequest.getEmail());
         assertEquals(response.getRegistrationKey(), accountRequest.getRegistrationKey());
         assertEquals(response.getInstitute(), accountRequest.getInstitute());
-        assertEquals(response.getRegisteredAt(), accountRequest.getRegisteredAt());
+        assertNull(accountRequest.getRegisteredAt());
     }
 
     @Override
