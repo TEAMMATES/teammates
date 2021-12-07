@@ -4,15 +4,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
-import javax.imageio.ImageIO;
-
 import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.FindBy;
@@ -172,10 +166,6 @@ public class StudentProfilePage extends AppPage {
         float imageWidth = Float.parseFloat(browserWidth.substring(0, browserWidth.length() - 2));
         assertEquals(height, imageHeight, 1.0);
         assertEquals(width, imageWidth, 1.0);
-        click(uploadEditModal.findElement(By.className("close")));
-    }
-
-    private void verifyPhotoClose() {
         click(uploadEditModal.findElement(By.className("close")));
     }
 

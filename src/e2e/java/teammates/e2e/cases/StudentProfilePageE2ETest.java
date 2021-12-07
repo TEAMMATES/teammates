@@ -46,7 +46,6 @@ public class StudentProfilePageE2ETest extends BaseE2ETestCase {
         uploadAndVerify(profilePage, "src/test/resources/images/profile_pic_too_wide.jpg", 171, 220);
         uploadAndVerify(profilePage, "src/test/resources/images/profile_pic_too_tall.jpg", 220, 121);
 
-
         ______TS("Typical case: edit profile page");
         profilePage.editProfileThroughUi("short.name", "e@email.tmt", "inst", "American",
                 StudentProfileAttributes.Gender.FEMALE, "this is enough!$%&*</>");
