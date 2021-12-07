@@ -1,7 +1,5 @@
 package teammates.ui.output;
 
-import java.time.Instant;
-
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
 
 /**

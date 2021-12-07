@@ -3,7 +3,6 @@ package teammates.ui.webapi;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
-import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
@@ -65,12 +64,7 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
         assertEquals(institute, accountRequestAttributes.getInstitute());
         assertNotNull(accountRequestAttributes.getRegistrationKey());
 
-        String joinLink = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
-                .withIsCreatingAccount(String.valueOf(true))
-                .withRegistrationKey(accountRequestAttributes.getRegistrationKey())
-                .withEntityType(Const.EntityType.INSTRUCTOR)
-                .toAbsoluteString();
-
+        String joinLink = accountRequestAttributes.getRegistrationUrl();
         JoinLinkData output = (JoinLinkData) r.getOutput();
         assertEquals(joinLink, output.getJoinLink());
 
