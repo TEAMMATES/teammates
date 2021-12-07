@@ -58,6 +58,14 @@ public class PostStudentProfilePictureActionTest extends BaseActionTest<PostStud
 
         assertThrows(InvalidHttpRequestBodyException.class, () -> invalidProfilePicAction.execute());
 
+        ______TS("Typical case: profile picture type is not allowed");
+
+        String invalidProfilePicTypeFilePath = "src/test/resources/images/pic_type_not_allowed.tiff";
+        PostStudentProfilePictureAction invalidProfilePicTypeAction =
+                getActionWithParts("studentprofilephoto", invalidProfilePicTypeFilePath);
+
+        assertThrows(InvalidHttpRequestBodyException.class, () -> invalidProfilePicTypeAction.execute());
+
         deleteFile(student1.getGoogleId());
     }
 
