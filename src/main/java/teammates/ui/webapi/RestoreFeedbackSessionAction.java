@@ -1,11 +1,11 @@
 package teammates.ui.webapi;
 
+import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.ui.output.FeedbackSessionData;
-import teammates.ui.output.InstructorPrivilegeData;
 
 /**
  * Restore a feedback session from the recycle bin.
@@ -49,7 +49,7 @@ class RestoreFeedbackSessionAction extends Action {
         FeedbackSessionAttributes restoredFs = getNonNullFeedbackSession(feedbackSessionName, courseId);
         FeedbackSessionData output = new FeedbackSessionData(restoredFs);
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
-        InstructorPrivilegeData privilege = constructInstructorPrivileges(instructor, feedbackSessionName);
+        InstructorPermissionSet privilege = constructInstructorPrivileges(instructor, feedbackSessionName);
         output.setPrivileges(privilege);
 
         return new JsonResult(output);

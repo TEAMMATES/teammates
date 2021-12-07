@@ -1,7 +1,5 @@
 package teammates.ui.webapi;
 
-import java.time.ZoneId;
-
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
@@ -58,7 +56,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
 
         session = logic.getFeedbackSession(session.getFeedbackSessionName(), session.getCourseId());
         assertEquals(session.getCourseId(), response.getCourseId());
-        assertEquals(session.getTimeZone().getId(), response.getTimeZone());
+        assertEquals(session.getTimeZone(), response.getTimeZone());
         assertEquals(session.getFeedbackSessionName(), response.getFeedbackSessionName());
 
         assertEquals(session.getInstructions(), response.getInstructions());
@@ -131,7 +129,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
 
         logic.updateCourseCascade(
                 CourseAttributes.updateOptionsBuilder(course.getId())
-                        .withTimezone(ZoneId.of("Asia/Kathmandu"))
+                        .withTimezone("Asia/Kathmandu")
                         .build());
 
         String[] param = new String[] {
@@ -153,7 +151,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
 
         logic.updateCourseCascade(
                 CourseAttributes.updateOptionsBuilder(course.getId())
-                        .withTimezone(ZoneId.of("UTC"))
+                        .withTimezone("UTC")
                         .build());
 
         param = new String[] {

@@ -2,7 +2,6 @@ package teammates.common.datatransfer.attributes;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -28,7 +27,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     private Instant endTime;
     private Instant sessionVisibleFromTime;
     private Instant resultsVisibleFromTime;
-    private ZoneId timeZone;
+    private String timeZone;
     private Duration gracePeriod;
     private boolean sentOpeningSoonEmail;
     private boolean sentOpenEmail;
@@ -72,7 +71,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         feedbackSessionAttributes.endTime = fs.getEndTime();
         feedbackSessionAttributes.sessionVisibleFromTime = fs.getSessionVisibleFromTime();
         feedbackSessionAttributes.resultsVisibleFromTime = fs.getResultsVisibleFromTime();
-        feedbackSessionAttributes.timeZone = ZoneId.of(fs.getTimeZone());
+        feedbackSessionAttributes.timeZone = fs.getTimeZone();
         feedbackSessionAttributes.gracePeriod = Duration.ofMinutes(fs.getGracePeriod());
         feedbackSessionAttributes.sentOpeningSoonEmail = fs.isSentOpeningSoonEmail();
         feedbackSessionAttributes.sentOpenEmail = fs.isSentOpenEmail();
@@ -123,7 +122,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     public FeedbackSession toEntity() {
         return new FeedbackSession(feedbackSessionName, courseId, creatorEmail, instructions,
                 createdTime, deletedTime, startTime, endTime, sessionVisibleFromTime, resultsVisibleFromTime,
-                timeZone.getId(), getGracePeriodMinutes(),
+                timeZone, getGracePeriodMinutes(),
                 sentOpeningSoonEmail, sentOpenEmail, sentClosingEmail, sentClosedEmail, sentPublishedEmail,
                 isOpeningEmailEnabled, isClosingEmailEnabled, isPublishedEmailEnabled);
     }
@@ -449,11 +448,11 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         this.resultsVisibleFromTime = resultsVisibleFromTime;
     }
 
-    public ZoneId getTimeZone() {
+    public String getTimeZone() {
         return timeZone;
     }
 
-    public void setTimeZone(ZoneId timeZone) {
+    public void setTimeZone(String timeZone) {
         this.timeZone = timeZone;
     }
 
@@ -604,7 +603,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         private UpdateOption<Instant> endTimeOption = UpdateOption.empty();
         private UpdateOption<Instant> sessionVisibleFromTimeOption = UpdateOption.empty();
         private UpdateOption<Instant> resultsVisibleFromTimeOption = UpdateOption.empty();
-        private UpdateOption<ZoneId> timeZoneOption = UpdateOption.empty();
+        private UpdateOption<String> timeZoneOption = UpdateOption.empty();
         private UpdateOption<Duration> gracePeriodOption = UpdateOption.empty();
         private UpdateOption<Boolean> sentOpeningSoonEmailOption = UpdateOption.empty();
         private UpdateOption<Boolean> sentOpenEmailOption = UpdateOption.empty();
@@ -752,7 +751,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
             return thisBuilder;
         }
 
-        public B withTimeZone(ZoneId timeZone) {
+        public B withTimeZone(String timeZone) {
             assert timeZone != null;
 
             updateOptions.timeZoneOption = UpdateOption.of(timeZone);

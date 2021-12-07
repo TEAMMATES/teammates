@@ -2,7 +2,6 @@ package teammates.common.util;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.time.ZoneId;
 
 /**
  * Stores constants that are widely used across classes.
@@ -27,7 +26,7 @@ public final class Const {
 
     public static final String UNKNOWN_INSTITUTION = "Unknown Institution";
 
-    public static final ZoneId DEFAULT_TIME_ZONE = ZoneId.of("UTC");
+    public static final String DEFAULT_TIME_ZONE = "UTC";
     public static final String ENCODING = "UTF8";
 
     public static final Duration FEEDBACK_SESSIONS_SEARCH_WINDOW = Duration.ofDays(30);
@@ -111,8 +110,6 @@ public final class Const {
         public static final String INSTRUCTOR_EMAIL = "instructoremail";
         public static final String INSTRUCTOR_INSTITUTION = "instructorinstitution";
         public static final String IS_CREATING_ACCOUNT = "iscreatingaccount";
-
-        public static final String INSTRUCTOR_ROLE_NAME = "instructorrole";
 
         public static final String FEEDBACK_SESSION_NAME = "fsname";
         public static final String FEEDBACK_SESSION_STARTTIME = "starttime";
