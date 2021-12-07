@@ -2,6 +2,8 @@ package teammates.ui.webapi;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
@@ -45,6 +47,12 @@ class PostStudentProfilePictureAction extends Action {
             if (!image.getContentType().startsWith("image/")) {
                 throw new InvalidHttpRequestBodyException("The file that you have uploaded is not a picture. "
                         + "Please upload a picture (usually it ends with .jpg or .png)");
+            }
+            List<String> whitedListedType = Arrays.asList("gif", "jpeg", "jpg", "png", "svg+xml");
+            if (image.getContentType().startsWith("image/")
+                    && !whitedListedType.contains(image.getContentType().split("/")[1])) {
+                throw new InvalidHttpRequestBodyException("The image type that you have uploaded is not supported. "
+                        + "Please upload again.");
             }
             byte[] imageData = new byte[(int) image.getSize()];
             try (InputStream is = image.getInputStream()) {
