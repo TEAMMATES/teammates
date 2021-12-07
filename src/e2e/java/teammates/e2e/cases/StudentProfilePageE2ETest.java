@@ -40,28 +40,12 @@ public class StudentProfilePageE2ETest extends BaseE2ETestCase {
         profilePage.waitForUploadEditModalVisible();
 
         profilePage.editProfilePhoto();
-        profilePage.verifyPhotoSize("220px", "220px");
+        profilePage.verifyPhotoSize(220, 220);
 
         ______TS("Typical case: Profile picture ratios");
-        profilePage.fillProfilePic("src/test/resources/images/profile_pic_too_wide.jpg");
-        profilePage.uploadPicture();
-        profilePage.verifyStatusMessage("Your profile picture has been saved successfully");
+        uploadAndVerify(profilePage, "src/test/resources/images/profile_pic_too_wide.jpg", 171, 220);
+        uploadAndVerify(profilePage, "src/test/resources/images/profile_pic_too_tall.jpg", 220, 121);
 
-        profilePage.showPictureEditor(); // In order to upload
-        profilePage.waitForUploadEditModalVisible();
-
-        profilePage.editProfilePhoto();
-        profilePage.verifyPhotoMaxHeight(220, "src/test/resources/images/profile_pic_too_wide.jpg");
-
-        profilePage.fillProfilePic("src/test/resources/images/profile_pic_too_tall.jpg");
-        profilePage.uploadPicture();
-        profilePage.verifyStatusMessage("Your profile picture has been saved successfully");
-
-        profilePage.showPictureEditor(); // In order to upload
-        profilePage.waitForUploadEditModalVisible();
-
-        profilePage.editProfilePhoto();
-        profilePage.verifyPhotoMaxWidth(220, "src/test/resources/images/profile_pic_too_tall.jpg");
 
         ______TS("Typical case: edit profile page");
         profilePage.editProfileThroughUi("short.name", "e@email.tmt", "inst", "American",
@@ -70,5 +54,13 @@ public class StudentProfilePageE2ETest extends BaseE2ETestCase {
 
         profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "American",
                 StudentProfileAttributes.Gender.FEMALE, "this is enough!$%&*</>");
+    }
+
+    private void uploadAndVerify(StudentProfilePage profilePage, String image, int height, int width) {
+        profilePage.fillProfilePic(image);
+        profilePage.uploadPicture();
+        profilePage.verifyStatusMessage("Your profile picture has been saved successfully");
+        profilePage.showPictureEditor(); // In order to upload
+        profilePage.verifyPhotoSize(height, width);
     }
 }
