@@ -9,6 +9,7 @@ import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
 import teammates.ui.output.JoinLinkData;
 import teammates.ui.request.AccountCreateRequest;
+import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * SUT: {@link CreateAccountRequestAction}.
@@ -35,7 +36,7 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
 
         ______TS("Null parameters");
 
-        Exception ex = verifyHttpRequestBodyFailure(buildCreateRequest(null, institute, email));
+        InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(buildCreateRequest(null, institute, email));
         assertEquals("name cannot be null", ex.getMessage());
 
         ex = verifyHttpRequestBodyFailure(buildCreateRequest(name, null, email));
