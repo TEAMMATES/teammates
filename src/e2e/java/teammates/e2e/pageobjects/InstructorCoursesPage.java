@@ -6,7 +6,6 @@ import static org.testng.AssertJUnit.assertTrue;
 
 import java.time.Instant;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -135,7 +134,7 @@ public class InstructorCoursesPage extends AppPage {
 
         fillTextBox(courseIdTextBox, newCourse.getId());
         fillTextBox(courseNameTextBox, newCourse.getName());
-        selectNewTimeZone(newCourse.getTimeZone().toString());
+        selectNewTimeZone(newCourse.getTimeZone());
 
         click(submitButton);
     }
@@ -165,7 +164,7 @@ public class InstructorCoursesPage extends AppPage {
 
         fillTextBox(copyCourseIdTextBox, newCourse.getId());
         fillTextBox(copyCourseNameTextBox, newCourse.getName());
-        selectCopyTimeZone(newCourse.getTimeZone().toString());
+        selectCopyTimeZone(newCourse.getTimeZone());
         click(copyCourseButton);
 
         waitUntilAnimationFinish();
@@ -267,10 +266,7 @@ public class InstructorCoursesPage extends AppPage {
     }
 
     private String getDateString(Instant instant) {
-        return DateTimeFormatter
-                .ofPattern("d MMM yyyy")
-                .withZone(ZoneId.systemDefault())
-                .format(instant);
+        return getDisplayedDateTime(instant, ZoneId.systemDefault().getId(), "d MMM yyyy");
     }
 
     private String[][] getDeletedCourseDetails(CourseAttributes[] courses) {

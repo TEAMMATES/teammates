@@ -7,6 +7,7 @@ import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.common.util.TimeHelper;
 
 /**
  * A single ongoing session.
@@ -32,8 +33,10 @@ public class OngoingSession {
         }
         this.instructorHomePageLink = instructorHomePageLink;
 
-        this.startTime = fs.getStartTime().toEpochMilli();
-        this.endTime = fs.getEndTime().toEpochMilli();
+        this.startTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(fs.getStartTime(), fs.getTimeZone(), true)
+                .toEpochMilli();
+        this.endTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(fs.getEndTime(), fs.getTimeZone(), true)
+                .toEpochMilli();
         this.creatorEmail = fs.getCreatorEmail();
         this.courseId = fs.getCourseId();
         this.feedbackSessionName = fs.getFeedbackSessionName();

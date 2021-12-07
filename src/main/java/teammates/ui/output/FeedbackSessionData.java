@@ -7,6 +7,7 @@ import javax.annotation.Nullable;
 import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.TimeHelper;
 
 /**
  * The API output format of {@link FeedbackSessionAttributes}.
@@ -19,6 +20,8 @@ public class FeedbackSessionData extends ApiOutput {
 
     private final Long submissionStartTimestamp;
     private final Long submissionEndTimestamp;
+    @Nullable
+    private Long sessionVisibleFromTimestamp;
     @Nullable
     private Long resultVisibleFromTimestamp;
     private Long gracePeriod;
@@ -44,31 +47,37 @@ public class FeedbackSessionData extends ApiOutput {
     private InstructorPermissionSet privileges;
 
     public FeedbackSessionData(FeedbackSessionAttributes feedbackSessionAttributes) {
+        String timeZone = feedbackSessionAttributes.getTimeZone();
         this.courseId = feedbackSessionAttributes.getCourseId();
-        this.timeZone = feedbackSessionAttributes.getTimeZone().getId();
+        this.timeZone = timeZone;
         this.feedbackSessionName = feedbackSessionAttributes.getFeedbackSessionName();
         this.instructions = feedbackSessionAttributes.getInstructions();
-        this.submissionStartTimestamp = feedbackSessionAttributes.getStartTime().toEpochMilli();
-        this.submissionEndTimestamp = feedbackSessionAttributes.getEndTime().toEpochMilli();
-        this.resultVisibleFromTimestamp = feedbackSessionAttributes.getResultsVisibleFromTime().toEpochMilli();
+        this.submissionStartTimestamp = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                feedbackSessionAttributes.getStartTime(), timeZone, true).toEpochMilli();
+        this.submissionEndTimestamp = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                feedbackSessionAttributes.getEndTime(), timeZone, true).toEpochMilli();
         this.gracePeriod = feedbackSessionAttributes.getGracePeriodMinutes();
 
         Instant sessionVisibleTime = feedbackSessionAttributes.getSessionVisibleFromTime();
+        this.sessionVisibleFromTimestamp = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                sessionVisibleTime, timeZone, true).toEpochMilli();
         if (sessionVisibleTime.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)) {
             this.sessionVisibleSetting = SessionVisibleSetting.AT_OPEN;
         } else {
             this.sessionVisibleSetting = SessionVisibleSetting.CUSTOM;
-            this.customSessionVisibleTimestamp = sessionVisibleTime.toEpochMilli();
+            this.customSessionVisibleTimestamp = this.sessionVisibleFromTimestamp;
         }
 
         Instant responseVisibleTime = feedbackSessionAttributes.getResultsVisibleFromTime();
+        this.resultVisibleFromTimestamp = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                responseVisibleTime, timeZone, true).toEpochMilli();
         if (responseVisibleTime.equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE)) {
             this.responseVisibleSetting = ResponseVisibleSetting.AT_VISIBLE;
         } else if (responseVisibleTime.equals(Const.TIME_REPRESENTS_LATER)) {
             this.responseVisibleSetting = ResponseVisibleSetting.LATER;
         } else {
             this.responseVisibleSetting = ResponseVisibleSetting.CUSTOM;
-            this.customResponseVisibleTimestamp = responseVisibleTime.toEpochMilli();
+            this.customResponseVisibleTimestamp = this.resultVisibleFromTimestamp;
         }
 
         if (!feedbackSessionAttributes.isVisible()) {
@@ -128,6 +137,10 @@ public class FeedbackSessionData extends ApiOutput {
         return submissionEndTimestamp;
     }
 
+    public Long getSessionVisibleFromTimestamp() {
+        return sessionVisibleFromTimestamp;
+    }
+
     public Long getResultVisibleFromTimestamp() {
         return resultVisibleFromTimestamp;
     }
@@ -166,6 +179,10 @@ public class FeedbackSessionData extends ApiOutput {
 
     public Boolean getIsPublishedEmailEnabled() {
         return isPublishedEmailEnabled;
+    }
+
+    public void setSessionVisibleFromTimestamp(Long sessionVisibleFromTimestamp) {
+        this.sessionVisibleFromTimestamp = sessionVisibleFromTimestamp;
     }
 
     public void setResultVisibleFromTimestamp(Long resultVisibleFromTimestamp) {
@@ -229,6 +246,7 @@ public class FeedbackSessionData extends ApiOutput {
      */
     public void hideInformationForStudent() {
         hideInformationForInstructor();
+        setSessionVisibleFromTimestamp(null);
         setResultVisibleFromTimestamp(null);
         setSessionVisibleSetting(null);
         setCustomSessionVisibleTimestamp(null);

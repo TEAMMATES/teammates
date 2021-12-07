@@ -1,9 +1,15 @@
 package teammates.ui.webapi;
 
+import java.time.Instant;
+
+import org.apache.http.HttpStatus;
+
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.Logger;
+import teammates.common.util.TimeHelper;
 import teammates.ui.output.FeedbackSessionData;
 import teammates.ui.request.FeedbackSessionUpdateRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
@@ -12,6 +18,8 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
  * Updates a feedback session.
  */
 class UpdateFeedbackSessionAction extends Action {
+
+    private static final Logger log = Logger.getLogger();
 
     @Override
     AuthType getMinAuthLevel() {
@@ -35,18 +43,29 @@ class UpdateFeedbackSessionAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
+        FeedbackSessionAttributes feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
+
         FeedbackSessionUpdateRequest updateRequest =
                 getAndValidateRequestBody(FeedbackSessionUpdateRequest.class);
 
+        String timeZone = feedbackSession.getTimeZone();
+        Instant startTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                updateRequest.getSubmissionStartTime(), timeZone, true);
+        Instant endTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                updateRequest.getSubmissionEndTime(), timeZone, true);
+        Instant sessionVisibleTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                updateRequest.getSessionVisibleFromTime(), timeZone, true);
+        Instant resultsVisibleTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                updateRequest.getResultsVisibleFromTime(), timeZone, true);
         try {
             FeedbackSessionAttributes updateFeedbackSession = logic.updateFeedbackSession(
                     FeedbackSessionAttributes.updateOptionsBuilder(feedbackSessionName, courseId)
                             .withInstructions(updateRequest.getInstructions())
-                            .withStartTime(updateRequest.getSubmissionStartTime())
-                            .withEndTime(updateRequest.getSubmissionEndTime())
+                            .withStartTime(startTime)
+                            .withEndTime(endTime)
                             .withGracePeriod(updateRequest.getGracePeriod())
-                            .withSessionVisibleFromTime(updateRequest.getSessionVisibleFromTime())
-                            .withResultsVisibleFromTime(updateRequest.getResultsVisibleFromTime())
+                            .withSessionVisibleFromTime(sessionVisibleTime)
+                            .withResultsVisibleFromTime(resultsVisibleTime)
                             .withIsClosingEmailEnabled(updateRequest.isClosingEmailEnabled())
                             .withIsPublishedEmailEnabled(updateRequest.isPublishedEmailEnabled())
                             .build());
@@ -55,7 +74,9 @@ class UpdateFeedbackSessionAction extends Action {
         } catch (InvalidParametersException ipe) {
             throw new InvalidHttpRequestBodyException(ipe);
         } catch (EntityDoesNotExistException ednee) {
-            throw new EntityNotFoundException(ednee);
+            // Entity existence has been verified before, and this exception should not happen
+            log.severe("Unexpected error", ednee);
+            return new JsonResult(ednee.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
     }
 
