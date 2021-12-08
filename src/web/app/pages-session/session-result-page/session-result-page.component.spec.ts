@@ -3,6 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of, throwError } from 'rxjs';
+import { environment } from '../../../environments/environment';
 import { AuthService } from '../../../services/auth.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { LogService } from '../../../services/log.service';
@@ -679,7 +680,12 @@ describe('SessionResultPageComponent', () => {
 
     expect(navSpy.calls.count()).toEqual(1);
     expect(navSpy.calls.mostRecent().args[1]).toEqual('/web/front');
-    expect(navSpy.calls.mostRecent().args[2]).toEqual('You are not authorized to view this page.');
+    expect(navSpy.calls.mostRecent().args[2]).toEqual(
+        `You are trying to access TEAMMATES using the Google account user-id, which
+                    is not linked to this TEAMMATES account. If you used a different Google account to
+                    join/access TEAMMATES before, please use that Google account to access TEAMMATES. If you
+                    cannot remember which Google account you used before, please email us at
+                    ${environment.supportEmail} for help.`);
   });
 
   it('should deny access for invalid reg key', () => {
