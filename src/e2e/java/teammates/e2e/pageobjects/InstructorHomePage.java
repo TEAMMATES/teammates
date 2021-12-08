@@ -3,8 +3,6 @@ package teammates.e2e.pageobjects;
 import static org.junit.Assert.assertEquals;
 
 import java.time.Instant;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -148,10 +146,8 @@ public class InstructorHomePage extends AppPage {
         return getCourseTab(courseTabIndex).findElement(By.id("sessions-table"));
     }
 
-    private String getDateString(Instant instant, ZoneId timeZone) {
-        return DateTimeFormatter
-                .ofPattern("d MMM h:mm a")
-                .format(instant.atZone(timeZone));
+    private String getDateString(Instant instant, String timeZone) {
+        return getDisplayedDateTime(instant, timeZone, "d MMM h:mm a");
     }
 
     private String[] getExpectedSessionDetails(FeedbackSessionAttributes session) {

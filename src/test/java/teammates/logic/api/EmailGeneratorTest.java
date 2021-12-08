@@ -1,6 +1,5 @@
 package teammates.logic.api;
 
-import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.List;
 
@@ -428,7 +427,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
         CourseAttributes course = CourseAttributes
                 .builder("course-id")
                 .withName("Course Name")
-                .withTimezone(ZoneId.of("UTC"))
+                .withTimezone("UTC")
                 .build();
 
         email = emailGenerator.generateInstructorCourseJoinEmail(inviter, instructor, course);
@@ -539,7 +538,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
         CourseAttributes course = CourseAttributes
                 .builder("idOfTypicalCourse1")
                 .withName("Course Name")
-                .withTimezone(ZoneId.of("UTC"))
+                .withTimezone("UTC")
                 .build();
 
         StudentAttributes student =
@@ -565,7 +564,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         course = CourseAttributes.builder("course-id")
                 .withName("Course Name")
-                .withTimezone(ZoneId.of("UTC"))
+                .withTimezone("UTC")
                 .build();
 
         email = emailGenerator.generateStudentCourseJoinEmail(course, student);
@@ -613,7 +612,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
         CourseAttributes course = CourseAttributes
                 .builder("idOfTypicalCourse1")
                 .withName("Course Name")
-                .withTimezone(ZoneId.of("UTC"))
+                .withTimezone("UTC")
                 .build();
         String name = "User Name";
         String emailAddress = "user@email.tmt";
