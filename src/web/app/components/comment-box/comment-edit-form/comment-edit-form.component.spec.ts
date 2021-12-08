@@ -3,7 +3,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { of } from 'rxjs';
 import { CommentVisibilityStateMachine } from '../../../../services/comment-visibility-state-machine';
 import { FeedbackResponseCommentService } from '../../../../services/feedback-response-comment.service';
 import { CommentVisibilityType, FeedbackVisibilityType } from '../../../../types/api-output';
@@ -25,7 +24,10 @@ const commentModel: CommentEditFormModel = {
   showCommentTo: [],
   showGiverNameTo: [],
 };
-
+const modelChangeBatch: {[key: string]: any} = {
+  showCommentTo: [],
+  showGiverNameTo: []
+}
 const visibilityType: CommentVisibilityType = CommentVisibilityType.GIVER;
 const visibilityControl: CommentVisibilityControl = CommentVisibilityControl.SHOW_COMMENT;
 
@@ -100,7 +102,7 @@ describe('CommentEditFormComponent', () => {
     const field: string = 'key';
     const data: any = 1;
 
-    spyOn(component.modelChange, 'emit').and.returnValue(of({ ...commentModel, ...object }));
+    spyOn(component.modelChange, 'emit');
 
     button.click();
     fixture.detectChanges();
@@ -113,7 +115,7 @@ describe('CommentEditFormComponent', () => {
   it('should raises the selected event when modelChange with batch is invoked', () => {
     const button: any = fixture.nativeElement.querySelector('button');
 
-    spyOn(component.modelChange, 'emit').and.returnValue(of({ ...commentModel, ...object }));
+    spyOn(component.modelChange, 'emit');
 
     button.click();
     fixture.detectChanges();
@@ -130,7 +132,7 @@ describe('CommentEditFormComponent', () => {
     component.modifyVisibilityControl(true, visibilityType, visibilityControl);
 
     expect(spy1).toHaveBeenCalledWith(visibilityType, visibilityControl);
-    expect(spy2).toHaveBeenCalled();
+    expect(spy2).toHaveBeenCalledWith(modelChangeBatch);
   });
 
   it('should disallowToSee visibility in modifyVisibilityControl method', () => {
@@ -140,7 +142,7 @@ describe('CommentEditFormComponent', () => {
     component.modifyVisibilityControl(false, visibilityType, visibilityControl);
 
     expect(spy1).toHaveBeenCalledWith(visibilityType, visibilityControl);
-    expect(spy2).toHaveBeenCalled();
+    expect(spy2).toHaveBeenCalledWith(modelChangeBatch);
   });
 
   it('should disallowToSee visibility in modifyVisibilityControl method', () => {
@@ -150,7 +152,7 @@ describe('CommentEditFormComponent', () => {
     component.modifyVisibilityControl(false, visibilityType, visibilityControl);
 
     expect(spy1).toHaveBeenCalledWith(visibilityType, visibilityControl);
-    expect(spy2).toHaveBeenCalled();
+    expect(spy2).toHaveBeenCalledWith(modelChangeBatch);
   });
 
   it('should check toggleVisibilityTable method to true', () => {
@@ -166,6 +168,11 @@ describe('CommentEditFormComponent', () => {
   });
 
   it('should check ngOnChanges method true condition', () => {
+    const visibilitySetting: {[TKey in CommentVisibilityControl]: CommentVisibilityType[]} = {
+      SHOW_COMMENT: commentModel.showCommentTo,
+      SHOW_GIVER_NAME: commentModel.showGiverNameTo,
+    };
+
     spyOn(commentService, 'getNewVisibilityStateMachine').and.returnValue(stateMachine);
     const spy2: any = spyOn(stateMachine, 'applyVisibilitySettings');
 
@@ -173,7 +180,7 @@ describe('CommentEditFormComponent', () => {
     component.ngOnChanges();
 
     expect(component.visibilityStateMachine).toEqual(stateMachine);
-    expect(spy2).toHaveBeenCalled();
+    expect(spy2).toHaveBeenCalledWith(visibilitySetting);
   });
 
   it('should check ngOnChanges method false condition', () => {
@@ -186,6 +193,6 @@ describe('CommentEditFormComponent', () => {
 
     expect(component.visibilityStateMachine).toEqual(stateMachine);
     expect(spy2).toHaveBeenCalled();
-    expect(spy3).toHaveBeenCalled();
+    expect(spy3).toHaveBeenCalledWith({ isUsingCustomVisibilities: true, ...modelChangeBatch });
   });
 });
