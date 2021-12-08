@@ -14,6 +14,80 @@ import { TeammatesCommonModule } from '../teammates-common/teammates-common.modu
 import { VisibilityMessagesModule } from '../visibility-messages/visibility-messages.module';
 import { QuestionSubmissionFormComponent } from './question-submission-form.component';
 import { RecipientTypeNamePipe } from './recipient-type-name.pipe';
+import {
+  FeedbackQuestionType,
+  FeedbackNumericalScaleQuestionDetails,
+  NumberOfEntitiesToGiveFeedbackToSetting,
+  FeedbackVisibilityType,
+  FeedbackParticipantType,
+  FeedbackNumericalScaleResponseDetails
+} from 'src/web/types/api-output';
+import { FeedbackResponseRecipientSubmissionFormModel, QuestionSubmissionFormModel } from './question-submission-form-model';
+
+
+const formResponse1: FeedbackResponseRecipientSubmissionFormModel = {
+  responseId: 'response-id-1',
+  recipientIdentifier: 'hans-charlie-id',
+  responseDetails: {
+    answer: 5,
+  } as FeedbackNumericalScaleResponseDetails,
+  isValid: true,
+};
+
+const formResponse2: FeedbackResponseRecipientSubmissionFormModel = {
+  responseId: 'response-id-2',
+  recipientIdentifier: 'harris-barry-id',
+  responseDetails: {
+    answer: 4,
+  } as FeedbackNumericalScaleResponseDetails,
+  isValid: true,
+};
+
+const formResponse3: FeedbackResponseRecipientSubmissionFormModel = {
+  responseId: 'response-id-3',
+  recipientIdentifier: 'rogers-alan-id',
+  responseDetails: {
+    answer: 3,
+  } as FeedbackNumericalScaleResponseDetails,
+  isValid: true,
+};
+
+const formResponse4: FeedbackResponseRecipientSubmissionFormModel = {
+  responseId: 'response-id-4',
+  recipientIdentifier: 'buck-arthur-id',
+  responseDetails: {
+    answer: 2,
+  } as FeedbackNumericalScaleResponseDetails,
+  isValid: true,
+};
+
+const testNumscaleQuestionSubmissionForm: QuestionSubmissionFormModel = {
+  feedbackQuestionId: 'feedback-question-id-numscale',
+  questionNumber: 1,
+  questionBrief: 'numerical scale question',
+  questionDescription: 'question description',
+  questionType: FeedbackQuestionType.NUMSCALE,
+  questionDetails: {
+    minScale: 1,
+    maxScale: 10,
+    step: 1,
+  } as FeedbackNumericalScaleQuestionDetails,
+  giverType: FeedbackParticipantType.STUDENTS,
+  recipientType: FeedbackParticipantType.STUDENTS,
+
+  recipientList: [{ recipientName: 'Alan Rogers', recipientIdentifier: 'rogers-alan-id' },
+    { recipientName: 'Arthur Buck', recipientIdentifier: 'buck-arthur-id' }, 
+    { recipientName: 'Barry Harris', recipientIdentifier: 'harris-barry-id' },
+    { recipientName: 'Charlie Hans', recipientIdentifier: 'hans-charlie-id' }],
+
+  recipientSubmissionForms: [formResponse1, formResponse2, formResponse3, formResponse4],
+  numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM,
+  customNumberOfEntitiesToGiveFeedbackTo: 4,
+  showResponsesTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
+  showGiverNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
+  showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
+};
+
 
 describe('QuestionSubmissionFormComponent', () => {
   let component: QuestionSubmissionFormComponent;
@@ -50,4 +124,20 @@ describe('QuestionSubmissionFormComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should set model', () => {
+    const model = testNumscaleQuestionSubmissionForm;
+    component.formModel = model;
+
+    expect(component.model).toBe(model)
+  })
+
+  it('should arrange recepients according to alphabetical order of name after ngOnInit', () => {
+    const model = testNumscaleQuestionSubmissionForm;
+
+    component.formModel = model;
+    component.ngOnInit();
+
+    expect(model.recipientSubmissionForms).toEqual([formResponse3, formResponse4, formResponse2, formResponse1]);
+  })
 });
