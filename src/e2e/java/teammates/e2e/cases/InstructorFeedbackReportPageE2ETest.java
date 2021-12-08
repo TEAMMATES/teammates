@@ -357,7 +357,9 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
 
         List<String> expectedContent = Arrays.asList("Course," + course.getId(),
                 "Session Name," + feedbackSession.getFeedbackSessionName(),
-                "Question 1,What part of the product did this teammate contribute most to?");
+                "Question 1,What part of the product did this teammate contribute most to?", 
+                "Participants who have not responded to any question", 
+                studentToEmail.getTeam() + "," + studentToEmail.getName());
         verifyDownloadedFile(fileName, expectedContent);
 
         ______TS("verify no response panel details");
