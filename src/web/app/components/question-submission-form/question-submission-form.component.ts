@@ -98,15 +98,15 @@ export class QuestionSubmissionFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this._sortRecepientsByName(this.model)    
+    this.sortRecepientsByName(this.model);
   }
 
   /**
    * Sorts recepients of feedback by their name.
-   * 
+   *
    * Feedback recepients are initially sorted by their email address.
    */
-  private _sortRecepientsByName(model: QuestionSubmissionFormModel): void {
+  private sortRecepientsByName(model: QuestionSubmissionFormModel): void {
     model.recipientSubmissionForms.sort((firstRecepient: FeedbackResponseRecipientSubmissionFormModel,
       secondRecepient: FeedbackResponseRecipientSubmissionFormModel) => {
       const indexOne: number = model.recipientList.findIndex((x: FeedbackResponseRecipient) =>
@@ -114,7 +114,7 @@ export class QuestionSubmissionFormComponent implements OnInit {
 
       const indexTwo: number = model.recipientList.findIndex((x: FeedbackResponseRecipient) =>
         x.recipientIdentifier === secondRecepient.recipientIdentifier);
-      
+
       return indexOne - indexTwo;
     });
   }

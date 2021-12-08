@@ -3,6 +3,14 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  FeedbackNumericalScaleQuestionDetails,
+  FeedbackNumericalScaleResponseDetails,
+  FeedbackParticipantType,
+  FeedbackQuestionType,
+  FeedbackVisibilityType,
+  NumberOfEntitiesToGiveFeedbackToSetting,
+} from '../../../types/api-output';
 import { CommentBoxModule } from '../comment-box/comment-box.module';
 import { QuestionConstraintModule } from '../question-types/question-constraint/question-constraint.module';
 import {
@@ -12,18 +20,9 @@ import { QuestionInstructionModule } from '../question-types/question-instructio
 import { RichTextEditorModule } from '../rich-text-editor/rich-text-editor.module';
 import { TeammatesCommonModule } from '../teammates-common/teammates-common.module';
 import { VisibilityMessagesModule } from '../visibility-messages/visibility-messages.module';
+import { FeedbackResponseRecipientSubmissionFormModel, QuestionSubmissionFormModel } from './question-submission-form-model';
 import { QuestionSubmissionFormComponent } from './question-submission-form.component';
 import { RecipientTypeNamePipe } from './recipient-type-name.pipe';
-import {
-  FeedbackQuestionType,
-  FeedbackNumericalScaleQuestionDetails,
-  NumberOfEntitiesToGiveFeedbackToSetting,
-  FeedbackVisibilityType,
-  FeedbackParticipantType,
-  FeedbackNumericalScaleResponseDetails
-} from 'src/web/types/api-output';
-import { FeedbackResponseRecipientSubmissionFormModel, QuestionSubmissionFormModel } from './question-submission-form-model';
-
 
 const formResponse1: FeedbackResponseRecipientSubmissionFormModel = {
   responseId: 'response-id-1',
@@ -76,7 +75,7 @@ const testNumscaleQuestionSubmissionForm: QuestionSubmissionFormModel = {
   recipientType: FeedbackParticipantType.STUDENTS,
 
   recipientList: [{ recipientName: 'Alan Rogers', recipientIdentifier: 'rogers-alan-id' },
-    { recipientName: 'Arthur Buck', recipientIdentifier: 'buck-arthur-id' }, 
+    { recipientName: 'Arthur Buck', recipientIdentifier: 'buck-arthur-id' },
     { recipientName: 'Barry Harris', recipientIdentifier: 'harris-barry-id' },
     { recipientName: 'Charlie Hans', recipientIdentifier: 'hans-charlie-id' }],
 
@@ -87,7 +86,6 @@ const testNumscaleQuestionSubmissionForm: QuestionSubmissionFormModel = {
   showGiverNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
   showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
 };
-
 
 describe('QuestionSubmissionFormComponent', () => {
   let component: QuestionSubmissionFormComponent;
@@ -126,18 +124,18 @@ describe('QuestionSubmissionFormComponent', () => {
   });
 
   it('should set model', () => {
-    const model = testNumscaleQuestionSubmissionForm;
+    const model: QuestionSubmissionFormModel = testNumscaleQuestionSubmissionForm;
     component.formModel = model;
 
-    expect(component.model).toBe(model)
-  })
+    expect(component.model).toBe(model);
+  });
 
   it('should arrange recepients according to alphabetical order of name after ngOnInit', () => {
-    const model = testNumscaleQuestionSubmissionForm;
+    const model: QuestionSubmissionFormModel = testNumscaleQuestionSubmissionForm;
 
     component.formModel = model;
     component.ngOnInit();
 
     expect(model.recipientSubmissionForms).toEqual([formResponse3, formResponse4, formResponse2, formResponse1]);
-  })
+  });
 });
