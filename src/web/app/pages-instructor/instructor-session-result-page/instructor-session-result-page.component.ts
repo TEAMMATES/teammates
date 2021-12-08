@@ -77,8 +77,7 @@ const TIME_FORMAT: string = 'ddd, DD MMM, YYYY, hh:mm A zz';
 })
 export class InstructorSessionResultPageComponent
   extends InstructorCommentsComponent
-  implements OnInit
-{
+  implements OnInit {
   // enum
   InstructorSessionResultSectionType: typeof InstructorSessionResultSectionType =
     InstructorSessionResultSectionType;
@@ -575,7 +574,6 @@ export class InstructorSessionResultPageComponent
         ),
       ),
     )
-      // .pipe(finalize(() => (this.isDownloadingResults = false)))
       .pipe(takeWhile(() => this.isDownloadingResults))
       .subscribe({
         next: (resp: string) => {
