@@ -26,8 +26,8 @@ const commentModel: CommentEditFormModel = {
 };
 const modelChangeBatch: {[key: string]: any} = {
   showCommentTo: [],
-  showGiverNameTo: []
-}
+  showGiverNameTo: [],
+};
 const visibilityType: CommentVisibilityType = CommentVisibilityType.GIVER;
 const visibilityControl: CommentVisibilityControl = CommentVisibilityControl.SHOW_COMMENT;
 
