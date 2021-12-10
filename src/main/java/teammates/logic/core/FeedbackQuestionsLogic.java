@@ -410,6 +410,7 @@ public final class FeedbackQuestionsLogic {
         }
 
         FeedbackParticipantType recipientType = question.getRecipientType();
+        FeedbackParticipantType generateOptionsFor = recipientType;
 
         switch (recipientType) {
         case SELF:
@@ -420,36 +421,25 @@ public final class FeedbackQuestionsLogic {
             }
             break;
         case STUDENTS:
-            List<StudentAttributes> studentsInCourse;
-            if (courseRoster == null) {
-                studentsInCourse = studentsLogic.getStudentsForCourse(question.getCourseId());
-            } else {
-                studentsInCourse = courseRoster.getStudents();
-            }
-            for (StudentAttributes student : studentsInCourse) {
-                if (isInstructorGiver && !instructorGiver.isAllowedForPrivilege(
-                        student.getSection(), question.getFeedbackSessionName(),
-                        Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS)) {
-                    // instructor can only see students in allowed sections for him/her
-                    continue;
-                }
-                // Ensure student does not evaluate himself
-                if (!giverEmail.equals(student.getEmail())) {
-                    recipients.put(student.getEmail(), student.getName());
-                }
-            }
-            break;
         case STUDENTS_IN_SAME_SECTION:
-            List<StudentAttributes> studentsInSection;
+            List<StudentAttributes> studentList;
             if (courseRoster == null) {
-                studentsInSection = studentsLogic.getStudentsForSection(giverSection, question.getCourseId());
+                if (generateOptionsFor == FeedbackParticipantType.STUDENTS_IN_SAME_SECTION) {
+                    studentList = studentsLogic.getStudentsForSection(giverSection, question.getCourseId());
+                } else {
+                    studentList = studentsLogic.getStudentsForCourse(question.getCourseId());
+                }
             } else {
-                final String finalGiverSection = giverSection;
-                studentsInSection = courseRoster.getStudents().stream()
-                        .filter(studentAttributes -> studentAttributes.getSection()
-                                .equals(finalGiverSection)).collect(Collectors.toList());
+                if (generateOptionsFor == FeedbackParticipantType.STUDENTS_IN_SAME_SECTION) {
+                    final String finalGiverSection = giverSection;
+                    studentList = courseRoster.getStudents().stream()
+                            .filter(studentAttributes -> studentAttributes.getSection()
+                                    .equals(finalGiverSection)).collect(Collectors.toList());
+                } else {
+                    studentList = courseRoster.getStudents();
+                }
             }
-            for (StudentAttributes student : studentsInSection) {
+            for (StudentAttributes student : studentList) {
                 if (isInstructorGiver && !instructorGiver.isAllowedForPrivilege(
                         student.getSection(), question.getFeedbackSessionName(),
                         Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS)) {
@@ -481,34 +471,21 @@ public final class FeedbackQuestionsLogic {
             }
             break;
         case TEAMS:
+        case TEAMS_IN_SAME_SECTION:
             Map<String, List<StudentAttributes>> teamToTeamMembersTable;
-            if (courseRoster == null) {
-                List<StudentAttributes> students = studentsLogic.getStudentsForCourse(question.getCourseId());
-                teamToTeamMembersTable = CourseRoster.buildTeamToMembersTable(students);
+            List<StudentAttributes> teamStudents;
+            if (generateOptionsFor == FeedbackParticipantType.TEAMS_IN_SAME_SECTION) {
+                teamStudents = studentsLogic.getStudentsForSection(giverSection, question.getCourseId());
+                teamToTeamMembersTable = CourseRoster.buildTeamToMembersTable(teamStudents);
             } else {
-                teamToTeamMembersTable = courseRoster.getTeamToMembersTable();
+                if (courseRoster == null) {
+                    teamStudents = studentsLogic.getStudentsForCourse(question.getCourseId());
+                    teamToTeamMembersTable = CourseRoster.buildTeamToMembersTable(teamStudents);
+                } else {
+                    teamToTeamMembersTable = courseRoster.getTeamToMembersTable();
+                }
             }
             for (Map.Entry<String, List<StudentAttributes>> team : teamToTeamMembersTable.entrySet()) {
-                if (isInstructorGiver && !instructorGiver.isAllowedForPrivilege(
-                        team.getValue().iterator().next().getSection(),
-                        question.getFeedbackSessionName(),
-                        Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS)) {
-                    // instructor can only see teams in allowed sections for him/her
-                    continue;
-                }
-                // Ensure student('s team) does not evaluate own team.
-                if (!giverTeam.equals(team.getKey())) {
-                    // recipientEmail doubles as team name in this case.
-                    recipients.put(team.getKey(), team.getKey());
-                }
-            }
-            break;
-        case TEAMS_IN_SAME_SECTION:
-            Map<String, List<StudentAttributes>> teamToTeamInSectionMembersTable;
-            List<StudentAttributes> studentsInTeamForSection =
-                    studentsLogic.getStudentsForSection(giverSection, question.getCourseId());
-            teamToTeamInSectionMembersTable = CourseRoster.buildTeamToMembersTable(studentsInTeamForSection);
-            for (Map.Entry<String, List<StudentAttributes>> team : teamToTeamInSectionMembersTable.entrySet()) {
                 if (isInstructorGiver && !instructorGiver.isAllowedForPrivilege(
                         team.getValue().iterator().next().getSection(),
                         question.getFeedbackSessionName(),
