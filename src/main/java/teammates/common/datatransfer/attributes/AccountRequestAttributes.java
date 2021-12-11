@@ -82,7 +82,6 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
         return Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
                 .withIsCreatingAccount(String.valueOf(true))
                 .withRegistrationKey(this.getRegistrationKey())
-                .withEntityType(Const.EntityType.INSTRUCTOR)
                 .toAbsoluteString();
     }
 
