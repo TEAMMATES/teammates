@@ -109,9 +109,7 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
             accountRequest.setCreatedAt(this.getCreatedAt());
         }
 
-        if (this.getRegisteredAt() != null) {
-            accountRequest.setRegisteredAt(this.getRegisteredAt());
-        }
+        accountRequest.setRegisteredAt(this.getRegisteredAt());
 
         return accountRequest;
     }
