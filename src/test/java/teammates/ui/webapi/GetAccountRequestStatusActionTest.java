@@ -22,7 +22,7 @@ public class GetAccountRequestStatusActionTest extends BaseActionTest<GetAccount
 
     @Override
     @Test
-    protected void testExecute() {
+    protected void testExecute() throws Exception {
 
         loginAsUnregistered("unreg.user");
 

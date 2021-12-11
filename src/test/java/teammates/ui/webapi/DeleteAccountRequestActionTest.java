@@ -3,6 +3,7 @@ package teammates.ui.webapi;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.ui.output.MessageOutput;
 
@@ -25,7 +26,6 @@ public class DeleteAccountRequestActionTest extends BaseActionTest<DeleteAccount
     @Test
     protected void testExecute() {
         AccountRequestAttributes accountRequest = typicalBundle.accountRequests.get("accountRequest1");
-        assertNotNull(logic.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute()));
 
         ______TS("Not enough parameters");
 
@@ -45,7 +45,8 @@ public class DeleteAccountRequestActionTest extends BaseActionTest<DeleteAccount
 
         assertEquals(msg.getMessage(), "Account request successfully deleted.");
 
-        assertNull(logic.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute()));
+        assertThrows(EntityDoesNotExistException.class,
+                () -> logic.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute()));
 
         ______TS("Typical case, delete non-existing account request");
 

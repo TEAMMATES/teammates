@@ -1427,7 +1427,7 @@ public class Logic {
      * <p>Preconditions:</p>
      * * All parameters are non-null.
      *
-     * @return the account request or null if no match found
+     * @return the account request
      * @throws EntityDoesNotExistException if the account request does not exist
      */
     public AccountRequestAttributes getAccountRequestForRegistrationKey(String registrationKey)
@@ -1443,9 +1443,11 @@ public class Logic {
      * <p>Preconditions:</p>
      * * All parameters are non-null.
      *
-     * @return the account request or null if no match found
+     * @return the account request
+     * @throws EntityDoesNotExistException if the account request does not exist
      */
-    public AccountRequestAttributes getAccountRequest(String email, String institute) {
+    public AccountRequestAttributes getAccountRequest(String email, String institute)
+            throws EntityDoesNotExistException {
         assert email != null;
         assert institute != null;
 

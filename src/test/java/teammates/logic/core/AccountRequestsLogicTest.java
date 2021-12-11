@@ -138,9 +138,8 @@ public class AccountRequestsLogicTest extends BaseLogicTest {
 
         ______TS("account request not found");
 
-        AccountRequestAttributes notFoundRequestAttributes =
-                accountRequestsLogic.getAccountRequest("not-found@test.com", "not-found");
-        assertNull(notFoundRequestAttributes);
+        assertThrows(EntityDoesNotExistException.class,
+                () -> accountRequestsLogic.getAccountRequest("not-found@test.com", "not-found"));
 
         ______TS("failure null parameter");
 

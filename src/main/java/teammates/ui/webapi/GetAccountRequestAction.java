@@ -1,6 +1,7 @@
 package teammates.ui.webapi;
 
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.ui.output.AccountRequestData;
 
@@ -14,9 +15,11 @@ class GetAccountRequestAction extends AdminOnlyAction {
         String email = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
         String institute = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
 
-        AccountRequestAttributes accountRequestInfo = logic.getAccountRequest(email, institute);
-        if (accountRequestInfo == null) {
-            throw new EntityNotFoundException("Account request does not exist.");
+        AccountRequestAttributes accountRequestInfo;
+        try {
+            accountRequestInfo = logic.getAccountRequest(email, institute);
+        } catch (EntityDoesNotExistException ednee) {
+            throw new EntityNotFoundException(ednee);
         }
 
         AccountRequestData output = new AccountRequestData(accountRequestInfo);
