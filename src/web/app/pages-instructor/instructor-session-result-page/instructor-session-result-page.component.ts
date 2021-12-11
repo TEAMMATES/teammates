@@ -21,15 +21,12 @@ import {
   FeedbackQuestion,
   FeedbackQuestions,
   FeedbackSession,
-  FeedbackSessionPublishStatus,
-  FeedbackSessionSubmissionStatus,
+  FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus,
   FeedbackSessionSubmittedGiverSet,
   Instructor,
   QuestionOutput,
-  ResponseOutput,
-  ResponseVisibleSetting,
-  SessionResults,
-  SessionVisibleSetting,
+  ResponseOutput, ResponseVisibleSetting,
+  SessionResults, SessionVisibleSetting,
   Student,
   Students,
 } from '../../../types/api-output';
@@ -75,14 +72,11 @@ const TIME_FORMAT: string = 'ddd, DD MMM, YYYY, hh:mm A zz';
   templateUrl: './instructor-session-result-page.component.html',
   styleUrls: ['./instructor-session-result-page.component.scss'],
 })
-export class InstructorSessionResultPageComponent
-  extends InstructorCommentsComponent
-  implements OnInit {
+export class InstructorSessionResultPageComponent extends InstructorCommentsComponent implements OnInit {
+
   // enum
-  InstructorSessionResultSectionType: typeof InstructorSessionResultSectionType =
-    InstructorSessionResultSectionType;
-  InstructorSessionResultViewType: typeof InstructorSessionResultViewType =
-    InstructorSessionResultViewType;
+  InstructorSessionResultSectionType: typeof InstructorSessionResultSectionType = InstructorSessionResultSectionType;
+  InstructorSessionResultViewType: typeof InstructorSessionResultViewType = InstructorSessionResultViewType;
 
   formattedSessionOpeningTime: string = '';
   formattedSessionClosingTime: string = '';
@@ -92,8 +86,7 @@ export class InstructorSessionResultPageComponent
   fsName: string = '';
   viewType: string = InstructorSessionResultViewType.QUESTION;
   section: string = '';
-  sectionType: InstructorSessionResultSectionType =
-    InstructorSessionResultSectionType.EITHER;
+  sectionType: InstructorSessionResultSectionType = InstructorSessionResultSectionType.EITHER;
   groupByTeam: boolean = true;
   showStatistics: boolean = true;
   indicateMissingResponses: boolean = true;
@@ -117,8 +110,7 @@ export class InstructorSessionResultPageComponent
 
   allStudentsInCourse: Student[] = [];
 
-  FeedbackSessionPublishStatus: typeof FeedbackSessionPublishStatus =
-    FeedbackSessionPublishStatus;
+  FeedbackSessionPublishStatus: typeof FeedbackSessionPublishStatus = FeedbackSessionPublishStatus;
   isExpandAll: boolean = false;
 
   session: FeedbackSession = {
@@ -138,33 +130,26 @@ export class InstructorSessionResultPageComponent
     createdAtTimestamp: 0,
   };
 
-  @ViewChild(InstructorSessionNoResponsePanelComponent)
-  noResponsePanel?: InstructorSessionNoResponsePanelComponent;
+  @ViewChild(InstructorSessionNoResponsePanelComponent) noResponsePanel?:
+    InstructorSessionNoResponsePanelComponent;
 
-  constructor(
-    private feedbackSessionsService: FeedbackSessionsService,
-    private feedbackQuestionsService: FeedbackQuestionsService,
-    private courseService: CourseService,
-    private studentService: StudentService,
-    private instructorService: InstructorService,
-    private route: ActivatedRoute,
-    private timezoneService: TimezoneService,
-    private simpleModalService: SimpleModalService,
-    private commentsToCommentTableModel: CommentsToCommentTableModelPipe,
-    private progressBarService: ProgressBarService,
-    private navigationService: NavigationService,
-    private router: Router,
-    statusMessageService: StatusMessageService,
-    commentService: FeedbackResponseCommentService,
-    commentToCommentRowModel: CommentToCommentRowModelPipe,
-    tableComparatorService: TableComparatorService,
-  ) {
-    super(
-      commentToCommentRowModel,
-      commentService,
-      statusMessageService,
-      tableComparatorService,
-    );
+  constructor(private feedbackSessionsService: FeedbackSessionsService,
+              private feedbackQuestionsService: FeedbackQuestionsService,
+              private courseService: CourseService,
+              private studentService: StudentService,
+              private instructorService: InstructorService,
+              private route: ActivatedRoute,
+              private timezoneService: TimezoneService,
+              private simpleModalService: SimpleModalService,
+              private commentsToCommentTableModel: CommentsToCommentTableModelPipe,
+              private progressBarService: ProgressBarService,
+              private navigationService: NavigationService,
+              private router: Router,
+              statusMessageService: StatusMessageService,
+              commentService: FeedbackResponseCommentService,
+              commentToCommentRowModel: CommentToCommentRowModelPipe,
+              tableComparatorService: TableComparatorService) {
+    super(commentToCommentRowModel, commentService, statusMessageService, tableComparatorService);
     this.timezoneService.getTzVersion(); // import timezone service to load timezone data
   }
 
@@ -176,176 +161,117 @@ export class InstructorSessionResultPageComponent
     });
   }
 
-  loadFeedbackSessionResults(
-    courseId: string,
-    feedbackSessionName: string,
-  ): void {
+  loadFeedbackSessionResults(courseId: string, feedbackSessionName: string): void {
     this.hasQuestionsLoadingFailed = false;
     this.hasSectionsLoadingFailed = false;
     this.hasFeedbackSessionLoadingFailed = false;
     this.isFeedbackSessionLoading = true;
-    this.feedbackSessionsService
-      .getFeedbackSession({
+    this.feedbackSessionsService.getFeedbackSession({
+      courseId,
+      feedbackSessionName,
+      intent: Intent.INSTRUCTOR_RESULT,
+    }).subscribe((feedbackSession: FeedbackSession) => {
+      this.session = feedbackSession;
+      this.formattedSessionOpeningTime = this.timezoneService
+          .formatToString(this.session.submissionStartTimestamp, this.session.timeZone, TIME_FORMAT);
+      this.formattedSessionClosingTime = this.timezoneService
+          .formatToString(this.session.submissionEndTimestamp, this.session.timeZone, TIME_FORMAT);
+      if (this.session.responseVisibleSetting === ResponseVisibleSetting.AT_VISIBLE) {
+        if (this.session.sessionVisibleSetting === SessionVisibleSetting.AT_OPEN) {
+          this.formattedResultVisibleFromTime = this.timezoneService
+              .formatToString(this.session.submissionStartTimestamp, this.session.timeZone, TIME_FORMAT);
+        } else if (this.session.sessionVisibleFromTimestamp) {
+          this.formattedResultVisibleFromTime = this.timezoneService
+              .formatToString(this.session.sessionVisibleFromTimestamp, this.session.timeZone, TIME_FORMAT);
+        }
+      } else if (this.session.resultVisibleFromTimestamp) {
+        this.formattedResultVisibleFromTime = this.timezoneService
+            .formatToString(this.session.resultVisibleFromTimestamp, this.session.timeZone, TIME_FORMAT);
+      } else {
+        this.formattedResultVisibleFromTime = 'Not applicable';
+      }
+      this.isFeedbackSessionLoading = false;
+
+      // load section tabs
+      this.courseService.getCourseSectionNames(courseId)
+        .subscribe((courseSectionNames: CourseSectionNames) => {
+          this.sectionsModel.None = {
+            questions: [],
+            hasPopulated: false,
+            isTabExpanded: false,
+          };
+          for (const sectionName of courseSectionNames.sectionNames) {
+            this.sectionsModel[sectionName] = {
+              questions: [],
+              hasPopulated: false,
+              isTabExpanded: false,
+            };
+          }
+          this.isSectionsLoaded = true;
+        }, (resp: ErrorMessageOutput) => {
+          this.hasSectionsLoadingFailed = true;
+          this.statusMessageService.showErrorToast(resp.error.message);
+        });
+
+      // load question tabs
+      this.feedbackQuestionsService.getFeedbackQuestions({
         courseId,
         feedbackSessionName,
         intent: Intent.INSTRUCTOR_RESULT,
-      })
-      .subscribe(
-        (feedbackSession: FeedbackSession) => {
-          this.session = feedbackSession;
-          this.formattedSessionOpeningTime =
-            this.timezoneService.formatToString(
-              this.session.submissionStartTimestamp,
-              this.session.timeZone,
-              TIME_FORMAT,
-            );
-          this.formattedSessionClosingTime =
-            this.timezoneService.formatToString(
-              this.session.submissionEndTimestamp,
-              this.session.timeZone,
-              TIME_FORMAT,
-            );
-          if (
-            this.session.responseVisibleSetting ===
-            ResponseVisibleSetting.AT_VISIBLE
-          ) {
-            if (
-              this.session.sessionVisibleSetting ===
-              SessionVisibleSetting.AT_OPEN
-            ) {
-              this.formattedResultVisibleFromTime =
-                this.timezoneService.formatToString(
-                  this.session.submissionStartTimestamp,
-                  this.session.timeZone,
-                  TIME_FORMAT,
-                );
-            } else if (this.session.sessionVisibleFromTimestamp) {
-              this.formattedResultVisibleFromTime =
-                this.timezoneService.formatToString(
-                  this.session.sessionVisibleFromTimestamp,
-                  this.session.timeZone,
-                  TIME_FORMAT,
-                );
-            }
-          } else if (this.session.resultVisibleFromTimestamp) {
-            this.formattedResultVisibleFromTime =
-              this.timezoneService.formatToString(
-                this.session.resultVisibleFromTimestamp,
-                this.session.timeZone,
-                TIME_FORMAT,
-              );
-          } else {
-            this.formattedResultVisibleFromTime = 'Not applicable';
-          }
-          this.isFeedbackSessionLoading = false;
+      }).subscribe((feedbackQuestions: FeedbackQuestions) => {
+        for (const question of feedbackQuestions.questions) {
+          this.questionsModel[question.feedbackQuestionId] = {
+            question,
+            responses: [],
+            statistics: '',
+            hasPopulated: false,
+            isTabExpanded: false,
+          };
+        }
+        this.isQuestionsLoaded = true;
+      }, (resp: ErrorMessageOutput) => {
+        this.hasQuestionsLoadingFailed = true;
+        this.statusMessageService.showErrorToast(resp.error.message);
+      });
 
-          // load section tabs
-          this.courseService.getCourseSectionNames(courseId).subscribe(
-            (courseSectionNames: CourseSectionNames) => {
-              this.sectionsModel.None = {
-                questions: [],
-                hasPopulated: false,
-                isTabExpanded: false,
-              };
-              for (const sectionName of courseSectionNames.sectionNames) {
-                this.sectionsModel[sectionName] = {
-                  questions: [],
-                  hasPopulated: false,
-                  isTabExpanded: false,
-                };
-              }
-              this.isSectionsLoaded = true;
-            },
-            (resp: ErrorMessageOutput) => {
-              this.hasSectionsLoadingFailed = true;
-              this.statusMessageService.showErrorToast(resp.error.message);
-            },
-          );
+      // load all students in course
+      this.studentService.getStudentsFromCourse({
+        courseId,
+      }).subscribe((allStudents: Students) => {
+        this.allStudentsInCourse = allStudents.students;
+        this.loadNoResponseStudents(courseId, feedbackSessionName);
+      }, (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+      });
 
-          // load question tabs
-          this.feedbackQuestionsService
-            .getFeedbackQuestions({
-              courseId,
-              feedbackSessionName,
-              intent: Intent.INSTRUCTOR_RESULT,
-            })
-            .subscribe(
-              (feedbackQuestions: FeedbackQuestions) => {
-                for (const question of feedbackQuestions.questions) {
-                  this.questionsModel[question.feedbackQuestionId] = {
-                    question,
-                    responses: [],
-                    statistics: '',
-                    hasPopulated: false,
-                    isTabExpanded: false,
-                  };
-                }
-                this.isQuestionsLoaded = true;
-              },
-              (resp: ErrorMessageOutput) => {
-                this.hasQuestionsLoadingFailed = true;
-                this.statusMessageService.showErrorToast(resp.error.message);
-              },
-            );
-
-          // load all students in course
-          this.studentService
-            .getStudentsFromCourse({
-              courseId,
-            })
-            .subscribe(
-              (allStudents: Students) => {
-                this.allStudentsInCourse = allStudents.students;
-                this.loadNoResponseStudents(courseId, feedbackSessionName);
-              },
-              (resp: ErrorMessageOutput) => {
-                this.statusMessageService.showErrorToast(resp.error.message);
-              },
-            );
-
-          // load current instructor name
-          this.instructorService
-            .getInstructor({
-              courseId,
-              intent: Intent.FULL_DETAIL,
-            })
-            .subscribe((instructor: Instructor) => {
-              this.currInstructorName = instructor.name;
-            });
-        },
-        (resp: ErrorMessageOutput) => {
-          this.isFeedbackSessionLoading = false;
-          this.hasFeedbackSessionLoadingFailed = true;
-          this.statusMessageService.showErrorToast(resp.error.message);
-        },
-      );
+      // load current instructor name
+      this.instructorService.getInstructor({
+        courseId,
+        intent: Intent.FULL_DETAIL,
+      }).subscribe((instructor: Instructor) => {
+        this.currInstructorName = instructor.name;
+      });
+    }, (resp: ErrorMessageOutput) => {
+      this.isFeedbackSessionLoading = false;
+      this.hasFeedbackSessionLoadingFailed = true;
+      this.statusMessageService.showErrorToast(resp.error.message);
+    });
   }
 
   loadNoResponseStudents(courseId: string, feedbackSessionName: string): void {
     this.hasNoResponseLoadingFailed = false;
     // load no response students
-    this.feedbackSessionsService
-      .getFeedbackSessionSubmittedGiverSet({
-        courseId,
-        feedbackSessionName,
-      })
-      .subscribe(
-        (
-          feedbackSessionSubmittedGiverSet: FeedbackSessionSubmittedGiverSet,
-        ) => {
-          // TODO team is missing
-          this.noResponseStudents = this.allStudentsInCourse.filter(
-            (student: Student) =>
-              !feedbackSessionSubmittedGiverSet.giverIdentifiers.includes(
-                student.email,
-              ),
-          );
-        },
-        (resp: ErrorMessageOutput) => {
-          this.hasNoResponseLoadingFailed = true;
-          this.statusMessageService.showErrorToast(resp.error.message);
-        },
-      );
+    this.feedbackSessionsService.getFeedbackSessionSubmittedGiverSet({
+      courseId,
+      feedbackSessionName,
+    }).subscribe((feedbackSessionSubmittedGiverSet: FeedbackSessionSubmittedGiverSet) => {
+      // TODO team is missing
+      this.noResponseStudents = this.allStudentsInCourse.filter((student: Student) =>
+        !feedbackSessionSubmittedGiverSet.giverIdentifiers.includes(student.email));
+    }, (resp: ErrorMessageOutput) => {
+      this.hasNoResponseLoadingFailed = true;
+      this.statusMessageService.showErrorToast(resp.error.message);
+    });
     this.isNoResponsePanelLoaded = true;
   }
 
@@ -353,8 +279,7 @@ export class InstructorSessionResultPageComponent
    * Toggles the question tab in per question view.
    */
   toggleQuestionTab(questionId: string): void {
-    this.questionsModel[questionId].isTabExpanded =
-      !this.questionsModel[questionId].isTabExpanded;
+    this.questionsModel[questionId].isTabExpanded = !this.questionsModel[questionId].isTabExpanded;
     if (this.questionsModel[questionId].isTabExpanded) {
       this.loadQuestionTab(questionId);
     }
@@ -368,37 +293,31 @@ export class InstructorSessionResultPageComponent
       // Do not re-fetch data
       return;
     }
-    this.feedbackSessionsService
-      .getFeedbackSessionResults({
-        questionId,
-        courseId: this.session.courseId,
-        feedbackSessionName: this.session.feedbackSessionName,
-        intent: Intent.FULL_DETAIL,
-      })
-      .subscribe(
-        (resp: SessionResults) => {
-          if (resp.questions.length) {
-            const responses: QuestionOutput = resp.questions[0];
-            this.questionsModel[questionId].responses = responses.allResponses;
-            this.questionsModel[questionId].statistics =
-              responses.questionStatistics;
-            this.questionsModel[questionId].hasPopulated = true;
+    this.feedbackSessionsService.getFeedbackSessionResults({
+      questionId,
+      courseId: this.session.courseId,
+      feedbackSessionName: this.session.feedbackSessionName,
+      intent: Intent.FULL_DETAIL,
+    })
+    .subscribe((resp: SessionResults) => {
+      if (resp.questions.length) {
+        const responses: QuestionOutput = resp.questions[0];
+        this.questionsModel[questionId].responses = responses.allResponses;
+        this.questionsModel[questionId].statistics = responses.questionStatistics;
+        this.questionsModel[questionId].hasPopulated = true;
 
-            this.preprocessComments(responses.allResponses);
-          }
-        },
-        (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorToast(resp.error.message);
-        },
-      );
+        this.preprocessComments(responses.allResponses);
+      }
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorToast(resp.error.message);
+    });
   }
 
   /**
    * Toggles the section tab in per section view.
    */
   toggleSectionTab(sectionName: string): void {
-    this.sectionsModel[sectionName].isTabExpanded =
-      !this.sectionsModel[sectionName].isTabExpanded;
+    this.sectionsModel[sectionName].isTabExpanded = !this.sectionsModel[sectionName].isTabExpanded;
     if (this.sectionsModel[sectionName].isTabExpanded) {
       this.loadSectionTab(sectionName);
     }
@@ -412,32 +331,25 @@ export class InstructorSessionResultPageComponent
       // Do not re-fetch data
       return;
     }
-    this.feedbackSessionsService
-      .getFeedbackSessionResults({
-        courseId: this.session.courseId,
-        feedbackSessionName: this.session.feedbackSessionName,
-        intent: Intent.FULL_DETAIL,
-        groupBySection: sectionName,
-      })
-      .subscribe(
-        (resp: SessionResults) => {
-          this.sectionsModel[sectionName].questions = resp.questions;
-          this.sectionsModel[sectionName].hasPopulated = true;
+    this.feedbackSessionsService.getFeedbackSessionResults({
+      courseId: this.session.courseId,
+      feedbackSessionName: this.session.feedbackSessionName,
+      intent: Intent.FULL_DETAIL,
+      groupBySection: sectionName,
+    })
+    .subscribe((resp: SessionResults) => {
+      this.sectionsModel[sectionName].questions = resp.questions;
+      this.sectionsModel[sectionName].hasPopulated = true;
 
-          // sort questions by question number
-          resp.questions.sort(
-            (a: QuestionOutput, b: QuestionOutput) =>
-              a.feedbackQuestion.questionNumber -
-              b.feedbackQuestion.questionNumber,
-          );
-          resp.questions.forEach((question: QuestionOutput) => {
-            this.preprocessComments(question.allResponses);
-          });
-        },
-        (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorToast(resp.error.message);
-        },
-      );
+      // sort questions by question number
+      resp.questions.sort((a: QuestionOutput, b: QuestionOutput) =>
+        a.feedbackQuestion.questionNumber - b.feedbackQuestion.questionNumber);
+      resp.questions.forEach((question: QuestionOutput) => {
+        this.preprocessComments(question.allResponses);
+      });
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorToast(resp.error.message);
+    });
   }
 
   /**
@@ -449,11 +361,7 @@ export class InstructorSessionResultPageComponent
   preprocessComments(responses: ResponseOutput[]): void {
     responses.forEach((response: ResponseOutput) => {
       this.instructorCommentTableModel[response.responseId] =
-        this.commentsToCommentTableModel.transform(
-          response.instructorComments,
-          false,
-          this.session.timeZone,
-        );
+         this.commentsToCommentTableModel.transform(response.instructorComments, false, this.session.timeZone);
       this.sortComments(this.instructorCommentTableModel[response.responseId]);
       // clear the original comments for safe as instructorCommentTableModel will become the single point of truth
       response.instructorComments = [];
@@ -464,67 +372,45 @@ export class InstructorSessionResultPageComponent
    * Handle publish result button event.
    */
   publishResultHandler(): void {
-    const isPublished: boolean =
-      this.session.publishStatus === FeedbackSessionPublishStatus.PUBLISHED;
+    const isPublished: boolean = this.session.publishStatus === FeedbackSessionPublishStatus.PUBLISHED;
     let modalRef: NgbModalRef;
     if (isPublished) {
       const modalContent: string = `An email will be sent to students to inform them that the session has been unpublished and the session responses
           will no longer be viewable by students.`;
       modalRef = this.simpleModalService.openConfirmationModal(
-        `Unpublish this session <strong>${this.session.feedbackSessionName}</strong>?`,
-        SimpleModalType.WARNING,
-        modalContent,
-      );
+          `Unpublish this session <strong>${this.session.feedbackSessionName}</strong>?`,
+          SimpleModalType.WARNING, modalContent);
     } else {
-      const modalContent: string =
-        'An email will be sent to students to inform them that the responses are ready for viewing.';
+      const modalContent: string = 'An email will be sent to students to inform them that the responses are ready for viewing.';
       modalRef = this.simpleModalService.openConfirmationModal(
-        `Publish this session <strong>${this.session.feedbackSessionName}</strong>?`,
-        SimpleModalType.WARNING,
-        modalContent,
-      );
+          `Publish this session <strong>${this.session.feedbackSessionName}</strong>?`,
+          SimpleModalType.WARNING, modalContent);
     }
 
-    modalRef.result.then(
-      () => {
-        const response: Observable<any> = isPublished
-          ? this.feedbackSessionsService.unpublishFeedbackSession(
-              this.session.courseId,
-              this.session.feedbackSessionName,
-            )
-          : this.feedbackSessionsService.publishFeedbackSession(
-              this.session.courseId,
-              this.session.feedbackSessionName,
-            );
+    modalRef.result.then(() => {
+      const response: Observable<any> = isPublished ?
+          this.feedbackSessionsService.unpublishFeedbackSession(
+            this.session.courseId, this.session.feedbackSessionName,
+          ) :
+          this.feedbackSessionsService.publishFeedbackSession(
+            this.session.courseId, this.session.feedbackSessionName,
+          );
 
-        response.subscribe(
-          (res: FeedbackSession) => {
-            this.session = res;
-            if (this.session.resultVisibleFromTimestamp) {
-              this.formattedResultVisibleFromTime =
-                this.timezoneService.formatToString(
-                  this.session.resultVisibleFromTimestamp,
-                  this.session.timeZone,
-                  TIME_FORMAT,
-                );
-              this.statusMessageService.showSuccessToast(
-                'The feedback session has been published. ' +
-                  'Please allow up to 1 hour for all the notification emails to be sent out.',
-              );
-            } else {
-              this.formattedResultVisibleFromTime = 'Not applicable';
-              this.statusMessageService.showSuccessToast(
-                'The feedback session has been unpublished.',
-              );
-            }
-          },
-          (resp: ErrorMessageOutput) => {
-            this.statusMessageService.showErrorToast(resp.error.message);
-          },
-        );
-      },
-      () => {},
-    );
+      response.subscribe((res: FeedbackSession) => {
+        this.session = res;
+        if (this.session.resultVisibleFromTimestamp) {
+          this.formattedResultVisibleFromTime = this.timezoneService
+            .formatToString(this.session.resultVisibleFromTimestamp, this.session.timeZone, TIME_FORMAT);
+          this.statusMessageService.showSuccessToast('The feedback session has been published. '
+            + 'Please allow up to 1 hour for all the notification emails to be sent out.');
+        } else {
+          this.formattedResultVisibleFromTime = 'Not applicable';
+          this.statusMessageService.showSuccessToast('The feedback session has been unpublished.');
+        }
+      }, (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+      });
+    }, () => {});
   }
 
   /**
@@ -546,12 +432,9 @@ export class InstructorSessionResultPageComponent
 
     let numberOfQuestionsDownloaded: number = 0;
     const modalContent: string =
-      'Downloading the results of your feedback session...';
+        'Downloading the results of your feedback session...';
     const loadingModal: NgbModalRef = this.simpleModalService.openLoadingModal(
-      'Download Progress',
-      SimpleModalType.LOAD,
-      modalContent,
-    );
+        'Download Progress', SimpleModalType.LOAD, modalContent);
     loadingModal.result.then(() => {
       this.isDownloadingResults = false;
       downloadAborted = true;
@@ -561,16 +444,16 @@ export class InstructorSessionResultPageComponent
     out.push(`Session Name,${this.session.feedbackSessionName}\n`);
 
     concat(
-      ...Object.keys(this.questionsModel).map((k: string) =>
-        this.feedbackSessionsService.downloadSessionResults(
-          this.session.courseId,
-          this.session.feedbackSessionName,
-          Intent.FULL_DETAIL,
-          this.indicateMissingResponses,
-          this.showStatistics,
-          this.questionsModel[k].question.feedbackQuestionId,
-          this.section.length === 0 ? undefined : this.section,
-          this.section.length === 0 ? undefined : this.sectionType,
+        ...Object.keys(this.questionsModel).map((k: string) =>
+          this.feedbackSessionsService.downloadSessionResults(
+              this.session.courseId,
+              this.session.feedbackSessionName,
+              Intent.FULL_DETAIL,
+              this.indicateMissingResponses,
+              this.showStatistics,
+              this.questionsModel[k].question.feedbackQuestionId,
+              this.section.length === 0 ? undefined : this.section,
+              this.section.length === 0 ? undefined : this.sectionType,
         ),
       ),
     )
@@ -579,12 +462,8 @@ export class InstructorSessionResultPageComponent
         next: (resp: string) => {
           out.push(resp);
           numberOfQuestionsDownloaded += 1;
-          const totalNumberOfQuestions: number = Object.keys(
-            this.questionsModel,
-          ).length;
-          const progressPercentage: number = Math.round(
-            (99 * numberOfQuestionsDownloaded) / totalNumberOfQuestions,
-          );
+          const totalNumberOfQuestions: number = Object.keys(this.questionsModel).length;
+          const progressPercentage: number = Math.round(99 * numberOfQuestionsDownloaded / totalNumberOfQuestions);
           this.progressBarService.updateProgress(progressPercentage);
         },
         complete: () => {
@@ -613,30 +492,23 @@ export class InstructorSessionResultPageComponent
       });
   }
 
-  downloadQuestionResultHandler(question: {
-    questionNumber: number;
-    questionId: string;
-  }): void {
-    const filename: string = `${this.session.courseId}_${this.session.feedbackSessionName}_question${question.questionNumber}.csv`;
+  downloadQuestionResultHandler(question: { questionNumber: number, questionId: string }): void {
+    const filename: string =
+        `${this.session.courseId}_${this.session.feedbackSessionName}_question${question.questionNumber}.csv`;
 
-    this.feedbackSessionsService
-      .downloadSessionResults(
+    this.feedbackSessionsService.downloadSessionResults(
         this.session.courseId,
         this.session.feedbackSessionName,
         Intent.FULL_DETAIL,
         this.indicateMissingResponses,
         this.showStatistics,
         question.questionId,
-      )
-      .subscribe(
-        (resp: string) => {
-          const blob: any = new Blob([resp], { type: 'text/csv' });
-          saveAs(blob, filename);
-        },
-        (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorToast(resp.error.message);
-        },
-      );
+    ).subscribe((resp: string) => {
+      const blob: any = new Blob([resp], { type: 'text/csv' });
+      saveAs(blob, filename);
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorToast(resp.error.message);
+    });
   }
 
   /**
@@ -699,37 +571,23 @@ export class InstructorSessionResultPageComponent
   /**
    * Handles the sending of reminders to students.
    */
-  sendReminderToStudents(
-    studentsToRemindData: StudentListInfoTableRowModel[],
-  ): void {
+  sendReminderToStudents(studentsToRemindData: StudentListInfoTableRowModel[]): void {
     this.feedbackSessionsService
-      .remindFeedbackSessionSubmissionForRespondents(
-        this.session.courseId,
-        this.session.feedbackSessionName,
-      {
-        usersToRemind: studentsToRemindData.map(
-          (m: StudentListInfoTableRowModel) => m.email,
-        ),
-      },
-      )
-      .subscribe(
-        () => {
-          this.statusMessageService.showSuccessToast(
-            'Reminder e-mails have been sent out to those students and instructors. ' +
-              'Please allow up to 1 hour for all the notification emails to be sent out.',
-          );
-        },
-        (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorToast(resp.error.message);
-        },
-      );
+      .remindFeedbackSessionSubmissionForRespondents(this.session.courseId, this.session.feedbackSessionName, {
+        usersToRemind: studentsToRemindData.map((m: StudentListInfoTableRowModel) => m.email),
+      }).subscribe(() => {
+        this.statusMessageService.showSuccessToast(
+          'Reminder e-mails have been sent out to those students and instructors. '
+          + 'Please allow up to 1 hour for all the notification emails to be sent out.');
+
+      }, (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+      });
   }
 
   navigateToIndividualSessionResultPage(): void {
-    this.navigationService.navigateByURL(
-      this.router,
-      '/web/instructor/sessions/result',
-      { courseid: this.courseId, fsname: this.fsName },
-    );
+    this.navigationService.navigateByURL(this.router, '/web/instructor/sessions/result',
+        { courseid: this.courseId, fsname: this.fsName });
   }
+
 }
