@@ -72,7 +72,7 @@ class CreateAccountAction extends Action {
         try {
             logic.joinCourseForInstructor(instructorList.get(0).getKey(), userInfo.id);
             accountRequestAttributes.update(AccountRequestAttributes
-                    .updateOptionsBuilder(instructorEmail, instructorInstitution)
+                    .updateOptionsBuilder(instructorEmail, instructorInstitution, instructorName)
                     .withRegisteredAt(Instant.now())
                     .build());
             logic.createOrUpdateAccountRequest(accountRequestAttributes);

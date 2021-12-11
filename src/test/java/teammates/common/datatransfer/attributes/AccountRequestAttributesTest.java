@@ -40,31 +40,29 @@ public class AccountRequestAttributesTest extends BaseTestCase {
 
     @Test
     public void testBuilder_withTypicalData_shouldBuildCorrectAttributes() {
-        String validName = "validName";
         String validEmail = "valid@test.com";
         String validInstitute = "validInstitute";
-        String validRegKey = "validRegKey123";
+        String validName = "valid name";
 
         AccountRequestAttributes accountRequestAttributes = AccountRequestAttributes
-                .builder(validEmail, validInstitute)
-                .withName(validName)
-                .withRegistrationKey(validRegKey)
+                .builder(validEmail, validInstitute, validName)
+                .withRegisteredAt(Const.TIME_REPRESENTS_NOW)
                 .build();
 
+        assertEquals(Const.TIME_REPRESENTS_NOW, accountRequestAttributes.getRegisteredAt());
         assertEquals(validEmail, accountRequestAttributes.getEmail());
-        assertEquals(validName, accountRequestAttributes.getName());
-        assertEquals(validRegKey, accountRequestAttributes.getRegistrationKey());
         assertEquals(validInstitute, accountRequestAttributes.getInstitute());
+        assertEquals(validName, accountRequestAttributes.getName());
     }
 
     @Test
     public void testBuilder_buildNothing_shouldUseDefaultValues() {
         AccountRequestAttributes accountRequestAttributes =
-                AccountRequestAttributes.builder("valid@test.com", "valid institute").build();
+                AccountRequestAttributes.builder("valid@test.com", "valid institute", "valid name").build();
 
         assertEquals("valid@test.com", accountRequestAttributes.getEmail());
         assertEquals("valid institute", accountRequestAttributes.getInstitute());
-        assertNull(accountRequestAttributes.getName());
+        assertEquals("valid name", accountRequestAttributes.getName());
         assertNull(accountRequestAttributes.getRegistrationKey());
         assertNull(accountRequestAttributes.getRegisteredAt());
     }
@@ -73,21 +71,14 @@ public class AccountRequestAttributesTest extends BaseTestCase {
     public void testBuilder_withNullArguments_shouldThrowException() {
         assertThrows(AssertionError.class, () -> {
             AccountRequestAttributes
-                    .builder(null, null)
+                    .builder(null, null, null)
                     .build();
         });
 
         assertThrows(AssertionError.class, () -> {
             AccountRequestAttributes
-                    .builder("valid@test.com", "valid institute")
-                    .withName(null)
-                    .build();
-        });
-
-        assertThrows(AssertionError.class, () -> {
-            AccountRequestAttributes
-                    .builder("valid@test.com", "valid institute")
-                    .withRegistrationKey(null)
+                    .builder("valid@test.com", "valid institute", "valid name")
+                    .withRegisteredAt(null)
                     .build();
         });
 
@@ -102,8 +93,7 @@ public class AccountRequestAttributesTest extends BaseTestCase {
         String invalidEmail = "invalid-email";
         String emptyName = "";
         AccountRequestAttributes invalidAccountRequest = AccountRequestAttributes
-                .builder(invalidEmail, "institute")
-                .withName(emptyName)
+                .builder(invalidEmail, "institute", emptyName)
                 .build();
 
         assertFalse("invalid value", invalidAccountRequest.isValid());
@@ -146,7 +136,7 @@ public class AccountRequestAttributesTest extends BaseTestCase {
 
         // When the two account requests are different
         AccountRequestAttributes differentAccountRequest =
-                AccountRequestAttributes.builder("test@test.com", "test-institute").withName("Another Name").build();
+                AccountRequestAttributes.builder("test@test.com", "test-institute", "Another Name").build();
 
         assertFalse(accountRequest.equals(differentAccountRequest));
 
@@ -165,16 +155,15 @@ public class AccountRequestAttributesTest extends BaseTestCase {
 
         // When the two account requests are different, they should have different hash code
         AccountRequestAttributes accountRequestDifferent =
-                AccountRequestAttributes.builder("test@test.com", "test-institute").withName("Another Name").build();
+                AccountRequestAttributes.builder("test@test.com", "test-institute", "Another Name").build();
 
         assertFalse(accountRequest.hashCode() == accountRequestDifferent.hashCode());
     }
 
     private static AccountRequestAttributes getValidAccountRequestAttributesObject() {
-        return AccountRequestAttributes.builder("valid@test.com", "valid-institute")
-                .withName("valid-name")
-                .withRegistrationKey("valid123")
-                .build();
+        AccountRequest accountRequest = new AccountRequest("valid@test.com", "valid-name", "valid-institute");
+        accountRequest.setRegistrationKey("valid123");
+        return AccountRequestAttributes.valueOf(accountRequest);
     }
 
 }

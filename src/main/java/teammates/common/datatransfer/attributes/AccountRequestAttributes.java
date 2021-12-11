@@ -23,10 +23,10 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
     private Instant createdAt;
     private transient String registrationKey;
 
-    private AccountRequestAttributes(String email, String institute) {
+    private AccountRequestAttributes(String email, String institute, String name) {
         this.email = email;
         this.institute = institute;
-        this.name = null;
+        this.name = name;
         this.registrationKey = null;
         this.registeredAt = null;
         this.createdAt = null;
@@ -37,10 +37,9 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
      */
     public static AccountRequestAttributes valueOf(AccountRequest accountRequest) {
         AccountRequestAttributes accountRequestAttributes = new AccountRequestAttributes(accountRequest.getEmail(),
-                accountRequest.getInstitute());
+                accountRequest.getInstitute(), accountRequest.getName());
 
         accountRequestAttributes.registrationKey = accountRequest.getRegistrationKey();
-        accountRequestAttributes.name = accountRequest.getName();
         accountRequestAttributes.registeredAt = accountRequest.getRegisteredAt();
         accountRequestAttributes.createdAt = accountRequest.getCreatedAt();
 
@@ -50,8 +49,8 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
     /**
      * Returns a builder for {@link AccountRequestAttributes}.
      */
-    public static Builder builder(String email, String institute) {
-        return new Builder(email, institute);
+    public static Builder builder(String email, String institute, String name) {
+        return new Builder(email, institute, name);
     }
 
     public String getRegistrationKey() {
@@ -151,16 +150,14 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
      * Updates with {@link UpdateOptions}.
      */
     public void update(UpdateOptions updateOptions) {
-        updateOptions.registrationKeyOption.ifPresent(s -> registrationKey = s);
-        updateOptions.nameOption.ifPresent(s -> name = s);
         updateOptions.registeredAtOption.ifPresent(s -> registeredAt = s);
     }
 
     /**
      * Returns a {@link UpdateOptions.Builder} to build {@link UpdateOptions} for an account request.
      */
-    public static UpdateOptions.Builder updateOptionsBuilder(String email, String institute) {
-        return new UpdateOptions.Builder(email, institute);
+    public static UpdateOptions.Builder updateOptionsBuilder(String email, String institute, String name) {
+        return new UpdateOptions.Builder(email, institute, name);
     }
 
     /**
@@ -169,11 +166,11 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
     public static class Builder extends BasicBuilder<AccountRequestAttributes, Builder> {
         private final AccountRequestAttributes accountRequestAttributes;
 
-        private Builder(String email, String institute) {
-            super(new UpdateOptions(email, institute));
+        private Builder(String email, String institute, String name) {
+            super(new UpdateOptions(email, institute, name));
             thisBuilder = this;
 
-            accountRequestAttributes = new AccountRequestAttributes(email, institute);
+            accountRequestAttributes = new AccountRequestAttributes(email, institute, name);
         }
 
         @Override
@@ -190,17 +187,18 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
     public static class UpdateOptions {
         private String email;
         private String institute;
+        private String name;
 
-        private UpdateOption<String> nameOption = UpdateOption.empty();
-        private UpdateOption<String> registrationKeyOption = UpdateOption.empty();
         private UpdateOption<Instant> registeredAtOption = UpdateOption.empty();
 
-        private UpdateOptions(String email, String institute) {
+        private UpdateOptions(String email, String institute, String name) {
             assert email != null;
             assert institute != null;
+            assert name != null;
 
             this.email = email;
             this.institute = institute;
+            this.name = name;
         }
 
         @Override
@@ -208,8 +206,7 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
             return "AccountRequestAttributes.UpdateOptions ["
                     + ", email = " + email
                     + ", institute = " + institute
-                    + ", name = " + nameOption
-                    + ", registrationKey = " + registrationKeyOption
+                    + ", name = " + name
                     + ", registeredAt = " + registeredAtOption
                     + "]";
         }
@@ -218,8 +215,8 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
          * Builder class to build {@link UpdateOptions}.
          */
         public static class Builder extends BasicBuilder<UpdateOptions, Builder> {
-            private Builder(String email, String institute) {
-                super(new UpdateOptions(email, institute));
+            private Builder(String email, String institute, String name) {
+                super(new UpdateOptions(email, institute, name));
                 thisBuilder = this;
             }
 
@@ -245,20 +242,6 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
 
         BasicBuilder(UpdateOptions updateOptions) {
             this.updateOptions = updateOptions;
-        }
-
-        public B withName(String name) {
-            assert name != null;
-
-            updateOptions.nameOption = UpdateOption.of(name);
-            return thisBuilder;
-        }
-
-        public B withRegistrationKey(String registationKey) {
-            assert registationKey != null;
-
-            updateOptions.registrationKeyOption = UpdateOption.of(registationKey);
-            return thisBuilder;
         }
 
         public B withRegisteredAt(Instant registeredAt) {

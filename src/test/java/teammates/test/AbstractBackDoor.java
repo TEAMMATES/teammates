@@ -44,6 +44,7 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.HttpRequestFailedException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
+import teammates.storage.entity.AccountRequest;
 import teammates.ui.output.AccountData;
 import teammates.ui.output.AccountRequestData;
 import teammates.ui.output.CourseData;
@@ -742,10 +743,14 @@ public abstract class AbstractBackDoor {
         }
 
         AccountRequestData accountRequestData = JsonUtils.fromJson(response.responseBody, AccountRequestData.class);
-        return AccountRequestAttributes.builder(accountRequestData.getEmail(), accountRequestData.getInstitute())
-                .withName(accountRequestData.getName())
-                .withRegistrationKey(accountRequestData.getRegistrationKey())
-                .build();
+        AccountRequest accountRequest = new AccountRequest(accountRequestData.getEmail(),
+                accountRequestData.getName(), accountRequestData.getInstitute());
+        accountRequest.setCreatedAt(Instant.ofEpochMilli(accountRequestData.getCreatedAt()));
+        accountRequest.setRegistrationKey(accountRequestData.getRegistrationKey());
+        if (accountRequestData.getRegisteredAt() != null) {
+            accountRequest.setRegisteredAt(Instant.ofEpochMilli(accountRequestData.getRegisteredAt()));
+        }
+        return AccountRequestAttributes.valueOf(accountRequest);
     }
 
     /**

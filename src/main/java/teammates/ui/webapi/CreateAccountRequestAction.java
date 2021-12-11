@@ -21,8 +21,7 @@ class CreateAccountRequestAction extends AdminOnlyAction {
         String instructorInstitution = createRequest.getInstructorInstitution().trim();
 
         AccountRequestAttributes accountRequestAttributes = AccountRequestAttributes
-                .builder(instructorEmail, instructorInstitution)
-                .withName(instructorName)
+                .builder(instructorEmail, instructorInstitution, instructorName)
                 .build();
 
         try {

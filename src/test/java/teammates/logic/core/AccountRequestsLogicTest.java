@@ -33,8 +33,7 @@ public class AccountRequestsLogicTest extends BaseLogicTest {
         ______TS("typical success case");
 
         AccountRequestAttributes accountRequest = AccountRequestAttributes
-                .builder("valid@test.com", "TEAMMATES Test Institute 1")
-                .withName("Test account Name")
+                .builder("valid@test.com", "TEAMMATES Test Institute 1", "Test account Name")
                 .build();
 
         AccountRequestAttributes createdAccountRequest =
@@ -50,8 +49,7 @@ public class AccountRequestsLogicTest extends BaseLogicTest {
         ______TS("duplicate account request, account request updated");
 
         AccountRequestAttributes duplicateAccount = AccountRequestAttributes
-                .builder("valid@test.com", "TEAMMATES Test Institute 2")
-                .withName("Test account Name 2")
+                .builder("valid@test.com", "TEAMMATES Test Institute 2", "Test account Name 2")
                 .build();
 
         duplicateAccount = accountRequestsLogic.createOrUpdateAccountRequest(duplicateAccount);
@@ -60,8 +58,7 @@ public class AccountRequestsLogicTest extends BaseLogicTest {
         ______TS("failure case: invalid parameter");
 
         AccountRequestAttributes invalidAccountRequest = AccountRequestAttributes
-                .builder("invalid email", "TEAMMATES Test Institute 1")
-                .withName("Test account Name")
+                .builder("invalid email", "TEAMMATES Test Institute 1", "Test account Name")
                 .build();
 
         InvalidParametersException ipe = assertThrows(InvalidParametersException.class,

@@ -30,16 +30,9 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
     @Override
     @Test
     protected void testExecute() throws Exception {
-        String name = "JamesBond";
-        String email = "jamesbond89@gmail.tmt";
+        String name = "Typical Instructor Name";
+        String email = "unregisteredinstructor1@gmail.tmt";
         String institute = "TEAMMATES Test Institute 1";
-
-        AccountRequestAttributes accountRequest = AccountRequestAttributes
-                .builder(email, institute)
-                .withName(name)
-                .build();
-
-        accountRequest = logic.createOrUpdateAccountRequest(accountRequest);
 
         ______TS("Not enough parameters");
 
@@ -54,6 +47,7 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
         verifyNoTasksAdded();
 
         ______TS("Normal case");
+        AccountRequestAttributes accountRequest = logic.getAccountRequest(email, institute);
 
         String[] params = new String[] { Const.ParamsNames.REGKEY, accountRequest.getRegistrationKey(), };
         CreateAccountAction a = getAction(params);
