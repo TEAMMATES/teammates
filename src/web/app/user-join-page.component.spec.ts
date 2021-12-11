@@ -213,7 +213,6 @@ describe('UserJoinPageComponent creating account', () => {
           useValue: {
             queryParams: of({
               iscreatingaccount: 'true',
-              entitytype: 'instructor',
               key: 'key',
             }),
           },
