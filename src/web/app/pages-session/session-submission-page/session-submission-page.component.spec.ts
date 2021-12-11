@@ -6,6 +6,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
 import { of, throwError } from 'rxjs';
+import { environment } from '../../../environments/environment';
 import { AuthService } from '../../../services/auth.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackResponseCommentService } from '../../../services/feedback-response-comment.service';
@@ -740,6 +741,12 @@ describe('SessionSubmissionPageComponent', () => {
 
     expect(navSpy.calls.count()).toEqual(1);
     expect(navSpy.calls.mostRecent().args[1]).toEqual('/web/front');
+    expect(navSpy.calls.mostRecent().args[2]).toEqual(
+        `You are trying to access TEAMMATES using the Google account user-id, which
+                    is not linked to this TEAMMATES account. If you used a different Google account to
+                    join/access TEAMMATES before, please use that Google account to access TEAMMATES. If you
+                    cannot remember which Google account you used before, please email us at
+                    ${environment.supportEmail} for help.`);
   });
 
   it('should deny unallowed access with invalid reg key', () => {
