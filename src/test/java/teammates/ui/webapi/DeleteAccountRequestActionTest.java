@@ -25,7 +25,7 @@ public class DeleteAccountRequestActionTest extends BaseActionTest<DeleteAccount
     @Override
     @Test
     protected void testExecute() {
-        AccountRequestAttributes accountRequest = typicalBundle.accountRequests.get("accountRequest1");
+        AccountRequestAttributes accountRequest = typicalBundle.accountRequests.get("unregisteredInstructor1");
 
         ______TS("Not enough parameters");
 

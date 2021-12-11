@@ -80,7 +80,7 @@ public class AccountRequestsLogicTest extends BaseLogicTest {
 
     @Test
     public void testDeleteAccountRequest() throws Exception {
-        AccountRequestAttributes a = dataBundle.accountRequests.get("accountRequest1");
+        AccountRequestAttributes a = dataBundle.accountRequests.get("unregisteredInstructor1");
 
         ______TS("silent deletion of non-existent account request");
 
@@ -107,7 +107,7 @@ public class AccountRequestsLogicTest extends BaseLogicTest {
     @Test
     public void testGetAccountRequestForRegistrationKey() throws Exception {
         AccountRequestAttributes a =
-                accountRequestsLogic.getAccountRequest("typical@gmail.tmt", "TEAMMATES Test Institute 1");
+                accountRequestsLogic.getAccountRequest("unregisteredinstructor1@gmail.tmt", "TEAMMATES Test Institute 1");
 
         ______TS("typical success case");
 
@@ -128,7 +128,7 @@ public class AccountRequestsLogicTest extends BaseLogicTest {
 
     @Test
     public void testGetAccountRequest() throws Exception {
-        AccountRequestAttributes a = dataBundle.accountRequests.get("accountRequest1");
+        AccountRequestAttributes a = dataBundle.accountRequests.get("unregisteredInstructor1");
 
         ______TS("typical success case");
 

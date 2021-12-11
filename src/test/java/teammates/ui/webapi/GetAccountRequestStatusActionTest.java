@@ -32,8 +32,8 @@ public class GetAccountRequestStatusActionTest extends BaseActionTest<GetAccount
 
         ______TS("Normal case: account request not used");
 
-        String registrationKey =
-                logic.getAccountRequest("typical@gmail.tmt", "TEAMMATES Test Institute 1").getRegistrationKey();
+        String registrationKey = logic.getAccountRequest("unregisteredinstructor1@gmail.tmt",
+                "TEAMMATES Test Institute 1").getRegistrationKey();
 
         String[] params = new String[] { Const.ParamsNames.REGKEY, registrationKey, };
 
@@ -46,7 +46,7 @@ public class GetAccountRequestStatusActionTest extends BaseActionTest<GetAccount
         ______TS("Normal case: account request already used");
 
         String usedRegistrationKey =
-                logic.getAccountRequest("typical2@gmail.tmt", "TEAMMATES Test Institute 2").getRegistrationKey();
+                logic.getAccountRequest("instr1@course1.tmt", "TEAMMATES Test Institute 1").getRegistrationKey();
 
         params = new String[] { Const.ParamsNames.REGKEY, usedRegistrationKey, };
 

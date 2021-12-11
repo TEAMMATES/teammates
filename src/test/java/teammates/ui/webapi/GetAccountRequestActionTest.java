@@ -25,7 +25,7 @@ public class GetAccountRequestActionTest extends BaseActionTest<GetAccountReques
     @Test
     protected void testExecute() throws Exception {
         AccountRequestAttributes accountRequest =
-                logic.getAccountRequest("typical@gmail.tmt", "TEAMMATES Test Institute 1");
+                logic.getAccountRequest("unregisteredinstructor1@gmail.tmt", "TEAMMATES Test Institute 1");
 
         loginAsAdmin();
 
