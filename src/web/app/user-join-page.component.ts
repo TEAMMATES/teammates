@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { environment } from '../environments/environment';
 import { AccountService } from '../services/account.service';
@@ -45,6 +46,11 @@ export class UserJoinPageComponent implements OnInit {
       this.key = queryParams.key;
       this.isCreatingAccount = queryParams.iscreatingaccount === 'true';
 
+      // Create cccount request can only come from instructor.
+      if (this.isCreatingAccount) {
+        this.entityType = 'instructor';
+      }
+
       const nextUrl: string = `${window.location.pathname}${window.location.search.replace(/&/g, '%26')}`;
       this.authService.getAuthUser(undefined, nextUrl).subscribe((auth: AuthInfo) => {
         if (!auth.user) {
@@ -58,47 +64,29 @@ export class UserJoinPageComponent implements OnInit {
         }
         this.userId = auth.user.id;
 
-        if (this.isCreatingAccount) {
-          this.accountService.getRegisteredStatus(this.key).subscribe((resp: JoinStatus) => {
-            this.hasJoined = resp.hasJoined;
-            if (this.hasJoined) {
-              // The regkey has been used; simply redirect the user to their home page,
-              // regardless of whether the regkey matches or not.
-              this.navigationService.navigateByURL(this.router, `/web/${this.entityType}/home`);
-            } else {
-              this.isLoading = false;
-            }
-          }, (resp: ErrorMessageOutput) => {
-            if (resp.status === 404) {
-              this.validUrl = false;
-              this.isLoading = false;
-              return;
-            }
-            const modalRef: any = this.ngbModal.open(ErrorReportComponent);
-            modalRef.componentInstance.requestId = resp.error.requestId;
-            modalRef.componentInstance.errorMessage = resp.error.message;
-          });
-        } else {
-          this.courseService.getJoinCourseStatus(this.key, this.entityType).subscribe((resp: JoinStatus) => {
-            this.hasJoined = resp.hasJoined;
-            if (this.hasJoined) {
-              // The regkey has been used; simply redirect the user to their home page,
-              // regardless of whether the regkey matches or not.
-              this.navigationService.navigateByURL(this.router, `/web/${this.entityType}/home`);
-            } else {
-              this.isLoading = false;
-            }
-          }, (resp: ErrorMessageOutput) => {
-            if (resp.status === 404) {
-              this.validUrl = false;
-              this.isLoading = false;
-              return;
-            }
-            const modalRef: any = this.ngbModal.open(ErrorReportComponent);
-            modalRef.componentInstance.requestId = resp.error.requestId;
-            modalRef.componentInstance.errorMessage = resp.error.message;
-          });
-        }
+        const request: Observable<JoinStatus> = this.isCreatingAccount
+          ? this.accountService.getRegisteredStatus(this.key)
+          : this.courseService.getJoinCourseStatus(this.key, this.entityType);
+
+        request.subscribe((resp: JoinStatus) => {
+          this.hasJoined = resp.hasJoined;
+          if (this.hasJoined) {
+            // The regkey has been used; simply redirect the user to their home page,
+            // regardless of whether the regkey matches or not.
+            this.navigationService.navigateByURL(this.router, `/web/${this.entityType}/home`);
+          } else {
+            this.isLoading = false;
+          }
+        }, (resp: ErrorMessageOutput) => {
+          if (resp.status === 404) {
+            this.validUrl = false;
+            this.isLoading = false;
+            return;
+          }
+          const modalRef: any = this.ngbModal.open(ErrorReportComponent);
+          modalRef.componentInstance.requestId = resp.error.requestId;
+          modalRef.componentInstance.errorMessage = resp.error.message;
+        });
       });
     });
   }
@@ -118,6 +106,7 @@ export class UserJoinPageComponent implements OnInit {
 
   /**
    * Creates an account.
+   * Account is only created after instructor joins for the first time.
    */
   createAccount(): void {
     this.isLoading = true;
