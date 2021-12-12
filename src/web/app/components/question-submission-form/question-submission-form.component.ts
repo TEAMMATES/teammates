@@ -44,15 +44,15 @@ export class QuestionSubmissionFormComponent implements OnInit {
   set formModel(model: QuestionSubmissionFormModel) {
     this.model = model;
     this.visibilityStateMachine =
-      this.feedbackQuestionsService.getNewVisibilityStateMachine(model.giverType, model.recipientType);
-    const visibilitySetting: { [TKey in VisibilityControl]: FeedbackVisibilityType[] } = {
+        this.feedbackQuestionsService.getNewVisibilityStateMachine(model.giverType, model.recipientType);
+    const visibilitySetting: {[TKey in VisibilityControl]: FeedbackVisibilityType[]} = {
       SHOW_RESPONSE: model.showResponsesTo,
       SHOW_GIVER_NAME: model.showGiverNameTo,
       SHOW_RECIPIENT_NAME: model.showRecipientNameTo,
     };
     this.visibilityStateMachine.applyVisibilitySettings(visibilitySetting);
     this.allowedToHaveParticipantComment =
-      this.feedbackQuestionsService.isAllowedToHaveParticipantComment(this.model.questionType);
+        this.feedbackQuestionsService.isAllowedToHaveParticipantComment(this.model.questionType);
   }
 
   @Output()
@@ -91,14 +91,14 @@ export class QuestionSubmissionFormComponent implements OnInit {
   allowedToHaveParticipantComment: boolean = false;
 
   constructor(private feedbackQuestionsService: FeedbackQuestionsService,
-    private feedbackResponseService: FeedbackResponsesService) {
+              private feedbackResponseService: FeedbackResponsesService) {
     this.visibilityStateMachine =
-      this.feedbackQuestionsService.getNewVisibilityStateMachine(
-        this.model.giverType, this.model.recipientType);
+        this.feedbackQuestionsService.getNewVisibilityStateMachine(
+            this.model.giverType, this.model.recipientType);
   }
 
   ngOnInit(): void {
-    this.sortRecepientsByName(this.model);
+    this.sortRecepientsByName();
   }
 
   /**
@@ -106,13 +106,24 @@ export class QuestionSubmissionFormComponent implements OnInit {
    *
    * Feedback recepients are initially sorted by their email address.
    */
-  private sortRecepientsByName(model: QuestionSubmissionFormModel): void {
-    model.recipientSubmissionForms.sort((firstRecepient: FeedbackResponseRecipientSubmissionFormModel,
+  private sortRecepientsByName(): void {
+    this.model.recipientList.sort((firstRecepient: FeedbackResponseRecipient,
+      secondRecepient: FeedbackResponseRecipient) => {
+      const firstRecepientNameLowerCase = firstRecepient.recipientName;
+      const secondRecepientNameLowerCase = secondRecepient.recipientName;
+      if (firstRecepientNameLowerCase < secondRecepientNameLowerCase)
+        return -1;
+      if (firstRecepientNameLowerCase > secondRecepientNameLowerCase)
+        return 1;
+      return 0;
+    });
+
+    this.model.recipientSubmissionForms.sort((firstRecepient: FeedbackResponseRecipientSubmissionFormModel,
       secondRecepient: FeedbackResponseRecipientSubmissionFormModel) => {
-      const indexOne: number = model.recipientList.findIndex((x: FeedbackResponseRecipient) =>
+      const indexOne: number = this.model.recipientList.findIndex((x: FeedbackResponseRecipient) =>
         x.recipientIdentifier === firstRecepient.recipientIdentifier);
 
-      const indexTwo: number = model.recipientList.findIndex((x: FeedbackResponseRecipient) =>
+      const indexTwo: number = this.model.recipientList.findIndex((x: FeedbackResponseRecipient) =>
         x.recipientIdentifier === secondRecepient.recipientIdentifier);
 
       return indexOne - indexTwo;
