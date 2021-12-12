@@ -11,5 +11,5 @@
       "checkJs": false,
       "noEmit": true
     },
-    "include": ["./pr_management/*/*.ts", "./pr_management/common.ts"]
+    "include": ["./pr-management/*/*.ts", "./pr-management/common.ts", "pr-management/logger.ts"],
   }

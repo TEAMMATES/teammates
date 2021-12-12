@@ -1,12 +1,12 @@
-import * as core from '@actions/core'
+import * as core from '@actions/core';
 import * as github from '@actions/github';
-import { postComment, validateChecksOnPrHead, dropOngoingLabel, addAppropriateReviewLabel, reviewKeywords, getCurrentIssue } from "../common"
-
-// params to set for api requests
-// references: https://github.com/actions/toolkit/blob/main/packages/github/src/context.ts 
+import { validateChecksOnPrHead } from '../common/checksValidation';
+import { ongoingLabel, reviewKeywords } from '../common/const';
+import { getCurrentIssue, postComment, removeLabel } from '../common/github-manager/issues';
+import { addAppropriateReviewLabel } from '../common/label';
 
 /**
- * This is the main function of this file
+ * This is the main function of this file.
  */
 async function run() {
     try {
@@ -17,7 +17,7 @@ async function run() {
         const valid : boolean = await validate();
         if (!valid) return;
 
-        await dropOngoingLabel();
+        await removeLabel(ongoingLabel);
         await addAppropriateReviewLabel();
     } catch (ex) {
         core.info(ex);
@@ -25,7 +25,7 @@ async function run() {
     }
 }
 
-// return if comment body has the exact keywords
+// returns whether the comment body that triggered this workflow has the exact keywords
 function filterCommentBody() : boolean {
     const issueComment = github.context.payload.comment.body;
     const hasKeywords = issueComment.search(reviewKeywords) !== -1;
@@ -37,18 +37,20 @@ function filterCommentBody() : boolean {
 }
 
 /**
- * Wrapper function for all validation related checks. If any fail, this function handles adding the comment 
- * @returns boolean of whether all validation checks 
+ * Wrapper function for all validation related logic to perform. If any fail, 
+ * this function will handle posting a comment.
+ * @returns boolean of whether all validation checks are passing
  */
 async function validate() : Promise<boolean> {
-    if (!isValidPRStatus()) return;
+    if (!isValidPRStatus()) return false;
 
-    if (!await isValidAuthor()) return;
+    if (!await isValidAuthor()) return false;
 
     const { didChecksRunSuccessfully, errMessage } = await validateChecksOnPrHead();
 
     if (!didChecksRunSuccessfully) {
-        await postComment(`${errMessage}\n Please comment \`${reviewKeywords}\` when you're ready to request a review again.`);
+        await postComment(
+            `${errMessage}\nPlease comment \`${reviewKeywords}\` when you're ready to request a review again.`);
         return false;
     }
 
@@ -56,14 +58,17 @@ async function validate() : Promise<boolean> {
 }
 
 
-function isValidPRStatus() {
-    // nothing stops this workflow from running on PRs of specific labels
+// to validated if the pr that the workflow is running on is valid, or if it should be skipped
+function isValidPRStatus() : boolean { // TODO check: if no validation needed, remove...
     core.warning("No pr validation has been set");
     return true;
 }
 
-async function isValidAuthor() {
-    const commentAuthor : string = github.context.payload.comment.user.login; // https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#issue_comment
+
+
+async function isValidAuthor() : Promise<boolean> {
+    // https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#issue_comment
+    const commentAuthor : string = github.context.payload.comment.user.login; 
     const prAuthor : string = await getCurrentIssue().then(res => res.data.user.login);
 
     core.info(`Author of comment that triggered this workflow: ${commentAuthor}.\n` +

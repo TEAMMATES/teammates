@@ -12,7 +12,7 @@
     "lint:spaces": "lintspaces -n -t -d spaces -l 1 -. \"src/main/**/*.html\" \"src/web/**/*.html\" \"src/**/*.xml\" \"src/**/*.json\" \"src/**/*.properties\" \"*.yml\" \"*.json\" \"*.gradle\" \"static-analysis/*.*ml\" \".gitattributes\"",
     "lint": "npm-run-all lint:* -c",
     "actions:tsc": "cd .github && tsc",
-    "actions:minify": "ncc build .github/pr_management/pr_marked_draft/main.ts -o .github/pr_management/pr_marked_draft/ -m --license licenses.txt && ncc build .github/pr_management/pr_marked_ready_for_review/main.ts -o .github/pr_management/pr_marked_ready_for_review/ -m --license licenses.txt && ncc build .github/pr_management/ready_for_review_comment/main.ts -o .github/pr_management/ready_for_review_comment/ -m --license licenses.txt",
+    "actions:minify": "ncc build .github/pr-management/pr-marked-draft/main.ts -o .github/pr-management/pr-marked-draft/ -m --license licenses.txt && ncc build .github/pr-management/pr-marked-ready-for-review/main.ts -o .github/pr-management/pr-marked-ready-for-review/ -m --license licenses.txt && ncc build .github/pr-management/ready-for-review-comment/main.ts -o .github/pr-management/ready-for-review-comment/ -m --license licenses.txt",
     "actions": "npm-run-all actions:*"
   },
   "private": true,
