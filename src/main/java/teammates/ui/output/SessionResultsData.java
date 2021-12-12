@@ -146,7 +146,8 @@ public class SessionResultsData extends ApiOutput {
         boolean isUserRecipient = student.getEmail().equals(response.getRecipient())
                 && (isUserInstructor && question.getRecipientType() == FeedbackParticipantType.INSTRUCTORS
                 || !isUserInstructor && question.getRecipientType() != FeedbackParticipantType.INSTRUCTORS);
-        boolean isUserTeamRecipient = question.getRecipientType() == FeedbackParticipantType.TEAMS
+        boolean isUserTeamRecipient = (question.getRecipientType() == FeedbackParticipantType.TEAMS
+                || question.getRecipientType() == FeedbackParticipantType.TEAMS_IN_SAME_SECTION)
                 && student.getTeam().equals(response.getRecipient());
         String recipientName = "";
         String recipientTeam = "";
