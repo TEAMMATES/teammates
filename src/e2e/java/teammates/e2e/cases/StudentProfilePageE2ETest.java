@@ -31,20 +31,16 @@ public class StudentProfilePageE2ETest extends BaseE2ETestCase {
                 "Singaporean", StudentProfileAttributes.Gender.MALE, "I am just another student :P");
 
         ______TS("Typical case: picture upload and edit");
-
-        profilePage.fillProfilePic("src/test/resources/images/profile_pic.png");
-        profilePage.uploadPicture();
-        profilePage.verifyStatusMessage("Your profile picture has been saved successfully");
+        uploadProfilePicAndVerifyDimensions(profilePage, "src/test/resources/images/profile_pic.png", 220, 220);
 
         profilePage.showPictureEditor();
         profilePage.waitForUploadEditModalVisible();
-
         profilePage.editProfilePhoto();
-        profilePage.verifyPhotoSize(220, 220);
+        profilePage.closePictureEditor();
 
         ______TS("Typical case: Profile picture ratios");
-        uploadAndVerify(profilePage, "src/test/resources/images/profile_pic_too_wide.jpg", 171, 220);
-        uploadAndVerify(profilePage, "src/test/resources/images/profile_pic_too_tall.jpg", 220, 121);
+        uploadProfilePicAndVerifyDimensions(profilePage, "src/test/resources/images/profile_pic_too_wide.jpg", 171, 220);
+        uploadProfilePicAndVerifyDimensions(profilePage, "src/test/resources/images/profile_pic_too_tall.jpg", 220, 121);
 
         ______TS("Typical case: edit profile page");
         profilePage.editProfileThroughUi("short.name", "e@email.tmt", "inst", "American",
@@ -55,7 +51,7 @@ public class StudentProfilePageE2ETest extends BaseE2ETestCase {
                 StudentProfileAttributes.Gender.FEMALE, "this is enough!$%&*</>");
     }
 
-    private void uploadAndVerify(StudentProfilePage profilePage, String image, int height, int width) {
+    private void uploadProfilePicAndVerifyDimensions(StudentProfilePage profilePage, String image, int height, int width) {
         profilePage.fillProfilePic(image);
         profilePage.uploadPicture();
         profilePage.verifyStatusMessage("Your profile picture has been saved successfully");
