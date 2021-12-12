@@ -1,7 +1,6 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Component } from '@angular/core';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { RespondentListInfoTableComponent } from '../respondent-list-info-table/respondent-list-info-table.component';

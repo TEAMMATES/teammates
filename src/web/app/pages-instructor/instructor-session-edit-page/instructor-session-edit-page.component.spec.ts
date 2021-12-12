@@ -4,6 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { of, throwError } from 'rxjs';
+import SpyInstance = jest.SpyInstance;
 import { CourseService } from '../../../services/course.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
@@ -12,7 +13,6 @@ import { NavigationService } from '../../../services/navigation.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
-import SpyInstance = jest.SpyInstance;
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
 import {
   Course,

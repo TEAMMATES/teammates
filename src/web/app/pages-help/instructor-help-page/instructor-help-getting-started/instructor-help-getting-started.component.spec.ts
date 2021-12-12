@@ -1,6 +1,5 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-
 import { Component, Input } from '@angular/core';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TeammatesRouterModule } from '../../../components/teammates-router/teammates-router.module';
 import { InstructorHelpGettingStartedComponent } from './instructor-help-getting-started.component';

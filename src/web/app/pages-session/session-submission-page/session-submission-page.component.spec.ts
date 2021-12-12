@@ -6,6 +6,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
 import { of, throwError } from 'rxjs';
+import SpyInstance = jest.SpyInstance;
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../../../services/auth.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
@@ -66,7 +67,6 @@ import {
 import {
   QuestionSubmissionFormModule,
 } from '../../components/question-submission-form/question-submission-form.module';
-import SpyInstance = jest.SpyInstance;
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
 import { SavingCompleteModalComponent } from './saving-complete-modal/saving-complete-modal.component';

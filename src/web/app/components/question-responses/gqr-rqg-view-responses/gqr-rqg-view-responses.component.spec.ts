@@ -1,6 +1,5 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 // eslint-disable-next-line max-len
 import { ResponseModerationButtonModule } from '../../../pages-instructor/instructor-session-result-page/response-moderation-button/response-moderation-button.module';

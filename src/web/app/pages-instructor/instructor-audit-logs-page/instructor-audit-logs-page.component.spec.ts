@@ -1,7 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { of } from 'rxjs';
-
+import SpyInstance = jest.SpyInstance;
 import { CourseService } from '../../../services/course.service';
 import { LogService } from '../../../services/log.service';
 import { StudentService } from '../../../services/student.service';
@@ -21,7 +21,6 @@ import { SortBy } from '../../../types/sort-properties';
 import { ColumnData } from '../../components/sortable-table/sortable-table.component';
 import { InstructorAuditLogsPageComponent } from './instructor-audit-logs-page.component';
 import { InstructorAuditLogsPageModule } from './instructor-audit-logs-page.module';
-import SpyInstance = jest.SpyInstance;
 
 describe('InstructorAuditLogsPageComponent', () => {
   let component: InstructorAuditLogsPageComponent;

@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of, throwError } from 'rxjs';
+import SpyInstance = jest.SpyInstance;
 import { AccountService } from '../services/account.service';
 import { AuthService } from '../services/auth.service';
 import { CourseService } from '../services/course.service';
@@ -10,7 +11,6 @@ import { NavigationService } from '../services/navigation.service';
 import { TimezoneService } from '../services/timezone.service';
 import { LoadingSpinnerModule } from './components/loading-spinner/loading-spinner.module';
 import { UserJoinPageComponent } from './user-join-page.component';
-import SpyInstance = jest.SpyInstance;
 
 describe('UserJoinPageComponent', () => {
   let component: UserJoinPageComponent;

@@ -4,16 +4,16 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
-import { StatusMessageService } from '../../../services/status-message.service';
-import { JoinState, MessageOutput, Student } from '../../../types/api-output';
-import { StudentUpdateRequest } from '../../../types/api-request';
-import { ErrorMessageOutput } from '../../error-message-output';
 
 import { NavigationService } from '../../../services/navigation.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
+import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
+import { JoinState, MessageOutput, Student } from '../../../types/api-output';
+import { StudentUpdateRequest } from '../../../types/api-request';
 import { FormValidator } from '../../../types/form-validator';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
+import { ErrorMessageOutput } from '../../error-message-output';
 
 /**
  * Instructor course student edit page.

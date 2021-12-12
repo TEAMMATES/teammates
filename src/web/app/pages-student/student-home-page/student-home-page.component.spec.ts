@@ -14,14 +14,13 @@ import {
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../types/api-output';
-import { StudentHomePageComponent } from './student-home-page.component';
-
 import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
 import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';
 import { ResponseStatusPipe } from '../../pipes/session-response-status.pipe';
 import { SubmissionStatusPipe } from '../../pipes/session-submission-status.pipe';
+import { StudentHomePageComponent } from './student-home-page.component';
 
 const studentCourseA: any = {
   course: {

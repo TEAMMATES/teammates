@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of, throwError } from 'rxjs';
+import SpyInstance = jest.SpyInstance;
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../../../services/auth.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
@@ -33,7 +34,6 @@ import { SingleStatisticsModule } from '../../components/question-responses/sing
 import { StudentViewResponsesModule } from '../../components/question-responses/student-view-responses/student-view-responses.module';
 import { QuestionTextWithInfoModule } from '../../components/question-text-with-info/question-text-with-info.module';
 import { SessionResultPageComponent } from './session-result-page.component';
-import SpyInstance = jest.SpyInstance;
 
 describe('SessionResultPageComponent', () => {
   const testFeedbackSession: FeedbackSession = {

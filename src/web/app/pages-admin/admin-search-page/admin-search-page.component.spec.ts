@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModal, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { of, throwError } from 'rxjs';
+import SpyInstance = jest.SpyInstance;
 import { AccountService } from '../../../services/account.service';
 import { EmailGenerationService } from '../../../services/email-generation.service';
 import { InstructorService } from '../../../services/instructor.service';
@@ -14,7 +15,6 @@ import {
 } from '../../../services/search.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
-import SpyInstance = jest.SpyInstance;
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
 import { AdminSearchPageComponent } from './admin-search-page.component';
 

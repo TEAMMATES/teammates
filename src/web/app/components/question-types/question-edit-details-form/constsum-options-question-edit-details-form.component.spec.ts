@@ -1,6 +1,5 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { ConstsumOptionsFieldComponent } from './constsum-options-field/constsum-options-field.component';
 import {

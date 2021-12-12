@@ -2,8 +2,8 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
-import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
+import { AjaxLoadingModule } from '../ajax-loading/ajax-loading.module';
+import { TeammatesCommonModule } from '../teammates-common/teammates-common.module';
 import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
 import { AddingQuestionPanelComponent } from './adding-question-panel.component';
 

@@ -1,7 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
-import { QuestionEditFormModel } from '../question-edit-form/question-edit-form-model';
-
 import { CommonVisibilitySetting } from '../../../services/feedback-questions.service';
 import { VisibilityStateMachine } from '../../../services/visibility-state-machine';
 import {
@@ -12,6 +10,7 @@ import {
   NumberOfEntitiesToGiveFeedbackToSetting,
 } from '../../../types/api-output';
 import { VisibilityControl } from '../../../types/visibility-control';
+import { QuestionEditFormModel } from '../question-edit-form/question-edit-form-model';
 
 /**
  * Displaying the visibility panel.

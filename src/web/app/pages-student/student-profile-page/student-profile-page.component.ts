@@ -1,22 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { environment } from '../../../environments/environment';
-
-import { AuthService } from '../../../services/auth.service';
-import { AuthInfo, Gender, MessageOutput, Nationalities, StudentProfile } from '../../../types/api-output';
-
 import { FormControl, FormGroup } from '@angular/forms';
-
-import { StatusMessageService } from '../../../services/status-message.service';
-import { StudentProfileService } from '../../../services/student-profile.service';
-import { ErrorMessageOutput } from '../../error-message-output';
-
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { from, throwError } from 'rxjs';
 import { catchError, finalize, switchMap } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
+import { AuthService } from '../../../services/auth.service';
 import { NationalitiesService } from '../../../services/nationalities.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
+import { StatusMessageService } from '../../../services/status-message.service';
+import { StudentProfileService } from '../../../services/student-profile.service';
+import { AuthInfo, Gender, MessageOutput, Nationalities, StudentProfile } from '../../../types/api-output';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
+import { ErrorMessageOutput } from '../../error-message-output';
 import { UploadEditProfilePictureModalComponent } from './upload-edit-profile-picture-modal/upload-edit-profile-picture-modal.component';
 
 /**

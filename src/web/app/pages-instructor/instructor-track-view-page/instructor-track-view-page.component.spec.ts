@@ -2,7 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
-
+import SpyInstance = jest.SpyInstance;
 import { CourseService } from '../../../services/course.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { LogService } from '../../../services/log.service';
@@ -22,10 +22,8 @@ import {
 } from '../../../types/api-output';
 import { SortBy } from '../../../types/sort-properties';
 import { ColumnData } from '../../components/sortable-table/sortable-table.component';
-
 import { InstructorTrackViewPageComponent } from './instructor-track-view-page.component';
 import { InstructorTrackViewPageModule } from './instructor-track-view-page.module';
-import SpyInstance = jest.SpyInstance;
 
 describe('InstructorTrackViewPageComponent', () => {
   let component: InstructorTrackViewPageComponent;

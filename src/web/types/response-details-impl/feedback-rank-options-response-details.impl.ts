@@ -1,6 +1,6 @@
 import {
   FeedbackQuestionType, FeedbackRankOptionsQuestionDetails,
-  FeedbackRankOptionsResponseDetails as FeedbackRankOptionsResponseDetails,
+  FeedbackRankOptionsResponseDetails,
 } from '../api-output';
 import { AbstractFeedbackResponseDetails } from './abstract-feedback-response-details';
 

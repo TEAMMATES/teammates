@@ -1,9 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
-import { SectionTabModel } from '../../pages-instructor/instructor-session-result-page/instructor-session-result-page.component';
-import { InstructorSessionResultSectionType } from '../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
-import { InstructorSessionResultViewType } from '../../pages-instructor/instructor-session-result-page/instructor-session-result-view-type.enum';
-
 import {
   FeedbackSession,
   FeedbackSessionPublishStatus,
@@ -11,6 +7,9 @@ import {
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../types/api-output';
+import { SectionTabModel } from '../../pages-instructor/instructor-session-result-page/instructor-session-result-page.component';
+import { InstructorSessionResultSectionType } from '../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
+import { InstructorSessionResultViewType } from '../../pages-instructor/instructor-session-result-page/instructor-session-result-view-type.enum';
 
 /**
  * Displaying the view results panel.
