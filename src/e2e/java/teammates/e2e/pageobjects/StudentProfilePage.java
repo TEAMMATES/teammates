@@ -159,14 +159,22 @@ public class StudentProfilePage extends AppPage {
         waitForUploadEditModalVisible();
     }
 
+    public void closePictureEditor() {
+        click(uploadEditModal.findElement(By.className("close")));
+    }
+
     public void verifyPhotoSize(int height, int width) {
         String browserHeight = browser.driver.findElement(By.className("profile-pic")).getCssValue("height");
-        float imageHeight = Float.parseFloat(browserHeight.substring(0, browserHeight.length() - 2));
         String browserWidth = browser.driver.findElement(By.className("profile-pic")).getCssValue("width");
+        /*
+         * Remove the last two chars from the string, so we can isolate the Measurement from
+         * "[MEASUREMENT]px", since we want to parse it into a float
+         */
+        float imageHeight = Float.parseFloat(browserHeight.substring(0, browserHeight.length() - 2));
         float imageWidth = Float.parseFloat(browserWidth.substring(0, browserWidth.length() - 2));
         assertEquals(height, imageHeight, 1.0);
         assertEquals(width, imageWidth, 1.0);
-        click(uploadEditModal.findElement(By.className("close")));
+        closePictureEditor();
     }
 
     public void ensureProfileContains(String shortName, String email, String institute, String nationality,
