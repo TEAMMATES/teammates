@@ -475,10 +475,10 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
             // add non-submitters list
             out.push('Participants who have not responded to any question\n\n');
             out.push('Team,Name\n');
-
-            for (const student of this.noResponseStudents) {
+            this.noResponseStudents.forEach((student: Student) => {
               out.push(`${student.teamName},${student.name}\n`);
-            }
+            });
+
           }
           this.progressBarService.updateProgress(100);
           loadingModal.close();
