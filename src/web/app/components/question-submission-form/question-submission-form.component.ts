@@ -109,12 +109,17 @@ export class QuestionSubmissionFormComponent implements OnInit {
   private sortRecepientsByName(): void {
     this.model.recipientList.sort((firstRecepient: FeedbackResponseRecipient,
       secondRecepient: FeedbackResponseRecipient) => {
-      const firstRecepientNameLowerCase = firstRecepient.recipientName;
-      const secondRecepientNameLowerCase = secondRecepient.recipientName;
-      if (firstRecepientNameLowerCase < secondRecepientNameLowerCase)
+      const firstRecepientNameLowerCase: string = firstRecepient.recipientName;
+      const secondRecepientNameLowerCase: string = secondRecepient.recipientName;
+
+      if (firstRecepientNameLowerCase < secondRecepientNameLowerCase) {
         return -1;
-      if (firstRecepientNameLowerCase > secondRecepientNameLowerCase)
+      }
+
+      if (firstRecepientNameLowerCase > secondRecepientNameLowerCase) {
         return 1;
+      }
+
       return 0;
     });
 
