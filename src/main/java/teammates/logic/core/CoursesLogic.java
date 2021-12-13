@@ -193,6 +193,27 @@ public final class CoursesLogic {
     }
 
     /**
+     * Returns team names for a particular section of a course.
+     *
+     * <p>Note: This method does not returns any Loner information presently.
+     * Loner information must be returned as we decide to support loners in future.
+     */
+    public List<String> getTeamsForSection(String sectionName, String courseId) throws EntityDoesNotExistException {
+
+        if (getCourse(courseId) == null) {
+            throw new EntityDoesNotExistException("The course " + courseId + " does not exist");
+        }
+
+        return studentsLogic.getStudentsForCourse(courseId)
+                .stream()
+                .filter(studentAttributes -> studentAttributes.getSection().equals(sectionName))
+                .map(StudentAttributes::getTeam)
+                .distinct()
+                .sorted()
+                .collect(Collectors.toList());
+    }
+
+    /**
      * Returns a list of {@link CourseAttributes} for all courses a given student is enrolled in.
      *
      * @param googleId The Google ID of the student
