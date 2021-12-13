@@ -166,12 +166,9 @@ public class StudentProfilePage extends AppPage {
     public void verifyPhotoSize(int height, int width) {
         String browserHeight = browser.driver.findElement(By.className("profile-pic")).getCssValue("height");
         String browserWidth = browser.driver.findElement(By.className("profile-pic")).getCssValue("width");
-        /*
-         * Remove the last two chars from the string, so we can isolate the Measurement from
-         * "[MEASUREMENT]px", since we want to parse it into a float
-         */
-        float imageHeight = Float.parseFloat(browserHeight.substring(0, browserHeight.length() - 2));
-        float imageWidth = Float.parseFloat(browserWidth.substring(0, browserWidth.length() - 2));
+        //Remove px from Dimension Strings to turn it into a number
+        float imageHeight = Float.parseFloat(browserHeight.replaceFirst("px$", ""));
+        float imageWidth = Float.parseFloat(browserWidth.replaceFirst("px$", ""));
         assertEquals(height, imageHeight, 1.0);
         assertEquals(width, imageWidth, 1.0);
         closePictureEditor();
