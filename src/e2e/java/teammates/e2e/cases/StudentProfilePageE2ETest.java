@@ -51,7 +51,8 @@ public class StudentProfilePageE2ETest extends BaseE2ETestCase {
                 StudentProfileAttributes.Gender.FEMALE, "this is enough!$%&*</>");
     }
 
-    private void uploadProfilePicAndVerifyDimensions(StudentProfilePage profilePage, String imagePath, int height, int width) {
+    private void uploadProfilePicAndVerifyDimensions(StudentProfilePage profilePage, String imagePath,
+                                                     int height, int width) {
         profilePage.fillProfilePic(imagePath);
         profilePage.uploadPicture();
         profilePage.verifyStatusMessage("Your profile picture has been saved successfully");
