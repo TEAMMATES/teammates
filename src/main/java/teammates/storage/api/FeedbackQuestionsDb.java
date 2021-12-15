@@ -4,6 +4,7 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.util.List;
 
+import com.google.cloud.datastore.Cursor;
 import com.googlecode.objectify.cmd.LoadType;
 import com.googlecode.objectify.cmd.Query;
 
@@ -55,12 +56,21 @@ public final class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, Feed
     /**
      * Gets all feedback questions of a session.
      */
+    // here
     public List<FeedbackQuestionAttributes> getFeedbackQuestionsForSession(
             String feedbackSessionName, String courseId) {
         assert feedbackSessionName != null;
         assert courseId != null;
 
         return makeAttributes(getFeedbackQuestionEntitiesForSession(feedbackSessionName, courseId));
+    }
+
+    public List<FeedbackQuestionAttributes> getFeedbackQuestionsForSessionWithLimit(
+            String feedbackSessionName, String courseId, Cursor cursor) {
+        assert feedbackSessionName != null;
+        assert courseId != null;
+
+        return makeAttributes(getFeedbackQuestionsWithLimit(feedbackSessionName, courseId, cursor));
     }
 
     /**
@@ -197,6 +207,7 @@ public final class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, Feed
                 .first().now();
     }
 
+    // here
     private List<FeedbackQuestion> getFeedbackQuestionEntitiesForSession(
             String feedbackSessionName, String courseId) {
         return load()
@@ -211,6 +222,16 @@ public final class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, Feed
                 .filter("feedbackSessionName =", feedbackSessionName)
                 .filter("courseId =", courseId)
                 .filter("giverType =", giverType)
+                .list();
+    }
+
+    private List<FeedbackQuestion> getFeedbackQuestionsWithLimit(
+            String feedbackSessionName, String courseId, Cursor cursor) {
+        return load()
+                .filter("feedbackSessionName =", feedbackSessionName)
+                .filter("courseId =", courseId)
+                .startAt(cursor)
+                .limit(5)
                 .list();
     }
 

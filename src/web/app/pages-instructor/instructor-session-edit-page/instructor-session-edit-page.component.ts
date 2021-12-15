@@ -888,10 +888,16 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   copyQuestionsFromOtherSessionsHandler(): void {
     this.isCopyingQuestion = true;
     const questionToCopyCandidates: QuestionToCopyCandidate[] = [];
+    const feedbackSessionsNames: Set<string> = new Set<string>();
 
     this.feedbackSessionsService.getFeedbackSessionsForInstructor().pipe(
-        switchMap((sessions: FeedbackSessions) => of(...sessions.feedbackSessions)),
+        switchMap((sessions: FeedbackSessions) => {
+          console.log(...sessions.feedbackSessions)
+          return of(...sessions.feedbackSessions)
+        }),
         flatMap((session: FeedbackSession) => {
+          feedbackSessionsNames.add(session.feedbackSessionName);
+
           return this.feedbackQuestionsService.getFeedbackQuestions({
             courseId: session.courseId,
             feedbackSessionName: session.feedbackSessionName,
@@ -914,8 +920,9 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     ).subscribe((questionToCopyCandidate: QuestionToCopyCandidate[]) => {
       questionToCopyCandidates.push(...questionToCopyCandidate);
     }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); }, () => {
-      const ref: NgbModalRef = this.ngbModal.open(CopyQuestionsFromOtherSessionsModalComponent);
-      ref.componentInstance.questionToCopyCandidates = questionToCopyCandidates;
+      const ref: NgbModalRef = this.ngbModal.open(CopyQuestionsFromOtherSessionsModalComponent); // here
+      // ref.componentInstance.questionToCopyCandidates = questionToCopyCandidates;
+      ref.componentInstance.feedbackSessionsNames = feedbackSessionsNames;
 
       ref.result.then((questionsToCopy: FeedbackQuestion[]) => {
         this.isCopyingQuestion = true;

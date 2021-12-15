@@ -20,6 +20,7 @@ import {
 } from './copy-questions-from-other-sessions-modal/copy-questions-from-other-sessions-modal.component';
 import { InstructorSessionEditPageComponent } from './instructor-session-edit-page.component';
 import { TemplateQuestionModalComponent } from './template-question-modal/template-question-modal.component';
+import {PanelChevronModule} from "../../components/panel-chevron/panel-chevron.module";
 
 const routes: Routes = [
   {
@@ -32,24 +33,25 @@ const routes: Routes = [
  * Module for instructor session edit page.
  */
 @NgModule({
-  imports: [
-    AddingQuestionPanelModule,
-    AjaxLoadingModule,
-    CommonModule,
-    FormsModule,
-    NgbCollapseModule,
-    NgbDropdownModule,
-    NgbTooltipModule,
-    TeammatesCommonModule,
-    SessionEditFormModule,
-    QuestionEditFormModule,
-    CopySessionModalModule,
-    RouterModule.forChild(routes),
-    LoadingSpinnerModule,
-    LoadingRetryModule,
-    TeammatesRouterModule,
-    PreviewSessionPanelModule,
-  ],
+    imports: [
+        AddingQuestionPanelModule,
+        AjaxLoadingModule,
+        CommonModule,
+        FormsModule,
+        NgbCollapseModule,
+        NgbDropdownModule,
+        NgbTooltipModule,
+        TeammatesCommonModule,
+        SessionEditFormModule,
+        QuestionEditFormModule,
+        CopySessionModalModule,
+        RouterModule.forChild(routes),
+        LoadingSpinnerModule,
+        LoadingRetryModule,
+        TeammatesRouterModule,
+        PreviewSessionPanelModule,
+        PanelChevronModule,
+    ],
   entryComponents: [
     TemplateQuestionModalComponent,
     CopyQuestionsFromOtherSessionsModalComponent,

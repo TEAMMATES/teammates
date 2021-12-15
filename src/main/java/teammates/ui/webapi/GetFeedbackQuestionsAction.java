@@ -2,6 +2,7 @@ package teammates.ui.webapi;
 
 import java.util.List;
 
+import com.google.cloud.datastore.Cursor;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -60,6 +61,7 @@ class GetFeedbackQuestionsAction extends BasicFeedbackSubmissionAction {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
+        Cursor cursor = Cursor.fromUrlSafe(getNonNullRequestParamValue(Const.ParamsNames.CURSOR));
 
         List<FeedbackQuestionAttributes> questions;
         try {
@@ -79,8 +81,8 @@ class GetFeedbackQuestionsAction extends BasicFeedbackSubmissionAction {
                                 instructor.getEmail(), null));
                 break;
             case FULL_DETAIL:
-            case INSTRUCTOR_RESULT:
-                questions = logic.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
+            case INSTRUCTOR_RESULT: // here
+                questions = logic.getFeedbackQuestionsForSession(feedbackSessionName, courseId, cursor);
                 break;
             case STUDENT_RESULT:
                 throw new InvalidHttpParameterException("Invalid intent for this action");
