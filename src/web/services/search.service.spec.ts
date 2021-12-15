@@ -82,14 +82,20 @@ describe('SearchService', () => {
   ];
 
   const mockPrivileges: InstructorPrivilege[] = [{
-    canModifyCourse: true,
-    canModifySession: true,
-    canModifyStudent: true,
-    canModifyInstructor: true,
-    canViewStudentInSections: true,
-    canModifySessionCommentsInSections: true,
-    canViewSessionInSections: true,
-    canSubmitSessionInSections: true,
+    privileges: {
+      courseLevel: {
+        canModifyCourse: true,
+        canModifySession: true,
+        canModifyStudent: true,
+        canModifyInstructor: true,
+        canViewStudentInSections: true,
+        canModifySessionCommentsInSections: true,
+        canViewSessionInSections: true,
+        canSubmitSessionInSections: true,
+      },
+      sectionLevel: {},
+      sessionLevel: {},
+    },
     requestId: 'checkyourprivilege',
   }];
 

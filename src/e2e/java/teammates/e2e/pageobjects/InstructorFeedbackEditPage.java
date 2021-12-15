@@ -7,7 +7,6 @@ import static org.junit.Assert.assertTrue;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -162,7 +161,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         waitForElementPresence(By.id("instructions"));
         assertEquals(getCourseId(), course.getId());
         assertEquals(getCourseName(), course.getName());
-        assertEquals(getTimeZone(), feedbackSession.getTimeZone().toString());
+        assertEquals(getTimeZone(), feedbackSession.getTimeZone());
         assertEquals(getFeedbackSessionName(), feedbackSession.getFeedbackSessionName());
         assertEquals(getInstructions(), feedbackSession.getInstructions());
         assertEquals(getStartDate(), getDateString(feedbackSession.getStartTime(), feedbackSession.getTimeZone()));
@@ -852,45 +851,41 @@ public class InstructorFeedbackEditPage extends AppPage {
         return publishStatusTextBox.getText();
     }
 
-    private String getDateString(Instant instant, ZoneId timeZone) {
-        return DateTimeFormatter
-                .ofPattern("EE, dd MMM, yyyy")
-                .format(instant.atZone(timeZone));
+    private String getDateString(Instant instant, String timeZone) {
+        return getDisplayedDateTime(instant, timeZone, "EE, dd MMM, yyyy");
     }
 
-    private String getTimeString(Instant instant, ZoneId timeZone) {
-        ZonedDateTime dateTime = instant.atZone(timeZone);
-        if (dateTime.getHour() == 23 && dateTime.getMinute() == 59) {
+    private String getTimeString(Instant instant, String timeZone) {
+        ZonedDateTime dateTime = instant.atZone(ZoneId.of(timeZone));
+        if (dateTime.getHour() == 0 && dateTime.getMinute() == 0) {
             return "23:59H";
         }
-        return DateTimeFormatter
-                .ofPattern("HH:00")
-                .format(instant.atZone(timeZone)) + "H";
+        return getDisplayedDateTime(instant, timeZone, "HH:00") + "H";
     }
 
     private void setInstructions(String newInstructions) {
         writeToRichTextEditor(instructionsEditor.findElement(By.tagName("editor")), newInstructions);
     }
 
-    private void setSessionStartDateTime(Instant startInstant, ZoneId timeZone) {
+    private void setSessionStartDateTime(Instant startInstant, String timeZone) {
         setDateTime(startDateBox.findElement(By.tagName("input")), startTimeDropdown, startInstant, timeZone);
     }
 
-    private void setSessionEndDateTime(Instant endInstant, ZoneId timeZone) {
+    private void setSessionEndDateTime(Instant endInstant, String timeZone) {
         setDateTime(endDateBox.findElement(By.tagName("input")), endTimeDropdown, endInstant, timeZone);
     }
 
-    private void setVisibilityDateTime(Instant startInstant, ZoneId timeZone) {
+    private void setVisibilityDateTime(Instant startInstant, String timeZone) {
         setDateTime(sessionVisibilityDateBox.findElement(By.tagName("input")),
                 sessionVisibilityTimeDropdown, startInstant, timeZone);
     }
 
-    private void setResponseDateTime(Instant endInstant, ZoneId timeZone) {
+    private void setResponseDateTime(Instant endInstant, String timeZone) {
         setDateTime(responseVisibilityDateBox.findElement(By.tagName("input")),
                 responseVisibilityTimeDropdown, endInstant, timeZone);
     }
 
-    private void setDateTime(WebElement dateBox, WebElement timeBox, Instant startInstant, ZoneId timeZone) {
+    private void setDateTime(WebElement dateBox, WebElement timeBox, Instant startInstant, String timeZone) {
         fillTextBox(dateBox, getDateString(startInstant, timeZone));
 
         selectDropdownOptionByText(timeBox.findElement(By.tagName("select")), getTimeString(startInstant, timeZone));
@@ -1193,10 +1188,12 @@ public class InstructorFeedbackEditPage extends AppPage {
     private String getGeneratedOptionString(FeedbackParticipantType type) {
         switch (type) {
         case STUDENTS:
+        case STUDENTS_IN_SAME_SECTION:
             return "students";
         case STUDENTS_EXCLUDING_SELF:
             return "students (excluding self)";
         case TEAMS:
+        case TEAMS_IN_SAME_SECTION:
             return "teams";
         case TEAMS_EXCLUDING_SELF:
             return "teams (excluding own team)";

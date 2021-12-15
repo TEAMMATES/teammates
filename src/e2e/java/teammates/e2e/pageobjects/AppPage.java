@@ -10,6 +10,10 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
@@ -29,6 +33,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.util.TimeHelper;
 import teammates.e2e.util.MaximumRetriesExceededException;
 import teammates.e2e.util.RetryManager;
 import teammates.e2e.util.Retryable;
@@ -622,11 +627,15 @@ public abstract class AppPage {
         switch (type) {
         case SELF:
             return "Giver (Self feedback)";
+        case STUDENTS_IN_SAME_SECTION:
+            return "Other students in the same section";
         case STUDENTS:
         case STUDENTS_EXCLUDING_SELF:
             return "Other students in the course";
         case INSTRUCTORS:
             return "Instructors in the course";
+        case TEAMS_IN_SAME_SECTION:
+            return "Other teams in the same section";
         case TEAMS:
         case TEAMS_EXCLUDING_SELF:
             return "Other teams in the course";
@@ -641,6 +650,12 @@ public abstract class AppPage {
         default:
             throw new IllegalArgumentException("Unknown FeedbackParticipantType: " + type);
         }
+    }
+
+    String getDisplayedDateTime(Instant instant, String timeZone, String pattern) {
+        ZonedDateTime zonedDateTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(instant, timeZone, false)
+                .atZone(ZoneId.of(timeZone));
+        return DateTimeFormatter.ofPattern(pattern).format(zonedDateTime);
     }
 
 }

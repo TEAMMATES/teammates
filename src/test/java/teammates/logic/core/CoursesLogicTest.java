@@ -1,7 +1,6 @@
 package teammates.logic.core;
 
 import java.time.Instant;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,16 +50,16 @@ public class CoursesLogicTest extends BaseLogicTest {
     @Test
     public void testUpdateCourseCascade_shouldCascadeUpdateTimezoneOfFeedbackSessions() throws Exception {
         CourseAttributes typicalCourse1 = dataBundle.courses.get("typicalCourse1");
-        assertNotEquals(ZoneId.of("UTC"), typicalCourse1.getTimeZone());
+        assertNotEquals("UTC", typicalCourse1.getTimeZone());
 
         coursesLogic.updateCourseCascade(
                 CourseAttributes.updateOptionsBuilder(typicalCourse1.getId())
-                        .withTimezone(ZoneId.of("UTC"))
+                        .withTimezone("UTC")
                         .build());
 
         List<FeedbackSessionAttributes> sessionsOfCourse = fsLogic.getFeedbackSessionsForCourse(typicalCourse1.getId());
         assertFalse(sessionsOfCourse.isEmpty());
-        assertTrue(sessionsOfCourse.stream().allMatch(s -> s.getTimeZone().equals(ZoneId.of("UTC"))));
+        assertTrue(sessionsOfCourse.stream().allMatch(s -> "UTC".equals(s.getTimeZone())));
     }
 
     @Test
@@ -90,7 +89,7 @@ public class CoursesLogicTest extends BaseLogicTest {
         CourseAttributes c = CourseAttributes
                 .builder("Computing101-getthis")
                 .withName("Basic Computing Getting")
-                .withTimezone(ZoneId.of("UTC"))
+                .withTimezone("UTC")
                 .withInstitute("Test institute")
                 .build();
         coursesDb.createEntity(c);
@@ -139,7 +138,7 @@ public class CoursesLogicTest extends BaseLogicTest {
         CourseAttributes nonExistentCourse = CourseAttributes
                 .builder("non-existent-course")
                 .withName("non existent course")
-                .withTimezone(ZoneId.of("UTC"))
+                .withTimezone("UTC")
                 .build();
 
         assertFalse(coursesLogic.isCoursePresent(nonExistentCourse.getId()));
@@ -149,7 +148,7 @@ public class CoursesLogicTest extends BaseLogicTest {
         CourseAttributes existingCourse = CourseAttributes
                 .builder("idOfTypicalCourse1")
                 .withName("existing course")
-                .withTimezone(ZoneId.of("UTC"))
+                .withTimezone("UTC")
                 .build();
 
         assertTrue(coursesLogic.isCoursePresent(existingCourse.getId()));
@@ -166,7 +165,7 @@ public class CoursesLogicTest extends BaseLogicTest {
         CourseAttributes nonExistentCourse = CourseAttributes
                 .builder("non-existent-course")
                 .withName("non existent course")
-                .withTimezone(ZoneId.of("UTC"))
+                .withTimezone("UTC")
                 .build();
 
         EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
@@ -178,7 +177,7 @@ public class CoursesLogicTest extends BaseLogicTest {
         CourseAttributes existingCourse = CourseAttributes
                 .builder("idOfTypicalCourse1")
                 .withName("existing course")
-                .withTimezone(ZoneId.of("UTC"))
+                .withTimezone("UTC")
                 .build();
         coursesLogic.verifyCourseIsPresent(existingCourse.getId());
 
@@ -234,7 +233,7 @@ public class CoursesLogicTest extends BaseLogicTest {
         coursesLogic.createCourseAndInstructor("instructor1",
                 CourseAttributes.builder("course1")
                         .withName("course 1")
-                        .withTimezone(ZoneId.of("UTC"))
+                        .withTimezone("UTC")
                         .withInstitute("TEAMMATES Test Institute 1")
                         .build());
         teams = coursesLogic.getTeamsForCourse("course1");
@@ -310,7 +309,7 @@ public class CoursesLogicTest extends BaseLogicTest {
         CourseAttributes c = CourseAttributes
                 .builder("Computing101-fresh")
                 .withName("Basic Computing")
-                .withTimezone(ZoneId.of("Asia/Singapore"))
+                .withTimezone("Asia/Singapore")
                 .withInstitute("Test institute")
                 .build();
         coursesLogic.createCourse(
@@ -344,7 +343,7 @@ public class CoursesLogicTest extends BaseLogicTest {
         CourseAttributes c = CourseAttributes
                 .builder("fresh-course-tccai")
                 .withName("Fresh course for tccai")
-                .withTimezone(ZoneId.of("America/Los_Angeles"))
+                .withTimezone("America/Los_Angeles")
                 .withInstitute("Test institute")
                 .build();
 
@@ -393,7 +392,7 @@ public class CoursesLogicTest extends BaseLogicTest {
         CourseAttributes invalidCourse = CourseAttributes
                 .builder("invalid id")
                 .withName("Fresh course for tccai")
-                .withTimezone(ZoneId.of("UTC"))
+                .withTimezone("UTC")
                 .withInstitute("Test institute")
                 .build();
 
@@ -419,7 +418,7 @@ public class CoursesLogicTest extends BaseLogicTest {
         CourseAttributes courseWithDuplicateInstructor = CourseAttributes
                 .builder("fresh-course-tccai")
                 .withName("Fresh course for tccai")
-                .withTimezone(ZoneId.of("UTC"))
+                .withTimezone("UTC")
                 .withInstitute("Test institute")
                 .build();
         instructorsLogic.createInstructor(i); //create a duplicate instructor
@@ -609,7 +608,7 @@ public class CoursesLogicTest extends BaseLogicTest {
         CourseAttributes c = CourseAttributes
                 .builder("Computing101-getthis")
                 .withName("Basic Computing Getting")
-                .withTimezone(ZoneId.of("UTC"))
+                .withTimezone("UTC")
                 .withInstitute("Test institute")
                 .build();
         coursesDb.createEntity(c);
@@ -620,14 +619,14 @@ public class CoursesLogicTest extends BaseLogicTest {
         CourseAttributes updateCourse = coursesLogic.updateCourseCascade(
                 CourseAttributes.updateOptionsBuilder(c.getId())
                         .withName(newName)
-                        .withTimezone(ZoneId.of(validTimeZone))
+                        .withTimezone(validTimeZone)
                         .build()
         );
         c.setName(newName);
-        c.setTimeZone(ZoneId.of(validTimeZone));
+        c.setTimeZone(validTimeZone);
         verifyPresentInDatabase(c);
         assertEquals(newName, updateCourse.getName());
-        assertEquals(validTimeZone, updateCourse.getTimeZone().getId());
+        assertEquals(validTimeZone, updateCourse.getTimeZone());
 
         ______TS("Invalid name (empty course name)");
 

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -14,7 +15,6 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.ui.output.FeedbackSessionData;
 import teammates.ui.output.FeedbackSessionsData;
-import teammates.ui.output.InstructorPrivilegeData;
 
 /**
  * Get a list of feedback sessions.
@@ -117,7 +117,7 @@ class GetFeedbackSessionsAction extends Action {
                     return;
                 }
 
-                InstructorPrivilegeData privilege =
+                InstructorPermissionSet privilege =
                         constructInstructorPrivileges(instructor, session.getFeedbackSessionName());
                 session.setPrivileges(privilege);
             });

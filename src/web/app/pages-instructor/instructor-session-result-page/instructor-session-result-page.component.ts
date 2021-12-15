@@ -176,7 +176,15 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
           .formatToString(this.session.submissionStartTimestamp, this.session.timeZone, TIME_FORMAT);
       this.formattedSessionClosingTime = this.timezoneService
           .formatToString(this.session.submissionEndTimestamp, this.session.timeZone, TIME_FORMAT);
-      if (this.session.resultVisibleFromTimestamp) {
+      if (this.session.responseVisibleSetting === ResponseVisibleSetting.AT_VISIBLE) {
+        if (this.session.sessionVisibleSetting === SessionVisibleSetting.AT_OPEN) {
+          this.formattedResultVisibleFromTime = this.timezoneService
+              .formatToString(this.session.submissionStartTimestamp, this.session.timeZone, TIME_FORMAT);
+        } else if (this.session.sessionVisibleFromTimestamp) {
+          this.formattedResultVisibleFromTime = this.timezoneService
+              .formatToString(this.session.sessionVisibleFromTimestamp, this.session.timeZone, TIME_FORMAT);
+        }
+      } else if (this.session.resultVisibleFromTimestamp) {
         this.formattedResultVisibleFromTime = this.timezoneService
             .formatToString(this.session.resultVisibleFromTimestamp, this.session.timeZone, TIME_FORMAT);
       } else {
