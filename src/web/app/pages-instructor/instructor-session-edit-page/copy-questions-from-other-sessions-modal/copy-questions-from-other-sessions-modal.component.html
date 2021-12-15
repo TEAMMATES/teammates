@@ -5,16 +5,6 @@
   </button>
 </div>
 <div id="copy-question-modal" class="modal-body">
-
-  <div class="card" style="display: flex; width: 100%" *ngFor="let feedbackSessionName of feedbackSessionsNames">
-    <div style="margin: 10px;
-            text-align: center; cursor: pointer" (click)="isClicked(feedbackSessionName)">{{ feedbackSessionName }}
-      <tm-panel-chevron [isExpanded]="false"></tm-panel-chevron>
-    </div>
-  </div>
-
-  <button id="load-previous-button" class="btn btn-primary" (click)="loadMore()">Load more</button>
-
   <table class="table table-bordered table-responsive-lg">
     <thead class="bg-primary text-white">
       <tr>

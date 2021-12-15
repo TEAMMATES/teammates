@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
 
-import com.google.cloud.datastore.Cursor;
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -108,27 +107,11 @@ public final class FeedbackQuestionsLogic {
     /**
      * Gets a {@link List} of every FeedbackQuestion in the given session.
      */
-    //here
     public List<FeedbackQuestionAttributes> getFeedbackQuestionsForSession(
             String feedbackSessionName, String courseId) {
 
         List<FeedbackQuestionAttributes> questions =
                 fqDb.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
-        questions.sort(null);
-
-        // check whether the question numbers are consistent
-        if (questions.size() > 1 && !areQuestionNumbersConsistent(questions)) {
-            log.severe(courseId + ": " + feedbackSessionName + " has invalid question numbers");
-        }
-
-        return questions;
-    }
-
-    public List<FeedbackQuestionAttributes> getFeedbackQuestionsForSessionWithLimit(
-            String feedbackSessionName, String courseId, Cursor cursor) {
-
-        List<FeedbackQuestionAttributes> questions =
-                fqDb.getFeedbackQuestionsForSessionWithLimit(feedbackSessionName, courseId, cursor);
         questions.sort(null);
 
         // check whether the question numbers are consistent

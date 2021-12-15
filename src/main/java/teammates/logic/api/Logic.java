@@ -7,7 +7,6 @@ import java.util.Set;
 
 import javax.annotation.Nullable;
 
-import com.google.cloud.datastore.Cursor;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
@@ -1129,16 +1128,10 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    // here
-    public List<FeedbackQuestionAttributes> getFeedbackQuestionsForSession(String feedbackSessionName,
-                                                                           String courseId,
-                                                                           Cursor cursor) {
+    public List<FeedbackQuestionAttributes> getFeedbackQuestionsForSession(String feedbackSessionName, String courseId) {
         assert feedbackSessionName != null;
         assert courseId != null;
 
-        if (cursor != null) {
-            return feedbackQuestionsLogic.getFeedbackQuestionsForSessionWithLimit(feedbackSessionName, courseId, cursor);
-        }
         return feedbackQuestionsLogic.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
     }
 
