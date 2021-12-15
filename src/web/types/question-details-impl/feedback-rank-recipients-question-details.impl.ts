@@ -29,6 +29,7 @@ export class FeedbackRankRecipientsQuestionDetailsImpl extends AbstractFeedbackQ
 
   getQuestionCsvStats(question: QuestionOutput): string[][] {
     const statsRows: string[][] = [];
+    const emptyStr: string = '-';
 
     const statsCalculation: RankRecipientsQuestionStatisticsCalculation
         = new RankRecipientsQuestionStatisticsCalculation(this);
@@ -45,19 +46,24 @@ export class FeedbackRankRecipientsQuestionDetailsImpl extends AbstractFeedbackQ
       'Self Rank',
       'Overall Rank',
       'Overall Rank Excluding Self',
-      'Ranks Received',
       'Team Rank',
       'Team Rank Excluding Self',
+      'Ranks Received',
     ]);
 
     Object.keys(statsCalculation.ranksReceivedPerOption).sort().forEach((recipient: string) => {
       statsRows.push([
         statsCalculation.emailToTeamName[recipient],
         statsCalculation.emailToName[recipient],
-        statsCalculation.selfRankPerOption[recipient] ? String(statsCalculation.selfRankPerOption[recipient]) : '-',
-        statsCalculation.rankPerOption[recipient] ? String(statsCalculation.rankPerOption[recipient]) : '-',
+        statsCalculation.selfRankPerOption[recipient] ? String(statsCalculation.selfRankPerOption[recipient])
+        : emptyStr,
+        statsCalculation.rankPerOption[recipient] ? String(statsCalculation.rankPerOption[recipient]) : emptyStr,
         statsCalculation.rankPerOptionExcludeSelf[recipient] ?
-            String(statsCalculation.rankPerOptionExcludeSelf[recipient]) : '-',
+            String(statsCalculation.rankPerOptionExcludeSelf[recipient]) : emptyStr,
+        statsCalculation.rankPerOptionInTeam[recipient] ?
+            String(statsCalculation.rankPerOptionInTeam[recipient]) : emptyStr,
+        statsCalculation.rankPerOptionInTeamExcludeSelf[recipient] ?
+            String(statsCalculation.rankPerOptionInTeamExcludeSelf[recipient]) : emptyStr,
         ...statsCalculation.ranksReceivedPerOption[recipient].map(String),
       ]);
     });
