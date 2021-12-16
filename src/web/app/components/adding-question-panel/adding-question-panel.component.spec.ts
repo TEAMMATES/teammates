@@ -37,41 +37,30 @@ describe('AddingQuestionPanelComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('raises the selected event when templateQuestionModalEvent is invoked', () => {
-    spyOn(component.templateQuestionModalEvent, 'emit');
-
+  it('raises the selected event when event is invoked', () => {
+    const type: FeedbackQuestionType = FeedbackQuestionType.MCQ;
     const button: any = fixture.nativeElement.querySelector('button');
+
+    spyOn(component.templateQuestionModalEvent, 'emit');
+    spyOn(component.populateAndShowNewQuestionFormEvent, 'emit');
+    spyOn(component.copyQuestionsFromOtherSessionsEvent, 'emit');
 
     button.click();
     fixture.detectChanges();
 
     component.templateQuestionModalHandler();
-
     expect(component.templateQuestionModalEvent.emit).toHaveBeenCalled();
-  });
 
-  it('raises the selected event when populateAndShowNewQuestionFormEvent is invoked', () => {
-    const type: FeedbackQuestionType = FeedbackQuestionType.MCQ;
-    const button: any = fixture.nativeElement.querySelector('button');
-
-    spyOn(component.populateAndShowNewQuestionFormEvent, 'emit');
     button.click();
     fixture.detectChanges();
 
     component.populateAndShowNewQuestionFormHandler(FeedbackQuestionType.MCQ);
-
     expect(component.populateAndShowNewQuestionFormEvent.emit).toHaveBeenCalledWith(type);
-  });
 
-  it('raises the selected event when templateQuestionModalEvent is invoked', () => {
-    const button: any = fixture.nativeElement.querySelector('button');
-
-    spyOn(component.copyQuestionsFromOtherSessionsEvent, 'emit');
     button.click();
     fixture.detectChanges();
 
     component.copyQuestionsFromOtherSessionsHandler();
-
     expect(component.copyQuestionsFromOtherSessionsEvent.emit).toHaveBeenCalled();
   });
 });

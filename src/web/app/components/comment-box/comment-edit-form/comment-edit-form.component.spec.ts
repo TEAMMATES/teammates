@@ -71,58 +71,29 @@ describe('CommentEditFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should raises the selected event when closeCommentBoxEvent is invoked', () => {
-    const button: any = fixture.nativeElement.querySelector('button');
-
-    spyOn(component.closeCommentBoxEvent, 'emit');
-
-    button.click();
-    fixture.detectChanges();
-
-    component.triggerCloseCommentBoxEvent();
-
-    expect(component.closeCommentBoxEvent.emit).toHaveBeenCalled();
-  });
-
-  it('should raises the selected event when saveCommentEvent is invoked', () => {
-    const button: any = fixture.nativeElement.querySelector('button');
-
-    spyOn(component.saveCommentEvent, 'emit');
-
-    button.click();
-    fixture.detectChanges();
-
-    component.triggerSaveCommentEvent();
-
-    expect(component.saveCommentEvent.emit).toHaveBeenCalled();
-  });
-
-  it('should raises the selected event when modelChange is invoked', () => {
+  it('should raises the selected event when modelChange, saveCommentEvent and closeCommentBoxEvent is invoked', () => {
     const button: any = fixture.nativeElement.querySelector('button');
     const field: string = 'key';
     const data: any = 1;
 
     spyOn(component.modelChange, 'emit');
+    spyOn(component.saveCommentEvent, 'emit');
+    spyOn(component.closeCommentBoxEvent, 'emit');
 
     button.click();
     fixture.detectChanges();
 
     component.triggerModelChange(field, data);
-
     expect(component.modelChange.emit).toHaveBeenCalledWith({ ...commentModel, ...object });
-  });
-
-  it('should raises the selected event when modelChange with batch is invoked', () => {
-    const button: any = fixture.nativeElement.querySelector('button');
-
-    spyOn(component.modelChange, 'emit');
-
-    button.click();
-    fixture.detectChanges();
 
     component.triggerModelChangeBatch(object);
-
     expect(component.modelChange.emit).toHaveBeenCalledWith({ ...commentModel, ...object });
+
+    component.triggerSaveCommentEvent();
+    expect(component.saveCommentEvent.emit).toHaveBeenCalled();
+
+    component.triggerCloseCommentBoxEvent();
+    expect(component.closeCommentBoxEvent.emit).toHaveBeenCalled();
   });
 
   it('should allowToSee visibility in modifyVisibilityControl method', () => {
@@ -133,25 +104,11 @@ describe('CommentEditFormComponent', () => {
 
     expect(spy1).toHaveBeenCalledWith(visibilityType, visibilityControl);
     expect(spy2).toHaveBeenCalledWith(modelChangeBatch);
-  });
 
-  it('should disallowToSee visibility in modifyVisibilityControl method', () => {
-    const spy1: any = spyOn(component.visibilityStateMachine, 'disallowToSee');
-    const spy2: any = spyOn(component, 'triggerModelChangeBatch');
-
+    const spy3 = spyOn(component.visibilityStateMachine, 'disallowToSee');
     component.modifyVisibilityControl(false, visibilityType, visibilityControl);
 
-    expect(spy1).toHaveBeenCalledWith(visibilityType, visibilityControl);
-    expect(spy2).toHaveBeenCalledWith(modelChangeBatch);
-  });
-
-  it('should disallowToSee visibility in modifyVisibilityControl method', () => {
-    const spy1: any = spyOn(component.visibilityStateMachine, 'disallowToSee');
-    const spy2: any = spyOn(component, 'triggerModelChangeBatch');
-
-    component.modifyVisibilityControl(false, visibilityType, visibilityControl);
-
-    expect(spy1).toHaveBeenCalledWith(visibilityType, visibilityControl);
+    expect(spy3).toHaveBeenCalledWith(visibilityType, visibilityControl);
     expect(spy2).toHaveBeenCalledWith(modelChangeBatch);
   });
 
