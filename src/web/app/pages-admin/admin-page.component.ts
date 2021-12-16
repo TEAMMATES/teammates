@@ -60,8 +60,6 @@ export class AdminPageComponent implements OnInit {
         this.isMaintainer = res.user.isMaintainer;
         if (!this.isAdmin) {
           // User is not a valid admin; redirect to home page.
-          // This should not happen in production server as the /web/admin/* routing is protected,
-          // and a 403 error page will be shown instead.
           this.navigationService.navigateWithErrorMessage(this.router, '/web',
               'You are not authorized to view the page.');
         }

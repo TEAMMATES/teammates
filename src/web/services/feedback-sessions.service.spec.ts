@@ -11,7 +11,7 @@ import {
   SessionVisibleSetting,
 } from '../types/api-output';
 import { Intent } from '../types/api-request';
-import { DEFAULT_INSTRUCTOR_PRIVILEGE } from '../types/instructor-privilege';
+import { DEFAULT_INSTRUCTOR_PRIVILEGE } from '../types/default-instructor-privilege';
 import { FeedbackSessionsService } from './feedback-sessions.service';
 import { HttpRequestService } from './http-request.service';
 
@@ -72,7 +72,7 @@ describe('FeedbackSessionsService', () => {
       },
       responseRate: '',
       isLoadingResponseRate: false,
-      instructorPrivilege: DEFAULT_INSTRUCTOR_PRIVILEGE,
+      instructorPrivilege: DEFAULT_INSTRUCTOR_PRIVILEGE(),
     };
     mockFeedbackSession.submissionStartTimestamp = Date.now() - 100000;
     mockFeedbackSession.submissionEndTimestamp = Date.now() + 100000;

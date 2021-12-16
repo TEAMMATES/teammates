@@ -10,8 +10,8 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailSendingStatus;
+import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
-import teammates.common.util.Templates;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 import teammates.ui.request.StudentUpdateRequest;
 
@@ -111,7 +111,7 @@ class UpdateStudentAction extends Action {
      */
     private boolean sendEmail(String courseId, String studentEmail) {
         EmailWrapper email = emailGenerator.generateFeedbackSessionSummaryOfCourse(
-                                courseId, studentEmail, Templates.EmailTemplates.USER_FEEDBACK_SESSION_RESEND_ALL_LINKS);
+                courseId, studentEmail, EmailType.STUDENT_EMAIL_CHANGED);
         EmailSendingStatus status = emailSender.sendEmail(email);
         return status.isSuccess();
     }

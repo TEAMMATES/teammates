@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ResourceEndpoints } from '../types/api-const';
-import { Instructor, InstructorPrivilege, Instructors } from '../types/api-output';
+import { Instructor, InstructorPrivilege, Instructors, RegenerateKey } from '../types/api-output';
 import { InstructorCreateRequest, InstructorPrivilegeUpdateRequest, Intent } from '../types/api-request';
 import { HttpRequestService } from './http-request.service';
 
@@ -105,33 +105,17 @@ export class InstructorService {
   }
 
   /**
-   * Loads privilege of an instructor for a specified course and section.
+   * Loads privilege of an instructor for a specified course.
    */
   loadInstructorPrivilege(queryParams: {
     courseId: string,
-    sectionName?: string,
-    feedbackSessionName?: string,
-    instructorRole?: string,
     instructorEmail?: string,
     instructorId?: string,
-  }):
-    Observable<InstructorPrivilege> {
+  }): Observable<InstructorPrivilege> {
 
     const paramMap: Record<string, string> = {
       courseid: queryParams.courseId,
     };
-
-    if (queryParams.feedbackSessionName) {
-      paramMap.fsname = queryParams.feedbackSessionName;
-    }
-
-    if (queryParams.sectionName) {
-      paramMap.sectionname = queryParams.sectionName;
-    }
-
-    if (queryParams.instructorRole) {
-      paramMap.instructorrole = queryParams.instructorRole;
-    }
 
     if (queryParams.instructorEmail) {
       paramMap.instructoremail = queryParams.instructorEmail;
@@ -150,11 +134,24 @@ export class InstructorService {
   updateInstructorPrivilege(queryParams: {
     courseId: string,
     instructorEmail: string,
-    requestBody: InstructorPrivilegeUpdateRequest }): Observable<InstructorPrivilege> {
+    requestBody: InstructorPrivilegeUpdateRequest,
+  }): Observable<InstructorPrivilege> {
     const paramMap: any = {
       courseid: queryParams.courseId,
       instructoremail: queryParams.instructorEmail,
     };
     return this.httpRequestService.put(ResourceEndpoints.INSTRUCTOR_PRIVILEGE, paramMap, queryParams.requestBody);
   }
+
+  /**
+   * Regenerates the registration key for an instructor in a course.
+   */
+  regenerateInstructorKey(courseId: string, instructorEmail: string): Observable<RegenerateKey> {
+    const paramsMap: Record<string, string> = {
+      courseid: courseId,
+      instructoremail: instructorEmail,
+    };
+    return this.httpRequestService.post(ResourceEndpoints.INSTRUCTOR_KEY, paramsMap);
+  }
+
 }

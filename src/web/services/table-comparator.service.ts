@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import moment from 'moment-timezone';
 import { SortBy, SortOrder } from '../types/sort-properties';
 
 /**
@@ -12,15 +13,45 @@ export class TableComparatorService {
   constructor() { }
 
   /**
+   * Compares two strings which are expected to be dates depending on order given.
+   * If either string cannot be parsed into a date, it will be seen as 'smaller'.
+   * If both strings cannot be parsed into dates, strA will always be seen as 'larger'.
+   */
+  compareChronologically(strA: string, strB: string, order: SortOrder): number {
+    const dateA: moment.Moment = moment(strA);
+    const dateB: moment.Moment = moment(strB);
+
+    if (!dateA.isValid()) {
+      return 1;
+    }
+
+    if (!dateB.isValid()) {
+      return -1;
+    }
+
+    if (order === SortOrder.ASC) {
+      return dateA.diff(dateB);
+    }
+
+    if (order === SortOrder.DESC) {
+      return dateB.diff(dateA);
+    }
+
+    return 0;
+  }
+
+  /**
    * Compares two strings lexicographically depending on order given.
    */
   compareLexicographically(strA: string, strB: string, order: SortOrder): number {
     if (order === SortOrder.ASC) {
       return strA.localeCompare(strB);
     }
+
     if (order === SortOrder.DESC) {
       return strB.localeCompare(strA);
     }
+
     return 0;
   }
 
@@ -31,9 +62,11 @@ export class TableComparatorService {
     if (order === SortOrder.ASC) {
       return strA.localeCompare(strB, undefined, { numeric: true });
     }
+
     if (order === SortOrder.DESC) {
       return strB.localeCompare(strA, undefined, { numeric: true });
     }
+
     return 0;
   }
 
@@ -45,6 +78,7 @@ export class TableComparatorService {
   compareNumbers(strA: string, strB: string, order: SortOrder): number {
     const numA: number = Number(strA);
     const numB: number = Number(strB);
+
     if (Number.isNaN(numA)) {
       return 1;
     }
@@ -104,7 +138,6 @@ export class TableComparatorService {
       case SortBy.GIVER_NAME:
       case SortBy.RECIPIENT_NAME:
       case SortBy.LOG_TYPE:
-      case SortBy.LOG_DATE:
       case SortBy.RESULT_VIEW_STATUS:
         return this.compareLexicographically(strA, strB, order);
       case SortBy.MCQ_RESPONSE_COUNT:
@@ -134,6 +167,8 @@ export class TableComparatorService {
       case SortBy.MSQ_WEIGHT_TOTAL:
       case SortBy.MSQ_WEIGHT_AVERAGE:
         return this.compareNumbers(strA, strB, order);
+      case SortBy.LOG_DATE:
+        return this.compareChronologically(strA, strB, order);
       default:
         return 0;
     }

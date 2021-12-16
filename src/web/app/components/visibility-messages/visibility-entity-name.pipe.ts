@@ -35,11 +35,13 @@ export class VisibilityEntityNamePipe implements PipeTransform {
             recipientEntityName = 'instructor';
             break;
           case FeedbackParticipantType.STUDENTS:
+          case FeedbackParticipantType.STUDENTS_IN_SAME_SECTION:
           case FeedbackParticipantType.OWN_TEAM_MEMBERS:
           case FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF:
             recipientEntityName = 'student';
             break;
           case FeedbackParticipantType.TEAMS:
+          case FeedbackParticipantType.TEAMS_IN_SAME_SECTION:
           case FeedbackParticipantType.OWN_TEAM:
             recipientEntityName = 'team';
             break;

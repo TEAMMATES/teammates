@@ -6,19 +6,13 @@ package teammates.ui.output;
 public class JoinStatus extends ApiOutput {
 
     private final boolean hasJoined;
-    private final String userId;
 
-    public JoinStatus(boolean hasJoined, String userId) {
+    public JoinStatus(boolean hasJoined) {
         this.hasJoined = hasJoined;
-        this.userId = userId;
     }
 
     public boolean getHasJoined() {
         return hasJoined;
-    }
-
-    public String getUserId() {
-        return userId;
     }
 
 }

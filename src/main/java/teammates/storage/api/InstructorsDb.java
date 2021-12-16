@@ -59,6 +59,27 @@ public final class InstructorsDb extends EntitiesDb<Instructor, InstructorAttrib
     }
 
     /**
+     * Regenerates the registration key of an instructor in a course.
+     *
+     * @return the updated instructor
+     * @throws EntityAlreadyExistsException if a new registration key could not be generated
+     */
+    public InstructorAttributes regenerateEntityKey(InstructorAttributes originalInstructor)
+            throws EntityAlreadyExistsException {
+        int numTries = 0;
+        while (numTries < MAX_KEY_REGENERATION_TRIES) {
+            Instructor updatedEntity = convertToEntityForSaving(originalInstructor);
+            if (!updatedEntity.getRegistrationKey().equals(originalInstructor.getKey())) {
+                saveEntity(updatedEntity);
+                return makeAttributes(updatedEntity);
+            }
+            numTries++;
+        }
+        log.severe("Failed to generate new registration key for instructor after " + MAX_KEY_REGENERATION_TRIES + " tries");
+        throw new EntityAlreadyExistsException("Could not regenerate a new course registration key for the instructor.");
+    }
+
+    /**
      * Searches all instructors in the system.
      *
      * <p>This method should be used by admin only since the searching does not restrict the
@@ -176,7 +197,7 @@ public final class InstructorsDb extends EntitiesDb<Instructor, InstructorAttrib
                 && this.<Boolean>hasSameValue(instructor.isDisplayedToStudents(), newAttributes.isDisplayedToStudents())
                 && this.<String>hasSameValue(instructor.getDisplayedName(), newAttributes.getDisplayedName())
                 && this.<String>hasSameValue(
-                        instructor.getInstructorPrivilegesAsText(), newAttributes.getTextFromInstructorPrivileges());
+                        instructor.getInstructorPrivilegesAsText(), newAttributes.getInstructorPrivilegesAsText());
         if (hasSameAttributes) {
             log.info(String.format(
                     OPTIMIZED_SAVING_POLICY_APPLIED, Instructor.class.getSimpleName(), updateOptions));
@@ -189,7 +210,7 @@ public final class InstructorsDb extends EntitiesDb<Instructor, InstructorAttrib
         instructor.setRole(newAttributes.getRole());
         instructor.setIsDisplayedToStudents(newAttributes.isDisplayedToStudents());
         instructor.setDisplayedName(newAttributes.getDisplayedName());
-        instructor.setInstructorPrivilegeAsText(newAttributes.getTextFromInstructorPrivileges());
+        instructor.setInstructorPrivilegeAsText(newAttributes.getInstructorPrivilegesAsText());
 
         saveEntity(instructor);
 
@@ -231,7 +252,7 @@ public final class InstructorsDb extends EntitiesDb<Instructor, InstructorAttrib
                 && this.<Boolean>hasSameValue(instructor.isDisplayedToStudents(), newAttributes.isDisplayedToStudents())
                 && this.<String>hasSameValue(instructor.getDisplayedName(), newAttributes.getDisplayedName())
                 && this.<String>hasSameValue(
-                        instructor.getInstructorPrivilegesAsText(), newAttributes.getTextFromInstructorPrivileges());
+                        instructor.getInstructorPrivilegesAsText(), newAttributes.getInstructorPrivilegesAsText());
         if (hasSameAttributes) {
             log.info(String.format(OPTIMIZED_SAVING_POLICY_APPLIED, Instructor.class.getSimpleName(), updateOptions));
             return newAttributes;
@@ -243,7 +264,7 @@ public final class InstructorsDb extends EntitiesDb<Instructor, InstructorAttrib
         instructor.setRole(newAttributes.getRole());
         instructor.setIsDisplayedToStudents(newAttributes.isDisplayedToStudents());
         instructor.setDisplayedName(newAttributes.getDisplayedName());
-        instructor.setInstructorPrivilegeAsText(newAttributes.getTextFromInstructorPrivileges());
+        instructor.setInstructorPrivilegeAsText(newAttributes.getInstructorPrivilegesAsText());
 
         saveEntity(instructor);
 

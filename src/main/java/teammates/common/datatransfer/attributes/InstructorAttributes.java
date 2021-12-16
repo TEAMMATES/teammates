@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Objects;
 
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.InstructorPrivilegesLegacy;
+import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
@@ -75,8 +77,9 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
             instructorAttributes.privileges =
                     new InstructorPrivileges(instructorAttributes.role);
         } else {
-            instructorAttributes.privileges =
-                    JsonUtils.fromJson(instructor.getInstructorPrivilegesAsText(), InstructorPrivileges.class);
+            InstructorPrivilegesLegacy privilegesLegacy =
+                    JsonUtils.fromJson(instructor.getInstructorPrivilegesAsText(), InstructorPrivilegesLegacy.class);
+            instructorAttributes.privileges = new InstructorPrivileges(privilegesLegacy);
         }
         if (instructor.getCreatedAt() != null) {
             instructorAttributes.createdAt = instructor.getCreatedAt();
@@ -107,8 +110,8 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
         return instructorAttributes;
     }
 
-    public String getTextFromInstructorPrivileges() {
-        return JsonUtils.toJson(privileges, InstructorPrivileges.class);
+    public String getInstructorPrivilegesAsText() {
+        return JsonUtils.toJson(privileges.toLegacyFormat(), InstructorPrivilegesLegacy.class);
     }
 
     public String getName() {
@@ -171,10 +174,17 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
         return googleId != null && !googleId.trim().isEmpty();
     }
 
+    public String getRegistrationUrl() {
+        return Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
+                .withRegistrationKey(key)
+                .withEntityType(Const.EntityType.INSTRUCTOR)
+                .toString();
+    }
+
     @Override
     public Instructor toEntity() {
         return new Instructor(googleId, courseId, isArchived, name, email, role,
-                              isDisplayedToStudents, displayedName, getTextFromInstructorPrivileges());
+                              isDisplayedToStudents, displayedName, getInstructorPrivilegesAsText());
     }
 
     @Override

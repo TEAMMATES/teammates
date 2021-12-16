@@ -1,6 +1,5 @@
 package teammates.logic.core;
 
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -56,6 +55,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
         testVerifyAtLeastOneInstructorIsDisplayed();
         testAddInstructor();
         testGetCoOwnersForCourse();
+        testRegenerateInstructorRegistrationKey();
         testUpdateInstructorByGoogleIdCascade();
         testUpdateInstructorByEmail();
         testUpdateToEnsureValidityOfInstructorsForTheCourse();
@@ -215,7 +215,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
         coursesLogic.createCourse(
                 CourseAttributes.builder(courseId)
                         .withName("New course")
-                        .withTimezone(ZoneId.of("UTC"))
+                        .withTimezone("UTC")
                         .withInstitute("Test institute")
                         .build());
 
@@ -691,6 +691,31 @@ public class InstructorsLogicTest extends BaseLogicTest {
 
         assertTrue(instructorToUpdate.getPrivileges().isAllowedForPrivilege(
                 Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
+    }
+
+    private void testRegenerateInstructorRegistrationKey() throws Exception {
+        ______TS("typical regeneration of instructor's registration key");
+
+        InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        verifyPresentInDatabase(instructor1OfCourse1);
+
+        InstructorAttributes updatedStudent =
+                instructorsLogic.regenerateInstructorRegistrationKey(
+                        instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getEmail());
+
+        assertNotEquals(instructor1OfCourse1.getKey(), updatedStudent.getKey());
+
+        ______TS("non-existent instructor");
+
+        String nonExistentEmail = "non-existent@email";
+        assertNull(instructorsLogic.getInstructorForEmail(instructor1OfCourse1.getCourseId(), nonExistentEmail));
+
+        EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
+                () -> instructorsLogic.regenerateInstructorRegistrationKey(
+                        instructor1OfCourse1.getCourseId(), nonExistentEmail));
+        assertEquals("The instructor with the email " + nonExistentEmail + " could not be found for the course "
+                        + "with ID [" + instructor1OfCourse1.getCourseId() + "].",
+                ednee.getMessage());
     }
 
 }

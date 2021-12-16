@@ -1,7 +1,5 @@
 package teammates.ui.webapi;
 
-import java.time.ZoneId;
-
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -54,7 +52,7 @@ class CreateCourseAction extends Action {
         CourseAttributes courseAttributes =
                 CourseAttributes.builder(newCourseId)
                         .withName(newCourseName)
-                        .withTimezone(ZoneId.of(newCourseTimeZone))
+                        .withTimezone(newCourseTimeZone)
                         .withInstitute(institute)
                         .build();
 

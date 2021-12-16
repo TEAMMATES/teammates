@@ -13,7 +13,6 @@ import { StudentService } from '../../../services/student.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import {
   AuthInfo,
-  FeedbackQuestionType,
   FeedbackSession, FeedbackSessionLogType,
   FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus,
   Instructor,
@@ -36,6 +35,9 @@ import { ErrorMessageOutput } from '../../error-message-output';
   styleUrls: ['./session-result-page.component.scss'],
 })
 export class SessionResultPageComponent implements OnInit {
+
+  // enum
+  Intent: typeof Intent = Intent;
 
   session: FeedbackSession = {
     courseId: '',
@@ -65,9 +67,6 @@ export class SessionResultPageComponent implements OnInit {
   visibilityRecipient: FeedbackVisibilityType = FeedbackVisibilityType.RECIPIENT;
 
   intent: Intent = Intent.STUDENT_RESULT;
-  RESPONSE_HIDDEN_QUESTIONS: FeedbackQuestionType[] = [
-    FeedbackQuestionType.CONTRIB,
-  ];
 
   isFeedbackSessionResultsLoading: boolean = false;
   hasFeedbackSessionResultsLoadingFailed: boolean = false;
@@ -123,7 +122,11 @@ export class SessionResultPageComponent implements OnInit {
               if (this.loggedInUser) {
                 // Registration key belongs to another user who is not the logged in user
                 this.navigationService.navigateWithErrorMessage(this.router, '/web/front',
-                    'You are not authorized to view this page.');
+                    `You are trying to access TEAMMATES using the Google account ${this.loggedInUser}, which
+                    is not linked to this TEAMMATES account. If you used a different Google account to
+                    join/access TEAMMATES before, please use that Google account to access TEAMMATES. If you
+                    cannot remember which Google account you used before, please email us at
+                    ${environment.supportEmail} for help.`);
               } else {
                 // There is no logged in user for a valid, used registration key, redirect to login page
                 window.location.href = `${this.backendUrl}${auth.studentLoginUrl}`;
@@ -220,25 +223,16 @@ export class SessionResultPageComponent implements OnInit {
     });
   }
 
-  canUserSeeResponses(question: QuestionOutput): boolean {
-    const showResponsesTo: FeedbackVisibilityType[] = question.feedbackQuestion.showResponsesTo;
-
-    if (this.intent === Intent.STUDENT_RESULT) {
-      return showResponsesTo.filter((visibilityType: FeedbackVisibilityType) =>
-          visibilityType !== FeedbackVisibilityType.INSTRUCTORS).length > 0;
-    }
-    if (this.intent === Intent.INSTRUCTOR_RESULT) {
-      return showResponsesTo.filter((visibilityType: FeedbackVisibilityType) =>
-          visibilityType === FeedbackVisibilityType.INSTRUCTORS).length > 0;
-    }
-    return false;
-  }
-
   /**
    * Redirects to join course link for unregistered student.
    */
   joinCourseForUnregisteredStudent(): void {
     this.navigationService.navigateByURL(this.router, '/web/join', { entitytype: 'student', key: this.regKey });
+  }
+
+  navigateToSessionReportPage(): void {
+    this.navigationService.navigateByURL(this.router, '/web/instructor/sessions/report',
+        { courseid: this.courseId, fsname: this.feedbackSessionName });
   }
 
   retryLoadingFeedbackSessionResults(): void {

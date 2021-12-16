@@ -6,8 +6,6 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.time.Instant;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
 
@@ -560,7 +558,7 @@ public class FeedbackSubmitPage extends AppPage {
         return browser.driver.findElement(By.id("instructions")).getAttribute("innerHTML");
     }
 
-    private void assertDateEquals(String actual, Instant instant, ZoneId timeZone) {
+    private void assertDateEquals(String actual, Instant instant, String timeZone) {
         String dateStrWithAbbr = getDateStringWithAbbr(instant, timeZone);
         String dateStrWithOffset = getDateStringWithOffset(instant, timeZone);
 
@@ -568,16 +566,12 @@ public class FeedbackSubmitPage extends AppPage {
         assertTrue(isExpected);
     }
 
-    private String getDateStringWithAbbr(Instant instant, ZoneId timeZone) {
-        return DateTimeFormatter
-                .ofPattern("EE, dd MMM, yyyy, hh:mm a z")
-                .format(instant.atZone(timeZone));
+    private String getDateStringWithAbbr(Instant instant, String timeZone) {
+        return getDisplayedDateTime(instant, timeZone, "EE, dd MMM, yyyy, hh:mm a z");
     }
 
-    private String getDateStringWithOffset(Instant instant, ZoneId timeZone) {
-        return DateTimeFormatter
-                .ofPattern("EE, dd MMM, yyyy, hh:mm a X")
-                .format(instant.atZone(timeZone));
+    private String getDateStringWithOffset(Instant instant, String timeZone) {
+        return getDisplayedDateTime(instant, timeZone, "EE, dd MMM, yyyy, hh:mm a X");
     }
 
     private WebElement getQuestionForm(int qnNumber) {
@@ -657,10 +651,12 @@ public class FeedbackSubmitPage extends AppPage {
     private String getRecipientString(FeedbackParticipantType recipientType) {
         switch(recipientType) {
         case TEAMS:
+        case TEAMS_IN_SAME_SECTION:
             return "teams";
         case OWN_TEAM_MEMBERS:
             return "student";
         case STUDENTS:
+        case STUDENTS_IN_SAME_SECTION:
             return "students";
         case INSTRUCTORS:
             return "instructors";

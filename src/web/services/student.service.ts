@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 import { JoinStatePipe } from '../app/components/student-list/join-state.pipe';
 import { ResourceEndpoints } from '../types/api-const';
-import { Course, EnrollStudents, MessageOutput, Student, Students } from '../types/api-output';
+import { Course, EnrollStudents, MessageOutput, RegenerateKey, Student, Students } from '../types/api-output';
 import { StudentsEnrollRequest, StudentUpdateRequest } from '../types/api-request';
 import { SortBy, SortOrder } from '../types/sort-properties';
 import { CourseService } from './course.service';
@@ -91,14 +91,14 @@ export class StudentService {
   }
 
   /**
-   * Regenerates the links for a student in a course.
+   * Regenerates the registration key for a student in a course.
    */
-  regenerateStudentCourseLinks(courseId: string, studentEmail: string): Observable<any> {
+  regenerateStudentKey(courseId: string, studentEmail: string): Observable<RegenerateKey> {
     const paramsMap: Record<string, string> = {
       courseid: courseId,
       studentemail: studentEmail,
     };
-    return this.httpRequestService.post(ResourceEndpoints.STUDENT_COURSE_LINKS_REGENERATION, paramsMap);
+    return this.httpRequestService.post(ResourceEndpoints.STUDENT_KEY, paramsMap);
   }
 
   /**

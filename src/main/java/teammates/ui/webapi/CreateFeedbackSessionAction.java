@@ -1,5 +1,8 @@
 package teammates.ui.webapi;
 
+import java.time.Instant;
+
+import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -9,8 +12,8 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
+import teammates.common.util.TimeHelper;
 import teammates.ui.output.FeedbackSessionData;
-import teammates.ui.output.InstructorPrivilegeData;
 import teammates.ui.request.FeedbackSessionCreateRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 
@@ -48,17 +51,26 @@ class CreateFeedbackSessionAction extends Action {
 
         String feedbackSessionName = SanitizationHelper.sanitizeTitle(createRequest.getFeedbackSessionName());
 
+        String timeZone = course.getTimeZone();
+        Instant startTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                createRequest.getSubmissionStartTime(), timeZone, true);
+        Instant endTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                createRequest.getSubmissionEndTime(), timeZone, true);
+        Instant sessionVisibleTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                createRequest.getSessionVisibleFromTime(), timeZone, true);
+        Instant resultsVisibleTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                createRequest.getResultsVisibleFromTime(), timeZone, true);
         FeedbackSessionAttributes fs =
                 FeedbackSessionAttributes
                         .builder(feedbackSessionName, course.getId())
                         .withCreatorEmail(instructor.getEmail())
                         .withTimeZone(course.getTimeZone())
                         .withInstructions(createRequest.getInstructions())
-                        .withStartTime(createRequest.getSubmissionStartTime())
-                        .withEndTime(createRequest.getSubmissionEndTime())
+                        .withStartTime(startTime)
+                        .withEndTime(endTime)
                         .withGracePeriod(createRequest.getGracePeriod())
-                        .withSessionVisibleFromTime(createRequest.getSessionVisibleFromTime())
-                        .withResultsVisibleFromTime(createRequest.getResultsVisibleFromTime())
+                        .withSessionVisibleFromTime(sessionVisibleTime)
+                        .withResultsVisibleFromTime(resultsVisibleTime)
                         .withIsClosingEmailEnabled(createRequest.isClosingEmailEnabled())
                         .withIsPublishedEmailEnabled(createRequest.isPublishedEmailEnabled())
                         .build();
@@ -66,7 +78,9 @@ class CreateFeedbackSessionAction extends Action {
         try {
             logic.createFeedbackSession(fs);
         } catch (EntityAlreadyExistsException e) {
-            throw new InvalidOperationException(e);
+            throw new InvalidOperationException("A session named " + feedbackSessionName
+                     + " exists already in the course " + course.getName()
+                     + " (Course ID: " + courseId + ")", e);
         } catch (InvalidParametersException e) {
             throw new InvalidHttpRequestBodyException(e);
         }
@@ -75,10 +89,9 @@ class CreateFeedbackSessionAction extends Action {
             createFeedbackQuestions(createRequest.getToCopyCourseId(), courseId, createRequest.getFeedbackSessionName(),
                     createRequest.getToCopySessionName());
         }
-
         fs = getNonNullFeedbackSession(fs.getFeedbackSessionName(), fs.getCourseId());
         FeedbackSessionData output = new FeedbackSessionData(fs);
-        InstructorPrivilegeData privilege = constructInstructorPrivileges(instructor, feedbackSessionName);
+        InstructorPermissionSet privilege = constructInstructorPrivileges(instructor, feedbackSessionName);
         output.setPrivileges(privilege);
 
         return new JsonResult(output);

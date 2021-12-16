@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.time.Instant;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
@@ -32,7 +31,7 @@ import teammates.common.datatransfer.questions.FeedbackRankOptionsResponseDetail
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackRubricQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackRubricResponseDetails;
-import teammates.common.util.TimeHelper;
+import teammates.e2e.util.TestProperties;
 
 /**
  * Represents the "Results" page for Instructors.
@@ -709,7 +708,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
             return response.getAnswerString();
         case MCQ:
         case MSQ:
-            return response.getAnswerString().replace(", ", System.lineSeparator());
+            return response.getAnswerString().replace(", ", TestProperties.LINE_SEPARATOR);
         case RUBRIC:
             return getRubricAnsString((FeedbackRubricQuestionDetails) question.getQuestionDetailsCopy(),
                     (FeedbackRubricResponseDetails) response);
@@ -734,7 +733,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         for (int answer : answers) {
             answerStrings.add(choices.get(answer) + " (Choice " + (answer + 1) + ")");
         }
-        return String.join(System.lineSeparator(), answerStrings);
+        return String.join(TestProperties.LINE_SEPARATOR, answerStrings);
     }
 
     private String getRankOptionsAnsString(FeedbackRankOptionsQuestionDetails question,
@@ -745,7 +744,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         for (int i = 1; i <= options.size(); i++) {
             answerStrings.add(i + ": " + options.get(answers.indexOf(i)));
         }
-        return String.join(System.lineSeparator(), answerStrings);
+        return String.join(TestProperties.LINE_SEPARATOR, answerStrings);
     }
 
     private String getConstSumOptionsAnsString(FeedbackConstantSumQuestionDetails question,
@@ -760,7 +759,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
             answerStrings.add(options.get(i) + ": " + answers.get(i));
         }
         answerStrings.sort(Comparator.naturalOrder());
-        return String.join(System.lineSeparator(), answerStrings);
+        return String.join(TestProperties.LINE_SEPARATOR, answerStrings);
     }
 
     private String getContribAnsString(FeedbackContributionResponseDetails responseDetails) {
@@ -783,8 +782,8 @@ public class InstructorFeedbackResultsPage extends AppPage {
                 + getDateString(feedbackSession.getEndTime(), feedbackSession.getTimeZone());
     }
 
-    private String getDateString(Instant date, ZoneId timeZone) {
-        return TimeHelper.formatInstant(date, timeZone, "EEE, dd MMM, yyyy, hh:mm a X");
+    private String getDateString(Instant date, String timeZone) {
+        return getDisplayedDateTime(date, timeZone, "EEE, dd MMM, yyyy, hh:mm a X");
     }
 
     private String getDoubleString(double value) {

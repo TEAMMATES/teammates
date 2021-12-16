@@ -2,7 +2,6 @@ package teammates.common.util;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.time.ZoneId;
 
 /**
  * Stores constants that are widely used across classes.
@@ -27,11 +26,13 @@ public final class Const {
 
     public static final String UNKNOWN_INSTITUTION = "Unknown Institution";
 
-    public static final ZoneId DEFAULT_TIME_ZONE = ZoneId.of("UTC");
+    public static final String DEFAULT_TIME_ZONE = "UTC";
     public static final String ENCODING = "UTF8";
 
     public static final Duration FEEDBACK_SESSIONS_SEARCH_WINDOW = Duration.ofDays(30);
     public static final Duration LOGS_RETENTION_PERIOD = Duration.ofDays(30);
+
+    public static final int SEARCH_QUERY_SIZE_LIMIT = 50;
 
     // These constants are used as variable values to mean that the variable is in a 'special' state.
 
@@ -107,8 +108,6 @@ public final class Const {
         public static final String COURSE_STATUS = "coursestatus";
         public static final String INSTRUCTOR_ID = "instructorid";
         public static final String INSTRUCTOR_EMAIL = "instructoremail";
-
-        public static final String INSTRUCTOR_ROLE_NAME = "instructorrole";
 
         public static final String FEEDBACK_SESSION_NAME = "fsname";
         public static final String FEEDBACK_SESSION_STARTTIME = "starttime";
@@ -259,6 +258,7 @@ public final class Const {
         public static final String INSTRUCTOR_SESSION_SUBMISSION_PAGE = INSTRUCTOR_PAGE + "/sessions/submission";
         public static final String INSTRUCTOR_SESSION_EDIT_PAGE = INSTRUCTOR_PAGE + "/sessions/edit";
         public static final String INSTRUCTOR_SESSION_RESULTS_PAGE = INSTRUCTOR_PAGE + "/sessions/result";
+        public static final String INSTRUCTOR_SESSION_REPORT_PAGE = INSTRUCTOR_PAGE + "/sessions/report";
         public static final String INSTRUCTOR_COURSES_PAGE = INSTRUCTOR_PAGE + "/courses";
         public static final String INSTRUCTOR_COURSE_DETAILS_PAGE = INSTRUCTOR_PAGE + "/courses/details";
         public static final String INSTRUCTOR_COURSE_EDIT_PAGE = INSTRUCTOR_PAGE + "/courses/edit";
@@ -304,9 +304,11 @@ public final class Const {
         public static final String INSTRUCTORS = URI_PREFIX + "/instructors";
         public static final String INSTRUCTOR = URI_PREFIX + "/instructor";
         public static final String INSTRUCTOR_PRIVILEGE = URI_PREFIX + "/instructor/privilege";
+        public static final String INSTRUCTOR_KEY = URI_PREFIX + "/instructor/key";
         public static final String RESULT = URI_PREFIX + "/result";
         public static final String STUDENTS = URI_PREFIX + "/students";
         public static final String STUDENT = URI_PREFIX + "/student";
+        public static final String STUDENT_KEY = URI_PREFIX + "/student/key";
         public static final String SESSIONS_ONGOING = URI_PREFIX + "/sessions/ongoing";
         public static final String SESSION = URI_PREFIX + "/session";
         public static final String SESSION_PUBLISH = URI_PREFIX + "/session/publish";
@@ -336,7 +338,6 @@ public final class Const {
 
         public static final String STUDENT_PROFILE_PICTURE = URI_PREFIX + "/student/profilePic";
         public static final String STUDENT_PROFILE = URI_PREFIX + "/student/profile";
-        public static final String STUDENT_COURSE_LINKS_REGENERATION = URI_PREFIX + "/student/courselinks/regeneration";
     }
 
     /**

@@ -300,6 +300,7 @@ public final class FeedbackResponsesLogic {
         }
         boolean isStudentRecipientType =
                    question.getRecipientType().equals(FeedbackParticipantType.STUDENTS)
+                || question.getRecipientType().equals(FeedbackParticipantType.STUDENTS_IN_SAME_SECTION)
                 || question.getRecipientType().equals(FeedbackParticipantType.OWN_TEAM_MEMBERS)
                 || question.getRecipientType().equals(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF)
                 || question.getRecipientType().equals(FeedbackParticipantType.GIVER)
@@ -620,6 +621,10 @@ public final class FeedbackResponsesLogic {
                     && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
                     && response.getRecipient().equals(student.getTeam())) {
                 isVisibleResponse = true;
+            } else if (relatedQuestion.getRecipientType() == FeedbackParticipantType.TEAMS_IN_SAME_SECTION
+                    && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
+                    && response.getRecipient().equals(student.getTeam())) {
+                isVisibleResponse = true;
             } else if (relatedQuestion.getGiverType() == FeedbackParticipantType.TEAMS
                     && response.getGiver().equals(student.getTeam())) {
                 isVisibleResponse = true;
@@ -917,9 +922,10 @@ public final class FeedbackResponsesLogic {
             );
         }
 
-        // Add responses that user is a receiver of when response is visible to receiver
+        // Add responses that user is a receiver of when response is visible to receiver or instructors
         if (question.getRecipientType() == FeedbackParticipantType.INSTRUCTORS
-                && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)) {
+                && (question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
+                || question.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS))) {
             viewableResponses.addNewResponses(
                     getFeedbackResponsesForReceiverForQuestion(question.getFeedbackQuestionId(), instructor.getEmail())
             );
