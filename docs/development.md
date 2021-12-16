@@ -99,6 +99,49 @@ npm run build
 
 After this, the back-end dev server will also be able to serve the front-end.
 
+## Running the Datastore emulator
+
+The Datastore emulator is an essential tool that we use to locally simulate production Datastore environment during development and testing of relevant features. For more information about the Datastore emulator, refer to [Google's official documentation](https://cloud.google.com/datastore/docs/tools/datastore-emulator).
+
+### Using quickstart script
+
+You can use the pre-provided quickstart script which will run a local Datastore emulator instance sufficient for development use cases. The script is run via the following command:
+```sh
+./gradlew runDatastoreEmulator
+```
+
+The Datastore emulator will be running in the port specified in the `build.properties` file.
+
+### Using Docker-based tooling
+
+We have a Docker compose definition to run dependent services, including local Datastore emulator. Run it under the `datastore` service name and bind to the container port `8484`:
+```sh
+docker-compose run -p 8484:8484 datastore
+```
+
+### Using Cloud SDK
+
+Alternatively, you can use `gcloud` command to manage the local Datastore emulator instance directly. For this, you need a working [Google Cloud SDK](https://cloud.google.com/sdk/docs) in your development environment.
+
+1. Install the Datastore emulator component if you have not done so:
+   ```sh
+   gcloud components install cloud-datastore-emulator
+   ```
+1. To run the emulator in port `8484`:
+   ```sh
+   gcloud beta emulators datastore start --host-port=localhost:8484
+   ```
+   Wait until you see the following message:
+   ```
+   [datastore] Dev App Server is now running.
+   ```
+
+### Stopping the emulator
+
+To stop the Datastore emulator, use any method available in your OS to locate and stop the process at the port used for the emulator.
+
+If you are using the Cloud SDK method, you can use `Ctrl + C` in the console to stop the process. If the emulator fails to stop gracefully, use the previously described method.
+
 ## Logging in to a TEAMMATES instance
 
 This instruction set applies for both dev server and production server, with slight differences explained where applicable.
@@ -109,7 +152,7 @@ This instruction set applies for both dev server and production server, with sli
 ### As administrator
 
 1. Go to any administrator page, e.g `/web/admin/home`. You may be prompted to log in.
-   You will be granted access only if your account has admin permission as defined in `build.properties`.
+   You will be granted access only if your account has admin permission as defined in `build.properties`. To log in using your admin name you have to edit `build.properties` to grant your username permission and run datastore emulator as defined above. 
 1. When logged in as administrator, ***masquerade mode*** can also be used to impersonate instructors and students by adding `user=username` to the URL
  e.g `http://localhost:8080/web/student/home?user=johnKent`.
 
@@ -163,48 +206,7 @@ To "log out", submit the following API call:
 GET http://localhost:8080/logout
 ```
 
-## Running the Datastore emulator
 
-The Datastore emulator is an essential tool that we use to locally simulate production Datastore environment during development and testing of relevant features. For more information about the Datastore emulator, refer to [Google's official documentation](https://cloud.google.com/datastore/docs/tools/datastore-emulator).
-
-### Using quickstart script
-
-You can use the pre-provided quickstart script which will run a local Datastore emulator instance sufficient for development use cases. The script is run via the following command:
-```sh
-./gradlew runDatastoreEmulator
-```
-
-The Datastore emulator will be running in the port specified in the `build.properties` file.
-
-### Using Docker-based tooling
-
-We have a Docker compose definition to run dependent services, including local Datastore emulator. Run it under the `datastore` service name and bind to the container port `8484`:
-```sh
-docker-compose run -p 8484:8484 datastore
-```
-
-### Using Cloud SDK
-
-Alternatively, you can use `gcloud` command to manage the local Datastore emulator instance directly. For this, you need a working [Google Cloud SDK](https://cloud.google.com/sdk/docs) in your development environment.
-
-1. Install the Datastore emulator component if you have not done so:
-   ```sh
-   gcloud components install cloud-datastore-emulator
-   ```
-1. To run the emulator in port `8484`:
-   ```sh
-   gcloud beta emulators datastore start --host-port=localhost:8484
-   ```
-   Wait until you see the following message:
-   ```
-   [datastore] Dev App Server is now running.
-   ```
-
-### Stopping the emulator
-
-To stop the Datastore emulator, use any method available in your OS to locate and stop the process at the port used for the emulator.
-
-If you are using the Cloud SDK method, you can use `Ctrl + C` in the console to stop the process. If the emulator fails to stop gracefully, use the previously described method.
 
 ## Testing
 
