@@ -166,11 +166,19 @@ public class StudentProfilePage extends AppPage {
     public void verifyPhotoSize(int height, int width) {
         String browserHeight = browser.driver.findElement(By.className("profile-pic")).getCssValue("height");
         String browserWidth = browser.driver.findElement(By.className("profile-pic")).getCssValue("width");
-        //Remove px from Dimension Strings to turn it into a number
         float imageHeight = Float.parseFloat(browserHeight.replaceFirst("px$", ""));
         float imageWidth = Float.parseFloat(browserWidth.replaceFirst("px$", ""));
         assertEquals(height, imageHeight, 1.0);
         assertEquals(width, imageWidth, 1.0);
+    }
+
+    public void uploadProfilePicAndVerifyDimensions(String imagePath,
+                                                     int height, int width) {
+        fillProfilePic(imagePath);
+        uploadPicture();
+        verifyStatusMessage("Your profile picture has been saved successfully");
+        showPictureEditor();
+        verifyPhotoSize(height, width);
         closePictureEditor();
     }
 

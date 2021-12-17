@@ -31,7 +31,7 @@ public class StudentProfilePageE2ETest extends BaseE2ETestCase {
                 "Singaporean", StudentProfileAttributes.Gender.MALE, "I am just another student :P");
 
         ______TS("Typical case: picture upload and edit");
-        uploadProfilePicAndVerifyDimensions(profilePage, "src/test/resources/images/profile_pic.png", 220, 220);
+        profilePage.uploadProfilePicAndVerifyDimensions("src/test/resources/images/profile_pic.png", 220, 220);
 
         profilePage.showPictureEditor();
         profilePage.waitForUploadEditModalVisible();
@@ -39,8 +39,8 @@ public class StudentProfilePageE2ETest extends BaseE2ETestCase {
         profilePage.closePictureEditor();
 
         ______TS("Typical case: Profile picture ratios");
-        uploadProfilePicAndVerifyDimensions(profilePage, "src/test/resources/images/profile_pic_too_wide.jpg", 171, 220);
-        uploadProfilePicAndVerifyDimensions(profilePage, "src/test/resources/images/profile_pic_too_tall.jpg", 220, 121);
+        profilePage.uploadProfilePicAndVerifyDimensions("src/test/resources/images/profile_pic_too_wide.jpg", 171, 220);
+        profilePage.uploadProfilePicAndVerifyDimensions("src/test/resources/images/profile_pic_too_tall.jpg", 220, 121);
 
         ______TS("Typical case: edit profile page");
         profilePage.editProfileThroughUi("short.name", "e@email.tmt", "inst", "American",
@@ -49,14 +49,5 @@ public class StudentProfilePageE2ETest extends BaseE2ETestCase {
 
         profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "American",
                 StudentProfileAttributes.Gender.FEMALE, "this is enough!$%&*</>");
-    }
-
-    private void uploadProfilePicAndVerifyDimensions(StudentProfilePage profilePage, String imagePath,
-                                                     int height, int width) {
-        profilePage.fillProfilePic(imagePath);
-        profilePage.uploadPicture();
-        profilePage.verifyStatusMessage("Your profile picture has been saved successfully");
-        profilePage.showPictureEditor();
-        profilePage.verifyPhotoSize(height, width);
     }
 }
