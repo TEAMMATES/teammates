@@ -98,26 +98,26 @@ export class QuestionSubmissionFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.sortRecepientsByName();
+    this.sortRecipientsByName();
   }
 
   /**
-   * Sorts recepients of feedback by their name.
+   * Sorts recipients of feedback by their name.
    *
-   * Feedback recepients are initially sorted by their email address.
+   * Feedback recipients are initially sorted by their email address.
    */
-  private sortRecepientsByName(): void {
-    this.model.recipientList.sort((firstRecepient: FeedbackResponseRecipient,
-      secondRecepient: FeedbackResponseRecipient) => 
-        firstRecepient.recipientName.localeCompare(secondRecepient.recipientName));
+  private sortRecipientsByName(): void {
+    this.model.recipientList.sort((firstRecipient: FeedbackResponseRecipient,
+      secondRecipient: FeedbackResponseRecipient) =>
+        firstRecipient.recipientName.localeCompare(secondRecipient.recipientName));
 
-    this.model.recipientSubmissionForms.sort((firstRecepient: FeedbackResponseRecipientSubmissionFormModel,
-      secondRecepient: FeedbackResponseRecipientSubmissionFormModel) => {
+    this.model.recipientSubmissionForms.sort((firstRecipient: FeedbackResponseRecipientSubmissionFormModel,
+      secondRecipient: FeedbackResponseRecipientSubmissionFormModel) => {
       const indexOne: number = this.model.recipientList.findIndex((x: FeedbackResponseRecipient) =>
-        x.recipientIdentifier === firstRecepient.recipientIdentifier);
+        x.recipientIdentifier === firstRecipient.recipientIdentifier);
 
       const indexTwo: number = this.model.recipientList.findIndex((x: FeedbackResponseRecipient) =>
-        x.recipientIdentifier === secondRecepient.recipientIdentifier);
+        x.recipientIdentifier === secondRecipient.recipientIdentifier);
 
       return indexOne - indexTwo;
     });
