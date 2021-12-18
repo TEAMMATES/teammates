@@ -103,8 +103,6 @@ export class QuestionSubmissionFormComponent implements OnInit {
 
   /**
    * Sorts recipients of feedback by their name.
-   *
-   * Feedback recipients are initially sorted by their email address.
    */
   private sortRecipientsByName(): void {
     this.model.recipientList.sort((firstRecipient: FeedbackResponseRecipient,
