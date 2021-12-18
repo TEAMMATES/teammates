@@ -105,7 +105,7 @@ describe('CommentEditFormComponent', () => {
     expect(spy1).toHaveBeenCalledWith(visibilityType, visibilityControl);
     expect(spy2).toHaveBeenCalledWith(modelChangeBatch);
 
-    const spy3 = spyOn(component.visibilityStateMachine, 'disallowToSee');
+    const spy3: any = spyOn(component.visibilityStateMachine, 'disallowToSee');
     component.modifyVisibilityControl(false, visibilityType, visibilityControl);
 
     expect(spy3).toHaveBeenCalledWith(visibilityType, visibilityControl);
