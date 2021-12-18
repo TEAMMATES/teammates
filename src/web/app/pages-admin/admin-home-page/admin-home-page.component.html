@@ -59,25 +59,14 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let instructor of instructorsConsolidated; let i = index">
-            <td>{{ instructor.name }}</td>
-            <td>{{ instructor.email }}</td>
-            <td>{{ instructor.institution }}</td>
-            <td>
-              <div class="button-group" *ngIf="instructor.status === 'PENDING' || instructor.status === 'FAIL'">
-                <button class="action-btn btn btn-sm btn-primary text-nowrap" id="add-instructor-{{ i }}" style="margin-right: 10px;" (click)="addInstructor(i)" [disabled]="activeRequests > 0">Add Instructor</button>
-                <button class="action-btn btn btn-sm btn-info text-nowrap" id="edit-instructor-{{ i }}" style="margin-right: 10px;">Edit</button>
-                <button class="action-btn btn btn-sm btn-danger" id="cancel-instructor-{{ i }}" (click)="cancelInstructor(i)">Cancel</button>
-              </div>
-            </td>
-            <td>{{ instructor.status }}</td>
-            <td style="width: 500px;">
-              <span *ngIf="instructor.status === 'SUCCESS'" id="message-instructor-{{ i }}">
-                Instructor "{{ instructor.name }}" has been successfully created. [<a href="{{ instructor.joinLink }}">join link</a>]
-              </span>
-              <span class="message" *ngIf="instructor.status === 'FAIL'" id="message-instructor-{{ i }}">{{ instructor.message }}</span>
-            </td>
-          </tr>
+          <tr tm-new-instructor-data-row
+              *ngFor="let instructor of instructorsConsolidated; let i = index"
+              [instructor]="instructor"
+              [index]="i"
+              [activeRequests]="activeRequests"
+              (onAddInstructor)="addInstructor(i)"
+              (onCancelInstructor)="cancelInstructor(i)"
+          ></tr>
         </tbody>
       </table>
       <button class="btn btn-primary top-padded" (click)="addAllInstructors()" id="add-all-instructors" [disabled]="activeRequests > 0 || isAddingInstructors">

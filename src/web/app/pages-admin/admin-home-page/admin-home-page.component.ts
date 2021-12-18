@@ -3,15 +3,7 @@ import { finalize } from 'rxjs/operators';
 import { AccountService } from '../../../services/account.service';
 import { JoinLink } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
-
-interface InstructorData {
-  name: string;
-  email: string;
-  institution: string;
-  status: string;
-  joinLink?: string;
-  message?: string;
-}
+import {InstructorData} from "../../components/new-instructor-data-row/instructor-data";
 
 /**
  * Admin home page.
