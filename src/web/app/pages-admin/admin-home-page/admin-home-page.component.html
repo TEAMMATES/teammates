@@ -66,6 +66,7 @@
               [activeRequests]="activeRequests"
               (onAddInstructor)="addInstructor(i)"
               (onCancelInstructor)="cancelInstructor(i)"
+              (onToggleEditMode)="setInstructorRowEditModeEnabled(i, $event)"
           ></tr>
         </tbody>
       </table>

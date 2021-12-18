@@ -21,6 +21,7 @@ export class AdminHomePageComponent {
   instructorInstitution: string = '';
 
   instructorsConsolidated: InstructorData[] = [];
+  isInstructorRowEditModeEnabled: boolean[] = [];
   activeRequests: number = 0;
 
   isAddingInstructors: boolean = false;
@@ -50,6 +51,7 @@ export class AdminHomePageComponent {
         institution: instructorDetailSplit[2],
         status: 'PENDING',
       });
+      this.isInstructorRowEditModeEnabled.push(false);
     }
     this.instructorDetails = invalidLines.join('\r\n');
   }
@@ -68,6 +70,7 @@ export class AdminHomePageComponent {
       institution: this.instructorInstitution,
       status: 'PENDING',
     });
+    this.isInstructorRowEditModeEnabled.push(false);
     this.instructorName = '';
     this.instructorEmail = '';
     this.instructorInstitution = '';
@@ -78,7 +81,7 @@ export class AdminHomePageComponent {
    */
   addInstructor(i: number): void {
     const instructor: InstructorData = this.instructorsConsolidated[i];
-    if (instructor.status !== 'PENDING' && instructor.status !== 'FAIL') {
+    if (this.isInstructorRowEditModeEnabled[i] || (instructor.status !== 'PENDING' && instructor.status !== 'FAIL')) {
       return;
     }
     this.activeRequests += 1;
@@ -107,6 +110,10 @@ export class AdminHomePageComponent {
    */
   cancelInstructor(i: number): void {
     this.instructorsConsolidated.splice(i, 1);
+  }
+
+  setInstructorRowEditModeEnabled(i: number, isEnabled: boolean): void {
+    this.isInstructorRowEditModeEnabled[i] = isEnabled;
   }
 
   /**
