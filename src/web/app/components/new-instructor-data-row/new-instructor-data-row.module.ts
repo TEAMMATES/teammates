@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import {NewInstructorDataRowComponent} from "./new-instructor-data-row.component";
+import {FormsModule} from "@angular/forms";
 
 /**
  * Module for rows of new instructor data.
@@ -12,6 +13,7 @@ import {NewInstructorDataRowComponent} from "./new-instructor-data-row.component
   ],
   imports: [
     CommonModule,
+    FormsModule,
   ],
 })
 export class NewInstructorDataRowModule { }

@@ -16,6 +16,11 @@ export class NewInstructorDataRowComponent implements OnInit {
   @Output() onAddInstructor: EventEmitter<void> = new EventEmitter();
   @Output() onCancelInstructor: EventEmitter<void> = new EventEmitter();
 
+  isBeingEdited: boolean = false;
+  editedInstructorName!: string;
+  editedInstructorEmail!: string;
+  editedInstructorInstitution!: string;
+
   constructor() { }
 
   ngOnInit(): void {
@@ -31,8 +36,34 @@ export class NewInstructorDataRowComponent implements OnInit {
   /**
    * Cancels the instructor at the i-th index.
    */
-  cancelInstructor(): void {
+  removeInstructor(): void {
     this.onCancelInstructor.emit();
+  }
+
+  /**
+   * Starts editing the instructor.
+   */
+  editInstructor(): void {
+    this.resetEditedInstructorDetails();
+    this.isBeingEdited = true;
+  }
+
+  /**
+   * Cancels the edit of the instructor's details.
+   */
+  cancelEditInstructor(): void {
+    this.isBeingEdited = false;
+    // resetting here might be unnecessary
+    this.resetEditedInstructorDetails();
+  }
+
+  /**
+   * Resets the edited instructor details to the original details.
+   */
+  resetEditedInstructorDetails(): void {
+    this.editedInstructorName = this.instructor.name;
+    this.editedInstructorEmail = this.instructor.email;
+    this.editedInstructorInstitution = this.instructor.institution;
   }
 
 }

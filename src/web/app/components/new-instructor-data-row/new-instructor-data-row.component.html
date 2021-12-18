@@ -1,11 +1,24 @@
-<td>{{ instructor.name }}</td>
-<td>{{ instructor.email }}</td>
-<td>{{ instructor.institution }}</td>
 <td>
-  <div class="button-group" *ngIf="instructor.status === 'PENDING' || instructor.status === 'FAIL'">
+  <span *ngIf="!isBeingEdited">{{ instructor.name }}</span>
+  <input *ngIf="isBeingEdited" class="form-control" type="text" id="instructor-{{ index }}-name" [(ngModel)]="editedInstructorName">
+</td>
+<td>
+  <span *ngIf="!isBeingEdited">{{ instructor.email }}</span>
+  <input *ngIf="isBeingEdited" class="form-control" type="text" id="instructor-{{ index }}-email" [(ngModel)]="editedInstructorEmail">
+</td>
+<td>
+  <span *ngIf="!isBeingEdited">{{ instructor.institution }}</span>
+  <input *ngIf="isBeingEdited" class="form-control" type="text" id="instructor-{{ index }}-institute" [(ngModel)]="editedInstructorInstitution">
+</td>
+<td>
+  <div class="button-group" *ngIf="isBeingEdited && (instructor.status === 'PENDING' || instructor.status === 'FAIL')">
+    <button class="action-btn btn btn-sm btn-primary text-nowrap" id="confirm-edit-instructor-{{ index }}" style="margin-right: 10px;">Confirm</button>
+    <button class="action-btn btn btn-sm btn-danger text-nowrap" id="cancel-edit-instructor-{{ index }}" style="margin-right: 10px;" (click)="cancelEditInstructor()">Cancel</button>
+  </div>
+  <div class="button-group" *ngIf="!isBeingEdited && (instructor.status === 'PENDING' || instructor.status === 'FAIL')">
     <button class="action-btn btn btn-sm btn-primary text-nowrap" id="add-instructor-{{ index }}" style="margin-right: 10px;" (click)="addInstructor()" [disabled]="activeRequests > 0">Add Instructor</button>
-    <button class="action-btn btn btn-sm btn-info text-nowrap" id="edit-instructor-{{ index }}" style="margin-right: 10px;">Edit</button>
-    <button class="action-btn btn btn-sm btn-danger" id="cancel-instructor-{{ index }}" (click)="cancelInstructor()">Cancel</button>
+    <button class="action-btn btn btn-sm btn-info text-nowrap" id="edit-instructor-{{ index }}" style="margin-right: 10px;" (click)="editInstructor()">Edit</button>
+    <button class="action-btn btn btn-sm btn-danger" id="remove-instructor-{{ index }}" (click)="removeInstructor()">Remove</button>
   </div>
 </td>
 <td>{{ instructor.status }}</td>
