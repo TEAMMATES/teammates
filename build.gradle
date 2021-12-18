@@ -63,7 +63,7 @@ dependencies {
     implementation("com.sun.jersey:jersey-core:1.19.4")
     implementation("com.sun.jersey.contribs:jersey-multipart:1.19.4")
     implementation("javax.servlet:javax.servlet-api:3.1.0")
-    implementation("org.apache.solr:solr-solrj:8.11.0")
+    implementation("org.apache.solr:solr-solrj:8.11.1")
     implementation("org.eclipse.jetty:jetty-server:9.4.39.v20210325")
     implementation("org.eclipse.jetty:jetty-webapp:9.4.39.v20210325")
     implementation("org.eclipse.jetty:jetty-annotations:9.4.39.v20210325")
