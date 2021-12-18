@@ -1,5 +1,5 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {InstructorData} from "./instructor-data";
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { InstructorData } from "./instructor-data";
 
 /**
  * A single row of data of a new instructor.
