@@ -49,6 +49,18 @@ export class NewInstructorDataRowComponent implements OnInit {
   }
 
   /**
+   * Confirms the edit of the instructor's details.
+   */
+  confirmEditInstructor(): void {
+    this.instructor.name = this.editedInstructorName;
+    this.instructor.email = this.editedInstructorEmail;
+    this.instructor.institution = this.editedInstructorInstitution;
+    this.isBeingEdited = false;
+    // resetting here might be unnecessary
+    this.resetEditedInstructorDetails();
+  }
+
+  /**
    * Cancels the edit of the instructor's details.
    */
   cancelEditInstructor(): void {

@@ -12,7 +12,7 @@
 </td>
 <td>
   <div class="button-group" *ngIf="isBeingEdited && (instructor.status === 'PENDING' || instructor.status === 'FAIL')">
-    <button class="action-btn btn btn-sm btn-primary text-nowrap" id="confirm-edit-instructor-{{ index }}" style="margin-right: 10px;">Confirm</button>
+    <button class="action-btn btn btn-sm btn-primary text-nowrap" id="confirm-edit-instructor-{{ index }}" style="margin-right: 10px;" (click)="confirmEditInstructor()">Confirm</button>
     <button class="action-btn btn btn-sm btn-danger text-nowrap" id="cancel-edit-instructor-{{ index }}" style="margin-right: 10px;" (click)="cancelEditInstructor()">Cancel</button>
   </div>
   <div class="button-group" *ngIf="!isBeingEdited && (instructor.status === 'PENDING' || instructor.status === 'FAIL')">
