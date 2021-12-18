@@ -106,12 +106,18 @@ export class AdminHomePageComponent {
   }
 
   /**
-   * Cancels the instructor at the i-th index.
+   * Removes the instructor at the i-th index.
    */
-  cancelInstructor(i: number): void {
+  removeInstructor(i: number): void {
     this.instructorsConsolidated.splice(i, 1);
   }
 
+  /**
+   * Sets the i-th instructor data row's edit mode status.
+   *
+   * @param i The index.
+   * @param isEnabled Whether the edit mode status is enabled.
+   */
   setInstructorRowEditModeEnabled(i: number, isEnabled: boolean): void {
     this.isInstructorRowEditModeEnabled[i] = isEnabled;
   }

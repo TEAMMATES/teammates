@@ -14,7 +14,7 @@ export class NewInstructorDataRowComponent implements OnInit {
   @Input() index!: number;
   @Input() activeRequests!: number;
   @Output() onAddInstructor: EventEmitter<void> = new EventEmitter();
-  @Output() onCancelInstructor: EventEmitter<void> = new EventEmitter();
+  @Output() onRemoveInstructor: EventEmitter<void> = new EventEmitter();
   @Output() onToggleEditMode: EventEmitter<boolean> = new EventEmitter();
 
   isBeingEdited: boolean = false;
@@ -38,7 +38,7 @@ export class NewInstructorDataRowComponent implements OnInit {
    * Cancels the instructor at the i-th index.
    */
   removeInstructor(): void {
-    this.onCancelInstructor.emit();
+    this.onRemoveInstructor.emit();
   }
 
   /**
