@@ -55,8 +55,8 @@ export class FeedbackRankRecipientsQuestionDetailsImpl extends AbstractFeedbackQ
       statsRows.push([
         statsCalculation.emailToTeamName[recipient],
         statsCalculation.emailToName[recipient],
-        statsCalculation.selfRankPerOption[recipient] ? String(statsCalculation.selfRankPerOption[recipient])
-        : emptyStr,
+        statsCalculation.selfRankPerOption[recipient] ?
+            String(statsCalculation.selfRankPerOption[recipient]) : emptyStr,
         statsCalculation.rankPerOption[recipient] ? String(statsCalculation.rankPerOption[recipient]) : emptyStr,
         statsCalculation.rankPerOptionExcludeSelf[recipient] ?
             String(statsCalculation.rankPerOptionExcludeSelf[recipient]) : emptyStr,
