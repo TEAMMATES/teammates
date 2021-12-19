@@ -14,6 +14,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback question f
   failedToCopySessions={[Function Object]}
   feedbackQuestionModels={[Function Map]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
   feedbackSessionModelBeforeEditing={[Function Object]}
   feedbackSessionName="undefined"
   feedbackSessionsService={[Function FeedbackSessionsService]}
@@ -103,6 +104,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback questions 
   failedToCopySessions={[Function Object]}
   feedbackQuestionModels={[Function Map]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
   feedbackSessionModelBeforeEditing={[Function Object]}
   feedbackSessionName="undefined"
   feedbackSessionsService={[Function FeedbackSessionsService]}
@@ -199,6 +201,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session fa
   failedToCopySessions={[Function Object]}
   feedbackQuestionModels={[Function Map]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
   feedbackSessionModelBeforeEditing={[Function Object]}
   feedbackSessionName="undefined"
   feedbackSessionsService={[Function FeedbackSessionsService]}
@@ -296,6 +299,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session is
   failedToCopySessions={[Function Object]}
   feedbackQuestionModels={[Function Map]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
   feedbackSessionModelBeforeEditing={[Function Object]}
   feedbackSessionName="undefined"
   feedbackSessionsService={[Function FeedbackSessionsService]}
@@ -392,6 +396,7 @@ exports[`InstructorSessionEditPageComponent should snap with default fields 1`] 
   failedToCopySessions={[Function Object]}
   feedbackQuestionModels={[Function Map]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
   feedbackSessionModelBeforeEditing={[Function Object]}
   feedbackSessionName="undefined"
   feedbackSessionsService={[Function FeedbackSessionsService]}
@@ -488,6 +493,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
   failedToCopySessions={[Function Object]}
   feedbackQuestionModels={[Function Map]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
   feedbackSessionModelBeforeEditing={[Function Object]}
   feedbackSessionName={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
@@ -3132,6 +3138,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
   failedToCopySessions={[Function Object]}
   feedbackQuestionModels={[Function Map]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
   feedbackSessionModelBeforeEditing={[Function Object]}
   feedbackSessionName="undefined"
   feedbackSessionsService={[Function FeedbackSessionsService]}

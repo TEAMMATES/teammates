@@ -10,6 +10,7 @@ import {
   QuestionOutput,
   ResponseOutput,
   SessionResults,
+  Student,
 } from '../types/api-output';
 import { FeedbackQuestionDetailsFactory } from '../types/question-details-impl/feedback-question-details-factory';
 import { FeedbackResponseDetailsFactory } from '../types/response-details-impl/feedback-response-details-factory';
@@ -26,6 +27,25 @@ import { StringHelper } from './string-helper';
 export class SessionResultCsvService {
 
   constructor(private feedbackResponsesService: FeedbackResponsesService) { }
+
+  /**
+   * Generates CSV string for non-responders.
+   */
+  getCsvForNonSubmitterList(noResponseStudents: Student[]): string {
+    const csvRows: string[][] = [];
+    if (noResponseStudents.length === 0) {
+      return CsvHelper.convertCsvContentsToCsvString(csvRows);
+    }
+    csvRows.push(['Participants who have not responded to any question']);
+    this.generateEmptyRow(csvRows);
+    const header: string[] = ['Team', 'Name'];
+    csvRows.push(header);
+    noResponseStudents.forEach((student: Student) => {
+      csvRows.push([student.teamName, student.name]);
+    });
+
+    return CsvHelper.convertCsvContentsToCsvString(csvRows);
+  }
 
   /**
    * Generates CSV string for a session result.
