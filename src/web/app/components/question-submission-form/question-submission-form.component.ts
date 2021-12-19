@@ -107,17 +107,17 @@ export class QuestionSubmissionFormComponent implements OnInit {
   private sortRecipientsByName(): void {
     this.model.recipientList.sort((firstRecipient: FeedbackResponseRecipient,
       secondRecipient: FeedbackResponseRecipient) =>
-        firstRecipient.recipientName.localeCompare(secondRecipient.recipientName));
+      firstRecipient.recipientName.localeCompare(secondRecipient.recipientName));
+    
+    const indexes = new Map();
+    this.model.recipientList.forEach((recipient: FeedbackResponseRecipient, index: number) => {
+      indexes.set(recipient.recipientIdentifier, index)
+    });
 
     this.model.recipientSubmissionForms.sort((firstRecipient: FeedbackResponseRecipientSubmissionFormModel,
       secondRecipient: FeedbackResponseRecipientSubmissionFormModel) => {
-      const indexOne: number = this.model.recipientList.findIndex((x: FeedbackResponseRecipient) =>
-        x.recipientIdentifier === firstRecipient.recipientIdentifier);
 
-      const indexTwo: number = this.model.recipientList.findIndex((x: FeedbackResponseRecipient) =>
-        x.recipientIdentifier === secondRecipient.recipientIdentifier);
-
-      return indexOne - indexTwo;
+      return indexes.get(firstRecipient.recipientIdentifier) - indexes.get(secondRecipient.recipientIdentifier);
     });
   }
 
