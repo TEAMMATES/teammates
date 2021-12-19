@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { saveAs } from 'file-saver';
 import { Observable, of } from 'rxjs';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
@@ -439,6 +440,25 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
       error: () => {
         this.isDownloadingResults = false;
       },
+    });
+  }
+
+  downloadQuestionResultHandler(question: { questionNumber: number, questionId: string }): void {
+    const filename: string =
+        `${this.session.courseId}_${this.session.feedbackSessionName}_question${question.questionNumber}.csv`;
+
+    this.feedbackSessionsService.downloadSessionResults(
+        this.session.courseId,
+        this.session.feedbackSessionName,
+        Intent.FULL_DETAIL,
+        this.indicateMissingResponses,
+        this.showStatistics,
+        question.questionId,
+    ).subscribe((resp: string) => {
+      const blob: any = new Blob([resp], { type: 'text/csv' });
+      saveAs(blob, filename);
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 
