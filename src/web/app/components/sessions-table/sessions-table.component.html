@@ -109,16 +109,16 @@
           <div ngbDropdown class="d-inline-block" ngbTooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so">
             <button id="btn-remind-{{ idx }}" class="btn btn-light btn-sm align-row" [disabled]="sessionsTableRowModel.feedbackSession.submissionStatus !== FeedbackSessionSubmissionStatus.OPEN || 
                     !sessionsTableRowModel.instructorPrivilege.canModifySession" ngbDropdownToggle>
-                    <span>Remind</span>
-                    <div class="padding-left-7px">
-                      <tm-ajax-loading [color]="'#000000'" *ngIf="isSendReminderLoading && rowClicked === idx"></tm-ajax-loading>
-                    </div>
+              <span>Remind</span>
+              <div class="padding-left-7px">
+                <tm-ajax-loading [color]="'#000000'" *ngIf="isSendReminderLoading && rowClicked === idx"></tm-ajax-loading>
+              </div>
             </button>
             <div ngbDropdownMenu>
-              <button (click)="sendRemindersToStudents(idx); setRowClicked(idx)" class="btn dropdown-item clickable">
+              <button (click)="sendRemindersToAllNonSubmitters(idx); setRowClicked(idx)" class="btn dropdown-item clickable">
                 <span>Remind all non-submitters</span>
               </button>
-              <button (click)="sendRemindersToStudents(idx); setRowClicked(idx)" class="btn dropdown-item clickable">
+              <button (click)="sendRemindersToSelectedNonSubmitters(idx); setRowClicked(idx)" class="btn dropdown-item clickable">
                 <span>Select non-submitters to remind</span>
               </button>
             </div>

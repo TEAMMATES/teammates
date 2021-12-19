@@ -114,7 +114,7 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
   /**
    * Sends e-mails to remind respondents who have not submitted their feedback.
    */
-  sendRemindersToRespondentsEventHandler(model: SessionsTableRowModel): void {
+  sendRemindersToRespondentsEventHandler(model: SessionsTableRowModel, selectAllRespondents: boolean): void {
     this.isSendReminderLoading = true;
     const courseId: string = model.feedbackSession.courseId;
     const feedbackSessionName: string = model.feedbackSession.feedbackSessionName;
@@ -141,7 +141,7 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
 
           hasSubmittedSession: giverSet.has(student.email),
 
-          isSelected: false,
+          isSelected: selectAllRespondents && !giverSet.has(student.email),
         } as StudentListInfoTableRowModel));
         modalRef.componentInstance.instructorListInfoTableRowModels = instructors.map(
             (instructor: Instructor) => ({
@@ -150,7 +150,7 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
 
               hasSubmittedSession: giverSet.has(instructor.email),
 
-              isSelected: false,
+              isSelected: selectAllRespondents && !giverSet.has(instructor.email),
             } as InstructorListInfoTableRowModel));
 
         modalRef.result.then((respondentsToRemind: any[]) => {

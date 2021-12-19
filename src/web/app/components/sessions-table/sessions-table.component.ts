@@ -85,6 +85,12 @@ export class SessionsTableComponent implements OnInit {
   @Output()
   downloadSessionResultsEvent: EventEmitter<number> = new EventEmitter();
 
+  @Output()
+  sendRemindersToAllNonSubmittersEvent: EventEmitter<number> = new EventEmitter();
+
+  @Output()
+  sendRemindersToSelectedNonSubmittersEvent: EventEmitter<number> = new EventEmitter();
+
   constructor(private ngbModal: NgbModal, private simpleModalService: SimpleModalService) { }
 
   /**
@@ -165,10 +171,17 @@ export class SessionsTableComponent implements OnInit {
   }
 
   /**
-   * Sends e-mails to remind students who have not submitted their feedback.
+   * Sends e-mails to remind all students and instructors who have not submitted their feedback.
    */
-  sendRemindersToStudents(rowIndex: number): void {
-    this.sendRemindersToStudentsEvent.emit(rowIndex);
+  sendRemindersToAllNonSubmitters(rowIndex: number): void {
+    this.sendRemindersToAllNonSubmittersEvent.emit(rowIndex);
+  }
+
+  /**
+   * Sends e-mails to remind selected students and instructors who have not submitted their feedback.
+   */
+   sendRemindersToSelectedNonSubmitters(rowIndex: number): void {
+    this.sendRemindersToSelectedNonSubmittersEvent.emit(rowIndex);
   }
 
   /**
