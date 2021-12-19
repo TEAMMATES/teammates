@@ -56,11 +56,11 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
      * to numOfRubricSubQuestions and numOfRubricChoices.
      */
     private boolean isValidDescriptionSize() {
-        if (rubricDescriptions.size() != numOfRubricSubQuestions) {
+        if (rubricDescriptions.size() != rubricSubQuestions.size()) {
             return false;
         }
         for (List<String> rubricDescription : rubricDescriptions) {
-            if (rubricDescription.size() != numOfRubricChoices) {
+            if (rubricDescription.size() != rubricChoices.size()) {
                 return false;
             }
         }
@@ -72,10 +72,10 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
      * to numOfRubricSubQuestions and numOfRubricChoices.
      */
     private boolean isValidWeightSize() {
-        if (rubricWeightsForEachCell.size() != numOfRubricSubQuestions) {
+        if (rubricWeightsForEachCell.size() != rubricSubQuestions.size()) {
             return false;
         }
-        return rubricWeightsForEachCell.stream().allMatch(x -> x.size() == numOfRubricChoices);
+        return rubricWeightsForEachCell.stream().allMatch(x -> x.size() == rubricChoices.size());
     }
 
     @Override
@@ -89,7 +89,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         }
 
         // Responses require deletion if sub-questions change
-        return this.numOfRubricSubQuestions != newRubricDetails.numOfRubricSubQuestions
+        return this.rubricSubQuestions.size() != newRubricDetails.rubricSubQuestions.size()
             || !this.rubricSubQuestions.containsAll(newRubricDetails.rubricSubQuestions)
             || !newRubricDetails.rubricSubQuestions.containsAll(this.rubricSubQuestions);
     }
@@ -112,12 +112,12 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             errors.add(RUBRIC_ERROR_DESC_INVALID_SIZE);
         }
 
-        if (numOfRubricChoices < RUBRIC_MIN_NUM_OF_CHOICES) {
+        if (rubricChoices.size() < RUBRIC_MIN_NUM_OF_CHOICES) {
             errors.add(RUBRIC_ERROR_NOT_ENOUGH_CHOICES
                        + RUBRIC_MIN_NUM_OF_CHOICES);
         }
 
-        if (this.numOfRubricSubQuestions < RUBRIC_MIN_NUM_OF_SUB_QUESTIONS) {
+        if (this.rubricSubQuestions.size() < RUBRIC_MIN_NUM_OF_SUB_QUESTIONS) {
             errors.add(RUBRIC_ERROR_NOT_ENOUGH_SUB_QUESTIONS
                        + RUBRIC_MIN_NUM_OF_SUB_QUESTIONS);
         }
@@ -156,13 +156,13 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 errors.add(RUBRIC_EMPTY_ANSWER);
             }
 
-            if (details.getAnswer().size() != numOfRubricSubQuestions) {
+            if (details.getAnswer().size() != rubricSubQuestions.size()) {
                 errors.add(RUBRIC_INVALID_ANSWER);
             }
 
             if (details.getAnswer().stream().anyMatch(choice ->
                     choice != RUBRIC_ANSWER_NOT_CHOSEN
-                            && (choice < 0 || choice >= numOfRubricChoices))) {
+                            && (choice < 0 || choice >= rubricChoices.size()))) {
                 errors.add(RUBRIC_INVALID_ANSWER);
             }
 
@@ -213,7 +213,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     }
 
     public int getNumOfRubricChoices() {
-        return numOfRubricChoices;
+        return rubricChoices.size();
     }
 
     public void setNumOfRubricChoices(int numOfRubricChoices) {
@@ -229,7 +229,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     }
 
     public int getNumOfRubricSubQuestions() {
-        return numOfRubricSubQuestions;
+        return rubricSubQuestions.size();
     }
 
     public void setNumOfRubricSubQuestions(int numOfRubricSubQuestions) {

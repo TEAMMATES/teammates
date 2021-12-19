@@ -229,7 +229,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     }
 
     public int getNumOfConstSumOptions() {
-        return numOfConstSumOptions;
+        return constSumOptions.size();
     }
 
     public void setNumOfConstSumOptions(int numOfConstSumOptions) {
