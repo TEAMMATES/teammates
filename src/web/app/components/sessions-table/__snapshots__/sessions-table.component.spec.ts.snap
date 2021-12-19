@@ -20,6 +20,8 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
   publishSessionEvent={[Function EventEmitter]}
   resendResultsLinkToStudentsEvent={[Function EventEmitter]}
   rowClicked={[Function Number]}
+  sendRemindersToAllNonSubmittersEvent={[Function EventEmitter]}
+  sendRemindersToSelectedNonSubmittersEvent={[Function EventEmitter]}
   sendRemindersToStudentsEvent={[Function EventEmitter]}
   sessionsTableRowModels={[Function Array]}
   sessionsTableRowModelsSortBy={[Function Number]}
@@ -266,13 +268,16 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                 </div>
               </div>
               <div
-                class="d-inline-block"
+                class="d-inline-block dropdown"
                 ngbdropdown=""
                 ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
               >
                 <button
-                  class="btn btn-light btn-sm align-row"
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-light btn-sm align-row dropdown-toggle"
                   id="btn-remind-0"
+                  ngbdropdowntoggle=""
                 >
                   <span>
                     Remind
@@ -283,6 +288,26 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                     
                   </div>
                 </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom"
+                >
+                  <button
+                    class="btn dropdown-item clickable"
+                  >
+                    <span>
+                      Remind all non-submitters
+                    </span>
+                  </button>
+                  <button
+                    class="btn dropdown-item clickable"
+                  >
+                    <span>
+                      Select non-submitters to remind
+                    </span>
+                  </button>
+                </div>
               </div>
             </td>
           </tr>
@@ -440,14 +465,17 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                 </div>
               </div>
               <div
-                class="d-inline-block"
+                class="d-inline-block dropdown"
                 ngbdropdown=""
                 ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
               >
                 <button
-                  class="btn btn-light btn-sm align-row"
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-light btn-sm align-row dropdown-toggle"
                   disabled=""
                   id="btn-remind-1"
+                  ngbdropdowntoggle=""
                 >
                   <span>
                     Remind
@@ -458,6 +486,26 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                     
                   </div>
                 </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom"
+                >
+                  <button
+                    class="btn dropdown-item clickable"
+                  >
+                    <span>
+                      Remind all non-submitters
+                    </span>
+                  </button>
+                  <button
+                    class="btn dropdown-item clickable"
+                  >
+                    <span>
+                      Select non-submitters to remind
+                    </span>
+                  </button>
+                </div>
               </div>
             </td>
           </tr>
@@ -488,6 +536,8 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
   publishSessionEvent={[Function EventEmitter]}
   resendResultsLinkToStudentsEvent={[Function EventEmitter]}
   rowClicked={[Function Number]}
+  sendRemindersToAllNonSubmittersEvent={[Function EventEmitter]}
+  sendRemindersToSelectedNonSubmittersEvent={[Function EventEmitter]}
   sendRemindersToStudentsEvent={[Function EventEmitter]}
   sessionsTableRowModels={[Function Array]}
   sessionsTableRowModelsSortBy={[Function Number]}
@@ -712,13 +762,16 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                 </div>
               </div>
               <div
-                class="d-inline-block"
+                class="d-inline-block dropdown"
                 ngbdropdown=""
                 ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
               >
                 <button
-                  class="btn btn-light btn-sm align-row"
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-light btn-sm align-row dropdown-toggle"
                   id="btn-remind-0"
+                  ngbdropdowntoggle=""
                 >
                   <span>
                     Remind
@@ -729,6 +782,26 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                     
                   </div>
                 </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom"
+                >
+                  <button
+                    class="btn dropdown-item clickable"
+                  >
+                    <span>
+                      Remind all non-submitters
+                    </span>
+                  </button>
+                  <button
+                    class="btn dropdown-item clickable"
+                  >
+                    <span>
+                      Select non-submitters to remind
+                    </span>
+                  </button>
+                </div>
               </div>
             </td>
           </tr>
@@ -877,14 +950,17 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                 </div>
               </div>
               <div
-                class="d-inline-block"
+                class="d-inline-block dropdown"
                 ngbdropdown=""
                 ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
               >
                 <button
-                  class="btn btn-light btn-sm align-row"
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-light btn-sm align-row dropdown-toggle"
                   disabled=""
                   id="btn-remind-1"
+                  ngbdropdowntoggle=""
                 >
                   <span>
                     Remind
@@ -895,6 +971,26 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                     
                   </div>
                 </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom"
+                >
+                  <button
+                    class="btn dropdown-item clickable"
+                  >
+                    <span>
+                      Remind all non-submitters
+                    </span>
+                  </button>
+                  <button
+                    class="btn dropdown-item clickable"
+                  >
+                    <span>
+                      Select non-submitters to remind
+                    </span>
+                  </button>
+                </div>
               </div>
             </td>
           </tr>
@@ -925,6 +1021,8 @@ exports[`SessionsTableComponent should snap with default fields 1`] = `
   publishSessionEvent={[Function EventEmitter]}
   resendResultsLinkToStudentsEvent={[Function EventEmitter]}
   rowClicked={[Function Number]}
+  sendRemindersToAllNonSubmittersEvent={[Function EventEmitter]}
+  sendRemindersToSelectedNonSubmittersEvent={[Function EventEmitter]}
   sendRemindersToStudentsEvent={[Function EventEmitter]}
   sessionsTableRowModels={[Function Array]}
   sessionsTableRowModelsSortBy="0"

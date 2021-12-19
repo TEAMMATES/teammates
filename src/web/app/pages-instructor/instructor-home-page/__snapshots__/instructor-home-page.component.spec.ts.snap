@@ -798,13 +798,16 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                               </div>
                             </div>
                             <div
-                              class="d-inline-block"
+                              class="d-inline-block dropdown"
                               ngbdropdown=""
                               ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
                             >
                               <button
-                                class="btn btn-light btn-sm align-row"
+                                aria-expanded="false"
+                                aria-haspopup="true"
+                                class="btn btn-light btn-sm align-row dropdown-toggle"
                                 id="btn-remind-0"
+                                ngbdropdowntoggle=""
                               >
                                 <span>
                                   Remind
@@ -815,6 +818,26 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                                   
                                 </div>
                               </button>
+                              <div
+                                class="dropdown-menu"
+                                ngbdropdownmenu=""
+                                x-placement="bottom"
+                              >
+                                <button
+                                  class="btn dropdown-item clickable"
+                                >
+                                  <span>
+                                    Remind all non-submitters
+                                  </span>
+                                </button>
+                                <button
+                                  class="btn dropdown-item clickable"
+                                >
+                                  <span>
+                                    Select non-submitters to remind
+                                  </span>
+                                </button>
+                              </div>
                             </div>
                           </td>
                         </tr>
@@ -1317,14 +1340,17 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                               </div>
                             </div>
                             <div
-                              class="d-inline-block"
+                              class="d-inline-block dropdown"
                               ngbdropdown=""
                               ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
                             >
                               <button
-                                class="btn btn-light btn-sm align-row"
+                                aria-expanded="false"
+                                aria-haspopup="true"
+                                class="btn btn-light btn-sm align-row dropdown-toggle"
                                 disabled=""
                                 id="btn-remind-0"
+                                ngbdropdowntoggle=""
                               >
                                 <span>
                                   Remind
@@ -1335,6 +1361,26 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                                   
                                 </div>
                               </button>
+                              <div
+                                class="dropdown-menu"
+                                ngbdropdownmenu=""
+                                x-placement="bottom"
+                              >
+                                <button
+                                  class="btn dropdown-item clickable"
+                                >
+                                  <span>
+                                    Remind all non-submitters
+                                  </span>
+                                </button>
+                                <button
+                                  class="btn dropdown-item clickable"
+                                >
+                                  <span>
+                                    Select non-submitters to remind
+                                  </span>
+                                </button>
+                              </div>
                             </div>
                           </td>
                         </tr>
@@ -1487,14 +1533,17 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                               </div>
                             </div>
                             <div
-                              class="d-inline-block"
+                              class="d-inline-block dropdown"
                               ngbdropdown=""
                               ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
                             >
                               <button
-                                class="btn btn-light btn-sm align-row"
+                                aria-expanded="false"
+                                aria-haspopup="true"
+                                class="btn btn-light btn-sm align-row dropdown-toggle"
                                 disabled=""
                                 id="btn-remind-1"
+                                ngbdropdowntoggle=""
                               >
                                 <span>
                                   Remind
@@ -1505,6 +1554,26 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                                   
                                 </div>
                               </button>
+                              <div
+                                class="dropdown-menu"
+                                ngbdropdownmenu=""
+                                x-placement="bottom"
+                              >
+                                <button
+                                  class="btn dropdown-item clickable"
+                                >
+                                  <span>
+                                    Remind all non-submitters
+                                  </span>
+                                </button>
+                                <button
+                                  class="btn dropdown-item clickable"
+                                >
+                                  <span>
+                                    Select non-submitters to remind
+                                  </span>
+                                </button>
+                              </div>
                             </div>
                           </td>
                         </tr>
