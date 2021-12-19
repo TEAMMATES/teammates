@@ -172,8 +172,10 @@ abstract class BasicFeedbackSubmissionAction extends Action {
             case SELF:
                 return Const.DEFAULT_SECTION;
             case TEAMS:
+            case TEAMS_IN_SAME_SECTION:
                 return logic.getSectionForTeam(courseId, recipientIdentifier);
             case STUDENTS:
+            case STUDENTS_IN_SAME_SECTION:
                 StudentAttributes student = logic.getStudentForEmail(courseId, recipientIdentifier);
                 return student == null ? Const.DEFAULT_SECTION : student.getSection();
             default:
@@ -184,9 +186,11 @@ abstract class BasicFeedbackSubmissionAction extends Action {
         case NONE:
             return Const.DEFAULT_SECTION;
         case TEAMS:
+        case TEAMS_IN_SAME_SECTION:
         case OWN_TEAM:
             return logic.getSectionForTeam(courseId, recipientIdentifier);
         case STUDENTS:
+        case STUDENTS_IN_SAME_SECTION:
         case OWN_TEAM_MEMBERS:
         case OWN_TEAM_MEMBERS_INCLUDING_SELF:
             StudentAttributes student = logic.getStudentForEmail(courseId, recipientIdentifier);

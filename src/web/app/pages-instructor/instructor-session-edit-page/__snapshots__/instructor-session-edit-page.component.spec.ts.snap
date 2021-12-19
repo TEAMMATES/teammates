@@ -4342,32 +4342,42 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                             Other students in the course
                           </option>
                           <option
-                            value="2: INSTRUCTORS"
+                            value="2: STUDENTS_IN_SAME_SECTION"
+                          >
+                            Other students in the same section
+                          </option>
+                          <option
+                            value="3: INSTRUCTORS"
                           >
                             Instructors in the course
                           </option>
                           <option
-                            value="3: TEAMS"
+                            value="4: TEAMS"
                           >
                             Other teams in the course
                           </option>
                           <option
-                            value="4: OWN_TEAM"
+                            value="5: TEAMS_IN_SAME_SECTION"
+                          >
+                            Other teams in the same section
+                          </option>
+                          <option
+                            value="6: OWN_TEAM"
                           >
                             Giver's team
                           </option>
                           <option
-                            value="5: OWN_TEAM_MEMBERS"
+                            value="7: OWN_TEAM_MEMBERS"
                           >
                             Giver's team members
                           </option>
                           <option
-                            value="6: OWN_TEAM_MEMBERS_INCLUDING_SELF"
+                            value="8: OWN_TEAM_MEMBERS_INCLUDING_SELF"
                           >
                             Giver's team members and Giver
                           </option>
                           <option
-                            value="7: NONE"
+                            value="9: NONE"
                           >
                             Nobody specific (For general class feedback)
                           </option>
