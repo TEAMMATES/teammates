@@ -64,6 +64,7 @@
                 "fonts": true
               },
               "outputHashing": "all",
+              "subresourceIntegrity": true,
               "serviceWorker": true,
               "ngswConfigPath": "ngsw-config.json",
               "budgets": [
