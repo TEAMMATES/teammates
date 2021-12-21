@@ -172,8 +172,7 @@ public class StudentProfilePage extends AppPage {
         assertEquals(width, imageWidth, 1.0);
     }
 
-    public void uploadProfilePicAndVerifyDimensions(String imagePath,
-                                                     int height, int width) {
+    public void uploadProfilePicAndVerifyDimensions(String imagePath, int height, int width) {
         fillProfilePic(imagePath);
         uploadPicture();
         verifyStatusMessage("Your profile picture has been saved successfully");
