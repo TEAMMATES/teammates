@@ -27,7 +27,6 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     private boolean hasAssignedWeights;
     private List<Double> mcqWeights;
     private double mcqOtherWeight;
-    private int numOfMcqChoices;
     private List<String> mcqChoices;
     private boolean otherEnabled;
     private FeedbackParticipantType generateOptionsFor;
@@ -40,7 +39,6 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         super(FeedbackQuestionType.MCQ, questionText);
         this.hasAssignedWeights = false;
         this.mcqWeights = new ArrayList<>();
-        this.numOfMcqChoices = 0;
         this.mcqChoices = new ArrayList<>();
         this.otherEnabled = false;
         this.mcqOtherWeight = 0;
@@ -182,10 +180,6 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
 
     public int getNumOfMcqChoices() {
         return mcqChoices.size();
-    }
-
-    public void setNumOfMcqChoices(int numOfMcqChoices) {
-        this.numOfMcqChoices = numOfMcqChoices;
     }
 
     public List<String> getMcqChoices() {
