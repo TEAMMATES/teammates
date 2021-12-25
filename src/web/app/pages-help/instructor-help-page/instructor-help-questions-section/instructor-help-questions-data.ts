@@ -535,7 +535,6 @@ export const EXAMPLE_FEEDBACK_SESSION: FeedbackSession = {
  * Structure for example of distrution point option question detail
  */
 export const EXAMPLE_DISTRIBUTE_POINT_OPTION_QUESTION_DETAIL: FeedbackConstantSumQuestionDetails = {
-  numOfConstSumOptions: 2,
   constSumOptions: ['Option A', 'Option B'],
   distributeToRecipients: false,
   pointsPerOption: false,

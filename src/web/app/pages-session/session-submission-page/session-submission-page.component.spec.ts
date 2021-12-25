@@ -413,7 +413,6 @@ describe('SessionSubmissionPageComponent', () => {
     questionDescription: 'question description',
     questionType: FeedbackQuestionType.CONSTSUM_RECIPIENTS,
     questionDetails: {
-      numOfConstSumOptions: 2,
       constSumOptions: ['option 1', 'option 2'],
       distributeToRecipients: true,
       pointsPerOption: true,

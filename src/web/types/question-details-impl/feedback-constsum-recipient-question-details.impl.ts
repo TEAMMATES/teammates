@@ -13,7 +13,6 @@ import { AbstractFeedbackQuestionDetails } from './abstract-feedback-question-de
 export class FeedbackConstantSumRecipientsQuestionDetailsImpl extends AbstractFeedbackQuestionDetails
     implements FeedbackConstantSumQuestionDetails {
 
-  numOfConstSumOptions: number = 0;
   constSumOptions: string[] = [];
   distributeToRecipients: boolean = true;
   pointsPerOption: boolean = false;
@@ -25,7 +24,6 @@ export class FeedbackConstantSumRecipientsQuestionDetailsImpl extends AbstractFe
 
   constructor(apiOutput: FeedbackConstantSumQuestionDetails) {
     super();
-    this.numOfConstSumOptions = apiOutput.numOfConstSumOptions;
     this.constSumOptions = apiOutput.constSumOptions;
     this.pointsPerOption = apiOutput.pointsPerOption;
     this.forceUnevenDistribution = apiOutput.forceUnevenDistribution;
