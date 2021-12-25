@@ -94,7 +94,6 @@ export class RubricQuestionEditDetailsFormComponent
     this.triggerModelChangeBatch({
       rubricSubQuestions: newSubQuestions,
       rubricDescriptions: newDescriptions,
-      numOfRubricSubQuestions: this.model.numOfRubricSubQuestions + 1,
       rubricWeightsForEachCell: newWeightsForEachCell,
     });
   }
@@ -161,7 +160,7 @@ export class RubricQuestionEditDetailsFormComponent
    * Deletes a sub question.
    */
   deleteSubQuestion(index: number): void {
-    if (this.model.numOfRubricSubQuestions === 1 || !this.isEditable) {
+    if (this.model.rubricSubQuestions.length === 1 || !this.isEditable) {
       // ignore deletion
       return;
     }
@@ -186,7 +185,6 @@ export class RubricQuestionEditDetailsFormComponent
           this.triggerModelChangeBatch({
             rubricSubQuestions: newSubQuestions,
             rubricDescriptions: newDescriptions,
-            numOfRubricSubQuestions: this.model.numOfRubricSubQuestions - 1,
             rubricWeightsForEachCell: newWeightsForEachCell,
           });
 

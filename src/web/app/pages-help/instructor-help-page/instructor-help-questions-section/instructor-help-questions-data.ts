@@ -1016,7 +1016,6 @@ export const EXAMPLE_RUBRIC_QUESTION_MODEL: QuestionEditFormModel = {
   questionDetails: {
     ...DEFAULT_RUBRIC_QUESTION_DETAILS(),
     rubricChoices: ['Strongly Disagree', 'Disagree', 'Agree', 'Strongly Agree'],
-    numOfRubricSubQuestions: 2,
     rubricSubQuestions:
       ['This student participates well in online discussions.', 'This student completes assigned tasks on time.'],
     rubricDescriptions: [
@@ -1546,7 +1545,6 @@ export const EXAMPLE_RESPONDER_RUBRIC_SUBMISSION_FORM_MODEL: QuestionSubmissionF
   questionDetails: {
     ...DEFAULT_RUBRIC_QUESTION_DETAILS(),
     rubricChoices: ['Strongly Disagree', 'Disagree', 'Agree', 'Strongly Agree'],
-    numOfRubricSubQuestions: 2,
     rubricSubQuestions: [
       'This student participates well in online discussions.',
       'This student completes assigned tasks on time.',

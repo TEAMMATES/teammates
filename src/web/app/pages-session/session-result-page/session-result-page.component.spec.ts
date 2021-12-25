@@ -125,7 +125,6 @@ describe('SessionResultPageComponent', () => {
       hasAssignedWeights: false,
       rubricWeightsForEachCell: [[]],
       rubricChoices: ['Poor', 'Average', 'Good'],
-      numOfRubricSubQuestions: 0,
       rubricSubQuestions: [],
       rubricDescriptions: [[]],
     } as FeedbackRubricQuestionDetails,

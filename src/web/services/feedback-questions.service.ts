@@ -462,7 +462,6 @@ export class FeedbackQuestionsService {
 
         const rubricQuestionDetails: FeedbackRubricQuestionDetails = DEFAULT_RUBRIC_QUESTION_DETAILS();
         rubricQuestionDetails.rubricChoices = ['Strongly Disagree', 'Disagree', 'Agree', 'Strongly Agree'];
-        rubricQuestionDetails.numOfRubricSubQuestions = 2;
         rubricQuestionDetails.rubricSubQuestions =
             ['This student participates well in online discussions.', 'This student completes assigned tasks on time.'];
         rubricQuestionDetails.rubricDescriptions = [

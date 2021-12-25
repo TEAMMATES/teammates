@@ -462,7 +462,6 @@ describe('SessionSubmissionPageComponent', () => {
       hasAssignedWeights: false,
       rubricWeightsForEachCell: [[1, 2], [2, 1]],
       rubricChoices: ['choice 1', 'choice 2'],
-      numOfRubricSubQuestions: 2,
       rubricSubQuestions: ['subquestion 1', 'subquestion 2'],
       rubricDescriptions: [['description 1', 'description 2'], ['description 3', 'description 4']],
     } as FeedbackRubricQuestionDetails,
