@@ -14,7 +14,6 @@ export class FeedbackRubricQuestionDetailsImpl extends AbstractFeedbackQuestionD
     implements FeedbackRubricQuestionDetails {
 
   hasAssignedWeights: boolean = false;
-  numOfRubricChoices: number = 0;
   rubricChoices: string[] = [];
   numOfRubricSubQuestions: number = 0;
   rubricSubQuestions: string[] = [];
@@ -26,7 +25,6 @@ export class FeedbackRubricQuestionDetailsImpl extends AbstractFeedbackQuestionD
   constructor(apiOutput: FeedbackRubricQuestionDetails) {
     super();
     this.hasAssignedWeights = apiOutput.hasAssignedWeights;
-    this.numOfRubricChoices = apiOutput.numOfRubricChoices;
     this.rubricChoices = apiOutput.rubricChoices;
     this.numOfRubricSubQuestions = apiOutput.numOfRubricSubQuestions;
     this.rubricSubQuestions = apiOutput.rubricSubQuestions;

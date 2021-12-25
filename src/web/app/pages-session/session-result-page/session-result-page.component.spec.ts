@@ -124,7 +124,6 @@ describe('SessionResultPageComponent', () => {
       questionText: 'Rate your teammates proficiency',
       hasAssignedWeights: false,
       rubricWeightsForEachCell: [[]],
-      numOfRubricChoices: 3,
       rubricChoices: ['Poor', 'Average', 'Good'],
       numOfRubricSubQuestions: 0,
       rubricSubQuestions: [],

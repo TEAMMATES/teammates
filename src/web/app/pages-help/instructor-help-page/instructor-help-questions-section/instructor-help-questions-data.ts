@@ -1015,7 +1015,6 @@ export const EXAMPLE_RUBRIC_QUESTION_MODEL: QuestionEditFormModel = {
   questionType: FeedbackQuestionType.RUBRIC,
   questionDetails: {
     ...DEFAULT_RUBRIC_QUESTION_DETAILS(),
-    numOfRubricChoices: 4,
     rubricChoices: ['Strongly Disagree', 'Disagree', 'Agree', 'Strongly Agree'],
     numOfRubricSubQuestions: 2,
     rubricSubQuestions:
@@ -1546,7 +1545,6 @@ export const EXAMPLE_RESPONDER_RUBRIC_SUBMISSION_FORM_MODEL: QuestionSubmissionF
   showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
   questionDetails: {
     ...DEFAULT_RUBRIC_QUESTION_DETAILS(),
-    numOfRubricChoices: 4,
     rubricChoices: ['Strongly Disagree', 'Disagree', 'Agree', 'Strongly Agree'],
     numOfRubricSubQuestions: 2,
     rubricSubQuestions: [

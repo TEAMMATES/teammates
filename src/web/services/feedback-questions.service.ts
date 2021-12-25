@@ -461,7 +461,6 @@ export class FeedbackQuestionsService {
       case FeedbackQuestionType.RUBRIC:
 
         const rubricQuestionDetails: FeedbackRubricQuestionDetails = DEFAULT_RUBRIC_QUESTION_DETAILS();
-        rubricQuestionDetails.numOfRubricChoices = 4;
         rubricQuestionDetails.rubricChoices = ['Strongly Disagree', 'Disagree', 'Agree', 'Strongly Agree'];
         rubricQuestionDetails.numOfRubricSubQuestions = 2;
         rubricQuestionDetails.rubricSubQuestions =

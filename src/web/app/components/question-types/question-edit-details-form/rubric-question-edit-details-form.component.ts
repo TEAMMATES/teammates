@@ -82,13 +82,13 @@ export class RubricQuestionEditDetailsFormComponent
     newSubQuestions.push('');
 
     const newDescriptions: string[][] = this.model.rubricDescriptions.map((arr: string[]) => arr.slice());
-    newDescriptions.push(Array(this.model.numOfRubricChoices).fill(''));
+    newDescriptions.push(Array(this.model.rubricChoices.length).fill(''));
 
     // update weights
     let newWeightsForEachCell: number[][] = [];
     if (this.model.hasAssignedWeights) {
       newWeightsForEachCell = this.model.rubricWeightsForEachCell.map((arr: number[]) => arr.slice());
-      newWeightsForEachCell.push(Array(this.model.numOfRubricChoices).fill(0));
+      newWeightsForEachCell.push(Array(this.model.rubricChoices.length).fill(0));
     }
 
     this.triggerModelChangeBatch({
@@ -124,7 +124,6 @@ export class RubricQuestionEditDetailsFormComponent
     this.triggerModelChangeBatch({
       rubricChoices: newChoices,
       rubricDescriptions: newDescriptions,
-      numOfRubricChoices: this.model.numOfRubricChoices + 1,
       rubricWeightsForEachCell: newWeightsForEachCell,
     });
   }
@@ -221,7 +220,6 @@ export class RubricQuestionEditDetailsFormComponent
 
           this.triggerModelChangeBatch({
             rubricChoices: newChoices,
-            numOfRubricChoices: this.model.numOfRubricChoices - 1,
             rubricDescriptions: newDescriptions,
             rubricWeightsForEachCell: newWeightsForEachCell,
           });
