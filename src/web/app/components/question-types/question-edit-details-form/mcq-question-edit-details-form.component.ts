@@ -28,7 +28,6 @@ export class McqQuestionEditDetailsFormComponent
   // Used to store and restore user input when user toggles generate option
   storageModel: FeedbackMcqQuestionDetails = {
     ...DEFAULT_MCQ_QUESTION_DETAILS(),
-    numOfMcqChoices: 2,
     mcqChoices: ['', ''],
   };
 
@@ -59,7 +58,6 @@ export class McqQuestionEditDetailsFormComponent
    */
   increaseNumberOfOptions(): void {
     const fieldsToUpdate: any = {};
-    fieldsToUpdate.numOfMcqChoices = this.model.numOfMcqChoices + 1;
     const newOptions: string[] = this.model.mcqChoices.slice();
     newOptions.push('');
     fieldsToUpdate.mcqChoices = newOptions;
@@ -76,7 +74,6 @@ export class McqQuestionEditDetailsFormComponent
    */
   onMcqOptionDeleted(event: number): void {
     const fieldsToUpdate: any = {};
-    fieldsToUpdate.numOfMcqChoices = this.model.numOfMcqChoices - 1;
     const newOptions: string[] = this.model.mcqChoices.slice();
     newOptions.splice(event, 1);
     fieldsToUpdate.mcqChoices = newOptions;
@@ -125,7 +122,7 @@ export class McqQuestionEditDetailsFormComponent
    */
   triggerWeightsColumn(checked: boolean): void {
     this.triggerModelChangeBatch({
-      mcqWeights: checked ? Array(this.model.numOfMcqChoices).fill(0) : [],
+      mcqWeights: checked ? Array(this.model.mcqChoices.length).fill(0) : [],
       mcqOtherWeight: 0,
       hasAssignedWeights: checked,
     });
@@ -149,7 +146,6 @@ export class McqQuestionEditDetailsFormComponent
       this.storageModel = this.model;
       this.triggerModelChangeBatch({
         generateOptionsFor: FeedbackParticipantType.STUDENTS,
-        numOfMcqChoices: 0,
         mcqChoices: [],
         otherEnabled: false,
         hasAssignedWeights: false,
