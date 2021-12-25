@@ -73,7 +73,6 @@ describe('SessionResultPageComponent', () => {
       hasAssignedWeights: false,
       mcqWeights: [],
       mcqOtherWeight: 0,
-      numOfMcqChoices: 3,
       mcqChoices: [
         '<p>Good</p>',
         '<p>Normal</p>',

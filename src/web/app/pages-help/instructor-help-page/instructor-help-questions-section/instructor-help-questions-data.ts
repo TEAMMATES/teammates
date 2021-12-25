@@ -1437,7 +1437,6 @@ export const EXAMPLE_MCQ_QUESTION_WITHOUT_WEIGHTS_MODEL: QuestionEditFormModel =
   questionType: FeedbackQuestionType.MCQ,
   questionDetails: {
     ...DEFAULT_MCQ_QUESTION_DETAILS(),
-    numOfMcqChoices: 3,
     mcqChoices: ['I did great!', 'I performed satisfactorily.', 'I did not contribute as much as I wanted to.'],
     hasAssignedWeights: false,
     mcqWeights: [],
@@ -1476,7 +1475,6 @@ export const EXAMPLE_MCQ_QUESTION_WITH_WEIGHTS_MODEL: QuestionEditFormModel = {
   questionType: FeedbackQuestionType.MCQ,
   questionDetails: {
     ...DEFAULT_MCQ_QUESTION_DETAILS(),
-    numOfMcqChoices: 3,
     mcqChoices: ['I did great!', 'I performed satisfactorily.', 'I did not contribute as much as I wanted to.'],
     hasAssignedWeights: true,
     mcqWeights: [1, 3, 5],

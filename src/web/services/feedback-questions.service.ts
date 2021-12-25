@@ -371,7 +371,6 @@ export class FeedbackQuestionsService {
       case FeedbackQuestionType.MCQ:
 
         const mcqQuestionDetails: FeedbackMcqQuestionDetails = DEFAULT_MCQ_QUESTION_DETAILS();
-        mcqQuestionDetails.numOfMcqChoices = 2;
         mcqQuestionDetails.mcqChoices = ['', ''];
 
         return {
