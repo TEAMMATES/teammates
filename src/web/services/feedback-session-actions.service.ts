@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { saveAs } from 'file-saver';
 import { concat } from 'rxjs';
-import { takeWhile } from 'rxjs/operators';
+import { finalize, takeWhile } from 'rxjs/operators';
 import { SimpleModalType } from '../app/components/simple-modal/simple-modal-type';
 import { ErrorMessageOutput } from '../app/error-message-output';
 import { InstructorSessionResultSectionType } from '../app/pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
@@ -75,7 +75,10 @@ export class FeedbackSessionActionsService {
         courseId,
         feedbackSessionName,
       ),
-    ).pipe(takeWhile(() => !downloadAborted))
+    ).pipe(
+      takeWhile(() => !downloadAborted),
+      finalize(() => loadingModal.close()),
+    )
       .subscribe({
         next: (resp: string) => {
           outputData.push(resp);
@@ -89,13 +92,11 @@ export class FeedbackSessionActionsService {
           if (downloadAborted) {
             return;
           }
-          loadingModal.close();
           blob = new Blob(outputData, { type: 'text/csv' });
           saveAs(blob, filename);
         },
         error: (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
-          loadingModal.close();
         },
       });
   }

@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { saveAs } from 'file-saver';
 import { Observable, of } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackResponseCommentService } from '../../../services/feedback-response-comment.service';
@@ -433,14 +434,8 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
       Object.values(this.questionsModel).map((questionTabModel: QuestionTabModel) => questionTabModel.question),
       this.section.length === 0 ? undefined : this.section,
       this.section.length === 0 ? undefined : this.sectionType,
-    )).subscribe({
-      complete: () => {
-        this.isDownloadingResults = false;
-      },
-      error: () => {
-        this.isDownloadingResults = false;
-      },
-    });
+    )).pipe(finalize(() => this.isDownloadingResults = false))
+      .subscribe();
   }
 
   downloadQuestionResultHandler(question: { questionNumber: number, questionId: string }): void {

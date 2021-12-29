@@ -229,26 +229,22 @@ export abstract class InstructorSessionBasePageComponent {
       courseId: model.feedbackSession.courseId,
       feedbackSessionName: model.feedbackSession.feedbackSessionName,
       intent: Intent.INSTRUCTOR_RESULT,
-    }).pipe(switchMap((feedbackQuestions: FeedbackQuestions) => {
-      const questions: FeedbackQuestion[] = feedbackQuestions.questions;
-      this.isResultActionLoading = true;
-      return of(this.feedbackSessionActionsService.downloadSessionResult(
-        model.feedbackSession.courseId,
-        model.feedbackSession.feedbackSessionName,
-        Intent.FULL_DETAIL,
-        true,
-        true,
-        questions,
-      ));
-    }))
-      .subscribe({
-        complete: () => {
-          this.isResultActionLoading = false;
-        },
-        error: () => {
-          this.isResultActionLoading = false;
-        },
-      });
+    }).pipe(
+      switchMap((feedbackQuestions: FeedbackQuestions) => {
+        const questions: FeedbackQuestion[] = feedbackQuestions.questions;
+        this.isResultActionLoading = true;
+        return of(this.feedbackSessionActionsService.downloadSessionResult(
+          model.feedbackSession.courseId,
+          model.feedbackSession.feedbackSessionName,
+          Intent.FULL_DETAIL,
+          true,
+          true,
+          questions,
+        ));
+      }),
+      finalize(() => this.isResultActionLoading = false),
+    )
+      .subscribe();
   }
 
   /**
