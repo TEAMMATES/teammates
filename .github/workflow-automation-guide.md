@@ -112,7 +112,7 @@ The command needs to be repeated for each file to minify.
 
 To simplify things, the command for building all main.ts files into index.js files is added as a script in package.json. This script can be executed by doing `npm run actions:minify`.
 
-The command to check for typescript errors and then build can be executed in one step with `npm run actions:build`. 
+The command to check for typescript errors and then build can be executed in one step with `npm run actions`. 
 
 When new main.ts files are added into this repository, package.json should be updated.
 

@@ -8,7 +8,7 @@ export const finalReviewLabel = "s.FinalReview";
 export const toMergeLabel = "s.ToMerge";
 
 //// variables to configure
-export const usualTimeForChecksToRun = 10 * 60 * 1000; // min * sec * ms
+export const durationToWaitForChecks = 2 * 60 * 1000; // min * sec * ms
 export const errMessagePreamble = "There is at least one failing check:";
 export const reviewKeywords = "PR ready for review";
 

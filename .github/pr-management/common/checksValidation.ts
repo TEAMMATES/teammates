@@ -4,7 +4,7 @@
  */
 import * as core from '@actions/core';
 import { log } from '../logger';
-import { errMessagePreamble, namesOfExcludedChecks, usualTimeForChecksToRun } from './const';
+import { errMessagePreamble, namesOfExcludedChecks, durationToWaitForChecks } from './const';
 import { getCurrentPRHeadSha, getListOfChecks } from './github-manager/interface';
 
 export async function sleep(ms : number) {
@@ -54,7 +54,7 @@ async function validateChecks(validateForRef: string)
         );
         
         if (incompleteArr !== undefined) {
-            await sleep(usualTimeForChecksToRun);
+            await sleep(durationToWaitForChecks);
             continue;
         }
 
