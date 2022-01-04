@@ -20,7 +20,7 @@ These pr-management related features were prioritised for implementation after s
 
 Here is how the files related to workflow automation have been organised.
 
-* **/.github/workflow**
+* **./.github/workflow**
   * yaml files that trigger a workflow will be found here
   * The github actions api searches this exact path for workflow files so this folder should not be renamed
   * Not all files in this folder belong to the pr-management project. Some are existing continuous integration files.
