@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -237,15 +238,31 @@ public final class FeedbackSessionsLogic {
      *
      * <p> If there is no question for students, the feedback session is completed</p>
      */
-    public boolean isFeedbackSessionCompletedByStudent(FeedbackSessionAttributes fsa, String userEmail) {
-        if (frLogic.hasGiverRespondedForSession(userEmail, fsa.getFeedbackSessionName(), fsa.getCourseId())) {
-            return true;
-        }
-
+    public boolean isFeedbackSessionCompletedByStudent(FeedbackSessionAttributes fsa, String userEmail, String userTeam) {
         String feedbackSessionName = fsa.getFeedbackSessionName();
         String courseId = fsa.getCourseId();
+
+        List<FeedbackQuestionAttributes> allQuestions = fqLogic.getFeedbackQuestionsForStudents(feedbackSessionName, courseId);
         // if there is no question for students, session is complete
-        return !fqLogic.sessionHasQuestions(feedbackSessionName, courseId);
+        if (allQuestions.size() == 0) {
+            return true;
+        }
+        Boolean isAllTeamQuestions = true;
+
+        for (FeedbackQuestionAttributes question: allQuestions) {
+            if (question.getGiverType() == FeedbackParticipantType.STUDENTS) {
+                isAllTeamQuestions = false;
+                break;
+            }
+        }
+
+        if (isAllTeamQuestions) {
+            // if all team questions, session is complete only if someone from team has responded
+            return frLogic.hasGiverRespondedForSession(userTeam, feedbackSessionName, courseId);
+        } else {
+            // if there are individual questions, session is complete only if the student has responded to the individual questions
+            return frLogic.hasGiverRespondedForSession(userEmail, feedbackSessionName, courseId);
+        }
     }
 
     /**
