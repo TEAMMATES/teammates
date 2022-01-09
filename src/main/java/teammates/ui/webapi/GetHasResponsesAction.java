@@ -108,7 +108,8 @@ class GetHasResponsesAction extends Action {
                     // Skip invisible sessions.
                     continue;
                 }
-                boolean hasResponses = logic.hasStudentSubmittedFeedback(feedbackSession, student.getEmail(), student.getTeam());
+                boolean hasResponses = logic.hasStudentSubmittedFeedback(
+                        feedbackSession, student.getEmail(), student.getTeam());
                 sessionsHasResponses.put(feedbackSession.getFeedbackSessionName(), hasResponses);
             }
             return new JsonResult(new HasResponsesData(sessionsHasResponses));

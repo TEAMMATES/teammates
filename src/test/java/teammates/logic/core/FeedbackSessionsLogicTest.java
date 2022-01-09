@@ -805,7 +805,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         // student who answered team question
         student = dataBundle.students.get("student4InCourse1");
         assertTrue(fsLogic.isFeedbackSessionCompletedByStudent(fs, student.getEmail(), student.getTeam()));
-        
+
         // student whose teammate answered team question
         student = dataBundle.students.get("student1InCourse1");
         assertTrue(fsLogic.isFeedbackSessionCompletedByStudent(fs, student.getEmail(), student.getTeam()));
@@ -824,7 +824,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         // student who answered only team question
         student = dataBundle.students.get("student2InCourse1");
         assertFalse(fsLogic.isFeedbackSessionCompletedByStudent(fs, student.getEmail(), student.getTeam()));
-        
+
         // student who answered only individual question
         student = dataBundle.students.get("student6InCourse1");
         assertTrue(fsLogic.isFeedbackSessionCompletedByStudent(fs, student.getEmail(), student.getTeam()));
