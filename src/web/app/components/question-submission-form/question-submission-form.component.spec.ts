@@ -130,7 +130,7 @@ describe('QuestionSubmissionFormComponent', () => {
     expect(component.model).toBe(model);
   });
 
-  it('should arrange recepients according to alphabetical order of name after ngOnInit (Sorted recepient list)', () => {
+  it('should arrange recipients according to alphabetical order of name after ngOnInit (Sorted recipient list)', () => {
     const model: QuestionSubmissionFormModel = JSON.parse(JSON.stringify(testNumscaleQuestionSubmissionForm));
 
     component.formModel = model;
@@ -139,11 +139,11 @@ describe('QuestionSubmissionFormComponent', () => {
     expect(model.recipientSubmissionForms).toEqual([formResponse3, formResponse4, formResponse2, formResponse1]);
   });
 
-  it('should arrange recepients according to alphabetical order of name after ngOnInit (Unsorted recepient list)',
+  it('should arrange recipients according to alphabetical order of name after ngOnInit (Unsorted recipient list)',
     () => {
       const model: QuestionSubmissionFormModel = JSON.parse(JSON.stringify(testNumscaleQuestionSubmissionForm));
 
-      // Change recepient list to unsorted
+      // Change recipient list to unsorted
       model.recipientList = [{ recipientName: 'Charlie Hans', recipientIdentifier: 'hans-charlie-id' },
       { recipientName: 'Alan Rogers', recipientIdentifier: 'rogers-alan-id' },
       { recipientName: 'Barry Harris', recipientIdentifier: 'harris-barry-id' },

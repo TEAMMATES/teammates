@@ -116,8 +116,8 @@ export class QuestionSubmissionFormComponent implements OnInit {
 
     this.model.recipientSubmissionForms.sort((firstRecipient: FeedbackResponseRecipientSubmissionFormModel,
       secondRecipient: FeedbackResponseRecipientSubmissionFormModel) => {
-      const indexOne: number = indexes.get(firstRecipient.recipientIdentifier) || 0;
-      const indexTwo: number = indexes.get(secondRecipient.recipientIdentifier) || 0;
+      const firstRecipientIndex: number = indexes.get(firstRecipient.recipientIdentifier) || 0;
+      const secondRecipientIndex: number = indexes.get(secondRecipient.recipientIdentifier) || 0;
 
       return indexOne - indexTwo;
     });
