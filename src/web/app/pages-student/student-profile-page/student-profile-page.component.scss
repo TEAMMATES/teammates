@@ -26,8 +26,10 @@ select {
 }
 
 .profile-pic {
-  height: 220px;
-  width: 220px;
+  height: auto;
+  width: auto;
+  max-height: 220px;
+  max-width: 220px;
 }
 
 .profile-pic-row {
