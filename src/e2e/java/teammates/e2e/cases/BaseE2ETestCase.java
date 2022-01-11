@@ -97,7 +97,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
      * {@code relativeUrl} must start with a "/".
      */
     protected static AppUrl createUrl(String relativeUrl) {
-        return new AppUrl(TestProperties.TEAMMATES_URL + relativeUrl);
+        return new AppUrl(TestProperties.TEAMMATES_FRONTEND_URL + relativeUrl);
     }
 
     /**
@@ -109,7 +109,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
         if (!TestProperties.isDevServer()) {
             // In order for the cookie injection to work, we need to be in the domain.
             // Use the home page to minimize the page load time.
-            browser.goToUrl(TestProperties.TEAMMATES_URL);
+            browser.goToUrl(TestProperties.TEAMMATES_FRONTEND_URL);
 
             String cookieValue = BACKDOOR.getUserCookie(userId);
             browser.addCookie(Const.SecurityConfig.AUTH_COOKIE_NAME, cookieValue, true, true);
