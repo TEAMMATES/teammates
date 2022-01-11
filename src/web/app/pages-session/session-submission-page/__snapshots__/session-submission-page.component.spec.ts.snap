@@ -935,7 +935,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 >
                   
                   <div
-                    class="col-12 margin-top-20px"
+                    class="col-md-5 col-xs-12 margin-top-20px"
                   >
                     
                     <div
@@ -951,7 +951,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     
                   </div>
                   <div
-                    class="col-12 margin-top-10px indent"
+                    class="col margin-top-20px"
                   >
                     
                     
@@ -1239,7 +1239,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 >
                   
                   <div
-                    class="col-12 margin-top-20px"
+                    class="col-md-5 col-xs-12 margin-top-20px"
                   >
                     
                     <div
@@ -1255,7 +1255,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     
                   </div>
                   <div
-                    class="col-12 margin-top-10px indent"
+                    class="col margin-top-20px"
                   >
                     
                     
@@ -1420,7 +1420,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 >
                   
                   <div
-                    class="col-12 margin-top-20px"
+                    class="col-md-5 col-xs-12 margin-top-20px"
                   >
                     
                     <div
@@ -1436,7 +1436,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     
                   </div>
                   <div
-                    class="col-12 margin-top-10px indent"
+                    class="col margin-top-20px"
                   >
                     
                     
@@ -1541,7 +1541,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 >
                   
                   <div
-                    class="col-12 margin-top-20px"
+                    class="col-md-5 col-xs-12 margin-top-20px"
                   >
                     
                     <div
@@ -1557,7 +1557,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     
                   </div>
                   <div
-                    class="col-12 margin-top-10px indent"
+                    class="col margin-top-20px"
                   >
                     
                     
@@ -1820,7 +1820,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 >
                   
                   <div
-                    class="col-12 margin-top-20px"
+                    class="col-md-5 col-xs-12 margin-top-20px"
                   >
                     
                     <div
@@ -1836,7 +1836,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     
                   </div>
                   <div
-                    class="col-12 margin-top-10px indent"
+                    class="col margin-top-20px"
                   >
                     
                     
@@ -2032,7 +2032,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 >
                   
                   <div
-                    class="col-12 margin-top-20px"
+                    class="col-md-5 col-xs-12 margin-top-20px"
                   >
                     
                     <div
@@ -2048,7 +2048,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     
                   </div>
                   <div
-                    class="col-12 margin-top-10px indent"
+                    class="col margin-top-20px"
                   >
                     
                     
@@ -2252,7 +2252,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 >
                   
                   <div
-                    class="col-12 margin-top-20px"
+                    class="col-md-5 col-xs-12 margin-top-20px"
                   >
                     
                     <div
@@ -2268,7 +2268,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     
                   </div>
                   <div
-                    class="col-12 margin-top-10px indent"
+                    class="col margin-top-20px"
                   >
                     
                     
@@ -2281,11 +2281,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     
                     
                     <tm-constsum-recipients-question-edit-answer-form>
-                      <div
-                        class="col-sm-3"
-                      >
+                      <div>
                         <div
-                          class="form-group row"
+                          class="form-group"
                         >
                           <input
                             class="form-control ng-untouched ng-pristine ng-valid"
@@ -2452,7 +2450,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 >
                   
                   <div
-                    class="col-12 margin-top-20px"
+                    class="col-md-5 col-xs-12 margin-top-20px"
                   >
                     
                     <div
@@ -2468,7 +2466,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     
                   </div>
                   <div
-                    class="col-12 margin-top-10px indent"
+                    class="col margin-top-20px"
                   >
                     
                     <tm-contribution-question-edit-answer-form>
@@ -2772,7 +2770,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 >
                   
                   <div
-                    class="col-12 margin-top-20px"
+                    class="col-md-5 col-xs-12 margin-top-20px"
                   >
                     
                     <div
@@ -2788,7 +2786,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     
                   </div>
                   <div
-                    class="col-12 margin-top-10px indent"
+                    class="col margin-top-20px"
                   >
                     
                     
@@ -3118,7 +3116,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 >
                   
                   <div
-                    class="col-12 margin-top-20px"
+                    class="col-md-5 col-xs-12 margin-top-20px"
                   >
                     
                     <div
@@ -3134,7 +3132,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     
                   </div>
                   <div
-                    class="col-12 margin-top-10px indent"
+                    class="col margin-top-20px"
                   >
                     
                     
@@ -3145,14 +3143,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         class="form-group row text-left"
                       >
                         <div
-                          class="col-md-3 col-xs-6 text-md-right col-form-label"
+                          class="col-md-5 col-xs-12 text-md-right col-form-label"
                         >
                           <strong>
                             option 1
                           </strong>
                         </div>
                         <div
-                          class="col-md-3 col-xs-6 text-md-left"
+                          class="col-md-7 col-xs-12 text-md-left"
                         >
                           <select
                             class="form-control ng-untouched ng-pristine ng-valid"
@@ -3178,14 +3176,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         class="form-group row text-left"
                       >
                         <div
-                          class="col-md-3 col-xs-6 text-md-right col-form-label"
+                          class="col-md-5 col-xs-12 text-md-right col-form-label"
                         >
                           <strong>
                             option 2
                           </strong>
                         </div>
                         <div
-                          class="col-md-3 col-xs-6 text-md-left"
+                          class="col-md-7 col-xs-12 text-md-left"
                         >
                           <select
                             class="form-control ng-untouched ng-pristine ng-valid"
@@ -3207,9 +3205,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                           </select>
                         </div>
                       </div>
-                      <div
-                        class="col-md-9 offset-md-3"
-                      >
+                      <div>
                         
                         
                         
@@ -3389,7 +3385,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 >
                   
                   <div
-                    class="col-12 margin-top-20px"
+                    class="col-md-5 col-xs-12 margin-top-20px"
                   >
                     
                     <div
@@ -3405,7 +3401,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     
                   </div>
                   <div
-                    class="col-12 margin-top-10px indent"
+                    class="col margin-top-20px"
                   >
                     
                     
@@ -3413,25 +3409,21 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     
                     <tm-rank-recipients-question-edit-answer-form>
                       <div
-                        class="row margin-bottom-15px"
+                        class="margin-bottom-15px"
                       >
-                        <div
-                          class="col-md-3"
+                        <select
+                          class="form-control ng-untouched ng-pristine ng-valid"
                         >
-                          <select
-                            class="form-control ng-untouched ng-pristine ng-valid"
+                          <option
+                            value="0: -999"
+                          />
+                          
+                          <option
+                            value="1: 1"
                           >
-                            <option
-                              value="0: -999"
-                            />
-                            
-                            <option
-                              value="1: 1"
-                            >
-                              1
-                            </option>
-                          </select>
-                        </div>
+                            1
+                          </option>
+                        </select>
                       </div>
                     </tm-rank-recipients-question-edit-answer-form>
                     
@@ -3810,7 +3802,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 >
                   
                   <div
-                    class="col-12 margin-top-20px"
+                    class="col-md-5 col-xs-12 margin-top-20px"
                   >
                     
                     <div
@@ -3826,7 +3818,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     
                   </div>
                   <div
-                    class="col-12 margin-top-10px indent"
+                    class="col margin-top-20px"
                   >
                     
                     
@@ -4119,7 +4111,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 >
                   
                   <div
-                    class="col-12 margin-top-20px"
+                    class="col-md-5 col-xs-12 margin-top-20px"
                   >
                     
                     <div
@@ -4135,7 +4127,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     
                   </div>
                   <div
-                    class="col-12 margin-top-10px indent"
+                    class="col margin-top-20px"
                   >
                     
                     
@@ -4300,7 +4292,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 >
                   
                   <div
-                    class="col-12 margin-top-20px"
+                    class="col-md-5 col-xs-12 margin-top-20px"
                   >
                     
                     <div
@@ -4316,7 +4308,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     
                   </div>
                   <div
-                    class="col-12 margin-top-10px indent"
+                    class="col margin-top-20px"
                   >
                     
                     
@@ -4425,7 +4417,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 >
                   
                   <div
-                    class="col-12 margin-top-20px"
+                    class="col-md-5 col-xs-12 margin-top-20px"
                   >
                     
                     <div
@@ -4441,7 +4433,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     
                   </div>
                   <div
-                    class="col-12 margin-top-10px indent"
+                    class="col margin-top-20px"
                   >
                     
                     
@@ -4708,7 +4700,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 >
                   
                   <div
-                    class="col-12 margin-top-20px"
+                    class="col-md-5 col-xs-12 margin-top-20px"
                   >
                     
                     <div
@@ -4724,7 +4716,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     
                   </div>
                   <div
-                    class="col-12 margin-top-10px indent"
+                    class="col margin-top-20px"
                   >
                     
                     
@@ -4923,7 +4915,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 >
                   
                   <div
-                    class="col-12 margin-top-20px"
+                    class="col-md-5 col-xs-12 margin-top-20px"
                   >
                     
                     <div
@@ -4939,7 +4931,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     
                   </div>
                   <div
-                    class="col-12 margin-top-10px indent"
+                    class="col margin-top-20px"
                   >
                     
                     
@@ -5143,7 +5135,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 >
                   
                   <div
-                    class="col-12 margin-top-20px"
+                    class="col-md-5 col-xs-12 margin-top-20px"
                   >
                     
                     <div
@@ -5159,7 +5151,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     
                   </div>
                   <div
-                    class="col-12 margin-top-10px indent"
+                    class="col margin-top-20px"
                   >
                     
                     
@@ -5172,11 +5164,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     
                     
                     <tm-constsum-recipients-question-edit-answer-form>
-                      <div
-                        class="col-sm-3"
-                      >
+                      <div>
                         <div
-                          class="form-group row"
+                          class="form-group"
                         >
                           <input
                             class="form-control ng-untouched ng-pristine ng-valid"
@@ -5343,7 +5333,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 >
                   
                   <div
-                    class="col-12 margin-top-20px"
+                    class="col-md-5 col-xs-12 margin-top-20px"
                   >
                     
                     <div
@@ -5359,7 +5349,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     
                   </div>
                   <div
-                    class="col-12 margin-top-10px indent"
+                    class="col margin-top-20px"
                   >
                     
                     <tm-contribution-question-edit-answer-form>
@@ -5663,7 +5653,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 >
                   
                   <div
-                    class="col-12 margin-top-20px"
+                    class="col-md-5 col-xs-12 margin-top-20px"
                   >
                     
                     <div
@@ -5679,7 +5669,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     
                   </div>
                   <div
-                    class="col-12 margin-top-10px indent"
+                    class="col margin-top-20px"
                   >
                     
                     
@@ -6017,7 +6007,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 >
                   
                   <div
-                    class="col-12 margin-top-20px"
+                    class="col-md-5 col-xs-12 margin-top-20px"
                   >
                     
                     <div
@@ -6033,7 +6023,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     
                   </div>
                   <div
-                    class="col-12 margin-top-10px indent"
+                    class="col margin-top-20px"
                   >
                     
                     
@@ -6044,14 +6034,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         class="form-group row text-left"
                       >
                         <div
-                          class="col-md-3 col-xs-6 text-md-right col-form-label"
+                          class="col-md-5 col-xs-12 text-md-right col-form-label"
                         >
                           <strong>
                             option 1
                           </strong>
                         </div>
                         <div
-                          class="col-md-3 col-xs-6 text-md-left"
+                          class="col-md-7 col-xs-12 text-md-left"
                         >
                           <select
                             class="form-control ng-untouched ng-pristine ng-valid"
@@ -6077,14 +6067,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         class="form-group row text-left"
                       >
                         <div
-                          class="col-md-3 col-xs-6 text-md-right col-form-label"
+                          class="col-md-5 col-xs-12 text-md-right col-form-label"
                         >
                           <strong>
                             option 2
                           </strong>
                         </div>
                         <div
-                          class="col-md-3 col-xs-6 text-md-left"
+                          class="col-md-7 col-xs-12 text-md-left"
                         >
                           <select
                             class="form-control ng-untouched ng-pristine ng-valid"
@@ -6106,9 +6096,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                           </select>
                         </div>
                       </div>
-                      <div
-                        class="col-md-9 offset-md-3"
-                      >
+                      <div>
                         
                         
                         
@@ -6288,7 +6276,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 >
                   
                   <div
-                    class="col-12 margin-top-20px"
+                    class="col-md-5 col-xs-12 margin-top-20px"
                   >
                     
                     <div
@@ -6304,7 +6292,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     
                   </div>
                   <div
-                    class="col-12 margin-top-10px indent"
+                    class="col margin-top-20px"
                   >
                     
                     
@@ -6312,25 +6300,21 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     
                     <tm-rank-recipients-question-edit-answer-form>
                       <div
-                        class="row margin-bottom-15px"
+                        class="margin-bottom-15px"
                       >
-                        <div
-                          class="col-md-3"
+                        <select
+                          class="form-control ng-untouched ng-pristine ng-valid"
                         >
-                          <select
-                            class="form-control ng-untouched ng-pristine ng-valid"
+                          <option
+                            value="0: -999"
+                          />
+                          
+                          <option
+                            value="1: 1"
                           >
-                            <option
-                              value="0: -999"
-                            />
-                            
-                            <option
-                              value="1: 1"
-                            >
-                              1
-                            </option>
-                          </select>
-                        </div>
+                            1
+                          </option>
+                        </select>
                       </div>
                     </tm-rank-recipients-question-edit-answer-form>
                     
