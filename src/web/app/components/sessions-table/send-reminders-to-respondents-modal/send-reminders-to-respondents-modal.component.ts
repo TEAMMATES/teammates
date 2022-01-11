@@ -91,11 +91,14 @@ export class SendRemindersToRespondentsModalComponent implements OnInit {
 
   /**
    * Checks whether all yet to submit students are selected.
+   *
+   * If all students have submitted it will return false.
    */
   get isAllYetToSubmitStudentsSelected(): boolean {
-    return this.studentListInfoTableRowModels
-        .filter((model: StudentListInfoTableRowModel) => !model.hasSubmittedSession)
-        .every((model: StudentListInfoTableRowModel) => model.isSelected);
+    const nonSubmitters: StudentListInfoTableRowModel[] = this.studentListInfoTableRowModels
+      .filter((model: StudentListInfoTableRowModel) => !model.hasSubmittedSession);
+
+    return nonSubmitters.length > 0 && nonSubmitters.every((model: StudentListInfoTableRowModel) => model.isSelected);
   }
 
   /**
@@ -107,10 +110,13 @@ export class SendRemindersToRespondentsModalComponent implements OnInit {
 
   /**
    * Checks whether all yet to submit instructors are selected.
+   *
+   * If all instructors have submitted it will return false.
    */
   get isAllYetToSubmitInstructorsSelected(): boolean {
-    return this.instructorListInfoTableRowModels
-        .filter((model: InstructorListInfoTableRowModel) => !model.hasSubmittedSession)
-        .every((model: InstructorListInfoTableRowModel) => model.isSelected);
+    const nonSubmitters: InstructorListInfoTableRowModel[] = this.instructorListInfoTableRowModels
+      .filter((model: InstructorListInfoTableRowModel) => !model.hasSubmittedSession);
+
+    return nonSubmitters.length > 0 && nonSubmitters.every((model: InstructorListInfoTableRowModel) => model.isSelected);
   }
 }
