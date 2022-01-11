@@ -119,7 +119,7 @@ export class QuestionSubmissionFormComponent implements OnInit {
       const firstRecipientIndex: number = indexes.get(firstRecipient.recipientIdentifier) || 0;
       const secondRecipientIndex: number = indexes.get(secondRecipient.recipientIdentifier) || 0;
 
-      return indexOne - indexTwo;
+      return firstRecipientIndex - secondRecipientIndex;
     });
   }
 
