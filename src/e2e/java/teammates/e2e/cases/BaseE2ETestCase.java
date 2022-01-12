@@ -93,11 +93,20 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
 
     /**
      * Creates an {@link AppUrl} for the supplied {@code relativeUrl} parameter.
-     * The base URL will be the value of test.app.url in test.properties.
+     * The base URL will be the value of test.app.frontend.url in test.properties.
      * {@code relativeUrl} must start with a "/".
      */
-    protected static AppUrl createUrl(String relativeUrl) {
+    protected static AppUrl createFrontendUrl(String relativeUrl) {
         return new AppUrl(TestProperties.TEAMMATES_FRONTEND_URL + relativeUrl);
+    }
+
+    /**
+     * Creates an {@link AppUrl} for the supplied {@code relativeUrl} parameter.
+     * The base URL will be the value of test.app.backend.url in test.properties.
+     * {@code relativeUrl} must start with a "/".
+     */
+    protected static AppUrl createBackendUrl(String relativeUrl) {
+        return new AppUrl(TestProperties.TEAMMATES_BACKEND_URL + relativeUrl);
     }
 
     /**
@@ -137,7 +146,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
      * Equivalent to clicking the 'logout' link in the top menu of the page.
      */
     protected void logout() {
-        browser.goToUrl(createUrl(Const.WebPageURIs.LOGOUT).toAbsoluteString());
+        browser.goToUrl(createBackendUrl(Const.WebPageURIs.LOGOUT).toAbsoluteString());
         AppPage.getNewPageInstance(browser, HomePage.class).waitForPageToLoad();
     }
 
