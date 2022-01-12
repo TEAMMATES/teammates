@@ -119,6 +119,13 @@ export class ConstsumRecipientsQuestionConstraintComponent
   }
 
   /**
+   * Checks if any of the points are negative.
+   */
+  get isAnyPointsNegative(): boolean {
+    return this.allAnswers.reduce((isNegative: boolean, curr: number) => isNegative || (curr < 0), false);
+  }
+
+  /**
    * Returns true if the question requires uneven distribution but the points are not unevenly distributed.
    */
   get isWronglyAllUneven(): boolean {
