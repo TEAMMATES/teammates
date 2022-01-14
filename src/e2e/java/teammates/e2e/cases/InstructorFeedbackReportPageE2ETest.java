@@ -331,7 +331,7 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
         resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPage.class, instructor.getGoogleId());
 
         ______TS("verify loaded session details");
-        // resultsPage.verifySessionDetails(feedbackSession);
+        resultsPage.verifySessionDetails(feedbackSession);
 
         ______TS("unpublish results");
         resultsPage.unpublishSessionResults();
