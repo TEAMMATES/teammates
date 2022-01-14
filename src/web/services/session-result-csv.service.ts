@@ -38,10 +38,10 @@ export class SessionResultCsvService {
     }
     csvRows.push(['Participants who have not responded to any question']);
     this.generateEmptyRow(csvRows);
-    const header: string[] = ['Team', 'Name'];
+    const header: string[] = ['Team', 'Name', 'Email'];
     csvRows.push(header);
     noResponseStudents.forEach((student: Student) => {
-      csvRows.push([student.teamName, student.name]);
+      csvRows.push([student.teamName, student.name, student.email]);
     });
 
     return CsvHelper.convertCsvContentsToCsvString(csvRows);
