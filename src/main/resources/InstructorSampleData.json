@@ -390,7 +390,6 @@
         "distributeToRecipients": false,
         "pointsPerOption": false,
         "questionText": "How important are the following factors to you? Give points accordingly.",
-        "numOfConstSumOptions": 2,
         "questionType": "CONSTSUM",
         "points": 100,
         "constSumOptions": [
@@ -422,7 +421,6 @@
         "distributeToRecipients": true,
         "pointsPerOption": true,
         "questionText": "Split points among your team members and yourself, according to how much you think each member has contributed.",
-        "numOfConstSumOptions": 0,
         "questionType": "CONSTSUM",
         "points": 100,
         "constSumOptions": []
