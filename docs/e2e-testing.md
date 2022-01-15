@@ -7,7 +7,7 @@
 
 ## What is E2E Testing?
   
-E2E (End-to-end) testing is a testing methodology where the objective is to test the application as a whole.   
+<tooltip content="End-to-end">E2E</tooltip> testing is a testing methodology where the objective is to test the application as a whole.   
 - It aims to ensure all integrated components of the application work together as expected when it is being used by the end user.   
 - This is done by simulating user scenarios on the fully built product.  
   
