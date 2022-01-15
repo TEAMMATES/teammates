@@ -127,23 +127,23 @@ public class FeedbackSessionBasicRequest extends BasicRequest {
     @Override
     public void validate() throws InvalidHttpRequestBodyException {
         assertTrue(instructions != null, "Instructions cannot be null");
-        assertTrue(submissionStartTimestamp > 0L, "Start timestamp should be more than zero");
-        assertTrue(submissionEndTimestamp > 0L, "End timestamp should be more than zero");
+        assertTrue(submissionStartTimestamp > 0L, "Submission opening date is invalid");
+        assertTrue(submissionEndTimestamp > 0L, "Submission closing date is invalid");
 
         assertTrue(sessionVisibleSetting != null, "sessionVisibleSetting cannot be null");
         if (sessionVisibleSetting == SessionVisibleSetting.CUSTOM) {
             assertTrue(customSessionVisibleTimestamp != null,
-                    "session visible timestamp should not be null");
+                    "Session visible timestamp is invalid");
             assertTrue(customSessionVisibleTimestamp > 0L,
-                    "session visible timestamp should be more than zero");
+                    "Session visible timestamp should be more than zero");
         }
 
         assertTrue(responseVisibleSetting != null, "responseVisibleSetting cannot be null");
         if (responseVisibleSetting == ResponseVisibleSetting.CUSTOM) {
             assertTrue(customResponseVisibleTimestamp != null,
-                    "response visible timestamp should not be null");
+                    "Response visible timestamp is invalid");
             assertTrue(customResponseVisibleTimestamp > 0L,
-                    "response visible timestamp should be more than zero");
+                    "Response visible timestamp should be more than zero");
         }
     }
 }
