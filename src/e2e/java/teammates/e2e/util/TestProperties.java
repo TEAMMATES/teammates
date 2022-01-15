@@ -17,8 +17,11 @@ public final class TestProperties {
     /** The directory where webdriver downloads files to. */
     public static final String TEST_DOWNLOADS_FOLDER = "src/e2e/resources/downloads";
 
-    /** The value of "test.app.url" in test.properties file. */
-    public static final String TEAMMATES_URL;
+    /** The value of "test.app.frontend.url" in test.properties file. */
+    public static final String TEAMMATES_FRONTEND_URL;
+
+    /** The value of "test.app.backend.url" in test.properties file. */
+    public static final String TEAMMATES_BACKEND_URL;
 
     /** The Google ID of user with admin permission. */
     public static final String TEST_ADMIN;
@@ -86,7 +89,8 @@ public final class TestProperties {
                 prop.load(testPropStream);
             }
 
-            TEAMMATES_URL = prop.getProperty("test.app.url");
+            TEAMMATES_FRONTEND_URL = prop.getProperty("test.app.frontend.url");
+            TEAMMATES_BACKEND_URL = prop.getProperty("test.app.backend.url");
 
             TEST_EMAIL = prop.getProperty("test.email");
             TEST_ADMIN = prop.getProperty("test.admin");
@@ -117,7 +121,7 @@ public final class TestProperties {
     }
 
     public static boolean isDevServer() {
-        return TEAMMATES_URL.matches("^https?://localhost:[0-9]+(/.*)?");
+        return TEAMMATES_FRONTEND_URL.matches("^https?://localhost:[0-9]+(/.*)?");
     }
 
 }

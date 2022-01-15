@@ -89,7 +89,7 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
         CourseAttributes course = testData.courses.get("tm.e2e.IFRep.CS2104");
         FeedbackSessionAttributes feedbackSession = testData.feedbackSessions.get("Open Session");
 
-        resultsUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_REPORT_PAGE)
+        resultsUrl = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_REPORT_PAGE)
                 .withCourseId(course.getId())
                 .withSessionName(feedbackSession.getFeedbackSessionName());
 
@@ -325,7 +325,7 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
         CourseAttributes course = testData.courses.get("tm.e2e.IFRep.CS2103");
         FeedbackSessionAttributes feedbackSession = testData.feedbackSessions.get("Open Session 2");
 
-        AppUrl resultsUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_REPORT_PAGE)
+        AppUrl resultsUrl = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_REPORT_PAGE)
                 .withCourseId(course.getId())
                 .withSessionName(feedbackSession.getFeedbackSessionName());
         resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPage.class, instructor.getGoogleId());
