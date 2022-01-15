@@ -16,13 +16,13 @@ The version number of all the tool stacks are declared in `build.gradle` or `pac
 
 | Tool name | Ruleset |
 | --- | --- |
-| [CheckStyle](http://checkstyle.sourceforge.net/) | [`teammates-checkstyle.xml`]((../static-analysis/teammates-checkstyle.xml)) |
-| [PMD](https://pmd.github.io/) | [`teammates-pmd.xml`](../static-analysis/teammates-pmd.xml), [`teammates-pmdMain.xml`](../static-analysis/teammates-pmdMain.xml) |
-| [SpotBugs](https://spotbugs.github.io/) | [`teammates-spotbugs.xml`](../static-analysis/teammates-spotbugs.xml) |
+| [CheckStyle](http://checkstyle.sourceforge.net/) | [`teammates-checkstyle.xml`](https://github.com/TEAMMATES/teammates/blob/master/static-analysis/teammates-checkstyle.xml) |
+| [PMD](https://pmd.github.io/) | [`teammates-pmd.xml`](https://github.com/TEAMMATES/teammates/blob/master/static-analysis/teammates-pmd.xml), [`teammates-pmdMain.xml`](https://github.com/TEAMMATES/teammates/blob/master/static-analysis/teammates-pmdMain.xml) |
+| [SpotBugs](https://spotbugs.github.io/) | [`teammates-spotbugs.xml`](https://github.com/TEAMMATES/teammates/blob/master/static-analysis/teammates-spotbugs.xml) |
 | [ArchUnit](https://github.com/TNG/ArchUnit) | - |
-| [TSLint](https://palantir.github.io/tslint/) | [`teammates-tslint.yml`](../static-analysis/teammates-tslint.yml) |
+| [TSLint](https://palantir.github.io/tslint/) | [`teammates-tslint.yml`](https://github.com/TEAMMATES/teammates/blob/master/static-analysis/teammates-tslint.yml) |
 | [JSONlint](https://github.com/marionebl/jsonlint-cli) | - |
-| [stylelint](http://stylelint.io) | [`teammates-stylelint.yml`](../static-analysis/teammates-stylelint.yml) |
+| [stylelint](http://stylelint.io) | [`teammates-stylelint.yml`](https://github.com/TEAMMATES/teammates/blob/master/static-analysis/teammates-stylelint.yml) |
 | [lintspaces](https://github.com/evanshortiss/lintspaces-cli) | - |
 
 ## Suppressing rules
