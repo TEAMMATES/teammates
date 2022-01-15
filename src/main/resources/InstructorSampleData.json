@@ -335,7 +335,6 @@
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
       "questionDetails": {
-        "numOfMcqChoices": 2,
         "mcqChoices": [
           "Group 1",
           "Group 2"

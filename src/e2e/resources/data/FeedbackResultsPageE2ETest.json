@@ -232,7 +232,6 @@
       "feedbackSessionName": "First Session",
       "courseId": "tm.e2e.FRes.CS2104",
       "questionDetails": {
-        "numOfMcqChoices": 2,
         "mcqChoices": [
           "UI",
           "Algo"
