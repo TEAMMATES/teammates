@@ -11,7 +11,8 @@ public class TestPropertiesTest extends BaseTestCase {
 
     @Test
     public void testContent() {
-        assertNotNull(TestProperties.TEAMMATES_URL);
+        assertNotNull(TestProperties.TEAMMATES_FRONTEND_URL);
+        assertNotNull(TestProperties.TEAMMATES_BACKEND_URL);
     }
 
 }

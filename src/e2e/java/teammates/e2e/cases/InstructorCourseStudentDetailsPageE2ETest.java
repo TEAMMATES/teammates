@@ -41,7 +41,7 @@ public class InstructorCourseStudentDetailsPageE2ETest extends BaseE2ETestCase {
     }
 
     private AppUrl getStudentDetailsViewPageUrl(String studentEmail) {
-        return createUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE)
+        return createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE)
                 .withCourseId(testData.courses.get("ICSDet.CS2104").getId())
                 .withStudentEmail(studentEmail);
     }
