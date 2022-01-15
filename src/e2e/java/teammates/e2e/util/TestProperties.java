@@ -121,7 +121,7 @@ public final class TestProperties {
     }
 
     public static boolean isDevServer() {
-        return TEAMMATES_BACKEND_URL.matches("^https?://localhost:[0-9]+(/.*)?");
+        return TEAMMATES_FRONTEND_URL.matches("^https?://localhost:[0-9]+(/.*)?");
     }
 
 }
