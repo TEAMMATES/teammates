@@ -83,3 +83,11 @@ If you want to develop front-end, you need to install the following:
 If you have followed every step correctly, your development environment should be set up successfully.
 
 Proceed to the development routine as outlined in [this document](development.md).
+
+## Step 5: Set up search (Optional)
+
+<panel header="Search service is optional for local development">
+<include src="search.md" />
+</panel>
+
+<br>
