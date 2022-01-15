@@ -1,3 +1,8 @@
+<frontmatter>
+  pageNav: 3
+  pageNavTitle: "Chapters of This Page"
+</frontmatter>
+
 # Testing Best Practices
 
 The goal is to make the system as fully covered by automated tests as possible.

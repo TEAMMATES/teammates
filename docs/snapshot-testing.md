@@ -1,3 +1,8 @@
+<frontmatter>
+  pageNav: 3
+  pageNavTitle: "Chapters of This Page"
+</frontmatter>
+
 # Snapshot Testing
 
 ## What is Snapshot Testing?

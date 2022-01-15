@@ -1,16 +1,11 @@
+<frontmatter>
+  pageNav: 3
+  pageNavTitle: "Chapters of This Page"
+</frontmatter>
+
 # Development Guidelines
 
 These are the common tasks involved when working on features, enhancements, bug fixes, etc. for TEAMMATES.
-
-* [Managing the dev server: front-end](#managing-the-dev-server-front-end)
-* [Managing the dev server: back-end](#managing-the-dev-server-back-end)
-* [Building front-end files](#building-front-end-files)
-* [Logging in to a TEAMMATES instance](#logging-in-to-a-teammates-instance)
-* [Running the Datastore emulator](#running-the-datastore-emulator)
-* [Testing](#testing)
-* [Deploying to a staging server](#deploying-to-a-staging-server)
-* [Running client scripts](#running-client-scripts)
-* [Config points](#config-points)
 
 The instructions in all parts of this document work for Linux, OS X, and Windows, with the following pointers:
 - Replace `./gradlew` to `gradlew.bat` if you are using Windows.

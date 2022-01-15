@@ -1,11 +1,12 @@
+<frontmatter>
+  pageNav: 2
+  pageNavTitle: "Chapters of This Page"
+</frontmatter>
+
 # Developer Troubleshooting Guide
 
 This document can help you to fix the common problems encountered while contributing to TEAMMATES.
 Note that some of the screenshots might be outdated, but the instructions will remain the same and all necessary modifications will be explained.
-
-* [Troubleshooting test failures](#troubleshooting-test-failures)
-    * [Common test errors and solutions](#common-test-errors-and-solutions)
-* [Submitting help request](#submitting-help-request)
 
 ## Troubleshooting test failures
 

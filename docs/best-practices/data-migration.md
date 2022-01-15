@@ -1,9 +1,11 @@
+<frontmatter>
+  pageNav: 3
+  pageNavTitle: "Chapters of This Page"
+</frontmatter>
+
 # Data Migration Best Practices
 
 Data migration is necessary when a new, possibly backwards-incompatible, schema is introduced in the code base.
-
-* [Making code work for both schemas](#making-code-work-for-both-schemas)
-* [Interchangeability between consecutive versions](#interchangeability-between-consecutive-versions)
 
 ## Making code work for both schemas
 

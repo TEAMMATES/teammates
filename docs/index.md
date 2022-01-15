@@ -1,3 +1,8 @@
+<frontmatter>
+  pageNav: 3
+  pageNavTitle: "Chapters of This Page"
+</frontmatter>
+
 # Documentation For Developers
 
 Here are some documents important for TEAMMATES developers.

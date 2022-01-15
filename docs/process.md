@@ -1,11 +1,11 @@
+<frontmatter>
+  pageNav: 3
+  pageNavTitle: "Chapters of This Page"
+</frontmatter>
+
 # Development Workflow
 
 This is the project-wide development workflow for TEAMMATES.
-
-* [Overview](#overview)
-* [Fixing issues](#fixing-issues)
-* [Reviewing a PR](#reviewing-a-pr)
-* [Merging a PR](#merging-a-pr)
 
 ## Overview
 

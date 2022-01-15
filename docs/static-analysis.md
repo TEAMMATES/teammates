@@ -1,12 +1,12 @@
+<frontmatter>
+  pageNav: 3
+  pageNavTitle: "Chapters of This Page"
+</frontmatter>
+
 # Static Analysis
 
 TEAMMATES uses a number of static analysis tools in order to maintain code quality.
 This document will cover an overview of these tools and how to run them in local environment.
-
-- [Version numbers](#version-numbers)
-- [Tool stack](#tool-stack)
-- [Suppressing rules](#suppressing-rules)
-- [Running static analysis](#running-static-analysis)
 
 ## Version numbers
 

@@ -1,3 +1,8 @@
+<frontmatter>
+  pageNav: 3
+  pageNavTitle: "Chapters of This Page"
+</frontmatter>
+
 # Glossary
 
 This document lines out the common terms used in the project.

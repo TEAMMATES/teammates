@@ -1,13 +1,9 @@
-# Design
+<frontmatter>
+  pageNav: 3
+  pageNavTitle: "Chapters of This Page"
+</frontmatter>
 
-- [Architecture](#architecture)
-- [UI Component](#ui-component)
-- [Logic Component](#logic-component)
-- [Storage Component](#storage-component)
-- [Common Component](#common-component)
-- [Test Driver Component](#test-driver-component)
-- [E2E Component](#e2e-component)
-- [Client Component](#client-component)
+# Design
 
 ## Architecture
 

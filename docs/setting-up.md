@@ -1,3 +1,8 @@
+<frontmatter>
+  pageNav: 3
+  pageNavTitle: "Chapters of This Page"
+</frontmatter>
+
 # Setting up a development environment
 
 This is a step-by-step guide for setting up a development environment on your local machine.

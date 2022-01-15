@@ -1,9 +1,11 @@
+<frontmatter>
+  pageNav: 3
+  pageNavTitle: "Chapters of This Page"
+</frontmatter>
+
 # Issue tracker
 
 This document describes how the issue tracker is used by the TEAMMATES project.
-
-* [Issue lifecycle](#issue-lifecycle)
-* [Issue labels](#issue-labels)
 
 ## Issue lifecycle
 

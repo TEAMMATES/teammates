@@ -1,20 +1,13 @@
+<frontmatter>
+  pageNav: 3
+  pageNavTitle: "Chapters of This Page"
+</frontmatter>
+
 # Contributing to TEAMMATES
 
 Thanks for taking your time to contribute to TEAMMATES!
 
-We welcome contributions from anyone, in particular, students (see [here](https://teammatesv4.appspot.com/web/front/about) for the list of our contributors). One of the main objectives of TEAMMATES is to help students get experience in an OSS production environment. Here are some information that might be useful to would-be contributors.
-
-* [Getting started](#getting-started)
-  * [Know the product/project](#know-the-productproject)
-  * [Code of Conduct](#code-of-conduct)
-* [How can I contribute?](#how-can-i-contribute)
-  * [Submitting an issue](#submitting-an-issue)
-  * [Manual testing](#manual-testing)
-  * [Submitting a pull request](#submitting-a-pull-request)
-* [Contributor orientation guide](#contributor-orientation-guide)
-  * [Knowledge required](#knowledge-required)
-  * [Orientation task list](#orientation-task-list)
-* [Other resources](#other-resources)
+We welcome contributions from anyone, in particular, students (see [here](https://teammatesv4.appspot.com/web/front/about) for the list of our contributors). One o8f the main objectives of TEAMMATES is to help students get experience in an OSS production environment. Here are some information that might be useful to would-be contributors.
 
 ## Getting started
 

@@ -1,3 +1,8 @@
+<frontmatter>
+  pageNav: 3
+  pageNavTitle: "Chapters of This Page"
+</frontmatter>
+
 # UI Design Best Practices
 
 The goal is to make the user guide unnecessary.

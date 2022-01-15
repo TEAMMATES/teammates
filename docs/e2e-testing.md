@@ -1,16 +1,10 @@
+<frontmatter>
+  pageNav: 3
+  pageNavTitle: "Chapters of This Page"
+</frontmatter>
+
 # E2E Testing  
 
-* [What is E2E Testing](#what-is-e2e-testing)
-* [Running E2E Tests](#running-e2e-tests)
-    * [Configuring browsers for E2E Testing](#configuring-browsers-for-e2e-testing)
-    * [Running the tests](#running-the-tests)
-    * [Testing against production server](#testing-against-production-server)
-* [Creating E2E Tests](#creating-e2e-tests)
-    * [Page Object Pattern](#page-object-pattern)
-    * [Creating Page Objects](#creating-page-objects)
-    * [Things to avoid when writing E2E tests](#things-to-avoid-when-writing-e2e-tests)
-    * [FAQ](#faq)
-  
 ## What is E2E Testing?
   
 E2E (End-to-end) testing is a testing methodology where the objective is to test the application as a whole.   
