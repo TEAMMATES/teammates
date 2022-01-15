@@ -21,7 +21,6 @@
             "Yes",
             "No"
           ],
-          "numOfRubricSubQuestions": 2,
           "rubricSubQuestions": [
             "This student has done a good job.",
             "This student has tried his/her best."
@@ -399,7 +398,6 @@
             "Yes",
             "No"
           ],
-          "numOfRubricSubQuestions": 2,
           "rubricSubQuestions": [
             "This student has done a good job.",
             "This student has tried his/her best."

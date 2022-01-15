@@ -479,7 +479,6 @@
           "This student has tried his/her best."
         ],
         "questionText": "Please choose the best choice for the following sub-questions.",
-        "numOfRubricSubQuestions": 2,
         "questionType": "RUBRIC",
         "rubricChoices": [
           "Yes",
