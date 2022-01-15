@@ -170,7 +170,6 @@
           ]
         ],
         "questionText": "Please choose the best choice for the following sub-questions.",
-        "numOfRubricChoices": 2,
         "numOfRubricSubQuestions": 2,
         "questionType": "RUBRIC",
         "hasAssignedWeights": true,
@@ -216,7 +215,6 @@
           "The duration of the lessons too short."
         ],
         "questionText": "Please choose the best choice for the following sub-questions.",
-        "numOfRubricChoices": 5,
         "numOfRubricSubQuestions": 3,
         "questionType": "RUBRIC",
         "hasAssignedWeights": false,

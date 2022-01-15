@@ -49,7 +49,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
     /**
      * Checks if the dimensions of rubricDescription is valid according
-     * to numOfRubricSubQuestions and numOfRubricChoices.
+     * to numOfRubricSubQuestions and size of rubricChoices.
      */
     private boolean isValidDescriptionSize() {
         if (rubricDescriptions.size() != rubricSubQuestions.size()) {
@@ -65,7 +65,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
     /**
      * Checks if the dimensions of rubricWeightsForEachCell is valid according
-     * to numOfRubricSubQuestions and numOfRubricChoices.
+     * to numOfRubricSubQuestions and size of rubricChoices.
      */
     private boolean isValidWeightSize() {
         if (rubricWeightsForEachCell.size() != rubricSubQuestions.size()) {
@@ -98,7 +98,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         // 3) At least 1 sub-question
         // 4) Choices and sub-questions should not be empty
         // 5) Weights must be assigned to all cells if weights are assigned, which means
-        //    weight size should be equal to (numOfRubricChoices * numOfRubricSubQuestions).
+        //    weight size should be equal to (rubricChoices.size() * numOfRubricSubQuestions).
 
         List<String> errors = new ArrayList<>();
 

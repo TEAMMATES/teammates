@@ -450,7 +450,6 @@
           "This teammate displayed teamwork."
         ],
         "questionText": "Please choose the best choice for the following sub-questions.",
-        "numOfRubricChoices": 5,
         "numOfRubricSubQuestions": 3,
         "questionType": "RUBRIC",
         "hasAssignedWeights": true,

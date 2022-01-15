@@ -987,7 +987,6 @@
           ]
         ],
         "questionText": "Please choose the best choice for the following sub-questions.",
-        "numOfRubricChoices": 2,
         "numOfRubricSubQuestions": 2,
         "questionType": "RUBRIC",
         "hasAssignedWeights": true,
@@ -1039,7 +1038,6 @@
           ]
         ],
         "questionText": "Please choose the best choice for the following sub-questions. Only first subquestion has responses",
-        "numOfRubricChoices": 2,
         "numOfRubricSubQuestions": 2,
         "questionType": "RUBRIC",
         "hasAssignedWeights": true,

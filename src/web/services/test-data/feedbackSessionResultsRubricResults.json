@@ -17,7 +17,6 @@
               -1.7
             ]
           ],
-          "numOfRubricChoices": 2,
           "rubricChoices": [
             "Yes",
             "No"
@@ -396,7 +395,6 @@
               1.0
             ]
           ],
-          "numOfRubricChoices": 2,
           "rubricChoices": [
             "Yes",
             "No"
