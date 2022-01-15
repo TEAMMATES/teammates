@@ -1020,3 +1020,268 @@ Check https://markbind.org/userGuide/siteConfiguration.html for more information
 2022-01-15T06:39:16.594Z - info: Pages rebuilt
 2022-01-15T06:39:16.594Z - info: Website regeneration complete! Total build time: 0.453s
 2022-01-15T06:39:18.340Z - info: [2:39:18 pm] Reload for file add: D:\Development\markbind\teammates\docs\stylesheets\main.css
+2022-01-15T06:44:58.325Z - info: Website generation started at 2:44:58 pm
+2022-01-15T06:44:58.412Z - info: Building assets...
+2022-01-15T06:44:58.454Z - info: Assets built
+2022-01-15T06:44:58.456Z - info: Generating pages...
+2022-01-15T06:44:58.542Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/CODE_OF_CONDUCT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T06:44:58.547Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/LICENSE' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T06:44:58.555Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/SUPPORT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T06:44:58.590Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/developerguide.html' found in file 'D:\Development\markbind\teammates\docs\_markbind\layouts\default.md'
+2022-01-15T06:44:58.752Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/(../static-analysis/teammates-checkstyle.xml)' found in file 'D:\Development\markbind\teammates\docs\static-analysis.md'
+2022-01-15T06:44:58.753Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/static-analysis/teammates-pmd.xml' found in file 'D:\Development\markbind\teammates\docs\static-analysis.md'
+2022-01-15T06:44:58.754Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/static-analysis/teammates-pmdMain.xml' found in file 'D:\Development\markbind\teammates\docs\static-analysis.md'
+2022-01-15T06:44:58.754Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/static-analysis/teammates-spotbugs.xml' found in file 'D:\Development\markbind\teammates\docs\static-analysis.md'
+2022-01-15T06:44:58.755Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/static-analysis/teammates-tslint.yml' found in file 'D:\Development\markbind\teammates\docs\static-analysis.md'
+2022-01-15T06:44:58.756Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/static-analysis/teammates-stylelint.yml' found in file 'D:\Development\markbind\teammates\docs\static-analysis.md'
+2022-01-15T06:44:58.874Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/solr.sh' found in file 'D:\Development\markbind\teammates\docs\search.md'
+2022-01-15T06:44:59.172Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/src/main/java/teammates/common/util/Const.java' found in file 'D:\Development\markbind\teammates\docs\design.md'
+2022-01-15T06:44:59.322Z - info: Pages built
+2022-01-15T06:44:59.478Z - info: Site data built
+2022-01-15T06:44:59.479Z - info: Website generation complete! Total build time: 1.229s
+2022-01-15T06:44:59.513Z - info: Serving "D:\Development\markbind\teammates\docs\_site" at http://127.0.0.1:8080
+2022-01-15T06:44:59.513Z - info: Press CTRL+C to stop ...
+2022-01-15T06:46:09.270Z - info: [2:46:09 pm] Reload for file change: D:\Development\markbind\teammates\docs\_markbind\layouts\default.md
+2022-01-15T06:46:10.287Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/developerguide.html' found in file 'D:\Development\markbind\teammates\docs\_markbind\layouts\default.md'
+2022-01-15T06:46:10.306Z - info: Rebuilding 23 pages
+2022-01-15T06:46:10.320Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/CODE_OF_CONDUCT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T06:46:10.322Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/LICENSE' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T06:46:10.328Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/SUPPORT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T06:46:10.437Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/(../static-analysis/teammates-checkstyle.xml)' found in file 'D:\Development\markbind\teammates\docs\static-analysis.md'
+2022-01-15T06:46:10.438Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/static-analysis/teammates-pmd.xml' found in file 'D:\Development\markbind\teammates\docs\static-analysis.md'
+2022-01-15T06:46:10.439Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/static-analysis/teammates-pmdMain.xml' found in file 'D:\Development\markbind\teammates\docs\static-analysis.md'
+2022-01-15T06:46:10.439Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/static-analysis/teammates-spotbugs.xml' found in file 'D:\Development\markbind\teammates\docs\static-analysis.md'
+2022-01-15T06:46:10.440Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/static-analysis/teammates-tslint.yml' found in file 'D:\Development\markbind\teammates\docs\static-analysis.md'
+2022-01-15T06:46:10.440Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/static-analysis/teammates-stylelint.yml' found in file 'D:\Development\markbind\teammates\docs\static-analysis.md'
+2022-01-15T06:46:10.545Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/solr.sh' found in file 'D:\Development\markbind\teammates\docs\search.md'
+2022-01-15T06:46:10.825Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/src/main/java/teammates/common/util/Const.java' found in file 'D:\Development\markbind\teammates\docs\design.md'
+2022-01-15T06:46:11.023Z - info: Site data built
+2022-01-15T06:46:11.024Z - info: Pages rebuilt
+2022-01-15T06:46:11.024Z - info: Website regeneration complete! Total build time: 0.719s
+2022-01-15T06:48:41.197Z - info: [2:48:41 pm] Reload for file change: D:\Development\markbind\teammates\docs\_markbind\layouts\default.md
+2022-01-15T06:48:42.212Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/developerguide.html' found in file 'D:\Development\markbind\teammates\docs\_markbind\layouts\default.md'
+2022-01-15T06:48:42.219Z - info: Rebuilding 23 pages
+2022-01-15T06:48:42.224Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/CODE_OF_CONDUCT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T06:48:42.225Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/LICENSE' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T06:48:42.229Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/SUPPORT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T06:48:42.318Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/(../static-analysis/teammates-checkstyle.xml)' found in file 'D:\Development\markbind\teammates\docs\static-analysis.md'
+2022-01-15T06:48:42.319Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/static-analysis/teammates-pmd.xml' found in file 'D:\Development\markbind\teammates\docs\static-analysis.md'
+2022-01-15T06:48:42.319Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/static-analysis/teammates-pmdMain.xml' found in file 'D:\Development\markbind\teammates\docs\static-analysis.md'
+2022-01-15T06:48:42.320Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/static-analysis/teammates-spotbugs.xml' found in file 'D:\Development\markbind\teammates\docs\static-analysis.md'
+2022-01-15T06:48:42.321Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/static-analysis/teammates-tslint.yml' found in file 'D:\Development\markbind\teammates\docs\static-analysis.md'
+2022-01-15T06:48:42.322Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/static-analysis/teammates-stylelint.yml' found in file 'D:\Development\markbind\teammates\docs\static-analysis.md'
+2022-01-15T06:48:42.402Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/solr.sh' found in file 'D:\Development\markbind\teammates\docs\search.md'
+2022-01-15T06:48:42.691Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/src/main/java/teammates/common/util/Const.java' found in file 'D:\Development\markbind\teammates\docs\design.md'
+2022-01-15T06:48:42.860Z - info: Site data built
+2022-01-15T06:48:42.861Z - info: Pages rebuilt
+2022-01-15T06:48:42.861Z - info: Website regeneration complete! Total build time: 0.643s
+2022-01-15T06:48:46.616Z - info: [2:48:46 pm] Reload for file change: D:\Development\markbind\teammates\docs\_markbind\layouts\default.md
+2022-01-15T06:48:47.626Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/developerguide.html' found in file 'D:\Development\markbind\teammates\docs\_markbind\layouts\default.md'
+2022-01-15T06:48:47.632Z - info: Rebuilding 23 pages
+2022-01-15T06:48:47.639Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/CODE_OF_CONDUCT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T06:48:47.640Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/LICENSE' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T06:48:47.642Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/SUPPORT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T06:48:47.745Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/(../static-analysis/teammates-checkstyle.xml)' found in file 'D:\Development\markbind\teammates\docs\static-analysis.md'
+2022-01-15T06:48:47.746Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/static-analysis/teammates-pmd.xml' found in file 'D:\Development\markbind\teammates\docs\static-analysis.md'
+2022-01-15T06:48:47.746Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/static-analysis/teammates-pmdMain.xml' found in file 'D:\Development\markbind\teammates\docs\static-analysis.md'
+2022-01-15T06:48:47.747Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/static-analysis/teammates-spotbugs.xml' found in file 'D:\Development\markbind\teammates\docs\static-analysis.md'
+2022-01-15T06:48:47.747Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/static-analysis/teammates-tslint.yml' found in file 'D:\Development\markbind\teammates\docs\static-analysis.md'
+2022-01-15T06:48:47.748Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/static-analysis/teammates-stylelint.yml' found in file 'D:\Development\markbind\teammates\docs\static-analysis.md'
+2022-01-15T06:48:47.818Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/solr.sh' found in file 'D:\Development\markbind\teammates\docs\search.md'
+2022-01-15T06:48:48.077Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/src/main/java/teammates/common/util/Const.java' found in file 'D:\Development\markbind\teammates\docs\design.md'
+2022-01-15T06:48:48.211Z - info: Site data built
+2022-01-15T06:48:48.211Z - info: Pages rebuilt
+2022-01-15T06:48:48.211Z - info: Website regeneration complete! Total build time: 0.579s
+2022-01-15T06:49:03.444Z - info: [2:49:03 pm] Reload for file change: D:\Development\markbind\teammates\docs\_markbind\layouts\default.md
+2022-01-15T06:49:04.455Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/developerguide.html' found in file 'D:\Development\markbind\teammates\docs\_markbind\layouts\default.md'
+2022-01-15T06:49:04.469Z - info: Rebuilding 23 pages
+2022-01-15T06:49:04.483Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/CODE_OF_CONDUCT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T06:49:04.485Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/LICENSE' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T06:49:04.488Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/SUPPORT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T06:49:04.594Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/(../static-analysis/teammates-checkstyle.xml)' found in file 'D:\Development\markbind\teammates\docs\static-analysis.md'
+2022-01-15T06:49:04.594Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/static-analysis/teammates-pmd.xml' found in file 'D:\Development\markbind\teammates\docs\static-analysis.md'
+2022-01-15T06:49:04.595Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/static-analysis/teammates-pmdMain.xml' found in file 'D:\Development\markbind\teammates\docs\static-analysis.md'
+2022-01-15T06:49:04.595Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/static-analysis/teammates-spotbugs.xml' found in file 'D:\Development\markbind\teammates\docs\static-analysis.md'
+2022-01-15T06:49:04.596Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/static-analysis/teammates-tslint.yml' found in file 'D:\Development\markbind\teammates\docs\static-analysis.md'
+2022-01-15T06:49:04.597Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/static-analysis/teammates-stylelint.yml' found in file 'D:\Development\markbind\teammates\docs\static-analysis.md'
+2022-01-15T06:49:04.680Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/solr.sh' found in file 'D:\Development\markbind\teammates\docs\search.md'
+2022-01-15T06:49:04.981Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/src/main/java/teammates/common/util/Const.java' found in file 'D:\Development\markbind\teammates\docs\design.md'
+2022-01-15T06:49:05.125Z - info: Site data built
+2022-01-15T06:49:05.126Z - info: Pages rebuilt
+2022-01-15T06:49:05.126Z - info: Website regeneration complete! Total build time: 0.658s
+2022-01-15T06:49:38.301Z - info: [2:49:38 pm] Reload for file change: D:\Development\markbind\teammates\docs\_markbind\layouts\default.md
+2022-01-15T06:49:39.312Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/developerguide.html' found in file 'D:\Development\markbind\teammates\docs\_markbind\layouts\default.md'
+2022-01-15T06:49:39.322Z - info: Rebuilding 23 pages
+2022-01-15T06:49:39.328Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/CODE_OF_CONDUCT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T06:49:39.330Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/LICENSE' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T06:49:39.333Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/SUPPORT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T06:49:39.421Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/(../static-analysis/teammates-checkstyle.xml)' found in file 'D:\Development\markbind\teammates\docs\static-analysis.md'
+2022-01-15T06:49:39.422Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/static-analysis/teammates-pmd.xml' found in file 'D:\Development\markbind\teammates\docs\static-analysis.md'
+2022-01-15T06:49:39.423Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/static-analysis/teammates-pmdMain.xml' found in file 'D:\Development\markbind\teammates\docs\static-analysis.md'
+2022-01-15T06:49:39.423Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/static-analysis/teammates-spotbugs.xml' found in file 'D:\Development\markbind\teammates\docs\static-analysis.md'
+2022-01-15T06:49:39.424Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/static-analysis/teammates-tslint.yml' found in file 'D:\Development\markbind\teammates\docs\static-analysis.md'
+2022-01-15T06:49:39.424Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/static-analysis/teammates-stylelint.yml' found in file 'D:\Development\markbind\teammates\docs\static-analysis.md'
+2022-01-15T06:49:39.498Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/solr.sh' found in file 'D:\Development\markbind\teammates\docs\search.md'
+2022-01-15T06:49:39.751Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/src/main/java/teammates/common/util/Const.java' found in file 'D:\Development\markbind\teammates\docs\design.md'
+2022-01-15T06:49:39.909Z - info: Site data built
+2022-01-15T06:49:39.909Z - info: Pages rebuilt
+2022-01-15T06:49:39.910Z - info: Website regeneration complete! Total build time: 0.588s
+2022-01-15T06:49:40.092Z - info: [2:49:40 pm] Reload for file change: D:\Development\markbind\teammates\docs\_markbind\layouts\default.md
+2022-01-15T06:49:41.101Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/developerguide.html' found in file 'D:\Development\markbind\teammates\docs\_markbind\layouts\default.md'
+2022-01-15T06:49:41.107Z - info: Rebuilding 23 pages
+2022-01-15T06:49:41.112Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/CODE_OF_CONDUCT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T06:49:41.114Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/LICENSE' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T06:49:41.117Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/SUPPORT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T06:49:41.220Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/(../static-analysis/teammates-checkstyle.xml)' found in file 'D:\Development\markbind\teammates\docs\static-analysis.md'
+2022-01-15T06:49:41.221Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/static-analysis/teammates-pmd.xml' found in file 'D:\Development\markbind\teammates\docs\static-analysis.md'
+2022-01-15T06:49:41.222Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/static-analysis/teammates-pmdMain.xml' found in file 'D:\Development\markbind\teammates\docs\static-analysis.md'
+2022-01-15T06:49:41.222Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/static-analysis/teammates-spotbugs.xml' found in file 'D:\Development\markbind\teammates\docs\static-analysis.md'
+2022-01-15T06:49:41.223Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/static-analysis/teammates-tslint.yml' found in file 'D:\Development\markbind\teammates\docs\static-analysis.md'
+2022-01-15T06:49:41.224Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/static-analysis/teammates-stylelint.yml' found in file 'D:\Development\markbind\teammates\docs\static-analysis.md'
+2022-01-15T06:49:41.323Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/solr.sh' found in file 'D:\Development\markbind\teammates\docs\search.md'
+2022-01-15T06:49:41.523Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/src/main/java/teammates/common/util/Const.java' found in file 'D:\Development\markbind\teammates\docs\design.md'
+2022-01-15T06:49:41.698Z - info: Site data built
+2022-01-15T06:49:41.698Z - info: Pages rebuilt
+2022-01-15T06:49:41.698Z - info: Website regeneration complete! Total build time: 0.591s
+2022-01-15T06:49:58.770Z - info: [2:49:58 pm] Reload for file change: D:\Development\markbind\teammates\docs\_markbind\layouts\default.md
+2022-01-15T06:49:59.786Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/developerguide.html' found in file 'D:\Development\markbind\teammates\docs\_markbind\layouts\default.md'
+2022-01-15T06:49:59.799Z - info: Rebuilding 23 pages
+2022-01-15T06:49:59.814Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/CODE_OF_CONDUCT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T06:49:59.816Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/LICENSE' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T06:49:59.819Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/SUPPORT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T06:49:59.912Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/(../static-analysis/teammates-checkstyle.xml)' found in file 'D:\Development\markbind\teammates\docs\static-analysis.md'
+2022-01-15T06:49:59.913Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/static-analysis/teammates-pmd.xml' found in file 'D:\Development\markbind\teammates\docs\static-analysis.md'
+2022-01-15T06:49:59.914Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/static-analysis/teammates-pmdMain.xml' found in file 'D:\Development\markbind\teammates\docs\static-analysis.md'
+2022-01-15T06:49:59.914Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/static-analysis/teammates-spotbugs.xml' found in file 'D:\Development\markbind\teammates\docs\static-analysis.md'
+2022-01-15T06:49:59.915Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/static-analysis/teammates-tslint.yml' found in file 'D:\Development\markbind\teammates\docs\static-analysis.md'
+2022-01-15T06:49:59.916Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/static-analysis/teammates-stylelint.yml' found in file 'D:\Development\markbind\teammates\docs\static-analysis.md'
+2022-01-15T06:50:00.004Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/solr.sh' found in file 'D:\Development\markbind\teammates\docs\search.md'
+2022-01-15T06:50:00.278Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/src/main/java/teammates/common/util/Const.java' found in file 'D:\Development\markbind\teammates\docs\design.md'
+2022-01-15T06:50:00.433Z - info: Site data built
+2022-01-15T06:50:00.433Z - info: Pages rebuilt
+2022-01-15T06:50:00.433Z - info: Website regeneration complete! Total build time: 0.635s
+2022-01-15T06:50:15.750Z - info: [2:50:15 pm] Reload for file change: D:\Development\markbind\teammates\docs\_markbind\layouts\default.md
+2022-01-15T06:50:16.759Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/developerguide.html' found in file 'D:\Development\markbind\teammates\docs\_markbind\layouts\default.md'
+2022-01-15T06:50:16.767Z - info: Rebuilding 23 pages
+2022-01-15T06:50:16.774Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/CODE_OF_CONDUCT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T06:50:16.779Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/LICENSE' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T06:50:16.781Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/SUPPORT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T06:50:16.877Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/(../static-analysis/teammates-checkstyle.xml)' found in file 'D:\Development\markbind\teammates\docs\static-analysis.md'
+2022-01-15T06:50:16.878Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/static-analysis/teammates-pmd.xml' found in file 'D:\Development\markbind\teammates\docs\static-analysis.md'
+2022-01-15T06:50:16.878Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/static-analysis/teammates-pmdMain.xml' found in file 'D:\Development\markbind\teammates\docs\static-analysis.md'
+2022-01-15T06:50:16.879Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/static-analysis/teammates-spotbugs.xml' found in file 'D:\Development\markbind\teammates\docs\static-analysis.md'
+2022-01-15T06:50:16.880Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/static-analysis/teammates-tslint.yml' found in file 'D:\Development\markbind\teammates\docs\static-analysis.md'
+2022-01-15T06:50:16.880Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/static-analysis/teammates-stylelint.yml' found in file 'D:\Development\markbind\teammates\docs\static-analysis.md'
+2022-01-15T06:50:16.948Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/solr.sh' found in file 'D:\Development\markbind\teammates\docs\search.md'
+2022-01-15T06:50:17.184Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/src/main/java/teammates/common/util/Const.java' found in file 'D:\Development\markbind\teammates\docs\design.md'
+2022-01-15T06:50:17.332Z - info: Site data built
+2022-01-15T06:50:17.332Z - info: Pages rebuilt
+2022-01-15T06:50:17.332Z - info: Website regeneration complete! Total build time: 0.566s

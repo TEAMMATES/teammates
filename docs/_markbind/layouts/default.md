@@ -29,26 +29,28 @@
 * [CONTRIBUTING]({{ baseUrl }}/CONTRIBUTING.html)
 * [README]({{ baseUrl }}/README.html)
 * [Setting Up]({{ baseUrl }}/setting-up.html)
-* [Coding]({{ baseUrl }}/best-practices/coding.html)
-* Design :expanded:
+* Workflow :expanded:
+  * [Development]({{ baseUrl }}/development.html)
+  * [Coding]({{ baseUrl }}/best-practices/coding.html)
   * [Data Migration]({{ baseUrl }}/best-practices/data-migration.html)
-  * [Testing]({{ baseUrl }}/best-practices/testing.html)
+* Design :expanded:
   * [Ui Design]({{ baseUrl }}/best-practices/ui-design.html)
   * [Captcha]({{ baseUrl }}/captcha.html)
   * [Design]({{ baseUrl }}/design.html)
-  * [Development]({{ baseUrl }}/development.html)
-  * [End-to-End Testing]({{ baseUrl }}/e2e-testing.html)
   * [Emails]({{ baseUrl }}/emails.html)
-  * [Glossary]({{ baseUrl }}/glossary.html)
   * [Index]({{ baseUrl }}/index.html)
   * [Issues]({{ baseUrl }}/issues.html)
   * [Overview]({{ baseUrl }}/overview.html)
-  * [Performance Testing]({{ baseUrl }}/performance-testing.html)
   * [Process]({{ baseUrl }}/process.html)
   * [Search]({{ baseUrl }}/search.html)
+* Testing :expanded:
+  * [Testing Guidelines]({{ baseUrl }}/best-practices/testing.html)
+  * [End-to-End Testing]({{ baseUrl }}/e2e-testing.html)
+  * [Performance Testing]({{ baseUrl }}/performance-testing.html)
 * [Snapshot Testing]({{ baseUrl }}/snapshot-testing.html)
 * [Static Analysis]({{ baseUrl }}/static-analysis.html)
 * [Troubleshooting Guide]({{ baseUrl }}/troubleshooting-guide.html)
+* [Glossary]({{ baseUrl }}/glossary.html)
       </site-nav>
     </div>
   </nav>
