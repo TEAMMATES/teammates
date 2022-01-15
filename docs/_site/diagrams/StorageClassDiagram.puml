@@ -1,0 +1,29 @@
+@startuml
+!include style.puml
+skinparam arrowThickness 1.1
+skinparam arrowColor STORAGE_COLOR
+skinparam classBackgroundColor STORAGE_COLOR
+
+class FeedbackResponseComment
+class FeedbackResponse
+class CourseStudent
+class FeedbackQuestion
+class Course
+class Account
+class FeedbackSession
+class StudentProfile
+class Instructor
+
+note "Associations are managed \nusing string references" as note1
+FeedbackResponseComment "1" --> FeedbackResponse
+FeedbackResponse -up--* FeedbackQuestion
+FeedbackResponse -left--* "2" CourseStudent
+CourseStudent --* "*" Course
+CourseStudent --* "1" Account
+FeedbackQuestion --* "*" FeedbackSession
+FeedbackSession -down--* "*" Course
+Instructor -down--* "*" Course
+Instructor -down--* "1" Account
+StudentProfile -right--* "0..1" Account
+
+@enduml

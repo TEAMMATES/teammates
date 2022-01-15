@@ -1,0 +1,1 @@
+{"baseUrl":"","titlePrefix":"","ignore":["_markbind/layouts/*","_markbind/logs/*","_site/*","site.json","*.md","*.mbd","*.mbdf","*.njk",".git/*"],"pages":[{"src":"index.md","title":"Hello World"},{"glob":["**/index.md","**/*.+(md|mbd)"]},{"glob":"**/*.+(md|mbd)","layout":"default.md"}],"deploy":{"message":"Site Update."}}

@@ -1,0 +1,70 @@
+@startuml
+!include style.puml
+skinparam componentBackgroundColor MODEL_COLOR_T1
+skinparam componentFontColor #FFFFFF
+skinparam packageBackgroundColor #FFFFFF
+skinparam rectangleBackgroundColor MODEL_COLOR
+skinparam rectangleFontColor #FFFFFF
+skinparam arrowColor #000000
+
+component E2E {
+    package "e2e::pageobjects" as PageObjects {
+        rectangle Browser
+        collections "*Page" as Page
+        rectangle AppPage
+    }
+
+    package "e2e::cases" as Cases {
+        rectangle BaseE2ETestCase
+        rectangle StudentHomePageE2Etest
+        rectangle InstructorHomePageE2ETest
+        rectangle "*PageE2ETest" as PageE2ETest
+    }
+
+    package "e2e:util" as Util {
+        rectangle FileHelper
+        rectangle TestProperties
+        rectangle EmailAccount
+        rectangle BackDoor
+    }
+}
+
+file test.properties
+rectangle SeleniumWebDriver
+rectangle LocalFilesForTesting
+rectangle EmailServer
+rectangle WebApiRequests
+
+PageObjects ..> SeleniumWebDriver
+Cases ..> Util
+Cases ..> PageObjects
+FileHelper ..> LocalFilesForTesting
+TestProperties ..> test.properties
+EmailAccount ..> EmailServer
+BackDoor ..> WebApiRequests
+
+Page -> AppPage
+
+StudentHomePageE2Etest -> BaseE2ETestCase
+InstructorHomePageE2ETest -> BaseE2ETestCase
+PageE2ETest -> BaseE2ETestCase
+
+' The hidden associations are for positioning purposes only
+BaseE2ETestCase -[hidden]down- InstructorHomePageE2ETest
+BaseE2ETestCase -[hidden]down- PageE2ETest
+
+FileHelper -[hidden]right- TestProperties
+TestProperties -[hidden]right- EmailAccount
+EmailAccount -[hidden]right- BackDoor
+
+LocalFilesForTesting -[hidden]right- test.properties
+test.properties -[hidden]right- EmailServer
+EmailServer -[hidden]right- WebApiRequests
+PageE2ETest -[hidden]down- LocalFilesForTesting
+
+Cases -[hidden]right- Util
+Util -[hidden]left- Cases
+Cases -[hidden]left- PageObjects
+PageObjects -[hidden]right- Cases
+
+@enduml

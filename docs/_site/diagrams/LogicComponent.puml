@@ -1,0 +1,57 @@
+@startuml
+!include style.puml
+skinparam componentBackgroundColor MODEL_COLOR_T1
+skinparam componentFontColor #FFFFFF
+skinparam packageBackgroundColor #FFFFFF
+skinparam rectangleBackgroundColor MODEL_COLOR
+skinparam rectangleFontColor #FFFFFF
+skinparam arrowColor #000000
+
+component Logic {
+    package "logic::core" as Core {
+        rectangle JavamailService
+        rectangle SendgridService
+        rectangle "*Service" as Service
+
+        rectangle TaskQueuesLogic
+        rectangle AccountsLogic
+        rectangle InstructorsLogic
+        rectangle StudentsLogic
+        rectangle CoursesLogic
+        rectangle FeedbackSessionsLogic
+        rectangle "*Logic" as Logic1
+    }
+
+    package "logic::api" as Api {
+        rectangle EmailSender
+        rectangle EmailGenerator
+        rectangle "Logic" as Logic2
+        rectangle TaskQueuer
+        rectangle GateKeeper
+    }
+}
+
+rectangle ThirdPartyEmailAPIs
+rectangle "GAE\nTaskQueueAPI" as GaeTaskQueueApi
+rectangle UI
+storage Storage STORAGE_COLOR_T1
+
+JavamailService ..> ThirdPartyEmailAPIs
+SendgridService ..> ThirdPartyEmailAPIs
+Service ..> ThirdPartyEmailAPIs
+TaskQueuesLogic ..> GaeTaskQueueApi
+AccountsLogic ..> Storage
+InstructorsLogic ..> Storage
+StudentsLogic ..> Storage
+CoursesLogic ..> Storage
+FeedbackSessionsLogic ..> Storage
+Logic1 ..> Storage
+
+UI ..> Api
+Api ..> Core
+
+' The hidden associations are for positioning purposes only
+Api -[hidden]down- Core
+Core -[hidden]up- Api
+
+@enduml

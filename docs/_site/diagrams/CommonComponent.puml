@@ -1,0 +1,51 @@
+@startuml
+!include style.puml
+skinparam componentBackgroundColor MODEL_COLOR_T1
+skinparam componentFontColor #FFFFFF
+skinparam packageBackgroundColor #FFFFFF
+skinparam rectangleBackgroundColor MODEL_COLOR
+skinparam rectangleFontColor #FFFFFF
+skinparam arrowColor #000000
+
+component Common {
+    package common::util {
+        rectangle Assumption
+        rectangle Config
+        rectangle Templates
+        rectangle Const
+        rectangle FieldValidator
+        collections "*Helper" as Helper
+    }
+
+    package common::exception {
+        collections "EnrollException etc." as EnrollException
+    }
+
+    package common::datatransfer {
+        collections "*Type" as Type
+        collections "*Bundle" as Bundle
+        rectangle ::attributes MODEL_COLOR_T1 {
+            rectangle EntityAttributes
+            rectangle StudentAttributes
+            rectangle InstructorAttributes
+            rectangle "*Attributes" as Attributes
+        }
+        rectangle ::questions MODEL_COLOR_T1 {
+            rectangle "Feedback*QuestionDetails" as FQD
+            rectangle "Feedback*ResponseDetails" as FRD
+            rectangle FeedbackQuestionType
+        }
+    }
+}
+
+StudentAttributes -> EntityAttributes
+InstructorAttributes -> EntityAttributes
+Attributes -> EntityAttributes
+
+' The hidden associations are for positioning purposes only
+StudentAttributes -[hidden]up- EntityAttributes
+EntityAttributes -[hidden]down- StudentAttributes
+InstructorAttributes -[hidden]up- EntityAttributes
+Attributes -[hidden]up- EntityAttributes
+
+@enduml

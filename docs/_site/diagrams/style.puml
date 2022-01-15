@@ -1,0 +1,75 @@
+/'
+ 'Commonly used styles and colors across diagrams.
+ 'Refer to https://plantuml-documentation.readthedocs.io/en/latest for a more
+ 'comprehensive list of skinparams.
+ '/
+
+
+'T1 through T4 are shades of the original color from lightest to darkest
+
+!define UI_COLOR #1D8900
+!define UI_COLOR_T1 #83E769
+!define UI_COLOR_T2 #3FC71B
+!define UI_COLOR_T3 #166800
+!define UI_COLOR_T4 #0E4100
+
+!define LOGIC_COLOR #3333C4
+!define LOGIC_COLOR_T1 #C8C8FA
+!define LOGIC_COLOR_T2 #6A6ADC
+!define LOGIC_COLOR_T3 #1616B0
+!define LOGIC_COLOR_T4 #101086
+
+!define MODEL_COLOR #9D0012
+!define MODEL_COLOR_T1 #F97181
+!define MODEL_COLOR_T2 #E41F36
+!define MODEL_COLOR_T3 #7B000E
+!define MODEL_COLOR_T4 #51000A
+
+!define STORAGE_COLOR #A38300
+!define STORAGE_COLOR_T1 #FFE374
+!define STORAGE_COLOR_T2 #EDC520
+!define STORAGE_COLOR_T3 #806600
+!define STORAGE_COLOR_T2 #544400
+
+!define USER_COLOR #000000
+
+skinparam BackgroundColor #FFFFFFF
+
+skinparam Shadowing false
+
+skinparam Class {
+    FontColor #FFFFFF
+    BorderThickness 1
+    BorderColor #FFFFFF
+    StereotypeFontColor #FFFFFF
+    FontName Arial
+}
+
+skinparam Actor {
+    BorderColor USER_COLOR
+    Color USER_COLOR
+    FontName Arial
+}
+
+skinparam Sequence {
+    MessageAlign center
+    BoxFontSize 15
+    BoxPadding 0
+    BoxFontColor #FFFFFF
+    FontName Arial
+}
+
+skinparam Participant {
+    FontColor #FFFFFFF
+    Padding 20
+}
+
+skinparam MinClassWidth 50
+skinparam ParticipantPadding 10
+skinparam Shadowing false
+skinparam DefaultTextAlignment center
+skinparam packageStyle Rectangle
+
+hide footbox
+hide members
+hide circle
