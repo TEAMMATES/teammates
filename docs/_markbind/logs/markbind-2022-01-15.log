@@ -1352,3 +1352,631 @@ Check https://markbind.org/userGuide/siteConfiguration.html for more information
 2022-01-15T07:01:09.111Z - info: Site data built
 2022-01-15T07:01:09.111Z - info: Pages rebuilt
 2022-01-15T07:01:09.111Z - info: Website regeneration complete! Total build time: 0.731s
+2022-01-15T09:18:20.009Z - info: Website generation started at 5:18:19 pm
+2022-01-15T09:18:20.110Z - info: Building assets...
+2022-01-15T09:18:20.150Z - info: Assets built
+2022-01-15T09:18:20.151Z - info: Generating pages...
+2022-01-15T09:18:20.233Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/CODE_OF_CONDUCT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:18:20.239Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/LICENSE' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:18:20.247Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/SUPPORT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:18:20.248Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/README.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:18:20.278Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/contributing.html' found in file 'D:\Development\markbind\teammates\docs\_markbind\layouts\default.md'
+2022-01-15T09:18:20.595Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/solr.sh' found in file 'D:\Development\markbind\teammates\docs\search.md'
+2022-01-15T09:18:20.693Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/solr.sh' found in file 'D:\Development\markbind\teammates\docs\search.md'
+2022-01-15T09:18:20.709Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/README.html' found in file 'D:\Development\markbind\teammates\docs\process.md'
+2022-01-15T09:18:20.859Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/docs/contributing.html' found in file 'D:\Development\markbind\teammates\docs\index.md'
+2022-01-15T09:18:21.090Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/src/main/java/teammates/common/util/Const.java' found in file 'D:\Development\markbind\teammates\docs\design.md'
+2022-01-15T09:18:21.244Z - info: Pages built
+2022-01-15T09:18:21.406Z - info: Site data built
+2022-01-15T09:18:21.407Z - info: Website generation complete! Total build time: 1.483s
+2022-01-15T09:18:21.453Z - info: Serving "D:\Development\markbind\teammates\docs\_site" at http://127.0.0.1:8080
+2022-01-15T09:18:21.453Z - info: Press CTRL+C to stop ...
+2022-01-15T09:20:22.068Z - info: [5:20:22 pm] Reload for file add: D:\Development\markbind\teammates\docs\images\teammateslogo.png
+2022-01-15T09:20:22.088Z - info: [5:20:22 pm] Reload for file change: D:\Development\markbind\teammates\docs\images\teammateslogo.png
+2022-01-15T09:20:23.110Z - info: Assets built
+2022-01-15T09:21:34.851Z - info: [5:21:34 pm] Reload for file change: D:\Development\markbind\teammates\docs\_markbind\layouts\default.md
+2022-01-15T09:21:35.868Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/contributing.html' found in file 'D:\Development\markbind\teammates\docs\_markbind\layouts\default.md'
+2022-01-15T09:21:35.885Z - info: Rebuilding 22 pages
+2022-01-15T09:21:35.900Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/CODE_OF_CONDUCT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:21:35.902Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/LICENSE' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:21:35.907Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/SUPPORT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:21:35.908Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/README.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:21:36.117Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/solr.sh' found in file 'D:\Development\markbind\teammates\docs\search.md'
+2022-01-15T09:21:36.258Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/solr.sh' found in file 'D:\Development\markbind\teammates\docs\search.md'
+2022-01-15T09:21:36.292Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/README.html' found in file 'D:\Development\markbind\teammates\docs\process.md'
+2022-01-15T09:21:36.466Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/docs/contributing.html' found in file 'D:\Development\markbind\teammates\docs\index.md'
+2022-01-15T09:21:36.644Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/src/main/java/teammates/common/util/Const.java' found in file 'D:\Development\markbind\teammates\docs\design.md'
+2022-01-15T09:21:36.912Z - info: Site data built
+2022-01-15T09:21:36.912Z - info: Pages rebuilt
+2022-01-15T09:21:36.913Z - info: Website regeneration complete! Total build time: 1.028s
+2022-01-15T09:21:59.592Z - info: [5:21:59 pm] Reload for file change: D:\Development\markbind\teammates\docs\_markbind\layouts\default.md
+2022-01-15T09:22:00.606Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/contributing.html' found in file 'D:\Development\markbind\teammates\docs\_markbind\layouts\default.md'
+2022-01-15T09:22:00.614Z - info: Rebuilding 22 pages
+2022-01-15T09:22:00.619Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/CODE_OF_CONDUCT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:22:00.621Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/LICENSE' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:22:00.624Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/SUPPORT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:22:00.625Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/README.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:22:00.734Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/solr.sh' found in file 'D:\Development\markbind\teammates\docs\search.md'
+2022-01-15T09:22:00.808Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/solr.sh' found in file 'D:\Development\markbind\teammates\docs\search.md'
+2022-01-15T09:22:00.828Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/README.html' found in file 'D:\Development\markbind\teammates\docs\process.md'
+2022-01-15T09:22:00.959Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/docs/contributing.html' found in file 'D:\Development\markbind\teammates\docs\index.md'
+2022-01-15T09:22:01.075Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/src/main/java/teammates/common/util/Const.java' found in file 'D:\Development\markbind\teammates\docs\design.md'
+2022-01-15T09:22:01.245Z - info: Site data built
+2022-01-15T09:22:01.245Z - info: Pages rebuilt
+2022-01-15T09:22:01.246Z - info: Website regeneration complete! Total build time: 0.632s
+2022-01-15T09:22:25.284Z - info: [5:22:25 pm] Reload for file change: D:\Development\markbind\teammates\docs\_markbind\layouts\default.md
+2022-01-15T09:22:26.309Z - info: Rebuilding 22 pages
+2022-01-15T09:22:26.322Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/CODE_OF_CONDUCT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:22:26.325Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/LICENSE' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:22:26.329Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/SUPPORT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:22:26.330Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/README.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:22:26.674Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/solr.sh' found in file 'D:\Development\markbind\teammates\docs\search.md'
+2022-01-15T09:22:26.868Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/solr.sh' found in file 'D:\Development\markbind\teammates\docs\search.md'
+2022-01-15T09:22:26.950Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/README.html' found in file 'D:\Development\markbind\teammates\docs\process.md'
+2022-01-15T09:22:27.191Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/docs/contributing.html' found in file 'D:\Development\markbind\teammates\docs\index.md'
+2022-01-15T09:22:27.372Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/src/main/java/teammates/common/util/Const.java' found in file 'D:\Development\markbind\teammates\docs\design.md'
+2022-01-15T09:22:27.810Z - info: Site data built
+2022-01-15T09:22:27.811Z - info: Pages rebuilt
+2022-01-15T09:22:27.811Z - info: Website regeneration complete! Total build time: 1.503s
+2022-01-15T09:22:31.514Z - info: [5:22:31 pm] Reload for file change: D:\Development\markbind\teammates\docs\_markbind\layouts\default.md
+2022-01-15T09:22:32.532Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/contributing.html' found in file 'D:\Development\markbind\teammates\docs\_markbind\layouts\default.md'
+2022-01-15T09:22:32.540Z - info: Rebuilding 22 pages
+2022-01-15T09:22:32.545Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/CODE_OF_CONDUCT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:22:32.546Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/LICENSE' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:22:32.551Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/SUPPORT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:22:32.551Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/README.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:22:32.658Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/solr.sh' found in file 'D:\Development\markbind\teammates\docs\search.md'
+2022-01-15T09:22:32.727Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/solr.sh' found in file 'D:\Development\markbind\teammates\docs\search.md'
+2022-01-15T09:22:32.753Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/README.html' found in file 'D:\Development\markbind\teammates\docs\process.md'
+2022-01-15T09:22:32.852Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/docs/contributing.html' found in file 'D:\Development\markbind\teammates\docs\index.md'
+2022-01-15T09:22:32.976Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/src/main/java/teammates/common/util/Const.java' found in file 'D:\Development\markbind\teammates\docs\design.md'
+2022-01-15T09:22:33.131Z - info: Site data built
+2022-01-15T09:22:33.131Z - info: Pages rebuilt
+2022-01-15T09:22:33.132Z - info: Website regeneration complete! Total build time: 0.592s
+2022-01-15T09:22:37.174Z - info: [5:22:37 pm] Reload for file change: D:\Development\markbind\teammates\docs\_markbind\layouts\default.md
+2022-01-15T09:22:38.193Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/contributing.html' found in file 'D:\Development\markbind\teammates\docs\_markbind\layouts\default.md'
+2022-01-15T09:22:38.199Z - info: Rebuilding 22 pages
+2022-01-15T09:22:38.203Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/CODE_OF_CONDUCT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:22:38.205Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/LICENSE' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:22:38.209Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/SUPPORT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:22:38.210Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/README.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:22:38.367Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/solr.sh' found in file 'D:\Development\markbind\teammates\docs\search.md'
+2022-01-15T09:22:38.438Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/solr.sh' found in file 'D:\Development\markbind\teammates\docs\search.md'
+2022-01-15T09:22:38.448Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/README.html' found in file 'D:\Development\markbind\teammates\docs\process.md'
+2022-01-15T09:22:38.562Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/docs/contributing.html' found in file 'D:\Development\markbind\teammates\docs\index.md'
+2022-01-15T09:22:38.673Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/src/main/java/teammates/common/util/Const.java' found in file 'D:\Development\markbind\teammates\docs\design.md'
+2022-01-15T09:22:38.811Z - info: Site data built
+2022-01-15T09:22:38.812Z - info: Pages rebuilt
+2022-01-15T09:22:38.812Z - info: Website regeneration complete! Total build time: 0.613s
+2022-01-15T09:22:56.359Z - info: [5:22:56 pm] Reload for file change: D:\Development\markbind\teammates\docs\_markbind\layouts\default.md
+2022-01-15T09:22:57.383Z - info: Rebuilding 22 pages
+2022-01-15T09:22:57.396Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/CODE_OF_CONDUCT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:22:57.399Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/LICENSE' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:22:57.403Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/SUPPORT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:22:57.403Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/README.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:22:57.700Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/solr.sh' found in file 'D:\Development\markbind\teammates\docs\search.md'
+2022-01-15T09:22:57.799Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/solr.sh' found in file 'D:\Development\markbind\teammates\docs\search.md'
+2022-01-15T09:22:57.825Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/README.html' found in file 'D:\Development\markbind\teammates\docs\process.md'
+2022-01-15T09:22:58.125Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/docs/contributing.html' found in file 'D:\Development\markbind\teammates\docs\index.md'
+2022-01-15T09:22:58.198Z - info: [5:22:58 pm] Reload for file change: D:\Development\markbind\teammates\docs\_markbind\layouts\default.md
+2022-01-15T09:22:58.376Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/src/main/java/teammates/common/util/Const.java' found in file 'D:\Development\markbind\teammates\docs\design.md'
+2022-01-15T09:22:58.689Z - info: Site data built
+2022-01-15T09:22:58.689Z - info: Pages rebuilt
+2022-01-15T09:22:58.689Z - info: Website regeneration complete! Total build time: 1.307s
+2022-01-15T09:22:59.214Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/contributing.html' found in file 'D:\Development\markbind\teammates\docs\_markbind\layouts\default.md'
+2022-01-15T09:22:59.220Z - info: Rebuilding 22 pages
+2022-01-15T09:22:59.228Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/CODE_OF_CONDUCT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:22:59.231Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/LICENSE' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:22:59.235Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/SUPPORT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:22:59.236Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/README.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:22:59.354Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/solr.sh' found in file 'D:\Development\markbind\teammates\docs\search.md'
+2022-01-15T09:22:59.465Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/solr.sh' found in file 'D:\Development\markbind\teammates\docs\search.md'
+2022-01-15T09:22:59.491Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/README.html' found in file 'D:\Development\markbind\teammates\docs\process.md'
+2022-01-15T09:22:59.609Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/docs/contributing.html' found in file 'D:\Development\markbind\teammates\docs\index.md'
+2022-01-15T09:22:59.736Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/src/main/java/teammates/common/util/Const.java' found in file 'D:\Development\markbind\teammates\docs\design.md'
+2022-01-15T09:22:59.894Z - info: Site data built
+2022-01-15T09:22:59.895Z - info: Pages rebuilt
+2022-01-15T09:22:59.895Z - info: Website regeneration complete! Total build time: 0.676s
+2022-01-15T09:23:56.427Z - info: [5:23:56 pm] Reload for file change: D:\Development\markbind\teammates\docs\_markbind\layouts\default.md
+2022-01-15T09:23:57.447Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/contributing.html' found in file 'D:\Development\markbind\teammates\docs\_markbind\layouts\default.md'
+2022-01-15T09:23:57.459Z - info: Rebuilding 22 pages
+2022-01-15T09:23:57.466Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/CODE_OF_CONDUCT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:23:57.469Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/LICENSE' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:23:57.472Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/SUPPORT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:23:57.473Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/README.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:23:57.598Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/solr.sh' found in file 'D:\Development\markbind\teammates\docs\search.md'
+2022-01-15T09:23:57.679Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/solr.sh' found in file 'D:\Development\markbind\teammates\docs\search.md'
+2022-01-15T09:23:57.703Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/README.html' found in file 'D:\Development\markbind\teammates\docs\process.md'
+2022-01-15T09:23:57.861Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/docs/contributing.html' found in file 'D:\Development\markbind\teammates\docs\index.md'
+2022-01-15T09:23:58.011Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/src/main/java/teammates/common/util/Const.java' found in file 'D:\Development\markbind\teammates\docs\design.md'
+2022-01-15T09:23:58.162Z - info: Site data built
+2022-01-15T09:23:58.162Z - info: Pages rebuilt
+2022-01-15T09:23:58.162Z - info: Website regeneration complete! Total build time: 0.704s
+2022-01-15T09:24:04.594Z - info: [5:24:04 pm] Reload for file change: D:\Development\markbind\teammates\docs\_markbind\layouts\default.md
+2022-01-15T09:24:05.601Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/contributing.html' found in file 'D:\Development\markbind\teammates\docs\_markbind\layouts\default.md'
+2022-01-15T09:24:05.608Z - info: Rebuilding 22 pages
+2022-01-15T09:24:05.612Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/CODE_OF_CONDUCT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:24:05.614Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/LICENSE' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:24:05.617Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/SUPPORT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:24:05.617Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/README.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:24:05.712Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/solr.sh' found in file 'D:\Development\markbind\teammates\docs\search.md'
+2022-01-15T09:24:05.792Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/solr.sh' found in file 'D:\Development\markbind\teammates\docs\search.md'
+2022-01-15T09:24:05.837Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/README.html' found in file 'D:\Development\markbind\teammates\docs\process.md'
+2022-01-15T09:24:05.963Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/docs/contributing.html' found in file 'D:\Development\markbind\teammates\docs\index.md'
+2022-01-15T09:24:06.091Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/src/main/java/teammates/common/util/Const.java' found in file 'D:\Development\markbind\teammates\docs\design.md'
+2022-01-15T09:24:06.251Z - info: Site data built
+2022-01-15T09:24:06.251Z - info: Pages rebuilt
+2022-01-15T09:24:06.251Z - info: Website regeneration complete! Total build time: 0.644s
+2022-01-15T09:24:16.312Z - info: [5:24:16 pm] Reload for file change: D:\Development\markbind\teammates\docs\_markbind\layouts\default.md
+2022-01-15T09:24:17.334Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/contributing.html' found in file 'D:\Development\markbind\teammates\docs\_markbind\layouts\default.md'
+2022-01-15T09:24:17.347Z - info: Rebuilding 22 pages
+2022-01-15T09:24:17.358Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/CODE_OF_CONDUCT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:24:17.364Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/LICENSE' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:24:17.367Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/SUPPORT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:24:17.368Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/README.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:24:17.522Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/solr.sh' found in file 'D:\Development\markbind\teammates\docs\search.md'
+2022-01-15T09:24:17.624Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/solr.sh' found in file 'D:\Development\markbind\teammates\docs\search.md'
+2022-01-15T09:24:17.671Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/README.html' found in file 'D:\Development\markbind\teammates\docs\process.md'
+2022-01-15T09:24:17.798Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/docs/contributing.html' found in file 'D:\Development\markbind\teammates\docs\index.md'
+2022-01-15T09:24:17.938Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/src/main/java/teammates/common/util/Const.java' found in file 'D:\Development\markbind\teammates\docs\design.md'
+2022-01-15T09:24:18.102Z - info: Site data built
+2022-01-15T09:24:18.102Z - info: Pages rebuilt
+2022-01-15T09:24:18.102Z - info: Website regeneration complete! Total build time: 0.756s
+2022-01-15T09:24:23.595Z - info: [5:24:23 pm] Reload for file change: D:\Development\markbind\teammates\docs\_markbind\layouts\default.md
+2022-01-15T09:24:24.601Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/contributing.html' found in file 'D:\Development\markbind\teammates\docs\_markbind\layouts\default.md'
+2022-01-15T09:24:24.607Z - info: Rebuilding 22 pages
+2022-01-15T09:24:24.611Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/CODE_OF_CONDUCT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:24:24.612Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/LICENSE' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:24:24.616Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/SUPPORT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:24:24.616Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/README.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:24:24.721Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/solr.sh' found in file 'D:\Development\markbind\teammates\docs\search.md'
+2022-01-15T09:24:24.791Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/solr.sh' found in file 'D:\Development\markbind\teammates\docs\search.md'
+2022-01-15T09:24:24.802Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/README.html' found in file 'D:\Development\markbind\teammates\docs\process.md'
+2022-01-15T09:24:24.898Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/docs/contributing.html' found in file 'D:\Development\markbind\teammates\docs\index.md'
+2022-01-15T09:24:25.056Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/src/main/java/teammates/common/util/Const.java' found in file 'D:\Development\markbind\teammates\docs\design.md'
+2022-01-15T09:24:25.176Z - info: Site data built
+2022-01-15T09:24:25.176Z - info: Pages rebuilt
+2022-01-15T09:24:25.177Z - info: Website regeneration complete! Total build time: 0.57s
+2022-01-15T09:24:27.354Z - info: [5:24:27 pm] Reload for file change: D:\Development\markbind\teammates\docs\_markbind\layouts\default.md
+2022-01-15T09:24:28.365Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/contributing.html' found in file 'D:\Development\markbind\teammates\docs\_markbind\layouts\default.md'
+2022-01-15T09:24:28.372Z - info: Rebuilding 22 pages
+2022-01-15T09:24:28.377Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/CODE_OF_CONDUCT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:24:28.379Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/LICENSE' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:24:28.381Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/SUPPORT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:24:28.382Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/README.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:24:28.482Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/solr.sh' found in file 'D:\Development\markbind\teammates\docs\search.md'
+2022-01-15T09:24:28.556Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/solr.sh' found in file 'D:\Development\markbind\teammates\docs\search.md'
+2022-01-15T09:24:28.568Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/README.html' found in file 'D:\Development\markbind\teammates\docs\process.md'
+2022-01-15T09:24:28.662Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/docs/contributing.html' found in file 'D:\Development\markbind\teammates\docs\index.md'
+2022-01-15T09:24:28.801Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/src/main/java/teammates/common/util/Const.java' found in file 'D:\Development\markbind\teammates\docs\design.md'
+2022-01-15T09:24:28.996Z - info: Site data built
+2022-01-15T09:24:28.996Z - info: Pages rebuilt
+2022-01-15T09:24:28.997Z - info: Website regeneration complete! Total build time: 0.624s
+2022-01-15T09:24:29.531Z - info: [5:24:29 pm] Reload for file change: D:\Development\markbind\teammates\docs\_markbind\layouts\default.md
+2022-01-15T09:24:30.539Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/contributing.html' found in file 'D:\Development\markbind\teammates\docs\_markbind\layouts\default.md'
+2022-01-15T09:24:30.544Z - info: Rebuilding 22 pages
+2022-01-15T09:24:30.548Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/CODE_OF_CONDUCT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:24:30.550Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/LICENSE' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:24:30.552Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/SUPPORT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:24:30.553Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/README.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:24:30.656Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/solr.sh' found in file 'D:\Development\markbind\teammates\docs\search.md'
+2022-01-15T09:24:30.722Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/solr.sh' found in file 'D:\Development\markbind\teammates\docs\search.md'
+2022-01-15T09:24:30.755Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/README.html' found in file 'D:\Development\markbind\teammates\docs\process.md'
+2022-01-15T09:24:30.847Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/docs/contributing.html' found in file 'D:\Development\markbind\teammates\docs\index.md'
+2022-01-15T09:24:30.962Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/src/main/java/teammates/common/util/Const.java' found in file 'D:\Development\markbind\teammates\docs\design.md'
+2022-01-15T09:24:31.152Z - info: Site data built
+2022-01-15T09:24:31.152Z - info: Pages rebuilt
+2022-01-15T09:24:31.152Z - info: Website regeneration complete! Total build time: 0.609s
+2022-01-15T09:24:43.534Z - info: [5:24:43 pm] Reload for file change: D:\Development\markbind\teammates\docs\_markbind\layouts\default.md
+2022-01-15T09:24:44.550Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/contributing.html' found in file 'D:\Development\markbind\teammates\docs\_markbind\layouts\default.md'
+2022-01-15T09:24:44.555Z - info: Rebuilding 22 pages
+2022-01-15T09:24:44.558Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/CODE_OF_CONDUCT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:24:44.560Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/LICENSE' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:24:44.563Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/SUPPORT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:24:44.563Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/README.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:24:44.662Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/solr.sh' found in file 'D:\Development\markbind\teammates\docs\search.md'
+2022-01-15T09:24:44.734Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/solr.sh' found in file 'D:\Development\markbind\teammates\docs\search.md'
+2022-01-15T09:24:44.756Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/README.html' found in file 'D:\Development\markbind\teammates\docs\process.md'
+2022-01-15T09:24:44.855Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/docs/contributing.html' found in file 'D:\Development\markbind\teammates\docs\index.md'
+2022-01-15T09:24:45.035Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/src/main/java/teammates/common/util/Const.java' found in file 'D:\Development\markbind\teammates\docs\design.md'
+2022-01-15T09:24:45.215Z - info: Site data built
+2022-01-15T09:24:45.216Z - info: Pages rebuilt
+2022-01-15T09:24:45.216Z - info: Website regeneration complete! Total build time: 0.662s
+2022-01-15T09:26:06.981Z - info: [5:26:06 pm] Reload for file change: D:\Development\markbind\teammates\docs\_markbind\layouts\default.md
+2022-01-15T09:26:08.003Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/contributing.html' found in file 'D:\Development\markbind\teammates\docs\_markbind\layouts\default.md'
+2022-01-15T09:26:08.016Z - info: Rebuilding 22 pages
+2022-01-15T09:26:08.030Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/CODE_OF_CONDUCT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:26:08.033Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/LICENSE' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:26:08.036Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/SUPPORT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:26:08.036Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/README.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:26:08.157Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/solr.sh' found in file 'D:\Development\markbind\teammates\docs\search.md'
+2022-01-15T09:26:08.251Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/solr.sh' found in file 'D:\Development\markbind\teammates\docs\search.md'
+2022-01-15T09:26:08.300Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/README.html' found in file 'D:\Development\markbind\teammates\docs\process.md'
+2022-01-15T09:26:08.461Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/docs/contributing.html' found in file 'D:\Development\markbind\teammates\docs\index.md'
+2022-01-15T09:26:08.609Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/src/main/java/teammates/common/util/Const.java' found in file 'D:\Development\markbind\teammates\docs\design.md'
+2022-01-15T09:26:08.766Z - info: Site data built
+2022-01-15T09:26:08.767Z - info: Pages rebuilt
+2022-01-15T09:26:08.767Z - info: Website regeneration complete! Total build time: 0.752s
+2022-01-15T09:26:19.177Z - info: [5:26:19 pm] Reload for file change: D:\Development\markbind\teammates\docs\_markbind\layouts\default.md
+2022-01-15T09:26:20.182Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/contributing.html' found in file 'D:\Development\markbind\teammates\docs\_markbind\layouts\default.md'
+2022-01-15T09:26:20.189Z - info: Rebuilding 22 pages
+2022-01-15T09:26:20.197Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/CODE_OF_CONDUCT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:26:20.198Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/LICENSE' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:26:20.202Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/SUPPORT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:26:20.202Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/README.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:26:20.303Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/solr.sh' found in file 'D:\Development\markbind\teammates\docs\search.md'
+2022-01-15T09:26:20.394Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/solr.sh' found in file 'D:\Development\markbind\teammates\docs\search.md'
+2022-01-15T09:26:20.449Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/README.html' found in file 'D:\Development\markbind\teammates\docs\process.md'
+2022-01-15T09:26:20.557Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/docs/contributing.html' found in file 'D:\Development\markbind\teammates\docs\index.md'
+2022-01-15T09:26:20.688Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/src/main/java/teammates/common/util/Const.java' found in file 'D:\Development\markbind\teammates\docs\design.md'
+2022-01-15T09:26:20.831Z - info: Site data built
+2022-01-15T09:26:20.831Z - info: Pages rebuilt
+2022-01-15T09:26:20.831Z - info: Website regeneration complete! Total build time: 0.642s
+2022-01-15T09:26:40.550Z - info: [5:26:40 pm] Reload for file change: D:\Development\markbind\teammates\docs\_markbind\layouts\default.md
+2022-01-15T09:26:41.559Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/contributing.html' found in file 'D:\Development\markbind\teammates\docs\_markbind\layouts\default.md'
+2022-01-15T09:26:41.565Z - info: Rebuilding 22 pages
+2022-01-15T09:26:41.570Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/CODE_OF_CONDUCT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:26:41.571Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/LICENSE' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:26:41.575Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/SUPPORT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:26:41.576Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/README.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:26:41.690Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/solr.sh' found in file 'D:\Development\markbind\teammates\docs\search.md'
+2022-01-15T09:26:41.777Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/solr.sh' found in file 'D:\Development\markbind\teammates\docs\search.md'
+2022-01-15T09:26:41.790Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/README.html' found in file 'D:\Development\markbind\teammates\docs\process.md'
+2022-01-15T09:26:41.943Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/docs/contributing.html' found in file 'D:\Development\markbind\teammates\docs\index.md'
+2022-01-15T09:26:42.081Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/src/main/java/teammates/common/util/Const.java' found in file 'D:\Development\markbind\teammates\docs\design.md'
+2022-01-15T09:26:42.245Z - info: Site data built
+2022-01-15T09:26:42.245Z - info: Pages rebuilt
+2022-01-15T09:26:42.245Z - info: Website regeneration complete! Total build time: 0.681s
+2022-01-15T09:26:42.431Z - info: [5:26:42 pm] Reload for file change: D:\Development\markbind\teammates\docs\_markbind\layouts\default.md
+2022-01-15T09:26:43.434Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/contributing.html' found in file 'D:\Development\markbind\teammates\docs\_markbind\layouts\default.md'
+2022-01-15T09:26:43.439Z - info: Rebuilding 22 pages
+2022-01-15T09:26:43.443Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/CODE_OF_CONDUCT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:26:43.444Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/LICENSE' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:26:43.446Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/SUPPORT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:26:43.447Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/README.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:26:43.544Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/solr.sh' found in file 'D:\Development\markbind\teammates\docs\search.md'
+2022-01-15T09:26:43.596Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/solr.sh' found in file 'D:\Development\markbind\teammates\docs\search.md'
+2022-01-15T09:26:43.610Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/README.html' found in file 'D:\Development\markbind\teammates\docs\process.md'
+2022-01-15T09:26:43.708Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/docs/contributing.html' found in file 'D:\Development\markbind\teammates\docs\index.md'
+2022-01-15T09:26:43.881Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/src/main/java/teammates/common/util/Const.java' found in file 'D:\Development\markbind\teammates\docs\design.md'
+2022-01-15T09:26:44.011Z - info: Site data built
+2022-01-15T09:26:44.011Z - info: Pages rebuilt
+2022-01-15T09:26:44.011Z - info: Website regeneration complete! Total build time: 0.573s
+2022-01-15T09:26:58.691Z - info: [5:26:58 pm] Reload for file change: D:\Development\markbind\teammates\docs\_markbind\layouts\default.md
+2022-01-15T09:26:59.713Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/contributing.html' found in file 'D:\Development\markbind\teammates\docs\_markbind\layouts\default.md'
+2022-01-15T09:26:59.726Z - info: Rebuilding 22 pages
+2022-01-15T09:26:59.740Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/CODE_OF_CONDUCT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:26:59.742Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/LICENSE' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:26:59.745Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/SUPPORT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:26:59.746Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/README.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:26:59.872Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/solr.sh' found in file 'D:\Development\markbind\teammates\docs\search.md'
+2022-01-15T09:26:59.972Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/solr.sh' found in file 'D:\Development\markbind\teammates\docs\search.md'
+2022-01-15T09:26:59.998Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/README.html' found in file 'D:\Development\markbind\teammates\docs\process.md'
+2022-01-15T09:27:00.156Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/docs/contributing.html' found in file 'D:\Development\markbind\teammates\docs\index.md'
+2022-01-15T09:27:00.281Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/src/main/java/teammates/common/util/Const.java' found in file 'D:\Development\markbind\teammates\docs\design.md'
+2022-01-15T09:27:00.437Z - info: Site data built
+2022-01-15T09:27:00.438Z - info: Pages rebuilt
+2022-01-15T09:27:00.438Z - info: Website regeneration complete! Total build time: 0.713s
+2022-01-15T09:27:25.639Z - info: [5:27:25 pm] Reload for file change: D:\Development\markbind\teammates\docs\_markbind\layouts\default.md
+2022-01-15T09:27:26.649Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/contributing.html' found in file 'D:\Development\markbind\teammates\docs\_markbind\layouts\default.md'
+2022-01-15T09:27:26.656Z - info: Rebuilding 22 pages
+2022-01-15T09:27:26.662Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/CODE_OF_CONDUCT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:27:26.663Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/LICENSE' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:27:26.666Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/SUPPORT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:27:26.666Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/README.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:27:26.780Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/solr.sh' found in file 'D:\Development\markbind\teammates\docs\search.md'
+2022-01-15T09:27:26.847Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/solr.sh' found in file 'D:\Development\markbind\teammates\docs\search.md'
+2022-01-15T09:27:26.858Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/README.html' found in file 'D:\Development\markbind\teammates\docs\process.md'
+2022-01-15T09:27:26.992Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/docs/contributing.html' found in file 'D:\Development\markbind\teammates\docs\index.md'
+2022-01-15T09:27:27.142Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/src/main/java/teammates/common/util/Const.java' found in file 'D:\Development\markbind\teammates\docs\design.md'
+2022-01-15T09:27:27.335Z - info: Site data built
+2022-01-15T09:27:27.335Z - info: Pages rebuilt
+2022-01-15T09:27:27.335Z - info: Website regeneration complete! Total build time: 0.679s
+2022-01-15T09:27:31.963Z - info: [5:27:31 pm] Reload for file change: D:\Development\markbind\teammates\docs\_markbind\layouts\default.md
+2022-01-15T09:27:32.968Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/contributing.html' found in file 'D:\Development\markbind\teammates\docs\_markbind\layouts\default.md'
+2022-01-15T09:27:32.972Z - info: Rebuilding 22 pages
+2022-01-15T09:27:32.978Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/CODE_OF_CONDUCT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:27:32.980Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/LICENSE' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:27:32.983Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/SUPPORT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:27:32.983Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/README.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:27:33.074Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/solr.sh' found in file 'D:\Development\markbind\teammates\docs\search.md'
+2022-01-15T09:27:33.146Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/solr.sh' found in file 'D:\Development\markbind\teammates\docs\search.md'
+2022-01-15T09:27:33.155Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/README.html' found in file 'D:\Development\markbind\teammates\docs\process.md'
+2022-01-15T09:27:33.272Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/docs/contributing.html' found in file 'D:\Development\markbind\teammates\docs\index.md'
+2022-01-15T09:27:33.421Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/src/main/java/teammates/common/util/Const.java' found in file 'D:\Development\markbind\teammates\docs\design.md'
+2022-01-15T09:27:33.587Z - info: Site data built
+2022-01-15T09:27:33.587Z - info: Pages rebuilt
+2022-01-15T09:27:33.587Z - info: Website regeneration complete! Total build time: 0.615s
+2022-01-15T09:28:43.469Z - info: [5:28:43 pm] Reload for file change: D:\Development\markbind\teammates\docs\_markbind\layouts\default.md
+2022-01-15T09:28:44.480Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/contributing.html' found in file 'D:\Development\markbind\teammates\docs\_markbind\layouts\default.md'
+2022-01-15T09:28:44.491Z - info: Rebuilding 22 pages
+2022-01-15T09:28:44.501Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/CODE_OF_CONDUCT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:28:44.503Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/LICENSE' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:28:44.509Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/SUPPORT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:28:44.510Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/README.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:28:44.644Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/solr.sh' found in file 'D:\Development\markbind\teammates\docs\search.md'
+2022-01-15T09:28:44.753Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/solr.sh' found in file 'D:\Development\markbind\teammates\docs\search.md'
+2022-01-15T09:28:44.777Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/README.html' found in file 'D:\Development\markbind\teammates\docs\process.md'
+2022-01-15T09:28:44.925Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/docs/contributing.html' found in file 'D:\Development\markbind\teammates\docs\index.md'
+2022-01-15T09:28:45.080Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/src/main/java/teammates/common/util/Const.java' found in file 'D:\Development\markbind\teammates\docs\design.md'
+2022-01-15T09:28:45.219Z - info: Site data built
+2022-01-15T09:28:45.219Z - info: Pages rebuilt
+2022-01-15T09:28:45.219Z - info: Website regeneration complete! Total build time: 0.729s
+2022-01-15T09:29:57.074Z - info: [5:29:57 pm] Reload for file change: D:\Development\markbind\teammates\docs\_markbind\layouts\default.md
+2022-01-15T09:29:58.086Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/contributing.html' found in file 'D:\Development\markbind\teammates\docs\_markbind\layouts\default.md'
+2022-01-15T09:29:58.097Z - info: Rebuilding 22 pages
+2022-01-15T09:29:58.105Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/CODE_OF_CONDUCT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:29:58.106Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/LICENSE' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:29:58.109Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/SUPPORT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:29:58.110Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/README.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:29:58.229Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/solr.sh' found in file 'D:\Development\markbind\teammates\docs\search.md'
+2022-01-15T09:29:58.310Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/solr.sh' found in file 'D:\Development\markbind\teammates\docs\search.md'
+2022-01-15T09:29:58.335Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/README.html' found in file 'D:\Development\markbind\teammates\docs\process.md'
+2022-01-15T09:29:58.517Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/docs/contributing.html' found in file 'D:\Development\markbind\teammates\docs\index.md'
+2022-01-15T09:29:58.697Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/src/main/java/teammates/common/util/Const.java' found in file 'D:\Development\markbind\teammates\docs\design.md'
+2022-01-15T09:29:58.895Z - info: Site data built
+2022-01-15T09:29:58.895Z - info: Pages rebuilt
+2022-01-15T09:29:58.896Z - info: Website regeneration complete! Total build time: 0.8s
+2022-01-15T09:30:01.464Z - info: [5:30:01 pm] Reload for file change: D:\Development\markbind\teammates\docs\_markbind\layouts\default.md
+2022-01-15T09:30:02.473Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/contributing.html' found in file 'D:\Development\markbind\teammates\docs\_markbind\layouts\default.md'
+2022-01-15T09:30:02.479Z - info: Rebuilding 22 pages
+2022-01-15T09:30:02.484Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/CODE_OF_CONDUCT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:30:02.486Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/LICENSE' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:30:02.489Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/.github/SUPPORT.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:30:02.489Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/README.html' found in file 'D:\Development\markbind\teammates\docs\CONTRIBUTING.md'
+2022-01-15T09:30:02.601Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/solr.sh' found in file 'D:\Development\markbind\teammates\docs\search.md'
+2022-01-15T09:30:02.644Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/solr.sh' found in file 'D:\Development\markbind\teammates\docs\search.md'
+2022-01-15T09:30:02.668Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/README.html' found in file 'D:\Development\markbind\teammates\docs\process.md'
+2022-01-15T09:30:02.775Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/docs/contributing.html' found in file 'D:\Development\markbind\teammates\docs\index.md'
+2022-01-15T09:30:02.948Z - warn: You might have an invalid intra-link! Ignore this warning if it was intended.
+'/src/main/java/teammates/common/util/Const.java' found in file 'D:\Development\markbind\teammates\docs\design.md'
+2022-01-15T09:30:03.104Z - info: Site data built
+2022-01-15T09:30:03.104Z - info: Pages rebuilt
+2022-01-15T09:30:03.105Z - info: Website regeneration complete! Total build time: 0.626s

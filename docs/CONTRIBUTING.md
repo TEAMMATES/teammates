@@ -37,14 +37,14 @@ If you are certain that you are reporting a new issue, [open a new issue](https:
 We welcome anyone manually testing our product and reporting bugs or suggestions for enhancements in the issue tracker.
 
 If you want to undertake such a role without actually contributing code, [get an instructor account from TEAMMATES](https://teammatesv4.appspot.com/web/front/request).
-Remember to mention the purpose of your request under "Any other comments/queries". 
+Remember to mention the purpose of your request under "Any other comments/queries".
 
 ### Submitting a pull request
 
 We accept patches/fixes in form of pull requests (PRs). Make sure that the pull request addresses an open issue in the issue tracker.
 Remember to follow the [TEAMMATES Development Process](process.md).
 
-By submitting a PR, you agree to allow the project team to license your work under the terms of the [GNU GPL v2 License](../LICENSE).
+By submitting a PR, you agree to allow the project team to license your work under the terms of the [GNU GPL v2 License](https://github.com/TEAMMATES/teammates/blob/master/LICENSE).
 
 If this is your first time contributing to TEAMMATES, you may want to read up the contributor orientation guide lined out in the next section.
 
@@ -54,8 +54,8 @@ Contributing to an OSS project requires you to figure out things on your own whe
 
 Of course we are happy to guide you if you encounter any difficulties when doing these tasks; we have provided a [troubleshooting guide](troubleshooting-guide.md) for some commonly faced problems. Failing that, you may post a help request in our [issue tracker](https://github.com/TEAMMATES/teammates/issues).
 
-> - The task descriptions are brief by intention. We want you to try to figure out how to do those things by yourself.
-> - While the dev team members will be glad to answer your questions, you will not make a good impression if you ask questions which are already answered in the mentioned resources.
+> * The task descriptions are brief by intention. We want you to try to figure out how to do those things by yourself.
+> * While the dev team members will be glad to answer your questions, you will not make a good impression if you ask questions which are already answered in the mentioned resources.
 
 ### Knowledge required
 
@@ -77,8 +77,8 @@ Roles:
 
 #### Phase A: Set up locally
 
-1. [Set up TEAMMATES development environment on your computer.](setting-up.md)<br>
-   **Important: Follow instructions to the letter. Install the specified versions of the tool stack, not the latest versions.**
+1. [Set up TEAMMATES development environment on your computer.](setting-up.md)
+   * **Important: Follow instructions to the letter. Install the specified versions of the tool stack, not the latest versions.**
 1. Get all component tests to pass (more info in [_Development Guidelines_ document](development.md)).
 1. (Optional) Get all E2E tests to pass.
    It is OK to proceed to the next phase if you have fewer than 5 failing test cases.

@@ -1,19 +1,19 @@
 <head-bottom>
-  <link rel="stylesheet" href="/stylesheets/main.css">
+  <link rel="stylesheet" href="{{ baseUrl }}/stylesheets/main.css">
 </head-bottom>
 
 <header fixed>
   <navbar placement="top" type="inverse">
-    <a slot="brand" href="/index.html" title="Home" class="navbar-brand">
-      <i class="far fa-file-image"></i>
+    <a slot="brand" href="{{ baseUrl }}/index.html" title="Home" class="navbar-brand">
+      <pic src="https://teammatesv4.appspot.com/assets/images/teammateslogo.png" width="150" alt="Logo" />
     </a>
-    <li><a href="/index.html" class="nav-link">HOME</a></li>
-    <li><a href="/developerguide.html" class="nav-link">DEVELOPER GUIDE</a></li>
-    <li><a href="/about.html" class="nav-link">ABOUT</a></li>
+    <li><a href="{{ baseUrl }}/index.html" class="nav-link">HOME</a></li>
+    <li><a href="{{ baseUrl }}/contributing.html" class="nav-link">CONTRIBUTING</a></li>
+    <li><a href="{{ baseUrl }}/about.html" class="nav-link">ABOUT</a></li>
 
   <li slot="right">
     <form class="navbar-form">
-      <searchbar :data="searchData" placeholder="Search" :on-hit="searchCallback"></searchbar>
+      <searchbar :data="searchData" placeholder="Search" :on-hit="searchCallback" menu-align-right></searchbar>
     </form>
   </li>
   </navbar>
@@ -22,21 +22,21 @@
 <div id="flex-body">
   <nav id="site-nav" class="fixed-header-padding">
     <div class="site-nav-top">
-      <div class="font-weight-bold mb-2" style="font-size: 1.25rem;">Template</div>
+      <div class="font-weight-bold mb-2" style="font-size: 1.25rem;">Table of Contents</div>
     </div>
     <div class="nav-component slim-scroll">
       <site-nav>
-* [README]({{ baseUrl }}/README.html)
-* [Overview]({{ baseUrl }}/overview.html)
-* [Contributing]({{ baseUrl }}/CONTRIBUTING.html)
-* [Setting Up]({{ baseUrl }}/setting-up.html)
-* Design :expanded:
-  * [Development]({{ baseUrl }}/development.html)
-  * [Process]({{ baseUrl }}/process.html)
-  * [Design]({{ baseUrl }}/design.html)
-  * [Index]({{ baseUrl }}/index.html)
+
+* Getting Started :expanded:
+  * [Introduction]({{ baseUrl }}/index.html)
+  * [Overview]({{ baseUrl }}/overview.html)
+  * [Setting Up]({{ baseUrl }}/setting-up.html)
+    * [Search]({{ baseUrl }}/search.html)
+* [Contributing]({{ baseUrl }}/contributing.html) :expanded:
   * [Issues]({{ baseUrl }}/issues.html)
-  * [Search]({{ baseUrl }}/search.html)
+  * [Process]({{ baseUrl }}/process.html)
+  * [Development]({{ baseUrl }}/development.html)
+* [Design]({{ baseUrl }}/design.html)
 * Best Practices :expanded:
   * [Coding]({{ baseUrl }}/best-practices/coding.html)
   * [Testing]({{ baseUrl }}/best-practices/testing.html)
@@ -64,8 +64,6 @@
     </div>
   </nav>
 </div>
-
-
 
 <footer>
   

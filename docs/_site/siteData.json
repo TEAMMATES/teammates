@@ -21,17 +21,6 @@
       "headingKeywords": {}
     },
     {
-      "src": "README.md",
-      "title": "",
-      "headings": {
-        "documentation-for-developers": "Documentation For Developers",
-        "main-documents": "Main documents",
-        "supplementary-documents": "Supplementary documents",
-        "how-to-documents": "How-to documents"
-      },
-      "headingKeywords": {}
-    },
-    {
       "src": "about.md",
       "title": "",
       "headings": {
@@ -190,10 +179,10 @@
       "src": "index.md",
       "title": "TEAMMATES",
       "headings": {
+        "teammates": "TEAMMATES",
+        "interested-to-join-teammates-developer-team": "Interested to join TEAMMATES developer team?",
         "documentation-for-developers": "Documentation For Developers",
-        "main-documents": "Main documents",
-        "supplementary-documents": "Supplementary documents",
-        "how-to-documents": "How-to documents"
+        "supplementary-documents": "Supplementary documents"
       },
       "headingKeywords": {}
     },
@@ -267,7 +256,8 @@
         "step-1-obtain-your-own-copy-of-the-repository": "Step 1: Obtain your own copy of the repository",
         "step-2-install-necessary-tools-and-languages": "Step 2: Install necessary tools and languages",
         "step-3-set-up-project-specific-settings-and-dependencies": "Step 3: Set up project-specific settings and dependencies",
-        "step-4-start-developing": "Step 4: Start developing"
+        "step-4-start-developing": "Step 4: Start developing",
+        "step-5-set-up-search-optional": "Step 5: Set up search (Optional)"
       },
       "headingKeywords": {}
     },

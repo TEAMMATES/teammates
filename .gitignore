@@ -74,3 +74,8 @@ filestorage-dev/*
 datastore-dev/datastore/*
 
 !.gitkeep
+
+
+# Docs
+docs/_site/*
+docs/_markbind/logs/markbind-2022-01-15.log

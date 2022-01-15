@@ -31,6 +31,7 @@ Not all rules from all static analysis tools need to be followed 100% of the tim
 Most of the static analysis tools we use allow for such leeway through various means.
 
 General rule of thumb when suppressing rules:
+
 - The suppression should be as specific as possible, e.g. specific rule, specific scope (lines/methods/classes)
 - The rule must be re-enabled after the suppression is no longer necessary
 - The reason for violating the rule should be explained
@@ -53,6 +54,7 @@ General rule of thumb when suppressing rules:
 | lintspaces | `npm run lint:spaces` |
 
 To run all static analysis tasks in one sitting, run the following two commands:
+
 ```sh
 ./gradlew lint --continue
 npm run lint
