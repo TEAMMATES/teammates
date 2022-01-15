@@ -24,7 +24,7 @@ public class StudentProfilePageE2ETest extends BaseE2ETestCase {
 
         ______TS("Typical case: Log in with filled profile values");
 
-        AppUrl url = createUrl(Const.WebPageURIs.STUDENT_PROFILE_PAGE);
+        AppUrl url = createFrontendUrl(Const.WebPageURIs.STUDENT_PROFILE_PAGE);
         StudentProfilePage profilePage = loginToPage(url, StudentProfilePage.class, "tm.e2e.SProf.student");
 
         profilePage.ensureProfileContains("Ben", "i.m.benny@gmail.tmt", "TEAMMATES Test Institute 4",

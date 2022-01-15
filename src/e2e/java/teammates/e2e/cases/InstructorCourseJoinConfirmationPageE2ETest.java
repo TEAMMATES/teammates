@@ -28,7 +28,7 @@ public class InstructorCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase
     public void testAll() {
         ______TS("Click join link: invalid key");
         String invalidKey = "invalidKey";
-        AppUrl joinLink = createUrl(Const.WebPageURIs.JOIN_PAGE)
+        AppUrl joinLink = createFrontendUrl(Const.WebPageURIs.JOIN_PAGE)
                 .withRegistrationKey(invalidKey)
                 .withEntityType(Const.EntityType.INSTRUCTOR);
         CourseJoinConfirmationPage confirmationPage = loginToPage(
@@ -40,7 +40,7 @@ public class InstructorCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase
         ______TS("Click join link: valid key");
         String courseId = testData.courses.get("ICJoinConf.CS1101").getId();
         String instructorEmail = newInstructor.getEmail();
-        joinLink = createUrl(Const.WebPageURIs.JOIN_PAGE)
+        joinLink = createFrontendUrl(Const.WebPageURIs.JOIN_PAGE)
                 .withRegistrationKey(getKeyForInstructor(courseId, instructorEmail))
                 .withEntityType(Const.EntityType.INSTRUCTOR);
         confirmationPage = getNewPageInstance(joinLink, CourseJoinConfirmationPage.class);
