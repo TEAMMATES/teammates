@@ -10,6 +10,7 @@ import {
   FeedbackQuestionsService,
   NewQuestionModel,
 } from '../../../services/feedback-questions.service';
+import { FeedbackSessionActionsService } from '../../../services/feedback-session-actions.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { InstructorService } from '../../../services/instructor.service';
 import { NavigationService } from '../../../services/navigation.service';
@@ -195,6 +196,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
               ngbModal: NgbModal,
               simpleModalService: SimpleModalService,
               progressBarService: ProgressBarService,
+              feedbackSessionActionsService: FeedbackSessionActionsService,
               private studentService: StudentService,
               private courseService: CourseService,
               private route: ActivatedRoute,
@@ -202,7 +204,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
               private changeDetectorRef: ChangeDetectorRef) {
     super(router, instructorService, statusMessageService, navigationService,
         feedbackSessionsService, feedbackQuestionsService, tableComparatorService,
-        ngbModal, simpleModalService, progressBarService);
+        ngbModal, simpleModalService, progressBarService, feedbackSessionActionsService);
   }
 
   ngOnInit(): void {

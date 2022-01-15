@@ -6,6 +6,7 @@ import { forkJoin, Observable, of } from 'rxjs';
 import { concatMap, finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
+import { FeedbackSessionActionsService } from '../../../services/feedback-session-actions.service';
 import { FeedbackSessionsService, TemplateSession } from '../../../services/feedback-sessions.service';
 import { InstructorService } from '../../../services/instructor.service';
 import { NavigationService } from '../../../services/navigation.service';
@@ -150,12 +151,13 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
               tableComparatorService: TableComparatorService,
               simpleModalService: SimpleModalService,
               progressBarService: ProgressBarService,
+              feedbackSessionActionsService: FeedbackSessionActionsService,
               private courseService: CourseService,
               private route: ActivatedRoute,
               private timezoneService: TimezoneService) {
     super(router, instructorService, statusMessageService, navigationService, feedbackSessionsService,
         feedbackQuestionsService, tableComparatorService, ngbModalService,
-        simpleModalService, progressBarService, studentService);
+        simpleModalService, progressBarService, feedbackSessionActionsService, studentService);
   }
 
   ngOnInit(): void {
