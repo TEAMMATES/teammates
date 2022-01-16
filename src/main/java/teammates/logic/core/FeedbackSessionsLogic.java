@@ -248,7 +248,7 @@ public final class FeedbackSessionsLogic {
         if (allQuestions.isEmpty()) {
             return true;
         }
-        Boolean isAllTeamQuestions = true;
+        boolean isAllTeamQuestions = true;
 
         for (FeedbackQuestionAttributes question : allQuestions) {
             if (question.getGiverType() == FeedbackParticipantType.STUDENTS) {

@@ -814,7 +814,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         student = dataBundle.students.get("student5InCourse1");
         assertFalse(fsLogic.isFeedbackSessionCompletedByStudent(fs, student.getEmail(), student.getTeam()));
 
-        ______TS("success: second feedback session (both team and individual questions");
+        ______TS("success: second feedback session (both team and individual questions)");
 
         fs = dataBundle.feedbackSessions.get("session2InCourse1");
         // student who did not answer any question
