@@ -229,11 +229,19 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     }
 
     public int getNumOfConstSumOptions() {
+<<<<<<< Updated upstream
         return numOfConstSumOptions;
     }
 
     public void setNumOfConstSumOptions(int numOfConstSumOptions) {
         this.numOfConstSumOptions = numOfConstSumOptions;
+=======
+        return constSumOptions.size();
+    }
+
+    public void setNumOfConstSumOptions(int numOfConstSumOptions) {
+   
+>>>>>>> Stashed changes
     }
 
     public List<String> getConstSumOptions() {

@@ -233,7 +233,10 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     }
 
     public void setNumOfRubricSubQuestions(int numOfRubricSubQuestions) {
+<<<<<<< Updated upstream
         this.numOfRubricSubQuestions = numOfRubricSubQuestions;
+=======
+>>>>>>> Stashed changes
     }
 
     public List<String> getRubricSubQuestions() {

@@ -40,7 +40,6 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         super(FeedbackQuestionType.MCQ, questionText);
         this.hasAssignedWeights = false;
         this.mcqWeights = new ArrayList<>();
-        this.numOfMcqChoices = 0;
         this.mcqChoices = new ArrayList<>();
         this.otherEnabled = false;
         this.mcqOtherWeight = 0;
@@ -185,7 +184,11 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     }
 
     public void setNumOfMcqChoices(int numOfMcqChoices) {
+<<<<<<< Updated upstream
         this.numOfMcqChoices = numOfMcqChoices;
+=======
+
+>>>>>>> Stashed changes
     }
 
     public List<String> getMcqChoices() {
