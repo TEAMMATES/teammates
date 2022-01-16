@@ -1500,11 +1500,6 @@
       "username": "samatdav"
     },
     {
-      "multiple": true,
-      "name": "Samuel Fang",
-      "username": "samuelfangjw"
-    },
-    {
       "name": "Sandeep Choudhary",
       "username": "Skchoudhary"
     },
@@ -2040,6 +2035,11 @@
   ],
   "committers": [
     {
+      "name": "Samuel Fang",
+      "username": "samuelfangjw",
+      "startPeriod": "Jan 2022"
+    },
+    {
       "name": "Yen Pinhsuan",
       "username": "ypinhsuan",
       "startPeriod": "May 2021"
@@ -2050,24 +2050,9 @@
       "startPeriod": "May 2021"
     },
     {
-      "name": "Li Jianhan",
-      "username": "jianhandev",
-      "startPeriod": "Feb 2021"
-    },
-    {
-      "name": "Lim Zi Wei",
-      "username": "halfwhole",
-      "startPeriod": "Feb 2021"
-    },
-    {
       "name": "Dao Ngoc Hieu",
       "username": "daongochieu2810",
       "startPeriod": "Feb 2021"
-    },
-    {
-      "name": "Mo Zongran",
-      "username": "moziliar",
-      "startPeriod": "Aug 2020"
     },
     {
       "name": "Derek Zhuang",
@@ -2260,7 +2245,7 @@
     {
       "name": "Wilson Kurniawan",
       "username": "wkurniawan07",
-      "currentPosition": "Project Mentor (Jun 2017 - )",
+      "currentPosition": "Project Mentor (Jun 2017 - ), System Architect (Aug 2020 - )",
       "pastPositions": [
         "Project Lead (Jun 2016 - May 2017)",
         "Area Lead (Jan 2016 - May 2016)",
@@ -2271,8 +2256,9 @@
     {
       "name": "Rahul Rajesh",
       "username": "rrtheonlyone",
-      "currentPosition": "Project Lead (Aug 2020 - )",
+      "currentPosition": "Project Mentor (Aug 2021 - )",
       "pastPositions": [
+        "Project Lead (Aug 2020 - Jul 2021)",
         "Snr Developer (Jan 2020 - Jul 2020)",
         "Committer (Jan 2019 - May 2019)"
       ]
@@ -2287,43 +2273,67 @@
       ]
     },
     {
-      "name": "Tiu Wee Han",
-      "username": "tiuweehan",
-      "currentPosition": "Snr Developer (Aug 2020 - )",
-      "pastPositions": [
-        "Committer (Jan 2020 - May 2020)"
-      ]
-    },
-    {
-      "name": "Jeremy Choo Wun Ka",
-      "username": "ChooJeremy",
-      "currentPosition": "Snr Developer (Jan 2020 - )",
-      "pastPositions": [
-        "Committer (Jan 2019 - May 2019)"
-      ]
-    },
-    {
-      "name": "Joshua Wong",
-      "username": "hcwong",
-      "currentPosition": "Snr Developer (Aug 2020 - )",
-      "pastPositions": [
-        "Committer (Jan 2020 - May 2020)"
-      ]
-    },
-    {
-      "name": "Chong Chee Yuan",
-      "username": "ccyccyccy",
-      "currentPosition": "Snr Developer (Aug 2020 - )",
-      "pastPositions": [
-        "Committer (May 2020 - Jul 2020)"
-      ]
-    },
-    {
       "name": "Tan Chee Peng",
       "username": "t-cheepeng",
       "currentPosition": "Snr Developer (Aug 2020 - )",
       "pastPositions": [
         "Committer (May 2020 - Jul 2020)"
+      ]
+    },
+    {
+      "name": "Li Jianhan",
+      "username": "jianhandev",
+      "currentPosition": "Snr Developer (Jan 2022 - )",
+      "pastPositions": [
+        "Committer (Feb 2021 - Dec 2021)"
+      ]
+    },
+    {
+      "name": "Lim Zi Wei",
+      "username": "halfwhole",
+      "currentPosition": "Snr Developer (Jan 2022 - )",
+      "pastPositions": [
+        "Committer (Feb 2021 - Dec 2021)"
+      ]
+    },
+    {
+      "name": "Mo Zongran",
+      "username": "moziliar",
+      "currentPosition": "Snr Developer (Jan 2022 - )",
+      "pastPositions": [
+        "Committer (Aug 2020 - Dec 2021)"
+      ]
+    },
+    {
+      "name": "Jeremy Choo Wun Ka",
+      "username": "ChooJeremy",
+      "pastPositions": [
+        "Snr Developer (Jan 2020 - Dec 2021)",
+        "Committer (Jan 2019 - May 2019)"
+      ]
+    },
+    {
+      "name": "Chong Chee Yuan",
+      "username": "ccyccyccy",
+      "pastPositions": [
+        "Snr Developer (Aug 2020 - Dec 2021)",
+        "Committer (May 2020 - Jul 2020)"
+      ]
+    },
+    {
+      "name": "Tiu Wee Han",
+      "username": "tiuweehan",
+      "pastPositions": [
+        "Snr Developer (Aug 2020 - May 2021)",
+        "Committer (Jan 2020 - May 2020)"
+      ]
+    },
+    {
+      "name": "Joshua Wong",
+      "username": "hcwong",
+      "pastPositions": [
+        "Snr Developer (Aug 2020 - May 2021)",
+        "Committer (Jan 2020 - May 2020)"
       ]
     },
     {
