@@ -158,7 +158,7 @@ export class ConstsumRecipientsQuestionConstraintComponent
   }
 
   get isValid(): boolean {
-    return this.isAllPointsDistributed && (this.isCorrectlyAllUneven || this.isCorrectlySomeUneven
+    return this.isAllPointsDistributed && !this.isAnyPointsNegative && (this.isCorrectlyAllUneven || this.isCorrectlySomeUneven
         || this.questionDetails.distributePointsFor === FeedbackConstantSumDistributePointsType.NONE);
   }
 }
