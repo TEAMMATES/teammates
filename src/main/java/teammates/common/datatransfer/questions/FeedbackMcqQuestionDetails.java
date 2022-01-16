@@ -27,7 +27,6 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     private boolean hasAssignedWeights;
     private List<Double> mcqWeights;
     private double mcqOtherWeight;
-    private int numOfMcqChoices;
     private List<String> mcqChoices;
     private boolean otherEnabled;
     private FeedbackParticipantType generateOptionsFor;
@@ -51,7 +50,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     public boolean shouldChangesRequireResponseDeletion(FeedbackQuestionDetails newDetails) {
         FeedbackMcqQuestionDetails newMcqDetails = (FeedbackMcqQuestionDetails) newDetails;
 
-        if (this.numOfMcqChoices != newMcqDetails.numOfMcqChoices
+        if (this.mcqChoices.size() != newMcqDetails.mcqChoices.size()
                 || !this.mcqChoices.containsAll(newMcqDetails.mcqChoices)
                 || !newMcqDetails.mcqChoices.containsAll(this.mcqChoices)) {
             return true;
@@ -69,7 +68,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         List<String> errors = new ArrayList<>();
         if (generateOptionsFor == FeedbackParticipantType.NONE) {
 
-            if (numOfMcqChoices < MCQ_MIN_NUM_OF_CHOICES) {
+            if (mcqChoices.size() < MCQ_MIN_NUM_OF_CHOICES) {
                 errors.add(MCQ_ERROR_NOT_ENOUGH_CHOICES
                         + MCQ_MIN_NUM_OF_CHOICES + ".");
             }
@@ -181,11 +180,11 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     }
 
     public int getNumOfMcqChoices() {
-        return numOfMcqChoices;
+        return mcqChoices.size();
     }
 
-    public void setNumOfMcqChoices(int numOfMcqChoices) {
-        this.numOfMcqChoices = numOfMcqChoices;
+    public void setNumOfMcqChoices() {
+
     }
 
     public List<String> getMcqChoices() {
