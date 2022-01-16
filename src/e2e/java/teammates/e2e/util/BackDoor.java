@@ -19,7 +19,7 @@ public final class BackDoor extends AbstractBackDoor {
 
     @Override
     protected String getAppUrl() {
-        return TestProperties.TEAMMATES_URL;
+        return TestProperties.TEAMMATES_BACKEND_URL;
     }
 
     @Override

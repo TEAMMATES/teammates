@@ -33,7 +33,7 @@ public abstract class BaseFeedbackQuestionE2ETest extends BaseE2ETestCase {
     abstract void testSubmitPage();
 
     InstructorFeedbackEditPage loginToFeedbackEditPage() {
-        AppUrl url = createUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_EDIT_PAGE)
+        AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_EDIT_PAGE)
                 .withCourseId(course.getId())
                 .withSessionName(feedbackSession.getFeedbackSessionName());
 
@@ -41,7 +41,7 @@ public abstract class BaseFeedbackQuestionE2ETest extends BaseE2ETestCase {
     }
 
     FeedbackSubmitPage loginToFeedbackSubmitPage() {
-        AppUrl url = createUrl(Const.WebPageURIs.STUDENT_SESSION_SUBMISSION_PAGE)
+        AppUrl url = createFrontendUrl(Const.WebPageURIs.STUDENT_SESSION_SUBMISSION_PAGE)
                 .withCourseId(student.getCourse())
                 .withSessionName(feedbackSession.getFeedbackSessionName());
 
@@ -49,7 +49,7 @@ public abstract class BaseFeedbackQuestionE2ETest extends BaseE2ETestCase {
     }
 
     FeedbackSubmitPage getFeedbackSubmitPage() {
-        AppUrl url = createUrl(Const.WebPageURIs.STUDENT_SESSION_SUBMISSION_PAGE)
+        AppUrl url = createFrontendUrl(Const.WebPageURIs.STUDENT_SESSION_SUBMISSION_PAGE)
                 .withCourseId(student.getCourse())
                 .withSessionName(feedbackSession.getFeedbackSessionName());
 
