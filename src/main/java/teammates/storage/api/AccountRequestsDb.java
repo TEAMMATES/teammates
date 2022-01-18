@@ -9,6 +9,7 @@ import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.LoadType;
 
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.entity.AccountRequest;
 
@@ -41,24 +42,31 @@ public final class AccountRequestsDb extends EntitiesDb<AccountRequest, AccountR
     }
 
     /**
-     * Creates or updates an account request.
+     * Updates an account request.
      *
-     * @return the created account request
+     * @return the updated account request
      * @throws InvalidParametersException if the account request is not valid
+     * @throws EntityDoesNotExistException if the account request cannot be found
      */
-    public AccountRequestAttributes createOrUpdateAccountRequest(AccountRequestAttributes accountRequestToAdd)
-            throws InvalidParametersException {
-        assert accountRequestToAdd != null;
-        accountRequestToAdd.sanitizeForSaving();
+    public AccountRequestAttributes updateAccountRequest(AccountRequestAttributes.UpdateOptions updateOptions)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        assert updateOptions != null;
 
-        if (!accountRequestToAdd.isValid()) {
-            throw new InvalidParametersException(accountRequestToAdd.getInvalidityInfo());
+        AccountRequestAttributes accountRequest = getAccountRequest(updateOptions.getEmail(), updateOptions.getInstitute());
+        if (accountRequest == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + updateOptions);
         }
 
-        AccountRequest accountRequest = accountRequestToAdd.toEntity();
-        saveEntity(accountRequest);
+        accountRequest.update(updateOptions);
+        accountRequest.sanitizeForSaving();
 
-        return makeAttributes(accountRequest);
+        if (!accountRequest.isValid()) {
+            throw new InvalidParametersException(accountRequest.getInvalidityInfo());
+        }
+
+        saveEntity(accountRequest.toEntity());
+
+        return accountRequest;
     }
 
     /**

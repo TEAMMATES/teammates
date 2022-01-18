@@ -4,8 +4,10 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
+import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.test.AssertHelper;
 
@@ -28,8 +30,7 @@ public class AccountRequestsLogicTest extends BaseLogicTest {
     }
 
     @Test
-    public void testCreateOrUpdateAccountRequest() throws Exception {
-
+    public void testCreateAccountRequest() throws Exception {
         ______TS("typical success case");
 
         AccountRequestAttributes accountRequest = AccountRequestAttributes
@@ -37,7 +38,7 @@ public class AccountRequestsLogicTest extends BaseLogicTest {
                 .build();
 
         AccountRequestAttributes createdAccountRequest =
-                accountRequestsLogic.createOrUpdateAccountRequest(accountRequest);
+                accountRequestsLogic.createAccountRequest(accountRequest);
         verifyPresentInDatabase(createdAccountRequest);
 
         assertEquals(accountRequest.getEmail(), createdAccountRequest.getEmail());
@@ -46,14 +47,17 @@ public class AccountRequestsLogicTest extends BaseLogicTest {
         assertNotNull(createdAccountRequest.getRegistrationKey());
         assertNotNull(createdAccountRequest.getCreatedAt());
 
-        ______TS("duplicate account request, account request updated");
+        ______TS("failure: duplicate account request");
 
-        AccountRequestAttributes duplicateAccount = AccountRequestAttributes
-                .builder("valid@test.com", "TEAMMATES Test Institute 2", "Test account Name 2")
+        AccountRequestAttributes duplicateAccountRequest = AccountRequestAttributes
+                .builder("valid@test.com", "TEAMMATES Test Institute 1", "Test account Name")
                 .build();
 
-        duplicateAccount = accountRequestsLogic.createOrUpdateAccountRequest(duplicateAccount);
-        verifyPresentInDatabase(duplicateAccount);
+        assertThrows(EntityAlreadyExistsException.class, () -> {
+            accountRequestsLogic.createAccountRequest(duplicateAccountRequest);
+        });
+
+        accountRequestsLogic.deleteAccountRequest("valid@test.com", "TEAMMATES Test Institute 1");
 
         ______TS("failure case: invalid parameter");
 
@@ -62,7 +66,7 @@ public class AccountRequestsLogicTest extends BaseLogicTest {
                 .build();
 
         InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
-                () -> accountRequestsLogic.createOrUpdateAccountRequest(invalidAccountRequest));
+                () -> accountRequestsLogic.createAccountRequest(invalidAccountRequest));
         AssertHelper.assertContains(
                 getPopulatedErrorMessage(
                         FieldValidator.EMAIL_ERROR_MESSAGE, "invalid email",
@@ -71,8 +75,35 @@ public class AccountRequestsLogicTest extends BaseLogicTest {
                 ipe.getMessage());
 
         ______TS("failure: null parameter");
-        assertThrows(AssertionError.class,
-                () -> accountRequestsLogic.createOrUpdateAccountRequest(null));
+        assertThrows(AssertionError.class, () -> accountRequestsLogic.createAccountRequest(null));
+    }
+
+    @Test
+    public void testUpdateAccountRequest() throws Exception {
+        accountRequestsLogic.createAccountRequest(AccountRequestAttributes
+                .builder("valid@test.com", "TEAMMATES Test Institute 1", "Test account Name")
+                .build());
+
+        ______TS("typical success case");
+        AccountRequestAttributes.UpdateOptions updateOptions = AccountRequestAttributes
+                .updateOptionsBuilder("valid@test.com", "TEAMMATES Test Institute 1", "Test account Name")
+                .withRegisteredAt(Const.TIME_REPRESENTS_NOW)
+                .build();
+        accountRequestsLogic.updateAccountRequest(updateOptions);
+
+        AccountRequestAttributes accountRequest = accountRequestsLogic
+                .getAccountRequest("valid@test.com", "TEAMMATES Test Institute 1");
+
+        assertEquals(Const.TIME_REPRESENTS_NOW, accountRequest.getRegisteredAt());
+
+        ______TS("failure: account request not found");
+        AccountRequestAttributes.UpdateOptions updateOptionsNotFound = AccountRequestAttributes
+                .updateOptionsBuilder("not_found@test.com", "Unknown Test Institute 1", "Unknown Name")
+                .withRegisteredAt(Const.TIME_REPRESENTS_NOW)
+                .build();
+
+        assertThrows(EntityDoesNotExistException.class,
+                () -> accountRequestsLogic.updateAccountRequest(updateOptionsNotFound));
     }
 
     @Test

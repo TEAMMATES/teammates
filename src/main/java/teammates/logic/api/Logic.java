@@ -1394,19 +1394,37 @@ public class Logic {
     }
 
     /**
-     * Creates or updates an account request.
+     * Creates an account request.
      *
      * <p>Preconditions:</p>
      * * All parameters are non-null.
      *
      * @return the created account request
      * @throws InvalidParametersException if the account request is not valid
+     * @throws EntityAlreadyExistsException if the account request already exists
      */
-    public AccountRequestAttributes createOrUpdateAccountRequest(AccountRequestAttributes accountRequestToAdd)
-            throws InvalidParametersException {
-        assert accountRequestToAdd != null;
+    public AccountRequestAttributes createAccountRequest(AccountRequestAttributes accountRequest)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        assert accountRequest != null;
 
-        return accountRequestsLogic.createOrUpdateAccountRequest(accountRequestToAdd);
+        return accountRequestsLogic.createAccountRequest(accountRequest);
+    }
+
+    /**
+     * Updates an account request.
+     *
+     * <p>Preconditions:</p>
+     * * All parameters are non-null.
+     *
+     * @return the updated account request
+     * @throws InvalidParametersException if the account request is not valid
+     * @throws EntityDoesNotExistException if the account request does not exist
+     */
+    public AccountRequestAttributes updateAccountRequest(AccountRequestAttributes.UpdateOptions updateOptions)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        assert updateOptions != null;
+
+        return accountRequestsLogic.updateAccountRequest(updateOptions);
     }
 
     /**

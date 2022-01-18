@@ -71,11 +71,10 @@ class CreateAccountAction extends Action {
 
         try {
             logic.joinCourseForInstructor(instructorList.get(0).getKey(), userInfo.id);
-            accountRequestAttributes.update(AccountRequestAttributes
+            logic.updateAccountRequest(AccountRequestAttributes
                     .updateOptionsBuilder(instructorEmail, instructorInstitution, instructorName)
                     .withRegisteredAt(Instant.now())
                     .build());
-            logic.createOrUpdateAccountRequest(accountRequestAttributes);
         } catch (EntityDoesNotExistException ednee) {
             throw new EntityNotFoundException(ednee);
         } catch (EntityAlreadyExistsException eaee) {

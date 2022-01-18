@@ -182,7 +182,7 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
     }
 
     /**
-     * Helper class to specific the fields to update in {@link AccountRequestAttributes}.
+     * Helper class to specify the fields to update in {@link AccountRequestAttributes}.
      */
     public static class UpdateOptions {
         private String email;
@@ -199,6 +199,14 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
             this.email = email;
             this.institute = institute;
             this.name = name;
+        }
+
+        public String getEmail() {
+            return email;
+        }
+
+        public String getInstitute() {
+            return institute;
         }
 
         @Override

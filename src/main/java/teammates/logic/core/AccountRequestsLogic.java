@@ -1,6 +1,7 @@
 package teammates.logic.core;
 
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
+import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.api.AccountRequestsDb;
@@ -27,14 +28,27 @@ public final class AccountRequestsLogic {
     }
 
     /**
-     * Creates or updates an account request.
+     * Updates an account request.
+     *
+     * @return the updated account request
+     * @throws InvalidParametersException if the account request is not valid
+     * @throws EntityDoesNotExistException if the account request to create does not exist
+     */
+    public AccountRequestAttributes updateAccountRequest(AccountRequestAttributes.UpdateOptions updateOptions)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        return accountRequestsDb.updateAccountRequest(updateOptions);
+    }
+
+    /**
+     * Creates an account request.
      *
      * @return the created account request
      * @throws InvalidParametersException if the account request is not valid
+     * @throws EntityAlreadyExistsException if the account request to create already exists
      */
-    public AccountRequestAttributes createOrUpdateAccountRequest(AccountRequestAttributes accountRequestToAdd)
-            throws InvalidParametersException {
-        return accountRequestsDb.createOrUpdateAccountRequest(accountRequestToAdd);
+    public AccountRequestAttributes createAccountRequest(AccountRequestAttributes accountRequest)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        return accountRequestsDb.createEntity(accountRequest);
     }
 
     /**
