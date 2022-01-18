@@ -314,11 +314,11 @@ exports[`SessionResultCsvService should generate results for RANK question 1`] =
 Question 1,Rank the other students.
 
 Summary Statistics
-Team,Recipient,Self Rank,Overall Rank,Overall Rank Excluding Self,Ranks Received,Team Rank,Team Rank Excluding Self
-\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",4,4,-,4
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,2,1,3,2,3
-\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,3,1,1,2,3
-\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,3,3,2,1,3,4
+Team,Recipient,Self Rank,Overall Rank,Overall Rank Excluding Self,Team Rank,Team Rank Excluding Self,Ranks Received
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",4,4,-,-,-,4
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,2,1,3,-,-,2,3
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,3,1,1,-,-,2,3
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,3,3,2,-,-,1,3,4
 
 
 Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Feedback

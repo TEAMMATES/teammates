@@ -59,11 +59,14 @@ public class OAuth2CallbackServlet extends AuthServlet {
             String sessionId = authState.getSessionId();
             if (!sessionId.equals(req.getSession().getId())) {
                 // Invalid session ID
+                log.warning(String.format("Different session ID: expected %s, got %s",
+                        sessionId, req.getSession().getId()));
                 logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, "Invalid authorization code");
                 return;
             }
         } catch (JsonParseException | InvalidParametersException e) {
-            logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, "Invalid authorization code");
+            log.warning("Failed to parse state object", e);
+            logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, "Bad state object");
             return;
         }
 

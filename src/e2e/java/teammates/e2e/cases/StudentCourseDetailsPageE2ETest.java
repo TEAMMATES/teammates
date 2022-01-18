@@ -24,7 +24,7 @@ public class StudentCourseDetailsPageE2ETest extends BaseE2ETestCase {
     @Override
     public void testAll() {
 
-        AppUrl url = createUrl(Const.WebPageURIs.STUDENT_COURSE_DETAILS_PAGE)
+        AppUrl url = createFrontendUrl(Const.WebPageURIs.STUDENT_COURSE_DETAILS_PAGE)
                 .withCourseId("tm.e2e.SCDet.CS2104");
         StudentCourseDetailsPage detailsPage = loginToPage(url, StudentCourseDetailsPage.class,
                 testData.students.get("SCDet.alice").getGoogleId());

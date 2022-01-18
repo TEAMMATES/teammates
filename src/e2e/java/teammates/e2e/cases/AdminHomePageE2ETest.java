@@ -19,7 +19,7 @@ public class AdminHomePageE2ETest extends BaseE2ETestCase {
     @Test
     @Override
     public void testAll() {
-        AppUrl url = createUrl(Const.WebPageURIs.ADMIN_HOME_PAGE);
+        AppUrl url = createFrontendUrl(Const.WebPageURIs.ADMIN_HOME_PAGE);
         AdminHomePage homePage = loginAdminToPage(url, AdminHomePage.class);
 
         String name = "AHPUiT Instrúctör WithPlusInEmail";
