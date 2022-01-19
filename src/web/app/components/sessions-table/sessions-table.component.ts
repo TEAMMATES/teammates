@@ -180,7 +180,7 @@ export class SessionsTableComponent implements OnInit {
   /**
    * Sends e-mails to remind selected students and instructors who have not submitted their feedback.
    */
-   sendRemindersToSelectedNonSubmitters(rowIndex: number): void {
+  sendRemindersToSelectedNonSubmitters(rowIndex: number): void {
     this.sendRemindersToSelectedNonSubmittersEvent.emit(rowIndex);
   }
 

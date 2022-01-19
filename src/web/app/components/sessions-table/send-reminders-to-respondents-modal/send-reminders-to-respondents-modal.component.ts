@@ -117,6 +117,7 @@ export class SendRemindersToRespondentsModalComponent implements OnInit {
     const nonSubmitters: InstructorListInfoTableRowModel[] = this.instructorListInfoTableRowModels
       .filter((model: InstructorListInfoTableRowModel) => !model.hasSubmittedSession);
 
-    return nonSubmitters.length > 0 && nonSubmitters.every((model: InstructorListInfoTableRowModel) => model.isSelected);
+    return nonSubmitters.length > 0 &&
+      nonSubmitters.every((model: InstructorListInfoTableRowModel) => model.isSelected);
   }
 }
