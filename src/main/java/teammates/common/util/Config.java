@@ -21,6 +21,9 @@ public final class Config {
     /** The value of the "app.version" in build.properties file. */
     public static final String APP_VERSION;
 
+    /** The value of the "app.production.url" in build.properties file. */
+    public static final String APP_PRODUCTION_URL;
+
     /** The value of the "app.frontenddev.url" in build.properties file. */
     public static final String APP_FRONTENDDEV_URL;
 
@@ -112,6 +115,7 @@ public final class Config {
         APP_ID = properties.getProperty("app.id");
         APP_REGION = properties.getProperty("app.region");
         APP_VERSION = properties.getProperty("app.version");
+        APP_PRODUCTION_URL = properties.getProperty("app.production.url", "");
         APP_FRONTENDDEV_URL = properties.getProperty("app.frontenddev.url");
         APP_LOCALDATASTORE_PORT = Integer.parseInt(properties.getProperty("app.localdatastore.port", "8484"));
         TASKQUEUE_ACTIVE = Boolean.parseBoolean(properties.getProperty("app.taskqueue.active", "true"));
@@ -146,7 +150,8 @@ public final class Config {
     }
 
     static String getBaseAppUrl() {
-        return isDevServer() ? "http://localhost:" + getPort() : "https://" + APP_ID + ".appspot.com";
+        return isDevServer() ? "http://localhost:" + getPort()
+                : (APP_PRODUCTION_URL.isBlank() ? "https://" + APP_ID + ".appspot.com" : APP_PRODUCTION_URL);
     }
 
     /**
