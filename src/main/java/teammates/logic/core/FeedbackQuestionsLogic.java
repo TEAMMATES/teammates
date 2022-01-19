@@ -270,6 +270,7 @@ public final class FeedbackQuestionsLogic {
     /**
      * Returns true if a session has question in either STUDENTS type or TEAMS type.
      */
+    @Deprecated
     public boolean sessionHasQuestions(String feedbackSessionName, String courseId) {
         return fqDb.hasFeedbackQuestionsForGiverType(feedbackSessionName, courseId, FeedbackParticipantType.STUDENTS)
                 || fqDb.hasFeedbackQuestionsForGiverType(feedbackSessionName, courseId, FeedbackParticipantType.TEAMS);

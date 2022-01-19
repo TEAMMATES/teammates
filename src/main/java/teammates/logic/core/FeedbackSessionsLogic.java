@@ -236,7 +236,10 @@ public final class FeedbackSessionsLogic {
     /**
      * Checks whether a student has completed a feedback session.
      *
-     * <p> If there is no question for students, the feedback session is completed</p>
+     * <p>If feedback session consists of all team questions, session is completed by student only
+     * if someone from the team has responded. If feedback session has some individual questions,
+     * session is completed only if the student has responded to the individual questions
+     * (regardless of the completion status of the team questions).</p>
      */
     public boolean isFeedbackSessionCompletedByStudent(FeedbackSessionAttributes fsa, String userEmail, String userTeam) {
         String feedbackSessionName = fsa.getFeedbackSessionName();
@@ -244,7 +247,7 @@ public final class FeedbackSessionsLogic {
 
         List<FeedbackQuestionAttributes> allQuestions =
                 fqLogic.getFeedbackQuestionsForStudents(feedbackSessionName, courseId);
-        // if there is no question for students, session is complete
+        // if there are no questions for student, session is complete
         if (allQuestions.isEmpty()) {
             return true;
         }
@@ -258,11 +261,8 @@ public final class FeedbackSessionsLogic {
         }
 
         if (isAllTeamQuestions) {
-            // if all team questions, session is complete only if someone from team has responded
             return frLogic.hasGiverRespondedForSession(userTeam, feedbackSessionName, courseId);
         } else {
-            // if there are individual questions, session is complete only if
-            // the student has responded to the individual questions
             return frLogic.hasGiverRespondedForSession(userEmail, feedbackSessionName, courseId);
         }
     }
