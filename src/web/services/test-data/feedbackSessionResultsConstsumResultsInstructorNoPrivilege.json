@@ -6,7 +6,6 @@
         "questionNumber": 2,
         "questionBrief": "Split points among the teams",
         "questionDetails": {
-          "numOfConstSumOptions": 0,
           "constSumOptions": [],
           "distributeToRecipients": true,
           "pointsPerOption": true,
@@ -43,7 +42,6 @@
         "questionNumber": 3,
         "questionBrief": "How much has each student worked?",
         "questionDetails": {
-          "numOfConstSumOptions": 0,
           "constSumOptions": [],
           "distributeToRecipients": true,
           "pointsPerOption": true,
@@ -80,7 +78,6 @@
         "questionNumber": 1,
         "questionBrief": "How important are the following factors to you? Give points accordingly.",
         "questionDetails": {
-          "numOfConstSumOptions": 2,
           "constSumOptions": [
             "Grades",
             "Fun"

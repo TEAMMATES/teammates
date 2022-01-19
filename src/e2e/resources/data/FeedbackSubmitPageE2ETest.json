@@ -288,7 +288,6 @@
       "feedbackSessionName": "First Session",
       "courseId": "tm.e2e.FSubmit.CS2104",
       "questionDetails": {
-        "numOfMcqChoices": 2,
         "mcqChoices": [
           "UI",
           "Algo"
@@ -336,7 +335,6 @@
       "feedbackSessionName": "Grace Period Session",
       "courseId": "tm.e2e.FSubmit.CS2104",
       "questionDetails": {
-        "numOfMcqChoices": 2,
         "mcqChoices": [
           "UI",
           "Algo"
@@ -366,7 +364,6 @@
       "feedbackSessionName": "Grace Period Session",
       "courseId": "tm.e2e.FSubmit.CS2104",
       "questionDetails": {
-        "numOfMcqChoices": 0,
         "questionText": "Which instructor do you think is the most engaging",
         "questionType": "MCQ",
         "otherEnabled": false,
