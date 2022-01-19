@@ -16,7 +16,6 @@ export class FeedbackMcqQuestionDetailsImpl extends AbstractFeedbackMcqMsqQuesti
   hasAssignedWeights: boolean = false;
   mcqWeights: number[] = [];
   mcqOtherWeight: number = 0;
-  numOfMcqChoices: number = 0;
   mcqChoices: string[] = [];
   otherEnabled: boolean = false;
   generateOptionsFor: FeedbackParticipantType = FeedbackParticipantType.NONE;
@@ -28,7 +27,6 @@ export class FeedbackMcqQuestionDetailsImpl extends AbstractFeedbackMcqMsqQuesti
     this.hasAssignedWeights = apiOutput.hasAssignedWeights;
     this.mcqWeights = apiOutput.mcqWeights;
     this.mcqOtherWeight = apiOutput.mcqOtherWeight;
-    this.numOfMcqChoices = apiOutput.numOfMcqChoices;
     this.mcqChoices = apiOutput.mcqChoices;
     this.otherEnabled = apiOutput.otherEnabled;
     this.generateOptionsFor = apiOutput.generateOptionsFor;
