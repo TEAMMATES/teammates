@@ -168,145 +168,149 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
             <td
               class="actions-cell"
             >
-              
-              <a
-                href="/web/instructor/sessions/edit?courseid=GOT&fsname=Season%208%20Review&editingMode=true"
-                tmrouterlink="/web/instructor/sessions/edit"
-              >
-                
-                <button
-                  class="btn btn-light btn-sm"
-                  type="button"
-                >
-                   Edit 
-                </button>
-              </a>
-              
-              <button
-                class="btn btn-light btn-sm"
-                id="btn-soft-delete-0"
-                type="button"
-              >
-                Delete
-              </button>
-              <button
-                class="btn btn-light btn-sm"
-                id="btn-copy-0"
-                ngbtooltip="Copy feedback session details"
-                type="button"
-              >
-                Copy
-              </button>
-              
-              <a
-                href="/web/instructor/sessions/submission?courseid=GOT&fsname=Season%208%20Review"
-                tmrouterlink="/web/instructor/sessions/submission"
-              >
-                
-                <button
-                  class="btn btn-light btn-sm"
-                  ngbtooltip="Start submitting feedback"
-                  type="button"
-                >
-                  Submit
-                </button>
-                
-              </a>
-              
               <div
-                class="d-inline-block dropdown"
-                container="body"
-                ngbdropdown=""
+                class="align-row"
               >
-                <button
-                  aria-expanded="false"
-                  aria-haspopup="true"
-                  class="btn btn-light btn-sm dropdown-toggle"
-                  id="btn-results-0"
-                  ngbdropdowntoggle=""
+                
+                <a
+                  href="/web/instructor/sessions/edit?courseid=GOT&fsname=Season%208%20Review&editingMode=true"
+                  tmrouterlink="/web/instructor/sessions/edit"
                 >
-                  Results
+                  
+                  <button
+                    class="btn btn-light btn-sm"
+                    type="button"
+                  >
+                     Edit 
+                  </button>
+                </a>
+                
+                <button
+                  class="btn btn-light btn-sm"
+                  id="btn-soft-delete-0"
+                  type="button"
+                >
+                  Delete
                 </button>
+                <button
+                  class="btn btn-light btn-sm"
+                  id="btn-copy-0"
+                  ngbtooltip="Copy feedback session details"
+                  type="button"
+                >
+                  Copy
+                </button>
+                
+                <a
+                  href="/web/instructor/sessions/submission?courseid=GOT&fsname=Season%208%20Review"
+                  tmrouterlink="/web/instructor/sessions/submission"
+                >
+                  
+                  <button
+                    class="btn btn-light btn-sm"
+                    ngbtooltip="Start submitting feedback"
+                    type="button"
+                  >
+                    Submit
+                  </button>
+                  
+                </a>
+                
                 <div
-                  class="dropdown-menu"
-                  ngbdropdownmenu=""
-                  x-placement="bottom"
+                  class="d-inline-block dropdown"
+                  container="body"
+                  ngbdropdown=""
                 >
-                  <a
-                    class="btn dropdown-item clickable"
-                    href="/web/instructor/sessions/result?courseid=GOT&fsname=Season%208%20Review"
-                    tmrouterlink="/web/instructor/sessions/result"
-                  >
-                    View Results (from/to me)
-                  </a>
-                  <a
-                    class="btn dropdown-item clickable"
-                    href="/web/instructor/sessions/report?courseid=GOT&fsname=Season%208%20Review"
-                    tmrouterlink="/web/instructor/sessions/report"
-                  >
-                    View Results (course-wide)
-                  </a>
-                  
                   <button
-                    class="btn dropdown-item clickable"
-                    container="body"
-                    id="btn-publish-0"
-                    ngbtooltip="Make session responses available for viewing"
-                    placement="left"
+                    aria-expanded="false"
+                    aria-haspopup="true"
+                    class="btn btn-light btn-sm dropdown-toggle"
+                    id="btn-results-0"
+                    ngbdropdowntoggle=""
                   >
-                    Publish Results
+                    Results
                   </button>
-                  
-                  
-                  
-                  <button
-                    class="btn dropdown-item clickable"
-                    id="btn-download-0"
-                  >
-                    Download Results
-                  </button>
-                </div>
-              </div>
-              <div
-                class="d-inline-block dropdown"
-                ngbdropdown=""
-                ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
-              >
-                <button
-                  aria-expanded="false"
-                  aria-haspopup="true"
-                  class="btn btn-light btn-sm align-row dropdown-toggle"
-                  id="btn-remind-0"
-                  ngbdropdowntoggle=""
-                >
-                  <span>
-                    Remind
-                  </span>
                   <div
-                    class="padding-left-7px"
+                    class="dropdown-menu"
+                    ngbdropdownmenu=""
+                    x-placement="bottom"
                   >
+                    <a
+                      class="btn dropdown-item clickable"
+                      href="/web/instructor/sessions/result?courseid=GOT&fsname=Season%208%20Review"
+                      tmrouterlink="/web/instructor/sessions/result"
+                    >
+                      View Results (from/to me)
+                    </a>
+                    <a
+                      class="btn dropdown-item clickable"
+                      href="/web/instructor/sessions/report?courseid=GOT&fsname=Season%208%20Review"
+                      tmrouterlink="/web/instructor/sessions/report"
+                    >
+                      View Results (course-wide)
+                    </a>
                     
+                    <button
+                      class="btn dropdown-item clickable"
+                      container="body"
+                      id="btn-publish-0"
+                      ngbtooltip="Make session responses available for viewing"
+                      placement="left"
+                    >
+                      Publish Results
+                    </button>
+                    
+                    
+                    
+                    <button
+                      class="btn dropdown-item clickable"
+                      id="btn-download-0"
+                    >
+                      Download Results
+                    </button>
                   </div>
-                </button>
+                </div>
                 <div
-                  class="dropdown-menu"
-                  ngbdropdownmenu=""
-                  x-placement="bottom"
+                  class="d-inline-block dropdown"
+                  ngbdropdown=""
+                  ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
                 >
                   <button
-                    class="btn dropdown-item clickable"
+                    aria-expanded="false"
+                    aria-haspopup="true"
+                    class="btn btn-light btn-sm dropdown-toggle"
+                    id="btn-remind-0"
+                    ngbdropdowntoggle=""
                   >
-                    <span>
+                    <div
+                      class="d-inline-flex"
+                    >
+                      <span>
+                        Remind
+                      </span>
+                      <div
+                        class="padding-left-7px"
+                      >
+                        
+                      </div>
+                    </div>
+                  </button>
+                  <div
+                    class="dropdown-menu"
+                    ngbdropdownmenu=""
+                    x-placement="bottom"
+                  >
+                    <button
+                      class="btn dropdown-item clickable"
+                    >
                       Remind all non-submitters
-                    </span>
-                  </button>
-                  <button
-                    class="btn dropdown-item clickable"
-                  >
-                    <span>
+                    </button>
+                    <button
+                      class="btn dropdown-item clickable"
+                    >
                       Select non-submitters to remind
-                    </span>
-                  </button>
+                    </button>
+                  </div>
                 </div>
               </div>
             </td>
@@ -366,145 +370,149 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
             <td
               class="actions-cell"
             >
-              
-              <button
-                class="btn btn-light btn-sm"
-                disabled=""
-                type="button"
-              >
-                 Edit 
-              </button>
-              
-              <button
-                class="btn btn-light btn-sm"
-                disabled=""
-                id="btn-soft-delete-1"
-                type="button"
-              >
-                Delete
-              </button>
-              <button
-                class="btn btn-light btn-sm"
-                id="btn-copy-1"
-                ngbtooltip="Copy feedback session details"
-                type="button"
-              >
-                Copy
-              </button>
-              
-              <button
-                class="btn btn-light btn-sm"
-                disabled=""
-                ngbtooltip="Start submitting feedback"
-                type="button"
-              >
-                Submit
-              </button>
-              
-              
               <div
-                class="d-inline-block dropdown"
-                container="body"
-                ngbdropdown=""
+                class="align-row"
               >
+                
                 <button
-                  aria-expanded="false"
-                  aria-haspopup="true"
-                  class="btn btn-light btn-sm dropdown-toggle"
-                  id="btn-results-1"
-                  ngbdropdowntoggle=""
-                >
-                  Results
-                </button>
-                <div
-                  class="dropdown-menu"
-                  ngbdropdownmenu=""
-                  x-placement="bottom"
-                >
-                  <a
-                    class="btn dropdown-item clickable disabled"
-                    href="/web/instructor/sessions/result?courseid=GOT&fsname=Season%207%20Review"
-                    tmrouterlink="/web/instructor/sessions/result"
-                  >
-                    View Results (from/to me)
-                  </a>
-                  <a
-                    class="btn dropdown-item clickable disabled"
-                    href="/web/instructor/sessions/report?courseid=GOT&fsname=Season%207%20Review"
-                    tmrouterlink="/web/instructor/sessions/report"
-                  >
-                    View Results (course-wide)
-                  </a>
-                  
-                  <button
-                    class="btn dropdown-item clickable"
-                    container="body"
-                    disabled=""
-                    id="btn-unpublish-1"
-                    ngbtooltip="Make responses no longer visible"
-                    placement="left"
-                  >
-                    Unpublish Results
-                  </button>
-                  
-                  
-                  
-                  <button
-                    class="btn dropdown-item clickable"
-                    id="btn-resend-1"
-                  >
-                    Resend link to view results
-                  </button>
-                  <button
-                    class="btn dropdown-item clickable"
-                    disabled=""
-                    id="btn-download-1"
-                  >
-                    Download Results
-                  </button>
-                </div>
-              </div>
-              <div
-                class="d-inline-block dropdown"
-                ngbdropdown=""
-                ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
-              >
-                <button
-                  aria-expanded="false"
-                  aria-haspopup="true"
-                  class="btn btn-light btn-sm align-row dropdown-toggle"
+                  class="btn btn-light btn-sm"
                   disabled=""
-                  id="btn-remind-1"
-                  ngbdropdowntoggle=""
+                  type="button"
                 >
-                  <span>
-                    Remind
-                  </span>
-                  <div
-                    class="padding-left-7px"
-                  >
-                    
-                  </div>
+                   Edit 
                 </button>
+                
+                <button
+                  class="btn btn-light btn-sm"
+                  disabled=""
+                  id="btn-soft-delete-1"
+                  type="button"
+                >
+                  Delete
+                </button>
+                <button
+                  class="btn btn-light btn-sm"
+                  id="btn-copy-1"
+                  ngbtooltip="Copy feedback session details"
+                  type="button"
+                >
+                  Copy
+                </button>
+                
+                <button
+                  class="btn btn-light btn-sm"
+                  disabled=""
+                  ngbtooltip="Start submitting feedback"
+                  type="button"
+                >
+                  Submit
+                </button>
+                
+                
                 <div
-                  class="dropdown-menu"
-                  ngbdropdownmenu=""
-                  x-placement="bottom"
+                  class="d-inline-block dropdown"
+                  container="body"
+                  ngbdropdown=""
                 >
                   <button
-                    class="btn dropdown-item clickable"
+                    aria-expanded="false"
+                    aria-haspopup="true"
+                    class="btn btn-light btn-sm dropdown-toggle"
+                    id="btn-results-1"
+                    ngbdropdowntoggle=""
                   >
-                    <span>
-                      Remind all non-submitters
-                    </span>
+                    Results
                   </button>
+                  <div
+                    class="dropdown-menu"
+                    ngbdropdownmenu=""
+                    x-placement="bottom"
+                  >
+                    <a
+                      class="btn dropdown-item clickable disabled"
+                      href="/web/instructor/sessions/result?courseid=GOT&fsname=Season%207%20Review"
+                      tmrouterlink="/web/instructor/sessions/result"
+                    >
+                      View Results (from/to me)
+                    </a>
+                    <a
+                      class="btn dropdown-item clickable disabled"
+                      href="/web/instructor/sessions/report?courseid=GOT&fsname=Season%207%20Review"
+                      tmrouterlink="/web/instructor/sessions/report"
+                    >
+                      View Results (course-wide)
+                    </a>
+                    
+                    <button
+                      class="btn dropdown-item clickable"
+                      container="body"
+                      disabled=""
+                      id="btn-unpublish-1"
+                      ngbtooltip="Make responses no longer visible"
+                      placement="left"
+                    >
+                      Unpublish Results
+                    </button>
+                    
+                    
+                    
+                    <button
+                      class="btn dropdown-item clickable"
+                      id="btn-resend-1"
+                    >
+                      Resend link to view results
+                    </button>
+                    <button
+                      class="btn dropdown-item clickable"
+                      disabled=""
+                      id="btn-download-1"
+                    >
+                      Download Results
+                    </button>
+                  </div>
+                </div>
+                <div
+                  class="d-inline-block dropdown"
+                  ngbdropdown=""
+                  ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
+                >
                   <button
-                    class="btn dropdown-item clickable"
+                    aria-expanded="false"
+                    aria-haspopup="true"
+                    class="btn btn-light btn-sm dropdown-toggle"
+                    disabled=""
+                    id="btn-remind-1"
+                    ngbdropdowntoggle=""
                   >
-                    <span>
-                      Select non-submitters to remind
-                    </span>
+                    <div
+                      class="d-inline-flex"
+                    >
+                      <span>
+                        Remind
+                      </span>
+                      <div
+                        class="padding-left-7px"
+                      >
+                        
+                      </div>
+                    </div>
                   </button>
+                  <div
+                    class="dropdown-menu"
+                    ngbdropdownmenu=""
+                    x-placement="bottom"
+                  >
+                    <button
+                      class="btn dropdown-item clickable"
+                    >
+                      Remind all non-submitters
+                    </button>
+                    <button
+                      class="btn dropdown-item clickable"
+                    >
+                      Select non-submitters to remind
+                    </button>
+                  </div>
                 </div>
               </div>
             </td>
@@ -662,145 +670,149 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
             <td
               class="actions-cell"
             >
-              
-              <a
-                href="/web/instructor/sessions/edit?courseid=GOT&fsname=Season%208%20Review&editingMode=true"
-                tmrouterlink="/web/instructor/sessions/edit"
-              >
-                
-                <button
-                  class="btn btn-light btn-sm"
-                  type="button"
-                >
-                   Edit 
-                </button>
-              </a>
-              
-              <button
-                class="btn btn-light btn-sm"
-                id="btn-soft-delete-0"
-                type="button"
-              >
-                Delete
-              </button>
-              <button
-                class="btn btn-light btn-sm"
-                id="btn-copy-0"
-                ngbtooltip="Copy feedback session details"
-                type="button"
-              >
-                Copy
-              </button>
-              
-              <a
-                href="/web/instructor/sessions/submission?courseid=GOT&fsname=Season%208%20Review"
-                tmrouterlink="/web/instructor/sessions/submission"
-              >
-                
-                <button
-                  class="btn btn-light btn-sm"
-                  ngbtooltip="Start submitting feedback"
-                  type="button"
-                >
-                  Submit
-                </button>
-                
-              </a>
-              
               <div
-                class="d-inline-block dropdown"
-                container="body"
-                ngbdropdown=""
+                class="align-row"
               >
-                <button
-                  aria-expanded="false"
-                  aria-haspopup="true"
-                  class="btn btn-light btn-sm dropdown-toggle"
-                  id="btn-results-0"
-                  ngbdropdowntoggle=""
+                
+                <a
+                  href="/web/instructor/sessions/edit?courseid=GOT&fsname=Season%208%20Review&editingMode=true"
+                  tmrouterlink="/web/instructor/sessions/edit"
                 >
-                  Results
+                  
+                  <button
+                    class="btn btn-light btn-sm"
+                    type="button"
+                  >
+                     Edit 
+                  </button>
+                </a>
+                
+                <button
+                  class="btn btn-light btn-sm"
+                  id="btn-soft-delete-0"
+                  type="button"
+                >
+                  Delete
                 </button>
+                <button
+                  class="btn btn-light btn-sm"
+                  id="btn-copy-0"
+                  ngbtooltip="Copy feedback session details"
+                  type="button"
+                >
+                  Copy
+                </button>
+                
+                <a
+                  href="/web/instructor/sessions/submission?courseid=GOT&fsname=Season%208%20Review"
+                  tmrouterlink="/web/instructor/sessions/submission"
+                >
+                  
+                  <button
+                    class="btn btn-light btn-sm"
+                    ngbtooltip="Start submitting feedback"
+                    type="button"
+                  >
+                    Submit
+                  </button>
+                  
+                </a>
+                
                 <div
-                  class="dropdown-menu"
-                  ngbdropdownmenu=""
-                  x-placement="bottom"
+                  class="d-inline-block dropdown"
+                  container="body"
+                  ngbdropdown=""
                 >
-                  <a
-                    class="btn dropdown-item clickable"
-                    href="/web/instructor/sessions/result?courseid=GOT&fsname=Season%208%20Review"
-                    tmrouterlink="/web/instructor/sessions/result"
-                  >
-                    View Results (from/to me)
-                  </a>
-                  <a
-                    class="btn dropdown-item clickable"
-                    href="/web/instructor/sessions/report?courseid=GOT&fsname=Season%208%20Review"
-                    tmrouterlink="/web/instructor/sessions/report"
-                  >
-                    View Results (course-wide)
-                  </a>
-                  
                   <button
-                    class="btn dropdown-item clickable"
-                    container="body"
-                    id="btn-publish-0"
-                    ngbtooltip="Make session responses available for viewing"
-                    placement="left"
+                    aria-expanded="false"
+                    aria-haspopup="true"
+                    class="btn btn-light btn-sm dropdown-toggle"
+                    id="btn-results-0"
+                    ngbdropdowntoggle=""
                   >
-                    Publish Results
+                    Results
                   </button>
-                  
-                  
-                  
-                  <button
-                    class="btn dropdown-item clickable"
-                    id="btn-download-0"
-                  >
-                    Download Results
-                  </button>
-                </div>
-              </div>
-              <div
-                class="d-inline-block dropdown"
-                ngbdropdown=""
-                ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
-              >
-                <button
-                  aria-expanded="false"
-                  aria-haspopup="true"
-                  class="btn btn-light btn-sm align-row dropdown-toggle"
-                  id="btn-remind-0"
-                  ngbdropdowntoggle=""
-                >
-                  <span>
-                    Remind
-                  </span>
                   <div
-                    class="padding-left-7px"
+                    class="dropdown-menu"
+                    ngbdropdownmenu=""
+                    x-placement="bottom"
                   >
+                    <a
+                      class="btn dropdown-item clickable"
+                      href="/web/instructor/sessions/result?courseid=GOT&fsname=Season%208%20Review"
+                      tmrouterlink="/web/instructor/sessions/result"
+                    >
+                      View Results (from/to me)
+                    </a>
+                    <a
+                      class="btn dropdown-item clickable"
+                      href="/web/instructor/sessions/report?courseid=GOT&fsname=Season%208%20Review"
+                      tmrouterlink="/web/instructor/sessions/report"
+                    >
+                      View Results (course-wide)
+                    </a>
                     
+                    <button
+                      class="btn dropdown-item clickable"
+                      container="body"
+                      id="btn-publish-0"
+                      ngbtooltip="Make session responses available for viewing"
+                      placement="left"
+                    >
+                      Publish Results
+                    </button>
+                    
+                    
+                    
+                    <button
+                      class="btn dropdown-item clickable"
+                      id="btn-download-0"
+                    >
+                      Download Results
+                    </button>
                   </div>
-                </button>
+                </div>
                 <div
-                  class="dropdown-menu"
-                  ngbdropdownmenu=""
-                  x-placement="bottom"
+                  class="d-inline-block dropdown"
+                  ngbdropdown=""
+                  ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
                 >
                   <button
-                    class="btn dropdown-item clickable"
+                    aria-expanded="false"
+                    aria-haspopup="true"
+                    class="btn btn-light btn-sm dropdown-toggle"
+                    id="btn-remind-0"
+                    ngbdropdowntoggle=""
                   >
-                    <span>
+                    <div
+                      class="d-inline-flex"
+                    >
+                      <span>
+                        Remind
+                      </span>
+                      <div
+                        class="padding-left-7px"
+                      >
+                        
+                      </div>
+                    </div>
+                  </button>
+                  <div
+                    class="dropdown-menu"
+                    ngbdropdownmenu=""
+                    x-placement="bottom"
+                  >
+                    <button
+                      class="btn dropdown-item clickable"
+                    >
                       Remind all non-submitters
-                    </span>
-                  </button>
-                  <button
-                    class="btn dropdown-item clickable"
-                  >
-                    <span>
+                    </button>
+                    <button
+                      class="btn dropdown-item clickable"
+                    >
                       Select non-submitters to remind
-                    </span>
-                  </button>
+                    </button>
+                  </div>
                 </div>
               </div>
             </td>
@@ -851,145 +863,149 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
             <td
               class="actions-cell"
             >
-              
-              <button
-                class="btn btn-light btn-sm"
-                disabled=""
-                type="button"
-              >
-                 Edit 
-              </button>
-              
-              <button
-                class="btn btn-light btn-sm"
-                disabled=""
-                id="btn-soft-delete-1"
-                type="button"
-              >
-                Delete
-              </button>
-              <button
-                class="btn btn-light btn-sm"
-                id="btn-copy-1"
-                ngbtooltip="Copy feedback session details"
-                type="button"
-              >
-                Copy
-              </button>
-              
-              <button
-                class="btn btn-light btn-sm"
-                disabled=""
-                ngbtooltip="Start submitting feedback"
-                type="button"
-              >
-                Submit
-              </button>
-              
-              
               <div
-                class="d-inline-block dropdown"
-                container="body"
-                ngbdropdown=""
+                class="align-row"
               >
+                
                 <button
-                  aria-expanded="false"
-                  aria-haspopup="true"
-                  class="btn btn-light btn-sm dropdown-toggle"
-                  id="btn-results-1"
-                  ngbdropdowntoggle=""
-                >
-                  Results
-                </button>
-                <div
-                  class="dropdown-menu"
-                  ngbdropdownmenu=""
-                  x-placement="bottom"
-                >
-                  <a
-                    class="btn dropdown-item clickable disabled"
-                    href="/web/instructor/sessions/result?courseid=GOT&fsname=Season%207%20Review"
-                    tmrouterlink="/web/instructor/sessions/result"
-                  >
-                    View Results (from/to me)
-                  </a>
-                  <a
-                    class="btn dropdown-item clickable disabled"
-                    href="/web/instructor/sessions/report?courseid=GOT&fsname=Season%207%20Review"
-                    tmrouterlink="/web/instructor/sessions/report"
-                  >
-                    View Results (course-wide)
-                  </a>
-                  
-                  <button
-                    class="btn dropdown-item clickable"
-                    container="body"
-                    disabled=""
-                    id="btn-unpublish-1"
-                    ngbtooltip="Make responses no longer visible"
-                    placement="left"
-                  >
-                    Unpublish Results
-                  </button>
-                  
-                  
-                  
-                  <button
-                    class="btn dropdown-item clickable"
-                    id="btn-resend-1"
-                  >
-                    Resend link to view results
-                  </button>
-                  <button
-                    class="btn dropdown-item clickable"
-                    disabled=""
-                    id="btn-download-1"
-                  >
-                    Download Results
-                  </button>
-                </div>
-              </div>
-              <div
-                class="d-inline-block dropdown"
-                ngbdropdown=""
-                ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
-              >
-                <button
-                  aria-expanded="false"
-                  aria-haspopup="true"
-                  class="btn btn-light btn-sm align-row dropdown-toggle"
+                  class="btn btn-light btn-sm"
                   disabled=""
-                  id="btn-remind-1"
-                  ngbdropdowntoggle=""
+                  type="button"
                 >
-                  <span>
-                    Remind
-                  </span>
-                  <div
-                    class="padding-left-7px"
-                  >
-                    
-                  </div>
+                   Edit 
                 </button>
+                
+                <button
+                  class="btn btn-light btn-sm"
+                  disabled=""
+                  id="btn-soft-delete-1"
+                  type="button"
+                >
+                  Delete
+                </button>
+                <button
+                  class="btn btn-light btn-sm"
+                  id="btn-copy-1"
+                  ngbtooltip="Copy feedback session details"
+                  type="button"
+                >
+                  Copy
+                </button>
+                
+                <button
+                  class="btn btn-light btn-sm"
+                  disabled=""
+                  ngbtooltip="Start submitting feedback"
+                  type="button"
+                >
+                  Submit
+                </button>
+                
+                
                 <div
-                  class="dropdown-menu"
-                  ngbdropdownmenu=""
-                  x-placement="bottom"
+                  class="d-inline-block dropdown"
+                  container="body"
+                  ngbdropdown=""
                 >
                   <button
-                    class="btn dropdown-item clickable"
+                    aria-expanded="false"
+                    aria-haspopup="true"
+                    class="btn btn-light btn-sm dropdown-toggle"
+                    id="btn-results-1"
+                    ngbdropdowntoggle=""
                   >
-                    <span>
-                      Remind all non-submitters
-                    </span>
+                    Results
                   </button>
+                  <div
+                    class="dropdown-menu"
+                    ngbdropdownmenu=""
+                    x-placement="bottom"
+                  >
+                    <a
+                      class="btn dropdown-item clickable disabled"
+                      href="/web/instructor/sessions/result?courseid=GOT&fsname=Season%207%20Review"
+                      tmrouterlink="/web/instructor/sessions/result"
+                    >
+                      View Results (from/to me)
+                    </a>
+                    <a
+                      class="btn dropdown-item clickable disabled"
+                      href="/web/instructor/sessions/report?courseid=GOT&fsname=Season%207%20Review"
+                      tmrouterlink="/web/instructor/sessions/report"
+                    >
+                      View Results (course-wide)
+                    </a>
+                    
+                    <button
+                      class="btn dropdown-item clickable"
+                      container="body"
+                      disabled=""
+                      id="btn-unpublish-1"
+                      ngbtooltip="Make responses no longer visible"
+                      placement="left"
+                    >
+                      Unpublish Results
+                    </button>
+                    
+                    
+                    
+                    <button
+                      class="btn dropdown-item clickable"
+                      id="btn-resend-1"
+                    >
+                      Resend link to view results
+                    </button>
+                    <button
+                      class="btn dropdown-item clickable"
+                      disabled=""
+                      id="btn-download-1"
+                    >
+                      Download Results
+                    </button>
+                  </div>
+                </div>
+                <div
+                  class="d-inline-block dropdown"
+                  ngbdropdown=""
+                  ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
+                >
                   <button
-                    class="btn dropdown-item clickable"
+                    aria-expanded="false"
+                    aria-haspopup="true"
+                    class="btn btn-light btn-sm dropdown-toggle"
+                    disabled=""
+                    id="btn-remind-1"
+                    ngbdropdowntoggle=""
                   >
-                    <span>
-                      Select non-submitters to remind
-                    </span>
+                    <div
+                      class="d-inline-flex"
+                    >
+                      <span>
+                        Remind
+                      </span>
+                      <div
+                        class="padding-left-7px"
+                      >
+                        
+                      </div>
+                    </div>
                   </button>
+                  <div
+                    class="dropdown-menu"
+                    ngbdropdownmenu=""
+                    x-placement="bottom"
+                  >
+                    <button
+                      class="btn dropdown-item clickable"
+                    >
+                      Remind all non-submitters
+                    </button>
+                    <button
+                      class="btn dropdown-item clickable"
+                    >
+                      Select non-submitters to remind
+                    </button>
+                  </div>
                 </div>
               </div>
             </td>
