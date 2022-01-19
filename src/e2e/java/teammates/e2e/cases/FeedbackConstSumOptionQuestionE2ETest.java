@@ -71,7 +71,6 @@ public class FeedbackConstSumOptionQuestionE2ETest extends BaseFeedbackQuestionE
         questionDetails = (FeedbackConstantSumQuestionDetails) loadedQuestion.getQuestionDetailsCopy();
         List<String> options = questionDetails.getConstSumOptions();
         options.add("Edited option.");
-        questionDetails.setNumOfConstSumOptions(questionDetails.getNumOfConstSumOptions() + 1);
         questionDetails.setConstSumOptions(options);
         questionDetails.setPointsPerOption(true);
         questionDetails.setPoints(1000);

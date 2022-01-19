@@ -235,7 +235,6 @@
         "hasAssignedWeights": false,
         "mcqWeights": [],
         "mcqOtherWeight": 0.0,
-        "numOfMcqChoices": 2,
         "mcqChoices": [
           "It's good",
           "It's perfect"
@@ -286,7 +285,6 @@
       "feedbackSessionName": "First Session",
       "courseId": "idOfCourse1",
       "questionDetails": {
-        "numOfMcqChoices": 2,
         "mcqChoices": [
           "It's good",
           "It's perfect"
@@ -323,7 +321,6 @@
       "feedbackSessionName": "First Session",
       "courseId": "idOfCourse1",
       "questionDetails": {
-        "numOfMcqChoices": 2,
         "mcqChoices": [
           "UI",
           "Algo"
@@ -353,7 +350,6 @@
         "hasAssignedWeights": false,
         "mcqWeights": [],
         "mcqOtherWeight": 0.0,
-        "numOfMcqChoices": 2,
         "mcqChoices": [
           "It's bad",
           "It's worst"
@@ -381,7 +377,6 @@
       "feedbackSessionName": "First Session",
       "courseId": "idOfCourse1",
       "questionDetails": {
-        "numOfMcqChoices": 2,
         "questionType": "MCQ",
         "mcqChoices": [
           "It's good",
