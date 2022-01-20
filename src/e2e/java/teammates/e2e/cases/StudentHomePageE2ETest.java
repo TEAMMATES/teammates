@@ -26,7 +26,7 @@ public class StudentHomePageE2ETest extends BaseE2ETestCase {
     @Override
     public void testAll() {
 
-        AppUrl url = createUrl(Const.WebPageURIs.STUDENT_HOME_PAGE);
+        AppUrl url = createFrontendUrl(Const.WebPageURIs.STUDENT_HOME_PAGE);
         StudentHomePage homePage = loginToPage(url, StudentHomePage.class, "tm.e2e.SHome.student");
 
         List<String> courseIds = getAllVisibleCourseIds();

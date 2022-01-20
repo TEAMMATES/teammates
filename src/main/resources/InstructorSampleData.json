@@ -335,7 +335,6 @@
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
       "questionDetails": {
-        "numOfMcqChoices": 2,
         "mcqChoices": [
           "Group 1",
           "Group 2"
@@ -391,7 +390,6 @@
         "distributeToRecipients": false,
         "pointsPerOption": false,
         "questionText": "How important are the following factors to you? Give points accordingly.",
-        "numOfConstSumOptions": 2,
         "questionType": "CONSTSUM",
         "points": 100,
         "constSumOptions": [
@@ -423,7 +421,6 @@
         "distributeToRecipients": true,
         "pointsPerOption": true,
         "questionText": "Split points among your team members and yourself, according to how much you think each member has contributed.",
-        "numOfConstSumOptions": 0,
         "questionType": "CONSTSUM",
         "points": 100,
         "constSumOptions": []
@@ -479,8 +476,6 @@
           "This student has tried his/her best."
         ],
         "questionText": "Please choose the best choice for the following sub-questions.",
-        "numOfRubricChoices": 2,
-        "numOfRubricSubQuestions": 2,
         "questionType": "RUBRIC",
         "rubricChoices": [
           "Yes",

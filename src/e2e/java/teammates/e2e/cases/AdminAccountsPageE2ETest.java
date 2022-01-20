@@ -28,7 +28,7 @@ public class AdminAccountsPageE2ETest extends BaseE2ETestCase {
 
         ______TS("verify loaded data");
 
-        AppUrl accountsPageUrl = createUrl(Const.WebPageURIs.ADMIN_ACCOUNTS_PAGE)
+        AppUrl accountsPageUrl = createFrontendUrl(Const.WebPageURIs.ADMIN_ACCOUNTS_PAGE)
                 .withParam(Const.ParamsNames.INSTRUCTOR_ID, googleId);
         AdminAccountsPage accountsPage = loginAdminToPage(accountsPageUrl, AdminAccountsPage.class);
 

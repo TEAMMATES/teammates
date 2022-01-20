@@ -109,7 +109,6 @@ describe('InstructorSessionEditPageComponent', () => {
     questionDetails: {
       questionType: FeedbackQuestionType.MCQ,
       questionText: 'question text',
-      numOfMcqChoices: 3,
       mcqChoices: ['choice 1', 'choice 2', 'choice 3'],
     } as FeedbackMcqQuestionDetails,
     giverType: FeedbackParticipantType.STUDENTS,
