@@ -126,24 +126,24 @@ public class FeedbackSessionBasicRequest extends BasicRequest {
 
     @Override
     public void validate() throws InvalidHttpRequestBodyException {
-        assertTrue(instructions != null, "Instructions cannot be null");
-        assertTrue(submissionStartTimestamp > 0L, "Start timestamp should be more than zero");
-        assertTrue(submissionEndTimestamp > 0L, "End timestamp should be more than zero");
+        assertTrue(instructions != null, "Please enter a valid instruction.");
+        assertTrue(submissionStartTimestamp > 0L, "Submission opening time is invalid. Please enter a valid timestamp larger than zero.");
+        assertTrue(submissionEndTimestamp > 0L, "Submission closing time is invalid. Please enter a valid timestamp larger than zero.");
 
         assertTrue(sessionVisibleSetting != null, "sessionVisibleSetting cannot be null");
         if (sessionVisibleSetting == SessionVisibleSetting.CUSTOM) {
             assertTrue(customSessionVisibleTimestamp != null,
-                    "session visible timestamp should not be null");
+                    "Session visible timestamp should not be null");
             assertTrue(customSessionVisibleTimestamp > 0L,
-                    "session visible timestamp should be more than zero");
+                    "Session visible timestamp should be more than zero");
         }
 
-        assertTrue(responseVisibleSetting != null, "responseVisibleSetting cannot be null");
+        assertTrue(responseVisibleSetting != null, "Response Visible Setting cannot be null.");
         if (responseVisibleSetting == ResponseVisibleSetting.CUSTOM) {
             assertTrue(customResponseVisibleTimestamp != null,
-                    "response visible timestamp should not be null");
+                    "Response visible timestamp should not be null.");
             assertTrue(customResponseVisibleTimestamp > 0L,
-                    "response visible timestamp should be more than zero");
+                    "Response visible timestamp should be more than zero.");
         }
     }
 }
