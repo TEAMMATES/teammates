@@ -245,25 +245,15 @@ public final class FeedbackSessionsLogic {
         String feedbackSessionName = fsa.getFeedbackSessionName();
         String courseId = fsa.getCourseId();
 
-        List<FeedbackQuestionAttributes> allQuestions =
-                fqLogic.getFeedbackQuestionsForStudents(feedbackSessionName, courseId);
-        // if there are no questions for student, session is complete
-        if (allQuestions.isEmpty()) {
+        if (!fqLogic.sessionHasQuestions(feedbackSessionName, courseId)) {
+            // if there are no questions for student, session is complete
             return true;
-        }
-        boolean isAllTeamQuestions = true;
-
-        for (FeedbackQuestionAttributes question : allQuestions) {
-            if (question.getGiverType() == FeedbackParticipantType.STUDENTS) {
-                isAllTeamQuestions = false;
-                break;
-            }
-        }
-
-        if (isAllTeamQuestions) {
-            return frLogic.hasGiverRespondedForSession(userTeam, feedbackSessionName, courseId);
-        } else {
+        } else if (fqLogic.sessionHasQuestionsForGiverType(feedbackSessionName, courseId, FeedbackParticipantType.STUDENTS)) {
+            // case where there are some individual questions
             return frLogic.hasGiverRespondedForSession(userEmail, feedbackSessionName, courseId);
+        } else {
+            // case where all are team questions
+            return frLogic.hasGiverRespondedForSession(userTeam, feedbackSessionName, courseId);
         }
     }
 

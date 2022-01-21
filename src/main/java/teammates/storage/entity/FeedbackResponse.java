@@ -35,6 +35,10 @@ public class FeedbackResponse extends BaseEntity {
 
     private FeedbackQuestionType feedbackQuestionType;
 
+    /**
+     * {@code giverEmail} does not necessarily contain an email. Depending on the question giver type, 
+     * it may contain the giver's email, the team name, "anonymous", etc.
+     */
     private String giverEmail;
 
     private String giverSection;
