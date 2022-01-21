@@ -248,7 +248,8 @@ public final class FeedbackSessionsLogic {
         if (!fqLogic.sessionHasQuestions(feedbackSessionName, courseId)) {
             // if there are no questions for student, session is complete
             return true;
-        } else if (fqLogic.sessionHasQuestionsForGiverType(feedbackSessionName, courseId, FeedbackParticipantType.STUDENTS)) {
+        } else if (fqLogic.sessionHasQuestionsForGiverType(
+                feedbackSessionName, courseId, FeedbackParticipantType.STUDENTS)) {
             // case where there are some individual questions
             return frLogic.hasGiverRespondedForSession(userEmail, feedbackSessionName, courseId);
         } else {
