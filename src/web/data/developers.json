@@ -344,6 +344,7 @@
       "username": "brnomendes"
     },
     {
+      "multiple": true,
       "name": "Cao Wenjie",
       "username": "shadowezz"
     },
@@ -549,12 +550,20 @@
       "username": "eliotw"
     },
     {
+      "name": "",
+      "username": "Emp923"
+    },
+    {
       "name": "Eric Liu",
       "username": "ericluoliu"
     },
     {
       "name": "Erik Dodge",
       "username": "dodgees"
+    },
+    {
+      "name": "",
+      "username": "ethanwpgallagher"
     },
     {
       "name": "Evan Martino",
@@ -1212,6 +1221,7 @@
       "name": "Nguyen Truong Duy"
     },
     {
+      "multiple": true,
       "name": "Nicolas Chang Weng Yew",
       "username": "NicolasCwy"
     },
@@ -1978,6 +1988,10 @@
       "multiple": true,
       "name": "Zhang Xinyi",
       "username": "xyzhang00"
+    },
+    {
+      "name": "Zhang Ziqing",
+      "username": "ziqing26"
     },
     {
       "multiple": true,
