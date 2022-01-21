@@ -628,6 +628,7 @@ this session.`;
             if (!recipientSubmissionFormModel.isValid) {
               failToSaveQuestions[questionSubmissionFormModel.questionNumber] =
                   'Invalid responses provided. Please check question constraints.';
+              return;
             }
             const isFeedbackResponseDetailsEmpty: boolean =
                 this.feedbackResponsesService.isFeedbackResponseDetailsEmpty(
