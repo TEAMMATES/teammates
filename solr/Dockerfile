@@ -1,4 +1,4 @@
-FROM solr:8.8.1
+FROM solr:8.11.1
 
 COPY solr.sh solr.sh
 
