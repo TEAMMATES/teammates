@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef } from '@angular/core';
 
 import {
   FeedbackNumericalScaleQuestionDetails,
@@ -25,7 +25,7 @@ export class NumScaleQuestionEditAnswerFormComponent
 
   readonly NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED: number = NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED;
 
-  constructor() {
+  constructor(protected elementRef: ElementRef) {
     super(DEFAULT_NUMSCALE_QUESTION_DETAILS(), DEFAULT_NUMSCALE_RESPONSE_DETAILS());
   }
 

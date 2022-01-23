@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef } from '@angular/core';
 import {
   FeedbackConstantSumDistributePointsType,
   FeedbackConstantSumQuestionDetails,
@@ -25,7 +25,7 @@ export class ConstsumOptionsQuestionEditAnswerFormComponent
   FeedbackConstantSumDistributePointsType: typeof FeedbackConstantSumDistributePointsType =
       FeedbackConstantSumDistributePointsType;
 
-  constructor() {
+  constructor(protected elementRef: ElementRef) {
     super(DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS(), DEFAULT_CONSTSUM_RESPONSE_DETAILS());
   }
 

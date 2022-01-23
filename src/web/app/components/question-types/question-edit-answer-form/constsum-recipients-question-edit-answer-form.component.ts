@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef } from '@angular/core';
 import { FeedbackConstantSumQuestionDetails, FeedbackConstantSumResponseDetails } from '../../../../types/api-output';
 import {
   DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS,
@@ -19,7 +19,7 @@ export class ConstsumRecipientsQuestionEditAnswerFormComponent
 
   Math: typeof Math = Math;
 
-  constructor() {
+  constructor(protected elementRef: ElementRef) {
     super(DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS(), DEFAULT_CONSTSUM_RESPONSE_DETAILS());
   }
 
