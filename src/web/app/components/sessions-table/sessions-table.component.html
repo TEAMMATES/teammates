@@ -114,7 +114,7 @@
                 <div class="d-inline-flex">
                   <span>Remind</span>
                   <div class="padding-left-7px">
-                    <tm-ajax-loading [color]="'#000000'" *ngIf="rowClicked === idx"></tm-ajax-loading>
+                    <tm-ajax-loading [color]="'#000000'" *ngIf="isSendReminderLoading && rowClicked === idx"></tm-ajax-loading>
                   </div>
                 </div>
               </button>
