@@ -61,7 +61,7 @@
           <tm-ajax-loading *ngIf="sessionsTableRowModel.isLoadingResponseRate" [useBlueSpinner]="true"></tm-ajax-loading>
         </td>
         <td class="actions-cell">
-          <div class="align-row">
+          <div class="d-flex">
             <a *ngIf="sessionsTableRowModel.instructorPrivilege.canModifySession; else editSessionBtn" tmRouterLink="/web/instructor/sessions/edit" [queryParams]="{ courseid: sessionsTableRowModel.feedbackSession.courseId, fsname: sessionsTableRowModel.feedbackSession.feedbackSessionName, editingMode: true }">
               <ng-container *ngTemplateOutlet="editSessionBtn"></ng-container>
             </a>
