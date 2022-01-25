@@ -169,7 +169,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
               class="actions-cell"
             >
               <div
-                class="align-row"
+                class="d-flex"
               >
                 
                 <a
@@ -302,11 +302,13 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                   >
                     <button
                       class="btn dropdown-item clickable"
+                      id="btn-remind-all-0"
                     >
                       Remind all non-submitters
                     </button>
                     <button
                       class="btn dropdown-item clickable"
+                      id="btn-remind-selected-0"
                     >
                       Select non-submitters to remind
                     </button>
@@ -371,7 +373,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
               class="actions-cell"
             >
               <div
-                class="align-row"
+                class="d-flex"
               >
                 
                 <button
@@ -504,11 +506,13 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                   >
                     <button
                       class="btn dropdown-item clickable"
+                      id="btn-remind-all-1"
                     >
                       Remind all non-submitters
                     </button>
                     <button
                       class="btn dropdown-item clickable"
+                      id="btn-remind-selected-1"
                     >
                       Select non-submitters to remind
                     </button>
@@ -671,7 +675,7 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
               class="actions-cell"
             >
               <div
-                class="align-row"
+                class="d-flex"
               >
                 
                 <a
@@ -804,11 +808,13 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                   >
                     <button
                       class="btn dropdown-item clickable"
+                      id="btn-remind-all-0"
                     >
                       Remind all non-submitters
                     </button>
                     <button
                       class="btn dropdown-item clickable"
+                      id="btn-remind-selected-0"
                     >
                       Select non-submitters to remind
                     </button>
@@ -864,7 +870,7 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
               class="actions-cell"
             >
               <div
-                class="align-row"
+                class="d-flex"
               >
                 
                 <button
@@ -997,11 +1003,13 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                   >
                     <button
                       class="btn dropdown-item clickable"
+                      id="btn-remind-all-1"
                     >
                       Remind all non-submitters
                     </button>
                     <button
                       class="btn dropdown-item clickable"
+                      id="btn-remind-selected-1"
                     >
                       Select non-submitters to remind
                     </button>

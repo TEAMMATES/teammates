@@ -692,7 +692,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                             class="actions-cell"
                           >
                             <div
-                              class="align-row"
+                              class="d-flex"
                             >
                               
                               <a
@@ -832,11 +832,13 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                                 >
                                   <button
                                     class="btn dropdown-item clickable"
+                                    id="btn-remind-all-0"
                                   >
                                     Remind all non-submitters
                                   </button>
                                   <button
                                     class="btn dropdown-item clickable"
+                                    id="btn-remind-selected-0"
                                   >
                                     Select non-submitters to remind
                                   </button>
@@ -1246,7 +1248,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                             class="actions-cell"
                           >
                             <div
-                              class="align-row"
+                              class="d-flex"
                             >
                               
                               <button
@@ -1379,11 +1381,13 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                                 >
                                   <button
                                     class="btn dropdown-item clickable"
+                                    id="btn-remind-all-0"
                                   >
                                     Remind all non-submitters
                                   </button>
                                   <button
                                     class="btn dropdown-item clickable"
+                                    id="btn-remind-selected-0"
                                   >
                                     Select non-submitters to remind
                                   </button>
@@ -1443,7 +1447,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                             class="actions-cell"
                           >
                             <div
-                              class="align-row"
+                              class="d-flex"
                             >
                               
                               <button
@@ -1576,11 +1580,13 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                                 >
                                   <button
                                     class="btn dropdown-item clickable"
+                                    id="btn-remind-all-1"
                                   >
                                     Remind all non-submitters
                                   </button>
                                   <button
                                     class="btn dropdown-item clickable"
+                                    id="btn-remind-selected-1"
                                   >
                                     Select non-submitters to remind
                                   </button>
