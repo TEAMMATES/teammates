@@ -238,10 +238,11 @@ public class InstructorFeedbackSessionsPage extends AppPage {
         }
     }
 
-    public void sendReminderEmail(FeedbackSessionAttributes session, StudentAttributes student) {
+    public void sendReminderEmailSelected(FeedbackSessionAttributes session, StudentAttributes student) {
         int rowId = getFeedbackSessionRowId(session.getCourseId(), session.getFeedbackSessionName());
 
         click(browser.driver.findElement(By.id("btn-remind-" + rowId)));
+        click(waitForElementPresence(By.id("dropdown-remind-selected" + rowId)));
         selectStudentToEmail(student.getEmail());
 
         click(browser.driver.findElement(By.id("btn-confirm-send-reminder")));

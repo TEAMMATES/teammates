@@ -119,8 +119,8 @@
                 </div>
               </button>
               <div ngbDropdownMenu>
-                <button (click)="sendRemindersToAllNonSubmitters(idx); setRowClicked(idx)" class="btn dropdown-item clickable">Remind all non-submitters</button>
-                <button (click)="sendRemindersToSelectedNonSubmitters(idx); setRowClicked(idx)" class="btn dropdown-item clickable">Select non-submitters to remind</button>
+                <button id="btn-remind-all-{{ idx }}" class="btn dropdown-item clickable" (click)="sendRemindersToAllNonSubmitters(idx); setRowClicked(idx)">Remind all non-submitters</button>
+                <button id="btn-remind-selected-{{ idx }}" class="btn dropdown-item clickable" (click)="sendRemindersToSelectedNonSubmitters(idx); setRowClicked(idx)" >Select non-submitters to remind</button>
               </div>
             </div>
           </div>
