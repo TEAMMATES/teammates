@@ -76,7 +76,7 @@ public class InstructorHomePage extends AppPage {
     public void sendReminderEmailSelected(int courseTabIndex, int sessionIndex, StudentAttributes student) {
         WebElement courseTab = getCourseTab(courseTabIndex);
         click(courseTab.findElement(By.id("btn-remind-" + sessionIndex)));
-        click(waitForElementPresence(By.id("dropdown-remind-selected" + sessionIndex)));
+        click(waitForElementPresence(By.id("btn-remind-selected-" + sessionIndex)));
         selectStudentToEmail(student.getEmail());
         click(browser.driver.findElement(By.id("btn-confirm-send-reminder")));
     }
