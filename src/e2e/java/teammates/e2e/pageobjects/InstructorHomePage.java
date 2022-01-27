@@ -73,7 +73,7 @@ public class InstructorHomePage extends AppPage {
         clickAndConfirm(unpublishButtons.get(unpublishButtons.size() - 1));
     }
 
-    public void sendReminderEmailSelected(int courseTabIndex, int sessionIndex, StudentAttributes student) {
+    public void sendReminderEmailToSelectedStudent(int courseTabIndex, int sessionIndex, StudentAttributes student) {
         WebElement courseTab = getCourseTab(courseTabIndex);
         click(courseTab.findElement(By.id("btn-remind-" + sessionIndex)));
         click(waitForElementPresence(By.id("btn-remind-selected-" + sessionIndex)));

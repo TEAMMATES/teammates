@@ -143,7 +143,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
                 + openSession.getFeedbackSessionName() + "]");
 
         ______TS("send reminder email");
-        feedbackSessionsPage.sendReminderEmailSelected(openSession, studentToEmail);
+        feedbackSessionsPage.sendReminderEmailToSelectedStudent(openSession, studentToEmail);
 
         feedbackSessionsPage.verifyStatusMessage("Reminder e-mails have been sent out to those students"
                 + " and instructors. Please allow up to 1 hour for all the notification emails to be sent out.");
