@@ -65,9 +65,9 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
 
         // ------------------------------------ Prepare student non-submitter data ------------------------------------ //
 
-        StudentAttributes secondStudentNonSubmitter = testData.students.get("IHome.benny.c.tmms@gmail.tmt");
+        StudentAttributes secondStudentNonSubmitter = testData.students.get("IHome.benny.c.tmms@IHome.CS2104");
         secondStudentNonSubmitter.setEmail(TestProperties.TEST_EMAIL);
-        StudentAttributes thirdStudentNonSubmitter = testData.students.get("IHome.danny.e.tmms@gmail.tmt");
+        StudentAttributes thirdStudentNonSubmitter = testData.students.get("IHome.danny.e.tmms@IHome.CS2104");
         thirdStudentNonSubmitter.setEmail(TestProperties.TEST_EMAIL);
 
         studentNonSubmitters = Arrays.asList(studentToEmail, secondStudentNonSubmitter, thirdStudentNonSubmitter);
