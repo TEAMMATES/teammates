@@ -77,9 +77,6 @@ export class SessionsTableComponent implements OnInit {
   unpublishSessionEvent: EventEmitter<number> = new EventEmitter();
 
   @Output()
-  sendRemindersToStudentsEvent: EventEmitter<number> = new EventEmitter();
-
-  @Output()
   resendResultsLinkToStudentsEvent: EventEmitter<number> = new EventEmitter();
 
   @Output()

@@ -22,7 +22,6 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
   rowClicked={[Function Number]}
   sendRemindersToAllNonSubmittersEvent={[Function EventEmitter]}
   sendRemindersToSelectedNonSubmittersEvent={[Function EventEmitter]}
-  sendRemindersToStudentsEvent={[Function EventEmitter]}
   sessionsTableRowModels={[Function Array]}
   sessionsTableRowModelsSortBy={[Function Number]}
   sessionsTableRowModelsSortOrder={[Function Number]}
@@ -550,7 +549,6 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
   rowClicked={[Function Number]}
   sendRemindersToAllNonSubmittersEvent={[Function EventEmitter]}
   sendRemindersToSelectedNonSubmittersEvent={[Function EventEmitter]}
-  sendRemindersToStudentsEvent={[Function EventEmitter]}
   sessionsTableRowModels={[Function Array]}
   sessionsTableRowModelsSortBy={[Function Number]}
   sessionsTableRowModelsSortOrder={[Function Number]}
@@ -1047,7 +1045,6 @@ exports[`SessionsTableComponent should snap with default fields 1`] = `
   rowClicked={[Function Number]}
   sendRemindersToAllNonSubmittersEvent={[Function EventEmitter]}
   sendRemindersToSelectedNonSubmittersEvent={[Function EventEmitter]}
-  sendRemindersToStudentsEvent={[Function EventEmitter]}
   sessionsTableRowModels={[Function Array]}
   sessionsTableRowModelsSortBy="0"
   sessionsTableRowModelsSortOrder={[Function Number]}
