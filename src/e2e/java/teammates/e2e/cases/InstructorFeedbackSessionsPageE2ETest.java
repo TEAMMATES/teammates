@@ -29,6 +29,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
     private CourseAttributes course;
     private CourseAttributes copiedCourse;
     private StudentAttributes studentToEmail;
+    private List<StudentAttributes> studentNonSubmitters;
 
     private FeedbackSessionAttributes openSession;
     private FeedbackSessionAttributes closedSession;
@@ -70,6 +71,13 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
     @BeforeClass
     public void classSetup() {
         deleteDownloadsFile(fileName);
+
+        // ------------------------------------ Prepare student non-submitter data ------------------------------------ //
+
+        StudentAttributes secondStudentNonSubmitter = testData.students.get("emma.tmms@IFSess.CS1101");
+        secondStudentNonSubmitter.setEmail(TestProperties.TEST_EMAIL);
+
+        studentNonSubmitters = Arrays.asList(studentToEmail, secondStudentNonSubmitter);
     }
 
     @Test
@@ -142,7 +150,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
                 + " [Course: " + copiedCourse.getName() + "][Feedback Session: "
                 + openSession.getFeedbackSessionName() + "]");
 
-        ______TS("send reminder email");
+        ______TS("send reminder email to selected student");
         feedbackSessionsPage.sendReminderEmailToSelectedStudent(openSession, studentToEmail);
 
         feedbackSessionsPage.verifyStatusMessage("Reminder e-mails have been sent out to those students"
@@ -150,6 +158,18 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         verifyEmailSent(studentToEmail.getEmail(), "TEAMMATES: Feedback session reminder"
                 + " [Course: " + copiedCourse.getName() + "][Feedback Session: "
                 + openSession.getFeedbackSessionName() + "]");
+
+        ______TS("send reminder email to all student non-submitters");
+        feedbackSessionsPage.sendReminderEmailToNonSubmitters(openSession);
+
+        feedbackSessionsPage.verifyStatusMessage("Reminder e-mails have been sent out to those students"
+                        + " and instructors. Please allow up to 1 hour for all the notification emails to be sent out.");
+
+        for (StudentAttributes student : studentNonSubmitters) {
+            verifyEmailSent(student.getEmail(), "TEAMMATES: Feedback session reminder"
+                       + " [Course: " + copiedCourse.getName() + "][Feedback Session: "
+                       + openSession.getFeedbackSessionName() + "]");
+        }
 
         ______TS("resend results link");
         feedbackSessionsPage.resendResultsLink(openSession, studentToEmail);
