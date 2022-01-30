@@ -28,11 +28,16 @@ import teammates.logic.api.Logic;
 /**
  * Script to mock a course and populate large number of responses.
  */
-public final class MockCourseWithLargeResponseScript extends DatastoreClient {
+public class FergusExtremelyLargeResponseScript extends DatastoreClient {
+
     // Change the following params for different course setup
-    private static final int NUMBER_OF_STUDENTS = 500000;
+    private static final int NUMBER_OF_STUDENTS = 100;
     private static final int NUMBER_OF_TEAMS = 100;
-    private static final int NUMBER_OF_FEEDBACK_QUESTIONS = 30;
+    private static final int NUMBER_OF_FEEDBACK_QUESTIONS = 1000;
+    private static final int hour = 60 * 60;
+    private static final int week = hour * 24 * 7;
+    private static final int month = week * 4;
+    private static final int year = month * 12;
 
     // For each student, the number of responses depends on:
     // number_of_students / number_of_teams * (per team feedback strategy)
@@ -63,7 +68,7 @@ public final class MockCourseWithLargeResponseScript extends DatastoreClient {
 
     private static final String FEEDBACK_RESPONSE_ID = "ResponseForQ";
 
-    private MockCourseWithLargeResponseScript() {
+    private FergusExtremelyLargeResponseScript() {
     }
 
     @Override
@@ -134,11 +139,6 @@ public final class MockCourseWithLargeResponseScript extends DatastoreClient {
     private static Map<String, FeedbackSessionAttributes> generateFeedbackSessions() {
         Map<String, FeedbackSessionAttributes> feedbackSessions = new LinkedHashMap<>();
 
-        int hour = 60 * 60;
-        int week = hour * 24 * 7;
-        int month = week * 4;
-        int year = month * 12;
-
         FeedbackSessionAttributes session = FeedbackSessionAttributes
                 .builder(FEEDBACK_SESSION_NAME, COURSE_ID)
                 .withCreatorEmail(INSTRUCTOR_EMAIL)
@@ -201,6 +201,10 @@ public final class MockCourseWithLargeResponseScript extends DatastoreClient {
                             + " from student " + i + " to student " + j;
                     FeedbackTextResponseDetails details =
                             new FeedbackTextResponseDetails(responseText);
+                    
+                    // Generate a time that is between now and 5 months ago.
+                    int secondsOffset = (int) Math.random() * (5 * month);
+                    Instant dummyDate = Instant.now().minusSeconds(secondsOffset);
 
                     feedbackResponses.put(responseText,
                             FeedbackResponseAttributes.builder(
@@ -212,6 +216,7 @@ public final class MockCourseWithLargeResponseScript extends DatastoreClient {
                                     .withGiverSection(GIVER_SECTION_NAME)
                                     .withRecipientSection(RECEIVER_SECTION_NAME)
                                     .withResponseDetails(details)
+                                    .withTimeCreatedAt(dummyDate)
                                     .build());
                 }
             }
@@ -236,7 +241,6 @@ public final class MockCourseWithLargeResponseScript extends DatastoreClient {
     }
 
     public static void main(String[] args) {
-        new MockCourseWithLargeResponseScript().doOperationRemotely();
+        new FergusExtremelyLargeResponseScript().doOperationRemotely();
     }
-
 }

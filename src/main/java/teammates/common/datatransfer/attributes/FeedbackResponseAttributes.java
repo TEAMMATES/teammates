@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import com.google.api.services.storage.Storage.BucketAccessControls.Update;
+
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
@@ -315,6 +317,7 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
         private UpdateOption<String> recipientOption = UpdateOption.empty();
         private UpdateOption<String> recipientSectionOption = UpdateOption.empty();
         private UpdateOption<FeedbackResponseDetails> responseDetailsUpdateOption = UpdateOption.empty();
+        private UpdateOption<Instant> createdAt = UpdateOption.empty();
 
         private UpdateOptions(String feedbackResponseId) {
             assert feedbackResponseId != null;
@@ -404,6 +407,13 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
             assert responseDetails != null;
 
             updateOptions.responseDetailsUpdateOption = UpdateOption.of(responseDetails.getDeepCopy());
+            return thisBuilder;
+        }
+
+        public B withTimeCreatedAt(Instant createdAtTime) {
+            assert createdAtTime != null;
+
+            updateOptions.createdAt = UpdateOption.of(createdAtTime);
             return thisBuilder;
         }
 
