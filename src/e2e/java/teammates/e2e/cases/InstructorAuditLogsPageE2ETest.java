@@ -43,7 +43,7 @@ public class InstructorAuditLogsPageE2ETest extends BaseE2ETestCase {
     @Test
     @Override
     public void testAll() {
-        AppUrl url = createUrl(Const.WebPageURIs.INSTRUCTOR_AUDIT_LOGS_PAGE);
+        AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_AUDIT_LOGS_PAGE);
         InstructorAuditLogsPage auditLogsPage = loginToPage(url, InstructorAuditLogsPage.class, instructor.getGoogleId());
 
         ______TS("verify default datetime");
@@ -63,7 +63,7 @@ public class InstructorAuditLogsPageE2ETest extends BaseE2ETestCase {
 
         ______TS("verify logs output");
         logout();
-        AppUrl studentSubmissionPageUrl = createUrl(Const.WebPageURIs.STUDENT_SESSION_SUBMISSION_PAGE)
+        AppUrl studentSubmissionPageUrl = createFrontendUrl(Const.WebPageURIs.STUDENT_SESSION_SUBMISSION_PAGE)
                 .withCourseId(course.getId())
                 .withSessionName(feedbackSession.getFeedbackSessionName());
         FeedbackSubmitPage studentSubmissionPage = loginToPage(studentSubmissionPageUrl,

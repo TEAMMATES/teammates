@@ -33,7 +33,7 @@ public class TimezoneSyncerTest extends BaseE2ETestCase {
     @Override
     public void testAll() {
         AdminTimezonePage timezonePage = loginAdminToPage(
-                createUrl(Const.WebPageURIs.ADMIN_TIMEZONE_PAGE), AdminTimezonePage.class);
+                createFrontendUrl(Const.WebPageURIs.ADMIN_TIMEZONE_PAGE), AdminTimezonePage.class);
 
         ______TS("ensure the front-end and the back-end have the same timezone database version");
         String javaOffsets = timezonePage.getJavaTimezoneOffsets();

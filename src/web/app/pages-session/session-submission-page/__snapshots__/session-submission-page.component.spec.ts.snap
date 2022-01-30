@@ -2327,6 +2327,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     
                     
                     
+                    
                   </div>
                 </div>
               </tm-constsum-recipients-question-constraint>
@@ -5204,6 +5205,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                       />
                        Actual total is 7! Distribute the remaining 13 points.
                     </p>
+                    
                     
                     
                     

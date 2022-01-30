@@ -45,7 +45,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
 
         ______TS("unregistered student: can access results");
         StudentAttributes unregistered = testData.students.get("Unregistered");
-        AppUrl url = createUrl(Const.WebPageURIs.SESSION_RESULTS_PAGE)
+        AppUrl url = createFrontendUrl(Const.WebPageURIs.SESSION_RESULTS_PAGE)
                 .withCourseId(unregistered.getCourse())
                 .withStudentEmail(unregistered.getEmail())
                 .withSessionName(openSession.getFeedbackSessionName())
@@ -59,7 +59,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
 
         ______TS("registered student: can access results");
         StudentAttributes student = testData.students.get("Alice");
-        url = createUrl(Const.WebPageURIs.STUDENT_SESSION_RESULTS_PAGE)
+        url = createFrontendUrl(Const.WebPageURIs.STUDENT_SESSION_RESULTS_PAGE)
                 .withCourseId(openSession.getCourseId())
                 .withSessionName(openSession.getFeedbackSessionName());
         resultsPage = loginToPage(url, FeedbackResultsPage.class, student.getGoogleId());
@@ -99,7 +99,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         ______TS("registered instructor: can access results");
         logout();
         InstructorAttributes instructor = testData.instructors.get("FRes.instr");
-        url = createUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_RESULTS_PAGE)
+        url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_RESULTS_PAGE)
                 .withCourseId(openSession.getCourseId())
                 .withSessionName(openSession.getFeedbackSessionName());
         resultsPage = loginToPage(url, FeedbackResultsPage.class, instructor.getGoogleId());

@@ -50,6 +50,7 @@ abstract class AuthServlet extends HttpServlet {
     String getRedirectUri(HttpServletRequest req) {
         GenericUrl url = new GenericUrl(req.getRequestURL().toString().replaceFirst("^http://", "https://"));
         url.setRawPath("/oauth2callback");
+        url.set("ngsw-bypass", "true");
         return url.build();
     }
 
