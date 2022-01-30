@@ -30,7 +30,7 @@ import teammates.logic.api.Logic;
  */
 public final class MockCourseWithLargeResponseScript extends DatastoreClient {
     // Change the following params for different course setup
-    private static final int NUMBER_OF_STUDENTS = 500000;
+    private static final int NUMBER_OF_STUDENTS = 500;
     private static final int NUMBER_OF_TEAMS = 100;
     private static final int NUMBER_OF_FEEDBACK_QUESTIONS = 30;
 

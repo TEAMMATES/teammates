@@ -16,6 +16,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
+import teammates.common.util.Config;
 import teammates.storage.entity.Instructor;
 import teammates.storage.search.InstructorSearchManager;
 import teammates.storage.search.SearchManagerFactory;
@@ -302,7 +303,7 @@ public final class InstructorsDb extends EntitiesDb<Instructor, InstructorAttrib
         if (query.isCourseIdPresent()) {
             List<Instructor> instructorsToDelete = load().filter("courseId =", query.getCourseId()).list();
             if (!instructorsToDelete.isEmpty()) {
-                getSearchManager().deleteDocuments(
+                new InstructorSearchManager(Config.SEARCH_SERVICE_HOST, false).deleteDocuments(
                         instructorsToDelete.stream()
                                 .map(Instructor::getUniqueId)
                                 .collect(Collectors.toList()));

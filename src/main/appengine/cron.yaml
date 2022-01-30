@@ -29,3 +29,7 @@ cron:
   schedule: 'every 5 minutes synchronized'
   timezone: 'Asia/Singapore'
   description: 'Compile severe logs and sends out email notifications.'
+- url: '/auto/'
+  schedule: ''
+  timezone: 'Asia/Singapore'
+  description: 'Updates the count of feedback responses every minute'

@@ -18,6 +18,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
+import teammates.common.util.Config;
 import teammates.common.util.Logger;
 import teammates.storage.entity.CourseStudent;
 import teammates.storage.search.SearchManagerFactory;
@@ -297,9 +298,8 @@ public final class StudentsDb extends EntitiesDb<CourseStudent, StudentAttribute
             List<CourseStudent> studentsToDelete = getCourseStudentsForCourseQuery(query.getCourseId()).list();
             if (!studentsToDelete.isEmpty()) {
                 System.out.println(studentsToDelete.size());
-                getSearchManager().deleteDocuments(
+                new StudentSearchManager(Config.SEARCH_SERVICE_HOST, false).deleteDocuments(
                         studentsToDelete.stream().map(CourseStudent::getUniqueId).collect(Collectors.toList()));
-
                 deleteEntity(studentsToDelete.stream()
                         .map(s -> Key.create(CourseStudent.class, s.getUniqueId()))
                         .collect(Collectors.toList()));

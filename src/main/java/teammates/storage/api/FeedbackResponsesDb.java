@@ -315,7 +315,6 @@ public final class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, Feed
      * Gets the responses.
      */
     public void getFeedbackResponses(Instant startTime, Instant endTime) {
-        startTime = new Instant
         long DEFAULT_INTERVAL = 50;
         long timeDifference = endTime.getEpochSecond() - startTime.getEpochSecond();
         long defaultIntervalSize = Math.floorDiv(timeDifference, DEFAULT_INTERVAL);

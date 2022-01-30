@@ -76,7 +76,7 @@ public class FergusExtremelyLargeResponseScript extends DatastoreClient {
         try {
             Logic logic = Logic.inst();
             DataBundle data = generateDataBundle();
-            logic.removeDataBundle(data);
+            //logic.removeDataBundle(data);
             logic.persistDataBundle(data);
             System.out.println(data.feedbackResponses.size());
         } catch (InvalidParametersException e) {
@@ -142,9 +142,9 @@ public class FergusExtremelyLargeResponseScript extends DatastoreClient {
         FeedbackSessionAttributes session = FeedbackSessionAttributes
                 .builder(FEEDBACK_SESSION_NAME, COURSE_ID)
                 .withCreatorEmail(INSTRUCTOR_EMAIL)
-                .withStartTime(Instant.now().minusSeconds(year))
+                .withStartTime(Instant.now().minusSeconds(month))
                 .withEndTime(Instant.now().plusSeconds(500))
-                .withSessionVisibleFromTime(Instant.now().minusSeconds(year))
+                .withSessionVisibleFromTime(Instant.now().minusSeconds(month).minusSeconds(week))
                 .withResultsVisibleFromTime(Instant.now())
                 .build();
 
@@ -199,25 +199,21 @@ public class FergusExtremelyLargeResponseScript extends DatastoreClient {
                 for (int k = 1; k <= NUMBER_OF_FEEDBACK_QUESTIONS; k++) {
                     String responseText = FEEDBACK_RESPONSE_ID + " " + k
                             + " from student " + i + " to student " + j;
-                    FeedbackTextResponseDetails details =
-                            new FeedbackTextResponseDetails(responseText);
-                    
+                    FeedbackTextResponseDetails details = new FeedbackTextResponseDetails(responseText);
                     // Generate a time that is between now and 5 months ago.
-                    int secondsOffset = (int) Math.random() * (5 * month);
+                    int secondsOffset = (int) (Math.random() * (5 * month));
                     Instant dummyDate = Instant.now().minusSeconds(secondsOffset);
-
-                    feedbackResponses.put(responseText,
-                            FeedbackResponseAttributes.builder(
-                                    Integer.toString(k),
-                                    i + STUDENT_EMAIL,
-                                    j + STUDENT_EMAIL)
-                                    .withCourseId(COURSE_ID)
-                                    .withFeedbackSessionName(FEEDBACK_SESSION_NAME)
-                                    .withGiverSection(GIVER_SECTION_NAME)
-                                    .withRecipientSection(RECEIVER_SECTION_NAME)
-                                    .withResponseDetails(details)
-                                    .withTimeCreatedAt(dummyDate)
-                                    .build());
+                    feedbackResponses.put(responseText, FeedbackResponseAttributes.builder(
+                            Integer.toString(k),
+                            i + STUDENT_EMAIL,
+                            j + STUDENT_EMAIL)
+                            .withCourseId(COURSE_ID)
+                            .withFeedbackSessionName(FEEDBACK_SESSION_NAME)
+                            .withGiverSection(GIVER_SECTION_NAME)
+                            .withRecipientSection(RECEIVER_SECTION_NAME)
+                            .withResponseDetails(details)
+                            .withTimeCreatedAt(dummyDate)
+                                        .build());
                 }
             }
         }

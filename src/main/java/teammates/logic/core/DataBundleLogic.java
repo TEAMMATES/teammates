@@ -93,6 +93,8 @@ public final class DataBundleLogic {
             googleIdAccountMap.put(account.getGoogleId(), account);
         }
 
+        System.out.println("Starting on persisting..");
+
         processInstructors(instructors, googleIdAccountMap);
         processStudents(students, googleIdAccountMap);
         processQuestions(questions);
@@ -104,20 +106,23 @@ public final class DataBundleLogic {
         List<InstructorAttributes> newInstructors = instructorsDb.putEntities(instructors);
         List<StudentAttributes> newStudents = studentsDb.putEntities(students);
         List<FeedbackSessionAttributes> newFeedbackSessions = fbDb.putEntities(sessions);
-
+        System.out.println("Middle of persisting..");
         List<FeedbackQuestionAttributes> createdQuestions = fqDb.putEntities(questions);
         injectRealIds(responses, responseComments, createdQuestions);
 
         List<FeedbackResponseAttributes> newFeedbackResponses = frDb.putEntities(responses);
         List<FeedbackResponseCommentAttributes> newFeedbackResponseComments = fcDb.putEntities(responseComments);
 
+        System.out.println("Starting on sessions..");
         updateDataBundleValue(newAccounts, dataBundle.accounts);
         updateDataBundleValue(newProfiles, dataBundle.profiles);
         updateDataBundleValue(newCourses, dataBundle.courses);
         updateDataBundleValue(newInstructors, dataBundle.instructors);
         updateDataBundleValue(newStudents, dataBundle.students);
+        System.out.println("Starting on sessions..");
         updateDataBundleValue(newFeedbackSessions, dataBundle.feedbackSessions);
         updateDataBundleValue(createdQuestions, dataBundle.feedbackQuestions);
+        System.out.println("Starting on responses..");
         updateDataBundleValue(newFeedbackResponses, dataBundle.feedbackResponses);
         updateDataBundleValue(newFeedbackResponseComments, dataBundle.feedbackResponseComments);
 

@@ -20,8 +20,8 @@ instance_class: F1
 
 # VPC Access Connector is required in order to connect to VMs in Compute Engine, e.g. the search service.
 # For details on how to set this up, refer to the guide in teammates-ops repo or GCP's official documentation.
-# vpc_access_connector:
-#   name: projects/teammates-john/locations/us-central1/connectors/connector-name
+vpc_access_connector:
+   name: projects/teammates-fergus/locations/us-central1/connectors/teammates-fergus-solr 
 
 # Defines environment variables.
 # The following example enables Google Cloud Profiler agent to ingest application performance data.
@@ -129,3 +129,5 @@ inbound_services:
 #   timeout_sec: 5
 #   failure_threshold: 4
 #   success_threshold: 2
+vpc_access_connector:
+  name: projects/{projectId}/locations/{projectRegion}/connectors/{name}
