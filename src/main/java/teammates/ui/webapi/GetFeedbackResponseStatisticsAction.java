@@ -1,15 +1,11 @@
 package teammates.ui.webapi;
 
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.List;
 
 import teammates.common.datatransfer.attributes.FeedbackResponseStatisticAttributes;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.exception.SearchServiceException;
 import teammates.common.util.Const;
-import teammates.ui.output.InstructorData;
-import teammates.ui.output.InstructorsData;
+import teammates.ui.output.FeedbackResponseStatisticsData;
 
 /**
  * Searches for instructors.
@@ -18,6 +14,8 @@ class GetFeedbackResponseStatisticsAction extends AdminOnlyAction {
 
     @Override
     public JsonResult execute() {
+        List<FeedbackResponseStatisticAttributes> feedbackResponseStatistics;
+        
         String startTimeString = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STATISTIC_STARTTIME);
         long startTime;
         try {
@@ -49,12 +47,13 @@ class GetFeedbackResponseStatisticsAction extends AdminOnlyAction {
                     "The filter range is not valid. End time should be after start time.");
         }
         
-        List<FeedbackResponseStatisticAttributes> feedbackResponseStatistics =
-                logic.getFeedbackResponseStatistic(Instant.ofEpochMilli(startTime), Instant.ofEpochMilli(endTime));
-        
-        FeedbackResponseStatisticsData output = new FeedbackResponseStatisticsData();
-        output.setFeedbackResponseStatistics(feedbackResponseStatistics);
+        feedbackResponseStatistics =
+                logic.getFeedbackResponseStatistics(Instant.ofEpochMilli(startTime), Instant.ofEpochMilli(endTime));
 
-        return new JsonResult(output);
+        FeedbackResponseStatisticAttributes.sortByTimeStamp(feedbackResponseStatistics);
+        
+        FeedbackResponseStatisticsData feedbackResponseStatisticsData = new FeedbackResponseStatisticsData(feedbackResponseStatistics);
+
+        return new JsonResult(feedbackResponseStatisticsData);
     }
 }
