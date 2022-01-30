@@ -32,6 +32,8 @@ public final class Const {
     public static final Duration FEEDBACK_SESSIONS_SEARCH_WINDOW = Duration.ofDays(30);
     public static final Duration LOGS_RETENTION_PERIOD = Duration.ofDays(30);
 
+    public static final Duration FEEDBACK_SESSIONS_STATISTICS_SEARCH_WINDOW = Duration.ofMinutes(1);
+
     public static final int SEARCH_QUERY_SIZE_LIMIT = 50;
 
     // These constants are used as variable values to mean that the variable is in a 'special' state.
@@ -108,7 +110,6 @@ public final class Const {
         public static final String COURSE_STATUS = "coursestatus";
         public static final String INSTRUCTOR_ID = "instructorid";
         public static final String INSTRUCTOR_EMAIL = "instructoremail";
-
         public static final String FEEDBACK_SESSION_NAME = "fsname";
         public static final String FEEDBACK_SESSION_STARTTIME = "starttime";
         public static final String FEEDBACK_SESSION_ENDTIME = "endtime";
@@ -116,6 +117,8 @@ public final class Const {
         public static final String FEEDBACK_SESSION_LOG_TYPE = "fsltype";
         public static final String FEEDBACK_SESSION_LOG_STARTTIME = "fslstarttime";
         public static final String FEEDBACK_SESSION_LOG_ENDTIME = "fslendtime";
+        public static final String FEEDBACK_SESSION_STATISTIC_STARTTIME = "fssstarttime";
+        public static final String FEEDBACK_SESSION_STATISTIC_ENDTIME = "fssendtime";
 
         public static final String FEEDBACK_QUESTION_ID = "questionid";
 
@@ -319,6 +322,7 @@ public final class Const {
         public static final String SESSIONS = URI_PREFIX + "/sessions";
         public static final String SEARCH_INSTRUCTORS = URI_PREFIX + "/search/instructors";
         public static final String SEARCH_STUDENTS = URI_PREFIX + "/search/students";
+        public static final String SEARCH_RESPONSE_STATISTICS = URI_PREFIX + "/search/statistics/response";
         public static final String BIN_SESSION = URI_PREFIX + "/bin/session";
         public static final String QUESTIONS = URI_PREFIX + "/questions";
         public static final String QUESTION = URI_PREFIX + "/question";

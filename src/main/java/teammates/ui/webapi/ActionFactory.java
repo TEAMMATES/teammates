@@ -79,6 +79,7 @@ public final class ActionFactory {
         //SEARCH APIs
         map(ResourceURIs.SEARCH_INSTRUCTORS, GET, SearchInstructorsAction.class);
         map(ResourceURIs.SEARCH_STUDENTS, GET, SearchStudentsAction.class);
+        map(ResourceURIs.SEARCH_RESPONSE_STATISTICS, GET, GetFeedbackResponseStatisticsAction.class);
         map(ResourceURIs.EMAIL, GET, GenerateEmailAction.class);
 
         map(ResourceURIs.SESSIONS_ONGOING, GET, GetOngoingSessionsAction.class);
