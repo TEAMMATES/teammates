@@ -113,27 +113,37 @@ export class InstructorAuditLogsPageComponent implements OnInit {
     this.searchResults = [];
     const selectedCourse: Course | undefined =
       this.courses.find((course: Course) => course.courseId === this.formModel.courseId);
-    const timeZone: string = selectedCourse ? selectedCourse.timeZone : this.timezoneService.guessTimezone();
-    const searchFrom: number = this.timezoneService.resolveLocalDateTime(
-        this.formModel.logsDateFrom, this.formModel.logsTimeFrom, timeZone, true);
-    const searchUntil: number = this.timezoneService.resolveLocalDateTime(
-        this.formModel.logsDateTo, this.formModel.logsTimeTo, timeZone, true);
+    let currentCheckingTime: string = '';
+    try {
+      const timeZone: string = selectedCourse ? selectedCourse.timeZone : this.timezoneService.guessTimezone();
+      currentCheckingTime = 'Search period from';
+      const searchFrom: number = this.timezoneService.resolveLocalDateTime(
+          this.formModel.logsDateFrom, this.formModel.logsTimeFrom, timeZone, true);
+      currentCheckingTime = 'Search period until';
+      const searchUntil: number = this.timezoneService.resolveLocalDateTime(
+          this.formModel.logsDateTo, this.formModel.logsTimeTo, timeZone, true);
+      this.logsService.searchFeedbackSessionLog({
+        courseId: this.formModel.courseId,
+        searchFrom: searchFrom.toString(),
+        searchUntil: searchUntil.toString(),
+        studentEmail: this.formModel.studentEmail,
+      }).pipe(
+          finalize(() => this.isSearching = false),
+      ).subscribe((logs: FeedbackSessionLogs) => {
+        logs.feedbackSessionLogs.map((log: FeedbackSessionLog) =>
+            this.searchResults.push(this.toFeedbackSessionLogModel(log)));
+      }, (e: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(e.error.message);
+      });
 
-    this.logsService.searchFeedbackSessionLog({
-      courseId: this.formModel.courseId,
-      searchFrom: searchFrom.toString(),
-      searchUntil: searchUntil.toString(),
-      studentEmail: this.formModel.studentEmail,
-    }).pipe(
-        finalize(() => {
-          this.isSearching = false;
-        }),
-    ).subscribe((logs: FeedbackSessionLogs) => {
-      logs.feedbackSessionLogs.map((log: FeedbackSessionLog) =>
-          this.searchResults.push(this.toFeedbackSessionLogModel(log)));
-    }, (e: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorToast(e.error.message);
-    });
+    } catch (error) {
+      if (error instanceof Error) {
+        this.statusMessageService.showErrorToast(`${error.message} for ${currentCheckingTime}`);
+        this.isLoading = false;
+        this.isSearching = false;
+      }
+    }
+
   }
 
   /**

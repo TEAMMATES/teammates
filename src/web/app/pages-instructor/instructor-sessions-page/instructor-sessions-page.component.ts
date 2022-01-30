@@ -275,52 +275,57 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
    */
   addNewSessionHandler(): void {
     this.sessionEditFormModel.isSaving = true;
-
-    const submissionStartTime: number = this.timezoneService.resolveLocalDateTime(
+    let currentCheckingTime: string = '';
+    try {
+      currentCheckingTime = 'Submission opening time';
+      const submissionStartTime: number = this.timezoneService.resolveLocalDateTime(
         this.sessionEditFormModel.submissionStartDate, this.sessionEditFormModel.submissionStartTime,
         this.sessionEditFormModel.timeZone, true);
-    const submissionEndTime: number = this.timezoneService.resolveLocalDateTime(
-        this.sessionEditFormModel.submissionEndDate, this.sessionEditFormModel.submissionEndTime,
-        this.sessionEditFormModel.timeZone, true);
-    let sessionVisibleTime: number = 0;
-    if (this.sessionEditFormModel.sessionVisibleSetting === SessionVisibleSetting.CUSTOM) {
-      sessionVisibleTime = this.timezoneService.resolveLocalDateTime(
-          this.sessionEditFormModel.customSessionVisibleDate, this.sessionEditFormModel.customSessionVisibleTime,
+      currentCheckingTime = 'Submission closing time';
+      const submissionEndTime: number = this.timezoneService.resolveLocalDateTime(
+          this.sessionEditFormModel.submissionEndDate, this.sessionEditFormModel.submissionEndTime,
           this.sessionEditFormModel.timeZone, true);
-    }
-    let responseVisibleTime: number = 0;
-    if (this.sessionEditFormModel.responseVisibleSetting === ResponseVisibleSetting.CUSTOM) {
-      responseVisibleTime = this.timezoneService.resolveLocalDateTime(
-          this.sessionEditFormModel.customResponseVisibleDate, this.sessionEditFormModel.customResponseVisibleTime,
-          this.sessionEditFormModel.timeZone, true);
-    }
+      currentCheckingTime = 'Session edit from';
+      let sessionVisibleTime: number = 0;
+      if (this.sessionEditFormModel.sessionVisibleSetting === SessionVisibleSetting.CUSTOM) {
+        sessionVisibleTime = this.timezoneService.resolveLocalDateTime(
+            this.sessionEditFormModel.customSessionVisibleDate, this.sessionEditFormModel.customSessionVisibleTime,
+            this.sessionEditFormModel.timeZone, true);
+      }
+      currentCheckingTime = 'Response visible time';
+      let responseVisibleTime: number = 0;
+      if (this.sessionEditFormModel.responseVisibleSetting === ResponseVisibleSetting.CUSTOM) {
+        responseVisibleTime = this.timezoneService.resolveLocalDateTime(
+            this.sessionEditFormModel.customResponseVisibleDate, this.sessionEditFormModel.customResponseVisibleTime,
+            this.sessionEditFormModel.timeZone, true);
+      }
 
-    this.feedbackSessionsService.createFeedbackSession(this.sessionEditFormModel.courseId, {
-      feedbackSessionName: this.sessionEditFormModel.feedbackSessionName,
-      instructions: this.sessionEditFormModel.instructions,
+      this.feedbackSessionsService.createFeedbackSession(this.sessionEditFormModel.courseId, {
+        feedbackSessionName: this.sessionEditFormModel.feedbackSessionName,
+        instructions: this.sessionEditFormModel.instructions,
 
-      submissionStartTimestamp: submissionStartTime,
-      submissionEndTimestamp: submissionEndTime,
-      gracePeriod: this.sessionEditFormModel.gracePeriod,
+        submissionStartTimestamp: submissionStartTime,
+        submissionEndTimestamp: submissionEndTime,
+        gracePeriod: this.sessionEditFormModel.gracePeriod,
 
-      sessionVisibleSetting: this.sessionEditFormModel.sessionVisibleSetting,
-      customSessionVisibleTimestamp: sessionVisibleTime,
+        sessionVisibleSetting: this.sessionEditFormModel.sessionVisibleSetting,
+        customSessionVisibleTimestamp: sessionVisibleTime,
 
-      responseVisibleSetting: this.sessionEditFormModel.responseVisibleSetting,
-      customResponseVisibleTimestamp: responseVisibleTime,
+        responseVisibleSetting: this.sessionEditFormModel.responseVisibleSetting,
+        customResponseVisibleTimestamp: responseVisibleTime,
 
-      isClosingEmailEnabled: this.sessionEditFormModel.isClosingEmailEnabled,
-      isPublishedEmailEnabled: this.sessionEditFormModel.isPublishedEmailEnabled,
-    }).subscribe((feedbackSession: FeedbackSession) => {
+        isClosingEmailEnabled: this.sessionEditFormModel.isClosingEmailEnabled,
+        isPublishedEmailEnabled: this.sessionEditFormModel.isPublishedEmailEnabled,
+      }).subscribe((feedbackSession: FeedbackSession) => {
 
-      // begin to populate session with template
-      const templateSession: TemplateSession | undefined =
+        // begin to populate session with template
+        const templateSession: TemplateSession | undefined =
           this.feedbackSessionsService.getTemplateSessions().find(
               (t: TemplateSession) => t.name === this.sessionEditFormModel.templateSessionName);
-      if (!templateSession) {
-        return;
-      }
-      of(...templateSession.questions).pipe(
+        if (!templateSession) {
+          return;
+        }
+        of(...templateSession.questions).pipe(
           concatMap((question: FeedbackQuestion) => {
             return this.feedbackQuestionsService.createFeedbackQuestion(
                 feedbackSession.courseId, feedbackSession.feedbackSessionName, {
@@ -356,11 +361,17 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
                   + 'Click the "Add New Question" button below to begin adding questions for the feedback session.');
             });
       });
-    }, (resp: ErrorMessageOutput) => {
-      this.sessionEditFormModel.isSaving = false;
-      this.statusMessageService.showErrorToast(
-          this.formatErrorMessage(resp.error.message));
-    });
+      }, (resp: ErrorMessageOutput) => {
+        this.sessionEditFormModel.isSaving = false;
+        this.statusMessageService.showErrorToast(
+            this.formatErrorMessage(resp.error.message));
+      });
+    } catch (error) {
+      if (error instanceof Error) {
+        this.statusMessageService.showErrorToast(`${error.message} for ${currentCheckingTime}`);
+        this.sessionEditFormModel.isSaving = false;
+      }
+    }
   }
 
   formatErrorMessage(errorMessage: string): string {
