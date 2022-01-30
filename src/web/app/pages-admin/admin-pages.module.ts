@@ -43,6 +43,11 @@ const routes: Routes = [
         .then((m: any) => m.AdminTimezonePageModule),
   },
   {
+    path: 'statistics',
+    loadChildren: () => import('./admin-statistics-page/admin-statistics-page.module')
+        .then((m: any) => m.AdminStatisticsPageModule),
+  },
+  {
     path: 'logs',
     data: {
       isAdmin: true,
