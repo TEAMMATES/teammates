@@ -40,10 +40,10 @@
 </div>
 <div class="modal-footer">
   <button type="button" class="btn btn-info"
+            [ngClass]="
+                {'btn-danger': hasFailToSaveQuestions, 'btn-success': !hasFailToSaveQuestions}"
+          (click)="activeModal.close()">Don't download proof of submission</button>
+  <button type="button" class="btn btn-info"
           (click)="downloadProofOfSubmission()"
           [disabled]="isAllQuestionSavingFailed">Download proof of submission</button>
-  <button type="button" class="btn btn-info"
-          [ngClass]="
-                {'btn-danger': hasFailToSaveQuestions, 'btn-success': !hasFailToSaveQuestions}"
-          (click)="activeModal.close()">Don't download proof-of-submission</button>
 </div>
