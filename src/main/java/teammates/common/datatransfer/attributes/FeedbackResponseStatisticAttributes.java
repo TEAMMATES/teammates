@@ -1,22 +1,22 @@
 package teammates.common.datatransfer.attributes;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
 import teammates.storage.entity.FeedbackResponseStatistic;
 
 public class FeedbackResponseStatisticAttributes extends EntityAttributes<FeedbackResponseStatistic> {
-	private Date timeStamp;
+	private Instant timeStamp;
 	private int count;
-	// TODO what is transient
     private transient Instant createdAt;
     private transient Instant updatedAt;
 
-	private FeedbackResponseStatisticAttributes(Date timeStamp, int count) {
+	private FeedbackResponseStatisticAttributes(Instant timeStamp, int count) {
 		this.timeStamp = timeStamp;
         this.count = count;
 
@@ -30,21 +30,6 @@ public class FeedbackResponseStatisticAttributes extends EntityAttributes<Feedba
 		return new FeedbackResponseStatistic(timeStamp, count);
 	}
 	
-	/**
-     * Returns a builder for {@link CourseAttributes}.
-     */
-    public static Builder builder(String courseId) {
-        return new Builder(courseId);
-    }
-
-	// TODO
-    /**
-     * Return a builder for {@link FeedbackResponseStatisticAttributes}.
-     */
-    public static Builder builder(String courseId, String email) {
-        return new Builder(courseId, email);
-    }
-
     /**
      * Gets the {@link FeedbackResponseStatisticAttributes} instance of the given {@link FeedbackResponseStatistic}.
      */
@@ -64,7 +49,11 @@ public class FeedbackResponseStatisticAttributes extends EntityAttributes<Feedba
 
     @Override
     public List<String> getInvalidityInfo() {
-        // TODO
+        List<String> errors = new ArrayList<>();
+
+        addNonEmptyError(FieldValidator.getValidityInfoForNonNullField("feedback response statistic time", timeStamp), errors);
+
+        return errors;
     }
 
     /**
@@ -96,17 +85,16 @@ public class FeedbackResponseStatisticAttributes extends EntityAttributes<Feedba
         }
     }
 
-	// TODO
     @Override
     public void sanitizeForSaving() {
         
     }
 
-    public Date getTimeStamp() {
+    public Instant getTimeStamp() {
         return timeStamp;
     }
 
-    public void setTimeStamp(Date timeStamp) {
+    public void setTimeStamp(Instant timeStamp) {
 		this.timeStamp = timeStamp;
     }
 
