@@ -322,7 +322,7 @@ public final class Const {
         public static final String SESSIONS = URI_PREFIX + "/sessions";
         public static final String SEARCH_INSTRUCTORS = URI_PREFIX + "/search/instructors";
         public static final String SEARCH_STUDENTS = URI_PREFIX + "/search/students";
-        public static final String SEARCH_RESPONSE_STATISTICS = URI_PREFIX + "/search/statistics/response";
+        public static final String RESPONSE_STATISTICS = URI_PREFIX + "/statistics/response";
         public static final String BIN_SESSION = URI_PREFIX + "/bin/session";
         public static final String QUESTIONS = URI_PREFIX + "/questions";
         public static final String QUESTION = URI_PREFIX + "/question";

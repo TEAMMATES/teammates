@@ -65,6 +65,7 @@ public final class ActionFactory {
         map(ResourceURIs.RESPONSE_COMMENT, PUT, UpdateFeedbackResponseCommentAction.class);
         map(ResourceURIs.RESPONSE_COMMENT, DELETE, DeleteFeedbackResponseCommentAction.class);
         map(ResourceURIs.RESULT, GET, GetSessionResultsAction.class);
+        map(ResourceURIs.RESPONSE_STATISTICS, GET, GetFeedbackResponseStatisticsAction.class);
 
         //STUDENTS APIs
         map(ResourceURIs.STUDENTS, GET, GetStudentsAction.class);
@@ -79,7 +80,6 @@ public final class ActionFactory {
         //SEARCH APIs
         map(ResourceURIs.SEARCH_INSTRUCTORS, GET, SearchInstructorsAction.class);
         map(ResourceURIs.SEARCH_STUDENTS, GET, SearchStudentsAction.class);
-        map(ResourceURIs.SEARCH_RESPONSE_STATISTICS, GET, GetFeedbackResponseStatisticsAction.class);
         map(ResourceURIs.EMAIL, GET, GenerateEmailAction.class);
 
         map(ResourceURIs.SESSIONS_ONGOING, GET, GetOngoingSessionsAction.class);
