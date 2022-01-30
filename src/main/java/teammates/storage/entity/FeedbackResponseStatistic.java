@@ -1,7 +1,6 @@
 package teammates.storage.entity;
 
 import java.time.Instant;
-import java.util.Date;
 
 import com.googlecode.objectify.annotation.Cache;
 import com.googlecode.objectify.annotation.Entity;
@@ -41,7 +40,7 @@ public class FeedbackResponseStatistic extends BaseEntity {
 	/**
      * Gets the timestamp that the statistic accounts for.
      */
-    public Date getTimeStamp() {
+    public Instant getTimeStamp() {
         return timeStamp;
     }
 
