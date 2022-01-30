@@ -30,6 +30,7 @@ import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.DataBundleLogic;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponseCommentsLogic;
+import teammates.logic.core.FeedbackResponseStatisticLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.InstructorsLogic;
@@ -53,6 +54,7 @@ public class Logic {
     final FeedbackQuestionsLogic feedbackQuestionsLogic = FeedbackQuestionsLogic.inst();
     final FeedbackResponsesLogic feedbackResponsesLogic = FeedbackResponsesLogic.inst();
     final FeedbackResponseCommentsLogic feedbackResponseCommentsLogic = FeedbackResponseCommentsLogic.inst();
+    final FeedbackResponseStatisticLogic feedbackResponseStatisticLogic = FeedbackResponseStatisticLogic.inst();
     final ProfilesLogic profilesLogic = ProfilesLogic.inst();
     final DataBundleLogic dataBundleLogic = DataBundleLogic.inst();
 
@@ -791,8 +793,11 @@ public class Logic {
     /**
      * Gets feedback response statistics for a time period.
      */
-    public List<FeedbackResponseStatisticAttributes> getFeedbackResponseStatistics(long startTime, long endTime) {
+    public List<FeedbackResponseStatisticAttributes> getFeedbackResponseStatistics(Instant rangeStart, Instant rangeEnd) {
+        assert rangeStart != null;
+        assert rangeEnd != null;
         
+        return feedbackResponseStatisticLogic.getFeedbackResponseStatistics(rangeStart, rangeEnd);
     }
 
     /**
