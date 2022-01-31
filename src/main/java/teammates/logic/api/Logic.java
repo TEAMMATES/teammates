@@ -1447,7 +1447,6 @@ public class Logic {
      * * All parameters are non-null.
      *
      * @return the account request
-     * @throws EntityDoesNotExistException if the account request does not exist
      */
     public AccountRequestAttributes getAccountRequestForRegistrationKey(String registrationKey) {
         assert registrationKey != null;
