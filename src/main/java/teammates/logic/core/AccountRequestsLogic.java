@@ -73,7 +73,6 @@ public final class AccountRequestsLogic {
      * Gets an account request by unique constraint {@code registrationKey}.
      *
      * @return the account request
-     * @throws EntityDoesNotExistException if account request does not exist
      */
     public AccountRequestAttributes getAccountRequestForRegistrationKey(String registrationKey) {
         return accountRequestsDb.getAccountRequestForRegistrationKey(registrationKey);
