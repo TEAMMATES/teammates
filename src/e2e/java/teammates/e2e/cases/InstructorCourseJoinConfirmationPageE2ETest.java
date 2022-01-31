@@ -72,7 +72,7 @@ public class InstructorCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase
         joinLink = createFrontendUrl(Const.WebPageURIs.JOIN_PAGE)
                 .withIsCreatingAccount(String.valueOf(true))
                 .withRegistrationKey(regKey);
-        
+
         confirmationPage = getNewPageInstance(joinLink, CourseJoinConfirmationPage.class);
         confirmationPage.verifyJoiningUser("ICJoinConf.newinstr");
         confirmationPage.confirmJoinCourse(InstructorHomePage.class);

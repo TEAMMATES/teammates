@@ -66,9 +66,7 @@ public final class AccountRequestsLogic {
      * @return the account request
      */
     public AccountRequestAttributes getAccountRequest(String email, String institute) {
-        AccountRequestAttributes accountRequest = accountRequestsDb.getAccountRequest(email, institute);
-
-        return accountRequest;
+        return accountRequestsDb.getAccountRequest(email, institute);
     }
 
     /**
@@ -78,10 +76,7 @@ public final class AccountRequestsLogic {
      * @throws EntityDoesNotExistException if account request does not exist
      */
     public AccountRequestAttributes getAccountRequestForRegistrationKey(String registrationKey) {
-        AccountRequestAttributes accountRequest = accountRequestsDb
-                .getAccountRequestForRegistrationKey(registrationKey);
-
-        return accountRequest;
+        return accountRequestsDb.getAccountRequestForRegistrationKey(registrationKey);
     }
 
 }

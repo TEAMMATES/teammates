@@ -53,9 +53,9 @@ class GetCourseJoinStatusAction extends Action {
             }
             return getJoinStatusResult(accountRequest.getRegisteredAt() != null);
         }
-        
+
         InstructorAttributes instructor = logic.getInstructorForRegistrationKey(regkey);
-        
+
         if (instructor == null) {
             throw new EntityNotFoundException("No instructor with given registration key: " + regkey);
         }

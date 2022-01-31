@@ -3,7 +3,6 @@ package teammates.ui.webapi;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.ui.output.MessageOutput;
 
