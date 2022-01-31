@@ -90,7 +90,7 @@ public class AccountRequestsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
     }
 
     @Test
-    public void testDeleteAccountRequest() throws Exception {
+    public void testDeleteAccountRequest() {
         AccountRequest accountRequest = new AccountRequest("valid2@test.com",
                         "Test account Name", "TEAMMATES Test Institute 1");
         accountRequest.setRegistrationKey("2-123456");
@@ -118,7 +118,7 @@ public class AccountRequestsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
     }
 
     @Test
-    public void testGetAccountRequestForRegistrationKey() throws Exception {
+    public void testGetAccountRequestForRegistrationKey() {
         AccountRequest accountRequest = new AccountRequest("valid3@test.com",
                         "Test account Name", "TEAMMATES Test Institute 1");
         accountRequest.setRegistrationKey("3-123456");
@@ -144,7 +144,7 @@ public class AccountRequestsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
     }
 
     @Test
-    public void testGetAccountRequest() throws Exception {
+    public void testGetAccountRequest() {
         AccountRequest accountRequest = new AccountRequest("valid4@test.com",
                         "Test account Name", "TEAMMATES Test Institute 1");
         accountRequest.setRegistrationKey("4-123456");

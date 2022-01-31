@@ -24,14 +24,14 @@ class CreateAccountRequestAction extends AdminOnlyAction {
         AccountRequestAttributes accountRequestToCreate = AccountRequestAttributes
                 .builder(instructorEmail, instructorInstitution, instructorName)
                 .build();
-        AccountRequestAttributes accountRequestAttributes = null;
+        AccountRequestAttributes accountRequestAttributes;
 
         try {
             accountRequestAttributes = logic.createAccountRequest(accountRequestToCreate);
         } catch (InvalidParametersException ipe) {
             throw new InvalidHttpRequestBodyException(ipe);
         } catch (EntityAlreadyExistsException eaee) {
-            // Continue without creating a new account request
+            // Use existing account request
             accountRequestAttributes = logic.getAccountRequest(instructorEmail, instructorInstitution);
         }
 
