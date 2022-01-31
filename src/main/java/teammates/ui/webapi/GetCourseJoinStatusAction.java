@@ -52,13 +52,15 @@ class GetCourseJoinStatusAction extends Action {
                 throw new EntityNotFoundException("No account request with given registration key: " + regkey);
             }
             return getJoinStatusResult(accountRequest.getRegisteredAt() != null);
-        } else {
-            InstructorAttributes instructor = logic.getInstructorForRegistrationKey(regkey);
-            if (instructor == null) {
-                throw new EntityNotFoundException("No instructor with given registration key: " + regkey);
-            }
-            return getJoinStatusResult(instructor.isRegistered());
         }
+        
+        InstructorAttributes instructor = logic.getInstructorForRegistrationKey(regkey);
+        
+        if (instructor == null) {
+            throw new EntityNotFoundException("No instructor with given registration key: " + regkey);
+        }
+
+        return getJoinStatusResult(instructor.isRegistered());
     }
 
     private JsonResult getJoinStatusResult(boolean hasJoined) {
