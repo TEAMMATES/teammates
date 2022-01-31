@@ -38,6 +38,10 @@ export class AdminPageComponent implements OnInit {
       display: 'Timezone Listing',
     },
     {
+      url: '/web/admin/statistics',
+      display: 'Statistics',
+    },
+    {
       url: '/web/admin/logs',
       display: 'Logs',
     },
