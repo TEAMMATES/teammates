@@ -51,5 +51,34 @@ public class InstructorCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase
         ______TS("Already joined, no confirmation page");
 
         getNewPageInstance(joinLink, InstructorHomePage.class);
+
+        logout();
+
+        ______TS("Click join link: invalid key");
+        joinLink = createFrontendUrl(Const.WebPageURIs.JOIN_PAGE)
+                .withIsCreatingAccount(String.valueOf(true))
+                .withRegistrationKey("invalidKey")
+                .withEntityType(Const.EntityType.INSTRUCTOR);
+        confirmationPage = loginToPage(joinLink, CourseJoinConfirmationPage.class, "ICJoinConf.newinstr");
+
+        confirmationPage.verifyDisplayedMessage("The course join link is invalid. You may have "
+                + "entered the URL incorrectly or the URL may correspond to a/an instructor that does not exist.");
+
+        ______TS("Click join link: valid account request key");
+
+        String regKey = BACKDOOR
+                .getRegKeyForAccountRequest("ICJoinConf.newinstr@gmail.tmt", "TEAMMATES Test Institute 1");
+
+        joinLink = createFrontendUrl(Const.WebPageURIs.JOIN_PAGE)
+                .withIsCreatingAccount(String.valueOf(true))
+                .withRegistrationKey(regKey);
+        
+        confirmationPage = getNewPageInstance(joinLink, CourseJoinConfirmationPage.class);
+        confirmationPage.verifyJoiningUser("ICJoinConf.newinstr");
+        confirmationPage.confirmJoinCourse(InstructorHomePage.class);
+
+        ______TS("Regkey for account request used, no confirmation page");
+
+        getNewPageInstance(joinLink, InstructorHomePage.class);
     }
 }

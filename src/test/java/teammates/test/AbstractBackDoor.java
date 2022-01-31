@@ -749,6 +749,22 @@ public abstract class AbstractBackDoor {
     }
 
     /**
+     * Gets registration key of an account request from the database.
+     */
+    public String getRegKeyForAccountRequest(String email, String institute) {
+        Map<String, String> params = new HashMap<>();
+        params.put(Const.ParamsNames.INSTRUCTOR_EMAIL, email);
+        params.put(Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
+
+        ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.ACCOUNT_REQUEST, params);
+        if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
+            return null;
+        }
+
+        return JsonUtils.fromJson(response.responseBody, AccountRequestData.class).getRegistrationKey();
+    }
+
+    /**
      * Deletes an account request from the database.
      */
     public void deleteAccountRequest(String email, String institute) {
