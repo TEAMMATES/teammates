@@ -298,7 +298,6 @@ public final class Const {
         public static final String ACCOUNT_RESET = URI_PREFIX + "/account/reset";
         public static final String ACCOUNT_DOWNGRADE = URI_PREFIX + "/account/downgrade";
         public static final String ACCOUNT_REQUEST = URI_PREFIX + "/account/request";
-        public static final String ACCOUNT_REQUEST_STATUS = URI_PREFIX + "/account/request/status";
         public static final String RESPONSE_COMMENT = URI_PREFIX + "/responsecomment";
         public static final String COURSE = URI_PREFIX + "/course";
         public static final String COURSE_ARCHIVE = URI_PREFIX + "/course/archive";
