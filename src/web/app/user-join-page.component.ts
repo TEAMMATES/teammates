@@ -45,7 +45,7 @@ export class UserJoinPageComponent implements OnInit {
       this.key = queryParams.key;
       this.isCreatingAccount = queryParams.iscreatingaccount === 'true';
 
-      // Create cccount request can only come from instructor.
+      // Create account request can only come from instructor.
       if (this.isCreatingAccount) {
         this.entityType = 'instructor';
       }
