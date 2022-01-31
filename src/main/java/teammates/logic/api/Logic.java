@@ -741,10 +741,11 @@ public class Logic {
      *
      * <p> If there is no question for students, the feedback session is completed</p>
      */
-    public boolean isFeedbackSessionCompletedByStudent(FeedbackSessionAttributes fsa, String userEmail) {
+    public boolean isFeedbackSessionCompletedByStudent(FeedbackSessionAttributes fsa, String userEmail, String userTeam) {
         assert fsa != null;
         assert userEmail != null;
-        return feedbackSessionsLogic.isFeedbackSessionCompletedByStudent(fsa, userEmail);
+        assert userTeam != null;
+        return feedbackSessionsLogic.isFeedbackSessionCompletedByStudent(fsa, userEmail, userTeam);
     }
 
     /**
@@ -960,12 +961,12 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public boolean hasStudentSubmittedFeedback(FeedbackSessionAttributes fsa, String studentEmail) {
+    public boolean hasStudentSubmittedFeedback(FeedbackSessionAttributes fsa, String studentEmail, String studentTeam) {
 
         assert fsa != null;
         assert studentEmail != null;
 
-        return feedbackSessionsLogic.isFeedbackSessionCompletedByStudent(fsa, studentEmail);
+        return feedbackSessionsLogic.isFeedbackSessionCompletedByStudent(fsa, studentEmail, studentTeam);
     }
 
     /**

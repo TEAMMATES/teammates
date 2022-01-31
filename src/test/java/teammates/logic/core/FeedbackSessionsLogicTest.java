@@ -797,7 +797,41 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("empty.session");
         StudentAttributes student = dataBundle.students.get("student2InCourse1");
 
-        assertTrue(fsLogic.isFeedbackSessionCompletedByStudent(fs, student.getEmail()));
+        assertTrue(fsLogic.isFeedbackSessionCompletedByStudent(fs, student.getEmail(), student.getTeam()));
+
+        ______TS("success: grace period session (all team questions)");
+
+        fs = dataBundle.feedbackSessions.get("gracePeriodSession");
+        // student who answered team question
+        student = dataBundle.students.get("student4InCourse1");
+        assertTrue(fsLogic.isFeedbackSessionCompletedByStudent(fs, student.getEmail(), student.getTeam()));
+
+        // student whose teammate answered team question
+        student = dataBundle.students.get("student1InCourse1");
+        assertTrue(fsLogic.isFeedbackSessionCompletedByStudent(fs, student.getEmail(), student.getTeam()));
+
+        // student whose team has not answered team question
+        student = dataBundle.students.get("student5InCourse1");
+        assertFalse(fsLogic.isFeedbackSessionCompletedByStudent(fs, student.getEmail(), student.getTeam()));
+
+        ______TS("success: second feedback session (both team and individual questions)");
+
+        fs = dataBundle.feedbackSessions.get("session2InCourse1");
+        // student who did not answer any question
+        student = dataBundle.students.get("student5InCourse1");
+        assertFalse(fsLogic.isFeedbackSessionCompletedByStudent(fs, student.getEmail(), student.getTeam()));
+
+        // student who answered only team question
+        student = dataBundle.students.get("student2InCourse1");
+        assertFalse(fsLogic.isFeedbackSessionCompletedByStudent(fs, student.getEmail(), student.getTeam()));
+
+        // student who answered only individual question
+        student = dataBundle.students.get("student6InCourse1");
+        assertTrue(fsLogic.isFeedbackSessionCompletedByStudent(fs, student.getEmail(), student.getTeam()));
+
+        // student who answered both team and individual question
+        student = dataBundle.students.get("student4InCourse1");
+        assertTrue(fsLogic.isFeedbackSessionCompletedByStudent(fs, student.getEmail(), student.getTeam()));
     }
 
     private FeedbackSessionAttributes getNewFeedbackSession() {
