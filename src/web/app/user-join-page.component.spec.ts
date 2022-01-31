@@ -193,6 +193,7 @@ describe('UserJoinPageComponent creating account', () => {
   let navService: NavigationService;
   let authService: AuthService;
   let accountService: AccountService;
+  let courseService: CourseService;
 
   beforeEach((() => {
     TestBed.resetTestingModule();
@@ -227,6 +228,7 @@ describe('UserJoinPageComponent creating account', () => {
     navService = TestBed.inject(NavigationService);
     authService = TestBed.inject(AuthService);
     accountService = TestBed.inject(AccountService);
+    courseService = TestBed.inject(CourseService);
     fixture.detectChanges();
   });
 
@@ -265,7 +267,7 @@ describe('UserJoinPageComponent creating account', () => {
       },
       masquerade: false,
     }));
-    spyOn(accountService, 'getRegisteredStatus').and.returnValue(of({
+    spyOn(courseService, 'getJoinCourseStatus').and.returnValue(of({
       hasJoined: true,
     }));
     const navSpy: Spy = spyOn(navService, 'navigateByURL');
@@ -289,7 +291,7 @@ describe('UserJoinPageComponent creating account', () => {
       },
       masquerade: false,
     }));
-    spyOn(accountService, 'getRegisteredStatus').and.returnValue(throwError({
+    spyOn(courseService, 'getJoinCourseStatus').and.returnValue(throwError({
       status: 404,
     }));
 

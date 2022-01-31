@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { environment } from '../environments/environment';
 import { AccountService } from '../services/account.service';
@@ -64,29 +63,27 @@ export class UserJoinPageComponent implements OnInit {
         }
         this.userId = auth.user.id;
 
-        const request: Observable<JoinStatus> = this.isCreatingAccount
-          ? this.accountService.getRegisteredStatus(this.key)
-          : this.courseService.getJoinCourseStatus(this.key, this.entityType);
-
-        request.subscribe((resp: JoinStatus) => {
-          this.hasJoined = resp.hasJoined;
-          if (this.hasJoined) {
-            // The regkey has been used; simply redirect the user to their home page,
-            // regardless of whether the regkey matches or not.
-            this.navigationService.navigateByURL(this.router, `/web/${this.entityType}/home`);
-          } else {
-            this.isLoading = false;
-          }
-        }, (resp: ErrorMessageOutput) => {
-          if (resp.status === 404) {
-            this.validUrl = false;
-            this.isLoading = false;
-            return;
-          }
-          const modalRef: any = this.ngbModal.open(ErrorReportComponent);
-          modalRef.componentInstance.requestId = resp.error.requestId;
-          modalRef.componentInstance.errorMessage = resp.error.message;
-        });
+        this.courseService
+          .getJoinCourseStatus(this.key, this.entityType, this.isCreatingAccount)
+          .subscribe((resp: JoinStatus) => {
+            this.hasJoined = resp.hasJoined;
+            if (this.hasJoined) {
+              // The regkey has been used; simply redirect the user to their home page,
+              // regardless of whether the regkey matches or not.
+              this.navigationService.navigateByURL(this.router, `/web/${this.entityType}/home`);
+            } else {
+              this.isLoading = false;
+            }
+          }, (resp: ErrorMessageOutput) => {
+            if (resp.status === 404) {
+              this.validUrl = false;
+              this.isLoading = false;
+              return;
+            }
+            const modalRef: any = this.ngbModal.open(ErrorReportComponent);
+            modalRef.componentInstance.requestId = resp.error.requestId;
+            modalRef.componentInstance.errorMessage = resp.error.message;
+          });
       });
     });
   }

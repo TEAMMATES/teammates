@@ -22,7 +22,7 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
 
     @Override
     @Test
-    protected void testExecute() {
+    protected void testExecute() throws Exception {
 
         loginAsUnregistered("unreg.user");
 
@@ -114,6 +114,50 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
         params = new String[] {
                 Const.ParamsNames.REGKEY, "ANXKJZNZXNJCZXKJDNKSDA",
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
+        };
+
+        verifyEntityNotFound(params);
+
+        ______TS("Normal case: account request not used, instructor has not joined course");
+
+        String accountRequestNotUsedKey = logic.getAccountRequest("unregisteredinstructor1@gmail.tmt",
+                "TEAMMATES Test Institute 1").getRegistrationKey();
+
+        params = new String[] {
+                Const.ParamsNames.REGKEY, accountRequestNotUsedKey,
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
+                Const.ParamsNames.IS_CREATING_ACCOUNT, "true",
+        };
+
+        getCourseJoinStatusAction = getAction(params);
+        result = getJsonResult(getCourseJoinStatusAction);
+
+        output = (JoinStatus) result.getOutput();
+        assertFalse(output.getHasJoined());
+
+        ______TS("Normal case: account request already used, instructor has joined course");
+
+        String accountRequestUsedKey =
+                logic.getAccountRequest("instr1@course1.tmt", "TEAMMATES Test Institute 1").getRegistrationKey();
+
+        params = new String[] {
+                Const.ParamsNames.REGKEY, accountRequestUsedKey,
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
+                Const.ParamsNames.IS_CREATING_ACCOUNT, "true",
+        };
+
+        getCourseJoinStatusAction = getAction(params);
+        result = getJsonResult(getCourseJoinStatusAction);
+
+        output = (JoinStatus) result.getOutput();
+        assertTrue(output.getHasJoined());
+
+        ______TS("Failure case: account request regkey is not valid");
+
+        params = new String[] {
+                Const.ParamsNames.REGKEY, "invalid-registration-key",
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
+                Const.ParamsNames.IS_CREATING_ACCOUNT, "true",
         };
 
         verifyEntityNotFound(params);

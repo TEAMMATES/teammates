@@ -1,7 +1,7 @@
 package teammates.ui.output;
 
 /**
- * The join status of a course or account request.
+ * The join status of a course.
  */
 public class JoinStatus extends ApiOutput {
 
