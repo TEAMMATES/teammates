@@ -1,7 +1,7 @@
 package teammates.client.scripts;
 
+import java.sql.Date;
 import java.time.Instant;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,10 +18,10 @@ import teammates.storage.entity.FeedbackResponse;
 public class FergusTest extends DatastoreClient {
 
     // Runs the test
-    private static final int hour = 60 * 60;
-    private static final int week = hour * 24 * 7;
-    private static final int month = week * 4;
-    private static final int year = month * 12;
+    private static final int HOUR = 60 * 60;
+    private static final int WEEK = HOUR * 24 * 7;
+    private static final int MONTH = WEEK * 4;
+    private static final int YEAR = MONTH * 12;
     private static final int million = 1000000;
     private static final int tenmillion = 10000000;
 
@@ -38,36 +38,66 @@ public class FergusTest extends DatastoreClient {
     private FergusTest() {
     }
 
+    public static void updateForPastMinute() {  // Function will be called 5 seconds after the minute passes.
+        Query<FeedbackResponse> intialQuery = ObjectifyService.ofy().load().type(FeedbackResponse.class)
+                .project("createdAt");
+        Instant.now().get
+
+    }
+
+    // Start running updateForPastMinute for about 5 minutes first, then run this function
+    // This function will update for all time, and then write over some of the current data.
+/*     public static void updateForAlltime() {
+        Instant fnStartTime = Instant.now(); // Function should not overwrite this.
+        int CHUNK_BY = MONTH;
+        // StartTime put as 2010 first
+
+        Date date = new Date();
+
+        Query<FeedbackResponse> intialQuery = ObjectifyService.ofy().load().type(FeedbackResponse.class)
+                .project("createdAt");
+
+        Integer count = intialQuery.filter("createdAt >=", startTime).filter("createdAt <=", endTime).list()
+                .size();
+
+
+        // Chunk this, add to task queue to process it!
+        // I'm thinking chunk by MONTH
+
+
+    }
+ */
     public static void getCount() {
         long DEFAULT_INTERVAL = 50;
-        Instant startTime = Instant.now().minusSeconds(year);
+        Instant startTime = Instant.now().minusSeconds(YEAR);
         Instant endTime = Instant.now();
         long timeDifference = endTime.getEpochSecond() - startTime.getEpochSecond();
         long defaultIntervalSize = Math.floorDiv(timeDifference, DEFAULT_INTERVAL);
         long buffer = timeDifference - (defaultIntervalSize * DEFAULT_INTERVAL);
 
-        // Two choices. Async, or batch. Count is synchronous, and not good 
         Map<Instant, Integer> hashCount = new HashMap<>();
         Instant currentTime = startTime;
         Query<FeedbackResponse> intialQuery = ObjectifyService.ofy().load().type(FeedbackResponse.class)
                 .project("createdAt");
+        int totalCount = 0;
         for (long i = 0; i < DEFAULT_INTERVAL; i++) {
             long secondsToNextInterval = buffer <= 0 ? defaultIntervalSize : defaultIntervalSize + 1;
             buffer -= 1;
             endTime = currentTime.plusSeconds(secondsToNextInterval);
-            Integer count = intialQuery.filter("createdAt >=", currentTime).filter("createdAt <=", endTime).list()
-                    .size();
+            Integer count = intialQuery.filter("createdAt >", currentTime).filter("createdAt <", endTime).list().size();
             System.out.println(
                     "Doing " + i + "th with count " + count + " with interval " + currentTime + " to " + endTime);
             hashCount.put(currentTime, count);
+            totalCount += count;
             currentTime = endTime;
         }
         System.out.println(hashCount);
+        System.out.println(totalCount);
     }
-    
+
     public static void getTotalCount() {
-        Query<FeedbackResponse> intialQuery = ObjectifyService.ofy().load().type(FeedbackResponse.class).project("createdAt");
-        System.out.println("Total responses: " + intialQuery.list().size());
+        Query<FeedbackResponse> intialQuery = ObjectifyService.ofy().load().type(FeedbackResponse.class);
+        System.out.println("Total responses: " + intialQuery.count());
     }
 
     public static void deleteAllResponses() {
@@ -77,33 +107,36 @@ public class FergusTest extends DatastoreClient {
 
     public static void generateResponses() {
         int STARTING_ID = 1;
-        int NUMBER_OF_FEEDBACK_QUESTIONS = tenmillion;
-        int CHUNKER = 10;
+        int NUMBER_OF_FEEDBACK_QUESTIONS = 100000;
+        int CHUNKER = 10; // Prevent Java heap overflow
         for (int i = 0; i < CHUNKER; i++) {
-            FeedbackResponse[] arr = new FeedbackResponse[NUMBER_OF_FEEDBACK_QUESTIONS / 10];
-            for (int j = 0; j < NUMBER_OF_FEEDBACK_QUESTIONS / 10; j++) {
-                int secondsOffset = (int) (Math.random() * (year));
+            FeedbackResponse[] arr = new FeedbackResponse[NUMBER_OF_FEEDBACK_QUESTIONS / CHUNKER];
+            for (int j = 0; j < NUMBER_OF_FEEDBACK_QUESTIONS / CHUNKER; j++) {
+                int secondsOffset = (int) (Math.random() * YEAR);
                 STARTING_ID++;
                 FeedbackResponse feedback = new FeedbackResponse(FEEDBACK_SESSION_NAME, COURSE_ID,
-                        Integer.toString(STARTING_ID),
+                        generateId(Integer.toString(secondsOffset), Integer.toString(STARTING_ID)),
                         null, STUDENT_EMAIL, "Section" + i, "Bob", STUDENT_EMAIL, "Nothing");
                 feedback.setCreatedAt(Instant.now().minusSeconds(secondsOffset));
                 arr[j] = feedback;
             }
             System.out.println("Finished creating, now saving chunk " + i);
-            ObjectifyService.ofy().save().entities(arr).now();    
+            ObjectifyService.ofy().save().entities(arr).now();
         }
-        // Array creation of 1 million takes only 2 second, saving is a different story
         System.out.println("Finished generating!");
     }
 
+    public static String generateId(String feedbackQuestionId, String giver) {
+        return feedbackQuestionId + '%' + giver;
+    }
 
     @Override
     protected void doOperation() {
-        //getCount(); // 
-        //getTotalCount();
-        generateResponses();    
-        //deleteAllResponses();     // Takes about 900 seconds for >10m responses
+        getCount(); //
+        // getTotalCount();
+        // generateResponses();
+        // deleteAllResponses();
+        // System.out.println(ZonedDateTime().now());
     }
 
     public static void main(String[] args) {
@@ -111,7 +144,7 @@ public class FergusTest extends DatastoreClient {
         System.out.println("Start timer at " + (startTime));
         new FergusTest().doOperationRemotely();
         long endTime = System.currentTimeMillis();
-        System.out.println("That took " + ((endTime - startTime)) + " milliseconds");
+        System.out.println("That took " + (endTime - startTime) + " milliseconds or " +  ((endTime - startTime)/1000) + " seconds or " + (((endTime - startTime)/1000)/60 + " minutes.") );
     }
 
 }
