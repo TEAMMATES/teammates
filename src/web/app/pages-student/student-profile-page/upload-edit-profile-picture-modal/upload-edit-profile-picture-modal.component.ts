@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ImageCroppedEvent, ImageCropperComponent } from 'ngx-image-cropper';
+import { StatusMessageService } from '../../../../services/status-message.service';
 
 /**
  * Student profile page's modal to upload/edit photo.
@@ -13,12 +14,19 @@ import { ImageCroppedEvent, ImageCropperComponent } from 'ngx-image-cropper';
 export class UploadEditProfilePictureModalComponent implements OnInit {
   imageChangedEvent: any = '';
   formData?: FormData;
+  isValidProfileFileType: boolean = false;
 
   @ViewChild(ImageCropperComponent) imageCropper!: ImageCropperComponent;
 
   @Input() image!: Blob | null;
 
-  constructor(public activeModal: NgbActiveModal) { }
+  constructor(public activeModal: NgbActiveModal,
+    private statusMessageService: StatusMessageService,
+    ) { }
+
+  get validProfileFileTypes(): string {
+    return 'image/gif, image/jpeg, image/png, image/svg+xml';
+  }
 
   ngOnInit(): void {
     if (this.image == null) {
@@ -65,8 +73,12 @@ export class UploadEditProfilePictureModalComponent implements OnInit {
     this.imageChangedEvent = event;
 
     const file: File = event.target.files[0];
-    if (file) {
+    if (this.validProfileFileTypes.split(', ').includes(file.type)) {
       this.populateFormData(file);
+      this.isValidProfileFileType = true;
+    } else {
+      this.statusMessageService.showErrorToast('Please upload an accepted file type!');
+      this.isValidProfileFileType = false;
     }
   }
 

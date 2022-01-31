@@ -10,7 +10,7 @@
 <div class="modal-body align-center">
   <div class="row">
     <div class="col sm-5">
-      <p>If you have no profile picture, upload one from your computer. Once a picture is uploaded,
+      <p>Please upload either a <b>.jpg, .png, .gif or .svg</b> from your computer. Once a picture is uploaded,
         you will be able to edit it using the buttons below. Cropping is available by adjusting the box
         size.
       </p>
@@ -19,7 +19,7 @@
 
   <div class="row">
     <div class="col-md-4">
-      <input class="row col student-photo" type="file" (change)="fileChangeEvent($event)"/>
+      <input class="row col student-photo" type="file" accept={{validProfileFileTypes}} (change)="fileChangeEvent($event)"/>
       <small>Max Size: 5MB</small>
     </div>
 
@@ -52,6 +52,6 @@
 </div>
 <div class="modal-footer">
   <div>
-    <button class="btn btn-success btn-lg profile-upload-picture-submit" (click)="uploadPicture()">Upload Image</button>
+    <button class="btn btn-success btn-lg profile-upload-picture-submit" (click)="uploadPicture()" [disabled]="!isValidProfileFileType">Upload Image</button>
   </div>
 </div>
