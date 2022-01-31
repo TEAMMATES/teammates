@@ -174,7 +174,7 @@ describe('CourseService', () => {
     service.getJoinCourseStatus(regKey, entityType, false);
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.JOIN, paramMap);
 
-    paramMap.isCreatingAccount = 'true';
+    paramMap.iscreatingaccount = 'true';
     service.getJoinCourseStatus(regKey, entityType, true);
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.JOIN, paramMap);
   });

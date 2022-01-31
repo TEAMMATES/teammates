@@ -175,7 +175,7 @@ export class CourseService {
     };
 
     if (isCreatingAccount) {
-      paramMap.isCreatingAccount = 'true';
+      paramMap.iscreatingaccount = 'true';
     }
 
     return this.httpRequestService.get(ResourceEndpoints.JOIN, paramMap);

@@ -26,13 +26,13 @@ class GetCourseJoinStatusAction extends Action {
     public JsonResult execute() {
         String regkey = getNonNullRequestParamValue(Const.ParamsNames.REGKEY);
         String entityType = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
-        boolean isCreatingAccount = getRequestParamValue(Const.ParamsNames.IS_CREATING_ACCOUNT).equals("true");
+        String isCreatingAccount = getRequestParamValue(Const.ParamsNames.IS_CREATING_ACCOUNT);
 
         switch (entityType) {
         case Const.EntityType.STUDENT:
             return getStudentJoinStatus(regkey);
         case Const.EntityType.INSTRUCTOR:
-            return getInstructorJoinStatus(regkey, isCreatingAccount);
+            return getInstructorJoinStatus(regkey, isCreatingAccount != null && isCreatingAccount.equals("true"));
         default:
             throw new InvalidHttpParameterException("Error: invalid entity type");
         }
