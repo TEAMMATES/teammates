@@ -29,7 +29,7 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
 
     @Override
     @Test
-    protected void testExecute() throws Exception {
+    protected void testExecute() {
         String name = "Typical Instructor Name";
         String email = "unregisteredinstructor1@gmail.tmt";
         String institute = "TEAMMATES Test Institute 1";

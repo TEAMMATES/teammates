@@ -22,7 +22,7 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
 
     @Override
     @Test
-    protected void testExecute() throws Exception {
+    protected void testExecute() {
 
         loginAsUnregistered("unreg.user");
 

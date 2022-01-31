@@ -64,16 +64,9 @@ public final class AccountRequestsLogic {
      * Gets an account request by email address and institute.
      *
      * @return the account request
-     * @throws EntityDoesNotExistException if account request does not exist
      */
-    public AccountRequestAttributes getAccountRequest(String email, String institute)
-            throws EntityDoesNotExistException {
+    public AccountRequestAttributes getAccountRequest(String email, String institute) {
         AccountRequestAttributes accountRequest = accountRequestsDb.getAccountRequest(email, institute);
-
-        if (accountRequest == null) {
-            throw new EntityDoesNotExistException(
-                    "Account request with email " + email + " and institute " + institute + " does not exist");
-        }
 
         return accountRequest;
     }
@@ -84,15 +77,9 @@ public final class AccountRequestsLogic {
      * @return the account request
      * @throws EntityDoesNotExistException if account request does not exist
      */
-    public AccountRequestAttributes getAccountRequestForRegistrationKey(String registrationKey)
-            throws EntityDoesNotExistException {
+    public AccountRequestAttributes getAccountRequestForRegistrationKey(String registrationKey) {
         AccountRequestAttributes accountRequest = accountRequestsDb
                 .getAccountRequestForRegistrationKey(registrationKey);
-
-        if (accountRequest == null) {
-            throw new EntityDoesNotExistException(
-                    "Account request with registration key " + registrationKey + " does not exist");
-        }
 
         return accountRequest;
     }

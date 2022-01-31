@@ -23,7 +23,7 @@ public class GetAccountRequestActionTest extends BaseActionTest<GetAccountReques
 
     @Override
     @Test
-    protected void testExecute() throws Exception {
+    protected void testExecute() {
         AccountRequestAttributes accountRequest =
                 logic.getAccountRequest("unregisteredinstructor1@gmail.tmt", "TEAMMATES Test Institute 1");
 

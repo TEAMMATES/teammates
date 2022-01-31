@@ -41,12 +41,11 @@ class CreateAccountAction extends Action {
     public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
         String registrationKey = getNonNullRequestParamValue(Const.ParamsNames.REGKEY);
 
-        AccountRequestAttributes accountRequestAttributes;
+        AccountRequestAttributes accountRequestAttributes = logic.getAccountRequestForRegistrationKey(registrationKey);
 
-        try {
-            accountRequestAttributes = logic.getAccountRequestForRegistrationKey(registrationKey);
-        } catch (EntityDoesNotExistException ednee) {
-            throw new EntityNotFoundException(ednee);
+        if (accountRequestAttributes == null) {
+            throw new EntityNotFoundException("Account request could with registration key "
+                    + registrationKey + " could not be found");
         }
 
         if (accountRequestAttributes.getRegisteredAt() != null) {

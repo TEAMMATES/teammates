@@ -145,8 +145,7 @@ public class AccountRequestsLogicTest extends BaseLogicTest {
 
         ______TS("account request not found");
 
-        assertThrows(EntityDoesNotExistException.class,
-                () -> accountRequestsLogic.getAccountRequestForRegistrationKey("not-found"));
+        assertNull(accountRequestsLogic.getAccountRequestForRegistrationKey("not-found"));
 
         ______TS("failure null parameter");
 
@@ -155,7 +154,7 @@ public class AccountRequestsLogicTest extends BaseLogicTest {
     }
 
     @Test
-    public void testGetAccountRequest() throws Exception {
+    public void testGetAccountRequest() {
         AccountRequestAttributes a = dataBundle.accountRequests.get("unregisteredInstructor1");
 
         ______TS("typical success case");
@@ -166,8 +165,7 @@ public class AccountRequestsLogicTest extends BaseLogicTest {
 
         ______TS("account request not found");
 
-        assertThrows(EntityDoesNotExistException.class,
-                () -> accountRequestsLogic.getAccountRequest("not-found@test.com", "not-found"));
+        assertNull(accountRequestsLogic.getAccountRequest("not-found@test.com", "not-found"));
 
         ______TS("failure null parameter");
 

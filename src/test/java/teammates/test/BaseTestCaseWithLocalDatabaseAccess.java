@@ -23,7 +23,6 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.logic.api.LogicExtension;
 import teammates.logic.core.LogicStarter;
 import teammates.storage.api.OfyHelper;
@@ -136,11 +135,7 @@ public abstract class BaseTestCaseWithLocalDatabaseAccess extends BaseTestCaseWi
 
     @Override
     protected AccountRequestAttributes getAccountRequest(AccountRequestAttributes accountRequest) {
-        try {
-            return logic.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
-        } catch (EntityDoesNotExistException ednee) {
-            return null;
-        }
+        return logic.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
     }
 
     protected void removeAndRestoreTypicalDataBundle() {

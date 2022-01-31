@@ -1449,8 +1449,7 @@ public class Logic {
      * @return the account request
      * @throws EntityDoesNotExistException if the account request does not exist
      */
-    public AccountRequestAttributes getAccountRequestForRegistrationKey(String registrationKey)
-            throws EntityDoesNotExistException {
+    public AccountRequestAttributes getAccountRequestForRegistrationKey(String registrationKey) {
         assert registrationKey != null;
 
         return accountRequestsLogic.getAccountRequestForRegistrationKey(registrationKey);
@@ -1463,10 +1462,8 @@ public class Logic {
      * * All parameters are non-null.
      *
      * @return the account request
-     * @throws EntityDoesNotExistException if the account request does not exist
      */
-    public AccountRequestAttributes getAccountRequest(String email, String institute)
-            throws EntityDoesNotExistException {
+    public AccountRequestAttributes getAccountRequest(String email, String institute) {
         assert email != null;
         assert institute != null;
 

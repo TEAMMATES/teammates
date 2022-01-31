@@ -45,8 +45,7 @@ public class DeleteAccountRequestActionTest extends BaseActionTest<DeleteAccount
 
         assertEquals(msg.getMessage(), "Account request successfully deleted.");
 
-        assertThrows(EntityDoesNotExistException.class,
-                () -> logic.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute()));
+        assertNull(logic.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute()));
 
         ______TS("Typical case, delete non-existing account request");
 
