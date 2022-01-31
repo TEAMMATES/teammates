@@ -1,5 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { InstructorSessionResultSectionType } from '../app/pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
 import { ResourceEndpoints } from '../types/api-const';
 import {
   FeedbackConstantSumResponseDetails,
@@ -10,8 +11,10 @@ import {
   FeedbackQuestionType,
   FeedbackRankOptionsResponseDetails,
   FeedbackRankRecipientsResponseDetails,
-  FeedbackResponseDetails, FeedbackRubricResponseDetails,
+  FeedbackResponseDetails,
+  FeedbackRubricResponseDetails,
   FeedbackTextResponseDetails,
+  ResponseOutput,
 } from '../types/api-output';
 import { FeedbackResponsesRequest, Intent } from '../types/api-request';
 import {
@@ -26,9 +29,11 @@ import {
   DEFAULT_TEXT_RESPONSE_DETAILS,
 } from '../types/default-question-structs';
 import {
-  CONTRIBUTION_POINT_NOT_SUBMITTED, NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED,
+  CONTRIBUTION_POINT_NOT_SUBMITTED,
+  NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED,
   RANK_OPTIONS_ANSWER_NOT_SUBMITTED,
-  RANK_RECIPIENTS_ANSWER_NOT_SUBMITTED, RUBRIC_ANSWER_NOT_CHOSEN,
+  RANK_RECIPIENTS_ANSWER_NOT_SUBMITTED,
+  RUBRIC_ANSWER_NOT_CHOSEN,
 } from '../types/feedback-response-details';
 import { FeedbackResponsesService } from './feedback-responses.service';
 import { HttpRequestService } from './http-request.service';
@@ -373,6 +378,108 @@ describe('FeedbackResponsesService', () => {
     const unknownFeedbackQuestionType: FeedbackQuestionType = 'UNKNOWN' as FeedbackQuestionType;
     const feedbackResponseDetails: FeedbackResponseDetails = { questionType: unknownFeedbackQuestionType };
     expect(service.isFeedbackResponseDetailsEmpty(unknownFeedbackQuestionType, feedbackResponseDetails))
+      .toBeTruthy();
+  });
+
+  it('should correctly display responses or not for an "either" section type', () => {
+    const response: ResponseOutput = {
+      giverSection: 'giver section',
+      recipientSection: 'recipient section',
+    } as ResponseOutput;
+    let section: string = 'giver section';
+    const sectionType: InstructorSessionResultSectionType = InstructorSessionResultSectionType.EITHER;
+    expect(service.isFeedbackResponsesDisplayedOnSection(response, section, sectionType))
+      .toBeTruthy();
+
+    section = 'recipient section';
+    expect(service.isFeedbackResponsesDisplayedOnSection(response, section, sectionType))
+      .toBeTruthy();
+
+    section = 'wrong section';
+    expect(service.isFeedbackResponsesDisplayedOnSection(response, section, sectionType))
+      .toBeFalsy();
+  });
+
+  it('should correctly display responses or not for a "giver" section type', () => {
+    const response: ResponseOutput = {
+      giverSection: 'giver section',
+      recipientSection: 'recipient section',
+    } as ResponseOutput;
+    let section: string = 'giver section';
+    const sectionType: InstructorSessionResultSectionType = InstructorSessionResultSectionType.GIVER;
+    expect(service.isFeedbackResponsesDisplayedOnSection(response, section, sectionType))
+      .toBeTruthy();
+
+    section = 'recipient section';
+    expect(service.isFeedbackResponsesDisplayedOnSection(response, section, sectionType))
+      .toBeFalsy();
+
+    section = 'wrong section';
+    expect(service.isFeedbackResponsesDisplayedOnSection(response, section, sectionType))
+      .toBeFalsy();
+  });
+
+  it('should correctly display responses or not for an "evaluee" section type', () => {
+    const response: ResponseOutput = {
+      giverSection: 'giver section',
+      recipientSection: 'recipient section',
+    } as ResponseOutput;
+    let section: string = 'giver section';
+    const sectionType: InstructorSessionResultSectionType = InstructorSessionResultSectionType.EVALUEE;
+    expect(service.isFeedbackResponsesDisplayedOnSection(response, section, sectionType))
+      .toBeFalsy();
+
+    section = 'recipient section';
+    expect(service.isFeedbackResponsesDisplayedOnSection(response, section, sectionType))
+      .toBeTruthy();
+
+    section = 'wrong section';
+    expect(service.isFeedbackResponsesDisplayedOnSection(response, section, sectionType))
+      .toBeFalsy();
+  });
+
+  it('should correctly display responses or not for a "both" section type', () => {
+    const response: ResponseOutput = {
+      giverSection: 'section',
+      recipientSection: 'section',
+    } as ResponseOutput;
+    let section: string = 'section';
+    const sectionType: InstructorSessionResultSectionType = InstructorSessionResultSectionType.BOTH;
+    expect(service.isFeedbackResponsesDisplayedOnSection(response, section, sectionType))
+      .toBeTruthy();
+
+    section = 'wrong section';
+    expect(service.isFeedbackResponsesDisplayedOnSection(response, section, sectionType))
+      .toBeFalsy();
+  });
+
+  it('should display responses when no section is specified', () => {
+    const response: ResponseOutput = {
+      giverSection: 'giver section',
+      recipientSection: 'recipient section',
+    } as ResponseOutput;
+    let section: string = '';
+    const sectionType: InstructorSessionResultSectionType = InstructorSessionResultSectionType.EITHER;
+    expect(service.isFeedbackResponsesDisplayedOnSection(response, section, sectionType))
+      .toBeTruthy();
+
+    section = null as unknown as string;
+    expect(service.isFeedbackResponsesDisplayedOnSection(response, section, sectionType))
+      .toBeTruthy();
+
+    section = undefined as unknown as string;
+    expect(service.isFeedbackResponsesDisplayedOnSection(response, section, sectionType))
+      .toBeTruthy();
+  });
+
+  it('should display responses for an unknown section type', () => {
+    const response: ResponseOutput = {
+      giverSection: 'giver section',
+      recipientSection: 'recipient section',
+    } as ResponseOutput;
+    const section: string = 'giver section';
+    const sectionType: InstructorSessionResultSectionType = 'UNKNOWN' as InstructorSessionResultSectionType;
+    expect(service.isFeedbackResponsesDisplayedOnSection(response, section, sectionType))
       .toBeTruthy();
   });
 
