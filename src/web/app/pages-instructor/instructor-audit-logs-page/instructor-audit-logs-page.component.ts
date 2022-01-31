@@ -103,7 +103,11 @@ export class InstructorAuditLogsPageComponent implements OnInit {
     this.formModel.logsTimeFrom = { hour: 23, minute: 59 };
     this.formModel.logsTimeTo = { hour: 23, minute: 59 };
     if (this.formModel.logsDateTo <= this.formModel.logsDateFrom) {
-      this.formModel.logsDateFrom = this.formModel.logsDateTo
+      this.formModel.logsDateTo = {
+        year: this.formModel.logsDateFrom.year,
+        month: this.formModel.logsDateFrom.month,
+        day:  this.formModel.logsDateFrom.day,
+      };
     }
     this.loadCourses();
   }
