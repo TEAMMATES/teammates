@@ -173,13 +173,13 @@ public final class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, Feed
      * Checks whether a user has responses in a session.
      */
     public boolean hasResponsesFromGiverInSession(
-            String giverEmail, String feedbackSessionName, String courseId) {
-        assert giverEmail != null;
+            String giverIdentifier, String feedbackSessionName, String courseId) {
+        assert giverIdentifier != null;
         assert feedbackSessionName != null;
         assert courseId != null;
 
         return !load()
-                .filter("giverEmail =", giverEmail)
+                .filter("giverEmail =", giverIdentifier)
                 .filter("feedbackSessionName =", feedbackSessionName)
                 .filter("courseId =", courseId)
                 .limit(1)
