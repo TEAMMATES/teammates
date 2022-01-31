@@ -31,7 +31,7 @@ class GetCourseJoinStatusAction extends Action {
         case Const.EntityType.STUDENT:
             return getStudentJoinStatus(regkey);
         case Const.EntityType.INSTRUCTOR:
-            return getInstructorJoinStatus(regkey, isCreatingAccount != null && isCreatingAccount.equals("true"));
+            return getInstructorJoinStatus(regkey, "true".equals(isCreatingAccount));
         default:
             throw new InvalidHttpParameterException("Error: invalid entity type");
         }
