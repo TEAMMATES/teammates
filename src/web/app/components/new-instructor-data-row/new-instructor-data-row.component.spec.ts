@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { first } from 'rxjs/operators';
 import { InstructorData } from './instructor-data';
 
 import { NewInstructorDataRowComponent } from './new-instructor-data-row.component';
@@ -14,6 +15,7 @@ describe('NewInstructorDataRowComponent', () => {
 
   let addButtonDe: any;
   let addButtonEl: any;
+  let editButtonDe: any;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -41,6 +43,8 @@ describe('NewInstructorDataRowComponent', () => {
     addButtonDe = fixture.debugElement
       .query(By.css(`#add-instructor-${expectedIndex}`));
     addButtonEl = addButtonDe.nativeElement;
+    editButtonDe = fixture.debugElement
+      .query(By.css(`#edit-instructor-${expectedIndex}`));
   });
 
   it('should create', () => {
@@ -76,5 +80,65 @@ describe('NewInstructorDataRowComponent', () => {
     component.activeRequests = 1;
     fixture.detectChanges();
     expect(addButtonEl.disabled).toBeTruthy();
+  });
+
+  it('should emit addInstructorEvent when adding', () => {
+    let hasEmitted: boolean = false;
+    component.addInstructorEvent
+      .pipe(first())
+      .subscribe(() => hasEmitted = true);
+
+    addButtonDe.triggerEventHandler('click', null);
+    expect(hasEmitted).toBeTruthy();
+  });
+
+  it('should emit removeInstructorEvent when removing', () => {
+    let hasEmitted: boolean = false;
+    component.removeInstructorEvent
+      .pipe(first())
+      .subscribe(() => hasEmitted = true);
+
+    fixture.debugElement
+      .query(By.css(`#remove-instructor-${expectedIndex}`))
+      .triggerEventHandler('click', null);
+    expect(hasEmitted).toBeTruthy();
+  });
+
+  it('should emit true via toggleEditModeEvent when entering edit mode', () => {
+    let isInEditMode: boolean | undefined;
+    component.toggleEditModeEvent
+      .pipe(first())
+      .subscribe((isBeingEdited: boolean) => isInEditMode = isBeingEdited);
+
+    editButtonDe.triggerEventHandler('click', null);
+    expect(isInEditMode).toBeTruthy();
+  });
+
+  it('should emit false via toggleEditModeEvent when confirming the edit', () => {
+    let isInEditMode: boolean | undefined;
+    component.toggleEditModeEvent
+      .subscribe((isBeingEdited: boolean) => isInEditMode = isBeingEdited);
+
+    editButtonDe.triggerEventHandler('click', null);
+    fixture.detectChanges();
+
+    fixture.debugElement
+      .query(By.css(`#confirm-edit-instructor-${expectedIndex}`))
+      .triggerEventHandler('click', null);
+    expect(isInEditMode).toBeFalsy();
+  });
+
+  it('should emit false via toggleEditModeEvent when cancelling the edit', () => {
+    let isInEditMode: boolean | undefined;
+    component.toggleEditModeEvent
+      .subscribe((isBeingEdited: boolean) => isInEditMode = isBeingEdited);
+
+    editButtonDe.triggerEventHandler('click', null);
+    fixture.detectChanges();
+
+    fixture.debugElement
+      .query(By.css(`#cancel-edit-instructor-${expectedIndex}`))
+      .triggerEventHandler('click', null);
+    expect(isInEditMode).toBeFalsy();
   });
 });
