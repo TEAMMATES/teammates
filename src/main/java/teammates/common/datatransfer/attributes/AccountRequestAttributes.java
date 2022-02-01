@@ -79,7 +79,7 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
 
     public String getRegistrationUrl() {
         return Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
-                .withIsCreatingAccount(String.valueOf(true))
+                .withIsCreatingAccount("true")
                 .withRegistrationKey(this.getRegistrationKey())
                 .toAbsoluteString();
     }
