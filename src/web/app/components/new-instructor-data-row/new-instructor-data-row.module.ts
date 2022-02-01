@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { NewInstructorDataRowComponent } from "./new-instructor-data-row.component";
-import { FormsModule } from "@angular/forms";
+import { FormsModule } from '@angular/forms';
+import { NewInstructorDataRowComponent } from './new-instructor-data-row.component';
 
 /**
  * Module for rows of new instructor data.

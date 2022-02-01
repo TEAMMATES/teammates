@@ -1,21 +1,25 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { InstructorData } from "./instructor-data";
+import { InstructorData } from './instructor-data';
 
 /**
  * A single row of data of a new instructor.
  */
 @Component({
+  // The following selector code style violation of https://angular.io/guide/styleguide#style-05-02 and
+  // https://angular.io/guide/styleguide#style-05-03 seems necessary according to
+  // https://stackoverflow.com/questions/55446740/how-to-add-row-component-in-table-in-angular-7
+  // tslint:disable-next-line:component-selector
   selector: 'tr[tm-new-instructor-data-row]',
   templateUrl: './new-instructor-data-row.component.html',
-  styleUrls: ['./new-instructor-data-row.component.scss']
+  styleUrls: ['./new-instructor-data-row.component.scss'],
 })
 export class NewInstructorDataRowComponent implements OnInit {
   @Input() instructor!: InstructorData;
   @Input() index!: number;
   @Input() activeRequests!: number;
-  @Output() onAddInstructor: EventEmitter<void> = new EventEmitter();
-  @Output() onRemoveInstructor: EventEmitter<void> = new EventEmitter();
-  @Output() onToggleEditMode: EventEmitter<boolean> = new EventEmitter();
+  @Output() addInstructorEvent: EventEmitter<void> = new EventEmitter();
+  @Output() removeInstructorEvent: EventEmitter<void> = new EventEmitter();
+  @Output() toggleEditModeEvent: EventEmitter<boolean> = new EventEmitter();
 
   isBeingEdited: boolean = false;
   editedInstructorName!: string;
@@ -31,14 +35,14 @@ export class NewInstructorDataRowComponent implements OnInit {
    * Adds the instructor at the i-th index.
    */
   addInstructor(): void {
-    this.onAddInstructor.emit();
+    this.addInstructorEvent.emit();
   }
 
   /**
    * Cancels the instructor at the i-th index.
    */
   removeInstructor(): void {
-    this.onRemoveInstructor.emit();
+    this.removeInstructorEvent.emit();
   }
 
   /**
@@ -93,7 +97,7 @@ export class NewInstructorDataRowComponent implements OnInit {
    * Alerts the parent that the edit mode was toggled and passes whether this is in edit mode or not.
    */
   alertParentEditModeToggled(): void {
-    this.onToggleEditMode.emit(this.isBeingEdited);
+    this.toggleEditModeEvent.emit(this.isBeingEdited);
   }
 
 }

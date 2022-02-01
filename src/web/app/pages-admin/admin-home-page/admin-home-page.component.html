@@ -64,9 +64,9 @@
               [instructor]="instructor"
               [index]="i"
               [activeRequests]="activeRequests"
-              (onAddInstructor)="addInstructor(i)"
-              (onRemoveInstructor)="removeInstructor(i)"
-              (onToggleEditMode)="setInstructorRowEditModeEnabled(i, $event)"
+              (addInstructorEvent)="addInstructor(i)"
+              (removeInstructorEvent)="removeInstructor(i)"
+              (toggleEditModeEvent)="setInstructorRowEditModeEnabled(i, $event)"
           ></tr>
         </tbody>
       </table>

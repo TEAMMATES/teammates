@@ -8,7 +8,7 @@ describe('NewInstructorDataRowComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NewInstructorDataRowComponent ]
+      declarations: [NewInstructorDataRowComponent],
     })
     .compileComponents();
   }));
