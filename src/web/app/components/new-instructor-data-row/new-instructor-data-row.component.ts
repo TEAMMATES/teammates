@@ -39,7 +39,7 @@ export class NewInstructorDataRowComponent implements OnInit {
   }
 
   /**
-   * Cancels the instructor at the i-th index.
+   * Removes the instructor at the i-th index.
    */
   removeInstructor(): void {
     this.removeInstructorEvent.emit();
