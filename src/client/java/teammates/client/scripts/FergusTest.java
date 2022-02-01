@@ -1,7 +1,10 @@
 package teammates.client.scripts;
 
-import java.sql.Date;
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,6 +14,7 @@ import com.googlecode.objectify.cmd.Query;
 
 import teammates.client.connector.DatastoreClient;
 import teammates.storage.entity.FeedbackResponse;
+import teammates.storage.entity.FeedbackResponseStatisticsMinute;
 
 /*
 *   Handles getting of the stats
@@ -48,25 +52,53 @@ public class FergusTest extends DatastoreClient {
     // Start running updateForPastMinute for about 5 minutes first, then run this function
     // This function will update for all time, and then write over some of the current data.
 /*     public static void updateForAlltime() {
-        Instant fnStartTime = Instant.now(); // Function should not overwrite this.
-        int CHUNK_BY = MONTH;
-        // StartTime put as 2010 first
+    Instant fnStartTime = Instant.now(); // Function should not overwrite this.
+    int CHUNK_BY = MONTH;
+    // StartTime put as 2010 first
 
-        Date date = new Date();
+    Date date = new Date();
 
-        Query<FeedbackResponse> intialQuery = ObjectifyService.ofy().load().type(FeedbackResponse.class)
-                .project("createdAt");
+    Query<FeedbackResponse> intialQuery = ObjectifyService.ofy().load().type(FeedbackResponse.class)
+            .project("createdAt");
 
-        Integer count = intialQuery.filter("createdAt >=", startTime).filter("createdAt <=", endTime).list()
-                .size();
+    Integer count = intialQuery.filter("createdAt >=", startTime).filter("createdAt <=", endTime).list()
+            .size();
 
 
-        // Chunk this, add to task queue to process it!
-        // I'm thinking chunk by MONTH
+    // Chunk this, add to task queue to process it!
+    // I'm thinking chunk by MONTH
 
+
+}
+ */
+public static void generateStatisticsMinute() {
+        ZoneOffset currentOffset = OffsetDateTime.now().getOffset();
+        Instant intervalEndTime = LocalDateTime.now()
+                .truncatedTo(ChronoUnit.SECONDS)
+                .withMinute(0)
+                .withSecond(0)
+                .toInstant(currentOffset);
+
+        Instant intervalRepresentativeTime = intervalEndTime.minusSeconds(30 * 60);
+        Instant intervalStartTime = intervalEndTime.minusSeconds(30 * 60).minusMillis(1);
+        try {
+            int count = ObjectifyService.ofy().load()
+            .type(FeedbackResponse.class)
+            .project("createdAt")
+            .filter("createdAt >", intervalStartTime)
+            .filter("createdAt <", intervalEndTime)
+            .list()
+            .size();
+
+            FeedbackResponseStatisticsMinute newEntry = new FeedbackResponseStatisticsMinute(
+            intervalRepresentativeTime.toString(), count);
+            ObjectifyService.ofy().save().entities(newEntry).now();
+        } catch (Error e) {
+            System.out.println(e);
+        }
 
     }
- */
+
     public static void getCount() {
         long DEFAULT_INTERVAL = 50;
         Instant startTime = Instant.now().minusSeconds(YEAR);
@@ -126,15 +158,33 @@ public class FergusTest extends DatastoreClient {
         System.out.println("Finished generating!");
     }
 
+    public static void generateResponsesNow() {
+        int STARTING_ID = tenmillion;
+        int NUMBER_OF_FEEDBACK_QUESTIONS = 10;
+        FeedbackResponse[] arr = new FeedbackResponse[NUMBER_OF_FEEDBACK_QUESTIONS];
+        for (int i = 0; i < NUMBER_OF_FEEDBACK_QUESTIONS; i++) {
+            int randomNumber = (int) (Math.random() * YEAR);
+            STARTING_ID++;
+            FeedbackResponse feedback = new FeedbackResponse(FEEDBACK_SESSION_NAME, COURSE_ID,
+                    generateId(Integer.toString(randomNumber), Integer.toString(STARTING_ID)),
+                    null, STUDENT_EMAIL, "Section" + i, "Bob", STUDENT_EMAIL, "Nothing");
+            feedback.setCreatedAt(Instant.now());
+            arr[i] = feedback;
+        }
+        ObjectifyService.ofy().save().entities(arr).now();
+    }
+
     public static String generateId(String feedbackQuestionId, String giver) {
         return feedbackQuestionId + '%' + giver;
     }
 
     @Override
     protected void doOperation() {
-        getCount(); //
+        // getCount(); //
         // getTotalCount();
         // generateResponses();
+        generateStatisticsMinute();
+        //generateResponsesNow();
         // deleteAllResponses();
         // System.out.println(ZonedDateTime().now());
     }
