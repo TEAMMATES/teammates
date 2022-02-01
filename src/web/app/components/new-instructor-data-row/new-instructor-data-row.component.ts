@@ -29,6 +29,7 @@ export class NewInstructorDataRowComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    this.resetEditedInstructorDetails();
   }
 
   /**
@@ -49,7 +50,6 @@ export class NewInstructorDataRowComponent implements OnInit {
    * Starts editing the instructor.
    */
   editInstructor(): void {
-    this.resetEditedInstructorDetails();
     this.setEditModeAndAlertParent(true);
   }
 
@@ -61,8 +61,6 @@ export class NewInstructorDataRowComponent implements OnInit {
     this.instructor.email = this.editedInstructorEmail;
     this.instructor.institution = this.editedInstructorInstitution;
     this.setEditModeAndAlertParent(false);
-    // resetting here might be unnecessary
-    this.resetEditedInstructorDetails();
   }
 
   /**
@@ -70,7 +68,6 @@ export class NewInstructorDataRowComponent implements OnInit {
    */
   cancelEditInstructor(): void {
     this.setEditModeAndAlertParent(false);
-    // resetting here might be unnecessary
     this.resetEditedInstructorDetails();
   }
 
