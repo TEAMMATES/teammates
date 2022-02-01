@@ -57,7 +57,7 @@ public class InstructorCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase
         ______TS("Click join link: invalid key");
         joinLink = createFrontendUrl(Const.WebPageURIs.JOIN_PAGE)
                 .withIsCreatingAccount("true")
-                .withRegistrationKey("invalidKey");
+                .withRegistrationKey(invalidKey);
         confirmationPage = loginToPage(joinLink, CourseJoinConfirmationPage.class, "ICJoinConf.newinstr");
 
         confirmationPage.verifyDisplayedMessage("The course join link is invalid. You may have "
