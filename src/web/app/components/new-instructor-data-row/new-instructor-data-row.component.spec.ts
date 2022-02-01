@@ -286,4 +286,77 @@ describe('NewInstructorDataRowComponent', () => {
     expect(component.editedInstructorEmail).toEqual(expectedInstructorData.email);
     expect(component.editedInstructorInstitution).toEqual(expectedInstructorData.institution);
   });
+
+  it('should snap with default view', () => {
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should snap with start of edit', () => {
+    editButtonEl.click();
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should snap with instructor details edited', () => {
+    editButtonEl.click();
+    fixture.detectChanges();
+
+    const editedInstructorDetails: InstructorData = {
+      name: 'Edited Name',
+      email: 'Edited@ema.il',
+      institution: 'Edited Institution',
+      status: 'PENDING',
+    };
+    component.editedInstructorName = editedInstructorDetails.name;
+    component.editedInstructorEmail = editedInstructorDetails.email;
+    component.editedInstructorInstitution = editedInstructorDetails.institution;
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should snap with edit confirmed', () => {
+    editButtonEl.click();
+    fixture.detectChanges();
+
+    const editedInstructorDetails: InstructorData = {
+      name: 'Edited Name',
+      email: 'Edited@ema.il',
+      institution: 'Edited Institution',
+      status: 'PENDING',
+    };
+    component.editedInstructorName = editedInstructorDetails.name;
+    component.editedInstructorEmail = editedInstructorDetails.email;
+    component.editedInstructorInstitution = editedInstructorDetails.institution;
+    const confirmButtonEl: any = fixture.debugElement
+      .query(By.css(`#confirm-edit-instructor-${expectedIndex}`))
+      .nativeElement;
+    confirmButtonEl.click();
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should snap with edit cancelled', () => {
+    editButtonEl.click();
+    fixture.detectChanges();
+
+    const editedInstructorDetails: InstructorData = {
+      name: 'Edited Name',
+      email: 'Edited@ema.il',
+      institution: 'Edited Institution',
+      status: 'PENDING',
+    };
+    component.editedInstructorName = editedInstructorDetails.name;
+    component.editedInstructorEmail = editedInstructorDetails.email;
+    component.editedInstructorInstitution = editedInstructorDetails.institution;
+    const cancelButtonEl: any = fixture.debugElement
+      .query(By.css(`#cancel-edit-instructor-${expectedIndex}`))
+      .nativeElement;
+    cancelButtonEl.click();
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
 });
