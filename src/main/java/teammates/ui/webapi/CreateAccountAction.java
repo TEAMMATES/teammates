@@ -44,7 +44,7 @@ class CreateAccountAction extends Action {
         AccountRequestAttributes accountRequestAttributes = logic.getAccountRequestForRegistrationKey(registrationKey);
 
         if (accountRequestAttributes == null) {
-            throw new EntityNotFoundException("Account request could with registration key "
+            throw new EntityNotFoundException("Account request with registration key "
                     + registrationKey + " could not be found");
         }
 
