@@ -5,6 +5,7 @@ import { of, throwError } from 'rxjs';
 import { AccountService } from '../../../services/account.service';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
+import { NewInstructorDataRowComponent } from '../../components/new-instructor-data-row/new-instructor-data-row.component';
 import { AdminHomePageComponent } from './admin-home-page.component';
 
 describe('AdminHomePageComponent', () => {
@@ -14,7 +15,10 @@ describe('AdminHomePageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [AdminHomePageComponent],
+      declarations: [
+        AdminHomePageComponent,
+        NewInstructorDataRowComponent,
+      ],
       imports: [
         FormsModule,
         HttpClientTestingModule,
@@ -126,7 +130,7 @@ describe('AdminHomePageComponent', () => {
     });
   });
 
-  it('should remove instructor out of queue if CANCEL is requested', () => {
+  it('should remove instructor out of queue if REMOVE is requested', () => {
     component.instructorsConsolidated = [
       {
         name: 'Instructor A',
@@ -139,7 +143,7 @@ describe('AdminHomePageComponent', () => {
     ];
     fixture.detectChanges();
 
-    const button: any = fixture.debugElement.nativeElement.querySelector('#cancel-instructor-0');
+    const button: any = fixture.debugElement.nativeElement.querySelector('#remove-instructor-0');
     button.click();
 
     expect(component.instructorsConsolidated.length).toEqual(0);

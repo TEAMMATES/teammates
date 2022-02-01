@@ -10,6 +10,7 @@ exports[`AdminHomePageComponent should snap with default view 1`] = `
   instructorName=""
   instructorsConsolidated={[Function Array]}
   isAddingInstructors="false"
+  isInstructorRowEditModeEnabled={[Function Array]}
 >
   <div
     class="card bg-light top-padded"
@@ -117,6 +118,7 @@ exports[`AdminHomePageComponent should snap with disabled adding instructor butt
   instructorName=""
   instructorsConsolidated={[Function Array]}
   isAddingInstructors={[Function Boolean]}
+  isInstructorRowEditModeEnabled={[Function Array]}
 >
   <div
     class="card bg-light top-padded"
@@ -253,40 +255,76 @@ exports[`AdminHomePageComponent should snap with disabled adding instructor butt
           </thead>
           <tbody>
             
-            <tr>
+            <tr
+              tm-new-instructor-data-row=""
+            >
               <td>
-                Instructor A
-              </td>
-              <td>
-                instructora@example.com
-              </td>
-              <td>
-                Sample Institution A
-              </td>
-              <td>
+                
+                <span>
+                  Instructor A
+                </span>
                 
               </td>
               <td>
+                
+                <span>
+                  instructora@example.com
+                </span>
+                
+              </td>
+              <td>
+                
+                <span>
+                  Sample Institution A
+                </span>
+                
+              </td>
+              <td
+                style="width: 17%;"
+              >
+                
+                
+              </td>
+              <td
+                style="width: 8%;"
+              >
                 ADDING
               </td>
               <td
-                style="width: 500px;"
+                style="width: 40%;"
               >
                 
                 
               </td>
             </tr>
-            <tr>
+            <tr
+              tm-new-instructor-data-row=""
+            >
               <td>
-                Instructor B
+                
+                <span>
+                  Instructor B
+                </span>
+                
               </td>
               <td>
-                instructorb@example.com
+                
+                <span>
+                  instructorb@example.com
+                </span>
+                
               </td>
               <td>
-                Sample Institution B
+                
+                <span>
+                  Sample Institution B
+                </span>
+                
               </td>
-              <td>
+              <td
+                style="width: 17%;"
+              >
+                
                 
                 <div
                   class="button-group"
@@ -297,21 +335,30 @@ exports[`AdminHomePageComponent should snap with disabled adding instructor butt
                     id="add-instructor-1"
                     style="margin-right: 10px;"
                   >
-                    Add Instructor
+                    Add
+                  </button>
+                  <button
+                    class="action-btn btn btn-sm btn-info text-nowrap"
+                    id="edit-instructor-1"
+                    style="margin-right: 10px;"
+                  >
+                    Edit
                   </button>
                   <button
                     class="action-btn btn btn-sm btn-danger"
-                    id="cancel-instructor-1"
+                    id="remove-instructor-1"
                   >
-                    Cancel
+                    Remove
                   </button>
                 </div>
               </td>
-              <td>
+              <td
+                style="width: 8%;"
+              >
                 PENDING
               </td>
               <td
-                style="width: 500px;"
+                style="width: 40%;"
               >
                 
                 
@@ -353,6 +400,7 @@ exports[`AdminHomePageComponent should snap with some instructors details 1`] = 
   instructorName=""
   instructorsConsolidated={[Function Array]}
   isAddingInstructors="false"
+  isInstructorRowEditModeEnabled={[Function Array]}
 >
   <div
     class="card bg-light top-padded"
@@ -489,17 +537,34 @@ exports[`AdminHomePageComponent should snap with some instructors details 1`] = 
           </thead>
           <tbody>
             
-            <tr>
+            <tr
+              tm-new-instructor-data-row=""
+            >
               <td>
-                Instructor A
+                
+                <span>
+                  Instructor A
+                </span>
+                
               </td>
               <td>
-                instructora@example.com
+                
+                <span>
+                  instructora@example.com
+                </span>
+                
               </td>
               <td>
-                Sample Institution A
+                
+                <span>
+                  Sample Institution A
+                </span>
+                
               </td>
-              <td>
+              <td
+                style="width: 17%;"
+              >
+                
                 
                 <div
                   class="button-group"
@@ -509,44 +574,72 @@ exports[`AdminHomePageComponent should snap with some instructors details 1`] = 
                     id="add-instructor-0"
                     style="margin-right: 10px;"
                   >
-                    Add Instructor
+                    Add
+                  </button>
+                  <button
+                    class="action-btn btn btn-sm btn-info text-nowrap"
+                    id="edit-instructor-0"
+                    style="margin-right: 10px;"
+                  >
+                    Edit
                   </button>
                   <button
                     class="action-btn btn btn-sm btn-danger"
-                    id="cancel-instructor-0"
+                    id="remove-instructor-0"
                   >
-                    Cancel
+                    Remove
                   </button>
                 </div>
               </td>
-              <td>
+              <td
+                style="width: 8%;"
+              >
                 PENDING
               </td>
               <td
-                style="width: 500px;"
+                style="width: 40%;"
               >
                 
                 
               </td>
             </tr>
-            <tr>
+            <tr
+              tm-new-instructor-data-row=""
+            >
               <td>
-                Instructor B
-              </td>
-              <td>
-                instructorb@example.com
-              </td>
-              <td>
-                Sample Institution B
-              </td>
-              <td>
+                
+                <span>
+                  Instructor B
+                </span>
                 
               </td>
               <td>
+                
+                <span>
+                  instructorb@example.com
+                </span>
+                
+              </td>
+              <td>
+                
+                <span>
+                  Sample Institution B
+                </span>
+                
+              </td>
+              <td
+                style="width: 17%;"
+              >
+                
+                
+              </td>
+              <td
+                style="width: 8%;"
+              >
                 SUCCESS
               </td>
               <td
-                style="width: 500px;"
+                style="width: 40%;"
               >
                 
                 <span
@@ -563,17 +656,34 @@ exports[`AdminHomePageComponent should snap with some instructors details 1`] = 
                 
               </td>
             </tr>
-            <tr>
+            <tr
+              tm-new-instructor-data-row=""
+            >
               <td>
-                Instructor C
+                
+                <span>
+                  Instructor C
+                </span>
+                
               </td>
               <td>
-                instructorc@example.com
+                
+                <span>
+                  instructorc@example.com
+                </span>
+                
               </td>
               <td>
-                Sample Institution C
+                
+                <span>
+                  Sample Institution C
+                </span>
+                
               </td>
-              <td>
+              <td
+                style="width: 17%;"
+              >
+                
                 
                 <div
                   class="button-group"
@@ -583,21 +693,30 @@ exports[`AdminHomePageComponent should snap with some instructors details 1`] = 
                     id="add-instructor-2"
                     style="margin-right: 10px;"
                   >
-                    Add Instructor
+                    Add
+                  </button>
+                  <button
+                    class="action-btn btn btn-sm btn-info text-nowrap"
+                    id="edit-instructor-2"
+                    style="margin-right: 10px;"
+                  >
+                    Edit
                   </button>
                   <button
                     class="action-btn btn btn-sm btn-danger"
-                    id="cancel-instructor-2"
+                    id="remove-instructor-2"
                   >
-                    Cancel
+                    Remove
                   </button>
                 </div>
               </td>
-              <td>
+              <td
+                style="width: 8%;"
+              >
                 FAIL
               </td>
               <td
-                style="width: 500px;"
+                style="width: 40%;"
               >
                 
                 
