@@ -260,21 +260,27 @@ exports[`AdminHomePageComponent should snap with disabled adding instructor butt
             >
               <td>
                 
-                <span>
+                <span
+                  id="instructor-0-name"
+                >
                   Instructor A
                 </span>
                 
               </td>
               <td>
                 
-                <span>
+                <span
+                  id="instructor-0-email"
+                >
                   instructora@example.com
                 </span>
                 
               </td>
               <td>
                 
-                <span>
+                <span
+                  id="instructor-0-institution"
+                >
                   Sample Institution A
                 </span>
                 
@@ -302,21 +308,27 @@ exports[`AdminHomePageComponent should snap with disabled adding instructor butt
             >
               <td>
                 
-                <span>
+                <span
+                  id="instructor-1-name"
+                >
                   Instructor B
                 </span>
                 
               </td>
               <td>
                 
-                <span>
+                <span
+                  id="instructor-1-email"
+                >
                   instructorb@example.com
                 </span>
                 
               </td>
               <td>
                 
-                <span>
+                <span
+                  id="instructor-1-institution"
+                >
                   Sample Institution B
                 </span>
                 
@@ -542,21 +554,27 @@ exports[`AdminHomePageComponent should snap with some instructors details 1`] = 
             >
               <td>
                 
-                <span>
+                <span
+                  id="instructor-0-name"
+                >
                   Instructor A
                 </span>
                 
               </td>
               <td>
                 
-                <span>
+                <span
+                  id="instructor-0-email"
+                >
                   instructora@example.com
                 </span>
                 
               </td>
               <td>
                 
-                <span>
+                <span
+                  id="instructor-0-institution"
+                >
                   Sample Institution A
                 </span>
                 
@@ -608,21 +626,27 @@ exports[`AdminHomePageComponent should snap with some instructors details 1`] = 
             >
               <td>
                 
-                <span>
+                <span
+                  id="instructor-1-name"
+                >
                   Instructor B
                 </span>
                 
               </td>
               <td>
                 
-                <span>
+                <span
+                  id="instructor-1-email"
+                >
                   instructorb@example.com
                 </span>
                 
               </td>
               <td>
                 
-                <span>
+                <span
+                  id="instructor-1-institution"
+                >
                   Sample Institution B
                 </span>
                 
@@ -661,21 +685,27 @@ exports[`AdminHomePageComponent should snap with some instructors details 1`] = 
             >
               <td>
                 
-                <span>
+                <span
+                  id="instructor-2-name"
+                >
                   Instructor C
                 </span>
                 
               </td>
               <td>
                 
-                <span>
+                <span
+                  id="instructor-2-email"
+                >
                   instructorc@example.com
                 </span>
                 
               </td>
               <td>
                 
-                <span>
+                <span
+                  id="instructor-2-institution"
+                >
                   Sample Institution C
                 </span>
                 
