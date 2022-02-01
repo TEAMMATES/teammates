@@ -16,6 +16,7 @@ describe('NewInstructorDataRowComponent', () => {
   let addButtonDe: any;
   let addButtonEl: any;
   let editButtonDe: any;
+  let editButtonEl: any;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -45,6 +46,7 @@ describe('NewInstructorDataRowComponent', () => {
     addButtonEl = addButtonDe.nativeElement;
     editButtonDe = fixture.debugElement
       .query(By.css(`#edit-instructor-${expectedIndex}`));
+    editButtonEl = editButtonDe.nativeElement;
   });
 
   it('should create', () => {
@@ -140,5 +142,148 @@ describe('NewInstructorDataRowComponent', () => {
       .query(By.css(`#cancel-edit-instructor-${expectedIndex}`))
       .triggerEventHandler('click', null);
     expect(isInEditMode).toBeFalsy();
+  });
+
+  it('should initialise isBeingEdited to false', () => {
+    expect(component.isBeingEdited).toBeFalsy();
+  });
+
+  it('should initialise the edited instructor details to the received input instructor details', () => {
+    expect(component.editedInstructorName).toEqual(expectedInstructorData.name);
+    expect(component.editedInstructorEmail).toEqual(expectedInstructorData.email);
+    expect(component.editedInstructorInstitution).toEqual(expectedInstructorData.institution);
+  });
+
+  it('should set isBeingEdited to true when editing starts', () => {
+    editButtonEl.click();
+
+    expect(component.isBeingEdited).toBeTruthy();
+  });
+
+  it('should set isBeingEdited to false when the edit is confirmed', () => {
+    editButtonEl.click();
+    fixture.detectChanges();
+
+    const confirmButtonEl: any = fixture.debugElement
+      .query(By.css(`#confirm-edit-instructor-${expectedIndex}`))
+      .nativeElement;
+    confirmButtonEl.click();
+
+    expect(component.isBeingEdited).toBeFalsy();
+  });
+
+  it('should set isBeingEdited to false when the edit is cancelled', () => {
+    editButtonEl.click();
+    fixture.detectChanges();
+
+    const cancelButtonEl: any = fixture.debugElement
+      .query(By.css(`#cancel-edit-instructor-${expectedIndex}`))
+      .nativeElement;
+    cancelButtonEl.click();
+
+    expect(component.isBeingEdited).toBeFalsy();
+  });
+
+  it('should initially have the unedited instructor details when editing starts', () => {
+    editButtonEl.click();
+
+    expect(component.editedInstructorName).toEqual(expectedInstructorData.name);
+    expect(component.editedInstructorEmail).toEqual(expectedInstructorData.email);
+    expect(component.editedInstructorInstitution).toEqual(expectedInstructorData.institution);
+  });
+
+  it('should update the instructor details when the edit is confirmed', () => {
+    editButtonEl.click();
+    fixture.detectChanges();
+
+    const editedInstructorDetails: InstructorData = {
+      name: 'Edited Name',
+      email: 'Edited@ema.il',
+      institution: 'Edited Institution',
+      status: 'PENDING',
+    };
+    component.editedInstructorName = editedInstructorDetails.name;
+    component.editedInstructorEmail = editedInstructorDetails.email;
+    component.editedInstructorInstitution = editedInstructorDetails.institution;
+    const confirmButtonEl: any = fixture.debugElement
+      .query(By.css(`#confirm-edit-instructor-${expectedIndex}`))
+      .nativeElement;
+    confirmButtonEl.click();
+
+    expect(component.instructor.name).toEqual(editedInstructorDetails.name);
+    expect(component.instructor.email).toEqual(editedInstructorDetails.email);
+    expect(component.instructor.institution).toEqual(editedInstructorDetails.institution);
+  });
+
+  it('should not update the instructor details when the edit is cancelled', () => {
+    editButtonEl.click();
+    fixture.detectChanges();
+
+    const editedInstructorDetails: InstructorData = {
+      name: 'Edited Name',
+      email: 'Edited@ema.il',
+      institution: 'Edited Institution',
+      status: 'PENDING',
+    };
+    component.editedInstructorName = editedInstructorDetails.name;
+    component.editedInstructorEmail = editedInstructorDetails.email;
+    component.editedInstructorInstitution = editedInstructorDetails.institution;
+    const cancelButtonEl: any = fixture.debugElement
+      .query(By.css(`#cancel-edit-instructor-${expectedIndex}`))
+      .nativeElement;
+    cancelButtonEl.click();
+
+    expect(component.instructor.name).toEqual(expectedInstructorData.name);
+    expect(component.instructor.email).toEqual(expectedInstructorData.email);
+    expect(component.instructor.institution).toEqual(expectedInstructorData.institution);
+  });
+
+  it('should reset the edited instructor details when the edit is cancelled', () => {
+    editButtonEl.click();
+    fixture.detectChanges();
+
+    const editedInstructorDetails: InstructorData = {
+      name: 'Edited Name',
+      email: 'Edited@ema.il',
+      institution: 'Edited Institution',
+      status: 'PENDING',
+    };
+    component.editedInstructorName = editedInstructorDetails.name;
+    component.editedInstructorEmail = editedInstructorDetails.email;
+    component.editedInstructorInstitution = editedInstructorDetails.institution;
+    const cancelButtonEl: any = fixture.debugElement
+      .query(By.css(`#cancel-edit-instructor-${expectedIndex}`))
+      .nativeElement;
+    cancelButtonEl.click();
+
+    expect(component.editedInstructorName).toEqual(expectedInstructorData.name);
+    expect(component.editedInstructorEmail).toEqual(expectedInstructorData.email);
+    expect(component.editedInstructorInstitution).toEqual(expectedInstructorData.institution);
+  });
+
+  it('should initially have the original instructor details when editing starts after a cancellation', () => {
+    editButtonEl.click();
+    fixture.detectChanges();
+
+    const editedInstructorDetails: InstructorData = {
+      name: 'Edited Name',
+      email: 'Edited@ema.il',
+      institution: 'Edited Institution',
+      status: 'PENDING',
+    };
+    component.editedInstructorName = editedInstructorDetails.name;
+    component.editedInstructorEmail = editedInstructorDetails.email;
+    component.editedInstructorInstitution = editedInstructorDetails.institution;
+    const cancelButtonEl: any = fixture.debugElement
+      .query(By.css(`#cancel-edit-instructor-${expectedIndex}`))
+      .nativeElement;
+    cancelButtonEl.click();
+    fixture.detectChanges();
+
+    editButtonEl.click();
+
+    expect(component.editedInstructorName).toEqual(expectedInstructorData.name);
+    expect(component.editedInstructorEmail).toEqual(expectedInstructorData.email);
+    expect(component.editedInstructorInstitution).toEqual(expectedInstructorData.institution);
   });
 });
