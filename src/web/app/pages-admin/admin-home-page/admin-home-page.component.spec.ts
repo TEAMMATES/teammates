@@ -239,6 +239,172 @@ describe('AdminHomePageComponent', () => {
     expect(component.activeRequests).toEqual(2);
   });
 
+  it('should go into edit mode for only the instructor selected for editing', () => {
+    component.instructorsConsolidated = [
+      {
+        name: 'Instructor A',
+        email: 'instructora@example.com',
+        institution: 'Sample Institution A',
+        status: 'PENDING',
+        joinLink: 'This should not be displayed',
+        message: 'This should not be displayed',
+      },
+      {
+        name: 'Instructor B',
+        email: 'instructorb@example.com',
+        institution: 'Sample Institution B',
+        status: 'SUCCESS',
+        joinLink: 'http://localhost:4200/web/join',
+        message: 'This should not be displayed',
+      },
+      {
+        name: 'Instructor C',
+        email: 'instructorc@example.com',
+        institution: 'Sample Institution C',
+        status: 'FAIL',
+        joinLink: 'This should not be displayed',
+        message: 'The instructor cannot be added for some reason',
+      },
+    ];
+    component.isInstructorRowEditModeEnabled = [false, false, false];
+    fixture.detectChanges();
+    const index: number = 2;
+    const button: any = fixture.debugElement.nativeElement.querySelector(`#edit-instructor-${index}`);
+    button.click();
+
+    for (let i: number = 0; i < component.instructorsConsolidated.length; i += 1) {
+      expect(component.isInstructorRowEditModeEnabled[i]).toEqual(i === index);
+    }
+  });
+
+  it('should confirm and exit edit mode for only the instructor whose edit is confirmed', () => {
+    component.instructorsConsolidated = [
+      {
+        name: 'Instructor A',
+        email: 'instructora@example.com',
+        institution: 'Sample Institution A',
+        status: 'PENDING',
+        joinLink: 'This should not be displayed',
+        message: 'This should not be displayed',
+      },
+      {
+        name: 'Instructor B',
+        email: 'instructorb@example.com',
+        institution: 'Sample Institution B',
+        status: 'PENDING',
+        joinLink: 'This should not be displayed',
+        message: 'This should not be displayed',
+      },
+      {
+        name: 'Instructor C',
+        email: 'instructorc@example.com',
+        institution: 'Sample Institution C',
+        status: 'FAIL',
+        joinLink: 'This should not be displayed',
+        message: 'The instructor cannot be added for some reason',
+      },
+    ];
+    component.isInstructorRowEditModeEnabled = [false, false, false];
+    fixture.detectChanges();
+    for (let i: number = 0; i < component.instructorsConsolidated.length; i += 1) {
+      const editButton: any = fixture.debugElement.nativeElement.querySelector(`#edit-instructor-${i}`);
+      editButton.click();
+    }
+    fixture.detectChanges();
+    const index: number = 1;
+    const cancelButton: any = fixture.debugElement.nativeElement.querySelector(`#confirm-edit-instructor-${index}`);
+    cancelButton.click();
+
+    for (let i: number = 0; i < component.instructorsConsolidated.length; i += 1) {
+      expect(component.isInstructorRowEditModeEnabled[i]).toEqual(i !== index);
+    }
+  });
+
+  it('should cancel and exit edit mode for only the instructor whose edit is cancelled', () => {
+    component.instructorsConsolidated = [
+      {
+        name: 'Instructor A',
+        email: 'instructora@example.com',
+        institution: 'Sample Institution A',
+        status: 'PENDING',
+        joinLink: 'This should not be displayed',
+        message: 'This should not be displayed',
+      },
+      {
+        name: 'Instructor B',
+        email: 'instructorb@example.com',
+        institution: 'Sample Institution B',
+        status: 'PENDING',
+        joinLink: 'This should not be displayed',
+        message: 'This should not be displayed',
+      },
+      {
+        name: 'Instructor C',
+        email: 'instructorc@example.com',
+        institution: 'Sample Institution C',
+        status: 'FAIL',
+        joinLink: 'This should not be displayed',
+        message: 'The instructor cannot be added for some reason',
+      },
+    ];
+    component.isInstructorRowEditModeEnabled = [false, false, false];
+    fixture.detectChanges();
+    for (let i: number = 0; i < component.instructorsConsolidated.length; i += 1) {
+      const editButton: any = fixture.debugElement.nativeElement.querySelector(`#edit-instructor-${i}`);
+      editButton.click();
+    }
+    fixture.detectChanges();
+    const index: number = 1;
+    const cancelButton: any = fixture.debugElement.nativeElement.querySelector(`#cancel-edit-instructor-${index}`);
+    cancelButton.click();
+
+    for (let i: number = 0; i < component.instructorsConsolidated.length; i += 1) {
+      expect(component.isInstructorRowEditModeEnabled[i]).toEqual(i !== index);
+    }
+  });
+
+  it('should add only instructors that are not currently in edit mode when trying to add all', () => {
+    component.instructorsConsolidated = [
+      {
+        name: 'Instructor A',
+        email: 'instructora@example.com',
+        institution: 'Sample Institution A',
+        status: 'PENDING',
+        joinLink: 'This should not be displayed',
+        message: 'This should not be displayed',
+      },
+      {
+        name: 'Instructor B',
+        email: 'instructorb@example.com',
+        institution: 'Sample Institution B',
+        status: 'PENDING',
+        joinLink: 'This should not be displayed',
+        message: 'This should not be displayed',
+      },
+      {
+        name: 'Instructor C',
+        email: 'instructorc@example.com',
+        institution: 'Sample Institution C',
+        status: 'FAIL',
+        joinLink: 'This should not be displayed',
+        message: 'The instructor cannot be added for some reason',
+      },
+    ];
+    component.isInstructorRowEditModeEnabled = [false, false, false];
+    fixture.detectChanges();
+    const index: number = 1;
+    const editButton: any = fixture.debugElement.nativeElement.querySelector(`#edit-instructor-${index}`);
+    editButton.click();
+
+    const addAllButton: any = fixture.debugElement.nativeElement.querySelector('#add-all-instructors');
+    addAllButton.click();
+
+    expect(component.instructorsConsolidated[0].status).toEqual('ADDING');
+    expect(component.instructorsConsolidated[1].status).toEqual('PENDING');
+    expect(component.instructorsConsolidated[2].status).toEqual('ADDING');
+    expect(component.activeRequests).toEqual(2);
+  });
+
   it('should snap with default view', () => {
     expect(fixture).toMatchSnapshot();
   });
