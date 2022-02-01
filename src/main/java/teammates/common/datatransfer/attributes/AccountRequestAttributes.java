@@ -156,8 +156,8 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
     /**
      * Returns a {@link UpdateOptions.Builder} to build {@link UpdateOptions} for an account request.
      */
-    public static UpdateOptions.Builder updateOptionsBuilder(String email, String institute, String name) {
-        return new UpdateOptions.Builder(email, institute, name);
+    public static UpdateOptions.Builder updateOptionsBuilder(String email, String institute) {
+        return new UpdateOptions.Builder(email, institute);
     }
 
     /**
@@ -167,7 +167,7 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
         private final AccountRequestAttributes accountRequestAttributes;
 
         private Builder(String email, String institute, String name) {
-            super(new UpdateOptions(email, institute, name));
+            super(new UpdateOptions(email, institute));
             thisBuilder = this;
 
             accountRequestAttributes = new AccountRequestAttributes(email, institute, name);
@@ -187,18 +187,15 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
     public static class UpdateOptions {
         private String email;
         private String institute;
-        private String name;
 
         private UpdateOption<Instant> registeredAtOption = UpdateOption.empty();
 
-        private UpdateOptions(String email, String institute, String name) {
+        private UpdateOptions(String email, String institute) {
             assert email != null;
             assert institute != null;
-            assert name != null;
 
             this.email = email;
             this.institute = institute;
-            this.name = name;
         }
 
         public String getEmail() {
@@ -214,7 +211,6 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
             return "AccountRequestAttributes.UpdateOptions ["
                     + ", email = " + email
                     + ", institute = " + institute
-                    + ", name = " + name
                     + ", registeredAt = " + registeredAtOption
                     + "]";
         }
@@ -223,8 +219,8 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
          * Builder class to build {@link UpdateOptions}.
          */
         public static class Builder extends BasicBuilder<UpdateOptions, Builder> {
-            private Builder(String email, String institute, String name) {
-                super(new UpdateOptions(email, institute, name));
+            private Builder(String email, String institute) {
+                super(new UpdateOptions(email, institute));
                 thisBuilder = this;
             }
 

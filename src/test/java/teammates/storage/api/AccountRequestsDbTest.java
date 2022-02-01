@@ -69,7 +69,7 @@ public class AccountRequestsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
 
         ______TS("typical success case");
         AccountRequestAttributes.UpdateOptions updateOptions = AccountRequestAttributes
-                .updateOptionsBuilder("valid@test.com", "TEAMMATES Test Institute 1", "Test account Name")
+                .updateOptionsBuilder("valid@test.com", "TEAMMATES Test Institute 1")
                 .withRegisteredAt(Const.TIME_REPRESENTS_NOW)
                 .build();
         accountRequestsDb.updateAccountRequest(updateOptions);
@@ -81,7 +81,7 @@ public class AccountRequestsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
 
         ______TS("failure: account request not found");
         AccountRequestAttributes.UpdateOptions updateOptionsNotFound = AccountRequestAttributes
-                .updateOptionsBuilder("not_found@test.com", "Unknown Test Institute 1", "Unknown Name")
+                .updateOptionsBuilder("not_found@test.com", "Unknown Test Institute 1")
                 .withRegisteredAt(Const.TIME_REPRESENTS_NOW)
                 .build();
 
