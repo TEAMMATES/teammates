@@ -40,12 +40,7 @@ class CreateAccountRequestAction extends AdminOnlyAction {
             accountRequestAttributes = logic.getAccountRequest(instructorEmail, instructorInstitution);
         }
 
-        if (accountRequestAttributes == null) {
-            String errorMessage = "Account Request for instructor with email " + instructorEmail
-                    + " and institute " + instructorInstitution + " could not be found";
-            log.severe("Unexpected error: " + errorMessage);
-            return new JsonResult(errorMessage, HttpStatus.SC_INTERNAL_SERVER_ERROR);
-        }
+        assert accountRequestAttributes != null;
 
         String joinLink = accountRequestAttributes.getRegistrationUrl();
 
