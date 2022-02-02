@@ -60,26 +60,37 @@ class CreateAccountAction extends Action {
 
         try {
             courseId = importDemoData(instructorEmail, instructorName, instructorInstitution);
-        } catch (InvalidParametersException e) {
+        } catch (InvalidParametersException ipe) {
             // There should not be any invalid parameter here
-            log.severe("Unexpected error", e);
-            return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
+            log.severe("Unexpected error", ipe);
+            return new JsonResult(ipe.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
 
         List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(courseId);
 
         try {
             logic.joinCourseForInstructor(instructorList.get(0).getKey(), userInfo.id);
-            logic.updateAccountRequest(AccountRequestAttributes
-                    .updateOptionsBuilder(instructorEmail, instructorInstitution)
-                    .withRegisteredAt(Instant.now())
-                    .build());
         } catch (EntityDoesNotExistException ednee) {
             throw new EntityNotFoundException(ednee);
         } catch (EntityAlreadyExistsException eaee) {
             throw new InvalidOperationException(eaee);
         } catch (InvalidParametersException ipe) {
             throw new InvalidHttpRequestBodyException(ipe);
+        }
+
+        try {
+            logic.updateAccountRequest(AccountRequestAttributes
+                    .updateOptionsBuilder(instructorEmail, instructorInstitution)
+                    .withRegisteredAt(Instant.now())
+                    .build());
+        } catch (EntityDoesNotExistException ednee) {
+            // Existence of account request validated before, this exception should not be thrown
+            log.severe("Unexpected error", ednee);
+            return new JsonResult(ednee.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
+        } catch (InvalidParametersException ipe) {
+            // There should not be any invalid parameter here
+            log.severe("Unexpected error", ipe);
+            return new JsonResult(ipe.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
 
         return new JsonResult("Account successfully created", HttpStatus.SC_OK);
