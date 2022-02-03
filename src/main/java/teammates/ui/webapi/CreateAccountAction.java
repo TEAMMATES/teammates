@@ -72,18 +72,13 @@ class CreateAccountAction extends Action {
 
         try {
             logic.joinCourseForInstructor(instructorList.get(0).getKey(), userInfo.id);
-        } catch (EntityDoesNotExistException ednee) {
-            // All entities should exist in demo course, this exception should not be thrown
-            log.severe("Unexpected error", ednee);
-            return new JsonResult(ednee.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
-        } catch (EntityAlreadyExistsException eaee) {
-            // Updated entities should not have conflict with generated entities in new demo course
-            log.severe("Unexpected error", eaee);
-            return new JsonResult(eaee.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
-        } catch (InvalidParametersException ipe) {
-            // There should not be any invalid parameter here
-            log.severe("Unexpected error", ipe);
-            return new JsonResult(ipe.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
+        } catch (EntityDoesNotExistException | EntityAlreadyExistsException | InvalidParametersException e) {
+            // EntityDoesNotExistException should not be thrown as all entities should exist in demo course.
+            // EntityAlreadyExistsException should not be thrown as updated entities should not have
+            // conflict with generated entities in new demo course.
+            // InvalidParametersException should not be thrown as as there should not be any invalid parameters.
+            log.severe("Unexpected error", e);
+            return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
 
         try {
@@ -91,14 +86,11 @@ class CreateAccountAction extends Action {
                     .updateOptionsBuilder(instructorEmail, instructorInstitution)
                     .withRegisteredAt(Instant.now())
                     .build());
-        } catch (EntityDoesNotExistException ednee) {
-            // Existence of account request validated before, this exception should not be thrown
-            log.severe("Unexpected error", ednee);
-            return new JsonResult(ednee.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
-        } catch (InvalidParametersException ipe) {
-            // There should not be any invalid parameter here
-            log.severe("Unexpected error", ipe);
-            return new JsonResult(ipe.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
+        } catch (EntityDoesNotExistException | InvalidParametersException e) {
+            // EntityDoesNotExistException should not be thrown as existence of account request has been validated before.
+            // InvalidParametersException should not be thrown as there should not be any invalid parameters.
+            log.severe("Unexpected error", e);
+            return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
 
         return new JsonResult("Account successfully created", HttpStatus.SC_OK);
