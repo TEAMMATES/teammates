@@ -167,9 +167,9 @@ public final class FeedbackResponsesLogic {
     /**
      * Checks whether a giver has responded a session.
      */
-    public boolean hasGiverRespondedForSession(String userEmail, String feedbackSessionName, String courseId) {
+    public boolean hasGiverRespondedForSession(String giverIdentifier, String feedbackSessionName, String courseId) {
 
-        return frDb.hasResponsesFromGiverInSession(userEmail, feedbackSessionName, courseId);
+        return frDb.hasResponsesFromGiverInSession(giverIdentifier, feedbackSessionName, courseId);
     }
 
     /**

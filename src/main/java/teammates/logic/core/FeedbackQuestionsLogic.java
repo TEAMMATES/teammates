@@ -276,6 +276,14 @@ public final class FeedbackQuestionsLogic {
     }
 
     /**
+     * Returns true if a session has question in a specific giverType.
+     */
+    public boolean sessionHasQuestionsForGiverType(
+            String feedbackSessionName, String courseId, FeedbackParticipantType giverType) {
+        return fqDb.hasFeedbackQuestionsForGiverType(feedbackSessionName, courseId, giverType);
+    }
+
+    /**
      * Gets the email-name mapping of recipients for the given question for the given giver.
      */
     Map<String, String> getRecipientsForQuestion(FeedbackQuestionAttributes question, String giver)
