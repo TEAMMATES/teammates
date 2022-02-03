@@ -68,14 +68,22 @@ class CreateAccountAction extends Action {
 
         List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(courseId);
 
+        assert !instructorList.isEmpty();
+
         try {
             logic.joinCourseForInstructor(instructorList.get(0).getKey(), userInfo.id);
         } catch (EntityDoesNotExistException ednee) {
-            throw new EntityNotFoundException(ednee);
+            // All entities should exist in demo course, this exception should not be thrown
+            log.severe("Unexpected error", ednee);
+            return new JsonResult(ednee.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         } catch (EntityAlreadyExistsException eaee) {
-            throw new InvalidOperationException(eaee);
+            // Updated entities should not have conflict with generated entities in new demo course
+            log.severe("Unexpected error", eaee);
+            return new JsonResult(eaee.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         } catch (InvalidParametersException ipe) {
-            throw new InvalidHttpRequestBodyException(ipe);
+            // Both parameters should be valid
+            log.severe("Unexpected error", ipe);
+            return new JsonResult(ipe.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
 
         try {
