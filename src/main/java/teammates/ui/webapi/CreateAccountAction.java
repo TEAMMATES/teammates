@@ -81,7 +81,7 @@ class CreateAccountAction extends Action {
             log.severe("Unexpected error", eaee);
             return new JsonResult(eaee.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         } catch (InvalidParametersException ipe) {
-            // Both parameters should be valid
+            // There should not be any invalid parameter here
             log.severe("Unexpected error", ipe);
             return new JsonResult(ipe.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
