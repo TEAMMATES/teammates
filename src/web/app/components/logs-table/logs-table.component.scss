@@ -19,33 +19,30 @@
   display: flex;
   flex-flow: column;
   width: 100%;
-  height: 100%;
   word-break: break-all;
   max-height: 90vh;
-}
 
-.logs-table thead {
-  flex: 0 0 auto;
-}
+  thead {
+    flex: 0 0 auto;
+    display: table;
+    table-layout: fixed;
+  }
 
-.logs-table tbody {
-  flex: 1 1 auto;
-  display: block;
-  overflow-y: scroll;
-}
+  tbody {
+    flex: 1 1 auto;
+    display: block;
+    overflow-y: scroll;
 
-.logs-table tbody tr {
-  width: 100%;
-}
+    tr {
+      width: 100%;
+      display: table;
+      table-layout: fixed;
 
-.logs-table tbody tr:first-child td {
-  border-top: 0;
-}
-
-.logs-table thead,
-.logs-table tbody tr {
-  display: table;
-  table-layout: fixed;
+      &:first-child td {
+        border-top: 0;
+      }
+    }
+  }
 }
 
 .wrap {
