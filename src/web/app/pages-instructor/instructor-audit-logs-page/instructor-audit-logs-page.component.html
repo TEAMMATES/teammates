@@ -24,7 +24,7 @@
         </div>
         <div class="input-group">
           <div class="col-md-6 input-group">
-            <input id="logs-from-datepicker" type="text" class="form-control" ngbDatepicker [minDate]="earliestSearchDate" [maxDate]="dateToday" [(ngModel)]="formModel.logsDateFrom" #logsFromDp="ngbDatepicker"/>
+            <input id="logs-from-datepicker" type="text" class="form-control" ngbDatepicker [minDate]="earliestSearchDate" [maxDate]="formModel.logsDateTo" [(ngModel)]="formModel.logsDateFrom" #logsFromDp="ngbDatepicker"/>
             <button class="btn btn-light" (click)="logsFromDp.toggle()" type="button">
               <i class="fas fa-calendar-alt"></i>
             </button>
@@ -54,7 +54,7 @@
         </div>
         <div class="input-group">
           <div class="col-md-6 input-group">
-            <input id="logs-to-datepicker" type="text" class="form-control" ngbDatepicker [minDate]="earliestSearchDate" [maxDate]="dateToday" [(ngModel)]="formModel.logsDateTo" #logsToDp="ngbDatepicker"/>
+            <input id="logs-to-datepicker" type="text" class="form-control" ngbDatepicker [minDate]="formModel.logsDateFrom" [maxDate]="dateToday" [(ngModel)]="formModel.logsDateTo" #logsToDp="ngbDatepicker"/>
             <button class="btn btn-light" (click)="logsToDp.toggle()" type="button">
               <i class="fas fa-calendar-alt"></i>
             </button>
