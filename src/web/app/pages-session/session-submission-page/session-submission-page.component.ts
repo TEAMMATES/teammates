@@ -643,49 +643,51 @@ this session.`;
             }
           });
 
-      savingRequests.push(
-          this.feedbackResponsesService.submitFeedbackResponses(questionSubmissionFormModel.feedbackQuestionId, {
-            intent: this.intent,
-            key: this.regKey,
-            moderatedperson: this.moderatedPerson,
-          }, {
-            responses,
-          }).pipe(
-              tap((resp: FeedbackResponses) => {
-                const responsesMap: Record<string, FeedbackResponse> = {};
-                resp.responses.forEach((response: FeedbackResponse) => {
-                  responsesMap[response.recipientIdentifier] = response;
-                  answers[questionSubmissionFormModel.feedbackQuestionId] =
-                      answers[questionSubmissionFormModel.feedbackQuestionId] || [];
-                  answers[questionSubmissionFormModel.feedbackQuestionId].push(response);
-                });
-                requestIds[questionSubmissionFormModel.feedbackQuestionId] = resp.requestId || '';
+      if (!failToSaveQuestions[questionSubmissionFormModel.questionNumber]) {
+        savingRequests.push(
+            this.feedbackResponsesService.submitFeedbackResponses(questionSubmissionFormModel.feedbackQuestionId, {
+              intent: this.intent,
+              key: this.regKey,
+              moderatedperson: this.moderatedPerson,
+            }, {
+              responses,
+            }).pipe(
+                tap((resp: FeedbackResponses) => {
+                  const responsesMap: Record<string, FeedbackResponse> = {};
+                  resp.responses.forEach((response: FeedbackResponse) => {
+                    responsesMap[response.recipientIdentifier] = response;
+                    answers[questionSubmissionFormModel.feedbackQuestionId] =
+                        answers[questionSubmissionFormModel.feedbackQuestionId] || [];
+                    answers[questionSubmissionFormModel.feedbackQuestionId].push(response);
+                  });
+                  requestIds[questionSubmissionFormModel.feedbackQuestionId] = resp.requestId || '';
 
-                questionSubmissionFormModel.recipientSubmissionForms
-                    .forEach((recipientSubmissionFormModel: FeedbackResponseRecipientSubmissionFormModel) => {
-                      if (responsesMap[recipientSubmissionFormModel.recipientIdentifier]) {
-                        const correspondingResp: FeedbackResponse =
-                            responsesMap[recipientSubmissionFormModel.recipientIdentifier];
-                        recipientSubmissionFormModel.responseId = correspondingResp.feedbackResponseId;
-                        recipientSubmissionFormModel.responseDetails = correspondingResp.responseDetails;
-                        recipientSubmissionFormModel.recipientIdentifier = correspondingResp.recipientIdentifier;
-                      } else {
-                        recipientSubmissionFormModel.responseId = '';
-                        recipientSubmissionFormModel.commentByGiver = undefined;
-                      }
-                    });
-              }),
-              switchMap(() =>
-                  forkJoin(questionSubmissionFormModel.recipientSubmissionForms
-                      .map((recipientSubmissionFormModel: FeedbackResponseRecipientSubmissionFormModel) =>
-                          this.createCommentRequest(recipientSubmissionFormModel))),
-              ),
-              catchError((error: ErrorMessageOutput) => {
-                failToSaveQuestions[questionSubmissionFormModel.questionNumber] = error.error.message;
-                return of(error);
-              }),
-          ),
-      );
+                  questionSubmissionFormModel.recipientSubmissionForms
+                      .forEach((recipientSubmissionFormModel: FeedbackResponseRecipientSubmissionFormModel) => {
+                        if (responsesMap[recipientSubmissionFormModel.recipientIdentifier]) {
+                          const correspondingResp: FeedbackResponse =
+                              responsesMap[recipientSubmissionFormModel.recipientIdentifier];
+                          recipientSubmissionFormModel.responseId = correspondingResp.feedbackResponseId;
+                          recipientSubmissionFormModel.responseDetails = correspondingResp.responseDetails;
+                          recipientSubmissionFormModel.recipientIdentifier = correspondingResp.recipientIdentifier;
+                        } else {
+                          recipientSubmissionFormModel.responseId = '';
+                          recipientSubmissionFormModel.commentByGiver = undefined;
+                        }
+                      });
+                }),
+                switchMap(() =>
+                    forkJoin(questionSubmissionFormModel.recipientSubmissionForms
+                        .map((recipientSubmissionFormModel: FeedbackResponseRecipientSubmissionFormModel) =>
+                            this.createCommentRequest(recipientSubmissionFormModel))),
+                ),
+                catchError((error: ErrorMessageOutput) => {
+                  failToSaveQuestions[questionSubmissionFormModel.questionNumber] = error.error.message;
+                  return of(error);
+                }),
+            ),
+        );
+      }
 
       if (!isQuestionFullyAnswered) {
         notYetAnsweredQuestions.add(questionSubmissionFormModel.questionNumber);
