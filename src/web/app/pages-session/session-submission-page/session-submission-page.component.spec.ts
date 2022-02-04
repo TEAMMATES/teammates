@@ -1047,7 +1047,7 @@ describe('SessionSubmissionPageComponent', () => {
 
   it('should delete participant comment', () => {
     const testSubmissionForm: QuestionSubmissionFormModel = deepCopy(testMsqQuestionSubmissionForm);
-    const expectedId: any = testMcqQuestionSubmissionForm.recipientSubmissionForms[0]
+    const expectedId: any = testMsqQuestionSubmissionForm.recipientSubmissionForms[0]
         .commentByGiver?.originalComment?.feedbackResponseCommentId;
     const commentSpy: Spy = spyOn(feedbackResponseCommentService, 'deleteComment').and.returnValue(of(true));
 
