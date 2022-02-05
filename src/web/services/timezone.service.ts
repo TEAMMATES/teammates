@@ -110,7 +110,7 @@ export class TimezoneService {
     const resolvedTimestamp: number = inst.toDate().getTime();
 
     if (isNaN(resolvedTimestamp)) {
-      throw Error('Invalid datetime range');
+      throw new Error('Invalid datetime range');
     }
     return resolvedTimestamp;
   }

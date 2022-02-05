@@ -141,7 +141,7 @@ public class FeedbackSessionBasicRequest extends BasicRequest {
         assertTrue(responseVisibleSetting != null, "responseVisibleSetting cannot be null");
         if (responseVisibleSetting == ResponseVisibleSetting.CUSTOM) {
             assertTrue(customResponseVisibleTimestamp != null,
-                    "Response visible timestamp is invalid");
+                    "Response visible timestamp should not be null");
             assertTrue(customResponseVisibleTimestamp > 0L,
                     "Response visible timestamp should be more than zero");
         }

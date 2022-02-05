@@ -276,102 +276,104 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
   addNewSessionHandler(): void {
     this.sessionEditFormModel.isSaving = true;
     let currentCheckingTime: string = '';
+    let submissionStartTime: number = 0;
+    let submissionEndTime: number = 0;
+    let sessionVisibleTime: number = 0;
+    let responseVisibleTime: number = 0;
+
     try {
       currentCheckingTime = 'Submission opening time';
-      const submissionStartTime: number = this.timezoneService.resolveLocalDateTime(
+      submissionStartTime = this.timezoneService.resolveLocalDateTime(
         this.sessionEditFormModel.submissionStartDate, this.sessionEditFormModel.submissionStartTime,
         this.sessionEditFormModel.timeZone, true);
       currentCheckingTime = 'Submission closing time';
-      const submissionEndTime: number = this.timezoneService.resolveLocalDateTime(
+      submissionEndTime = this.timezoneService.resolveLocalDateTime(
           this.sessionEditFormModel.submissionEndDate, this.sessionEditFormModel.submissionEndTime,
           this.sessionEditFormModel.timeZone, true);
       currentCheckingTime = 'Session edit from';
-      let sessionVisibleTime: number = 0;
       if (this.sessionEditFormModel.sessionVisibleSetting === SessionVisibleSetting.CUSTOM) {
         sessionVisibleTime = this.timezoneService.resolveLocalDateTime(
             this.sessionEditFormModel.customSessionVisibleDate, this.sessionEditFormModel.customSessionVisibleTime,
             this.sessionEditFormModel.timeZone, true);
       }
       currentCheckingTime = 'Response visible time';
-      let responseVisibleTime: number = 0;
       if (this.sessionEditFormModel.responseVisibleSetting === ResponseVisibleSetting.CUSTOM) {
         responseVisibleTime = this.timezoneService.resolveLocalDateTime(
             this.sessionEditFormModel.customResponseVisibleDate, this.sessionEditFormModel.customResponseVisibleTime,
             this.sessionEditFormModel.timeZone, true);
       }
-
-      this.feedbackSessionsService.createFeedbackSession(this.sessionEditFormModel.courseId, {
-        feedbackSessionName: this.sessionEditFormModel.feedbackSessionName,
-        instructions: this.sessionEditFormModel.instructions,
-
-        submissionStartTimestamp: submissionStartTime,
-        submissionEndTimestamp: submissionEndTime,
-        gracePeriod: this.sessionEditFormModel.gracePeriod,
-
-        sessionVisibleSetting: this.sessionEditFormModel.sessionVisibleSetting,
-        customSessionVisibleTimestamp: sessionVisibleTime,
-
-        responseVisibleSetting: this.sessionEditFormModel.responseVisibleSetting,
-        customResponseVisibleTimestamp: responseVisibleTime,
-
-        isClosingEmailEnabled: this.sessionEditFormModel.isClosingEmailEnabled,
-        isPublishedEmailEnabled: this.sessionEditFormModel.isPublishedEmailEnabled,
-      }).subscribe((feedbackSession: FeedbackSession) => {
-
-        // begin to populate session with template
-        const templateSession: TemplateSession | undefined =
-          this.feedbackSessionsService.getTemplateSessions().find(
-              (t: TemplateSession) => t.name === this.sessionEditFormModel.templateSessionName);
-        if (!templateSession) {
-          return;
-        }
-        of(...templateSession.questions).pipe(
-          concatMap((question: FeedbackQuestion) => {
-            return this.feedbackQuestionsService.createFeedbackQuestion(
-                feedbackSession.courseId, feedbackSession.feedbackSessionName, {
-                  questionNumber: question.questionNumber,
-                  questionBrief: question.questionBrief,
-                  questionDescription: question.questionDescription,
-
-                  questionDetails: question.questionDetails,
-                  questionType: question.questionType,
-
-                  giverType: question.giverType,
-                  recipientType: question.recipientType,
-
-                  numberOfEntitiesToGiveFeedbackToSetting: question.numberOfEntitiesToGiveFeedbackToSetting,
-                  customNumberOfEntitiesToGiveFeedbackTo: question.customNumberOfEntitiesToGiveFeedbackTo,
-
-                  showResponsesTo: question.showResponsesTo,
-                  showGiverNameTo: question.showGiverNameTo,
-                  showRecipientNameTo: question.showRecipientNameTo,
-                });
-          }),
-      ).subscribe(() => {}, (resp: ErrorMessageOutput) => {
-        this.sessionEditFormModel.isSaving = false;
-        this.statusMessageService.showErrorToast(
-            `The session is created but the template questions cannot be created: ${resp.error.message}`);
-      }, () => {
-        this.navigationService.navigateByURLWithParamEncoding(
-            this.router,
-            '/web/instructor/sessions/edit',
-            { courseid: feedbackSession.courseId, fsname: feedbackSession.feedbackSessionName })
-            .then(() => {
-              this.statusMessageService.showSuccessToast('The feedback session has been added.'
-                  + 'Click the "Add New Question" button below to begin adding questions for the feedback session.');
-            });
-      });
-      }, (resp: ErrorMessageOutput) => {
-        this.sessionEditFormModel.isSaving = false;
-        this.statusMessageService.showErrorToast(
-            this.formatErrorMessage(resp.error.message));
-      });
-    } catch (error) {
-      if (error instanceof Error) {
-        this.statusMessageService.showErrorToast(`${error.message} for ${currentCheckingTime}`);
-        this.sessionEditFormModel.isSaving = false;
-      }
+    } catch (e) {
+      this.statusMessageService.showErrorToast(`${(e as Error).message} for ${currentCheckingTime}`);
+      this.sessionEditFormModel.isSaving = false;
+      return;
     }
+
+    this.feedbackSessionsService.createFeedbackSession(this.sessionEditFormModel.courseId, {
+      feedbackSessionName: this.sessionEditFormModel.feedbackSessionName,
+      instructions: this.sessionEditFormModel.instructions,
+
+      submissionStartTimestamp: submissionStartTime,
+      submissionEndTimestamp: submissionEndTime,
+      gracePeriod: this.sessionEditFormModel.gracePeriod,
+
+      sessionVisibleSetting: this.sessionEditFormModel.sessionVisibleSetting,
+      customSessionVisibleTimestamp: sessionVisibleTime,
+
+      responseVisibleSetting: this.sessionEditFormModel.responseVisibleSetting,
+      customResponseVisibleTimestamp: responseVisibleTime,
+
+      isClosingEmailEnabled: this.sessionEditFormModel.isClosingEmailEnabled,
+      isPublishedEmailEnabled: this.sessionEditFormModel.isPublishedEmailEnabled,
+    }).subscribe((feedbackSession: FeedbackSession) => {
+
+      // begin to populate session with template
+      const templateSession: TemplateSession | undefined =
+        this.feedbackSessionsService.getTemplateSessions().find(
+            (t: TemplateSession) => t.name === this.sessionEditFormModel.templateSessionName);
+      if (!templateSession) {
+        return;
+      }
+      of(...templateSession.questions).pipe(
+        concatMap((question: FeedbackQuestion) => {
+          return this.feedbackQuestionsService.createFeedbackQuestion(
+              feedbackSession.courseId, feedbackSession.feedbackSessionName, {
+                questionNumber: question.questionNumber,
+                questionBrief: question.questionBrief,
+                questionDescription: question.questionDescription,
+
+                questionDetails: question.questionDetails,
+                questionType: question.questionType,
+
+                giverType: question.giverType,
+                recipientType: question.recipientType,
+
+                numberOfEntitiesToGiveFeedbackToSetting: question.numberOfEntitiesToGiveFeedbackToSetting,
+                customNumberOfEntitiesToGiveFeedbackTo: question.customNumberOfEntitiesToGiveFeedbackTo,
+
+                showResponsesTo: question.showResponsesTo,
+                showGiverNameTo: question.showGiverNameTo,
+                showRecipientNameTo: question.showRecipientNameTo,
+              });
+        }),
+    ).subscribe(() => {}, (resp: ErrorMessageOutput) => {
+      this.sessionEditFormModel.isSaving = false;
+      this.statusMessageService.showErrorToast(
+          `The session is created but the template questions cannot be created: ${resp.error.message}`);
+    }, () => {
+      this.navigationService.navigateByURLWithParamEncoding(
+          this.router,
+          '/web/instructor/sessions/edit',
+          { courseid: feedbackSession.courseId, fsname: feedbackSession.feedbackSessionName })
+          .then(() => {
+            this.statusMessageService.showSuccessToast('The feedback session has been added.'
+                + 'Click the "Add New Question" button below to begin adding questions for the feedback session.');
+          });
+    });
+    }, (resp: ErrorMessageOutput) => {
+      this.sessionEditFormModel.isSaving = false;
+      this.statusMessageService.showErrorToast(
+          this.formatErrorMessage(resp.error.message));
+    });
   }
 
   formatErrorMessage(errorMessage: string): string {
