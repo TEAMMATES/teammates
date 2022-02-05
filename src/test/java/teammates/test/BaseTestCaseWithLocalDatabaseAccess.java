@@ -14,6 +14,7 @@ import com.googlecode.objectify.util.Closeable;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.AccountRequestAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -130,6 +131,11 @@ public abstract class BaseTestCaseWithLocalDatabaseAccess extends BaseTestCaseWi
     @Override
     protected StudentAttributes getStudent(StudentAttributes student) {
         return logic.getStudentForEmail(student.getCourse(), student.getEmail());
+    }
+
+    @Override
+    protected AccountRequestAttributes getAccountRequest(AccountRequestAttributes accountRequest) {
+        return logic.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
     }
 
     protected void removeAndRestoreTypicalDataBundle() {

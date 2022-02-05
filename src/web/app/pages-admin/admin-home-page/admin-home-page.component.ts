@@ -93,7 +93,7 @@ export class AdminHomePageComponent {
     instructor.status = 'ADDING';
 
     this.isAddingInstructors = true;
-    this.accountService.createAccount({
+    this.accountService.createAccountRequest({
       instructorEmail: instructor.email,
       instructorName: instructor.name,
       instructorInstitution: instructor.institution,
