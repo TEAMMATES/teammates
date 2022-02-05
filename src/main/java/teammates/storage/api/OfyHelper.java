@@ -9,6 +9,7 @@ import com.googlecode.objectify.ObjectifyService;
 
 import teammates.common.util.Config;
 import teammates.storage.entity.Account;
+import teammates.storage.entity.AccountRequest;
 import teammates.storage.entity.BaseEntity;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.CourseStudent;
@@ -45,6 +46,7 @@ public class OfyHelper implements ServletContextListener {
         ObjectifyService.register(FeedbackSession.class);
         ObjectifyService.register(Instructor.class);
         ObjectifyService.register(StudentProfile.class);
+        ObjectifyService.register(AccountRequest.class);
         // enable the ability to use java.time.Instant to issue query
         ObjectifyService.factory().getTranslators().add(new BaseEntity.InstantTranslatorFactory());
     }

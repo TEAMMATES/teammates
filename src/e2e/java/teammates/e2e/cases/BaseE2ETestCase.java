@@ -11,6 +11,7 @@ import org.testng.annotations.BeforeClass;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.AccountRequestAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -305,6 +306,11 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
 
     String getKeyForStudent(StudentAttributes student) {
         return getStudent(student).getKey();
+    }
+
+    @Override
+    protected AccountRequestAttributes getAccountRequest(AccountRequestAttributes accountRequest) {
+        return BACKDOOR.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
     }
 
     @Override

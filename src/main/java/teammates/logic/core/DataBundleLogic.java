@@ -11,6 +11,7 @@ import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.AccountRequestAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.EntityAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -24,6 +25,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
+import teammates.storage.api.AccountRequestsDb;
 import teammates.storage.api.AccountsDb;
 import teammates.storage.api.CoursesDb;
 import teammates.storage.api.FeedbackQuestionsDb;
@@ -44,6 +46,7 @@ public final class DataBundleLogic {
     private static final DataBundleLogic instance = new DataBundleLogic();
 
     private final AccountsDb accountsDb = AccountsDb.inst();
+    private final AccountRequestsDb accountRequestsDb = AccountRequestsDb.inst();
     private final ProfilesDb profilesDb = ProfilesDb.inst();
     private final CoursesDb coursesDb = CoursesDb.inst();
     private final StudentsDb studentsDb = StudentsDb.inst();
@@ -78,6 +81,7 @@ public final class DataBundleLogic {
         }
 
         Collection<AccountAttributes> accounts = dataBundle.accounts.values();
+        Collection<AccountRequestAttributes> accountRequests = dataBundle.accountRequests.values();
         Collection<StudentProfileAttributes> profiles = dataBundle.profiles.values();
         Collection<CourseAttributes> courses = dataBundle.courses.values();
         Collection<InstructorAttributes> instructors = dataBundle.instructors.values();
@@ -98,6 +102,7 @@ public final class DataBundleLogic {
         processQuestions(questions);
 
         List<AccountAttributes> newAccounts = accountsDb.putEntities(googleIdAccountMap.values());
+        List<AccountRequestAttributes> newAccountRequests = accountRequestsDb.putEntities(accountRequests);
 
         List<StudentProfileAttributes> newProfiles = profilesDb.putEntities(profiles);
         List<CourseAttributes> newCourses = coursesDb.putEntities(courses);
@@ -112,6 +117,7 @@ public final class DataBundleLogic {
         List<FeedbackResponseCommentAttributes> newFeedbackResponseComments = fcDb.putEntities(responseComments);
 
         updateDataBundleValue(newAccounts, dataBundle.accounts);
+        updateDataBundleValue(newAccountRequests, dataBundle.accountRequests);
         updateDataBundleValue(newProfiles, dataBundle.profiles);
         updateDataBundleValue(newCourses, dataBundle.courses);
         updateDataBundleValue(newInstructors, dataBundle.instructors);
@@ -362,6 +368,9 @@ public final class DataBundleLogic {
         });
         dataBundle.profiles.values().forEach(profile -> {
             profilesDb.deleteStudentProfile(profile.getGoogleId());
+        });
+        dataBundle.accountRequests.values().forEach(accountRequest -> {
+            accountRequestsDb.deleteAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
         });
     }
 
