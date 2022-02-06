@@ -211,7 +211,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         ______TS("Only instructor with correct privilege can access");
 
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
-                Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS, params
+                Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS, params
         );
 
         ______TS("Instructor moderates instructor submission with correct privilege will pass");

@@ -49,6 +49,7 @@ public abstract class Action {
     UserInfo userInfo;
     AuthType authType;
     private StudentAttributes unregisteredStudent;
+    private InstructorAttributes unregisteredInstructor;
 
     // buffer to store the request body
     private String requestBody;
@@ -118,11 +119,14 @@ public abstract class Action {
         String googleId = userInfo == null ? null : userInfo.getId();
 
         user.setGoogleId(googleId);
-        if (unregisteredStudent == null) {
+        if (unregisteredStudent == null && unregisteredInstructor == null) {
             user.setRegkey(getRequestParamValue(Const.ParamsNames.REGKEY));
-        } else {
+        } else if (unregisteredStudent != null) {
             user.setRegkey(unregisteredStudent.getKey());
             user.setEmail(unregisteredStudent.getEmail());
+        } else {
+            user.setRegkey(unregisteredInstructor.getKey());
+            user.setEmail(unregisteredInstructor.getEmail());
         }
         return user;
     }
@@ -250,6 +254,22 @@ public abstract class Action {
             }
             unregisteredStudent = studentAttributes;
             return Optional.of(studentAttributes);
+        }
+        return Optional.empty();
+    }
+
+    /**
+     * Gets the unregistered instructor by the HTTP param.
+     */
+    Optional<InstructorAttributes> getUnregisteredInstructor() {
+        String key = getRequestParamValue(Const.ParamsNames.REGKEY);
+        if (!StringHelper.isEmpty(key)) {
+            InstructorAttributes instructorAttributes = logic.getInstructorForRegistrationKey(key);
+            if (instructorAttributes == null) {
+                return Optional.empty();
+            }
+            unregisteredInstructor = instructorAttributes;
+            return Optional.of(instructorAttributes);
         }
         return Optional.empty();
     }

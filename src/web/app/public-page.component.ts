@@ -2,8 +2,10 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from '../environments/environment';
 import { AuthService } from '../services/auth.service';
+import { InstructorService } from '../services/instructor.service';
 import { StudentService } from '../services/student.service';
-import { Student } from '../types/api-output';
+import { Instructor, Student } from '../types/api-output';
+import { Intent } from '../types/api-request';
 
 /**
  * Component for publicly available pages.
@@ -17,7 +19,8 @@ export class PublicPageComponent {
 
   constructor(private route: ActivatedRoute,
               private authService: AuthService,
-              private studentService: StudentService) {
+              private studentService: StudentService,
+              private instructorService: InstructorService) {
     if (environment.maintenance) {
       return;
     }
@@ -28,10 +31,21 @@ export class PublicPageComponent {
         // Loads institute for student session submission and result
         const courseId: string = queryParams.courseid;
         const regKey: string = queryParams.key;
+        const entityType: string = queryParams.entitytype;
         if (courseId && regKey) {
-          this.studentService.getStudent(courseId, '', regKey).subscribe((student: Student) => {
-            this.institute = student.institute || '';
-          });
+          if (entityType === 'instructor') {
+            this.instructorService.getInstructor({
+              courseId,
+              key: regKey,
+              intent: Intent.INSTRUCTOR_SUBMISSION,
+            }).subscribe((instructor: Instructor) => {
+              this.institute = instructor.institute || '';
+            });
+          } else {
+            this.studentService.getStudent(courseId, '', regKey).subscribe((student: Student) => {
+              this.institute = student.institute || '';
+            });
+          }
         }
       });
     });

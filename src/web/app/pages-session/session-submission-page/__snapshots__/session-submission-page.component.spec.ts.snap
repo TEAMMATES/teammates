@@ -9,6 +9,7 @@ exports[`SessionSubmissionPageComponent should snap when feedback session questi
   commentService={[Function FeedbackResponseCommentService]}
   courseId={[Function String]}
   document={[Function Document]}
+  entityType={[Function String]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackResponsesService={[Function FeedbackResponsesService]}
   feedbackSessionInstructions=""
@@ -140,6 +141,7 @@ exports[`SessionSubmissionPageComponent should snap when saving responses 1`] = 
   commentService={[Function FeedbackResponseCommentService]}
   courseId={[Function String]}
   document={[Function Document]}
+  entityType={[Function String]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackResponsesService={[Function FeedbackResponsesService]}
   feedbackSessionInstructions=""
@@ -270,6 +272,7 @@ exports[`SessionSubmissionPageComponent should snap with default fields 1`] = `
   commentService={[Function FeedbackResponseCommentService]}
   courseId={[Function String]}
   document={[Function Document]}
+  entityType={[Function String]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackResponsesService={[Function FeedbackResponsesService]}
   feedbackSessionInstructions=""
@@ -400,6 +403,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
   commentService={[Function FeedbackResponseCommentService]}
   courseId={[Function String]}
   document={[Function Document]}
+  entityType={[Function String]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackResponsesService={[Function FeedbackResponsesService]}
   feedbackSessionInstructions={[Function String]}
@@ -626,6 +630,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   commentService={[Function FeedbackResponseCommentService]}
   courseId={[Function String]}
   document={[Function Document]}
+  entityType={[Function String]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackResponsesService={[Function FeedbackResponsesService]}
   feedbackSessionInstructions=""
@@ -3494,6 +3499,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   commentService={[Function FeedbackResponseCommentService]}
   courseId={[Function String]}
   document={[Function Document]}
+  entityType={[Function String]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackResponsesService={[Function FeedbackResponsesService]}
   feedbackSessionInstructions=""
@@ -6387,6 +6393,7 @@ exports[`SessionSubmissionPageComponent should snap with user that is logged in 
   commentService={[Function FeedbackResponseCommentService]}
   courseId={[Function String]}
   document={[Function Document]}
+  entityType={[Function String]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackResponsesService={[Function FeedbackResponsesService]}
   feedbackSessionInstructions=""
@@ -6517,6 +6524,7 @@ exports[`SessionSubmissionPageComponent should snap with user that is not logged
   commentService={[Function FeedbackResponseCommentService]}
   courseId={[Function String]}
   document={[Function Document]}
+  entityType={[Function String]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackResponsesService={[Function FeedbackResponsesService]}
   feedbackSessionInstructions=""
