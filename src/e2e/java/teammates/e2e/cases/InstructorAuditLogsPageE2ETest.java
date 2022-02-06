@@ -83,6 +83,7 @@ public class InstructorAuditLogsPageE2ETest extends BaseE2ETestCase {
         logout();
         auditLogsPage = loginToPage(url, InstructorAuditLogsPage.class, instructor.getGoogleId());
         auditLogsPage.setCourseId(course.getId());
+        auditLogsPage.waitForPageToLoad();
         auditLogsPage.startSearching();
 
         assertTrue(auditLogsPage.isLogPresentForSession(feedbackQuestion.getFeedbackSessionName()));
