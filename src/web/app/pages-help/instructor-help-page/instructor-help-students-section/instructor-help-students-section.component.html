@@ -147,16 +147,48 @@
                             [id]="StudentsSectionQuestions.STUDENT_EMAIL"
                             headerText="How do I email a student or students in my course?"
                             [(isPanelExpanded)]="questionsToCollapsed[StudentsSectionQuestions.STUDENT_EMAIL]">
+    <p>If your course has a limited number of students and you want to send email to one or some of them:</p>
     <ol>
       <li>
         On the <b>Students</b> page, filter out the selected student/students.
       </li>
       <li>
-        Click
-        <button class="btn btn-sm btn-secondary">Copy Emails</button> to copy their email addresses to your clipboard.
+        Use mouse to select students' email addresses, and copy them to your clipboard.
       </li>
       <li>
         Use your preferred email provider to email the students.
+      </li>
+    </ol>
+    <p>Alternatively, to email to a student in course with a large number of students:</p>
+    <ol>
+      <li>
+        Use the steps described above in the <b><i>How do I search for a student in my course?</i></b> section to
+        find the student.
+      </li>
+      <li>
+        Select and copy the student's email as usual and send emails using your preferred email provider.
+      </li>
+    </ol>
+    <p>If you want to send emails to all or part of the students in a course:</p>
+    <ol>
+      <li>
+        Navigate to the <b>Courses</b> page.
+      </li>
+      <li>
+        Find the course where your students enroll in. Click the
+        <button class="btn btn-light btn-sm btn-margin-right ng-star-inserted">Other Actions &#9660;</button> button.
+      </li>
+      <li>
+        Select "<b>View</b>" under the dropdown menu, and enter the course details page.
+      </li>
+      <li>
+        Click
+        <button class="btn btn-primary btn-margin-left"><i class="fa fa-download ng-star-inserted"></i> Download Student List</button>
+        to download the student list in csv format. This list contains the email addresses of all the students in the course.
+      </li>
+      <li>
+        Open the downloaded file using your preferred csv reader (e.g. Microsoft Excel). Select the students' email
+        addresses, and send using your preferred email provider.
       </li>
     </ol>
   </tm-instructor-help-panel>
