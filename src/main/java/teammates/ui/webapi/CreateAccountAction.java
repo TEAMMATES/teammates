@@ -42,8 +42,7 @@ class CreateAccountAction extends Action {
         String registrationKey = getNonNullRequestParamValue(Const.ParamsNames.REGKEY);
         String timezone = getRequestParamValue(Const.ParamsNames.TIMEZONE);
 
-        String timeZoneErrorMessage = FieldValidator.getInvalidityInfoForTimeZone(timezone);
-        if (!timeZoneErrorMessage.isEmpty()) {
+        if (timezone == null || !FieldValidator.getInvalidityInfoForTimeZone(timezone).isEmpty()) {
             // Use default timezone instead
             timezone = Const.DEFAULT_TIME_ZONE;
         }

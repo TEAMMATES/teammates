@@ -6,6 +6,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
@@ -30,9 +31,10 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
     @Override
     @Test
     protected void testExecute() {
-        String name = "Typical Instructor Name";
+        String name = "Unregistered Instructor 1";
         String email = "unregisteredinstructor1@gmail.tmt";
         String institute = "TEAMMATES Test Institute 1";
+        String timezone = "Asia/Singapore";
 
         ______TS("Not enough parameters");
 
@@ -46,10 +48,14 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
 
         verifyNoTasksAdded();
 
-        ______TS("Normal case");
+        ______TS("Normal case with valid timezone");
+
         AccountRequestAttributes accountRequest = logic.getAccountRequest(email, institute);
 
-        String[] params = new String[] { Const.ParamsNames.REGKEY, accountRequest.getRegistrationKey(), };
+        String[] params = new String[] {
+                Const.ParamsNames.REGKEY, accountRequest.getRegistrationKey(),
+                Const.ParamsNames.TIMEZONE, timezone,
+        };
         CreateAccountAction a = getAction(params);
         getJsonResult(a);
 
@@ -59,6 +65,12 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
         assertNotNull(course);
         assertEquals("Sample Course 101", course.getName());
         assertEquals(institute, course.getInstitute());
+        assertEquals(timezone, course.getTimeZone());
+
+        List<FeedbackSessionAttributes> feedbackSessionsList = logic.getFeedbackSessionsForCourse(courseId);
+        for (FeedbackSessionAttributes feedbackSession : feedbackSessionsList) {
+            assertEquals(timezone, feedbackSession.getTimeZone());
+        }
 
         InstructorAttributes instructor = logic.getInstructorForEmail(courseId, email);
         assertEquals(email, instructor.getEmail());
@@ -69,7 +81,37 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
         verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME,
                 studentList.size() + instructorList.size());
 
+        ______TS("Normal case with invalid timezone, timezone should default to UTC");
+
+        email = "unregisteredinstructor2@gmail.tmt";
+        institute = "TEAMMATES Test Institute 2";
+        timezone = "InvalidTimezone";
+
+        accountRequest = logic.getAccountRequest(email, institute);
+
+        params = new String[] {
+                Const.ParamsNames.REGKEY, accountRequest.getRegistrationKey(),
+                Const.ParamsNames.TIMEZONE, timezone,
+        };
+
+        a = getAction(params);
+
+        getJsonResult(a);
+
+        courseId = generateNextDemoCourseId(email, FieldValidator.COURSE_ID_MAX_LENGTH);
+        course = logic.getCourse(courseId);
+        assertEquals(Const.DEFAULT_TIME_ZONE, course.getTimeZone());
+
+        feedbackSessionsList = logic.getFeedbackSessionsForCourse(courseId);
+        for (FeedbackSessionAttributes feedbackSession : feedbackSessionsList) {
+            assertEquals(Const.DEFAULT_TIME_ZONE, feedbackSession.getTimeZone());
+        }
+
+        verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME,
+                studentList.size() + instructorList.size());
+
         ______TS("Error: registration key already used");
+
         verifyInvalidOperation(params);
         verifyNoTasksAdded();
 
