@@ -163,17 +163,9 @@ public class EmailGeneratorTest extends BaseLogicTest {
                 "/sessionReminderEmailCopyToInstructor.html", lineInEmailCopyToInstructor);
         // Verify the instructor reminder email
         String lineInEmailToInstructor =
-                "/web/instructor/sessions/submission?courseid=idOfTypicalCourse1&fsname=First%20feedback%20session";
+                "/web/sessions/submission?courseid=idOfTypicalCourse1&fsname=First%20feedback%20session";
         verifyEmailReceivedCorrectly(emails, instructor1.getEmail(), subject,
                 "/sessionReminderEmailForInstructor.html", lineInEmailToInstructor);
-
-        InstructorAttributes instructorNotJoinedYet = instructorsLogic.getInstructorForEmail(
-                "idOfTypicalCourse1", "instructorNotYetJoinedCourse1@email.tmt");
-        String instructorReminderToJoinLine = "Note that you will need to join the course as an instructor";
-
-        // Verify that unregistered instructor gets reminder to join course
-        verifyEmailReceivedCorrectly(emails, instructorNotJoinedYet.getEmail(), subject,
-                "/sessionReminderEmailForInstructorNotJoinedYet.html", instructorReminderToJoinLine);
 
         ______TS("feedback session closing alerts");
 

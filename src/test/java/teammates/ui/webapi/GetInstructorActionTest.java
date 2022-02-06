@@ -111,7 +111,8 @@ public class GetInstructorActionTest extends BaseActionTest<GetInstructorAction>
     @Test
     @Override
     protected void testAccessControl() throws Exception {
-        InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor1OfCourse1 =
+                logic.getInstructorForEmail("idOfTypicalCourse1", "instructor1@course1.tmt");
         FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
 
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
@@ -124,18 +125,17 @@ public class GetInstructorActionTest extends BaseActionTest<GetInstructorAction>
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
         };
 
-        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
-                Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS, submissionParams);
+        verifyCanAccess(submissionParams);
 
-        ______TS("feedback session does not exist");
+        ______TS("unregistered instructor is accessible with key");
 
-        String[] invalidFeedbackSessionParams = new String[] {
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, "TEST_SESSION",
+                Const.ParamsNames.REGKEY, instructor1OfCourse1.getKey(),
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
         };
 
-        verifyEntityNotFoundAcl(invalidFeedbackSessionParams);
+        verifyAccessibleForUnregisteredUsers(submissionParams);
 
         ______TS("need login for FULL_DETAILS intent");
         submissionParams = new String[] {

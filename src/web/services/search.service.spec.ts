@@ -42,6 +42,7 @@ describe('SearchService', () => {
     isDisplayedToStudents: true,
     displayedToStudentsAs: 'Instructor',
     name: 'Hi',
+    key: 'impicklerick',
     role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
     joinState: JoinState.JOINED,
   };
@@ -162,8 +163,7 @@ describe('SearchService', () => {
     );
     expect(result.comments).toBe("This student's name is Alice Betsy");
     expect(result.courseId).toBe('dog.gma-demo');
-    expect(result.courseJoinLink).toBe(`${window.location.origin}/web/join?key` +
-      '=keyheehee&studentemail=alice.b.tmms%40gmail.tmt&courseid=dog.gma-demo&entitytype=student');
+    expect(result.courseJoinLink).toBe(`${window.location.origin}/web/join?key=keyheehee&entitytype=student`);
     expect(result.courseName).toBe('Sample Course 101');
     expect(result.email).toBe('alice.b.tmms@gmail.tmt');
     expect(result.manageAccountLink).toBe('/web/admin/accounts?instructorid=alice.b.tmms.sampleData');
@@ -171,9 +171,9 @@ describe('SearchService', () => {
 
   it('should join instructors accurately when calling as admin', () => {
     const result: InstructorAccountSearchResult = service
-      .joinAdminInstructor(mockInstructor, mockCourse);
+      .joinAdminInstructor(mockInstructor, mockCourse, { feedbackSessions: mockSessions });
     expect(result.courseId).toBe('dog.gma-demo');
-    expect(result.courseJoinLink).toBe(`${window.location.origin}/web/join?entitytype=instructor`);
+    expect(result.courseJoinLink).toBe(`${window.location.origin}/web/join?key=impicklerick&entitytype=instructor`);
     expect(result.courseName).toBe('Sample Course 101');
     expect(result.email).toBe('dog@gmail.com');
     expect(result.manageAccountLink).toBe('/web/admin/accounts?instructorid=test%40example.com');
