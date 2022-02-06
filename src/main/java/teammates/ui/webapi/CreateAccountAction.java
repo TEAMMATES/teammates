@@ -40,6 +40,13 @@ class CreateAccountAction extends Action {
     @Override
     public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
         String registrationKey = getNonNullRequestParamValue(Const.ParamsNames.REGKEY);
+        String timezone = getRequestParamValue(Const.ParamsNames.TIMEZONE);
+
+        String timeZoneErrorMessage = FieldValidator.getInvalidityInfoForTimeZone(timezone);
+        if (!timeZoneErrorMessage.isEmpty()) {
+            // Use default timezone instead
+            timezone = Const.DEFAULT_TIME_ZONE;
+        }
 
         AccountRequestAttributes accountRequestAttributes = logic.getAccountRequestForRegistrationKey(registrationKey);
 
@@ -59,7 +66,7 @@ class CreateAccountAction extends Action {
         String courseId;
 
         try {
-            courseId = importDemoData(instructorEmail, instructorName, instructorInstitution);
+            courseId = importDemoData(instructorEmail, instructorName, instructorInstitution, timezone);
         } catch (InvalidParametersException ipe) {
             // There should not be any invalid parameter here
             log.severe("Unexpected error", ipe);
@@ -101,7 +108,7 @@ class CreateAccountAction extends Action {
      *
      * @return the ID of demo course
      */
-    private String importDemoData(String instructorEmail, String instructorName, String instructorInstitute)
+    private String importDemoData(String instructorEmail, String instructorName, String instructorInstitute, String timezone)
             throws InvalidParametersException {
 
         String courseId = generateDemoCourseId(instructorEmail);
@@ -114,7 +121,9 @@ class CreateAccountAction extends Action {
                 // replace course
                 "demo.course", courseId,
                 // replace institute
-                "demo.institute", instructorInstitute);
+                "demo.institute", instructorInstitute,
+                // replace timezone
+                "demo.timezone", timezone);
 
         DataBundle data = JsonUtils.fromJson(jsonString, DataBundle.class);
 

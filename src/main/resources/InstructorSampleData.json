@@ -5,7 +5,7 @@
       "id": "demo.course",
       "name": "Sample Course 101",
       "institute": "demo.institute",
-      "timeZone": "UTC"
+      "timeZone": "demo.timezone"
     }
   },
   "instructors": {
@@ -126,7 +126,7 @@
       "endTime": "2012-04-03T00:00:00Z",
       "sessionVisibleFromTime": "2012-04-02T00:00:00Z",
       "resultsVisibleFromTime": "2012-05-02T00:00:00Z",
-      "timeZone": "UTC",
+      "timeZone": "demo.timezone",
       "gracePeriod": 10,
       "sentOpeningSoonEmail": true,
       "sentOpenEmail": true,
@@ -147,7 +147,7 @@
       "endTime": "2012-04-03T00:00:00Z",
       "sessionVisibleFromTime": "2012-04-02T00:00:00Z",
       "resultsVisibleFromTime": "2012-05-02T00:00:00Z",
-      "timeZone": "UTC",
+      "timeZone": "demo.timezone",
       "gracePeriod": 10,
       "sentOpeningSoonEmail": true,
       "sentOpenEmail": true,
@@ -168,7 +168,7 @@
       "endTime": "2037-04-03T00:00:00Z",
       "sessionVisibleFromTime": "2012-04-02T00:00:00Z",
       "resultsVisibleFromTime": "1970-01-01T00:00:00Z",
-      "timeZone": "UTC",
+      "timeZone": "demo.timezone",
       "gracePeriod": 10,
       "sentOpeningSoonEmail": true,
       "sentOpenEmail": true,
