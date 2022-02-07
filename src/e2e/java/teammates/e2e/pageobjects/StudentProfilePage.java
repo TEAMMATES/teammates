@@ -44,15 +44,6 @@ public class StudentProfilePage extends AppPage {
     @FindBy(className = "upload-edit-photo")
     private WebElement uploadPopupButton;
 
-    @FindBy(className = "profile-upload-picture-submit")
-    private WebElement uploadPictureSubmit;
-
-    @FindBy(tagName = "tm-upload-edit-profile-picture-modal")
-    private WebElement uploadEditModal;
-
-    @FindBy(className = "btn-space")
-    private List<WebElement> editPictureTools;
-
     public StudentProfilePage(Browser browser) {
         super(browser);
     }
@@ -125,11 +116,13 @@ public class StudentProfilePage extends AppPage {
     }
 
     public void uploadPicture() {
+        WebElement uploadPictureSubmit = browser.driver.findElement(By.className("profile-upload-picture-submit"));
         click(uploadPictureSubmit);
         waitForPageToLoad(true);
     }
 
     public void editProfilePhoto() {
+        List<WebElement> editPictureTools = browser.driver.findElements(By.className("btn-space"));
         WebElement editPictureRotateRight = editPictureTools.get(0);
         WebElement editPictureFlipHorizontal = editPictureTools.get(1);
         WebElement editPictureFlipVertical = editPictureTools.get(2);
@@ -160,7 +153,9 @@ public class StudentProfilePage extends AppPage {
     }
 
     public void closePictureEditor() {
+        WebElement uploadEditModal = browser.driver.findElement(By.tagName("tm-upload-edit-profile-picture-modal"));
         click(uploadEditModal.findElement(By.className("close")));
+        waitForElementStaleness(uploadEditModal);
     }
 
     public void verifyPhotoSize(int height, int width) {
@@ -221,6 +216,6 @@ public class StudentProfilePage extends AppPage {
     }
 
     public void waitForUploadEditModalVisible() {
-        waitForElementVisibility(uploadEditModal);
+        waitForElementVisibility(By.tagName("tm-upload-edit-profile-picture-modal"));
     }
 }
