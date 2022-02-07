@@ -32,6 +32,7 @@ class FeedbackSessionResendPublishedEmailWorkerAction extends AdminOnlyAction {
         try {
             FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
             List<StudentAttributes> studentsToEmailList = new ArrayList<>();
+            List<InstructorAttributes> instructorsToEmailList = new ArrayList<>();
             InstructorAttributes instructorToNotify =
                     logic.getInstructorForGoogleId(courseId, googleIdOfInstructorToNotify);
             List<InstructorAttributes> instructorToNotifyAsList = new ArrayList<>();
@@ -42,10 +43,15 @@ class FeedbackSessionResendPublishedEmailWorkerAction extends AdminOnlyAction {
                 if (student != null) {
                     studentsToEmailList.add(student);
                 }
+
+                InstructorAttributes instructor = logic.getInstructorForEmail(courseId, userEmail);
+                if (instructor != null) {
+                    instructorsToEmailList.add(instructor);
+                }
             }
 
             List<EmailWrapper> emails = emailGenerator.generateFeedbackSessionPublishedEmails(
-                    session, studentsToEmailList, instructorToNotifyAsList);
+                    session, studentsToEmailList, instructorsToEmailList, instructorToNotifyAsList);
             taskQueuer.scheduleEmailsForSending(emails);
         } catch (Exception e) {
             log.severe("Unexpected error while sending emails", e);

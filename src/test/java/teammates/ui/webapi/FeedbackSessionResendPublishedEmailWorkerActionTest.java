@@ -56,8 +56,8 @@ public class FeedbackSessionResendPublishedEmailWorkerActionTest
         FeedbackSessionResendPublishedEmailWorkerAction action = getAction(remindRequest);
         action.execute();
 
-        // send 2 emails as specified in the submission parameters
-        verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 2);
+        // send 2 emails + 1 notification as specified in the submission parameters
+        verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 3);
 
         String courseName = logic.getCourse(publishedSession.getCourseId()).getName();
         List<TaskWrapper> tasksAdded = mockTaskQueuer.getTasksAdded();
