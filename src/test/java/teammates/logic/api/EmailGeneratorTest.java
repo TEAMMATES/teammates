@@ -155,17 +155,14 @@ public class EmailGeneratorTest extends BaseLogicTest {
         subject = String.format(EmailType.FEEDBACK_SESSION_REMINDER.getSubject(),
                                 course.getName(), session.getFeedbackSessionName());
 
-        String lineInEmailCopyToInstructor = "The email below has been sent to students of course:";
         // Verify the student reminder email
         verifyEmailReceivedCorrectly(emails, student1.getEmail(), subject, "/sessionReminderEmailForStudent.html");
         // Verify the Student email copy send to the instructor
         verifyEmailReceivedCorrectly(emails, instructor1.getEmail(), subject,
-                "/sessionReminderEmailCopyToInstructor.html", lineInEmailCopyToInstructor);
+                "/sessionReminderEmailCopyToInstructor.html");
         // Verify the instructor reminder email
-        String lineInEmailToInstructor =
-                "/web/sessions/submission?courseid=idOfTypicalCourse1&fsname=First%20feedback%20session";
         verifyEmailReceivedCorrectly(emails, instructor1.getEmail(), subject,
-                "/sessionReminderEmailForInstructor.html", lineInEmailToInstructor);
+                "/sessionReminderEmailForInstructor.html");
 
         ______TS("feedback session closing alerts");
 
@@ -201,7 +198,6 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         emails = emailGenerator.generateFeedbackSessionOpeningSoonEmails(session);
         List<InstructorAttributes> coOwners = instructorsLogic.getCoOwnersForCourse(course.getId());
-        assertNotEquals(coOwners.size(), 0);
         assertEquals(coOwners.size(), emails.size());
 
         subject = String.format(EmailType.FEEDBACK_OPENING_SOON.getSubject(), course.getName(),
@@ -670,18 +666,12 @@ public class EmailGeneratorTest extends BaseLogicTest {
     private void verifyEmailReceivedCorrectly(
             List<EmailWrapper> actualEmails, String recipient, String subject, String emailContentFilePath)
             throws Exception {
-        verifyEmailReceivedCorrectly(actualEmails, recipient, subject, emailContentFilePath, "");
-    }
-
-    private void verifyEmailReceivedCorrectly(
-            List<EmailWrapper> actualEmails, String recipient, String subject,
-            String emailContentFilePath, String containsString)
-            throws Exception {
         boolean hasReceivedEmailCorrectly = false;
         for (EmailWrapper email : actualEmails) {
-            if (email.getRecipient().equals(recipient) && email.getContent().contains(containsString)) {
+            if (email.getRecipient().equals(recipient) && email.getSubject().equals(subject)) {
                 verifyEmail(email, recipient, subject, emailContentFilePath);
                 hasReceivedEmailCorrectly = true;
+                break;
             }
         }
         assertTrue(hasReceivedEmailCorrectly);
