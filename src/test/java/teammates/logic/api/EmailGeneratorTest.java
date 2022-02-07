@@ -137,7 +137,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
         ______TS("feedback session opening emails");
 
         List<EmailWrapper> emails = emailGenerator.generateFeedbackSessionOpeningEmails(session);
-        assertEquals(11, emails.size());
+        assertEquals(9, emails.size());
 
         String subject = String.format(EmailType.FEEDBACK_OPENING.getSubject(),
                                        course.getName(), session.getFeedbackSessionName());
@@ -170,7 +170,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
         ______TS("feedback session closing alerts");
 
         emails = emailGenerator.generateFeedbackSessionClosingEmails(session);
-        assertEquals(8, emails.size());
+        assertEquals(6, emails.size());
 
         subject = String.format(EmailType.FEEDBACK_CLOSING.getSubject(),
                                 course.getName(), session.getFeedbackSessionName());
@@ -190,7 +190,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
         ______TS("feedback session closed alerts");
 
         emails = emailGenerator.generateFeedbackSessionClosedEmails(session);
-        assertEquals(8, emails.size());
+        assertEquals(6, emails.size());
 
         subject = String.format(EmailType.FEEDBACK_CLOSED.getSubject(),
                                 course.getName(), session.getFeedbackSessionName());
@@ -228,7 +228,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
         ______TS("feedback session published alerts");
 
         emails = emailGenerator.generateFeedbackSessionPublishedEmails(session);
-        assertEquals(11, emails.size());
+        assertEquals(9, emails.size());
 
         subject = String.format(EmailType.FEEDBACK_PUBLISHED.getSubject(),
                                 course.getName(), session.getFeedbackSessionName());
@@ -239,7 +239,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
         ______TS("feedback session unpublished alerts");
 
         emails = emailGenerator.generateFeedbackSessionUnpublishedEmails(session);
-        assertEquals(11, emails.size());
+        assertEquals(9, emails.size());
 
         subject = String.format(EmailType.FEEDBACK_UNPUBLISHED.getSubject(),
                                 course.getName(), session.getFeedbackSessionName());

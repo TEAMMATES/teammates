@@ -86,8 +86,8 @@ public class FeedbackSessionOpeningRemindersActionTest
         action = getAction();
         action.execute();
 
-        // 5 students and 5 instructors in course1
-        verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 20);
+        // 5 students and 3 co-owner instructors in course1
+        verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 16);
 
         String courseName = logic.getCourse(session1.getCourseId()).getName();
         List<TaskWrapper> tasksAdded = mockTaskQueuer.getTasksAdded();

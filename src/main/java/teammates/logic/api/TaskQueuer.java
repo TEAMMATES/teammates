@@ -73,12 +73,13 @@ public class TaskQueuer {
     }
 
     /**
-     * Schedules for feedback session reminders (i.e. student has not submitted responses yet)
+     * Schedules for feedback session reminders (i.e. student/instructor has not submitted responses yet)
      * for the specified feedback session for the specified group of users.
      *
      * @param courseId the course ID of the feedback session
      * @param feedbackSessionName the name of the feedback session
      * @param usersToRemind the group of users to send the reminders to
+     * @param requestingInstructorId the ID of the instructor who sends the reminder
      */
     public void scheduleFeedbackSessionRemindersForParticularUsers(String courseId, String feedbackSessionName,
                                                                    String[] usersToRemind,
@@ -112,11 +113,12 @@ public class TaskQueuer {
      * @param courseId the course ID of the feedback session
      * @param feedbackSessionName the name of the feedback session
      * @param usersToEmail the group of users to send the reminders to
+     * @param requestingInstructorId the ID of the instructor who sends the reminder
      */
     public void scheduleFeedbackSessionResendPublishedEmail(String courseId, String feedbackSessionName,
-            String[] usersToEmail) {
+            String[] usersToEmail, String requestingInstructorId) {
         FeedbackSessionRemindRequest remindRequest =
-                new FeedbackSessionRemindRequest(courseId, feedbackSessionName, null, usersToEmail);
+                new FeedbackSessionRemindRequest(courseId, feedbackSessionName, requestingInstructorId, usersToEmail);
 
         addTask(TaskQueue.FEEDBACK_SESSION_RESEND_PUBLISHED_EMAIL_QUEUE_NAME,
                 TaskQueue.FEEDBACK_SESSION_RESEND_PUBLISHED_EMAIL_WORKER_URL, new HashMap<>(), remindRequest);

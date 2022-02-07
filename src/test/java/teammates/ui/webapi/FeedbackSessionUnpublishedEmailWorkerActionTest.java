@@ -47,8 +47,8 @@ public class FeedbackSessionUnpublishedEmailWorkerActionTest
         FeedbackSessionUnpublishedEmailWorkerAction action = getAction(submissionParams);
         action.execute();
 
-        // 5 students and 5 instructors in course1
-        verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 10);
+        // 5 students and 3 co-owner instructors in course1
+        verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 8);
 
         String courseName = logic.getCourse(session1.getCourseId()).getName();
         List<TaskWrapper> tasksAdded = mockTaskQueuer.getTasksAdded();
