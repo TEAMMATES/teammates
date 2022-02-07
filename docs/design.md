@@ -24,7 +24,7 @@ TEAMMATES is a Web application that runs on Google App Engine (GAE). Given above
 
 The diagram below shows how the code in each component is organized into packages and the dependencies between them.
 
-![Package Diagram](images/packageDiagram.png)
+<puml src="diagrams/packageDiagram.puml"></puml>
 
 Notes:
 
@@ -35,7 +35,7 @@ Notes:
 
 The diagram below shows the object structure of the UI component.
 
-![UI Component](images/UiComponent.png)
+<puml src="diagrams/UiComponent.puml"></puml>
 
 Notes:
 
@@ -55,7 +55,7 @@ There are two general types of requests: user-invoked requests and automated (GA
 User-invoked requests are all requests made by the users of the application, typically from the Web browser (i.e. by navigating to a particular URL of the application).
 The request will be processed as follows:
 
-![UI Workflow](images/UiWorkflow.png)
+<puml src="diagrams/UiWorkflow.puml"></puml>
 
 The initial request for the web page will be processed as follows:
 
@@ -147,7 +147,7 @@ The `Logic` component handles the business logic of TEAMMATES. In particular, it
 - Sanitizing input values received from the UI component.
 - Connecting to GCP or third-party services, e.g. for adding tasks to the task queue and for sending emails with third-party providers.
 
-![Logic Component](images/LogicComponent.png)
+<puml src="diagrams/LogicComponent.puml"></puml>
 
 Package overview:
 
@@ -211,7 +211,7 @@ In particular, it is reponsible for:
 
 The `Storage` component does not perform any cascade delete/create operations. Cascade logic is handled by the `Logic` component.
 
-![Storage Component](images/StorageComponent.png)
+<puml src="diagrams/StorageComponent.puml"></puml>
 
 Package overview:
 
@@ -219,7 +219,7 @@ Package overview:
 - **`storage.entity`**: Classes that represent persistable entities.
 - **`storage.search`**: Classes for dealing with searching and indexing.
 
-![Storage ER Diagram](images/StorageClassDiagram.png)
+<puml src="diagrams/StorageClassDiagram.puml"></puml>
 
 Note that the navigability of the association links between entity objects appear to be in the reverse direction of what we see in a normal OOP design.
 This is because we want to keep the data schema flexible so that new entity types can be added later with minimal modifications to existing elements.
@@ -257,7 +257,7 @@ API for deleting:
 
 The Common component contains common utilities used across TEAMMATES.
 
-![Common Component](images/CommonComponent.png)
+<puml src="diagrams/CommonComponent.puml"></puml>
 
 Package overview:
 
@@ -267,7 +267,7 @@ Package overview:
 
 `common.datatransfer` package contains lightweight "data transfer object" classes for transferring data among components. They can be combined in various ways to transfer structured data between components. Given below are three examples.
 
-![Data Transfer Classes](images/dataTransferClasses.png)
+<puml src="diagrams/dataTransferClasses.puml"></puml>
 
 1. `Test Driver` can use the `DataBundle` in this manner to send an arbitrary number of objects to be persisted in the database.
 1. This structure can be used to transfer search results of a student or instructor or response comments.
@@ -279,7 +279,7 @@ Some of these classes are methodless (and thus more of a data structure rather t
 
 This component automates the testing of TEAMMATES.
 
-![Test Driver Component](images/TestDriverComponent.png)
+<puml src="diagrams/TestDriverComponent.puml"></puml>
 
 The test driver component's package structure follows the corresponding production package structure's exactly,
 e.g. `teammates.logic.core.*` will contain the test cases for the production code inside `teammates.logic.core` package.
@@ -308,7 +308,7 @@ TEAMMATES
 
 The E2E component has no knowledge of the internal workings of the application and can only interact either with Web browser (as a whole application) or REST API calls (for the back-end logic). Its primary function is for E2E tests.
 
-![E2E Component](images/E2EComponent.png)
+<puml src="diagrams/E2EComponent.puml"></puml>
 
 Package overview:
 
@@ -320,7 +320,7 @@ Package overview:
 
 The Client component contains scripts that can connect directly to the application back-end for administrative purposes, such as migrating data to a new schema and calculating statistics.
 
-![Client Component](images/ClientComponent.png)
+<puml src="diagrams/ClientComponent.puml"></puml>
 
 Package overview:
 

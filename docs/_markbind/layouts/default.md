@@ -10,7 +10,8 @@
     <li><a href="{{ baseUrl }}/index.html" class="nav-link">HOME</a></li>
     <li><a href="{{ baseUrl }}/contributing.html" class="nav-link">CONTRIBUTING</a></li>
     <li><a href="{{ baseUrl }}/about.html" class="nav-link">ABOUT</a></li>
-
+    <li><a href="http://teammatesv4.appspot.com/" class="nav-link">PRODUCT WEBSITE <md>:glyphicon-share-alt:</md></a></li>
+    <li><a href="https://github.com/TEAMMATES/teammates" target="_blank" class="nav-link"><md>:fab-github:</md></a></li>
   <li slot="right">
     <form class="navbar-form">
       <searchbar :data="searchData" placeholder="Search" :on-hit="searchCallback" menu-align-right></searchbar>
@@ -27,12 +28,14 @@
     <div class="nav-component slim-scroll">
       <site-nav>
 
-* Getting Started :expanded:
+* About Markbind :expanded:
   * [Introduction]({{ baseUrl }}/index.html)
   * [Overview]({{ baseUrl }}/overview.html)
+* Getting Started :expanded:
   * [Setting Up]({{ baseUrl }}/setting-up.html)
-    * [Search]({{ baseUrl }}/search.html)
-* [Contributing]({{ baseUrl }}/contributing.html) :expanded:
+  * [Search]({{ baseUrl }}/search.html)
+* Workflow :expanded:
+  * [Contributing]({{ baseUrl }}/contributing.html)
   * [Issues]({{ baseUrl }}/issues.html)
   * [Process]({{ baseUrl }}/process.html)
   * [Development]({{ baseUrl }}/development.html)

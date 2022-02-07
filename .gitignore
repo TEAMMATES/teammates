@@ -78,4 +78,4 @@ datastore-dev/datastore/*
 
 # Docs
 docs/_site/*
-docs/_markbind/logs/markbind-2022-01-15.log
+docs/_markbind/logs/*
