@@ -205,7 +205,8 @@ public final class EmailGenerator {
 
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
         String template = EmailTemplates.USER_FEEDBACK_SESSION.replace("${status}", FEEDBACK_STATUS_SESSION_OPEN);
-        String additionalContactInformation = HTML_NO_ACTION_REQUIRED + getAdditionalContactInformationFragment(course);
+        String additionalContactInformation = HTML_NO_ACTION_REQUIRED
+                + getAdditionalContactInformationFragment(course, false);
 
         return generateFeedbackSessionEmailBaseForStudents(course, session, student, template,
                 EmailType.FEEDBACK_SESSION_REMINDER, FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW, additionalContactInformation);
@@ -302,7 +303,7 @@ public final class EmailGenerator {
             linksFragmentValue.append("No links found.");
         }
 
-        String additionalContactInformation = getAdditionalContactInformationFragment(course);
+        String additionalContactInformation = getAdditionalContactInformationFragment(course, isInstructor);
         String resendLinksTemplate = emailType == EmailType.STUDENT_EMAIL_CHANGED
                 ? Templates.EmailTemplates.USER_FEEDBACK_SESSION_RESEND_ALL_LINKS
                 : Templates.EmailTemplates.USER_REGKEY_REGENERATION_RESEND_ALL_COURSE_LINKS;
@@ -618,25 +619,27 @@ public final class EmailGenerator {
             CourseAttributes course, FeedbackSessionAttributes session, List<StudentAttributes> students,
             List<InstructorAttributes> instructors, List<InstructorAttributes> instructorsToNotify, String template,
             EmailType type, String feedbackAction) {
-        StringBuilder sb = new StringBuilder();
+        StringBuilder studentAdditionalContactBuilder = new StringBuilder();
+        StringBuilder instructorAdditionalContactBuilder = new StringBuilder();
         if (type == EmailType.FEEDBACK_CLOSING || type == EmailType.FEEDBACK_SESSION_REMINDER) {
-            sb.append(HTML_NO_ACTION_REQUIRED);
+            studentAdditionalContactBuilder.append(HTML_NO_ACTION_REQUIRED);
+            instructorAdditionalContactBuilder.append(HTML_NO_ACTION_REQUIRED);
         }
-        sb.append(getAdditionalContactInformationFragment(course));
-        String additionalContactInformation = sb.toString();
+        studentAdditionalContactBuilder.append(getAdditionalContactInformationFragment(course, false));
+        instructorAdditionalContactBuilder.append(getAdditionalContactInformationFragment(course, true));
 
         List<EmailWrapper> emails = new ArrayList<>();
         for (StudentAttributes student : students) {
             emails.add(generateFeedbackSessionEmailBaseForStudents(course, session, student,
-                    template, type, feedbackAction, additionalContactInformation));
+                    template, type, feedbackAction, studentAdditionalContactBuilder.toString()));
         }
         for (InstructorAttributes instructor : instructors) {
             emails.add(generateFeedbackSessionEmailBaseForInstructors(course, session, instructor,
-                    template, type, feedbackAction, additionalContactInformation));
+                    template, type, feedbackAction, instructorAdditionalContactBuilder.toString()));
         }
         for (InstructorAttributes instructor : instructorsToNotify) {
             emails.add(generateFeedbackSessionEmailBaseForNotifiedInstructors(course, session, instructor,
-                    template, type, feedbackAction, additionalContactInformation));
+                    template, type, feedbackAction, studentAdditionalContactBuilder.toString()));
         }
         return emails;
     }
@@ -972,8 +975,11 @@ public final class EmailGenerator {
      * Generates additional contact information for User Email Templates.
      * @return The contact information after replacing the placeholders.
      */
-    private String getAdditionalContactInformationFragment(CourseAttributes course) {
+    private String getAdditionalContactInformationFragment(CourseAttributes course, boolean isInstructor) {
+        String particulars = isInstructor ? "instructor data (e.g. wrong permission, misspelled name)"
+                : "team/student data (e.g. wrong team, misspelled name)";
         return Templates.populateTemplate(EmailTemplates.FRAGMENT_SESSION_ADDITIONAL_CONTACT_INFORMATION,
+                "${particulars}", particulars,
                 "${coOwnersEmails}", generateCoOwnersEmailsLine(course.getId()),
                 "${supportEmail}", Config.SUPPORT_EMAIL);
     }
