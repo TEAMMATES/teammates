@@ -153,6 +153,17 @@ describe('SearchService', () => {
     );
   });
 
+  it('should execute GET when searching for account requests', () => {
+    service.searchAccountRequests('Account Request');
+    const paramMap: { [key: string]: string } = {
+      searchkey: 'Account Request',
+    };
+    expect(spyHttpRequestService.get).toHaveBeenCalledWith(
+      ResourceEndpoints.SEARCH_ACCOUNT_REQUESTS,
+      paramMap,
+    );
+  });
+
   it('should join students accurately when calling as admin', () => {
     const result: StudentAccountSearchResult = service.joinAdminStudent(
       mockStudent,

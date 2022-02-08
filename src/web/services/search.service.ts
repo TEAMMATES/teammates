@@ -3,6 +3,8 @@ import { forkJoin, Observable, of } from 'rxjs';
 import { flatMap, map } from 'rxjs/operators';
 import { ResourceEndpoints } from '../types/api-const';
 import {
+  AccountRequest,
+  AccountRequests,
   Course, FeedbackSession,
   FeedbackSessions,
   Instructor,
@@ -52,22 +54,25 @@ export class SearchService {
     return forkJoin([
       this.searchStudents(searchKey, 'admin'),
       this.searchInstructors(searchKey),
+      this.searchAccountRequests(searchKey),
     ]).pipe(
-      map((value: [Students, Instructors]): [Student[], Instructor[]] =>
-        [value[0].students, value[1].instructors],
+      map((value: [Students, Instructors, AccountRequests]): [Student[], Instructor[], AccountRequest[]] =>
+        [value[0].students, value[1].instructors, value[2].accountRequests],
       ),
-      flatMap((value: [Student[], Instructor[]]) => {
-        const [students, instructors]: [Student[], Instructor[]] = value;
+      flatMap((value: [Student[], Instructor[], AccountRequest[]]) => {
+        const [students, instructors, accountRequests]: [Student[], Instructor[], AccountRequest[]] = value;
         return forkJoin([
           of(students),
           of(instructors),
+          of(accountRequests),
           this.getDistinctFields(students, instructors),
         ]);
       }),
-      map((value: [Student[], Instructor[], DistinctFields]) => {
+      map((value: [Student[], Instructor[], AccountRequest[], DistinctFields]) => {
         return {
-          students: this.createStudentAccountSearchResults(value[0], ...value[2]),
-          instructors: this.createInstructorAccountSearchResults(value[1], value[2][1], value[2][2]),
+          students: this.createStudentAccountSearchResults(value[0], ...value[3]),
+          instructors: this.createInstructorAccountSearchResults(value[1], value[3][1], value[3][2]),
+          accountRequests: this.createAccountRequestSearchResults(value[2]),
         };
       }),
     );
@@ -86,6 +91,13 @@ export class SearchService {
       searchkey: searchKey,
     };
     return this.httpRequestService.get(ResourceEndpoints.SEARCH_INSTRUCTORS, paramMap);
+  }
+
+  searchAccountRequests(searchKey: string): Observable<AccountRequests> {
+    const paramMap: { [key: string]: string } = {
+      searchkey: searchKey,
+    };
+    return this.httpRequestService.get(ResourceEndpoints.SEARCH_ACCOUNT_REQUESTS, paramMap);
   }
 
   createStudentAccountSearchResults(
@@ -267,6 +279,36 @@ export class SearchService {
     return feedbackSessionLinks;
   }
 
+  createAccountRequestSearchResults(
+    accountRequests: AccountRequest[],
+  ): AccountRequestSearchResult[] {
+    return accountRequests.map((accountRequest: AccountRequest) => this.joinAdminAccountRequest(accountRequest));
+  }
+
+  joinAdminAccountRequest(accountRequest: AccountRequest): AccountRequestSearchResult {
+    let accountRequestResult: AccountRequestSearchResult = {
+      name: '',
+      email: '',
+      institute: '',
+      createdAt: '',
+      registeredAt: '',
+      registrationLink: '',
+      showLinks: false,
+    };
+
+    const { registrationKey, createdAt, registeredAt, name, institute, email }: AccountRequest = accountRequest;
+
+    accountRequestResult.createdAt = this.formatTimestampAsString(createdAt, 'UTC');
+    accountRequestResult.registeredAt = registeredAt
+        ? this.formatTimestampAsString(registeredAt, 'UTC')
+        : 'Not Registered Yet' ;
+
+    const registrationLink: string = this.linkService.generateAccountRegistrationLink(registrationKey);
+    accountRequestResult = { ...accountRequestResult, name, email, institute, registrationLink };
+
+    return accountRequestResult;
+  }
+
   private getDistinctFields(students: Student[], instructors: Instructor[]): Observable<DistinctFields> {
     const distinctCourseIds: string[] = Array.from(new Set([
       ...students.map((student: Student) => student.courseId),
@@ -375,12 +417,19 @@ export class SearchService {
   }
 
   private formatProperties(feedbackSession: FeedbackSession): { startTime: string, endTime: string } {
-    const DATE_FORMAT_WITH_ZONE_INFO: string = 'ddd, DD MMM YYYY, hh:mm A Z';
-    const startTime: string = this.timezoneService
-        .formatToString(feedbackSession.submissionStartTimestamp, feedbackSession.timeZone, DATE_FORMAT_WITH_ZONE_INFO);
-    const endTime: string = this.timezoneService
-        .formatToString(feedbackSession.submissionEndTimestamp, feedbackSession.timeZone, DATE_FORMAT_WITH_ZONE_INFO);
+    const startTime: string =
+        this.formatTimestampAsString(feedbackSession.submissionStartTimestamp, feedbackSession.timeZone);
+    const endTime: string =
+        this.formatTimestampAsString(feedbackSession.submissionEndTimestamp, feedbackSession.timeZone);
+
     return { startTime, endTime };
+  }
+
+  private formatTimestampAsString(timestamp: number, timezone: string): string {
+    const DATE_FORMAT_WITH_ZONE_INFO: string = 'ddd, DD MMM YYYY, hh:mm A Z';
+
+    return this.timezoneService
+        .formatToString(timestamp, timezone, DATE_FORMAT_WITH_ZONE_INFO);
   }
 }
 
@@ -397,6 +446,20 @@ export interface InstructorSearchResult {
 export interface AdminSearchResult {
   students: StudentAccountSearchResult[];
   instructors: InstructorAccountSearchResult[];
+  accountRequests: AccountRequestSearchResult[];
+}
+
+/**
+ * Search results for account requests from the Admin endpoint.
+ */
+export interface AccountRequestSearchResult {
+  name: string;
+  email: string;
+  institute: string;
+  createdAt: string;
+  registeredAt: string;
+  registrationLink: string;
+  showLinks: boolean;
 }
 
 /**
