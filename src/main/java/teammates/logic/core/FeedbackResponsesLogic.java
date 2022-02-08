@@ -317,6 +317,13 @@ public final class FeedbackResponsesLogic {
         return question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
     }
 
+    /**
+     * Returns true if the responses of the question are visible to instructors.
+     */
+    public boolean isResponseOfFeedbackQuestionVisibleToInstructor(FeedbackQuestionAttributes question) {
+        return question.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS);
+    }
+
     private List<FeedbackQuestionAttributes> getQuestionsForSession(
             String feedbackSessionName, String courseId, @Nullable String questionId) {
         if (questionId == null) {

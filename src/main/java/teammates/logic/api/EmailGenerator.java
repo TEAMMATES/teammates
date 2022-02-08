@@ -81,7 +81,7 @@ public final class EmailGenerator {
         String template = EmailTemplates.USER_FEEDBACK_SESSION;
 
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
-        boolean isEmailNeeded = fsLogic.isFeedbackSessionForStudentsToAnswer(session);
+        boolean isEmailNeeded = fsLogic.isFeedbackSessionForUserTypeToAnswer(session, false);
         List<InstructorAttributes> instructorsToNotify = isEmailNeeded
                 ? instructorsLogic.getCoOwnersForCourse(session.getCourseId())
                 : new ArrayList<>();
@@ -508,15 +508,14 @@ public final class EmailGenerator {
     public List<EmailWrapper> generateFeedbackSessionClosingEmails(FeedbackSessionAttributes session) {
 
         List<StudentAttributes> students = new ArrayList<>();
-        boolean isEmailNeeded = fsLogic.isFeedbackSessionForStudentsToAnswer(session);
+        boolean isEmailNeeded = fsLogic.isFeedbackSessionForUserTypeToAnswer(session, false);
 
         if (isEmailNeeded) {
             List<StudentAttributes> studentsForCourse = studentsLogic.getStudentsForCourse(session.getCourseId());
 
             for (StudentAttributes student : studentsForCourse) {
                 try {
-                    if (!fsLogic.isFeedbackSessionAttemptedByStudent(session.getFeedbackSessionName(),
-                            session.getCourseId(), student.getEmail())) {
+                    if (!fsLogic.isFeedbackSessionAttemptedByUser(session, student.getEmail(), false)) {
                         students.add(student);
                     }
                 } catch (EntityDoesNotExistException e) {
@@ -545,14 +544,7 @@ public final class EmailGenerator {
     public List<EmailWrapper> generateFeedbackSessionClosedEmails(FeedbackSessionAttributes session) {
 
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
-        boolean isEmailNeededForStudents = false;
-        try {
-            isEmailNeededForStudents = fsLogic.isFeedbackSessionHasQuestionForStudents(
-                    session.getFeedbackSessionName(), session.getCourseId());
-        } catch (EntityDoesNotExistException e) {
-            log.severe("Course " + session.getCourseId() + " does not exist or "
-                    + "session " + session.getFeedbackSessionName() + " does not exist");
-        }
+        boolean isEmailNeededForStudents = fsLogic.isFeedbackSessionForUserTypeToAnswer(session, false);
         List<InstructorAttributes> instructorsToNotify = isEmailNeededForStudents
                 ? instructorsLogic.getCoOwnersForCourse(session.getCourseId())
                 : new ArrayList<>();
@@ -562,8 +554,7 @@ public final class EmailGenerator {
         List<StudentAttributes> studentsToEmail = new ArrayList<>();
         for (StudentAttributes student : studentsForCourse) {
             try {
-                if (!fsLogic.isFeedbackSessionAttemptedByStudent(session.getFeedbackSessionName(),
-                        session.getCourseId(), student.getEmail())) {
+                if (!fsLogic.isFeedbackSessionAttemptedByUser(session, student.getEmail(), false)) {
                     studentsToEmail.add(student);
                 }
             } catch (EntityDoesNotExistException e) {
@@ -586,7 +577,7 @@ public final class EmailGenerator {
      */
     public List<EmailWrapper> generateFeedbackSessionPublishedEmails(FeedbackSessionAttributes session) {
 
-        boolean isEmailNeeded = fsLogic.isFeedbackSessionViewableToStudents(session);
+        boolean isEmailNeeded = fsLogic.isFeedbackSessionViewableToUserType(session, false);
         List<InstructorAttributes> instructorsToNotify = isEmailNeeded
                 ? instructorsLogic.getCoOwnersForCourse(session.getCourseId())
                 : new ArrayList<>();
@@ -620,7 +611,7 @@ public final class EmailGenerator {
         String template = EmailTemplates.USER_FEEDBACK_SESSION_UNPUBLISHED;
 
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
-        boolean isEmailNeeded = fsLogic.isFeedbackSessionViewableToStudents(session);
+        boolean isEmailNeeded = fsLogic.isFeedbackSessionViewableToUserType(session, false);
         List<InstructorAttributes> instructorsToNotify = isEmailNeeded
                 ? instructorsLogic.getCoOwnersForCourse(session.getCourseId())
                 : new ArrayList<>();

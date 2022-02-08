@@ -950,11 +950,11 @@ public class Logic {
      * instructor can view/submit.
      */
     public List<FeedbackQuestionAttributes> getFeedbackQuestionsForInstructors(
-            String feedbackSessionName, String courseId, String instructorEmail) throws EntityDoesNotExistException {
+            String feedbackSessionName, String courseId, String instructorEmail) {
         assert feedbackSessionName != null;
         assert courseId != null;
 
-        return feedbackQuestionsLogic.getFeedbackQuestionsForInstructor(feedbackSessionName, courseId, instructorEmail);
+        return feedbackQuestionsLogic.getFeedbackQuestionsForInstructors(feedbackSessionName, courseId, instructorEmail);
     }
 
     /**

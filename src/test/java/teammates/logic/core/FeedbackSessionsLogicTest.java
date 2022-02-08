@@ -147,14 +147,13 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
     public void testAll() throws Exception {
 
         testGetSoftDeletedFeedbackSessionsListForInstructors();
-        testIsFeedbackSessionViewableToStudents();
+        testIsFeedbackSessionViewableToUserType();
 
         testCreateAndDeleteFeedbackSession();
 
         testUpdateFeedbackSession();
         testPublishUnpublishFeedbackSession();
 
-        testIsFeedbackSessionHasQuestionForStudents();
         testIsFeedbackSessionCompletedByStudent();
         testIsFeedbackSessionCompletedByInstructor();
 
@@ -180,30 +179,6 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         AssertHelper.assertSameContentIgnoreOrder(
                 softDeletedFsa, fsLogic.getSoftDeletedFeedbackSessionsListForInstructors(instructors));
 
-    }
-
-    private void testIsFeedbackSessionHasQuestionForStudents() throws Exception {
-        // no need to removeAndRestoreTypicalDataInDatabase() as the previous test does not change the db
-
-        FeedbackSessionAttributes sessionWithStudents = dataBundle.feedbackSessions.get("gracePeriodSession");
-        FeedbackSessionAttributes sessionWithoutStudents = dataBundle.feedbackSessions.get("closedSession");
-
-        ______TS("non-existent session/courseId");
-
-        EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
-                () -> fsLogic.isFeedbackSessionHasQuestionForStudents("nOnEXistEnT session", "someCourse"));
-        assertEquals("Trying to check a non-existent feedback session: someCourse/nOnEXistEnT session",
-                ednee.getMessage());
-
-        ______TS("session contains students");
-
-        assertTrue(fsLogic.isFeedbackSessionHasQuestionForStudents(sessionWithStudents.getFeedbackSessionName(),
-                                                                   sessionWithStudents.getCourseId()));
-
-        ______TS("session does not contain students");
-
-        assertFalse(fsLogic.isFeedbackSessionHasQuestionForStudents(sessionWithoutStudents.getFeedbackSessionName(),
-                                                                    sessionWithoutStudents.getCourseId()));
     }
 
     private void testGetFeedbackSessionsClosingWithinTimeLimit() throws Exception {
@@ -520,21 +495,27 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         verifyAbsentInDatabase(fq);
     }
 
-    private void testIsFeedbackSessionViewableToStudents() {
-        ______TS("Session with questions for students to answer");
+    private void testIsFeedbackSessionViewableToUserType() {
+        ______TS("Session with questions for students/instructors to answer");
         FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
-        assertTrue(fsLogic.isFeedbackSessionViewableToStudents(session));
+        assertTrue(fsLogic.isFeedbackSessionViewableToUserType(session, false));
+        assertTrue(fsLogic.isFeedbackSessionViewableToUserType(session, true));
 
         ______TS("Session without questions for students, but with visible responses");
         session = dataBundle.feedbackSessions.get("archiveCourse.session1");
-        assertTrue(fsLogic.isFeedbackSessionViewableToStudents(session));
+        assertTrue(fsLogic.isFeedbackSessionViewableToUserType(session, false));
 
         session = dataBundle.feedbackSessions.get("session1InCourse2");
-        assertTrue(fsLogic.isFeedbackSessionViewableToStudents(session));
+        assertTrue(fsLogic.isFeedbackSessionViewableToUserType(session, false));
+
+        ______TS("Session without questions for instructors, but with visible responses");
+        session = dataBundle.feedbackSessions.get("session2InCourse1");
+        assertTrue(fsLogic.isFeedbackSessionViewableToUserType(session, true));
 
         ______TS("empty session");
         session = dataBundle.feedbackSessions.get("empty.session");
-        assertFalse(fsLogic.isFeedbackSessionViewableToStudents(session));
+        assertFalse(fsLogic.isFeedbackSessionViewableToUserType(session, false));
+        assertFalse(fsLogic.isFeedbackSessionViewableToUserType(session, true));
     }
 
     private void testUpdateFeedbackSession() throws Exception {
