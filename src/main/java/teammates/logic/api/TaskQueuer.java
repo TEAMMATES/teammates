@@ -215,8 +215,8 @@ public class TaskQueuer {
     /**
      * Schedules for the search indexing of the account request identified by {@code email} and {@code institute}.
      *
-     * @param email the email of the instructor
-     * @param institute the institute of the instructor
+     * @param email the email associated with the account request
+     * @param institute the institute associated with the account request
      */
     public void scheduleAccountRequestForSearchIndexing(String email, String institute) {
         Map<String, String> paramMap = new HashMap<>();
