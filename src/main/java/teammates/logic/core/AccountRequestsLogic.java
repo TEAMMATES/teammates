@@ -1,9 +1,12 @@
 package teammates.logic.core;
 
+import java.util.List;
+
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.SearchServiceException;
 import teammates.storage.api.AccountRequestsDb;
 
 /**
@@ -76,6 +79,25 @@ public final class AccountRequestsLogic {
      */
     public AccountRequestAttributes getAccountRequestForRegistrationKey(String registrationKey) {
         return accountRequestsDb.getAccountRequestForRegistrationKey(registrationKey);
+    }
+
+    /**
+     * Creates or updates search document for the given account request.
+     *
+     * @param accountRequest the account request to be put into documents
+     */
+    public void putDocument(AccountRequestAttributes accountRequest) throws SearchServiceException {
+        accountRequestsDb.putDocument(accountRequest);
+    }
+
+    /**
+     * This is used by admin to search account requests in the whole system.
+     *
+     * @return A list of {@link AccountRequestAttributes} or {@code null} if no match found.
+     */
+    public List<AccountRequestAttributes> searchAccountRequestsInWholeSystem(String queryString)
+            throws SearchServiceException {
+        return accountRequestsDb.searchAccountRequestsInWholeSystem(queryString);
     }
 
 }
