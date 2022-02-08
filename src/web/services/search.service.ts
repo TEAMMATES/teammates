@@ -450,7 +450,7 @@ export interface AdminSearchResult {
 }
 
 /**
- * Search results for account requests from the Admin endpoint.
+ * Search results for account requests from the admin endpoint.
  */
 export interface AccountRequestSearchResult {
   name: string;
