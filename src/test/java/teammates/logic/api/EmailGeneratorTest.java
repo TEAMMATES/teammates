@@ -172,13 +172,13 @@ public class EmailGeneratorTest extends BaseLogicTest {
         subject = String.format(EmailType.FEEDBACK_CLOSING.getSubject(),
                                 course.getName(), session.getFeedbackSessionName());
 
-        // student1 has completed the feedback session and closing alert is only sent for those who are
-        // yet to complete, so we resort to student5
+        // student1 has attempted the feedback session and closing alert is only sent for those who are
+        // yet to attempt, so we resort to student5
         StudentAttributes student5 = studentsLogic.getStudentForEmail(course.getId(), "student5InCourse1@gmail.tmt");
 
         for (EmailWrapper email : emails) {
             if (email.getRecipient().equals(student1.getEmail())) {
-                fail("student1 has completed the session and are not supposed to receive email");
+                fail("student1 has attempted the session and are not supposed to receive email");
             }
         }
         verifyEmailReceivedCorrectly(emails, student5.getEmail(), subject, "/sessionClosingEmailForStudent.html");

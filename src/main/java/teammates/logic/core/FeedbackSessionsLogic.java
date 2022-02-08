@@ -212,19 +212,19 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
-     * Checks whether a student has completed a feedback session.
+     * Checks whether a student has attempted a feedback session.
      *
-     * <p>If feedback session consists of all team questions, session is completed by student only
+     * <p>If feedback session consists of all team questions, session is attempted by student only
      * if someone from the team has responded. If feedback session has some individual questions,
-     * session is completed only if the student has responded to the individual questions
+     * session is attempted only if the student has responded to any of the individual questions
      * (regardless of the completion status of the team questions).</p>
      */
-    public boolean isFeedbackSessionCompletedByStudent(FeedbackSessionAttributes fsa, String userEmail, String userTeam) {
+    public boolean isFeedbackSessionAttemptedByStudent(FeedbackSessionAttributes fsa, String userEmail, String userTeam) {
         String feedbackSessionName = fsa.getFeedbackSessionName();
         String courseId = fsa.getCourseId();
 
         if (!fqLogic.sessionHasQuestions(feedbackSessionName, courseId)) {
-            // if there are no questions for student, session is complete
+            // if there are no questions for student, session is attempted
             return true;
         } else if (fqLogic.sessionHasQuestionsForGiverType(
                 feedbackSessionName, courseId, FeedbackParticipantType.STUDENTS)) {
@@ -237,12 +237,11 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
-     * Checks whether an instructor has completed a feedback session.
+     * Checks whether an instructor has attempted a feedback session.
      *
-     * <p> If there is no question for instructors, the feedback session is completed</p>
+     * <p>If there is no question for instructors, the feedback session is considered as attempted.</p>
      */
-    public boolean isFeedbackSessionCompletedByInstructor(FeedbackSessionAttributes fsa, String userEmail)
-            throws EntityDoesNotExistException {
+    public boolean isFeedbackSessionAttemptedByInstructor(FeedbackSessionAttributes fsa, String userEmail) {
         if (frLogic.hasGiverRespondedForSession(userEmail, fsa.getFeedbackSessionName(), fsa.getCourseId())) {
             return true;
         }
@@ -251,7 +250,7 @@ public final class FeedbackSessionsLogic {
         String courseId = fsa.getCourseId();
         List<FeedbackQuestionAttributes> allQuestions =
                 fqLogic.getFeedbackQuestionsForInstructors(feedbackSessionName, courseId, userEmail);
-        // if there is no question for instructor, session is complete
+        // if there is no question for instructor, session is attempted
         return allQuestions.isEmpty();
     }
 
