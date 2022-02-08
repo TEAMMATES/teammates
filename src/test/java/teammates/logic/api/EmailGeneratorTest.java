@@ -143,7 +143,8 @@ public class EmailGeneratorTest extends BaseLogicTest {
                                        course.getName(), session.getFeedbackSessionName());
 
         verifyEmailReceivedCorrectly(emails, student1.getEmail(), subject, "/sessionOpeningEmailForStudent.html");
-        verifyEmailReceivedCorrectly(emails, instructor1.getEmail(), subject, "/sessionOpeningEmailForInstructor.html");
+        verifyEmailReceivedCorrectly(emails, instructor1.getEmail(), EmailWrapper.EMAIL_COPY_SUBJECT_PREFIX + subject,
+                "/sessionOpeningEmailForInstructor.html");
 
         ______TS("feedback session reminders");
 
@@ -158,11 +159,10 @@ public class EmailGeneratorTest extends BaseLogicTest {
         // Verify the student reminder email
         verifyEmailReceivedCorrectly(emails, student1.getEmail(), subject, "/sessionReminderEmailForStudent.html");
         // Verify the Student email copy send to the instructor
-        verifyEmailReceivedCorrectly(emails, instructor1.getEmail(), subject,
+        verifyEmailReceivedCorrectly(emails, instructor1.getEmail(), EmailWrapper.EMAIL_COPY_SUBJECT_PREFIX + subject,
                 "/sessionReminderEmailCopyToInstructor.html");
         // Verify the instructor reminder email
-        verifyEmailReceivedCorrectly(emails, instructor1.getEmail(), subject,
-                "/sessionReminderEmailForInstructor.html");
+        verifyEmailReceivedCorrectly(emails, instructor1.getEmail(), subject, "/sessionReminderEmailForInstructor.html");
 
         ______TS("feedback session closing alerts");
 
@@ -182,7 +182,8 @@ public class EmailGeneratorTest extends BaseLogicTest {
             }
         }
         verifyEmailReceivedCorrectly(emails, student5.getEmail(), subject, "/sessionClosingEmailForStudent.html");
-        verifyEmailReceivedCorrectly(emails, instructor1.getEmail(), subject, "/sessionClosingEmailForInstructor.html");
+        verifyEmailReceivedCorrectly(emails, instructor1.getEmail(), EmailWrapper.EMAIL_COPY_SUBJECT_PREFIX + subject,
+                "/sessionClosingEmailForInstructor.html");
 
         ______TS("feedback session closed alerts");
 
@@ -192,7 +193,8 @@ public class EmailGeneratorTest extends BaseLogicTest {
         subject = String.format(EmailType.FEEDBACK_CLOSED.getSubject(),
                                 course.getName(), session.getFeedbackSessionName());
 
-        verifyEmailReceivedCorrectly(emails, instructor1.getEmail(), subject, "/sessionClosedEmailForInstructor.html");
+        verifyEmailReceivedCorrectly(emails, instructor1.getEmail(), EmailWrapper.EMAIL_COPY_SUBJECT_PREFIX + subject,
+                "/sessionClosedEmailForInstructor.html");
 
         ______TS("feedback session opening soon alerts for co-owners");
 
@@ -230,7 +232,8 @@ public class EmailGeneratorTest extends BaseLogicTest {
                                 course.getName(), session.getFeedbackSessionName());
 
         verifyEmailReceivedCorrectly(emails, student1.getEmail(), subject, "/sessionPublishedEmailForStudent.html");
-        verifyEmailReceivedCorrectly(emails, instructor1.getEmail(), subject, "/sessionPublishedEmailForInstructor.html");
+        verifyEmailReceivedCorrectly(emails, instructor1.getEmail(), EmailWrapper.EMAIL_COPY_SUBJECT_PREFIX + subject,
+                "/sessionPublishedEmailForInstructor.html");
 
         ______TS("feedback session unpublished alerts");
 
@@ -241,7 +244,8 @@ public class EmailGeneratorTest extends BaseLogicTest {
                                 course.getName(), session.getFeedbackSessionName());
 
         verifyEmailReceivedCorrectly(emails, student1.getEmail(), subject, "/sessionUnpublishedEmailForStudent.html");
-        verifyEmailReceivedCorrectly(emails, instructor1.getEmail(), subject, "/sessionUnpublishedEmailForInstructor.html");
+        verifyEmailReceivedCorrectly(emails, instructor1.getEmail(), EmailWrapper.EMAIL_COPY_SUBJECT_PREFIX + subject,
+                "/sessionUnpublishedEmailForInstructor.html");
 
         ______TS("send summary of all feedback sessions of course email to new student. "
                 + "Edited student has joined the course");
@@ -351,7 +355,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         verifyEmailReceivedCorrectly(emails, student1.getEmail(), subject,
                 "/sessionOpeningEmailTestingSanitzationForStudent.html");
-        verifyEmailReceivedCorrectly(emails, instructor1.getEmail(), subject,
+        verifyEmailReceivedCorrectly(emails, instructor1.getEmail(), EmailWrapper.EMAIL_COPY_SUBJECT_PREFIX + subject,
                 "/sessionOpeningEmailTestingSanitizationForInstructor.html");
 
         ______TS("feedback session closed alerts: sanitization required");
@@ -364,7 +368,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         verifyEmailReceivedCorrectly(emails, student1.getEmail(), subject,
                 "/sessionClosedEmailTestingSanitizationForStudent.html");
-        verifyEmailReceivedCorrectly(emails, instructor1.getEmail(), subject,
+        verifyEmailReceivedCorrectly(emails, instructor1.getEmail(), EmailWrapper.EMAIL_COPY_SUBJECT_PREFIX + subject,
                 "/sessionClosedEmailTestingSanitizationForInstructor.html");
 
         ______TS("feedback sessions summary of course email: sanitization required");

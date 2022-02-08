@@ -735,6 +735,7 @@ public final class EmailGenerator {
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(instructor.getEmail());
         email.setType(type);
+        email.setIsCopy(true);
         email.setSubjectFromType(course.getName(), session.getFeedbackSessionName());
         email.setContent(emailBody);
         return email;

@@ -64,9 +64,10 @@ public class FeedbackSessionRemindParticularUsersEmailWorkerActionTest
         for (TaskWrapper task : tasksAdded) {
             SendEmailRequest requestBody = (SendEmailRequest) task.getRequestBody();
             EmailWrapper email = requestBody.getEmail();
-            assertEquals(String.format(EmailType.FEEDBACK_SESSION_REMINDER.getSubject(), courseName,
-                                       session1.getFeedbackSessionName()),
-                         email.getSubject());
+            String expectedSubject = (email.getIsCopy() ? EmailWrapper.EMAIL_COPY_SUBJECT_PREFIX : "")
+                    + String.format(EmailType.FEEDBACK_SESSION_REMINDER.getSubject(),
+                    courseName, session1.getFeedbackSessionName());
+            assertEquals(expectedSubject, email.getSubject());
             String recipient = email.getRecipient();
             assertTrue(recipient.equals(student1.getEmail()) || recipient.equals(instructor1.getEmail()));
         }
