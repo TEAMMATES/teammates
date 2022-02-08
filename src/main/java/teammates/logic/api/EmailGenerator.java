@@ -146,7 +146,7 @@ public final class EmailGenerator {
                 "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName()),
                 "${deadline}", SanitizationHelper.sanitizeForHtml(
                         TimeHelper.formatInstant(endTime, session.getTimeZone(), DATETIME_DISPLAY_FORMAT)),
-                "${instructorFragment}", "",
+                "${instructorPreamble}", "",
                 "${sessionInstructions}", session.getInstructionsString(),
                 "${startTime}", SanitizationHelper.sanitizeForHtml(
                         TimeHelper.formatInstant(startTime, session.getTimeZone(), DATETIME_DISPLAY_FORMAT)),
@@ -665,7 +665,7 @@ public final class EmailGenerator {
                 "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName()),
                 "${deadline}", SanitizationHelper.sanitizeForHtml(
                         TimeHelper.formatInstant(endTime, session.getTimeZone(), DATETIME_DISPLAY_FORMAT)),
-                "${instructorFragment}", "",
+                "${instructorPreamble}", "",
                 "${sessionInstructions}", session.getInstructionsString(),
                 "${submitUrl}", submitUrl,
                 "${reportUrl}", reportUrl,
@@ -705,7 +705,7 @@ public final class EmailGenerator {
                 "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName()),
                 "${deadline}", SanitizationHelper.sanitizeForHtml(
                         TimeHelper.formatInstant(endTime, session.getTimeZone(), DATETIME_DISPLAY_FORMAT)),
-                "${instructorFragment}", "",
+                "${instructorPreamble}", "",
                 "${sessionInstructions}", session.getInstructionsString(),
                 "${submitUrl}", submitUrl,
                 "${reportUrl}", reportUrl,
@@ -719,27 +719,9 @@ public final class EmailGenerator {
         return email;
     }
 
-    /**
-     * Generates the preamble for emails that are sent to students of course {@code courseId}
-     * to be shown in the email copies that are sent to the instructors of the same course.
-     */
-    private String generateInstructorPreamble(String courseId, String courseName) {
-
-        String courseIdentifier = "[" + SanitizationHelper.sanitizeForHtml(courseId) + "] "
-                + SanitizationHelper.sanitizeForHtml(courseName);
-
-        return "<p>The email below has been sent to students of course: "
-            + courseIdentifier + ".<br>" + System.lineSeparator()
-            + "<br>" + System.lineSeparator()
-            + "=== Email message as seen by the students ===</p>" + System.lineSeparator();
-    }
-
     private EmailWrapper generateFeedbackSessionEmailBaseForNotifiedInstructors(
             CourseAttributes course, FeedbackSessionAttributes session, InstructorAttributes instructor,
             String template, EmailType type, String feedbackAction, String additionalContactInformation) {
-
-        String instructorFragment = generateInstructorPreamble(course.getId(), course.getName());
-
         Instant endTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
                 session.getEndTime(), session.getTimeZone(), false);
         String emailBody = Templates.populateTemplate(template,
@@ -749,7 +731,7 @@ public final class EmailGenerator {
                 "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName()),
                 "${deadline}", SanitizationHelper.sanitizeForHtml(
                         TimeHelper.formatInstant(endTime, session.getTimeZone(), DATETIME_DISPLAY_FORMAT)),
-                "${instructorFragment}", instructorFragment,
+                "${instructorPreamble}", fillUpInstructorPreamble(course),
                 "${sessionInstructions}", session.getInstructionsString(),
                 "${submitUrl}", "{in the actual email sent to the students, this will be the unique link}",
                 "${reportUrl}", "{in the actual email sent to the students, this will be the unique link}",
@@ -927,6 +909,12 @@ public final class EmailGenerator {
                 "${joinFragment}", EmailTemplates.FRAGMENT_INSTRUCTOR_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET,
                 "${joinUrl}", joinUrl,
                 "${supportEmail}", Config.SUPPORT_EMAIL);
+    }
+
+    private String fillUpInstructorPreamble(CourseAttributes course) {
+        return Templates.populateTemplate(EmailTemplates.FRAGMENT_INSTRUCTOR_COPY_PREAMBLE,
+                "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
+                "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()));
     }
 
     /**
