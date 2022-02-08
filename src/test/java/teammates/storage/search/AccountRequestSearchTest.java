@@ -31,10 +31,7 @@ public class AccountRequestSearchTest extends BaseSearchTest {
         AccountRequestAttributes ins2InCourse2 = dataBundle.accountRequests.get("instructor2OfCourse2");
         AccountRequestAttributes ins1InCourse3 = dataBundle.accountRequests.get("instructor1OfCourse3");
         AccountRequestAttributes ins2InCourse3 = dataBundle.accountRequests.get("instructor2OfCourse3");
-        AccountRequestAttributes ins1InCourse4 = dataBundle.accountRequests.get("instructor1OfCourse4");
         AccountRequestAttributes insInUnregCourse = dataBundle.accountRequests.get("instructor5");
-        AccountRequestAttributes ins1InTestingSanitizationCourse =
-                dataBundle.accountRequests.get("instructor1OfTestingSanitizationCourse");
         AccountRequestAttributes unregisteredInstructor1 =
                 dataBundle.accountRequests.get("unregisteredInstructor1");
 
@@ -51,13 +48,12 @@ public class AccountRequestSearchTest extends BaseSearchTest {
 
         ______TS("success: search for account requests; query string matches some account requests");
 
-        results = accountRequestsDb.searchAccountRequestsInWholeSystem("instructor1");
-        verifySearchResults(results, ins1InCourse1, ins1InCourse2, ins1InCourse3, ins1InCourse4,
-                ins1InTestingSanitizationCourse);
+        results = accountRequestsDb.searchAccountRequestsInWholeSystem("\"Instructor 1\"");
+        verifySearchResults(results, ins1InCourse1, ins1InCourse2, ins1InCourse3);
 
         ______TS("success: search for account requests; query string should be case-insensitive");
 
-        results = accountRequestsDb.searchAccountRequestsInWholeSystem("InStRuCtOr2");
+        results = accountRequestsDb.searchAccountRequestsInWholeSystem("\"InStRuCtOr 2\"");
         verifySearchResults(results, ins2InCourse1, ins2InCourse2, ins2InCourse3);
 
         ______TS("success: search for account requests; account requests should be searchable by their name");
@@ -67,7 +63,7 @@ public class AccountRequestSearchTest extends BaseSearchTest {
 
         ______TS("success: search for account requests; account requests should be searchable by their email");
 
-        results = accountRequestsDb.searchAccountRequestsInWholeSystem("instructor2@course2.tmt");
+        results = accountRequestsDb.searchAccountRequestsInWholeSystem("instr2@course2.tmt");
         verifySearchResults(results, ins2InCourse2);
 
         ______TS("success: search for account requests; unregistered account requests should be searchable");
@@ -78,20 +74,20 @@ public class AccountRequestSearchTest extends BaseSearchTest {
         ______TS("success: search for account requests; deleted account requests no longer searchable");
 
         accountRequestsDb.deleteAccountRequest(ins1InCourse1.getEmail(), ins1InCourse1.getInstitute());
-        results = accountRequestsDb.searchAccountRequestsInWholeSystem("instructor1");
-        verifySearchResults(results, ins1InCourse2, ins1InCourse3, ins1InCourse4, ins1InTestingSanitizationCourse);
+        results = accountRequestsDb.searchAccountRequestsInWholeSystem("\"instructor 1\"");
+        verifySearchResults(results, ins1InCourse2, ins1InCourse3);
 
         ______TS("success: search for account requests; account requests created without searchability unsearchable");
 
         accountRequestsDb.putEntity(ins1InCourse1);
-        results = accountRequestsDb.searchAccountRequestsInWholeSystem("instructor1");
-        verifySearchResults(results, ins1InCourse2, ins1InCourse3, ins1InCourse4, ins1InTestingSanitizationCourse);
+        results = accountRequestsDb.searchAccountRequestsInWholeSystem("\"instructor 1\"");
+        verifySearchResults(results, ins1InCourse2, ins1InCourse3);
 
         ______TS("success: search for account requests; deleting account request without deleting document:"
                 + "document deleted during search, account request unsearchable");
 
         accountRequestsDb.deleteAccountRequest(ins2InCourse1.getEmail(), ins2InCourse1.getInstitute());
-        results = accountRequestsDb.searchAccountRequestsInWholeSystem("instructor2");
+        results = accountRequestsDb.searchAccountRequestsInWholeSystem("\"instructor 2\"");
         verifySearchResults(results, ins2InCourse2, ins2InCourse3);
     }
 
@@ -105,21 +101,21 @@ public class AccountRequestSearchTest extends BaseSearchTest {
         AccountRequestAttributes ins2InCourse2 = dataBundle.accountRequests.get("instructor2OfCourse2");
 
         // there is search result before deletion
-        List<AccountRequestAttributes> results = accountRequestsDb.searchAccountRequestsInWholeSystem("of Course 2");
+        List<AccountRequestAttributes> results = accountRequestsDb.searchAccountRequestsInWholeSystem("\"of Course 2\"");
         verifySearchResults(results, ins1InCourse2, ins2InCourse2);
 
         // delete an account request
         accountRequestsDb.deleteAccountRequest(ins1InCourse2.getEmail(), ins1InCourse2.getInstitute());
 
         // the search result will change
-        results = accountRequestsDb.searchAccountRequestsInWholeSystem("of Course 2");
+        results = accountRequestsDb.searchAccountRequestsInWholeSystem("\"of Course 2\"");
         verifySearchResults(results, ins2InCourse2);
 
         // delete all account requests
         accountRequestsDb.deleteAccountRequest(ins2InCourse2.getEmail(), ins2InCourse2.getInstitute());
 
         // there should be no search result
-        results = accountRequestsDb.searchAccountRequestsInWholeSystem("of Course 2");
+        results = accountRequestsDb.searchAccountRequestsInWholeSystem("\"of Course 2\"");
         verifySearchResults(results);
     }
 
