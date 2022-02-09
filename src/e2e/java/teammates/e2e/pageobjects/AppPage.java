@@ -180,7 +180,7 @@ public abstract class AppPage {
     }
 
     public static void waitUntilAnimationFinish(Browser browser) {
-        WebDriverWait wait = new WebDriverWait(browser.driver, 3);
+        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.className("ng-animating")));
         ThreadHelper.waitFor(1000);
     }

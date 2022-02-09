@@ -62,6 +62,7 @@ export class SessionResultPageComponent implements OnInit {
   personEmail: string = '';
   courseId: string = '';
   feedbackSessionName: string = '';
+  entityType: string = 'student';
   regKey: string = '';
   loggedInUser: string = '';
   visibilityRecipient: FeedbackVisibilityType = FeedbackVisibilityType.RECIPIENT;
@@ -98,6 +99,10 @@ export class SessionResultPageComponent implements OnInit {
       this.courseId = queryParams.courseid;
       this.feedbackSessionName = queryParams.fsname;
       this.regKey = queryParams.key || '';
+      if (queryParams.entitytype === 'instructor') {
+        this.entityType = 'instructor';
+        this.intent = Intent.INSTRUCTOR_RESULT;
+      }
 
       const nextUrl: string = `${window.location.pathname}${window.location.search.replace(/&/g, '%26')}`;
       this.authService.getAuthUser(undefined, nextUrl).subscribe((auth: AuthInfo) => {
@@ -110,7 +115,7 @@ export class SessionResultPageComponent implements OnInit {
               if (resp.isUsed) {
                 // The logged in user matches the registration key; redirect to the logged in URL
 
-                this.navigationService.navigateByURLWithParamEncoding(this.router, '/web/student/sessions/result',
+                this.navigationService.navigateByURLWithParamEncoding(this.router, `/web/${this.entityType}/sessions/result`,
                     { courseid: this.courseId, fsname: this.feedbackSessionName });
               } else {
                 // Valid, unused registration key; load information based on the key
@@ -129,7 +134,11 @@ export class SessionResultPageComponent implements OnInit {
                     ${environment.supportEmail} for help.`);
               } else {
                 // There is no logged in user for a valid, used registration key, redirect to login page
-                window.location.href = `${this.backendUrl}${auth.studentLoginUrl}`;
+                if (this.entityType === 'student') {
+                  window.location.href = `${this.backendUrl}${auth.studentLoginUrl}`;
+                } else if (this.entityType === 'instructor') {
+                  window.location.href = `${this.backendUrl}${auth.instructorLoginUrl}`;
+                }
               }
             } else {
               // The registration key is invalid
@@ -224,10 +233,10 @@ export class SessionResultPageComponent implements OnInit {
   }
 
   /**
-   * Redirects to join course link for unregistered student.
+   * Redirects to join course link for unregistered student/instructor.
    */
-  joinCourseForUnregisteredStudent(): void {
-    this.navigationService.navigateByURL(this.router, '/web/join', { entitytype: 'student', key: this.regKey });
+  joinCourseForUnregisteredEntity(): void {
+    this.navigationService.navigateByURL(this.router, '/web/join', { entitytype: this.entityType, key: this.regKey });
   }
 
   navigateToSessionReportPage(): void {
