@@ -1,5 +1,7 @@
 package teammates.ui.webapi;
 
+import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.List;
 
 import org.testng.annotations.Test;
@@ -34,7 +36,6 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
         String name = "Unregistered Instructor 1";
         String email = "unregisteredinstructor1@gmail.tmt";
         String institute = "TEAMMATES Test Institute 1";
-        String timezone = "Asia/Singapore";
 
         ______TS("Not enough parameters");
 
@@ -49,7 +50,7 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
         verifyNoTasksAdded();
 
         ______TS("Normal case with valid timezone");
-
+        String timezone = "Asia/Singapore";
         AccountRequestAttributes accountRequest = logic.getAccountRequest(email, institute);
 
         String[] params = new String[] {
@@ -67,9 +68,15 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
         assertEquals(institute, course.getInstitute());
         assertEquals(timezone, course.getTimeZone());
 
+        ZoneId zoneId = ZoneId.of(timezone);
         List<FeedbackSessionAttributes> feedbackSessionsList = logic.getFeedbackSessionsForCourse(courseId);
         for (FeedbackSessionAttributes feedbackSession : feedbackSessionsList) {
+            LocalTime actualStartTime = LocalTime.ofInstant(feedbackSession.getStartTime(), zoneId);
+            LocalTime actualEndTime = LocalTime.ofInstant(feedbackSession.getEndTime(), zoneId);
+
             assertEquals(timezone, feedbackSession.getTimeZone());
+            assertEquals(LocalTime.MIDNIGHT, actualStartTime);
+            assertEquals(LocalTime.MIDNIGHT, actualEndTime);
         }
 
         InstructorAttributes instructor = logic.getInstructorForEmail(courseId, email);

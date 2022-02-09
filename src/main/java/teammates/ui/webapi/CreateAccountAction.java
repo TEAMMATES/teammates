@@ -1,7 +1,10 @@
 package teammates.ui.webapi;
 
 import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.apache.http.HttpStatus;
 
@@ -18,6 +21,7 @@ import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
+import teammates.common.util.TimeHelper;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
@@ -111,8 +115,9 @@ class CreateAccountAction extends Action {
             throws InvalidParametersException {
 
         String courseId = generateDemoCourseId(instructorEmail);
+        String template = replaceAdjustedTimeAndTimezone(Templates.INSTRUCTOR_SAMPLE_DATA, timezone);
 
-        String jsonString = Templates.populateTemplate(Templates.INSTRUCTOR_SAMPLE_DATA,
+        String jsonString = Templates.populateTemplate(template,
                 // replace email
                 "teammates.demo.instructor@demo.course", instructorEmail,
                 // replace name
@@ -120,9 +125,7 @@ class CreateAccountAction extends Action {
                 // replace course
                 "demo.course", courseId,
                 // replace institute
-                "demo.institute", instructorInstitute,
-                // replace timezone
-                "demo.timezone", timezone);
+                "demo.institute", instructorInstitute);
 
         DataBundle data = JsonUtils.fromJson(jsonString, DataBundle.class);
 
@@ -228,4 +231,32 @@ class CreateAccountAction extends Action {
         return StringHelper.truncateHead(root + "-demo" + (previousDedupSuffix + 1), maximumIdLength);
     }
 
+    /**
+     * Replace time and timezone based on users timezone.
+     * Strings representing instant are adjusted so that they represent the same date and time but in the users timezone.
+     * Timezone is changed to users timezone.
+     */
+    private String replaceAdjustedTimeAndTimezone(String template, String timezoneString) {
+        String pattern = "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z"; // regex for instant
+
+        // timezoneString shouhld have been validated in #execute() methhod already
+        assert ZoneId.getAvailableZoneIds().contains(timezoneString);
+        ZoneId timezone = ZoneId.of(timezoneString);
+
+        // replace instant with instant adjusted for user's timezone
+        String updatedtemplate = Pattern.compile(pattern).matcher(template).replaceAll(timestampMatch -> {
+            String timestamp = timestampMatch.group();
+            Instant instant = Instant.parse(timestamp);
+
+            if (TimeHelper.isSpecialTime(instant)) {
+                return timestamp;
+            }
+
+            return ZonedDateTime.ofInstant(instant, ZoneId.of(Const.DEFAULT_TIME_ZONE))
+                    .withZoneSameLocal(timezone).toInstant().toString();
+        });
+
+        // replace timezone
+        return updatedtemplate.replaceAll("demo.timezone", timezoneString);
+    }
 }
