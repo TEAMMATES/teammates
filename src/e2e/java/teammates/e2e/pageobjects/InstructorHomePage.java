@@ -85,7 +85,7 @@ public class InstructorHomePage extends AppPage {
         WebElement courseTab = getCourseTab(courseTabIndex);
         click(courseTab.findElement(By.id("btn-remind-" + sessionIndex)));
         click(waitForElementPresence(By.id("btn-remind-all-" + sessionIndex)));
-        click(browser.driver.findElement(By.id("btn-confirm-send-reminder")));
+        click(waitForElementPresence(By.id("btn-confirm-send-reminder")));
     }
 
     public void resendResultsLink(int courseTabIndex, int sessionIndex, StudentAttributes student) {

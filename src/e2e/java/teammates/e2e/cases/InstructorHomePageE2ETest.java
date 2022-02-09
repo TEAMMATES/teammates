@@ -27,7 +27,6 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
     private StudentAttributes studentToEmail;
     private CourseAttributes course;
     private CourseAttributes otherCourse;
-    private List<StudentAttributes> studentNonSubmitters;
 
     private FeedbackSessionAttributes feedbackSessionAwaiting;
     private FeedbackSessionAttributes feedbackSessionOpen;
@@ -62,15 +61,6 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
     @BeforeClass
     public void classSetup() {
         deleteDownloadsFile(fileName);
-
-        // ------------------------------------ Prepare student non-submitter data ------------------------------------ //
-
-        StudentAttributes secondStudentNonSubmitter = testData.students.get("IHome.benny.c.tmms@IHome.CS2104");
-        secondStudentNonSubmitter.setEmail(TestProperties.TEST_EMAIL);
-        StudentAttributes thirdStudentNonSubmitter = testData.students.get("IHome.danny.e.tmms@IHome.CS2104");
-        thirdStudentNonSubmitter.setEmail(TestProperties.TEST_EMAIL);
-
-        studentNonSubmitters = Arrays.asList(studentToEmail, secondStudentNonSubmitter, thirdStudentNonSubmitter);
     }
 
     @Test
@@ -145,11 +135,9 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
         homePage.verifyStatusMessage("Reminder e-mails have been sent out to those students"
                 + " and instructors. Please allow up to 1 hour for all the notification emails to be sent out.");
 
-        for (StudentAttributes student : studentNonSubmitters) {
-            verifyEmailSent(student.getEmail(), "TEAMMATES: Feedback session reminder"
-                        + " [Course: " + course.getName() + "][Feedback Session: "
-                        + feedbackSessionOpen.getFeedbackSessionName() + "]");
-        }
+        verifyEmailSent(studentToEmail.getEmail(), "TEAMMATES: Feedback session reminder"
+                + " [Course: " + course.getName() + "][Feedback Session: "
+                + feedbackSessionOpen.getFeedbackSessionName() + "]");
 
         ______TS("resend results link");
         homePage.resendResultsLink(courseIndex, sessionIndex, studentToEmail);
