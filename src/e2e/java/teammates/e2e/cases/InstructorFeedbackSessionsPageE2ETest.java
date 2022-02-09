@@ -158,9 +158,9 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
                         + " and instructors. Please allow up to 1 hour for all the notification emails to be sent out.");
 
         verifyEmailSent(studentToEmail.getEmail(), "TEAMMATES: Feedback session reminder"
-        + " [Course: " + copiedCourse.getName() + "][Feedback Session: "
-        + openSession.getFeedbackSessionName() + "]");
-            
+                + " [Course: " + copiedCourse.getName() + "][Feedback Session: "
+                + openSession.getFeedbackSessionName() + "]");
+
         ______TS("resend results link");
         feedbackSessionsPage.resendResultsLink(openSession, studentToEmail);
 
