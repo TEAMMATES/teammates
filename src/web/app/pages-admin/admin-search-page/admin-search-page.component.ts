@@ -235,7 +235,17 @@ export class AdminSearchPageComponent {
    * Updates the instructor's displayed course join and feedback session links with the value of the newKey.
    */
   private updateDisplayedInstructorCourseLinks(instructor: InstructorAccountSearchResult, newKey: string): void {
+    const updateSessions: Function = (sessions: FeedbackSessionsGroup): void => {
+      Object.keys(sessions).forEach((key: string): void => {
+        sessions[key].feedbackSessionUrl = this.getUpdatedUrl(sessions[key].feedbackSessionUrl, newKey);
+      });
+    };
+
     instructor.courseJoinLink = this.getUpdatedUrl(instructor.courseJoinLink, newKey);
+    updateSessions(instructor.awaitingSessions);
+    updateSessions(instructor.openSessions);
+    updateSessions(instructor.notOpenSessions);
+    updateSessions(instructor.publishedSessions);
   }
 
   /**

@@ -67,7 +67,7 @@ export class SearchService {
       map((value: [Student[], Instructor[], DistinctFields]) => {
         return {
           students: this.createStudentAccountSearchResults(value[0], ...value[2]),
-          instructors: this.createInstructorAccountSearchResults(value[1], value[2][1]),
+          instructors: this.createInstructorAccountSearchResults(value[1], value[2][1], value[2][2]),
         };
       }),
     );
@@ -161,11 +161,11 @@ export class SearchService {
 
     // Generate feedback session urls
     const { awaitingSessions, openSessions, notOpenSessions, publishedSessions }: StudentFeedbackSessions =
-      this.classifyFeedbackSessions(feedbackSessions, student);
+      this.classifyFeedbackSessions(feedbackSessions, student, false);
     studentResult = { ...studentResult, awaitingSessions, openSessions, notOpenSessions, publishedSessions };
 
     // Generate links for students
-    studentResult.courseJoinLink = this.linkService.generateCourseJoinLinkStudent(student);
+    studentResult.courseJoinLink = this.linkService.generateCourseJoinLink(student, 'student');
     studentResult.homePageLink = this.linkService
       .generateHomePageLink(googleId, this.linkService.STUDENT_HOME_PAGE);
     studentResult.recordsPageLink = this.linkService.generateRecordsPageLink(student, masqueradeGoogleId);
@@ -178,12 +178,18 @@ export class SearchService {
   createInstructorAccountSearchResults(
     instructors: Instructor[],
     distinctCoursesMap: DistinctCoursesMap,
+    distinctFeedbackSessionsMap: DistinctFeedbackSessionsMap,
   ): InstructorAccountSearchResult[] {
     return instructors.map((instructor: Instructor) =>
-                           this.joinAdminInstructor(instructor, distinctCoursesMap[instructor.courseId]));
+        this.joinAdminInstructor(instructor, distinctCoursesMap[instructor.courseId],
+            distinctFeedbackSessionsMap[instructor.courseId]));
   }
 
-  joinAdminInstructor(instructor: Instructor, course: Course): InstructorAccountSearchResult {
+  joinAdminInstructor(
+    instructor: Instructor,
+    course: Course,
+    feedbackSessions: FeedbackSessions,
+  ): InstructorAccountSearchResult {
     let instructorResult: InstructorAccountSearchResult = {
       email: '',
       name: '',
@@ -195,6 +201,10 @@ export class SearchService {
       courseJoinLink: '',
       googleId: '',
       showLinks: false,
+      awaitingSessions: {},
+      openSessions: {},
+      notOpenSessions: {},
+      publishedSessions: {},
     };
     const { email, name, googleId = '', institute = '' }: Instructor = instructor;
     instructorResult = { ...instructorResult, email, name, googleId, institute };
@@ -202,8 +212,13 @@ export class SearchService {
     const { courseId, courseName }: Course = course;
     instructorResult = { ...instructorResult, courseId, courseName };
 
+    // Generate feedback session urls
+    const { awaitingSessions, openSessions, notOpenSessions, publishedSessions }: StudentFeedbackSessions =
+        this.classifyFeedbackSessions(feedbackSessions, instructor, true);
+    instructorResult = { ...instructorResult, awaitingSessions, openSessions, notOpenSessions, publishedSessions };
+
     // Generate links for instructors
-    instructorResult.courseJoinLink = this.linkService.generateCourseJoinLinkInstructor(instructor);
+    instructorResult.courseJoinLink = this.linkService.generateCourseJoinLink(instructor, 'instructor');
     instructorResult.homePageLink = this.linkService
       .generateHomePageLink(googleId, this.linkService.INSTRUCTOR_HOME_PAGE);
     instructorResult.manageAccountLink = this.linkService
@@ -212,7 +227,8 @@ export class SearchService {
     return instructorResult;
   }
 
-  classifyFeedbackSessions(feedbackSessions: FeedbackSessions, student: Student): StudentFeedbackSessions {
+  classifyFeedbackSessions(feedbackSessions: FeedbackSessions, entity: Student | Instructor, isInstructor: boolean):
+      StudentFeedbackSessions {
     const feedbackSessionLinks: StudentFeedbackSessions = {
       awaitingSessions: {},
       openSessions: {},
@@ -223,24 +239,28 @@ export class SearchService {
       if (this.feedbackSessionService.isFeedbackSessionOpen(feedbackSession)) {
         feedbackSessionLinks.openSessions[feedbackSession.feedbackSessionName] = {
           ...this.formatProperties(feedbackSession),
-          feedbackSessionUrl: this.linkService.generateSubmitUrl(student, feedbackSession.feedbackSessionName),
+          feedbackSessionUrl: this.linkService.generateSubmitUrl(
+              entity, feedbackSession.feedbackSessionName, isInstructor),
         };
       } else if (this.feedbackSessionService.isFeedbackSessionAwaiting(feedbackSession)) {
         feedbackSessionLinks.awaitingSessions[feedbackSession.feedbackSessionName] = {
           ...this.formatProperties(feedbackSession),
-          feedbackSessionUrl: this.linkService.generateSubmitUrl(student, feedbackSession.feedbackSessionName),
+          feedbackSessionUrl: this.linkService.generateSubmitUrl(
+              entity, feedbackSession.feedbackSessionName, isInstructor),
         };
       } else {
         feedbackSessionLinks.notOpenSessions[feedbackSession.feedbackSessionName] = {
           ...this.formatProperties(feedbackSession),
-          feedbackSessionUrl: this.linkService.generateSubmitUrl(student, feedbackSession.feedbackSessionName),
+          feedbackSessionUrl: this.linkService.generateSubmitUrl(
+              entity, feedbackSession.feedbackSessionName, isInstructor),
         };
       }
 
       if (this.feedbackSessionService.isFeedbackSessionPublished(feedbackSession)) {
         feedbackSessionLinks.publishedSessions[feedbackSession.feedbackSessionName] = {
           ...this.formatProperties(feedbackSession),
-          feedbackSessionUrl: this.linkService.generateResultUrl(student, feedbackSession.feedbackSessionName),
+          feedbackSessionUrl: this.linkService.generateResultUrl(
+              entity, feedbackSession.feedbackSessionName, isInstructor),
         };
       }
     }
@@ -393,6 +413,10 @@ export interface InstructorAccountSearchResult {
   homePageLink: string;
   manageAccountLink: string;
   showLinks: boolean;
+  awaitingSessions: FeedbackSessionsGroup;
+  openSessions: FeedbackSessionsGroup;
+  notOpenSessions: FeedbackSessionsGroup;
+  publishedSessions: FeedbackSessionsGroup;
 }
 
 /**
@@ -403,10 +427,6 @@ export interface StudentAccountSearchResult extends InstructorAccountSearchResul
   team: string;
   comments: string;
   recordsPageLink: string;
-  awaitingSessions: FeedbackSessionsGroup;
-  openSessions: FeedbackSessionsGroup;
-  notOpenSessions: FeedbackSessionsGroup;
-  publishedSessions: FeedbackSessionsGroup;
 }
 
 /**

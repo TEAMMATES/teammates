@@ -23,36 +23,16 @@ export class LinkService {
   constructor(private navigationService: NavigationService) {}
 
   /**
-   * Generates course join link for student.
+   * Generates course join link for student/instructor.
    */
-  generateCourseJoinLinkStudent(student: Student): string {
+  generateCourseJoinLink(entity: Student | Instructor, entityType: string): string {
     const frontendUrl: string = window.location.origin;
-    const { key = '', email: studentemail, courseId: courseid }: Student = student;
+    const key: string = entity.key || '';
     const params: {
       [key: string]: string,
     } = {
       key,
-      studentemail,
-      courseid,
-      entitytype: 'student',
-    };
-
-    this.filterEmptyParams(params);
-    const encodedParams: string = this.navigationService.encodeParams(params);
-    return `${frontendUrl}${this.URI_PREFIX}${this.JOIN_PAGE}${encodedParams}`;
-  }
-
-  /**
-   * Generates course join link for instructor.
-   */
-  generateCourseJoinLinkInstructor(instructor: Instructor): string {
-    const frontendUrl: string = window.location.origin;
-    const { key = '' }: Instructor = instructor;
-    const params: {
-      [key: string]: string,
-    } = {
-      key,
-      entitytype: 'instructor',
+      entitytype: entityType,
     };
 
     this.filterEmptyParams(params);
@@ -110,17 +90,20 @@ export class LinkService {
   /**
    * Generates submit url for a feedback session.
    */
-  generateSubmitUrl(student: Student, fsname: string): string {
+  generateSubmitUrl(entity: Student | Instructor, fsname: string, isInstructor: boolean): string {
     const frontendUrl: string = window.location.origin;
-    const { courseId: courseid, key = '', email: studentemail }: Student = student;
+    const courseId: string = entity.courseId;
+    const key: string = entity.key || '';
     const params: {
       [key: string]: string,
     } = {
-      courseid,
       key,
-      studentemail,
       fsname,
+      courseid: courseId,
     };
+    if (isInstructor) {
+      params.entitytype = 'instructor';
+    }
 
     this.filterEmptyParams(params);
     const encodedParams: string = this.navigationService.encodeParams(params);
@@ -130,17 +113,20 @@ export class LinkService {
   /**
    * Generates a result url for a feedback session.
    */
-  generateResultUrl(student: Student, fsname: string): string {
+  generateResultUrl(entity: Student | Instructor, fsname: string, isInstructor: boolean): string {
     const frontendUrl: string = window.location.origin;
-    const { courseId: courseid, key = '', email: studentemail }: Student = student;
+    const courseId: string = entity.courseId;
+    const key: string = entity.key || '';
     const params: {
       [key: string]: string,
     } = {
-      courseid,
       key,
-      studentemail,
       fsname,
+      courseid: courseId,
     };
+    if (isInstructor) {
+      params.entitytype = 'instructor';
+    }
 
     this.filterEmptyParams(params);
     const encodedParams: string = this.navigationService.encodeParams(params);

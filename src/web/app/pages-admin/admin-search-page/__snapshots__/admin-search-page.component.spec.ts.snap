@@ -252,6 +252,54 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
                     readonly=""
                   />
                 </li>
+                
+                <li
+                  class="list-group-item list-group-item-light"
+                >
+                  <strong>
+                    sessionName startTime - endTime
+                  </strong>
+                  <input
+                    class="form-control"
+                    readonly=""
+                  />
+                </li>
+                
+                <li
+                  class="list-group-item list-group-item-warning"
+                >
+                  <strong>
+                    sessionName startTime - endTime
+                  </strong>
+                  <input
+                    class="form-control"
+                    readonly=""
+                  />
+                </li>
+                
+                <li
+                  class="list-group-item list-group-item-danger"
+                >
+                  <strong>
+                    sessionName startTime - endTime
+                  </strong>
+                  <input
+                    class="form-control"
+                    readonly=""
+                  />
+                </li>
+                
+                <li
+                  class="list-group-item list-group-item-success"
+                >
+                  <strong>
+                    sessionName startTime - endTime
+                  </strong>
+                  <input
+                    class="form-control"
+                    readonly=""
+                  />
+                </li>
               </ul>
             </td>
           </tr>
