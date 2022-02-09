@@ -24,9 +24,7 @@ export class UploadEditProfilePictureModalComponent implements OnInit {
     private statusMessageService: StatusMessageService,
     ) { }
 
-  get validProfileFileTypes(): string {
-    return 'image/gif, image/jpeg, image/png, image/svg+xml';
-  }
+  readonly validProfileFileTypes: string[] = ['image/gif, image/jpeg, image/png, image/svg+xml'];
 
   ngOnInit(): void {
     if (this.image == null) {
@@ -73,7 +71,7 @@ export class UploadEditProfilePictureModalComponent implements OnInit {
     this.imageChangedEvent = event;
 
     const file: File = event.target.files[0];
-    if (this.validProfileFileTypes.split(', ').includes(file.type)) {
+    if (this.validProfileFileTypes.includes(file.type)) {
       this.populateFormData(file);
       this.isValidProfileFileType = true;
     } else {
