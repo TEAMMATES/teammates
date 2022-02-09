@@ -107,11 +107,6 @@ export class TimezoneService {
       inst.add(1, 'minute');
     }
 
-    const resolvedTimestamp: number = inst.toDate().getTime();
-
-    if (isNaN(resolvedTimestamp)) {
-      throw new Error('Invalid datetime range');
-    }
-    return resolvedTimestamp;
+    return inst.toDate().getTime();
   }
 }

@@ -113,19 +113,19 @@ export class InstructorAuditLogsPageComponent implements OnInit {
     this.searchResults = [];
     const selectedCourse: Course | undefined =
       this.courses.find((course: Course) => course.courseId === this.formModel.courseId);
-    let currentCheckingTime: string = '';
-    let searchFrom: number = 0;
-    let searchUntil: number = 0;
-    try {
-      const timeZone: string = selectedCourse ? selectedCourse.timeZone : this.timezoneService.guessTimezone();
-      currentCheckingTime = 'Search period from';
-      searchFrom = this.timezoneService.resolveLocalDateTime(
+
+    const timeZone: string = selectedCourse ? selectedCourse.timeZone : this.timezoneService.guessTimezone();
+    const searchFrom: number = this.timezoneService.resolveLocalDateTime(
           this.formModel.logsDateFrom, this.formModel.logsTimeFrom, timeZone, true);
-      currentCheckingTime = 'Search period until';
-      searchUntil = this.timezoneService.resolveLocalDateTime(
+    const searchUntil: number = this.timezoneService.resolveLocalDateTime(
           this.formModel.logsDateTo, this.formModel.logsTimeTo, timeZone, true);
-    } catch (e) {
-      this.statusMessageService.showErrorToast(`${(e as Error).message} for ${currentCheckingTime}`);
+
+    const indexOfInvalidTime: number = [searchFrom, searchUntil].findIndex(isNaN);
+    const sequenceOfTimeChecked: string[] = ['Search period from', 'Search period until'];
+
+    if (indexOfInvalidTime !== -1) {
+      const errorMessage: string = `Invalid datetime range for ${sequenceOfTimeChecked[indexOfInvalidTime]}`;
+      this.statusMessageService.showErrorToast(errorMessage);
       this.isLoading = false;
       this.isSearching = false;
       return;

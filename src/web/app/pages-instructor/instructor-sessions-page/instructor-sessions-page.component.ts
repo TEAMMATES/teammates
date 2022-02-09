@@ -275,35 +275,38 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
    */
   addNewSessionHandler(): void {
     this.sessionEditFormModel.isSaving = true;
-    let currentCheckingTime: string = '';
-    let submissionStartTime: number = 0;
-    let submissionEndTime: number = 0;
     let sessionVisibleTime: number = 0;
     let responseVisibleTime: number = 0;
 
-    try {
-      currentCheckingTime = 'Submission opening time';
-      submissionStartTime = this.timezoneService.resolveLocalDateTime(
+    const submissionStartTime: number = this.timezoneService.resolveLocalDateTime(
         this.sessionEditFormModel.submissionStartDate, this.sessionEditFormModel.submissionStartTime,
         this.sessionEditFormModel.timeZone, true);
-      currentCheckingTime = 'Submission closing time';
-      submissionEndTime = this.timezoneService.resolveLocalDateTime(
-          this.sessionEditFormModel.submissionEndDate, this.sessionEditFormModel.submissionEndTime,
+    const submissionEndTime: number = this.timezoneService.resolveLocalDateTime(
+        this.sessionEditFormModel.submissionEndDate, this.sessionEditFormModel.submissionEndTime,
+        this.sessionEditFormModel.timeZone, true);
+    if (this.sessionEditFormModel.sessionVisibleSetting === SessionVisibleSetting.CUSTOM) {
+      sessionVisibleTime = this.timezoneService.resolveLocalDateTime(
+          this.sessionEditFormModel.customSessionVisibleDate, this.sessionEditFormModel.customSessionVisibleTime,
           this.sessionEditFormModel.timeZone, true);
-      currentCheckingTime = 'Session edit from';
-      if (this.sessionEditFormModel.sessionVisibleSetting === SessionVisibleSetting.CUSTOM) {
-        sessionVisibleTime = this.timezoneService.resolveLocalDateTime(
-            this.sessionEditFormModel.customSessionVisibleDate, this.sessionEditFormModel.customSessionVisibleTime,
-            this.sessionEditFormModel.timeZone, true);
-      }
-      currentCheckingTime = 'Response visible time';
-      if (this.sessionEditFormModel.responseVisibleSetting === ResponseVisibleSetting.CUSTOM) {
-        responseVisibleTime = this.timezoneService.resolveLocalDateTime(
-            this.sessionEditFormModel.customResponseVisibleDate, this.sessionEditFormModel.customResponseVisibleTime,
-            this.sessionEditFormModel.timeZone, true);
-      }
-    } catch (e) {
-      this.statusMessageService.showErrorToast(`${(e as Error).message} for ${currentCheckingTime}`);
+    }
+    if (this.sessionEditFormModel.responseVisibleSetting === ResponseVisibleSetting.CUSTOM) {
+      responseVisibleTime = this.timezoneService.resolveLocalDateTime(
+          this.sessionEditFormModel.customResponseVisibleDate, this.sessionEditFormModel.customResponseVisibleTime,
+          this.sessionEditFormModel.timeZone, true);
+    }
+
+    const indexOfInvalidTime: number =
+      [submissionStartTime, submissionEndTime, sessionVisibleTime, responseVisibleTime]
+      .findIndex(isNaN);
+    const sequenceOfTimeChecked: string[] = [
+      'submission opening time',
+      'submission closing time',
+      'session visible time',
+      'response visible time'];
+
+    if (indexOfInvalidTime !== -1) {
+      const errorMessage: string = `Invalid datetime range for ${sequenceOfTimeChecked[indexOfInvalidTime]}`;
+      this.statusMessageService.showErrorToast(errorMessage);
       this.sessionEditFormModel.isSaving = false;
       return;
     }
@@ -334,41 +337,41 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
         return;
       }
       of(...templateSession.questions).pipe(
-        concatMap((question: FeedbackQuestion) => {
-          return this.feedbackQuestionsService.createFeedbackQuestion(
-              feedbackSession.courseId, feedbackSession.feedbackSessionName, {
-                questionNumber: question.questionNumber,
-                questionBrief: question.questionBrief,
-                questionDescription: question.questionDescription,
+          concatMap((question: FeedbackQuestion) => {
+            return this.feedbackQuestionsService.createFeedbackQuestion(
+                feedbackSession.courseId, feedbackSession.feedbackSessionName, {
+                  questionNumber: question.questionNumber,
+                  questionBrief: question.questionBrief,
+                  questionDescription: question.questionDescription,
 
-                questionDetails: question.questionDetails,
-                questionType: question.questionType,
+                  questionDetails: question.questionDetails,
+                  questionType: question.questionType,
 
-                giverType: question.giverType,
-                recipientType: question.recipientType,
+                  giverType: question.giverType,
+                  recipientType: question.recipientType,
 
-                numberOfEntitiesToGiveFeedbackToSetting: question.numberOfEntitiesToGiveFeedbackToSetting,
-                customNumberOfEntitiesToGiveFeedbackTo: question.customNumberOfEntitiesToGiveFeedbackTo,
+                  numberOfEntitiesToGiveFeedbackToSetting: question.numberOfEntitiesToGiveFeedbackToSetting,
+                  customNumberOfEntitiesToGiveFeedbackTo: question.customNumberOfEntitiesToGiveFeedbackTo,
 
-                showResponsesTo: question.showResponsesTo,
-                showGiverNameTo: question.showGiverNameTo,
-                showRecipientNameTo: question.showRecipientNameTo,
-              });
-        }),
-    ).subscribe(() => {}, (resp: ErrorMessageOutput) => {
-      this.sessionEditFormModel.isSaving = false;
-      this.statusMessageService.showErrorToast(
-          `The session is created but the template questions cannot be created: ${resp.error.message}`);
-    }, () => {
-      this.navigationService.navigateByURLWithParamEncoding(
-          this.router,
-          '/web/instructor/sessions/edit',
-          { courseid: feedbackSession.courseId, fsname: feedbackSession.feedbackSessionName })
-          .then(() => {
-            this.statusMessageService.showSuccessToast('The feedback session has been added.'
-                + 'Click the "Add New Question" button below to begin adding questions for the feedback session.');
-          });
-    });
+                  showResponsesTo: question.showResponsesTo,
+                  showGiverNameTo: question.showGiverNameTo,
+                  showRecipientNameTo: question.showRecipientNameTo,
+                });
+          }),
+      ).subscribe(() => {}, (resp: ErrorMessageOutput) => {
+        this.sessionEditFormModel.isSaving = false;
+        this.statusMessageService.showErrorToast(
+            `The session is created but the template questions cannot be created: ${resp.error.message}`);
+      }, () => {
+        this.navigationService.navigateByURLWithParamEncoding(
+            this.router,
+            '/web/instructor/sessions/edit',
+            { courseid: feedbackSession.courseId, fsname: feedbackSession.feedbackSessionName })
+            .then(() => {
+              this.statusMessageService.showSuccessToast('The feedback session has been added.'
+                  + 'Click the "Add New Question" button below to begin adding questions for the feedback session.');
+            });
+      });
     }, (resp: ErrorMessageOutput) => {
       this.sessionEditFormModel.isSaving = false;
       this.statusMessageService.showErrorToast(
