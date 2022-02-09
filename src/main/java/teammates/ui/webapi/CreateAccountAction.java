@@ -239,7 +239,7 @@ class CreateAccountAction extends Action {
     private String replaceAdjustedTimeAndTimezone(String template, String timezoneString) {
         String pattern = "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z"; // regex for instant
 
-        // timezoneString shouhld have been validated in #execute() methhod already
+        // timezoneString shouhld have been validated in #execute() method already
         assert ZoneId.getAvailableZoneIds().contains(timezoneString);
         ZoneId timezone = ZoneId.of(timezoneString);
 
