@@ -1,10 +1,10 @@
 # Full-text Search Feature Support
 
-We use [Apache Solr](https://solr.apache.org/guide/8_8/) to support full-text search features required by the application, such as searching for students and instructors.
+We use [Apache Solr](https://solr.apache.org/guide/8_11/) to support full-text search features required by the application, such as searching for students and instructors.
 
 Search service is optional for local development. It is perfectly fine to skip the setup described in this page if you are not working on search features.
 
-This document will assume Solr version `8.8.1`.
+This document will assume Solr version `8.11.1`.
 
 ## Setting up Solr using Docker
 
@@ -21,7 +21,7 @@ docker-compose run -p 8983:8983 solr
 
 You may notice that the setup steps in this method are a manual version of the Docker method.
 
-1. Download and install Solr by following [this guide](https://solr.apache.org/guide/8_8/installing-solr.html#installing-solr).
+1. Download and install Solr by following [this guide](https://solr.apache.org/guide/8_11/installing-solr.html#installing-solr).
 1. To start the Solr server, navigate to the Solr root directory and run the following command:
    ```sh
    # The server listens to port 8983 by default.

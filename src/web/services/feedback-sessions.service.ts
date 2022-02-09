@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { forkJoin, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {
   InstructorSessionResultSectionType,
@@ -18,6 +18,8 @@ import {
   OngoingSessions,
   SessionLinksRecoveryResponse,
   SessionResults,
+  Student,
+  Students,
 } from '../types/api-output';
 import {
   FeedbackSessionCreateRequest,
@@ -27,6 +29,7 @@ import {
 } from '../types/api-request';
 import { HttpRequestService } from './http-request.service';
 import { SessionResultCsvService } from './session-result-csv.service';
+import { StudentService } from './student.service';
 
 /**
  * A template session.
@@ -45,7 +48,8 @@ export interface TemplateSession {
 export class FeedbackSessionsService {
 
   constructor(private httpRequestService: HttpRequestService,
-              private sessionResultCsvService: SessionResultCsvService) {
+              private sessionResultCsvService: SessionResultCsvService,
+              private studentService: StudentService) {
   }
 
   /**
@@ -252,6 +256,42 @@ export class FeedbackSessionsService {
       fsname: queryParams.feedbackSessionName,
     };
     return this.httpRequestService.get(ResourceEndpoints.SESSION_SUBMITTED_GIVER_SET, paramMap);
+  }
+
+  /**
+   * Gets a list of students who have not responded to feedback session.
+   */
+  getFeedbackSessionNonSubmitterList(courseId: string, feedbackSessionName: string):
+    Observable<Student[]> {
+    const allStudentsObservable: Observable<Students> = this.studentService.getStudentsFromCourse({
+      courseId,
+    });
+    const studentsWithResponseObservable: Observable<FeedbackSessionSubmittedGiverSet> =
+      this.getFeedbackSessionSubmittedGiverSet({
+        courseId,
+        feedbackSessionName,
+      });
+    return forkJoin([
+      allStudentsObservable,
+      studentsWithResponseObservable,
+    ]).pipe(map((result: any[]) => {
+      const allStudents: Student[] = (result[0] as Students).students;
+      const studentEmailsWithResponse: string[] = (result[1] as FeedbackSessionSubmittedGiverSet).giverIdentifiers;
+      return allStudents.filter((student: Student) =>
+        !studentEmailsWithResponse.includes(student.email));
+    },
+    ));
+  }
+
+  /**
+   * Downloads list of non-responders.
+   */
+  downloadFeedbackSessionNonSubmitterList(courseId: string, feedbackSessionName: string):
+    Observable<string> {
+    return this.getFeedbackSessionNonSubmitterList(courseId, feedbackSessionName)
+      .pipe(map((students: Student[]) =>
+        this.sessionResultCsvService.getCsvForNonSubmitterList(students),
+      ));
   }
 
   /**

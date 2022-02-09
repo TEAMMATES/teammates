@@ -85,4 +85,11 @@ export class ConstsumOptionsQuestionEditAnswerFormComponent
     return set.size !== 1;
   }
 
+  /**
+   * Checks if any of the points are negative.
+   */
+  get isAnyPointsNegative(): boolean {
+    return this.responseDetails.answers.reduce((isNegative: boolean, curr: number) => isNegative || (curr < 0), false);
+  }
+
 }

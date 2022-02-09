@@ -9,7 +9,6 @@
           "hasAssignedWeights": false,
           "mcqWeights": [],
           "mcqOtherWeight": 0.0,
-          "numOfMcqChoices": 2,
           "mcqChoices": [
             "Price",
             "Quality"

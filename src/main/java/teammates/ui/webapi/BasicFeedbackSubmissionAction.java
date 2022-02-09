@@ -108,10 +108,14 @@ abstract class BasicFeedbackSubmissionAction extends Action {
             return logic.getInstructorForEmail(courseId, moderatedPerson);
         } else if (!StringHelper.isEmpty(previewAsPerson)) {
             return logic.getInstructorForEmail(courseId, previewAsPerson);
-        } else if (userInfo != null) {
-            return logic.getInstructorForGoogleId(courseId, userInfo.getId());
+        } else {
+            return getUnregisteredInstructor().orElseGet(() -> {
+                if (userInfo == null) {
+                    return null;
+                }
+                return logic.getInstructorForGoogleId(courseId, userInfo.getId());
+            });
         }
-        return null;
     }
 
     /**
@@ -119,6 +123,10 @@ abstract class BasicFeedbackSubmissionAction extends Action {
      */
     void checkAccessControlForInstructorFeedbackSubmission(
             InstructorAttributes instructor, FeedbackSessionAttributes feedbackSession) throws UnauthorizedAccessException {
+        if (instructor == null) {
+            throw new UnauthorizedAccessException("Trying to access system using a non-existent instructor entity");
+        }
+
         String moderatedPerson = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON);
         String previewAsPerson = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
 
@@ -131,6 +139,16 @@ abstract class BasicFeedbackSubmissionAction extends Action {
             gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(feedbackSession.getCourseId(), userInfo.getId()),
                     feedbackSession, Const.InstructorPermissions.CAN_MODIFY_SESSION);
         } else {
+            if (!StringHelper.isEmpty(instructor.getGoogleId())) {
+                if (userInfo == null) {
+                    // Instructor is associated to a google ID; even if registration key is passed, do not allow access
+                    throw new UnauthorizedAccessException("Login is required to access this feedback session");
+                } else if (!userInfo.id.equals(instructor.getGoogleId())) {
+                    // Logged in instructor is not the same as the instructor registered for the given key,
+                    // do not allow access
+                    throw new UnauthorizedAccessException("You are not authorized to access this feedback session");
+                }
+            }
             gateKeeper.verifySessionSubmissionPrivilegeForInstructor(feedbackSession, instructor);
         }
     }

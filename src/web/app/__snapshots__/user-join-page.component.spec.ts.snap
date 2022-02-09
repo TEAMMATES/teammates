@@ -2,11 +2,13 @@
 
 exports[`UserJoinPageComponent should snap if user is not logged in and has a valid url 1`] = `
 <tm-user-join-page
+  accountService={[Function AccountService]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   courseService={[Function CourseService]}
   entityType={[Function String]}
   hasJoined="false"
+  isCreatingAccount="false"
   isLoading="false"
   key={[Function String]}
   navigationService={[Function NavigationService]}
@@ -45,11 +47,13 @@ exports[`UserJoinPageComponent should snap if user is not logged in and has a va
 
 exports[`UserJoinPageComponent should snap with default fields 1`] = `
 <tm-user-join-page
+  accountService={[Function AccountService]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   courseService={[Function CourseService]}
   entityType={[Function String]}
   hasJoined="false"
+  isCreatingAccount="false"
   isLoading={[Function Boolean]}
   key={[Function String]}
   navigationService={[Function NavigationService]}
@@ -59,17 +63,33 @@ exports[`UserJoinPageComponent should snap with default fields 1`] = `
   userId=""
   validUrl={[Function Boolean]}
 >
-  
+  <tm-loading-spinner>
+    <div
+      class="loading-container"
+    >
+      <div
+        class="row spinner-border text-primary"
+        role="status"
+      />
+      <div
+        class="row text-secondary"
+      >
+        Loading...
+      </div>
+    </div>
+  </tm-loading-spinner>
 </tm-user-join-page>
 `;
 
 exports[`UserJoinPageComponent should snap with invalid course join link 1`] = `
 <tm-user-join-page
+  accountService={[Function AccountService]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   courseService={[Function CourseService]}
   entityType={[Function String]}
   hasJoined="false"
+  isCreatingAccount="false"
   isLoading="false"
   key={[Function String]}
   navigationService={[Function NavigationService]}
@@ -110,11 +130,13 @@ exports[`UserJoinPageComponent should snap with invalid course join link 1`] = `
 
 exports[`UserJoinPageComponent should snap with valid course join link that has been used 1`] = `
 <tm-user-join-page
+  accountService={[Function AccountService]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   courseService={[Function CourseService]}
   entityType={[Function String]}
   hasJoined={[Function Boolean]}
+  isCreatingAccount="false"
   isLoading="false"
   key={[Function String]}
   navigationService={[Function NavigationService]}
@@ -155,11 +177,13 @@ exports[`UserJoinPageComponent should snap with valid course join link that has 
 
 exports[`UserJoinPageComponent should snap with valid course join link that has not been used 1`] = `
 <tm-user-join-page
+  accountService={[Function AccountService]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   courseService={[Function CourseService]}
   entityType={[Function String]}
   hasJoined="false"
+  isCreatingAccount="false"
   isLoading="false"
   key={[Function String]}
   navigationService={[Function NavigationService]}

@@ -9,6 +9,7 @@ exports[`InstructorHomePageComponent should snap when courses are still loading 
   courseTabModels={[Function Array]}
   failedToCopySessions={[Function Object]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasCoursesLoaded="false"
   hasCoursesLoadingFailed="false"
@@ -77,6 +78,7 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
   courseTabModels={[Function Array]}
   failedToCopySessions={[Function Object]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasCoursesLoaded="false"
   hasCoursesLoadingFailed="false"
@@ -145,6 +147,7 @@ exports[`InstructorHomePageComponent should snap with one course with error load
   courseTabModels={[Function Array]}
   failedToCopySessions={[Function Object]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasCoursesLoaded={[Function Boolean]}
   hasCoursesLoadingFailed="false"
@@ -302,6 +305,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
   courseTabModels={[Function Array]}
   failedToCopySessions={[Function Object]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasCoursesLoaded={[Function Boolean]}
   hasCoursesLoadingFailed="false"
@@ -875,6 +879,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
   courseTabModels={[Function Array]}
   failedToCopySessions={[Function Object]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasCoursesLoaded={[Function Boolean]}
   hasCoursesLoadingFailed="false"
@@ -1623,6 +1628,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
   courseTabModels={[Function Array]}
   failedToCopySessions={[Function Object]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasCoursesLoaded={[Function Boolean]}
   hasCoursesLoadingFailed="false"
@@ -1887,6 +1893,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
   courseTabModels={[Function Array]}
   failedToCopySessions={[Function Object]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasCoursesLoaded={[Function Boolean]}
   hasCoursesLoadingFailed="false"
@@ -2179,6 +2186,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
   courseTabModels={[Function Array]}
   failedToCopySessions={[Function Object]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasCoursesLoaded={[Function Boolean]}
   hasCoursesLoadingFailed="false"

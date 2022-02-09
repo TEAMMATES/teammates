@@ -42,13 +42,22 @@ describe('AccountService', () => {
   });
 
   it('should execute POST on account endpoint', () => {
+    const testKey: string = 'testKey';
+    const paramMap: Record<string, string> = {
+      key: testKey,
+    };
+    service.createAccount(testKey);
+    expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT, paramMap);
+  });
+
+  it('should execute POST on account request endpoint', () => {
     const testRequest: AccountCreateRequest = new class implements AccountCreateRequest {
       instructorEmail: string = 'testEmail';
       instructorInstitution: string = 'testInstitution';
       instructorName: string = 'testName';
     };
-    service.createAccount(testRequest);
-    expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT, {}, testRequest);
+    service.createAccountRequest(testRequest);
+    expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT_REQUEST, {}, testRequest);
   });
 
   it('should execute DELETE on account endpoint', () => {
