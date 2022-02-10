@@ -118,7 +118,6 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
                 studentList.size() + instructorList.size());
 
         ______TS("Error: registration key already used");
-
         verifyInvalidOperation(params);
         verifyNoTasksAdded();
 

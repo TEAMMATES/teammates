@@ -115,7 +115,11 @@ class CreateAccountAction extends Action {
             throws InvalidParametersException {
 
         String courseId = generateDemoCourseId(instructorEmail);
-        String template = replaceAdjustedTimeAndTimezone(Templates.INSTRUCTOR_SAMPLE_DATA, timezone);
+        String template = Templates.INSTRUCTOR_SAMPLE_DATA;
+
+        if (timezone != Const.DEFAULT_TIME_ZONE) {
+            template = replaceAdjustedTimeAndTimezone(template, timezone);
+        }
 
         String jsonString = Templates.populateTemplate(template,
                 // replace email
@@ -237,10 +241,10 @@ class CreateAccountAction extends Action {
      * Timezone is changed to users timezone.
      */
     private String replaceAdjustedTimeAndTimezone(String template, String timezoneString) {
-        String pattern = "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z"; // regex for instant
-
-        // timezoneString shouhld have been validated in #execute() method already
+        // timezoneString should have been validated in #execute() method already
         assert ZoneId.getAvailableZoneIds().contains(timezoneString);
+
+        String pattern = "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z"; // regex for instant
         ZoneId timezone = ZoneId.of(timezoneString);
 
         // replace instant with instant adjusted for user's timezone
@@ -257,6 +261,6 @@ class CreateAccountAction extends Action {
         });
 
         // replace timezone
-        return updatedtemplate.replaceAll("demo.timezone", timezoneString);
+        return updatedtemplate.replaceAll("UTC", timezoneString);
     }
 }
