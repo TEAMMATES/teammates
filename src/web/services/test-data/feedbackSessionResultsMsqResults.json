@@ -197,6 +197,15 @@
             "otherFieldContent": "",
             "questionType": "MSQ"
           },
+          "participantComment": {
+            "feedbackResponseCommentId": 65,
+            "commentText": "Student 4 comment",
+            "createdAt": 1451692740000,
+            "lastEditedAt": 1451692740000,
+            "isVisibilityFollowingFeedbackQuestion": true,
+            "showGiverNameTo": [],
+            "showCommentTo": []
+          },
           "instructorComments": []
         },
         {
@@ -255,15 +264,6 @@
           "responseDetails": {
             "answer": "No Response",
             "questionType": "TEXT"
-          },
-          "participantComment": {
-            "feedbackResponseCommentId": 65,
-            "commentText": "Student 4 comment",
-            "createdAt": 1451692740000,
-            "lastEditedAt": 1451692740000,
-            "isVisibilityFollowingFeedbackQuestion": true,
-            "showGiverNameTo": [],
-            "showCommentTo": []
           },
           "instructorComments": []
         }
