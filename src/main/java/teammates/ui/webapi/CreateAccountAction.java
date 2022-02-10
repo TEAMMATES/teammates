@@ -261,6 +261,6 @@ class CreateAccountAction extends Action {
         });
 
         // replace timezone
-        return updatedtemplate.replaceAll("UTC", timezoneString);
+        return updatedtemplate.replaceAll(Const.DEFAULT_TIME_ZONE, timezoneString);
     }
 }
