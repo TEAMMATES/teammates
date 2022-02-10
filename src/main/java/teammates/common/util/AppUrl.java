@@ -18,6 +18,10 @@ public class AppUrl extends Url {
         return withParam(Const.ParamsNames.REGKEY, key);
     }
 
+    public AppUrl withIsCreatingAccount(String isCreatingAccount) {
+        return withParam(Const.ParamsNames.IS_CREATING_ACCOUNT, isCreatingAccount);
+    }
+
     public AppUrl withCourseId(String courseId) {
         return withParam(Const.ParamsNames.COURSE_ID, courseId);
     }

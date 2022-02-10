@@ -77,6 +77,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   courseId: string = '';
   feedbackSessionName: string = '';
   regKey: string = '';
+  entityType: string = 'student';
   loggedInUser: string = '';
 
   moderatedPerson: string = '';
@@ -142,6 +143,10 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
       this.regKey = queryParams.key ? queryParams.key : '';
       this.moderatedPerson = queryParams.moderatedperson ? queryParams.moderatedperson : '';
       this.previewAsPerson = queryParams.previewas ? queryParams.previewas : '';
+      if (queryParams.entitytype === 'instructor') {
+        this.entityType = 'instructor';
+        this.intent = Intent.INSTRUCTOR_SUBMISSION;
+      }
       this.moderatedQuestionId = queryParams.moderatedquestionId ? queryParams.moderatedquestionId : '';
 
       if (this.previewAsPerson) {
@@ -161,7 +166,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
               if (resp.isUsed) {
                 // The logged in user matches the registration key; redirect to the logged in URL
 
-                this.navigationService.navigateByURLWithParamEncoding(this.router, '/web/student/sessions/submission',
+                this.navigationService.navigateByURLWithParamEncoding(this.router, `/web/${this.entityType}/sessions/submission`,
                     { courseid: this.courseId, fsname: this.feedbackSessionName });
               } else {
                 // Valid, unused registration key; load information based on the key
@@ -180,7 +185,11 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                     ${environment.supportEmail} for help.`);
               } else {
                 // There is no logged in user for a valid, used registration key, redirect to login page
-                window.location.href = `${this.backendUrl}${auth.studentLoginUrl}`;
+                if (this.entityType === 'student') {
+                  window.location.href = `${this.backendUrl}${auth.studentLoginUrl}`;
+                } else if (this.entityType === 'instructor') {
+                  window.location.href = `${this.backendUrl}${auth.instructorLoginUrl}`;
+                }
               }
             } else {
               // The registration key is invalid
@@ -295,10 +304,10 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   }
 
   /**
-   * Redirects to join course link for unregistered student.
+   * Redirects to join course link for unregistered student/instructor.
    */
-  joinCourseForUnregisteredStudent(): void {
-    this.navigationService.navigateByURL(this.router, '/web/join', { entitytype: 'student', key: this.regKey });
+  joinCourseForUnregisteredEntity(): void {
+    this.navigationService.navigateByURL(this.router, '/web/join', { entitytype: this.entityType, key: this.regKey });
   }
 
   /**
@@ -375,13 +384,14 @@ this session.`;
         if (resp.status === 404) {
           this.simpleModalService.openInformationModal('Feedback Session Does Not Exist!', SimpleModalType.DANGER,
               'The session does not exist (most likely deleted by the instructor after the submission link was sent).');
-          this.navigationService.navigateByURL(this.router, '/web/student/home');
+          this.navigationService.navigateByURL(this.router, `/web/${this.entityType}/home`);
         } else if (resp.status === 403) {
           this.simpleModalService.openInformationModal('Not Authorised To Access!', SimpleModalType.DANGER,
               resp.error.message);
-          this.navigationService.navigateByURL(this.router, '/web/student/home');
+          this.navigationService.navigateByURL(this.router, `/web/${this.entityType}/home`);
         } else {
-          this.navigationService.navigateWithErrorMessage(this.router, '/web/student/home', resp.error.message);
+          this.navigationService.navigateWithErrorMessage(
+              this.router, `/web/${this.entityType}/home`, resp.error.message);
         }
       });
   }
@@ -643,49 +653,51 @@ this session.`;
             }
           });
 
-      savingRequests.push(
-          this.feedbackResponsesService.submitFeedbackResponses(questionSubmissionFormModel.feedbackQuestionId, {
-            intent: this.intent,
-            key: this.regKey,
-            moderatedperson: this.moderatedPerson,
-          }, {
-            responses,
-          }).pipe(
-              tap((resp: FeedbackResponses) => {
-                const responsesMap: Record<string, FeedbackResponse> = {};
-                resp.responses.forEach((response: FeedbackResponse) => {
-                  responsesMap[response.recipientIdentifier] = response;
-                  answers[questionSubmissionFormModel.feedbackQuestionId] =
-                      answers[questionSubmissionFormModel.feedbackQuestionId] || [];
-                  answers[questionSubmissionFormModel.feedbackQuestionId].push(response);
-                });
-                requestIds[questionSubmissionFormModel.feedbackQuestionId] = resp.requestId || '';
+      if (!failToSaveQuestions[questionSubmissionFormModel.questionNumber]) {
+        savingRequests.push(
+            this.feedbackResponsesService.submitFeedbackResponses(questionSubmissionFormModel.feedbackQuestionId, {
+              intent: this.intent,
+              key: this.regKey,
+              moderatedperson: this.moderatedPerson,
+            }, {
+              responses,
+            }).pipe(
+                tap((resp: FeedbackResponses) => {
+                  const responsesMap: Record<string, FeedbackResponse> = {};
+                  resp.responses.forEach((response: FeedbackResponse) => {
+                    responsesMap[response.recipientIdentifier] = response;
+                    answers[questionSubmissionFormModel.feedbackQuestionId] =
+                        answers[questionSubmissionFormModel.feedbackQuestionId] || [];
+                    answers[questionSubmissionFormModel.feedbackQuestionId].push(response);
+                  });
+                  requestIds[questionSubmissionFormModel.feedbackQuestionId] = resp.requestId || '';
 
-                questionSubmissionFormModel.recipientSubmissionForms
-                    .forEach((recipientSubmissionFormModel: FeedbackResponseRecipientSubmissionFormModel) => {
-                      if (responsesMap[recipientSubmissionFormModel.recipientIdentifier]) {
-                        const correspondingResp: FeedbackResponse =
-                            responsesMap[recipientSubmissionFormModel.recipientIdentifier];
-                        recipientSubmissionFormModel.responseId = correspondingResp.feedbackResponseId;
-                        recipientSubmissionFormModel.responseDetails = correspondingResp.responseDetails;
-                        recipientSubmissionFormModel.recipientIdentifier = correspondingResp.recipientIdentifier;
-                      } else {
-                        recipientSubmissionFormModel.responseId = '';
-                        recipientSubmissionFormModel.commentByGiver = undefined;
-                      }
-                    });
-              }),
-              switchMap(() =>
-                  forkJoin(questionSubmissionFormModel.recipientSubmissionForms
-                      .map((recipientSubmissionFormModel: FeedbackResponseRecipientSubmissionFormModel) =>
-                          this.createCommentRequest(recipientSubmissionFormModel))),
-              ),
-              catchError((error: ErrorMessageOutput) => {
-                failToSaveQuestions[questionSubmissionFormModel.questionNumber] = error.error.message;
-                return of(error);
-              }),
-          ),
-      );
+                  questionSubmissionFormModel.recipientSubmissionForms
+                      .forEach((recipientSubmissionFormModel: FeedbackResponseRecipientSubmissionFormModel) => {
+                        if (responsesMap[recipientSubmissionFormModel.recipientIdentifier]) {
+                          const correspondingResp: FeedbackResponse =
+                              responsesMap[recipientSubmissionFormModel.recipientIdentifier];
+                          recipientSubmissionFormModel.responseId = correspondingResp.feedbackResponseId;
+                          recipientSubmissionFormModel.responseDetails = correspondingResp.responseDetails;
+                          recipientSubmissionFormModel.recipientIdentifier = correspondingResp.recipientIdentifier;
+                        } else {
+                          recipientSubmissionFormModel.responseId = '';
+                          recipientSubmissionFormModel.commentByGiver = undefined;
+                        }
+                      });
+                }),
+                switchMap(() =>
+                    forkJoin(questionSubmissionFormModel.recipientSubmissionForms
+                        .map((recipientSubmissionFormModel: FeedbackResponseRecipientSubmissionFormModel) =>
+                            this.createCommentRequest(recipientSubmissionFormModel))),
+                ),
+                catchError((error: ErrorMessageOutput) => {
+                  failToSaveQuestions[questionSubmissionFormModel.questionNumber] = error.error.message;
+                  return of(error);
+                }),
+            ),
+        );
+      }
 
       if (!isQuestionFullyAnswered) {
         notYetAnsweredQuestions.add(questionSubmissionFormModel.questionNumber);

@@ -1715,5 +1715,111 @@
       "gender": "OTHER",
       "moreInfo": "I am just a student :P<script> alert('hi!'); </script>"
     }
+  },
+  "accountRequests": {
+    "instructor1OfCourse1": {
+      "name": "Instructor 1 of Course 1",
+      "email": "instr1@course1.tmt",
+      "institute": "TEAMMATES Test Institute 1",
+      "createdAt": "2011-01-01T00:00:00Z",
+      "registeredAt": "1970-02-14T00:00:00Z"
+    },
+    "instructor2OfCourse1": {
+      "name": "Instructor 2 of Course 1",
+      "email": "instr2@course1.tmt",
+      "institute": "TEAMMATES Test Institute 1",
+      "createdAt": "2011-01-01T00:00:00Z",
+      "registeredAt": "1970-02-14T00:00:00Z"
+    },
+    "helperOfCourse1": {
+      "name": "Helper of Course 1",
+      "email": "helper@course1.tmt",
+      "institute": "TEAMMATES Test Institute 1",
+      "createdAt": "2011-01-01T00:00:00Z",
+      "registeredAt": "1970-02-14T00:00:00Z"
+    },
+    "instructor1OfCourse2": {
+      "name": "Instructor 1 of Course 2",
+      "email": "instr1@course2.tmt",
+      "institute": "TEAMMATES Test Institute 1",
+      "createdAt": "2011-01-01T00:00:00Z",
+      "registeredAt": "1970-02-14T00:00:00Z"
+    },
+    "instructor2OfCourse2": {
+      "name": "Instructor 2 of Course 2",
+      "email": "instr2@course2.tmt",
+      "institute": "TEAMMATES Test Institute 1",
+      "createdAt": "2011-01-01T00:00:00Z",
+      "registeredAt": "1970-02-14T00:00:00Z"
+    },
+    "instructor1OfCourse3": {
+      "name": "Instructor 1 of Course 3",
+      "email": "instr1@course3.tmt",
+      "institute": "TEAMMATES Test Institute 1",
+      "createdAt": "2011-01-01T00:00:00Z",
+      "registeredAt": "1970-02-14T00:00:00Z"
+    },
+    "instructor2OfCourse3": {
+      "name": "Instructor 2 of Course 3",
+      "email": "instr2@course3.tmt",
+      "institute": "TEAMMATES Test Institute 1",
+      "createdAt": "2011-01-01T00:00:00Z",
+      "registeredAt": "1970-02-14T00:00:00Z"
+    },
+    "instructor3": {
+      "name": "Instructor 3 of Course 1 and 2",
+      "email": "instr3@course1n2.tmt",
+      "institute": "TEAMMATES Test Institute 1",
+      "createdAt": "2011-01-01T00:00:00Z",
+      "registeredAt": "1970-02-14T00:00:00Z"
+    },
+    "instructor4": {
+      "name": "Instructor 4 of CourseNoEvals",
+      "email": "instr4@coursenoevals.tmt",
+      "institute": "TEAMMATES Test Institute 1",
+      "createdAt": "2011-01-01T00:00:00Z",
+      "registeredAt": "1970-02-14T00:00:00Z"
+    },
+    "instructor5": {
+      "name": "Instructor 5 of CourseNoRegister",
+      "email": "instructor5@courseNoRegister.tmt",
+      "institute": "TEAMMATES Test Institute 1",
+      "createdAt": "2011-01-01T00:00:00Z",
+      "registeredAt": "1970-02-14T00:00:00Z"
+    },
+    "instructorWithoutCourses": {
+      "name": "Instructor Without Courses",
+      "email": "iwc@yahoo.tmt",
+      "institute": "TEAMMATES Test Institute 7",
+      "createdAt": "2011-01-01T00:00:00Z",
+      "registeredAt": "1970-02-14T00:00:00Z"
+    },
+    "instructorWithOnlyOneSampleCourse": {
+      "name": "Instructor With Only One Sample Course",
+      "email": "iwosc@yahoo.tmt",
+      "institute": "TEAMMATES Test Institute 7",
+      "createdAt": "2011-01-01T00:00:00Z",
+      "registeredAt": "1970-02-14T00:00:00Z"
+    },
+    "instructorOfArchivedCourse": {
+      "name": "InstructorOfArchiveCourse name",
+      "email": "instructorOfArchiveCourse@archiveCourse.tmt",
+      "institute": "TEAMMATES Test Institute 5",
+      "createdAt": "2011-01-01T00:00:00Z",
+      "registeredAt": "1970-02-14T00:00:00Z"
+    },
+    "instructor1OfTestingSanitizationCourse": {
+      "name": "Instructor<script> alert('hi!'); </script>",
+      "email": "instructor1@sanitization.tmt",
+      "institute": "inst<script> alert('hi!'); </script>",
+      "createdAt": "2011-01-01T00:00:00Z",
+      "registeredAt": "1970-02-14T00:00:00Z"
+    },
+    "unregisteredInstructor1": {
+      "email": "unregisteredinstructor1@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1",
+      "name": "Typical Instructor Name",
+      "createdAt": "2011-01-01T00:00:00Z"
+    }
   }
 }

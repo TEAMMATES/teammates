@@ -156,7 +156,7 @@ describe('AdminHomePageComponent', () => {
         message: 'This should not be displayed',
       },
     ];
-    spyOn(service, 'createAccount').and.returnValue(of({
+    spyOn(service, 'createAccountRequest').and.returnValue(of({
       joinLink: 'http://localhost:4200/web/join',
     }));
     fixture.detectChanges();
@@ -180,7 +180,7 @@ describe('AdminHomePageComponent', () => {
         message: 'This should not be displayed',
       },
     ];
-    spyOn(service, 'createAccount').and.returnValue(throwError({
+    spyOn(service, 'createAccountRequest').and.returnValue(throwError({
       error: {
         message: 'This is the error message',
       },

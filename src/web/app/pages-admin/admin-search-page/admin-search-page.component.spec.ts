@@ -55,6 +55,10 @@ const DEFAULT_INSTRUCTOR_SEARCH_RESULT: InstructorAccountSearchResult = {
   homePageLink: 'homePageLink',
   manageAccountLink: 'manageAccountLink',
   showLinks: false,
+  awaitingSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+  openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+  notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+  publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
 };
 
 describe('AdminSearchPageComponent', () => {
@@ -122,6 +126,10 @@ describe('AdminSearchPageComponent', () => {
         homePageLink: 'home-page-link',
         manageAccountLink: 'manage-account-link',
         showLinks: true,
+        awaitingSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+        openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+        notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+        publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
       },
     ];
 
@@ -204,6 +212,10 @@ describe('AdminSearchPageComponent', () => {
         homePageLink: 'homePageLink1',
         manageAccountLink: 'manageAccountLink1',
         showLinks: true,
+        awaitingSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+        openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+        notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+        publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
       },
       {
         name: 'name2',
@@ -216,6 +228,10 @@ describe('AdminSearchPageComponent', () => {
         homePageLink: 'homePageLink2',
         manageAccountLink: 'manageAccountLink2',
         showLinks: true,
+        awaitingSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+        openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+        notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+        publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
       }];
 
     spyOn(searchService, 'searchAdmin').and.returnValue(of({
@@ -304,6 +320,10 @@ describe('AdminSearchPageComponent', () => {
       homePageLink: 'homePageLink',
       manageAccountLink: 'manageAccountLink',
       showLinks: false,
+      awaitingSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+      openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+      notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+      publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
     };
     component.instructors = [instructorResult];
     fixture.detectChanges();
@@ -335,6 +355,10 @@ describe('AdminSearchPageComponent', () => {
       homePageLink: 'homePageLink',
       manageAccountLink: 'manageAccountLink',
       showLinks: false,
+      awaitingSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+      openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+      notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+      publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
     };
     component.instructors = [instructorResult];
     fixture.detectChanges();
@@ -372,6 +396,10 @@ describe('AdminSearchPageComponent', () => {
       homePageLink: 'homePageLink',
       manageAccountLink: 'manageAccountLink',
       showLinks: false,
+      awaitingSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+      openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+      notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+      publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
     };
     component.instructors = [instructorResult];
     fixture.detectChanges();
