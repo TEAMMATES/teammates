@@ -298,9 +298,10 @@ export class SearchService {
 
     const { registrationKey, createdAt, registeredAt, name, institute, email }: AccountRequest = accountRequest;
 
-    accountRequestResult.createdAt = this.formatTimestampAsString(createdAt, 'UTC');
+    const timezone: string = this.timezoneService.guessTimezone() || 'UTC';
+    accountRequestResult.createdAt = this.formatTimestampAsString(createdAt, timezone);
     accountRequestResult.registeredAt = registeredAt
-        ? this.formatTimestampAsString(registeredAt, 'UTC')
+        ? this.formatTimestampAsString(registeredAt, timezone)
         : 'Not Registered Yet' ;
 
     const registrationLink: string = this.linkService.generateAccountRegistrationLink(registrationKey);

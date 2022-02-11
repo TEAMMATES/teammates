@@ -3,6 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ResourceEndpoints } from '../types/api-const';
 import {
+  AccountRequest,
   Course,
   FeedbackSession,
   FeedbackSessionPublishStatus,
@@ -16,11 +17,13 @@ import {
   Student,
 } from '../types/api-output';
 import { HttpRequestService } from './http-request.service';
-import { InstructorAccountSearchResult, SearchService, StudentAccountSearchResult } from './search.service';
+import { AccountRequestSearchResult, InstructorAccountSearchResult, SearchService, StudentAccountSearchResult } from './search.service';
+import { TimezoneService } from './timezone.service';
 
 describe('SearchService', () => {
   let spyHttpRequestService: any;
   let service: SearchService;
+  let timezoneService: TimezoneService;
 
   const mockStudent: Student = {
     email: 'alice.b.tmms@gmail.tmt',
@@ -110,6 +113,14 @@ describe('SearchService', () => {
     requestId: '5e80aa3c00007918934385f5',
   };
 
+  const mockAccountRequest: AccountRequest = {
+    registrationKey: 'regkey',
+    createdAt: 1585487897502,
+    name: 'Test Instructor',
+    institute: 'Test Institute',
+    email: 'test@example.com',
+  };
+
   beforeEach(() => {
     spyHttpRequestService = {
       get: jest.fn(),
@@ -124,6 +135,7 @@ describe('SearchService', () => {
       ],
     });
     service = TestBed.inject(SearchService);
+    timezoneService = TestBed.inject(TimezoneService);
   });
 
   it('should be created', () => {
@@ -189,5 +201,30 @@ describe('SearchService', () => {
     expect(result.email).toBe('dog@gmail.com');
     expect(result.manageAccountLink).toBe('/web/admin/accounts?instructorid=test%40example.com');
     expect(result.homePageLink).toBe('/web/instructor/home?user=test%40example.com');
+  });
+
+  it('should join account requests accurately when timezone can be guessed and instructor is registered', () => {
+    spyOn(timezoneService, 'guessTimezone').and.returnValue('Asia/Singapore');
+    const accountRequest: AccountRequest = { ...mockAccountRequest, registeredAt: 1685487897502 };
+    const result: AccountRequestSearchResult = service.joinAdminAccountRequest(accountRequest);
+
+    expect(result.email).toBe('test@example.com');
+    expect(result.institute).toBe('Test Institute');
+    expect(result.name).toBe('Test Instructor');
+    expect(result.createdAt).toBe('Sun, 29 Mar 2020, 09:18 PM +08:00');
+    expect(result.registeredAt).toBe('Wed, 31 May 2023, 07:04 AM +08:00');
+    expect(result.registrationLink).toBe(`${window.location.origin}/web/join?iscreatingaccount=true&key=regkey`);
+  });
+
+  it('should join account requests accurately when timezone cannot be guessed and instructor is not registered', () => {
+    spyOn(timezoneService, 'guessTimezone').and.returnValue('');
+    const result: AccountRequestSearchResult = service.joinAdminAccountRequest(mockAccountRequest);
+
+    expect(result.email).toBe('test@example.com');
+    expect(result.institute).toBe('Test Institute');
+    expect(result.name).toBe('Test Instructor');
+    expect(result.createdAt).toBe('Sun, 29 Mar 2020, 01:18 PM +00:00');
+    expect(result.registeredAt).toBe('Not Registered Yet');
+    expect(result.registrationLink).toBe(`${window.location.origin}/web/join?iscreatingaccount=true&key=regkey`);
   });
 });
