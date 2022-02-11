@@ -91,7 +91,7 @@ public final class AccountRequestsLogic {
     }
 
     /**
-     * This is used by admin to search account requests in the whole system.
+     * Searches for account requests in the whole system.
      *
      * @return A list of {@link AccountRequestAttributes} or {@code null} if no match found.
      */

@@ -40,7 +40,7 @@ public class AccountRequestSearchIndexingWorkerActionTest
                 logic.searchAccountRequestsInWholeSystem(accountRequest.getEmail());
         assertEquals(0, accountRequestsList.size());
 
-        ______TS("instructor indexed should be searchable");
+        ______TS("account request indexed should be searchable");
 
         String[] submissionParams = new String[] {
                 ParamsNames.INSTRUCTOR_EMAIL, accountRequest.getEmail(),

@@ -426,10 +426,10 @@ export class SearchService {
   }
 
   private formatTimestampAsString(timestamp: number, timezone: string): string {
-    const DATE_FORMAT_WITH_ZONE_INFO: string = 'ddd, DD MMM YYYY, hh:mm A Z';
+    const dateFormatWithZoneInfo: string = 'ddd, DD MMM YYYY, hh:mm A Z';
 
     return this.timezoneService
-        .formatToString(timestamp, timezone, DATE_FORMAT_WITH_ZONE_INFO);
+        .formatToString(timestamp, timezone, dateFormatWithZoneInfo);
   }
 }
 
