@@ -15,6 +15,7 @@ export class UploadEditProfilePictureModalComponent implements OnInit {
   imageChangedEvent: any = '';
   formData?: FormData;
   isValidProfileFileType: boolean = false;
+  readonly validProfileFileTypes: string[] = ['image/gif', 'image/jpeg', 'image/png', 'image/svg+xml'];
 
   @ViewChild(ImageCropperComponent) imageCropper!: ImageCropperComponent;
 
@@ -23,8 +24,6 @@ export class UploadEditProfilePictureModalComponent implements OnInit {
   constructor(public activeModal: NgbActiveModal,
     private statusMessageService: StatusMessageService,
     ) { }
-
-  readonly validProfileFileTypes: string[] = ['image/gif, image/jpeg, image/png, image/svg+xml'];
 
   ngOnInit(): void {
     if (this.image == null) {
