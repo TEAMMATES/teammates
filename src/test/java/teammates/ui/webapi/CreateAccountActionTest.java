@@ -111,7 +111,12 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
 
         feedbackSessionsList = logic.getFeedbackSessionsForCourse(courseId);
         for (FeedbackSessionAttributes feedbackSession : feedbackSessionsList) {
+            LocalTime actualStartTime = LocalTime.ofInstant(feedbackSession.getStartTime(), zoneId);
+            LocalTime actualEndTime = LocalTime.ofInstant(feedbackSession.getEndTime(), zoneId);
+
             assertEquals(Const.DEFAULT_TIME_ZONE, feedbackSession.getTimeZone());
+            assertEquals(LocalTime.MIDNIGHT, actualStartTime);
+            assertEquals(LocalTime.MIDNIGHT, actualEndTime);
         }
 
         verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME,
