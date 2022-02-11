@@ -110,6 +110,7 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
         assertEquals(Const.DEFAULT_TIME_ZONE, course.getTimeZone());
 
         feedbackSessionsList = logic.getFeedbackSessionsForCourse(courseId);
+        zoneId = ZoneId.of(Const.DEFAULT_TIME_ZONE);
         for (FeedbackSessionAttributes feedbackSession : feedbackSessionsList) {
             LocalTime actualStartTime = LocalTime.ofInstant(feedbackSession.getStartTime(), zoneId);
             LocalTime actualEndTime = LocalTime.ofInstant(feedbackSession.getEndTime(), zoneId);
