@@ -25,6 +25,7 @@ export class CopyQuestionsFromOtherSessionsModalComponent {
 
   // data
   feedbackSessionTabModels: FeedbackSessionTabModel[] = [];
+  feedbackSessionTabModelsSortBy: SortBy = SortBy.COURSE_ID;
 
   constructor(public activeModal: NgbActiveModal,
               public statusMessageService: StatusMessageService,
@@ -86,6 +87,21 @@ export class CopyQuestionsFromOtherSessionsModalComponent {
   }
 
   /**
+   * Checks the option selected to sort feedback sessions.
+   */
+  isSelectedForSorting(by: SortBy): boolean {
+    return this.feedbackSessionTabModelsSortBy === by;
+  }
+
+  /**
+   * Sorts the list of feedback sessions.
+   */
+  sortFeedbackSessionTabs(by: SortBy): void {
+    this.feedbackSessionTabModelsSortBy = by;
+    this.feedbackSessionTabModels.sort(this.sortFeedbackSessionsBy(by));
+  }
+
+  /**
    * Sorts the list of questions for a feedback session.
    */
   sortQuestionsToCopyForFeedbackSession(model: FeedbackSessionTabModel, by: SortBy): void {
@@ -93,13 +109,46 @@ export class CopyQuestionsFromOtherSessionsModalComponent {
     // reverse the sort order
     model.questionsTableRowModelsSortOrder =
       model.questionsTableRowModelsSortOrder === SortOrder.DESC ? SortOrder.ASC : SortOrder.DESC;
-    model.questionsTableRowModels.sort(this.sortCandidatesBy(by, model.questionsTableRowModelsSortOrder));
+    model.questionsTableRowModels.sort(this.sortQuestionsBy(by, model.questionsTableRowModelsSortOrder));
   }
 
   /**
-   * Generates a sorting function.
+   * Generates a sorting function for sessions.
    */
-  protected sortCandidatesBy(by: SortBy, order: SortOrder):
+  protected sortFeedbackSessionsBy(by: SortBy):
+      ((a: FeedbackSessionTabModel, b: FeedbackSessionTabModel) => number) {
+    return ((a: FeedbackSessionTabModel, b: FeedbackSessionTabModel): number => {
+      let strA: string;
+      let strB: string;
+      let order: SortOrder;
+      switch (by) {
+        case SortBy.COURSE_ID:
+          strA = String(a.feedbackSession.courseId);
+          strB = String(b.feedbackSession.courseId);
+          order = SortOrder.ASC;
+          break;
+        case SortBy.SESSION_NAME:
+          strA = a.feedbackSession.feedbackSessionName;
+          strB = b.feedbackSession.feedbackSessionName;
+          order = SortOrder.ASC;
+          break;
+        case SortBy.SESSION_CREATION_DATE:
+          strA = String(a.feedbackSession.createdAtTimestamp);
+          strB = String(b.feedbackSession.createdAtTimestamp);
+          order = SortOrder.DESC;
+          break;
+        default:
+          strA = '';
+          strB = '';
+          order = SortOrder.ASC;
+      }
+      return this.tableComparatorService.compare(by, order, strA, strB);
+    });
+  }
+  /**
+   * Generates a sorting function for questions.
+   */
+  protected sortQuestionsBy(by: SortBy, order: SortOrder):
       ((a: QuestionToCopyCandidate, b: QuestionToCopyCandidate) => number) {
     return ((a: QuestionToCopyCandidate, b: QuestionToCopyCandidate): number => {
       let strA: string;

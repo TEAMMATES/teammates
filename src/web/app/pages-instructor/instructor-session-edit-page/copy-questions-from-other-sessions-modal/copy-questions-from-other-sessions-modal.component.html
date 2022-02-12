@@ -5,6 +5,14 @@
   </button>
 </div>
 <div id="copy-question-modal" class="modal-body">
+  <div class="col-12 mb-3 text-md-right">
+    <strong class="d-inline"> Sort Sessions By: </strong>
+    <div class="btn-group" data-toggle="buttons">
+      <button id="sort-course-id" class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.COURSE_ID)" (click)="sortFeedbackSessionTabs(SortBy.COURSE_ID)">Course ID</button>
+      <button id="sort-session-name" class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.SESSION_NAME)" (click)="sortFeedbackSessionTabs(SortBy.SESSION_NAME)">Session Name</button>
+      <button id="sort-creation-date" class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.SESSION_CREATION_DATE)" (click)="sortFeedbackSessionTabs(SortBy.SESSION_CREATION_DATE)">Creation Date</button>
+    </div>
+  </div>
   <div class="feedback-session-tabs" *ngFor="let feedbackSessionTabModel of feedbackSessionTabModels">
     <div class="card">
       <div class="card-header cursor-pointer bg-primary text-white" (click)="toggleCard(feedbackSessionTabModel)">
