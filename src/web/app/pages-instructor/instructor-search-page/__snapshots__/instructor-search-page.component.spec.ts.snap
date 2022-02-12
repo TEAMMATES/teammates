@@ -20,7 +20,7 @@ exports[`InstructorSearchPageComponent should snap with a search key 1`] = `
         <div
           class="text-muted"
         >
-           You can search for students from all your courses here. 
+           You can search for students (by name or email) from all your courses here. 
         </div>
         <div
           class="text-muted"
@@ -36,7 +36,7 @@ exports[`InstructorSearchPageComponent should snap with a search key 1`] = `
               <b>
                 "[any word]"
               </b>
-               to search for an exact phrase in an exact order.
+               to search for an exact phrase in an exact order(e.g, "John Doe").
             </li>
           </ul>
         </div>
@@ -92,7 +92,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
         <div
           class="text-muted"
         >
-           You can search for students from all your courses here. 
+           You can search for students (by name or email) from all your courses here. 
         </div>
         <div
           class="text-muted"
@@ -108,7 +108,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
               <b>
                 "[any word]"
               </b>
-               to search for an exact phrase in an exact order.
+               to search for an exact phrase in an exact order(e.g, "John Doe").
             </li>
           </ul>
         </div>
@@ -145,11 +145,6 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
       <div
         class="card border border-primary mb-4"
       >
-        <div
-          class="card-header text-white bg-primary font-weight-bold"
-        >
-          Students
-        </div>
         <div
           class="card-body p-3"
         >
@@ -622,7 +617,7 @@ exports[`InstructorSearchPageComponent should snap with default fields 1`] = `
         <div
           class="text-muted"
         >
-           You can search for students from all your courses here. 
+           You can search for students (by name or email) from all your courses here. 
         </div>
         <div
           class="text-muted"
@@ -638,7 +633,7 @@ exports[`InstructorSearchPageComponent should snap with default fields 1`] = `
               <b>
                 "[any word]"
               </b>
-               to search for an exact phrase in an exact order.
+               to search for an exact phrase in an exact order(e.g, "John Doe").
             </li>
           </ul>
         </div>
