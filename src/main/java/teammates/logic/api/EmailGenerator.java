@@ -191,25 +191,12 @@ public final class EmailGenerator {
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
         String template = EmailTemplates.USER_FEEDBACK_SESSION.replace("${status}", FEEDBACK_STATUS_SESSION_OPEN);
         List<InstructorAttributes> instructorToNotifyAsList = new ArrayList<>();
-        instructorToNotifyAsList.add(instructorToNotify);
+        if (instructorToNotify != null) {
+            instructorToNotifyAsList.add(instructorToNotify);
+        }
 
         return generateFeedbackSessionEmailBases(course, session, students, instructorsToRemind, instructorToNotifyAsList,
                 template, EmailType.FEEDBACK_SESSION_REMINDER, FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW);
-    }
-
-    /**
-     * Generates the feedback session reminder emails for the given {@code student}.
-     */
-    public EmailWrapper generateFeedbackSessionStudentReminderEmail(
-            FeedbackSessionAttributes session, StudentAttributes student) {
-
-        CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
-        String template = EmailTemplates.USER_FEEDBACK_SESSION.replace("${status}", FEEDBACK_STATUS_SESSION_OPEN);
-        String additionalContactInformation = HTML_NO_ACTION_REQUIRED
-                + getAdditionalContactInformationFragment(course, false);
-
-        return generateFeedbackSessionEmailBaseForStudents(course, session, student, template,
-                EmailType.FEEDBACK_SESSION_REMINDER, FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW, additionalContactInformation);
     }
 
     /**
@@ -454,61 +441,18 @@ public final class EmailGenerator {
      * Generates the feedback session closing emails for the given {@code session}.
      */
     public List<EmailWrapper> generateFeedbackSessionClosingEmails(FeedbackSessionAttributes session) {
-        List<StudentAttributes> students = new ArrayList<>();
-        List<InstructorAttributes> instructors = new ArrayList<>();
-        boolean isEmailNeededForStudents = fsLogic.isFeedbackSessionForUserTypeToAnswer(session, false);
-        boolean isEmailNeededForInstructors = fsLogic.isFeedbackSessionForUserTypeToAnswer(session, true);
-
-        if (isEmailNeededForStudents) {
-            List<StudentAttributes> studentsForCourse = studentsLogic.getStudentsForCourse(session.getCourseId());
-
-            for (StudentAttributes student : studentsForCourse) {
-                try {
-                    if (!fsLogic.isFeedbackSessionAttemptedByUser(session, student.getEmail(), false)) {
-                        students.add(student);
-                    }
-                } catch (EntityDoesNotExistException e) {
-                    log.severe("Course " + session.getCourseId() + " does not exist or "
-                            + "session " + session.getFeedbackSessionName() + " does not exist");
-                    // Course or session cannot be found for one student => it will be the case for all students
-                    // Do not waste time looping through all students
-                    break;
-                }
-            }
-        }
-
-        if (isEmailNeededForInstructors) {
-            List<InstructorAttributes> instructorsForCourse =
-                    instructorsLogic.getInstructorsForCourse(session.getCourseId());
-
-            for (InstructorAttributes instructor : instructorsForCourse) {
-                try {
-                    if (!fsLogic.isFeedbackSessionAttemptedByUser(session, instructor.getEmail(), true)) {
-                        instructors.add(instructor);
-                    }
-                } catch (EntityDoesNotExistException e) {
-                    log.severe("Course " + session.getCourseId() + " does not exist or "
-                            + "session " + session.getFeedbackSessionName() + " does not exist");
-                    // Course or session cannot be found for one instructor => it will be the case for all instructors
-                    // Do not waste time looping through all instructors
-                    break;
-                }
-            }
-        }
-
-        String template = EmailTemplates.USER_FEEDBACK_SESSION.replace("${status}", FEEDBACK_STATUS_SESSION_CLOSING);
-        CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
-        List<InstructorAttributes> instructorsToNotify = isEmailNeededForStudents
-                ? instructorsLogic.getCoOwnersForCourse(session.getCourseId())
-                : new ArrayList<>();
-        return generateFeedbackSessionEmailBases(course, session, students, instructors, instructorsToNotify, template,
-                EmailType.FEEDBACK_CLOSING, FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW);
+        return generateFeedbackSessionClosingOrClosedEmails(session, EmailType.FEEDBACK_CLOSING);
     }
 
     /**
      * Generates the feedback session closed emails for the given {@code session}.
      */
     public List<EmailWrapper> generateFeedbackSessionClosedEmails(FeedbackSessionAttributes session) {
+        return generateFeedbackSessionClosingOrClosedEmails(session, EmailType.FEEDBACK_CLOSED);
+    }
+
+    private List<EmailWrapper> generateFeedbackSessionClosingOrClosedEmails(
+            FeedbackSessionAttributes session, EmailType emailType) {
         List<StudentAttributes> students = new ArrayList<>();
         List<InstructorAttributes> instructors = new ArrayList<>();
         boolean isEmailNeededForStudents = fsLogic.isFeedbackSessionForUserTypeToAnswer(session, false);
@@ -551,31 +495,30 @@ public final class EmailGenerator {
             }
         }
 
-        String template = EmailTemplates.USER_FEEDBACK_SESSION.replace("${status}", FEEDBACK_STATUS_SESSION_CLOSED);
+        String status;
+        String action;
+        if (emailType == EmailType.FEEDBACK_CLOSED) {
+            status = FEEDBACK_STATUS_SESSION_CLOSED;
+            action = FEEDBACK_ACTION_VIEW;
+        } else {
+            status = FEEDBACK_STATUS_SESSION_CLOSING;
+            action = FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW;
+        }
+
+        String template = EmailTemplates.USER_FEEDBACK_SESSION.replace("${status}", status);
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
         List<InstructorAttributes> instructorsToNotify = isEmailNeededForStudents
                 ? instructorsLogic.getCoOwnersForCourse(session.getCourseId())
                 : new ArrayList<>();
         return generateFeedbackSessionEmailBases(course, session, students, instructors, instructorsToNotify, template,
-                EmailType.FEEDBACK_CLOSED, FEEDBACK_ACTION_VIEW);
+                emailType, action);
     }
 
     /**
      * Generates the feedback session published emails for the given {@code session}.
      */
     public List<EmailWrapper> generateFeedbackSessionPublishedEmails(FeedbackSessionAttributes session) {
-        boolean isEmailNeededForStudents = fsLogic.isFeedbackSessionViewableToUserType(session, false);
-        boolean isEmailNeededForInstructors = fsLogic.isFeedbackSessionViewableToUserType(session, true);
-        List<InstructorAttributes> instructorsToNotify = isEmailNeededForStudents
-                ? instructorsLogic.getCoOwnersForCourse(session.getCourseId())
-                : new ArrayList<>();
-        List<StudentAttributes> students = isEmailNeededForStudents
-                ? studentsLogic.getStudentsForCourse(session.getCourseId())
-                : new ArrayList<>();
-        List<InstructorAttributes> instructors = isEmailNeededForInstructors
-                ? instructorsLogic.getInstructorsForCourse(session.getCourseId())
-                : new ArrayList<>();
-        return generateFeedbackSessionPublishedEmails(session, students, instructors, instructorsToNotify);
+        return generateFeedbackSessionPublishedOrUnpublishedEmails(session, EmailType.FEEDBACK_PUBLISHED);
     }
 
     /**
@@ -585,19 +528,19 @@ public final class EmailGenerator {
     public List<EmailWrapper> generateFeedbackSessionPublishedEmails(FeedbackSessionAttributes session,
             List<StudentAttributes> students, List<InstructorAttributes> instructors,
             List<InstructorAttributes> instructorsToNotify) {
-        String template = EmailTemplates.USER_FEEDBACK_SESSION_PUBLISHED;
-
-        CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
-
-        return generateFeedbackSessionEmailBases(course, session, students, instructors, instructorsToNotify,
-                template, EmailType.FEEDBACK_PUBLISHED, FEEDBACK_ACTION_VIEW);
+        return generateFeedbackSessionPublishedOrUnpublishedEmails(
+                session, students, instructors, instructorsToNotify, EmailType.FEEDBACK_PUBLISHED);
     }
 
     /**
      * Generates the feedback session unpublished emails for the given {@code session}.
      */
     public List<EmailWrapper> generateFeedbackSessionUnpublishedEmails(FeedbackSessionAttributes session) {
-        CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
+        return generateFeedbackSessionPublishedOrUnpublishedEmails(session, EmailType.FEEDBACK_UNPUBLISHED);
+    }
+
+    private List<EmailWrapper> generateFeedbackSessionPublishedOrUnpublishedEmails(
+            FeedbackSessionAttributes session, EmailType emailType) {
         boolean isEmailNeededForStudents = fsLogic.isFeedbackSessionViewableToUserType(session, false);
         boolean isEmailNeededForInstructors = fsLogic.isFeedbackSessionViewableToUserType(session, true);
         List<InstructorAttributes> instructorsToNotify = isEmailNeededForStudents
@@ -610,9 +553,26 @@ public final class EmailGenerator {
                 ? instructorsLogic.getInstructorsForCourse(session.getCourseId())
                 : new ArrayList<>();
 
-        String template = EmailTemplates.USER_FEEDBACK_SESSION_UNPUBLISHED;
+        return generateFeedbackSessionPublishedOrUnpublishedEmails(
+                session, students, instructors, instructorsToNotify, emailType);
+    }
+
+    private List<EmailWrapper> generateFeedbackSessionPublishedOrUnpublishedEmails(
+            FeedbackSessionAttributes session, List<StudentAttributes> students,
+            List<InstructorAttributes> instructors, List<InstructorAttributes> instructorsToNotify, EmailType emailType) {
+        CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
+        String template;
+        String action;
+        if (emailType == EmailType.FEEDBACK_PUBLISHED) {
+            template = EmailTemplates.USER_FEEDBACK_SESSION_PUBLISHED;
+            action = FEEDBACK_ACTION_VIEW;
+        } else {
+            template = EmailTemplates.USER_FEEDBACK_SESSION_UNPUBLISHED;
+            action = FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW;
+        }
+
         return generateFeedbackSessionEmailBases(course, session, students, instructors, instructorsToNotify, template,
-                EmailType.FEEDBACK_UNPUBLISHED, FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW);
+                emailType, action);
     }
 
     private List<EmailWrapper> generateFeedbackSessionEmailBases(

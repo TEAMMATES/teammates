@@ -1,6 +1,7 @@
 package teammates.ui.webapi;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -35,8 +36,6 @@ class FeedbackSessionResendPublishedEmailWorkerAction extends AdminOnlyAction {
             List<InstructorAttributes> instructorsToEmailList = new ArrayList<>();
             InstructorAttributes instructorToNotify =
                     logic.getInstructorForGoogleId(courseId, googleIdOfInstructorToNotify);
-            List<InstructorAttributes> instructorToNotifyAsList = new ArrayList<>();
-            instructorToNotifyAsList.add(instructorToNotify);
 
             for (String userEmail : usersToRemind) {
                 StudentAttributes student = logic.getStudentForEmail(courseId, userEmail);
@@ -51,7 +50,7 @@ class FeedbackSessionResendPublishedEmailWorkerAction extends AdminOnlyAction {
             }
 
             List<EmailWrapper> emails = emailGenerator.generateFeedbackSessionPublishedEmails(
-                    session, studentsToEmailList, instructorsToEmailList, instructorToNotifyAsList);
+                    session, studentsToEmailList, instructorsToEmailList, Collections.singletonList(instructorToNotify));
             taskQueuer.scheduleEmailsForSending(emails);
         } catch (Exception e) {
             log.severe("Unexpected error while sending emails", e);
