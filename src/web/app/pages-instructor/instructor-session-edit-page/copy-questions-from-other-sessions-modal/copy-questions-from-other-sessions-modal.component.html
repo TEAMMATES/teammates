@@ -5,54 +5,62 @@
   </button>
 </div>
 <div id="copy-question-modal" class="modal-body">
-  <table class="table table-bordered table-responsive-lg">
-    <thead class="bg-primary text-white">
-      <tr>
-        <th>#</th>
-        <th class="sortable-header" (click)="sortQuestionToCopyCandidates(SortBy.COURSE_ID)">
-          Course ID
-          <span class="fa-stack">
-            <i class="fas fa-sort"></i>
-            <i *ngIf="candidatesSortBy === SortBy.COURSE_ID && candidatesSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
-            <i *ngIf="candidatesSortBy === SortBy.COURSE_ID && candidatesSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
-          </span>
-        </th>
-        <th class="sortable-header" (click)="sortQuestionToCopyCandidates(SortBy.SESSION_NAME)">
-          Session Name
-          <span class="fa-stack">
-            <i class="fas fa-sort"></i>
-            <i *ngIf="candidatesSortBy === SortBy.SESSION_NAME && candidatesSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
-            <i *ngIf="candidatesSortBy === SortBy.SESSION_NAME && candidatesSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
-          </span>
-        </th>
-        <th class="sortable-header" (click)="sortQuestionToCopyCandidates(SortBy.QUESTION_TYPE)">
-          Question Type
-          <span class="fa-stack">
-            <i class="fas fa-sort"></i>
-            <i *ngIf="candidatesSortBy === SortBy.QUESTION_TYPE && candidatesSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
-            <i *ngIf="candidatesSortBy === SortBy.QUESTION_TYPE && candidatesSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
-          </span>
-        </th>
-        <th class="sortable-header" (click)="sortQuestionToCopyCandidates(SortBy.QUESTION_TEXT)">
-          Question Text
-          <span class="fa-stack">
-            <i class="fas fa-sort"></i>
-            <i *ngIf="candidatesSortBy === SortBy.QUESTION_TEXT && candidatesSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
-            <i *ngIf="candidatesSortBy === SortBy.QUESTION_TEXT && candidatesSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
-          </span>
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let questionCandidate of questionToCopyCandidates">
-        <td><input type="checkbox" class="form-control" [(ngModel)]="questionCandidate.isSelected"></td>
-        <td class="text-break">{{ questionCandidate.courseId }}</td>
-        <td class="text-break">{{ questionCandidate.feedbackSessionName }}</td>
-        <td>{{ questionCandidate.question.questionType | questionTypeName }}</td>
-        <td>{{ questionCandidate.question.questionBrief }}</td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="feedback-session-tabs" *ngFor="let feedbackSessionTabModel of feedbackSessionTabModels">
+    <div class="card">
+      <div class="card-header cursor-pointer bg-primary text-white" (click)="toggleCard(feedbackSessionTabModel)">
+        <strong class="text-break">[{{feedbackSessionTabModel.feedbackSession.courseId}}] Session: {{feedbackSessionTabModel.feedbackSession.feedbackSessionName}}</strong>
+        <div class="card-header-btn-toolbar">
+          <tm-panel-chevron [isExpanded]="feedbackSessionTabModel.isTabExpanded"></tm-panel-chevron>
+        </div>
+      </div>
+
+      <div *ngIf="feedbackSessionTabModel.isTabExpanded">
+        <tm-loading-retry [shouldShowRetry]="feedbackSessionTabModel.hasLoadingFailed" [message]="'Failed to load questions'" (retryEvent)="loadQuestions(feedbackSessionTabModel)">
+          <div *tmIsLoading="!feedbackSessionTabModel.hasQuestionsLoaded">
+            <div *ngIf="!feedbackSessionTabModel.hasLoadingFailed" class="card-body">
+              <ng-container *ngIf="feedbackSessionTabModel.hasQuestionsLoaded && feedbackSessionTabModel.questionsTableRowModels.length > 0, else noQuestionsTemplate">
+                <table class="table table-bordered table-responsive-lg">
+                  <thead class="bg-primary text-white">
+                    <tr>
+                      <th>#</th>
+                      <th class="sortable-header" (click)="sortQuestionsToCopyForFeedbackSession(feedbackSessionTabModel, SortBy.QUESTION_TYPE)">
+                        Question Type
+                        <span class="fa-stack">
+                          <i class="fas fa-sort"></i>
+                          <i *ngIf="feedbackSessionTabModel.questionsTableRowModelsSortBy === SortBy.QUESTION_TYPE && feedbackSessionTabModel.questionsTableRowModelsSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
+                          <i *ngIf="feedbackSessionTabModel.questionsTableRowModelsSortBy === SortBy.QUESTION_TYPE && feedbackSessionTabModel.questionsTableRowModelsSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+                        </span>
+                      </th>
+                      <th class="sortable-header" (click)="sortQuestionsToCopyForFeedbackSession(feedbackSessionTabModel, SortBy.QUESTION_TEXT)">
+                        Question Text
+                        <span class="fa-stack">
+                          <i class="fas fa-sort"></i>
+                          <i *ngIf="feedbackSessionTabModel.questionsTableRowModelsSortBy === SortBy.QUESTION_TEXT && feedbackSessionTabModel.questionsTableRowModelsSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
+                          <i *ngIf="feedbackSessionTabModel.questionsTableRowModelsSortBy === SortBy.QUESTION_TEXT && feedbackSessionTabModel.questionsTableRowModelsSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+                        </span>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let questionCandidate of feedbackSessionTabModel.questionsTableRowModels">
+                      <td><input type="checkbox" class="form-control" [(ngModel)]="questionCandidate.isSelected"></td>
+                      <td>{{ questionCandidate.question.questionType | questionTypeName }}</td>
+                      <td>{{ questionCandidate.question.questionBrief }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </ng-container>
+            </div>
+          </div>
+        </tm-loading-retry>
+      </div>
+
+      <ng-template #noQuestionsTemplate>
+        <h5>There are no questions in this feedback session available for copying.</h5>
+      </ng-template>
+
+    </div>
+  </div>
 </div>
 <div class="modal-footer">
   <button id="btn-confirm-copy-question" type="button" class="btn btn-primary" (click)="activeModal.close(getSelectedQuestions())"

@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
 import { forkJoin, Observable, of } from 'rxjs';
-import { concatMap, finalize, map, mergeMap, switchMap } from 'rxjs/operators';
+import { concatMap, finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import {
   CommonVisibilitySetting,
@@ -43,6 +43,7 @@ import {
   Students,
 } from '../../../types/api-output';
 import { Intent } from '../../../types/api-request';
+import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { VisibilityControl } from '../../../types/visibility-control';
 import { CopySessionModalResult } from '../../components/copy-session-modal/copy-session-modal-model';
 import { CopySessionModalComponent } from '../../components/copy-session-modal/copy-session-modal.component';
@@ -60,7 +61,7 @@ import { TimeFormat } from '../../components/timepicker/timepicker.component';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorSessionBasePageComponent } from '../instructor-session-base-page.component';
 import {
-  QuestionToCopyCandidate,
+  FeedbackSessionTabModel,
 } from './copy-questions-from-other-sessions-modal/copy-questions-from-other-sessions-modal-model';
 import {
   CopyQuestionsFromOtherSessionsModalComponent,
@@ -919,37 +920,26 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    */
   copyQuestionsFromOtherSessionsHandler(): void {
     this.isCopyingQuestion = true;
-    const questionToCopyCandidates: QuestionToCopyCandidate[] = [];
+    const feedbackSessionTabModels: FeedbackSessionTabModel[] = [];
 
     this.feedbackSessionsService.getFeedbackSessionsForInstructor().pipe(
-        switchMap((sessions: FeedbackSessions) => of(...sessions.feedbackSessions)),
-        mergeMap((session: FeedbackSession) => {
-          return this.feedbackQuestionsService.getFeedbackQuestions({
-            courseId: session.courseId,
-            feedbackSessionName: session.feedbackSessionName,
-            intent: Intent.FULL_DETAIL,
-          },
-          )
-              .pipe(
-                  map((questions: FeedbackQuestions) => {
-                    return questions.questions.map((q: FeedbackQuestion) => ({
-                      courseId: session.courseId,
-                      feedbackSessionName: session.feedbackSessionName,
-                      question: q,
-
-                      isSelected: false,
-                    } as QuestionToCopyCandidate));
-                  }),
-              );
-        }),
-        finalize(() => {
-          this.isCopyingQuestion = false;
-        }),
-    ).subscribe((questionToCopyCandidate: QuestionToCopyCandidate[]) => {
-      questionToCopyCandidates.push(...questionToCopyCandidate);
+      finalize(() => this.isCopyingQuestion = false),
+    ).subscribe((response: FeedbackSessions) => {
+      response.feedbackSessions.forEach((feedbackSession: FeedbackSession) => {
+        const model: FeedbackSessionTabModel = {
+          feedbackSession,
+          questionsTableRowModels: [],
+          isTabExpanded: false,
+          hasQuestionsLoaded: false,
+          hasLoadingFailed: false,
+          questionsTableRowModelsSortBy: SortBy.NONE,
+          questionsTableRowModelsSortOrder: SortOrder.ASC,
+        };
+        feedbackSessionTabModels.push(model);
+      });
     }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); }, () => {
       const ref: NgbModalRef = this.ngbModal.open(CopyQuestionsFromOtherSessionsModalComponent);
-      ref.componentInstance.questionToCopyCandidates = questionToCopyCandidates;
+      ref.componentInstance.feedbackSessionTabModels = feedbackSessionTabModels;
 
       ref.result.then((questionsToCopy: FeedbackQuestion[]) => {
         this.isCopyingQuestion = true;

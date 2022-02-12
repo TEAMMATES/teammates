@@ -1,9 +1,13 @@
 import { Component } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ErrorMessageOutput } from '../../../../app/error-message-output';
+import { FeedbackQuestionsService } from '../../../../services/feedback-questions.service';
+import { StatusMessageService } from '../../../../services/status-message.service';
 import { TableComparatorService } from '../../../../services/table-comparator.service';
-import { FeedbackQuestion } from '../../../../types/api-output';
+import { FeedbackQuestion, FeedbackQuestions } from '../../../../types/api-output';
+import { Intent } from '../../../../types/api-request';
 import { SortBy, SortOrder } from '../../../../types/sort-properties';
-import { QuestionToCopyCandidate } from './copy-questions-from-other-sessions-modal-model';
+import { FeedbackSessionTabModel, QuestionToCopyCandidate } from './copy-questions-from-other-sessions-modal-model';
 
 /**
  * Modal to select questions to copy from other sessions.
@@ -20,30 +24,76 @@ export class CopyQuestionsFromOtherSessionsModalComponent {
   SortOrder: typeof SortOrder = SortOrder;
 
   // data
-  questionToCopyCandidates: QuestionToCopyCandidate[] = [];
-  candidatesSortBy: SortBy = SortBy.NONE;
-  candidatesSortOrder: SortOrder = SortOrder.ASC;
+  feedbackSessionTabModels: FeedbackSessionTabModel[] = [];
 
-  constructor(public activeModal: NgbActiveModal, private tableComparatorService: TableComparatorService) { }
+  constructor(public activeModal: NgbActiveModal,
+              public statusMessageService: StatusMessageService,
+              public feedbackQuestionsService: FeedbackQuestionsService,
+              private tableComparatorService: TableComparatorService) { }
+
+  /**
+   * Toggles specific card and loads questions if needed.
+   */
+  toggleCard(feedbackSessionTabModel: FeedbackSessionTabModel): void {
+    feedbackSessionTabModel.isTabExpanded = !feedbackSessionTabModel.isTabExpanded;
+    if (!feedbackSessionTabModel.hasQuestionsLoaded) {
+      this.loadQuestions(feedbackSessionTabModel);
+    }
+  }
+
+  /**
+   * Loads the questions in the feedback session.
+   */
+  loadQuestions(model: FeedbackSessionTabModel): void {
+    model.hasQuestionsLoaded = false;
+    model.hasLoadingFailed = false;
+    model.questionsTableRowModels = [];
+    this.feedbackQuestionsService.getFeedbackQuestions({
+      courseId: model.feedbackSession.courseId,
+      feedbackSessionName: model.feedbackSession.feedbackSessionName,
+      intent: Intent.FULL_DETAIL,
+    })
+    .subscribe((response: FeedbackQuestions) => {
+      response.questions.forEach((q: FeedbackQuestion) => {
+        const questionToCopy: QuestionToCopyCandidate = {
+          question: q,
+          isSelected: false,
+        };
+        model.questionsTableRowModels.push(questionToCopy);
+      });
+      model.hasQuestionsLoaded = true;
+    }, (resp: ErrorMessageOutput) => {
+      model.hasLoadingFailed = true;
+      this.statusMessageService.showErrorToast(resp.error.message);
+    });
+  }
 
   /**
    * Gets the selected questions to copy.
    */
   getSelectedQuestions(): FeedbackQuestion[] {
-    return this.questionToCopyCandidates
-        .filter((c: QuestionToCopyCandidate) => c.isSelected)
-        .map((c: QuestionToCopyCandidate) => c.question);
+    const selectedQuestions: FeedbackQuestion[] = [];
+    this.feedbackSessionTabModels.forEach((model: FeedbackSessionTabModel) => {
+      if (model.questionsTableRowModels.length > 0) {
+        selectedQuestions.push(
+          ...model.questionsTableRowModels
+            .filter((c: QuestionToCopyCandidate) => c.isSelected)
+            .map((c: QuestionToCopyCandidate) => c.question),
+        );
+      }
+    });
+    return selectedQuestions;
   }
 
   /**
-   * Sorts the list of questions to copy.
+   * Sorts the list of questions for a feedback session.
    */
-  sortQuestionToCopyCandidates(by: SortBy): void {
-    this.candidatesSortBy = by;
+  sortQuestionsToCopyForFeedbackSession(model: FeedbackSessionTabModel, by: SortBy): void {
+    model.questionsTableRowModelsSortBy = by;
     // reverse the sort order
-    this.candidatesSortOrder =
-        this.candidatesSortOrder === SortOrder.DESC ? SortOrder.ASC : SortOrder.DESC;
-    this.questionToCopyCandidates.sort(this.sortCandidatesBy(by, this.candidatesSortOrder));
+    model.questionsTableRowModelsSortOrder =
+      model.questionsTableRowModelsSortOrder === SortOrder.DESC ? SortOrder.ASC : SortOrder.DESC;
+    model.questionsTableRowModels.sort(this.sortCandidatesBy(by, model.questionsTableRowModelsSortOrder));
   }
 
   /**
@@ -55,14 +105,6 @@ export class CopyQuestionsFromOtherSessionsModalComponent {
       let strA: string;
       let strB: string;
       switch (by) {
-        case SortBy.SESSION_NAME:
-          strA = a.feedbackSessionName;
-          strB = b.feedbackSessionName;
-          break;
-        case SortBy.COURSE_ID:
-          strA = a.courseId;
-          strB = b.courseId;
-          break;
         case SortBy.QUESTION_TYPE:
           strA = String(a.question.questionType);
           strB = String(b.question.questionType);
@@ -80,10 +122,12 @@ export class CopyQuestionsFromOtherSessionsModalComponent {
   }
 
   /**
-   * Checks whether there are any selected question.
+   * Checks whether there are any selected questions.
    */
   get hasAnyQuestionsToCopySelected(): boolean {
-    return this.questionToCopyCandidates.find((c: QuestionToCopyCandidate) => c.isSelected) !== undefined;
+    return this.feedbackSessionTabModels.reduce((a: boolean, b: FeedbackSessionTabModel) => {
+      return a || b.questionsTableRowModels.find((c: QuestionToCopyCandidate) => c.isSelected) !== undefined;
+    }, false);
   }
 
 }
