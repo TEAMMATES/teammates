@@ -97,7 +97,7 @@ exports[`StudentProfilePageComponent should snap with a student field without in
             >
               <button
                 class="btn btn-primary upload-edit-photo btn-margin-right"
-                ngbtooltip=".jpg or .png, max size 5 MB"
+                ngbtooltip=".jpg, .png, .gif or .svg, max size 5 MB"
               >
                  Upload/Edit Photo 
               </button>
@@ -363,7 +363,7 @@ exports[`StudentProfilePageComponent should snap with values and a profile photo
             >
               <button
                 class="btn btn-primary upload-edit-photo btn-margin-right"
-                ngbtooltip=".jpg or .png, max size 5 MB"
+                ngbtooltip=".jpg, .png, .gif or .svg, max size 5 MB"
               >
                  Upload/Edit Photo 
               </button>
