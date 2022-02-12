@@ -2064,10 +2064,10 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         >
                           <input
                             class="form-control ng-untouched ng-pristine ng-valid"
-                            disablewheel=""
                             max="10"
                             min="1"
                             step="1"
+                            tmdisablewheel=""
                             type="number"
                           />
                         </div>
@@ -2290,9 +2290,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         >
                           <input
                             class="form-control ng-untouched ng-pristine ng-valid"
-                            disablewheel=""
                             min="0"
                             step="1"
+                            tmdisablewheel=""
                             type="number"
                           />
                         </div>
@@ -4957,10 +4957,10 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         >
                           <input
                             class="form-control ng-untouched ng-pristine ng-valid"
-                            disablewheel=""
                             max="10"
                             min="1"
                             step="1"
+                            tmdisablewheel=""
                             type="number"
                           />
                         </div>
@@ -5183,9 +5183,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         >
                           <input
                             class="form-control ng-untouched ng-pristine ng-valid"
-                            disablewheel=""
                             min="0"
                             step="1"
+                            tmdisablewheel=""
                             type="number"
                           />
                         </div>
