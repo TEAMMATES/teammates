@@ -21,7 +21,6 @@ export class AdminHomePageComponent {
   instructorInstitution: string = '';
 
   instructorsConsolidated: InstructorData[] = [];
-  isInstructorRowEditModeEnabled: boolean[] = [];
   activeRequests: number = 0;
 
   isAddingInstructors: boolean = false;
@@ -50,8 +49,8 @@ export class AdminHomePageComponent {
         email: instructorDetailSplit[1],
         institution: instructorDetailSplit[2],
         status: 'PENDING',
+        isCurrentlyBeingEdited: false,
       });
-      this.isInstructorRowEditModeEnabled.push(false);
     }
     this.instructorDetails = invalidLines.join('\r\n');
   }
@@ -69,8 +68,8 @@ export class AdminHomePageComponent {
       email: this.instructorEmail,
       institution: this.instructorInstitution,
       status: 'PENDING',
+      isCurrentlyBeingEdited: false,
     });
-    this.isInstructorRowEditModeEnabled.push(false);
     this.instructorName = '';
     this.instructorEmail = '';
     this.instructorInstitution = '';
@@ -81,7 +80,8 @@ export class AdminHomePageComponent {
    */
   addInstructor(i: number): void {
     const instructor: InstructorData = this.instructorsConsolidated[i];
-    if (this.isInstructorRowEditModeEnabled[i] || (instructor.status !== 'PENDING' && instructor.status !== 'FAIL')) {
+    if (this.instructorsConsolidated[i].isCurrentlyBeingEdited
+      || (instructor.status !== 'PENDING' && instructor.status !== 'FAIL')) {
       return;
     }
     this.activeRequests += 1;
@@ -119,7 +119,7 @@ export class AdminHomePageComponent {
    * @param isEnabled Whether the edit mode status is enabled.
    */
   setInstructorRowEditModeEnabled(i: number, isEnabled: boolean): void {
-    this.isInstructorRowEditModeEnabled[i] = isEnabled;
+    this.instructorsConsolidated[i].isCurrentlyBeingEdited = isEnabled;
   }
 
   /**

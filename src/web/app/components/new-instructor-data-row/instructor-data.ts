@@ -6,6 +6,7 @@ export interface InstructorData {
   email: string;
   institution: string;
   status: string;
+  isCurrentlyBeingEdited: boolean;
   joinLink?: string;
   message?: string;
 }

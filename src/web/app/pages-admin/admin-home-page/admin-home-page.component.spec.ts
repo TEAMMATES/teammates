@@ -137,6 +137,7 @@ describe('AdminHomePageComponent', () => {
       email: 'instructora@example.com',
       institution: 'Sample Institution A',
       status: 'PENDING',
+      isCurrentlyBeingEdited: false,
       joinLink: 'This should not be displayed',
       message: 'This should not be displayed',
     };
@@ -157,6 +158,7 @@ describe('AdminHomePageComponent', () => {
         email: 'instructora@example.com',
         institution: 'Sample Institution A',
         status: 'PENDING',
+        isCurrentlyBeingEdited: false,
         joinLink: 'This should not be displayed',
         message: 'This should not be displayed',
       },
@@ -181,6 +183,7 @@ describe('AdminHomePageComponent', () => {
         email: 'instructora@example.com',
         institution: 'Sample Institution A',
         status: 'PENDING',
+        isCurrentlyBeingEdited: false,
         joinLink: 'This should not be displayed',
         message: 'This should not be displayed',
       },
@@ -201,24 +204,80 @@ describe('AdminHomePageComponent', () => {
   });
 
   it('should enter edit mode for only the specified instructor', () => {
-    component.isInstructorRowEditModeEnabled = [false, false, false];
+    component.instructorsConsolidated = [
+      {
+        name: 'Instructor A',
+        email: 'instructora@example.com',
+        institution: 'Sample Institution A',
+        status: 'PENDING',
+        isCurrentlyBeingEdited: false,
+        joinLink: 'This should not be displayed',
+        message: 'This should not be displayed',
+      },
+      {
+        name: 'Instructor B',
+        email: 'instructorb@example.com',
+        institution: 'Sample Institution B',
+        status: 'SUCCESS',
+        isCurrentlyBeingEdited: false,
+        joinLink: 'http://localhost:4200/web/join',
+        message: 'This should not be displayed',
+      },
+      {
+        name: 'Instructor C',
+        email: 'instructorc@example.com',
+        institution: 'Sample Institution C',
+        status: 'FAIL',
+        isCurrentlyBeingEdited: false,
+        joinLink: 'This should not be displayed',
+        message: 'The instructor cannot be added for some reason',
+      },
+    ];
 
     const index: number = 2;
     component.setInstructorRowEditModeEnabled(index, true);
 
     for (let i: number = 0; i < component.instructorsConsolidated.length; i += 1) {
-      expect(component.isInstructorRowEditModeEnabled[i]).toEqual(i === index);
+      expect(component.instructorsConsolidated[i].isCurrentlyBeingEdited).toEqual(i === index);
     }
   });
 
   it('should exit edit mode for only the specified instructor', () => {
-    component.isInstructorRowEditModeEnabled = [false, true, false];
+    component.instructorsConsolidated = [
+      {
+        name: 'Instructor A',
+        email: 'instructora@example.com',
+        institution: 'Sample Institution A',
+        status: 'PENDING',
+        isCurrentlyBeingEdited: false,
+        joinLink: 'This should not be displayed',
+        message: 'This should not be displayed',
+      },
+      {
+        name: 'Instructor B',
+        email: 'instructorb@example.com',
+        institution: 'Sample Institution B',
+        status: 'SUCCESS',
+        isCurrentlyBeingEdited: false,
+        joinLink: 'http://localhost:4200/web/join',
+        message: 'This should not be displayed',
+      },
+      {
+        name: 'Instructor C',
+        email: 'instructorc@example.com',
+        institution: 'Sample Institution C',
+        status: 'FAIL',
+        isCurrentlyBeingEdited: false,
+        joinLink: 'This should not be displayed',
+        message: 'The instructor cannot be added for some reason',
+      },
+    ];
 
     const index: number = 1;
     component.setInstructorRowEditModeEnabled(index, false);
 
     for (let i: number = 0; i < component.instructorsConsolidated.length; i += 1) {
-      expect(component.isInstructorRowEditModeEnabled[i]).toEqual(i !== index);
+      expect(component.instructorsConsolidated[i].isCurrentlyBeingEdited).toEqual(i !== index);
     }
   });
 
@@ -229,6 +288,7 @@ describe('AdminHomePageComponent', () => {
         email: 'instructora@example.com',
         institution: 'Sample Institution A',
         status: 'PENDING',
+        isCurrentlyBeingEdited: false,
         joinLink: 'This should not be displayed',
         message: 'This should not be displayed',
       },
@@ -237,6 +297,7 @@ describe('AdminHomePageComponent', () => {
         email: 'instructorb@example.com',
         institution: 'Sample Institution B',
         status: 'SUCCESS',
+        isCurrentlyBeingEdited: false,
         joinLink: 'http://localhost:4200/web/join',
         message: 'This should not be displayed',
       },
@@ -245,6 +306,7 @@ describe('AdminHomePageComponent', () => {
         email: 'instructorc@example.com',
         institution: 'Sample Institution C',
         status: 'FAIL',
+        isCurrentlyBeingEdited: false,
         joinLink: 'This should not be displayed',
         message: 'The instructor cannot be added for some reason',
       },
@@ -269,6 +331,7 @@ describe('AdminHomePageComponent', () => {
         email: 'instructora@example.com',
         institution: 'Sample Institution A',
         status: 'PENDING',
+        isCurrentlyBeingEdited: false,
         joinLink: 'This should not be displayed',
         message: 'This should not be displayed',
       },
@@ -277,6 +340,7 @@ describe('AdminHomePageComponent', () => {
         email: 'instructorb@example.com',
         institution: 'Sample Institution B',
         status: 'PENDING',
+        isCurrentlyBeingEdited: true,
         joinLink: 'This should not be displayed',
         message: 'This should not be displayed',
       },
@@ -285,11 +349,11 @@ describe('AdminHomePageComponent', () => {
         email: 'instructorc@example.com',
         institution: 'Sample Institution C',
         status: 'FAIL',
+        isCurrentlyBeingEdited: false,
         joinLink: 'This should not be displayed',
         message: 'The instructor cannot be added for some reason',
       },
     ];
-    component.isInstructorRowEditModeEnabled = [false, true, false];
     fixture.detectChanges();
 
     const addAllButton: any = fixture.debugElement.nativeElement.querySelector('#add-all-instructors');
@@ -312,6 +376,7 @@ describe('AdminHomePageComponent', () => {
         email: 'instructora@example.com',
         institution: 'Sample Institution A',
         status: 'PENDING',
+        isCurrentlyBeingEdited: false,
         joinLink: 'This should not be displayed',
         message: 'This should not be displayed',
       },
@@ -320,6 +385,7 @@ describe('AdminHomePageComponent', () => {
         email: 'instructorb@example.com',
         institution: 'Sample Institution B',
         status: 'SUCCESS',
+        isCurrentlyBeingEdited: false,
         joinLink: 'http://localhost:4200/web/join',
         message: 'This should not be displayed',
       },
@@ -328,6 +394,7 @@ describe('AdminHomePageComponent', () => {
         email: 'instructorc@example.com',
         institution: 'Sample Institution C',
         status: 'FAIL',
+        isCurrentlyBeingEdited: false,
         joinLink: 'This should not be displayed',
         message: 'The instructor cannot be added for some reason',
       },
@@ -343,6 +410,7 @@ describe('AdminHomePageComponent', () => {
         email: 'instructora@example.com',
         institution: 'Sample Institution A',
         status: 'ADDING',
+        isCurrentlyBeingEdited: false,
         joinLink: 'This should not be displayed',
         message: 'This should not be displayed',
       },
@@ -351,6 +419,7 @@ describe('AdminHomePageComponent', () => {
         email: 'instructorb@example.com',
         institution: 'Sample Institution B',
         status: 'PENDING',
+        isCurrentlyBeingEdited: false,
         joinLink: 'This should not be displayed',
         message: 'This should not be displayed',
       },
