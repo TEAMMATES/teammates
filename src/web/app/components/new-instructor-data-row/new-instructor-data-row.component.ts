@@ -32,16 +32,10 @@ export class NewInstructorDataRowComponent implements OnInit {
     this.resetEditedInstructorDetails();
   }
 
-  /**
-   * Adds the instructor at the i-th index.
-   */
   addInstructor(): void {
     this.addInstructorEvent.emit();
   }
 
-  /**
-   * Removes the instructor at the i-th index.
-   */
   removeInstructor(): void {
     this.removeInstructorEvent.emit();
   }
