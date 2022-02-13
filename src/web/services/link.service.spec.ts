@@ -45,6 +45,11 @@ describe('Link Service', () => {
       .toBe(`${window.location.origin}/web/join?key=impicklerick&entitytype=instructor`);
   });
 
+  it('should generate the account registration link of the instructor', () => {
+    expect(service.generateAccountRegistrationLink('keyheehee'))
+      .toBe(`${window.location.origin}/web/join?iscreatingaccount=true&key=keyheehee`);
+  });
+
   it('should generate the home page link', () => {
     expect(service.generateHomePageLink('blahblah', '/comeseetheopressioninherentinthesystem'))
       .toBe('/web/comeseetheopressioninherentinthesystem?user=blahblah');

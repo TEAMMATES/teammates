@@ -1469,4 +1469,24 @@ public class Logic {
         return accountRequestsLogic.getAccountRequest(email, institute);
     }
 
+    /**
+     * This is used by admin to search account requests in the whole system.
+     *
+     * @return A list of {@link AccountRequestAttributes} or {@code null} if no match found.
+     */
+    public List<AccountRequestAttributes> searchAccountRequestsInWholeSystem(String queryString)
+            throws SearchServiceException {
+        assert queryString != null;
+
+        return accountRequestsLogic.searchAccountRequestsInWholeSystem(queryString);
+    }
+
+    /**
+     * Creates or updates search document for the given account request.
+     *
+     * @see AccountRequestsLogic#putDocument(AccountRequestAttributes)
+     */
+    public void putAccountRequestDocument(AccountRequestAttributes accountRequest) throws SearchServiceException {
+        accountRequestsLogic.putDocument(accountRequest);
+    }
 }

@@ -41,6 +41,22 @@ export class LinkService {
   }
 
   /**
+   * Generates account registration link for instructor.
+   */
+  generateAccountRegistrationLink(registrationKey: string): string {
+    const frontendUrl: string = window.location.origin;
+    const params: {
+      [key: string]: string,
+    } = {
+      iscreatingaccount: 'true',
+      key: registrationKey,
+    };
+
+    const encodedParams: string = this.navigationService.encodeParams(params);
+    return `${frontendUrl}${this.URI_PREFIX}${this.JOIN_PAGE}${encodedParams}`;
+  }
+
+  /**
    * Generates home page link.
    */
   generateHomePageLink(googleId: string, homePage: string): string {
