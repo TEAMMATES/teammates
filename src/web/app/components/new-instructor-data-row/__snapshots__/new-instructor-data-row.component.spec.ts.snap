@@ -2,13 +2,13 @@
 
 exports[`NewInstructorDataRowComponent should snap with default view 1`] = `
 <tr
-  activeRequests="0"
   addInstructorEvent={[Function EventEmitter]}
   editedInstructorEmail={[Function String]}
   editedInstructorInstitution={[Function String]}
   editedInstructorName={[Function String]}
   index="0"
   instructor={[Function Object]}
+  isAddDisabled="false"
   isBeingEdited="false"
   removeInstructorEvent={[Function EventEmitter]}
   toggleEditModeEvent={[Function EventEmitter]}
@@ -81,13 +81,13 @@ exports[`NewInstructorDataRowComponent should snap with default view 1`] = `
 
 exports[`NewInstructorDataRowComponent should snap with edit cancelled 1`] = `
 <tr
-  activeRequests="0"
   addInstructorEvent={[Function EventEmitter]}
   editedInstructorEmail={[Function String]}
   editedInstructorInstitution={[Function String]}
   editedInstructorName={[Function String]}
   index="0"
   instructor={[Function Object]}
+  isAddDisabled="false"
   isBeingEdited="false"
   removeInstructorEvent={[Function EventEmitter]}
   toggleEditModeEvent={[Function EventEmitter]}
@@ -160,13 +160,13 @@ exports[`NewInstructorDataRowComponent should snap with edit cancelled 1`] = `
 
 exports[`NewInstructorDataRowComponent should snap with edit confirmed 1`] = `
 <tr
-  activeRequests="0"
   addInstructorEvent={[Function EventEmitter]}
   editedInstructorEmail={[Function String]}
   editedInstructorInstitution={[Function String]}
   editedInstructorName={[Function String]}
   index="0"
   instructor={[Function Object]}
+  isAddDisabled="false"
   isBeingEdited="false"
   removeInstructorEvent={[Function EventEmitter]}
   toggleEditModeEvent={[Function EventEmitter]}
@@ -239,13 +239,13 @@ exports[`NewInstructorDataRowComponent should snap with edit confirmed 1`] = `
 
 exports[`NewInstructorDataRowComponent should snap with instructor details edited 1`] = `
 <tr
-  activeRequests="0"
   addInstructorEvent={[Function EventEmitter]}
   editedInstructorEmail={[Function String]}
   editedInstructorInstitution={[Function String]}
   editedInstructorName={[Function String]}
   index="0"
   instructor={[Function Object]}
+  isAddDisabled="false"
   isBeingEdited={[Function Boolean]}
   removeInstructorEvent={[Function EventEmitter]}
   toggleEditModeEvent={[Function EventEmitter]}
@@ -312,13 +312,13 @@ exports[`NewInstructorDataRowComponent should snap with instructor details edite
 
 exports[`NewInstructorDataRowComponent should snap with start of edit 1`] = `
 <tr
-  activeRequests="0"
   addInstructorEvent={[Function EventEmitter]}
   editedInstructorEmail={[Function String]}
   editedInstructorInstitution={[Function String]}
   editedInstructorName={[Function String]}
   index="0"
   instructor={[Function Object]}
+  isAddDisabled="false"
   isBeingEdited={[Function Boolean]}
   removeInstructorEvent={[Function EventEmitter]}
   toggleEditModeEvent={[Function EventEmitter]}

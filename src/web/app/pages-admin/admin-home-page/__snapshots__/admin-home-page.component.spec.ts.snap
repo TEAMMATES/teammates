@@ -10,7 +10,6 @@ exports[`AdminHomePageComponent should snap with default view 1`] = `
   instructorName=""
   instructorsConsolidated={[Function Array]}
   isAddingInstructors="false"
-  isInstructorRowEditModeEnabled={[Function Array]}
 >
   <div
     class="card bg-light top-padded"
@@ -118,7 +117,6 @@ exports[`AdminHomePageComponent should snap with disabled adding instructor butt
   instructorName=""
   instructorsConsolidated={[Function Array]}
   isAddingInstructors={[Function Boolean]}
-  isInstructorRowEditModeEnabled={[Function Array]}
 >
   <div
     class="card bg-light top-padded"
@@ -412,7 +410,6 @@ exports[`AdminHomePageComponent should snap with some instructors details 1`] = 
   instructorName=""
   instructorsConsolidated={[Function Array]}
   isAddingInstructors="false"
-  isInstructorRowEditModeEnabled={[Function Array]}
 >
   <div
     class="card bg-light top-padded"

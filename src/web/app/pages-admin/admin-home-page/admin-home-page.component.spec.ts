@@ -60,6 +60,7 @@ describe('AdminHomePageComponent', () => {
       institution: 'Instructor Institution',
       name: 'Instructor Name',
       status: 'PENDING',
+      isCurrentlyBeingEdited: false,
     });
   });
 
@@ -122,12 +123,14 @@ describe('AdminHomePageComponent', () => {
       institution: 'Institution A',
       name: 'Instructor A',
       status: 'PENDING',
+      isCurrentlyBeingEdited: false,
     });
     expect(component.instructorsConsolidated[1]).toEqual({
       email: 'instructord@example.com',
       institution: 'Institution D',
       name: 'Instructor D',
       status: 'PENDING',
+      isCurrentlyBeingEdited: false,
     });
   });
 
@@ -257,9 +260,9 @@ describe('AdminHomePageComponent', () => {
         name: 'Instructor B',
         email: 'instructorb@example.com',
         institution: 'Sample Institution B',
-        status: 'SUCCESS',
+        status: 'PENDING',
         isCurrentlyBeingEdited: false,
-        joinLink: 'http://localhost:4200/web/join',
+        joinLink: 'This should not be displayed',
         message: 'This should not be displayed',
       },
       {
@@ -272,6 +275,10 @@ describe('AdminHomePageComponent', () => {
         message: 'The instructor cannot be added for some reason',
       },
     ];
+    for (let i: number = 0; i < component.instructorsConsolidated.length; i += 1) {
+      component.setInstructorRowEditModeEnabled(i, true);
+    }
+    fixture.detectChanges();
 
     const index: number = 1;
     component.setInstructorRowEditModeEnabled(index, false);
@@ -447,6 +454,7 @@ describe('AdminHomePageComponent', () => {
         email: 'instructora@example.com',
         institution: 'Sample Institution A',
         status: 'PENDING',
+        isCurrentlyBeingEdited: false,
       },
     );
     expect(component.instructorsConsolidated[1]).toEqual(
@@ -455,6 +463,7 @@ describe('AdminHomePageComponent', () => {
         email: 'instructorb@example.com',
         institution: 'Sample Institution B',
         status: 'PENDING',
+        isCurrentlyBeingEdited: false,
       },
     );
   });
@@ -475,6 +484,7 @@ describe('AdminHomePageComponent', () => {
         email: 'instructora@example.com',
         institution: 'Sample Institution A',
         status: 'PENDING',
+        isCurrentlyBeingEdited: false,
       },
     );
     expect(component.instructorsConsolidated[1]).toEqual(
@@ -483,6 +493,7 @@ describe('AdminHomePageComponent', () => {
         email: 'instructorb@example.com',
         institution: 'Sample Institution B',
         status: 'PENDING',
+        isCurrentlyBeingEdited: false,
       },
     );
   });

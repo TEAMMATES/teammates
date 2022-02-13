@@ -1,4 +1,3 @@
-import { Component } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -314,89 +313,5 @@ describe('NewInstructorDataRowComponent', () => {
     fixture.detectChanges();
 
     expect(fixture).toMatchSnapshot();
-  });
-
-  describe('NewInstructorDataRowComponent with a test host component', () => {
-    let testHost: TestHostComponent;
-    let testHostFixture: ComponentFixture<TestHostComponent>;
-    let innerNewInstructorDataRowComponent: NewInstructorDataRowComponent;
-    const testHostRowIndex: number = 0;
-
-    @Component({
-      template: `
-        <table>
-          <tbody>
-            <tr tm-new-instructor-data-row
-                [instructor]="instructor"
-                [index]="testHostRowIndex"
-            ></tr>
-          </tbody>
-        </table>`,
-    })
-    class TestHostComponent {
-      instructor: InstructorData = {
-        name: 'Instructor A',
-        email: 'instructora@example.com',
-        institution: 'Sample Institution A',
-        status: 'PENDING',
-        isCurrentlyBeingEdited: false,
-      };
-      testHostRowIndex: number = testHostRowIndex;
-    }
-
-    beforeEach(() => {
-      TestBed.configureTestingModule({
-        declarations: [
-          NewInstructorDataRowComponent,
-          TestHostComponent,
-        ],
-      });
-      testHostFixture = TestBed.createComponent(TestHostComponent);
-      testHost = testHostFixture.componentInstance;
-      innerNewInstructorDataRowComponent = testHostFixture.nativeElement.querySelector('[tm-new-instructor-data-row]');
-      testHostFixture.detectChanges();
-    });
-
-    it('should update the instructor details in the host component when the edit is confirmed', () => {
-      innerNewInstructorDataRowComponent.isBeingEdited = true;
-      testHostFixture.detectChanges();
-
-      innerNewInstructorDataRowComponent.editedInstructorName = 'Edited Name';
-      innerNewInstructorDataRowComponent.editedInstructorEmail = 'Edited@ema.il';
-      innerNewInstructorDataRowComponent.editedInstructorInstitution = 'Edited Institution';
-      testHostFixture.detectChanges();
-
-      const confirmButtonEl: any = testHostFixture.debugElement
-        .query(By.css(`#confirm-edit-instructor-${testHostRowIndex}`))
-        .nativeElement;
-      confirmButtonEl.click();
-
-      expect(testHost.instructor.name).toEqual('Edited Name');
-      expect(testHost.instructor.email).toEqual('Edited@ema.il');
-      expect(testHost.instructor.institution).toEqual('Edited Institution');
-      expect(testHost.instructor.status).toEqual('PENDING');
-      expect(testHost.instructor.isCurrentlyBeingEdited).toBeFalsy();
-    });
-
-    it('should not update the instructor details in the host component when the edit is cancelled', () => {
-      innerNewInstructorDataRowComponent.isBeingEdited = true;
-      testHostFixture.detectChanges();
-
-      innerNewInstructorDataRowComponent.editedInstructorName = 'Edited Name';
-      innerNewInstructorDataRowComponent.editedInstructorEmail = 'Edited@ema.il';
-      innerNewInstructorDataRowComponent.editedInstructorInstitution = 'Edited Institution';
-      testHostFixture.detectChanges();
-
-      const cancelButtonEl: any = testHostFixture.debugElement
-        .query(By.css(`#cancel-edit-instructor-${testHostRowIndex}`))
-        .nativeElement;
-      cancelButtonEl.click();
-
-      expect(testHost.instructor.name).toEqual('Instructor A');
-      expect(testHost.instructor.email).toEqual('instructora@example.com');
-      expect(testHost.instructor.institution).toEqual('Sample Institution A');
-      expect(testHost.instructor.status).toEqual('PENDING');
-      expect(testHost.instructor.isCurrentlyBeingEdited).toBeFalsy();
-    });
   });
 });
