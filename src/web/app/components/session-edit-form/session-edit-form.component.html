@@ -129,7 +129,7 @@
     <div class="card border-primary margin-top-20px">
       <div class="card-body">
         <div class="row text-center">
-          <div class="col-md-5">
+          <div class="col-md-4">
             <div class="col-12 text-md-left">
               <div>
                 <label class="ngb-tooltip-class label-control font-bold" ngbTooltip="Users can start submitting responses.">
@@ -147,7 +147,7 @@
               </div>
             </div>
           </div>
-          <div class="col-md-5 border-left-gray">
+          <div class="col-md-4 border-left-gray">
             <div class="row text-center">
               <div class="col-12 text-md-left ml-md-2">
                 <label class="ngb-tooltip-class label-control font-bold" ngbTooltip="No more submissions from users.">
@@ -165,7 +165,7 @@
               </div>
             </div>
           </div>
-          <div class="col-md-2 border-left-gray">
+          <div class="col-md-4 border-left-gray">
             <div class="row text-center">
               <div class="ngb-tooltip-class col-12 text-md-left ml-md-2" ngbTooltip="Amount of time the system will continue accepting submissions after the specified deadline.">
                 <label class="control-label font-bold">
@@ -179,6 +179,12 @@
                   <option *ngFor="let graceMinute of [0, 5, 10, 15, 20, 25, 30]" [ngValue]="graceMinute">{{ graceMinute + ' min'}}</option>
                 </select>
               </div>
+            </div>
+            <div class="row">
+              <a href="" (click)="openModal(); false" class="pl-3 pt-2">
+                Individual Deadline Extensions
+                <i class="fas fa-edit"></i>
+              </a>
             </div>
           </div>
         </div>

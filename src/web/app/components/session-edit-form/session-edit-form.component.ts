@@ -28,7 +28,7 @@ import { SessionEditFormMode, SessionEditFormModel } from './session-edit-form-m
   animations: [collapseAnim],
 })
 export class SessionEditFormComponent {
-
+  isOpen: boolean = false;
   // enum
   SessionEditFormMode: typeof SessionEditFormMode = SessionEditFormMode;
   SessionVisibleSetting: typeof SessionVisibleSetting = SessionVisibleSetting;
