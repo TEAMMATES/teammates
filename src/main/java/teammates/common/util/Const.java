@@ -152,6 +152,8 @@ public final class Const {
 
         public static final String INTENT = "intent";
 
+        public static final String TIMEZONE = "timezone";
+
         public static final String QUERY_LOGS_STARTTIME = "starttime";
         public static final String QUERY_LOGS_ENDTIME = "endtime";
         public static final String QUERY_LOGS_SEVERITY = "severity";
