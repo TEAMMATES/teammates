@@ -5,9 +5,9 @@ import { of, throwError } from 'rxjs';
 import { AccountService } from '../../../services/account.service';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
-import { InstructorData } from '../../components/new-instructor-data-row/instructor-data';
-import { NewInstructorDataRowComponent } from '../../components/new-instructor-data-row/new-instructor-data-row.component';
 import { AdminHomePageComponent } from './admin-home-page.component';
+import { InstructorData } from './instructor-data';
+import { NewInstructorDataRowComponent } from './new-instructor-data-row/new-instructor-data-row.component';
 
 describe('AdminHomePageComponent', () => {
   let component: AdminHomePageComponent;
