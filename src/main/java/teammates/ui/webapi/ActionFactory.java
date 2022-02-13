@@ -82,6 +82,7 @@ public final class ActionFactory {
         //SEARCH APIs
         map(ResourceURIs.SEARCH_INSTRUCTORS, GET, SearchInstructorsAction.class);
         map(ResourceURIs.SEARCH_STUDENTS, GET, SearchStudentsAction.class);
+        map(ResourceURIs.SEARCH_ACCOUNT_REQUESTS, GET, SearchAccountRequestsAction.class);
         map(ResourceURIs.EMAIL, GET, GenerateEmailAction.class);
 
         map(ResourceURIs.SESSIONS_ONGOING, GET, GetOngoingSessionsAction.class);
@@ -152,6 +153,7 @@ public final class ActionFactory {
         map(TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_WORKER_URL, POST, InstructorCourseJoinEmailWorkerAction.class);
         map(TaskQueue.SEND_EMAIL_WORKER_URL, POST, SendEmailWorkerAction.class);
         map(TaskQueue.STUDENT_COURSE_JOIN_EMAIL_WORKER_URL, POST, StudentCourseJoinEmailWorkerAction.class);
+        map(TaskQueue.ACCOUNT_REQUEST_SEARCH_INDEXING_WORKER_URL, POST, AccountRequestSearchIndexingWorkerAction.class);
         map(TaskQueue.INSTRUCTOR_SEARCH_INDEXING_WORKER_URL, POST, InstructorSearchIndexingWorkerAction.class);
         map(TaskQueue.STUDENT_SEARCH_INDEXING_WORKER_URL, POST, StudentSearchIndexingWorkerAction.class);
 

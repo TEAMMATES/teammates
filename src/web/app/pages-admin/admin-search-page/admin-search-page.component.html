@@ -198,3 +198,59 @@
     </table>
   </div>
 </div>
+
+<div class="card bg-light top-padded" *ngIf="accountRequests.length">
+  <div class="card-header bg-primary text-white">
+    <strong>Account Requests Found</strong>
+    <div class="card-header-btn-toolbar">
+      <button id="show-account-request-links" class="btn btn-light btn-sm" style="margin-right: 10px;" type="button" (click)="showAllAccountRequestsLinks()">Expand All</button>
+      <button id="hide-account-request-links" class="btn btn-light btn-sm" type="button" (click)="hideAllAccountRequestsLinks()">Collapse All</button>
+    </div>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-striped data-table" id="search-table-account-request">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Institute</th>
+          <th>Created At</th>
+          <th>Registered At</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let accountRequest of accountRequests; let i = index">
+          <tr (click)="accountRequest.showLinks = !accountRequest.showLinks">
+            <td>
+              {{ accountRequest.name }}
+              <br>
+              <div class="col-sm-1">
+                <button *ngIf="!accountRequest.showLinks" class="btn">
+                  <i class="fas fa-chevron-circle-down" style="color: blue;"></i>
+                </button>
+                <button *ngIf="accountRequest.showLinks" class="btn">
+                  <i class="fas fa-chevron-circle-up" style="color: blue;"></i>
+                </button>
+              </div>
+            </td>
+            <td>{{ accountRequest.email }}</td>
+            <td>{{ accountRequest.institute }}</td>
+            <td>{{ accountRequest.createdAt }}</td>
+            <td>{{ accountRequest.registeredAt }}</td>
+          </tr>
+          <tr *ngIf="accountRequest.showLinks">
+            <td colspan="6">
+              <ul class="list-group" *ngIf="accountRequest.showLinks" @collapseAnim>
+                <li class="list-group-item list-group-item-info">
+                  <strong>Account Registration Link</strong>
+                  <input [value]="accountRequest.registrationLink" readonly class="form-control">
+                </li>
+              </ul>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+</div>
