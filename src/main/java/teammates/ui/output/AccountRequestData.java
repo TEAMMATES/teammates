@@ -1,5 +1,7 @@
 package teammates.ui.output;
 
+import javax.annotation.Nullable;
+
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
 
 /**
@@ -11,6 +13,7 @@ public class AccountRequestData extends ApiOutput {
     private final String name;
     private final String institute;
     private final String registrationKey;
+    @Nullable
     private final Long registeredAt;
     private final long createdAt;
 

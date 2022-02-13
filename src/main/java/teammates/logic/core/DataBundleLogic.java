@@ -171,6 +171,13 @@ public final class DataBundleLogic {
                     instructorsDb.getInstructorForEmail(instructor.getCourseId(), instructor.getEmail());
             instructorsDb.putDocument(instructorInDb);
         }
+
+        Map<String, AccountRequestAttributes> accountRequests = dataBundle.accountRequests;
+        for (AccountRequestAttributes accountRequest : accountRequests.values()) {
+            AccountRequestAttributes accountRequestInDb =
+                    accountRequestsDb.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
+            accountRequestsDb.putDocument(accountRequestInDb);
+        }
     }
 
     private void processInstructors(

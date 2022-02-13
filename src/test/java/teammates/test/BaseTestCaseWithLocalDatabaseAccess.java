@@ -26,6 +26,7 @@ import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.logic.api.LogicExtension;
 import teammates.logic.core.LogicStarter;
 import teammates.storage.api.OfyHelper;
+import teammates.storage.search.AccountRequestSearchManager;
 import teammates.storage.search.InstructorSearchManager;
 import teammates.storage.search.SearchManagerFactory;
 import teammates.storage.search.StudentSearchManager;
@@ -55,6 +56,8 @@ public abstract class BaseTestCaseWithLocalDatabaseAccess extends BaseTestCaseWi
         ));
         OfyHelper.registerEntityClasses();
 
+        SearchManagerFactory.registerAccountRequestSearchManager(
+                new AccountRequestSearchManager(TestProperties.SEARCH_SERVICE_HOST, true));
         SearchManagerFactory.registerInstructorSearchManager(
                 new InstructorSearchManager(TestProperties.SEARCH_SERVICE_HOST, true));
         SearchManagerFactory.registerStudentSearchManager(
@@ -75,6 +78,7 @@ public abstract class BaseTestCaseWithLocalDatabaseAccess extends BaseTestCaseWi
 
     @AfterClass
     public void resetDbLayer() throws Exception {
+        SearchManagerFactory.getAccountRequestSearchManager().resetCollections();
         SearchManagerFactory.getInstructorSearchManager().resetCollections();
         SearchManagerFactory.getStudentSearchManager().resetCollections();
 
