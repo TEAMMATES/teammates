@@ -35,6 +35,8 @@ public class AccountRequestSearchTest extends BaseSearchTest {
         AccountRequestAttributes insOfArchivedCourse = dataBundle.accountRequests.get("instructorOfArchivedCourse");
         AccountRequestAttributes unregisteredInstructor1 =
                 dataBundle.accountRequests.get("unregisteredInstructor1");
+        AccountRequestAttributes unregisteredInstructor2 =
+                dataBundle.accountRequests.get("unregisteredInstructor2");
 
         ______TS("success: search for account requests; query string does not match anyone");
 
@@ -50,12 +52,12 @@ public class AccountRequestSearchTest extends BaseSearchTest {
         ______TS("success: search for account requests; query string matches some account requests");
 
         results = accountRequestsDb.searchAccountRequestsInWholeSystem("\"Instructor 1\"");
-        verifySearchResults(results, ins1InCourse1, ins1InCourse2, ins1InCourse3);
+        verifySearchResults(results, ins1InCourse1, ins1InCourse2, ins1InCourse3, unregisteredInstructor1);
 
         ______TS("success: search for account requests; query string should be case-insensitive");
 
         results = accountRequestsDb.searchAccountRequestsInWholeSystem("\"InStRuCtOr 2\"");
-        verifySearchResults(results, ins2InCourse1, ins2InCourse2, ins2InCourse3);
+        verifySearchResults(results, ins2InCourse1, ins2InCourse2, ins2InCourse3, unregisteredInstructor2);
 
         ______TS("success: search for account requests; account requests should be searchable by their name");
 
@@ -81,20 +83,20 @@ public class AccountRequestSearchTest extends BaseSearchTest {
 
         accountRequestsDb.deleteAccountRequest(ins1InCourse1.getEmail(), ins1InCourse1.getInstitute());
         results = accountRequestsDb.searchAccountRequestsInWholeSystem("\"instructor 1\"");
-        verifySearchResults(results, ins1InCourse2, ins1InCourse3);
+        verifySearchResults(results, ins1InCourse2, ins1InCourse3, unregisteredInstructor1);
 
         ______TS("success: search for account requests; account requests created without searchability unsearchable");
 
         accountRequestsDb.putEntity(ins1InCourse1);
         results = accountRequestsDb.searchAccountRequestsInWholeSystem("\"instructor 1\"");
-        verifySearchResults(results, ins1InCourse2, ins1InCourse3);
+        verifySearchResults(results, ins1InCourse2, ins1InCourse3, unregisteredInstructor1);
 
         ______TS("success: search for account requests; deleting account request without deleting document:"
                 + "document deleted during search, account request unsearchable");
 
         accountRequestsDb.deleteAccountRequest(ins2InCourse1.getEmail(), ins2InCourse1.getInstitute());
         results = accountRequestsDb.searchAccountRequestsInWholeSystem("\"instructor 2\"");
-        verifySearchResults(results, ins2InCourse2, ins2InCourse3);
+        verifySearchResults(results, ins2InCourse2, ins2InCourse3, unregisteredInstructor2);
     }
 
     @Test
