@@ -1,0 +1,356 @@
+<div class="modal-header tst">
+  <div>
+    <h5 class="modal-title">
+      <i class="fas fa-exclamation-circle margin-right-5px"></i>
+      Extend deadline for individual students in Demo Session 1
+    </h5>
+  </div>
+  <button type="button" class="close" (click)="activeModal.dismiss()"><i class="fas fa-times"></i></button>
+</div>
+<div class="container ml-1">
+  <div class="row pl-3 pt-2">
+    <h5>New Deadline:</h5>
+  </div>
+  <div class="row pl-3">
+    <label class="mr-2"><input type="radio" name="optradio" (click)="setA(true)" checked> Preset Timings</label>
+    <label ><input type="radio" (click)="setA(true)" name="optradio"> Custom</label>
+  </div>
+  <div class="row">
+    <div id="submission-start-date" class="col-md-4 col-xs-center">
+      <div class="input-group">
+        <input type="text" class="form-control" value="Sun, 01 Apr, 2012"/>
+        <div class="input-group-append">
+          <button class="btn btn-light" type="button">
+            <i class="fas fa-calendar-alt"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <select class="form-control">
+        <option>23:59</option>
+      </select>
+    </div>
+    <!-- <div class="col-md-4">
+      <select class="form-control">
+        <option>15 Minutes</option>
+      </select>
+    </div> -->
+    <div class="col-md-4">
+      <button type="button" class="btn btn-success">Save</button>
+    </div>
+  </div>
+  <small>Select students from list below and click save to apply the deadline extension to them.</small>
+</div>
+<div class="container ml-1">
+  <div class="row pl-3 pt-2">
+    <h5>Search for Students:</h5>
+  </div>
+  <div class="row pb-3">
+    <div id="submission-start-date" class="col-md-4 col-xs-center">
+      <input type="text" class="form-control"/>
+    </div>
+    <div class="col-md-4">
+      <button type="button" class="btn btn-primary">Search</button>
+    </div>
+  </div>
+</div>
+<div class="modal-body">
+  <div class="table-responsive">
+    <table id="student-list-table" class="table table-bordered">
+      <tr class="background-color-medium-gray">
+        <th>
+          <label>
+            <input type="checkbox">
+          </label>
+        </th>
+        <th  class="clickable">
+          Section
+          <span class="fa-stack">
+            <i class="fas fa-sort"></i>
+            <!-- <i *ngIf="studentListInfoTableSortBy === SortBy.SECTION_NAME && studentListInfoTableSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i> -->
+            <!-- <i *ngIf="studentListInfoTableSortBy === SortBy.SECTION_NAME && studentListInfoTableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i> -->
+          </span>
+        </th>
+        <th class="clickable">
+          Team
+          <span class="fa-stack">
+            <i class="fas fa-sort"></i>
+            <!-- <i *ngIf="studentListInfoTableSortBy === SortBy.TEAM_NAME && studentListInfoTableSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i> -->
+            <!-- <i *ngIf="studentListInfoTableSortBy === SortBy.TEAM_NAME && studentListInfoTableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i> -->
+          </span>
+        </th>
+        <th class="clickable">
+          Student Name
+          <span class="fa-stack">
+            <i class="fas fa-sort"></i>
+            <!-- <i *ngIf="studentListInfoTableSortBy === SortBy.RESPONDENT_NAME && studentListInfoTableSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i> -->
+            <!-- <i *ngIf="studentListInfoTableSortBy === SortBy.RESPONDENT_NAME && studentListInfoTableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i> -->
+          </span>
+        </th>
+        <th class="clickable">
+          Email
+          <span class="fa-stack">
+            <i class="fas fa-sort"></i>
+            <!-- <i *ngIf="studentListInfoTableSortBy === SortBy.RESPONDENT_EMAIL && studentListInfoTableSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i> -->
+            <!-- <i *ngIf="studentListInfoTableSortBy === SortBy.RESPONDENT_EMAIL && studentListInfoTableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i> -->
+          </span>
+        </th>
+        <th class="clickable">
+          Extended Deadline
+          <span class="fa-stack">
+            <i class="fas fa-sort"></i>
+            <!-- <i *ngIf="studentListInfoTableSortBy === SortBy.RESPONDENT_EMAIL && studentListInfoTableSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i> -->
+            <!-- <i *ngIf="studentListInfoTableSortBy === SortBy.RESPONDENT_EMAIL && studentListInfoTableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i> -->
+          </span>
+        </th>
+      </tr>
+      <tr class="table-warning">
+        <td class="align-center">
+          <label>
+            <input type="checkbox">
+          </label>
+        </td>
+        <td>
+          Section 1
+        </td>
+        <td>
+          Team 1
+        </td>
+        <td>
+          Student 1
+        </td>
+        <td>
+          student-1@gmail.com
+        </td>
+        <td>
+          Sun 12/12/2022 18:00
+        </td>
+      </tr>
+      <tr class="table-warning">
+        <td class="align-center">
+          <label>
+            <input type="checkbox">
+          </label>
+        </td>
+        <td>
+          Section 1
+        </td>
+        <td>
+          Team 1
+        </td>
+        <td>
+          Student 2
+        </td>
+        <td>
+          student-2@gmail.com
+        </td>
+        <td>
+          Sun 12/12/2022 18:00
+        </td>
+      </tr>
+      <tr>
+        <td class="align-center">
+          <label>
+            <input type="checkbox">
+          </label>
+        </td>
+        <td>
+          Section 1
+        </td>
+        <td>
+          Team 1
+        </td>
+        <td>
+          Student 3
+        </td>
+        <td>
+          student-3@gmail.com
+        </td>
+        <td>
+          No Extension
+        </td>
+      </tr>
+      <tr>
+        <td class="align-center">
+          <label>
+            <input type="checkbox">
+          </label>
+        </td>
+        <td>
+          Section 1
+        </td>
+        <td>
+          Team 1
+        </td>
+        <td>
+          Student 4
+        </td>
+        <td>
+          student-4@gmail.com
+        </td>
+        <td>
+          No Extension
+        </td>
+      </tr>
+      <tr>
+        <td class="align-center">
+          <label>
+            <input type="checkbox">
+          </label>
+        </td>
+        <td>
+          Section 1
+        </td>
+        <td>
+          Team 1
+        </td>
+        <td>
+          Student 5
+        </td>
+        <td>
+          student-5@gmail.com
+        </td>
+        <td>
+          No Extension
+        </td>
+      </tr>
+      <tr>
+        <td class="align-center">
+          <label>
+            <input type="checkbox">
+          </label>
+        </td>
+        <td>
+          Section 1
+        </td>
+        <td>
+          Team 1
+        </td>
+        <td>
+          Student 6
+        </td>
+        <td>
+          student-6@gmail.com
+        </td>
+        <td>
+          No Extension
+        </td>
+      </tr>
+      <tr>
+        <td class="align-center">
+          <label>
+            <input type="checkbox">
+          </label>
+        </td>
+        <td>
+          Section 1
+        </td>
+        <td>
+          Team 1
+        </td>
+        <td>
+          Student 7
+        </td>
+        <td>
+          student-7@gmail.com
+        </td>
+        <td>
+          No Extension
+        </td>
+      </tr>
+      <tr>
+        <td class="align-center">
+          <label>
+            <input type="checkbox">
+          </label>
+        </td>
+        <td>
+          Section 1
+        </td>
+        <td>
+          Team 1
+        </td>
+        <td>
+          Student 8
+        </td>
+        <td>
+          student-8@gmail.com
+        </td>
+        <td>
+          No Extension
+        </td>
+      </tr>
+      <tr>
+        <td class="align-center">
+          <label>
+            <input type="checkbox">
+          </label>
+        </td>
+        <td>
+          Section 1
+        </td>
+        <td>
+          Team 1
+        </td>
+        <td>
+          Student 9
+        </td>
+        <td>
+          student-9@gmail.com
+        </td>
+        <td>
+          No Extension
+        </td>
+      </tr>
+      <tr>
+        <td class="align-center">
+          <label>
+            <input type="checkbox">
+          </label>
+        </td>
+        <td>
+          Section 1
+        </td>
+        <td>
+          Team 1
+        </td>
+        <td>
+          Student 10
+        </td>
+        <td>
+          student-10@gmail.com
+        </td>
+        <td>
+          No Extension
+        </td>
+      </tr>
+      <tr>
+        <td class="align-center">
+          <label>
+            <input type="checkbox">
+          </label>
+        </td>
+        <td>
+          Section 1
+        </td>
+        <td>
+          Team 1
+        </td>
+        <td>
+          Student 11
+        </td>
+        <td>
+          student-11@gmail.com
+        </td>
+        <td>
+          No Extension
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+<!-- <div class="modal-footer">
+  <button type="button" class="btn btn-light" (click)="activeModal.dismiss()">Cancel</button>
+  <button id="btn-confirm-send-reminder" type="button" class="btn btn-primary" (click)="activeModal.close(collateRespondentsToSendHandler())">Remind</button>
+</div> -->
