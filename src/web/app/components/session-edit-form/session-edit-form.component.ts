@@ -260,8 +260,4 @@ export class SessionEditFormComponent {
   closeEditFormHandler(): void {
     this.closeEditFormEvent.emit();
   }
-
-  openModal(): void {
-    this.modalService.open(DeadlineModalComponent);
-  }
 }

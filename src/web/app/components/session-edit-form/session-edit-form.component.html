@@ -181,9 +181,11 @@
               </div>
             </div>
             <div class="row">
-              <a href="" (click)="openModal(); false" class="pl-3 pt-2">
-                Individual Deadline Extensions
-                <i class="fas fa-edit"></i>
+              <a class="pl-3 pt-2"
+                      tmRouterLink="/web/instructor/sessions/individual-extension"
+                      [queryParams]="{ courseid: model.courseId, fsname: model.feedbackSessionName, editingMode: true }">
+                  Individual Deadline Extensions
+                  <i class="fas fa-edit"></i>
               </a>
             </div>
           </div>

@@ -74,6 +74,15 @@ const routes: Routes = [
         },
       },
       {
+        path: 'individual-extension',
+        loadChildren: () =>
+          import('./instructor-session-individual-extension-page/instructor-session-individual-extension-page.module')
+            .then((m: any) => m.InstructorSessionIndividualExtensionPageModule),
+        data: {
+          pageTitle: 'Individual Student Extensions',
+        },
+      },
+      {
         path: 'edit',
         loadChildren: () => import('./instructor-session-edit-page/instructor-session-edit-page.module')
             .then((m: any) => m.InstructorSessionEditPageModule),

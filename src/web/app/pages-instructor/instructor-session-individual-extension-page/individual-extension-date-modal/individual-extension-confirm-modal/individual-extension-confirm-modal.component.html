@@ -1,68 +1,25 @@
-<div class="modal-header tst">
-  <div>
-    <h5 class="modal-title">
-      <i class="fas fa-exclamation-circle margin-right-5px"></i>
-      Extend deadline for individual students in Demo Session 1
-    </h5>
-  </div>
-  <button type="button" class="close" (click)="activeModal.dismiss()"><i class="fas fa-times"></i></button>
+<div class="modal-header alert-primary">
+  <h5 class="modal-title">Confirm extension of feedback session</h5>
+  <button type="button" class="close" (click)="activeModal.dismiss()">
+    <i class="fas fa-times"></i>
+  </button>
 </div>
-<div class="container ml-1">
-  <div class="row pl-3 pt-2">
-    <h5>New Deadline:</h5>
-  </div>
-  <div class="row pl-3">
-    <label class="mr-2"><input type="radio" name="optradio" (click)="setA(true)" checked> Preset Timings</label>
-    <label ><input type="radio" (click)="setA(true)" name="optradio"> Custom</label>
-  </div>
-  <div class="row">
-    <div id="submission-start-date" class="col-md-4 col-xs-center">
-      <div class="input-group">
-        <input type="text" class="form-control" value="Sun, 01 Apr, 2012"/>
-        <div class="input-group-append">
-          <button class="btn btn-light" type="button">
-            <i class="fas fa-calendar-alt"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <select class="form-control">
-        <option>23:59</option>
-      </select>
-    </div>
-    <!-- <div class="col-md-4">
-      <select class="form-control">
-        <option>15 Minutes</option>
-      </select>
-    </div> -->
-    <div class="col-md-4">
-      <button type="button" class="btn btn-success">Save</button>
-    </div>
-  </div>
-  <small>Select students from list below and click save to apply the deadline extension to them.</small>
-</div>
-<div class="container ml-1">
-  <div class="row pl-3 pt-2">
-    <h5>Search for Students:</h5>
-  </div>
-  <div class="row pb-3">
-    <div id="submission-start-date" class="col-md-4 col-xs-center">
-      <input type="text" class="form-control"/>
-    </div>
-    <div class="col-md-4">
-      <button type="button" class="btn btn-primary">Search</button>
-    </div>
-  </div>
+
+<div class="modal-body">
+  The following changes to the individual deadlines for <b>11 students</b> will be saved upon confirmation:
+  <div class="container ml-1">
 </div>
 <div class="modal-body">
   <div class="table-responsive">
     <table id="student-list-table" class="table table-bordered">
       <tr class="background-color-medium-gray">
-        <th>
-          <label>
-            <input type="checkbox">
-          </label>
+        <th  class="clickable">
+          No.
+          <span class="fa-stack">
+            <i class="fas fa-sort"></i>
+            <!-- <i *ngIf="studentListInfoTableSortBy === SortBy.SECTION_NAME && studentListInfoTableSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i> -->
+            <!-- <i *ngIf="studentListInfoTableSortBy === SortBy.SECTION_NAME && studentListInfoTableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i> -->
+          </span>
         </th>
         <th  class="clickable">
           Section
@@ -97,7 +54,15 @@
           </span>
         </th>
         <th class="clickable">
-          Extended Deadline
+          Original Deadline
+          <span class="fa-stack">
+            <i class="fas fa-sort"></i>
+            <!-- <i *ngIf="studentListInfoTableSortBy === SortBy.RESPONDENT_EMAIL && studentListInfoTableSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i> -->
+            <!-- <i *ngIf="studentListInfoTableSortBy === SortBy.RESPONDENT_EMAIL && studentListInfoTableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i> -->
+          </span>
+        </th>
+        <th class="clickable">
+          New Deadline
           <span class="fa-stack">
             <i class="fas fa-sort"></i>
             <!-- <i *ngIf="studentListInfoTableSortBy === SortBy.RESPONDENT_EMAIL && studentListInfoTableSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i> -->
@@ -105,11 +70,9 @@
           </span>
         </th>
       </tr>
-      <tr class="table-warning">
-        <td class="align-center">
-          <label>
-            <input type="checkbox">
-          </label>
+      <tr>
+        <td>
+          1
         </td>
         <td>
           Section 1
@@ -124,14 +87,15 @@
           student-1@gmail.com
         </td>
         <td>
-          Sun 12/12/2022 18:00
+          1st March 2021, 23:59H
+        </td>
+        <td>
+          8th March 2021, 23:59H
         </td>
       </tr>
-      <tr class="table-warning">
-        <td class="align-center">
-          <label>
-            <input type="checkbox">
-          </label>
+      <tr >
+        <td>
+          2
         </td>
         <td>
           Section 1
@@ -146,14 +110,15 @@
           student-2@gmail.com
         </td>
         <td>
-          Sun 12/12/2022 18:00
+          1st March 2021, 23:59H
+        </td>
+        <td>
+          8th March 2021, 23:59H
         </td>
       </tr>
       <tr>
-        <td class="align-center">
-          <label>
-            <input type="checkbox">
-          </label>
+        <td>
+          3
         </td>
         <td>
           Section 1
@@ -168,14 +133,15 @@
           student-3@gmail.com
         </td>
         <td>
-          No Extension
+          1st March 2021, 23:59H
+        </td>
+        <td>
+          8th March 2021, 23:59H
         </td>
       </tr>
       <tr>
-        <td class="align-center">
-          <label>
-            <input type="checkbox">
-          </label>
+              <td>
+          4
         </td>
         <td>
           Section 1
@@ -190,15 +156,17 @@
           student-4@gmail.com
         </td>
         <td>
-          No Extension
+          1st March 2021, 23:59H
+        </td>
+        <td>
+          8th March 2021, 23:59H
         </td>
       </tr>
       <tr>
-        <td class="align-center">
-          <label>
-            <input type="checkbox">
-          </label>
+              <td>
+          5
         </td>
+
         <td>
           Section 1
         </td>
@@ -212,14 +180,15 @@
           student-5@gmail.com
         </td>
         <td>
-          No Extension
+          1st March 2021, 23:59H
+        </td>
+        <td>
+          8th March 2021, 23:59H
         </td>
       </tr>
       <tr>
-        <td class="align-center">
-          <label>
-            <input type="checkbox">
-          </label>
+              <td>
+          6
         </td>
         <td>
           Section 1
@@ -234,14 +203,15 @@
           student-6@gmail.com
         </td>
         <td>
-          No Extension
+          1st March 2021, 23:59H
+        </td>
+        <td>
+          8th March 2021, 23:59H
         </td>
       </tr>
       <tr>
-        <td class="align-center">
-          <label>
-            <input type="checkbox">
-          </label>
+              <td>
+          7
         </td>
         <td>
           Section 1
@@ -256,14 +226,15 @@
           student-7@gmail.com
         </td>
         <td>
-          No Extension
+          1st March 2021, 23:59H
+        </td>
+        <td>
+          8th March 2021, 23:59H
         </td>
       </tr>
       <tr>
-        <td class="align-center">
-          <label>
-            <input type="checkbox">
-          </label>
+              <td>
+          8
         </td>
         <td>
           Section 1
@@ -278,14 +249,15 @@
           student-8@gmail.com
         </td>
         <td>
-          No Extension
+          1st March 2021, 23:59H
+        </td>
+        <td>
+          8th March 2021, 23:59H
         </td>
       </tr>
       <tr>
-        <td class="align-center">
-          <label>
-            <input type="checkbox">
-          </label>
+              <td>
+          9
         </td>
         <td>
           Section 1
@@ -300,14 +272,15 @@
           student-9@gmail.com
         </td>
         <td>
-          No Extension
+          1st March 2021, 23:59H
+        </td>
+        <td>
+          8th March 2021, 23:59H
         </td>
       </tr>
       <tr>
-        <td class="align-center">
-          <label>
-            <input type="checkbox">
-          </label>
+              <td>
+          10
         </td>
         <td>
           Section 1
@@ -322,14 +295,15 @@
           student-10@gmail.com
         </td>
         <td>
-          No Extension
+          1st March 2021, 23:59H
+        </td>
+        <td>
+          8th March 2021, 23:59H
         </td>
       </tr>
       <tr>
-        <td class="align-center">
-          <label>
-            <input type="checkbox">
-          </label>
+              <td>
+          11
         </td>
         <td>
           Section 1
@@ -344,13 +318,28 @@
           student-11@gmail.com
         </td>
         <td>
-          No Extension
+          1st March 2021, 23:59H
+        </td>
+        <td>
+          8th March 2021, 23:59H
         </td>
       </tr>
     </table>
   </div>
 </div>
-<!-- <div class="modal-footer">
-  <button type="button" class="btn btn-light" (click)="activeModal.dismiss()">Cancel</button>
-  <button id="btn-confirm-send-reminder" type="button" class="btn btn-primary" (click)="activeModal.close(collateRespondentsToSendHandler())">Remind</button>
-</div> -->
+
+  <div class="form-check">
+    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+    <label class="form-check-label" for="flexCheckChecked">
+      Notify students by email about this extension
+    </label>
+  </div>
+
+</div>
+
+<br>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-light" (click)="activeModal.dismiss()">No, Cancel the Operation</button>
+  <button type="button" class="btn btn-success modal-btn-ok" (click)="activeModal.close()">Confirm</button>
+</div>

@@ -275,6 +275,7 @@ public final class Const {
         public static final String INSTRUCTOR_SESSIONS_PAGE = INSTRUCTOR_PAGE + "/sessions";
         public static final String INSTRUCTOR_SESSION_SUBMISSION_PAGE = INSTRUCTOR_PAGE + "/sessions/submission";
         public static final String INSTRUCTOR_SESSION_EDIT_PAGE = INSTRUCTOR_PAGE + "/sessions/edit";
+        public static final String INSTRUCTOR_SESSION_INDIVIDUAL_EXTENSION_PAGE = INSTRUCTOR_PAGE + "/sessions/individual-extension";
         public static final String INSTRUCTOR_SESSION_RESULTS_PAGE = INSTRUCTOR_PAGE + "/sessions/result";
         public static final String INSTRUCTOR_SESSION_REPORT_PAGE = INSTRUCTOR_PAGE + "/sessions/report";
         public static final String INSTRUCTOR_COURSES_PAGE = INSTRUCTOR_PAGE + "/courses";
