@@ -68,7 +68,7 @@ export class NewInstructorDataRowComponent implements OnInit {
   /**
    * Resets the edited instructor details to the original details.
    */
-  resetEditedInstructorDetails(): void {
+  private resetEditedInstructorDetails(): void {
     this.editedInstructorName = this.instructor.name;
     this.editedInstructorEmail = this.instructor.email;
     this.editedInstructorInstitution = this.instructor.institution;
@@ -79,7 +79,7 @@ export class NewInstructorDataRowComponent implements OnInit {
    *
    * @param isEnabled Whether edit mode is enabled.
    */
-  setEditModeAndAlertParent(isEnabled: boolean): void {
+  private setEditModeAndAlertParent(isEnabled: boolean): void {
     this.isBeingEdited = isEnabled;
     this.alertParentEditModeToggled();
   }
@@ -87,7 +87,7 @@ export class NewInstructorDataRowComponent implements OnInit {
   /**
    * Alerts the parent that the edit mode was toggled and passes whether this is in edit mode or not.
    */
-  alertParentEditModeToggled(): void {
+  private alertParentEditModeToggled(): void {
     this.toggleEditModeEvent.emit(this.isBeingEdited);
   }
 
