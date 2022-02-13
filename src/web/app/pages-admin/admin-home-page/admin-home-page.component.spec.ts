@@ -5,6 +5,7 @@ import { of, throwError } from 'rxjs';
 import { AccountService } from '../../../services/account.service';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
+import { InstructorData } from '../../components/new-instructor-data-row/instructor-data';
 import { NewInstructorDataRowComponent } from '../../components/new-instructor-data-row/new-instructor-data-row.component';
 import { AdminHomePageComponent } from './admin-home-page.component';
 
@@ -131,21 +132,21 @@ describe('AdminHomePageComponent', () => {
   });
 
   it('should remove instructor out of queue if REMOVE is requested', () => {
-    component.instructorsConsolidated = [
-      {
-        name: 'Instructor A',
-        email: 'instructora@example.com',
-        institution: 'Sample Institution A',
-        status: 'PENDING',
-        joinLink: 'This should not be displayed',
-        message: 'This should not be displayed',
-      },
-    ];
+    const instructorData: InstructorData = {
+      name: 'Instructor A',
+      email: 'instructora@example.com',
+      institution: 'Sample Institution A',
+      status: 'PENDING',
+      joinLink: 'This should not be displayed',
+      message: 'This should not be displayed',
+    };
+    component.instructorsConsolidated = [instructorData];
     fixture.detectChanges();
 
-    const button: any = fixture.debugElement.nativeElement.querySelector('#remove-instructor-0');
-    button.click();
+    const index: number = 0;
+    component.removeInstructor(index);
 
+    expect(component.instructorsConsolidated.includes(instructorData)).toBeFalsy();
     expect(component.instructorsConsolidated.length).toEqual(0);
   });
 
@@ -165,15 +166,15 @@ describe('AdminHomePageComponent', () => {
     }));
     fixture.detectChanges();
 
-    const button: any = fixture.debugElement.nativeElement.querySelector('#add-instructor-0');
-    button.click();
+    const index: number = 0;
+    component.addInstructor(index);
 
-    expect(component.instructorsConsolidated[0].status).toEqual('SUCCESS');
-    expect(component.instructorsConsolidated[0].joinLink).toEqual('http://localhost:4200/web/join');
+    expect(component.instructorsConsolidated[index].status).toEqual('SUCCESS');
+    expect(component.instructorsConsolidated[index].joinLink).toEqual('http://localhost:4200/web/join');
     expect(component.activeRequests).toEqual(0);
   });
 
-  it('should not add instructor and update field when failure', () => {
+  it('should not add instructor and update field during failure', () => {
     component.instructorsConsolidated = [
       {
         name: 'Instructor A',
@@ -191,12 +192,34 @@ describe('AdminHomePageComponent', () => {
     }));
     fixture.detectChanges();
 
-    const button: any = fixture.debugElement.nativeElement.querySelector('#add-instructor-0');
-    button.click();
+    const index: number = 0;
+    component.addInstructor(index);
 
-    expect(component.instructorsConsolidated[0].status).toEqual('FAIL');
-    expect(component.instructorsConsolidated[0].message).toEqual('This is the error message');
+    expect(component.instructorsConsolidated[index].status).toEqual('FAIL');
+    expect(component.instructorsConsolidated[index].message).toEqual('This is the error message');
     expect(component.activeRequests).toEqual(0);
+  });
+
+  it('should enter edit mode for only the specified instructor', () => {
+    component.isInstructorRowEditModeEnabled = [false, false, false];
+
+    const index: number = 2;
+    component.setInstructorRowEditModeEnabled(index, true);
+
+    for (let i: number = 0; i < component.instructorsConsolidated.length; i += 1) {
+      expect(component.isInstructorRowEditModeEnabled[i]).toEqual(i === index);
+    }
+  });
+
+  it('should exit edit mode for only the specified instructor', () => {
+    component.isInstructorRowEditModeEnabled = [false, true, false];
+
+    const index: number = 1;
+    component.setInstructorRowEditModeEnabled(index, false);
+
+    for (let i: number = 0; i < component.instructorsConsolidated.length; i += 1) {
+      expect(component.isInstructorRowEditModeEnabled[i]).toEqual(i !== index);
+    }
   });
 
   it('should add all instructors when prompted', () => {
@@ -239,130 +262,6 @@ describe('AdminHomePageComponent', () => {
     expect(component.activeRequests).toEqual(2);
   });
 
-  it('should go into edit mode for only the instructor selected for editing', () => {
-    component.instructorsConsolidated = [
-      {
-        name: 'Instructor A',
-        email: 'instructora@example.com',
-        institution: 'Sample Institution A',
-        status: 'PENDING',
-        joinLink: 'This should not be displayed',
-        message: 'This should not be displayed',
-      },
-      {
-        name: 'Instructor B',
-        email: 'instructorb@example.com',
-        institution: 'Sample Institution B',
-        status: 'SUCCESS',
-        joinLink: 'http://localhost:4200/web/join',
-        message: 'This should not be displayed',
-      },
-      {
-        name: 'Instructor C',
-        email: 'instructorc@example.com',
-        institution: 'Sample Institution C',
-        status: 'FAIL',
-        joinLink: 'This should not be displayed',
-        message: 'The instructor cannot be added for some reason',
-      },
-    ];
-    component.isInstructorRowEditModeEnabled = [false, false, false];
-    fixture.detectChanges();
-    const index: number = 2;
-    const button: any = fixture.debugElement.nativeElement.querySelector(`#edit-instructor-${index}`);
-    button.click();
-
-    for (let i: number = 0; i < component.instructorsConsolidated.length; i += 1) {
-      expect(component.isInstructorRowEditModeEnabled[i]).toEqual(i === index);
-    }
-  });
-
-  it('should confirm and exit edit mode for only the instructor whose edit is confirmed', () => {
-    component.instructorsConsolidated = [
-      {
-        name: 'Instructor A',
-        email: 'instructora@example.com',
-        institution: 'Sample Institution A',
-        status: 'PENDING',
-        joinLink: 'This should not be displayed',
-        message: 'This should not be displayed',
-      },
-      {
-        name: 'Instructor B',
-        email: 'instructorb@example.com',
-        institution: 'Sample Institution B',
-        status: 'PENDING',
-        joinLink: 'This should not be displayed',
-        message: 'This should not be displayed',
-      },
-      {
-        name: 'Instructor C',
-        email: 'instructorc@example.com',
-        institution: 'Sample Institution C',
-        status: 'FAIL',
-        joinLink: 'This should not be displayed',
-        message: 'The instructor cannot be added for some reason',
-      },
-    ];
-    component.isInstructorRowEditModeEnabled = [false, false, false];
-    fixture.detectChanges();
-    for (let i: number = 0; i < component.instructorsConsolidated.length; i += 1) {
-      const editButton: any = fixture.debugElement.nativeElement.querySelector(`#edit-instructor-${i}`);
-      editButton.click();
-    }
-    fixture.detectChanges();
-    const index: number = 1;
-    const cancelButton: any = fixture.debugElement.nativeElement.querySelector(`#confirm-edit-instructor-${index}`);
-    cancelButton.click();
-
-    for (let i: number = 0; i < component.instructorsConsolidated.length; i += 1) {
-      expect(component.isInstructorRowEditModeEnabled[i]).toEqual(i !== index);
-    }
-  });
-
-  it('should cancel and exit edit mode for only the instructor whose edit is cancelled', () => {
-    component.instructorsConsolidated = [
-      {
-        name: 'Instructor A',
-        email: 'instructora@example.com',
-        institution: 'Sample Institution A',
-        status: 'PENDING',
-        joinLink: 'This should not be displayed',
-        message: 'This should not be displayed',
-      },
-      {
-        name: 'Instructor B',
-        email: 'instructorb@example.com',
-        institution: 'Sample Institution B',
-        status: 'PENDING',
-        joinLink: 'This should not be displayed',
-        message: 'This should not be displayed',
-      },
-      {
-        name: 'Instructor C',
-        email: 'instructorc@example.com',
-        institution: 'Sample Institution C',
-        status: 'FAIL',
-        joinLink: 'This should not be displayed',
-        message: 'The instructor cannot be added for some reason',
-      },
-    ];
-    component.isInstructorRowEditModeEnabled = [false, false, false];
-    fixture.detectChanges();
-    for (let i: number = 0; i < component.instructorsConsolidated.length; i += 1) {
-      const editButton: any = fixture.debugElement.nativeElement.querySelector(`#edit-instructor-${i}`);
-      editButton.click();
-    }
-    fixture.detectChanges();
-    const index: number = 1;
-    const cancelButton: any = fixture.debugElement.nativeElement.querySelector(`#cancel-edit-instructor-${index}`);
-    cancelButton.click();
-
-    for (let i: number = 0; i < component.instructorsConsolidated.length; i += 1) {
-      expect(component.isInstructorRowEditModeEnabled[i]).toEqual(i !== index);
-    }
-  });
-
   it('should add only instructors that are not currently in edit mode when trying to add all', () => {
     component.instructorsConsolidated = [
       {
@@ -390,11 +289,8 @@ describe('AdminHomePageComponent', () => {
         message: 'The instructor cannot be added for some reason',
       },
     ];
-    component.isInstructorRowEditModeEnabled = [false, false, false];
+    component.isInstructorRowEditModeEnabled = [false, true, false];
     fixture.detectChanges();
-    const index: number = 1;
-    const editButton: any = fixture.debugElement.nativeElement.querySelector(`#edit-instructor-${index}`);
-    editButton.click();
 
     const addAllButton: any = fixture.debugElement.nativeElement.querySelector('#add-all-instructors');
     addAllButton.click();
