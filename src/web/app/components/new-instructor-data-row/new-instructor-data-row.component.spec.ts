@@ -11,7 +11,7 @@ describe('NewInstructorDataRowComponent', () => {
   let fixture: ComponentFixture<NewInstructorDataRowComponent>;
   let expectedInstructorData: InstructorData;
   let expectedIndex: number;
-  let expectedActiveRequests: number;
+  let expectedIsAddDisabled: boolean;
 
   let addButtonDe: any;
   let addButtonEl: any;
@@ -36,10 +36,10 @@ describe('NewInstructorDataRowComponent', () => {
       status: 'PENDING',
     };
     expectedIndex = 0;
-    expectedActiveRequests = 0;
+    expectedIsAddDisabled = false;
     component.instructor = expectedInstructorData;
     component.index = expectedIndex;
-    component.activeRequests = expectedActiveRequests;
+    component.isAddDisabled = expectedIsAddDisabled;
     fixture.detectChanges();
     addButtonDe = fixture.debugElement
       .query(By.css(`#add-instructor-${expectedIndex}`));
@@ -80,12 +80,12 @@ describe('NewInstructorDataRowComponent', () => {
     expect(displayedInstructorInstitution).toEqual(expectedInstructorData.institution);
   });
 
-  it('should have an add button that is not disabled when there are zero active requests as input', () => {
+  it('should have an add button that is not disabled when isAddDisabled is false', () => {
     expect(addButtonEl.disabled).toBeFalsy();
   });
 
-  it('should have an add button that is disabled when there are non-zero active requests as input', () => {
-    component.activeRequests = 1;
+  it('should have an add button that is disabled when isAddDisabled is true', () => {
+    component.isAddDisabled = true;
     fixture.detectChanges();
     expect(addButtonEl.disabled).toBeTruthy();
   });

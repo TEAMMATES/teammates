@@ -16,7 +16,7 @@ import { InstructorData } from './instructor-data';
 export class NewInstructorDataRowComponent implements OnInit {
   @Input() instructor!: InstructorData;
   @Input() index!: number;
-  @Input() activeRequests!: number;
+  @Input() isAddDisabled!: boolean;
   @Output() addInstructorEvent: EventEmitter<void> = new EventEmitter();
   @Output() removeInstructorEvent: EventEmitter<void> = new EventEmitter();
   @Output() toggleEditModeEvent: EventEmitter<boolean> = new EventEmitter();

@@ -16,7 +16,7 @@
     <button class="action-btn btn btn-sm btn-danger text-nowrap" id="cancel-edit-instructor-{{ index }}" style="margin-right: 10px;" (click)="cancelEditInstructor()">Cancel</button>
   </div>
   <div class="button-group" *ngIf="!isBeingEdited && (instructor.status === 'PENDING' || instructor.status === 'FAIL')">
-    <button class="action-btn btn btn-sm btn-primary text-nowrap" id="add-instructor-{{ index }}" style="margin-right: 10px;" (click)="addInstructor()" [disabled]="activeRequests > 0">Add</button>
+    <button class="action-btn btn btn-sm btn-primary text-nowrap" id="add-instructor-{{ index }}" style="margin-right: 10px;" (click)="addInstructor()" [disabled]="isAddDisabled">Add</button>
     <button class="action-btn btn btn-sm btn-info text-nowrap" id="edit-instructor-{{ index }}" style="margin-right: 10px;" (click)="editInstructor()">Edit</button>
     <button class="action-btn btn btn-sm btn-danger" id="remove-instructor-{{ index }}" (click)="removeInstructor()">Remove</button>
   </div>
