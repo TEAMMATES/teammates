@@ -1,0 +1,56 @@
+package teammates.common.datatransfer;
+
+/**
+ * The FeedbackResponse result fetching type to indicate whether the fetch is for giver only, receiver only or both.
+ */
+public enum FeedbackResultFetchType {
+    /**
+     * Fetch by giver only.
+     */
+    GIVER_ONLY(true, false),
+    /**
+     * Fetch by receiver only.
+     */
+    RECEIVER_ONLY(false, true),
+    /**
+     * Fetch by both giver and receiver.
+     */
+    BOTH(true, true);
+
+    private final boolean isByGiver;
+    private final boolean isByReceiver;
+
+    private FeedbackResultFetchType(boolean isByGiver, boolean isByReceiver) {
+        this.isByGiver = isByGiver;
+        this.isByReceiver = isByReceiver;
+    }
+
+    /**
+     * Parse the input string into a {@link FeedbackResultFetchType} and default to {@link FeedbackResultFetchType}.BOTH.
+     */
+    public static FeedbackResultFetchType parseFetchType(String typeString) {
+        switch (typeString.toLowerCase()) {
+        case "giver":
+            return GIVER_ONLY;
+        case "receiver":
+            return RECEIVER_ONLY;
+        default:
+        }
+
+        return BOTH;
+    }
+
+    /**
+     * This result fetch should be by giver.
+     */
+    public boolean shouldFetchByGiver() {
+        return isByGiver;
+    }
+
+    /**
+     * This result fetch should be by receiver.
+     */
+    public boolean shouldFetchByReceiver() {
+        return isByReceiver;
+    }
+}

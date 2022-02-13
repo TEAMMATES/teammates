@@ -127,6 +127,8 @@ public final class Const {
 
         public static final String FEEDBACK_RESULTS_GROUPBYSECTION = "frgroupbysection";
 
+        public static final String FEEDBACK_RESULTS_SECTION_BY_GIVER_RECEIVER = "frsessionbygiverreceiver";
+
         public static final String PREVIEWAS = "previewas";
 
         public static final String STUDENT_ID = "googleid";
