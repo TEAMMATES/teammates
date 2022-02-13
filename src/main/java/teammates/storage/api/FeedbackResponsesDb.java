@@ -15,6 +15,7 @@ import com.googlecode.objectify.cmd.LoadType;
 import com.googlecode.objectify.cmd.Query;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
+import teammates.common.datatransfer.FeedbackResultFetchType;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -95,11 +96,12 @@ public final class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, Feed
      * Gets all feedback responses of a question in a specific section.
      */
     public List<FeedbackResponseAttributes> getFeedbackResponsesForQuestionInSection(
-            String feedbackQuestionId, String section) {
+            String feedbackQuestionId, String section, FeedbackResultFetchType fetchType) {
         assert feedbackQuestionId != null;
         assert section != null;
+        assert fetchType != null;
 
-        return makeAttributes(getFeedbackResponseEntitiesForQuestionInSection(feedbackQuestionId, section));
+        return makeAttributes(getFeedbackResponseEntitiesForQuestionInSection(feedbackQuestionId, section, fetchType));
     }
 
     /**
@@ -137,14 +139,17 @@ public final class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, Feed
 
     /**
      * Gets all responses given to/from a section in a feedback session in a course.
+     * Optionally, retrieves by either giver, receiver sections, or both.
      */
     public List<FeedbackResponseAttributes> getFeedbackResponsesForSessionInSection(
-            String feedbackSessionName, String courseId, String section) {
+            String feedbackSessionName, String courseId, String section, FeedbackResultFetchType fetchType) {
         assert feedbackSessionName != null;
         assert courseId != null;
         assert section != null;
+        assert fetchType != null;
 
-        return makeAttributes(getFeedbackResponseEntitiesForSessionInSection(feedbackSessionName, courseId, section));
+        return makeAttributes(getFeedbackResponseEntitiesForSessionInSection(
+                feedbackSessionName, courseId, section, fetchType));
     }
 
     /**
@@ -321,17 +326,21 @@ public final class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, Feed
     }
 
     private Collection<FeedbackResponse> getFeedbackResponseEntitiesForQuestionInSection(
-                String feedbackQuestionId, String section) {
+                String feedbackQuestionId, String section, FeedbackResultFetchType fetchType) {
         List<FeedbackResponse> allResponses = new ArrayList<>();
 
-        allResponses.addAll(load()
-                .filter("feedbackQuestionId =", feedbackQuestionId)
-                .filter("giverSection =", section)
-                .list());
-        allResponses.addAll(load()
-                .filter("feedbackQuestionId =", feedbackQuestionId)
-                .filter("receiverSection =", section)
-                .list());
+        if (fetchType.shouldFetchByGiver()) {
+            allResponses.addAll(load()
+                    .filter("feedbackQuestionId =", feedbackQuestionId)
+                    .filter("giverSection =", section)
+                    .list());
+        }
+        if (fetchType.shouldFetchByReceiver()) {
+            allResponses.addAll(load()
+                    .filter("feedbackQuestionId =", feedbackQuestionId)
+                    .filter("receiverSection =", section)
+                    .list());
+        }
 
         return removeDuplicates(allResponses);
     }
@@ -350,20 +359,24 @@ public final class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, Feed
     }
 
     private Collection<FeedbackResponse> getFeedbackResponseEntitiesForSessionInSection(
-            String feedbackSessionName, String courseId, String section) {
+            String feedbackSessionName, String courseId, String section, FeedbackResultFetchType fetchType) {
         List<FeedbackResponse> allResponse = new ArrayList<>();
 
-        allResponse.addAll(load()
-                .filter("feedbackSessionName =", feedbackSessionName)
-                .filter("courseId =", courseId)
-                .filter("giverSection =", section)
-                .list());
+        if (fetchType.shouldFetchByGiver()) {
+            allResponse.addAll(load()
+                    .filter("feedbackSessionName =", feedbackSessionName)
+                    .filter("courseId =", courseId)
+                    .filter("giverSection =", section)
+                    .list());
+        }
 
-        allResponse.addAll(load()
-                .filter("feedbackSessionName =", feedbackSessionName)
-                .filter("courseId =", courseId)
-                .filter("receiverSection =", section)
-                .list());
+        if (fetchType.shouldFetchByReceiver()) {
+            allResponse.addAll(load()
+                    .filter("feedbackSessionName =", feedbackSessionName)
+                    .filter("courseId =", courseId)
+                    .filter("receiverSection =", section)
+                    .list());
+        }
 
         return removeDuplicates(allResponse);
     }

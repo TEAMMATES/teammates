@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import teammates.common.datatransfer.FeedbackResultFetchType;
 import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -79,6 +80,8 @@ class GetSessionResultsAction extends Action {
         // Allow additional filter by question ID (equivalent to question number) and section name
         String questionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
         String selectedSection = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION);
+        FeedbackResultFetchType fetchType = FeedbackResultFetchType.parseFetchType(
+                getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SECTION_BY_GIVER_RECEIVER));
 
         SessionResultsBundle bundle;
         InstructorAttributes instructor;
@@ -89,7 +92,7 @@ class GetSessionResultsAction extends Action {
             instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
 
             bundle = logic.getSessionResultsForCourse(feedbackSessionName, courseId, instructor.getEmail(),
-                    questionId, selectedSection);
+                    questionId, selectedSection, fetchType);
 
             return new JsonResult(SessionResultsData.initForInstructor(bundle));
         case INSTRUCTOR_RESULT:

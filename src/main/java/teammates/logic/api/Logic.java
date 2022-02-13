@@ -8,6 +8,7 @@ import java.util.Set;
 import javax.annotation.Nullable;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.FeedbackResultFetchType;
 import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
@@ -1152,17 +1153,18 @@ public class Logic {
     /**
      * Gets the session result for a feedback session.
      *
-     * @see FeedbackResponsesLogic#getSessionResultsForCourse(String, String, String, String, String)
+     * @see FeedbackResponsesLogic#getSessionResultsForCourse(
+     * String, String, String, String, String, FeedbackResultFetchType)
      */
     public SessionResultsBundle getSessionResultsForCourse(
             String feedbackSessionName, String courseId, String userEmail,
-            @Nullable String questionId, @Nullable String section) {
+            @Nullable String questionId, @Nullable String section, @Nullable FeedbackResultFetchType fetchType) {
         assert feedbackSessionName != null;
         assert courseId != null;
         assert userEmail != null;
 
         return feedbackResponsesLogic.getSessionResultsForCourse(
-                feedbackSessionName, courseId, userEmail, questionId, section);
+                feedbackSessionName, courseId, userEmail, questionId, section, fetchType);
     }
 
     /**

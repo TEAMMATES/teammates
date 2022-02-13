@@ -13,6 +13,7 @@ import com.google.common.collect.Sets;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.FeedbackResultFetchType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
@@ -391,20 +392,22 @@ public class FeedbackResponsesDbTest extends BaseTestCaseWithLocalDatabaseAccess
 
         String questionId = fras.get("response1ForQ2S1C1").getFeedbackQuestionId();
 
-        List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForQuestionInSection(questionId, "Section 1");
+        List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForQuestionInSection(
+                questionId, "Section 1", FeedbackResultFetchType.BOTH);
         assertEquals(3, responses.size());
 
         ______TS("null params");
 
-        assertThrows(AssertionError.class,
-                () -> frDb.getFeedbackResponsesForQuestionInSection(null, "Section 1"));
+        assertThrows(AssertionError.class, () -> frDb.getFeedbackResponsesForQuestionInSection(
+                null, "Section 1", FeedbackResultFetchType.BOTH));
 
         assertThrows(AssertionError.class,
-                () -> frDb.getFeedbackResponsesForQuestionInSection(questionId, null));
+                () -> frDb.getFeedbackResponsesForQuestionInSection(questionId, null, FeedbackResultFetchType.BOTH));
 
         ______TS("non-existent feedback question");
 
-        assertTrue(frDb.getFeedbackResponsesForQuestionInSection("non-existent fq id", "Section 1")
+        assertTrue(frDb.getFeedbackResponsesForQuestionInSection("non-existent fq id", "Section 1",
+                        FeedbackResultFetchType.BOTH)
                 .isEmpty());
     }
 
@@ -572,28 +575,30 @@ public class FeedbackResponsesDbTest extends BaseTestCaseWithLocalDatabaseAccess
         String courseId = fras.get("response1ForQ1S1C1").getCourseId();
         String feedbackSessionName = fras.get("response1ForQ1S1C1").getFeedbackSessionName();
 
-        List<FeedbackResponseAttributes> responses =
-                frDb.getFeedbackResponsesForSessionInSection(feedbackSessionName, courseId, "Section 1");
+        List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForSessionInSection(
+                feedbackSessionName, courseId, "Section 1", FeedbackResultFetchType.BOTH);
 
         assertEquals(5, responses.size());
 
         ______TS("null params");
 
         assertThrows(AssertionError.class,
-                () -> frDb.getFeedbackResponsesForSessionInSection(null, courseId, "Section 1"));
+                () -> frDb.getFeedbackResponsesForSessionInSection(null, courseId, "Section 1",
+                        FeedbackResultFetchType.BOTH));
 
         assertThrows(AssertionError.class,
-                () -> frDb.getFeedbackResponsesForSessionInSection(feedbackSessionName, null, "Section 1"));
+                () -> frDb.getFeedbackResponsesForSessionInSection(feedbackSessionName, null, "Section 1",
+                        FeedbackResultFetchType.BOTH));
 
         ______TS("non-existent feedback session");
 
         assertTrue(frDb.getFeedbackResponsesForSessionInSection(
-                "non-existent feedback session", courseId, "Section 1").isEmpty());
+                "non-existent feedback session", courseId, "Section 1", FeedbackResultFetchType.BOTH).isEmpty());
 
         ______TS("non-existent course");
 
         assertTrue(frDb.getFeedbackResponsesForSessionInSection(
-                feedbackSessionName, "non-existent courseId", "Section 1").isEmpty());
+                feedbackSessionName, "non-existent courseId", "Section 1", FeedbackResultFetchType.BOTH).isEmpty());
     }
 
     @Test

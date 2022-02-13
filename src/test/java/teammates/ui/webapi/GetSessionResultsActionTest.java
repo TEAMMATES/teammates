@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.FeedbackResultFetchType;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -52,7 +53,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
                 logic.getSessionResultsForCourse(accessibleFeedbackSession.getFeedbackSessionName(),
                         accessibleFeedbackSession.getCourseId(),
                         instructorAttributes.getEmail(),
-                        null, null));
+                        null, null, FeedbackResultFetchType.BOTH));
 
         assertTrue(isSessionResultsDataEqual(expectedResults, output));
 

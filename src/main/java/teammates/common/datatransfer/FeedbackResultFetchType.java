@@ -20,7 +20,7 @@ public enum FeedbackResultFetchType {
     private final boolean isByGiver;
     private final boolean isByReceiver;
 
-    private FeedbackResultFetchType(boolean isByGiver, boolean isByReceiver) {
+    FeedbackResultFetchType(boolean isByGiver, boolean isByReceiver) {
         this.isByGiver = isByGiver;
         this.isByReceiver = isByReceiver;
     }
@@ -29,6 +29,10 @@ public enum FeedbackResultFetchType {
      * Parse the input string into a {@link FeedbackResultFetchType} and default to {@link FeedbackResultFetchType}.BOTH.
      */
     public static FeedbackResultFetchType parseFetchType(String typeString) {
+        if (typeString == null) {
+            return BOTH;
+        }
+
         switch (typeString.toLowerCase()) {
         case "giver":
             return GIVER_ONLY;
