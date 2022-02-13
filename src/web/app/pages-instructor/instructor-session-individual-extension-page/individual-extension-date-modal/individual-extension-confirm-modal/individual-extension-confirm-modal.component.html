@@ -1,0 +1,345 @@
+<div class="modal-header alert-primary">
+  <h5 class="modal-title">Confirm extension of feedback session</h5>
+  <button type="button" class="close" (click)="activeModal.dismiss()">
+    <i class="fas fa-times"></i>
+  </button>
+</div>
+
+<div class="modal-body">
+  The following changes to the individual deadlines for <b>11 students</b> will be saved upon confirmation:
+  <div class="container ml-1">
+</div>
+<div class="modal-body">
+  <div class="table-responsive">
+    <table id="student-list-table" class="table table-bordered">
+      <tr class="background-color-medium-gray">
+        <th  class="clickable">
+          No.
+          <span class="fa-stack">
+            <i class="fas fa-sort"></i>
+            <!-- <i *ngIf="studentListInfoTableSortBy === SortBy.SECTION_NAME && studentListInfoTableSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i> -->
+            <!-- <i *ngIf="studentListInfoTableSortBy === SortBy.SECTION_NAME && studentListInfoTableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i> -->
+          </span>
+        </th>
+        <th  class="clickable">
+          Section
+          <span class="fa-stack">
+            <i class="fas fa-sort"></i>
+            <!-- <i *ngIf="studentListInfoTableSortBy === SortBy.SECTION_NAME && studentListInfoTableSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i> -->
+            <!-- <i *ngIf="studentListInfoTableSortBy === SortBy.SECTION_NAME && studentListInfoTableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i> -->
+          </span>
+        </th>
+        <th class="clickable">
+          Team
+          <span class="fa-stack">
+            <i class="fas fa-sort"></i>
+            <!-- <i *ngIf="studentListInfoTableSortBy === SortBy.TEAM_NAME && studentListInfoTableSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i> -->
+            <!-- <i *ngIf="studentListInfoTableSortBy === SortBy.TEAM_NAME && studentListInfoTableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i> -->
+          </span>
+        </th>
+        <th class="clickable">
+          Student Name
+          <span class="fa-stack">
+            <i class="fas fa-sort"></i>
+            <!-- <i *ngIf="studentListInfoTableSortBy === SortBy.RESPONDENT_NAME && studentListInfoTableSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i> -->
+            <!-- <i *ngIf="studentListInfoTableSortBy === SortBy.RESPONDENT_NAME && studentListInfoTableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i> -->
+          </span>
+        </th>
+        <th class="clickable">
+          Email
+          <span class="fa-stack">
+            <i class="fas fa-sort"></i>
+            <!-- <i *ngIf="studentListInfoTableSortBy === SortBy.RESPONDENT_EMAIL && studentListInfoTableSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i> -->
+            <!-- <i *ngIf="studentListInfoTableSortBy === SortBy.RESPONDENT_EMAIL && studentListInfoTableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i> -->
+          </span>
+        </th>
+        <th class="clickable">
+          Original Deadline
+          <span class="fa-stack">
+            <i class="fas fa-sort"></i>
+            <!-- <i *ngIf="studentListInfoTableSortBy === SortBy.RESPONDENT_EMAIL && studentListInfoTableSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i> -->
+            <!-- <i *ngIf="studentListInfoTableSortBy === SortBy.RESPONDENT_EMAIL && studentListInfoTableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i> -->
+          </span>
+        </th>
+        <th class="clickable">
+          New Deadline
+          <span class="fa-stack">
+            <i class="fas fa-sort"></i>
+            <!-- <i *ngIf="studentListInfoTableSortBy === SortBy.RESPONDENT_EMAIL && studentListInfoTableSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i> -->
+            <!-- <i *ngIf="studentListInfoTableSortBy === SortBy.RESPONDENT_EMAIL && studentListInfoTableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i> -->
+          </span>
+        </th>
+      </tr>
+      <tr>
+        <td>
+          1
+        </td>
+        <td>
+          Section 1
+        </td>
+        <td>
+          Team 1
+        </td>
+        <td>
+          Student 1
+        </td>
+        <td>
+          student-1@gmail.com
+        </td>
+        <td>
+          1st March 2021, 23:59H
+        </td>
+        <td>
+          8th March 2021, 23:59H
+        </td>
+      </tr>
+      <tr >
+        <td>
+          2
+        </td>
+        <td>
+          Section 1
+        </td>
+        <td>
+          Team 1
+        </td>
+        <td>
+          Student 2
+        </td>
+        <td>
+          student-2@gmail.com
+        </td>
+        <td>
+          1st March 2021, 23:59H
+        </td>
+        <td>
+          8th March 2021, 23:59H
+        </td>
+      </tr>
+      <tr>
+        <td>
+          3
+        </td>
+        <td>
+          Section 1
+        </td>
+        <td>
+          Team 1
+        </td>
+        <td>
+          Student 3
+        </td>
+        <td>
+          student-3@gmail.com
+        </td>
+        <td>
+          1st March 2021, 23:59H
+        </td>
+        <td>
+          8th March 2021, 23:59H
+        </td>
+      </tr>
+      <tr>
+              <td>
+          4
+        </td>
+        <td>
+          Section 1
+        </td>
+        <td>
+          Team 1
+        </td>
+        <td>
+          Student 4
+        </td>
+        <td>
+          student-4@gmail.com
+        </td>
+        <td>
+          1st March 2021, 23:59H
+        </td>
+        <td>
+          8th March 2021, 23:59H
+        </td>
+      </tr>
+      <tr>
+              <td>
+          5
+        </td>
+
+        <td>
+          Section 1
+        </td>
+        <td>
+          Team 1
+        </td>
+        <td>
+          Student 5
+        </td>
+        <td>
+          student-5@gmail.com
+        </td>
+        <td>
+          1st March 2021, 23:59H
+        </td>
+        <td>
+          8th March 2021, 23:59H
+        </td>
+      </tr>
+      <tr>
+              <td>
+          6
+        </td>
+        <td>
+          Section 1
+        </td>
+        <td>
+          Team 1
+        </td>
+        <td>
+          Student 6
+        </td>
+        <td>
+          student-6@gmail.com
+        </td>
+        <td>
+          1st March 2021, 23:59H
+        </td>
+        <td>
+          8th March 2021, 23:59H
+        </td>
+      </tr>
+      <tr>
+              <td>
+          7
+        </td>
+        <td>
+          Section 1
+        </td>
+        <td>
+          Team 1
+        </td>
+        <td>
+          Student 7
+        </td>
+        <td>
+          student-7@gmail.com
+        </td>
+        <td>
+          1st March 2021, 23:59H
+        </td>
+        <td>
+          8th March 2021, 23:59H
+        </td>
+      </tr>
+      <tr>
+              <td>
+          8
+        </td>
+        <td>
+          Section 1
+        </td>
+        <td>
+          Team 1
+        </td>
+        <td>
+          Student 8
+        </td>
+        <td>
+          student-8@gmail.com
+        </td>
+        <td>
+          1st March 2021, 23:59H
+        </td>
+        <td>
+          8th March 2021, 23:59H
+        </td>
+      </tr>
+      <tr>
+              <td>
+          9
+        </td>
+        <td>
+          Section 1
+        </td>
+        <td>
+          Team 1
+        </td>
+        <td>
+          Student 9
+        </td>
+        <td>
+          student-9@gmail.com
+        </td>
+        <td>
+          1st March 2021, 23:59H
+        </td>
+        <td>
+          8th March 2021, 23:59H
+        </td>
+      </tr>
+      <tr>
+              <td>
+          10
+        </td>
+        <td>
+          Section 1
+        </td>
+        <td>
+          Team 1
+        </td>
+        <td>
+          Student 10
+        </td>
+        <td>
+          student-10@gmail.com
+        </td>
+        <td>
+          1st March 2021, 23:59H
+        </td>
+        <td>
+          8th March 2021, 23:59H
+        </td>
+      </tr>
+      <tr>
+              <td>
+          11
+        </td>
+        <td>
+          Section 1
+        </td>
+        <td>
+          Team 1
+        </td>
+        <td>
+          Student 11
+        </td>
+        <td>
+          student-11@gmail.com
+        </td>
+        <td>
+          1st March 2021, 23:59H
+        </td>
+        <td>
+          8th March 2021, 23:59H
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+  <div class="form-check">
+    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+    <label class="form-check-label" for="flexCheckChecked">
+      Notify students by email about this extension
+    </label>
+  </div>
+
+</div>
+
+<br>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-light" (click)="activeModal.dismiss()">No, Cancel the Operation</button>
+  <button type="button" class="btn btn-success modal-btn-ok" (click)="activeModal.close()">Confirm</button>
+</div>
