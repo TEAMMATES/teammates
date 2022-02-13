@@ -51,6 +51,12 @@ describe('NewInstructorDataRowComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+
+    expect(component.isBeingEdited).toBeFalsy();
+
+    expect(component.editedInstructorName).toEqual(expectedInstructorData.name);
+    expect(component.editedInstructorEmail).toEqual(expectedInstructorData.email);
+    expect(component.editedInstructorInstitution).toEqual(expectedInstructorData.institution);
   });
 
   it('should display the instructor name received as input', () => {
@@ -142,16 +148,6 @@ describe('NewInstructorDataRowComponent', () => {
       .query(By.css(`#cancel-edit-instructor-${expectedIndex}`))
       .triggerEventHandler('click', null);
     expect(isInEditMode).toBeFalsy();
-  });
-
-  it('should initialise isBeingEdited to false', () => {
-    expect(component.isBeingEdited).toBeFalsy();
-  });
-
-  it('should initialise the edited instructor details to the received input instructor details', () => {
-    expect(component.editedInstructorName).toEqual(expectedInstructorData.name);
-    expect(component.editedInstructorEmail).toEqual(expectedInstructorData.email);
-    expect(component.editedInstructorInstitution).toEqual(expectedInstructorData.institution);
   });
 
   it('should set isBeingEdited to true when editing starts', () => {
