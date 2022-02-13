@@ -1,28 +1,25 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { NgbCalendar, NgbDateParserFormatter, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCalendar, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
 import { TemplateSession } from '../../../services/feedback-sessions.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
-import
-  {
-    Course,
-    FeedbackSessionPublishStatus,
-    FeedbackSessionSubmissionStatus,
-    ResponseVisibleSetting,
-    SessionVisibleSetting,
-  } from '../../../types/api-output';
+import {
+  Course,
+  FeedbackSessionPublishStatus,
+  FeedbackSessionSubmissionStatus,
+  ResponseVisibleSetting,
+  SessionVisibleSetting,
+} from '../../../types/api-output';
 import { FEEDBACK_SESSION_NAME_MAX_LENGTH } from '../../../types/field-validator';
 import { DatePickerFormatter } from '../datepicker/datepicker-formatter';
 import { DateFormat } from '../datepicker/datepicker.component';
 import { SimpleModalType } from '../simple-modal/simple-modal-type';
 import { collapseAnim } from '../teammates-common/collapse-anim';
-import { DeadlineModalComponent } from './deadline-modal/deadline-modal.component';
 import { SessionEditFormMode, SessionEditFormModel } from './session-edit-form-model';
 
 /**
  * Form to Add/Edit feedback sessions.
  */
-
 @Component({
   selector: 'tm-session-edit-form',
   templateUrl: './session-edit-form.component.html',
@@ -31,6 +28,7 @@ import { SessionEditFormMode, SessionEditFormModel } from './session-edit-form-m
   animations: [collapseAnim],
 })
 export class SessionEditFormComponent {
+
   // enum
   SessionEditFormMode: typeof SessionEditFormMode = SessionEditFormMode;
   SessionVisibleSetting: typeof SessionVisibleSetting = SessionVisibleSetting;
@@ -115,9 +113,7 @@ export class SessionEditFormComponent {
   @Output()
   closeEditFormEvent: EventEmitter<void> = new EventEmitter<void>();
 
-  constructor(private simpleModalService: SimpleModalService,
-    public calendar: NgbCalendar,
-    public modalService: NgbModal) { }
+  constructor(private simpleModalService: SimpleModalService, public calendar: NgbCalendar) { }
 
   /**
    * Triggers the change of the model for the form.
@@ -259,9 +255,5 @@ export class SessionEditFormComponent {
    */
   closeEditFormHandler(): void {
     this.closeEditFormEvent.emit();
-  }
-
-  openModal(): void {
-    this.modalService.open(DeadlineModalComponent);
   }
 }
