@@ -41,12 +41,23 @@ describe('AccountService', () => {
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT, paramMap);
   });
 
-  it('should execute POST on account endpoint', () => {
+  it('should execute POST on account endpoint with timezone string', () => {
+    const testKey: string = 'testKey';
+    const testTimezone: string = 'UTC';
+    const paramMap: Record<string, string> = {
+      key: testKey,
+      timezone: testTimezone,
+    };
+    service.createAccount(testKey, testTimezone);
+    expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT, paramMap);
+  });
+
+  it('should execute POST on account endpoint with empty timezone string', () => {
     const testKey: string = 'testKey';
     const paramMap: Record<string, string> = {
       key: testKey,
     };
-    service.createAccount(testKey);
+    service.createAccount(testKey, '');
     expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT, paramMap);
   });
 

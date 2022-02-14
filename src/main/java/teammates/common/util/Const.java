@@ -152,6 +152,8 @@ public final class Const {
 
         public static final String INTENT = "intent";
 
+        public static final String TIMEZONE = "timezone";
+
         public static final String QUERY_LOGS_STARTTIME = "starttime";
         public static final String QUERY_LOGS_ENDTIME = "endtime";
         public static final String QUERY_LOGS_SEVERITY = "severity";
@@ -320,6 +322,7 @@ public final class Const {
         public static final String SESSION_STATS = URI_PREFIX + "/session/stats";
         public static final String SESSION_SUBMITTED_GIVER_SET = URI_PREFIX + "/session/submitted/giverset";
         public static final String SESSIONS = URI_PREFIX + "/sessions";
+        public static final String SEARCH_ACCOUNT_REQUESTS = URI_PREFIX + "/search/accountrequests";
         public static final String SEARCH_INSTRUCTORS = URI_PREFIX + "/search/instructors";
         public static final String SEARCH_STUDENTS = URI_PREFIX + "/search/students";
         public static final String BIN_SESSION = URI_PREFIX + "/bin/session";
@@ -403,6 +406,8 @@ public final class Const {
 
         public static final String SEARCH_INDEXING_QUEUE_NAME = "search-indexing-queue";
         public static final String INSTRUCTOR_SEARCH_INDEXING_WORKER_URL = URI_PREFIX + "/instructorSearchIndexing";
+        public static final String ACCOUNT_REQUEST_SEARCH_INDEXING_WORKER_URL =
+                URI_PREFIX + "/accountRequestSearchIndexing";
         public static final String STUDENT_SEARCH_INDEXING_WORKER_URL = URI_PREFIX + "/studentSearchIndexing";
     }
 

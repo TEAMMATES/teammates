@@ -69,6 +69,7 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
         assertEquals(joinLink, output.getJoinLink());
 
         verifyNumberOfEmailsSent(1);
+        verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
 
         EmailWrapper emailSent = mockEmailSender.getEmailsSent().get(0);
         assertEquals(String.format(EmailType.NEW_INSTRUCTOR_ACCOUNT.getSubject(), name),
