@@ -27,7 +27,7 @@
           <div *tmIsLoading="!feedbackSessionTabModel.hasQuestionsLoaded">
             <div *ngIf="!feedbackSessionTabModel.hasLoadingFailed" class="card-body">
               <ng-container *ngIf="feedbackSessionTabModel.hasQuestionsLoaded && feedbackSessionTabModel.questionsTableRowModels.length > 0, else noQuestionsTemplate">
-                <table class="table table-bordered table-responsive-lg">
+                <table id="copy-question-table" class="table table-bordered table-responsive-lg">
                   <thead class="bg-primary text-white">
                     <tr>
                       <th>#</th>
