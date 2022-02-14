@@ -1,6 +1,8 @@
 package teammates.ui.webapi;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.testng.annotations.Test;
 
@@ -57,6 +59,39 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
 
         assertTrue(isSessionResultsDataEqual(expectedResults, output));
 
+        ______TS("typical: instructor accesses results of his/her course with breakdown");
+
+        Set<String> sections = new HashSet<>();
+        typicalBundle.feedbackResponses.values().forEach(resp -> {
+            sections.add(resp.getGiverSection());
+            sections.add(resp.getRecipientSection());
+        });
+
+        for (var fetchType : FeedbackResultFetchType.values()) {
+            for (var section : sections) {
+                submissionParams = new String[]{
+                        Const.ParamsNames.FEEDBACK_SESSION_NAME, accessibleFeedbackSession.getFeedbackSessionName(),
+                        Const.ParamsNames.COURSE_ID, accessibleFeedbackSession.getCourseId(),
+                        Const.ParamsNames.INTENT, Intent.FULL_DETAIL.name(),
+                        Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION, section,
+                        Const.ParamsNames.FEEDBACK_RESULTS_SECTION_BY_GIVER_RECEIVER, fetchType.name(),
+                };
+
+                a = getAction(submissionParams);
+                r = getJsonResult(a);
+
+                output = (SessionResultsData) r.getOutput();
+
+                expectedResults = SessionResultsData.initForInstructor(
+                        logic.getSessionResultsForCourse(accessibleFeedbackSession.getFeedbackSessionName(),
+                                accessibleFeedbackSession.getCourseId(),
+                                instructorAttributes.getEmail(),
+                                null, section, fetchType));
+
+                assertTrue(isSessionResultsDataEqual(expectedResults, output));
+            }
+        }
+
         ______TS("typical: student accesses results of his/her course");
 
         StudentAttributes studentAttributes = typicalBundle.students.get("student1InCourse1");
@@ -80,7 +115,6 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
                 studentAttributes);
 
         assertTrue(isSessionResultsDataEqual(expectedResults, output));
-
     }
 
     @Override

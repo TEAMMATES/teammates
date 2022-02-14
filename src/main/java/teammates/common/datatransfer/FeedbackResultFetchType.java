@@ -7,11 +7,11 @@ public enum FeedbackResultFetchType {
     /**
      * Fetch by giver only.
      */
-    GIVER_ONLY(true, false),
+    GIVER(true, false),
     /**
      * Fetch by receiver only.
      */
-    RECEIVER_ONLY(false, true),
+    RECEIVER(false, true),
     /**
      * Fetch by both giver and receiver.
      */
@@ -35,9 +35,9 @@ public enum FeedbackResultFetchType {
 
         switch (typeString.toLowerCase()) {
         case "giver":
-            return GIVER_ONLY;
+            return GIVER;
         case "receiver":
-            return RECEIVER_ONLY;
+            return RECEIVER;
         default:
         }
 
