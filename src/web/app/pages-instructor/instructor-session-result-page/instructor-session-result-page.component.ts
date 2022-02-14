@@ -325,20 +325,19 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
     ).subscribe(
         {
           next: (resp: SessionResults) => {
-            if (resp.questions.length) {
-              const responses: QuestionOutput = resp.questions[0];
-              responses.allResponses
-                  .forEach((response: ResponseOutput) =>
-                      !response.isMissingResponse
-                          ? tmpMap.set(response.responseId, response)
-                          : missingRespMap.set(response.responseId, response));
-              this.questionsModel[questionId].statistics =
-                  QuestionStatistics.appendStats(
-                      this.questionsModel[questionId].statistics,
-                      responses.questionStatistics);
-
-              this.preprocessComments(responses.allResponses);
+            if (!resp.questions.length) {
+              return
             }
+            const responses: QuestionOutput = resp.questions[0];
+            responses.allResponses.forEach((response: ResponseOutput) =>
+                !response.isMissingResponse
+                    ? tmpMap.set(response.responseId, response)
+                    : missingRespMap.set(response.responseId, response));
+            this.questionsModel[questionId].statistics = QuestionStatistics.appendStats(
+                this.questionsModel[questionId].statistics,
+                responses.questionStatistics);
+
+            this.preprocessComments(responses.allResponses);
           },
           complete: () => {
             tmpMap.forEach((response: ResponseOutput) =>
