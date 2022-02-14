@@ -34,6 +34,7 @@
 * Getting Started :expanded:
   * [Setting Up]({{ baseUrl }}/setting-up.html)
   * [Search]({{ baseUrl }}/search.html)
+  * [Documentation]({{ baseUrl }}/documentation.html)
 * Workflow :expanded:
   * [Contributing]({{ baseUrl }}/contributing.html)
   * [Issues]({{ baseUrl }}/issues.html)
