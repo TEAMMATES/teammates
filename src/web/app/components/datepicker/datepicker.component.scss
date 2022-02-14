@@ -8,3 +8,9 @@
   cursor: pointer;
   outline: none;
 }
+
+.form-control {
+    &[readonly] {
+    background-color: transparent;
+    }
+}
