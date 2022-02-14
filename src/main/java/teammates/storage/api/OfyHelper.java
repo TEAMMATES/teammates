@@ -18,6 +18,7 @@ import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
+import teammates.storage.entity.Notification;
 import teammates.storage.entity.StudentProfile;
 
 /**
@@ -47,6 +48,7 @@ public class OfyHelper implements ServletContextListener {
         ObjectifyService.register(Instructor.class);
         ObjectifyService.register(StudentProfile.class);
         ObjectifyService.register(AccountRequest.class);
+        ObjectifyService.register(Notification.class);
         // enable the ability to use java.time.Instant to issue query
         ObjectifyService.factory().getTranslators().add(new BaseEntity.InstantTranslatorFactory());
     }
