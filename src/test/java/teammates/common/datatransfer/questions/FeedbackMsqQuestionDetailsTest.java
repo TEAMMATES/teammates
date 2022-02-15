@@ -217,8 +217,8 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
     }
 
     @Test
-    public void testIsFeedbackParticipantCommentsOnResponsesAllowed_shouldReturnFalse() {
+    public void testIsFeedbackParticipantCommentsOnResponsesAllowed_shouldReturnTrue() {
         FeedbackQuestionDetails feedbackQuestionDetails = new FeedbackMsqQuestionDetails();
-        assertFalse(feedbackQuestionDetails.isFeedbackParticipantCommentsOnResponsesAllowed());
+        assertTrue(feedbackQuestionDetails.isFeedbackParticipantCommentsOnResponsesAllowed());
     }
 }

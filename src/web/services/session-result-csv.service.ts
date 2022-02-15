@@ -111,9 +111,10 @@ export class SessionResultCsvService {
       question.allResponses = question.allResponses.filter((response: ResponseOutput) => !response.isMissingResponse);
     }
 
+    const questionSpecificHeaders: string[] = this.getQuestionSpecificHeaders(question.feedbackQuestion);
     const header: string[] = ['Team', "Giver's Name", "Giver's Email", "Recipient's Team",
       "Recipient's Name", "Recipient's Email",
-      ...this.getQuestionSpecificHeaders(question.feedbackQuestion)];
+      ...questionSpecificHeaders];
 
     const isParticipantCommentsOnResponsesAllowed: boolean =
         this.getIsParticipantCommentsOnResponsesAllowed(question.feedbackQuestion);
@@ -155,6 +156,13 @@ export class SessionResultCsvService {
       } else {
         responseAnswers = this.getResponseAnswers(response, question.feedbackQuestion);
       }
+
+      // Pad responseAnswers so that responseAnswers and questionSpecificHeaders
+      // are always the same length.
+      const responseAnswersPadding: string[] =
+          Array(questionSpecificHeaders.length - responseAnswers[0].length).fill('');
+      responseAnswers[0] = responseAnswers[0].concat(responseAnswersPadding);
+
       for (const responseAnswer of responseAnswers) {
         const currRow: string[] = [giverTeamName, giverName, giverEmail,
           recipientTeamName, recipientName, recipientEmail, ...responseAnswer];
