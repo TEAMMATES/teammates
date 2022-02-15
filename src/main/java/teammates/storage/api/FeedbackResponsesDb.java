@@ -326,23 +326,21 @@ public final class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, Feed
     }
 
     private Collection<FeedbackResponse> getFeedbackResponseEntitiesForQuestionInSection(
-                String feedbackQuestionId, String section, FeedbackResultFetchType fetchType) {
-        List<FeedbackResponse> allResponses = new ArrayList<>();
+            String feedbackQuestionId, String section, FeedbackResultFetchType fetchType) {
+        Map<String, FeedbackResponse> allResponses = new HashMap<>();
 
         if (fetchType.shouldFetchByGiver()) {
-            allResponses.addAll(load()
-                    .filter("feedbackQuestionId =", feedbackQuestionId)
+            load().filter("feedbackQuestionId =", feedbackQuestionId)
                     .filter("giverSection =", section)
-                    .list());
+                    .forEach(resp -> allResponses.put(resp.getId(), resp));
         }
         if (fetchType.shouldFetchByReceiver()) {
-            allResponses.addAll(load()
-                    .filter("feedbackQuestionId =", feedbackQuestionId)
+            load().filter("feedbackQuestionId =", feedbackQuestionId)
                     .filter("receiverSection =", section)
-                    .list());
+                    .forEach(resp -> allResponses.put(resp.getId(), resp));
         }
 
-        return removeDuplicates(allResponses);
+        return allResponses.values();
     }
 
     private List<FeedbackResponse> getFeedbackResponseEntitiesForQuestion(String feedbackQuestionId) {
