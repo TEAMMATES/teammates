@@ -207,6 +207,16 @@ describe('SessionSubmissionPageComponent', () => {
       questionType: FeedbackQuestionType.MSQ,
     } as FeedbackMsqResponseDetails,
     isValid: true,
+    commentByGiver: {
+      originalComment: testComment,
+      commentEditFormModel: {
+        commentText: 'comment text',
+        isUsingCustomVisibilities: false,
+        showCommentTo: [CommentVisibilityType.GIVER, CommentVisibilityType.RECIPIENT],
+        showGiverNameTo: [CommentVisibilityType.GIVER, CommentVisibilityType.RECIPIENT],
+      },
+      isEditing: false,
+    },
   };
 
   const testNumscaleRecipientSubmissionForm: FeedbackResponseRecipientSubmissionFormModel = {
@@ -1077,8 +1087,8 @@ describe('SessionSubmissionPageComponent', () => {
   });
 
   it('should delete participant comment', () => {
-    const testSubmissionForm: QuestionSubmissionFormModel = deepCopy(testMcqQuestionSubmissionForm);
-    const expectedId: any = testMcqQuestionSubmissionForm.recipientSubmissionForms[0]
+    const testSubmissionForm: QuestionSubmissionFormModel = deepCopy(testMsqQuestionSubmissionForm);
+    const expectedId: any = testMsqQuestionSubmissionForm.recipientSubmissionForms[0]
         .commentByGiver?.originalComment?.feedbackResponseCommentId;
     const commentSpy: Spy = spyOn(feedbackResponseCommentService, 'deleteComment').and.returnValue(of(true));
 

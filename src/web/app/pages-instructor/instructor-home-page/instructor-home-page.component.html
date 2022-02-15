@@ -96,7 +96,8 @@
                 (publishSessionEvent)="publishSessionEventHandler(idx, $event)" (unpublishSessionEvent)="unpublishSessionEventHandler(idx, $event)"
                 (downloadSessionResultsEvent)="downloadSessionResultEventHandler(idx, $event)"
                 (resendResultsLinkToStudentsEvent)="resendResultsLinkToRespondentsEventHandler(courseTabModel.sessionsTableRowModels[$event])"
-                (sendRemindersToStudentsEvent)="sendRemindersToRespondentsEventHandler(courseTabModel.sessionsTableRowModels[$event])"></tm-sessions-table>
+                (sendRemindersToAllNonSubmittersEvent)="sendRemindersToRespondentsEventHandler(courseTabModel.sessionsTableRowModels[$event], true)"
+                (sendRemindersToSelectedNonSubmittersEvent)="sendRemindersToRespondentsEventHandler(courseTabModel.sessionsTableRowModels[$event], false)"></tm-sessions-table>
           </tm-loading-retry>
         </div>
       </div>
