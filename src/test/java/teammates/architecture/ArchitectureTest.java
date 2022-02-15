@@ -292,6 +292,7 @@ public class ArchitectureTest {
                     public boolean apply(JavaClass input) {
                         return input.getPackageName().startsWith(STORAGE_PACKAGE)
                                 && !"OfyHelper".equals(input.getSimpleName())
+                                && !"AccountRequestSearchManager".equals(input.getSimpleName())
                                 && !"InstructorSearchManager".equals(input.getSimpleName())
                                 && !"StudentSearchManager".equals(input.getSimpleName())
                                 && !"SearchManagerFactory".equals(input.getSimpleName());
@@ -468,6 +469,7 @@ public class ArchitectureTest {
     @Test
     public void testArchitecture_externalApi_solrApiCanOnlyBeAccessedBySearchManagerClasses() {
         noClasses().that().doNotHaveSimpleName("SearchManager")
+                .and().doNotHaveSimpleName("AccountRequestSearchManager")
                 .and().doNotHaveSimpleName("InstructorSearchManager")
                 .and().doNotHaveSimpleName("StudentSearchManager")
                 .should().accessClassesThat().resideInAPackage("org.apache.solr..")

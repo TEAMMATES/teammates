@@ -127,6 +127,13 @@ public class TestDataValidityTest extends BaseTestCase {
                                 .add("Invalid response recipient email: " + response.getRecipient());
                     }
                 });
+
+                dataBundle.accountRequests.forEach((id, accountRequest) -> {
+                    if (!isValidTestEmail(accountRequest.getEmail())) {
+                        errors.computeIfAbsent(pathString, k -> new ArrayList<>())
+                                .add("Invalid account request email: " + accountRequest.getEmail());
+                    }
+                });
             });
         }
 
