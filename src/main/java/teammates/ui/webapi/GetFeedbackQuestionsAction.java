@@ -6,7 +6,6 @@ import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.ui.output.FeedbackQuestionData;
@@ -62,33 +61,29 @@ class GetFeedbackQuestionsAction extends BasicFeedbackSubmissionAction {
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
 
         List<FeedbackQuestionAttributes> questions;
-        try {
-            switch (intent) {
-            case STUDENT_SUBMISSION:
-                questions = logic.getFeedbackQuestionsForStudents(feedbackSessionName, courseId);
-                StudentAttributes studentAttributes = getStudentOfCourseFromRequest(courseId);
-                questions.forEach(question ->
-                        logic.populateFieldsToGenerateInQuestion(question,
-                                studentAttributes.getEmail(), studentAttributes.getTeam()));
-                break;
-            case INSTRUCTOR_SUBMISSION:
-                InstructorAttributes instructor = getInstructorOfCourseFromRequest(courseId);
-                questions = logic.getFeedbackQuestionsForInstructors(feedbackSessionName, courseId, instructor.getEmail());
-                questions.forEach(question ->
-                        logic.populateFieldsToGenerateInQuestion(question,
-                                instructor.getEmail(), null));
-                break;
-            case FULL_DETAIL:
-            case INSTRUCTOR_RESULT:
-                questions = logic.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
-                break;
-            case STUDENT_RESULT:
-                throw new InvalidHttpParameterException("Invalid intent for this action");
-            default:
-                throw new InvalidHttpParameterException("Unknown intent " + intent);
-            }
-        } catch (EntityDoesNotExistException e) {
-            throw new EntityNotFoundException(e);
+        switch (intent) {
+        case STUDENT_SUBMISSION:
+            questions = logic.getFeedbackQuestionsForStudents(feedbackSessionName, courseId);
+            StudentAttributes studentAttributes = getStudentOfCourseFromRequest(courseId);
+            questions.forEach(question ->
+                    logic.populateFieldsToGenerateInQuestion(question,
+                            studentAttributes.getEmail(), studentAttributes.getTeam()));
+            break;
+        case INSTRUCTOR_SUBMISSION:
+            InstructorAttributes instructor = getInstructorOfCourseFromRequest(courseId);
+            questions = logic.getFeedbackQuestionsForInstructors(feedbackSessionName, courseId, instructor.getEmail());
+            questions.forEach(question ->
+                    logic.populateFieldsToGenerateInQuestion(question,
+                            instructor.getEmail(), null));
+            break;
+        case FULL_DETAIL:
+        case INSTRUCTOR_RESULT:
+            questions = logic.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
+            break;
+        case STUDENT_RESULT:
+            throw new InvalidHttpParameterException("Invalid intent for this action");
+        default:
+            throw new InvalidHttpParameterException("Unknown intent " + intent);
         }
 
         String moderatedPerson = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON);
