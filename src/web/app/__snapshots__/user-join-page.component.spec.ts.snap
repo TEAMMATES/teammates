@@ -15,6 +15,7 @@ exports[`UserJoinPageComponent should snap if user is not logged in and has a va
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
   router={[Function Router]}
+  timezoneService={[Function TimezoneService]}
   userId=""
   validUrl={[Function Boolean]}
 >
@@ -60,6 +61,7 @@ exports[`UserJoinPageComponent should snap with default fields 1`] = `
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
   router={[Function Router]}
+  timezoneService={[Function TimezoneService]}
   userId=""
   validUrl={[Function Boolean]}
 >
@@ -96,6 +98,7 @@ exports[`UserJoinPageComponent should snap with invalid course join link 1`] = `
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
   router={[Function Router]}
+  timezoneService={[Function TimezoneService]}
   userId={[Function String]}
   validUrl="false"
 >
@@ -143,6 +146,7 @@ exports[`UserJoinPageComponent should snap with valid course join link that has 
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
   router={[Function Router]}
+  timezoneService={[Function TimezoneService]}
   userId={[Function String]}
   validUrl={[Function Boolean]}
 >
@@ -190,6 +194,7 @@ exports[`UserJoinPageComponent should snap with valid course join link that has 
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
   router={[Function Router]}
+  timezoneService={[Function TimezoneService]}
   userId={[Function String]}
   validUrl={[Function Boolean]}
 >

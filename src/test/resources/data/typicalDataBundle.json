@@ -1816,9 +1816,15 @@
       "registeredAt": "1970-02-14T00:00:00Z"
     },
     "unregisteredInstructor1": {
+      "name": "Unregistered Instructor 1",
       "email": "unregisteredinstructor1@gmail.tmt",
       "institute": "TEAMMATES Test Institute 1",
-      "name": "Typical Instructor Name",
+      "createdAt": "2011-01-01T00:00:00Z"
+    },
+    "unregisteredInstructor2": {
+      "name": "Unregistered Instructor 2",
+      "email": "unregisteredinstructor2@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 2",
       "createdAt": "2011-01-01T00:00:00Z"
     }
   }

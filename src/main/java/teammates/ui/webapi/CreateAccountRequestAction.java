@@ -43,6 +43,8 @@ class CreateAccountRequestAction extends AdminOnlyAction {
                 instructorEmail, instructorName, joinLink);
         emailSender.sendEmail(email);
 
+        taskQueuer.scheduleAccountRequestForSearchIndexing(instructorEmail, instructorInstitution);
+
         JoinLinkData output = new JoinLinkData(joinLink);
         return new JsonResult(output);
     }

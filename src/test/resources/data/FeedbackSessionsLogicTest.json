@@ -939,13 +939,16 @@
       "recipientType": "TEAMS",
       "numberOfEntitiesToGiveFeedbackTo": 2,
       "showResponsesTo": [
-        "RECEIVER"
+        "RECEIVER",
+        "INSTRUCTORS"
       ],
       "showGiverNameTo": [
-        "RECEIVER"
+        "RECEIVER",
+        "INSTRUCTORS"
       ],
       "showRecipientNameTo": [
-        "RECEIVER"
+        "RECEIVER",
+        "INSTRUCTORS"
       ]
     },
     "team.members.feedback": {
