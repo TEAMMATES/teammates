@@ -2,6 +2,7 @@
 
 exports[`AdminSearchPageComponent should snap with a search key 1`] = `
 <tm-admin-search-page
+  accountRequests={[Function Array]}
   accountService={[Function AccountService]}
   emailGenerationService={[Function EmailGenerationService]}
   instructorService={[Function InstructorService]}
@@ -49,8 +50,177 @@ exports[`AdminSearchPageComponent should snap with a search key 1`] = `
 </tm-admin-search-page>
 `;
 
+exports[`AdminSearchPageComponent should snap with an expanded account requests table 1`] = `
+<tm-admin-search-page
+  accountRequests={[Function Array]}
+  accountService={[Function AccountService]}
+  emailGenerationService={[Function EmailGenerationService]}
+  instructorService={[Function InstructorService]}
+  instructors={[Function Array]}
+  loadingBarService={[Function LoadingBarService]}
+  searchQuery=""
+  searchService={[Function SearchService]}
+  simpleModalService={[Function SimpleModalService]}
+  statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
+  students={[Function Array]}
+>
+  <div
+    class="card bg-light top-padded"
+  >
+    <div
+      class="card-body"
+    >
+      <p
+        class="text-muted"
+      >
+         Tips: Surround key word to search a whole string or string contains punctuation like "-" "." 
+      </p>
+      <div
+        class="input-group"
+      >
+        <input
+          class="form-control ng-untouched ng-pristine ng-valid"
+          id="search-box"
+          type="text"
+        />
+        <div
+          class="input-group-append"
+        >
+          <button
+            class="btn btn-primary"
+            id="search-button"
+          >
+            Search
+          </button>
+        </div>
+      </div>
+    </div>
+  </div><div
+    class="card bg-light top-padded"
+  >
+    <div
+      class="card-header bg-primary text-white"
+    >
+      <strong>
+        Account Requests Found
+      </strong>
+      <div
+        class="card-header-btn-toolbar"
+      >
+        <button
+          class="btn btn-light btn-sm"
+          id="show-account-request-links"
+          style="margin-right: 10px;"
+          type="button"
+        >
+          Expand All
+        </button>
+        <button
+          class="btn btn-light btn-sm"
+          id="hide-account-request-links"
+          type="button"
+        >
+          Collapse All
+        </button>
+      </div>
+    </div>
+    <div
+      class="table-responsive"
+    >
+      <table
+        class="table table-striped data-table"
+        id="search-table-account-request"
+      >
+        <thead>
+          <tr>
+            <th>
+              Name
+            </th>
+            <th>
+              Email
+            </th>
+            <th>
+              Institute
+            </th>
+            <th>
+              Created At
+            </th>
+            <th>
+              Registered At
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          
+          
+          <tr>
+            <td>
+               name 
+              <br />
+              <div
+                class="col-sm-1"
+              >
+                
+                
+                <button
+                  class="btn"
+                >
+                  <i
+                    class="fas fa-chevron-circle-up"
+                    style="color: blue;"
+                  />
+                </button>
+              </div>
+            </td>
+            <td>
+              email
+            </td>
+            <td>
+              institute
+            </td>
+            <td>
+              Tue, 08 Feb 2022, 08:23 AM +00:00
+            </td>
+            <td>
+              Not Registered Yet
+            </td>
+          </tr>
+          
+          <tr>
+            <td
+              colspan="6"
+            >
+              
+              <ul
+                class="list-group ng-trigger ng-trigger-collapseAnim ng-animating"
+                style=""
+              >
+                <li
+                  class="list-group-item list-group-item-info"
+                >
+                  <strong>
+                    Account Registration Link
+                  </strong>
+                  <input
+                    class="form-control"
+                    readonly=""
+                  />
+                </li>
+              </ul>
+            </td>
+          </tr>
+          
+        </tbody>
+      </table>
+    </div>
+  </div>
+</tm-admin-search-page>
+`;
+
 exports[`AdminSearchPageComponent should snap with an expanded instructor table 1`] = `
 <tm-admin-search-page
+  accountRequests={[Function Array]}
   accountService={[Function AccountService]}
   emailGenerationService={[Function EmailGenerationService]}
   instructorService={[Function InstructorService]}
@@ -252,6 +422,54 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
                     readonly=""
                   />
                 </li>
+                
+                <li
+                  class="list-group-item list-group-item-light"
+                >
+                  <strong>
+                    sessionName startTime - endTime
+                  </strong>
+                  <input
+                    class="form-control"
+                    readonly=""
+                  />
+                </li>
+                
+                <li
+                  class="list-group-item list-group-item-warning"
+                >
+                  <strong>
+                    sessionName startTime - endTime
+                  </strong>
+                  <input
+                    class="form-control"
+                    readonly=""
+                  />
+                </li>
+                
+                <li
+                  class="list-group-item list-group-item-danger"
+                >
+                  <strong>
+                    sessionName startTime - endTime
+                  </strong>
+                  <input
+                    class="form-control"
+                    readonly=""
+                  />
+                </li>
+                
+                <li
+                  class="list-group-item list-group-item-success"
+                >
+                  <strong>
+                    sessionName startTime - endTime
+                  </strong>
+                  <input
+                    class="form-control"
+                    readonly=""
+                  />
+                </li>
               </ul>
             </td>
           </tr>
@@ -265,6 +483,7 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
 
 exports[`AdminSearchPageComponent should snap with an expanded student table 1`] = `
 <tm-admin-search-page
+  accountRequests={[Function Array]}
   accountService={[Function AccountService]}
   emailGenerationService={[Function EmailGenerationService]}
   instructorService={[Function InstructorService]}
@@ -573,6 +792,7 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
 
 exports[`AdminSearchPageComponent should snap with default fields 1`] = `
 <tm-admin-search-page
+  accountRequests={[Function Array]}
   accountService={[Function AccountService]}
   emailGenerationService={[Function EmailGenerationService]}
   instructorService={[Function InstructorService]}

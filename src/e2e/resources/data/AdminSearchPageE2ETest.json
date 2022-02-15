@@ -83,7 +83,7 @@
       "googleId": "tm.e2e.ASearch.student1",
       "email": "ASearch.student1@gmail.tmt",
       "course": "tm.e2e.ASearch.course1",
-      "name": "Student1 in course1",
+      "name": "Student1 in Course1",
       "comments": "comment for student1InCourse1",
       "team": "Team 1.1",
       "section": "Section 1"
@@ -131,6 +131,28 @@
     "isOpeningEmailEnabled": true,
     "isClosingEmailEnabled": true,
     "isPublishedEmailEnabled": true
+    }
+  },
+  "accountRequests": {
+    "instructor1OfCourse1": {
+      "name": "Instructor1 of Course1",
+      "email": "ASearch.instructor1@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1",
+      "createdAt": "2011-01-01T00:00:00Z",
+      "registeredAt": "1970-02-14T00:00:00Z"
+    },
+    "instructor2OfCourse1": {
+      "name": "Instructor2 of Course1",
+      "email": "ASearch.instructor2@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1",
+      "createdAt": "2011-01-01T00:00:00Z",
+      "registeredAt": "1970-02-14T00:00:00Z"
+    },
+    "unregisteredInstructor1": {
+      "name": "Typical Instructor Name",
+      "email": "ASearch.unregisteredinstructor1@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1",
+      "createdAt": "2011-01-01T00:00:00Z"
     }
   }
 }

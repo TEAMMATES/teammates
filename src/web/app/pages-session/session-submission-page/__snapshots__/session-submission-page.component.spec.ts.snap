@@ -9,6 +9,7 @@ exports[`SessionSubmissionPageComponent should snap when feedback session questi
   commentService={[Function FeedbackResponseCommentService]}
   courseId={[Function String]}
   document={[Function Document]}
+  entityType={[Function String]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackResponsesService={[Function FeedbackResponsesService]}
   feedbackSessionInstructions=""
@@ -140,6 +141,7 @@ exports[`SessionSubmissionPageComponent should snap when saving responses 1`] = 
   commentService={[Function FeedbackResponseCommentService]}
   courseId={[Function String]}
   document={[Function Document]}
+  entityType={[Function String]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackResponsesService={[Function FeedbackResponsesService]}
   feedbackSessionInstructions=""
@@ -270,6 +272,7 @@ exports[`SessionSubmissionPageComponent should snap with default fields 1`] = `
   commentService={[Function FeedbackResponseCommentService]}
   courseId={[Function String]}
   document={[Function Document]}
+  entityType={[Function String]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackResponsesService={[Function FeedbackResponsesService]}
   feedbackSessionInstructions=""
@@ -400,6 +403,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
   commentService={[Function FeedbackResponseCommentService]}
   courseId={[Function String]}
   document={[Function Document]}
+  entityType={[Function String]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackResponsesService={[Function FeedbackResponsesService]}
   feedbackSessionInstructions={[Function String]}
@@ -626,6 +630,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   commentService={[Function FeedbackResponseCommentService]}
   courseId={[Function String]}
   document={[Function Document]}
+  entityType={[Function String]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackResponsesService={[Function FeedbackResponsesService]}
   feedbackSessionInstructions=""
@@ -1904,6 +1909,82 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     
                   </div>
                   
+                  <div
+                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    id="comment-section"
+                  >
+                    
+                    <div>
+                      <tm-comment-row>
+                        
+                        
+                        <div
+                          class="card"
+                        >
+                          <div
+                            class="card-body"
+                          >
+                            <div
+                              class="row comment-row"
+                            >
+                              <div
+                                class="col-12"
+                              >
+                                
+                                <span
+                                  class="text-secondary"
+                                  id="by-response-giver"
+                                >
+                                   Comment by response giver. 
+                                </span>
+                                
+                                <i
+                                  aria-hidden="true"
+                                  class="fa fa-eye"
+                                />
+                                <div
+                                  class="float-right"
+                                >
+                                  
+                                  <button
+                                    class="btn btn-outline-primary btn-sm"
+                                    id="btn-edit-comment"
+                                    ngbtooltip="Edit this comment"
+                                    type="button"
+                                  >
+                                    <i
+                                      class="fas fa-pencil-alt"
+                                    />
+                                  </button>
+                                  
+                                  
+                                  <button
+                                    class="btn btn-outline-primary btn-sm btn-margin-left"
+                                    id="btn-delete-comment"
+                                    ngbtooltip="Delete this comment"
+                                    type="button"
+                                  >
+                                    <i
+                                      class="fas fa-trash"
+                                    />
+                                  </button>
+                                  
+                                </div>
+                              </div>
+                              <div
+                                class="col-12"
+                                id="comment-text"
+                              >
+                                comment text
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </tm-comment-row>
+                      
+                    </div>
+                    
+                  </div>
                 </div>
               </div>
             </div>
@@ -3494,6 +3575,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   commentService={[Function FeedbackResponseCommentService]}
   courseId={[Function String]}
   document={[Function Document]}
+  entityType={[Function String]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackResponsesService={[Function FeedbackResponsesService]}
   feedbackSessionInstructions=""
@@ -4788,6 +4870,84 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     
                   </div>
                   
+                  <div
+                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    id="comment-section"
+                  >
+                    
+                    <div>
+                      <tm-comment-row>
+                        
+                        
+                        <div
+                          class="card"
+                        >
+                          <div
+                            class="card-body"
+                          >
+                            <div
+                              class="row comment-row"
+                            >
+                              <div
+                                class="col-12"
+                              >
+                                
+                                <span
+                                  class="text-secondary"
+                                  id="by-response-giver"
+                                >
+                                   Comment by response giver. 
+                                </span>
+                                
+                                <i
+                                  aria-hidden="true"
+                                  class="fa fa-eye"
+                                />
+                                <div
+                                  class="float-right"
+                                >
+                                  
+                                  <button
+                                    class="btn btn-outline-primary btn-sm"
+                                    disabled=""
+                                    id="btn-edit-comment"
+                                    ngbtooltip="Edit this comment"
+                                    type="button"
+                                  >
+                                    <i
+                                      class="fas fa-pencil-alt"
+                                    />
+                                  </button>
+                                  
+                                  
+                                  <button
+                                    class="btn btn-outline-primary btn-sm btn-margin-left"
+                                    disabled=""
+                                    id="btn-delete-comment"
+                                    ngbtooltip="Delete this comment"
+                                    type="button"
+                                  >
+                                    <i
+                                      class="fas fa-trash"
+                                    />
+                                  </button>
+                                  
+                                </div>
+                              </div>
+                              <div
+                                class="col-12"
+                                id="comment-text"
+                              >
+                                comment text
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </tm-comment-row>
+                      
+                    </div>
+                    
+                  </div>
                 </div>
               </div>
             </div>
@@ -6387,6 +6547,7 @@ exports[`SessionSubmissionPageComponent should snap with user that is logged in 
   commentService={[Function FeedbackResponseCommentService]}
   courseId={[Function String]}
   document={[Function Document]}
+  entityType={[Function String]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackResponsesService={[Function FeedbackResponsesService]}
   feedbackSessionInstructions=""
@@ -6517,6 +6678,7 @@ exports[`SessionSubmissionPageComponent should snap with user that is not logged
   commentService={[Function FeedbackResponseCommentService]}
   courseId={[Function String]}
   document={[Function Document]}
+  entityType={[Function String]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackResponsesService={[Function FeedbackResponsesService]}
   feedbackSessionInstructions=""
