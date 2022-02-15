@@ -953,7 +953,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         assertTrue(completeGiverRecipientMap.get("Team 1.2").contains("Team 1.1</td></div>'\""));
     }
 
-    private void testGetFeedbackQuestionsForInstructor() throws Exception {
+    private void testGetFeedbackQuestionsForInstructor() {
         List<FeedbackQuestionAttributes> expectedQuestions;
         List<FeedbackQuestionAttributes> actualQuestions;
         List<FeedbackQuestionAttributes> allQuestions;
@@ -964,9 +964,8 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         expectedQuestions.add(getQuestionFromDatabase("qn3InSession1InCourse1"));
         expectedQuestions.add(getQuestionFromDatabase("qn4InSession1InCourse1"));
         expectedQuestions.add(getQuestionFromDatabase("qn5InSession1InCourse1"));
-        actualQuestions =
-                fqLogic.getFeedbackQuestionsForInstructor("First feedback session", "idOfTypicalCourse1",
-                                                          "instructor1@course1.tmt");
+        actualQuestions = fqLogic.getFeedbackQuestionsForInstructors(
+                "First feedback session", "idOfTypicalCourse1", "instructor1@course1.tmt");
 
         assertEquals(actualQuestions, expectedQuestions);
 
@@ -974,9 +973,8 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
         expectedQuestions = new ArrayList<>();
         expectedQuestions.add(getQuestionFromDatabase("qn4InSession1InCourse1"));
-        actualQuestions =
-                fqLogic.getFeedbackQuestionsForInstructor("First feedback session", "idOfTypicalCourse1",
-                                                          "instructor2@course1.tmt");
+        actualQuestions = fqLogic.getFeedbackQuestionsForInstructors(
+                "First feedback session", "idOfTypicalCourse1", "instructor2@course1.tmt");
 
         assertEquals(actualQuestions, expectedQuestions);
 
@@ -986,42 +984,17 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         expectedQuestions.add(getQuestionFromDatabase("qn1InSession1InCourse2"));
         expectedQuestions.add(getQuestionFromDatabase("qn2InSession1InCourse2"));
 
-        actualQuestions =
-                fqLogic.getFeedbackQuestionsForInstructor("Instructor feedback session", "idOfTypicalCourse2",
-                                                          "instructor1@course2.tmt");
-
-        assertEquals(actualQuestions, expectedQuestions);
-
-        ______TS("Get questions for creator instructor, verifies that the two methods return the same questions");
-        expectedQuestions = new ArrayList<>(actualQuestions);
-        actualQuestions =
-                fqLogic.getFeedbackQuestionsForCreatorInstructor("Instructor feedback session", "idOfTypicalCourse2");
+        actualQuestions = fqLogic.getFeedbackQuestionsForInstructors(
+                "Instructor feedback session", "idOfTypicalCourse2", "instructor1@course2.tmt");
 
         assertEquals(actualQuestions, expectedQuestions);
 
         ______TS("Get questions created for instructors not by the creating instructor");
 
-        actualQuestions =
-                fqLogic.getFeedbackQuestionsForInstructor("Instructor feedback session", "idOfTypicalCourse2",
-                                                          "instructor2@course2.tmt");
+        actualQuestions = fqLogic.getFeedbackQuestionsForInstructors(
+                "Instructor feedback session", "idOfTypicalCourse2", "instructor2@course2.tmt");
 
         assertEquals(actualQuestions, expectedQuestions);
-
-        ______TS("Get questions created for instructors by non-instructor of the course");
-
-        expectedQuestions = new ArrayList<>();
-        actualQuestions =
-                fqLogic.getFeedbackQuestionsForInstructor("Instructor feedback session", "idOfTypicalCourse2",
-                                                          "iwc@yahoo.tmt");
-
-        assertEquals(actualQuestions, expectedQuestions);
-
-        ______TS("Failure: Getting questions for a non-existent session");
-
-        EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
-                () -> fqLogic.getFeedbackQuestionsForInstructor(
-                        "Instructor feedback session", "idOfTypicalCourse1", "instructor1@course1.tmt"));
-        assertEquals("Trying to get questions for a feedback session that does not exist.", ednee.getMessage());
 
         ______TS("Get questions created for self from list of all questions");
 
@@ -1033,7 +1006,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         expectedQuestions = new ArrayList<>();
         expectedQuestions.add(getQuestionFromDatabase("qn3InSession1InCourse1"));
 
-        actualQuestions = fqLogic.getFeedbackQuestionsForInstructor(allQuestions, true);
+        actualQuestions = fqLogic.getFeedbackQuestionsForInstructors(allQuestions, true);
 
         assertEquals(actualQuestions, expectedQuestions);
     }

@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
 import { AdminHomePageComponent } from './admin-home-page.component';
+import { NewInstructorDataRowComponent } from './new-instructor-data-row/new-instructor-data-row.component';
 
 const routes: Routes = [
   {
@@ -18,6 +19,7 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     AdminHomePageComponent,
+    NewInstructorDataRowComponent,
   ],
   exports: [
     AdminHomePageComponent,
