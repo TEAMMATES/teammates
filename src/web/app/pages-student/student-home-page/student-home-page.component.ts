@@ -92,12 +92,12 @@ export class StudentHomePageComponent implements OnInit {
       }
       for (const course of resp.courses) {
         this.feedbackSessionsService.getFeedbackSessionsForStudent('student', course.courseId)
-          .pipe(finalize(() => this.isCoursesLoading = false))
           .subscribe((fss: FeedbackSessions) => {
             const sortedFss: FeedbackSession[] = this.sortFeedbackSessions(fss);
 
             const studentSessions: StudentSession[] = [];
             this.feedbackSessionsService.hasStudentResponseForAllFeedbackSessionsInCourse(course.courseId)
+              .pipe(finalize(() => this.isCoursesLoading = false))
               .subscribe((hasRes: HasResponses) => {
                 if (!hasRes.hasResponsesBySession) {
                   this.statusMessageService.showErrorToast(this.allStudentFeedbackSessionsNotReturned);
