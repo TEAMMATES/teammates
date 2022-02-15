@@ -5,6 +5,11 @@ package teammates.common.util;
  */
 public class EmailWrapper {
 
+    /**
+     * Prefix appended to the subject if the email is set as a copy.
+     */
+    public static final String EMAIL_COPY_SUBJECT_PREFIX = "[Email Copy] ";
+
     private EmailType type;
     private String senderName;
     private String senderEmail;
@@ -13,6 +18,7 @@ public class EmailWrapper {
     private String bcc;
     private String subject;
     private String content;
+    private boolean isCopy;
 
     public EmailType getType() {
         return type;
@@ -78,6 +84,9 @@ public class EmailWrapper {
         if (type != null) {
             this.subject = String.format(type.getSubject(), params);
         }
+        if (isCopy) {
+            this.subject = EMAIL_COPY_SUBJECT_PREFIX + this.subject;
+        }
     }
 
     public String getContent() {
@@ -86,6 +95,14 @@ public class EmailWrapper {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public boolean getIsCopy() {
+        return isCopy;
+    }
+
+    public void setIsCopy(boolean isCopy) {
+        this.isCopy = isCopy;
     }
 
     public String getInfoForLogging() {
