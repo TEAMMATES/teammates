@@ -1,0 +1,30 @@
+<td>
+  <span *ngIf="!isBeingEdited" id="instructor-{{ index }}-name">{{ instructor.name }}</span>
+  <input *ngIf="isBeingEdited" class="form-control" type="text" id="instructor-{{ index }}-name-input" [(ngModel)]="editedInstructorName">
+</td>
+<td>
+  <span *ngIf="!isBeingEdited" id="instructor-{{ index }}-email">{{ instructor.email }}</span>
+  <input *ngIf="isBeingEdited" class="form-control" type="text" id="instructor-{{ index }}-email-input" [(ngModel)]="editedInstructorEmail">
+</td>
+<td>
+  <span *ngIf="!isBeingEdited" id="instructor-{{ index }}-institution">{{ instructor.institution }}</span>
+  <input *ngIf="isBeingEdited" class="form-control" type="text" id="instructor-{{ index }}-institution-input" [(ngModel)]="editedInstructorInstitution">
+</td>
+<td style="width: 17%;">
+  <div class="button-group" *ngIf="isBeingEdited && (instructor.status === 'PENDING' || instructor.status === 'FAIL')">
+    <button class="action-btn btn btn-sm btn-primary text-nowrap" id="confirm-edit-instructor-{{ index }}" style="margin-right: 10px;" (click)="confirmEditInstructor()">Confirm</button>
+    <button class="action-btn btn btn-sm btn-danger text-nowrap" id="cancel-edit-instructor-{{ index }}" style="margin-right: 10px;" (click)="cancelEditInstructor()">Cancel</button>
+  </div>
+  <div class="button-group" *ngIf="!isBeingEdited && (instructor.status === 'PENDING' || instructor.status === 'FAIL')">
+    <button class="action-btn btn btn-sm btn-primary text-nowrap" id="add-instructor-{{ index }}" style="margin-right: 10px;" (click)="addInstructor()" [disabled]="isAddDisabled">Add</button>
+    <button class="action-btn btn btn-sm btn-info text-nowrap" id="edit-instructor-{{ index }}" style="margin-right: 10px;" (click)="editInstructor()">Edit</button>
+    <button class="action-btn btn btn-sm btn-danger" id="remove-instructor-{{ index }}" (click)="removeInstructor()">Remove</button>
+  </div>
+</td>
+<td style="width: 8%;">{{ instructor.status }}</td>
+<td style="width: 40%;">
+  <span *ngIf="instructor.status === 'SUCCESS'" id="message-instructor-{{ index }}">
+    Instructor "{{ instructor.name }}" has been successfully created. [<a href="{{ instructor.joinLink }}">join link</a>]
+  </span>
+  <span class="message" *ngIf="instructor.status === 'FAIL'" id="message-instructor-{{ index }}">{{ instructor.message }}</span>
+</td>
