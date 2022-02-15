@@ -7,6 +7,7 @@ import { AccountService } from '../services/account.service';
 import { AuthService } from '../services/auth.service';
 import { CourseService } from '../services/course.service';
 import { NavigationService } from '../services/navigation.service';
+import { TimezoneService } from '../services/timezone.service';
 import { LoadingSpinnerModule } from './components/loading-spinner/loading-spinner.module';
 import { UserJoinPageComponent } from './user-join-page.component';
 import Spy = jasmine.Spy;
@@ -194,6 +195,7 @@ describe('UserJoinPageComponent creating account', () => {
   let authService: AuthService;
   let accountService: AccountService;
   let courseService: CourseService;
+  let timezoneService: TimezoneService;
 
   beforeEach((() => {
     TestBed.resetTestingModule();
@@ -209,6 +211,7 @@ describe('UserJoinPageComponent creating account', () => {
         CourseService,
         AuthService,
         AccountService,
+        TimezoneService,
         {
           provide: ActivatedRoute,
           useValue: {
@@ -229,11 +232,12 @@ describe('UserJoinPageComponent creating account', () => {
     authService = TestBed.inject(AuthService);
     accountService = TestBed.inject(AccountService);
     courseService = TestBed.inject(CourseService);
+    timezoneService = TestBed.inject(TimezoneService);
     fixture.detectChanges();
   });
 
   it('should create account and join course when join course button is clicked on', () => {
-    const params: string[] = ['key'];
+    const params: string[] = ['key', 'UTC'];
     component.isLoading = false;
     component.hasJoined = false;
     component.userId = 'user';
@@ -244,6 +248,7 @@ describe('UserJoinPageComponent creating account', () => {
 
     const accountSpy: Spy = spyOn(accountService, 'createAccount').and.returnValue(of({}));
     const navSpy: Spy = spyOn(navService, 'navigateByURL');
+    spyOn(timezoneService, 'guessTimezone').and.returnValue('UTC');
 
     fixture.detectChanges();
 
