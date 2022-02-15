@@ -69,7 +69,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
 
         for (var fetchType : FeedbackResultFetchType.values()) {
             for (var section : sections) {
-                submissionParams = new String[]{
+                submissionParams = new String[] {
                         Const.ParamsNames.FEEDBACK_SESSION_NAME, accessibleFeedbackSession.getFeedbackSessionName(),
                         Const.ParamsNames.COURSE_ID, accessibleFeedbackSession.getCourseId(),
                         Const.ParamsNames.INTENT, Intent.FULL_DETAIL.name(),

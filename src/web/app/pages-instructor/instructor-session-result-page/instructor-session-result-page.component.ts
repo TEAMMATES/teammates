@@ -33,6 +33,7 @@ import {
 import { Intent } from '../../../types/api-request';
 import { CommentToCommentRowModelPipe } from '../../components/comment-box/comment-to-comment-row-model.pipe';
 import { CommentsToCommentTableModelPipe } from '../../components/comment-box/comments-to-comment-table-model.pipe';
+import { QuestionStatistics } from '../../components/question-types/question-statistics/question-statistics';
 import { StudentListInfoTableRowModel } from '../../components/sessions-table/respondent-list-info-table/respondent-list-info-table-model';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { ErrorMessageOutput } from '../../error-message-output';
@@ -40,7 +41,6 @@ import { InstructorCommentsComponent } from '../instructor-comments.component';
 import { InstructorSessionNoResponsePanelComponent } from './instructor-session-no-response-panel.component';
 import { InstructorSessionResultSectionType } from './instructor-session-result-section-type.enum';
 import { InstructorSessionResultViewType } from './instructor-session-result-view-type.enum';
-import {QuestionStatistics} from "../../components/question-types/question-statistics/question-statistics";
 
 /**
  * Per section view tab model.
@@ -305,52 +305,52 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
     of(...Object.keys(this.sectionsModel)).pipe(
         concatMap((sectionName: string) => {
           return of(this.feedbackSessionsService.getFeedbackSessionResults({
-                questionId,
-                courseId: this.session.courseId,
-                feedbackSessionName: this.session.feedbackSessionName,
-                intent: Intent.FULL_DETAIL,
-                groupBySection: sectionName,
-                sectionByGiverReceiver: 'giver',
-              }),
-              this.feedbackSessionsService.getFeedbackSessionResults({
-                questionId,
-                courseId: this.session.courseId,
-                feedbackSessionName: this.session.feedbackSessionName,
-                intent: Intent.FULL_DETAIL,
-                groupBySection: sectionName,
-                sectionByGiverReceiver: 'receiver',
-              })
-          ).pipe(concatAll())
+            questionId,
+            courseId: this.session.courseId,
+            feedbackSessionName: this.session.feedbackSessionName,
+            intent: Intent.FULL_DETAIL,
+            groupBySection: sectionName,
+            sectionByGiverReceiver: 'giver',
+          }),
+          this.feedbackSessionsService.getFeedbackSessionResults({
+            questionId,
+            courseId: this.session.courseId,
+            feedbackSessionName: this.session.feedbackSessionName,
+            intent: Intent.FULL_DETAIL,
+            groupBySection: sectionName,
+            sectionByGiverReceiver: 'receiver',
+          }),
+          ).pipe(concatAll());
         }),
     ).subscribe(
-        {
-          next: (resp: SessionResults) => {
-            if (!resp.questions.length) {
-              return
-            }
-            const responses: QuestionOutput = resp.questions[0];
-            responses.allResponses.forEach((response: ResponseOutput) =>
-                !response.isMissingResponse
-                    ? tmpMap.set(response.responseId, response)
-                    : missingRespMap.set(response.responseId, response));
-            this.questionsModel[questionId].statistics = QuestionStatistics.appendStats(
-                this.questionsModel[questionId].statistics,
-                responses.questionStatistics);
+      {
+        next: (resp: SessionResults) => {
+          if (!resp.questions.length) {
+            return;
+          }
+          const responses: QuestionOutput = resp.questions[0];
+          responses.allResponses.forEach((response: ResponseOutput) =>
+              !response.isMissingResponse
+                  ? tmpMap.set(response.responseId, response)
+                  : missingRespMap.set(response.responseId, response));
+          this.questionsModel[questionId].statistics = QuestionStatistics.appendStats(
+              this.questionsModel[questionId].statistics,
+              responses.questionStatistics);
 
-            this.preprocessComments(responses.allResponses);
-          },
-          complete: () => {
-            tmpMap.forEach((response: ResponseOutput) =>
-                this.questionsModel[questionId].responses.push(response));
-            missingRespMap.forEach((response: ResponseOutput) =>
-                this.questionsModel[questionId].responses.push(response));
-            this.questionsModel[questionId].hasPopulated = true;
-          },
-          error: (resp: ErrorMessageOutput) => {
-            this.statusMessageService.showErrorToast(resp.error.message);
-          },
-        }
-    )
+          this.preprocessComments(responses.allResponses);
+        },
+        complete: () => {
+          tmpMap.forEach((response: ResponseOutput) =>
+              this.questionsModel[questionId].responses.push(response));
+          missingRespMap.forEach((response: ResponseOutput) =>
+              this.questionsModel[questionId].responses.push(response));
+          this.questionsModel[questionId].hasPopulated = true;
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
+      },
+    );
   }
 
   /**

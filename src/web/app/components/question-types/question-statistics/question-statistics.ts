@@ -42,9 +42,6 @@ export class QuestionStatistics<Q extends FeedbackQuestionDetails, R extends Fee
     this.question = question;
   }
 
-  ngOnInit(): void {
-  }
-
   static appendStats = (prevStats: string, newStats: string): string => {
 
     if (prevStats === '') {
@@ -69,6 +66,9 @@ export class QuestionStatistics<Q extends FeedbackQuestionDetails, R extends Fee
     }
 
     return JSON.stringify(prevStatsJSON);
+  }
+
+  ngOnInit(): void {
   }
 
 }
