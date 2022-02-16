@@ -33,14 +33,14 @@
       "displayedName": "Co-owner",
       "privileges": {
         "courseLevel": {
-          "canviewstudentinsection": true,
-          "cansubmitsessioninsection": true,
-          "canmodifysessioncommentinsection": true,
-          "canmodifycourse": true,
-          "canviewsessioninsection": true,
-          "canmodifysession": true,
-          "canmodifystudent": true,
-          "canmodifyinstructor": true
+          "canViewStudentInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true,
+          "canModifyCourse": true,
+          "canViewSessionInSections": true,
+          "canModifySession": true,
+          "canModifyStudent": true,
+          "canModifyInstructor": true
         },
         "sectionLevel": {},
         "sessionLevel": {}
@@ -56,14 +56,14 @@
       "displayedName": "Co-owner",
       "privileges": {
         "courseLevel": {
-          "canviewstudentinsection": true,
-          "cansubmitsessioninsection": true,
-          "canmodifysessioncommentinsection": true,
-          "canmodifycourse": true,
-          "canviewsessioninsection": true,
-          "canmodifysession": true,
-          "canmodifystudent": true,
-          "canmodifyinstructor": true
+          "canViewStudentInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true,
+          "canModifyCourse": true,
+          "canViewSessionInSections": true,
+          "canModifySession": true,
+          "canModifyStudent": true,
+          "canModifyInstructor": true
         },
         "sectionLevel": {},
         "sessionLevel": {}
@@ -115,10 +115,10 @@
       "creatorEmail": "tmms.test@gmail.tmt",
       "instructions": "<p>Instructions for first session</p>",
       "createdTime": "2012-04-01T23:59:00Z",
-      "startTime": "2012-04-01T21:59:00Z",
-      "endTime": "2026-04-30T21:59:00Z",
-      "sessionVisibleFromTime": "2012-04-01T21:59:00Z",
-      "resultsVisibleFromTime": "2026-05-01T21:59:00Z",
+      "startTime": "2012-04-01T22:00:00Z",
+      "endTime": "2026-04-30T22:00:00Z",
+      "sessionVisibleFromTime": "2012-04-01T22:00:00Z",
+      "resultsVisibleFromTime": "2026-05-01T22:00:00Z",
       "timeZone": "Africa/Johannesburg",
       "gracePeriod": 10,
       "sentOpenEmail": false,
@@ -135,10 +135,10 @@
       "creatorEmail": "tmms.test@gmail.tmt",
       "instructions": "<p>Instructions for Second session</p>",
       "createdTime": "2012-04-01T23:59:00Z",
-      "startTime": "2012-04-01T21:59:00Z",
-      "endTime": "2026-04-30T21:59:00Z",
-      "sessionVisibleFromTime": "2012-04-01T21:59:00Z",
-      "resultsVisibleFromTime": "2026-05-01T21:59:00Z",
+      "startTime": "2012-04-01T22:00:00Z",
+      "endTime": "2026-04-30T22:00:00Z",
+      "sessionVisibleFromTime": "2012-04-01T22:00:00Z",
+      "resultsVisibleFromTime": "2026-05-01T22:00:00Z",
       "timeZone": "Africa/Johannesburg",
       "gracePeriod": 10,
       "sentOpenEmail": false,
@@ -160,7 +160,6 @@
         "distributePointsFor": "All options",
         "pointsPerOption": false,
         "questionText": "How well did you do in each area? Give points accordingly.",
-        "numOfConstSumOptions": 3,
         "questionType": "CONSTSUM_OPTIONS",
         "points": 100,
         "constSumOptions": [
@@ -193,7 +192,6 @@
         "distributePointsFor": "None",
         "pointsPerOption": true,
         "questionText": "How much did you contribute to this area? Give points accordingly.",
-        "numOfConstSumOptions": 3,
         "questionType": "CONSTSUM_OPTIONS",
         "points": 20,
         "constSumOptions": [

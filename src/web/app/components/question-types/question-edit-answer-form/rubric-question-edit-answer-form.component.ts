@@ -43,9 +43,9 @@ export class RubricQuestionEditAnswerFormComponent extends QuestionEditAnswerFor
     }
 
     let newAnswer: number[] = this.responseDetails.answer.slice();
-    if (newAnswer.length !== this.questionDetails.numOfRubricSubQuestions) {
+    if (newAnswer.length !== this.questionDetails.rubricSubQuestions.length) {
       // initialize new answer on the fly
-      newAnswer = Array(this.questionDetails.numOfRubricSubQuestions).fill(RUBRIC_ANSWER_NOT_CHOSEN);
+      newAnswer = Array(this.questionDetails.rubricSubQuestions.length).fill(RUBRIC_ANSWER_NOT_CHOSEN);
     }
 
     if (newAnswer[subQuestionIndex] === answerIndex) {

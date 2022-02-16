@@ -167,9 +167,9 @@ public final class FeedbackResponsesLogic {
     /**
      * Checks whether a giver has responded a session.
      */
-    public boolean hasGiverRespondedForSession(String userEmail, String feedbackSessionName, String courseId) {
+    public boolean hasGiverRespondedForSession(String giverIdentifier, String feedbackSessionName, String courseId) {
 
-        return frDb.hasResponsesFromGiverInSession(userEmail, feedbackSessionName, courseId);
+        return frDb.hasResponsesFromGiverInSession(giverIdentifier, feedbackSessionName, courseId);
     }
 
     /**
@@ -300,6 +300,7 @@ public final class FeedbackResponsesLogic {
         }
         boolean isStudentRecipientType =
                    question.getRecipientType().equals(FeedbackParticipantType.STUDENTS)
+                || question.getRecipientType().equals(FeedbackParticipantType.STUDENTS_IN_SAME_SECTION)
                 || question.getRecipientType().equals(FeedbackParticipantType.OWN_TEAM_MEMBERS)
                 || question.getRecipientType().equals(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF)
                 || question.getRecipientType().equals(FeedbackParticipantType.GIVER)
@@ -617,6 +618,10 @@ public final class FeedbackResponsesLogic {
             isVisibleResponse = true;
         } else if (studentsEmailInTeam != null && !isInstructor) {
             if (relatedQuestion.getRecipientType() == FeedbackParticipantType.TEAMS
+                    && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
+                    && response.getRecipient().equals(student.getTeam())) {
+                isVisibleResponse = true;
+            } else if (relatedQuestion.getRecipientType() == FeedbackParticipantType.TEAMS_IN_SAME_SECTION
                     && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
                     && response.getRecipient().equals(student.getTeam())) {
                 isVisibleResponse = true;

@@ -57,6 +57,11 @@ describe('RecipientTypeDescriptionPipe', () => {
       .toBe('Other students in the course');
   });
 
+  it('transform FeedbackParticipantType.STUDENTS_IN_SAME_SECTION', () => {
+    expect(pipe.transform(FeedbackParticipantType.STUDENTS_IN_SAME_SECTION))
+      .toBe('Other students in the same section');
+  });
+
   it('transform FeedbackParticipantType.INSTRUCTORS', () => {
     expect(pipe.transform(FeedbackParticipantType.INSTRUCTORS))
       .toBe('Instructors in the course');
@@ -65,6 +70,11 @@ describe('RecipientTypeDescriptionPipe', () => {
   it('transform FeedbackParticipantType.TEAMS', () => {
     expect(pipe.transform(FeedbackParticipantType.TEAMS))
       .toBe('Other teams in the course');
+  });
+
+  it('transform FeedbackParticipantType.TEAMS_IN_SAME_SECTION', () => {
+    expect(pipe.transform(FeedbackParticipantType.TEAMS_IN_SAME_SECTION))
+      .toBe('Other teams in the same section');
   });
 
   it('transform FeedbackParticipantType.OWN_TEAM', () => {

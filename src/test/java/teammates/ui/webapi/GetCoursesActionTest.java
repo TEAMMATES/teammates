@@ -149,7 +149,7 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
         if (expectedCourse.getDeletedAt() != null) {
             assertEquals(actualCourse.getDeletionTimestamp(), expectedCourse.getDeletedAt().toEpochMilli());
         }
-        assertEquals(actualCourse.getTimeZone(), expectedCourse.getTimeZone().getId());
+        assertEquals(actualCourse.getTimeZone(), expectedCourse.getTimeZone());
     }
 
     private void verifySameCourseDataStudent(CourseData actualCourse, CourseAttributes expectedCourse) {
@@ -157,7 +157,7 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
         assertEquals(actualCourse.getCourseName(), expectedCourse.getName());
         assertEquals(actualCourse.getCreationTimestamp(), 0);
         assertEquals(actualCourse.getDeletionTimestamp(), 0);
-        assertEquals(actualCourse.getTimeZone(), expectedCourse.getTimeZone().getId());
+        assertEquals(actualCourse.getTimeZone(), expectedCourse.getTimeZone());
     }
 
     private CoursesData getValidCourses(String... params) {

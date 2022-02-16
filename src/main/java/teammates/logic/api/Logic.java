@@ -10,6 +10,7 @@ import javax.annotation.Nullable;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.AccountRequestAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -24,6 +25,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
+import teammates.logic.core.AccountRequestsLogic;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.DataBundleLogic;
@@ -45,6 +47,7 @@ public class Logic {
     private static final Logic instance = new Logic();
 
     final AccountsLogic accountsLogic = AccountsLogic.inst();
+    final AccountRequestsLogic accountRequestsLogic = AccountRequestsLogic.inst();
     final StudentsLogic studentsLogic = StudentsLogic.inst();
     final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     final CoursesLogic coursesLogic = CoursesLogic.inst();
@@ -738,10 +741,11 @@ public class Logic {
      *
      * <p> If there is no question for students, the feedback session is completed</p>
      */
-    public boolean isFeedbackSessionCompletedByStudent(FeedbackSessionAttributes fsa, String userEmail) {
+    public boolean isFeedbackSessionCompletedByStudent(FeedbackSessionAttributes fsa, String userEmail, String userTeam) {
         assert fsa != null;
         assert userEmail != null;
-        return feedbackSessionsLogic.isFeedbackSessionCompletedByStudent(fsa, userEmail);
+        assert userTeam != null;
+        return feedbackSessionsLogic.isFeedbackSessionCompletedByStudent(fsa, userEmail, userTeam);
     }
 
     /**
@@ -957,12 +961,12 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public boolean hasStudentSubmittedFeedback(FeedbackSessionAttributes fsa, String studentEmail) {
+    public boolean hasStudentSubmittedFeedback(FeedbackSessionAttributes fsa, String studentEmail, String studentTeam) {
 
         assert fsa != null;
         assert studentEmail != null;
 
-        return feedbackSessionsLogic.isFeedbackSessionCompletedByStudent(fsa, studentEmail);
+        return feedbackSessionsLogic.isFeedbackSessionCompletedByStudent(fsa, studentEmail, studentTeam);
     }
 
     /**
@@ -1388,5 +1392,101 @@ public class Logic {
         assert student1Email != null;
         assert student2Email != null;
         return studentsLogic.isStudentsInSameTeam(courseId, student1Email, student2Email);
+    }
+
+    /**
+     * Creates an account request.
+     *
+     * <p>Preconditions:</p>
+     * * All parameters are non-null.
+     *
+     * @return the created account request
+     * @throws InvalidParametersException if the account request is not valid
+     * @throws EntityAlreadyExistsException if the account request already exists
+     */
+    public AccountRequestAttributes createAccountRequest(AccountRequestAttributes accountRequest)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        assert accountRequest != null;
+
+        return accountRequestsLogic.createAccountRequest(accountRequest);
+    }
+
+    /**
+     * Updates an account request.
+     *
+     * <p>Preconditions:</p>
+     * * All parameters are non-null.
+     *
+     * @return the updated account request
+     * @throws InvalidParametersException if the account request is not valid
+     * @throws EntityDoesNotExistException if the account request does not exist
+     */
+    public AccountRequestAttributes updateAccountRequest(AccountRequestAttributes.UpdateOptions updateOptions)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        assert updateOptions != null;
+
+        return accountRequestsLogic.updateAccountRequest(updateOptions);
+    }
+
+    /**
+     * Deletes an account request.
+     *
+     * <p>Preconditions:</p>
+     * * All parameters are non-null.
+     */
+    public void deleteAccountRequest(String email, String institute) {
+        assert email != null;
+
+        accountRequestsLogic.deleteAccountRequest(email, institute);
+    }
+
+    /**
+     * Gets an account request by unique constraint {@code registrationKey}.
+     *
+     * <p>Preconditions:</p>
+     * * All parameters are non-null.
+     *
+     * @return the account request
+     */
+    public AccountRequestAttributes getAccountRequestForRegistrationKey(String registrationKey) {
+        assert registrationKey != null;
+
+        return accountRequestsLogic.getAccountRequestForRegistrationKey(registrationKey);
+    }
+
+    /**
+     * Gets an account request by email address and institute.
+     *
+     * <p>Preconditions:</p>
+     * * All parameters are non-null.
+     *
+     * @return the account request
+     */
+    public AccountRequestAttributes getAccountRequest(String email, String institute) {
+        assert email != null;
+        assert institute != null;
+
+        return accountRequestsLogic.getAccountRequest(email, institute);
+    }
+
+    /**
+     * This is used by admin to search account requests in the whole system.
+     *
+     * @return A list of {@link AccountRequestAttributes} or {@code null} if no match found.
+     */
+    public List<AccountRequestAttributes> searchAccountRequestsInWholeSystem(String queryString)
+            throws SearchServiceException {
+        assert queryString != null;
+
+        return accountRequestsLogic.searchAccountRequestsInWholeSystem(queryString);
+    }
+
+    /**
+     * Creates or updates search document for the given account request.
+     *
+     * @see AccountRequestsLogic#putDocument(AccountRequestAttributes)
+     */
+    public void putAccountRequestDocument(AccountRequestAttributes accountRequest) throws SearchServiceException {
+        accountRequestsLogic.putDocument(accountRequest);
     }
 }

@@ -1,6 +1,5 @@
 package teammates.logic.api;
 
-import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.List;
 
@@ -164,17 +163,9 @@ public class EmailGeneratorTest extends BaseLogicTest {
                 "/sessionReminderEmailCopyToInstructor.html", lineInEmailCopyToInstructor);
         // Verify the instructor reminder email
         String lineInEmailToInstructor =
-                "/web/instructor/sessions/submission?courseid=idOfTypicalCourse1&fsname=First%20feedback%20session";
+                "/web/sessions/submission?courseid=idOfTypicalCourse1&fsname=First%20feedback%20session";
         verifyEmailReceivedCorrectly(emails, instructor1.getEmail(), subject,
                 "/sessionReminderEmailForInstructor.html", lineInEmailToInstructor);
-
-        InstructorAttributes instructorNotJoinedYet = instructorsLogic.getInstructorForEmail(
-                "idOfTypicalCourse1", "instructorNotYetJoinedCourse1@email.tmt");
-        String instructorReminderToJoinLine = "Note that you will need to join the course as an instructor";
-
-        // Verify that unregistered instructor gets reminder to join course
-        verifyEmailReceivedCorrectly(emails, instructorNotJoinedYet.getEmail(), subject,
-                "/sessionReminderEmailForInstructorNotJoinedYet.html", instructorReminderToJoinLine);
 
         ______TS("feedback session closing alerts");
 
@@ -216,14 +207,23 @@ public class EmailGeneratorTest extends BaseLogicTest {
         subject = String.format(EmailType.FEEDBACK_OPENING_SOON.getSubject(), course.getName(),
                 session.getFeedbackSessionName());
 
-        // this instructor email has been given co-owner privileges in the test file
-        InstructorAttributes coOwner1 =
+        // this instructor email has been given co-owner privileges in the test file but has not joined
+        InstructorAttributes coOwnerNotJoined =
                 instructorsLogic.getInstructorForEmail(course.getId(), "instructorNotYetJoinedCourse1@email.tmt");
 
-        assertTrue(coOwner1.hasCoownerPrivileges());
+        assertTrue(coOwnerNotJoined.hasCoownerPrivileges());
 
-        verifyEmailReceivedCorrectly(emails, coOwner1.getEmail(), subject,
-                "/sessionOpeningSoonEmailForCoOwner.html");
+        verifyEmailReceivedCorrectly(emails, coOwnerNotJoined.getEmail(), subject,
+                "/sessionOpeningSoonEmailForCoOwnerNotJoined.html");
+
+        // this instructor email has been given co-owner privileges in the test file and has joined
+        InstructorAttributes coOwnerJoined =
+                instructorsLogic.getInstructorForEmail(course.getId(), "instructor1@course1.tmt");
+
+        assertTrue(coOwnerJoined.hasCoownerPrivileges());
+
+        verifyEmailReceivedCorrectly(emails, coOwnerJoined.getEmail(), subject,
+                "/sessionOpeningSoonEmailForCoOwnerJoined.html");
 
         ______TS("feedback session published alerts");
 
@@ -419,7 +419,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
         CourseAttributes course = CourseAttributes
                 .builder("course-id")
                 .withName("Course Name")
-                .withTimezone(ZoneId.of("UTC"))
+                .withTimezone("UTC")
                 .build();
 
         email = emailGenerator.generateInstructorCourseJoinEmail(inviter, instructor, course);
@@ -530,7 +530,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
         CourseAttributes course = CourseAttributes
                 .builder("idOfTypicalCourse1")
                 .withName("Course Name")
-                .withTimezone(ZoneId.of("UTC"))
+                .withTimezone("UTC")
                 .build();
 
         StudentAttributes student =
@@ -556,7 +556,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         course = CourseAttributes.builder("course-id")
                 .withName("Course Name")
-                .withTimezone(ZoneId.of("UTC"))
+                .withTimezone("UTC")
                 .build();
 
         email = emailGenerator.generateStudentCourseJoinEmail(course, student);
@@ -604,7 +604,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
         CourseAttributes course = CourseAttributes
                 .builder("idOfTypicalCourse1")
                 .withName("Course Name")
-                .withTimezone(ZoneId.of("UTC"))
+                .withTimezone("UTC")
                 .build();
         String name = "User Name";
         String emailAddress = "user@email.tmt";

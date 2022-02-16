@@ -6,6 +6,7 @@ import {
   FeedbackQuestionType, FeedbackSession,
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
+  FeedbackVisibilityType,
   Instructor,
   InstructorPermissionRole,
   JoinState,
@@ -254,7 +255,6 @@ export const EXAMPLE_GRQ_RESPONSES: Record<string, SectionTabModel> = {
             hasAssignedWeights: false,
             mcqWeights: [],
             mcqOtherWeight: 0,
-            numOfMcqChoices: 3,
             mcqChoices: [
               '<p>Good</p>',
               '<p>Normal</p>',
@@ -337,7 +337,6 @@ export const EXAMPLE_QUESTIONS_WITH_RESPONSES: QuestionOutput[] = [{
     questionDetails: {
       ...DEFAULT_MCQ_QUESTION_DETAILS(),
       questionText: 'How well did this team member perform?',
-      numOfMcqChoices: 3,
       mcqChoices: [
         '<p>Good</p>',
         '<p>Normal</p>',
@@ -348,7 +347,7 @@ export const EXAMPLE_QUESTIONS_WITH_RESPONSES: QuestionOutput[] = [{
     giverType: FeedbackParticipantType.STUDENTS,
     recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF,
     numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
-    showResponsesTo: [],
+    showResponsesTo: [FeedbackVisibilityType.RECIPIENT],
     showGiverNameTo: [],
     showRecipientNameTo: [],
     customNumberOfEntitiesToGiveFeedbackTo: 0,

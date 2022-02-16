@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
+import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -24,7 +25,6 @@ import teammates.logic.api.LogsProcessor;
 import teammates.logic.api.RecaptchaVerifier;
 import teammates.logic.api.TaskQueuer;
 import teammates.logic.api.UserProvision;
-import teammates.ui.output.InstructorPrivilegeData;
 import teammates.ui.request.BasicRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 
@@ -49,6 +49,7 @@ public abstract class Action {
     UserInfo userInfo;
     AuthType authType;
     private StudentAttributes unregisteredStudent;
+    private InstructorAttributes unregisteredInstructor;
 
     // buffer to store the request body
     private String requestBody;
@@ -118,11 +119,14 @@ public abstract class Action {
         String googleId = userInfo == null ? null : userInfo.getId();
 
         user.setGoogleId(googleId);
-        if (unregisteredStudent == null) {
+        if (unregisteredStudent == null && unregisteredInstructor == null) {
             user.setRegkey(getRequestParamValue(Const.ParamsNames.REGKEY));
-        } else {
+        } else if (unregisteredStudent != null) {
             user.setRegkey(unregisteredStudent.getKey());
             user.setEmail(unregisteredStudent.getEmail());
+        } else {
+            user.setRegkey(unregisteredInstructor.getKey());
+            user.setEmail(unregisteredInstructor.getEmail());
         }
         return user;
     }
@@ -254,9 +258,24 @@ public abstract class Action {
         return Optional.empty();
     }
 
-    InstructorPrivilegeData constructInstructorPrivileges(InstructorAttributes instructor, String feedbackSessionName) {
-        InstructorPrivilegeData privilege = new InstructorPrivilegeData();
-        privilege.constructCourseLevelPrivilege(instructor.getPrivileges());
+    /**
+     * Gets the unregistered instructor by the HTTP param.
+     */
+    Optional<InstructorAttributes> getUnregisteredInstructor() {
+        String key = getRequestParamValue(Const.ParamsNames.REGKEY);
+        if (!StringHelper.isEmpty(key)) {
+            InstructorAttributes instructorAttributes = logic.getInstructorForRegistrationKey(key);
+            if (instructorAttributes == null) {
+                return Optional.empty();
+            }
+            unregisteredInstructor = instructorAttributes;
+            return Optional.of(instructorAttributes);
+        }
+        return Optional.empty();
+    }
+
+    InstructorPermissionSet constructInstructorPrivileges(InstructorAttributes instructor, String feedbackSessionName) {
+        InstructorPermissionSet privilege = instructor.getPrivileges().getCourseLevelPrivileges();
         if (feedbackSessionName != null) {
             privilege.setCanSubmitSessionInSections(
                     instructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS)

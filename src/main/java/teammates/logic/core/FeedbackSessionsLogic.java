@@ -1,12 +1,12 @@
 package teammates.logic.core;
 
 import java.time.Instant;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -236,17 +236,26 @@ public final class FeedbackSessionsLogic {
     /**
      * Checks whether a student has completed a feedback session.
      *
-     * <p> If there is no question for students, the feedback session is completed</p>
+     * <p>If feedback session consists of all team questions, session is completed by student only
+     * if someone from the team has responded. If feedback session has some individual questions,
+     * session is completed only if the student has responded to the individual questions
+     * (regardless of the completion status of the team questions).</p>
      */
-    public boolean isFeedbackSessionCompletedByStudent(FeedbackSessionAttributes fsa, String userEmail) {
-        if (frLogic.hasGiverRespondedForSession(userEmail, fsa.getFeedbackSessionName(), fsa.getCourseId())) {
-            return true;
-        }
-
+    public boolean isFeedbackSessionCompletedByStudent(FeedbackSessionAttributes fsa, String userEmail, String userTeam) {
         String feedbackSessionName = fsa.getFeedbackSessionName();
         String courseId = fsa.getCourseId();
-        // if there is no question for students, session is complete
-        return !fqLogic.sessionHasQuestions(feedbackSessionName, courseId);
+
+        if (!fqLogic.sessionHasQuestions(feedbackSessionName, courseId)) {
+            // if there are no questions for student, session is complete
+            return true;
+        } else if (fqLogic.sessionHasQuestionsForGiverType(
+                feedbackSessionName, courseId, FeedbackParticipantType.STUDENTS)) {
+            // case where there are some individual questions
+            return frLogic.hasGiverRespondedForSession(userEmail, feedbackSessionName, courseId);
+        } else {
+            // case where all are team questions
+            return frLogic.hasGiverRespondedForSession(userTeam, feedbackSessionName, courseId);
+        }
     }
 
     /**
@@ -328,7 +337,7 @@ public final class FeedbackSessionsLogic {
     /**
      * Updates all feedback sessions of {@code courseId} to have be in {@code courseTimeZone}.
      */
-    public void updateFeedbackSessionsTimeZoneForCourse(String courseId, ZoneId courseTimeZone) {
+    public void updateFeedbackSessionsTimeZoneForCourse(String courseId, String courseTimeZone) {
         assert courseId != null;
         assert courseTimeZone != null;
 

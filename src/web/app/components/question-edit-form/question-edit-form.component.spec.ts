@@ -4,19 +4,15 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AjaxLoadingModule } from '../ajax-loading/ajax-loading.module';
+import { FeedbackPathPanelModule } from '../feedback-path-panel/feedback-path-panel.module';
 import {
   QuestionEditDetailsFormModule,
 } from '../question-types/question-edit-details-form/question-edit-details-form.module';
 import { RichTextEditorModule } from '../rich-text-editor/rich-text-editor.module';
 import { TeammatesCommonModule } from '../teammates-common/teammates-common.module';
 import { VisibilityMessagesModule } from '../visibility-messages/visibility-messages.module';
-import { GiverTypeDescriptionPipe, RecipientTypeDescriptionPipe } from './feedback-path.pipe';
+import { VisibilityPanelModule } from '../visibility-panel/visibility-panel.module';
 import { QuestionEditFormComponent } from './question-edit-form.component';
-import {
-  VisibilityControlNamePipe,
-  VisibilityTypeDescriptionPipe,
-  VisibilityTypeNamePipe,
-} from './visibility-setting.pipe';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { mockTinyMceUuid } from '../../../test-helpers/mock-tinymce-uuid';
@@ -35,11 +31,6 @@ describe('QuestionEditFormComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         QuestionEditFormComponent,
-        GiverTypeDescriptionPipe,
-        RecipientTypeDescriptionPipe,
-        VisibilityControlNamePipe,
-        VisibilityTypeDescriptionPipe,
-        VisibilityTypeNamePipe,
       ],
       imports: [
         HttpClientTestingModule,
@@ -49,7 +40,9 @@ describe('QuestionEditFormComponent', () => {
         RichTextEditorModule,
         QuestionEditDetailsFormModule,
         NgbModule,
+        FeedbackPathPanelModule,
         VisibilityMessagesModule,
+        VisibilityPanelModule,
         BrowserAnimationsModule,
         PanelChevronModule,
       ],

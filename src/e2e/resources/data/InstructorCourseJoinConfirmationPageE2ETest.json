@@ -8,6 +8,21 @@
       "institute": "TEAMMATES Test Institute 1"
     }
   },
+  "accountRequests": {
+    "ICJoinConf.instr.CS1101": {
+      "name": "Teammates Test 2",
+      "email": "ICJoinConf.instr2@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1",
+      "createdAt": "2011-01-01T00:00:00Z",
+      "registeredAt": "1970-02-14T00:00:00Z"
+    },
+    "ICJoinConf.newinstr": {
+      "name": "Teammates Test 3",
+      "email": "ICJoinConf.newinstr@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1",
+      "createdAt": "2011-01-01T00:00:00Z"
+    }
+  },
   "courses": {
     "ICJoinConf.CS1101": {
       "id": "tm.e2e.ICJoinConf.CS1101",
@@ -26,14 +41,14 @@
       "displayedName": "Co-owner",
       "privileges": {
         "courseLevel": {
-          "canviewstudentinsection": true,
-          "cansubmitsessioninsection": true,
-          "canmodifysessioncommentinsection": true,
-          "canmodifycourse": true,
-          "canviewsessioninsection": true,
-          "canmodifysession": true,
-          "canmodifystudent": true,
-          "canmodifyinstructor": true
+          "canViewStudentInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true,
+          "canModifyCourse": true,
+          "canViewSessionInSections": true,
+          "canModifySession": true,
+          "canModifyStudent": true,
+          "canModifyInstructor": true
         },
         "sectionLevel": {},
         "sessionLevel": {}
@@ -49,14 +64,14 @@
       "displayedName": "Co-owner",
       "privileges": {
         "courseLevel": {
-          "canviewstudentinsection": true,
-          "cansubmitsessioninsection": true,
-          "canmodifysessioncommentinsection": true,
-          "canmodifycourse": true,
-          "canviewsessioninsection": true,
-          "canmodifysession": true,
-          "canmodifystudent": true,
-          "canmodifyinstructor": true
+          "canViewStudentInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true,
+          "canModifyCourse": true,
+          "canViewSessionInSections": true,
+          "canModifySession": true,
+          "canModifyStudent": true,
+          "canModifyInstructor": true
         },
         "sectionLevel": {},
         "sessionLevel": {}

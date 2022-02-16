@@ -9,7 +9,6 @@
           "hasAssignedWeights": false,
           "mcqWeights": [],
           "mcqOtherWeight": 0.0,
-          "numOfMcqChoices": 2,
           "mcqChoices": [
             "It's good",
             "It's perfect"
@@ -189,7 +188,6 @@
             1.7
           ],
           "mcqOtherWeight": 3.0,
-          "numOfMcqChoices": 2,
           "mcqChoices": [
             "It's good",
             "It's perfect"
@@ -322,7 +320,6 @@
           "hasAssignedWeights": false,
           "mcqWeights": [],
           "mcqOtherWeight": 0.0,
-          "numOfMcqChoices": 2,
           "mcqChoices": [
             "Content",
             "Teaching style"
@@ -455,7 +452,6 @@
           "hasAssignedWeights": false,
           "mcqWeights": [],
           "mcqOtherWeight": 0.0,
-          "numOfMcqChoices": 2,
           "mcqChoices": [
             "It's good",
             "It's perfect"

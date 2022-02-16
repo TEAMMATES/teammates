@@ -80,14 +80,14 @@ public final class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
         boolean hasSameAttributes =
                 this.<String>hasSameValue(course.getName(), newAttributes.getName())
                 && this.<String>hasSameValue(course.getInstitute(), newAttributes.getInstitute())
-                && this.<String>hasSameValue(course.getTimeZone(), newAttributes.getTimeZone().getId());
+                && this.<String>hasSameValue(course.getTimeZone(), newAttributes.getTimeZone());
         if (hasSameAttributes) {
             log.info(String.format(OPTIMIZED_SAVING_POLICY_APPLIED, Course.class.getSimpleName(), updateOptions));
             return newAttributes;
         }
 
         course.setName(newAttributes.getName());
-        course.setTimeZone(newAttributes.getTimeZone().getId());
+        course.setTimeZone(newAttributes.getTimeZone());
         course.setInstitute(newAttributes.getInstitute());
 
         saveEntity(course);

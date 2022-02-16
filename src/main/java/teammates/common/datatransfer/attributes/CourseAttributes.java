@@ -24,7 +24,7 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
     private Instant createdAt;
     private Instant deletedAt;
     private String name;
-    private ZoneId timeZone;
+    private String timeZone;
     private String id;
     private String institute;
 
@@ -44,9 +44,10 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
 
         courseAttributes.name = course.getName();
 
-        ZoneId courseTimeZone;
+        String courseTimeZone;
         try {
-            courseTimeZone = ZoneId.of(course.getTimeZone());
+            ZoneId.of(course.getTimeZone());
+            courseTimeZone = course.getTimeZone();
         } catch (DateTimeException e) {
             log.severe("Timezone '" + course.getTimeZone() + "' of course '" + course.getUniqueId()
                     + "' is not supported. UTC will be used instead.");
@@ -82,11 +83,11 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
         this.name = name;
     }
 
-    public ZoneId getTimeZone() {
+    public String getTimeZone() {
         return timeZone;
     }
 
-    public void setTimeZone(ZoneId timeZone) {
+    public void setTimeZone(String timeZone) {
         this.timeZone = timeZone;
     }
 
@@ -130,7 +131,7 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
 
     @Override
     public Course toEntity() {
-        return new Course(getId(), getName(), getTimeZone().getId(), getInstitute(), createdAt, deletedAt);
+        return new Course(getId(), getName(), getTimeZone(), getInstitute(), createdAt, deletedAt);
     }
 
     @Override
@@ -225,7 +226,7 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
         private String courseId;
 
         private UpdateOption<String> nameOption = UpdateOption.empty();
-        private UpdateOption<ZoneId> timeZoneOption = UpdateOption.empty();
+        private UpdateOption<String> timeZoneOption = UpdateOption.empty();
         private UpdateOption<String> instituteOption = UpdateOption.empty();
 
         private UpdateOptions(String courseId) {
@@ -289,7 +290,7 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
             return thisBuilder;
         }
 
-        public B withTimezone(ZoneId timezone) {
+        public B withTimezone(String timezone) {
             assert timezone != null;
 
             updateOptions.timeZoneOption = UpdateOption.of(timezone);

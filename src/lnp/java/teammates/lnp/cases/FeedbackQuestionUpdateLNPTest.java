@@ -2,7 +2,6 @@ package teammates.lnp.cases;
 
 import java.io.IOException;
 import java.time.Instant;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -86,7 +85,7 @@ public class FeedbackQuestionUpdateLNPTest extends BaseLNPTestCase {
 
                 courses.put(COURSE_NAME, CourseAttributes.builder(COURSE_ID)
                         .withName(COURSE_NAME)
-                        .withTimezone(ZoneId.of(COURSE_TIME_ZONE))
+                        .withTimezone(COURSE_TIME_ZONE)
                         .build());
 
                 return courses;

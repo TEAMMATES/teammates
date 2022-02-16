@@ -154,18 +154,7 @@
       </li>
     </ol>
     <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.SESSION_QUESTIONS]" @collapseAnim>
-      <div class="card">
-        <div class="card-body background-color-light-blue text-center">
-          <div ngbDropdown class="d-inline-block">
-            <button class="btn btn-primary" ngbDropdownToggle>Add New Question</button>
-            <div ngbDropdownMenu>
-              <button class="dropdown-item">Choose from template questions</button>
-            </div>
-          </div>
-          <button type="button" class="btn btn-link"><i class="fas fa-info-circle"></i></button>
-          <button class="btn btn-primary">Copy Question</button>
-        </div>
-      </div>
+      <tm-adding-question-panel [isLinkDisabled]="true"></tm-adding-question-panel>
     </tm-example-box>
     <p>
       TEAMMATES gives you fine-grained control of each question. In addition to providing a range of different
@@ -191,30 +180,8 @@
       Instructors can see who received what feedback, and who gave the feedback.
     </p>
     <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.SESSION_QUESTIONS]" @collapseAnim>
-      <div class="background-color-light-green margin-top-15px padding-15px">
-        <div>
-          <b class="feedback-path-title">Feedback Path</b> (Who is giving feedback about whom?)
-        </div>
-        <div ngbDropdown class="margin-top-15px">
-          <button class="btn btn-light" ngbDropdownToggle [disabled]="true">
-            <span>
-              Students in this course will give feedback on <i class="fas fa-arrow-right"></i> Giver's team members
-            </span>
-          </button>
-        </div>
-      </div>
-      <div class="margin-top-15px padding-15px background-color-light-green">
-        <div>
-          <b>Visibility</b> (Who can see the responses?)
-        </div>
-        <div ngbDropdown class="margin-top-15px">
-          <button class="btn btn-light" ngbDropdownToggle [disabled]="true">
-            <span>
-              Shown anonymously to recipient and giver's team members, visible to instructor
-            </span>
-          </button>
-        </div>
-      </div>
+      <tm-feedback-path-panel></tm-feedback-path-panel>
+      <tm-visibility-panel></tm-visibility-panel>
     </tm-example-box>
   </tm-instructor-help-panel>
   <!-- Question -->
@@ -231,27 +198,10 @@
       panel is located at the bottom of the Edit Feedback Session page.
     </p>
     <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.SESSION_PREVIEW]" @collapseAnim>
-      <div class="card">
-        <div class="card-body background-color-light-blue text-center">
-          <div class="row align-items-center">
-            <div class="col-2 text-right">
-              <b>Preview Session:</b>
-            </div>
-            <div class="col-5">
-              <select class="form-control preview-select">
-                <option *ngFor="let student of exampleStudents" [ngValue]="student.email">[{{ student.teamName }}] {{ student.name }}</option>
-              </select>
-              <button class="btn btn-primary" [disabled]="true" >Preview as Student</button>
-            </div>
-            <div class="col-5" ngbTooltip="View how this session would look like to an instructor who is submitting feedback. Only instructors with submit privileges are included in the list.">
-              <select class="form-control preview-select">
-                <option *ngFor="let instructor of exampleInstructors" [ngValue]="instructor.email">{{ instructor.name }}</option>
-              </select>
-              <button class="btn btn-primary" [disabled]="true" >Preview as Instructor</button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <tm-preview-session-panel [emailOfStudentToPreview]="exampleStudents[0].email" [emailOfInstructorToPreview]="exampleInstructors[0].email"
+                                [studentsOfCourse]="exampleStudents" [instructorsCanBePreviewedAs]="exampleInstructors"
+                                [forDisplayOnly]="true"
+      ></tm-preview-session-panel>
     </tm-example-box>
   </tm-instructor-help-panel>
 
@@ -296,69 +246,7 @@
       Additionally, you can group the results by team, show or hide statistics, view missing responses and filter responses from a particular section.
     </p>
     <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.SESSION_VIEW_RESULTS]" @collapseAnim>
-      <div class="card-body row">
-        <div class="col-md-6">
-          <div>
-            <label class="control-label" ngbTooltip="View results in different formats">
-              View:
-            </label>
-            <div>
-              <select class="form-control">
-                <option [value]="InstructorSessionResultViewType.QUESTION">Group by - Question</option>
-                <option [value]="InstructorSessionResultViewType.GRQ">Group by - Giver > Recipient > Question</option>
-                <option [value]="InstructorSessionResultViewType.RGQ">Group by - Recipient > Giver > Question</option>
-                <option [value]="InstructorSessionResultViewType.GQR">Group by - Giver > Question > Recipient</option>
-                <option [value]="InstructorSessionResultViewType.RQG">Group by - Recipient > Question > Giver</option>
-              </select>
-            </div>
-          </div>
-          <div>
-            <label class="control-label" ngbTooltip="View results by sections">
-              Section:
-            </label>
-            <div>
-              <select class="form-control">
-                <option value="">All</option>
-              </select>
-            </div>
-          </div>
-          <div>
-            <label class="control-label" ngbTooltip="Choose the way responses for the selected section is viewed">
-              If showing only a section:
-            </label>
-            <div>
-              <select class="form-control">
-                <option [ngValue]="InstructorSessionResultSectionType.EITHER">
-                  Show response if either the giver or evaluee is in the selected section
-                </option>
-                <option [ngValue]="InstructorSessionResultSectionType.GIVER">
-                  Show response if the giver is in the selected section
-                </option>
-                <option [ngValue]="InstructorSessionResultSectionType.EVALUEE">
-                  Show response if the evaluee is in the selected section
-                </option>
-                <option [ngValue]="InstructorSessionResultSectionType.BOTH">
-                  Show response only if both are in the selected section
-                </option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <label class="control-label">
-            Additional settings:
-          </label>
-          <div>
-            <input type="checkbox"> Group by Teams
-          </div>
-          <div>
-            <input type="checkbox"> Show Statistics
-          </div>
-          <div>
-            <input type="checkbox"> Indicate Missing Responses
-          </div>
-        </div>
-      </div>
+      <tm-view-results-panel></tm-view-results-panel>
     </tm-example-box>
     <p>
       In the example below, results are sorted by <b>Giver > Recipient > Question</b>. Additionally, missing responses
@@ -387,25 +275,7 @@
       Here is an example of what a student might see:
     </p>
     <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.SESSION_VIEW_RESULTS]" @collapseAnim>
-      <div class="card bg-light top-padded" *ngFor="let question of exampleQuestionsWithResponses">
-        <div class="card-body" style="padding: 20px;">
-          <tm-question-text-with-info [questionNumber]="question.feedbackQuestion.questionNumber" [questionDetails]="question.feedbackQuestion.questionDetails" style="font-size: 20px;"></tm-question-text-with-info>
-          <tm-single-statistics [question]="question.feedbackQuestion.questionDetails"
-                                [responses]="question.responsesToSelf"
-                                [statistics]="question.questionStatistics"
-                                [isStudent]="true"></tm-single-statistics>
-          <tm-student-view-responses *ngIf="question.responsesToSelf.length" [responses]="question.responsesToSelf" [feedbackQuestion]="question.feedbackQuestion" [timezone]="exampleFeedbackSession.timeZone" [statistics]="question.questionStatistics"></tm-student-view-responses>
-          <div *ngFor="let responsesForOtherRecipient of question.otherResponses">
-            <tm-student-view-responses *ngIf="responsesForOtherRecipient.length" [responses]="responsesForOtherRecipient" [feedbackQuestion]="question.feedbackQuestion" [timezone]="exampleFeedbackSession.timeZone" [statistics]="question.questionStatistics"></tm-student-view-responses>
-          </div>
-          <div *ngIf="question.responsesFromSelf.length" style="margin-top: 10px;">
-            <strong>Your own responses (to others):</strong>
-            <div *ngFor="let responseFromSelf of question.responsesFromSelf">
-              <tm-student-view-responses [responses]="[responseFromSelf]" [isSelfResponses]="true" [feedbackQuestion]="question.feedbackQuestion" [timezone]="exampleFeedbackSession.timeZone" [statistics]="question.questionStatistics"></tm-student-view-responses>
-            </div>
-          </div>
-        </div>
-      </div>
+      <tm-question-response-panel [questions]="exampleQuestionsWithResponses"></tm-question-response-panel>
     </tm-example-box>
   </tm-instructor-help-panel>
   <!--Question-->

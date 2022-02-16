@@ -25,14 +25,13 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     static final String CONST_SUM_ERROR_MISMATCH =
             "Please distribute all the points for distribution questions. "
                     + "To skip a distribution question, leave the boxes blank.";
-    static final String CONST_SUM_ERROR_NEGATIVE = "Points given must be 0 or more.";
+    static final String CONST_SUM_ERROR_NEGATIVE = "Points cannot be negative.";
     static final String CONST_SUM_ERROR_UNIQUE = "Every option must be given a different number of points.";
     static final String CONST_SUM_ERROR_SOME_UNIQUE =
             "At least some options must be given a different number of points.";
     static final String CONST_SUM_ANSWER_OPTIONS_NOT_MATCH = "The answers are inconsistent with the options";
     static final String CONST_SUM_ANSWER_RECIPIENT_NOT_MATCH = "The answer is inconsistent with the recipient";
 
-    private int numOfConstSumOptions;
     private List<String> constSumOptions;
     private boolean distributeToRecipients;
     private boolean pointsPerOption;
@@ -46,7 +45,6 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
 
     public FeedbackConstantSumQuestionDetails(String questionText) {
         super(FeedbackQuestionType.CONSTSUM, questionText);
-        this.numOfConstSumOptions = 0;
         this.constSumOptions = new ArrayList<>();
         this.distributeToRecipients = false;
         this.pointsPerOption = false;
@@ -229,11 +227,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     }
 
     public int getNumOfConstSumOptions() {
-        return numOfConstSumOptions;
-    }
-
-    public void setNumOfConstSumOptions(int numOfConstSumOptions) {
-        this.numOfConstSumOptions = numOfConstSumOptions;
+        return constSumOptions.size();
     }
 
     public List<String> getConstSumOptions() {

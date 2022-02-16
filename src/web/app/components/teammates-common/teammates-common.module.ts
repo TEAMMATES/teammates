@@ -4,7 +4,9 @@ import { RouterModule } from '@angular/router';
 import { NgbPopoverModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
+
 import { EnumToArrayPipe } from './enum-to-array.pipe';
+import { GiverTypeDescriptionPipe, RecipientTypeDescriptionPipe } from './feedback-path.pipe';
 import { FormatDateBriefPipe } from './format-date-brief.pipe';
 import { FormatDateDetailPipe } from './format-date-detail.pipe';
 import { FormatPhotoUrlPipe } from './format-photo-url.pipe';
@@ -19,6 +21,7 @@ import { StudentNameWithPhotoComponent } from './student-name/student-name-with-
 import { GenderFormatPipe } from './student-profile-gender.pipe';
 import { SubmissionStatusNamePipe } from './submission-status-name.pipe';
 import { ViewPhotoPopoverComponent } from './view-photo-popover/view-photo-popover.component';
+import { VisibilityControlNamePipe, VisibilityTypeDescriptionPipe, VisibilityTypeNamePipe } from './visibility-setting.pipe';
 
 /**
  * Common module in the project.
@@ -47,6 +50,11 @@ import { ViewPhotoPopoverComponent } from './view-photo-popover/view-photo-popov
     GeneratedChoicePipe,
     ViewPhotoPopoverComponent,
     StudentNameWithPhotoComponent,
+    GiverTypeDescriptionPipe,
+    RecipientTypeDescriptionPipe,
+    VisibilityControlNamePipe,
+    VisibilityTypeDescriptionPipe,
+    VisibilityTypeNamePipe,
   ],
   exports: [
     EnumToArrayPipe,
@@ -64,6 +72,11 @@ import { ViewPhotoPopoverComponent } from './view-photo-popover/view-photo-popov
     GeneratedChoicePipe,
     ViewPhotoPopoverComponent,
     StudentNameWithPhotoComponent,
+    GiverTypeDescriptionPipe,
+    RecipientTypeDescriptionPipe,
+    VisibilityControlNamePipe,
+    VisibilityTypeDescriptionPipe,
+    VisibilityTypeNamePipe,
   ],
 })
 export class TeammatesCommonModule { }

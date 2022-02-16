@@ -6,6 +6,7 @@ import { forkJoin, Observable, of } from 'rxjs';
 import { concatMap, finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
+import { FeedbackSessionActionsService } from '../../../services/feedback-session-actions.service';
 import { FeedbackSessionsService, TemplateSession } from '../../../services/feedback-sessions.service';
 import { InstructorService } from '../../../services/instructor.service';
 import { NavigationService } from '../../../services/navigation.service';
@@ -26,7 +27,7 @@ import {
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../types/api-output';
-import { DEFAULT_INSTRUCTOR_PRIVILEGE } from '../../../types/instructor-privilege';
+import { DEFAULT_INSTRUCTOR_PRIVILEGE } from '../../../types/default-instructor-privilege';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import {
   SessionEditFormMode,
@@ -150,12 +151,13 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
               tableComparatorService: TableComparatorService,
               simpleModalService: SimpleModalService,
               progressBarService: ProgressBarService,
+              feedbackSessionActionsService: FeedbackSessionActionsService,
               private courseService: CourseService,
               private route: ActivatedRoute,
               private timezoneService: TimezoneService) {
     super(router, instructorService, statusMessageService, navigationService, feedbackSessionsService,
         feedbackQuestionsService, tableComparatorService, ngbModalService,
-        simpleModalService, progressBarService, studentService);
+        simpleModalService, progressBarService, feedbackSessionActionsService, studentService);
   }
 
   ngOnInit(): void {
@@ -269,21 +271,21 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
 
     const submissionStartTime: number = this.timezoneService.resolveLocalDateTime(
         this.sessionEditFormModel.submissionStartDate, this.sessionEditFormModel.submissionStartTime,
-        this.sessionEditFormModel.timeZone);
+        this.sessionEditFormModel.timeZone, true);
     const submissionEndTime: number = this.timezoneService.resolveLocalDateTime(
         this.sessionEditFormModel.submissionEndDate, this.sessionEditFormModel.submissionEndTime,
-        this.sessionEditFormModel.timeZone);
+        this.sessionEditFormModel.timeZone, true);
     let sessionVisibleTime: number = 0;
     if (this.sessionEditFormModel.sessionVisibleSetting === SessionVisibleSetting.CUSTOM) {
       sessionVisibleTime = this.timezoneService.resolveLocalDateTime(
           this.sessionEditFormModel.customSessionVisibleDate, this.sessionEditFormModel.customSessionVisibleTime,
-          this.sessionEditFormModel.timeZone);
+          this.sessionEditFormModel.timeZone, true);
     }
     let responseVisibleTime: number = 0;
     if (this.sessionEditFormModel.responseVisibleSetting === ResponseVisibleSetting.CUSTOM) {
       responseVisibleTime = this.timezoneService.resolveLocalDateTime(
           this.sessionEditFormModel.customResponseVisibleDate, this.sessionEditFormModel.customResponseVisibleTime,
-          this.sessionEditFormModel.timeZone);
+          this.sessionEditFormModel.timeZone, true);
     }
 
     this.feedbackSessionsService.createFeedbackSession(this.sessionEditFormModel.courseId, {
@@ -376,7 +378,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
               feedbackSession: session,
               responseRate: '',
               isLoadingResponseRate: false,
-              instructorPrivilege: session.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE,
+              instructorPrivilege: session.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE(),
             };
             this.sessionsTableRowModels.push(model);
           });
@@ -433,7 +435,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
             feedbackSession,
             responseRate: '',
             isLoadingResponseRate: false,
-            instructorPrivilege: feedbackSession.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE,
+            instructorPrivilege: feedbackSession.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE(),
           };
           this.sessionsTableRowModels.push(m);
           this.statusMessageService.showSuccessToast('The feedback session has been restored.');
@@ -481,7 +483,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
                 feedbackSession: session,
                 responseRate: '',
                 isLoadingResponseRate: false,
-                instructorPrivilege: session.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE,
+                instructorPrivilege: session.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE(),
               };
               this.sessionsTableRowModels.push(model);
             });
@@ -561,7 +563,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
             feedbackSession: session,
             responseRate: '',
             isLoadingResponseRate: false,
-            instructorPrivilege: session.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE,
+            instructorPrivilege: session.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE(),
           };
           this.sessionsTableRowModels.push(m);
         });

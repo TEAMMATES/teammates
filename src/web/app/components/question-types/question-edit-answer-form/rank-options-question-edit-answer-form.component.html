@@ -1,8 +1,8 @@
 <div class="form-group row text-left" *ngFor="let num of questionDetails.options; let i = index;">
-  <div class="col-md-3 col-xs-6 text-md-right col-form-label">
+  <div class="col-md-5 col-xs-12 text-md-right col-form-label">
     <strong>{{ questionDetails.options[i] }}</strong>
   </div>
-  <div class="col-md-3 col-xs-6 text-md-left">
+  <div class="col-md-7 col-xs-12 text-md-left">
     <select class="form-control" [ngModel]="responseDetails.answers[i]"
             (ngModelChange)="triggerResponse(i, $event)" [disabled]="isDisabled">
       <option [ngValue]="RANK_OPTIONS_ANSWER_NOT_SUBMITTED"></option>
@@ -11,9 +11,13 @@
   </div>
 </div>
 
-<div class="col-md-9 offset-md-3">
-  <p *ngIf="!questionDetails.areDuplicatesAllowed && isSameRanksAssigned" class="text-danger">The same rank should not be given multiple times.</p>
-  <p *ngIf="isNoOptionRanked" class="text-info">Please rank the above options.</p>
-  <p *ngIf="isMinOptionsEnabled && isOptionsRankedLessThanMin" class="text-danger">You need to rank at least {{ questionDetails.minOptionsToBeRanked }} options.</p>
-  <p *ngIf="isMaxOptionsEnabled && isOptionsRankedMoreThanMax" class="text-danger">Rank no more than {{questionDetails.maxOptionsToBeRanked}} options.</p>
+<div>
+  <p *ngIf="!questionDetails.areDuplicatesAllowed && isSameRanksAssigned" class="text-danger"><span class="fa fa-times"></span>
+    The same rank should not be given multiple times.</p>
+  <p *ngIf="isNoOptionRanked" class="text-info"><span class="fa fa-info-circle"></span>
+    Please rank the above options.</p>
+  <p *ngIf="isMinOptionsEnabled && isOptionsRankedLessThanMin" class="text-danger"><span class="fa fa-times"></span>
+    You need to rank at least {{ questionDetails.minOptionsToBeRanked }} options.</p>
+  <p *ngIf="isMaxOptionsEnabled && isOptionsRankedMoreThanMax" class="text-danger"><span class="fa fa-times"></span>
+    Rank no more than {{questionDetails.maxOptionsToBeRanked}} options.</p>
 </div>

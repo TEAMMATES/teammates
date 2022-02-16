@@ -6,6 +6,7 @@ import { EmailGenerationService } from '../../../services/email-generation.servi
 import { InstructorService } from '../../../services/instructor.service';
 import { LoadingBarService } from '../../../services/loading-bar.service';
 import {
+  AccountRequestSearchResult,
   AdminSearchResult,
   FeedbackSessionsGroup,
   InstructorAccountSearchResult,
@@ -35,6 +36,7 @@ export class AdminSearchPageComponent {
   searchQuery: string = '';
   instructors: InstructorAccountSearchResult[] = [];
   students: StudentAccountSearchResult[] = [];
+  accountRequests: AccountRequestSearchResult[] = [];
 
   constructor(
     private statusMessageService: StatusMessageService,
@@ -57,18 +59,22 @@ export class AdminSearchPageComponent {
     ).pipe(finalize(() => this.loadingBarService.hideLoadingBar())).subscribe((resp: AdminSearchResult) => {
       const hasStudents: boolean = !!(resp.students && resp.students.length);
       const hasInstructors: boolean = !!(resp.instructors && resp.instructors.length);
+      const hasAccountRequests: boolean = !!(resp.accountRequests && resp.accountRequests.length);
 
-      if (!hasStudents && !hasInstructors) {
+      if (!hasStudents && !hasInstructors && !hasAccountRequests) {
         this.statusMessageService.showWarningToast('No results found.');
         this.instructors = [];
         this.students = [];
+        this.accountRequests = [];
         return;
       }
 
       this.instructors = resp.instructors;
       this.students = resp.students;
+      this.accountRequests = resp.accountRequests;
       this.hideAllInstructorsLinks();
       this.hideAllStudentsLinks();
+      this.hideAllAccountRequestsLinks();
 
       // prompt user to use more specific terms if search results limit reached
       const limit: number = ApiConst.SEARCH_QUERY_SIZE_LIMIT;
@@ -78,6 +84,9 @@ export class AdminSearchPageComponent {
       }
       if (this.instructors.length >= limit) {
         limitsReached.push(`${limit} instructor results`);
+      }
+      if (this.accountRequests.length >= limit) {
+        limitsReached.push(`${limit} account request results`);
       }
       if (limitsReached.length) {
         this.statusMessageService.showWarningToast(`${limitsReached.join(' and ')} have been shown on this page
@@ -124,6 +133,24 @@ export class AdminSearchPageComponent {
   hideAllStudentsLinks(): void {
     for (const student of this.students) {
       student.showLinks = false;
+    }
+  }
+
+  /**
+   * Shows all account requests' links in the page.
+   */
+  showAllAccountRequestsLinks(): void {
+    for (const accountRequest of this.accountRequests) {
+      accountRequest.showLinks = true;
+    }
+  }
+
+  /**
+   * Hides all account requests' links in the page.
+   */
+  hideAllAccountRequestsLinks(): void {
+    for (const accountRequest of this.accountRequests) {
+      accountRequest.showLinks = false;
     }
   }
 
@@ -235,7 +262,17 @@ export class AdminSearchPageComponent {
    * Updates the instructor's displayed course join and feedback session links with the value of the newKey.
    */
   private updateDisplayedInstructorCourseLinks(instructor: InstructorAccountSearchResult, newKey: string): void {
+    const updateSessions: Function = (sessions: FeedbackSessionsGroup): void => {
+      Object.keys(sessions).forEach((key: string): void => {
+        sessions[key].feedbackSessionUrl = this.getUpdatedUrl(sessions[key].feedbackSessionUrl, newKey);
+      });
+    };
+
     instructor.courseJoinLink = this.getUpdatedUrl(instructor.courseJoinLink, newKey);
+    updateSessions(instructor.awaitingSessions);
+    updateSessions(instructor.openSessions);
+    updateSessions(instructor.notOpenSessions);
+    updateSessions(instructor.publishedSessions);
   }
 
   /**

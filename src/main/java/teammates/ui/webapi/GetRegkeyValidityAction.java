@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
@@ -28,31 +29,39 @@ class GetRegkeyValidityAction extends Action {
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
         String regkey = getNonNullRequestParamValue(Const.ParamsNames.REGKEY);
 
+        boolean isValid = false;
+        String googleId = null;
+
         if (intent == Intent.STUDENT_SUBMISSION || intent == Intent.STUDENT_RESULT) {
             StudentAttributes student = logic.getStudentForRegistrationKey(regkey);
-            boolean isValid = student != null;
-            boolean isUsed = false;
-            boolean isAllowedAccess = false;
-
-            if (isValid) {
-                if (StringHelper.isEmpty(student.getGoogleId())) {
-                    // If registration key has not been used, always allow access
-                    isAllowedAccess = true;
-                } else {
-                    isUsed = true;
-                    // If the registration key has been used to register, the logged in user needs to match
-                    // Block access to not logged in user and mismatched user
-                    isAllowedAccess = userInfo != null && student.getGoogleId().equals(userInfo.id);
-                }
+            if (student != null) {
+                isValid = true;
+                googleId = student.getGoogleId();
             }
-
-            return new JsonResult(new RegkeyValidityData(isValid, isUsed, isAllowedAccess));
+        } else if (intent == Intent.INSTRUCTOR_SUBMISSION || intent == Intent.INSTRUCTOR_RESULT) {
+            InstructorAttributes instructor = logic.getInstructorForRegistrationKey(regkey);
+            if (instructor != null) {
+                isValid = true;
+                googleId = instructor.getGoogleId();
+            }
         }
 
-        // Other intents are invalid for this purpose.
-        // This includes instructor submission/result intents, because instructors are expected to be registered
-        // in order to use the system.
-        return new JsonResult(new RegkeyValidityData(false, false, false));
+        boolean isUsed = false;
+        boolean isAllowedAccess = false;
+
+        if (isValid) {
+            if (StringHelper.isEmpty(googleId)) {
+                // If registration key has not been used, always allow access
+                isAllowedAccess = true;
+            } else {
+                isUsed = true;
+                // If the registration key has been used to register, the logged in user needs to match
+                // Block access to not logged in user and mismatched user
+                isAllowedAccess = userInfo != null && googleId.equals(userInfo.id);
+            }
+        }
+
+        return new JsonResult(new RegkeyValidityData(isValid, isUsed, isAllowedAccess));
     }
 
 }

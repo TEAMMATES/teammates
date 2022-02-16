@@ -5,6 +5,7 @@ import { forkJoin, Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
+import { FeedbackSessionActionsService } from '../../../services/feedback-session-actions.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { InstructorService } from '../../../services/instructor.service';
 import { NavigationService } from '../../../services/navigation.service';
@@ -19,9 +20,9 @@ import {
   Courses,
   FeedbackSession,
   FeedbackSessions,
-  InstructorPrivilege,
+  InstructorPermissionSet,
 } from '../../../types/api-output';
-import { DEFAULT_INSTRUCTOR_PRIVILEGE } from '../../../types/instructor-privilege';
+import { DEFAULT_INSTRUCTOR_PRIVILEGE } from '../../../types/default-instructor-privilege';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import {
   CopySessionResult,
@@ -39,7 +40,7 @@ import { InstructorSessionModalPageComponent } from '../instructor-session-modal
  */
 export interface CourseTabModel {
   course: Course;
-  instructorPrivilege: InstructorPrivilege;
+  instructorPrivilege: InstructorPermissionSet;
   sessionsTableRowModels: SessionsTableRowModel[];
   sessionsTableRowModelsSortBy: SortBy;
   sessionsTableRowModelsSortOrder: SortOrder;
@@ -88,10 +89,11 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
               tableComparatorService: TableComparatorService,
               simpleModalService: SimpleModalService,
               progressBarService: ProgressBarService,
+              feedbackSessionActionsService: FeedbackSessionActionsService,
               private courseService: CourseService) {
     super(router, instructorService, statusMessageService, navigationService, feedbackSessionsService,
         feedbackQuestionsService, tableComparatorService, ngbModal, simpleModalService,
-        progressBarService, studentService);
+        progressBarService, feedbackSessionActionsService, studentService);
   }
 
   ngOnInit(): void {
@@ -174,7 +176,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
         courses.courses.forEach((course: Course) => {
           const model: CourseTabModel = {
             course,
-            instructorPrivilege: course.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE,
+            instructorPrivilege: course.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE(),
             sessionsTableRowModels: [],
             isTabExpanded: false,
             isAjaxSuccess: true,
@@ -209,7 +211,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
                 feedbackSession,
                 responseRate: '',
                 isLoadingResponseRate: false,
-                instructorPrivilege: feedbackSession.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE,
+                instructorPrivilege: feedbackSession.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE(),
               };
               model.sessionsTableRowModels.push(m);
             });
@@ -350,7 +352,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
                 feedbackSession: session,
                 responseRate: '',
                 isLoadingResponseRate: false,
-                instructorPrivilege: session.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE,
+                instructorPrivilege: session.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE(),
               };
               const courseModel: CourseTabModel | undefined = this.courseTabModels.find((tabModel: CourseTabModel) =>
                   tabModel.course.courseId === session.courseId);

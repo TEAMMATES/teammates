@@ -2,7 +2,6 @@ package teammates.e2e.cases;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.time.ZoneId;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -41,13 +40,13 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
 
         newCourse = CourseAttributes.builder("tm.e2e.ICs.CS4100")
                 .withName("New Course")
-                .withTimezone(ZoneId.of("Asia/Singapore"))
+                .withTimezone("Asia/Singapore")
                 .withInstitute("TEAMMATES Test Institute 1")
                 .build();
 
         copyCourse = CourseAttributes.builder("tm.e2e.ICs.CS5000")
                 .withName("Copy Course")
-                .withTimezone(ZoneId.of("Asia/Singapore"))
+                .withTimezone("Asia/Singapore")
                 .withInstitute("TEAMMATES Test Institute 1")
                 .build();
 
@@ -76,7 +75,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
     @Override
     public void testAll() {
         String instructorId = testData.accounts.get("instructor").getGoogleId();
-        AppUrl url = createUrl(Const.WebPageURIs.INSTRUCTOR_COURSES_PAGE);
+        AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_COURSES_PAGE);
         InstructorCoursesPage coursesPage = loginToPage(url, InstructorCoursesPage.class, instructorId);
 
         ______TS("verify loaded data");

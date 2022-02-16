@@ -1,7 +1,5 @@
 package teammates.ui.webapi;
 
-import java.time.ZoneId;
-
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
@@ -64,7 +62,7 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
         CourseAttributes createdCourse = logic.getCourse("new-course");
         assertNotNull(createdCourse);
         assertEquals("New Course", createdCourse.getName());
-        assertEquals(ZoneId.of("UTC"), createdCourse.getTimeZone());
+        assertEquals("UTC", createdCourse.getTimeZone());
         assertEquals("TEAMMATES Test Institute 1", createdCourse.getInstitute());
 
         ______TS("Typical case with existing course id");

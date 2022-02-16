@@ -4,7 +4,11 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { of } from 'rxjs';
 import { ResourceEndpoints } from '../types/api-const';
 import { Instructor, Instructors, JoinState } from '../types/api-output';
-import { InstructorCreateRequest, InstructorPermissionRole } from '../types/api-request';
+import {
+  InstructorCreateRequest,
+  InstructorPermissionRole,
+  InstructorPrivilegeUpdateRequest,
+} from '../types/api-request';
 import { HttpRequestService } from './http-request.service';
 import { InstructorService } from './instructor.service';
 import DoneCallback = jest.DoneCallback;
@@ -130,12 +134,29 @@ describe('InstructorService', () => {
       courseid: 'CS3281',
       instructoremail: 'johndoe@gmail.com',
     };
+    const requestBody: InstructorPrivilegeUpdateRequest = {
+      privileges: {
+        courseLevel: {
+          canModifyCourse: true,
+          canModifySession: true,
+          canModifyStudent: true,
+          canModifyInstructor: true,
+          canViewStudentInSections: true,
+          canModifySessionCommentsInSections: true,
+          canViewSessionInSections: true,
+          canSubmitSessionInSections: true,
+        },
+        sectionLevel: {},
+        sessionLevel: {},
+      },
+    };
 
     service.updateInstructorPrivilege({
+      requestBody,
       courseId: paramMap.courseid,
       instructorEmail: paramMap.instructoremail,
-      requestBody: {},
     });
-    expect(spyHttpRequestService.put).toHaveBeenCalledWith(ResourceEndpoints.INSTRUCTOR_PRIVILEGE, paramMap, {});
+    expect(spyHttpRequestService.put).toHaveBeenCalledWith(
+        ResourceEndpoints.INSTRUCTOR_PRIVILEGE, paramMap, requestBody);
   });
 });

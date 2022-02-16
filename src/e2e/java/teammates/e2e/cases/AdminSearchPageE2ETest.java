@@ -5,6 +5,7 @@ import java.time.Instant;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.AccountRequestAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -36,13 +37,14 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
             return;
         }
 
-        AppUrl url = createUrl(Const.WebPageURIs.ADMIN_SEARCH_PAGE);
+        AppUrl url = createFrontendUrl(Const.WebPageURIs.ADMIN_SEARCH_PAGE);
         AdminSearchPage searchPage = loginAdminToPage(url, AdminSearchPage.class);
 
         StudentAttributes student = testData.students.get("student1InCourse1");
         AccountAttributes studentAccount = testData.accounts.get("student1InCourse1");
         InstructorAttributes instructor = testData.instructors.get("instructor1OfCourse1");
         AccountAttributes instructorAccount = testData.accounts.get("instructor1OfCourse1");
+        AccountRequestAttributes accountRequest = testData.accountRequests.get("instructor1OfCourse1");
 
         ______TS("Typical case: Search student email");
         String searchContent = student.getEmail();
@@ -99,18 +101,27 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         searchPage.verifyRegenerateInstructorKey(instructor, originalJoinLink);
         searchPage.waitForPageToLoad();
 
-        ______TS("Typical case: Search common course id");
+        ______TS("Typical case: Search for account request by email");
         searchPage.clearSearchBox();
-        searchContent = student.getCourse();
+        searchContent = accountRequest.getEmail();
+        searchPage.inputSearchContent(searchContent);
+        searchPage.clickSearchButton();
+        searchPage.verifyAccountRequestRowContent(accountRequest);
+        searchPage.verifyAccountRequestExpandedLinks(accountRequest);
+
+        ______TS("Typical case: Search common search key");
+        searchPage.clearSearchBox();
+        searchContent = "Course1";
         searchPage.inputSearchContent(searchContent);
         searchPage.clickSearchButton();
         searchPage.verifyStudentRowContent(student, studentAccount, studentDetails, studentManageAccountLink,
                 studentHomePageLink);
         searchPage.verifyInstructorRowContent(instructor, instructorAccount, instructorManageAccountLink,
                 instructorHomePageLink);
+        searchPage.verifyAccountRequestRowContent(accountRequest);
 
         ______TS("Typical case: Expand and collapse links");
-        searchPage.verifyLinkExpansionButtons(student, instructor);
+        searchPage.verifyLinkExpansionButtons(student, instructor, accountRequest);
     }
 
     private String getExpectedStudentDetails(StudentAttributes student) {
@@ -119,14 +130,14 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
     }
 
     private String getExpectedStudentHomePageLink(StudentAttributes student) {
-        return student.isRegistered() ? createUrl(Const.WebPageURIs.STUDENT_HOME_PAGE)
+        return student.isRegistered() ? createFrontendUrl(Const.WebPageURIs.STUDENT_HOME_PAGE)
                 .withUserId(student.getGoogleId())
                 .toAbsoluteString()
                 : "";
     }
 
     private String getExpectedStudentManageAccountLink(StudentAttributes student) {
-        return student.isRegistered() ? createUrl(Const.WebPageURIs.ADMIN_ACCOUNTS_PAGE)
+        return student.isRegistered() ? createFrontendUrl(Const.WebPageURIs.ADMIN_ACCOUNTS_PAGE)
                 .withParam(Const.ParamsNames.INSTRUCTOR_ID, student.getGoogleId())
                 .toAbsoluteString()
                 : "";
@@ -147,14 +158,14 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
 
     private String getExpectedInstructorHomePageLink(InstructorAttributes instructor) {
         String googleId = instructor.isRegistered() ? instructor.getGoogleId() : "";
-        return createUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE)
+        return createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE)
                 .withUserId(googleId)
                 .toAbsoluteString();
     }
 
     private String getExpectedInstructorManageAccountLink(InstructorAttributes instructor) {
         String googleId = instructor.isRegistered() ? instructor.getGoogleId() : "";
-        return createUrl(Const.WebPageURIs.ADMIN_ACCOUNTS_PAGE)
+        return createFrontendUrl(Const.WebPageURIs.ADMIN_ACCOUNTS_PAGE)
                 .withParam(Const.ParamsNames.INSTRUCTOR_ID, googleId)
                 .toAbsoluteString();
     }

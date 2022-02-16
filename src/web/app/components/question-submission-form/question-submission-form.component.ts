@@ -98,6 +98,29 @@ export class QuestionSubmissionFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.sortRecipientsByName();
+  }
+
+  /**
+   * Sorts recipients of feedback by their name.
+   */
+  private sortRecipientsByName(): void {
+    this.model.recipientList.sort((firstRecipient: FeedbackResponseRecipient,
+      secondRecipient: FeedbackResponseRecipient) =>
+      firstRecipient.recipientName.localeCompare(secondRecipient.recipientName));
+
+    const indexes: Map<String, number> = new Map();
+    this.model.recipientList.forEach((recipient: FeedbackResponseRecipient, index: number) => {
+      indexes.set(recipient.recipientIdentifier, index);
+    });
+
+    this.model.recipientSubmissionForms.sort((firstRecipient: FeedbackResponseRecipientSubmissionFormModel,
+      secondRecipient: FeedbackResponseRecipientSubmissionFormModel) => {
+      const firstRecipientIndex: number = indexes.get(firstRecipient.recipientIdentifier) || 0;
+      const secondRecipientIndex: number = indexes.get(secondRecipient.recipientIdentifier) || 0;
+
+      return firstRecipientIndex - secondRecipientIndex;
+    });
   }
 
   /**

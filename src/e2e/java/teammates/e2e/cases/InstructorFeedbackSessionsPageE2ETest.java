@@ -52,7 +52,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         newSession = FeedbackSessionAttributes
                 .builder("New Session", course.getId())
                 .withCreatorEmail(instructor.getEmail())
-                .withStartTime(TimeHelper.parseInstant("2035-04-01T21:59:00Z"))
+                .withStartTime(TimeHelper.parseInstant("2035-04-01T22:00:00Z"))
                 .withEndTime(TimeHelper.parseInstant("2035-04-30T20:00:00Z"))
                 .withSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING)
                 .withResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER)
@@ -75,7 +75,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
     @Test
     @Override
     public void testAll() {
-        AppUrl url = createUrl(Const.WebPageURIs.INSTRUCTOR_SESSIONS_PAGE);
+        AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SESSIONS_PAGE);
         InstructorFeedbackSessionsPage feedbackSessionsPage =
                 loginToPage(url, InstructorFeedbackSessionsPage.class, instructor.getGoogleId());
 

@@ -24,23 +24,10 @@
   <div *tmIsLoading="isAddingFromTemplate"></div>
   <br/>
   <div class="card" *ngIf="!isLoadingFeedbackQuestions && !isAddingQuestionPanelExpanded">
-    <div class="card-body background-color-light-blue text-center">
-      <div ngbDropdown class="d-inline-block">
-        <button id="btn-new-question" class="btn btn-primary" ngbDropdownToggle>Add New Question</button>
-        <div id="new-question-dropdown" ngbDropdownMenu>
-          <button class="dropdown-item" (click)="templateQuestionModalHandler()">Choose from template questions</button>
-          <div class="dropdown-divider"></div>
-          <ng-container *ngFor="let questionType of FeedbackQuestionType | enumToArray">
-            <button class="dropdown-item" *ngIf="questionType !== FeedbackQuestionType.CONSTSUM"
-                    (click)="populateAndShowNewQuestionForm(questionType)">
-              {{ questionType | questionTypeName }}
-            </button>
-          </ng-container>
-        </div>
-      </div>
-      <a type="button" class="btn btn-link" target="_blank" rel="noopener noreferrer" tmRouterLink="/web/instructor/help" [queryParams]="{questionId: 'questions', section: 'questions'}"><i class="fas fa-info-circle"></i></a>
-      <button id="btn-copy-question" class="btn btn-primary" (click)="copyQuestionsFromOtherSessionsHandler()" [disabled]="isCopyingQuestion"><tm-ajax-loading *ngIf="isCopyingQuestion"></tm-ajax-loading>Copy Question</button>
-    </div>
+    <tm-adding-question-panel (templateQuestionModalEvent)="templateQuestionModalHandler()"
+                              (populateAndShowNewQuestionFormEvent)="populateAndShowNewQuestionForm($event)"
+                              (copyQuestionsFromOtherSessionsEvent)="copyQuestionsFromOtherSessionsHandler()"
+                              [isCopyingQuestion]="isCopyingQuestion"></tm-adding-question-panel>
   </div>
   <tm-question-edit-form *ngIf="isAddingQuestionPanelExpanded"
                          [formMode]="QuestionEditFormMode.ADD"
@@ -51,42 +38,9 @@
   ></tm-question-edit-form>
   <br/>
   <div *ngIf="!isLoadingFeedbackQuestions" class="card">
-    <div class="card-body background-color-light-blue text-center">
-      <div class="row align-items-center">
-        <div class="col-lg-2 text-lg-right">
-          <b>Preview Session:</b>
-        </div>
-        <div class="col-lg-5">
-          <select id="preview-student" class="form-control preview-select" [(ngModel)]="emailOfStudentToPreview">
-            <option *ngFor="let student of studentsOfCourse" [ngValue]="student.email">[{{ student.teamName }}] {{ student.name }}</option>
-          </select>
-          <a *ngIf="emailOfStudentToPreview.length !== 0; else previewStudentBtn" tmRouterLink="/web/sessions/submission"
-             [queryParams]="{ courseid: courseId, fsname: feedbackSessionName, previewas: emailOfStudentToPreview }"
-             target="_blank"
-             rel="noopener noreferrer"
-             [ngbTooltip]="emailOfStudentToPreview.length !== 0 ? 'View how this session would look like to a student who is submitting feedback.' : 'Preview is unavailable if the course has yet to have any student enrolled.'">
-            <ng-container *ngTemplateOutlet="previewStudentBtn"></ng-container>
-          </a>
-          <ng-template #previewStudentBtn>
-            <button id="btn-preview-student" class="btn btn-primary" [disabled]="emailOfStudentToPreview.length === 0">Preview as Student</button>
-          </ng-template>
-        </div>
-        <div class="col-lg-5">
-          <select id="preview-instructor" class="form-control preview-select" [(ngModel)]="emailOfInstructorToPreview">
-            <option *ngFor="let instructor of instructorsCanBePreviewedAs" [ngValue]="instructor.email">{{ instructor.name }}</option>
-          </select>
-          <a *ngIf="emailOfInstructorToPreview.length !== 0; else previewInstructorBtn" tmRouterLink="/web/instructor/sessions/submission"
-             [queryParams]="{ courseid: courseId, fsname: feedbackSessionName, previewas: emailOfInstructorToPreview }"
-             target="_blank"
-             rel="noopener noreferrer"
-             ngbTooltip="View how this session would look like to an instructor who is submitting feedback. Only instructors with submit privileges are included in the list.">
-            <ng-container *ngTemplateOutlet="previewInstructorBtn"></ng-container>
-          </a>
-          <ng-template #previewInstructorBtn>
-            <button id="btn-preview-instructor" class="btn btn-primary" [disabled]="emailOfInstructorToPreview.length === 0">Preview as Instructor</button>
-          </ng-template>
-        </div>
-      </div>
-    </div>
+    <tm-preview-session-panel [courseId]="courseId" [feedbackSessionName]="feedbackSessionName"
+                              [emailOfStudentToPreview]="emailOfStudentToPreview" [studentsOfCourse]="studentsOfCourse"
+                              [instructorsCanBePreviewedAs]="instructorsCanBePreviewedAs" [emailOfInstructorToPreview]="emailOfInstructorToPreview"
+    ></tm-preview-session-panel>
   </div>
 </tm-loading-retry>

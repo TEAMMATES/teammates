@@ -226,7 +226,7 @@ public final class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, Feedba
                 && this.<Instant>hasSameValue(
                         feedbackSession.getResultsVisibleFromTime(), newAttributes.getResultsVisibleFromTime())
                 && this.<String>hasSameValue(
-                        feedbackSession.getTimeZone(), newAttributes.getTimeZone().getId())
+                        feedbackSession.getTimeZone(), newAttributes.getTimeZone())
                 && this.<Long>hasSameValue(
                         feedbackSession.getGracePeriod(), newAttributes.getGracePeriodMinutes())
                 && this.<Boolean>hasSameValue(
@@ -254,7 +254,7 @@ public final class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, Feedba
         feedbackSession.setEndTime(newAttributes.getEndTime());
         feedbackSession.setSessionVisibleFromTime(newAttributes.getSessionVisibleFromTime());
         feedbackSession.setResultsVisibleFromTime(newAttributes.getResultsVisibleFromTime());
-        feedbackSession.setTimeZone(newAttributes.getTimeZone().getId());
+        feedbackSession.setTimeZone(newAttributes.getTimeZone());
         feedbackSession.setGracePeriod(newAttributes.getGracePeriodMinutes());
         feedbackSession.setSentOpeningSoonEmail(newAttributes.isSentOpeningSoonEmail());
         feedbackSession.setSentOpenEmail(newAttributes.isSentOpenEmail());

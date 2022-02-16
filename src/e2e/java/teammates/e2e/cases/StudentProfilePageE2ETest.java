@@ -24,23 +24,23 @@ public class StudentProfilePageE2ETest extends BaseE2ETestCase {
 
         ______TS("Typical case: Log in with filled profile values");
 
-        AppUrl url = createUrl(Const.WebPageURIs.STUDENT_PROFILE_PAGE);
+        AppUrl url = createFrontendUrl(Const.WebPageURIs.STUDENT_PROFILE_PAGE);
         StudentProfilePage profilePage = loginToPage(url, StudentProfilePage.class, "tm.e2e.SProf.student");
 
         profilePage.ensureProfileContains("Ben", "i.m.benny@gmail.tmt", "TEAMMATES Test Institute 4",
                 "Singaporean", StudentProfileAttributes.Gender.MALE, "I am just another student :P");
 
         ______TS("Typical case: picture upload and edit");
-
-        profilePage.fillProfilePic("src/test/resources/images/profile_pic.png");
-        profilePage.uploadPicture();
-        profilePage.verifyStatusMessage("Your profile picture has been saved successfully");
+        profilePage.uploadProfilePicAndVerifyDimensions("src/test/resources/images/profile_pic.png", 220, 220);
 
         profilePage.showPictureEditor();
         profilePage.waitForUploadEditModalVisible();
-
         profilePage.editProfilePhoto();
-        profilePage.verifyPhotoSize("220px", "220px");
+        profilePage.closePictureEditor();
+
+        ______TS("Typical case: Profile picture ratios");
+        profilePage.uploadProfilePicAndVerifyDimensions("src/test/resources/images/profile_pic_too_wide.jpg", 171, 220);
+        profilePage.uploadProfilePicAndVerifyDimensions("src/test/resources/images/profile_pic_too_tall.jpg", 220, 121);
 
         ______TS("Typical case: edit profile page");
         profilePage.editProfileThroughUi("short.name", "e@email.tmt", "inst", "American",
