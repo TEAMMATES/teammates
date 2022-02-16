@@ -268,7 +268,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
 
     @Override
     public boolean isFeedbackParticipantCommentsOnResponsesAllowed() {
-        return false;
+        return true;
     }
 
     @Override

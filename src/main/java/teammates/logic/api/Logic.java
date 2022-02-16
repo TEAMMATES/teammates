@@ -726,27 +726,26 @@ public class Logic {
     }
 
     /**
-     * Checks whether an instructor has completed a feedback session.
+     * Checks whether an instructor has attempted a feedback session.
      *
-     * <p> If there is no question for instructors, the feedback session is completed</p>
+     * <p>If there is no question for instructors, the feedback session is considered as attempted.</p>
      */
-    public boolean isFeedbackSessionCompletedByInstructor(FeedbackSessionAttributes fsa, String userEmail)
-            throws EntityDoesNotExistException {
+    public boolean isFeedbackSessionAttemptedByInstructor(FeedbackSessionAttributes fsa, String userEmail) {
         assert fsa != null;
         assert userEmail != null;
-        return feedbackSessionsLogic.isFeedbackSessionCompletedByInstructor(fsa, userEmail);
+        return feedbackSessionsLogic.isFeedbackSessionAttemptedByInstructor(fsa, userEmail);
     }
 
     /**
-     * Checks whether a student has completed a feedback session.
+     * Checks whether a student has attempted a feedback session.
      *
-     * <p> If there is no question for students, the feedback session is completed</p>
+     * <p>If there is no question for students, the feedback session is considered as attempted.</p>
      */
-    public boolean isFeedbackSessionCompletedByStudent(FeedbackSessionAttributes fsa, String userEmail, String userTeam) {
+    public boolean isFeedbackSessionAttemptedByStudent(FeedbackSessionAttributes fsa, String userEmail, String userTeam) {
         assert fsa != null;
         assert userEmail != null;
         assert userTeam != null;
-        return feedbackSessionsLogic.isFeedbackSessionCompletedByStudent(fsa, userEmail, userTeam);
+        return feedbackSessionsLogic.isFeedbackSessionAttemptedByStudent(fsa, userEmail, userTeam);
     }
 
     /**
@@ -951,23 +950,11 @@ public class Logic {
      * instructor can view/submit.
      */
     public List<FeedbackQuestionAttributes> getFeedbackQuestionsForInstructors(
-            String feedbackSessionName, String courseId, String instructorEmail) throws EntityDoesNotExistException {
+            String feedbackSessionName, String courseId, String instructorEmail) {
         assert feedbackSessionName != null;
         assert courseId != null;
 
-        return feedbackQuestionsLogic.getFeedbackQuestionsForInstructor(feedbackSessionName, courseId, instructorEmail);
-    }
-
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     */
-    public boolean hasStudentSubmittedFeedback(FeedbackSessionAttributes fsa, String studentEmail, String studentTeam) {
-
-        assert fsa != null;
-        assert studentEmail != null;
-
-        return feedbackSessionsLogic.isFeedbackSessionCompletedByStudent(fsa, studentEmail, studentTeam);
+        return feedbackQuestionsLogic.getFeedbackQuestionsForInstructors(feedbackSessionName, courseId, instructorEmail);
     }
 
     /**

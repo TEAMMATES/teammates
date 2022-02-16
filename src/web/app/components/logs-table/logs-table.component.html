@@ -12,17 +12,19 @@
       <tbody>
         <ng-container *ngFor="let log of logs">
           <tr (click)="expandDetails(log)" [ngClass]="getClassForSeverity(log.logEntry.severity)">
-            <td style="font-family: monospace;">{{ log.timestampForDisplay }}</td>
-            <td>{{ log.logEntry.severity }}</td>
-            <td>
+            <td class="width-20" style="font-family: monospace;">{{ log.timestampForDisplay }}</td>
+            <td class="width-10">{{ log.logEntry.severity }}</td>
+            <td class="width-10">
               <span class="clickable" ngbTooltip="Click to add to filter" (click)="addTraceToFilter(log.logEntry.trace)">{{ log.traceIdForDisplay }}</span>
             </td>
-            <td class="ellipsis">
-              <tm-request-log-line *ngIf="log.logEntry.details && log.logEntry.details.event === LogEvent.REQUEST_LOG" [log]="log.logEntry"
+            <td class="width-60">
+              <div class="ellipsis">
+                <tm-request-log-line *ngIf="log.logEntry.details && log.logEntry.details.event === LogEvent.REQUEST_LOG" [log]="log.logEntry"
                   (addActionClassEvent)="addActionClassToFilter($event)"></tm-request-log-line>
-              <tm-exception-log-line *ngIf="log.logEntry.details && log.logEntry.details.event === LogEvent.EXCEPTION_LOG" [log]="log.logEntry"
+                <tm-exception-log-line *ngIf="log.logEntry.details && log.logEntry.details.event === LogEvent.EXCEPTION_LOG" [log]="log.logEntry"
                   (addExceptionClassEvent)="addExceptionClassToFilter($event)"></tm-exception-log-line>
-              <tm-generic-log-line *ngIf="!log.logEntry.details || log.logEntry.details.event !== LogEvent.REQUEST_LOG && log.logEntry.details.event !== LogEvent.EXCEPTION_LOG" [log]="log.logEntry"></tm-generic-log-line>
+                <tm-generic-log-line *ngIf="!log.logEntry.details || log.logEntry.details.event !== LogEvent.REQUEST_LOG && log.logEntry.details.event !== LogEvent.EXCEPTION_LOG" [log]="log.logEntry"></tm-generic-log-line>
+              </div>
             </td>
           </tr>
           <tr *ngIf="log.isDetailsExpanded">

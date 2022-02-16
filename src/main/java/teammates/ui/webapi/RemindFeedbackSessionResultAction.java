@@ -42,7 +42,8 @@ class RemindFeedbackSessionResultAction extends Action {
                 getAndValidateRequestBody(FeedbackSessionRespondentRemindRequest.class);
         String[] usersToEmail = remindRequest.getUsersToRemind();
 
-        taskQueuer.scheduleFeedbackSessionResendPublishedEmail(courseId, feedbackSessionName, usersToEmail);
+        taskQueuer.scheduleFeedbackSessionResendPublishedEmail(
+                courseId, feedbackSessionName, usersToEmail, userInfo.getId());
 
         return new JsonResult("Reminders sent");
     }
