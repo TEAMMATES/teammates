@@ -76,7 +76,7 @@ public class ArchitectureTest {
         noClasses().that().resideInAPackage(MAIN_PACKAGE)
                 .should().accessClassesThat().resideInAPackage(includeSubpackages(STORAGE_PACKAGE))
                 .orShould().accessClassesThat().resideInAPackage(includeSubpackages(LOGIC_PACKAGE))
-                .orShould().accessClassesThat(new DescribedPredicate<JavaClass>("") {
+                .orShould().accessClassesThat(new DescribedPredicate<>("") {
                     @Override
                     public boolean apply(JavaClass input) {
                         return input.getPackageName().startsWith(UI_PACKAGE)
@@ -231,7 +231,7 @@ public class ArchitectureTest {
                     .and().doNotHaveSimpleName(logicClassName + TEST_FILE_SUFFIX)
                     .and().doNotHaveSimpleName("DataBundleLogic")
                     .should()
-                    .accessClassesThat(new DescribedPredicate<JavaClass>("") {
+                    .accessClassesThat(new DescribedPredicate<>("") {
                         @Override
                         public boolean apply(JavaClass input) {
                             return input.getPackageName().startsWith(STORAGE_API_PACKAGE)
@@ -259,7 +259,7 @@ public class ArchitectureTest {
     @Test
     public void testArchitecture_storage_storageEntityShouldNotTouchOtherStoragePackages() {
         noClasses().that().resideInAPackage(includeSubpackages(STORAGE_ENTITY_PACKAGE))
-                .should().accessClassesThat(new DescribedPredicate<JavaClass>("") {
+                .should().accessClassesThat(new DescribedPredicate<>("") {
                     @Override
                     public boolean apply(JavaClass input) {
                         return input.getPackageName().startsWith(STORAGE_PACKAGE)
@@ -271,7 +271,7 @@ public class ArchitectureTest {
     @Test
     public void testArchitecture_testClasses_testCasesShouldBeIndependent() {
         noClasses().that().haveSimpleNameEndingWith(TEST_FILE_SUFFIX)
-                .should().accessClassesThat(new DescribedPredicate<JavaClass>("") {
+                .should().accessClassesThat(new DescribedPredicate<>("") {
                     @Override
                     public boolean apply(JavaClass input) {
                         return input.getSimpleName().endsWith(TEST_FILE_SUFFIX)
@@ -287,7 +287,7 @@ public class ArchitectureTest {
                 .check(forClasses(TEST_DRIVER_PACKAGE));
 
         noClasses().that().resideInAPackage(includeSubpackages(TEST_DRIVER_PACKAGE))
-                .should().accessClassesThat(new DescribedPredicate<JavaClass>("") {
+                .should().accessClassesThat(new DescribedPredicate<>("") {
                     @Override
                     public boolean apply(JavaClass input) {
                         return input.getPackageName().startsWith(STORAGE_PACKAGE)
@@ -298,14 +298,14 @@ public class ArchitectureTest {
                                 && !"SearchManagerFactory".equals(input.getSimpleName());
                     }
                 })
-                .orShould().accessClassesThat(new DescribedPredicate<JavaClass>("") {
+                .orShould().accessClassesThat(new DescribedPredicate<>("") {
                     @Override
                     public boolean apply(JavaClass input) {
                         return input.getPackageName().startsWith(LOGIC_CORE_PACKAGE)
                                 && !"LogicStarter".equals(input.getSimpleName());
                     }
                 })
-                .orShould().accessClassesThat(new DescribedPredicate<JavaClass>("") {
+                .orShould().accessClassesThat(new DescribedPredicate<>("") {
                     @Override
                     public boolean apply(JavaClass input) {
                         return input.getPackageName().startsWith(UI_WEBAPI_PACKAGE)
@@ -338,12 +338,12 @@ public class ArchitectureTest {
 
     @Test
     public void testArchitecture_e2e_e2eTestCasesShouldBeIndependentOfEachOther() {
-        noClasses().that(new DescribedPredicate<JavaClass>("") {
+        noClasses().that(new DescribedPredicate<>("") {
             @Override
             public boolean apply(JavaClass input) {
                 return input.getPackageName().startsWith(E2E_CASES_PACKAGE) && !input.isInnerClass();
             }
-        }).should().accessClassesThat(new DescribedPredicate<JavaClass>("") {
+        }).should().accessClassesThat(new DescribedPredicate<>("") {
             @Override
             public boolean apply(JavaClass input) {
                 return input.getPackageName().startsWith(E2E_CASES_PACKAGE)
@@ -365,7 +365,7 @@ public class ArchitectureTest {
     @Test
     public void testArchitecture_e2e_utilShouldNotHaveAnyDependency() {
         noClasses().that().resideInAPackage(includeSubpackages(E2E_UTIL_PACKAGE))
-                .should().accessClassesThat(new DescribedPredicate<JavaClass>("") {
+                .should().accessClassesThat(new DescribedPredicate<>("") {
                     @Override
                     public boolean apply(JavaClass input) {
                         return input.getPackageName().startsWith(E2E_PACKAGE)
@@ -386,7 +386,7 @@ public class ArchitectureTest {
         noClasses().that().resideInAPackage(includeSubpackages(LNP_PACKAGE))
                 .should().accessClassesThat().resideInAPackage(includeSubpackages(STORAGE_PACKAGE))
                 .orShould().accessClassesThat().resideInAPackage(includeSubpackages(LOGIC_PACKAGE))
-                .orShould().accessClassesThat(new DescribedPredicate<JavaClass>("") {
+                .orShould().accessClassesThat(new DescribedPredicate<>("") {
                     @Override
                     public boolean apply(JavaClass input) {
                         return input.getPackageName().startsWith(UI_PACKAGE)
@@ -398,12 +398,12 @@ public class ArchitectureTest {
 
     @Test
     public void testArchitecture_lnp_lnpTestCasesShouldBeIndependentOfEachOther() {
-        noClasses().that(new DescribedPredicate<JavaClass>("") {
+        noClasses().that(new DescribedPredicate<>("") {
             @Override
             public boolean apply(JavaClass input) {
                 return input.getPackageName().startsWith(LNP_CASES_PACKAGE) && !input.isInnerClass();
             }
-        }).should().accessClassesThat(new DescribedPredicate<JavaClass>("") {
+        }).should().accessClassesThat(new DescribedPredicate<>("") {
             @Override
             public boolean apply(JavaClass input) {
                 return input.getPackageName().startsWith(LNP_CASES_PACKAGE)
@@ -416,7 +416,7 @@ public class ArchitectureTest {
     @Test
     public void testArchitecture_lnp_lnpShouldNotHaveAnyDependency() {
         noClasses().that().resideInAPackage(includeSubpackages(LNP_UTIL_PACKAGE))
-                .should().accessClassesThat(new DescribedPredicate<JavaClass>("") {
+                .should().accessClassesThat(new DescribedPredicate<>("") {
                     @Override
                     public boolean apply(JavaClass input) {
                         return input.getPackageName().startsWith(LNP_PACKAGE)
@@ -449,7 +449,7 @@ public class ArchitectureTest {
     @Test
     public void testArchitecture_client_utilShouldNotHaveAnyDependency() {
         noClasses().that().resideInAPackage(includeSubpackages(CLIENT_UTIL_PACKAGE))
-                .should().accessClassesThat(new DescribedPredicate<JavaClass>("") {
+                .should().accessClassesThat(new DescribedPredicate<>("") {
                     @Override
                     public boolean apply(JavaClass input) {
                         return input.getPackageName().startsWith(CLIENT_PACKAGE)

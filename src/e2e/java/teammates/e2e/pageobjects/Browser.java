@@ -3,9 +3,9 @@ package teammates.e2e.pageobjects;
 import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
+import java.util.ArrayDeque;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Stack;
 
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.JavascriptExecutor;
@@ -47,7 +47,7 @@ public class Browser {
     /**
      * Keeps track of multiple windows opened by the {@link WebDriver}.
      */
-    private final Stack<String> windowHandles = new Stack<>();
+    private final ArrayDeque<String> windowHandles = new ArrayDeque<>();
 
     public Browser() {
         this.driver = createWebDriver();
