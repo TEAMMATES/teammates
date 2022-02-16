@@ -1,5 +1,8 @@
 package teammates.ui.webapi;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -39,7 +42,8 @@ class GenerateEmailAction extends AdminOnlyAction {
                 throw new InvalidHttpParameterException("Feedback session name not specified");
             }
             FeedbackSessionAttributes feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
-            email = emailGenerator.generateFeedbackSessionStudentReminderEmail(feedbackSession, student);
+            email = emailGenerator.generateFeedbackSessionReminderEmails(
+                    feedbackSession, Collections.singletonList(student), new ArrayList<>(), null).get(0);
         } else {
             throw new InvalidHttpParameterException("Email type " + emailType + " not accepted");
         }

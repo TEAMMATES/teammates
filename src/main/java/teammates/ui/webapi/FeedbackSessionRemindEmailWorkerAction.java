@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,16 +31,12 @@ class FeedbackSessionRemindEmailWorkerAction extends AdminOnlyAction {
             InstructorAttributes instructorToNotify = logic.getInstructorForGoogleId(courseId, instructorId);
 
             List<StudentAttributes> studentsToRemindList = studentList.stream().filter(student ->
-                    !logic.isFeedbackSessionCompletedByStudent(session, student.getEmail(), student.getTeam())
-            ).collect(Collectors.toCollection(ArrayList::new));
+                    !logic.isFeedbackSessionAttemptedByStudent(session, student.getEmail(), student.getTeam())
+            ).collect(Collectors.toList());
 
-            // Filter out instructors who have submitted the feedback session
-            List<InstructorAttributes> instructorsToRemindList = new ArrayList<>();
-            for (InstructorAttributes instructor : instructorList) {
-                if (!logic.isFeedbackSessionCompletedByInstructor(session, instructor.getEmail())) {
-                    instructorsToRemindList.add(instructor);
-                }
-            }
+            List<InstructorAttributes> instructorsToRemindList = instructorList.stream().filter(instructor ->
+                    !logic.isFeedbackSessionAttemptedByInstructor(session, instructor.getEmail())
+            ).collect(Collectors.toList());
 
             List<EmailWrapper> emails = emailGenerator.generateFeedbackSessionReminderEmails(
                     session, studentsToRemindList, instructorsToRemindList, instructorToNotify);

@@ -108,7 +108,7 @@ class GetHasResponsesAction extends Action {
                     // Skip invisible sessions.
                     continue;
                 }
-                boolean hasResponses = logic.hasStudentSubmittedFeedback(
+                boolean hasResponses = logic.isFeedbackSessionAttemptedByStudent(
                         feedbackSession, student.getEmail(), student.getTeam());
                 sessionsHasResponses.put(feedbackSession.getFeedbackSessionName(), hasResponses);
             }
@@ -119,7 +119,7 @@ class GetHasResponsesAction extends Action {
 
         StudentAttributes student = logic.getStudentForGoogleId(courseId, userInfo.getId());
         return new JsonResult(new HasResponsesData(
-                logic.hasStudentSubmittedFeedback(feedbackSession, student.getEmail(), student.getTeam())));
+                logic.isFeedbackSessionAttemptedByStudent(feedbackSession, student.getEmail(), student.getTeam())));
     }
 
     private JsonResult handleInstructorReq() {

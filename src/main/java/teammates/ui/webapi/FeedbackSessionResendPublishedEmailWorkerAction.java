@@ -1,6 +1,7 @@
 package teammates.ui.webapi;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -21,6 +22,10 @@ class FeedbackSessionResendPublishedEmailWorkerAction extends AdminOnlyAction {
     @Override
     public JsonResult execute() throws InvalidHttpRequestBodyException {
         FeedbackSessionRemindRequest remindRequest = getAndValidateRequestBody(FeedbackSessionRemindRequest.class);
+        String googleIdOfInstructorToNotify = remindRequest.getRequestingInstructorId();
+        if (googleIdOfInstructorToNotify == null) {
+            throw new InvalidHttpRequestBodyException("Instructor to notify cannot be null.");
+        }
         String feedbackSessionName = remindRequest.getFeedbackSessionName();
         String courseId = remindRequest.getCourseId();
         String[] usersToRemind = remindRequest.getUsersToRemind();
@@ -29,6 +34,8 @@ class FeedbackSessionResendPublishedEmailWorkerAction extends AdminOnlyAction {
             FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
             List<StudentAttributes> studentsToEmailList = new ArrayList<>();
             List<InstructorAttributes> instructorsToEmailList = new ArrayList<>();
+            InstructorAttributes instructorToNotify =
+                    logic.getInstructorForGoogleId(courseId, googleIdOfInstructorToNotify);
 
             for (String userEmail : usersToRemind) {
                 StudentAttributes student = logic.getStudentForEmail(courseId, userEmail);
@@ -43,7 +50,7 @@ class FeedbackSessionResendPublishedEmailWorkerAction extends AdminOnlyAction {
             }
 
             List<EmailWrapper> emails = emailGenerator.generateFeedbackSessionPublishedEmails(
-                    session, studentsToEmailList, instructorsToEmailList);
+                    session, studentsToEmailList, instructorsToEmailList, Collections.singletonList(instructorToNotify));
             taskQueuer.scheduleEmailsForSending(emails);
         } catch (Exception e) {
             log.severe("Unexpected error while sending emails", e);
