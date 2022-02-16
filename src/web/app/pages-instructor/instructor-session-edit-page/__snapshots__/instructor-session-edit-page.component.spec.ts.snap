@@ -710,6 +710,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             class="form-control ng-untouched ng-pristine ng-valid"
                             disabled=""
                             ngbdatepicker=""
+                            readonly=""
                             type="text"
                           />
                         </div>
@@ -881,6 +882,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             class="form-control ng-untouched ng-pristine ng-valid"
                             disabled=""
                             ngbdatepicker=""
+                            readonly=""
                             type="text"
                           />
                         </div>
@@ -3097,6 +3099,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                             class="form-control ng-untouched ng-pristine ng-valid"
                             disabled=""
                             ngbdatepicker=""
+                            readonly=""
                             type="text"
                           />
                         </div>
@@ -3268,6 +3271,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                             class="form-control ng-untouched ng-pristine ng-valid"
                             disabled=""
                             ngbdatepicker=""
+                            readonly=""
                             type="text"
                           />
                         </div>

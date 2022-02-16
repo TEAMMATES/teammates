@@ -10,7 +10,11 @@
 }
 
 .form-control {
-    &[readonly] {
+  &[readonly] {
     background-color: transparent;
-    }
+  }  
+  
+  &:disabled {
+    background-color: #e9ecef;
+  }
 }
