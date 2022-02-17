@@ -1,6 +1,5 @@
 package teammates.logic.api;
 
-import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,6 +18,7 @@ import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
+import teammates.common.util.RequestTracer;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.Templates.EmailTemplates;
@@ -54,7 +54,7 @@ public final class EmailGenerator {
 
     private static final String DATETIME_DISPLAY_FORMAT = "EEE, dd MMM yyyy, hh:mm a z";
 
-    private static final Duration SESSION_LINK_RECOVERY_DURATION = Duration.ofDays(90);
+    private static final long SESSION_LINK_RECOVERY_DURATION_IN_DAYS = 90;
 
     private static final EmailGenerator instance = new EmailGenerator();
 
@@ -377,12 +377,13 @@ public final class EmailGenerator {
                                                                              List<StudentAttributes> studentsForEmail) {
         String emailBody;
 
-        Instant searchStartTime = TimeHelper.getInstantDaysOffsetBeforeNow(SESSION_LINK_RECOVERY_DURATION);
+        Instant searchStartTime = TimeHelper.getInstantDaysOffsetBeforeNow(SESSION_LINK_RECOVERY_DURATION_IN_DAYS);
         Map<String, StringBuilder> linkFragmentsMap = new HashMap<>();
         String studentName = null;
 
         for (StudentAttributes student : studentsForEmail) {
-            // Refactored as discussed in [#11143] to query students' courses first
+            RequestTracer.checkRemainingTime();
+            // Query students' courses first
             // as a student will likely be in only a small number of courses.
             CourseAttributes course = coursesLogic.getCourse(student.getCourse());
             String courseId = course.getId();
@@ -398,6 +399,7 @@ public final class EmailGenerator {
 
             for (FeedbackSessionAttributes session
                     : fsLogic.getFeedbackSessionsForCourseStartingAfter(courseId, searchStartTime)) {
+                RequestTracer.checkRemainingTime();
                 String submitUrlHtml = "";
                 String reportUrlHtml = "";
 
