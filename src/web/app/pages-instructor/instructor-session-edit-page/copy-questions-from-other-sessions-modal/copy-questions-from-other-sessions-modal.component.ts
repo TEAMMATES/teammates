@@ -175,7 +175,7 @@ export class CopyQuestionsFromOtherSessionsModalComponent {
    */
   get hasAnyQuestionsToCopySelected(): boolean {
     return this.feedbackSessionTabModels.reduce((a: boolean, b: FeedbackSessionTabModel) => {
-      return a || b.questionsTableRowModels.find((c: QuestionToCopyCandidate) => c.isSelected) !== undefined;
+      return a || !!b.questionsTableRowModels.find((c: QuestionToCopyCandidate) => c.isSelected);
     }, false);
   }
 
