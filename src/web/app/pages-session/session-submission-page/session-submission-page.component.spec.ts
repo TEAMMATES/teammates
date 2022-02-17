@@ -207,6 +207,16 @@ describe('SessionSubmissionPageComponent', () => {
       questionType: FeedbackQuestionType.MSQ,
     } as FeedbackMsqResponseDetails,
     isValid: true,
+    commentByGiver: {
+      originalComment: testComment,
+      commentEditFormModel: {
+        commentText: 'comment text',
+        isUsingCustomVisibilities: false,
+        showCommentTo: [CommentVisibilityType.GIVER, CommentVisibilityType.RECIPIENT],
+        showGiverNameTo: [CommentVisibilityType.GIVER, CommentVisibilityType.RECIPIENT],
+      },
+      isEditing: false,
+    },
   };
 
   const testNumscaleRecipientSubmissionForm: FeedbackResponseRecipientSubmissionFormModel = {
@@ -780,7 +790,7 @@ describe('SessionSubmissionPageComponent', () => {
 
   it('should join course for unregistered student', () => {
     const navSpy: Spy = spyOn(navService, 'navigateByURL');
-    component.joinCourseForUnregisteredStudent();
+    component.joinCourseForUnregisteredEntity();
     expect(navSpy.calls.count()).toEqual(1);
     expect(navSpy.calls.mostRecent().args[1]).toEqual('/web/join');
     expect(navSpy.calls.mostRecent().args[2]).toEqual({ entitytype: 'student', key: testQueryParams.key });
@@ -981,6 +991,47 @@ describe('SessionSubmissionPageComponent', () => {
     expect(mockModalRef.componentInstance.failToSaveQuestions).toEqual({});
   });
 
+  it('should not save invalid feedback responses', () => {
+    const mockModalRef: any = { componentInstance: {} };
+    const testResponseDetails1: any = deepCopy(testMcqRecipientSubmissionForm.responseDetails);
+    const testResponseDetails2: any = deepCopy(testConstsumRecipientSubmissionForm.responseDetails);
+    const testQuestionSubmissionForm1: QuestionSubmissionFormModel = deepCopy(testMcqQuestionSubmissionForm);
+    const testQuestionSubmissionForm2: QuestionSubmissionFormModel = deepCopy(testConstsumQuestionSubmissionForm);
+    testQuestionSubmissionForm1.recipientSubmissionForms[0].responseDetails = testResponseDetails1;
+    testQuestionSubmissionForm2.recipientSubmissionForms[0].responseDetails = testResponseDetails2;
+    // invalid response
+    testQuestionSubmissionForm2.recipientSubmissionForms[0].isValid = false;
+    component.questionSubmissionForms = [testQuestionSubmissionForm1, testQuestionSubmissionForm2];
+
+    const responseSpy: Spy = spyOn(feedbackResponsesService, 'submitFeedbackResponses').and.callFake(() => {
+      return of({ responses: [testResponse1], requestId: '10' });
+    });
+    spyOn(feedbackResponseCommentService, 'createComment').and.returnValue(of({}));
+    spyOn(feedbackResponseCommentService, 'updateComment').and.returnValue(of({}));
+    spyOn(ngbModal, 'open').and.returnValue(mockModalRef);
+
+    component.saveFeedbackResponses();
+
+    expect(responseSpy).toBeCalledTimes(1);
+    expect(responseSpy.calls.first().args[0]).toEqual(testQuestionSubmissionForm1.feedbackQuestionId);
+    expect(responseSpy.calls.first().args[2].responses[0].responseDetails).toEqual(testResponseDetails1);
+
+    // only the valid response is saved
+    expect(mockModalRef.componentInstance.requestIds).toEqual({
+      [testQuestionSubmissionForm1.feedbackQuestionId]: '10',
+    });
+    expect(mockModalRef.componentInstance.questions).toEqual([
+      testQuestionSubmissionForm1,
+      testQuestionSubmissionForm2,
+    ]);
+    expect(mockModalRef.componentInstance.answers).toEqual({
+      [testQuestionSubmissionForm1.feedbackQuestionId]: [testResponse1],
+    });
+    expect(mockModalRef.componentInstance.failToSaveQuestions).toEqual({
+      [testQuestionSubmissionForm2.questionNumber]: 'Invalid responses provided. Please check question constraints.',
+    });
+  });
+
   it('should create comment request to create new comment when submission form has no original comment', () => {
     const testSubmissionForm: FeedbackResponseRecipientSubmissionFormModel = deepCopy(testTextRecipientSubmissionForm);
     const commentSpy: Spy = spyOn(feedbackResponseCommentService, 'createComment').and.returnValue(of(testComment));
@@ -1036,8 +1087,8 @@ describe('SessionSubmissionPageComponent', () => {
   });
 
   it('should delete participant comment', () => {
-    const testSubmissionForm: QuestionSubmissionFormModel = deepCopy(testMcqQuestionSubmissionForm);
-    const expectedId: any = testMcqQuestionSubmissionForm.recipientSubmissionForms[0]
+    const testSubmissionForm: QuestionSubmissionFormModel = deepCopy(testMsqQuestionSubmissionForm);
+    const expectedId: any = testMsqQuestionSubmissionForm.recipientSubmissionForms[0]
         .commentByGiver?.originalComment?.feedbackResponseCommentId;
     const commentSpy: Spy = spyOn(feedbackResponseCommentService, 'deleteComment').and.returnValue(of(true));
 

@@ -31,7 +31,7 @@ abstract class BasicCommentSubmissionAction extends BasicFeedbackSubmissionActio
                 logic.getFeedbackResponseCommentForResponseFromParticipant(feedbackResponseId);
 
         if (comment != null) {
-            throw new InvalidOperationException("Comment has been created for the response in submission");
+            throw new InvalidOperationException("Comment has already been created for the response in submission");
         }
 
     }

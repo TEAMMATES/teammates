@@ -9,6 +9,9 @@
     <p *ngIf="isAllPointsDistributed" class="text-success"><span class="fa fa-check"></span>
       All points distributed!</p>
 
+    <p *ngIf="isAnyPointsNegative" class="text-danger"><span class="fa fa-times"></span>
+      Points cannot be negative!</p>
+
     <p *ngIf="isWronglyAllUneven" class="text-danger"><span class="fa fa-times"></span>
       Multiple recipients are given same points!</p>
 

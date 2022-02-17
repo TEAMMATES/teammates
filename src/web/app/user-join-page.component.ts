@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { finalize } from 'rxjs/operators';
 import { environment } from '../environments/environment';
+import { AccountService } from '../services/account.service';
 import { AuthService } from '../services/auth.service';
 import { CourseService } from '../services/course.service';
 import { NavigationService } from '../services/navigation.service';
+import { TimezoneService } from '../services/timezone.service';
 import { AuthInfo, JoinStatus } from '../types/api-output';
 import { ErrorReportComponent } from './components/error-report/error-report.component';
 import { ErrorMessageOutput } from './error-message-output';
@@ -20,6 +23,7 @@ import { ErrorMessageOutput } from './error-message-output';
 export class UserJoinPageComponent implements OnInit {
 
   isLoading: boolean = true;
+  isCreatingAccount: boolean = false;
   hasJoined: boolean = false;
   validUrl: boolean = true;
   entityType: string = '';
@@ -30,15 +34,23 @@ export class UserJoinPageComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private router: Router,
+              private accountService: AccountService,
               private courseService: CourseService,
               private navigationService: NavigationService,
               private authService: AuthService,
+              private timezoneService: TimezoneService,
               private ngbModal: NgbModal) {}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
       this.entityType = queryParams.entitytype;
       this.key = queryParams.key;
+      this.isCreatingAccount = queryParams.iscreatingaccount === 'true';
+
+      // Create account request can only come from instructor.
+      if (this.isCreatingAccount) {
+        this.entityType = 'instructor';
+      }
 
       const nextUrl: string = `${window.location.pathname}${window.location.search.replace(/&/g, '%26')}`;
       this.authService.getAuthUser(undefined, nextUrl).subscribe((auth: AuthInfo) => {
@@ -52,25 +64,28 @@ export class UserJoinPageComponent implements OnInit {
           return;
         }
         this.userId = auth.user.id;
-        this.courseService.getJoinCourseStatus(this.key, this.entityType).subscribe((resp: JoinStatus) => {
-          this.hasJoined = resp.hasJoined;
-          if (this.hasJoined) {
-            // The regkey has been used; simply redirect the user to their home page,
-            // regardless of whether the regkey matches or not.
-            this.navigationService.navigateByURL(this.router, `/web/${this.entityType}/home`);
-          } else {
-            this.isLoading = false;
-          }
-        }, (resp: ErrorMessageOutput) => {
-          if (resp.status === 404) {
-            this.validUrl = false;
-            this.isLoading = false;
-            return;
-          }
-          const modalRef: any = this.ngbModal.open(ErrorReportComponent);
-          modalRef.componentInstance.requestId = resp.error.requestId;
-          modalRef.componentInstance.errorMessage = resp.error.message;
-        });
+
+        this.courseService
+          .getJoinCourseStatus(this.key, this.entityType, this.isCreatingAccount)
+          .subscribe((resp: JoinStatus) => {
+            this.hasJoined = resp.hasJoined;
+            if (this.hasJoined) {
+              // The regkey has been used; simply redirect the user to their home page,
+              // regardless of whether the regkey matches or not.
+              this.navigationService.navigateByURL(this.router, `/web/${this.entityType}/home`);
+            } else {
+              this.isLoading = false;
+            }
+          }, (resp: ErrorMessageOutput) => {
+            if (resp.status === 404) {
+              this.validUrl = false;
+              this.isLoading = false;
+              return;
+            }
+            const modalRef: any = this.ngbModal.open(ErrorReportComponent);
+            modalRef.componentInstance.requestId = resp.error.requestId;
+            modalRef.componentInstance.errorMessage = resp.error.message;
+          });
       });
     });
   }
@@ -86,6 +101,31 @@ export class UserJoinPageComponent implements OnInit {
       modalRef.componentInstance.requestId = resp.error.requestId;
       modalRef.componentInstance.errorMessage = resp.error.message;
     });
+  }
+
+  /**
+   * Creates an account.
+   * Account is only created after instructor joins for the first time.
+   */
+  createAccount(): void {
+    this.isLoading = true;
+    this.accountService
+      .createAccount(this.key, this.timezoneService.guessTimezone())
+      .pipe(finalize(() => (this.isLoading = false)))
+      .subscribe(
+        () => {
+          this.navigationService.navigateByURL(this.router, '/web/instructor');
+        },
+        (resp: ErrorMessageOutput) => {
+          if (resp.status === 404) {
+            this.validUrl = false;
+          } else {
+            const modalRef: any = this.ngbModal.open(ErrorReportComponent);
+            modalRef.componentInstance.requestId = resp.error.requestId;
+            modalRef.componentInstance.errorMessage = resp.error.message;
+          }
+        },
+      );
   }
 
 }

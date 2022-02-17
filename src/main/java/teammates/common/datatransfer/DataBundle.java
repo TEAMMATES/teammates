@@ -4,6 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.AccountRequestAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -21,6 +22,7 @@ import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 // CHECKSTYLE.OFF:JavadocVariable each field represents different entity types
 public class DataBundle {
     public Map<String, AccountAttributes> accounts = new LinkedHashMap<>();
+    public Map<String, AccountRequestAttributes> accountRequests = new LinkedHashMap<>();
     public Map<String, CourseAttributes> courses = new LinkedHashMap<>();
     public Map<String, InstructorAttributes> instructors = new LinkedHashMap<>();
     public Map<String, StudentAttributes> students = new LinkedHashMap<>();

@@ -6,11 +6,11 @@
     <div class="alert alert-primary" role="alert">
       <div *ngIf="loggedInUser">
         You are viewing feedback results as {{ personName }}. If you wish to link your Google account ({{ loggedInUser }}) with this user,
-        <a href="#" id="join-course-btn" (click)="joinCourseForUnregisteredStudent(); $event.preventDefault()">click here</a>.
+        <a href="#" id="join-course-btn" (click)="joinCourseForUnregisteredEntity(); $event.preventDefault()">click here</a>.
       </div>
       <div *ngIf="!loggedInUser">
         You are viewing feedback results as {{ personName }}. You may submit feedback for sessions that are currently open and view results without logging in.
-        To access other features you need to <a href="#" (click)="joinCourseForUnregisteredStudent(); $event.preventDefault()">login using a Google account</a> (recommended).
+        To access other features you need to <a href="#" (click)="joinCourseForUnregisteredEntity(); $event.preventDefault()">login using a Google account</a> (recommended).
       </div>
     </div>
   </div>

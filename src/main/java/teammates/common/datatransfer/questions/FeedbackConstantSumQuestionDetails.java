@@ -25,7 +25,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     static final String CONST_SUM_ERROR_MISMATCH =
             "Please distribute all the points for distribution questions. "
                     + "To skip a distribution question, leave the boxes blank.";
-    static final String CONST_SUM_ERROR_NEGATIVE = "Points given must be 0 or more.";
+    static final String CONST_SUM_ERROR_NEGATIVE = "Points cannot be negative.";
     static final String CONST_SUM_ERROR_UNIQUE = "Every option must be given a different number of points.";
     static final String CONST_SUM_ERROR_SOME_UNIQUE =
             "At least some options must be given a different number of points.";

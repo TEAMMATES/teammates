@@ -108,6 +108,8 @@ public final class Const {
         public static final String COURSE_STATUS = "coursestatus";
         public static final String INSTRUCTOR_ID = "instructorid";
         public static final String INSTRUCTOR_EMAIL = "instructoremail";
+        public static final String INSTRUCTOR_INSTITUTION = "instructorinstitution";
+        public static final String IS_CREATING_ACCOUNT = "iscreatingaccount";
 
         public static final String FEEDBACK_SESSION_NAME = "fsname";
         public static final String FEEDBACK_SESSION_STARTTIME = "starttime";
@@ -149,6 +151,8 @@ public final class Const {
         public static final String ENTITY_TYPE = "entitytype";
 
         public static final String INTENT = "intent";
+
+        public static final String TIMEZONE = "timezone";
 
         public static final String QUERY_LOGS_STARTTIME = "starttime";
         public static final String QUERY_LOGS_ENDTIME = "endtime";
@@ -295,6 +299,7 @@ public final class Const {
         public static final String ACCOUNT = URI_PREFIX + "/account";
         public static final String ACCOUNT_RESET = URI_PREFIX + "/account/reset";
         public static final String ACCOUNT_DOWNGRADE = URI_PREFIX + "/account/downgrade";
+        public static final String ACCOUNT_REQUEST = URI_PREFIX + "/account/request";
         public static final String RESPONSE_COMMENT = URI_PREFIX + "/responsecomment";
         public static final String COURSE = URI_PREFIX + "/course";
         public static final String COURSE_ARCHIVE = URI_PREFIX + "/course/archive";
@@ -317,6 +322,7 @@ public final class Const {
         public static final String SESSION_STATS = URI_PREFIX + "/session/stats";
         public static final String SESSION_SUBMITTED_GIVER_SET = URI_PREFIX + "/session/submitted/giverset";
         public static final String SESSIONS = URI_PREFIX + "/sessions";
+        public static final String SEARCH_ACCOUNT_REQUESTS = URI_PREFIX + "/search/accountrequests";
         public static final String SEARCH_INSTRUCTORS = URI_PREFIX + "/search/instructors";
         public static final String SEARCH_STUDENTS = URI_PREFIX + "/search/students";
         public static final String BIN_SESSION = URI_PREFIX + "/bin/session";
@@ -400,6 +406,8 @@ public final class Const {
 
         public static final String SEARCH_INDEXING_QUEUE_NAME = "search-indexing-queue";
         public static final String INSTRUCTOR_SEARCH_INDEXING_WORKER_URL = URI_PREFIX + "/instructorSearchIndexing";
+        public static final String ACCOUNT_REQUEST_SEARCH_INDEXING_WORKER_URL =
+                URI_PREFIX + "/accountRequestSearchIndexing";
         public static final String STUDENT_SEARCH_INDEXING_WORKER_URL = URI_PREFIX + "/studentSearchIndexing";
     }
 

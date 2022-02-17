@@ -14,6 +14,7 @@ import com.googlecode.objectify.util.Closeable;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.AccountRequestAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -25,6 +26,7 @@ import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.logic.api.LogicExtension;
 import teammates.logic.core.LogicStarter;
 import teammates.storage.api.OfyHelper;
+import teammates.storage.search.AccountRequestSearchManager;
 import teammates.storage.search.InstructorSearchManager;
 import teammates.storage.search.SearchManagerFactory;
 import teammates.storage.search.StudentSearchManager;
@@ -54,6 +56,8 @@ public abstract class BaseTestCaseWithLocalDatabaseAccess extends BaseTestCaseWi
         ));
         OfyHelper.registerEntityClasses();
 
+        SearchManagerFactory.registerAccountRequestSearchManager(
+                new AccountRequestSearchManager(TestProperties.SEARCH_SERVICE_HOST, true));
         SearchManagerFactory.registerInstructorSearchManager(
                 new InstructorSearchManager(TestProperties.SEARCH_SERVICE_HOST, true));
         SearchManagerFactory.registerStudentSearchManager(
@@ -74,6 +78,7 @@ public abstract class BaseTestCaseWithLocalDatabaseAccess extends BaseTestCaseWi
 
     @AfterClass
     public void resetDbLayer() throws Exception {
+        SearchManagerFactory.getAccountRequestSearchManager().resetCollections();
         SearchManagerFactory.getInstructorSearchManager().resetCollections();
         SearchManagerFactory.getStudentSearchManager().resetCollections();
 
@@ -130,6 +135,11 @@ public abstract class BaseTestCaseWithLocalDatabaseAccess extends BaseTestCaseWi
     @Override
     protected StudentAttributes getStudent(StudentAttributes student) {
         return logic.getStudentForEmail(student.getCourse(), student.getEmail());
+    }
+
+    @Override
+    protected AccountRequestAttributes getAccountRequest(AccountRequestAttributes accountRequest) {
+        return logic.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
     }
 
     protected void removeAndRestoreTypicalDataBundle() {
