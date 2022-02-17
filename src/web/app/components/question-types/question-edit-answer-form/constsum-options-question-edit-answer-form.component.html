@@ -7,7 +7,8 @@
            [ngModel]="i < responseDetails.answers.length ? responseDetails.answers[i] : ''"
            (ngModelChange)="triggerResponse(i, $event)"
            [disabled]="isDisabled"
-           min="0" step="1">
+           min="0" step="1"
+           tmDisableWheel>
   </div>
 </div>
 <div class="form-group row" *ngIf="responseDetails.answers.length !== 0">
