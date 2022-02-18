@@ -1077,6 +1077,37 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         assertEquals(0, commentGiverVisibilityTable.size());
     }
 
+    @Test
+    public void testGetSessionResultsForCourse_splitResponseFetchByGiverAndReceiver_shouldGenerateCorrectBundle() {
+        var responseBundle = loadDataBundle("/FeedbackSessionResultsTest.json");
+        removeAndRestoreDataBundle(responseBundle);
+
+        var session = responseBundle.feedbackSessions.get("standard.session");
+
+        var instructor = responseBundle.instructors.get("instructor1OfCourse1");
+        var questionResponseMapFromMultiFetch = frLogic.getSessionResultsForCourse(
+                session.getFeedbackSessionName(), session.getCourseId(), instructor.getEmail(),
+                null, "Section A", FeedbackResultFetchType.GIVER).getQuestionResponseMap();
+        frLogic.getSessionResultsForCourse(
+                session.getFeedbackSessionName(), session.getCourseId(), instructor.getEmail(),
+                null, "Section A", FeedbackResultFetchType.RECEIVER)
+                .getQuestionResponseMap()
+                .forEach(questionResponseMapFromMultiFetch::putIfAbsent);
+
+        // Equal to session result fetch by both type
+        var questionResponseMapFromFetchBoth = frLogic.getSessionResultsForCourse(
+                session.getFeedbackSessionName(), session.getCourseId(), instructor.getEmail(),
+                null, "Section A", FeedbackResultFetchType.BOTH).getQuestionResponseMap();
+
+        for (var entry : questionResponseMapFromFetchBoth.entrySet()) {
+            var respFromFetchBoth = entry.getValue();
+            var respFromMultiFetch = questionResponseMapFromMultiFetch.get(entry.getKey());
+            assertEquals(respFromFetchBoth.size(), respFromMultiFetch.size());
+            assertTrue(new HashSet(respFromMultiFetch).equals(new HashSet(respFromFetchBoth)));
+        }
+    }
+
+
     // TODO: check for cases where a person is both a student and an instructor
 
     @Test
