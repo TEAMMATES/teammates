@@ -5,10 +5,12 @@ on:
     branches:
       - master 
       - release
+      - notification-feature
   pull_request:
     branches:
       - master 
       - release
+      - notification-feature
   schedule:
     - cron: "0 0 * * *" #end of every day
 jobs:
