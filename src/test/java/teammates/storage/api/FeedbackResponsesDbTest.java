@@ -1,5 +1,7 @@
 package teammates.storage.api;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -23,6 +25,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
+import teammates.storage.entity.FeedbackResponse;
 import teammates.test.AssertHelper;
 import teammates.test.BaseTestCaseWithLocalDatabaseAccess;
 import teammates.test.ThreadHelper;
@@ -575,10 +578,25 @@ public class FeedbackResponsesDbTest extends BaseTestCaseWithLocalDatabaseAccess
         String courseId = fras.get("response1ForQ1S1C1").getCourseId();
         String feedbackSessionName = fras.get("response1ForQ1S1C1").getFeedbackSessionName();
 
-        List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForSessionInSection(
+        var responses = frDb.getFeedbackResponsesForSessionInSection(
                 feedbackSessionName, courseId, "Section 1", FeedbackResultFetchType.BOTH);
 
         assertEquals(5, responses.size());
+
+        ______TS("combined fetch by giver and receiver types");
+        var combinedResponses = new HashSet<FeedbackResponseAttributes>();
+
+        var responsesByGiverSection = frDb.getFeedbackResponsesForSessionInSection(
+                feedbackSessionName, courseId, "Section 1", FeedbackResultFetchType.GIVER);
+        assertEquals(4, responsesByGiverSection.size());
+        combinedResponses.addAll(responsesByGiverSection);
+
+        var responsesByReceiverSection= frDb.getFeedbackResponsesForSessionInSection(
+                feedbackSessionName, courseId, "Section 1", FeedbackResultFetchType.RECEIVER);
+        assertEquals(4, responsesByReceiverSection.size());
+        combinedResponses.addAll(responsesByReceiverSection);
+
+        assertEquals(responses.size(), combinedResponses.size());
 
         ______TS("null params");
 
