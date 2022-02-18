@@ -27,6 +27,7 @@ public class ArchitectureTest {
 
     private static final String LOGIC_CORE_PACKAGE = LOGIC_PACKAGE + ".core";
     private static final String LOGIC_API_PACKAGE = LOGIC_PACKAGE + ".api";
+    private static final String LOGIC_EXTERNAL_PACKAGE = LOGIC_PACKAGE + ".external";
 
     private static final String UI_PACKAGE = "teammates.ui";
     private static final String UI_WEBAPI_PACKAGE = UI_PACKAGE + ".webapi";
@@ -246,6 +247,20 @@ public class ArchitectureTest {
     public void testArchitecture_logic_coreLogicShouldNotTouchApiLogic() {
         noClasses().that().resideInAPackage(includeSubpackages(LOGIC_CORE_PACKAGE))
                 .should().accessClassesThat().resideInAPackage(includeSubpackages(LOGIC_API_PACKAGE))
+                .check(forClasses(LOGIC_PACKAGE));
+    }
+
+    @Test
+    public void testArchitecture_logic_coreLogicShouldNotTouchExternalLogic() {
+        noClasses().that().resideInAPackage(includeSubpackages(LOGIC_CORE_PACKAGE))
+                .should().accessClassesThat().resideInAPackage(includeSubpackages(LOGIC_EXTERNAL_PACKAGE))
+                .check(forClasses(LOGIC_PACKAGE));
+    }
+
+    @Test
+    public void testArchitecture_logic_externalLogicShouldNotTouchCoreLogic() {
+        noClasses().that().resideInAPackage(includeSubpackages(LOGIC_EXTERNAL_PACKAGE))
+                .should().accessClassesThat().resideInAPackage(includeSubpackages(LOGIC_CORE_PACKAGE))
                 .check(forClasses(LOGIC_PACKAGE));
     }
 
