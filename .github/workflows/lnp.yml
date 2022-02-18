@@ -5,6 +5,7 @@ on:
     branches:
       - master 
       - release
+      - selective-deadline-extension
   schedule:
     - cron: "0 0 * * *" # end of every day
 jobs:
