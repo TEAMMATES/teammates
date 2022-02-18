@@ -59,7 +59,7 @@ export class FeedbackMsqQuestionDetailsImpl extends AbstractFeedbackMcqMsqQuesti
   }
 
   isParticipantCommentsOnResponsesAllowed(): boolean {
-    return false;
+    return true;
   }
 
   isInstructorCommentsOnResponsesAllowed(): boolean {

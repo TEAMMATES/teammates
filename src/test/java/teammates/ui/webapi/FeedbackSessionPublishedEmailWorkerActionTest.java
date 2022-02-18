@@ -47,17 +47,18 @@ public class FeedbackSessionPublishedEmailWorkerActionTest
         FeedbackSessionPublishedEmailWorkerAction action = getAction(submissionParams);
         action.execute();
 
-        // 5 students and 5 instructors in course1
-        verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 10);
+        // 5 students, 5 instructors, and 3 co-owner instructors in course1
+        verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 13);
 
         String courseName = logic.getCourse(session1.getCourseId()).getName();
         List<TaskWrapper> tasksAdded = mockTaskQueuer.getTasksAdded();
         for (TaskWrapper task : tasksAdded) {
             SendEmailRequest requestBody = (SendEmailRequest) task.getRequestBody();
             EmailWrapper email = requestBody.getEmail();
-            assertEquals(String.format(EmailType.FEEDBACK_PUBLISHED.getSubject(), courseName,
-                                       session1.getFeedbackSessionName()),
-                         email.getSubject());
+            String expectedSubject = (email.getIsCopy() ? EmailWrapper.EMAIL_COPY_SUBJECT_PREFIX : "")
+                    + String.format(EmailType.FEEDBACK_PUBLISHED.getSubject(),
+                    courseName, session1.getFeedbackSessionName());
+            assertEquals(expectedSubject, email.getSubject());
         }
     }
 

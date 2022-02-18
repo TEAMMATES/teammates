@@ -38,7 +38,8 @@
                          (publishSessionEvent)="publishSessionEventHandler($event)" (unpublishSessionEvent)="unpublishSessionEventHandler($event)"
                          (downloadSessionResultsEvent)="downloadSessionResultEventHandler($event)"
                          (resendResultsLinkToStudentsEvent)="resendResultsLinkToRespondentsEventHandler(sessionsTableRowModels[$event])"
-                         (sendRemindersToStudentsEvent)="sendRemindersToRespondentsEventHandler(sessionsTableRowModels[$event])"></tm-sessions-table>
+                         (sendRemindersToAllNonSubmittersEvent)="sendRemindersToRespondentsEventHandler(sessionsTableRowModels[$event], true)"
+                         (sendRemindersToSelectedNonSubmittersEvent)="sendRemindersToRespondentsEventHandler(sessionsTableRowModels[$event], false)"></tm-sessions-table>
     </div>
   </div>
   <br/>
