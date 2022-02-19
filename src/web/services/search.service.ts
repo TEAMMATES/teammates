@@ -290,19 +290,23 @@ export class SearchService {
       name: '',
       email: '',
       institute: '',
-      createdAt: '',
-      registeredAt: '',
+      createdAtText: '',
+      registeredAtText: '',
       registrationLink: '',
       showLinks: false,
+      hasRegistered: false,
     };
 
     const { registrationKey, createdAt, registeredAt, name, institute, email }: AccountRequest = accountRequest;
 
     const timezone: string = this.timezoneService.guessTimezone() || 'UTC';
-    accountRequestResult.createdAt = this.formatTimestampAsString(createdAt, timezone);
-    accountRequestResult.registeredAt = registeredAt
-        ? this.formatTimestampAsString(registeredAt, timezone)
-        : 'Not Registered Yet';
+    accountRequestResult.createdAtText = this.formatTimestampAsString(createdAt, timezone);
+    if (registeredAt) {
+      accountRequestResult.registeredAtText = this.formatTimestampAsString(registeredAt, timezone);
+      accountRequestResult.hasRegistered = true;
+    } else {
+      accountRequestResult.registeredAtText = 'Not Registered Yet';
+    }
 
     const registrationLink: string = this.linkService.generateAccountRegistrationLink(registrationKey);
     accountRequestResult = { ...accountRequestResult, name, email, institute, registrationLink };
@@ -457,10 +461,11 @@ export interface AccountRequestSearchResult {
   name: string;
   email: string;
   institute: string;
-  createdAt: string;
-  registeredAt: string;
+  createdAtText: string;
+  registeredAtText: string;
   registrationLink: string;
   showLinks: boolean;
+  hasRegistered: boolean;
 }
 
 /**
