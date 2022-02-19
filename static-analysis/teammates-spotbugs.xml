@@ -25,6 +25,9 @@
         <Bug pattern="ES_COMPARING_STRINGS_WITH_EQ" />
     </Match>
     <Match>
+        <Bug pattern="MS_MUTABLE_COLLECTION" />
+    </Match>
+    <Match>
         <Bug pattern="MS_SHOULD_BE_FINAL" />
     </Match>
     <Match>
