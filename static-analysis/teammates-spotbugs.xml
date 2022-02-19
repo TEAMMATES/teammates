@@ -49,6 +49,12 @@
         <Bug pattern="UC_USELESS_OBJECT" />
     </Match>
     <Match>
+        <Bug pattern="URF_UNREAD_FIELD" />
+    </Match>
+    <Match>
+        <Bug pattern="URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD" />
+    </Match>
+    <Match>
         <Bug pattern="VA_FORMAT_STRING_USES_NEWLINE" />
     </Match>
     <Match>
