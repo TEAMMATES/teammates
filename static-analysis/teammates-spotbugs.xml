@@ -25,6 +25,12 @@
         <Bug pattern="ES_COMPARING_STRINGS_WITH_EQ" />
     </Match>
     <Match>
+        <Bug pattern="LI_LAZY_INIT_STATIC" />
+    </Match>
+    <Match>
+        <Bug pattern="LI_LAZY_INIT_UPDATE_STATIC" />
+    </Match>
+    <Match>
         <Bug pattern="MS_MUTABLE_COLLECTION" />
     </Match>
     <Match>
@@ -35,6 +41,9 @@
     </Match>
     <Match>
         <Bug pattern="SIC_INNER_SHOULD_BE_STATIC" />
+    </Match>
+    <Match>
+        <Bug pattern="ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD" />
     </Match>
     <Match>
         <Bug pattern="UC_USELESS_OBJECT" />
