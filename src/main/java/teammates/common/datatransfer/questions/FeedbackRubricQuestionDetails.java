@@ -157,7 +157,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             }
 
             if (details.getAnswer().stream().anyMatch(choice ->
-                    choice != RUBRIC_ANSWER_NOT_CHOSEN
+                    choice == null
+                            || choice != RUBRIC_ANSWER_NOT_CHOSEN
                             && (choice < 0 || choice >= rubricChoices.size()))) {
                 errors.add(RUBRIC_INVALID_ANSWER);
             }

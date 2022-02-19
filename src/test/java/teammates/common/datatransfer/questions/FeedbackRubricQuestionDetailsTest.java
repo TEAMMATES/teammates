@@ -100,6 +100,9 @@ public class FeedbackRubricQuestionDetailsTest extends BaseTestCase {
 
         responseDetails.setAnswer(Arrays.asList(0, 1, 0));
         assertFalse(rubricQuestionDetails.validateResponsesDetails(Collections.singletonList(responseDetails), 0).isEmpty());
+
+        responseDetails.setAnswer(Arrays.asList(0, null, 0));
+        assertFalse(rubricQuestionDetails.validateResponsesDetails(Collections.singletonList(responseDetails), 0).isEmpty());
     }
 
     @Test

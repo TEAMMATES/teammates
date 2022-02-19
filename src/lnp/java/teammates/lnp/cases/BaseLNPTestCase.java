@@ -321,6 +321,9 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
                 .listFiles((d, s) -> {
                     return s.contains(this.getClass().getSimpleName());
                 });
+        if (fileList == null) {
+            fileList = new File[] {};
+        }
         Arrays.sort(fileList, (a, b) -> {
             return b.getName().compareTo(a.getName());
         });

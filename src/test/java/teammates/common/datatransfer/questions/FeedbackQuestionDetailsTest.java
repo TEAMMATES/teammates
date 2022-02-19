@@ -13,14 +13,12 @@ public class FeedbackQuestionDetailsTest extends BaseTestCase {
     public void testEquals() {
 
         ______TS("Same object with different references, should be same");
-        FeedbackQuestionDetails ftqd1 = new FeedbackTextQuestionDetails("text question");
+        FeedbackTextQuestionDetails ftqd1 = new FeedbackTextQuestionDetails("text question");
         FeedbackQuestionDetails ftqd2 = ftqd1;
         assertEquals(ftqd1, ftqd2);
 
         ______TS("One input is null, should be different");
-        ftqd1 = new FeedbackTextQuestionDetails("text question");
-        ftqd2 = null;
-        assertNotEquals(ftqd1, ftqd2);
+        assertNotEquals(ftqd1, null);
 
         ______TS("Different classes, should be different");
         ftqd1 = new FeedbackTextQuestionDetails("text question");
@@ -33,7 +31,7 @@ public class FeedbackQuestionDetailsTest extends BaseTestCase {
         assertNotEquals(ftqd1, ftqd2);
 
         ftqd2 = new FeedbackTextQuestionDetails("first question");
-        ((FeedbackTextQuestionDetails) ftqd1).setRecommendedLength(50);
+        ftqd1.setRecommendedLength(50);
         assertNotEquals(ftqd1, ftqd2);
 
         ______TS("All attributes are same, should be same");

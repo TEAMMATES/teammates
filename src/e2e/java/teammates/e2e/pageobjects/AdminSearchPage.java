@@ -408,10 +408,10 @@ public class AdminSearchPage extends AppPage {
         assertEquals(accountRequest.getEmail(), actualEmail);
         assertEquals(accountRequest.getInstitute(), actualInstitute);
         assertFalse(actualCreatedAt.isBlank());
-        if (actualRegisteredAt == null) {
+        if (accountRequest.getRegisteredAt() == null) {
             assertEquals("Not Registered Yet", actualRegisteredAt);
         } else {
-            assertFalse(actualCreatedAt.isBlank());
+            assertFalse(actualRegisteredAt.isBlank());
         }
     }
 
