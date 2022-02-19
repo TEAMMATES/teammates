@@ -373,5 +373,21 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             this.claimedOthers = claimedOthers;
             this.perceivedOthers = perceivedOthers;
         }
+
+        public int getClaimed() {
+            return claimed;
+        }
+
+        public int getPerceived() {
+            return perceived;
+        }
+
+        public Map<String, Integer> getClaimedOthers() {
+            return claimedOthers;
+        }
+
+        public int[] getPerceivedOthers() {
+            return perceivedOthers;
+        }
     }
 }
