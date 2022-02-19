@@ -1078,6 +1078,38 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
     }
 
     @Test
+    public void testGetSessionResultsForCourse_responseFetchByGiverOrReceiverOnly_shouldGenerateCorrectBundle() {
+        var responseBundle = loadDataBundle("/FeedbackSessionResultsTest.json");
+        removeAndRestoreDataBundle(responseBundle);
+
+        var session = responseBundle.feedbackSessions.get("standard.session");
+
+        var instructor = responseBundle.instructors.get("instructor1OfCourse1");
+        var sectionToTest = "Section A";
+        var questionResponseMapByGiver = frLogic.getSessionResultsForCourse(
+                session.getFeedbackSessionName(), session.getCourseId(), instructor.getEmail(),
+                null, sectionToTest, FeedbackResultFetchType.GIVER)
+                .getQuestionResponseMap();
+        for (var questionResponse : questionResponseMapByGiver.entrySet()) {
+            var responses = questionResponse.getValue();
+            responses.forEach((resp) -> {
+                assertEquals(sectionToTest, resp.getGiverSection());
+            });
+        }
+
+        var questionResponseMapByReceiver = frLogic.getSessionResultsForCourse(
+                session.getFeedbackSessionName(), session.getCourseId(), instructor.getEmail(),
+                null, sectionToTest, FeedbackResultFetchType.RECEIVER)
+                .getQuestionResponseMap();
+        for (var questionResponse : questionResponseMapByReceiver.entrySet()) {
+            var responses = questionResponse.getValue();
+            responses.forEach((resp) -> {
+                assertEquals(sectionToTest, resp.getGiverSection());
+            });
+        }
+    }
+
+    @Test
     public void testGetSessionResultsForCourse_splitResponseFetchByGiverAndReceiver_shouldGenerateCorrectBundle() {
         var responseBundle = loadDataBundle("/FeedbackSessionResultsTest.json");
         removeAndRestoreDataBundle(responseBundle);
@@ -1103,7 +1135,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
             var respFromFetchBoth = entry.getValue();
             var respFromMultiFetch = questionResponseMapFromMultiFetch.get(entry.getKey());
             assertEquals(respFromFetchBoth.size(), respFromMultiFetch.size());
-            assertTrue(new HashSet(respFromMultiFetch).equals(new HashSet(respFromFetchBoth)));
+            assertTrue(new HashSet<>(respFromMultiFetch).equals(new HashSet<>(respFromFetchBoth)));
         }
     }
 
