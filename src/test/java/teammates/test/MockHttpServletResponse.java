@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.http.HttpStatus;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Mocks {@link HttpServletResponse} for testing purpose.
  *
@@ -148,6 +150,7 @@ public class MockHttpServletResponse implements HttpServletResponse {
     }
 
     @Override
+    @SuppressFBWarnings("DM_DEFAULT_ENCODING")
     public PrintWriter getWriter() {
         return new PrintWriter(System.out);
     }
