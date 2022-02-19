@@ -62,7 +62,7 @@ class GetAuthInfoAction extends Action {
 
         String csrfToken = StringHelper.encrypt(req.getSession().getId());
         String existingCsrfToken = HttpRequestHelper.getCookieValueFromRequest(req, Const.SecurityConfig.CSRF_COOKIE_NAME);
-        if (csrfToken != null && csrfToken.equals(existingCsrfToken)) {
+        if (csrfToken.equals(existingCsrfToken)) {
             return new JsonResult(output);
         }
         Cookie csrfTokenCookie = new Cookie(Const.SecurityConfig.CSRF_COOKIE_NAME, csrfToken);
