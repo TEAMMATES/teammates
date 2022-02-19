@@ -13,6 +13,9 @@
         <Bug pattern="DM_BOXED_PRIMITIVE_FOR_PARSING" />
     </Match>
     <Match>
+        <Bug pattern="DM_DEFAULT_ENCODING" />
+    </Match>
+    <Match>
         <Bug pattern="DM_STRING_TOSTRING" />
     </Match>
     <Match>
