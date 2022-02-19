@@ -2148,6 +2148,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                             max="10"
                             min="1"
                             step="1"
+                            tmdisablewheel=""
                             type="number"
                           />
                         </div>
@@ -2370,6 +2371,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                             class="form-control ng-untouched ng-pristine ng-valid"
                             min="0"
                             step="1"
+                            tmdisablewheel=""
                             type="number"
                           />
                         </div>
@@ -5111,6 +5113,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                             max="10"
                             min="1"
                             step="1"
+                            tmdisablewheel=""
                             type="number"
                           />
                         </div>
@@ -5333,6 +5336,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                             class="form-control ng-untouched ng-pristine ng-valid"
                             min="0"
                             step="1"
+                            tmdisablewheel=""
                             type="number"
                           />
                         </div>
