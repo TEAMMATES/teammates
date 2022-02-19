@@ -1,5 +1,8 @@
 package teammates.common.datatransfer;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+
 import com.google.gson.JsonSyntaxException;
 
 import teammates.common.exception.InvalidParametersException;
@@ -14,9 +17,12 @@ public class UserInfoCookie {
     private String userId;
     private String verificationCode;
 
+    private Instant expiryTime;
+
     public UserInfoCookie(String userId) {
         this.userId = userId;
         this.verificationCode = StringHelper.generateSignature(userId);
+        this.expiryTime = Instant.now().plus(7, ChronoUnit.DAYS);
     }
 
     /**
@@ -50,11 +56,19 @@ public class UserInfoCookie {
         this.verificationCode = verificationCode;
     }
 
+    public Instant getExpiryTime() {
+        return expiryTime;
+    }
+
+    public void setExpiryTime(Instant expiryTime) {
+        this.expiryTime = expiryTime;
+    }
+
     /**
      * Returns true if the object represents a valid user info.
      */
     public boolean isValid() {
-        return StringHelper.isCorrectSignature(userId, verificationCode);
+        return StringHelper.isCorrectSignature(userId, verificationCode) && Instant.now().isBefore(expiryTime);
     }
 
 }
