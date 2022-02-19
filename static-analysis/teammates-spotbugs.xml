@@ -25,6 +25,12 @@
         <Bug pattern="ES_COMPARING_STRINGS_WITH_EQ" />
     </Match>
     <Match>
+        <Bug pattern="HRS_REQUEST_PARAMETER_TO_COOKIE" />
+    </Match>
+    <Match>
+        <Bug pattern="HRS_REQUEST_PARAMETER_TO_HTTP_HEADER" />
+    </Match>
+    <Match>
         <Bug pattern="LI_LAZY_INIT_STATIC" />
     </Match>
     <Match>
