@@ -1,11 +1,14 @@
-import { FeedbackQuestion, FeedbackSession } from '../../../../types/api-output';
+import { FeedbackQuestion } from '../../../../types/api-output';
 import { SortBy, SortOrder } from '../../../../types/sort-properties';
 
 /**
  * The model for a feedback session tab.
  */
 export interface FeedbackSessionTabModel {
-  feedbackSession: FeedbackSession;
+  courseId: string;
+  feedbackSessionName: string;
+  createdAtTimestamp: number;
+
   questionsTableRowModels: QuestionToCopyCandidate[];
   questionsTableRowModelsSortBy: SortBy;
   questionsTableRowModelsSortOrder: SortOrder;

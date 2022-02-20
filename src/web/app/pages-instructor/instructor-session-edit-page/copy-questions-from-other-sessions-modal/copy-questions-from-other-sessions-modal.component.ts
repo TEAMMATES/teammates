@@ -50,8 +50,8 @@ export class CopyQuestionsFromOtherSessionsModalComponent {
     model.hasLoadingFailed = false;
     model.questionsTableRowModels = [];
     this.feedbackQuestionsService.getFeedbackQuestions({
-      courseId: model.feedbackSession.courseId,
-      feedbackSessionName: model.feedbackSession.feedbackSessionName,
+      courseId: model.courseId,
+      feedbackSessionName: model.feedbackSessionName,
       intent: Intent.FULL_DETAIL,
     })
     .subscribe((response: FeedbackQuestions) => {
@@ -123,18 +123,18 @@ export class CopyQuestionsFromOtherSessionsModalComponent {
       let order: SortOrder;
       switch (by) {
         case SortBy.COURSE_ID:
-          strA = String(a.feedbackSession.courseId);
-          strB = String(b.feedbackSession.courseId);
+          strA = String(a.courseId);
+          strB = String(b.courseId);
           order = SortOrder.ASC;
           break;
         case SortBy.SESSION_NAME:
-          strA = a.feedbackSession.feedbackSessionName;
-          strB = b.feedbackSession.feedbackSessionName;
+          strA = a.feedbackSessionName;
+          strB = b.feedbackSessionName;
           order = SortOrder.ASC;
           break;
         case SortBy.SESSION_CREATION_DATE:
-          strA = String(a.feedbackSession.createdAtTimestamp);
-          strB = String(b.feedbackSession.createdAtTimestamp);
+          strA = String(a.createdAtTimestamp);
+          strB = String(b.createdAtTimestamp);
           order = SortOrder.DESC;
           break;
         default:

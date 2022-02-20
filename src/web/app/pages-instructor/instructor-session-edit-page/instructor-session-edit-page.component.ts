@@ -927,7 +927,9 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     ).subscribe((response: FeedbackSessions) => {
       response.feedbackSessions.forEach((feedbackSession: FeedbackSession) => {
         const model: FeedbackSessionTabModel = {
-          feedbackSession,
+          courseId: feedbackSession.courseId,
+          feedbackSessionName: feedbackSession.feedbackSessionName,
+          createdAtTimestamp: feedbackSession.createdAtTimestamp,
           questionsTableRowModels: [],
           isTabExpanded: false,
           hasQuestionsLoaded: false,
