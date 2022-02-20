@@ -149,7 +149,8 @@ The `Logic` component handles the business logic of TEAMMATES. In particular, it
 
 Package overview:
 - **`logic.api`**: Provides the API of the component to be accessed by the UI.
-- **`logic.core`**: Contains the core logic of the system.
+- **`logic.core`**: Contains the core logic of the system, mainly CRUD of storage entities.
+- **`logic.external`**: Holds the logic of external services such as GAE task queue service.
 
 ### Logic API
 
@@ -161,6 +162,7 @@ Represented by these classes:
 - `TaskQueuer`: Adds tasks to the task queue, i.e. to be executed at a later time.
 - `FileStorage`: Manages CRUD of binary files such as profile pictures.
 - `LogsProcessor`: For more advanced usage of logging that cannot be captured by the standard logger class.
+- `RecaptchaVerifier`: For verification of the reCAPTCHA token.
 
 Many classes in this layer make use of proxy pattern, i.e. they only connect to production services such as Google Cloud Storage in the staging/production server.
 
