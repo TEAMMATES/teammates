@@ -3,7 +3,6 @@ package teammates.ui.webapi;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.charset.Charset;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
@@ -64,12 +63,13 @@ class DatastoreBackupAction extends AdminOnlyAction {
         // Documentation is wrong; the param name is output_url_prefix instead of outputUrlPrefix
         body.put("output_url_prefix", "gs://" + Config.BACKUP_GCS_BUCKETNAME + "/datastore-backups/" + timestamp);
 
-        StringEntity entity = new StringEntity(JsonUtils.toCompactJson(body), Charset.forName(Const.ENCODING));
+        StringEntity entity = new StringEntity(JsonUtils.toCompactJson(body), Const.ENCODING);
         post.setEntity(entity);
 
         try (CloseableHttpClient client = HttpClients.createDefault();
                 CloseableHttpResponse resp = client.execute(post);
-                BufferedReader br = new BufferedReader(new InputStreamReader(resp.getEntity().getContent()))) {
+                BufferedReader br = new BufferedReader(
+                        new InputStreamReader(resp.getEntity().getContent(), Const.ENCODING))) {
             String output = br.lines().collect(Collectors.joining(System.lineSeparator()));
             if (resp.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
                 log.info("Backup request successful:" + System.lineSeparator() + output);

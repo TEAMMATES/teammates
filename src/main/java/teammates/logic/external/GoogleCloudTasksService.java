@@ -1,7 +1,6 @@
 package teammates.logic.external;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.time.Instant;
 
 import com.google.cloud.tasks.v2.AppEngineHttpRequest;
@@ -49,7 +48,7 @@ public class GoogleCloudTasksService implements TaskQueueService {
                 String requestBody = JsonUtils.toCompactJson(task.getRequestBody());
                 requestBuilder.putHeaders("Content-Type", "application/json; charset=UTF-8")
                         .setRelativeUri(task.getWorkerUrl())
-                        .setBody(ByteString.copyFrom(requestBody, Charset.forName(Const.ENCODING)));
+                        .setBody(ByteString.copyFrom(requestBody, Const.ENCODING));
             }
 
             Task.Builder taskBuilder = Task.newBuilder().setAppEngineHttpRequest(requestBuilder.build());

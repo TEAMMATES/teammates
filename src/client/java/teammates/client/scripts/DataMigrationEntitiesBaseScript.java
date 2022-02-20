@@ -19,6 +19,7 @@ import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.Query;
 
 import teammates.client.connector.DatastoreClient;
+import teammates.common.util.Const;
 import teammates.storage.entity.BaseEntity;
 import teammates.test.FileHelper;
 
@@ -266,7 +267,7 @@ public abstract class DataMigrationEntitiesBaseScript<T extends BaseEntity> exte
         Path logPath = Paths.get(BASE_LOG_URI + this.getClass().getSimpleName() + ".log");
         try (OutputStream logFile = Files.newOutputStream(logPath,
                 StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.APPEND)) {
-            logFile.write((logLine + System.lineSeparator()).getBytes());
+            logFile.write((logLine + System.lineSeparator()).getBytes(Const.ENCODING));
         } catch (Exception e) {
             System.err.println("Error writing log line: " + logLine);
             System.err.println(e.getMessage());
