@@ -22,5 +22,10 @@ public class UserInfoCookieTest extends BaseTestCase {
         ______TS("Cookie expired");
         uc.setExpiryTime(Instant.now().minus(1, ChronoUnit.DAYS));
         assertFalse(uc.isValid());
+
+        ______TS("Invalid Signature");
+        uc.setExpiryTime(Instant.now().plus(1, ChronoUnit.DAYS));
+        uc.setVerificationCode("WrongCode");
+        assertFalse(uc.isValid());
     }
 }
