@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.nio.charset.Charset;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -156,7 +155,8 @@ public abstract class AbstractBackDoor {
             String responseBody = null;
             HttpEntity entity = response.getEntity();
             if (entity != null) {
-                try (BufferedReader br = new BufferedReader(new InputStreamReader(entity.getContent()))) {
+                try (BufferedReader br = new BufferedReader(
+                        new InputStreamReader(entity.getContent(), Const.ENCODING))) {
                     responseBody = br.lines().collect(Collectors.joining(System.lineSeparator()));
                 }
             }
@@ -180,7 +180,7 @@ public abstract class AbstractBackDoor {
         HttpPost post = new HttpPost(createBasicUri(url, params));
 
         if (body != null) {
-            StringEntity entity = new StringEntity(body, Charset.forName(Const.ENCODING));
+            StringEntity entity = new StringEntity(body, Const.ENCODING);
             post.setEntity(entity);
         }
 
@@ -191,7 +191,7 @@ public abstract class AbstractBackDoor {
         HttpPut put = new HttpPut(createBasicUri(url, params));
 
         if (body != null) {
-            StringEntity entity = new StringEntity(body, Charset.forName(Const.ENCODING));
+            StringEntity entity = new StringEntity(body, Const.ENCODING);
             put.setEntity(entity);
         }
 

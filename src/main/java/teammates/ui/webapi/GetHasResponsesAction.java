@@ -48,10 +48,6 @@ class GetHasResponsesAction extends Action {
             }
 
             String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-            if (courseId == null) {
-                return;
-            }
-
             gateKeeper.verifyAccessible(
                     logic.getInstructorForGoogleId(courseId, userInfo.getId()),
                     logic.getCourse(courseId));

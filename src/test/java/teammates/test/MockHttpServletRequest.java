@@ -28,6 +28,8 @@ import javax.servlet.http.HttpSessionContext;
 import javax.servlet.http.HttpUpgradeHandler;
 import javax.servlet.http.Part;
 
+import teammates.common.util.Const;
+
 /**
  * Mocks {@link HttpServletRequest} for testing purpose.
  *
@@ -420,8 +422,8 @@ public class MockHttpServletRequest implements HttpServletRequest {
 
     @Override
     public BufferedReader getReader() {
-        byte[] bytes = this.body == null ? new byte[] {} : this.body.getBytes();
-        return new BufferedReader(new InputStreamReader(new ByteArrayInputStream(bytes)));
+        byte[] bytes = this.body == null ? new byte[] {} : this.body.getBytes(Const.ENCODING);
+        return new BufferedReader(new InputStreamReader(new ByteArrayInputStream(bytes), Const.ENCODING));
     }
 
     public void setBody(String body) {

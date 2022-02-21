@@ -583,6 +583,10 @@
       "username": "felixinjapan"
     },
     {
+      "name": "",
+      "username": "FergusMok"
+    },
+    {
       "name": "Florian Digne",
       "username": "fdigne"
     },
@@ -602,7 +606,8 @@
       "username": "FritzJo"
     },
     {
-      "name": "",
+      "multiple": true,
+      "name": "Howard Liu",
       "username": "fsgmhoward"
     },
     {
@@ -785,6 +790,10 @@
     },
     {
       "name": "Jayant Jain"
+    },
+    {
+      "name": "",
+      "username": "jayasting98"
     },
     {
       "name": "Jeff Wilson",
@@ -2003,7 +2012,7 @@
     },
     {
       "multiple": true,
-      "name": "",
+      "name": "Zhao Jingjing",
       "username": "zhaojj2209"
     },
     {
