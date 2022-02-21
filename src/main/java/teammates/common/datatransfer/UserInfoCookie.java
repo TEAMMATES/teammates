@@ -60,8 +60,8 @@ public class UserInfoCookie {
         return expiryTime;
     }
 
-    public void setExpiryTime(Instant expiryTime) {
-        this.expiryTime = expiryTime.toEpochMilli();
+    public void setExpiryTime(long expiryTime) {
+        this.expiryTime = expiryTime;
     }
 
     /**
