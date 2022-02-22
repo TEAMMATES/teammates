@@ -244,7 +244,7 @@ describe('CopyQuestionsFromOtherSessionsModalComponent', () => {
       expect(questions[0].feedbackQuestionId).toBe(testFeedbackQuestion1.feedbackQuestionId);
       expect(questions[1].feedbackQuestionId).toBe(testFeedbackQuestion2.feedbackQuestionId);
       expect(questions[2].feedbackQuestionId).toBe(testFeedbackQuestion3.feedbackQuestionId);
-    })
+    });
 
     const button: any = fixture.debugElement.nativeElement.querySelector('#btn-confirm-copy-question');
 

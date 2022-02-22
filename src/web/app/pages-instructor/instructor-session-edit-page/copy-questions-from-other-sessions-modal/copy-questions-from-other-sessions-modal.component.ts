@@ -97,7 +97,7 @@ export class CopyQuestionsFromOtherSessionsModalComponent {
    * Check whether the feedback session questions are sorted by the given type and in the given order.
    */
   isSortQuestionsBy(model: FeedbackSessionTabModel, by: SortBy, order: SortOrder): boolean {
-    return model.questionsTableRowModelsSortBy == by && model.questionsTableRowModelsSortOrder == order;
+    return model.questionsTableRowModelsSortBy === by && model.questionsTableRowModelsSortOrder === order;
   }
 
   /**
