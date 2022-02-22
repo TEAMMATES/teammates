@@ -94,6 +94,13 @@ export class CopyQuestionsFromOtherSessionsModalComponent {
   }
 
   /**
+   * Check whether the feedback session questions are sorted by the given type and in the given order.
+   */
+  isSortQuestionsBy(model: FeedbackSessionTabModel, by: SortBy, order: SortOrder): boolean {
+    return model.questionsTableRowModelsSortBy == by && model.questionsTableRowModelsSortOrder == order;
+  }
+
+  /**
    * Sorts the list of feedback sessions.
    */
   sortFeedbackSessionTabs(by: SortBy): void {
@@ -123,8 +130,8 @@ export class CopyQuestionsFromOtherSessionsModalComponent {
       let order: SortOrder;
       switch (by) {
         case SortBy.COURSE_ID:
-          strA = String(a.courseId);
-          strB = String(b.courseId);
+          strA = a.courseId.toString();
+          strB = b.courseId.toString();
           order = SortOrder.ASC;
           break;
         case SortBy.SESSION_NAME:
@@ -133,8 +140,8 @@ export class CopyQuestionsFromOtherSessionsModalComponent {
           order = SortOrder.ASC;
           break;
         case SortBy.SESSION_CREATION_DATE:
-          strA = String(a.createdAtTimestamp);
-          strB = String(b.createdAtTimestamp);
+          strA = a.createdAtTimestamp.toString();
+          strB = b.createdAtTimestamp.toString();
           order = SortOrder.DESC;
           break;
         default:
@@ -155,8 +162,8 @@ export class CopyQuestionsFromOtherSessionsModalComponent {
       let strB: string;
       switch (by) {
         case SortBy.QUESTION_TYPE:
-          strA = String(a.question.questionType);
-          strB = String(b.question.questionType);
+          strA = a.question.questionType;
+          strB = b.question.questionType;
           break;
         case SortBy.QUESTION_TEXT:
           strA = a.question.questionBrief;

@@ -35,16 +35,16 @@
                         Question Type
                         <span class="fa-stack">
                           <i class="fas fa-sort"></i>
-                          <i *ngIf="feedbackSessionTabModel.questionsTableRowModelsSortBy === SortBy.QUESTION_TYPE && feedbackSessionTabModel.questionsTableRowModelsSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
-                          <i *ngIf="feedbackSessionTabModel.questionsTableRowModelsSortBy === SortBy.QUESTION_TYPE && feedbackSessionTabModel.questionsTableRowModelsSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+                          <i *ngIf="isSortQuestionsBy(feedbackSessionTabModel, SortBy.QUESTION_TYPE, SortOrder.DESC)" class="fas fa-sort-down"></i>
+                          <i *ngIf="isSortQuestionsBy(feedbackSessionTabModel, SortBy.QUESTION_TYPE, SortOrder.ASC)" class="fas fa-sort-up"></i>
                         </span>
                       </th>
                       <th class="sortable-header" (click)="sortQuestionsToCopyForFeedbackSession(feedbackSessionTabModel, SortBy.QUESTION_TEXT)">
                         Question Text
                         <span class="fa-stack">
                           <i class="fas fa-sort"></i>
-                          <i *ngIf="feedbackSessionTabModel.questionsTableRowModelsSortBy === SortBy.QUESTION_TEXT && feedbackSessionTabModel.questionsTableRowModelsSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
-                          <i *ngIf="feedbackSessionTabModel.questionsTableRowModelsSortBy === SortBy.QUESTION_TEXT && feedbackSessionTabModel.questionsTableRowModelsSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+                          <i *ngIf="isSortQuestionsBy(feedbackSessionTabModel, SortBy.QUESTION_TEXT, SortOrder.DESC)" class="fas fa-sort-down"></i>
+                          <i *ngIf="isSortQuestionsBy(feedbackSessionTabModel, SortBy.QUESTION_TEXT, SortOrder.ASC)" class="fas fa-sort-up"></i>
                         </span>
                       </th>
                     </tr>
