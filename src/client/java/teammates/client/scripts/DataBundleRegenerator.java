@@ -28,6 +28,9 @@ public final class DataBundleRegenerator {
 
     private static void regenerateDataBundleJson(File folder) throws IOException {
         File[] listOfFiles = folder.listFiles();
+        if (listOfFiles == null) {
+            listOfFiles = new File[] {};
+        }
         for (File file : listOfFiles) {
             if (!file.getName().endsWith(".json") || NON_DATA_BUNDLE_JSON.contains(file.getName())) {
                 continue;
@@ -69,6 +72,9 @@ public final class DataBundleRegenerator {
 
     private static void regenerateWebsiteDataJson() throws IOException {
         File[] listOfFiles = new File("./src/main/webapp/data").listFiles();
+        if (listOfFiles == null) {
+            listOfFiles = new File[] {};
+        }
         for (File file : listOfFiles) {
             if (!file.getName().endsWith(".json")) {
                 continue;

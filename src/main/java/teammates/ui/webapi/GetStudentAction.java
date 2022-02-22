@@ -78,7 +78,7 @@ class GetStudentAction extends Action {
 
         StudentData studentData = new StudentData(student);
         if (userInfo != null && userInfo.isAdmin) {
-            studentData.setKey(student.getEncryptedKey());
+            studentData.setKey(student.getKey());
             studentData.setGoogleId(student.getGoogleId());
         }
 

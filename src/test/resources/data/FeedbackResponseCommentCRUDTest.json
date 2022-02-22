@@ -61,11 +61,13 @@
     "idOfCourse1": {
       "id": "idOfCourse1",
       "name": "Programming Language Concepts",
-      "timeZone": "UTC"
+      "institute": "TEAMMATES Test Institute 1",
+      "timeZone": "Asia/Singapore"
     },
     "idOfCourse2": {
       "id": "idOfCourse2",
       "name": "Computer Security",
+      "institute": "TEAMMATES Test Institute 1",
       "timeZone": "UTC"
     }
   },
@@ -80,14 +82,14 @@
       "displayedName": "Co-owner",
       "privileges": {
         "courseLevel": {
-          "canviewstudentinsection": true,
-          "cansubmitsessioninsection": true,
-          "canmodifysessioncommentinsection": true,
-          "canmodifycourse": true,
-          "canviewsessioninsection": true,
-          "canmodifysession": true,
-          "canmodifystudent": true,
-          "canmodifyinstructor": true
+          "canViewStudentInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true,
+          "canModifyCourse": true,
+          "canViewSessionInSections": true,
+          "canModifySession": true,
+          "canModifyStudent": true,
+          "canModifyInstructor": true
         },
         "sectionLevel": {},
         "sessionLevel": {}
@@ -103,14 +105,14 @@
       "displayedName": "Co-owner",
       "privileges": {
         "courseLevel": {
-          "canviewstudentinsection": true,
-          "cansubmitsessioninsection": true,
-          "canmodifysessioncommentinsection": true,
-          "canmodifycourse": true,
-          "canviewsessioninsection": true,
-          "canmodifysession": true,
-          "canmodifystudent": true,
-          "canmodifyinstructor": true
+          "canViewStudentInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true,
+          "canModifyCourse": true,
+          "canViewSessionInSections": true,
+          "canModifySession": true,
+          "canModifyStudent": true,
+          "canModifyInstructor": true
         },
         "sectionLevel": {},
         "sessionLevel": {}
@@ -127,14 +129,14 @@
       "displayedName": "Helper",
       "privileges": {
         "courseLevel": {
-          "canviewstudentinsection": false,
-          "cansubmitsessioninsection": false,
-          "canmodifysessioncommentinsection": false,
-          "canmodifycourse": false,
-          "canviewsessioninsection": false,
-          "canmodifysession": false,
-          "canmodifystudent": false,
-          "canmodifyinstructor": false
+          "canViewStudentInSections": false,
+          "canSubmitSessionInSections": false,
+          "canModifySessionCommentsInSections": false,
+          "canModifyCourse": false,
+          "canViewSessionInSections": false,
+          "canModifySession": false,
+          "canModifyStudent": false,
+          "canModifyInstructor": false
         },
         "sectionLevel": {},
         "sessionLevel": {}
@@ -150,14 +152,14 @@
       "displayedName": "Co-owner",
       "privileges": {
         "courseLevel": {
-          "canviewstudentinsection": true,
-          "cansubmitsessioninsection": true,
-          "canmodifysessioncommentinsection": true,
-          "canmodifycourse": true,
-          "canviewsessioninsection": true,
-          "canmodifysession": true,
-          "canmodifystudent": true,
-          "canmodifyinstructor": true
+          "canViewStudentInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true,
+          "canModifyCourse": true,
+          "canViewSessionInSections": true,
+          "canModifySession": true,
+          "canModifyStudent": true,
+          "canModifyInstructor": true
         },
         "sectionLevel": {},
         "sessionLevel": {}
@@ -209,10 +211,10 @@
       "creatorEmail": "instructor1@course1.tmt",
       "instructions": "Instructions for first session",
       "createdTime": "2012-04-01T23:59:00Z",
-      "startTime": "2012-04-01T15:59:00Z",
-      "endTime": "2026-04-30T15:59:00Z",
-      "sessionVisibleFromTime": "2012-04-01T15:59:00Z",
-      "resultsVisibleFromTime": "2026-05-01T15:59:00Z",
+      "startTime": "2012-04-01T16:00:00Z",
+      "endTime": "2026-04-30T16:00:00Z",
+      "sessionVisibleFromTime": "2012-04-01T16:00:00Z",
+      "resultsVisibleFromTime": "2026-05-01T16:00:00Z",
       "timeZone": "Asia/Singapore",
       "gracePeriod": 10,
       "sentOpeningSoonEmail": true,
@@ -233,7 +235,6 @@
         "hasAssignedWeights": false,
         "mcqWeights": [],
         "mcqOtherWeight": 0.0,
-        "numOfMcqChoices": 2,
         "mcqChoices": [
           "It's good",
           "It's perfect"
@@ -284,7 +285,6 @@
       "feedbackSessionName": "First Session",
       "courseId": "idOfCourse1",
       "questionDetails": {
-        "numOfMcqChoices": 2,
         "mcqChoices": [
           "It's good",
           "It's perfect"
@@ -321,7 +321,6 @@
       "feedbackSessionName": "First Session",
       "courseId": "idOfCourse1",
       "questionDetails": {
-        "numOfMcqChoices": 2,
         "mcqChoices": [
           "UI",
           "Algo"
@@ -351,7 +350,6 @@
         "hasAssignedWeights": false,
         "mcqWeights": [],
         "mcqOtherWeight": 0.0,
-        "numOfMcqChoices": 2,
         "mcqChoices": [
           "It's bad",
           "It's worst"
@@ -379,7 +377,6 @@
       "feedbackSessionName": "First Session",
       "courseId": "idOfCourse1",
       "questionDetails": {
-        "numOfMcqChoices": 2,
         "questionType": "MCQ",
         "mcqChoices": [
           "It's good",

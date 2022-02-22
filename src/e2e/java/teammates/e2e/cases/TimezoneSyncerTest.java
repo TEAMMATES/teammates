@@ -2,6 +2,7 @@ package teammates.e2e.cases;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -32,7 +33,7 @@ public class TimezoneSyncerTest extends BaseE2ETestCase {
     @Override
     public void testAll() {
         AdminTimezonePage timezonePage = loginAdminToPage(
-                createUrl(Const.WebPageURIs.ADMIN_TIMEZONE_PAGE), AdminTimezonePage.class);
+                createFrontendUrl(Const.WebPageURIs.ADMIN_TIMEZONE_PAGE), AdminTimezonePage.class);
 
         ______TS("ensure the front-end and the back-end have the same timezone database version");
         String javaOffsets = timezonePage.getJavaTimezoneOffsets();
@@ -63,7 +64,7 @@ public class TimezoneSyncerTest extends BaseE2ETestCase {
             assertTrue(matcher.find());
 
             LocalDate releaseDate = LocalDate.parse(matcher.group(1), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-            LocalDate nowDate = Instant.now().atZone(Const.DEFAULT_TIME_ZONE).toLocalDate();
+            LocalDate nowDate = Instant.now().atZone(ZoneId.of(Const.DEFAULT_TIME_ZONE)).toLocalDate();
 
             assertTrue(
                     "The timezone database version is not up-to-date for more than " + DAYS_TO_UPDATE_TZ + " days,"

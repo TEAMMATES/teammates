@@ -5,10 +5,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.nio.charset.Charset;
 import java.time.Duration;
 import java.time.Instant;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -34,6 +32,7 @@ import org.apache.http.message.BasicNameValuePair;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.AccountRequestAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -45,6 +44,7 @@ import teammates.common.exception.HttpRequestFailedException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.ui.output.AccountData;
+import teammates.ui.output.AccountRequestData;
 import teammates.ui.output.CourseData;
 import teammates.ui.output.CoursesData;
 import teammates.ui.output.FeedbackQuestionData;
@@ -155,7 +155,8 @@ public abstract class AbstractBackDoor {
             String responseBody = null;
             HttpEntity entity = response.getEntity();
             if (entity != null) {
-                try (BufferedReader br = new BufferedReader(new InputStreamReader(entity.getContent()))) {
+                try (BufferedReader br = new BufferedReader(
+                        new InputStreamReader(entity.getContent(), Const.ENCODING))) {
                     responseBody = br.lines().collect(Collectors.joining(System.lineSeparator()));
                 }
             }
@@ -179,7 +180,7 @@ public abstract class AbstractBackDoor {
         HttpPost post = new HttpPost(createBasicUri(url, params));
 
         if (body != null) {
-            StringEntity entity = new StringEntity(body, Charset.forName(Const.ENCODING));
+            StringEntity entity = new StringEntity(body, Const.ENCODING);
             post.setEntity(entity);
         }
 
@@ -190,7 +191,7 @@ public abstract class AbstractBackDoor {
         HttpPut put = new HttpPut(createBasicUri(url, params));
 
         if (body != null) {
-            StringEntity entity = new StringEntity(body, Charset.forName(Const.ENCODING));
+            StringEntity entity = new StringEntity(body, Const.ENCODING);
             put.setEntity(entity);
         }
 
@@ -337,7 +338,8 @@ public abstract class AbstractBackDoor {
         }
         return CourseAttributes.builder(courseData.getCourseId())
                 .withName(courseData.getCourseName())
-                .withTimezone(ZoneId.of(courseData.getTimeZone()))
+                .withTimezone(courseData.getTimeZone())
+                .withInstitute(courseData.getInstitute())
                 .build();
     }
 
@@ -380,7 +382,8 @@ public abstract class AbstractBackDoor {
         }
         return CourseAttributes.builder(courseData.getCourseId())
                 .withName(courseData.getCourseName())
-                .withTimezone(ZoneId.of(courseData.getTimeZone()))
+                .withTimezone(courseData.getTimeZone())
+                .withInstitute(courseData.getInstitute())
                 .build();
     }
 
@@ -492,9 +495,6 @@ public abstract class AbstractBackDoor {
         if (studentData.getComments() != null) {
             builder.withComment(studentData.getComments());
         }
-        if (studentData.getLastName() != null) {
-            builder.withLastName(studentData.getLastName());
-        }
         StudentAttributes student = builder.build();
         if (studentData.getKey() != null) {
             student.setKey(studentData.getKey());
@@ -531,7 +531,7 @@ public abstract class AbstractBackDoor {
                 .withInstructions(sessionData.getInstructions())
                 .withStartTime(Instant.ofEpochMilli(sessionData.getSubmissionStartTimestamp()))
                 .withEndTime(Instant.ofEpochMilli(sessionData.getSubmissionEndTimestamp()))
-                .withTimeZone(ZoneId.of(sessionData.getTimeZone()))
+                .withTimeZone(sessionData.getTimeZone())
                 .withGracePeriod(Duration.ofMinutes(sessionData.getGracePeriod()))
                 .withIsClosingEmailEnabled(sessionData.getIsClosingEmailEnabled())
                 .withIsPublishedEmailEnabled(sessionData.getIsPublishedEmailEnabled())
@@ -726,6 +726,52 @@ public abstract class AbstractBackDoor {
         Map<String, String> params = new HashMap<>();
         params.put(Const.ParamsNames.COURSE_ID, courseId);
         executeDeleteRequest(Const.ResourceURIs.COURSE, params);
+    }
+
+    /**
+     * Gets an account request from the database.
+     */
+    public AccountRequestAttributes getAccountRequest(String email, String institute) {
+        Map<String, String> params = new HashMap<>();
+        params.put(Const.ParamsNames.INSTRUCTOR_EMAIL, email);
+        params.put(Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
+
+        ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.ACCOUNT_REQUEST, params);
+        if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
+            return null;
+        }
+
+        AccountRequestData accountRequestData = JsonUtils.fromJson(response.responseBody, AccountRequestData.class);
+
+        return AccountRequestAttributes
+                .builder(accountRequestData.getEmail(), accountRequestData.getInstitute(), accountRequestData.getName())
+                .build();
+    }
+
+    /**
+     * Gets registration key of an account request from the database.
+     */
+    public String getRegKeyForAccountRequest(String email, String institute) {
+        Map<String, String> params = new HashMap<>();
+        params.put(Const.ParamsNames.INSTRUCTOR_EMAIL, email);
+        params.put(Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
+
+        ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.ACCOUNT_REQUEST, params);
+        if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
+            return null;
+        }
+
+        return JsonUtils.fromJson(response.responseBody, AccountRequestData.class).getRegistrationKey();
+    }
+
+    /**
+     * Deletes an account request from the database.
+     */
+    public void deleteAccountRequest(String email, String institute) {
+        Map<String, String> params = new HashMap<>();
+        params.put(Const.ParamsNames.INSTRUCTOR_EMAIL, email);
+        params.put(Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
+        executeDeleteRequest(Const.ResourceURIs.ACCOUNT_REQUEST, params);
     }
 
     private static final class ResponseBodyAndCode {

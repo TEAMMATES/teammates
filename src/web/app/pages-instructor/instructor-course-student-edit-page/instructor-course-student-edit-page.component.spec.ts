@@ -44,7 +44,6 @@ describe('InstructorCourseStudentEditPageComponent', () => {
       email: 'jake@gmail.com',
       courseId: 'Crime101',
       name: 'Jake Peralta',
-      lastName: 'Santiago',
       comments: 'Cool cool cool.',
       teamName: 'Team A',
       sectionName: 'Section A',

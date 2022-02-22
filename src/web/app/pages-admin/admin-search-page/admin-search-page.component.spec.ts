@@ -6,7 +6,9 @@ import { NgbModal, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { of, throwError } from 'rxjs';
 import { AccountService } from '../../../services/account.service';
 import { EmailGenerationService } from '../../../services/email-generation.service';
+import { InstructorService } from '../../../services/instructor.service';
 import {
+  AccountRequestSearchResult,
   FeedbackSessionsGroup, InstructorAccountSearchResult,
   SearchService, StudentAccountSearchResult,
 } from '../../../services/search.service';
@@ -43,11 +45,39 @@ const DEFAULT_STUDENT_SEARCH_RESULT: StudentAccountSearchResult = {
   publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
 };
 
+const DEFAULT_INSTRUCTOR_SEARCH_RESULT: InstructorAccountSearchResult = {
+  name: 'name',
+  email: 'email',
+  googleId: 'googleId',
+  courseId: 'courseId',
+  courseName: 'courseName',
+  institute: 'institute',
+  courseJoinLink: 'courseJoinLink',
+  homePageLink: 'homePageLink',
+  manageAccountLink: 'manageAccountLink',
+  showLinks: false,
+  awaitingSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+  openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+  notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+  publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+};
+
+const DEFAULT_ACCOUNT_REQUEST_SEARCH_RESULT: AccountRequestSearchResult = {
+  name: 'name',
+  email: 'email',
+  institute: 'institute',
+  registrationLink: 'registrationLink',
+  createdAt: 'Tue, 08 Feb 2022, 08:23 AM +00:00',
+  registeredAt: 'Not Registered Yet',
+  showLinks: false,
+};
+
 describe('AdminSearchPageComponent', () => {
   let component: AdminSearchPageComponent;
   let fixture: ComponentFixture<AdminSearchPageComponent>;
   let accountService: AccountService;
   let searchService: SearchService;
+  let instructorService: InstructorService;
   let studentService: StudentService;
   let statusMessageService: StatusMessageService;
   let emailGenerationService: EmailGenerationService;
@@ -72,6 +102,7 @@ describe('AdminSearchPageComponent', () => {
     component = fixture.componentInstance;
     accountService = TestBed.inject(AccountService);
     searchService = TestBed.inject(SearchService);
+    instructorService = TestBed.inject(InstructorService);
     studentService = TestBed.inject(StudentService);
     statusMessageService = TestBed.inject(StatusMessageService);
     emailGenerationService = TestBed.inject(EmailGenerationService);
@@ -106,6 +137,10 @@ describe('AdminSearchPageComponent', () => {
         homePageLink: 'home-page-link',
         manageAccountLink: 'manage-account-link',
         showLinks: true,
+        awaitingSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+        openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+        notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+        publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
       },
     ];
 
@@ -141,6 +176,23 @@ describe('AdminSearchPageComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
+  it('should snap with an expanded account requests table', () => {
+    component.accountRequests = [
+      {
+        name: 'name',
+        email: 'email',
+        institute: 'institute',
+        registrationLink: 'registrationLink',
+        createdAt: 'Tue, 08 Feb 2022, 08:23 AM +00:00',
+        registeredAt: 'Not Registered Yet',
+        showLinks: true,
+      },
+    ];
+
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
+
   it('should display error message for invalid input', () => {
     spyOn(searchService, 'searchAdmin').and.returnValue(throwError({
       error: {
@@ -162,6 +214,7 @@ describe('AdminSearchPageComponent', () => {
     spyOn(searchService, 'searchAdmin').and.returnValue(of({
       students: [],
       instructors: [],
+      accountRequests: [],
     }));
 
     const spyStatusMessageService: any = spyOn(statusMessageService, 'showWarningToast')
@@ -188,6 +241,10 @@ describe('AdminSearchPageComponent', () => {
         homePageLink: 'homePageLink1',
         manageAccountLink: 'manageAccountLink1',
         showLinks: true,
+        awaitingSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+        openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+        notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+        publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
       },
       {
         name: 'name2',
@@ -200,11 +257,16 @@ describe('AdminSearchPageComponent', () => {
         homePageLink: 'homePageLink2',
         manageAccountLink: 'manageAccountLink2',
         showLinks: true,
+        awaitingSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+        openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+        notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+        publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
       }];
 
     spyOn(searchService, 'searchAdmin').and.returnValue(of({
       students: [],
       instructors: instructorResults,
+      accountRequests: [],
     }));
 
     component.searchQuery = 'name';
@@ -213,6 +275,7 @@ describe('AdminSearchPageComponent', () => {
 
     expect(component.students.length).toEqual(0);
     expect(component.instructors.length).toEqual(2);
+    expect(component.accountRequests.length).toEqual(0);
     expect(component.instructors).toEqual(instructorResults);
     expect(component.instructors[0].showLinks).toEqual(false);
     expect(component.instructors[1].showLinks).toEqual(false);
@@ -263,6 +326,7 @@ describe('AdminSearchPageComponent', () => {
     spyOn(searchService, 'searchAdmin').and.returnValue(of({
       students: studentResults,
       instructors: [],
+      accountRequests: [],
     }));
 
     component.searchQuery = 'name';
@@ -271,9 +335,48 @@ describe('AdminSearchPageComponent', () => {
 
     expect(component.students.length).toEqual(2);
     expect(component.instructors.length).toEqual(0);
+    expect(component.accountRequests.length).toEqual(0);
     expect(component.students).toEqual(studentResults);
     expect(component.students[0].showLinks).toEqual(false);
     expect(component.students[1].showLinks).toEqual(false);
+  });
+
+  it('should display account request results', () => {
+    const accountRequestResults: AccountRequestSearchResult[] = [
+      {
+        name: 'name1',
+        email: 'email1',
+        institute: 'institute1',
+        registrationLink: 'registrationLink1',
+        createdAt: 'Tue, 08 Feb 2022, 08:23 AM +00:00',
+        registeredAt: 'Not Registered Yet',
+        showLinks: true,
+      }, {
+        name: 'name2',
+        email: 'email2',
+        institute: 'institute2',
+        registrationLink: 'registrationLink2',
+        createdAt: 'Tue, 08 Feb 2022, 08:23 AM +00:00',
+        registeredAt: 'Not Registered Yet',
+        showLinks: true,
+      }];
+
+    spyOn(searchService, 'searchAdmin').and.returnValue(of({
+      students: [],
+      instructors: [],
+      accountRequests: accountRequestResults,
+    }));
+
+    component.searchQuery = 'name';
+    const button: any = fixture.debugElement.nativeElement.querySelector('#search-button');
+    button.click();
+
+    expect(component.students.length).toEqual(0);
+    expect(component.instructors.length).toEqual(0);
+    expect(component.accountRequests.length).toEqual(2);
+    expect(component.accountRequests).toEqual(accountRequestResults);
+    expect(component.accountRequests[0].showLinks).toEqual(false);
+    expect(component.accountRequests[1].showLinks).toEqual(false);
   });
 
   it('should show instructor links when expand all button clicked', () => {
@@ -288,6 +391,10 @@ describe('AdminSearchPageComponent', () => {
       homePageLink: 'homePageLink',
       manageAccountLink: 'manageAccountLink',
       showLinks: false,
+      awaitingSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+      openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+      notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+      publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
     };
     component.instructors = [instructorResult];
     fixture.detectChanges();
@@ -307,6 +414,16 @@ describe('AdminSearchPageComponent', () => {
     expect(component.students[0].showLinks).toEqual(true);
   });
 
+  it('should show account request links when expand all button clicked', () => {
+    const accountRequestResult: AccountRequestSearchResult = DEFAULT_ACCOUNT_REQUEST_SEARCH_RESULT;
+    component.accountRequests = [accountRequestResult];
+    fixture.detectChanges();
+
+    const button: any = fixture.debugElement.nativeElement.querySelector('#show-account-request-links');
+    button.click();
+    expect(component.accountRequests[0].showLinks).toEqual(true);
+  });
+
   it('should show success message if successfully reset instructor google id', () => {
     const instructorResult: InstructorAccountSearchResult = {
       name: 'name',
@@ -319,6 +436,10 @@ describe('AdminSearchPageComponent', () => {
       homePageLink: 'homePageLink',
       manageAccountLink: 'manageAccountLink',
       showLinks: false,
+      awaitingSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+      openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+      notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+      publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
     };
     component.instructors = [instructorResult];
     fixture.detectChanges();
@@ -356,6 +477,10 @@ describe('AdminSearchPageComponent', () => {
       homePageLink: 'homePageLink',
       manageAccountLink: 'manageAccountLink',
       showLinks: false,
+      awaitingSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+      openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+      notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+      publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
     };
     component.instructors = [instructorResult];
     fixture.detectChanges();
@@ -500,14 +625,12 @@ describe('AdminSearchPageComponent', () => {
 
     spyOn(ngbModal, 'open').and.callFake(() => {
       return {
-        componentInstance: {
-          studentName: 'dummy', regenerateLinksCourseId: 'dummy',
-        },
+        componentInstance: {},
         result: Promise.resolve(),
       };
     });
 
-    spyOn(studentService, 'regenerateStudentCourseLinks').and.returnValue(of({
+    spyOn(studentService, 'regenerateStudentKey').and.returnValue(of({
       message: 'success',
       newRegistrationKey: 'newKey',
     }));
@@ -567,14 +690,12 @@ describe('AdminSearchPageComponent', () => {
 
     spyOn(ngbModal, 'open').and.callFake(() => {
       return {
-        componentInstance: {
-          studentName: 'dummy', regenerateLinksCourseId: 'dummy',
-        },
+        componentInstance: {},
         result: Promise.resolve(),
       };
     });
 
-    spyOn(studentService, 'regenerateStudentCourseLinks').and.returnValue(throwError({
+    spyOn(studentService, 'regenerateStudentKey').and.returnValue(throwError({
       error: {
         message: 'This is the error message.',
       },
@@ -585,6 +706,70 @@ describe('AdminSearchPageComponent', () => {
     });
 
     const regenerateButton: any = fixture.debugElement.nativeElement.querySelector('#regenerate-student-key-0');
+    regenerateButton.click();
+
+    expect(spyStatusMessageService).toBeCalled();
+  });
+
+  it('should show success message and update all keys if successfully regenerated instructor registration key', () => {
+    const instructorResult: InstructorAccountSearchResult = {
+      ...DEFAULT_INSTRUCTOR_SEARCH_RESULT,
+      courseJoinLink: 'courseJoinLink?key=oldKey',
+    };
+    component.instructors = [instructorResult];
+    fixture.detectChanges();
+
+    spyOn(ngbModal, 'open').and.callFake(() => {
+      return {
+        componentInstance: {},
+        result: Promise.resolve(),
+      };
+    });
+
+    spyOn(instructorService, 'regenerateInstructorKey').and.returnValue(of({
+      message: 'success',
+      newRegistrationKey: 'newKey',
+    }));
+
+    const spyStatusMessageService: any = spyOn(statusMessageService, 'showSuccessToast')
+        .and.callFake((args: string) => {
+          expect(args).toEqual('success');
+        });
+
+    const regenerateButton: any = fixture.debugElement.nativeElement.querySelector('#regenerate-instructor-key-0');
+    regenerateButton.click();
+
+    expect(spyStatusMessageService).toBeCalled();
+
+    expect(instructorResult.courseJoinLink).toEqual('courseJoinLink?key=newKey');
+  });
+
+  it('should show error message if fail to regenerate registration key for instructor in a course', () => {
+    const instructorResult: InstructorAccountSearchResult = {
+      ...DEFAULT_INSTRUCTOR_SEARCH_RESULT,
+      courseJoinLink: 'courseJoinLink?key=oldKey',
+    };
+    component.instructors = [instructorResult];
+    fixture.detectChanges();
+
+    spyOn(ngbModal, 'open').and.callFake(() => {
+      return {
+        componentInstance: {},
+        result: Promise.resolve(),
+      };
+    });
+
+    spyOn(instructorService, 'regenerateInstructorKey').and.returnValue(throwError({
+      error: {
+        message: 'This is the error message.',
+      },
+    }));
+
+    const spyStatusMessageService: any = spyOn(statusMessageService, 'showErrorToast').and.callFake((args: string) => {
+      expect(args).toEqual('This is the error message.');
+    });
+
+    const regenerateButton: any = fixture.debugElement.nativeElement.querySelector('#regenerate-instructor-key-0');
     regenerateButton.click();
 
     expect(spyStatusMessageService).toBeCalled();

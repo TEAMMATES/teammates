@@ -2,6 +2,7 @@ package teammates.ui.output;
 
 import javax.annotation.Nullable;
 
+import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 
 /**
@@ -12,15 +13,17 @@ public class CourseData extends ApiOutput {
     private final String courseId;
     private final String courseName;
     private final String timeZone;
+    private final String institute;
     private long creationTimestamp;
     private long deletionTimestamp;
     @Nullable
-    private InstructorPrivilegeData privileges;
+    private InstructorPermissionSet privileges;
 
     public CourseData(CourseAttributes courseAttributes) {
         this.courseId = courseAttributes.getId();
         this.courseName = courseAttributes.getName();
-        this.timeZone = courseAttributes.getTimeZone().getId();
+        this.timeZone = courseAttributes.getTimeZone();
+        this.institute = courseAttributes.getInstitute();
         this.creationTimestamp = courseAttributes.getCreatedAt().toEpochMilli();
         if (courseAttributes.getDeletedAt() != null) {
             this.deletionTimestamp = courseAttributes.getDeletedAt().toEpochMilli();
@@ -35,6 +38,10 @@ public class CourseData extends ApiOutput {
         return courseName;
     }
 
+    public String getInstitute() {
+        return institute;
+    }
+
     public String getTimeZone() {
         return timeZone;
     }
@@ -47,7 +54,7 @@ public class CourseData extends ApiOutput {
         return deletionTimestamp;
     }
 
-    public InstructorPrivilegeData getPrivileges() {
+    public InstructorPermissionSet getPrivileges() {
         return privileges;
     }
 
@@ -59,7 +66,7 @@ public class CourseData extends ApiOutput {
         this.deletionTimestamp = deletionTimestamp;
     }
 
-    public void setPrivileges(InstructorPrivilegeData privileges) {
+    public void setPrivileges(InstructorPermissionSet privileges) {
         this.privileges = privileges;
     }
 

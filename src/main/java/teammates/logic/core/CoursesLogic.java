@@ -69,6 +69,15 @@ public final class CoursesLogic {
     }
 
     /**
+     * Gets the institute associated with the course.
+     */
+    public String getCourseInstitute(String courseId) {
+        CourseAttributes cd = getCourse(courseId);
+        assert cd != null : "Trying to getCourseInstitute for inexistent course with id " + courseId;
+        return cd.getInstitute();
+    }
+
+    /**
      * Creates a course.
      *
      * @return the created course
@@ -177,6 +186,27 @@ public final class CoursesLogic {
 
         return studentsLogic.getStudentsForCourse(courseId)
                 .stream()
+                .map(StudentAttributes::getTeam)
+                .distinct()
+                .sorted()
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Returns team names for a particular section of a course.
+     *
+     * <p>Note: This method does not returns any Loner information presently.
+     * Loner information must be returned as we decide to support loners in future.
+     */
+    public List<String> getTeamsForSection(String sectionName, String courseId) throws EntityDoesNotExistException {
+
+        if (getCourse(courseId) == null) {
+            throw new EntityDoesNotExistException("The course " + courseId + " does not exist");
+        }
+
+        return studentsLogic.getStudentsForCourse(courseId)
+                .stream()
+                .filter(studentAttributes -> studentAttributes.getSection().equals(sectionName))
                 .map(StudentAttributes::getTeam)
                 .distinct()
                 .sorted()

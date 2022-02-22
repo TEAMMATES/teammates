@@ -9,7 +9,7 @@ apply plugin: "cz.habarta.typescript-generator"
 
 def checkstyleVersion = "8.33"
 def pmdVersion = "6.24.0"
-def spotbugsVersion = "4.0.6"
+def spotbugsVersion = "4.5.3"
 def jacocoVersion = "0.8.5"
 
 buildscript {
@@ -21,7 +21,7 @@ buildscript {
     }
     dependencies {
         classpath "com.google.cloud.tools:appengine-gradle-plugin:2.3.0"
-        classpath "gradle.plugin.com.github.spotbugs.snom:spotbugs-gradle-plugin:4.4.3"
+        classpath "com.github.spotbugs.snom:spotbugs-gradle-plugin:5.0.6"
         classpath("cz.habarta.typescript-generator:typescript-generator-gradle-plugin:2.24.612") {
             exclude group: "org.gradle"
         }
@@ -56,14 +56,15 @@ dependencies {
     implementation("com.google.code.gson:gson:2.8.6")
     implementation("com.google.guava:guava:30.1.1-jre")
     implementation(objectify)
-    implementation("com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:20200615.1")
+    implementation("com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:20211018.2")
+    implementation("com.helger:ph-commons:9.5.1") // necessary to add SpotBugs suppression
     implementation("com.mailjet:mailjet-client:4.5.0")
     implementation("com.sendgrid:sendgrid-java:4.6.0")
     implementation("com.sun.jersey:jersey-client:1.19.4")
     implementation("com.sun.jersey:jersey-core:1.19.4")
     implementation("com.sun.jersey.contribs:jersey-multipart:1.19.4")
     implementation("javax.servlet:javax.servlet-api:3.1.0")
-    implementation("org.apache.solr:solr-solrj:8.8.1")
+    implementation("org.apache.solr:solr-solrj:8.11.1")
     implementation("org.eclipse.jetty:jetty-server:9.4.39.v20210325")
     implementation("org.eclipse.jetty:jetty-webapp:9.4.39.v20210325")
     implementation("org.eclipse.jetty:jetty-annotations:9.4.39.v20210325")
@@ -72,7 +73,7 @@ dependencies {
     testAnnotationProcessor(testng)
 
     testImplementation("com.tngtech.archunit:archunit:0.11.0")
-    testImplementation("org.seleniumhq.selenium:selenium-java:3.141.59")
+    testImplementation("org.seleniumhq.selenium:selenium-java:4.0.0")
     testImplementation(testng)
     // For access to Google APIs such as HTTP transport, authentication and JSON parsing
     testImplementation("com.google.api-client:google-api-client:1.30.9")

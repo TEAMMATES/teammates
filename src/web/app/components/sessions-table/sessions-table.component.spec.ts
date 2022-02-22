@@ -6,7 +6,7 @@ import {
   FeedbackSession,
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
-  InstructorPrivilege,
+  InstructorPermissionSet,
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../types/api-output';
@@ -75,7 +75,7 @@ describe('SessionsTableComponent', () => {
     createdAtTimestamp: 1554967204,
   };
 
-  const instructorCanEverything: InstructorPrivilege = {
+  const instructorCanEverything: InstructorPermissionSet = {
     canModifyCourse: true,
     canModifySession: true,
     canModifyStudent: true,
@@ -86,7 +86,7 @@ describe('SessionsTableComponent', () => {
     canSubmitSessionInSections: true,
   };
 
-  const instructorCannotEverything: InstructorPrivilege = {
+  const instructorCannotEverything: InstructorPermissionSet = {
     canModifyCourse: false,
     canModifySession: false,
     canModifyStudent: false,

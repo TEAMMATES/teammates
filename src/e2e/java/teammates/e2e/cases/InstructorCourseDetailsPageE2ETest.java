@@ -47,7 +47,7 @@ public class InstructorCourseDetailsPageE2ETest extends BaseE2ETestCase {
     @Test
     @Override
     public void testAll() {
-        AppUrl detailsPageUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)
+        AppUrl detailsPageUrl = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)
                 .withCourseId(course.getId());
         InstructorCourseDetailsPage detailsPage = loginToPage(detailsPageUrl, InstructorCourseDetailsPage.class,
                 testData.instructors.get("ICDet.instr").getGoogleId());
@@ -108,8 +108,7 @@ public class InstructorCourseDetailsPageE2ETest extends BaseE2ETestCase {
         ______TS("download student list");
         detailsPage.downloadStudentList();
         String status = student.getGoogleId().isEmpty() ? "Yet to Join" : "Joined";
-        String lastName = student.getName().split(" ")[1];
-        String[] studentInfo = { student.getTeam(), student.getName(), lastName, status, student.getEmail() };
+        String[] studentInfo = { student.getTeam(), student.getName(), status, student.getEmail() };
         List<String> expectedContent = Arrays.asList("Course ID," + course.getId(),
                 "Course Name," + course.getName(), String.join(",", studentInfo));
         verifyDownloadedFile(fileName, expectedContent);

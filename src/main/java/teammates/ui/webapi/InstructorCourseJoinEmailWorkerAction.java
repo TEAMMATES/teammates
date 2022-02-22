@@ -35,9 +35,7 @@ class InstructorCourseJoinEmailWorkerAction extends AdminOnlyAction {
 
         EmailWrapper email;
         if (isRejoin) {
-            String institute = getRequestParamValue(ParamsNames.INSTRUCTOR_INSTITUTION);
-            email = emailGenerator
-                    .generateInstructorCourseRejoinEmailAfterGoogleIdReset(instructor, course, institute);
+            email = emailGenerator.generateInstructorCourseRejoinEmailAfterGoogleIdReset(instructor, course);
         } else {
             String inviterId = getNonNullRequestParamValue(ParamsNames.INVITER_ID);
             AccountAttributes inviter = logic.getAccount(inviterId);

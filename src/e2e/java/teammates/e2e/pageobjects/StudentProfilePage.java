@@ -44,15 +44,6 @@ public class StudentProfilePage extends AppPage {
     @FindBy(className = "upload-edit-photo")
     private WebElement uploadPopupButton;
 
-    @FindBy(className = "profile-upload-picture-submit")
-    private WebElement uploadPictureSubmit;
-
-    @FindBy(tagName = "tm-upload-edit-profile-picture-modal")
-    private WebElement uploadEditModal;
-
-    @FindBy(className = "btn-space")
-    private List<WebElement> editPictureTools;
-
     public StudentProfilePage(Browser browser) {
         super(browser);
     }
@@ -125,11 +116,13 @@ public class StudentProfilePage extends AppPage {
     }
 
     public void uploadPicture() {
+        WebElement uploadPictureSubmit = browser.driver.findElement(By.className("profile-upload-picture-submit"));
         click(uploadPictureSubmit);
         waitForPageToLoad(true);
     }
 
     public void editProfilePhoto() {
+        List<WebElement> editPictureTools = browser.driver.findElements(By.className("btn-space"));
         WebElement editPictureRotateRight = editPictureTools.get(0);
         WebElement editPictureFlipHorizontal = editPictureTools.get(1);
         WebElement editPictureFlipVertical = editPictureTools.get(2);
@@ -159,10 +152,28 @@ public class StudentProfilePage extends AppPage {
         waitForUploadEditModalVisible();
     }
 
-    public void verifyPhotoSize(String height, String width) {
-        assertEquals(height, browser.driver.findElement(By.className("profile-pic")).getCssValue("height"));
-        assertEquals(width, browser.driver.findElement(By.className("profile-pic")).getCssValue("width"));
+    public void closePictureEditor() {
+        WebElement uploadEditModal = browser.driver.findElement(By.tagName("tm-upload-edit-profile-picture-modal"));
         click(uploadEditModal.findElement(By.className("close")));
+        waitForElementStaleness(uploadEditModal);
+    }
+
+    public void verifyPhotoSize(int height, int width) {
+        String browserHeight = browser.driver.findElement(By.className("profile-pic")).getCssValue("height");
+        String browserWidth = browser.driver.findElement(By.className("profile-pic")).getCssValue("width");
+        float imageHeight = Float.parseFloat(browserHeight.replaceFirst("px$", ""));
+        float imageWidth = Float.parseFloat(browserWidth.replaceFirst("px$", ""));
+        assertEquals(height, imageHeight, 1.0);
+        assertEquals(width, imageWidth, 1.0);
+    }
+
+    public void uploadProfilePicAndVerifyDimensions(String imagePath, int height, int width) {
+        fillProfilePic(imagePath);
+        uploadPicture();
+        verifyStatusMessage("Your profile picture has been saved successfully");
+        showPictureEditor();
+        verifyPhotoSize(height, width);
+        closePictureEditor();
     }
 
     public void ensureProfileContains(String shortName, String email, String institute, String nationality,
@@ -205,6 +216,6 @@ public class StudentProfilePage extends AppPage {
     }
 
     public void waitForUploadEditModalVisible() {
-        waitForElementVisibility(uploadEditModal);
+        waitForElementVisibility(By.tagName("tm-upload-edit-profile-picture-modal"));
     }
 }

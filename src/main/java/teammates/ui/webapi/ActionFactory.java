@@ -46,6 +46,9 @@ public final class ActionFactory {
         map(ResourceURIs.ACCOUNT, DELETE, DeleteAccountAction.class);
         map(ResourceURIs.ACCOUNT_DOWNGRADE, PUT, DowngradeAccountAction.class);
         map(ResourceURIs.ACCOUNT_RESET, PUT, ResetAccountAction.class);
+        map(ResourceURIs.ACCOUNT_REQUEST, GET, GetAccountRequestAction.class);
+        map(ResourceURIs.ACCOUNT_REQUEST, POST, CreateAccountRequestAction.class);
+        map(ResourceURIs.ACCOUNT_REQUEST, DELETE, DeleteAccountRequestAction.class);
         map(ResourceURIs.COURSE, GET, GetCourseAction.class);
         map(ResourceURIs.COURSE, DELETE, DeleteCourseAction.class);
         map(ResourceURIs.COURSE, POST, CreateCourseAction.class);
@@ -79,6 +82,7 @@ public final class ActionFactory {
         //SEARCH APIs
         map(ResourceURIs.SEARCH_INSTRUCTORS, GET, SearchInstructorsAction.class);
         map(ResourceURIs.SEARCH_STUDENTS, GET, SearchStudentsAction.class);
+        map(ResourceURIs.SEARCH_ACCOUNT_REQUESTS, GET, SearchAccountRequestsAction.class);
         map(ResourceURIs.EMAIL, GET, GenerateEmailAction.class);
 
         map(ResourceURIs.SESSIONS_ONGOING, GET, GetOngoingSessionsAction.class);
@@ -95,7 +99,8 @@ public final class ActionFactory {
         map(ResourceURIs.SESSIONS, GET, GetFeedbackSessionsAction.class);
         map(ResourceURIs.BIN_SESSION, PUT, BinFeedbackSessionAction.class);
         map(ResourceURIs.BIN_SESSION, DELETE, RestoreFeedbackSessionAction.class);
-        map(ResourceURIs.STUDENT_COURSE_LINKS_REGENERATION, POST, RegenerateStudentCourseLinksAction.class);
+        map(ResourceURIs.INSTRUCTOR_KEY, POST, RegenerateInstructorKeyAction.class);
+        map(ResourceURIs.STUDENT_KEY, POST, RegenerateStudentKeyAction.class);
         map(ResourceURIs.QUESTIONS, GET, GetFeedbackQuestionsAction.class);
         map(ResourceURIs.QUESTION, POST, CreateFeedbackQuestionAction.class);
         map(ResourceURIs.QUESTION, PUT, UpdateFeedbackQuestionAction.class);
@@ -148,6 +153,7 @@ public final class ActionFactory {
         map(TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_WORKER_URL, POST, InstructorCourseJoinEmailWorkerAction.class);
         map(TaskQueue.SEND_EMAIL_WORKER_URL, POST, SendEmailWorkerAction.class);
         map(TaskQueue.STUDENT_COURSE_JOIN_EMAIL_WORKER_URL, POST, StudentCourseJoinEmailWorkerAction.class);
+        map(TaskQueue.ACCOUNT_REQUEST_SEARCH_INDEXING_WORKER_URL, POST, AccountRequestSearchIndexingWorkerAction.class);
         map(TaskQueue.INSTRUCTOR_SEARCH_INDEXING_WORKER_URL, POST, InstructorSearchIndexingWorkerAction.class);
         map(TaskQueue.STUDENT_SEARCH_INDEXING_WORKER_URL, POST, StudentSearchIndexingWorkerAction.class);
 

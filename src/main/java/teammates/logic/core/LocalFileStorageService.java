@@ -16,7 +16,7 @@ import teammates.common.util.Logger;
  */
 public final class LocalFileStorageService implements FileStorageService {
 
-    private static final String BASE_DIRECTORY = "../../filestorage-dev";
+    private static final String BASE_DIRECTORY = System.getProperty("user.dir") + "/filestorage-dev";
     private static final Logger log = Logger.getLogger();
 
     private static String constructFilePath(String fileKey) {

@@ -1,7 +1,6 @@
 package teammates.common.datatransfer.attributes;
 
 import java.time.Instant;
-import java.time.ZoneId;
 
 import org.testng.annotations.Test;
 
@@ -26,7 +25,7 @@ public class CourseAttributesTest extends BaseTestCase {
 
         assertEquals("testId", courseAttributes.getId());
         assertEquals("testName", courseAttributes.getName());
-        assertEquals("UTC", courseAttributes.getTimeZone().getId());
+        assertEquals("UTC", courseAttributes.getTimeZone());
         assertEquals("institute", courseAttributes.getInstitute());
         assertEquals(typicalInstant, courseAttributes.getCreatedAt());
         assertEquals(typicalInstant, courseAttributes.getDeletedAt());
@@ -39,7 +38,7 @@ public class CourseAttributesTest extends BaseTestCase {
 
         CourseAttributes courseAttributes = CourseAttributes.valueOf(course);
 
-        assertEquals("UTC", courseAttributes.getTimeZone().getId());
+        assertEquals("UTC", courseAttributes.getTimeZone());
     }
 
     @Test
@@ -54,7 +53,7 @@ public class CourseAttributesTest extends BaseTestCase {
 
         assertEquals("testId", courseAttributes.getId());
         assertEquals("testName", courseAttributes.getName());
-        assertEquals("UTC", courseAttributes.getTimeZone().getId());
+        assertEquals("UTC", courseAttributes.getTimeZone());
         assertEquals("institute", courseAttributes.getInstitute());
         assertNotNull(courseAttributes.getCreatedAt());
         assertNull(courseAttributes.getDeletedAt());
@@ -64,7 +63,7 @@ public class CourseAttributesTest extends BaseTestCase {
     public void testBuilder_withTypicalData_shouldBuildCorrectAttributes() {
         String validName = "validName";
         String validId = "validId";
-        ZoneId validTimeZone = ZoneId.of("UTC");
+        String validTimeZone = "UTC";
 
         CourseAttributes courseAttributes = CourseAttributes
                 .builder(validId)
@@ -125,7 +124,8 @@ public class CourseAttributesTest extends BaseTestCase {
         CourseAttributes invalidCourse = CourseAttributes
                 .builder(veryLongId)
                 .withName(emptyName)
-                .withTimezone(ZoneId.of("UTC"))
+                .withTimezone("UTC")
+                .withInstitute("Test institute")
                 .build();
 
         assertFalse("invalid value", invalidCourse.isValid());
@@ -197,7 +197,7 @@ public class CourseAttributesTest extends BaseTestCase {
     private static CourseAttributes generateValidCourseAttributesObject() {
         return CourseAttributes.builder("valid-id-$_abc")
                 .withName("valid-name")
-                .withTimezone(ZoneId.of("UTC"))
+                .withTimezone("UTC")
                 .withInstitute("valid-institute")
                 .build();
     }

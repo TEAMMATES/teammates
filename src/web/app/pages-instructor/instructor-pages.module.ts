@@ -90,6 +90,14 @@ const routes: Routes = [
       },
       {
         path: 'result',
+        loadChildren: () => import('../pages-session/session-result-page/session-result-page.module')
+            .then((m: any) => m.SessionResultPageModule),
+        data: {
+          intent: Intent.INSTRUCTOR_RESULT,
+        },
+      },
+      {
+        path: 'report',
         loadChildren: () => import('./instructor-session-result-page/instructor-session-result-page.module')
             .then((m: any) => m.InstructorSessionResultPageModule),
       },

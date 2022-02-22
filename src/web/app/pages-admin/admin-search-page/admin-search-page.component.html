@@ -61,6 +61,8 @@
               <a id="reset-instructor-id-{{i}}" href="javascript:;" (click)="resetInstructorGoogleId(instructor, $event)" *ngIf="instructor.googleId">
                 <i class="fas fa-sync"></i> Reset Google ID
               </a>
+              <br>
+              <button id="regenerate-instructor-key-{{i}}" class="btn btn-danger" (click)="instructor.showLinks = !instructor.showLinks; regenerateInstructorKey(instructor);">Regenerate key</button>
             </td>
           </tr>
           <tr *ngIf="instructor.showLinks">
@@ -73,6 +75,22 @@
                 <li class="list-group-item list-group-item-info">
                   <strong>Course Join Link</strong>
                   <input [value]="instructor.courseJoinLink" readonly class="form-control">
+                </li>
+                <li class="list-group-item list-group-item-light" *ngFor="let awaitingFs of instructor.awaitingSessions | keyvalue">
+                  <strong>{{ awaitingFs.key + ' ' + awaitingFs.value.startTime + ' - ' + awaitingFs.value.endTime }}</strong>
+                  <input [value]="awaitingFs.value.feedbackSessionUrl" readonly class="form-control">
+                </li>
+                <li class="list-group-item list-group-item-warning" *ngFor="let openFs of instructor.openSessions | keyvalue">
+                  <strong>{{ openFs.key + ' ' + openFs.value.startTime + ' - ' + openFs.value.endTime }}</strong>
+                  <input [value]="openFs.value.feedbackSessionUrl" readonly class="form-control">
+                </li>
+                <li class="list-group-item list-group-item-danger" *ngFor="let notOpenFs of instructor.notOpenSessions | keyvalue">
+                  <strong>{{ notOpenFs.key + ' ' + notOpenFs.value.startTime + ' - ' + notOpenFs.value.endTime }}</strong>
+                  <input [value]="notOpenFs.value.feedbackSessionUrl" readonly class="form-control">
+                </li>
+                <li class="list-group-item list-group-item-success" *ngFor="let publishedFs of instructor.publishedSessions | keyvalue">
+                  <strong>{{ publishedFs.key + ' ' + publishedFs.value.startTime + ' - ' + publishedFs.value.endTime }}</strong>
+                  <input [value]="publishedFs.value.feedbackSessionUrl" readonly class="form-control">
                 </li>
               </ul>
             </td>
@@ -137,7 +155,7 @@
                 <i class="fas fa-sync"></i> Reset Google ID
               </a>
               <br>
-              <button id="regenerate-student-key-{{i}}" class="btn btn-danger" (click)="student.showLinks = !student.showLinks; regenerateFeedbackSessionLinks(student);">Regenerate links</button>
+              <button id="regenerate-student-key-{{i}}" class="btn btn-danger" (click)="student.showLinks = !student.showLinks; regenerateStudentKey(student);">Regenerate key</button>
             </td>
           </tr>
           <tr>
@@ -171,6 +189,62 @@
                   <strong>{{ publishedFs.key + ' ' + publishedFs.value.startTime + ' - ' + publishedFs.value.endTime }}</strong>
                   <button id="send-published-session-reminder-button" type="button" class="btn btn-primary margin-left-5px btn-sm" (click)="openFeedbackSessionReminderEmail(student.courseId, student.email, publishedFs.key)">Send mail</button>
                   <input [value]="publishedFs.value.feedbackSessionUrl" readonly class="form-control">
+                </li>
+              </ul>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="card bg-light top-padded" *ngIf="accountRequests.length">
+  <div class="card-header bg-primary text-white">
+    <strong>Account Requests Found</strong>
+    <div class="card-header-btn-toolbar">
+      <button id="show-account-request-links" class="btn btn-light btn-sm" style="margin-right: 10px;" type="button" (click)="showAllAccountRequestsLinks()">Expand All</button>
+      <button id="hide-account-request-links" class="btn btn-light btn-sm" type="button" (click)="hideAllAccountRequestsLinks()">Collapse All</button>
+    </div>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-striped data-table" id="search-table-account-request">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Institute</th>
+          <th>Created At</th>
+          <th>Registered At</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let accountRequest of accountRequests; let i = index">
+          <tr (click)="accountRequest.showLinks = !accountRequest.showLinks">
+            <td>
+              {{ accountRequest.name }}
+              <br>
+              <div class="col-sm-1">
+                <button *ngIf="!accountRequest.showLinks" class="btn">
+                  <i class="fas fa-chevron-circle-down" style="color: blue;"></i>
+                </button>
+                <button *ngIf="accountRequest.showLinks" class="btn">
+                  <i class="fas fa-chevron-circle-up" style="color: blue;"></i>
+                </button>
+              </div>
+            </td>
+            <td>{{ accountRequest.email }}</td>
+            <td>{{ accountRequest.institute }}</td>
+            <td>{{ accountRequest.createdAt }}</td>
+            <td>{{ accountRequest.registeredAt }}</td>
+          </tr>
+          <tr *ngIf="accountRequest.showLinks">
+            <td colspan="6">
+              <ul class="list-group" *ngIf="accountRequest.showLinks" @collapseAnim>
+                <li class="list-group-item list-group-item-info">
+                  <strong>Account Registration Link</strong>
+                  <input [value]="accountRequest.registrationLink" readonly class="form-control">
                 </li>
               </ul>
             </td>

@@ -70,7 +70,7 @@ class SendJoinReminderEmailAction extends Action {
 
         } else if (isSendingToInstructor) {
             taskQueuer.scheduleCourseRegistrationInviteToInstructor(userInfo.id,
-                    instructorEmail, courseId, null, false);
+                    instructorEmail, courseId, false);
 
             InstructorAttributes instructorData = logic.getInstructorForEmail(courseId, instructorEmail);
             if (instructorData == null) {

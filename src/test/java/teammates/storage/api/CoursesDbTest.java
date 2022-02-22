@@ -1,6 +1,5 @@
 package teammates.storage.api;
 
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +36,8 @@ public class CoursesDbTest extends BaseTestCaseWithLocalDatabaseAccess {
         CourseAttributes c = CourseAttributes
                 .builder("CDbT.tCC.newCourse")
                 .withName("Basic Computing")
-                .withTimezone(ZoneId.of("UTC"))
+                .withTimezone("UTC")
+                .withInstitute("Test institute")
                 .build();
         coursesDb.createEntity(c);
         verifyPresentInDatabase(c);
@@ -54,7 +54,8 @@ public class CoursesDbTest extends BaseTestCaseWithLocalDatabaseAccess {
         CourseAttributes invalidIdCourse = CourseAttributes
                 .builder("Invalid id")
                 .withName("Basic Computing")
-                .withTimezone(ZoneId.of("UTC"))
+                .withTimezone("UTC")
+                .withInstitute("Test institute")
                 .build();
         InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
                 () -> coursesDb.createEntity(invalidIdCourse));
@@ -66,10 +67,23 @@ public class CoursesDbTest extends BaseTestCaseWithLocalDatabaseAccess {
         CourseAttributes invalidNameCourse = CourseAttributes
                 .builder("CDbT.tCC.newCourse")
                 .withName(longCourseName)
-                .withTimezone(ZoneId.of("UTC"))
+                .withTimezone("UTC")
+                .withInstitute("Test institute")
                 .build();
         ipe = assertThrows(InvalidParametersException.class, () -> coursesDb.createEntity(invalidNameCourse));
         AssertHelper.assertContains("not acceptable to TEAMMATES as a/an course name because it is too long",
+                ipe.getMessage());
+
+        String longCourseInstitute = StringHelperExtension.generateStringOfLength(
+                FieldValidator.INSTITUTE_NAME_MAX_LENGTH + 1);
+        CourseAttributes invalidInstituteCourse = CourseAttributes
+                .builder("CDbT.tCC.newCourse")
+                .withName("Basic computing")
+                .withTimezone("UTC")
+                .withInstitute(longCourseInstitute)
+                .build();
+        ipe = assertThrows(InvalidParametersException.class, () -> coursesDb.createEntity(invalidInstituteCourse));
+        AssertHelper.assertContains("not acceptable to TEAMMATES as a/an institute name because it is too long",
                 ipe.getMessage());
 
         ______TS("Failure: null parameter");
@@ -198,14 +212,14 @@ public class CoursesDbTest extends BaseTestCaseWithLocalDatabaseAccess {
         assertEquals(typicalCourse.getName() + " test", actualCourse.getName());
         assertEquals(typicalCourse.getName() + " test", updatedCourse.getName());
 
-        assertNotEquals("Asia/Singapore", actualCourse.getTimeZone().getId());
+        assertNotEquals("Asia/Singapore", actualCourse.getTimeZone());
         updatedCourse = coursesDb.updateCourse(
                 CourseAttributes.updateOptionsBuilder(typicalCourse.getId())
-                        .withTimezone(ZoneId.of("Asia/Singapore"))
+                        .withTimezone("Asia/Singapore")
                         .build());
         actualCourse = coursesDb.getCourse(typicalCourse.getId());
-        assertEquals(ZoneId.of("Asia/Singapore"), actualCourse.getTimeZone());
-        assertEquals(ZoneId.of("Asia/Singapore"), updatedCourse.getTimeZone());
+        assertEquals("Asia/Singapore", actualCourse.getTimeZone());
+        assertEquals("Asia/Singapore", updatedCourse.getTimeZone());
     }
 
     @Test
@@ -263,7 +277,8 @@ public class CoursesDbTest extends BaseTestCaseWithLocalDatabaseAccess {
         CourseAttributes c = CourseAttributes
                 .builder("Computing101")
                 .withName("Basic Computing")
-                .withTimezone(ZoneId.of("UTC"))
+                .withTimezone("UTC")
+                .withInstitute("Test institute")
                 .build();
 
         return coursesDb.putEntity(c);

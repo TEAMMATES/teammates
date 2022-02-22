@@ -3,8 +3,10 @@ import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { finalize } from 'rxjs/operators';
 import { AccountService } from '../../../services/account.service';
 import { EmailGenerationService } from '../../../services/email-generation.service';
+import { InstructorService } from '../../../services/instructor.service';
 import { LoadingBarService } from '../../../services/loading-bar.service';
 import {
+  AccountRequestSearchResult,
   AdminSearchResult,
   FeedbackSessionsGroup,
   InstructorAccountSearchResult,
@@ -14,7 +16,8 @@ import {
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
-import { Email, RegenerateStudentCourseLinks } from '../../../types/api-output';
+import { ApiConst } from '../../../types/api-const';
+import { Email, RegenerateKey } from '../../../types/api-output';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
@@ -33,11 +36,13 @@ export class AdminSearchPageComponent {
   searchQuery: string = '';
   instructors: InstructorAccountSearchResult[] = [];
   students: StudentAccountSearchResult[] = [];
+  accountRequests: AccountRequestSearchResult[] = [];
 
   constructor(
     private statusMessageService: StatusMessageService,
     private simpleModalService: SimpleModalService,
     private accountService: AccountService,
+    private instructorService: InstructorService,
     private studentService: StudentService,
     private searchService: SearchService,
     private emailGenerationService: EmailGenerationService,
@@ -54,17 +59,40 @@ export class AdminSearchPageComponent {
     ).pipe(finalize(() => this.loadingBarService.hideLoadingBar())).subscribe((resp: AdminSearchResult) => {
       const hasStudents: boolean = !!(resp.students && resp.students.length);
       const hasInstructors: boolean = !!(resp.instructors && resp.instructors.length);
+      const hasAccountRequests: boolean = !!(resp.accountRequests && resp.accountRequests.length);
 
-      if (!hasStudents && !hasInstructors) {
+      if (!hasStudents && !hasInstructors && !hasAccountRequests) {
         this.statusMessageService.showWarningToast('No results found.');
         this.instructors = [];
         this.students = [];
-      } else {
-        this.instructors = resp.instructors;
-        this.students = resp.students;
-        this.hideAllInstructorsLinks();
-        this.hideAllStudentsLinks();
+        this.accountRequests = [];
+        return;
       }
+
+      this.instructors = resp.instructors;
+      this.students = resp.students;
+      this.accountRequests = resp.accountRequests;
+      this.hideAllInstructorsLinks();
+      this.hideAllStudentsLinks();
+      this.hideAllAccountRequestsLinks();
+
+      // prompt user to use more specific terms if search results limit reached
+      const limit: number = ApiConst.SEARCH_QUERY_SIZE_LIMIT;
+      const limitsReached: string[] = [];
+      if (this.students.length >= limit) {
+        limitsReached.push(`${limit} student results`);
+      }
+      if (this.instructors.length >= limit) {
+        limitsReached.push(`${limit} instructor results`);
+      }
+      if (this.accountRequests.length >= limit) {
+        limitsReached.push(`${limit} account request results`);
+      }
+      if (limitsReached.length) {
+        this.statusMessageService.showWarningToast(`${limitsReached.join(' and ')} have been shown on this page
+            but there may be more results not shown. Consider searching with more specific terms.`);
+      }
+
     }, (resp: ErrorMessageOutput) => {
       this.instructors = [];
       this.students = [];
@@ -105,6 +133,24 @@ export class AdminSearchPageComponent {
   hideAllStudentsLinks(): void {
     for (const student of this.students) {
       student.showLinks = false;
+    }
+  }
+
+  /**
+   * Shows all account requests' links in the page.
+   */
+  showAllAccountRequestsLinks(): void {
+    for (const accountRequest of this.accountRequests) {
+      accountRequest.showLinks = true;
+    }
+  }
+
+  /**
+   * Hides all account requests' links in the page.
+   */
+  hideAllAccountRequestsLinks(): void {
+    for (const accountRequest of this.accountRequests) {
+      accountRequest.showLinks = false;
     }
   }
 
@@ -156,22 +202,42 @@ export class AdminSearchPageComponent {
   }
 
   /**
-   * Regenerates the student's course join and feedback session links.
+   * Regenerates the student's registration key.
    */
-  regenerateFeedbackSessionLinks(student: StudentAccountSearchResult): void {
-    const modalContent: string = `Are you sure you want to regenerate the course registration and feedback session links for <strong>${ student.name }</strong> for the course <strong>${ student.courseId }</strong>?
-        An email will be sent to the student with all the new links.`;
+  regenerateStudentKey(student: StudentAccountSearchResult): void {
+    const modalContent: string = `Are you sure you want to regenerate the registration key for <strong>${ student.name }</strong> for the course <strong>${ student.courseId }</strong>?
+        An email will be sent to the student with all the new course registration and feedback session links.`;
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
         `Regenerate <strong>${ student.name }</strong>\'s course links?`, SimpleModalType.WARNING, modalContent);
 
     modalRef.result.then(() => {
-      this.studentService.regenerateStudentCourseLinks(student.courseId, student.email)
-        .subscribe((resp: RegenerateStudentCourseLinks) => {
+      this.studentService.regenerateStudentKey(student.courseId, student.email)
+        .subscribe((resp: RegenerateKey) => {
           this.statusMessageService.showSuccessToast(resp.message);
           this.updateDisplayedStudentCourseLinks(student, resp.newRegistrationKey);
         }, (response: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(response.error.message);
         });
+    }, () => {});
+  }
+
+  /**
+   * Regenerates the instructor's registration key.
+   */
+  regenerateInstructorKey(instructor: InstructorAccountSearchResult): void {
+    const modalContent: string = `Are you sure you want to regenerate the registration key for <strong>${ instructor.name }</strong> for the course <strong>${ instructor.courseId }</strong>?
+        An email will be sent to the instructor with all the new course registration and feedback session links.`;
+    const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
+        `Regenerate <strong>${ instructor.name }</strong>'s course links?`, SimpleModalType.WARNING, modalContent);
+
+    modalRef.result.then(() => {
+      this.instructorService.regenerateInstructorKey(instructor.courseId, instructor.email)
+          .subscribe((resp: RegenerateKey) => {
+            this.statusMessageService.showSuccessToast(resp.message);
+            this.updateDisplayedInstructorCourseLinks(instructor, resp.newRegistrationKey);
+          }, (response: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorToast(response.error.message);
+          });
     }, () => {});
   }
 
@@ -190,6 +256,23 @@ export class AdminSearchPageComponent {
     updateSessions(student.openSessions);
     updateSessions(student.notOpenSessions);
     updateSessions(student.publishedSessions);
+  }
+
+  /**
+   * Updates the instructor's displayed course join and feedback session links with the value of the newKey.
+   */
+  private updateDisplayedInstructorCourseLinks(instructor: InstructorAccountSearchResult, newKey: string): void {
+    const updateSessions: Function = (sessions: FeedbackSessionsGroup): void => {
+      Object.keys(sessions).forEach((key: string): void => {
+        sessions[key].feedbackSessionUrl = this.getUpdatedUrl(sessions[key].feedbackSessionUrl, newKey);
+      });
+    };
+
+    instructor.courseJoinLink = this.getUpdatedUrl(instructor.courseJoinLink, newKey);
+    updateSessions(instructor.awaitingSessions);
+    updateSessions(instructor.openSessions);
+    updateSessions(instructor.notOpenSessions);
+    updateSessions(instructor.publishedSessions);
   }
 
   /**

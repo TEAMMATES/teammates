@@ -3,6 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ResourceEndpoints } from '../types/api-const';
 import {
+  AccountRequest,
   Course,
   FeedbackSession,
   FeedbackSessionPublishStatus,
@@ -16,11 +17,13 @@ import {
   Student,
 } from '../types/api-output';
 import { HttpRequestService } from './http-request.service';
-import { InstructorAccountSearchResult, SearchService, StudentAccountSearchResult } from './search.service';
+import { AccountRequestSearchResult, InstructorAccountSearchResult, SearchService, StudentAccountSearchResult } from './search.service';
+import { TimezoneService } from './timezone.service';
 
 describe('SearchService', () => {
   let spyHttpRequestService: any;
   let service: SearchService;
+  let timezoneService: TimezoneService;
 
   const mockStudent: Student = {
     email: 'alice.b.tmms@gmail.tmt',
@@ -42,6 +45,7 @@ describe('SearchService', () => {
     isDisplayedToStudents: true,
     displayedToStudentsAs: 'Instructor',
     name: 'Hi',
+    key: 'impicklerick',
     role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
     joinState: JoinState.JOINED,
   };
@@ -82,24 +86,39 @@ describe('SearchService', () => {
   ];
 
   const mockPrivileges: InstructorPrivilege[] = [{
-    canModifyCourse: true,
-    canModifySession: true,
-    canModifyStudent: true,
-    canModifyInstructor: true,
-    canViewStudentInSections: true,
-    canModifySessionCommentsInSections: true,
-    canViewSessionInSections: true,
-    canSubmitSessionInSections: true,
+    privileges: {
+      courseLevel: {
+        canModifyCourse: true,
+        canModifySession: true,
+        canModifyStudent: true,
+        canModifyInstructor: true,
+        canViewStudentInSections: true,
+        canModifySessionCommentsInSections: true,
+        canViewSessionInSections: true,
+        canSubmitSessionInSections: true,
+      },
+      sectionLevel: {},
+      sessionLevel: {},
+    },
     requestId: 'checkyourprivilege',
   }];
 
   const mockCourse: Course = {
     courseId: 'dog.gma-demo',
     courseName: 'Sample Course 101',
+    institute: 'Test Institute',
     timeZone: 'UTC',
     creationTimestamp: 1585487897502,
     deletionTimestamp: 0,
     requestId: '5e80aa3c00007918934385f5',
+  };
+
+  const mockAccountRequest: AccountRequest = {
+    registrationKey: 'regkey',
+    createdAt: 1585487897502,
+    name: 'Test Instructor',
+    institute: 'Test Institute',
+    email: 'test@example.com',
   };
 
   beforeEach(() => {
@@ -116,6 +135,7 @@ describe('SearchService', () => {
       ],
     });
     service = TestBed.inject(SearchService);
+    timezoneService = TestBed.inject(TimezoneService);
   });
 
   it('should be created', () => {
@@ -145,6 +165,17 @@ describe('SearchService', () => {
     );
   });
 
+  it('should execute GET when searching for account requests', () => {
+    service.searchAccountRequests('Account Request');
+    const paramMap: { [key: string]: string } = {
+      searchkey: 'Account Request',
+    };
+    expect(spyHttpRequestService.get).toHaveBeenCalledWith(
+      ResourceEndpoints.SEARCH_ACCOUNT_REQUESTS,
+      paramMap,
+    );
+  });
+
   it('should join students accurately when calling as admin', () => {
     const result: StudentAccountSearchResult = service.joinAdminStudent(
       mockStudent,
@@ -155,8 +186,7 @@ describe('SearchService', () => {
     );
     expect(result.comments).toBe("This student's name is Alice Betsy");
     expect(result.courseId).toBe('dog.gma-demo');
-    expect(result.courseJoinLink).toBe(`${window.location.origin}/web/join?key` +
-      '=keyheehee&studentemail=alice.b.tmms%40gmail.tmt&courseid=dog.gma-demo&entitytype=student');
+    expect(result.courseJoinLink).toBe(`${window.location.origin}/web/join?key=keyheehee&entitytype=student`);
     expect(result.courseName).toBe('Sample Course 101');
     expect(result.email).toBe('alice.b.tmms@gmail.tmt');
     expect(result.manageAccountLink).toBe('/web/admin/accounts?instructorid=alice.b.tmms.sampleData');
@@ -164,12 +194,37 @@ describe('SearchService', () => {
 
   it('should join instructors accurately when calling as admin', () => {
     const result: InstructorAccountSearchResult = service
-      .joinAdminInstructor(mockInstructor, mockCourse);
+      .joinAdminInstructor(mockInstructor, mockCourse, { feedbackSessions: mockSessions });
     expect(result.courseId).toBe('dog.gma-demo');
-    expect(result.courseJoinLink).toBe(`${window.location.origin}/web/join?entitytype=instructor`);
+    expect(result.courseJoinLink).toBe(`${window.location.origin}/web/join?key=impicklerick&entitytype=instructor`);
     expect(result.courseName).toBe('Sample Course 101');
     expect(result.email).toBe('dog@gmail.com');
     expect(result.manageAccountLink).toBe('/web/admin/accounts?instructorid=test%40example.com');
     expect(result.homePageLink).toBe('/web/instructor/home?user=test%40example.com');
+  });
+
+  it('should join account requests accurately when timezone can be guessed and instructor is registered', () => {
+    spyOn(timezoneService, 'guessTimezone').and.returnValue('Asia/Singapore');
+    const accountRequest: AccountRequest = { ...mockAccountRequest, registeredAt: 1685487897502 };
+    const result: AccountRequestSearchResult = service.joinAdminAccountRequest(accountRequest);
+
+    expect(result.email).toBe('test@example.com');
+    expect(result.institute).toBe('Test Institute');
+    expect(result.name).toBe('Test Instructor');
+    expect(result.createdAt).toBe('Sun, 29 Mar 2020, 09:18 PM +08:00');
+    expect(result.registeredAt).toBe('Wed, 31 May 2023, 07:04 AM +08:00');
+    expect(result.registrationLink).toBe(`${window.location.origin}/web/join?iscreatingaccount=true&key=regkey`);
+  });
+
+  it('should join account requests accurately when timezone cannot be guessed and instructor is not registered', () => {
+    spyOn(timezoneService, 'guessTimezone').and.returnValue('');
+    const result: AccountRequestSearchResult = service.joinAdminAccountRequest(mockAccountRequest);
+
+    expect(result.email).toBe('test@example.com');
+    expect(result.institute).toBe('Test Institute');
+    expect(result.name).toBe('Test Instructor');
+    expect(result.createdAt).toBe('Sun, 29 Mar 2020, 01:18 PM +00:00');
+    expect(result.registeredAt).toBe('Not Registered Yet');
+    expect(result.registrationLink).toBe(`${window.location.origin}/web/join?iscreatingaccount=true&key=regkey`);
   });
 });

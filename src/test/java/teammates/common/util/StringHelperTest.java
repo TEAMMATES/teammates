@@ -107,7 +107,7 @@ public class StringHelperTest extends BaseTestCase {
         SecretKeySpec sks = new SecretKeySpec(StringHelper.hexStringToByteArray(Config.ENCRYPTION_KEY), "AES");
         Cipher cipher = Cipher.getInstance("AES");
         cipher.init(Cipher.ENCRYPT_MODE, sks, cipher.getParameters());
-        byte[] encrypted = cipher.doFinal(plaintext.getBytes());
+        byte[] encrypted = cipher.doFinal(plaintext.getBytes(Const.ENCODING));
         return StringHelper.byteArrayToHexString(encrypted);
     }
 
@@ -116,7 +116,7 @@ public class StringHelperTest extends BaseTestCase {
                 new SecretKeySpec(StringHelper.hexStringToByteArray(Config.ENCRYPTION_KEY), "HmacSHA1");
         Mac mac = Mac.getInstance("HmacSHA1");
         mac.init(signingKey);
-        byte[] value = mac.doFinal(data.getBytes());
+        byte[] value = mac.doFinal(data.getBytes(Const.ENCODING));
         return StringHelper.byteArrayToHexString(value);
     }
 
@@ -136,50 +136,6 @@ public class StringHelperTest extends BaseTestCase {
         for (String invalidCiphertext : invalidCiphertexts) {
             assertThrows(InvalidParametersException.class, () -> StringHelper.decrypt(invalidCiphertext));
         }
-    }
-
-    @Test
-    public void testSplitName() {
-
-        String fullName = "singleWord";
-        String[] splitName = StringHelper.splitName(fullName);
-
-        assertEquals(splitName[0], "");
-        assertEquals(splitName[1], "singleWord");
-
-        fullName = "";
-        splitName = StringHelper.splitName(fullName);
-
-        assertEquals(splitName[0], "");
-        assertEquals(splitName[1], "");
-
-        splitName = StringHelper.splitName(null);
-        assertEquals(0, splitName.length);
-
-        fullName = "two words";
-        splitName = StringHelper.splitName(fullName);
-
-        assertEquals(splitName[0], "two");
-        assertEquals(splitName[1], "words");
-
-        fullName = "now three words";
-        splitName = StringHelper.splitName(fullName);
-
-        assertEquals(splitName[0], "now three");
-        assertEquals(splitName[1], "words");
-
-        fullName = "what if four words";
-        splitName = StringHelper.splitName(fullName);
-
-        assertEquals(splitName[0], "what if four");
-        assertEquals(splitName[1], "words");
-
-        fullName = "first name firstName {last Name}";
-        splitName = StringHelper.splitName(fullName);
-
-        assertEquals(splitName[0], "first name firstName");
-        assertEquals(splitName[1], "last Name");
-
     }
 
     @Test

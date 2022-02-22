@@ -94,8 +94,9 @@ public abstract class FeedbackQuestionDetails {
      * Checks whether missing responses should be generated.
      */
     public boolean shouldGenerateMissingResponses(FeedbackQuestionAttributes question) {
-        // generate combinations against all students are meaningless
-        return question.getRecipientType() != FeedbackParticipantType.STUDENTS;
+        // generate combinations against all students/teams are meaningless
+        return question.getRecipientType() != FeedbackParticipantType.STUDENTS
+                && question.getRecipientType() != FeedbackParticipantType.TEAMS;
     }
 
     @Override

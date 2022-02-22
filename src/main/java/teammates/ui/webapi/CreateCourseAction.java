@@ -1,9 +1,8 @@
 package teammates.ui.webapi;
 
-import java.time.ZoneId;
-
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
@@ -53,12 +52,16 @@ class CreateCourseAction extends Action {
         CourseAttributes courseAttributes =
                 CourseAttributes.builder(newCourseId)
                         .withName(newCourseName)
-                        .withTimezone(ZoneId.of(newCourseTimeZone))
+                        .withTimezone(newCourseTimeZone)
                         .withInstitute(institute)
                         .build();
 
         try {
             logic.createCourseAndInstructor(userInfo.getId(), courseAttributes);
+
+            InstructorAttributes instructorCreatedForCourse = logic.getInstructorForGoogleId(newCourseId, userInfo.getId());
+            taskQueuer.scheduleInstructorForSearchIndexing(instructorCreatedForCourse.getCourseId(),
+                    instructorCreatedForCourse.getEmail());
         } catch (EntityAlreadyExistsException e) {
             throw new InvalidOperationException("The course ID " + courseAttributes.getId()
                     + " has been used by another course, possibly by some other user."

@@ -2,6 +2,7 @@ package teammates.test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.AccountRequestAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.EntityAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -12,7 +13,6 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.JsonUtils;
-import teammates.common.util.StringHelper;
 
 /**
  * Base class for all test cases which are allowed to access the database.
@@ -74,6 +74,9 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
 
         } else if (expected instanceof StudentAttributes) {
             return getStudent((StudentAttributes) expected);
+
+        } else if (expected instanceof AccountRequestAttributes) {
+            return getAccountRequest((AccountRequestAttributes) expected);
 
         } else {
             throw new RuntimeException("Unknown entity type!");
@@ -148,6 +151,11 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
             equalizeIrrelevantData(expectedStudent, actualStudent);
             assertEquals(JsonUtils.toJson(expectedStudent), JsonUtils.toJson(actualStudent));
 
+        } else if (expected instanceof AccountRequestAttributes) {
+            AccountRequestAttributes expectedAccountRequest = (AccountRequestAttributes) expected;
+            AccountRequestAttributes actualAccountRequest = (AccountRequestAttributes) actual;
+            assertEquals(JsonUtils.toJson(expectedAccountRequest), JsonUtils.toJson(actualAccountRequest));
+
         } else {
             throw new RuntimeException("Unknown entity type!");
         }
@@ -206,8 +214,6 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
         if (actual.getKey() != null) {
             expected.setKey(actual.getKey());
         }
-
-        expected.setLastName(StringHelper.splitName(expected.getName())[1]);
     }
 
     protected abstract StudentProfileAttributes getStudentProfile(StudentProfileAttributes studentProfileAttributes);
@@ -225,6 +231,8 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
     protected abstract InstructorAttributes getInstructor(InstructorAttributes instructor);
 
     protected abstract StudentAttributes getStudent(StudentAttributes student);
+
+    protected abstract AccountRequestAttributes getAccountRequest(AccountRequestAttributes accountRequest);
 
     protected void removeAndRestoreDataBundle(DataBundle testData) {
         int retryLimit = OPERATION_RETRY_COUNT;

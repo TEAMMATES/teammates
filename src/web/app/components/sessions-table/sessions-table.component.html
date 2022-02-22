@@ -61,53 +61,68 @@
           <tm-ajax-loading *ngIf="sessionsTableRowModel.isLoadingResponseRate" [useBlueSpinner]="true"></tm-ajax-loading>
         </td>
         <td class="actions-cell">
-          <a *ngIf="sessionsTableRowModel.instructorPrivilege.canModifySession; else editSessionBtn" tmRouterLink="/web/instructor/sessions/edit" [queryParams]="{ courseid: sessionsTableRowModel.feedbackSession.courseId, fsname: sessionsTableRowModel.feedbackSession.feedbackSessionName, editingMode: true }">
-            <ng-container *ngTemplateOutlet="editSessionBtn"></ng-container>
-          </a>
-          <ng-template #editSessionBtn>
-            <button type="button" class="btn btn-light btn-sm"
-                    [disabled]="!sessionsTableRowModel.instructorPrivilege.canModifySession">
-              Edit
-            </button>
-          </ng-template>
-          <button id="btn-soft-delete-{{ idx }}" type="button" class="btn btn-light btn-sm" (click)="moveSessionToRecycleBin(idx)"
-                  [disabled]="!sessionsTableRowModel.instructorPrivilege.canModifySession">Delete</button>
-          <button id="btn-copy-{{ idx }}" type="button" class="btn btn-light btn-sm" ngbTooltip="Copy feedback session details" (click)="copySession(idx)">Copy</button>
-          <a *ngIf="sessionsTableRowModel.feedbackSession.submissionStatus === FeedbackSessionSubmissionStatus.OPEN && sessionsTableRowModel.instructorPrivilege.canSubmitSessionInSections; else submitBtn"
-             tmRouterLink="/web/instructor/sessions/submission"
-             [queryParams]="{ courseid: sessionsTableRowModel.feedbackSession.courseId, fsname: sessionsTableRowModel.feedbackSession.feedbackSessionName }">
-            <ng-container *ngTemplateOutlet="submitBtn"></ng-container>
-          </a>
-          <ng-template #submitBtn>
-            <button type="button" class="btn btn-light btn-sm" ngbTooltip="Start submitting feedback"
-                    [disabled]="sessionsTableRowModel.feedbackSession.submissionStatus !== FeedbackSessionSubmissionStatus.OPEN
-                      || !sessionsTableRowModel.instructorPrivilege.canSubmitSessionInSections" (click)="submitSessionAsInstructorEvent.emit(idx)">Submit</button>
-          </ng-template>
-          <div ngbDropdown class="d-inline-block" container="body">
-            <button id="btn-results-{{ idx }}" class="btn btn-light btn-sm" ngbDropdownToggle>Results</button>
-            <div ngbDropdownMenu>
-              <a class="btn dropdown-item clickable" [ngClass]="{disabled: !sessionsTableRowModel.instructorPrivilege.canViewSessionInSections}"
-                      (click)="viewSessionResultEvent.emit(idx)"
-                      tmRouterLink="/web/instructor/sessions/result"
-                      [queryParams]="{ courseid: sessionsTableRowModel.feedbackSession.courseId, fsname: sessionsTableRowModel.feedbackSession.feedbackSessionName }">View Results</a>
-              <button id="btn-unpublish-{{ idx }}" class="btn dropdown-item clickable" ngbTooltip="Make responses no longer visible" placement="left" container="body"
-                      *ngIf="![FeedbackSessionSubmissionStatus.NOT_VISIBLE, FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN].includes(sessionsTableRowModel.feedbackSession.submissionStatus)
-                        && sessionsTableRowModel.feedbackSession.publishStatus === FeedbackSessionPublishStatus.PUBLISHED; else publishButton"
-                      [disabled]="!sessionsTableRowModel.instructorPrivilege.canModifySession" (click)="unpublishSession(idx)">Unpublish Results</button>
-              <ng-template #publishButton>
-                <button id="btn-publish-{{ idx }}" class="btn dropdown-item clickable" [disabled]="[FeedbackSessionSubmissionStatus.NOT_VISIBLE, FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN].includes(sessionsTableRowModel.feedbackSession.submissionStatus)
-                  || sessionsTableRowModel.feedbackSession.publishStatus === FeedbackSessionPublishStatus.PUBLISHED || !sessionsTableRowModel.instructorPrivilege.canModifySession"
-                        ngbTooltip="Make session responses available for viewing" placement="left" container="body" (click)="publishSession(idx)">Publish Results</button>
-              </ng-template>
-              <button id="btn-resend-{{ idx }}" class="btn dropdown-item clickable" *ngIf="sessionsTableRowModel.feedbackSession.publishStatus === FeedbackSessionPublishStatus.PUBLISHED" (click)="remindResultsLinkToStudent(idx)">Resend link to view results</button>
-              <button id="btn-download-{{ idx }}" class="btn dropdown-item clickable" (click)="downloadSessionResults(idx)"
-                      [disabled]="!sessionsTableRowModel.instructorPrivilege.canViewSessionInSections">Download Results</button>
+          <div class="d-flex">
+            <a *ngIf="sessionsTableRowModel.instructorPrivilege.canModifySession; else editSessionBtn" tmRouterLink="/web/instructor/sessions/edit" [queryParams]="{ courseid: sessionsTableRowModel.feedbackSession.courseId, fsname: sessionsTableRowModel.feedbackSession.feedbackSessionName, editingMode: true }">
+              <ng-container *ngTemplateOutlet="editSessionBtn"></ng-container>
+            </a>
+            <ng-template #editSessionBtn>
+              <button type="button" class="btn btn-light btn-sm"
+                      [disabled]="!sessionsTableRowModel.instructorPrivilege.canModifySession">
+                Edit
+              </button>
+            </ng-template>
+            <button id="btn-soft-delete-{{ idx }}" type="button" class="btn btn-light btn-sm" (click)="moveSessionToRecycleBin(idx)"
+                    [disabled]="!sessionsTableRowModel.instructorPrivilege.canModifySession">Delete</button>
+            <button id="btn-copy-{{ idx }}" type="button" class="btn btn-light btn-sm" ngbTooltip="Copy feedback session details" (click)="copySession(idx)">Copy</button>
+            <a *ngIf="sessionsTableRowModel.feedbackSession.submissionStatus === FeedbackSessionSubmissionStatus.OPEN && sessionsTableRowModel.instructorPrivilege.canSubmitSessionInSections; else submitBtn"
+              tmRouterLink="/web/instructor/sessions/submission"
+              [queryParams]="{ courseid: sessionsTableRowModel.feedbackSession.courseId, fsname: sessionsTableRowModel.feedbackSession.feedbackSessionName }">
+              <ng-container *ngTemplateOutlet="submitBtn"></ng-container>
+            </a>
+            <ng-template #submitBtn>
+              <button type="button" class="btn btn-light btn-sm" ngbTooltip="Start submitting feedback"
+                      [disabled]="sessionsTableRowModel.feedbackSession.submissionStatus !== FeedbackSessionSubmissionStatus.OPEN
+                        || !sessionsTableRowModel.instructorPrivilege.canSubmitSessionInSections" (click)="submitSessionAsInstructorEvent.emit(idx)">Submit</button>
+            </ng-template>
+            <div ngbDropdown class="d-inline-block" container="body">
+              <button id="btn-results-{{ idx }}" class="btn btn-light btn-sm" ngbDropdownToggle>Results</button>
+              <div ngbDropdownMenu>
+                <a class="btn dropdown-item clickable" [ngClass]="{disabled: !sessionsTableRowModel.instructorPrivilege.canViewSessionInSections}"
+                        tmRouterLink="/web/instructor/sessions/result"
+                        [queryParams]="{ courseid: sessionsTableRowModel.feedbackSession.courseId, fsname: sessionsTableRowModel.feedbackSession.feedbackSessionName }">View Results (from/to me)</a>
+                <a class="btn dropdown-item clickable" [ngClass]="{disabled: !sessionsTableRowModel.instructorPrivilege.canViewSessionInSections}"
+                        tmRouterLink="/web/instructor/sessions/report"
+                        [queryParams]="{ courseid: sessionsTableRowModel.feedbackSession.courseId, fsname: sessionsTableRowModel.feedbackSession.feedbackSessionName }">View Results (course-wide)</a>
+                <button id="btn-unpublish-{{ idx }}" class="btn dropdown-item clickable" ngbTooltip="Make responses no longer visible" placement="left" container="body"
+                        *ngIf="![FeedbackSessionSubmissionStatus.NOT_VISIBLE, FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN].includes(sessionsTableRowModel.feedbackSession.submissionStatus)
+                          && sessionsTableRowModel.feedbackSession.publishStatus === FeedbackSessionPublishStatus.PUBLISHED; else publishButton"
+                        [disabled]="!sessionsTableRowModel.instructorPrivilege.canModifySession" (click)="unpublishSession(idx)">Unpublish Results</button>
+                <ng-template #publishButton>
+                  <button id="btn-publish-{{ idx }}" class="btn dropdown-item clickable" [disabled]="[FeedbackSessionSubmissionStatus.NOT_VISIBLE, FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN].includes(sessionsTableRowModel.feedbackSession.submissionStatus)
+                    || sessionsTableRowModel.feedbackSession.publishStatus === FeedbackSessionPublishStatus.PUBLISHED || !sessionsTableRowModel.instructorPrivilege.canModifySession"
+                          ngbTooltip="Make session responses available for viewing" placement="left" container="body" (click)="publishSession(idx)">Publish Results</button>
+                </ng-template>
+                <button id="btn-resend-{{ idx }}" class="btn dropdown-item clickable" *ngIf="sessionsTableRowModel.feedbackSession.publishStatus === FeedbackSessionPublishStatus.PUBLISHED" (click)="remindResultsLinkToStudent(idx)">Resend link to view results</button>
+                <button id="btn-download-{{ idx }}" class="btn dropdown-item clickable" (click)="downloadSessionResults(idx)"
+                        [disabled]="!sessionsTableRowModel.instructorPrivilege.canViewSessionInSections">Download Results</button>
+              </div>
             </div>
-          </div>
-          <div ngbDropdown class="d-inline-block" ngbTooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so">
-            <button id="btn-remind-{{ idx }}" class="btn btn-light btn-sm" (click)="sendRemindersToStudents(idx)"
-              [disabled]="sessionsTableRowModel.feedbackSession.submissionStatus !== FeedbackSessionSubmissionStatus.OPEN ||
-                          !sessionsTableRowModel.instructorPrivilege.canModifySession">Remind</button>
+            <div ngbDropdown class="d-inline-block" ngbTooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so">
+              <button ngbDropdownToggle id="btn-remind-{{ idx }}" class="btn btn-light btn-sm"
+                      [disabled]="sessionsTableRowModel.feedbackSession.submissionStatus !== FeedbackSessionSubmissionStatus.OPEN ||
+                            !sessionsTableRowModel.instructorPrivilege.canModifySession">
+                <div class="d-inline-flex">
+                  <span>Remind</span>
+                  <div class="padding-left-7px">
+                    <tm-ajax-loading [color]="'#000000'" *ngIf="isSendReminderLoading && rowClicked === idx"></tm-ajax-loading>
+                  </div>
+                </div>
+              </button>
+              <div ngbDropdownMenu>
+                <button id="btn-remind-all-{{ idx }}" class="btn dropdown-item clickable" (click)="sendRemindersToAllNonSubmitters(idx); setRowClicked(idx)">Remind all non-submitters</button>
+                <button id="btn-remind-selected-{{ idx }}" class="btn dropdown-item clickable" (click)="sendRemindersToSelectedNonSubmitters(idx); setRowClicked(idx)" >Select non-submitters to remind</button>
+              </div>
+            </div>
           </div>
         </td>
       </tr>

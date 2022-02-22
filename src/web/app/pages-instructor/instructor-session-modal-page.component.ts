@@ -3,6 +3,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { FeedbackQuestionsService } from '../../services/feedback-questions.service';
+import { FeedbackSessionActionsService } from '../../services/feedback-session-actions.service';
 import { FeedbackSessionsService } from '../../services/feedback-sessions.service';
 import { InstructorService } from '../../services/instructor.service';
 import { NavigationService } from '../../services/navigation.service';
@@ -51,10 +52,11 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
                         ngbModal: NgbModal,
                         simpleModalService: SimpleModalService,
                         progressBarService: ProgressBarService,
+                        feedbackSessionActionsService: FeedbackSessionActionsService,
                         protected studentService: StudentService) {
     super(router, instructorService, statusMessageService, navigationService,
         feedbackSessionsService, feedbackQuestionsService, tableComparatorService,
-        ngbModal, simpleModalService, progressBarService);
+        ngbModal, simpleModalService, progressBarService, feedbackSessionActionsService);
   }
 
   /**
@@ -114,7 +116,7 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
   /**
    * Sends e-mails to remind respondents who have not submitted their feedback.
    */
-  sendRemindersToRespondentsEventHandler(model: SessionsTableRowModel): void {
+  sendRemindersToRespondentsEventHandler(model: SessionsTableRowModel, selectAllRespondents: boolean): void {
     this.isSendReminderLoading = true;
     const courseId: string = model.feedbackSession.courseId;
     const feedbackSessionName: string = model.feedbackSession.feedbackSessionName;
@@ -141,7 +143,7 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
 
           hasSubmittedSession: giverSet.has(student.email),
 
-          isSelected: false,
+          isSelected: selectAllRespondents && !giverSet.has(student.email),
         } as StudentListInfoTableRowModel));
         modalRef.componentInstance.instructorListInfoTableRowModels = instructors.map(
             (instructor: Instructor) => ({
@@ -150,7 +152,7 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
 
               hasSubmittedSession: giverSet.has(instructor.email),
 
-              isSelected: false,
+              isSelected: selectAllRespondents && !giverSet.has(instructor.email),
             } as InstructorListInfoTableRowModel));
 
         modalRef.result.then((respondentsToRemind: any[]) => {

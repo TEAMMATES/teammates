@@ -1,0 +1,57 @@
+<div class="margin-top-15px padding-15px" [ngClass]="{ 'background-color-light-green': !model.isQuestionHasResponses, 'alert alert-danger': model.isQuestionHasResponses }">
+  <div>
+    <div *ngIf="model.isQuestionHasResponses">
+      <h5>Changing the visibility after collecting responses is not recommended.</h5>
+      <p>Reason: The existing responses were submitted under the 'promise' of a certain visibility and changing the visibility later 'breaks' that promise.</p>
+    </div>
+    <b [ngClass]="{ 'visibility-title': !model.isQuestionHasResponses }">Visibility</b> (Who can see the responses?)
+  </div>
+  <div ngbDropdown class="margin-top-15px">
+    <button id="btn-question-visibility" class="btn btn-light white-space-normal" ngbDropdownToggle [disabled]="!model.isEditable">
+      <span *ngIf="!model.isUsingOtherVisibilitySetting">
+        {{ model.commonVisibilitySettingName }}
+      </span>
+      <span *ngIf="model.isUsingOtherVisibilitySetting">Custom visibility options</span>
+    </button>
+    <ul id="question-visibility-dropdown" ngbDropdownMenu>
+      <li class="dropdown-header">Common visibility options</li>
+      <li class="dropdown-item" *ngFor="let visibilityOption of commonFeedbackVisibilitySettings"
+          (click)="applyCommonVisibilitySettings(visibilityOption)">{{ visibilityOption.name }}</li>
+      <li class="dropdown-divider" *ngIf="isCustomFeedbackVisibilitySettingAllowed"></li>
+      <li class="dropdown-item" *ngIf="isCustomFeedbackVisibilitySettingAllowed" (click)="triggerCustomVisibilitySetting()">Custom visibility options...</li>
+    </ul>
+  </div>
+  <table class="table margin-top-15px background-color-white table-striped" *ngIf="model.isUsingOtherVisibilitySetting">
+    <thead>
+    <tr>
+      <th scope="col" class="text-left">User/Group</th>
+      <th scope="col" class="text-center" *ngFor="let visibilityControl of VisibilityControl | enumToArray">{{ visibilityControl | visibilityControlName }}</th>
+    </tr>
+    </thead>
+    <tbody id="custom-visibility-table">
+    <ng-container *ngFor="let visibilityType of FeedbackVisibilityType | enumToArray">
+      <tr *ngIf="visibilityStateMachine.isVisibilityTypeApplicable(visibilityType)">
+        <td><span class="ngb-tooltip-class" [ngbTooltip]="visibilityType | visibilityTypeDescription" container="body">{{ visibilityType | visibilityTypeName }}</span></td>
+        <td *ngFor="let visibilityControl of VisibilityControl | enumToArray" class="text-center">
+          <input type="checkbox"
+                 (click)="modifyVisibilityControl($event.target.checked, visibilityType, visibilityControl)"
+                 [checked]="visibilityStateMachine.isVisible(visibilityType, visibilityControl)"
+                 [disabled]="!visibilityStateMachine.isCellEditable(visibilityType, visibilityControl) || !model.isEditable">
+        </td>
+      </tr>
+    </ng-container>
+    </tbody>
+  </table>
+  <div class="margin-top-15px visibility-message">
+    This is the visibility hint as seen by the feedback giver:
+    <ul class="text-muted background-color-warning">
+      <li *ngIf="model.recipientType === FeedbackParticipantType.SELF">You can see your own feedback in the results page later on.</li>
+      <ng-container *ngFor="let visibilityType of FeedbackVisibilityType | enumToArray">
+        <li *ngIf="visibilityStateMachine.isVisibilityTypeApplicable(visibilityType) && visibilityStateMachine.hasAnyVisibilityControl(visibilityType)">
+          {{ visibilityType | visibilityEntityName:model.recipientType:model.numberOfEntitiesToGiveFeedbackToSetting:model.customNumberOfEntitiesToGiveFeedbackTo }} {{ visibilityStateMachine.getVisibilityControlUnderVisibilityType(visibilityType) | visibilityCapability }}
+        </li>
+      </ng-container>
+      <li *ngIf="!visibilityStateMachine.hasAnyVisibilityControlForAll()">No-one can see your responses</li>
+    </ul>
+  </div>
+</div>

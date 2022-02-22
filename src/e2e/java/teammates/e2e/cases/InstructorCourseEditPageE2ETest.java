@@ -1,7 +1,5 @@
 package teammates.e2e.cases;
 
-import java.time.ZoneId;
-
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
@@ -35,7 +33,7 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
     public void testAll() {
         ______TS("verify cannot edit without privilege");
         // log in as instructor with no edit privilege
-        AppUrl url = createUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_EDIT_PAGE)
+        AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_EDIT_PAGE)
                 .withCourseId(course.getId());
         InstructorCourseEditPage editPage = loginToPage(url, InstructorCourseEditPage.class, instructors[2].getGoogleId());
 
@@ -46,7 +44,7 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
         ______TS("verify loaded data");
         // re-log in as instructor with edit privilege
         logout();
-        url = createUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_EDIT_PAGE)
+        url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_EDIT_PAGE)
                 .withCourseId(course.getId());
         editPage = loginToPage(url, InstructorCourseEditPage.class, instructors[3].getGoogleId());
 
@@ -109,7 +107,7 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
 
         ______TS("edit course");
         String newName = "New Course Name";
-        ZoneId newTimeZone = ZoneId.of("Asia/Singapore");
+        String newTimeZone = "Asia/Singapore";
         course.setName(newName);
         course.setTimeZone(newTimeZone);
 

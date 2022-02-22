@@ -1,31 +1,28 @@
 package teammates.common.datatransfer;
 
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
-
 /**
  * Represents a log entry of a feedback session.
  */
 public class FeedbackSessionLogEntry {
-    private final StudentAttributes student;
-    private final FeedbackSessionAttributes feedbackSession;
+    private final String studentEmail;
+    private final String feedbackSessionName;
     private final String feedbackSessionLogType;
     private final long timestamp;
 
-    public FeedbackSessionLogEntry(StudentAttributes student, FeedbackSessionAttributes feedbackSession,
+    public FeedbackSessionLogEntry(String studentEmail, String feedbackSessionName,
             String feedbackSessionLogType, long timestamp) {
-        this.student = student;
-        this.feedbackSession = feedbackSession;
+        this.studentEmail = studentEmail;
+        this.feedbackSessionName = feedbackSessionName;
         this.feedbackSessionLogType = feedbackSessionLogType;
         this.timestamp = timestamp;
     }
 
-    public StudentAttributes getStudent() {
-        return this.student;
+    public String getStudentEmail() {
+        return studentEmail;
     }
 
-    public FeedbackSessionAttributes getFeedbackSession() {
-        return this.feedbackSession;
+    public String getFeedbackSessionName() {
+        return feedbackSessionName;
     }
 
     public String getFeedbackSessionLogType() {

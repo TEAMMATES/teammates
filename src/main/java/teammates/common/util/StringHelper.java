@@ -89,7 +89,7 @@ public final class StringHelper {
                     new SecretKeySpec(hexStringToByteArray(Config.ENCRYPTION_KEY), "HmacSHA1");
             Mac mac = Mac.getInstance("HmacSHA1");
             mac.init(signingKey);
-            byte[] value = mac.doFinal(data.getBytes());
+            byte[] value = mac.doFinal(data.getBytes(Const.ENCODING));
             return byteArrayToHexString(value);
         } catch (Exception e) {
             assert false;
@@ -123,7 +123,7 @@ public final class StringHelper {
             SecretKeySpec sks = new SecretKeySpec(hexStringToByteArray(Config.ENCRYPTION_KEY), "AES");
             Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
             cipher.init(Cipher.ENCRYPT_MODE, sks, cipher.getParameters());
-            byte[] encrypted = cipher.doFinal(value.getBytes());
+            byte[] encrypted = cipher.doFinal(value.getBytes(Const.ENCODING));
             return byteArrayToHexString(encrypted);
         } catch (Exception e) {
             assert false;
@@ -145,7 +145,7 @@ public final class StringHelper {
             Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
             cipher.init(Cipher.DECRYPT_MODE, sks);
             byte[] decrypted = cipher.doFinal(hexStringToByteArray(message));
-            return new String(decrypted);
+            return new String(decrypted, Const.ENCODING);
         } catch (NumberFormatException | IllegalBlockSizeException | BadPaddingException e) {
             log.warning("Attempted to decrypt invalid ciphertext: " + message);
             throw new InvalidParametersException(e);
@@ -181,63 +181,6 @@ public final class StringHelper {
     public static String toDecimalFormatString(double doubleVal) {
         DecimalFormat df = new DecimalFormat("0.###");
         return df.format(doubleVal);
-    }
-
-    /**
-     * split a full name string into first and last names
-     * <br>
-     * 1.If passed in empty string, both last and first name will be empty string
-     * <br>
-     * 2.If single word, this will be last name and first name will be an empty string
-     * <br>
-     * 3.If more than two words, the last word will be last name and
-     * the rest will be first name.
-     * <br>
-     * 4.If the last name is enclosed with braces "{}" such as first {Last1 Last2},
-     * the last name will be the String inside the braces
-     * <br>
-     * Example:
-     * <br><br>
-     * full name "Danny Tim Lin"<br>
-     * first name: "Danny Tim" <br>
-     * last name: "Lin" <br>
-     * processed full name: "Danny Tim Lin" <br>
-     * <br>
-     * full name "Danny {Tim Lin}"<br>
-     * first name: "Danny" <br>
-     * last name: "Tim Lin" <br>
-     * processed full name: "Danny Tim Lin" <br>
-     *
-     *
-     * @return split name array{0--> first name, 1--> last name, 2--> processed full name by removing "{}"}
-     */
-    public static String[] splitName(String fullName) {
-
-        if (fullName == null) {
-            return new String[] {};
-        }
-
-        String lastName;
-        String firstName;
-
-        if (fullName.contains("{") && fullName.contains("}")) {
-            int startIndex = fullName.indexOf('{');
-            int endIndex = fullName.indexOf('}');
-            lastName = fullName.substring(startIndex + 1, endIndex);
-            firstName = fullName.replace("{", "")
-                                .replace("}", "")
-                                .replace(lastName, "")
-                                .trim();
-
-        } else {
-            lastName = fullName.substring(fullName.lastIndexOf(' ') + 1).trim();
-            firstName = fullName.replace(lastName, "").trim();
-        }
-
-        String processedfullName = fullName.replace("{", "")
-                                           .replace("}", "");
-
-        return new String[] {firstName, lastName, processedfullName};
     }
 
     /**

@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { InstructorPrivilege } from '../../../../types/api-output';
+import { InstructorPermissionSet } from '../../../../types/api-output';
 
 /**
  * Instructor overall permission of a course.
  */
 export interface InstructorOverallPermission {
-  privilege: InstructorPrivilege;
+  privilege: InstructorPermissionSet;
   sectionLevel: InstructorSectionLevelPermission[];
 }
 
@@ -14,7 +14,7 @@ export interface InstructorOverallPermission {
  */
 export interface InstructorSectionLevelPermission {
   sectionNames: string[];
-  privilege: InstructorPrivilege;
+  privilege: InstructorPermissionSet;
 
   sessionLevel: InstructorSessionLevelPermission[];
 }
@@ -24,7 +24,7 @@ export interface InstructorSectionLevelPermission {
  */
 export interface InstructorSessionLevelPermission {
   sessionName: string;
-  privilege: InstructorPrivilege;
+  privilege: InstructorPermissionSet;
 }
 
 /**

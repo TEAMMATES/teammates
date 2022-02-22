@@ -31,6 +31,9 @@ export class SessionsTableComponent implements OnInit {
   FeedbackSessionPublishStatus: typeof FeedbackSessionPublishStatus = FeedbackSessionPublishStatus;
   SessionsTableHeaderColorScheme: typeof SessionsTableHeaderColorScheme = SessionsTableHeaderColorScheme;
 
+  // variable
+  rowClicked: number = -1;
+
   @Input()
   sessionsTableRowModels: SessionsTableRowModel[] = [];
 
@@ -49,6 +52,9 @@ export class SessionsTableComponent implements OnInit {
   @Input()
   headerColorScheme: SessionsTableHeaderColorScheme = SessionsTableHeaderColorScheme.BLUE;
 
+  @Input()
+  isSendReminderLoading: boolean = false;
+
   @Output()
   sortSessionsTableRowModelsEvent: EventEmitter<SortBy> = new EventEmitter();
 
@@ -65,22 +71,22 @@ export class SessionsTableComponent implements OnInit {
   submitSessionAsInstructorEvent: EventEmitter<number> = new EventEmitter();
 
   @Output()
-  viewSessionResultEvent: EventEmitter<number> = new EventEmitter();
-
-  @Output()
   publishSessionEvent: EventEmitter<number> = new EventEmitter();
 
   @Output()
   unpublishSessionEvent: EventEmitter<number> = new EventEmitter();
 
   @Output()
-  sendRemindersToStudentsEvent: EventEmitter<number> = new EventEmitter();
-
-  @Output()
   resendResultsLinkToStudentsEvent: EventEmitter<number> = new EventEmitter();
 
   @Output()
   downloadSessionResultsEvent: EventEmitter<number> = new EventEmitter();
+
+  @Output()
+  sendRemindersToAllNonSubmittersEvent: EventEmitter<number> = new EventEmitter();
+
+  @Output()
+  sendRemindersToSelectedNonSubmittersEvent: EventEmitter<number> = new EventEmitter();
 
   constructor(private ngbModal: NgbModal, private simpleModalService: SimpleModalService) { }
 
@@ -162,10 +168,17 @@ export class SessionsTableComponent implements OnInit {
   }
 
   /**
-   * Sends e-mails to remind students who have not submitted their feedback.
+   * Sends e-mails to remind all students and instructors who have not submitted their feedback.
    */
-  sendRemindersToStudents(rowIndex: number): void {
-    this.sendRemindersToStudentsEvent.emit(rowIndex);
+  sendRemindersToAllNonSubmitters(rowIndex: number): void {
+    this.sendRemindersToAllNonSubmittersEvent.emit(rowIndex);
+  }
+
+  /**
+   * Sends e-mails to remind selected students and instructors who have not submitted their feedback.
+   */
+  sendRemindersToSelectedNonSubmitters(rowIndex: number): void {
+    this.sendRemindersToSelectedNonSubmittersEvent.emit(rowIndex);
   }
 
   /**
@@ -173,6 +186,13 @@ export class SessionsTableComponent implements OnInit {
    */
   downloadSessionResults(rowIndex: number): void {
     this.downloadSessionResultsEvent.emit(rowIndex);
+  }
+
+  /**
+   * Set row number of button clicked.
+   */
+  setRowClicked(rowIndex: number): void {
+    this.rowClicked = rowIndex;
   }
 
   ngOnInit(): void {

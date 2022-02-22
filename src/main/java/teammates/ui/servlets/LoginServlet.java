@@ -30,6 +30,8 @@ public class LoginServlet extends AuthServlet {
         if (nextUrl == null) {
             nextUrl = "/";
         }
+        // Prevent HTTP response splitting
+        nextUrl = resp.encodeRedirectURL(nextUrl.replace("\r\n", ""));
         if (Config.isDevServerLoginEnabled()) {
             resp.setStatus(HttpStatus.SC_MOVED_PERMANENTLY);
             resp.setHeader("Location", "/devServerLogin?nextUrl=" + nextUrl.replace("&", "%26"));

@@ -87,45 +87,54 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
     protected void testAccessControl() {
         String[] submissionParams;
 
-        ______TS("accessible for authenticated instructor");
-        FeedbackSessionAttributes accessibleFeedbackSession = typicalBundle.feedbackSessions.get("session1InCourse1");
+        ______TS("inaccessible for authenticated instructor when unpublished");
+        FeedbackSessionAttributes inaccessibleFeedbackSession = typicalBundle.feedbackSessions.get("session1InCourse1");
         submissionParams = new String[] {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, accessibleFeedbackSession.getFeedbackSessionName(),
-                Const.ParamsNames.COURSE_ID, accessibleFeedbackSession.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, inaccessibleFeedbackSession.getFeedbackSessionName(),
+                Const.ParamsNames.COURSE_ID, inaccessibleFeedbackSession.getCourseId(),
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.name(),
         };
-        verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
-        verifyInaccessibleForInstructorsOfOtherCourses(submissionParams);
+        verifyCannotAccess(submissionParams);
 
         ______TS("inaccessible for authenticated student when unpublished");
         submissionParams = new String[] {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, accessibleFeedbackSession.getFeedbackSessionName(),
-                Const.ParamsNames.COURSE_ID, accessibleFeedbackSession.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, inaccessibleFeedbackSession.getFeedbackSessionName(),
+                Const.ParamsNames.COURSE_ID, inaccessibleFeedbackSession.getCourseId(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.name(),
         };
 
         loginAsStudent("student1InCourse1");
         verifyCannotAccess(submissionParams);
 
-        ______TS("accessible for authenticated student when published");
+        ______TS("accessible for authenticated instructor when published");
         FeedbackSessionAttributes publishedFeedbackSession = typicalBundle.feedbackSessions.get("closedSession");
         submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, publishedFeedbackSession.getFeedbackSessionName(),
-                Const.ParamsNames.COURSE_ID, accessibleFeedbackSession.getCourseId(),
+                Const.ParamsNames.COURSE_ID, publishedFeedbackSession.getCourseId(),
+                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.name(),
+        };
+        verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
+        verifyInaccessibleForInstructorsOfOtherCourses(submissionParams);
+
+        ______TS("accessible for authenticated student when published");
+        submissionParams = new String[] {
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, publishedFeedbackSession.getFeedbackSessionName(),
+                Const.ParamsNames.COURSE_ID, publishedFeedbackSession.getCourseId(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.name(),
         };
         verifyAccessibleForStudentsOfTheSameCourse(submissionParams);
+        verifyInaccessibleForStudentsOfOtherCourse(submissionParams);
 
         ______TS("invalid intent");
         submissionParams = new String[] {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, accessibleFeedbackSession.getFeedbackSessionName(),
-                Const.ParamsNames.COURSE_ID, accessibleFeedbackSession.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, publishedFeedbackSession.getFeedbackSessionName(),
+                Const.ParamsNames.COURSE_ID, publishedFeedbackSession.getCourseId(),
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.name(),
         };
         verifyHttpParameterFailure(submissionParams);
         submissionParams = new String[] {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, accessibleFeedbackSession.getFeedbackSessionName(),
-                Const.ParamsNames.COURSE_ID, accessibleFeedbackSession.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, publishedFeedbackSession.getFeedbackSessionName(),
+                Const.ParamsNames.COURSE_ID, publishedFeedbackSession.getCourseId(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.name(),
         };
         verifyHttpParameterFailure(submissionParams);
@@ -190,7 +199,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
                 Const.ParamsNames.COURSE_ID, typicalCourse1.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionAttributes.getFeedbackSessionName(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.toString(),
-                Const.ParamsNames.REGKEY, student1.getEncryptedKey(),
+                Const.ParamsNames.REGKEY, student1.getKey(),
         };
 
         logic.publishFeedbackSession(feedbackSessionAttributes.getFeedbackSessionName(), typicalCourse1.getId());
@@ -282,14 +291,14 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
     }
 
     @Test
-    public void testAccessControl_instructorAccessHisCourseInstructorResult_shouldPass() {
+    public void testAccessControl_instructorAccessHisCourseFullDetail_shouldPass() {
         CourseAttributes typicalCourse1 = typicalBundle.courses.get("typicalCourse1");
         FeedbackSessionAttributes feedbackSessionAttributes = typicalBundle.feedbackSessions.get("session1InCourse1");
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, typicalCourse1.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionAttributes.getFeedbackSessionName(),
-                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
+                Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),
         };
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
     }

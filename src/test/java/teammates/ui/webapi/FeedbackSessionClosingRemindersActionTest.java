@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import java.time.ZoneId;
 import java.util.List;
 
 import org.testng.annotations.Test;
@@ -54,7 +53,7 @@ public class FeedbackSessionClosingRemindersActionTest
         // Modify session to close in 24 hours
 
         FeedbackSessionAttributes session1 = typicalBundle.feedbackSessions.get("session1InCourse1");
-        session1.setTimeZone(ZoneId.of("UTC"));
+        session1.setTimeZone("UTC");
         session1.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
         session1.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(1));
         logic.updateFeedbackSession(
@@ -71,7 +70,7 @@ public class FeedbackSessionClosingRemindersActionTest
         // Ditto, but disable the closing reminder
 
         FeedbackSessionAttributes session2 = typicalBundle.feedbackSessions.get("session1InCourse2");
-        session2.setTimeZone(ZoneId.of("UTC"));
+        session2.setTimeZone("UTC");
         session2.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
         session2.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(1));
         session2.setClosingEmailEnabled(false);
@@ -90,7 +89,7 @@ public class FeedbackSessionClosingRemindersActionTest
         // 1 session not yet opened; do not send the closing reminder
 
         FeedbackSessionAttributes session3 = typicalBundle.feedbackSessions.get("gracePeriodSession");
-        session3.setTimeZone(ZoneId.of("UTC"));
+        session3.setTimeZone("UTC");
         session3.setStartTime(TimeHelperExtension.getInstantHoursOffsetFromNow(1));
         session3.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(1));
         logic.updateFeedbackSession(
@@ -110,17 +109,18 @@ public class FeedbackSessionClosingRemindersActionTest
         action = getAction();
         action.execute();
 
-        // 5 students and 5 instructors in course1: 4 students have attempted the feedback session
-        verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 6);
+        // 5 students, 5 instructors, 3 co-owner instructors in course1; 4 students have attempted the feedback session
+        verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 9);
 
         String courseName = logic.getCourse(session1.getCourseId()).getName();
         List<TaskWrapper> tasksAdded = mockTaskQueuer.getTasksAdded();
         for (TaskWrapper task : tasksAdded) {
             SendEmailRequest requestBody = (SendEmailRequest) task.getRequestBody();
             EmailWrapper email = requestBody.getEmail();
-            assertEquals(String.format(EmailType.FEEDBACK_CLOSING.getSubject(), courseName,
-                                       session1.getFeedbackSessionName()),
-                         email.getSubject());
+            String expectedSubject = (email.getIsCopy() ? EmailWrapper.EMAIL_COPY_SUBJECT_PREFIX : "")
+                    + String.format(EmailType.FEEDBACK_CLOSING.getSubject(),
+                    courseName, session1.getFeedbackSessionName());
+            assertEquals(expectedSubject, email.getSubject());
         }
 
         ______TS("1 session closing soon with emails sent");

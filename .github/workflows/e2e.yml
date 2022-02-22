@@ -34,9 +34,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
       - name: Update Property File 
-        run: mv $GITHUB_WORKSPACE/src/e2e/resources/test.ci-$E2E_BROWSER.properties src/e2e/resources/test.properties
-        env:
-          E2E_BROWSER: ${{ matrix.browser }}
+        run: mv src/e2e/resources/test.ci-${{ matrix.browser }}.properties src/e2e/resources/test.properties
       - name: Run Solr search service + local Datastore emulator
         run: docker-compose up -d
       - name: Create Config Files
@@ -46,8 +44,8 @@ jobs:
       - name: Build Frontend Bundle 
         run: npm run build -- --progress=false --serviceWorker=false 
       - name: Start Server
-        run: ./gradlew serverRun & 
-      - name: Wait until server is running
-        run: ./wait-for-server.sh
+        run: |
+          ./gradlew serverRun &
+          ./wait-for-server.sh
       - name: Start Tests 
         run: xvfb-run --server-args="-screen 0 1024x768x24" ./gradlew e2eTests 

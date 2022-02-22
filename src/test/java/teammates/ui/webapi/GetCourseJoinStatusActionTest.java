@@ -39,7 +39,7 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
         ______TS("Normal case: student is already registered");
 
         String registeredStudentKey =
-                logic.getStudentForEmail("idOfTypicalCourse1", "student1InCourse1@gmail.tmt").getEncryptedKey();
+                logic.getStudentForEmail("idOfTypicalCourse1", "student1InCourse1@gmail.tmt").getKey();
 
         String[] params = new String[] {
                 Const.ParamsNames.REGKEY, registeredStudentKey,
@@ -51,13 +51,11 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
 
         JoinStatus output = (JoinStatus) result.getOutput();
         assertTrue(output.getHasJoined());
-        assertEquals("unreg.user", output.getUserId());
 
         ______TS("Normal case: student is not registered");
 
         String unregisteredStudentKey =
-                logic.getStudentForEmail("idOfUnregisteredCourse", "student1InUnregisteredCourse@gmail.tmt")
-                        .getEncryptedKey();
+                logic.getStudentForEmail("idOfUnregisteredCourse", "student1InUnregisteredCourse@gmail.tmt").getKey();
 
         params = new String[] {
                 Const.ParamsNames.REGKEY, unregisteredStudentKey,
@@ -69,7 +67,6 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
 
         output = (JoinStatus) result.getOutput();
         assertFalse(output.getHasJoined());
-        assertEquals("unreg.user", output.getUserId());
 
         ______TS("Failure case: regkey is not valid for student");
 
@@ -83,7 +80,7 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
         ______TS("Normal case: instructor is already registered");
 
         String registeredInstructorKey =
-                logic.getInstructorForEmail("idOfTypicalCourse1", "instructor1@course1.tmt").getEncryptedKey();
+                logic.getInstructorForEmail("idOfTypicalCourse1", "instructor1@course1.tmt").getKey();
 
         params = new String[] {
                 Const.ParamsNames.REGKEY, registeredInstructorKey,
@@ -95,13 +92,11 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
 
         output = (JoinStatus) result.getOutput();
         assertTrue(output.getHasJoined());
-        assertEquals("unreg.user", output.getUserId());
 
         ______TS("Normal case: instructor is not registered");
 
         String unregisteredInstructorKey =
-                logic.getInstructorForEmail("idOfTypicalCourse1", "instructorNotYetJoinedCourse1@email.tmt")
-                        .getEncryptedKey();
+                logic.getInstructorForEmail("idOfTypicalCourse1", "instructorNotYetJoinedCourse1@email.tmt").getKey();
 
         params = new String[] {
                 Const.ParamsNames.REGKEY, unregisteredInstructorKey,
@@ -113,13 +108,56 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
 
         output = (JoinStatus) result.getOutput();
         assertFalse(output.getHasJoined());
-        assertEquals("unreg.user", output.getUserId());
 
         ______TS("Failure case: regkey is not valid for instructor");
 
         params = new String[] {
                 Const.ParamsNames.REGKEY, "ANXKJZNZXNJCZXKJDNKSDA",
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
+        };
+
+        verifyEntityNotFound(params);
+
+        ______TS("Normal case: account request not used, instructor has not joined course");
+
+        String accountRequestNotUsedKey = logic.getAccountRequest("unregisteredinstructor1@gmail.tmt",
+                "TEAMMATES Test Institute 1").getRegistrationKey();
+
+        params = new String[] {
+                Const.ParamsNames.REGKEY, accountRequestNotUsedKey,
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
+                Const.ParamsNames.IS_CREATING_ACCOUNT, "true",
+        };
+
+        getCourseJoinStatusAction = getAction(params);
+        result = getJsonResult(getCourseJoinStatusAction);
+
+        output = (JoinStatus) result.getOutput();
+        assertFalse(output.getHasJoined());
+
+        ______TS("Normal case: account request already used, instructor has joined course");
+
+        String accountRequestUsedKey =
+                logic.getAccountRequest("instr1@course1.tmt", "TEAMMATES Test Institute 1").getRegistrationKey();
+
+        params = new String[] {
+                Const.ParamsNames.REGKEY, accountRequestUsedKey,
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
+                Const.ParamsNames.IS_CREATING_ACCOUNT, "true",
+        };
+
+        getCourseJoinStatusAction = getAction(params);
+        result = getJsonResult(getCourseJoinStatusAction);
+
+        output = (JoinStatus) result.getOutput();
+        assertTrue(output.getHasJoined());
+
+        ______TS("Failure case: account request regkey is not valid");
+
+        params = new String[] {
+                Const.ParamsNames.REGKEY, "invalid-registration-key",
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
+                Const.ParamsNames.IS_CREATING_ACCOUNT, "true",
         };
 
         verifyEntityNotFound(params);

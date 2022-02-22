@@ -49,6 +49,7 @@ describe('InstructorSessionEditPageComponent', () => {
   const testCourse1: Course = {
     courseId: 'testId1',
     courseName: 'Test Course 1',
+    institute: 'Test Institute',
     timeZone: 'Asia/Singapore',
     creationTimestamp: 0,
     deletionTimestamp: 1000,
@@ -57,6 +58,7 @@ describe('InstructorSessionEditPageComponent', () => {
   const testCourse2: Course = {
     courseId: 'testId2',
     courseName: 'Test Course 2',
+    institute: 'Test Institute',
     timeZone: 'Asia/Singapore',
     creationTimestamp: 0,
     deletionTimestamp: 1000,
@@ -107,7 +109,6 @@ describe('InstructorSessionEditPageComponent', () => {
     questionDetails: {
       questionType: FeedbackQuestionType.MCQ,
       questionText: 'question text',
-      numOfMcqChoices: 3,
       mcqChoices: ['choice 1', 'choice 2', 'choice 3'],
     } as FeedbackMcqQuestionDetails,
     giverType: FeedbackParticipantType.STUDENTS,

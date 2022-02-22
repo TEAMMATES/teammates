@@ -11,6 +11,7 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.TimeHelper;
 import teammates.ui.output.FeedbackSessionData;
 import teammates.ui.output.FeedbackSessionPublishStatus;
 import teammates.ui.output.FeedbackSessionSubmissionStatus;
@@ -296,12 +297,17 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
     }
 
     private void assertPartialInformationMatch(FeedbackSessionData data, FeedbackSessionAttributes expectedSession) {
+        String timeZone = expectedSession.getTimeZone();
         assertEquals(expectedSession.getCourseId(), data.getCourseId());
-        assertEquals(expectedSession.getTimeZone().getId(), data.getTimeZone());
+        assertEquals(timeZone, data.getTimeZone());
         assertEquals(expectedSession.getFeedbackSessionName(), data.getFeedbackSessionName());
         assertEquals(expectedSession.getInstructions(), data.getInstructions());
-        assertEquals(expectedSession.getStartTime().toEpochMilli(), data.getSubmissionStartTimestamp());
-        assertEquals(expectedSession.getEndTime().toEpochMilli(), data.getSubmissionEndTimestamp());
+        assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(expectedSession.getStartTime(),
+                timeZone, true).toEpochMilli(),
+                data.getSubmissionStartTimestamp());
+        assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(expectedSession.getEndTime(),
+                timeZone, true).toEpochMilli(),
+                data.getSubmissionEndTimestamp());
 
         if (!expectedSession.isVisible()) {
             assertEquals(FeedbackSessionSubmissionStatus.NOT_VISIBLE, data.getSubmissionStatus());
@@ -325,12 +331,17 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
     }
 
     private void assertAllInformationMatch(FeedbackSessionData data, FeedbackSessionAttributes expectedSession) {
+        String timeZone = expectedSession.getTimeZone();
         assertEquals(expectedSession.getCourseId(), data.getCourseId());
-        assertEquals(expectedSession.getTimeZone().getId(), data.getTimeZone());
+        assertEquals(timeZone, data.getTimeZone());
         assertEquals(expectedSession.getFeedbackSessionName(), data.getFeedbackSessionName());
         assertEquals(expectedSession.getInstructions(), data.getInstructions());
-        assertEquals(expectedSession.getStartTime().toEpochMilli(), data.getSubmissionStartTimestamp());
-        assertEquals(expectedSession.getEndTime().toEpochMilli(), data.getSubmissionEndTimestamp());
+        assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(expectedSession.getStartTime(),
+                timeZone, true).toEpochMilli(),
+                data.getSubmissionStartTimestamp());
+        assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(expectedSession.getEndTime(),
+                timeZone, true).toEpochMilli(),
+                data.getSubmissionEndTimestamp());
         assertEquals(expectedSession.getGracePeriodMinutes(), data.getGracePeriod().longValue());
 
         Instant sessionVisibleTime = expectedSession.getSessionVisibleFromTime();
@@ -338,7 +349,9 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
             assertEquals(data.getSessionVisibleSetting(), SessionVisibleSetting.AT_OPEN);
         } else {
             assertEquals(data.getSessionVisibleSetting(), SessionVisibleSetting.CUSTOM);
-            assertEquals(sessionVisibleTime.toEpochMilli(), data.getCustomSessionVisibleTimestamp().longValue());
+            assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(sessionVisibleTime,
+                    timeZone, true).toEpochMilli(),
+                    data.getCustomSessionVisibleTimestamp().longValue());
         }
 
         Instant responseVisibleTime = expectedSession.getResultsVisibleFromTime();
@@ -348,7 +361,9 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
             assertEquals(ResponseVisibleSetting.LATER, data.getResponseVisibleSetting());
         } else {
             assertEquals(ResponseVisibleSetting.CUSTOM, data.getResponseVisibleSetting());
-            assertEquals(responseVisibleTime.toEpochMilli(), data.getCustomResponseVisibleTimestamp().longValue());
+            assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(responseVisibleTime,
+                    timeZone, true).toEpochMilli(),
+                    data.getCustomResponseVisibleTimestamp().longValue());
         }
 
         if (!expectedSession.isVisible()) {

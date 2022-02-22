@@ -73,12 +73,13 @@ public class TaskQueuer {
     }
 
     /**
-     * Schedules for feedback session reminders (i.e. student has not submitted responses yet)
+     * Schedules for feedback session reminders (i.e. student/instructor has not submitted responses yet)
      * for the specified feedback session for the specified group of users.
      *
      * @param courseId the course ID of the feedback session
      * @param feedbackSessionName the name of the feedback session
      * @param usersToRemind the group of users to send the reminders to
+     * @param requestingInstructorId the ID of the instructor who sends the reminder
      */
     public void scheduleFeedbackSessionRemindersForParticularUsers(String courseId, String feedbackSessionName,
                                                                    String[] usersToRemind,
@@ -112,11 +113,12 @@ public class TaskQueuer {
      * @param courseId the course ID of the feedback session
      * @param feedbackSessionName the name of the feedback session
      * @param usersToEmail the group of users to send the reminders to
+     * @param requestingInstructorId the ID of the instructor who sends the reminder
      */
     public void scheduleFeedbackSessionResendPublishedEmail(String courseId, String feedbackSessionName,
-            String[] usersToEmail) {
+            String[] usersToEmail, String requestingInstructorId) {
         FeedbackSessionRemindRequest remindRequest =
-                new FeedbackSessionRemindRequest(courseId, feedbackSessionName, null, usersToEmail);
+                new FeedbackSessionRemindRequest(courseId, feedbackSessionName, requestingInstructorId, usersToEmail);
 
         addTask(TaskQueue.FEEDBACK_SESSION_RESEND_PUBLISHED_EMAIL_QUEUE_NAME,
                 TaskQueue.FEEDBACK_SESSION_RESEND_PUBLISHED_EMAIL_WORKER_URL, new HashMap<>(), remindRequest);
@@ -145,16 +147,13 @@ public class TaskQueuer {
      * @param instructorEmail the email address of the invited instructor
      */
     public void scheduleCourseRegistrationInviteToInstructor(String inviterGoogleId,
-            String instructorEmail, String courseId, String institute, boolean isRejoining) {
+            String instructorEmail, String courseId, boolean isRejoining) {
         Map<String, String> paramMap = new HashMap<>();
         if (inviterGoogleId != null) {
             paramMap.put(ParamsNames.INVITER_ID, inviterGoogleId);
         }
         paramMap.put(ParamsNames.INSTRUCTOR_EMAIL, instructorEmail);
         paramMap.put(ParamsNames.COURSE_ID, courseId);
-        if (institute != null) {
-            paramMap.put(ParamsNames.INSTRUCTOR_INSTITUTION, institute);
-        }
         paramMap.put(ParamsNames.IS_INSTRUCTOR_REJOINING, String.valueOf(isRejoining));
 
         addTask(TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_QUEUE_NAME,
@@ -212,6 +211,21 @@ public class TaskQueuer {
         paramMap.put(ParamsNames.INSTRUCTOR_EMAIL, email);
 
         addTask(TaskQueue.SEARCH_INDEXING_QUEUE_NAME, TaskQueue.INSTRUCTOR_SEARCH_INDEXING_WORKER_URL,
+                paramMap, null);
+    }
+
+    /**
+     * Schedules for the search indexing of the account request identified by {@code email} and {@code institute}.
+     *
+     * @param email the email associated with the account request
+     * @param institute the institute associated with the account request
+     */
+    public void scheduleAccountRequestForSearchIndexing(String email, String institute) {
+        Map<String, String> paramMap = new HashMap<>();
+        paramMap.put(ParamsNames.INSTRUCTOR_EMAIL, email);
+        paramMap.put(ParamsNames.INSTRUCTOR_INSTITUTION, institute);
+
+        addTask(TaskQueue.SEARCH_INDEXING_QUEUE_NAME, TaskQueue.ACCOUNT_REQUEST_SEARCH_INDEXING_WORKER_URL,
                 paramMap, null);
     }
 

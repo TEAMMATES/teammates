@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
-import { concatMap, finalize, mergeAll } from 'rxjs/operators';
+import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import { LogService } from '../../../services/log.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -9,11 +9,9 @@ import { TimezoneService } from '../../../services/timezone.service';
 import { ApiConst } from '../../../types/api-const';
 import {
   Course,
-  Courses,
   FeedbackSessionLog, FeedbackSessionLogEntry,
   FeedbackSessionLogs, FeedbackSessionLogType,
   Student,
-  Students,
 } from '../../../types/api-output';
 import { SortBy } from '../../../types/sort-properties';
 import { DateFormat } from '../../components/datepicker/datepicker.component';
@@ -54,6 +52,7 @@ interface FeedbackSessionLogModel {
   styleUrls: ['./instructor-audit-logs-page.component.scss'],
 })
 export class InstructorAuditLogsPageComponent implements OnInit {
+  LOGS_DATE_TIME_FORMAT: string = 'ddd, DD MMM YYYY hh:mm:ss A';
   LOGS_RETENTION_PERIOD: number = ApiConst.LOGS_RETENTION_PERIOD;
 
   // enum
@@ -103,7 +102,7 @@ export class InstructorAuditLogsPageComponent implements OnInit {
     this.formModel.logsDateTo = { ...this.dateToday };
     this.formModel.logsTimeFrom = { hour: 23, minute: 59 };
     this.formModel.logsTimeTo = { hour: 23, minute: 59 };
-    this.loadData();
+    this.loadCourses();
   }
 
   /**
@@ -116,9 +115,9 @@ export class InstructorAuditLogsPageComponent implements OnInit {
       this.courses.find((course: Course) => course.courseId === this.formModel.courseId);
     const timeZone: string = selectedCourse ? selectedCourse.timeZone : this.timezoneService.guessTimezone();
     const searchFrom: number = this.timezoneService.resolveLocalDateTime(
-        this.formModel.logsDateFrom, this.formModel.logsTimeFrom, timeZone);
+        this.formModel.logsDateFrom, this.formModel.logsTimeFrom, timeZone, true);
     const searchUntil: number = this.timezoneService.resolveLocalDateTime(
-        this.formModel.logsDateTo, this.formModel.logsTimeTo, timeZone);
+        this.formModel.logsDateTo, this.formModel.logsTimeTo, timeZone, true);
 
     this.logsService.searchFeedbackSessionLog({
       courseId: this.formModel.courseId,
@@ -136,32 +135,42 @@ export class InstructorAuditLogsPageComponent implements OnInit {
   }
 
   /**
-   * Load all courses and students that the instructor have
+   * Load all courses that the instructor has
    */
-  private loadData(): void {
-    const emptyStudent: Student = {
-      courseId: '', email: '', name: '', sectionName: '', teamName: '',
-    };
+  private loadCourses(): void {
     this.courseService
         .getAllCoursesAsInstructor('active')
-        .pipe(
-            concatMap((courses: Courses) => courses.courses
-                .filter((course: Course) =>
-                    course.privileges?.canModifyStudent
-                    && course.privileges?.canModifySession
-                    && course.privileges?.canModifySession)
-                .map((course: Course) => {
-                  this.courses.push(course);
-                  return this.studentService.getStudentsFromCourse({ courseId: course.courseId });
-                })),
-            mergeAll(),
-            finalize(() => this.isLoading = false))
-        .subscribe(((student: Students) => {
-          student.students.sort((a: Student, b: Student): number => a.name.localeCompare(b.name));
-          // Student with no name is selectable to search for all students since the field is optional
-          this.courseToStudents[student.students[0].courseId] = [emptyStudent, ...student.students];
-        }),
+        .pipe(finalize(() => this.isLoading = false))
+        .subscribe(({ courses }: { courses: Course[] }) => courses
+            .filter((course: Course) =>
+                course.privileges?.canModifyStudent
+                && course.privileges?.canModifySession
+                && course.privileges?.canModifySession)
+            .forEach((course: Course) => {
+              this.courses.push(course);
+            }),
             (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
+  }
+
+  /**
+   * Load all students for the selected course
+   */
+  loadStudents(): void {
+    const courseId: string = this.formModel.courseId;
+    if (!this.courseToStudents[courseId]) {
+      this.isLoading = true;
+      this.studentService.getStudentsFromCourse({ courseId })
+          .pipe(finalize(() => { this.isLoading = false; }))
+          .subscribe(({ students }: { students: Student[] }) => {
+            const emptyStudent: Student = {
+              courseId: '', email: '', name: '', sectionName: '', teamName: '',
+            };
+            students.sort((a: Student, b: Student): number => a.name.localeCompare(b.name));
+
+            // Student with no name is selectable to search for all students since the field is optional
+            this.courseToStudents[courseId] = [emptyStudent, ...students];
+          });
+    }
   }
 
   private toFeedbackSessionLogModel(log: FeedbackSessionLog): FeedbackSessionLogModel {
@@ -182,7 +191,9 @@ export class InstructorAuditLogsPageComponent implements OnInit {
             !== 'VIEW_RESULT')
         .map((entry: FeedbackSessionLogEntry) => {
           return [
-            { value: this.timezoneService.formatToString(entry.timestamp, log.feedbackSessionData.timeZone, 'ddd, DD MMM, YYYY hh:mm:ss A'),
+            { value: this.timezoneService.formatToString(
+                entry.timestamp, log.feedbackSessionData.timeZone,
+                this.LOGS_DATE_TIME_FORMAT),
               style: 'font-family:monospace;'},
             { value: entry.studentData.name },
             { value: entry.feedbackSessionLogType.toString() as keyof typeof FeedbackSessionLogType

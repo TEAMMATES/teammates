@@ -6,6 +6,7 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.TimeHelper;
 import teammates.ui.output.FeedbackSessionData;
 import teammates.ui.output.FeedbackSessionPublishStatus;
 import teammates.ui.output.FeedbackSessionSubmissionStatus;
@@ -35,6 +36,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         FeedbackSessionAttributes feedbackSessionAttributes = typicalBundle.feedbackSessions.get("session1InCourse1");
+        String timeZone = feedbackSessionAttributes.getTimeZone();
 
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
 
@@ -60,19 +62,25 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         FeedbackSessionData response = (FeedbackSessionData) r.getOutput();
         assertEquals(feedbackSessionAttributes.getCourseId(), response.getCourseId());
         assertEquals(feedbackSessionAttributes.getFeedbackSessionName(), response.getFeedbackSessionName());
-        assertEquals(feedbackSessionAttributes.getTimeZone().getId(), response.getTimeZone());
+        assertEquals(timeZone, response.getTimeZone());
         assertEquals(feedbackSessionAttributes.getInstructions(), response.getInstructions());
 
-        assertEquals(feedbackSessionAttributes.getStartTime().toEpochMilli(), response.getSubmissionStartTimestamp());
-        assertEquals(feedbackSessionAttributes.getEndTime().toEpochMilli(), response.getSubmissionEndTimestamp());
+        assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(feedbackSessionAttributes.getStartTime(),
+                timeZone, true).toEpochMilli(),
+                response.getSubmissionStartTimestamp());
+        assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(feedbackSessionAttributes.getEndTime(),
+                timeZone, true).toEpochMilli(),
+                response.getSubmissionEndTimestamp());
         assertEquals(feedbackSessionAttributes.getGracePeriodMinutes(), response.getGracePeriod().longValue());
 
         assertEquals(SessionVisibleSetting.CUSTOM, response.getSessionVisibleSetting());
-        assertEquals(feedbackSessionAttributes.getSessionVisibleFromTime().toEpochMilli(),
+        assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(feedbackSessionAttributes.getSessionVisibleFromTime(),
+                timeZone, true).toEpochMilli(),
                 response.getCustomSessionVisibleTimestamp().longValue());
 
         assertEquals(ResponseVisibleSetting.CUSTOM, response.getResponseVisibleSetting());
-        assertEquals(feedbackSessionAttributes.getResultsVisibleFromTime().toEpochMilli(),
+        assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(feedbackSessionAttributes.getResultsVisibleFromTime(),
+                timeZone, true).toEpochMilli(),
                 response.getCustomResponseVisibleTimestamp().longValue());
 
         assertEquals(FeedbackSessionSubmissionStatus.OPEN, response.getSubmissionStatus());
@@ -203,7 +211,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         ______TS("Only instructor with correct privilege can access");
 
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
-                Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS, params
+                Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS, params
         );
 
         ______TS("Instructor moderates instructor submission with correct privilege will pass");

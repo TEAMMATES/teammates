@@ -216,7 +216,7 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
                 logic.getStudentForEmail(student3InCourse1.getCourse(), student3InCourse1.getEmail());
         String[] unregisteredStudentSubmissionParams =
                 generateParameters(firstSessionInCourse1, 2, Intent.STUDENT_SUBMISSION,
-                        unregisteredStudent.getEncryptedKey(), "", "");
+                        unregisteredStudent.getKey(), "", "");
         verifyAccessibleWithoutLogin(unregisteredStudentSubmissionParams);
 
         ______TS("Access with correct but used regKey, should not be accessible by anyone");
@@ -224,7 +224,7 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
                 logic.getStudentForEmail(student1InCourse1.getCourse(), student1InCourse1.getEmail());
         String[] registeredStudentSubmissionParams =
                 generateParameters(firstSessionInCourse1, 2, Intent.STUDENT_SUBMISSION,
-                        registeredStudent.getEncryptedKey(), "", "");
+                        registeredStudent.getKey(), "", "");
         verifyCannotAccess(registeredStudentSubmissionParams);
 
         logoutUser();

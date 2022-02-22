@@ -18,12 +18,8 @@ public class AppUrl extends Url {
         return withParam(Const.ParamsNames.REGKEY, key);
     }
 
-    public AppUrl withInstructorInstitution(String institute) {
-        return withParam(Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
-    }
-
-    public AppUrl withInstitutionMac(String mac) {
-        return withParam(Const.ParamsNames.INSTITUTION_MAC, mac);
+    public AppUrl withIsCreatingAccount(String isCreatingAccount) {
+        return withParam(Const.ParamsNames.IS_CREATING_ACCOUNT, isCreatingAccount);
     }
 
     public AppUrl withCourseId(String courseId) {

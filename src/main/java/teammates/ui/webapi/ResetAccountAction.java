@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -41,12 +40,10 @@ class ResetAccountAction extends AdminOnlyAction {
                 throw new EntityNotFoundException("Instructor does not exist.");
             }
             wrongGoogleId = existingInstructor.getGoogleId();
-            AccountAttributes account = logic.getAccount(wrongGoogleId);
-            String institute = account.getInstitute();
 
             try {
                 logic.resetInstructorGoogleId(instructorEmail, courseId);
-                taskQueuer.scheduleCourseRegistrationInviteToInstructor(null, instructorEmail, courseId, institute, true);
+                taskQueuer.scheduleCourseRegistrationInviteToInstructor(null, instructorEmail, courseId, true);
             } catch (EntityDoesNotExistException e) {
                 throw new EntityNotFoundException(e);
             }

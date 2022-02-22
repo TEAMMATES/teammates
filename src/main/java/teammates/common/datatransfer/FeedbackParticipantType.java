@@ -21,6 +21,11 @@ public enum FeedbackParticipantType {
     STUDENTS(true, true, true),
 
     /**
+     * Students of the same section.
+     */
+    STUDENTS_IN_SAME_SECTION(true, true, true),
+
+    /**
      * Students of the course, excluding the response giver.
      *
      * <p>Used to generate options for MCQ & MSQ.
@@ -36,6 +41,11 @@ public enum FeedbackParticipantType {
      * Teams of the course.
      */
     TEAMS(true, true, false),
+
+    /**
+     * Teams of the same section.
+     */
+    TEAMS_IN_SAME_SECTION(true, true, false),
 
     /**
      * Teams of the course, excluding the response giver.
@@ -102,7 +112,7 @@ public enum FeedbackParticipantType {
     }
 
     public boolean isTeam() {
-        return this == TEAMS || this == OWN_TEAM;
+        return this == TEAMS || this == OWN_TEAM || this == TEAMS_IN_SAME_SECTION;
     }
 
     /**
@@ -116,6 +126,8 @@ public enum FeedbackParticipantType {
             return "instructor";
         case STUDENTS:
             // Fallthrough
+        case STUDENTS_IN_SAME_SECTION:
+            // Fallthrough
         case STUDENTS_EXCLUDING_SELF:
             // Fallthrough
         case OWN_TEAM_MEMBERS:
@@ -123,6 +135,8 @@ public enum FeedbackParticipantType {
         case OWN_TEAM_MEMBERS_INCLUDING_SELF:
             return "student";
         case TEAMS:
+            // Fallthrough
+        case TEAMS_IN_SAME_SECTION:
             // Fallthrough
         case TEAMS_EXCLUDING_SELF:
             // Fallthrough

@@ -7,12 +7,12 @@ import java.util.List;
 import java.util.Objects;
 
 import teammates.common.datatransfer.InstructorPrivileges;
-import teammates.common.exception.InvalidParametersException;
+import teammates.common.datatransfer.InstructorPrivilegesLegacy;
+import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
-import teammates.common.util.StringHelper;
 import teammates.storage.entity.Instructor;
 
 /**
@@ -77,8 +77,9 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
             instructorAttributes.privileges =
                     new InstructorPrivileges(instructorAttributes.role);
         } else {
-            instructorAttributes.privileges =
-                    JsonUtils.fromJson(instructor.getInstructorPrivilegesAsText(), InstructorPrivileges.class);
+            InstructorPrivilegesLegacy privilegesLegacy =
+                    JsonUtils.fromJson(instructor.getInstructorPrivilegesAsText(), InstructorPrivilegesLegacy.class);
+            instructorAttributes.privileges = new InstructorPrivileges(privilegesLegacy);
         }
         if (instructor.getCreatedAt() != null) {
             instructorAttributes.createdAt = instructor.getCreatedAt();
@@ -109,8 +110,8 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
         return instructorAttributes;
     }
 
-    public String getTextFromInstructorPrivileges() {
-        return JsonUtils.toJson(privileges, InstructorPrivileges.class);
+    public String getInstructorPrivilegesAsText() {
+        return JsonUtils.toJson(privileges.toLegacyFormat(), InstructorPrivilegesLegacy.class);
     }
 
     public String getName() {
@@ -119,22 +120,6 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    /**
-     * Returns the encrypted version of the key. If the key stored in the DB is not already encrypted,
-     * it will be encrypted before returned.
-     */
-    // TODO remove after data migration
-    @Deprecated
-    public String getEncryptedKey() {
-        try {
-            StringHelper.decrypt(key);
-            // If key can be decrypted, it means it is already encrypted and can be returned immediately
-            return key;
-        } catch (InvalidParametersException e) {
-            return StringHelper.encrypt(key);
-        }
     }
 
     public String getKey() {
@@ -189,10 +174,17 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
         return googleId != null && !googleId.trim().isEmpty();
     }
 
+    public String getRegistrationUrl() {
+        return Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
+                .withRegistrationKey(key)
+                .withEntityType(Const.EntityType.INSTRUCTOR)
+                .toString();
+    }
+
     @Override
     public Instructor toEntity() {
         return new Instructor(googleId, courseId, isArchived, name, email, role,
-                              isDisplayedToStudents, displayedName, getTextFromInstructorPrivileges());
+                              isDisplayedToStudents, displayedName, getInstructorPrivilegesAsText());
     }
 
     @Override

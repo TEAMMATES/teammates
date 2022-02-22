@@ -66,7 +66,7 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
     @Test
     @Override
     public void testAll() {
-        AppUrl url = createUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE);
+        AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE);
         InstructorHomePage homePage = loginToPage(url, InstructorHomePage.class, instructor.getGoogleId());
 
         ______TS("verify loaded data");
@@ -120,11 +120,21 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
                 + " [Course: " + course.getName() + "][Feedback Session: "
                 + feedbackSessionOpen.getFeedbackSessionName() + "]");
 
-        ______TS("send reminder email");
-        homePage.sendReminderEmail(courseIndex, sessionIndex, studentToEmail);
+        ______TS("send reminder email to selected student");
+        homePage.sendReminderEmailToSelectedStudent(courseIndex, sessionIndex, studentToEmail);
 
         homePage.verifyStatusMessage("Reminder e-mails have been sent out to those students"
                 + " and instructors. Please allow up to 1 hour for all the notification emails to be sent out.");
+        verifyEmailSent(studentToEmail.getEmail(), "TEAMMATES: Feedback session reminder"
+                + " [Course: " + course.getName() + "][Feedback Session: "
+                + feedbackSessionOpen.getFeedbackSessionName() + "]");
+
+        ______TS("send reminder email to all student non-submitters");
+        homePage.sendReminderEmailToNonSubmitters(courseIndex, sessionIndex);
+
+        homePage.verifyStatusMessage("Reminder e-mails have been sent out to those students"
+                + " and instructors. Please allow up to 1 hour for all the notification emails to be sent out.");
+
         verifyEmailSent(studentToEmail.getEmail(), "TEAMMATES: Feedback session reminder"
                 + " [Course: " + course.getName() + "][Feedback Session: "
                 + feedbackSessionOpen.getFeedbackSessionName() + "]");

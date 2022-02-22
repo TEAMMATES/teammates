@@ -18,8 +18,19 @@ export class AccountService {
   /**
    * Creates an account by calling API.
    */
-  createAccount(request: AccountCreateRequest): Observable<JoinLink> {
-    return this.httpRequestService.post(ResourceEndpoints.ACCOUNT, {}, request);
+  createAccount(key: string, timezone: string): Observable<MessageOutput> {
+    const paramMap: Record<string, string> = { key };
+    if (timezone) {
+      paramMap.timezone = timezone;
+    }
+    return this.httpRequestService.post(ResourceEndpoints.ACCOUNT, paramMap);
+  }
+
+  /**
+   * Creates an account request by calling API.
+   */
+  createAccountRequest(request: AccountCreateRequest): Observable<JoinLink> {
+    return this.httpRequestService.post(ResourceEndpoints.ACCOUNT_REQUEST, {}, request);
   }
 
   /**

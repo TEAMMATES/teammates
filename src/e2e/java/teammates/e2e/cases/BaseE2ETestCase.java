@@ -11,6 +11,7 @@ import org.testng.annotations.BeforeClass;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.AccountRequestAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -93,11 +94,20 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
 
     /**
      * Creates an {@link AppUrl} for the supplied {@code relativeUrl} parameter.
-     * The base URL will be the value of test.app.url in test.properties.
+     * The base URL will be the value of test.app.frontend.url in test.properties.
      * {@code relativeUrl} must start with a "/".
      */
-    protected static AppUrl createUrl(String relativeUrl) {
-        return new AppUrl(TestProperties.TEAMMATES_URL + relativeUrl);
+    protected static AppUrl createFrontendUrl(String relativeUrl) {
+        return new AppUrl(TestProperties.TEAMMATES_FRONTEND_URL + relativeUrl);
+    }
+
+    /**
+     * Creates an {@link AppUrl} for the supplied {@code relativeUrl} parameter.
+     * The base URL will be the value of test.app.backend.url in test.properties.
+     * {@code relativeUrl} must start with a "/".
+     */
+    protected static AppUrl createBackendUrl(String relativeUrl) {
+        return new AppUrl(TestProperties.TEAMMATES_BACKEND_URL + relativeUrl);
     }
 
     /**
@@ -109,7 +119,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
         if (!TestProperties.isDevServer()) {
             // In order for the cookie injection to work, we need to be in the domain.
             // Use the home page to minimize the page load time.
-            browser.goToUrl(TestProperties.TEAMMATES_URL);
+            browser.goToUrl(TestProperties.TEAMMATES_FRONTEND_URL);
 
             String cookieValue = BACKDOOR.getUserCookie(userId);
             browser.addCookie(Const.SecurityConfig.AUTH_COOKIE_NAME, cookieValue, true, true);
@@ -137,7 +147,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
      * Equivalent to clicking the 'logout' link in the top menu of the page.
      */
     protected void logout() {
-        browser.goToUrl(createUrl(Const.WebPageURIs.LOGOUT).toAbsoluteString());
+        browser.goToUrl(createBackendUrl(Const.WebPageURIs.LOGOUT).toAbsoluteString());
         AppPage.getNewPageInstance(browser, HomePage.class).waitForPageToLoad();
     }
 
@@ -296,6 +306,11 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
 
     String getKeyForStudent(StudentAttributes student) {
         return getStudent(student).getKey();
+    }
+
+    @Override
+    protected AccountRequestAttributes getAccountRequest(AccountRequestAttributes accountRequest) {
+        return BACKDOOR.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
     }
 
     @Override

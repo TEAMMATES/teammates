@@ -3,6 +3,7 @@ package teammates.common.util;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 
@@ -124,8 +125,10 @@ public final class Config {
         OAUTH2_CLIENT_SECRET = properties.getProperty("app.oauth2.client.secret");
         ENABLE_DEVSERVER_LOGIN = Boolean.parseBoolean(properties.getProperty("app.enable.devserver.login", "true"));
         CAPTCHA_SECRET_KEY = properties.getProperty("app.captcha.secretkey");
-        APP_ADMINS = Arrays.asList(properties.getProperty("app.admins", "").split(","));
-        APP_MAINTAINERS = Arrays.asList(properties.getProperty("app.maintainers", "").split(","));
+        APP_ADMINS = Collections.unmodifiableList(
+                Arrays.asList(properties.getProperty("app.admins", "").split(",")));
+        APP_MAINTAINERS = Collections.unmodifiableList(
+                Arrays.asList(properties.getProperty("app.maintainers", "").split(",")));
         SUPPORT_EMAIL = properties.getProperty("app.crashreport.email");
         EMAIL_SENDEREMAIL = properties.getProperty("app.email.senderemail");
         EMAIL_SENDERNAME = properties.getProperty("app.email.sendername");

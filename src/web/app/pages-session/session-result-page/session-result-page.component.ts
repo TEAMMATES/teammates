@@ -36,6 +36,9 @@ import { ErrorMessageOutput } from '../../error-message-output';
 })
 export class SessionResultPageComponent implements OnInit {
 
+  // enum
+  Intent: typeof Intent = Intent;
+
   session: FeedbackSession = {
     courseId: '',
     timeZone: '',
@@ -59,8 +62,10 @@ export class SessionResultPageComponent implements OnInit {
   personEmail: string = '';
   courseId: string = '';
   feedbackSessionName: string = '';
+  entityType: string = 'student';
   regKey: string = '';
   loggedInUser: string = '';
+  visibilityRecipient: FeedbackVisibilityType = FeedbackVisibilityType.RECIPIENT;
 
   intent: Intent = Intent.STUDENT_RESULT;
 
@@ -94,6 +99,10 @@ export class SessionResultPageComponent implements OnInit {
       this.courseId = queryParams.courseid;
       this.feedbackSessionName = queryParams.fsname;
       this.regKey = queryParams.key || '';
+      if (queryParams.entitytype === 'instructor') {
+        this.entityType = 'instructor';
+        this.intent = Intent.INSTRUCTOR_RESULT;
+      }
 
       const nextUrl: string = `${window.location.pathname}${window.location.search.replace(/&/g, '%26')}`;
       this.authService.getAuthUser(undefined, nextUrl).subscribe((auth: AuthInfo) => {
@@ -106,7 +115,7 @@ export class SessionResultPageComponent implements OnInit {
               if (resp.isUsed) {
                 // The logged in user matches the registration key; redirect to the logged in URL
 
-                this.navigationService.navigateByURLWithParamEncoding(this.router, '/web/student/sessions/result',
+                this.navigationService.navigateByURLWithParamEncoding(this.router, `/web/${this.entityType}/sessions/result`,
                     { courseid: this.courseId, fsname: this.feedbackSessionName });
               } else {
                 // Valid, unused registration key; load information based on the key
@@ -118,10 +127,18 @@ export class SessionResultPageComponent implements OnInit {
               if (this.loggedInUser) {
                 // Registration key belongs to another user who is not the logged in user
                 this.navigationService.navigateWithErrorMessage(this.router, '/web/front',
-                    'You are not authorized to view this page.');
+                    `You are trying to access TEAMMATES using the Google account ${this.loggedInUser}, which
+                    is not linked to this TEAMMATES account. If you used a different Google account to
+                    join/access TEAMMATES before, please use that Google account to access TEAMMATES. If you
+                    cannot remember which Google account you used before, please email us at
+                    ${environment.supportEmail} for help.`);
               } else {
                 // There is no logged in user for a valid, used registration key, redirect to login page
-                window.location.href = `${this.backendUrl}${auth.studentLoginUrl}`;
+                if (this.entityType === 'student') {
+                  window.location.href = `${this.backendUrl}${auth.studentLoginUrl}`;
+                } else if (this.entityType === 'instructor') {
+                  window.location.href = `${this.backendUrl}${auth.instructorLoginUrl}`;
+                }
               }
             } else {
               // The registration key is invalid
@@ -215,25 +232,16 @@ export class SessionResultPageComponent implements OnInit {
     });
   }
 
-  canUserSeeResponses(question: QuestionOutput): boolean {
-    const showResponsesTo: FeedbackVisibilityType[] = question.feedbackQuestion.showResponsesTo;
-
-    if (this.intent === Intent.STUDENT_RESULT) {
-      return showResponsesTo.filter((visibilityType: FeedbackVisibilityType) =>
-          visibilityType !== FeedbackVisibilityType.INSTRUCTORS).length > 0;
-    }
-    if (this.intent === Intent.INSTRUCTOR_RESULT) {
-      return showResponsesTo.filter((visibilityType: FeedbackVisibilityType) =>
-          visibilityType === FeedbackVisibilityType.INSTRUCTORS).length > 0;
-    }
-    return false;
+  /**
+   * Redirects to join course link for unregistered student/instructor.
+   */
+  joinCourseForUnregisteredEntity(): void {
+    this.navigationService.navigateByURL(this.router, '/web/join', { entitytype: this.entityType, key: this.regKey });
   }
 
-  /**
-   * Redirects to join course link for unregistered student.
-   */
-  joinCourseForUnregisteredStudent(): void {
-    this.navigationService.navigateByURL(this.router, '/web/join', { entitytype: 'student', key: this.regKey });
+  navigateToSessionReportPage(): void {
+    this.navigationService.navigateByURL(this.router, '/web/instructor/sessions/report',
+        { courseid: this.courseId, fsname: this.feedbackSessionName });
   }
 
   retryLoadingFeedbackSessionResults(): void {

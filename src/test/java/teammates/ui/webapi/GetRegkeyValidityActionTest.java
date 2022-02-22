@@ -26,14 +26,14 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
     @Test
     protected void testExecute() throws Exception {
 
-        String[] params;
+        String courseId = "idOfTypicalCourse1";
 
-        String student1Key =
-                logic.getStudentForEmail("idOfTypicalCourse1", "student1InCourse1@gmail.tmt").getEncryptedKey();
+        String student1Key = logic.getStudentForEmail(courseId, "student1InCourse1@gmail.tmt").getKey();
+        String instructor1Key = logic.getInstructorForEmail(courseId, "instructor1@course1.tmt").getKey();
 
         ______TS("Failure Case: No intent parameter");
 
-        params = new String[] {
+        String[] params = new String[] {
                 Const.ParamsNames.REGKEY, student1Key,
         };
 
@@ -64,6 +64,19 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
         assertTrue(output.isUsed());
         assertFalse(output.isAllowedAccess());
 
+        params = new String[] {
+                Const.ParamsNames.REGKEY, instructor1Key,
+                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.name(),
+        };
+
+        a = getAction(params);
+        r = getJsonResult(a);
+
+        output = (RegkeyValidityData) r.getOutput();
+        assertTrue(output.isValid());
+        assertTrue(output.isUsed());
+        assertFalse(output.isAllowedAccess());
+
         ______TS("Normal case: Wrong logged in user for a used regkey; should be valid/used/disallowed");
 
         loginAsStudent("student2InCourse1");
@@ -81,9 +94,44 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
         assertTrue(output.isUsed());
         assertFalse(output.isAllowedAccess());
 
+        loginAsInstructor("idOfInstructor2OfCourse1");
+
+        params = new String[] {
+                Const.ParamsNames.REGKEY, instructor1Key,
+                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.name(),
+        };
+
+        a = getAction(params);
+        r = getJsonResult(a);
+
+        output = (RegkeyValidityData) r.getOutput();
+        assertTrue(output.isValid());
+        assertTrue(output.isUsed());
+        assertFalse(output.isAllowedAccess());
+
         ______TS("Normal case: Correct logged in user for a used regkey; should be valid/used/allowed");
 
         loginAsStudent("student1InCourse1");
+
+        params = new String[] {
+                Const.ParamsNames.REGKEY, student1Key,
+                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.name(),
+        };
+
+        a = getAction(params);
+        r = getJsonResult(a);
+
+        output = (RegkeyValidityData) r.getOutput();
+        assertTrue(output.isValid());
+        assertTrue(output.isUsed());
+        assertTrue(output.isAllowedAccess());
+
+        loginAsInstructor("idOfInstructor1OfCourse1");
+
+        params = new String[] {
+                Const.ParamsNames.REGKEY, instructor1Key,
+                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.name(),
+        };
 
         a = getAction(params);
         r = getJsonResult(a);
@@ -95,9 +143,28 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
 
         ______TS("Normal case: No logged in user for an unused regkey; should be valid/unused/allowed");
 
-        logic.resetStudentGoogleId("student1InCourse1@gmail.tmt", "idOfTypicalCourse1");
+        logic.resetStudentGoogleId("student1InCourse1@gmail.tmt", courseId);
+        logic.resetInstructorGoogleId("instructor1@course1.tmt", courseId);
 
         logoutUser();
+
+        params = new String[] {
+                Const.ParamsNames.REGKEY, student1Key,
+                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.name(),
+        };
+
+        a = getAction(params);
+        r = getJsonResult(a);
+
+        output = (RegkeyValidityData) r.getOutput();
+        assertTrue(output.isValid());
+        assertFalse(output.isUsed());
+        assertTrue(output.isAllowedAccess());
+
+        params = new String[] {
+                Const.ParamsNames.REGKEY, instructor1Key,
+                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.name(),
+        };
 
         a = getAction(params);
         r = getJsonResult(a);
@@ -111,6 +178,11 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
 
         loginAsStudent("student2InCourse1");
 
+        params = new String[] {
+                Const.ParamsNames.REGKEY, student1Key,
+                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.name(),
+        };
+
         a = getAction(params);
         r = getJsonResult(a);
 
@@ -119,7 +191,12 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
         assertFalse(output.isUsed());
         assertTrue(output.isAllowedAccess());
 
-        loginAsStudent("student3InCourse1");
+        loginAsInstructor("idOfInstructor5");
+
+        params = new String[] {
+                Const.ParamsNames.REGKEY, instructor1Key,
+                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.name(),
+        };
 
         a = getAction(params);
         r = getJsonResult(a);
@@ -144,13 +221,26 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
         assertFalse(output.isUsed());
         assertFalse(output.isAllowedAccess());
 
+        params = new String[] {
+                Const.ParamsNames.REGKEY, StringHelper.encrypt("invalid-key"),
+                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.name(),
+        };
+
+        a = getAction(params);
+        r = getJsonResult(a);
+
+        output = (RegkeyValidityData) r.getOutput();
+        assertFalse(output.isValid());
+        assertFalse(output.isUsed());
+        assertFalse(output.isAllowedAccess());
+
         ______TS("Normal case: Invalid intent; should be invalid/unused/disallowed");
 
         logoutUser();
 
         params = new String[] {
                 Const.ParamsNames.REGKEY, student1Key,
-                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.name(),
+                Const.ParamsNames.INTENT, Intent.FULL_DETAIL.name(),
         };
 
         a = getAction(params);

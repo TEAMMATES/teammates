@@ -48,6 +48,7 @@ describe('InstructorTrackViewPageComponent', () => {
   const testCourse1: Course = {
     courseId: 'CS1234',
     courseName: 'test-course1',
+    institute: 'Test Institute',
     timeZone: 'Asia/Singapore',
     creationTimestamp: 0,
     deletionTimestamp: 0,
@@ -56,6 +57,7 @@ describe('InstructorTrackViewPageComponent', () => {
   const testCourse2: Course = {
     courseId: 'MA1234',
     courseName: 'test-course2',
+    institute: 'Test Institute',
     timeZone: 'Asia/Singapore',
     creationTimestamp: 0,
     deletionTimestamp: 0,

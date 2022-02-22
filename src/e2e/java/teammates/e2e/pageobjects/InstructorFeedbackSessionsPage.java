@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -239,13 +238,21 @@ public class InstructorFeedbackSessionsPage extends AppPage {
         }
     }
 
-    public void sendReminderEmail(FeedbackSessionAttributes session, StudentAttributes student) {
+    public void sendReminderEmailToSelectedStudent(FeedbackSessionAttributes session, StudentAttributes student) {
         int rowId = getFeedbackSessionRowId(session.getCourseId(), session.getFeedbackSessionName());
 
         click(browser.driver.findElement(By.id("btn-remind-" + rowId)));
+        click(waitForElementPresence(By.id("btn-remind-selected-" + rowId)));
         selectStudentToEmail(student.getEmail());
-
         click(browser.driver.findElement(By.id("btn-confirm-send-reminder")));
+    }
+
+    public void sendReminderEmailToNonSubmitters(FeedbackSessionAttributes session) {
+        int rowId = getFeedbackSessionRowId(session.getCourseId(), session.getFeedbackSessionName());
+
+        click(browser.driver.findElement(By.id("btn-remind-" + rowId)));
+        click(waitForElementPresence(By.id("btn-remind-all-" + rowId)));
+        click(waitForElementPresence(By.id("btn-confirm-send-reminder")));
     }
 
     public void resendResultsLink(FeedbackSessionAttributes session, StudentAttributes student) {
@@ -308,26 +315,20 @@ public class InstructorFeedbackSessionsPage extends AppPage {
         return details;
     }
 
-    private String getDateString(Instant instant, ZoneId timeZone) {
-        return DateTimeFormatter
-                .ofPattern("EE, dd MMM, yyyy")
-                .format(instant.atZone(timeZone));
+    private String getDateString(Instant instant, String timeZone) {
+        return getDisplayedDateTime(instant, timeZone, "EE, dd MMM, yyyy");
     }
 
-    private String getSimpleDateString(Instant instant, ZoneId timeZone) {
-        return DateTimeFormatter
-                .ofPattern("dd MMM, yyyy")
-                .format(instant.atZone(timeZone));
+    private String getSimpleDateString(Instant instant, String timeZone) {
+        return getDisplayedDateTime(instant, timeZone, "dd MMM, yyyy");
     }
 
-    private String getTimeString(Instant instant, ZoneId timeZone) {
-        ZonedDateTime dateTime = instant.atZone(timeZone);
-        if (dateTime.getHour() == 23 && dateTime.getMinute() == 59) {
+    private String getTimeString(Instant instant, String timeZone) {
+        ZonedDateTime dateTime = instant.atZone(ZoneId.of(timeZone));
+        if (dateTime.getHour() == 0 && dateTime.getMinute() == 0) {
             return "23:59H";
         }
-        return DateTimeFormatter
-                .ofPattern("HH:00")
-                .format(instant.atZone(timeZone)) + "H";
+        return getDisplayedDateTime(instant, timeZone, "HH:00") + "H";
     }
 
     private String getResponseRate(int rowId) {
@@ -346,27 +347,27 @@ public class InstructorFeedbackSessionsPage extends AppPage {
         writeToRichTextEditor(instructionsEditor, newInstructions);
     }
 
-    private void setSessionStartDateTime(Instant startInstant, ZoneId timeZone) {
+    private void setSessionStartDateTime(Instant startInstant, String timeZone) {
         setDateTime(startDateBox.findElement(By.tagName("input")),
                 startTimeDropdown, startInstant, timeZone);
     }
 
-    private void setSessionEndDateTime(Instant endInstant, ZoneId timeZone) {
+    private void setSessionEndDateTime(Instant endInstant, String timeZone) {
         setDateTime(endDateBox.findElement(By.tagName("input")),
                 endTimeDropdown, endInstant, timeZone);
     }
 
-    private void setVisibilityDateTime(Instant startInstant, ZoneId timeZone) {
+    private void setVisibilityDateTime(Instant startInstant, String timeZone) {
         setDateTime(sessionVisibilityDateBox.findElement(By.tagName("input")),
                 sessionVisibilityTimeDropdown, startInstant, timeZone);
     }
 
-    private void setResponseDateTime(Instant endInstant, ZoneId timeZone) {
+    private void setResponseDateTime(Instant endInstant, String timeZone) {
         setDateTime(responseVisibilityDateBox.findElement(By.tagName("input")),
                 responseVisibilityTimeDropdown, endInstant, timeZone);
     }
 
-    private void setDateTime(WebElement dateBox, WebElement timeBox, Instant startInstant, ZoneId timeZone) {
+    private void setDateTime(WebElement dateBox, WebElement timeBox, Instant startInstant, String timeZone) {
         fillTextBox(dateBox, getDateString(startInstant, timeZone));
 
         selectDropdownOptionByText(timeBox.findElement(By.tagName("select")), getTimeString(startInstant, timeZone));

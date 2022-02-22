@@ -3,8 +3,6 @@ package teammates.e2e.pageobjects;
 import static org.junit.Assert.assertEquals;
 
 import java.time.Instant;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -75,11 +73,19 @@ public class InstructorHomePage extends AppPage {
         clickAndConfirm(unpublishButtons.get(unpublishButtons.size() - 1));
     }
 
-    public void sendReminderEmail(int courseTabIndex, int sessionIndex, StudentAttributes student) {
+    public void sendReminderEmailToSelectedStudent(int courseTabIndex, int sessionIndex, StudentAttributes student) {
         WebElement courseTab = getCourseTab(courseTabIndex);
         click(courseTab.findElement(By.id("btn-remind-" + sessionIndex)));
+        click(waitForElementPresence(By.id("btn-remind-selected-" + sessionIndex)));
         selectStudentToEmail(student.getEmail());
         click(browser.driver.findElement(By.id("btn-confirm-send-reminder")));
+    }
+
+    public void sendReminderEmailToNonSubmitters(int courseTabIndex, int sessionIndex) {
+        WebElement courseTab = getCourseTab(courseTabIndex);
+        click(courseTab.findElement(By.id("btn-remind-" + sessionIndex)));
+        click(waitForElementPresence(By.id("btn-remind-all-" + sessionIndex)));
+        click(waitForElementPresence(By.id("btn-confirm-send-reminder")));
     }
 
     public void resendResultsLink(int courseTabIndex, int sessionIndex, StudentAttributes student) {
@@ -148,10 +154,8 @@ public class InstructorHomePage extends AppPage {
         return getCourseTab(courseTabIndex).findElement(By.id("sessions-table"));
     }
 
-    private String getDateString(Instant instant, ZoneId timeZone) {
-        return DateTimeFormatter
-                .ofPattern("d MMM h:mm a")
-                .format(instant.atZone(timeZone));
+    private String getDateString(Instant instant, String timeZone) {
+        return getDisplayedDateTime(instant, timeZone, "d MMM h:mm a");
     }
 
     private String[] getExpectedSessionDetails(FeedbackSessionAttributes session) {

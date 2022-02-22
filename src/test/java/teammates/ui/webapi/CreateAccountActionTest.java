@@ -1,22 +1,19 @@
 package teammates.ui.webapi;
 
+import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.List;
 
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.attributes.AccountRequestAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.util.Config;
 import teammates.common.util.Const;
-import teammates.common.util.EmailType;
-import teammates.common.util.EmailWrapper;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.StringHelper;
 import teammates.common.util.StringHelperExtension;
-import teammates.ui.output.JoinLinkData;
-import teammates.ui.request.AccountCreateRequest;
-import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * SUT: {@link CreateAccountAction}.
@@ -36,33 +33,32 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
     @Override
     @Test
     protected void testExecute() {
-        loginAsAdmin();
-        String name = "JamesBond";
-        String email = "jamesbond89@gmail.tmt";
+        String name = "Unregistered Instructor 1";
+        String email = "unregisteredinstructor1@gmail.tmt";
         String institute = "TEAMMATES Test Institute 1";
 
         ______TS("Not enough parameters");
 
-        InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(buildCreateRequest(null, institute, email));
-        assertEquals("name cannot be null", ex.getMessage());
+        verifyHttpParameterFailure();
 
-        ex = verifyHttpRequestBodyFailure(buildCreateRequest(name, null, email));
-        assertEquals("institute cannot be null", ex.getMessage());
+        ______TS("Null parameters");
 
-        ex = verifyHttpRequestBodyFailure(buildCreateRequest(name, institute, null));
-        assertEquals("email cannot be null", ex.getMessage());
+        String[] nullParams = new String[] { Const.ParamsNames.REGKEY, null, };
+        InvalidHttpParameterException ex = verifyHttpParameterFailure(nullParams);
+        assertEquals("The [key] HTTP parameter is null.", ex.getMessage());
 
         verifyNoTasksAdded();
 
-        ______TS("Normal case");
+        ______TS("Normal case with valid timezone");
+        String timezone = "Asia/Singapore";
+        AccountRequestAttributes accountRequest = logic.getAccountRequest(email, institute);
 
-        String nameWithSpaces = "   " + name + "   ";
-        String emailWithSpaces = "   " + email + "   ";
-        String instituteWithSpaces = "   " + institute + "   ";
-
-        AccountCreateRequest req = buildCreateRequest(nameWithSpaces, instituteWithSpaces, emailWithSpaces);
-        CreateAccountAction a = getAction(req);
-        JsonResult r = getJsonResult(a);
+        String[] params = new String[] {
+                Const.ParamsNames.REGKEY, accountRequest.getRegistrationKey(),
+                Const.ParamsNames.TIMEZONE, timezone,
+        };
+        CreateAccountAction a = getAction(params);
+        getJsonResult(a);
 
         String courseId = generateNextDemoCourseId(email, FieldValidator.COURSE_ID_MAX_LENGTH);
 
@@ -70,50 +66,78 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
         assertNotNull(course);
         assertEquals("Sample Course 101", course.getName());
         assertEquals(institute, course.getInstitute());
+        assertEquals(timezone, course.getTimeZone());
+
+        ZoneId zoneId = ZoneId.of(timezone);
+        List<FeedbackSessionAttributes> feedbackSessionsList = logic.getFeedbackSessionsForCourse(courseId);
+        for (FeedbackSessionAttributes feedbackSession : feedbackSessionsList) {
+            LocalTime actualStartTime = LocalTime.ofInstant(feedbackSession.getStartTime(), zoneId);
+            LocalTime actualEndTime = LocalTime.ofInstant(feedbackSession.getEndTime(), zoneId);
+
+            assertEquals(timezone, feedbackSession.getTimeZone());
+            assertEquals(LocalTime.MIDNIGHT, actualStartTime);
+            assertEquals(LocalTime.MIDNIGHT, actualEndTime);
+        }
 
         InstructorAttributes instructor = logic.getInstructorForEmail(courseId, email);
-
-        String joinLink = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
-                .withRegistrationKey(instructor.getEncryptedKey())
-                .withInstructorInstitution(institute)
-                .withInstitutionMac(StringHelper.generateSignature(institute))
-                .withEntityType(Const.EntityType.INSTRUCTOR)
-                .toAbsoluteString();
-        JoinLinkData output = (JoinLinkData) r.getOutput();
-        assertEquals(joinLink, output.getJoinLink());
-
-        verifyNumberOfEmailsSent(1);
-
-        EmailWrapper emailSent = mockEmailSender.getEmailsSent().get(0);
-        assertEquals(String.format(EmailType.NEW_INSTRUCTOR_ACCOUNT.getSubject(), name),
-                emailSent.getSubject());
-        assertEquals(email, emailSent.getRecipient());
+        assertEquals(email, instructor.getEmail());
+        assertEquals(name, instructor.getName());
 
         List<StudentAttributes> studentList = logic.getStudentsForCourse(courseId);
         List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(courseId);
         verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME,
                 studentList.size() + instructorList.size());
 
-        ______TS("Error: invalid parameter");
+        ______TS("Normal case with invalid timezone, timezone should default to UTC");
 
-        String invalidName = "James%20Bond99";
+        email = "unregisteredinstructor2@gmail.tmt";
+        institute = "TEAMMATES Test Institute 2";
+        timezone = "InvalidTimezone";
 
-        req = buildCreateRequest(invalidName, institute, emailWithSpaces);
+        accountRequest = logic.getAccountRequest(email, institute);
 
-        ex = verifyHttpRequestBodyFailure(req);
-        assertEquals("\"" + invalidName + "\" is not acceptable to TEAMMATES as a/an person name because "
-                + "it contains invalid characters. A/An person name must start with an "
-                + "alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%).",
-                ex.getMessage());
+        params = new String[] {
+                Const.ParamsNames.REGKEY, accountRequest.getRegistrationKey(),
+                Const.ParamsNames.TIMEZONE, timezone,
+        };
 
-        verifyNoEmailsSent();
+        a = getAction(params);
+
+        getJsonResult(a);
+
+        courseId = generateNextDemoCourseId(email, FieldValidator.COURSE_ID_MAX_LENGTH);
+        course = logic.getCourse(courseId);
+        assertEquals(Const.DEFAULT_TIME_ZONE, course.getTimeZone());
+
+        feedbackSessionsList = logic.getFeedbackSessionsForCourse(courseId);
+        zoneId = ZoneId.of(Const.DEFAULT_TIME_ZONE);
+        for (FeedbackSessionAttributes feedbackSession : feedbackSessionsList) {
+            LocalTime actualStartTime = LocalTime.ofInstant(feedbackSession.getStartTime(), zoneId);
+            LocalTime actualEndTime = LocalTime.ofInstant(feedbackSession.getEndTime(), zoneId);
+
+            assertEquals(Const.DEFAULT_TIME_ZONE, feedbackSession.getTimeZone());
+            assertEquals(LocalTime.MIDNIGHT, actualStartTime);
+            assertEquals(LocalTime.MIDNIGHT, actualEndTime);
+        }
+
+        verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME,
+                studentList.size() + instructorList.size());
+
+        ______TS("Error: registration key already used");
+        verifyInvalidOperation(params);
+        verifyNoTasksAdded();
+
+        ______TS("Error: account request not found");
+
+        params = new String[] { Const.ParamsNames.REGKEY, "unknownregkey", };
+        verifyEntityNotFound(params);
         verifyNoTasksAdded();
     }
 
     @Override
     @Test
     protected void testAccessControl() {
-        verifyOnlyAdminCanAccess();
+        verifyAnyLoggedInUserCanAccess();
     }
 
     @Test
@@ -162,13 +186,4 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
         return a.generateNextDemoCourseId(instructorEmailOrProposedCourseId, maximumIdLength);
     }
 
-    private AccountCreateRequest buildCreateRequest(String name, String institution, String email) {
-        AccountCreateRequest req = new AccountCreateRequest();
-
-        req.setInstructorName(name);
-        req.setInstructorInstitution(institution);
-        req.setInstructorEmail(email);
-
-        return req;
-    }
 }

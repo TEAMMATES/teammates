@@ -19,11 +19,13 @@
     "SCJoinConf.CS2104": {
       "id": "tm.e2e.SCJoinConf.CS2104",
       "name": "Programming Language Concepts",
+      "institute": "TEAMMATES Test Institute 1",
       "timeZone": "UTC"
     },
     "SCJoinConf.CS1101": {
       "id": "tm.e2e.SCJoinConf.CS1101",
       "name": "Programming Methodology",
+      "institute": "TEAMMATES Test Institute 1",
       "timeZone": "UTC"
     }
   },
@@ -38,14 +40,14 @@
       "displayedName": "Co-owner",
       "privileges": {
         "courseLevel": {
-          "canviewstudentinsection": true,
-          "cansubmitsessioninsection": true,
-          "canmodifysessioncommentinsection": true,
-          "canmodifycourse": true,
-          "canviewsessioninsection": true,
-          "canmodifysession": true,
-          "canmodifystudent": true,
-          "canmodifyinstructor": true
+          "canViewStudentInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true,
+          "canModifyCourse": true,
+          "canViewSessionInSections": true,
+          "canModifySession": true,
+          "canModifyStudent": true,
+          "canModifyInstructor": true
         },
         "sectionLevel": {},
         "sessionLevel": {}
@@ -61,14 +63,14 @@
       "displayedName": "Co-owner",
       "privileges": {
         "courseLevel": {
-          "canviewstudentinsection": true,
-          "cansubmitsessioninsection": true,
-          "canmodifysessioncommentinsection": true,
-          "canmodifycourse": true,
-          "canviewsessioninsection": true,
-          "canmodifysession": true,
-          "canmodifystudent": true,
-          "canmodifyinstructor": true
+          "canViewStudentInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true,
+          "canModifyCourse": true,
+          "canViewSessionInSections": true,
+          "canModifySession": true,
+          "canModifyStudent": true,
+          "canModifyInstructor": true
         },
         "sectionLevel": {},
         "sessionLevel": {}

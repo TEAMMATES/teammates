@@ -171,7 +171,11 @@ describe('CourseService', () => {
       key: regKey,
       entitytype: entityType,
     };
-    service.getJoinCourseStatus(regKey, entityType);
+    service.getJoinCourseStatus(regKey, entityType, false);
+    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.JOIN, paramMap);
+
+    paramMap.iscreatingaccount = 'true';
+    service.getJoinCourseStatus(regKey, entityType, true);
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.JOIN, paramMap);
   });
 
@@ -179,10 +183,8 @@ describe('CourseService', () => {
     const paramMap: Record<string, string> = {
       key: '123',
       entitytype: 'instructor',
-      instructorinstitution: 'National University of Singapore',
-      mac: 'ABC123',
     };
-    service.joinCourse(paramMap.key, paramMap.entitytype, paramMap.instructorinstitution, paramMap.mac);
+    service.joinCourse(paramMap.key, paramMap.entitytype);
     expect(spyHttpRequestService.put).toHaveBeenCalledWith(ResourceEndpoints.JOIN, paramMap);
   });
 
