@@ -216,11 +216,21 @@ describe('CopyQuestionsFromOtherSessionsModalComponent', () => {
       .toBe(testFeedbackQuestion2.feedbackQuestionId);
   });
 
-  it('should get selected questions', () => {
-    const feedbackQuestions: FeedbackQuestions = {
-      questions: [testFeedbackQuestion1, testFeedbackQuestion2],
-    };
-    spyOn(feedbackQuestionsService, 'getFeedbackQuestions').and.returnValue(of(feedbackQuestions));
+  it('should not allow copying when no questions are selected', () => {
+    testFeedbackSessionTabModel1.questionsTableRowModels = [testQuestionToCopyCandidate1, testQuestionToCopyCandidate2];
+    testFeedbackSessionTabModel2.questionsTableRowModels = [testQuestionToCopyCandidate3];
+    component.feedbackSessionTabModels = [testFeedbackSessionTabModel1, testFeedbackSessionTabModel2];
+    fixture.detectChanges();
+
+    const questions: FeedbackQuestion[] = component.getSelectedQuestions();
+    const button: any = fixture.debugElement.nativeElement.querySelector('#btn-confirm-copy-question');
+
+    expect(component.hasAnyQuestionsToCopySelected).toBeFalsy();
+    expect(questions.length).toBe(0);
+    expect(button.disabled).toBeTruthy();
+  });
+
+  it('should copy selected questions', () => {
     testQuestionToCopyCandidate1.isSelected = true;
     testQuestionToCopyCandidate2.isSelected = true;
     testQuestionToCopyCandidate3.isSelected = true;
@@ -229,12 +239,19 @@ describe('CopyQuestionsFromOtherSessionsModalComponent', () => {
     component.feedbackSessionTabModels = [testFeedbackSessionTabModel1, testFeedbackSessionTabModel2];
     fixture.detectChanges();
 
-    const questions: FeedbackQuestion[] = component.getSelectedQuestions();
+    spyOn(component.activeModal, 'close').and.callFake((questions: FeedbackQuestion[]) => {
+      expect(questions.length).toBe(3);
+      expect(questions[0].feedbackQuestionId).toBe(testFeedbackQuestion1.feedbackQuestionId);
+      expect(questions[1].feedbackQuestionId).toBe(testFeedbackQuestion2.feedbackQuestionId);
+      expect(questions[2].feedbackQuestionId).toBe(testFeedbackQuestion3.feedbackQuestionId);
+    })
+
+    const button: any = fixture.debugElement.nativeElement.querySelector('#btn-confirm-copy-question');
 
     expect(component.hasAnyQuestionsToCopySelected).toBeTruthy();
-    expect(questions.length).toBe(3);
-    expect(questions[0].feedbackQuestionId).toBe(testFeedbackQuestion1.feedbackQuestionId);
-    expect(questions[1].feedbackQuestionId).toBe(testFeedbackQuestion2.feedbackQuestionId);
-    expect(questions[2].feedbackQuestionId).toBe(testFeedbackQuestion3.feedbackQuestionId);
+    expect(button.disabled).toBeFalsy();
+
+    button.click();
+    expect(component.activeModal.close).toHaveBeenCalledTimes(1);
   });
 });

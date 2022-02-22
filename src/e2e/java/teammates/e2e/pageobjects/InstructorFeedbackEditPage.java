@@ -495,6 +495,10 @@ public class InstructorFeedbackEditPage extends AppPage {
             WebElement cardHeader = card.findElement(By.className("card-header"));
             if (cardHeader.getText().startsWith("[" + courseId + "]")) {
                 click(cardHeader);
+                WebElement cardBody = waitForElementPresence(By.className("card-body"));
+                // Reload questions
+                WebElement reloadBtn = cardBody.findElement(By.tagName("button"));
+                click(reloadBtn);
                 WebElement table = waitForElementPresence(By.id("copy-question-table"));
                 List<WebElement> rows = table.findElements(By.cssSelector("tbody tr"));
                 for (WebElement row : rows) {
