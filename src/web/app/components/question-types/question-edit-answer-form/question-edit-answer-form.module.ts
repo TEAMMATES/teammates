@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RichTextEditorModule } from '../../rich-text-editor/rich-text-editor.module';
 import { TeammatesCommonModule } from '../../teammates-common/teammates-common.module';
+import { WheelDisablerModule } from '../../wheel-disabler/wheel-disabler.module';
 import { ConstsumOptionsQuestionEditAnswerFormComponent } from './constsum-options-question-edit-answer-form.component';
 import {
   ConstsumRecipientsQuestionEditAnswerFormComponent,
@@ -52,6 +53,7 @@ import { TextQuestionEditAnswerFormComponent } from './text-question-edit-answer
     FormsModule,
     RichTextEditorModule,
     TeammatesCommonModule,
+    WheelDisablerModule,
   ],
 })
 export class QuestionEditAnswerFormModule { }
