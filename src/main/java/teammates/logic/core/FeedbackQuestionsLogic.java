@@ -623,7 +623,7 @@ public final class FeedbackQuestionsLogic {
             if (generateOptionsFor == FeedbackParticipantType.STUDENTS_IN_SAME_SECTION) {
                 String courseId = feedbackQuestionAttributes.getCourseId();
                 StudentAttributes studentAttributes =
-                        studentsLogic.getStudentForEmail(emailOfEntityDoingQuestion, courseId);
+                        studentsLogic.getStudentForEmail(courseId, emailOfEntityDoingQuestion);
                 studentList = studentsLogic.getStudentsForSection(studentAttributes.getSection(), courseId);
             } else {
                 studentList = studentsLogic.getStudentsForCourse(feedbackQuestionAttributes.getCourseId());
@@ -647,7 +647,7 @@ public final class FeedbackQuestionsLogic {
                 if (generateOptionsFor == FeedbackParticipantType.TEAMS_IN_SAME_SECTION) {
                     String courseId = feedbackQuestionAttributes.getCourseId();
                     StudentAttributes studentAttributes =
-                            studentsLogic.getStudentForEmail(emailOfEntityDoingQuestion, courseId);
+                            studentsLogic.getStudentForEmail(courseId, emailOfEntityDoingQuestion);
                     teams = coursesLogic.getTeamsForSection(studentAttributes.getSection(), courseId);
                 } else {
                     teams = coursesLogic.getTeamsForCourse(feedbackQuestionAttributes.getCourseId());
