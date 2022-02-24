@@ -161,7 +161,8 @@
       "sentPublishedEmail": true,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "extendedDeadlines": {}
     }
   },
   "feedbackQuestions": {

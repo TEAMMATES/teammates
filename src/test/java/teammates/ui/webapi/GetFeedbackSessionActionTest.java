@@ -14,6 +14,10 @@ import teammates.ui.output.ResponseVisibleSetting;
 import teammates.ui.output.SessionVisibleSetting;
 import teammates.ui.request.Intent;
 
+import java.time.Instant;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * SUT: {@link GetFeedbackSessionAction}.
  */
@@ -91,6 +95,9 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         assertEquals(feedbackSessionAttributes.getCreatedTime().toEpochMilli(), response.getCreatedAtTimestamp());
         assertNull(response.getDeletedAtTimestamp());
+
+        assertEqualExtendedDeadlines(feedbackSessionAttributes.getExtendedDeadlines(), response.getExtendedDeadlines(),
+                timeZone);
     }
 
     @Override
@@ -241,5 +248,18 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
                 Const.ParamsNames.PREVIEWAS, previewPerson,
                 Const.ParamsNames.REGKEY, regKey,
         };
+    }
+
+    private void assertEqualExtendedDeadlines(Map<String, Instant> expectedExtendedDeadlineInstants,
+                                              Map<String, Long> actualExtendedDeadlines, String timeZone) {
+        Map<String, Long> expectedExtendedDeadlines = new HashMap<>();
+        expectedExtendedDeadlineInstants
+                .forEach((participantEmailAddress, extendedDeadlineInstant) -> {
+                    Long extendedDeadline = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                                    extendedDeadlineInstant, timeZone, true)
+                            .toEpochMilli();
+                    expectedExtendedDeadlines.put(participantEmailAddress, extendedDeadline);
+                });
+        assertEquals(expectedExtendedDeadlines, actualExtendedDeadlines);
     }
 }

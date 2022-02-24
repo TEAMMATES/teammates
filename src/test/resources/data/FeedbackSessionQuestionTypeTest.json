@@ -391,7 +391,8 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "extendedDeadlines": {}
     },
     "msqSession": {
       "feedbackSessionName": "MSQ Session",
@@ -412,7 +413,8 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "extendedDeadlines": {}
     },
     "numscaleSession": {
       "feedbackSessionName": "NUMSCALE Session",
@@ -433,7 +435,8 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "extendedDeadlines": {}
     },
     "constSumSession": {
       "feedbackSessionName": "CONSTSUM Session",
@@ -454,7 +457,8 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "extendedDeadlines": {}
     },
     "contribSession": {
       "feedbackSessionName": "CONTRIB Session",
@@ -475,7 +479,8 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "extendedDeadlines": {}
     },
     "rubricSession": {
       "feedbackSessionName": "RUBRIC Session",
@@ -496,7 +501,8 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "extendedDeadlines": {}
     },
     "unregisteredStudentSession": {
       "feedbackSessionName": "Unregistered Student Session",
@@ -517,7 +523,8 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "extendedDeadlines": {}
     },
     "contribSessionStudentAnonymised": {
       "feedbackSessionName": "CONTRIB Session Student Anonymised",
@@ -538,7 +545,8 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "extendedDeadlines": {}
     },
     "contribSessionInstructorSectionRestricted": {
       "feedbackSessionName": "CONTRIB Session Section Restricted",
@@ -559,7 +567,8 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "extendedDeadlines": {}
     },
     "contribSession2": {
       "feedbackSessionName": "CONTRIB Session 2",
@@ -580,7 +589,8 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "extendedDeadlines": {}
     },
     "rankSession": {
       "feedbackSessionName": "RANK Session",
@@ -601,7 +611,8 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "extendedDeadlines": {}
     }
   },
   "feedbackQuestions": {
