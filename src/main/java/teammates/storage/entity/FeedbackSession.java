@@ -1,10 +1,12 @@
 package teammates.storage.entity;
 
 import java.time.Instant;
+import java.util.Map;
 
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
+import com.googlecode.objectify.annotation.Serialize;
 import com.googlecode.objectify.annotation.Translate;
 import com.googlecode.objectify.annotation.Unindex;
 
@@ -74,6 +76,9 @@ public class FeedbackSession extends BaseEntity {
 
     private boolean isPublishedEmailEnabled;
 
+    @Serialize
+    private Map<String, Instant> extendedDeadlines;
+
     @SuppressWarnings("unused")
     private FeedbackSession() {
         // required by Objectify
@@ -84,7 +89,7 @@ public class FeedbackSession extends BaseEntity {
             Instant sessionVisibleFromTime, Instant resultsVisibleFromTime, String timeZone, long gracePeriod,
             boolean sentOpeningSoonEmail, boolean sentOpenEmail, boolean sentClosingEmail,
             boolean sentClosedEmail, boolean sentPublishedEmail, boolean isOpeningEmailEnabled,
-            boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled) {
+            boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled, Map<String, Instant> extendedDeadlines) {
         this.feedbackSessionName = feedbackSessionName;
         this.courseId = courseId;
         this.creatorEmail = creatorEmail;
@@ -105,6 +110,7 @@ public class FeedbackSession extends BaseEntity {
         this.isOpeningEmailEnabled = isOpeningEmailEnabled;
         this.isClosingEmailEnabled = isClosingEmailEnabled;
         this.isPublishedEmailEnabled = isPublishedEmailEnabled;
+        this.extendedDeadlines = extendedDeadlines;
         this.feedbackSessionId = generateId(this.feedbackSessionName, this.courseId);
     }
 
@@ -274,6 +280,14 @@ public class FeedbackSession extends BaseEntity {
 
     public void setSendPublishedEmail(boolean isPublishedEmailEnabled) {
         this.isPublishedEmailEnabled = isPublishedEmailEnabled;
+    }
+
+    public Map<String, Instant> getExtendedDeadlines() {
+        return extendedDeadlines;
+    }
+
+    public void setExtendedDeadlines(Map<String, Instant> extendedDeadlines) {
+        this.extendedDeadlines = extendedDeadlines;
     }
 
     @Override
