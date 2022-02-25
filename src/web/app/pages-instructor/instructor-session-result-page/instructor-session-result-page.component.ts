@@ -16,21 +16,20 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
 import { TimezoneService } from '../../../services/timezone.service';
-import
-  {
-    CourseSectionNames,
-    FeedbackQuestion,
-    FeedbackQuestions,
-    FeedbackSession,
-    FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus,
-    FeedbackSessionSubmittedGiverSet,
-    Instructor,
-    QuestionOutput,
-    ResponseOutput, ResponseVisibleSetting,
-    SessionResults, SessionVisibleSetting,
-    Student,
-    Students
-  } from '../../../types/api-output';
+import {
+  CourseSectionNames,
+  FeedbackQuestion,
+  FeedbackQuestions,
+  FeedbackSession,
+  FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus,
+  FeedbackSessionSubmittedGiverSet,
+  Instructor,
+  QuestionOutput,
+  ResponseOutput, ResponseVisibleSetting,
+  SessionResults, SessionVisibleSetting,
+  Student,
+  Students,
+} from '../../../types/api-output';
 import { Intent } from '../../../types/api-request';
 import { CommentToCommentRowModelPipe } from '../../components/comment-box/comment-to-comment-row-model.pipe';
 import { CommentsToCommentTableModelPipe } from '../../components/comment-box/comments-to-comment-table-model.pipe';
