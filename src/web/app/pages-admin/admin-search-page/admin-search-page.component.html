@@ -238,10 +238,10 @@
             <td>{{ accountRequest.email }}</td>
             <td>{{ accountRequest.institute }}</td>
             <td>{{ accountRequest.createdAtText }}</td>
-            <td>{{ accountRequest.registeredAtText }}</td>
+            <td>{{ accountRequest.registeredAtText || 'Not Registered Yet' }}</td>
             <td>
-              <div class="ngb-tooltip-class" [ngbTooltip]="accountRequest.hasRegistered && 'Account requests of registered instructors cannot be deleted'">
-                <button id="delete-account-request-{{i}}" class="btn btn-danger" [disabled]="accountRequest.hasRegistered" (click)="$event.stopPropagation(); deleteAccountRequest(accountRequest);">Delete</button>
+              <div class="ngb-tooltip-class" [ngbTooltip]="accountRequest.registeredAtText && 'Account requests of registered instructors cannot be deleted'">
+                <button id="delete-account-request-{{i}}" class="btn btn-danger" [disabled]="accountRequest.registeredAtText" (click)="$event.stopPropagation(); deleteAccountRequest(accountRequest);">Delete</button>
               </div>
             </td>
           </tr>

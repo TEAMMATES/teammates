@@ -248,9 +248,11 @@ export class AdminSearchPageComponent {
   }
 
   deleteAccountRequest(accountRequest: AccountRequestSearchResult): void {
-    const modalContent: string = `Are you sure you want to delete the account request for <strong>${ accountRequest.name }</strong> with email <strong>${ accountRequest.email }</strong> from <strong>${ accountRequest.institute }</strong>?`;
+    const modalContent: string = `Are you sure you want to delete the account request for
+        <strong>${accountRequest.name}</strong> with email <strong>${accountRequest.email}</strong> from
+        <strong>${accountRequest.institute}</strong>?`;
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        `Delete account request for <strong>${ accountRequest.name }</strong>?`, SimpleModalType.WARNING, modalContent);
+        `Delete account request for <strong>${accountRequest.name}</strong>?`, SimpleModalType.WARNING, modalContent);
 
     modalRef.result.then(() => {
       this.accountService.deleteAccountRequest(accountRequest.email, accountRequest.institute)

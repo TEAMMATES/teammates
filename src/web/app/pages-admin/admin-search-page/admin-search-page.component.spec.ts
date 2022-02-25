@@ -70,9 +70,8 @@ const DEFAULT_ACCOUNT_REQUEST_SEARCH_RESULT: AccountRequestSearchResult = {
   institute: 'institute',
   registrationLink: 'registrationLink',
   createdAtText: 'Tue, 08 Feb 2022, 08:23 AM +00:00',
-  registeredAtText: 'Not Registered Yet',
+  registeredAtText: null,
   showLinks: false,
-  hasRegistered: false,
 };
 
 describe('AdminSearchPageComponent', () => {
@@ -187,9 +186,8 @@ describe('AdminSearchPageComponent', () => {
         institute: 'institute',
         registrationLink: 'registrationLink',
         createdAtText: 'Tue, 08 Feb 2022, 08:23 AM +00:00',
-        registeredAtText: 'Not Registered Yet',
+        registeredAtText: null,
         showLinks: true,
-        hasRegistered: false,
       },
     ];
 
@@ -354,9 +352,8 @@ describe('AdminSearchPageComponent', () => {
         institute: 'institute1',
         registrationLink: 'registrationLink1',
         createdAtText: 'Tue, 08 Feb 2022, 08:23 AM +00:00',
-        registeredAtText: 'Not Registered Yet',
+        registeredAtText: null,
         showLinks: true,
-        hasRegistered: false,
       }, {
         name: 'name2',
         email: 'email2',
@@ -365,7 +362,6 @@ describe('AdminSearchPageComponent', () => {
         createdAtText: 'Tue, 08 Feb 2022, 08:23 AM +00:00',
         registeredAtText: 'Wed, 09 Feb 2022, 10:23 AM +00:00',
         showLinks: true,
-        hasRegistered: true,
       }];
 
     jest.spyOn(searchService, 'searchAdmin').mockReturnValue(of({

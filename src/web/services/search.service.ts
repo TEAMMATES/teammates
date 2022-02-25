@@ -294,19 +294,13 @@ export class SearchService {
       registeredAtText: '',
       registrationLink: '',
       showLinks: false,
-      hasRegistered: false,
     };
 
     const { registrationKey, createdAt, registeredAt, name, institute, email }: AccountRequest = accountRequest;
 
     const timezone: string = this.timezoneService.guessTimezone() || 'UTC';
     accountRequestResult.createdAtText = this.formatTimestampAsString(createdAt, timezone);
-    if (registeredAt) {
-      accountRequestResult.registeredAtText = this.formatTimestampAsString(registeredAt, timezone);
-      accountRequestResult.hasRegistered = true;
-    } else {
-      accountRequestResult.registeredAtText = 'Not Registered Yet';
-    }
+    accountRequestResult.registeredAtText = registeredAt ? this.formatTimestampAsString(registeredAt, timezone) : null;
 
     const registrationLink: string = this.linkService.generateAccountRegistrationLink(registrationKey);
     accountRequestResult = { ...accountRequestResult, name, email, institute, registrationLink };
@@ -462,10 +456,9 @@ export interface AccountRequestSearchResult {
   email: string;
   institute: string;
   createdAtText: string;
-  registeredAtText: string;
+  registeredAtText: string | null;
   registrationLink: string;
   showLinks: boolean;
-  hasRegistered: boolean;
 }
 
 /**
