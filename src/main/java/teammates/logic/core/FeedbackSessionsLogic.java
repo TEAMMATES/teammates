@@ -49,6 +49,7 @@ public final class FeedbackSessionsLogic {
     private FeedbackResponseCommentsLogic frcLogic;
     private InstructorsLogic instructorsLogic;
     private StudentsLogic studentsLogic;
+    private DeadlineExtensionsLogic deadlineExtensionsLogic;
 
     private FeedbackSessionsLogic() {
         // prevent initialization
@@ -65,6 +66,7 @@ public final class FeedbackSessionsLogic {
         frcLogic = FeedbackResponseCommentsLogic.inst();
         instructorsLogic = InstructorsLogic.inst();
         studentsLogic = StudentsLogic.inst();
+        deadlineExtensionsLogic = DeadlineExtensionsLogic.inst();
     }
 
     /**
@@ -446,7 +448,7 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
-     * Deletes a feedback session cascade to its associated questions, responses and comments.
+     * Deletes a feedback session cascade to its associated questions, responses, deadline extensions and comments.
      */
     public void deleteFeedbackSessionCascade(String feedbackSessionName, String courseId) {
         AttributesDeletionQuery query = AttributesDeletionQuery.builder()
@@ -456,6 +458,7 @@ public final class FeedbackSessionsLogic {
         frcLogic.deleteFeedbackResponseComments(query);
         frLogic.deleteFeedbackResponses(query);
         fqLogic.deleteFeedbackQuestions(query);
+        deadlineExtensionsLogic.deleteDeadlineExtensions(query);
 
         fsDb.deleteFeedbackSession(feedbackSessionName, courseId);
     }

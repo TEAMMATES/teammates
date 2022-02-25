@@ -4,6 +4,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.DeadlineExtensionAttributes;
 import teammates.common.datatransfer.attributes.EntityAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -77,6 +78,9 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
 
         } else if (expected instanceof AccountRequestAttributes) {
             return getAccountRequest((AccountRequestAttributes) expected);
+
+        } else if (expected instanceof DeadlineExtensionAttributes) {
+            return getDeadlineExtension((DeadlineExtensionAttributes) expected);
 
         } else {
             throw new RuntimeException("Unknown entity type!");
@@ -156,6 +160,12 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
             AccountRequestAttributes actualAccountRequest = (AccountRequestAttributes) actual;
             assertEquals(JsonUtils.toJson(expectedAccountRequest), JsonUtils.toJson(actualAccountRequest));
 
+        } else if (expected instanceof DeadlineExtensionAttributes) {
+            DeadlineExtensionAttributes expectedDeadlineExtension = (DeadlineExtensionAttributes) expected;
+            DeadlineExtensionAttributes actualDeadlineExtension = (DeadlineExtensionAttributes) actual;
+            equalizeIrrelevantData(expectedDeadlineExtension, actualDeadlineExtension);
+            assertEquals(JsonUtils.toJson(expectedDeadlineExtension), JsonUtils.toJson(actualDeadlineExtension));
+
         } else {
             throw new RuntimeException("Unknown entity type!");
         }
@@ -216,6 +226,12 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
         }
     }
 
+    private void equalizeIrrelevantData(DeadlineExtensionAttributes expected, DeadlineExtensionAttributes actual) {
+        // Ignore time field as it is stamped at the time of creation in testing
+        expected.setCreatedAt(actual.getCreatedAt());
+        expected.setUpdatedAt(actual.getUpdatedAt());
+    }
+
     protected abstract StudentProfileAttributes getStudentProfile(StudentProfileAttributes studentProfileAttributes);
 
     protected abstract CourseAttributes getCourse(CourseAttributes course);
@@ -233,6 +249,8 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
     protected abstract StudentAttributes getStudent(StudentAttributes student);
 
     protected abstract AccountRequestAttributes getAccountRequest(AccountRequestAttributes accountRequest);
+
+    protected abstract DeadlineExtensionAttributes getDeadlineExtension(DeadlineExtensionAttributes accountRequest);
 
     protected void removeAndRestoreDataBundle(DataBundle testData) {
         int retryLimit = OPERATION_RETRY_COUNT;

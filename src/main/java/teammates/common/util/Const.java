@@ -113,6 +113,7 @@ public final class Const {
         public static final String INSTRUCTOR_EMAIL = "instructoremail";
         public static final String INSTRUCTOR_INSTITUTION = "instructorinstitution";
         public static final String IS_CREATING_ACCOUNT = "iscreatingaccount";
+        public static final String IS_INSTRUCTOR = "isinstructor";
 
         public static final String FEEDBACK_SESSION_NAME = "fsname";
         public static final String FEEDBACK_SESSION_STARTTIME = "starttime";
@@ -150,6 +151,7 @@ public final class Const {
         public static final String USER_CAPTCHA_RESPONSE = "captcharesponse";
 
         public static final String EMAIL_TYPE = "emailtype";
+        public static final String USER_EMAIL = "useremail";
 
         public static final String ENTITY_TYPE = "entitytype";
 
@@ -295,6 +297,7 @@ public final class Const {
 
         public static final String DATABUNDLE = URI_PREFIX + "/databundle";
         public static final String DATABUNDLE_DOCUMENTS = URI_PREFIX + "/databundle/documents";
+        public static final String DEADLINE_EXTENSION = URI_PREFIX + "/deadline";
         public static final String EXCEPTION = URI_PREFIX + "/exception";
         public static final String ERROR_REPORT = URI_PREFIX + "/errorreport";
         public static final String AUTH = URI_PREFIX + "/auth";

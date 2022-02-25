@@ -13,6 +13,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.DeadlineExtensionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
@@ -311,6 +312,13 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
     @Override
     protected AccountRequestAttributes getAccountRequest(AccountRequestAttributes accountRequest) {
         return BACKDOOR.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
+    }
+
+    @Override
+    protected DeadlineExtensionAttributes getDeadlineExtension(DeadlineExtensionAttributes deadlineExtension) {
+        return BACKDOOR.getDeadlineExtension(
+                deadlineExtension.getCourseId(), deadlineExtension.getFeedbackSessionName(),
+                deadlineExtension.getUserEmail(), deadlineExtension.getIsInstructor());
     }
 
     @Override
