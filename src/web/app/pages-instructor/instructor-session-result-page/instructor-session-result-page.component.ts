@@ -16,20 +16,21 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
 import { TimezoneService } from '../../../services/timezone.service';
-import {
-  CourseSectionNames,
-  FeedbackQuestion,
-  FeedbackQuestions,
-  FeedbackSession,
-  FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus,
-  FeedbackSessionSubmittedGiverSet,
-  Instructor,
-  QuestionOutput,
-  ResponseOutput, ResponseVisibleSetting,
-  SessionResults, SessionVisibleSetting,
-  Student,
-  Students,
-} from '../../../types/api-output';
+import
+  {
+    CourseSectionNames,
+    FeedbackQuestion,
+    FeedbackQuestions,
+    FeedbackSession,
+    FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus,
+    FeedbackSessionSubmittedGiverSet,
+    Instructor,
+    QuestionOutput,
+    ResponseOutput, ResponseVisibleSetting,
+    SessionResults, SessionVisibleSetting,
+    Student,
+    Students
+  } from '../../../types/api-output';
 import { Intent } from '../../../types/api-request';
 import { CommentToCommentRowModelPipe } from '../../components/comment-box/comment-to-comment-row-model.pipe';
 import { CommentsToCommentTableModelPipe } from '../../components/comment-box/comments-to-comment-table-model.pipe';
@@ -101,6 +102,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
   questionsModel: Record<string, QuestionTabModel> = {};
   isQuestionsLoaded: boolean = false;
   hasQuestionsLoadingFailed: boolean = false;
+  isNoStudentsLoaded: boolean = false;
 
   isFeedbackSessionLoading: boolean = false;
   hasFeedbackSessionLoadingFailed: boolean = false;
@@ -270,6 +272,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
       // TODO team is missing
       this.noResponseStudents = this.allStudentsInCourse.filter((student: Student) =>
         !feedbackSessionSubmittedGiverSet.giverIdentifiers.includes(student.email));
+      this.isNoStudentsLoaded = true;
     }, (resp: ErrorMessageOutput) => {
       this.hasNoResponseLoadingFailed = true;
       this.statusMessageService.showErrorToast(resp.error.message);

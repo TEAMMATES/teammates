@@ -110,6 +110,7 @@
     <tm-instructor-session-no-response-panel [allStudents]="allStudentsInCourse"
                                              [noResponseStudents]="noResponseStudents"
                                              [section]="section" [session]="session"
+                                             [isNoStudentsLoaded]="isNoStudentsLoaded"
                                              (studentsToRemindEvent)="sendReminderToStudents($event)" ></tm-instructor-session-no-response-panel>
   </div>
 </tm-loading-retry>
