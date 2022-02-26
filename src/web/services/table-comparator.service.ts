@@ -1,12 +1,12 @@
-import { Injectable } from '@angular/core';
-import moment from 'moment-timezone';
-import { SortBy, SortOrder } from '../types/sort-properties';
+import { Injectable } from "@angular/core";
+import moment from "moment-timezone";
+import { SortBy, SortOrder } from "../types/sort-properties";
 
 /**
  * Handles comparison logic between sortable table elements
  */
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class TableComparatorService {
 

@@ -16,7 +16,6 @@ import { DatePickerFormatter } from '../datepicker/datepicker-formatter';
 import { DateFormat } from '../datepicker/datepicker.component';
 import { SimpleModalType } from '../simple-modal/simple-modal-type';
 import { collapseAnim } from '../teammates-common/collapse-anim';
-import { DeadlineModalComponent } from './deadline-modal/deadline-modal.component';
 import { SessionEditFormMode, SessionEditFormModel } from './session-edit-form-model';
 
 /**
