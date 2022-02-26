@@ -134,7 +134,8 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 AccountRequestSearchIndexingWorkerAction.class,
                 SearchAccountRequestsAction.class,
                 GetDeadlineExtensionAction.class,
-                DeleteDeadlineExtensionAction.class
+                DeleteDeadlineExtensionAction.class,
+                DeadlineExtensionsWorkerAction.class
         );
         List<String> expectedActionClassesNames = expectedActionClasses.stream()
                 .map(Class::getSimpleName)
