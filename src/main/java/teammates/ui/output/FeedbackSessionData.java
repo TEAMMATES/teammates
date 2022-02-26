@@ -126,6 +126,28 @@ public class FeedbackSessionData extends ApiOutput {
         });
     }
 
+    public FeedbackSessionData(FeedbackSessionAttributes feedbackSessionAttributes, String participantEmailAddress) {
+        this(feedbackSessionAttributes);
+
+        if (feedbackSessionAttributes.isOpenForParticipant(participantEmailAddress)) {
+            this.submissionStatus = FeedbackSessionSubmissionStatus.OPEN;
+        }
+        if (feedbackSessionAttributes.isInGracePeriodForParticipant(participantEmailAddress)) {
+            this.submissionStatus = FeedbackSessionSubmissionStatus.GRACE_PERIOD;
+        }
+        if (feedbackSessionAttributes.isClosedForParticipant(participantEmailAddress)) {
+            this.submissionStatus = FeedbackSessionSubmissionStatus.CLOSED;
+        }
+
+        this.extendedDeadlines = new HashMap<>();
+        Map<String, Instant> extendedDeadlineInstants = feedbackSessionAttributes.getExtendedDeadlines();
+        if (extendedDeadlineInstants.containsKey(participantEmailAddress)) {
+            long extendedDeadline = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                    extendedDeadlineInstants.get(participantEmailAddress), timeZone, true).toEpochMilli();
+            this.extendedDeadlines.put(participantEmailAddress, extendedDeadline);
+        }
+    }
+
     public String getCourseId() {
         return courseId;
     }

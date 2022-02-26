@@ -275,6 +275,58 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     }
 
     /**
+     * Checks if the feedback session is closed for the given participant.
+     * This occurs when the current time is after both the deadline and the grace period. The deadline depends on
+     * whether the given participant has an extension or not.
+     *
+     * @param participantEmailAddress The email address of the given participant.
+     * @return Whether the feedback session is closed for the given participant.
+     */
+    public boolean isClosedForParticipant(String participantEmailAddress) {
+        if (!extendedDeadlines.containsKey(participantEmailAddress)) {
+            return isClosed();
+        }
+        Instant extendedDeadline = extendedDeadlines.get(participantEmailAddress);
+        return Instant.now().isAfter(extendedDeadline.plus(gracePeriod));
+    }
+
+    /**
+     * Checks if the feedback session is open for the given participant.
+     * This occurs when the current time is either the start time or later but before the deadline. The deadline depends
+     * on whether the given participant has an extension or not.
+     *
+     * @param participantEmailAddress The email address of the given participant.
+     * @return Whether the feedback session is open for the given participant.
+     */
+    public boolean isOpenForParticipant(String participantEmailAddress) {
+        if (!extendedDeadlines.containsKey(participantEmailAddress)) {
+            return isOpened();
+        }
+        Instant now = Instant.now();
+        Instant extendedDeadline = extendedDeadlines.get(participantEmailAddress);
+        return (now.isAfter(startTime) || now.equals(startTime)) && now.isBefore(extendedDeadline);
+    }
+
+    /**
+     * Checks if the feedback session is closed but still accepts responses for the given participant.
+     * This occurs when the current time is either the deadline or later but within the grace period. The deadline
+     * depends on whether the given participant has an extension or not.
+     *
+     * @param participantEmailAddress The email address of the given participant.
+     * @return Whether the feedback session is closed but still accepts responses for the given participant.
+     */
+    public boolean isInGracePeriodForParticipant(String participantEmailAddress) {
+        if (!extendedDeadlines.containsKey(participantEmailAddress)) {
+            return isInGracePeriod();
+        }
+        Instant now = Instant.now();
+        Instant extendedDeadline = extendedDeadlines.get(participantEmailAddress);
+        Instant gracedEnd = extendedDeadline.plus(gracePeriod);
+        return (now.isAfter(extendedDeadline) || now.equals(extendedDeadline))
+                && (now.isBefore(gracedEnd) || now.equals(gracedEnd));
+    }
+
+    /**
      * Returns {@code true} has not opened before and is waiting to open,
      * {@code false} if session has opened before.
      */
