@@ -1,6 +1,8 @@
 package teammates.ui.output;
 
 import java.time.Instant;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.annotation.Nullable;
 
@@ -45,6 +47,8 @@ public class FeedbackSessionData extends ApiOutput {
     private final Long deletedAtTimestamp;
     @Nullable
     private InstructorPermissionSet privileges;
+
+    private Map<String, Long> extendedDeadlines;
 
     public FeedbackSessionData(FeedbackSessionAttributes feedbackSessionAttributes) {
         String timeZone = feedbackSessionAttributes.getTimeZone();
@@ -111,6 +115,15 @@ public class FeedbackSessionData extends ApiOutput {
         } else {
             this.deletedAtTimestamp = feedbackSessionAttributes.getDeletedTime().toEpochMilli();
         }
+
+        this.extendedDeadlines = new HashMap<>();
+        feedbackSessionAttributes.getExtendedDeadlines()
+                .forEach((email, extendedDeadlineInstant) -> {
+            long extendedDeadline = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                    extendedDeadlineInstant, timeZone, true)
+                    .toEpochMilli();
+            this.extendedDeadlines.put(email, extendedDeadline);
+        });
     }
 
     public String getCourseId() {
@@ -181,6 +194,10 @@ public class FeedbackSessionData extends ApiOutput {
         return isPublishedEmailEnabled;
     }
 
+    public Map<String, Long> getExtendedDeadlines() {
+        return extendedDeadlines;
+    }
+
     public void setSessionVisibleFromTimestamp(Long sessionVisibleFromTimestamp) {
         this.sessionVisibleFromTimestamp = sessionVisibleFromTimestamp;
     }
@@ -239,6 +256,10 @@ public class FeedbackSessionData extends ApiOutput {
 
     public void setPrivileges(InstructorPermissionSet privileges) {
         this.privileges = privileges;
+    }
+
+    public void setExtendedDeadlines(Map<String, Long> extendedDeadlines) {
+        this.extendedDeadlines = extendedDeadlines;
     }
 
     /**
