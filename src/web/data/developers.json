@@ -606,11 +606,6 @@
       "username": "FritzJo"
     },
     {
-      "multiple": true,
-      "name": "Howard Liu",
-      "username": "fsgmhoward"
-    },
-    {
       "name": "Gable Heng",
       "username": "gableh"
     },
@@ -720,6 +715,11 @@
     {
       "multiple": true,
       "name": "Hou Guochen"
+    },
+    {
+      "multiple": true,
+      "name": "Howard Liu",
+      "username": "fsgmhoward"
     },
     {
       "username": "hppranaav"
@@ -1006,6 +1006,10 @@
       "multiple": true,
       "name": "Le Viet Tien",
       "username": "lvtiendev"
+    },
+    {
+      "name": "Martin Larsson",
+      "username": "leddy231"
     },
     {
       "multiple": true,
