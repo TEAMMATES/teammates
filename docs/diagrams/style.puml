@@ -68,7 +68,6 @@ skinparam MinClassWidth 50
 skinparam ParticipantPadding 10
 skinparam Shadowing false
 skinparam DefaultTextAlignment center
-skinparam packageStyle Rectangle
 
 hide footbox
 hide members
