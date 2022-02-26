@@ -4,6 +4,8 @@ skinparam componentBackgroundColor MODEL_COLOR_T1
 skinparam componentFontColor #FFFFFF
 skinparam packageBackgroundColor #FFFFFF
 skinparam rectangleBackgroundColor MODEL_COLOR
+skinparam collectionsBackgroundColor MODEL_COLOR
+skinparam collectionsBorderColor #000000
 skinparam rectangleFontColor #FFFFFF
 skinparam arrowColor #000000
 
@@ -11,6 +13,7 @@ skinparam arrowColor #000000
 component Storage {
     package "storage::entity" as Entity {
         rectangle Account
+        rectangle AccountRequest
         rectangle CourseStudent
         rectangle Instructor
         rectangle StudentProfile
@@ -26,14 +29,14 @@ component Storage {
         rectangle CoursesDb
         rectangle InstructorsDb
         rectangle StudentsDb
-        rectangle "*Db" as Db
+        rectangle " *Db" as Db
     }
 
     package "storage::search" as Search {
         rectangle "SearchQuery" as SQ1
         rectangle "SearchDocument" as SD1
-        collections "*SearchQuery" as SQ2
-        collections "*SearchDocument" as SD2
+        collections " *SearchQuery" as SQ2
+        collections " *SearchDocument" as SD2
         rectangle SearchManager
     }
 }
