@@ -131,6 +131,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
     isClosingEmailEnabled: true,
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
+    extendedDeadlines: {},
   };
 
   @ViewChild(InstructorSessionNoResponsePanelComponent) noResponsePanel?:

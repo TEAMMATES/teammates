@@ -67,6 +67,7 @@ const testFeedbackSession1: FeedbackSession = {
   isClosingEmailEnabled: true,
   isPublishedEmailEnabled: true,
   createdAtTimestamp: 0,
+  extendedDeadlines: {},
 };
 
 const testFeedbackSession2: FeedbackSession = {
@@ -84,6 +85,7 @@ const testFeedbackSession2: FeedbackSession = {
   isClosingEmailEnabled: true,
   isPublishedEmailEnabled: true,
   createdAtTimestamp: 0,
+  extendedDeadlines: {},
 };
 
 const activeCourseTabModels: CourseTabModel[] = [

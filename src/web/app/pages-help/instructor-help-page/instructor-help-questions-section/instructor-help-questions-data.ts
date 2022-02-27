@@ -531,6 +531,7 @@ export const EXAMPLE_FEEDBACK_SESSION: FeedbackSession = {
   isClosingEmailEnabled: true,
   isPublishedEmailEnabled: true,
   createdAtTimestamp: 0,
+  extendedDeadlines: {},
 };
 /**
  * Structure for example of distrution point option question detail

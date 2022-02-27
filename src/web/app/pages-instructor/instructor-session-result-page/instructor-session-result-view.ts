@@ -37,6 +37,7 @@ export abstract class InstructorSessionResultView {
     isClosingEmailEnabled: true,
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
+    extendedDeadlines: {},
   };
   @Input() instructorCommentTableModel: Record<string, CommentTableModel> = {};
 

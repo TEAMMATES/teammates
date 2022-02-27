@@ -59,6 +59,7 @@ describe('CopySessionModalComponent', () => {
     isClosingEmailEnabled: true,
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 1554967204,
+    extendedDeadlines: {},
   };
 
   const courseSessionIn: Course = {

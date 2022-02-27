@@ -117,6 +117,7 @@ describe('InstructorAuditLogsPageComponent', () => {
     isClosingEmailEnabled: true,
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
+    extendedDeadlines: {},
   };
   const testLogs1: FeedbackSessionLog = {
     feedbackSessionData: testFeedbackSession,

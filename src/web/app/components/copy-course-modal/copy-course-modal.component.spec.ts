@@ -108,6 +108,7 @@ describe('CopyCourseModalComponent', () => {
       isClosingEmailEnabled: true,
       isPublishedEmailEnabled: true,
       createdAtTimestamp: 0,
+      extendedDeadlines: {},
     };
     component.selectedFeedbackSessions.add(testFeedbackSession);
     fixture.detectChanges();

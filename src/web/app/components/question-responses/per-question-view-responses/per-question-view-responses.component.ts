@@ -48,6 +48,7 @@ export class PerQuestionViewResponsesComponent extends InstructorResponsesViewBa
     isClosingEmailEnabled: true,
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
+    extendedDeadlines: {},
   };
   @Input() isDisplayOnly: boolean = false;
   @Input() statistics: string = '';

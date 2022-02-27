@@ -218,6 +218,7 @@ const studentFeedbackSessions: FeedbackSessions = {
       isClosingEmailEnabled: true,
       isPublishedEmailEnabled: true,
       createdAtTimestamp: 0,
+      extendedDeadlines: {},
     },
     {
       feedbackSessionName: 'Orientation Session',
@@ -234,6 +235,7 @@ const studentFeedbackSessions: FeedbackSessions = {
       isClosingEmailEnabled: true,
       isPublishedEmailEnabled: true,
       createdAtTimestamp: 0,
+      extendedDeadlines: {},
     },
     {
       feedbackSessionName: 'Welcome Tea Session',
@@ -250,6 +252,7 @@ const studentFeedbackSessions: FeedbackSessions = {
       isClosingEmailEnabled: true,
       isPublishedEmailEnabled: true,
       createdAtTimestamp: 0,
+      extendedDeadlines: {},
     },
   ],
 };
@@ -310,6 +313,7 @@ describe('StudentHomePageComponent', () => {
           isClosingEmailEnabled: true,
           isPublishedEmailEnabled: true,
           createdAtTimestamp: 0,
+          extendedDeadlines: {},
         },
         {
           feedbackSessionName: 'Second Session',
@@ -326,6 +330,7 @@ describe('StudentHomePageComponent', () => {
           isClosingEmailEnabled: true,
           isPublishedEmailEnabled: true,
           createdAtTimestamp: 0,
+          extendedDeadlines: {},
         },
       ],
     };
@@ -366,6 +371,7 @@ describe('StudentHomePageComponent', () => {
           isClosingEmailEnabled: true,
           isPublishedEmailEnabled: true,
           createdAtTimestamp: 0,
+          extendedDeadlines: {},
         },
         {
           feedbackSessionName: 'Second Session',
@@ -382,6 +388,7 @@ describe('StudentHomePageComponent', () => {
           isClosingEmailEnabled: true,
           isPublishedEmailEnabled: true,
           createdAtTimestamp: 0,
+          extendedDeadlines: {},
         },
       ],
     };

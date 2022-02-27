@@ -82,6 +82,7 @@ describe('InstructorSessionEditPageComponent', () => {
     isClosingEmailEnabled: true,
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
+    extendedDeadlines: {},
   };
 
   const testFeedbackQuestion1: FeedbackQuestion = {

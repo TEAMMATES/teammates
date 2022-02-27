@@ -105,6 +105,7 @@ describe('SessionSubmissionPageComponent', () => {
     isClosingEmailEnabled: true,
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
+    extendedDeadlines: {},
   };
 
   const testComment: FeedbackResponseComment = {
