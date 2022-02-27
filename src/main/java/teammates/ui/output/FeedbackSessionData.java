@@ -90,13 +90,13 @@ public class FeedbackSessionData extends ApiOutput {
         if (feedbackSessionAttributes.isVisible() && !feedbackSessionAttributes.isOpened()) {
             this.submissionStatus = FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN;
         }
-        if (feedbackSessionAttributes.isOpenForInstructor()) {
+        if (feedbackSessionAttributes.isOpened()) {
             this.submissionStatus = FeedbackSessionSubmissionStatus.OPEN;
         }
-        if (feedbackSessionAttributes.isInGracePeriodForInstructor()) {
+        if (feedbackSessionAttributes.isInGracePeriod()) {
             this.submissionStatus = FeedbackSessionSubmissionStatus.GRACE_PERIOD;
         }
-        if (feedbackSessionAttributes.isClosedForInstructor()) {
+        if (feedbackSessionAttributes.isClosed()) {
             this.submissionStatus = FeedbackSessionSubmissionStatus.CLOSED;
         }
 
@@ -117,35 +117,12 @@ public class FeedbackSessionData extends ApiOutput {
         }
 
         this.extendedDeadlines = new HashMap<>();
-        feedbackSessionAttributes.getExtendedDeadlines()
-                .forEach((email, extendedDeadlineInstant) -> {
+        feedbackSessionAttributes.getFilteredExtendedDeadlines().forEach((email, extendedDeadlineInstant) -> {
             long extendedDeadline = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
                     extendedDeadlineInstant, timeZone, true)
                     .toEpochMilli();
             this.extendedDeadlines.put(email, extendedDeadline);
         });
-    }
-
-    public FeedbackSessionData(FeedbackSessionAttributes feedbackSessionAttributes, String participantEmailAddress) {
-        this(feedbackSessionAttributes);
-
-        if (feedbackSessionAttributes.isOpenForParticipant(participantEmailAddress)) {
-            this.submissionStatus = FeedbackSessionSubmissionStatus.OPEN;
-        }
-        if (feedbackSessionAttributes.isInGracePeriodForParticipant(participantEmailAddress)) {
-            this.submissionStatus = FeedbackSessionSubmissionStatus.GRACE_PERIOD;
-        }
-        if (feedbackSessionAttributes.isClosedForParticipant(participantEmailAddress)) {
-            this.submissionStatus = FeedbackSessionSubmissionStatus.CLOSED;
-        }
-
-        this.extendedDeadlines = new HashMap<>();
-        Map<String, Instant> extendedDeadlineInstants = feedbackSessionAttributes.getExtendedDeadlines();
-        if (extendedDeadlineInstants.containsKey(participantEmailAddress)) {
-            long extendedDeadline = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
-                    extendedDeadlineInstants.get(participantEmailAddress), timeZone, true).toEpochMilli();
-            this.extendedDeadlines.put(participantEmailAddress, extendedDeadline);
-        }
     }
 
     public String getCourseId() {

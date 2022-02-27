@@ -58,18 +58,22 @@ class GetFeedbackSessionAction extends BasicFeedbackSubmissionAction {
         case STUDENT_RESULT:
             StudentAttributes studentAttributes = getStudentOfCourseFromRequest(courseId);
             String studentEmailAddress = studentAttributes.getEmail();
-            response = new FeedbackSessionData(feedbackSession, studentEmailAddress);
+            feedbackSession = feedbackSession.getCopyForParticipant(studentEmailAddress);
+            response = new FeedbackSessionData(feedbackSession);
             response.hideInformationForStudent();
             break;
         case INSTRUCTOR_SUBMISSION:
+            feedbackSession = feedbackSession.getCopyForInstructor();
             response = new FeedbackSessionData(feedbackSession);
             response.hideInformationForStudent();
             break;
         case INSTRUCTOR_RESULT:
+            feedbackSession = feedbackSession.getCopyForInstructor();
             response = new FeedbackSessionData(feedbackSession);
             response.hideInformationForInstructor();
             break;
         case FULL_DETAIL:
+            feedbackSession = feedbackSession.getCopyForInstructor();
             response = new FeedbackSessionData(feedbackSession);
             break;
         default:

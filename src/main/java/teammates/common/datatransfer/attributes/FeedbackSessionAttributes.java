@@ -2,7 +2,13 @@ package teammates.common.datatransfer.attributes;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
@@ -55,36 +61,37 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
 
     }
 
+    private FeedbackSessionAttributes(FeedbackSession feedbackSession) {
+        this(feedbackSession.getFeedbackSessionName(), feedbackSession.getCourseId());
+
+        this.creatorEmail = feedbackSession.getCreatorEmail();
+        if (feedbackSession.getInstructions() != null) {
+            this.instructions = feedbackSession.getInstructions();
+        }
+        this.createdTime = feedbackSession.getCreatedTime();
+        this.deletedTime = feedbackSession.getDeletedTime();
+        this.startTime = feedbackSession.getStartTime();
+        this.endTime = feedbackSession.getEndTime();
+        this.sessionVisibleFromTime = feedbackSession.getSessionVisibleFromTime();
+        this.resultsVisibleFromTime = feedbackSession.getResultsVisibleFromTime();
+        this.timeZone = feedbackSession.getTimeZone();
+        this.gracePeriod = Duration.ofMinutes(feedbackSession.getGracePeriod());
+        this.sentOpeningSoonEmail = feedbackSession.isSentOpeningSoonEmail();
+        this.sentOpenEmail = feedbackSession.isSentOpenEmail();
+        this.sentClosingEmail = feedbackSession.isSentClosingEmail();
+        this.sentClosedEmail = feedbackSession.isSentClosedEmail();
+        this.sentPublishedEmail = feedbackSession.isSentPublishedEmail();
+        this.isOpeningEmailEnabled = feedbackSession.isOpeningEmailEnabled();
+        this.isClosingEmailEnabled = feedbackSession.isClosingEmailEnabled();
+        this.isPublishedEmailEnabled = feedbackSession.isPublishedEmailEnabled();
+        this.extendedDeadlines = feedbackSession.getExtendedDeadlines();
+    }
+
     /**
      * Gets the {@link FeedbackSessionAttributes} instance of the given {@link FeedbackSession}.
      */
     public static FeedbackSessionAttributes valueOf(FeedbackSession fs) {
-        FeedbackSessionAttributes feedbackSessionAttributes =
-                new FeedbackSessionAttributes(fs.getFeedbackSessionName(), fs.getCourseId());
-
-        feedbackSessionAttributes.creatorEmail = fs.getCreatorEmail();
-        if (fs.getInstructions() != null) {
-            feedbackSessionAttributes.instructions = fs.getInstructions();
-        }
-        feedbackSessionAttributes.createdTime = fs.getCreatedTime();
-        feedbackSessionAttributes.deletedTime = fs.getDeletedTime();
-        feedbackSessionAttributes.startTime = fs.getStartTime();
-        feedbackSessionAttributes.endTime = fs.getEndTime();
-        feedbackSessionAttributes.sessionVisibleFromTime = fs.getSessionVisibleFromTime();
-        feedbackSessionAttributes.resultsVisibleFromTime = fs.getResultsVisibleFromTime();
-        feedbackSessionAttributes.timeZone = fs.getTimeZone();
-        feedbackSessionAttributes.gracePeriod = Duration.ofMinutes(fs.getGracePeriod());
-        feedbackSessionAttributes.sentOpeningSoonEmail = fs.isSentOpeningSoonEmail();
-        feedbackSessionAttributes.sentOpenEmail = fs.isSentOpenEmail();
-        feedbackSessionAttributes.sentClosingEmail = fs.isSentClosingEmail();
-        feedbackSessionAttributes.sentClosedEmail = fs.isSentClosedEmail();
-        feedbackSessionAttributes.sentPublishedEmail = fs.isSentPublishedEmail();
-        feedbackSessionAttributes.isOpeningEmailEnabled = fs.isOpeningEmailEnabled();
-        feedbackSessionAttributes.isClosingEmailEnabled = fs.isClosingEmailEnabled();
-        feedbackSessionAttributes.isPublishedEmailEnabled = fs.isPublishedEmailEnabled();
-        feedbackSessionAttributes.extendedDeadlines = fs.getExtendedDeadlines();
-
-        return feedbackSessionAttributes;
+        return new FeedbackSessionAttributes(fs);
     }
 
     /**
@@ -99,6 +106,25 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
      */
     public FeedbackSessionAttributes getCopy() {
         return valueOf(toEntity());
+    }
+
+    /**
+     * Creates a copy of this object for the given participant.
+     *
+     * @param participantEmailAddress The email address of the given participant.
+     * @return The copy of this object for the given participant.
+     */
+    public FeedbackSessionAttributes getCopyForParticipant(String participantEmailAddress) {
+        return new FeedbackSessionAttributesForParticipant(toEntity(), participantEmailAddress);
+    }
+
+    /**
+     * Creates a copy of this object for an instructor.
+     *
+     * @return The copy of this object for an instructor.
+     */
+    public FeedbackSessionAttributes getCopyForInstructor() {
+        return new FeedbackSessionAttributesForInstructor(toEntity());
     }
 
     public String getCourseId() {
@@ -197,6 +223,14 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         return errors;
     }
 
+    public Map<String, Instant> getFilteredExtendedDeadlines() {
+        return extendedDeadlines;
+    }
+
+    public Instant getDeadline() {
+        return endTime;
+    }
+
     /**
      * Returns true if session's start time is opening from now to anytime before
      * now() + the specific number of {@param hours} supplied in the argument.
@@ -210,7 +244,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
      * Returns true if the feedback session is closed after the number of specified hours.
      */
     public boolean isClosedAfter(long hours) {
-        return Instant.now().plus(Duration.ofHours(hours)).isAfter(endTime);
+        return Instant.now().plus(Duration.ofHours(hours)).isAfter(getDeadline());
     }
 
     /**
@@ -218,7 +252,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
      */
     public boolean isClosingWithinTimeLimit(long hours) {
         Instant now = Instant.now();
-        Duration difference = Duration.between(now, endTime);
+        Duration difference = Duration.between(now, getDeadline());
         // If now and start are almost similar, it means the feedback session
         // is open for only 24 hours.
         // Hence we do not send a reminder e-mail for feedback session.
@@ -246,133 +280,51 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
      */
     public boolean isClosedWithinPastHour() {
         Instant now = Instant.now();
-        Instant given = endTime.plus(gracePeriod);
+        Instant given = getDeadline().plus(gracePeriod);
         return given.isBefore(now) && Duration.between(given, now).compareTo(Duration.ofHours(1)) < 0;
     }
 
     /**
-     * Returns {@code true} if it is after the closing time of this feedback session; {@code false} if not.
+     * Checks if the feedback session is closed.
+     * This occurs when the current time is after both the deadline and the grace period. The deadline can be the usual
+     * end time, the one for a participant, or the one for an instructor; the latter two take into account extended
+     * deadlines. The source of this deadline can be changed using {@link #getCopy()},
+     * {@link #getCopyForParticipant(String)}, or {@link #getCopyForInstructor()} respectively.
+     *
+     * @return Whether the feedback session is closed.
      */
     public boolean isClosed() {
-        return Instant.now().isAfter(endTime.plus(gracePeriod));
+        return Instant.now().isAfter(getDeadline().plus(gracePeriod));
     }
 
     /**
-     * Returns true if the session is currently open and accepting responses.
+     * Checks if the feedback session is open.
+     * This occurs when the current time is either the start time or later but before the deadline. The deadline can be
+     * the usual end time, the one for a participant, or the one for an instructor; the latter two take into account
+     * extended deadlines. The source of this deadline can be changed using {@link #getCopy()},
+     * {@link #getCopyForParticipant(String)}, or {@link #getCopyForInstructor()} respectively.
+     *
+     * @return Whether the feedback session is open.
      */
     public boolean isOpened() {
         Instant now = Instant.now();
-        return (now.isAfter(startTime) || now.equals(startTime)) && now.isBefore(endTime);
+        return (now.isAfter(startTime) || now.equals(startTime)) && now.isBefore(getDeadline());
     }
 
     /**
-     * Returns true if the session is currently close but is still accept responses.
+     * Checks if the feedback session is closed but still accepts responses.
+     * This occurs when the current time is either the deadline or later but within the grace period. The deadline can
+     * be the usual end time, the one for a participant, or the one for an instructor; the latter two take into account
+     * extended deadlines. The source of this deadline can be changed using {@link #getCopy()},
+     * {@link #getCopyForParticipant(String)}, or {@link #getCopyForInstructor()} respectively.
+     *
+     * @return Whether the feedback session is closed but still accepts responses.
      */
     public boolean isInGracePeriod() {
         Instant now = Instant.now();
-        Instant gracedEnd = endTime.plus(gracePeriod);
-        return (now.isAfter(endTime) || now.equals(endTime)) && (now.isBefore(gracedEnd) || now.equals(gracedEnd));
-    }
-
-    /**
-     * Checks if the feedback session is closed for the given participant.
-     * This occurs when the current time is after both the deadline and the grace period. The deadline depends on
-     * whether the given participant has an extension or not.
-     *
-     * @param participantEmailAddress The email address of the given participant.
-     * @return Whether the feedback session is closed for the given participant.
-     */
-    public boolean isClosedForParticipant(String participantEmailAddress) {
-        if (!extendedDeadlines.containsKey(participantEmailAddress)) {
-            return isClosed();
-        }
-        Instant extendedDeadline = extendedDeadlines.get(participantEmailAddress);
-        return Instant.now().isAfter(extendedDeadline.plus(gracePeriod));
-    }
-
-    /**
-     * Checks if the feedback session is open for the given participant.
-     * This occurs when the current time is either the start time or later but before the deadline. The deadline depends
-     * on whether the given participant has an extension or not.
-     *
-     * @param participantEmailAddress The email address of the given participant.
-     * @return Whether the feedback session is open for the given participant.
-     */
-    public boolean isOpenForParticipant(String participantEmailAddress) {
-        if (!extendedDeadlines.containsKey(participantEmailAddress)) {
-            return isOpened();
-        }
-        Instant now = Instant.now();
-        Instant extendedDeadline = extendedDeadlines.get(participantEmailAddress);
-        return (now.isAfter(startTime) || now.equals(startTime)) && now.isBefore(extendedDeadline);
-    }
-
-    /**
-     * Checks if the feedback session is closed but still accepts responses for the given participant.
-     * This occurs when the current time is either the deadline or later but within the grace period. The deadline
-     * depends on whether the given participant has an extension or not.
-     *
-     * @param participantEmailAddress The email address of the given participant.
-     * @return Whether the feedback session is closed but still accepts responses for the given participant.
-     */
-    public boolean isInGracePeriodForParticipant(String participantEmailAddress) {
-        if (!extendedDeadlines.containsKey(participantEmailAddress)) {
-            return isInGracePeriod();
-        }
-        Instant now = Instant.now();
-        Instant extendedDeadline = extendedDeadlines.get(participantEmailAddress);
-        Instant gracedEnd = extendedDeadline.plus(gracePeriod);
-        return (now.isAfter(extendedDeadline) || now.equals(extendedDeadline))
-                && (now.isBefore(gracedEnd) || now.equals(gracedEnd));
-    }
-
-    /**
-     * Checks if the feedback session is closed for an instructor.
-     * This occurs when the current time is after both the deadline and the grace period. The deadline depends on
-     * the last extended deadline, if it exists.
-     *
-     * @return Whether the feedback session is closed for an instructor.
-     */
-    public boolean isClosedForInstructor() {
-        if (extendedDeadlines.isEmpty()) {
-            return isClosed();
-        }
-        Instant lastExtendedDeadline = Collections.max(extendedDeadlines.values());
-        return Instant.now().isAfter(lastExtendedDeadline.plus(gracePeriod));
-    }
-
-    /**
-     * Checks if the feedback session is open for an instructor.
-     * This occurs when the current time is either the start time or later but before the deadline. The deadline depends
-     * on the last extended deadline, if it exists.
-     *
-     * @return Whether the feedback session is open for an instructor.
-     */
-    public boolean isOpenForInstructor() {
-        if (extendedDeadlines.isEmpty()) {
-            return isOpened();
-        }
-        Instant now = Instant.now();
-        Instant lastExtendedDeadline = Collections.max(extendedDeadlines.values());
-        return (now.isAfter(startTime) || now.equals(startTime)) && now.isBefore(lastExtendedDeadline);
-    }
-
-    /**
-     * Checks if the feedback session is closed but still accepts responses for an instructor.
-     * This occurs when the current time is either the deadline or later but within the grace period. The deadline
-     * depends on the last extended deadline, if it exists.
-     *
-     * @return Whether the feedback session is closed but still accepts responses for the given participant.
-     */
-    public boolean isInGracePeriodForInstructor() {
-        if (extendedDeadlines.isEmpty()) {
-            return isInGracePeriod();
-        }
-        Instant now = Instant.now();
-        Instant lastExtendedDeadline = Collections.max(extendedDeadlines.values());
-        Instant gracedEnd = lastExtendedDeadline.plus(gracePeriod);
-        return (now.isAfter(lastExtendedDeadline) || now.equals(lastExtendedDeadline))
-                && (now.isBefore(gracedEnd) || now.equals(gracedEnd));
+        Instant deadline = getDeadline();
+        Instant gracedEnd = deadline.plus(gracePeriod);
+        return (now.isAfter(deadline) || now.equals(deadline)) && (now.isBefore(gracedEnd) || now.equals(gracedEnd));
     }
 
     /**
@@ -902,5 +854,49 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
 
         public abstract T build();
 
+    }
+
+    private static class FeedbackSessionAttributesForParticipant extends FeedbackSessionAttributes {
+
+        private String participantEmailAddress;
+
+        private FeedbackSessionAttributesForParticipant(FeedbackSession feedbackSession,
+                                                        String participantEmailAddress) {
+            super(feedbackSession);
+
+            this.participantEmailAddress = participantEmailAddress;
+        }
+
+        @Override
+        public Map<String, Instant> getFilteredExtendedDeadlines() {
+            return getExtendedDeadlines()
+                    .entrySet()
+                    .stream()
+                    .filter(entry -> entry.getKey().equals(participantEmailAddress))
+                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        }
+
+        @Override
+        public Instant getDeadline() {
+            if (!getExtendedDeadlines().containsKey(participantEmailAddress)) {
+                return super.getDeadline();
+            }
+            return getExtendedDeadlines().get(participantEmailAddress);
+        }
+    }
+
+    private static class FeedbackSessionAttributesForInstructor extends FeedbackSessionAttributes {
+
+        private FeedbackSessionAttributesForInstructor(FeedbackSession feedbackSession) {
+            super(feedbackSession);
+        }
+
+        @Override
+        public Instant getDeadline() {
+            if (getExtendedDeadlines().isEmpty()) {
+                return super.getDeadline();
+            }
+            return Collections.max(getExtendedDeadlines().values());
+        }
     }
 }
