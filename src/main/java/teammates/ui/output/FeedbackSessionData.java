@@ -90,14 +90,14 @@ public class FeedbackSessionData extends ApiOutput {
         if (feedbackSessionAttributes.isVisible() && !feedbackSessionAttributes.isOpened()) {
             this.submissionStatus = FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN;
         }
-        if (feedbackSessionAttributes.isOpened()) {
+        if (feedbackSessionAttributes.isOpenForInstructor()) {
             this.submissionStatus = FeedbackSessionSubmissionStatus.OPEN;
         }
-        if (feedbackSessionAttributes.isClosed()) {
-            this.submissionStatus = FeedbackSessionSubmissionStatus.CLOSED;
-        }
-        if (feedbackSessionAttributes.isInGracePeriod()) {
+        if (feedbackSessionAttributes.isInGracePeriodForInstructor()) {
             this.submissionStatus = FeedbackSessionSubmissionStatus.GRACE_PERIOD;
+        }
+        if (feedbackSessionAttributes.isClosedForInstructor()) {
+            this.submissionStatus = FeedbackSessionSubmissionStatus.CLOSED;
         }
 
         if (feedbackSessionAttributes.isPublished()) {

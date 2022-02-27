@@ -327,6 +327,55 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     }
 
     /**
+     * Checks if the feedback session is closed for an instructor.
+     * This occurs when the current time is after both the deadline and the grace period. The deadline depends on
+     * the last extended deadline, if it exists.
+     *
+     * @return Whether the feedback session is closed for an instructor.
+     */
+    public boolean isClosedForInstructor() {
+        if (extendedDeadlines.isEmpty()) {
+            return isClosed();
+        }
+        Instant lastExtendedDeadline = Collections.max(extendedDeadlines.values());
+        return Instant.now().isAfter(lastExtendedDeadline.plus(gracePeriod));
+    }
+
+    /**
+     * Checks if the feedback session is open for an instructor.
+     * This occurs when the current time is either the start time or later but before the deadline. The deadline depends
+     * on the last extended deadline, if it exists.
+     *
+     * @return Whether the feedback session is open for an instructor.
+     */
+    public boolean isOpenForInstructor() {
+        if (extendedDeadlines.isEmpty()) {
+            return isOpened();
+        }
+        Instant now = Instant.now();
+        Instant lastExtendedDeadline = Collections.max(extendedDeadlines.values());
+        return (now.isAfter(startTime) || now.equals(startTime)) && now.isBefore(lastExtendedDeadline);
+    }
+
+    /**
+     * Checks if the feedback session is closed but still accepts responses for an instructor.
+     * This occurs when the current time is either the deadline or later but within the grace period. The deadline
+     * depends on the last extended deadline, if it exists.
+     *
+     * @return Whether the feedback session is closed but still accepts responses for the given participant.
+     */
+    public boolean isInGracePeriodForInstructor() {
+        if (extendedDeadlines.isEmpty()) {
+            return isInGracePeriod();
+        }
+        Instant now = Instant.now();
+        Instant lastExtendedDeadline = Collections.max(extendedDeadlines.values());
+        Instant gracedEnd = lastExtendedDeadline.plus(gracePeriod);
+        return (now.isAfter(lastExtendedDeadline) || now.equals(lastExtendedDeadline))
+                && (now.isBefore(gracedEnd) || now.equals(gracedEnd));
+    }
+
+    /**
      * Returns {@code true} has not opened before and is waiting to open,
      * {@code false} if session has opened before.
      */
