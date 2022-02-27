@@ -184,6 +184,11 @@ task generateTypes {
     dependsOn generateApiConstants
 }
 
+task execScript(type: JavaExec) {
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = "teammates.client.scripts.${file}"
+}
+
 // SETUP TASKS
 
 task createConfigs {
