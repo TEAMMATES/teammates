@@ -226,7 +226,8 @@ Your work on the issue is done when your PR is successfully merged to the main r
 > - The reviewer of a PR is the assignee of it.
 
 <box type="tip">
-    To remove whitespace-only changes from being shown, append `?w=1` to url of the `/files` page of the PR (the "Files changed" tab).
+
+  To remove whitespace-only changes from being shown, append `?w=1` to url of the `/files` page of the PR (the "Files changed" tab).
 </box>
 
 [GitHub's review feature](https://github.com/blog/2256-a-whole-new-github-universe-announcing-new-tools-forums-and-features#code-better-with-reviews) is to be used in this task.

@@ -69,5 +69,4 @@ However, you should not use the GUI to run large scale tests as it is very resou
 <box type="info">
 
 Remember to **disable or remove all `Listeners`** in the `.jmx` file, unless you are debugging. Having them enabled can have a negative impact on the test performance.
-
 </box>

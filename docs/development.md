@@ -18,10 +18,12 @@ The instructions in all parts of this document work for Linux, OS X, and Windows
 ## Managing the dev server: front-end
 
 <box type="definition">
+
     Dev server is the server run in your local machine.
 </box>
 
 <box type="definition">
+
     Front-end dev server is the Angular-based server handling the user interface.
 </box>
 
@@ -148,6 +150,7 @@ Alternatively, an instructor can create other instructors for a course if s/he h
 </panel>
 
 <panel header="**As student**">
+
 You need a student account which can be created by instructors (with sufficient privileges).
 
 The steps for adding a student is almost identical to the steps for adding instructors by another instructor:
@@ -183,6 +186,7 @@ GET http://localhost:8080/logout
 The Datastore emulator is an essential tool that we use to locally simulate production Datastore environment during development and testing of relevant features. For more information about the Datastore emulator, refer to [Google's official documentation](https://cloud.google.com/datastore/docs/tools/datastore-emulator).
 
 <panel header="**Using quickstart script**">
+
 You can use the pre-provided quickstart script which will run a local Datastore emulator instance sufficient for development use cases. The script is run via the following command:
 
 ```sh
@@ -194,6 +198,7 @@ The Datastore emulator will be running in the port specified in the `build.prope
 </panel>
 
 <panel header="**Using Docker-based tooling**">
+
 We have a Docker compose definition to run dependent services, including local Datastore emulator. Run it under the `datastore` service name and bind to the container port `8484`:
 
 ```sh

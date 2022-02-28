@@ -75,6 +75,8 @@ If you want to develop front-end, you need to install the following:
    ```
    **Verification:** A folder named `node_modules` should be added to the project root directory.
 
+1. If you plan on making documentation changes to the developer guide, **[install and set up Markbind](documentation.md)** in order to preview your changes.
+
 **Q:** Can I set up the project in IDEs, e.g. Eclipse, IntelliJ?<br>
 **A:** You are welcome to; the core team have been using IntelliJ to a varying degree of success, and it is expected that any IDE that support Gradle-based Java project will work. However, IDE-based development (even with IntelliJ) is not actively supported/maintained by the team.
 
@@ -87,6 +89,7 @@ Proceed to the development routine as outlined in [this document](development.md
 ## Step 5: Set up search (Optional)
 
 <panel header="Search service is optional for local development">
+
 <include src="search.md" />
 </panel>
 

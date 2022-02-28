@@ -155,6 +155,7 @@ Each page in TEAMMATES is represented by a page object class. The page object cl
 - Without Page Object Pattern, all test cases that use the changed UI element would require updating  
   
 <box type="tip">
+
   To maximise the effectiveness of Page Object Pattern, interaction with UI elements should not occur outside the page objects.
 </box>
 
