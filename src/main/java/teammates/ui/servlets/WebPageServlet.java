@@ -23,7 +23,7 @@ public class WebPageServlet extends HttpServlet {
         try {
             req.getRequestDispatcher("/index.html").forward(req, resp);
         } catch (RuntimeException e) {
-            if (e.getClass().getSimpleName().equals("BadMessageException")) {
+            if ("BadMessageException".equals(e.getClass().getSimpleName())) {
                 log.warning("", e);
                 resp.setStatus(HttpStatus.SC_BAD_REQUEST);
                 resp.getWriter().write(e.getMessage());

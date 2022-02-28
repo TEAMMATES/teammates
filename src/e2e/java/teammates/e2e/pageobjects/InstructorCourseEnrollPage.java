@@ -126,7 +126,7 @@ public class InstructorCourseEnrollPage extends AppPage {
             verifyTableBodyValues(tables.get(numTables++), getEnrollmentData(expectedModifiedWithoutChangeStudents));
         }
         if (expectedUnmodifiedStudents != null) {
-            verifyTableBodyValues(tables.get(numTables++), getEnrollmentData(expectedUnmodifiedStudents));
+            verifyTableBodyValues(tables.get(numTables), getEnrollmentData(expectedUnmodifiedStudents));
         }
     }
 

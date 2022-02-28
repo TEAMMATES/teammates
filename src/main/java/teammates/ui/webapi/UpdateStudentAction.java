@@ -61,8 +61,6 @@ class UpdateStudentAction extends Action {
                 .withComment(updateRequest.getComments())
                 .build();
 
-        boolean emailSent = false;
-
         try {
             //we swap out email before we validate
             //TODO: this is duct tape at the moment, need to refactor how we do the validation
@@ -85,7 +83,7 @@ class UpdateStudentAction extends Action {
                 logic.resetStudentGoogleId(updateRequest.getEmail(), courseId);
 
                 if (updateRequest.getIsSessionSummarySendEmail()) {
-                    emailSent = sendEmail(courseId, updateRequest.getEmail());
+                    boolean emailSent = sendEmail(courseId, updateRequest.getEmail());
                     String statusMessage = emailSent ? SUCCESSFUL_UPDATE_WITH_EMAIL
                             : SUCCESSFUL_UPDATE_BUT_EMAIL_FAILED;
                     return new JsonResult(statusMessage);

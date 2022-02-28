@@ -58,6 +58,7 @@
     <rule ref="category/java/codestyle.xml/IdenticalCatchBranches"/>
     <rule ref="category/java/codestyle.xml/PrematureDeclaration"/>
     <rule ref="category/java/codestyle.xml/UnnecessaryAnnotationValueElement"/>
+    <rule ref="category/java/codestyle.xml/UnnecessaryCast"/>
     <rule ref="category/java/codestyle.xml/UnnecessaryConstructor"/>
     <rule ref="category/java/codestyle.xml/UnnecessaryFullyQualifiedName"/>
     <rule ref="category/java/codestyle.xml/UnnecessaryLocalBeforeReturn"/>
@@ -67,6 +68,7 @@
 
     <rule ref="category/java/design.xml">
         <!-- Metrics-related rules; not to be enforced in the near future -->
+        <exclude name="CognitiveComplexity"/>
         <exclude name="CouplingBetweenObjects"/>
         <exclude name="CyclomaticComplexity"/>
         <exclude name="DataClass"/>
@@ -108,10 +110,12 @@
         <exclude name="AvoidFieldNameMatchingMethodName"/>
         <exclude name="CloseResource"/>
 
+        <!-- Enforced for production code only -->
+        <exclude name="AvoidAccessibilityAlteration"/>
+
         <!-- Very difficult to enforce -->
         <exclude name="AvoidDuplicateLiterals"/>
         <exclude name="AvoidLiteralsInIfCondition"/>
-        <exclude name="DataflowAnomalyAnalysis"/>
 
         <!-- Not worth the benefit -->
         <exclude name="ConstructorCallsOverridableMethod"/>

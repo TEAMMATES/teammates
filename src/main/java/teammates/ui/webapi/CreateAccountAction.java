@@ -117,7 +117,7 @@ class CreateAccountAction extends Action {
         String courseId = generateDemoCourseId(instructorEmail);
         String template = Templates.INSTRUCTOR_SAMPLE_DATA;
 
-        if (!timezone.equals(Const.DEFAULT_TIME_ZONE)) {
+        if (!Const.DEFAULT_TIME_ZONE.equals(timezone)) {
             template = replaceAdjustedTimeAndTimezone(template, timezone);
         }
 

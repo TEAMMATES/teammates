@@ -7,10 +7,10 @@ apply plugin: "com.github.spotbugs"
 apply plugin: "jacoco"
 apply plugin: "cz.habarta.typescript-generator"
 
-def checkstyleVersion = "8.33"
-def pmdVersion = "6.24.0"
+def checkstyleVersion = "9.3"
+def pmdVersion = "6.43.0"
 def spotbugsVersion = "4.5.3"
-def jacocoVersion = "0.8.5"
+def jacocoVersion = "0.8.7"
 
 buildscript {
     repositories {
@@ -20,12 +20,12 @@ buildscript {
         }
     }
     dependencies {
-        classpath "com.google.cloud.tools:appengine-gradle-plugin:2.3.0"
+        classpath "com.google.cloud.tools:appengine-gradle-plugin:2.4.2"
         classpath "com.github.spotbugs.snom:spotbugs-gradle-plugin:5.0.6"
-        classpath("cz.habarta.typescript-generator:typescript-generator-gradle-plugin:2.24.612") {
+        classpath("cz.habarta.typescript-generator:typescript-generator-gradle-plugin:2.35.1025") {
             exclude group: "org.gradle"
         }
-        classpath "com.google.guava:guava:30.1.1-jre"
+        classpath "com.google.guava:guava:31.0.1-jre"
     }
 }
 
@@ -38,7 +38,7 @@ repositories {
 }
 
 def objectify = "com.googlecode.objectify:objectify:6.0.7"
-def testng = "org.testng:testng:7.4.0"
+def testng = "org.testng:testng:7.5"
 
 dependencies {
     staticAnalysis("com.puppycrawl.tools:checkstyle:${checkstyleVersion}")
@@ -48,44 +48,44 @@ dependencies {
 
     annotationProcessor(objectify)
 
-    implementation("com.google.auth:google-auth-library-oauth2-http:0.24.1")
-    implementation("com.google.cloud:google-cloud-datastore:1.107.0")
-    implementation("com.google.cloud:google-cloud-tasks:1.33.1")
-    implementation("com.google.cloud:google-cloud-logging:2.3.1")
-    implementation("com.google.cloud:google-cloud-storage:1.116.0")
-    implementation("com.google.code.gson:gson:2.8.6")
-    implementation("com.google.guava:guava:30.1.1-jre")
+    implementation("com.google.auth:google-auth-library-oauth2-http:1.5.3")
+    implementation(platform("com.google.cloud:google-cloud-bom:0.167.0"))
+    implementation("com.google.cloud:google-cloud-datastore")
+    implementation("com.google.cloud:google-cloud-tasks")
+    implementation("com.google.cloud:google-cloud-logging")
+    implementation("com.google.cloud:google-cloud-storage")
+    implementation("com.google.code.gson:gson:2.9.0")
+    implementation("com.google.guava:guava:31.0.1-jre")
     implementation(objectify)
     implementation("com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:20211018.2")
-    implementation("com.helger:ph-commons:9.5.1") // necessary to add SpotBugs suppression
-    implementation("com.mailjet:mailjet-client:4.5.0")
-    implementation("com.sendgrid:sendgrid-java:4.6.0")
+    implementation("com.helger:ph-commons:9.5.5") // necessary to add SpotBugs suppression
+    implementation("com.mailjet:mailjet-client:5.2.0")
+    implementation("com.sendgrid:sendgrid-java:4.8.3")
     implementation("com.sun.jersey:jersey-client:1.19.4")
     implementation("com.sun.jersey:jersey-core:1.19.4")
     implementation("com.sun.jersey.contribs:jersey-multipart:1.19.4")
-    implementation("javax.servlet:javax.servlet-api:3.1.0")
     implementation("org.apache.solr:solr-solrj:8.11.1")
-    implementation("org.eclipse.jetty:jetty-server:9.4.39.v20210325")
-    implementation("org.eclipse.jetty:jetty-webapp:9.4.39.v20210325")
-    implementation("org.eclipse.jetty:jetty-annotations:9.4.39.v20210325")
-    implementation("org.jsoup:jsoup:1.13.1")
+    implementation(platform("org.eclipse.jetty:jetty-bom:9.4.45.v20220203"))
+    implementation("org.eclipse.jetty:jetty-server")
+    implementation("org.eclipse.jetty:jetty-webapp")
+    implementation("org.eclipse.jetty:jetty-annotations")
+    implementation("org.jsoup:jsoup:1.14.3")
 
     testAnnotationProcessor(testng)
 
     testImplementation("com.tngtech.archunit:archunit:0.11.0")
-    testImplementation("org.seleniumhq.selenium:selenium-java:4.0.0")
+    testImplementation("junit:junit:4.13.2")
+    testImplementation("org.seleniumhq.selenium:selenium-java:4.1.2")
     testImplementation(testng)
-    // For access to Google APIs such as HTTP transport, authentication and JSON parsing
-    testImplementation("com.google.api-client:google-api-client:1.30.9")
     // For supporting authorization code flow locally
-    testImplementation("com.google.oauth-client:google-oauth-client-jetty:1.30.6")
+    testImplementation("com.google.oauth-client:google-oauth-client-jetty:1.33.1")
     // For using Gmail API
-    testImplementation("com.google.apis:google-api-services-gmail:v1-rev20200601-1.30.9")
+    testImplementation("com.google.apis:google-api-services-gmail:v1-rev20211108-1.32.1")
     // For using JMeter APIs
-    testImplementation("org.apache.jmeter:ApacheJMeter_core:5.4.1") {
+    testImplementation("org.apache.jmeter:ApacheJMeter_core:5.4.3") {
         exclude group: "org.apache.jmeter", module: "bom"
     }
-    testImplementation("org.apache.jmeter:ApacheJMeter_http:5.4.1") {
+    testImplementation("org.apache.jmeter:ApacheJMeter_http:5.4.3") {
         exclude group: "org.apache.jmeter", module: "bom"
     }
 
@@ -297,7 +297,7 @@ appengine {
 
 task removeWarFromStagedApp {
     doLast {
-        delete "${buildDir}/staged-app/${war.archiveName}"
+        delete "${buildDir}/staged-app/${war.archiveFileName}"
     }
 }
 

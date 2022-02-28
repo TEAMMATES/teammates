@@ -485,7 +485,7 @@ public final class FieldValidator {
         assert value != null : "Non-null value expected for " + fieldName;
 
         if (value.isEmpty()) {
-            if (fieldName.equals(FEEDBACK_SESSION_NAME_FIELD_NAME)) {
+            if (FEEDBACK_SESSION_NAME_FIELD_NAME.equals(fieldName)) {
                 return getPopulatedEmptyStringErrorMessage(
                         SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING_FOR_SESSION_NAME,
                         fieldName, maxLength);

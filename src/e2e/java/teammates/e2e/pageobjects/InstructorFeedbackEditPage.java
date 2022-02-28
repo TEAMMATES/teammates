@@ -1002,7 +1002,7 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     private String getFeedbackGiver(int questionNum) {
         String feedbackPath = getFeedbackPath(questionNum);
-        if (feedbackPath.equals(CUSTOM_FEEDBACK_PATH_OPTION)) {
+        if (CUSTOM_FEEDBACK_PATH_OPTION.equals(feedbackPath)) {
             return getSelectedDropdownOptionText(getQuestionForm(questionNum)
                     .findElement(By.tagName("tm-feedback-path-panel"))
                     .findElement(By.id("giver-type")));
@@ -1012,7 +1012,7 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     private String getFeedbackReceiver(int questionNum) {
         String feedbackPath = getFeedbackPath(questionNum);
-        if (feedbackPath.equals(CUSTOM_FEEDBACK_PATH_OPTION)) {
+        if (CUSTOM_FEEDBACK_PATH_OPTION.equals(feedbackPath)) {
             return getSelectedDropdownOptionText(getQuestionForm(questionNum)
                     .findElement(By.tagName("tm-feedback-path-panel"))
                     .findElement(By.id("receiver-type")));
@@ -1039,7 +1039,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         FeedbackParticipantType newRecipient = feedbackQuestion.getRecipientType();
         String feedbackPath = getFeedbackPath(questionNum);
         WebElement questionForm = getQuestionForm(questionNum).findElement(By.tagName("tm-feedback-path-panel"));
-        if (!feedbackPath.equals(CUSTOM_FEEDBACK_PATH_OPTION)) {
+        if (!CUSTOM_FEEDBACK_PATH_OPTION.equals(feedbackPath)) {
             selectFeedbackPathDropdownOption(questionNum, CUSTOM_FEEDBACK_PATH_OPTION + "...");
         }
         // Set to type STUDENT first to adjust NumberOfEntitiesToGiveFeedbackTo
@@ -1088,7 +1088,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         WebElement questionForm = getQuestionForm(questionNum);
         WebElement visibilityPanel = questionForm.findElement(By.tagName("tm-visibility-panel"));
         String visibility = visibilityPanel.findElement(By.cssSelector("#btn-question-visibility span")).getText();
-        if (!visibility.equals(CUSTOM_VISIBILITY_OPTION)) {
+        if (!CUSTOM_VISIBILITY_OPTION.equals(visibility)) {
             selectVisibilityDropdownOption(questionNum, CUSTOM_VISIBILITY_OPTION + "...");
         }
 
