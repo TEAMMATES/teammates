@@ -389,6 +389,10 @@ public final class EmailGenerator {
                     reportUrlHtml = "[<a href=\"" + reportUrl + "\">result link</a>]";
                 }
 
+                if (submitUrlHtml.isEmpty() && reportUrlHtml.isEmpty()) {
+                    continue;
+                }
+
                 linksFragmentValue.append(Templates.populateTemplate(
                         EmailTemplates.FRAGMENT_SESSION_LINKS_RECOVERY_ACCESS_LINKS_BY_SESSION,
                         "${sessionName}", session.getFeedbackSessionName(),
