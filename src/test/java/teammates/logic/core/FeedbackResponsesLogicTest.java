@@ -1092,7 +1092,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
                 .getQuestionResponseMap();
         for (var questionResponse : questionResponseMapByGiver.entrySet()) {
             var responses = questionResponse.getValue();
-            responses.forEach((resp) -> {
+            responses.forEach(resp -> {
                 assertEquals(sectionToTest, resp.getGiverSection());
             });
         }
@@ -1103,7 +1103,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
                 .getQuestionResponseMap();
         for (var questionResponse : questionResponseMapByReceiver.entrySet()) {
             var responses = questionResponse.getValue();
-            responses.forEach((resp) -> {
+            responses.forEach(resp -> {
                 assertEquals(sectionToTest, resp.getGiverSection());
             });
         }

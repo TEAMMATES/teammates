@@ -1,6 +1,5 @@
 package teammates.storage.api;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +24,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
-import teammates.storage.entity.FeedbackResponse;
 import teammates.test.AssertHelper;
 import teammates.test.BaseTestCaseWithLocalDatabaseAccess;
 import teammates.test.ThreadHelper;
@@ -591,7 +589,7 @@ public class FeedbackResponsesDbTest extends BaseTestCaseWithLocalDatabaseAccess
         assertEquals(4, responsesByGiverSection.size());
         combinedResponses.addAll(responsesByGiverSection);
 
-        var responsesByReceiverSection= frDb.getFeedbackResponsesForSessionInSection(
+        var responsesByReceiverSection = frDb.getFeedbackResponsesForSessionInSection(
                 feedbackSessionName, courseId, "Section 1", FeedbackResultFetchType.RECEIVER);
         assertEquals(4, responsesByReceiverSection.size());
         combinedResponses.addAll(responsesByReceiverSection);
