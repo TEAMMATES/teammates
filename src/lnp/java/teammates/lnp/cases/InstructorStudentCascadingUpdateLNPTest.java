@@ -61,8 +61,8 @@ public class InstructorStudentCascadingUpdateLNPTest extends BaseLNPTestCase {
     private static final double MEAN_RESP_TIME_LIMIT = 60;
 
     // To generate multiple csv files for multiple sections
-    private static int csvTestDataIndex;
-    private static LNPTestData testData;
+    private int csvTestDataIndex;
+    private LNPTestData testData;
 
     @Override
     protected LNPTestData getTestData() {

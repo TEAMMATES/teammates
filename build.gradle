@@ -9,7 +9,7 @@ apply plugin: "cz.habarta.typescript-generator"
 
 def checkstyleVersion = "8.33"
 def pmdVersion = "6.24.0"
-def spotbugsVersion = "4.0.6"
+def spotbugsVersion = "4.5.3"
 def jacocoVersion = "0.8.5"
 
 buildscript {
@@ -21,7 +21,7 @@ buildscript {
     }
     dependencies {
         classpath "com.google.cloud.tools:appengine-gradle-plugin:2.3.0"
-        classpath "gradle.plugin.com.github.spotbugs.snom:spotbugs-gradle-plugin:4.4.3"
+        classpath "com.github.spotbugs.snom:spotbugs-gradle-plugin:5.0.6"
         classpath("cz.habarta.typescript-generator:typescript-generator-gradle-plugin:2.24.612") {
             exclude group: "org.gradle"
         }
@@ -57,6 +57,7 @@ dependencies {
     implementation("com.google.guava:guava:30.1.1-jre")
     implementation(objectify)
     implementation("com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:20211018.2")
+    implementation("com.helger:ph-commons:9.5.1") // necessary to add SpotBugs suppression
     implementation("com.mailjet:mailjet-client:4.5.0")
     implementation("com.sendgrid:sendgrid-java:4.6.0")
     implementation("com.sun.jersey:jersey-client:1.19.4")

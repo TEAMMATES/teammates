@@ -583,6 +583,10 @@
       "username": "felixinjapan"
     },
     {
+      "name": "",
+      "username": "FergusMok"
+    },
+    {
       "name": "Florian Digne",
       "username": "fdigne"
     },
@@ -600,10 +604,6 @@
     },
     {
       "username": "FritzJo"
-    },
-    {
-      "name": "",
-      "username": "fsgmhoward"
     },
     {
       "name": "Gable Heng",
@@ -717,6 +717,11 @@
       "name": "Hou Guochen"
     },
     {
+      "multiple": true,
+      "name": "Howard Liu",
+      "username": "fsgmhoward"
+    },
+    {
       "username": "hppranaav"
     },
     {
@@ -785,6 +790,10 @@
     },
     {
       "name": "Jayant Jain"
+    },
+    {
+      "name": "",
+      "username": "jayasting98"
     },
     {
       "name": "Jeff Wilson",
@@ -997,6 +1006,10 @@
       "multiple": true,
       "name": "Le Viet Tien",
       "username": "lvtiendev"
+    },
+    {
+      "name": "Martin Larsson",
+      "username": "leddy231"
     },
     {
       "multiple": true,
@@ -2003,7 +2016,7 @@
     },
     {
       "multiple": true,
-      "name": "",
+      "name": "Zhao Jingjing",
       "username": "zhaojj2209"
     },
     {

@@ -1,5 +1,7 @@
 package teammates.common.util;
 
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.time.Instant;
 
@@ -27,10 +29,11 @@ public final class Const {
     public static final String UNKNOWN_INSTITUTION = "Unknown Institution";
 
     public static final String DEFAULT_TIME_ZONE = "UTC";
-    public static final String ENCODING = "UTF8";
+    public static final Charset ENCODING = StandardCharsets.UTF_8;
 
     public static final Duration FEEDBACK_SESSIONS_SEARCH_WINDOW = Duration.ofDays(30);
     public static final Duration LOGS_RETENTION_PERIOD = Duration.ofDays(30);
+    public static final Duration COOKIE_VALIDITY_PERIOD = Duration.ofDays(7);
 
     public static final int SEARCH_QUERY_SIZE_LIMIT = 50;
 
