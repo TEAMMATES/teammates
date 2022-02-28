@@ -345,16 +345,16 @@ public final class EmailGenerator {
                                                                              List<StudentAttributes> studentsForEmail) {
         String emailBody;
 
-        Instant searchStartTime = TimeHelper.getInstantDaysOffsetBeforeNow(SESSION_LINK_RECOVERY_DURATION_IN_DAYS);
+        var searchStartTime = TimeHelper.getInstantDaysOffsetBeforeNow(SESSION_LINK_RECOVERY_DURATION_IN_DAYS);
         Map<String, StringBuilder> linkFragmentsMap = new HashMap<>();
         String studentName = null;
 
-        for (StudentAttributes student : studentsForEmail) {
+        for (var student : studentsForEmail) {
             RequestTracer.checkRemainingTime();
             // Query students' courses first
             // as a student will likely be in only a small number of courses.
-            CourseAttributes course = coursesLogic.getCourse(student.getCourse());
-            String courseId = course.getId();
+            var course = coursesLogic.getCourse(student.getCourse());
+            var courseId = course.getId();
 
             StringBuilder linksFragmentValue;
             if (linkFragmentsMap.containsKey(courseId)) {
@@ -365,14 +365,13 @@ public final class EmailGenerator {
 
             studentName = student.getName();
 
-            for (FeedbackSessionAttributes session
-                    : fsLogic.getFeedbackSessionsForCourseStartingAfter(courseId, searchStartTime)) {
+            for (var session : fsLogic.getFeedbackSessionsForCourseStartingAfter(courseId, searchStartTime)) {
                 RequestTracer.checkRemainingTime();
-                String submitUrlHtml = "";
-                String reportUrlHtml = "";
+                var submitUrlHtml = "";
+                var reportUrlHtml = "";
 
                 if (session.isOpened() || session.isClosed()) {
-                    String submitUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
+                    var submitUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
                             .withCourseId(course.getId())
                             .withSessionName(session.getFeedbackSessionName())
                             .withRegistrationKey(student.getKey())
@@ -381,7 +380,7 @@ public final class EmailGenerator {
                 }
 
                 if (session.isPublished()) {
-                    String reportUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_RESULTS_PAGE)
+                    var reportUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_RESULTS_PAGE)
                             .withCourseId(course.getId())
                             .withSessionName(session.getFeedbackSessionName())
                             .withRegistrationKey(student.getKey())
@@ -403,7 +402,7 @@ public final class EmailGenerator {
             }
         }
 
-        String recoveryUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSIONS_LINK_RECOVERY_PAGE).toAbsoluteString();
+        var recoveryUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSIONS_LINK_RECOVERY_PAGE).toAbsoluteString();
         if (linkFragmentsMap.isEmpty()) {
             emailBody = Templates.populateTemplate(
                     EmailTemplates.SESSION_LINKS_RECOVERY_ACCESS_LINKS_NONE,
@@ -412,7 +411,7 @@ public final class EmailGenerator {
                     "${supportEmail}", Config.SUPPORT_EMAIL,
                     "${sessionsRecoveryLink}", recoveryUrl);
         } else {
-            StringBuilder courseFragments = new StringBuilder(10000);
+            var courseFragments = new StringBuilder(10000);
             linkFragmentsMap.forEach((courseId, linksFragments) -> {
                 String courseBody = Templates.populateTemplate(
                         EmailTemplates.FRAGMENT_SESSION_LINKS_RECOVERY_ACCESS_LINKS_BY_COURSE,
@@ -430,7 +429,7 @@ public final class EmailGenerator {
                     "${sessionsRecoveryLink}", recoveryUrl);
         }
 
-        EmailWrapper email = getEmptyEmailAddressedToEmail(recoveryEmailAddress);
+        var email = getEmptyEmailAddressedToEmail(recoveryEmailAddress);
         email.setType(EmailType.SESSION_LINKS_RECOVERY);
         email.setSubjectFromType();
         email.setContent(emailBody);
