@@ -60,7 +60,7 @@ public final class RetryManager {
 
     @SafeVarargs
     private static boolean isThrowableTypeIn(Throwable e, Class<? extends Throwable>... recognizedExceptionTypes) {
-        for (Class recognizedExceptionType : recognizedExceptionTypes) {
+        for (Class<? extends Throwable> recognizedExceptionType : recognizedExceptionTypes) {
             if (recognizedExceptionType.isInstance(e)) {
                 return true;
             }

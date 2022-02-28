@@ -145,7 +145,7 @@ public class OriginCheckFilter implements Filter {
             return false;
         }
 
-        if (Config.isDevServer() && origin.equals(Config.APP_FRONTENDDEV_URL)) {
+        if (Config.isDevServer() && Config.APP_FRONTENDDEV_URL.equals(origin)) {
             // Exception to the rule: front-end dev server requesting data from back-end dev server
             return true;
         }

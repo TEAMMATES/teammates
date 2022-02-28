@@ -192,7 +192,7 @@ public final class ActionFactory {
         }
 
         try {
-            return controllerClass.newInstance();
+            return controllerClass.getDeclaredConstructor().newInstance();
         } catch (Exception e) {
             assert false : "Could not create the action for " + uri;
             return null;

@@ -31,8 +31,7 @@ public class ActionFactoryTest extends BaseTestCase {
         nonExistentActionServletRequest.addHeader(Const.HeaderNames.BACKDOOR_KEY, Config.BACKDOOR_KEY);
         ActionMappingException nonExistentActionException = assertThrows(ActionMappingException.class,
                 () -> ActionFactory.getAction(nonExistentActionServletRequest, HttpGet.METHOD_NAME));
-        assertTrue(nonExistentActionException.getMessage()
-                .equals("Resource with URI /blahblahblah is not found."));
+        assertEquals("Resource with URI /blahblahblah is not found.", nonExistentActionException.getMessage());
 
         ______TS("Method does not exist on action and ActionMappingException is thrown");
 

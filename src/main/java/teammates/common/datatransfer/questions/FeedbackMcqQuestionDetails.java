@@ -73,7 +73,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             }
 
             // If there are Empty Mcq options entered trigger this error
-            boolean isEmptyMcqOptionEntered = mcqChoices.stream().anyMatch(mcqText -> mcqText.trim().equals(""));
+            boolean isEmptyMcqOptionEntered = mcqChoices.stream().anyMatch(mcqText -> "".equals(mcqText.trim()));
             if (isEmptyMcqOptionEntered) {
                 errors.add(MCQ_ERROR_EMPTY_MCQ_OPTION);
             }

@@ -3,6 +3,7 @@ package teammates.test;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -126,12 +127,12 @@ public class MockHttpServletResponse implements HttpServletResponse {
 
     @Override
     public Collection<String> getHeaders(String s) {
-        return null;
+        return Collections.emptyList();
     }
 
     @Override
     public Collection<String> getHeaderNames() {
-        return null;
+        return Collections.emptyList();
     }
 
     @Override

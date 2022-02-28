@@ -76,12 +76,12 @@ class DeleteInstructorAction extends Action {
 
         for (InstructorAttributes instr : instructors) {
 
-            hasAlternativeModifyInstructor = hasAlternativeModifyInstructor || (instr.isRegistered()
+            hasAlternativeModifyInstructor = hasAlternativeModifyInstructor || instr.isRegistered()
                     && !instr.getEmail().equals(instructorToDeleteEmail)
-                    && instr.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
+                    && instr.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
 
             hasAlternativeVisibleInstructor = hasAlternativeVisibleInstructor
-                    || (instr.isDisplayedToStudents() && !instr.getEmail().equals(instructorToDeleteEmail));
+                    || instr.isDisplayedToStudents() && !instr.getEmail().equals(instructorToDeleteEmail);
 
             if (hasAlternativeModifyInstructor && hasAlternativeVisibleInstructor) {
                 return true;

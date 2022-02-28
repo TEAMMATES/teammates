@@ -168,15 +168,15 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
 
     private Set<FeedbackQuestionAttributes> getQnsWithResponses(StudentAttributes currentStudent) {
         return questions.stream()
-                .filter(qn -> getGivenResponses(currentStudent, qn).size() > 0
-                        || getOtherResponses(currentStudent, qn).size() > 0)
+                .filter(qn -> !getGivenResponses(currentStudent, qn).isEmpty()
+                        || !getOtherResponses(currentStudent, qn).isEmpty())
                 .collect(Collectors.toSet());
     }
 
     private Set<FeedbackQuestionAttributes> getQnsWithResponses(InstructorAttributes currentInstructor) {
         return questions.stream()
-                .filter(qn -> getGivenResponses(currentInstructor, qn).size() > 0
-                        || getOtherResponses(currentInstructor, qn).size() > 0)
+                .filter(qn -> !getGivenResponses(currentInstructor, qn).isEmpty()
+                        || !getOtherResponses(currentInstructor, qn).isEmpty())
                 .collect(Collectors.toSet());
     }
 
