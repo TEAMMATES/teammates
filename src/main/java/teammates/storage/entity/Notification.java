@@ -73,7 +73,7 @@ public class Notification extends BaseEntity {
 
     /**
      * Instantiates a new notification, with all fields passed in as parameters.
-     * This is mainly for convertion from attributes to entity.
+     * This is mainly for conversion from attributes to entity.
      */
     public Notification(String notificationId, Instant startTime, Instant endTime, String type, String targetUser,
             String title, String message, boolean shown, Instant createdAt, Instant updatedAt) {

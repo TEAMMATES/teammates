@@ -1,6 +1,7 @@
 package teammates.logic.core;
 
 import teammates.common.datatransfer.attributes.NotificationAttributes;
+import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.api.NotificationDb;
@@ -32,7 +33,19 @@ public final class NotificationLogic {
     }
 
     /**
-     * Updates/Creates the profile using {@link StudentProfileAttributes.UpdateOptions}.
+     * Creates a notification.
+     *
+     * @return the created notification
+     * @throws InvalidParametersException if the notification is not valid
+     * @throws EntityAlreadyExistsException if the notification already exists in the database.
+     */
+    NotificationAttributes createNotification(NotificationAttributes notification)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        return notificationDb.createEntity(notification);
+    }
+
+    /**
+     * Updates/Creates the notification using {@link NotificationAttributes.UpdateOptions}.
      *
      * @return updated notification
      * @throws InvalidParametersException if attributes to update are not valid
