@@ -1,6 +1,5 @@
 package teammates.common.util;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 import org.owasp.html.HtmlPolicyBuilder;
@@ -34,7 +33,6 @@ public final class SanitizationHelper {
                 .allowElements("quote", "ecode")
                 .allowStyling()
                 .toFactory();
-    private static final Logger log = Logger.getLogger();
 
     private SanitizationHelper() {
         // utility class
@@ -128,13 +126,7 @@ public final class SanitizationHelper {
      * Converts a string to be put in URL (replaces some characters).
      */
     public static String sanitizeForUri(String uri) {
-        try {
-            return URLEncoder.encode(uri, Const.ENCODING).replaceAll("\\+", "%20");
-        } catch (UnsupportedEncodingException wontHappen) {
-            log.warning("Unexpected UnsupportedEncodingException in "
-                        + "SanitizationHelper.sanitizeForUri(" + uri + ", " + Const.ENCODING + ")");
-            return uri;
-        }
+        return URLEncoder.encode(uri, Const.ENCODING).replaceAll("\\+", "%20");
     }
 
 }

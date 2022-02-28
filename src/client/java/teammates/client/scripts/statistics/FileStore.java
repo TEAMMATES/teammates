@@ -31,6 +31,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
 import teammates.common.util.Config;
+import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.test.FileHelper;
 
@@ -138,7 +139,7 @@ public class FileStore {
 
         try (OutputStream os = Files.newOutputStream(Paths.get(fileName))) {
             CipherOutputStream out = new CipherOutputStream(os, cipher);
-            JsonWriter writer = new JsonWriter(new OutputStreamWriter(out));
+            JsonWriter writer = new JsonWriter(new OutputStreamWriter(out, Const.ENCODING));
             getSerializer().toJson(object, typeOfObject, writer);
             writer.close();
             out.close();
@@ -152,7 +153,7 @@ public class FileStore {
 
         try (InputStream is = Files.newInputStream(Paths.get(fileName))) {
             CipherInputStream in = new CipherInputStream(is, cipher);
-            JsonReader reader = new JsonReader(new InputStreamReader(in));
+            JsonReader reader = new JsonReader(new InputStreamReader(in, Const.ENCODING));
             T result = parser.apply(reader);
             reader.close();
             in.close();
