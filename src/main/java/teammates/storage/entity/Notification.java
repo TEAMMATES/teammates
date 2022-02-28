@@ -6,6 +6,7 @@ import java.util.UUID;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
+import com.googlecode.objectify.annotation.OnSave;
 import com.googlecode.objectify.annotation.Translate;
 
 /**
@@ -24,13 +25,15 @@ public class Notification extends BaseEntity {
     @Translate(InstantTranslatorFactory.class)
     private Instant endTime;
 
-    private int type;
+    private String type;
 
     private String targetUser;
 
     private String title;
 
     private String message;
+
+    private boolean shown;
 
     @Translate(InstantTranslatorFactory.class)
     private Instant createdAt;
@@ -53,8 +56,8 @@ public class Notification extends BaseEntity {
      * @param title title of the notification
      * @param message message body of the notification
      */
-    public Notification(Instant startTime, Instant endTime,
-            int type, String targetUser, String title, String message) {
+    public Notification(Instant startTime, Instant endTime, String type, String targetUser,
+            String title, String message) {
         this.setStartTime(startTime);
         this.setEndTime(endTime);
         this.setType(type);
@@ -65,14 +68,15 @@ public class Notification extends BaseEntity {
 
         UUID uuid = UUID.randomUUID();
         this.notificationId = uuid.toString();
+        this.shown = false;
     }
 
     /**
      * Instantiates a new notification, with all fields passed in as parameters.
      * This is mainly for convertion from attributes to entity.
      */
-    public Notification(String notificationId, Instant startTime, Instant endTime,
-            int type, String targetUser, String title, String message, Instant createdAt, Instant updatedAt) {
+    public Notification(String notificationId, Instant startTime, Instant endTime, String type, String targetUser,
+            String title, String message, boolean shown, Instant createdAt, Instant updatedAt) {
         this.setStartTime(startTime);
         this.setEndTime(endTime);
         this.setType(type);
@@ -83,6 +87,7 @@ public class Notification extends BaseEntity {
         this.setUpdatedAt(updatedAt);
 
         this.notificationId = notificationId;
+        this.shown = shown;
     }
 
     public String getNotificationId() {
@@ -105,11 +110,11 @@ public class Notification extends BaseEntity {
         this.endTime = endTime;
     }
 
-    public int getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(String type) {
         this.type = type;
     }
 
@@ -137,6 +142,18 @@ public class Notification extends BaseEntity {
         this.message = message;
     }
 
+    public boolean isShown() {
+        return shown;
+    }
+
+    /**
+     * Sets the notification as shown to the user.
+     * Only allowed to change value from false to true.
+     */
+    public void setShown() {
+        this.shown = true;
+    }
+
     public Instant getCreatedAt() {
         return createdAt;
     }
@@ -151,5 +168,13 @@ public class Notification extends BaseEntity {
 
     public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    /**
+     * Updates the updatedAt timestamp when saving.
+     */
+    @OnSave
+    public void updateLastUpdateTimestamp() {
+        this.setUpdatedAt(Instant.now());
     }
 }

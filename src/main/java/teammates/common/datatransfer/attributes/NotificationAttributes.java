@@ -17,10 +17,11 @@ public class NotificationAttributes extends EntityAttributes<Notification> {
     private String notificationId;
     private Instant startTime;
     private Instant endTime;
-    private int type;
+    private String type;
     private String targetUser;
     private String title;
     private String message;
+    private boolean shown;
     private Instant createdAt;
     private Instant updatedAt;
 
@@ -42,6 +43,7 @@ public class NotificationAttributes extends EntityAttributes<Notification> {
         notificationAttributes.message = n.getMessage();
         notificationAttributes.createdAt = n.getCreatedAt();
         notificationAttributes.updatedAt = n.getUpdatedAt();
+        notificationAttributes.shown = n.isShown();
 
         return notificationAttributes;
     }
@@ -67,6 +69,7 @@ public class NotificationAttributes extends EntityAttributes<Notification> {
         notificationAttributes.message = this.message;
         notificationAttributes.createdAt = this.createdAt;
         notificationAttributes.updatedAt = this.updatedAt;
+        notificationAttributes.shown = this.shown;
 
         return notificationAttributes;
     }
@@ -91,11 +94,11 @@ public class NotificationAttributes extends EntityAttributes<Notification> {
         this.endTime = endTime;
     }
 
-    public int getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(String type) {
         this.type = type;
     }
 
@@ -121,6 +124,18 @@ public class NotificationAttributes extends EntityAttributes<Notification> {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public boolean isShown() {
+        return shown;
+    }
+
+    /**
+     * Sets the notification as shown to the user.
+     * Only allowed to change value from false to true.
+     */
+    public void setShown() {
+        this.shown = true;
     }
 
     public Instant getCreatedAt() {
@@ -153,7 +168,7 @@ public class NotificationAttributes extends EntityAttributes<Notification> {
     @Override
     public Notification toEntity() {
         return new Notification(notificationId, startTime, endTime, type,
-                targetUser, title, message, createdAt, updatedAt);
+                targetUser, title, message, shown, createdAt, updatedAt);
     }
 
     @Override
@@ -197,6 +212,7 @@ public class NotificationAttributes extends EntityAttributes<Notification> {
         updateOptions.targetUserOption.ifPresent(u -> targetUser = u);
         updateOptions.titleOption.ifPresent(t -> title = t);
         updateOptions.messageOption.ifPresent(m -> message = m);
+        updateOptions.shownOption.ifPresent(s -> shown = s);
     }
 
     /**
@@ -242,10 +258,11 @@ public class NotificationAttributes extends EntityAttributes<Notification> {
 
         private UpdateOption<Instant> startTimeOption = UpdateOption.empty();
         private UpdateOption<Instant> endTimeOption = UpdateOption.empty();
-        private UpdateOption<Integer> typeOption = UpdateOption.empty();
+        private UpdateOption<String> typeOption = UpdateOption.empty();
         private UpdateOption<String> targetUserOption = UpdateOption.empty();
         private UpdateOption<String> titleOption = UpdateOption.empty();
         private UpdateOption<String> messageOption = UpdateOption.empty();
+        private UpdateOption<Boolean> shownOption = UpdateOption.empty();
 
         private UpdateOptions(String notificationId) {
             assert notificationId != null;
@@ -266,6 +283,7 @@ public class NotificationAttributes extends EntityAttributes<Notification> {
                     + ", targetUser = " + targetUserOption
                     + ", title = " + titleOption
                     + ", message = " + messageOption
+                    + ", shown = " + shownOption
                     + "]";
         }
 
@@ -323,7 +341,7 @@ public class NotificationAttributes extends EntityAttributes<Notification> {
             return thisBuilder;
         }
 
-        public B withType(int type) {
+        public B withType(String type) {
             updateOptions.typeOption = UpdateOption.of(type);
             return thisBuilder;
         }
@@ -346,6 +364,11 @@ public class NotificationAttributes extends EntityAttributes<Notification> {
             assert message != null;
 
             updateOptions.messageOption = UpdateOption.of(message);
+            return thisBuilder;
+        }
+
+        public B withShown() {
+            updateOptions.shownOption = UpdateOption.of(true);
             return thisBuilder;
         }
 
