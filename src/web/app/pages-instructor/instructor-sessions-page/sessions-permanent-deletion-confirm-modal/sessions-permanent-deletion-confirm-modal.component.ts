@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FeedbackSession } from '../../../../types/api-output';
 
@@ -10,14 +10,11 @@ import { FeedbackSession } from '../../../../types/api-output';
   templateUrl: './sessions-permanent-deletion-confirm-modal.component.html',
   styleUrls: ['./sessions-permanent-deletion-confirm-modal.component.scss'],
 })
-export class SessionsPermanentDeletionConfirmModalComponent implements OnInit {
+export class SessionsPermanentDeletionConfirmModalComponent {
 
   @Input()
   sessionsToDelete: FeedbackSession[] = [];
 
   constructor(public activeModal: NgbActiveModal) {}
-
-  ngOnInit(): void {
-  }
 
 }

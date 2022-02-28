@@ -7,7 +7,7 @@ import { McqMsqQuestionStatisticsCalculation } from './mcq-msq-question-statisti
  * Class to calculate stats for mcq question.
  */
 @Directive()
-// tslint:disable-next-line:directive-class-suffix
+// eslint-disable-next-line @angular-eslint/directive-class-suffix
 export class McqQuestionStatisticsCalculation
     extends QuestionStatistics<FeedbackMcqQuestionDetails, FeedbackMcqResponseDetails>
     implements McqMsqQuestionStatisticsCalculation {
@@ -17,10 +17,6 @@ export class McqQuestionStatisticsCalculation
   weightPerOption: Record<string, number> = {};
   weightedPercentagePerOption: Record<string, number> = {};
   perRecipientResponses: Record<string, any> = {};
-
-  constructor(question: FeedbackMcqQuestionDetails) {
-    super(question);
-  }
 
   calculateStatistics(): void {
     this.answerFrequency = {};
@@ -88,7 +84,7 @@ export class McqQuestionStatisticsCalculation
       for (const response of this.responses) {
         const isOther: boolean = response.responseDetails.isOther;
         const answer: string = isOther ? 'Other' : response.responseDetails.answer;
-        perRecipientResponse[response.recipient][answer] = perRecipientResponse[response.recipient][answer] + 1;
+        perRecipientResponse[response.recipient][answer] += 1;
       }
 
       for (const recipient of Object.keys(perRecipientResponse)) {

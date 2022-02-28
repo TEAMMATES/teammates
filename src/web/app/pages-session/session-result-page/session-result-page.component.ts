@@ -115,7 +115,8 @@ export class SessionResultPageComponent implements OnInit {
               if (resp.isUsed) {
                 // The logged in user matches the registration key; redirect to the logged in URL
 
-                this.navigationService.navigateByURLWithParamEncoding(this.router, `/web/${this.entityType}/sessions/result`,
+                this.navigationService.navigateByURLWithParamEncoding(
+                    this.router, `/web/${this.entityType}/sessions/result`,
                     { courseid: this.courseId, fsname: this.feedbackSessionName });
               } else {
                 // Valid, unused registration key; load information based on the key
@@ -134,6 +135,7 @@ export class SessionResultPageComponent implements OnInit {
                     ${environment.supportEmail} for help.`);
               } else {
                 // There is no logged in user for a valid, used registration key, redirect to login page
+                // eslint-disable-next-line no-lonely-if
                 if (this.entityType === 'student') {
                   window.location.href = `${this.backendUrl}${auth.studentLoginUrl}`;
                 } else if (this.entityType === 'instructor') {
@@ -218,7 +220,9 @@ export class SessionResultPageComponent implements OnInit {
         intent: this.intent,
         key: this.regKey,
       })
-          .pipe(finalize(() => this.isFeedbackSessionResultsLoading = false))
+          .pipe(finalize(() => {
+            this.isFeedbackSessionResultsLoading = false;
+          }))
           .subscribe((sessionResults: SessionResults) => {
             this.questions = sessionResults.questions.sort(
                 (a: QuestionOutput, b: QuestionOutput) =>

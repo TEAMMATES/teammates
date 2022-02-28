@@ -17,7 +17,7 @@
               <tr>
                 <td class="font-weight-bold">Short Name (Gender)</td>
                 <td id="name-with-gender"><span *ngIf="studentProfile?.shortName; else notSpecified">{{studentProfile?.shortName}}</span>
-                  (<i *ngIf="studentProfile?.gender != Gender.OTHER; else notSpecified">{{studentProfile?.gender}}</i>)
+                  (<i *ngIf="studentProfile?.gender !== Gender.OTHER; else notSpecified">{{studentProfile?.gender}}</i>)
                 </td>
               </tr>
               <tr>

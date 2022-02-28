@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
@@ -12,7 +12,7 @@ describe('InstructorSessionResultGqrViewComponent', () => {
   let component: InstructorSessionResultGqrViewComponent;
   let fixture: ComponentFixture<InstructorSessionResultGqrViewComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [InstructorSessionResultGqrViewComponent],
       imports: [GqrRqgViewResponsesModule, NgbModule, LoadingSpinnerModule, PanelChevronModule],

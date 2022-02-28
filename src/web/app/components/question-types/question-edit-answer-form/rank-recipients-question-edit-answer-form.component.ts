@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import {
   FeedbackRankRecipientsQuestionDetails,
   FeedbackRankRecipientsResponseDetails,
@@ -19,8 +19,7 @@ import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
 })
 export class RankRecipientsQuestionEditAnswerFormComponent
     extends
-        QuestionEditAnswerFormComponent<FeedbackRankRecipientsQuestionDetails, FeedbackRankRecipientsResponseDetails>
-    implements OnInit {
+        QuestionEditAnswerFormComponent<FeedbackRankRecipientsQuestionDetails, FeedbackRankRecipientsResponseDetails> {
 
   readonly RANK_RECIPIENTS_ANSWER_NOT_SUBMITTED: number = RANK_RECIPIENTS_ANSWER_NOT_SUBMITTED;
 
@@ -29,9 +28,6 @@ export class RankRecipientsQuestionEditAnswerFormComponent
 
   constructor() {
     super(DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS(), DEFAULT_RANK_RECIPIENTS_RESPONSE_DETAILS());
-  }
-
-  ngOnInit(): void {
   }
 
   /**

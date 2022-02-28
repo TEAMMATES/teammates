@@ -4,16 +4,16 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
-import { StatusMessageService } from '../../../services/status-message.service';
-import { JoinState, MessageOutput, Student } from '../../../types/api-output';
-import { StudentUpdateRequest } from '../../../types/api-request';
-import { ErrorMessageOutput } from '../../error-message-output';
 
 import { NavigationService } from '../../../services/navigation.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
+import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
+import { JoinState, MessageOutput, Student } from '../../../types/api-output';
+import { StudentUpdateRequest } from '../../../types/api-request';
 import { FormValidator } from '../../../types/form-validator';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
+import { ErrorMessageOutput } from '../../error-message-output';
 
 /**
  * Instructor course student edit page.
@@ -89,7 +89,9 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
     this.isStudentLoading = true;
     this.studentService.getStudent(
         courseId, studentEmail,
-    ).pipe(finalize(() => this.isStudentLoading = false)).subscribe((student: Student) => {
+    ).pipe(finalize(() => {
+      this.isStudentLoading = false;
+    })).subscribe((student: Student) => {
       this.student = student;
       this.initEditForm();
     }, (resp: ErrorMessageOutput) => {
@@ -122,7 +124,9 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
 
     this.emailFieldSubscription =
         (this.editForm.get('newstudentemail') as AbstractControl).valueChanges
-            .subscribe(() => this.isEmailFieldChanged = true);
+            .subscribe(() => {
+              this.isEmailFieldChanged = true;
+            });
   }
 
   /**
@@ -149,8 +153,9 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
     }
 
     if (this.isTeamnameFieldChanged) {
-      const modalContent: string = `Editing these fields will result in some existing responses from this student to be deleted.
-            You may download the data before you make the changes.`;
+      const modalContent: string =
+          `Editing these fields will result in some existing responses from this student to be deleted.
+          You may download the data before you make the changes.`;
       const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
           'Delete existing responses?', SimpleModalType.WARNING, modalContent);
       modalRef.result.then(() => {

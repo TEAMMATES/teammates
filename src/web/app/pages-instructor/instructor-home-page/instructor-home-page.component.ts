@@ -111,8 +111,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
    * Handles click events on the course tab model.
    */
   handleClick(event: Event, courseTabModel: CourseTabModel): boolean {
-    if (event.target &&
-        !(event.target as HTMLElement).className.includes('dropdown-toggle')) {
+    if (event.target && !(event.target as HTMLElement).className.includes('dropdown-toggle')) {
       return !courseTabModel.isTabExpanded;
     }
     return courseTabModel.isTabExpanded;
@@ -122,7 +121,8 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
    * Archives the entire course from the instructor
    */
   archiveCourse(courseId: string): void {
-    const modalContent: string = 'This action can be reverted by going to the "Courses" tab and unarchiving the desired course(s).';
+    const modalContent: string =
+        'This action can be reverted by going to the "Courses" tab and unarchiving the desired course(s).';
 
     const modalRef: NgbModalRef =
         this.simpleModalService.openConfirmationModal(
@@ -146,7 +146,8 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
    * Deletes the entire course from the instructor
    */
   deleteCourse(courseId: string): void {
-    const modalContent: string = 'This action can be reverted by going to the "Courses" tab and restoring the desired course(s).';
+    const modalContent: string =
+        'This action can be reverted by going to the "Courses" tab and restoring the desired course(s).';
 
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
         `Move course <strong>${courseId}</strong> to Recycle Bin`, SimpleModalType.WARNING, modalContent);
@@ -344,7 +345,9 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
       this.copySingleSession(requestList[0]);
     }
     if (requestList.length > 1) {
-      forkJoin(requestList).pipe(finalize(() => this.isCopyLoading = false))
+      forkJoin(requestList).pipe(finalize(() => {
+          this.isCopyLoading = false;
+        }))
         .subscribe((newSessions: FeedbackSession[]) => {
           if (newSessions.length > 0) {
             newSessions.forEach((session: FeedbackSession) => {

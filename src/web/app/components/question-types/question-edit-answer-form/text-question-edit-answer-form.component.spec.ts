@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { FormsModule } from '@angular/forms';
 import { RichTextEditorModule } from '../../rich-text-editor/rich-text-editor.module';
@@ -8,7 +8,7 @@ describe('TextQuestionEditAnswerFormComponent', () => {
   let component: TextQuestionEditAnswerFormComponent;
   let fixture: ComponentFixture<TextQuestionEditAnswerFormComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [TextQuestionEditAnswerFormComponent],
       imports: [

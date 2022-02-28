@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   FeedbackVisibilityType, ResponseOutput,
@@ -13,7 +13,7 @@ import { CommentTableModel } from '../comment-table/comment-table.component';
   templateUrl: './comment-table-modal.component.html',
   styleUrls: ['./comment-table-modal.component.scss'],
 })
-export class CommentTableModalComponent implements OnInit, OnChanges {
+export class CommentTableModalComponent implements OnChanges {
 
   @Input()
   response?: ResponseOutput;
@@ -52,16 +52,10 @@ export class CommentTableModalComponent implements OnInit, OnChanges {
   @Output()
   updateCommentEvent: EventEmitter<number> = new EventEmitter();
 
-  constructor() { }
-
-  ngOnInit(): void {
-
-  }
-
   ngOnChanges(): void {
     if (!this.model.isAddingNewComment) {
       // in the model, we should always let the new comment box open regardless of upstream's settings
-      this.modelChange.emit(Object.assign({}, this.model, { isAddingNewComment: true }));
+      this.modelChange.emit({ ...this.model, isAddingNewComment: true });
     }
   }
 

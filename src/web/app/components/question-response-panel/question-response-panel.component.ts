@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import {
   FeedbackQuestionType,
   FeedbackSession,
@@ -18,7 +18,7 @@ import { FeedbackVisibilityType, Intent } from '../../../types/api-request';
   templateUrl: './question-response-panel.component.html',
   styleUrls: ['./question-response-panel.component.scss'],
 })
-export class QuestionResponsePanelComponent implements OnInit {
+export class QuestionResponsePanelComponent {
 
   readonly RESPONSE_HIDDEN_QUESTIONS: FeedbackQuestionType[] = [
     FeedbackQuestionType.CONTRIB,
@@ -47,11 +47,6 @@ export class QuestionResponsePanelComponent implements OnInit {
 
   @Input()
   intent: Intent = Intent.STUDENT_RESULT;
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
 
   canUserSeeResponses(question: QuestionOutput): boolean {
     const showResponsesTo: FeedbackVisibilityType[] = question.feedbackQuestion.showResponsesTo;

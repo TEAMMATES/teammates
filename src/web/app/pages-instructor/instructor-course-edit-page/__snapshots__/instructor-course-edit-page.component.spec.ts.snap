@@ -39,8 +39,6 @@ exports[`InstructorCourseEditPageComponent should snap when editing course detai
   timezones={[Function Array]}
 >
   <tm-loading-retry>
-    
-    
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -73,16 +71,9 @@ exports[`InstructorCourseEditPageComponent should snap when editing course detai
          More about configuring access permissions 
       </a>
     </div>
-    
-    
   </tm-loading-retry><tm-loading-retry>
-    
-    
     <div>
-      
     </div>
-    
-    
   </tm-loading-retry><div
     class="text-center"
   >
@@ -137,8 +128,6 @@ exports[`InstructorCourseEditPageComponent should snap with course details 1`] =
   timezones={[Function Array]}
 >
   <tm-loading-retry>
-    
-    
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -171,16 +160,9 @@ exports[`InstructorCourseEditPageComponent should snap with course details 1`] =
          More about configuring access permissions 
       </a>
     </div>
-    
-    
   </tm-loading-retry><tm-loading-retry>
-    
-    
     <div>
-      
     </div>
-    
-    
   </tm-loading-retry><div
     class="text-center"
   >
@@ -235,8 +217,6 @@ exports[`InstructorCourseEditPageComponent should snap with default fields 1`] =
   timezones={[Function Array]}
 >
   <tm-loading-retry>
-    
-    
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -269,16 +249,9 @@ exports[`InstructorCourseEditPageComponent should snap with default fields 1`] =
          More about configuring access permissions 
       </a>
     </div>
-    
-    
   </tm-loading-retry><tm-loading-retry>
-    
-    
     <div>
-      
     </div>
-    
-    
   </tm-loading-retry><div
     class="text-center"
   >
@@ -333,8 +306,6 @@ exports[`InstructorCourseEditPageComponent should snap with some instructor deta
   timezones={[Function Array]}
 >
   <tm-loading-retry>
-    
-    
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -367,14 +338,8 @@ exports[`InstructorCourseEditPageComponent should snap with some instructor deta
          More about configuring access permissions 
       </a>
     </div>
-    
-    
   </tm-loading-retry><tm-loading-retry>
-    
-    
     <div>
-      
-      
       <tm-instructor-edit-panel>
         <div
           class="card bg-light top-padded"
@@ -388,21 +353,16 @@ exports[`InstructorCourseEditPageComponent should snap with some instructor deta
             <div
               class="card-header-btn-toolbar"
             >
-              
-              
               <button
                 class="btn btn-primary btn-sm"
                 id="btn-edit-instructor-1"
               >
-                
                 <i
                   aria-hidden="true"
                   class="fa fa-pen"
                 />
                  Edit 
               </button>
-              
-              
               <button
                 class="btn btn-primary btn-sm"
                 id="btn-delete-instructor-1"
@@ -415,13 +375,11 @@ exports[`InstructorCourseEditPageComponent should snap with some instructor deta
                 />
                  Delete 
               </button>
-              
             </div>
           </div>
           <div
             class="card-body text-center"
           >
-            
             <div
               class="form-row form-group"
             >
@@ -430,7 +388,6 @@ exports[`InstructorCourseEditPageComponent should snap with some instructor deta
               >
                  Google ID: 
               </label>
-              
               <div
                 class="col-sm-9"
               >
@@ -442,7 +399,6 @@ exports[`InstructorCourseEditPageComponent should snap with some instructor deta
                   tabindex="3"
                 />
               </div>
-              
             </div>
             <div
               class="form-row form-group"
@@ -494,7 +450,6 @@ exports[`InstructorCourseEditPageComponent should snap with some instructor deta
                   id="checkbox-display-instructor-1"
                   type="checkbox"
                 />
-                   
                 <span
                   class="ngb-tooltip-class"
                   ngbtooltip="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for ‘auditing’ your course"
@@ -526,33 +481,24 @@ exports[`InstructorCourseEditPageComponent should snap with some instructor deta
                 class="col-sm-9"
                 id="access-levels-instructor-1"
               >
-                
-                
-                
                 <span
                   id="role-instructor-1"
                 >
                   Custom: No access by default. Any access needs to be granted explicitly.
                 </span>
-                
                 <button
                   class="btn btn-link padding-0"
                   type="button"
                 >
                   View Details
                 </button>
-                
               </div>
             </div>
-            
-            
           </div>
         </div>
       </tm-instructor-edit-panel>
       <br />
     </div>
-    
-    
   </tm-loading-retry><div
     class="text-center"
   >

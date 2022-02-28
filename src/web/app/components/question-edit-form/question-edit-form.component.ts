@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { CommonVisibilitySetting, FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
@@ -45,7 +45,7 @@ const QUESTION_DETAIL_PROPERTIES: Set<string> = new Set<string>([
   styleUrls: ['./question-edit-form.component.scss'],
   animations: [collapseAnim],
 })
-export class QuestionEditFormComponent implements OnInit {
+export class QuestionEditFormComponent {
 
   // enum
   FeedbackQuestionType: typeof FeedbackQuestionType = FeedbackQuestionType;
@@ -68,7 +68,7 @@ export class QuestionEditFormComponent implements OnInit {
         this.feedbackQuestionsService.getCommonFeedbackVisibilitySettings(
             this.visibilityStateMachine, model.questionType);
 
-    const visibilitySetting: {[TKey in VisibilityControl]: FeedbackVisibilityType[]} = {
+    const visibilitySetting: { [TKey in VisibilityControl]: FeedbackVisibilityType[] } = {
       SHOW_RESPONSE: model.showResponsesTo,
       SHOW_GIVER_NAME: model.showGiverNameTo,
       SHOW_RECIPIENT_NAME: model.showRecipientNameTo,
@@ -78,9 +78,9 @@ export class QuestionEditFormComponent implements OnInit {
     if (!model.isUsingOtherFeedbackPath) {
       // find if the feedback path is in the common feedback paths
       this.model.isUsingOtherFeedbackPath = true;
-      if (this.commonFeedbackPaths.has(model.giverType) &&
-          // tslint:disable-next-line:no-non-null-assertion
-          this.commonFeedbackPaths.get(model.giverType)!.includes(model.recipientType)) {
+      if (this.commonFeedbackPaths.has(model.giverType)
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          && this.commonFeedbackPaths.get(model.giverType)!.includes(model.recipientType)) {
         this.model.isUsingOtherFeedbackPath = false;
       }
     }
@@ -198,8 +198,6 @@ export class QuestionEditFormComponent implements OnInit {
     return setA.length === setB.length && setA.every((ele: FeedbackVisibilityType) => setB.includes(ele));
   }
 
-  ngOnInit(): void {}
-
   /**
    * Triggers the change of the model for the form.
    */
@@ -258,7 +256,8 @@ export class QuestionEditFormComponent implements OnInit {
       return;
     }
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        `Discard unsaved ${isNewQuestion ? 'question' : 'edits'}?`, SimpleModalType.WARNING, 'Warning: Any unsaved changes will be lost');
+        `Discard unsaved ${isNewQuestion ? 'question' : 'edits'}?`, SimpleModalType.WARNING,
+        'Warning: Any unsaved changes will be lost');
     modalRef.result.then(() => {
       this.discardChanges();
     }, () => {});

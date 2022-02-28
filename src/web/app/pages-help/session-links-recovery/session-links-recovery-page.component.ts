@@ -60,10 +60,14 @@ export class SessionLinksRecoveryPageComponent implements OnInit {
     this.feedbackSessionsService.sendFeedbackSessionLinkToRecoveryEmail({
       sessionLinksRecoveryEmail: sessionLinksRecoveryForm.controls.email.value,
       captchaResponse: this.captchaResponse,
-    }).pipe(finalize(() => this.isFormSubmitting = false)).subscribe((resp: SessionLinksRecoveryResponse) => {
-      resp.isEmailSent
-            ? this.statusMessageService.showSuccessToast(resp.message)
-            : this.statusMessageService.showErrorToast(resp.message);
+    }).pipe(finalize(() => {
+      this.isFormSubmitting = false;
+    })).subscribe((resp: SessionLinksRecoveryResponse) => {
+      if (resp.isEmailSent) {
+        this.statusMessageService.showSuccessToast(resp.message);
+      } else {
+        this.statusMessageService.showErrorToast(resp.message);
+      }
     }, (response: ErrorMessageOutput) => {
       this.statusMessageService.showErrorToast(response.error.message);
     });
@@ -93,6 +97,7 @@ export class SessionLinksRecoveryPageComponent implements OnInit {
 
   /**
    * Handles successful completion recaptcha challenge.
+   *
    * @param captchaResponse User's captcha response token
    */
   handleSuccess(captchaResponse: string): void {

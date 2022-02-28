@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { InstructorPermissionRole, InstructorPermissionSet } from '../../../../types/api-output';
 
@@ -10,7 +10,7 @@ import { InstructorPermissionRole, InstructorPermissionSet } from '../../../../t
   templateUrl: './view-role-privileges-modal.component.html',
   styleUrls: ['./view-role-privileges-modal.component.scss'],
 })
-export class ViewRolePrivilegesModalComponent implements OnInit {
+export class ViewRolePrivilegesModalComponent {
 
   @Input()
   role: InstructorPermissionRole = InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM;
@@ -28,8 +28,5 @@ export class ViewRolePrivilegesModalComponent implements OnInit {
   };
 
   constructor(public activeModal: NgbActiveModal) { }
-
-  ngOnInit(): void {
-  }
 
 }

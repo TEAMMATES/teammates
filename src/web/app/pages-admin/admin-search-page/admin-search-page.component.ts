@@ -56,7 +56,9 @@ export class AdminSearchPageComponent {
     this.loadingBarService.showLoadingBar();
     this.searchService.searchAdmin(
         this.searchQuery,
-    ).pipe(finalize(() => this.loadingBarService.hideLoadingBar())).subscribe((resp: AdminSearchResult) => {
+    ).pipe(finalize(() => {
+      this.loadingBarService.hideLoadingBar();
+    })).subscribe((resp: AdminSearchResult) => {
       const hasStudents: boolean = !!(resp.students && resp.students.length);
       const hasInstructors: boolean = !!(resp.instructors && resp.instructors.length);
       const hasAccountRequests: boolean = !!(resp.accountRequests && resp.accountRequests.length);
@@ -163,10 +165,11 @@ export class AdminSearchPageComponent {
       event.stopPropagation();
     }
 
-    const modalContent: string = `Are you sure you want to reset the Google account ID currently associated for <strong>${ instructor.name }</strong> in the course <strong>${ instructor.courseId }</strong>?
+    const modalContent: string = `Are you sure you want to reset the Google account ID currently associated for
+        <strong>${instructor.name}</strong> in the course <strong>${instructor.courseId}</strong>?
         The user will need to re-associate their account with a new Google ID.`;
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        `Reset <strong>${ instructor.name }</strong>\'s Google ID?`, SimpleModalType.WARNING, modalContent);
+        `Reset <strong>${instructor.name}</strong>'s Google ID?`, SimpleModalType.WARNING, modalContent);
 
     modalRef.result.then(() => {
       this.accountService.resetInstructorAccount(instructor.courseId, instructor.email).subscribe(() => {
@@ -186,10 +189,11 @@ export class AdminSearchPageComponent {
       event.preventDefault();
       event.stopPropagation();
     }
-    const modalContent: string = `Are you sure you want to reset the Google account ID currently associated for <strong>${ student.name }</strong> in the course <strong>${ student.courseId }</strong>?
+    const modalContent: string = `Are you sure you want to reset the Google account ID currently associated for
+        <strong>${student.name}</strong> in the course <strong>${student.courseId}</strong>?
         The user will need to re-associate their account with a new Google ID.`;
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        `Reset <strong>${ student.name }</strong>\'s Google ID?`, SimpleModalType.WARNING, modalContent);
+        `Reset <strong>${student.name}</strong>'s Google ID?`, SimpleModalType.WARNING, modalContent);
 
     modalRef.result.then(() => {
       this.accountService.resetStudentAccount(student.courseId, student.email).subscribe(() => {
@@ -205,10 +209,11 @@ export class AdminSearchPageComponent {
    * Regenerates the student's registration key.
    */
   regenerateStudentKey(student: StudentAccountSearchResult): void {
-    const modalContent: string = `Are you sure you want to regenerate the registration key for <strong>${ student.name }</strong> for the course <strong>${ student.courseId }</strong>?
+    const modalContent: string = `Are you sure you want to regenerate the registration key for
+        <strong>${student.name}</strong> for the course <strong>${student.courseId}</strong>?
         An email will be sent to the student with all the new course registration and feedback session links.`;
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        `Regenerate <strong>${ student.name }</strong>\'s course links?`, SimpleModalType.WARNING, modalContent);
+        `Regenerate <strong>${student.name}</strong>'s course links?`, SimpleModalType.WARNING, modalContent);
 
     modalRef.result.then(() => {
       this.studentService.regenerateStudentKey(student.courseId, student.email)
@@ -225,10 +230,11 @@ export class AdminSearchPageComponent {
    * Regenerates the instructor's registration key.
    */
   regenerateInstructorKey(instructor: InstructorAccountSearchResult): void {
-    const modalContent: string = `Are you sure you want to regenerate the registration key for <strong>${ instructor.name }</strong> for the course <strong>${ instructor.courseId }</strong>?
+    const modalContent: string = `Are you sure you want to regenerate the registration key for
+        <strong>${instructor.name}</strong> for the course <strong>${instructor.courseId}</strong>?
         An email will be sent to the instructor with all the new course registration and feedback session links.`;
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        `Regenerate <strong>${ instructor.name }</strong>'s course links?`, SimpleModalType.WARNING, modalContent);
+        `Regenerate <strong>${instructor.name}</strong>'s course links?`, SimpleModalType.WARNING, modalContent);
 
     modalRef.result.then(() => {
       this.instructorService.regenerateInstructorKey(instructor.courseId, instructor.email)
@@ -280,7 +286,7 @@ export class AdminSearchPageComponent {
    */
   private getUpdatedUrl(link: string, newVal: string): string {
     const param: string = 'key';
-    const regex: RegExp = new RegExp(`(${param}=)[^\&]+`);
+    const regex: RegExp = new RegExp(`(${param}=)[^&]+`);
 
     return link.replace(regex, `$1${newVal}`);
   }

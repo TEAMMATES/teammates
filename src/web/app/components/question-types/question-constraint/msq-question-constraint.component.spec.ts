@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { MsqQuestionConstraintComponent } from './msq-question-constraint.component';
 
@@ -6,7 +6,7 @@ describe('MsqQuestionConstraintComponent', () => {
   let component: MsqQuestionConstraintComponent;
   let fixture: ComponentFixture<MsqQuestionConstraintComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [MsqQuestionConstraintComponent],
     })

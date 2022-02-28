@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TableComparatorService } from '../../../../services/table-comparator.service';
 import { SortBy, SortOrder } from '../../../../types/sort-properties';
 import { InstructorListInfoTableRowModel, StudentListInfoTableRowModel } from './respondent-list-info-table-model';
@@ -11,7 +11,7 @@ import { InstructorListInfoTableRowModel, StudentListInfoTableRowModel } from '.
   templateUrl: './respondent-list-info-table.component.html',
   styleUrls: ['./respondent-list-info-table.component.scss'],
 })
-export class RespondentListInfoTableComponent implements OnInit {
+export class RespondentListInfoTableComponent {
 
   // enum
   SortBy: typeof SortBy = SortBy;
@@ -40,9 +40,6 @@ export class RespondentListInfoTableComponent implements OnInit {
 
   constructor(private tableComparatorService: TableComparatorService) { }
 
-  ngOnInit(): void {
-  }
-
   /**
    * Sorts the students according to selection option.
    */
@@ -52,7 +49,7 @@ export class RespondentListInfoTableComponent implements OnInit {
         this.studentListInfoTableSortOrder === SortOrder.DESC ? SortOrder.ASC : SortOrder.DESC;
 
     this.studentListInfoTableRowModelsChange.emit(
-        this.studentListInfoTableRowModels.map((oldModel: StudentListInfoTableRowModel) => Object.assign({}, oldModel))
+        this.studentListInfoTableRowModels.map((oldModel: StudentListInfoTableRowModel) => ({ ...oldModel }))
             .sort(this.sortStudentRowsBy(by, this.studentListInfoTableSortOrder)),
     );
     this.studentListInfoTableSortBy = by;
@@ -65,7 +62,7 @@ export class RespondentListInfoTableComponent implements OnInit {
 
     this.instructorListInfoTableRowModelsChange.emit(
         this.instructorListInfoTableRowModels.map(
-            (oldModel: InstructorListInfoTableRowModel) => Object.assign({}, oldModel))
+            (oldModel: InstructorListInfoTableRowModel) => ({ ...oldModel }))
             .sort(this.sortInstructorRowsBy(by, this.instructorListInfoTableSortOrder)),
     );
     this.instructorListInfoTableSortBy = by;
@@ -78,11 +75,9 @@ export class RespondentListInfoTableComponent implements OnInit {
     this.studentListInfoTableRowModelsChange.emit(
         this.studentListInfoTableRowModels.map((oldModel: StudentListInfoTableRowModel) => {
           if (oldModel === model) {
-            return Object.assign({}, oldModel, {
-              isSelected: !oldModel.isSelected,
-            });
+            return { ...oldModel, isSelected: !oldModel.isSelected };
           }
-          return Object.assign({}, oldModel);
+          return { ...oldModel };
         }),
     );
   }
@@ -91,11 +86,9 @@ export class RespondentListInfoTableComponent implements OnInit {
     this.instructorListInfoTableRowModelsChange.emit(
         this.instructorListInfoTableRowModels.map((oldModel: InstructorListInfoTableRowModel) => {
           if (oldModel === model) {
-            return Object.assign({}, oldModel, {
-              isSelected: !oldModel.isSelected,
-            });
+            return { ...oldModel, isSelected: !oldModel.isSelected };
           }
-          return Object.assign({}, oldModel);
+          return { ...oldModel };
         }),
     );
   }
@@ -178,9 +171,8 @@ export class RespondentListInfoTableComponent implements OnInit {
    */
   changeSelectionStatusForAllStudentsHandler(shouldSelect: boolean): void {
     this.studentListInfoTableRowModelsChange.emit(
-        this.studentListInfoTableRowModels.map((model: StudentListInfoTableRowModel) => Object.assign({}, model, {
-          isSelected: shouldSelect,
-        })),
+        this.studentListInfoTableRowModels.map(
+            (model: StudentListInfoTableRowModel) => ({ ...model, isSelected: shouldSelect })),
     );
   }
 
@@ -196,9 +188,8 @@ export class RespondentListInfoTableComponent implements OnInit {
    */
   changeSelectionStatusForAllInstructorsHandler(shouldSelect: boolean): void {
     this.instructorListInfoTableRowModelsChange.emit(
-        this.instructorListInfoTableRowModels.map((model: InstructorListInfoTableRowModel) => Object.assign({}, model, {
-          isSelected: shouldSelect,
-        })),
+        this.instructorListInfoTableRowModels.map(
+            (model: InstructorListInfoTableRowModel) => ({ ...model, isSelected: shouldSelect })),
     );
   }
 }

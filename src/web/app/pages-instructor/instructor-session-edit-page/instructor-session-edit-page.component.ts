@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
 import { forkJoin, Observable, of } from 'rxjs';
-import { concatMap, finalize, flatMap, map, switchMap } from 'rxjs/operators';
+import { concatMap, finalize, map, mergeMap, switchMap } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import {
   CommonVisibilitySetting,
@@ -59,8 +59,12 @@ import { SimpleModalType } from '../../components/simple-modal/simple-modal-type
 import { TimeFormat } from '../../components/timepicker/timepicker.component';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorSessionBasePageComponent } from '../instructor-session-base-page.component';
-import { QuestionToCopyCandidate } from './copy-questions-from-other-sessions-modal/copy-questions-from-other-sessions-modal-model';
-import { CopyQuestionsFromOtherSessionsModalComponent } from './copy-questions-from-other-sessions-modal/copy-questions-from-other-sessions-modal.component';
+import {
+  QuestionToCopyCandidate,
+} from './copy-questions-from-other-sessions-modal/copy-questions-from-other-sessions-modal-model';
+import {
+  CopyQuestionsFromOtherSessionsModalComponent,
+} from './copy-questions-from-other-sessions-modal/copy-questions-from-other-sessions-modal.component';
 import { TemplateQuestionModalComponent } from './template-question-modal/template-question-modal.component';
 
 /**
@@ -234,7 +238,9 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
         courseId: this.courseId,
         feedbackSessionName: this.feedbackSessionName,
         intent: Intent.FULL_DETAIL,
-      }).pipe(finalize(() => this.isLoadingFeedbackSession = false))
+      }).pipe(finalize(() => {
+        this.isLoadingFeedbackSession = false;
+      }))
       .subscribe((feedbackSession: FeedbackSession) => {
         this.sessionEditFormModel = this.getSessionEditFormModel(feedbackSession, this.isEditingMode);
         this.feedbackSessionModelBeforeEditing = this.getSessionEditFormModel(feedbackSession);
@@ -256,7 +262,9 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     // load course candidates first
     return new Promise<void>((_resolve: any, reject: any) => {
       this.courseService.getInstructorCoursesThatAreActive()
-      .pipe(finalize(() => this.sessionEditFormModel.isCopying = false))
+      .pipe(finalize(() => {
+        this.sessionEditFormModel.isCopying = false;
+      }))
       .subscribe((courses: Courses) => {
         this.failedToCopySessions = {};
         const modalRef: NgbModalRef = this.ngbModal.open(CopySessionModalComponent);
@@ -269,11 +277,15 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
               result, this.courseId, this.feedbackSessionName);
           this.sessionEditFormModel.isCopying = true;
           if (requestList.length === 1) {
-            this.copySingleSession(requestList[0].pipe(finalize(() => this.sessionEditFormModel.isCopying = false)));
+            this.copySingleSession(requestList[0].pipe(finalize(() => {
+              this.sessionEditFormModel.isCopying = false;
+            })));
           }
           if (requestList.length > 1) {
             forkJoin(requestList)
-            .pipe(finalize(() => this.sessionEditFormModel.isCopying = false))
+            .pipe(finalize(() => {
+              this.sessionEditFormModel.isCopying = false;
+            }))
             .subscribe(() => {
               this.showCopyStatusMessage();
             });
@@ -282,7 +294,9 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
           reject(resp);
           this.statusMessageService.showErrorToast(resp.error.message);
         })
-        .catch(() => this.sessionEditFormModel.isCopying = false);
+        .catch(() => {
+          this.sessionEditFormModel.isCopying = false;
+        });
       });
     });
   }
@@ -291,10 +305,10 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Gets the {@code sessionEditFormModel} with {@link FeedbackSession} entity.
    */
   getSessionEditFormModel(feedbackSession: FeedbackSession, isEditable: boolean = false): SessionEditFormModel {
-    const submissionStart: {date: DateFormat; time: TimeFormat} =
+    const submissionStart: { date: DateFormat; time: TimeFormat } =
         this.getDateTimeAtTimezone(feedbackSession.submissionStartTimestamp, feedbackSession.timeZone, true);
 
-    const submissionEnd: {date: DateFormat; time: TimeFormat} =
+    const submissionEnd: { date: DateFormat; time: TimeFormat } =
         this.getDateTimeAtTimezone(feedbackSession.submissionEndTimestamp, feedbackSession.timeZone, true);
 
     const model: SessionEditFormModel = {
@@ -336,14 +350,14 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     };
 
     if (feedbackSession.customSessionVisibleTimestamp) {
-      const customSessionVisible: {date: DateFormat; time: TimeFormat} =
+      const customSessionVisible: { date: DateFormat; time: TimeFormat } =
           this.getDateTimeAtTimezone(feedbackSession.customSessionVisibleTimestamp, feedbackSession.timeZone, true);
       model.customSessionVisibleTime = customSessionVisible.time;
       model.customSessionVisibleDate = customSessionVisible.date;
     }
 
     if (feedbackSession.customResponseVisibleTimestamp) {
-      const customResponseVisible: {date: DateFormat; time: TimeFormat} =
+      const customResponseVisible: { date: DateFormat; time: TimeFormat } =
           this.getDateTimeAtTimezone(feedbackSession.customResponseVisibleTimestamp, feedbackSession.timeZone, true);
       model.customResponseVisibleTime = customResponseVisible.time;
       model.customResponseVisibleDate = customResponseVisible.date;
@@ -356,7 +370,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Get the local date and time of timezone from timestamp.
    */
   private getDateTimeAtTimezone(timestamp: number, timeZone: string, resolveMidnightTo2359: boolean):
-      {date: DateFormat; time: TimeFormat} {
+      { date: DateFormat; time: TimeFormat } {
     let momentInstance: moment.Moment = this.timezoneService.getMomentInstance(timestamp, timeZone);
     if (resolveMidnightTo2359 && momentInstance.hour() === 0 && momentInstance.minute() === 0) {
       momentInstance = momentInstance.subtract(1, 'minute');
@@ -418,9 +432,9 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
 
       isClosingEmailEnabled: this.sessionEditFormModel.isClosingEmailEnabled,
       isPublishedEmailEnabled: this.sessionEditFormModel.isPublishedEmailEnabled,
-    }).pipe(
-        finalize(() => this.sessionEditFormModel.isSaving = false),
-    ).subscribe((feedbackSession: FeedbackSession) => {
+    }).pipe(finalize(() => {
+      this.sessionEditFormModel.isSaving = false;
+    })).subscribe((feedbackSession: FeedbackSession) => {
       this.sessionEditFormModel = this.getSessionEditFormModel(feedbackSession);
 
       this.statusMessageService.showSuccessToast('The feedback session has been updated.');
@@ -442,14 +456,15 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   deleteExistingSessionHandler(): void {
     this.sessionEditFormModel.isDeleting = true;
     this.feedbackSessionsService.moveSessionToRecycleBin(this.courseId, this.feedbackSessionName)
-     .pipe(finalize(() => this.sessionEditFormModel.isDeleting = false))
-     .subscribe(() => {
-       this.navigationService.navigateWithSuccessMessage(this.router, '/web/instructor/sessions',
-      'The feedback session has been deleted. You can restore it from the deleted sessions table below.');
-     },
-     (resp: ErrorMessageOutput) => {
-       this.statusMessageService.showErrorToast(resp.error.message);
-     });
+      .pipe(finalize(() => {
+        this.sessionEditFormModel.isDeleting = false;
+      }))
+      .subscribe(() => {
+        this.navigationService.navigateWithSuccessMessage(this.router, '/web/instructor/sessions',
+          'The feedback session has been deleted. You can restore it from the deleted sessions table below.');
+      }, (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+      });
   }
 
   /**
@@ -464,7 +479,9 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       feedbackSessionName: this.feedbackSessionName,
       intent: Intent.FULL_DETAIL,
     })
-        .pipe(finalize(() => this.isLoadingFeedbackQuestions = false))
+        .pipe(finalize(() => {
+          this.isLoadingFeedbackQuestions = false;
+        }))
         .subscribe((response: FeedbackQuestions) => {
           response.questions.forEach((feedbackQuestion: FeedbackQuestion) => {
             const addedQuestionEditFormModel: QuestionEditFormModel = this.getQuestionEditFormModel(feedbackQuestion);
@@ -542,7 +559,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   saveExistingQuestionHandler(index: number): void {
     const questionEditFormModel: QuestionEditFormModel = this.questionEditFormModels[index];
     const originalQuestionNumber: number =
-        // tslint:disable-next-line:no-non-null-assertion
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         this.feedbackQuestionModels.get(questionEditFormModel.feedbackQuestionId)!.questionNumber;
 
     questionEditFormModel.isSaving = true;
@@ -598,9 +615,13 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     const movedExpandedQuestions: QuestionEditFormModel[] = this.questionEditFormModels
       .slice(start, newPosition + 1)
       .filter((model: QuestionEditFormModel) => !model.isCollapsed);
-    movedExpandedQuestions.forEach((model: QuestionEditFormModel) => model.isCollapsed = true);
+    movedExpandedQuestions.forEach((model: QuestionEditFormModel) => {
+      model.isCollapsed = true;
+    });
     this.changeDetectorRef.detectChanges();
-    movedExpandedQuestions.forEach((model: QuestionEditFormModel) => model.isCollapsed = false);
+    movedExpandedQuestions.forEach((model: QuestionEditFormModel) => {
+      model.isCollapsed = false;
+    });
   }
 
   /**
@@ -610,7 +631,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     for (let i: number = 1; i <= this.questionEditFormModels.length; i += 1) {
       const questionEditFormModel: QuestionEditFormModel = this.questionEditFormModels[i - 1];
       questionEditFormModel.questionNumber = i;
-      // tslint:disable-next-line:no-non-null-assertion
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       this.feedbackQuestionModels.get(questionEditFormModel.feedbackQuestionId)!.questionNumber = i;
     }
   }
@@ -621,7 +642,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   discardExistingQuestionHandler(index: number): void {
     const questionEditFormModel: QuestionEditFormModel = this.questionEditFormModels[index];
     const feedbackQuestion: FeedbackQuestion =
-        // tslint:disable-next-line:no-non-null-assertion
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         this.feedbackQuestionModels.get(questionEditFormModel.feedbackQuestionId)!;
     this.questionEditFormModels[index] = this.getQuestionEditFormModel(feedbackQuestion);
   }
@@ -667,14 +688,17 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Deletes the existing question.
    */
   deleteExistingQuestionHandler(index: number): void {
-    const modalRef: NgbModalRef = this.simpleModalService
-        .openConfirmationModal('Delete the question?', SimpleModalType.DANGER,
-            'Warning: Deleted question cannot be recovered. <b>All existing responses for this question to be deleted.</b>');
+    const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
+        'Delete the question?', SimpleModalType.DANGER,
+        'Warning: Deleted question cannot be recovered. '
+        + '<b>All existing responses for this question to be deleted.</b>');
     modalRef.result.then(() => {
       const questionEditFormModel: QuestionEditFormModel = this.questionEditFormModels[index];
       questionEditFormModel.isDeleting = true;
       this.feedbackQuestionsService.deleteFeedbackQuestion(questionEditFormModel.feedbackQuestionId)
-          .pipe(finalize(() => questionEditFormModel.isDeleting = false))
+          .pipe(finalize(() => {
+            questionEditFormModel.isDeleting = false;
+          }))
           .subscribe(
             () => {
               // remove form model
@@ -718,7 +742,9 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
             });
           }),
       ).pipe(
-        finalize(() => this.isAddingFromTemplate = false),
+        finalize(() => {
+          this.isAddingFromTemplate = false;
+        }),
       ).subscribe((newQuestion: FeedbackQuestion) => {
         this.questionEditFormModels.push(this.getQuestionEditFormModel(newQuestion));
         this.feedbackQuestionModels.set(newQuestion.feedbackQuestionId, newQuestion);
@@ -783,7 +809,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
           this.feedbackQuestionsService.getAllowedFeedbackPaths(type);
       // inherit feedback path if applicable
       if (newQuestionAllowedFeedbackPaths.has(lastQuestionEditFormModel.giverType)
-          // tslint:disable-next-line:no-non-null-assertion
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           && newQuestionAllowedFeedbackPaths.get(lastQuestionEditFormModel.giverType)!
               .indexOf(lastQuestionEditFormModel.recipientType) !== -1) {
         this.newQuestionEditFormModel.giverType = lastQuestionEditFormModel.giverType;
@@ -803,7 +829,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
         SHOW_GIVER_NAME: lastQuestionEditFormModel.showGiverNameTo,
         SHOW_RECIPIENT_NAME: lastQuestionEditFormModel.showRecipientNameTo,
       });
-      const newQuestionShowResponsesTo: FeedbackVisibilityType[]  =
+      const newQuestionShowResponsesTo: FeedbackVisibilityType[] =
           newQuestionVisibilityStateMachine.getVisibilityTypesUnderVisibilityControl(VisibilityControl.SHOW_RESPONSE);
       const newQuestionShowGiverNameTo: FeedbackVisibilityType[] =
           newQuestionVisibilityStateMachine.getVisibilityTypesUnderVisibilityControl(VisibilityControl.SHOW_GIVER_NAME);
@@ -897,7 +923,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
 
     this.feedbackSessionsService.getFeedbackSessionsForInstructor().pipe(
         switchMap((sessions: FeedbackSessions) => of(...sessions.feedbackSessions)),
-        flatMap((session: FeedbackSession) => {
+        mergeMap((session: FeedbackSession) => {
           return this.feedbackQuestionsService.getFeedbackQuestions({
             courseId: session.courseId,
             feedbackSessionName: session.feedbackSessionName,
@@ -916,7 +942,9 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
                   }),
               );
         }),
-        finalize(() => this.isCopyingQuestion = false),
+        finalize(() => {
+          this.isCopyingQuestion = false;
+        }),
     ).subscribe((questionToCopyCandidate: QuestionToCopyCandidate[]) => {
       questionToCopyCandidates.push(...questionToCopyCandidate);
     }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); }, () => {
@@ -946,7 +974,9 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
                 showRecipientNameTo: questionToCopy.showRecipientNameTo,
               });
             }),
-            finalize(() => this.isCopyingQuestion = false),
+            finalize(() => {
+              this.isCopyingQuestion = false;
+            }),
         ).subscribe((newQuestion: FeedbackQuestion) => {
           this.questionEditFormModels.push(this.getQuestionEditFormModel(newQuestion));
           this.feedbackQuestionModels.set(newQuestion.feedbackQuestionId, newQuestion);

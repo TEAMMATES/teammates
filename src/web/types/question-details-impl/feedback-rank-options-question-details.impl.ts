@@ -1,5 +1,6 @@
-// tslint:disable-next-line:max-line-length
-import { RankOptionsQuestionStatisticsCalculation } from '../../app/components/question-types/question-statistics/question-statistics-calculation/rank-options-question-statistics-calculation';
+import {
+  RankOptionsQuestionStatisticsCalculation,
+} from '../../app/components/question-types/question-statistics/question-statistics-calculation/rank-options-question-statistics-calculation';
 import {
   FeedbackQuestionType,
   FeedbackRankOptionsQuestionDetails, QuestionOutput,
@@ -37,8 +38,8 @@ export class FeedbackRankOptionsQuestionDetailsImpl extends AbstractFeedbackQues
   getQuestionCsvStats(question: QuestionOutput): string[][] {
     const statsRows: string[][] = [];
 
-    const statsCalculation: RankOptionsQuestionStatisticsCalculation
-        = new RankOptionsQuestionStatisticsCalculation(this);
+    const statsCalculation: RankOptionsQuestionStatisticsCalculation =
+        new RankOptionsQuestionStatisticsCalculation(this);
     this.populateQuestionStatistics(statsCalculation, question);
     if (statsCalculation.responses.length === 0) {
       // skip stats for no response

@@ -13,8 +13,6 @@ export class StatusMessageComponent {
 
   @Input() messages: StatusMessage[] = [];
 
-  constructor() { }
-
   /**
    * Dismisses the status message.
    */

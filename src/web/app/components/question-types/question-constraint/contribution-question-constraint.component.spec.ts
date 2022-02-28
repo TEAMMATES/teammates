@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { ContributionQuestionConstraintComponent } from './contribution-question-constraint.component';
 
@@ -6,7 +6,7 @@ describe('ContributionQuestionConstraintComponent', () => {
   let component: ContributionQuestionConstraintComponent;
   let fixture: ComponentFixture<ContributionQuestionConstraintComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ContributionQuestionConstraintComponent],
     })

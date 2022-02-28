@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   InstructorListInfoTableRowModel,
@@ -13,7 +13,7 @@ import {
   templateUrl: './send-reminders-to-respondents-modal.component.html',
   styleUrls: ['./send-reminders-to-respondents-modal.component.scss'],
 })
-export class SendRemindersToRespondentsModalComponent implements OnInit {
+export class SendRemindersToRespondentsModalComponent {
 
   // values below will be injected by other component
   courseId: string = '';
@@ -22,9 +22,6 @@ export class SendRemindersToRespondentsModalComponent implements OnInit {
   instructorListInfoTableRowModels: InstructorListInfoTableRowModel[] = [];
 
   constructor(public activeModal: NgbActiveModal) {
-  }
-
-  ngOnInit(): void {
   }
 
   /**
@@ -73,11 +70,11 @@ export class SendRemindersToRespondentsModalComponent implements OnInit {
   collateRespondentsToSendHandler(): (StudentListInfoTableRowModel | InstructorListInfoTableRowModel)[] {
     const studentsToSend: (StudentListInfoTableRowModel | InstructorListInfoTableRowModel)[] =
         this.studentListInfoTableRowModels.map(
-            (model: StudentListInfoTableRowModel) => Object.assign({}, model))
+            (model: StudentListInfoTableRowModel) => ({ ...model }))
             .filter((model: StudentListInfoTableRowModel) => model.isSelected);
     const instructorsToSend: (StudentListInfoTableRowModel | InstructorListInfoTableRowModel)[] =
         this.instructorListInfoTableRowModels.map(
-            (model: InstructorListInfoTableRowModel) => Object.assign({}, model))
+            (model: InstructorListInfoTableRowModel) => ({ ...model }))
             .filter((model: InstructorListInfoTableRowModel) => model.isSelected);
     return studentsToSend.concat(instructorsToSend);
   }
@@ -117,7 +114,7 @@ export class SendRemindersToRespondentsModalComponent implements OnInit {
     const nonSubmitters: InstructorListInfoTableRowModel[] = this.instructorListInfoTableRowModels
       .filter((model: InstructorListInfoTableRowModel) => !model.hasSubmittedSession);
 
-    return nonSubmitters.length > 0 &&
-      nonSubmitters.every((model: InstructorListInfoTableRowModel) => model.isSelected);
+    return nonSubmitters.length > 0
+        && nonSubmitters.every((model: InstructorListInfoTableRowModel) => model.isSelected);
   }
 }

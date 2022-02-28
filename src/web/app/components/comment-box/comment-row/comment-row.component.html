@@ -1,4 +1,4 @@
-<tm-comment-edit-form *ngIf="model.isEditing || mode == CommentRowMode.ADD"
+<tm-comment-edit-form *ngIf="model.isEditing || mode === CommentRowMode.ADD"
                       [mode]="mode"
                       [model]="model.commentEditFormModel"
                       (modelChange)="triggerModelChange('commentEditFormModel', $event)"
@@ -12,7 +12,7 @@
                       (closeCommentBoxEvent)="triggerCloseEditing()"
                       (saveCommentEvent)="triggerSaveCommentEvent()"></tm-comment-edit-form>
 
-<div class="card" *ngIf="!model.isEditing && mode == CommentRowMode.EDIT && model.originalComment">
+<div class="card" *ngIf="!model.isEditing && mode === CommentRowMode.EDIT && model.originalComment">
   <div class="card-body">
     <div class="row comment-row">
       <div class="col-12">

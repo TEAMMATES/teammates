@@ -10,7 +10,7 @@ import {
 } from '../../../../types/api-output';
 import { CommentVisibilityControl } from '../../../../types/comment-visibility-control';
 import { collapseAnim } from '../../teammates-common/collapse-anim';
-import { CommentRowMode } from '../comment-row/comment-row.component';
+import { CommentRowMode } from '../comment-row/comment-row.mode';
 
 /**
  * Model for comment edit form.
@@ -98,7 +98,7 @@ export class CommentEditFormComponent implements OnInit, OnChanges {
   ngOnChanges(): void {
     this.visibilityStateMachine = this.commentService.getNewVisibilityStateMachine(this.questionShowResponsesTo);
     if (this.model.isUsingCustomVisibilities) {
-      const visibilitySetting: {[TKey in CommentVisibilityControl]: CommentVisibilityType[]} = {
+      const visibilitySetting: { [TKey in CommentVisibilityControl]: CommentVisibilityType[] } = {
         SHOW_COMMENT: this.model.showCommentTo,
         SHOW_GIVER_NAME: this.model.showGiverNameTo,
       };
@@ -130,13 +130,13 @@ export class CommentEditFormComponent implements OnInit, OnChanges {
    * Triggers the change of the model for the form.
    */
   triggerModelChange(field: string, data: any): void {
-    this.modelChange.emit(Object.assign({}, this.model, { [field]: data }));
+    this.modelChange.emit({ ...this.model, [field]: data });
   }
 
   /**
    * Triggers the change of the model for the form.
    */
-  triggerModelChangeBatch(obj: {[key: string]: any}): void {
+  triggerModelChangeBatch(obj: { [key: string]: any }): void {
     this.modelChange.emit({
       ...this.model,
       ...obj,

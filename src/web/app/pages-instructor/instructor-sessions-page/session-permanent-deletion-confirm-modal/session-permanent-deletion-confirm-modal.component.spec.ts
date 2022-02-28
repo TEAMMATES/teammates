@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { SessionPermanentDeletionConfirmModalComponent } from './session-permanent-deletion-confirm-modal.component';
@@ -7,7 +7,7 @@ describe('SessionPermanentDeletionConfirmModalComponent', () => {
   let component: SessionPermanentDeletionConfirmModalComponent;
   let fixture: ComponentFixture<SessionPermanentDeletionConfirmModalComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [SessionPermanentDeletionConfirmModalComponent],
       providers: [NgbActiveModal],

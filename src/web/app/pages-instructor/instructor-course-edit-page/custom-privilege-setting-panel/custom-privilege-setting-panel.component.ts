@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { InstructorPermissionSet } from '../../../../types/api-output';
 
 /**
@@ -35,7 +35,7 @@ export interface InstructorSessionLevelPermission {
   templateUrl: './custom-privilege-setting-panel.component.html',
   styleUrls: ['./custom-privilege-setting-panel.component.scss'],
 })
-export class CustomPrivilegeSettingPanelComponent implements OnInit {
+export class CustomPrivilegeSettingPanelComponent {
 
   @Input()
   permission: InstructorOverallPermission = {
@@ -60,11 +60,6 @@ export class CustomPrivilegeSettingPanelComponent implements OnInit {
 
   @Input()
   allSessions: string[] = [];
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
 
   /**
    * Checks whether there is a section level permission for a give section.

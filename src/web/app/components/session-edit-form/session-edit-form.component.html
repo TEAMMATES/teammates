@@ -39,7 +39,7 @@
     </div>
     <div class="row" *ngIf="formMode === SessionEditFormMode.EDIT">
       <div class="col-12 text-center text-md-right session-form-buttons">
-        <button id="btn-fs-edit" type="button" class="btn btn-primary" (click)="triggerModelChange('isEditable', true)" *ngIf="formMode == SessionEditFormMode.EDIT && !model.isEditable && !model.isSaving"><i class="fas fa-pencil-alt"></i> Edit</button>
+        <button id="btn-fs-edit" type="button" class="btn btn-primary" (click)="triggerModelChange('isEditable', true)" *ngIf="formMode === SessionEditFormMode.EDIT && !model.isEditable && !model.isSaving"><i class="fas fa-pencil-alt"></i> Edit</button>
         <button id="btn-fs-save" type="button" class="btn btn-primary" (click)="submitFormHandler()" [disabled]="model.isSaving" *ngIf="model.isEditable || model.isSaving"><tm-ajax-loading *ngIf="model.isSaving"></tm-ajax-loading> <i class="fas fa-check"></i> Save</button>
         <button type="button" class="btn btn-primary" ngbTooltip="Discard changes to the feedback session" (click)="cancelHandler()" *ngIf="model.isEditable" [disabled]="model.isSaving"><i class="fas fa-ban"></i> Cancel</button>
         <button id="btn-fs-delete" type="button" class="btn btn-primary" ngbTooltip="Delete the feedback session" (click)="deleteHandler()" [disabled]="model.isSaving"><tm-ajax-loading *ngIf="model.isDeleting"></tm-ajax-loading><i class="fas fa-trash"></i> Delete</button>

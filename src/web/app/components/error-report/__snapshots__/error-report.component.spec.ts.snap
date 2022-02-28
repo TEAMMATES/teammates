@@ -33,16 +33,13 @@ exports[`ErrorReportComponent should snap with default view 1`] = `
         >
            The server returns the following error message: "". 
         </p>
-        
         <div>
           <p>
              We are sorry that this happened. Please help us troubleshoot the problem by providing us some additional details using the form below: 
           </p>
         </div>
-        
       </div>
     </div>
-    
     <div
       id="error-report"
     >
@@ -88,13 +85,11 @@ exports[`ErrorReportComponent should snap with default view 1`] = `
           placeholder="Tell us the steps you took that led you to this error page"
         />
       </div>
-      
       <button
         class="btn btn-success"
       >
         Send Error Report
       </button>
-      
     </div>
   </div>
 </tm-error-report>
