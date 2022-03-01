@@ -569,8 +569,12 @@
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "questionDetails": {
-        "questionText": "How much work did each team member contribute? (response will be shown anonymously to each team member).",
-        "questionType": "CONTRIB"
+        "distributeToRecipients": true,
+        "pointsPerOption": true,
+        "questionText": "Distribute points among team members based on their contributions so far",
+        "questionType": "CONSTSUM",
+        "points": 100,
+        "constSumOptions": []
       },
       "questionNumber": 1,
       "giverType": "STUDENTS",
@@ -578,15 +582,12 @@
       "numberOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": [
         "RECEIVER",
-        "OWN_TEAM_MEMBERS",
-        "RECEIVER_TEAM_MEMBERS",
         "INSTRUCTORS"
       ],
       "showGiverNameTo": [
         "INSTRUCTORS"
       ],
       "showRecipientNameTo": [
-        "RECEIVER",
         "INSTRUCTORS"
       ]
     },
@@ -689,8 +690,12 @@
       "feedbackSessionName": "Second team feedback session",
       "courseId": "demo.course",
       "questionDetails": {
-        "questionText": "How much work did each team member contribute? (response will be shown anonymously to each team member).",
-        "questionType": "CONTRIB"
+        "distributeToRecipients": true,
+        "pointsPerOption": true,
+        "questionText": "Distribute points among team members based on their contributions so far",
+        "questionType": "CONSTSUM",
+        "points": 100,
+        "constSumOptions": []
       },
       "questionNumber": 1,
       "giverType": "STUDENTS",
@@ -698,15 +703,12 @@
       "numberOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": [
         "RECEIVER",
-        "OWN_TEAM_MEMBERS",
-        "RECEIVER_TEAM_MEMBERS",
         "INSTRUCTORS"
       ],
       "showGiverNameTo": [
         "INSTRUCTORS"
       ],
       "showRecipientNameTo": [
-        "RECEIVER",
         "INSTRUCTORS"
       ]
     },
@@ -1493,8 +1495,10 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "answer": 100,
-        "questionType": "CONTRIB"
+        "answers": [
+          80
+        ],
+        "questionType": "CONSTSUM"
       }
     },
     "FS2.Q1.Alice.2": {
@@ -1506,8 +1510,10 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "answer": 100,
-        "questionType": "CONTRIB"
+        "answers": [
+          100
+        ],
+        "questionType": "CONSTSUM"
       }
     },
     "FS2.Q1.Alice.3": {
@@ -1519,8 +1525,10 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "answer": 100,
-        "questionType": "CONTRIB"
+        "answers": [
+          100
+        ],
+        "questionType": "CONSTSUM"
       }
     },
     "FS2.Q1.Alice.4": {
@@ -1532,8 +1540,10 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "answer": 100,
-        "questionType": "CONTRIB"
+        "answers": [
+          120
+        ],
+        "questionType": "CONSTSUM"
       }
     },
     "FS2.Q1.Benny.1": {
@@ -1545,8 +1555,10 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "answer": 100,
-        "questionType": "CONTRIB"
+        "answers": [
+          80
+        ],
+        "questionType": "CONSTSUM"
       }
     },
     "FS2.Q1.Benny.2": {
@@ -1558,8 +1570,10 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "answer": 100,
-        "questionType": "CONTRIB"
+        "answers": [
+          100
+        ],
+        "questionType": "CONSTSUM"
       }
     },
     "FS2.Q1.Benny.3": {
@@ -1571,8 +1585,10 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "answer": 100,
-        "questionType": "CONTRIB"
+        "answers": [
+          100
+        ],
+        "questionType": "CONSTSUM"
       }
     },
     "FS2.Q1.Benny.4": {
@@ -1584,8 +1600,10 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "answer": 100,
-        "questionType": "CONTRIB"
+        "answers": [
+          120
+        ],
+        "questionType": "CONSTSUM"
       }
     },
     "FS2.Q1.Danny.1": {
@@ -1597,8 +1615,10 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "answer": 100,
-        "questionType": "CONTRIB"
+        "answers": [
+          100
+        ],
+        "questionType": "CONSTSUM"
       }
     },
     "FS2.Q1.Danny.2": {
@@ -1610,8 +1630,10 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "answer": 100,
-        "questionType": "CONTRIB"
+        "answers": [
+          100
+        ],
+        "questionType": "CONSTSUM"
       }
     },
     "FS2.Q1.Danny.3": {
@@ -1623,8 +1645,10 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "answer": 100,
-        "questionType": "CONTRIB"
+        "answers": [
+          100
+        ],
+        "questionType": "CONSTSUM"
       }
     },
     "FS2.Q1.Danny.4": {
@@ -1636,8 +1660,10 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "answer": 100,
-        "questionType": "CONTRIB"
+        "answers": [
+          100
+        ],
+        "questionType": "CONSTSUM"
       }
     },
     "FS2.Q1.Emma.1": {
@@ -1649,8 +1675,10 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "answer": 100,
-        "questionType": "CONTRIB"
+        "answers": [
+          60
+        ],
+        "questionType": "CONSTSUM"
       }
     },
     "FS2.Q1.Emma.2": {
@@ -1662,8 +1690,10 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "answer": 100,
-        "questionType": "CONTRIB"
+        "answers": [
+          100
+        ],
+        "questionType": "CONSTSUM"
       }
     },
     "FS2.Q1.Emma.3": {
@@ -1675,8 +1705,10 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "answer": 100,
-        "questionType": "CONTRIB"
+        "answers": [
+          100
+        ],
+        "questionType": "CONSTSUM"
       }
     },
     "FS2.Q1.Emma.4": {
@@ -1688,8 +1720,10 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "answer": 100,
-        "questionType": "CONTRIB"
+        "answers": [
+          140
+        ],
+        "questionType": "CONSTSUM"
       }
     },
     "FS2.Q1.Charlie.1": {
@@ -1701,8 +1735,10 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "answer": 80,
-        "questionType": "CONTRIB"
+        "answers": [
+          100
+        ],
+        "questionType": "CONSTSUM"
       }
     },
     "FS2.Q1.Charlie.2": {
@@ -1714,8 +1750,10 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "answer": 110,
-        "questionType": "CONTRIB"
+        "answers": [
+          120
+        ],
+        "questionType": "CONSTSUM"
       }
     },
     "FS2.Q1.Charlie.3": {
@@ -1727,8 +1765,10 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "answer": 110,
-        "questionType": "CONTRIB"
+        "answers": [
+          80
+        ],
+        "questionType": "CONSTSUM"
       }
     },
     "FS2.Q1.Charlie.4": {
@@ -1740,8 +1780,10 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "answer": 110,
-        "questionType": "CONTRIB"
+        "answers": [
+          100
+        ],
+        "questionType": "CONSTSUM"
       }
     },
     "FS2.Q1.Inst.1": {
@@ -1753,8 +1795,10 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "answer": 110,
-        "questionType": "CONTRIB"
+        "answers": [
+          100
+        ],
+        "questionType": "CONSTSUM"
       }
     },
     "FS2.Q1.Inst.2": {
@@ -1766,8 +1810,10 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "answer": 80,
-        "questionType": "CONTRIB"
+        "answers": [
+          100
+        ],
+        "questionType": "CONSTSUM"
       }
     },
     "FS2.Q1.Inst.3": {
@@ -1779,8 +1825,10 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "answer": 110,
-        "questionType": "CONTRIB"
+        "answers": [
+          100
+        ],
+        "questionType": "CONSTSUM"
       }
     },
     "FS2.Q1.Inst.4": {
@@ -1792,8 +1840,10 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "answer": 110,
-        "questionType": "CONTRIB"
+        "answers": [
+          100
+        ],
+        "questionType": "CONSTSUM"
       }
     },
     "FS2.Q1.Francis.1": {
@@ -1805,8 +1855,10 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "answer": 110,
-        "questionType": "CONTRIB"
+        "answers": [
+          60
+        ],
+        "questionType": "CONSTSUM"
       }
     },
     "FS2.Q1.Francis.2": {
@@ -1818,8 +1870,10 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "answer": 80,
-        "questionType": "CONTRIB"
+        "answers": [
+          140
+        ],
+        "questionType": "CONSTSUM"
       }
     },
     "FS2.Q1.Francis.3": {
@@ -1831,8 +1885,10 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "answer": 110,
-        "questionType": "CONTRIB"
+        "answers": [
+          100
+        ],
+        "questionType": "CONSTSUM"
       }
     },
     "FS2.Q1.Francis.4": {
@@ -1844,8 +1900,10 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "answer": 110,
-        "questionType": "CONTRIB"
+        "answers": [
+          100
+        ],
+        "questionType": "CONSTSUM"
       }
     },
     "FS2.Q1.Gene.1": {
@@ -1857,8 +1915,10 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "answer": 100,
-        "questionType": "CONTRIB"
+        "answers": [
+          100
+        ],
+        "questionType": "CONSTSUM"
       }
     },
     "FS2.Q1.Gene.2": {
@@ -1870,8 +1930,10 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "answer": 80,
-        "questionType": "CONTRIB"
+        "answers": [
+          100
+        ],
+        "questionType": "CONSTSUM"
       }
     },
     "FS2.Q1.Gene.3": {
@@ -1883,8 +1945,10 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "answer": 110,
-        "questionType": "CONTRIB"
+        "answers": [
+          100
+        ],
+        "questionType": "CONSTSUM"
       }
     },
     "FS2.Q1.Gene.4": {
@@ -1896,8 +1960,10 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "answer": 110,
-        "questionType": "CONTRIB"
+        "answers": [
+          100
+        ],
+        "questionType": "CONSTSUM"
       }
     },
     "FS2.Q2.Alice.1": {
