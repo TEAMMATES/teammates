@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
@@ -202,7 +202,7 @@ describe('CopyQuestionsFromOtherSessionsModalComponent', () => {
     const feedbackQuestions: FeedbackQuestions = {
       questions: [testFeedbackQuestion1, testFeedbackQuestion2],
     };
-    spyOn(feedbackQuestionsService, 'getFeedbackQuestions').and.returnValue(of(feedbackQuestions));
+    jest.spyOn(feedbackQuestionsService, 'getFeedbackQuestions').mockReturnValue(of(feedbackQuestions));
     component.feedbackSessionTabModels = [testFeedbackSessionTabModel1];
 
     component.loadQuestions(testFeedbackSessionTabModel1);
@@ -239,7 +239,7 @@ describe('CopyQuestionsFromOtherSessionsModalComponent', () => {
     component.feedbackSessionTabModels = [testFeedbackSessionTabModel1, testFeedbackSessionTabModel2];
     fixture.detectChanges();
 
-    spyOn(component.activeModal, 'close').and.callFake((questions: FeedbackQuestion[]) => {
+    jest.spyOn(component.activeModal, 'close').mockImplementation((questions: FeedbackQuestion[]) => {
       expect(questions.length).toBe(3);
       expect(questions[0].feedbackQuestionId).toBe(testFeedbackQuestion1.feedbackQuestionId);
       expect(questions[1].feedbackQuestionId).toBe(testFeedbackQuestion2.feedbackQuestionId);

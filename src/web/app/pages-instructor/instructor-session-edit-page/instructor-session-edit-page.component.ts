@@ -923,7 +923,9 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     const feedbackSessionTabModels: FeedbackSessionTabModel[] = [];
 
     this.feedbackSessionsService.getFeedbackSessionsForInstructor().pipe(
-      finalize(() => this.isCopyingQuestion = false),
+      finalize(() => {
+        this.isCopyingQuestion = false;
+      }),
     ).subscribe((response: FeedbackSessions) => {
       response.feedbackSessions.forEach((feedbackSession: FeedbackSession) => {
         const model: FeedbackSessionTabModel = {
@@ -972,7 +974,9 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
         ).subscribe((newQuestion: FeedbackQuestion) => {
           this.questionEditFormModels.push(this.getQuestionEditFormModel(newQuestion));
           this.feedbackQuestionModels.set(newQuestion.feedbackQuestionId, newQuestion);
-          this.statusMessageService.showSuccessToast('The selected question(s) have been added to this feedback session.');
+          this.statusMessageService.showSuccessToast(
+            'The selected question(s) have been added to this feedback session.',
+          );
         }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
       });
     });

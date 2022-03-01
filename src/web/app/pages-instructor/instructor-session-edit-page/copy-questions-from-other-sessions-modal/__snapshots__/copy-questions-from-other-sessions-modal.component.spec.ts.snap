@@ -67,7 +67,6 @@ exports[`CopyQuestionsFromOtherSessionsModalComponent should snap when feedback 
         </button>
       </div>
     </div>
-    
     <div
       class="feedback-session-tabs"
     >
@@ -89,8 +88,6 @@ exports[`CopyQuestionsFromOtherSessionsModalComponent should snap when feedback 
               <div
                 class="chevron"
               >
-                
-                
                 <i
                   class="fas fa-chevron-up"
                 />
@@ -98,18 +95,12 @@ exports[`CopyQuestionsFromOtherSessionsModalComponent should snap when feedback 
             </tm-panel-chevron>
           </div>
         </div>
-        
         <div>
           <tm-loading-retry>
-            
-            
             <div>
-              
               <div
                 class="card-body"
               >
-                
-                
                 <table
                   class="table table-bordered table-responsive-lg"
                   id="copy-question-table"
@@ -131,8 +122,6 @@ exports[`CopyQuestionsFromOtherSessionsModalComponent should snap when feedback 
                           <i
                             class="fas fa-sort"
                           />
-                          
-                          
                         </span>
                       </th>
                       <th
@@ -145,14 +134,11 @@ exports[`CopyQuestionsFromOtherSessionsModalComponent should snap when feedback 
                           <i
                             class="fas fa-sort"
                           />
-                          
-                          
                         </span>
                       </th>
                     </tr>
                   </thead>
                   <tbody>
-                    
                     <tr>
                       <td>
                         <input
@@ -194,11 +180,8 @@ exports[`CopyQuestionsFromOtherSessionsModalComponent should snap when feedback 
                 </button>
               </div>
             </div>
-            
-            
           </tm-loading-retry>
         </div>
-        
       </div>
     </div>
   </div><div
@@ -289,7 +272,6 @@ exports[`CopyQuestionsFromOtherSessionsModalComponent should snap when feedback 
         </button>
       </div>
     </div>
-    
     <div
       class="feedback-session-tabs"
     >
@@ -311,8 +293,6 @@ exports[`CopyQuestionsFromOtherSessionsModalComponent should snap when feedback 
               <div
                 class="chevron"
               >
-                
-                
                 <i
                   class="fas fa-chevron-up"
                 />
@@ -320,11 +300,8 @@ exports[`CopyQuestionsFromOtherSessionsModalComponent should snap when feedback 
             </tm-panel-chevron>
           </div>
         </div>
-        
         <div>
           <tm-loading-retry>
-            
-            
             <tm-loading-spinner>
               <div
                 class="loading-container"
@@ -340,11 +317,8 @@ exports[`CopyQuestionsFromOtherSessionsModalComponent should snap when feedback 
                 </div>
               </div>
             </tm-loading-spinner>
-            
-            
           </tm-loading-retry>
         </div>
-        
       </div>
     </div>
   </div><div
@@ -435,7 +409,6 @@ exports[`CopyQuestionsFromOtherSessionsModalComponent should snap when feedback 
         </button>
       </div>
     </div>
-    
     <div
       class="feedback-session-tabs"
     >
@@ -457,8 +430,6 @@ exports[`CopyQuestionsFromOtherSessionsModalComponent should snap when feedback 
               <div
                 class="chevron"
               >
-                
-                
                 <i
                   class="fas fa-chevron-up"
                 />
@@ -466,10 +437,8 @@ exports[`CopyQuestionsFromOtherSessionsModalComponent should snap when feedback 
             </tm-panel-chevron>
           </div>
         </div>
-        
         <div>
           <tm-loading-retry>
-            
             <div
               class="text-center"
             >
@@ -488,10 +457,8 @@ exports[`CopyQuestionsFromOtherSessionsModalComponent should snap when feedback 
                  Retry
               </button>
             </div>
-            
           </tm-loading-retry>
         </div>
-        
       </div>
     </div>
   </div><div
@@ -582,7 +549,6 @@ exports[`CopyQuestionsFromOtherSessionsModalComponent should snap with default f
         </button>
       </div>
     </div>
-    
   </div><div
     class="modal-footer"
   >
@@ -671,7 +637,6 @@ exports[`CopyQuestionsFromOtherSessionsModalComponent should snap with feedback 
         </button>
       </div>
     </div>
-    
     <div
       class="feedback-session-tabs"
     >
@@ -693,17 +658,13 @@ exports[`CopyQuestionsFromOtherSessionsModalComponent should snap with feedback 
               <div
                 class="chevron"
               >
-                
                 <i
                   class="fas fa-chevron-down"
                 />
-                
               </div>
             </tm-panel-chevron>
           </div>
         </div>
-        
-        
       </div>
     </div>
     <div
@@ -727,17 +688,13 @@ exports[`CopyQuestionsFromOtherSessionsModalComponent should snap with feedback 
               <div
                 class="chevron"
               >
-                
                 <i
                   class="fas fa-chevron-down"
                 />
-                
               </div>
             </tm-panel-chevron>
           </div>
         </div>
-        
-        
       </div>
     </div>
   </div><div

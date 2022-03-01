@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { ErrorMessageOutput } from '../../../../app/error-message-output';
 import { FeedbackQuestionsService } from '../../../../services/feedback-questions.service';
 import { StatusMessageService } from '../../../../services/status-message.service';
 import { TableComparatorService } from '../../../../services/table-comparator.service';
 import { FeedbackQuestion, FeedbackQuestions } from '../../../../types/api-output';
 import { Intent } from '../../../../types/api-request';
 import { SortBy, SortOrder } from '../../../../types/sort-properties';
+import { ErrorMessageOutput } from '../../../error-message-output';
 import { FeedbackSessionTabModel, QuestionToCopyCandidate } from './copy-questions-from-other-sessions-modal-model';
 
 /**
