@@ -10,6 +10,7 @@ import {
   QuestionOutput,
   ResponseOutput,
   SessionResults,
+  Student,
 } from '../types/api-output';
 import { FeedbackQuestionDetailsFactory } from '../types/question-details-impl/feedback-question-details-factory';
 import { FeedbackResponseDetailsFactory } from '../types/response-details-impl/feedback-response-details-factory';
@@ -26,6 +27,25 @@ import { StringHelper } from './string-helper';
 export class SessionResultCsvService {
 
   constructor(private feedbackResponsesService: FeedbackResponsesService) { }
+
+  /**
+   * Generates CSV string for non-responders.
+   */
+  getCsvForNonSubmitterList(noResponseStudents: Student[]): string {
+    const csvRows: string[][] = [];
+    if (noResponseStudents.length === 0) {
+      return CsvHelper.convertCsvContentsToCsvString(csvRows);
+    }
+    csvRows.push(['Participants who have not responded to any question']);
+    this.generateEmptyRow(csvRows);
+    const header: string[] = ['Team', 'Name', 'Email'];
+    csvRows.push(header);
+    noResponseStudents.forEach((student: Student) => {
+      csvRows.push([student.teamName, student.name, student.email]);
+    });
+
+    return CsvHelper.convertCsvContentsToCsvString(csvRows);
+  }
 
   /**
    * Generates CSV string for a session result.
@@ -91,9 +111,10 @@ export class SessionResultCsvService {
       question.allResponses = question.allResponses.filter((response: ResponseOutput) => !response.isMissingResponse);
     }
 
+    const questionSpecificHeaders: string[] = this.getQuestionSpecificHeaders(question.feedbackQuestion);
     const header: string[] = ['Team', "Giver's Name", "Giver's Email", "Recipient's Team",
       "Recipient's Name", "Recipient's Email",
-      ...this.getQuestionSpecificHeaders(question.feedbackQuestion)];
+      ...questionSpecificHeaders];
 
     const isParticipantCommentsOnResponsesAllowed: boolean =
         this.getIsParticipantCommentsOnResponsesAllowed(question.feedbackQuestion);
@@ -135,6 +156,13 @@ export class SessionResultCsvService {
       } else {
         responseAnswers = this.getResponseAnswers(response, question.feedbackQuestion);
       }
+
+      // Pad responseAnswers so that responseAnswers and questionSpecificHeaders
+      // are always the same length.
+      const responseAnswersPadding: string[] =
+          Array(questionSpecificHeaders.length - responseAnswers[0].length).fill('');
+      responseAnswers[0] = responseAnswers[0].concat(responseAnswersPadding);
+
       for (const responseAnswer of responseAnswers) {
         const currRow: string[] = [giverTeamName, giverName, giverEmail,
           recipientTeamName, recipientName, recipientEmail, ...responseAnswer];

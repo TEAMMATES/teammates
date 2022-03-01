@@ -17,12 +17,10 @@
               -1.7
             ]
           ],
-          "numOfRubricChoices": 2,
           "rubricChoices": [
             "Yes",
             "No"
           ],
-          "numOfRubricSubQuestions": 2,
           "rubricSubQuestions": [
             "This student has done a good job.",
             "This student has tried his/her best."
@@ -396,12 +394,10 @@
               1.0
             ]
           ],
-          "numOfRubricChoices": 2,
           "rubricChoices": [
             "Yes",
             "No"
           ],
-          "numOfRubricSubQuestions": 2,
           "rubricSubQuestions": [
             "This student has done a good job.",
             "This student has tried his/her best."

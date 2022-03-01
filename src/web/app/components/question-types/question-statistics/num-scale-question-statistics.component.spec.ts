@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { FeedbackNumericalScaleResponseDetails } from '../../../../types/api-output';
 import { SortableTableModule } from '../../sortable-table/sortable-table.module';
@@ -10,7 +10,7 @@ describe('NumScaleQuestionStatisticsComponent', () => {
   let component: NumScaleQuestionStatisticsComponent;
   let fixture: ComponentFixture<NumScaleQuestionStatisticsComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [NumScaleQuestionStatisticsComponent],
       imports: [SortableTableModule],
@@ -42,18 +42,15 @@ describe('NumScaleQuestionStatisticsComponent', () => {
 
     const team: string = 'Instructors';
     const recipient: string = 'Instructor';
-    expect(component.teamToRecipientToScores
-        [team][recipient].min).toEqual(expectedMin);
-    expect(component.teamToRecipientToScores
-        [team][recipient].max).toEqual(expectedMax);
-    expect(component.teamToRecipientToScores
-        [team][recipient].average).toEqual(expectedAverage);
-    expect(component.teamToRecipientToScores
-        [team][recipient].averageExcludingSelf).toEqual(expectedAverageExcludingSelf);
+    expect(component.teamToRecipientToScores[team][recipient].min).toEqual(expectedMin);
+    expect(component.teamToRecipientToScores[team][recipient].max).toEqual(expectedMax);
+    expect(component.teamToRecipientToScores[team][recipient].average).toEqual(expectedAverage);
+    expect(component.teamToRecipientToScores[team][recipient].averageExcludingSelf)
+        .toEqual(expectedAverageExcludingSelf);
   });
 
   it('should calculate statistics correctly if responses are zero', () => {
-    component.responses = ResponseTestData.responsesAtZero  as Response<FeedbackNumericalScaleResponseDetails>[];
+    component.responses = ResponseTestData.responsesAtZero as Response<FeedbackNumericalScaleResponseDetails>[];
     component.question.maxScale = 5;
     component.question.minScale = 0;
 
@@ -66,15 +63,11 @@ describe('NumScaleQuestionStatisticsComponent', () => {
 
     const team: string = 'Instructors';
     const recipient: string = 'Instructor';
-    expect(component.teamToRecipientToScores
-        [team][recipient].min).toEqual(expectedMin);
-    expect(component.teamToRecipientToScores
-        [team][recipient].max).toEqual(expectedMax);
-    expect(component.teamToRecipientToScores
-        [team][recipient].average).toEqual(expectedAverage);
-    expect(component.teamToRecipientToScores
-        [team][recipient].averageExcludingSelf).toEqual(expectedAverageExcludingSelf);
-
+    expect(component.teamToRecipientToScores[team][recipient].min).toEqual(expectedMin);
+    expect(component.teamToRecipientToScores[team][recipient].max).toEqual(expectedMax);
+    expect(component.teamToRecipientToScores[team][recipient].average).toEqual(expectedAverage);
+    expect(component.teamToRecipientToScores[team][recipient].averageExcludingSelf)
+        .toEqual(expectedAverageExcludingSelf);
   });
 
   it('should calculate statistics correctly if self-response exists', () => {
@@ -91,13 +84,10 @@ describe('NumScaleQuestionStatisticsComponent', () => {
 
     const team: string = 'Instructors';
     const recipient: string = 'Instructor';
-    expect(component.teamToRecipientToScores
-        [team][recipient].min).toEqual(expectedMin);
-    expect(component.teamToRecipientToScores
-        [team][recipient].max).toEqual(expectedMax);
-    expect(component.teamToRecipientToScores
-        [team][recipient].average).toEqual(expectedAverage);
-    expect(component.teamToRecipientToScores
-        [team][recipient].averageExcludingSelf).toEqual(expectedAverageExcludingSelf);
+    expect(component.teamToRecipientToScores[team][recipient].min).toEqual(expectedMin);
+    expect(component.teamToRecipientToScores[team][recipient].max).toEqual(expectedMax);
+    expect(component.teamToRecipientToScores[team][recipient].average).toEqual(expectedAverage);
+    expect(component.teamToRecipientToScores[team][recipient].averageExcludingSelf)
+        .toEqual(expectedAverageExcludingSelf);
   });
 });

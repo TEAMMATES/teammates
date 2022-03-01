@@ -59,11 +59,14 @@ public class OAuth2CallbackServlet extends AuthServlet {
             String sessionId = authState.getSessionId();
             if (!sessionId.equals(req.getSession().getId())) {
                 // Invalid session ID
+                log.warning(String.format("Different session ID: expected %s, got %s",
+                        sessionId, req.getSession().getId()));
                 logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, "Invalid authorization code");
                 return;
             }
         } catch (JsonParseException | InvalidParametersException e) {
-            logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, "Invalid authorization code");
+            log.warning("Failed to parse state object", e);
+            logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, "Bad state object");
             return;
         }
 
@@ -77,8 +80,8 @@ public class OAuth2CallbackServlet extends AuthServlet {
 
             Map<String, Object> parsedResponse =
                     JsonUtils.fromJson(userInfoResponse, new TypeToken<Map<String, Object>>(){}.getType());
-            String email = String.valueOf(parsedResponse.get("email"));
-            if (email != null) {
+            if (parsedResponse.containsKey("email")) {
+                String email = String.valueOf(parsedResponse.get("email"));
                 googleId = email.replaceFirst("@gmail\\.com$", "");
             }
         } catch (URISyntaxException | IOException | JsonSyntaxException e) {

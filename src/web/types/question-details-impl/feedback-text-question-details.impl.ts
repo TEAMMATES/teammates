@@ -1,6 +1,6 @@
 import {
   FeedbackQuestionType,
-  FeedbackTextQuestionDetails, QuestionOutput,
+  FeedbackTextQuestionDetails,
 } from '../api-output';
 import { AbstractFeedbackQuestionDetails } from './abstract-feedback-question-details';
 
@@ -22,7 +22,7 @@ export class FeedbackTextQuestionDetailsImpl extends AbstractFeedbackQuestionDet
     this.shouldAllowRichText = apiOutput.shouldAllowRichText;
   }
 
-  getQuestionCsvStats(_: QuestionOutput): string[][] {
+  getQuestionCsvStats(): string[][] {
     // no stats for text question
     return [];
   }

@@ -12,8 +12,6 @@ export class StatusMessageService {
 
   private toast: Subject<Toast> = new Subject();
 
-  constructor() {}
-
   getToastEvent(): Observable<any> {
     return this.toast.asObservable();
   }

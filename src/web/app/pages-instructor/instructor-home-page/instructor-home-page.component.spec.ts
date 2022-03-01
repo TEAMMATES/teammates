@@ -1,11 +1,12 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
+import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
 import {
   Course, CourseArchive, Courses,
   FeedbackSession,
@@ -119,7 +120,7 @@ describe('InstructorHomePageComponent', () => {
   let component: InstructorHomePageComponent;
   let fixture: ComponentFixture<InstructorHomePageComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         InstructorHomePageModule,
@@ -182,15 +183,12 @@ describe('InstructorHomePageComponent', () => {
     expect(component.courseTabModels[0].course.courseId).toEqual('CS1231');
     expect(component.courseTabModels[0].course.courseName).toEqual('Discrete Structures');
 
-    spyOn(simpleModalService, 'openConfirmationModal').and.callFake(() => {
-      return {
-        componentInstance: {
+    jest.spyOn(simpleModalService, 'openConfirmationModal').mockImplementation(
+        () => createMockNgbModalRef({
           header: 'mock header', content: 'mock content', type: SimpleModalType.INFO,
-        },
-        result: Promise.resolve(),
-      };
-    });
-    spyOn(courseService, 'changeArchiveStatus').and.returnValue(of(courseArchive));
+        }),
+    );
+    jest.spyOn(courseService, 'changeArchiveStatus').mockReturnValue(of(courseArchive));
 
     const courseButton: any = fixture.debugElement.nativeElement.querySelector('#btn-course');
     courseButton.click();
@@ -213,15 +211,12 @@ describe('InstructorHomePageComponent', () => {
     expect(component.courseTabModels[0].course.courseId).toEqual('CS1231');
     expect(component.courseTabModels[0].course.courseName).toEqual('Discrete Structures');
 
-    spyOn(simpleModalService, 'openConfirmationModal').and.callFake(() => {
-      return {
-        componentInstance: {
+    jest.spyOn(simpleModalService, 'openConfirmationModal').mockImplementation(
+        () => createMockNgbModalRef({
           header: 'mock header', content: 'mock content', type: SimpleModalType.WARNING,
-        },
-        result: Promise.resolve(),
-      };
-    });
-    spyOn(courseService, 'binCourse').and.returnValue(of(courseToDelete));
+        }),
+    );
+    jest.spyOn(courseService, 'binCourse').mockReturnValue(of(courseToDelete));
 
     const courseButton: any = fixture.debugElement.nativeElement.querySelector('#btn-course');
     courseButton.click();
@@ -238,7 +233,7 @@ describe('InstructorHomePageComponent', () => {
       courses: [testCourse1, testCourse2],
     };
 
-    spyOn(courseService, 'getInstructorCoursesThatAreActive').and.returnValue(of(activeCourses));
+    jest.spyOn(courseService, 'getInstructorCoursesThatAreActive').mockReturnValue(of(activeCourses));
     component.loadCourses();
 
     expect(component.hasCoursesLoaded).toBeTruthy();
@@ -256,7 +251,7 @@ describe('InstructorHomePageComponent', () => {
       feedbackSessions: [testFeedbackSession1, testFeedbackSession2],
     };
 
-    spyOn(feedbackSessionsService, 'getFeedbackSessionsForInstructor').and.returnValue(of(courseSessions));
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSessionsForInstructor').mockReturnValue(of(courseSessions));
     component.courseTabModels = activeCourseTabModels;
     component.loadFeedbackSessions(0);
     fixture.detectChanges();

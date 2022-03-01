@@ -266,8 +266,8 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         expectedResponseStats.put("Closed Session", true);
         expectedResponseStats.put("Empty session", true);
 
-        // no response here
-        expectedResponseStats.put("Grace Period Session", false);
+        // team has responded here
+        expectedResponseStats.put("Grace Period Session", true);
 
         assertEquals(expectedResponseStats, responseStats);
     }

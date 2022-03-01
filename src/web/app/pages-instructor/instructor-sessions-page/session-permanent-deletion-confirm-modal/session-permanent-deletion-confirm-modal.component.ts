@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 /**
@@ -9,7 +9,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
   templateUrl: './session-permanent-deletion-confirm-modal.component.html',
   styleUrls: ['./session-permanent-deletion-confirm-modal.component.scss'],
 })
-export class SessionPermanentDeletionConfirmModalComponent implements OnInit {
+export class SessionPermanentDeletionConfirmModalComponent {
 
   @Input()
   courseId: string = '';
@@ -18,8 +18,5 @@ export class SessionPermanentDeletionConfirmModalComponent implements OnInit {
   feedbackSessionName: string = '';
 
   constructor(public activeModal: NgbActiveModal) {}
-
-  ngOnInit(): void {
-  }
 
 }

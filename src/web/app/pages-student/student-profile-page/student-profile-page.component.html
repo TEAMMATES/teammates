@@ -17,11 +17,11 @@
           <div class="col-md-12 cursor-pointer">
             <button
                 class="btn btn-primary upload-edit-photo btn-margin-right"
-                ngbTooltip=".jpg or .png, max size 5 MB"
+                ngbTooltip=".jpg, .png, .gif or .svg, max size 5 MB"
                 (click)="onUploadEdit()">
               Upload/Edit Photo
             </button>
-            <button *ngIf="this.profilePicLink != this.defaultPictureLink"
+            <button *ngIf="this.profilePicLink !== this.defaultPictureLink"
                 id="profile-delete-photo"
                 class="btn btn-danger"
 

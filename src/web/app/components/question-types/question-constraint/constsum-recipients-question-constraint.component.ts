@@ -119,6 +119,13 @@ export class ConstsumRecipientsQuestionConstraintComponent
   }
 
   /**
+   * Checks if any of the points are negative.
+   */
+  get isAnyPointsNegative(): boolean {
+    return this.allAnswers.reduce((isNegative: boolean, curr: number) => isNegative || (curr < 0), false);
+  }
+
+  /**
    * Returns true if the question requires uneven distribution but the points are not unevenly distributed.
    */
   get isWronglyAllUneven(): boolean {
@@ -151,7 +158,8 @@ export class ConstsumRecipientsQuestionConstraintComponent
   }
 
   get isValid(): boolean {
-    return this.isAllPointsDistributed && (this.isCorrectlyAllUneven || this.isCorrectlySomeUneven
+    return this.isAllPointsDistributed && !this.isAnyPointsNegative
+        && (this.isCorrectlyAllUneven || this.isCorrectlySomeUneven
         || this.questionDetails.distributePointsFor === FeedbackConstantSumDistributePointsType.NONE);
   }
 }

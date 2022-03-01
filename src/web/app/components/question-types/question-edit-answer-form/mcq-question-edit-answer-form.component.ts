@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnChanges, ViewChild } from '@angular/core';
 
 import {
   FeedbackMcqQuestionDetails,
@@ -17,7 +17,7 @@ import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
 })
 export class McqQuestionEditAnswerFormComponent
     extends QuestionEditAnswerFormComponent<FeedbackMcqQuestionDetails, FeedbackMcqResponseDetails>
-    implements OnInit, OnChanges {
+    implements OnChanges {
 
   /**
    * The unique ID in the page where the component is used.
@@ -35,12 +35,9 @@ export class McqQuestionEditAnswerFormComponent
     super(DEFAULT_MCQ_QUESTION_DETAILS(), DEFAULT_MCQ_RESPONSE_DETAILS());
   }
 
-  ngOnInit(): void {
-  }
-
   // sync the internal status with the input data
   ngOnChanges(): void {
-    this.isMcqOptionSelected = Array(this.questionDetails.numOfMcqChoices).fill(false);
+    this.isMcqOptionSelected = Array(this.questionDetails.mcqChoices.length).fill(false);
     if (this.responseDetails.answer !== '' && !this.responseDetails.isOther) {
       const indexOfAnswerInPreviousSubmission: number =
           this.questionDetails.mcqChoices.indexOf(this.responseDetails.answer);

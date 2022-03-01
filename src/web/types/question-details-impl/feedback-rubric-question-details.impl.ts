@@ -1,5 +1,7 @@
-// tslint:disable-next-line:max-line-length
-import { PerRecipientStats, RubricQuestionStatisticsCalculation } from '../../app/components/question-types/question-statistics/question-statistics-calculation/rubric-question-statistics-calculation';
+import {
+  PerRecipientStats,
+  RubricQuestionStatisticsCalculation,
+} from '../../app/components/question-types/question-statistics/question-statistics-calculation/rubric-question-statistics-calculation';
 import { StringHelper } from '../../services/string-helper';
 import {
   FeedbackQuestionType,
@@ -14,9 +16,7 @@ export class FeedbackRubricQuestionDetailsImpl extends AbstractFeedbackQuestionD
     implements FeedbackRubricQuestionDetails {
 
   hasAssignedWeights: boolean = false;
-  numOfRubricChoices: number = 0;
   rubricChoices: string[] = [];
-  numOfRubricSubQuestions: number = 0;
   rubricSubQuestions: string[] = [];
   rubricWeightsForEachCell: number[][] = [];
   rubricDescriptions: string[][] = [];
@@ -26,9 +26,7 @@ export class FeedbackRubricQuestionDetailsImpl extends AbstractFeedbackQuestionD
   constructor(apiOutput: FeedbackRubricQuestionDetails) {
     super();
     this.hasAssignedWeights = apiOutput.hasAssignedWeights;
-    this.numOfRubricChoices = apiOutput.numOfRubricChoices;
     this.rubricChoices = apiOutput.rubricChoices;
-    this.numOfRubricSubQuestions = apiOutput.numOfRubricSubQuestions;
     this.rubricSubQuestions = apiOutput.rubricSubQuestions;
     this.rubricWeightsForEachCell = apiOutput.rubricWeightsForEachCell;
     this.rubricDescriptions = apiOutput.rubricDescriptions;
@@ -64,9 +62,9 @@ export class FeedbackRubricQuestionDetailsImpl extends AbstractFeedbackQuestionD
       const currRow: string[] = [
         `${StringHelper.integerToLowerCaseAlphabeticalIndex(questionIndex + 1)}) ${subQuestion}`,
         ...statsCalculation.choices.map((_: string, choiceIndex: number) => {
-          return `${ statsCalculation.percentages[questionIndex][choiceIndex] }% \
-(${ statsCalculation.answers[questionIndex][choiceIndex] }) \
-${ statsCalculation.hasWeights ? `[${ statsCalculation.weights[questionIndex][choiceIndex] }]` : '' }`;
+          return `${statsCalculation.percentages[questionIndex][choiceIndex]}% \
+(${statsCalculation.answers[questionIndex][choiceIndex]}) \
+${statsCalculation.hasWeights ? `[${statsCalculation.weights[questionIndex][choiceIndex]}]` : ''}`;
         }),
       ];
       if (statsCalculation.hasWeights) {
@@ -103,9 +101,9 @@ ${ statsCalculation.hasWeights ? `[${ statsCalculation.weights[questionIndex][ch
               perRecipientStats.recipientEmail ? perRecipientStats.recipientEmail : '',
               `${StringHelper.integerToLowerCaseAlphabeticalIndex(questionIndex + 1)}) ${subQuestion}`,
               ...statsCalculation.choices.map((_: string, choiceIndex: number) => {
-                return `${ perRecipientStats.percentages[questionIndex][choiceIndex] }% \
-(${ perRecipientStats.answers[questionIndex][choiceIndex] }) \
-[${ statsCalculation.weights[questionIndex][choiceIndex] }]`;
+                return `${perRecipientStats.percentages[questionIndex][choiceIndex]}% \
+(${perRecipientStats.answers[questionIndex][choiceIndex]}) \
+[${statsCalculation.weights[questionIndex][choiceIndex]}]`;
               }),
               String(perRecipientStats.subQuestionTotalChosenWeight[questionIndex]),
               String(perRecipientStats.subQuestionWeightAverage[questionIndex]),

@@ -14,7 +14,7 @@ import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.util.store.MemoryDataStoreFactory;
 
 import teammates.common.datatransfer.UserInfoCookie;
@@ -30,7 +30,7 @@ abstract class AuthServlet extends HttpServlet {
 
     private static final MemoryDataStoreFactory DATA_STORE_FACTORY = MemoryDataStoreFactory.getDefaultInstance();
     private static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
-    private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
+    private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
     private static final List<String> SCOPES = Arrays.asList("https://www.googleapis.com/auth/userinfo.email");
 
     /**
@@ -50,6 +50,7 @@ abstract class AuthServlet extends HttpServlet {
     String getRedirectUri(HttpServletRequest req) {
         GenericUrl url = new GenericUrl(req.getRequestURL().toString().replaceFirst("^http://", "https://"));
         url.setRawPath("/oauth2callback");
+        url.set("ngsw-bypass", "true");
         return url.build();
     }
 
@@ -68,7 +69,7 @@ abstract class AuthServlet extends HttpServlet {
         cookie.setPath("/");
         cookie.setSecure(!Config.isDevServer());
         cookie.setHttpOnly(true);
-        cookie.setMaxAge(7 * 24 * 60 * 60); // one week
+        cookie.setMaxAge((int) Const.COOKIE_VALIDITY_PERIOD.toSeconds()); // one week
         return cookie;
     }
 

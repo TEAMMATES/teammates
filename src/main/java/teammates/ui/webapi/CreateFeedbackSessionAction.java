@@ -115,7 +115,7 @@ class CreateFeedbackSessionAction extends Action {
                     .build();
 
             try {
-                attributes = logic.createFeedbackQuestion(attributes);
+                logic.createFeedbackQuestion(attributes);
             } catch (InvalidParametersException e) {
                 log.severe("Error when copying feedback question: " + e.getMessage());
             }

@@ -39,7 +39,8 @@ export class StringHelper {
   /**
    * Trims the string and reduces consecutive white spaces to only one space.
    * Example: " a   a  " --> "a a".
-   * @return processed string, returns null if parameter is null
+   *
+   * @returns processed string, returns null if parameter is null
    */
   static removeExtraSpace(str: string): string {
     return str.trim().replace(/\s+/g, ' ');

@@ -1,4 +1,4 @@
-<div *ngIf="!isLoading">
+<div *tmIsLoading="isLoading">
   <div class="card bg-light mx-auto" style="max-width: 800px;" *ngIf="!hasJoined && !userId && validUrl">
     <div class="card-header bg-warning">
       <h3 style="margin-bottom: 0;">Not logged in</h3>
@@ -28,7 +28,7 @@
       <br>If this is not you, please log out and log in using your own Google account.
       <br>If this is you, please confirm below to complete your registration.<br>
       <div class="text-center" style="margin-top: 20px;">
-        <button id="btn-confirm" class="btn btn-success" (click)="joinCourse()">Register for course</button>
+        <button id="btn-confirm" class="btn btn-success" (click)=" isCreatingAccount ? createAccount() : joinCourse()">Register for course</button>
       </div>
     </div>
   </div>

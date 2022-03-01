@@ -2,22 +2,24 @@
 
 exports[`UserJoinPageComponent should snap if user is not logged in and has a valid url 1`] = `
 <tm-user-join-page
+  accountService={[Function AccountService]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   courseService={[Function CourseService]}
   entityType={[Function String]}
   hasJoined="false"
+  isCreatingAccount="false"
   isLoading="false"
   key={[Function String]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
   router={[Function Router]}
+  timezoneService={[Function TimezoneService]}
   userId=""
   validUrl={[Function Boolean]}
 >
   <div>
-    
     <div
       class="card bg-light mx-auto"
       style="max-width: 800px;"
@@ -37,51 +39,67 @@ exports[`UserJoinPageComponent should snap if user is not logged in and has a va
          You are not logged in. Please log in first. 
       </div>
     </div>
-    
-    
   </div>
 </tm-user-join-page>
 `;
 
 exports[`UserJoinPageComponent should snap with default fields 1`] = `
 <tm-user-join-page
+  accountService={[Function AccountService]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   courseService={[Function CourseService]}
   entityType={[Function String]}
   hasJoined="false"
+  isCreatingAccount="false"
   isLoading={[Function Boolean]}
   key={[Function String]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
   router={[Function Router]}
+  timezoneService={[Function TimezoneService]}
   userId=""
   validUrl={[Function Boolean]}
 >
-  
+  <tm-loading-spinner>
+    <div
+      class="loading-container"
+    >
+      <div
+        class="row spinner-border text-primary"
+        role="status"
+      />
+      <div
+        class="row text-secondary"
+      >
+        Loading...
+      </div>
+    </div>
+  </tm-loading-spinner>
 </tm-user-join-page>
 `;
 
 exports[`UserJoinPageComponent should snap with invalid course join link 1`] = `
 <tm-user-join-page
+  accountService={[Function AccountService]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   courseService={[Function CourseService]}
   entityType={[Function String]}
   hasJoined="false"
+  isCreatingAccount="false"
   isLoading="false"
   key={[Function String]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
   router={[Function Router]}
+  timezoneService={[Function TimezoneService]}
   userId={[Function String]}
   validUrl="false"
 >
   <div>
-    
-    
     <div
       class="card bg-light mx-auto"
       style="max-width: 800px;"
@@ -95,38 +113,36 @@ exports[`UserJoinPageComponent should snap with invalid course join link 1`] = `
           Invalid course join link
         </h3>
       </div>
-      
       <div
         class="card-body"
       >
          The course join link is invalid. You may have entered the URL incorrectly or the URL may correspond to a/an student that does not exist. 
       </div>
-      
     </div>
-    
   </div>
 </tm-user-join-page>
 `;
 
 exports[`UserJoinPageComponent should snap with valid course join link that has been used 1`] = `
 <tm-user-join-page
+  accountService={[Function AccountService]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   courseService={[Function CourseService]}
   entityType={[Function String]}
   hasJoined={[Function Boolean]}
+  isCreatingAccount="false"
   isLoading="false"
   key={[Function String]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
   router={[Function Router]}
+  timezoneService={[Function TimezoneService]}
   userId={[Function String]}
   validUrl={[Function Boolean]}
 >
   <div>
-    
-    
     <div
       class="card bg-light mx-auto"
       style="max-width: 800px;"
@@ -140,39 +156,36 @@ exports[`UserJoinPageComponent should snap with valid course join link that has 
           Invalid course join link
         </h3>
       </div>
-      
-      
       <div
         class="card-body"
       >
          The course join link has been used and is no longer valid. 
       </div>
     </div>
-    
   </div>
 </tm-user-join-page>
 `;
 
 exports[`UserJoinPageComponent should snap with valid course join link that has not been used 1`] = `
 <tm-user-join-page
+  accountService={[Function AccountService]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   courseService={[Function CourseService]}
   entityType={[Function String]}
   hasJoined="false"
+  isCreatingAccount="false"
   isLoading="false"
   key={[Function String]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
   router={[Function Router]}
+  timezoneService={[Function TimezoneService]}
   userId={[Function String]}
   validUrl={[Function Boolean]}
 >
   <div>
-    
-    
-    
     <div
       class="card bg-light mx-auto"
       style="max-width: 800px;"

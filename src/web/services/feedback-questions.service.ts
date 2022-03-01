@@ -368,10 +368,9 @@ export class FeedbackQuestionsService {
           showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
         };
 
-      case FeedbackQuestionType.MCQ:
+      case FeedbackQuestionType.MCQ: {
 
         const mcqQuestionDetails: FeedbackMcqQuestionDetails = DEFAULT_MCQ_QUESTION_DETAILS();
-        mcqQuestionDetails.numOfMcqChoices = 2;
         mcqQuestionDetails.mcqChoices = ['', ''];
 
         return {
@@ -390,8 +389,9 @@ export class FeedbackQuestionsService {
           showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
           showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
         };
+      }
 
-      case FeedbackQuestionType.MSQ:
+      case FeedbackQuestionType.MSQ: {
 
         const msqQuestionDetails: FeedbackMsqQuestionDetails = DEFAULT_MSQ_QUESTION_DETAILS();
         msqQuestionDetails.msqChoices = ['', ''];
@@ -415,8 +415,9 @@ export class FeedbackQuestionsService {
           showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
           showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
         };
+      }
 
-      case FeedbackQuestionType.RANK_OPTIONS:
+      case FeedbackQuestionType.RANK_OPTIONS: {
 
         const rankOptionsQuestionDetails: FeedbackRankOptionsQuestionDetails = DEFAULT_RANK_OPTIONS_QUESTION_DETAILS();
         rankOptionsQuestionDetails.maxOptionsToBeRanked = NO_VALUE;
@@ -439,6 +440,7 @@ export class FeedbackQuestionsService {
           showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
           showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
         };
+      }
 
       case FeedbackQuestionType.RANK_RECIPIENTS:
 
@@ -458,12 +460,10 @@ export class FeedbackQuestionsService {
           showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
         };
 
-      case FeedbackQuestionType.RUBRIC:
+      case FeedbackQuestionType.RUBRIC: {
 
         const rubricQuestionDetails: FeedbackRubricQuestionDetails = DEFAULT_RUBRIC_QUESTION_DETAILS();
-        rubricQuestionDetails.numOfRubricChoices = 4;
         rubricQuestionDetails.rubricChoices = ['Strongly Disagree', 'Disagree', 'Agree', 'Strongly Agree'];
-        rubricQuestionDetails.numOfRubricSubQuestions = 2;
         rubricQuestionDetails.rubricSubQuestions =
             ['This student participates well in online discussions.', 'This student completes assigned tasks on time.'];
         rubricQuestionDetails.rubricDescriptions = [
@@ -488,6 +488,7 @@ export class FeedbackQuestionsService {
           showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
           showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
         };
+      }
 
       case FeedbackQuestionType.CONSTSUM_OPTIONS:
 
@@ -567,7 +568,7 @@ export class FeedbackQuestionsService {
    * Checks whether the current question is allowed to have participant comment.
    */
   isAllowedToHaveParticipantComment(questionType: FeedbackQuestionType): boolean {
-    return questionType === FeedbackQuestionType.MCQ;
+    return questionType === FeedbackQuestionType.MCQ || questionType === FeedbackQuestionType.MSQ;
   }
 
   /**
@@ -635,7 +636,7 @@ export class FeedbackQuestionsService {
  */
 export interface CommonVisibilitySetting {
   name: string;
-  visibilitySettings: {[TKey in VisibilityControl]: FeedbackVisibilityType[]};
+  visibilitySettings: { [TKey in VisibilityControl]: FeedbackVisibilityType[] };
 }
 
 /**

@@ -8,8 +8,9 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentProfileService } from '../../../services/student-profile.service';
 import { StudentService } from '../../../services/student.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
-import { Course, Gender, Instructor, Instructors, JoinState, Student, StudentProfile,
-  Students } from '../../../types/api-output';
+import {
+  Course, Gender, Instructor, Instructors, JoinState, Student, StudentProfile, Students,
+} from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { ErrorMessageOutput } from '../../error-message-output';
 
@@ -86,12 +87,15 @@ export class StudentCourseDetailsPageComponent implements OnInit {
 
   /**
    * Loads the course details.
-   * @param courseid: id of the course queried
+   *
+   * @param courseId id of the course queried
    */
   loadCourse(courseId: string): void {
     this.isLoadingCourse = true;
     this.courseService.getCourseAsStudent(courseId)
-        .pipe(finalize(() => this.isLoadingCourse = false))
+        .pipe(finalize(() => {
+          this.isLoadingCourse = false;
+        }))
         .subscribe((course: Course) => {
           this.course = course;
         }, (resp: ErrorMessageOutput) => {
@@ -102,12 +106,15 @@ export class StudentCourseDetailsPageComponent implements OnInit {
 
   /**
    * Loads the current logged-in student of the course.
-   * @param courseid: id of the course queried
+   *
+   * @param courseId id of the course queried
    */
   loadStudent(courseId: string): void {
     this.isLoadingStudent = true;
     this.studentService.getStudent(courseId)
-        .pipe(finalize(() => this.isLoadingStudent = false))
+        .pipe(finalize(() => {
+          this.isLoadingStudent = false;
+        }))
         .subscribe((student: Student) => {
           this.student = student;
           this.loadTeammates(courseId, student.teamName);
@@ -119,8 +126,9 @@ export class StudentCourseDetailsPageComponent implements OnInit {
 
   /**
    * Loads the teammates of the current student.
-   * @param courseid: id of the course queried
-   * @param teamName: team of current student
+   *
+   * @param courseId id of the course queried
+   * @param teamName team of current student
    */
   loadTeammates(courseId: string, teamName: string): void {
     this.isLoadingTeammates = true;
@@ -138,7 +146,9 @@ export class StudentCourseDetailsPageComponent implements OnInit {
           }
 
           this.studentProfileService.getStudentProfile(student.email, courseId)
-                .pipe(finalize(() => this.isLoadingTeammates = false))
+                .pipe(finalize(() => {
+                  this.isLoadingTeammates = false;
+                }))
                 .subscribe((studentProfile: StudentProfile) => {
                   const newPhotoUrl: string =
                     `${environment.backendUrl}/webapi/student/profilePic`
@@ -148,7 +158,7 @@ export class StudentCourseDetailsPageComponent implements OnInit {
                     ...studentProfile,
                     email: student.email,
                     name: student.name,
-                    photoUrl : newPhotoUrl,
+                    photoUrl: newPhotoUrl,
                   };
 
                   this.teammateProfiles.push(newTeammateProfile);
@@ -166,12 +176,15 @@ export class StudentCourseDetailsPageComponent implements OnInit {
 
   /**
    * Loads the instructors of the course.
-   * @param courseid: id of the course queried
+   *
+   * @param courseId id of the course queried
    */
   loadInstructors(courseId: string): void {
     this.isLoadingInstructor = true;
     this.instructorService.loadInstructors({ courseId })
-        .pipe(finalize(() => this.isLoadingInstructor = false))
+        .pipe(finalize(() => {
+          this.isLoadingInstructor = false;
+        }))
         .subscribe((instructors: Instructors) => {
           this.instructorDetails = instructors.instructors;
         }, (resp: ErrorMessageOutput) => {
@@ -189,7 +202,8 @@ export class StudentCourseDetailsPageComponent implements OnInit {
 
   /**
    * Checks the option selected to sort teammates.
-   * @param sortOption: option for sorting
+   *
+   * @param sortOption option for sorting
    */
   isSelectedForSorting(sortOption: SortBy): boolean {
     return this.teammateProfilesSortBy === sortOption;
@@ -197,7 +211,8 @@ export class StudentCourseDetailsPageComponent implements OnInit {
 
   /**
    * Sorts the teammates according to selected option.
-   * @param sortOption: option for sorting
+   *
+   * @param sortOption option for sorting
    */
   sortTeammatesBy(sortOption: SortBy): void {
     this.teammateProfilesSortBy = sortOption;
@@ -209,7 +224,8 @@ export class StudentCourseDetailsPageComponent implements OnInit {
 
   /**
    * Sorts the panels of teammates in order.
-   * @param sortOption: option for sorting
+   *
+   * @param sortOption option for sorting
    */
   sortPanelsBy(sortOption: SortBy):
       ((a: StudentProfile, b: StudentProfile) => number) {

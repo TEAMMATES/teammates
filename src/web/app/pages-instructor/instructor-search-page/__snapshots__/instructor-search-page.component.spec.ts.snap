@@ -67,7 +67,6 @@ exports[`InstructorSearchPageComponent should snap with a search key 1`] = `
       </div>
     </div>
   </tm-instructor-search-bar><div>
-    
   </div>
 </tm-instructor-search-page>
 `;
@@ -140,7 +139,6 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
       </div>
     </div>
   </tm-instructor-search-bar><div>
-    
     <tm-student-result-table>
       <div
         class="card border border-primary mb-4"
@@ -153,7 +151,6 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
         <div
           class="card-body p-3"
         >
-          
           <div
             class="card border border-light-blue mb-3 student-course-table"
           >
@@ -179,7 +176,6 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                         <th>
                           Photo
                         </th>
-                        
                         <th
                           class="sortable-header"
                         >
@@ -190,8 +186,6 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                             <i
                               class="fas fa-sort"
                             />
-                            
-                            
                           </span>
                         </th>
                         <th
@@ -204,8 +198,6 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                             <i
                               class="fas fa-sort"
                             />
-                            
-                            
                           </span>
                         </th>
                         <th
@@ -219,8 +211,6 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                             <i
                               class="fas fa-sort"
                             />
-                            
-                            
                           </span>
                         </th>
                         <th
@@ -234,8 +224,6 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                             <i
                               class="fas fa-sort"
                             />
-                            
-                            
                           </span>
                         </th>
                         <th
@@ -248,8 +236,6 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                             <i
                               class="fas fa-sort"
                             />
-                            
-                            
                           </span>
                         </th>
                         <th
@@ -260,15 +246,11 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                       </tr>
                     </thead>
                     <tbody>
-                      
                       <tr
                         s=""
                       >
                         <td>
                           <tm-view-photo-popover>
-                            
-                            
-                            
                             <a
                               href="/"
                               queryparamshandling="preserve"
@@ -276,12 +258,8 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                             >
                                View Photo 
                             </a>
-                            
-                            
-                            
                           </tm-view-photo-popover>
                         </td>
-                        
                         <td>
                           Tutorial Group 1
                         </td>
@@ -300,8 +278,6 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                         <td
                           class="no-print align-center"
                         >
-                          
-                          
                           <a
                             class="btn btn-light btn-sm btn-margin-right"
                             href="/web/instructor/courses/student/details?courseid=test-exa.demo&studentemail=tester@tester.com"
@@ -311,8 +287,6 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                           >
                              View
                           </a>
-                          
-                          
                           <a
                             class="btn btn-light btn-sm btn-margin-right"
                             href="/web/instructor/courses/student/edit?courseid=test-exa.demo&studentemail=tester@tester.com"
@@ -322,15 +296,12 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                           >
                              Edit
                           </a>
-                          
-                          
                           <button
                             class="btn btn-light btn-sm btn-margin-right"
                             id="btn-delete"
                           >
                             Delete
                           </button>
-                          
                           <a
                             class="btn btn-light btn-sm btn-margin-right"
                             href="/web/instructor/students/records?courseid=test-exa.demo&studentemail=tester@tester.com"
@@ -340,7 +311,6 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                           >
                              All Records
                           </a>
-                          
                         </td>
                       </tr>
                       <tr
@@ -348,9 +318,6 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                       >
                         <td>
                           <tm-view-photo-popover>
-                            
-                            
-                            
                             <a
                               href="/"
                               queryparamshandling="preserve"
@@ -358,12 +325,8 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                             >
                                View Photo 
                             </a>
-                            
-                            
-                            
                           </tm-view-photo-popover>
                         </td>
-                        
                         <td>
                           Tutorial Group 1
                         </td>
@@ -382,8 +345,6 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                         <td
                           class="no-print align-center"
                         >
-                          
-                          
                           <a
                             class="btn btn-light btn-sm btn-margin-right"
                             href="/web/instructor/courses/student/details?courseid=test-exa.demo&studentemail=benny.c.tmms@gmail.tmt"
@@ -393,8 +354,6 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                           >
                              View
                           </a>
-                          
-                          
                           <a
                             class="btn btn-light btn-sm btn-margin-right"
                             href="/web/instructor/courses/student/edit?courseid=test-exa.demo&studentemail=benny.c.tmms@gmail.tmt"
@@ -404,15 +363,12 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                           >
                              Edit
                           </a>
-                          
-                          
                           <button
                             class="btn btn-light btn-sm btn-margin-right"
                             id="btn-delete"
                           >
                             Delete
                           </button>
-                          
                           <a
                             class="btn btn-light btn-sm btn-margin-right"
                             href="/web/instructor/students/records?courseid=test-exa.demo&studentemail=benny.c.tmms@gmail.tmt"
@@ -422,7 +378,6 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                           >
                              All Records
                           </a>
-                          
                         </td>
                       </tr>
                       <tr
@@ -430,9 +385,6 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                       >
                         <td>
                           <tm-view-photo-popover>
-                            
-                            
-                            
                             <a
                               href="/"
                               queryparamshandling="preserve"
@@ -440,12 +392,8 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                             >
                                View Photo 
                             </a>
-                            
-                            
-                            
                           </tm-view-photo-popover>
                         </td>
-                        
                         <td>
                           Tutorial Group 1
                         </td>
@@ -464,8 +412,6 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                         <td
                           class="no-print align-center"
                         >
-                          
-                          
                           <a
                             class="btn btn-light btn-sm btn-margin-right"
                             href="/web/instructor/courses/student/details?courseid=test-exa.demo&studentemail=alice.b.tmms@gmail.tmt"
@@ -475,8 +421,6 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                           >
                              View
                           </a>
-                          
-                          
                           <a
                             class="btn btn-light btn-sm btn-margin-right"
                             href="/web/instructor/courses/student/edit?courseid=test-exa.demo&studentemail=alice.b.tmms@gmail.tmt"
@@ -486,15 +430,12 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                           >
                              Edit
                           </a>
-                          
-                          
                           <button
                             class="btn btn-light btn-sm btn-margin-right"
                             id="btn-delete"
                           >
                             Delete
                           </button>
-                          
                           <a
                             class="btn btn-light btn-sm btn-margin-right"
                             href="/web/instructor/students/records?courseid=test-exa.demo&studentemail=alice.b.tmms@gmail.tmt"
@@ -504,7 +445,6 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                           >
                              All Records
                           </a>
-                          
                         </td>
                       </tr>
                       <tr
@@ -512,9 +452,6 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                       >
                         <td>
                           <tm-view-photo-popover>
-                            
-                            
-                            
                             <a
                               href="/"
                               queryparamshandling="preserve"
@@ -522,12 +459,8 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                             >
                                View Photo 
                             </a>
-                            
-                            
-                            
                           </tm-view-photo-popover>
                         </td>
-                        
                         <td>
                           Tutorial Group 1
                         </td>
@@ -546,8 +479,6 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                         <td
                           class="no-print align-center"
                         >
-                          
-                          
                           <a
                             class="btn btn-light btn-sm btn-margin-right"
                             href="/web/instructor/courses/student/details?courseid=test-exa.demo&studentemail=danny.e.tmms@gmail.tmt"
@@ -557,8 +488,6 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                           >
                              View
                           </a>
-                          
-                          
                           <a
                             class="btn btn-light btn-sm btn-margin-right"
                             href="/web/instructor/courses/student/edit?courseid=test-exa.demo&studentemail=danny.e.tmms@gmail.tmt"
@@ -568,15 +497,12 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                           >
                              Edit
                           </a>
-                          
-                          
                           <button
                             class="btn btn-light btn-sm btn-margin-right"
                             id="btn-delete"
                           >
                             Delete
                           </button>
-                          
                           <a
                             class="btn btn-light btn-sm btn-margin-right"
                             href="/web/instructor/students/records?courseid=test-exa.demo&studentemail=danny.e.tmms@gmail.tmt"
@@ -586,7 +512,6 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                           >
                              All Records
                           </a>
-                          
                         </td>
                       </tr>
                     </tbody>
@@ -670,7 +595,6 @@ exports[`InstructorSearchPageComponent should snap with default fields 1`] = `
       </div>
     </div>
   </tm-instructor-search-bar><div>
-    
   </div>
 </tm-instructor-search-page>
 `;

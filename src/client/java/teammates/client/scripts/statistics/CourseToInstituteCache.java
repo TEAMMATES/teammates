@@ -26,7 +26,7 @@ public class CourseToInstituteCache {
     public CourseToInstituteCache() {
         cache = CacheBuilder.newBuilder()
                 .maximumSize(2000000) // will approximately occupy 100MB memory space
-                .build(new CacheLoader<String, String>() {
+                .build(new CacheLoader<>() {
                     @Override
                     public String load(String courseId) {
                         List<Instructor> instructors =

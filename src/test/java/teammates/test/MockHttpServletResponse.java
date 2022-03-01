@@ -3,6 +3,7 @@ package teammates.test;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -11,6 +12,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.http.HttpStatus;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Mocks {@link HttpServletResponse} for testing purpose.
@@ -124,12 +127,12 @@ public class MockHttpServletResponse implements HttpServletResponse {
 
     @Override
     public Collection<String> getHeaders(String s) {
-        return null;
+        return Collections.emptyList();
     }
 
     @Override
     public Collection<String> getHeaderNames() {
-        return null;
+        return Collections.emptyList();
     }
 
     @Override
@@ -148,6 +151,7 @@ public class MockHttpServletResponse implements HttpServletResponse {
     }
 
     @Override
+    @SuppressFBWarnings("DM_DEFAULT_ENCODING")
     public PrintWriter getWriter() {
         return new PrintWriter(System.out);
     }

@@ -1,6 +1,6 @@
 import {
   FeedbackConstantSumQuestionDetails,
-  FeedbackConstantSumResponseDetails as FeedbackConstantSumResponseDetails,
+  FeedbackConstantSumResponseDetails,
   FeedbackQuestionType,
 } from '../api-output';
 import { AbstractFeedbackResponseDetails } from './abstract-feedback-response-details';

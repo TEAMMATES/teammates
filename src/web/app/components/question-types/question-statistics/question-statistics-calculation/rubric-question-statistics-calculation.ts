@@ -24,7 +24,7 @@ export interface PerRecipientStats {
  * Class to calculate stats for rubric question.
  */
 @Directive()
-// tslint:disable-next-line:directive-class-suffix
+// eslint-disable-next-line @angular-eslint/directive-class-suffix
 export class RubricQuestionStatisticsCalculation
     extends QuestionStatistics<FeedbackRubricQuestionDetails, FeedbackRubricResponseDetails> {
 
@@ -42,10 +42,6 @@ export class RubricQuestionStatisticsCalculation
 
   perRecipientStatsMap: Record<string, PerRecipientStats> = {};
 
-  constructor(question: FeedbackRubricQuestionDetails) {
-    super(question);
-  }
-
   calculateStatistics(): void {
     this.answers = [];
     this.percentages = [];
@@ -61,9 +57,9 @@ export class RubricQuestionStatisticsCalculation
     this.weights = this.question.rubricWeightsForEachCell;
 
     const emptyAnswers: number[][] = [];
-    for (const _ of this.question.rubricSubQuestions) {
+    for (let i = 0; i < this.question.rubricSubQuestions.length; i += 1) {
       const subQuestionAnswers: number[] = [];
-      for (const __ of this.question.rubricChoices) {
+      for (let j = 0; j < this.question.rubricChoices.length; j += 1) {
         subQuestionAnswers.push(0);
       }
       emptyAnswers.push(subQuestionAnswers);

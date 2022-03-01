@@ -1,9 +1,9 @@
 import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { saveAs } from 'file-saver';
-import { concat, Observable, of } from 'rxjs';
-import { catchError, finalize, switchMap, takeWhile } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { catchError, finalize, switchMap } from 'rxjs/operators';
 import { FeedbackQuestionsService } from '../../services/feedback-questions.service';
+import { FeedbackSessionActionsService } from '../../services/feedback-session-actions.service';
 import { FeedbackSessionsService } from '../../services/feedback-sessions.service';
 import { InstructorService } from '../../services/instructor.service';
 import { NavigationService } from '../../services/navigation.service';
@@ -23,7 +23,6 @@ import { SortBy, SortOrder } from '../../types/sort-properties';
 import { CopySessionModalResult } from '../components/copy-session-modal/copy-session-modal-model';
 import { ErrorReportComponent } from '../components/error-report/error-report.component';
 import { CopySessionResult, SessionsTableRowModel } from '../components/sessions-table/sessions-table-model';
-import { SimpleModalType } from '../components/simple-modal/simple-modal-type';
 import { ErrorMessageOutput } from '../error-message-output';
 
 /**
@@ -46,7 +45,8 @@ export abstract class InstructorSessionBasePageComponent {
                         protected tableComparatorService: TableComparatorService,
                         protected ngbModal: NgbModal,
                         protected simpleModalService: SimpleModalService,
-                        protected progressBarService: ProgressBarService) { }
+                        protected progressBarService: ProgressBarService,
+                        protected feedbackSessionActionsService: FeedbackSessionActionsService) { }
 
   /**
    * Copies a feedback session.
@@ -124,14 +124,17 @@ export abstract class InstructorSessionBasePageComponent {
         model.feedbackSession.courseId,
         model.feedbackSession.feedbackSessionName,
     )
-        .pipe(finalize(() => model.isLoadingResponseRate = false))
+        .pipe(finalize(() => {
+          model.isLoadingResponseRate = false;
+        }))
         .subscribe((resp: FeedbackSessionStats) => {
           model.responseRate = `${resp.submittedTotal} / ${resp.expectedTotal}`;
         }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
   }
 
   /**
-   * Creates list of copy session requests from params
+   * Creates list of copy session requests from params.
+   *
    * @param model the source session model
    * @param result the result of the copy session modal
    * @returns the list of copy session requests
@@ -153,7 +156,8 @@ export abstract class InstructorSessionBasePageComponent {
   }
 
   /**
-   * Creates list of copy session requests from params
+   * Creates list of copy session requests from params.
+   *
    * @param result the result of the copy session modal
    * @param courseId the source courseId
    * @param feedbackSessionName the source feedback session name
@@ -229,65 +233,24 @@ export abstract class InstructorSessionBasePageComponent {
       courseId: model.feedbackSession.courseId,
       feedbackSessionName: model.feedbackSession.feedbackSessionName,
       intent: Intent.INSTRUCTOR_RESULT,
-    }).subscribe((feedbackQuestions: FeedbackQuestions) => {
-      const questions: FeedbackQuestion[] = feedbackQuestions.questions;
-      this.downloadSessionResultHelper(questions, model);
-    });
-  }
-
-  downloadSessionResultHelper(questions: FeedbackQuestion[], model: SessionsTableRowModel): void {
-    this.isResultActionLoading = true;
-    const filename: string =
-        `${model.feedbackSession.courseId}_${model.feedbackSession.feedbackSessionName}_result.csv`;
-    let blob: any;
-    let downloadAborted: boolean = false;
-    const outputData: string[] = [];
-
-    const modalContent: string = 'Downloading the results of your feedback session...';
-    const loadingModal: NgbModalRef = this.simpleModalService.openLoadingModal(
-        'Download Progress', SimpleModalType.LOAD, modalContent);
-    loadingModal.result.then(() => {
-      this.isResultActionLoading = false;
-      downloadAborted = true;
-    });
-
-    outputData.push(`Course,${model.feedbackSession.courseId}\n`);
-    outputData.push(`Session Name,${model.feedbackSession.feedbackSessionName}\n`);
-
-    concat(
-      ...questions.map((question: FeedbackQuestion) =>
-        this.feedbackSessionsService.downloadSessionResults(
-            model.feedbackSession.courseId,
-            model.feedbackSession.feedbackSessionName,
-            Intent.FULL_DETAIL,
-            true,
-            true,
-            question.feedbackQuestionId,
-        ),
-      ),
-    ).pipe(finalize(() => this.isResultActionLoading = false))
-      .pipe(takeWhile(() => this.isResultActionLoading && !downloadAborted))
-      .subscribe({
-        next: (resp: string) => {
-          outputData.push(resp);
-          const numberOfQuestionsDownloaded: number = outputData.length;
-          const totalNumberOfQuestions: number = questions.length;
-          const progressPercentage: number = Math.round(100 * numberOfQuestionsDownloaded / totalNumberOfQuestions);
-          this.progressBarService.updateProgress(progressPercentage);
-        },
-        complete: () => {
-          if (downloadAborted) {
-            return;
-          }
-          loadingModal.close();
-          blob = new Blob(outputData, { type: 'text/csv' });
-          saveAs(blob, filename);
-        },
-        error: (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorToast(resp.error.message);
-          loadingModal.close();
-        },
-      });
+    }).pipe(
+      switchMap((feedbackQuestions: FeedbackQuestions) => {
+        const questions: FeedbackQuestion[] = feedbackQuestions.questions;
+        this.isResultActionLoading = true;
+        return of(this.feedbackSessionActionsService.downloadSessionResult(
+          model.feedbackSession.courseId,
+          model.feedbackSession.feedbackSessionName,
+          Intent.FULL_DETAIL,
+          true,
+          true,
+          questions,
+        ));
+      }),
+      finalize(() => {
+        this.isResultActionLoading = false;
+      }),
+    )
+      .subscribe();
   }
 
   /**
@@ -299,7 +262,9 @@ export abstract class InstructorSessionBasePageComponent {
         model.feedbackSession.courseId,
         model.feedbackSession.feedbackSessionName,
     )
-        .pipe(finalize(() => this.isResultActionLoading = false))
+        .pipe(finalize(() => {
+          this.isResultActionLoading = false;
+        }))
         .subscribe((feedbackSession: FeedbackSession) => {
           model.feedbackSession = feedbackSession;
           model.responseRate = '';
@@ -308,10 +273,10 @@ export abstract class InstructorSessionBasePageComponent {
               + 'Please allow up to 1 hour for all the notification emails to be sent out.');
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
-          if (!this.publishUnpublishRetryAttempts) {
-            this.openErrorReportModal(resp);
-          } else {
+          if (this.publishUnpublishRetryAttempts) {
             this.publishUnpublishRetryAttempts -= 1;
+          } else {
+            this.openErrorReportModal(resp);
           }
         });
   }
@@ -325,7 +290,9 @@ export abstract class InstructorSessionBasePageComponent {
         model.feedbackSession.courseId,
         model.feedbackSession.feedbackSessionName,
     )
-        .pipe(finalize(() => this.isResultActionLoading = false))
+        .pipe(finalize(() => {
+          this.isResultActionLoading = false;
+        }))
         .subscribe((feedbackSession: FeedbackSession) => {
           model.feedbackSession = feedbackSession;
           model.responseRate = '';
@@ -333,10 +300,10 @@ export abstract class InstructorSessionBasePageComponent {
           this.statusMessageService.showSuccessToast('The feedback session has been unpublished.');
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
-          if (!this.publishUnpublishRetryAttempts) {
-            this.openErrorReportModal(resp);
-          } else {
+          if (this.publishUnpublishRetryAttempts) {
             this.publishUnpublishRetryAttempts -= 1;
+          } else {
+            this.openErrorReportModal(resp);
           }
         });
   }

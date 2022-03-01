@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CONTRIBUTION_POINT_NOT_SUBMITTED } from '../../../../../types/feedback-response-details';
 
 /**
@@ -9,16 +9,11 @@ import { CONTRIBUTION_POINT_NOT_SUBMITTED } from '../../../../../types/feedback-
   templateUrl: './contribution-ratings-list.component.html',
   styleUrls: ['./contribution-ratings-list.component.scss'],
 })
-export class ContributionRatingsListComponent implements OnInit {
+export class ContributionRatingsListComponent {
 
   CONTRIBUTION_POINT_NOT_SUBMITTED: number = CONTRIBUTION_POINT_NOT_SUBMITTED;
 
   @Input()
   ratingsList: number[] = [];
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
 
 }

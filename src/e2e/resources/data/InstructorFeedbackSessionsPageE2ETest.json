@@ -106,6 +106,15 @@
       "comments": "This student's name is Danny Engrid",
       "team": "Team 2",
       "section": "None"
+    },
+    "emma.tmms@IFSess.CS1101": {
+      "googleId": "tm.e2e.IFSess.emma.tmms",
+      "email": "IFSess.emma.tmms@gmail.tmt",
+      "course": "tm.e2e.IFSess.CS1101",
+      "name": "Emma Farrell",
+      "comments": "This student's name is Emma Farrell",
+      "team": "Team 2",
+      "section": "None"
     }
   },
   "feedbackSessions": {

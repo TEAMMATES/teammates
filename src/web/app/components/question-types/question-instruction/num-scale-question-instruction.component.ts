@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 /**
  * Instruction of numerical scale question.
@@ -8,11 +8,4 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './num-scale-question-instruction.component.html',
   styleUrls: ['./num-scale-question-instruction.component.scss'],
 })
-export class NumScaleQuestionInstructionComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
-}
+export class NumScaleQuestionInstructionComponent {}

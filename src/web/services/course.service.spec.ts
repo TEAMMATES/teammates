@@ -1,6 +1,5 @@
-import { TestBed } from '@angular/core/testing';
-
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { TestBed } from '@angular/core/testing';
 import { ResourceEndpoints } from '../types/api-const';
 import { CourseArchiveRequest, CourseCreateRequest } from '../types/api-request';
 import { CourseService } from './course.service';
@@ -107,10 +106,10 @@ describe('CourseService', () => {
   });
 
   it('should execute POST to create course', () => {
-    const request: CourseCreateRequest = new class implements CourseCreateRequest {
-      courseId: string = 'test-id';
-      courseName: string = 'test-name';
-      timeZone: string = 'test-zone';
+    const request: CourseCreateRequest = {
+      courseId: 'test-id',
+      courseName: 'test-name',
+      timeZone: 'test-zone',
     };
     const paramMap: { [key: string]: string } = {};
     service.createCourse(request);
@@ -119,10 +118,10 @@ describe('CourseService', () => {
 
   it('should execute PUT to update course', () => {
     const courseid: string = 'test-id';
-    const request: CourseCreateRequest = new class implements CourseCreateRequest {
-      courseId: string = courseid;
-      courseName: string = 'test-name';
-      timeZone: string = 'test-zone';
+    const request: CourseCreateRequest = {
+      courseId: courseid,
+      courseName: 'test-name',
+      timeZone: 'test-zone',
     };
     const paramMap: { [key: string]: string } = { courseid };
     service.updateCourse(courseid, request);
@@ -138,11 +137,8 @@ describe('CourseService', () => {
 
   it('should execute PUT to archive course', () => {
     const courseid: string = 'test-id';
-    const request: CourseArchiveRequest = new class implements CourseArchiveRequest {
-      archiveStatus: boolean = true;
-      courseId: string = courseid;
-      courseName: string = 'test-name';
-      timeZone: string = 'test-zone';
+    const request: CourseArchiveRequest = {
+      archiveStatus: true,
     };
     const paramMap: { [key: string]: string } = { courseid };
     service.changeArchiveStatus(courseid, request);
@@ -171,7 +167,11 @@ describe('CourseService', () => {
       key: regKey,
       entitytype: entityType,
     };
-    service.getJoinCourseStatus(regKey, entityType);
+    service.getJoinCourseStatus(regKey, entityType, false);
+    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.JOIN, paramMap);
+
+    paramMap.iscreatingaccount = 'true';
+    service.getJoinCourseStatus(regKey, entityType, true);
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.JOIN, paramMap);
   });
 

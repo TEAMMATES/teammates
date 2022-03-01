@@ -2,15 +2,15 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { saveAs } from 'file-saver';
-import { concat, Observable } from 'rxjs';
-import { finalize, takeWhile } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackResponseCommentService } from '../../../services/feedback-response-comment.service';
+import { FeedbackSessionActionsService } from '../../../services/feedback-session-actions.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { InstructorService } from '../../../services/instructor.service';
 import { NavigationService } from '../../../services/navigation.service';
-import { ProgressBarService } from '../../../services/progress-bar.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
@@ -33,7 +33,9 @@ import {
 import { Intent } from '../../../types/api-request';
 import { CommentToCommentRowModelPipe } from '../../components/comment-box/comment-to-comment-row-model.pipe';
 import { CommentsToCommentTableModelPipe } from '../../components/comment-box/comments-to-comment-table-model.pipe';
-import { StudentListInfoTableRowModel } from '../../components/sessions-table/respondent-list-info-table/respondent-list-info-table-model';
+import {
+  StudentListInfoTableRowModel,
+} from '../../components/sessions-table/respondent-list-info-table/respondent-list-info-table-model';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorCommentsComponent } from '../instructor-comments.component';
@@ -134,6 +136,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
     InstructorSessionNoResponsePanelComponent;
 
   constructor(private feedbackSessionsService: FeedbackSessionsService,
+              private feedbackSessionActionsService: FeedbackSessionActionsService,
               private feedbackQuestionsService: FeedbackQuestionsService,
               private courseService: CourseService,
               private studentService: StudentService,
@@ -142,7 +145,6 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
               private timezoneService: TimezoneService,
               private simpleModalService: SimpleModalService,
               private commentsToCommentTableModel: CommentsToCommentTableModelPipe,
-              private progressBarService: ProgressBarService,
               private navigationService: NavigationService,
               private router: Router,
               statusMessageService: StatusMessageService,
@@ -375,24 +377,26 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
     const isPublished: boolean = this.session.publishStatus === FeedbackSessionPublishStatus.PUBLISHED;
     let modalRef: NgbModalRef;
     if (isPublished) {
-      const modalContent: string = `An email will be sent to students to inform them that the session has been unpublished and the session responses
-          will no longer be viewable by students.`;
+      const modalContent: string =
+          `An email will be sent to students to inform them that the session has been unpublished
+          and the session responses will no longer be viewable by students.`;
       modalRef = this.simpleModalService.openConfirmationModal(
           `Unpublish this session <strong>${this.session.feedbackSessionName}</strong>?`,
           SimpleModalType.WARNING, modalContent);
     } else {
-      const modalContent: string = 'An email will be sent to students to inform them that the responses are ready for viewing.';
+      const modalContent: string =
+          'An email will be sent to students to inform them that the responses are ready for viewing.';
       modalRef = this.simpleModalService.openConfirmationModal(
           `Publish this session <strong>${this.session.feedbackSessionName}</strong>?`,
           SimpleModalType.WARNING, modalContent);
     }
 
     modalRef.result.then(() => {
-      const response: Observable<any> = isPublished ?
-          this.feedbackSessionsService.unpublishFeedbackSession(
+      const response: Observable<any> = isPublished
+          ? this.feedbackSessionsService.unpublishFeedbackSession(
             this.session.courseId, this.session.feedbackSessionName,
-          ) :
-          this.feedbackSessionsService.publishFeedbackSession(
+          )
+          : this.feedbackSessionsService.publishFeedbackSession(
             this.session.courseId, this.session.feedbackSessionName,
           );
 
@@ -425,60 +429,19 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
    */
   downloadResultHandler(): void {
     this.isDownloadingResults = true;
-    const filename: string = `${this.session.courseId}_${this.session.feedbackSessionName}_result.csv`;
-    let blob: any;
-    let downloadAborted: boolean = false;
-    const out: string[] = [];
-
-    let numberOfQuestionsDownloaded: number = 0;
-    const modalContent: string =
-        'Downloading the results of your feedback session...';
-    const loadingModal: NgbModalRef = this.simpleModalService.openLoadingModal(
-        'Download Progress', SimpleModalType.LOAD, modalContent);
-    loadingModal.result.then(() => {
+    of(this.feedbackSessionActionsService.downloadSessionResult(
+      this.courseId,
+      this.session.feedbackSessionName,
+      Intent.FULL_DETAIL,
+      this.indicateMissingResponses,
+      this.showStatistics,
+      Object.values(this.questionsModel).map((questionTabModel: QuestionTabModel) => questionTabModel.question),
+      this.section.length === 0 ? undefined : this.section,
+      this.section.length === 0 ? undefined : this.sectionType,
+    )).pipe(finalize(() => {
       this.isDownloadingResults = false;
-      downloadAborted = true;
-    });
-
-    out.push(`Course,${this.session.courseId}\n`);
-    out.push(`Session Name,${this.session.feedbackSessionName}\n`);
-
-    concat(
-        ...Object.keys(this.questionsModel).map((k: string) =>
-          this.feedbackSessionsService.downloadSessionResults(
-              this.session.courseId,
-              this.session.feedbackSessionName,
-              Intent.FULL_DETAIL,
-              this.indicateMissingResponses,
-              this.showStatistics,
-              this.questionsModel[k].question.feedbackQuestionId,
-              this.section.length === 0 ? undefined : this.section,
-              this.section.length === 0 ? undefined : this.sectionType,
-          ),
-        ),
-    ).pipe(finalize(() => this.isDownloadingResults = false))
-      .pipe(takeWhile(() => this.isDownloadingResults))
-      .subscribe({
-        next: (resp: string) => {
-          out.push(resp);
-          numberOfQuestionsDownloaded += 1;
-          const totalNumberOfQuestions: number = Object.keys(this.questionsModel).length;
-          const progressPercentage: number = Math.round(100 * numberOfQuestionsDownloaded / totalNumberOfQuestions);
-          this.progressBarService.updateProgress(progressPercentage);
-        },
-        complete: () => {
-          if (downloadAborted) {
-            return;
-          }
-          loadingModal.close();
-          blob = new Blob(out, { type: 'text/csv' });
-          saveAs(blob, filename);
-        },
-        error: (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorToast(resp.error.message);
-          loadingModal.close();
-        },
-      });
+    }))
+      .subscribe();
   }
 
   downloadQuestionResultHandler(question: { questionNumber: number, questionId: string }): void {
@@ -504,10 +467,10 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
    * Handle expand all questions button event.
    */
   toggleExpandAllHandler(): void {
-    if (!this.isExpandAll) {
-      this.expandAllTabs();
-    } else {
+    if (this.isExpandAll) {
       this.collapseAllTabs();
+    } else {
+      this.expandAllTabs();
     }
   }
 

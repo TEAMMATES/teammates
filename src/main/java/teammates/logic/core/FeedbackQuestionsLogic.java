@@ -141,40 +141,31 @@ public final class FeedbackQuestionsLogic {
     }
 
     /**
-     * Gets a {@code List} of all questions for the given session for an
-     * instructor to view/submit.
+     * Gets a {@code List} of all questions for the given session that instructors can view/submit.
      */
-    public List<FeedbackQuestionAttributes> getFeedbackQuestionsForInstructor(
-            String feedbackSessionName, String courseId, String userEmail)
-            throws EntityDoesNotExistException {
-
-        if (fsLogic.getFeedbackSession(feedbackSessionName, courseId) == null) {
-            throw new EntityDoesNotExistException(
-                    "Trying to get questions for a feedback session that does not exist.");
-        }
-
-        if (fsLogic.isCreatorOfSession(feedbackSessionName, courseId, userEmail)) {
-            return getFeedbackQuestionsForCreatorInstructor(feedbackSessionName, courseId);
-        }
-
+    public List<FeedbackQuestionAttributes> getFeedbackQuestionsForInstructors(
+            String feedbackSessionName, String courseId, String userEmail) {
         List<FeedbackQuestionAttributes> questions = new ArrayList<>();
 
-        InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, userEmail);
-        boolean isInstructor = instructor != null;
+        questions.addAll(
+                fqDb.getFeedbackQuestionsForGiverType(
+                        feedbackSessionName, courseId, FeedbackParticipantType.INSTRUCTORS));
 
-        if (isInstructor) {
-            questions.addAll(fqDb.getFeedbackQuestionsForGiverType(
-                            feedbackSessionName, courseId, FeedbackParticipantType.INSTRUCTORS));
+        if (userEmail != null && fsLogic.isCreatorOfSession(feedbackSessionName, courseId, userEmail)) {
+            questions.addAll(
+                    fqDb.getFeedbackQuestionsForGiverType(
+                            feedbackSessionName, courseId, FeedbackParticipantType.SELF));
         }
+
         questions.sort(null);
         return questions;
     }
 
     /**
      * Filters through the given list of questions and returns a {@code List} of
-     * questions that an instructor can view/submit.
+     * questions that instructors can view/submit.
      */
-    public List<FeedbackQuestionAttributes> getFeedbackQuestionsForInstructor(
+    public List<FeedbackQuestionAttributes> getFeedbackQuestionsForInstructors(
             List<FeedbackQuestionAttributes> allQuestions, boolean isCreator) {
 
         List<FeedbackQuestionAttributes> questions = new ArrayList<>();
@@ -190,51 +181,10 @@ public final class FeedbackQuestionsLogic {
     }
 
     /**
-     * Gets a {@code List} of all questions for the list of questions that an
-     * instructor who is the creator of the course can view/submit.
-     */
-    List<FeedbackQuestionAttributes> getFeedbackQuestionsForCreatorInstructor(
-            String feedbackSessionName, String courseId)
-                    throws EntityDoesNotExistException {
-
-        FeedbackSessionAttributes fsa = fsLogic.getFeedbackSession(feedbackSessionName, courseId);
-        if (fsa == null) {
-            throw new EntityDoesNotExistException(
-                    "Trying to get questions for a feedback session that does not exist.");
-        }
-
-        return getFeedbackQuestionsForCreatorInstructor(fsa);
-    }
-
-    /**
-     * Gets the list of feedback questions whose giver is the creator of the feedback session.
-     */
-    public List<FeedbackQuestionAttributes> getFeedbackQuestionsForCreatorInstructor(
-                                    FeedbackSessionAttributes fsa) {
-
-        List<FeedbackQuestionAttributes> questions = new ArrayList<>();
-
-        String feedbackSessionName = fsa.getFeedbackSessionName();
-        String courseId = fsa.getCourseId();
-
-        questions.addAll(fqDb.getFeedbackQuestionsForGiverType(
-                                       feedbackSessionName, courseId, FeedbackParticipantType.INSTRUCTORS));
-
-        // Return all self (creator) questions
-        questions.addAll(fqDb.getFeedbackQuestionsForGiverType(feedbackSessionName,
-                courseId, FeedbackParticipantType.SELF));
-
-        questions.sort(null);
-        return questions;
-    }
-
-    /**
-     * Gets a {@code List} of all questions for the given session that
-     * students can view/submit.
+     * Gets a {@code List} of all questions for the given session that students can view/submit.
      */
     public List<FeedbackQuestionAttributes> getFeedbackQuestionsForStudents(
             String feedbackSessionName, String courseId) {
-
         List<FeedbackQuestionAttributes> questions = new ArrayList<>();
 
         questions.addAll(
@@ -273,6 +223,14 @@ public final class FeedbackQuestionsLogic {
     public boolean sessionHasQuestions(String feedbackSessionName, String courseId) {
         return fqDb.hasFeedbackQuestionsForGiverType(feedbackSessionName, courseId, FeedbackParticipantType.STUDENTS)
                 || fqDb.hasFeedbackQuestionsForGiverType(feedbackSessionName, courseId, FeedbackParticipantType.TEAMS);
+    }
+
+    /**
+     * Returns true if a session has question in a specific giverType.
+     */
+    public boolean sessionHasQuestionsForGiverType(
+            String feedbackSessionName, String courseId, FeedbackParticipantType giverType) {
+        return fqDb.hasFeedbackQuestionsForGiverType(feedbackSessionName, courseId, giverType);
     }
 
     /**
@@ -665,7 +623,7 @@ public final class FeedbackQuestionsLogic {
             if (generateOptionsFor == FeedbackParticipantType.STUDENTS_IN_SAME_SECTION) {
                 String courseId = feedbackQuestionAttributes.getCourseId();
                 StudentAttributes studentAttributes =
-                        studentsLogic.getStudentForEmail(emailOfEntityDoingQuestion, courseId);
+                        studentsLogic.getStudentForEmail(courseId, emailOfEntityDoingQuestion);
                 studentList = studentsLogic.getStudentsForSection(studentAttributes.getSection(), courseId);
             } else {
                 studentList = studentsLogic.getStudentsForCourse(feedbackQuestionAttributes.getCourseId());
@@ -689,7 +647,7 @@ public final class FeedbackQuestionsLogic {
                 if (generateOptionsFor == FeedbackParticipantType.TEAMS_IN_SAME_SECTION) {
                     String courseId = feedbackQuestionAttributes.getCourseId();
                     StudentAttributes studentAttributes =
-                            studentsLogic.getStudentForEmail(emailOfEntityDoingQuestion, courseId);
+                            studentsLogic.getStudentForEmail(courseId, emailOfEntityDoingQuestion);
                     teams = coursesLogic.getTeamsForSection(studentAttributes.getSection(), courseId);
                 } else {
                     teams = coursesLogic.getTeamsForCourse(feedbackQuestionAttributes.getCourseId());

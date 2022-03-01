@@ -15,8 +15,6 @@ exports[`InstructorCourseStudentDetailsPageComponent should snap with default fi
   studentService={[Function StudentService]}
 >
   <tm-loading-retry>
-    
-    
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -32,8 +30,6 @@ exports[`InstructorCourseStudentDetailsPageComponent should snap with default fi
         </div>
       </div>
     </tm-loading-spinner>
-    
-    
   </tm-loading-retry>
 </tm-instructor-course-student-details-page>
 `;
@@ -55,8 +51,6 @@ exports[`InstructorCourseStudentDetailsPageComponent should snap with populated 
   studentService={[Function StudentService]}
 >
   <tm-loading-retry>
-    
-    
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -72,8 +66,6 @@ exports[`InstructorCourseStudentDetailsPageComponent should snap with populated 
         </div>
       </div>
     </tm-loading-spinner>
-    
-    
   </tm-loading-retry>
 </tm-instructor-course-student-details-page>
 `;

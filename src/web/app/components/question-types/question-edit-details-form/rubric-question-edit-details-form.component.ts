@@ -1,5 +1,5 @@
 import { moveItemInArray } from '@angular/cdk/drag-drop';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
 import { FeedbackRubricQuestionDetails } from '../../../../types/api-output';
 import { DEFAULT_RUBRIC_QUESTION_DETAILS } from '../../../../types/default-question-structs';
@@ -15,16 +15,13 @@ import { QuestionEditDetailsFormComponent } from './question-edit-details-form.c
   styleUrls: ['./rubric-question-edit-details-form.component.scss'],
 })
 export class RubricQuestionEditDetailsFormComponent
-    extends QuestionEditDetailsFormComponent<FeedbackRubricQuestionDetails> implements OnInit {
+    extends QuestionEditDetailsFormComponent<FeedbackRubricQuestionDetails> {
 
   rowToHighlight: number = -1;
   columnToHighlight: number = -1;
 
   constructor(private simpleModalService: SimpleModalService) {
     super(DEFAULT_RUBRIC_QUESTION_DETAILS());
-  }
-
-  ngOnInit(): void {
   }
 
   /**
@@ -82,19 +79,18 @@ export class RubricQuestionEditDetailsFormComponent
     newSubQuestions.push('');
 
     const newDescriptions: string[][] = this.model.rubricDescriptions.map((arr: string[]) => arr.slice());
-    newDescriptions.push(Array(this.model.numOfRubricChoices).fill(''));
+    newDescriptions.push(Array(this.model.rubricChoices.length).fill(''));
 
     // update weights
     let newWeightsForEachCell: number[][] = [];
     if (this.model.hasAssignedWeights) {
       newWeightsForEachCell = this.model.rubricWeightsForEachCell.map((arr: number[]) => arr.slice());
-      newWeightsForEachCell.push(Array(this.model.numOfRubricChoices).fill(0));
+      newWeightsForEachCell.push(Array(this.model.rubricChoices.length).fill(0));
     }
 
     this.triggerModelChangeBatch({
       rubricSubQuestions: newSubQuestions,
       rubricDescriptions: newDescriptions,
-      numOfRubricSubQuestions: this.model.numOfRubricSubQuestions + 1,
       rubricWeightsForEachCell: newWeightsForEachCell,
     });
   }
@@ -124,7 +120,6 @@ export class RubricQuestionEditDetailsFormComponent
     this.triggerModelChangeBatch({
       rubricChoices: newChoices,
       rubricDescriptions: newDescriptions,
-      numOfRubricChoices: this.model.numOfRubricChoices + 1,
       rubricWeightsForEachCell: newWeightsForEachCell,
     });
   }
@@ -162,7 +157,7 @@ export class RubricQuestionEditDetailsFormComponent
    * Deletes a sub question.
    */
   deleteSubQuestion(index: number): void {
-    if (this.model.numOfRubricSubQuestions === 1 || !this.isEditable) {
+    if (this.model.rubricSubQuestions.length === 1 || !this.isEditable) {
       // ignore deletion
       return;
     }
@@ -187,7 +182,6 @@ export class RubricQuestionEditDetailsFormComponent
           this.triggerModelChangeBatch({
             rubricSubQuestions: newSubQuestions,
             rubricDescriptions: newDescriptions,
-            numOfRubricSubQuestions: this.model.numOfRubricSubQuestions - 1,
             rubricWeightsForEachCell: newWeightsForEachCell,
           });
 
@@ -221,7 +215,6 @@ export class RubricQuestionEditDetailsFormComponent
 
           this.triggerModelChangeBatch({
             rubricChoices: newChoices,
-            numOfRubricChoices: this.model.numOfRubricChoices - 1,
             rubricDescriptions: newDescriptions,
             rubricWeightsForEachCell: newWeightsForEachCell,
           });

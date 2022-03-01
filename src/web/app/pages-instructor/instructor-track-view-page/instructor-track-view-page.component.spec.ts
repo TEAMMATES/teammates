@@ -1,8 +1,8 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
-
+import SpyInstance = jest.SpyInstance;
 import { CourseService } from '../../../services/course.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { LogService } from '../../../services/log.service';
@@ -22,10 +22,8 @@ import {
 } from '../../../types/api-output';
 import { SortBy } from '../../../types/sort-properties';
 import { ColumnData } from '../../components/sortable-table/sortable-table.component';
-
 import { InstructorTrackViewPageComponent } from './instructor-track-view-page.component';
 import { InstructorTrackViewPageModule } from './instructor-track-view-page.module';
-import Spy = jasmine.Spy;
 
 describe('InstructorTrackViewPageComponent', () => {
   let component: InstructorTrackViewPageComponent;
@@ -122,7 +120,7 @@ describe('InstructorTrackViewPageComponent', () => {
     ],
   };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         InstructorTrackViewPageModule,
@@ -198,10 +196,10 @@ describe('InstructorTrackViewPageComponent', () => {
   });
 
   it('should load all courses and feedback sessions that instructor has on init', () => {
-    const courseSpy: Spy = spyOn(courseService, 'getAllCoursesAsInstructor').and
-        .returnValue(of({ courses: [testCourse1, testCourse2] }));
-    const feedbackSessionSpy: Spy = spyOn(feedbackSessionsService, 'getFeedbackSessionsForInstructor').and
-        .returnValue(of({ feedbackSessions: [testFeedbackSessionPublished] }));
+    const courseSpy: SpyInstance = jest.spyOn(courseService, 'getAllCoursesAsInstructor')
+        .mockReturnValue(of({ courses: [testCourse1, testCourse2] }));
+    const feedbackSessionSpy: SpyInstance = jest.spyOn(feedbackSessionsService, 'getFeedbackSessionsForInstructor')
+        .mockReturnValue(of({ feedbackSessions: [testFeedbackSessionPublished] }));
 
     component.ngOnInit();
 
@@ -214,12 +212,12 @@ describe('InstructorTrackViewPageComponent', () => {
   });
 
   it('should load students and search for logs when view button is clicked', () => {
-    spyOn(feedbackSessionsService, 'getFeedbackSession').and.returnValue(of(testFeedbackSessionPublished));
-    spyOn(studentService, 'getStudentsFromCourse').and.returnValue(of({ students: [testStudent] }));
-    const logSpy: Spy = spyOn(logService, 'searchFeedbackSessionLog').and
-        .returnValue(of({ feedbackSessionLogs: [testLogs] }));
-    const timezoneSpy: Spy = spyOn(timezoneService, 'resolveLocalDateTime').and
-        .returnValue(0);
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSessionPublished));
+    jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of({ students: [testStudent] }));
+    const logSpy: SpyInstance = jest.spyOn(logService, 'searchFeedbackSessionLog')
+        .mockReturnValue(of({ feedbackSessionLogs: [testLogs] }));
+    const timezoneSpy: SpyInstance = jest.spyOn(timezoneService, 'resolveLocalDateTime')
+        .mockReturnValue(0);
 
     component.isLoading = false;
     component.isSearching = false;
@@ -246,8 +244,8 @@ describe('InstructorTrackViewPageComponent', () => {
   });
 
   it('should display error message if feedback session is not published', () => {
-    spyOn(feedbackSessionsService, 'getFeedbackSession').and.returnValue(of(testFeedbackSessionNotPublished));
-    const messageSpy: Spy = spyOn(statusMessageService, 'showErrorToast');
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSessionNotPublished));
+    const messageSpy: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast');
 
     component.isLoading = false;
     component.isSearching = false;

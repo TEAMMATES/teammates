@@ -20,7 +20,7 @@ public class InstructorCourseEnrollPageE2ETest extends BaseE2ETestCase {
     @Test
     @Override
     public void testAll() {
-        AppUrl url = createUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_ENROLL_PAGE)
+        AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_ENROLL_PAGE)
                 .withCourseId(testData.courses.get("ICEnroll.CS2104").getId());
         InstructorCourseEnrollPage enrollPage = loginToPage(url, InstructorCourseEnrollPage.class,
                 testData.instructors.get("ICEnroll.teammates.test").getGoogleId());

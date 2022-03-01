@@ -45,7 +45,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
 
         ______TS("unregistered student: can access results");
         StudentAttributes unregistered = testData.students.get("Unregistered");
-        AppUrl url = createUrl(Const.WebPageURIs.SESSION_RESULTS_PAGE)
+        AppUrl url = createFrontendUrl(Const.WebPageURIs.SESSION_RESULTS_PAGE)
                 .withCourseId(unregistered.getCourse())
                 .withStudentEmail(unregistered.getEmail())
                 .withSessionName(openSession.getFeedbackSessionName())
@@ -59,7 +59,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
 
         ______TS("registered student: can access results");
         StudentAttributes student = testData.students.get("Alice");
-        url = createUrl(Const.WebPageURIs.STUDENT_SESSION_RESULTS_PAGE)
+        url = createFrontendUrl(Const.WebPageURIs.STUDENT_SESSION_RESULTS_PAGE)
                 .withCourseId(openSession.getCourseId())
                 .withSessionName(openSession.getFeedbackSessionName());
         resultsPage = loginToPage(url, FeedbackResultsPage.class, student.getGoogleId());
@@ -95,11 +95,12 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         verifyCommentDetails(2, testData.feedbackResponseComments.get("qn2Comment2"), student);
         verifyCommentDetails(3, testData.feedbackResponseComments.get("qn3Comment1"), student);
         verifyCommentDetails(3, testData.feedbackResponseComments.get("qn3Comment2"), student);
+        verifyCommentDetails(4, testData.feedbackResponseComments.get("qn4Comment1"), student);
 
         ______TS("registered instructor: can access results");
         logout();
         InstructorAttributes instructor = testData.instructors.get("FRes.instr");
-        url = createUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_RESULTS_PAGE)
+        url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_RESULTS_PAGE)
                 .withCourseId(openSession.getCourseId())
                 .withSessionName(openSession.getFeedbackSessionName());
         resultsPage = loginToPage(url, FeedbackResultsPage.class, instructor.getGoogleId());
@@ -167,15 +168,15 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
 
     private Set<FeedbackQuestionAttributes> getQnsWithResponses(StudentAttributes currentStudent) {
         return questions.stream()
-                .filter(qn -> getGivenResponses(currentStudent, qn).size() > 0
-                        || getOtherResponses(currentStudent, qn).size() > 0)
+                .filter(qn -> !getGivenResponses(currentStudent, qn).isEmpty()
+                        || !getOtherResponses(currentStudent, qn).isEmpty())
                 .collect(Collectors.toSet());
     }
 
     private Set<FeedbackQuestionAttributes> getQnsWithResponses(InstructorAttributes currentInstructor) {
         return questions.stream()
-                .filter(qn -> getGivenResponses(currentInstructor, qn).size() > 0
-                        || getOtherResponses(currentInstructor, qn).size() > 0)
+                .filter(qn -> !getGivenResponses(currentInstructor, qn).isEmpty()
+                        || !getOtherResponses(currentInstructor, qn).isEmpty())
                 .collect(Collectors.toSet());
     }
 

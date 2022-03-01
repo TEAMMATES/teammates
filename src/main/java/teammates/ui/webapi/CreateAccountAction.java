@@ -1,59 +1,109 @@
 package teammates.ui.webapi;
 
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.attributes.AccountRequestAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Config;
 import teammates.common.util.Const;
-import teammates.common.util.EmailWrapper;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
-import teammates.ui.output.JoinLinkData;
-import teammates.ui.request.AccountCreateRequest;
+import teammates.common.util.TimeHelper;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * Creates a new instructor account with sample courses.
  */
-class CreateAccountAction extends AdminOnlyAction {
+class CreateAccountAction extends Action {
 
     private static final Logger log = Logger.getLogger();
 
     @Override
-    public JsonResult execute() throws InvalidHttpRequestBodyException {
-        AccountCreateRequest createRequest = getAndValidateRequestBody(AccountCreateRequest.class);
+    AuthType getMinAuthLevel() {
+        return AuthType.LOGGED_IN;
+    }
 
-        String instructorName = createRequest.getInstructorName().trim();
-        String instructorEmail = createRequest.getInstructorEmail().trim();
-        String instructorInstitution = createRequest.getInstructorInstitution().trim();
+    @Override
+    void checkSpecificAccessControl() {
+        // Any user can create instructor account as long as the registration key is valid.
+    }
+
+    @Override
+    public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
+        String registrationKey = getNonNullRequestParamValue(Const.ParamsNames.REGKEY);
+        String timezone = getRequestParamValue(Const.ParamsNames.TIMEZONE);
+
+        if (timezone == null || !FieldValidator.getInvalidityInfoForTimeZone(timezone).isEmpty()) {
+            // Use default timezone instead
+            timezone = Const.DEFAULT_TIME_ZONE;
+        }
+
+        AccountRequestAttributes accountRequestAttributes = logic.getAccountRequestForRegistrationKey(registrationKey);
+
+        if (accountRequestAttributes == null) {
+            throw new EntityNotFoundException("Account request with registration key "
+                    + registrationKey + " could not be found");
+        }
+
+        if (accountRequestAttributes.getRegisteredAt() != null) {
+            throw new InvalidOperationException("The registration key " + registrationKey + " has already been used.");
+        }
+
+        String instructorEmail = accountRequestAttributes.getEmail();
+        String instructorName = accountRequestAttributes.getName();
+        String instructorInstitution = accountRequestAttributes.getInstitute();
+
         String courseId;
 
         try {
-            courseId = importDemoData(instructorEmail, instructorName, instructorInstitution);
-        } catch (InvalidParametersException e) {
+            courseId = importDemoData(instructorEmail, instructorName, instructorInstitution, timezone);
+        } catch (InvalidParametersException ipe) {
             // There should not be any invalid parameter here
+            log.severe("Unexpected error", ipe);
+            return new JsonResult(ipe.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
+        }
+
+        List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(courseId);
+
+        assert !instructorList.isEmpty();
+
+        try {
+            logic.joinCourseForInstructor(instructorList.get(0).getKey(), userInfo.id);
+        } catch (EntityDoesNotExistException | EntityAlreadyExistsException | InvalidParametersException e) {
+            // EntityDoesNotExistException should not be thrown as all entities should exist in demo course.
+            // EntityAlreadyExistsException should not be thrown as updated entities should not have
+            // conflict with generated entities in new demo course.
+            // InvalidParametersException should not be thrown as as there should not be any invalid parameters.
             log.severe("Unexpected error", e);
             return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
-        List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(courseId);
-        String joinLink = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
-                .withRegistrationKey(instructorList.get(0).getKey())
-                .withEntityType(Const.EntityType.INSTRUCTOR)
-                .toAbsoluteString();
-        EmailWrapper email = emailGenerator.generateNewInstructorAccountJoinEmail(
-                instructorList.get(0).getEmail(), instructorName, joinLink);
-        emailSender.sendEmail(email);
 
-        JoinLinkData output = new JoinLinkData(joinLink);
-        return new JsonResult(output);
+        try {
+            logic.updateAccountRequest(AccountRequestAttributes
+                    .updateOptionsBuilder(instructorEmail, instructorInstitution)
+                    .withRegisteredAt(Instant.now())
+                    .build());
+        } catch (EntityDoesNotExistException | InvalidParametersException e) {
+            // EntityDoesNotExistException should not be thrown as existence of account request has been validated before.
+            // InvalidParametersException should not be thrown as there should not be any invalid parameters.
+            log.severe("Unexpected error", e);
+            return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
+        }
+
+        return new JsonResult("Account successfully created", HttpStatus.SC_OK);
     }
 
     /**
@@ -61,12 +111,17 @@ class CreateAccountAction extends AdminOnlyAction {
      *
      * @return the ID of demo course
      */
-    private String importDemoData(String instructorEmail, String instructorName, String instructorInstitute)
+    private String importDemoData(String instructorEmail, String instructorName, String instructorInstitute, String timezone)
             throws InvalidParametersException {
 
         String courseId = generateDemoCourseId(instructorEmail);
+        String template = Templates.INSTRUCTOR_SAMPLE_DATA;
 
-        String jsonString = Templates.populateTemplate(Templates.INSTRUCTOR_SAMPLE_DATA,
+        if (!Const.DEFAULT_TIME_ZONE.equals(timezone)) {
+            template = replaceAdjustedTimeAndTimezone(template, timezone);
+        }
+
+        String jsonString = Templates.populateTemplate(template,
                 // replace email
                 "teammates.demo.instructor@demo.course", instructorEmail,
                 // replace name
@@ -180,4 +235,32 @@ class CreateAccountAction extends AdminOnlyAction {
         return StringHelper.truncateHead(root + "-demo" + (previousDedupSuffix + 1), maximumIdLength);
     }
 
+    /**
+     * Replace time and timezone based on users timezone.
+     * Strings representing instant are adjusted so that they represent the same date and time but in the users timezone.
+     * Timezone is changed to users timezone.
+     */
+    private String replaceAdjustedTimeAndTimezone(String template, String timezoneString) {
+        // timezoneString should have been validated in #execute() method already
+        assert ZoneId.getAvailableZoneIds().contains(timezoneString);
+
+        String pattern = "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z"; // regex for instant
+        ZoneId timezone = ZoneId.of(timezoneString);
+
+        // replace instant with instant adjusted for user's timezone
+        String updatedtemplate = Pattern.compile(pattern).matcher(template).replaceAll(timestampMatch -> {
+            String timestamp = timestampMatch.group();
+            Instant instant = Instant.parse(timestamp);
+
+            if (TimeHelper.isSpecialTime(instant)) {
+                return timestamp;
+            }
+
+            return ZonedDateTime.ofInstant(instant, ZoneId.of(Const.DEFAULT_TIME_ZONE))
+                    .withZoneSameLocal(timezone).toInstant().toString();
+        });
+
+        // replace timezone
+        return updatedtemplate.replaceAll(Const.DEFAULT_TIME_ZONE, timezoneString);
+    }
 }

@@ -1,13 +1,16 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of, throwError } from 'rxjs';
+import SpyInstance = jest.SpyInstance;
+import { AccountService } from '../services/account.service';
 import { AuthService } from '../services/auth.service';
 import { CourseService } from '../services/course.service';
 import { NavigationService } from '../services/navigation.service';
+import { TimezoneService } from '../services/timezone.service';
+import { LoadingSpinnerModule } from './components/loading-spinner/loading-spinner.module';
 import { UserJoinPageComponent } from './user-join-page.component';
-import Spy = jasmine.Spy;
 
 describe('UserJoinPageComponent', () => {
   let component: UserJoinPageComponent;
@@ -16,17 +19,19 @@ describe('UserJoinPageComponent', () => {
   let courseService: CourseService;
   let authService: AuthService;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [UserJoinPageComponent],
       imports: [
         HttpClientTestingModule,
         RouterTestingModule,
+        LoadingSpinnerModule,
       ],
       providers: [
         NavigationService,
         CourseService,
         AuthService,
+        AccountService,
         {
           provide: ActivatedRoute,
           useValue: {
@@ -110,22 +115,22 @@ describe('UserJoinPageComponent', () => {
     component.entityType = params[1];
     component.validUrl = true;
 
-    const courseSpy: Spy = spyOn(courseService, 'joinCourse').and.returnValue(of({}));
-    const navSpy: Spy = spyOn(navService, 'navigateByURL');
+    const courseSpy: SpyInstance = jest.spyOn(courseService, 'joinCourse').mockReturnValue(of({}));
+    const navSpy: SpyInstance = jest.spyOn(navService, 'navigateByURL').mockImplementation();
 
     fixture.detectChanges();
 
     const btn: any = fixture.debugElement.nativeElement.querySelector('#btn-confirm');
     btn.click();
 
-    expect(courseSpy.calls.count()).toEqual(1);
-    expect(courseSpy.calls.mostRecent().args).toEqual(params);
-    expect(navSpy.calls.count()).toEqual(1);
-    expect(navSpy.calls.mostRecent().args[1]).toEqual(`/web/${params[1]}`);
+    expect(courseSpy).toHaveBeenCalledTimes(1);
+    expect(courseSpy).toHaveBeenLastCalledWith(...params);
+    expect(navSpy).toHaveBeenCalledTimes(1);
+    expect(navSpy).toHaveBeenLastCalledWith(expect.anything(), `/web/${params[1]}`);
   });
 
   it('should redirect user to home page if user is logged in and join URL has been used', () => {
-    spyOn(authService, 'getAuthUser').and.returnValue(of({
+    jest.spyOn(authService, 'getAuthUser').mockReturnValue(of({
       user: {
         id: 'user',
         isAdmin: false,
@@ -135,21 +140,21 @@ describe('UserJoinPageComponent', () => {
       },
       masquerade: false,
     }));
-    spyOn(courseService, 'getJoinCourseStatus').and.returnValue(of({
+    jest.spyOn(courseService, 'getJoinCourseStatus').mockReturnValue(of({
       hasJoined: true,
     }));
-    const navSpy: Spy = spyOn(navService, 'navigateByURL');
+    const navSpy: SpyInstance = jest.spyOn(navService, 'navigateByURL').mockImplementation();
 
     component.ngOnInit();
 
     expect(component.hasJoined).toBeTruthy();
     expect(component.userId).toEqual('user');
-    expect(navSpy.calls.count()).toEqual(1);
-    expect(navSpy.calls.mostRecent().args[1]).toEqual('/web/student/home');
+    expect(navSpy).toHaveBeenCalledTimes(1);
+    expect(navSpy).toHaveBeenLastCalledWith(expect.anything(), '/web/student/home');
   });
 
   it('should stop loading and show error message if 404 is returned', () => {
-    spyOn(authService, 'getAuthUser').and.returnValue(of({
+    jest.spyOn(authService, 'getAuthUser').mockReturnValue(of({
       user: {
         id: 'user',
         isAdmin: false,
@@ -159,7 +164,7 @@ describe('UserJoinPageComponent', () => {
       },
       masquerade: false,
     }));
-    spyOn(courseService, 'getJoinCourseStatus').and.returnValue(throwError({
+    jest.spyOn(courseService, 'getJoinCourseStatus').mockReturnValue(throwError({
       status: 404,
     }));
 
@@ -170,15 +175,137 @@ describe('UserJoinPageComponent', () => {
   });
 
   it('should stop loading and redirect if user is not logged in', () => {
-    spyOn(authService, 'getAuthUser').and.returnValue(of({
+    jest.spyOn(authService, 'getAuthUser').mockReturnValue(of({
       masquerade: false,
     }));
-    spyOn(courseService, 'getJoinCourseStatus').and.returnValue(of({
+    jest.spyOn(courseService, 'getJoinCourseStatus').mockReturnValue(of({
       hasJoined: true,
     }));
 
     component.ngOnInit();
 
     expect(component.isLoading).toBeFalsy();
+  });
+});
+
+describe('UserJoinPageComponent creating account', () => {
+  let component: UserJoinPageComponent;
+  let fixture: ComponentFixture<UserJoinPageComponent>;
+  let navService: NavigationService;
+  let authService: AuthService;
+  let accountService: AccountService;
+  let courseService: CourseService;
+  let timezoneService: TimezoneService;
+
+  beforeEach((() => {
+    TestBed.resetTestingModule();
+    TestBed.configureTestingModule({
+      declarations: [UserJoinPageComponent],
+      imports: [
+        HttpClientTestingModule,
+        RouterTestingModule,
+        LoadingSpinnerModule,
+      ],
+      providers: [
+        NavigationService,
+        CourseService,
+        AuthService,
+        AccountService,
+        TimezoneService,
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            queryParams: of({
+              iscreatingaccount: 'true',
+              key: 'key',
+            }),
+          },
+        },
+      ],
+    }).compileComponents();
+  }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(UserJoinPageComponent);
+    component = fixture.componentInstance;
+    navService = TestBed.inject(NavigationService);
+    authService = TestBed.inject(AuthService);
+    accountService = TestBed.inject(AccountService);
+    courseService = TestBed.inject(CourseService);
+    timezoneService = TestBed.inject(TimezoneService);
+    fixture.detectChanges();
+  });
+
+  it('should create account and join course when join course button is clicked on', () => {
+    component.isLoading = false;
+    component.hasJoined = false;
+    component.userId = 'user';
+    component.isCreatingAccount = true;
+    component.key = 'key';
+    component.entityType = 'instructor';
+    component.validUrl = true;
+
+    const accountSpy: SpyInstance = jest.spyOn(accountService, 'createAccount').mockReturnValue(of({
+      message: 'test message',
+    }));
+    const navSpy: SpyInstance = jest.spyOn(navService, 'navigateByURL').mockImplementation();
+    jest.spyOn(timezoneService, 'guessTimezone').mockReturnValue('UTC');
+
+    fixture.detectChanges();
+
+    const btn: any = fixture.debugElement.nativeElement.querySelector('#btn-confirm');
+    btn.click();
+
+    expect(accountSpy).toHaveBeenCalledTimes(1);
+    expect(accountSpy).toHaveBeenLastCalledWith('key', 'UTC');
+    expect(navSpy).toHaveBeenCalledTimes(1);
+    expect(navSpy).toHaveBeenLastCalledWith(expect.anything(), '/web/instructor');
+  });
+
+  it('should redirect user to home page if user is logged in and URL has been used', () => {
+    jest.spyOn(authService, 'getAuthUser').mockReturnValue(of({
+      user: {
+        id: 'user',
+        isAdmin: false,
+        isInstructor: false,
+        isStudent: false,
+        isMaintainer: false,
+      },
+      masquerade: false,
+    }));
+    jest.spyOn(courseService, 'getJoinCourseStatus').mockReturnValue(of({
+      hasJoined: true,
+    }));
+    const navSpy: SpyInstance = jest.spyOn(navService, 'navigateByURL').mockImplementation();
+
+    component.ngOnInit();
+
+    expect(component.hasJoined).toBeTruthy();
+    expect(component.userId).toEqual('user');
+    expect(navSpy).toHaveBeenCalledTimes(1);
+    expect(navSpy).toHaveBeenLastCalledWith(expect.anything(), '/web/instructor/home');
+  });
+
+  it('should stop loading and show error message if 404 is returned when creating new account', () => {
+    jest.spyOn(authService, 'getAuthUser').mockReturnValue(of({
+      user: {
+        id: 'user',
+        isAdmin: false,
+        isInstructor: false,
+        isStudent: false,
+        isMaintainer: false,
+      },
+      masquerade: false,
+    }));
+    jest.spyOn(courseService, 'getJoinCourseStatus').mockReturnValue(throwError({
+      status: 404,
+    }));
+
+    component.ngOnInit();
+
+    expect(component.entityType).toBe('instructor');
+    expect(component.isCreatingAccount).toBeTruthy();
+    expect(component.isLoading).toBeFalsy();
+    expect(component.validUrl).toBeFalsy();
   });
 });

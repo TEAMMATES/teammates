@@ -1,5 +1,6 @@
-// tslint:disable-next-line:max-line-length
-import { MsqQuestionStatisticsCalculation } from '../../app/components/question-types/question-statistics/question-statistics-calculation/msq-question-statistics-calculation';
+import {
+  MsqQuestionStatisticsCalculation,
+} from '../../app/components/question-types/question-statistics/question-statistics-calculation/msq-question-statistics-calculation';
 import {
   FeedbackMsqQuestionDetails,
   FeedbackParticipantType,
@@ -59,7 +60,7 @@ export class FeedbackMsqQuestionDetailsImpl extends AbstractFeedbackMcqMsqQuesti
   }
 
   isParticipantCommentsOnResponsesAllowed(): boolean {
-    return false;
+    return true;
   }
 
   isInstructorCommentsOnResponsesAllowed(): boolean {

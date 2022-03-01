@@ -135,6 +135,10 @@
       "name": "Alexander Levy"
     },
     {
+      "name": "Alexander Rudolph",
+      "username": "drblaui"
+    },
+    {
       "name": "Alexandr Kolymago",
       "username": "justtimki"
     },
@@ -340,6 +344,11 @@
       "username": "brnomendes"
     },
     {
+      "multiple": true,
+      "name": "Cao Wenjie",
+      "username": "shadowezz"
+    },
+    {
       "name": "Carson Shoupe",
       "username": "carsonshoupe"
     },
@@ -541,12 +550,20 @@
       "username": "eliotw"
     },
     {
+      "name": "",
+      "username": "Emp923"
+    },
+    {
       "name": "Eric Liu",
       "username": "ericluoliu"
     },
     {
       "name": "Erik Dodge",
       "username": "dodgees"
+    },
+    {
+      "name": "",
+      "username": "ethanwpgallagher"
     },
     {
       "name": "Evan Martino",
@@ -564,6 +581,10 @@
     {
       "name": "Felix Chon",
       "username": "felixinjapan"
+    },
+    {
+      "name": "",
+      "username": "FergusMok"
     },
     {
       "name": "Florian Digne",
@@ -649,6 +670,10 @@
       "username": "gkrantz"
     },
     {
+      "name": "Hadrien Vercier",
+      "username": "hdrienV"
+    },
+    {
       "multiple": true,
       "name": "Hai Nguyen",
       "username": "helloImHai"
@@ -690,6 +715,11 @@
     {
       "multiple": true,
       "name": "Hou Guochen"
+    },
+    {
+      "multiple": true,
+      "name": "Howard Liu",
+      "username": "fsgmhoward"
     },
     {
       "username": "hppranaav"
@@ -760,6 +790,10 @@
     },
     {
       "name": "Jayant Jain"
+    },
+    {
+      "name": "",
+      "username": "jayasting98"
     },
     {
       "name": "Jeff Wilson",
@@ -972,6 +1006,10 @@
       "multiple": true,
       "name": "Le Viet Tien",
       "username": "lvtiendev"
+    },
+    {
+      "name": "Martin Larsson",
+      "username": "leddy231"
     },
     {
       "multiple": true,
@@ -1198,6 +1236,11 @@
     {
       "multiple": true,
       "name": "Nguyen Truong Duy"
+    },
+    {
+      "multiple": true,
+      "name": "Nicolas Chang Weng Yew",
+      "username": "NicolasCwy"
     },
     {
       "name": "Nicolás Marzano",
@@ -1616,6 +1659,10 @@
       "username": "Einsteino"
     },
     {
+      "name": "",
+      "username": "sshamouilian"
+    },
+    {
       "multiple": true,
       "name": "Staniloiu Eduard"
     },
@@ -1962,6 +2009,15 @@
       "multiple": true,
       "name": "Zhang Xinyi",
       "username": "xyzhang00"
+    },
+    {
+      "name": "Zhang Ziqing",
+      "username": "ziqing26"
+    },
+    {
+      "multiple": true,
+      "name": "Zhao Jingjing",
+      "username": "zhaojj2209"
     },
     {
       "multiple": true,

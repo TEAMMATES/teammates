@@ -75,7 +75,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
     @Test
     @Override
     public void testAll() {
-        AppUrl url = createUrl(Const.WebPageURIs.INSTRUCTOR_SESSIONS_PAGE);
+        AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SESSIONS_PAGE);
         InstructorFeedbackSessionsPage feedbackSessionsPage =
                 loginToPage(url, InstructorFeedbackSessionsPage.class, instructor.getGoogleId());
 
@@ -142,11 +142,21 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
                 + " [Course: " + copiedCourse.getName() + "][Feedback Session: "
                 + openSession.getFeedbackSessionName() + "]");
 
-        ______TS("send reminder email");
-        feedbackSessionsPage.sendReminderEmail(openSession, studentToEmail);
+        ______TS("send reminder email to selected student");
+        feedbackSessionsPage.sendReminderEmailToSelectedStudent(openSession, studentToEmail);
 
         feedbackSessionsPage.verifyStatusMessage("Reminder e-mails have been sent out to those students"
                 + " and instructors. Please allow up to 1 hour for all the notification emails to be sent out.");
+        verifyEmailSent(studentToEmail.getEmail(), "TEAMMATES: Feedback session reminder"
+                + " [Course: " + copiedCourse.getName() + "][Feedback Session: "
+                + openSession.getFeedbackSessionName() + "]");
+
+        ______TS("send reminder email to all student non-submitters");
+        feedbackSessionsPage.sendReminderEmailToNonSubmitters(openSession);
+
+        feedbackSessionsPage.verifyStatusMessage("Reminder e-mails have been sent out to those students"
+                        + " and instructors. Please allow up to 1 hour for all the notification emails to be sent out.");
+
         verifyEmailSent(studentToEmail.getEmail(), "TEAMMATES: Feedback session reminder"
                 + " [Course: " + copiedCourse.getName() + "][Feedback Session: "
                 + openSession.getFeedbackSessionName() + "]");

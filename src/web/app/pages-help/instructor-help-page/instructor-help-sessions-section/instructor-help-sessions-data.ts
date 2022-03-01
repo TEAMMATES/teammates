@@ -28,7 +28,8 @@ import {
 import {
   RecycleBinFeedbackSessionRowModel,
 } from '../../../components/sessions-recycle-bin-table/sessions-recycle-bin-table.component';
-import { SectionTabModel,
+import {
+  SectionTabModel,
 } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-page.component';
 
 /**
@@ -73,7 +74,7 @@ export const EXAMPLE_SESSION_EDIT_FORM_MODEL: SessionEditFormModel = {
 /**
  * Structure of example of comment edit form model
  */
-export let EXAMPLE_COMMENT_EDIT_FORM_MODEL: CommentEditFormModel = {
+export const EXAMPLE_COMMENT_EDIT_FORM_MODEL: CommentEditFormModel = {
   commentText: '',
 
   isUsingCustomVisibilities: false,
@@ -255,7 +256,6 @@ export const EXAMPLE_GRQ_RESPONSES: Record<string, SectionTabModel> = {
             hasAssignedWeights: false,
             mcqWeights: [],
             mcqOtherWeight: 0,
-            numOfMcqChoices: 3,
             mcqChoices: [
               '<p>Good</p>',
               '<p>Normal</p>',
@@ -338,7 +338,6 @@ export const EXAMPLE_QUESTIONS_WITH_RESPONSES: QuestionOutput[] = [{
     questionDetails: {
       ...DEFAULT_MCQ_QUESTION_DETAILS(),
       questionText: 'How well did this team member perform?',
-      numOfMcqChoices: 3,
       mcqChoices: [
         '<p>Good</p>',
         '<p>Normal</p>',
@@ -358,8 +357,8 @@ export const EXAMPLE_QUESTIONS_WITH_RESPONSES: QuestionOutput[] = [{
   allResponses: [EXAMPLE_RESPONSE_WITH_COMMENT],
   responsesToSelf: [
     {
-      responseId: 'ag50ZWFtbWF0ZXMtam9obnIdCxIQRmVlZGJhY2tRdWVzdGlvbhiAgICAgIDICQw' +
-          '%benny.c.tmms@gmail.tmt%alice.b.tmms@gmail.tmt',
+      responseId: 'ag50ZWFtbWF0ZXMtam9obnIdCxIQRmVlZGJhY2tRdWVzdGlvbhiAgICAgIDICQw'
+          + '%benny.c.tmms@gmail.tmt%alice.b.tmms@gmail.tmt',
       giver: 'Benny Charles',
       giverTeam: 'Team A',
       giverSection: 'Section A',
@@ -376,8 +375,8 @@ export const EXAMPLE_QUESTIONS_WITH_RESPONSES: QuestionOutput[] = [{
   ],
   responsesFromSelf: [
     {
-      responseId: 'ag50ZWFtbWF0ZXMtam9obnIdCxIQRmVlZGJhY2tRdWVzdGlvbhiAgICAgIDICQw' +
-          '%alice.b.tmms@gmail.tmt%alice.b.tmms@gmail.tmt',
+      responseId: 'ag50ZWFtbWF0ZXMtam9obnIdCxIQRmVlZGJhY2tRdWVzdGlvbhiAgICAgIDICQw'
+          + '%alice.b.tmms@gmail.tmt%alice.b.tmms@gmail.tmt',
       giver: 'You',
       giverTeam: 'Team A',
       giverSection: 'Section A',
@@ -392,8 +391,8 @@ export const EXAMPLE_QUESTIONS_WITH_RESPONSES: QuestionOutput[] = [{
       isMissingResponse: false,
     },
     {
-      responseId: 'ag50ZWFtbWF0ZXMtam9obnIdCxIQRmVlZGJhY2tRdWVzdGlvbhiAgICAgIDICQw' +
-          '     %alice.b.tmms@gmail.tmt%benny.c.tmms@gmail.tmt',
+      responseId: 'ag50ZWFtbWF0ZXMtam9obnIdCxIQRmVlZGJhY2tRdWVzdGlvbhiAgICAgIDICQw'
+          + '     %alice.b.tmms@gmail.tmt%benny.c.tmms@gmail.tmt',
       giver: 'You',
       giverTeam: 'Team A',
       giverSection: 'Section A',

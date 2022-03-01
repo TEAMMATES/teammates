@@ -6,6 +6,7 @@ import { EmailGenerationService } from '../../../services/email-generation.servi
 import { InstructorService } from '../../../services/instructor.service';
 import { LoadingBarService } from '../../../services/loading-bar.service';
 import {
+  AccountRequestSearchResult,
   AdminSearchResult,
   FeedbackSessionsGroup,
   InstructorAccountSearchResult,
@@ -35,6 +36,7 @@ export class AdminSearchPageComponent {
   searchQuery: string = '';
   instructors: InstructorAccountSearchResult[] = [];
   students: StudentAccountSearchResult[] = [];
+  accountRequests: AccountRequestSearchResult[] = [];
 
   constructor(
     private statusMessageService: StatusMessageService,
@@ -54,21 +56,27 @@ export class AdminSearchPageComponent {
     this.loadingBarService.showLoadingBar();
     this.searchService.searchAdmin(
         this.searchQuery,
-    ).pipe(finalize(() => this.loadingBarService.hideLoadingBar())).subscribe((resp: AdminSearchResult) => {
+    ).pipe(finalize(() => {
+      this.loadingBarService.hideLoadingBar();
+    })).subscribe((resp: AdminSearchResult) => {
       const hasStudents: boolean = !!(resp.students && resp.students.length);
       const hasInstructors: boolean = !!(resp.instructors && resp.instructors.length);
+      const hasAccountRequests: boolean = !!(resp.accountRequests && resp.accountRequests.length);
 
-      if (!hasStudents && !hasInstructors) {
+      if (!hasStudents && !hasInstructors && !hasAccountRequests) {
         this.statusMessageService.showWarningToast('No results found.');
         this.instructors = [];
         this.students = [];
+        this.accountRequests = [];
         return;
       }
 
       this.instructors = resp.instructors;
       this.students = resp.students;
+      this.accountRequests = resp.accountRequests;
       this.hideAllInstructorsLinks();
       this.hideAllStudentsLinks();
+      this.hideAllAccountRequestsLinks();
 
       // prompt user to use more specific terms if search results limit reached
       const limit: number = ApiConst.SEARCH_QUERY_SIZE_LIMIT;
@@ -78,6 +86,9 @@ export class AdminSearchPageComponent {
       }
       if (this.instructors.length >= limit) {
         limitsReached.push(`${limit} instructor results`);
+      }
+      if (this.accountRequests.length >= limit) {
+        limitsReached.push(`${limit} account request results`);
       }
       if (limitsReached.length) {
         this.statusMessageService.showWarningToast(`${limitsReached.join(' and ')} have been shown on this page
@@ -128,6 +139,24 @@ export class AdminSearchPageComponent {
   }
 
   /**
+   * Shows all account requests' links in the page.
+   */
+  showAllAccountRequestsLinks(): void {
+    for (const accountRequest of this.accountRequests) {
+      accountRequest.showLinks = true;
+    }
+  }
+
+  /**
+   * Hides all account requests' links in the page.
+   */
+  hideAllAccountRequestsLinks(): void {
+    for (const accountRequest of this.accountRequests) {
+      accountRequest.showLinks = false;
+    }
+  }
+
+  /**
    * Resets the instructor's Google ID.
    */
   resetInstructorGoogleId(instructor: InstructorAccountSearchResult, event: any): void {
@@ -136,10 +165,11 @@ export class AdminSearchPageComponent {
       event.stopPropagation();
     }
 
-    const modalContent: string = `Are you sure you want to reset the Google account ID currently associated for <strong>${ instructor.name }</strong> in the course <strong>${ instructor.courseId }</strong>?
+    const modalContent: string = `Are you sure you want to reset the Google account ID currently associated for
+        <strong>${instructor.name}</strong> in the course <strong>${instructor.courseId}</strong>?
         The user will need to re-associate their account with a new Google ID.`;
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        `Reset <strong>${ instructor.name }</strong>\'s Google ID?`, SimpleModalType.WARNING, modalContent);
+        `Reset <strong>${instructor.name}</strong>'s Google ID?`, SimpleModalType.WARNING, modalContent);
 
     modalRef.result.then(() => {
       this.accountService.resetInstructorAccount(instructor.courseId, instructor.email).subscribe(() => {
@@ -159,10 +189,11 @@ export class AdminSearchPageComponent {
       event.preventDefault();
       event.stopPropagation();
     }
-    const modalContent: string = `Are you sure you want to reset the Google account ID currently associated for <strong>${ student.name }</strong> in the course <strong>${ student.courseId }</strong>?
+    const modalContent: string = `Are you sure you want to reset the Google account ID currently associated for
+        <strong>${student.name}</strong> in the course <strong>${student.courseId}</strong>?
         The user will need to re-associate their account with a new Google ID.`;
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        `Reset <strong>${ student.name }</strong>\'s Google ID?`, SimpleModalType.WARNING, modalContent);
+        `Reset <strong>${student.name}</strong>'s Google ID?`, SimpleModalType.WARNING, modalContent);
 
     modalRef.result.then(() => {
       this.accountService.resetStudentAccount(student.courseId, student.email).subscribe(() => {
@@ -178,10 +209,11 @@ export class AdminSearchPageComponent {
    * Regenerates the student's registration key.
    */
   regenerateStudentKey(student: StudentAccountSearchResult): void {
-    const modalContent: string = `Are you sure you want to regenerate the registration key for <strong>${ student.name }</strong> for the course <strong>${ student.courseId }</strong>?
+    const modalContent: string = `Are you sure you want to regenerate the registration key for
+        <strong>${student.name}</strong> for the course <strong>${student.courseId}</strong>?
         An email will be sent to the student with all the new course registration and feedback session links.`;
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        `Regenerate <strong>${ student.name }</strong>\'s course links?`, SimpleModalType.WARNING, modalContent);
+        `Regenerate <strong>${student.name}</strong>'s course links?`, SimpleModalType.WARNING, modalContent);
 
     modalRef.result.then(() => {
       this.studentService.regenerateStudentKey(student.courseId, student.email)
@@ -198,10 +230,11 @@ export class AdminSearchPageComponent {
    * Regenerates the instructor's registration key.
    */
   regenerateInstructorKey(instructor: InstructorAccountSearchResult): void {
-    const modalContent: string = `Are you sure you want to regenerate the registration key for <strong>${ instructor.name }</strong> for the course <strong>${ instructor.courseId }</strong>?
+    const modalContent: string = `Are you sure you want to regenerate the registration key for
+        <strong>${instructor.name}</strong> for the course <strong>${instructor.courseId}</strong>?
         An email will be sent to the instructor with all the new course registration and feedback session links.`;
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        `Regenerate <strong>${ instructor.name }</strong>'s course links?`, SimpleModalType.WARNING, modalContent);
+        `Regenerate <strong>${instructor.name}</strong>'s course links?`, SimpleModalType.WARNING, modalContent);
 
     modalRef.result.then(() => {
       this.instructorService.regenerateInstructorKey(instructor.courseId, instructor.email)
@@ -235,7 +268,17 @@ export class AdminSearchPageComponent {
    * Updates the instructor's displayed course join and feedback session links with the value of the newKey.
    */
   private updateDisplayedInstructorCourseLinks(instructor: InstructorAccountSearchResult, newKey: string): void {
+    const updateSessions: Function = (sessions: FeedbackSessionsGroup): void => {
+      Object.keys(sessions).forEach((key: string): void => {
+        sessions[key].feedbackSessionUrl = this.getUpdatedUrl(sessions[key].feedbackSessionUrl, newKey);
+      });
+    };
+
     instructor.courseJoinLink = this.getUpdatedUrl(instructor.courseJoinLink, newKey);
+    updateSessions(instructor.awaitingSessions);
+    updateSessions(instructor.openSessions);
+    updateSessions(instructor.notOpenSessions);
+    updateSessions(instructor.publishedSessions);
   }
 
   /**
@@ -243,7 +286,7 @@ export class AdminSearchPageComponent {
    */
   private getUpdatedUrl(link: string, newVal: string): string {
     const param: string = 'key';
-    const regex: RegExp = new RegExp(`(${param}=)[^\&]+`);
+    const regex: RegExp = new RegExp(`(${param}=)[^&]+`);
 
     return link.replace(regex, `$1${newVal}`);
   }

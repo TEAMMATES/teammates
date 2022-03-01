@@ -9,7 +9,8 @@ import {
   NumberOfEntitiesToGiveFeedbackToSetting,
 } from '../../../types/api-output';
 import { VisibilityControl } from '../../../types/visibility-control';
-import { CommentRowMode, CommentRowModel } from '../comment-box/comment-row/comment-row.component';
+import { CommentRowModel } from '../comment-box/comment-row/comment-row.component';
+import { CommentRowMode } from '../comment-box/comment-row/comment-row.mode';
 import {
   FeedbackResponseRecipient,
   FeedbackResponseRecipientSubmissionFormModel,
@@ -45,7 +46,7 @@ export class QuestionSubmissionFormComponent implements OnInit {
     this.model = model;
     this.visibilityStateMachine =
         this.feedbackQuestionsService.getNewVisibilityStateMachine(model.giverType, model.recipientType);
-    const visibilitySetting: {[TKey in VisibilityControl]: FeedbackVisibilityType[]} = {
+    const visibilitySetting: { [TKey in VisibilityControl]: FeedbackVisibilityType[] } = {
       SHOW_RESPONSE: model.showResponsesTo,
       SHOW_GIVER_NAME: model.showGiverNameTo,
       SHOW_RECIPIENT_NAME: model.showRecipientNameTo,
@@ -98,6 +99,29 @@ export class QuestionSubmissionFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.sortRecipientsByName();
+  }
+
+  /**
+   * Sorts recipients of feedback by their name.
+   */
+  private sortRecipientsByName(): void {
+    this.model.recipientList.sort((firstRecipient: FeedbackResponseRecipient,
+      secondRecipient: FeedbackResponseRecipient) =>
+      firstRecipient.recipientName.localeCompare(secondRecipient.recipientName));
+
+    const indexes: Map<String, number> = new Map();
+    this.model.recipientList.forEach((recipient: FeedbackResponseRecipient, index: number) => {
+      indexes.set(recipient.recipientIdentifier, index);
+    });
+
+    this.model.recipientSubmissionForms.sort((firstRecipient: FeedbackResponseRecipientSubmissionFormModel,
+      secondRecipient: FeedbackResponseRecipientSubmissionFormModel) => {
+      const firstRecipientIndex: number = indexes.get(firstRecipient.recipientIdentifier) || 0;
+      const secondRecipientIndex: number = indexes.get(secondRecipient.recipientIdentifier) || 0;
+
+      return firstRecipientIndex - secondRecipientIndex;
+    });
   }
 
   /**
@@ -181,12 +205,13 @@ export class QuestionSubmissionFormComponent implements OnInit {
       return;
     }
     this.triggerRecipientSubmissionFormChange(index, 'commentByGiver',
-        Object.assign({}, commentModel, {
+        {
+          ...commentModel,
           commentEditFormModel: {
             commentText: commentModel.originalComment.commentText,
           },
           isEditing: false,
-        }));
+        });
   }
 
   /**
@@ -204,7 +229,7 @@ export class QuestionSubmissionFormComponent implements OnInit {
     if (this.model.recipientSubmissionForms.length === 0) { return; }
     const recipientSubmissionForms: FeedbackResponseRecipientSubmissionFormModel[] =
         this.model.recipientSubmissionForms.slice().map(
-            (model: FeedbackResponseRecipientSubmissionFormModel) => Object.assign({}, model, { isValid }));
+            (model: FeedbackResponseRecipientSubmissionFormModel) => ({ ...model, isValid }));
     this.formModelChange.emit({
       ...this.model,
       recipientSubmissionForms,

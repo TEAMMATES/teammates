@@ -28,7 +28,7 @@ public class InstructorCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase
     public void testAll() {
         ______TS("Click join link: invalid key");
         String invalidKey = "invalidKey";
-        AppUrl joinLink = createUrl(Const.WebPageURIs.JOIN_PAGE)
+        AppUrl joinLink = createFrontendUrl(Const.WebPageURIs.JOIN_PAGE)
                 .withRegistrationKey(invalidKey)
                 .withEntityType(Const.EntityType.INSTRUCTOR);
         CourseJoinConfirmationPage confirmationPage = loginToPage(
@@ -40,7 +40,7 @@ public class InstructorCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase
         ______TS("Click join link: valid key");
         String courseId = testData.courses.get("ICJoinConf.CS1101").getId();
         String instructorEmail = newInstructor.getEmail();
-        joinLink = createUrl(Const.WebPageURIs.JOIN_PAGE)
+        joinLink = createFrontendUrl(Const.WebPageURIs.JOIN_PAGE)
                 .withRegistrationKey(getKeyForInstructor(courseId, instructorEmail))
                 .withEntityType(Const.EntityType.INSTRUCTOR);
         confirmationPage = getNewPageInstance(joinLink, CourseJoinConfirmationPage.class);
@@ -49,6 +49,34 @@ public class InstructorCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase
         confirmationPage.confirmJoinCourse(InstructorHomePage.class);
 
         ______TS("Already joined, no confirmation page");
+
+        getNewPageInstance(joinLink, InstructorHomePage.class);
+
+        logout();
+
+        ______TS("Click join link: invalid key");
+        joinLink = createFrontendUrl(Const.WebPageURIs.JOIN_PAGE)
+                .withIsCreatingAccount("true")
+                .withRegistrationKey(invalidKey);
+        confirmationPage = loginToPage(joinLink, CourseJoinConfirmationPage.class, "ICJoinConf.newinstr");
+
+        confirmationPage.verifyDisplayedMessage("The course join link is invalid. You may have "
+                + "entered the URL incorrectly or the URL may correspond to a/an instructor that does not exist.");
+
+        ______TS("Click join link: valid account request key");
+
+        String regKey = BACKDOOR
+                .getRegKeyForAccountRequest("ICJoinConf.newinstr@gmail.tmt", "TEAMMATES Test Institute 1");
+
+        joinLink = createFrontendUrl(Const.WebPageURIs.JOIN_PAGE)
+                .withIsCreatingAccount("true")
+                .withRegistrationKey(regKey);
+
+        confirmationPage = getNewPageInstance(joinLink, CourseJoinConfirmationPage.class);
+        confirmationPage.verifyJoiningUser("ICJoinConf.newinstr");
+        confirmationPage.confirmJoinCourse(InstructorHomePage.class);
+
+        ______TS("Regkey for account request used, no confirmation page");
 
         getNewPageInstance(joinLink, InstructorHomePage.class);
     }
