@@ -2,7 +2,7 @@ import { CommentVisibilityType, FeedbackVisibilityType } from '../types/api-outp
 import { CommentVisibilityControl } from '../types/comment-visibility-control';
 import { VisibilityControl } from '../types/visibility-control';
 
-/* tslint:disable: no-non-null-assertion */
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /**
  * The state machine for visibility settings for comments.
  */
@@ -73,7 +73,7 @@ export class CommentVisibilityStateMachine {
   /**
    * Clears existing visibility settings and applied the given visibility settings.
    */
-  applyVisibilitySettings(visibilitySettings: {[TKey in CommentVisibilityControl]: CommentVisibilityType[] }): void {
+  applyVisibilitySettings(visibilitySettings: { [TKey in CommentVisibilityControl]: CommentVisibilityType[] }): void {
     this.resetVisibility();
     for (const visibilityType of visibilitySettings.SHOW_COMMENT) {
       this.allowToSee(visibilityType, CommentVisibilityControl.SHOW_COMMENT);
@@ -161,4 +161,4 @@ export class CommentVisibilityStateMachine {
     return visibilityTypes;
   }
 }
-/* tslint:enable: no-non-null-assertion */
+/* eslint-enable @typescript-eslint/no-non-null-assertion */

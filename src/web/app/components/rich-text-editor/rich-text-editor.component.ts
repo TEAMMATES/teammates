@@ -36,8 +36,6 @@ export class RichTextEditorComponent implements OnInit {
       + '| alignleft aligncenter alignright alignjustify '
       + '| bullist numlist | link image charmap emoticons';
 
-  constructor() { }
-
   ngOnInit(): void {
     this.init = this.getEditorSettings();
   }

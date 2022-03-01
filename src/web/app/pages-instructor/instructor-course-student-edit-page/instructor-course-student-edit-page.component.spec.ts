@@ -1,5 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { JoinState } from '../../../types/api-output';
@@ -11,7 +11,7 @@ describe('InstructorCourseStudentEditPageComponent', () => {
   let component: InstructorCourseStudentEditPageComponent;
   let fixture: ComponentFixture<InstructorCourseStudentEditPageComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [InstructorCourseStudentEditPageComponent],
       imports: [

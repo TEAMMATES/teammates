@@ -111,7 +111,9 @@ export class UserJoinPageComponent implements OnInit {
     this.isLoading = true;
     this.accountService
       .createAccount(this.key, this.timezoneService.guessTimezone())
-      .pipe(finalize(() => (this.isLoading = false)))
+      .pipe(finalize(() => {
+        this.isLoading = false;
+      }))
       .subscribe(
         () => {
           this.navigationService.navigateByURL(this.router, '/web/instructor');

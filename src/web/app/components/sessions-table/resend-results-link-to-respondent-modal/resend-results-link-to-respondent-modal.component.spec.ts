@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Component } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { RespondentListInfoTableComponent } from '../respondent-list-info-table/respondent-list-info-table.component';
@@ -13,7 +13,7 @@ describe('ResendResultsLinkToRespondentModalComponent', () => {
   let component: ResendResultsLinkToRespondentModalComponent;
   let fixture: ComponentFixture<ResendResultsLinkToRespondentModalComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         ResendResultsLinkToRespondentModalComponent,

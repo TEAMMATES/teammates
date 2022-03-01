@@ -9,17 +9,13 @@ import { QuestionStatistics } from '../question-statistics';
  * Class to calculate stats for constsum options question.
  */
 @Directive()
-// tslint:disable-next-line:directive-class-suffix
+// eslint-disable-next-line @angular-eslint/directive-class-suffix
 export class ConstsumOptionsQuestionStatisticsCalculation
     extends QuestionStatistics<FeedbackConstantSumQuestionDetails, FeedbackConstantSumResponseDetails> {
 
   pointsPerOption: Record<string, number[]> = {};
   totalPointsPerOption: Record<string, number> = {};
   averagePointsPerOption: Record<string, number> = {};
-
-  constructor(question: FeedbackConstantSumQuestionDetails) {
-    super(question);
-  }
 
   calculateStatistics(): void {
     this.pointsPerOption = {};

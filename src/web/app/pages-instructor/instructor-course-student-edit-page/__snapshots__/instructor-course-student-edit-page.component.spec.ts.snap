@@ -20,8 +20,6 @@ exports[`InstructorCourseStudentEditPageComponent should snap when student is st
   studentService={[Function StudentService]}
 >
   <tm-loading-retry>
-    
-    
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -37,8 +35,6 @@ exports[`InstructorCourseStudentEditPageComponent should snap when student is st
         </div>
       </div>
     </tm-loading-spinner>
-    
-    
   </tm-loading-retry>
 </tm-instructor-course-student-edit-page>
 `;
@@ -63,8 +59,6 @@ exports[`InstructorCourseStudentEditPageComponent should snap with default field
   studentService={[Function StudentService]}
 >
   <tm-loading-retry>
-    
-    
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -80,8 +74,6 @@ exports[`InstructorCourseStudentEditPageComponent should snap with default field
         </div>
       </div>
     </tm-loading-spinner>
-    
-    
   </tm-loading-retry>
 </tm-instructor-course-student-edit-page>
 `;
@@ -108,10 +100,7 @@ exports[`InstructorCourseStudentEditPageComponent should snap with student detai
   studentService={[Function StudentService]}
 >
   <tm-loading-retry>
-    
-    
     <div>
-      
       <div
         class="card border-primary"
       >
@@ -135,7 +124,6 @@ exports[`InstructorCourseStudentEditPageComponent should snap with student detai
                 class="col-sm-10"
                 id="courseid"
               >
-                
               </div>
             </div>
             <div
@@ -154,7 +142,6 @@ exports[`InstructorCourseStudentEditPageComponent should snap with student detai
                   formcontrolname="studentname"
                   id="studentname"
                 />
-                
               </div>
             </div>
             <div
@@ -173,7 +160,6 @@ exports[`InstructorCourseStudentEditPageComponent should snap with student detai
                   formcontrolname="sectionname"
                   id="sectionname"
                 />
-                
               </div>
             </div>
             <div
@@ -193,7 +179,6 @@ exports[`InstructorCourseStudentEditPageComponent should snap with student detai
                   id="teamname"
                   name="teamname"
                 />
-                
               </div>
             </div>
             <div
@@ -212,7 +197,6 @@ exports[`InstructorCourseStudentEditPageComponent should snap with student detai
                   formcontrolname="newstudentemail"
                   id="newstudentemail"
                 />
-                
               </div>
             </div>
             <div
@@ -232,7 +216,6 @@ exports[`InstructorCourseStudentEditPageComponent should snap with student detai
                   id="comments"
                   rows="6"
                 >
-                                
                 </textarea>
               </div>
             </div>
@@ -253,13 +236,10 @@ exports[`InstructorCourseStudentEditPageComponent should snap with student detai
             </div>
             <br />
             <br />
-            
           </form>
         </div>
       </div>
     </div>
-    
-    
   </tm-loading-retry>
 </tm-instructor-course-student-edit-page>
 `;

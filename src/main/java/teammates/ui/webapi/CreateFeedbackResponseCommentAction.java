@@ -176,7 +176,7 @@ class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
                 .withShowGiverNameTo(comment.getShowGiverNameTo())
                 .build();
 
-        FeedbackResponseCommentAttributes createdComment = null;
+        FeedbackResponseCommentAttributes createdComment;
         try {
             createdComment = logic.createFeedbackResponseComment(feedbackResponseComment);
         } catch (EntityDoesNotExistException e) {

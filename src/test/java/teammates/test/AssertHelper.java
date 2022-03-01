@@ -1,7 +1,7 @@
 package teammates.test;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -30,7 +30,7 @@ public final class AssertHelper {
     }
 
     private static void assertInstantWithinRange(Instant instant, Instant start, Instant end) {
-        assertTrue(!(instant.isBefore(start) || instant.isAfter(end)));
+        assertFalse(instant.isBefore(start) || instant.isAfter(end));
     }
 
     /**

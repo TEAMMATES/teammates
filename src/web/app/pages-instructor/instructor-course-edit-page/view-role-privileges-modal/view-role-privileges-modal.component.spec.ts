@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { TeammatesCommonModule } from '../../../components/teammates-common/teammates-common.module';
@@ -8,7 +8,7 @@ describe('ViewRolePrivilegesModalComponent', () => {
   let component: ViewRolePrivilegesModalComponent;
   let fixture: ComponentFixture<ViewRolePrivilegesModalComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         ViewRolePrivilegesModalComponent,

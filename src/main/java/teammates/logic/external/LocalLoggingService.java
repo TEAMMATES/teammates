@@ -205,7 +205,7 @@ public class LocalLoggingService implements LogService {
         if (emailFilter != null && (userInfo == null || !emailFilter.equals(userInfo.getEmail()))) {
             return false;
         }
-        return googleIdFilter == null || (userInfo != null && googleIdFilter.equals(userInfo.getGoogleId()));
+        return googleIdFilter == null || userInfo != null && googleIdFilter.equals(userInfo.getGoogleId());
     }
 
     @Override

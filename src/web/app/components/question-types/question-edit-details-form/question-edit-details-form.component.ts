@@ -1,10 +1,12 @@
-import { EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Directive, EventEmitter, Input, Output } from '@angular/core';
 import { FeedbackQuestionDetails } from '../../../../types/api-output';
 
 /**
  * The abstract question details edit form component.
  */
-export abstract class QuestionEditDetailsFormComponent<D extends FeedbackQuestionDetails> implements OnInit {
+@Directive()
+// eslint-disable-next-line @angular-eslint/directive-class-suffix
+export abstract class QuestionEditDetailsFormComponent<D extends FeedbackQuestionDetails> {
 
   model: D;
 
@@ -23,20 +25,17 @@ export abstract class QuestionEditDetailsFormComponent<D extends FeedbackQuestio
     this.model = model;
   }
 
-  ngOnInit(): void {
-  }
-
   /**
    * Triggers the change of the model for the form.
    */
   triggerModelChange(field: keyof D, data: D[keyof D]): void {
-    this.detailsChange.emit(Object.assign({}, this.model, { [field]: data }));
+    this.detailsChange.emit({ ...this.model, [field]: data });
   }
 
   /**
    * Triggers changes of the question details for the form.
    */
   triggerModelChangeBatch(obj: Partial<D>): void {
-    this.detailsChange.emit(Object.assign({}, this.model, obj));
+    this.detailsChange.emit({ ...this.model, ...obj });
   }
 }

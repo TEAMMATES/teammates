@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import {
   FeedbackSession, FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
@@ -14,7 +14,7 @@ import {
   templateUrl: './response-moderation-button.component.html',
   styleUrls: ['./response-moderation-button.component.scss'],
 })
-export class ResponseModerationButtonComponent implements OnInit {
+export class ResponseModerationButtonComponent {
 
   @Input()
   session: FeedbackSession = {
@@ -45,9 +45,5 @@ export class ResponseModerationButtonComponent implements OnInit {
 
   @Input()
   btnStyle: 'PRIMARY' | 'LIGHT' = 'LIGHT';
-
-  constructor() { }
-
-  ngOnInit(): void { }
 
 }

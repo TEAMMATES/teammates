@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { NumScaleQuestionAdditionalInfoComponent } from './num-scale-question-additional-info.component';
 
@@ -6,7 +6,7 @@ describe('NumScaleQuestionAdditionalInfoComponent', () => {
   let component: NumScaleQuestionAdditionalInfoComponent;
   let fixture: ComponentFixture<NumScaleQuestionAdditionalInfoComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [NumScaleQuestionAdditionalInfoComponent],
     })

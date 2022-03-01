@@ -22,8 +22,6 @@ exports[`InstructorCourseDetailsPageComponent should snap when students are stil
   tableComparatorService={[Function TableComparatorService]}
 >
   <tm-loading-retry>
-    
-    
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -39,8 +37,6 @@ exports[`InstructorCourseDetailsPageComponent should snap when students are stil
         </div>
       </div>
     </tm-loading-spinner>
-    
-    
   </tm-loading-retry>
 </tm-instructor-course-details-page>
 `;
@@ -67,8 +63,6 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
   tableComparatorService={[Function TableComparatorService]}
 >
   <tm-loading-retry>
-    
-    
     <div>
       <h1>
         Course Details
@@ -135,7 +129,6 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                 <p
                   class="form-control-static"
                 >
-                  
                 </p>
               </div>
             </div>
@@ -154,7 +147,6 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                 <p
                   class="form-control-static"
                 >
-                  
                 </p>
               </div>
             </div>
@@ -173,7 +165,6 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                 <p
                   class="form-control-static"
                 >
-                  
                 </p>
               </div>
             </div>
@@ -190,16 +181,13 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
               class="col-sm-9 text-sm-left"
               id="instructors"
             >
-              
               <div>
                  Co-owner: Hodor (hodor@gmail.com) 
               </div>
             </div>
           </div>
-          
         </div>
       </div>
-      
       <div
         class="alert alert-warning"
       >
@@ -215,10 +203,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
         </a>
          to enroll students. 
       </div>
-      
     </div>
-    
-    
   </tm-loading-retry>
 </tm-instructor-course-details-page>
 `;
@@ -245,8 +230,6 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
   tableComparatorService={[Function TableComparatorService]}
 >
   <tm-loading-retry>
-    
-    
     <div>
       <h1>
         Course Details
@@ -313,7 +296,6 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                 <p
                   class="form-control-static"
                 >
-                  
                 </p>
               </div>
             </div>
@@ -332,7 +314,6 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                 <p
                   class="form-control-static"
                 >
-                  
                 </p>
               </div>
             </div>
@@ -351,7 +332,6 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                 <p
                   class="form-control-static"
                 >
-                  
                 </p>
               </div>
             </div>
@@ -368,13 +348,11 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
               class="col-sm-9 text-sm-left"
               id="instructors"
             >
-              
               <div>
                  Co-owner: Bran (bran@gmail.com) 
               </div>
             </div>
           </div>
-          
           <div>
             <div
               class="form-group"
@@ -398,11 +376,9 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                   id="btn-download"
                   type="button"
                 >
-                  
                   <i
                     class="fa fa-download"
                   />
-                  
                    Download Student List 
                 </button>
                 <button
@@ -411,11 +387,9 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                   type="button"
                   value="Delete All Students"
                 >
-                  
                   <i
                     class="fa fa-trash"
                   />
-                  
                    Delete All Students 
                 </button>
               </div>
@@ -423,7 +397,6 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
           </div>
         </div>
       </div>
-      
       <div
         class="card-body p-0 student-table-margin card border"
         id="student-list"
@@ -442,7 +415,6 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                   <th>
                     Photo
                   </th>
-                  
                   <th
                     class="sortable-header"
                   >
@@ -453,8 +425,6 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                       <i
                         class="fas fa-sort"
                       />
-                      
-                      
                     </span>
                   </th>
                   <th
@@ -467,8 +437,6 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                       <i
                         class="fas fa-sort"
                       />
-                      
-                      
                     </span>
                   </th>
                   <th
@@ -482,8 +450,6 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                       <i
                         class="fas fa-sort"
                       />
-                      
-                      
                     </span>
                   </th>
                   <th
@@ -497,8 +463,6 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                       <i
                         class="fas fa-sort"
                       />
-                      
-                      
                     </span>
                   </th>
                   <th
@@ -511,8 +475,6 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                       <i
                         class="fas fa-sort"
                       />
-                      
-                      
                     </span>
                   </th>
                   <th
@@ -523,15 +485,11 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                 </tr>
               </thead>
               <tbody>
-                
                 <tr
                   s=""
                 >
                   <td>
                     <tm-view-photo-popover>
-                      
-                      
-                      
                       <a
                         href="/"
                         queryparamshandling="preserve"
@@ -539,12 +497,8 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                       >
                          View Photo 
                       </a>
-                      
-                      
-                      
                     </tm-view-photo-popover>
                   </td>
-                  
                   <td>
                     Tutorial Group 1
                   </td>
@@ -563,8 +517,6 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                   <td
                     class="no-print align-center"
                   >
-                    
-                    
                     <a
                       class="btn btn-light btn-sm btn-margin-right"
                       href="/web/instructor/courses/student/details?courseid=CS101&studentemail=jamie@gmail.com"
@@ -574,8 +526,6 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                     >
                        View
                     </a>
-                    
-                    
                     <a
                       class="btn btn-light btn-sm btn-margin-right"
                       href="/web/instructor/courses/student/edit?courseid=CS101&studentemail=jamie@gmail.com"
@@ -585,26 +535,18 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                     >
                        Edit
                     </a>
-                    
-                    
-                    
-                    
-                    
                     <button
                       class="btn btn-light btn-sm btn-margin-right"
                       id="btn-send-invite"
                     >
                       Send Invite
                     </button>
-                    
-                    
                     <button
                       class="btn btn-light btn-sm btn-margin-right"
                       id="btn-delete"
                     >
                       Delete
                     </button>
-                    
                     <a
                       class="btn btn-light btn-sm btn-margin-right"
                       href="/web/instructor/students/records?courseid=CS101&studentemail=jamie@gmail.com"
@@ -614,7 +556,6 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                     >
                        All Records
                     </a>
-                    
                   </td>
                 </tr>
               </tbody>
@@ -622,10 +563,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
           </div>
         </tm-student-list>
       </div>
-      
     </div>
-    
-    
   </tm-loading-retry>
 </tm-instructor-course-details-page>
 `;
@@ -652,8 +590,6 @@ exports[`InstructorCourseDetailsPageComponent should snap with default fields 1`
   tableComparatorService={[Function TableComparatorService]}
 >
   <tm-loading-retry>
-    
-    
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -669,8 +605,6 @@ exports[`InstructorCourseDetailsPageComponent should snap with default fields 1`
         </div>
       </div>
     </tm-loading-spinner>
-    
-    
   </tm-loading-retry>
 </tm-instructor-course-details-page>
 `;

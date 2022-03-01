@@ -1,7 +1,8 @@
-// tslint:disable-next-line:max-line-length
-import { ContributionQuestionStatisticsCalculation } from '../../app/components/question-types/question-statistics/question-statistics-calculation/contribution-question-statistics-calculation';
 import {
-  FeedbackContributionQuestionDetails as FeedbackContributionQuestionDetails,
+  ContributionQuestionStatisticsCalculation,
+} from '../../app/components/question-types/question-statistics/question-statistics-calculation/contribution-question-statistics-calculation';
+import {
+  FeedbackContributionQuestionDetails,
   FeedbackQuestionType, QuestionOutput,
 } from '../api-output';
 import {
@@ -30,8 +31,8 @@ export class FeedbackContributionQuestionDetailsImpl extends AbstractFeedbackQue
   getQuestionCsvStats(question: QuestionOutput): string[][] {
     const statsRows: string[][] = [];
 
-    const statsCalculation: ContributionQuestionStatisticsCalculation
-        = new ContributionQuestionStatisticsCalculation(this);
+    const statsCalculation: ContributionQuestionStatisticsCalculation =
+        new ContributionQuestionStatisticsCalculation(this);
     this.populateQuestionStatistics(statsCalculation, question);
     statsCalculation.statistics = question.questionStatistics;
     statsCalculation.parseStatistics();
@@ -39,11 +40,11 @@ export class FeedbackContributionQuestionDetailsImpl extends AbstractFeedbackQue
       return [];
     }
 
-    statsRows.push(['In the points given below, an equal share is equal to 100 points. ' +
-        'e.g. 80 means "Equal share - 20%" and 110 means "Equal share + 10%".']);
+    statsRows.push(['In the points given below, an equal share is equal to 100 points. '
+        + 'e.g. 80 means "Equal share - 20%" and 110 means "Equal share + 10%".']);
     statsRows.push(['Claimed Contribution (CC) = the contribution claimed by the student.']);
-    statsRows.push(['Perceived Contribution (PC) = the average value of ' +
-        "student's contribution as perceived by the team members."]);
+    statsRows.push(['Perceived Contribution (PC) = the average value of '
+        + "student's contribution as perceived by the team members."]);
     statsRows.push(['Team', 'Name', 'Email', 'CC', 'PC', 'Ratings Received']);
 
     const stats: {
@@ -79,7 +80,7 @@ export class FeedbackContributionQuestionDetailsImpl extends AbstractFeedbackQue
       });
     }
     // sort by team then name
-    stats.sort(((a: {teamName: string, name: string}, b: {teamName: string, name: string}): number => {
+    stats.sort(((a: { teamName: string, name: string }, b: { teamName: string, name: string }): number => {
       return a.teamName.localeCompare(b.teamName) || a.name.localeCompare(b.name);
     }));
     // construct lines

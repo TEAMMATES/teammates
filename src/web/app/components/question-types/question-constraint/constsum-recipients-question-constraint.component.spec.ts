@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { ConstsumRecipientsQuestionConstraintComponent } from './constsum-recipients-question-constraint.component';
 
@@ -6,7 +6,7 @@ describe('ConstsumRecipientsQuestionConstraintComponent', () => {
   let component: ConstsumRecipientsQuestionConstraintComponent;
   let fixture: ComponentFixture<ConstsumRecipientsQuestionConstraintComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ConstsumRecipientsQuestionConstraintComponent],
     })

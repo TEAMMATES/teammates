@@ -93,7 +93,9 @@ export class AdminHomePageComponent {
       instructorName: instructor.name,
       instructorInstitution: instructor.institution,
     })
-        .pipe(finalize(() => this.isAddingInstructors = false))
+        .pipe(finalize(() => {
+          this.isAddingInstructors = false;
+        }))
         .subscribe((resp: JoinLink) => {
           instructor.status = 'SUCCESS';
           instructor.joinLink = resp.joinLink;

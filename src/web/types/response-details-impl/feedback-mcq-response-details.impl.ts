@@ -19,7 +19,7 @@ export class FeedbackMcqResponseDetailsImpl extends AbstractFeedbackResponseDeta
     this.otherFieldContent = apiOutput.otherFieldContent;
   }
 
-  getResponseCsvAnswers(_: FeedbackMcqQuestionDetails): string[][] {
+  getResponseCsvAnswers(): string[][] {
     let answerStr: string = this.answer;
     if (this.isOther) {
       answerStr = this.otherFieldContent;

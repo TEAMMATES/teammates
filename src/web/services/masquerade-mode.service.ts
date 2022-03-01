@@ -8,15 +8,13 @@ import { Injectable } from '@angular/core';
 })
 export class MasqueradeModeService {
 
-  constructor() { }
-
   /**
    * Gets the masquerade user.
    */
   getMasqueradeUser(): string {
     const urlParams: URLSearchParams = new URLSearchParams(window.location.search);
     const userParam: string | null = urlParams.get('user');
-    return userParam ? userParam : '';
+    return userParam || '';
   }
 
   /**

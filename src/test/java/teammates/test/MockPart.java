@@ -7,6 +7,7 @@ import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Collection;
+import java.util.Collections;
 
 import javax.servlet.http.Part;
 
@@ -72,12 +73,12 @@ public class MockPart implements Part {
 
     @Override
     public Collection<String> getHeaders(String name) {
-        return null;
+        return Collections.emptyList();
     }
 
     @Override
     public Collection<String> getHeaderNames() {
-        return null;
+        return Collections.emptyList();
     }
 
 }

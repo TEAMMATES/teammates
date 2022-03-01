@@ -60,7 +60,7 @@ export class LinkService {
    * Generates home page link.
    */
   generateHomePageLink(googleId: string, homePage: string): string {
-    const params: {[key: string]: string} = {
+    const params: { [key: string]: string } = {
       user: googleId,
     };
 
@@ -152,7 +152,7 @@ export class LinkService {
   /**
    * Removes params keys whose values are the empty string
    */
-  filterEmptyParams(params: {[key: string]: string}): void {
+  filterEmptyParams(params: { [key: string]: string }): void {
     Object.keys(params).forEach((key: string) => {
       if (params[key] === '') {
         delete params[key];

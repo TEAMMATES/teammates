@@ -21,7 +21,7 @@ export class FeedbackContributionResponseDetailsImpl
     this.answer = apiOutput.answer;
   }
 
-  getResponseCsvAnswers(_: FeedbackContributionQuestionDetails): string[][] {
+  getResponseCsvAnswers(): string[][] {
     const answer: number = this.answer;
     let answerStr: string = '';
     if (answer > 100) {

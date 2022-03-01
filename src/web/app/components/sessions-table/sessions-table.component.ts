@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { Course, FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus } from '../../../types/api-output';
@@ -21,7 +21,7 @@ import {
   templateUrl: './sessions-table.component.html',
   styleUrls: ['./sessions-table.component.scss'],
 })
-export class SessionsTableComponent implements OnInit {
+export class SessionsTableComponent {
 
   // enum
   SortBy: typeof SortBy = SortBy;
@@ -101,9 +101,10 @@ export class SessionsTableComponent implements OnInit {
    * Moves the feedback session to the recycle bin.
    */
   moveSessionToRecycleBin(rowIndex: number): void {
-    const modalContent: string = 'Session will be moved to the recycle bin. This action can be reverted by going to the "Sessions" tab and restoring the desired session(s).';
+    const modalContent: string = 'Session will be moved to the recycle bin. '
+        + 'This action can be reverted by going to the "Sessions" tab and restoring the desired session(s).';
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        `Delete session <strong>${ this.sessionsTableRowModels[rowIndex].feedbackSession.feedbackSessionName }</strong>?`,
+        `Delete session <strong>${this.sessionsTableRowModels[rowIndex].feedbackSession.feedbackSessionName}</strong>?`,
         SimpleModalType.WARNING, modalContent);
     modalRef.result.then(() => {
       this.moveSessionToRecycleBinEvent.emit(rowIndex);
@@ -135,8 +136,9 @@ export class SessionsTableComponent implements OnInit {
     const model: SessionsTableRowModel = this.sessionsTableRowModels[rowIndex];
 
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        `Publish session <strong>${ model.feedbackSession.feedbackSessionName }</strong>?`,
-        SimpleModalType.WARNING, 'An email will be sent to students to inform them that the responses are ready for viewing.');
+        `Publish session <strong>${model.feedbackSession.feedbackSessionName}</strong>?`,
+        SimpleModalType.WARNING,
+        'An email will be sent to students to inform them that the responses are ready for viewing.');
 
     modalRef.result.then(() => {
       this.publishSessionEvent.emit(rowIndex);
@@ -152,7 +154,7 @@ export class SessionsTableComponent implements OnInit {
         and the session responses will no longer be viewable by students.`;
 
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        `Unpublish session <strong>${ model.feedbackSession.feedbackSessionName }</strong>?`,
+        `Unpublish session <strong>${model.feedbackSession.feedbackSessionName}</strong>?`,
         SimpleModalType.WARNING, modalContent);
 
     modalRef.result.then(() => {
@@ -193,9 +195,6 @@ export class SessionsTableComponent implements OnInit {
    */
   setRowClicked(rowIndex: number): void {
     this.rowClicked = rowIndex;
-  }
-
-  ngOnInit(): void {
   }
 
 }

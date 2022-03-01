@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { FeedbackMsqResponseDetails } from '../../../../types/api-output';
 import { SortableTableModule } from '../../sortable-table/sortable-table.module';
@@ -10,7 +10,7 @@ describe('MsqQuestionStatisticsComponent', () => {
   let component: MsqQuestionStatisticsComponent;
   let fixture: ComponentFixture<MsqQuestionStatisticsComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [MsqQuestionStatisticsComponent],
       imports: [SortableTableModule],

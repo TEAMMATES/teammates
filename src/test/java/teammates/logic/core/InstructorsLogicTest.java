@@ -205,9 +205,9 @@ public class InstructorsLogicTest extends BaseLogicTest {
             idMap.computeIfPresent(i.getGoogleId(), (key, value) -> true);
         }
 
-        assertTrue(idMap.get("idOfInstructor1OfCourse1").booleanValue());
-        assertTrue(idMap.get("idOfInstructor2OfCourse1").booleanValue());
-        assertTrue(idMap.get("idOfInstructor3").booleanValue());
+        assertTrue(idMap.get("idOfInstructor1OfCourse1"));
+        assertTrue(idMap.get("idOfInstructor2OfCourse1"));
+        assertTrue(idMap.get("idOfInstructor3"));
 
         ______TS("failure: no instructors for a given course");
 

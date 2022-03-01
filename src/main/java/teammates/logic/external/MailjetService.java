@@ -5,11 +5,11 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
 
+import com.mailjet.client.ClientOptions;
 import com.mailjet.client.MailjetClient;
 import com.mailjet.client.MailjetRequest;
 import com.mailjet.client.MailjetResponse;
 import com.mailjet.client.errors.MailjetException;
-import com.mailjet.client.errors.MailjetSocketTimeoutException;
 import com.mailjet.client.resource.Email;
 
 import teammates.common.exception.EmailSendingException;
@@ -53,15 +53,13 @@ public class MailjetService implements EmailSenderService {
     @Override
     public EmailSendingStatus sendEmail(EmailWrapper wrapper) throws EmailSendingException {
         MailjetRequest email = parseToEmail(wrapper);
-        MailjetClient mailjet = new MailjetClient(Config.MAILJET_APIKEY, Config.MAILJET_SECRETKEY);
-        MailjetResponse response = null;
+        MailjetClient mailjet = new MailjetClient(
+                ClientOptions.builder().apiKey(Config.MAILJET_APIKEY).apiSecretKey(Config.MAILJET_SECRETKEY).build());
         try {
-            response = mailjet.post(email);
+            MailjetResponse response = mailjet.post(email);
             return new EmailSendingStatus(response.getStatus(), response.getData().toString());
         } catch (MailjetException e) {
             throw new EmailSendingException(e, HttpStatus.SC_BAD_GATEWAY);
-        } catch (MailjetSocketTimeoutException e) {
-            throw new EmailSendingException(e, HttpStatus.SC_GATEWAY_TIMEOUT);
         }
     }
 

@@ -17,7 +17,7 @@ interface QuestionDetail {
  * Base section for instructor help page.
  */
 @Directive()
-// tslint:disable-next-line:directive-class-suffix
+// eslint-disable-next-line @angular-eslint/directive-class-suffix
 export abstract class InstructorHelpSectionComponent implements OnInit, OnChanges, AfterViewInit {
 
   @Input() key: String;
@@ -76,7 +76,7 @@ export abstract class InstructorHelpSectionComponent implements OnInit, OnChange
 
         // remove punctuation
       keywords = keywords.map((word: string) =>
-        word.replace(/\b[-.,()?&$#!\[\]{}']+\B|\B[-.,()&?$#!\[\]{}']+\b/g, ''));
+        word.replace(/\b[-.,()?&$#![\]{}']+\B|\B[-.,()&?$#![\]{}']+\b/g, ''));
 
       const newQuestion: QuestionDetail = {
         id,

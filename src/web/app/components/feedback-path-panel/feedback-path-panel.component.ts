@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import {
   FeedbackParticipantType,
   FeedbackQuestionType,
@@ -15,7 +15,7 @@ import { QuestionEditFormModel } from '../question-edit-form/question-edit-form-
   templateUrl: './feedback-path-panel.component.html',
   styleUrls: ['./feedback-path-panel.component.scss'],
 })
-export class FeedbackPathPanelComponent implements OnInit {
+export class FeedbackPathPanelComponent {
 
   // enum
   FeedbackParticipantType: typeof FeedbackParticipantType = FeedbackParticipantType;
@@ -83,11 +83,6 @@ export class FeedbackPathPanelComponent implements OnInit {
   triggerModelChangeBatch: EventEmitter<Partial<QuestionEditFormModel>> =
     new EventEmitter<Partial<QuestionEditFormModel>>();
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
   triggerCustomNumberOfEntities(data: number): void {
     this.customNumberOfEntitiesToGiveFeedbackTo.emit(data);
   }
@@ -106,7 +101,7 @@ export class FeedbackPathPanelComponent implements OnInit {
   changeGiverRecipientType(giverType: FeedbackParticipantType, recipientType: FeedbackParticipantType): void {
     // check if current recipientType is allowed for giverType,
     // if not, set default recipientType to the first allowed type as default.
-    /* tslint:disable-next-line: no-non-null-assertion */
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const allowedRecipientTypes: FeedbackParticipantType[] = this.allowedFeedbackPaths.get(giverType)!;
     let newRecipientType: FeedbackParticipantType = recipientType;
     if (allowedRecipientTypes.indexOf(recipientType) === -1) {

@@ -1,5 +1,6 @@
-// tslint:disable-next-line:max-line-length
-import { McqQuestionStatisticsCalculation } from '../../app/components/question-types/question-statistics/question-statistics-calculation/mcq-question-statistics-calculation';
+import {
+  McqQuestionStatisticsCalculation,
+} from '../../app/components/question-types/question-statistics/question-statistics-calculation/mcq-question-statistics-calculation';
 import {
   FeedbackMcqQuestionDetails,
   FeedbackParticipantType,

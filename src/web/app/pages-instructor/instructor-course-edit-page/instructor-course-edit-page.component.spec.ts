@@ -1,5 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -15,11 +15,13 @@ import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-s
 import { SimpleModalModule } from '../../components/simple-modal/simple-modal.module';
 import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
 import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';
-import { CustomPrivilegeSettingPanelComponent } from './custom-privilege-setting-panel/custom-privilege-setting-panel.component';
+import {
+  CustomPrivilegeSettingPanelComponent,
+} from './custom-privilege-setting-panel/custom-privilege-setting-panel.component';
 import { InstructorCourseEditPageComponent } from './instructor-course-edit-page.component';
 import {
-    InstructorEditPanel,
-    InstructorEditPanelComponent,
+  InstructorEditPanel,
+  InstructorEditPanelComponent,
 } from './instructor-edit-panel/instructor-edit-panel.component';
 import { ViewRolePrivilegesModalComponent } from './view-role-privileges-modal/view-role-privileges-modal.component';
 
@@ -87,7 +89,7 @@ describe('InstructorCourseEditPageComponent', () => {
   let courseService: CourseService;
   let instructorService: InstructorService;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         InstructorCourseEditPageComponent,
@@ -125,7 +127,7 @@ describe('InstructorCourseEditPageComponent', () => {
   });
 
   it('should load correct course details for given API output', () => {
-    spyOn(courseService, 'getCourseAsInstructor').and.returnValue(of(testCourse));
+    jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
 
     component.loadCourseInfo();
 
@@ -140,7 +142,7 @@ describe('InstructorCourseEditPageComponent', () => {
   it('should not change course details if CANCEL is requested', () => {
     component.course = testCourse;
     component.isCourseLoading = false;
-    component.originalCourse = Object.assign({}, component.course);
+    component.originalCourse = { ...component.course };
     fixture.detectChanges();
 
     component.isEditingCourse = true;
@@ -163,10 +165,11 @@ describe('InstructorCourseEditPageComponent', () => {
     component.course.courseName = 'Example Course Changed';
     fixture.detectChanges();
 
-    spyOn(courseService, 'updateCourse').and.returnValue(of({
+    jest.spyOn(courseService, 'updateCourse').mockReturnValue(of({
       courseId: 'exampleId',
       courseName: 'Example Course Changed',
       timeZone: 'UTC (UTC)',
+      institute: 'Test institute',
       creationTimestamp: 0,
       deletionTimestamp: 1000,
     }));
@@ -179,7 +182,7 @@ describe('InstructorCourseEditPageComponent', () => {
   });
 
   it('should load correct instructors details for given API output', () => {
-    spyOn(instructorService, 'loadInstructors').and.returnValue(of({
+    jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(of({
       instructors: [testInstructor1, testInstructor2],
     }));
 
@@ -195,12 +198,12 @@ describe('InstructorCourseEditPageComponent', () => {
     component.isCourseLoading = false;
     component.instructorDetailPanels = [
       {
-        originalInstructor: Object.assign({}, testInstructor1),
+        originalInstructor: { ...testInstructor1 },
         originalPanel: component.getInstructorEditPanelModel(testInstructor1),
         editPanel: component.getInstructorEditPanelModel(testInstructor1),
       },
       {
-        originalInstructor: Object.assign({}, testInstructor2),
+        originalInstructor: { ...testInstructor2 },
         originalPanel: component.getInstructorEditPanelModel(testInstructor2),
         editPanel: component.getInstructorEditPanelModel(testInstructor2),
       },
@@ -211,19 +214,19 @@ describe('InstructorCourseEditPageComponent', () => {
     fixture.detectChanges();
 
     const button: any = fixture.debugElement.nativeElement
-        .querySelector(`#btn-cancel-instructor-${ component.instructorDetailPanels.length + 1 }`);
+        .querySelector(`#btn-cancel-instructor-${component.instructorDetailPanels.length + 1}`);
     button.click();
 
     expect(component.isAddingNewInstructor).toBeFalsy();
   });
 
   it('should add instructor details', () => {
-    spyOn(instructorService, 'createInstructor').and
-      .callFake(({ courseId, requestBody }: { courseId: string, requestBody: InstructorCreateRequest }) => of({
-        courseId,
-        email: requestBody.email,
+    jest.spyOn(instructorService, 'createInstructor')
+      .mockImplementation((params: { courseId: string, requestBody: InstructorCreateRequest }) => of({
+        courseId: params.courseId,
+        email: params.requestBody.email,
         joinState: JoinState.NOT_JOINED,
-        name: requestBody.name,
+        name: params.requestBody.name,
       }));
 
     component.course = testCourse;
@@ -231,12 +234,12 @@ describe('InstructorCourseEditPageComponent', () => {
     component.isCourseLoading = false;
     component.instructorDetailPanels = [
       {
-        originalInstructor: Object.assign({}, testInstructor1),
+        originalInstructor: { ...testInstructor1 },
         originalPanel: component.getInstructorEditPanelModel(testInstructor1),
         editPanel: component.getInstructorEditPanelModel(testInstructor1),
       },
       {
-        originalInstructor: Object.assign({}, testInstructor2),
+        originalInstructor: { ...testInstructor2 },
         originalPanel: component.getInstructorEditPanelModel(testInstructor2),
         editPanel: component.getInstructorEditPanelModel(testInstructor2),
       },
@@ -247,7 +250,7 @@ describe('InstructorCourseEditPageComponent', () => {
     fixture.detectChanges();
 
     const button: any = fixture.debugElement.nativeElement
-        .querySelector(`#btn-save-instructor-${ component.instructorDetailPanels.length + 1 }`);
+        .querySelector(`#btn-save-instructor-${component.instructorDetailPanels.length + 1}`);
     button.click();
 
     expect(component.isAddingNewInstructor).toBeFalsy();
@@ -258,18 +261,18 @@ describe('InstructorCourseEditPageComponent', () => {
   });
 
   it('should re-order if instructor is deleted', () => {
-    spyOn(instructorService, 'deleteInstructor').and.returnValue(of({}));
+    jest.spyOn(instructorService, 'deleteInstructor').mockReturnValue(of({}));
 
     component.course = testCourse;
     component.isCourseLoading = false;
     component.instructorDetailPanels = [
       {
-        originalInstructor: Object.assign({}, testInstructor1),
+        originalInstructor: { ...testInstructor1 },
         originalPanel: component.getInstructorEditPanelModel(testInstructor1),
         editPanel: component.getInstructorEditPanelModel(testInstructor1),
       },
       {
-        originalInstructor: Object.assign({}, testInstructor2),
+        originalInstructor: { ...testInstructor2 },
         originalPanel: component.getInstructorEditPanelModel(testInstructor2),
         editPanel: component.getInstructorEditPanelModel(testInstructor2),
       },
@@ -291,18 +294,18 @@ describe('InstructorCourseEditPageComponent', () => {
     const mockReminderFunction: jest.MockedFunction<any> = jest.fn((_: string, email: string) => of({
       message: `An email has been sent to ${email}`,
     }));
-    spyOn(courseService, 'remindInstructorForJoin').and.callFake(mockReminderFunction);
+    jest.spyOn(courseService, 'remindInstructorForJoin').mockImplementation(mockReminderFunction);
 
     component.course = testCourse;
     component.isCourseLoading = false;
     component.instructorDetailPanels = [
       {
-        originalInstructor: Object.assign({}, testInstructor1),
+        originalInstructor: { ...testInstructor1 },
         originalPanel: component.getInstructorEditPanelModel(testInstructor1),
         editPanel: component.getInstructorEditPanelModel(testInstructor1),
       },
       {
-        originalInstructor: Object.assign({}, testInstructor2),
+        originalInstructor: { ...testInstructor2 },
         originalPanel: component.getInstructorEditPanelModel(testInstructor2),
         editPanel: component.getInstructorEditPanelModel(testInstructor2),
       },
@@ -310,7 +313,7 @@ describe('InstructorCourseEditPageComponent', () => {
     fixture.detectChanges();
 
     let button: any = fixture.debugElement.nativeElement
-        .querySelector(`#btn-resend-invite-${ component.instructorDetailPanels.length }`);
+        .querySelector(`#btn-resend-invite-${component.instructorDetailPanels.length}`);
     button.click();
 
     // using document instead of fixture as modal gets added into the dom outside the viewRef

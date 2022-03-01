@@ -71,7 +71,7 @@
                    [disabled]="!model.isEditable">
           </div>
         </div>
-        <input id="custom-recipients-number" type="number" min="1" class="form-control" [ngModel]="model.customNumberOfEntitiesToGiveFeedbackTo" (ngModelChange)="triggerCustomNumberOfEntities($event)" [disabled]="model.numberOfEntitiesToGiveFeedbackToSetting != NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM || !model.isEditable">
+        <input id="custom-recipients-number" type="number" min="1" class="form-control" [ngModel]="model.customNumberOfEntitiesToGiveFeedbackTo" (ngModelChange)="triggerCustomNumberOfEntities($event)" [disabled]="model.numberOfEntitiesToGiveFeedbackToSetting !== NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM || !model.isEditable">
       </div>
     </div>
     <div class="col-md-2">

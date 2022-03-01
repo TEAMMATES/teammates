@@ -1,4 +1,4 @@
-import { EventEmitter, Input, Output } from '@angular/core';
+import { Directive, EventEmitter, Input, Output } from '@angular/core';
 import {
   FeedbackParticipantType,
   FeedbackQuestion,
@@ -10,6 +10,8 @@ import { CommentTableModel } from '../comment-box/comment-table/comment-table.co
 /**
  * Abstract component for instructor related views.
  */
+@Directive()
+// eslint-disable-next-line @angular-eslint/directive-class-suffix
 export abstract class InstructorResponsesViewBase {
   @Input() question: FeedbackQuestion = {
     feedbackQuestionId: '',
@@ -43,10 +45,6 @@ export abstract class InstructorResponsesViewBase {
     responseId: string,
     index: number,
   }> = new EventEmitter();
-
-  constructor() {
-
-  }
 
   /**
    * Triggers the delete comment event.

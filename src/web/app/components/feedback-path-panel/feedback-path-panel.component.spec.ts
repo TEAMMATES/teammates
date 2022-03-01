@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -9,7 +9,7 @@ describe('FeedbackPathPanelComponent', () => {
   let component: FeedbackPathPanelComponent;
   let fixture: ComponentFixture<FeedbackPathPanelComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         FeedbackPathPanelComponent,

@@ -1,6 +1,5 @@
-import { TestBed } from '@angular/core/testing';
-
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { ResourceEndpoints } from '../types/api-const';
 import { Instructor, Instructors, JoinState } from '../types/api-output';
@@ -11,7 +10,6 @@ import {
 } from '../types/api-request';
 import { HttpRequestService } from './http-request.service';
 import { InstructorService } from './instructor.service';
-import DoneCallback = jest.DoneCallback;
 
 const defaultRequestBody: InstructorCreateRequest = {
   id: '123',
@@ -103,7 +101,7 @@ describe('InstructorService', () => {
     expect(spyHttpRequestService.delete).toHaveBeenCalledWith(ResourceEndpoints.INSTRUCTOR, paramMap);
   });
 
-  it('should send the correct course id', (done: DoneCallback) => {
+  it('should send the correct course id', () => {
     spyHttpRequestService.get.mockImplementation((endpoint: string, paramMap: Record<string, string>) => {
       expect(endpoint).toEqual(ResourceEndpoints.INSTRUCTORS);
       const courseid: string = paramMap.courseid;
@@ -116,7 +114,6 @@ describe('InstructorService', () => {
     service.loadInstructors({ courseId: 'CS3281' }).subscribe((instructors: Instructors) => {
       expect(instructors.instructors).toEqual(defaultInstructors.instructors
         .filter((instructor: Instructor) => instructor.courseId === 'CS3281'));
-      done();
     });
   });
 

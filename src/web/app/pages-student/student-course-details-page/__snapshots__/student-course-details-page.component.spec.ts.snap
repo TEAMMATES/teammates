@@ -24,11 +24,6 @@ exports[`StudentCourseDetailsPageComponent should snap when all data are still l
   teammateProfilesSortBy="0"
 >
   <tm-loading-retry>
-    
-    
-    
-    
-    
   </tm-loading-retry><tm-loading-spinner>
     <div
       class="loading-container"
@@ -71,24 +66,17 @@ exports[`StudentCourseDetailsPageComponent should snap with default fields 1`] =
   teammateProfilesSortBy="0"
 >
   <tm-loading-retry>
-    
-    
-    
-    
-    
   </tm-loading-retry><div
     class="section"
   >
     <div
       class="row top-padded"
     >
-      
       <div
         class="col-md-10"
       >
         <table>
           <tbody>
-            
           </tbody>
         </table>
       </div>
@@ -125,20 +113,15 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
   >
     Team Details for 1.1.c-demo2
   </h1><tm-loading-retry>
-    
-    
     <div
       class="section"
     >
-      
       <div
         class="card"
       >
         <div
           class="card-body fill-plain"
         >
-          
-          
           <div
             class="row"
           >
@@ -179,8 +162,6 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
               </span>
             </div>
           </div>
-          
-          
           <div
             class="row"
           >
@@ -196,7 +177,6 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
               id="instructors"
               style="margin-bottom: .5rem;"
             >
-              
               <div>
                  Instructor: 
                 <a
@@ -207,8 +187,6 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
               </div>
             </div>
           </div>
-          
-          
           <div
             class="row"
           >
@@ -292,7 +270,6 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
         </div>
       </div>
     </div>
-    
     <div
       class="card bg-light mb-4"
     >
@@ -339,15 +316,12 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
         </div>
       </div>
     </div>
-    
-    
   </tm-loading-retry><div
     class="section"
   >
     <div
       class="row top-padded"
     >
-      
       <div
         class="col-md-2"
       >
@@ -360,7 +334,6 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
       >
         <table>
           <tbody>
-            
             <tr>
               <td
                 class="team-member-photo-cell"
@@ -384,28 +357,24 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
                   <label>
                     Email:
                   </label>
-                   
                   <a
                     href="mailto:iam2@hello.com"
                   >
                     iam2@hello.com
                   </a>
                 </div>
-                
                 <div>
                   <label>
                     Gender:
                   </label>
                    Male 
                 </div>
-                
                 <div>
                   <label>
                     Nationality:
                   </label>
                    Andorran 
                 </div>
-                
                 <div>
                   <label>
                     Institute:

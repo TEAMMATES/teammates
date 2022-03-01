@@ -132,7 +132,7 @@ public class GoogleCloudLoggingService implements LogService {
             com.google.cloud.logging.SourceLocation sourceLocation = entry.getSourceLocation();
             Map<String, String> resourceIdentifier = entry.getResource().getLabels();
             Payload<?> payload = entry.getPayload();
-            long timestamp = entry.getTimestamp();
+            long timestamp = entry.getInstantTimestamp().toEpochMilli();
 
             String file = "";
             Long line = 0L;
@@ -213,7 +213,7 @@ public class GoogleCloudLoggingService implements LogService {
 
         List<FeedbackSessionLogEntry> fsLogEntries = new ArrayList<>();
         for (LogEntry entry : logEntries) {
-            long timestamp = entry.getTimestamp();
+            long timestamp = entry.getInstantTimestamp().toEpochMilli();
             Payload<?> payload = entry.getPayload();
             FeedbackSessionAuditLogDetails details;
             if (payload.getType() == Payload.Type.JSON) {
@@ -300,7 +300,7 @@ public class GoogleCloudLoggingService implements LogService {
         if (q.getExtraFilters() != null) {
             logFilters.add(q.getExtraFilters());
         }
-        String logFilter = logFilters.stream().collect(Collectors.joining("\n"));
+        String logFilter = String.join("\n", logFilters);
 
         List<EntryListOption> entryListOptions = new ArrayList<>();
 
@@ -333,20 +333,20 @@ public class GoogleCloudLoggingService implements LogService {
      * Contains params to be used for the searching of logs.
      */
     private static class LogSearchParams {
-        private List<String> logName = new ArrayList<>();
+        private final List<String> logName = new ArrayList<>();
         private String resourceType;
         private QueryLogsParams queryLogsParams;
 
-        private static LogSearchParams from(QueryLogsParams queryLogsParams) {
+        static LogSearchParams from(QueryLogsParams queryLogsParams) {
             return new LogSearchParams().setQueryLogsParams(queryLogsParams);
         }
 
-        private LogSearchParams addLogName(String logName) {
+        LogSearchParams addLogName(String logName) {
             this.logName.add(logName);
             return this;
         }
 
-        private LogSearchParams setResourceType(String resourceType) {
+        LogSearchParams setResourceType(String resourceType) {
             this.resourceType = resourceType;
             return this;
         }
