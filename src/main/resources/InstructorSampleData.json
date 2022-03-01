@@ -589,6 +589,7 @@
         "INSTRUCTORS"
       ],
       "showRecipientNameTo": [
+        "RECEIVER",
         "INSTRUCTORS"
       ]
     },
@@ -711,6 +712,7 @@
         "INSTRUCTORS"
       ],
       "showRecipientNameTo": [
+        "RECEIVER",
         "INSTRUCTORS"
       ]
     },
