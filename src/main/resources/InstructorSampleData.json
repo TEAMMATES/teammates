@@ -576,6 +576,7 @@
         "points": 100,
         "constSumOptions": []
       },
+      "questionDescription": "If a team member did an equal share of the work, give 100 points. If a team member did about 10% more than an equal share of the work, give 110 points, and so on",
       "questionNumber": 1,
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
@@ -697,6 +698,7 @@
         "points": 100,
         "constSumOptions": []
       },
+      "questionDescription": "If a team member did an equal share of the work, give 100 points. If a team member did about 10% more than an equal share of the work, give 110 points, and so on",
       "questionNumber": 1,
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
