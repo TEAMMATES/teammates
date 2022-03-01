@@ -4,23 +4,27 @@ import teammates.common.datatransfer.attributes.NotificationAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.storage.api.NotificationDb;
+import teammates.storage.api.NotificationsDb;
 
 /**
  * Handles the logic related to notifications.
  */
-public final class NotificationLogic {
+public final class NotificationsLogic {
 
-    private static final NotificationLogic instance = new NotificationLogic();
+    private static final NotificationsLogic instance = new NotificationsLogic();
 
-    private final NotificationDb notificationDb = NotificationDb.inst();
+    private final NotificationsDb notificationsDb = NotificationsDb.inst();
 
-    private NotificationLogic() {
+    private NotificationsLogic() {
         // prevent initialization
     }
 
-    public static NotificationLogic inst() {
+    public static NotificationsLogic inst() {
         return instance;
+    }
+
+    void initLogicDependencies() {
+        // No dependency to other logic class
     }
 
     /**
@@ -29,7 +33,7 @@ public final class NotificationLogic {
      * @return null if no match found.
      */
     public NotificationAttributes getNotification(String notificationId) {
-        return notificationDb.getNotification(notificationId);
+        return notificationsDb.getNotification(notificationId);
     }
 
     /**
@@ -41,7 +45,7 @@ public final class NotificationLogic {
      */
     NotificationAttributes createNotification(NotificationAttributes notification)
             throws InvalidParametersException, EntityAlreadyExistsException {
-        return notificationDb.createEntity(notification);
+        return notificationsDb.createEntity(notification);
     }
 
     /**
@@ -53,7 +57,7 @@ public final class NotificationLogic {
      */
     public NotificationAttributes updateNotification(NotificationAttributes.UpdateOptions updateOptions)
             throws InvalidParametersException, EntityDoesNotExistException {
-        return notificationDb.updateNotification(updateOptions);
+        return notificationsDb.updateNotification(updateOptions);
     }
 
     /**
@@ -62,7 +66,7 @@ public final class NotificationLogic {
      * <p>Fails silently if the notification doesn't exist.</p>
      */
     public void deleteNotification(String notificationId) {
-        notificationDb.deleteNotification(notificationId);
+        notificationsDb.deleteNotification(notificationId);
     }
 
 }

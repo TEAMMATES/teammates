@@ -16,15 +16,15 @@ import teammates.storage.entity.Notification;
  * @see Notification
  * @see NotificationAttributes
  */
-public final class NotificationDb extends EntitiesDb<Notification, NotificationAttributes> {
+public final class NotificationsDb extends EntitiesDb<Notification, NotificationAttributes> {
 
-    private static final NotificationDb instance = new NotificationDb();
+    private static final NotificationsDb instance = new NotificationsDb();
 
-    private NotificationDb() {
+    private NotificationsDb() {
         // prevent initialization
     }
 
-    public static NotificationDb inst() {
+    public static NotificationsDb inst() {
         return instance;
     }
 
