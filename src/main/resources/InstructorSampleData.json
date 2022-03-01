@@ -569,20 +569,17 @@
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "questionDetails": {
-        "distributeToRecipients": true,
-        "pointsPerOption": true,
-        "questionText": "Distribute points among team members based on their contributions so far",
-        "questionType": "CONSTSUM",
-        "points": 100,
-        "constSumOptions": []
+        "questionText": "How much work did each team member contribute to the presentation? (response will be shown anonymously to each team member).",
+        "questionType": "CONTRIB"
       },
-      "questionDescription": "If a team member did an equal share of the work, give 100 points. If a team member did about 10% more than an equal share of the work, give 110 points, and so on",
       "questionNumber": 1,
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
       "numberOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": [
         "RECEIVER",
+        "OWN_TEAM_MEMBERS",
+        "RECEIVER_TEAM_MEMBERS",
         "INSTRUCTORS"
       ],
       "showGiverNameTo": [
@@ -688,24 +685,49 @@
         "INSTRUCTORS"
       ]
     },
-    "qn1InSession3": {
-      "feedbackSessionName": "Second team feedback session",
+    "qn6InSession2": {
+      "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "questionDetails": {
         "distributeToRecipients": true,
         "pointsPerOption": true,
-        "questionText": "Distribute points among team members based on their contributions so far",
+        "questionText": "Distribute points among team members based on their contributions to the user documentation so far",
         "questionType": "CONSTSUM",
         "points": 100,
         "constSumOptions": []
       },
       "questionDescription": "If a team member did an equal share of the work, give 100 points. If a team member did about 10% more than an equal share of the work, give 110 points, and so on",
+      "questionNumber": 6,
+      "giverType": "STUDENTS",
+      "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ]
+    },
+    "qn1InSession3": {
+      "feedbackSessionName": "Second team feedback session",
+      "courseId": "demo.course",
+      "questionDetails": {
+        "questionText": "How much work did each team member contribute? (response will be shown anonymously to each team member).",
+        "questionType": "CONTRIB"
+      },
       "questionNumber": 1,
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
       "numberOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": [
         "RECEIVER",
+        "OWN_TEAM_MEMBERS",
+        "RECEIVER_TEAM_MEMBERS",
         "INSTRUCTORS"
       ],
       "showGiverNameTo": [
@@ -811,6 +833,34 @@
         "INSTRUCTORS"
       ]
     }
+  },
+  "qn6InSession3": {
+    "feedbackSessionName": "Second team feedback session",
+    "courseId": "demo.course",
+    "questionDetails": {
+      "distributeToRecipients": true,
+      "pointsPerOption": true,
+      "questionText": "Distribute points among team members based on their contributions on the user documentation so far",
+      "questionType": "CONSTSUM",
+      "points": 100,
+      "constSumOptions": []
+    },
+    "questionDescription": "If a team member did an equal share of the work, give 100 points. If a team member did about 10% more than an equal share of the work, give 110 points, and so on",
+    "questionNumber": 6,
+    "giverType": "STUDENTS",
+    "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
+    "numberOfEntitiesToGiveFeedbackTo": -100,
+    "showResponsesTo": [
+      "RECEIVER",
+      "INSTRUCTORS"
+    ],
+    "showGiverNameTo": [
+      "INSTRUCTORS"
+    ],
+    "showRecipientNameTo": [
+      "RECEIVER",
+      "INSTRUCTORS"
+    ]
   },
   "feedbackResponses": {
     "aliceResponse1": {
@@ -1499,10 +1549,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "answers": [
-          80
-        ],
-        "questionType": "CONSTSUM"
+        "answer": 100,
+        "questionType": "CONTRIB"
       }
     },
     "FS2.Q1.Alice.2": {
@@ -1514,10 +1562,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "answers": [
-          100
-        ],
-        "questionType": "CONSTSUM"
+        "answer": 100,
+        "questionType": "CONTRIB"
       }
     },
     "FS2.Q1.Alice.3": {
@@ -1529,10 +1575,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "answers": [
-          100
-        ],
-        "questionType": "CONSTSUM"
+        "answer": 100,
+        "questionType": "CONTRIB"
       }
     },
     "FS2.Q1.Alice.4": {
@@ -1544,10 +1588,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "answers": [
-          120
-        ],
-        "questionType": "CONSTSUM"
+        "answer": 100,
+        "questionType": "CONTRIB"
       }
     },
     "FS2.Q1.Benny.1": {
@@ -1559,10 +1601,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "answers": [
-          80
-        ],
-        "questionType": "CONSTSUM"
+        "answer": 100,
+        "questionType": "CONTRIB"
       }
     },
     "FS2.Q1.Benny.2": {
@@ -1574,10 +1614,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "answers": [
-          100
-        ],
-        "questionType": "CONSTSUM"
+        "answer": 100,
+        "questionType": "CONTRIB"
       }
     },
     "FS2.Q1.Benny.3": {
@@ -1589,10 +1627,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "answers": [
-          100
-        ],
-        "questionType": "CONSTSUM"
+        "answer": 100,
+        "questionType": "CONTRIB"
       }
     },
     "FS2.Q1.Benny.4": {
@@ -1604,10 +1640,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "answers": [
-          120
-        ],
-        "questionType": "CONSTSUM"
+        "answer": 100,
+        "questionType": "CONTRIB"
       }
     },
     "FS2.Q1.Danny.1": {
@@ -1619,10 +1653,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "answers": [
-          100
-        ],
-        "questionType": "CONSTSUM"
+        "answer": 100,
+        "questionType": "CONTRIB"
       }
     },
     "FS2.Q1.Danny.2": {
@@ -1634,10 +1666,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "answers": [
-          100
-        ],
-        "questionType": "CONSTSUM"
+        "answer": 100,
+        "questionType": "CONTRIB"
       }
     },
     "FS2.Q1.Danny.3": {
@@ -1649,10 +1679,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "answers": [
-          100
-        ],
-        "questionType": "CONSTSUM"
+        "answer": 100,
+        "questionType": "CONTRIB"
       }
     },
     "FS2.Q1.Danny.4": {
@@ -1664,10 +1692,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "answers": [
-          100
-        ],
-        "questionType": "CONSTSUM"
+        "answer": 100,
+        "questionType": "CONTRIB"
       }
     },
     "FS2.Q1.Emma.1": {
@@ -1679,10 +1705,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "answers": [
-          60
-        ],
-        "questionType": "CONSTSUM"
+        "answer": 100,
+        "questionType": "CONTRIB"
       }
     },
     "FS2.Q1.Emma.2": {
@@ -1694,10 +1718,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "answers": [
-          100
-        ],
-        "questionType": "CONSTSUM"
+        "answer": 100,
+        "questionType": "CONTRIB"
       }
     },
     "FS2.Q1.Emma.3": {
@@ -1709,10 +1731,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "answers": [
-          100
-        ],
-        "questionType": "CONSTSUM"
+        "answer": 100,
+        "questionType": "CONTRIB"
       }
     },
     "FS2.Q1.Emma.4": {
@@ -1724,10 +1744,8 @@
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
-        "answers": [
-          140
-        ],
-        "questionType": "CONSTSUM"
+        "answer": 100,
+        "questionType": "CONTRIB"
       }
     },
     "FS2.Q1.Charlie.1": {
@@ -1739,10 +1757,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "answers": [
-          100
-        ],
-        "questionType": "CONSTSUM"
+        "answer": 80,
+        "questionType": "CONTRIB"
       }
     },
     "FS2.Q1.Charlie.2": {
@@ -1754,10 +1770,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "answers": [
-          120
-        ],
-        "questionType": "CONSTSUM"
+        "answer": 110,
+        "questionType": "CONTRIB"
       }
     },
     "FS2.Q1.Charlie.3": {
@@ -1769,10 +1783,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "answers": [
-          80
-        ],
-        "questionType": "CONSTSUM"
+        "answer": 110,
+        "questionType": "CONTRIB"
       }
     },
     "FS2.Q1.Charlie.4": {
@@ -1784,10 +1796,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "answers": [
-          100
-        ],
-        "questionType": "CONSTSUM"
+        "answer": 110,
+        "questionType": "CONTRIB"
       }
     },
     "FS2.Q1.Inst.1": {
@@ -1799,10 +1809,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "answers": [
-          100
-        ],
-        "questionType": "CONSTSUM"
+        "answer": 110,
+        "questionType": "CONTRIB"
       }
     },
     "FS2.Q1.Inst.2": {
@@ -1814,10 +1822,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "answers": [
-          100
-        ],
-        "questionType": "CONSTSUM"
+        "answer": 80,
+        "questionType": "CONTRIB"
       }
     },
     "FS2.Q1.Inst.3": {
@@ -1829,10 +1835,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "answers": [
-          100
-        ],
-        "questionType": "CONSTSUM"
+        "answer": 110,
+        "questionType": "CONTRIB"
       }
     },
     "FS2.Q1.Inst.4": {
@@ -1844,10 +1848,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "answers": [
-          100
-        ],
-        "questionType": "CONSTSUM"
+        "answer": 110,
+        "questionType": "CONTRIB"
       }
     },
     "FS2.Q1.Francis.1": {
@@ -1859,10 +1861,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "answers": [
-          60
-        ],
-        "questionType": "CONSTSUM"
+        "answer": 110,
+        "questionType": "CONTRIB"
       }
     },
     "FS2.Q1.Francis.2": {
@@ -1874,10 +1874,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "answers": [
-          140
-        ],
-        "questionType": "CONSTSUM"
+        "answer": 80,
+        "questionType": "CONTRIB"
       }
     },
     "FS2.Q1.Francis.3": {
@@ -1889,10 +1887,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "answers": [
-          100
-        ],
-        "questionType": "CONSTSUM"
+        "answer": 110,
+        "questionType": "CONTRIB"
       }
     },
     "FS2.Q1.Francis.4": {
@@ -1904,10 +1900,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "answers": [
-          100
-        ],
-        "questionType": "CONSTSUM"
+        "answer": 110,
+        "questionType": "CONTRIB"
       }
     },
     "FS2.Q1.Gene.1": {
@@ -1919,10 +1913,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "answers": [
-          100
-        ],
-        "questionType": "CONSTSUM"
+        "answer": 100,
+        "questionType": "CONTRIB"
       }
     },
     "FS2.Q1.Gene.2": {
@@ -1934,10 +1926,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "answers": [
-          100
-        ],
-        "questionType": "CONSTSUM"
+        "answer": 80,
+        "questionType": "CONTRIB"
       }
     },
     "FS2.Q1.Gene.3": {
@@ -1949,10 +1939,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "answers": [
-          100
-        ],
-        "questionType": "CONSTSUM"
+        "answer": 110,
+        "questionType": "CONTRIB"
       }
     },
     "FS2.Q1.Gene.4": {
@@ -1964,10 +1952,8 @@
       "giverSection": "Tutorial Group 2",
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
-        "answers": [
-          100
-        ],
-        "questionType": "CONSTSUM"
+        "answer": 110,
+        "questionType": "CONTRIB"
       }
     },
     "FS2.Q2.Alice.1": {
@@ -2800,6 +2786,486 @@
       "responseDetails": {
         "questionType": "TEXT",
         "answer": "Nice designs Francis. Good work!"
+      }
+    },
+    "FS2.Q6.Alice.1": {
+      "feedbackSessionName": "First team feedback session",
+      "courseId": "demo.course",
+      "feedbackQuestionId": "6",
+      "giver": "alice.b.tmms@gmail.tmt",
+      "recipient": "alice.b.tmms@gmail.tmt",
+      "giverSection": "Tutorial Group 1",
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "answers": [
+          80
+        ],
+        "questionType": "CONSTSUM"
+      }
+    },
+    "FS2.Q6.Alice.2": {
+      "feedbackSessionName": "First team feedback session",
+      "courseId": "demo.course",
+      "feedbackQuestionId": "6",
+      "giver": "alice.b.tmms@gmail.tmt",
+      "recipient": "benny.c.tmms@gmail.tmt",
+      "giverSection": "Tutorial Group 1",
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "answers": [
+          100
+        ],
+        "questionType": "CONSTSUM"
+      }
+    },
+    "FS2.Q6.Alice.3": {
+      "feedbackSessionName": "First team feedback session",
+      "courseId": "demo.course",
+      "feedbackQuestionId": "6",
+      "giver": "alice.b.tmms@gmail.tmt",
+      "recipient": "danny.e.tmms@gmail.tmt",
+      "giverSection": "Tutorial Group 1",
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "answers": [
+          100
+        ],
+        "questionType": "CONSTSUM"
+      }
+    },
+    "FS2.Q6.Alice.4": {
+      "feedbackSessionName": "First team feedback session",
+      "courseId": "demo.course",
+      "feedbackQuestionId": "6",
+      "giver": "alice.b.tmms@gmail.tmt",
+      "recipient": "emma.f.tmms@gmail.tmt",
+      "giverSection": "Tutorial Group 1",
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "answers": [
+          120
+        ],
+        "questionType": "CONSTSUM"
+      }
+    },
+    "FS2.Q6.Benny.1": {
+      "feedbackSessionName": "First team feedback session",
+      "courseId": "demo.course",
+      "feedbackQuestionId": "6",
+      "giver": "benny.c.tmms@gmail.tmt",
+      "recipient": "alice.b.tmms@gmail.tmt",
+      "giverSection": "Tutorial Group 1",
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "answers": [
+          80
+        ],
+        "questionType": "CONSTSUM"
+      }
+    },
+    "FS2.Q6.Benny.2": {
+      "feedbackSessionName": "First team feedback session",
+      "courseId": "demo.course",
+      "feedbackQuestionId": "6",
+      "giver": "benny.c.tmms@gmail.tmt",
+      "recipient": "benny.c.tmms@gmail.tmt",
+      "giverSection": "Tutorial Group 1",
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "answers": [
+          100
+        ],
+        "questionType": "CONSTSUM"
+      }
+    },
+    "FS2.Q6.Benny.3": {
+      "feedbackSessionName": "First team feedback session",
+      "courseId": "demo.course",
+      "feedbackQuestionId": "6",
+      "giver": "benny.c.tmms@gmail.tmt",
+      "recipient": "danny.e.tmms@gmail.tmt",
+      "giverSection": "Tutorial Group 1",
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "answers": [
+          100
+        ],
+        "questionType": "CONSTSUM"
+      }
+    },
+    "FS2.Q6.Benny.4": {
+      "feedbackSessionName": "First team feedback session",
+      "courseId": "demo.course",
+      "feedbackQuestionId": "6",
+      "giver": "benny.c.tmms@gmail.tmt",
+      "recipient": "emma.f.tmms@gmail.tmt",
+      "giverSection": "Tutorial Group 1",
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "answers": [
+          120
+        ],
+        "questionType": "CONSTSUM"
+      }
+    },
+    "FS2.Q6.Danny.1": {
+      "feedbackSessionName": "First team feedback session",
+      "courseId": "demo.course",
+      "feedbackQuestionId": "6",
+      "giver": "danny.e.tmms@gmail.tmt",
+      "recipient": "alice.b.tmms@gmail.tmt",
+      "giverSection": "Tutorial Group 1",
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "answers": [
+          100
+        ],
+        "questionType": "CONSTSUM"
+      }
+    },
+    "FS2.Q6.Danny.2": {
+      "feedbackSessionName": "First team feedback session",
+      "courseId": "demo.course",
+      "feedbackQuestionId": "6",
+      "giver": "danny.e.tmms@gmail.tmt",
+      "recipient": "benny.c.tmms@gmail.tmt",
+      "giverSection": "Tutorial Group 1",
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "answers": [
+          100
+        ],
+        "questionType": "CONSTSUM"
+      }
+    },
+    "FS2.Q6.Danny.3": {
+      "feedbackSessionName": "First team feedback session",
+      "courseId": "demo.course",
+      "feedbackQuestionId": "6",
+      "giver": "danny.e.tmms@gmail.tmt",
+      "recipient": "danny.e.tmms@gmail.tmt",
+      "giverSection": "Tutorial Group 1",
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "answers": [
+          100
+        ],
+        "questionType": "CONSTSUM"
+      }
+    },
+    "FS2.Q6.Danny.4": {
+      "feedbackSessionName": "First team feedback session",
+      "courseId": "demo.course",
+      "feedbackQuestionId": "6",
+      "giver": "danny.e.tmms@gmail.tmt",
+      "recipient": "emma.f.tmms@gmail.tmt",
+      "giverSection": "Tutorial Group 1",
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "answers": [
+          100
+        ],
+        "questionType": "CONSTSUM"
+      }
+    },
+    "FS2.Q6.Emma.1": {
+      "feedbackSessionName": "First team feedback session",
+      "courseId": "demo.course",
+      "feedbackQuestionId": "6",
+      "giver": "emma.f.tmms@gmail.tmt",
+      "recipient": "alice.b.tmms@gmail.tmt",
+      "giverSection": "Tutorial Group 1",
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "answers": [
+          60
+        ],
+        "questionType": "CONSTSUM"
+      }
+    },
+    "FS2.Q6.Emma.2": {
+      "feedbackSessionName": "First team feedback session",
+      "courseId": "demo.course",
+      "feedbackQuestionId": "6",
+      "giver": "emma.f.tmms@gmail.tmt",
+      "recipient": "benny.c.tmms@gmail.tmt",
+      "giverSection": "Tutorial Group 1",
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "answers": [
+          100
+        ],
+        "questionType": "CONSTSUM"
+      }
+    },
+    "FS2.Q6.Emma.3": {
+      "feedbackSessionName": "First team feedback session",
+      "courseId": "demo.course",
+      "feedbackQuestionId": "6",
+      "giver": "emma.f.tmms@gmail.tmt",
+      "recipient": "danny.e.tmms@gmail.tmt",
+      "giverSection": "Tutorial Group 1",
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "answers": [
+          100
+        ],
+        "questionType": "CONSTSUM"
+      }
+    },
+    "FS2.Q6.Emma.4": {
+      "feedbackSessionName": "First team feedback session",
+      "courseId": "demo.course",
+      "feedbackQuestionId": "6",
+      "giver": "emma.f.tmms@gmail.tmt",
+      "recipient": "emma.f.tmms@gmail.tmt",
+      "giverSection": "Tutorial Group 1",
+      "recipientSection": "Tutorial Group 1",
+      "responseDetails": {
+        "answers": [
+          140
+        ],
+        "questionType": "CONSTSUM"
+      }
+    },
+    "FS2.Q6.Charlie.1": {
+      "feedbackSessionName": "First team feedback session",
+      "courseId": "demo.course",
+      "feedbackQuestionId": "6",
+      "giver": "charlie.d.tmms@gmail.tmt",
+      "recipient": "charlie.d.tmms@gmail.tmt",
+      "giverSection": "Tutorial Group 2",
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "answers": [
+          100
+        ],
+        "questionType": "CONSTSUM"
+      }
+    },
+    "FS2.Q6.Charlie.2": {
+      "feedbackSessionName": "First team feedback session",
+      "courseId": "demo.course",
+      "feedbackQuestionId": "6",
+      "giver": "charlie.d.tmms@gmail.tmt",
+      "recipient": "teammates.demo.instructor@demo.course",
+      "giverSection": "Tutorial Group 2",
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "answers": [
+          120
+        ],
+        "questionType": "CONSTSUM"
+      }
+    },
+    "FS2.Q6.Charlie.3": {
+      "feedbackSessionName": "First team feedback session",
+      "courseId": "demo.course",
+      "feedbackQuestionId": "6",
+      "giver": "charlie.d.tmms@gmail.tmt",
+      "recipient": "francis.g.tmms@gmail.tmt",
+      "giverSection": "Tutorial Group 2",
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "answers": [
+          80
+        ],
+        "questionType": "CONSTSUM"
+      }
+    },
+    "FS2.Q6.Charlie.4": {
+      "feedbackSessionName": "First team feedback session",
+      "courseId": "demo.course",
+      "feedbackQuestionId": "6",
+      "giver": "charlie.d.tmms@gmail.tmt",
+      "recipient": "gene.h.tmms@gmail.tmt",
+      "giverSection": "Tutorial Group 2",
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "answers": [
+          100
+        ],
+        "questionType": "CONSTSUM"
+      }
+    },
+    "FS2.Q6.Inst.1": {
+      "feedbackSessionName": "First team feedback session",
+      "courseId": "demo.course",
+      "feedbackQuestionId": "6",
+      "giver": "teammates.demo.instructor@demo.course",
+      "recipient": "teammates.demo.instructor@demo.course",
+      "giverSection": "Tutorial Group 2",
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "answers": [
+          100
+        ],
+        "questionType": "CONSTSUM"
+      }
+    },
+    "FS2.Q6.Inst.2": {
+      "feedbackSessionName": "First team feedback session",
+      "courseId": "demo.course",
+      "feedbackQuestionId": "6",
+      "giver": "teammates.demo.instructor@demo.course",
+      "recipient": "charlie.d.tmms@gmail.tmt",
+      "giverSection": "Tutorial Group 2",
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "answers": [
+          100
+        ],
+        "questionType": "CONSTSUM"
+      }
+    },
+    "FS2.Q6.Inst.3": {
+      "feedbackSessionName": "First team feedback session",
+      "courseId": "demo.course",
+      "feedbackQuestionId": "6",
+      "giver": "teammates.demo.instructor@demo.course",
+      "recipient": "francis.g.tmms@gmail.tmt",
+      "giverSection": "Tutorial Group 2",
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "answers": [
+          100
+        ],
+        "questionType": "CONSTSUM"
+      }
+    },
+    "FS2.Q6.Inst.4": {
+      "feedbackSessionName": "First team feedback session",
+      "courseId": "demo.course",
+      "feedbackQuestionId": "6",
+      "giver": "teammates.demo.instructor@demo.course",
+      "recipient": "gene.h.tmms@gmail.tmt",
+      "giverSection": "Tutorial Group 2",
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "answers": [
+          100
+        ],
+        "questionType": "CONSTSUM"
+      }
+    },
+    "FS2.Q6.Francis.1": {
+      "feedbackSessionName": "First team feedback session",
+      "courseId": "demo.course",
+      "feedbackQuestionId": "6",
+      "giver": "francis.g.tmms@gmail.tmt",
+      "recipient": "francis.g.tmms@gmail.tmt",
+      "giverSection": "Tutorial Group 2",
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "answers": [
+          60
+        ],
+        "questionType": "CONSTSUM"
+      }
+    },
+    "FS2.Q6.Francis.2": {
+      "feedbackSessionName": "First team feedback session",
+      "courseId": "demo.course",
+      "feedbackQuestionId": "6",
+      "giver": "francis.g.tmms@gmail.tmt",
+      "recipient": "charlie.d.tmms@gmail.tmt",
+      "giverSection": "Tutorial Group 2",
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "answers": [
+          140
+        ],
+        "questionType": "CONSTSUM"
+      }
+    },
+    "FS2.Q6.Francis.3": {
+      "feedbackSessionName": "First team feedback session",
+      "courseId": "demo.course",
+      "feedbackQuestionId": "6",
+      "giver": "francis.g.tmms@gmail.tmt",
+      "recipient": "teammates.demo.instructor@demo.course",
+      "giverSection": "Tutorial Group 2",
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "answers": [
+          100
+        ],
+        "questionType": "CONSTSUM"
+      }
+    },
+    "FS2.Q6.Francis.4": {
+      "feedbackSessionName": "First team feedback session",
+      "courseId": "demo.course",
+      "feedbackQuestionId": "6",
+      "giver": "francis.g.tmms@gmail.tmt",
+      "recipient": "gene.h.tmms@gmail.tmt",
+      "giverSection": "Tutorial Group 2",
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "answers": [
+          100
+        ],
+        "questionType": "CONSTSUM"
+      }
+    },
+    "FS2.Q6.Gene.1": {
+      "feedbackSessionName": "First team feedback session",
+      "courseId": "demo.course",
+      "feedbackQuestionId": "6",
+      "giver": "gene.h.tmms@gmail.tmt",
+      "recipient": "gene.h.tmms@gmail.tmt",
+      "giverSection": "Tutorial Group 2",
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "answers": [
+          100
+        ],
+        "questionType": "CONSTSUM"
+      }
+    },
+    "FS2.Q6.Gene.2": {
+      "feedbackSessionName": "First team feedback session",
+      "courseId": "demo.course",
+      "feedbackQuestionId": "6",
+      "giver": "gene.h.tmms@gmail.tmt",
+      "recipient": "charlie.d.tmms@gmail.tmt",
+      "giverSection": "Tutorial Group 2",
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "answers": [
+          100
+        ],
+        "questionType": "CONSTSUM"
+      }
+    },
+    "FS2.Q6.Gene.3": {
+      "feedbackSessionName": "First team feedback session",
+      "courseId": "demo.course",
+      "feedbackQuestionId": "6",
+      "giver": "gene.h.tmms@gmail.tmt",
+      "recipient": "teammates.demo.instructor@demo.course",
+      "giverSection": "Tutorial Group 2",
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "answers": [
+          100
+        ],
+        "questionType": "CONSTSUM"
+      }
+    },
+    "FS2.Q6.Gene.4": {
+      "feedbackSessionName": "First team feedback session",
+      "courseId": "demo.course",
+      "feedbackQuestionId": "6",
+      "giver": "gene.h.tmms@gmail.tmt",
+      "recipient": "francis.g.tmms@gmail.tmt",
+      "giverSection": "Tutorial Group 2",
+      "recipientSection": "Tutorial Group 2",
+      "responseDetails": {
+        "answers": [
+          100
+        ],
+        "questionType": "CONSTSUM"
       }
     }
   },
