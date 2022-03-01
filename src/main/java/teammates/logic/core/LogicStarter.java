@@ -24,6 +24,7 @@ public class LogicStarter implements ServletContextListener {
         FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
         FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
         InstructorsLogic instructorsLogic = InstructorsLogic.inst();
+        NotificationsLogic notificationsLogic = NotificationsLogic.inst();
         StudentsLogic studentsLogic = StudentsLogic.inst();
         ProfilesLogic profilesLogic = ProfilesLogic.inst();
         UsageStatisticsLogic usageStatisticsLogic = UsageStatisticsLogic.inst();
@@ -36,6 +37,7 @@ public class LogicStarter implements ServletContextListener {
         frcLogic.initLogicDependencies();
         fsLogic.initLogicDependencies();
         instructorsLogic.initLogicDependencies();
+        notificationsLogic.initLogicDependencies();
         studentsLogic.initLogicDependencies();
         profilesLogic.initLogicDependencies();
         usageStatisticsLogic.initLogicDependencies();
