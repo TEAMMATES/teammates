@@ -41,7 +41,9 @@ import { FormValidator } from '../../../types/form-validator';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { CoursesSectionQuestions } from '../../pages-help/instructor-help-page/instructor-help-courses-section/courses-section-questions';
+import {
+  CoursesSectionQuestions,
+} from '../../pages-help/instructor-help-page/instructor-help-courses-section/courses-section-questions';
 import { Sections } from '../../pages-help/instructor-help-page/sections';
 import {
   InstructorOverallPermission,
@@ -227,7 +229,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
     })).subscribe((resp: Course) => {
       this.course = resp;
       this.currInstructorCoursePrivilege = resp.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE();
-      this.originalCourse = Object.assign({}, resp);
+      this.originalCourse = { ...resp };
     }, (resp: ErrorMessageOutput) => {
       this.hasCourseLoadingFailed = true;
       this.statusMessageService.showErrorToast(resp.error.message);
@@ -269,11 +271,13 @@ export class InstructorCourseEditPageComponent implements OnInit {
     this.courseService.updateCourse(this.courseId, {
       courseName: this.course.courseName,
       timeZone: this.course.timeZone,
-    }).pipe(finalize(() => this.isSavingCourseEdit = false)).subscribe((resp: Course) => {
+    }).pipe(finalize(() => {
+      this.isSavingCourseEdit = false;
+    })).subscribe((resp: Course) => {
       this.statusMessageService.showSuccessToast('The course has been edited.');
       this.isEditingCourse = false;
       this.course = resp;
-      this.originalCourse = Object.assign({}, resp);
+      this.originalCourse = { ...resp };
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorToast(resp.error.message);
     });
@@ -285,7 +289,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
    * Cancels editing the course details.
    */
   cancelEditingCourse(): void {
-    this.course = Object.assign({}, this.originalCourse);
+    this.course = { ...this.originalCourse };
     this.isEditingCourse = false;
     Object.values(this.form.controls).forEach((control: any) => control.markAsPristine());
     Object.values(this.form.controls).forEach((control: any) => control.markAsUntouched());
@@ -303,7 +307,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
     })
         .subscribe((resp: Instructors) => {
           this.instructorDetailPanels = resp.instructors.map((i: Instructor) => ({
-            originalInstructor: Object.assign({}, i),
+            originalInstructor: { ...i },
             originalPanel: this.getInstructorEditPanelModel(i),
             editPanel: this.getInstructorEditPanelModel(i),
             isSavingInstructorEdit: false,
@@ -330,12 +334,12 @@ export class InstructorCourseEditPageComponent implements OnInit {
       googleId: i.googleId,
       courseId: i.courseId,
       email: i.email,
-      // tslint:disable-next-line
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       isDisplayedToStudents: i.isDisplayedToStudents!,
-      // tslint:disable-next-line
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       displayedToStudentsAs: i.displayedToStudentsAs!,
       name: i.name,
-      // tslint:disable-next-line
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       role: i.role!,
       joinState: i.joinState,
 
@@ -416,9 +420,11 @@ export class InstructorCourseEditPageComponent implements OnInit {
     this.instructorService.updateInstructor({
       courseId: panelDetail.originalInstructor.courseId,
       requestBody: reqBody,
-    }).pipe(finalize(() => panelDetail.editPanel.isSavingInstructorEdit = false)).subscribe((resp: Instructor) => {
+    }).pipe(finalize(() => {
+      panelDetail.editPanel.isSavingInstructorEdit = false;
+    })).subscribe((resp: Instructor) => {
       panelDetail.editPanel.isEditing = false;
-      panelDetail.originalInstructor = Object.assign({}, resp);
+      panelDetail.originalInstructor = { ...resp };
       const permission: InstructorOverallPermission = panelDetail.editPanel.permission;
 
       panelDetail.editPanel = this.getInstructorEditPanelModel(resp);
@@ -441,13 +447,15 @@ export class InstructorCourseEditPageComponent implements OnInit {
   deleteInstructor(index: number): void {
     const panelDetail: InstructorEditPanelDetail = this.instructorDetailPanels[index];
     const isDeletingSelf: boolean = panelDetail.originalInstructor.googleId === this.currInstructorGoogleId;
-    const modalContent: string = isDeletingSelf ?
-        `Are you sure you want to delete your instructor role from the course <strong>${ panelDetail.originalInstructor.courseId }</strong>?
+    const modalContent: string = isDeletingSelf
+        ? `Are you sure you want to delete your instructor role
+        from the course <strong>${panelDetail.originalInstructor.courseId}</strong>?
         You will not be able to access the course anymore.`
-        : `Are you sure you want to delete the instructor <strong>${ panelDetail.originalInstructor.name }</strong> from the course <strong>${ panelDetail.originalInstructor.courseId }</strong>?
+        : `Are you sure you want to delete the instructor <strong>${panelDetail.originalInstructor.name}</strong>
+        from the course <strong>${panelDetail.originalInstructor.courseId}</strong>?
         He/she will not be able to access the course anymore.`;
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        `Delete instructor <strong>${ panelDetail.originalInstructor.name }</strong>?`,
+        `Delete instructor <strong>${panelDetail.originalInstructor.name}</strong>?`,
         SimpleModalType.DANGER, modalContent);
 
     modalRef.result.then(() => {
@@ -473,7 +481,8 @@ export class InstructorCourseEditPageComponent implements OnInit {
    */
   resendReminderEmail(index: number): void {
     const panelDetail: InstructorEditPanelDetail = this.instructorDetailPanels[index];
-    const modalContent: string = `Do you wish to re-send the invitation email to instructor ${ panelDetail.originalInstructor.name } from course ${ panelDetail.originalInstructor.courseId }?`;
+    const modalContent: string = `Do you wish to re-send the invitation email to instructor
+      ${panelDetail.originalInstructor.name} from course ${panelDetail.originalInstructor.courseId}?`;
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
         'Re-send invitation email?', SimpleModalType.INFO, modalContent);
 
@@ -502,10 +511,12 @@ export class InstructorCourseEditPageComponent implements OnInit {
     } as InstructorCreateRequest;
 
     this.instructorService.createInstructor({ courseId: this.courseId, requestBody: reqBody })
-        .pipe(finalize(() => this.isSavingNewInstructor = false))
+        .pipe(finalize(() => {
+          this.isSavingNewInstructor = false;
+        }))
         .subscribe((resp: Instructor) => {
           const newDetailPanels: InstructorEditPanelDetail = {
-            originalInstructor: Object.assign({}, resp),
+            originalInstructor: { ...resp },
             originalPanel: this.getInstructorEditPanelModel(resp),
             editPanel: this.getInstructorEditPanelModel(resp),
           };
@@ -663,7 +674,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
       courseId: instructor.courseId,
       instructorEmail: instructor.email,
       requestBody: { privileges },
-    }).subscribe((_: InstructorPrivilege) => {
+    }).subscribe(() => {
       // privileges updated
       // filter out empty permission setting
       permission.sectionLevel = permission.sectionLevel.filter(

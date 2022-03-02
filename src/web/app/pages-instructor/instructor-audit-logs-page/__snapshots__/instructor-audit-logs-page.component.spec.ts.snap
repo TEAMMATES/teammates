@@ -48,9 +48,7 @@ exports[`InstructorAuditLogsPageComponent should snap when page is still loading
   </tm-loading-spinner><div
     id="logs-output"
   >
-    
     <div>
-      
     </div>
   </div>
 </tm-instructor-audit-logs-page>
@@ -124,7 +122,6 @@ exports[`InstructorAuditLogsPageComponent should snap when searching for details
               >
                 Select Course ID
               </option>
-              
               <option>
                  CS9999 
               </option>
@@ -176,7 +173,6 @@ exports[`InstructorAuditLogsPageComponent should snap when searching for details
                 <select
                   class="form-control ng-untouched ng-pristine ng-valid"
                 >
-                  
                   <option
                     value="1: Object"
                   >
@@ -297,7 +293,6 @@ exports[`InstructorAuditLogsPageComponent should snap when searching for details
                   >
                     23:59H
                   </option>
-                  
                 </select>
               </tm-timepicker>
             </div>
@@ -327,7 +322,6 @@ exports[`InstructorAuditLogsPageComponent should snap when searching for details
               class="form-control col-12 ng-untouched ng-pristine ng-valid"
               id="student-name-dropdown"
             >
-              
               <option
                 value="doejohn@email.com"
               >
@@ -378,7 +372,6 @@ exports[`InstructorAuditLogsPageComponent should snap when searching for details
                 <select
                   class="form-control ng-untouched ng-pristine ng-valid"
                 >
-                  
                   <option
                     value="1: Object"
                   >
@@ -499,7 +492,6 @@ exports[`InstructorAuditLogsPageComponent should snap when searching for details
                   >
                     23:59H
                   </option>
-                  
                 </select>
               </tm-timepicker>
             </div>
@@ -521,7 +513,6 @@ exports[`InstructorAuditLogsPageComponent should snap when searching for details
   </div><div
     id="logs-output"
   >
-    
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -589,9 +580,7 @@ exports[`InstructorAuditLogsPageComponent should snap with default fields 1`] = 
   </tm-loading-spinner><div
     id="logs-output"
   >
-    
     <div>
-      
     </div>
   </div>
 </tm-instructor-audit-logs-page>
@@ -665,7 +654,6 @@ exports[`InstructorAuditLogsPageComponent should snap with results of a search 1
               >
                 Select Course ID
               </option>
-              
             </select>
           </div>
         </div>
@@ -711,7 +699,6 @@ exports[`InstructorAuditLogsPageComponent should snap with results of a search 1
                 <select
                   class="form-control ng-untouched ng-pristine ng-valid"
                 >
-                  
                   <option
                     value="1: Object"
                   >
@@ -832,7 +819,6 @@ exports[`InstructorAuditLogsPageComponent should snap with results of a search 1
                   >
                     23:59H
                   </option>
-                  
                 </select>
               </tm-timepicker>
             </div>
@@ -862,7 +848,6 @@ exports[`InstructorAuditLogsPageComponent should snap with results of a search 1
               class="form-control col-12 ng-untouched ng-pristine ng-valid"
               id="student-name-dropdown"
             >
-              
             </select>
           </div>
         </div>
@@ -908,7 +893,6 @@ exports[`InstructorAuditLogsPageComponent should snap with results of a search 1
                 <select
                   class="form-control ng-untouched ng-pristine ng-valid"
                 >
-                  
                   <option
                     value="1: Object"
                   >
@@ -1029,7 +1013,6 @@ exports[`InstructorAuditLogsPageComponent should snap with results of a search 1
                   >
                     23:59H
                   </option>
-                  
                 </select>
               </tm-timepicker>
             </div>
@@ -1051,9 +1034,7 @@ exports[`InstructorAuditLogsPageComponent should snap with results of a search 1
   </div><div
     id="logs-output"
   >
-    
     <div>
-      
       <div>
         <div
           class="card mb-3 alert-success-border"
@@ -1069,8 +1050,6 @@ exports[`InstructorAuditLogsPageComponent should snap with results of a search 1
                 <div
                   class="chevron"
                 >
-                  
-                  
                   <i
                     class="fas fa-chevron-up"
                   />
@@ -1078,9 +1057,7 @@ exports[`InstructorAuditLogsPageComponent should snap with results of a search 1
               </tm-panel-chevron>
             </div>
           </div>
-          
           <div>
-            
             <div
               class="card-body"
             >
@@ -1090,7 +1067,6 @@ exports[`InstructorAuditLogsPageComponent should snap with results of a search 1
                 >
                   <thead>
                     <tr>
-                      
                       <th
                         class="sortable-header"
                       >
@@ -1099,15 +1075,12 @@ exports[`InstructorAuditLogsPageComponent should snap with results of a search 1
                         >
                           Time
                         </span>
-                        
                         <span
                           class="fa-stack"
                         >
                           <i
                             class="fas fa-sort"
                           />
-                          
-                          
                         </span>
                       </th>
                       <th
@@ -1118,15 +1091,12 @@ exports[`InstructorAuditLogsPageComponent should snap with results of a search 1
                         >
                           Name
                         </span>
-                        
                         <span
                           class="fa-stack"
                         >
                           <i
                             class="fas fa-sort"
                           />
-                          
-                          
                           <i
                             class="fas fa-sort-up"
                           />
@@ -1140,15 +1110,12 @@ exports[`InstructorAuditLogsPageComponent should snap with results of a search 1
                         >
                           Activity
                         </span>
-                        
                         <span
                           class="fa-stack"
                         >
                           <i
                             class="fas fa-sort"
                           />
-                          
-                          
                         </span>
                       </th>
                       <th
@@ -1159,15 +1126,12 @@ exports[`InstructorAuditLogsPageComponent should snap with results of a search 1
                         >
                           Email
                         </span>
-                        
                         <span
                           class="fa-stack"
                         >
                           <i
                             class="fas fa-sort"
                           />
-                          
-                          
                         </span>
                       </th>
                       <th
@@ -1178,15 +1142,12 @@ exports[`InstructorAuditLogsPageComponent should snap with results of a search 1
                         >
                           Section
                         </span>
-                        
                         <span
                           class="fa-stack"
                         >
                           <i
                             class="fas fa-sort"
                           />
-                          
-                          
                         </span>
                       </th>
                       <th
@@ -1197,75 +1158,46 @@ exports[`InstructorAuditLogsPageComponent should snap with results of a search 1
                         >
                           Team
                         </span>
-                        
                         <span
                           class="fa-stack"
                         >
                           <i
                             class="fas fa-sort"
                           />
-                          
-                          
                         </span>
                       </th>
                     </tr>
                   </thead>
                   <tbody>
-                    
                     <tr>
-                      
                       <td
                         style=""
                       >
-                        
-                        
-                        
-                        
                         15 January 2021
                       </td>
                       <td
                         style=""
                       >
-                        
-                        
-                        
-                        
                         Doe John
                       </td>
                       <td
                         style=""
                       >
-                        
-                        
-                        
-                        
                         Viewed the submission page
                       </td>
                       <td
                         style=""
                       >
-                        
-                        
-                        
-                        
                         doejohn@email.com
                       </td>
                       <td
                         style=""
                       >
-                        
-                        
-                        
-                        
                         section 1
                       </td>
                       <td
                         style=""
                       >
-                        
-                        
-                        
-                        
                         team 1
                       </td>
                     </tr>
@@ -1273,7 +1205,6 @@ exports[`InstructorAuditLogsPageComponent should snap with results of a search 1
                 </table>
               </tm-sortable-table>
             </div>
-            
           </div>
         </div>
       </div>
@@ -1292,8 +1223,6 @@ exports[`InstructorAuditLogsPageComponent should snap with results of a search 1
                 <div
                   class="chevron"
                 >
-                  
-                  
                   <i
                     class="fas fa-chevron-up"
                   />
@@ -1301,9 +1230,7 @@ exports[`InstructorAuditLogsPageComponent should snap with results of a search 1
               </tm-panel-chevron>
             </div>
           </div>
-          
           <div>
-            
             <div
               class="no-activity-body"
             >
@@ -1311,7 +1238,6 @@ exports[`InstructorAuditLogsPageComponent should snap with results of a search 1
                 No activity for this feedback session in selected search period
               </i>
             </div>
-            
           </div>
         </div>
       </div>

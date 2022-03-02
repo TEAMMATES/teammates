@@ -50,6 +50,8 @@ public class GetStudentProfilePictureActionTest extends BaseActionTest<GetStuden
         action = getAction(submissionParams);
         imageResult = getImageResult(action);
 
+        assertArrayEquals(student1PicBytes, imageResult.getBytes());
+
         submissionParams = new String[] {
                 Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.getEmail(),
         };

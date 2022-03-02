@@ -1,5 +1,6 @@
-// tslint:disable-next-line:max-line-length
-import { McqMsqQuestionStatisticsCalculation } from '../../app/components/question-types/question-statistics/question-statistics-calculation/mcq-msq-question-statistics-calculation';
+import {
+  McqMsqQuestionStatisticsCalculation,
+} from '../../app/components/question-types/question-statistics/question-statistics-calculation/mcq-msq-question-statistics-calculation';
 import { AbstractFeedbackQuestionDetails } from './abstract-feedback-question-details';
 
 /**

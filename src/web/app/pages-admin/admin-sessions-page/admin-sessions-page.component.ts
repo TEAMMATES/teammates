@@ -132,7 +132,9 @@ export class AdminSessionsPageComponent implements OnInit {
     this.isLoadingOngoingSessions = true;
 
     this.feedbackSessionsService.getOngoingSessions(startTime, endTime)
-        .pipe(finalize(() => this.isLoadingOngoingSessions = false))
+        .pipe(finalize(() => {
+          this.isLoadingOngoingSessions = false;
+        }))
         .subscribe((resp: OngoingSessions) => {
           this.totalOngoingSessions = resp.totalOngoingSessions;
           this.totalOpenSessions = resp.totalOpenSessions;

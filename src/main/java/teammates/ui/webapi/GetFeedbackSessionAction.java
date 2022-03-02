@@ -30,16 +30,12 @@ class GetFeedbackSessionAction extends BasicFeedbackSubmissionAction {
             StudentAttributes studentAttributes = getStudentOfCourseFromRequest(courseId);
             checkAccessControlForStudentFeedbackSubmission(studentAttributes, feedbackSession);
             break;
-        case FULL_DETAIL:
-            gateKeeper.verifyLoggedInUserPrivileges(userInfo);
-            gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(courseId, userInfo.getId()),
-                    feedbackSession, Const.InstructorPermissions.CAN_MODIFY_SESSION);
-            break;
         case INSTRUCTOR_SUBMISSION:
+        case INSTRUCTOR_RESULT:
             InstructorAttributes instructorAttributes = getInstructorOfCourseFromRequest(courseId);
             checkAccessControlForInstructorFeedbackSubmission(instructorAttributes, feedbackSession);
             break;
-        case INSTRUCTOR_RESULT:
+        case FULL_DETAIL:
             gateKeeper.verifyLoggedInUserPrivileges(userInfo);
             gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(courseId, userInfo.getId()),
                     feedbackSession, Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);

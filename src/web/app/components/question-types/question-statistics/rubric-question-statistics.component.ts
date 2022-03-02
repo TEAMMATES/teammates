@@ -127,8 +127,7 @@ export class RubricQuestionStatisticsComponent extends RubricQuestionStatisticsC
         { value: perRecipientStats.recipientTeam },
         { value: perRecipientStats.recipientName },
         { value: perRecipientStats.weightAverage },
-        { value: perRecipientStats.subQuestionWeightAverage.toString(),
-        },
+        { value: perRecipientStats.subQuestionWeightAverage.toString() },
       ]);
     });
   }

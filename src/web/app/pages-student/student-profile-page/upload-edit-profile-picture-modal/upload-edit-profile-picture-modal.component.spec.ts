@@ -1,5 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NgbActiveModal, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { UploadEditProfilePictureModalComponent } from './upload-edit-profile-picture-modal.component';
@@ -9,7 +9,7 @@ describe('UploadEditProfilePictureModalComponent', () => {
   let component: UploadEditProfilePictureModalComponent;
   let fixture: ComponentFixture<UploadEditProfilePictureModalComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         UploadEditProfilePictureModalComponent,

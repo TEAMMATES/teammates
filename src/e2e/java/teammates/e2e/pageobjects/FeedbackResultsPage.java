@@ -171,10 +171,10 @@ public class FeedbackResultsPage extends AppPage {
         List<WebElement> responseViews = getAllResponseViews(question.getQuestionNumber());
         for (FeedbackResponseAttributes response : otherResponses) {
             boolean isRecipientVisible = visibleRecipients.contains(response.getGiver())
-                    || recipient.equals(CURRENT_STUDENT_IDENTIFIER);
+                    || CURRENT_STUDENT_IDENTIFIER.equals(recipient);
             boolean isGiverVisible = visibleGivers.contains(response.getGiver())
-                    || (visibleGivers.contains("RECEIVER") && response.getRecipient().equals(CURRENT_STUDENT_IDENTIFIER))
-                    || response.getGiver().equals(CURRENT_STUDENT_IDENTIFIER);
+                    || visibleGivers.contains("RECEIVER") && CURRENT_STUDENT_IDENTIFIER.equals(response.getRecipient())
+                    || CURRENT_STUDENT_IDENTIFIER.equals(response.getGiver());
             boolean isGiverVisibleToInstructor = question.getRecipientType() == FeedbackParticipantType.INSTRUCTORS
                     && visibleGivers.contains("INSTRUCTORS");
             if (isRecipientVisible) {
@@ -387,7 +387,7 @@ public class FeedbackResultsPage extends AppPage {
 
     private void showAdditionalInfo(int qnNumber) {
         WebElement additionalInfoLink = getQuestionResponsesSection(qnNumber).findElement(By.id("additional-info-link"));
-        if (additionalInfoLink.getText().equals("[more]")) {
+        if ("[more]".equals(additionalInfoLink.getText())) {
             click(additionalInfoLink);
             waitUntilAnimationFinish();
         }

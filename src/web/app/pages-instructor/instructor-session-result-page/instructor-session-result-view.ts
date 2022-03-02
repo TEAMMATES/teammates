@@ -1,4 +1,4 @@
-import { EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Directive, EventEmitter, Input, Output } from '@angular/core';
 import {
   FeedbackSession,
   FeedbackSessionPublishStatus,
@@ -13,7 +13,9 @@ import { InstructorSessionResultViewType } from './instructor-session-result-vie
 /**
  * Abstract component for all different view type components of instructor sessions result page.
  */
-export abstract class InstructorSessionResultView implements OnInit {
+@Directive()
+// eslint-disable-next-line @angular-eslint/directive-class-suffix
+export abstract class InstructorSessionResultView {
 
   @Input() section: string = '';
   @Input() sectionType: InstructorSessionResultSectionType = InstructorSessionResultSectionType.EITHER;
@@ -54,9 +56,6 @@ export abstract class InstructorSessionResultView implements OnInit {
   }> = new EventEmitter();
 
   constructor(protected viewType: InstructorSessionResultViewType) {}
-
-  ngOnInit(): void {
-  }
 
   /**
    * Triggers the change of {@code instructorCommentTableModel}

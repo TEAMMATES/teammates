@@ -26,11 +26,17 @@ class GetSessionResultsAction extends Action {
         FeedbackSessionAttributes fs = getNonNullFeedbackSession(feedbackSessionName, courseId);
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
         switch (intent) {
-        case INSTRUCTOR_RESULT:
         case FULL_DETAIL:
             gateKeeper.verifyLoggedInUserPrivileges(userInfo);
             InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
             gateKeeper.verifyAccessible(instructor, fs);
+            break;
+        case INSTRUCTOR_RESULT:
+            instructor = getInstructor(courseId);
+            gateKeeper.verifyAccessible(instructor, fs);
+            if (!fs.isPublished()) {
+                throw new UnauthorizedAccessException("This feedback session is not yet published.", true);
+            }
             break;
         case STUDENT_RESULT:
             StudentAttributes student = getStudent(courseId);
@@ -45,6 +51,15 @@ class GetSessionResultsAction extends Action {
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);
         }
+    }
+
+    private InstructorAttributes getInstructor(String courseId) {
+        return getUnregisteredInstructor().orElseGet(() -> {
+            if (userInfo == null) {
+                return null;
+            }
+            return logic.getInstructorForGoogleId(courseId, userInfo.getId());
+        });
     }
 
     private StudentAttributes getStudent(String courseId) {
@@ -79,7 +94,7 @@ class GetSessionResultsAction extends Action {
             return new JsonResult(SessionResultsData.initForInstructor(bundle));
         case INSTRUCTOR_RESULT:
             // Section name filter is not applicable here
-            instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
+            instructor = getInstructor(courseId);
 
             bundle = logic.getSessionResultsForUser(feedbackSessionName, courseId, instructor.getEmail(),
                     true, questionId);

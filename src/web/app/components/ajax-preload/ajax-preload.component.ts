@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 /**
  * Display ajax preload image.
@@ -8,11 +8,4 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './ajax-preload.component.html',
   styleUrls: ['./ajax-preload.component.scss'],
 })
-export class AjaxPreloadComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
-}
+export class AjaxPreloadComponent {}

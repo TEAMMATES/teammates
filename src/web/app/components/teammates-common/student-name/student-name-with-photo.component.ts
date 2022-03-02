@@ -24,8 +24,6 @@ export class StudentNameWithPhotoComponent implements OnInit {
   iconClass: string = 'far';
   tooltipTimer: any;
 
-  constructor() { }
-
   ngOnInit(): void {
     this.name = StringHelper.removeAnonymousHash(this.name);
   }

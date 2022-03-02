@@ -10,8 +10,12 @@ import {
   Student,
 } from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
-import { StudentListInfoTableRowModel } from '../../components/sessions-table/respondent-list-info-table/respondent-list-info-table-model';
-import { SendRemindersToRespondentsModalComponent } from '../../components/sessions-table/send-reminders-to-respondents-modal/send-reminders-to-respondents-modal.component';
+import {
+  StudentListInfoTableRowModel,
+} from '../../components/sessions-table/respondent-list-info-table/respondent-list-info-table-model';
+import {
+  SendRemindersToRespondentsModalComponent,
+} from '../../components/sessions-table/send-reminders-to-respondents-modal/send-reminders-to-respondents-modal.component';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 
 /**
@@ -91,8 +95,8 @@ export class InstructorSessionNoResponsePanelComponent implements OnInit, OnChan
     const modalRef: NgbModalRef = this.ngbModal.open(SendRemindersToRespondentsModalComponent);
     modalRef.componentInstance.courseId = courseId;
     modalRef.componentInstance.feedbackSessionName = feedbackSessionName;
-    modalRef.componentInstance.studentListInfoTableRowModels
-      = this.allStudents.map((student: Student) => ({
+    modalRef.componentInstance.studentListInfoTableRowModels =
+      this.allStudents.map((student: Student) => ({
         email: student.email,
         name: student.name,
         teamName: student.teamName,

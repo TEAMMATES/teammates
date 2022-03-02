@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { TeammatesCommonModule } from '../teammates-common.module';
 import { ViewPhotoPopoverComponent } from './view-photo-popover.component';
@@ -7,7 +7,7 @@ describe('ViewPhotoPopoverComponent', () => {
   let component: ViewPhotoPopoverComponent;
   let fixture: ComponentFixture<ViewPhotoPopoverComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [TeammatesCommonModule],
     })

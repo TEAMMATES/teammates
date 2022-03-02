@@ -19,10 +19,12 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.gmail.Gmail;
 import com.google.api.services.gmail.GmailScopes;
+
+import teammates.common.util.Const;
 
 /**
  * Class that builds a Gmail service for use in Gmail API.
@@ -30,7 +32,7 @@ import com.google.api.services.gmail.GmailScopes;
 final class GmailServiceMaker {
 
     /** Global instance of the JSON factory. */
-    private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
+    private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
 
     /** Global instance of the HTTP transport. */
     private static final HttpTransport HTTP_TRANSPORT;
@@ -87,7 +89,7 @@ final class GmailServiceMaker {
 
     private GoogleClientSecrets loadClientSecretFromJson() throws IOException {
         try (InputStream in = Files.newInputStream(Paths.get(TestProperties.TEST_GMAIL_API_FOLDER, "client_secret.json"))) {
-            return GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
+            return GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in, Const.ENCODING));
         } catch (FileNotFoundException e) {
             throw new RuntimeException("You need to set up your Gmail API credentials." + System.lineSeparator()
                     + "See docs/development.md section \"Deploying to a staging server\".", e);

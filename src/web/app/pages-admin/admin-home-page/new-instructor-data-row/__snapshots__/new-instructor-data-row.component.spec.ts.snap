@@ -1,0 +1,334 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NewInstructorDataRowComponent should snap with default view 1`] = `
+<tr
+  addInstructorEvent={[Function EventEmitter_]}
+  editedInstructorEmail={[Function String]}
+  editedInstructorInstitution={[Function String]}
+  editedInstructorName={[Function String]}
+  index="0"
+  instructor={[Function Object]}
+  isAddDisabled="false"
+  isBeingEdited="false"
+  removeInstructorEvent={[Function EventEmitter_]}
+  toggleEditModeEvent={[Function EventEmitter_]}
+>
+  <td>
+    <span
+      id="instructor-0-name"
+    >
+      Instructor
+    </span>
+  </td><td>
+    <span
+      id="instructor-0-email"
+    >
+      instructor@instruct.or
+    </span>
+  </td><td>
+    <span
+      id="instructor-0-institution"
+    >
+      Institutional Institution of Institute
+    </span>
+  </td><td
+    style="width: 17%;"
+  >
+    <div
+      class="button-group"
+    >
+      <button
+        class="action-btn btn btn-sm btn-primary text-nowrap"
+        id="add-instructor-0"
+        style="margin-right: 10px;"
+      >
+        Add
+      </button>
+      <button
+        class="action-btn btn btn-sm btn-info text-nowrap"
+        id="edit-instructor-0"
+        style="margin-right: 10px;"
+      >
+        Edit
+      </button>
+      <button
+        class="action-btn btn btn-sm btn-danger"
+        id="remove-instructor-0"
+      >
+        Remove
+      </button>
+    </div>
+  </td><td
+    style="width: 8%;"
+  >
+    PENDING
+  </td><td
+    style="width: 40%;"
+  >
+  </td>
+</tr>
+`;
+
+exports[`NewInstructorDataRowComponent should snap with edit cancelled 1`] = `
+<tr
+  addInstructorEvent={[Function EventEmitter_]}
+  editedInstructorEmail={[Function String]}
+  editedInstructorInstitution={[Function String]}
+  editedInstructorName={[Function String]}
+  index="0"
+  instructor={[Function Object]}
+  isAddDisabled="false"
+  isBeingEdited="false"
+  removeInstructorEvent={[Function EventEmitter_]}
+  toggleEditModeEvent={[Function EventEmitter_]}
+>
+  <td>
+    <span
+      id="instructor-0-name"
+    >
+      Instructor
+    </span>
+  </td><td>
+    <span
+      id="instructor-0-email"
+    >
+      instructor@instruct.or
+    </span>
+  </td><td>
+    <span
+      id="instructor-0-institution"
+    >
+      Institutional Institution of Institute
+    </span>
+  </td><td
+    style="width: 17%;"
+  >
+    <div
+      class="button-group"
+    >
+      <button
+        class="action-btn btn btn-sm btn-primary text-nowrap"
+        id="add-instructor-0"
+        style="margin-right: 10px;"
+      >
+        Add
+      </button>
+      <button
+        class="action-btn btn btn-sm btn-info text-nowrap"
+        id="edit-instructor-0"
+        style="margin-right: 10px;"
+      >
+        Edit
+      </button>
+      <button
+        class="action-btn btn btn-sm btn-danger"
+        id="remove-instructor-0"
+      >
+        Remove
+      </button>
+    </div>
+  </td><td
+    style="width: 8%;"
+  >
+    PENDING
+  </td><td
+    style="width: 40%;"
+  >
+  </td>
+</tr>
+`;
+
+exports[`NewInstructorDataRowComponent should snap with edit confirmed 1`] = `
+<tr
+  addInstructorEvent={[Function EventEmitter_]}
+  editedInstructorEmail={[Function String]}
+  editedInstructorInstitution={[Function String]}
+  editedInstructorName={[Function String]}
+  index="0"
+  instructor={[Function Object]}
+  isAddDisabled="false"
+  isBeingEdited="false"
+  removeInstructorEvent={[Function EventEmitter_]}
+  toggleEditModeEvent={[Function EventEmitter_]}
+>
+  <td>
+    <span
+      id="instructor-0-name"
+    >
+      Edited Name
+    </span>
+  </td><td>
+    <span
+      id="instructor-0-email"
+    >
+      Edited@ema.il
+    </span>
+  </td><td>
+    <span
+      id="instructor-0-institution"
+    >
+      Edited Institution
+    </span>
+  </td><td
+    style="width: 17%;"
+  >
+    <div
+      class="button-group"
+    >
+      <button
+        class="action-btn btn btn-sm btn-primary text-nowrap"
+        id="add-instructor-0"
+        style="margin-right: 10px;"
+      >
+        Add
+      </button>
+      <button
+        class="action-btn btn btn-sm btn-info text-nowrap"
+        id="edit-instructor-0"
+        style="margin-right: 10px;"
+      >
+        Edit
+      </button>
+      <button
+        class="action-btn btn btn-sm btn-danger"
+        id="remove-instructor-0"
+      >
+        Remove
+      </button>
+    </div>
+  </td><td
+    style="width: 8%;"
+  >
+    PENDING
+  </td><td
+    style="width: 40%;"
+  >
+  </td>
+</tr>
+`;
+
+exports[`NewInstructorDataRowComponent should snap with instructor details edited 1`] = `
+<tr
+  addInstructorEvent={[Function EventEmitter_]}
+  editedInstructorEmail={[Function String]}
+  editedInstructorInstitution={[Function String]}
+  editedInstructorName={[Function String]}
+  index="0"
+  instructor={[Function Object]}
+  isAddDisabled="false"
+  isBeingEdited={[Function Boolean]}
+  removeInstructorEvent={[Function EventEmitter_]}
+  toggleEditModeEvent={[Function EventEmitter_]}
+>
+  <td>
+    <input
+      class="form-control ng-untouched ng-pristine ng-valid"
+      id="instructor-0-name-input"
+      type="text"
+    />
+  </td><td>
+    <input
+      class="form-control ng-untouched ng-pristine ng-valid"
+      id="instructor-0-email-input"
+      type="text"
+    />
+  </td><td>
+    <input
+      class="form-control ng-untouched ng-pristine ng-valid"
+      id="instructor-0-institution-input"
+      type="text"
+    />
+  </td><td
+    style="width: 17%;"
+  >
+    <div
+      class="button-group"
+    >
+      <button
+        class="action-btn btn btn-sm btn-primary text-nowrap"
+        id="confirm-edit-instructor-0"
+        style="margin-right: 10px;"
+      >
+        Confirm
+      </button>
+      <button
+        class="action-btn btn btn-sm btn-danger text-nowrap"
+        id="cancel-edit-instructor-0"
+        style="margin-right: 10px;"
+      >
+        Cancel
+      </button>
+    </div>
+  </td><td
+    style="width: 8%;"
+  >
+    PENDING
+  </td><td
+    style="width: 40%;"
+  >
+  </td>
+</tr>
+`;
+
+exports[`NewInstructorDataRowComponent should snap with start of edit 1`] = `
+<tr
+  addInstructorEvent={[Function EventEmitter_]}
+  editedInstructorEmail={[Function String]}
+  editedInstructorInstitution={[Function String]}
+  editedInstructorName={[Function String]}
+  index="0"
+  instructor={[Function Object]}
+  isAddDisabled="false"
+  isBeingEdited={[Function Boolean]}
+  removeInstructorEvent={[Function EventEmitter_]}
+  toggleEditModeEvent={[Function EventEmitter_]}
+>
+  <td>
+    <input
+      class="form-control ng-untouched ng-pristine ng-valid"
+      id="instructor-0-name-input"
+      type="text"
+    />
+  </td><td>
+    <input
+      class="form-control ng-untouched ng-pristine ng-valid"
+      id="instructor-0-email-input"
+      type="text"
+    />
+  </td><td>
+    <input
+      class="form-control ng-untouched ng-pristine ng-valid"
+      id="instructor-0-institution-input"
+      type="text"
+    />
+  </td><td
+    style="width: 17%;"
+  >
+    <div
+      class="button-group"
+    >
+      <button
+        class="action-btn btn btn-sm btn-primary text-nowrap"
+        id="confirm-edit-instructor-0"
+        style="margin-right: 10px;"
+      >
+        Confirm
+      </button>
+      <button
+        class="action-btn btn btn-sm btn-danger text-nowrap"
+        id="cancel-edit-instructor-0"
+        style="margin-right: 10px;"
+      >
+        Cancel
+      </button>
+    </div>
+  </td><td
+    style="width: 8%;"
+  >
+    PENDING
+  </td><td
+    style="width: 40%;"
+  >
+  </td>
+</tr>
+`;

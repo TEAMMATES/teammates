@@ -132,19 +132,19 @@ export class GrqRgqViewResponsesComponent extends InstructorResponsesViewBase im
         } else {
           this.usersToTeams[response.recipient] = this.usersToTeams[response.recipient] || '';
           this.userExpanded[response.recipient] = this.isExpandAll;
-          if (!response.recipientTeam) {
-            // Recipient is team
-            this.teamsToUsers[response.recipient] = this.teamsToUsers[response.recipient] || [];
-            if (this.teamsToUsers[response.recipient].indexOf(response.recipient) === -1) {
-              this.teamsToUsers[response.recipient].push(response.recipient);
-              this.teamExpanded[response.recipient] = this.isExpandAll;
-            }
-          } else {
+          if (response.recipientTeam) {
             this.teamsToUsers[response.recipientTeam] = this.teamsToUsers[response.recipientTeam] || [];
             if (this.teamsToUsers[response.recipientTeam].indexOf(response.recipient) === -1) {
               this.teamsToUsers[response.recipientTeam].push(response.recipient);
               this.usersToTeams[response.recipient] = response.recipientTeam;
               this.teamExpanded[response.recipientTeam] = this.isExpandAll;
+            }
+          } else {
+            // Recipient is team
+            this.teamsToUsers[response.recipient] = this.teamsToUsers[response.recipient] || [];
+            if (this.teamsToUsers[response.recipient].indexOf(response.recipient) === -1) {
+              this.teamsToUsers[response.recipient].push(response.recipient);
+              this.teamExpanded[response.recipient] = this.isExpandAll;
             }
           }
         }

@@ -444,7 +444,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     private void verifyStatsHidden(WebElement panelWithStats) {
-        assertTrue(panelWithStats.findElements(By.tagName("tm-single-statistics")).size() == 0);
+        assertTrue(panelWithStats.findElements(By.tagName("tm-single-statistics")).isEmpty());
     }
 
     public void verifyQnViewComment(FeedbackQuestionAttributes question, FeedbackResponseCommentAttributes comment,

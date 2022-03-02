@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TableComparatorService } from '../../../../services/table-comparator.service';
 import { SortBy, SortOrder } from '../../../../types/sort-properties';
 import { JoinStatePipe } from '../../../components/student-list/join-state.pipe';
@@ -20,7 +20,7 @@ export interface SearchStudentsListRowTable {
   templateUrl: './student-result-table.component.html',
   styleUrls: ['./student-result-table.component.scss'],
 })
-export class StudentResultTableComponent implements OnInit {
+export class StudentResultTableComponent {
 
   @Input() studentTables: SearchStudentsListRowTable[] = [];
   @Input() isActionButtonsEnabled: boolean = true;
@@ -31,9 +31,6 @@ export class StudentResultTableComponent implements OnInit {
   studentSortOrder: SortOrder = SortOrder.ASC;
 
   constructor(private tableComparatorService: TableComparatorService) { }
-
-  ngOnInit(): void {
-  }
 
   /**
    * Sorts the student list.
@@ -49,7 +46,7 @@ export class StudentResultTableComponent implements OnInit {
    * Returns a function to determine the order of sort for students.
    */
   sortStudentBy(by: SortBy, order: SortOrder):
-      ((a: StudentListRowModel , b: StudentListRowModel) => number) {
+      ((a: StudentListRowModel, b: StudentListRowModel) => number) {
     const joinStatePipe: JoinStatePipe = new JoinStatePipe();
     if (by === SortBy.NONE) {
       // Default order: section name > team name > student name

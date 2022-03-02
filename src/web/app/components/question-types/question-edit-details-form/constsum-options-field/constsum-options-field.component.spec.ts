@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { FormsModule } from '@angular/forms';
 import { ConstsumOptionsFieldComponent } from './constsum-options-field.component';
@@ -7,7 +7,7 @@ describe('ConstsumOptionsFieldComponent', () => {
   let component: ConstsumOptionsFieldComponent;
   let fixture: ComponentFixture<ConstsumOptionsFieldComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ConstsumOptionsFieldComponent],
       imports: [FormsModule],

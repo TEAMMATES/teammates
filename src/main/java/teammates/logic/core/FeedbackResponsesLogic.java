@@ -167,9 +167,9 @@ public final class FeedbackResponsesLogic {
     /**
      * Checks whether a giver has responded a session.
      */
-    public boolean hasGiverRespondedForSession(String userEmail, String feedbackSessionName, String courseId) {
+    public boolean hasGiverRespondedForSession(String giverIdentifier, String feedbackSessionName, String courseId) {
 
-        return frDb.hasResponsesFromGiverInSession(userEmail, feedbackSessionName, courseId);
+        return frDb.hasResponsesFromGiverInSession(giverIdentifier, feedbackSessionName, courseId);
     }
 
     /**
@@ -315,6 +315,13 @@ public final class FeedbackResponsesLogic {
             return true;
         }
         return question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
+    }
+
+    /**
+     * Returns true if the responses of the question are visible to instructors.
+     */
+    public boolean isResponseOfFeedbackQuestionVisibleToInstructor(FeedbackQuestionAttributes question) {
+        return question.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS);
     }
 
     private List<FeedbackQuestionAttributes> getQuestionsForSession(

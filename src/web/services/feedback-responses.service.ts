@@ -3,9 +3,6 @@ import { Observable } from 'rxjs';
 import {
   InstructorSessionResultSectionType,
 } from '../app/pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
-import {
-  FeedbackResponsesResponse,
-} from '../app/pages-session/session-submission-page/session-submission-page.component';
 import { ResourceEndpoints } from '../types/api-const';
 import {
   FeedbackConstantSumResponseDetails,
@@ -17,6 +14,7 @@ import {
   FeedbackRankOptionsResponseDetails,
   FeedbackRankRecipientsResponseDetails,
   FeedbackResponseDetails,
+  FeedbackResponse,
   FeedbackResponses,
   FeedbackRubricResponseDetails,
   FeedbackTextResponseDetails,
@@ -41,6 +39,13 @@ import {
   RANK_RECIPIENTS_ANSWER_NOT_SUBMITTED, RUBRIC_ANSWER_NOT_CHOSEN,
 } from '../types/feedback-response-details';
 import { HttpRequestService } from './http-request.service';
+
+/**
+ * A collection of feedback responses.
+ */
+export interface FeedbackResponsesResponse {
+  responses: FeedbackResponse[];
+}
 
 /**
  * Handles feedback response settings provision.
@@ -87,44 +92,54 @@ export class FeedbackResponsesService {
    */
   isFeedbackResponseDetailsEmpty(questionType: FeedbackQuestionType, details: FeedbackResponseDetails): boolean {
     switch (questionType) {
-      case FeedbackQuestionType.TEXT:
+      case FeedbackQuestionType.TEXT: {
         const textDetails: FeedbackTextResponseDetails = details as FeedbackTextResponseDetails;
         return textDetails.answer.length === 0;
-      case FeedbackQuestionType.RANK_OPTIONS:
+      }
+      case FeedbackQuestionType.RANK_OPTIONS: {
         const rankOptionsDetails: FeedbackRankOptionsResponseDetails = details as FeedbackRankOptionsResponseDetails;
         const numberOfOptionsRanked: number = rankOptionsDetails.answers
             .filter((rank: number) => rank !== RANK_OPTIONS_ANSWER_NOT_SUBMITTED && rank != null).length;
         return numberOfOptionsRanked === 0;
-      case FeedbackQuestionType.RANK_RECIPIENTS:
+      }
+      case FeedbackQuestionType.RANK_RECIPIENTS: {
         const rankRecipientsDetails: FeedbackRankRecipientsResponseDetails =
             details as FeedbackRankRecipientsResponseDetails;
         return rankRecipientsDetails.answer === RANK_RECIPIENTS_ANSWER_NOT_SUBMITTED
             || rankRecipientsDetails.answer == null;
-      case FeedbackQuestionType.CONTRIB:
+      }
+      case FeedbackQuestionType.CONTRIB: {
         const contributionDetails: FeedbackContributionResponseDetails = details as FeedbackContributionResponseDetails;
         return contributionDetails.answer === CONTRIBUTION_POINT_NOT_SUBMITTED
             || contributionDetails.answer == null;
-      case FeedbackQuestionType.NUMSCALE:
+      }
+      case FeedbackQuestionType.NUMSCALE: {
         const numScaleDetails: FeedbackNumericalScaleResponseDetails = details as FeedbackNumericalScaleResponseDetails;
         return numScaleDetails.answer === NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED
             || numScaleDetails.answer == null;
-      case FeedbackQuestionType.MCQ:
+      }
+      case FeedbackQuestionType.MCQ: {
         const mcqDetails: FeedbackMcqResponseDetails = details as FeedbackMcqResponseDetails;
         return mcqDetails.answer.length === 0 && !mcqDetails.isOther;
-      case FeedbackQuestionType.MSQ:
+      }
+      case FeedbackQuestionType.MSQ: {
         const msqDetails: FeedbackMsqResponseDetails = details as FeedbackMsqResponseDetails;
         return msqDetails.answers.length === 0 && !msqDetails.isOther;
-      case FeedbackQuestionType.RUBRIC:
+      }
+      case FeedbackQuestionType.RUBRIC: {
         const rubricDetails: FeedbackRubricResponseDetails = details as FeedbackRubricResponseDetails;
         return rubricDetails.answer.length === 0
             || rubricDetails.answer.every((val: number) => val === RUBRIC_ANSWER_NOT_CHOSEN);
-      case FeedbackQuestionType.CONSTSUM_OPTIONS:
+      }
+      case FeedbackQuestionType.CONSTSUM_OPTIONS: {
         const constsumDetails: FeedbackConstantSumResponseDetails = details as FeedbackConstantSumResponseDetails;
         return constsumDetails.answers.length === 0;
-      case FeedbackQuestionType.CONSTSUM_RECIPIENTS:
+      }
+      case FeedbackQuestionType.CONSTSUM_RECIPIENTS: {
         const constsumRecipientsDetails: FeedbackConstantSumResponseDetails =
             details as FeedbackConstantSumResponseDetails;
         return constsumRecipientsDetails.answers.length === 0;
+      }
       default:
         return true;
     }
@@ -180,8 +195,8 @@ export class FeedbackResponsesService {
   /**
    * Submits a list of feedback responses for a feedback question by calling API.
    */
-  submitFeedbackResponses(questionId: string, additionalParams: { [key: string]: string } = {},
-                          request: FeedbackResponsesRequest): Observable<FeedbackResponses> {
+  submitFeedbackResponses(questionId: string, request: FeedbackResponsesRequest,
+                          additionalParams: { [key: string]: string } = {}): Observable<FeedbackResponses> {
     return this.httpRequestService.put(ResourceEndpoints.RESPONSES, {
       questionid: questionId,
       ...additionalParams,

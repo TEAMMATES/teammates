@@ -25,7 +25,10 @@ export class AdminTimezonePageComponent implements OnInit {
   ngOnInit(): void {
     this.momentTzVersion = this.timezoneService.getTzVersion();
     this.momentTimezones = this.timezoneService.getTzOffsets();
-    this.timezoneService.getTimeZone().pipe(finalize(() => this.isTimezonesLoading = false))
+    this.timezoneService.getTimeZone()
+        .pipe(finalize(() => {
+          this.isTimezonesLoading = false;
+        }))
         .subscribe((res: TimeZones) => {
           this.javaTzVersion = res.version;
           this.javaTimezones = res.offsets;

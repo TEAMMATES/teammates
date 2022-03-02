@@ -56,7 +56,9 @@ export class AdminAccountsPageComponent implements OnInit {
   loadAccountInfo(instructorid: string): void {
     this.isLoadingAccountInfo = true;
     this.accountService.getAccount(instructorid)
-        .pipe(finalize(() => this.isLoadingAccountInfo = false))
+        .pipe(finalize(() => {
+          this.isLoadingAccountInfo = false;
+        }))
         .subscribe((resp: Account) => {
           this.accountInfo = resp;
         }, (resp: ErrorMessageOutput) => {
@@ -65,7 +67,9 @@ export class AdminAccountsPageComponent implements OnInit {
 
     this.isLoadingStudentCourses = true;
     this.courseService.getStudentCoursesInMasqueradeMode(instructorid)
-        .pipe(finalize(() => this.isLoadingStudentCourses = false))
+        .pipe(finalize(() => {
+          this.isLoadingStudentCourses = false;
+        }))
         .subscribe((resp: Courses) => {
           this.studentCourses = resp.courses;
         }, (resp: ErrorMessageOutput) => {
@@ -76,7 +80,9 @@ export class AdminAccountsPageComponent implements OnInit {
 
     this.isLoadingInstructorCourses = true;
     this.courseService.getInstructorCoursesInMasqueradeMode(instructorid)
-        .pipe(finalize(() => this.isLoadingInstructorCourses = false))
+        .pipe(finalize(() => {
+          this.isLoadingInstructorCourses = false;
+        }))
         .subscribe((resp: Courses) => {
           this.instructorCourses = resp.courses;
         }, (resp: ErrorMessageOutput) => {

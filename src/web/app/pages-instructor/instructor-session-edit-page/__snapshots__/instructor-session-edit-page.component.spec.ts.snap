@@ -46,8 +46,6 @@ exports[`InstructorSessionEditPageComponent should snap when feedback question f
   timezoneService={[Function TimezoneService]}
 >
   <tm-loading-retry>
-    
-    
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -63,10 +61,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback question f
         </div>
       </div>
     </tm-loading-spinner>
-    
-    
   </tm-loading-retry><tm-loading-retry>
-    
     <div
       class="text-center"
     >
@@ -85,7 +80,6 @@ exports[`InstructorSessionEditPageComponent should snap when feedback question f
          Retry
       </button>
     </div>
-    
   </tm-loading-retry>
 </tm-instructor-session-edit-page>
 `;
@@ -136,8 +130,6 @@ exports[`InstructorSessionEditPageComponent should snap when feedback questions 
   timezoneService={[Function TimezoneService]}
 >
   <tm-loading-retry>
-    
-    
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -153,12 +145,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback questions 
         </div>
       </div>
     </tm-loading-spinner>
-    
-    
   </tm-loading-retry><tm-loading-retry>
-    
-    
-    
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -174,15 +161,9 @@ exports[`InstructorSessionEditPageComponent should snap when feedback questions 
         </div>
       </div>
     </tm-loading-spinner>
-    
     <div />
     <br />
-    
-    
     <br />
-    
-    
-    
   </tm-loading-retry>
 </tm-instructor-session-edit-page>
 `;
@@ -233,7 +214,6 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session fa
   timezoneService={[Function TimezoneService]}
 >
   <tm-loading-retry>
-    
     <div
       class="text-center"
     >
@@ -252,11 +232,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session fa
          Retry
       </button>
     </div>
-    
   </tm-loading-retry><tm-loading-retry>
-    
-    
-    
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -272,15 +248,9 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session fa
         </div>
       </div>
     </tm-loading-spinner>
-    
     <div />
     <br />
-    
-    
     <br />
-    
-    
-    
   </tm-loading-retry>
 </tm-instructor-session-edit-page>
 `;
@@ -331,8 +301,6 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session is
   timezoneService={[Function TimezoneService]}
 >
   <tm-loading-retry>
-    
-    
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -348,12 +316,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session is
         </div>
       </div>
     </tm-loading-spinner>
-    
-    
   </tm-loading-retry><tm-loading-retry>
-    
-    
-    
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -369,15 +332,9 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session is
         </div>
       </div>
     </tm-loading-spinner>
-    
     <div />
     <br />
-    
-    
     <br />
-    
-    
-    
   </tm-loading-retry>
 </tm-instructor-session-edit-page>
 `;
@@ -428,8 +385,6 @@ exports[`InstructorSessionEditPageComponent should snap with default fields 1`] 
   timezoneService={[Function TimezoneService]}
 >
   <tm-loading-retry>
-    
-    
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -445,12 +400,7 @@ exports[`InstructorSessionEditPageComponent should snap with default fields 1`] 
         </div>
       </div>
     </tm-loading-spinner>
-    
-    
   </tm-loading-retry><tm-loading-retry>
-    
-    
-    
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -466,15 +416,9 @@ exports[`InstructorSessionEditPageComponent should snap with default fields 1`] 
         </div>
       </div>
     </tm-loading-spinner>
-    
     <div />
     <br />
-    
-    
     <br />
-    
-    
-    
   </tm-loading-retry>
 </tm-instructor-session-edit-page>
 `;
@@ -525,25 +469,19 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
   timezoneService={[Function TimezoneService]}
 >
   <tm-loading-retry>
-    
-    
     <tm-session-edit-form>
       <div
         class="card card-plain"
       >
-        
         <div
           class="card-body"
         >
-          
-          
           <div
             class="row"
           >
             <div
               class="col-12 text-center text-md-right session-form-buttons"
             >
-              
               <button
                 class="btn btn-primary"
                 id="btn-fs-edit"
@@ -554,15 +492,12 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                 />
                  Edit
               </button>
-              
-              
               <button
                 class="btn btn-primary"
                 id="btn-fs-delete"
                 ngbtooltip="Delete the feedback session"
                 type="button"
               >
-                
                 <i
                   class="fas fa-trash"
                 />
@@ -574,7 +509,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                 ngbtooltip="Copy this feedback session to other courses"
                 type="button"
               >
-                
                 <i
                   class="far fa-copy"
                 />
@@ -604,8 +538,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                 <div
                   class="col-md-auto text-md-left"
                 >
-                  
-                  
                   <div
                     id="edit-course-id"
                   >
@@ -657,8 +589,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                 <div
                   class="col-md-2 text-md-right font-bold"
                 >
-                  
-                  
                   <span>
                     Session Name
                   </span>
@@ -666,8 +596,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                 <div
                   class="col-md-10 text-md-left"
                 >
-                  
-                  
                   <div
                     id="edit-session-name"
                   >
@@ -698,13 +626,11 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                     <div
                       inviewport=""
                     >
-                      
                     </div>
                   </tm-rich-text-editor>
                 </div>
               </div>
               <br />
-              
               <div
                 class="row text-center"
               >
@@ -768,14 +694,12 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                         <div
                           class="input-group"
                         >
-                          
                           <input
                             class="form-control ng-untouched ng-pristine ng-valid"
                             disabled=""
                             ngbdatepicker=""
                             type="text"
                           />
-                          
                         </div>
                       </tm-datepicker>
                     </div>
@@ -788,7 +712,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                         <select
                           class="form-control ng-untouched ng-pristine ng-valid"
                         >
-                          
                           <option
                             value="1: Object"
                           >
@@ -909,7 +832,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           >
                             23:59H
                           </option>
-                          
                         </select>
                       </tm-timepicker>
                     </div>
@@ -943,14 +865,12 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                         <div
                           class="input-group"
                         >
-                          
                           <input
                             class="form-control ng-untouched ng-pristine ng-valid"
                             disabled=""
                             ngbdatepicker=""
                             type="text"
                           />
-                          
                         </div>
                       </tm-datepicker>
                     </div>
@@ -963,7 +883,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                         <select
                           class="form-control ng-untouched ng-pristine ng-valid"
                         >
-                          
                           <option
                             value="1: Object"
                           >
@@ -1084,7 +1003,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           >
                             23:59H
                           </option>
-                          
                         </select>
                       </tm-timepicker>
                     </div>
@@ -1117,7 +1035,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                         class="form-control ng-untouched ng-pristine ng-valid"
                         id="grace-period"
                       >
-                        
                         <option
                           value="0: 0"
                         >
@@ -1160,7 +1077,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
               </div>
             </div>
           </div>
-          
           <div
             class="margin-top-20px"
           >
@@ -1178,8 +1094,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
               [Change]
             </button>
           </div>
-          
-          
           <div>
             <span
               class="text-muted"
@@ -1195,7 +1109,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
               [Change]
             </button>
           </div>
-          
           <div
             class="row margin-top-20px"
           >
@@ -1205,16 +1118,12 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
               <span
                 class="loader"
               />
-              
-              
               <div>
-                
                 <button
                   class="btn btn-success"
                   disabled=""
                   type="button"
                 >
-                  
                   Save Changes 
                 </button>
               </div>
@@ -1223,11 +1132,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
         </div>
       </div>
     </tm-session-edit-form>
-    
-    
   </tm-loading-retry><tm-loading-retry>
-    
-    
     <div
       class="offset-md-10 margin-vertical-20px"
     >
@@ -1238,9 +1143,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
          Collapse All 
       </button>
     </div>
-    
     <div>
-      
       <div>
         <tm-question-edit-form>
           <div
@@ -1257,8 +1160,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                   <div
                     class="chevron"
                   >
-                    
-                    
                     <i
                       class="fas fa-chevron-up"
                     />
@@ -1270,14 +1171,11 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
               >
                 <strong>
                   Question 
-                  
                 </strong>
-                
                 <select
                   class="form-control question-number-select ng-untouched ng-pristine ng-valid"
                   id="question-number-dropdown"
                 >
-                  
                   <option
                     value="0: 1"
                   >
@@ -1290,27 +1188,21 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                   </option>
                 </select>
                  Essay question 
-                
               </div>
               <div
                 class="card-header-btn-toolbar"
               >
-                
                 <div>
-                  
-                  
                   <button
                     class="btn btn-primary btn-sm"
                     id="btn-save-question"
                     type="button"
                   >
-                    
                     <i
                       class="fas fa-check"
                     />
                      Save 
                   </button>
-                  
                   <button
                     class="btn btn-primary btn-sm"
                     type="button"
@@ -1325,7 +1217,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                     id="btn-delete-question"
                     type="button"
                   >
-                    
                     <i
                       class="fas fa-trash"
                     />
@@ -1338,17 +1229,14 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                     ngbtooltip="Make a copy of the existing question and add to the current feedback session."
                     type="button"
                   >
-                    
                     <i
                       class="far fa-copy"
                     />
                      Duplicate 
                   </button>
                 </div>
-                
               </div>
             </div>
-            
             <div
               class="ng-trigger ng-trigger-collapseAnim ng-animating"
               style=""
@@ -1411,7 +1299,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             <div
                               inviewport=""
                             >
-                              
                             </div>
                           </tm-rich-text-editor>
                         </div>
@@ -1419,7 +1306,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                       <div
                         class="padding-15px"
                       >
-                        
                         <tm-text-question-edit-details-form
                           style=""
                         >
@@ -1459,15 +1345,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             </div>
                           </div>
                         </tm-text-question-edit-details-form>
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
                       </div>
                     </div>
                   </div>
@@ -1491,12 +1368,10 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                     >
                       <button
                         aria-expanded="false"
-                        aria-haspopup="true"
                         class="btn btn-light white-space-normal dropdown-toggle"
                         id="btn-feedback-path"
                         ngbdropdowntoggle=""
                       >
-                        
                         <span
                           style=""
                         >
@@ -1506,7 +1381,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           />
                            Instructors in the course 
                         </span>
-                        
                       </button>
                       <ul
                         class="dropdown-menu"
@@ -1519,7 +1393,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                         >
                           Common feedback path combinations
                         </li>
-                        
                         <li
                           class="dropdown-item"
                           style=""
@@ -1530,7 +1403,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           >
                             <span
                               aria-expanded="false"
-                              aria-haspopup="true"
                               class="float-right invisible dropdown-toggle"
                               ngbdropdownanchor=""
                             />
@@ -1543,7 +1415,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                               ngbdropdownmenu=""
                               x-placement="bottom"
                             >
-                              
                               <li
                                 class="dropdown-item"
                               >
@@ -1572,7 +1443,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           >
                             <span
                               aria-expanded="false"
-                              aria-haspopup="true"
                               class="float-right invisible dropdown-toggle"
                               ngbdropdownanchor=""
                             />
@@ -1585,7 +1455,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                               ngbdropdownmenu=""
                               x-placement="bottom"
                             >
-                              
                               <li
                                 class="dropdown-item"
                               >
@@ -1614,7 +1483,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           >
                             <span
                               aria-expanded="false"
-                              aria-haspopup="true"
                               class="float-right invisible dropdown-toggle"
                               ngbdropdownanchor=""
                             />
@@ -1627,7 +1495,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                               ngbdropdownmenu=""
                               x-placement="bottom"
                             >
-                              
                               <li
                                 class="dropdown-item"
                               >
@@ -1666,8 +1533,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                         </li>
                       </ul>
                     </div>
-                    
-                    
                     <div
                       class="row margin-top-15px align-items-center"
                       style=""
@@ -1730,7 +1595,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                     class="margin-top-15px padding-15px background-color-light-green"
                   >
                     <div>
-                      
                       <b
                         class="visibility-title"
                       >
@@ -1744,13 +1608,10 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                     >
                       <button
                         aria-expanded="false"
-                        aria-haspopup="true"
                         class="btn btn-light white-space-normal dropdown-toggle"
                         id="btn-question-visibility"
                         ngbdropdowntoggle=""
                       >
-                        
-                        
                         <span
                           style=""
                         >
@@ -1768,7 +1629,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                         >
                           Common visibility options
                         </li>
-                        
                         <li
                           class="dropdown-item"
                           style=""
@@ -1799,12 +1659,10 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                         >
                           Visible to recipient and instructors
                         </li>
-                        
                         <li
                           class="dropdown-divider"
                           style=""
                         />
-                        
                         <li
                           class="dropdown-item"
                           style=""
@@ -1813,7 +1671,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                         </li>
                       </ul>
                     </div>
-                    
                     <table
                       class="table margin-top-15px background-color-white table-striped"
                       style=""
@@ -1826,7 +1683,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           >
                             User/Group
                           </th>
-                          
                           <th
                             class="text-center"
                             scope="col"
@@ -1850,9 +1706,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                       <tbody
                         id="custom-visibility-table"
                       >
-                        
-                        
-                        
                         <tr>
                           <td>
                             <span
@@ -1862,7 +1715,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                               Recipient(s)
                             </span>
                           </td>
-                          
                           <td
                             class="text-center"
                           >
@@ -1886,9 +1738,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             />
                           </td>
                         </tr>
-                        
-                        
-                        
                         <tr>
                           <td>
                             <span
@@ -1898,7 +1747,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                               Giver's Team Members
                             </span>
                           </td>
-                          
                           <td
                             class="text-center"
                           >
@@ -1921,12 +1769,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             />
                           </td>
                         </tr>
-                        
-                        
-                        
-                        
-                        
-                        
                         <tr>
                           <td>
                             <span
@@ -1936,7 +1778,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                               Other students
                             </span>
                           </td>
-                          
                           <td
                             class="text-center"
                           >
@@ -1959,9 +1800,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             />
                           </td>
                         </tr>
-                        
-                        
-                        
                         <tr>
                           <td>
                             <span
@@ -1971,7 +1809,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                               Instructors
                             </span>
                           </td>
-                          
                           <td
                             class="text-center"
                           >
@@ -1994,7 +1831,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             />
                           </td>
                         </tr>
-                        
                       </tbody>
                     </table>
                     <div
@@ -2004,39 +1840,20 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                       <ul
                         class="text-muted background-color-warning"
                       >
-                        
-                        
-                        
-                        
-                        
-                        
-                        
                         <li
                           style=""
                         >
                            Your team members can see your response, but not the name of the recipient, or your name 
                         </li>
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
                         <li
                           style=""
                         >
                            Instructors in this course can see your response, but not the name of the recipient, or your name 
                         </li>
-                        
-                        
                       </ul>
                     </div>
                   </div>
                 </tm-visibility-panel>
-                
                 <div
                   class="row margin-top-15px"
                   style=""
@@ -2044,7 +1861,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                   <div
                     class="col-12 text-right"
                   >
-                    
                     <button
                       class="btn btn-light btn-margin-right"
                       type="button"
@@ -2057,15 +1873,12 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                     <button
                       class="btn btn-success"
                     >
-                      
-                      
                       <span>
                         <i
                           class="fas fa-check"
                         />
                          Save Changes
                       </span>
-                      
                     </button>
                   </div>
                 </div>
@@ -2090,8 +1903,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                   <div
                     class="chevron"
                   >
-                    
-                    
                     <i
                       class="fas fa-chevron-up"
                     />
@@ -2103,14 +1914,11 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
               >
                 <strong>
                   Question 
-                  
                 </strong>
-                
                 <select
                   class="form-control question-number-select ng-untouched ng-pristine ng-valid"
                   id="question-number-dropdown"
                 >
-                  
                   <option
                     value="0: 1"
                   >
@@ -2123,27 +1931,21 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                   </option>
                 </select>
                  Essay question 
-                
               </div>
               <div
                 class="card-header-btn-toolbar"
               >
-                
                 <div>
-                  
-                  
                   <button
                     class="btn btn-primary btn-sm"
                     id="btn-save-question"
                     type="button"
                   >
-                    
                     <i
                       class="fas fa-check"
                     />
                      Save 
                   </button>
-                  
                   <button
                     class="btn btn-primary btn-sm"
                     type="button"
@@ -2158,7 +1960,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                     id="btn-delete-question"
                     type="button"
                   >
-                    
                     <i
                       class="fas fa-trash"
                     />
@@ -2171,17 +1972,14 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                     ngbtooltip="Make a copy of the existing question and add to the current feedback session."
                     type="button"
                   >
-                    
                     <i
                       class="far fa-copy"
                     />
                      Duplicate 
                   </button>
                 </div>
-                
               </div>
             </div>
-            
             <div
               class="ng-trigger ng-trigger-collapseAnim ng-animating"
               style=""
@@ -2244,7 +2042,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             <div
                               inviewport=""
                             >
-                              
                             </div>
                           </tm-rich-text-editor>
                         </div>
@@ -2252,7 +2049,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                       <div
                         class="padding-15px"
                       >
-                        
                         <tm-text-question-edit-details-form
                           style=""
                         >
@@ -2292,15 +2088,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             </div>
                           </div>
                         </tm-text-question-edit-details-form>
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
                       </div>
                     </div>
                   </div>
@@ -2324,12 +2111,10 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                     >
                       <button
                         aria-expanded="false"
-                        aria-haspopup="true"
                         class="btn btn-light white-space-normal dropdown-toggle"
                         id="btn-feedback-path"
                         ngbdropdowntoggle=""
                       >
-                        
                         <span
                           style=""
                         >
@@ -2339,7 +2124,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           />
                            Instructors in the course 
                         </span>
-                        
                       </button>
                       <ul
                         class="dropdown-menu"
@@ -2352,7 +2136,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                         >
                           Common feedback path combinations
                         </li>
-                        
                         <li
                           class="dropdown-item"
                           style=""
@@ -2363,7 +2146,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           >
                             <span
                               aria-expanded="false"
-                              aria-haspopup="true"
                               class="float-right invisible dropdown-toggle"
                               ngbdropdownanchor=""
                             />
@@ -2376,7 +2158,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                               ngbdropdownmenu=""
                               x-placement="bottom"
                             >
-                              
                               <li
                                 class="dropdown-item"
                               >
@@ -2405,7 +2186,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           >
                             <span
                               aria-expanded="false"
-                              aria-haspopup="true"
                               class="float-right invisible dropdown-toggle"
                               ngbdropdownanchor=""
                             />
@@ -2418,7 +2198,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                               ngbdropdownmenu=""
                               x-placement="bottom"
                             >
-                              
                               <li
                                 class="dropdown-item"
                               >
@@ -2447,7 +2226,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           >
                             <span
                               aria-expanded="false"
-                              aria-haspopup="true"
                               class="float-right invisible dropdown-toggle"
                               ngbdropdownanchor=""
                             />
@@ -2460,7 +2238,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                               ngbdropdownmenu=""
                               x-placement="bottom"
                             >
-                              
                               <li
                                 class="dropdown-item"
                               >
@@ -2499,8 +2276,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                         </li>
                       </ul>
                     </div>
-                    
-                    
                     <div
                       class="row margin-top-15px align-items-center"
                       style=""
@@ -2563,7 +2338,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                     class="margin-top-15px padding-15px background-color-light-green"
                   >
                     <div>
-                      
                       <b
                         class="visibility-title"
                       >
@@ -2577,13 +2351,10 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                     >
                       <button
                         aria-expanded="false"
-                        aria-haspopup="true"
                         class="btn btn-light white-space-normal dropdown-toggle"
                         id="btn-question-visibility"
                         ngbdropdowntoggle=""
                       >
-                        
-                        
                         <span
                           style=""
                         >
@@ -2601,7 +2372,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                         >
                           Common visibility options
                         </li>
-                        
                         <li
                           class="dropdown-item"
                           style=""
@@ -2632,12 +2402,10 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                         >
                           Visible to recipient and instructors
                         </li>
-                        
                         <li
                           class="dropdown-divider"
                           style=""
                         />
-                        
                         <li
                           class="dropdown-item"
                           style=""
@@ -2646,7 +2414,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                         </li>
                       </ul>
                     </div>
-                    
                     <table
                       class="table margin-top-15px background-color-white table-striped"
                       style=""
@@ -2659,7 +2426,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           >
                             User/Group
                           </th>
-                          
                           <th
                             class="text-center"
                             scope="col"
@@ -2683,9 +2449,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                       <tbody
                         id="custom-visibility-table"
                       >
-                        
-                        
-                        
                         <tr>
                           <td>
                             <span
@@ -2695,7 +2458,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                               Recipient(s)
                             </span>
                           </td>
-                          
                           <td
                             class="text-center"
                           >
@@ -2719,9 +2481,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             />
                           </td>
                         </tr>
-                        
-                        
-                        
                         <tr>
                           <td>
                             <span
@@ -2731,7 +2490,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                               Giver's Team Members
                             </span>
                           </td>
-                          
                           <td
                             class="text-center"
                           >
@@ -2754,12 +2512,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             />
                           </td>
                         </tr>
-                        
-                        
-                        
-                        
-                        
-                        
                         <tr>
                           <td>
                             <span
@@ -2769,7 +2521,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                               Other students
                             </span>
                           </td>
-                          
                           <td
                             class="text-center"
                           >
@@ -2792,9 +2543,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             />
                           </td>
                         </tr>
-                        
-                        
-                        
                         <tr>
                           <td>
                             <span
@@ -2804,7 +2552,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                               Instructors
                             </span>
                           </td>
-                          
                           <td
                             class="text-center"
                           >
@@ -2827,7 +2574,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             />
                           </td>
                         </tr>
-                        
                       </tbody>
                     </table>
                     <div
@@ -2837,39 +2583,20 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                       <ul
                         class="text-muted background-color-warning"
                       >
-                        
-                        
-                        
-                        
-                        
-                        
-                        
                         <li
                           style=""
                         >
                            Your team members can see your response, but not the name of the recipient, or your name 
                         </li>
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
                         <li
                           style=""
                         >
                            Instructors in this course can see your response, but not the name of the recipient, or your name 
                         </li>
-                        
-                        
                       </ul>
                     </div>
                   </div>
                 </tm-visibility-panel>
-                
                 <div
                   class="row margin-top-15px"
                   style=""
@@ -2877,7 +2604,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                   <div
                     class="col-12 text-right"
                   >
-                    
                     <button
                       class="btn btn-light btn-margin-right"
                       type="button"
@@ -2890,15 +2616,12 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                     <button
                       class="btn btn-success"
                     >
-                      
-                      
                       <span>
                         <i
                           class="fas fa-check"
                         />
                          Save Changes
                       </span>
-                      
                     </button>
                   </div>
                 </div>
@@ -2908,10 +2631,8 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
         </tm-question-edit-form>
       </div>
     </div>
-    
     <div />
     <br />
-    
     <div
       class="card"
     >
@@ -2925,7 +2646,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
           >
             <button
               aria-expanded="false"
-              aria-haspopup="true"
               class="btn btn-primary dropdown-toggle"
               id="btn-new-question"
               ngbdropdowntoggle=""
@@ -2946,93 +2666,58 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
               <div
                 class="dropdown-divider"
               />
-              
-              
-              
               <button
                 class="dropdown-item"
               >
                  Essay question 
               </button>
-              
-              
-              
               <button
                 class="dropdown-item"
               >
                  Multiple-choice (single answer) question 
               </button>
-              
-              
-              
               <button
                 class="dropdown-item"
               >
                  Multiple-choice (multiple answers) question 
               </button>
-              
-              
-              
               <button
                 class="dropdown-item"
               >
                  Numerical-scale question 
               </button>
-              
-              
-              
-              
-              
-              
               <button
                 class="dropdown-item"
               >
                  Distribute points (among options) question 
               </button>
-              
-              
-              
               <button
                 class="dropdown-item"
               >
                  Distribute points (among recipients) question 
               </button>
-              
-              
-              
               <button
                 class="dropdown-item"
               >
                  Team contribution question 
               </button>
-              
-              
-              
               <button
                 class="dropdown-item"
               >
                  Rubric question 
               </button>
-              
-              
-              
               <button
                 class="dropdown-item"
               >
                  Rank (options) question 
               </button>
-              
-              
-              
               <button
                 class="dropdown-item"
               >
                  Rank (recipients) question 
               </button>
-              
             </div>
           </div>
-          
           <a
             class="btn btn-link"
             href="/web/instructor/help?questionId=questions&section=questions"
@@ -3045,20 +2730,16 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
               class="fas fa-info-circle"
             />
           </a>
-          
           <button
             class="btn btn-primary"
             id="btn-copy-question"
           >
-            
             Copy Question
           </button>
         </div>
       </tm-adding-question-panel>
     </div>
-    
     <br />
-    
     <div
       class="card"
     >
@@ -3083,9 +2764,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                 class="form-control preview-select ng-untouched ng-pristine ng-valid"
                 id="preview-student"
               >
-                
               </select>
-              
               <button
                 class="btn btn-primary"
                 disabled=""
@@ -3093,7 +2772,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
               >
                 Preview as Student
               </button>
-              
             </div>
             <div
               class="col-lg-5"
@@ -3102,9 +2780,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                 class="form-control preview-select ng-untouched ng-pristine ng-valid"
                 id="preview-instructor"
               >
-                
               </select>
-              
               <button
                 class="btn btn-primary"
                 disabled=""
@@ -3112,14 +2788,11 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
               >
                 Preview as Instructor
               </button>
-              
             </div>
           </div>
         </div>
       </tm-preview-session-panel>
     </div>
-    
-    
   </tm-loading-retry>
 </tm-instructor-session-edit-page>
 `;
@@ -3170,25 +2843,19 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
   timezoneService={[Function TimezoneService]}
 >
   <tm-loading-retry>
-    
-    
     <tm-session-edit-form>
       <div
         class="card card-plain"
       >
-        
         <div
           class="card-body"
         >
-          
-          
           <div
             class="row"
           >
             <div
               class="col-12 text-center text-md-right session-form-buttons"
             >
-              
               <button
                 class="btn btn-primary"
                 id="btn-fs-edit"
@@ -3199,15 +2866,12 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                 />
                  Edit
               </button>
-              
-              
               <button
                 class="btn btn-primary"
                 id="btn-fs-delete"
                 ngbtooltip="Delete the feedback session"
                 type="button"
               >
-                
                 <i
                   class="fas fa-trash"
                 />
@@ -3219,7 +2883,6 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                 ngbtooltip="Copy this feedback session to other courses"
                 type="button"
               >
-                
                 <i
                   class="far fa-copy"
                 />
@@ -3249,12 +2912,9 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                 <div
                   class="col-md-auto text-md-left"
                 >
-                  
-                  
                   <div
                     id="edit-course-id"
                   >
-                      
                   </div>
                 </div>
               </div>
@@ -3292,7 +2952,6 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                   class="col-md-10 text-md-left"
                   id="course-name"
                 >
-                    
                 </div>
               </div>
               <br />
@@ -3302,8 +2961,6 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                 <div
                   class="col-md-2 text-md-right font-bold"
                 >
-                  
-                  
                   <span>
                     Session Name
                   </span>
@@ -3311,12 +2968,9 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                 <div
                   class="col-md-10 text-md-left"
                 >
-                  
-                  
                   <div
                     id="edit-session-name"
                   >
-                      
                   </div>
                 </div>
               </div>
@@ -3343,13 +2997,11 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                     <div
                       inviewport=""
                     >
-                      
                     </div>
                   </tm-rich-text-editor>
                 </div>
               </div>
               <br />
-              
               <div
                 class="row text-center"
               >
@@ -3413,14 +3065,12 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                         <div
                           class="input-group"
                         >
-                          
                           <input
                             class="form-control ng-untouched ng-pristine ng-valid"
                             disabled=""
                             ngbdatepicker=""
                             type="text"
                           />
-                          
                         </div>
                       </tm-datepicker>
                     </div>
@@ -3433,7 +3083,6 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                         <select
                           class="form-control ng-untouched ng-pristine ng-valid"
                         >
-                          
                           <option
                             value="1: Object"
                           >
@@ -3554,7 +3203,6 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                           >
                             23:59H
                           </option>
-                          
                         </select>
                       </tm-timepicker>
                     </div>
@@ -3588,14 +3236,12 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                         <div
                           class="input-group"
                         >
-                          
                           <input
                             class="form-control ng-untouched ng-pristine ng-valid"
                             disabled=""
                             ngbdatepicker=""
                             type="text"
                           />
-                          
                         </div>
                       </tm-datepicker>
                     </div>
@@ -3608,7 +3254,6 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                         <select
                           class="form-control ng-untouched ng-pristine ng-valid"
                         >
-                          
                           <option
                             value="1: Object"
                           >
@@ -3729,7 +3374,6 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                           >
                             23:59H
                           </option>
-                          
                         </select>
                       </tm-timepicker>
                     </div>
@@ -3762,7 +3406,6 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                         class="form-control ng-untouched ng-pristine ng-valid"
                         id="grace-period"
                       >
-                        
                         <option
                           value="0: 0"
                         >
@@ -3805,7 +3448,6 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
               </div>
             </div>
           </div>
-          
           <div
             class="margin-top-20px"
           >
@@ -3823,8 +3465,6 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
               [Change]
             </button>
           </div>
-          
-          
           <div>
             <span
               class="text-muted"
@@ -3840,7 +3480,6 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
               [Change]
             </button>
           </div>
-          
           <div
             class="row margin-top-20px"
           >
@@ -3850,16 +3489,12 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
               <span
                 class="loader"
               />
-              
-              
               <div>
-                
                 <button
                   class="btn btn-success"
                   disabled=""
                   type="button"
                 >
-                  
                   Save Changes 
                 </button>
               </div>
@@ -3868,20 +3503,11 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
         </div>
       </div>
     </tm-session-edit-form>
-    
-    
   </tm-loading-retry><tm-loading-retry>
-    
-    
-    
     <div>
-      
     </div>
-    
     <div />
     <br />
-    
-    
     <tm-question-edit-form>
       <div
         class="card"
@@ -3897,8 +3523,6 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
               <div
                 class="chevron"
               >
-                
-                
                 <i
                   class="fas fa-chevron-up"
                 />
@@ -3910,14 +3534,11 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
           >
             <strong>
               Question 
-              
             </strong>
-            
             <select
               class="form-control question-number-select ng-untouched ng-pristine ng-valid"
               id="question-number-dropdown"
             >
-              
               <option
                 value="0: 1"
               >
@@ -3925,13 +3546,10 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
               </option>
             </select>
              Essay question 
-            
           </div>
           <div
             class="card-header-btn-toolbar"
           >
-            
-            
             <div>
               <button
                 class="btn btn-primary btn-sm"
@@ -3945,7 +3563,6 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
             </div>
           </div>
         </div>
-        
         <div
           class="ng-trigger ng-trigger-collapseAnim ng-animating"
           style=""
@@ -4008,7 +3625,6 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                         <div
                           inviewport=""
                         >
-                          
                         </div>
                       </tm-rich-text-editor>
                     </div>
@@ -4016,7 +3632,6 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                   <div
                     class="padding-15px"
                   >
-                    
                     <tm-text-question-edit-details-form
                       style=""
                     >
@@ -4056,15 +3671,6 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                         </div>
                       </div>
                     </tm-text-question-edit-details-form>
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
                   </div>
                 </div>
               </div>
@@ -4088,13 +3694,10 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                 >
                   <button
                     aria-expanded="false"
-                    aria-haspopup="true"
                     class="btn btn-light white-space-normal dropdown-toggle"
                     id="btn-feedback-path"
                     ngbdropdowntoggle=""
                   >
-                    
-                    
                     <span
                       style=""
                     >
@@ -4112,7 +3715,6 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                     >
                       Common feedback path combinations
                     </li>
-                    
                     <li
                       class="dropdown-item"
                       style=""
@@ -4123,7 +3725,6 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                       >
                         <span
                           aria-expanded="false"
-                          aria-haspopup="true"
                           class="float-right invisible dropdown-toggle"
                           ngbdropdownanchor=""
                         />
@@ -4136,7 +3737,6 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                           ngbdropdownmenu=""
                           x-placement="bottom"
                         >
-                          
                           <li
                             class="dropdown-item"
                           >
@@ -4165,7 +3765,6 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                       >
                         <span
                           aria-expanded="false"
-                          aria-haspopup="true"
                           class="float-right invisible dropdown-toggle"
                           ngbdropdownanchor=""
                         />
@@ -4178,7 +3777,6 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                           ngbdropdownmenu=""
                           x-placement="bottom"
                         >
-                          
                           <li
                             class="dropdown-item"
                           >
@@ -4207,7 +3805,6 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                       >
                         <span
                           aria-expanded="false"
-                          aria-haspopup="true"
                           class="float-right invisible dropdown-toggle"
                           ngbdropdownanchor=""
                         />
@@ -4220,7 +3817,6 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                           ngbdropdownmenu=""
                           x-placement="bottom"
                         >
-                          
                           <li
                             class="dropdown-item"
                           >
@@ -4259,7 +3855,6 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                     </li>
                   </ul>
                 </div>
-                
                 <div
                   class="row margin-top-15px"
                   style=""
@@ -4288,7 +3883,6 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                           class="form-control ng-untouched ng-pristine ng-valid"
                           id="giver-type"
                         >
-                          
                           <option
                             value="0: INSTRUCTORS"
                           >
@@ -4337,7 +3931,6 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                           class="form-control ng-untouched ng-pristine ng-valid"
                           id="receiver-type"
                         >
-                          
                           <option
                             value="0: SELF"
                           >
@@ -4393,7 +3986,6 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                     </div>
                   </div>
                 </div>
-                
                 <div
                   class="row margin-top-15px align-items-center"
                   style=""
@@ -4456,7 +4048,6 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                 class="margin-top-15px padding-15px background-color-light-green"
               >
                 <div>
-                  
                   <b
                     class="visibility-title"
                   >
@@ -4470,13 +4061,10 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                 >
                   <button
                     aria-expanded="false"
-                    aria-haspopup="true"
                     class="btn btn-light white-space-normal dropdown-toggle"
                     id="btn-question-visibility"
                     ngbdropdowntoggle=""
                   >
-                    
-                    
                     <span
                       style=""
                     >
@@ -4494,7 +4082,6 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                     >
                       Common visibility options
                     </li>
-                    
                     <li
                       class="dropdown-item"
                       style=""
@@ -4531,12 +4118,10 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                     >
                       Visible to recipient and instructors
                     </li>
-                    
                     <li
                       class="dropdown-divider"
                       style=""
                     />
-                    
                     <li
                       class="dropdown-item"
                       style=""
@@ -4545,7 +4130,6 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                     </li>
                   </ul>
                 </div>
-                
                 <table
                   class="table margin-top-15px background-color-white table-striped"
                   style=""
@@ -4558,7 +4142,6 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                       >
                         User/Group
                       </th>
-                      
                       <th
                         class="text-center"
                         scope="col"
@@ -4582,9 +4165,6 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                   <tbody
                     id="custom-visibility-table"
                   >
-                    
-                    
-                    
                     <tr>
                       <td>
                         <span
@@ -4594,7 +4174,6 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                           Recipient(s)
                         </span>
                       </td>
-                      
                       <td
                         class="text-center"
                       >
@@ -4618,9 +4197,6 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                         />
                       </td>
                     </tr>
-                    
-                    
-                    
                     <tr>
                       <td>
                         <span
@@ -4630,7 +4206,6 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                           Giver's Team Members
                         </span>
                       </td>
-                      
                       <td
                         class="text-center"
                       >
@@ -4653,9 +4228,6 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                         />
                       </td>
                     </tr>
-                    
-                    
-                    
                     <tr>
                       <td>
                         <span
@@ -4665,7 +4237,6 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                           Recipient's Team Members
                         </span>
                       </td>
-                      
                       <td
                         class="text-center"
                       >
@@ -4688,9 +4259,6 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                         />
                       </td>
                     </tr>
-                    
-                    
-                    
                     <tr>
                       <td>
                         <span
@@ -4700,7 +4268,6 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                           Other students
                         </span>
                       </td>
-                      
                       <td
                         class="text-center"
                       >
@@ -4723,9 +4290,6 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                         />
                       </td>
                     </tr>
-                    
-                    
-                    
                     <tr>
                       <td>
                         <span
@@ -4735,7 +4299,6 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                           Instructors
                         </span>
                       </td>
-                      
                       <td
                         class="text-center"
                       >
@@ -4758,7 +4321,6 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                         />
                       </td>
                     </tr>
-                    
                   </tbody>
                 </table>
                 <div
@@ -4768,24 +4330,6 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                   <ul
                     class="text-muted background-color-warning"
                   >
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
                     <li
                       style=""
                     >
@@ -4795,7 +4339,6 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                 </div>
               </div>
             </tm-visibility-panel>
-            
             <div
               class="row margin-top-15px"
               style=""
@@ -4803,7 +4346,6 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
               <div
                 class="col-12 text-right"
               >
-                
                 <button
                   class="btn btn-light btn-margin-right"
                   type="button"
@@ -4816,9 +4358,6 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                 <button
                   class="btn btn-success"
                 >
-                  
-                  
-                  
                   <span
                     id="btn-save-new"
                   >
@@ -4835,7 +4374,6 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
       </div>
     </tm-question-edit-form>
     <br />
-    
     <div
       class="card"
     >
@@ -4860,9 +4398,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                 class="form-control preview-select ng-untouched ng-pristine ng-valid"
                 id="preview-student"
               >
-                
               </select>
-              
               <button
                 class="btn btn-primary"
                 disabled=""
@@ -4870,7 +4406,6 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
               >
                 Preview as Student
               </button>
-              
             </div>
             <div
               class="col-lg-5"
@@ -4879,9 +4414,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                 class="form-control preview-select ng-untouched ng-pristine ng-valid"
                 id="preview-instructor"
               >
-                
               </select>
-              
               <button
                 class="btn btn-primary"
                 disabled=""
@@ -4889,14 +4422,11 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
               >
                 Preview as Instructor
               </button>
-              
             </div>
           </div>
         </div>
       </tm-preview-session-panel>
     </div>
-    
-    
   </tm-loading-retry>
 </tm-instructor-session-edit-page>
 `;

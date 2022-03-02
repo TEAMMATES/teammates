@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { InstructorPermissionRole, InstructorPermissionSet, JoinState } from '../../../../types/api-output';
 import {
   InstructorOverallPermission,
@@ -46,7 +46,7 @@ export enum EditMode {
   templateUrl: './instructor-edit-panel.component.html',
   styleUrls: ['./instructor-edit-panel.component.scss'],
 })
-export class InstructorEditPanelComponent implements OnInit {
+export class InstructorEditPanelComponent {
 
   // enum
   JoinState: typeof JoinState = JoinState;
@@ -121,11 +121,6 @@ export class InstructorEditPanelComponent implements OnInit {
   saveInstructor: EventEmitter<void> = new EventEmitter();
   @Output()
   viewRolePrivilegeModel: EventEmitter<InstructorPermissionRole> = new EventEmitter();
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
 
   /**
    * Triggers the change of the model for the form.

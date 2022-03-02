@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { ConstsumOptionsQuestionAdditionalInfoComponent } from './constsum-options-question-additional-info.component';
 
@@ -6,7 +6,7 @@ describe('ConstsumOptionsQuestionAdditionalInfoComponent', () => {
   let component: ConstsumOptionsQuestionAdditionalInfoComponent;
   let fixture: ComponentFixture<ConstsumOptionsQuestionAdditionalInfoComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ConstsumOptionsQuestionAdditionalInfoComponent],
     })

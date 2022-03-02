@@ -1,6 +1,5 @@
-import { TestBed } from '@angular/core/testing';
-
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { TestBed } from '@angular/core/testing';
 import { ResourceEndpoints } from '../types/api-const';
 import { Intent } from '../types/api-request';
 import { FeedbackQuestionsService } from './feedback-questions.service';

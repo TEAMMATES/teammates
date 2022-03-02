@@ -1,5 +1,5 @@
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { TeammatesCommonModule } from '../../teammates-common/teammates-common.module';
 import { McqFieldComponent } from './mcq-field/mcq-field.component';
@@ -10,7 +10,7 @@ describe('McqQuestionEditDetailsFormComponent', () => {
   let component: McqQuestionEditDetailsFormComponent;
   let fixture: ComponentFixture<McqQuestionEditDetailsFormComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         McqQuestionEditDetailsFormComponent,

@@ -67,7 +67,9 @@ export class InstructorStudentListPageComponent implements OnInit {
     this.hasLoadingFailed = false;
     this.isLoadingCourses = true;
     this.courseService.getAllCoursesAsInstructor('active')
-        .pipe(finalize(() => this.isLoadingCourses = false))
+        .pipe(finalize(() => {
+          this.isLoadingCourses = false;
+        }))
         .subscribe((courses: Courses) => {
           courses.courses.forEach((course: Course) => {
             const courseTab: CourseTab = {
@@ -111,7 +113,6 @@ export class InstructorStudentListPageComponent implements OnInit {
     courseTab.hasLoadingFailed = false;
     courseTab.hasStudentLoaded = false;
     this.studentService.getStudentsFromCourse({ courseId: courseTab.course.courseId })
-        .pipe(finalize(() => courseTab.hasStudentLoaded = true))
         .subscribe((students: Students) => {
           courseTab.studentList = []; // Reset the list of students for the course
           const sections: StudentIndexedData = students.students.reduce((acc: StudentIndexedData, x: Student) => {
@@ -122,7 +123,11 @@ export class InstructorStudentListPageComponent implements OnInit {
 
           this.instructorService.loadInstructorPrivilege({
             courseId: courseTab.course.courseId,
-          }).subscribe((instructorPrivilege: InstructorPrivilege) => {
+          })
+          .pipe(finalize(() => {
+            courseTab.hasStudentLoaded = true;
+          }))
+          .subscribe((instructorPrivilege: InstructorPrivilege) => {
             const courseLevelPrivilege: InstructorPermissionSet = instructorPrivilege.privileges.courseLevel;
 
             Object.keys(sections).forEach((sectionName: string) => {
@@ -200,7 +205,7 @@ export class InstructorStudentListPageComponent implements OnInit {
    * Returns a function to determine the order of sort for students.
    */
   sortStudentBy(by: SortBy, order: SortOrder):
-      ((a: StudentListRowModel , b: StudentListRowModel) => number) {
+      ((a: StudentListRowModel, b: StudentListRowModel) => number) {
     const joinStatePipe: JoinStatePipe = new JoinStatePipe();
     if (by === SortBy.NONE) {
       // Default order: section name > team name > student name
