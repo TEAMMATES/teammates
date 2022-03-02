@@ -20,6 +20,9 @@
                              (deleteCurrentQuestionEvent)="deleteExistingQuestionHandler(i)"
                              [(formModel)]="questionEditFormModels[i]"></tm-question-edit-form>
     </div>
+    <p align="right">
+      <button type="button" class="btn btn-info" (click)="scrollUp()">Back to Top <i class="fas fa-chevron-up"></i></button>
+    </p>
   </div>
   <div *tmIsLoading="isAddingFromTemplate"></div>
   <br/>
