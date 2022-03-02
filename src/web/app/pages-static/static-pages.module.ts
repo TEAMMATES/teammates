@@ -30,10 +30,6 @@ const routes: Routes = [
     loadChildren: () => import('./terms-page/terms-page.module').then((m: any) => m.TermsPageModule),
   },
   {
-    path: 'usermap',
-    loadChildren: () => import('./usermap-page/usermap-page.module').then((m: any) => m.UsermapPageModule),
-  },
-  {
     path: 'help',
     children: [
       {
