@@ -157,7 +157,8 @@ public class InstructorFeedbackSessionsPage extends AppPage {
         waitForElementPresence(By.cssSelector("#instructions iframe"));
 
         if (isUsingTemplate) {
-            selectDropdownOptionByText(sessionTypeDropdown, "session using template: team peer evaluation");
+            selectDropdownOptionByText(sessionTypeDropdown,
+                    "session using template: team peer evaluation (percentage-based)");
         } else {
             selectDropdownOptionByText(sessionTypeDropdown, "session with my own questions");
         }
