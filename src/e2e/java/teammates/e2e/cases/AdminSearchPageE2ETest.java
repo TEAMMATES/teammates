@@ -5,6 +5,7 @@ import java.time.Instant;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.AccountRequestAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -43,6 +44,7 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         AccountAttributes studentAccount = testData.accounts.get("student1InCourse1");
         InstructorAttributes instructor = testData.instructors.get("instructor1OfCourse1");
         AccountAttributes instructorAccount = testData.accounts.get("instructor1OfCourse1");
+        AccountRequestAttributes accountRequest = testData.accountRequests.get("instructor1OfCourse1");
 
         ______TS("Typical case: Search student email");
         String searchContent = student.getEmail();
@@ -99,18 +101,27 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         searchPage.verifyRegenerateInstructorKey(instructor, originalJoinLink);
         searchPage.waitForPageToLoad();
 
-        ______TS("Typical case: Search common course id");
+        ______TS("Typical case: Search for account request by email");
         searchPage.clearSearchBox();
-        searchContent = student.getCourse();
+        searchContent = accountRequest.getEmail();
+        searchPage.inputSearchContent(searchContent);
+        searchPage.clickSearchButton();
+        searchPage.verifyAccountRequestRowContent(accountRequest);
+        searchPage.verifyAccountRequestExpandedLinks(accountRequest);
+
+        ______TS("Typical case: Search common search key");
+        searchPage.clearSearchBox();
+        searchContent = "Course1";
         searchPage.inputSearchContent(searchContent);
         searchPage.clickSearchButton();
         searchPage.verifyStudentRowContent(student, studentAccount, studentDetails, studentManageAccountLink,
                 studentHomePageLink);
         searchPage.verifyInstructorRowContent(instructor, instructorAccount, instructorManageAccountLink,
                 instructorHomePageLink);
+        searchPage.verifyAccountRequestRowContent(accountRequest);
 
         ______TS("Typical case: Expand and collapse links");
-        searchPage.verifyLinkExpansionButtons(student, instructor);
+        searchPage.verifyLinkExpansionButtons(student, instructor, accountRequest);
     }
 
     private String getExpectedStudentDetails(StudentAttributes student) {

@@ -1,8 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-
-import { SectionTabModel } from '../../pages-instructor/instructor-session-result-page/instructor-session-result-page.component';
-import { InstructorSessionResultSectionType } from '../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
-import { InstructorSessionResultViewType } from '../../pages-instructor/instructor-session-result-page/instructor-session-result-view-type.enum';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import {
   FeedbackSession,
@@ -11,6 +7,15 @@ import {
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../types/api-output';
+import {
+  SectionTabModel,
+} from '../../pages-instructor/instructor-session-result-page/instructor-session-result-page.component';
+import {
+  InstructorSessionResultSectionType,
+} from '../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
+import {
+  InstructorSessionResultViewType,
+} from '../../pages-instructor/instructor-session-result-page/instructor-session-result-view-type.enum';
 
 /**
  * Displaying the view results panel.
@@ -20,7 +25,7 @@ import {
   templateUrl: './view-results-panel.component.html',
   styleUrls: ['./view-results-panel.component.scss'],
 })
-export class ViewResultsPanelComponent implements OnInit {
+export class ViewResultsPanelComponent {
 
   // enum
   InstructorSessionResultSectionType: typeof InstructorSessionResultSectionType = InstructorSessionResultSectionType;
@@ -88,11 +93,6 @@ export class ViewResultsPanelComponent implements OnInit {
 
   @Output()
   collapseAllTabsEvent: EventEmitter<void> = new EventEmitter<void>();
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
 
   collapseAllTabsHandler(): void {
     this.collapseAllTabsEvent.emit();

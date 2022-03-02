@@ -7,6 +7,7 @@ import { AccountService } from '../services/account.service';
 import { AuthService } from '../services/auth.service';
 import { CourseService } from '../services/course.service';
 import { NavigationService } from '../services/navigation.service';
+import { TimezoneService } from '../services/timezone.service';
 import { AuthInfo, JoinStatus } from '../types/api-output';
 import { ErrorReportComponent } from './components/error-report/error-report.component';
 import { ErrorMessageOutput } from './error-message-output';
@@ -37,6 +38,7 @@ export class UserJoinPageComponent implements OnInit {
               private courseService: CourseService,
               private navigationService: NavigationService,
               private authService: AuthService,
+              private timezoneService: TimezoneService,
               private ngbModal: NgbModal) {}
 
   ngOnInit(): void {
@@ -108,8 +110,10 @@ export class UserJoinPageComponent implements OnInit {
   createAccount(): void {
     this.isLoading = true;
     this.accountService
-      .createAccount(this.key)
-      .pipe(finalize(() => (this.isLoading = false)))
+      .createAccount(this.key, this.timezoneService.guessTimezone())
+      .pipe(finalize(() => {
+        this.isLoading = false;
+      }))
       .subscribe(
         () => {
           this.navigationService.navigateByURL(this.router, '/web/instructor');

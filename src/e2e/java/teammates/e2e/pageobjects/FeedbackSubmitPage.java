@@ -283,7 +283,7 @@ public class FeedbackSubmitPage extends AppPage {
         for (int i = 0; i < optionTexts.size(); i++) {
             if (answers.contains(optionTexts.get(i).getText())) {
                 assertTrue(checkboxes.get(i).isSelected());
-            } else if (optionTexts.get(i).getText().equals("Other")) {
+            } else if ("Other".equals(optionTexts.get(i).getText())) {
                 assertEquals(checkboxes.get(i).isSelected(), responseDetails.isOther());
             } else {
                 assertFalse(checkboxes.get(i).isSelected());
@@ -341,7 +341,7 @@ public class FeedbackSubmitPage extends AppPage {
 
         if (questionDetails.isForceUnevenDistribution()) {
             String entityType = questionDetails.isDistributeToRecipients() ? "recipient" : "option";
-            if (questionDetails.getDistributePointsFor().equals("All options")) {
+            if ("All options".equals(questionDetails.getDistributePointsFor())) {
                 assertEquals(getQuestionForm(qnNumber).findElement(By.id("all-uneven-message")).getText(),
                         "Every " + entityType + " should be allocated different number of points.");
             } else {

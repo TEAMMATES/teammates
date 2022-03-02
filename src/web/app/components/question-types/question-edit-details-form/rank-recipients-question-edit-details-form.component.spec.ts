@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { FormsModule } from '@angular/forms';
 import { RankRecipientsQuestionEditDetailsFormComponent } from './rank-recipients-question-edit-details-form.component';
@@ -7,7 +7,7 @@ describe('RankRecipientsQuestionEditDetailsFormComponent', () => {
   let component: RankRecipientsQuestionEditDetailsFormComponent;
   let fixture: ComponentFixture<RankRecipientsQuestionEditDetailsFormComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [RankRecipientsQuestionEditDetailsFormComponent],
       imports: [

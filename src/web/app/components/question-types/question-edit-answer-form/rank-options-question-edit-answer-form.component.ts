@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FeedbackRankOptionsQuestionDetails, FeedbackRankOptionsResponseDetails } from '../../../../types/api-output';
 import {
   DEFAULT_RANK_OPTIONS_QUESTION_DETAILS,
@@ -16,16 +16,13 @@ import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
   styleUrls: ['./rank-options-question-edit-answer-form.component.scss'],
 })
 export class RankOptionsQuestionEditAnswerFormComponent
-    extends QuestionEditAnswerFormComponent<FeedbackRankOptionsQuestionDetails, FeedbackRankOptionsResponseDetails>
-    implements OnInit {
+    extends QuestionEditAnswerFormComponent<FeedbackRankOptionsQuestionDetails, FeedbackRankOptionsResponseDetails> {
 
   readonly RANK_OPTIONS_ANSWER_NOT_SUBMITTED: number = RANK_OPTIONS_ANSWER_NOT_SUBMITTED;
 
   constructor() {
     super(DEFAULT_RANK_OPTIONS_QUESTION_DETAILS(), DEFAULT_RANK_OPTIONS_RESPONSE_DETAILS());
   }
-
-  ngOnInit(): void {}
 
   /**
    * Populates the possible Ranks that can be assigned.

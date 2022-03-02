@@ -4,7 +4,7 @@ exports[`QuestionTextWithInfoComponent should not show control link and question
 <tm-question-text-with-info
   FeedbackQuestionType={[Function Object]}
   additionalInfoIsExpanded="false"
-  downloadQuestionResultEvent={[Function EventEmitter]}
+  downloadQuestionResultEvent={[Function EventEmitter_]}
   questionDetails={[Function Object]}
   questionNumber="0"
   shouldShowDownloadQuestionResult="false"
@@ -12,8 +12,6 @@ exports[`QuestionTextWithInfoComponent should not show control link and question
   <span
     class="d-inline-flex row align-items-center no-gutters"
   >
-    
-    
     <span
       class="col-auto"
     >
@@ -27,7 +25,6 @@ exports[`QuestionTextWithInfoComponent should not show control link and question
     >
        Text question details
     </span>
-    
   </span>
 </tm-question-text-with-info>
 `;
@@ -36,7 +33,7 @@ exports[`QuestionTextWithInfoComponent should show control link when question ty
 <tm-question-text-with-info
   FeedbackQuestionType={[Function Object]}
   additionalInfoIsExpanded="false"
-  downloadQuestionResultEvent={[Function EventEmitter]}
+  downloadQuestionResultEvent={[Function EventEmitter_]}
   questionDetails={[Function Object]}
   questionNumber="0"
   shouldShowDownloadQuestionResult="false"
@@ -44,8 +41,6 @@ exports[`QuestionTextWithInfoComponent should show control link when question ty
   <span
     class="d-inline-flex row align-items-center no-gutters"
   >
-    
-    
     <span
       class="col-auto"
     >
@@ -59,7 +54,6 @@ exports[`QuestionTextWithInfoComponent should show control link when question ty
     >
        MCQ question details
     </span>
-    
     <a
       class="info-font-size ml-1"
       href="/"
@@ -76,7 +70,7 @@ exports[`QuestionTextWithInfoComponent should show question detail when click co
 <tm-question-text-with-info
   FeedbackQuestionType={[Function Object]}
   additionalInfoIsExpanded={[Function Boolean]}
-  downloadQuestionResultEvent={[Function EventEmitter]}
+  downloadQuestionResultEvent={[Function EventEmitter_]}
   questionDetails={[Function Object]}
   questionNumber="0"
   shouldShowDownloadQuestionResult="false"
@@ -84,8 +78,6 @@ exports[`QuestionTextWithInfoComponent should show question detail when click co
   <span
     class="d-inline-flex row align-items-center no-gutters"
   >
-    
-    
     <span
       class="col-auto"
     >
@@ -99,7 +91,6 @@ exports[`QuestionTextWithInfoComponent should show question detail when click co
     >
        MCQ question details
     </span>
-    
     <a
       class="info-font-size ml-1"
       href="/"
@@ -112,32 +103,17 @@ exports[`QuestionTextWithInfoComponent should show question detail when click co
     class="info-font-size"
     id="additional-info"
   >
-    
-    
-    
     <tm-mcq-question-additional-info>
       Multiple-choice (single answer) question options:
-  
-      
-      
       <ul>
-        
         <li>
           a
         </li>
         <li>
           b
         </li>
-        
       </ul>
     </tm-mcq-question-additional-info>
-    
-    
-    
-    
-    
-    
-    
   </div>
 </tm-question-text-with-info>
 `;

@@ -10,7 +10,8 @@
       "prefix": "tm",
       "schematics": {
         "@schematics/angular:component": {
-          "style": "scss"
+          "style": "scss",
+          "strict": true
         }
       },
       "architect": {
@@ -22,7 +23,10 @@
             "main": "src/web/main.ts",
             "polyfills": "src/web/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
-            "aot": true,
+            "allowedCommonJsDependencies": [
+              "core-js",
+              "moment-timezone"
+            ],
             "assets": [
               "src/web/assets/"
             ],
@@ -51,15 +55,16 @@
                 "src/web/sitemap.xml",
                 "src/web/manifest.webmanifest"
               ],
-              "optimization": true,
+              "optimization": {
+                "scripts": true,
+                "styles": {
+                  "minify": true,
+                  "inlineCritical": false
+                },
+                "fonts": true
+              },
               "outputHashing": "all",
-              "sourceMap": false,
-              "extractCss": true,
-              "namedChunks": true,
-              "aot": true,
-              "extractLicenses": false,
-              "vendorChunk": true,
-              "buildOptimizer": true,
+              "subresourceIntegrity": true,
               "serviceWorker": true,
               "ngswConfigPath": "ngsw-config.json",
               "budgets": [
@@ -74,19 +79,29 @@
                   "maximumError": "10kb"
                 }
               ]
+            },
+            "development": {
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "buildOptimizer": false,
+              "sourceMap": true,
+              "optimization": false,
+              "namedChunks": true
             }
-          }
+          },
+          "defaultConfiguration": "production"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
-          "options": {
-            "browserTarget": "teammates:build"
-          },
           "configurations": {
             "production": {
               "browserTarget": "teammates:build:production"
+            },
+            "development": {
+              "browserTarget": "teammates:build:development"
             }
-          }
+          },
+          "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
@@ -101,19 +116,19 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "tsconfig.app.json",
-              "tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
             ]
           }
         }
       }
     }
   },
-  "defaultProject": "teammates"
+  "defaultProject": "teammates",
+  "cli": {
+    "defaultCollection": "@angular-eslint/schematics"
+  }
 }

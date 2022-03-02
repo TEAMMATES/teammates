@@ -24,6 +24,10 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11
+      - name: Setup firefox #temporary fix for https://github.com/TEAMMATES/teammates/issues/11591
+        uses: browser-actions/setup-firefox@latest
+        with:
+          firefox-version: '96.0.3'
       - name: Cache Gradle packages
         uses: actions/cache@v2
         with:
@@ -42,7 +46,7 @@ jobs:
       - name: Install Frontend Dependencies
         run: npm ci 
       - name: Build Frontend Bundle 
-        run: npm run build -- --progress=false --serviceWorker=false 
+        run: npm run build
       - name: Start Server
         run: |
           ./gradlew serverRun &

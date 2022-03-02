@@ -62,7 +62,7 @@ export class PageComponent {
    */
   minimumVersions: Record<string, number> = {
     Chrome: 45,
-    IE: 10,
+    IE: 11,
     Firefox: 40,
     Safari: 7,
     Edge: 44,

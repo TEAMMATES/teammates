@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NgbProgressbarModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { LoaderBarComponent } from './loader-bar.component';
@@ -7,7 +7,7 @@ describe('LoaderBarComponent', () => {
   let component: LoaderBarComponent;
   let fixture: ComponentFixture<LoaderBarComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [LoaderBarComponent],
       imports: [NgbProgressbarModule],

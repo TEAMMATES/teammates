@@ -16,9 +16,33 @@
 }
 
 .logs-table {
-  table-layout: fixed;
+  display: flex;
+  flex-flow: column;
   width: 100%;
   word-break: break-all;
+  max-height: 90vh;
+
+  thead {
+    flex: 0 0 auto;
+    display: table;
+    table-layout: fixed;
+  }
+
+  tbody {
+    flex: 1 1 auto;
+    display: block;
+    overflow-y: scroll;
+
+    tr {
+      width: 100%;
+      display: table;
+      table-layout: fixed;
+
+      &:first-child td {
+        border-top: 0;
+      }
+    }
+  }
 }
 
 .wrap {

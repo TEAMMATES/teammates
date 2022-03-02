@@ -19,7 +19,7 @@ describe('getTextFromHtml', () => {
   });
 
   it('should replace line breaks \\n\\r', () => {
-    expect(StringHelper.getTextFromHtml('<p>I am cool.\r\n multi-line <\p>'))
+    expect(StringHelper.getTextFromHtml('<p>I am cool.\r\n multi-line </p>'))
         .toEqual('I am cool.  multi-line ');
   });
 });

@@ -1226,6 +1226,22 @@
       "isCommentFromFeedbackParticipant": true,
       "createdAt": "2026-03-02T23:59:00Z",
       "commentText": "Alice comment to Benny"
+    },
+    "qn4Comment1": {
+      "courseId": "tm.e2e.FRes.CS2104",
+      "feedbackSessionName": "First Session",
+      "feedbackQuestionId": "4",
+      "commentGiver": "FRes.danny.e@gmail.tmt",
+      "giverSection": "None",
+      "receiverSection": "None",
+      "feedbackResponseId": "4%FRes.danny.e@gmail.tmt%%GENERAL%",
+      "showCommentTo": [],
+      "showGiverNameTo": [],
+      "commentGiverType": "STUDENTS",
+      "isVisibilityFollowingFeedbackQuestion": true,
+      "isCommentFromFeedbackParticipant": true,
+      "createdAt": "2026-03-02T23:59:00Z",
+      "commentText": "Danny comment"
     }
   },
   "profiles": {}

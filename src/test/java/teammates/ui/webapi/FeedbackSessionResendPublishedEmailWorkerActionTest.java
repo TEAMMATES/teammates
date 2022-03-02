@@ -51,21 +51,23 @@ public class FeedbackSessionResendPublishedEmailWorkerActionTest
         };
 
         FeedbackSessionRemindRequest remindRequest = new FeedbackSessionRemindRequest(publishedSession.getCourseId(),
-                publishedSession.getFeedbackSessionName(), null, usersToRemind);
+                publishedSession.getFeedbackSessionName(), instructor1.getGoogleId(), usersToRemind);
 
         FeedbackSessionResendPublishedEmailWorkerAction action = getAction(remindRequest);
         action.execute();
 
-        // send 2 emails as specified in the submission parameters
-        verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 2);
+        // send 2 emails + 1 notification as specified in the submission parameters
+        verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 3);
 
         String courseName = logic.getCourse(publishedSession.getCourseId()).getName();
         List<TaskWrapper> tasksAdded = mockTaskQueuer.getTasksAdded();
         for (TaskWrapper task : tasksAdded) {
             SendEmailRequest requestBody = (SendEmailRequest) task.getRequestBody();
             EmailWrapper email = requestBody.getEmail();
-            assertEquals(String.format(EmailType.FEEDBACK_PUBLISHED.getSubject(), courseName,
-                    publishedSession.getFeedbackSessionName()), email.getSubject());
+            String expectedSubject = (email.getIsCopy() ? EmailWrapper.EMAIL_COPY_SUBJECT_PREFIX : "")
+                    + String.format(EmailType.FEEDBACK_PUBLISHED.getSubject(),
+                    courseName, publishedSession.getFeedbackSessionName());
+            assertEquals(expectedSubject, email.getSubject());
             String recipient = email.getRecipient();
             assertTrue(recipient.equals(student1.getEmail()) || recipient.equals(instructor1.getEmail()));
         }

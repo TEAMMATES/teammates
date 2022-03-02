@@ -89,7 +89,7 @@ public final class StringHelper {
                     new SecretKeySpec(hexStringToByteArray(Config.ENCRYPTION_KEY), "HmacSHA1");
             Mac mac = Mac.getInstance("HmacSHA1");
             mac.init(signingKey);
-            byte[] value = mac.doFinal(data.getBytes());
+            byte[] value = mac.doFinal(data.getBytes(Const.ENCODING));
             return byteArrayToHexString(value);
         } catch (Exception e) {
             assert false;
@@ -123,7 +123,7 @@ public final class StringHelper {
             SecretKeySpec sks = new SecretKeySpec(hexStringToByteArray(Config.ENCRYPTION_KEY), "AES");
             Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
             cipher.init(Cipher.ENCRYPT_MODE, sks, cipher.getParameters());
-            byte[] encrypted = cipher.doFinal(value.getBytes());
+            byte[] encrypted = cipher.doFinal(value.getBytes(Const.ENCODING));
             return byteArrayToHexString(encrypted);
         } catch (Exception e) {
             assert false;
@@ -145,7 +145,7 @@ public final class StringHelper {
             Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
             cipher.init(Cipher.DECRYPT_MODE, sks);
             byte[] decrypted = cipher.doFinal(hexStringToByteArray(message));
-            return new String(decrypted);
+            return new String(decrypted, Const.ENCODING);
         } catch (NumberFormatException | IllegalBlockSizeException | BadPaddingException e) {
             log.warning("Attempted to decrypt invalid ciphertext: " + message);
             throw new InvalidParametersException(e);

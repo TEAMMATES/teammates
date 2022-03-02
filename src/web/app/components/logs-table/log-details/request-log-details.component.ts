@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { GeneralLogEntry, LogEvent, RequestLogDetails, RequestLogUser } from '../../../../types/api-output';
 
 /**
@@ -9,7 +9,7 @@ import { GeneralLogEntry, LogEvent, RequestLogDetails, RequestLogUser } from '..
   templateUrl: './request-log-details.component.html',
   styleUrls: ['./request-log-details.component.scss', './log-details.component.scss'],
 })
-export class RequestLogDetailsComponent implements OnInit {
+export class RequestLogDetailsComponent {
 
   logValue!: GeneralLogEntry;
   details!: RequestLogDetails;
@@ -42,9 +42,6 @@ export class RequestLogDetailsComponent implements OnInit {
 
       this.details = details;
     }
-  }
-
-  ngOnInit(): void {
   }
 
   addUserInfoToFilter(userInfo: RequestLogUser): void {

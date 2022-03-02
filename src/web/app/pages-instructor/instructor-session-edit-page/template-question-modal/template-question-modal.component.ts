@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FeedbackQuestionsService, TemplateQuestion } from '../../../../services/feedback-questions.service';
 import { FeedbackQuestion } from '../../../../types/api-output';
@@ -22,7 +22,7 @@ interface TemplateQuestionModel {
   styleUrls: ['./template-question-modal.component.scss'],
   animations: [collapseAnim],
 })
-export class TemplateQuestionModalComponent implements OnInit {
+export class TemplateQuestionModalComponent {
 
   templateQuestionModels: TemplateQuestionModel[] = [];
 
@@ -63,9 +63,6 @@ export class TemplateQuestionModalComponent implements OnInit {
             isQuestionDetailsChanged: false,
           },
         }));
-  }
-
-  ngOnInit(): void {
   }
 
   get hasAnyTemplateQuestionSelected(): boolean {

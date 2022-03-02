@@ -42,10 +42,10 @@ public final class Templates {
                 FileHelper.readResourceFile("studentEmailFragment-googleIdReset.html");
         public static final String FRAGMENT_STUDENT_COURSE_REJOIN_AFTER_REGKEY_RESET =
                 FileHelper.readResourceFile("studentEmailFragment-registrationKeyReset.html");
+        public static final String FRAGMENT_INSTRUCTOR_COPY_PREAMBLE =
+                FileHelper.readResourceFile("instructorEmailFragment-instructorCopyPreamble.html");
         public static final String FRAGMENT_INSTRUCTOR_COURSE_JOIN =
                 FileHelper.readResourceFile("instructorEmailFragment-courseJoin.html");
-        public static final String FRAGMENT_INSTRUCTOR_COURSE_JOIN_REMINDER =
-                FileHelper.readResourceFile("instructorEmailFragment-reminderToJoinCourseBeforeSubmittingResponse.html");
         public static final String FRAGMENT_INSTRUCTOR_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET =
                 FileHelper.readResourceFile("instructorEmailFragment-googleIdReset.html");
         public static final String FRAGMENT_INSTRUCTOR_COURSE_REJOIN_AFTER_REGKEY_RESET =

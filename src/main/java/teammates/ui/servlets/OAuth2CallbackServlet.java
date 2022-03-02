@@ -80,8 +80,8 @@ public class OAuth2CallbackServlet extends AuthServlet {
 
             Map<String, Object> parsedResponse =
                     JsonUtils.fromJson(userInfoResponse, new TypeToken<Map<String, Object>>(){}.getType());
-            String email = String.valueOf(parsedResponse.get("email"));
-            if (email != null) {
+            if (parsedResponse.containsKey("email")) {
+                String email = String.valueOf(parsedResponse.get("email"));
                 googleId = email.replaceFirst("@gmail\\.com$", "");
             }
         } catch (URISyntaxException | IOException | JsonSyntaxException e) {

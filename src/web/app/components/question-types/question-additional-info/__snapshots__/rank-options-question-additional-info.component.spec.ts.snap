@@ -6,7 +6,6 @@ exports[`RankOptionsQuestionAdditionalInfoComponent should show options 1`] = `
 >
   Rank (options) question options:
   <ul>
-    
     <li>
       1
     </li>
@@ -26,7 +25,6 @@ exports[`RankOptionsQuestionAdditionalInfoComponent should snap with default vie
 >
   Rank (options) question options:
   <ul>
-    
   </ul>
 </tm-rank-options-question-additional-info>
 `;

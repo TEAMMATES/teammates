@@ -3,15 +3,7 @@ import { finalize } from 'rxjs/operators';
 import { AccountService } from '../../../services/account.service';
 import { JoinLink } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
-
-interface InstructorData {
-  name: string;
-  email: string;
-  institution: string;
-  status: string;
-  joinLink?: string;
-  message?: string;
-}
+import { InstructorData } from './instructor-data';
 
 /**
  * Admin home page.
@@ -57,6 +49,7 @@ export class AdminHomePageComponent {
         email: instructorDetailSplit[1],
         institution: instructorDetailSplit[2],
         status: 'PENDING',
+        isCurrentlyBeingEdited: false,
       });
     }
     this.instructorDetails = invalidLines.join('\r\n');
@@ -75,6 +68,7 @@ export class AdminHomePageComponent {
       email: this.instructorEmail,
       institution: this.instructorInstitution,
       status: 'PENDING',
+      isCurrentlyBeingEdited: false,
     });
     this.instructorName = '';
     this.instructorEmail = '';
@@ -86,7 +80,8 @@ export class AdminHomePageComponent {
    */
   addInstructor(i: number): void {
     const instructor: InstructorData = this.instructorsConsolidated[i];
-    if (instructor.status !== 'PENDING' && instructor.status !== 'FAIL') {
+    if (this.instructorsConsolidated[i].isCurrentlyBeingEdited
+      || (instructor.status !== 'PENDING' && instructor.status !== 'FAIL')) {
       return;
     }
     this.activeRequests += 1;
@@ -98,7 +93,9 @@ export class AdminHomePageComponent {
       instructorName: instructor.name,
       instructorInstitution: instructor.institution,
     })
-        .pipe(finalize(() => this.isAddingInstructors = false))
+        .pipe(finalize(() => {
+          this.isAddingInstructors = false;
+        }))
         .subscribe((resp: JoinLink) => {
           instructor.status = 'SUCCESS';
           instructor.joinLink = resp.joinLink;
@@ -111,10 +108,20 @@ export class AdminHomePageComponent {
   }
 
   /**
-   * Cancels the instructor at the i-th index.
+   * Removes the instructor at the i-th index.
    */
-  cancelInstructor(i: number): void {
+  removeInstructor(i: number): void {
     this.instructorsConsolidated.splice(i, 1);
+  }
+
+  /**
+   * Sets the i-th instructor data row's edit mode status.
+   *
+   * @param i The index.
+   * @param isEnabled Whether the edit mode status is enabled.
+   */
+  setInstructorRowEditModeEnabled(i: number, isEnabled: boolean): void {
+    this.instructorsConsolidated[i].isCurrentlyBeingEdited = isEnabled;
   }
 
   /**

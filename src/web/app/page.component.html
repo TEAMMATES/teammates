@@ -58,7 +58,7 @@
         </ol>
       </div>
     </div>
-    <div *ngIf="!(isNetworkOnline$ | async)">
+    <div *ngIf="(isNetworkOnline$ | async) === false">
       <div class="alert alert-danger" role="alert">
         <i class="fas fa-wifi"></i>&nbsp;You are not connected to the internet.
       </div>

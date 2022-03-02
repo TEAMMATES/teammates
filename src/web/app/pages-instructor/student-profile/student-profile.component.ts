@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Gender, StudentProfile } from '../../../types/api-output';
 
 /**
@@ -9,16 +9,11 @@ import { Gender, StudentProfile } from '../../../types/api-output';
   templateUrl: './student-profile.component.html',
   styleUrls: ['./student-profile.component.scss'],
 })
-export class StudentProfileComponent implements OnInit {
+export class StudentProfileComponent {
   Gender: typeof Gender = Gender; // enum
 
   @Input() photoUrl: string = '/assets/images/profile_picture_default.png';
   @Input() studentProfile: StudentProfile | undefined;
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
 
   /**
    * Sets the profile picture of a student as the default image.

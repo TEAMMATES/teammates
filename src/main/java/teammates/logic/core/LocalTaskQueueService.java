@@ -3,7 +3,6 @@ package teammates.logic.core;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -42,7 +41,7 @@ public class LocalTaskQueueService implements TaskQueueService {
 
         if (task.getRequestBody() != null) {
             StringEntity entity = new StringEntity(
-                    JsonUtils.toCompactJson(task.getRequestBody()), Charset.forName(Const.ENCODING));
+                    JsonUtils.toCompactJson(task.getRequestBody()), Const.ENCODING);
             post.setEntity(entity);
         }
 

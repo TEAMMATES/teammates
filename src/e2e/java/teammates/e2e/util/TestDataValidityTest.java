@@ -20,6 +20,8 @@ import teammates.common.util.JsonUtils;
 import teammates.test.BaseTestCase;
 import teammates.test.FileHelper;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Checks for test data validity.
  *
@@ -40,6 +42,8 @@ import teammates.test.FileHelper;
 public class TestDataValidityTest extends BaseTestCase {
 
     @Test
+    @SuppressFBWarnings("RCN_REDUNDANT_NULLCHECK_WOULD_HAVE_BEEN_A_NPE")
+    // SpotBugs false positive: https://github.com/spotbugs/spotbugs/issues/1694
     public void checkTestDataValidity() throws IOException {
         Map<String, List<String>> errors = new HashMap<>();
         try (Stream<Path> paths = Files.walk(Paths.get(TestProperties.TEST_DATA_FOLDER))) {
@@ -50,6 +54,9 @@ public class TestDataValidityTest extends BaseTestCase {
                     jsonString = FileHelper.readFile(pathString);
                 } catch (IOException e) {
                     errors.put(pathString, Collections.singletonList("Error reading file: " + e.getMessage()));
+                    return;
+                }
+                if (path.getFileName() == null) {
                     return;
                 }
 
@@ -125,6 +132,13 @@ public class TestDataValidityTest extends BaseTestCase {
                     if (response.getRecipient().contains("@") && !isValidTestEmail(response.getRecipient())) {
                         errors.computeIfAbsent(pathString, k -> new ArrayList<>())
                                 .add("Invalid response recipient email: " + response.getRecipient());
+                    }
+                });
+
+                dataBundle.accountRequests.forEach((id, accountRequest) -> {
+                    if (!isValidTestEmail(accountRequest.getEmail())) {
+                        errors.computeIfAbsent(pathString, k -> new ArrayList<>())
+                                .add("Invalid account request email: " + accountRequest.getEmail());
                     }
                 });
             });

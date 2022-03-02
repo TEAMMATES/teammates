@@ -18,7 +18,7 @@ public class StudentHomePage extends AppPage {
 
     @Override
     protected boolean containsExpectedPageContents() {
-        return getPageTitle().equals("Student Home");
+        return "Student Home".equals(getPageTitle());
     }
 
     private List<WebElement> getStudentHomeCoursePanels() {

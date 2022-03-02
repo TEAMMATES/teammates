@@ -1,6 +1,6 @@
 import {
   FeedbackMsqQuestionDetails,
-  FeedbackMsqResponseDetails as FeedbackMsqResponseDetails,
+  FeedbackMsqResponseDetails,
   FeedbackQuestionType,
 } from '../api-output';
 import { AbstractFeedbackResponseDetails } from './abstract-feedback-response-details';

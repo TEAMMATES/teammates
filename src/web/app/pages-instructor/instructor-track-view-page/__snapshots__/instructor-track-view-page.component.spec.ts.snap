@@ -53,7 +53,6 @@ exports[`InstructorTrackViewPageComponent should snap when page is still loading
       </div>
     </div>
   </tm-loading-spinner><div>
-    
   </div>
 </tm-instructor-track-view-page>
 `;
@@ -133,7 +132,6 @@ exports[`InstructorTrackViewPageComponent should snap when searching for details
               >
                 Select Course ID
               </option>
-              
               <option>
                  CS1234 
               </option>
@@ -163,7 +161,6 @@ exports[`InstructorTrackViewPageComponent should snap when searching for details
               class="form-control col-md-12 ng-untouched ng-pristine ng-valid"
               id="session-dropdown"
             >
-              
               <option
                 value="First Session"
               >
@@ -256,7 +253,6 @@ exports[`InstructorTrackViewPageComponent should snap with default fields 1`] = 
       </div>
     </div>
   </tm-loading-spinner><div>
-    
   </div>
 </tm-instructor-track-view-page>
 `;
@@ -336,7 +332,6 @@ exports[`InstructorTrackViewPageComponent should snap with results of a search 1
               >
                 Select Course ID
               </option>
-              
             </select>
           </div>
         </div>
@@ -360,7 +355,6 @@ exports[`InstructorTrackViewPageComponent should snap with results of a search 1
               class="form-control col-md-12 ng-untouched ng-pristine ng-valid"
               id="session-dropdown"
             >
-              
             </select>
           </div>
         </div>
@@ -378,7 +372,6 @@ exports[`InstructorTrackViewPageComponent should snap with results of a search 1
       </div>
     </div>
   </div><div>
-    
   </div>
 </tm-instructor-track-view-page>
 `;

@@ -16,7 +16,7 @@ interface ContributionStatisticsEntryExt extends ContributionStatisticsEntry {
  * Class to calculate stats for contribution question.
  */
 @Directive()
-// tslint:disable-next-line:directive-class-suffix
+// eslint-disable-next-line @angular-eslint/directive-class-suffix
 export class ContributionQuestionStatisticsCalculation
     extends QuestionStatistics<FeedbackContributionQuestionDetails, FeedbackContributionResponseDetails> {
 
@@ -27,10 +27,6 @@ export class ContributionQuestionStatisticsCalculation
   emailToDiff: Record<string, number> = {};
   questionOverallStatistics?: ContributionStatistics;
   questionStatisticsForStudent?: ContributionStatisticsEntryExt;
-
-  constructor(question: FeedbackContributionQuestionDetails) {
-    super(question);
-  }
 
   parseStatistics(): void {
     this.emailToTeamName = {};

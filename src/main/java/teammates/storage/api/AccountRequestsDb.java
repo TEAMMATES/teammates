@@ -2,6 +2,8 @@ package teammates.storage.api;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -11,7 +13,10 @@ import com.googlecode.objectify.cmd.LoadType;
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.SearchServiceException;
 import teammates.storage.entity.AccountRequest;
+import teammates.storage.search.AccountRequestSearchManager;
+import teammates.storage.search.SearchManagerFactory;
 
 /**
  * Handles CRUD operations for account requests.
@@ -29,6 +34,32 @@ public final class AccountRequestsDb extends EntitiesDb<AccountRequest, AccountR
 
     public static AccountRequestsDb inst() {
         return instance;
+    }
+
+    private AccountRequestSearchManager getSearchManager() {
+        return SearchManagerFactory.getAccountRequestSearchManager();
+    }
+
+    /**
+     * Creates or updates search document for the given account request.
+     */
+    public void putDocument(AccountRequestAttributes accountRequest) throws SearchServiceException {
+        getSearchManager().putDocument(accountRequest);
+    }
+
+    /**
+     * Searches all account requests in the system.
+     *
+     * <p>This is used by admin to search account requests in the whole system.
+     */
+    public List<AccountRequestAttributes> searchAccountRequestsInWholeSystem(String queryString)
+            throws SearchServiceException {
+
+        if (queryString.trim().isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        return getSearchManager().searchAccountRequests(queryString);
     }
 
     /**
@@ -102,7 +133,15 @@ public final class AccountRequestsDb extends EntitiesDb<AccountRequest, AccountR
         assert email != null;
         assert institute != null;
 
+        deleteDocumentByAccountRequestId(AccountRequest.generateId(email, institute));
         deleteEntity(Key.create(AccountRequest.class, AccountRequest.generateId(email, institute)));
+    }
+
+    /**
+     * Removes search document for the given account request by using {@code accountRequestUniqueId}.
+     */
+    public void deleteDocumentByAccountRequestId(String accountRequestUniqueId) {
+        getSearchManager().deleteDocuments(Collections.singletonList(accountRequestUniqueId));
     }
 
     @Override

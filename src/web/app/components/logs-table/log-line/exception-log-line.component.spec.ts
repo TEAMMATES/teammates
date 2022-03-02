@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { ExceptionLogLineComponent } from './exception-log-line.component';
 
@@ -6,7 +6,7 @@ describe('ExceptionLogLineComponent', () => {
   let component: ExceptionLogLineComponent;
   let fixture: ComponentFixture<ExceptionLogLineComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ExceptionLogLineComponent],
     })

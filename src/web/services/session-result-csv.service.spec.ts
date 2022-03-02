@@ -13,6 +13,7 @@ import { SessionResultCsvService } from './session-result-csv.service';
  * Loads data for testing.
  */
 const loadTestData: (filename: string) => SessionResults = (filename: string): SessionResults => {
+  // eslint-disable-next-line import/no-dynamic-require,global-require
   return require(`./test-data/${filename}`);
 };
 
@@ -20,7 +21,7 @@ const loadTestData: (filename: string) => SessionResults = (filename: string): S
  * Substitutes values that are different across different properties configuration.
  */
 const replaceUnpredictableValuesWithPlaceholders: (str: string) => string = (str: string): string => {
-  // tslint:disable-next-line:no-invalid-template-strings
+  // eslint-disable-next-line no-template-curly-in-string
   return str.replace(/Anonymous (student|instructor|team) [0-9]{1,10}/g, 'Anonymous $1 ${participant.hash}');
 };
 
@@ -50,7 +51,9 @@ describe('SessionResultCsvService', () => {
         HttpClientTestingModule,
       ],
     });
+  });
 
+  it('should be created', () => {
     service = TestBed.inject(SessionResultCsvService);
     expect(service).toBeTruthy();
   });

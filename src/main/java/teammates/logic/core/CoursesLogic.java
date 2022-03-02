@@ -161,7 +161,7 @@ public final class CoursesLogic {
 
         Set<String> sectionNameSet = new HashSet<>();
         for (StudentAttributes sd : studentDataList) {
-            if (!sd.getSection().equals(Const.DEFAULT_SECTION)) {
+            if (!Const.DEFAULT_SECTION.equals(sd.getSection())) {
                 sectionNameSet.add(sd.getSection());
             }
         }

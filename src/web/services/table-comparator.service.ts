@@ -10,8 +10,6 @@ import { SortBy, SortOrder } from '../types/sort-properties';
 })
 export class TableComparatorService {
 
-  constructor() { }
-
   /**
    * Compares two strings which are expected to be dates depending on order given.
    * If either string cannot be parsed into a date, it will be seen as 'smaller'.

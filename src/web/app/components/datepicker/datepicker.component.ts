@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgbCalendar, NgbInputDatepicker } from '@ng-bootstrap/ng-bootstrap';
 
 /**
@@ -9,7 +9,7 @@ import { NgbCalendar, NgbInputDatepicker } from '@ng-bootstrap/ng-bootstrap';
   templateUrl: './datepicker.component.html',
   styleUrls: ['./datepicker.component.scss'],
 })
-export class DatepickerComponent implements OnInit {
+export class DatepickerComponent {
 
   @Input()
   date: DateFormat | undefined;
@@ -27,9 +27,6 @@ export class DatepickerComponent implements OnInit {
   dateChangeCallback: EventEmitter<DateFormat> = new EventEmitter<DateFormat>();
 
   constructor(public calendar: NgbCalendar) { }
-
-  ngOnInit(): void {
-  }
 
   changeDate(date: DateFormat): void {
     this.dateChangeCallback.emit(date);

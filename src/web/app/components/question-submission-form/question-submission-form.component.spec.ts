@@ -1,6 +1,5 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {
@@ -20,7 +19,10 @@ import { QuestionInstructionModule } from '../question-types/question-instructio
 import { RichTextEditorModule } from '../rich-text-editor/rich-text-editor.module';
 import { TeammatesCommonModule } from '../teammates-common/teammates-common.module';
 import { VisibilityMessagesModule } from '../visibility-messages/visibility-messages.module';
-import { FeedbackResponseRecipientSubmissionFormModel, QuestionSubmissionFormModel } from './question-submission-form-model';
+import {
+  FeedbackResponseRecipientSubmissionFormModel,
+  QuestionSubmissionFormModel,
+} from './question-submission-form-model';
 import { QuestionSubmissionFormComponent } from './question-submission-form.component';
 import { RecipientTypeNamePipe } from './recipient-type-name.pipe';
 
@@ -91,7 +93,7 @@ describe('QuestionSubmissionFormComponent', () => {
   let component: QuestionSubmissionFormComponent;
   let fixture: ComponentFixture<QuestionSubmissionFormComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         QuestionSubmissionFormComponent,
