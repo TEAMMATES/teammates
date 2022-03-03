@@ -65,9 +65,6 @@ export class QuestionStatistics<Q extends FeedbackQuestionDetails, R extends Fee
     }
 
     return JSON.stringify(prevStatsJSON);
-  }
-
-  ngOnInit(): void {
-  }
+  };
 
 }
