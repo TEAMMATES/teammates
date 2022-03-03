@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import {
   FeedbackMsqQuestionDetails,
@@ -13,7 +13,7 @@ describe('MsqQuestionAdditionalInfoComponent', () => {
   let component: MsqQuestionAdditionalInfoComponent;
   let fixture: ComponentFixture<MsqQuestionAdditionalInfoComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [MsqQuestionAdditionalInfoComponent],
       imports: [TeammatesCommonModule],

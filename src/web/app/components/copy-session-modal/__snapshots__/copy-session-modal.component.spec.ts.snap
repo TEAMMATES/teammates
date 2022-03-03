@@ -60,7 +60,6 @@ exports[`CopySessionModalComponent should snap with default fields 1`] = `
             64 characters left
           </span>
         </div>
-        
       </div>
     </div>
   </div><div
@@ -144,7 +143,6 @@ exports[`CopySessionModalComponent should snap with some session and courses can
             52 characters left
           </span>
         </div>
-        
         <div
           class="form-check"
         >
@@ -163,7 +161,6 @@ exports[`CopySessionModalComponent should snap with some session and courses can
               Test01
             </span>
             ] : Sample Course 101 
-            
             <span
               class="text-danger"
             >
@@ -187,7 +184,6 @@ exports[`CopySessionModalComponent should snap with some session and courses can
               Test02
             </span>
             ] : Sample Course 202 
-            
           </label>
         </div>
       </div>

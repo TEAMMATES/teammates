@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { LogDetailsModule } from './log-details/log-details.module';
 import { LogLineModule } from './log-line/log-line.module';
@@ -8,7 +8,7 @@ describe('LogsTableComponent', () => {
   let component: LogsTableComponent;
   let fixture: ComponentFixture<LogsTableComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [LogsTableComponent],
       imports: [LogLineModule, LogDetailsModule],

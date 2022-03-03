@@ -5,7 +5,7 @@ import {
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../../types/api-output';
-import { CommentRowMode } from '../../comment-box/comment-row/comment-row.component';
+import { CommentRowMode } from '../../comment-box/comment-row/comment-row.mode';
 import { CommentTableModel } from '../../comment-box/comment-table/comment-table.component';
 import { InstructorResponsesViewBase } from '../instructor-responses-view-base';
 
@@ -46,10 +46,6 @@ export class GroupedResponsesComponent extends InstructorResponsesViewBase imple
 
   hasRealResponses: boolean = false;
 
-  constructor() {
-    super();
-  }
-
   ngOnInit(): void {
     this.hasRealResponses = this.responses.some((question: QuestionOutput) =>
         question.allResponses.some((response: ResponseOutput) => !response.isMissingResponse));
@@ -58,10 +54,10 @@ export class GroupedResponsesComponent extends InstructorResponsesViewBase imple
   get teamInfo(): Record<string, string> {
     const team: Record<string, string> = {};
     const recipientTeamName: string = this.responses[0].allResponses[0].recipientTeam;
-    if (recipientTeamName !== '') {
-      team.recipient = (recipientTeamName === '-') ? '(No Specific Team)' : `(${recipientTeamName})`;
-    } else {
+    if (recipientTeamName === '') {
       team.recipient = '';
+    } else {
+      team.recipient = (recipientTeamName === '-') ? '(No Specific Team)' : `(${recipientTeamName})`;
     }
     team.giver = `(${this.responses[0].allResponses[0].giverTeam})`;
     return team;

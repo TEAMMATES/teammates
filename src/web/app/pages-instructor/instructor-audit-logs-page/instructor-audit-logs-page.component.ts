@@ -15,7 +15,9 @@ import {
 } from '../../../types/api-output';
 import { SortBy } from '../../../types/sort-properties';
 import { DateFormat } from '../../components/datepicker/datepicker.component';
-import { SessionEditFormDatePickerFormatter } from '../../components/session-edit-form/session-edit-form-datepicker-formatter';
+import {
+  SessionEditFormDatePickerFormatter,
+} from '../../components/session-edit-form/session-edit-form-datepicker-formatter';
 import { ColumnData, SortableTableCellData } from '../../components/sortable-table/sortable-table.component';
 import { TimeFormat } from '../../components/timepicker/timepicker.component';
 import { ErrorMessageOutput } from '../../error-message-output';
@@ -125,7 +127,9 @@ export class InstructorAuditLogsPageComponent implements OnInit {
       searchUntil: searchUntil.toString(),
       studentEmail: this.formModel.studentEmail,
     }).pipe(
-        finalize(() => this.isSearching = false),
+        finalize(() => {
+          this.isSearching = false;
+        }),
     ).subscribe((logs: FeedbackSessionLogs) => {
       logs.feedbackSessionLogs.map((log: FeedbackSessionLog) =>
           this.searchResults.push(this.toFeedbackSessionLogModel(log)));
@@ -140,7 +144,9 @@ export class InstructorAuditLogsPageComponent implements OnInit {
   private loadCourses(): void {
     this.courseService
         .getAllCoursesAsInstructor('active')
-        .pipe(finalize(() => this.isLoading = false))
+        .pipe(finalize(() => {
+          this.isLoading = false;
+        }))
         .subscribe(({ courses }: { courses: Course[] }) => courses
             .filter((course: Course) =>
                 course.privileges?.canModifyStudent
@@ -191,13 +197,17 @@ export class InstructorAuditLogsPageComponent implements OnInit {
             !== 'VIEW_RESULT')
         .map((entry: FeedbackSessionLogEntry) => {
           return [
-            { value: this.timezoneService.formatToString(
-                entry.timestamp, log.feedbackSessionData.timeZone,
-                this.LOGS_DATE_TIME_FORMAT),
-              style: 'font-family:monospace;'},
+            {
+              value: this.timezoneService.formatToString(
+                  entry.timestamp, log.feedbackSessionData.timeZone,
+                  this.LOGS_DATE_TIME_FORMAT),
+              style: 'font-family:monospace;',
+            },
             { value: entry.studentData.name },
-            { value: entry.feedbackSessionLogType.toString() as keyof typeof FeedbackSessionLogType
-              === 'ACCESS' ? 'Viewed the submission page' : 'Submitted responses' },
+            {
+              value: entry.feedbackSessionLogType.toString() as keyof typeof FeedbackSessionLogType
+                  === 'ACCESS' ? 'Viewed the submission page' : 'Submitted responses',
+            },
             { value: entry.studentData.email },
             { value: entry.studentData.sectionName },
             { value: entry.studentData.teamName },

@@ -93,9 +93,8 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
 
       this.loadStudentRecords();
       this.loadStudentResults();
-      this.photoUrl
-          = `${environment.backendUrl}/webapi/student/profilePic?`
-            + `courseid=${this.courseId}&studentemail=${this.studentEmail}`;
+      this.photoUrl = `${environment.backendUrl}/webapi/student/profilePic?`
+          + `courseid=${this.courseId}&studentemail=${this.studentEmail}`;
       this.instructorService.getInstructor({
         courseId: queryParams.courseid,
         intent: Intent.FULL_DETAIL,
@@ -117,7 +116,9 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
     this.isStudentProfileLoading = true;
     this.studentService.getStudent(
         this.courseId, this.studentEmail,
-    ).pipe(finalize(() => this.isStudentLoading = false)).subscribe((resp: Student) => {
+    ).pipe(finalize(() => {
+      this.isStudentLoading = false;
+    })).subscribe((resp: Student) => {
       this.studentName = resp.name;
       this.studentTeam = resp.teamName;
       this.studentSection = resp.sectionName;
@@ -127,7 +128,9 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
     });
     this.studentProfileService.getStudentProfile(
         this.studentEmail, this.courseId,
-    ).pipe(finalize(() => this.isStudentProfileLoading = false)).subscribe((resp: StudentProfile) => {
+    ).pipe(finalize(() => {
+      this.isStudentProfileLoading = false;
+    })).subscribe((resp: StudentProfile) => {
       this.studentProfile = resp;
     }, (resp: ErrorMessageOutput) => {
       this.hasStudentProfileLoadingFailed = true;
@@ -157,7 +160,9 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
             return { results, feedbackSession };
           }));
         }),
-        finalize(() => this.isStudentResultsLoading = false),
+        finalize(() => {
+          this.isStudentResultsLoading = false;
+        }),
     ).subscribe(
         ({ results, feedbackSession }: { results: SessionResults, feedbackSession: FeedbackSession }) => {
           const giverQuestions: QuestionOutput[] = JSON.parse(JSON.stringify(results.questions));
@@ -196,7 +201,7 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
    * instructor comments associated with the response will be deleted.
    */
   preprocessComments(responses: ResponseOutput[]): void {
-    const timezone: string = this.sessionTabs[0] != null ? this.sessionTabs[0].feedbackSession.timeZone : '';
+    const timezone: string = this.sessionTabs[0] ? this.sessionTabs[0].feedbackSession.timeZone : '';
     responses.forEach((response: ResponseOutput) => {
       this.instructorCommentTableModel[response.responseId] =
           this.commentsToCommentTableModel.transform(response.instructorComments, false, timezone);

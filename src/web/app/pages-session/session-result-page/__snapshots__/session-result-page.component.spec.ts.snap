@@ -34,7 +34,6 @@ exports[`SessionResultPageComponent should snap when session results failed to l
 >
   <h1>
      Feedback Session Results
-  
   </h1><div
     class="row"
   >
@@ -45,8 +44,6 @@ exports[`SessionResultPageComponent should snap when session results failed to l
         class="alert alert-primary"
         role="alert"
       >
-        
-        
         <div>
            You are viewing feedback results as . You may submit feedback for sessions that are currently open and view results without logging in. To access other features you need to 
           <a
@@ -79,7 +76,6 @@ exports[`SessionResultPageComponent should snap when session results failed to l
           class="col-md-7 text-md-left"
           id="course-id"
         >
-          
         </div>
       </div>
       <br />
@@ -97,7 +93,6 @@ exports[`SessionResultPageComponent should snap when session results failed to l
           class="col-md-7 text-md-left"
           id="session-name"
         >
-          
         </div>
       </div>
       <br />
@@ -115,7 +110,6 @@ exports[`SessionResultPageComponent should snap when session results failed to l
           class="col-md-7 text-md-left"
           id="opening-time"
         >
-          
         </div>
       </div>
       <br />
@@ -133,13 +127,11 @@ exports[`SessionResultPageComponent should snap when session results failed to l
           class="col-md-7 text-md-left"
           id="closing-time"
         >
-          
         </div>
       </div>
       <br />
     </div>
   </div><tm-loading-retry>
-    
     <div
       class="text-center"
     >
@@ -158,7 +150,6 @@ exports[`SessionResultPageComponent should snap when session results failed to l
          Retry
       </button>
     </div>
-    
   </tm-loading-retry>
 </tm-session-result-page>
 `;
@@ -197,7 +188,6 @@ exports[`SessionResultPageComponent should snap with an open feedback session wi
 >
   <h1>
      Feedback Session Results
-  
   </h1><div
     class="row"
   >
@@ -208,8 +198,6 @@ exports[`SessionResultPageComponent should snap with an open feedback session wi
         class="alert alert-primary"
         role="alert"
       >
-        
-        
         <div>
            You are viewing feedback results as . You may submit feedback for sessions that are currently open and view results without logging in. To access other features you need to 
           <a
@@ -278,7 +266,6 @@ exports[`SessionResultPageComponent should snap with an open feedback session wi
           class="col-md-7 text-md-left"
           id="opening-time"
         >
-          
         </div>
       </div>
       <br />
@@ -296,16 +283,12 @@ exports[`SessionResultPageComponent should snap with an open feedback session wi
           class="col-md-7 text-md-left"
           id="closing-time"
         >
-          
         </div>
       </div>
       <br />
     </div>
   </div><tm-loading-retry>
-    
-    
     <div>
-      
       <div
         class="mt-4"
       >
@@ -318,11 +301,8 @@ exports[`SessionResultPageComponent should snap with an open feedback session wi
         </div>
       </div>
       <tm-question-response-panel>
-        
       </tm-question-response-panel>
     </div>
-    
-    
   </tm-loading-retry>
 </tm-session-result-page>
 `;
@@ -361,7 +341,6 @@ exports[`SessionResultPageComponent should snap with default fields 1`] = `
 >
   <h1>
      Feedback Session Results
-  
   </h1><div
     class="row"
   >
@@ -372,8 +351,6 @@ exports[`SessionResultPageComponent should snap with default fields 1`] = `
         class="alert alert-primary"
         role="alert"
       >
-        
-        
         <div>
            You are viewing feedback results as . You may submit feedback for sessions that are currently open and view results without logging in. To access other features you need to 
           <a
@@ -406,7 +383,6 @@ exports[`SessionResultPageComponent should snap with default fields 1`] = `
           class="col-md-7 text-md-left"
           id="course-id"
         >
-          
         </div>
       </div>
       <br />
@@ -424,7 +400,6 @@ exports[`SessionResultPageComponent should snap with default fields 1`] = `
           class="col-md-7 text-md-left"
           id="session-name"
         >
-          
         </div>
       </div>
       <br />
@@ -442,7 +417,6 @@ exports[`SessionResultPageComponent should snap with default fields 1`] = `
           class="col-md-7 text-md-left"
           id="opening-time"
         >
-          
         </div>
       </div>
       <br />
@@ -460,16 +434,12 @@ exports[`SessionResultPageComponent should snap with default fields 1`] = `
           class="col-md-7 text-md-left"
           id="closing-time"
         >
-          
         </div>
       </div>
       <br />
     </div>
   </div><tm-loading-retry>
-    
-    
     <div>
-      
       <div
         class="mt-4"
       >
@@ -482,11 +452,8 @@ exports[`SessionResultPageComponent should snap with default fields 1`] = `
         </div>
       </div>
       <tm-question-response-panel>
-        
       </tm-question-response-panel>
     </div>
-    
-    
   </tm-loading-retry>
 </tm-session-result-page>
 `;
@@ -525,7 +492,6 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
 >
   <h1>
      Feedback Session Results
-  
   </h1><div
     class="row"
   >
@@ -536,8 +502,6 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
         class="alert alert-primary"
         role="alert"
       >
-        
-        
         <div>
            You are viewing feedback results as . You may submit feedback for sessions that are currently open and view results without logging in. To access other features you need to 
           <a
@@ -557,7 +521,6 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
       class="fas fa-exclamation-circle"
     />
      Note: Questions without responses (i.e., no responses received or responses are not meant to be visible to you) are not shown below.
-  
   </div><div
     class="card card-plain mt-3"
   >
@@ -615,7 +578,6 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
           class="col-md-7 text-md-left"
           id="opening-time"
         >
-          
         </div>
       </div>
       <br />
@@ -633,18 +595,13 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
           class="col-md-7 text-md-left"
           id="closing-time"
         >
-          
         </div>
       </div>
       <br />
     </div>
   </div><tm-loading-retry>
-    
-    
     <div>
-      
       <tm-question-response-panel>
-        
         <div
           class="card bg-light mt-4"
         >
@@ -658,8 +615,6 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
               <span
                 class="d-inline-flex row align-items-center no-gutters"
               >
-                
-                
                 <span
                   class="col-auto"
                 >
@@ -673,7 +628,6 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
                 >
                    How well did team member perform?
                 </span>
-                
                 <a
                   class="info-font-size ml-1"
                   href="/"
@@ -683,9 +637,7 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
                    [more] 
                 </a>
               </span>
-              
             </tm-question-text-with-info>
-            
             <div
               class="other-response"
             >
@@ -694,8 +646,6 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
               </strong>
               Responses are not visible to you. 
             </div>
-            
-            
             <div
               class="mt-4"
               id="given-responses"
@@ -703,7 +653,6 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
               <strong>
                 Your own responses (to others):
               </strong>
-              
               <div>
                 <tm-student-view-responses>
                   <div
@@ -729,8 +678,6 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
                         class="table"
                       >
                         <tbody>
-                          
-                          
                           <tr>
                             <td
                               id="response-giver"
@@ -744,21 +691,9 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
                           <tr>
                             <td>
                               <tm-single-response>
-                                
-                                
-                                
-                                
-                                
-                                
-                                
-                                
-                                
                               </tm-single-response>
                             </td>
                           </tr>
-                          
-                          
-                          
                         </tbody>
                       </table>
                     </div>
@@ -781,8 +716,6 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
               <span
                 class="d-inline-flex row align-items-center no-gutters"
               >
-                
-                
                 <span
                   class="col-auto"
                 >
@@ -796,7 +729,6 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
                 >
                    Rate your teammates in contribution
                 </span>
-                
                 <a
                   class="info-font-size ml-1"
                   href="/"
@@ -806,9 +738,7 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
                    [more] 
                 </a>
               </span>
-              
             </tm-question-text-with-info>
-            
             <div
               class="other-response"
             >
@@ -817,8 +747,6 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
               </strong>
               Responses are not visible to you. 
             </div>
-            
-            
             <div
               class="mt-4"
               id="given-responses"
@@ -826,7 +754,6 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
               <strong>
                 Your own responses (to others):
               </strong>
-              
               <div>
                 <tm-student-view-responses>
                   <div
@@ -852,8 +779,6 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
                         class="table"
                       >
                         <tbody>
-                          
-                          
                           <tr>
                             <td
                               id="response-giver"
@@ -867,21 +792,9 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
                           <tr>
                             <td>
                               <tm-single-response>
-                                
-                                
-                                
-                                
-                                
-                                
-                                
-                                
-                                
                               </tm-single-response>
                             </td>
                           </tr>
-                          
-                          
-                          
                         </tbody>
                       </table>
                     </div>
@@ -913,8 +826,6 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
                         class="table"
                       >
                         <tbody>
-                          
-                          
                           <tr>
                             <td
                               id="response-giver"
@@ -928,21 +839,9 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
                           <tr>
                             <td>
                               <tm-single-response>
-                                
-                                
-                                
-                                
-                                
-                                
-                                
-                                
-                                
                               </tm-single-response>
                             </td>
                           </tr>
-                          
-                          
-                          
                         </tbody>
                       </table>
                     </div>
@@ -965,8 +864,6 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
               <span
                 class="d-inline-flex row align-items-center no-gutters"
               >
-                
-                
                 <span
                   class="col-auto"
                 >
@@ -980,7 +877,6 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
                 >
                    Rate your teammates proficiency
                 </span>
-                
                 <a
                   class="info-font-size ml-1"
                   href="/"
@@ -990,9 +886,7 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
                    [more] 
                 </a>
               </span>
-              
             </tm-question-text-with-info>
-            
             <div
               class="other-response"
             >
@@ -1001,8 +895,6 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
               </strong>
               Responses are not visible to you. 
             </div>
-            
-            
             <div
               class="mt-4"
               id="given-responses"
@@ -1010,7 +902,6 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
               <strong>
                 Your own responses (to others):
               </strong>
-              
               <div>
                 <tm-student-view-responses>
                   <div
@@ -1036,8 +927,6 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
                         class="table"
                       >
                         <tbody>
-                          
-                          
                           <tr>
                             <td
                               id="response-giver"
@@ -1051,38 +940,22 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
                           <tr>
                             <td>
                               <tm-single-response>
-                                
-                                
-                                
-                                
-                                
-                                
-                                
-                                
-                                
                               </tm-single-response>
                             </td>
                           </tr>
-                          
-                          
                           <tr>
                             <td>
                               <tm-comment-table>
                                 <div
                                   class="card"
                                 >
-                                  
                                   <ul
                                     class="list-group list-group-flush"
                                   >
-                                    
                                     <li
                                       class="list-group-item"
                                     >
-                                      
                                       <tm-comment-row>
-                                        
-                                        
                                         <div
                                           class="card"
                                         >
@@ -1095,8 +968,6 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
                                               <div
                                                 class="col-12"
                                               >
-                                                
-                                                
                                                 <span
                                                   class="text-secondary"
                                                 >
@@ -1111,7 +982,6 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
                                                   >
                                                      17 Jan 1:09 PM
                                                   </span>
-                                                  
                                                 </span>
                                                 <i
                                                   aria-hidden="true"
@@ -1120,8 +990,6 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
                                                 <div
                                                   class="float-right"
                                                 >
-                                                  
-                                                  
                                                 </div>
                                               </div>
                                               <div
@@ -1135,13 +1003,11 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
                                         </div>
                                       </tm-comment-row>
                                     </li>
-                                    
                                   </ul>
                                 </div>
                               </tm-comment-table>
                             </td>
                           </tr>
-                          
                         </tbody>
                       </table>
                     </div>
@@ -1153,8 +1019,6 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
         </div>
       </tm-question-response-panel>
     </div>
-    
-    
   </tm-loading-retry>
 </tm-session-result-page>
 `;
@@ -1193,7 +1057,6 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
 >
   <h1>
      Feedback Session Results
-  
   </h1><div
     class="row"
   >
@@ -1204,8 +1067,6 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
         class="alert alert-primary"
         role="alert"
       >
-        
-        
         <div>
            You are viewing feedback results as . You may submit feedback for sessions that are currently open and view results without logging in. To access other features you need to 
           <a
@@ -1225,7 +1086,6 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
       class="fas fa-exclamation-circle"
     />
      Note: Questions without responses (i.e., no responses received or responses are not meant to be visible to you) are not shown below.
-  
   </div><div
     class="card card-plain mt-3"
   >
@@ -1283,7 +1143,6 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
           class="col-md-7 text-md-left"
           id="opening-time"
         >
-          
         </div>
       </div>
       <br />
@@ -1301,18 +1160,13 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
           class="col-md-7 text-md-left"
           id="closing-time"
         >
-          
         </div>
       </div>
       <br />
     </div>
   </div><tm-loading-retry>
-    
-    
     <div>
-      
       <tm-question-response-panel>
-        
         <div
           class="card bg-light mt-4"
         >
@@ -1326,8 +1180,6 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
               <span
                 class="d-inline-flex row align-items-center no-gutters"
               >
-                
-                
                 <span
                   class="col-auto"
                 >
@@ -1341,11 +1193,8 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
                 >
                    What comments do you have regarding each of your team members? (response is confidential and will only be shown to the instructor).
                 </span>
-                
               </span>
-              
             </tm-question-text-with-info>
-            
             <div
               class="other-response"
             >
@@ -1354,8 +1203,6 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
               </strong>
               Responses are not visible to you. 
             </div>
-            
-            
             <div
               class="mt-4"
               id="given-responses"
@@ -1363,7 +1210,6 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
               <strong>
                 Your own responses (to others):
               </strong>
-              
               <div>
                 <tm-student-view-responses>
                   <div
@@ -1389,8 +1235,6 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
                         class="table"
                       >
                         <tbody>
-                          
-                          
                           <tr>
                             <td
                               id="response-giver"
@@ -1404,21 +1248,9 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
                           <tr>
                             <td>
                               <tm-single-response>
-                                
-                                
-                                
-                                
-                                
-                                
-                                
-                                
-                                
                               </tm-single-response>
                             </td>
                           </tr>
-                          
-                          
-                          
                         </tbody>
                       </table>
                     </div>
@@ -1450,8 +1282,6 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
                         class="table"
                       >
                         <tbody>
-                          
-                          
                           <tr>
                             <td
                               id="response-giver"
@@ -1465,21 +1295,9 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
                           <tr>
                             <td>
                               <tm-single-response>
-                                
-                                
-                                
-                                
-                                
-                                
-                                
-                                
-                                
                               </tm-single-response>
                             </td>
                           </tr>
-                          
-                          
-                          
                         </tbody>
                       </table>
                     </div>
@@ -1511,8 +1329,6 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
                         class="table"
                       >
                         <tbody>
-                          
-                          
                           <tr>
                             <td
                               id="response-giver"
@@ -1526,21 +1342,9 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
                           <tr>
                             <td>
                               <tm-single-response>
-                                
-                                
-                                
-                                
-                                
-                                
-                                
-                                
-                                
                               </tm-single-response>
                             </td>
                           </tr>
-                          
-                          
-                          
                         </tbody>
                       </table>
                     </div>
@@ -1563,8 +1367,6 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
               <span
                 class="d-inline-flex row align-items-center no-gutters"
               >
-                
-                
                 <span
                   class="col-auto"
                 >
@@ -1578,11 +1380,8 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
                 >
                    How are the team dynamics thus far? (response is confidential and will only be shown to the instructor).
                 </span>
-                
               </span>
-              
             </tm-question-text-with-info>
-            
             <div
               class="other-response"
             >
@@ -1591,8 +1390,6 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
               </strong>
               Responses are not visible to you. 
             </div>
-            
-            
             <div
               class="mt-4"
               id="given-responses"
@@ -1600,7 +1397,6 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
               <strong>
                 Your own responses (to others):
               </strong>
-              
               <div>
                 <tm-student-view-responses>
                   <div
@@ -1626,8 +1422,6 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
                         class="table"
                       >
                         <tbody>
-                          
-                          
                           <tr>
                             <td
                               id="response-giver"
@@ -1641,21 +1435,9 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
                           <tr>
                             <td>
                               <tm-single-response>
-                                
-                                
-                                
-                                
-                                
-                                
-                                
-                                
-                                
                               </tm-single-response>
                             </td>
                           </tr>
-                          
-                          
-                          
                         </tbody>
                       </table>
                     </div>
@@ -1667,8 +1449,6 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
         </div>
       </tm-question-response-panel>
     </div>
-    
-    
   </tm-loading-retry>
 </tm-session-result-page>
 `;
@@ -1707,7 +1487,6 @@ exports[`SessionResultPageComponent should snap with session results are loading
 >
   <h1>
      Feedback Session Results
-  
   </h1><div
     class="row"
   >
@@ -1718,8 +1497,6 @@ exports[`SessionResultPageComponent should snap with session results are loading
         class="alert alert-primary"
         role="alert"
       >
-        
-        
         <div>
            You are viewing feedback results as . You may submit feedback for sessions that are currently open and view results without logging in. To access other features you need to 
           <a
@@ -1752,7 +1529,6 @@ exports[`SessionResultPageComponent should snap with session results are loading
           class="col-md-7 text-md-left"
           id="course-id"
         >
-          
         </div>
       </div>
       <br />
@@ -1770,7 +1546,6 @@ exports[`SessionResultPageComponent should snap with session results are loading
           class="col-md-7 text-md-left"
           id="session-name"
         >
-          
         </div>
       </div>
       <br />
@@ -1788,7 +1563,6 @@ exports[`SessionResultPageComponent should snap with session results are loading
           class="col-md-7 text-md-left"
           id="opening-time"
         >
-          
         </div>
       </div>
       <br />
@@ -1806,14 +1580,11 @@ exports[`SessionResultPageComponent should snap with session results are loading
           class="col-md-7 text-md-left"
           id="closing-time"
         >
-          
         </div>
       </div>
       <br />
     </div>
   </div><tm-loading-retry>
-    
-    
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -1829,8 +1600,6 @@ exports[`SessionResultPageComponent should snap with session results are loading
         </div>
       </div>
     </tm-loading-spinner>
-    
-    
   </tm-loading-retry>
 </tm-session-result-page>
 `;
@@ -1869,7 +1638,6 @@ exports[`SessionResultPageComponent should snap with user that is logged in and 
 >
   <h1>
      Feedback Session Results
-  
   </h1><div
     class="row"
   >
@@ -1880,7 +1648,6 @@ exports[`SessionResultPageComponent should snap with user that is logged in and 
         class="alert alert-primary"
         role="alert"
       >
-        
         <div>
            You are viewing feedback results as alice. If you wish to link your Google account (alice) with this user, 
           <a
@@ -1891,7 +1658,6 @@ exports[`SessionResultPageComponent should snap with user that is logged in and 
           </a>
           . 
         </div>
-        
       </div>
     </div>
   </div><div
@@ -1915,7 +1681,6 @@ exports[`SessionResultPageComponent should snap with user that is logged in and 
           class="col-md-7 text-md-left"
           id="course-id"
         >
-          
         </div>
       </div>
       <br />
@@ -1933,7 +1698,6 @@ exports[`SessionResultPageComponent should snap with user that is logged in and 
           class="col-md-7 text-md-left"
           id="session-name"
         >
-          
         </div>
       </div>
       <br />
@@ -1951,7 +1715,6 @@ exports[`SessionResultPageComponent should snap with user that is logged in and 
           class="col-md-7 text-md-left"
           id="opening-time"
         >
-          
         </div>
       </div>
       <br />
@@ -1969,16 +1732,12 @@ exports[`SessionResultPageComponent should snap with user that is logged in and 
           class="col-md-7 text-md-left"
           id="closing-time"
         >
-          
         </div>
       </div>
       <br />
     </div>
   </div><tm-loading-retry>
-    
-    
     <div>
-      
       <div
         class="mt-4"
       >
@@ -1991,11 +1750,8 @@ exports[`SessionResultPageComponent should snap with user that is logged in and 
         </div>
       </div>
       <tm-question-response-panel>
-        
       </tm-question-response-panel>
     </div>
-    
-    
   </tm-loading-retry>
 </tm-session-result-page>
 `;
@@ -2034,7 +1790,6 @@ exports[`SessionResultPageComponent should snap with user that is not logged in 
 >
   <h1>
      Feedback Session Results
-  
   </h1><div
     class="row"
   >
@@ -2045,8 +1800,6 @@ exports[`SessionResultPageComponent should snap with user that is not logged in 
         class="alert alert-primary"
         role="alert"
       >
-        
-        
         <div>
            You are viewing feedback results as alice. You may submit feedback for sessions that are currently open and view results without logging in. To access other features you need to 
           <a
@@ -2079,7 +1832,6 @@ exports[`SessionResultPageComponent should snap with user that is not logged in 
           class="col-md-7 text-md-left"
           id="course-id"
         >
-          
         </div>
       </div>
       <br />
@@ -2097,7 +1849,6 @@ exports[`SessionResultPageComponent should snap with user that is not logged in 
           class="col-md-7 text-md-left"
           id="session-name"
         >
-          
         </div>
       </div>
       <br />
@@ -2115,7 +1866,6 @@ exports[`SessionResultPageComponent should snap with user that is not logged in 
           class="col-md-7 text-md-left"
           id="opening-time"
         >
-          
         </div>
       </div>
       <br />
@@ -2133,16 +1883,12 @@ exports[`SessionResultPageComponent should snap with user that is not logged in 
           class="col-md-7 text-md-left"
           id="closing-time"
         >
-          
         </div>
       </div>
       <br />
     </div>
   </div><tm-loading-retry>
-    
-    
     <div>
-      
       <div
         class="mt-4"
       >
@@ -2155,11 +1901,8 @@ exports[`SessionResultPageComponent should snap with user that is not logged in 
         </div>
       </div>
       <tm-question-response-panel>
-        
       </tm-question-response-panel>
     </div>
-    
-    
   </tm-loading-retry>
 </tm-session-result-page>
 `;

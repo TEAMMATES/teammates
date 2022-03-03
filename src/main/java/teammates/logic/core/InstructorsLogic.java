@@ -160,8 +160,7 @@ public final class InstructorsLogic {
         boolean isEditedInstructorChangedToNonVisible = isOriginalInstructorDisplayed && !isEditedInstructorDisplayed;
         boolean isNoInstructorMadeVisible = instructorsDisplayed.isEmpty() && !isEditedInstructorDisplayed;
 
-        if (isNoInstructorMadeVisible || (instructorsDisplayed.size() == 1
-                && isEditedInstructorChangedToNonVisible)) {
+        if (isNoInstructorMadeVisible || instructorsDisplayed.size() == 1 && isEditedInstructorChangedToNonVisible) {
             throw new InstructorUpdateException("At least one instructor must be displayed to students");
         }
     }
@@ -220,8 +219,8 @@ public final class InstructorsLogic {
             for (FeedbackResponseAttributes responseToUser : responsesToUser) {
                 FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(responseToUser.getFeedbackQuestionId());
                 if (question.getRecipientType() == FeedbackParticipantType.INSTRUCTORS
-                        || (question.getGiverType() == FeedbackParticipantType.INSTRUCTORS
-                        && question.getRecipientType() == FeedbackParticipantType.SELF)) {
+                        || question.getGiverType() == FeedbackParticipantType.INSTRUCTORS
+                        && question.getRecipientType() == FeedbackParticipantType.SELF) {
                     try {
                         frLogic.updateFeedbackResponseCascade(
                                 FeedbackResponseAttributes.updateOptionsBuilder(responseToUser.getId())

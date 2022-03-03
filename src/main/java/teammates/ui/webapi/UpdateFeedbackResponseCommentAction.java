@@ -150,7 +150,7 @@ class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
                         .withLastEditorEmail(email)
                         .withLastEditorAt(Instant.now());
 
-        FeedbackResponseCommentAttributes updatedComment = null;
+        FeedbackResponseCommentAttributes updatedComment;
         try {
             updatedComment = logic.updateFeedbackResponseComment(commentUpdateOptions.build());
         } catch (EntityDoesNotExistException e) {

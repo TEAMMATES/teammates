@@ -9,26 +9,26 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
   columnsToShow={[Function Array]}
-  copySessionEvent={[Function EventEmitter]}
+  copySessionEvent={[Function EventEmitter_]}
   courseCandidates={[Function Array]}
-  downloadSessionResultsEvent={[Function EventEmitter]}
+  downloadSessionResultsEvent={[Function EventEmitter_]}
   headerColorScheme="0"
   isSendReminderLoading="false"
-  loadResponseRateEvent={[Function EventEmitter]}
-  moveSessionToRecycleBinEvent={[Function EventEmitter]}
+  loadResponseRateEvent={[Function EventEmitter_]}
+  moveSessionToRecycleBinEvent={[Function EventEmitter_]}
   ngbModal={[Function NgbModal]}
-  publishSessionEvent={[Function EventEmitter]}
-  resendResultsLinkToStudentsEvent={[Function EventEmitter]}
+  publishSessionEvent={[Function EventEmitter_]}
+  resendResultsLinkToStudentsEvent={[Function EventEmitter_]}
   rowClicked={[Function Number]}
-  sendRemindersToAllNonSubmittersEvent={[Function EventEmitter]}
-  sendRemindersToSelectedNonSubmittersEvent={[Function EventEmitter]}
+  sendRemindersToAllNonSubmittersEvent={[Function EventEmitter_]}
+  sendRemindersToSelectedNonSubmittersEvent={[Function EventEmitter_]}
   sessionsTableRowModels={[Function Array]}
   sessionsTableRowModelsSortBy={[Function Number]}
   sessionsTableRowModelsSortOrder={[Function Number]}
   simpleModalService={[Function SimpleModalService]}
-  sortSessionsTableRowModelsEvent={[Function EventEmitter]}
-  submitSessionAsInstructorEvent={[Function EventEmitter]}
-  unpublishSessionEvent={[Function EventEmitter]}
+  sortSessionsTableRowModelsEvent={[Function EventEmitter_]}
+  submitSessionAsInstructorEvent={[Function EventEmitter_]}
+  unpublishSessionEvent={[Function EventEmitter_]}
 >
   <div
     class="row"
@@ -44,7 +44,6 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
           <tr
             class="bg-primary text-white"
           >
-            
             <th
               class="sortable-header"
               id="sort-session-name"
@@ -56,11 +55,8 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                 <i
                   class="fas fa-sort"
                 />
-                
-                
               </span>
             </th>
-            
             <th
               class="sortable-header"
             >
@@ -71,14 +67,11 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                 <i
                   class="fas fa-sort"
                 />
-                
-                
                 <i
                   class="fas fa-sort-up"
                 />
               </span>
             </th>
-            
             <th
               class="sortable-header"
             >
@@ -89,8 +82,6 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                 <i
                   class="fas fa-sort"
                 />
-                
-                
               </span>
             </th>
             <th>
@@ -116,15 +107,12 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
           </tr>
         </thead>
         <tbody>
-          
           <tr>
-            
             <td
               class="text-break"
             >
               Season 8 Review
             </td>
-            
             <td>
               <span
                 class="ngb-tooltip-class"
@@ -132,7 +120,6 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                 19 Jan 7:30 AM
               </span>
             </td>
-            
             <td>
               <span
                 class="ngb-tooltip-class"
@@ -155,14 +142,11 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
               </span>
             </td>
             <td>
-              
-              
               <div
                 id="response-rate-0"
               >
                 8 / 9
               </div>
-              
             </td>
             <td
               class="actions-cell"
@@ -170,12 +154,10 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
               <div
                 class="d-flex"
               >
-                
                 <a
                   href="/web/instructor/sessions/edit?courseid=GOT&fsname=Season%208%20Review&editingMode=true"
                   tmrouterlink="/web/instructor/sessions/edit"
                 >
-                  
                   <button
                     class="btn btn-light btn-sm"
                     type="button"
@@ -183,7 +165,6 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                      Edit 
                   </button>
                 </a>
-                
                 <button
                   class="btn btn-light btn-sm"
                   id="btn-soft-delete-0"
@@ -199,12 +180,10 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                 >
                   Copy
                 </button>
-                
                 <a
                   href="/web/instructor/sessions/submission?courseid=GOT&fsname=Season%208%20Review"
                   tmrouterlink="/web/instructor/sessions/submission"
                 >
-                  
                   <button
                     class="btn btn-light btn-sm"
                     ngbtooltip="Start submitting feedback"
@@ -212,9 +191,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                   >
                     Submit
                   </button>
-                  
                 </a>
-                
                 <div
                   class="d-inline-block dropdown"
                   container="body"
@@ -222,7 +199,6 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                 >
                   <button
                     aria-expanded="false"
-                    aria-haspopup="true"
                     class="btn btn-light btn-sm dropdown-toggle"
                     id="btn-results-0"
                     ngbdropdowntoggle=""
@@ -248,7 +224,6 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                     >
                       View Results (course-wide)
                     </a>
-                    
                     <button
                       class="btn dropdown-item clickable"
                       container="body"
@@ -258,9 +233,6 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                     >
                       Publish Results
                     </button>
-                    
-                    
-                    
                     <button
                       class="btn dropdown-item clickable"
                       id="btn-download-0"
@@ -276,7 +248,6 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                 >
                   <button
                     aria-expanded="false"
-                    aria-haspopup="true"
                     class="btn btn-light btn-sm dropdown-toggle"
                     id="btn-remind-0"
                     ngbdropdowntoggle=""
@@ -290,7 +261,6 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                       <div
                         class="padding-left-7px"
                       >
-                        
                       </div>
                     </div>
                   </button>
@@ -317,13 +287,11 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
             </td>
           </tr>
           <tr>
-            
             <td
               class="text-break"
             >
               Season 7 Review
             </td>
-            
             <td>
               <span
                 class="ngb-tooltip-class"
@@ -331,7 +299,6 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                 19 Jan 7:13 AM
               </span>
             </td>
-            
             <td>
               <span
                 class="ngb-tooltip-class"
@@ -354,9 +321,6 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
               </span>
             </td>
             <td>
-              
-              
-              
               <tm-ajax-loading>
                 <div
                   class="loading-container"
@@ -374,7 +338,6 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
               <div
                 class="d-flex"
               >
-                
                 <button
                   class="btn btn-light btn-sm"
                   disabled=""
@@ -382,7 +345,6 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                 >
                    Edit 
                 </button>
-                
                 <button
                   class="btn btn-light btn-sm"
                   disabled=""
@@ -399,7 +361,6 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                 >
                   Copy
                 </button>
-                
                 <button
                   class="btn btn-light btn-sm"
                   disabled=""
@@ -408,8 +369,6 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                 >
                   Submit
                 </button>
-                
-                
                 <div
                   class="d-inline-block dropdown"
                   container="body"
@@ -417,7 +376,6 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                 >
                   <button
                     aria-expanded="false"
-                    aria-haspopup="true"
                     class="btn btn-light btn-sm dropdown-toggle"
                     id="btn-results-1"
                     ngbdropdowntoggle=""
@@ -443,7 +401,6 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                     >
                       View Results (course-wide)
                     </a>
-                    
                     <button
                       class="btn dropdown-item clickable"
                       container="body"
@@ -454,9 +411,6 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                     >
                       Unpublish Results
                     </button>
-                    
-                    
-                    
                     <button
                       class="btn dropdown-item clickable"
                       id="btn-resend-1"
@@ -479,7 +433,6 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                 >
                   <button
                     aria-expanded="false"
-                    aria-haspopup="true"
                     class="btn btn-light btn-sm dropdown-toggle"
                     disabled=""
                     id="btn-remind-1"
@@ -494,7 +447,6 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                       <div
                         class="padding-left-7px"
                       >
-                        
                       </div>
                     </div>
                   </button>
@@ -536,26 +488,26 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
   columnsToShow={[Function Array]}
-  copySessionEvent={[Function EventEmitter]}
+  copySessionEvent={[Function EventEmitter_]}
   courseCandidates={[Function Array]}
-  downloadSessionResultsEvent={[Function EventEmitter]}
+  downloadSessionResultsEvent={[Function EventEmitter_]}
   headerColorScheme="0"
   isSendReminderLoading="false"
-  loadResponseRateEvent={[Function EventEmitter]}
-  moveSessionToRecycleBinEvent={[Function EventEmitter]}
+  loadResponseRateEvent={[Function EventEmitter_]}
+  moveSessionToRecycleBinEvent={[Function EventEmitter_]}
   ngbModal={[Function NgbModal]}
-  publishSessionEvent={[Function EventEmitter]}
-  resendResultsLinkToStudentsEvent={[Function EventEmitter]}
+  publishSessionEvent={[Function EventEmitter_]}
+  resendResultsLinkToStudentsEvent={[Function EventEmitter_]}
   rowClicked={[Function Number]}
-  sendRemindersToAllNonSubmittersEvent={[Function EventEmitter]}
-  sendRemindersToSelectedNonSubmittersEvent={[Function EventEmitter]}
+  sendRemindersToAllNonSubmittersEvent={[Function EventEmitter_]}
+  sendRemindersToSelectedNonSubmittersEvent={[Function EventEmitter_]}
   sessionsTableRowModels={[Function Array]}
   sessionsTableRowModelsSortBy={[Function Number]}
   sessionsTableRowModelsSortOrder={[Function Number]}
   simpleModalService={[Function SimpleModalService]}
-  sortSessionsTableRowModelsEvent={[Function EventEmitter]}
-  submitSessionAsInstructorEvent={[Function EventEmitter]}
-  unpublishSessionEvent={[Function EventEmitter]}
+  sortSessionsTableRowModelsEvent={[Function EventEmitter_]}
+  submitSessionAsInstructorEvent={[Function EventEmitter_]}
+  unpublishSessionEvent={[Function EventEmitter_]}
 >
   <div
     class="row"
@@ -571,7 +523,6 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
           <tr
             class="bg-primary text-white"
           >
-            
             <th
               class="sortable-header"
               id="sort-course-id"
@@ -583,8 +534,6 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                 <i
                   class="fas fa-sort"
                 />
-                
-                
               </span>
             </th>
             <th
@@ -598,15 +547,11 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                 <i
                   class="fas fa-sort"
                 />
-                
-                
                 <i
                   class="fas fa-sort-up"
                 />
               </span>
             </th>
-            
-            
             <th>
               Submissions
             </th>
@@ -630,9 +575,7 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
           </tr>
         </thead>
         <tbody>
-          
           <tr>
-            
             <td
               class="text-break"
             >
@@ -643,8 +586,6 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
             >
               Season 8 Review
             </td>
-            
-            
             <td>
               <span
                 class="ngb-tooltip-class"
@@ -660,14 +601,11 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
               </span>
             </td>
             <td>
-              
-              
               <div
                 id="response-rate-0"
               >
                 8 / 9
               </div>
-              
             </td>
             <td
               class="actions-cell"
@@ -675,12 +613,10 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
               <div
                 class="d-flex"
               >
-                
                 <a
                   href="/web/instructor/sessions/edit?courseid=GOT&fsname=Season%208%20Review&editingMode=true"
                   tmrouterlink="/web/instructor/sessions/edit"
                 >
-                  
                   <button
                     class="btn btn-light btn-sm"
                     type="button"
@@ -688,7 +624,6 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                      Edit 
                   </button>
                 </a>
-                
                 <button
                   class="btn btn-light btn-sm"
                   id="btn-soft-delete-0"
@@ -704,12 +639,10 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                 >
                   Copy
                 </button>
-                
                 <a
                   href="/web/instructor/sessions/submission?courseid=GOT&fsname=Season%208%20Review"
                   tmrouterlink="/web/instructor/sessions/submission"
                 >
-                  
                   <button
                     class="btn btn-light btn-sm"
                     ngbtooltip="Start submitting feedback"
@@ -717,9 +650,7 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                   >
                     Submit
                   </button>
-                  
                 </a>
-                
                 <div
                   class="d-inline-block dropdown"
                   container="body"
@@ -727,7 +658,6 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                 >
                   <button
                     aria-expanded="false"
-                    aria-haspopup="true"
                     class="btn btn-light btn-sm dropdown-toggle"
                     id="btn-results-0"
                     ngbdropdowntoggle=""
@@ -753,7 +683,6 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                     >
                       View Results (course-wide)
                     </a>
-                    
                     <button
                       class="btn dropdown-item clickable"
                       container="body"
@@ -763,9 +692,6 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                     >
                       Publish Results
                     </button>
-                    
-                    
-                    
                     <button
                       class="btn dropdown-item clickable"
                       id="btn-download-0"
@@ -781,7 +707,6 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                 >
                   <button
                     aria-expanded="false"
-                    aria-haspopup="true"
                     class="btn btn-light btn-sm dropdown-toggle"
                     id="btn-remind-0"
                     ngbdropdowntoggle=""
@@ -795,7 +720,6 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                       <div
                         class="padding-left-7px"
                       >
-                        
                       </div>
                     </div>
                   </button>
@@ -822,7 +746,6 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
             </td>
           </tr>
           <tr>
-            
             <td
               class="text-break"
             >
@@ -833,8 +756,6 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
             >
               Season 7 Review
             </td>
-            
-            
             <td>
               <span
                 class="ngb-tooltip-class"
@@ -850,9 +771,6 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
               </span>
             </td>
             <td>
-              
-              
-              
               <tm-ajax-loading>
                 <div
                   class="loading-container"
@@ -870,7 +788,6 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
               <div
                 class="d-flex"
               >
-                
                 <button
                   class="btn btn-light btn-sm"
                   disabled=""
@@ -878,7 +795,6 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                 >
                    Edit 
                 </button>
-                
                 <button
                   class="btn btn-light btn-sm"
                   disabled=""
@@ -895,7 +811,6 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                 >
                   Copy
                 </button>
-                
                 <button
                   class="btn btn-light btn-sm"
                   disabled=""
@@ -904,8 +819,6 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                 >
                   Submit
                 </button>
-                
-                
                 <div
                   class="d-inline-block dropdown"
                   container="body"
@@ -913,7 +826,6 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                 >
                   <button
                     aria-expanded="false"
-                    aria-haspopup="true"
                     class="btn btn-light btn-sm dropdown-toggle"
                     id="btn-results-1"
                     ngbdropdowntoggle=""
@@ -939,7 +851,6 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                     >
                       View Results (course-wide)
                     </a>
-                    
                     <button
                       class="btn dropdown-item clickable"
                       container="body"
@@ -950,9 +861,6 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                     >
                       Unpublish Results
                     </button>
-                    
-                    
-                    
                     <button
                       class="btn dropdown-item clickable"
                       id="btn-resend-1"
@@ -975,7 +883,6 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                 >
                   <button
                     aria-expanded="false"
-                    aria-haspopup="true"
                     class="btn btn-light btn-sm dropdown-toggle"
                     disabled=""
                     id="btn-remind-1"
@@ -990,7 +897,6 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                       <div
                         class="padding-left-7px"
                       >
-                        
                       </div>
                     </div>
                   </button>
@@ -1032,26 +938,26 @@ exports[`SessionsTableComponent should snap with default fields 1`] = `
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
   columnsToShow={[Function Array]}
-  copySessionEvent={[Function EventEmitter]}
+  copySessionEvent={[Function EventEmitter_]}
   courseCandidates={[Function Array]}
-  downloadSessionResultsEvent={[Function EventEmitter]}
+  downloadSessionResultsEvent={[Function EventEmitter_]}
   headerColorScheme="0"
   isSendReminderLoading="false"
-  loadResponseRateEvent={[Function EventEmitter]}
-  moveSessionToRecycleBinEvent={[Function EventEmitter]}
+  loadResponseRateEvent={[Function EventEmitter_]}
+  moveSessionToRecycleBinEvent={[Function EventEmitter_]}
   ngbModal={[Function NgbModal]}
-  publishSessionEvent={[Function EventEmitter]}
-  resendResultsLinkToStudentsEvent={[Function EventEmitter]}
+  publishSessionEvent={[Function EventEmitter_]}
+  resendResultsLinkToStudentsEvent={[Function EventEmitter_]}
   rowClicked={[Function Number]}
-  sendRemindersToAllNonSubmittersEvent={[Function EventEmitter]}
-  sendRemindersToSelectedNonSubmittersEvent={[Function EventEmitter]}
+  sendRemindersToAllNonSubmittersEvent={[Function EventEmitter_]}
+  sendRemindersToSelectedNonSubmittersEvent={[Function EventEmitter_]}
   sessionsTableRowModels={[Function Array]}
   sessionsTableRowModelsSortBy="0"
   sessionsTableRowModelsSortOrder={[Function Number]}
   simpleModalService={[Function SimpleModalService]}
-  sortSessionsTableRowModelsEvent={[Function EventEmitter]}
-  submitSessionAsInstructorEvent={[Function EventEmitter]}
-  unpublishSessionEvent={[Function EventEmitter]}
+  sortSessionsTableRowModelsEvent={[Function EventEmitter_]}
+  submitSessionAsInstructorEvent={[Function EventEmitter_]}
+  unpublishSessionEvent={[Function EventEmitter_]}
 >
   <div
     class="no-session-message"

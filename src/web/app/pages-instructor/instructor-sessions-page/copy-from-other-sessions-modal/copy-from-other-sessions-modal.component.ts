@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Course, FeedbackSession } from '../../../../types/api-output';
 import { FEEDBACK_SESSION_NAME_MAX_LENGTH } from '../../../../types/field-validator';
@@ -11,7 +11,7 @@ import { FEEDBACK_SESSION_NAME_MAX_LENGTH } from '../../../../types/field-valida
   templateUrl: './copy-from-other-sessions-modal.component.html',
   styleUrls: ['./copy-from-other-sessions-modal.component.scss'],
 })
-export class CopyFromOtherSessionsModalComponent implements OnInit {
+export class CopyFromOtherSessionsModalComponent {
 
   // const
   FEEDBACK_SESSION_NAME_MAX_LENGTH: number = FEEDBACK_SESSION_NAME_MAX_LENGTH;
@@ -37,9 +37,6 @@ export class CopyFromOtherSessionsModalComponent implements OnInit {
       newFeedbackSessionName: this.newFeedbackSessionName,
       copyToCourseId: this.copyToCourseId,
     });
-  }
-
-  ngOnInit(): void {
   }
 
 }

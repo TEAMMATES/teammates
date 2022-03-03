@@ -36,11 +36,11 @@
           </div>
         </div>
         <div class="action-btn-group col-sm-12 col-md-12 col-lg-3">
-          <button id="btn-publish" class="btn btn-primary action-btn no-print" ngbTooltip="{{session.publishStatus == FeedbackSessionPublishStatus.PUBLISHED? 'Make responses no longer visible': 'Make session responses available for viewing' }}"
+          <button id="btn-publish" class="btn btn-primary action-btn no-print" ngbTooltip="{{session.publishStatus === FeedbackSessionPublishStatus.PUBLISHED? 'Make responses no longer visible': 'Make session responses available for viewing' }}"
              placement="top" (click)="publishResultHandler()">
-            <i *ngIf="session.publishStatus == FeedbackSessionPublishStatus.NOT_PUBLISHED" class="fas fa-eye"></i>
-            <i *ngIf="session.publishStatus == FeedbackSessionPublishStatus.PUBLISHED" class="fas fa-eye-slash"></i>
-            {{session.publishStatus == FeedbackSessionPublishStatus.PUBLISHED ? "Unpublish" : "Publish"}} Results
+            <i *ngIf="session.publishStatus === FeedbackSessionPublishStatus.NOT_PUBLISHED" class="fas fa-eye"></i>
+            <i *ngIf="session.publishStatus === FeedbackSessionPublishStatus.PUBLISHED" class="fas fa-eye-slash"></i>
+            {{session.publishStatus === FeedbackSessionPublishStatus.PUBLISHED ? "Unpublish" : "Publish"}} Results
           </button>
           <button id="btn-download" class="btn btn-primary action-btn no-print" [ngbTooltip]="downloadTooltip" (click)="downloadResultHandler()" [disabled]="isDownloadingResults">
             <tm-ajax-loading *ngIf="isDownloadingResults"></tm-ajax-loading>

@@ -21,7 +21,7 @@ export class FeedbackNumericalScaleResponseDetailsImpl
     this.answer = apiOutput.answer;
   }
 
-  getResponseCsvAnswers(_: FeedbackNumericalScaleQuestionDetails): string[][] {
+  getResponseCsvAnswers(): string[][] {
     const answer: number = this.answer;
     // up to three decimal places
     const roundedAnswer: number = Math.round((answer + Number.EPSILON) * 1000) / 1000;

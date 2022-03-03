@@ -121,7 +121,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             }
 
             // If there are Empty Msq options entered trigger this error
-            boolean isEmptyMsqOptionEntered = msqChoices.stream().anyMatch(msqText -> msqText.trim().equals(""));
+            boolean isEmptyMsqOptionEntered = msqChoices.stream().anyMatch(msqText -> "".equals(msqText.trim()));
             if (isEmptyMsqOptionEntered) {
                 errors.add(MSQ_ERROR_EMPTY_MSQ_OPTION);
             }

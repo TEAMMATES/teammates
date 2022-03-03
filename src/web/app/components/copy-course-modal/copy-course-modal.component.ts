@@ -10,6 +10,8 @@ interface Timezone {
   offset: string;
 }
 
+const zeroPad: (num: number) => string = (num: number) => String(num).padStart(2, '0');
+
 /**
  * Copy course modal.
  */
@@ -93,18 +95,22 @@ export class CopyCourseModalComponent implements OnInit {
    * Toggles selection of a feedback session.
    */
   toggleSelection(session: FeedbackSession): void {
-    this.selectedFeedbackSessions.has(session)
-      ? this.selectedFeedbackSessions.delete(session)
-      : this.selectedFeedbackSessions.add(session);
+    if (this.selectedFeedbackSessions.has(session)) {
+      this.selectedFeedbackSessions.delete(session);
+    } else {
+      this.selectedFeedbackSessions.add(session);
+    }
   }
 
   /**
    * Select all sessions or clear all sessions
    */
   toggleSelectionForAll(): void {
-    this.selectedFeedbackSessions.size === this.courseToFeedbackSession[this.oldCourseId]?.length
-      ? this.selectedFeedbackSessions.clear()
-      : this.selectedFeedbackSessions = new Set(this.courseToFeedbackSession[this.oldCourseId]);
+    if (this.selectedFeedbackSessions.size === this.courseToFeedbackSession[this.oldCourseId]?.length) {
+      this.selectedFeedbackSessions.clear();
+    } else {
+      this.selectedFeedbackSessions = new Set(this.courseToFeedbackSession[this.oldCourseId]);
+    }
   }
 
   /**
@@ -125,5 +131,3 @@ export class CopyCourseModalComponent implements OnInit {
     }
   }
 }
-
-const zeroPad: (num: number) => string = (num: number) => String(num).padStart(2, '0');

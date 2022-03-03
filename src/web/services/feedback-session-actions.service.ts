@@ -5,7 +5,9 @@ import { concat } from 'rxjs';
 import { finalize, takeWhile } from 'rxjs/operators';
 import { SimpleModalType } from '../app/components/simple-modal/simple-modal-type';
 import { ErrorMessageOutput } from '../app/error-message-output';
-import { InstructorSessionResultSectionType } from '../app/pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
+import {
+  InstructorSessionResultSectionType,
+} from '../app/pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
 import {
   FeedbackQuestion,
 } from '../types/api-output';

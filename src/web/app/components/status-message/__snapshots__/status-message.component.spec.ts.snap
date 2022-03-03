@@ -63,6 +63,5 @@ exports[`StatusMessageComponent should snap with default view 1`] = `
 <tm-status-message
   messages={[Function Array]}
 >
-  
 </tm-status-message>
 `;

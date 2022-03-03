@@ -5,7 +5,7 @@ import {
   FeedbackQuestionType, NumberOfEntitiesToGiveFeedbackToSetting,
   ResponseOutput,
 } from '../../../../types/api-output';
-import { CommentRowMode } from '../../comment-box/comment-row/comment-row.component';
+import { CommentRowMode } from '../../comment-box/comment-row/comment-row.mode';
 
 /**
  * Feedback response in student results page view.
@@ -43,8 +43,6 @@ export class StudentViewResponsesComponent implements OnInit {
   @Input() timezone: string = 'UTC';
 
   recipient: string = '';
-
-  constructor() { }
 
   ngOnInit(): void {
     this.recipient = this.responses.length ? this.responses[0].recipient : '';

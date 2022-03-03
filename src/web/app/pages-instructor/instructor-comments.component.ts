@@ -29,10 +29,10 @@ export abstract class InstructorCommentsComponent {
   /**
    * Deletes an instructor comment.
    */
-  deleteComment(data: { responseId: string, index: number}): void {
+  deleteComment(data: { responseId: string, index: number }): void {
     const commentTableModel: CommentTableModel = this.instructorCommentTableModel[data.responseId];
     const commentToDelete: FeedbackResponseComment =
-            // tslint:disable-next-line:no-non-null-assertion
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             this.instructorCommentTableModel[data.responseId].commentRows[data.index].originalComment!;
 
     this.commentService.deleteComment(commentToDelete.feedbackResponseCommentId, Intent.INSTRUCTOR_RESULT)
@@ -49,10 +49,10 @@ export abstract class InstructorCommentsComponent {
   /**
    * Updates an instructor comment.
    */
-  updateComment(data: { responseId: string, index: number}, timezone: string): void {
+  updateComment(data: { responseId: string, index: number }, timezone: string): void {
     const commentTableModel: CommentTableModel = this.instructorCommentTableModel[data.responseId];
     const commentRowToUpdate: CommentRowModel = commentTableModel.commentRows[data.index];
-    // tslint:disable-next-line:no-non-null-assertion
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const commentToUpdate: FeedbackResponseComment = commentRowToUpdate.originalComment!;
 
     this.commentService.updateComment({

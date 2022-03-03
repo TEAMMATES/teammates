@@ -19,8 +19,6 @@ export class WeightFieldComponent {
   @Output()
   weightEntered: EventEmitter<any> = new EventEmitter();
 
-  constructor() { }
-
   /**
    * Emit the weight entered to the parent component.
    */

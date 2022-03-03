@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { EmailSentLogDetails, GeneralLogEntry, LogEvent } from '../../../../types/api-output';
 
 /**
@@ -9,7 +9,7 @@ import { EmailSentLogDetails, GeneralLogEntry, LogEvent } from '../../../../type
   templateUrl: './email-log-details.component.html',
   styleUrls: ['./email-log-details.component.scss', './log-details.component.scss'],
 })
-export class EmailLogDetailsComponent implements OnInit {
+export class EmailLogDetailsComponent {
 
   logValue!: GeneralLogEntry;
   details!: EmailSentLogDetails;
@@ -28,11 +28,6 @@ export class EmailLogDetailsComponent implements OnInit {
       details.emailContent = undefined;
       this.details = details;
     }
-  }
-
-  constructor() { }
-
-  ngOnInit(): void {
   }
 
 }

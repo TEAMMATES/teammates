@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -146,7 +147,7 @@ public abstract class AppPage {
     }
 
     public <E> E waitFor(ExpectedCondition<E> expectedCondition) {
-        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
+        WebDriverWait wait = new WebDriverWait(browser.driver, Duration.ofSeconds(TestProperties.TEST_TIMEOUT));
         return wait.until(expectedCondition);
     }
 
@@ -180,7 +181,7 @@ public abstract class AppPage {
     }
 
     public static void waitUntilAnimationFinish(Browser browser) {
-        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
+        WebDriverWait wait = new WebDriverWait(browser.driver, Duration.ofSeconds(TestProperties.TEST_TIMEOUT));
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.className("ng-animating")));
         ThreadHelper.waitFor(1000);
     }
@@ -191,8 +192,7 @@ public abstract class AppPage {
 
     /**
      * Waits until an element is no longer attached to the DOM or the timeout expires.
-     * @param element the WebElement
-     * {@link TestProperties#TEST_TIMEOUT} expires
+     * @param element the WebElement that expires after {@link TestProperties#TEST_TIMEOUT}
      * @see org.openqa.selenium.support.ui.FluentWait#until(java.util.function.Function)
      */
     public void waitForElementStaleness(WebElement element) {
@@ -200,7 +200,7 @@ public abstract class AppPage {
     }
 
     public void verifyUnclickable(WebElement element) {
-        if (element.getTagName().equals("a")) {
+        if ("a".equals(element.getTagName())) {
             assertTrue(element.getAttribute("class").contains("disabled"));
         } else {
             assertNotNull(element.getAttribute("disabled"));

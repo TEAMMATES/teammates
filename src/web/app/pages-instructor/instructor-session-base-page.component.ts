@@ -124,14 +124,17 @@ export abstract class InstructorSessionBasePageComponent {
         model.feedbackSession.courseId,
         model.feedbackSession.feedbackSessionName,
     )
-        .pipe(finalize(() => model.isLoadingResponseRate = false))
+        .pipe(finalize(() => {
+          model.isLoadingResponseRate = false;
+        }))
         .subscribe((resp: FeedbackSessionStats) => {
           model.responseRate = `${resp.submittedTotal} / ${resp.expectedTotal}`;
         }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
   }
 
   /**
-   * Creates list of copy session requests from params
+   * Creates list of copy session requests from params.
+   *
    * @param model the source session model
    * @param result the result of the copy session modal
    * @returns the list of copy session requests
@@ -153,7 +156,8 @@ export abstract class InstructorSessionBasePageComponent {
   }
 
   /**
-   * Creates list of copy session requests from params
+   * Creates list of copy session requests from params.
+   *
    * @param result the result of the copy session modal
    * @param courseId the source courseId
    * @param feedbackSessionName the source feedback session name
@@ -242,7 +246,9 @@ export abstract class InstructorSessionBasePageComponent {
           questions,
         ));
       }),
-      finalize(() => this.isResultActionLoading = false),
+      finalize(() => {
+        this.isResultActionLoading = false;
+      }),
     )
       .subscribe();
   }
@@ -256,7 +262,9 @@ export abstract class InstructorSessionBasePageComponent {
         model.feedbackSession.courseId,
         model.feedbackSession.feedbackSessionName,
     )
-        .pipe(finalize(() => this.isResultActionLoading = false))
+        .pipe(finalize(() => {
+          this.isResultActionLoading = false;
+        }))
         .subscribe((feedbackSession: FeedbackSession) => {
           model.feedbackSession = feedbackSession;
           model.responseRate = '';
@@ -265,10 +273,10 @@ export abstract class InstructorSessionBasePageComponent {
               + 'Please allow up to 1 hour for all the notification emails to be sent out.');
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
-          if (!this.publishUnpublishRetryAttempts) {
-            this.openErrorReportModal(resp);
-          } else {
+          if (this.publishUnpublishRetryAttempts) {
             this.publishUnpublishRetryAttempts -= 1;
+          } else {
+            this.openErrorReportModal(resp);
           }
         });
   }
@@ -282,7 +290,9 @@ export abstract class InstructorSessionBasePageComponent {
         model.feedbackSession.courseId,
         model.feedbackSession.feedbackSessionName,
     )
-        .pipe(finalize(() => this.isResultActionLoading = false))
+        .pipe(finalize(() => {
+          this.isResultActionLoading = false;
+        }))
         .subscribe((feedbackSession: FeedbackSession) => {
           model.feedbackSession = feedbackSession;
           model.responseRate = '';
@@ -290,10 +300,10 @@ export abstract class InstructorSessionBasePageComponent {
           this.statusMessageService.showSuccessToast('The feedback session has been unpublished.');
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
-          if (!this.publishUnpublishRetryAttempts) {
-            this.openErrorReportModal(resp);
-          } else {
+          if (this.publishUnpublishRetryAttempts) {
             this.publishUnpublishRetryAttempts -= 1;
+          } else {
+            this.openErrorReportModal(resp);
           }
         });
   }

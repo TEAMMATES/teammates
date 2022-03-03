@@ -12,9 +12,13 @@ import { CopySessionModalModule } from '../copy-session-modal/copy-session-modal
 import { TeammatesCommonModule } from '../teammates-common/teammates-common.module';
 import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
 import { PublishStatusTooltipPipe } from './publish-status-tooltip.pipe';
-import { ResendResultsLinkToRespondentModalComponent } from './resend-results-link-to-respondent-modal/resend-results-link-to-respondent-modal.component';
+import {
+  ResendResultsLinkToRespondentModalComponent,
+} from './resend-results-link-to-respondent-modal/resend-results-link-to-respondent-modal.component';
 import { RespondentListInfoTableComponent } from './respondent-list-info-table/respondent-list-info-table.component';
-import { SendRemindersToRespondentsModalComponent } from './send-reminders-to-respondents-modal/send-reminders-to-respondents-modal.component';
+import {
+  SendRemindersToRespondentsModalComponent,
+} from './send-reminders-to-respondents-modal/send-reminders-to-respondents-modal.component';
 import { SessionsTableComponent } from './sessions-table.component';
 import { SubmissionStatusTooltipPipe } from './submission-status-tooltip.pipe';
 

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ExceptionLogDetails, GeneralLogEntry, LogEvent } from '../../../../types/api-output';
 
 /**
@@ -9,7 +9,7 @@ import { ExceptionLogDetails, GeneralLogEntry, LogEvent } from '../../../../type
   templateUrl: './exception-log-details.component.html',
   styleUrls: ['./exception-log-details.component.scss', './log-details.component.scss'],
 })
-export class ExceptionLogDetailsComponent implements OnInit {
+export class ExceptionLogDetailsComponent {
 
   logValue!: GeneralLogEntry;
   details!: Partial<ExceptionLogDetails>;
@@ -33,11 +33,6 @@ export class ExceptionLogDetailsComponent implements OnInit {
         this.details.exceptionStackTraces = undefined;
       }
     }
-  }
-
-  constructor() { }
-
-  ngOnInit(): void {
   }
 
   private createStackTraceString(details: ExceptionLogDetails): string {

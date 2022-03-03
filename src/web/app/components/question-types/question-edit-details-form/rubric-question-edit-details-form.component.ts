@@ -1,5 +1,5 @@
 import { moveItemInArray } from '@angular/cdk/drag-drop';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
 import { FeedbackRubricQuestionDetails } from '../../../../types/api-output';
 import { DEFAULT_RUBRIC_QUESTION_DETAILS } from '../../../../types/default-question-structs';
@@ -15,16 +15,13 @@ import { QuestionEditDetailsFormComponent } from './question-edit-details-form.c
   styleUrls: ['./rubric-question-edit-details-form.component.scss'],
 })
 export class RubricQuestionEditDetailsFormComponent
-    extends QuestionEditDetailsFormComponent<FeedbackRubricQuestionDetails> implements OnInit {
+    extends QuestionEditDetailsFormComponent<FeedbackRubricQuestionDetails> {
 
   rowToHighlight: number = -1;
   columnToHighlight: number = -1;
 
   constructor(private simpleModalService: SimpleModalService) {
     super(DEFAULT_RUBRIC_QUESTION_DETAILS());
-  }
-
-  ngOnInit(): void {
   }
 
   /**
