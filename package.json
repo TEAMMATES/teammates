@@ -40,7 +40,6 @@
     "ngx-image-cropper": "^1.5.1",
     "ngx-page-scroll-core": "^7.0.6",
     "rxjs": "~6.6.7",
-    "topojson": "^3.0.2",
     "tslib": "^2.3.1",
     "ua-parser-js": "^0.7.31",
     "zone.js": "~0.11.4"
