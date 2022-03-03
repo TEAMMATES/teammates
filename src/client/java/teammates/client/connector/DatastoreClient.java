@@ -42,13 +42,10 @@ public abstract class DatastoreClient {
         }
         ObjectifyService.init(new ObjectifyFactory(builder.build().getService()));
         OfyHelper.registerEntityClasses();
-        Closeable objectifySession = ObjectifyService.begin();
-        LogicStarter.initializeDependencies();
 
-        try {
+        try (Closeable objectifySession = ObjectifyService.begin()) {
+            LogicStarter.initializeDependencies();
             doOperation();
-        } finally {
-            objectifySession.close();
         }
 
         System.out.println("--- Remote operation completed ---");

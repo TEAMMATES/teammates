@@ -89,7 +89,7 @@ describe('Link Service', () => {
   });
 
   it('filterEmptyParams should filter empty params', () => {
-    const params: {[key: string]: string} = { courseId: '#123?123', filterThis: '' };
+    const params: { [key: string]: string } = { courseId: '#123?123', filterThis: '' };
     service.filterEmptyParams(params);
     expect(Object.keys(params).length).toEqual(1);
   });

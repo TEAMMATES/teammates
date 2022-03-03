@@ -39,7 +39,7 @@ public class BaseEntity {
         @Override
         protected ValueTranslator<Instant, Timestamp> createValueTranslator(TypeKey<Instant> tk,
                                                                             CreateContext ctx, Path path) {
-            return new ValueTranslator<Instant, Timestamp>(ValueType.TIMESTAMP) {
+            return new ValueTranslator<>(ValueType.TIMESTAMP) {
                 @Override
                 protected Instant loadValue(Value<Timestamp> value, LoadContext ctx, Path path) {
                     return value == null ? null : value.get().toDate().toInstant();

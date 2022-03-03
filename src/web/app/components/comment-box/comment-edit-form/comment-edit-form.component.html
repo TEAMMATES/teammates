@@ -51,8 +51,8 @@
 
 <button type="button" class="btn btn-success btn-sm float-right btn-margin-left"
         (click)="triggerSaveCommentEvent()" *ngIf="!shouldHideSavingButton" [disabled]="isDisabled"><i class="fas fa-save"></i>
-  {{ mode == CommentRowMode.EDIT ? 'Save' : 'Add' }}</button>
+  {{ mode === CommentRowMode.EDIT ? 'Save' : 'Add' }}</button>
 
 <button type="button" class="btn btn-light btn-sm float-right"
         (click)="triggerCloseCommentBoxEvent()" *ngIf="!shouldHideClosingButton" [disabled]="isDisabled"><i class="fas fa-times"></i>
-  {{ mode == CommentRowMode.EDIT ? 'Discard' : 'Cancel' }}</button>
+  {{ mode === CommentRowMode.EDIT ? 'Discard' : 'Cancel' }}</button>

@@ -20,7 +20,7 @@ export class FeedbackRankRecipientsResponseDetailsImpl
     this.answer = apiOutput.answer;
   }
 
-  getResponseCsvAnswers(_: FeedbackRankRecipientsQuestionDetails): string[][] {
+  getResponseCsvAnswers(): string[][] {
     return [[String(this.answer)]];
   }
 

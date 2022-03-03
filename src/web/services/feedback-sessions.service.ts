@@ -134,7 +134,7 @@ export class FeedbackSessionsService {
   getFeedbackSessionsForInstructor(courseId?: string): Observable<FeedbackSessions> {
 
     let paramMap: Record<string, string>;
-    if (courseId != null) {
+    if (courseId) {
       paramMap = {
         entitytype: 'instructor',
         courseid: courseId,
@@ -168,7 +168,7 @@ export class FeedbackSessionsService {
   getFeedbackSessionsForStudent(entityType: string, courseId?: string): Observable<FeedbackSessions> {
 
     let paramMap: Record<string, string>;
-    if (courseId != null) {
+    if (courseId) {
       paramMap = {
         entitytype: entityType,
         courseid: courseId,

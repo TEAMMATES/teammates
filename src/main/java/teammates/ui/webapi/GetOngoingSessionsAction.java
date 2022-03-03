@@ -95,7 +95,7 @@ class GetOngoingSessionsAction extends AdminOnlyAction {
         }
 
         long totalInstitutes = instituteToFeedbackSessionsMap.keySet().stream()
-                .filter(key -> !key.equals(Const.UNKNOWN_INSTITUTION))
+                .filter(key -> !Const.UNKNOWN_INSTITUTION.equals(key))
                 .count();
 
         OngoingSessionsData output = new OngoingSessionsData();

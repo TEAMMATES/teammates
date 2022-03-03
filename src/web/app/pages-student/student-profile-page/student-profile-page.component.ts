@@ -1,23 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { environment } from '../../../environments/environment';
-
-import { AuthService } from '../../../services/auth.service';
-import { AuthInfo, Gender, MessageOutput, Nationalities, StudentProfile } from '../../../types/api-output';
-
 import { FormControl, FormGroup } from '@angular/forms';
-
-import { StatusMessageService } from '../../../services/status-message.service';
-import { StudentProfileService } from '../../../services/student-profile.service';
-import { ErrorMessageOutput } from '../../error-message-output';
-
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { from, throwError } from 'rxjs';
 import { catchError, finalize, switchMap } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
+import { AuthService } from '../../../services/auth.service';
 import { NationalitiesService } from '../../../services/nationalities.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
+import { StatusMessageService } from '../../../services/status-message.service';
+import { StudentProfileService } from '../../../services/student-profile.service';
+import { AuthInfo, Gender, MessageOutput, Nationalities, StudentProfile } from '../../../types/api-output';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
-import { UploadEditProfilePictureModalComponent } from './upload-edit-profile-picture-modal/upload-edit-profile-picture-modal.component';
+import { ErrorMessageOutput } from '../../error-message-output';
+import {
+  UploadEditProfilePictureModalComponent,
+} from './upload-edit-profile-picture-modal/upload-edit-profile-picture-modal.component';
 
 /**
  * Student profile page.
@@ -81,7 +78,9 @@ export class StudentProfilePageComponent implements OnInit {
 
         // retrieve profile once we have the student's googleId
         this.studentProfileService.getStudentProfile()
-            .pipe(finalize(() => this.isLoadingStudentProfile = false))
+            .pipe(finalize(() => {
+              this.isLoadingStudentProfile = false;
+            }))
             .subscribe((response: StudentProfile) => {
               if (response) {
                 this.student = response;
@@ -119,7 +118,8 @@ export class StudentProfilePageComponent implements OnInit {
    */
   onSubmit(): void {
     const modalRef: NgbModalRef = this.simpleModalService
-        .openConfirmationModal('Save Changes?', SimpleModalType.INFO, 'Are you sure you want to make changes to your profile?');
+        .openConfirmationModal('Save Changes?', SimpleModalType.INFO,
+            'Are you sure you want to make changes to your profile?');
     modalRef.result.then(() => this.submitEditForm(), () => {});
   }
 
@@ -180,7 +180,9 @@ export class StudentProfilePageComponent implements OnInit {
       gender: this.editForm.controls.studentgender.value,
       moreInfo: this.editForm.controls.studentprofilemoreinfo.value,
       existingNationality: this.editForm.controls.existingNationality.value,
-    }).pipe(finalize(() => this.isSavingProfileEdit = false)).subscribe((response: MessageOutput) => {
+    }).pipe(finalize(() => {
+      this.isSavingProfileEdit = false;
+    })).subscribe((response: MessageOutput) => {
       if (response) {
         this.statusMessageService.showSuccessToast(response.message);
       }
@@ -215,8 +217,8 @@ export class StudentProfilePageComponent implements OnInit {
             this.profilePicLink = '/assets/images/profile_picture_default.png';
           }
         }, (response: ErrorMessageOutput) => {
-          this.statusMessageService.
-            showErrorToast(`Could not delete your profile picture! ${response.error.message}`);
+          this.statusMessageService
+            .showErrorToast(`Could not delete your profile picture! ${response.error.message}`);
         });
   }
 

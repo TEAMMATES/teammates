@@ -11,8 +11,6 @@ export class LoadingBarService {
 
   isShown: Subject<boolean> = new Subject<boolean>();
 
-  constructor() { }
-
   /**
    * Displays the loading bar.
    */

@@ -252,42 +252,33 @@ exports[`AdminHomePageComponent should snap with disabled adding instructor butt
             </tr>
           </thead>
           <tbody>
-            
             <tr
               tm-new-instructor-data-row=""
             >
               <td>
-                
                 <span
                   id="instructor-0-name"
                 >
                   Instructor A
                 </span>
-                
               </td>
               <td>
-                
                 <span
                   id="instructor-0-email"
                 >
                   instructora@example.com
                 </span>
-                
               </td>
               <td>
-                
                 <span
                   id="instructor-0-institution"
                 >
                   Sample Institution A
                 </span>
-                
               </td>
               <td
                 style="width: 17%;"
               >
-                
-                
               </td>
               <td
                 style="width: 8%;"
@@ -297,45 +288,35 @@ exports[`AdminHomePageComponent should snap with disabled adding instructor butt
               <td
                 style="width: 40%;"
               >
-                
-                
               </td>
             </tr>
             <tr
               tm-new-instructor-data-row=""
             >
               <td>
-                
                 <span
                   id="instructor-1-name"
                 >
                   Instructor B
                 </span>
-                
               </td>
               <td>
-                
                 <span
                   id="instructor-1-email"
                 >
                   instructorb@example.com
                 </span>
-                
               </td>
               <td>
-                
                 <span
                   id="instructor-1-institution"
                 >
                   Sample Institution B
                 </span>
-                
               </td>
               <td
                 style="width: 17%;"
               >
-                
-                
                 <div
                   class="button-group"
                 >
@@ -370,8 +351,6 @@ exports[`AdminHomePageComponent should snap with disabled adding instructor butt
               <td
                 style="width: 40%;"
               >
-                
-                
               </td>
             </tr>
           </tbody>
@@ -381,7 +360,6 @@ exports[`AdminHomePageComponent should snap with disabled adding instructor butt
           disabled=""
           id="add-all-instructors"
         >
-          
           <tm-ajax-loading>
             <div
               class="loading-container"
@@ -545,42 +523,33 @@ exports[`AdminHomePageComponent should snap with some instructors details 1`] = 
             </tr>
           </thead>
           <tbody>
-            
             <tr
               tm-new-instructor-data-row=""
             >
               <td>
-                
                 <span
                   id="instructor-0-name"
                 >
                   Instructor A
                 </span>
-                
               </td>
               <td>
-                
                 <span
                   id="instructor-0-email"
                 >
                   instructora@example.com
                 </span>
-                
               </td>
               <td>
-                
                 <span
                   id="instructor-0-institution"
                 >
                   Sample Institution A
                 </span>
-                
               </td>
               <td
                 style="width: 17%;"
               >
-                
-                
                 <div
                   class="button-group"
                 >
@@ -614,45 +583,35 @@ exports[`AdminHomePageComponent should snap with some instructors details 1`] = 
               <td
                 style="width: 40%;"
               >
-                
-                
               </td>
             </tr>
             <tr
               tm-new-instructor-data-row=""
             >
               <td>
-                
                 <span
                   id="instructor-1-name"
                 >
                   Instructor B
                 </span>
-                
               </td>
               <td>
-                
                 <span
                   id="instructor-1-email"
                 >
                   instructorb@example.com
                 </span>
-                
               </td>
               <td>
-                
                 <span
                   id="instructor-1-institution"
                 >
                   Sample Institution B
                 </span>
-                
               </td>
               <td
                 style="width: 17%;"
               >
-                
-                
               </td>
               <td
                 style="width: 8%;"
@@ -662,7 +621,6 @@ exports[`AdminHomePageComponent should snap with some instructors details 1`] = 
               <td
                 style="width: 40%;"
               >
-                
                 <span
                   id="message-instructor-1"
                 >
@@ -674,44 +632,35 @@ exports[`AdminHomePageComponent should snap with some instructors details 1`] = 
                   </a>
                   ] 
                 </span>
-                
               </td>
             </tr>
             <tr
               tm-new-instructor-data-row=""
             >
               <td>
-                
                 <span
                   id="instructor-2-name"
                 >
                   Instructor C
                 </span>
-                
               </td>
               <td>
-                
                 <span
                   id="instructor-2-email"
                 >
                   instructorc@example.com
                 </span>
-                
               </td>
               <td>
-                
                 <span
                   id="instructor-2-institution"
                 >
                   Sample Institution C
                 </span>
-                
               </td>
               <td
                 style="width: 17%;"
               >
-                
-                
                 <div
                   class="button-group"
                 >
@@ -745,8 +694,6 @@ exports[`AdminHomePageComponent should snap with some instructors details 1`] = 
               <td
                 style="width: 40%;"
               >
-                
-                
                 <span
                   class="message"
                   id="message-instructor-2"
@@ -761,7 +708,6 @@ exports[`AdminHomePageComponent should snap with some instructors details 1`] = 
           class="btn btn-primary top-padded"
           id="add-all-instructors"
         >
-          
            Add All Instructors 
         </button>
       </div>

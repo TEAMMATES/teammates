@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FeedbackTextQuestionDetails } from '../../../../types/api-output';
 import { DEFAULT_TEXT_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { QuestionEditDetailsFormComponent } from './question-edit-details-form.component';
@@ -11,12 +11,11 @@ import { QuestionEditDetailsFormComponent } from './question-edit-details-form.c
   templateUrl: './text-question-edit-details-form.component.html',
   styleUrls: ['./text-question-edit-details-form.component.scss'],
 })
-export class TextQuestionEditDetailsFormComponent extends QuestionEditDetailsFormComponent<FeedbackTextQuestionDetails>
-    implements OnInit {
+export class TextQuestionEditDetailsFormComponent
+    extends QuestionEditDetailsFormComponent<FeedbackTextQuestionDetails> {
 
   constructor() {
     super(DEFAULT_TEXT_QUESTION_DETAILS());
   }
 
-  ngOnInit(): void {}
 }

@@ -1,6 +1,5 @@
-import { TestBed } from '@angular/core/testing';
-
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { TestBed } from '@angular/core/testing';
 import { ResourceEndpoints } from '../types/api-const';
 import {
   AccountRequest,
@@ -17,7 +16,12 @@ import {
   Student,
 } from '../types/api-output';
 import { HttpRequestService } from './http-request.service';
-import { AccountRequestSearchResult, InstructorAccountSearchResult, SearchService, StudentAccountSearchResult } from './search.service';
+import {
+  AccountRequestSearchResult,
+  InstructorAccountSearchResult,
+  SearchService,
+  StudentAccountSearchResult,
+} from './search.service';
 import { TimezoneService } from './timezone.service';
 
 describe('SearchService', () => {
@@ -204,7 +208,7 @@ describe('SearchService', () => {
   });
 
   it('should join account requests accurately when timezone can be guessed and instructor is registered', () => {
-    spyOn(timezoneService, 'guessTimezone').and.returnValue('Asia/Singapore');
+    jest.spyOn(timezoneService, 'guessTimezone').mockReturnValue('Asia/Singapore');
     const accountRequest: AccountRequest = { ...mockAccountRequest, registeredAt: 1685487897502 };
     const result: AccountRequestSearchResult = service.joinAdminAccountRequest(accountRequest);
 
@@ -217,7 +221,7 @@ describe('SearchService', () => {
   });
 
   it('should join account requests accurately when timezone cannot be guessed and instructor is not registered', () => {
-    spyOn(timezoneService, 'guessTimezone').and.returnValue('');
+    jest.spyOn(timezoneService, 'guessTimezone').mockReturnValue('');
     const result: AccountRequestSearchResult = service.joinAdminAccountRequest(mockAccountRequest);
 
     expect(result.email).toBe('test@example.com');

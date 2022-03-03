@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -11,7 +11,7 @@ describe('StudentNameWithPhotoComponent', () => {
   let component: StudentNameWithPhotoComponent;
   let fixture: ComponentFixture<StudentNameWithPhotoComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [StudentNameWithPhotoComponent, FormatPhotoUrlPipe, ViewPhotoPopoverComponent],
       imports: [NgbModule, RouterTestingModule, TeammatesRouterModule],

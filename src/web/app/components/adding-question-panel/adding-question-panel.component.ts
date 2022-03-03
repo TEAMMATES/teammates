@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FeedbackQuestionType } from '../../../types/api-output';
 
 /**
@@ -9,7 +9,7 @@ import { FeedbackQuestionType } from '../../../types/api-output';
   templateUrl: './adding-question-panel.component.html',
   styleUrls: ['./adding-question-panel.component.scss'],
 })
-export class AddingQuestionPanelComponent implements OnInit {
+export class AddingQuestionPanelComponent {
 
   // enum
   FeedbackQuestionType: typeof FeedbackQuestionType = FeedbackQuestionType;
@@ -28,12 +28,6 @@ export class AddingQuestionPanelComponent implements OnInit {
 
   @Output()
   copyQuestionsFromOtherSessionsEvent: EventEmitter<void> = new EventEmitter<void>();
-
-  constructor() {
-  }
-
-  ngOnInit(): void {
-  }
 
   /**
    * Handles display of template question modal.

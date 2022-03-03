@@ -144,12 +144,12 @@
         </div>
       </div>
 
-      <button id="btn-add-session-level" *ngIf="sectionLevel.sessionLevel.length == 0" [disabled]="allSessions.length == 0"
+      <button id="btn-add-session-level" *ngIf="sectionLevel.sessionLevel.length === 0" [disabled]="allSessions.length === 0"
               class="btn btn-link" (click)="addSessionLevelPermission(i)">Give different permissions for sessions in this section</button>
-      <button *ngIf="sectionLevel.sessionLevel.length != 0"
+      <button *ngIf="sectionLevel.sessionLevel.length !== 0"
               class="btn btn-link" (click)="deleteSessionLevelPermission(i)">Delete session-level permissions</button>
 
-      <table id="custom-sessions" class="table table-striped table-responsive" *ngIf="sectionLevel.sessionLevel.length != 0">
+      <table id="custom-sessions" class="table table-striped table-responsive" *ngIf="sectionLevel.sessionLevel.length !== 0">
         <thead>
         <tr>
           <th scope="col">Session Name</th>

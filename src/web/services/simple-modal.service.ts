@@ -26,7 +26,8 @@ export class SimpleModalService {
   }
 
   /**
-   * Opens a confirmation modal
+   * Opens a confirmation modal.
+   *
    * @param header to be displayed on the modal
    * @param type which determines the look of the modal
    * @param content to be displayed in the body of the modal. content supports HTML tags
@@ -39,7 +40,7 @@ export class SimpleModalService {
     modalRef.componentInstance.content = content;
     modalRef.componentInstance.type = type;
     if (options) {
-      Object.entries(options).map(([key, value]: [string, string | boolean]) => {
+      Object.entries(options).forEach(([key, value]: [string, string | boolean]) => {
         modalRef.componentInstance[key] = value;
       });
     }

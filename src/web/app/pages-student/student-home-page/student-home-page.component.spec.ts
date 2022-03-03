@@ -1,5 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
@@ -14,14 +14,13 @@ import {
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../types/api-output';
-import { StudentHomePageComponent } from './student-home-page.component';
-
 import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
 import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';
 import { ResponseStatusPipe } from '../../pipes/session-response-status.pipe';
 import { SubmissionStatusPipe } from '../../pipes/session-submission-status.pipe';
+import { StudentHomePageComponent } from './student-home-page.component';
 
 const studentCourseA: any = {
   course: {
@@ -261,7 +260,7 @@ describe('StudentHomePageComponent', () => {
   let courseService: CourseService;
   let feedbackSessionsService: FeedbackSessionsService;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         StudentHomePageComponent,
@@ -336,9 +335,9 @@ describe('StudentHomePageComponent', () => {
       hasResponsesBySession: { 'First Session': false, 'Second Session': true },
     };
 
-    spyOn(courseService, 'getAllCoursesAsStudent').and.returnValue(of(studentCourses));
-    spyOn(feedbackSessionsService, 'getFeedbackSessionsForStudent').and.returnValue(of(studentFeedbackSessions1));
-    spyOn(feedbackSessionsService, 'hasStudentResponseForAllFeedbackSessionsInCourse').and.returnValue(of(hasRes));
+    jest.spyOn(courseService, 'getAllCoursesAsStudent').mockReturnValue(of(studentCourses));
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSessionsForStudent').mockReturnValue(of(studentFeedbackSessions1));
+    jest.spyOn(feedbackSessionsService, 'hasStudentResponseForAllFeedbackSessionsInCourse').mockReturnValue(of(hasRes));
 
     component.loadStudentCourses();
 
@@ -392,9 +391,9 @@ describe('StudentHomePageComponent', () => {
       hasResponsesBySession: { 'First Session': false },
     };
 
-    spyOn(courseService, 'getAllCoursesAsStudent').and.returnValue(of(studentCourses));
-    spyOn(feedbackSessionsService, 'getFeedbackSessionsForStudent').and.returnValue(of(studentFeedbackSessions1));
-    spyOn(feedbackSessionsService, 'hasStudentResponseForAllFeedbackSessionsInCourse').and.returnValue(of(hasRes));
+    jest.spyOn(courseService, 'getAllCoursesAsStudent').mockReturnValue(of(studentCourses));
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSessionsForStudent').mockReturnValue(of(studentFeedbackSessions1));
+    jest.spyOn(feedbackSessionsService, 'hasStudentResponseForAllFeedbackSessionsInCourse').mockReturnValue(of(hasRes));
 
     component.loadStudentCourses();
 
@@ -411,9 +410,9 @@ describe('StudentHomePageComponent', () => {
       },
     };
 
-    spyOn(courseService, 'getAllCoursesAsStudent').and.returnValue(of(studentCourses));
-    spyOn(feedbackSessionsService, 'getFeedbackSessionsForStudent').and.returnValue(of(studentFeedbackSessions));
-    spyOn(feedbackSessionsService, 'hasStudentResponseForAllFeedbackSessionsInCourse').and.returnValue(of(hasRes));
+    jest.spyOn(courseService, 'getAllCoursesAsStudent').mockReturnValue(of(studentCourses));
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSessionsForStudent').mockReturnValue(of(studentFeedbackSessions));
+    jest.spyOn(feedbackSessionsService, 'hasStudentResponseForAllFeedbackSessionsInCourse').mockReturnValue(of(hasRes));
 
     component.loadStudentCourses();
 
@@ -434,9 +433,9 @@ describe('StudentHomePageComponent', () => {
       },
     };
 
-    spyOn(courseService, 'getAllCoursesAsStudent').and.returnValue(of(studentCourses));
-    spyOn(feedbackSessionsService, 'getFeedbackSessionsForStudent').and.returnValue(of(studentFeedbackSessions));
-    spyOn(feedbackSessionsService, 'hasStudentResponseForAllFeedbackSessionsInCourse').and.returnValue(of(hasRes));
+    jest.spyOn(courseService, 'getAllCoursesAsStudent').mockReturnValue(of(studentCourses));
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSessionsForStudent').mockReturnValue(of(studentFeedbackSessions));
+    jest.spyOn(feedbackSessionsService, 'hasStudentResponseForAllFeedbackSessionsInCourse').mockReturnValue(of(hasRes));
 
     component.loadStudentCourses();
 

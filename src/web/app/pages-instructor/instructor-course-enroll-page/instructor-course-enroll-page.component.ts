@@ -143,16 +143,16 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
         .forEach((row: string[], index: number) => {
           if (!row.every((cell: string) => cell === null || cell === '')) {
             studentEnrollRequests.set(index, {
-              section: row[hotInstanceColHeaders.indexOf(this.colHeaders[0])] === null ?
-                  '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[0])].trim(),
-              team: row[hotInstanceColHeaders.indexOf(this.colHeaders[1])] === null ?
-                  '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[1])].trim(),
-              name: row[hotInstanceColHeaders.indexOf(this.colHeaders[2])] === null ?
-                  '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[2])].trim(),
-              email: row[hotInstanceColHeaders.indexOf(this.colHeaders[3])] === null ?
-                  '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[3])].trim(),
-              comments: row[hotInstanceColHeaders.indexOf(this.colHeaders[4])] === null ?
-                  '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[4])].trim(),
+              section: row[hotInstanceColHeaders.indexOf(this.colHeaders[0])] === null
+                  ? '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[0])].trim(),
+              team: row[hotInstanceColHeaders.indexOf(this.colHeaders[1])] === null
+                  ? '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[1])].trim(),
+              name: row[hotInstanceColHeaders.indexOf(this.colHeaders[2])] === null
+                  ? '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[2])].trim(),
+              email: row[hotInstanceColHeaders.indexOf(this.colHeaders[3])] === null
+                  ? '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[3])].trim(),
+              comments: row[hotInstanceColHeaders.indexOf(this.colHeaders[4])] === null
+                  ? '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[4])].trim(),
             });
           }
         });
@@ -188,7 +188,9 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
         }),
     );
 
-    enrollRequests.pipe(finalize(() => this.isEnrolling = false)).subscribe({
+    enrollRequests.pipe(finalize(() => {
+      this.isEnrolling = false;
+    })).subscribe({
       next: (resp: EnrollStudents) => {
         enrolledStudents.push(...resp.studentsData.students);
 
@@ -371,7 +373,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     const statuses: (string | EnrollStatus)[] = Object.values(EnrollStatus)
         .filter((value: string | EnrollStatus) => typeof value === 'string');
 
-    for (const _ of statuses) {
+    for (let i = 0; i < statuses.length; i += 1) {
       studentLists.push([]);
     }
 
@@ -547,7 +549,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
 
     this.studentService.getStudentsFromCourse({ courseId: this.courseId }).subscribe(
         (resp: Students) => {
-          if (resp.students.length !== 0) {
+          if (resp.students.length) {
             this.loadExistingStudentsData(existingStudentsHOTInstance, resp.students);
           } else {
             // Shows a message if there are no existing students. Panel would not be expanded.
@@ -577,7 +579,8 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
    * Handsontable context menu
    */
   showPasteModalBox(): void {
-    const modalContent: string = `Pasting data through the context menu is not supported due to browser restrictions.<br>
+    const modalContent: string =
+      `Pasting data through the context menu is not supported due to browser restrictions.<br>
       Please use <kbd>Ctrl + V</kbd> or <kbd>⌘ + V</kbd> to paste your data instead.`;
     this.simpleModalService.openInformationModal('Pasting data through the context menu',
         SimpleModalType.WARNING, modalContent);
