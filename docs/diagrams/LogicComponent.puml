@@ -2,7 +2,7 @@
 !include style.puml
 skinparam componentBackgroundColor MODEL_COLOR_T1
 skinparam componentFontColor #FFFFFF
-skinparam packageBackgroundColor #FFFFFF
+skinparam FolderBackgroundColor #FFFFFF
 skinparam rectangleBackgroundColor MODEL_COLOR
 skinparam rectangleFontColor #FFFFFF
 skinparam arrowColor #000000
@@ -39,7 +39,7 @@ component Logic {
 }
 
 rectangle ThirdPartyEmailAPIs
-rectangle "GAE\nTaskQueueAPI" as GaeTaskQueueApi
+rectangle "GCP\nCloudTasksAPI" as GcpCloudTasksApi
 rectangle "GCP\nCloudStorageAPI" as GcpCloudStorageApi
 rectangle "Other\nExternalAPIs" as OtherExternalApi
 rectangle UI
@@ -48,7 +48,7 @@ storage Storage STORAGE_COLOR_T1
 MailgunService ..> ThirdPartyEmailAPIs
 MailjetService ..> ThirdPartyEmailAPIs
 SendgridService ..> ThirdPartyEmailAPIs
-GoogleCloudTasksService ..> GaeTaskQueueApi
+GoogleCloudTasksService ..> GcpCloudTasksApi
 GoogleCloudStorageService ..> GcpCloudStorageApi
 Service ..> OtherExternalApi
 AccountsLogic ..> Storage
