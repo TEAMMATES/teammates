@@ -25,6 +25,7 @@ import { ColumnData } from '../../components/sortable-table/sortable-table.compo
 import { InstructorTrackViewPageComponent } from './instructor-track-view-page.component';
 import { InstructorTrackViewPageModule } from './instructor-track-view-page.module';
 import { default as courses } from '../../test-data/courses.json'
+import { default as students } from '../../test-data/students.json'
 
 describe('InstructorTrackViewPageComponent', () => {
   let component: InstructorTrackViewPageComponent;
@@ -82,13 +83,7 @@ describe('InstructorTrackViewPageComponent', () => {
     createdAtTimestamp: 0,
   };
 
-  const testStudent: Student = {
-    email: 'doejohn@email.com',
-    courseId: 'CS1234',
-    name: 'Doe John',
-    teamName: 'team 1',
-    sectionName: 'section 1',
-  };
+  const testStudent: Student = students.testStuden2;
 
   const testLogs: FeedbackSessionLog = {
     feedbackSessionData: testFeedbackSessionPublished,

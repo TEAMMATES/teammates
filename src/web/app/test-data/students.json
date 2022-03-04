@@ -12,5 +12,12 @@
         "name": "Doe John",
         "teamName": "team 1",
         "sectionName": "section 1"
+    },
+    "testStuden2": {
+        "email": "doejohn@email.com",
+        "courseId": "CS1234",
+        "name": "Doe John",
+        "teamName": "team 1",
+        "sectionName": "section 1"
     }
 }
