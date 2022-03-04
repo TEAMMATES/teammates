@@ -60,6 +60,21 @@
         "timeZone": "UTC (UTC)",
         "creationTimestamp": 0,
         "deletionTimestamp": 1000
+    },
+    "CS1231": {
+        "courseId": "CS1231",
+        "courseName": "Discrete Structures",
+        "institute": "Test Institute",
+        "creationTimestamp": 1549095330000,
+        "deletionTimestamp": 0,
+        "timeZone": "Asia/Singapore"
+    },
+    "CS3281": {
+        "courseId": "CS3281",
+        "courseName": "Thematic Systems I",
+        "institute": "Test Institute",
+        "creationTimestamp": 1611580917000,
+        "deletionTimestamp": 0,
+        "timeZone": "Asia/Singapore"
     }
-
 }
