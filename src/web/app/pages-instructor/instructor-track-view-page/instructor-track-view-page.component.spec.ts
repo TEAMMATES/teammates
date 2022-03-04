@@ -26,6 +26,7 @@ import { InstructorTrackViewPageComponent } from './instructor-track-view-page.c
 import { InstructorTrackViewPageModule } from './instructor-track-view-page.module';
 import { default as courses } from '../../test-data/courses.json'
 import { default as students } from '../../test-data/students.json'
+import { default as feedbackSessions } from '../../test-data/feedbackSession.json'
 
 describe('InstructorTrackViewPageComponent', () => {
   let component: InstructorTrackViewPageComponent;
@@ -66,22 +67,11 @@ describe('InstructorTrackViewPageComponent', () => {
     createdAtTimestamp: 0,
   };
 
-  const testFeedbackSessionNotPublished: FeedbackSession = {
-    feedbackSessionName: 'Second Session',
-    courseId: 'MA1234',
-    timeZone: 'Asia/Singapore',
-    instructions: '',
-    submissionStartTimestamp: 0,
-    submissionEndTimestamp: 1549095330000,
-    gracePeriod: 0,
-    sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
-    responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
-    submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
-    publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
-    isClosingEmailEnabled: true,
-    isPublishedEmailEnabled: false,
-    createdAtTimestamp: 0,
-  };
+  // Store in temporary any-type object since the json-object cannot hold
+  // attributes with values of typescript classes. The temporary object can then
+  // be converted into a proper FeedbackSession-object.
+  const tmp_testFeedbackSessionNotPublished: any = feedbackSessions.notPublished;
+  const testFeedbackSessionNotPublished: FeedbackSession = tmp_testFeedbackSessionNotPublished;
 
   const testStudent: Student = students.testStuden2;
 

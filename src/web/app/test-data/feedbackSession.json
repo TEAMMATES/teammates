@@ -1,0 +1,18 @@
+{
+    "notPublished": {
+        "feedbackSessionName":"Second Session",
+        "courseId":"MA1234",
+        "timeZone":"Asia/Singapore",
+        "instructions":"",
+        "submissionStartTimestamp": 0,
+        "submissionEndTimestamp": 1549095330000,
+        "gracePeriod": 0,
+        "sessionVisibleSetting": "AT_OPEN",
+        "responseVisibleSetting": "AT_VISIBLE",
+        "submissionStatus": "OPEN",
+        "publishStatus": "NOT_PUBLISHED",
+        "isClosingEmailEnabled": true,
+        "isPublishedEmailEnabled": false,
+        "createdAtTimestamp": 0
+    }
+}
