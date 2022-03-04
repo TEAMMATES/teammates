@@ -1,0 +1,33 @@
+{
+    "InstructorPermissionSet": {
+        "canModifyCourse": true,
+        "canModifySession": true,
+        "canModifyStudent": true,
+        "canModifyInstructor": true,
+        "canViewStudentInSections": true,
+        "canModifySessionCommentsInSections": true,
+        "canViewSessionInSections": true,
+        "canSubmitSessionInSections": true
+    },
+    "InstructorPrivilege1": {
+        "courseLevel": "basePrivilege",
+        "sectionLevel": {},
+        "sessionLevel": {}
+    } ,
+    "InstructorPrivilege2": {
+        "courseLevel": "...basePrivilege",
+        "sectionLevel": false,
+        "sessionLevel": true
+    },
+    "InstructorPrivilege3": {
+        "courseLevel": "...basePrivilege",
+        "sectionLevel": true,
+        "sessionLevel": false
+    },
+    "InstructorPrivilege4": {
+        "courseLevel": "...basePrivilege",
+        "sectionLevel": false,
+        "sessionLevel": false
+    }    
+
+}
