@@ -20,17 +20,9 @@ import { CourseTabModel, InstructorHomePageComponent } from './instructor-home-p
 import { InstructorHomePageModule } from './instructor-home-page.module';
 import {default as courses} from '../../test-data/courses.json'
 import {default as feedBackSessions} from '../../test-data/feedbackSession.json'
+import {default as instructorPrivilegeSets} from '../../test-data/instructorPermissionSets.json'
 
-const testInstructorPrivilege: InstructorPermissionSet = {
-  canModifyCourse: true,
-  canModifySession: true,
-  canModifyStudent: true,
-  canSubmitSessionInSections: true,
-  canModifyInstructor: false,
-  canViewStudentInSections: false,
-  canModifySessionCommentsInSections: false,
-  canViewSessionInSections: false,
-};
+const testInstructorPrivilege: InstructorPermissionSet = instructorPrivilegeSets.privilegeSet1;
 
 const testCourse1: Course = courses.CS1231;
 const testCourse2: Course = courses.CS3281;
@@ -38,7 +30,6 @@ const testCourse2: Course = courses.CS3281;
 // Store in temporary any-type objects since the json-objects cannot hold
 // attributes with values of typescript classes. The temporary objects can then
 // be converted into proper FeedbackSession-objects.
-
 const tmp_testFeedbackSession1: any = feedBackSessions.FirstSessionCS1231;
 const testFeedbackSession1: FeedbackSession = tmp_testFeedbackSession1;
 const tmp_testFeedbackSession2: any = feedBackSessions.SecondSessionCS1231;
