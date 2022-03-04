@@ -21,6 +21,9 @@ import { SortBy } from '../../../types/sort-properties';
 import { ColumnData } from '../../components/sortable-table/sortable-table.component';
 import { InstructorAuditLogsPageComponent } from './instructor-audit-logs-page.component';
 import { InstructorAuditLogsPageModule } from './instructor-audit-logs-page.module';
+import {default as courses} from '../../test-data/courses.json';
+import {default as students} from '../../test-data/students.json';
+
 
 describe('InstructorAuditLogsPageComponent', () => {
   let component: InstructorAuditLogsPageComponent;
@@ -38,70 +41,14 @@ describe('InstructorAuditLogsPageComponent', () => {
     { header: 'Section', sortBy: SortBy.SECTION_NAME },
     { header: 'Team', sortBy: SortBy.TEAM_NAME },
   ];
-  const testCourse1: Course = {
-    courseId: 'CS9999',
-    courseName: 'CS9999',
-    institute: 'Test Institute',
-    timeZone: 'Asia/Singapore',
-    creationTimestamp: 0,
-    deletionTimestamp: 0,
-    privileges: {
-      canModifyCourse: true,
-      canModifySession: true,
-      canModifyStudent: true,
-      canModifyInstructor: true,
-      canViewStudentInSections: true,
-      canModifySessionCommentsInSections: true,
-      canViewSessionInSections: true,
-      canSubmitSessionInSections: true,
-    },
-  };
-  const testCourse2: Course = {
-    courseId: 'MA1234',
-    courseName: 'MA1234',
-    institute: 'Test Institute',
-    timeZone: 'Asia/Singapore',
-    creationTimestamp: 0,
-    deletionTimestamp: 0,
-    privileges: {
-      canModifyCourse: true,
-      canModifySession: true,
-      canModifyStudent: true,
-      canModifyInstructor: true,
-      canViewStudentInSections: true,
-      canModifySessionCommentsInSections: true,
-      canViewSessionInSections: true,
-      canSubmitSessionInSections: true,
-    },
-  };
-  const testCourse3: Course = {
-    courseId: 'EE1111',
-    courseName: 'EE1111',
-    institute: 'Test Institute',
-    timeZone: 'Asia/Singapore',
-    creationTimestamp: 0,
-    deletionTimestamp: 0,
-    privileges: {
-      canModifyCourse: false,
-      canModifySession: false,
-      canModifyStudent: false,
-      canModifyInstructor: false,
-      canViewStudentInSections: true,
-      canModifySessionCommentsInSections: true,
-      canViewSessionInSections: true,
-      canSubmitSessionInSections: true,
-    },
-  };
-  const emptyStudent: Student = {
-    courseId: '', email: '', name: '', sectionName: '', teamName: '',
-  };
-  const testStudent: Student = {
-    email: 'doejohn@email.com',
-    courseId: 'CS9999',
-    name: 'Doe John',
-    teamName: 'team 1',
-    sectionName: 'section 1',
-  };
+
+ const testCourse1: Course = courses.CS9999;
+ const testCourse2: Course = courses.MA1234;
+ const testCourse3: Course = courses.EE1111; 
+ 
+ const emptyStudent: Student = students.emptyStudent;
+ const testStudent: Student = students.testStudent1;
+
   const testFeedbackSession: FeedbackSession = {
     feedbackSessionName: 'Feedback Session 1',
     courseId: 'CS9999',

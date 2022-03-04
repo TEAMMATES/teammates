@@ -1,0 +1,16 @@
+{
+    "emptyStudent": {
+        "courseId": "",
+        "email": "",
+        "name": "",
+        "sectionName": "",
+        "teamName": ""
+    },
+    "testStudent1": {
+        "email": "doejohn@email.com",
+        "courseId": "CS9999",
+        "name": "Doe John",
+        "teamName": "team 1",
+        "sectionName": "section 1"
+    }
+}
