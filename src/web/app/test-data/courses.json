@@ -52,5 +52,14 @@
             "canViewSessionInSections": true,
             "canSubmitSessionInSections": true
         }
+    },
+    "exampleId": {
+        "courseId": "exampleId",
+        "courseName": "Example Course",
+        "institute": "Test Institute",
+        "timeZone": "UTC (UTC)",
+        "creationTimestamp": 0,
+        "deletionTimestamp": 1000
     }
+
 }
