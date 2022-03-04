@@ -6,15 +6,9 @@ import { StudentListRowModel } from '../../components/student-list/student-list.
 import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
 import { InstructorCourseDetailsPageComponent } from './instructor-course-details-page.component';
 import { InstructorCourseDetailsPageModule } from './instructor-course-details-page.module';
+import {default as courses} from '../../test-data/courses.json';
 
-const course: Course = {
-  courseId: 'CS101',
-  courseName: 'Introduction to CS',
-  timeZone: '',
-  institute: 'Test Institute',
-  creationTimestamp: 0,
-  deletionTimestamp: 0,
-};
+const course: Course = courses.CS101;
 
 const testStudent: Student = {
   name: 'Jamie',

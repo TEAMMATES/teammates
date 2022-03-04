@@ -60,6 +60,13 @@
         "timeZone": "UTC (UTC)",
         "creationTimestamp": 0,
         "deletionTimestamp": 1000
+    },
+    "CS101": {
+        "courseId": "CS101",
+        "courseName": "Introduction to CS",
+        "timeZone": "",
+        "institute": "Test Institute",
+        "creationTimestamp": 0,
+        "deletionTimestamp": 0
     }
-
 }
