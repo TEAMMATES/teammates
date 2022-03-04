@@ -24,6 +24,7 @@ import { SortBy } from '../../../types/sort-properties';
 import { ColumnData } from '../../components/sortable-table/sortable-table.component';
 import { InstructorTrackViewPageComponent } from './instructor-track-view-page.component';
 import { InstructorTrackViewPageModule } from './instructor-track-view-page.module';
+import { default as courses } from '../../test-data/courses.json'
 
 describe('InstructorTrackViewPageComponent', () => {
   let component: InstructorTrackViewPageComponent;
@@ -43,23 +44,8 @@ describe('InstructorTrackViewPageComponent', () => {
     { header: 'Team', sortBy: SortBy.TEAM_NAME },
   ];
 
-  const testCourse1: Course = {
-    courseId: 'CS1234',
-    courseName: 'test-course1',
-    institute: 'Test Institute',
-    timeZone: 'Asia/Singapore',
-    creationTimestamp: 0,
-    deletionTimestamp: 0,
-  };
-
-  const testCourse2: Course = {
-    courseId: 'MA1234',
-    courseName: 'test-course2',
-    institute: 'Test Institute',
-    timeZone: 'Asia/Singapore',
-    creationTimestamp: 0,
-    deletionTimestamp: 0,
-  };
+  const testCourse1: Course = courses.CS1234;
+  const testCourse2: Course = courses.MA1234_without_privileges;
 
   const testFeedbackSessionPublished: FeedbackSession = {
     feedbackSessionName: 'First Session',

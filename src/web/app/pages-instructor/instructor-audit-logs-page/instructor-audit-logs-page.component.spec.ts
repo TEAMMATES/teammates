@@ -43,7 +43,7 @@ describe('InstructorAuditLogsPageComponent', () => {
   ];
 
  const testCourse1: Course = courses.CS9999;
- const testCourse2: Course = courses.MA1234;
+ const testCourse2: Course = courses.MA1234_with_privileges;
  const testCourse3: Course = courses.EE1111; 
  
  const emptyStudent: Student = students.emptyStudent;
