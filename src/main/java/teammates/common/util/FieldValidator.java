@@ -606,7 +606,7 @@ public final class FieldValidator {
 
     /**
      * Checks if {@code targetUser} is one of the
-     * recognized visibility group {@link #NOTIFICATION_TARGET_USER_ACCEPTED_VALUES}.
+     * recognized notification target user groups {@link #NOTIFICATION_TARGET_USER_ACCEPTED_VALUES}.
      *
      * @return An explanation of why the {@code targetUser} is not acceptable.
      *         Returns an empty string if the {@code targetUser} is acceptable.
