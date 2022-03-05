@@ -63,6 +63,7 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 GetStudentAction.class,
                 UpdateStudentAction.class,
                 SearchStudentsAction.class,
+                GetNotificationAction.class,
                 FeedbackSessionRemindEmailWorkerAction.class,
                 DeleteStudentProfilePictureAction.class,
                 PostStudentProfilePictureAction.class,

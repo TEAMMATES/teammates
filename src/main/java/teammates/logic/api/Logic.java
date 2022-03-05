@@ -83,7 +83,6 @@ public class Logic {
         return coursesLogic.getCourseInstitute(courseId);
     }
 
-
     public List<NotificationAttributes> getNotificationsByTargetUser(String targetUser) {
         return notificationsLogic.getNotificationsByTargetUser(targetUser);
     }

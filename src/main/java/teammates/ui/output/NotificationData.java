@@ -29,36 +29,36 @@ public class NotificationData extends ApiOutput {
     }
 
     public String getNotificationId() {
-		return this.notificationId;
-	}
+        return this.notificationId;
+    }
 
-	public Long getStartTimestamp() {
-		return this.startTimestamp;
-	}
+    public Long getStartTimestamp() {
+        return this.startTimestamp;
+    }
 
-	public Long getEndTimestamp() {
-		return this.endTimestamp;
-	}
+    public Long getEndTimestamp() {
+        return this.endTimestamp;
+    }
 
-	public String getNotificationType() {
-		return this.type;
-	}
+    public String getNotificationType() {
+        return this.type;
+    }
 
-	public String getTargetUser() {
-		return this.targetUser;
-	}
+    public String getTargetUser() {
+        return this.targetUser;
+    }
 
-	public String getTitle() {
-		return this.title;
-	}
+    public String getTitle() {
+        return this.title;
+    }
 
-	public String getMessage() {
-		return this.message;
-	}
+    public String getMessage() {
+        return this.message;
+    }
 
     public boolean isShown() {
-		return this.shown;
-	}
+        return this.shown;
+    }
 
     /**
      * Hides some attributes to instructor and students without appropriate privilege.
