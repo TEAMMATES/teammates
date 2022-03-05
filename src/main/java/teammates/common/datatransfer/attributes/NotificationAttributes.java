@@ -156,7 +156,6 @@ public class NotificationAttributes extends EntityAttributes<Notification> {
         this.updatedAt = updatedAt;
     }
 
-
     /**
      * Sorts the list of notifications by the start time.
      */

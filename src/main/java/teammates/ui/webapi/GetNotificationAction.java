@@ -8,6 +8,9 @@ import teammates.ui.output.NotificationData;
 import teammates.ui.output.NotificationsData;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 
+/**
+ * Action: Get a list of notifications.
+ */
 public class GetNotificationAction extends Action {
 
     @Override
@@ -23,14 +26,14 @@ public class GetNotificationAction extends Action {
     @Override
     public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
         String targetUser = getRequestParamValue(Const.ParamsNames.NOTIFICATION_TARGET_USER);
-//        boolean isFetchingAll = Boolean.parseBoolean(
-//                getRequestParamValue(Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL));
+        //        boolean isFetchingAll = Boolean.parseBoolean(
+        //                getRequestParamValue(Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL));
 
         List<NotificationAttributes> notificationAttributes = logic.getNotificationsByTargetUser(targetUser);
 
-//        if (!isFetchingAll) {
-//            //TODO: only unread notifications returned
-//        }
+        //        if (!isFetchingAll) {
+        //            //TODO: only unread notifications returned
+        //        }
 
         NotificationsData responseData = new NotificationsData(notificationAttributes);
 

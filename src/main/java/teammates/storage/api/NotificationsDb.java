@@ -42,6 +42,11 @@ public final class NotificationsDb extends EntitiesDb<Notification, Notification
         return notificationId.isEmpty() ? null : makeAttributesOrNull(getNotificationEntity(notificationId));
     }
 
+    /**
+     * Gets notifications by {@code targetUser}.
+     *
+     * @return a list of notifications for the specified targetUser.
+     */
     public List<NotificationAttributes> getNotificationsByTargetUser(String targetUser) {
         assert targetUser != null;
 
