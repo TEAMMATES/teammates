@@ -234,6 +234,10 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         return studentDeadlines;
     }
 
+    public Map<String, Instant> getFilteredInstructorDeadlines() {
+        return instructorDeadlines;
+    }
+
     public Instant getDeadline() {
         return endTime;
     }

@@ -49,6 +49,7 @@ public class FeedbackSessionData extends ApiOutput {
     private InstructorPermissionSet privileges;
 
     private Map<String, Long> studentDeadlines;
+    private Map<String, Long> instructorDeadlines;
 
     public FeedbackSessionData(FeedbackSessionAttributes feedbackSessionAttributes) {
         String timeZone = feedbackSessionAttributes.getTimeZone();
@@ -122,6 +123,14 @@ public class FeedbackSessionData extends ApiOutput {
                     studentDeadlineInstant, timeZone, true)
                     .toEpochMilli();
             this.studentDeadlines.put(email, studentDeadline);
+        });
+
+        this.instructorDeadlines = new HashMap<>();
+        feedbackSessionAttributes.getFilteredInstructorDeadlines().forEach((email, instructorDeadlineInstant) -> {
+            long instructorDeadline = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                    instructorDeadlineInstant, timeZone, true)
+                    .toEpochMilli();
+            this.instructorDeadlines.put(email, instructorDeadline);
         });
     }
 
@@ -197,6 +206,10 @@ public class FeedbackSessionData extends ApiOutput {
         return studentDeadlines;
     }
 
+    public Map<String, Long> getInstructorDeadlines() {
+        return instructorDeadlines;
+    }
+
     public void setSessionVisibleFromTimestamp(Long sessionVisibleFromTimestamp) {
         this.sessionVisibleFromTimestamp = sessionVisibleFromTimestamp;
     }
@@ -259,6 +272,10 @@ public class FeedbackSessionData extends ApiOutput {
 
     public void setStudentDeadlines(Map<String, Long> studentDeadlines) {
         this.studentDeadlines = studentDeadlines;
+    }
+
+    public void setInstructorDeadlines(Map<String, Long> instructorDeadlines) {
+        this.instructorDeadlines = instructorDeadlines;
     }
 
     /**
