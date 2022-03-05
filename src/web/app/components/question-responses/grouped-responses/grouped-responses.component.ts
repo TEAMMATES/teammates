@@ -42,7 +42,7 @@ export class GroupedResponsesComponent extends InstructorResponsesViewBase imple
     isClosingEmailEnabled: true,
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
-    extendedDeadlines: {},
+    studentDeadlines: {},
   };
 
   hasRealResponses: boolean = false;

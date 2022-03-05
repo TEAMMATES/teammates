@@ -85,7 +85,7 @@
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
       "isPublishedEmailEnabled": true,
-      "extendedDeadlines": {}
+      "studentDeadlines": {}
     }
   },
   "feedbackQuestions": {

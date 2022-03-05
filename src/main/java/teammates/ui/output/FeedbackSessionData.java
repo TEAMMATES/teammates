@@ -48,7 +48,7 @@ public class FeedbackSessionData extends ApiOutput {
     @Nullable
     private InstructorPermissionSet privileges;
 
-    private Map<String, Long> extendedDeadlines;
+    private Map<String, Long> studentDeadlines;
 
     public FeedbackSessionData(FeedbackSessionAttributes feedbackSessionAttributes) {
         String timeZone = feedbackSessionAttributes.getTimeZone();
@@ -116,12 +116,12 @@ public class FeedbackSessionData extends ApiOutput {
             this.deletedAtTimestamp = feedbackSessionAttributes.getDeletedTime().toEpochMilli();
         }
 
-        this.extendedDeadlines = new HashMap<>();
-        feedbackSessionAttributes.getFilteredExtendedDeadlines().forEach((email, extendedDeadlineInstant) -> {
-            long extendedDeadline = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
-                    extendedDeadlineInstant, timeZone, true)
+        this.studentDeadlines = new HashMap<>();
+        feedbackSessionAttributes.getFilteredStudentDeadlines().forEach((email, studentDeadlineInstant) -> {
+            long studentDeadline = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                    studentDeadlineInstant, timeZone, true)
                     .toEpochMilli();
-            this.extendedDeadlines.put(email, extendedDeadline);
+            this.studentDeadlines.put(email, studentDeadline);
         });
     }
 
@@ -193,8 +193,8 @@ public class FeedbackSessionData extends ApiOutput {
         return isPublishedEmailEnabled;
     }
 
-    public Map<String, Long> getExtendedDeadlines() {
-        return extendedDeadlines;
+    public Map<String, Long> getStudentDeadlines() {
+        return studentDeadlines;
     }
 
     public void setSessionVisibleFromTimestamp(Long sessionVisibleFromTimestamp) {
@@ -257,8 +257,8 @@ public class FeedbackSessionData extends ApiOutput {
         this.privileges = privileges;
     }
 
-    public void setExtendedDeadlines(Map<String, Long> extendedDeadlines) {
-        this.extendedDeadlines = extendedDeadlines;
+    public void setStudentDeadlines(Map<String, Long> studentDeadlines) {
+        this.studentDeadlines = studentDeadlines;
     }
 
     /**

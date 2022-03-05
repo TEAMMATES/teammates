@@ -77,7 +77,7 @@ public class FeedbackSession extends BaseEntity {
     private boolean isPublishedEmailEnabled;
 
     @Serialize
-    private Map<String, Instant> extendedDeadlines;
+    private Map<String, Instant> studentDeadlines;
 
     @SuppressWarnings("unused")
     private FeedbackSession() {
@@ -89,7 +89,7 @@ public class FeedbackSession extends BaseEntity {
             Instant sessionVisibleFromTime, Instant resultsVisibleFromTime, String timeZone, long gracePeriod,
             boolean sentOpeningSoonEmail, boolean sentOpenEmail, boolean sentClosingEmail,
             boolean sentClosedEmail, boolean sentPublishedEmail, boolean isOpeningEmailEnabled,
-            boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled, Map<String, Instant> extendedDeadlines) {
+            boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled, Map<String, Instant> studentDeadlines) {
         this.feedbackSessionName = feedbackSessionName;
         this.courseId = courseId;
         this.creatorEmail = creatorEmail;
@@ -110,7 +110,7 @@ public class FeedbackSession extends BaseEntity {
         this.isOpeningEmailEnabled = isOpeningEmailEnabled;
         this.isClosingEmailEnabled = isClosingEmailEnabled;
         this.isPublishedEmailEnabled = isPublishedEmailEnabled;
-        this.extendedDeadlines = extendedDeadlines;
+        this.studentDeadlines = studentDeadlines;
         this.feedbackSessionId = generateId(this.feedbackSessionName, this.courseId);
     }
 
@@ -282,12 +282,12 @@ public class FeedbackSession extends BaseEntity {
         this.isPublishedEmailEnabled = isPublishedEmailEnabled;
     }
 
-    public Map<String, Instant> getExtendedDeadlines() {
-        return extendedDeadlines;
+    public Map<String, Instant> getStudentDeadlines() {
+        return studentDeadlines;
     }
 
-    public void setExtendedDeadlines(Map<String, Instant> extendedDeadlines) {
-        this.extendedDeadlines = extendedDeadlines;
+    public void setStudentDeadlines(Map<String, Instant> studentDeadlines) {
+        this.studentDeadlines = studentDeadlines;
     }
 
     @Override
@@ -308,6 +308,7 @@ public class FeedbackSession extends BaseEntity {
                 + ", isOpeningEmailEnabled=" + isOpeningEmailEnabled
                 + ", isClosingEmailEnabled=" + isClosingEmailEnabled
                 + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled
+                + ", studentDeadlines=" + studentDeadlines
                 + "]";
     }
 

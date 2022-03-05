@@ -54,7 +54,7 @@ export class SessionResultPageComponent implements OnInit {
     isClosingEmailEnabled: true,
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
-    extendedDeadlines: {},
+    studentDeadlines: {},
   };
   questions: QuestionOutput[] = [];
   formattedSessionOpeningTime: string = '';

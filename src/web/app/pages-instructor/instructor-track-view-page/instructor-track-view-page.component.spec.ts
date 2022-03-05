@@ -77,7 +77,7 @@ describe('InstructorTrackViewPageComponent', () => {
     isClosingEmailEnabled: true,
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
-    extendedDeadlines: {},
+    studentDeadlines: {},
   };
 
   const testFeedbackSessionNotPublished: FeedbackSession = {
@@ -95,7 +95,7 @@ describe('InstructorTrackViewPageComponent', () => {
     isClosingEmailEnabled: true,
     isPublishedEmailEnabled: false,
     createdAtTimestamp: 0,
-    extendedDeadlines: {},
+    studentDeadlines: {},
   };
 
   const testStudent: Student = {

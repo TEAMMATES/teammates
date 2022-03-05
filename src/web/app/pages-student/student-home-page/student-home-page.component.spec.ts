@@ -218,7 +218,7 @@ const studentFeedbackSessions: FeedbackSessions = {
       isClosingEmailEnabled: true,
       isPublishedEmailEnabled: true,
       createdAtTimestamp: 0,
-      extendedDeadlines: {},
+      studentDeadlines: {},
     },
     {
       feedbackSessionName: 'Orientation Session',
@@ -235,7 +235,7 @@ const studentFeedbackSessions: FeedbackSessions = {
       isClosingEmailEnabled: true,
       isPublishedEmailEnabled: true,
       createdAtTimestamp: 0,
-      extendedDeadlines: {},
+      studentDeadlines: {},
     },
     {
       feedbackSessionName: 'Welcome Tea Session',
@@ -252,7 +252,7 @@ const studentFeedbackSessions: FeedbackSessions = {
       isClosingEmailEnabled: true,
       isPublishedEmailEnabled: true,
       createdAtTimestamp: 0,
-      extendedDeadlines: {},
+      studentDeadlines: {},
     },
   ],
 };
@@ -313,7 +313,7 @@ describe('StudentHomePageComponent', () => {
           isClosingEmailEnabled: true,
           isPublishedEmailEnabled: true,
           createdAtTimestamp: 0,
-          extendedDeadlines: {},
+          studentDeadlines: {},
         },
         {
           feedbackSessionName: 'Second Session',
@@ -330,7 +330,7 @@ describe('StudentHomePageComponent', () => {
           isClosingEmailEnabled: true,
           isPublishedEmailEnabled: true,
           createdAtTimestamp: 0,
-          extendedDeadlines: {},
+          studentDeadlines: {},
         },
       ],
     };
@@ -371,7 +371,7 @@ describe('StudentHomePageComponent', () => {
           isClosingEmailEnabled: true,
           isPublishedEmailEnabled: true,
           createdAtTimestamp: 0,
-          extendedDeadlines: {},
+          studentDeadlines: {},
         },
         {
           feedbackSessionName: 'Second Session',
@@ -388,7 +388,7 @@ describe('StudentHomePageComponent', () => {
           isClosingEmailEnabled: true,
           isPublishedEmailEnabled: true,
           createdAtTimestamp: 0,
-          extendedDeadlines: {},
+          studentDeadlines: {},
         },
       ],
     };

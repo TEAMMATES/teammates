@@ -429,7 +429,7 @@
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
       "isPublishedEmailEnabled": true,
-      "extendedDeadlines": {}
+      "studentDeadlines": {}
     },
     "session2InCourse1": {
       "feedbackSessionName": "Second feedback session",
@@ -451,7 +451,7 @@
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
       "isPublishedEmailEnabled": true,
-      "extendedDeadlines": {}
+      "studentDeadlines": {}
     },
     "gracePeriodSession": {
       "feedbackSessionName": "Grace Period Session",
@@ -473,7 +473,7 @@
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
       "isPublishedEmailEnabled": true,
-      "extendedDeadlines": {}
+      "studentDeadlines": {}
     },
     "closedSession": {
       "feedbackSessionName": "Closed Session",
@@ -495,7 +495,7 @@
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
       "isPublishedEmailEnabled": true,
-      "extendedDeadlines": {}
+      "studentDeadlines": {}
     },
     "empty.session": {
       "feedbackSessionName": "Empty session",
@@ -517,7 +517,7 @@
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
       "isPublishedEmailEnabled": true,
-      "extendedDeadlines": {}
+      "studentDeadlines": {}
     },
     "awaiting.session": {
       "feedbackSessionName": "non visible session",
@@ -539,7 +539,7 @@
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
       "isPublishedEmailEnabled": true,
-      "extendedDeadlines": {}
+      "studentDeadlines": {}
     },
     "session2InCourse2": {
       "feedbackSessionName": "Not answerable feedback session",
@@ -561,7 +561,7 @@
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
       "isPublishedEmailEnabled": true,
-      "extendedDeadlines": {}
+      "studentDeadlines": {}
     },
     "session1InCourse3": {
       "feedbackSessionName": "First feedback session",
@@ -583,7 +583,7 @@
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
       "isPublishedEmailEnabled": true,
-      "extendedDeadlines": {}
+      "studentDeadlines": {}
     },
     "session2InCourse3": {
       "feedbackSessionName": "Second feedback session",
@@ -606,7 +606,7 @@
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
       "isPublishedEmailEnabled": true,
-      "extendedDeadlines": {}
+      "studentDeadlines": {}
     },
     "session1InCourse4": {
       "feedbackSessionName": "First feedback session",
@@ -628,7 +628,7 @@
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
       "isPublishedEmailEnabled": true,
-      "extendedDeadlines": {}
+      "studentDeadlines": {}
     },
     "session2InCourse4": {
       "feedbackSessionName": "Second feedback session",
@@ -650,7 +650,7 @@
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
       "isPublishedEmailEnabled": true,
-      "extendedDeadlines": {}
+      "studentDeadlines": {}
     },
     "session1InTestingNoEmailsSentCourse": {
       "feedbackSessionName": "Feedback session with no emails sent",
@@ -672,7 +672,7 @@
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
       "isPublishedEmailEnabled": true,
-      "extendedDeadlines": {}
+      "studentDeadlines": {}
     },
     "session1InTestingSanitizationCourse": {
       "feedbackSessionName": "Normal feedback session name",
@@ -694,7 +694,7 @@
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
       "isPublishedEmailEnabled": true,
-      "extendedDeadlines": {}
+      "studentDeadlines": {}
     }
   },
   "feedbackQuestions": {

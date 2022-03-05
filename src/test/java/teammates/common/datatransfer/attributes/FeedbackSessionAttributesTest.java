@@ -50,7 +50,7 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
         assertTrue(fsa.isClosingEmailEnabled());
         assertTrue(fsa.isPublishedEmailEnabled());
 
-        assertEquals(new HashMap<>(), fsa.getExtendedDeadlines());
+        assertEquals(new HashMap<>(), fsa.getStudentDeadlines());
     }
 
     @Test
@@ -115,7 +115,7 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
 
         assertThrows(AssertionError.class, () -> {
             FeedbackSessionAttributes.builder("session name", "course")
-                    .withExtendedDeadlines(null)
+                    .withStudentDeadlines(null)
                     .build();
         });
     }
@@ -151,7 +151,7 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
         assertEquals(feedbackSession.isOpeningEmailEnabled(), feedbackSessionAttributes.isOpeningEmailEnabled());
         assertEquals(feedbackSession.isClosingEmailEnabled(), feedbackSessionAttributes.isClosingEmailEnabled());
         assertEquals(feedbackSession.isPublishedEmailEnabled(), feedbackSessionAttributes.isPublishedEmailEnabled());
-        assertEquals(feedbackSession.getExtendedDeadlines(), feedbackSessionAttributes.getExtendedDeadlines());
+        assertEquals(feedbackSession.getStudentDeadlines(), feedbackSessionAttributes.getStudentDeadlines());
     }
 
     @Test
@@ -186,7 +186,7 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
         assertEquals(feedbackSession.isOpeningEmailEnabled(), feedbackSessionAttributes.isOpeningEmailEnabled());
         assertEquals(feedbackSession.isClosingEmailEnabled(), feedbackSessionAttributes.isClosingEmailEnabled());
         assertEquals(feedbackSession.isPublishedEmailEnabled(), feedbackSessionAttributes.isPublishedEmailEnabled());
-        assertEquals(feedbackSession.getExtendedDeadlines(), feedbackSessionAttributes.getExtendedDeadlines());
+        assertEquals(feedbackSession.getStudentDeadlines(), feedbackSessionAttributes.getStudentDeadlines());
     }
 
     @Test
@@ -229,7 +229,7 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
         assertFalse(fsa.isSentClosedEmail());
         assertFalse(fsa.isSentPublishedEmail());
 
-        assertEquals(new HashMap<>(), fsa.getExtendedDeadlines());
+        assertEquals(new HashMap<>(), fsa.getStudentDeadlines());
 
     }
 
@@ -271,7 +271,7 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
         assertEquals(original.isSentOpeningSoonEmail(), copy.isSentOpeningSoonEmail());
         assertEquals(original.isSentOpenEmail(), copy.isSentOpenEmail());
         assertEquals(original.isSentPublishedEmail(), copy.isSentPublishedEmail());
-        assertEquals(original.getExtendedDeadlines(), copy.getExtendedDeadlines());
+        assertEquals(original.getStudentDeadlines(), copy.getStudentDeadlines());
     }
 
     @Test
@@ -310,8 +310,8 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
         Instant startTime = TimeHelper.getInstantDaysOffsetFromNow(-2);
         Instant endTime = TimeHelper.getInstantDaysOffsetFromNow(-1);
         Instant resultVisibleTime = TimeHelper.getInstantDaysOffsetFromNow(1);
-        Map<String, Instant> newExtendedDeadlines = new HashMap<>();
-        newExtendedDeadlines.put("student@school.edu", endTime.plusSeconds(3600L));
+        Map<String, Instant> newStudentDeadlines = new HashMap<>();
+        newStudentDeadlines.put("student@school.edu", endTime.plusSeconds(3600L));
         FeedbackSessionAttributes.UpdateOptions updateOptions =
                 FeedbackSessionAttributes.updateOptionsBuilder("sessionName", "courseId")
                         .withInstructions("instruction 1")
@@ -328,7 +328,7 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
                         .withSentPublishedEmail(true)
                         .withIsClosingEmailEnabled(true)
                         .withIsPublishedEmailEnabled(true)
-                        .withExtendedDeadlines(newExtendedDeadlines)
+                        .withStudentDeadlines(newStudentDeadlines)
                         .build();
 
         assertEquals("sessionName", updateOptions.getFeedbackSessionName());
@@ -365,7 +365,7 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
         assertTrue(feedbackSessionAttributes.isOpeningEmailEnabled());
         assertTrue(feedbackSessionAttributes.isClosingEmailEnabled());
         assertTrue(feedbackSessionAttributes.isPublishedEmailEnabled());
-        assertEquals(newExtendedDeadlines, feedbackSessionAttributes.getExtendedDeadlines());
+        assertEquals(newStudentDeadlines, feedbackSessionAttributes.getStudentDeadlines());
 
         // build update option based on existing update option
         FeedbackSessionAttributes.UpdateOptions newUpdateOptions =
@@ -407,7 +407,7 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
                         .withGracePeriod(null));
         assertThrows(AssertionError.class, () ->
                 FeedbackSessionAttributes.updateOptionsBuilder("session", "courseId")
-                        .withExtendedDeadlines(null));
+                        .withStudentDeadlines(null));
     }
 
     @Test

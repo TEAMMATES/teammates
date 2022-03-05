@@ -41,7 +41,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     private boolean isOpeningEmailEnabled;
     private boolean isClosingEmailEnabled;
     private boolean isPublishedEmailEnabled;
-    private Map<String, Instant> extendedDeadlines;
+    private Map<String, Instant> studentDeadlines;
 
     private FeedbackSessionAttributes(String feedbackSessionName, String courseId) {
         this.feedbackSessionName = feedbackSessionName;
@@ -54,7 +54,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         this.isClosingEmailEnabled = true;
         this.isPublishedEmailEnabled = true;
 
-        this.extendedDeadlines = new HashMap<>();
+        this.studentDeadlines = new HashMap<>();
 
         this.timeZone = Const.DEFAULT_TIME_ZONE;
         this.gracePeriod = Duration.ZERO;
@@ -84,7 +84,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         this.isOpeningEmailEnabled = feedbackSession.isOpeningEmailEnabled();
         this.isClosingEmailEnabled = feedbackSession.isClosingEmailEnabled();
         this.isPublishedEmailEnabled = feedbackSession.isPublishedEmailEnabled();
-        this.extendedDeadlines = feedbackSession.getExtendedDeadlines();
+        this.studentDeadlines = feedbackSession.getStudentDeadlines();
     }
 
     /**
@@ -152,7 +152,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
                 createdTime, deletedTime, startTime, endTime, sessionVisibleFromTime, resultsVisibleFromTime,
                 timeZone, getGracePeriodMinutes(),
                 sentOpeningSoonEmail, sentOpenEmail, sentClosingEmail, sentClosedEmail, sentPublishedEmail,
-                isOpeningEmailEnabled, isClosingEmailEnabled, isPublishedEmailEnabled, extendedDeadlines);
+                isOpeningEmailEnabled, isClosingEmailEnabled, isPublishedEmailEnabled, studentDeadlines);
     }
 
     @Override
@@ -217,14 +217,14 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         addNonEmptyError(FieldValidator.getInvalidityInfoForTimeForVisibilityStartAndResultsPublish(
                 actualSessionVisibleFromTime, resultsVisibleFromTime), errors);
 
-        addNonEmptyError(FieldValidator.getValidityInfoForNonNullField("extended deadlines map", extendedDeadlines),
+        addNonEmptyError(FieldValidator.getValidityInfoForNonNullField("student deadlines map", studentDeadlines),
                 errors);
 
         return errors;
     }
 
-    public Map<String, Instant> getFilteredExtendedDeadlines() {
-        return extendedDeadlines;
+    public Map<String, Instant> getFilteredStudentDeadlines() {
+        return studentDeadlines;
     }
 
     public Instant getDeadline() {
@@ -402,7 +402,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
                + ", isOpeningEmailEnabled=" + isOpeningEmailEnabled
                + ", isClosingEmailEnabled=" + isClosingEmailEnabled
                + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled
-               + ", extendedDeadlines=" + extendedDeadlines
+               + ", studentDeadlines=" + studentDeadlines
                + "]";
     }
 
@@ -587,12 +587,12 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         this.isPublishedEmailEnabled = isPublishedEmailEnabled;
     }
 
-    public Map<String, Instant> getExtendedDeadlines() {
-        return extendedDeadlines;
+    public Map<String, Instant> getStudentDeadlines() {
+        return studentDeadlines;
     }
 
-    public void setExtendedDeadlines(Map<String, Instant> extendedDeadlines) {
-        this.extendedDeadlines = extendedDeadlines;
+    public void setStudentDeadlines(Map<String, Instant> studentDeadlines) {
+        this.studentDeadlines = studentDeadlines;
     }
 
     /**
@@ -613,7 +613,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         updateOptions.sentPublishedEmailOption.ifPresent(s -> sentPublishedEmail = s);
         updateOptions.isClosingEmailEnabledOption.ifPresent(s -> isClosingEmailEnabled = s);
         updateOptions.isPublishedEmailEnabledOption.ifPresent(s -> isPublishedEmailEnabled = s);
-        updateOptions.extendedDeadlinesOption.ifPresent(s -> extendedDeadlines = s);
+        updateOptions.studentDeadlinesOption.ifPresent(s -> studentDeadlines = s);
     }
 
     /**
@@ -680,7 +680,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         private UpdateOption<Boolean> sentPublishedEmailOption = UpdateOption.empty();
         private UpdateOption<Boolean> isClosingEmailEnabledOption = UpdateOption.empty();
         private UpdateOption<Boolean> isPublishedEmailEnabledOption = UpdateOption.empty();
-        private UpdateOption<Map<String, Instant>> extendedDeadlinesOption = UpdateOption.empty();
+        private UpdateOption<Map<String, Instant>> studentDeadlinesOption = UpdateOption.empty();
 
         private UpdateOptions(String feedbackSessionName, String courseId) {
             assert feedbackSessionName != null;
@@ -717,7 +717,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
                     + ", sentPublishedEmail = " + sentPublishedEmailOption
                     + ", isClosingEmailEnabled = " + isClosingEmailEnabledOption
                     + ", isPublishedEmailEnabled = " + isPublishedEmailEnabledOption
-                    + ", extendedDeadlines = " + extendedDeadlinesOption
+                    + ", studentDeadlines = " + studentDeadlinesOption
                     + "]";
         }
 
@@ -845,10 +845,10 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
             return thisBuilder;
         }
 
-        public B withExtendedDeadlines(Map<String, Instant> extendedDeadlines) {
-            assert extendedDeadlines != null;
+        public B withStudentDeadlines(Map<String, Instant> studentDeadlines) {
+            assert studentDeadlines != null;
 
-            updateOptions.extendedDeadlinesOption = UpdateOption.of(extendedDeadlines);
+            updateOptions.studentDeadlinesOption = UpdateOption.of(studentDeadlines);
             return thisBuilder;
         }
 
@@ -868,8 +868,8 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         }
 
         @Override
-        public Map<String, Instant> getFilteredExtendedDeadlines() {
-            return getExtendedDeadlines()
+        public Map<String, Instant> getFilteredStudentDeadlines() {
+            return getStudentDeadlines()
                     .entrySet()
                     .stream()
                     .filter(entry -> entry.getKey().equals(participantEmailAddress))
@@ -878,10 +878,10 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
 
         @Override
         public Instant getDeadline() {
-            if (!getExtendedDeadlines().containsKey(participantEmailAddress)) {
+            if (!getStudentDeadlines().containsKey(participantEmailAddress)) {
                 return super.getDeadline();
             }
-            return getExtendedDeadlines().get(participantEmailAddress);
+            return getStudentDeadlines().get(participantEmailAddress);
         }
     }
 
@@ -893,10 +893,10 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
 
         @Override
         public Instant getDeadline() {
-            if (getExtendedDeadlines().isEmpty()) {
+            if (getStudentDeadlines().isEmpty()) {
                 return super.getDeadline();
             }
-            return Collections.max(getExtendedDeadlines().values());
+            return Collections.max(getStudentDeadlines().values());
         }
     }
 }
