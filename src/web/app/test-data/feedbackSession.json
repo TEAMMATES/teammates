@@ -14,5 +14,21 @@
     "isClosingEmailEnabled": true,
     "isPublishedEmailEnabled": true,
     "createdAtTimestamp": 0
+    },
+    "testId1":{
+    "courseId": "testId1",
+    "timeZone": "Asia/Singapore",
+    "feedbackSessionName": "Test Session",
+    "instructions": "Instructions",
+    "submissionStartTimestamp": 1000000000000,
+    "submissionEndTimestamp": 1500000000000,
+    "gracePeriod": 0,
+    "sessionVisibleSetting": "AT_OPEN",
+    "responseVisibleSetting": "AT_VISIBLE",
+    "submissionStatus": "OPEN",
+    "publishStatus": "PUBLISHED",
+    "isClosingEmailEnabled": true,
+    "isPublishedEmailEnabled": true,
+    "createdAtTimestamp": 0
     }
 }

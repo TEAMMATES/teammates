@@ -162,5 +162,21 @@
         "deletionTimestamp": 0,
         "timeZone": "UTC",
         "institute": "Test Institute"
+    },
+    "testId1": {
+        "courseId": "testId1",
+        "courseName": "Test Course 1",
+        "institute": "Test Institute",
+        "timeZone": "Asia/Singapore",
+        "creationTimestamp": 0,
+        "deletionTimestamp": 1000
+    },
+    "testId2": {
+        "courseId": "testId2",
+        "courseName": "Test Course 2",
+        "institute": "Test Institute",
+        "timeZone": "Asia/Singapore",
+        "creationTimestamp": 0,
+        "deletionTimestamp": 1000
     }
 }

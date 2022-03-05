@@ -46,43 +46,16 @@ import {
 import { InstructorSessionEditPageComponent } from './instructor-session-edit-page.component';
 import { InstructorSessionEditPageModule } from './instructor-session-edit-page.module';
 import { TemplateQuestionModalComponent } from './template-question-modal/template-question-modal.component';
+import {default as courses} from '../../test-data/courses.json';
+import {default as feedbackSessionJS} from '../../test-data/feedbackSession.json';
 
 describe('InstructorSessionEditPageComponent', () => {
 
-  const testCourse1: Course = {
-    courseId: 'testId1',
-    courseName: 'Test Course 1',
-    institute: 'Test Institute',
-    timeZone: 'Asia/Singapore',
-    creationTimestamp: 0,
-    deletionTimestamp: 1000,
-  };
+  const testCourse1: Course = courses.testId1; 
+  const testCourse2: Course = courses.testId2;
 
-  const testCourse2: Course = {
-    courseId: 'testId2',
-    courseName: 'Test Course 2',
-    institute: 'Test Institute',
-    timeZone: 'Asia/Singapore',
-    creationTimestamp: 0,
-    deletionTimestamp: 1000,
-  };
-
-  const testFeedbackSession: FeedbackSession = {
-    courseId: 'testId1',
-    timeZone: 'Asia/Singapore',
-    feedbackSessionName: 'Test Session',
-    instructions: 'Instructions',
-    submissionStartTimestamp: 1000000000000,
-    submissionEndTimestamp: 1500000000000,
-    gracePeriod: 0,
-    sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
-    responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
-    submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
-    publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
-    isClosingEmailEnabled: true,
-    isPublishedEmailEnabled: true,
-    createdAtTimestamp: 0,
-  };
+  const tmp: any = feedbackSessionJS.testId1;
+  const testFeedbackSession: FeedbackSession = tmp;;
 
   const testFeedbackQuestion1: FeedbackQuestion = {
     feedbackQuestionId: 'feedback-question-1',
