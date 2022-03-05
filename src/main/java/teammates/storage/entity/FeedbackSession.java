@@ -79,6 +79,9 @@ public class FeedbackSession extends BaseEntity {
     @Serialize
     private Map<String, Instant> studentDeadlines;
 
+    @Serialize
+    private Map<String, Instant> instructorDeadlines;
+
     @SuppressWarnings("unused")
     private FeedbackSession() {
         // required by Objectify
@@ -89,7 +92,8 @@ public class FeedbackSession extends BaseEntity {
             Instant sessionVisibleFromTime, Instant resultsVisibleFromTime, String timeZone, long gracePeriod,
             boolean sentOpeningSoonEmail, boolean sentOpenEmail, boolean sentClosingEmail,
             boolean sentClosedEmail, boolean sentPublishedEmail, boolean isOpeningEmailEnabled,
-            boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled, Map<String, Instant> studentDeadlines) {
+            boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled, Map<String, Instant> studentDeadlines,
+            Map<String, Instant> instructorDeadlines) {
         this.feedbackSessionName = feedbackSessionName;
         this.courseId = courseId;
         this.creatorEmail = creatorEmail;
@@ -111,6 +115,7 @@ public class FeedbackSession extends BaseEntity {
         this.isClosingEmailEnabled = isClosingEmailEnabled;
         this.isPublishedEmailEnabled = isPublishedEmailEnabled;
         this.studentDeadlines = studentDeadlines;
+        this.instructorDeadlines = instructorDeadlines;
         this.feedbackSessionId = generateId(this.feedbackSessionName, this.courseId);
     }
 
@@ -290,6 +295,14 @@ public class FeedbackSession extends BaseEntity {
         this.studentDeadlines = studentDeadlines;
     }
 
+    public Map<String, Instant> getInstructorDeadlines() {
+        return instructorDeadlines;
+    }
+
+    public void setInstructorDeadlines(Map<String, Instant> instructorDeadlines) {
+        this.instructorDeadlines = instructorDeadlines;
+    }
+
     @Override
     public String toString() {
         return "FeedbackSession [feedbackSessionName=" + feedbackSessionName
@@ -309,6 +322,7 @@ public class FeedbackSession extends BaseEntity {
                 + ", isClosingEmailEnabled=" + isClosingEmailEnabled
                 + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled
                 + ", studentDeadlines=" + studentDeadlines
+                + ", instructorDeadlines=" + instructorDeadlines
                 + "]";
     }
 
