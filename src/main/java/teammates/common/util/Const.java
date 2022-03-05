@@ -173,6 +173,9 @@ public final class Const {
         public static final String QUERY_LOGS_VERSION = "version";
         public static final String QUERY_LOGS_EXTRA_FILTERS = "extrafilters";
         public static final String QUERY_LOGS_ORDER = "order";
+
+        public static final String NOTIFICATION_TARGET_USER = "usertype";
+        public static final String NOTIFICATION_IS_FETCHING_ALL = "isfetchingall";
     }
 
     /**
@@ -204,6 +207,17 @@ public final class Const {
         public static final String INSTRUCTOR = "instructor";
         public static final String ADMIN = "admin";
         public static final String MAINTAINER = "maintainer";
+
+    }
+
+    /**
+     * Represents target user types.
+     */
+    public static class TargetUserType {
+
+        public static final String STUDENT = "student";
+        public static final String INSTRUCTOR = "instructor";
+        public static final String GENERAL = "general";
 
     }
 
@@ -317,6 +331,7 @@ public final class Const {
         public static final String STUDENTS = URI_PREFIX + "/students";
         public static final String STUDENT = URI_PREFIX + "/student";
         public static final String STUDENT_KEY = URI_PREFIX + "/student/key";
+        public static final String NOTIFICATION = URI_PREFIX + "/notification";
         public static final String SESSIONS_ONGOING = URI_PREFIX + "/sessions/ongoing";
         public static final String SESSION = URI_PREFIX + "/session";
         public static final String SESSION_PUBLISH = URI_PREFIX + "/session/publish";

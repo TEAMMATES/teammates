@@ -2,12 +2,17 @@ package teammates.storage.api;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
+import java.time.Instant;
+import java.util.List;
+import java.util.Objects;
+
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.LoadType;
 
 import teammates.common.datatransfer.attributes.NotificationAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Const;
 import teammates.storage.entity.Notification;
 
 /**
@@ -35,6 +40,29 @@ public final class NotificationsDb extends EntitiesDb<Notification, Notification
         assert notificationId != null;
 
         return notificationId.isEmpty() ? null : makeAttributesOrNull(getNotificationEntity(notificationId));
+    }
+
+    public List<NotificationAttributes> getNotificationsByTargetUser(String targetUser) {
+        assert targetUser != null;
+
+        List<Notification> notifications = load()
+                .filter("targetUser=", Const.TargetUserType.GENERAL)
+                .filter("startTime <", Instant.now())
+                .filter("endTime >", Instant.now())
+                .list();
+
+        if (!Objects.equals(targetUser, Const.TargetUserType.GENERAL)) {
+            notifications.addAll(load()
+                    .filter("targetUser=", targetUser)
+                    .filter("startTime <", Instant.now())
+                    .filter("endTime >", Instant.now())
+                    .list());
+        }
+
+        List<NotificationAttributes> notificationAttributes = makeAttributes(notifications);
+        NotificationAttributes.sortByStartTime(notificationAttributes);
+        return notificationAttributes;
+
     }
 
     /**
