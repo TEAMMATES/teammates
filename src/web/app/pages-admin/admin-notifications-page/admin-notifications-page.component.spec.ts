@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AdminNotificationsPageComponent } from './admin-notifications-page.component';
+import { AdminNotificationsPageModule } from './admin-notifications-page.module';
 
 describe('AdminNotificationsPageComponent', () => {
   let component: AdminNotificationsPageComponent;
@@ -8,7 +9,7 @@ describe('AdminNotificationsPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AdminNotificationsPageComponent],
+      imports: [AdminNotificationsPageModule],
     })
     .compileComponents();
   });
