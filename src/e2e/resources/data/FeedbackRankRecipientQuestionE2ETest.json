@@ -151,7 +151,8 @@
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
       "isPublishedEmailEnabled": true,
-      "studentDeadlines": {}
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
     },
     "openSession2": {
       "feedbackSessionName": "Second Session",
@@ -172,7 +173,8 @@
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
       "isPublishedEmailEnabled": true,
-      "studentDeadlines": {}
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
     }
   },
   "feedbackQuestions": {

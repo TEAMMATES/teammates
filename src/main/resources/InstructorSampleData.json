@@ -136,7 +136,8 @@
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
       "isPublishedEmailEnabled": true,
-      "studentDeadlines": {}
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
     },
     "demo.course:Second Session": {
       "feedbackSessionName": "First team feedback session",
@@ -158,7 +159,8 @@
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
       "isPublishedEmailEnabled": true,
-      "studentDeadlines": {}
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
     },
     "demo.course:Third Session": {
       "feedbackSessionName": "Second team feedback session",
@@ -180,7 +182,8 @@
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
       "isPublishedEmailEnabled": true,
-      "studentDeadlines": {}
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
     }
   },
   "feedbackQuestions": {

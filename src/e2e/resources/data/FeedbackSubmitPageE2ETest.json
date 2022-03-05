@@ -167,7 +167,8 @@
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
       "isPublishedEmailEnabled": true,
-      "studentDeadlines": {}
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
     },
     "Grace Period Session": {
       "feedbackSessionName": "Grace Period Session",
@@ -189,7 +190,8 @@
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
       "isPublishedEmailEnabled": true,
-      "studentDeadlines": {}
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
     },
     "Closed Session": {
       "feedbackSessionName": "Closed Session",
@@ -210,7 +212,8 @@
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
       "isPublishedEmailEnabled": true,
-      "studentDeadlines": {}
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
     }
   },
   "feedbackQuestions": {

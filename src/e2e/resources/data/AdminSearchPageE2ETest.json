@@ -110,7 +110,8 @@
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
       "isPublishedEmailEnabled": true,
-      "studentDeadlines": {}
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
     },
   "session2InCourse1": {
     "feedbackSessionName": "ASearch.Second feedback session",
@@ -132,7 +133,8 @@
     "isOpeningEmailEnabled": true,
     "isClosingEmailEnabled": true,
     "isPublishedEmailEnabled": true,
-    "studentDeadlines": {}
+    "studentDeadlines": {},
+    "instructorDeadlines": {}
     }
   },
   "accountRequests": {
