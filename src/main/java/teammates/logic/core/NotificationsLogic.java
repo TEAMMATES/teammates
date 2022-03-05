@@ -1,5 +1,8 @@
 package teammates.logic.core;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import teammates.common.datatransfer.attributes.NotificationAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -37,13 +40,22 @@ public final class NotificationsLogic {
     }
 
     /**
+     * Gets a list of notifications.
+     *
+     * @return a list of notifications with the specified {@code notificationIds}.
+     */
+    public List<NotificationAttributes> getNotificationsByTargetUser(String targetUser) {
+        return notificationsDb.getNotificationsByTargetUser(targetUser);
+    }
+
+    /**
      * Creates a notification.
      *
      * @return the created notification
      * @throws InvalidParametersException if the notification is not valid
      * @throws EntityAlreadyExistsException if the notification already exists in the database.
      */
-    NotificationAttributes createNotification(NotificationAttributes notification)
+    public NotificationAttributes createNotification(NotificationAttributes notification)
             throws InvalidParametersException, EntityAlreadyExistsException {
         return notificationsDb.createEntity(notification);
     }

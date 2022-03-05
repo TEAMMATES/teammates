@@ -2,6 +2,8 @@ package teammates.common.datatransfer.attributes;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
@@ -152,6 +154,15 @@ public class NotificationAttributes extends EntityAttributes<Notification> {
 
     public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+
+    /**
+     * Sorts the list of notifications by the start time.
+     */
+    public static void sortByStartTime(List<NotificationAttributes> notifications) {
+        notifications.sort(Comparator.comparing(NotificationAttributes::getStartTime));
+        notifications.sort(Collections.reverseOrder());
     }
 
     @Override
