@@ -1,1 +1,26 @@
-<p>admin-notifications-page works!</p>
+<div>
+  <button id="btn-add-session" class="btn btn-success" (click)="isNotificationEditFormExpanded = true"
+          [disabled]="isNotificationEditFormExpanded || isNotificationLoading"><i class="fas fa-plus"></i> Add New Notification
+  </button>
+</div>
+
+<div class="margin-top-30px" *ngIf="isNotificationEditFormExpanded && !isNotificationLoading" @collapseAnim>
+  <tm-notification-edit-form [formMode]="NotificationEditFormMode.ADD" [(model)]="notificationEditFormModel"
+                        (addNewSessionEvent)="addNewNotificationHandler()"
+                        (closeEditFormEvent)="isNotificationEditFormExpanded = false"
+  ></tm-notification-edit-form>
+</div>
+
+<tm-loading-retry [shouldShowRetry]="hasNotificationLoadingFailed" [message]="'Failed to load data'"
+                  (retryEvent)="retryLoadingAllData()">
+  <div class="margin-top-30px">
+    <div *tmIsLoading="isNotificationLoading">
+      <div class="alert alert-warning margin-top-30px" role="alert" *ngIf="notifications.length === 0 && !isNotificationLoading">
+        You have not created any notifications yet. Use the form above to create a notification.
+      </div>
+      
+      <!-- Table Here -->
+    </div>
+  </div>
+  <br/>
+</tm-loading-retry>

@@ -8,7 +8,7 @@ describe('AdminNotificationsPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AdminNotificationsPageComponent ]
+      declarations: [AdminNotificationsPageComponent],
     })
     .compileComponents();
   });

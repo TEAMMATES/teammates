@@ -1,0 +1,37 @@
+.card-plain {
+  background-color: #EAEFF5;
+  background-image: none;
+  border: 0;
+  box-shadow: 0 0 0 0;
+}
+
+.close-header {
+  padding-top: .75rem;
+  padding-right: 1.25rem;
+  margin-bottom: 0;
+}
+
+.font-bold {
+  font-weight: bold;
+}
+
+.border-left-gray {
+  border-left: 1px solid #DDD;
+}
+
+.margin-top-20px {
+  margin-top: 20px;
+}
+
+.session-form-buttons > button {
+  margin-left: var(--btn-margin);
+}
+
+.align-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.padding-left-7px {
+  padding-left: 7px;
+}

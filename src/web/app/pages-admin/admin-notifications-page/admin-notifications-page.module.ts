@@ -1,8 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
+import { DatepickerModule } from '../../components/datepicker/datepicker.module';
+import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
+import { RichTextEditorModule } from '../../components/rich-text-editor/rich-text-editor.module';
+import { TimepickerModule } from '../../components/timepicker/timepicker.module';
 import { AdminNotificationsPageComponent } from './admin-notifications-page.component';
+import { NotificationEditFormComponent } from './notification-edit-form/notification-edit-form.component';
+import { NotificationsTableComponent } from './notifications-table/notifications-table.component';
 
 const routes: Routes = [
   {
@@ -17,14 +26,23 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     AdminNotificationsPageComponent,
+    NotificationsTableComponent,
+    NotificationEditFormComponent,
   ],
   exports: [
     AdminNotificationsPageComponent,
   ],
   imports: [
+    AjaxLoadingModule,
     CommonModule,
+    DatepickerModule,
+    FormsModule,
+    RichTextEditorModule,
     RouterModule.forChild(routes),
     LoadingSpinnerModule,
+    LoadingRetryModule,
+    NgbTooltipModule,
+    TimepickerModule,
   ],
 })
 export class AdminNotificationsPageModule { }
