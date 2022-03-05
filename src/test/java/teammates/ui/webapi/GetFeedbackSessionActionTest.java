@@ -97,7 +97,8 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         assertEquals(feedbackSessionAttributes.getCreatedTime().toEpochMilli(), response.getCreatedAtTimestamp());
         assertNull(response.getDeletedAtTimestamp());
 
-        assertEqualStudentDeadlines(feedbackSessionAttributes.getStudentDeadlines(), response.getStudentDeadlines(),
+        assertEqualDeadlines(feedbackSessionAttributes.getStudentDeadlines(), response.getStudentDeadlines(), timeZone);
+        assertEqualDeadlines(feedbackSessionAttributes.getInstructorDeadlines(), response.getInstructorDeadlines(),
                 timeZone);
 
         logoutUser();
@@ -112,8 +113,9 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
 
         Map<String, Long> relativeStudentDeadlines = new HashMap<>();
+        Map<String, Long> relativeInstructorDeadlines = new HashMap<>();
         FeedbackSessionAttributes relativeFeedbackSession = generateRelativeFeedbackSessionInTypicalCourse1(60 * 60,
-                relativeStudentDeadlines);
+                relativeStudentDeadlines, relativeInstructorDeadlines);
         typicalBundle.feedbackSessions.put("relativeFeedbackSession", relativeFeedbackSession);
         removeAndRestoreDataBundle(typicalBundle);
         String[] params = new String[] {
@@ -164,12 +166,16 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         assertEquals(relativeFeedbackSession.getCreatedTime().toEpochMilli(), response.getCreatedAtTimestamp());
         assertNull(response.getDeletedAtTimestamp());
 
-        assertEqualStudentDeadlines(relativeFeedbackSession.getStudentDeadlines(), response.getStudentDeadlines(),
+        assertEqualDeadlines(relativeFeedbackSession.getStudentDeadlines(), response.getStudentDeadlines(), timeZone);
+        assertEqualDeadlines(relativeFeedbackSession.getInstructorDeadlines(), response.getInstructorDeadlines(),
                 timeZone);
 
         ______TS("get full detail; no extensions; after end time but within grace period");
 
-        relativeFeedbackSession = generateRelativeFeedbackSessionInTypicalCourse1(-60, relativeStudentDeadlines);
+        relativeStudentDeadlines = new HashMap<>();
+        relativeInstructorDeadlines = new HashMap<>();
+        relativeFeedbackSession = generateRelativeFeedbackSessionInTypicalCourse1(-60, relativeStudentDeadlines,
+                relativeInstructorDeadlines);
         typicalBundle.feedbackSessions.put("relativeFeedbackSession", relativeFeedbackSession);
         removeAndRestoreDataBundle(typicalBundle);
         a = getAction(params);
@@ -178,12 +184,16 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         assertEquals(FeedbackSessionSubmissionStatus.GRACE_PERIOD, response.getSubmissionStatus());
 
-        assertEqualStudentDeadlines(relativeFeedbackSession.getStudentDeadlines(), response.getStudentDeadlines(),
+        assertEqualDeadlines(relativeFeedbackSession.getStudentDeadlines(), response.getStudentDeadlines(), timeZone);
+        assertEqualDeadlines(relativeFeedbackSession.getInstructorDeadlines(), response.getInstructorDeadlines(),
                 timeZone);
 
         ______TS("get full detail; no extensions; after end time and beyond grace period");
 
-        relativeFeedbackSession = generateRelativeFeedbackSessionInTypicalCourse1(-60 * 60, relativeStudentDeadlines);
+        relativeStudentDeadlines = new HashMap<>();
+        relativeInstructorDeadlines = new HashMap<>();
+        relativeFeedbackSession = generateRelativeFeedbackSessionInTypicalCourse1(-60 * 60 * 24, relativeStudentDeadlines,
+                relativeInstructorDeadlines);
         typicalBundle.feedbackSessions.put("relativeFeedbackSession", relativeFeedbackSession);
         removeAndRestoreDataBundle(typicalBundle);
         a = getAction(params);
@@ -192,15 +202,18 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         assertEquals(FeedbackSessionSubmissionStatus.CLOSED, response.getSubmissionStatus());
 
-        assertEqualStudentDeadlines(relativeFeedbackSession.getStudentDeadlines(), response.getStudentDeadlines(),
+        assertEqualDeadlines(relativeFeedbackSession.getStudentDeadlines(), response.getStudentDeadlines(), timeZone);
+        assertEqualDeadlines(relativeFeedbackSession.getInstructorDeadlines(), response.getInstructorDeadlines(),
                 timeZone);
 
-        ______TS("get full detail; some extensions; after end time but before last extended deadline");
+        ______TS("get full detail; some extensions; before end time");
 
-        relativeStudentDeadlines.put("student1InCourse1@gmail.tmt", -60L * 60 * 23);
-        relativeStudentDeadlines.put("student2InCourse1@gmail.tmt", 60L * 60);
-        relativeFeedbackSession = generateRelativeFeedbackSessionInTypicalCourse1(-60 * 60 * 24,
-                relativeStudentDeadlines);
+        relativeStudentDeadlines.put("student1InCourse1@gmail.tmt", 60L * 60 * 21);
+        relativeStudentDeadlines.put("student2InCourse1@gmail.tmt", 60L * 60 * 22);
+        relativeInstructorDeadlines.put("instr1@course1.tmt", 60L * 60 * 23);
+        relativeInstructorDeadlines.put("instr2@course1.tmt", 60L * 60 * 24);
+        relativeFeedbackSession = generateRelativeFeedbackSessionInTypicalCourse1(60 * 60, relativeStudentDeadlines,
+                relativeInstructorDeadlines);
         typicalBundle.feedbackSessions.put("relativeFeedbackSession", relativeFeedbackSession);
         removeAndRestoreDataBundle(typicalBundle);
         a = getAction(params);
@@ -209,14 +222,14 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         assertEquals(FeedbackSessionSubmissionStatus.OPEN, response.getSubmissionStatus());
 
-        assertEqualStudentDeadlines(relativeFeedbackSession.getStudentDeadlines(), response.getStudentDeadlines(),
+        assertEqualDeadlines(relativeFeedbackSession.getStudentDeadlines(), response.getStudentDeadlines(), timeZone);
+        assertEqualDeadlines(relativeFeedbackSession.getInstructorDeadlines(), response.getInstructorDeadlines(),
                 timeZone);
 
-        ______TS("get full detail; some extensions; after last extended deadline but within grace period");
+        ______TS("get full detail; some extensions; after end time but within grace period");
 
-        relativeStudentDeadlines.put("student2InCourse1@gmail.tmt", -60L);
-        relativeFeedbackSession = generateRelativeFeedbackSessionInTypicalCourse1(-60 * 60 * 24,
-                relativeStudentDeadlines);
+        relativeFeedbackSession = generateRelativeFeedbackSessionInTypicalCourse1(-60, relativeStudentDeadlines,
+                relativeInstructorDeadlines);
         typicalBundle.feedbackSessions.put("relativeFeedbackSession", relativeFeedbackSession);
         removeAndRestoreDataBundle(typicalBundle);
         a = getAction(params);
@@ -225,14 +238,14 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         assertEquals(FeedbackSessionSubmissionStatus.GRACE_PERIOD, response.getSubmissionStatus());
 
-        assertEqualStudentDeadlines(relativeFeedbackSession.getStudentDeadlines(), response.getStudentDeadlines(),
+        assertEqualDeadlines(relativeFeedbackSession.getStudentDeadlines(), response.getStudentDeadlines(), timeZone);
+        assertEqualDeadlines(relativeFeedbackSession.getInstructorDeadlines(), response.getInstructorDeadlines(),
                 timeZone);
 
-        ______TS("get full detail; some extensions; after last extended deadline and beyond grace period");
+        ______TS("get full detail; some extensions; after end time and beyond grace period");
 
-        relativeStudentDeadlines.put("student2InCourse1@gmail.tmt", -60L * 60);
         relativeFeedbackSession = generateRelativeFeedbackSessionInTypicalCourse1(-60 * 60 * 24,
-                relativeStudentDeadlines);
+                relativeStudentDeadlines, relativeInstructorDeadlines);
         typicalBundle.feedbackSessions.put("relativeFeedbackSession", relativeFeedbackSession);
         removeAndRestoreDataBundle(typicalBundle);
         a = getAction(params);
@@ -241,7 +254,8 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         assertEquals(FeedbackSessionSubmissionStatus.CLOSED, response.getSubmissionStatus());
 
-        assertEqualStudentDeadlines(relativeFeedbackSession.getStudentDeadlines(), response.getStudentDeadlines(),
+        assertEqualDeadlines(relativeFeedbackSession.getStudentDeadlines(), response.getStudentDeadlines(), timeZone);
+        assertEqualDeadlines(relativeFeedbackSession.getInstructorDeadlines(), response.getInstructorDeadlines(),
                 timeZone);
 
         logoutUser();
@@ -250,14 +264,18 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
     @Test
     protected void testExecute_instructorSubmission() {
 
-        ______TS("get submission by instructor; no extensions; before end time");
+        ______TS("get submission by instructor with no extension; before end time");
 
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
 
         Map<String, Long> relativeStudentDeadlines = new HashMap<>();
+        relativeStudentDeadlines.put("student1InCourse1@gmail.tmt", 60L * 60 * 21);
+        relativeStudentDeadlines.put("student2InCourse1@gmail.tmt", 60L * 60 * 22);
+        Map<String, Long> relativeInstructorDeadlines = new HashMap<>();
+        relativeInstructorDeadlines.put("instr2@course1.tmt", 60L * 60 * 24);
         FeedbackSessionAttributes relativeFeedbackSession = generateRelativeFeedbackSessionInTypicalCourse1(60 * 60,
-                relativeStudentDeadlines);
+                relativeStudentDeadlines, relativeInstructorDeadlines);
         typicalBundle.feedbackSessions.put("relativeFeedbackSession", relativeFeedbackSession);
         removeAndRestoreDataBundle(typicalBundle);
         String[] params = new String[] {
@@ -300,12 +318,13 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         assertEquals(0, response.getCreatedAtTimestamp());
         assertNull(response.getDeletedAtTimestamp());
 
-        assertEqualStudentDeadlines(relativeFeedbackSession.getStudentDeadlines(), response.getStudentDeadlines(),
-                timeZone);
+        assertTrue(response.getStudentDeadlines().isEmpty());
+        assertTrue(response.getInstructorDeadlines().isEmpty());
 
-        ______TS("get submission by instructor; no extensions; after end time but within grace period");
+        ______TS("get submission by instructor with no extension; after end time but within grace period");
 
-        relativeFeedbackSession = generateRelativeFeedbackSessionInTypicalCourse1(-60, relativeStudentDeadlines);
+        relativeFeedbackSession = generateRelativeFeedbackSessionInTypicalCourse1(-60, relativeStudentDeadlines,
+                relativeInstructorDeadlines);
         typicalBundle.feedbackSessions.put("relativeFeedbackSession", relativeFeedbackSession);
         removeAndRestoreDataBundle(typicalBundle);
         a = getAction(params);
@@ -314,12 +333,13 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         assertEquals(FeedbackSessionSubmissionStatus.GRACE_PERIOD, response.getSubmissionStatus());
 
-        assertEqualStudentDeadlines(relativeFeedbackSession.getStudentDeadlines(), response.getStudentDeadlines(),
-                timeZone);
+        assertTrue(response.getStudentDeadlines().isEmpty());
+        assertTrue(response.getInstructorDeadlines().isEmpty());
 
-        ______TS("get submission by instructor; no extensions; after end time and beyond grace period");
+        ______TS("get submission by instructor with no extension; after end time and beyond grace period");
 
-        relativeFeedbackSession = generateRelativeFeedbackSessionInTypicalCourse1(-60 * 60, relativeStudentDeadlines);
+        relativeFeedbackSession = generateRelativeFeedbackSessionInTypicalCourse1(-60 * 60, relativeStudentDeadlines,
+                relativeInstructorDeadlines);
         typicalBundle.feedbackSessions.put("relativeFeedbackSession", relativeFeedbackSession);
         removeAndRestoreDataBundle(typicalBundle);
         a = getAction(params);
@@ -328,15 +348,14 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         assertEquals(FeedbackSessionSubmissionStatus.CLOSED, response.getSubmissionStatus());
 
-        assertEqualStudentDeadlines(relativeFeedbackSession.getStudentDeadlines(), response.getStudentDeadlines(),
-                timeZone);
+        assertTrue(response.getStudentDeadlines().isEmpty());
+        assertTrue(response.getInstructorDeadlines().isEmpty());
 
-        ______TS("get submission by instructor; some extensions; after end time but before last extended deadline");
+        ______TS("get submission by instructor with extension; before end time");
 
-        relativeStudentDeadlines.put("student1InCourse1@gmail.tmt", -60L * 60 * 23);
-        relativeStudentDeadlines.put("student2InCourse1@gmail.tmt", 60L * 60);
-        relativeFeedbackSession = generateRelativeFeedbackSessionInTypicalCourse1(-60 * 60 * 24,
-                relativeStudentDeadlines);
+        relativeInstructorDeadlines.put(instructor1OfCourse1.getEmail(), 60L * 60 * 23);
+        relativeFeedbackSession = generateRelativeFeedbackSessionInTypicalCourse1(60 * 60, relativeStudentDeadlines,
+                relativeInstructorDeadlines);
         typicalBundle.feedbackSessions.put("relativeFeedbackSession", relativeFeedbackSession);
         removeAndRestoreDataBundle(typicalBundle);
         a = getAction(params);
@@ -345,14 +364,32 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         assertEquals(FeedbackSessionSubmissionStatus.OPEN, response.getSubmissionStatus());
 
-        assertEqualStudentDeadlines(relativeFeedbackSession.getStudentDeadlines(), response.getStudentDeadlines(),
-                timeZone);
+        assertTrue(response.getStudentDeadlines().isEmpty());
+        assertTrue(response.getInstructorDeadlines().containsKey(instructor1OfCourse1.getEmail()));
+        assertEquals(1, response.getInstructorDeadlines().size());
 
-        ______TS("get submission by instructor; some extensions; after last extended deadline but within grace period");
+        ______TS("get submission by instructor with extension; after end time but before extended deadline");
 
-        relativeStudentDeadlines.put("student2InCourse1@gmail.tmt", -60L);
+        relativeInstructorDeadlines.put(instructor1OfCourse1.getEmail(), 60L * 60 * 3);
         relativeFeedbackSession = generateRelativeFeedbackSessionInTypicalCourse1(-60 * 60 * 24,
-                relativeStudentDeadlines);
+                relativeStudentDeadlines, relativeInstructorDeadlines);
+        typicalBundle.feedbackSessions.put("relativeFeedbackSession", relativeFeedbackSession);
+        removeAndRestoreDataBundle(typicalBundle);
+        a = getAction(params);
+        r = getJsonResult(a);
+        response = (FeedbackSessionData) r.getOutput();
+
+        assertEquals(FeedbackSessionSubmissionStatus.OPEN, response.getSubmissionStatus());
+
+        assertTrue(response.getStudentDeadlines().isEmpty());
+        assertTrue(response.getInstructorDeadlines().containsKey(instructor1OfCourse1.getEmail()));
+        assertEquals(1, response.getInstructorDeadlines().size());
+
+        ______TS("get submission by instructor with extension; after extended deadline but within grace period");
+
+        relativeInstructorDeadlines.put(instructor1OfCourse1.getEmail(), -60L * 3);
+        relativeFeedbackSession = generateRelativeFeedbackSessionInTypicalCourse1(-60 * 60 * 24,
+                relativeStudentDeadlines, relativeInstructorDeadlines);
         typicalBundle.feedbackSessions.put("relativeFeedbackSession", relativeFeedbackSession);
         removeAndRestoreDataBundle(typicalBundle);
         a = getAction(params);
@@ -361,14 +398,15 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         assertEquals(FeedbackSessionSubmissionStatus.GRACE_PERIOD, response.getSubmissionStatus());
 
-        assertEqualStudentDeadlines(relativeFeedbackSession.getStudentDeadlines(), response.getStudentDeadlines(),
-                timeZone);
+        assertTrue(response.getStudentDeadlines().isEmpty());
+        assertTrue(response.getInstructorDeadlines().containsKey(instructor1OfCourse1.getEmail()));
+        assertEquals(1, response.getInstructorDeadlines().size());
 
-        ______TS("get submission by instructor; some extensions; after last extended deadline and beyond grace period");
+        ______TS("get submission by instructor with extension; after extended deadline and beyond grace period");
 
-        relativeStudentDeadlines.put("student2InCourse1@gmail.tmt", -60L * 60);
+        relativeInstructorDeadlines.put(instructor1OfCourse1.getEmail(), -60L * 60 * 3);
         relativeFeedbackSession = generateRelativeFeedbackSessionInTypicalCourse1(-60 * 60 * 24,
-                relativeStudentDeadlines);
+                relativeStudentDeadlines, relativeInstructorDeadlines);
         typicalBundle.feedbackSessions.put("relativeFeedbackSession", relativeFeedbackSession);
         removeAndRestoreDataBundle(typicalBundle);
         a = getAction(params);
@@ -377,8 +415,9 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         assertEquals(FeedbackSessionSubmissionStatus.CLOSED, response.getSubmissionStatus());
 
-        assertEqualStudentDeadlines(relativeFeedbackSession.getStudentDeadlines(), response.getStudentDeadlines(),
-                timeZone);
+        assertTrue(response.getStudentDeadlines().isEmpty());
+        assertTrue(response.getInstructorDeadlines().containsKey(instructor1OfCourse1.getEmail()));
+        assertEquals(1, response.getInstructorDeadlines().size());
 
         logoutUser();
     }
@@ -386,14 +425,18 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
     @Test
     protected void testExecute_instructorResult() {
 
-        ______TS("get result by instructor; no extensions; before end time");
+        ______TS("get result by instructor with no extension; before end time");
 
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
 
         Map<String, Long> relativeStudentDeadlines = new HashMap<>();
+        relativeStudentDeadlines.put("student1InCourse1@gmail.tmt", 60L * 60 * 21);
+        relativeStudentDeadlines.put("student2InCourse1@gmail.tmt", 60L * 60 * 22);
+        Map<String, Long> relativeInstructorDeadlines = new HashMap<>();
+        relativeInstructorDeadlines.put("instr2@course1.tmt", 60L * 60 * 24);
         FeedbackSessionAttributes relativeFeedbackSession = generateRelativeFeedbackSessionInTypicalCourse1(60 * 60,
-                relativeStudentDeadlines);
+                relativeStudentDeadlines, relativeInstructorDeadlines);
         typicalBundle.feedbackSessions.put("relativeFeedbackSession", relativeFeedbackSession);
         removeAndRestoreDataBundle(typicalBundle);
         String[] params = new String[] {
@@ -444,12 +487,13 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         assertEquals(0, response.getCreatedAtTimestamp());
         assertNull(response.getDeletedAtTimestamp());
 
-        assertEqualStudentDeadlines(relativeFeedbackSession.getStudentDeadlines(), response.getStudentDeadlines(),
-                timeZone);
+        assertTrue(response.getStudentDeadlines().isEmpty());
+        assertTrue(response.getInstructorDeadlines().isEmpty());
 
-        ______TS("get result by instructor; no extensions; after end time but within grace period");
+        ______TS("get result by instructor with no extension; after end time but within grace period");
 
-        relativeFeedbackSession = generateRelativeFeedbackSessionInTypicalCourse1(-60, relativeStudentDeadlines);
+        relativeFeedbackSession = generateRelativeFeedbackSessionInTypicalCourse1(-60, relativeStudentDeadlines,
+                relativeInstructorDeadlines);
         typicalBundle.feedbackSessions.put("relativeFeedbackSession", relativeFeedbackSession);
         removeAndRestoreDataBundle(typicalBundle);
         a = getAction(params);
@@ -458,12 +502,13 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         assertEquals(FeedbackSessionSubmissionStatus.GRACE_PERIOD, response.getSubmissionStatus());
 
-        assertEqualStudentDeadlines(relativeFeedbackSession.getStudentDeadlines(), response.getStudentDeadlines(),
-                timeZone);
+        assertTrue(response.getStudentDeadlines().isEmpty());
+        assertTrue(response.getInstructorDeadlines().isEmpty());
 
-        ______TS("get result by instructor; no extensions; after end time and beyond grace period");
+        ______TS("get result by instructor with no extension; after end time and beyond grace period");
 
-        relativeFeedbackSession = generateRelativeFeedbackSessionInTypicalCourse1(-60 * 60, relativeStudentDeadlines);
+        relativeFeedbackSession = generateRelativeFeedbackSessionInTypicalCourse1(-60 * 60, relativeStudentDeadlines,
+                relativeInstructorDeadlines);
         typicalBundle.feedbackSessions.put("relativeFeedbackSession", relativeFeedbackSession);
         removeAndRestoreDataBundle(typicalBundle);
         a = getAction(params);
@@ -472,15 +517,14 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         assertEquals(FeedbackSessionSubmissionStatus.CLOSED, response.getSubmissionStatus());
 
-        assertEqualStudentDeadlines(relativeFeedbackSession.getStudentDeadlines(), response.getStudentDeadlines(),
-                timeZone);
+        assertTrue(response.getStudentDeadlines().isEmpty());
+        assertTrue(response.getInstructorDeadlines().isEmpty());
 
-        ______TS("get result by instructor; some extensions; after end time but before last extended deadline");
+        ______TS("get result by instructor with extension; before end time");
 
-        relativeStudentDeadlines.put("student1InCourse1@gmail.tmt", -60L * 60 * 23);
-        relativeStudentDeadlines.put("student2InCourse1@gmail.tmt", 60L * 60);
-        relativeFeedbackSession = generateRelativeFeedbackSessionInTypicalCourse1(-60 * 60 * 24,
-                relativeStudentDeadlines);
+        relativeInstructorDeadlines.put(instructor1OfCourse1.getEmail(), 60L * 60 * 23);
+        relativeFeedbackSession = generateRelativeFeedbackSessionInTypicalCourse1(60 * 60, relativeStudentDeadlines,
+                relativeInstructorDeadlines);
         typicalBundle.feedbackSessions.put("relativeFeedbackSession", relativeFeedbackSession);
         removeAndRestoreDataBundle(typicalBundle);
         a = getAction(params);
@@ -489,14 +533,32 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         assertEquals(FeedbackSessionSubmissionStatus.OPEN, response.getSubmissionStatus());
 
-        assertEqualStudentDeadlines(relativeFeedbackSession.getStudentDeadlines(), response.getStudentDeadlines(),
-                timeZone);
+        assertTrue(response.getStudentDeadlines().isEmpty());
+        assertTrue(response.getInstructorDeadlines().containsKey(instructor1OfCourse1.getEmail()));
+        assertEquals(1, response.getInstructorDeadlines().size());
 
-        ______TS("get result by instructor; some extensions; after last extended deadline but within grace period");
+        ______TS("get result by instructor with extension; after end time but before extended deadline");
 
-        relativeStudentDeadlines.put("student2InCourse1@gmail.tmt", -60L);
+        relativeInstructorDeadlines.put(instructor1OfCourse1.getEmail(), 60L * 60 * 3);
         relativeFeedbackSession = generateRelativeFeedbackSessionInTypicalCourse1(-60 * 60 * 24,
-                relativeStudentDeadlines);
+                relativeStudentDeadlines, relativeInstructorDeadlines);
+        typicalBundle.feedbackSessions.put("relativeFeedbackSession", relativeFeedbackSession);
+        removeAndRestoreDataBundle(typicalBundle);
+        a = getAction(params);
+        r = getJsonResult(a);
+        response = (FeedbackSessionData) r.getOutput();
+
+        assertEquals(FeedbackSessionSubmissionStatus.OPEN, response.getSubmissionStatus());
+
+        assertTrue(response.getStudentDeadlines().isEmpty());
+        assertTrue(response.getInstructorDeadlines().containsKey(instructor1OfCourse1.getEmail()));
+        assertEquals(1, response.getInstructorDeadlines().size());
+
+        ______TS("get result by instructor with extension; after extended deadline but within grace period");
+
+        relativeInstructorDeadlines.put(instructor1OfCourse1.getEmail(), -60L * 3);
+        relativeFeedbackSession = generateRelativeFeedbackSessionInTypicalCourse1(-60 * 60 * 24,
+                relativeStudentDeadlines, relativeInstructorDeadlines);
         typicalBundle.feedbackSessions.put("relativeFeedbackSession", relativeFeedbackSession);
         removeAndRestoreDataBundle(typicalBundle);
         a = getAction(params);
@@ -505,14 +567,15 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         assertEquals(FeedbackSessionSubmissionStatus.GRACE_PERIOD, response.getSubmissionStatus());
 
-        assertEqualStudentDeadlines(relativeFeedbackSession.getStudentDeadlines(), response.getStudentDeadlines(),
-                timeZone);
+        assertTrue(response.getStudentDeadlines().isEmpty());
+        assertTrue(response.getInstructorDeadlines().containsKey(instructor1OfCourse1.getEmail()));
+        assertEquals(1, response.getInstructorDeadlines().size());
 
-        ______TS("get result by instructor; some extensions; after last extended deadline and beyond grace period");
+        ______TS("get result by instructor with extension; after extended deadline and beyond grace period");
 
-        relativeStudentDeadlines.put("student2InCourse1@gmail.tmt", -60L * 60);
+        relativeInstructorDeadlines.put(instructor1OfCourse1.getEmail(), -60L * 60 * 3);
         relativeFeedbackSession = generateRelativeFeedbackSessionInTypicalCourse1(-60 * 60 * 24,
-                relativeStudentDeadlines);
+                relativeStudentDeadlines, relativeInstructorDeadlines);
         typicalBundle.feedbackSessions.put("relativeFeedbackSession", relativeFeedbackSession);
         removeAndRestoreDataBundle(typicalBundle);
         a = getAction(params);
@@ -521,8 +584,9 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         assertEquals(FeedbackSessionSubmissionStatus.CLOSED, response.getSubmissionStatus());
 
-        assertEqualStudentDeadlines(relativeFeedbackSession.getStudentDeadlines(), response.getStudentDeadlines(),
-                timeZone);
+        assertTrue(response.getStudentDeadlines().isEmpty());
+        assertTrue(response.getInstructorDeadlines().containsKey(instructor1OfCourse1.getEmail()));
+        assertEquals(1, response.getInstructorDeadlines().size());
 
         logoutUser();
     }
@@ -536,9 +600,12 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         loginAsStudent(student1InCourse1.getGoogleId());
 
         Map<String, Long> relativeStudentDeadlines = new HashMap<>();
-        relativeStudentDeadlines.put("student2InCourse1@gmail.tmt", 60L * 60 * 24);
+        relativeStudentDeadlines.put("student2InCourse1@gmail.tmt", 60L * 60 * 22);
+        Map<String, Long> relativeInstructorDeadlines = new HashMap<>();
+        relativeInstructorDeadlines.put("instr1@course1.tmt", 60L * 60 * 23);
+        relativeInstructorDeadlines.put("instr2@course1.tmt", 60L * 60 * 24);
         FeedbackSessionAttributes relativeFeedbackSession = generateRelativeFeedbackSessionInTypicalCourse1(60 * 60,
-                relativeStudentDeadlines);
+                relativeStudentDeadlines, relativeInstructorDeadlines);
         typicalBundle.feedbackSessions.put("relativeFeedbackSession", relativeFeedbackSession);
         removeAndRestoreDataBundle(typicalBundle);
         String[] params = new String[] {
@@ -582,10 +649,12 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         assertNull(response.getDeletedAtTimestamp());
 
         assertTrue(response.getStudentDeadlines().isEmpty());
+        assertTrue(response.getInstructorDeadlines().isEmpty());
 
         ______TS("get submission by student with no extension; after end time but within grace period");
 
-        relativeFeedbackSession = generateRelativeFeedbackSessionInTypicalCourse1(-60, relativeStudentDeadlines);
+        relativeFeedbackSession = generateRelativeFeedbackSessionInTypicalCourse1(-60, relativeStudentDeadlines,
+                relativeInstructorDeadlines);
         typicalBundle.feedbackSessions.put("relativeFeedbackSession", relativeFeedbackSession);
         removeAndRestoreDataBundle(typicalBundle);
         a = getAction(params);
@@ -595,10 +664,12 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         assertEquals(FeedbackSessionSubmissionStatus.GRACE_PERIOD, response.getSubmissionStatus());
 
         assertTrue(response.getStudentDeadlines().isEmpty());
+        assertTrue(response.getInstructorDeadlines().isEmpty());
 
         ______TS("get submission by student with no extension; after end time and beyond grace period");
 
-        relativeFeedbackSession = generateRelativeFeedbackSessionInTypicalCourse1(-60 * 60, relativeStudentDeadlines);
+        relativeFeedbackSession = generateRelativeFeedbackSessionInTypicalCourse1(-60 * 60, relativeStudentDeadlines,
+                relativeInstructorDeadlines);
         typicalBundle.feedbackSessions.put("relativeFeedbackSession", relativeFeedbackSession);
         removeAndRestoreDataBundle(typicalBundle);
         a = getAction(params);
@@ -608,11 +679,13 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         assertEquals(FeedbackSessionSubmissionStatus.CLOSED, response.getSubmissionStatus());
 
         assertTrue(response.getStudentDeadlines().isEmpty());
+        assertTrue(response.getInstructorDeadlines().isEmpty());
 
-        ______TS("get submission by student with extension; after end time but before extended deadline");
+        ______TS("get submission by student with extension; before end time");
 
-        relativeStudentDeadlines.put(student1InCourse1.getEmail(), 60L * 60);
-        relativeFeedbackSession = generateRelativeFeedbackSessionInTypicalCourse1(-60 * 60, relativeStudentDeadlines);
+        relativeStudentDeadlines.put(student1InCourse1.getEmail(), 60L * 60 * 21);
+        relativeFeedbackSession = generateRelativeFeedbackSessionInTypicalCourse1(60 * 60, relativeStudentDeadlines,
+                relativeInstructorDeadlines);
         typicalBundle.feedbackSessions.put("relativeFeedbackSession", relativeFeedbackSession);
         removeAndRestoreDataBundle(typicalBundle);
         a = getAction(params);
@@ -623,11 +696,30 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         assertTrue(response.getStudentDeadlines().containsKey(student1InCourse1.getEmail()));
         assertEquals(1, response.getStudentDeadlines().size());
+        assertTrue(response.getInstructorDeadlines().isEmpty());
+
+        ______TS("get submission by student with extension; after end time but before extended deadline");
+
+        relativeStudentDeadlines.put(student1InCourse1.getEmail(), 60L * 60);
+        relativeFeedbackSession = generateRelativeFeedbackSessionInTypicalCourse1(-60 * 60 * 24,
+                relativeStudentDeadlines, relativeInstructorDeadlines);
+        typicalBundle.feedbackSessions.put("relativeFeedbackSession", relativeFeedbackSession);
+        removeAndRestoreDataBundle(typicalBundle);
+        a = getAction(params);
+        r = getJsonResult(a);
+        response = (FeedbackSessionData) r.getOutput();
+
+        assertEquals(FeedbackSessionSubmissionStatus.OPEN, response.getSubmissionStatus());
+
+        assertTrue(response.getStudentDeadlines().containsKey(student1InCourse1.getEmail()));
+        assertEquals(1, response.getStudentDeadlines().size());
+        assertTrue(response.getInstructorDeadlines().isEmpty());
 
         ______TS("get submission by student with extension; after extended deadline but within grace period");
 
         relativeStudentDeadlines.put(student1InCourse1.getEmail(), -60L);
-        relativeFeedbackSession = generateRelativeFeedbackSessionInTypicalCourse1(-60 * 60, relativeStudentDeadlines);
+        relativeFeedbackSession = generateRelativeFeedbackSessionInTypicalCourse1(-60 * 60 * 24,
+                relativeStudentDeadlines, relativeInstructorDeadlines);
         typicalBundle.feedbackSessions.put("relativeFeedbackSession", relativeFeedbackSession);
         removeAndRestoreDataBundle(typicalBundle);
         a = getAction(params);
@@ -638,12 +730,13 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         assertTrue(response.getStudentDeadlines().containsKey(student1InCourse1.getEmail()));
         assertEquals(1, response.getStudentDeadlines().size());
+        assertTrue(response.getInstructorDeadlines().isEmpty());
 
         ______TS("get submission by student with extension; after extended deadline and beyond grace period");
 
         relativeStudentDeadlines.put(student1InCourse1.getEmail(), -60L * 60);
-        relativeFeedbackSession = generateRelativeFeedbackSessionInTypicalCourse1(-60 * 60 * 2,
-                relativeStudentDeadlines);
+        relativeFeedbackSession = generateRelativeFeedbackSessionInTypicalCourse1(-60 * 60 * 24,
+                relativeStudentDeadlines, relativeInstructorDeadlines);
         typicalBundle.feedbackSessions.put("relativeFeedbackSession", relativeFeedbackSession);
         removeAndRestoreDataBundle(typicalBundle);
         a = getAction(params);
@@ -654,6 +747,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         assertTrue(response.getStudentDeadlines().containsKey(student1InCourse1.getEmail()));
         assertEquals(1, response.getStudentDeadlines().size());
+        assertTrue(response.getInstructorDeadlines().isEmpty());
 
         logoutUser();
     }
@@ -667,9 +761,12 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         loginAsStudent(student1InCourse1.getGoogleId());
 
         Map<String, Long> relativeStudentDeadlines = new HashMap<>();
-        relativeStudentDeadlines.put("student2InCourse1@gmail.tmt", 60L * 60 * 24);
+        relativeStudentDeadlines.put("student2InCourse1@gmail.tmt", 60L * 60 * 22);
+        Map<String, Long> relativeInstructorDeadlines = new HashMap<>();
+        relativeInstructorDeadlines.put("instr1@course1.tmt", 60L * 60 * 23);
+        relativeInstructorDeadlines.put("instr2@course1.tmt", 60L * 60 * 24);
         FeedbackSessionAttributes relativeFeedbackSession = generateRelativeFeedbackSessionInTypicalCourse1(60 * 60,
-                relativeStudentDeadlines);
+                relativeStudentDeadlines, relativeInstructorDeadlines);
         typicalBundle.feedbackSessions.put("relativeFeedbackSession", relativeFeedbackSession);
         removeAndRestoreDataBundle(typicalBundle);
         String[] params = new String[] {
@@ -713,10 +810,12 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         assertNull(response.getDeletedAtTimestamp());
 
         assertTrue(response.getStudentDeadlines().isEmpty());
+        assertTrue(response.getInstructorDeadlines().isEmpty());
 
         ______TS("get result by student with no extension; after end time but within grace period");
 
-        relativeFeedbackSession = generateRelativeFeedbackSessionInTypicalCourse1(-60, relativeStudentDeadlines);
+        relativeFeedbackSession = generateRelativeFeedbackSessionInTypicalCourse1(-60, relativeStudentDeadlines,
+                relativeInstructorDeadlines);
         typicalBundle.feedbackSessions.put("relativeFeedbackSession", relativeFeedbackSession);
         removeAndRestoreDataBundle(typicalBundle);
         a = getAction(params);
@@ -726,10 +825,12 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         assertEquals(FeedbackSessionSubmissionStatus.GRACE_PERIOD, response.getSubmissionStatus());
 
         assertTrue(response.getStudentDeadlines().isEmpty());
+        assertTrue(response.getInstructorDeadlines().isEmpty());
 
         ______TS("get result by student with no extension; after end time and beyond grace period");
 
-        relativeFeedbackSession = generateRelativeFeedbackSessionInTypicalCourse1(-60 * 60, relativeStudentDeadlines);
+        relativeFeedbackSession = generateRelativeFeedbackSessionInTypicalCourse1(-60 * 60, relativeStudentDeadlines,
+                relativeInstructorDeadlines);
         typicalBundle.feedbackSessions.put("relativeFeedbackSession", relativeFeedbackSession);
         removeAndRestoreDataBundle(typicalBundle);
         a = getAction(params);
@@ -739,11 +840,13 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         assertEquals(FeedbackSessionSubmissionStatus.CLOSED, response.getSubmissionStatus());
 
         assertTrue(response.getStudentDeadlines().isEmpty());
+        assertTrue(response.getInstructorDeadlines().isEmpty());
 
-        ______TS("get result by student with extension; after end time but before extended deadline");
+        ______TS("get result by student with extension; before end time");
 
-        relativeStudentDeadlines.put(student1InCourse1.getEmail(), 60L * 60);
-        relativeFeedbackSession = generateRelativeFeedbackSessionInTypicalCourse1(-60 * 60, relativeStudentDeadlines);
+        relativeStudentDeadlines.put(student1InCourse1.getEmail(), 60L * 60 * 21);
+        relativeFeedbackSession = generateRelativeFeedbackSessionInTypicalCourse1(60 * 60, relativeStudentDeadlines,
+                relativeInstructorDeadlines);
         typicalBundle.feedbackSessions.put("relativeFeedbackSession", relativeFeedbackSession);
         removeAndRestoreDataBundle(typicalBundle);
         a = getAction(params);
@@ -754,11 +857,30 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         assertTrue(response.getStudentDeadlines().containsKey(student1InCourse1.getEmail()));
         assertEquals(1, response.getStudentDeadlines().size());
+        assertTrue(response.getInstructorDeadlines().isEmpty());
+
+        ______TS("get result by student with extension; after end time but before extended deadline");
+
+        relativeStudentDeadlines.put(student1InCourse1.getEmail(), 60L * 60);
+        relativeFeedbackSession = generateRelativeFeedbackSessionInTypicalCourse1(-60 * 60 * 24,
+                relativeStudentDeadlines, relativeInstructorDeadlines);
+        typicalBundle.feedbackSessions.put("relativeFeedbackSession", relativeFeedbackSession);
+        removeAndRestoreDataBundle(typicalBundle);
+        a = getAction(params);
+        r = getJsonResult(a);
+        response = (FeedbackSessionData) r.getOutput();
+
+        assertEquals(FeedbackSessionSubmissionStatus.OPEN, response.getSubmissionStatus());
+
+        assertTrue(response.getStudentDeadlines().containsKey(student1InCourse1.getEmail()));
+        assertEquals(1, response.getStudentDeadlines().size());
+        assertTrue(response.getInstructorDeadlines().isEmpty());
 
         ______TS("get result by student with extension; after extended deadline but within grace period");
 
         relativeStudentDeadlines.put(student1InCourse1.getEmail(), -60L);
-        relativeFeedbackSession = generateRelativeFeedbackSessionInTypicalCourse1(-60 * 60, relativeStudentDeadlines);
+        relativeFeedbackSession = generateRelativeFeedbackSessionInTypicalCourse1(-60 * 60 * 24,
+                relativeStudentDeadlines, relativeInstructorDeadlines);
         typicalBundle.feedbackSessions.put("relativeFeedbackSession", relativeFeedbackSession);
         removeAndRestoreDataBundle(typicalBundle);
         a = getAction(params);
@@ -769,12 +891,13 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         assertTrue(response.getStudentDeadlines().containsKey(student1InCourse1.getEmail()));
         assertEquals(1, response.getStudentDeadlines().size());
+        assertTrue(response.getInstructorDeadlines().isEmpty());
 
         ______TS("get result by student with extension; after extended deadline and beyond grace period");
 
         relativeStudentDeadlines.put(student1InCourse1.getEmail(), -60L * 60);
-        relativeFeedbackSession = generateRelativeFeedbackSessionInTypicalCourse1(-60 * 60 * 2,
-                relativeStudentDeadlines);
+        relativeFeedbackSession = generateRelativeFeedbackSessionInTypicalCourse1(-60 * 60 * 24,
+                relativeStudentDeadlines, relativeInstructorDeadlines);
         typicalBundle.feedbackSessions.put("relativeFeedbackSession", relativeFeedbackSession);
         removeAndRestoreDataBundle(typicalBundle);
         a = getAction(params);
@@ -785,6 +908,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         assertTrue(response.getStudentDeadlines().containsKey(student1InCourse1.getEmail()));
         assertEquals(1, response.getStudentDeadlines().size());
+        assertTrue(response.getInstructorDeadlines().isEmpty());
 
         logoutUser();
     }
@@ -939,26 +1063,28 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         };
     }
 
-    private void assertEqualStudentDeadlines(Map<String, Instant> expectedStudentDeadlineInstants,
-                                             Map<String, Long> actualStudentDeadlines, String timeZone) {
-        Map<String, Long> expectedStudentDeadlines = new HashMap<>();
-        expectedStudentDeadlineInstants
-                .forEach((participantEmailAddress, studentDeadlineInstant) -> {
-                    Long studentDeadline = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
-                                    studentDeadlineInstant, timeZone, true)
-                            .toEpochMilli();
-                    expectedStudentDeadlines.put(participantEmailAddress, studentDeadline);
-                });
-        assertEquals(expectedStudentDeadlines, actualStudentDeadlines);
+    private void assertEqualDeadlines(Map<String, Instant> expectedDeadlineInstants, Map<String, Long> actualDeadlines,
+            String timeZone) {
+        Map<String, Long> expectedDeadlines = new HashMap<>();
+        expectedDeadlineInstants.forEach((emailAddress, deadlineInstant) -> {
+            Long deadline = TimeHelper.getMidnightAdjustedInstantBasedOnZone(deadlineInstant, timeZone, true)
+                    .toEpochMilli();
+            expectedDeadlines.put(emailAddress, deadline);
+        });
+        assertEquals(expectedDeadlines, actualDeadlines);
     }
 
     private FeedbackSessionAttributes generateRelativeFeedbackSessionInTypicalCourse1(long secondsUntilEndTime,
-            Map<String, Long> relativeStudentDeadlines) {
+            Map<String, Long> relativeStudentDeadlines, Map<String, Long> relativeInstructorDeadlines) {
         Instant now = Instant.now();
         Instant startTime = now.minusSeconds(60 * 60 * 24);
         Map<String, Instant> studentDeadlines = new HashMap<>();
-        relativeStudentDeadlines.forEach((participantEmailAddress, relativeStudentDeadline) -> {
-            studentDeadlines.put(participantEmailAddress, now.plusSeconds(relativeStudentDeadline));
+        relativeStudentDeadlines.forEach((emailAddress, relativeStudentDeadline) -> {
+            studentDeadlines.put(emailAddress, now.plusSeconds(relativeStudentDeadline));
+        });
+        Map<String, Instant> instructorDeadlines = new HashMap<>();
+        relativeInstructorDeadlines.forEach((emailAddress, relativeInstructorDeadline) -> {
+            instructorDeadlines.put(emailAddress, now.plusSeconds(relativeInstructorDeadline));
         });
         return FeedbackSessionAttributes
                 .builder("relativeFeedbackSession", "idOfTypicalCourse1")
@@ -969,6 +1095,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
                 .withEndTime(now.plusSeconds(secondsUntilEndTime))
                 .withGracePeriod(Duration.ofMinutes(15))
                 .withStudentDeadlines(studentDeadlines)
+                .withInstructorDeadlines(instructorDeadlines)
                 .build();
     }
 }
