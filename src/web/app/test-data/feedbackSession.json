@@ -1,0 +1,18 @@
+{
+    "CS9999":{
+    "feedbackSessionName": "Feedback Session 1",
+    "courseId": "CS9999",
+    "timeZone": "Asia/Singapore",
+    "instructions": "",
+    "submissionStartTimestamp": 0,
+    "submissionEndTimestamp": 1549095330000,
+    "gracePeriod": 0,
+    "sessionVisibleSetting": "AT_OPEN",
+    "responseVisibleSetting": "AT_VISIBLE",
+    "submissionStatus": "OPEN",
+    "publishStatus": "PUBLISHED",
+    "isClosingEmailEnabled": true,
+    "isPublishedEmailEnabled": true,
+    "createdAtTimestamp": 0
+    }
+}

@@ -11,10 +11,6 @@ import {
   FeedbackSession,
   FeedbackSessionLog,
   FeedbackSessionLogType,
-  FeedbackSessionPublishStatus,
-  FeedbackSessionSubmissionStatus,
-  ResponseVisibleSetting,
-  SessionVisibleSetting,
   Student,
 } from '../../../types/api-output';
 import { SortBy } from '../../../types/sort-properties';
@@ -23,6 +19,7 @@ import { InstructorAuditLogsPageComponent } from './instructor-audit-logs-page.c
 import { InstructorAuditLogsPageModule } from './instructor-audit-logs-page.module';
 import {default as courses} from '../../test-data/courses.json';
 import {default as students} from '../../test-data/students.json';
+import {default as feedbackSessionJS} from '../../test-data/feedbackSession.json';
 
 
 describe('InstructorAuditLogsPageComponent', () => {
@@ -48,23 +45,10 @@ describe('InstructorAuditLogsPageComponent', () => {
  
  const emptyStudent: Student = students.emptyStudent;
  const testStudent: Student = students.testStudent1;
+ 
+ const tmp: any = feedbackSessionJS.CS9999;
+ const testFeedbackSession: FeedbackSession = tmp;
 
-  const testFeedbackSession: FeedbackSession = {
-    feedbackSessionName: 'Feedback Session 1',
-    courseId: 'CS9999',
-    timeZone: 'Asia/Singapore',
-    instructions: '',
-    submissionStartTimestamp: 0,
-    submissionEndTimestamp: 1549095330000,
-    gracePeriod: 0,
-    sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
-    responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
-    submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
-    publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
-    isClosingEmailEnabled: true,
-    isPublishedEmailEnabled: true,
-    createdAtTimestamp: 0,
-  };
   const testLogs1: FeedbackSessionLog = {
     feedbackSessionData: testFeedbackSession,
     feedbackSessionLogEntries: [
