@@ -47,39 +47,56 @@ class GetFeedbackSessionAction extends BasicFeedbackSubmissionAction {
 
     @Override
     public JsonResult execute() {
-        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        FeedbackSessionAttributes feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
+        FeedbackSessionAttributes feedbackSession = getFeedbackSessionAttributesWithCorrectDeadlines(intent);
+        FeedbackSessionData response = new FeedbackSessionData(feedbackSession);
 
-        FeedbackSessionData response;
         switch (intent) {
         case STUDENT_SUBMISSION:
+            // fall-through
         case STUDENT_RESULT:
-            StudentAttributes studentAttributes = getStudentOfCourseFromRequest(courseId);
-            String studentEmailAddress = studentAttributes.getEmail();
-            feedbackSession = feedbackSession.getCopyForParticipant(studentEmailAddress);
-            response = new FeedbackSessionData(feedbackSession);
-            response.hideInformationForStudent();
-            break;
+            // fall-through
         case INSTRUCTOR_SUBMISSION:
-            feedbackSession = feedbackSession.getCopyForInstructor();
-            response = new FeedbackSessionData(feedbackSession);
             response.hideInformationForStudent();
             break;
         case INSTRUCTOR_RESULT:
-            feedbackSession = feedbackSession.getCopyForInstructor();
-            response = new FeedbackSessionData(feedbackSession);
             response.hideInformationForInstructor();
             break;
         case FULL_DETAIL:
-            feedbackSession = feedbackSession.getCopyForInstructor();
-            response = new FeedbackSessionData(feedbackSession);
             break;
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);
         }
 
         return new JsonResult(response);
+    }
+
+    private FeedbackSessionAttributes getFeedbackSessionAttributesWithCorrectDeadlines(Intent intent) {
+        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+        String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+        FeedbackSessionAttributes feedbackSessionAttributes = getNonNullFeedbackSession(feedbackSessionName, courseId);
+
+        switch (intent) {
+        case STUDENT_SUBMISSION:
+            // fall-through
+        case STUDENT_RESULT:
+            StudentAttributes studentAttributes = getStudentOfCourseFromRequest(courseId);
+            String studentEmailAddress = studentAttributes.getEmail();
+            feedbackSessionAttributes = feedbackSessionAttributes.getCopyForStudent(studentEmailAddress);
+            break;
+        case INSTRUCTOR_SUBMISSION:
+            // fall-through
+        case INSTRUCTOR_RESULT:
+            InstructorAttributes instructorAttributes = getInstructorOfCourseFromRequest(courseId);
+            String instructorEmailAddress = instructorAttributes.getEmail();
+            feedbackSessionAttributes = feedbackSessionAttributes.getCopyForInstructor(instructorEmailAddress);
+            break;
+        case FULL_DETAIL:
+            break;
+        default:
+            throw new InvalidHttpParameterException("Unknown intent " + intent);
+        }
+
+        return feedbackSessionAttributes;
     }
 }

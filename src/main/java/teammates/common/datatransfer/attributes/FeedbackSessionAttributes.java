@@ -3,7 +3,6 @@ package teammates.common.datatransfer.attributes;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -112,22 +111,23 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     }
 
     /**
-     * Creates a copy of this object for the given participant.
+     * Creates a copy of this object for the given student.
      *
-     * @param participantEmailAddress The email address of the given participant.
-     * @return The copy of this object for the given participant.
+     * @param studentEmailAddress The email address of the given student.
+     * @return The copy of this object for the given student.
      */
-    public FeedbackSessionAttributes getCopyForParticipant(String participantEmailAddress) {
-        return new FeedbackSessionAttributesForParticipant(toEntity(), participantEmailAddress);
+    public FeedbackSessionAttributes getCopyForStudent(String studentEmailAddress) {
+        return new FeedbackSessionAttributesForStudent(toEntity(), studentEmailAddress);
     }
 
     /**
-     * Creates a copy of this object for an instructor.
+     * Creates a copy of this object for the given instructor.
      *
-     * @return The copy of this object for an instructor.
+     * @param instructorEmailAddress The email address of the given instructor.
+     * @return The copy of this object for the given instructor.
      */
-    public FeedbackSessionAttributes getCopyForInstructor() {
-        return new FeedbackSessionAttributesForInstructor(toEntity());
+    public FeedbackSessionAttributes getCopyForInstructor(String instructorEmailAddress) {
+        return new FeedbackSessionAttributesForInstructor(toEntity(), instructorEmailAddress);
     }
 
     public String getCourseId() {
@@ -238,6 +238,12 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         return instructorDeadlines;
     }
 
+    /**
+     * Finds the point in time when the session is considered closed.
+     * This is not necessarily the end time of the feedback session.
+     *
+     * @return The point in time when the session is considered closed.
+     */
     public Instant getDeadline() {
         return endTime;
     }
@@ -297,10 +303,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
 
     /**
      * Checks if the feedback session is closed.
-     * This occurs when the current time is after both the deadline and the grace period. The deadline can be the usual
-     * end time, the one for a participant, or the one for an instructor; the latter two take into account extended
-     * deadlines. The source of this deadline can be changed using {@link #getCopy()},
-     * {@link #getCopyForParticipant(String)}, or {@link #getCopyForInstructor()} respectively.
+     * This occurs when the current time is after both the deadline and the grace period.
      *
      * @return Whether the feedback session is closed.
      */
@@ -310,10 +313,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
 
     /**
      * Checks if the feedback session is open.
-     * This occurs when the current time is either the start time or later but before the deadline. The deadline can be
-     * the usual end time, the one for a participant, or the one for an instructor; the latter two take into account
-     * extended deadlines. The source of this deadline can be changed using {@link #getCopy()},
-     * {@link #getCopyForParticipant(String)}, or {@link #getCopyForInstructor()} respectively.
+     * This occurs when the current time is either the start time or later but before the deadline.
      *
      * @return Whether the feedback session is open.
      */
@@ -324,10 +324,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
 
     /**
      * Checks if the feedback session is closed but still accepts responses.
-     * This occurs when the current time is either the deadline or later but within the grace period. The deadline can
-     * be the usual end time, the one for a participant, or the one for an instructor; the latter two take into account
-     * extended deadlines. The source of this deadline can be changed using {@link #getCopy()},
-     * {@link #getCopyForParticipant(String)}, or {@link #getCopyForInstructor()} respectively.
+     * This occurs when the current time is either the deadline or later but still within the grace period.
      *
      * @return Whether the feedback session is closed but still accepts responses.
      */
@@ -886,47 +883,76 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
 
     }
 
-    private static class FeedbackSessionAttributesForParticipant extends FeedbackSessionAttributes {
+    private abstract static class FeedbackSessionAttributesForParticipant extends FeedbackSessionAttributes {
 
-        private String participantEmailAddress;
+        private String emailAddress;
 
-        private FeedbackSessionAttributesForParticipant(FeedbackSession feedbackSession,
-                                                        String participantEmailAddress) {
+        private FeedbackSessionAttributesForParticipant(FeedbackSession feedbackSession, String emailAddress) {
             super(feedbackSession);
 
-            this.participantEmailAddress = participantEmailAddress;
+            this.emailAddress = emailAddress;
+        }
+
+        @Override
+        public Instant getDeadline() {
+            if (!getDeadlines().containsKey(emailAddress)) {
+                return getEndTime();
+            }
+            return getDeadlines().get(emailAddress);
+        }
+
+        abstract Map<String, Instant> getDeadlines();
+
+        Map<String, Instant> getFilteredDeadlines() {
+            return getDeadlines()
+                    .entrySet()
+                    .stream()
+                    .filter(entry -> entry.getKey().equals(emailAddress))
+                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        }
+    }
+
+    private static class FeedbackSessionAttributesForStudent extends FeedbackSessionAttributesForParticipant {
+
+        private FeedbackSessionAttributesForStudent(FeedbackSession feedbackSession, String studentEmailAddress) {
+            super(feedbackSession, studentEmailAddress);
         }
 
         @Override
         public Map<String, Instant> getFilteredStudentDeadlines() {
-            return getStudentDeadlines()
-                    .entrySet()
-                    .stream()
-                    .filter(entry -> entry.getKey().equals(participantEmailAddress))
-                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+            return getFilteredDeadlines();
         }
 
         @Override
-        public Instant getDeadline() {
-            if (!getStudentDeadlines().containsKey(participantEmailAddress)) {
-                return super.getDeadline();
-            }
-            return getStudentDeadlines().get(participantEmailAddress);
+        public Map<String, Instant> getFilteredInstructorDeadlines() {
+            return new HashMap<>();
+        }
+
+        @Override
+        Map<String, Instant> getDeadlines() {
+            return getStudentDeadlines();
         }
     }
 
-    private static class FeedbackSessionAttributesForInstructor extends FeedbackSessionAttributes {
+    private static class FeedbackSessionAttributesForInstructor extends FeedbackSessionAttributesForParticipant {
 
-        private FeedbackSessionAttributesForInstructor(FeedbackSession feedbackSession) {
-            super(feedbackSession);
+        private FeedbackSessionAttributesForInstructor(FeedbackSession feedbackSession, String instructorEmailAddress) {
+            super(feedbackSession, instructorEmailAddress);
         }
 
         @Override
-        public Instant getDeadline() {
-            if (getStudentDeadlines().isEmpty()) {
-                return super.getDeadline();
-            }
-            return Collections.max(getStudentDeadlines().values());
+        public Map<String, Instant> getFilteredStudentDeadlines() {
+            return new HashMap<>();
+        }
+
+        @Override
+        public Map<String, Instant> getFilteredInstructorDeadlines() {
+            return getFilteredDeadlines();
+        }
+
+        @Override
+        Map<String, Instant> getDeadlines() {
+            return getInstructorDeadlines();
         }
     }
 }
