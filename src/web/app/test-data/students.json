@@ -67,7 +67,7 @@
         "teamName": "Team 2",
         "sectionName": "Tutorial Group 2"
     },
-    "testStudent8":{
+    "testStudent8": {
         "email": "gene.h.tmms@gmail.tmt",
         "courseId": "test.exa-demo",
         "name": "Gene Hudson",
@@ -76,7 +76,7 @@
         "teamName": "Team 2",
         "sectionName": "Tutorial Group 2"
     },
-    "testStudent9":{
+    "testStudent9": {
         "email": "hugh.i.tmms@gmail.tmt",
         "courseId": "test.exa-demo",
         "name": "Hugh Ivanov",
@@ -84,5 +84,13 @@
         "joinState": "NOT_JOINED",
         "teamName": "Team 3",
         "sectionName": "Tutorial Group 2"
+    },
+    "testStudent10": {
+        "name": "Jamie",
+        "email": "jamie@gmail.com",
+        "joinState": "NOT_JOINED",
+        "teamName": "Team 1",
+        "sectionName": "Tutorial Group 1",
+        "courseId": "CS101"
     }
 }

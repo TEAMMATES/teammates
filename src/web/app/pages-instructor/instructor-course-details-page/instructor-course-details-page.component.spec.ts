@@ -7,17 +7,12 @@ import { TeammatesCommonModule } from '../../components/teammates-common/teammat
 import { InstructorCourseDetailsPageComponent } from './instructor-course-details-page.component';
 import { InstructorCourseDetailsPageModule } from './instructor-course-details-page.module';
 import {default as courses} from '../../test-data/courses.json';
+import {default as studentsJs} from '../../test-data/students.json';
 
 const course: Course = courses.CS101;
 
-const testStudent: Student = {
-  name: 'Jamie',
-  email: 'jamie@gmail.com',
-  joinState: JoinState.NOT_JOINED,
-  teamName: 'Team 1',
-  sectionName: 'Tutorial Group 1',
-  courseId: 'CS101',
-};
+const tmp: any = studentsJs.testStudent10;
+const testStudent: Student = tmp;
 
 describe('InstructorCourseDetailsPageComponent', () => {
   let component: InstructorCourseDetailsPageComponent;
