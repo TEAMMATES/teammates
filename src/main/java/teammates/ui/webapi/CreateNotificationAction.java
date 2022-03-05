@@ -40,7 +40,7 @@ public class CreateNotificationAction extends AdminOnlyAction {
         } catch (InvalidParametersException e) {
             throw new InvalidHttpRequestBodyException(e);
         } catch (EntityAlreadyExistsException e) {
-            // Should not happen since UUID is usually unique 
+            // Should not happen since UUID is usually unique
             log.severe("Unexpected error", e);
             return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }

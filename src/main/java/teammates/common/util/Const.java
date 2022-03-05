@@ -97,6 +97,9 @@ public final class Const {
         public static final String CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS = "canmodifysessioncommentinsection";
     }
 
+    /**
+     * Represents the type of notifcation.
+     */
     public static class NotificationType {
         public static final String MAINTENANCE = "maintenance";
         public static final String VERSION_NOTE = "versionnote";
@@ -104,6 +107,9 @@ public final class Const {
         public static final String TIPS = "tips";
     }
 
+    /**
+     * Represents who should be shown the notification.
+     */
     public static class NotificationTargetUser {
         public static final String STUDENT = "student";
         public static final String INSTRUCTOR = "instructor";

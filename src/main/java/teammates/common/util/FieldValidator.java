@@ -56,12 +56,12 @@ public final class FieldValidator {
     public static final String NOTIFICATION_EXPIRY_TIME_FIELD_NAME = "time when the notification will expire";
     public static final String NOTIFICATION_TYPE_FIELD_NAME = "notification type";
     public static final List<String> NOTIFICATION_TYPE_ACCEPTED_VALUES =
-        Collections.unmodifiableList(
-            Arrays.asList(Const.NotificationType.MAINTENANCE,
-                    Const.NotificationType.VERSION_NOTE,
-                    Const.NotificationType.DEPRECATION,
-                    Const.NotificationType.TIPS
-            ));
+            Collections.unmodifiableList(
+                Arrays.asList(Const.NotificationType.MAINTENANCE,
+                        Const.NotificationType.VERSION_NOTE,
+                        Const.NotificationType.DEPRECATION,
+                        Const.NotificationType.TIPS
+                ));
     public static final String NOTIFICATION_TARGET_USER_FIELD_NAME = "notification target user";
     public static final List<String> NOTIFICATION_TARGET_USER_ACCEPTED_VALUES =
             Collections.unmodifiableList(
@@ -213,7 +213,7 @@ public final class FieldValidator {
 
     public static final String NOTIFICATION_TYPE_ERROR_MESSAGE =
             "\"%s\" is not an accepted " + NOTIFICATION_TYPE_FIELD_NAME + " to TEAMMATES. ";
-    
+
     public static final String NOTIFICATION_TARGET_USER_ERROR_MESSAGE =
             "\"%s\" is not an accepted " + NOTIFICATION_TARGET_USER_FIELD_NAME + " to TEAMMATES. ";
 
@@ -549,10 +549,10 @@ public final class FieldValidator {
     }
 
     /**
-     * Checks if the notification title is a non-null non-empty string
-     * 
-     * @param notificationTitle
-    
+     * Checks if the notification title is a non-null non-empty string.
+     *
+     * @param notificationTitle The title of the notification.
+
      * @return An explanation of why the {@code value} is not acceptable.
      *         Returns an empty string "" if the {@code value} is acceptable.
      */
@@ -569,10 +569,10 @@ public final class FieldValidator {
     }
 
     /**
-     * Checks if the notification message is a non-null non-empty string
-     * 
-     * @param notificationMessage
-    
+     * Checks if the notification message is a non-null non-empty string.
+     *
+     * @param notificationMessage The notification message.
+
      * @return An explanation of why the {@code value} is not acceptable.
      *         Returns an empty string "" if the {@code value} is acceptable.
      */
@@ -587,7 +587,7 @@ public final class FieldValidator {
 
         return "";
     }
-    
+
     /**
      * Checks if {@code type} is one of the recognized notification type {@link #NOTIFICATION_TYPE_ACCEPTED_VALUES}.
      *
@@ -603,8 +603,9 @@ public final class FieldValidator {
         return "";
     }
 
-     /**
-     * Checks if {@code targetUser} is one of the recognized visibility group {@link #NOTIFICATION_TARGET_USER_ACCEPTED_VALUES}.
+    /**
+     * Checks if {@code targetUser} is one of the
+     * recognized visibility group {@link #NOTIFICATION_TARGET_USER_ACCEPTED_VALUES}.
      *
      * @return An explanation of why the {@code targetUser} is not acceptable.
      *         Returns an empty string if the {@code targetUser} is acceptable.
