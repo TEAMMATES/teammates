@@ -83,8 +83,8 @@ public class Logic {
         return coursesLogic.getCourseInstitute(courseId);
     }
 
-    public NotificationAttributes createNotification(NotificationAttributes notification) throws 
-       InvalidParametersException, EntityAlreadyExistsException {
+    public NotificationAttributes createNotification(NotificationAttributes notification) throws
+            InvalidParametersException, EntityAlreadyExistsException {
         return notificationsLogic.createNotification(notification);
     }
 
