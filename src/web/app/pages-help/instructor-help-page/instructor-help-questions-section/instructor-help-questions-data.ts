@@ -532,6 +532,7 @@ export const EXAMPLE_FEEDBACK_SESSION: FeedbackSession = {
   isPublishedEmailEnabled: true,
   createdAtTimestamp: 0,
   studentDeadlines: {},
+  instructorDeadlines: {},
 };
 /**
  * Structure for example of distrution point option question detail

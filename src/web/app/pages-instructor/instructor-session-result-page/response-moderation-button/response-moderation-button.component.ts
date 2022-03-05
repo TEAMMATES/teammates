@@ -33,6 +33,7 @@ export class ResponseModerationButtonComponent {
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
     studentDeadlines: {},
+    instructorDeadlines: {},
   };
 
   @Input()

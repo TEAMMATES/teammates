@@ -50,6 +50,7 @@ export class ViewResultsPanelComponent {
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
     studentDeadlines: {},
+    instructorDeadlines: {},
   };
 
   @Input()

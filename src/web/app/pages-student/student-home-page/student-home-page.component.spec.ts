@@ -219,6 +219,7 @@ const studentFeedbackSessions: FeedbackSessions = {
       isPublishedEmailEnabled: true,
       createdAtTimestamp: 0,
       studentDeadlines: {},
+      instructorDeadlines: {},
     },
     {
       feedbackSessionName: 'Orientation Session',
@@ -236,6 +237,7 @@ const studentFeedbackSessions: FeedbackSessions = {
       isPublishedEmailEnabled: true,
       createdAtTimestamp: 0,
       studentDeadlines: {},
+      instructorDeadlines: {},
     },
     {
       feedbackSessionName: 'Welcome Tea Session',
@@ -253,6 +255,7 @@ const studentFeedbackSessions: FeedbackSessions = {
       isPublishedEmailEnabled: true,
       createdAtTimestamp: 0,
       studentDeadlines: {},
+      instructorDeadlines: {},
     },
   ],
 };
@@ -314,6 +317,7 @@ describe('StudentHomePageComponent', () => {
           isPublishedEmailEnabled: true,
           createdAtTimestamp: 0,
           studentDeadlines: {},
+          instructorDeadlines: {},
         },
         {
           feedbackSessionName: 'Second Session',
@@ -331,6 +335,7 @@ describe('StudentHomePageComponent', () => {
           isPublishedEmailEnabled: true,
           createdAtTimestamp: 0,
           studentDeadlines: {},
+          instructorDeadlines: {},
         },
       ],
     };
@@ -372,6 +377,7 @@ describe('StudentHomePageComponent', () => {
           isPublishedEmailEnabled: true,
           createdAtTimestamp: 0,
           studentDeadlines: {},
+          instructorDeadlines: {},
         },
         {
           feedbackSessionName: 'Second Session',
@@ -389,6 +395,7 @@ describe('StudentHomePageComponent', () => {
           isPublishedEmailEnabled: true,
           createdAtTimestamp: 0,
           studentDeadlines: {},
+          instructorDeadlines: {},
         },
       ],
     };

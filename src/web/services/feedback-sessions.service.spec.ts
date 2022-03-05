@@ -35,6 +35,7 @@ describe('FeedbackSessionsService', () => {
     isClosingEmailEnabled: false,
     isPublishedEmailEnabled: false,
     studentDeadlines: {},
+    instructorDeadlines: {},
   };
 
   beforeEach(() => {
@@ -70,6 +71,7 @@ describe('FeedbackSessionsService', () => {
         isPublishedEmailEnabled: false,
         createdAtTimestamp: 0,
         studentDeadlines: {},
+        instructorDeadlines: {},
       },
       responseRate: '',
       isLoadingResponseRate: false,

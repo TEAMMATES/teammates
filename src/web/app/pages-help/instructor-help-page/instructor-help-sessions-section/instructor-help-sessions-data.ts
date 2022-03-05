@@ -196,6 +196,7 @@ export const EXAMPLE_FEEDBACK_SESSION: FeedbackSession = {
   isPublishedEmailEnabled: true,
   createdAtTimestamp: 0,
   studentDeadlines: {},
+  instructorDeadlines: {},
 };
 
 /**

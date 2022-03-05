@@ -71,6 +71,7 @@ describe('SearchService', () => {
       isClosingEmailEnabled: false,
       isPublishedEmailEnabled: false,
       studentDeadlines: {},
+      instructorDeadlines: {},
     },
     {
       courseId: 'dog.gma-demo',
@@ -88,6 +89,7 @@ describe('SearchService', () => {
       isClosingEmailEnabled: false,
       isPublishedEmailEnabled: false,
       studentDeadlines: {},
+      instructorDeadlines: {},
     },
   ];
 

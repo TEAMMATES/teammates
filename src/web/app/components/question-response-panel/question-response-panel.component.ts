@@ -44,6 +44,7 @@ export class QuestionResponsePanelComponent {
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
     studentDeadlines: {},
+    instructorDeadlines: {},
   };
 
   @Input()

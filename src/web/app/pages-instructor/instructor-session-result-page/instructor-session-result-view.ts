@@ -38,6 +38,7 @@ export abstract class InstructorSessionResultView {
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
     studentDeadlines: {},
+    instructorDeadlines: {},
   };
   @Input() instructorCommentTableModel: Record<string, CommentTableModel> = {};
 
