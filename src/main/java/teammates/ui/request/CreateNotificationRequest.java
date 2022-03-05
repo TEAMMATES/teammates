@@ -40,7 +40,7 @@ public class CreateNotificationRequest extends BasicRequest {
         assertTrue(startTimestamp > 0L, "Start timestamp should be more than zero");
         assertTrue(endTimestamp > 0L, "End timestamp should be more than zero");
         assertTrue(notificationType != null, "Notification type cannot be null");
-        assertTrue(targetUser != null, "User group to show notification cannot be null");
+        assertTrue(targetUser != null, "Notification target user cannot be null");
         assertTrue(title != null, "Notification title cannot be null");
         assertTrue(message != null, "Notification message cannot be null");
 

@@ -19,7 +19,7 @@ public class CreateNotificationAction extends AdminOnlyAction {
     private static final Logger log = Logger.getLogger();
 
     @Override
-    public ActionResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
+    public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
         CreateNotificationRequest notificationRequest = getAndValidateRequestBody(CreateNotificationRequest.class);
 
         Instant startTime = Instant.ofEpochMilli(notificationRequest.getStartTimestamp());

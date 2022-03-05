@@ -157,7 +157,6 @@ public class NotificationAttributes extends EntityAttributes<Notification> {
 
     @Override
     public List<String> getInvalidityInfo() {
-        // TODO: perform various checks on the fields of this object, e.g. length of title, etc.
         List<String> errors = new ArrayList<>();
 
         addNonEmptyError(FieldValidator.getValidityInfoForNonNullField("notification visible time", startTime), errors);

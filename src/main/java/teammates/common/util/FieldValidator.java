@@ -48,6 +48,7 @@ public final class FieldValidator {
     public static final int EMAIL_MAX_LENGTH = 254;
 
     // notification-related
+    // TODO: Change max length of title and message according to frontend
     public static final String NOTIFICATION_TITLE_FIELD_NAME = "notification title";
     public static final int NOTIFICATION_TITLE_MAX_LENGTH = 80;
     public static final String NOTIFICATION_MESSAGE_FIELD_NAME = "notification message";
@@ -562,7 +563,7 @@ public final class FieldValidator {
 
         if (notificationTitle.isEmpty()) {
             return getPopulatedEmptyStringErrorMessage(EMPTY_STRING_ERROR_INFO,
-                "notification title", NOTIFICATION_TITLE_MAX_LENGTH);
+                NOTIFICATION_TITLE_FIELD_NAME, NOTIFICATION_TITLE_MAX_LENGTH);
         }
 
         return "";
@@ -581,7 +582,7 @@ public final class FieldValidator {
         assert notificationMessage != null : "Non-null value expected for notification message";
 
         if (notificationMessage.isEmpty()) {
-            return getPopulatedEmptyStringErrorMessage(EMPTY_STRING_ERROR_INFO, "notification message",
+            return getPopulatedEmptyStringErrorMessage(EMPTY_STRING_ERROR_INFO, NOTIFICATION_MESSAGE_FIELD_NAME,
                     NOTIFICATION_MESSAGE_MAX_LENGTH);
         }
 
