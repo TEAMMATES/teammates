@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import com.ctc.wstx.shaded.msv_core.grammar.xmlschema.Field;
+
+import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.Notification;
@@ -157,12 +160,34 @@ public class NotificationAttributes extends EntityAttributes<Notification> {
     @Override
     public List<String> getInvalidityInfo() {
         // TODO: perform various checks on the fields of this object, e.g. length of title, etc.
-        // List<String> errors = new ArrayList<>();
+        List<String> errors = new ArrayList<>();
+
         // addNonEmptyError(FieldValidator.getInvalidityInfoForPersonName(name), errors);
 
         // No validation for createdAt and updatedAt fields.
 
-        return new ArrayList<>();
+        // startTime valid
+        // endtime valid
+        addNonEmptyError(FieldValidator.getValidityInfoForNonNullField("notification visible time", startTime), errors);
+
+        addNonEmptyError(FieldValidator.getValidityInfoForNonNullField("notification expiry time", endTime), errors);
+
+        // startTime < endTime
+        addNonEmptyError(FieldValidator.getInvalidityInfoForTimeForNotificationStartAndEnd(startTime, endTime), errors);
+
+        // type valid
+        addNonEmptyError(FieldValidator.getInvalidityInfoForNotificationType(type), errors);
+
+        // target user valid
+        addNonEmptyError(FieldValidator.getInvalidityInfoForNotificationTargetUser(targetUser), errors);
+
+        // title not blank
+        addNonEmptyError(FieldValidator.getInvalidityInfoForNotificationTitle(title), errors);
+
+        // message not blank
+        addNonEmptyError(FieldValidator.getInvalidityInfoForNotificationBody(message), errors);
+
+        return errors; 
     }
 
     @Override

@@ -47,6 +47,28 @@ public final class FieldValidator {
     public static final String EMAIL_FIELD_NAME = "email";
     public static final int EMAIL_MAX_LENGTH = 254;
 
+    // notification-related
+    public static final String NOTIFICATION_TITLE_FIELD_NAME = "notification title";
+    public static final int NOTIFICATION_TITLE_MAX_LENGTH = 80;
+    public static final String NOTIFICATION_MESSAGE_FIELD_NAME = "notification message";
+    public static final int NOTIFICATION_MESSAGE_MAX_LENGTH = 500;
+    public static final String NOTIFICATION_VISIBLE_TIME_FIELD_NAME = "time when the notification will be visible";
+    public static final String NOTIFICATION_EXPIRY_TIME_FIELD_NAME = "time when the notification will expire";
+    public static final String NOTIFICATION_TYPE_FIELD_NAME = "notification type";
+    public static final List<String> NOTIFICATION_TYPE_ACCEPTED_VALUES =
+        Collections.unmodifiableList(
+            Arrays.asList(Const.NotificationType.MAINTENANCE,
+                    Const.NotificationType.VERSION_NOTE,
+                    Const.NotificationType.DEPRECATION,
+                    Const.NotificationType.TIPS
+            ));
+    public static final String NOTIFICATION_TARGET_USER_FIELD_NAME = "notification target user";
+    public static final List<String> NOTIFICATION_TARGET_USER_ACCEPTED_VALUES =
+            Collections.unmodifiableList(
+                    Arrays.asList(Const.NotificationTargetUser.INSTRUCTOR,
+                            Const.NotificationTargetUser.STUDENT,
+                            Const.NotificationTargetUser.GENERAL));
+
     // others
     public static final String STUDENT_ROLE_COMMENTS_FIELD_NAME = "comments about a student enrolled in a course";
     public static final int STUDENT_ROLE_COMMENTS_MAX_LENGTH = 500;
@@ -188,6 +210,12 @@ public final class FieldValidator {
 
     public static final String ROLE_ERROR_MESSAGE =
             "\"%s\" is not an accepted " + ROLE_FIELD_NAME + " to TEAMMATES. ";
+
+    public static final String NOTIFICATION_TYPE_ERROR_MESSAGE =
+            "\"%s\" is not an accepted " + NOTIFICATION_TYPE_FIELD_NAME + " to TEAMMATES. ";
+    
+    public static final String NOTIFICATION_TARGET_USER_ERROR_MESSAGE =
+            "\"%s\" is not an accepted " + NOTIFICATION_TARGET_USER_FIELD_NAME + " to TEAMMATES. ";
 
     public static final String SESSION_VISIBLE_TIME_FIELD_NAME = "time when the session will be visible";
     public static final String RESULTS_VISIBLE_TIME_FIELD_NAME = "time when the results will be visible";
@@ -521,6 +549,76 @@ public final class FieldValidator {
     }
 
     /**
+     * Checks if the notification title is a non-null non-empty string
+     * 
+     * @param notificationTitle
+    
+     * @return An explanation of why the {@code value} is not acceptable.
+     *         Returns an empty string "" if the {@code value} is acceptable.
+     */
+    public static String getInvalidityInfoForNotificationTitle(String notificationTitle) {
+
+        assert notificationTitle != null : "Non-null value expected for notification title";
+
+        if (notificationTitle.isEmpty()) {
+            return getPopulatedEmptyStringErrorMessage(EMPTY_STRING_ERROR_INFO,
+                "notification title", NOTIFICATION_TITLE_MAX_LENGTH);
+        }
+
+        return "";
+    }
+
+    /**
+     * Checks if the notification message is a non-null non-empty string
+     * 
+     * @param notificationMessage
+    
+     * @return An explanation of why the {@code value} is not acceptable.
+     *         Returns an empty string "" if the {@code value} is acceptable.
+     */
+    public static String getInvalidityInfoForNotificationBody(String notificationMessage) {
+
+        assert notificationMessage != null : "Non-null value expected for notification message";
+
+        if (notificationMessage.isEmpty()) {
+            return getPopulatedEmptyStringErrorMessage(EMPTY_STRING_ERROR_INFO, "notification message",
+                    NOTIFICATION_MESSAGE_MAX_LENGTH);
+        }
+
+        return "";
+    }
+    
+    /**
+     * Checks if {@code type} is one of the recognized notification type {@link #NOTIFICATION_TYPE_ACCEPTED_VALUES}.
+     *
+     * @return An explanation of why the {@code type} is not acceptable.
+     *         Returns an empty string if the {@code type} is acceptable.
+     */
+    public static String getInvalidityInfoForNotificationType(String type) {
+        assert type != null;
+
+        if (!NOTIFICATION_TYPE_ACCEPTED_VALUES.contains(type)) {
+            return String.format(NOTIFICATION_TYPE_ERROR_MESSAGE, type);
+        }
+        return "";
+    }
+
+     /**
+     * Checks if {@code targetUser} is one of the recognized visibility group {@link #NOTIFICATION_TARGET_USER_ACCEPTED_VALUES}.
+     *
+     * @return An explanation of why the {@code targetUser} is not acceptable.
+     *         Returns an empty string if the {@code targetUser} is acceptable.
+     */
+    public static String getInvalidityInfoForNotificationTargetUser(String targetUser) {
+        assert targetUser != null;
+
+        if (!NOTIFICATION_TARGET_USER_ACCEPTED_VALUES.contains(targetUser)) {
+            return String.format(NOTIFICATION_TARGET_USER_ERROR_MESSAGE, targetUser);
+        }
+        return "";
+    }
+
+    /**
      * Checks if the given string is a non-null string no longer than
      * the specified length {@code maxLength}. However, this string can be empty.
      *
@@ -576,6 +674,17 @@ public final class FieldValidator {
             Instant visibilityStart, Instant resultsPublish) {
         return getInvalidityInfoForFirstTimeIsBeforeSecondTime(visibilityStart, resultsPublish,
                 SESSION_VISIBLE_TIME_FIELD_NAME, RESULTS_VISIBLE_TIME_FIELD_NAME);
+    }
+
+    /**
+     * Checks if Notification Start Time is before Notification End Time.
+     * @return Error string if {@code notificationStart} is before {@code notificationEnd}
+     *         Empty string if {@code notificationStart} is after {@code notificationEnd}
+     */
+    public static String getInvalidityInfoForTimeForNotificationStartAndEnd(
+            Instant notificationStart, Instant notificationExpiry) {
+        return getInvalidityInfoForFirstTimeIsBeforeSecondTime(notificationStart, notificationExpiry,
+            NOTIFICATION_VISIBLE_TIME_FIELD_NAME, NOTIFICATION_EXPIRY_TIME_FIELD_NAME);
     }
 
     private static String getInvalidityInfoForFirstTimeIsBeforeSecondTime(
