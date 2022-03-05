@@ -129,7 +129,9 @@ class CreateAccountAction extends Action {
                 // replace course
                 "demo.course", courseId,
                 // replace institute
-                "demo.institute", instructorInstitute);
+                "demo.institute", instructorInstitute,
+                // replace timezone
+                "demo.timezone", timezone);
 
         DataBundle data = JsonUtils.fromJson(jsonString, DataBundle.class);
 
@@ -248,7 +250,7 @@ class CreateAccountAction extends Action {
         ZoneId timezone = ZoneId.of(timezoneString);
 
         // replace instant with instant adjusted for user's timezone
-        String updatedtemplate = Pattern.compile(pattern).matcher(template).replaceAll(timestampMatch -> {
+        return Pattern.compile(pattern).matcher(template).replaceAll(timestampMatch -> {
             String timestamp = timestampMatch.group();
             Instant instant = Instant.parse(timestamp);
 
@@ -259,8 +261,5 @@ class CreateAccountAction extends Action {
             return ZonedDateTime.ofInstant(instant, ZoneId.of(Const.DEFAULT_TIME_ZONE))
                     .withZoneSameLocal(timezone).toInstant().toString();
         });
-
-        // replace timezone
-        return updatedtemplate.replaceAll(Const.DEFAULT_TIME_ZONE, timezoneString);
     }
 }
