@@ -79,7 +79,7 @@
     </tm-example-box>
   </tm-instructor-help-panel>
   <!--Question-->
-  <tm-instructor-help-panel class="instr-help-qn-last" #question [hidden]="key && !showQuestion.includes(StudentsSectionQuestions.STUDENT_VIEW_RESPONSES)"
+  <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(StudentsSectionQuestions.STUDENT_VIEW_RESPONSES)"
                             [id]="StudentsSectionQuestions.STUDENT_VIEW_RESPONSES"
                             headerText="How do I view all the responses a student has given and received?"
                             [(isPanelExpanded)]="questionsToCollapsed[StudentsSectionQuestions.STUDENT_VIEW_RESPONSES]">
@@ -97,7 +97,7 @@
     </ol>
   </tm-instructor-help-panel>
   <!--Question -->
-  <tm-instructor-help-panel class="instr-help-qn-first" #question [hidden]="key && !showQuestion.includes(StudentsSectionQuestions.STUDENT_SEARCH)"
+  <tm-instructor-help-panel class="instr-help-qn-last" #question [hidden]="key && !showQuestion.includes(StudentsSectionQuestions.STUDENT_SEARCH)"
                             [id]="StudentsSectionQuestions.STUDENT_SEARCH"
                             headerText="How do I search for a student in my course?"
                             [(isPanelExpanded)]="questionsToCollapsed[StudentsSectionQuestions.STUDENT_SEARCH]">
