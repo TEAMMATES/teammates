@@ -61,7 +61,8 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {}
     },
     "session2InCourse1": {
       "feedbackSessionName": "Awaiting feedback session",
@@ -82,7 +83,8 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {}
     },
     "session3InCourse1": {
       "feedbackSessionName": "Future feedback session",
@@ -103,7 +105,8 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {}
     }
   }
 }

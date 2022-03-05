@@ -71,7 +71,8 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {}
     },
     "closingSession": {
       "feedbackSessionName": "AutSesRem Closing Session",
@@ -91,7 +92,8 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {}
     },
     "closedSession": {
       "feedbackSessionName": "AutSesRem Closed Session",
@@ -111,7 +113,8 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {}
     },
     "publishedSession": {
       "feedbackSessionName": "AutSesRem Published Session",
@@ -131,7 +134,8 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {}
     }
   },
   "feedbackQuestions": {
