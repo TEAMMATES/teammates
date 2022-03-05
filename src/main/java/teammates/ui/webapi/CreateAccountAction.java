@@ -3,6 +3,7 @@ package teammates.ui.webapi;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -106,6 +107,10 @@ class CreateAccountAction extends Action {
         return new JsonResult("Account successfully created", HttpStatus.SC_OK);
     }
 
+    private static String getDateString(Instant instant) {
+        return TimeHelper.formatInstant(instant, Const.DEFAULT_TIME_ZONE, "yyyy-MM-dd");
+    }
+
     /**
      * Imports demo course for the new instructor.
      *
@@ -115,13 +120,20 @@ class CreateAccountAction extends Action {
             throws InvalidParametersException {
 
         String courseId = generateDemoCourseId(instructorEmail);
-        String template = Templates.INSTRUCTOR_SAMPLE_DATA;
+        Instant now = Instant.now();
 
-        if (!Const.DEFAULT_TIME_ZONE.equals(timezone)) {
-            template = replaceAdjustedTimeAndTimezone(template, timezone);
-        }
+        // Used for start time + visible time for all sessions
+        String dateString1 = getDateString(now.minus(7, ChronoUnit.DAYS));
+        // Used for end time for sessions already past
+        String dateString2 = getDateString(now.minus(3, ChronoUnit.DAYS));
+        // Used for result visible time for sessions already past
+        String dateString3 = getDateString(now.minus(2, ChronoUnit.DAYS));
+        // Used for end time for session still ongoing
+        String dateString4 = getDateString(now.plus(3, ChronoUnit.DAYS));
+        // Used for timestamp of comments
+        String dateString5 = getDateString(now);
 
-        String jsonString = Templates.populateTemplate(template,
+        String dataBundleString = Templates.populateTemplate(Templates.INSTRUCTOR_SAMPLE_DATA,
                 // replace email
                 "teammates.demo.instructor@demo.course", instructorEmail,
                 // replace name
@@ -131,9 +143,19 @@ class CreateAccountAction extends Action {
                 // replace institute
                 "demo.institute", instructorInstitute,
                 // replace timezone
-                "demo.timezone", timezone);
+                "demo.timezone", timezone,
+                // replace dates
+                "demo.date1", dateString1,
+                "demo.date2", dateString2,
+                "demo.date3", dateString3,
+                "demo.date4", dateString4,
+                "demo.date5", dateString5);
 
-        DataBundle data = JsonUtils.fromJson(jsonString, DataBundle.class);
+        if (!Const.DEFAULT_TIME_ZONE.equals(timezone)) {
+            dataBundleString = replaceAdjustedTimeAndTimezone(dataBundleString, timezone);
+        }
+
+        DataBundle data = JsonUtils.fromJson(dataBundleString, DataBundle.class);
 
         logic.persistDataBundle(data);
 
