@@ -1,5 +1,5 @@
 {
-    "CS9999":{
+    "CS9999": {
         "feedbackSessionName": "Feedback Session 1",
         "courseId": "CS9999",
         "timeZone": "Asia/Singapore",
@@ -15,7 +15,7 @@
         "isPublishedEmailEnabled": true,
         "createdAtTimestamp": 0
     },
-    "testId1":{
+    "testId1": {
         "courseId": "testId1",
         "timeZone": "Asia/Singapore",
         "feedbackSessionName": "Test Session",
@@ -46,8 +46,24 @@
         "isClosingEmailEnabled": true,
         "isPublishedEmailEnabled": true,
         "createdAtTimestamp": 0
-      },
-      "secondSession": {
+    },
+    "FirstSessionCS1231": {
+        "feedbackSessionName": "First Session",
+        "courseId": "CS1231",
+        "timeZone": "Asia/Singapore",
+        "instructions": "",
+        "submissionStartTimestamp": 0,
+        "submissionEndTimestamp": 1610371317000,
+        "gracePeriod": 0,
+        "sessionVisibleSetting": "AT_OPEN",
+        "responseVisibleSetting": "AT_VISIBLE",
+        "submissionStatus": "OPEN",
+        "publishStatus": "PUBLISHED",
+        "isClosingEmailEnabled": true,
+        "isPublishedEmailEnabled": true,
+        "createdAtTimestamp": 0
+    },
+    "secondSession": {
         "feedbackSessionName": "Second Session",
         "courseId": "CS1231",
         "timeZone": "Asia/Singapore",
@@ -62,8 +78,24 @@
         "isClosingEmailEnabled": true,
         "isPublishedEmailEnabled": true,
         "createdAtTimestamp": 0
-      },
-      "thirdSession": {
+    },
+    "SecondSessionCS1231": {
+        "feedbackSessionName": "Second Session",
+        "courseId": "CS1231",
+        "timeZone": "Asia/Singapore",
+        "instructions": "",
+        "submissionStartTimestamp": 0,
+        "submissionEndTimestamp": 1611148917000,
+        "gracePeriod": 0,
+        "sessionVisibleSetting": "AT_OPEN",
+        "responseVisibleSetting": "AT_VISIBLE",
+        "submissionStatus": "OPEN",
+        "publishStatus": "PUBLISHED",
+        "isClosingEmailEnabled": true,
+        "isPublishedEmailEnabled": true,
+        "createdAtTimestamp": 0
+    },
+    "thirdSession": {
         "feedbackSessionName": "Third Session",
         "courseId": "LSM1306",
         "timeZone": "Asia/Singapore",
@@ -78,8 +110,8 @@
         "isClosingEmailEnabled": true,
         "isPublishedEmailEnabled": true,
         "createdAtTimestamp": 0
-      },
-      "fourthSession": {
+    },
+    "fourthSession": {
         "feedbackSessionName": "Fourth Session",
         "courseId": "LSM1306",
         "timeZone": "Asia/Singapore",
@@ -94,8 +126,8 @@
         "isClosingEmailEnabled": true,
         "isPublishedEmailEnabled": true,
         "createdAtTimestamp": 0
-      },
-      "fifthSession": {
+    },
+    "fifthSession": {
         "feedbackSessionName": "Fifth Session",
         "courseId": "MA1521",
         "timeZone": "Asia/Singapore",
@@ -110,8 +142,8 @@
         "isClosingEmailEnabled": true,
         "isPublishedEmailEnabled": true,
         "createdAtTimestamp": 0
-      },
-      "sixthSession": {
+    },
+    "sixthSession": {
         "feedbackSessionName": "Sixth Session",
         "courseId": "MA1521",
         "timeZone": "Asia/Singapore",
@@ -126,8 +158,8 @@
         "isClosingEmailEnabled": true,
         "isPublishedEmailEnabled": true,
         "createdAtTimestamp": 0
-      },
-      "firstSessionCS2103": {
+    },
+    "firstSessionCS2103": {
         "feedbackSessionName": "First Session",
         "courseId": "CS2103",
         "timeZone": "Asia/Singapore",
@@ -142,8 +174,8 @@
         "isClosingEmailEnabled": true,
         "isPublishedEmailEnabled": true,
         "createdAtTimestamp": 0
-      },
-      "secondSessionCS2103": {
+    },
+    "secondSessionCS2103": {
         "feedbackSessionName": "Second Session",
         "courseId": "CS2103",
         "timeZone": "Asia/Singapore",
@@ -158,5 +190,21 @@
         "isClosingEmailEnabled": true,
         "isPublishedEmailEnabled": true,
         "createdAtTimestamp": 0
-      }
+    },
+    "SecondSessionMA1234": {
+        "feedbackSessionName":"Second Session",
+        "courseId":"MA1234",
+        "timeZone":"Asia/Singapore",
+        "instructions":"",
+        "submissionStartTimestamp": 0,
+        "submissionEndTimestamp": 1549095330000,
+        "gracePeriod": 0,
+        "sessionVisibleSetting": "AT_OPEN",
+        "responseVisibleSetting": "AT_VISIBLE",
+        "submissionStatus": "OPEN",
+        "publishStatus": "NOT_PUBLISHED",
+        "isClosingEmailEnabled": true,
+        "isPublishedEmailEnabled": false,
+        "createdAtTimestamp": 0
+    }
 }

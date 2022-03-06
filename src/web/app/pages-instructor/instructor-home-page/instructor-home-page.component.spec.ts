@@ -8,83 +8,32 @@ import { FeedbackSessionsService } from '../../../services/feedback-sessions.ser
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
 import {
-  Course, CourseArchive, Courses,
-  FeedbackSession,
-  FeedbackSessionPublishStatus,
-  FeedbackSessions,
-  FeedbackSessionSubmissionStatus,
-  InstructorPermissionSet,
-  ResponseVisibleSetting,
-  SessionVisibleSetting,
+    Course, CourseArchive, Courses,
+    FeedbackSession,
+    FeedbackSessions,
+    InstructorPermissionSet,
 } from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';
 import { CourseTabModel, InstructorHomePageComponent } from './instructor-home-page.component';
 import { InstructorHomePageModule } from './instructor-home-page.module';
+import {default as courses} from '../../test-data/courses.json'
+import {default as feedBackSessions} from '../../test-data/feedbackSession.json'
+import {default as instructorPrivilegeSets} from '../../test-data/instructorPermissionSets.json'
 
-const testInstructorPrivilege: InstructorPermissionSet = {
-  canModifyCourse: true,
-  canModifySession: true,
-  canModifyStudent: true,
-  canSubmitSessionInSections: true,
-  canModifyInstructor: false,
-  canViewStudentInSections: false,
-  canModifySessionCommentsInSections: false,
-  canViewSessionInSections: false,
-};
+const testInstructorPrivilege: InstructorPermissionSet = instructorPrivilegeSets.privilegeSet1;
 
-const testCourse1: Course = {
-  courseId: 'CS1231',
-  courseName: 'Discrete Structures',
-  institute: 'Test Institute',
-  creationTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
-  deletionTimestamp: 0,
-  timeZone: 'Asia/Singapore',
-};
+const testCourse1: Course = courses.CS1231_2;
+const testCourse2: Course = courses.CS3281_2;
 
-const testCourse2: Course = {
-  courseId: 'CS3281',
-  courseName: 'Thematic Systems I',
-  institute: 'Test Institute',
-  creationTimestamp: 1611580917000, // Monday, 25 January 2021 21:21:57 GMT+08:00
-  deletionTimestamp: 0,
-  timeZone: 'Asia/Singapore',
-};
-
-const testFeedbackSession1: FeedbackSession = {
-  feedbackSessionName: 'First Session',
-  courseId: 'CS1231',
-  timeZone: 'Asia/Singapore',
-  instructions: '',
-  submissionStartTimestamp: 0,
-  submissionEndTimestamp: 1610371317000, // Monday, 11 January 2021 21:21:57 GMT+08:00
-  gracePeriod: 0,
-  sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
-  responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
-  submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
-  publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
-  isClosingEmailEnabled: true,
-  isPublishedEmailEnabled: true,
-  createdAtTimestamp: 0,
-};
-
-const testFeedbackSession2: FeedbackSession = {
-  feedbackSessionName: 'Second Session',
-  courseId: 'CS1231',
-  timeZone: 'Asia/Singapore',
-  instructions: '',
-  submissionStartTimestamp: 0,
-  submissionEndTimestamp: 1611148917000, // Wednesday, 20 January 2021 21:21:57 GMT+08:00
-  gracePeriod: 0,
-  sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
-  responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
-  submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
-  publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
-  isClosingEmailEnabled: true,
-  isPublishedEmailEnabled: true,
-  createdAtTimestamp: 0,
-};
+// Store in temporary any-type objects since the json-objects cannot hold
+// attributes with values of typescript classes. The temporary objects can then
+// be converted into proper FeedbackSession-objects.
+const tmp_testFeedbackSession1: any = feedBackSessions.FirstSessionCS1231;
+const testFeedbackSession1: FeedbackSession = tmp_testFeedbackSession1;
+const tmp_testFeedbackSession2: any = feedBackSessions.SecondSessionCS1231;
+const testFeedbackSession2: FeedbackSession = tmp_testFeedbackSession2;
 
 const activeCourseTabModels: CourseTabModel[] = [
   {

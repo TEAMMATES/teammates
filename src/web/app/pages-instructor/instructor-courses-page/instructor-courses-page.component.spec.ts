@@ -32,7 +32,7 @@ describe('InstructorCoursesPageComponent', () => {
   let simpleModalService: SimpleModalService;
 
   const activeCoursesSnap: any[] = [
-    courses.CS3281,
+    courses.CS3281_1,
     courses.CS3282
   ];
 
@@ -61,9 +61,9 @@ describe('InstructorCoursesPageComponent', () => {
     },
   };
 
-  const courseCS1231: Course = courses.CS1231;
-  const courseCS3281: Course = courses.CS32811;
-  const courseCS3282: Course = courses.CS32822;
+  const courseCS1231: Course = courses.CS1231_1;
+  const courseCS3281: Course = courses.CS3281_deleted;
+  const courseCS3282: Course = courses.CS3282_deleted;
   const courseST4234: Course = courses.ST4234;
 
   const courseModelCS1231: any = {

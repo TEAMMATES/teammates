@@ -17,7 +17,7 @@
             "canSubmitSessionInSections": true
         }
     },
-    "MA1234": {
+    "MA1234_with_privileges": {
         "courseId": "MA1234",
         "courseName": "MA1234",
         "institute": "Test Institute",
@@ -69,7 +69,7 @@
         "creationTimestamp": 0,
         "deletionTimestamp": 0
     },
-    "CS3281": {
+    "CS3281_1": {
         "course": {
             "courseId": "CS3281",
             "courseName": "Modifiable Students and Courses",
@@ -79,6 +79,22 @@
         },
         "canModifyCourse": true,
         "canModifyStudent": true
+    },
+    "CS3281_2": {
+        "courseId": "CS3281",
+        "courseName": "Thematic Systems I",
+        "creationTimestamp": 1611580917000,
+        "deletionTimestamp": 0,
+        "timeZone": "Asia/Singapore",
+        "institute": "Test Institute"
+    },
+    "CS3281_deleted": {
+        "courseId": "CS3281",
+        "courseName": "Thematic Systems Project I",
+        "creationTimestamp": 1036480530000,
+        "deletionTimestamp": 1068016530000,
+        "timeZone": "UTC",
+        "institute": "Test Institute"
     },
     "CS3282": {
         "course": {
@@ -90,6 +106,14 @@
         },
         "canModifyCourse": false,
         "canModifyStudent": false
+    },
+    "CS3282_deleted": {
+        "courseId": "CS3282",
+        "courseName": "Thematic Systems Project II",
+        "creationTimestamp": 1039072530000,
+        "deletionTimestamp": 1070608530000,
+        "timeZone": "UTC",
+        "institute": "Test Institute"
     },
     "CS2104": {
         "course": {
@@ -131,7 +155,7 @@
         },
         "canModifyCourse": false
     },
-    "CS1231": {
+    "CS1231_1": {
         "courseId": "CS1231",
         "courseName": "Discrete Structures",
         "creationTimestamp": 1541402130000,
@@ -139,20 +163,12 @@
         "timeZone": "UTC",
         "institute": "Test Institute"
     },
-    "CS32811": {
-        "courseId": "CS3281",
-        "courseName": "Thematic Systems Project I",
-        "creationTimestamp": 1036480530000,
-        "deletionTimestamp": 1068016530000,
-        "timeZone": "UTC",
-        "institute": "Test Institute"
-    },
-    "CS32822": {
-        "courseId": "CS3282",
-        "courseName": "Thematic Systems Project II",
-        "creationTimestamp": 1039072530000,
-        "deletionTimestamp": 1070608530000,
-        "timeZone": "UTC",
+    "CS1231_2": {
+        "courseId": "CS1231",
+        "courseName": "Discrete Structures",
+        "creationTimestamp": 1549095330000,
+        "deletionTimestamp": 0,
+        "timeZone": "Asia/Singapore",
         "institute": "Test Institute"
     },
     "ST4234": {
@@ -243,5 +259,21 @@
         "creationTimestamp": 1552472130000,
         "deletionTimestamp": 0,
         "timeZone": "UTC"
+    },
+    "CS1234": {
+        "courseId": "CS1234",
+        "courseName": "test-course1",
+        "institute": "Test Institute",
+        "timeZone": "Asia/Singapore",
+        "creationTimestamp": 0,
+        "deletionTimestamp": 0
+    },
+    "MA1234_without_privileges": {
+        "courseId":"MA1234",
+        "courseName":"test-course2",
+        "institute":"Test Institute",
+        "timeZone":"Asia/Singapore",
+        "creationTimestamp": 0,
+        "deletionTimestamp": 0
     }
 }
