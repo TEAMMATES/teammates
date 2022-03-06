@@ -45,7 +45,7 @@ export enum SortBy {
     /**
      * Join status
      */
-     JOIN_STATUS,
+    JOIN_STATUS,
 
     /**
      * Course ID.
@@ -361,6 +361,26 @@ export enum SortBy {
      * The status of result view
      */
     RESULT_VIEW_STATUS,
+
+    /**
+     * The title of notification
+     */
+    NOTIFICATION_TITLE,
+
+    /**
+     * The start date/time of notification
+     */
+    NOTIFICATION_START_TIME,
+
+    /**
+     * The end date/time of notification
+     */
+    NOTIFICATION_END_TIME,
+
+    /**
+     * The date/time for the creation of notification
+     */
+    NOTIFICATION_CREATE_TIME,
 }
 
 /**

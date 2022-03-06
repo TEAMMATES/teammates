@@ -28,6 +28,7 @@ export interface Notification extends ApiOutput {
   title: string;
   message: string;
   shown: boolean;
+  createTimestamp: number;
 }
 export interface Notifications extends ApiOutput {
   notifications: Notification[];

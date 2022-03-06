@@ -1,0 +1,30 @@
+.no-session-message {
+  padding: 10px;
+  text-align: center;
+}
+
+@media (min-width: 1200px) {
+  .actions-cell {
+    min-width: 410px;
+  }
+}
+
+.actions-cell button:not(.dropdown-item) {
+  margin-left: var(--btn-margin);
+}
+
+.sortable-header {
+  cursor: pointer;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.margin-bottom-0 {
+  margin-bottom: 0;
+}
+
+.padding-left-7px {
+  padding-left: 7px;
+}

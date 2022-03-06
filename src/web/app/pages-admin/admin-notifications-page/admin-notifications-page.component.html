@@ -15,11 +15,14 @@
                   (retryEvent)="retryLoadingAllData()">
   <div class="margin-top-30px">
     <div *tmIsLoading="isNotificationLoading">
-      <div class="alert alert-warning margin-top-30px" role="alert" *ngIf="notifications.length === 0 && !isNotificationLoading">
+      <div class="alert alert-warning margin-top-30px" role="alert" *ngIf="notificationsTableRowModels.length === 0 && !isNotificationLoading">
         You have not created any notifications yet. Use the form above to create a notification.
       </div>
 
-      <!-- Table Here -->
+      <tm-notifications-table [notificationsTableRowModels]="notificationsTableRowModels"
+                              [notificationsTableRowModelsSortBy]="notificationsTableRowModelsSortBy"
+                              [notificationsTableRowModelsSortOrder]="notificationsTableRowModelsSortOrder"
+                              (sorttNotificationsTableRowModelsEvent)="sortNotificationsTableRowModelsHandler($event)"></tm-notifications-table>
     </div>
   </div>
   <br/>
