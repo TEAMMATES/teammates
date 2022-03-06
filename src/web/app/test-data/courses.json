@@ -163,6 +163,63 @@
         "timeZone": "UTC",
         "institute": "Test Institute"
     },
+    "CS12312": {
+        "courseId": "CS1231",
+        "courseName": "Discrete Structures",
+        "timeZone": "Asia/Singapore",
+        "creationTimestamp": 1549095330000,
+        "deletionTimestamp": 0
+    },
+    "LSM1306": {
+        "courseId": "LSM1306",
+        "courseName": "Forensic Science",
+        "timeZone": "Asia/Singapore",
+        "creationTimestamp": 1549095330000,
+        "deletionTimestamp": 0
+    },
+    "MA1521": {
+        "courseId": "MA1521",
+        "courseName": "Calculus for Computing",
+        "timeZone": "Asia/Singapore",
+        "creationTimestamp": 1549095330000, 
+        "deletionTimestamp": 0
+    },
+    "CS12313": {
+        "courseId": "CS1231",
+        "courseName": "Discrete Structures",
+        "institute": "Test Institute",
+        "timeZone": "Asia/Singapore",
+        "creationTimestamp": 1549095330000, 
+        "deletionTimestamp": 0
+    },
+    "CS2103": {
+        "courseId": "CS2103",
+        "courseName": "Software Engineering",
+        "timeZone": "Asia/Singapore",
+        "creationTimestamp": 1549095330000, 
+        "deletionTimestamp": 0
+    },
+    "CS3281thermatic": {
+        "courseId": "CS3281",
+        "courseName": "Thematic Systems I",
+        "timeZone": "Asia/Singapore",
+        "creationTimestamp": 1549095330000, 
+        "deletionTimestamp": 0
+    },
+    "CS3281thermatic2": {
+        "courseId": "CS3281",
+        "courseName": "Thematic Systems",
+        "timeZone": "Asia/Singapore",
+        "creationTimestamp": 1549095330000, 
+        "deletionTimestamp": 0
+    },
+    "CS3282thermatic":{
+        "courseId": "CS3282",
+        "courseName": "Thematic Systems II",
+        "timeZone": "Asia/Singapore",
+        "creationTimestamp": 1549095330000, 
+        "deletionTimestamp": 0
+    },
     "testId1": {
         "courseId": "testId1",
         "courseName": "Test Course 1",
@@ -178,5 +235,13 @@
         "timeZone": "Asia/Singapore",
         "creationTimestamp": 0,
         "deletionTimestamp": 1000
+    },
+    "sampleCourse101": {
+        "courseId": "1.1.c-demo2",
+        "courseName": "Sample Course 101",
+        "institute": "Test Institute",
+        "creationTimestamp": 1552472130000,
+        "deletionTimestamp": 0,
+        "timeZone": "UTC"
     }
 }

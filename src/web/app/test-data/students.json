@@ -92,5 +92,13 @@
         "teamName": "Team 1",
         "sectionName": "Tutorial Group 1",
         "courseId": "CS101"
-    }
+    },
+    "student1team2": {
+        "courseId": "1.1.c-demo2",
+        "email": "1@1.com",
+        "name": "1",
+        "comments": "",
+        "sectionName": "Tutorial Group 2",
+        "teamName": "Team 2"
+      }
 }
