@@ -169,22 +169,13 @@ public class EmailGeneratorTest extends BaseLogicTest {
         ______TS("feedback session closing alerts");
 
         emails = emailGenerator.generateFeedbackSessionClosingEmails(session);
-        // 5 instructors, 3 students, and 3 co-owner instructors to be notified
-        assertEquals(11, emails.size());
+        // 5 instructors, 6 students, and 3 co-owner instructors to be notified
+        assertEquals(14, emails.size());
 
         subject = String.format(EmailType.FEEDBACK_CLOSING.getSubject(),
                                 course.getName(), session.getFeedbackSessionName());
 
-        // student1 has attempted the feedback session and closing alert is only sent for those who are
-        // yet to attempt, so we resort to student5
-        StudentAttributes student5 = studentsLogic.getStudentForEmail(course.getId(), "student5InCourse1@gmail.tmt");
-
-        for (EmailWrapper email : emails) {
-            if (email.getRecipient().equals(student1.getEmail())) {
-                fail("student1 has attempted the session and are not supposed to receive email");
-            }
-        }
-        verifyEmailReceivedCorrectly(emails, student5.getEmail(), subject, "/sessionClosingEmailForStudent.html");
+        verifyEmailReceivedCorrectly(emails, student1.getEmail(), subject, "/sessionClosingEmailForStudent.html");
         verifyEmailReceivedCorrectly(emails, instructor1.getEmail(), EmailWrapper.EMAIL_COPY_SUBJECT_PREFIX + subject,
                 "/sessionClosingEmailCopyToInstructor.html");
         verifyEmailReceivedCorrectly(emails, instructor1.getEmail(), subject, "/sessionClosingEmailForInstructor.html");
@@ -198,6 +189,15 @@ public class EmailGeneratorTest extends BaseLogicTest {
         subject = String.format(EmailType.FEEDBACK_CLOSED.getSubject(),
                                 course.getName(), session.getFeedbackSessionName());
 
+        // student1 has attempted the feedback session and closed alert is only sent for those who are
+        // yet to attempt, so we resort to student5
+        StudentAttributes student5 = studentsLogic.getStudentForEmail(course.getId(), "student5InCourse1@gmail.tmt");
+
+        for (EmailWrapper email : emails) {
+            if (email.getRecipient().equals(student1.getEmail())) {
+                fail("student1 has attempted the session and are not supposed to receive email");
+            }
+        }
         verifyEmailReceivedCorrectly(emails, student5.getEmail(), subject, "/sessionClosedEmailForStudent.html");
         verifyEmailReceivedCorrectly(emails, instructor1.getEmail(), EmailWrapper.EMAIL_COPY_SUBJECT_PREFIX + subject,
                 "/sessionClosedEmailCopyToInstructor.html");

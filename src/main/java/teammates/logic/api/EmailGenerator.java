@@ -77,6 +77,11 @@ public final class EmailGenerator {
      * Generates the feedback session opening emails for the given {@code session}.
      */
     public List<EmailWrapper> generateFeedbackSessionOpeningEmails(FeedbackSessionAttributes session) {
+        return generateFeedbackSessionOpeningOrClosingEmails(session, EmailType.FEEDBACK_OPENING);
+    }
+
+    private List<EmailWrapper> generateFeedbackSessionOpeningOrClosingEmails(
+            FeedbackSessionAttributes session, EmailType emailType) {
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
         boolean isEmailNeededForStudents = fsLogic.isFeedbackSessionForUserTypeToAnswer(session, false);
         boolean isEmailNeededForInstructors = fsLogic.isFeedbackSessionForUserTypeToAnswer(session, true);
@@ -90,9 +95,13 @@ public final class EmailGenerator {
                 ? instructorsLogic.getInstructorsForCourse(session.getCourseId())
                 : new ArrayList<>();
 
-        String template = EmailTemplates.USER_FEEDBACK_SESSION.replace("${status}", FEEDBACK_STATUS_SESSION_OPENING);
-        return generateFeedbackSessionEmailBases(course, session, students, instructors,
-                instructorsToNotify, template, EmailType.FEEDBACK_OPENING, FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW);
+        String status = emailType == EmailType.FEEDBACK_OPENING
+                ? FEEDBACK_STATUS_SESSION_OPENING
+                : FEEDBACK_STATUS_SESSION_CLOSING;
+
+        String template = EmailTemplates.USER_FEEDBACK_SESSION.replace("${status}", status);
+        return generateFeedbackSessionEmailBases(course, session, students, instructors, instructorsToNotify, template,
+                emailType, FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW);
     }
 
     /**
@@ -441,18 +450,13 @@ public final class EmailGenerator {
      * Generates the feedback session closing emails for the given {@code session}.
      */
     public List<EmailWrapper> generateFeedbackSessionClosingEmails(FeedbackSessionAttributes session) {
-        return generateFeedbackSessionClosingOrClosedEmails(session, EmailType.FEEDBACK_CLOSING);
+        return generateFeedbackSessionOpeningOrClosingEmails(session, EmailType.FEEDBACK_CLOSING);
     }
 
     /**
      * Generates the feedback session closed emails for the given {@code session}.
      */
     public List<EmailWrapper> generateFeedbackSessionClosedEmails(FeedbackSessionAttributes session) {
-        return generateFeedbackSessionClosingOrClosedEmails(session, EmailType.FEEDBACK_CLOSED);
-    }
-
-    private List<EmailWrapper> generateFeedbackSessionClosingOrClosedEmails(
-            FeedbackSessionAttributes session, EmailType emailType) {
         List<StudentAttributes> students = new ArrayList<>();
         List<InstructorAttributes> instructors = new ArrayList<>();
         boolean isEmailNeededForStudents = fsLogic.isFeedbackSessionForUserTypeToAnswer(session, false);
@@ -495,23 +499,13 @@ public final class EmailGenerator {
             }
         }
 
-        String status;
-        String action;
-        if (emailType == EmailType.FEEDBACK_CLOSED) {
-            status = FEEDBACK_STATUS_SESSION_CLOSED;
-            action = FEEDBACK_ACTION_VIEW;
-        } else {
-            status = FEEDBACK_STATUS_SESSION_CLOSING;
-            action = FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW;
-        }
-
-        String template = EmailTemplates.USER_FEEDBACK_SESSION.replace("${status}", status);
+        String template = EmailTemplates.USER_FEEDBACK_SESSION.replace("${status}", FEEDBACK_STATUS_SESSION_CLOSED);
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
         List<InstructorAttributes> instructorsToNotify = isEmailNeededForStudents
                 ? instructorsLogic.getCoOwnersForCourse(session.getCourseId())
                 : new ArrayList<>();
         return generateFeedbackSessionEmailBases(course, session, students, instructors, instructorsToNotify, template,
-                emailType, action);
+                EmailType.FEEDBACK_CLOSED, FEEDBACK_ACTION_VIEW);
     }
 
     /**
