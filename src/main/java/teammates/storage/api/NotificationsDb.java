@@ -4,6 +4,7 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.LoadType;
@@ -50,21 +51,39 @@ public final class NotificationsDb extends EntitiesDb<Notification, Notification
     public List<NotificationAttributes> getNotificationsByTargetUser(NotificationTargetUser targetUser) {
         assert targetUser != null;
 
-        List<Notification> notifications = load()
+        List<Notification> endEntities = load()
                 .filter("targetUser=", Const.NotificationTargetUser.GENERAL)
-                .filter("startTime <", Instant.now())
                 .filter("endTime >", Instant.now())
                 .list();
 
+        List<Notification> startEntities = load()
+                .filter("targetUser=", Const.NotificationTargetUser.GENERAL)
+                .filter("startTime <", Instant.now())
+                .list();
+
         if (targetUser != NotificationTargetUser.GENERAL) {
-            notifications.addAll(load()
+            endEntities.addAll(load()
                     .filter("targetUser=", targetUser.toSingularFormString())
-                    .filter("startTime <", Instant.now())
                     .filter("endTime >", Instant.now())
                     .list());
+            startEntities.addAll(load()
+                .filter("targetUser=", Const.NotificationTargetUser.GENERAL)
+                .filter("startTime <", Instant.now())
+                .list());
         }
 
-        List<NotificationAttributes> notificationAttributes = makeAttributes(notifications);
+        List<String> startEntitiesIds = startEntities.stream()
+                .map(notif -> notif.getNotificationId())
+                .collect(Collectors.toList());
+
+        List<Notification> ongoingNotifications = endEntities.stream()
+                .filter(notif -> {
+                    String id = notif.getNotificationId();
+                    return startEntitiesIds.contains(id);
+                })
+                .collect(Collectors.toList());
+
+        List<NotificationAttributes> notificationAttributes = makeAttributes(ongoingNotifications);
         NotificationAttributes.sortByStartTime(notificationAttributes);
         return notificationAttributes;
 

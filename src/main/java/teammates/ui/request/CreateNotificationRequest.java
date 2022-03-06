@@ -1,13 +1,16 @@
 package teammates.ui.request;
 
+import teammates.common.datatransfer.NotificationTargetUser;
+import teammates.common.datatransfer.NotificationType;
+
 /**
  * The request for creating a notification.
  */
 public class CreateNotificationRequest extends BasicRequest {
     private Long startTimestamp;
     private Long endTimestamp;
-    private String notificationType;
-    private String targetUser;
+    private NotificationType notificationType;
+    private NotificationTargetUser targetUser;
     private String title;
     private String message;
 
@@ -19,11 +22,11 @@ public class CreateNotificationRequest extends BasicRequest {
         return this.endTimestamp;
     }
 
-    public String getNotificationType() {
+    public NotificationType getNotificationType() {
         return this.notificationType;
     }
 
-    public String getTargetUser() {
+    public NotificationTargetUser getTargetUser() {
         return this.targetUser;
     }
 
