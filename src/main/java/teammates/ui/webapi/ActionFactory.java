@@ -81,7 +81,7 @@ public final class ActionFactory {
 
         // NOTIFICATION APIs
         map(ResourceURIs.NOTIFICATION, GET, GetNotificationAction.class);
-        // map(ResourceURIs.NOTIFICATION, POST, CreateNotificationAction.class);
+        map(ResourceURIs.NOTIFICATION, POST, CreateNotificationAction.class);
 
         //SEARCH APIs
         map(ResourceURIs.SEARCH_INSTRUCTORS, GET, SearchInstructorsAction.class);

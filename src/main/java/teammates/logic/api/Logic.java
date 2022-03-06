@@ -87,6 +87,11 @@ public class Logic {
     public List<NotificationAttributes> getNotificationsByTargetUser(NotificationTargetUser targetUser) {
         return notificationsLogic.getNotificationsByTargetUser(targetUser);
     }
+    
+    public NotificationAttributes createNotification(NotificationAttributes notification) throws
+            InvalidParametersException, EntityAlreadyExistsException {
+        return notificationsLogic.createNotification(notification);
+    }
 
     /**
      * Updates/Creates the profile using {@link StudentProfileAttributes.UpdateOptions}.

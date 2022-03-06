@@ -9,6 +9,7 @@ import java.util.Objects;
 
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.NotificationType;
+import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.Notification;
@@ -169,13 +170,23 @@ public class NotificationAttributes extends EntityAttributes<Notification> {
 
     @Override
     public List<String> getInvalidityInfo() {
-        // TODO: perform various checks on the fields of this object, e.g. length of title, etc.
-        // List<String> errors = new ArrayList<>();
-        // addNonEmptyError(FieldValidator.getInvalidityInfoForPersonName(name), errors);
+        List<String> errors = new ArrayList<>();
 
-        // No validation for createdAt and updatedAt fields.
+        addNonEmptyError(FieldValidator.getValidityInfoForNonNullField("notification visible time", startTime), errors);
 
-        return new ArrayList<>();
+        addNonEmptyError(FieldValidator.getValidityInfoForNonNullField("notification expiry time", endTime), errors);
+
+        addNonEmptyError(FieldValidator.getInvalidityInfoForTimeForNotificationStartAndEnd(startTime, endTime), errors);
+
+        addNonEmptyError(FieldValidator.getInvalidityInfoForNotificationType(type), errors);
+
+        addNonEmptyError(FieldValidator.getInvalidityInfoForNotificationTargetUser(targetUser), errors);
+
+        addNonEmptyError(FieldValidator.getInvalidityInfoForNotificationTitle(title), errors);
+
+        addNonEmptyError(FieldValidator.getInvalidityInfoForNotificationBody(message), errors);
+
+        return errors;
     }
 
     @Override
