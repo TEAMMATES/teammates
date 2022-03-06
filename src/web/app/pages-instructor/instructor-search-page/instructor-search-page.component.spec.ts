@@ -10,8 +10,9 @@ import { StudentListRowModel } from '../../components/student-list/student-list.
 import { InstructorSearchPageComponent } from './instructor-search-page.component';
 import { InstructorSearchPageModule } from './instructor-search-page.module';
 import { SearchStudentsListRowTable } from './student-result-table/student-result-table.component';
-import {courses} from '../../test-data/courses.json';
-import {students} from '../../test-data/students.json';
+// import {default as courses} from '../../test-data/courses.json';
+import {default as students} from '../../test-data/students.json';
+import {default as instructorPrivilegeSets} from '../../test-data/instructor_permission.json';
 
 describe('InstructorSearchPageComponent', () => {
   let component: InstructorSearchPageComponent;
@@ -19,10 +20,43 @@ describe('InstructorSearchPageComponent', () => {
   let spyHttpRequestService: any;
   let coursesWithStudents: SearchStudentsListRowTable[];
 
-  const mockStudent1: Student = students.alice;
-  const mockStudent2: Student = students.bob;
-  const mockStudent3: Student = students.chloe;
-  const mockStudent4: Student = students.david;
+  const mockStudents: Student = students.students;
+  // Students = {
+  //   students: [
+  //     {
+  //       email: 'alice@example.com',
+  //       courseId: 'CS3281',
+  //       name: 'Alice',
+  //       joinState: JoinState.JOINED,
+  //       teamName: 'Team 1',
+  //       sectionName: 'Section 1',
+  //     },
+  //     {
+  //       email: 'bob@example.com',
+  //       courseId: 'CS3281',
+  //       name: 'Bob',
+  //       joinState: JoinState.JOINED,
+  //       teamName: 'Team 1',
+  //       sectionName: 'Section 1',
+  //     },
+  //     {
+  //       email: 'chloe@example.com',
+  //       courseId: 'CS3281',
+  //       name: 'Chloe',
+  //       joinState: JoinState.JOINED,
+  //       teamName: 'Team 1',
+  //       sectionName: 'Section 2',
+  //     },
+  //     {
+  //       email: 'david@example.com',
+  //       courseId: 'CS3282',
+  //       name: 'David',
+  //       joinState: JoinState.JOINED,
+  //       teamName: 'Team 1',
+  //       sectionName: 'Section 2',
+  //     },
+  //   ],
+  // };
 
   beforeEach(() => {
     spyHttpRequestService = {
@@ -57,8 +91,7 @@ describe('InstructorSearchPageComponent', () => {
   });
 
   beforeEach(() => {
-    // .................. Issue here because of multiple students .................
-    const { students }: { students: Student[] } = [mockStudent1, mockStudent2, mockStudent3, mockStudent4];
+    const { students }: { students: Student[] } = mockStudents;
     coursesWithStudents = component.getCoursesWithStudents(students);
   });
 
@@ -137,7 +170,6 @@ describe('InstructorSearchPageComponent', () => {
   });
 
   it('should parse students into courses with sections correctly', () => {
-    // .................. Issue here because of multiple students .................
     const { students }: { students: Student[] } = mockStudents;
 
     // Number of courses should match
@@ -208,24 +240,17 @@ describe('InstructorSearchPageComponent', () => {
   });
 
   it('should combine privileges and course data correctly', () => {
-    // ........ Created a JSON Class here! But not sure how to use it ...............
-    // const basePrivilege: InstructorPermissionSet = courses.InstructorPermissionSet;
-    const basePrivilege: InstructorPermissionSet = {
-      canModifyCourse: true,
-      canModifySession: true,
-      canModifyStudent: true,
-      canModifyInstructor: true,
-      canViewStudentInSections: true,
-      canModifySessionCommentsInSections: true,
-      canViewSessionInSections: true,
-      canSubmitSessionInSections: true,
-    };
-    // ........ Created a JSON Class here! But not sure how to use it ...............
-    // const mockPrivilegesArray1: InstructorPrivilege = courses.InstructorPrivilege1;
-    // const mockPrivilegesArray2: InstructorPrivilege = courses.InstructorPrivilege2;
-    // const mockPrivilegesArray3: InstructorPrivilege = courses.InstructorPrivilege3;
-    // const mockPrivilegesArray4: InstructorPrivilege = courses.InstructorPrivilege4;
-
+    const basePrivilege: InstructorPermissionSet = instructorPrivilegeSets.InstructorPermissionSet;
+    // InstructorPermissionSet = {
+    //   canModifyCourse: true,
+    //   canModifySession: true,
+    //   canModifyStudent: true,
+    //   canModifyInstructor: true,
+    //   canViewStudentInSections: true,
+    //   canModifySessionCommentsInSections: true,
+    //   canViewSessionInSections: true,
+    //   canSubmitSessionInSections: true,
+    // };
     const mockPrivilegesArray: InstructorPrivilege[] = [
       {
         privileges: {

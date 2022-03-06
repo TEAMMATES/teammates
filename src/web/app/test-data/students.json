@@ -1,4 +1,6 @@
 {
+    "students" : {
+
     "alice": {
         "email": "alice@example.com",
         "courseId": "CS3281",
@@ -30,6 +32,8 @@
         "joinState": "JoinState.JOINED",
         "teamName": "Team 1",
         "sectionName": "Section 2"
+    }
+    
     }
 
 }

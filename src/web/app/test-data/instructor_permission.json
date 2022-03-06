@@ -1,0 +1,12 @@
+{
+    "InstructorPermissionSet" : {
+        "canModifyCourse": true,
+        "canModifySession": true,
+        "canModifyStudent": true,
+        "canModifyInstructor": true,
+        "canViewStudentInSections": true,
+        "canModifySessionCommentsInSections": true,
+        "canViewSessionInSections": true,
+        "canSubmitSessionInSections": true
+    }
+}
