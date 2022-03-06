@@ -1,5 +1,7 @@
 package teammates.ui.output;
 
+import teammates.common.datatransfer.NotificationTargetUser;
+import teammates.common.datatransfer.NotificationType;
 import teammates.common.datatransfer.attributes.NotificationAttributes;
 
 /**
@@ -10,8 +12,10 @@ public class NotificationData extends ApiOutput {
     private String notificationId;
     private Long startTimestamp;
     private Long endTimestamp;
-    private String type;
-    private String targetUser;
+    private Long createdAt;
+    private Long updatedAt;
+    private NotificationType notificationType;
+    private NotificationTargetUser targetUser;
     private String title;
     private String message;
     private boolean shown;
@@ -20,8 +24,10 @@ public class NotificationData extends ApiOutput {
         this.notificationId = notificationAttributes.getNotificationId();
         this.startTimestamp = notificationAttributes.getStartTime().toEpochMilli();
         this.endTimestamp = notificationAttributes.getStartTime().toEpochMilli();
-        this.type = notificationAttributes.getType();
-        this.targetUser = notificationAttributes.getTargetUser();
+        this.createdAt = notificationAttributes.getCreatedAt().toEpochMilli();
+        this.updatedAt = notificationAttributes.getUpdatedAt().toEpochMilli();
+        this.notificationType = NotificationType.find(notificationAttributes.getType());
+        this.targetUser = NotificationTargetUser.find(notificationAttributes.getTargetUser());
         this.title = notificationAttributes.getTitle();
         this.message = notificationAttributes.getMessage();
         this.shown = notificationAttributes.isShown();
@@ -40,11 +46,19 @@ public class NotificationData extends ApiOutput {
         return this.endTimestamp;
     }
 
-    public String getNotificationType() {
-        return this.type;
+    public Long getCreatedAt() {
+        return this.createdAt;
     }
 
-    public String getTargetUser() {
+    public Long getUpdatedAt() {
+        return this.updatedAt;
+    }
+
+    public NotificationType getNotificationType() {
+        return this.notificationType;
+    }
+
+    public NotificationTargetUser getTargetUser() {
         return this.targetUser;
     }
 
@@ -64,6 +78,6 @@ public class NotificationData extends ApiOutput {
      * Hides some attributes to instructor and students without appropriate privilege.
      */
     public void hideInformationForNonAdmin() {
-        // TODO: hide informations that might be admin-only: targer users, isShown, (starttime and endtime)
+        // TODO: hide information that might be admin-only: target users, isShown, (starttime and endtime)
     }
 }

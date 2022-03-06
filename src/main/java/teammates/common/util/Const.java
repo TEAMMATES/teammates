@@ -213,7 +213,7 @@ public final class Const {
     /**
      * Represents target user types.
      */
-    public static class TargetUserType {
+    public static class NotificationTargetUser {
 
         public static final String STUDENT = "student";
         public static final String INSTRUCTOR = "instructor";

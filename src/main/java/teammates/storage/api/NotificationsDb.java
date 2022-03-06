@@ -51,12 +51,12 @@ public final class NotificationsDb extends EntitiesDb<Notification, Notification
         assert targetUser != null;
 
         List<Notification> notifications = load()
-                .filter("targetUser=", Const.TargetUserType.GENERAL)
+                .filter("targetUser=", Const.NotificationTargetUser.GENERAL)
                 .filter("startTime <", Instant.now())
                 .filter("endTime >", Instant.now())
                 .list();
 
-        if (!Objects.equals(targetUser, Const.TargetUserType.GENERAL)) {
+        if (!Objects.equals(targetUser, Const.NotificationTargetUser.GENERAL)) {
             notifications.addAll(load()
                     .filter("targetUser=", targetUser)
                     .filter("startTime <", Instant.now())

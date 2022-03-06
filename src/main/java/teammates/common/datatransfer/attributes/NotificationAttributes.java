@@ -16,6 +16,7 @@ import teammates.storage.entity.Notification;
  */
 public class NotificationAttributes extends EntityAttributes<Notification> {
 
+    // TODO: use enum defined in datatransfer folder for target user and type.
     private String notificationId;
     private Instant startTime;
     private Instant endTime;
