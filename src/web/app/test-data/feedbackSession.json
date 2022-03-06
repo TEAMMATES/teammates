@@ -30,5 +30,37 @@
     "isClosingEmailEnabled": true,
     "isPublishedEmailEnabled": true,
     "createdAtTimestamp": 0
+    },
+    "FirstSessionCS1231": {
+        "feedbackSessionName": "First Session",
+        "courseId": "CS1231",
+        "timeZone": "Asia/Singapore",
+        "instructions": "",
+        "submissionStartTimestamp": 0,
+        "submissionEndTimestamp": 1610371317000,
+        "gracePeriod": 0,
+        "sessionVisibleSetting": "AT_OPEN",
+        "responseVisibleSetting": "AT_VISIBLE",
+        "submissionStatus": "OPEN",
+        "publishStatus": "PUBLISHED",
+        "isClosingEmailEnabled": true,
+        "isPublishedEmailEnabled": true,
+        "createdAtTimestamp": 0
+    },
+    "SecondSessionCS1231": {
+        "feedbackSessionName": "Second Session",
+        "courseId": "CS1231",
+        "timeZone": "Asia/Singapore",
+        "instructions": "",
+        "submissionStartTimestamp": 0,
+        "submissionEndTimestamp": 1611148917000,
+        "gracePeriod": 0,
+        "sessionVisibleSetting": "AT_OPEN",
+        "responseVisibleSetting": "AT_VISIBLE",
+        "submissionStatus": "OPEN",
+        "publishStatus": "PUBLISHED",
+        "isClosingEmailEnabled": true,
+        "isPublishedEmailEnabled": true,
+        "createdAtTimestamp": 0
     }
 }

@@ -1,0 +1,12 @@
+{
+    "privilegeSet1": {
+        "canModifyCourse": true,
+        "canModifySession": true,
+        "canModifyStudent": true,
+        "canSubmitSessionInSections": true,
+        "canModifyInstructor": false,
+        "canViewStudentInSections": false,
+        "canModifySessionCommentsInSections": false,
+        "canViewSessionInSections": false
+    }
+}
