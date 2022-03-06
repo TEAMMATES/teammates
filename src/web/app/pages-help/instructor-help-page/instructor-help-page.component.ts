@@ -1,13 +1,21 @@
 import { DOCUMENT } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Inject, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { PageScrollService } from 'ngx-page-scroll-core';
 import { environment } from '../../../environments/environment';
-import { InstructorHelpCoursesSectionComponent } from './instructor-help-courses-section/instructor-help-courses-section.component';
-import { InstructorHelpQuestionsSectionComponent } from './instructor-help-questions-section/instructor-help-questions-section.component';
-import { InstructorHelpSessionsSectionComponent } from './instructor-help-sessions-section/instructor-help-sessions-section.component';
+import {
+  InstructorHelpCoursesSectionComponent,
+} from './instructor-help-courses-section/instructor-help-courses-section.component';
+import {
+  InstructorHelpQuestionsSectionComponent,
+} from './instructor-help-questions-section/instructor-help-questions-section.component';
+import {
+  InstructorHelpSessionsSectionComponent,
+} from './instructor-help-sessions-section/instructor-help-sessions-section.component';
 import { SessionsSectionQuestions } from './instructor-help-sessions-section/sessions-section-questions';
-import { InstructorHelpStudentsSectionComponent } from './instructor-help-students-section/instructor-help-students-section.component';
+import {
+  InstructorHelpStudentsSectionComponent,
+} from './instructor-help-students-section/instructor-help-students-section.component';
 import { StudentsSectionQuestions } from './instructor-help-students-section/students-section-questions';
 import { Sections } from './sections';
 
@@ -19,7 +27,7 @@ import { Sections } from './sections';
   templateUrl: './instructor-help-page.component.html',
   styleUrls: ['./instructor-help-page.component.scss'],
 })
-export class InstructorHelpPageComponent implements OnInit, AfterViewInit {
+export class InstructorHelpPageComponent implements AfterViewInit {
   // enum
   Sections: typeof Sections = Sections;
   readonly supportEmail: string = environment.supportEmail;
@@ -47,9 +55,6 @@ export class InstructorHelpPageComponent implements OnInit, AfterViewInit {
     r.data.subscribe((resp: any) => {
       this.instructorGettingStartedPath = resp.instructorGettingStartedPath;
     });
-  }
-
-  ngOnInit(): void {
   }
 
   ngAfterViewInit(): void {
@@ -110,7 +115,7 @@ export class InstructorHelpPageComponent implements OnInit, AfterViewInit {
       duration: 500,
       scrollTarget: `#${target}`,
       scrollOffset: 70,
-    }), timeout ? timeout : 500);
+    }), timeout || 500);
   }
 
   /**

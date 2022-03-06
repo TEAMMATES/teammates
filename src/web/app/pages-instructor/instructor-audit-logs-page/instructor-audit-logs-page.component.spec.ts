@@ -1,7 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { of } from 'rxjs';
-
+import SpyInstance = jest.SpyInstance;
 import { CourseService } from '../../../services/course.service';
 import { LogService } from '../../../services/log.service';
 import { StudentService } from '../../../services/student.service';
@@ -21,7 +21,6 @@ import { SortBy } from '../../../types/sort-properties';
 import { ColumnData } from '../../components/sortable-table/sortable-table.component';
 import { InstructorAuditLogsPageComponent } from './instructor-audit-logs-page.component';
 import { InstructorAuditLogsPageModule } from './instructor-audit-logs-page.module';
-import Spy = jasmine.Spy;
 
 describe('InstructorAuditLogsPageComponent', () => {
   let component: InstructorAuditLogsPageComponent;
@@ -140,7 +139,7 @@ describe('InstructorAuditLogsPageComponent', () => {
     ],
   };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [InstructorAuditLogsPageModule, HttpClientTestingModule],
     }).compileComponents();
@@ -221,8 +220,8 @@ describe('InstructorAuditLogsPageComponent', () => {
   });
 
   it('should load all courses that instructor has on init', () => {
-    const courseSpy: Spy = spyOn(courseService, 'getAllCoursesAsInstructor').and
-        .returnValue(of({
+    const courseSpy: SpyInstance = jest.spyOn(courseService, 'getAllCoursesAsInstructor')
+        .mockReturnValue(of({
           courses: [
             testCourse1, testCourse2, testCourse3,
           ],
@@ -242,8 +241,8 @@ describe('InstructorAuditLogsPageComponent', () => {
   });
 
   it('should load all students of selected course has on select', () => {
-    const studentSpy: Spy = spyOn(studentService, 'getStudentsFromCourse').and
-        .returnValue(of({
+    const studentSpy: SpyInstance = jest.spyOn(studentService, 'getStudentsFromCourse')
+        .mockReturnValue(of({
           students: [
             testStudent,
           ],
@@ -258,8 +257,8 @@ describe('InstructorAuditLogsPageComponent', () => {
   });
 
   it('should load students from cache if present', () => {
-    const studentSpy: Spy = spyOn(studentService, 'getStudentsFromCourse').and
-        .returnValue(of({
+    const studentSpy: SpyInstance = jest.spyOn(studentService, 'getStudentsFromCourse')
+        .mockReturnValue(of({
           students: [
             testStudent,
           ],
@@ -275,9 +274,9 @@ describe('InstructorAuditLogsPageComponent', () => {
   });
 
   it('should search for logs using feedback course timezone when search button is clicked', () => {
-    const logSpy: Spy = spyOn(logService, 'searchFeedbackSessionLog').and
-        .returnValue(of({ feedbackSessionLogs: [testLogs1, testLogs2] }));
-    const timeSpy: Spy = spyOn(timezoneService, 'resolveLocalDateTime').and.callThrough();
+    const logSpy: SpyInstance = jest.spyOn(logService, 'searchFeedbackSessionLog')
+        .mockReturnValue(of({ feedbackSessionLogs: [testLogs1, testLogs2] }));
+    const timeSpy: SpyInstance = jest.spyOn(timezoneService, 'resolveLocalDateTime');
     const tzOffset: number = timezoneService.getTzOffsets()[testCourse1.timeZone];
 
     component.isLoading = false;

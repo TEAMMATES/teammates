@@ -21,7 +21,11 @@ import { StudentNameWithPhotoComponent } from './student-name/student-name-with-
 import { GenderFormatPipe } from './student-profile-gender.pipe';
 import { SubmissionStatusNamePipe } from './submission-status-name.pipe';
 import { ViewPhotoPopoverComponent } from './view-photo-popover/view-photo-popover.component';
-import { VisibilityControlNamePipe, VisibilityTypeDescriptionPipe, VisibilityTypeNamePipe } from './visibility-setting.pipe';
+import {
+  VisibilityControlNamePipe,
+  VisibilityTypeDescriptionPipe,
+  VisibilityTypeNamePipe,
+} from './visibility-setting.pipe';
 
 /**
  * Common module in the project.

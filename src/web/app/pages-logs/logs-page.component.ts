@@ -142,8 +142,12 @@ export class LogsPageComponent implements OnInit {
     this.formModel.logsTimeTo = { hour: now.getHours(), minute: now.getMinutes() };
 
     this.logService.getActionClassList()
-      .pipe(finalize(() => this.isLoading = false))
-      .subscribe((actionClasses: ActionClasses) => this.ACTION_CLASSES = actionClasses.actionClasses.sort());
+      .pipe(finalize(() => {
+        this.isLoading = false;
+      }))
+      .subscribe((actionClasses: ActionClasses) => {
+        this.ACTION_CLASSES = actionClasses.actionClasses.sort();
+      });
 
     this.activatedRoute.data.pipe(
         tap((data: any) => {
@@ -416,7 +420,7 @@ export class LogsPageComponent implements OnInit {
     this.isSearching = true;
     this.queryParams.order = DESCENDING_ORDER;
     this.queryParams.startTime = this.searchStartTime;
-    this.searchStartTime = this.searchStartTime - TEN_MINUTES_IN_MILLISECONDS;
+    this.searchStartTime -= TEN_MINUTES_IN_MILLISECONDS;
     this.queryParams.endTime = this.searchStartTime;
     this.searchPreviousLogs();
   }
@@ -425,14 +429,16 @@ export class LogsPageComponent implements OnInit {
     this.isSearching = true;
     this.queryParams.order = ASCENDING_ORDER;
     this.queryParams.startTime = this.searchEndTime;
-    this.searchEndTime = this.searchEndTime + TEN_MINUTES_IN_MILLISECONDS;
+    this.searchEndTime += TEN_MINUTES_IN_MILLISECONDS;
     this.queryParams.endTime = this.searchEndTime;
     this.searchLaterLogs();
   }
 
   private searchPreviousLogs(): void {
     this.logService.searchLogs(this.queryParams)
-      .pipe(finalize(() => this.isSearching = false))
+      .pipe(finalize(() => {
+        this.isSearching = false;
+      }))
       .subscribe((generalLogs: GeneralLogs) => {
         this.hasPreviousPage = generalLogs.hasNextPage;
         this.processLogsForTableView(generalLogs, true);
@@ -441,7 +447,9 @@ export class LogsPageComponent implements OnInit {
 
   private searchLaterLogs(): void {
     this.logService.searchLogs(this.queryParams)
-      .pipe(finalize(() => this.isSearching = false))
+      .pipe(finalize(() => {
+        this.isSearching = false;
+      }))
       .subscribe((generalLogs: GeneralLogs) => {
         this.hasNextPage = generalLogs.hasNextPage;
         this.processLogsForTableView(generalLogs, false);

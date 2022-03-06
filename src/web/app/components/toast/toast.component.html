@@ -1,4 +1,4 @@
-<ngb-toast *ngIf="toast" [delay]="toast.delay || 10000" (hide)="removeToast()" [class]="toast.classes" [autohide]="toast.autohide">
+<ngb-toast *ngIf="toast" [delay]="toast.delay || 10000" (hidden)="removeToast()" [class]="toast.classes" [autohide]="toast.autohide">
   <ng-template [ngIf]="isTemplate()">
     <ng-template [ngTemplateOutlet]="toast.message"></ng-template>
   </ng-template>

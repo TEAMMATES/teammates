@@ -1,6 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-
-import { QuestionEditFormModel } from '../question-edit-form/question-edit-form-model';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { CommonVisibilitySetting } from '../../../services/feedback-questions.service';
 import { VisibilityStateMachine } from '../../../services/visibility-state-machine';
@@ -12,6 +10,7 @@ import {
   NumberOfEntitiesToGiveFeedbackToSetting,
 } from '../../../types/api-output';
 import { VisibilityControl } from '../../../types/visibility-control';
+import { QuestionEditFormModel } from '../question-edit-form/question-edit-form-model';
 
 /**
  * Displaying the visibility panel.
@@ -21,7 +20,7 @@ import { VisibilityControl } from '../../../types/visibility-control';
   templateUrl: './visibility-panel.component.html',
   styleUrls: ['./visibility-panel.component.scss'],
 })
-export class VisibilityPanelComponent implements OnInit {
+export class VisibilityPanelComponent {
 
   // enum
   FeedbackParticipantType: typeof FeedbackParticipantType = FeedbackParticipantType;
@@ -90,11 +89,6 @@ export class VisibilityPanelComponent implements OnInit {
 
   @Output()
   visibilityStateMachineChange: EventEmitter<VisibilityStateMachine> = new EventEmitter<VisibilityStateMachine>();
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
 
   triggerCustomVisibilitySetting(): void {
     this.customVisibilitySetting.emit(true);

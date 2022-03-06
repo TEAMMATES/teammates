@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import {
   FeedbackConstantSumDistributePointsType,
   FeedbackConstantSumQuestionDetails,
@@ -15,7 +15,7 @@ import {
   templateUrl: './constsum-options-question-instruction.component.html',
   styleUrls: ['./constsum-options-question-instruction.component.scss'],
 })
-export class ConstsumOptionsQuestionInstructionComponent implements OnInit {
+export class ConstsumOptionsQuestionInstructionComponent {
 
   @Input()
   questionDetails: FeedbackConstantSumQuestionDetails = DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS();
@@ -23,11 +23,6 @@ export class ConstsumOptionsQuestionInstructionComponent implements OnInit {
   // enum
   FeedbackConstantSumDistributePointsType: typeof FeedbackConstantSumDistributePointsType =
       FeedbackConstantSumDistributePointsType;
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
 
   /**
    * Gets the total points of the constant sum question.

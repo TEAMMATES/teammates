@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   FeedbackParticipantType,
   FeedbackQuestionType,
@@ -99,7 +99,7 @@ describe('RankRecipientsQuestionStatisticsComponent', () => {
     },
   ];
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [RankRecipientsQuestionStatisticsComponent],
       imports: [SortableTableModule],

@@ -1,13 +1,18 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { CommentVisibilityStateMachine } from '../../../../services/comment-visibility-state-machine';
 import { FeedbackResponseCommentService } from '../../../../services/feedback-response-comment.service';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
-import { CommentVisibilityType, FeedbackResponseComment, FeedbackVisibilityType, ResponseOutput,
+import {
+  CommentVisibilityType,
+  FeedbackResponseComment,
+  FeedbackVisibilityType,
+  ResponseOutput,
 } from '../../../../types/api-output';
 import { CommentVisibilityControl } from '../../../../types/comment-visibility-control';
 import { SimpleModalType } from '../../simple-modal/simple-modal-type';
 import { CommentEditFormModel } from '../comment-edit-form/comment-edit-form.component';
+import { CommentRowMode } from './comment-row.mode';
 
 /**
  * Model for a comment row.
@@ -30,21 +35,6 @@ export interface CommentRowModel {
 }
 
 /**
- * Mode of current comment row.
- */
-export enum CommentRowMode {
-  /**
-   * Add new comment.
-   */
-  ADD,
-
-  /**
-   * Edit existing comment.
-   */
-  EDIT,
-}
-
-/**
  * Comment row component to be used in a comment table
  */
 @Component({
@@ -52,7 +42,7 @@ export enum CommentRowMode {
   templateUrl: './comment-row.component.html',
   styleUrls: ['./comment-row.component.scss'],
 })
-export class CommentRowComponent implements OnInit, OnChanges {
+export class CommentRowComponent implements OnChanges {
 
   // enum
   CommentRowMode: typeof CommentRowMode = CommentRowMode;
@@ -117,9 +107,6 @@ export class CommentRowComponent implements OnInit, OnChanges {
     this.visibilityStateMachine = this.commentService.getNewVisibilityStateMachine(this.questionShowResponsesTo);
   }
 
-  ngOnInit(): void {
-  }
-
   ngOnChanges(): void {
     if (this.model.originalComment) {
       this.visibilityStateMachine = this.commentService.getNewVisibilityStateMachine(this.questionShowResponsesTo);
@@ -127,7 +114,7 @@ export class CommentRowComponent implements OnInit, OnChanges {
         // follow the question's visibilities settings
         this.visibilityStateMachine.allowAllApplicableTypesToSee();
       } else {
-        const visibilitySetting: {[TKey in CommentVisibilityControl]: CommentVisibilityType[]} = {
+        const visibilitySetting: { [TKey in CommentVisibilityControl]: CommentVisibilityType[] } = {
           SHOW_COMMENT: this.model.originalComment.showCommentTo,
           SHOW_GIVER_NAME: this.model.originalComment.showCommentTo,
         };
@@ -167,6 +154,6 @@ export class CommentRowComponent implements OnInit, OnChanges {
    * Triggers the change of the model for the form.
    */
   triggerModelChange(field: string, data: any): void {
-    this.modelChange.emit(Object.assign({}, this.model, { [field]: data }));
+    this.modelChange.emit({ ...this.model, [field]: data });
   }
 }

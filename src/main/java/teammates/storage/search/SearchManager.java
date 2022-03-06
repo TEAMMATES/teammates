@@ -79,10 +79,8 @@ abstract class SearchManager<T extends EntityAttributes<?>> {
             throw new SearchServiceException("Full-text search is not available.", HttpStatus.SC_NOT_IMPLEMENTED);
         }
 
-        QueryResponse response = null;
-
         try {
-            response = client.query(getCollectionName(), query);
+            return client.query(getCollectionName(), query);
         } catch (SolrServerException e) {
             Throwable rootCause = e.getRootCause();
             log.severe(String.format(ERROR_SEARCH_DOCUMENT, query.getQuery(), rootCause), e);
@@ -98,8 +96,6 @@ abstract class SearchManager<T extends EntityAttributes<?>> {
             throw new SearchServiceException("An error has occurred while performing search. "
                     + "Please try again later.", e, HttpStatus.SC_BAD_GATEWAY);
         }
-
-        return response;
     }
 
     abstract String getCollectionName();

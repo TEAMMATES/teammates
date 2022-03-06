@@ -17,8 +17,6 @@ exports[`StudentProfilePageComponent should snap when student profile is still l
   studentProfileService={[Function StudentProfileService]}
 >
   <tm-loading-retry>
-    
-    
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -34,8 +32,6 @@ exports[`StudentProfilePageComponent should snap when student profile is still l
         </div>
       </div>
     </tm-loading-spinner>
-    
-    
   </tm-loading-retry>
 </tm-student-profile-page>
 `;
@@ -59,15 +55,12 @@ exports[`StudentProfilePageComponent should snap with a student field without in
   studentProfileService={[Function StudentProfileService]}
 >
   <tm-loading-retry>
-    
-    
     <div
       class="text-center text-sm-left"
     >
       <h1>
         Student Profile
       </h1>
-      
       <div
         class="card"
       >
@@ -75,7 +68,6 @@ exports[`StudentProfilePageComponent should snap with a student field without in
           class="card-body fill-plain"
         >
           <h1>
-            
           </h1>
           <div
             class="row profile-pic-row"
@@ -101,7 +93,6 @@ exports[`StudentProfilePageComponent should snap with a student field without in
               >
                  Upload/Edit Photo 
               </button>
-              
               <button
                 class="btn btn-danger"
                 id="profile-delete-photo"
@@ -166,7 +157,6 @@ exports[`StudentProfilePageComponent should snap with a student field without in
                 formcontrolname="studentnationality"
                 id="studentnationality"
               >
-                
               </select>
             </div>
             <label>
@@ -175,7 +165,6 @@ exports[`StudentProfilePageComponent should snap with a student field without in
             <div
               class="form-group"
             >
-              
               <div
                 class="custom-control-inline"
               >
@@ -235,7 +224,6 @@ exports[`StudentProfilePageComponent should snap with a student field without in
                 placeholder="You may specify miscellaneous info about yourself e.g. links to home page, online CV, portfolio etc."
                 rows="4"
               >
-                            
               </textarea>
             </div>
             <div
@@ -245,7 +233,6 @@ exports[`StudentProfilePageComponent should snap with a student field without in
                 class="btn btn-primary student-save-profile"
                 type="submit"
               >
-                
                  Save Profile 
               </button>
             </div>
@@ -258,8 +245,6 @@ exports[`StudentProfilePageComponent should snap with a student field without in
         </div>
       </div>
     </div>
-    
-    
   </tm-loading-retry>
 </tm-student-profile-page>
 `;
@@ -281,8 +266,6 @@ exports[`StudentProfilePageComponent should snap with default fields 1`] = `
   studentProfileService={[Function StudentProfileService]}
 >
   <tm-loading-retry>
-    
-    
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -298,8 +281,6 @@ exports[`StudentProfilePageComponent should snap with default fields 1`] = `
         </div>
       </div>
     </tm-loading-spinner>
-    
-    
   </tm-loading-retry>
 </tm-student-profile-page>
 `;
@@ -325,15 +306,12 @@ exports[`StudentProfilePageComponent should snap with values and a profile photo
   studentProfileService={[Function StudentProfileService]}
 >
   <tm-loading-retry>
-    
-    
     <div
       class="text-center text-sm-left"
     >
       <h1>
         Student Profile
       </h1>
-      
       <div
         class="card"
       >
@@ -341,7 +319,6 @@ exports[`StudentProfilePageComponent should snap with values and a profile photo
           class="card-body fill-plain"
         >
           <h1>
-            
           </h1>
           <div
             class="row profile-pic-row"
@@ -367,7 +344,6 @@ exports[`StudentProfilePageComponent should snap with values and a profile photo
               >
                  Upload/Edit Photo 
               </button>
-              
               <button
                 class="btn btn-danger"
                 id="profile-delete-photo"
@@ -432,7 +408,6 @@ exports[`StudentProfilePageComponent should snap with values and a profile photo
                 formcontrolname="studentnationality"
                 id="studentnationality"
               >
-                
                 <option
                   value="Derpistan"
                 >
@@ -451,7 +426,6 @@ exports[`StudentProfilePageComponent should snap with values and a profile photo
             <div
               class="form-group"
             >
-              
               <div
                 class="custom-control-inline"
               >
@@ -511,7 +485,6 @@ exports[`StudentProfilePageComponent should snap with values and a profile photo
                 placeholder="You may specify miscellaneous info about yourself e.g. links to home page, online CV, portfolio etc."
                 rows="4"
               >
-                            
               </textarea>
             </div>
             <div
@@ -521,7 +494,6 @@ exports[`StudentProfilePageComponent should snap with values and a profile photo
                 class="btn btn-primary student-save-profile"
                 type="submit"
               >
-                
                  Save Profile 
               </button>
             </div>
@@ -534,8 +506,6 @@ exports[`StudentProfilePageComponent should snap with values and a profile photo
         </div>
       </div>
     </div>
-    
-    
   </tm-loading-retry>
 </tm-student-profile-page>
 `;

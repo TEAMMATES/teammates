@@ -8,7 +8,6 @@ exports[`McqQuestionAdditionalInfoComponent should show generator option message
   Multiple-choice (single answer) question options:
   <div>
      The options for this question is automatically generated from the list of all students in this course.
-  
   </div>
 </tm-mcq-question-additional-info>
 `;
@@ -20,7 +19,6 @@ exports[`McqQuestionAdditionalInfoComponent should show mcq options 1`] = `
 >
   Multiple-choice (single answer) question options:
   <ul>
-    
     <li>
       1
     </li>
@@ -30,7 +28,6 @@ exports[`McqQuestionAdditionalInfoComponent should show mcq options 1`] = `
     <li>
       3
     </li>
-    
   </ul>
 </tm-mcq-question-additional-info>
 `;
@@ -42,7 +39,6 @@ exports[`McqQuestionAdditionalInfoComponent should show other when "other" optio
 >
   Multiple-choice (single answer) question options:
   <ul>
-    
     <li>
       1
     </li>
@@ -52,7 +48,6 @@ exports[`McqQuestionAdditionalInfoComponent should show other when "other" optio
     <li>
       3
     </li>
-    
     <li>
       Other
     </li>
@@ -67,8 +62,6 @@ exports[`McqQuestionAdditionalInfoComponent should snap with default view 1`] = 
 >
   Multiple-choice (single answer) question options:
   <ul>
-    
-    
   </ul>
 </tm-mcq-question-additional-info>
 `;

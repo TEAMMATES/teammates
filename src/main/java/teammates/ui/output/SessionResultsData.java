@@ -129,7 +129,7 @@ public class SessionResultsData extends ApiOutput {
                 || !isUserInstructor && question.getGiverType() != FeedbackParticipantType.INSTRUCTORS);
         boolean isUserTeamGiver = question.getGiverType() == FeedbackParticipantType.TEAMS
                 && student.getTeam().equals(response.getGiver());
-        String giverName = "";
+        String giverName;
         String giverTeam = "";
         if (isUserTeamGiver) {
             giverName = String.format("Your Team (%s)", response.getGiver());
@@ -149,7 +149,7 @@ public class SessionResultsData extends ApiOutput {
         boolean isUserTeamRecipient = (question.getRecipientType() == FeedbackParticipantType.TEAMS
                 || question.getRecipientType() == FeedbackParticipantType.TEAMS_IN_SAME_SECTION)
                 && student.getTeam().equals(response.getRecipient());
-        String recipientName = "";
+        String recipientName;
         String recipientTeam = "";
         if (isUserRecipient) {
             recipientName = "You";
@@ -311,7 +311,7 @@ public class SessionResultsData extends ApiOutput {
 
         CourseRoster.ParticipantInfo userInfo = bundle.getRoster().getInfoForIdentifier(response.getRecipient());
         String name = userInfo.getName();
-        if (response.getRecipient().equals(Const.GENERAL_QUESTION)) {
+        if (Const.GENERAL_QUESTION.equals(response.getRecipient())) {
             // for general question
             name = Const.USER_NOBODY_TEXT;
         }
@@ -523,7 +523,7 @@ public class SessionResultsData extends ApiOutput {
                 responseOutput = new ResponseOutput();
             }
 
-            private Builder withIsMissingResponse(boolean isMissingResponse) {
+            Builder withIsMissingResponse(boolean isMissingResponse) {
                 responseOutput.isMissingResponse = isMissingResponse;
                 return this;
             }
@@ -538,12 +538,12 @@ public class SessionResultsData extends ApiOutput {
                 return this;
             }
 
-            private Builder withRelatedGiverEmail(@Nullable String relatedGiverEmail) {
+            Builder withRelatedGiverEmail(@Nullable String relatedGiverEmail) {
                 responseOutput.relatedGiverEmail = relatedGiverEmail;
                 return this;
             }
 
-            private Builder withGiverTeam(String giverTeam) {
+            Builder withGiverTeam(String giverTeam) {
                 responseOutput.giverTeam = giverTeam;
                 return this;
             }
@@ -563,7 +563,7 @@ public class SessionResultsData extends ApiOutput {
                 return this;
             }
 
-            private Builder withRecipientTeam(String recipientTeam) {
+            Builder withRecipientTeam(String recipientTeam) {
                 responseOutput.recipientTeam = recipientTeam;
                 return this;
             }

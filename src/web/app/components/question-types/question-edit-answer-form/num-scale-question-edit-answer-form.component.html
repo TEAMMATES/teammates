@@ -1,7 +1,7 @@
 <div class="form-row text-left">
   <div class="col-md-2 col-xs-5">
     <input type="number" class="form-control" min="{{ questionDetails.minScale }}" max="{{ questionDetails.maxScale }}" step="{{ questionDetails.step }}" tmDisableWheel
-           [ngModel]="responseDetails.answer == NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED ? '' : responseDetails.answer" (ngModelChange)="triggerResponseDetailsChange('answer', $event)" [disabled]="isDisabled">
+           [ngModel]="responseDetails.answer === NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED ? '' : responseDetails.answer" (ngModelChange)="triggerResponseDetailsChange('answer', $event)" [disabled]="isDisabled">
   </div>
   <div id="possible-values" class="col-md-9 col-xs-6 text-secondary">
     Possible values: {{ possibleValues }}
@@ -9,8 +9,8 @@
 </div>
 <div class="row mt-1">
   <div class="col-12">
-    <p *ngIf="!isValidPossibleValue(responseDetails.answer) && responseDetails.answer != NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED" class="text-danger">The scale entered is not a possible value.</p>
-    <p *ngIf="responseDetails.answer == NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED" class="text-info">Please enter a scale number.</p>
+    <p *ngIf="!isValidPossibleValue(responseDetails.answer) && responseDetails.answer !== NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED" class="text-danger">The scale entered is not a possible value.</p>
+    <p *ngIf="responseDetails.answer === NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED" class="text-info">Please enter a scale number.</p>
   </div>
 </div>
 <br>

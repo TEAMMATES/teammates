@@ -51,7 +51,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
     public List<String> validateQuestionDetails() {
         List<String> errors = new ArrayList<>();
 
-        boolean isEmptyRankOptionEntered = options.stream().anyMatch(optionText -> optionText.trim().equals(""));
+        boolean isEmptyRankOptionEntered = options.stream().anyMatch(optionText -> "".equals(optionText.trim()));
         if (isEmptyRankOptionEntered) {
             errors.add(ERROR_EMPTY_OPTIONS_ENTERED);
         }

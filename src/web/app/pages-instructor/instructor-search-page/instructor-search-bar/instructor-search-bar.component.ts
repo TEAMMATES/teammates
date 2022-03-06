@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 /**
  * Parameters inputted by user to be used in search
@@ -15,7 +15,7 @@ export interface SearchParams {
   templateUrl: './instructor-search-bar.component.html',
   styleUrls: ['./instructor-search-bar.component.scss'],
 })
-export class InstructorSearchBarComponent implements OnInit {
+export class InstructorSearchBarComponent {
 
   @Input() searchParams: SearchParams = {
     searchKey: '',
@@ -25,10 +25,6 @@ export class InstructorSearchBarComponent implements OnInit {
 
   @Output() searchParamsChange: EventEmitter<SearchParams> = new EventEmitter();
 
-  constructor() {}
-
-  ngOnInit(): void {}
-
   /**
    * send the search data to parent for processing
    */
@@ -37,7 +33,7 @@ export class InstructorSearchBarComponent implements OnInit {
   }
 
   triggerSearchParamsChangeEvent(field: string, data: any): void {
-    this.searchParamsChange.emit(Object.assign({}, this.searchParams, { [field]: data }));
+    this.searchParamsChange.emit({ ...this.searchParams, [field]: data });
   }
 
   onSearchKeyChange(newKey: string): void {

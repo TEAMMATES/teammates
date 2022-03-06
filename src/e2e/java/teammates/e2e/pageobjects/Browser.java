@@ -2,10 +2,10 @@ package teammates.e2e.pageobjects;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.Duration;
+import java.util.ArrayDeque;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Stack;
-import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.JavascriptExecutor;
@@ -47,13 +47,13 @@ public class Browser {
     /**
      * Keeps track of multiple windows opened by the {@link WebDriver}.
      */
-    private final Stack<String> windowHandles = new Stack<>();
+    private final ArrayDeque<String> windowHandles = new ArrayDeque<>();
 
     public Browser() {
         this.driver = createWebDriver();
         this.driver.manage().window().maximize();
-        this.driver.manage().timeouts().pageLoadTimeout(TestProperties.TEST_TIMEOUT * 2, TimeUnit.SECONDS);
-        this.driver.manage().timeouts().setScriptTimeout(TestProperties.TEST_TIMEOUT, TimeUnit.SECONDS);
+        this.driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(TestProperties.TEST_TIMEOUT * 2L));
+        this.driver.manage().timeouts().scriptTimeout(Duration.ofSeconds(TestProperties.TEST_TIMEOUT));
     }
 
     public void addCookie(String name, String value, boolean isSecure, boolean isHttpOnly) {
@@ -86,7 +86,7 @@ public class Browser {
      */
     public void waitForPageLoad(boolean excludeToast) {
         try {
-            WebDriverWait wait = new WebDriverWait(driver, TestProperties.TEST_TIMEOUT);
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(TestProperties.TEST_TIMEOUT));
             wait.until(driver -> {
                 return "complete".equals(
                         ((JavascriptExecutor) driver).executeAsyncScript(PAGE_LOAD_SCRIPT, excludeToast ? 1 : 0)
@@ -101,7 +101,7 @@ public class Browser {
      * Waits for the page to load by only looking at the page's readyState.
      */
     public void waitForPageReadyState() {
-        WebDriverWait wait = new WebDriverWait(driver, TestProperties.TEST_TIMEOUT);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(TestProperties.TEST_TIMEOUT));
         wait.until(driver -> {
             return "complete".equals(((JavascriptExecutor) driver).executeScript("return document.readyState"));
         });

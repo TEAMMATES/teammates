@@ -7,9 +7,15 @@ import { CommentToCommentRowModelPipe } from '../../components/comment-box/comme
 import { CommentsToCommentTableModelPipe } from '../../components/comment-box/comments-to-comment-table-model.pipe';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { PanelChevronModule } from '../../components/panel-chevron/panel-chevron.module';
-import { GqrRqgViewResponsesModule } from '../../components/question-responses/gqr-rqg-view-responses/gqr-rqg-view-responses.module';
-import { GrqRgqViewResponsesModule } from '../../components/question-responses/grq-rgq-view-responses/grq-rgq-view-responses.module';
-import { PerQuestionViewResponsesModule } from '../../components/question-responses/per-question-view-responses/per-question-view-responses.module';
+import {
+  GqrRqgViewResponsesModule,
+} from '../../components/question-responses/gqr-rqg-view-responses/gqr-rqg-view-responses.module';
+import {
+  GrqRgqViewResponsesModule,
+} from '../../components/question-responses/grq-rgq-view-responses/grq-rgq-view-responses.module';
+import {
+  PerQuestionViewResponsesModule,
+} from '../../components/question-responses/per-question-view-responses/per-question-view-responses.module';
 import { SingleStatisticsModule } from '../../components/question-responses/single-statistics/single-statistics.module';
 import { QuestionTextWithInfoModule } from '../../components/question-text-with-info/question-text-with-info.module';
 import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';

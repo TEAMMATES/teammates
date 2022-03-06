@@ -22,8 +22,6 @@ export class ConstsumOptionsFieldComponent {
   @Output()
   textChange: EventEmitter<any> = new EventEmitter();
 
-  constructor() { }
-
   /**
    * When user enters an option text, emit the change to parent component.
    */

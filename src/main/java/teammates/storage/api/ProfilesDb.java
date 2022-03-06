@@ -50,8 +50,8 @@ public final class ProfilesDb extends EntitiesDb<StudentProfile, StudentProfileA
         assert updateOptions != null;
 
         StudentProfile studentProfile = getStudentProfileEntityFromDb(updateOptions.getGoogleId());
-        boolean shouldCreateEntity = studentProfile == null; // NOPMD
-        if (studentProfile == null) {
+        boolean shouldCreateEntity = studentProfile == null;
+        if (shouldCreateEntity) {
             studentProfile = new StudentProfile(updateOptions.getGoogleId());
         }
 

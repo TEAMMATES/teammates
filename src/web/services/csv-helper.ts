@@ -1,4 +1,3 @@
-
 const LINE_SEPARATOR: string = '\r\n';
 
 /**

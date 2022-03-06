@@ -152,8 +152,6 @@ exports[`AdminSearchPageComponent should snap with an expanded account requests 
           </tr>
         </thead>
         <tbody>
-          
-          
           <tr>
             <td>
                name 
@@ -161,8 +159,6 @@ exports[`AdminSearchPageComponent should snap with an expanded account requests 
               <div
                 class="col-sm-1"
               >
-                
-                
                 <button
                   class="btn"
                 >
@@ -186,12 +182,10 @@ exports[`AdminSearchPageComponent should snap with an expanded account requests 
               Not Registered Yet
             </td>
           </tr>
-          
           <tr>
             <td
               colspan="6"
             >
-              
               <ul
                 class="list-group ng-trigger ng-trigger-collapseAnim ng-animating"
                 style=""
@@ -210,7 +204,6 @@ exports[`AdminSearchPageComponent should snap with an expanded account requests 
               </ul>
             </td>
           </tr>
-          
         </tbody>
       </table>
     </div>
@@ -320,8 +313,6 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
           </tr>
         </thead>
         <tbody>
-          
-          
           <tr>
             <td
               class="text-break"
@@ -333,8 +324,6 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
               <div
                 class="col-sm-1"
               >
-                
-                
                 <button
                   class="btn"
                 >
@@ -361,7 +350,6 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
               institute
             </td>
             <td>
-              
               <a
                 href="manage-account-link"
                 rel="noopener noreferrer"
@@ -373,7 +361,6 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
                  Manage this account 
               </a>
               <br />
-              
               <a
                 href="javascript:;"
                 id="reset-instructor-id-0"
@@ -392,7 +379,6 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
               </button>
             </td>
           </tr>
-          
           <tr>
             <td
               colspan="5"
@@ -422,7 +408,6 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
                     readonly=""
                   />
                 </li>
-                
                 <li
                   class="list-group-item list-group-item-light"
                 >
@@ -434,7 +419,6 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
                     readonly=""
                   />
                 </li>
-                
                 <li
                   class="list-group-item list-group-item-warning"
                 >
@@ -446,7 +430,6 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
                     readonly=""
                   />
                 </li>
-                
                 <li
                   class="list-group-item list-group-item-danger"
                 >
@@ -458,7 +441,6 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
                     readonly=""
                   />
                 </li>
-                
                 <li
                   class="list-group-item list-group-item-success"
                 >
@@ -473,7 +455,6 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
               </ul>
             </td>
           </tr>
-          
         </tbody>
       </table>
     </div>
@@ -586,8 +567,6 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
           </tr>
         </thead>
         <tbody>
-          
-          
           <tr>
             <td>
               <span
@@ -599,8 +578,6 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
               <div
                 class="col-sm-1"
               >
-                
-                
                 <button
                   class="btn"
                 >
@@ -615,7 +592,6 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
               Alice Betsy
             </td>
             <td>
-              
               <a
                 href="home-page-link"
                 rel="noopener noreferrer"
@@ -631,7 +607,6 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
               comments
             </td>
             <td>
-              
               <a
                 href="manage-account-link"
                 rel="noopener noreferrer"
@@ -643,7 +618,6 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
                  Manage this account 
               </a>
               <br />
-              
               <a
                 href="javascript:;"
                 id="reset-student-id-0"
@@ -666,7 +640,6 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
             <td
               colspan="6"
             >
-              
               <ul
                 class="list-group ng-trigger ng-trigger-collapseAnim ng-animating"
                 style=""
@@ -700,7 +673,6 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
                     readonly=""
                   />
                 </li>
-                
                 <li
                   class="list-group-item list-group-item-light"
                   style=""
@@ -720,7 +692,6 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
                     readonly=""
                   />
                 </li>
-                
                 <li
                   class="list-group-item list-group-item-warning"
                   style=""
@@ -740,7 +711,6 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
                     readonly=""
                   />
                 </li>
-                
                 <li
                   class="list-group-item list-group-item-danger"
                   style=""
@@ -760,7 +730,6 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
                     readonly=""
                   />
                 </li>
-                
                 <li
                   class="list-group-item list-group-item-success"
                   style=""

@@ -1,0 +1,167 @@
+root: true
+
+ignorePatterns:
+- projects/**/*
+
+plugins:
+- deprecation
+
+overrides:
+- files:
+  - "*.ts"
+  parserOptions:
+    project:
+    - tsconfig.json
+    createDefaultProgram: true
+  extends:
+  - plugin:@angular-eslint/recommended
+  - plugin:@angular-eslint/template/process-inline-templates
+  - plugin:jest/recommended
+  - plugin:jsdoc/recommended
+  - plugin:rxjs/recommended
+  - airbnb-base
+  - airbnb-typescript/base
+  rules:
+    "@angular-eslint/component-selector":
+    - error
+    - prefix: tm
+      style: kebab-case
+      type: element
+    "@angular-eslint/directive-selector":
+    - error
+    - prefix: tm
+      style: camelCase
+      type: attribute
+    "import/extensions":
+    - off
+    "import/no-named-default":
+    - off
+    "import/order":
+    - error
+    - groups:
+      - ['builtin', 'external', 'internal']
+      alphabetize:
+        order: asc
+        caseInsensitive: true
+    "import/prefer-default-export":
+    - off
+    "jest/expect-expect":
+    - error
+    "jsdoc/newline-after-description":
+    - error
+    "jsdoc/check-param-names":
+    - error
+    "jsdoc/valid-types":
+    - error
+    "jsdoc/require-param":
+    - off
+    "jsdoc/require-param-type":
+    - off
+    "jsdoc/require-returns":
+    - off
+    "jsdoc/require-returns-type":
+    - off
+    "rxjs/no-ignored-takewhile-value":
+    - off
+    "rxjs/no-implicit-any-catch":
+    - off
+    "rxjs/no-nested-subscribe":
+    - off
+    "@typescript-eslint/explicit-function-return-type":
+    - error
+    - allowExpressions: true
+    "@typescript-eslint/indent":
+    # Not enforcing due to https://github.com/typescript-eslint/typescript-eslint/issues/1824
+    - off
+    # - error
+    # - 2
+    # - SwitchCase: 1
+    #   MemberExpression: 2
+    #   FunctionDeclaration:
+    #     parameters: 2
+    #   FunctionExpression:
+    #     parameters: 2
+    #   CallExpression:
+    #     arguments: 2
+    #   ignoredNodes:
+    #   - ArrowFunction
+    #   - ClassDeclaration
+    #   - ConditionalExpression
+    #   - PropertyDeclaration
+    "@typescript-eslint/lines-between-class-members":
+    - off
+    "deprecation/deprecation":
+    - error
+    arrow-body-style:
+    - off
+    class-methods-use-this:
+    - off
+    function-call-argument-newline:
+    - off
+    function-paren-newline:
+    - off
+    implicit-arrow-linebreak:
+    - off
+    linebreak-style:
+    - off
+    max-classes-per-file:
+    - off
+    max-len:
+    - error
+    - code: 120
+      ignoreUrls: true
+      ignoreComments: false
+      ignoreRegExpLiterals: true
+      ignorePattern: "^\\} from '.*';"
+    no-console:
+    - error
+    - allow:
+      - error
+    no-continue:
+    - off
+    no-mixed-operators:
+    - off
+    no-negated-condition:
+    - error
+    no-param-reassign:
+    - error
+    - props: false
+    no-restricted-syntax:
+    - off
+    object-curly-newline:
+    - error
+    - ObjectExpression:
+        multiline: true
+        consistent: true
+      ObjectPattern:
+        multiline: true
+        consistent: true
+      ImportDeclaration:
+        multiline: true
+        consistent: true
+      ExportDeclaration:
+        multiline: true
+        consistent: true
+    operator-linebreak:
+    - error
+    - before
+    - overrides:
+        "=": after
+        "+=": after
+        "-=": after
+        "*=": after
+        "/=": after
+    padded-blocks:
+    - off
+    # - error
+    # - blocks: never
+    #   classes: always
+    #   switches: never
+    # - allowSingleLineBlocks: true
+    prefer-destructuring:
+    - off
+- files:
+  - "*.html"
+  extends:
+  - plugin:@angular-eslint/template/recommended
+  rules: {}

@@ -1,7 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
-
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RichTextEditorModule } from '../../rich-text-editor/rich-text-editor.module';
 import { TeammatesCommonModule } from '../../teammates-common/teammates-common.module';
@@ -15,7 +14,7 @@ describe('CommentEditFormComponent', () => {
   let component: CommentEditFormComponent;
   let fixture: ComponentFixture<CommentEditFormComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         CommentEditFormComponent,

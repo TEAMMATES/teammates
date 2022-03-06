@@ -56,7 +56,8 @@ export class StudentHomePageComponent implements OnInit {
   studentFeedbackSessionStatusClosed: string = ' The session is now closed for submissions.';
 
   // Error messages
-  allStudentFeedbackSessionsNotReturned: string = 'Something went wrong with fetching responses for all Feedback Sessions.';
+  allStudentFeedbackSessionsNotReturned: string =
+      'Something went wrong with fetching responses for all Feedback Sessions.';
 
   courses: StudentCourse[] = [];
   isCoursesLoading: boolean = false;
@@ -97,7 +98,9 @@ export class StudentHomePageComponent implements OnInit {
 
             const studentSessions: StudentSession[] = [];
             this.feedbackSessionsService.hasStudentResponseForAllFeedbackSessionsInCourse(course.courseId)
-              .pipe(finalize(() => this.isCoursesLoading = false))
+              .pipe(finalize(() => {
+                this.isCoursesLoading = false;
+              }))
               .subscribe((hasRes: HasResponses) => {
                 if (!hasRes.hasResponsesBySession) {
                   this.statusMessageService.showErrorToast(this.allStudentFeedbackSessionsNotReturned);
@@ -124,17 +127,18 @@ export class StudentHomePageComponent implements OnInit {
                   const isPublished: boolean = fs.publishStatus === FeedbackSessionPublishStatus.PUBLISHED;
 
                   const isSubmitted: boolean = hasRes.hasResponsesBySession[fs.feedbackSessionName];
-                  studentSessions.push(Object.assign({},
-                    { isOpened, isWaitingToOpen, isPublished, isSubmitted, session: fs }));
+                  studentSessions.push({
+                    isOpened, isWaitingToOpen, isPublished, isSubmitted, session: fs,
+                  });
                 }
               }, (error: ErrorMessageOutput) => {
                 this.hasCoursesLoadingFailed = true;
                 this.statusMessageService.showErrorToast(error.error.message);
               });
 
-            this.courses.push(Object.assign({}, { course, feedbackSessions: studentSessions }));
+            this.courses.push({ course, feedbackSessions: studentSessions });
             this.courses.sort((a: StudentCourse, b: StudentCourse) =>
-              (a.course.courseId > b.course.courseId) ? 1 : -1);
+              ((a.course.courseId > b.course.courseId) ? 1 : -1));
           }, (error: ErrorMessageOutput) => {
             this.hasCoursesLoadingFailed = true;
             this.statusMessageService.showErrorToast(error.error.message);
@@ -180,10 +184,16 @@ export class StudentHomePageComponent implements OnInit {
    */
   sortFeedbackSessions(fss: FeedbackSessions): FeedbackSession[] {
     return fss.feedbackSessions
-      .map((fs: FeedbackSession) => Object.assign({}, fs))
-      .sort((a: FeedbackSession, b: FeedbackSession) => (a.createdAtTimestamp >
-        b.createdAtTimestamp) ? 1 : (a.createdAtTimestamp === b.createdAtTimestamp) ?
-        ((a.submissionEndTimestamp > b.submissionEndTimestamp) ? 1 : -1) : -1);
+      .map((fs: FeedbackSession) => ({ ...fs }))
+      .sort((a: FeedbackSession, b: FeedbackSession) => {
+        if (a.createdAtTimestamp > b.createdAtTimestamp) {
+          return 1;
+        }
+        if (a.createdAtTimestamp === b.createdAtTimestamp) {
+          return a.submissionEndTimestamp > b.submissionEndTimestamp ? 1 : -1;
+        }
+        return -1;
+      });
   }
 
   sortCoursesBy(by: SortBy): void {

@@ -41,8 +41,11 @@ export class NumScaleQuestionStatisticsComponent extends NumScaleQuestionStatist
       { header: 'Average', sortBy: SortBy.NUMERICAL_SCALE_AVERAGE, headerToolTip: 'Average of the visible responses' },
       { header: 'Max', sortBy: SortBy.NUMERICAL_SCALE_MAX, headerToolTip: 'Maximum of the visible responses' },
       { header: 'Min', sortBy: SortBy.NUMERICAL_SCALE_MIN, headerToolTip: 'Minimum of the visible responses' },
-      { header: 'Average excluding self response', sortBy: SortBy.NUMERICAL_SCALE_AVERAGE_EXCLUDE_SELF,
-        headerToolTip: 'Average of the visible responses excluding recipient\'s own response to himself/herself'},
+      {
+        header: 'Average excluding self response',
+        sortBy: SortBy.NUMERICAL_SCALE_AVERAGE_EXCLUDE_SELF,
+        headerToolTip: 'Average of the visible responses excluding recipient\'s own response to himself/herself',
+      },
     ];
 
     this.rowsData = [];

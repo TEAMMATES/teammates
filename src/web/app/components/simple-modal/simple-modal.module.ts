@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ProgressBarModule } from '../../components/progress-bar/progress-bar.module';
+import { ProgressBarModule } from '../progress-bar/progress-bar.module';
 import { SimpleModalComponent } from './simple-modal.component';
 
 /**

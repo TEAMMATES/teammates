@@ -94,7 +94,9 @@ export class AddCourseFormComponent implements OnInit {
       courseName: this.newCourseName,
       timeZone: this.timezone,
       courseId: this.newCourseId,
-    }).pipe(finalize(() => this.isAddingCourse = false)).subscribe(() => {
+    }).pipe(finalize(() => {
+      this.isAddingCourse = false;
+    })).subscribe(() => {
       this.courseAdded.emit();
       this.statusMessageService.showSuccessToast('The course has been added.');
     }, (resp: ErrorMessageOutput) => {
