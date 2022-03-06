@@ -1086,27 +1086,26 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
         var instructor = responseBundle.instructors.get("instructor1OfCourse1");
         var sectionToTest = "Section A";
-        var questionResponseMapByGiver = frLogic.getSessionResultsForCourse(
+        Map<String, List<FeedbackResponseAttributes>> questionResponseMapByGiver = frLogic.getSessionResultsForCourse(
                 session.getFeedbackSessionName(), session.getCourseId(), instructor.getEmail(),
                 null, sectionToTest, FeedbackResultFetchType.GIVER)
                 .getQuestionResponseMap();
-        for (var questionResponse : questionResponseMapByGiver.entrySet()) {
-            var responses = questionResponse.getValue();
+        questionResponseMapByGiver.forEach((key, responses) -> {
             responses.forEach(resp -> {
                 assertEquals(sectionToTest, resp.getGiverSection());
             });
-        }
+        });
 
-        var questionResponseMapByReceiver = frLogic.getSessionResultsForCourse(
+        Map<String, List<FeedbackResponseAttributes>> questionResponseMapByReceiver =
+                frLogic.getSessionResultsForCourse(
                 session.getFeedbackSessionName(), session.getCourseId(), instructor.getEmail(),
                 null, sectionToTest, FeedbackResultFetchType.RECEIVER)
                 .getQuestionResponseMap();
-        for (var questionResponse : questionResponseMapByReceiver.entrySet()) {
-            var responses = questionResponse.getValue();
+        questionResponseMapByReceiver.forEach((key, responses) -> {
             responses.forEach(resp -> {
-                assertEquals(sectionToTest, resp.getGiverSection());
+                assertEquals(sectionToTest, resp.getRecipientSection());
             });
-        }
+        });
     }
 
     @Test
