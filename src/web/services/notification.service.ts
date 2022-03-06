@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 // import { ResourceEndpoints } from '../types/api-const';
-import { MessageOutput } from '../types/api-output';
+import { ApiOutput, MessageOutput } from '../types/api-output';
 import { BasicRequest } from '../types/api-request';
 // import { CreateNotificationRequest } from '../types/api-request';
 import { HttpRequestService } from './http-request.service';
@@ -19,6 +19,19 @@ export interface CreateNotificationRequest extends BasicRequest {
 export enum ResourceEndpoints {
   NOTIFICATION = '/webapi/notification',
 }
+export interface Notification extends ApiOutput {
+  notificationId: string;
+  startTimestamp: number;
+  endTimestamp: number;
+  notificationType: string;
+  targetUser: string;
+  title: string;
+  message: string;
+  shown: boolean;
+}
+export interface Notifications extends ApiOutput {
+  notifications: Notification[];
+}
 
 /**
  * Handles notification related logic injection
@@ -35,5 +48,16 @@ export class NotificationService {
    */
   createNotification(request: CreateNotificationRequest): Observable<MessageOutput> {
     return this.httpRequestService.post(ResourceEndpoints.NOTIFICATION, {}, request);
+  }
+
+  /**
+   * Retrieve all notifications by calling API.
+   */
+  getNotifications(): Observable<Notifications> {
+    // TODO: Probably move the isFetchingAll parameter to constants
+    const paramMap: Record<string, string> = {
+      isFetchingAll: '1',
+    };
+    return this.httpRequestService.get(ResourceEndpoints.NOTIFICATION, paramMap);
   }
 }

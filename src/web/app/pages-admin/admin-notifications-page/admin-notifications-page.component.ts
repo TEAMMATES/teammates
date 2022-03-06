@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { finalize } from 'rxjs/operators';
-import { NotificationService } from '../../../services/notification.service';
+// FIXME: This Notification is to be imported from api-output after GET route PR is merged
+import { NotificationService, Notification, Notifications } from '../../../services/notification.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
@@ -16,7 +17,7 @@ import {
   styleUrls: ['./admin-notifications-page.component.scss'],
   animations: [collapseAnim],
 })
-export class AdminNotificationsPageComponent {
+export class AdminNotificationsPageComponent implements OnInit {
 
   NotificationEditFormMode = NotificationEditFormMode;
 
@@ -45,7 +46,7 @@ export class AdminNotificationsPageComponent {
     isDeleting: false,
   };
 
-  notifications: any[] = [];
+  notifications: Notification[] = [];
 
   constructor(
     private notificationService: NotificationService,
@@ -53,7 +54,29 @@ export class AdminNotificationsPageComponent {
     private timezoneService: TimezoneService,
   ) {}
 
+  ngOnInit(): void {
+    this.loadNotifications();
+  }
+
+  loadNotifications(): void {
+    this.isNotificationLoading = true;
+    this.notificationService.getNotifications()
+      .pipe(finalize(() => { this.isNotificationLoading = false; }))
+      .subscribe(
+        (notifications: Notifications) => {
+          this.notifications = notifications.notifications;
+        },
+        (resp: ErrorMessageOutput) => {
+          this.hasNotificationLoadingFailed = true;
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
+      );
+  }
+
   retryLoadingAllData(): void {
+    this.isNotificationLoading = false;
+    this.hasNotificationLoadingFailed = false;
+    this.loadNotifications();
   }
 
   /**
