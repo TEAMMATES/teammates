@@ -2,6 +2,7 @@ package teammates.logic.core;
 
 import java.util.List;
 
+import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.attributes.NotificationAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -43,7 +44,7 @@ public final class NotificationsLogic {
      *
      * @return a list of notifications with the specified {@code notificationIds}.
      */
-    public List<NotificationAttributes> getNotificationsByTargetUser(String targetUser) {
+    public List<NotificationAttributes> getNotificationsByTargetUser(NotificationTargetUser targetUser) {
         return notificationsDb.getNotificationsByTargetUser(targetUser);
     }
 

@@ -8,6 +8,7 @@ import java.util.Set;
 import javax.annotation.Nullable;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
@@ -83,7 +84,7 @@ public class Logic {
         return coursesLogic.getCourseInstitute(courseId);
     }
 
-    public List<NotificationAttributes> getNotificationsByTargetUser(String targetUser) {
+    public List<NotificationAttributes> getNotificationsByTargetUser(NotificationTargetUser targetUser) {
         return notificationsLogic.getNotificationsByTargetUser(targetUser);
     }
 

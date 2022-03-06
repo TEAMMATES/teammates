@@ -4,11 +4,11 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.time.Instant;
 import java.util.List;
-import java.util.Objects;
 
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.LoadType;
 
+import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.attributes.NotificationAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -47,7 +47,7 @@ public final class NotificationsDb extends EntitiesDb<Notification, Notification
      *
      * @return a list of notifications for the specified targetUser.
      */
-    public List<NotificationAttributes> getNotificationsByTargetUser(String targetUser) {
+    public List<NotificationAttributes> getNotificationsByTargetUser(NotificationTargetUser targetUser) {
         assert targetUser != null;
 
         List<Notification> notifications = load()
@@ -56,9 +56,9 @@ public final class NotificationsDb extends EntitiesDb<Notification, Notification
                 .filter("endTime >", Instant.now())
                 .list();
 
-        if (!Objects.equals(targetUser, Const.NotificationTargetUser.GENERAL)) {
+        if (targetUser != NotificationTargetUser.GENERAL) {
             notifications.addAll(load()
-                    .filter("targetUser=", targetUser)
+                    .filter("targetUser=", targetUser.toSingularFormString())
                     .filter("startTime <", Instant.now())
                     .filter("endTime >", Instant.now())
                     .list());

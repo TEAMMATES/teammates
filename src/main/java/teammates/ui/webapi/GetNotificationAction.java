@@ -2,6 +2,7 @@ package teammates.ui.webapi;
 
 import java.util.List;
 
+import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.attributes.NotificationAttributes;
 import teammates.common.util.Const;
 import teammates.ui.output.NotificationData;
@@ -29,7 +30,8 @@ public class GetNotificationAction extends Action {
         //        boolean isFetchingAll = Boolean.parseBoolean(
         //                getRequestParamValue(Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL));
 
-        List<NotificationAttributes> notificationAttributes = logic.getNotificationsByTargetUser(targetUser);
+        List<NotificationAttributes> notificationAttributes =
+                logic.getNotificationsByTargetUser(NotificationTargetUser.find(targetUser));
 
         //        if (!isFetchingAll) {
         //            //TODO: only unread notifications returned

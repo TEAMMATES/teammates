@@ -9,6 +9,9 @@ import com.googlecode.objectify.annotation.Index;
 import com.googlecode.objectify.annotation.OnSave;
 import com.googlecode.objectify.annotation.Translate;
 
+import teammates.common.datatransfer.NotificationTargetUser;
+import teammates.common.datatransfer.NotificationType;
+
 /**
  * Represents a unique notification in the system.
  */
@@ -25,9 +28,9 @@ public class Notification extends BaseEntity {
     @Translate(InstantTranslatorFactory.class)
     private Instant endTime;
 
-    private String type;
+    private NotificationType type;
 
-    private String targetUser;
+    private NotificationTargetUser targetUser;
 
     private String title;
 
@@ -56,7 +59,7 @@ public class Notification extends BaseEntity {
      * @param title title of the notification
      * @param message message body of the notification
      */
-    public Notification(Instant startTime, Instant endTime, String type, String targetUser,
+    public Notification(Instant startTime, Instant endTime, NotificationType type, NotificationTargetUser targetUser,
             String title, String message) {
         this.setStartTime(startTime);
         this.setEndTime(endTime);
@@ -75,8 +78,9 @@ public class Notification extends BaseEntity {
      * Instantiates a new notification, with all fields passed in as parameters.
      * This is mainly for conversion from attributes to entity.
      */
-    public Notification(String notificationId, Instant startTime, Instant endTime, String type, String targetUser,
-            String title, String message, boolean shown, Instant createdAt, Instant updatedAt) {
+    public Notification(String notificationId, Instant startTime, Instant endTime,
+                        NotificationType type, NotificationTargetUser targetUser,
+                        String title, String message, boolean shown, Instant createdAt, Instant updatedAt) {
         this.setStartTime(startTime);
         this.setEndTime(endTime);
         this.setType(type);
@@ -110,19 +114,19 @@ public class Notification extends BaseEntity {
         this.endTime = endTime;
     }
 
-    public String getType() {
+    public NotificationType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(NotificationType type) {
         this.type = type;
     }
 
-    public String getTargetUser() {
+    public NotificationTargetUser getTargetUser() {
         return targetUser;
     }
 
-    public void setTargetUser(String targetUser) {
+    public void setTargetUser(NotificationTargetUser targetUser) {
         this.targetUser = targetUser;
     }
 
