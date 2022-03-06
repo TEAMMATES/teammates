@@ -51,13 +51,7 @@ public class InstructorStudentListPageE2ETest extends BaseE2ETestCase {
 
         StudentAttributes[] studentsInCourse1 = {};
 
-        // Note: by right, there should not be any student shown here as the instructor does not have sufficient privilege
-        // However, due to issue #8000, the students will be listed anyway
-        StudentAttributes[] studentsInCourse2 = {
-                testData.students.get("Student1Course2"),
-                testData.students.get("Student2Course2"),
-                testData.students.get("Student3Course2"),
-        };
+        StudentAttributes[] studentsInCourse2 = {};
 
         StudentAttributes[] studentsInCourse3 = {
                 testData.students.get("Student1Course3"),
