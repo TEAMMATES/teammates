@@ -180,33 +180,26 @@ public class EmailGeneratorTest extends BaseLogicTest {
                 "/sessionClosingEmailCopyToInstructor.html");
         verifyEmailReceivedCorrectly(emails, instructor1.getEmail(), subject, "/sessionClosingEmailForInstructor.html");
 
-        ______TS("feedback session closed alerts");
+        ______TS("feedback session closed alerts for co-owners");
 
         emails = emailGenerator.generateFeedbackSessionClosedEmails(session);
-        // 5 instructors, 3 students, and 3 co-owner instructors to be notified
-        assertEquals(11, emails.size());
+        List<InstructorAttributes> coOwners = instructorsLogic.getCoOwnersForCourse(course.getId());
+        assertEquals(coOwners.size(), emails.size());
 
         subject = String.format(EmailType.FEEDBACK_CLOSED.getSubject(),
                                 course.getName(), session.getFeedbackSessionName());
 
-        // student1 has attempted the feedback session and closed alert is only sent for those who are
-        // yet to attempt, so we resort to student5
-        StudentAttributes student5 = studentsLogic.getStudentForEmail(course.getId(), "student5InCourse1@gmail.tmt");
+        // this instructor email has been given co-owner privileges in the test file and has joined
+        InstructorAttributes coOwnerJoined =
+                instructorsLogic.getInstructorForEmail(course.getId(), "instructor1@course1.tmt");
 
-        for (EmailWrapper email : emails) {
-            if (email.getRecipient().equals(student1.getEmail())) {
-                fail("student1 has attempted the session and are not supposed to receive email");
-            }
-        }
-        verifyEmailReceivedCorrectly(emails, student5.getEmail(), subject, "/sessionClosedEmailForStudent.html");
-        verifyEmailReceivedCorrectly(emails, instructor1.getEmail(), EmailWrapper.EMAIL_COPY_SUBJECT_PREFIX + subject,
-                "/sessionClosedEmailCopyToInstructor.html");
-        verifyEmailReceivedCorrectly(emails, instructor1.getEmail(), subject, "/sessionClosedEmailForInstructor.html");
+        assertTrue(coOwnerJoined.hasCoownerPrivileges());
+
+        verifyEmailReceivedCorrectly(emails, coOwnerJoined.getEmail(), subject, "/sessionClosedEmailForCoOwner.html");
 
         ______TS("feedback session opening soon alerts for co-owners");
 
         emails = emailGenerator.generateFeedbackSessionOpeningSoonEmails(session);
-        List<InstructorAttributes> coOwners = instructorsLogic.getCoOwnersForCourse(course.getId());
         assertEquals(coOwners.size(), emails.size());
 
         subject = String.format(EmailType.FEEDBACK_OPENING_SOON.getSubject(), course.getName(),
@@ -220,10 +213,6 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         verifyEmailReceivedCorrectly(emails, coOwnerNotJoined.getEmail(), subject,
                 "/sessionOpeningSoonEmailForCoOwnerNotJoined.html");
-
-        // this instructor email has been given co-owner privileges in the test file and has joined
-        InstructorAttributes coOwnerJoined =
-                instructorsLogic.getInstructorForEmail(course.getId(), "instructor1@course1.tmt");
 
         assertTrue(coOwnerJoined.hasCoownerPrivileges());
 
@@ -334,9 +323,6 @@ public class EmailGeneratorTest extends BaseLogicTest {
         emails = emailGenerator.generateFeedbackSessionClosingEmails(notAnswerableSession);
         assertTrue(emails.isEmpty());
 
-        emails = emailGenerator.generateFeedbackSessionClosedEmails(notAnswerableSession);
-        assertTrue(emails.isEmpty());
-
         emails = emailGenerator.generateFeedbackSessionPublishedEmails(notAnswerableSession);
         assertTrue(emails.isEmpty());
 
@@ -369,18 +355,18 @@ public class EmailGeneratorTest extends BaseLogicTest {
         verifyEmailReceivedCorrectly(emails, instructor1.getEmail(), EmailWrapper.EMAIL_COPY_SUBJECT_PREFIX + subject,
                 "/sessionOpeningEmailTestingSanitizationCopyToInstructor.html");
 
-        ______TS("feedback session closed alerts: sanitization required");
+        ______TS("feedback session closing alerts: sanitization required");
 
-        emails = emailGenerator.generateFeedbackSessionClosedEmails(session);
+        emails = emailGenerator.generateFeedbackSessionClosingEmails(session);
         assertEquals(2, emails.size());
 
-        subject = String.format(EmailType.FEEDBACK_CLOSED.getSubject(),
+        subject = String.format(EmailType.FEEDBACK_CLOSING.getSubject(),
                 course.getName(), session.getFeedbackSessionName());
 
         verifyEmailReceivedCorrectly(emails, student1.getEmail(), subject,
-                "/sessionClosedEmailTestingSanitizationForStudent.html");
+                "/sessionClosingEmailTestingSanitizationForStudent.html");
         verifyEmailReceivedCorrectly(emails, instructor1.getEmail(), EmailWrapper.EMAIL_COPY_SUBJECT_PREFIX + subject,
-                "/sessionClosedEmailTestingSanitizationCopyToInstructor.html");
+                "/sessionClosingEmailTestingSanitizationCopyToInstructor.html");
 
         ______TS("feedback sessions summary of course email: sanitization required");
 
