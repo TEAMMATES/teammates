@@ -1,6 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { InstructorSessionResultSectionType } from '../app/pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
+import { InstructorSessionResultSectionType }
+  from '../app/pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
 import { ResourceEndpoints } from '../types/api-const';
 import {
   FeedbackConstantSumResponseDetails,
@@ -504,9 +505,9 @@ describe('FeedbackResponsesService', () => {
     const paramMap: Record<string, string> = {
       questionid: '[auto-generated Datastore ID]',
     };
-    const dummyAdditionalParams: { [key: string]: string } = {};
     const dummyRequest: FeedbackResponsesRequest = { responses: [] };
-    service.submitFeedbackResponses(paramMap.questionid, dummyAdditionalParams, dummyRequest);
+    const dummyAdditionalParams: { [key: string]: string } = {};
+    service.submitFeedbackResponses(paramMap.questionid, dummyRequest, dummyAdditionalParams);
     expect(spyHttpRequestService.put).toHaveBeenCalledWith(ResourceEndpoints.RESPONSES, paramMap, dummyRequest);
   });
 
@@ -518,13 +519,13 @@ describe('FeedbackResponsesService', () => {
       key: '[generated registration key]',
       moderatedperson: '',
     };
+    const dummyRequest: FeedbackResponsesRequest = { responses: [] };
     const dummyAdditionalParams: { [key: string]: string } = {
       intent: dummyIntent,
       key: paramMap.key,
       moderatedperson: paramMap.moderatedperson,
     };
-    const dummyRequest: FeedbackResponsesRequest = { responses: [] };
-    service.submitFeedbackResponses(paramMap.questionid, dummyAdditionalParams, dummyRequest);
+    service.submitFeedbackResponses(paramMap.questionid, dummyRequest, dummyAdditionalParams);
     expect(spyHttpRequestService.put).toHaveBeenCalledWith(ResourceEndpoints.RESPONSES, paramMap, dummyRequest);
   });
 });
