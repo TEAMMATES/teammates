@@ -92,5 +92,12 @@
         "teamName": "Team 1",
         "sectionName": "Tutorial Group 1",
         "courseId": "CS101"
+    },
+    "testStudent11": {
+        "email": "doejohn@email.com",
+        "courseId": "CS1234",
+        "name": "Doe John",
+        "teamName": "team 1",
+        "sectionName": "section 1"
     }
 }

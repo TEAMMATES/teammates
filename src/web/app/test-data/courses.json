@@ -17,7 +17,7 @@
             "canSubmitSessionInSections": true
         }
     },
-    "MA1234": {
+    "MA1234_with_privileges": {
         "courseId": "MA1234",
         "courseName": "MA1234",
         "institute": "Test Institute",
@@ -171,9 +171,6 @@
         "timeZone": "Asia/Singapore",
         "institute": "Test Institute"
     },
-
-
-
     "ST4234": {
         "courseId": "ST4234",
         "courseName": "Bayesian Statistics",
@@ -197,7 +194,21 @@
         "timeZone": "Asia/Singapore",
         "creationTimestamp": 0,
         "deletionTimestamp": 1000
+    },
+    "CS1234": {
+        "courseId": "CS1234",
+        "courseName": "test-course1",
+        "institute": "Test Institute",
+        "timeZone": "Asia/Singapore",
+        "creationTimestamp": 0,
+        "deletionTimestamp": 0
+    },
+    "MA1234_without_privileges": {
+        "courseId":"MA1234",
+        "courseName":"test-course2",
+        "institute":"Test Institute",
+        "timeZone":"Asia/Singapore",
+        "creationTimestamp": 0,
+        "deletionTimestamp": 0
     }
-
-
 }
