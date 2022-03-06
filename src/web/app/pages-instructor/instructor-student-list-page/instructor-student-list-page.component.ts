@@ -31,6 +31,7 @@ interface CourseTab {
   hasTabExpanded: boolean;
   hasStudentLoaded: boolean;
   hasLoadingFailed: boolean;
+  isAbleToViewStudents: boolean,
   stats: CourseStatistics;
 }
 
@@ -80,6 +81,7 @@ export class InstructorStudentListPageComponent implements OnInit {
               hasTabExpanded: false,
               hasStudentLoaded: false,
               hasLoadingFailed: false,
+              isAbleToViewStudents: true,
               stats: {
                 numOfSections: 0,
                 numOfStudents: 0,
@@ -155,7 +157,12 @@ export class InstructorStudentListPageComponent implements OnInit {
             this.statusMessageService.showErrorToast(resp.error.message);
           });
         }, (resp: ErrorMessageOutput) => {
-          courseTab.hasLoadingFailed = true;
+          if (resp.error.message === 'You are not authorized to access this resource.') {
+            courseTab.isAbleToViewStudents = false;
+            courseTab.hasStudentLoaded = true;
+          } else {
+            courseTab.hasLoadingFailed = true;
+          }
           courseTab.studentList = [];
           this.statusMessageService.showErrorToast(resp.error.message);
         });
