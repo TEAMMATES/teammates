@@ -70,7 +70,12 @@ public class InstructorStudentListPageE2ETest extends BaseE2ETestCase {
         courseIdToCourse.put(course2.getId(), course2);
         courseIdToCourse.put(course3.getId(), course3);
 
-        listPage.verifyStudentDetails(courseIdToCourse, courseIdToStudents);
+        Map<String, Boolean> courseIdToViewStudentsPermission = new HashMap<>();
+        courseIdToViewStudentsPermission.put(course1.getId(), true);
+        courseIdToViewStudentsPermission.put(course2.getId(), false);
+        courseIdToViewStudentsPermission.put(course3.getId(), true);
+
+        listPage.verifyStudentDetails(courseIdToCourse, courseIdToStudents, courseIdToViewStudentsPermission);
 
         ______TS("link: enroll page");
 
@@ -116,7 +121,7 @@ public class InstructorStudentListPageE2ETest extends BaseE2ETestCase {
                 testData.students.get("Student4Course3"),
         };
 
-        listPage.verifyStudentDetails(course3, studentsAfterDelete);
+        listPage.verifyStudentDetails(course3, studentsAfterDelete, true);
         verifyAbsentInDatabase(studentToDelete);
 
     }
