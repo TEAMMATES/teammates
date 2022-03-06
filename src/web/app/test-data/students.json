@@ -107,5 +107,14 @@
         "name": "Doe John",
         "teamName": "team 1",
         "sectionName": "section 1"
+    },
+    "testStudent12": {
+        "name": "John Doe",
+        "shortName": "JD",
+        "email": "jd@kd.com",
+        "institute": "Area51",
+        "nationality": "Antarctician",
+        "gender": "OTHER",
+        "moreInfo": ""
     }
 }
