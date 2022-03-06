@@ -1,57 +1,40 @@
 package teammates.common.datatransfer;
 
+import teammates.common.util.Const;
+
 /**
  * Represents the type of target user groups for notifications.
  */
 public enum NotificationType {
 
-    // booleans represent: isMaintenance?, isVersionNote?, isDeprecation?, isTips?
     /**
      * Notes for maintenance.
      */
-    MAINTENANCE(true, false, false, false),
+    MAINTENANCE(Const.NotificationType.MAINTENANCE),
 
     /**
      * Notes for version release.
      */
-    VERSION_NOTE(false, true, false, false),
+    VERSION_NOTE(Const.NotificationType.VERSION_NOTE),
 
     /**
      * Notes for deprecation.
      */
-    DEPRECATION(false, false, true, false),
+    DEPRECATION(Const.NotificationType.DEPRECATION),
 
     /**
      * Usage tips.
      */
-    TIPS(false, false, false, true);
+    TIPS(Const.NotificationType.TIPS);
 
-    private final boolean isMaintenance;
-    private final boolean isVersionNote;
-    private final boolean isDeprecation;
-    private final boolean isTips;
+    private final String notificationType;
 
-    NotificationType(boolean isMaintenance, boolean isVersionNote, boolean isDeprecation, boolean isTips) {
-        this.isMaintenance = isMaintenance;
-        this.isVersionNote = isVersionNote;
-        this.isDeprecation = isDeprecation;
-        this.isTips = isTips;
+    NotificationType(String notificationType) {
+        this.notificationType = notificationType;
     }
 
-    public boolean isMaintenance() {
-        return isMaintenance;
-    }
-
-    public boolean isVersionNote() {
-        return isVersionNote;
-    }
-
-    public boolean isDeprecation() {
-        return isDeprecation;
-    }
-
-    public boolean isTips() {
-        return isTips;
+    public String getNotificationType() {
+        return notificationType;
     }
 
     /**
@@ -75,19 +58,17 @@ public enum NotificationType {
     }
 
     /**
-     * Finds the matching type of given string.
-     *
-     * @return An enum that matches the given {@code String s}.
+     * Get enum from string.
      */
-    public static NotificationType find(String s) {
-        switch (s) {
-        case "maintenance":
+    public static NotificationType getEnum(String notificationType) {
+        switch (notificationType) {
+        case Const.NotificationType.MAINTENANCE:
             return MAINTENANCE;
-        case "versionnote":
+        case Const.NotificationType.VERSION_NOTE:
             return VERSION_NOTE;
-        case "deprecation":
+        case Const.NotificationType.DEPRECATION:
             return DEPRECATION;
-        case "tips":
+        case Const.NotificationType.TIPS:
             return TIPS;
         default:
             return null;

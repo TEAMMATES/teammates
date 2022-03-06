@@ -1,47 +1,35 @@
 package teammates.common.datatransfer;
 
+import teammates.common.util.Const;
+
 /**
  * Represents the type of target user groups for notifications.
  */
 public enum NotificationTargetUser {
 
-    // booleans represent: hasStudent?, hasInstructor?
-
     /**
      * Target users are students only.
      */
-    STUDENT(true, false),
+    STUDENT(Const.NotificationTargetUser.STUDENT),
 
     /**
      * Target users are instructors only.
      */
-    INSTRUCTOR(false, true),
+    INSTRUCTOR(Const.NotificationTargetUser.INSTRUCTOR),
 
     /**
      * Target users are both instructors and students.
      */
-    GENERAL(true, true);
+    GENERAL(Const.NotificationTargetUser.GENERAL);
 
-    private final boolean hasStudent;
-    private final boolean hasInstructor;
+    private final String targetUser;
 
-    NotificationTargetUser(boolean hasStudent, boolean hasInstructor) {
-        this.hasStudent = hasStudent;
-        this.hasInstructor = hasInstructor;
+    NotificationTargetUser(String targetUser) {
+        this.targetUser = targetUser;
     }
 
-    /**
-     * Checks if a target group includes students.
-     */
-    public boolean hasStudent() {
-        return hasStudent;
-    }
-
-    /**
-     * Checks if a target group includes instructors.
-     */
-    public boolean hasInstructor() {
-        return hasInstructor;
+    public String getTargetUser() {
+        return targetUser;
     }
 
     /**
@@ -63,17 +51,15 @@ public enum NotificationTargetUser {
     }
 
     /**
-     * Finds the matching type of given string.
-     *
-     * @return An enum that matches the given {@code String s}.
+     * Get enum from string.
      */
-    public static NotificationTargetUser find(String s) {
-        switch (s) {
-        case "student":
+    public static NotificationTargetUser getEnum(String targetUser) {
+        switch (targetUser) {
+        case Const.NotificationTargetUser.STUDENT:
             return STUDENT;
-        case "instructor":
+        case Const.NotificationTargetUser.INSTRUCTOR:
             return INSTRUCTOR;
-        case "general":
+        case Const.NotificationTargetUser.GENERAL:
             return GENERAL;
         default:
             return null;

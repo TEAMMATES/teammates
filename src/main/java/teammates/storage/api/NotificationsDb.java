@@ -13,7 +13,6 @@ import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.attributes.NotificationAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Const;
 import teammates.storage.entity.Notification;
 
 /**
@@ -52,28 +51,28 @@ public final class NotificationsDb extends EntitiesDb<Notification, Notification
         assert targetUser != null;
 
         List<Notification> endEntities = load()
-                .filter("targetUser=", Const.NotificationTargetUser.GENERAL)
+                .filter("targetUser", targetUser)
                 .filter("endTime >", Instant.now())
                 .list();
 
         List<Notification> startEntities = load()
-                .filter("targetUser=", Const.NotificationTargetUser.GENERAL)
+                .filter("targetUser", targetUser)
                 .filter("startTime <", Instant.now())
                 .list();
 
         if (targetUser != NotificationTargetUser.GENERAL) {
             endEntities.addAll(load()
-                    .filter("targetUser=", targetUser.toSingularFormString())
+                    .filter("targetUser", NotificationTargetUser.GENERAL)
                     .filter("endTime >", Instant.now())
                     .list());
             startEntities.addAll(load()
-                .filter("targetUser=", Const.NotificationTargetUser.GENERAL)
-                .filter("startTime <", Instant.now())
-                .list());
+                    .filter("targetUser", NotificationTargetUser.GENERAL)
+                    .filter("startTime <", Instant.now())
+                    .list());
         }
 
         List<String> startEntitiesIds = startEntities.stream()
-                .map(notif -> notif.getNotificationId())
+                .map(Notification::getNotificationId)
                 .collect(Collectors.toList());
 
         List<Notification> ongoingNotifications = endEntities.stream()

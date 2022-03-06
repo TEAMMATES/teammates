@@ -19,7 +19,6 @@ import teammates.storage.entity.Notification;
  */
 public class NotificationAttributes extends EntityAttributes<Notification> {
 
-    // TODO: use enum defined in datatransfer folder for target user and type.
     private String notificationId;
     private Instant startTime;
     private Instant endTime;
@@ -145,6 +144,10 @@ public class NotificationAttributes extends EntityAttributes<Notification> {
     }
 
     public Instant getCreatedAt() {
+        // TODO: temporary fix for null createdAt
+        // if (createdAt == null) {
+        //     return Instant.now();
+        // }
         return createdAt;
     }
 
@@ -165,7 +168,7 @@ public class NotificationAttributes extends EntityAttributes<Notification> {
      */
     public static void sortByStartTime(List<NotificationAttributes> notifications) {
         notifications.sort(Comparator.comparing(NotificationAttributes::getStartTime));
-        notifications.sort(Collections.reverseOrder());
+        Collections.reverse(notifications);
     }
 
     @Override
@@ -192,7 +195,7 @@ public class NotificationAttributes extends EntityAttributes<Notification> {
     @Override
     public Notification toEntity() {
         return new Notification(notificationId, startTime, endTime, type,
-                targetUser, title, message, shown, createdAt, updatedAt);
+                targetUser, title, message, shown, updatedAt);
     }
 
     @Override
