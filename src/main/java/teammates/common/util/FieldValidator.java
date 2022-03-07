@@ -554,8 +554,8 @@ public final class FieldValidator {
      *
      * @param notificationTitle The title of the notification.
 
-     * @return An explanation of why the {@code value} is not acceptable.
-     *         Returns an empty string "" if the {@code value} is acceptable.
+     * @return An explanation of why the {@code notificationTitle} is not acceptable.
+     *         Returns an empty string "" if the {@code notificationTitle} is acceptable.
      */
     public static String getInvalidityInfoForNotificationTitle(String notificationTitle) {
 
@@ -574,8 +574,8 @@ public final class FieldValidator {
      *
      * @param notificationMessage The notification message.
 
-     * @return An explanation of why the {@code value} is not acceptable.
-     *         Returns an empty string "" if the {@code value} is acceptable.
+     * @return An explanation of why the {@code notificationMessage} is not acceptable.
+     *         Returns an empty string "" if the {@code notificationMessage} is acceptable.
      */
     public static String getInvalidityInfoForNotificationBody(String notificationMessage) {
 
