@@ -132,7 +132,8 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 InstructorSearchIndexingWorkerAction.class,
                 StudentSearchIndexingWorkerAction.class,
                 AccountRequestSearchIndexingWorkerAction.class,
-                SearchAccountRequestsAction.class
+                SearchAccountRequestsAction.class,
+                CreateNotificationAction.class
         );
         List<String> expectedActionClassesNames = expectedActionClasses.stream()
                 .map(Class::getSimpleName)
