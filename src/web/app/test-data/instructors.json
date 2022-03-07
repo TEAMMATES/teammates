@@ -1,0 +1,14 @@
+{
+    "instructor1":{
+        "courseId": "exampleId",
+        "email": "instructor1@gmail.com",
+        "joinState": "JOINED",
+        "name": "Instructor 1" 
+    },
+    "instructor2":{
+        "courseId": "exampleId",
+        "email": "instructor2@gmail.com",
+        "joinState": "NOT_JOINED",
+        "name": "Instructor 2"
+    }
+}

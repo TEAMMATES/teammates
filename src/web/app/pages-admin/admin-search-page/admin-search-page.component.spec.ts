@@ -17,6 +17,7 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
 import { AdminSearchPageComponent } from './admin-search-page.component';
+import { default as searchResultJs } from '../../test-data/searchResult.json';
 
 const DEFAULT_FEEDBACK_SESSION_GROUP: FeedbackSessionsGroup = {
   sessionName: {
@@ -26,53 +27,9 @@ const DEFAULT_FEEDBACK_SESSION_GROUP: FeedbackSessionsGroup = {
   },
 };
 
-const DEFAULT_STUDENT_SEARCH_RESULT: StudentAccountSearchResult = {
-  name: 'name',
-  email: 'email',
-  googleId: 'googleId',
-  courseId: 'courseId',
-  courseName: 'courseName',
-  institute: 'institute',
-  courseJoinLink: 'courseJoinLink',
-  homePageLink: 'homePageLink',
-  manageAccountLink: 'manageAccountLink',
-  showLinks: false,
-  section: 'section',
-  team: 'team',
-  comments: 'comments',
-  recordsPageLink: 'recordsPageLink',
-  awaitingSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-  openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-  notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-  publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-};
-
-const DEFAULT_INSTRUCTOR_SEARCH_RESULT: InstructorAccountSearchResult = {
-  name: 'name',
-  email: 'email',
-  googleId: 'googleId',
-  courseId: 'courseId',
-  courseName: 'courseName',
-  institute: 'institute',
-  courseJoinLink: 'courseJoinLink',
-  homePageLink: 'homePageLink',
-  manageAccountLink: 'manageAccountLink',
-  showLinks: false,
-  awaitingSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-  openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-  notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-  publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-};
-
-const DEFAULT_ACCOUNT_REQUEST_SEARCH_RESULT: AccountRequestSearchResult = {
-  name: 'name',
-  email: 'email',
-  institute: 'institute',
-  registrationLink: 'registrationLink',
-  createdAt: 'Tue, 08 Feb 2022, 08:23 AM +00:00',
-  registeredAt: 'Not Registered Yet',
-  showLinks: false,
-};
+const DEFAULT_STUDENT_SEARCH_RESULT: StudentAccountSearchResult = searchResultJs.searchResult1;
+const DEFAULT_INSTRUCTOR_SEARCH_RESULT: InstructorAccountSearchResult = searchResultJs.searchResult2;
+const DEFAULT_ACCOUNT_REQUEST_SEARCH_RESULT: AccountRequestSearchResult = searchResultJs.searchResult3;
 
 describe('AdminSearchPageComponent', () => {
   let component: AdminSearchPageComponent;
@@ -96,7 +53,7 @@ describe('AdminSearchPageComponent', () => {
       ],
       providers: [AccountService, SearchService, StatusMessageService, NgbModal],
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -128,22 +85,7 @@ describe('AdminSearchPageComponent', () => {
 
   it('should snap with an expanded instructor table', () => {
     component.instructors = [
-      {
-        name: 'tester',
-        email: 'tester@tester.com',
-        googleId: 'instructor-google-id',
-        courseId: 'test-exa.demo',
-        courseName: 'demo',
-        institute: 'institute',
-        courseJoinLink: 'course-join-link',
-        homePageLink: 'home-page-link',
-        manageAccountLink: 'manage-account-link',
-        showLinks: true,
-        awaitingSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-        openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-        notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-        publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-      },
+      searchResultJs.searchResult4
     ];
 
     fixture.detectChanges();
@@ -152,26 +94,7 @@ describe('AdminSearchPageComponent', () => {
 
   it('should snap with an expanded student table', () => {
     component.students = [
-      {
-        name: 'Alice Betsy',
-        email: 'alice.b.tmms@gmail.tmt',
-        googleId: 'student-google-id',
-        courseId: 'test-exa.demo',
-        courseName: 'demo',
-        institute: 'institute',
-        courseJoinLink: 'course-join-link',
-        homePageLink: 'home-page-link',
-        manageAccountLink: 'manage-account-link',
-        showLinks: true,
-        section: 'section',
-        team: 'team',
-        comments: 'comments',
-        recordsPageLink: 'records-page-link',
-        awaitingSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-        openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-        notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-        publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-      },
+      searchResultJs.searchResult5
     ];
 
     fixture.detectChanges();
@@ -203,9 +126,9 @@ describe('AdminSearchPageComponent', () => {
     }));
 
     const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast')
-        .mockImplementation((args: string) => {
-          expect(args).toEqual('This is the error message');
-        });
+      .mockImplementation((args: string) => {
+        expect(args).toEqual('This is the error message');
+      });
 
     const button: any = fixture.debugElement.nativeElement.querySelector('#search-button');
     button.click();
@@ -221,9 +144,9 @@ describe('AdminSearchPageComponent', () => {
     }));
 
     const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showWarningToast')
-        .mockImplementation((args: string) => {
-          expect(args).toEqual('No results found.');
-        });
+      .mockImplementation((args: string) => {
+        expect(args).toEqual('No results found.');
+      });
 
     const button: any = fixture.debugElement.nativeElement.querySelector('#search-button');
     button.click();
@@ -233,38 +156,9 @@ describe('AdminSearchPageComponent', () => {
 
   it('should display instructor results', () => {
     const instructorResults: InstructorAccountSearchResult[] = [
-      {
-        name: 'name1',
-        email: 'email1',
-        googleId: 'googleId1',
-        courseId: 'courseId1',
-        courseName: 'courseName1',
-        institute: 'institute1',
-        courseJoinLink: 'courseJoinLink1',
-        homePageLink: 'homePageLink1',
-        manageAccountLink: 'manageAccountLink1',
-        showLinks: true,
-        awaitingSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-        openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-        notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-        publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-      },
-      {
-        name: 'name2',
-        email: 'email2',
-        googleId: 'googleId2',
-        courseId: 'courseId2',
-        courseName: 'courseName2',
-        institute: 'institute2',
-        courseJoinLink: 'courseJoinLink2',
-        homePageLink: 'homePageLink2',
-        manageAccountLink: 'manageAccountLink2',
-        showLinks: true,
-        awaitingSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-        openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-        notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-        publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-      }];
+      searchResultJs.searchResult6,
+      searchResultJs.searchResult7
+    ];
 
     jest.spyOn(searchService, 'searchAdmin').mockReturnValue(of({
       students: [],
@@ -286,45 +180,9 @@ describe('AdminSearchPageComponent', () => {
 
   it('should display student results', () => {
     const studentResults: StudentAccountSearchResult[] = [
-      {
-        name: 'name1',
-        email: 'email1',
-        googleId: 'googleId1',
-        courseId: 'courseId1',
-        courseName: 'courseName1',
-        institute: 'institute1',
-        courseJoinLink: 'courseJoinLink1',
-        homePageLink: 'homePageLink1',
-        manageAccountLink: 'manageAccountLink1',
-        showLinks: true,
-        section: 'section1',
-        team: 'team1',
-        comments: 'comments1',
-        recordsPageLink: 'recordsPageLink1',
-        awaitingSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-        openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-        notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-        publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-      }, {
-        name: 'name2',
-        email: 'email2',
-        googleId: 'googleId2',
-        courseId: 'courseId2',
-        courseName: 'courseName2',
-        institute: 'institute2',
-        courseJoinLink: 'courseJoinLink2',
-        homePageLink: 'homePageLink2',
-        manageAccountLink: 'manageAccountLink2',
-        showLinks: true,
-        section: 'section2',
-        team: 'team2',
-        comments: 'comments2',
-        recordsPageLink: 'recordsPageLink2',
-        awaitingSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-        openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-        notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-        publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-      }];
+      searchResultJs.searchResult8,
+      searchResultJs.searchResult9
+    ];
 
     jest.spyOn(searchService, 'searchAdmin').mockReturnValue(of({
       students: studentResults,
@@ -346,23 +204,9 @@ describe('AdminSearchPageComponent', () => {
 
   it('should display account request results', () => {
     const accountRequestResults: AccountRequestSearchResult[] = [
-      {
-        name: 'name1',
-        email: 'email1',
-        institute: 'institute1',
-        registrationLink: 'registrationLink1',
-        createdAt: 'Tue, 08 Feb 2022, 08:23 AM +00:00',
-        registeredAt: 'Not Registered Yet',
-        showLinks: true,
-      }, {
-        name: 'name2',
-        email: 'email2',
-        institute: 'institute2',
-        registrationLink: 'registrationLink2',
-        createdAt: 'Tue, 08 Feb 2022, 08:23 AM +00:00',
-        registeredAt: 'Not Registered Yet',
-        showLinks: true,
-      }];
+      searchResultJs.searchResult12,
+      searchResultJs.searchResult13
+    ];
 
     jest.spyOn(searchService, 'searchAdmin').mockReturnValue(of({
       students: [],
@@ -383,22 +227,7 @@ describe('AdminSearchPageComponent', () => {
   });
 
   it('should show instructor links when expand all button clicked', () => {
-    const instructorResult: InstructorAccountSearchResult = {
-      name: 'name',
-      email: 'email',
-      googleId: 'googleId',
-      courseId: 'courseId',
-      courseName: 'courseName',
-      institute: 'institute',
-      courseJoinLink: 'courseJoinLink',
-      homePageLink: 'homePageLink',
-      manageAccountLink: 'manageAccountLink',
-      showLinks: false,
-      awaitingSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-      openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-      notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-      publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-    };
+    const instructorResult: InstructorAccountSearchResult = searchResultJs.searchResult10;
     component.instructors = [instructorResult];
     fixture.detectChanges();
 
@@ -428,22 +257,7 @@ describe('AdminSearchPageComponent', () => {
   });
 
   it('should show success message if successfully reset instructor google id', () => {
-    const instructorResult: InstructorAccountSearchResult = {
-      name: 'name',
-      email: 'email',
-      googleId: 'googleId',
-      courseId: 'courseId',
-      courseName: 'courseName',
-      institute: 'institute',
-      courseJoinLink: 'courseJoinLink',
-      homePageLink: 'homePageLink',
-      manageAccountLink: 'manageAccountLink',
-      showLinks: false,
-      awaitingSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-      openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-      notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-      publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-    };
+    const instructorResult: InstructorAccountSearchResult = searchResultJs.searchResult10;
     component.instructors = [instructorResult];
     fixture.detectChanges();
 
@@ -457,9 +271,9 @@ describe('AdminSearchPageComponent', () => {
       message: 'Success',
     }));
     const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showSuccessToast')
-        .mockImplementation((args: string) => {
-          expect(args).toEqual('The instructor\'s Google ID has been reset.');
-        });
+      .mockImplementation((args: string) => {
+        expect(args).toEqual('The instructor\'s Google ID has been reset.');
+      });
 
     const link: any = fixture.debugElement.nativeElement.querySelector('#reset-instructor-id-0');
     link.click();
@@ -468,22 +282,7 @@ describe('AdminSearchPageComponent', () => {
   });
 
   it('should show error message if fail to reset instructor google id', () => {
-    const instructorResult: InstructorAccountSearchResult = {
-      name: 'name',
-      email: 'email',
-      googleId: 'googleId',
-      courseId: 'courseId',
-      courseName: 'courseName',
-      institute: 'institute',
-      courseJoinLink: 'courseJoinLink',
-      homePageLink: 'homePageLink',
-      manageAccountLink: 'manageAccountLink',
-      showLinks: false,
-      awaitingSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-      openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-      notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-      publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-    };
+    const instructorResult: InstructorAccountSearchResult = searchResultJs.searchResult10;
     component.instructors = [instructorResult];
     fixture.detectChanges();
 
@@ -500,9 +299,9 @@ describe('AdminSearchPageComponent', () => {
     }));
 
     const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast')
-        .mockImplementation((args: string) => {
-          expect(args).toEqual('This is the error message');
-        });
+      .mockImplementation((args: string) => {
+        expect(args).toEqual('This is the error message');
+      });
 
     const link: any = fixture.debugElement.nativeElement.querySelector('#reset-instructor-id-0');
     link.click();
@@ -526,9 +325,9 @@ describe('AdminSearchPageComponent', () => {
     }));
 
     const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showSuccessToast')
-        .mockImplementation((args: string) => {
-          expect(args).toEqual('The student\'s Google ID has been reset.');
-        });
+      .mockImplementation((args: string) => {
+        expect(args).toEqual('The student\'s Google ID has been reset.');
+      });
 
     const link: any = fixture.debugElement.nativeElement.querySelector('#reset-student-id-0');
     link.click();
@@ -537,27 +336,7 @@ describe('AdminSearchPageComponent', () => {
   });
 
   it('should show error message if fail to reset student google id', () => {
-    const studentResult: StudentAccountSearchResult = {
-      name: 'name',
-      email: 'email',
-      googleId: 'googleId',
-      courseId: 'courseId',
-      courseName: 'courseName',
-      institute: 'institute',
-      courseJoinLink: 'courseJoinLink',
-      homePageLink: 'homePageLink',
-      manageAccountLink: 'manageAccountLink',
-      showLinks: false,
-
-      section: 'section',
-      team: 'team',
-      comments: 'comments',
-      recordsPageLink: 'recordsPageLink',
-      awaitingSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-      openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-      notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-      publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-    };
+    const studentResult: StudentAccountSearchResult = searchResultJs.searchResult11;
     component.students = [studentResult];
     fixture.detectChanges();
 
@@ -574,9 +353,9 @@ describe('AdminSearchPageComponent', () => {
     }));
 
     const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast')
-        .mockImplementation((args: string) => {
-          expect(args).toEqual('This is the error message.');
-        });
+      .mockImplementation((args: string) => {
+        expect(args).toEqual('This is the error message.');
+      });
 
     const link: any = fixture.debugElement.nativeElement.querySelector('#reset-student-id-0');
     link.click();
@@ -630,9 +409,9 @@ describe('AdminSearchPageComponent', () => {
     }));
 
     const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showSuccessToast')
-        .mockImplementation((args: string) => {
-          expect(args).toEqual('success');
-        });
+      .mockImplementation((args: string) => {
+        expect(args).toEqual('success');
+      });
 
     const regenerateButton: any = fixture.debugElement.nativeElement.querySelector('#regenerate-student-key-0');
     regenerateButton.click();
@@ -693,9 +472,9 @@ describe('AdminSearchPageComponent', () => {
     }));
 
     const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast')
-        .mockImplementation((args: string) => {
-          expect(args).toEqual('This is the error message.');
-        });
+      .mockImplementation((args: string) => {
+        expect(args).toEqual('This is the error message.');
+      });
 
     const regenerateButton: any = fixture.debugElement.nativeElement.querySelector('#regenerate-student-key-0');
     regenerateButton.click();
@@ -721,9 +500,9 @@ describe('AdminSearchPageComponent', () => {
     }));
 
     const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showSuccessToast')
-        .mockImplementation((args: string) => {
-          expect(args).toEqual('success');
-        });
+      .mockImplementation((args: string) => {
+        expect(args).toEqual('success');
+      });
 
     const regenerateButton: any = fixture.debugElement.nativeElement.querySelector('#regenerate-instructor-key-0');
     regenerateButton.click();
@@ -752,9 +531,9 @@ describe('AdminSearchPageComponent', () => {
     }));
 
     const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast')
-        .mockImplementation((args: string) => {
-          expect(args).toEqual('This is the error message.');
-        });
+      .mockImplementation((args: string) => {
+        expect(args).toEqual('This is the error message.');
+      });
 
     const regenerateButton: any = fixture.debugElement.nativeElement.querySelector('#regenerate-instructor-key-0');
     regenerateButton.click();
@@ -777,9 +556,9 @@ describe('AdminSearchPageComponent', () => {
     }));
 
     const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast')
-        .mockImplementation((args: string) => {
-          expect(args).toEqual('This is the error message.');
-        });
+      .mockImplementation((args: string) => {
+        expect(args).toEqual('This is the error message.');
+      });
 
     const sendButton: any = fixture.debugElement.nativeElement.querySelector('#send-course-join-button');
     sendButton.click();
@@ -802,30 +581,30 @@ describe('AdminSearchPageComponent', () => {
     }));
 
     const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast')
-        .mockImplementation((args: string) => {
-          expect(args).toEqual('This is the error message.');
-        });
+      .mockImplementation((args: string) => {
+        expect(args).toEqual('This is the error message.');
+      });
 
     const sendAwaitingSessionReminderButton: any =
-        fixture.debugElement.nativeElement.querySelector('#send-awaiting-session-reminder-button');
+      fixture.debugElement.nativeElement.querySelector('#send-awaiting-session-reminder-button');
     sendAwaitingSessionReminderButton.click();
 
     expect(spyStatusMessageService).toBeCalled();
 
     const sendOpenSessionReminderButton: any =
-        fixture.debugElement.nativeElement.querySelector('#send-open-session-reminder-button');
+      fixture.debugElement.nativeElement.querySelector('#send-open-session-reminder-button');
     sendOpenSessionReminderButton.click();
 
     expect(spyStatusMessageService).toBeCalled();
 
     const sendNotOpenSessionReminderButton: any =
-        fixture.debugElement.nativeElement.querySelector('#send-not-open-session-reminder-button');
+      fixture.debugElement.nativeElement.querySelector('#send-not-open-session-reminder-button');
     sendNotOpenSessionReminderButton.click();
 
     expect(spyStatusMessageService).toBeCalled();
 
     const sendPublishedSessionReminderButton: any =
-        fixture.debugElement.nativeElement.querySelector('#send-published-session-reminder-button');
+      fixture.debugElement.nativeElement.querySelector('#send-published-session-reminder-button');
     sendPublishedSessionReminderButton.click();
 
     expect(spyStatusMessageService).toBeCalled();
