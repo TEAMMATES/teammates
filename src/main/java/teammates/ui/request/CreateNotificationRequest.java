@@ -27,7 +27,6 @@ public class CreateNotificationRequest extends BasicRequest {
     }
 
     public NotificationTargetUser getTargetUser() {
-
         return this.targetUser;
     }
 

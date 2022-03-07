@@ -80,20 +80,23 @@ public class Notification extends BaseEntity {
      */
     public Notification(String notificationId, Instant startTime, Instant endTime,
                         NotificationType type, NotificationTargetUser targetUser,
-                        String title, String message, boolean shown, Instant updatedAt) {
+                        String title, String message, boolean shown, Instant createdAt, Instant updatedAt) {
         this.setStartTime(startTime);
         this.setEndTime(endTime);
         this.setType(type);
         this.setTargetUser(targetUser);
         this.setTitle(title);
         this.setMessage(message);
-        this.setCreatedAt(Instant.now());
+        if (createdAt == null) {
+            this.setCreatedAt(Instant.now());
+        } else {
+            this.setCreatedAt(createdAt);
+        }
         this.setUpdatedAt(updatedAt);
-
         this.notificationId = notificationId;
         this.shown = shown;
 
-        assert createdAt != null;
+        assert this.createdAt != null;
     }
 
     public String getNotificationId() {

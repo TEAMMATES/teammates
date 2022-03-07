@@ -28,8 +28,9 @@ public class GetNotificationAction extends Action {
     @Override
     public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
         String targetUser = getRequestParamValue(Const.ParamsNames.NOTIFICATION_TARGET_USER);
-        //        boolean isFetchingAll = Boolean.parseBoolean(
-        //                getRequestParamValue(Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL));
+        // TODO: Use isFetchingAll to decide whether to fetch unread notification only.
+        // boolean isFetchingAll = Boolean.parseBoolean(
+        //     getRequestParamValue(Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL));
 
         String targetUserErrorMessage = FieldValidator.getInvalidityInfoForNotificationTargetUser(targetUser);
         if (!targetUserErrorMessage.isEmpty()) {
@@ -38,10 +39,6 @@ public class GetNotificationAction extends Action {
 
         List<NotificationAttributes> notificationAttributes =
                 logic.getNotificationsByTargetUser(NotificationTargetUser.valueOf(targetUser));
-
-        //        if (!isFetchingAll) {
-        //            //TODO: only unread notifications returned
-        //        }
 
         NotificationsData responseData = new NotificationsData(notificationAttributes);
 

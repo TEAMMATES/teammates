@@ -144,10 +144,6 @@ public class NotificationAttributes extends EntityAttributes<Notification> {
     }
 
     public Instant getCreatedAt() {
-        // TODO: temporary fix for null createdAt
-        // if (createdAt == null) {
-        //     return Instant.now();
-        // }
         return createdAt;
     }
 
@@ -185,13 +181,15 @@ public class NotificationAttributes extends EntityAttributes<Notification> {
 
         addNonEmptyError(FieldValidator.getInvalidityInfoForNotificationBody(message), errors);
 
+        assert type != null;
+        assert targetUser != null;
         return errors;
     }
 
     @Override
     public Notification toEntity() {
         return new Notification(notificationId, startTime, endTime, type,
-                targetUser, title, message, shown, updatedAt);
+                targetUser, title, message, shown, createdAt, updatedAt);
     }
 
     @Override

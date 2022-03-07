@@ -42,7 +42,7 @@ public final class NotificationsLogic {
     /**
      * Gets a list of notifications.
      *
-     * @return a list of notifications with the specified {@code notificationIds}.
+     * @return a list of notifications with the specified {@code targetUser}.
      */
     public List<NotificationAttributes> getNotificationsByTargetUser(NotificationTargetUser targetUser) {
         return notificationsDb.getNotificationsByTargetUser(targetUser);
