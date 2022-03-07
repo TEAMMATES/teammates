@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
@@ -226,14 +225,6 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
                 actualSessionVisibleFromTime, resultsVisibleFromTime), errors);
 
         return errors;
-    }
-
-    public Map<String, Instant> getFilteredStudentDeadlines() {
-        return studentDeadlines;
-    }
-
-    public Map<String, Instant> getFilteredInstructorDeadlines() {
-        return instructorDeadlines;
     }
 
     /**
@@ -896,30 +887,12 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         }
 
         abstract Map<String, Instant> getDeadlines();
-
-        Map<String, Instant> getFilteredDeadlines() {
-            return getDeadlines()
-                    .entrySet()
-                    .stream()
-                    .filter(entry -> entry.getKey().equals(emailAddress))
-                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-        }
     }
 
     private static class FeedbackSessionAttributesForStudent extends FeedbackSessionAttributesForParticipant {
 
         private FeedbackSessionAttributesForStudent(FeedbackSession feedbackSession, String studentEmailAddress) {
             super(feedbackSession, studentEmailAddress);
-        }
-
-        @Override
-        public Map<String, Instant> getFilteredStudentDeadlines() {
-            return getFilteredDeadlines();
-        }
-
-        @Override
-        public Map<String, Instant> getFilteredInstructorDeadlines() {
-            return new HashMap<>();
         }
 
         @Override
@@ -932,16 +905,6 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
 
         private FeedbackSessionAttributesForInstructor(FeedbackSession feedbackSession, String instructorEmailAddress) {
             super(feedbackSession, instructorEmailAddress);
-        }
-
-        @Override
-        public Map<String, Instant> getFilteredStudentDeadlines() {
-            return new HashMap<>();
-        }
-
-        @Override
-        public Map<String, Instant> getFilteredInstructorDeadlines() {
-            return getFilteredDeadlines();
         }
 
         @Override

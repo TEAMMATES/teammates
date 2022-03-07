@@ -3,6 +3,7 @@ package teammates.ui.output;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
 
@@ -118,7 +119,7 @@ public class FeedbackSessionData extends ApiOutput {
         }
 
         this.studentDeadlines = new HashMap<>();
-        feedbackSessionAttributes.getFilteredStudentDeadlines().forEach((email, studentDeadlineInstant) -> {
+        feedbackSessionAttributes.getStudentDeadlines().forEach((email, studentDeadlineInstant) -> {
             long studentDeadline = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
                     studentDeadlineInstant, timeZone, true)
                     .toEpochMilli();
@@ -126,7 +127,7 @@ public class FeedbackSessionData extends ApiOutput {
         });
 
         this.instructorDeadlines = new HashMap<>();
-        feedbackSessionAttributes.getFilteredInstructorDeadlines().forEach((email, instructorDeadlineInstant) -> {
+        feedbackSessionAttributes.getInstructorDeadlines().forEach((email, instructorDeadlineInstant) -> {
             long instructorDeadline = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
                     instructorDeadlineInstant, timeZone, true)
                     .toEpochMilli();
@@ -278,11 +279,15 @@ public class FeedbackSessionData extends ApiOutput {
         this.instructorDeadlines = instructorDeadlines;
     }
 
-    /**
-     * Hides some attributes to student.
-     */
-    public void hideInformationForStudent() {
-        hideInformationForInstructor();
+    private void hideInformationForParticipant() {
+        setClosingEmailEnabled(null);
+        setPublishedEmailEnabled(null);
+        setGracePeriod(null);
+        setCreatedAtTimestamp(0);
+    }
+
+    private void hideInformationForParticipantSubmission() {
+        hideInformationForParticipant();
         setSessionVisibleFromTimestamp(null);
         setResultVisibleFromTimestamp(null);
         setSessionVisibleSetting(null);
@@ -291,13 +296,43 @@ public class FeedbackSessionData extends ApiOutput {
         setCustomResponseVisibleTimestamp(null);
     }
 
+    private void filterDeadlinesForStudent(String studentEmailAddress) {
+        setStudentDeadlines(studentDeadlines.entrySet()
+                .stream()
+                .filter(entry -> entry.getKey().equals(studentEmailAddress))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));
+        setInstructorDeadlines(new HashMap<>());
+    }
+
+    private void filterDeadlinesForInstructor(String instructorEmailAddress) {
+        setStudentDeadlines(new HashMap<>());
+        setInstructorDeadlines(instructorDeadlines.entrySet()
+                .stream()
+                .filter(entry -> entry.getKey().equals(instructorEmailAddress))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));
+    }
+
     /**
-     * Hides some attributes to instructor without appropriate privilege.
+     * Hides some attributes to student.
      */
-    public void hideInformationForInstructor() {
-        setClosingEmailEnabled(null);
-        setPublishedEmailEnabled(null);
-        setGracePeriod(null);
-        setCreatedAtTimestamp(0);
+    public void hideInformationForStudent(String studentEmailAddress) {
+        hideInformationForParticipantSubmission();
+        filterDeadlinesForStudent(studentEmailAddress);
+    }
+
+    /**
+     * Hides some information for an instructor viewing the submission.
+     */
+    public void hideInformationForInstructorSubmission(String instructorEmailAddress) {
+        hideInformationForParticipantSubmission();
+        filterDeadlinesForInstructor(instructorEmailAddress);
+    }
+
+    /**
+     * Hides some information for an instructor viewing the result.
+     */
+    public void hideInformationForInstructorResult(String instructorEmailAddress) {
+        hideInformationForParticipant();
+        filterDeadlinesForInstructor(instructorEmailAddress);
     }
 }

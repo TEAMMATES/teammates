@@ -13,7 +13,6 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
-import teammates.ui.output.FeedbackSessionData;
 import teammates.ui.output.FeedbackSessionsData;
 
 /**
@@ -109,7 +108,9 @@ class GetFeedbackSessionsAction extends Action {
 
         FeedbackSessionsData responseData = new FeedbackSessionsData(feedbackSessionAttributes);
         if (entityType.equals(Const.EntityType.STUDENT)) {
-            responseData.getFeedbackSessions().forEach(FeedbackSessionData::hideInformationForStudent);
+            StudentAttributes studentAttributes = logic.getStudentsForGoogleId(userInfo.getId()).get(0);
+            responseData.getFeedbackSessions().forEach(feedbackSessionData -> feedbackSessionData
+                            .hideInformationForStudent(studentAttributes.getEmail()));
         } else if (entityType.equals(Const.EntityType.INSTRUCTOR)) {
             responseData.getFeedbackSessions().forEach(session -> {
                 InstructorAttributes instructor = courseIdToInstructor.get(session.getCourseId());
