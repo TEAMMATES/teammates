@@ -2,6 +2,7 @@ package teammates.logic.core;
 
 import java.util.List;
 
+import teammates.common.datatransfer.ReadNotifications;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -122,7 +123,7 @@ public final class AccountsLogic {
                 createAccount(AccountAttributes.builder(googleId)
                         .withName(instructor.getName())
                         .withEmail(instructor.getEmail())
-                        .withNotificationReadStatuses("")
+                        .withReadNotifications(new ReadNotifications())
                         .build());
             } catch (EntityAlreadyExistsException e) {
                 assert false : "Account already exists.";

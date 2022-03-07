@@ -6,6 +6,7 @@ import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
 import com.googlecode.objectify.annotation.Translate;
+import com.googlecode.objectify.annotation.Unindex;
 
 /**
  * Represents a unique user in the system.
@@ -21,7 +22,13 @@ public class Account extends BaseEntity {
 
     private String email;
 
-    private String notificationReadStatuses;
+    /**
+     * Serialized {@link teammates.common.datatransfer.ReadNotifications} stored as a string.
+     *
+     * @see teammates.common.datatransfer.attributes.AccountAttributes#getReadNotificationsCopy()
+     */
+    @Unindex
+    private String readNotificationsAsText;
 
     @Translate(InstantTranslatorFactory.class)
     private Instant createdAt;
@@ -37,12 +44,13 @@ public class Account extends BaseEntity {
      * @param googleId the Google ID of the user.
      * @param name The name of the user.
      * @param email The official email of the user.
+     * @param readNotificationsAsText The notifications that the user has read, stored as a JSON string.
      */
-    public Account(String googleId, String name, String email, String notificationReadStatuses) {
+    public Account(String googleId, String name, String email, String readNotificationsAsText) {
         this.setGoogleId(googleId);
         this.setName(name);
         this.setEmail(email);
-        this.setNotificationReadStatuses(notificationReadStatuses);
+        this.setReadNotificationsAsText(readNotificationsAsText);
         this.setCreatedAt(Instant.now());
     }
 
@@ -70,12 +78,12 @@ public class Account extends BaseEntity {
         this.email = email;
     }
 
-    public String getNotificationReadStatuses() {
-        return notificationReadStatuses;
+    public String getReadNotificationsAsText() {
+        return readNotificationsAsText;
     }
 
-    public void setNotificationReadStatuses(String notificationReadStatuses) {
-        this.notificationReadStatuses = notificationReadStatuses;
+    public void setReadNotificationsAsText(String readNotificationsAsText) {
+        this.readNotificationsAsText = readNotificationsAsText;
     }
 
     public Instant getCreatedAt() {
