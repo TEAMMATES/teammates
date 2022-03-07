@@ -237,10 +237,12 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     }
 
     /**
-     * Finds the point in time when the session is considered closed.
-     * This is not necessarily the end time of the feedback session.
-     *
-     * @return The point in time when the session is considered closed.
+     * Finds the point in time when the session is considered closed, excluding the grace period.
+     * <p>This varies depending on who is looking at the session:</p>
+     * <ul>
+     *     <li>For instructors looking at the session in full detail, this is when the end time is reached.</li>
+     *     <li>For participants, this is when the end time is reached, or their extension deadline, if it exists.</li>
+     * </ul>
      */
     public Instant getDeadline() {
         return endTime;
@@ -302,8 +304,6 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     /**
      * Checks if the feedback session is closed.
      * This occurs when the current time is after both the deadline and the grace period.
-     *
-     * @return Whether the feedback session is closed.
      */
     public boolean isClosed() {
         return Instant.now().isAfter(getDeadline().plus(gracePeriod));
@@ -312,8 +312,6 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     /**
      * Checks if the feedback session is open.
      * This occurs when the current time is either the start time or later but before the deadline.
-     *
-     * @return Whether the feedback session is open.
      */
     public boolean isOpened() {
         Instant now = Instant.now();
@@ -323,8 +321,6 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     /**
      * Checks if the feedback session is closed but still accepts responses.
      * This occurs when the current time is either the deadline or later but still within the grace period.
-     *
-     * @return Whether the feedback session is closed but still accepts responses.
      */
     public boolean isInGracePeriod() {
         Instant now = Instant.now();
