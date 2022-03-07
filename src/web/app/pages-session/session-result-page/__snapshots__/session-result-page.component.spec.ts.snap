@@ -1493,7 +1493,6 @@ exports[`SessionResultPageComponent should snap with session details and results
 >
   <h1>
      Feedback Session Results
-  
   </h1><div
     class="row"
   >
@@ -1504,8 +1503,6 @@ exports[`SessionResultPageComponent should snap with session details and results
         class="alert alert-primary"
         role="alert"
       >
-        
-        
         <div>
            You are viewing feedback results as . You may submit feedback for sessions that are currently open and view results without logging in. To access other features you need to 
           <a
@@ -1518,8 +1515,6 @@ exports[`SessionResultPageComponent should snap with session details and results
       </div>
     </div>
   </div><tm-loading-retry>
-    
-    
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -1535,8 +1530,6 @@ exports[`SessionResultPageComponent should snap with session details and results
         </div>
       </div>
     </tm-loading-spinner>
-    
-    
   </tm-loading-retry>
 </tm-session-result-page>
 `;

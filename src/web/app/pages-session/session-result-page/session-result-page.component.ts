@@ -210,7 +210,7 @@ export class SessionResultPageComponent implements OnInit {
       intent: this.intent,
       key: this.regKey,
     })
-    .pipe(finalize(() => this.isFeedbackSessionDetailsLoading = false))
+    .pipe(finalize(() => { this.isFeedbackSessionDetailsLoading = false; }))
     .subscribe((feedbackSession: FeedbackSession) => {
       const TIME_FORMAT: string = 'ddd, DD MMM, YYYY, hh:mm A zz';
       this.session = feedbackSession;
