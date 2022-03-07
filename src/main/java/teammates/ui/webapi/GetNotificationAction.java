@@ -5,6 +5,7 @@ import java.util.List;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.attributes.NotificationAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
 import teammates.ui.output.NotificationData;
 import teammates.ui.output.NotificationsData;
 import teammates.ui.request.InvalidHttpRequestBodyException;
@@ -26,13 +27,17 @@ public class GetNotificationAction extends Action {
 
     @Override
     public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
-        NotificationTargetUser targetUser =
-                NotificationTargetUser.valueOf(getRequestParamValue(Const.ParamsNames.NOTIFICATION_TARGET_USER));
+        String targetUser = getRequestParamValue(Const.ParamsNames.NOTIFICATION_TARGET_USER);
         //        boolean isFetchingAll = Boolean.parseBoolean(
         //                getRequestParamValue(Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL));
 
+        String targetUserErrorMessage = FieldValidator.getInvalidityInfoForNotificationTargetUser(targetUser);
+        if (!targetUserErrorMessage.isEmpty()) {
+            throw new InvalidHttpRequestBodyException(targetUserErrorMessage);
+        }
+
         List<NotificationAttributes> notificationAttributes =
-                logic.getNotificationsByTargetUser(targetUser);
+                logic.getNotificationsByTargetUser(NotificationTargetUser.valueOf(targetUser));
 
         //        if (!isFetchingAll) {
         //            //TODO: only unread notifications returned

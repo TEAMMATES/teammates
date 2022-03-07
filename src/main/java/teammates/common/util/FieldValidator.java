@@ -58,19 +58,19 @@ public final class FieldValidator {
     public static final String NOTIFICATION_VISIBLE_TIME_FIELD_NAME = "time when the notification will be visible";
     public static final String NOTIFICATION_EXPIRY_TIME_FIELD_NAME = "time when the notification will expire";
     public static final String NOTIFICATION_TYPE_FIELD_NAME = "notification type";
-    public static final List<NotificationType> NOTIFICATION_TYPE_ACCEPTED_VALUES =
+    public static final List<String> NOTIFICATION_TYPE_ACCEPTED_VALUES =
             Collections.unmodifiableList(
-                Arrays.asList(NotificationType.MAINTENANCE,
-                        NotificationType.VERSION_NOTE,
-                        NotificationType.DEPRECATION,
-                        NotificationType.TIPS
+                Arrays.asList(NotificationType.MAINTENANCE.name(),
+                        NotificationType.VERSION_NOTE.name(),
+                        NotificationType.DEPRECATION.name(),
+                        NotificationType.TIPS.name()
                 ));
     public static final String NOTIFICATION_TARGET_USER_FIELD_NAME = "notification target user";
-    public static final List<NotificationTargetUser> NOTIFICATION_TARGET_USER_ACCEPTED_VALUES =
+    public static final List<String> NOTIFICATION_TARGET_USER_ACCEPTED_VALUES =
             Collections.unmodifiableList(
-                    Arrays.asList(NotificationTargetUser.INSTRUCTOR,
-                            NotificationTargetUser.STUDENT,
-                            NotificationTargetUser.GENERAL));
+                    Arrays.asList(NotificationTargetUser.INSTRUCTOR.name(),
+                            NotificationTargetUser.STUDENT.name(),
+                            NotificationTargetUser.GENERAL.name()));
 
     // others
     public static final String STUDENT_ROLE_COMMENTS_FIELD_NAME = "comments about a student enrolled in a course";
@@ -597,12 +597,15 @@ public final class FieldValidator {
      * @return An explanation of why the {@code type} is not acceptable.
      *         Returns an empty string if the {@code type} is acceptable.
      */
-    public static String getInvalidityInfoForNotificationType(NotificationType type) {
+    public static String getInvalidityInfoForNotificationType(String type) {
         assert type != null;
 
-        if (!NOTIFICATION_TYPE_ACCEPTED_VALUES.contains(type)) {
+        try {
+            NotificationType.valueOf(type);
+        } catch (IllegalArgumentException e) {
             return String.format(NOTIFICATION_TYPE_ERROR_MESSAGE, type);
         }
+
         return "";
     }
 
@@ -613,12 +616,15 @@ public final class FieldValidator {
      * @return An explanation of why the {@code targetUser} is not acceptable.
      *         Returns an empty string if the {@code targetUser} is acceptable.
      */
-    public static String getInvalidityInfoForNotificationTargetUser(NotificationTargetUser targetUser) {
+    public static String getInvalidityInfoForNotificationTargetUser(String targetUser) {
         assert targetUser != null;
 
-        if (!NOTIFICATION_TARGET_USER_ACCEPTED_VALUES.contains(targetUser)) {
+        try {
+            NotificationTargetUser.valueOf(targetUser);
+        } catch (IllegalArgumentException e) {
             return String.format(NOTIFICATION_TARGET_USER_ERROR_MESSAGE, targetUser);
         }
+
         return "";
     }
 

@@ -181,10 +181,6 @@ public class NotificationAttributes extends EntityAttributes<Notification> {
 
         addNonEmptyError(FieldValidator.getInvalidityInfoForTimeForNotificationStartAndEnd(startTime, endTime), errors);
 
-        addNonEmptyError(FieldValidator.getInvalidityInfoForNotificationType(type), errors);
-
-        addNonEmptyError(FieldValidator.getInvalidityInfoForNotificationTargetUser(targetUser), errors);
-
         addNonEmptyError(FieldValidator.getInvalidityInfoForNotificationTitle(title), errors);
 
         addNonEmptyError(FieldValidator.getInvalidityInfoForNotificationBody(message), errors);
