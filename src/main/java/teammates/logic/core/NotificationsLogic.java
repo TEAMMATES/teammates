@@ -40,6 +40,13 @@ public final class NotificationsLogic {
     }
 
     /**
+     * Gets all notifications.
+     */
+    public List<NotificationAttributes> getAllNotifications() {
+        return notificationsDb.getAllNotifications();
+    }
+
+    /**
      * Gets a list of notifications.
      *
      * @return a list of notifications with the specified {@code targetUser}.

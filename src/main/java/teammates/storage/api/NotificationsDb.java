@@ -43,6 +43,16 @@ public final class NotificationsDb extends EntitiesDb<Notification, Notification
     }
 
     /**
+     * Gets all notifications.
+     */
+    public List<NotificationAttributes> getAllNotifications() {
+        List<Notification> notifications = load().list();
+        List<NotificationAttributes> notificationAttributes = makeAttributes(notifications);
+        NotificationAttributes.sortByStartTime(notificationAttributes);
+        return notificationAttributes;
+    }
+
+    /**
      * Gets notifications by {@code targetUser}.
      *
      * @return a list of notifications for the specified targetUser.
@@ -85,7 +95,6 @@ public final class NotificationsDb extends EntitiesDb<Notification, Notification
         List<NotificationAttributes> notificationAttributes = makeAttributes(ongoingNotifications);
         NotificationAttributes.sortByStartTime(notificationAttributes);
         return notificationAttributes;
-
     }
 
     /**

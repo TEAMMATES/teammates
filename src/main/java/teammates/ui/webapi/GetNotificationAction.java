@@ -32,13 +32,19 @@ public class GetNotificationAction extends Action {
         // boolean isFetchingAll = Boolean.parseBoolean(
         //     getRequestParamValue(Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL));
 
-        String targetUserErrorMessage = FieldValidator.getInvalidityInfoForNotificationTargetUser(targetUser);
-        if (!targetUserErrorMessage.isEmpty()) {
-            throw new InvalidHttpRequestBodyException(targetUserErrorMessage);
+        List<NotificationAttributes> notificationAttributes;
+        if (targetUser == null & userInfo.isAdmin) {
+            // if the admin wants to retrieve all notifications
+            notificationAttributes =
+                    logic.getAllNotifications();
+        } else {
+            String targetUserErrorMessage = FieldValidator.getInvalidityInfoForNotificationTargetUser(targetUser);
+            if (!targetUserErrorMessage.isEmpty()) {
+                throw new InvalidHttpRequestBodyException(targetUserErrorMessage);
+            }
+            notificationAttributes =
+                    logic.getNotificationsByTargetUser(NotificationTargetUser.valueOf(targetUser));
         }
-
-        List<NotificationAttributes> notificationAttributes =
-                logic.getNotificationsByTargetUser(NotificationTargetUser.valueOf(targetUser));
 
         NotificationsData responseData = new NotificationsData(notificationAttributes);
 

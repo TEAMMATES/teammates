@@ -88,6 +88,10 @@ public class Logic {
         return notificationsLogic.getNotificationsByTargetUser(targetUser);
     }
 
+    public List<NotificationAttributes> getAllNotifications() {
+        return notificationsLogic.getAllNotifications();
+    }
+
     public NotificationAttributes createNotification(NotificationAttributes notification) throws
             InvalidParametersException, EntityAlreadyExistsException {
         return notificationsLogic.createNotification(notification);
