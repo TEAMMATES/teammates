@@ -279,24 +279,10 @@ public class FeedbackSessionData extends ApiOutput {
         this.instructorDeadlines = instructorDeadlines;
     }
 
-    private void hideInformationForParticipant() {
-        setClosingEmailEnabled(null);
-        setPublishedEmailEnabled(null);
-        setGracePeriod(null);
-        setCreatedAtTimestamp(0);
-    }
-
-    private void hideInformationForParticipantSubmission() {
-        hideInformationForParticipant();
-        setSessionVisibleFromTimestamp(null);
-        setResultVisibleFromTimestamp(null);
-        setSessionVisibleSetting(null);
-        setCustomSessionVisibleTimestamp(null);
-        setResponseVisibleSetting(null);
-        setCustomResponseVisibleTimestamp(null);
-    }
-
-    private void filterDeadlinesForStudent(String studentEmailAddress) {
+    /**
+     * Filter out all the deadlines that are not for the given student.
+     */
+    public void filterDeadlinesForStudent(String studentEmailAddress) {
         setStudentDeadlines(studentDeadlines.entrySet()
                 .stream()
                 .filter(entry -> entry.getKey().equals(studentEmailAddress))
@@ -304,7 +290,10 @@ public class FeedbackSessionData extends ApiOutput {
         setInstructorDeadlines(new HashMap<>());
     }
 
-    private void filterDeadlinesForInstructor(String instructorEmailAddress) {
+    /**
+     * Filter out all the deadlines that are not for the given instructor.
+     */
+    public void filterDeadlinesForInstructor(String instructorEmailAddress) {
         setStudentDeadlines(new HashMap<>());
         setInstructorDeadlines(instructorDeadlines.entrySet()
                 .stream()
@@ -315,24 +304,23 @@ public class FeedbackSessionData extends ApiOutput {
     /**
      * Hides some attributes to student.
      */
-    public void hideInformationForStudent(String studentEmailAddress) {
-        hideInformationForParticipantSubmission();
-        filterDeadlinesForStudent(studentEmailAddress);
+    public void hideInformationForStudent() {
+        hideInformationForInstructor();
+        setSessionVisibleFromTimestamp(null);
+        setResultVisibleFromTimestamp(null);
+        setSessionVisibleSetting(null);
+        setCustomSessionVisibleTimestamp(null);
+        setResponseVisibleSetting(null);
+        setCustomResponseVisibleTimestamp(null);
     }
 
     /**
-     * Hides some information for an instructor viewing the submission.
+     * Hides some attributes to instructor without appropriate privilege.
      */
-    public void hideInformationForInstructorSubmission(String instructorEmailAddress) {
-        hideInformationForParticipantSubmission();
-        filterDeadlinesForInstructor(instructorEmailAddress);
-    }
-
-    /**
-     * Hides some information for an instructor viewing the result.
-     */
-    public void hideInformationForInstructorResult(String instructorEmailAddress) {
-        hideInformationForParticipant();
-        filterDeadlinesForInstructor(instructorEmailAddress);
+    public void hideInformationForInstructor() {
+        setClosingEmailEnabled(null);
+        setPublishedEmailEnabled(null);
+        setGracePeriod(null);
+        setCreatedAtTimestamp(0);
     }
 }

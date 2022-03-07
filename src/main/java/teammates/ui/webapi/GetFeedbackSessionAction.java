@@ -48,12 +48,33 @@ class GetFeedbackSessionAction extends BasicFeedbackSubmissionAction {
     @Override
     public JsonResult execute() {
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
+        FeedbackSessionData response = getFeedbackSessionDataWithFilteredDeadlines(intent);
+
+        switch (intent) {
+        case STUDENT_SUBMISSION:
+            // fall-through
+        case STUDENT_RESULT:
+            // fall-through
+        case INSTRUCTOR_SUBMISSION:
+            response.hideInformationForStudent();
+            break;
+        case INSTRUCTOR_RESULT:
+            response.hideInformationForInstructor();
+            break;
+        case FULL_DETAIL:
+            break;
+        default:
+            throw new InvalidHttpParameterException("Unknown intent " + intent);
+        }
+
+        return new JsonResult(response);
+    }
+
+    private FeedbackSessionData getFeedbackSessionDataWithFilteredDeadlines(Intent intent) {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        FeedbackSessionAttributes feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
+        FeedbackSessionAttributes feedbackSessionAttributes = getNonNullFeedbackSession(feedbackSessionName, courseId);
 
-        InstructorAttributes instructorAttributes;
-        String instructorEmailAddress;
         FeedbackSessionData response;
         switch (intent) {
         case STUDENT_SUBMISSION:
@@ -61,31 +82,26 @@ class GetFeedbackSessionAction extends BasicFeedbackSubmissionAction {
         case STUDENT_RESULT:
             StudentAttributes studentAttributes = getStudentOfCourseFromRequest(courseId);
             String studentEmailAddress = studentAttributes.getEmail();
-            feedbackSession = feedbackSession.getCopyForStudent(studentEmailAddress);
-            response = new FeedbackSessionData(feedbackSession);
-            response.hideInformationForStudent(studentEmailAddress);
+            feedbackSessionAttributes = feedbackSessionAttributes.getCopyForStudent(studentEmailAddress);
+            response = new FeedbackSessionData(feedbackSessionAttributes);
+            response.filterDeadlinesForStudent(studentEmailAddress);
             break;
         case INSTRUCTOR_SUBMISSION:
-            instructorAttributes = getInstructorOfCourseFromRequest(courseId);
-            instructorEmailAddress = instructorAttributes.getEmail();
-            feedbackSession = feedbackSession.getCopyForInstructor(instructorEmailAddress);
-            response = new FeedbackSessionData(feedbackSession);
-            response.hideInformationForInstructorSubmission(instructorEmailAddress);
-            break;
+            // fall-through
         case INSTRUCTOR_RESULT:
-            instructorAttributes = getInstructorOfCourseFromRequest(courseId);
-            instructorEmailAddress = instructorAttributes.getEmail();
-            feedbackSession = feedbackSession.getCopyForInstructor(instructorEmailAddress);
-            response = new FeedbackSessionData(feedbackSession);
-            response.hideInformationForInstructorResult(instructorEmailAddress);
+            InstructorAttributes instructorAttributes = getInstructorOfCourseFromRequest(courseId);
+            String instructorEmailAddress = instructorAttributes.getEmail();
+            feedbackSessionAttributes = feedbackSessionAttributes.getCopyForInstructor(instructorEmailAddress);
+            response = new FeedbackSessionData(feedbackSessionAttributes);
+            response.filterDeadlinesForInstructor(instructorEmailAddress);
             break;
         case FULL_DETAIL:
-            response = new FeedbackSessionData(feedbackSession);
+            response = new FeedbackSessionData(feedbackSessionAttributes);
             break;
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);
         }
 
-        return new JsonResult(response);
+        return response;
     }
 }
