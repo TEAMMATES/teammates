@@ -11,8 +11,9 @@ import { InstructorSearchPageComponent } from './instructor-search-page.componen
 import { InstructorSearchPageModule } from './instructor-search-page.module';
 import { SearchStudentsListRowTable } from './student-result-table/student-result-table.component';
 // import {default as courses} from '../../test-data/courses.json';
+'../../../'
 import {default as students} from '../../test-data/students.json';
-import {default as instructorPrivilegeSets} from '../../test-data/instructor_permission.json';
+import {default as instructorPrivilegeSets} from '../../test-data/instructorPermissionSets.json';
 
 describe('InstructorSearchPageComponent', () => {
   let component: InstructorSearchPageComponent;
@@ -240,7 +241,7 @@ describe('InstructorSearchPageComponent', () => {
   });
 
   it('should combine privileges and course data correctly', () => {
-    const basePrivilege: InstructorPermissionSet = instructorPrivilegeSets.InstructorPermissionSet;
+    const basePrivilege: InstructorPermissionSet = instructorPrivilegeSets.privilegeSet2;
     // InstructorPermissionSet = {
     //   canModifyCourse: true,
     //   canModifySession: true,

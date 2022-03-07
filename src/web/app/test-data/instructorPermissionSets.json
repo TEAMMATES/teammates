@@ -1,5 +1,5 @@
 {
-    "InstructorPermissionSet" : {
+    "privilegeSet2" : {
         "canModifyCourse": true,
         "canModifySession": true,
         "canModifyStudent": true,
