@@ -19,6 +19,7 @@ import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.NotificationAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.datatransfer.attributes.UsageStatisticsAttributes;
@@ -38,6 +39,7 @@ import teammates.logic.core.FeedbackResponseCommentsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.InstructorsLogic;
+import teammates.logic.core.NotificationsLogic;
 import teammates.logic.core.ProfilesLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.logic.core.UsageStatisticsLogic;
@@ -54,6 +56,7 @@ public class Logic {
     final AccountsLogic accountsLogic = AccountsLogic.inst();
     final AccountRequestsLogic accountRequestsLogic = AccountRequestsLogic.inst();
     final DeadlineExtensionsLogic deadlineExtensionsLogic = DeadlineExtensionsLogic.inst();
+    final NotificationsLogic notificationsLogic = NotificationsLogic.inst();
     final StudentsLogic studentsLogic = StudentsLogic.inst();
     final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     final CoursesLogic coursesLogic = CoursesLogic.inst();
@@ -97,6 +100,11 @@ public class Logic {
 
     public String getCourseInstitute(String courseId) {
         return coursesLogic.getCourseInstitute(courseId);
+    }
+
+    public NotificationAttributes createNotification(NotificationAttributes notification) throws
+            InvalidParametersException, EntityAlreadyExistsException {
+        return notificationsLogic.createNotification(notification);
     }
 
     /**
