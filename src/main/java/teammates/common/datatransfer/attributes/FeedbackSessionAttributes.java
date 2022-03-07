@@ -85,8 +85,12 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         this.isOpeningEmailEnabled = feedbackSession.isOpeningEmailEnabled();
         this.isClosingEmailEnabled = feedbackSession.isClosingEmailEnabled();
         this.isPublishedEmailEnabled = feedbackSession.isPublishedEmailEnabled();
-        this.studentDeadlines = feedbackSession.getStudentDeadlines();
-        this.instructorDeadlines = feedbackSession.getInstructorDeadlines();
+        if (feedbackSession.getStudentDeadlines() != null) {
+            this.studentDeadlines = feedbackSession.getStudentDeadlines();
+        }
+        if (feedbackSession.getInstructorDeadlines() != null) {
+            this.instructorDeadlines = feedbackSession.getInstructorDeadlines();
+        }
     }
 
     /**

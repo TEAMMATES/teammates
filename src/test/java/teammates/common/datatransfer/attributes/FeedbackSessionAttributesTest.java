@@ -171,7 +171,7 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
                 Instant.now().minusSeconds(20), Instant.now().plusSeconds(20),
                 "UTC", 10, false,
                 false, false, false, false,
-                true, true, true, new HashMap<>(), new HashMap<>());
+                true, true, true, null, null);
         assertNull(feedbackSession.getInstructions());
 
         FeedbackSessionAttributes feedbackSessionAttributes = FeedbackSessionAttributes.valueOf(feedbackSession);
@@ -194,8 +194,8 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
         assertEquals(feedbackSession.isOpeningEmailEnabled(), feedbackSessionAttributes.isOpeningEmailEnabled());
         assertEquals(feedbackSession.isClosingEmailEnabled(), feedbackSessionAttributes.isClosingEmailEnabled());
         assertEquals(feedbackSession.isPublishedEmailEnabled(), feedbackSessionAttributes.isPublishedEmailEnabled());
-        assertEquals(feedbackSession.getStudentDeadlines(), feedbackSessionAttributes.getStudentDeadlines());
-        assertEquals(feedbackSession.getInstructorDeadlines(), feedbackSessionAttributes.getInstructorDeadlines());
+        assertEquals(new HashMap<>(), feedbackSessionAttributes.getStudentDeadlines());
+        assertEquals(new HashMap<>(), feedbackSessionAttributes.getInstructorDeadlines());
     }
 
     @Test
