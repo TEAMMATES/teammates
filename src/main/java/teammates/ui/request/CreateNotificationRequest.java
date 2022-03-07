@@ -43,6 +43,5 @@ public class CreateNotificationRequest extends BasicRequest {
         assertTrue(targetUser != null, "Notification target user cannot be null");
         assertTrue(title != null, "Notification title cannot be null");
         assertTrue(message != null, "Notification message cannot be null");
-
     }
 }
