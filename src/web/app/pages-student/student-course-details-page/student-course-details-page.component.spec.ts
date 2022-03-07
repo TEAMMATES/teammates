@@ -6,6 +6,8 @@ import { LoadingRetryModule } from '../../components/loading-retry/loading-retry
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
 import { StudentCourseDetailsPageComponent, StudentProfileWithPicture } from './student-course-details-page.component';
+import { default as courses } from '../../test-data/courses.json';
+import { default as students } from '../../test-data/students.json';
 
 describe('StudentCourseDetailsPageComponent', () => {
   let component: StudentCourseDetailsPageComponent;
@@ -40,15 +42,9 @@ describe('StudentCourseDetailsPageComponent', () => {
   });
 
   it('should snap with populated fields', () => {
-    const student: Student = {
-      courseId: '1.1.c-demo2',
-      email: '1@1.com',
-      name: '1',
-      comments: '',
-      joinState: JoinState.NOT_JOINED,
-      sectionName: 'Tutorial Group 2',
-      teamName: 'Team 2',
-    };
+    
+    const student: Student = students.student1team2;
+    student.joinState = JoinState.NOT_JOINED;
 
     const instructorDetails: Instructor[] = [{
       googleId: '',
@@ -61,14 +57,7 @@ describe('StudentCourseDetailsPageComponent', () => {
       role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
     }];
 
-    const course: Course = {
-      courseId: '1.1.c-demo2',
-      courseName: 'Sample Course 101',
-      institute: 'Test Institute',
-      creationTimestamp: 1552472130000,
-      deletionTimestamp: 0,
-      timeZone: 'UTC',
-    };
+    const course: Course = courses.sampleCourse101;
 
     const teammateProfiles: StudentProfileWithPicture[] = [
       {

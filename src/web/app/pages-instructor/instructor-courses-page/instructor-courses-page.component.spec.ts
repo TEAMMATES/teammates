@@ -10,7 +10,7 @@ import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StudentService } from '../../../services/student.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
-import { Course, CourseArchive, Courses, JoinState, Students } from '../../../types/api-output';
+import { Course, CourseArchive, Courses, Students } from '../../../types/api-output';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
 import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
@@ -19,6 +19,9 @@ import { ProgressBarModule } from '../../components/progress-bar/progress-bar.mo
 import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';
 import { AddCourseFormModule } from './add-course-form/add-course-form.module';
 import { InstructorCoursesPageComponent } from './instructor-courses-page.component';
+import {default as courses} from '../../test-data/courses.json';
+import {default as studentsJs} from '../../test-data/students.json';
+import { Student} from '../../../types/api-output';
 
 describe('InstructorCoursesPageComponent', () => {
   let component: InstructorCoursesPageComponent;
@@ -28,82 +31,19 @@ describe('InstructorCoursesPageComponent', () => {
   let timezoneService: TimezoneService;
   let simpleModalService: SimpleModalService;
 
-  const date1: Date = new Date('2018-11-05T08:15:30');
-  const date2: Date = new Date('2019-02-02T08:15:30');
-  const date3: Date = new Date('2002-11-05T08:15:30');
-  const date4: Date = new Date('2003-11-05T08:15:30');
-  const date5: Date = new Date('2002-12-05T08:15:30');
-  const date6: Date = new Date('2003-12-05T08:15:30');
-
   const activeCoursesSnap: any[] = [
-    {
-      course: {
-        courseId: 'CS3281',
-        courseName: 'Modifiable Students and Courses',
-        timeZone: 'UTC',
-        creationTimestamp: date1.getTime(),
-        deletionTimestamp: 0,
-      },
-      canModifyCourse: true,
-      canModifyStudent: true,
-    },
-    {
-      course: {
-        courseId: 'CS3282',
-        courseName: 'Nothing modifiable',
-        timeZone: 'UTC',
-        creationTimestamp: date2.getTime(),
-        deletionTimestamp: 0,
-      },
-      canModifyCourse: false,
-      canModifyStudent: false,
-    },
+    courses.CS3281_1,
+    courses.CS3282
   ];
 
   const archivedCoursesSnap: any[] = [
-    {
-      course: {
-        courseId: 'CS2104',
-        courseName: 'Can modify archived',
-        timeZone: 'UTC',
-        creationTimestamp: date3.getTime(),
-        deletionTimestamp: 0,
-      },
-      canModifyCourse: true,
-    },
-    {
-      course: {
-        courseId: 'CS2106',
-        courseName: 'Cannot modify archived',
-        timeZone: 'UTC',
-        creationTimestamp: date3.getTime(),
-        deletionTimestamp: 0,
-      },
-      canModifyCourse: false,
-    },
+   courses.CS2104,
+   courses.CS2106
   ];
 
   const deletedCoursesSnap: any[] = [
-    {
-      course: {
-        courseId: 'CS1020',
-        courseName: 'Can modify deleted',
-        timeZone: 'UTC',
-        creationTimestamp: date3.getTime(),
-        deletionTimestamp: date4.getTime(),
-      },
-      canModifyCourse: true,
-    },
-    {
-      course: {
-        courseId: 'CS2010',
-        courseName: 'Cannot modify deleted',
-        timeZone: 'UTC',
-        creationTimestamp: date5.getTime(),
-        deletionTimestamp: date6.getTime(),
-      },
-      canModifyCourse: false,
-    },
+    courses.CS1020,
+    courses.CS2010
   ];
 
   const courseStatsSnap: Record<string, Record<string, number>> = {
@@ -121,41 +61,10 @@ describe('InstructorCoursesPageComponent', () => {
     },
   };
 
-  const courseCS1231: Course = {
-    courseId: 'CS1231',
-    courseName: 'Discrete Structures',
-    creationTimestamp: date1.getTime(),
-    deletionTimestamp: 0,
-    timeZone: 'UTC',
-    institute: 'Test Institute',
-  };
-
-  const courseCS3281: Course = {
-    courseId: 'CS3281',
-    courseName: 'Thematic Systems Project I',
-    creationTimestamp: date3.getTime(),
-    deletionTimestamp: date4.getTime(),
-    timeZone: 'UTC',
-    institute: 'Test Institute',
-  };
-
-  const courseCS3282: Course = {
-    courseId: 'CS3282',
-    courseName: 'Thematic Systems Project II',
-    creationTimestamp: date5.getTime(),
-    deletionTimestamp: date6.getTime(),
-    timeZone: 'UTC',
-    institute: 'Test Institute',
-  };
-
-  const courseST4234: Course = {
-    courseId: 'ST4234',
-    courseName: 'Bayesian Statistics',
-    creationTimestamp: date2.getTime(),
-    deletionTimestamp: 0,
-    timeZone: 'UTC',
-    institute: 'Test Institute',
-  };
+  const courseCS1231: Course = courses.CS1231_1;
+  const courseCS3281: Course = courses.CS3281_deleted;
+  const courseCS3282: Course = courses.CS3282_deleted;
+  const courseST4234: Course = courses.ST4234;
 
   const courseModelCS1231: any = {
     course: courseCS1231,
@@ -185,80 +94,33 @@ describe('InstructorCoursesPageComponent', () => {
     isLoadingCourseStats: false,
   };
 
+  const tmp2: any = studentsJs.testStudent2;
+  const tStudent2: Student = tmp2;
+  const tmp3: any = studentsJs.testStudent3;
+  const tStudent3: Student = tmp3;
+  const tmp4: any = studentsJs.testStudent4;
+  const tStudent4: Student = tmp4;
+  const tmp5: any = studentsJs.testStudent5;
+  const tStudent5: Student = tmp5;
+  const tmp6: any = studentsJs.testStudent6;
+  const tStudent6: Student = tmp6;
+  const tmp7: any = studentsJs.testStudent7;
+  const tStudent7: Student = tmp7;
+  const tmp8: any = studentsJs.testStudent8;
+  const tStudent8: Student = tmp8;
+  const tmp9: any = studentsJs.testStudent9;
+  const tStudent9: Student = tmp9;
+
   const students: Students = {
-    students: [
-      {
-        email: 'alice.b.tmms@gmail.tmt',
-        courseId: 'test.exa-demo',
-        name: 'Alice Betsy',
-        comments: "This student's name is Alice Betsy",
-        joinState: JoinState.JOINED,
-        teamName: 'Team 1',
-        sectionName: 'Tutorial Group 1',
-      },
-      {
-        email: 'benny.c.tmms@gmail.tmt',
-        courseId: 'test.exa-demo',
-        name: 'Benny Charles',
-        comments: "This student's name is Benny Charles",
-        joinState: JoinState.JOINED,
-        teamName: 'Team 1',
-        sectionName: 'Tutorial Group 1',
-      },
-      {
-        email: 'charlie.d.tmms@gmail.tmt',
-        courseId: 'test.exa-demo',
-        name: 'Charlie Davis',
-        comments: "This student's name is Charlie Davis",
-        joinState: JoinState.JOINED,
-        teamName: 'Team 2',
-        sectionName: 'Tutorial Group 2',
-      },
-      {
-        email: 'danny.e.tmms@gmail.tmt',
-        courseId: 'test.exa-demo',
-        name: 'Danny Engrid',
-        comments: "This student's name is Danny Engrid",
-        joinState: JoinState.JOINED,
-        teamName: 'Team 1',
-        sectionName: 'Tutorial Group 1',
-      },
-      {
-        email: 'emma.f.tmms@gmail.tmt',
-        courseId: 'test.exa-demo',
-        name: 'Emma Farrell',
-        comments: "This student's name is Emma Farrell",
-        joinState: JoinState.JOINED,
-        teamName: 'Team 1',
-        sectionName: 'Tutorial Group 1',
-      },
-      {
-        email: 'francis.g.tmms@gmail.tmt',
-        courseId: 'test.exa-demo',
-        name: 'Francis Gabriel',
-        comments: "This student's name is Francis Gabriel",
-        joinState: JoinState.JOINED,
-        teamName: 'Team 2',
-        sectionName: 'Tutorial Group 2',
-      },
-      {
-        email: 'gene.h.tmms@gmail.tmt',
-        courseId: 'test.exa-demo',
-        name: 'Gene Hudson',
-        comments: "This student's name is Gene Hudson",
-        joinState: JoinState.JOINED,
-        teamName: 'Team 2',
-        sectionName: 'Tutorial Group 2',
-      },
-      {
-        email: 'hugh.i.tmms@gmail.tmt',
-        courseId: 'test.exa-demo',
-        name: 'Hugh Ivanov',
-        comments: "This student's name is Hugh Ivanov",
-        joinState: JoinState.NOT_JOINED,
-        teamName: 'Team 3',
-        sectionName: 'Tutorial Group 2',
-      },
+    students: [ 
+      tStudent2,
+      tStudent3,
+      tStudent4,
+      tStudent5,
+      tStudent6,
+      tStudent7,
+      tStudent8,
+      tStudent9
     ],
   };
 

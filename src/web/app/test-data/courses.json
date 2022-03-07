@@ -1,1 +1,279 @@
-
+{
+    "CS9999": {
+        "courseId": "CS9999",
+        "courseName": "CS9999",
+        "institute": "Test Institute",
+        "timeZone": "Asia/Singapore",
+        "creationTimestamp": 0,
+        "deletionTimestamp": 0,
+        "privileges": {
+            "canModifyCourse": true,
+            "canModifySession": true,
+            "canModifyStudent": true,
+            "canModifyInstructor": true,
+            "canViewStudentInSections": true,
+            "canModifySessionCommentsInSections": true,
+            "canViewSessionInSections": true,
+            "canSubmitSessionInSections": true
+        }
+    },
+    "MA1234_with_privileges": {
+        "courseId": "MA1234",
+        "courseName": "MA1234",
+        "institute": "Test Institute",
+        "timeZone": "Asia/Singapore",
+        "creationTimestamp": 0,
+        "deletionTimestamp": 0,
+        "privileges": {
+            "canModifyCourse": true,
+            "canModifySession": true,
+            "canModifyStudent": true,
+            "canModifyInstructor": true,
+            "canViewStudentInSections": true,
+            "canModifySessionCommentsInSections": true,
+            "canViewSessionInSections": true,
+            "canSubmitSessionInSections": true
+        }
+    },
+    "EE1111": {
+        "courseId": "EE1111",
+        "courseName": "EE1111",
+        "institute": "Test Institute",
+        "timeZone": "Asia/Singapore",
+        "creationTimestamp": 0,
+        "deletionTimestamp": 0,
+        "privileges": {
+            "canModifyCourse": false,
+            "canModifySession": false,
+            "canModifyStudent": false,
+            "canModifyInstructor": false,
+            "canViewStudentInSections": true,
+            "canModifySessionCommentsInSections": true,
+            "canViewSessionInSections": true,
+            "canSubmitSessionInSections": true
+        }
+    },
+    "exampleId": {
+        "courseId": "exampleId",
+        "courseName": "Example Course",
+        "institute": "Test Institute",
+        "timeZone": "UTC (UTC)",
+        "creationTimestamp": 0,
+        "deletionTimestamp": 1000
+    },
+    "CS101": {
+        "courseId": "CS101",
+        "courseName": "Introduction to CS",
+        "timeZone": "",
+        "institute": "Test Institute",
+        "creationTimestamp": 0,
+        "deletionTimestamp": 0
+    },
+    "CS3281_1": {
+        "course": {
+            "courseId": "CS3281",
+            "courseName": "Modifiable Students and Courses",
+            "timeZone": "UTC",
+            "creationTimestamp": "2018-11-05T08:15:30",
+            "deletionTimestamp": 0
+        },
+        "canModifyCourse": true,
+        "canModifyStudent": true
+    },
+    "CS3281_2": {
+        "courseId": "CS3281",
+        "courseName": "Thematic Systems I",
+        "creationTimestamp": 1611580917000,
+        "deletionTimestamp": 0,
+        "timeZone": "Asia/Singapore",
+        "institute": "Test Institute"
+    },
+    "CS3281_deleted": {
+        "courseId": "CS3281",
+        "courseName": "Thematic Systems Project I",
+        "creationTimestamp": 1036480530000,
+        "deletionTimestamp": 1068016530000,
+        "timeZone": "UTC",
+        "institute": "Test Institute"
+    },
+    "CS3282": {
+        "course": {
+            "courseId": "CS3282",
+            "courseName": "Nothing modifiable",
+            "timeZone": "UTC",
+            "creationTimestamp": "2019-02-02T08:15:30",
+            "deletionTimestamp": 0
+        },
+        "canModifyCourse": false,
+        "canModifyStudent": false
+    },
+    "CS3282_deleted": {
+        "courseId": "CS3282",
+        "courseName": "Thematic Systems Project II",
+        "creationTimestamp": 1039072530000,
+        "deletionTimestamp": 1070608530000,
+        "timeZone": "UTC",
+        "institute": "Test Institute"
+    },
+    "CS2104": {
+        "course": {
+            "courseId": "CS2104",
+            "courseName": "Can modify archived",
+            "timeZone": "UTC",
+            "creationTimestamp": "2002-11-05T08:15:30",
+            "deletionTimestamp": 0
+        },
+        "canModifyCourse": true
+    },
+    "CS2106": {
+        "course": {
+            "courseId": "CS2106",
+            "courseName": "Cannot modify archived",
+            "timeZone": "UTC",
+            "creationTimestamp": "2002-11-05T08:15:30",
+            "deletionTimestamp": 0
+        },
+        "canModifyCourse": false
+    },
+    "CS1020": {
+        "course": {
+            "courseId": "CS1020",
+            "courseName": "Can modify deleted",
+            "timeZone": "UTC",
+            "creationTimestamp": "2002-11-05T08:15:30",
+            "deletionTimestamp": "2003-11-05T08:15:30"
+        },
+        "canModifyCourse": true
+    },
+    "CS2010": {
+        "course": {
+            "courseId": "CS2010",
+            "courseName": "Cannot modify deleted",
+            "timeZone": "UTC",
+            "creationTimestamp": "2002-12-05T08:15:30",
+            "deletionTimestamp": "2003-12-05T08:15:30"
+        },
+        "canModifyCourse": false
+    },
+    "CS1231_1": {
+        "courseId": "CS1231",
+        "courseName": "Discrete Structures",
+        "creationTimestamp": 1541402130000,
+        "deletionTimestamp": 0,
+        "timeZone": "UTC",
+        "institute": "Test Institute"
+    },
+    "CS1231_2": {
+        "courseId": "CS1231",
+        "courseName": "Discrete Structures",
+        "creationTimestamp": 1549095330000,
+        "deletionTimestamp": 0,
+        "timeZone": "Asia/Singapore",
+        "institute": "Test Institute"
+    },
+    "ST4234": {
+        "courseId": "ST4234",
+        "courseName": "Bayesian Statistics",
+        "creationTimestamp": 1549091730000,
+        "deletionTimestamp": 0,
+        "timeZone": "UTC",
+        "institute": "Test Institute"
+    },
+    "CS12312": {
+        "courseId": "CS1231",
+        "courseName": "Discrete Structures",
+        "timeZone": "Asia/Singapore",
+        "creationTimestamp": 1549095330000,
+        "deletionTimestamp": 0
+    },
+    "LSM1306": {
+        "courseId": "LSM1306",
+        "courseName": "Forensic Science",
+        "timeZone": "Asia/Singapore",
+        "creationTimestamp": 1549095330000,
+        "deletionTimestamp": 0
+    },
+    "MA1521": {
+        "courseId": "MA1521",
+        "courseName": "Calculus for Computing",
+        "timeZone": "Asia/Singapore",
+        "creationTimestamp": 1549095330000, 
+        "deletionTimestamp": 0
+    },
+    "CS12313": {
+        "courseId": "CS1231",
+        "courseName": "Discrete Structures",
+        "institute": "Test Institute",
+        "timeZone": "Asia/Singapore",
+        "creationTimestamp": 1549095330000, 
+        "deletionTimestamp": 0
+    },
+    "CS2103": {
+        "courseId": "CS2103",
+        "courseName": "Software Engineering",
+        "timeZone": "Asia/Singapore",
+        "creationTimestamp": 1549095330000, 
+        "deletionTimestamp": 0
+    },
+    "CS3281thermatic": {
+        "courseId": "CS3281",
+        "courseName": "Thematic Systems I",
+        "timeZone": "Asia/Singapore",
+        "creationTimestamp": 1549095330000, 
+        "deletionTimestamp": 0
+    },
+    "CS3281thermatic2": {
+        "courseId": "CS3281",
+        "courseName": "Thematic Systems",
+        "timeZone": "Asia/Singapore",
+        "creationTimestamp": 1549095330000, 
+        "deletionTimestamp": 0
+    },
+    "CS3282thermatic":{
+        "courseId": "CS3282",
+        "courseName": "Thematic Systems II",
+        "timeZone": "Asia/Singapore",
+        "creationTimestamp": 1549095330000, 
+        "deletionTimestamp": 0
+    },
+    "testId1": {
+        "courseId": "testId1",
+        "courseName": "Test Course 1",
+        "institute": "Test Institute",
+        "timeZone": "Asia/Singapore",
+        "creationTimestamp": 0,
+        "deletionTimestamp": 1000
+    },
+    "testId2": {
+        "courseId": "testId2",
+        "courseName": "Test Course 2",
+        "institute": "Test Institute",
+        "timeZone": "Asia/Singapore",
+        "creationTimestamp": 0,
+        "deletionTimestamp": 1000
+    },
+    "sampleCourse101": {
+        "courseId": "1.1.c-demo2",
+        "courseName": "Sample Course 101",
+        "institute": "Test Institute",
+        "creationTimestamp": 1552472130000,
+        "deletionTimestamp": 0,
+        "timeZone": "UTC"
+    },
+    "CS1234": {
+        "courseId": "CS1234",
+        "courseName": "test-course1",
+        "institute": "Test Institute",
+        "timeZone": "Asia/Singapore",
+        "creationTimestamp": 0,
+        "deletionTimestamp": 0
+    },
+    "MA1234_without_privileges": {
+        "courseId":"MA1234",
+        "courseName":"test-course2",
+        "institute":"Test Institute",
+        "timeZone":"Asia/Singapore",
+        "creationTimestamp": 0,
+        "deletionTimestamp": 0
+    }
+}

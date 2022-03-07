@@ -34,6 +34,115 @@
         "sectionName": "Section 2"
     }
     
-    }
+    },
 
+    "emptyStudent": {
+        "courseId": "",
+        "email": "",
+        "name": "",
+        "sectionName": "",
+        "teamName": ""
+    },
+    "testStudent1": {
+        "email": "doejohn@email.com",
+        "courseId": "CS9999",
+        "name": "Doe John",
+        "teamName": "team 1",
+        "sectionName": "section 1"
+    },
+    "testStudent2": {
+        "email": "alice.b.tmms@gmail.tmt",
+        "courseId": "test.exa-demo",
+        "name": "Alice Betsy",
+        "comments": "This student's name is Alice Betsy",
+        "joinState": "JOINED",
+        "teamName": "Team 1",
+        "sectionName": "Tutorial Group 1"
+    },
+    "testStudent3": {
+        "email": "benny.c.tmms@gmail.tmt",
+        "courseId": "test.exa-demo",
+        "name": "Benny Charles",
+        "comments": "This student's name is Benny Charles",
+        "joinState": "JOINED",
+        "teamName": "Team 1",
+        "sectionName": "Tutorial Group 1"
+    },
+    "testStudent4": {
+        "email": "charlie.d.tmms@gmail.tmt",
+        "courseId": "test.exa-demo",
+        "name": "Charlie Davis",
+        "comments": "This student's name is Charlie Davis",
+        "joinState": "JOINED",
+        "teamName": "Team 2",
+        "sectionName": "Tutorial Group 2"
+    },
+    "testStudent5": {
+        "email": "danny.e.tmms@gmail.tmt",
+        "courseId": "test.exa-demo",
+        "name": "Danny Engrid",
+        "comments": "This student's name is Danny Engrid",
+        "joinState": "JOINED",
+        "teamName": "Team 1",
+        "sectionName": "Tutorial Group 1"
+    },
+    "testStudent6": {
+        "email": "emma.f.tmms@gmail.tmt",
+        "courseId": "test.exa-demo",
+        "name": "Emma Farrell",
+        "comments": "This student's name is Emma Farrell",
+        "joinState": "JOINED",
+        "teamName": "Team 1",
+        "sectionName": "Tutorial Group 1"
+    },
+    "testStudent7": {
+        "email": "francis.g.tmms@gmail.tmt",
+        "courseId": "test.exa-demo",
+        "name": "Francis Gabriel",
+        "comments": "This student's name is Francis Gabriel",
+        "joinState": "JOINED",
+        "teamName": "Team 2",
+        "sectionName": "Tutorial Group 2"
+    },
+    "testStudent8": {
+        "email": "gene.h.tmms@gmail.tmt",
+        "courseId": "test.exa-demo",
+        "name": "Gene Hudson",
+        "comments": "This student's name is Gene Hudson",
+        "joinState": "JOINED",
+        "teamName": "Team 2",
+        "sectionName": "Tutorial Group 2"
+    },
+    "testStudent9": {
+        "email": "hugh.i.tmms@gmail.tmt",
+        "courseId": "test.exa-demo",
+        "name": "Hugh Ivanov",
+        "comments": "This student's name is Hugh Ivanov",
+        "joinState": "NOT_JOINED",
+        "teamName": "Team 3",
+        "sectionName": "Tutorial Group 2"
+    },
+    "testStudent10": {
+        "name": "Jamie",
+        "email": "jamie@gmail.com",
+        "joinState": "NOT_JOINED",
+        "teamName": "Team 1",
+        "sectionName": "Tutorial Group 1",
+        "courseId": "CS101"
+    },
+    "student1team2": {
+        "courseId": "1.1.c-demo2",
+        "email": "1@1.com",
+        "name": "1",
+        "comments": "",
+        "sectionName": "Tutorial Group 2",
+        "teamName": "Team 2"
+    },
+    "testStudent11": {
+        "email": "doejohn@email.com",
+        "courseId": "CS1234",
+        "name": "Doe John",
+        "teamName": "team 1",
+        "sectionName": "section 1"
+    }
 }

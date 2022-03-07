@@ -1,0 +1,449 @@
+{
+    "searchResult1": {
+        "name": "name",
+        "email": "email",
+        "googleId": "googleId",
+        "courseId": "courseId",
+        "courseName": "courseName",
+        "institute": "institute",
+        "courseJoinLink": "courseJoinLink",
+        "homePageLink": "homePageLink",
+        "manageAccountLink": "manageAccountLink",
+        "showLinks": false,
+        "section": "section",
+        "team": "team",
+        "comments": "comments",
+        "recordsPageLink": "recordsPageLink",
+        "awaitingSessions": {
+            "sessionName": {
+                "feedbackSessionUrl": "sessionUrl",
+                "startTime": "startTime",
+                "endTime": "endTime"
+            }
+        },
+        "openSessions": {
+            "sessionName": {
+                "feedbackSessionUrl": "sessionUrl",
+                "startTime": "startTime",
+                "endTime": "endTime"
+            }
+        },
+        "notOpenSessions": {
+            "sessionName": {
+                "feedbackSessionUrl": "sessionUrl",
+                "startTime": "startTime",
+                "endTime": "endTime"
+            }
+        },
+        "publishedSessions": {
+            "sessionName": {
+                "feedbackSessionUrl": "sessionUrl",
+                "startTime": "startTime",
+                "endTime": "endTime"
+            }
+        }
+    },
+    "searchResult2": {
+        "name": "name",
+        "email": "email",
+        "googleId": "googleId",
+        "courseId": "courseId",
+        "courseName": "courseName",
+        "institute": "institute",
+        "courseJoinLink": "courseJoinLink",
+        "homePageLink": "homePageLink",
+        "manageAccountLink": "manageAccountLink",
+        "showLinks": false,
+        "awaitingSessions": {
+            "sessionName": {
+                "feedbackSessionUrl": "sessionUrl",
+                "startTime": "startTime",
+                "endTime": "endTime"
+            }
+        },
+        "openSessions": {
+            "sessionName": {
+                "feedbackSessionUrl": "sessionUrl",
+                "startTime": "startTime",
+                "endTime": "endTime"
+            }
+        },
+        "notOpenSessions": {
+            "sessionName": {
+                "feedbackSessionUrl": "sessionUrl",
+                "startTime": "startTime",
+                "endTime": "endTime"
+            }
+        },
+        "publishedSessions": {
+            "sessionName": {
+                "feedbackSessionUrl": "sessionUrl",
+                "startTime": "startTime",
+                "endTime": "endTime"
+            }
+        }
+    },
+    "searchResult3": {
+        "name": "name",
+        "email": "email",
+        "institute": "institute",
+        "registrationLink": "registrationLink",
+        "createdAt": "Tue, 08 Feb 2022, 08:23 AM +00:00",
+        "registeredAt": "Not Registered Yet",
+        "showLinks": false
+    },
+    "searchResult4": {
+        "name": "tester",
+        "email": "tester@tester.com",
+        "googleId": "instructor-google-id",
+        "courseId": "test-exa.demo",
+        "courseName": "demo",
+        "institute": "institute",
+        "courseJoinLink": "course-join-link",
+        "homePageLink": "home-page-link",
+        "manageAccountLink": "manage-account-link",
+        "showLinks": true,
+        "awaitingSessions": {
+            "sessionName": {
+                "feedbackSessionUrl": "sessionUrl",
+                "startTime": "startTime",
+                "endTime": "endTime"
+            }
+        },
+        "openSessions": {
+            "sessionName": {
+                "feedbackSessionUrl": "sessionUrl",
+                "startTime": "startTime",
+                "endTime": "endTime"
+            }
+        },
+        "notOpenSessions": {
+            "sessionName": {
+                "feedbackSessionUrl": "sessionUrl",
+                "startTime": "startTime",
+                "endTime": "endTime"
+            }
+        },
+        "publishedSessions": {
+            "sessionName": {
+                "feedbackSessionUrl": "sessionUrl",
+                "startTime": "startTime",
+                "endTime": "endTime"
+            }
+        }
+    },
+    "searchResult5": {
+        "name": "Alice Betsy",
+        "email": "alice.b.tmms@gmail.tmt",
+        "googleId": "student-google-id",
+        "courseId": "test-exa.demo",
+        "courseName": "demo",
+        "institute": "institute",
+        "courseJoinLink": "course-join-link",
+        "homePageLink": "home-page-link",
+        "manageAccountLink": "manage-account-link",
+        "showLinks": true,
+        "section": "section",
+        "team": "team",
+        "comments": "comments",
+        "recordsPageLink": "records-page-link",
+        "awaitingSessions": {
+            "sessionName": {
+                "feedbackSessionUrl": "sessionUrl",
+                "startTime": "startTime",
+                "endTime": "endTime"
+            }
+        },
+        "openSessions": {
+            "sessionName": {
+                "feedbackSessionUrl": "sessionUrl",
+                "startTime": "startTime",
+                "endTime": "endTime"
+            }
+        },
+        "notOpenSessions": {
+            "sessionName": {
+                "feedbackSessionUrl": "sessionUrl",
+                "startTime": "startTime",
+                "endTime": "endTime"
+            }
+        },
+        "publishedSessions": {
+            "sessionName": {
+                "feedbackSessionUrl": "sessionUrl",
+                "startTime": "startTime",
+                "endTime": "endTime"
+            }
+        }
+    },
+    "searchResult6": {
+        "name": "name1",
+        "email": "email1",
+        "googleId": "googleId1",
+        "courseId": "courseId1",
+        "courseName": "courseName1",
+        "institute": "institute1",
+        "courseJoinLink": "courseJoinLink1",
+        "homePageLink": "homePageLink1",
+        "manageAccountLink": "manageAccountLink1",
+        "showLinks": true,
+        "awaitingSessions": {
+            "sessionName": {
+                "feedbackSessionUrl": "sessionUrl",
+                "startTime": "startTime",
+                "endTime": "endTime"
+            }
+        },
+        "openSessions": {
+            "sessionName": {
+                "feedbackSessionUrl": "sessionUrl",
+                "startTime": "startTime",
+                "endTime": "endTime"
+            }
+        },
+        "notOpenSessions": {
+            "sessionName": {
+                "feedbackSessionUrl": "sessionUrl",
+                "startTime": "startTime",
+                "endTime": "endTime"
+            }
+        },
+        "publishedSessions": {
+            "sessionName": {
+                "feedbackSessionUrl": "sessionUrl",
+                "startTime": "startTime",
+                "endTime": "endTime"
+            }
+        }
+    },
+    "searchResult7": {
+        "name": "name2",
+        "email": "email2",
+        "googleId": "googleId2",
+        "courseId": "courseId2",
+        "courseName": "courseName2",
+        "institute": "institute2",
+        "courseJoinLink": "courseJoinLink2",
+        "homePageLink": "homePageLink2",
+        "manageAccountLink": "manageAccountLink2",
+        "showLinks": true,
+        "awaitingSessions": {
+            "sessionName": {
+                "feedbackSessionUrl": "sessionUrl",
+                "startTime": "startTime",
+                "endTime": "endTime"
+            }
+        },
+        "openSessions": {
+            "sessionName": {
+                "feedbackSessionUrl": "sessionUrl",
+                "startTime": "startTime",
+                "endTime": "endTime"
+            }
+        },
+        "notOpenSessions": {
+            "sessionName": {
+                "feedbackSessionUrl": "sessionUrl",
+                "startTime": "startTime",
+                "endTime": "endTime"
+            }
+        },
+        "publishedSessions": {
+            "sessionName": {
+                "feedbackSessionUrl": "sessionUrl",
+                "startTime": "startTime",
+                "endTime": "endTime"
+            }
+        }
+    },
+    "searchResult8": {
+        "name": "name1",
+        "email": "email1",
+        "googleId": "googleId1",
+        "courseId": "courseId1",
+        "courseName": "courseName1",
+        "institute": "institute1",
+        "courseJoinLink": "courseJoinLink1",
+        "homePageLink": "homePageLink1",
+        "manageAccountLink": "manageAccountLink1",
+        "showLinks": true,
+        "section": "section1",
+        "team": "team1",
+        "comments": "comments1",
+        "recordsPageLink": "recordsPageLink1",
+        "awaitingSessions": {
+            "sessionName": {
+                "feedbackSessionUrl": "sessionUrl",
+                "startTime": "startTime",
+                "endTime": "endTime"
+            }
+        },
+        "openSessions": {
+            "sessionName": {
+                "feedbackSessionUrl": "sessionUrl",
+                "startTime": "startTime",
+                "endTime": "endTime"
+            }
+        },
+        "notOpenSessions": {
+            "sessionName": {
+                "feedbackSessionUrl": "sessionUrl",
+                "startTime": "startTime",
+                "endTime": "endTime"
+            }
+        },
+        "publishedSessions": {
+            "sessionName": {
+                "feedbackSessionUrl": "sessionUrl",
+                "startTime": "startTime",
+                "endTime": "endTime"
+            }
+        }
+    },
+    "searchResult9": {
+        "name": "name2",
+        "email": "email2",
+        "googleId": "googleId2",
+        "courseId": "courseId2",
+        "courseName": "courseName2",
+        "institute": "institute2",
+        "courseJoinLink": "courseJoinLink2",
+        "homePageLink": "homePageLink2",
+        "manageAccountLink": "manageAccountLink2",
+        "showLinks": true,
+        "section": "section2",
+        "team": "team2",
+        "comments": "comments2",
+        "recordsPageLink": "recordsPageLink2",
+        "awaitingSessions": {
+            "sessionName": {
+                "feedbackSessionUrl": "sessionUrl",
+                "startTime": "startTime",
+                "endTime": "endTime"
+            }
+        },
+        "openSessions": {
+            "sessionName": {
+                "feedbackSessionUrl": "sessionUrl",
+                "startTime": "startTime",
+                "endTime": "endTime"
+            }
+        },
+        "notOpenSessions": {
+            "sessionName": {
+                "feedbackSessionUrl": "sessionUrl",
+                "startTime": "startTime",
+                "endTime": "endTime"
+            }
+        },
+        "publishedSessions": {
+            "sessionName": {
+                "feedbackSessionUrl": "sessionUrl",
+                "startTime": "startTime",
+                "endTime": "endTime"
+            }
+        }
+    },
+    "searchResult10": {
+        "name": "name",
+        "email": "email",
+        "googleId": "googleId",
+        "courseId": "courseId",
+        "courseName": "courseName",
+        "institute": "institute",
+        "courseJoinLink": "courseJoinLink",
+        "homePageLink": "homePageLink",
+        "manageAccountLink": "manageAccountLink",
+        "showLinks": false,
+        "awaitingSessions": {
+            "sessionName": {
+                "feedbackSessionUrl": "sessionUrl",
+                "startTime": "startTime",
+                "endTime": "endTime"
+            }
+        },
+        "openSessions": {
+            "sessionName": {
+                "feedbackSessionUrl": "sessionUrl",
+                "startTime": "startTime",
+                "endTime": "endTime"
+            }
+        },
+        "notOpenSessions": {
+            "sessionName": {
+                "feedbackSessionUrl": "sessionUrl",
+                "startTime": "startTime",
+                "endTime": "endTime"
+            }
+        },
+        "publishedSessions": {
+            "sessionName": {
+                "feedbackSessionUrl": "sessionUrl",
+                "startTime": "startTime",
+                "endTime": "endTime"
+            }
+        }
+    },
+    "searchResult11": {
+        "name": "name",
+        "email": "email",
+        "googleId": "googleId",
+        "courseId": "courseId",
+        "courseName": "courseName",
+        "institute": "institute",
+        "courseJoinLink": "courseJoinLink",
+        "homePageLink": "homePageLink",
+        "manageAccountLink": "manageAccountLink",
+        "showLinks": false,
+        "section": "section",
+        "team": "team",
+        "comments": "comments",
+        "recordsPageLink": "recordsPageLink",
+        "awaitingSessions": {
+            "sessionName": {
+                "feedbackSessionUrl": "sessionUrl",
+                "startTime": "startTime",
+                "endTime": "endTime"
+            }
+        },
+        "openSessions": {
+            "sessionName": {
+                "feedbackSessionUrl": "sessionUrl",
+                "startTime": "startTime",
+                "endTime": "endTime"
+            }
+        },
+        "notOpenSessions": {
+            "sessionName": {
+                "feedbackSessionUrl": "sessionUrl",
+                "startTime": "startTime",
+                "endTime": "endTime"
+            }
+        },
+        "publishedSessions": {
+            "sessionName": {
+                "feedbackSessionUrl": "sessionUrl",
+                "startTime": "startTime",
+                "endTime": "endTime"
+            }
+        }
+    },
+    "searchResult12":{
+        "name": "name1",
+        "email": "email1",
+        "institute": "institute1",
+        "registrationLink": "registrationLink1",
+        "createdAt": "Tue, 08 Feb 2022, 08:23 AM +00:00",
+        "registeredAt": "Not Registered Yet",
+        "showLinks": true
+    },
+    "searchResult13":{
+        "name": "name2",
+        "email": "email2",
+        "institute": "institute2",
+        "registrationLink": "registrationLink2",
+        "createdAt": "Tue, 08 Feb 2022, 08:23 AM +00:00",
+        "registeredAt": "Not Registered Yet",
+        "showLinks": true
+    }
+}

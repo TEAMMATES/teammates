@@ -24,6 +24,9 @@ import { SortBy } from '../../../types/sort-properties';
 import { ColumnData } from '../../components/sortable-table/sortable-table.component';
 import { InstructorTrackViewPageComponent } from './instructor-track-view-page.component';
 import { InstructorTrackViewPageModule } from './instructor-track-view-page.module';
+import { default as courses } from '../../test-data/courses.json'
+import { default as students } from '../../test-data/students.json'
+import { default as feedbackSessions } from '../../test-data/feedbackSession.json'
 
 describe('InstructorTrackViewPageComponent', () => {
   let component: InstructorTrackViewPageComponent;
@@ -43,23 +46,8 @@ describe('InstructorTrackViewPageComponent', () => {
     { header: 'Team', sortBy: SortBy.TEAM_NAME },
   ];
 
-  const testCourse1: Course = {
-    courseId: 'CS1234',
-    courseName: 'test-course1',
-    institute: 'Test Institute',
-    timeZone: 'Asia/Singapore',
-    creationTimestamp: 0,
-    deletionTimestamp: 0,
-  };
-
-  const testCourse2: Course = {
-    courseId: 'MA1234',
-    courseName: 'test-course2',
-    institute: 'Test Institute',
-    timeZone: 'Asia/Singapore',
-    creationTimestamp: 0,
-    deletionTimestamp: 0,
-  };
+  const testCourse1: Course = courses.CS1234;
+  const testCourse2: Course = courses.MA1234_without_privileges;
 
   const testFeedbackSessionPublished: FeedbackSession = {
     feedbackSessionName: 'First Session',
@@ -79,30 +67,13 @@ describe('InstructorTrackViewPageComponent', () => {
     createdAtTimestamp: 0,
   };
 
-  const testFeedbackSessionNotPublished: FeedbackSession = {
-    feedbackSessionName: 'Second Session',
-    courseId: 'MA1234',
-    timeZone: 'Asia/Singapore',
-    instructions: '',
-    submissionStartTimestamp: 0,
-    submissionEndTimestamp: 1549095330000,
-    gracePeriod: 0,
-    sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
-    responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
-    submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
-    publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
-    isClosingEmailEnabled: true,
-    isPublishedEmailEnabled: false,
-    createdAtTimestamp: 0,
-  };
+  // Store in temporary any-type object since the json-object cannot hold
+  // attributes with values of typescript classes. The temporary object can then
+  // be converted into a proper FeedbackSession-object.
+  const tmp_testFeedbackSessionNotPublished: any = feedbackSessions.SecondSessionMA1234;
+  const testFeedbackSessionNotPublished: FeedbackSession = tmp_testFeedbackSessionNotPublished;
 
-  const testStudent: Student = {
-    email: 'doejohn@email.com',
-    courseId: 'CS1234',
-    name: 'Doe John',
-    teamName: 'team 1',
-    sectionName: 'section 1',
-  };
+  const testStudent: Student = students.testStudent11;
 
   const testLogs: FeedbackSessionLog = {
     feedbackSessionData: testFeedbackSessionPublished,

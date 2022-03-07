@@ -24,15 +24,9 @@ import {
   InstructorEditPanelComponent,
 } from './instructor-edit-panel/instructor-edit-panel.component';
 import { ViewRolePrivilegesModalComponent } from './view-role-privileges-modal/view-role-privileges-modal.component';
+import {default as courses} from '../../test-data/courses.json';
 
-const testCourse: Course = {
-  courseId: 'exampleId',
-  courseName: 'Example Course',
-  institute: 'Test Institute',
-  timeZone: 'UTC (UTC)',
-  creationTimestamp: 0,
-  deletionTimestamp: 1000,
-};
+const testCourse: Course = courses.exampleId;
 
 const testInstructor1: Instructor = {
   courseId: 'exampleId',
