@@ -156,7 +156,7 @@ Each page in TEAMMATES is represented by a page object class. The page object cl
   
 <box type="tip">
 
-  To maximise the effectiveness of Page Object Pattern, interaction with UI elements should not occur outside the page objects.
+To maximise the effectiveness of Page Object Pattern, interaction with UI elements should not occur outside the page objects.
 </box>
 
 ### Creating Page Objects

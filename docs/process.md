@@ -27,7 +27,7 @@ The following are the roles involved:
 ## Fixing issues
 
 <box type="info" light>
-    <thumbnail circle slot="icon" text=":computer:" background="#dff5ff" size="32"/>
+  <thumbnail circle slot="icon" text=":fas-laptop:" background="#dff5ff" size="32"/>
 
 **Role: Dev**
 </box>
@@ -218,7 +218,7 @@ Your work on the issue is done when your PR is successfully merged to the main r
 ## Reviewing a PR
 
 <box type="info" light>
-    <thumbnail circle slot="icon" text=":book:" background="#fac090" size="32"/>
+  <thumbnail circle slot="icon" text=":fas-comments:" background="#fac090" size="32"/>
 
 **Role: Reviewer**
 </box>
@@ -227,7 +227,7 @@ Your work on the issue is done when your PR is successfully merged to the main r
 
 <box type="tip">
 
-  To remove whitespace-only changes from being shown, append `?w=1` to url of the `/files` page of the PR (the "Files changed" tab).
+To remove whitespace-only changes from being shown, append `?w=1` to url of the `/files` page of the PR (the "Files changed" tab).
 </box>
 
 [GitHub's review feature](https://github.com/blog/2256-a-whole-new-github-universe-announcing-new-tools-forums-and-features#code-better-with-reviews) is to be used in this task.
@@ -246,7 +246,7 @@ Your work on the issue is done when your PR is successfully merged to the main r
 * If the code is OK in all aspects, change the PR status to `s.FinalReview` and "Approve" the PR.
 
 <box type="info" light>
-    <thumbnail circle slot="icon" text=":pen:" background="#fac090" size="32"/>
+  <thumbnail circle slot="icon" text=":fas-marker:" background="#fac090" size="32"/>
 
 **Role: Code quality reviewer**
 </box>
@@ -257,7 +257,7 @@ Your work on the issue is done when your PR is successfully merged to the main r
 ## Merging a PR
 
 <box type="info" light>
-    <thumbnail circle slot="icon" text=":computer:" background="#fac090" size="32"/>
+  <thumbnail circle slot="icon" text=":fas-laptop:" background="#fac090" size="32"/>
 
 **Role: dev (with push permission), or reviewer**
 </box>
