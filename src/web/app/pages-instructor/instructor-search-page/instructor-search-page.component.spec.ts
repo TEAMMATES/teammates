@@ -10,6 +10,10 @@ import { StudentListRowModel } from '../../components/student-list/student-list.
 import { InstructorSearchPageComponent } from './instructor-search-page.component';
 import { InstructorSearchPageModule } from './instructor-search-page.module';
 import { SearchStudentsListRowTable } from './student-result-table/student-result-table.component';
+// import {default as courses} from '../../test-data/courses.json';
+'../../../'
+import {default as students} from '../../test-data/students.json';
+import {default as instructorPrivilegeSets} from '../../test-data/instructorPermissionSets.json';
 
 describe('InstructorSearchPageComponent', () => {
   let component: InstructorSearchPageComponent;
@@ -17,42 +21,43 @@ describe('InstructorSearchPageComponent', () => {
   let spyHttpRequestService: any;
   let coursesWithStudents: SearchStudentsListRowTable[];
 
-  const mockStudents: Students = {
-    students: [
-      {
-        email: 'alice@example.com',
-        courseId: 'CS3281',
-        name: 'Alice',
-        joinState: JoinState.JOINED,
-        teamName: 'Team 1',
-        sectionName: 'Section 1',
-      },
-      {
-        email: 'bob@example.com',
-        courseId: 'CS3281',
-        name: 'Bob',
-        joinState: JoinState.JOINED,
-        teamName: 'Team 1',
-        sectionName: 'Section 1',
-      },
-      {
-        email: 'chloe@example.com',
-        courseId: 'CS3281',
-        name: 'Chloe',
-        joinState: JoinState.JOINED,
-        teamName: 'Team 1',
-        sectionName: 'Section 2',
-      },
-      {
-        email: 'david@example.com',
-        courseId: 'CS3282',
-        name: 'David',
-        joinState: JoinState.JOINED,
-        teamName: 'Team 1',
-        sectionName: 'Section 2',
-      },
-    ],
-  };
+  const mockStudents: Student = students.students;
+  // Students = {
+  //   students: [
+  //     {
+  //       email: 'alice@example.com',
+  //       courseId: 'CS3281',
+  //       name: 'Alice',
+  //       joinState: JoinState.JOINED,
+  //       teamName: 'Team 1',
+  //       sectionName: 'Section 1',
+  //     },
+  //     {
+  //       email: 'bob@example.com',
+  //       courseId: 'CS3281',
+  //       name: 'Bob',
+  //       joinState: JoinState.JOINED,
+  //       teamName: 'Team 1',
+  //       sectionName: 'Section 1',
+  //     },
+  //     {
+  //       email: 'chloe@example.com',
+  //       courseId: 'CS3281',
+  //       name: 'Chloe',
+  //       joinState: JoinState.JOINED,
+  //       teamName: 'Team 1',
+  //       sectionName: 'Section 2',
+  //     },
+  //     {
+  //       email: 'david@example.com',
+  //       courseId: 'CS3282',
+  //       name: 'David',
+  //       joinState: JoinState.JOINED,
+  //       teamName: 'Team 1',
+  //       sectionName: 'Section 2',
+  //     },
+  //   ],
+  // };
 
   beforeEach(() => {
     spyHttpRequestService = {
@@ -236,16 +241,17 @@ describe('InstructorSearchPageComponent', () => {
   });
 
   it('should combine privileges and course data correctly', () => {
-    const basePrivilege: InstructorPermissionSet = {
-      canModifyCourse: true,
-      canModifySession: true,
-      canModifyStudent: true,
-      canModifyInstructor: true,
-      canViewStudentInSections: true,
-      canModifySessionCommentsInSections: true,
-      canViewSessionInSections: true,
-      canSubmitSessionInSections: true,
-    };
+    const basePrivilege: InstructorPermissionSet = instructorPrivilegeSets.privilegeSet2;
+    // InstructorPermissionSet = {
+    //   canModifyCourse: true,
+    //   canModifySession: true,
+    //   canModifyStudent: true,
+    //   canModifyInstructor: true,
+    //   canViewStudentInSections: true,
+    //   canModifySessionCommentsInSections: true,
+    //   canViewSessionInSections: true,
+    //   canSubmitSessionInSections: true,
+    // };
     const mockPrivilegesArray: InstructorPrivilege[] = [
       {
         privileges: {
