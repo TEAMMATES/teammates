@@ -555,9 +555,8 @@ public final class FieldValidator {
      * Checks if the notification title is a non-null non-empty string.
      *
      * @param notificationTitle The title of the notification.
-
-     * @return An explanation of why the {@code value} is not acceptable.
-     *         Returns an empty string "" if the {@code value} is acceptable.
+     * @return An explanation of why the {@code notificationTitle} is not acceptable.
+     *         Returns an empty string "" if the {@code notificationTitle} is acceptable.
      */
     public static String getInvalidityInfoForNotificationTitle(String notificationTitle) {
 
@@ -575,9 +574,8 @@ public final class FieldValidator {
      * Checks if the notification message is a non-null non-empty string.
      *
      * @param notificationMessage The notification message.
-
-     * @return An explanation of why the {@code value} is not acceptable.
-     *         Returns an empty string "" if the {@code value} is acceptable.
+     * @return An explanation of why the {@code notificationMessage} is not acceptable.
+     *         Returns an empty string "" if the {@code notificationMessage} is acceptable.
      */
     public static String getInvalidityInfoForNotificationBody(String notificationMessage) {
 
@@ -599,13 +597,11 @@ public final class FieldValidator {
      */
     public static String getInvalidityInfoForNotificationType(String type) {
         assert type != null;
-
         try {
             NotificationType.valueOf(type);
         } catch (IllegalArgumentException e) {
             return String.format(NOTIFICATION_TYPE_ERROR_MESSAGE, type);
         }
-
         return "";
     }
 
@@ -618,13 +614,11 @@ public final class FieldValidator {
      */
     public static String getInvalidityInfoForNotificationTargetUser(String targetUser) {
         assert targetUser != null;
-
         try {
             NotificationTargetUser.valueOf(targetUser);
         } catch (IllegalArgumentException e) {
             return String.format(NOTIFICATION_TARGET_USER_ERROR_MESSAGE, targetUser);
         }
-
         return "";
     }
 

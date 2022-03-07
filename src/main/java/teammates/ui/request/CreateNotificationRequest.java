@@ -27,6 +27,7 @@ public class CreateNotificationRequest extends BasicRequest {
     }
 
     public NotificationTargetUser getTargetUser() {
+
         return this.targetUser;
     }
 
@@ -46,6 +47,5 @@ public class CreateNotificationRequest extends BasicRequest {
         assertTrue(targetUser != null, "Notification target user cannot be null");
         assertTrue(title != null, "Notification title cannot be null");
         assertTrue(message != null, "Notification message cannot be null");
-
     }
 }
