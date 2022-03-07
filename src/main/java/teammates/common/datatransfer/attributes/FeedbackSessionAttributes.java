@@ -225,12 +225,6 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         addNonEmptyError(FieldValidator.getInvalidityInfoForTimeForVisibilityStartAndResultsPublish(
                 actualSessionVisibleFromTime, resultsVisibleFromTime), errors);
 
-        addNonEmptyError(FieldValidator.getValidityInfoForNonNullField("student deadlines map", studentDeadlines),
-                errors);
-
-        addNonEmptyError(FieldValidator.getValidityInfoForNonNullField("instructor deadlines map", instructorDeadlines),
-                errors);
-
         return errors;
     }
 
