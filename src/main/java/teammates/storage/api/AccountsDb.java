@@ -81,6 +81,8 @@ public final class AccountsDb extends EntitiesDb<Account, AccountAttributes> {
             return newAttributes;
         }
 
+        account.setNotificationReadStatuses(newAttributes.getNotificationReadStatuses());
+
         saveEntity(account);
 
         return makeAttributes(account);

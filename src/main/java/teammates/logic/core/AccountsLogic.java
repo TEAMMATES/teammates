@@ -122,6 +122,7 @@ public final class AccountsLogic {
                 createAccount(AccountAttributes.builder(googleId)
                         .withName(instructor.getName())
                         .withEmail(instructor.getEmail())
+                        .withNotificationReadStatuses("")
                         .build());
             } catch (EntityAlreadyExistsException e) {
                 assert false : "Account already exists.";

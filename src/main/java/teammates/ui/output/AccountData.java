@@ -10,11 +10,13 @@ public class AccountData extends ApiOutput {
     private final String googleId;
     private final String name;
     private final String email;
+    private final String notificationReadStatuses;
 
     public AccountData(AccountAttributes accountInfo) {
         this.googleId = accountInfo.getGoogleId();
         this.name = accountInfo.getName();
         this.email = accountInfo.getEmail();
+        this.notificationReadStatuses = accountInfo.getNotificationReadStatuses();
     }
 
     public String getEmail() {
@@ -27,6 +29,10 @@ public class AccountData extends ApiOutput {
 
     public String getName() {
         return name;
+    }
+
+    public String getNotificationReadStatuses() {
+        return this.notificationReadStatuses;
     }
 
 }

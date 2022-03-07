@@ -21,6 +21,8 @@ public class Account extends BaseEntity {
 
     private String email;
 
+    private String notificationReadStatuses;
+
     @Translate(InstantTranslatorFactory.class)
     private Instant createdAt;
 
@@ -36,10 +38,11 @@ public class Account extends BaseEntity {
      * @param name The name of the user.
      * @param email The official email of the user.
      */
-    public Account(String googleId, String name, String email) {
+    public Account(String googleId, String name, String email, String notificationReadStatuses) {
         this.setGoogleId(googleId);
         this.setName(name);
         this.setEmail(email);
+        this.setNotificationReadStatuses(notificationReadStatuses);
         this.setCreatedAt(Instant.now());
     }
 
@@ -65,6 +68,14 @@ public class Account extends BaseEntity {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getNotificationReadStatuses() {
+        return notificationReadStatuses;
+    }
+
+    public void setNotificationReadStatuses(String notificationReadStatuses) {
+        this.notificationReadStatuses = notificationReadStatuses;
     }
 
     public Instant getCreatedAt() {

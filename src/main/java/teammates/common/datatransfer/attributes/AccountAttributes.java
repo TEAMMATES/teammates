@@ -20,6 +20,7 @@ public class AccountAttributes extends EntityAttributes<Account> {
     private String googleId;
     private String name;
     private String email;
+    private String notificationReadStatuses;
     private Instant createdAt;
 
     private AccountAttributes(String googleId) {
@@ -34,6 +35,7 @@ public class AccountAttributes extends EntityAttributes<Account> {
 
         accountAttributes.name = a.getName();
         accountAttributes.email = a.getEmail();
+        accountAttributes.notificationReadStatuses = a.getNotificationReadStatuses();
         accountAttributes.createdAt = a.getCreatedAt();
 
         return accountAttributes;
@@ -54,6 +56,7 @@ public class AccountAttributes extends EntityAttributes<Account> {
 
         accountAttributes.name = this.name;
         accountAttributes.email = this.email;
+        accountAttributes.notificationReadStatuses = this.notificationReadStatuses;
         accountAttributes.createdAt = this.createdAt;
 
         return accountAttributes;
@@ -83,6 +86,14 @@ public class AccountAttributes extends EntityAttributes<Account> {
         this.email = email;
     }
 
+    public String getNotificationReadStatuses() {
+        return notificationReadStatuses;
+    }
+
+    public void setNotificationReadStatuses(String notificationReadStatuses) {
+        this.notificationReadStatuses = notificationReadStatuses;
+    }
+
     public Instant getCreatedAt() {
         return createdAt;
     }
@@ -108,7 +119,7 @@ public class AccountAttributes extends EntityAttributes<Account> {
 
     @Override
     public Account toEntity() {
-        return new Account(googleId, name, email);
+        return new Account(googleId, name, email, notificationReadStatuses);
     }
 
     @Override
@@ -148,7 +159,7 @@ public class AccountAttributes extends EntityAttributes<Account> {
      * Updates with {@link UpdateOptions}.
      */
     public void update(UpdateOptions updateOptions) {
-        // currently, account does not have any updatable field
+        updateOptions.notificationReadStatusesOption.ifPresent(s -> notificationReadStatuses = s);
     }
 
     /**
@@ -200,6 +211,8 @@ public class AccountAttributes extends EntityAttributes<Account> {
     public static class UpdateOptions {
         private String googleId;
 
+        private UpdateOption<String> notificationReadStatusesOption = UpdateOption.empty();
+
         private UpdateOptions(String googleId) {
             assert googleId != null;
 
@@ -214,6 +227,7 @@ public class AccountAttributes extends EntityAttributes<Account> {
         public String toString() {
             return "AccountAttributes.UpdateOptions ["
                     + "googleId = " + googleId
+                    + ", notificationReadStatuses = " + notificationReadStatusesOption
                     + "]";
         }
 
@@ -250,6 +264,11 @@ public class AccountAttributes extends EntityAttributes<Account> {
 
         BasicBuilder(UpdateOptions updateOptions) {
             this.updateOptions = updateOptions;
+        }
+
+        public B withNotificationReadStatuses(String notificationReadStatuses) {
+            updateOptions.notificationReadStatusesOption = UpdateOption.of(notificationReadStatuses);
+            return thisBuilder;
         }
 
         public abstract T build();
