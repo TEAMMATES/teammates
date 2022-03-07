@@ -5,7 +5,7 @@ import { of } from 'rxjs';
 
 import { HttpRequestService } from '../../../services/http-request.service';
 import { ResourceEndpoints } from '../../../types/api-const';
-import { InstructorPermissionSet, InstructorPrivilege, JoinState, Student, Students } from '../../../types/api-output';
+import { InstructorPermissionSet, InstructorPrivilege, JoinState, Student } from '../../../types/api-output';
 import { StudentListRowModel } from '../../components/student-list/student-list.component';
 import { InstructorSearchPageComponent } from './instructor-search-page.component';
 import { InstructorSearchPageModule } from './instructor-search-page.module';
@@ -21,7 +21,7 @@ describe('InstructorSearchPageComponent', () => {
   let spyHttpRequestService: any;
   let coursesWithStudents: SearchStudentsListRowTable[];
 
-  const mockStudents: Student = students.students;
+  const temp: any = students;
 
   beforeEach(() => {
     spyHttpRequestService = {
@@ -56,7 +56,7 @@ describe('InstructorSearchPageComponent', () => {
   });
 
   beforeEach(() => {
-    const { students }: { students: Student[] } = mockStudents;
+    const { students }: { students: Student[] } = temp;
     coursesWithStudents = component.getCoursesWithStudents(students);
   });
 
@@ -135,7 +135,7 @@ describe('InstructorSearchPageComponent', () => {
   });
 
   it('should parse students into courses with sections correctly', () => {
-    const { students }: { students: Student[] } = mockStudents;
+    const { students }: { students: Student[] } = temp;
 
     // Number of courses should match
     expect(coursesWithStudents.length).toEqual(

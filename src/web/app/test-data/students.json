@@ -1,41 +1,38 @@
 {
-    "students" : {
-
-    "alice": {
-        "email": "alice@example.com",
-        "courseId": "CS3281",
-        "name": "Alice",
-        "joinState": "JoinState.JOINED",
-        "teamName": "Team 1",
-        "sectionName": "Section 1"
-    },
-    "bob": {
-        "email": "bob@example.com",
-        "courseId": "CS3281",
-        "name": "Bob",
-        "joinState": "JoinState.JOINED",
-        "teamName": "Team 1",
-        "sectionName": "Section 1"
-    },
-    "chloe": {
-        "email": "chloe@example.com",
-        "courseId": "CS3281",
-        "name": "Chloe",
-        "joinState": "JoinState.JOINED",
-        "teamName": "Team 1",
-        "sectionName": "Section 2"
-    },
-    "david": {
-        "email": "david@example.com",
-        "courseId": "CS3282",
-        "name": "David",
-        "joinState": "JoinState.JOINED",
-        "teamName": "Team 1",
-        "sectionName": "Section 2"
-    }
-    
-    },
-
+    "students" : [
+        {
+            "email": "alice@example.com",
+            "courseId": "CS3281",
+            "name": "Alice",
+            "joinState": "JoinState.JOINED",
+            "teamName": "Team 1",
+            "sectionName": "Section 1"
+        },
+        {
+            "email": "bob@example.com",
+            "courseId": "CS3281",
+            "name": "Bob",
+            "joinState": "JoinState.JOINED",
+            "teamName": "Team 1",
+            "sectionName": "Section 1"
+        },
+        {
+            "email": "chloe@example.com",
+            "courseId": "CS3281",
+            "name": "Chloe",
+            "joinState": "JoinState.JOINED",
+            "teamName": "Team 1",
+            "sectionName": "Section 2"
+        },
+        {
+            "email": "david@example.com",
+            "courseId": "CS3282",
+            "name": "David",
+            "joinState": "JoinState.JOINED",
+            "teamName": "Team 1",
+            "sectionName": "Section 2"
+        }
+    ],
     "emptyStudent": {
         "courseId": "",
         "email": "",
