@@ -22,42 +22,6 @@ describe('InstructorSearchPageComponent', () => {
   let coursesWithStudents: SearchStudentsListRowTable[];
 
   const mockStudents: Student = students.students;
-  // Students = {
-  //   students: [
-  //     {
-  //       email: 'alice@example.com',
-  //       courseId: 'CS3281',
-  //       name: 'Alice',
-  //       joinState: JoinState.JOINED,
-  //       teamName: 'Team 1',
-  //       sectionName: 'Section 1',
-  //     },
-  //     {
-  //       email: 'bob@example.com',
-  //       courseId: 'CS3281',
-  //       name: 'Bob',
-  //       joinState: JoinState.JOINED,
-  //       teamName: 'Team 1',
-  //       sectionName: 'Section 1',
-  //     },
-  //     {
-  //       email: 'chloe@example.com',
-  //       courseId: 'CS3281',
-  //       name: 'Chloe',
-  //       joinState: JoinState.JOINED,
-  //       teamName: 'Team 1',
-  //       sectionName: 'Section 2',
-  //     },
-  //     {
-  //       email: 'david@example.com',
-  //       courseId: 'CS3282',
-  //       name: 'David',
-  //       joinState: JoinState.JOINED,
-  //       teamName: 'Team 1',
-  //       sectionName: 'Section 2',
-  //     },
-  //   ],
-  // };
 
   beforeEach(() => {
     spyHttpRequestService = {
@@ -242,16 +206,7 @@ describe('InstructorSearchPageComponent', () => {
 
   it('should combine privileges and course data correctly', () => {
     const basePrivilege: InstructorPermissionSet = instructorPrivilegeSets.privilegeSet2;
-    // InstructorPermissionSet = {
-    //   canModifyCourse: true,
-    //   canModifySession: true,
-    //   canModifyStudent: true,
-    //   canModifyInstructor: true,
-    //   canViewStudentInSections: true,
-    //   canModifySessionCommentsInSections: true,
-    //   canViewSessionInSections: true,
-    //   canSubmitSessionInSections: true,
-    // };
+    
     const mockPrivilegesArray: InstructorPrivilege[] = [
       {
         privileges: {
