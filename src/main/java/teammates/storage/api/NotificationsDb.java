@@ -70,16 +70,14 @@ public final class NotificationsDb extends EntitiesDb<Notification, Notification
                 .filter("startTime <", Instant.now())
                 .list();
 
-        if (targetUser != NotificationTargetUser.GENERAL) {
-            endEntities.addAll(load()
-                    .filter("targetUser", NotificationTargetUser.GENERAL)
-                    .filter("endTime >", Instant.now())
-                    .list());
-            startEntities.addAll(load()
-                    .filter("targetUser", NotificationTargetUser.GENERAL)
-                    .filter("startTime <", Instant.now())
-                    .list());
-        }
+        endEntities.addAll(load()
+                .filter("targetUser", NotificationTargetUser.GENERAL)
+                .filter("endTime >", Instant.now())
+                .list());
+        startEntities.addAll(load()
+                .filter("targetUser", NotificationTargetUser.GENERAL)
+                .filter("startTime <", Instant.now())
+                .list());
 
         List<String> startEntitiesIds = startEntities.stream()
                 .map(Notification::getNotificationId)

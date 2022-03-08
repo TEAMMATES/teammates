@@ -15,6 +15,8 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
  */
 public class GetNotificationAction extends Action {
 
+    private static final String INVALID_TARGET_USER = "Target user can only be STUDENT or INSTRUCTOR.";
+
     @Override
     AuthType getMinAuthLevel() {
         return AuthType.PUBLIC;
@@ -27,23 +29,27 @@ public class GetNotificationAction extends Action {
 
     @Override
     public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
-        String targetUser = getRequestParamValue(Const.ParamsNames.NOTIFICATION_TARGET_USER);
+        String targetUserString = getRequestParamValue(Const.ParamsNames.NOTIFICATION_TARGET_USER);
         // TODO: Use isFetchingAll to decide whether to fetch unread notification only.
         // boolean isFetchingAll = Boolean.parseBoolean(
         //     getRequestParamValue(Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL));
 
         List<NotificationAttributes> notificationAttributes;
-        if (targetUser == null && userInfo.isAdmin) {
+        if (targetUserString == null && userInfo.isAdmin) {
             // if the admin wants to retrieve all notifications
             notificationAttributes =
                     logic.getAllNotifications();
         } else {
-            String targetUserErrorMessage = FieldValidator.getInvalidityInfoForNotificationTargetUser(targetUser);
+            String targetUserErrorMessage = FieldValidator.getInvalidityInfoForNotificationTargetUser(targetUserString);
             if (!targetUserErrorMessage.isEmpty()) {
                 throw new InvalidHttpRequestBodyException(targetUserErrorMessage);
             }
+            NotificationTargetUser targetUser = NotificationTargetUser.valueOf(targetUserString);
+            if (targetUser == NotificationTargetUser.GENERAL) {
+                throw new InvalidHttpRequestBodyException(INVALID_TARGET_USER);
+            }
             notificationAttributes =
-                    logic.getNotificationsByTargetUser(NotificationTargetUser.valueOf(targetUser));
+                    logic.getNotificationsByTargetUser(targetUser);
         }
 
         NotificationsData responseData = new NotificationsData(notificationAttributes);
