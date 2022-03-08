@@ -1,6 +1,7 @@
 package teammates.logic.api;
 
 import java.time.Instant;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -112,6 +113,14 @@ public class Logic {
         assert googleId != null;
 
         accountsLogic.deleteAccountCascade(googleId);
+    }
+
+    public void verifyAllInstructorsExistInCourse(String courseId, Collection<String> instructorEmailAddresses)
+            throws EntityDoesNotExistException {
+        assert courseId != null;
+        assert instructorEmailAddresses != null;
+
+        instructorsLogic.verifyAllInstructorsExistInCourse(courseId, instructorEmailAddresses);
     }
 
     /**
@@ -1372,6 +1381,14 @@ public class Logic {
      */
     public void putDocuments(DataBundle dataBundle) throws SearchServiceException {
         dataBundleLogic.putDocuments(dataBundle);
+    }
+
+    public void verifyAllStudentsExistInCourse(String courseId, Collection<String> studentEmailAddresses)
+            throws EntityDoesNotExistException {
+        assert courseId != null;
+        assert studentEmailAddresses != null;
+
+        studentsLogic.verifyAllStudentsExistInCourse(courseId, studentEmailAddresses);
     }
 
     public boolean isStudentsInSameTeam(String courseId, String student1Email, String student2Email) {

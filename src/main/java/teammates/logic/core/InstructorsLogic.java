@@ -1,6 +1,7 @@
 package teammates.logic.core;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
@@ -92,6 +93,19 @@ public final class InstructorsLogic {
                         .withIsArchived(archiveStatus)
                         .build()
         );
+    }
+
+    /**
+     * Checks if all the given instructors exist in the given course.
+     */
+    public void verifyAllInstructorsExistInCourse(String courseId, Collection<String> instructorEmailAddresses)
+            throws EntityDoesNotExistException {
+        boolean hasOnlyExistingInstructors = instructorEmailAddresses.stream()
+                .allMatch(studentEmailAddress ->
+                        instructorsDb.hasExistingInstructorInCourse(courseId, studentEmailAddress));
+        if (!hasOnlyExistingInstructors) {
+            throw new EntityDoesNotExistException("There are instructors that do not exist in the course.");
+        }
     }
 
     /**

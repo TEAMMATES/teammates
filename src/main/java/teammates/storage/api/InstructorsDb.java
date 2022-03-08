@@ -97,6 +97,13 @@ public final class InstructorsDb extends EntitiesDb<Instructor, InstructorAttrib
     }
 
     /**
+     * Checks if the given instructor exists in the given course.
+     */
+    public boolean hasExistingInstructorInCourse(String courseId, String instructorEmailAddress) {
+        return hasExistingEntities(InstructorAttributes.builder(courseId, instructorEmailAddress).build());
+    }
+
+    /**
      * Gets an instructor by unique constraint courseId-email.
      */
     public InstructorAttributes getInstructorForEmail(String courseId, String email) {

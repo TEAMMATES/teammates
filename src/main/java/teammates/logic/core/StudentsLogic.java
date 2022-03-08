@@ -1,6 +1,7 @@
 package teammates.logic.core;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.StringJoiner;
 
@@ -145,6 +146,18 @@ public final class StudentsLogic {
     public List<StudentAttributes> searchStudentsInWholeSystem(String queryString)
             throws SearchServiceException {
         return studentsDb.searchStudentsInWholeSystem(queryString);
+    }
+
+    /**
+     * Checks if all the given students exist in the given course.
+     */
+    public void verifyAllStudentsExistInCourse(String courseId, Collection<String> studentEmailAddresses)
+            throws EntityDoesNotExistException {
+        boolean hasOnlyExistingStudents = studentEmailAddresses.stream()
+                .allMatch(studentEmailAddress -> studentsDb.hasExistingStudentInCourse(courseId, studentEmailAddress));
+        if (!hasOnlyExistingStudents) {
+            throw new EntityDoesNotExistException("There are students that do not exist in the course.");
+        }
     }
 
     /**

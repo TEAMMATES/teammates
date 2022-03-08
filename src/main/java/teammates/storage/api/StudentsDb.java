@@ -114,6 +114,13 @@ public final class StudentsDb extends EntitiesDb<CourseStudent, StudentAttribute
     }
 
     /**
+     * Checks if the given student exists in the given course.
+     */
+    public boolean hasExistingStudentInCourse(String courseId, String studentEmailAddress) {
+        return hasExistingEntities(StudentAttributes.builder(courseId, studentEmailAddress).build());
+    }
+
+    /**
      * Gets a student by unique ID courseId-email.
      */
     public StudentAttributes getStudentForEmail(String courseId, String email) {
