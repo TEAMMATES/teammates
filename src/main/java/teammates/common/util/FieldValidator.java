@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -92,6 +93,8 @@ public final class FieldValidator {
     public static final String GIVER_TYPE_NAME = "feedback giver";
     public static final String RECIPIENT_TYPE_NAME = "feedback recipient";
     public static final String VIEWER_TYPE_NAME = "feedback viewer";
+
+    public static final String EXTENDED_DEADLINES_FIELD_NAME = "extended deadlines";
 
     ////////////////////
     // ERROR MESSAGES //
@@ -576,6 +579,22 @@ public final class FieldValidator {
             Instant visibilityStart, Instant resultsPublish) {
         return getInvalidityInfoForFirstTimeIsBeforeSecondTime(visibilityStart, resultsPublish,
                 SESSION_VISIBLE_TIME_FIELD_NAME, RESULTS_VISIBLE_TIME_FIELD_NAME);
+    }
+
+    /**
+     * Checks if the session end time is before all extended deadlines.
+     * @return Error string if any deadline in {@code deadlines} is before {@code sessionEnd}
+     *         Empty string if any deadline in {@code deadlines} is after {@code sessionEnd}
+     */
+    public static String getInvalidityInfoForTimeForSessionEndAndExtendedDeadlines(
+            Instant sessionEnd, Map<String, Instant> deadlines) {
+        return deadlines.entrySet()
+                .stream()
+                .map(entry -> getInvalidityInfoForFirstTimeIsBeforeSecondTime(sessionEnd, entry.getValue(),
+                        SESSION_END_TIME_FIELD_NAME, EXTENDED_DEADLINES_FIELD_NAME))
+                .filter(invalidityInfo -> !invalidityInfo.isEmpty())
+                .findFirst()
+                .orElse("");
     }
 
     private static String getInvalidityInfoForFirstTimeIsBeforeSecondTime(
