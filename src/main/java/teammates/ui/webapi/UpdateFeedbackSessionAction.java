@@ -1,6 +1,8 @@
 package teammates.ui.webapi;
 
 import java.time.Instant;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.apache.http.HttpStatus;
 
@@ -41,12 +43,22 @@ class UpdateFeedbackSessionAction extends Action {
     @Override
     public JsonResult execute() throws InvalidHttpRequestBodyException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-
-        FeedbackSessionAttributes feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
 
         FeedbackSessionUpdateRequest updateRequest =
                 getAndValidateRequestBody(FeedbackSessionUpdateRequest.class);
+
+        Map<String, Instant> studentDeadlines = updateRequest.getStudentDeadlines();
+        Map<String, Instant> instructorDeadlines = updateRequest.getInstructorDeadlines();
+        try {
+            logic.verifyAllStudentsExistInCourse(courseId, studentDeadlines.keySet());
+            logic.verifyAllInstructorsExistInCourse(courseId, instructorDeadlines.keySet());
+        } catch (EntityDoesNotExistException e) {
+            throw new EntityNotFoundException(e);
+        }
+
+        String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+
+        FeedbackSessionAttributes feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
 
         String timeZone = feedbackSession.getTimeZone();
         Instant startTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
@@ -57,6 +69,14 @@ class UpdateFeedbackSessionAction extends Action {
                 updateRequest.getSessionVisibleFromTime(), timeZone, true);
         Instant resultsVisibleTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
                 updateRequest.getResultsVisibleFromTime(), timeZone, true);
+        studentDeadlines = studentDeadlines.entrySet()
+                .stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, entry -> TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                        entry.getValue(), timeZone, true)));
+        instructorDeadlines = instructorDeadlines.entrySet()
+                .stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, entry -> TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                        entry.getValue(), timeZone, true)));
         try {
             FeedbackSessionAttributes updateFeedbackSession = logic.updateFeedbackSession(
                     FeedbackSessionAttributes.updateOptionsBuilder(feedbackSessionName, courseId)
@@ -68,6 +88,8 @@ class UpdateFeedbackSessionAction extends Action {
                             .withResultsVisibleFromTime(resultsVisibleTime)
                             .withIsClosingEmailEnabled(updateRequest.isClosingEmailEnabled())
                             .withIsPublishedEmailEnabled(updateRequest.isPublishedEmailEnabled())
+                            .withStudentDeadlines(studentDeadlines)
+                            .withInstructorDeadlines(instructorDeadlines)
                             .build());
 
             return new JsonResult(new FeedbackSessionData(updateFeedbackSession));
