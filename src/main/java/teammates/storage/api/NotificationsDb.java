@@ -57,7 +57,7 @@ public final class NotificationsDb extends EntitiesDb<Notification, Notification
      *
      * @return a list of notifications for the specified targetUser.
      */
-    public List<NotificationAttributes> getNotificationsByTargetUser(NotificationTargetUser targetUser) {
+    public List<NotificationAttributes> getActiveNotificationsByTargetUser(NotificationTargetUser targetUser) {
         assert targetUser != null;
 
         List<Notification> endEntities = load()
@@ -65,29 +65,14 @@ public final class NotificationsDb extends EntitiesDb<Notification, Notification
                 .filter("endTime >", Instant.now())
                 .list();
 
-        List<Notification> startEntities = load()
-                .filter("targetUser", targetUser)
-                .filter("startTime <", Instant.now())
-                .list();
-
         endEntities.addAll(load()
                 .filter("targetUser", NotificationTargetUser.GENERAL)
                 .filter("endTime >", Instant.now())
                 .list());
-        startEntities.addAll(load()
-                .filter("targetUser", NotificationTargetUser.GENERAL)
-                .filter("startTime <", Instant.now())
-                .list());
-
-        List<String> startEntitiesIds = startEntities.stream()
-                .map(Notification::getNotificationId)
-                .collect(Collectors.toList());
 
         List<Notification> ongoingNotifications = endEntities.stream()
-                .filter(notif -> {
-                    String id = notif.getNotificationId();
-                    return startEntitiesIds.contains(id);
-                })
+                .filter(notification ->
+                   notification.getStartTime().isBefore(Instant.now()))
                 .collect(Collectors.toList());
 
         List<NotificationAttributes> notificationAttributes = makeAttributes(ongoingNotifications);

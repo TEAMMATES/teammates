@@ -84,8 +84,8 @@ public class Logic {
         return coursesLogic.getCourseInstitute(courseId);
     }
 
-    public List<NotificationAttributes> getNotificationsByTargetUser(NotificationTargetUser targetUser) {
-        return notificationsLogic.getNotificationsByTargetUser(targetUser);
+    public List<NotificationAttributes> getActiveNotificationsByTargetUser(NotificationTargetUser targetUser) {
+        return notificationsLogic.getActiveNotificationsByTargetUser(targetUser);
     }
 
     public List<NotificationAttributes> getAllNotifications() {

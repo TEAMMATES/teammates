@@ -51,8 +51,8 @@ public final class NotificationsLogic {
      *
      * @return a list of notifications with the specified {@code targetUser}.
      */
-    public List<NotificationAttributes> getNotificationsByTargetUser(NotificationTargetUser targetUser) {
-        return notificationsDb.getNotificationsByTargetUser(targetUser);
+    public List<NotificationAttributes> getActiveNotificationsByTargetUser(NotificationTargetUser targetUser) {
+        return notificationsDb.getActiveNotificationsByTargetUser(targetUser);
     }
 
     /**

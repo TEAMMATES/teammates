@@ -49,7 +49,7 @@ public class GetNotificationAction extends Action {
                 throw new InvalidHttpRequestBodyException(INVALID_TARGET_USER);
             }
             notificationAttributes =
-                    logic.getNotificationsByTargetUser(targetUser);
+                    logic.getActiveNotificationsByTargetUser(targetUser);
         }
 
         NotificationsData responseData = new NotificationsData(notificationAttributes);
