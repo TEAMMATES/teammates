@@ -33,7 +33,7 @@ public class GetNotificationAction extends Action {
         //     getRequestParamValue(Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL));
 
         List<NotificationAttributes> notificationAttributes;
-        if (targetUser == null & userInfo.isAdmin) {
+        if (targetUser == null && userInfo.isAdmin) {
             // if the admin wants to retrieve all notifications
             notificationAttributes =
                     logic.getAllNotifications();
