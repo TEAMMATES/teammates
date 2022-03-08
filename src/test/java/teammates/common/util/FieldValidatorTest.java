@@ -1,6 +1,8 @@
 package teammates.common.util;
 
 import java.time.Instant;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.testng.annotations.Test;
 
@@ -587,6 +589,26 @@ public class FieldValidatorTest extends BaseTestCase {
                          + "earlier than the time when the session will be visible.",
                      FieldValidator.getInvalidityInfoForTimeForVisibilityStartAndResultsPublish(
                          visibilityStart, resultsPublish));
+    }
+
+    @Test
+    public void testGetInvalidityInfoForTimeForSessionEndAndExtendedDeadlines_valid_returnEmptyString() {
+        Instant sessionEnd = TimeHelperExtension.getInstantHoursOffsetFromNow(-1);
+        Map<String, Instant> extendedDeadlines = new HashMap<>();
+        extendedDeadlines.put("participant@email.com", TimeHelperExtension.getInstantHoursOffsetFromNow(1));
+        assertEquals("",
+                FieldValidator.getInvalidityInfoForTimeForSessionEndAndExtendedDeadlines(
+                        sessionEnd, extendedDeadlines));
+    }
+
+    @Test
+    public void testGetInvalidityInfoForTimeForSessionEndAndExtendedDeadlines_invalid_returnErrorString() {
+        Instant sessionEnd = TimeHelperExtension.getInstantHoursOffsetFromNow(1);
+        Map<String, Instant> extendedDeadlines = new HashMap<>();
+        extendedDeadlines.put("participant@email.com", TimeHelperExtension.getInstantHoursOffsetFromNow(-1));
+        assertEquals("The extended deadlines for this feedback session cannot be earlier than the end time.",
+                FieldValidator.getInvalidityInfoForTimeForSessionEndAndExtendedDeadlines(
+                        sessionEnd, extendedDeadlines));
     }
 
     @Test
