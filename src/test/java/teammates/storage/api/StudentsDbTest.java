@@ -104,6 +104,28 @@ public class StudentsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
     }
 
     @Test
+    public void testHasExistingStudentInCourse() throws Exception {
+
+        StudentAttributes student = createNewStudent();
+
+        ______TS("existing student");
+
+        assertTrue(studentsDb.hasExistingStudentInCourse(student.getCourse(), student.getEmail()));
+
+        ______TS("non-existent student in existing course");
+
+        assertFalse(studentsDb.hasExistingStudentInCourse(student.getCourse(), "non-existent.student@email.com"));
+
+        ______TS("existing student in non-existent course");
+
+        assertFalse(studentsDb.hasExistingStudentInCourse("non-existent-course", student.getEmail()));
+
+        ______TS("non-existent student in non-existent course");
+
+        assertFalse(studentsDb.hasExistingStudentInCourse("non-existent-course", "non-existent.student@email.com"));
+    }
+
+    @Test
     public void testGetStudent() throws Exception {
 
         StudentAttributes s = createNewStudent();

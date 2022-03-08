@@ -108,6 +108,30 @@ public class InstructorsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
     }
 
     @Test
+    public void testHasExistingStudentInCourse() {
+
+        InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
+
+        ______TS("existing instructor");
+
+        assertTrue(instructorsDb.hasExistingInstructorInCourse(instructor.getCourseId(), instructor.getEmail()));
+
+        ______TS("non-existent instructor in existing course");
+
+        assertFalse(instructorsDb
+                .hasExistingInstructorInCourse(instructor.getCourseId(), "non-existent.instructor@email.com"));
+
+        ______TS("existing instructor in non-existent course");
+
+        assertFalse(instructorsDb.hasExistingInstructorInCourse("non-existent-course", instructor.getEmail()));
+
+        ______TS("non-existent instructor in non-existent course");
+
+        assertFalse(instructorsDb
+                .hasExistingInstructorInCourse("non-existent-course", "non-existent.instructor@email.com"));
+    }
+
+    @Test
     public void testGetInstructorForEmail() {
 
         InstructorAttributes i = dataBundle.instructors.get("instructor1OfCourse1");

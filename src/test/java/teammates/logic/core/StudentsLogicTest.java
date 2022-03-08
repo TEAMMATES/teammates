@@ -52,6 +52,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         testGetStudentsForGoogleId();
         testGetStudentForCourseIdAndGoogleId();
         testGetStudentsForCourse();
+        testVerifyAllStudentsExistInCourse();
         testIsStudentInAnyCourse();
         testIsStudentInTeam();
         testIsStudentsInSameTeam();
@@ -438,6 +439,37 @@ public class StudentsLogicTest extends BaseLogicTest {
         studentList = studentsLogic.getStudentsForCourse("non-existent");
         assertEquals(0, studentList.size());
 
+    }
+
+    private void testVerifyAllStudentsExistInCourse() throws Exception {
+
+        StudentAttributes student = dataBundle.students.get("student1InCourse1");
+        String courseId = student.getCourse();
+
+        List<String> studentEmailAddresses = new ArrayList<>();
+        studentEmailAddresses.add(student.getEmail());
+
+        ______TS("existing student");
+
+        // should not throw an exception
+        studentsLogic.verifyAllStudentsExistInCourse(courseId, studentEmailAddresses);
+
+        ______TS("existing student in non-existent course");
+
+        assertThrows(EntityDoesNotExistException.class, () ->
+                studentsLogic.verifyAllStudentsExistInCourse("non-existent-course", studentEmailAddresses));
+
+        ______TS("non-existent student in existing course");
+
+        studentEmailAddresses.add("non-existent.student@email.com");
+
+        assertThrows(EntityDoesNotExistException.class, () ->
+                studentsLogic.verifyAllStudentsExistInCourse(courseId, studentEmailAddresses));
+
+        ______TS("non-existent student in non-existent course");
+
+        assertThrows(EntityDoesNotExistException.class, () ->
+                studentsLogic.verifyAllStudentsExistInCourse("non-existent-course", studentEmailAddresses));
     }
 
     private void testIsStudentInAnyCourse() {
