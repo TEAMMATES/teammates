@@ -127,7 +127,7 @@
         </thead>
         <tr
           *ngFor="let student of studentsOfCourse; index as i"
-          [ngClass]="{ 'table-warning': student.warning == true }"
+          [ngClass]="{ 'table-warning': student.hasExtension == true }"
         >
           <td class="align-center" (click)="selectStudent(i)">
             <label><input type="checkbox" [checked]="student.selected"/></label>
