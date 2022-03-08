@@ -11,9 +11,10 @@
 <div class="container ml-1">
   <div class="row pl-3 pt-2">
   </div>
+
   <div class="row pl-3">
-    <label class="mr-2"><input type="radio" name="optradio" (click)="setA(true)" checked> Extend deadline by</label>
-    <label ><input type="radio" (click)="setA(true)" name="optradio"> Extend deadline to</label>
+    <label class="mr-2"><input type="radio" name="optradio" [value]="1" [ngModel]="radioOption"> Extend deadline by</label>
+    <label><input type="radio" [value]="2" [ngModel]="radioOption" name="optradio"> Extend deadline to</label>
   </div>
 
 

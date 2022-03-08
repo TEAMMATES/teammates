@@ -118,7 +118,8 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
       teamName: student.teamName,
       studentName: student.name,
       studentEmail: student.email,
-      studentExtensionDeadline: this.feedbackSessionDetails.submissionOriginalDeadline.toString(), //TODO: Change this
+      studentExtensionDeadline: this.feedbackSessionDetails.submissionOriginalDeadline.toString(),
+      //TODO: Race condition with getting the original submission deadline.
       hasExtension: false, // TODO: Default
       selected: false
     }
@@ -165,7 +166,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
           this.statusMessageService.showErrorToast(resp.error.message);
           this.hasLoadingFeedbackSessionFailed = true;
         }
-      );
+    );
   }
 
   onExtend(): void {

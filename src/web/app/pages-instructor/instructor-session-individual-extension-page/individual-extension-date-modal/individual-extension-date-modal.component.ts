@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { IndividualExtensionConfirmModalComponent } from './individual-extension-confirm-modal/individual-extension-confirm-modal.component';
-
 /**
  * Modal to confirm permanent deletion of a feedback session.
  */
@@ -24,6 +23,8 @@ export class IndividualExtensionDateModalComponent implements OnInit {
   constructor(public activeModal: NgbActiveModal,
               private ngbModal: NgbModal)
   {}
+  
+  radioOption: number = 1;
 
   ngOnInit(): void {
   }
