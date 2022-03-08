@@ -9,12 +9,12 @@ import { Intent } from "src/web/types/api-request";
 import { CourseService } from "../../../services/course.service";
 import { SimpleModalService } from "../../../services/simple-modal.service";
 import { StatusMessageService } from "../../../services/status-message.service";
+import { TableComparatorService } from "../../../services/table-comparator.service";
 import { SortBy, SortOrder } from "../../../types/sort-properties";
 import { SimpleModalType } from "../../components/simple-modal/simple-modal-type";
 import { ColumnData, SortableTableCellData } from "../../components/sortable-table/sortable-table.component";
 import { ErrorMessageOutput } from "../../error-message-output";
 import { IndividualExtensionDateModalComponent } from "./individual-extension-date-modal/individual-extension-date-modal.component";
-import { TableComparatorService } from "../../../services/table-comparator.service";
 
 // Columns for the table: Section, Team, Student Name, Email, New Deadline
 interface StudentExtensionTableColumnData {
@@ -23,6 +23,8 @@ interface StudentExtensionTableColumnData {
   studentName: string;
   studentEmail: string;
   studentExtensionDeadline: string;
+  hasExtension: boolean;
+  selected: boolean;
 }
 
 /**
@@ -40,6 +42,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
   SortOrder: typeof SortOrder = SortOrder;
   sortBy: SortBy = SortBy.SECTION_NAME;
   sortOrder: SortOrder = SortOrder.DESC;
+  isAllSelected: boolean = false;
 
   courseId: string = "0";
   courseName: string = "";
@@ -94,7 +97,8 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
         (students: Students) => {
           this.isLoadingAllStudents = true;
           this.hasLoadedAllStudentsFailed = false;
-          this.studentsOfCourse = students.students.map((x) => this.mapStudentToColumnData(x));
+          // Map on the new deadline and hasExtension
+          this.studentsOfCourse = this.mapStudentsOfCourse(students.students, new Map());
         },
         (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
@@ -104,15 +108,28 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
   }
 
   // TODO: Check if we even need a map here, or how is the "map" going to be transferred here
-  mapStudentToColumnData(student: Student): StudentExtensionTableColumnData {
-    return {
+  mapStudentsOfCourse(students: Student[], deadlineMap: Map<String, String>): StudentExtensionTableColumnData[] {
+    return students.map(student => this.mapStudentToStudentColumnData(student, deadlineMap))
+  }
+
+  mapStudentToStudentColumnData(student: Student, deadline: Map<String, String>): StudentExtensionTableColumnData {
+    const studentData: StudentExtensionTableColumnData = {
       sectionName: student.sectionName,
       teamName: student.teamName,
       studentName: student.name,
       studentEmail: student.email,
       studentExtensionDeadline: this.feedbackSessionDetails.submissionOriginalDeadline.toString(), //TODO: Change this
-    };
-  }
+      hasExtension: false, // TODO: Default
+      selected: false
+    }
+
+    if (deadline.has(student.email)) {
+      studentData.hasExtension = true;
+      studentData.studentExtensionDeadline = deadline.get(student.email)!.toString();
+    }
+
+    return studentData
+  };  
 
   /**
    * Loads a feedback session.
@@ -167,6 +184,15 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
 
   setA(a: boolean) {
     this.isOpen = a;
+  }
+
+  selectAllStudents(): void {
+    this.isAllSelected = !this.isAllSelected
+    this.studentsOfCourse.map(x => x.selected = this.isAllSelected);
+  }
+
+  selectStudent(i: number): void {
+    this.studentsOfCourse[i].selected = !this.studentsOfCourse[i].selected 
   }
 
   sortCoursesBy(by: SortBy): void {

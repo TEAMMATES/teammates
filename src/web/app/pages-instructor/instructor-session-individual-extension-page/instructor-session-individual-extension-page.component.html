@@ -71,8 +71,8 @@
             >
               Course Name
             </button> -->
-            <th>
-              <button>Select All</button>
+            <th (click)="selectAllStudents()">
+              <label><input type="checkbox" [checked]="isAllSelected" /> Select all</label>
             </th>
             <th class="sortable-header" (click)="sortCoursesBy(SortBy.SECTION_NAME)">
               Section
@@ -129,8 +129,8 @@
           *ngFor="let student of studentsOfCourse; index as i"
           [ngClass]="{ 'table-warning': student.warning == true }"
         >
-          <td class="align-center">
-            <label><input type="checkbox" /></label>
+          <td class="align-center" (click)="selectStudent(i)">
+            <label><input type="checkbox" [checked]="student.selected"/></label>
           </td>
           <td>{{ student.sectionName }}</td>
           <td>{{ student.teamName }}</td>
