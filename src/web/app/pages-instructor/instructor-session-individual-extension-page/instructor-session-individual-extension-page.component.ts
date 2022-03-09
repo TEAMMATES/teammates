@@ -63,6 +63,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
   isLoadingFeedbackSession: boolean = true;
 
   extensionModal: NgbModalRef | null = null;
+  extensionTimestamp: number = 0;
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
@@ -169,17 +170,23 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     );
   }
 
+  getNumberOfSelectedStudents(): number {
+    return this.studentsOfCourse.filter(x => x.selected).length;
+  }
+
   onExtend(): void {
     const modalRef: NgbModalRef = this.ngbModal.open(IndividualExtensionDateModalComponent);
     this.extensionModal = modalRef;
-    modalRef.componentInstance.numberOfStudents = this.studentsOfCourse.filter(x => x.selected).length;
+    modalRef.componentInstance.numberOfStudents = this.getNumberOfSelectedStudents();
     modalRef.componentInstance.feedbackSessionEndingTime = this.feedbackSessionEndingTime;
     modalRef.componentInstance.feedbackSessionTimeZone = this.feedbackSessionTimeZone;
-    modalRef.componentInstance.onConfirmExtension = this.onConfirmExtension;
+    modalRef.componentInstance.onConfirmCallBack.subscribe((extensionTimestamp: number) => this.onConfirmExtension(extensionTimestamp));
   }
 
-  onConfirmExtension(): void {
+  onConfirmExtension(extensionTimestamp: number): void {
+    this.extensionTimestamp = extensionTimestamp
     this.extensionModal?.close();
+    console.log("Close, and open. Successful emission!")
     const modalRef: NgbModalRef = this.ngbModal.open(IndividualExtensionConfirmModalComponent);
     console.log(modalRef);
   }
@@ -188,13 +195,9 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
       "Confirm deleting feedback session extension?",
       SimpleModalType.DANGER,
-      "Do you want to delete the feedback session extension(s) for <b>3 student(s)</b>? Their feedback session deadline will be reverted back to the original deadline."
+      `Do you want to delete the feedback session extension(s) for <b>${this.getNumberOfSelectedStudents()} student(s)</b>? Their feedback session deadline will be reverted back to the original deadline.`
     );
     modalRef.result.then(() => console.log("Confirmed!"));
-  }
-
-  setA(a: boolean) {
-    this.isOpen = a;
   }
 
   hasSelectedStudents(): boolean {
@@ -218,7 +221,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     this.sortOrder = this.sortOrder === SortOrder.DESC ? SortOrder.ASC : SortOrder.DESC;
     this.studentsOfCourse.sort(this.sortPanelsBy(by));
   }
-  // Columns for the table: Section, Team, Student Name, Email, New Deadline
+
   sortPanelsBy(by: SortBy): (a: StudentExtensionTableColumnData, b: StudentExtensionTableColumnData) => number {
     return (a: StudentExtensionTableColumnData, b: StudentExtensionTableColumnData): number => {
       let strA: string;

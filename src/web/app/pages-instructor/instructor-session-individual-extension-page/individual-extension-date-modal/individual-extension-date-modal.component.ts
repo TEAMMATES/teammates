@@ -12,7 +12,7 @@ import { TimezoneService } from 'src/web/services/timezone.service';
  * Modal to confirm permanent deletion of a feedback session.
  */
 @Component({
-  selector: 'individual-extension-date-modal',
+  selector: 'tm-individual-extension-date-modal',
   templateUrl: './individual-extension-date-modal.component.html',
   styleUrls: ['./individual-extension-date-modal.component.scss'],
 })
@@ -28,8 +28,7 @@ export class IndividualExtensionDateModalComponent
   @Input()
   feedbackSessionTimeZone: string = "";
 
-  @Output()
-  onConfirmExtension: EventEmitter<void> = new EventEmitter();
+  @Output() onConfirmCallBack: EventEmitter<number> = new EventEmitter();
   
   constructor(public activeModal: NgbActiveModal,
               private timeZoneService: TimezoneService,
@@ -61,7 +60,7 @@ export class IndividualExtensionDateModalComponent
         `The current time now is ${ currentTimeString } and you are extending to ${ extensionTimeString } in ${ this.feedbackSessionTimeZone}. Do you wish to proceed?`,
       );
     } else {
-      this.onConfirmExtension.emit();
+      this.onConfirmCallBack.emit(this.getExtensionTimestamp());
     }
   }
 

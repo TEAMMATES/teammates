@@ -21,7 +21,7 @@ const routes: Routes = [
     imports: [
       CommonModule,
       ReactiveFormsModule,
-      TeammatesCommonModule,  
+      TeammatesCommonModule,
       FormsModule,
       RouterModule.forChild(routes),
       LoadingSpinnerModule,
