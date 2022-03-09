@@ -28,7 +28,7 @@
       <div class="row text-center">
         <div class="col-md-2 text-md-right font-bold">Original Deadline</div>
         <div id="course-name" class="col-md-10 text-md-left">
-          {{ feedbackSessionEndingTime | date:'d MMM yyyy' }}
+          {{ feedbackSessionEndingTime | date:'d MMM yyyy hh:mm' }}
         </div>
       </div>
     </div>
@@ -36,10 +36,10 @@
   <div class="container ml-1">
     <div class="align-row">
       <div>
-        <button type="button" class="btn btn-success" (click)="onExtend()" [disabled]="hasSelectedStudents()">Extend</button>
+        <button type="button" class="btn btn-success" (click)="onExtend()" [disabled]="!hasSelectedStudents()">Extend</button>
       </div>
       <div>
-        <button type="button" class="btn btn-danger" (click)="onDelete()">Delete</button>
+        <button type="button" class="btn btn-danger" (click)="onDelete()" [disabled]="!hasSelectedStudents()">Delete</button>
       </div>
     </div>
     <small
@@ -120,7 +120,7 @@
           <td>{{ student.teamName }}</td>
           <td>{{ student.studentName }}</td>
           <td>{{ student.studentEmail }}</td>
-          <td>{{ student.studentExtensionDeadline | date:'d MMM yyyy' }}</td>
+          <td>{{ student.studentExtensionDeadline | date:'d MMM yyyy hh:mm' }}</td>
         </tr>
       </table>
     </div>

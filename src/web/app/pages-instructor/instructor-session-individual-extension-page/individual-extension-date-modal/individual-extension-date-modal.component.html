@@ -23,8 +23,8 @@
     <div id="submission-start-date">
         <div class="input-group">
             <select class="form-control" [(ngModel)]="extendByDeadlineKey">
-              <option *ngFor="let deadlineOption of deadlineOptions | keyvalue">{{ deadlineOption.key }}
-              (  {{addHoursAndFormat(deadlineOption.value)}} ) 
+              <option *ngFor="let deadlineOption of deadlineOptions | keyvalue: sortMapByOriginalOrder">
+              {{ deadlineOption.key }} ({{addHoursAndFormat(deadlineOption.value) | date:'d MMM yyyy hh:mm'}}) 
               </option>
             </select>
         </div>

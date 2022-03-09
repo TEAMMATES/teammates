@@ -51,7 +51,11 @@ export class IndividualExtensionDateModalComponent implements OnInit
   }
 
   addHoursAndFormat(hours: number): number {
-    return this.feedbackSessionEndingTime * (hours * 60);
+    return this.feedbackSessionEndingTime + (hours * 60 * 60 * 1000);
+  }
+
+  sortMapByOriginalOrder = (): number => {
+    return 0;
   }
 
   getDateFormat(timestamp: number) : DateFormat {
