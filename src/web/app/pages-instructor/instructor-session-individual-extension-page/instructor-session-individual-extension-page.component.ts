@@ -52,8 +52,6 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
   feedbackSessionEndingTime: number = 0;
   feedbackSessionTimeZone: String = "";
 
-  DATETIME_FORMAT: string = "d MMM YYYY h:mm:ss";
-
   columnsData: ColumnData[] = [];
   rowsData: SortableTableCellData[][] = [];
 
@@ -176,6 +174,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     this.extensionModal = modalRef;
     modalRef.componentInstance.numberOfStudents = this.studentsOfCourse.filter(x => x.selected).length;
     modalRef.componentInstance.feedbackSessionEndingTime = this.feedbackSessionEndingTime;
+    modalRef.componentInstance.feedbackSessionTimeZone = this.feedbackSessionTimeZone;
     modalRef.componentInstance.onConfirmExtension = this.onConfirmExtension;
   }
 

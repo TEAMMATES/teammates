@@ -23,8 +23,11 @@
     <div id="submission-start-date">
         <div class="input-group">
             <select class="form-control" [(ngModel)]="extendByDeadlineKey">
-              <option *ngFor="let deadlineOption of deadlineOptions | keyvalue: sortMapByOriginalOrder">
-              {{ deadlineOption.key }} ({{addHoursAndFormat(deadlineOption.value) | date:'d MMM yyyy hh:mm'}}) 
+              <option *ngFor="let deadlineOption of deadlineOptions | keyvalue: sortMapByOriginalOrder" [value]="deadlineOption.key">
+                {{ deadlineOption.key }}
+                <div *ngIf="deadlineOption.key != 'Customize'">
+                  ({{addTime(0, deadlineOption.value, 0) | date:'d MMM yyyy hh:mm'}}) 
+                </div>
               </option>
             </select>
         </div>
@@ -34,28 +37,36 @@
   <div *ngIf="radioOption==2">
     <small>The new deadline of the feedback session will be:</small>
     <div id="submission-start-date">
-      <div class="input-group">
-        <tm-datepicker [date]="datePickerTime" 
-        [minDate]="getDateFormat(feedbackSessionEndingTime)"> </tm-datepicker>
+        <div class="input-group">
+          <tm-datepicker [date]="datePicker"
+          (dateChangeCallback)="onChangeDateTime($event,'date')"
+          [minDate]="getDateFormat(feedbackSessionEndingTime)"></tm-datepicker>
+        <div class="col-md-5">
+          <tm-timepicker id="submission-end-time" 
+          [time]="timePicker" 
+          (timeChange)="onChangeDateTime($event,'time')">
+          </tm-timepicker>
+        </div>    
       </div>
     </div>
   </div>
 
-<!--
-<br>
-
-  <form class="form-inline">
-    <input class="form-control mb-2" type="text" placeholder="Minutes"> 
-    <input class="form-control mx-sm-3 mb-2" type="text" placeholder="Hours"> 
-    <input class="form-control mb-2" type="text" placeholder="Days">   
-  </form>
-
+<div *ngIf="isCustomize()"> 
+  <br>
+    <form class="form-inline">
+      <input class="form-control mb-2" name="form-minutes" type="text" placeholder="Minutes" [(ngModel)]="extendByDatePicker.minutes"> 
+      <input class="form-control mx-sm-3 mb-2" name="form-hours" type="text" placeholder="Hours" [(ngModel)]="extendByDatePicker.hours"> 
+      <input class="form-control mb-2" name="form-days" type="text" placeholder="Days" [(ngModel)]="extendByDatePicker.days">   
+    </form>
+  <br>
+  <p>
+    The new extended deadline will be: 
+    {{addTime(extendByDatePicker.minutes, extendByDatePicker.hours, extendByDatePicker.days) | date:'d MMM yyyy hh:mm'}}
+  </p>
 </div>
--->
-
 <br>
 
 <div class="modal-footer">
   <button type="button" class="btn btn-light" (click)="activeModal.dismiss()">No, Cancel the Operation</button>
-  <button type="button" class="btn btn-success modal-btn-ok" (click)="onExtend()" [disabled]="!isValidForm()">Save Changes</button>
+  <button type="button" class="btn btn-success modal-btn-ok" (click)="onConfirm()" [disabled]="!isValidForm()">Save Changes</button>
 </div>
