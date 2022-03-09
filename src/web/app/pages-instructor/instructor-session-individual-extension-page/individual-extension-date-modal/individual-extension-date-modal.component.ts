@@ -2,8 +2,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NgbActiveModal, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
 import { DateFormat } from 'src/web/app/components/datepicker/datepicker.component';
-import { TimeFormat } from 'src/web/app/components/timepicker/timepicker.component';
 import { IndividualExtensionConfirmModalComponent } from '../individual-extension-confirm-modal/individual-extension-confirm-modal.component';
+
 /**
  * Modal to confirm permanent deletion of a feedback session.
  */
@@ -13,23 +13,19 @@ import { IndividualExtensionConfirmModalComponent } from '../individual-extensio
   styleUrls: ['./individual-extension-date-modal.component.scss'],
 })
 
-export class IndividualExtensionDateModalComponent implements OnInit {
+export class IndividualExtensionDateModalComponent implements OnInit
+{
   @Input()
   numberOfStudents: number = 0;
 
   @Input()
-  feedbackSessionDateTime = {
-    date: { year: 0, month: 0, day: 0 },
-    time: { hour: 23, minute: 59 },
-    timeZone: "",
-  }
+  feedbackSessionEndingTime: number = 0;
 
   @Output()
   onConfirmExtension: EventEmitter<void> = new EventEmitter();
   
   constructor(public activeModal: NgbActiveModal,
-              private ngbModal: NgbModal,
-              )
+              private ngbModal: NgbModal)
   {}
   
   radioOption: number = 1;
@@ -42,41 +38,36 @@ export class IndividualExtensionDateModalComponent implements OnInit {
     ["Customize", 0],
   ])
   
+  DATETIME_FORMAT: string = "d MMM YYYY h:mm:ss";
   datePickerTime: DateFormat = { year: 0, month: 0, day: 0 };
 
-  ngOnInit(): void {
+  ngOnInit(): void
+  {
   }
 
-  onConfirm(): void {
+  onConfirm(): void
+  {
     this.onConfirmExtension.emit(); // TODO: Emit the final date
   }
 
-  addHoursAndFormat(hours: number ): String {
-    let moment: moment.Moment = this.getMomentInstance(this.feedbackSessionDateTime.date, this.feedbackSessionDateTime.time);
-    moment = this.addHoursToMomentInstance(moment, hours);
-    return moment.format("d MMM YYYY h:mm:ss");
+  addHoursAndFormat(hours: number): number {
+    return this.feedbackSessionEndingTime * (hours * 60);
   }
 
-  
-  /**
-   * Gets a moment instance from a date.
-   */
-  getMomentInstance(date: DateFormat, time: TimeFormat): moment.Moment {
-    const inst: moment.Moment = moment();
-    inst.set('year', date.year);
-    inst.set('month', date.month - 1); // moment month is from 0-11
-    inst.set('date', date.day);
-    inst.set('hour', time.hour);
-    inst.set('minute', time.minute);
-    return inst;
-  }
-
-  addHoursToMomentInstance(moment: moment.Moment, hours: number): moment.Moment {
-    return moment.add(hours, 'hours');
+  getDateFormat(timestamp: number) : DateFormat {
+    let momentInstance: moment.Moment = moment(timestamp)
+    if (momentInstance.hour() === 0 && momentInstance.minute() === 0) {
+      momentInstance = momentInstance.subtract(1, 'minute');
+    }
+    console.log(momentInstance.year());
+    return {
+      year: momentInstance.year(),
+      month: momentInstance.month() + 1, // moment return 0-11 for month
+      day: momentInstance.date(),
+    };  
   }
 
   setA() {
-
     console.log(this.radioOption)    
   }
   

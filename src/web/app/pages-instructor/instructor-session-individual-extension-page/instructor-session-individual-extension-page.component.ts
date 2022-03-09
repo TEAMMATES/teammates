@@ -1,9 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
-import moment from 'moment-timezone';
 import { finalize } from "rxjs/operators";
-import { DateFormat } from 'src/web/app/components/datepicker/datepicker.component';
 import { FeedbackSessionsService } from "src/web/services/feedback-sessions.service";
 import { StudentService } from "src/web/services/student.service";
 import { Course, FeedbackSession, Student, Students } from "src/web/types/api-output";
@@ -15,11 +13,9 @@ import { TableComparatorService } from "../../../services/table-comparator.servi
 import { SortBy, SortOrder } from "../../../types/sort-properties";
 import { SimpleModalType } from "../../components/simple-modal/simple-modal-type";
 import { ColumnData, SortableTableCellData } from "../../components/sortable-table/sortable-table.component";
-import { TimeFormat } from "../../components/timepicker/timepicker.component";
 import { ErrorMessageOutput } from "../../error-message-output";
 import { IndividualExtensionConfirmModalComponent } from "./individual-extension-confirm-modal/individual-extension-confirm-modal.component";
 import { IndividualExtensionDateModalComponent } from "./individual-extension-date-modal/individual-extension-date-modal.component";
-import { TimezoneService } from '../../../services/timezone.service';
 
 // Columns for the table: Section, Team, Student Name, Email, New Deadline
 interface StudentExtensionTableColumnData {
@@ -27,7 +23,7 @@ interface StudentExtensionTableColumnData {
   teamName: string;
   studentName: string;
   studentEmail: string;
-  studentExtensionDeadline: string;
+  studentExtensionDeadline: number;
   hasExtension: boolean;
   selected: boolean;
 }
@@ -53,12 +49,10 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
   courseName: string = "";
   feedbackSessionName: string = "";
 
-  // Load course information. (Course ID, Time Zone, Course Name, Session Name, Original Deadline)
-  feedbackSessionDateTime: {date: DateFormat, time: TimeFormat, timeZone: String} = {
-    date: { year: 0, month: 0, day: 0 },
-    time: { hour: 23, minute: 59 },
-    timeZone: "",
-  };
+  feedbackSessionEndingTime: number = 0;
+  feedbackSessionTimeZone: String = "";
+
+  DATETIME_FORMAT: string = "d MMM YYYY h:mm:ss";
 
   columnsData: ColumnData[] = [];
   rowsData: SortableTableCellData[][] = [];
@@ -90,7 +84,6 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     private ngbModal: NgbModal,
     private route: ActivatedRoute,
     private courseService: CourseService,
-    private timezoneService: TimezoneService,
     private tableComparatorService: TableComparatorService
   ) {}
 
@@ -117,17 +110,17 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
   }
 
   // TODO: Check if we even need a map here, or how is the "map" going to be transferred here
-  mapStudentsOfCourse(students: Student[], deadlineMap: Map<String, String>): StudentExtensionTableColumnData[] {
+  mapStudentsOfCourse(students: Student[], deadlineMap: Map<String, Number>): StudentExtensionTableColumnData[] {
     return students.map(student => this.mapStudentToStudentColumnData(student, deadlineMap))
   }
 
-  mapStudentToStudentColumnData(student: Student, deadline: Map<String, String>): StudentExtensionTableColumnData {
+  mapStudentToStudentColumnData(student: Student, deadline: Map<String, Number>): StudentExtensionTableColumnData {
     const studentData: StudentExtensionTableColumnData = {
       sectionName: student.sectionName,
       teamName: student.teamName,
       studentName: student.name,
       studentEmail: student.email,
-      studentExtensionDeadline: this.feedbackSessionDateTime.date.toString(),
+      studentExtensionDeadline: this.feedbackSessionEndingTime,
       //TODO: Race condition with getting the original submission deadline.
       hasExtension: false, // TODO: Default
       selected: false
@@ -135,33 +128,11 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
 
     if (deadline.has(student.email)) {
       studentData.hasExtension = true;
-      studentData.studentExtensionDeadline = deadline.get(student.email)!.toString();
+      studentData.studentExtensionDeadline = deadline.get(student.email)!.valueOf();
     }
 
     return studentData
   };  
-
-  // TODO: Refactor this, copied from another file
-  /**
-   * Get the local date and time of timezone from timestamp.
-   */
-  private getDateTimeAtTimezone(timestamp: number, timeZone: string, resolveMidnightTo2359: boolean):
-     { date: DateFormat; time: TimeFormat } {
-    let momentInstance: moment.Moment = this.timezoneService.getMomentInstance(timestamp, timeZone);
-    if (resolveMidnightTo2359 && momentInstance.hour() === 0 && momentInstance.minute() === 0) {
-      momentInstance = momentInstance.subtract(1, 'minute');
-    }
-    const date: DateFormat = {
-      year: momentInstance.year(),
-      month: momentInstance.month() + 1, // moment return 0-11 for month
-      day: momentInstance.date(),
-    };
-    const time: TimeFormat = {
-      minute: momentInstance.minute(),
-      hour: momentInstance.hour(),
-    };
-    return { date, time };
-  }
 
   /**
    * Loads a feedback session.
@@ -184,11 +155,8 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
             })
             .subscribe(
               (feedbackSession: FeedbackSession) => {
-                const dateTime: {date: DateFormat, time: TimeFormat } =
-                this.getDateTimeAtTimezone(feedbackSession.submissionEndTimestamp, feedbackSession.timeZone, true);
-                this.feedbackSessionDateTime.date = dateTime.date
-                this.feedbackSessionDateTime.time = dateTime.time
-                this.feedbackSessionDateTime.timeZone = feedbackSession.timeZone;
+                this.feedbackSessionEndingTime = feedbackSession.submissionEndTimestamp
+                this.feedbackSessionTimeZone = feedbackSession.timeZone;
               },
               (resp: ErrorMessageOutput) => {
                 this.statusMessageService.showErrorToast(resp.error.message);
@@ -206,8 +174,8 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
   onExtend(): void {
     const modalRef: NgbModalRef = this.ngbModal.open(IndividualExtensionDateModalComponent);
     this.extensionModal = modalRef;
-    modalRef.componentInstance.numberOfStudents = this.studentsOfCourse.length;
-    modalRef.componentInstance.feedbackSessionDateTime = this.feedbackSessionDateTime;
+    modalRef.componentInstance.numberOfStudents = this.studentsOfCourse.filter(x => x.selected).length;
+    modalRef.componentInstance.feedbackSessionEndingTime = this.feedbackSessionEndingTime;
     modalRef.componentInstance.onConfirmExtension = this.onConfirmExtension;
   }
 
@@ -228,6 +196,13 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
 
   setA(a: boolean) {
     this.isOpen = a;
+  }
+
+  hasSelectedStudents(): boolean {
+    for (const student of this.studentsOfCourse) {
+      if (student.selected) return true;
+    }
+    return false;
   }
 
   selectAllStudents(): void {
@@ -268,8 +243,8 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
           break;
         //TODO: Session End_Date
         case SortBy.SESSION_END_DATE:
-          strA = this.feedbackSessionDateTime.date.toString();
-          strB = this.feedbackSessionDateTime.date.toString();
+          strA = this.feedbackSessionEndingTime.toString();
+          strB = this.feedbackSessionEndingTime.toString();
           break;
         default:
           strA = "";

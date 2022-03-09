@@ -10,7 +10,7 @@
       <div class="row text-center">
         <div class="col-md-2 text-md-right font-bold">Time Zone</div>
         <div id="time-zone" class="col-md-3 text-md-left">
-          {{ feedbackSessionDateTime.timeZone }}
+          {{ feedbackSessionTimeZone }}
         </div>
       </div>
       <div class="row text-center">
@@ -28,7 +28,7 @@
       <div class="row text-center">
         <div class="col-md-2 text-md-right font-bold">Original Deadline</div>
         <div id="course-name" class="col-md-10 text-md-left">
-          {{ feedbackSessionDateTime.date }} {{feedbackSessionDateTime.time}}
+          {{ feedbackSessionEndingTime | date:'d MMM yyyy' }}
         </div>
       </div>
     </div>
@@ -36,7 +36,7 @@
   <div class="container ml-1">
     <div class="align-row">
       <div>
-        <button type="button" class="btn btn-success" (click)="onExtend()">Extend</button>
+        <button type="button" class="btn btn-success" (click)="onExtend()" [disabled]="hasSelectedStudents()">Extend</button>
       </div>
       <div>
         <button type="button" class="btn btn-danger" (click)="onDelete()">Delete</button>
@@ -120,7 +120,7 @@
           <td>{{ student.teamName }}</td>
           <td>{{ student.studentName }}</td>
           <td>{{ student.studentEmail }}</td>
-          <td>{{ student.studentExtensionDeadline }}</td>
+          <td>{{ student.studentExtensionDeadline | date:'d MMM yyyy' }}</td>
         </tr>
       </table>
     </div>
