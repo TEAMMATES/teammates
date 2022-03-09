@@ -5,7 +5,7 @@
   </button>
 </div>
 <div class="modal-body">
-  Extending the feedback session for <b>10 students:</b>
+  Extending the feedback session for <b>{{numberOfStudents}} students:</b>
 </div>
 
 <div class="container ml-1">
@@ -13,37 +13,33 @@
   </div>
 
   <div class="row pl-3">
-    <label class="mr-2"><input type="radio" name="optradio" [value]="1" [ngModel]="radioOption"> Extend deadline by</label>
-    <label><input type="radio" [value]="2" [ngModel]="radioOption" name="optradio"> Extend deadline to</label>
+    <label class="mr-2"><input type="radio" name="optradio" [value]="1" [(ngModel)]="radioOption"> Extend deadline by</label>
+    <label><input type="radio" name="optradio" [(ngModel)]="radioOption" [value]="2"> Extend deadline to</label>
   </div>
 
 
-    <small>The new deadline of the feedback session will be:</small>
-    <div id="submission-start-date">
-      <div class="input-group">
-        <input type="text" class="form-control" value="1st April 2021 23:59H"/>
-        <div class="input-group-append">
-          <button class="btn btn-light" type="button">
-            <i class="fas fa-calendar-alt"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-
-<!--
+  <div *ngIf="radioOption==1">
     <small>Extend the feedback session by:</small>
     <div id="submission-start-date">
         <div class="input-group">
-            <select class="form-control">
-              <option>12 hours</option>
-              <option>1 day</option>
-              <option>3 days</option>
-              <option>1 week (8th March 2021 23:59H)</option>
-              <option>Customize</option>
+            <select class="form-control" [(ngModel)]="extendByDeadlineKey">
+              <option *ngFor="let deadlineOption of deadlineOptions | keyvalue">{{ deadlineOption.key }}
+              (  {{addHoursAndFormat(deadlineOption.value)}} ) 
+              </option>
             </select>
         </div>
     </div>
--->
+  </div>
+
+  <div *ngIf="radioOption==2">
+    <small>The new deadline of the feedback session will be:</small>
+    <div id="submission-start-date">
+      <div class="input-group">
+        <tm-datepicker [date]="datePickerTime" 
+        [minDate]="feedbackSessionDateTime.date"> </tm-datepicker>
+      </div>
+    </div>
+  </div>
 
 <!--
 <br>
@@ -54,8 +50,6 @@
     <input class="form-control mb-2" type="text" placeholder="Days">   
   </form>
 
-<br>
-<p> New Deadline: 8th March 2021 23:59H </p> 
 </div>
 -->
 
@@ -63,5 +57,5 @@
 
 <div class="modal-footer">
   <button type="button" class="btn btn-light" (click)="activeModal.dismiss()">No, Cancel the Operation</button>
-  <button type="button" class="btn btn-success modal-btn-ok" (click)="onExtend()">Save Changes</button>
+  <button type="button" class="btn btn-success modal-btn-ok" (click)="onExtend()" [disabled]="!isValidForm()">Save Changes</button>
 </div>

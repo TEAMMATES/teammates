@@ -10,7 +10,7 @@
       <div class="row text-center">
         <div class="col-md-2 text-md-right font-bold">Time Zone</div>
         <div id="time-zone" class="col-md-3 text-md-left">
-          {{ feedbackSessionDetails.timeZone }}
+          {{ feedbackSessionDateTime.timeZone }}
         </div>
       </div>
       <div class="row text-center">
@@ -28,7 +28,7 @@
       <div class="row text-center">
         <div class="col-md-2 text-md-right font-bold">Original Deadline</div>
         <div id="course-name" class="col-md-10 text-md-left">
-          {{ feedbackSessionDetails.submissionOriginalDeadline }}
+          {{ feedbackSessionDateTime.date }} {{feedbackSessionDateTime.time}}
         </div>
       </div>
     </div>
@@ -55,22 +55,6 @@
       <table id="student-list-table" class="table table-bordered">
         <thead>
           <tr>
-            <!--<button
-              id="sort-course-id-btn"
-              class="btn btn-light"
-              [disabled]="sortBy === SortBy.COURSE_ID"
-              (click)="sortCoursesBy(SortBy.COURSE_ID)"
-            >
-              Course ID
-            </button>
-            <button
-              id="sort-course-name-btn"
-              class="btn btn-light"
-              [disabled]="sortBy === SortBy.COURSE_NAME"
-              (click)="sortCoursesBy(SortBy.COURSE_NAME)"
-            >
-              Course Name
-            </button> -->
             <th (click)="selectAllStudents()">
               <label><input type="checkbox" [checked]="isAllSelected" /> Select all</label>
             </th>

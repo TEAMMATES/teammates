@@ -1,7 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
+import moment from 'moment-timezone';
 import { finalize } from "rxjs/operators";
+import { DateFormat } from 'src/web/app/components/datepicker/datepicker.component';
 import { FeedbackSessionsService } from "src/web/services/feedback-sessions.service";
 import { StudentService } from "src/web/services/student.service";
 import { Course, FeedbackSession, Student, Students } from "src/web/types/api-output";
@@ -13,8 +15,11 @@ import { TableComparatorService } from "../../../services/table-comparator.servi
 import { SortBy, SortOrder } from "../../../types/sort-properties";
 import { SimpleModalType } from "../../components/simple-modal/simple-modal-type";
 import { ColumnData, SortableTableCellData } from "../../components/sortable-table/sortable-table.component";
+import { TimeFormat } from "../../components/timepicker/timepicker.component";
 import { ErrorMessageOutput } from "../../error-message-output";
+import { IndividualExtensionConfirmModalComponent } from "./individual-extension-confirm-modal/individual-extension-confirm-modal.component";
 import { IndividualExtensionDateModalComponent } from "./individual-extension-date-modal/individual-extension-date-modal.component";
+import { TimezoneService } from '../../../services/timezone.service';
 
 // Columns for the table: Section, Team, Student Name, Email, New Deadline
 interface StudentExtensionTableColumnData {
@@ -49,8 +54,9 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
   feedbackSessionName: string = "";
 
   // Load course information. (Course ID, Time Zone, Course Name, Session Name, Original Deadline)
-  feedbackSessionDetails = {
-    submissionOriginalDeadline: 0,
+  feedbackSessionDateTime: {date: DateFormat, time: TimeFormat, timeZone: String} = {
+    date: { year: 0, month: 0, day: 0 },
+    time: { hour: 23, minute: 59 },
     timeZone: "",
   };
 
@@ -63,6 +69,8 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
   hasLoadedAllStudentsFailed: boolean = false;
   hasLoadingFeedbackSessionFailed: boolean = false;
   isLoadingFeedbackSession: boolean = true;
+
+  extensionModal: NgbModalRef | null = null;
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
@@ -82,6 +90,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     private ngbModal: NgbModal,
     private route: ActivatedRoute,
     private courseService: CourseService,
+    private timezoneService: TimezoneService,
     private tableComparatorService: TableComparatorService
   ) {}
 
@@ -118,7 +127,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
       teamName: student.teamName,
       studentName: student.name,
       studentEmail: student.email,
-      studentExtensionDeadline: this.feedbackSessionDetails.submissionOriginalDeadline.toString(),
+      studentExtensionDeadline: this.feedbackSessionDateTime.date.toString(),
       //TODO: Race condition with getting the original submission deadline.
       hasExtension: false, // TODO: Default
       selected: false
@@ -131,6 +140,28 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
 
     return studentData
   };  
+
+  // TODO: Refactor this, copied from another file
+  /**
+   * Get the local date and time of timezone from timestamp.
+   */
+  private getDateTimeAtTimezone(timestamp: number, timeZone: string, resolveMidnightTo2359: boolean):
+     { date: DateFormat; time: TimeFormat } {
+    let momentInstance: moment.Moment = this.timezoneService.getMomentInstance(timestamp, timeZone);
+    if (resolveMidnightTo2359 && momentInstance.hour() === 0 && momentInstance.minute() === 0) {
+      momentInstance = momentInstance.subtract(1, 'minute');
+    }
+    const date: DateFormat = {
+      year: momentInstance.year(),
+      month: momentInstance.month() + 1, // moment return 0-11 for month
+      day: momentInstance.date(),
+    };
+    const time: TimeFormat = {
+      minute: momentInstance.minute(),
+      hour: momentInstance.hour(),
+    };
+    return { date, time };
+  }
 
   /**
    * Loads a feedback session.
@@ -153,8 +184,11 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
             })
             .subscribe(
               (feedbackSession: FeedbackSession) => {
-                this.feedbackSessionDetails.timeZone = feedbackSession.timeZone;
-                this.feedbackSessionDetails.submissionOriginalDeadline = feedbackSession.submissionEndTimestamp;
+                const dateTime: {date: DateFormat, time: TimeFormat } =
+                this.getDateTimeAtTimezone(feedbackSession.submissionEndTimestamp, feedbackSession.timeZone, true);
+                this.feedbackSessionDateTime.date = dateTime.date
+                this.feedbackSessionDateTime.time = dateTime.time
+                this.feedbackSessionDateTime.timeZone = feedbackSession.timeZone;
               },
               (resp: ErrorMessageOutput) => {
                 this.statusMessageService.showErrorToast(resp.error.message);
@@ -171,6 +205,15 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
 
   onExtend(): void {
     const modalRef: NgbModalRef = this.ngbModal.open(IndividualExtensionDateModalComponent);
+    this.extensionModal = modalRef;
+    modalRef.componentInstance.numberOfStudents = this.studentsOfCourse.length;
+    modalRef.componentInstance.feedbackSessionDateTime = this.feedbackSessionDateTime;
+    modalRef.componentInstance.onConfirmExtension = this.onConfirmExtension;
+  }
+
+  onConfirmExtension(): void {
+    this.extensionModal?.close();
+    const modalRef: NgbModalRef = this.ngbModal.open(IndividualExtensionConfirmModalComponent);
     console.log(modalRef);
   }
 
@@ -225,8 +268,8 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
           break;
         //TODO: Session End_Date
         case SortBy.SESSION_END_DATE:
-          strA = this.feedbackSessionDetails.submissionOriginalDeadline.toString();
-          strB = this.feedbackSessionDetails.submissionOriginalDeadline.toString();
+          strA = this.feedbackSessionDateTime.date.toString();
+          strB = this.feedbackSessionDateTime.date.toString();
           break;
         default:
           strA = "";
