@@ -53,6 +53,7 @@ public final class FieldValidator {
     public static final int NOTIFICATION_TITLE_MAX_LENGTH = 80;
     public static final String NOTIFICATION_MESSAGE_FIELD_NAME = "notification message";
     public static final int NOTIFICATION_MESSAGE_MAX_LENGTH = 500;
+    public static final String NOTIFICATION_NAME = "notification";
     public static final String NOTIFICATION_VISIBLE_TIME_FIELD_NAME = "time when the notification will be visible";
     public static final String NOTIFICATION_EXPIRY_TIME_FIELD_NAME = "time when the notification will expire";
     public static final String NOTIFICATION_TYPE_FIELD_NAME = "notification type";
@@ -96,6 +97,7 @@ public final class FieldValidator {
     public static final String COURSE_ID_FIELD_NAME = "course ID";
     public static final int COURSE_ID_MAX_LENGTH = 64;
 
+    public static final String SESSION_NAME = "feedback session";
     public static final String SESSION_START_TIME_FIELD_NAME = "start time";
     public static final String SESSION_END_TIME_FIELD_NAME = "end time";
     public static final String TIME_ZONE_FIELD_NAME = "time zone";
@@ -221,7 +223,7 @@ public final class FieldValidator {
     public static final String SESSION_VISIBLE_TIME_FIELD_NAME = "time when the session will be visible";
     public static final String RESULTS_VISIBLE_TIME_FIELD_NAME = "time when the results will be visible";
     public static final String TIME_FRAME_ERROR_MESSAGE =
-                "The %s for this feedback session cannot be earlier than the %s.";
+                "The %s for this %s cannot be earlier than the %s.";
 
     public static final String PARTICIPANT_TYPE_ERROR_MESSAGE = "%s is not a valid %s.";
     public static final String PARTICIPANT_TYPE_TEAM_ERROR_MESSAGE =
@@ -653,7 +655,7 @@ public final class FieldValidator {
      */
     public static String getInvalidityInfoForTimeForSessionStartAndEnd(Instant sessionStart, Instant sessionEnd) {
         return getInvalidityInfoForFirstTimeIsBeforeSecondTime(
-                sessionStart, sessionEnd, SESSION_START_TIME_FIELD_NAME, SESSION_END_TIME_FIELD_NAME);
+                sessionStart, sessionEnd, SESSION_NAME, SESSION_START_TIME_FIELD_NAME, SESSION_END_TIME_FIELD_NAME);
     }
 
     /**
@@ -664,7 +666,7 @@ public final class FieldValidator {
     public static String getInvalidityInfoForTimeForVisibilityStartAndSessionStart(
             Instant visibilityStart, Instant sessionStart) {
         return getInvalidityInfoForFirstTimeIsBeforeSecondTime(
-                visibilityStart, sessionStart, SESSION_VISIBLE_TIME_FIELD_NAME, SESSION_START_TIME_FIELD_NAME);
+                visibilityStart, sessionStart, SESSION_NAME, SESSION_VISIBLE_TIME_FIELD_NAME, SESSION_START_TIME_FIELD_NAME);
     }
 
     /**
@@ -675,7 +677,7 @@ public final class FieldValidator {
     public static String getInvalidityInfoForTimeForVisibilityStartAndResultsPublish(
             Instant visibilityStart, Instant resultsPublish) {
         return getInvalidityInfoForFirstTimeIsBeforeSecondTime(visibilityStart, resultsPublish,
-                SESSION_VISIBLE_TIME_FIELD_NAME, RESULTS_VISIBLE_TIME_FIELD_NAME);
+                SESSION_NAME, SESSION_VISIBLE_TIME_FIELD_NAME, RESULTS_VISIBLE_TIME_FIELD_NAME);
     }
 
     /**
@@ -686,18 +688,19 @@ public final class FieldValidator {
     public static String getInvalidityInfoForTimeForNotificationStartAndEnd(
             Instant notificationStart, Instant notificationExpiry) {
         return getInvalidityInfoForFirstTimeIsBeforeSecondTime(notificationStart, notificationExpiry,
-            NOTIFICATION_VISIBLE_TIME_FIELD_NAME, NOTIFICATION_EXPIRY_TIME_FIELD_NAME);
+            NOTIFICATION_NAME, NOTIFICATION_VISIBLE_TIME_FIELD_NAME, NOTIFICATION_EXPIRY_TIME_FIELD_NAME);
     }
 
     private static String getInvalidityInfoForFirstTimeIsBeforeSecondTime(
-            Instant earlierTime, Instant laterTime, String earlierTimeFieldName, String laterTimeFieldName) {
+            Instant earlierTime, Instant laterTime,
+            String entityName, String earlierTimeFieldName, String laterTimeFieldName) {
         assert earlierTime != null;
         assert laterTime != null;
         if (TimeHelper.isSpecialTime(earlierTime) || TimeHelper.isSpecialTime(laterTime)) {
             return "";
         }
         if (laterTime.isBefore(earlierTime)) {
-            return String.format(TIME_FRAME_ERROR_MESSAGE, laterTimeFieldName, earlierTimeFieldName);
+            return String.format(TIME_FRAME_ERROR_MESSAGE, laterTimeFieldName, entityName, earlierTimeFieldName);
         }
         return "";
     }

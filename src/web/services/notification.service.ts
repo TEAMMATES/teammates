@@ -1,24 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-// import { ResourceEndpoints } from '../types/api-const';
+import { ResourceEndpoints } from '../types/api-const';
 import { ApiOutput, MessageOutput } from '../types/api-output';
-import { BasicRequest } from '../types/api-request';
-// import { CreateNotificationRequest } from '../types/api-request';
+import { CreateNotificationRequest } from '../types/api-request';
 import { HttpRequestService } from './http-request.service';
 
 // FIXME: This is a temporary solution to declare classes and constants
 // They will be auto generated in api-output and api-request after POST/GET route is merged
-export interface CreateNotificationRequest extends BasicRequest {
-  startTimestamp: number;
-  endTimestamp: number;
-  notificationType: string;
-  targetUser: string;
-  title: string;
-  message: string;
-}
-export enum ResourceEndpoints {
-  NOTIFICATION = '/webapi/notification',
-}
 export interface Notification extends ApiOutput {
   notificationId: string;
   startTimestamp: number;

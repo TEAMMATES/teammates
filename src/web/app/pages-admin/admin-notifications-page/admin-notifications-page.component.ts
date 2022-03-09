@@ -112,8 +112,7 @@ export class AdminNotificationsPageComponent implements OnInit {
   addNewNotificationHandler(): void {
     this.notificationEditFormModel.isSaving = true;
 
-    // FIXME: Timezone is not specified here so it will be guessed from browser's request.
-    // It is still to be discussed how to handle this.
+    // Timezone is not specified here so it will be guessed from browser's request.
     const startTime = this.timezoneService.resolveLocalDateTime(
       this.notificationEditFormModel.startDate, this.notificationEditFormModel.startTime,
     );

@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
+import { TimezoneService } from '../../../../services/timezone.service';
+import { ApiConst } from '../../../../types/api-const';
 import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
 import { NotificationEditFormMode, NotificationEditFormModel } from './notification-edit-form-model';
 
@@ -11,6 +13,10 @@ import { NotificationEditFormMode, NotificationEditFormModel } from './notificat
 export class NotificationEditFormComponent {
 
   NotificationEditFormMode = NotificationEditFormMode;
+
+  NOTIFICATION_TITLE_MAX_LENGTH = ApiConst.NOTIFICATION_TITLE_MAX_LENGTH;
+
+  guessTimezone = '';
 
   @Input()
   model: NotificationEditFormModel = {
@@ -58,7 +64,12 @@ export class NotificationEditFormComponent {
   @Output()
   closeEditFormEvent = new EventEmitter<void>();
 
-  constructor(private simpleModalService: SimpleModalService) { }
+  constructor(
+    timezoneService: TimezoneService,
+    private simpleModalService: SimpleModalService,
+  ) {
+    this.guessTimezone = timezoneService.guessTimezone();
+  }
 
   /**
    * Triggers the change of the model for the form.

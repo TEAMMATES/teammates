@@ -1,3 +1,4 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AdminNotificationsPageModule } from '../admin-notifications-page.module';
 
@@ -9,7 +10,10 @@ describe('NotificationEditFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AdminNotificationsPageModule],
+      imports: [
+        AdminNotificationsPageModule,
+        HttpClientTestingModule,
+      ],
     })
     .compileComponents();
   });
