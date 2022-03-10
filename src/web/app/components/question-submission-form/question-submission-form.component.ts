@@ -60,6 +60,8 @@ export class QuestionSubmissionFormComponent implements OnInit {
   formModelChange: EventEmitter<QuestionSubmissionFormModel> = new EventEmitter();
 
   model: QuestionSubmissionFormModel = {
+    isLoading: false,
+    isLoaded: true,
     feedbackQuestionId: '',
 
     questionNumber: 0,

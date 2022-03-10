@@ -11,6 +11,7 @@ import {
   NumberOfEntitiesToGiveFeedbackToSetting,
 } from '../../../types/api-output';
 import { CommentBoxModule } from '../comment-box/comment-box.module';
+import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
 import { QuestionConstraintModule } from '../question-types/question-constraint/question-constraint.module';
 import {
   QuestionEditAnswerFormModule,
@@ -110,6 +111,7 @@ describe('QuestionSubmissionFormComponent', () => {
         FormsModule,
         CommentBoxModule,
         NgbModule,
+        LoadingSpinnerModule,
       ],
     })
     .compileComponents();

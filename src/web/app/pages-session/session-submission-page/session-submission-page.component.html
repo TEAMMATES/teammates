@@ -81,9 +81,10 @@
 </div>
 
 <tm-loading-retry [shouldShowRetry]="hasFeedbackSessionQuestionsLoadingFailed" [message]="'Failed to load questions'" (retryEvent)="retryLoadingFeedbackSessionQuestions()">
-  <div *tmIsLoading="isFeedbackSessionQuestionsLoading || isFeedbackSessionQuestionResponsesLoading">
+  <div *tmIsLoading="isFeedbackSessionQuestionsLoading">
     <tm-question-submission-form *ngFor="let questionSubmissionForm of questionSubmissionForms; let i = index; trackBy: trackQuestionSubmissionFormByFn"
                                  [attr.id]="questionSubmissionForm.feedbackQuestionId"
+                                 inViewport (inViewportAction)="loadRecipientsAndResponses($event, questionSubmissionForm)"
                                  [(formModel)]="questionSubmissionForms[i]" [formMode]="getQuestionSubmissionFormMode(questionSubmissionForm)"
                                  [isDisabled]="isSubmissionFormsDisabled && !this.previewAsPerson"
                                  (deleteCommentEvent)="deleteParticipantComment(i, $event)"

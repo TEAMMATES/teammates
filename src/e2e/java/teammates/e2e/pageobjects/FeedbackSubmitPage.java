@@ -577,7 +577,11 @@ public class FeedbackSubmitPage extends AppPage {
     private WebElement getQuestionForm(int qnNumber) {
         By questionFormId = By.id("question-submission-form");
         waitForElementPresence(questionFormId);
-        return browser.driver.findElements(questionFormId).get(qnNumber - 1);
+        WebElement questionForm = browser.driver.findElements(questionFormId).get(qnNumber - 1);
+        // Scroll to the question to ensure that the details are fully loaded
+        scrollElementToCenter(questionForm);
+        waitUntilAnimationFinish();
+        return questionForm;
     }
 
     private String getQuestionBrief(int qnNumber) {

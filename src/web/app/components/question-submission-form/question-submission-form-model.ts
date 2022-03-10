@@ -47,6 +47,9 @@ export interface QuestionSubmissionFormModel {
   showResponsesTo: FeedbackVisibilityType[];
   showGiverNameTo: FeedbackVisibilityType[];
   showRecipientNameTo: FeedbackVisibilityType[];
+
+  isLoading: boolean;
+  isLoaded: boolean;
 }
 
 /**

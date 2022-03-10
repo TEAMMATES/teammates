@@ -99,7 +99,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   isFeedbackSessionLoading: boolean = true;
   isFeedbackSessionQuestionsLoading: boolean = true;
   hasFeedbackSessionQuestionsLoadingFailed: boolean = false;
-  isFeedbackSessionQuestionResponsesLoading: boolean = true;
   retryAttempts: number = DEFAULT_NUMBER_OF_RETRY_ATTEMPTS;
 
   private backendUrl: string = environment.backendUrl;
@@ -410,9 +409,10 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
       this.isFeedbackSessionQuestionsLoading = false;
     }))
         .subscribe((response: FeedbackQuestionsResponse) => {
-          this.isFeedbackSessionQuestionResponsesLoading = response.questions.length !== 0;
           response.questions.forEach((feedbackQuestion: FeedbackQuestion) => {
             const model: QuestionSubmissionFormModel = {
+              isLoading: false,
+              isLoaded: false,
               feedbackQuestionId: feedbackQuestion.feedbackQuestionId,
 
               questionNumber: feedbackQuestion.questionNumber,
@@ -436,7 +436,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
               showResponsesTo: feedbackQuestion.showResponsesTo,
             };
             this.questionSubmissionForms.push(model);
-            this.loadFeedbackQuestionRecipientsForQuestion(model);
           });
         }, (resp: ErrorMessageOutput) => {
           this.handleError(resp);
@@ -492,7 +491,8 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
             isValid: true,
           });
         });
-        this.isFeedbackSessionQuestionResponsesLoading = false;
+        model.isLoading = false;
+        model.isLoaded = true;
       } else {
         this.loadFeedbackResponses(model);
       }
@@ -520,14 +520,14 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
    * Loads the responses of the feedback question to {@recipientSubmissionForms} in the model.
    */
   loadFeedbackResponses(model: QuestionSubmissionFormModel): void {
-    this.isFeedbackSessionQuestionResponsesLoading = true;
     this.feedbackResponsesService.getFeedbackResponse({
       questionId: model.feedbackQuestionId,
       intent: this.intent,
       key: this.regKey,
       moderatedPerson: this.moderatedPerson,
     }).pipe(finalize(() => {
-      this.isFeedbackSessionQuestionResponsesLoading = false;
+      model.isLoading = false;
+      model.isLoaded = true;
     }))
       .subscribe((existingResponses: FeedbackResponsesResponse) => {
         if (this.getQuestionSubmissionFormMode(model) === QuestionSubmissionFormMode.FIXED_RECIPIENT) {
@@ -836,4 +836,12 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
       this.statusMessageService.showErrorToast(resp.error.message);
     }
   }
+
+  loadRecipientsAndResponses(event: any, questionSubmissionForm: QuestionSubmissionFormModel): void {
+    if (event && event.visible && !questionSubmissionForm.isLoaded && !questionSubmissionForm.isLoading) {
+      questionSubmissionForm.isLoading = true;
+      this.loadFeedbackQuestionRecipientsForQuestion(questionSubmissionForm);
+    }
+  }
+
 }

@@ -3,7 +3,7 @@
     <span id="question-details"><b>Question {{ model.questionNumber }}: </b>{{ model.questionBrief }}</span>
   </div>
 
-  <div class="card-body">
+  <div class="card-body" *tmIsLoading="model.isLoading">
     <div class="card mb-3" *ngIf="model.questionDescription">
       <div class="card-header">
         <b>More details</b>
@@ -173,7 +173,7 @@
       ></tm-constsum-recipients-question-constraint>
     </div>
 
-    <div class="alert alert-warning" role="alert" *ngIf="model.recipientList.length === 0">
+    <div class="alert alert-warning" role="alert" *ngIf="!model.recipientList.length && model.isLoaded">
       <span *ngIf="model.recipientType === FeedbackParticipantType.OWN_TEAM_MEMBERS">This question is for team members and you don't have any team members. Therefore, you will not be able to answer this question.</span>
       <span *ngIf="model.recipientType === FeedbackParticipantType.TEAMS">This question is for other teams in this course and this course doesn't have any other team. Therefore, you will not be able to answer this question.</span>
       <span *ngIf="model.recipientType === FeedbackParticipantType.STUDENTS">This question is for other students in this course and this course doesn't have any other student. Therefore, you will not be able to answer this question.</span>

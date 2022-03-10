@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { CommentBoxModule } from '../comment-box/comment-box.module';
+import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
 import { QuestionConstraintModule } from '../question-types/question-constraint/question-constraint.module';
 import {
   QuestionEditAnswerFormModule,
@@ -29,6 +30,7 @@ import { RecipientTypeNamePipe } from './recipient-type-name.pipe';
     QuestionInstructionModule,
     QuestionEditAnswerFormModule,
     CommentBoxModule,
+    LoadingSpinnerModule,
   ],
   declarations: [
     QuestionSubmissionFormComponent,
