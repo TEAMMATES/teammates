@@ -87,6 +87,7 @@
                                  inViewport (inViewportAction)="loadRecipientsAndResponses($event, questionSubmissionForm)"
                                  [(formModel)]="questionSubmissionForms[i]" [formMode]="getQuestionSubmissionFormMode(questionSubmissionForm)"
                                  [isDisabled]="isSubmissionFormsDisabled && !this.previewAsPerson"
+                                 [isSavingResponses]="isSavingResponses" (responsesSave)="saveFeedbackResponses([$event])"
                                  (deleteCommentEvent)="deleteParticipantComment(i, $event)"
     ></tm-question-submission-form>
 
@@ -102,8 +103,8 @@
       <div class="col-12 text-center">
         <button id="btn-submit" type="submit" class="btn btn-success"
                 ngbTooltip="You can save your responses at any time and come back later to continue."
-                (click)="saveFeedbackResponses()" [disabled]="isSavingResponses || isSubmissionFormsDisabled"
-        ><tm-ajax-loading *ngIf="isSavingResponses"></tm-ajax-loading>Submit Feedback</button>
+                (click)="saveFeedbackResponses(questionSubmissionForms)" [disabled]="isSavingResponses || isSubmissionFormsDisabled"
+        ><tm-ajax-loading *ngIf="isSavingResponses"></tm-ajax-loading>Submit Responses for All Questions</button>
       </div>
     </div>
   </div>

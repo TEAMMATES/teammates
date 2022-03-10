@@ -606,11 +606,11 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   }
 
   /**
-   * Saves all feedback response.
+   * Saves the feedback responses for the specific questions.
    *
    * <p>All empty feedback response will be deleted; For non-empty responses, update/create them if necessary.
    */
-  saveFeedbackResponses(): void {
+  saveFeedbackResponses(questionSubmissionForms: QuestionSubmissionFormModel[]): void {
     const notYetAnsweredQuestions: Set<number> = new Set();
     const requestIds: Record<string, string> = {};
     const answers: Record<string, FeedbackResponse[]> = {};
@@ -628,7 +628,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
       this.statusMessageService.showWarningToast('Failed to log feedback session submission');
     });
 
-    this.questionSubmissionForms.forEach((questionSubmissionFormModel: QuestionSubmissionFormModel) => {
+    questionSubmissionForms.forEach((questionSubmissionFormModel: QuestionSubmissionFormModel) => {
       let isQuestionFullyAnswered: boolean = true;
 
       const responses: FeedbackResponseRequest[] = [];
@@ -716,7 +716,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
           modalRef.componentInstance.feedbackSessionTimezone = this.feedbackSessionTimezone;
           modalRef.componentInstance.personEmail = this.personEmail;
           modalRef.componentInstance.personName = this.personName;
-          modalRef.componentInstance.questions = this.questionSubmissionForms;
+          modalRef.componentInstance.questions = questionSubmissionForms;
           modalRef.componentInstance.answers = answers;
           modalRef.componentInstance.notYetAnsweredQuestions = Array.from(notYetAnsweredQuestions.values());
           modalRef.componentInstance.failToSaveQuestions = failToSaveQuestions;

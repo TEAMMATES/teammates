@@ -10,6 +10,7 @@ import {
   FeedbackVisibilityType,
   NumberOfEntitiesToGiveFeedbackToSetting,
 } from '../../../types/api-output';
+import { AjaxLoadingModule } from '../ajax-loading/ajax-loading.module';
 import { CommentBoxModule } from '../comment-box/comment-box.module';
 import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
 import { QuestionConstraintModule } from '../question-types/question-constraint/question-constraint.module';
@@ -88,6 +89,8 @@ const testNumscaleQuestionSubmissionForm: QuestionSubmissionFormModel = {
   showResponsesTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
   showGiverNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
   showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
+  isLoading: false,
+  isLoaded: true,
 };
 
 describe('QuestionSubmissionFormComponent', () => {
@@ -112,6 +115,7 @@ describe('QuestionSubmissionFormComponent', () => {
         CommentBoxModule,
         NgbModule,
         LoadingSpinnerModule,
+        AjaxLoadingModule,
       ],
     })
     .compileComponents();

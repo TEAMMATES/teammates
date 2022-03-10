@@ -14,7 +14,7 @@
 </div>
 <div class="modal-body">
   <p id="not-answered-questions" *ngIf="notYetAnsweredQuestions.length !== 0">
-    <i class="fas fa-exclamation"></i> Note that some questions are yet to be answered.
+    <i class="fas fa-exclamation"></i> Note that some questions are yet to be fully answered.
     They are: {{ notYetAnsweredQuestions.join(', ') }}.
   </p>
   <div *ngIf="hasFailToSaveQuestions" class="text-danger" style="margin-bottom: 10px;">

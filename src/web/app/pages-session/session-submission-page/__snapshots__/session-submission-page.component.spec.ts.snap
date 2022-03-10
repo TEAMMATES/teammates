@@ -1493,6 +1493,22 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               class="col-12 constraint-margins"
             >
             </div>
+            <div
+              class="row"
+            >
+              <div
+                class="col-12 text-center"
+              >
+                <button
+                  class="btn btn-success"
+                  id="btn-submit-qn-4"
+                  ngbtooltip="You can save your responses for this question at any time and come back later to continue."
+                  type="submit"
+                >
+                  Submit Responses
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </tm-question-submission-form>
@@ -1640,6 +1656,22 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             <div
               class="col-12 constraint-margins"
             >
+            </div>
+            <div
+              class="row"
+            >
+              <div
+                class="col-12 text-center"
+              >
+                <button
+                  class="btn btn-success"
+                  id="btn-submit-qn-5"
+                  ngbtooltip="You can save your responses for this question at any time and come back later to continue."
+                  type="submit"
+                >
+                  Submit Responses
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -1802,6 +1834,22 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                   </div>
                 </div>
               </tm-constsum-recipients-question-constraint>
+            </div>
+            <div
+              class="row"
+            >
+              <div
+                class="col-12 text-center"
+              >
+                <button
+                  class="btn btn-success"
+                  id="btn-submit-qn-6"
+                  ngbtooltip="You can save your responses for this question at any time and come back later to continue."
+                  type="submit"
+                >
+                  Submit Responses
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -2072,6 +2120,22 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               class="col-12 constraint-margins"
             >
             </div>
+            <div
+              class="row"
+            >
+              <div
+                class="col-12 text-center"
+              >
+                <button
+                  class="btn btn-success"
+                  id="btn-submit-qn-7"
+                  ngbtooltip="You can save your responses for this question at any time and come back later to continue."
+                  type="submit"
+                >
+                  Submit Responses
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </tm-question-submission-form>
@@ -2324,6 +2388,22 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               class="col-12 constraint-margins"
             >
             </div>
+            <div
+              class="row"
+            >
+              <div
+                class="col-12 text-center"
+              >
+                <button
+                  class="btn btn-success"
+                  id="btn-submit-qn-8"
+                  ngbtooltip="You can save your responses for this question at any time and come back later to continue."
+                  type="submit"
+                >
+                  Submit Responses
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </tm-question-submission-form>
@@ -2534,6 +2614,22 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               class="col-12 constraint-margins"
             >
             </div>
+            <div
+              class="row"
+            >
+              <div
+                class="col-12 text-center"
+              >
+                <button
+                  class="btn btn-success"
+                  id="btn-submit-qn-9"
+                  ngbtooltip="You can save your responses for this question at any time and come back later to continue."
+                  type="submit"
+                >
+                  Submit Responses
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </tm-question-submission-form>
@@ -2698,6 +2794,22 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </div>
               </tm-rank-recipients-question-constraint>
             </div>
+            <div
+              class="row"
+            >
+              <div
+                class="col-12 text-center"
+              >
+                <button
+                  class="btn btn-success"
+                  id="btn-submit-qn-10"
+                  ngbtooltip="You can save your responses for this question at any time and come back later to continue."
+                  type="submit"
+                >
+                  Submit Responses
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </tm-question-submission-form>
@@ -2716,7 +2828,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             ngbtooltip="You can save your responses at any time and come back later to continue."
             type="submit"
           >
-            Submit Feedback
+            Submit Responses for All Questions
           </button>
         </div>
       </div>
@@ -3636,6 +3748,23 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               class="col-12 constraint-margins"
             >
             </div>
+            <div
+              class="row"
+            >
+              <div
+                class="col-12 text-center"
+              >
+                <button
+                  class="btn btn-success"
+                  disabled=""
+                  id="btn-submit-qn-4"
+                  ngbtooltip="You can save your responses for this question at any time and come back later to continue."
+                  type="submit"
+                >
+                  Submit Responses
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </tm-question-submission-form>
@@ -3783,6 +3912,23 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             <div
               class="col-12 constraint-margins"
             >
+            </div>
+            <div
+              class="row"
+            >
+              <div
+                class="col-12 text-center"
+              >
+                <button
+                  class="btn btn-success"
+                  disabled=""
+                  id="btn-submit-qn-5"
+                  ngbtooltip="You can save your responses for this question at any time and come back later to continue."
+                  type="submit"
+                >
+                  Submit Responses
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -3945,6 +4091,23 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                   </div>
                 </div>
               </tm-constsum-recipients-question-constraint>
+            </div>
+            <div
+              class="row"
+            >
+              <div
+                class="col-12 text-center"
+              >
+                <button
+                  class="btn btn-success"
+                  disabled=""
+                  id="btn-submit-qn-6"
+                  ngbtooltip="You can save your responses for this question at any time and come back later to continue."
+                  type="submit"
+                >
+                  Submit Responses
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -4215,6 +4378,23 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               class="col-12 constraint-margins"
             >
             </div>
+            <div
+              class="row"
+            >
+              <div
+                class="col-12 text-center"
+              >
+                <button
+                  class="btn btn-success"
+                  disabled=""
+                  id="btn-submit-qn-7"
+                  ngbtooltip="You can save your responses for this question at any time and come back later to continue."
+                  type="submit"
+                >
+                  Submit Responses
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </tm-question-submission-form>
@@ -4475,6 +4655,23 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               class="col-12 constraint-margins"
             >
             </div>
+            <div
+              class="row"
+            >
+              <div
+                class="col-12 text-center"
+              >
+                <button
+                  class="btn btn-success"
+                  disabled=""
+                  id="btn-submit-qn-8"
+                  ngbtooltip="You can save your responses for this question at any time and come back later to continue."
+                  type="submit"
+                >
+                  Submit Responses
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </tm-question-submission-form>
@@ -4685,6 +4882,23 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               class="col-12 constraint-margins"
             >
             </div>
+            <div
+              class="row"
+            >
+              <div
+                class="col-12 text-center"
+              >
+                <button
+                  class="btn btn-success"
+                  disabled=""
+                  id="btn-submit-qn-9"
+                  ngbtooltip="You can save your responses for this question at any time and come back later to continue."
+                  type="submit"
+                >
+                  Submit Responses
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </tm-question-submission-form>
@@ -4849,6 +5063,23 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </div>
               </tm-rank-recipients-question-constraint>
             </div>
+            <div
+              class="row"
+            >
+              <div
+                class="col-12 text-center"
+              >
+                <button
+                  class="btn btn-success"
+                  disabled=""
+                  id="btn-submit-qn-10"
+                  ngbtooltip="You can save your responses for this question at any time and come back later to continue."
+                  type="submit"
+                >
+                  Submit Responses
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </tm-question-submission-form>
@@ -4868,7 +5099,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             ngbtooltip="You can save your responses at any time and come back later to continue."
             type="submit"
           >
-            Submit Feedback
+            Submit Responses for All Questions
           </button>
         </div>
       </div>

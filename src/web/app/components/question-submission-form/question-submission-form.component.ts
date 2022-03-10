@@ -42,6 +42,9 @@ export class QuestionSubmissionFormComponent implements OnInit {
   isDisabled: boolean = false;
 
   @Input()
+  isSavingResponses: boolean = false;
+
+  @Input()
   set formModel(model: QuestionSubmissionFormModel) {
     this.model = model;
     this.visibilityStateMachine =
@@ -58,6 +61,9 @@ export class QuestionSubmissionFormComponent implements OnInit {
 
   @Output()
   formModelChange: EventEmitter<QuestionSubmissionFormModel> = new EventEmitter();
+
+  @Output()
+  responsesSave: EventEmitter<QuestionSubmissionFormModel> = new EventEmitter();
 
   model: QuestionSubmissionFormModel = {
     isLoading: false,
@@ -237,4 +243,12 @@ export class QuestionSubmissionFormComponent implements OnInit {
       recipientSubmissionForms,
     });
   }
+
+  /**
+   * Triggers saving of responses for the specific question.
+   */
+  saveFeedbackResponses(): void {
+    this.responsesSave.emit(this.model);
+  }
+
 }
