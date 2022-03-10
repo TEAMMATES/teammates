@@ -3,42 +3,66 @@
     "instructor1OfCourse1": {
       "googleId": "instructor1OfCourse1",
       "name": "Teammates Test",
-      "email": "instructor1@course1.tmt"
+      "email": "instructor1@course1.tmt",
+      "readNotifications": {
+        "idToEndTimestampMap": {}
+      }
     },
     "instructor2OfCourse1": {
       "googleId": "instructor2OfCourse1",
       "name": "Teammates Test2",
-      "email": "instructor2@course1.tmt"
+      "email": "instructor2@course1.tmt",
+      "readNotifications": {
+        "idToEndTimestampMap": {}
+      }
     },
     "instructor1OfCourse2": {
       "googleId": "idOfInstructor1OfCourse2",
       "name": "Instructor 1 of Course 2",
-      "email": "instr1@course2.tmt"
+      "email": "instr1@course2.tmt",
+      "readNotifications": {
+        "idToEndTimestampMap": {}
+      }
     },
     "helperOfCourse1": {
       "googleId": "idOfHelperOfCourse1",
       "name": "helper of Course 1",
-      "email": "helper@course1.tmt"
+      "email": "helper@course1.tmt",
+      "readNotifications": {
+        "idToEndTimestampMap": {}
+      }
     },
     "student1InCourse1": {
       "googleId": "student1InCourse1",
       "name": "Student 1 in course 1",
-      "email": "student1inCourse1@gmail.tmt"
+      "email": "student1inCourse1@gmail.tmt",
+      "readNotifications": {
+        "idToEndTimestampMap": {}
+      }
     },
     "student2InCourse1": {
       "googleId": "student2InCourse1",
       "name": "Student 2 in course 1",
-      "email": "student2inCourse1@gmail.tmt"
+      "email": "student2inCourse1@gmail.tmt",
+      "readNotifications": {
+        "idToEndTimestampMap": {}
+      }
     },
     "student3InCourse1": {
       "googleId": "student3InCourse1",
       "name": "Student 3 in course 1",
-      "email": "student3inCourse1@gmail.tmt"
+      "email": "student3inCourse1@gmail.tmt",
+      "readNotifications": {
+        "idToEndTimestampMap": {}
+      }
     },
     "student1InCourse2": {
       "googleId": "student1InCourse2",
       "name": "Student 1 in course 2",
-      "email": "student1inCourse2@gmail.tmt"
+      "email": "student1inCourse2@gmail.tmt",
+      "readNotifications": {
+        "idToEndTimestampMap": {}
+      }
     }
   },
   "courses": {

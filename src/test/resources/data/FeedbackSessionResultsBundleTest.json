@@ -3,22 +3,34 @@
     "instructor1OfCourse1": {
       "googleId": "idOfInstructor1OfCourse1",
       "name": "Instructor 1 of Course 1",
-      "email": "instr1@course1.tmt"
+      "email": "instr1@course1.tmt",
+      "readNotifications": {
+        "idToEndTimestampMap": {}
+      }
     },
     "student1InCourse1": {
       "googleId": "student1InCourse1",
       "name": "Student 1 in course 1",
-      "email": "student1InCourse1@gmail.tmt"
+      "email": "student1InCourse1@gmail.tmt",
+      "readNotifications": {
+        "idToEndTimestampMap": {}
+      }
     },
     "student2InCourse1": {
       "googleId": "student2InCourse1",
       "name": "Student in two courses",
-      "email": "student2InCourse1@gmail.tmt"
+      "email": "student2InCourse1@gmail.tmt",
+      "readNotifications": {
+        "idToEndTimestampMap": {}
+      }
     },
     "student3InCourse1": {
       "googleId": "student3InCourse1",
       "name": "student3 In Course1",
-      "email": "student3InCourse1@gmail.tmt"
+      "email": "student3InCourse1@gmail.tmt",
+      "readNotifications": {
+        "idToEndTimestampMap": {}
+      }
     }
   },
   "courses": {

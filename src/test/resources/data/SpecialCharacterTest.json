@@ -3,32 +3,50 @@
     "FQLogicPCT.instr": {
       "googleId": "FQLogicPCT.instr",
       "name": "Teammates Test",
-      "email": "FQLogicPCT.instr@gmail.tmt"
+      "email": "FQLogicPCT.instr@gmail.tmt",
+      "readNotifications": {
+        "idToEndTimestampMap": {}
+      }
     },
     "FQLogicPCT.alice.b": {
       "googleId": "FQLogicPCT.alice.b",
       "name": "Alice B.",
-      "email": "FQLogicPCT.alice.b@gmail.tmt"
+      "email": "FQLogicPCT.alice.b@gmail.tmt",
+      "readNotifications": {
+        "idToEndTimestampMap": {}
+      }
     },
     "FQLogicPCT.benny.c": {
       "googleId": "FQLogicPCT.benny.c",
       "name": "Benny C.",
-      "email": "FQLogicPCT.benny.c@gmail.tmt"
+      "email": "FQLogicPCT.benny.c@gmail.tmt",
+      "readNotifications": {
+        "idToEndTimestampMap": {}
+      }
     },
     "FQLogicPCT.charlie.d": {
       "googleId": "FQLogicPCT.charlie.d",
       "name": "Charlie D.",
-      "email": "FQLogicPCT.charlie.d@gmail.tmt"
+      "email": "FQLogicPCT.charlie.d@gmail.tmt",
+      "readNotifications": {
+        "idToEndTimestampMap": {}
+      }
     },
     "FQLogicPCT.danny.e": {
       "googleId": "FQLogicPCT.danny.e",
       "name": "Danny E.",
-      "email": "FQLogicPCT.danny.e@gmail.tmt"
+      "email": "FQLogicPCT.danny.e@gmail.tmt",
+      "readNotifications": {
+        "idToEndTimestampMap": {}
+      }
     },
     "FQLogicPCT.emily.f": {
       "googleId": "FQLogicPCT.emily.f",
       "name": "Emily F.",
-      "email": "FQLogicPCT.emily.f@gmail.tmt"
+      "email": "FQLogicPCT.emily.f@gmail.tmt",
+      "readNotifications": {
+        "idToEndTimestampMap": {}
+      }
     }
   },
   "courses": {

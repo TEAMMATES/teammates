@@ -2,6 +2,7 @@ package teammates.common.datatransfer.attributes;
 
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.ReadNotifications;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
@@ -44,13 +45,14 @@ public class AccountAttributesTest extends BaseAttributesTest {
     public void testToEntity() {
         AccountAttributes account = createValidAccountAttributesObject();
         Account expectedAccount = new Account(account.getGoogleId(), account.getName(),
-                account.getEmail());
+                account.getEmail(), account.getReadNotificationsAsText());
 
         Account actualAccount = account.toEntity();
 
         assertEquals(expectedAccount.getGoogleId(), actualAccount.getGoogleId());
         assertEquals(expectedAccount.getName(), actualAccount.getName());
         assertEquals(expectedAccount.getEmail(), actualAccount.getEmail());
+        assertEquals(expectedAccount.getReadNotificationsAsText(), actualAccount.getReadNotificationsAsText());
     }
 
     @Test
@@ -128,7 +130,8 @@ public class AccountAttributesTest extends BaseAttributesTest {
 
     @Test
     public void testValueOf() {
-        Account genericAccount = new Account("id", "Joe", "joe@example.com");
+        Account genericAccount = new Account("id", "Joe", "joe@example.com",
+                new ReadNotifications().getJsonString());
 
         AccountAttributes observedAccountAttributes = AccountAttributes.valueOf(genericAccount);
 

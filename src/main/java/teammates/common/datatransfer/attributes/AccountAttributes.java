@@ -26,6 +26,7 @@ public class AccountAttributes extends EntityAttributes<Account> {
 
     private AccountAttributes(String googleId) {
         this.googleId = googleId;
+        this.readNotifications = new ReadNotifications();
     }
 
     /**
@@ -223,7 +224,7 @@ public class AccountAttributes extends EntityAttributes<Account> {
     }
 
     /**
-     * Helper class to specific the fields to update in {@link AccountAttributes}.
+     * Helper class to specify the fields to update in {@link AccountAttributes}.
      */
     public static class UpdateOptions {
         private String googleId;

@@ -3,52 +3,82 @@
     "instructor1OfCourse1": {
       "googleId": "FSQTT.idOfInstructor1OfCourse1",
       "name": "Instructor 1 of Course 1",
-      "email": "instr1@course1.tmt"
+      "email": "instr1@course1.tmt",
+      "readNotifications": {
+        "idToEndTimestampMap": {}
+      }
     },
     "instructor2OfCourse1": {
       "googleId": "FSQTT.idOfInstructor2OfCourse1",
       "name": "Instructor 2 of Course 1",
-      "email": "instr2@course1.tmt"
+      "email": "instr2@course1.tmt",
+      "readNotifications": {
+        "idToEndTimestampMap": {}
+      }
     },
     "instructor1OfCourse2": {
       "googleId": "FSQTT.idOfInstructor1OfCourse2",
       "name": "Instructor 1 of Course 2",
-      "email": "instr1@course2.tmt"
+      "email": "instr1@course2.tmt",
+      "readNotifications": {
+        "idToEndTimestampMap": {}
+      }
     },
     "instructor2OfCourse2": {
       "googleId": "FSQTT.idOfInstructor2OfCourse2",
       "name": "Instructor 2 of Course 2",
-      "email": "instr2@course2.tmt"
+      "email": "instr2@course2.tmt",
+      "readNotifications": {
+        "idToEndTimestampMap": {}
+      }
     },
     "instructor3": {
       "googleId": "FSQTT.idOfInstructor3",
       "name": "Instructor 3 of Course 1 and 2",
-      "email": "instr3@course1n2.tmt"
+      "email": "instr3@course1n2.tmt",
+      "readNotifications": {
+        "idToEndTimestampMap": {}
+      }
     },
     "instructor4": {
       "googleId": "FSQTT.idOfInstructor4",
       "name": "Instructor 4 of CourseNoEvals",
-      "email": "instr4@coursenoevals.tmt"
+      "email": "instr4@coursenoevals.tmt",
+      "readNotifications": {
+        "idToEndTimestampMap": {}
+      }
     },
     "instructor1OfCourseWithSections": {
       "googleId": "FSQTT.idOfInstructor1OfCourseWithSections",
       "name": "Instructor 1 of Course With Sections",
-      "email": "instr1@coursewithsections.tmt"
+      "email": "instr1@coursewithsections.tmt",
+      "readNotifications": {
+        "idToEndTimestampMap": {}
+      }
     },
     "instructorWithoutCourses": {
       "googleId": "FSQTT.instructorWithoutCourses",
       "name": "Instructor Without Courses",
-      "email": "iwc@yahoo.tmt"
+      "email": "iwc@yahoo.tmt",
+      "readNotifications": {
+        "idToEndTimestampMap": {}
+      }
     },
     "student1InCourse1": {
       "googleId": "FSQTT.student1InCourse1",
       "name": "Student 1 in course 1",
-      "email": "sudent1inCourse1@gmail.tmt"
+      "email": "sudent1inCourse1@gmail.tmt",
+      "readNotifications": {
+        "idToEndTimestampMap": {}
+      }
     },
     "student2InCourse1": {
       "googleId": "FSQTT.student2InCourse1",
       "name": "Student in two courses",
-      "email": "sudent2inCourse1@gmail.tmt"
+      "email": "sudent2inCourse1@gmail.tmt",
+      "readNotifications": {
+        "idToEndTimestampMap": {}
+      }
     }
   },
   "courses": {
