@@ -58,7 +58,8 @@ export class IndividualExtensionDateModalComponent
         "Are you sure you want to extend to before the current time?",
         SimpleModalType.DANGER,
         `The current time now is ${ currentTimeString } and you are extending to ${ extensionTimeString } in ${ this.feedbackSessionTimeZone}. Do you wish to proceed?`,
-      );
+      ).result.then(() => this.onConfirmCallBack.emit(this.getExtensionTimestamp()));
+      
     } else {
       this.onConfirmCallBack.emit(this.getExtensionTimestamp());
     }
@@ -95,7 +96,6 @@ export class IndividualExtensionDateModalComponent
     } 
     if (this.radioOption == 2) {
       let timestamp = this.timeZoneService.resolveLocalDateTime(this.datePicker, this.timePicker, this.feedbackSessionTimeZone, true);
-      console.log(this.datePicker, this.timePicker, timestamp)
       return timestamp;
     }
     return this.feedbackSessionEndingTime;

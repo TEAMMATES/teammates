@@ -18,7 +18,7 @@ import { IndividualExtensionConfirmModalComponent } from "./individual-extension
 import { IndividualExtensionDateModalComponent } from "./individual-extension-date-modal/individual-extension-date-modal.component";
 
 // Columns for the table: Section, Team, Student Name, Email, New Deadline
-interface StudentExtensionTableColumnData {
+export interface StudentExtensionTableColumnModel {
   sectionName: string;
   teamName: string;
   studentName: string;
@@ -55,15 +55,12 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
   columnsData: ColumnData[] = [];
   rowsData: SortableTableCellData[][] = [];
 
-  studentsOfCourse: StudentExtensionTableColumnData[] = [];
+  studentsOfCourse: StudentExtensionTableColumnModel[] = [];
 
   isLoadingAllStudents: boolean = true;
   hasLoadedAllStudentsFailed: boolean = false;
   hasLoadingFeedbackSessionFailed: boolean = false;
   isLoadingFeedbackSession: boolean = true;
-
-  extensionModal: NgbModalRef | null = null;
-  extensionTimestamp: number = 0;
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
@@ -109,12 +106,12 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
   }
 
   // TODO: Check if we even need a map here, or how is the "map" going to be transferred here
-  mapStudentsOfCourse(students: Student[], deadlineMap: Map<String, Number>): StudentExtensionTableColumnData[] {
+  mapStudentsOfCourse(students: Student[], deadlineMap: Map<String, Number>): StudentExtensionTableColumnModel[] {
     return students.map(student => this.mapStudentToStudentColumnData(student, deadlineMap))
   }
 
-  mapStudentToStudentColumnData(student: Student, deadline: Map<String, Number>): StudentExtensionTableColumnData {
-    const studentData: StudentExtensionTableColumnData = {
+  mapStudentToStudentColumnData(student: Student, deadline: Map<String, Number>): StudentExtensionTableColumnModel {
+    const studentData: StudentExtensionTableColumnModel = {
       sectionName: student.sectionName,
       teamName: student.teamName,
       studentName: student.name,
@@ -176,19 +173,35 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
 
   onExtend(): void {
     const modalRef: NgbModalRef = this.ngbModal.open(IndividualExtensionDateModalComponent);
-    this.extensionModal = modalRef;
     modalRef.componentInstance.numberOfStudents = this.getNumberOfSelectedStudents();
     modalRef.componentInstance.feedbackSessionEndingTime = this.feedbackSessionEndingTime;
     modalRef.componentInstance.feedbackSessionTimeZone = this.feedbackSessionTimeZone;
-    modalRef.componentInstance.onConfirmCallBack.subscribe((extensionTimestamp: number) => this.onConfirmExtension(extensionTimestamp));
+    modalRef.componentInstance.onConfirmCallBack.subscribe((extensionTimestamp: number) => {
+      this.onConfirmExtension(extensionTimestamp)
+      modalRef.close();
+    });
   }
 
-  onConfirmExtension(extensionTimestamp: number): void {
-    this.extensionTimestamp = extensionTimestamp
-    this.extensionModal?.close();
-    console.log("Close, and open. Successful emission!")
+  onConfirmExtension(extensionTimestamp: number): void
+  {
     const modalRef: NgbModalRef = this.ngbModal.open(IndividualExtensionConfirmModalComponent);
-    console.log(modalRef);
+    const studentsToExtend = this.studentsOfCourse.filter(x => x.selected);
+    modalRef.componentInstance.studentsToExtend = studentsToExtend
+    modalRef.componentInstance.extensionTimestamp = extensionTimestamp;
+
+    modalRef.componentInstance.onConfirmExtensionCallBack.subscribe((isNotifyStudents: boolean) => {
+      this.handleCreateMap(studentsToExtend, extensionTimestamp, isNotifyStudents)
+      modalRef.close()
+    });
+  }
+
+  handleCreateMap(studentsToExtend: StudentExtensionTableColumnModel[], extensionTimestamp: number, isNotifyStudents: boolean): void {
+    // TODO: Link up with Jay
+    console.log("Called", studentsToExtend, extensionTimestamp, isNotifyStudents)
+    this.statusMessageService.showSuccessToast(`Extension for ${studentsToExtend.length} students have been successful!`);
+    // (resp: ErrorMessageOutput) => {
+    // this.statusMessageService.showErrorToast(resp.error.message);
+    // }
   }
 
   onDelete(): void {
@@ -222,8 +235,8 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     this.studentsOfCourse.sort(this.sortPanelsBy(by));
   }
 
-  sortPanelsBy(by: SortBy): (a: StudentExtensionTableColumnData, b: StudentExtensionTableColumnData) => number {
-    return (a: StudentExtensionTableColumnData, b: StudentExtensionTableColumnData): number => {
+  sortPanelsBy(by: SortBy): (a: StudentExtensionTableColumnModel, b: StudentExtensionTableColumnModel) => number {
+    return (a: StudentExtensionTableColumnModel, b: StudentExtensionTableColumnModel): number => {
       let strA: string;
       let strB: string;
       switch (by) {
@@ -245,8 +258,8 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
           break;
         //TODO: Session End_Date
         case SortBy.SESSION_END_DATE:
-          strA = this.feedbackSessionEndingTime.toString();
-          strB = this.feedbackSessionEndingTime.toString();
+          strA = a.studentExtensionDeadline.toString();
+          strB = b.studentExtensionDeadline.toString();
           break;
         default:
           strA = "";
