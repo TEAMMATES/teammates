@@ -243,6 +243,9 @@ describe('SessionResultPageComponent', () => {
     feedbackSessionService = TestBed.inject(FeedbackSessionsService);
     logService = TestBed.inject(LogService);
     component = fixture.componentInstance;
+    // Set both loading flags to false initially for testing purposes only
+    component.isFeedbackSessionDetailsLoading = false;
+    component.isFeedbackSessionResultsLoading = false;
     fixture.detectChanges();
   });
 
@@ -254,13 +257,22 @@ describe('SessionResultPageComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should snap with session results are loading', () => {
+  it('should snap with session details and results are loading', () => {
+    component.isFeedbackSessionDetailsLoading = true;
+    component.isFeedbackSessionResultsLoading = true;
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should snap with session details loaded and results are loading', () => {
+    component.isFeedbackSessionDetailsLoading = false;
     component.isFeedbackSessionResultsLoading = true;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
 
   it('should snap when session results failed to load', () => {
+    component.isFeedbackSessionDetailsLoading = false;
     component.isFeedbackSessionResultsLoading = false;
     component.hasFeedbackSessionResultsLoadingFailed = true;
     fixture.detectChanges();
