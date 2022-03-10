@@ -69,7 +69,8 @@ export class SessionResultPageComponent implements OnInit {
 
   intent: Intent = Intent.STUDENT_RESULT;
 
-  isFeedbackSessionResultsLoading: boolean = false;
+  isFeedbackSessionDetailsLoading: boolean = true;
+  isFeedbackSessionResultsLoading: boolean = true;
   hasFeedbackSessionResultsLoadingFailed: boolean = false;
   retryAttempts: number = DEFAULT_NUMBER_OF_RETRY_ATTEMPTS;
 
@@ -201,13 +202,16 @@ export class SessionResultPageComponent implements OnInit {
   }
 
   private loadFeedbackSession(): void {
+    this.isFeedbackSessionDetailsLoading = true;
     this.isFeedbackSessionResultsLoading = true;
     this.feedbackSessionsService.getFeedbackSession({
       courseId: this.courseId,
       feedbackSessionName: this.feedbackSessionName,
       intent: this.intent,
       key: this.regKey,
-    }).subscribe((feedbackSession: FeedbackSession) => {
+    })
+    .pipe(finalize(() => { this.isFeedbackSessionDetailsLoading = false; }))
+    .subscribe((feedbackSession: FeedbackSession) => {
       const TIME_FORMAT: string = 'ddd, DD MMM, YYYY, hh:mm A zz';
       this.session = feedbackSession;
       this.formattedSessionOpeningTime = this.timezoneService
