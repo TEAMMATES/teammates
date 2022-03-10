@@ -4,14 +4,11 @@
 
 #copy-question-modal {
   table-layout: auto;
-  margin-bottom: 50px;
+  margin-bottom: 10px;
+  width: 70vw;
 }
 
 .modal-footer {
-  position: fixed;
-  bottom: 0;
-  height: 50px;
-  width: 69.8%;
   justify-content: right;
   background-color: white;
 }
