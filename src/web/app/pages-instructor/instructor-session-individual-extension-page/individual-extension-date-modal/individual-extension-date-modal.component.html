@@ -54,9 +54,18 @@
 <div *ngIf="isCustomize()"> 
   <br>
     <form class="form-inline">
-      <input class="form-control mb-2" name="form-minutes" type="text" placeholder="Minutes" [(ngModel)]="extendByDatePicker.minutes"> 
-      <input class="form-control mx-sm-3 mb-2" name="form-hours" type="text" placeholder="Hours" [(ngModel)]="extendByDatePicker.hours"> 
-      <input class="form-control mb-2" name="form-days" type="text" placeholder="Days" [(ngModel)]="extendByDatePicker.days">   
+      <div>
+        <label for="form-minutes">Minutes</label>
+        <input class="form-control mb-2" name="form-minutes" type="text" placeholder="Minutes" [(ngModel)]="extendByDatePicker.minutes">
+      </div>
+      <div>
+        <label for="form-minutes">Hours</label>
+        <input class="form-control mx-sm-3 mb-2" name="form-hours" type="text" placeholder="Hours" [(ngModel)]="extendByDatePicker.hours"> 
+      </div>
+      <div>
+        <label for="form-minutes">Days</label>
+        <input class="form-control mb-2" name="form-days" type="text" placeholder="Days" [(ngModel)]="extendByDatePicker.days">
+      </div>
     </form>
   <br>
   <p>
