@@ -110,7 +110,8 @@ public class FeedbackRubricQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
         ______TS("submit response");
         String questionId = getFeedbackQuestion(question).getId();
         FeedbackResponseAttributes response = getResponse(questionId, receiver, Arrays.asList(1, 1));
-        feedbackSubmitPage.submitRubricResponse(1, receiver.getName(), response);
+        feedbackSubmitPage.fillRubricResponse(1, receiver.getName(), response);
+        feedbackSubmitPage.clickSubmitAllQuestionsButton();
 
         verifyPresentInDatabase(response);
 
@@ -120,7 +121,8 @@ public class FeedbackRubricQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
 
         ______TS("edit response");
         response = getResponse(questionId, receiver, Arrays.asList(0, 0));
-        feedbackSubmitPage.submitRubricResponse(1, receiver.getName(), response);
+        feedbackSubmitPage.fillRubricResponse(1, receiver.getName(), response);
+        feedbackSubmitPage.clickSubmitAllQuestionsButton();
 
         feedbackSubmitPage = getFeedbackSubmitPage();
         feedbackSubmitPage.verifyRubricResponse(1, receiver.getName(), response);

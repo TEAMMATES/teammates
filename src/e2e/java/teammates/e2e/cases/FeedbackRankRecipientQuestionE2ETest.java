@@ -99,7 +99,8 @@ public class FeedbackRankRecipientQuestionE2ETest extends BaseFeedbackQuestionE2
         FeedbackResponseAttributes response = getResponse(questionId, receiver, 1);
         FeedbackResponseAttributes response2 = getResponse(questionId, receiver2, 2);
         List<FeedbackResponseAttributes> responses = Arrays.asList(response, response2);
-        feedbackSubmitPage.submitRankRecipientResponse(1, responses);
+        feedbackSubmitPage.fillRankRecipientResponse(1, responses);
+        feedbackSubmitPage.clickSubmitAllQuestionsButton();
 
         verifyPresentInDatabase(response);
         verifyPresentInDatabase(response2);
@@ -112,7 +113,8 @@ public class FeedbackRankRecipientQuestionE2ETest extends BaseFeedbackQuestionE2
         response = getResponse(questionId, receiver, Const.POINTS_NOT_SUBMITTED);
         response2 = getResponse(questionId, receiver2, 1);
         responses = Arrays.asList(response, response2);
-        feedbackSubmitPage.submitRankRecipientResponse(1, responses);
+        feedbackSubmitPage.fillRankRecipientResponse(1, responses);
+        feedbackSubmitPage.clickSubmitAllQuestionsButton();
 
         feedbackSubmitPage = getFeedbackSubmitPage();
         feedbackSubmitPage.verifyRankRecipientResponse(1, responses);

@@ -78,7 +78,8 @@ public class InstructorAuditLogsPageE2ETest extends BaseE2ETestCase {
                         .withResponseDetails(details)
                         .build();
 
-        studentSubmissionPage.submitTextResponse(1, receiver.getName(), response);
+        studentSubmissionPage.fillTextResponse(1, receiver.getName(), response);
+        studentSubmissionPage.clickSubmitAllQuestionsButton();
 
         logout();
         auditLogsPage = loginToPage(url, InstructorAuditLogsPage.class, instructor.getGoogleId());

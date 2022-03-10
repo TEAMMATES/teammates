@@ -97,7 +97,8 @@ public class FeedbackConstSumRecipientQuestionE2ETest extends BaseFeedbackQuesti
         FeedbackResponseAttributes response = getResponse(questionId, receiver, 49);
         FeedbackResponseAttributes response2 = getResponse(questionId, receiver2, 51);
         List<FeedbackResponseAttributes> responses = Arrays.asList(response, response2);
-        feedbackSubmitPage.submitConstSumRecipientResponse(1, responses);
+        feedbackSubmitPage.fillConstSumRecipientResponse(1, responses);
+        feedbackSubmitPage.clickSubmitAllQuestionsButton();
 
         verifyPresentInDatabase(response);
         verifyPresentInDatabase(response2);
@@ -110,7 +111,8 @@ public class FeedbackConstSumRecipientQuestionE2ETest extends BaseFeedbackQuesti
         response = getResponse(questionId, receiver, 21);
         response2 = getResponse(questionId, receiver2, 79);
         responses = Arrays.asList(response, response2);
-        feedbackSubmitPage.submitConstSumRecipientResponse(1, responses);
+        feedbackSubmitPage.fillConstSumRecipientResponse(1, responses);
+        feedbackSubmitPage.clickSubmitAllQuestionsButton();
 
         feedbackSubmitPage = getFeedbackSubmitPage();
         feedbackSubmitPage.verifyConstSumRecipientResponse(1, responses);

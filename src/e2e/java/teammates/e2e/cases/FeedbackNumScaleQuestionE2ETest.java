@@ -92,7 +92,8 @@ public class FeedbackNumScaleQuestionE2ETest extends BaseFeedbackQuestionE2ETest
         ______TS("submit response");
         String questionId = getFeedbackQuestion(question).getId();
         FeedbackResponseAttributes response = getResponse(questionId, receiver, 5.4);
-        feedbackSubmitPage.submitNumScaleResponse(1, receiver.getTeam(), response);
+        feedbackSubmitPage.fillNumScaleResponse(1, receiver.getTeam(), response);
+        feedbackSubmitPage.clickSubmitAllQuestionsButton();
 
         verifyPresentInDatabase(response);
 
@@ -102,7 +103,8 @@ public class FeedbackNumScaleQuestionE2ETest extends BaseFeedbackQuestionE2ETest
 
         ______TS("edit response");
         response = getResponse(questionId, receiver, 10.0);
-        feedbackSubmitPage.submitNumScaleResponse(1, receiver.getTeam(), response);
+        feedbackSubmitPage.fillNumScaleResponse(1, receiver.getTeam(), response);
+        feedbackSubmitPage.clickSubmitAllQuestionsButton();
 
         feedbackSubmitPage = getFeedbackSubmitPage();
         feedbackSubmitPage.verifyNumScaleResponse(1, receiver.getTeam(), response);
