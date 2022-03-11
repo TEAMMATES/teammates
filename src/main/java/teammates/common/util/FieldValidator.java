@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.NotificationTargetUser;
@@ -60,17 +61,19 @@ public final class FieldValidator {
     public static final String NOTIFICATION_TYPE_FIELD_NAME = "notification type";
     public static final List<String> NOTIFICATION_TYPE_ACCEPTED_VALUES =
             Collections.unmodifiableList(
-                Arrays.asList(NotificationType.MAINTENANCE.name(),
-                        NotificationType.VERSION_NOTE.name(),
-                        NotificationType.DEPRECATION.name(),
-                        NotificationType.TIPS.name()
-                ));
+                    Arrays.stream(
+                            NotificationType.values())
+                            .map(NotificationType::toString)
+                            .collect(Collectors.toList())
+            );
     public static final String NOTIFICATION_TARGET_USER_FIELD_NAME = "notification target user";
     public static final List<String> NOTIFICATION_TARGET_USER_ACCEPTED_VALUES =
             Collections.unmodifiableList(
-                    Arrays.asList(NotificationTargetUser.INSTRUCTOR.name(),
-                            NotificationTargetUser.STUDENT.name(),
-                            NotificationTargetUser.GENERAL.name()));
+                    Arrays.stream(
+                            NotificationTargetUser.values())
+                            .map(NotificationTargetUser::toString)
+                            .collect(Collectors.toList())
+            );
 
     // others
     public static final String STUDENT_ROLE_COMMENTS_FIELD_NAME = "comments about a student enrolled in a course";

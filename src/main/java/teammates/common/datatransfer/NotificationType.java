@@ -1,7 +1,7 @@
 package teammates.common.datatransfer;
 
 /**
- * Represents the type of target user groups for notifications.
+ * Represents the types of notifications.
  */
 public enum NotificationType {
 

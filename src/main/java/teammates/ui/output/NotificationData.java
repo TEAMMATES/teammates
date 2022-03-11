@@ -31,7 +31,6 @@ public class NotificationData extends ApiOutput {
         this.title = notificationAttributes.getTitle();
         this.message = notificationAttributes.getMessage();
         this.shown = notificationAttributes.isShown();
-
     }
 
     public String getNotificationId() {
