@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.Supplier;
 
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
@@ -42,6 +43,8 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     private Map<String, Instant> studentDeadlines;
     private Map<String, Instant> instructorDeadlines;
 
+    private Supplier<Instant> deadlineSupplier;
+
     private FeedbackSessionAttributes(String feedbackSessionName, String courseId) {
         this.feedbackSessionName = feedbackSessionName;
         this.courseId = courseId;
@@ -61,42 +64,41 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
 
     }
 
-    private FeedbackSessionAttributes(FeedbackSession feedbackSession) {
-        this(feedbackSession.getFeedbackSessionName(), feedbackSession.getCourseId());
-
-        this.creatorEmail = feedbackSession.getCreatorEmail();
-        if (feedbackSession.getInstructions() != null) {
-            this.instructions = feedbackSession.getInstructions();
-        }
-        this.createdTime = feedbackSession.getCreatedTime();
-        this.deletedTime = feedbackSession.getDeletedTime();
-        this.startTime = feedbackSession.getStartTime();
-        this.endTime = feedbackSession.getEndTime();
-        this.sessionVisibleFromTime = feedbackSession.getSessionVisibleFromTime();
-        this.resultsVisibleFromTime = feedbackSession.getResultsVisibleFromTime();
-        this.timeZone = feedbackSession.getTimeZone();
-        this.gracePeriod = Duration.ofMinutes(feedbackSession.getGracePeriod());
-        this.sentOpeningSoonEmail = feedbackSession.isSentOpeningSoonEmail();
-        this.sentOpenEmail = feedbackSession.isSentOpenEmail();
-        this.sentClosingEmail = feedbackSession.isSentClosingEmail();
-        this.sentClosedEmail = feedbackSession.isSentClosedEmail();
-        this.sentPublishedEmail = feedbackSession.isSentPublishedEmail();
-        this.isOpeningEmailEnabled = feedbackSession.isOpeningEmailEnabled();
-        this.isClosingEmailEnabled = feedbackSession.isClosingEmailEnabled();
-        this.isPublishedEmailEnabled = feedbackSession.isPublishedEmailEnabled();
-        if (feedbackSession.getStudentDeadlines() != null) {
-            this.studentDeadlines = feedbackSession.getStudentDeadlines();
-        }
-        if (feedbackSession.getInstructorDeadlines() != null) {
-            this.instructorDeadlines = feedbackSession.getInstructorDeadlines();
-        }
-    }
-
     /**
      * Gets the {@link FeedbackSessionAttributes} instance of the given {@link FeedbackSession}.
      */
     public static FeedbackSessionAttributes valueOf(FeedbackSession fs) {
-        return new FeedbackSessionAttributes(fs);
+        FeedbackSessionAttributes feedbackSessionAttributes =
+                new FeedbackSessionAttributes(fs.getFeedbackSessionName(), fs.getCourseId());
+
+        feedbackSessionAttributes.creatorEmail = fs.getCreatorEmail();
+        if (fs.getInstructions() != null) {
+            feedbackSessionAttributes.instructions = fs.getInstructions();
+        }
+        feedbackSessionAttributes.createdTime = fs.getCreatedTime();
+        feedbackSessionAttributes.deletedTime = fs.getDeletedTime();
+        feedbackSessionAttributes.startTime = fs.getStartTime();
+        feedbackSessionAttributes.endTime = fs.getEndTime();
+        feedbackSessionAttributes.sessionVisibleFromTime = fs.getSessionVisibleFromTime();
+        feedbackSessionAttributes.resultsVisibleFromTime = fs.getResultsVisibleFromTime();
+        feedbackSessionAttributes.timeZone = fs.getTimeZone();
+        feedbackSessionAttributes.gracePeriod = Duration.ofMinutes(fs.getGracePeriod());
+        feedbackSessionAttributes.sentOpeningSoonEmail = fs.isSentOpeningSoonEmail();
+        feedbackSessionAttributes.sentOpenEmail = fs.isSentOpenEmail();
+        feedbackSessionAttributes.sentClosingEmail = fs.isSentClosingEmail();
+        feedbackSessionAttributes.sentClosedEmail = fs.isSentClosedEmail();
+        feedbackSessionAttributes.sentPublishedEmail = fs.isSentPublishedEmail();
+        feedbackSessionAttributes.isOpeningEmailEnabled = fs.isOpeningEmailEnabled();
+        feedbackSessionAttributes.isClosingEmailEnabled = fs.isClosingEmailEnabled();
+        feedbackSessionAttributes.isPublishedEmailEnabled = fs.isPublishedEmailEnabled();
+        if (fs.getStudentDeadlines() != null) {
+            feedbackSessionAttributes.studentDeadlines = fs.getStudentDeadlines();
+        }
+        if (fs.getInstructorDeadlines() != null) {
+            feedbackSessionAttributes.instructorDeadlines = fs.getInstructorDeadlines();
+        }
+
+        return feedbackSessionAttributes;
     }
 
     /**
@@ -114,23 +116,27 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     }
 
     /**
-     * Creates a copy of this object for the given student.
+     * Creates a copy that uses the specific deadline for the given student.
      *
      * @param studentEmail The email address of the given student.
-     * @return The copy of this object for the given student.
+     * @return The sanitized copy of this object for the given student.
      */
-    public FeedbackSessionAttributes getCopyForStudent(String studentEmail) {
-        return new FeedbackSessionAttributesForStudent(toEntity(), studentEmail);
+    public FeedbackSessionAttributes sanitizeForStudent(String studentEmail) {
+        FeedbackSessionAttributes sanitizedCopy = getCopy();
+        sanitizedCopy.deadlineSupplier = () -> studentDeadlines.getOrDefault(studentEmail, endTime);
+        return sanitizedCopy;
     }
 
     /**
-     * Creates a copy of this object for the given instructor.
+     * Creates a copy that uses the specific deadline for the given instructor.
      *
      * @param instructorEmail The email address of the given instructor.
-     * @return The copy of this object for the given instructor.
+     * @return The sanitized copy of this object for the given instructor.
      */
-    public FeedbackSessionAttributes getCopyForInstructor(String instructorEmail) {
-        return new FeedbackSessionAttributesForInstructor(toEntity(), instructorEmail);
+    public FeedbackSessionAttributes sanitizeForInstructor(String instructorEmail) {
+        FeedbackSessionAttributes sanitizedCopy = getCopy();
+        sanitizedCopy.deadlineSupplier = () -> instructorDeadlines.getOrDefault(instructorEmail, endTime);
+        return sanitizedCopy;
     }
 
     public String getCourseId() {
@@ -236,7 +242,10 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
      * </ul>
      */
     public Instant getDeadline() {
-        return endTime;
+        if (deadlineSupplier == null) {
+            return endTime;
+        }
+        return deadlineSupplier.get();
     }
 
     /**
@@ -866,50 +875,5 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
 
         public abstract T build();
 
-    }
-
-    private abstract static class FeedbackSessionAttributesForParticipant extends FeedbackSessionAttributes {
-
-        private String email;
-
-        private FeedbackSessionAttributesForParticipant(FeedbackSession feedbackSession, String email) {
-            super(feedbackSession);
-
-            this.email = email;
-        }
-
-        @Override
-        public Instant getDeadline() {
-            if (!getDeadlines().containsKey(email)) {
-                return getEndTime();
-            }
-            return getDeadlines().get(email);
-        }
-
-        abstract Map<String, Instant> getDeadlines();
-    }
-
-    private static class FeedbackSessionAttributesForStudent extends FeedbackSessionAttributesForParticipant {
-
-        private FeedbackSessionAttributesForStudent(FeedbackSession feedbackSession, String studentEmail) {
-            super(feedbackSession, studentEmail);
-        }
-
-        @Override
-        Map<String, Instant> getDeadlines() {
-            return getStudentDeadlines();
-        }
-    }
-
-    private static class FeedbackSessionAttributesForInstructor extends FeedbackSessionAttributesForParticipant {
-
-        private FeedbackSessionAttributesForInstructor(FeedbackSession feedbackSession, String instructorEmail) {
-            super(feedbackSession, instructorEmail);
-        }
-
-        @Override
-        Map<String, Instant> getDeadlines() {
-            return getInstructorDeadlines();
-        }
     }
 }

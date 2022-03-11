@@ -79,7 +79,7 @@ class GetFeedbackSessionAction extends BasicFeedbackSubmissionAction {
         case STUDENT_RESULT:
             StudentAttributes studentAttributes = getStudentOfCourseFromRequest(courseId);
             String studentEmail = studentAttributes.getEmail();
-            feedbackSessionAttributes = feedbackSessionAttributes.getCopyForStudent(studentEmail);
+            feedbackSessionAttributes = feedbackSessionAttributes.sanitizeForStudent(studentEmail);
             response = new FeedbackSessionData(feedbackSessionAttributes);
             response.filterDeadlinesForStudent(studentEmail);
             break;
@@ -87,7 +87,7 @@ class GetFeedbackSessionAction extends BasicFeedbackSubmissionAction {
         case INSTRUCTOR_RESULT:
             InstructorAttributes instructorAttributes = getInstructorOfCourseFromRequest(courseId);
             String instructorEmail = instructorAttributes.getEmail();
-            feedbackSessionAttributes = feedbackSessionAttributes.getCopyForInstructor(instructorEmail);
+            feedbackSessionAttributes = feedbackSessionAttributes.sanitizeForInstructor(instructorEmail);
             response = new FeedbackSessionData(feedbackSessionAttributes);
             response.filterDeadlinesForInstructor(instructorEmail);
             break;
