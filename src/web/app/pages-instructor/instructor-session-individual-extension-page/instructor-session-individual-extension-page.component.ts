@@ -1,40 +1,32 @@
-import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
-import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
-import { finalize } from "rxjs/operators";
-import { FeedbackSessionsService } from "src/web/services/feedback-sessions.service";
-import { StudentService } from "src/web/services/student.service";
-import { Course, FeedbackSession, Student, Students } from "src/web/types/api-output";
-import { Intent } from "src/web/types/api-request";
-import { CourseService } from "../../../services/course.service";
-import { SimpleModalService } from "../../../services/simple-modal.service";
-import { StatusMessageService } from "../../../services/status-message.service";
-import { TableComparatorService } from "../../../services/table-comparator.service";
-import { SortBy, SortOrder } from "../../../types/sort-properties";
-import { SimpleModalType } from "../../components/simple-modal/simple-modal-type";
-import { ColumnData, SortableTableCellData } from "../../components/sortable-table/sortable-table.component";
-import { ErrorMessageOutput } from "../../error-message-output";
-import { IndividualExtensionConfirmModalComponent } from "./individual-extension-confirm-modal/individual-extension-confirm-modal.component";
-import { IndividualExtensionDateModalComponent } from "./individual-extension-date-modal/individual-extension-date-modal.component";
-
-// Columns for the table: Section, Team, Student Name, Email, New Deadline
-export interface StudentExtensionTableColumnModel {
-  sectionName: string;
-  teamName: string;
-  studentName: string;
-  studentEmail: string;
-  studentExtensionDeadline: number;
-  hasExtension: boolean;
-  selected: boolean;
-}
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { finalize } from 'rxjs/operators';
+import { FeedbackSessionsService } from 'src/web/services/feedback-sessions.service';
+import { StudentService } from 'src/web/services/student.service';
+import { Course, FeedbackSession, Student, Students } from 'src/web/types/api-output';
+import { Intent } from 'src/web/types/api-request';
+import { CourseService } from '../../../services/course.service';
+import { SimpleModalService } from '../../../services/simple-modal.service';
+import { StatusMessageService } from '../../../services/status-message.service';
+import { TableComparatorService } from '../../../services/table-comparator.service';
+import { SortBy, SortOrder } from '../../../types/sort-properties';
+import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
+import { ColumnData, SortableTableCellData } from '../../components/sortable-table/sortable-table.component';
+import { ErrorMessageOutput } from '../../error-message-output';
+import { IndividualExtensionConfirmModalComponent } from
+  './individual-extension-confirm-modal/individual-extension-confirm-modal.component';
+import { IndividualExtensionDateModalComponent } from
+  './individual-extension-date-modal/individual-extension-date-modal.component';
+import { StudentExtensionTableColumnModel } from './student-extension-table-column-model';
 
 /**
  * Send reminders to respondents modal.
  */
 @Component({
-  selector: "tm-instructor-session-individual-extension-page",
-  templateUrl: "./instructor-session-individual-extension-page.component.html",
-  styleUrls: ["./instructor-session-individual-extension-page.component.scss"],
+  selector: 'tm-instructor-session-individual-extension-page',
+  templateUrl: './instructor-session-individual-extension-page.component.html',
+  styleUrls: ['./instructor-session-individual-extension-page.component.scss'],
 })
 export class InstructorSessionIndividualExtensionPageComponent implements OnInit {
   isOpen: boolean = true;
@@ -45,12 +37,12 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
   sortOrder: SortOrder = SortOrder.DESC;
   isAllSelected: boolean = false;
 
-  courseId: string = "0";
-  courseName: string = "";
-  feedbackSessionName: string = "";
+  courseId: string = '0';
+  courseName: string = '';
+  feedbackSessionName: string = '';
 
   feedbackSessionEndingTime: number = 0;
-  feedbackSessionTimeZone: String = "";
+  feedbackSessionTimeZone: String = '';
 
   columnsData: ColumnData[] = [];
   rowsData: SortableTableCellData[][] = [];
@@ -80,8 +72,8 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     private ngbModal: NgbModal,
     private route: ActivatedRoute,
     private courseService: CourseService,
-    private tableComparatorService: TableComparatorService
-  ) {}
+    private tableComparatorService: TableComparatorService,
+  ) { }
 
   /**
    * Gets all students of a course.
@@ -90,7 +82,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     // TODO: Highlight all the students after getting them, from the map.
     this.studentService
       .getStudentsFromCourse({ courseId: this.courseId })
-      .pipe(finalize(() => (this.isLoadingAllStudents = false)))
+      .pipe(finalize(() => { this.isLoadingAllStudents = false; }))
       .subscribe(
         (students: Students) => {
           this.isLoadingAllStudents = true;
@@ -101,13 +93,13 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
         (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
           this.hasLoadedAllStudentsFailed = true;
-        }
+        },
       );
   }
 
   // TODO: Check if we even need a map here, or how is the "map" going to be transferred here
   mapStudentsOfCourse(students: Student[], deadlineMap: Map<String, Number>): StudentExtensionTableColumnModel[] {
-    return students.map(student => this.mapStudentToStudentColumnData(student, deadlineMap))
+    return students.map((student) => this.mapStudentToStudentColumnData(student, deadlineMap));
   }
 
   mapStudentToStudentColumnData(student: Student, deadline: Map<String, Number>): StudentExtensionTableColumnModel {
@@ -117,18 +109,18 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
       studentName: student.name,
       studentEmail: student.email,
       studentExtensionDeadline: this.feedbackSessionEndingTime,
-      //TODO: Race condition with getting the original submission deadline.
+      // TODO: Race condition with getting the original submission deadline.
       hasExtension: false, // TODO: Default
-      selected: false
-    }
+      selected: false,
+    };
 
     if (deadline.has(student.email)) {
       studentData.hasExtension = true;
       studentData.studentExtensionDeadline = deadline.get(student.email)!.valueOf();
     }
 
-    return studentData
-  };  
+    return studentData;
+  }
 
   /**
    * Loads a feedback session.
@@ -138,7 +130,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     this.isLoadingFeedbackSession = true;
     this.courseService
       .getCourseAsInstructor(this.courseId)
-      .pipe(finalize(() => (this.isLoadingFeedbackSession = false)))
+      .pipe(finalize(() => { this.isLoadingFeedbackSession = false; }))
       .subscribe(
         (course: Course) => {
           this.courseName = course.courseName;
@@ -151,24 +143,24 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
             })
             .subscribe(
               (feedbackSession: FeedbackSession) => {
-                this.feedbackSessionEndingTime = feedbackSession.submissionEndTimestamp
+                this.feedbackSessionEndingTime = feedbackSession.submissionEndTimestamp;
                 this.feedbackSessionTimeZone = feedbackSession.timeZone;
               },
               (resp: ErrorMessageOutput) => {
                 this.statusMessageService.showErrorToast(resp.error.message);
                 this.hasLoadingFeedbackSessionFailed = true;
-              }
+              },
             );
         },
         (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
           this.hasLoadingFeedbackSessionFailed = true;
-        }
-    );
+        },
+      );
   }
 
   getNumberOfSelectedStudents(): number {
-    return this.studentsOfCourse.filter(x => x.selected).length;
+    return this.studentsOfCourse.filter((x) => x.selected).length;
   }
 
   onExtend(): void {
@@ -177,28 +169,30 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     modalRef.componentInstance.feedbackSessionEndingTime = this.feedbackSessionEndingTime;
     modalRef.componentInstance.feedbackSessionTimeZone = this.feedbackSessionTimeZone;
     modalRef.componentInstance.onConfirmCallBack.subscribe((extensionTimestamp: number) => {
-      this.onConfirmExtension(extensionTimestamp)
+      this.onConfirmExtension(extensionTimestamp);
       modalRef.close();
     });
   }
 
-  onConfirmExtension(extensionTimestamp: number): void
-  {
+  onConfirmExtension(extensionTimestamp: number): void {
     const modalRef: NgbModalRef = this.ngbModal.open(IndividualExtensionConfirmModalComponent);
-    const studentsToExtend = this.studentsOfCourse.filter(x => x.selected);
-    modalRef.componentInstance.studentsToExtend = studentsToExtend
+    const studentsToExtend = this.studentsOfCourse.filter((x) => x.selected);
+    modalRef.componentInstance.studentsToExtend = studentsToExtend;
     modalRef.componentInstance.extensionTimestamp = extensionTimestamp;
 
     modalRef.componentInstance.onConfirmExtensionCallBack.subscribe((isNotifyStudents: boolean) => {
-      this.handleCreateMap(studentsToExtend, extensionTimestamp, isNotifyStudents)
-      modalRef.close()
+      this.handleCreateMap(studentsToExtend, extensionTimestamp, isNotifyStudents);
+      modalRef.close();
     });
   }
 
-  handleCreateMap(studentsToExtend: StudentExtensionTableColumnModel[], extensionTimestamp: number, isNotifyStudents: boolean): void {
+  handleCreateMap(studentsToExtend: StudentExtensionTableColumnModel[],
+    extensionTimestamp: number, isNotifyStudents: boolean): void {
     // TODO: Link up with Jay
-    console.log("Called", studentsToExtend, extensionTimestamp, isNotifyStudents)
-    this.statusMessageService.showSuccessToast(`Extension for ${studentsToExtend.length} students have been successful!`);
+    // eslint-disable-next-line no-console
+    console.log('Called', studentsToExtend, extensionTimestamp, isNotifyStudents);
+    this.statusMessageService.showSuccessToast(
+      `Extension for ${studentsToExtend.length} students have been successful!`);
     // (resp: ErrorMessageOutput) => {
     // this.statusMessageService.showErrorToast(resp.error.message);
     // }
@@ -206,11 +200,14 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
 
   onDelete(): void {
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-      "Confirm deleting feedback session extension?",
+      'Confirm deleting feedback session extension?',
       SimpleModalType.DANGER,
-      `Do you want to delete the feedback session extension(s) for <b>${this.getNumberOfSelectedStudents()} student(s)</b>? Their feedback session deadline will be reverted back to the original deadline.`
+      'Do you want to delete the feedback session extension(s) for '
+      + `<b>${this.getNumberOfSelectedStudents()} student(s)</b>?`
+      + 'Their feedback session deadline will be reverted back to the original deadline.',
     );
-    modalRef.result.then(() => console.log("Confirmed!"));
+    // eslint-disable-next-line no-console
+    modalRef.result.then(() => console.log('Confirmed!'));
   }
 
   hasSelectedStudents(): boolean {
@@ -221,12 +218,12 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
   }
 
   selectAllStudents(): void {
-    this.isAllSelected = !this.isAllSelected
-    this.studentsOfCourse.map(x => x.selected = this.isAllSelected);
+    this.isAllSelected = !this.isAllSelected;
+    this.studentsOfCourse.forEach((x) => { x.selected = this.isAllSelected; });
   }
 
   selectStudent(i: number): void {
-    this.studentsOfCourse[i].selected = !this.studentsOfCourse[i].selected 
+    this.studentsOfCourse[i].selected = !this.studentsOfCourse[i].selected;
   }
 
   sortCoursesBy(by: SortBy): void {
@@ -256,14 +253,14 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
           strA = a.studentEmail;
           strB = b.studentEmail;
           break;
-        //TODO: Session End_Date
+        // TODO: Session End_Date
         case SortBy.SESSION_END_DATE:
           strA = a.studentExtensionDeadline.toString();
           strB = b.studentExtensionDeadline.toString();
           break;
         default:
-          strA = "";
-          strB = "";
+          strA = '';
+          strB = '';
       }
       return this.tableComparatorService.compare(by, this.sortOrder, strA, strB);
     };

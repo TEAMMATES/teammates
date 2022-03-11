@@ -1,4 +1,3 @@
-
 const MINUTES_TO_MILLI = 60 * 1000;
 const HOURS_TO_MILLI = 60 * MINUTES_TO_MILLI;
 const DAY_TO_MILLI = 24 * HOURS_TO_MILLI;
@@ -11,4 +10,4 @@ export class DateTimeHelper {
         return timestamp + (minutes * MINUTES_TO_MILLI) + (hours * HOURS_TO_MILLI) + (days * DAY_TO_MILLI);
     }
     // TODO: Refactor resolveLocalDateTime, getDateTimeAtTimezone, magic numbers
-}                                                                                                                                                                                                                                   
+}

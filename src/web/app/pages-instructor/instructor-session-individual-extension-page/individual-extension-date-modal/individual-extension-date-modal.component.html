@@ -13,20 +13,23 @@
   </div>
 
   <div class="row pl-3">
-    <label class="mr-2"><input type="radio" name="optradio" [value]="1" [(ngModel)]="radioOption"> Extend deadline by</label>
-    <label><input type="radio" name="optradio" [(ngModel)]="radioOption" [value]="2"> Extend deadline to</label>
+    <label class="mr-2"><input type="radio" name="optradio" [value]="RadioOptions.EXTEND_BY" [(ngModel)]="radioOption">
+      Extend deadline by
+    </label>
+    <label><input type="radio" name="optradio" [(ngModel)]="radioOption" [value]="RadioOptions.EXTEND_TO">
+      Extend deadline to
+    </label>
   </div>
 
-
-  <div *ngIf="radioOption==1">
+  <div *ngIf="radioOption===RadioOptions.EXTEND_BY">
     <small>Extend the feedback session by:</small>
     <div id="submission-start-date">
         <div class="input-group">
             <select class="form-control" [(ngModel)]="extendByDeadlineKey">
               <option *ngFor="let deadlineOption of deadlineOptions | keyvalue: sortMapByOriginalOrder" [value]="deadlineOption.key">
                 {{ deadlineOption.key }}
-                <div *ngIf="deadlineOption.key != 'Customize'">
-                  ({{addTime(0, deadlineOption.value, 0) | date:'d MMM yyyy hh:mm'}}) 
+                <div *ngIf="deadlineOption.key !== 'Customize'">
+                  ({{addTime(0, deadlineOption.value, 0) | date:'d MMM yyyy hh:mm'}})
                 </div>
               </option>
             </select>
@@ -34,7 +37,7 @@
     </div>
   </div>
 
-  <div *ngIf="radioOption==2">
+  <div *ngIf="radioOption===RadioOptions.EXTEND_TO">
     <small>The new deadline of the feedback session will be:</small>
     <div id="submission-start-date">
         <div class="input-group">
@@ -42,34 +45,37 @@
           (dateChangeCallback)="onChangeDateTime($event,'date')"
           [minDate]="getDateFormat(feedbackSessionEndingTime)"></tm-datepicker>
         <div class="col-md-5">
-          <tm-timepicker id="submission-end-time" 
-          [time]="timePicker" 
+          <tm-timepicker id="submission-end-time"
+          [time]="timePicker"
           (timeChange)="onChangeDateTime($event,'time')">
           </tm-timepicker>
-        </div>    
+        </div>
       </div>
     </div>
   </div>
 
-<div *ngIf="isCustomize()"> 
+<div *ngIf="isCustomize()">
   <br>
     <form class="form-inline">
       <div>
         <label for="form-minutes">Minutes</label>
-        <input class="form-control mb-2" name="form-minutes" type="text" placeholder="Minutes" [(ngModel)]="extendByDatePicker.minutes">
+        <input class="form-control mb-2" name="form-minutes" type="text" placeholder="Minutes"
+        [(ngModel)]="extendByDatePicker.minutes">
       </div>
       <div>
         <label for="form-minutes">Hours</label>
-        <input class="form-control mx-sm-3 mb-2" name="form-hours" type="text" placeholder="Hours" [(ngModel)]="extendByDatePicker.hours"> 
+        <input class="form-control mx-sm-3 mb-2" name="form-hours" type="text" placeholder="Hours"
+        [(ngModel)]="extendByDatePicker.hours">
       </div>
       <div>
         <label for="form-minutes">Days</label>
-        <input class="form-control mb-2" name="form-days" type="text" placeholder="Days" [(ngModel)]="extendByDatePicker.days">
+        <input class="form-control mb-2" name="form-days" type="text" placeholder="Days"
+        [(ngModel)]="extendByDatePicker.days">
       </div>
     </form>
   <br>
   <p>
-    The new extended deadline will be: 
+    The new extended deadline will be:
     {{addTime(extendByDatePicker.minutes, extendByDatePicker.hours, extendByDatePicker.days) | date:'d MMM yyyy hh:mm'}}
   </p>
 </div>
@@ -77,5 +83,6 @@
 
 <div class="modal-footer">
   <button type="button" class="btn btn-light" (click)="activeModal.dismiss()">No, Cancel the Operation</button>
-  <button type="button" class="btn btn-success modal-btn-ok" (click)="onConfirm()" [disabled]="!isValidForm()">Save Changes</button>
+  <button type="button" class="btn btn-success modal-btn-ok" (click)="onConfirm()" [disabled]="!isValidForm()">
+    Save Changes</button>
 </div>

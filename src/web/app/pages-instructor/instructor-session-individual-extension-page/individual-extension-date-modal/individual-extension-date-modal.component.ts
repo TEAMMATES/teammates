@@ -8,6 +8,10 @@ import { DateTimeHelper } from 'src/web/services/datetime-helper';
 import { SimpleModalService } from 'src/web/services/simple-modal.service';
 import { TimezoneService } from 'src/web/services/timezone.service';
 
+enum RadioOptions {
+  EXTEND_TO, EXTEND_BY,
+}
+
 /**
  * Modal to confirm permanent deletion of a feedback session.
  */
@@ -17,8 +21,7 @@ import { TimezoneService } from 'src/web/services/timezone.service';
   styleUrls: ['./individual-extension-date-modal.component.scss'],
 })
 
-export class IndividualExtensionDateModalComponent
-{
+export class IndividualExtensionDateModalComponent {
   @Input()
   numberOfStudents: number = 0;
 
@@ -26,55 +29,59 @@ export class IndividualExtensionDateModalComponent
   feedbackSessionEndingTime: number = 0;
 
   @Input()
-  feedbackSessionTimeZone: string = "";
+  feedbackSessionTimeZone: string = '';
 
   @Output() onConfirmCallBack: EventEmitter<number> = new EventEmitter();
-  
+
   constructor(public activeModal: NgbActiveModal,
               private timeZoneService: TimezoneService,
-              private simpleModalService: SimpleModalService)
-  {}
-  
+              private simpleModalService: SimpleModalService) {}
+
   radioOption: number = 1;
-  extendByDeadlineKey: String = "";
-  deadlineOptions: Map<String, Number> = new Map([
-    ["12 hours", 0.5],
-    ["1 day", 24],
-    ["3 days", 72],
-    ["1 week", 168],
-    ["Customize", 0],
-  ])
-  
-  DATETIME_FORMAT: string = "d MMM YYYY h:mm:ss";
+  extendByDeadlineKey: String = '';
+  extendByDeadlineOptions: Map<String, Number> = new Map([
+    ['12 hours', 0.5],
+    ['1 day', 24],
+    ['3 days', 72],
+    ['1 week', 168],
+    ['Customize', 0],
+  ]);
+
+  DATETIME_FORMAT: string = 'd MMM YYYY h:mm:ss';
   datePicker: DateFormat = { year: 0, month: 0, day: 0 };
   timePicker: TimeFormat = { hour: 23, minute: 59 };
   extendByDatePicker = { minutes: 0, hours: 0, days: 0 };
 
   onConfirm(): void {
     if (this.getExtensionTimestamp() < Date.now()) {
-      const extensionTimeString = this.timeZoneService.formatToString(this.getExtensionTimestamp(), this.feedbackSessionTimeZone, this.DATETIME_FORMAT)
-      const currentTimeString = this.timeZoneService.formatToString(Date.now(), this.feedbackSessionTimeZone, this.DATETIME_FORMAT)
+      const extensionTimeString = this.timeZoneService
+      .formatToString(this.getExtensionTimestamp(), this.feedbackSessionTimeZone, this.DATETIME_FORMAT);
+      const currentTimeString = this.timeZoneService
+      .formatToString(Date.now(), this.feedbackSessionTimeZone, this.DATETIME_FORMAT);
       this.simpleModalService.openConfirmationModal(
-        "Are you sure you want to extend to before the current time?",
+        'Are you sure you want to extend to before the current time?',
         SimpleModalType.DANGER,
-        `The current time now is ${ currentTimeString } and you are extending to ${ extensionTimeString } in ${ this.feedbackSessionTimeZone}. Do you wish to proceed?`,
+        `The current time now is ${currentTimeString}`
+        + ` and you are extending to ${extensionTimeString} in ${this.feedbackSessionTimeZone}.`
+        + ' Do you wish to proceed?',
       ).result.then(() => this.onConfirmCallBack.emit(this.getExtensionTimestamp()));
-      
+
     } else {
       this.onConfirmCallBack.emit(this.getExtensionTimestamp());
     }
   }
 
-  onChangeDateTime(data: DateFormat | TimeFormat, field: string) {
-    if (field == "date") {
+  onChangeDateTime(data: DateFormat | TimeFormat, field: string): void {
+    if (field === 'date') {
       this.datePicker = data as DateFormat;
-    } else {
+    }
+    if (field === 'time') {
       this.timePicker = data as TimeFormat;
     }
   }
 
   getDateFormat(timestamp: number) : DateFormat {
-    let momentInstance: moment.Moment = moment(timestamp)
+    let momentInstance: moment.Moment = moment(timestamp);
     if (momentInstance.hour() === 0 && momentInstance.minute() === 0) {
       momentInstance = momentInstance.subtract(1, 'minute');
     }
@@ -82,39 +89,46 @@ export class IndividualExtensionDateModalComponent
       year: momentInstance.year(),
       month: momentInstance.month() + 1, // moment return 0-11 for month
       day: momentInstance.date(),
-    };  
+    };
   }
-  
+
   getExtensionTimestamp(): number {
-    if (this.radioOption == 1) {
-      if (this.extendByDeadlineKey != "Customize" && this.deadlineOptions.has(this.extendByDeadlineKey)) {
-        return this.addTime(0, this.deadlineOptions.get(this.extendByDeadlineKey)!.valueOf(), 0);
+    if (this.isRadioExtendBy()) {
+      if (this.isCustomize() && this.extendByDeadlineOptions.has(this.extendByDeadlineKey)) {
+        return DateTimeHelper.addTime(this.feedbackSessionEndingTime, 0,
+          this.extendByDeadlineOptions.get(this.extendByDeadlineKey)!.valueOf(), 0);
       }
       if (this.isCustomize()) {
-        return this.addTime(this.extendByDatePicker.minutes, this.extendByDatePicker.hours, this.extendByDatePicker.days)
+        return DateTimeHelper.addTime(this.feedbackSessionEndingTime, this.extendByDatePicker.minutes,
+          this.extendByDatePicker.hours, this.extendByDatePicker.days);
       }
-    } 
-    if (this.radioOption == 2) {
-      let timestamp = this.timeZoneService.resolveLocalDateTime(this.datePicker, this.timePicker, this.feedbackSessionTimeZone, true);
+    }
+    if (this.isRadioExtendTo()) {
+      const timestamp = this.timeZoneService
+      .resolveLocalDateTime(this.datePicker, this.timePicker, this.feedbackSessionTimeZone, true);
       return timestamp;
     }
     return this.feedbackSessionEndingTime;
   }
 
-  isValidForm() : boolean { 
+  isValidForm() : boolean {
     return this.getExtensionTimestamp() > this.feedbackSessionEndingTime;
   }
-  
-  isCustomize(): boolean {
-    return this.radioOption == 1 && this.extendByDeadlineKey == "Customize";
+
+  private isRadioExtendBy(): boolean {
+    return this.radioOption === RadioOptions.EXTEND_BY;
   }
 
-  addTime(minutes: number, hours: number, days: number): number {
-    return DateTimeHelper.addTime(this.feedbackSessionEndingTime, minutes, hours, days);
+  private isRadioExtendTo(): boolean {
+    return this.radioOption === RadioOptions.EXTEND_TO;
+  }
+
+  private isCustomize(): boolean {
+    return this.isRadioExtendBy() && this.extendByDeadlineKey === 'Customize';
   }
 
   sortMapByOriginalOrder = (): number => {
     return 0;
-  }
+  };
 
 }
