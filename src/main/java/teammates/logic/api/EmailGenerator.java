@@ -3,6 +3,7 @@ package teammates.logic.api;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +12,7 @@ import java.util.stream.Collectors;
 import teammates.common.datatransfer.ErrorLogEntry;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.DeadlineExtensionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -89,6 +91,18 @@ public final class EmailGenerator {
         List<InstructorAttributes> instructors = isEmailNeededForInstructors
                 ? instructorsLogic.getInstructorsForCourse(session.getCourseId())
                 : new ArrayList<>();
+
+        if (emailType == EmailType.FEEDBACK_CLOSING) {
+            Map<String, Instant> studentDeadlines = session.getStudentDeadlines();
+            students = students.stream()
+                    .filter(x -> !studentDeadlines.containsKey(x.getEmail()))
+                    .collect(Collectors.toList());
+
+            Map<String, Instant> instructorDeadlines = session.getInstructorDeadlines();
+            instructors = instructors.stream()
+                    .filter(x -> !instructorDeadlines.containsKey(x.getEmail()))
+                    .collect(Collectors.toList());
+        }
 
         String status = emailType == EmailType.FEEDBACK_OPENING
                 ? FEEDBACK_STATUS_SESSION_OPENING
@@ -454,6 +468,8 @@ public final class EmailGenerator {
 
     /**
      * Generates the feedback session closing emails for the given {@code session}.
+     *
+     * <p>Students and instructors with deadline extensions are not notified.
      */
     public List<EmailWrapper> generateFeedbackSessionClosingEmails(FeedbackSessionAttributes session) {
         return generateFeedbackSessionOpeningOrClosingEmails(session, EmailType.FEEDBACK_CLOSING);
@@ -464,6 +480,49 @@ public final class EmailGenerator {
      */
     public List<EmailWrapper> generateFeedbackSessionClosedEmails(FeedbackSessionAttributes session) {
         return generateFeedbackSessionOpeningSoonOrClosedEmails(session, EmailType.FEEDBACK_CLOSED);
+    }
+
+    /**
+    * Generates the feedback session closing emails for users with deadline extensions.
+    */
+    public List<EmailWrapper> generateFeedbackSessionClosingWithExtensionEmails(
+            FeedbackSessionAttributes session, List<DeadlineExtensionAttributes> deadlineExtensions) {
+        String courseId = session.getCourseId();
+        CourseAttributes course = coursesLogic.getCourse(courseId);
+        List<DeadlineExtensionAttributes> studentDeadlines =
+                deadlineExtensions.stream().filter(x -> !x.getIsInstructor()).collect(Collectors.toList());
+        List<DeadlineExtensionAttributes> instructorDeadlines =
+                deadlineExtensions.stream().filter(x -> x.getIsInstructor()).collect(Collectors.toList());
+
+        boolean isEmailNeededForStudents =
+                !studentDeadlines.isEmpty() && fsLogic.isFeedbackSessionForUserTypeToAnswer(session, false);
+        boolean isEmailNeededForInstructors =
+                !instructorDeadlines.isEmpty() && fsLogic.isFeedbackSessionForUserTypeToAnswer(session, true);
+
+        List<StudentAttributes> students = new ArrayList<>();
+        if (isEmailNeededForStudents) {
+            for (DeadlineExtensionAttributes studentDeadline : studentDeadlines) {
+                StudentAttributes student = studentsLogic.getStudentForEmail(courseId, studentDeadline.getUserEmail());
+                if (student != null) {
+                    students.add(student);
+                }
+            }
+        }
+
+        List<InstructorAttributes> instructors = new ArrayList<>();
+        if (isEmailNeededForInstructors) {
+            for (DeadlineExtensionAttributes instructorDeadline : instructorDeadlines) {
+                InstructorAttributes instructor =
+                        instructorsLogic.getInstructorForEmail(courseId, instructorDeadline.getUserEmail());
+                if (instructor != null) {
+                    instructors.add(instructor);
+                }
+            }
+        }
+
+        String template = EmailTemplates.USER_FEEDBACK_SESSION.replace("${status}", FEEDBACK_STATUS_SESSION_CLOSING);
+        return generateFeedbackSessionEmailBases(course, session, students, instructors, Collections.emptyList(), template,
+                EmailType.FEEDBACK_CLOSING, FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW);
     }
 
     /**
