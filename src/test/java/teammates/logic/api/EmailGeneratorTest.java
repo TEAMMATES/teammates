@@ -1,5 +1,6 @@
 package teammates.logic.api;
 
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
 
@@ -336,9 +337,8 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
     @Test
     public void testGenerateFeedbackSessionEmails_testUsersWithDeadlineExtensions() throws Exception {
-        FeedbackSessionAttributes session = fsLogic.getFeedbackSession("First feedback session", "idOfTypicalCourse1");
-        CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
-
+        FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
+        CourseAttributes course = dataBundle.courses.get("typicalCourse1");
         DeadlineExtensionAttributes student2 = dataBundle.deadlineExtensions.get("student2InCourse1Session1");
         DeadlineExtensionAttributes student4 = dataBundle.deadlineExtensions.get("student4InCourse1Session1");
         DeadlineExtensionAttributes student5 = dataBundle.deadlineExtensions.get("student5InCourse1Session1");
@@ -348,7 +348,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
         List<DeadlineExtensionAttributes> deadlineExtensions =
                 List.of(student2, student4, student5, instructor2, instructor3);
 
-        ______TS("feedback session closing alerts for users with deadline extensions");
+        ______TS("Feedback session closing alerts for users with deadline extensions");
 
         List<EmailWrapper> emails =
                 emailGenerator.generateFeedbackSessionClosingWithExtensionEmails(session, deadlineExtensions);
@@ -362,6 +362,62 @@ public class EmailGeneratorTest extends BaseLogicTest {
                 subject, "/sessionClosingEmailForStudentWithExtension.html");
         verifyEmailReceivedCorrectly(emails, instructor2.getUserEmail(),
                 subject, "/sessionClosingEmailForInstructorWithExtension.html");
+
+        ______TS("Deadline extension given to student");
+
+        Instant originalEndTime = session.getEndTime();
+        Instant newEndTime = TimeHelper.parseInstant("2027-04-30T23:00:00Z");
+        EmailWrapper email = emailGenerator.generateDeadlineExtensionEmail(course, session, originalEndTime, newEndTime,
+                EmailType.DEADLINE_EXTENSION_GIVEN, student2.getUserEmail(), false);
+        subject = String.format(EmailType.DEADLINE_EXTENSION_GIVEN.getSubject(),
+                course.getName(), session.getFeedbackSessionName());
+
+        verifyEmail(email, student2.getUserEmail(), subject, "/deadlineExtensionGivenStudent.html");
+
+        ______TS("Deadline extension given to instructor");
+
+        email = emailGenerator.generateDeadlineExtensionEmail(course, session, originalEndTime, newEndTime,
+                EmailType.DEADLINE_EXTENSION_GIVEN, instructor2.getUserEmail(), true);
+        subject = String.format(EmailType.DEADLINE_EXTENSION_GIVEN.getSubject(),
+                course.getName(), session.getFeedbackSessionName());
+
+        verifyEmail(email, instructor2.getUserEmail(), subject, "/deadlineExtensionGivenInstructor.html");
+
+        ______TS("Deadline extension updated for student");
+
+        email = emailGenerator.generateDeadlineExtensionEmail(course, session, originalEndTime, newEndTime,
+                EmailType.DEADLINE_EXTENSION_UPDATED, student2.getUserEmail(), false);
+        subject = String.format(EmailType.DEADLINE_EXTENSION_UPDATED.getSubject(),
+                course.getName(), session.getFeedbackSessionName());
+
+        verifyEmail(email, student2.getUserEmail(), subject, "/deadlineExtensionUpdatedStudent.html");
+
+        ______TS("Deadline extension updated for instructor");
+
+        email = emailGenerator.generateDeadlineExtensionEmail(course, session, originalEndTime, newEndTime,
+                EmailType.DEADLINE_EXTENSION_UPDATED, instructor2.getUserEmail(), true);
+        subject = String.format(EmailType.DEADLINE_EXTENSION_UPDATED.getSubject(),
+                course.getName(), session.getFeedbackSessionName());
+
+        verifyEmail(email, instructor2.getUserEmail(), subject, "/deadlineExtensionUpdatedInstructor.html");
+
+        ______TS("Deadline extension revoked for student");
+
+        email = emailGenerator.generateDeadlineExtensionEmail(course, session, newEndTime, originalEndTime,
+                EmailType.DEADLINE_EXTENSION_REVOKED, student2.getUserEmail(), false);
+        subject = String.format(EmailType.DEADLINE_EXTENSION_REVOKED.getSubject(),
+                course.getName(), session.getFeedbackSessionName());
+
+        verifyEmail(email, student2.getUserEmail(), subject, "/deadlineExtensionRevokedStudent.html");
+
+        ______TS("Deadline extension revoked for instructor");
+
+        email = emailGenerator.generateDeadlineExtensionEmail(course, session, newEndTime, originalEndTime,
+                EmailType.DEADLINE_EXTENSION_REVOKED, instructor2.getUserEmail(), true);
+        subject = String.format(EmailType.DEADLINE_EXTENSION_REVOKED.getSubject(),
+                course.getName(), session.getFeedbackSessionName());
+
+        verifyEmail(email, instructor2.getUserEmail(), subject, "/deadlineExtensionRevokedInstructor.html");
     }
 
     @Test

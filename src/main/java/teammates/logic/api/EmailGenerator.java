@@ -586,6 +586,58 @@ public final class EmailGenerator {
                 emailType, action);
     }
 
+    /**
+     * Generates deadline extension given/updated/revoked email.
+     */
+    public EmailWrapper generateDeadlineExtensionEmail(
+            CourseAttributes course, FeedbackSessionAttributes session, Instant oldEndTime, Instant endTime,
+            EmailType emailType, String userEmail, boolean isInstructor) {
+        String status;
+
+        switch(emailType) {
+        case DEADLINE_EXTENSION_GIVEN:
+            status = "You have been given a deadline extension for the following feedback session.";
+            break;
+        case DEADLINE_EXTENSION_UPDATED:
+            status = "Your deadline for the following feedback session has been updated.";
+            break;
+        case DEADLINE_EXTENSION_REVOKED:
+            status = "Your deadline extension for the following feedback session has been revoked.";
+            break;
+        default:
+            throw new AssertionError("Invalid email type: " + emailType);
+        }
+
+        String additionalContactInformation = getAdditionalContactInformationFragment(course, isInstructor);
+        Instant oldEndTimeFormatted =
+                TimeHelper.getMidnightAdjustedInstantBasedOnZone(oldEndTime, session.getTimeZone(), false);
+        Instant newEndTimeFormatted =
+                TimeHelper.getMidnightAdjustedInstantBasedOnZone(endTime, session.getTimeZone(), false);
+        String template = EmailTemplates.USER_DEADLINE_EXTENSION
+                .replace("${status}", status)
+                .replace("${oldEndTime}", SanitizationHelper.sanitizeForHtml(
+                        TimeHelper.formatInstant(oldEndTimeFormatted, session.getTimeZone(), DATETIME_DISPLAY_FORMAT)))
+                .replace("${newEndTime}", SanitizationHelper.sanitizeForHtml(
+                        TimeHelper.formatInstant(newEndTimeFormatted, session.getTimeZone(), DATETIME_DISPLAY_FORMAT)));
+        String feedbackAction = FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW;
+
+        if (isInstructor) {
+            InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(course.getId(), userEmail);
+            if (instructor == null) {
+                return null;
+            }
+            return generateFeedbackSessionEmailBaseForInstructors(
+                    course, session, instructor, template, emailType, feedbackAction, additionalContactInformation);
+        } else {
+            StudentAttributes student = studentsLogic.getStudentForEmail(course.getId(), userEmail);
+            if (student == null) {
+                return null;
+            }
+            return generateFeedbackSessionEmailBaseForStudents(
+                    course, session, student, template, emailType, feedbackAction, additionalContactInformation);
+        }
+    }
+
     private List<EmailWrapper> generateFeedbackSessionEmailBases(
             CourseAttributes course, FeedbackSessionAttributes session, List<StudentAttributes> students,
             List<InstructorAttributes> instructors, List<InstructorAttributes> instructorsToNotify, String template,
