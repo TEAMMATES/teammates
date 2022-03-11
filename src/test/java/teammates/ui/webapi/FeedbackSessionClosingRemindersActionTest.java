@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.attributes.DeadlineExtensionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
@@ -40,7 +41,7 @@ public class FeedbackSessionClosingRemindersActionTest
     @Test
     public void testExecute() throws Exception {
 
-        ______TS("default state of typical data bundle: 0 sessions closing soon");
+        ______TS("default state of typical data bundle: 0 sessions/deadline extensions closing soon");
 
         FeedbackSessionClosingRemindersAction action = getAction();
         action.execute();
@@ -48,7 +49,8 @@ public class FeedbackSessionClosingRemindersActionTest
         verifyNoTasksAdded();
 
         ______TS("1 session closing soon, 1 session closing soon with disabled closing reminder, "
-                 + "1 session closing soon but not yet opened");
+                + "1 session closing soon but not yet opened, "
+                + "1 student, 1 instructor with extended deadine, 1 student with extended deadline already attempted");
 
         // Modify session to close in 24 hours
 
@@ -103,6 +105,30 @@ public class FeedbackSessionClosingRemindersActionTest
         session3.setSentOpenEmail(false); // fsLogic will set the flag to true
         verifyPresentInDatabase(session3);
 
+        // update deadline extensions to have end time within the next 24 hours
+        DeadlineExtensionAttributes deadlineExtensionStudent =
+                typicalBundle.deadlineExtensions.get("student4InCourse1Session1");
+        DeadlineExtensionAttributes deadlineExtensionStudentAlreadyAnswered =
+                typicalBundle.deadlineExtensions.get("student3InCourse1Session1");
+        DeadlineExtensionAttributes deadlineExtensionInstructor =
+                typicalBundle.deadlineExtensions.get("instructor2InCourse1Session1");
+        List<DeadlineExtensionAttributes> deadlineExtensions = List.of(
+                deadlineExtensionStudent,
+                deadlineExtensionStudentAlreadyAnswered,
+                deadlineExtensionInstructor);
+
+        for (DeadlineExtensionAttributes deadlineExtension : deadlineExtensions) {
+            logic.updateDeadlineExtension(
+                    DeadlineExtensionAttributes
+                            .updateOptionsBuilder(
+                                deadlineExtension.getCourseId(),
+                                deadlineExtension.getFeedbackSessionName(),
+                                deadlineExtension.getUserEmail(),
+                                deadlineExtension.getIsInstructor())
+                            .withEndTime(TimeHelper.getInstantHoursOffsetFromNow(12))
+                            .build());
+        }
+
         // wait for very briefly so that the above session will be within the time limit
         ThreadHelper.waitFor(5);
 
@@ -110,7 +136,9 @@ public class FeedbackSessionClosingRemindersActionTest
         action.execute();
 
         // 5 students, 5 instructors, and 3 co-owner instructors in course1
-        verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 13);
+        // 3 students and 2 instructors in session have deadline extensions and should not receive email
+        // 2 student, 1 instructor with deadline extensions within time period
+        verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 11);
 
         String courseName = logic.getCourse(session1.getCourseId()).getName();
         List<TaskWrapper> tasksAdded = mockTaskQueuer.getTasksAdded();
@@ -123,7 +151,8 @@ public class FeedbackSessionClosingRemindersActionTest
             assertEquals(expectedSubject, email.getSubject());
         }
 
-        ______TS("1 session closing soon with emails sent");
+        ______TS("1 session closing soon with emails sent;"
+                + "deadline extensions closing within next 24 hours have emails sent");
 
         session1.setSentClosingEmail(true);
         logic.updateFeedbackSession(
