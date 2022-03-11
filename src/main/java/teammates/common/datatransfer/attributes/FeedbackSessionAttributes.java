@@ -116,21 +116,21 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     /**
      * Creates a copy of this object for the given student.
      *
-     * @param studentEmailAddress The email address of the given student.
+     * @param studentEmail The email address of the given student.
      * @return The copy of this object for the given student.
      */
-    public FeedbackSessionAttributes getCopyForStudent(String studentEmailAddress) {
-        return new FeedbackSessionAttributesForStudent(toEntity(), studentEmailAddress);
+    public FeedbackSessionAttributes getCopyForStudent(String studentEmail) {
+        return new FeedbackSessionAttributesForStudent(toEntity(), studentEmail);
     }
 
     /**
      * Creates a copy of this object for the given instructor.
      *
-     * @param instructorEmailAddress The email address of the given instructor.
+     * @param instructorEmail The email address of the given instructor.
      * @return The copy of this object for the given instructor.
      */
-    public FeedbackSessionAttributes getCopyForInstructor(String instructorEmailAddress) {
-        return new FeedbackSessionAttributesForInstructor(toEntity(), instructorEmailAddress);
+    public FeedbackSessionAttributes getCopyForInstructor(String instructorEmail) {
+        return new FeedbackSessionAttributesForInstructor(toEntity(), instructorEmail);
     }
 
     public String getCourseId() {
@@ -870,20 +870,20 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
 
     private abstract static class FeedbackSessionAttributesForParticipant extends FeedbackSessionAttributes {
 
-        private String emailAddress;
+        private String email;
 
-        private FeedbackSessionAttributesForParticipant(FeedbackSession feedbackSession, String emailAddress) {
+        private FeedbackSessionAttributesForParticipant(FeedbackSession feedbackSession, String email) {
             super(feedbackSession);
 
-            this.emailAddress = emailAddress;
+            this.email = email;
         }
 
         @Override
         public Instant getDeadline() {
-            if (!getDeadlines().containsKey(emailAddress)) {
+            if (!getDeadlines().containsKey(email)) {
                 return getEndTime();
             }
-            return getDeadlines().get(emailAddress);
+            return getDeadlines().get(email);
         }
 
         abstract Map<String, Instant> getDeadlines();
@@ -891,8 +891,8 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
 
     private static class FeedbackSessionAttributesForStudent extends FeedbackSessionAttributesForParticipant {
 
-        private FeedbackSessionAttributesForStudent(FeedbackSession feedbackSession, String studentEmailAddress) {
-            super(feedbackSession, studentEmailAddress);
+        private FeedbackSessionAttributesForStudent(FeedbackSession feedbackSession, String studentEmail) {
+            super(feedbackSession, studentEmail);
         }
 
         @Override
@@ -903,8 +903,8 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
 
     private static class FeedbackSessionAttributesForInstructor extends FeedbackSessionAttributesForParticipant {
 
-        private FeedbackSessionAttributesForInstructor(FeedbackSession feedbackSession, String instructorEmailAddress) {
-            super(feedbackSession, instructorEmailAddress);
+        private FeedbackSessionAttributesForInstructor(FeedbackSession feedbackSession, String instructorEmail) {
+            super(feedbackSession, instructorEmail);
         }
 
         @Override

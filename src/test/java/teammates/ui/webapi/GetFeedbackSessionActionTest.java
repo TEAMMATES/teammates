@@ -3,6 +3,7 @@ package teammates.ui.webapi;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.testng.annotations.Test;
 
@@ -1179,12 +1180,11 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
     private void assertEqualDeadlines(Map<String, Instant> expectedDeadlineInstants, Map<String, Long> actualDeadlines,
             String timeZone) {
-        Map<String, Long> expectedDeadlines = new HashMap<>();
-        expectedDeadlineInstants.forEach((emailAddress, deadlineInstant) -> {
-            Long deadline = TimeHelper.getMidnightAdjustedInstantBasedOnZone(deadlineInstant, timeZone, true)
-                    .toEpochMilli();
-            expectedDeadlines.put(emailAddress, deadline);
-        });
+        Map<String, Long> expectedDeadlines = expectedDeadlineInstants.entrySet()
+                .stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, entry ->
+                        TimeHelper.getMidnightAdjustedInstantBasedOnZone(entry.getValue(), timeZone, true)
+                                .toEpochMilli()));
         assertEquals(expectedDeadlines, actualDeadlines);
     }
 

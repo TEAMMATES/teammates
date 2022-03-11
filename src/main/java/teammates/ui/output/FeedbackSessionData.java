@@ -1,7 +1,6 @@
 package teammates.ui.output;
 
 import java.time.Instant;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -118,21 +117,19 @@ public class FeedbackSessionData extends ApiOutput {
             this.deletedAtTimestamp = feedbackSessionAttributes.getDeletedTime().toEpochMilli();
         }
 
-        this.studentDeadlines = new HashMap<>();
-        feedbackSessionAttributes.getStudentDeadlines().forEach((email, studentDeadlineInstant) -> {
-            long studentDeadline = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
-                    studentDeadlineInstant, timeZone, true)
-                    .toEpochMilli();
-            this.studentDeadlines.put(email, studentDeadline);
-        });
+        this.studentDeadlines = feedbackSessionAttributes.getStudentDeadlines()
+                .entrySet()
+                .stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, entry ->
+                        TimeHelper.getMidnightAdjustedInstantBasedOnZone(entry.getValue(), timeZone, true)
+                                .toEpochMilli()));
 
-        this.instructorDeadlines = new HashMap<>();
-        feedbackSessionAttributes.getInstructorDeadlines().forEach((email, instructorDeadlineInstant) -> {
-            long instructorDeadline = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
-                    instructorDeadlineInstant, timeZone, true)
-                    .toEpochMilli();
-            this.instructorDeadlines.put(email, instructorDeadline);
-        });
+        this.instructorDeadlines = feedbackSessionAttributes.getInstructorDeadlines()
+                .entrySet()
+                .stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, entry ->
+                        TimeHelper.getMidnightAdjustedInstantBasedOnZone(entry.getValue(), timeZone, true)
+                                .toEpochMilli()));
     }
 
     public String getCourseId() {
@@ -282,23 +279,25 @@ public class FeedbackSessionData extends ApiOutput {
     /**
      * Filter out all the deadlines that are not for the given student.
      */
-    public void filterDeadlinesForStudent(String studentEmailAddress) {
-        setStudentDeadlines(studentDeadlines.entrySet()
-                .stream()
-                .filter(entry -> entry.getKey().equals(studentEmailAddress))
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));
-        setInstructorDeadlines(new HashMap<>());
+    public void filterDeadlinesForStudent(String studentEmail) {
+        if (studentDeadlines.containsKey(studentEmail)) {
+            studentDeadlines = Map.of(studentEmail, studentDeadlines.get(studentEmail));
+        } else {
+            studentDeadlines.clear();
+        }
+        instructorDeadlines.clear();
     }
 
     /**
      * Filter out all the deadlines that are not for the given instructor.
      */
-    public void filterDeadlinesForInstructor(String instructorEmailAddress) {
-        setStudentDeadlines(new HashMap<>());
-        setInstructorDeadlines(instructorDeadlines.entrySet()
-                .stream()
-                .filter(entry -> entry.getKey().equals(instructorEmailAddress))
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));
+    public void filterDeadlinesForInstructor(String instructorEmail) {
+        studentDeadlines.clear();
+        if (instructorDeadlines.containsKey(instructorEmail)) {
+            instructorDeadlines = Map.of(instructorEmail, instructorDeadlines.get(instructorEmail));
+        } else {
+            instructorDeadlines.clear();
+        }
     }
 
     /**

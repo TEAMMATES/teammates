@@ -52,9 +52,7 @@ class GetFeedbackSessionAction extends BasicFeedbackSubmissionAction {
 
         switch (intent) {
         case STUDENT_SUBMISSION:
-            // fall-through
         case STUDENT_RESULT:
-            // fall-through
         case INSTRUCTOR_SUBMISSION:
             response.hideInformationForStudent();
             break;
@@ -78,22 +76,20 @@ class GetFeedbackSessionAction extends BasicFeedbackSubmissionAction {
         FeedbackSessionData response;
         switch (intent) {
         case STUDENT_SUBMISSION:
-            // fall-through
         case STUDENT_RESULT:
             StudentAttributes studentAttributes = getStudentOfCourseFromRequest(courseId);
-            String studentEmailAddress = studentAttributes.getEmail();
-            feedbackSessionAttributes = feedbackSessionAttributes.getCopyForStudent(studentEmailAddress);
+            String studentEmail = studentAttributes.getEmail();
+            feedbackSessionAttributes = feedbackSessionAttributes.getCopyForStudent(studentEmail);
             response = new FeedbackSessionData(feedbackSessionAttributes);
-            response.filterDeadlinesForStudent(studentEmailAddress);
+            response.filterDeadlinesForStudent(studentEmail);
             break;
         case INSTRUCTOR_SUBMISSION:
-            // fall-through
         case INSTRUCTOR_RESULT:
             InstructorAttributes instructorAttributes = getInstructorOfCourseFromRequest(courseId);
-            String instructorEmailAddress = instructorAttributes.getEmail();
-            feedbackSessionAttributes = feedbackSessionAttributes.getCopyForInstructor(instructorEmailAddress);
+            String instructorEmail = instructorAttributes.getEmail();
+            feedbackSessionAttributes = feedbackSessionAttributes.getCopyForInstructor(instructorEmail);
             response = new FeedbackSessionData(feedbackSessionAttributes);
-            response.filterDeadlinesForInstructor(instructorEmailAddress);
+            response.filterDeadlinesForInstructor(instructorEmail);
             break;
         case FULL_DETAIL:
             response = new FeedbackSessionData(feedbackSessionAttributes);
