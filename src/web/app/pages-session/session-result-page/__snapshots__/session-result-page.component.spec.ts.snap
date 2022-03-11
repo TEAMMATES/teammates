@@ -14,6 +14,7 @@ exports[`SessionResultPageComponent should snap when session results failed to l
   hasFeedbackSessionResultsLoadingFailed={[Function Boolean]}
   instructorService={[Function InstructorService]}
   intent={[Function String]}
+  isFeedbackSessionDetailsLoading="false"
   isFeedbackSessionResultsLoading="false"
   logService={[Function LogService]}
   loggedInUser=""
@@ -168,6 +169,7 @@ exports[`SessionResultPageComponent should snap with an open feedback session wi
   hasFeedbackSessionResultsLoadingFailed="false"
   instructorService={[Function InstructorService]}
   intent={[Function String]}
+  isFeedbackSessionDetailsLoading="false"
   isFeedbackSessionResultsLoading="false"
   logService={[Function LogService]}
   loggedInUser=""
@@ -321,6 +323,7 @@ exports[`SessionResultPageComponent should snap with default fields 1`] = `
   hasFeedbackSessionResultsLoadingFailed="false"
   instructorService={[Function InstructorService]}
   intent={[Function String]}
+  isFeedbackSessionDetailsLoading="false"
   isFeedbackSessionResultsLoading="false"
   logService={[Function LogService]}
   loggedInUser=""
@@ -472,6 +475,7 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
   hasFeedbackSessionResultsLoadingFailed="false"
   instructorService={[Function InstructorService]}
   intent={[Function String]}
+  isFeedbackSessionDetailsLoading="false"
   isFeedbackSessionResultsLoading="false"
   logService={[Function LogService]}
   loggedInUser=""
@@ -1037,6 +1041,7 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
   hasFeedbackSessionResultsLoadingFailed="false"
   instructorService={[Function InstructorService]}
   intent={[Function String]}
+  isFeedbackSessionDetailsLoading="false"
   isFeedbackSessionResultsLoading="false"
   logService={[Function LogService]}
   loggedInUser=""
@@ -1453,7 +1458,7 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
 </tm-session-result-page>
 `;
 
-exports[`SessionResultPageComponent should snap with session results are loading 1`] = `
+exports[`SessionResultPageComponent should snap with session details and results are loading 1`] = `
 <tm-session-result-page
   Intent={[Function Object]}
   authService={[Function AuthService]}
@@ -1467,6 +1472,83 @@ exports[`SessionResultPageComponent should snap with session results are loading
   hasFeedbackSessionResultsLoadingFailed="false"
   instructorService={[Function InstructorService]}
   intent={[Function String]}
+  isFeedbackSessionDetailsLoading={[Function Boolean]}
+  isFeedbackSessionResultsLoading={[Function Boolean]}
+  logService={[Function LogService]}
+  loggedInUser=""
+  navigationService={[Function NavigationService]}
+  ngbModal={[Function NgbModal]}
+  personEmail=""
+  personName=""
+  questions={[Function Array]}
+  regKey={[Function String]}
+  retryAttempts={[Function Number]}
+  route={[Function Object]}
+  router={[Function Router]}
+  session={[Function Object]}
+  statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
+  timezoneService={[Function TimezoneService]}
+  visibilityRecipient={[Function String]}
+>
+  <h1>
+     Feedback Session Results
+  </h1><div
+    class="row"
+  >
+    <div
+      class="col-12"
+    >
+      <div
+        class="alert alert-primary"
+        role="alert"
+      >
+        <div>
+           You are viewing feedback results as . You may submit feedback for sessions that are currently open and view results without logging in. To access other features you need to 
+          <a
+            href="#"
+          >
+            login using a Google account
+          </a>
+           (recommended). 
+        </div>
+      </div>
+    </div>
+  </div><tm-loading-retry>
+    <tm-loading-spinner>
+      <div
+        class="loading-container"
+      >
+        <div
+          class="row spinner-border text-primary"
+          role="status"
+        />
+        <div
+          class="row text-secondary"
+        >
+          Loading...
+        </div>
+      </div>
+    </tm-loading-spinner>
+  </tm-loading-retry>
+</tm-session-result-page>
+`;
+
+exports[`SessionResultPageComponent should snap with session details loaded and results are loading 1`] = `
+<tm-session-result-page
+  Intent={[Function Object]}
+  authService={[Function AuthService]}
+  backendUrl={[Function String]}
+  courseId={[Function String]}
+  entityType={[Function String]}
+  feedbackSessionName={[Function String]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  formattedSessionClosingTime=""
+  formattedSessionOpeningTime=""
+  hasFeedbackSessionResultsLoadingFailed="false"
+  instructorService={[Function InstructorService]}
+  intent={[Function String]}
+  isFeedbackSessionDetailsLoading="false"
   isFeedbackSessionResultsLoading={[Function Boolean]}
   logService={[Function LogService]}
   loggedInUser=""
@@ -1618,6 +1700,7 @@ exports[`SessionResultPageComponent should snap with user that is logged in and 
   hasFeedbackSessionResultsLoadingFailed="false"
   instructorService={[Function InstructorService]}
   intent={[Function String]}
+  isFeedbackSessionDetailsLoading="false"
   isFeedbackSessionResultsLoading="false"
   logService={[Function LogService]}
   loggedInUser={[Function String]}
@@ -1770,6 +1853,7 @@ exports[`SessionResultPageComponent should snap with user that is not logged in 
   hasFeedbackSessionResultsLoadingFailed="false"
   instructorService={[Function InstructorService]}
   intent={[Function String]}
+  isFeedbackSessionDetailsLoading="false"
   isFeedbackSessionResultsLoading="false"
   logService={[Function LogService]}
   loggedInUser=""
