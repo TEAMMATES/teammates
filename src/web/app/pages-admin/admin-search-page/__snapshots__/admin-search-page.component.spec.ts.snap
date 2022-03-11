@@ -149,6 +149,9 @@ exports[`AdminSearchPageComponent should snap with an expanded account requests 
             <th>
               Registered At
             </th>
+            <th>
+              Options
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -180,6 +183,18 @@ exports[`AdminSearchPageComponent should snap with an expanded account requests 
             </td>
             <td>
               Not Registered Yet
+            </td>
+            <td>
+              <div
+                class="ngb-tooltip-class"
+              >
+                <button
+                  class="btn btn-danger"
+                  id="delete-account-request-0"
+                >
+                  Delete
+                </button>
+              </div>
             </td>
           </tr>
           <tr>
