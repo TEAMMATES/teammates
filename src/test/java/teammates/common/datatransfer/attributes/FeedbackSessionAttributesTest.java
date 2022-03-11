@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.TimeHelperExtension;
@@ -52,6 +53,8 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
 
         assertEquals(new HashMap<>(), fsa.getStudentDeadlines());
         assertEquals(new HashMap<>(), fsa.getInstructorDeadlines());
+
+        assertEquals(fsa.getEndTime(), fsa.getDeadline());
     }
 
     @Test
@@ -160,6 +163,8 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
         assertEquals(feedbackSession.isPublishedEmailEnabled(), feedbackSessionAttributes.isPublishedEmailEnabled());
         assertEquals(feedbackSession.getStudentDeadlines(), feedbackSessionAttributes.getStudentDeadlines());
         assertEquals(feedbackSession.getInstructorDeadlines(), feedbackSessionAttributes.getInstructorDeadlines());
+
+        assertEquals(feedbackSession.getEndTime(), feedbackSessionAttributes.getDeadline());
     }
 
     @Test
@@ -196,6 +201,8 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
         assertEquals(feedbackSession.isPublishedEmailEnabled(), feedbackSessionAttributes.isPublishedEmailEnabled());
         assertEquals(new HashMap<>(), feedbackSessionAttributes.getStudentDeadlines());
         assertEquals(new HashMap<>(), feedbackSessionAttributes.getInstructorDeadlines());
+
+        assertEquals(feedbackSession.getEndTime(), feedbackSessionAttributes.getDeadline());
     }
 
     @Test
@@ -241,6 +248,8 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
         assertEquals(new HashMap<>(), fsa.getStudentDeadlines());
         assertEquals(new HashMap<>(), fsa.getInstructorDeadlines());
 
+        assertEquals(endTime, fsa.getDeadline());
+
     }
 
     @Test
@@ -283,6 +292,48 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
         assertEquals(original.isSentPublishedEmail(), copy.isSentPublishedEmail());
         assertEquals(original.getStudentDeadlines(), copy.getStudentDeadlines());
         assertEquals(original.getInstructorDeadlines(), copy.getInstructorDeadlines());
+
+        assertEquals(original.getEndTime(), copy.getDeadline());
+    }
+
+    @Test
+    public void testSanitizeForStudent() {
+        DataBundle typicalDataBundle = getTypicalDataBundle();
+        FeedbackSessionAttributes session1InCourse1 = typicalDataBundle.feedbackSessions
+                .get("session1InCourse1");
+
+        StudentAttributes student1InCourse1 = typicalDataBundle.students.get("student1InCourse1");
+        StudentAttributes student3InCourse1 = typicalDataBundle.students.get("student3InCourse1");
+
+        FeedbackSessionAttributes sanitizedSession1InCourse1 = session1InCourse1.sanitizeForStudent(
+                student1InCourse1.getEmail());
+        assertEquals(sanitizedSession1InCourse1.getEndTime(), sanitizedSession1InCourse1.getDeadline());
+
+        sanitizedSession1InCourse1 = session1InCourse1.sanitizeForStudent(student3InCourse1.getEmail());
+        assertEquals(sanitizedSession1InCourse1.getStudentDeadlines().get(student3InCourse1.getEmail()),
+                sanitizedSession1InCourse1.getDeadline());
+
+        assertEquals(session1InCourse1.getEndTime(), session1InCourse1.getDeadline());
+    }
+
+    @Test
+    public void testSanitizeForInstructor() {
+        DataBundle typicalDataBundle = getTypicalDataBundle();
+        FeedbackSessionAttributes session1InCourse1 = typicalDataBundle.feedbackSessions
+                .get("session1InCourse1");
+
+        InstructorAttributes helperOfCourse1 = typicalDataBundle.instructors.get("helperOfCourse1");
+        InstructorAttributes instructor1OfCourse1 = typicalDataBundle.instructors.get("instructor1OfCourse1");
+
+        FeedbackSessionAttributes sanitizedSession1InCourse1 = session1InCourse1.sanitizeForInstructor(
+                helperOfCourse1.getEmail());
+        assertEquals(sanitizedSession1InCourse1.getEndTime(), sanitizedSession1InCourse1.getDeadline());
+
+        sanitizedSession1InCourse1 = session1InCourse1.sanitizeForInstructor(instructor1OfCourse1.getEmail());
+        assertEquals(sanitizedSession1InCourse1.getInstructorDeadlines().get(instructor1OfCourse1.getEmail()),
+                sanitizedSession1InCourse1.getDeadline());
+
+        assertEquals(session1InCourse1.getEndTime(), session1InCourse1.getDeadline());
     }
 
     @Test
