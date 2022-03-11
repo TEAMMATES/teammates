@@ -3,7 +3,10 @@
     "instructor1OfCourse1": {
       "googleId": "tm.e2e.ASess.instr1",
       "name": "Instructor1 of Course1",
-      "email": "ASess.instructor1@gmail.tmt"
+      "email": "ASess.instructor1@gmail.tmt",
+      "readNotifications": {
+        "idToEndTimestampMap": {}
+      }
     }
   },
   "courses": {

@@ -3,7 +3,10 @@
     "AAccounts.instr2": {
       "googleId": "tm.e2e.AAccounts.instr2",
       "name": "Teammates Instr2",
-      "email": "AAccounts.instr2@gmail.tmt"
+      "email": "AAccounts.instr2@gmail.tmt",
+      "readNotifications": {
+        "idToEndTimestampMap": {}
+      }
     }
   },
   "courses": {

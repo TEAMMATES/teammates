@@ -3,7 +3,10 @@
     "instructor": {
       "googleId": "tm.e2e.ICs.instructor",
       "name": "Teammates Demo Instr",
-      "email": "ICs.instructor@gmail.tmt"
+      "email": "ICs.instructor@gmail.tmt",
+      "readNotifications": {
+        "idToEndTimestampMap": {}
+      }
     }
   },
   "courses": {

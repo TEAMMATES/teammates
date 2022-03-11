@@ -3,12 +3,18 @@
     "SHome.instr": {
       "googleId": "tm.e2e.SHome.instr",
       "name": "Teammates Test",
-      "email": "SHome.instr@gmail.tmt"
+      "email": "SHome.instr@gmail.tmt",
+      "readNotifications": {
+        "idToEndTimestampMap": {}
+      }
     },
     "SHome.student": {
       "googleId": "tm.e2e.SHome.student",
       "name": "Alice B",
-      "email": "SHome.student@gmail.tmt"
+      "email": "SHome.student@gmail.tmt",
+      "readNotifications": {
+        "idToEndTimestampMap": {}
+      }
     }
   },
   "courses": {

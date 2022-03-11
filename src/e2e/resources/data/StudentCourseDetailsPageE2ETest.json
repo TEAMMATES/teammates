@@ -3,7 +3,10 @@
     "SCDet.instr": {
       "googleId": "tm.e2e.SCDet.instr",
       "name": "Instructor",
-      "email": "tmms.test@gmail.tmt"
+      "email": "tmms.test@gmail.tmt",
+      "readNotifications": {
+        "idToEndTimestampMap": {}
+      }
     }
   },
   "courses": {

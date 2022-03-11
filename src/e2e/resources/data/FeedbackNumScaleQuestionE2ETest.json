@@ -3,7 +3,10 @@
     "instructorWithSessions": {
       "googleId": "tm.e2e.FNumScaleQn.instructor",
       "name": "Teammates Test",
-      "email": "tmms.test@gmail.tmt"
+      "email": "tmms.test@gmail.tmt",
+      "readNotifications": {
+        "idToEndTimestampMap": {}
+      }
     }
   },
   "courses": {

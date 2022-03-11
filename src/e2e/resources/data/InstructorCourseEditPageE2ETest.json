@@ -3,12 +3,18 @@
     "ICEdit.coowner": {
       "googleId": "tm.e2e.ICEdit.coowner",
       "name": "Teammates Test",
-      "email": "ICEdit.coowner@gmail.tmt"
+      "email": "ICEdit.coowner@gmail.tmt",
+      "readNotifications": {
+        "idToEndTimestampMap": {}
+      }
     },
      "ICEdit.observer": {
       "googleId": "tm.e2e.ICEdit.observer",
       "name": "Teammates Instructor",
-      "email": "ICEdit.observer@gmail.tmt"
+      "email": "ICEdit.observer@gmail.tmt",
+      "readNotifications": {
+        "idToEndTimestampMap": {}
+      }
     }
   },
   "courses": {

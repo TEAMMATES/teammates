@@ -3,7 +3,10 @@
     "ICJoinConf.instr": {
       "googleId": "tm.e2e.ICJoinConf.instr",
       "name": "Teammates Test",
-      "email": "ICJoinConf.instr@gmail.tmt"
+      "email": "ICJoinConf.instr@gmail.tmt",
+      "readNotifications": {
+        "idToEndTimestampMap": {}
+      }
     }
   },
   "accountRequests": {

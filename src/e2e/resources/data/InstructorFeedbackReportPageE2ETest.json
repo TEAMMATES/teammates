@@ -3,22 +3,34 @@
     "tm.e2e.IFRep.instr": {
       "googleId": "tm.e2e.IFRep.instr",
       "name": "Teammates Test 1",
-      "email": "IFRep.instr1@gmail.tmt"
+      "email": "IFRep.instr1@gmail.tmt",
+      "readNotifications": {
+        "idToEndTimestampMap": {}
+      }
     },
     "tm.e2e.IFRep.alice.b": {
       "googleId": "tm.e2e.IFRep.alice.b",
       "name": "Alice B.",
-      "email": "IFRep.alice.b@gmail.tmt"
+      "email": "IFRep.alice.b@gmail.tmt",
+      "readNotifications": {
+        "idToEndTimestampMap": {}
+      }
     },
     "tm.e2e.IFRep.benny.c": {
       "googleId": "tm.e2e.IFRep.benny.c",
       "name": "Benny C.",
-      "email": "IFRep.benny.c@gmail.tmt"
+      "email": "IFRep.benny.c@gmail.tmt",
+      "readNotifications": {
+        "idToEndTimestampMap": {}
+      }
     },
     "tm.e2e.IFRep.charlie.d": {
       "googleId": "tm.e2e.IFRep.charlie.d",
       "name": "Charlie D.",
-      "email": "IFRep.charlie.d@gmail.tmt"
+      "email": "IFRep.charlie.d@gmail.tmt",
+      "readNotifications": {
+        "idToEndTimestampMap": {}
+      }
     }
   },
   "courses": {
