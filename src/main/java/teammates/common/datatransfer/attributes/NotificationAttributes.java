@@ -2,9 +2,13 @@ package teammates.common.datatransfer.attributes;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
+import teammates.common.datatransfer.NotificationTargetUser;
+import teammates.common.datatransfer.NotificationType;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
@@ -18,8 +22,8 @@ public class NotificationAttributes extends EntityAttributes<Notification> {
     private String notificationId;
     private Instant startTime;
     private Instant endTime;
-    private String type;
-    private String targetUser;
+    private NotificationType type;
+    private NotificationTargetUser targetUser;
     private String title;
     private String message;
     private boolean shown;
@@ -95,19 +99,19 @@ public class NotificationAttributes extends EntityAttributes<Notification> {
         this.endTime = endTime;
     }
 
-    public String getType() {
+    public NotificationType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(NotificationType type) {
         this.type = type;
     }
 
-    public String getTargetUser() {
+    public NotificationTargetUser getTargetUser() {
         return targetUser;
     }
 
-    public void setTargetUser(String targetUser) {
+    public void setTargetUser(NotificationTargetUser targetUser) {
         this.targetUser = targetUser;
     }
 
@@ -155,6 +159,14 @@ public class NotificationAttributes extends EntityAttributes<Notification> {
         this.updatedAt = updatedAt;
     }
 
+    /**
+     * Sorts the list of notifications by the start time.
+     */
+    public static void sortByStartTime(List<NotificationAttributes> notifications) {
+        notifications.sort(Comparator.comparing(NotificationAttributes::getStartTime));
+        Collections.reverse(notifications);
+    }
+
     @Override
     public List<String> getInvalidityInfo() {
         List<String> errors = new ArrayList<>();
@@ -165,9 +177,9 @@ public class NotificationAttributes extends EntityAttributes<Notification> {
 
         addNonEmptyError(FieldValidator.getInvalidityInfoForTimeForNotificationStartAndEnd(startTime, endTime), errors);
 
-        addNonEmptyError(FieldValidator.getInvalidityInfoForNotificationType(type), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForNotificationType(type.name()), errors);
 
-        addNonEmptyError(FieldValidator.getInvalidityInfoForNotificationTargetUser(targetUser), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForNotificationTargetUser(targetUser.name()), errors);
 
         addNonEmptyError(FieldValidator.getInvalidityInfoForNotificationTitle(title), errors);
 
@@ -269,8 +281,8 @@ public class NotificationAttributes extends EntityAttributes<Notification> {
 
         private UpdateOption<Instant> startTimeOption = UpdateOption.empty();
         private UpdateOption<Instant> endTimeOption = UpdateOption.empty();
-        private UpdateOption<String> typeOption = UpdateOption.empty();
-        private UpdateOption<String> targetUserOption = UpdateOption.empty();
+        private UpdateOption<NotificationType> typeOption = UpdateOption.empty();
+        private UpdateOption<NotificationTargetUser> targetUserOption = UpdateOption.empty();
         private UpdateOption<String> titleOption = UpdateOption.empty();
         private UpdateOption<String> messageOption = UpdateOption.empty();
         private UpdateOption<Boolean> shownOption = UpdateOption.empty();
@@ -352,12 +364,12 @@ public class NotificationAttributes extends EntityAttributes<Notification> {
             return thisBuilder;
         }
 
-        public B withType(String type) {
+        public B withType(NotificationType type) {
             updateOptions.typeOption = UpdateOption.of(type);
             return thisBuilder;
         }
 
-        public B withTargetUser(String targetUser) {
+        public B withTargetUser(NotificationTargetUser targetUser) {
             assert targetUser != null;
 
             updateOptions.targetUserOption = UpdateOption.of(targetUser);
