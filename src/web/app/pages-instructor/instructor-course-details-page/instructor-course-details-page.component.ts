@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { saveAs } from 'file-saver';
-import { finalize } from 'rxjs/operators';
+import { generate } from 'rxjs';
+import { concatMap, finalize, takeWhile } from 'rxjs/operators';
 import { CourseService, CourseStatistics } from '../../../services/course.service';
 import { InstructorService } from '../../../services/instructor.service';
+import { ProgressBarService } from '../../../services/progress-bar.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
@@ -74,6 +76,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private statusMessageService: StatusMessageService,
+              private progressBarService: ProgressBarService,
               private courseService: CourseService,
               private ngbModal: NgbModal,
               private simpleModalService: SimpleModalService,
@@ -128,6 +131,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
     this.studentService.getStudentsFromCourse({ courseId: courseid })
     .subscribe((students: Students) => {
       this.students = []; // Reset the list of students
+      this.sectionsLoaded = 0; // Reset sections loaded
       const sections: StudentIndexedData = students.students.reduce((acc: StudentIndexedData, x: Student) => {
         const term: string = x.sectionName;
         (acc[term] = acc[term] || []).push(x);
@@ -197,9 +201,9 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
         }, () => {});
   }
 
-  openDeleteAllStudentsModal(): void {
-    const modalContent: string =
-        `Are you sure you want to remove all students from the course ${this.courseDetails.course.courseId}?`;
+  openDeleteAllStudentsConfirmationModal(): void {
+    const modalContent = `Are you sure you want to remove all students from the course 
+        ${this.courseDetails.course.courseId}? This will also delete their feedback responses and comments.`;
     this.simpleModalService.openConfirmationModal(
         'Delete all students?', SimpleModalType.DANGER, modalContent).result.then(() => {
           this.deleteAllStudentsFromCourse(this.courseDetails.course.courseId);
@@ -212,11 +216,52 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
   deleteAllStudentsFromCourse(courseId: string): void {
     this.isDeleting = true;
 
-    this.studentService.deleteAllStudentsFromCourse({ courseId })
-      .pipe(finalize(() => {
-        this.isDeleting = false;
-      }))
-      .subscribe((resp: MessageOutput) => {
+    const totalNumberOfStudents = this.courseDetails.stats.numOfStudents;
+    const numOfStudentsToDeletePerRequest = 100;
+    const totalNumOfRequests = Math.ceil(totalNumberOfStudents / numOfStudentsToDeletePerRequest);
+    let numOfRequestsCompleted = 0;
+
+    let deleteAborted = false;
+    let hasFailedToDelete = false;
+    const modalContent = `Deleting all students from the course ${this.courseDetails.course.courseId}, 
+        this may take a while...`;
+    const loadingModal: NgbModalRef = this.simpleModalService.openLoadingModal(
+        'Delete Progress', SimpleModalType.LOAD, modalContent);
+
+    loadingModal.result.then(() => {
+      // Modal is closed
+      this.isDeleting = false;
+
+      if (numOfRequestsCompleted === totalNumOfRequests) {
+        this.statusMessageService.showErrorToast('All the students have been removed from the course');
+      }
+
+      if (!hasFailedToDelete && numOfRequestsCompleted < totalNumOfRequests) {
+        deleteAborted = true;
+        this.statusMessageService.showWarningToast('Delete aborted. '
+            + 'Note that some students may not have been deleted.');
+      }
+    }, () => {});
+
+    generate(0, (x) => x < totalNumOfRequests, (x) => x + 1).pipe(
+        concatMap(() => this.studentService.batchDeleteStudentsFromCourse(
+            { courseId, limit: numOfStudentsToDeletePerRequest })),
+        takeWhile(() => !deleteAborted),
+        finalize(() => {
+          loadingModal.close();
+        }),
+    ).subscribe({
+      next: () => {
+        numOfRequestsCompleted += 1;
+        const percentageProgress = Math.round(100 * numOfRequestsCompleted / totalNumOfRequests);
+        this.progressBarService.updateProgress(percentageProgress);
+      },
+      complete: () => {
+        if (deleteAborted) {
+          this.loadStudents(courseId);
+          return;
+        }
+
         // Reset list of students and course stats
         this.students = [];
         this.courseDetails.stats = {
@@ -224,10 +269,15 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
           numOfSections: 0,
           numOfTeams: 0,
         };
-        this.statusMessageService.showSuccessToast(resp.message);
-      }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
-      });
+      },
+      error: (resp: ErrorMessageOutput) => {
+        hasFailedToDelete = true;
+        if (!deleteAborted) {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        }
+      },
+    },
+    );
   }
 
   /**
