@@ -65,7 +65,7 @@ public class CoursesLogicTest extends BaseLogicTest {
                 typicalCourse1.getId(), typicalCourse1.getCreatedAt());
         assertEquals(sessionsOfCourse.size(), sessionsWithinRecoveryRange.size());
 
-        ______TS("success: recover some sessions some time after after course creation");
+        ______TS("success: recover some sessions some time after course creation");
         var sessionsOutsideRecoveryRange = fsLogic.getFeedbackSessionsForCourseStartingAfter(
                 typicalCourse1.getId(), typicalCourse1.getCreatedAt().plus(Duration.ofDays(30)));
         assertEquals(sessionsOfCourse.size() - 1, sessionsOutsideRecoveryRange.size());
