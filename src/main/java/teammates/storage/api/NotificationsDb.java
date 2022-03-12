@@ -2,9 +2,14 @@ package teammates.storage.api;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
+import java.time.Instant;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.LoadType;
 
+import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.attributes.NotificationAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -35,6 +40,44 @@ public final class NotificationsDb extends EntitiesDb<Notification, Notification
         assert notificationId != null;
 
         return notificationId.isEmpty() ? null : makeAttributesOrNull(getNotificationEntity(notificationId));
+    }
+
+    /**
+     * Gets all notifications.
+     */
+    public List<NotificationAttributes> getAllNotifications() {
+        List<Notification> notifications = load().list();
+        List<NotificationAttributes> notificationAttributes = makeAttributes(notifications);
+        NotificationAttributes.sortByStartTime(notificationAttributes);
+        return notificationAttributes;
+    }
+
+    /**
+     * Gets notifications by {@code targetUser}.
+     *
+     * @return a list of notifications for the specified targetUser.
+     */
+    public List<NotificationAttributes> getActiveNotificationsByTargetUser(NotificationTargetUser targetUser) {
+        assert targetUser != null;
+
+        List<Notification> endEntities = load()
+                .filter("targetUser", targetUser)
+                .filter("endTime >", Instant.now())
+                .list();
+
+        endEntities.addAll(load()
+                .filter("targetUser", NotificationTargetUser.GENERAL)
+                .filter("endTime >", Instant.now())
+                .list());
+
+        List<Notification> ongoingNotifications = endEntities.stream()
+                .filter(notification ->
+                   notification.getStartTime().isBefore(Instant.now()))
+                .collect(Collectors.toList());
+
+        List<NotificationAttributes> notificationAttributes = makeAttributes(ongoingNotifications);
+        NotificationAttributes.sortByStartTime(notificationAttributes);
+        return notificationAttributes;
     }
 
     /**

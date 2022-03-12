@@ -98,26 +98,6 @@ public final class Const {
     }
 
     /**
-     * Represents the type of notifcation.
-     */
-    public static class NotificationType {
-        public static final String MAINTENANCE = "maintenance";
-        public static final String VERSION_NOTE = "versionnote";
-        public static final String DEPRECATION = "deprecation";
-        public static final String TIPS = "tips";
-    }
-
-    /**
-     * Represents who should be shown the notification.
-     */
-    public static class NotificationTargetUser {
-        public static final String STUDENT = "student";
-        public static final String INSTRUCTOR = "instructor";
-        // Both student and instructor
-        public static final String GENERAL = "general";
-    }
-
-    /**
      * Represents keys for HTTP requests to the API layer.
      */
     public static class ParamsNames {
@@ -193,6 +173,9 @@ public final class Const {
         public static final String QUERY_LOGS_VERSION = "version";
         public static final String QUERY_LOGS_EXTRA_FILTERS = "extrafilters";
         public static final String QUERY_LOGS_ORDER = "order";
+
+        public static final String NOTIFICATION_TARGET_USER = "usertype";
+        public static final String NOTIFICATION_IS_FETCHING_ALL = "isfetchingall";
     }
 
     /**
