@@ -28,7 +28,9 @@
               "moment-timezone"
             ],
             "assets": [
-              "src/web/assets/"
+              "src/web/assets/",
+              "src/web/manifest.webmanifest",
+              "src/web/robots.txt"
             ],
             "styles": [
               "src/web/styles.scss"
@@ -46,15 +48,6 @@
                 "input": "src/web/index.prod.html",
                 "output": "index.html"
               },
-              "assets": [
-                "src/web/assets/",
-                "src/web/BingSiteAuth.xml",
-                "src/web/google8c7ef1e995031e09.html",
-                "src/web/pulse.html",
-                "src/web/robots.txt",
-                "src/web/sitemap.xml",
-                "src/web/manifest.webmanifest"
-              ],
               "optimization": {
                 "scripts": true,
                 "styles": {
