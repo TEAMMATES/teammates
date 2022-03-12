@@ -55,6 +55,7 @@ public class GetAccountActionTest extends BaseActionTest<GetAccountAction> {
         assertEquals(response.getGoogleId(), instructor1OfCourse1.getGoogleId());
         assertEquals(response.getName(), instructor1OfCourse1.getName());
         assertEquals(response.getEmail(), instructor1OfCourse1.getEmail());
+        assertEquals(response.getReadNotifications(), instructor1OfCourse1.getReadNotifications());
 
         ______TS("Failure: invalid account not found");
 

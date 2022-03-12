@@ -32,7 +32,7 @@ public class AccountData extends ApiOutput {
         return name;
     }
 
-    public ReadNotifications getNotificationReadStatuses() {
+    public ReadNotifications getReadNotifications() {
         return this.readNotifications;
     }
 

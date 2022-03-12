@@ -37,4 +37,20 @@ public class ReadNotifications {
         String serializedReadNotifications = getJsonString();
         return JsonUtils.fromJson(serializedReadNotifications, this.getClass());
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (obj == null || obj.getClass() != this.getClass()) {
+            return false;
+        }
+
+        // Json string contains all attributes of a `ReadNotifications` object,
+        // so it is sufficient to use it to compare two `ReadNotifications` objects.
+        ReadNotifications other = (ReadNotifications) obj;
+        return this.getJsonString().equals(other.getJsonString());
+    }
 }

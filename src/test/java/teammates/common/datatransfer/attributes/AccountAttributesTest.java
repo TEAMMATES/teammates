@@ -1,5 +1,8 @@
 package teammates.common.datatransfer.attributes;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.ReadNotifications;
@@ -82,6 +85,7 @@ public class AccountAttributesTest extends BaseAttributesTest {
         AccountAttributes observedAccountAttributes = AccountAttributes.builder("id").build();
 
         assertEquals("id", observedAccountAttributes.getGoogleId());
+        assertEquals(new ReadNotifications(), observedAccountAttributes.getReadNotifications());
 
         assertNull(observedAccountAttributes.getCreatedAt());
         assertNull(observedAccountAttributes.getEmail());
@@ -238,9 +242,15 @@ public class AccountAttributesTest extends BaseAttributesTest {
         String name = "valid name";
         String email = "valid@email.com";
 
+        Map<String, Long> idToTimestampMap = new LinkedHashMap<>();
+        // Friday, March 1, 2030 8:00:00 AM GMT+08:00
+        idToTimestampMap.put("1", Long.valueOf("1898553600000"));
+        ReadNotifications readNotifications = new ReadNotifications(idToTimestampMap);
+
         return AccountAttributes.builder(googleId)
                 .withName(name)
                 .withEmail(email)
+                .withReadNotifications(readNotifications)
                 .build();
     }
 
