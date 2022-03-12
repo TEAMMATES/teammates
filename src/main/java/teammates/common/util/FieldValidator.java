@@ -12,8 +12,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.BiPredicate;
+import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.NotificationTargetUser;
+import teammates.common.datatransfer.NotificationType;
 
 /**
  * Used to handle the data validation aspect e.g. validate emails, names, etc.
@@ -60,17 +63,19 @@ public final class FieldValidator {
     public static final String NOTIFICATION_TYPE_FIELD_NAME = "notification type";
     public static final List<String> NOTIFICATION_TYPE_ACCEPTED_VALUES =
             Collections.unmodifiableList(
-                Arrays.asList(Const.NotificationType.MAINTENANCE,
-                        Const.NotificationType.VERSION_NOTE,
-                        Const.NotificationType.DEPRECATION,
-                        Const.NotificationType.TIPS
-                ));
+                    Arrays.stream(
+                            NotificationType.values())
+                            .map(NotificationType::toString)
+                            .collect(Collectors.toList())
+            );
     public static final String NOTIFICATION_TARGET_USER_FIELD_NAME = "notification target user";
     public static final List<String> NOTIFICATION_TARGET_USER_ACCEPTED_VALUES =
             Collections.unmodifiableList(
-                    Arrays.asList(Const.NotificationTargetUser.INSTRUCTOR,
-                            Const.NotificationTargetUser.STUDENT,
-                            Const.NotificationTargetUser.GENERAL));
+                    Arrays.stream(
+                            NotificationTargetUser.values())
+                            .map(NotificationTargetUser::toString)
+                            .collect(Collectors.toList())
+            );
 
     // others
     public static final String STUDENT_ROLE_COMMENTS_FIELD_NAME = "comments about a student enrolled in a course";
@@ -559,7 +564,6 @@ public final class FieldValidator {
      * Checks if the notification title is a non-null non-empty string.
      *
      * @param notificationTitle The title of the notification.
-
      * @return An explanation of why the {@code notificationTitle} is not acceptable.
      *         Returns an empty string "" if the {@code notificationTitle} is acceptable.
      */
@@ -579,7 +583,6 @@ public final class FieldValidator {
      * Checks if the notification message is a non-null non-empty string.
      *
      * @param notificationMessage The notification message.
-
      * @return An explanation of why the {@code notificationMessage} is not acceptable.
      *         Returns an empty string "" if the {@code notificationMessage} is acceptable.
      */
@@ -603,8 +606,9 @@ public final class FieldValidator {
      */
     public static String getInvalidityInfoForNotificationType(String type) {
         assert type != null;
-
-        if (!NOTIFICATION_TYPE_ACCEPTED_VALUES.contains(type)) {
+        try {
+            NotificationType.valueOf(type);
+        } catch (IllegalArgumentException e) {
             return String.format(NOTIFICATION_TYPE_ERROR_MESSAGE, type);
         }
         return "";
@@ -619,8 +623,9 @@ public final class FieldValidator {
      */
     public static String getInvalidityInfoForNotificationTargetUser(String targetUser) {
         assert targetUser != null;
-
-        if (!NOTIFICATION_TARGET_USER_ACCEPTED_VALUES.contains(targetUser)) {
+        try {
+            NotificationTargetUser.valueOf(targetUser);
+        } catch (IllegalArgumentException e) {
             return String.format(NOTIFICATION_TARGET_USER_ERROR_MESSAGE, targetUser);
         }
         return "";
