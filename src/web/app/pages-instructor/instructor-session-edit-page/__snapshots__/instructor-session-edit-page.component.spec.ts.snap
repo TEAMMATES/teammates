@@ -669,7 +669,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                 class="row text-center"
               >
                 <div
-                  class="col-md-5"
+                  class="col-md-4"
                 >
                   <div
                     class="col-12 text-md-left"
@@ -838,7 +838,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                   </div>
                 </div>
                 <div
-                  class="col-md-5 border-left-gray"
+                  class="col-md-4 border-left-gray"
                 >
                   <div
                     class="row text-center"
@@ -1009,7 +1009,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                   </div>
                 </div>
                 <div
-                  class="col-md-2 border-left-gray"
+                  class="col-md-4 border-left-gray"
                 >
                   <div
                     class="row text-center"
@@ -1072,6 +1072,20 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                         </option>
                       </select>
                     </div>
+                  </div>
+                  <div
+                    class="row"
+                  >
+                    <a
+                      class="pl-3 pt-2"
+                      href="/web/instructor/sessions/individual-extension?courseid=testId&fsname=test%20session&editingMode=true"
+                      tmrouterlink="/web/instructor/sessions/individual-extension"
+                    >
+                       Individual Deadline Extensions 
+                      <i
+                        class="fas fa-edit"
+                      />
+                    </a>
                   </div>
                 </div>
               </div>
@@ -3040,7 +3054,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                 class="row text-center"
               >
                 <div
-                  class="col-md-5"
+                  class="col-md-4"
                 >
                   <div
                     class="col-12 text-md-left"
@@ -3209,7 +3223,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                   </div>
                 </div>
                 <div
-                  class="col-md-5 border-left-gray"
+                  class="col-md-4 border-left-gray"
                 >
                   <div
                     class="row text-center"
@@ -3380,7 +3394,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                   </div>
                 </div>
                 <div
-                  class="col-md-2 border-left-gray"
+                  class="col-md-4 border-left-gray"
                 >
                   <div
                     class="row text-center"
@@ -3443,6 +3457,20 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                         </option>
                       </select>
                     </div>
+                  </div>
+                  <div
+                    class="row"
+                  >
+                    <a
+                      class="pl-3 pt-2"
+                      href="/web/instructor/sessions/individual-extension?courseid=&fsname=&editingMode=true"
+                      tmrouterlink="/web/instructor/sessions/individual-extension"
+                    >
+                       Individual Deadline Extensions 
+                      <i
+                        class="fas fa-edit"
+                      />
+                    </a>
                   </div>
                 </div>
               </div>
