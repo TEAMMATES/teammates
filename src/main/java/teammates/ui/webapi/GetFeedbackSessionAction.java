@@ -47,57 +47,47 @@ class GetFeedbackSessionAction extends BasicFeedbackSubmissionAction {
 
     @Override
     public JsonResult execute() {
-        Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
-        FeedbackSessionData response = getFeedbackSessionDataWithFilteredDeadlines(intent);
-
-        switch (intent) {
-        case STUDENT_SUBMISSION:
-        case STUDENT_RESULT:
-        case INSTRUCTOR_SUBMISSION:
-            response.hideInformationForStudent();
-            break;
-        case INSTRUCTOR_RESULT:
-            response.hideInformationForInstructor();
-            break;
-        case FULL_DETAIL:
-            break;
-        default:
-            throw new InvalidHttpParameterException("Unknown intent " + intent);
-        }
-
-        return new JsonResult(response);
-    }
-
-    private FeedbackSessionData getFeedbackSessionDataWithFilteredDeadlines(Intent intent) {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        FeedbackSessionAttributes feedbackSessionAttributes = getNonNullFeedbackSession(feedbackSessionName, courseId);
-
+        FeedbackSessionAttributes feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
+        Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
         FeedbackSessionData response;
         switch (intent) {
         case STUDENT_SUBMISSION:
         case STUDENT_RESULT:
-            StudentAttributes studentAttributes = getStudentOfCourseFromRequest(courseId);
-            String studentEmail = studentAttributes.getEmail();
-            feedbackSessionAttributes = feedbackSessionAttributes.sanitizeForStudent(studentEmail);
-            response = new FeedbackSessionData(feedbackSessionAttributes);
-            response.filterDeadlinesForStudent(studentEmail);
+            response = getFilteredStudentFeedbackSessionData(feedbackSession);
+            response.hideInformationForStudent();
             break;
         case INSTRUCTOR_SUBMISSION:
+            response = getFilteredInstructorFeedbackSessionData(feedbackSession);
+            response.hideInformationForStudent();
+            break;
         case INSTRUCTOR_RESULT:
-            InstructorAttributes instructorAttributes = getInstructorOfCourseFromRequest(courseId);
-            String instructorEmail = instructorAttributes.getEmail();
-            feedbackSessionAttributes = feedbackSessionAttributes.sanitizeForInstructor(instructorEmail);
-            response = new FeedbackSessionData(feedbackSessionAttributes);
-            response.filterDeadlinesForInstructor(instructorEmail);
+            response = getFilteredInstructorFeedbackSessionData(feedbackSession);
+            response.hideInformationForInstructor();
             break;
         case FULL_DETAIL:
-            response = new FeedbackSessionData(feedbackSessionAttributes);
+            response = new FeedbackSessionData(feedbackSession);
             break;
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);
         }
+        return new JsonResult(response);
+    }
 
+    private FeedbackSessionData getFilteredStudentFeedbackSessionData(FeedbackSessionAttributes session) {
+        StudentAttributes student = getStudentOfCourseFromRequest(session.getCourseId());
+        String email = student.getEmail();
+        FeedbackSessionData response = new FeedbackSessionData(session.sanitizeForStudent(email));
+        response.filterDeadlinesForStudent(email);
+        return response;
+    }
+
+    private FeedbackSessionData getFilteredInstructorFeedbackSessionData(FeedbackSessionAttributes session) {
+        InstructorAttributes instructor = getInstructorOfCourseFromRequest(session.getCourseId());
+        String email = instructor.getEmail();
+        FeedbackSessionData response = new FeedbackSessionData(session.sanitizeForInstructor(email));
+        response.filterDeadlinesForInstructor(email);
         return response;
     }
 }
