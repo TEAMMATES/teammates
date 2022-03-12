@@ -151,6 +151,8 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         testCreateAndDeleteFeedbackSession();
 
+        testIsFeedbackSessionForUserTypeToAnswer();
+
         testUpdateFeedbackSession();
         testPublishUnpublishFeedbackSession();
 
@@ -516,6 +518,26 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         session = dataBundle.feedbackSessions.get("empty.session");
         assertFalse(fsLogic.isFeedbackSessionViewableToUserType(session, false));
         assertFalse(fsLogic.isFeedbackSessionViewableToUserType(session, true));
+    }
+
+    private void testIsFeedbackSessionForUserTypeToAnswer() {
+        ______TS("Non-visible session should not be for any types of user to answer");
+        FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("awaiting.session");
+        assertFalse(fsLogic.isFeedbackSessionForUserTypeToAnswer(session, false));
+
+        ______TS("Empty session should not be for any types of user to answer");
+        session = dataBundle.feedbackSessions.get("empty.session");
+        assertFalse(fsLogic.isFeedbackSessionForUserTypeToAnswer(session, false));
+        assertFalse(fsLogic.isFeedbackSessionForUserTypeToAnswer(session, true));
+
+        ______TS("Session without student question should not be for students to answer");
+        session = dataBundle.feedbackSessions.get("archiveCourse.session1");
+        assertFalse(fsLogic.isFeedbackSessionForUserTypeToAnswer(session, false));
+        assertTrue(fsLogic.isFeedbackSessionForUserTypeToAnswer(session, true));
+
+        session = dataBundle.feedbackSessions.get("session2InCourse1");
+        assertFalse(fsLogic.isFeedbackSessionForUserTypeToAnswer(session, true));
+        assertTrue(fsLogic.isFeedbackSessionForUserTypeToAnswer(session, false));
     }
 
     private void testUpdateFeedbackSession() throws Exception {

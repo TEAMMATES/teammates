@@ -985,7 +985,6 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
                 "Zeroth feedback session", "idOfTypicalCourse1"));
     }
 
-
     private void testGetFeedbackQuestionsForStudents() {
         List<FeedbackQuestionAttributes> expectedQuestions;
         List<FeedbackQuestionAttributes> actualQuestions;
