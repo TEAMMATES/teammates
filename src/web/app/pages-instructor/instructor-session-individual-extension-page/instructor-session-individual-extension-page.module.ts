@@ -4,14 +4,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { DatepickerModule } from '../../components/datepicker/datepicker.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
+import { SimpleModalComponent } from '../../components/simple-modal/simple-modal.component';
 import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
 import { TimepickerModule } from '../../components/timepicker/timepicker.module';
 import { IndividualExtensionConfirmModalComponent }
-  from './individual-extension-confirm-modal/individual-extension-confirm-modal.component';
+from './individual-extension-confirm-modal/individual-extension-confirm-modal.component';
 import { IndividualExtensionDateModalComponent }
-  from './individual-extension-date-modal/individual-extension-date-modal.component';
+from './individual-extension-date-modal/individual-extension-date-modal.component';
 import { InstructorSessionIndividualExtensionPageComponent }
-  from './instructor-session-individual-extension-page.component';
+from './instructor-session-individual-extension-page.component';
 
 const routes: Routes = [
     {
@@ -34,6 +35,7 @@ const routes: Routes = [
     entryComponents: [
       IndividualExtensionDateModalComponent,
       IndividualExtensionConfirmModalComponent,
+      SimpleModalComponent,
     ],
     declarations: [
       InstructorSessionIndividualExtensionPageComponent,

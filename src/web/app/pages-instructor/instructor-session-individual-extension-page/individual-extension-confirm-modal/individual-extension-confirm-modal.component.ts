@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { TableComparatorService } from 'src/web/services/table-comparator.service';
-import { SortBy, SortOrder } from 'src/web/types/sort-properties';
+import { TableComparatorService } from '../../../../services/table-comparator.service';
+import { SortBy, SortOrder } from '../../../../types/sort-properties';
 import { StudentExtensionTableColumnModel } from '../student-extension-table-column-model';
 /**
  * Modal to confirm permanent deletion of a feedback session.
@@ -14,22 +13,15 @@ import { StudentExtensionTableColumnModel } from '../student-extension-table-col
 export class IndividualExtensionConfirmModalComponent {
 
   @Input()
-  courseId: string = '';
-
-  @Input()
   studentsToExtend: StudentExtensionTableColumnModel[] = [];
 
   @Input()
   extensionTimestamp: number = 0;
 
-  @Input()
-  feedbackSessionName: string = '';
-
   @Output()
   onConfirmExtensionCallBack: EventEmitter<boolean> = new EventEmitter();
 
-  constructor(public activeModal: NgbActiveModal,
-              private tableComparatorService: TableComparatorService) { }
+  constructor(private tableComparatorService: TableComparatorService) { }
 
   SortBy: typeof SortBy = SortBy;
   SortOrder: typeof SortOrder = SortOrder;

@@ -6,7 +6,8 @@
 </div>
 
 <div class="modal-body">
-  The following changes to the individual deadlines for <b>{{studentsToExtend.length}} students</b> will be saved upon confirmation:
+  The new deadline of <b>{{ extensionTimestamp | date:'d MMM yyyy hh:mm' }}</b> will be applied 
+  to the following <b>{{studentsToExtend.length}} students</b> upon confirmation:
   <div class="container ml-1">
 </div>
 
@@ -54,7 +55,7 @@
             </span>
           </th>
           <th class="sortable-header" (click)="sortCoursesBy(SortBy.SESSION_END_DATE)">
-            Extended Deadline
+            Original Deadline
             <span class="fa-stack">
               <i class="fas fa-sort"></i>
               <i
@@ -71,7 +72,7 @@
         <td>{{ student.teamName }}</td>
         <td>{{ student.studentName }}</td>
         <td>{{ student.studentEmail }}</td>
-        <td>{{ extensionTimestamp | date:'d MMM yyyy hh:mm' }}</td>
+        <td>{{ student.studentExtensionDeadline | date:'d MMM yyyy hh:mm' }}</td>
       </tr>
     </table>
   </div>

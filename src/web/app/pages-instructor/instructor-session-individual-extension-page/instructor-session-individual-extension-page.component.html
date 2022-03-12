@@ -36,10 +36,10 @@
   <div class="container ml-1">
     <div class="align-row">
       <div>
-        <button type="button" class="btn btn-success" (click)="onExtend()" [disabled]="!hasSelectedStudents()">Extend</button>
+        <button type="button" id="extend-btn" class="btn btn-success" (click)="onExtend()" [disabled]="!hasSelectedStudents()">Extend</button>
       </div>
       <div>
-        <button type="button" class="btn btn-danger" (click)="onDelete()" [disabled]="!hasSelectedStudents()">Delete</button>
+        <button type="button" id="delete-btn" class="btn btn-danger" (click)="onDelete()" [disabled]="!hasSelectedStudents()">Delete</button>
       </div>
     </div>
     <small
@@ -56,7 +56,7 @@
         <thead>
           <tr>
             <th (click)="selectAllStudents()">
-              <label><input type="checkbox" [checked]="isAllSelected" /> Select all</label>
+              <label><input type="checkbox" id="select-all-btn" [checked]="isAllSelected" /> Select all</label>
             </th>
             <th class="sortable-header" (click)="sortCoursesBy(SortBy.SECTION_NAME)">
               Section

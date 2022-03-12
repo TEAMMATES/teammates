@@ -1,0 +1,848 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`IndividualExtensionDateModalComponent should snap with the error modal 1`] = `
+<tm-individual-extension-date-modal
+  DATETIME_FORMAT={[Function String]}
+  RadioOptions={[Function Object]}
+  activeModal={[Function NgbActiveModal]}
+  datePicker={[Function Object]}
+  extendByDatePicker={[Function Object]}
+  extendByDeadlineKey=""
+  extendByDeadlineOptions={[Function Map]}
+  feedbackSessionEndingTime="0"
+  feedbackSessionTimeZone={[Function String]}
+  numberOfStudents={[Function Number]}
+  onConfirmCallBack={[Function EventEmitter_]}
+  radioOption={[Function Number]}
+  simpleModalService={[Function SimpleModalService]}
+  sortMapByOriginalOrder={[Function Function]}
+  timePicker={[Function Object]}
+  timeZoneService={[Function TimezoneService]}
+>
+  <div
+    class="modal-header alert-primary"
+  >
+    <h5
+      class="modal-title"
+    >
+      Select the new deadline for extension
+    </h5>
+    <button
+      class="close"
+      type="button"
+    >
+      <i
+        class="fas fa-times"
+      />
+    </button>
+  </div><div
+    class="modal-body"
+  >
+     Extending the feedback session for 
+    <b>
+      10 students:
+    </b>
+  </div><div
+    class="container ml-1"
+  >
+    <div
+      class="row pl-3 pt-2"
+    />
+    <div
+      class="row pl-3"
+    >
+      <label
+        class="mr-2"
+      >
+        <input
+          class="ng-untouched ng-pristine ng-valid"
+          name="optradio"
+          type="radio"
+        />
+         Extend deadline by 
+      </label>
+      <label>
+        <input
+          class="ng-untouched ng-pristine ng-valid"
+          name="optradio"
+          type="radio"
+        />
+         Extend deadline to 
+      </label>
+    </div>
+    <div>
+      <small>
+        Extend the feedback session by:
+      </small>
+      <div
+        id="submission-start-date"
+      >
+        <div
+          class="input-group"
+        >
+          <select
+            class="form-control ng-untouched ng-pristine ng-valid"
+          >
+          </select>
+        </div>
+      </div>
+    </div>
+    <br />
+    <div
+      class="modal-footer"
+    >
+      <button
+        class="btn btn-light"
+        type="button"
+      >
+        No, Cancel the Operation
+      </button>
+      <button
+        class="btn btn-success modal-btn-ok"
+        disabled=""
+        type="button"
+      >
+         Save Changes
+      </button>
+    </div>
+  </div>
+</tm-individual-extension-date-modal>
+`;
+
+exports[`IndividualExtensionDateModalComponent should snap with the extend by radio option 1`] = `
+<tm-individual-extension-date-modal
+  DATETIME_FORMAT={[Function String]}
+  RadioOptions={[Function Object]}
+  activeModal={[Function NgbActiveModal]}
+  datePicker={[Function Object]}
+  extendByDatePicker={[Function Object]}
+  extendByDeadlineKey={[Function String]}
+  extendByDeadlineOptions={[Function Map]}
+  feedbackSessionEndingTime="0"
+  feedbackSessionTimeZone=""
+  numberOfStudents={[Function Number]}
+  onConfirmCallBack={[Function EventEmitter_]}
+  radioOption={[Function Number]}
+  simpleModalService={[Function SimpleModalService]}
+  sortMapByOriginalOrder={[Function Function]}
+  timePicker={[Function Object]}
+  timeZoneService={[Function TimezoneService]}
+>
+  <div
+    class="modal-header alert-primary"
+  >
+    <h5
+      class="modal-title"
+    >
+      Select the new deadline for extension
+    </h5>
+    <button
+      class="close"
+      type="button"
+    >
+      <i
+        class="fas fa-times"
+      />
+    </button>
+  </div><div
+    class="modal-body"
+  >
+     Extending the feedback session for 
+    <b>
+      10 students:
+    </b>
+  </div><div
+    class="container ml-1"
+  >
+    <div
+      class="row pl-3 pt-2"
+    />
+    <div
+      class="row pl-3"
+    >
+      <label
+        class="mr-2"
+      >
+        <input
+          class="ng-untouched ng-pristine ng-valid"
+          name="optradio"
+          type="radio"
+        />
+         Extend deadline by 
+      </label>
+      <label>
+        <input
+          class="ng-untouched ng-pristine ng-valid"
+          name="optradio"
+          type="radio"
+        />
+         Extend deadline to 
+      </label>
+    </div>
+    <div>
+      <small>
+        The new deadline of the feedback session will be:
+      </small>
+      <div
+        id="submission-start-date"
+      >
+        <div
+          class="input-group"
+        >
+          <tm-datepicker>
+            <div
+              class="input-group"
+            >
+              <input
+                class="form-control ng-untouched ng-pristine ng-valid"
+                ngbdatepicker=""
+                type="text"
+              />
+              <div
+                class="input-group-append"
+              >
+                <button
+                  class="btn btn-light"
+                  type="button"
+                >
+                  <i
+                    class="fas fa-calendar-alt"
+                  />
+                </button>
+              </div>
+            </div>
+          </tm-datepicker>
+          <div
+            class="col-md-5"
+          >
+            <tm-timepicker
+              id="submission-end-time"
+            >
+              <select
+                class="form-control ng-untouched ng-pristine ng-valid"
+              >
+                <option
+                  value="1: Object"
+                >
+                   01:00H 
+                </option>
+                <option
+                  value="2: Object"
+                >
+                   02:00H 
+                </option>
+                <option
+                  value="3: Object"
+                >
+                   03:00H 
+                </option>
+                <option
+                  value="4: Object"
+                >
+                   04:00H 
+                </option>
+                <option
+                  value="5: Object"
+                >
+                   05:00H 
+                </option>
+                <option
+                  value="6: Object"
+                >
+                   06:00H 
+                </option>
+                <option
+                  value="7: Object"
+                >
+                   07:00H 
+                </option>
+                <option
+                  value="8: Object"
+                >
+                   08:00H 
+                </option>
+                <option
+                  value="9: Object"
+                >
+                   09:00H 
+                </option>
+                <option
+                  value="10: Object"
+                >
+                   10:00H 
+                </option>
+                <option
+                  value="11: Object"
+                >
+                   11:00H 
+                </option>
+                <option
+                  value="12: Object"
+                >
+                   12:00H 
+                </option>
+                <option
+                  value="13: Object"
+                >
+                   13:00H 
+                </option>
+                <option
+                  value="14: Object"
+                >
+                   14:00H 
+                </option>
+                <option
+                  value="15: Object"
+                >
+                   15:00H 
+                </option>
+                <option
+                  value="16: Object"
+                >
+                   16:00H 
+                </option>
+                <option
+                  value="17: Object"
+                >
+                   17:00H 
+                </option>
+                <option
+                  value="18: Object"
+                >
+                   18:00H 
+                </option>
+                <option
+                  value="19: Object"
+                >
+                   19:00H 
+                </option>
+                <option
+                  value="20: Object"
+                >
+                   20:00H 
+                </option>
+                <option
+                  value="21: Object"
+                >
+                   21:00H 
+                </option>
+                <option
+                  value="22: Object"
+                >
+                   22:00H 
+                </option>
+                <option
+                  value="23: Object"
+                >
+                   23:00H 
+                </option>
+                <option
+                  value="0: Object"
+                >
+                  23:59H
+                </option>
+              </select>
+            </tm-timepicker>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br />
+    <div
+      class="modal-footer"
+    >
+      <button
+        class="btn btn-light"
+        type="button"
+      >
+        No, Cancel the Operation
+      </button>
+      <button
+        class="btn btn-success modal-btn-ok"
+        disabled=""
+        type="button"
+      >
+         Save Changes
+      </button>
+    </div>
+  </div>
+</tm-individual-extension-date-modal>
+`;
+
+exports[`IndividualExtensionDateModalComponent should snap with the extend by radio option with customize 1`] = `
+<tm-individual-extension-date-modal
+  DATETIME_FORMAT={[Function String]}
+  RadioOptions={[Function Object]}
+  activeModal={[Function NgbActiveModal]}
+  datePicker={[Function Object]}
+  extendByDatePicker={[Function Object]}
+  extendByDeadlineKey={[Function String]}
+  extendByDeadlineOptions={[Function Map]}
+  feedbackSessionEndingTime="0"
+  feedbackSessionTimeZone=""
+  numberOfStudents={[Function Number]}
+  onConfirmCallBack={[Function EventEmitter_]}
+  radioOption={[Function Number]}
+  simpleModalService={[Function SimpleModalService]}
+  sortMapByOriginalOrder={[Function Function]}
+  timePicker={[Function Object]}
+  timeZoneService={[Function TimezoneService]}
+>
+  <div
+    class="modal-header alert-primary"
+  >
+    <h5
+      class="modal-title"
+    >
+      Select the new deadline for extension
+    </h5>
+    <button
+      class="close"
+      type="button"
+    >
+      <i
+        class="fas fa-times"
+      />
+    </button>
+  </div><div
+    class="modal-body"
+  >
+     Extending the feedback session for 
+    <b>
+      10 students:
+    </b>
+  </div><div
+    class="container ml-1"
+  >
+    <div
+      class="row pl-3 pt-2"
+    />
+    <div
+      class="row pl-3"
+    >
+      <label
+        class="mr-2"
+      >
+        <input
+          class="ng-untouched ng-pristine ng-valid"
+          name="optradio"
+          type="radio"
+        />
+         Extend deadline by 
+      </label>
+      <label>
+        <input
+          class="ng-untouched ng-pristine ng-valid"
+          name="optradio"
+          type="radio"
+        />
+         Extend deadline to 
+      </label>
+    </div>
+    <div>
+      <small>
+        The new deadline of the feedback session will be:
+      </small>
+      <div
+        id="submission-start-date"
+      >
+        <div
+          class="input-group"
+        >
+          <tm-datepicker>
+            <div
+              class="input-group"
+            >
+              <input
+                class="form-control ng-untouched ng-pristine ng-valid"
+                ngbdatepicker=""
+                type="text"
+              />
+              <div
+                class="input-group-append"
+              >
+                <button
+                  class="btn btn-light"
+                  type="button"
+                >
+                  <i
+                    class="fas fa-calendar-alt"
+                  />
+                </button>
+              </div>
+            </div>
+          </tm-datepicker>
+          <div
+            class="col-md-5"
+          >
+            <tm-timepicker
+              id="submission-end-time"
+            >
+              <select
+                class="form-control ng-untouched ng-pristine ng-valid"
+              >
+                <option
+                  value="1: Object"
+                >
+                   01:00H 
+                </option>
+                <option
+                  value="2: Object"
+                >
+                   02:00H 
+                </option>
+                <option
+                  value="3: Object"
+                >
+                   03:00H 
+                </option>
+                <option
+                  value="4: Object"
+                >
+                   04:00H 
+                </option>
+                <option
+                  value="5: Object"
+                >
+                   05:00H 
+                </option>
+                <option
+                  value="6: Object"
+                >
+                   06:00H 
+                </option>
+                <option
+                  value="7: Object"
+                >
+                   07:00H 
+                </option>
+                <option
+                  value="8: Object"
+                >
+                   08:00H 
+                </option>
+                <option
+                  value="9: Object"
+                >
+                   09:00H 
+                </option>
+                <option
+                  value="10: Object"
+                >
+                   10:00H 
+                </option>
+                <option
+                  value="11: Object"
+                >
+                   11:00H 
+                </option>
+                <option
+                  value="12: Object"
+                >
+                   12:00H 
+                </option>
+                <option
+                  value="13: Object"
+                >
+                   13:00H 
+                </option>
+                <option
+                  value="14: Object"
+                >
+                   14:00H 
+                </option>
+                <option
+                  value="15: Object"
+                >
+                   15:00H 
+                </option>
+                <option
+                  value="16: Object"
+                >
+                   16:00H 
+                </option>
+                <option
+                  value="17: Object"
+                >
+                   17:00H 
+                </option>
+                <option
+                  value="18: Object"
+                >
+                   18:00H 
+                </option>
+                <option
+                  value="19: Object"
+                >
+                   19:00H 
+                </option>
+                <option
+                  value="20: Object"
+                >
+                   20:00H 
+                </option>
+                <option
+                  value="21: Object"
+                >
+                   21:00H 
+                </option>
+                <option
+                  value="22: Object"
+                >
+                   22:00H 
+                </option>
+                <option
+                  value="23: Object"
+                >
+                   23:00H 
+                </option>
+                <option
+                  value="0: Object"
+                >
+                  23:59H
+                </option>
+              </select>
+            </tm-timepicker>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br />
+    <div
+      class="modal-footer"
+    >
+      <button
+        class="btn btn-light"
+        type="button"
+      >
+        No, Cancel the Operation
+      </button>
+      <button
+        class="btn btn-success modal-btn-ok"
+        disabled=""
+        type="button"
+      >
+         Save Changes
+      </button>
+    </div>
+  </div>
+</tm-individual-extension-date-modal>
+`;
+
+exports[`IndividualExtensionDateModalComponent should snap with the extend to radio option with timepicker 1`] = `
+<tm-individual-extension-date-modal
+  DATETIME_FORMAT={[Function String]}
+  RadioOptions={[Function Object]}
+  activeModal={[Function NgbActiveModal]}
+  datePicker={[Function Object]}
+  extendByDatePicker={[Function Object]}
+  extendByDeadlineKey=""
+  extendByDeadlineOptions={[Function Map]}
+  feedbackSessionEndingTime="0"
+  feedbackSessionTimeZone=""
+  numberOfStudents={[Function Number]}
+  onConfirmCallBack={[Function EventEmitter_]}
+  radioOption={[Function Number]}
+  simpleModalService={[Function SimpleModalService]}
+  sortMapByOriginalOrder={[Function Function]}
+  timePicker={[Function Object]}
+  timeZoneService={[Function TimezoneService]}
+>
+  <div
+    class="modal-header alert-primary"
+  >
+    <h5
+      class="modal-title"
+    >
+      Select the new deadline for extension
+    </h5>
+    <button
+      class="close"
+      type="button"
+    >
+      <i
+        class="fas fa-times"
+      />
+    </button>
+  </div><div
+    class="modal-body"
+  >
+     Extending the feedback session for 
+    <b>
+      10 students:
+    </b>
+  </div><div
+    class="container ml-1"
+  >
+    <div
+      class="row pl-3 pt-2"
+    />
+    <div
+      class="row pl-3"
+    >
+      <label
+        class="mr-2"
+      >
+        <input
+          class="ng-untouched ng-pristine ng-valid"
+          name="optradio"
+          type="radio"
+        />
+         Extend deadline by 
+      </label>
+      <label>
+        <input
+          class="ng-untouched ng-pristine ng-valid"
+          name="optradio"
+          type="radio"
+        />
+         Extend deadline to 
+      </label>
+    </div>
+    <div>
+      <small>
+        Extend the feedback session by:
+      </small>
+      <div
+        id="submission-start-date"
+      >
+        <div
+          class="input-group"
+        >
+          <select
+            class="form-control ng-untouched ng-pristine ng-valid"
+          >
+          </select>
+        </div>
+      </div>
+    </div>
+    <br />
+    <div
+      class="modal-footer"
+    >
+      <button
+        class="btn btn-light"
+        type="button"
+      >
+        No, Cancel the Operation
+      </button>
+      <button
+        class="btn btn-success modal-btn-ok"
+        disabled=""
+        type="button"
+      >
+         Save Changes
+      </button>
+    </div>
+  </div>
+</tm-individual-extension-date-modal>
+`;
+
+exports[`IndividualExtensionDateModalComponent should snap with the extended students 1`] = `
+<tm-individual-extension-date-modal
+  DATETIME_FORMAT={[Function String]}
+  RadioOptions={[Function Object]}
+  activeModal={[Function NgbActiveModal]}
+  datePicker={[Function Object]}
+  extendByDatePicker={[Function Object]}
+  extendByDeadlineKey=""
+  extendByDeadlineOptions={[Function Map]}
+  feedbackSessionEndingTime="0"
+  feedbackSessionTimeZone=""
+  numberOfStudents={[Function Number]}
+  onConfirmCallBack={[Function EventEmitter_]}
+  radioOption={[Function Number]}
+  simpleModalService={[Function SimpleModalService]}
+  sortMapByOriginalOrder={[Function Function]}
+  timePicker={[Function Object]}
+  timeZoneService={[Function TimezoneService]}
+>
+  <div
+    class="modal-header alert-primary"
+  >
+    <h5
+      class="modal-title"
+    >
+      Select the new deadline for extension
+    </h5>
+    <button
+      class="close"
+      type="button"
+    >
+      <i
+        class="fas fa-times"
+      />
+    </button>
+  </div><div
+    class="modal-body"
+  >
+     Extending the feedback session for 
+    <b>
+      10 students:
+    </b>
+  </div><div
+    class="container ml-1"
+  >
+    <div
+      class="row pl-3 pt-2"
+    />
+    <div
+      class="row pl-3"
+    >
+      <label
+        class="mr-2"
+      >
+        <input
+          class="ng-untouched ng-pristine ng-valid"
+          name="optradio"
+          type="radio"
+        />
+         Extend deadline by 
+      </label>
+      <label>
+        <input
+          class="ng-untouched ng-pristine ng-valid"
+          name="optradio"
+          type="radio"
+        />
+         Extend deadline to 
+      </label>
+    </div>
+    <div>
+      <small>
+        Extend the feedback session by:
+      </small>
+      <div
+        id="submission-start-date"
+      >
+        <div
+          class="input-group"
+        >
+          <select
+            class="form-control ng-untouched ng-pristine ng-valid"
+          >
+          </select>
+        </div>
+      </div>
+    </div>
+    <br />
+    <div
+      class="modal-footer"
+    >
+      <button
+        class="btn btn-light"
+        type="button"
+      >
+        No, Cancel the Operation
+      </button>
+      <button
+        class="btn btn-success modal-btn-ok"
+        disabled=""
+        type="button"
+      >
+         Save Changes
+      </button>
+    </div>
+  </div>
+</tm-individual-extension-date-modal>
+`;

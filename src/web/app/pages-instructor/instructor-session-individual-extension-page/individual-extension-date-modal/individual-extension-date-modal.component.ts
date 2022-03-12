@@ -1,15 +1,16 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
-import { DateFormat } from 'src/web/app/components/datepicker/datepicker.component';
-import { SimpleModalType } from 'src/web/app/components/simple-modal/simple-modal-type';
-import { TimeFormat } from 'src/web/app/components/timepicker/timepicker.component';
-import { DateTimeHelper } from 'src/web/services/datetime-helper';
-import { SimpleModalService } from 'src/web/services/simple-modal.service';
-import { TimezoneService } from 'src/web/services/timezone.service';
+import { DateTimeHelper } from '../../../../services/datetime-helper';
+import { SimpleModalService } from '../../../../services/simple-modal.service';
+import { TimezoneService } from '../../../../services/timezone.service';
+import { DateFormat } from '../../../components/datepicker/datepicker.component';
+import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
+import { TimeFormat } from '../../../components/timepicker/timepicker.component';
 
-enum RadioOptions {
-  EXTEND_TO, EXTEND_BY,
+export enum RadioOptions {
+  EXTEND_TO = 1,
+  EXTEND_BY = 2,
 }
 
 /**
@@ -37,7 +38,8 @@ export class IndividualExtensionDateModalComponent {
               private timeZoneService: TimezoneService,
               private simpleModalService: SimpleModalService) {}
 
-  radioOption: number = 1;
+  RadioOptions: typeof RadioOptions = RadioOptions;
+  radioOption: RadioOptions = RadioOptions.EXTEND_BY;
   extendByDeadlineKey: String = '';
   extendByDeadlineOptions: Map<String, Number> = new Map([
     ['12 hours', 0.5],
@@ -65,7 +67,6 @@ export class IndividualExtensionDateModalComponent {
         + ` and you are extending to ${extensionTimeString} in ${this.feedbackSessionTimeZone}.`
         + ' Do you wish to proceed?',
       ).result.then(() => this.onConfirmCallBack.emit(this.getExtensionTimestamp()));
-
     } else {
       this.onConfirmCallBack.emit(this.getExtensionTimestamp());
     }

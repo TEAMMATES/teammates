@@ -1,0 +1,209 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`IndividualExtensionConfirmModalComponent should snap with the extended students 1`] = `
+<tm-individual-extension-confirm-modal
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
+  extensionTimestamp={[Function Number]}
+  isNotifyStudents="false"
+  onConfirmExtensionCallBack={[Function EventEmitter_]}
+  sortBy={[Function Number]}
+  sortOrder="0"
+  studentsToExtend={[Function Array]}
+  tableComparatorService={[Function TableComparatorService]}
+>
+  <div
+    class="modal-header alert-primary"
+  >
+    <h5
+      class="modal-title"
+    >
+      Confirm extension of feedback session
+    </h5>
+    <button
+      class="close"
+      type="button"
+    >
+      <i
+        class="fas fa-times"
+      />
+    </button>
+  </div><div
+    class="modal-body"
+  >
+     The new deadline of 
+    <b>
+      14 Jul 2017 10:40
+    </b>
+     will be applied to the following 
+    <b>
+      3 students
+    </b>
+     upon confirmation: 
+    <div
+      class="container ml-1"
+    />
+    <div
+      class="modal-body"
+    >
+      <div
+        class="table-responsive"
+      >
+        <table
+          class="table table-bordered"
+          id="student-list-table"
+        >
+          <thead>
+            <tr>
+              <th
+                class="sortable-header"
+              >
+                 Section 
+                <span
+                  class="fa-stack"
+                >
+                  <i
+                    class="fas fa-sort"
+                  />
+                  <i
+                    class="fas fa-sort-down"
+                  />
+                </span>
+              </th>
+              <th
+                class="sortable-header"
+              >
+                 Team 
+                <span
+                  class="fa-stack"
+                >
+                  <i
+                    class="fas fa-sort"
+                  />
+                </span>
+              </th>
+              <th
+                class="sortable-header"
+              >
+                 Name 
+                <span
+                  class="fa-stack"
+                >
+                  <i
+                    class="fas fa-sort"
+                  />
+                </span>
+              </th>
+              <th
+                class="sortable-header"
+              >
+                 Email 
+                <span
+                  class="fa-stack"
+                >
+                  <i
+                    class="fas fa-sort"
+                  />
+                </span>
+              </th>
+              <th
+                class="sortable-header"
+              >
+                 Original Deadline 
+                <span
+                  class="fa-stack"
+                >
+                  <i
+                    class="fas fa-sort"
+                  />
+                </span>
+              </th>
+            </tr>
+          </thead>
+          <tr>
+            <td>
+              Test Section 1
+            </td>
+            <td>
+              Test Section 1
+            </td>
+            <td>
+              Test Student 1
+            </td>
+            <td>
+              testStudent1@gmail.com
+            </td>
+            <td>
+              14 Jul 2017 10:40
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Test Section 2
+            </td>
+            <td>
+              Test Section 2
+            </td>
+            <td>
+              Test Student 2
+            </td>
+            <td>
+              testStudent2@gmail.com
+            </td>
+            <td>
+              7 Nov 2017 04:26
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Test Section 3
+            </td>
+            <td>
+              Test Section 3
+            </td>
+            <td>
+              Test Student 3
+            </td>
+            <td>
+              testStudent3@gmail.com
+            </td>
+            <td>
+              7 Nov 2017 04:26
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div
+      class="form-check"
+    >
+      <input
+        class="form-check-input ng-untouched ng-pristine ng-valid"
+        id="flexCheckChecked"
+        type="checkbox"
+      />
+      <label
+        class="form-check-label"
+        for="flexCheckChecked"
+      >
+         Notify students by email about this extension 
+      </label>
+    </div>
+  </div><br /><div
+    class="modal-footer"
+  >
+    <button
+      class="btn btn-light"
+      type="button"
+    >
+      No, Cancel the Operation
+    </button>
+    <button
+      class="btn btn-success modal-btn-ok"
+      type="button"
+    >
+      Confirm
+    </button>
+  </div>
+</tm-individual-extension-confirm-modal>
+`;

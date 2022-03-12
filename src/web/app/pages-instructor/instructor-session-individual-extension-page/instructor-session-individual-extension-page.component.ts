@@ -2,22 +2,22 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { finalize } from 'rxjs/operators';
-import { FeedbackSessionsService } from 'src/web/services/feedback-sessions.service';
-import { StudentService } from 'src/web/services/student.service';
-import { Course, FeedbackSession, Student, Students } from 'src/web/types/api-output';
-import { Intent } from 'src/web/types/api-request';
 import { CourseService } from '../../../services/course.service';
+import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
+import { StudentService } from '../../../services/student.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
+import { Students, Student, Course, FeedbackSession } from '../../../types/api-output';
+import { Intent } from '../../../types/api-request';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { ColumnData, SortableTableCellData } from '../../components/sortable-table/sortable-table.component';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { IndividualExtensionConfirmModalComponent } from
-  './individual-extension-confirm-modal/individual-extension-confirm-modal.component';
-import { IndividualExtensionDateModalComponent } from
-  './individual-extension-date-modal/individual-extension-date-modal.component';
+import { IndividualExtensionConfirmModalComponent }
+  from './individual-extension-confirm-modal/individual-extension-confirm-modal.component';
+import { IndividualExtensionDateModalComponent }
+  from './individual-extension-date-modal/individual-extension-date-modal.component';
 import { StudentExtensionTableColumnModel } from './student-extension-table-column-model';
 
 /**
@@ -63,7 +63,6 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     });
   }
 
-  // Columns for the table: Section, Team, Student Name, Email, Original Deadline, New Deadline
   constructor(
     private statusMessageService: StatusMessageService,
     private feedbackSessionsService: FeedbackSessionsService,
