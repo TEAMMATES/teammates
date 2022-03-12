@@ -53,4 +53,9 @@ public class ReadNotifications {
         ReadNotifications other = (ReadNotifications) obj;
         return this.getJsonString().equals(other.getJsonString());
     }
+
+    @Override
+    public int hashCode() {
+        return this.getJsonString().hashCode();
+    }
 }
