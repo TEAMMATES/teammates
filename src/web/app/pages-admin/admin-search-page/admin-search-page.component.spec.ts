@@ -69,8 +69,8 @@ const DEFAULT_ACCOUNT_REQUEST_SEARCH_RESULT: AccountRequestSearchResult = {
   email: 'email',
   institute: 'institute',
   registrationLink: 'registrationLink',
-  createdAt: 'Tue, 08 Feb 2022, 08:23 AM +00:00',
-  registeredAt: 'Not Registered Yet',
+  createdAtText: 'Tue, 08 Feb 2022, 08:23 AM +00:00',
+  registeredAtText: null,
   showLinks: false,
 };
 
@@ -185,8 +185,8 @@ describe('AdminSearchPageComponent', () => {
         email: 'email',
         institute: 'institute',
         registrationLink: 'registrationLink',
-        createdAt: 'Tue, 08 Feb 2022, 08:23 AM +00:00',
-        registeredAt: 'Not Registered Yet',
+        createdAtText: 'Tue, 08 Feb 2022, 08:23 AM +00:00',
+        registeredAtText: null,
         showLinks: true,
       },
     ];
@@ -351,16 +351,16 @@ describe('AdminSearchPageComponent', () => {
         email: 'email1',
         institute: 'institute1',
         registrationLink: 'registrationLink1',
-        createdAt: 'Tue, 08 Feb 2022, 08:23 AM +00:00',
-        registeredAt: 'Not Registered Yet',
+        createdAtText: 'Tue, 08 Feb 2022, 08:23 AM +00:00',
+        registeredAtText: null,
         showLinks: true,
       }, {
         name: 'name2',
         email: 'email2',
         institute: 'institute2',
         registrationLink: 'registrationLink2',
-        createdAt: 'Tue, 08 Feb 2022, 08:23 AM +00:00',
-        registeredAt: 'Not Registered Yet',
+        createdAtText: 'Tue, 08 Feb 2022, 08:23 AM +00:00',
+        registeredAtText: 'Wed, 09 Feb 2022, 10:23 AM +00:00',
         showLinks: true,
       }];
 
@@ -827,6 +827,54 @@ describe('AdminSearchPageComponent', () => {
     const sendPublishedSessionReminderButton: any =
         fixture.debugElement.nativeElement.querySelector('#send-published-session-reminder-button');
     sendPublishedSessionReminderButton.click();
+
+    expect(spyStatusMessageService).toBeCalled();
+  });
+
+  it('should show error message when deleting account request is unsuccessful', () => {
+    component.accountRequests = [DEFAULT_ACCOUNT_REQUEST_SEARCH_RESULT];
+    fixture.detectChanges();
+
+    jest.spyOn(ngbModal, 'open').mockImplementation(() => {
+      return createMockNgbModalRef({});
+    });
+
+    jest.spyOn(accountService, 'deleteAccountRequest').mockReturnValue(throwError({
+      error: {
+        message: 'This is the error message.',
+      },
+    }));
+
+    const spyStatusMessageService: any = jest.spyOn(statusMessageService, 'showErrorToast')
+      .mockImplementation((args: string) => {
+        expect(args).toEqual('This is the error message.');
+      });
+
+    const deleteButton: any = fixture.debugElement.nativeElement.querySelector('#delete-account-request-0');
+    deleteButton.click();
+
+    expect(spyStatusMessageService).toBeCalled();
+  });
+
+  it('should show success message when deleting account request is successful', () => {
+    component.accountRequests = [DEFAULT_ACCOUNT_REQUEST_SEARCH_RESULT];
+    fixture.detectChanges();
+
+    jest.spyOn(ngbModal, 'open').mockImplementation(() => {
+      return createMockNgbModalRef({});
+    });
+
+    jest.spyOn(accountService, 'deleteAccountRequest').mockReturnValue(of({
+      message: 'Account request successfully deleted.',
+    }));
+
+    const spyStatusMessageService: any = jest.spyOn(statusMessageService, 'showSuccessToast')
+        .mockImplementation((args: string) => {
+          expect(args).toEqual('Account request successfully deleted.');
+        });
+
+    const deleteButton: any = fixture.debugElement.nativeElement.querySelector('#delete-account-request-0');
+    deleteButton.click();
 
     expect(spyStatusMessageService).toBeCalled();
   });

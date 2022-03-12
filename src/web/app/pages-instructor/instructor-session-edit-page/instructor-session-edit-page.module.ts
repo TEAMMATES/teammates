@@ -9,6 +9,7 @@ import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.mo
 import { CopySessionModalModule } from '../../components/copy-session-modal/copy-session-modal.module';
 import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
+import { PanelChevronModule } from '../../components/panel-chevron/panel-chevron.module';
 import { PreviewSessionPanelModule } from '../../components/preview-session-panel/preview-session-panel.module';
 import { QuestionEditFormModule } from '../../components/question-edit-form/question-edit-form.module';
 import { SessionEditFormModule } from '../../components/session-edit-form/session-edit-form.module';
@@ -49,6 +50,7 @@ const routes: Routes = [
     LoadingRetryModule,
     TeammatesRouterModule,
     PreviewSessionPanelModule,
+    PanelChevronModule,
   ],
   entryComponents: [
     TemplateQuestionModalComponent,

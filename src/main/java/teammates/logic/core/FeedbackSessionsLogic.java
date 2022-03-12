@@ -530,25 +530,6 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
-     * Returns true if the feedback session has been attempted (i.e. any question is answered) by the given user.
-     */
-    public boolean isFeedbackSessionAttemptedByUser(
-            FeedbackSessionAttributes session, String userEmail, boolean isInstructor)
-            throws EntityDoesNotExistException {
-        List<FeedbackQuestionAttributes> allQuestions = isInstructor
-                ? fqLogic.getFeedbackQuestionsForInstructors(session.getFeedbackSessionName(), session.getCourseId(), null)
-                : fqLogic.getFeedbackQuestionsForStudents(session.getFeedbackSessionName(), session.getCourseId());
-
-        for (FeedbackQuestionAttributes question : allQuestions) {
-            // As long as one question is fully answered, user has attempted
-            if (fqLogic.isQuestionFullyAnsweredByUser(question, userEmail)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
      * Returns true if the feedback session is viewable by the given user type (students/instructors).
      */
     public boolean isFeedbackSessionViewableToUserType(FeedbackSessionAttributes session, boolean isInstructor) {
