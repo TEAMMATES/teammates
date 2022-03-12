@@ -173,6 +173,8 @@ public final class Const {
         public static final String QUERY_LOGS_VERSION = "version";
         public static final String QUERY_LOGS_EXTRA_FILTERS = "extrafilters";
         public static final String QUERY_LOGS_ORDER = "order";
+
+        public static final String LIMIT = "limit";
     }
 
     /**
