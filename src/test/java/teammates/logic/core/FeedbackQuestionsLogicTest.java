@@ -77,7 +77,9 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
     @Test
     public void allTests() throws Exception {
+        testHasFeedbackQuestionsForInstructor();
         testGetFeedbackQuestionsForInstructor();
+        testHasFeedbackQuestionsForStudents();
         testGetFeedbackQuestionsForStudents();
         testAddQuestion();
     }
@@ -905,6 +907,16 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         assertTrue(completeGiverRecipientMap.get("Team 1.2").contains("Team 1.1</td></div>'\""));
     }
 
+    private void testHasFeedbackQuestionsForInstructor() {
+        ______TS("Valid course valid instructor should have questions");
+        assertTrue(fqLogic.hasFeedbackQuestionsForInstructors(
+                "First feedback session", "idOfTypicalCourse1", "instructor1@course1.tmt"));
+
+        ______TS("Invalid course should not have questions");
+        assertFalse(fqLogic.hasFeedbackQuestionsForInstructors(
+                "Zeroth feedback session", "idOfTypicalCourse1", "nonexistent@course1.tmt"));
+    }
+
     private void testGetFeedbackQuestionsForInstructor() {
         List<FeedbackQuestionAttributes> expectedQuestions;
         List<FeedbackQuestionAttributes> actualQuestions;
@@ -962,6 +974,17 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
         assertEquals(actualQuestions, expectedQuestions);
     }
+
+    private void testHasFeedbackQuestionsForStudents() {
+        ______TS("Valid course should have questions");
+        assertTrue(fqLogic.hasFeedbackQuestionsForStudents(
+                "First feedback session", "idOfTypicalCourse1"));
+
+        ______TS("Invalid course should not have questions");
+        assertFalse(fqLogic.hasFeedbackQuestionsForStudents(
+                "Zeroth feedback session", "idOfTypicalCourse1"));
+    }
+
 
     private void testGetFeedbackQuestionsForStudents() {
         List<FeedbackQuestionAttributes> expectedQuestions;

@@ -208,6 +208,9 @@ public final class FeedbackSessionsLogic {
      */
     public boolean isCreatorOfSession(String feedbackSessionName, String courseId, String userEmail) {
         FeedbackSessionAttributes fs = getFeedbackSession(feedbackSessionName, courseId);
+        if (fs == null) {
+            return false;
+        }
         return fs.getCreatorEmail().equals(userEmail);
     }
 

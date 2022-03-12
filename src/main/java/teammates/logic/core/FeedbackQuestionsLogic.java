@@ -148,8 +148,9 @@ public final class FeedbackQuestionsLogic {
         boolean hasQuestions = fqDb.hasFeedbackQuestionsForGiverType(
                 feedbackSessionName, courseId, FeedbackParticipantType.INSTRUCTORS);
 
-        if (userEmail != null && fsLogic.isCreatorOfSession(feedbackSessionName, courseId, userEmail)) {
-            hasQuestions = hasQuestions || fqDb.hasFeedbackQuestionsForGiverType(
+        if (!hasQuestions &&
+                userEmail != null && fsLogic.isCreatorOfSession(feedbackSessionName, courseId, userEmail)) {
+            hasQuestions = fqDb.hasFeedbackQuestionsForGiverType(
                     feedbackSessionName, courseId, FeedbackParticipantType.SELF);
         }
 
