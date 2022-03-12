@@ -74,8 +74,9 @@ public final class AccountsDb extends EntitiesDb<Account, AccountAttributes> {
             throw new InvalidParametersException(newAttributes.getInvalidityInfo());
         }
 
-        // currently, account does not have any updatable field
-        boolean hasSameAttributes = true;
+        // update only if change
+        boolean hasSameAttributes = this.<String>hasSameValue(account.getReadNotificationsAsText(),
+                newAttributes.getReadNotificationsAsText());
         if (hasSameAttributes) {
             log.info(String.format(OPTIMIZED_SAVING_POLICY_APPLIED, Account.class.getSimpleName(), updateOptions));
             return newAttributes;

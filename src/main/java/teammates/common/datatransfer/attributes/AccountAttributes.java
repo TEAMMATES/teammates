@@ -122,7 +122,7 @@ public class AccountAttributes extends EntityAttributes<Account> {
 
         addNonEmptyError(FieldValidator.getInvalidityInfoForEmail(email), errors);
 
-        // No validation necessary for createdAt field.
+        // No validation necessary for createdAt and readNotifications fields.
 
         return errors;
     }
