@@ -34,6 +34,7 @@ export class InstructorSessionNoResponsePanelComponent implements OnInit, OnChan
   SortBy: typeof SortBy = SortBy;
   SortOrder: typeof SortOrder = SortOrder;
 
+  @Input() isNoResponseStudentsLoaded: boolean = false;
   @Input() isDisplayOnly: boolean = false;
   @Input() allStudents: Student[] = [];
   @Input() noResponseStudents: Student[] = [];

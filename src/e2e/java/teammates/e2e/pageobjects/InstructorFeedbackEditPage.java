@@ -490,11 +490,23 @@ public class InstructorFeedbackEditPage extends AppPage {
         click(copyQuestionButton);
         WebElement copyQuestionModal = waitForElementPresence(By.id("copy-question-modal"));
 
-        List<WebElement> rows = copyQuestionModal.findElements(By.cssSelector("tbody tr"));
-        for (WebElement row : rows) {
-            List<WebElement> cells = row.findElements(By.tagName("td"));
-            if (cells.get(1).getText().equals(courseId) && cells.get(4).getText().equals(questionText)) {
-                markOptionAsSelected(cells.get(0).findElement(By.tagName("input")));
+        List<WebElement> cards = copyQuestionModal.findElements(By.className("card"));
+        for (WebElement card : cards) {
+            WebElement cardHeader = card.findElement(By.className("card-header"));
+            if (cardHeader.getText().startsWith("[" + courseId + "]")) {
+                click(cardHeader);
+                WebElement cardBody = waitForElementPresence(By.className("card-body"));
+                // Reload questions
+                WebElement reloadBtn = cardBody.findElement(By.tagName("button"));
+                click(reloadBtn);
+                WebElement table = waitForElementPresence(By.id("copy-question-table"));
+                List<WebElement> rows = table.findElements(By.cssSelector("tbody tr"));
+                for (WebElement row : rows) {
+                    List<WebElement> cells = row.findElements(By.tagName("td"));
+                    if (cells.get(2).getText().equals(questionText)) {
+                        markOptionAsSelected(cells.get(0).findElement(By.tagName("input")));
+                    }
+                }
             }
         }
         clickAndWaitForNewQuestion(browser.driver.findElement(By.id("btn-confirm-copy-question")));
