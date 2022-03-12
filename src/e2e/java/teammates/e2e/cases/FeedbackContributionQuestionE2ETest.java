@@ -98,7 +98,7 @@ public class FeedbackContributionQuestionE2ETest extends BaseFeedbackQuestionE2E
         FeedbackResponseAttributes response3 = getResponse(questionId, receiver2, 60);
         List<FeedbackResponseAttributes> responses = Arrays.asList(response, response2, response3);
         feedbackSubmitPage.fillContributionResponse(1, responses);
-        feedbackSubmitPage.clickSubmitAllQuestionsButton();
+        feedbackSubmitPage.clickSubmitQuestionButton(1);
 
         verifyPresentInDatabase(response);
         verifyPresentInDatabase(response2);
@@ -114,7 +114,7 @@ public class FeedbackContributionQuestionE2ETest extends BaseFeedbackQuestionE2E
         response3 = getResponse(questionId, receiver2, Const.POINTS_NOT_SURE);
         responses = Arrays.asList(response, response2, response3);
         feedbackSubmitPage.fillContributionResponse(1, responses);
-        feedbackSubmitPage.clickSubmitAllQuestionsButton();
+        feedbackSubmitPage.clickSubmitQuestionButton(1);
 
         feedbackSubmitPage = getFeedbackSubmitPage();
         feedbackSubmitPage.verifyContributionResponse(1, responses);

@@ -108,7 +108,7 @@ public class FeedbackMsqQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
         List<String> answers = Arrays.asList("Leadership", "This is the other response.");
         FeedbackResponseAttributes response = getResponse(questionId, receiver, answers.get(answers.size() - 1), answers);
         feedbackSubmitPage.fillMsqResponse(1, receiver.getName(), response);
-        feedbackSubmitPage.clickSubmitAllQuestionsButton();
+        feedbackSubmitPage.clickSubmitQuestionButton(1);
 
         verifyPresentInDatabase(response);
 
@@ -120,7 +120,7 @@ public class FeedbackMsqQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
         answers = Arrays.asList("");
         response = getResponse(questionId, receiver, "", answers);
         feedbackSubmitPage.fillMsqResponse(1, receiver.getName(), response);
-        feedbackSubmitPage.clickSubmitAllQuestionsButton();
+        feedbackSubmitPage.clickSubmitQuestionButton(1);
 
         feedbackSubmitPage = getFeedbackSubmitPage();
         feedbackSubmitPage.verifyMsqResponse(1, receiver.getName(), response);

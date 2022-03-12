@@ -189,7 +189,7 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
         ______TS("submit moderated response");
         response = getMcqResponse(questionId, recipient, false, "UI");
         submitPage.fillMcqResponse(1, recipient, response);
-        submitPage.clickSubmitAllQuestionsButton();
+        submitPage.clickSubmitQuestionButton(1);
 
         verifyPresentInDatabase(response);
     }

@@ -79,7 +79,7 @@ public class InstructorAuditLogsPageE2ETest extends BaseE2ETestCase {
                         .build();
 
         studentSubmissionPage.fillTextResponse(1, receiver.getName(), response);
-        studentSubmissionPage.clickSubmitAllQuestionsButton();
+        studentSubmissionPage.clickSubmitQuestionButton(1);
 
         logout();
         auditLogsPage = loginToPage(url, InstructorAuditLogsPage.class, instructor.getGoogleId());

@@ -107,7 +107,10 @@ public class FeedbackSubmitPage extends AppPage {
     }
 
     public void verifyCannotSubmit() {
-        assertFalse(getSubmitAllQuestionsButton().isEnabled());
+        WebElement submitButton = waitForElementPresence(By.cssSelector("[id^='btn-submit-qn-']"));
+        if (submitButton != null) {
+            assertFalse(submitButton.isEnabled());
+        }
     }
 
     public void addComment(int qnNumber, String recipient, String newComment) {

@@ -100,7 +100,7 @@ public class FeedbackMcqQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
         String questionId = getFeedbackQuestion(question).getId();
         FeedbackResponseAttributes response = getResponse(questionId, false, "UI");
         feedbackSubmitPage.fillMcqResponse(1, "", response);
-        feedbackSubmitPage.clickSubmitAllQuestionsButton();
+        feedbackSubmitPage.clickSubmitQuestionButton(1);
 
         verifyPresentInDatabase(response);
 
@@ -111,7 +111,7 @@ public class FeedbackMcqQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
         ______TS("edit response");
         response = getResponse(questionId, true, "This is the edited response.");
         feedbackSubmitPage.fillMcqResponse(1, "", response);
-        feedbackSubmitPage.clickSubmitAllQuestionsButton();
+        feedbackSubmitPage.clickSubmitQuestionButton(1);
 
         feedbackSubmitPage = getFeedbackSubmitPage();
         feedbackSubmitPage.verifyMcqResponse(1, "", response);

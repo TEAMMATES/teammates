@@ -600,9 +600,9 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   /**
    * Checks whether there is any submission forms in the current page.
    */
-  get hasAnyResponseToSubmit(): boolean {
+  get questionsNeedingSubmission(): QuestionSubmissionFormModel[] {
     return this.questionSubmissionForms
-        .some((model: QuestionSubmissionFormModel) => model.recipientSubmissionForms.length !== 0);
+        .filter((model: QuestionSubmissionFormModel) => model.recipientSubmissionForms.length !== 0);
   }
 
   /**

@@ -86,20 +86,21 @@
                                  [attr.id]="questionSubmissionForm.feedbackQuestionId"
                                  inViewport (inViewportAction)="loadRecipientsAndResponses($event, questionSubmissionForm)"
                                  [(formModel)]="questionSubmissionForms[i]" [formMode]="getQuestionSubmissionFormMode(questionSubmissionForm)"
-                                 [isDisabled]="isSubmissionFormsDisabled && !this.previewAsPerson"
+                                 [isSubmissionDisabled]="isSubmissionFormsDisabled" [isFormsDisabled]="isSubmissionFormsDisabled && !this.previewAsPerson"
                                  [isSavingResponses]="isSavingResponses" (responsesSave)="saveFeedbackResponses([$event])"
                                  (deleteCommentEvent)="deleteParticipantComment(i, $event)"
     ></tm-question-submission-form>
 
     <br class="mobile-invisible"/>
-    <div class="row" *ngIf="!hasAnyResponseToSubmit">
+    <div class="row" *ngIf="questionsNeedingSubmission.length === 0">
       <div class="col-12 text-center">
         <div class="alert alert-info" role="alert">
           There are no questions for you to answer here!
         </div>
       </div>
     </div>
-    <div class="row" *ngIf="hasAnyResponseToSubmit">
+    <!-- Do not display if only one question can be answered, as a button to submit individual response exists -->
+    <div class="row" *ngIf="questionsNeedingSubmission.length > 1">
       <div class="col-12 text-center">
         <button id="btn-submit" type="submit" class="btn btn-success"
                 ngbTooltip="You can save your responses at any time and come back later to continue."

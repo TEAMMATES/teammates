@@ -87,7 +87,7 @@ public class FeedbackTextQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
         String questionId = getFeedbackQuestion(question).getId();
         FeedbackResponseAttributes response = getResponse(questionId, receiver, "<p>This is the response for qn 1</p>");
         feedbackSubmitPage.fillTextResponse(1, receiver.getName(), response);
-        feedbackSubmitPage.clickSubmitAllQuestionsButton();
+        feedbackSubmitPage.clickSubmitQuestionButton(1);
 
         verifyPresentInDatabase(response);
 
@@ -100,7 +100,7 @@ public class FeedbackTextQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
         FeedbackTextResponseDetails editedDetails = new FeedbackTextResponseDetails(editedResponse);
         response.setResponseDetails(editedDetails);
         feedbackSubmitPage.fillTextResponse(1, receiver.getName(), response);
-        feedbackSubmitPage.clickSubmitAllQuestionsButton();
+        feedbackSubmitPage.clickSubmitQuestionButton(1);
 
         feedbackSubmitPage = getFeedbackSubmitPage();
         feedbackSubmitPage.verifyTextResponse(1, receiver.getName(), response);

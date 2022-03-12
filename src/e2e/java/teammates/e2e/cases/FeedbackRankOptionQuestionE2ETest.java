@@ -102,7 +102,7 @@ public class FeedbackRankOptionQuestionE2ETest extends BaseFeedbackQuestionE2ETe
         FeedbackResponseAttributes response = getResponse(questionId, receiver, Arrays.asList(2, 1, 3,
                 Const.POINTS_NOT_SUBMITTED));
         feedbackSubmitPage.fillRankOptionResponse(1, receiver.getName(), response);
-        feedbackSubmitPage.clickSubmitAllQuestionsButton();
+        feedbackSubmitPage.clickSubmitQuestionButton(1);
 
         verifyPresentInDatabase(response);
 
@@ -113,7 +113,7 @@ public class FeedbackRankOptionQuestionE2ETest extends BaseFeedbackQuestionE2ETe
         ______TS("edit response");
         response = getResponse(questionId, receiver, Arrays.asList(Const.POINTS_NOT_SUBMITTED, 1, 3, 2));
         feedbackSubmitPage.fillRankOptionResponse(1, receiver.getName(), response);
-        feedbackSubmitPage.clickSubmitAllQuestionsButton();
+        feedbackSubmitPage.clickSubmitQuestionButton(1);
 
         feedbackSubmitPage = getFeedbackSubmitPage();
         feedbackSubmitPage.verifyRankOptionResponse(1, receiver.getName(), response);

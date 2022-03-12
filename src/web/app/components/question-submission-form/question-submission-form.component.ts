@@ -39,7 +39,10 @@ export class QuestionSubmissionFormComponent implements OnInit {
   formMode: QuestionSubmissionFormMode = QuestionSubmissionFormMode.FIXED_RECIPIENT;
 
   @Input()
-  isDisabled: boolean = false;
+  isFormsDisabled: boolean = false;
+
+  @Input()
+  isSubmissionDisabled: boolean = false;
 
   @Input()
   isSavingResponses: boolean = false;

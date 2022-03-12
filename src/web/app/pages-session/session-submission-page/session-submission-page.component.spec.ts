@@ -926,7 +926,7 @@ describe('SessionSubmissionPageComponent', () => {
     expect(getQuestionsSpy).toHaveBeenLastCalledWith(getFeedbackSessionArgs);
     expect(component.questionSubmissionForms.length).toEqual(1);
     expect(component.questionSubmissionForms[0]).toEqual(testMcqQuestionSubmissionForm2);
-    expect(component.hasAnyResponseToSubmit).toEqual(false);
+    expect(component.questionsNeedingSubmission.length).toEqual(0);
   });
 
   it('should load the recipients and responses of a question if not yet loaded', () => {
@@ -982,7 +982,7 @@ describe('SessionSubmissionPageComponent', () => {
     expect(testMcqQuestionSubmissionForm2.recipientSubmissionForms).toEqual([
       testMcqRecipientSubmissionForm3, testMcqRecipientSubmissionForm4,
     ]);
-    expect(component.hasAnyResponseToSubmit).toEqual(true);
+    expect(component.questionsNeedingSubmission.length).toEqual(1);
   });
 
   it('should not load the recipients and responses of a question if already loaded', () => {
@@ -1015,7 +1015,7 @@ describe('SessionSubmissionPageComponent', () => {
     const testSubmissionForm: QuestionSubmissionFormModel = deepCopy(testTextQuestionSubmissionForm);
     testSubmissionForm.recipientSubmissionForms = [];
     component.questionSubmissionForms = [testSubmissionForm];
-    expect(component.hasAnyResponseToSubmit).toEqual(false);
+    expect(component.questionsNeedingSubmission.length).toEqual(0);
   });
 
   it('should save feedback responses', () => {
