@@ -1,6 +1,7 @@
 /**
  * The format of a session template.
  */
+import { NotificationTargetUser, NotificationType } from '../../../../types/api-request';
 import { DateFormat } from '../../../components/datepicker/datepicker.component';
 import { TimeFormat } from '../../../components/timepicker/timepicker.component';
 
@@ -32,8 +33,8 @@ export interface NotificationEditFormModel {
   endTime: TimeFormat;
   endDate: DateFormat;
 
-  type: string;
-  targetUser: string;
+  type: NotificationType;
+  targetUser: NotificationTargetUser;
 
   title: string;
   message: string;

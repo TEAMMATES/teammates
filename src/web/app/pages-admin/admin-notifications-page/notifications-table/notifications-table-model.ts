@@ -1,5 +1,4 @@
-// FIXME: This Notification is to be imported from api-output after GET route PR is merged
-import { Notification } from '../../../../services/notification.service';
+import { Notification } from '../../../../types/api-output';
 
 /**
  * The model for a row in the notifications table.

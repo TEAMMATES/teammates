@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
 import { TimezoneService } from '../../../../services/timezone.service';
 import { ApiConst } from '../../../../types/api-const';
+import { NotificationTargetUser, NotificationType } from '../../../../types/api-request';
 import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
 import { NotificationEditFormMode, NotificationEditFormModel } from './notification-edit-form-model';
 
@@ -13,6 +14,8 @@ import { NotificationEditFormMode, NotificationEditFormModel } from './notificat
 export class NotificationEditFormComponent {
 
   NotificationEditFormMode = NotificationEditFormMode;
+  NotificationType = NotificationType;
+  NotificationTargetUser = NotificationTargetUser;
 
   NOTIFICATION_TITLE_MAX_LENGTH = ApiConst.NOTIFICATION_TITLE_MAX_LENGTH;
 
@@ -28,8 +31,8 @@ export class NotificationEditFormComponent {
     endTime: { hour: 0, minute: 0 },
     endDate: { year: 0, month: 0, day: 0 },
 
-    type: '',
-    targetUser: '',
+    type: NotificationType.MAINTENANCE,
+    targetUser: NotificationTargetUser.GENERAL,
 
     title: '',
     message: '',

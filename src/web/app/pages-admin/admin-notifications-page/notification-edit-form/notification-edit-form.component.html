@@ -23,10 +23,9 @@
             </div>
             <div class="col-md-auto text-md-left">
               <select id="targer-user" class="form-control" [ngModel]="model.targetUser" (ngModelChange)="triggerModelChange('targetUser', $event)">
-                <!-- TODO: Value should be synchronized from backend as constants -->
-                <option value="student">Students</option>
-                <option value="instructor">Instructors</option>
-                <option value="general">General (for both students and instructors)</option>
+                <option [ngValue]="NotificationTargetUser.STUDENT">Students</option>
+                <option [ngValue]="NotificationTargetUser.INSTRUCTOR">Instructors</option>
+                <option [ngValue]="NotificationTargetUser.GENERAL">General (for both students and instructors)</option>
               </select>
             </div>
           </div>
@@ -38,11 +37,10 @@
             </div>
             <div class="col-md-auto text-md-left">
               <select id="notification-type" class="form-control" [ngModel]="model.type" (ngModelChange)="triggerModelChange('type', $event)">
-                <!-- TODO: Value should be synchronized from backend as constants -->
-                <option class="text-warning" value="maintenance">Maintenance</option>
-                <option class="text-primary" value="version_note">Version note</option>
-                <option class="text-secondary" value="depreciation">Depreciation</option>
-                <option class="text-success" value="tips">Tips</option>
+                <option class="text-warning" [ngValue]="NotificationType.MAINTENANCE">Maintenance</option>
+                <option class="text-primary" [ngValue]="NotificationType.VERSION_NOTE">Version note</option>
+                <option class="text-secondary" [ngValue]="NotificationType.DEPRECATION">Depreciation</option>
+                <option class="text-success" [ngValue]="NotificationType.TIPS">Tips</option>
               </select>
             </div>
           </div>

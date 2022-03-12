@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { finalize } from 'rxjs/operators';
-// FIXME: This Notification is to be imported from api-output after GET route PR is merged
-import { NotificationService, Notification, Notifications } from '../../../services/notification.service';
+import { NotificationService } from '../../../services/notification.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
 import { TimezoneService } from '../../../services/timezone.service';
+import { Notification, Notifications } from '../../../types/api-output';
+import { NotificationType, NotificationTargetUser } from '../../../types/api-request';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
@@ -41,8 +42,8 @@ export class AdminNotificationsPageComponent implements OnInit {
     endTime: { hour: 0, minute: 0 },
     endDate: { year: 0, month: 0, day: 0 },
 
-    type: '',
-    targetUser: '',
+    type: NotificationType.MAINTENANCE,
+    targetUser: NotificationTargetUser.GENERAL,
 
     title: '',
     message: '',
@@ -165,8 +166,8 @@ export class AdminNotificationsPageComponent implements OnInit {
         let strB: string;
         switch (this.notificationsTableRowModelsSortBy) {
           case SortBy.NOTIFICATION_CREATE_TIME:
-            strA = String(a.notification.createTimestamp);
-            strB = String(b.notification.createTimestamp);
+            strA = String(a.notification.createdAt);
+            strB = String(b.notification.createdAt);
             break;
           case SortBy.NOTIFICATION_TITLE:
             strA = a.notification.title;
