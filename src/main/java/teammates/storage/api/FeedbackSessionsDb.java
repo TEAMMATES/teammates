@@ -396,6 +396,7 @@ public final class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, Feedba
         return !load()
                 .filterKey(Key.create(FeedbackSession.class,
                         FeedbackSession.generateId(entityToCreate.getFeedbackSessionName(), entityToCreate.getCourseId())))
+                .keys()
                 .list()
                 .isEmpty();
     }

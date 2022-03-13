@@ -208,6 +208,9 @@ public final class FeedbackSessionsLogic {
      */
     public boolean isCreatorOfSession(String feedbackSessionName, String courseId, String userEmail) {
         FeedbackSessionAttributes fs = getFeedbackSession(feedbackSessionName, courseId);
+        if (fs == null) {
+            return false;
+        }
         return fs.getCreatorEmail().equals(userEmail);
     }
 
@@ -558,11 +561,13 @@ public final class FeedbackSessionsLogic {
      * Returns true if there are any questions for the specified user type (students/instructors) to answer.
      */
     public boolean isFeedbackSessionForUserTypeToAnswer(FeedbackSessionAttributes session, boolean isInstructor) {
-        List<FeedbackQuestionAttributes> questionsToAnswer = isInstructor
-                ? fqLogic.getFeedbackQuestionsForInstructors(session.getFeedbackSessionName(), session.getCourseId(), null)
-                : fqLogic.getFeedbackQuestionsForStudents(session.getFeedbackSessionName(), session.getCourseId());
+        if (!session.isVisible()) {
+            return false;
+        }
 
-        return session.isVisible() && !questionsToAnswer.isEmpty();
+        return isInstructor
+                ? fqLogic.hasFeedbackQuestionsForInstructors(session.getFeedbackSessionName(), session.getCourseId(), null)
+                : fqLogic.hasFeedbackQuestionsForStudents(session.getFeedbackSessionName(), session.getCourseId());
     }
 
 }
