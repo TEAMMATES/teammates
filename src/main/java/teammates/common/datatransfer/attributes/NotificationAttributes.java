@@ -365,6 +365,8 @@ public class NotificationAttributes extends EntityAttributes<Notification> {
         }
 
         public B withType(NotificationType type) {
+            assert type != null;
+
             updateOptions.typeOption = UpdateOption.of(type);
             return thisBuilder;
         }
