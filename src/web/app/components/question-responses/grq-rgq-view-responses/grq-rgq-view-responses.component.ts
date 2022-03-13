@@ -48,6 +48,8 @@ export class GrqRgqViewResponsesComponent extends InstructorResponsesViewBase im
     isClosingEmailEnabled: true,
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
+    studentDeadlines: {},
+    instructorDeadlines: {},
   };
 
   @Input() isGrq: boolean = true;

@@ -218,6 +218,8 @@ const studentFeedbackSessions: FeedbackSessions = {
       isClosingEmailEnabled: true,
       isPublishedEmailEnabled: true,
       createdAtTimestamp: 0,
+      studentDeadlines: {},
+      instructorDeadlines: {},
     },
     {
       feedbackSessionName: 'Orientation Session',
@@ -234,6 +236,8 @@ const studentFeedbackSessions: FeedbackSessions = {
       isClosingEmailEnabled: true,
       isPublishedEmailEnabled: true,
       createdAtTimestamp: 0,
+      studentDeadlines: {},
+      instructorDeadlines: {},
     },
     {
       feedbackSessionName: 'Welcome Tea Session',
@@ -250,6 +254,8 @@ const studentFeedbackSessions: FeedbackSessions = {
       isClosingEmailEnabled: true,
       isPublishedEmailEnabled: true,
       createdAtTimestamp: 0,
+      studentDeadlines: {},
+      instructorDeadlines: {},
     },
   ],
 };
@@ -310,6 +316,8 @@ describe('StudentHomePageComponent', () => {
           isClosingEmailEnabled: true,
           isPublishedEmailEnabled: true,
           createdAtTimestamp: 0,
+          studentDeadlines: {},
+          instructorDeadlines: {},
         },
         {
           feedbackSessionName: 'Second Session',
@@ -326,6 +334,8 @@ describe('StudentHomePageComponent', () => {
           isClosingEmailEnabled: true,
           isPublishedEmailEnabled: true,
           createdAtTimestamp: 0,
+          studentDeadlines: {},
+          instructorDeadlines: {},
         },
       ],
     };
@@ -366,6 +376,8 @@ describe('StudentHomePageComponent', () => {
           isClosingEmailEnabled: true,
           isPublishedEmailEnabled: true,
           createdAtTimestamp: 0,
+          studentDeadlines: {},
+          instructorDeadlines: {},
         },
         {
           feedbackSessionName: 'Second Session',
@@ -382,6 +394,8 @@ describe('StudentHomePageComponent', () => {
           isClosingEmailEnabled: true,
           isPublishedEmailEnabled: true,
           createdAtTimestamp: 0,
+          studentDeadlines: {},
+          instructorDeadlines: {},
         },
       ],
     };
