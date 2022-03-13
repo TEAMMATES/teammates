@@ -129,7 +129,7 @@
   },
   "courses": {
     "typicalCourse1": {
-      "createdAt": "2012-04-01T23:58:00Z",
+      "createdAt": "2012-03-20T23:59:00Z",
       "id": "idOfTypicalCourse1",
       "name": "Typical Course 1 with 2 Evals",
       "institute": "TEAMMATES Test Institute 1",
