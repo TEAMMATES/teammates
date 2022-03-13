@@ -13,15 +13,15 @@ import teammates.test.BaseTestCase;
  * SUT: {@link NotificationAttributes}.
  */
 public class NotificationAttributesTest extends BaseTestCase {
-    private static final Instant startTime1 = Instant.now().plusSeconds(3600);
-    private static final Instant endTime1 = Instant.now().plusSeconds(7200);
-    private static final Instant startTime2 = Instant.now().plusSeconds(1000);
-    private static final Instant endTime2 = Instant.now().plusSeconds(10000);
+    private static final Instant STARTTIME_ONE = Instant.now().plusSeconds(3600);
+    private static final Instant ENDTIME_ONE = Instant.now().plusSeconds(7200);
+    private static final Instant STARTTIME_TWO = Instant.now().plusSeconds(1000);
+    private static final Instant ENDTIME_TWO = Instant.now().plusSeconds(10000);
 
     @Test
     public void testValueOf_withAllFieldPopulatedNotificationAttributes_shouldGenerateAttributesCorrectly() {
         Notification notification = new Notification("valid-notification-id",
-                startTime1, endTime1,
+                STARTTIME_ONE, ENDTIME_ONE,
                 NotificationType.DEPRECATION, NotificationTargetUser.INSTRUCTOR,
                 "valid notification title", "valid notification message", false,
                 Instant.now(), Instant.now());
@@ -91,12 +91,12 @@ public class NotificationAttributesTest extends BaseTestCase {
 
     @Test
     public void testBuilder_withTypicalData_shouldBuildCorrectAttributes() {
-        Notification notification = new Notification(startTime1, endTime1,
+        Notification notification = new Notification(STARTTIME_ONE, ENDTIME_ONE,
                 NotificationType.TIPS, NotificationTargetUser.GENERAL,
                 "Another tip for usage", "Here the message starts");
         NotificationAttributes nfa = NotificationAttributes.valueOf(notification);
-        assertEquals(startTime1, nfa.getStartTime());
-        assertEquals(endTime1, nfa.getEndTime());
+        assertEquals(STARTTIME_ONE, nfa.getStartTime());
+        assertEquals(ENDTIME_ONE, nfa.getEndTime());
         assertEquals(NotificationType.TIPS, nfa.getType());
         assertEquals(NotificationTargetUser.GENERAL, nfa.getTargetUser());
         assertEquals("Another tip for usage", nfa.getTitle());
@@ -106,8 +106,8 @@ public class NotificationAttributesTest extends BaseTestCase {
     @Test
     public void testCopyConstructor_shouldDoDeepCopyOfNotificationDetails() {
         NotificationAttributes nfa1 = NotificationAttributes.builder("notificationId")
-                .withStartTime(startTime1)
-                .withEndTime(endTime1)
+                .withStartTime(STARTTIME_ONE)
+                .withEndTime(ENDTIME_ONE)
                 .withType(NotificationType.DEPRECATION)
                 .withTargetUser(NotificationTargetUser.INSTRUCTOR)
                 .withTitle("valid notification title")
@@ -124,8 +124,8 @@ public class NotificationAttributesTest extends BaseTestCase {
     public void testUpdateOptions_withTypicalUpdateOptions_shouldUpdateAttributeCorrectly() {
         NotificationAttributes.UpdateOptions updateOptions =
                 NotificationAttributes.updateOptionsBuilder("notificationId")
-                        .withStartTime(startTime2)
-                        .withEndTime(endTime2)
+                        .withStartTime(STARTTIME_TWO)
+                        .withEndTime(ENDTIME_TWO)
                         .withType(NotificationType.VERSION_NOTE)
                         .withTargetUser(NotificationTargetUser.STUDENT)
                         .withTitle("The edited title")
@@ -136,8 +136,8 @@ public class NotificationAttributesTest extends BaseTestCase {
 
         NotificationAttributes notificationAttributes =
                 NotificationAttributes.builder("notificationId")
-                .withStartTime(startTime1)
-                .withEndTime(endTime1)
+                .withStartTime(STARTTIME_ONE)
+                .withEndTime(ENDTIME_ONE)
                 .withType(NotificationType.DEPRECATION)
                 .withTargetUser(NotificationTargetUser.INSTRUCTOR)
                 .withTitle("valid notification title")
@@ -146,8 +146,8 @@ public class NotificationAttributesTest extends BaseTestCase {
 
         notificationAttributes.update(updateOptions);
 
-        assertEquals(startTime2, notificationAttributes.getStartTime());
-        assertEquals(endTime2, notificationAttributes.getEndTime());
+        assertEquals(STARTTIME_TWO, notificationAttributes.getStartTime());
+        assertEquals(ENDTIME_TWO, notificationAttributes.getEndTime());
         assertEquals(NotificationType.VERSION_NOTE, notificationAttributes.getType());
         assertEquals(NotificationTargetUser.STUDENT, notificationAttributes.getTargetUser());
         assertEquals("The edited title", notificationAttributes.getTitle());
@@ -182,8 +182,8 @@ public class NotificationAttributesTest extends BaseTestCase {
     public void testEquals() {
         NotificationAttributes notificationAttributes =
                 NotificationAttributes.builder("notificationId")
-                .withStartTime(startTime1)
-                .withEndTime(endTime1)
+                .withStartTime(STARTTIME_ONE)
+                .withEndTime(ENDTIME_ONE)
                 .withType(NotificationType.DEPRECATION)
                 .withTargetUser(NotificationTargetUser.INSTRUCTOR)
                 .withTitle("valid notification title")
@@ -198,8 +198,8 @@ public class NotificationAttributesTest extends BaseTestCase {
         // When the two notifications have same values but created at different time
         NotificationAttributes notificationAttributesSimilar =
                 NotificationAttributes.builder("notificationId")
-                .withStartTime(startTime1)
-                .withEndTime(endTime1)
+                .withStartTime(STARTTIME_ONE)
+                .withEndTime(ENDTIME_ONE)
                 .withType(NotificationType.DEPRECATION)
                 .withTargetUser(NotificationTargetUser.INSTRUCTOR)
                 .withTitle("valid notification title")
@@ -210,8 +210,8 @@ public class NotificationAttributesTest extends BaseTestCase {
 
         NotificationAttributes notificationAttributesDifferent =
                 NotificationAttributes.builder("differentId")
-                .withStartTime(startTime1)
-                .withEndTime(endTime1)
+                .withStartTime(STARTTIME_ONE)
+                .withEndTime(ENDTIME_ONE)
                 .withType(NotificationType.DEPRECATION)
                 .withTargetUser(NotificationTargetUser.INSTRUCTOR)
                 .withTitle("valid notification title")
@@ -228,8 +228,8 @@ public class NotificationAttributesTest extends BaseTestCase {
     public void testHashCode() {
         NotificationAttributes notificationAttributes =
                 NotificationAttributes.builder("notificationId")
-                        .withStartTime(startTime1)
-                        .withEndTime(endTime1)
+                        .withStartTime(STARTTIME_ONE)
+                        .withEndTime(ENDTIME_ONE)
                         .withType(NotificationType.DEPRECATION)
                         .withTargetUser(NotificationTargetUser.INSTRUCTOR)
                         .withTitle("valid notification title")
@@ -244,8 +244,8 @@ public class NotificationAttributesTest extends BaseTestCase {
         // When the two notifications have same values but created at different time
         NotificationAttributes notificationAttributesSimilar =
                 NotificationAttributes.builder("notificationId")
-                        .withStartTime(startTime1)
-                        .withEndTime(endTime1)
+                        .withStartTime(STARTTIME_ONE)
+                        .withEndTime(ENDTIME_ONE)
                         .withType(NotificationType.DEPRECATION)
                         .withTargetUser(NotificationTargetUser.INSTRUCTOR)
                         .withTitle("valid notification title")
@@ -256,8 +256,8 @@ public class NotificationAttributesTest extends BaseTestCase {
 
         NotificationAttributes notificationAttributesDifferent =
                 NotificationAttributes.builder("differentId")
-                        .withStartTime(startTime1)
-                        .withEndTime(endTime1)
+                        .withStartTime(STARTTIME_ONE)
+                        .withEndTime(ENDTIME_ONE)
                         .withType(NotificationType.DEPRECATION)
                         .withTargetUser(NotificationTargetUser.INSTRUCTOR)
                         .withTitle("valid notification title")
