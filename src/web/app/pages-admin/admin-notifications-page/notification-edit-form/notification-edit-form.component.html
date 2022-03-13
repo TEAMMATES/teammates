@@ -33,7 +33,7 @@
 
           <div class="row text-center">
             <div class="col-md-2 text-md-right font-bold">
-              <span class="ngb-tooltip-class" ngbTooltip="Different types correspond to different background colours at desplay.">Notification type</span>
+              <span class="ngb-tooltip-class" ngbTooltip="Different types correspond to different background colours at display.">Notification type</span>
             </div>
             <div class="col-md-auto text-md-left">
               <select id="notification-type" class="form-control" [ngModel]="model.type" (ngModelChange)="triggerModelChange('type', $event)">
@@ -103,7 +103,7 @@
               <div class="row text-center align-items-center">
                 <div id="notification-start-date" class="col-md-7 col-xs-center">
                   <tm-datepicker [disabled]="!model.isEditable" (dateChangeCallback)="triggerModelChange('startDate', $event)"
-                                       [date]="model.startDate"></tm-datepicker>
+                                 [date]="model.startDate"></tm-datepicker>
                 </div>
                 <div class="col-md-5">
                   <tm-timepicker id="notification-start-time" [time]="model.startTime" (timeChange)="triggerModelChange('startTime', $event)" [isDisabled]="!model.isEditable"></tm-timepicker>
@@ -121,7 +121,7 @@
               <div class="row align-items-center">
                 <div id="notification-end-date" class="col-md-7 col-xs-center">
                   <tm-datepicker [disabled]="!model.isEditable" (dateChangeCallback)="triggerModelChange('endDate', $event)"
-                                       [minDate]="model.startDate" [date]="model.endDate"></tm-datepicker>
+                                 [minDate]="model.startDate" [date]="model.endDate"></tm-datepicker>
                 </div>
                 <div class="col-md-5">
                   <tm-timepicker id="notification-end-time" [time]="model.endTime" (timeChange)="triggerModelChange('endTime', $event)" [isDisabled]="!model.isEditable"></tm-timepicker>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import moment from 'moment-timezone';
 import { finalize } from 'rxjs/operators';
 import { NotificationService } from '../../../services/notification.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -65,7 +66,46 @@ export class AdminNotificationsPageComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.initNotificationEditFormModel();
     this.loadNotifications();
+  }
+
+  /**
+   * Initiates values for the notification edit form model.
+   */
+  initNotificationEditFormModel(): void {
+    const nearFuture: moment.Moment = moment().add(1, 'hours');
+    const tomorrow: moment.Moment = moment().add(1, 'days');
+    this.notificationEditFormModel = {
+      notificationId: '',
+      shown: false,
+
+      startTime: {
+        minute: nearFuture.hour() === 0 ? 59 : 0, // for 00:00 midnight, we use 23:59
+        hour: nearFuture.hour() === 0 ? 23 : nearFuture.hour(),
+      },
+      startDate: {
+        year: nearFuture.year(),
+        month: nearFuture.month() + 1, // moment return 0-11 for month
+        day: nearFuture.date(),
+      },
+      endTime: { hour: 23, minute: 59 },
+      endDate: {
+        year: tomorrow.year(),
+        month: tomorrow.month() + 1, // moment return 0-11 for month
+        day: tomorrow.date(),
+      },
+
+      type: NotificationType.MAINTENANCE,
+      targetUser: NotificationTargetUser.GENERAL,
+
+      title: '',
+      message: '',
+
+      isSaving: false,
+      isEditable: true,
+      isDeleting: false,
+    };
   }
 
   /**
@@ -150,6 +190,7 @@ export class AdminNotificationsPageComponent implements OnInit {
         });
 
         this.isNotificationEditFormExpanded = false;
+        this.initNotificationEditFormModel();
       },
       (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
@@ -170,6 +211,13 @@ export class AdminNotificationsPageComponent implements OnInit {
       this.notificationsTableRowModelsSortBy = sortBy;
       this.notificationsTableRowModelsSortOrder = defaultNotificationsTableRowModelsSortOrder;
     }
+    // before sorting, remove highlights from all rows
+    this.notificationsTableRowModels.forEach(
+      (notificationsTableRowModel: NotificationsTableRowModel) => {
+        notificationsTableRowModel.isHighlighted = false;
+      },
+    );
+
     this.notificationsTableRowModels.sort(this.getNotificationsTableRowModelsComparator());
   }
 

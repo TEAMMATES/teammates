@@ -1,6 +1,3 @@
-/**
- * The format of a session template.
- */
 import { NotificationTargetUser, NotificationType } from '../../../../types/api-request';
 import { DateFormat } from '../../../components/datepicker/datepicker.component';
 import { TimeFormat } from '../../../components/timepicker/timepicker.component';
@@ -21,7 +18,7 @@ import { TimeFormat } from '../../../components/timepicker/timepicker.component'
 }
 
 /**
- * The form model of session edit form.
+ * The form model of notification edit form.
  */
 export interface NotificationEditFormModel {
   // EDIT mode specific

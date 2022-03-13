@@ -22,7 +22,7 @@ const routes: Routes = [
 ];
 
 /**
- * Module for admin timezone page.
+ * Module for admin notifications page.
  */
 @NgModule({
   declarations: [
