@@ -166,7 +166,9 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
     },
     "Second Feedback Session": {
       "feedbackSessionName": "Second Feedback Session",
@@ -186,7 +188,9 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
     },
     "Third Feedback Session": {
       "feedbackSessionName": "Third Feedback Session",
@@ -207,7 +211,9 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
     },
     "Fourth Feedback Session": {
       "feedbackSessionName": "Fourth Feedback Session",
@@ -228,7 +234,9 @@
       "sentPublishedEmail": true,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
     },
     "CS1101 Session": {
       "feedbackSessionName": "CS1101 Session",
@@ -249,7 +257,9 @@
       "sentPublishedEmail": true,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
     }
   },
   "feedbackQuestions": {

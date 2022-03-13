@@ -4,6 +4,7 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.googlecode.objectify.Key;
@@ -242,7 +243,11 @@ public final class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, Feedba
                 && this.<Boolean>hasSameValue(
                         feedbackSession.isClosingEmailEnabled(), newAttributes.isClosingEmailEnabled())
                 && this.<Boolean>hasSameValue(
-                        feedbackSession.isPublishedEmailEnabled(), newAttributes.isPublishedEmailEnabled());
+                        feedbackSession.isPublishedEmailEnabled(), newAttributes.isPublishedEmailEnabled())
+                && this.<Map<String, Instant>>hasSameValue(
+                        feedbackSession.getStudentDeadlines(), newAttributes.getStudentDeadlines())
+                && this.<Map<String, Instant>>hasSameValue(
+                        feedbackSession.getInstructorDeadlines(), newAttributes.getInstructorDeadlines());
         if (hasSameAttributes) {
             log.info(String.format(
                     OPTIMIZED_SAVING_POLICY_APPLIED, FeedbackSession.class.getSimpleName(), updateOptions));
@@ -263,6 +268,8 @@ public final class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, Feedba
         feedbackSession.setSentPublishedEmail(newAttributes.isSentPublishedEmail());
         feedbackSession.setSendClosingEmail(newAttributes.isClosingEmailEnabled());
         feedbackSession.setSendPublishedEmail(newAttributes.isPublishedEmailEnabled());
+        feedbackSession.setStudentDeadlines(newAttributes.getStudentDeadlines());
+        feedbackSession.setInstructorDeadlines(newAttributes.getInstructorDeadlines());
 
         saveEntity(feedbackSession);
 

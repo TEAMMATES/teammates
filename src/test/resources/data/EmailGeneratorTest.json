@@ -428,7 +428,16 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {
+        "student1InCourse1@gmail.tmt": "2027-04-30T23:00:00Z",
+        "student4InCourse1@gmail.tmt": "2027-04-30T23:00:00Z",
+        "student5InCourse1@gmail.tmt": "2027-04-30T23:00:00Z"
+      },
+      "instructorDeadlines": {
+        "instructor1@course1.tmt": "2027-04-30T23:00:00Z",
+        "instructor2@course1.tmt": "2027-04-30T23:00:00Z"
+      }
     },
     "session2InCourse1": {
       "feedbackSessionName": "Second feedback session",
@@ -449,7 +458,9 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
     },
     "gracePeriodSession": {
       "feedbackSessionName": "Grace Period Session",
@@ -470,7 +481,9 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
     },
     "closedSession": {
       "feedbackSessionName": "Closed Session",
@@ -491,7 +504,9 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
     },
     "empty.session": {
       "feedbackSessionName": "Empty session",
@@ -512,7 +527,9 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
     },
     "awaiting.session": {
       "feedbackSessionName": "non visible session",
@@ -533,7 +550,9 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
     },
     "session2InCourse2": {
       "feedbackSessionName": "Not answerable feedback session",
@@ -554,7 +573,9 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
     },
     "session1InCourse3": {
       "feedbackSessionName": "First feedback session",
@@ -575,7 +596,9 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
     },
     "session2InCourse3": {
       "feedbackSessionName": "Second feedback session",
@@ -597,7 +620,9 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
     },
     "session1InCourse4": {
       "feedbackSessionName": "First feedback session",
@@ -618,7 +643,9 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
     },
     "session2InCourse4": {
       "feedbackSessionName": "Second feedback session",
@@ -639,7 +666,9 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
     },
     "session1InTestingNoEmailsSentCourse": {
       "feedbackSessionName": "Feedback session with no emails sent",
@@ -660,7 +689,9 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
     },
     "session1InTestingSanitizationCourse": {
       "feedbackSessionName": "Normal feedback session name",
@@ -681,7 +712,9 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
     }
   },
   "feedbackQuestions": {
