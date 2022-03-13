@@ -1869,5 +1869,43 @@
       "institute": "TEAMMATES Test Institute 2",
       "createdAt": "2011-01-01T00:00:00Z"
     }
+  },
+   "notifications": {
+    "notification-1": {
+      "notificationId": "notification-1",
+      "startTime": "2011-01-01T00:00:00Z",
+      "endTime": "2024-01-01T00:00:00Z",
+      "createdAt": "2011-01-01T00:00:00Z",
+      "updatedAt": "2011-01-01T00:00:00Z",
+      "type": "DEPRECATION",
+      "targetUser": "GENERAL",
+      "title": "A deprecation note",
+      "message": "Deprecation happens in three minutes",
+      "shown": false
+    },
+    "notification-2": {
+      "notificationId": "notification-2",
+      "startTime": "2011-02-02T00:00:00Z",
+      "endTime": "2024-02-02T00:00:00Z",
+      "createdAt": "2011-01-01T00:00:00Z",
+      "updatedAt": "2011-01-01T00:00:00Z",
+      "type": "VERSION_NOTE",
+      "targetUser": "STUDENT",
+      "title": "A note for update",
+      "message": "Exciting features",
+      "shown": false
+    },
+    "notification-3": {
+      "notificationId": "notification-3",
+      "startTime": "2011-03-03T00:00:00Z",
+      "endTime": "2024-03-03T00:00:00Z",
+      "createdAt": "2011-01-01T00:00:00Z",
+      "updatedAt": "2011-01-01T00:00:00Z",
+      "type": "VERSION_NOTE",
+      "targetUser": "INSTRUCTOR",
+      "title": "The first version note",
+      "message": "The version note content",
+      "shown": false
+    }
   }
 }
