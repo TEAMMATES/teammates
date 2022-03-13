@@ -11,6 +11,7 @@ import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.NotificationAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 
@@ -31,4 +32,5 @@ public class DataBundle {
     public Map<String, FeedbackResponseAttributes> feedbackResponses = new LinkedHashMap<>();
     public Map<String, FeedbackResponseCommentAttributes> feedbackResponseComments = new LinkedHashMap<>();
     public Map<String, StudentProfileAttributes> profiles = new LinkedHashMap<>();
+    public Map<String, NotificationAttributes> notifications = new LinkedHashMap<>();
 }

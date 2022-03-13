@@ -46,6 +46,10 @@ public class GetNotificationAction extends Action {
             if (targetUser == NotificationTargetUser.GENERAL) {
                 throw new InvalidHttpParameterException(INVALID_TARGET_USER);
             }
+            if (targetUser == NotificationTargetUser.INSTRUCTOR && userInfo.isStudent
+                    || targetUser == NotificationTargetUser.STUDENT && userInfo.isInstructor) {
+                throw new InvalidHttpParameterException(INVALID_TARGET_USER);
+            }
             notificationAttributes =
                     logic.getActiveNotificationsByTargetUser(targetUser);
         }
