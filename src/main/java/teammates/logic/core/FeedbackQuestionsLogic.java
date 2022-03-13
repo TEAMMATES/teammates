@@ -141,6 +141,25 @@ public final class FeedbackQuestionsLogic {
     }
 
     /**
+     * Checks if there are any questions for the given session that instructors can view/submit.
+     */
+    public boolean hasFeedbackQuestionsForInstructors(
+            String feedbackSessionName, String courseId, String userEmail) {
+        boolean hasQuestions = fqDb.hasFeedbackQuestionsForGiverType(
+                feedbackSessionName, courseId, FeedbackParticipantType.INSTRUCTORS);
+        if (hasQuestions) {
+            return true;
+        }
+
+        if (userEmail != null && fsLogic.isCreatorOfSession(feedbackSessionName, courseId, userEmail)) {
+            hasQuestions = fqDb.hasFeedbackQuestionsForGiverType(
+                    feedbackSessionName, courseId, FeedbackParticipantType.SELF);
+        }
+
+        return hasQuestions;
+    }
+
+    /**
      * Gets a {@code List} of all questions for the given session that instructors can view/submit.
      */
     public List<FeedbackQuestionAttributes> getFeedbackQuestionsForInstructors(
@@ -178,6 +197,15 @@ public final class FeedbackQuestionsLogic {
         }
 
         return questions;
+    }
+
+    /**
+     * Checks if there are any questions for the given session that students can view/submit.
+     */
+    public boolean hasFeedbackQuestionsForStudents(
+            String feedbackSessionName, String courseId) {
+        return fqDb.hasFeedbackQuestionsForGiverType(feedbackSessionName, courseId, FeedbackParticipantType.STUDENTS)
+                || fqDb.hasFeedbackQuestionsForGiverType(feedbackSessionName, courseId, FeedbackParticipantType.TEAMS);
     }
 
     /**
