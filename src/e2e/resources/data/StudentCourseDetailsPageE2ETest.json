@@ -4,9 +4,7 @@
       "googleId": "tm.e2e.SCDet.instr",
       "name": "Instructor",
       "email": "tmms.test@gmail.tmt",
-      "readNotifications": {
-        "idToEndTimestampMap": {}
-      }
+      "readNotifications": {}
     }
   },
   "courses": {

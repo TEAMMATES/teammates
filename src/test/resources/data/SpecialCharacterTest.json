@@ -4,49 +4,37 @@
       "googleId": "FQLogicPCT.instr",
       "name": "Teammates Test",
       "email": "FQLogicPCT.instr@gmail.tmt",
-      "readNotifications": {
-        "idToEndTimestampMap": {}
-      }
+      "readNotifications": {}
     },
     "FQLogicPCT.alice.b": {
       "googleId": "FQLogicPCT.alice.b",
       "name": "Alice B.",
       "email": "FQLogicPCT.alice.b@gmail.tmt",
-      "readNotifications": {
-        "idToEndTimestampMap": {}
-      }
+      "readNotifications": {}
     },
     "FQLogicPCT.benny.c": {
       "googleId": "FQLogicPCT.benny.c",
       "name": "Benny C.",
       "email": "FQLogicPCT.benny.c@gmail.tmt",
-      "readNotifications": {
-        "idToEndTimestampMap": {}
-      }
+      "readNotifications": {}
     },
     "FQLogicPCT.charlie.d": {
       "googleId": "FQLogicPCT.charlie.d",
       "name": "Charlie D.",
       "email": "FQLogicPCT.charlie.d@gmail.tmt",
-      "readNotifications": {
-        "idToEndTimestampMap": {}
-      }
+      "readNotifications": {}
     },
     "FQLogicPCT.danny.e": {
       "googleId": "FQLogicPCT.danny.e",
       "name": "Danny E.",
       "email": "FQLogicPCT.danny.e@gmail.tmt",
-      "readNotifications": {
-        "idToEndTimestampMap": {}
-      }
+      "readNotifications": {}
     },
     "FQLogicPCT.emily.f": {
       "googleId": "FQLogicPCT.emily.f",
       "name": "Emily F.",
       "email": "FQLogicPCT.emily.f@gmail.tmt",
-      "readNotifications": {
-        "idToEndTimestampMap": {}
-      }
+      "readNotifications": {}
     }
   },
   "courses": {

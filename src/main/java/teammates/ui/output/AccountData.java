@@ -1,6 +1,7 @@
 package teammates.ui.output;
 
-import teammates.common.datatransfer.ReadNotifications;
+import java.util.Map;
+
 import teammates.common.datatransfer.attributes.AccountAttributes;
 
 /**
@@ -11,7 +12,7 @@ public class AccountData extends ApiOutput {
     private final String googleId;
     private final String name;
     private final String email;
-    private final ReadNotifications readNotifications;
+    private final Map<String, Long> readNotifications;
 
     public AccountData(AccountAttributes accountInfo) {
         this.googleId = accountInfo.getGoogleId();
@@ -32,7 +33,7 @@ public class AccountData extends ApiOutput {
         return name;
     }
 
-    public ReadNotifications getReadNotifications() {
+    public Map<String, Long> getReadNotifications() {
         return this.readNotifications;
     }
 

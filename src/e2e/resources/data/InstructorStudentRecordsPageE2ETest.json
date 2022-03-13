@@ -4,17 +4,13 @@
       "googleId": "tm.e2e.ISRecords.teammates.test",
       "name": "Teammates Test",
       "email": "teammates.test@gmail.tmt",
-      "readNotifications": {
-        "idToEndTimestampMap": {}
-      }
+      "readNotifications": {}
     },
     "benny.c.tmms@ISR.CS2104": {
       "googleId": "tm.e2e.ISRecords.benny.c.tmms",
       "name": "Benny Charlés",
       "email": "benny.c.tmms@gmail.tmt",
-      "readNotifications": {
-        "idToEndTimestampMap": {}
-      }
+      "readNotifications": {}
     }
   },
   "courses": {

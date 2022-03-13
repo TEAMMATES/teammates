@@ -1,11 +1,11 @@
 package teammates.common.datatransfer.attributes;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.ReadNotifications;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
@@ -48,14 +48,14 @@ public class AccountAttributesTest extends BaseAttributesTest {
     public void testToEntity() {
         AccountAttributes account = createValidAccountAttributesObject();
         Account expectedAccount = new Account(account.getGoogleId(), account.getName(),
-                account.getEmail(), account.getReadNotificationsAsText());
+                account.getEmail(), account.getReadNotifications());
 
         Account actualAccount = account.toEntity();
 
         assertEquals(expectedAccount.getGoogleId(), actualAccount.getGoogleId());
         assertEquals(expectedAccount.getName(), actualAccount.getName());
         assertEquals(expectedAccount.getEmail(), actualAccount.getEmail());
-        assertEquals(expectedAccount.getReadNotificationsAsText(), actualAccount.getReadNotificationsAsText());
+        assertEquals(expectedAccount.getReadNotifications(), actualAccount.getReadNotifications());
     }
 
     @Test
@@ -85,7 +85,7 @@ public class AccountAttributesTest extends BaseAttributesTest {
         AccountAttributes observedAccountAttributes = AccountAttributes.builder("id").build();
 
         assertEquals("id", observedAccountAttributes.getGoogleId());
-        assertEquals(new ReadNotifications(), observedAccountAttributes.getReadNotifications());
+        assertEquals(new HashMap<>(), observedAccountAttributes.getReadNotifications());
 
         assertNull(observedAccountAttributes.getCreatedAt());
         assertNull(observedAccountAttributes.getEmail());
@@ -134,8 +134,7 @@ public class AccountAttributesTest extends BaseAttributesTest {
 
     @Test
     public void testValueOf() {
-        Account genericAccount = new Account("id", "Joe", "joe@example.com",
-                new ReadNotifications().getJsonString());
+        Account genericAccount = new Account("id", "Joe", "joe@example.com", new LinkedHashMap<>());
 
         AccountAttributes observedAccountAttributes = AccountAttributes.valueOf(genericAccount);
 
@@ -242,10 +241,9 @@ public class AccountAttributesTest extends BaseAttributesTest {
         String name = "valid name";
         String email = "valid@email.com";
 
-        Map<String, Long> idToTimestampMap = new LinkedHashMap<>();
+        Map<String, Long> readNotifications = new LinkedHashMap<>();
         // Friday, March 1, 2030 8:00:00 AM GMT+08:00
-        idToTimestampMap.put("1", Long.valueOf("1898553600000"));
-        ReadNotifications readNotifications = new ReadNotifications(idToTimestampMap);
+        readNotifications.put("1", Long.valueOf("1898553600000"));
 
         return AccountAttributes.builder(googleId)
                 .withName(name)

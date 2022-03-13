@@ -4,9 +4,7 @@
       "googleId": "tm.e2e.ICJoinConf.instr",
       "name": "Teammates Test",
       "email": "ICJoinConf.instr@gmail.tmt",
-      "readNotifications": {
-        "idToEndTimestampMap": {}
-      }
+      "readNotifications": {}
     }
   },
   "accountRequests": {

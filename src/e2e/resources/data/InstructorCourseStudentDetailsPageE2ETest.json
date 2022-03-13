@@ -4,9 +4,7 @@
       "googleId": "tm.e2e.ICSDet.instr",
       "name": "Teammates Test",
       "email": "ICSDet.instr@gmail.tmt",
-      "readNotifications": {
-        "idToEndTimestampMap": {}
-      }
+      "readNotifications": {}
     }
   },
   "courses": {

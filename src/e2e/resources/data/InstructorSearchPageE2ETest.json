@@ -4,41 +4,31 @@
       "googleId": "tm.e2e.ISearch.instr1",
       "name": "Instructor 1 of Course 1",
       "email": "ISearch.instr1@gmail.tmt",
-      "readNotifications": {
-        "idToEndTimestampMap": {}
-      }
+      "readNotifications": {}
     },
     "student1InCourse1": {
       "googleId": "tm.e2e.ISearch.student1",
       "name": "Student 1 in course 1",
       "email": "ISearch.student1@gmail.tmt",
-      "readNotifications": {
-        "idToEndTimestampMap": {}
-      }
+      "readNotifications": {}
     },
     "student2InCourse1": {
       "googleId": "tm.e2e.ISearch.student2",
       "name": "Student in two courses",
       "email": "ISearch.student2@gmail.tmt",
-      "readNotifications": {
-        "idToEndTimestampMap": {}
-      }
+      "readNotifications": {}
     },
     "student2.2InCourse1": {
       "googleId": "tm.e2e.ISearch.student2.2",
       "name": "Student in two courses",
       "email": "ISearch.student2@gmail.tmt",
-      "readNotifications": {
-        "idToEndTimestampMap": {}
-      }
+      "readNotifications": {}
     },
     "student3InCourse1": {
       "googleId": "tm.e2e.ISearch.student3",
       "name": "Student 3 in course 1",
       "email": "ISearch.student3@gmail.tmt",
-      "readNotifications": {
-        "idToEndTimestampMap": {}
-      }
+      "readNotifications": {}
     }
   },
   "courses": {

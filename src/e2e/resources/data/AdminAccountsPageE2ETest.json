@@ -4,9 +4,7 @@
       "googleId": "tm.e2e.AAccounts.instr2",
       "name": "Teammates Instr2",
       "email": "AAccounts.instr2@gmail.tmt",
-      "readNotifications": {
-        "idToEndTimestampMap": {}
-      }
+      "readNotifications": {}
     }
   },
   "courses": {

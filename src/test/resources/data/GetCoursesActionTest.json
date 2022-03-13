@@ -4,17 +4,13 @@
       "googleId": "idOfInstructor1",
       "name": "Instructor 1",
       "email": "instr1@course1.tmt",
-      "readNotifications": {
-        "idToEndTimestampMap": {}
-      }
+      "readNotifications": {}
     },
     "student1": {
       "googleId": "idOfStudent1",
       "name": "student 1",
       "email": "student1@gmail.tmt",
-      "readNotifications": {
-        "idToEndTimestampMap": {}
-      }
+      "readNotifications": {}
     }
   },
   "courses": {

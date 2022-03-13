@@ -4,9 +4,7 @@
       "googleId": "tm.e2e.FRankOptQn.instructor",
       "name": "Teammates Test",
       "email": "tmms.test@gmail.tmt",
-      "readNotifications": {
-        "idToEndTimestampMap": {}
-      }
+      "readNotifications": {}
     }
   },
   "courses": {

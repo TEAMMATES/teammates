@@ -4,9 +4,7 @@
       "googleId": "tm.e2e.IHome.instructor.tmms",
       "name": "Teammates Test",
       "email": "IHome.instructor.tmms@gmail.tmt",
-      "readNotifications": {
-        "idToEndTimestampMap": {}
-      }
+      "readNotifications": {}
     }
   },
   "courses": {

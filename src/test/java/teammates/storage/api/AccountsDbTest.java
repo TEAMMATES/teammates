@@ -1,12 +1,12 @@
 package teammates.storage.api;
 
 import java.util.List;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.ReadNotifications;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -133,13 +133,12 @@ public class AccountsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
 
         ______TS("typical edit success case");
 
-        Map<String, Long> idToTimestampMap = new LinkedHashMap<>();
+        Map<String, Long> readNotifications = new LinkedHashMap<>();
         // Friday, March 1, 2030 8:00:00 AM GMT+08:00
-        idToTimestampMap.put("1", Long.valueOf("1898553600000"));
-        ReadNotifications readNotifications = new ReadNotifications(idToTimestampMap);
+        readNotifications.put("1", Long.valueOf("1898553600000"));
 
         ______TS("typical edit success case");
-        assertEquals(new ReadNotifications(), a.getReadNotifications());
+        assertEquals(new HashMap<>(), a.getReadNotifications());
         AccountAttributes updatedAccount = accountsDb.updateAccount(
                 AccountAttributes.updateOptionsBuilder(a.getGoogleId())
                         .withReadNotifications(readNotifications)

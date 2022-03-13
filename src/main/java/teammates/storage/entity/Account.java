@@ -1,6 +1,8 @@
 package teammates.storage.entity;
 
 import java.time.Instant;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
@@ -22,13 +24,8 @@ public class Account extends BaseEntity {
 
     private String email;
 
-    /**
-     * Serialized {@link teammates.common.datatransfer.ReadNotifications} stored as a string.
-     *
-     * @see teammates.common.datatransfer.attributes.AccountAttributes#getReadNotificationsCopy()
-     */
     @Unindex
-    private String readNotificationsAsText;
+    private Map<String, Long> readNotifications;
 
     @Translate(InstantTranslatorFactory.class)
     private Instant createdAt;
@@ -44,13 +41,13 @@ public class Account extends BaseEntity {
      * @param googleId the Google ID of the user.
      * @param name The name of the user.
      * @param email The official email of the user.
-     * @param readNotificationsAsText The notifications that the user has read, stored as a JSON string.
+     * @param readNotifications The notifications that the user has read, stored in a map of ID to end timestamp.
      */
-    public Account(String googleId, String name, String email, String readNotificationsAsText) {
+    public Account(String googleId, String name, String email, Map<String, Long> readNotifications) {
         this.setGoogleId(googleId);
         this.setName(name);
         this.setEmail(email);
-        this.setReadNotificationsAsText(readNotificationsAsText);
+        this.setReadNotifications(readNotifications);
         this.setCreatedAt(Instant.now());
     }
 
@@ -78,12 +75,19 @@ public class Account extends BaseEntity {
         this.email = email;
     }
 
-    public String getReadNotificationsAsText() {
-        return readNotificationsAsText;
+    /**
+     * Retrieves the account's read notifications map.
+     * Returns an empty map if the account does not yet have the readNotifications attribute.
+     */
+    public Map<String, Long> getReadNotifications() {
+        if (readNotifications == null) {
+            return new HashMap<>();
+        }
+        return readNotifications;
     }
 
-    public void setReadNotificationsAsText(String readNotificationsAsText) {
-        this.readNotificationsAsText = readNotificationsAsText;
+    public void setReadNotifications(Map<String, Long> readNotifications) {
+        this.readNotifications = readNotifications;
     }
 
     public Instant getCreatedAt() {

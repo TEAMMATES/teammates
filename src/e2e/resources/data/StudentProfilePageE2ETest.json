@@ -4,9 +4,7 @@
       "googleId": "tm.e2e.SProf.student",
       "name": "Benny C",
       "email": "SProf.student@gmail.tmt",
-      "readNotifications": {
-        "idToEndTimestampMap": {}
-      }
+      "readNotifications": {}
     }
   },
   "courses": {

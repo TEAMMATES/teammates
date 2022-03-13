@@ -2,10 +2,11 @@ package teammates.common.datatransfer.attributes;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
-import teammates.common.datatransfer.ReadNotifications;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
@@ -21,12 +22,12 @@ public class AccountAttributes extends EntityAttributes<Account> {
     private String googleId;
     private String name;
     private String email;
-    private ReadNotifications readNotifications;
+    private Map<String, Long> readNotifications;
     private Instant createdAt;
 
     private AccountAttributes(String googleId) {
         this.googleId = googleId;
-        this.readNotifications = new ReadNotifications();
+        this.readNotifications = new HashMap<>();
     }
 
     /**
@@ -37,7 +38,7 @@ public class AccountAttributes extends EntityAttributes<Account> {
 
         accountAttributes.name = a.getName();
         accountAttributes.email = a.getEmail();
-        accountAttributes.readNotifications = deserializeReadNotifications(a.getReadNotificationsAsText());
+        accountAttributes.readNotifications = a.getReadNotifications();
         accountAttributes.createdAt = a.getCreatedAt();
 
         return accountAttributes;
@@ -58,7 +59,7 @@ public class AccountAttributes extends EntityAttributes<Account> {
 
         accountAttributes.name = this.name;
         accountAttributes.email = this.email;
-        accountAttributes.readNotifications = this.readNotifications.getDeepCopy();
+        accountAttributes.readNotifications = this.readNotifications;
         accountAttributes.createdAt = this.createdAt;
 
         return accountAttributes;
@@ -88,20 +89,12 @@ public class AccountAttributes extends EntityAttributes<Account> {
         this.email = email;
     }
 
-    public ReadNotifications getReadNotifications() {
+    public Map<String, Long> getReadNotifications() {
         return readNotifications;
     }
 
-    public void setReadNotifications(ReadNotifications readNotifications) {
-        this.readNotifications = readNotifications.getDeepCopy();
-    }
-
-    public ReadNotifications getReadNotificationsCopy() {
-        return readNotifications.getDeepCopy();
-    }
-
-    public String getReadNotificationsAsText() {
-        return readNotifications.getJsonString();
+    public void setReadNotifications(Map<String, Long> readNotifications) {
+        this.readNotifications = readNotifications;
     }
 
     public Instant getCreatedAt() {
@@ -129,7 +122,7 @@ public class AccountAttributes extends EntityAttributes<Account> {
 
     @Override
     public Account toEntity() {
-        return new Account(googleId, name, email, getReadNotificationsAsText());
+        return new Account(googleId, name, email, getReadNotifications());
     }
 
     @Override
@@ -163,14 +156,6 @@ public class AccountAttributes extends EntityAttributes<Account> {
         this.googleId = SanitizationHelper.sanitizeGoogleId(googleId);
         this.name = SanitizationHelper.sanitizeName(name);
         this.email = SanitizationHelper.sanitizeEmail(email);
-    }
-
-    private static ReadNotifications deserializeReadNotifications(String readNotificationsInJson) {
-        // Returns new ReadNotifications object if account does not yet have readNotifications attribute
-        if (readNotificationsInJson == null) {
-            return new ReadNotifications();
-        }
-        return JsonUtils.fromJson(readNotificationsInJson, ReadNotifications.class);
     }
 
     /**
@@ -229,7 +214,7 @@ public class AccountAttributes extends EntityAttributes<Account> {
     public static class UpdateOptions {
         private String googleId;
 
-        private UpdateOption<ReadNotifications> readNotificationsOption = UpdateOption.empty();
+        private UpdateOption<Map<String, Long>> readNotificationsOption = UpdateOption.empty();
 
         private UpdateOptions(String googleId) {
             assert googleId != null;
@@ -284,7 +269,7 @@ public class AccountAttributes extends EntityAttributes<Account> {
             this.updateOptions = updateOptions;
         }
 
-        public B withReadNotifications(ReadNotifications readNotifications) {
+        public B withReadNotifications(Map<String, Long> readNotifications) {
             updateOptions.readNotificationsOption = UpdateOption.of(readNotifications);
             return thisBuilder;
         }

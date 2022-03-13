@@ -4,9 +4,7 @@
       "googleId": "tm.e2e.ICEnroll.teammates.test",
       "name": "Teammates Test",
       "email": "teammates.test@gmail.tmt",
-      "readNotifications": {
-        "idToEndTimestampMap": {}
-      }
+      "readNotifications": {}
     }
   },
   "courses": {
