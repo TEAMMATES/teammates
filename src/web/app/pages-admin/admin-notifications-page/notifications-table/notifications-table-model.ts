@@ -5,6 +5,7 @@ import { Notification } from '../../../../types/api-output';
  */
 export interface NotificationsTableRowModel {
   index: number,
+  isHighlighted: boolean,
   notification: Notification,
 }
 

@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { TimezoneService } from '../../../../services/timezone.service';
 import { SortBy, SortOrder } from '../../../../types/sort-properties';
 import { NotificationsTableHeaderColorScheme, NotificationsTableRowModel } from './notifications-table-model';
 
@@ -11,6 +12,8 @@ export class NotificationsTableComponent {
   SortBy = SortBy;
   SortOrder = SortOrder;
   NotificationsTableHeaderColorScheme = NotificationsTableHeaderColorScheme;
+
+  guessTimezone = 'UTC';
 
   @Input()
   notificationsTableRowModels: NotificationsTableRowModel[] = [];
@@ -26,6 +29,10 @@ export class NotificationsTableComponent {
 
   @Output()
   sortNotificationsTableRowModelsEvent: EventEmitter<SortBy> = new EventEmitter();
+
+  constructor(timezoneService: TimezoneService) {
+    this.guessTimezone = timezoneService.guessTimezone();
+  }
 
   /**
    * Sorts the list of feedback session row.

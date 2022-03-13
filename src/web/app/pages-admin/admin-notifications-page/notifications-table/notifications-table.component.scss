@@ -1,14 +1,3 @@
-.no-session-message {
-  padding: 10px;
-  text-align: center;
-}
-
-@media (min-width: 1200px) {
-  .actions-cell {
-    min-width: 410px;
-  }
-}
-
 .actions-cell button:not(.dropdown-item) {
   margin-left: var(--btn-margin);
 }

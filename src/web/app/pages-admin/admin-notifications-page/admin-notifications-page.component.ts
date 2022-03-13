@@ -80,6 +80,7 @@ export class AdminNotificationsPageComponent implements OnInit {
           notifications.notifications.forEach((notification: Notification) => {
             this.notificationsTableRowModels.push({
               index: -1,
+              isHighlighted: false,
               notification,
             });
           });
@@ -87,7 +88,7 @@ export class AdminNotificationsPageComponent implements OnInit {
           this.sortNotificationsTableRowModelsHandler(SortBy.NOTIFICATION_CREATE_TIME);
           this.notificationsTableRowModels.forEach(
             (notificationsTableRowModel: NotificationsTableRowModel, index: number) => {
-              notificationsTableRowModel.index = index;
+              notificationsTableRowModel.index = index + 1;
             },
           );
         },
@@ -131,8 +132,24 @@ export class AdminNotificationsPageComponent implements OnInit {
     })
     .pipe(finalize(() => { this.notificationEditFormModel.isSaving = false; }))
     .subscribe(
-      () => {
+      (notification: Notification) => {
         this.statusMessageService.showSuccessToast('Notification created successfully.');
+
+        // get the max index of the existing notifications
+        const maxIndex = this.notificationsTableRowModels.reduce(
+          (prevMax: number, notificationsTableRowModel: NotificationsTableRowModel) => {
+            return Math.max(prevMax, notificationsTableRowModel.index);
+          },
+          0,
+        );
+
+        this.notificationsTableRowModels.unshift({
+          index: maxIndex + 1,
+          isHighlighted: true,
+          notification,
+        });
+
+        this.isNotificationEditFormExpanded = false;
       },
       (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);

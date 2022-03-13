@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ResourceEndpoints } from '../types/api-const';
-import { MessageOutput, Notifications } from '../types/api-output';
+import { Notification, Notifications } from '../types/api-output';
 import { CreateNotificationRequest } from '../types/api-request';
 import { HttpRequestService } from './http-request.service';
 
@@ -18,7 +18,7 @@ export class NotificationService {
   /**
    * Creates a notification by calling API.
    */
-  createNotification(request: CreateNotificationRequest): Observable<MessageOutput> {
+  createNotification(request: CreateNotificationRequest): Observable<Notification> {
     return this.httpRequestService.post(ResourceEndpoints.NOTIFICATION, {}, request);
   }
 

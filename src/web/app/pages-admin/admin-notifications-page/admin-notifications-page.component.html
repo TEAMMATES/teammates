@@ -19,10 +19,11 @@
         You have not created any notifications yet. Use the form above to create a notification.
       </div>
 
-      <tm-notifications-table [notificationsTableRowModels]="notificationsTableRowModels"
+      <tm-notifications-table *ngIf = "notificationsTableRowModels.length > 0"
+                              [notificationsTableRowModels]="notificationsTableRowModels"
                               [notificationsTableRowModelsSortBy]="notificationsTableRowModelsSortBy"
                               [notificationsTableRowModelsSortOrder]="notificationsTableRowModelsSortOrder"
-                              (sorttNotificationsTableRowModelsEvent)="sortNotificationsTableRowModelsHandler($event)"></tm-notifications-table>
+                              (sortNotificationsTableRowModelsEvent)="sortNotificationsTableRowModelsHandler($event)"></tm-notifications-table>
     </div>
   </div>
   <br/>

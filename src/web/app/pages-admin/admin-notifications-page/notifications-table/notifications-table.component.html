@@ -3,8 +3,15 @@
     <table id="notifications-table" class="table table-responsive-lg table-striped table-bordered margin-bottom-0">
       <thead>
       <tr [ngClass]="{ 'bg-primary text-white': headerColorScheme === NotificationsTableHeaderColorScheme.BLUE }">
-        <th>#</th>
-        <th id="sort-session-name" class="sortable-header" (click)="sortNotificationsTableRowModels(SortBy.NOTIFICATION_TITLE)">
+        <th class="sortable-header" (click)="sortNotificationsTableRowModels(SortBy.NOTIFICATION_CREATE_TIME)">
+          #
+          <span class="fa-stack">
+            <i class="fas fa-sort"></i>
+            <i class="fas fa-sort-down" *ngIf="notificationsTableRowModelsSortBy === SortBy.NOTIFICATION_CREATE_TIME && notificationsTableRowModelsSortOrder === SortOrder.DESC"></i>
+            <i class="fas fa-sort-up" *ngIf="notificationsTableRowModelsSortBy === SortBy.NOTIFICATION_CREATE_TIME && notificationsTableRowModelsSortOrder === SortOrder.ASC"></i>
+          </span>
+        </th>
+        <th class="sortable-header" (click)="sortNotificationsTableRowModels(SortBy.NOTIFICATION_TITLE)">
           Notification Title
           <span class="fa-stack">
             <i class="fas fa-sort"></i>
@@ -17,7 +24,7 @@
           <span class="fa-stack">
             <i class="fas fa-sort"></i>
             <i class="fas fa-sort-down" *ngIf="notificationsTableRowModelsSortBy === SortBy.NOTIFICATION_START_TIME && notificationsTableRowModelsSortOrder === SortOrder.DESC"></i>
-            <i class="fas fa-sort-up" *ngIf="notificationsTableRowModelsSortBy === SortBy.SESSION_START_DATE && notificationsTableRowModelsSortOrder === SortOrder.ASC"></i>
+            <i class="fas fa-sort-up" *ngIf="notificationsTableRowModelsSortBy === SortBy.NOTIFICATION_START_TIME && notificationsTableRowModelsSortOrder === SortOrder.ASC"></i>
           </span>
         </th>
         <th class="sortable-header" (click)="sortNotificationsTableRowModels(SortBy.NOTIFICATION_END_TIME)">
@@ -34,12 +41,12 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let notificationsTableRowModel of notificationsTableRowModels; let idx = index">
+      <tr *ngFor="let notificationsTableRowModel of notificationsTableRowModels; let idx = index" [ngClass]="{ 'table-success': notificationsTableRowModel.isHighlighted }">
         <td class="text-break">{{ notificationsTableRowModel.index }}</td>
         <td class="text-break">{{ notificationsTableRowModel.notification.title }}</td>
         <!-- TODO: handle timezone here -->
-        <td><span class="ngb-tooltip-class" [ngbTooltip]="notificationsTableRowModel.notification.startTimestamp | formatDateDetail: 'UTC'">{{ notificationsTableRowModel.notification.startTimestamp | formatDateBrief: 'UTC' }}</span></td>
-        <td><span class="ngb-tooltip-class" [ngbTooltip]="notificationsTableRowModel.notification.endTimestamp | formatDateDetail: 'UTC'">{{ notificationsTableRowModel.notification.endTimestamp | formatDateBrief: 'UTC' }}</span></td>
+        <td>{{ notificationsTableRowModel.notification.startTimestamp | formatDateDetail: guessTimezone }}</td>
+        <td>{{ notificationsTableRowModel.notification.endTimestamp | formatDateDetail: guessTimezone }}</td>
         <td class="text-break">{{ notificationsTableRowModel.notification.targetUser }}</td>
         <td class="text-break">{{ notificationsTableRowModel.notification.notificationType }}</td>
         <td class="actions-cell">
