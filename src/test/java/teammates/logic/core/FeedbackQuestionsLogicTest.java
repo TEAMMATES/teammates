@@ -908,11 +908,15 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
     }
 
     private void testHasFeedbackQuestionsForInstructor() {
-        ______TS("Valid course valid instructor should have questions");
+        ______TS("Valid session valid instructor should have questions");
         assertTrue(fqLogic.hasFeedbackQuestionsForInstructors(
                 "First feedback session", "idOfTypicalCourse1", "instructor1@course1.tmt"));
 
-        ______TS("Invalid course should not have questions");
+        ______TS("Valid session without questions for instructor should return false");
+        assertFalse(fqLogic.hasFeedbackQuestionsForInstructors(
+                "session without instructor questions", "idOfTestingSanitizationCourse", "instructor1@course1.tmt"));
+
+        ______TS("Invalid session should not have questions");
         assertFalse(fqLogic.hasFeedbackQuestionsForInstructors(
                 "Zeroth feedback session", "idOfTypicalCourse1", "nonexistent@course1.tmt"));
     }
@@ -976,11 +980,15 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
     }
 
     private void testHasFeedbackQuestionsForStudents() {
-        ______TS("Valid course should have questions");
+        ______TS("Valid session should have questions");
         assertTrue(fqLogic.hasFeedbackQuestionsForStudents(
                 "First feedback session", "idOfTypicalCourse1"));
 
-        ______TS("Invalid course should not have questions");
+        ______TS("Valid session without questions for students should return false");
+        assertFalse(fqLogic.hasFeedbackQuestionsForStudents(
+                "session without student questions", "idOfArchivedCourse"));
+
+        ______TS("Invalid session should not have questions");
         assertFalse(fqLogic.hasFeedbackQuestionsForStudents(
                 "Zeroth feedback session", "idOfTypicalCourse1"));
     }

@@ -147,9 +147,11 @@ public final class FeedbackQuestionsLogic {
             String feedbackSessionName, String courseId, String userEmail) {
         boolean hasQuestions = fqDb.hasFeedbackQuestionsForGiverType(
                 feedbackSessionName, courseId, FeedbackParticipantType.INSTRUCTORS);
+        if (hasQuestions) {
+            return true;
+        }
 
-        if (!hasQuestions
-                && userEmail != null && fsLogic.isCreatorOfSession(feedbackSessionName, courseId, userEmail)) {
+        if (userEmail != null && fsLogic.isCreatorOfSession(feedbackSessionName, courseId, userEmail)) {
             hasQuestions = fqDb.hasFeedbackQuestionsForGiverType(
                     feedbackSessionName, courseId, FeedbackParticipantType.SELF);
         }
