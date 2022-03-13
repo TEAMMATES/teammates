@@ -6,23 +6,18 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.NotificationType;
-import teammates.common.datatransfer.attributes.AccountAttributes;
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.NotificationAttributes;
-import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.Const;
 import teammates.ui.output.NotificationData;
 import teammates.ui.output.NotificationsData;
-import teammates.ui.output.StudentProfileData;
-import teammates.ui.request.Intent;
 
 /**
  * SUT: {@link GetNotificationAction}.
  */
 public class GetNotificationActionTest extends BaseActionTest<GetNotificationAction> {
 
-    private NotificationAttributes notificationAttributes;
+    // TODO: add tests for isfetchingall
 
     @Override
     String getActionUri() {
@@ -34,11 +29,6 @@ public class GetNotificationActionTest extends BaseActionTest<GetNotificationAct
         return GET;
     }
 
-    @Override
-    protected void prepareTestData() {
-        removeAndRestoreTypicalDataBundle();
-    }
-
     @Test
     @Override
     protected void testExecute() {
@@ -46,35 +36,92 @@ public class GetNotificationActionTest extends BaseActionTest<GetNotificationAct
     }
 
     @Override
-    protected void testAccessControl(){
+    protected void testAccessControl() {
         verifyAnyUserCanAccess();
     }
 
     @Test
-    public void testExecute_withFullDetailIntentForNonAdmin_shouldReturnDataWithFullDetail() {
+    public void testExecute_withFullDetailUserTypeForNonAdmin_shouldReturnDataWithFullDetail() {
+        int expectedNumberOfNotifications = 4;
         InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         loginAsInstructor(instructor.getGoogleId());
-        NotificationAttributes notification = typicalBundle.notifications.get("notification-1");
+        NotificationAttributes notification = typicalBundle.notifications.get("notification-5");
 
-        String[] submissionParams = new String[] {
+        String[] requestParams = new String[] {
                 Const.ParamsNames.NOTIFICATION_TARGET_USER, NotificationTargetUser.INSTRUCTOR.toString(),
                 Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL, String.valueOf(true),
         };
 
-        GetNotificationAction action = getAction(submissionParams);
+        GetNotificationAction action = getAction(requestParams);
         JsonResult jsonResult = getJsonResult(action);
 
         NotificationsData output = (NotificationsData) jsonResult.getOutput();
         List<NotificationData> notifications = output.getNotifications();
 
-        assertEquals(2, logic.getActiveNotificationsByTargetUser(NotificationTargetUser.INSTRUCTOR).size());
-        assertEquals(2, notifications.size());
+        assertEquals(expectedNumberOfNotifications,
+                logic.getActiveNotificationsByTargetUser(notification.getTargetUser()).size());
+        assertEquals(expectedNumberOfNotifications, notifications.size());
 
         NotificationData firstNotification = notifications.get(0);
-        assertEquals("notification-3", firstNotification.getNotificationId());
-        assertEquals(NotificationType.VERSION_NOTE, firstNotification.getNotificationType());
+        assertEquals("notification-5", firstNotification.getNotificationId());
+        assertEquals(NotificationType.TIPS, firstNotification.getNotificationType());
         assertEquals(NotificationTargetUser.INSTRUCTOR, firstNotification.getTargetUser());
-        assertEquals("The first version note", firstNotification.getTitle());
-        assertEquals("The version note content", firstNotification.getMessage());
+        assertEquals("The first tip to instructor", firstNotification.getTitle());
+        assertEquals("The first tip content", firstNotification.getMessage());
+    }
+
+    @Test
+    public void testExecute_withFullDetailUserTypeForAdmin_shouldReturnDataWithFullDetail() {
+        int expectedNumberOfNotifications = 4;
+        loginAsAdmin();
+        NotificationAttributes notification = typicalBundle.notifications.get("notification-6");
+
+        String[] requestParams = new String[] {
+                Const.ParamsNames.NOTIFICATION_TARGET_USER, NotificationTargetUser.STUDENT.toString(),
+                Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL, String.valueOf(true),
+        };
+
+        GetNotificationAction action = getAction(requestParams);
+        JsonResult jsonResult = getJsonResult(action);
+
+        NotificationsData output = (NotificationsData) jsonResult.getOutput();
+        List<NotificationData> notifications = output.getNotifications();
+
+        assertEquals(expectedNumberOfNotifications,
+                logic.getActiveNotificationsByTargetUser(notification.getTargetUser()).size());
+        assertEquals(expectedNumberOfNotifications, notifications.size());
+
+        NotificationData firstNotification = notifications.get(0);
+        assertEquals("notification-6", firstNotification.getNotificationId());
+        assertEquals(NotificationType.DEPRECATION, firstNotification.getNotificationType());
+        assertEquals(NotificationTargetUser.STUDENT, firstNotification.getTargetUser());
+        assertEquals("The note of maintenance", firstNotification.getTitle());
+        assertEquals("The content of maintenance", firstNotification.getMessage());
+    }
+
+    @Test
+    public void testExecute_withoutUserTypeForNonAdmin_shouldFail() {
+        InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
+        loginAsInstructor(instructor.getGoogleId());
+        GetNotificationAction action = getAction(Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL, String.valueOf(true));
+        assertThrows(AssertionError.class, action::execute);
+    }
+
+    @Test
+    public void testExecute_invalidUserType_shouldFail() {
+        InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
+        loginAsInstructor(instructor.getGoogleId());
+
+        // when usertype is GENERAL
+        verifyHttpParameterFailure(Const.ParamsNames.NOTIFICATION_TARGET_USER,
+                NotificationTargetUser.GENERAL.toString(),
+                Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL,
+                String.valueOf(true));
+
+        // when usertype is a random string
+        verifyHttpParameterFailure(Const.ParamsNames.NOTIFICATION_TARGET_USER,
+                "invalid string",
+                Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL,
+                String.valueOf(true));
     }
 }
