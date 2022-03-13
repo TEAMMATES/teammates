@@ -122,7 +122,7 @@ public class AccountAttributes extends EntityAttributes<Account> {
 
     @Override
     public Account toEntity() {
-        return new Account(googleId, name, email, getReadNotifications());
+        return new Account(googleId, name, email, readNotifications);
     }
 
     @Override
