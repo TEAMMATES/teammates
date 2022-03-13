@@ -903,9 +903,9 @@
       "gracePeriod": 5,
       "sentOpeningSoonEmail": true,
       "sentOpenEmail": true,
-      "sentClosingEmail": false,
-      "sentClosedEmail": false,
-      "sentPublishedEmail": false,
+      "sentClosingEmail": true,
+      "sentClosedEmail": true,
+      "sentPublishedEmail": true,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
       "isPublishedEmailEnabled": true
