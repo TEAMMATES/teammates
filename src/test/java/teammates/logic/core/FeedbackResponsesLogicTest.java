@@ -1113,12 +1113,13 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         var responseBundle = loadDataBundle("/FeedbackSessionResultsTest.json");
         removeAndRestoreDataBundle(responseBundle);
 
-        var session = responseBundle.feedbackSessions.get("standard.session");
+        FeedbackSessionAttributes session = responseBundle.feedbackSessions.get("standard.session");
 
-        var instructor = responseBundle.instructors.get("instructor1OfCourse1");
-        var questionResponseMapFromMultiFetch = frLogic.getSessionResultsForCourse(
-                session.getFeedbackSessionName(), session.getCourseId(), instructor.getEmail(),
-                null, "Section A", FeedbackResultFetchType.GIVER).getQuestionResponseMap();
+        InstructorAttributes instructor = responseBundle.instructors.get("instructor1OfCourse1");
+        Map<String, List<FeedbackResponseAttributes>> questionResponseMapFromMultiFetch =
+                frLogic.getSessionResultsForCourse(
+                        session.getFeedbackSessionName(), session.getCourseId(), instructor.getEmail(),
+                        null, "Section A", FeedbackResultFetchType.GIVER).getQuestionResponseMap();
         frLogic.getSessionResultsForCourse(
                 session.getFeedbackSessionName(), session.getCourseId(), instructor.getEmail(),
                 null, "Section A", FeedbackResultFetchType.RECEIVER)
@@ -1126,13 +1127,14 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
                 .forEach(questionResponseMapFromMultiFetch::putIfAbsent);
 
         // Equal to session result fetch by both type
-        var questionResponseMapFromFetchBoth = frLogic.getSessionResultsForCourse(
-                session.getFeedbackSessionName(), session.getCourseId(), instructor.getEmail(),
-                null, "Section A", FeedbackResultFetchType.BOTH).getQuestionResponseMap();
+        Map<String, List<FeedbackResponseAttributes>> questionResponseMapFromFetchBoth =
+                frLogic.getSessionResultsForCourse(
+                        session.getFeedbackSessionName(), session.getCourseId(), instructor.getEmail(),
+                        null, "Section A", FeedbackResultFetchType.BOTH).getQuestionResponseMap();
 
         for (var entry : questionResponseMapFromFetchBoth.entrySet()) {
-            var respFromFetchBoth = entry.getValue();
-            var respFromMultiFetch = questionResponseMapFromMultiFetch.get(entry.getKey());
+            List<FeedbackResponseAttributes> respFromFetchBoth = entry.getValue();
+            List<FeedbackResponseAttributes> respFromMultiFetch = questionResponseMapFromMultiFetch.get(entry.getKey());
             assertEquals(respFromFetchBoth.size(), respFromMultiFetch.size());
             assertTrue(new HashSet<>(respFromMultiFetch).equals(new HashSet<>(respFromFetchBoth)));
         }
