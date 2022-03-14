@@ -1,7 +1,7 @@
-<p>Hello Instructor1 Course1,</p>
+<p>Hello ${userName},</p>
 
 <p>
-  Heads up! The following feedback session is due to open soon.
+  Heads up! The following feedback session ${status}.
 </p>
 <div>
   <table style="max-width:600px;border:1px solid black;">
@@ -12,7 +12,7 @@
         </strong>
       </td>
       <td style="padding:5px;">
-        [idOfTypicalCourse1] Typical Course 1 with 2 Evals
+        [${courseId}] ${courseName}
       </td>
     </tr>
 
@@ -23,7 +23,7 @@
         </strong>
       </td>
       <td style="padding:5px;">
-        First feedback session
+        ${feedbackSessionName}
       </td>
     </tr>
 
@@ -34,7 +34,7 @@
         </strong>
       </td>
       <td style="padding:5px;">
-        Sun, 01 Apr 2012, 11:59 PM SAST
+        ${startTime}
       </td>
     </tr>
 
@@ -45,7 +45,7 @@
         </strong>
       </td>
       <td style="padding:5px;">
-        Fri, 30 Apr 2027, 11:59 PM SAST
+        ${deadline}
       </td>
     </tr>
 
@@ -56,20 +56,13 @@
         </strong>
       </td>
       <td style="padding:5px;">
-        Please please fill in the following questions.
+        ${sessionInstructions}
       </td>
     </tr>
   </table>
 </div>
 
-<ul>
-  <li>
-    <strong>To edit details of this session,</strong> please visit <a href="${app.url}/web/instructor/sessions/edit?courseid=idOfTypicalCourse1&fsname=First%20feedback%20session">${app.url}/web/instructor/sessions/edit?courseid=idOfTypicalCourse1&fsname=First%20feedback%20session</a>
-  </li>
-  <li>
-    No other action is needed if you deem the session details to be correct.
-  </li>
-</ul>
+${additionalNotes}
 
 <p>
   Regards,

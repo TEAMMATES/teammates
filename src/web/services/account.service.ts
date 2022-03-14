@@ -54,6 +54,17 @@ export class AccountService {
   }
 
   /**
+   * Deletes an account request by calling API.
+   */
+  deleteAccountRequest(email: string, institute: string): Observable<MessageOutput> {
+    const paramMap: Record<string, string> = {
+      instructoremail: email,
+      instructorinstitution: institute,
+    };
+    return this.httpRequestService.delete(ResourceEndpoints.ACCOUNT_REQUEST, paramMap);
+  }
+
+  /**
    * Resets a student account by calling API.
    */
   resetStudentAccount(courseId: string, studentEmail: string): Observable<MessageOutput> {
