@@ -34,7 +34,7 @@ public final class InstructorsLogic {
     private FeedbackResponsesLogic frLogic;
     private FeedbackResponseCommentsLogic frcLogic;
     private FeedbackQuestionsLogic fqLogic;
-    private DeadlineExtensionsLogic deadlineExtensionsLogic;
+    private DeadlineExtensionsLogic deLogic;
 
     private InstructorsLogic() {
         // prevent initialization
@@ -48,7 +48,7 @@ public final class InstructorsLogic {
         fqLogic = FeedbackQuestionsLogic.inst();
         frLogic = FeedbackResponsesLogic.inst();
         frcLogic = FeedbackResponseCommentsLogic.inst();
-        deadlineExtensionsLogic = DeadlineExtensionsLogic.inst();
+        deLogic = DeadlineExtensionsLogic.inst();
     }
 
     /**
@@ -237,7 +237,7 @@ public final class InstructorsLogic {
             frcLogic.updateFeedbackResponseCommentsEmails(
                     updatedInstructor.getCourseId(), originalInstructor.getEmail(), updatedInstructor.getEmail());
             // cascade deadline extensions
-            deadlineExtensionsLogic.updateDeadlineExtensionsWithNewEmail(updatedInstructor.getCourseId(),
+            deLogic.updateDeadlineExtensionsWithNewEmail(updatedInstructor.getCourseId(),
                     originalInstructor.getEmail(), updatedInstructor.getEmail(), true);
         }
 
@@ -292,7 +292,7 @@ public final class InstructorsLogic {
 
         frLogic.deleteFeedbackResponsesInvolvedEntityOfCourseCascade(courseId, email);
         instructorsDb.deleteInstructor(courseId, email);
-        deadlineExtensionsLogic.deleteDeadlineExtensions(courseId, email, true);
+        deLogic.deleteDeadlineExtensions(courseId, email, true);
     }
 
     /**

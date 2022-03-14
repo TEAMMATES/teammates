@@ -49,7 +49,7 @@ public final class FeedbackSessionsLogic {
     private FeedbackResponseCommentsLogic frcLogic;
     private InstructorsLogic instructorsLogic;
     private StudentsLogic studentsLogic;
-    private DeadlineExtensionsLogic deadlineExtensionsLogic;
+    private DeadlineExtensionsLogic deLogic;
 
     private FeedbackSessionsLogic() {
         // prevent initialization
@@ -66,7 +66,7 @@ public final class FeedbackSessionsLogic {
         frcLogic = FeedbackResponseCommentsLogic.inst();
         instructorsLogic = InstructorsLogic.inst();
         studentsLogic = StudentsLogic.inst();
-        deadlineExtensionsLogic = DeadlineExtensionsLogic.inst();
+        deLogic = DeadlineExtensionsLogic.inst();
     }
 
     /**
@@ -458,7 +458,7 @@ public final class FeedbackSessionsLogic {
         frcLogic.deleteFeedbackResponseComments(query);
         frLogic.deleteFeedbackResponses(query);
         fqLogic.deleteFeedbackQuestions(query);
-        deadlineExtensionsLogic.deleteDeadlineExtensions(query);
+        deLogic.deleteDeadlineExtensions(query);
 
         fsDb.deleteFeedbackSession(feedbackSessionName, courseId);
     }

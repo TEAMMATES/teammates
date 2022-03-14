@@ -38,7 +38,7 @@ public final class StudentsLogic {
     private final StudentsDb studentsDb = StudentsDb.inst();
 
     private FeedbackResponsesLogic frLogic;
-    private DeadlineExtensionsLogic deadlineExtensionsLogic;
+    private DeadlineExtensionsLogic deLogic;
 
     private StudentsLogic() {
         // prevent initialization
@@ -50,7 +50,7 @@ public final class StudentsLogic {
 
     void initLogicDependencies() {
         frLogic = FeedbackResponsesLogic.inst();
-        deadlineExtensionsLogic = DeadlineExtensionsLogic.inst();
+        deLogic = DeadlineExtensionsLogic.inst();
     }
 
     /**
@@ -211,7 +211,7 @@ public final class StudentsLogic {
         if (!originalStudent.getEmail().equals(updatedStudent.getEmail())) {
             frLogic.updateFeedbackResponsesForChangingEmail(
                     updatedStudent.getCourse(), originalStudent.getEmail(), updatedStudent.getEmail());
-            deadlineExtensionsLogic.updateDeadlineExtensionsWithNewEmail(
+            deLogic.updateDeadlineExtensionsWithNewEmail(
                     originalStudent.getCourse(), originalStudent.getEmail(), updatedStudent.getEmail(), false);
         }
 
@@ -411,7 +411,7 @@ public final class StudentsLogic {
             frLogic.deleteFeedbackResponsesInvolvedEntityOfCourseCascade(student.getCourse(), student.getTeam());
         }
         studentsDb.deleteStudent(courseId, studentEmail);
-        deadlineExtensionsLogic.deleteDeadlineExtensions(courseId, studentEmail, false);
+        deLogic.deleteDeadlineExtensions(courseId, studentEmail, false);
     }
 
     /**
