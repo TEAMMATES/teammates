@@ -16,7 +16,7 @@ public final class DeadlineExtensionsLogic {
 
     private static final DeadlineExtensionsLogic instance = new DeadlineExtensionsLogic();
 
-    private final DeadlineExtensionsDb deadlineExtensionsDb = DeadlineExtensionsDb.inst();
+    private final DeadlineExtensionsDb deDb = DeadlineExtensionsDb.inst();
 
     private DeadlineExtensionsLogic() {
         // prevent initialization
@@ -35,7 +35,7 @@ public final class DeadlineExtensionsLogic {
      */
     public DeadlineExtensionAttributes updateDeadlineExtension(DeadlineExtensionAttributes.UpdateOptions updateOptions)
             throws InvalidParametersException, EntityDoesNotExistException {
-        return deadlineExtensionsDb.updateDeadlineExtension(updateOptions);
+        return deDb.updateDeadlineExtension(updateOptions);
     }
 
     /**
@@ -43,7 +43,7 @@ public final class DeadlineExtensionsLogic {
      */
     public void updateDeadlineExtensionsWithNewEmail(String courseId, String oldEmail,
             String newEmail, boolean isInstructor) throws InvalidParametersException {
-        deadlineExtensionsDb.updateDeadlineExtensionsWithNewEmail(courseId, oldEmail, newEmail, isInstructor);
+        deDb.updateDeadlineExtensionsWithNewEmail(courseId, oldEmail, newEmail, isInstructor);
     }
 
     /**
@@ -55,7 +55,7 @@ public final class DeadlineExtensionsLogic {
      */
     public DeadlineExtensionAttributes createDeadlineExtension(DeadlineExtensionAttributes deadlineExtension)
             throws InvalidParametersException, EntityAlreadyExistsException {
-        return deadlineExtensionsDb.createEntity(deadlineExtension);
+        return deDb.createEntity(deadlineExtension);
     }
 
     /**
@@ -65,7 +65,7 @@ public final class DeadlineExtensionsLogic {
      */
     public void deleteDeadlineExtension(
             String courseId, String feedbackSessionName, String userEmail, boolean isInstructor) {
-        deadlineExtensionsDb.deleteDeadlineExtension(courseId, feedbackSessionName, userEmail, isInstructor);
+        deDb.deleteDeadlineExtension(courseId, feedbackSessionName, userEmail, isInstructor);
     }
 
     /**
@@ -83,7 +83,7 @@ public final class DeadlineExtensionsLogic {
                 .withIsInstructor(isInstructor)
                 .build();
 
-        deadlineExtensionsDb.deleteDeadlineExtensions(query);
+        deDb.deleteDeadlineExtensions(query);
     }
 
     /**
@@ -91,7 +91,7 @@ public final class DeadlineExtensionsLogic {
      */
     public void deleteDeadlineExtensions(AttributesDeletionQuery query) {
         assert query != null;
-        deadlineExtensionsDb.deleteDeadlineExtensions(query);
+        deDb.deleteDeadlineExtensions(query);
     }
 
     /**
@@ -102,7 +102,7 @@ public final class DeadlineExtensionsLogic {
      */
     public DeadlineExtensionAttributes getDeadlineExtension(
             String courseId, String feedbackSessionName, String userEmail, boolean isInstructor) {
-        return deadlineExtensionsDb.getDeadlineExtension(courseId, feedbackSessionName, userEmail, isInstructor);
+        return deDb.getDeadlineExtension(courseId, feedbackSessionName, userEmail, isInstructor);
     }
 
     /**
@@ -110,7 +110,7 @@ public final class DeadlineExtensionsLogic {
      * and possibly need a closing email to be sent.
      */
     public List<DeadlineExtensionAttributes> getDeadlineExtensionsPossiblyNeedingClosingEmail() {
-        return deadlineExtensionsDb.getDeadlineExtensionsPossiblyNeedingClosingEmail();
+        return deDb.getDeadlineExtensionsPossiblyNeedingClosingEmail();
     }
 
 }
