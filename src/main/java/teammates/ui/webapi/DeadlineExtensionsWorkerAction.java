@@ -56,7 +56,7 @@ class DeadlineExtensionsWorkerAction extends AdminOnlyAction {
     private void createOrUpdateDeadlineExtensions(CourseAttributes course, FeedbackSessionAttributes session,
             Map<String, Long> extensionsToModify, boolean isInstructorMap, boolean notifyUsers) {
         List<EmailWrapper> emailsToSend = new ArrayList<>();
-        for (Map.Entry<String, Long> entry : extensionsToModify.entrySet()) {
+        for (var entry : extensionsToModify.entrySet()) {
             String email = entry.getKey();
             Instant endTime = Instant.ofEpochMilli(entry.getValue());
             DeadlineExtensionAttributes deadlineExtension =

@@ -394,7 +394,7 @@ public class DeadlineExtensionsLogicTest extends BaseLogicTest {
                 deadlineExtensionTwelveHoursAhead, deadlineExtensionOneDayAhead,
                 deadlineExtensionInstructor, deadlineExtensionOneDayBefore, deadlineExtensionEmailSent);
 
-        for (DeadlineExtensionAttributes deadlineExtension : deadlineExtensions) {
+        for (var deadlineExtension : deadlineExtensions) {
             deadlineExtensionsLogic.createDeadlineExtension(deadlineExtension);
         }
 
@@ -408,7 +408,7 @@ public class DeadlineExtensionsLogicTest extends BaseLogicTest {
         assertFalse(deadlineExtensionsNeedingClosing.contains(deadlineExtensionOneDayBefore));
         assertFalse(deadlineExtensionsNeedingClosing.contains(deadlineExtensionEmailSent));
 
-        for (DeadlineExtensionAttributes deadlineExtension : deadlineExtensionsNeedingClosing) {
+        for (var deadlineExtension : deadlineExtensionsNeedingClosing) {
             assertTrue(deadlineExtension.getEndTime().isAfter(Instant.now().minusSeconds(60)));
             assertTrue(deadlineExtension.getEndTime().isBefore(TimeHelper.getInstantDaysOffsetFromNow(1).plusSeconds(60)));
             assertFalse(deadlineExtension.getSentClosingEmail());

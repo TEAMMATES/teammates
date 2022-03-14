@@ -58,7 +58,7 @@ class FeedbackSessionClosingRemindersAction extends AdminOnlyAction {
                     emailGenerator.generateFeedbackSessionClosingWithExtensionEmails(feedbackSession, deadlineExtensions);
             taskQueuer.scheduleEmailsForSending(emailsToBeSent);
             try {
-                for (DeadlineExtensionAttributes deadlineExtension : deadlineExtensions) {
+                for (var deadlineExtension : deadlineExtensions) {
                     DeadlineExtensionAttributes.UpdateOptions updateOptions = DeadlineExtensionAttributes
                             .updateOptionsBuilder(courseId, feedbackSessionName,
                                     deadlineExtension.getUserEmail(), deadlineExtension.getIsInstructor())
