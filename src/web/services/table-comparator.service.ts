@@ -135,6 +135,8 @@ export class TableComparatorService {
       case SortBy.NOTIFICATION_END_TIME:
       case SortBy.NOTIFICATION_CREATE_TIME:
       case SortBy.NOTIFICATION_TITLE:
+      case SortBy.NOTIFICATION_TARGET_USER:
+      case SortBy.NOTIFICATION_TYPE:
       case SortBy.QUESTION_TYPE:
       case SortBy.QUESTION_TEXT:
       case SortBy.GIVER_NAME:

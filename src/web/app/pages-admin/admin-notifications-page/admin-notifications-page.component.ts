@@ -125,6 +125,8 @@ export class AdminNotificationsPageComponent implements OnInit {
             });
           });
           // sort the list using create time, and allocate the index in ascending order
+          // note: order is set to be descending here as it will be reversed later
+          this.notificationsTableRowModelsSortOrder = SortOrder.DESC;
           this.sortNotificationsTableRowModelsHandler(SortBy.NOTIFICATION_CREATE_TIME);
           this.notificationsTableRowModels.forEach(
             (notificationsTableRowModel: NotificationsTableRowModel, index: number) => {
@@ -245,6 +247,14 @@ export class AdminNotificationsPageComponent implements OnInit {
           case SortBy.NOTIFICATION_END_TIME:
             strA = String(a.notification.endTimestamp);
             strB = String(b.notification.endTimestamp);
+            break;
+          case SortBy.NOTIFICATION_TARGET_USER:
+            strA = String(a.notification.targetUser);
+            strB = String(b.notification.targetUser);
+            break;
+          case SortBy.NOTIFICATION_TYPE:
+            strA = String(a.notification.notificationType);
+            strB = String(b.notification.notificationType);
             break;
           default:
             strA = '';

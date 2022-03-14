@@ -381,6 +381,16 @@ export enum SortBy {
      * The date/time for the creation of notification
      */
     NOTIFICATION_CREATE_TIME,
+
+    /**
+     * The target user (visibility) of notification
+     */
+    NOTIFICATION_TARGET_USER,
+
+    /**
+     * The type of notification
+     */
+    NOTIFICATION_TYPE,
 }
 
 /**

@@ -26,10 +26,6 @@ export class NotificationService {
    * Retrieve all notifications by calling API.
    */
   getNotifications(): Observable<Notifications> {
-    // TODO: Probably move the isFetchingAll parameter to constants
-    const paramMap: Record<string, string> = {
-      isFetchingAll: '1',
-    };
-    return this.httpRequestService.get(ResourceEndpoints.NOTIFICATION, paramMap);
+    return this.httpRequestService.get(ResourceEndpoints.NOTIFICATION);
   }
 }
