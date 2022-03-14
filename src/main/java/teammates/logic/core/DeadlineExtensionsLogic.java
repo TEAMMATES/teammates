@@ -106,7 +106,7 @@ public final class DeadlineExtensionsLogic {
     }
 
     /**
-     * Gets a list of deadline extensions with end time within the next 24 hours
+     * Gets a list of deadline extensions with end time coming up soon
      * and possibly need a closing email to be sent.
      */
     public List<DeadlineExtensionAttributes> getDeadlineExtensionsPossiblyNeedingClosingEmail() {

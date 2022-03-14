@@ -193,7 +193,7 @@ public final class DeadlineExtensionsDb extends EntitiesDb<DeadlineExtension, De
     }
 
     /**
-     * Gets a list of deadline extensions which end within the next 24 hours
+     * Gets a list of deadline extensions with endTime coming up soon
      * and possibly need a closing email to be sent.
      */
     public List<DeadlineExtensionAttributes> getDeadlineExtensionsPossiblyNeedingClosingEmail() {
