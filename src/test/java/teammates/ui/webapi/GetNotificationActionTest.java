@@ -8,6 +8,7 @@ import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.NotificationType;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.NotificationAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.ui.output.NotificationData;
 import teammates.ui.output.NotificationsData;
@@ -35,13 +36,61 @@ public class GetNotificationActionTest extends BaseActionTest<GetNotificationAct
         // See independent test cases
     }
 
+    @Test
     @Override
     protected void testAccessControl() {
-        verifyAnyUserCanAccess();
+        InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
+        loginAsInstructor(instructor.getGoogleId());
+        ______TS("student notification not accessible to instructor");
+        String[] requestParams = new String[] {
+            Const.ParamsNames.NOTIFICATION_TARGET_USER, NotificationTargetUser.STUDENT.toString(),
+            Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL, String.valueOf(true),
+        };
+        verifyCannotAccess(requestParams);
+
+        ______TS("accessible to instructor");
+        requestParams = new String[] {
+            Const.ParamsNames.NOTIFICATION_TARGET_USER, NotificationTargetUser.INSTRUCTOR.toString(),
+            Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL, String.valueOf(true),
+        };
+        verifyCanAccess(requestParams);
+        
+        ______TS("instructor notification not accessible to student");
+        StudentAttributes studentAttributes = typicalBundle.students.get("student1InCourse1");
+        loginAsStudent(studentAttributes.getGoogleId());
+        requestParams = new String[] {
+            Const.ParamsNames.NOTIFICATION_TARGET_USER, NotificationTargetUser.INSTRUCTOR.toString(),
+            Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL, String.valueOf(true),
+        };
+        verifyCannotAccess(requestParams);
+
+        ______TS("accessible to student");
+        requestParams = new String[] {
+            Const.ParamsNames.NOTIFICATION_TARGET_USER, NotificationTargetUser.STUDENT.toString(),
+            Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL, String.valueOf(true),
+        };
+        verifyCanAccess(requestParams);
+
+        ______TS("unknown target user");
+        loginAsInstructor(instructor.getGoogleId());
+        requestParams = new String[] {
+            Const.ParamsNames.NOTIFICATION_TARGET_USER, "unknown",
+            Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL, String.valueOf(true),
+        };
+        verifyHttpParameterFailureAcl(requestParams);
+
+        ______TS("accessible to admin");
+        loginAsAdmin();
+        requestParams = new String[] {
+            Const.ParamsNames.NOTIFICATION_TARGET_USER, NotificationTargetUser.STUDENT.toString(),
+            Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL, String.valueOf(true),
+        };
+        verifyCanAccess(requestParams);
     }
 
     @Test
-    public void testExecute_withFullDetailUserTypeForNonAdmin_shouldReturnDataWithFullDetail() {
+    public void testExecute_withValidUserTypeForNonAdmin_shouldReturnData() {
+        ______TS("Request to fetch notification");
         int expectedNumberOfNotifications = 4;
         InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         loginAsInstructor(instructor.getGoogleId());
@@ -71,7 +120,8 @@ public class GetNotificationActionTest extends BaseActionTest<GetNotificationAct
     }
 
     @Test
-    public void testExecute_withFullDetailUserTypeForAdmin_shouldReturnDataWithFullDetail() {
+    public void testExecute_withUserTypeForAdmin_shouldReturnData() {
+        ______TS("Admin request to fetch notification");
         int expectedNumberOfNotifications = 4;
         loginAsAdmin();
         NotificationAttributes notification = typicalBundle.notifications.get("notification-6");
@@ -101,6 +151,7 @@ public class GetNotificationActionTest extends BaseActionTest<GetNotificationAct
 
     @Test
     public void testExecute_withoutUserTypeForNonAdmin_shouldFail() {
+        ______TS("Request without user type for non admin");
         InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         loginAsInstructor(instructor.getGoogleId());
         GetNotificationAction action = getAction(Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL, String.valueOf(true));
@@ -109,6 +160,7 @@ public class GetNotificationActionTest extends BaseActionTest<GetNotificationAct
 
     @Test
     public void testExecute_invalidUserType_shouldFail() {
+        ______TS("Request without invalid user type");
         InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         loginAsInstructor(instructor.getGoogleId());
 
