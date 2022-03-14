@@ -77,9 +77,9 @@ public class DeadlineExtensionsDbTest extends BaseTestCaseWithLocalDatabaseAcces
                 () -> deadlineExtensionsDb.createEntity(invalidFeedbackSessionNameDeadlineExtension));
         AssertHelper.assertContains(
                 getPopulatedEmptyStringErrorMessage(
-                    FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING_FOR_SESSION_NAME,
-                    FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
-                    FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH),
+                        FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING_FOR_SESSION_NAME,
+                        FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
+                        FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH),
                 ipe.getMessage());
 
         DeadlineExtensionAttributes invalidCourseIdDeadlineExtension = DeadlineExtensionAttributes
@@ -90,9 +90,9 @@ public class DeadlineExtensionsDbTest extends BaseTestCaseWithLocalDatabaseAcces
                 () -> deadlineExtensionsDb.createEntity(invalidCourseIdDeadlineExtension));
         AssertHelper.assertContains(
                 getPopulatedEmptyStringErrorMessage(
-                    FieldValidator.COURSE_ID_ERROR_MESSAGE_EMPTY_STRING,
-                    FieldValidator.COURSE_ID_FIELD_NAME,
-                    FieldValidator.COURSE_ID_MAX_LENGTH),
+                        FieldValidator.COURSE_ID_ERROR_MESSAGE_EMPTY_STRING,
+                        FieldValidator.COURSE_ID_FIELD_NAME,
+                        FieldValidator.COURSE_ID_MAX_LENGTH),
                 ipe.getMessage());
 
         ______TS("failure: null parameter");
@@ -253,9 +253,9 @@ public class DeadlineExtensionsDbTest extends BaseTestCaseWithLocalDatabaseAcces
         ______TS("typical success case: only delete deadline extensions in feedback session");
 
         AttributesDeletionQuery query = AttributesDeletionQuery.builder()
-                        .withCourseId(validCourseId)
-                        .withFeedbackSessionName(VALID_FEEDBACK_SESSION_NAME)
-                        .build();
+                .withCourseId(validCourseId)
+                .withFeedbackSessionName(VALID_FEEDBACK_SESSION_NAME)
+                .build();
         deadlineExtensionsDb.deleteDeadlineExtensions(query);
         verifyAbsentInDatabase(DeadlineExtensionAttributes.valueOf(deadlineExtension1));
         verifyPresentInDatabase(DeadlineExtensionAttributes.valueOf(deadlineExtension2));
@@ -263,8 +263,8 @@ public class DeadlineExtensionsDbTest extends BaseTestCaseWithLocalDatabaseAcces
         ______TS("typical success case: delete all deadline extensions in course");
 
         query = AttributesDeletionQuery.builder()
-                        .withCourseId(validCourseId)
-                        .build();
+                .withCourseId(validCourseId)
+                .build();
         deadlineExtensionsDb.deleteDeadlineExtensions(query);
         verifyAbsentInDatabase(DeadlineExtensionAttributes.valueOf(deadlineExtension2));
 
