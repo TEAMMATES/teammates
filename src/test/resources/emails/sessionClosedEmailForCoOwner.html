@@ -1,9 +1,8 @@
-<p>Hello ${userName},</p>
-
-${instructorPreamble}
+<p>Hello Instructor1 Course1,</p>
 
 <p>
-  Heads up! The following feedback session is due to open soon.
+  Heads up! The following feedback session is now closed for submission.
+</p>
 <div>
   <table style="max-width:600px;border:1px solid black;">
     <tr>
@@ -13,7 +12,7 @@ ${instructorPreamble}
         </strong>
       </td>
       <td style="padding:5px;">
-        [${courseId}] ${courseName}
+        [idOfTypicalCourse1] Typical Course 1 with 2 Evals
       </td>
     </tr>
 
@@ -24,7 +23,7 @@ ${instructorPreamble}
         </strong>
       </td>
       <td style="padding:5px;">
-        ${feedbackSessionName}
+        First feedback session
       </td>
     </tr>
 
@@ -35,7 +34,7 @@ ${instructorPreamble}
         </strong>
       </td>
       <td style="padding:5px;">
-        ${startTime}
+        Sun, 01 Apr 2012, 11:59 PM SAST
       </td>
     </tr>
 
@@ -46,7 +45,7 @@ ${instructorPreamble}
         </strong>
       </td>
       <td style="padding:5px;">
-        ${deadline}
+        Fri, 30 Apr 2027, 11:59 PM SAST
       </td>
     </tr>
 
@@ -57,13 +56,21 @@ ${instructorPreamble}
         </strong>
       </td>
       <td style="padding:5px;">
-        ${sessionInstructions}
+        Please please fill in the following questions.
       </td>
     </tr>
   </table>
 </div>
 
-${additionalNotes}
+<ul>
+  <li>
+    Respondents will still be able to view the submission page and the responses they submitted earlier,
+    but they will not be able to edit existing responses or submit new responses.
+  </li>
+  <li>
+    <strong>To view the responses of this session,</strong> please visit <a href="${app.url}/web/instructor/sessions/report?courseid=idOfTypicalCourse1&fsname=First%20feedback%20session">${app.url}/web/instructor/sessions/report?courseid=idOfTypicalCourse1&fsname=First%20feedback%20session</a>
+  </li>
+</ul>
 
 <p>
   Regards,

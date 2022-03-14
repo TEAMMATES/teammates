@@ -419,6 +419,7 @@ public final class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, Feed
                 .filterKey(Key.create(FeedbackResponse.class,
                         FeedbackResponse.generateId(entityToCreate.getFeedbackQuestionId(),
                                 entityToCreate.getGiver(), entityToCreate.getRecipient())))
+                .keys()
                 .list()
                 .isEmpty();
     }

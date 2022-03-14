@@ -78,6 +78,15 @@ describe('AccountService', () => {
     expect(spyHttpRequestService.delete).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT, paramMap);
   });
 
+  it('should execute DELETE on account request endpoint', () => {
+    service.deleteAccountRequest('testEmail', 'testInstitution');
+    const paramMap: Record<string, string> = {
+      instructoremail: 'testEmail',
+      instructorinstitution: 'testInstitution',
+    };
+    expect(spyHttpRequestService.delete).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT_REQUEST, paramMap);
+  });
+
   it('should execute PUT on account/downgrade endpoint', () => {
     service.downgradeAccount(id);
     const paramMap: Record<string, string> = {

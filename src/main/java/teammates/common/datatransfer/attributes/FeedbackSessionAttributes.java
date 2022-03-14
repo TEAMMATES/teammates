@@ -257,7 +257,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
      */
     public boolean isOpened() {
         Instant now = Instant.now();
-        return (now.isAfter(startTime) || now.equals(startTime)) && now.isBefore(endTime);
+        return !now.isBefore(startTime) && now.isBefore(endTime);
     }
 
     /**
