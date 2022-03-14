@@ -47,6 +47,11 @@ const routes: Routes = [
     ],
   },
   {
+    path: 'notifications',
+    loadChildren: () => import('../pages-notifications/notifications-page.module')
+        .then((m: any) => m.NotificationsPageModule),
+  },
+  {
     path: 'help',
     loadChildren: () => import('../pages-help/student-help-page/student-help-page.module')
         .then((m: any) => m.StudentHelpPageModule),
