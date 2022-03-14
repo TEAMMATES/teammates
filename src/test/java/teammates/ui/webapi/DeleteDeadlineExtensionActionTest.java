@@ -33,6 +33,7 @@ public class DeleteDeadlineExtensionActionTest extends BaseActionTest<DeleteDead
         ______TS("Missing parameter");
 
         String[] params = new String[] {
+                // Const.ParamsNames.USER_EMAIL
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, deadlineExtension.getFeedbackSessionName(),
                 Const.ParamsNames.USER_EMAIL, deadlineExtension.getUserEmail(),
                 Const.ParamsNames.IS_INSTRUCTOR, Boolean.toString(deadlineExtension.getIsInstructor()),
@@ -42,6 +43,7 @@ public class DeleteDeadlineExtensionActionTest extends BaseActionTest<DeleteDead
 
         params = new String[] {
                 Const.ParamsNames.COURSE_ID, deadlineExtension.getCourseId(),
+                // Const.ParamsNames.FEEDBACK_SESSION_NAME
                 Const.ParamsNames.USER_EMAIL, deadlineExtension.getUserEmail(),
                 Const.ParamsNames.IS_INSTRUCTOR, Boolean.toString(deadlineExtension.getIsInstructor()),
         };
@@ -51,6 +53,7 @@ public class DeleteDeadlineExtensionActionTest extends BaseActionTest<DeleteDead
         params = new String[] {
                 Const.ParamsNames.COURSE_ID, deadlineExtension.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, deadlineExtension.getFeedbackSessionName(),
+                // Const.ParamsNames.USER_EMAIL
                 Const.ParamsNames.IS_INSTRUCTOR, Boolean.toString(deadlineExtension.getIsInstructor()),
         };
 
@@ -60,6 +63,7 @@ public class DeleteDeadlineExtensionActionTest extends BaseActionTest<DeleteDead
                 Const.ParamsNames.COURSE_ID, deadlineExtension.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, deadlineExtension.getFeedbackSessionName(),
                 Const.ParamsNames.USER_EMAIL, deadlineExtension.getUserEmail(),
+                // Const.ParamsNames.IS_INSTRUCTOR
         };
 
         verifyHttpParameterFailure(params);

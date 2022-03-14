@@ -37,6 +37,7 @@ public class GetDeadlineExtensionActionTest extends BaseActionTest<GetDeadlineEx
         ______TS("Missing parameter");
 
         String[] params = new String[] {
+                // Const.ParamsNames.COURSE_ID
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, deadlineExtension.getFeedbackSessionName(),
                 Const.ParamsNames.USER_EMAIL, deadlineExtension.getUserEmail(),
                 Const.ParamsNames.IS_INSTRUCTOR, Boolean.toString(deadlineExtension.getIsInstructor()),
@@ -46,6 +47,7 @@ public class GetDeadlineExtensionActionTest extends BaseActionTest<GetDeadlineEx
 
         params = new String[] {
                 Const.ParamsNames.COURSE_ID, deadlineExtension.getCourseId(),
+                // Const.ParamsNames.FEEDBACK_SESSION_NAME
                 Const.ParamsNames.USER_EMAIL, deadlineExtension.getUserEmail(),
                 Const.ParamsNames.IS_INSTRUCTOR, Boolean.toString(deadlineExtension.getIsInstructor()),
         };
@@ -55,6 +57,7 @@ public class GetDeadlineExtensionActionTest extends BaseActionTest<GetDeadlineEx
         params = new String[] {
                 Const.ParamsNames.COURSE_ID, deadlineExtension.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, deadlineExtension.getFeedbackSessionName(),
+                // Const.ParamsNames.USER_EMAIL
                 Const.ParamsNames.IS_INSTRUCTOR, Boolean.toString(deadlineExtension.getIsInstructor()),
         };
 
@@ -64,6 +67,7 @@ public class GetDeadlineExtensionActionTest extends BaseActionTest<GetDeadlineEx
                 Const.ParamsNames.COURSE_ID, deadlineExtension.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, deadlineExtension.getFeedbackSessionName(),
                 Const.ParamsNames.USER_EMAIL, deadlineExtension.getUserEmail(),
+                // Const.ParamsNames.IS_INSTRUCTOR
         };
 
         verifyHttpParameterFailure(params);
