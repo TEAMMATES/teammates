@@ -160,7 +160,7 @@ public class NotificationAttributes extends EntityAttributes<Notification> {
     }
 
     /**
-     * Sorts the list of notifications by the start time, with the latest as the first.
+     * Sorts the list of notifications by the start time, with the latest as the first element.
      */
     public static void sortByStartTime(List<NotificationAttributes> notifications) {
         notifications.sort(Comparator.comparing(NotificationAttributes::getStartTime));
