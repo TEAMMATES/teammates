@@ -115,6 +115,11 @@ public final class DeadlineExtensionsDb extends EntitiesDb<DeadlineExtension, De
         assert oldEmail != null;
         assert newEmail != null;
 
+        if (oldEmail.equals(newEmail)) {
+            // No update necessary
+            return;
+        }
+
         List<DeadlineExtension> entitiesToUpdate = load().project()
                 .filter("courseId =", courseId)
                 .filter("userEmail =", oldEmail)
