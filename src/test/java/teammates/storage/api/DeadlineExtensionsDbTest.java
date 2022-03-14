@@ -322,6 +322,8 @@ public class DeadlineExtensionsDbTest extends BaseTestCaseWithLocalDatabaseAcces
                 .build();
         deadlineExtensionsDb.deleteDeadlineExtensions(query);
 
+        verifyAbsentInDatabase(DeadlineExtensionAttributes.valueOf(deadlineExtensionDifferentCourseId));
+
         query = AttributesDeletionQuery.builder()
                 .withCourseId(validCourseId)
                 .withUserEmail(VALID_USER_EMAIL)
@@ -329,7 +331,6 @@ public class DeadlineExtensionsDbTest extends BaseTestCaseWithLocalDatabaseAcces
                 .build();
         deadlineExtensionsDb.deleteDeadlineExtensions(query);
 
-        verifyAbsentInDatabase(DeadlineExtensionAttributes.valueOf(deadlineExtensionDifferentCourseId));
         verifyAbsentInDatabase(DeadlineExtensionAttributes.valueOf(deadlineExtensionDifferentUserType));
     }
 
