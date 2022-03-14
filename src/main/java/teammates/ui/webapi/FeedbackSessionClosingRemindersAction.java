@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.attributes.DeadlineExtensionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
 import teammates.common.util.RequestTracer;
@@ -64,7 +66,7 @@ class FeedbackSessionClosingRemindersAction extends AdminOnlyAction {
                             .build();
                     logic.updateDeadlineExtension(updateOptions);
                 }
-            } catch (Exception e) {
+            } catch (InvalidParametersException | EntityDoesNotExistException e) {
                 log.severe("Unexpected error", e);
             }
         }
