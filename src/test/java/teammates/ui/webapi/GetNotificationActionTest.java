@@ -43,47 +43,47 @@ public class GetNotificationActionTest extends BaseActionTest<GetNotificationAct
         loginAsInstructor(instructor.getGoogleId());
         ______TS("student notification not accessible to instructor");
         String[] requestParams = new String[] {
-            Const.ParamsNames.NOTIFICATION_TARGET_USER, NotificationTargetUser.STUDENT.toString(),
-            Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL, String.valueOf(true),
+                Const.ParamsNames.NOTIFICATION_TARGET_USER, NotificationTargetUser.STUDENT.toString(),
+                Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL, String.valueOf(true),
         };
         verifyCannotAccess(requestParams);
 
         ______TS("accessible to instructor");
         requestParams = new String[] {
-            Const.ParamsNames.NOTIFICATION_TARGET_USER, NotificationTargetUser.INSTRUCTOR.toString(),
-            Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL, String.valueOf(true),
+                Const.ParamsNames.NOTIFICATION_TARGET_USER, NotificationTargetUser.INSTRUCTOR.toString(),
+                Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL, String.valueOf(true),
         };
         verifyCanAccess(requestParams);
-        
+
         ______TS("instructor notification not accessible to student");
         StudentAttributes studentAttributes = typicalBundle.students.get("student1InCourse1");
         loginAsStudent(studentAttributes.getGoogleId());
         requestParams = new String[] {
-            Const.ParamsNames.NOTIFICATION_TARGET_USER, NotificationTargetUser.INSTRUCTOR.toString(),
-            Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL, String.valueOf(true),
+                Const.ParamsNames.NOTIFICATION_TARGET_USER, NotificationTargetUser.INSTRUCTOR.toString(),
+                Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL, String.valueOf(true),
         };
         verifyCannotAccess(requestParams);
 
         ______TS("accessible to student");
         requestParams = new String[] {
-            Const.ParamsNames.NOTIFICATION_TARGET_USER, NotificationTargetUser.STUDENT.toString(),
-            Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL, String.valueOf(true),
+                Const.ParamsNames.NOTIFICATION_TARGET_USER, NotificationTargetUser.STUDENT.toString(),
+                Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL, String.valueOf(true),
         };
         verifyCanAccess(requestParams);
 
         ______TS("unknown target user");
         loginAsInstructor(instructor.getGoogleId());
         requestParams = new String[] {
-            Const.ParamsNames.NOTIFICATION_TARGET_USER, "unknown",
-            Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL, String.valueOf(true),
+                Const.ParamsNames.NOTIFICATION_TARGET_USER, "unknown",
+                Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL, String.valueOf(true),
         };
         verifyHttpParameterFailureAcl(requestParams);
 
         ______TS("accessible to admin");
         loginAsAdmin();
         requestParams = new String[] {
-            Const.ParamsNames.NOTIFICATION_TARGET_USER, NotificationTargetUser.STUDENT.toString(),
-            Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL, String.valueOf(true),
+                Const.ParamsNames.NOTIFICATION_TARGET_USER, NotificationTargetUser.STUDENT.toString(),
+                Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL, String.valueOf(true),
         };
         verifyCanAccess(requestParams);
     }
