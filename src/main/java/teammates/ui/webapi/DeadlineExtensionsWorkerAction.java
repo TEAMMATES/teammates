@@ -138,12 +138,12 @@ class DeadlineExtensionsWorkerAction extends AdminOnlyAction {
             String userEmail, boolean isInstructor, boolean notifyUsers) {
         DeadlineExtensionAttributes deadlineExtension =
                 logic.getDeadlineExtension(course.getId(), session.getFeedbackSessionName(), userEmail, isInstructor);
-        logic.deleteDeadlineExtension(course.getId(), session.getFeedbackSessionName(), userEmail, isInstructor);
-
         if (deadlineExtension == null) {
             log.severe("Unexpected error while revoking deadline extension");
             return null;
         }
+
+        logic.deleteDeadlineExtension(course.getId(), session.getFeedbackSessionName(), userEmail, isInstructor);
 
         if (!notifyUsers) {
             return null;
