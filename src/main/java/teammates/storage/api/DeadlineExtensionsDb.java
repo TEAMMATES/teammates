@@ -155,7 +155,7 @@ public final class DeadlineExtensionsDb extends EntitiesDb<DeadlineExtension, De
      */
     public void deleteDeadlineExtensions(AttributesDeletionQuery query) {
         assert query != null;
-        assert query.isCourseIdPresent();
+        assert verifyValidDeletionQuery(query);
 
         Query<DeadlineExtension> entitiesToDelete = load().project().filter("courseId =", query.getCourseId());
 
@@ -167,6 +167,24 @@ public final class DeadlineExtensionsDb extends EntitiesDb<DeadlineExtension, De
         }
 
         deleteEntity(entitiesToDelete.keys().list());
+    }
+
+    private boolean verifyValidDeletionQuery(AttributesDeletionQuery query) {
+        if (!query.isCourseIdPresent()) {
+            return false;
+        }
+
+        // Valid Combinations:
+        // courseId
+        // courseId, feedbackSessionName
+        // courseId, isInstructor, userEmail
+        if (!query.isIsInstructorPresent() && !query.isUserEmailPresent() && !query.isFeedbackSessionNamePresent()
+                || !query.isIsInstructorPresent() && !query.isUserEmailPresent() && query.isFeedbackSessionNamePresent()
+                || query.isIsInstructorPresent() && query.isUserEmailPresent() && !query.isFeedbackSessionNamePresent()) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
