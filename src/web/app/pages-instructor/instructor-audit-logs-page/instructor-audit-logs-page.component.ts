@@ -113,23 +113,11 @@ export class InstructorAuditLogsPageComponent implements OnInit {
     this.searchResults = [];
     const selectedCourse: Course | undefined =
       this.courses.find((course: Course) => course.courseId === this.formModel.courseId);
-
     const timeZone: string = selectedCourse ? selectedCourse.timeZone : this.timezoneService.guessTimezone();
     const searchFrom: number = this.timezoneService.resolveLocalDateTime(
-          this.formModel.logsDateFrom, this.formModel.logsTimeFrom, timeZone, true);
+        this.formModel.logsDateFrom, this.formModel.logsTimeFrom, timeZone, true);
     const searchUntil: number = this.timezoneService.resolveLocalDateTime(
-          this.formModel.logsDateTo, this.formModel.logsTimeTo, timeZone, true);
-
-    const indexOfInvalidTime: number = [searchFrom, searchUntil].findIndex(isNaN);
-    const sequenceOfTimeChecked: string[] = ['Search period from', 'Search period until'];
-
-    if (indexOfInvalidTime !== -1) {
-      const errorMessage: string = `Invalid datetime range for ${sequenceOfTimeChecked[indexOfInvalidTime]}`;
-      this.statusMessageService.showErrorToast(errorMessage);
-      this.isLoading = false;
-      this.isSearching = false;
-      return;
-    }
+        this.formModel.logsDateTo, this.formModel.logsTimeTo, timeZone, true);
 
     this.logsService.searchFeedbackSessionLog({
       courseId: this.formModel.courseId,
@@ -137,14 +125,15 @@ export class InstructorAuditLogsPageComponent implements OnInit {
       searchUntil: searchUntil.toString(),
       studentEmail: this.formModel.studentEmail,
     }).pipe(
-        finalize(() => this.isSearching = false),
+        finalize(() => {
+          this.isSearching = false;
+        }),
     ).subscribe((logs: FeedbackSessionLogs) => {
       logs.feedbackSessionLogs.map((log: FeedbackSessionLog) =>
           this.searchResults.push(this.toFeedbackSessionLogModel(log)));
     }, (e: ErrorMessageOutput) => {
       this.statusMessageService.showErrorToast(e.error.message);
     });
-
   }
 
   /**
