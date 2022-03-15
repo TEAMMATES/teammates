@@ -256,6 +256,10 @@ task copyDistToExplodedWar {
             from "src/web/dist"
             into explodeWar.destinationDir
         }
+        copy {
+            from "src/web/webtools"
+            into explodeWar.destinationDir
+        }
     }
     mustRunAfter explodeWar
 }

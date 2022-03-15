@@ -37,6 +37,12 @@ indexes:
     name: sentPublishedEmail
 - kind: FeedbackSession
   properties:
+    - direction: asc
+      name: courseId
+    - direction: asc
+      name: startTime
+- kind: FeedbackSession
+  properties:
   - direction: asc
     name: isPublishedEmailEnabled
   - direction: asc

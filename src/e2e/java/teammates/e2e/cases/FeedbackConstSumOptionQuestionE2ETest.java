@@ -95,7 +95,8 @@ public class FeedbackConstSumOptionQuestionE2ETest extends BaseFeedbackQuestionE
         ______TS("submit response");
         String questionId = getFeedbackQuestion(question).getId();
         FeedbackResponseAttributes response = getResponse(questionId, Arrays.asList(50, 20, 30));
-        feedbackSubmitPage.submitConstSumOptionResponse(1, "", response);
+        feedbackSubmitPage.fillConstSumOptionResponse(1, "", response);
+        feedbackSubmitPage.clickSubmitQuestionButton(1);
 
         verifyPresentInDatabase(response);
 
@@ -105,7 +106,8 @@ public class FeedbackConstSumOptionQuestionE2ETest extends BaseFeedbackQuestionE
 
         ______TS("edit response");
         response = getResponse(questionId, Arrays.asList(23, 47, 30));
-        feedbackSubmitPage.submitConstSumOptionResponse(1, "", response);
+        feedbackSubmitPage.fillConstSumOptionResponse(1, "", response);
+        feedbackSubmitPage.clickSubmitQuestionButton(1);
 
         feedbackSubmitPage = getFeedbackSubmitPage();
         feedbackSubmitPage.verifyConstSumOptionResponse(1, "", response);

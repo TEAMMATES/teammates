@@ -163,35 +163,6 @@ h6,
   opacity: .7;
 }
 
-// The following few properties are for the usermap page.
-// They need to be global style because the map is not rendered as Angular components,
-// thus it cannot read the component-specific CSS rules.
-
-.usermap-country {
-  stroke: #CECECE;
-  stroke-width: .15px;
-
-  &:hover {
-    stroke-width: .7px;
-  }
-}
-
-.usermap-text {
-  font-size: 10px;
-  text-transform: capitalize;
-}
-
-.usermap-tooltip {
-  color: #222;
-  background: #FFF;
-  padding: .5em;
-  text-shadow: #F5F5F5 0 1px 0;
-  border-radius: 2px;
-  box-shadow: 0 0 2px 0 #A6A6A6;
-  opacity: .9;
-  position: absolute;
-}
-
 .text-preserve-space {
   white-space: pre-wrap;
 }
@@ -300,13 +271,4 @@ h6,
 
 .handsontable .valid-row {
   background: white;
-}
-
-// text-break on current version of bootstrap (4.5.0) does not work on some tags.
-// This class overrides bootstrap's text-break with a working implementation,
-// can be removed once bootstrap version is upgraded.
-// See https://github.com/twbs/bootstrap/issues/30803.
-.text-break {
-  word-break: break-word !important;
-  word-wrap: break-word !important;
 }
