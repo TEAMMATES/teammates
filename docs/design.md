@@ -149,7 +149,7 @@ The `Logic` component handles the business logic of TEAMMATES. In particular, it
 
 Package overview:
 - **`logic.api`**: Provides the API of the component to be accessed by the UI.
-- **`logic.core`**: Contains the core logic of the system and its internal data entities.
+- **`logic.core`**: Contains the core logic of the system.
 - **`logic.external`**: Holds the logic of external services such as task queue service.
 
 ### Logic API
