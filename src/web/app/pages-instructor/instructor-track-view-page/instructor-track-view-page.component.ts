@@ -24,10 +24,8 @@ import {
 } from '../../../types/api-output';
 import { Intent } from '../../../types/api-request';
 import { SortBy } from '../../../types/sort-properties';
+import { DatePickerFormatter } from '../../components/datepicker/datepicker-formatter';
 import { DateFormat } from '../../components/datepicker/datepicker.component';
-import {
-  SessionEditFormDatePickerFormatter,
-} from '../../components/session-edit-form/session-edit-form-datepicker-formatter';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { ColumnData, SortableTableCellData } from '../../components/sortable-table/sortable-table.component';
 import { TimeFormat } from '../../components/timepicker/timepicker.component';
@@ -58,7 +56,7 @@ interface FeedbackSessionLogModel {
 @Component({
   selector: 'tm-instructor-track-view-page',
   templateUrl: './instructor-track-view-page.component.html',
-  providers: [{ provide: NgbDateParserFormatter, useClass: SessionEditFormDatePickerFormatter }],
+  providers: [{ provide: NgbDateParserFormatter, useClass: DatePickerFormatter }],
   styleUrls: ['./instructor-track-view-page.component.scss'],
 })
 export class InstructorTrackViewPageComponent implements OnInit {

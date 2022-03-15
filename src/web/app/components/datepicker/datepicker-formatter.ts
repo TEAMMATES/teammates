@@ -5,10 +5,10 @@ import moment from 'moment-timezone';
 const DATE_FORMAT: string = 'ddd, DD MMM, YYYY';
 
 /**
- * Date formatter for date picker in session edit form
+ * Date formatter for date picker
  */
 @Injectable()
-export class SessionEditFormDatePickerFormatter extends NgbDateParserFormatter {
+export class DatePickerFormatter extends NgbDateParserFormatter {
 
   format(date: NgbDateStruct): string {
     if (date == null) {
