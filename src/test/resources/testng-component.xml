@@ -12,6 +12,7 @@
             <package name="teammates.storage.search" />
             <package name="teammates.logic.api" />
             <package name="teammates.logic.core" />
+            <package name="teammates.logic.external" />
             <package name="teammates.ui.request" />
             <package name="teammates.ui.servlets" />
             <package name="teammates.ui.webapi" />

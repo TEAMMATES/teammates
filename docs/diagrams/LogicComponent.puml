@@ -2,44 +2,55 @@
 !include diagrams/style.puml
 skinparam componentBackgroundColor MODEL_COLOR_T1
 skinparam componentFontColor #FFFFFF
-skinparam packageBackgroundColor #FFFFFF
+skinparam FolderBackgroundColor #FFFFFF
 skinparam rectangleBackgroundColor MODEL_COLOR
 skinparam rectangleFontColor #FFFFFF
 skinparam arrowColor #000000
 
 component Logic {
-    package "logic::core" as Core {
-        rectangle JavamailService
-        rectangle SendgridService
-        rectangle "*Service" as Service
-
-        rectangle TaskQueuesLogic
+    folder "logic::core" as Core {
         rectangle AccountsLogic
         rectangle InstructorsLogic
         rectangle StudentsLogic
         rectangle CoursesLogic
         rectangle FeedbackSessionsLogic
-        rectangle "*Logic" as Logic1
+        rectangle "~*Logic" as Logic1
     }
 
-    package "logic::api" as Api {
+    folder "logic::external" as External {
+        rectangle MailgunService
+        rectangle MailjetService
+        rectangle SendgridService
+        rectangle GoogleCloudTasksService
+        rectangle GoogleCloudStorageService
+        rectangle "~*Service" as Service
+    }
+
+    folder "logic::api" as Api {
         rectangle EmailSender
         rectangle EmailGenerator
-        rectangle "Logic" as Logic2
         rectangle TaskQueuer
-        rectangle GateKeeper
+        rectangle FileStorage
+        rectangle RecaptchaVerifier
+        rectangle "Logic" as Logic2
+        rectangle UserProvision
+        rectangle LogsProcessor
     }
 }
 
 rectangle ThirdPartyEmailAPIs
-rectangle "GAE\nTaskQueueAPI" as GaeTaskQueueApi
+rectangle "GoogleCloud\nTasksAPI" as GoogleCloudTasksApi
+rectangle "GoogleCloud\nStorageAPI" as GoogleCloudStorageApi
+rectangle "Other\nExternalAPIs" as OtherExternalApi
 rectangle UI
 storage Storage STORAGE_COLOR_T1
 
-JavamailService ..> ThirdPartyEmailAPIs
+MailgunService ..> ThirdPartyEmailAPIs
+MailjetService ..> ThirdPartyEmailAPIs
 SendgridService ..> ThirdPartyEmailAPIs
-Service ..> ThirdPartyEmailAPIs
-TaskQueuesLogic ..> GaeTaskQueueApi
+GoogleCloudTasksService ..> GoogleCloudTasksApi
+GoogleCloudStorageService ..> GoogleCloudStorageApi
+Service ..> OtherExternalApi
 AccountsLogic ..> Storage
 InstructorsLogic ..> Storage
 StudentsLogic ..> Storage
@@ -49,9 +60,14 @@ Logic1 ..> Storage
 
 UI ..> Api
 Api ..> Core
+Api ..> External
 
 ' The hidden associations are for positioning purposes only
-Api -[hidden]down- Core
-Core -[hidden]up- Api
+Api -[hidden]right- Core
+Core -[hidden]left- Api
+Api -[hidden]right- External
+External -[hidden]left- Api
+Core -[hidden]down- External
+External -[hidden]up- Core
 
 @enduml

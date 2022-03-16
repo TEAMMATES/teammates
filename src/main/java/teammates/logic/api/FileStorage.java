@@ -1,9 +1,9 @@
 package teammates.logic.api;
 
 import teammates.common.util.Config;
-import teammates.logic.core.FileStorageService;
-import teammates.logic.core.GoogleCloudStorageService;
-import teammates.logic.core.LocalFileStorageService;
+import teammates.logic.external.FileStorageService;
+import teammates.logic.external.GoogleCloudStorageService;
+import teammates.logic.external.LocalFileStorageService;
 
 /**
  * Handles operations related to binary files.

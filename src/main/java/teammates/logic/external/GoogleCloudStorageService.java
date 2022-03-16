@@ -1,4 +1,4 @@
-package teammates.logic.core;
+package teammates.logic.external;
 
 import com.google.cloud.storage.Blob;
 import com.google.cloud.storage.BlobId;

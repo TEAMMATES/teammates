@@ -19,6 +19,7 @@ component UI {
 
 component Logic {
     folder "logic::core" as LogicCore
+    folder "logic::external" as LogicExternal
     folder "logic::api" as LogicApi
 }
 
@@ -57,6 +58,7 @@ E2EPageObjects ..> UiWebsite
 ClientRemoteApi ..> GCD
 
 LogicApi ..> LogicCore
+LogicApi ..> LogicExternal
 StorageApi ..> StorageEntity
 StorageSearch <..> StorageApi
 E2ECases ..> E2EPageObjects
@@ -90,6 +92,7 @@ Client -[hidden]right- GCD
 
 UiWebApi -[hidden]down- UiWebsite
 LogicCore -[hidden]down- LogicApi
+LogicExternal -[hidden]down- LogicApi
 StorageEntity -[hidden]down- StorageApi
 StorageApi -[hidden]down- StorageSearch
 E2EPageObjects -[hidden]down- E2ECases

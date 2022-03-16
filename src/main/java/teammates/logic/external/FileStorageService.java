@@ -1,4 +1,4 @@
-package teammates.logic.core;
+package teammates.logic.external;
 
 /**
  * A binary file storage interface used for managing binary files such as profile pictures.
