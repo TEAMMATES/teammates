@@ -71,7 +71,7 @@ export class AdminNotificationsPageComponent implements OnInit {
   }
 
   /**
-   * Initiates values for the notification edit form model.
+   * Initializes values for the notification edit form model.
    */
   initNotificationEditFormModel(): void {
     const nearFuture: moment.Moment = moment().add(1, 'hours');

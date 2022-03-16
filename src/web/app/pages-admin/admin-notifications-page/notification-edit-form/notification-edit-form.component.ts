@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
 import { TimezoneService } from '../../../../services/timezone.service';
@@ -16,7 +16,7 @@ import { NotificationEditFormMode, NotificationEditFormModel } from './notificat
   providers: [{ provide: NgbDateParserFormatter, useClass: DatePickerFormatter }],
   animations: [collapseAnim],
 })
-export class NotificationEditFormComponent {
+export class NotificationEditFormComponent implements OnInit {
 
   NotificationEditFormMode = NotificationEditFormMode;
   NotificationType = NotificationType;
@@ -73,10 +73,12 @@ export class NotificationEditFormComponent {
   closeEditFormEvent = new EventEmitter<void>();
 
   constructor(
-    timezoneService: TimezoneService,
+    private timezoneService: TimezoneService,
     private simpleModalService: SimpleModalService,
-  ) {
-    this.guessTimezone = timezoneService.guessTimezone();
+  ) { }
+
+  ngOnInit(): void {
+    this.guessTimezone = this.timezoneService.guessTimezone();
   }
 
   /**
