@@ -603,10 +603,19 @@ public class FieldValidatorTest extends BaseTestCase {
 
     @Test
     public void testGetInvalidityInfoForTimeForSessionEndAndExtendedDeadlines_invalid_returnErrorString() {
+        ______TS("extended deadline earlier than the end time");
         Instant sessionEnd = TimeHelperExtension.getInstantHoursOffsetFromNow(1);
         Map<String, Instant> extendedDeadlines = new HashMap<>();
         extendedDeadlines.put("participant@email.com", TimeHelperExtension.getInstantHoursOffsetFromNow(-1));
-        assertEquals("The extended deadlines for this feedback session cannot be earlier than the end time.",
+        assertEquals("The extended deadlines for this feedback session cannot be earlier than or at the same time as "
+                        + "the end time.",
+                FieldValidator.getInvalidityInfoForTimeForSessionEndAndExtendedDeadlines(
+                        sessionEnd, extendedDeadlines));
+
+        ______TS("extended deadline earlier than the end time");
+        extendedDeadlines.put("participant@email.com", sessionEnd);
+        assertEquals("The extended deadlines for this feedback session cannot be earlier than or at the same time as "
+                        + "the end time.",
                 FieldValidator.getInvalidityInfoForTimeForSessionEndAndExtendedDeadlines(
                         sessionEnd, extendedDeadlines));
     }

@@ -193,6 +193,20 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         a = getAction(updateRequest, param);
         assertThrows(EntityNotFoundException.class, a::execute);
 
+        ______TS("change deadline extension for student to the same time as the end time; "
+                + "should throw InvalidHttpRequestBodyException");
+
+        updateRequest = getTypicalFeedbackSessionUpdateRequest();
+        newStudentDeadlines = updateRequest.getStudentDeadlines()
+                .entrySet()
+                .stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().toEpochMilli()));
+        newStudentDeadlines.put("student1InCourse1@gmail.tmt", 1546003051000L);
+        updateRequest.setStudentDeadlines(newStudentDeadlines);
+
+        a = getAction(updateRequest, param);
+        assertThrows(InvalidHttpRequestBodyException.class, a::execute);
+
         ______TS("change deadline extension for student to before end time; "
                 + "should throw InvalidHttpRequestBodyException");
 
@@ -289,6 +303,20 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
 
         a = getAction(updateRequest, param);
         assertThrows(EntityNotFoundException.class, a::execute);
+
+        ______TS("change deadline extension for instructor to the same time as the end time; "
+                + "should throw InvalidHttpRequestBodyException");
+
+        updateRequest = getTypicalFeedbackSessionUpdateRequest();
+        newInstructorDeadlines = updateRequest.getInstructorDeadlines()
+                .entrySet()
+                .stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().toEpochMilli()));
+        newInstructorDeadlines.put("helper@course1.tmt", 1546003051000L);
+        updateRequest.setInstructorDeadlines(newInstructorDeadlines);
+
+        a = getAction(updateRequest, param);
+        assertThrows(InvalidHttpRequestBodyException.class, a::execute);
 
         ______TS("change deadline extension for instructor to before end time; "
                 + "should throw InvalidHttpRequestBodyException");
