@@ -1,4 +1,8 @@
+{% set title = "Getting Started: Documentation" %}
+<span id="title" class="d-none">{{ title }}</span>
+
 <frontmatter>
+  title: "{{ title }}"
   pageNav: 2
   pageNavTitle: "Chapters of This Page"
 </frontmatter>

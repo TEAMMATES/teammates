@@ -6,7 +6,7 @@
   <navbar placement="top" type="inverse">
     <a slot="brand" href="{{ baseUrl }}/index.html" title="Home" class="navbar-brand">
       <pic src="https://teammatesv4.appspot.com/assets/images/teammateslogo.png" width="150" alt="Logo" caption=""/>
-      <span style="font-style:italic;font-size:small">dev docs</span>
+      <span style="font-style:italic;font-size:small">[dev docs]</span>
     </a>
     <li><a href="{{ baseUrl }}/index.html" class="nav-link">HOME</a></li>
     <li><a href="{{ baseUrl }}/contributing.html" class="nav-link">CONTRIBUTING</a></li>
@@ -29,7 +29,7 @@
     <div class="nav-component slim-scroll">
       <site-nav>
 
-* About Markbind :expanded:
+* About Teammates :expanded:
   * [Introduction]({{ baseUrl }}/index.html)
   * [Overview]({{ baseUrl }}/overview.html)
 * Getting Started :expanded:

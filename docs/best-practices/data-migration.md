@@ -1,4 +1,8 @@
+{% set title = "Best Practices: Data Migration" %}
+<span id="title" class="d-none">{{ title }}</span>
+
 <frontmatter>
+  title: "{{ title }}"
   pageNav: 3
   pageNavTitle: "Chapters of This Page"
 </frontmatter>

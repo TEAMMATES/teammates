@@ -1,3 +1,10 @@
+{% set title = "About" %}
+<span id="title" class="d-none">{{ title }}</span>
+
+<frontmatter>
+  title: "{{ title }}"
+</frontmatter>
+
 # About
 TEAMMATES is a free online tool for managing peer evaluations and other feedback paths of your students.
 It is provided as a cloud-based service for educators/students and is currently used by hundreds of universities across the world. Here are more statistics about our project: [Project Stats](https://www.openhub.net/p/teammatesonline).

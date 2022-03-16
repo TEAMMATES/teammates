@@ -1,6 +1,7 @@
 {
   "baseUrl": "/teammates",
-  "titlePrefix": "",
+  "faviconPath":"/_markbind/icon-128x128.png",
+  "titlePrefix": "Teammates",
   "ignore": ["_markbind/layouts/*", "_markbind/logs/*", "_site/*", "site.json", "*.md", "*.mbd", "*.mbdf", "*.njk", ".git/*"],
   "style" : {
     "codeTheme": "light"
