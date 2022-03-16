@@ -1,4 +1,4 @@
-package teammates.logic.core;
+package teammates.logic.external;
 
 import java.io.IOException;
 
