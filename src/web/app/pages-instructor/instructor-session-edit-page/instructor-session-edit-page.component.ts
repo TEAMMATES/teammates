@@ -436,6 +436,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
 
       studentDeadlines: {},
       instructorDeadlines: {},
+
+      isGoingToNotifyAboutDeadlines: false,
     }).pipe(finalize(() => {
       this.sessionEditFormModel.isSaving = false;
     })).subscribe((feedbackSession: FeedbackSession) => {
