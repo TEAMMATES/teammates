@@ -3,6 +3,9 @@ package teammates.storage.api;
 import static teammates.common.util.FieldValidator.COURSE_ID_ERROR_MESSAGE;
 import static teammates.common.util.FieldValidator.REASON_INCORRECT_FORMAT;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
@@ -104,25 +107,29 @@ public class StudentsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
     }
 
     @Test
-    public void testHasExistingStudentInCourse() throws Exception {
+    public void testHasExistingStudentsInCourse() throws Exception {
 
         StudentAttributes student = createNewStudent();
+        Collection<String> studentEmailAddresses = new ArrayList<>();
+        studentEmailAddresses.add(student.getEmail());
 
-        ______TS("existing student");
+        ______TS("all existing students");
 
-        assertTrue(studentsDb.hasExistingStudentInCourse(student.getCourse(), student.getEmail()));
+        assertTrue(studentsDb.hasExistingStudentsInCourse(student.getCourse(), studentEmailAddresses));
 
-        ______TS("non-existent student in existing course");
+        ______TS("all existing students in non-existent course");
 
-        assertFalse(studentsDb.hasExistingStudentInCourse(student.getCourse(), "non-existent.student@email.com"));
+        assertFalse(studentsDb.hasExistingStudentsInCourse("non-existent-course", studentEmailAddresses));
 
-        ______TS("existing student in non-existent course");
+        ______TS("some non-existent student in existing course");
 
-        assertFalse(studentsDb.hasExistingStudentInCourse("non-existent-course", student.getEmail()));
+        studentEmailAddresses.add("non-existent.student@email.com");
 
-        ______TS("non-existent student in non-existent course");
+        assertFalse(studentsDb.hasExistingStudentsInCourse(student.getCourse(), studentEmailAddresses));
 
-        assertFalse(studentsDb.hasExistingStudentInCourse("non-existent-course", "non-existent.student@email.com"));
+        ______TS("some non-existent student in non-existent course");
+
+        assertFalse(studentsDb.hasExistingStudentsInCourse("non-existent-course", studentEmailAddresses));
     }
 
     @Test

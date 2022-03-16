@@ -3,8 +3,10 @@ package teammates.storage.api;
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.googlecode.objectify.Key;
@@ -97,10 +99,24 @@ public final class InstructorsDb extends EntitiesDb<Instructor, InstructorAttrib
     }
 
     /**
-     * Checks if the given instructor exists in the given course.
+     * Checks if the given instructors exist in the given course.
      */
-    public boolean hasExistingInstructorInCourse(String courseId, String instructorEmailAddress) {
-        return hasExistingEntities(InstructorAttributes.builder(courseId, instructorEmailAddress).build());
+    public boolean hasExistingInstructorsInCourse(String courseId, Collection<String> instructorEmailAddresses) {
+        if (instructorEmailAddresses.isEmpty()) {
+            return true;
+        }
+        Set<String> existingInstructorEmailAddressesInCourse = load().filter("courseId =", courseId)
+                .project("email")
+                .list()
+                .stream()
+                .map(Instructor::getEmail)
+                .collect(Collectors.toSet());
+        for (String instructorEmailAddress : instructorEmailAddresses) {
+            if (!existingInstructorEmailAddressesInCourse.contains(instructorEmailAddress)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**

@@ -100,9 +100,8 @@ public final class InstructorsLogic {
      */
     public void verifyAllInstructorsExistInCourse(String courseId, Collection<String> instructorEmailAddresses)
             throws EntityDoesNotExistException {
-        boolean hasOnlyExistingInstructors = instructorEmailAddresses.stream()
-                .allMatch(instructorEmailAddress ->
-                        instructorsDb.hasExistingInstructorInCourse(courseId, instructorEmailAddress));
+        boolean hasOnlyExistingInstructors = instructorsDb
+                .hasExistingInstructorsInCourse(courseId, instructorEmailAddresses);
         if (!hasOnlyExistingInstructors) {
             throw new EntityDoesNotExistException("There are instructors that do not exist in the course.");
         }

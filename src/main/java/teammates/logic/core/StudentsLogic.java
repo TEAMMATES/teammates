@@ -153,8 +153,7 @@ public final class StudentsLogic {
      */
     public void verifyAllStudentsExistInCourse(String courseId, Collection<String> studentEmailAddresses)
             throws EntityDoesNotExistException {
-        boolean hasOnlyExistingStudents = studentEmailAddresses.stream()
-                .allMatch(studentEmailAddress -> studentsDb.hasExistingStudentInCourse(courseId, studentEmailAddress));
+        boolean hasOnlyExistingStudents = studentsDb.hasExistingStudentsInCourse(courseId, studentEmailAddresses);
         if (!hasOnlyExistingStudents) {
             throw new EntityDoesNotExistException("There are students that do not exist in the course.");
         }
