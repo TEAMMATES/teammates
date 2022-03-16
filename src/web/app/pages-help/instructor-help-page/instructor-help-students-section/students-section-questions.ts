@@ -23,11 +23,6 @@ export enum StudentsSectionQuestions {
   STUDENT_SEARCH = 'student-search',
 
   /**
-   * How do I email a student or students in my course?
-   */
-  STUDENT_EMAIL = 'student-email',
-
-  /**
    * Is it compulsory for students to use Google accounts?
    */
   STUDENT_GOOGLE_ACCOUNT = 'student-google-account',
