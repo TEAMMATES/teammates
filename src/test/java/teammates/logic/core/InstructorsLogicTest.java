@@ -1,6 +1,7 @@
 package teammates.logic.core;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -116,7 +117,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
         String courseId = instructor.getCourseId();
 
-        List<String> instructorEmailAddresses = new ArrayList<>();
+        Collection<String> instructorEmailAddresses = new ArrayList<>();
         instructorEmailAddresses.add(instructor.getEmail());
 
         ______TS("existing instructor");

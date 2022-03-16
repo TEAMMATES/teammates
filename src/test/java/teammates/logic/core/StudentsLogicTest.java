@@ -1,6 +1,7 @@
 package teammates.logic.core;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 
@@ -446,7 +447,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         StudentAttributes student = dataBundle.students.get("student1InCourse1");
         String courseId = student.getCourse();
 
-        List<String> studentEmailAddresses = new ArrayList<>();
+        Collection<String> studentEmailAddresses = new ArrayList<>();
         studentEmailAddresses.add(student.getEmail());
 
         ______TS("existing student");
