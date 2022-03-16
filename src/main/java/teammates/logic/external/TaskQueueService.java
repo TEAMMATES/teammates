@@ -1,4 +1,4 @@
-package teammates.logic.core;
+package teammates.logic.external;
 
 import teammates.common.util.TaskWrapper;
 

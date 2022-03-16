@@ -1,4 +1,4 @@
-package teammates.logic.core;
+package teammates.logic.external;
 
 /**
  * Service that bypasses reCAPTCHA verification, i.e. always returning successful verification.
