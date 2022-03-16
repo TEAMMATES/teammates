@@ -191,8 +191,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         updateRequest.setStudentDeadlines(newStudentDeadlines);
 
         a = getAction(updateRequest, param);
-        final UpdateFeedbackSessionAction a1 = a;
-        assertThrows(EntityNotFoundException.class, a1::execute);
+        assertThrows(EntityNotFoundException.class, a::execute);
 
         ______TS("change deadline extension for student to before end time; "
                 + "should throw InvalidHttpRequestBodyException");
@@ -206,8 +205,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         updateRequest.setStudentDeadlines(newStudentDeadlines);
 
         a = getAction(updateRequest, param);
-        final UpdateFeedbackSessionAction a2 = a;
-        assertThrows(InvalidHttpRequestBodyException.class, a2::execute);
+        assertThrows(InvalidHttpRequestBodyException.class, a::execute);
 
         logoutUser();
     }
@@ -290,8 +288,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         updateRequest.setInstructorDeadlines(newInstructorDeadlines);
 
         a = getAction(updateRequest, param);
-        final UpdateFeedbackSessionAction a1 = a;
-        assertThrows(EntityNotFoundException.class, a1::execute);
+        assertThrows(EntityNotFoundException.class, a::execute);
 
         ______TS("change deadline extension for instructor to before end time; "
                 + "should throw InvalidHttpRequestBodyException");
@@ -305,8 +302,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         updateRequest.setInstructorDeadlines(newInstructorDeadlines);
 
         a = getAction(updateRequest, param);
-        final UpdateFeedbackSessionAction a2 = a;
-        assertThrows(InvalidHttpRequestBodyException.class, a2::execute);
+        assertThrows(InvalidHttpRequestBodyException.class, a::execute);
 
         logoutUser();
     }

@@ -47,7 +47,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
 
     @Test
     public void testAll() throws Exception {
-        testVerifyAllStudentsExistInCourse();
+        testVerifyAllInstructorsExistInCourse();
         testGetInstructorForEmail();
         testGetInstructorForGoogleId();
         testGetInstructorsForGoogleId();
@@ -111,7 +111,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
         assertThrows(AssertionError.class, () -> instructorsLogic.createInstructor(null));
     }
 
-    private void testVerifyAllStudentsExistInCourse() throws Exception {
+    private void testVerifyAllInstructorsExistInCourse() throws Exception {
 
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
         String courseId = instructor.getCourseId();

@@ -108,7 +108,7 @@ public class InstructorsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
     }
 
     @Test
-    public void testHasExistingStudentInCourse() {
+    public void testHasExistingInstructorInCourse() {
 
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
 
