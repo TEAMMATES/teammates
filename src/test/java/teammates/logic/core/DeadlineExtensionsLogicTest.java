@@ -98,9 +98,9 @@ public class DeadlineExtensionsLogicTest extends BaseLogicTest {
                 () -> deadlineExtensionsLogic.createDeadlineExtension(invalidFeedbackSessionNameDeadlineExtension));
         AssertHelper.assertContains(
                 getPopulatedEmptyStringErrorMessage(
-                    FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING_FOR_SESSION_NAME,
-                    FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
-                    FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH),
+                        FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING_FOR_SESSION_NAME,
+                        FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
+                        FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH),
                 ipe.getMessage());
 
         DeadlineExtensionAttributes invalidCourseIdDeadlineExtension = DeadlineExtensionAttributes
@@ -111,9 +111,9 @@ public class DeadlineExtensionsLogicTest extends BaseLogicTest {
                 () -> deadlineExtensionsLogic.createDeadlineExtension(invalidCourseIdDeadlineExtension));
         AssertHelper.assertContains(
                 getPopulatedEmptyStringErrorMessage(
-                    FieldValidator.COURSE_ID_ERROR_MESSAGE_EMPTY_STRING,
-                    FieldValidator.COURSE_ID_FIELD_NAME,
-                    FieldValidator.COURSE_ID_MAX_LENGTH),
+                        FieldValidator.COURSE_ID_ERROR_MESSAGE_EMPTY_STRING,
+                        FieldValidator.COURSE_ID_FIELD_NAME,
+                        FieldValidator.COURSE_ID_MAX_LENGTH),
                 ipe.getMessage());
 
         ______TS("failure: null parameter");
@@ -130,23 +130,21 @@ public class DeadlineExtensionsLogicTest extends BaseLogicTest {
         ______TS("typical success case");
         DeadlineExtensionAttributes.UpdateOptions updateOptions = DeadlineExtensionAttributes
                 .updateOptionsBuilder(
-                    deadlineExtension.getCourseId(),
-                    deadlineExtension.getFeedbackSessionName(),
-                    deadlineExtension.getUserEmail(),
-                    deadlineExtension.getIsInstructor())
+                        deadlineExtension.getCourseId(),
+                        deadlineExtension.getFeedbackSessionName(),
+                        deadlineExtension.getUserEmail(),
+                        deadlineExtension.getIsInstructor())
                 .withEndTime(now)
                 .withSentClosingEmail(true)
                 .build();
 
         deadlineExtensionsLogic.updateDeadlineExtension(updateOptions);
 
-        DeadlineExtensionAttributes updatedDeadlineExtension =
-                deadlineExtensionsLogic.getDeadlineExtension(
-                    deadlineExtension.getCourseId(),
-                    deadlineExtension.getFeedbackSessionName(),
-                    deadlineExtension.getUserEmail(),
-                    deadlineExtension.getIsInstructor()
-                );
+        DeadlineExtensionAttributes updatedDeadlineExtension = deadlineExtensionsLogic.getDeadlineExtension(
+                deadlineExtension.getCourseId(),
+                deadlineExtension.getFeedbackSessionName(),
+                deadlineExtension.getUserEmail(),
+                deadlineExtension.getIsInstructor());
 
         assertEquals(deadlineExtension.getCourseId(), updatedDeadlineExtension.getCourseId());
         assertEquals(deadlineExtension.getFeedbackSessionName(), updatedDeadlineExtension.getFeedbackSessionName());
@@ -169,10 +167,10 @@ public class DeadlineExtensionsLogicTest extends BaseLogicTest {
         deadlineExtensionsLogic.updateDeadlineExtension(updateOptions);
 
         updatedDeadlineExtension = deadlineExtensionsLogic.getDeadlineExtension(
-                    deadlineExtension.getCourseId(),
-                    deadlineExtension.getFeedbackSessionName(),
-                    deadlineExtension.getUserEmail(),
-                    deadlineExtension.getIsInstructor());
+                deadlineExtension.getCourseId(),
+                deadlineExtension.getFeedbackSessionName(),
+                deadlineExtension.getUserEmail(),
+                deadlineExtension.getIsInstructor());
 
         assertEquals(deadlineExtension.getCourseId(), updatedDeadlineExtension.getCourseId());
         assertEquals(deadlineExtension.getFeedbackSessionName(), updatedDeadlineExtension.getFeedbackSessionName());
@@ -206,10 +204,10 @@ public class DeadlineExtensionsLogicTest extends BaseLogicTest {
         verifyPresentInDatabase(deadlineExtension);
 
         deadlineExtensionsLogic.deleteDeadlineExtension(
-                    deadlineExtension.getCourseId(),
-                    deadlineExtension.getFeedbackSessionName(),
-                    deadlineExtension.getUserEmail(),
-                    deadlineExtension.getIsInstructor());
+                deadlineExtension.getCourseId(),
+                deadlineExtension.getFeedbackSessionName(),
+                deadlineExtension.getUserEmail(),
+                deadlineExtension.getIsInstructor());
 
         verifyAbsentInDatabase(deadlineExtension);
 
@@ -234,13 +232,11 @@ public class DeadlineExtensionsLogicTest extends BaseLogicTest {
 
         ______TS("typical success case");
 
-        DeadlineExtensionAttributes retrievedDeadlineExtension =
-                deadlineExtensionsLogic.getDeadlineExtension(
-                    originalDeadlineExtension.getCourseId(),
-                    originalDeadlineExtension.getFeedbackSessionName(),
-                    originalDeadlineExtension.getUserEmail(),
-                    originalDeadlineExtension.getIsInstructor()
-                );
+        DeadlineExtensionAttributes retrievedDeadlineExtension = deadlineExtensionsLogic.getDeadlineExtension(
+                originalDeadlineExtension.getCourseId(),
+                originalDeadlineExtension.getFeedbackSessionName(),
+                originalDeadlineExtension.getUserEmail(),
+                originalDeadlineExtension.getIsInstructor());
 
         assertEquals(originalDeadlineExtension, retrievedDeadlineExtension);
 
@@ -265,9 +261,9 @@ public class DeadlineExtensionsLogicTest extends BaseLogicTest {
         ______TS("typical success case: only delete deadline extensions in feedback session");
 
         AttributesDeletionQuery query = AttributesDeletionQuery.builder()
-                        .withCourseId(deadlineExtension1.getCourseId())
-                        .withFeedbackSessionName(deadlineExtension1.getFeedbackSessionName())
-                        .build();
+                .withCourseId(deadlineExtension1.getCourseId())
+                .withFeedbackSessionName(deadlineExtension1.getFeedbackSessionName())
+                .build();
         deadlineExtensionsLogic.deleteDeadlineExtensions(query);
         verifyAbsentInDatabase(deadlineExtension1);
         verifyPresentInDatabase(deadlineExtension2);
@@ -275,8 +271,8 @@ public class DeadlineExtensionsLogicTest extends BaseLogicTest {
         ______TS("typical success case: delete all deadline extensions in course");
 
         query = AttributesDeletionQuery.builder()
-                        .withCourseId(deadlineExtension1.getCourseId())
-                        .build();
+                .withCourseId(deadlineExtension1.getCourseId())
+                .build();
         deadlineExtensionsLogic.deleteDeadlineExtensions(query);
         verifyAbsentInDatabase(deadlineExtension2);
 
@@ -295,14 +291,12 @@ public class DeadlineExtensionsLogicTest extends BaseLogicTest {
         DeadlineExtensionAttributes deadlineExtensionDifferentFs =
                 dataBundle.deadlineExtensions.get("student4InCourse1Session2");
         DeadlineExtensionAttributes deadlineExtensionDifferentCourse = DeadlineExtensionAttributes
-                .builder(
-                    "different-course-id", deadlineExtension.getFeedbackSessionName(),
-                    deadlineExtension.getUserEmail(), deadlineExtension.getIsInstructor())
+                .builder("different-course-id", deadlineExtension.getFeedbackSessionName(),
+                        deadlineExtension.getUserEmail(), deadlineExtension.getIsInstructor())
                 .build();
         DeadlineExtensionAttributes deadlineExtensionDifferentUserType = DeadlineExtensionAttributes
-                .builder(
-                    deadlineExtension.getCourseId(), deadlineExtension.getFeedbackSessionName(),
-                    deadlineExtension.getUserEmail(), true)
+                .builder(deadlineExtension.getCourseId(), deadlineExtension.getFeedbackSessionName(),
+                        deadlineExtension.getUserEmail(), true)
                 .build();
         deadlineExtensionsLogic.createDeadlineExtension(deadlineExtensionDifferentCourse);
         deadlineExtensionsLogic.createDeadlineExtension(deadlineExtensionDifferentUserType);
@@ -342,14 +336,12 @@ public class DeadlineExtensionsLogicTest extends BaseLogicTest {
         DeadlineExtensionAttributes deadlineExtensionDifferentFs =
                 dataBundle.deadlineExtensions.get("student4InCourse1Session2");
         DeadlineExtensionAttributes deadlineExtensionDifferentCourse = DeadlineExtensionAttributes
-                .builder(
-                    "different-course-id", deadlineExtension.getFeedbackSessionName(),
-                    deadlineExtension.getUserEmail(), deadlineExtension.getIsInstructor())
+                .builder("different-course-id", deadlineExtension.getFeedbackSessionName(),
+                        deadlineExtension.getUserEmail(), deadlineExtension.getIsInstructor())
                 .build();
         DeadlineExtensionAttributes deadlineExtensionDifferentUserType = DeadlineExtensionAttributes
-                .builder(
-                    deadlineExtension.getCourseId(), deadlineExtension.getFeedbackSessionName(),
-                    deadlineExtension.getUserEmail(), true)
+                .builder(deadlineExtension.getCourseId(), deadlineExtension.getFeedbackSessionName(),
+                        deadlineExtension.getUserEmail(), true)
                 .build();
         deadlineExtensionsLogic.createDeadlineExtension(deadlineExtensionDifferentCourse);
         deadlineExtensionsLogic.createDeadlineExtension(deadlineExtensionDifferentUserType);
