@@ -9,10 +9,7 @@ public class DeleteNotificationAction extends AdminOnlyAction {
 
     @Override
     public JsonResult execute() {
-        String notificationId = getRequestParamValue(Const.ParamsNames.NOTIFICATION_ID);
-        if (notificationId == null) {
-            throw new InvalidHttpParameterException("Notification ID cannot be null");
-        }
+        String notificationId = getNonNullRequestParamValue(Const.ParamsNames.NOTIFICATION_ID);
         logic.deleteNotification(notificationId);
         return new JsonResult("Notification has been deleted");
     }
