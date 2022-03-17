@@ -1,6 +1,6 @@
 [
     {
-        "name": "session using template: team peer evaluation (point-based)",
+        "name": "session using template: team peer feedback (point-based)",
         "questions": [
             {
                 "feedbackQuestionId": "",
@@ -104,7 +104,7 @@
         ]
     },
     {
-        "name": "session using template: team peer evaluation (percentage-based)",
+        "name": "session using template: team peer feedback (percentage-based)",
         "questions": [
             {
                 "feedbackQuestionId": "",
