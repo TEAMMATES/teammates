@@ -316,9 +316,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
 
     @Override
     protected DeadlineExtensionAttributes getDeadlineExtension(DeadlineExtensionAttributes deadlineExtension) {
-        return BACKDOOR.getDeadlineExtension(
-                deadlineExtension.getCourseId(), deadlineExtension.getFeedbackSessionName(),
-                deadlineExtension.getUserEmail(), deadlineExtension.getIsInstructor());
+        throw new UnsupportedOperationException("Get Deadline Extension not supported for e2e tests: API does not exist.");
     }
 
     @Override

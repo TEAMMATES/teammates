@@ -34,7 +34,6 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
-import teammates.common.datatransfer.attributes.DeadlineExtensionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
@@ -48,7 +47,6 @@ import teammates.ui.output.AccountData;
 import teammates.ui.output.AccountRequestData;
 import teammates.ui.output.CourseData;
 import teammates.ui.output.CoursesData;
-import teammates.ui.output.DeadlineExtensionData;
 import teammates.ui.output.FeedbackQuestionData;
 import teammates.ui.output.FeedbackQuestionsData;
 import teammates.ui.output.FeedbackResponseCommentData;
@@ -774,43 +772,6 @@ public abstract class AbstractBackDoor {
         params.put(Const.ParamsNames.INSTRUCTOR_EMAIL, email);
         params.put(Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
         executeDeleteRequest(Const.ResourceURIs.ACCOUNT_REQUEST, params);
-    }
-
-    /**
-     * Gets a deadline extension from the database.
-     */
-    public DeadlineExtensionAttributes getDeadlineExtension(
-            String courseId, String feedbackSessionName, String userEmail, boolean isInstructor) {
-        Map<String, String> params = new HashMap<>();
-        params.put(Const.ParamsNames.COURSE_ID, courseId);
-        params.put(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
-        params.put(Const.ParamsNames.USER_EMAIL, userEmail);
-        params.put(Const.ParamsNames.IS_INSTRUCTOR, Boolean.toString(isInstructor));
-
-        ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.DEADLINE_EXTENSION, params);
-        if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
-            return null;
-        }
-
-        DeadlineExtensionData deadlineExtensionData = JsonUtils.fromJson(response.responseBody, DeadlineExtensionData.class);
-
-        return DeadlineExtensionAttributes.builder(
-                deadlineExtensionData.getCourseId(), deadlineExtensionData.getFeedbackSessionName(),
-                deadlineExtensionData.getUserEmail(), deadlineExtensionData.getIsInstructor())
-                .build();
-    }
-
-    /**
-     * Deletes a deadline extension from the database.
-     */
-    public void deleteDeadlineExtension(
-            String courseId, String feedbackSessionName, String userEmail, boolean isInstructor) {
-        Map<String, String> params = new HashMap<>();
-        params.put(Const.ParamsNames.COURSE_ID, courseId);
-        params.put(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
-        params.put(Const.ParamsNames.USER_EMAIL, userEmail);
-        params.put(Const.ParamsNames.IS_INSTRUCTOR, Boolean.toString(isInstructor));
-        executeDeleteRequest(Const.ResourceURIs.DEADLINE_EXTENSION, params);
     }
 
     private static final class ResponseBodyAndCode {

@@ -133,8 +133,6 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 StudentSearchIndexingWorkerAction.class,
                 AccountRequestSearchIndexingWorkerAction.class,
                 SearchAccountRequestsAction.class,
-                GetDeadlineExtensionAction.class,
-                DeleteDeadlineExtensionAction.class,
                 DeadlineExtensionsWorkerAction.class
         );
         List<String> expectedActionClassesNames = expectedActionClasses.stream()
