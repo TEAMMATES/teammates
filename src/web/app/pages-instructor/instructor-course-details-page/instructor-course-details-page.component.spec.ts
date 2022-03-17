@@ -200,7 +200,7 @@ describe('InstructorCourseDetailsPageComponent', () => {
     const spyStudentService: SpyInstance = jest.spyOn(studentService, 'batchDeleteStudentsFromCourse')
         .mockReturnValue(of({ message: 'Successful' }));
 
-    jest.spyOn(statusMessageService, 'showErrorToast')
+    jest.spyOn(statusMessageService, 'showSuccessToast')
         .mockImplementation((args: string) => {
           expect(args).toEqual('All the students have been removed from the course');
         });

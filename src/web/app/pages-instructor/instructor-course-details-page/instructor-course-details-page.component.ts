@@ -233,7 +233,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
       this.isDeleting = false;
 
       if (numOfRequestsCompleted === totalNumOfRequests) {
-        this.statusMessageService.showErrorToast('All the students have been removed from the course');
+        this.statusMessageService.showSuccessToast('All the students have been removed from the course');
       }
 
       if (!hasFailedToDelete && numOfRequestsCompleted < totalNumOfRequests) {
