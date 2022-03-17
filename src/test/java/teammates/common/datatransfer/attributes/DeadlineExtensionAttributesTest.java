@@ -102,7 +102,32 @@ public class DeadlineExtensionAttributesTest extends BaseTestCase {
     }
 
     @Test
+    public void testUpdateOptions_withExistingUpdateOptions_shouldReturnEquivalentDeadlineExtension() {
+        DeadlineExtensionAttributes deadlineExtension = getValidDeadlineExtensionAttributesObject(false);
+        DeadlineExtensionAttributes.UpdateOptions updateOptions = DeadlineExtensionAttributes
+                .updateOptionsBuilder(VALID_COURSE_ID, VALID_FEEDBACK_SESSION_NAME, VALID_USER_EMAIL, false)
+                .withEndTime(Const.TIME_REPRESENTS_NOW)
+                .withNewEmail("new-email@gmail.tmt")
+                .withSentClosingEmail(true)
+                .build();
+        deadlineExtension.update(updateOptions);
+
+        DeadlineExtensionAttributes newDeadlineExtension = getValidDeadlineExtensionAttributesObject(false);
+        DeadlineExtensionAttributes.UpdateOptions newUpdateOptions = DeadlineExtensionAttributes
+                .updateOptionsBuilder(updateOptions)
+                .build();
+        newDeadlineExtension.update(newUpdateOptions);
+
+        assertEquals(deadlineExtension, newDeadlineExtension);
+        assertEquals(deadlineExtension.getSentClosingEmail(), newDeadlineExtension.getSentClosingEmail());
+    }
+
+    @Test
     public void testUpdateOptions_withNullUpdateOptions_shouldThrowAssertionError() {
+        assertThrows(AssertionError.class, () -> DeadlineExtensionAttributes
+                .updateOptionsBuilder(null)
+                .build());
+
         assertThrows(AssertionError.class, () -> DeadlineExtensionAttributes
                 .updateOptionsBuilder(null, VALID_FEEDBACK_SESSION_NAME, VALID_USER_EMAIL, false)
                 .withEndTime(Const.TIME_REPRESENTS_NOW)

@@ -135,7 +135,7 @@ public class DeadlineExtensionsLogicTest extends BaseLogicTest {
                     deadlineExtension.getUserEmail(),
                     deadlineExtension.getIsInstructor())
                 .withEndTime(now)
-                .withSentClosingEmail(!deadlineExtension.getSentClosingEmail())
+                .withSentClosingEmail(true)
                 .build();
 
         deadlineExtensionsLogic.updateDeadlineExtension(updateOptions);
@@ -153,7 +153,33 @@ public class DeadlineExtensionsLogicTest extends BaseLogicTest {
         assertEquals(deadlineExtension.getUserEmail(), updatedDeadlineExtension.getUserEmail());
         assertEquals(deadlineExtension.getIsInstructor(), updatedDeadlineExtension.getIsInstructor());
         assertEquals(now, updatedDeadlineExtension.getEndTime());
-        assertEquals(!deadlineExtension.getSentClosingEmail(), updatedDeadlineExtension.getSentClosingEmail());
+        assertTrue(updatedDeadlineExtension.getSentClosingEmail());
+
+        ______TS("endTime modified, sentClosingEmail not set: sentClosingEmail updated to false");
+
+        updateOptions = DeadlineExtensionAttributes
+                .updateOptionsBuilder(
+                        deadlineExtension.getCourseId(),
+                        deadlineExtension.getFeedbackSessionName(),
+                        deadlineExtension.getUserEmail(),
+                        deadlineExtension.getIsInstructor())
+                .withEndTime(Const.TIME_REPRESENTS_LATER)
+                .build();
+
+        deadlineExtensionsLogic.updateDeadlineExtension(updateOptions);
+
+        updatedDeadlineExtension = deadlineExtensionsLogic.getDeadlineExtension(
+                    deadlineExtension.getCourseId(),
+                    deadlineExtension.getFeedbackSessionName(),
+                    deadlineExtension.getUserEmail(),
+                    deadlineExtension.getIsInstructor());
+
+        assertEquals(deadlineExtension.getCourseId(), updatedDeadlineExtension.getCourseId());
+        assertEquals(deadlineExtension.getFeedbackSessionName(), updatedDeadlineExtension.getFeedbackSessionName());
+        assertEquals(deadlineExtension.getUserEmail(), updatedDeadlineExtension.getUserEmail());
+        assertEquals(deadlineExtension.getIsInstructor(), updatedDeadlineExtension.getIsInstructor());
+        assertEquals(Const.TIME_REPRESENTS_LATER, updatedDeadlineExtension.getEndTime());
+        assertFalse(updatedDeadlineExtension.getSentClosingEmail());
 
         ______TS("failure: deadline extension not found");
         DeadlineExtensionAttributes.UpdateOptions updateOptionsNotFound = DeadlineExtensionAttributes

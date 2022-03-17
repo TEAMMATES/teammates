@@ -29,12 +29,23 @@ public final class DeadlineExtensionsLogic {
     /**
      * Updates a deadline extension.
      *
+     * <p>If {@code endTimeOption} is present and {@code sentClosingEmailOption}
+     * is not explicitly set, update {@code sentClosingEmailOption} to false.
+     *
      * @return the updated deadline extension
      * @throws InvalidParametersException if the updated deadline extension is not valid
      * @throws EntityDoesNotExistException if the deadline extension to update does not exist
      */
     public DeadlineExtensionAttributes updateDeadlineExtension(DeadlineExtensionAttributes.UpdateOptions updateOptions)
             throws InvalidParametersException, EntityDoesNotExistException {
+
+        // reset sentClosingEmail if the session deadline is updated and sentClosingEmailOption is not explicitly set
+        if (updateOptions.isEndTimeOptionPresent() && !updateOptions.isSentClosingEmailOptionPresent()) {
+            return deDb.updateDeadlineExtension(DeadlineExtensionAttributes.updateOptionsBuilder(updateOptions)
+                    .withSentClosingEmail(false)
+                    .build());
+        }
+
         return deDb.updateDeadlineExtension(updateOptions);
     }
 

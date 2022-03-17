@@ -183,6 +183,13 @@ public class DeadlineExtensionAttributes extends EntityAttributes<DeadlineExtens
     }
 
     /**
+     * Returns a {@link UpdateOptions.Builder} to build {@link UpdateOptions} for a deadline extension.
+     */
+    public static UpdateOptions.Builder updateOptionsBuilder(UpdateOptions updateOptions) {
+        return new UpdateOptions.Builder(updateOptions);
+    }
+
+    /**
      * A builder for {@link DeadlineExtensionAttributes}.
      */
     public static class Builder extends BasicBuilder<DeadlineExtensionAttributes, Builder> {
@@ -244,6 +251,14 @@ public class DeadlineExtensionAttributes extends EntityAttributes<DeadlineExtens
             return isInstructor;
         }
 
+        public boolean isEndTimeOptionPresent() {
+            return endTimeOption.isPresent();
+        }
+
+        public boolean isSentClosingEmailOptionPresent() {
+            return sentClosingEmailOption.isPresent();
+        }
+
         @Override
         public String toString() {
             return "DeadlineExtensionAttributes.UpdateOptions ["
@@ -258,6 +273,11 @@ public class DeadlineExtensionAttributes extends EntityAttributes<DeadlineExtens
          * Builder class to build {@link UpdateOptions}.
          */
         public static class Builder extends BasicBuilder<UpdateOptions, Builder> {
+            private Builder(UpdateOptions updateOptions) {
+                super(updateOptions);
+                thisBuilder = this;
+            }
+
             private Builder(String courseId, String feedbackSessionName, String userEmail, boolean isInstructor) {
                 super(new UpdateOptions(courseId, feedbackSessionName, userEmail, isInstructor));
                 thisBuilder = this;
@@ -291,6 +311,8 @@ public class DeadlineExtensionAttributes extends EntityAttributes<DeadlineExtens
         B thisBuilder;
 
         BasicBuilder(UpdateOptions updateOptions) {
+            assert updateOptions != null;
+
             this.updateOptions = updateOptions;
         }
 
