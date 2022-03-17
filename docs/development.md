@@ -1,10 +1,5 @@
-{% set title = "Workflow: Development" %}
-<span id="title" class="d-none">{{ title }}</span>
-
 <frontmatter>
-  title: "{{ title }}"
-  pageNav: 3
-  pageNavTitle: "Chapters of This Page"
+  title: "Workflow: Development"
 </frontmatter>
 
 # Development Guidelines

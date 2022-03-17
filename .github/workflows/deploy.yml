@@ -1,4 +1,4 @@
-name: Deploy Markbind Site
+name: Deploy MarkBind Site
 on:
   push:
     branches: master

@@ -1,10 +1,5 @@
-{% set title = "Workflow: Development Workflow" %}
-<span id="title" class="d-none">{{ title }}</span>
-
 <frontmatter>
-  title: "{{ title }}"
-  pageNav: 3
-  pageNavTitle: "Chapters of This Page"
+  title: "Workflow: Development Workflow"
 </frontmatter>
 
 # Development Workflow
@@ -97,7 +92,7 @@ Make the changes to the code, tests, and documentations as needed by the issue.
      [Here](http://chris.beams.io/posts/git-commit/) is a good reference.
    * If you introduce changes that are incompatible with the prevailing data storage schema (afterwards "breaking changes"), a *data migration* is necessary to be done by the core team. If a data migration is necessary to take the issue forward:
      * Make sure that the core team (or at least your reviewer) is aware of this.
-     * Follow [data migration best practices](/best-practices.md#data-migration).
+     * Follow [data migration best practices](/best-practicem/data-migration.md).
      * Your changes should initially work for both the old and new versions of the data schema. It is fine if an unclean hack is necessary for the new code to work under the *old* data schema.
      * Mark clearly in the code which parts are tailored specifically for the old data schema, *especially if an unclean hack is used*.
      * Concurrently or immediately after the breaking changes are merged, you need to create a [client script](development.md#running-client-scripts) to migrate all data following the old schema to the new schema.
@@ -139,7 +134,7 @@ Make the changes to the code, tests, and documentations as needed by the issue.
    * All changes or additions to functional code are **accompanied by changes or additions in tests**, even if they are absent before.
    * All new public APIs (methods, classes) are **documented with header comments**.
    * **Documentations are updated** when necessary, particularly when there are changes or additions to software design as well as user-facing features.
-      * [Markbind](https://markbind.org/) is used for documentation. Refer to [this guide](documentation.md) to understand how to use it.
+      * [MarkBind](https://markbind.org/) is used for documentation. Refer to [this guide](documentation.md) to understand how to use it.
 
 1. Push your branch to your fork, or to the main repo only if necessary.
    ```sh

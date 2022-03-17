@@ -1,19 +1,12 @@
-{% set title = "Troubleshooting Guide" %}
-<span id="title" class="d-none">{{ title }}</span>
-
 <frontmatter>
-  title: "{{ title }}"
-  pageNav: 2
-  pageNavTitle: "Chapters of This Page"
+  title: "Troubleshooting Guide"
 </frontmatter>
 
 # Developer Troubleshooting Guide
 
 This document can help you to fix the common problems encountered while contributing to TEAMMATES.
 
-## Troubleshooting test failures
-
-### Common test errors and solutions
+## Common test errors and solutions
 
 <panel header="A handful of failed test cases (< 10)" no-close>
 

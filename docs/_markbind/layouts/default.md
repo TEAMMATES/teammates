@@ -11,7 +11,7 @@
     <li><a href="{{ baseUrl }}/index.html" class="nav-link">HOME</a></li>
     <li><a href="{{ baseUrl }}/contributing.html" class="nav-link">CONTRIBUTING</a></li>
     <li><a href="{{ baseUrl }}/about.html" class="nav-link">ABOUT</a></li>
-    <li><a href="http://teammatesv4.appspot.com/" class="nav-link">PRODUCT WEBSITE <md>:glyphicon-share-alt:</md></a></li>
+    <li><a href="http://teammatesv4.appspot.com/" target="_blank" class="nav-link">PRODUCT WEBSITE <md>:glyphicon-share-alt:</md></a></li>
     <li><a href="https://github.com/TEAMMATES/teammates" target="_blank" class="nav-link"><md>:fab-github:</md></a></li>
   <li slot="right">
     <form class="navbar-form">

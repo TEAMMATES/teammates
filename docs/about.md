@@ -1,8 +1,5 @@
-{% set title = "About" %}
-<span id="title" class="d-none">{{ title }}</span>
-
 <frontmatter>
-  title: "{{ title }}"
+  title: "About"
 </frontmatter>
 
 # About

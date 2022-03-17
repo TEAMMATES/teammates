@@ -1,10 +1,5 @@
-{% set title = "How-to: Emails" %}
-<span id="title" class="d-none">{{ title }}</span>
-
 <frontmatter>
-  title: "{{ title }}"
-  pageNav: 3
-  pageNavTitle: "Chapters of This Page"
+  title: "How-to: Emails"
 </frontmatter>
 
 # Using alternative email providers

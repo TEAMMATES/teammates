@@ -1,10 +1,5 @@
-{% set title = "Testing: Static Analysis" %}
-<span id="title" class="d-none">{{ title }}</span>
-
 <frontmatter>
-  title: "{{ title }}"
-  pageNav: 3
-  pageNavTitle: "Chapters of This Page"
+  title: "Testing: Static Analysis"
 </frontmatter>
 
 # Static Analysis

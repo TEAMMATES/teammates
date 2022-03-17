@@ -1,10 +1,5 @@
-{% set title = "Getting Started: Search" %}
-<span id="title" class="d-none">{{ title }}</span>
-
 <frontmatter>
-  title: "{{ title }}"
-  pageNav: 3
-  pageNavTitle: "Chapters of This Page"
+  title: "Getting Started: Search"
 </frontmatter>
 
 # Full-text Search Feature Support

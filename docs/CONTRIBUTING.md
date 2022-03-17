@@ -1,10 +1,7 @@
 {% set title = "Workflow: Contributing" %}
-<span id="title" class="d-none">{{ title }}</span>
 
 <frontmatter>
-  title: "{{ title }}"
-  pageNav: 3
-  pageNavTitle: "Chapters of This Page"
+  title: "Workflow: Contributing"
 </frontmatter>
 
 # Contributing to TEAMMATES
@@ -25,7 +22,7 @@ Understand what TEAMMATES is about, both as a product (users' point of view) and
 
 ### Code of Conduct
 
-By participating in this project, you agree to uphold the [TEAMMATES Code of Conduct](../.github/CODE_OF_CONDUCT.md), which is adopted from [Contributor Covenant Code of Conduct](https://www.contributor-covenant.org/).
+By participating in this project, you agree to uphold the [TEAMMATES Code of Conduct](https://github.com/TEAMMATES/teammates/blob/master/.github/CODE_OF_CONDUCT.md), which is adopted from [Contributor Covenant Code of Conduct](https://www.contributor-covenant.org/).
 
 ## How can I contribute?
 
@@ -106,7 +103,16 @@ We are more interested to see how you go about fixing the issue. We want to know
 
 Take your time to learn and follow the workflow to the letter. Do not skip any steps because you think that step is "not important". We are more impressed when you finish an issue in fewer attempts than when you finish it in a shorter time but take many attempts because you were not meticulous enough along the way.
 
-## Other resources
+## TEAMMATES Support
 
-* [Support request](../.github/SUPPORT.md)
-* [Comprehensive directory of resources, including style guides](../docs/README.md)
+If you are looking for support for TEAMMATES, check out:
+
+* User Documentation
+  * [For students](https://teammatesv4.appspot.com/web/front/help/student)
+  * [For instructors](https://teammatesv4.appspot.com/web/front/help/instructor)
+* [FAQs by external contributors](https://github.com/TEAMMATES/teammates/issues?utf8=✓&q=is:issue+label:a-DevHelp). Note that many of the questions asked and/or answers provided may have been outdated now.
+
+If you want to reach out to the project team, the best way is to [post a message in our issue tracker](https://github.com/TEAMMATES/teammates/issues/new). Our issue tracker doubles as a discussion forum.
+You can use it for things like asking questions about the project, the workflow, or requesting technical help.
+
+Alternatively (less preferred), you can email us at **<span>teammates@comp.nus.edu.sg</span>**.

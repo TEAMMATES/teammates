@@ -1,10 +1,5 @@
-{% set title = "Testing: End-to-End" %}
-<span id="title" class="d-none">{{ title }}</span>
-
 <frontmatter>
-  title: "{{ title }}"
-  pageNav: 3
-  pageNavTitle: "Chapters of This Page"
+  title: "Testing: End-to-End"
 </frontmatter>
 
 # E2E Testing  
