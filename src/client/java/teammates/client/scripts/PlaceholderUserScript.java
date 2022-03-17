@@ -9,6 +9,7 @@ public final class PlaceholderUserScript {
     }
 
     public static void main(String[] args) {
-        System.out.println("Placeholder script has executed");
+        System.out.println("Please specify the script to be run using the -P flag "
+                + "e.g ./gradlew -PuserScript=MyScript execScript");
     }
 }
