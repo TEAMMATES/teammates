@@ -113,6 +113,22 @@ public class Logic {
     }
 
     /**
+     * Deletes notification by ID.
+     *
+     * <ul>
+     * <li>Fails silently if no such notification.</li>
+     * </ul>
+     *
+     * <p>Preconditions:</p>
+     * * All parameters are non-null.
+     */
+    public void deleteNotification(String notificationId) {
+        assert notificationId != null;
+
+        notificationsLogic.deleteNotification(notificationId);
+    }
+
+    /**
      * Updates/Creates the profile using {@link StudentProfileAttributes.UpdateOptions}.
      *
      * <br/> Preconditions: <br/>
