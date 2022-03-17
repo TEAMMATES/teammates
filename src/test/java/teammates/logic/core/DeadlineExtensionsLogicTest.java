@@ -14,6 +14,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.TimeHelper;
+import teammates.common.util.TimeHelperExtension;
 import teammates.test.AssertHelper;
 
 /**
@@ -367,7 +368,7 @@ public class DeadlineExtensionsLogicTest extends BaseLogicTest {
         DeadlineExtensionAttributes deadlineExtensionTwelveHoursAhead = DeadlineExtensionAttributes
                 .builder(validCourseId, VALID_FEEDBACK_SESSION_NAME, "2-" + VALID_USER_EMAIL, false)
                 .withSentClosingEmail(false)
-                .withEndTime(TimeHelper.getInstantHoursOffsetFromNow(12))
+                .withEndTime(TimeHelperExtension.getInstantHoursOffsetFromNow(12))
                 .build();
         DeadlineExtensionAttributes deadlineExtensionOneDayAhead = DeadlineExtensionAttributes
                 .builder(validCourseId, VALID_FEEDBACK_SESSION_NAME, "3-" + VALID_USER_EMAIL, false)
@@ -377,7 +378,7 @@ public class DeadlineExtensionsLogicTest extends BaseLogicTest {
         DeadlineExtensionAttributes deadlineExtensionInstructor = DeadlineExtensionAttributes
                 .builder(validCourseId, VALID_FEEDBACK_SESSION_NAME, "4-" + VALID_USER_EMAIL, true)
                 .withSentClosingEmail(false)
-                .withEndTime(TimeHelper.getInstantHoursOffsetFromNow(12))
+                .withEndTime(TimeHelperExtension.getInstantHoursOffsetFromNow(12))
                 .build();
         DeadlineExtensionAttributes deadlineExtensionOneDayBefore = DeadlineExtensionAttributes
                 .builder(validCourseId, VALID_FEEDBACK_SESSION_NAME, "5-" + VALID_USER_EMAIL, false)
@@ -387,7 +388,7 @@ public class DeadlineExtensionsLogicTest extends BaseLogicTest {
         DeadlineExtensionAttributes deadlineExtensionEmailSent = DeadlineExtensionAttributes
                 .builder(validCourseId, VALID_FEEDBACK_SESSION_NAME, "6-" + VALID_USER_EMAIL, false)
                 .withSentClosingEmail(true)
-                .withEndTime(TimeHelper.getInstantHoursOffsetFromNow(12))
+                .withEndTime(TimeHelperExtension.getInstantHoursOffsetFromNow(12))
                 .build();
 
         List<DeadlineExtensionAttributes> deadlineExtensions = List.of(deadlineExtensionNow,

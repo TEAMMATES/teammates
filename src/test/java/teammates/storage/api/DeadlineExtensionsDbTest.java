@@ -13,6 +13,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.TimeHelper;
+import teammates.common.util.TimeHelperExtension;
 import teammates.storage.entity.DeadlineExtension;
 import teammates.test.AssertHelper;
 import teammates.test.BaseTestCaseWithLocalDatabaseAccess;
@@ -391,19 +392,19 @@ public class DeadlineExtensionsDbTest extends BaseTestCaseWithLocalDatabaseAcces
                 false, false, Instant.now().plusSeconds(10));
         DeadlineExtension deadlineExtensionTwelveHoursAhead = new DeadlineExtension(
                 validCourseId, VALID_FEEDBACK_SESSION_NAME, "2-" + VALID_USER_EMAIL,
-                false, false, TimeHelper.getInstantHoursOffsetFromNow(12));
+                false, false, TimeHelperExtension.getInstantHoursOffsetFromNow(12));
         DeadlineExtension deadlineExtensionOneDayAhead = new DeadlineExtension(
                 validCourseId, VALID_FEEDBACK_SESSION_NAME, "3-" + VALID_USER_EMAIL,
                 false, false, TimeHelper.getInstantDaysOffsetFromNow(1));
         DeadlineExtension deadlineExtensionInstructor = new DeadlineExtension(
                 validCourseId, VALID_FEEDBACK_SESSION_NAME, "4-" + VALID_USER_EMAIL,
-                true, false, TimeHelper.getInstantHoursOffsetFromNow(12));
+                true, false, TimeHelperExtension.getInstantHoursOffsetFromNow(12));
         DeadlineExtension deadlineExtensionOneDayBefore = new DeadlineExtension(
                 validCourseId, VALID_FEEDBACK_SESSION_NAME, "5-" + VALID_USER_EMAIL,
                 false, false, TimeHelper.getInstantDaysOffsetBeforeNow(1));
         DeadlineExtension deadlineExtensionEmailSent = new DeadlineExtension(
                 validCourseId, VALID_FEEDBACK_SESSION_NAME, "6-" + VALID_USER_EMAIL,
-                false, true, TimeHelper.getInstantHoursOffsetFromNow(12));
+                false, true, TimeHelperExtension.getInstantHoursOffsetFromNow(12));
         List<DeadlineExtension> deadlineExtensions = List.of(deadlineExtensionNow, deadlineExtensionTwelveHoursAhead,
                 deadlineExtensionOneDayAhead, deadlineExtensionInstructor, deadlineExtensionOneDayBefore,
                 deadlineExtensionEmailSent);

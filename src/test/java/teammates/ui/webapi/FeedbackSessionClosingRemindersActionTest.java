@@ -125,7 +125,7 @@ public class FeedbackSessionClosingRemindersActionTest
                                 deadlineExtension.getFeedbackSessionName(),
                                 deadlineExtension.getUserEmail(),
                                 deadlineExtension.getIsInstructor())
-                            .withEndTime(TimeHelper.getInstantHoursOffsetFromNow(12))
+                            .withEndTime(TimeHelperExtension.getInstantHoursOffsetFromNow(12))
                             .build());
         }
 
