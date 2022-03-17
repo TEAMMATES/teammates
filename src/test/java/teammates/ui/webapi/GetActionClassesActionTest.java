@@ -138,7 +138,8 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 CalculateUsageStatisticsAction.class,
                 GetUsageStatisticsAction.class,
                 CreateNotificationAction.class,
-                GetNotificationAction.class
+                GetNotificationAction.class,
+                DeleteNotificationAction.class
         );
         List<String> expectedActionClassesNames = expectedActionClasses.stream()
                 .map(Class::getSimpleName)
