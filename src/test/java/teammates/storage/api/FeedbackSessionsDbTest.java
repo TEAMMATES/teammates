@@ -1,6 +1,7 @@
 package teammates.storage.api;
 
 import static teammates.common.util.FieldValidator.SESSION_END_TIME_FIELD_NAME;
+import static teammates.common.util.FieldValidator.SESSION_NAME;
 import static teammates.common.util.FieldValidator.SESSION_START_TIME_FIELD_NAME;
 import static teammates.common.util.FieldValidator.TIME_BEFORE_ERROR_MESSAGE;
 
@@ -483,7 +484,8 @@ public class FeedbackSessionsDbTest extends BaseTestCaseWithLocalDatabaseAccess 
                                 .withResultsVisibleFromTime(invalidFs.getResultsVisibleFromTime())
                                 .build()));
         assertEquals(
-                String.format(TIME_BEFORE_ERROR_MESSAGE, SESSION_END_TIME_FIELD_NAME, SESSION_START_TIME_FIELD_NAME),
+                String.format(TIME_BEFORE_ERROR_MESSAGE, SESSION_END_TIME_FIELD_NAME, SESSION_NAME,
+                        SESSION_START_TIME_FIELD_NAME),
                 ipe.getLocalizedMessage());
 
         ______TS("feedback session does not exist");
