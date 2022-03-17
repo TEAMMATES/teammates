@@ -73,63 +73,75 @@ public class NotificationsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
     // TODO: for extension, some fields are not allowed to be updated after shown is true
     @Test
     public void testUpdateNotification() throws Exception {
-        Instant timeNow = Instant.now();
+        final String TITLE = "title";
+        final String TITLE_DIFF = "title_diff";
+        final String MESSAGE = "message";
+        final String MESSAGE_DIFF = "message_diff";
+        final NotificationType TYPE = NotificationType.DEPRECATION;
+        final NotificationType TYPE_DIFF = NotificationType.MAINTENANCE;
+        final NotificationTargetUser TARGET_USER = NotificationTargetUser.STUDENT;
+        final NotificationTargetUser TARGET_USER_DIFF = NotificationTargetUser.GENERAL;
+        final Instant START_TIME = Instant.now();
+        final Instant START_TIME_DIFF = START_TIME.plusSeconds(600);
+        final Instant END_TIME = START_TIME.plusSeconds(3600);
+        final Instant END_TIME_DIFF = END_TIME.plusSeconds(600);
+
         NotificationAttributes n = notificationsDb.createEntity(NotificationAttributes.builder(UUID.randomUUID().toString())
-                .withTitle("title")
-                .withMessage("message")
-                .withType(NotificationType.DEPRECATION)
-                .withTargetUser(NotificationTargetUser.GENERAL)
-                .withStartTime(timeNow)
-                .withEndTime(timeNow.plusSeconds(3600))
+                .withTitle(TITLE)
+                .withMessage(MESSAGE)
+                .withType(TYPE)
+                .withTargetUser(TARGET_USER)
+                .withStartTime(START_TIME)
+                .withEndTime(END_TIME)
                 .build());
 
         ______TS("success: single field - title");
-        assertEquals("title", notificationsDb.getNotification(n.getNotificationId()).getTitle());
-        assertEquals("diff title", notificationsDb.updateNotification(
+        assertEquals(TITLE, notificationsDb.getNotification(n.getNotificationId()).getTitle());
+        assertEquals(TITLE_DIFF, notificationsDb.updateNotification(
                 NotificationAttributes.updateOptionsBuilder(n.getNotificationId())
-                        .withTitle("diff title")
+                        .withTitle(TITLE_DIFF)
                         .build()).getTitle());
-        assertEquals("diff title", notificationsDb.getNotification(n.getNotificationId()).getTitle());
+        assertEquals(TITLE_DIFF, notificationsDb.getNotification(n.getNotificationId()).getTitle());
 
         ______TS("success: single field - message");
-        assertEquals("message", notificationsDb.getNotification(n.getNotificationId()).getMessage());
-        assertEquals("diff message", notificationsDb.updateNotification(
+        assertEquals(MESSAGE, notificationsDb.getNotification(n.getNotificationId()).getMessage());
+        assertEquals(MESSAGE_DIFF, notificationsDb.updateNotification(
                 NotificationAttributes.updateOptionsBuilder(n.getNotificationId())
-                        .withMessage("diff message")
+                        .withMessage(MESSAGE_DIFF)
                         .build()).getMessage());
-        assertEquals("diff message", notificationsDb.getNotification(n.getNotificationId()).getMessage());
+        assertEquals(MESSAGE_DIFF, notificationsDb.getNotification(n.getNotificationId()).getMessage());
 
         ______TS("success: single field - type");
-        assertEquals(NotificationType.DEPRECATION, notificationsDb.getNotification(n.getNotificationId()).getType());
-        assertEquals(NotificationType.MAINTENANCE, notificationsDb.updateNotification(
+        assertEquals(TYPE, notificationsDb.getNotification(n.getNotificationId()).getType());
+        assertEquals(TYPE_DIFF, notificationsDb.updateNotification(
                 NotificationAttributes.updateOptionsBuilder(n.getNotificationId())
-                        .withType(NotificationType.MAINTENANCE)
+                        .withType(TYPE_DIFF)
                         .build()).getType());
-        assertEquals(NotificationType.MAINTENANCE, notificationsDb.getNotification(n.getNotificationId()).getType());
+        assertEquals(TYPE_DIFF, notificationsDb.getNotification(n.getNotificationId()).getType());
 
         ______TS("success: single field - targetUser");
-        assertEquals(NotificationTargetUser.GENERAL, notificationsDb.getNotification(n.getNotificationId()).getTargetUser());
-        assertEquals(NotificationTargetUser.STUDENT, notificationsDb.updateNotification(
+        assertEquals(TARGET_USER, notificationsDb.getNotification(n.getNotificationId()).getTargetUser());
+        assertEquals(TARGET_USER_DIFF, notificationsDb.updateNotification(
                 NotificationAttributes.updateOptionsBuilder(n.getNotificationId())
-                        .withTargetUser(NotificationTargetUser.STUDENT)
+                        .withTargetUser(TARGET_USER_DIFF)
                         .build()).getTargetUser());
-        assertEquals(NotificationTargetUser.STUDENT, notificationsDb.getNotification(n.getNotificationId()).getTargetUser());
+        assertEquals(TARGET_USER_DIFF, notificationsDb.getNotification(n.getNotificationId()).getTargetUser());
 
         ______TS("success: single field - startTime");
-        assertEquals(timeNow, notificationsDb.getNotification(n.getNotificationId()).getStartTime());
-        assertEquals(timeNow.plusSeconds(600), notificationsDb.updateNotification(
+        assertEquals(START_TIME, notificationsDb.getNotification(n.getNotificationId()).getStartTime());
+        assertEquals(START_TIME_DIFF, notificationsDb.updateNotification(
                 NotificationAttributes.updateOptionsBuilder(n.getNotificationId())
-                        .withStartTime(timeNow.plusSeconds(600))
+                        .withStartTime(START_TIME_DIFF)
                         .build()).getStartTime());
-        assertEquals(timeNow.plusSeconds(600), notificationsDb.getNotification(n.getNotificationId()).getStartTime());
+        assertEquals(START_TIME_DIFF, notificationsDb.getNotification(n.getNotificationId()).getStartTime());
 
         ______TS("success: single field - endTime");
-        assertEquals(timeNow.plusSeconds(3600), notificationsDb.getNotification(n.getNotificationId()).getEndTime());
-        assertEquals(timeNow.plusSeconds(4200), notificationsDb.updateNotification(
+        assertEquals(END_TIME, notificationsDb.getNotification(n.getNotificationId()).getEndTime());
+        assertEquals(END_TIME_DIFF, notificationsDb.updateNotification(
                 NotificationAttributes.updateOptionsBuilder(n.getNotificationId())
-                        .withEndTime(timeNow.plusSeconds(4200))
+                        .withEndTime(END_TIME_DIFF)
                         .build()).getEndTime());
-        assertEquals(timeNow.plusSeconds(4200), notificationsDb.getNotification(n.getNotificationId()).getEndTime());
+        assertEquals(END_TIME_DIFF, notificationsDb.getNotification(n.getNotificationId()).getEndTime());
 
         ______TS("success: single field - shown");
         assertFalse(notificationsDb.getNotification(n.getNotificationId()).isShown());
@@ -142,22 +154,32 @@ public class NotificationsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
         ______TS("success: bulk update");
         // We will try to revert back to the original attribute to test bulk update
         // Note: Update of shown is not revertable so not to check it here
+        n = notificationsDb.getNotification(n.getNotificationId());
+        assertEquals(TITLE_DIFF, n.getTitle());
+        assertEquals(MESSAGE_DIFF, n.getMessage());
+        assertEquals(TYPE_DIFF, n.getType());
+        assertEquals(TARGET_USER_DIFF, n.getTargetUser());
+        assertEquals(START_TIME_DIFF, n.getStartTime());
+        assertEquals(END_TIME_DIFF, n.getEndTime());
+        assertTrue(n.isShown());
         notificationsDb.updateNotification(
                 NotificationAttributes.updateOptionsBuilder(n.getNotificationId())
-                        .withTitle("title")
-                        .withMessage("message")
-                        .withType(NotificationType.DEPRECATION)
-                        .withTargetUser(NotificationTargetUser.GENERAL)
-                        .withStartTime(timeNow)
-                        .withEndTime(timeNow.plusSeconds(3600))
+                        .withTitle(TITLE)
+                        .withMessage(MESSAGE)
+                        .withType(TYPE)
+                        .withTargetUser(TARGET_USER)
+                        .withStartTime(START_TIME)
+                        .withEndTime(END_TIME)
                         .build());
-        assertEquals("title", notificationsDb.getNotification(n.getNotificationId()).getTitle());
-        assertEquals("message", notificationsDb.getNotification(n.getNotificationId()).getMessage());
-        assertEquals(NotificationType.DEPRECATION, notificationsDb.getNotification(n.getNotificationId()).getType());
-        assertEquals(NotificationTargetUser.GENERAL, notificationsDb.getNotification(n.getNotificationId()).getTargetUser());
-        assertEquals(timeNow, notificationsDb.getNotification(n.getNotificationId()).getStartTime());
-        assertEquals(timeNow.plusSeconds(3600), notificationsDb.getNotification(n.getNotificationId()).getEndTime());
-        assertTrue(notificationsDb.getNotification(n.getNotificationId()).isShown());
+
+        n = notificationsDb.getNotification(n.getNotificationId());
+        assertEquals(TITLE, n.getTitle());
+        assertEquals(MESSAGE, n.getMessage());
+        assertEquals(TYPE, n.getType());
+        assertEquals(TARGET_USER, n.getTargetUser());
+        assertEquals(START_TIME, n.getStartTime());
+        assertEquals(END_TIME, n.getEndTime());
+        assertTrue(n.isShown());
     }
 
     @Test
