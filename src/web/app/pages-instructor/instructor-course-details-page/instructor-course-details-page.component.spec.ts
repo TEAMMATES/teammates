@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of, throwError } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
+import { CourseStatistics } from '../../../services/course.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
@@ -81,7 +82,7 @@ describe('InstructorCourseDetailsPageComponent', () => {
   });
 
   it('should snap with a course with one co-owner and no students, and populated course student list', () => {
-    const stats: any = {
+    const stats: CourseStatistics = {
       numOfSections: 0,
       numOfTeams: 0,
       numOfStudents: 0,
@@ -110,7 +111,7 @@ describe('InstructorCourseDetailsPageComponent', () => {
   });
 
   it('should snap with a course with one co-owner and one student, and ajax failure', () => {
-    const stats: any = {
+    const stats: CourseStatistics = {
       numOfSections: 1,
       numOfTeams: 1,
       numOfStudents: 1,
@@ -150,7 +151,7 @@ describe('InstructorCourseDetailsPageComponent', () => {
   });
 
   it('should display confirmation modal if delete all students is requested', () => {
-    const stats: any = {
+    const stats: CourseStatistics = {
       numOfSections: 1,
       numOfTeams: 1,
       numOfStudents: 1,
@@ -184,7 +185,7 @@ describe('InstructorCourseDetailsPageComponent', () => {
   });
 
   it('should delete students in batches and show success message upon completion', () => {
-    const stats: any = {
+    const stats: CourseStatistics = {
       numOfSections: 10,
       numOfTeams: 10,
       numOfStudents: 350,
@@ -212,7 +213,7 @@ describe('InstructorCourseDetailsPageComponent', () => {
   });
 
   it('should show error message when delete fails', () => {
-    const stats: any = {
+    const stats: CourseStatistics = {
       numOfSections: 1,
       numOfTeams: 1,
       numOfStudents: 1,
