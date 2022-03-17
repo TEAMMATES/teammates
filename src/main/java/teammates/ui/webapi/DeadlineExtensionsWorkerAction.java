@@ -40,22 +40,25 @@ class DeadlineExtensionsWorkerAction extends AdminOnlyAction {
         }
 
         boolean notifyUsers = deadlineExtensionRequest.getNotifyUsers();
+        List<EmailWrapper> emailsToSend = new ArrayList<>();
 
         createOrUpdateDeadlineExtensions(course, session,
-                deadlineExtensionRequest.getStudentExtensionsToModify(), false, notifyUsers);
+                deadlineExtensionRequest.getStudentExtensionsToModify(), false, notifyUsers, emailsToSend);
         createOrUpdateDeadlineExtensions(course, session,
-                deadlineExtensionRequest.getInstructorExtensionsToModify(), true, notifyUsers);
+                deadlineExtensionRequest.getInstructorExtensionsToModify(), true, notifyUsers, emailsToSend);
         revokeDeadlineExtensions(course, session,
-                deadlineExtensionRequest.getStudentExtensionsToRevoke(), false, notifyUsers);
+                deadlineExtensionRequest.getStudentExtensionsToRevoke(), false, notifyUsers, emailsToSend);
         revokeDeadlineExtensions(course, session,
-                deadlineExtensionRequest.getInstructorExtensionsToRevoke(), true, notifyUsers);
+                deadlineExtensionRequest.getInstructorExtensionsToRevoke(), true, notifyUsers, emailsToSend);
+
+        taskQueuer.scheduleEmailsForSending(emailsToSend);
 
         return new JsonResult("Successful");
     }
 
     private void createOrUpdateDeadlineExtensions(CourseAttributes course, FeedbackSessionAttributes session,
-            Map<String, Long> extensionsToModify, boolean isInstructorMap, boolean notifyUsers) {
-        List<EmailWrapper> emailsToSend = new ArrayList<>();
+            Map<String, Long> extensionsToModify, boolean isInstructorMap,
+            boolean notifyUsers, List<EmailWrapper> emailsToSend) {
         for (var entry : extensionsToModify.entrySet()) {
             String email = entry.getKey();
             Instant endTime = Instant.ofEpochMilli(entry.getValue());
@@ -74,18 +77,15 @@ class DeadlineExtensionsWorkerAction extends AdminOnlyAction {
                 emailsToSend.add(emailWrapper);
             }
         }
-        taskQueuer.scheduleEmailsForSending(emailsToSend);
     }
 
     private void revokeDeadlineExtensions(CourseAttributes course, FeedbackSessionAttributes session,
-            List<String> extensionsToRevoke, boolean isInstructor, boolean notifyUsers) {
-        List<EmailWrapper> emailsToSend = extensionsToRevoke
+            List<String> extensionsToRevoke, boolean isInstructor, boolean notifyUsers, List<EmailWrapper> emailsToSend) {
+        emailsToSend.addAll(extensionsToRevoke
                 .stream()
                 .map(email -> revokeDeadlineExtension(course, session, email, isInstructor, notifyUsers))
                 .filter(Objects::nonNull)
-                .collect(Collectors.toList());
-
-        taskQueuer.scheduleEmailsForSending(emailsToSend);
+                .collect(Collectors.toList()));
     }
 
     private EmailWrapper createDeadlineExtension(CourseAttributes course, FeedbackSessionAttributes session,
