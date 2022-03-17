@@ -16,9 +16,6 @@ import {
 } from './notification-edit-form/notification-edit-form-model';
 import { NotificationsTableRowModel } from './notifications-table/notifications-table-model';
 
-// default sorting order for rows
-const defaultNotificationsTableRowModelsSortOrder = SortOrder.ASC;
-
 @Component({
   selector: 'tm-admin-notifications-page',
   templateUrl: './admin-notifications-page.component.html',
@@ -56,7 +53,7 @@ export class AdminNotificationsPageComponent implements OnInit {
 
   notificationsTableRowModels: NotificationsTableRowModel[] = [];
   notificationsTableRowModelsSortBy = SortBy.NOTIFICATION_CREATE_TIME;
-  notificationsTableRowModelsSortOrder = defaultNotificationsTableRowModelsSortOrder;
+  notificationsTableRowModelsSortOrder = SortOrder.DESC;
 
   constructor(
     private notificationService: NotificationService,
@@ -126,11 +123,13 @@ export class AdminNotificationsPageComponent implements OnInit {
           });
           // sort the list using create time, and allocate the index in ascending order
           // note: order is set to be descending here as it will be reversed later
-          this.notificationsTableRowModelsSortOrder = SortOrder.DESC;
+          this.notificationsTableRowModelsSortOrder = SortOrder.ASC;
           this.sortNotificationsTableRowModelsHandler(SortBy.NOTIFICATION_CREATE_TIME);
+
+          const size = this.notificationsTableRowModels.length;
           this.notificationsTableRowModels.forEach(
             (notificationsTableRowModel: NotificationsTableRowModel, index: number) => {
-              notificationsTableRowModel.index = index + 1;
+              notificationsTableRowModel.index = size - index;
             },
           );
         },
@@ -209,9 +208,8 @@ export class AdminNotificationsPageComponent implements OnInit {
       this.notificationsTableRowModelsSortOrder =
         this.notificationsTableRowModelsSortOrder === SortOrder.ASC ? SortOrder.DESC : SortOrder.ASC;
     } else {
-      // if different column, change the sortBy value and go back to default order
+      // if different column, change the sortBy value and but sort order will not be changed
       this.notificationsTableRowModelsSortBy = sortBy;
-      this.notificationsTableRowModelsSortOrder = defaultNotificationsTableRowModelsSortOrder;
     }
     // before sorting, remove highlights from all rows
     this.notificationsTableRowModels.forEach(

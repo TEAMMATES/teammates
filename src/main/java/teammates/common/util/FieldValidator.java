@@ -55,7 +55,6 @@ public final class FieldValidator {
     public static final String NOTIFICATION_TITLE_FIELD_NAME = "notification title";
     public static final int NOTIFICATION_TITLE_MAX_LENGTH = 80;
     public static final String NOTIFICATION_MESSAGE_FIELD_NAME = "notification message";
-    public static final int NOTIFICATION_MESSAGE_MAX_LENGTH = 500;
     public static final String NOTIFICATION_NAME = "notification";
     public static final String NOTIFICATION_VISIBLE_TIME_FIELD_NAME = "time when the notification will be visible";
     public static final String NOTIFICATION_EXPIRY_TIME_FIELD_NAME = "time when the notification will expire";
@@ -570,6 +569,9 @@ public final class FieldValidator {
         if (notificationTitle.isEmpty()) {
             return getPopulatedEmptyStringErrorMessage(EMPTY_STRING_ERROR_INFO,
                 NOTIFICATION_TITLE_FIELD_NAME, NOTIFICATION_TITLE_MAX_LENGTH);
+        } else if (notificationTitle.length() > NOTIFICATION_TITLE_MAX_LENGTH) {
+            return getPopulatedErrorMessage(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, notificationTitle,
+                NOTIFICATION_TITLE_FIELD_NAME, REASON_TOO_LONG, NOTIFICATION_TITLE_MAX_LENGTH);
         }
 
         return "";
@@ -587,8 +589,7 @@ public final class FieldValidator {
         assert notificationMessage != null : "Non-null value expected for notification message";
 
         if (notificationMessage.isEmpty()) {
-            return getPopulatedEmptyStringErrorMessage(EMPTY_STRING_ERROR_INFO, NOTIFICATION_MESSAGE_FIELD_NAME,
-                    NOTIFICATION_MESSAGE_MAX_LENGTH);
+            return getPopulatedEmptyStringErrorMessage(EMPTY_STRING_ERROR_INFO, NOTIFICATION_MESSAGE_FIELD_NAME, 0);
         }
 
         return "";

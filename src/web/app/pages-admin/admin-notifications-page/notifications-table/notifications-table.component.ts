@@ -22,7 +22,7 @@ export class NotificationsTableComponent implements OnInit {
   notificationsTableRowModelsSortBy = SortBy.NOTIFICATION_CREATE_TIME;
 
   @Input()
-  notificationsTableRowModelsSortOrder = SortOrder.ASC;
+  notificationsTableRowModelsSortOrder = SortOrder.DESC;
 
   @Input()
   headerColorScheme = NotificationsTableHeaderColorScheme.BLUE;
