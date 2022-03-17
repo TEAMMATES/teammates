@@ -17,7 +17,7 @@ import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { ApiConst } from '../../../types/api-const';
-import { Email, RegenerateKey } from '../../../types/api-output';
+import { Email, MessageOutput, RegenerateKey } from '../../../types/api-output';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
@@ -244,6 +244,24 @@ export class AdminSearchPageComponent {
           }, (response: ErrorMessageOutput) => {
             this.statusMessageService.showErrorToast(response.error.message);
           });
+    }, () => {});
+  }
+
+  deleteAccountRequest(accountRequest: AccountRequestSearchResult): void {
+    const modalContent: string = `Are you sure you want to delete the account request for
+        <strong>${accountRequest.name}</strong> with email <strong>${accountRequest.email}</strong> from
+        <strong>${accountRequest.institute}</strong>?`;
+    const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
+        `Delete account request for <strong>${accountRequest.name}</strong>?`, SimpleModalType.WARNING, modalContent);
+
+    modalRef.result.then(() => {
+      this.accountService.deleteAccountRequest(accountRequest.email, accountRequest.institute)
+      .subscribe((resp: MessageOutput) => {
+        this.statusMessageService.showSuccessToast(resp.message);
+        this.accountRequests = this.accountRequests.filter((x: AccountRequestSearchResult) => x !== accountRequest);
+      }, (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+      });
     }, () => {});
   }
 

@@ -1,9 +1,9 @@
 package teammates.logic.api;
 
 import teammates.common.util.Config;
-import teammates.logic.core.EmptyRecaptchaService;
-import teammates.logic.core.GoogleRecaptchaService;
-import teammates.logic.core.RecaptchaService;
+import teammates.logic.external.EmptyRecaptchaService;
+import teammates.logic.external.GoogleRecaptchaService;
+import teammates.logic.external.RecaptchaService;
 
 /**
  * Used to handle the verification of the user's reCAPTCHA response.

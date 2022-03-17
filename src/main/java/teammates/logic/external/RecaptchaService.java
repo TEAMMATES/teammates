@@ -1,4 +1,4 @@
-package teammates.logic.core;
+package teammates.logic.external;
 
 /**
  * An interface to verify the user's reCAPTCHA response.

@@ -387,6 +387,7 @@ public final class StudentsDb extends EntitiesDb<CourseStudent, StudentAttribute
         return !load()
                 .filterKey(Key.create(CourseStudent.class,
                         CourseStudent.generateId(entityToCreate.getEmail(), entityToCreate.getCourse())))
+                .keys()
                 .list()
                 .isEmpty();
     }

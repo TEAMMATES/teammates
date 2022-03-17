@@ -39,7 +39,13 @@ export class QuestionSubmissionFormComponent implements OnInit {
   formMode: QuestionSubmissionFormMode = QuestionSubmissionFormMode.FIXED_RECIPIENT;
 
   @Input()
-  isDisabled: boolean = false;
+  isFormsDisabled: boolean = false;
+
+  @Input()
+  isSubmissionDisabled: boolean = false;
+
+  @Input()
+  isSavingResponses: boolean = false;
 
   @Input()
   set formModel(model: QuestionSubmissionFormModel) {
@@ -59,7 +65,12 @@ export class QuestionSubmissionFormComponent implements OnInit {
   @Output()
   formModelChange: EventEmitter<QuestionSubmissionFormModel> = new EventEmitter();
 
+  @Output()
+  responsesSave: EventEmitter<QuestionSubmissionFormModel> = new EventEmitter();
+
   model: QuestionSubmissionFormModel = {
+    isLoading: false,
+    isLoaded: true,
     feedbackQuestionId: '',
 
     questionNumber: 0,
@@ -235,4 +246,12 @@ export class QuestionSubmissionFormComponent implements OnInit {
       recipientSubmissionForms,
     });
   }
+
+  /**
+   * Triggers saving of responses for the specific question.
+   */
+  saveFeedbackResponses(): void {
+    this.responsesSave.emit(this.model);
+  }
+
 }
