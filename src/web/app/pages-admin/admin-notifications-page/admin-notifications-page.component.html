@@ -1,0 +1,33 @@
+<h1>Notifications</h1>
+<p>This page allows you to create and manage notifications which are shown to respective target users when they access TEAMMATES.</p>
+
+<div>
+  <button id="btn-add-notification" class="btn btn-success" (click)="isNotificationEditFormExpanded = true"
+          [disabled]="isNotificationEditFormExpanded || isNotificationLoading"><i class="fas fa-plus"></i> Add New Notification
+  </button>
+</div>
+
+<div class="margin-top-30px" *ngIf="isNotificationEditFormExpanded && !isNotificationLoading" @collapseAnim>
+  <tm-notification-edit-form [formMode]="NotificationEditFormMode.ADD" [(model)]="notificationEditFormModel"
+                        (addNewNotificationEvent)="addNewNotificationHandler()"
+                        (closeEditFormEvent)="isNotificationEditFormExpanded = false"
+  ></tm-notification-edit-form>
+</div>
+
+<tm-loading-retry [shouldShowRetry]="hasNotificationLoadingFailed" [message]="'Failed to load data'"
+                  (retryEvent)="retryLoadingAllData()">
+  <div class="margin-top-30px">
+    <div *tmIsLoading="isNotificationLoading">
+      <div class="alert alert-warning margin-top-30px" role="alert" *ngIf="notificationsTableRowModels.length === 0 && !isNotificationLoading">
+        You have not created any notifications yet. Use the form above to create a notification.
+      </div>
+
+      <tm-notifications-table *ngIf = "notificationsTableRowModels.length > 0"
+                              [notificationsTableRowModels]="notificationsTableRowModels"
+                              [notificationsTableRowModelsSortBy]="notificationsTableRowModelsSortBy"
+                              [notificationsTableRowModelsSortOrder]="notificationsTableRowModelsSortOrder"
+                              (sortNotificationsTableRowModelsEvent)="sortNotificationsTableRowModelsHandler($event)"></tm-notifications-table>
+    </div>
+  </div>
+  <br/>
+</tm-loading-retry>
