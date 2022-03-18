@@ -55,7 +55,7 @@ export class NotificationService {
   getNotificationsByTargetUser(userType: NotificationTargetUser): Observable<Notifications> {
     const paramMap: Record<string, string> = {
       usertype: userType,
-    }
+    };
     return this.httpRequestService.get(ResourceEndpoints.NOTIFICATION, paramMap);
   }
 }

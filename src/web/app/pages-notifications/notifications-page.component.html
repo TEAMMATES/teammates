@@ -4,6 +4,18 @@
   <p>To view notifications visible to students, please visit the <a href="/web/student/notifications">student notifications page</a>.</p>
 </div>
 
+<div class="row mb-3" *tmIsLoading="isLoadingNotifications">
+  <div class="col-12" *ngIf="notificationTabs.length > 0">
+    <div class="float-right">
+      <strong class="d-inline"> Sort By: </strong>
+      <div class="btn-group" data-toggle="buttons">
+        <button id="sort-end-time" class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.NOTIFICATION_END_TIME)" (click)="sortNotificationsBy(SortBy.NOTIFICATION_END_TIME)">End Time (Ascending)</button>
+        <button id="sort-start-time" class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.NOTIFICATION_START_TIME)" (click)="sortNotificationsBy(SortBy.NOTIFICATION_START_TIME)">Start Time (Descending)</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <tm-loading-retry [shouldShowRetry]="hasLoadingFailed" [message]="'Failed to load notifications'" (retryEvent)="loadNotifications()">
   <div *tmIsLoading="isLoadingNotifications">
     <div class="alert alert-warning margin-top-30px" role="alert" *ngIf="notificationTabs.length === 0 && !isLoadingNotifications">
@@ -19,7 +31,7 @@
             <tm-panel-chevron [isExpanded]="notificationTab.hasTabExpanded"></tm-panel-chevron>
           </div>
         </div>
-  
+
         <div *ngIf="notificationTab.hasTabExpanded" @collapseAnim>
           <div class="card-body">
             <div [innerHtml]="notificationTab.notification.message"></div>
@@ -29,4 +41,3 @@
     </div>
   </ng-container>
 </tm-loading-retry>
-  
