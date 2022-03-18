@@ -27,6 +27,9 @@ public class InstructorCourseDetailsPage extends AppPage {
     @FindBy(id = "course-name")
     private WebElement courseNameField;
 
+    @FindBy(id = "course-institute")
+    private WebElement courseInstituteField;
+
     @FindBy(id = "num-sections")
     private WebElement numSectionsField;
 
@@ -52,6 +55,7 @@ public class InstructorCourseDetailsPage extends AppPage {
                                     int numSections, int numTeams, int numStudents) {
         assertEquals(course.getId(), courseIdField.getText());
         assertEquals(course.getName(), courseNameField.getText());
+        assertEquals(course.getInstitute(), courseInstituteField.getText());
         assertEquals(Integer.toString(numSections), numSectionsField.getText());
         assertEquals(Integer.toString(numTeams), numTeamsField.getText());
         assertEquals(Integer.toString(numStudents), numStudentsField.getText());
