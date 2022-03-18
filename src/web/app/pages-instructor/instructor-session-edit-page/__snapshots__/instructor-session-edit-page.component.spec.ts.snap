@@ -2630,19 +2630,13 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
           </div>
         </tm-question-edit-form>
       </div>
-      <p
+      <h6
         align="right"
+        id="scrollUp"
+        style="color: #36B; margin-bottom: -3px; cursor: pointer;"
       >
-        <button
-          class="btn btn-info"
-          type="button"
-        >
-          Back to Top 
-          <i
-            class="fas fa-chevron-up"
-          />
-        </button>
-      </p>
+        Back to top of page
+      </h6>
     </div>
     <div />
     <br />
@@ -3518,19 +3512,13 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
     </tm-session-edit-form>
   </tm-loading-retry><tm-loading-retry>
     <div>
-      <p
+      <h6
         align="right"
+        id="scrollUp"
+        style="color: #36B; margin-bottom: -3px; cursor: pointer;"
       >
-        <button
-          class="btn btn-info"
-          type="button"
-        >
-          Back to Top 
-          <i
-            class="fas fa-chevron-up"
-          />
-        </button>
-      </p>
+        Back to top of page
+      </h6>
     </div>
     <div />
     <br />
