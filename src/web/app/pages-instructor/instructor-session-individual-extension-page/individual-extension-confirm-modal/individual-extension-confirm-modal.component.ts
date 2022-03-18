@@ -96,7 +96,6 @@ export class IndividualExtensionConfirmModalComponent {
           strA = a.email;
           strB = b.email;
           break;
-        // TODO: Session End_Date
         case SortBy.SESSION_END_DATE:
           strA = a.extensionDeadline.toString();
           strB = b.extensionDeadline.toString();
@@ -135,7 +134,6 @@ export class IndividualExtensionConfirmModalComponent {
           strA = a.email;
           strB = b.email;
           break;
-        // TODO: Session End_Date
         case SortBy.SESSION_END_DATE:
           strA = a.extensionDeadline.toString();
           strB = b.extensionDeadline.toString();

@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { DatepickerModule } from '../../components/datepicker/datepicker.module';
+import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
 import { TimepickerModule } from '../../components/timepicker/timepicker.module';
@@ -30,6 +31,7 @@ const routes: Routes = [
       LoadingSpinnerModule,
       DatepickerModule,
       TimepickerModule,
+      LoadingRetryModule,
     ],
     entryComponents: [
       IndividualExtensionDateModalComponent,

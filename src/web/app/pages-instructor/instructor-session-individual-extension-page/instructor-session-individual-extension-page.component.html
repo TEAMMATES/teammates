@@ -1,134 +1,139 @@
-<div *tmIsLoading="isLoadingFeedbackSession">
-  <div class="card border-primary margin-top-20px">
-    <div class="card-body">
-      <div class="row text-center">
-        <div class="col-md-2 text-md-right font-bold">Course ID</div>
-        <div id="time-zone" class="col-md-3 text-md-left">
-          {{ courseId }}
+<tm-loading-retry [shouldShowRetry]="hasLoadingFeedbackSessionFailed" [message]="'Failed to load course and feedback session'" (retryEvent)="loadFeedbackSessionAndIndividuals()">
+  <div *tmIsLoading="isLoadingFeedbackSession">
+    <div class="card border-primary margin-top-20px">
+      <div class="card-body">
+        <div class="row text-center">
+          <div class="col-md-2 text-md-right font-bold">Course ID</div>
+          <div id="time-zone" class="col-md-3 text-md-left">
+            {{ courseId }}
+          </div>
         </div>
-      </div>
-      <div class="row text-center">
-        <div class="col-md-2 text-md-right font-bold">Time Zone</div>
-        <div id="time-zone" class="col-md-3 text-md-left">
-          {{ feedbackSessionTimeZone }}
+        <div class="row text-center">
+          <div class="col-md-2 text-md-right font-bold">Time Zone</div>
+          <div id="time-zone" class="col-md-3 text-md-left">
+            {{ feedbackSessionTimeZone }}
+          </div>
         </div>
-      </div>
-      <div class="row text-center">
-        <div class="col-md-2 text-md-right font-bold">Course Name</div>
-        <div id="course-name" class="col-md-10 text-md-left">
-          {{ courseName }}
+        <div class="row text-center">
+          <div class="col-md-2 text-md-right font-bold">Course Name</div>
+          <div id="course-name" class="col-md-10 text-md-left">
+            {{ courseName }}
+          </div>
         </div>
-      </div>
-      <div class="row text-center">
-        <div class="col-md-2 text-md-right font-bold">Session Name</div>
-        <div id="course-name" class="col-md-10 text-md-left">
-          {{ feedbackSessionName }}
+        <div class="row text-center">
+          <div class="col-md-2 text-md-right font-bold">Session Name</div>
+          <div id="course-name" class="col-md-10 text-md-left">
+            {{ feedbackSessionName }}
+          </div>
         </div>
-      </div>
-      <div class="row text-center">
-        <div class="col-md-2 text-md-right font-bold">Original Deadline</div>
-        <div id="course-name" class="col-md-10 text-md-left">
-          {{ timezoneService.formatToString(feedbackSessionEndingTime, feedbackSessionTimeZone, DATETIME_FORMAT) }}
+        <div class="row text-center">
+          <div class="col-md-2 text-md-right font-bold">Original Deadline</div>
+          <div id="course-name" class="col-md-10 text-md-left">
+            {{ timezoneService.formatToString(feedbackSessionEndingTime, feedbackSessionTimeZone, DATETIME_FORMAT) }}
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="container ml-1">
-    <div class="align-row">
-      <div>
-        <button type="button" id="extend-btn" class="btn btn-success" (click)="onExtend()" [disabled]="!hasSelected()">Extend</button>
+    <div class="container ml-1">
+      <div class="align-row">
+        <div>
+          <button type="button" id="extend-btn" class="btn btn-success" (click)="onExtend()" [disabled]="!hasSelected()">Extend</button>
+        </div>
+        <div>
+          <button type="button" id="delete-btn" class="btn btn-danger" (click)="onDelete()" [disabled]="!hasSelectedValidForDeletion()">Delete</button>
+        </div>
       </div>
-      <div>
-        <button type="button" id="delete-btn" class="btn btn-danger" (click)="onDelete()" [disabled]="!hasSelectedValidForDeletion()">Delete</button>
-      </div>
+      <small
+        >Select students or instructors from list below and click apply or remove to change their feedback session deadline
+        extension.</small
+      >
     </div>
-    <small
-      >Select students or instructors from list below and click apply or remove to change their feedback session deadline
-      extension.</small
-    >
   </div>
-</div>
+</tm-loading-retry>
 
 <!-- TODO: Use lazy loading toggleable dropdowns-->
-<div *tmIsLoading="isLoadingAllStudents">
-  <div class="modal-body">
-    <h1>Students</h1>
-    <div class="table-responsive">
-      <table id="student-list-table" class="table table-bordered">
-        <thead>
-          <tr>
-            <th (click)="selectAllStudents()">
-              <label><input type="checkbox" id="select-all-student-btn" [checked]="isAllStudentsSelected" /> Select all</label>
-            </th>
-            <th class="sortable-header" (click)="sortStudentColumnsBy(SortBy.SECTION_NAME)">
-              Section
-              <span class="fa-stack">
-                <i class="fas fa-sort"></i>
-                <i *ngIf="sortStudentsBy === SortBy.SECTION_NAME && sortStudentOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
-                <i *ngIf="sortStudentsBy === SortBy.SECTION_NAME && sortStudentOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
-              </span>
-            </th>
-            <th class="sortable-header" (click)="sortStudentColumnsBy(SortBy.TEAM_NAME)">
-              Team
-              <span class="fa-stack">
-                <i class="fas fa-sort"></i>
-                <i *ngIf="sortStudentsBy === SortBy.TEAM_NAME && sortStudentOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
-                <i *ngIf="sortStudentsBy === SortBy.TEAM_NAME && sortStudentOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
-              </span>
-            </th>
-            <th class="sortable-header" (click)="sortStudentColumnsBy(SortBy.RESPONDENT_NAME)">
-              Name
-              <span class="fa-stack">
-                <i class="fas fa-sort"></i>
-                <i
-                  *ngIf="sortStudentsBy === SortBy.RESPONDENT_NAME && sortStudentOrder === SortOrder.DESC"
-                  class="fas fa-sort-down"
-                ></i>
-                <i *ngIf="sortStudentsBy === SortBy.RESPONDENT_NAME && sortStudentOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
-              </span>
-            </th>
-            <th class="sortable-header" (click)="sortStudentColumnsBy(SortBy.RESPONDENT_EMAIL)">
-              Email
-              <span class="fa-stack">
-                <i class="fas fa-sort"></i>
-                <i
-                  *ngIf="sortStudentsBy === SortBy.RESPONDENT_EMAIL && sortStudentOrder === SortOrder.DESC"
-                  class="fas fa-sort-down"
-                ></i>
-                <i *ngIf="sortStudentsBy === SortBy.RESPONDENT_EMAIL && sortStudentOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
-              </span>
-            </th>
-            <th class="sortable-header" (click)="sortStudentColumnsBy(SortBy.SESSION_END_DATE)">
-              Current Deadline
-              <span class="fa-stack">
-                <i class="fas fa-sort"></i>
-                <i
-                  *ngIf="sortStudentsBy === SortBy.SESSION_END_DATE && sortStudentOrder === SortOrder.DESC"
-                  class="fas fa-sort-down"
-                ></i>
-                <i *ngIf="sortStudentsBy === SortBy.SESSION_END_DATE && sortStudentOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
-              </span>
-            </th>
+<tm-loading-retry [shouldShowRetry]="hasLoadedAllStudentsFailed" [message]="'Failed to load students'" (retryEvent)="loadFeedbackSessionAndIndividuals()">
+  <div *tmIsLoading="isLoadingAllStudents">
+    <div class="modal-body">
+      <h1>Students</h1>
+      <div class="table-responsive">
+        <table id="student-list-table" class="table table-bordered">
+          <thead>
+            <tr>
+              <th (click)="selectAllStudents()">
+                <label><input type="checkbox" id="select-all-student-btn" [checked]="isAllStudentsSelected" /> Select all</label>
+              </th>
+              <th class="sortable-header" (click)="sortStudentColumnsBy(SortBy.SECTION_NAME)">
+                Section
+                <span class="fa-stack">
+                  <i class="fas fa-sort"></i>
+                  <i *ngIf="sortStudentsBy === SortBy.SECTION_NAME && sortStudentOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
+                  <i *ngIf="sortStudentsBy === SortBy.SECTION_NAME && sortStudentOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+                </span>
+              </th>
+              <th class="sortable-header" (click)="sortStudentColumnsBy(SortBy.TEAM_NAME)">
+                Team
+                <span class="fa-stack">
+                  <i class="fas fa-sort"></i>
+                  <i *ngIf="sortStudentsBy === SortBy.TEAM_NAME && sortStudentOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
+                  <i *ngIf="sortStudentsBy === SortBy.TEAM_NAME && sortStudentOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+                </span>
+              </th>
+              <th class="sortable-header" (click)="sortStudentColumnsBy(SortBy.RESPONDENT_NAME)">
+                Name
+                <span class="fa-stack">
+                  <i class="fas fa-sort"></i>
+                  <i
+                    *ngIf="sortStudentsBy === SortBy.RESPONDENT_NAME && sortStudentOrder === SortOrder.DESC"
+                    class="fas fa-sort-down"
+                  ></i>
+                  <i *ngIf="sortStudentsBy === SortBy.RESPONDENT_NAME && sortStudentOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+                </span>
+              </th>
+              <th class="sortable-header" (click)="sortStudentColumnsBy(SortBy.RESPONDENT_EMAIL)">
+                Email
+                <span class="fa-stack">
+                  <i class="fas fa-sort"></i>
+                  <i
+                    *ngIf="sortStudentsBy === SortBy.RESPONDENT_EMAIL && sortStudentOrder === SortOrder.DESC"
+                    class="fas fa-sort-down"
+                  ></i>
+                  <i *ngIf="sortStudentsBy === SortBy.RESPONDENT_EMAIL && sortStudentOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+                </span>
+              </th>
+              <th class="sortable-header" (click)="sortStudentColumnsBy(SortBy.SESSION_END_DATE)">
+                Current Deadline
+                <span class="fa-stack">
+                  <i class="fas fa-sort"></i>
+                  <i
+                    *ngIf="sortStudentsBy === SortBy.SESSION_END_DATE && sortStudentOrder === SortOrder.DESC"
+                    class="fas fa-sort-down"
+                  ></i>
+                  <i *ngIf="sortStudentsBy === SortBy.SESSION_END_DATE && sortStudentOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+                </span>
+              </th>
+            </tr>
+          </thead>
+          <tr
+            *ngFor="let student of studentsOfCourse; index as i"
+            [ngClass]="{ 'table-warning': student.hasExtension === true }"
+          >
+            <td class="align-center" (click)="selectStudent(i)">
+              <label><input type="checkbox" [checked]="student.selected"/></label>
+            </td>
+            <td>{{ student.sectionName }}</td>
+            <td>{{ student.teamName }}</td>
+            <td>{{ student.name }}</td>
+            <td>{{ student.email }}</td>
+            <td>{{ timezoneService.formatToString(student.extensionDeadline, feedbackSessionTimeZone, DATETIME_FORMAT) }}</td>
           </tr>
-        </thead>
-        <tr
-          *ngFor="let student of studentsOfCourse; index as i"
-          [ngClass]="{ 'table-warning': student.hasExtension === true }"
-        >
-          <td class="align-center" (click)="selectStudent(i)">
-            <label><input type="checkbox" [checked]="student.selected"/></label>
-          </td>
-          <td>{{ student.sectionName }}</td>
-          <td>{{ student.teamName }}</td>
-          <td>{{ student.name }}</td>
-          <td>{{ student.email }}</td>
-          <td>{{ timezoneService.formatToString(student.extensionDeadline, feedbackSessionTimeZone, DATETIME_FORMAT) }}</td>
-        </tr>
-      </table>
+        </table>
+      </div>
     </div>
   </div>
-</div>
+</tm-loading-retry>
 
+<tm-loading-retry [shouldShowRetry]="hasLoadedAllInstructorsFailed" [message]="'Failed to load instructors'" (retryEvent)="loadFeedbackSessionAndIndividuals()">
 <div *tmIsLoading="isLoadingAllInstructors">
   <div class="modal-body">
     <h1>Instructors</h1>
@@ -195,3 +200,4 @@
     </div>
   </div>
 </div>
+</tm-loading-retry>

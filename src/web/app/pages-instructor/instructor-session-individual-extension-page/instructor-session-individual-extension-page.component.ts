@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { finalize } from 'rxjs/operators';
+import { finalize, map } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { InstructorService } from '../../../services/instructor.service';
@@ -11,19 +11,17 @@ import { TableComparatorService } from '../../../services/table-comparator.servi
 import { TimezoneService } from '../../../services/timezone.service';
 import { Course, FeedbackSession, Instructor, Instructors, Student, Students } from '../../../types/api-output';
 import {
- FeedbackSessionBasicRequest,
+  FeedbackSessionBasicRequest,
   FeedbackSessionUpdateRequest,
   Intent,
   ResponseVisibleSetting,
   SessionVisibleSetting,
-}
-from '../../../types/api-request';
+} from '../../../types/api-request';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { ColumnData, SortableTableCellData } from '../../components/sortable-table/sortable-table.component';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorExtensionTableColumnModel, StudentExtensionTableColumnModel } from './extension-table-column-model';
-import { ExtensionModalType, IndividualExtensionConfirmModalComponent }
-from './individual-extension-confirm-modal/individual-extension-confirm-modal.component';
+import { ExtensionModalType, IndividualExtensionConfirmModalComponent } from './individual-extension-confirm-modal/individual-extension-confirm-modal.component';
 import {
   IndividualExtensionDateModalComponent,
 } from './individual-extension-date-modal/individual-extension-date-modal.component';
@@ -80,7 +78,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
   isLoadingAllStudents: boolean = true;
   hasLoadedAllStudentsFailed: boolean = false;
   isLoadingAllInstructors: boolean = true;
-  hasLoadedAllInstructorsFailed: boolean = true;
+  hasLoadedAllInstructorsFailed: boolean = false;
   isLoadingFeedbackSession: boolean = true;
   hasLoadingFeedbackSessionFailed: boolean = false;
   isSubmittingDeadlines: boolean = false;
@@ -126,21 +124,22 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
             feedbackSessionName: this.feedbackSessionName,
             intent: Intent.INSTRUCTOR_RESULT,
           })
-          .subscribe(
-            (feedbackSession: FeedbackSession) => {
-              this.feedbackSessionEndingTime = feedbackSession.submissionEndTimestamp;
-              this.feedbackSessionTimeZone = feedbackSession.timeZone;
-              this.studentDeadlines = feedbackSession.studentDeadlines ?? {};
-              this.instructorDeadlines = feedbackSession.instructorDeadlines ?? {};
-              this.feedbackSessionDetails = this.getFeedbackSessionDetails(feedbackSession);
+          .pipe(map((feedbackSession: FeedbackSession) => {
+            this.feedbackSessionEndingTime = feedbackSession.submissionEndTimestamp;
+            this.feedbackSessionTimeZone = feedbackSession.timeZone;
+            this.studentDeadlines = feedbackSession.studentDeadlines ?? {};
+            this.instructorDeadlines = feedbackSession.instructorDeadlines ?? {};
+            this.feedbackSessionDetails = this.getFeedbackSessionDetails(feedbackSession);
+          }))
+          .subscribe(() => {
+              this.getAllStudentsOfCourse(); // Both students and instructors need feedback ending time.
+              this.getAllInstructorsOfCourse();
             },
             (resp: ErrorMessageOutput) => {
               this.statusMessageService.showErrorToast(resp.error.message);
               this.hasLoadingFeedbackSessionFailed = true;
             },
           );
-        this.getAllStudentsOfCourse(); // Both students and instructors need feedback ending time.
-        this.getAllInstructorsOfCourse();
       },
       (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
@@ -153,15 +152,14 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
   /**
    * Gets all students of a course.
    */
-  private getAllStudentsOfCourse(): void {
-    // TODO: Highlight all the students after getting them, from the map.
+  getAllStudentsOfCourse(): void {
     this.studentService
       .getStudentsFromCourse({ courseId: this.courseId })
-      .pipe(finalize(() => { this.isLoadingAllStudents = false; }))
-      .subscribe((students: Students) => {
-          // Map on the new deadline and hasExtension
+      .pipe(finalize(() => { this.isLoadingAllStudents = false; }),
+        map((students: Students) => {
           this.studentsOfCourse = students.students.map((student) => this.mapStudentToStudentModel(student));
-        },
+        }))
+      .subscribe(() => {},
         (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
           this.hasLoadedAllStudentsFailed = true;
@@ -212,15 +210,18 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
   /**
    * Loads the instructors in the course
    */
-  private getAllInstructorsOfCourse(): void {
+  getAllInstructorsOfCourse(): void {
     this.instructorService.loadInstructors({ courseId: this.courseId, intent: Intent.FULL_DETAIL })
-    .pipe(finalize(() => { this.isLoadingAllInstructors = false; }))
-    .subscribe((instructors: Instructors) => {
-      this.instructorsOfCourse = instructors.instructors
-                               .map((instructor) => this.mapInstructorToInstructorModel(instructor));
-    }, (resp: ErrorMessageOutput) => {
-      this.hasLoadedAllInstructorsFailed = true;
-      this.statusMessageService.showErrorToast(resp.error.message);
+      .pipe(finalize(() => { this.isLoadingAllInstructors = false; }),
+      map((instructors: Instructors) => {
+        this.instructorsOfCourse = instructors.instructors.map((instructor) => {
+          return this.mapInstructorToInstructorModel(instructor);
+        });
+      }))
+      .subscribe(() => {
+        }, (resp: ErrorMessageOutput) => {
+        this.hasLoadedAllInstructorsFailed = true;
+        this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 
@@ -236,9 +237,8 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
 
     if (instructor.email in this.instructorDeadlines) {
       instructorData.hasExtension = true;
-      instructorData.extensionDeadline = this.instructorDeadlines[instructorData.email];
+      instructorData.extensionDeadline = this.instructorDeadlines[instructor.email];
     }
-
     return instructorData;
   }
 
@@ -453,7 +453,6 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
           strA = a.email;
           strB = b.email;
           break;
-        // TODO: Session End_Date
         case SortBy.SESSION_END_DATE:
           strA = a.extensionDeadline.toString();
           strB = b.extensionDeadline.toString();
@@ -492,7 +491,6 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
           strA = a.email;
           strB = b.email;
           break;
-        // TODO: Session End_Date
         case SortBy.SESSION_END_DATE:
           strA = a.extensionDeadline.toString();
           strB = b.extensionDeadline.toString();
