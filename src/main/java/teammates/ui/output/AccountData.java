@@ -10,13 +10,11 @@ public class AccountData extends ApiOutput {
     private final String googleId;
     private final String name;
     private final String email;
-    private final long createdAtTimeStamp;
 
     public AccountData(AccountAttributes accountInfo) {
         this.googleId = accountInfo.getGoogleId();
         this.name = accountInfo.getName();
         this.email = accountInfo.getEmail();
-        this.createdAtTimeStamp = accountInfo.getCreatedAt().toEpochMilli();
     }
 
     public String getEmail() {
@@ -25,10 +23,6 @@ public class AccountData extends ApiOutput {
 
     public String getGoogleId() {
         return googleId;
-    }
-
-    public long getCreatedAtTimeStamp() {
-        return createdAtTimeStamp;
     }
 
     public String getName() {
