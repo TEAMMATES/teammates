@@ -6,7 +6,7 @@ import { TimezoneService } from '../../../../services/timezone.service';
 import { createMockNgbModalRef } from '../../../../test-helpers/mock-ngb-modal-ref';
 import {
   FeedbackSession,
-  FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus, ResponseVisibleSetting, SessionVisibleSetting
+  FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus, ResponseVisibleSetting, SessionVisibleSetting,
 } from '../../../../types/api-output';
 import { InstructorSessionIndividualExtensionPageModule } from '../instructor-session-individual-extension-page.module';
 import { IndividualExtensionDateModalComponent, RadioOptions } from './individual-extension-date-modal.component';
@@ -30,6 +30,8 @@ describe('IndividualExtensionDateModalComponent', () => {
         createdAtTimestamp: 0,
     };
 
+    const testTimeString = '5 Apr 2000 2:00:00';
+
     let component: IndividualExtensionDateModalComponent;
     let fixture: ComponentFixture<IndividualExtensionDateModalComponent>;
     let simpleModalService: SimpleModalService;
@@ -51,6 +53,7 @@ describe('IndividualExtensionDateModalComponent', () => {
         component = fixture.componentInstance;
         timeZoneService = TestBed.inject(TimezoneService);
         simpleModalService = TestBed.inject(SimpleModalService);
+        jest.spyOn(timeZoneService, 'formatToString').mockReturnValue(testTimeString);
         fixture.detectChanges();
       });
 
@@ -100,16 +103,12 @@ describe('IndividualExtensionDateModalComponent', () => {
       component.radioOption = RadioOptions.EXTEND_BY;
       component.datePicker = { year: 2020, month: 10, day: 10 };
       component.DATETIME_FORMAT = 'd MMM YYYY h:mm:ss';
-
       const modalSpy: SpyInstance = jest.spyOn(simpleModalService, 'openConfirmationModal').mockReturnValue(
         createMockNgbModalRef());
-      const timeZoneSpy: SpyInstance = jest.spyOn(timeZoneService, 'formatToString').mockReturnValue('');
 
       component.onConfirm();
 
-      expect(timeZoneSpy).toHaveBeenCalledTimes(2);
       expect(modalSpy).toHaveBeenCalledTimes(1);
-
       fixture.detectChanges();
       expect(fixture).toMatchSnapshot();
     });

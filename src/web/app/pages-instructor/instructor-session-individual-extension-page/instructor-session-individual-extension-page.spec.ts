@@ -16,7 +16,7 @@ import { InstructorSessionIndividualExtensionPageComponent }
   from './instructor-session-individual-extension-page.component';
 import { InstructorSessionIndividualExtensionPageModule } from './instructor-session-individual-extension-page.module';
 
-describe('IndividualExtensionDateModalComponent', () => {
+describe('InstructorSessionIndividualExtensionPageComponent', () => {
     const testCourse: Course = {
       courseId: 'exampleId',
       courseName: 'Example Course',
@@ -68,6 +68,8 @@ describe('IndividualExtensionDateModalComponent', () => {
       students: [testStudent1, testStudent2, testStudent3],
     };
 
+    const testTimeString = '5 Apr 2000 2:00:00';
+
     let component: InstructorSessionIndividualExtensionPageComponent;
     let fixture: ComponentFixture<InstructorSessionIndividualExtensionPageComponent>;
     let studentService: StudentService;
@@ -117,6 +119,7 @@ describe('IndividualExtensionDateModalComponent', () => {
     });
 
     it('should snap with student session loading', () => {
+      jest.spyOn(timezoneService, 'formatToString').mockReturnValue(testTimeString);
       component.isLoadingAllStudents = true;
       component.isLoadingFeedbackSession = false;
       fixture.detectChanges();
@@ -124,6 +127,7 @@ describe('IndividualExtensionDateModalComponent', () => {
     });
 
     it('should snap when feedback session loading', () => {
+      jest.spyOn(timezoneService, 'formatToString').mockReturnValue(testTimeString);
       component.isLoadingAllStudents = false;
       component.isLoadingFeedbackSession = true;
       fixture.detectChanges();
@@ -140,8 +144,8 @@ describe('IndividualExtensionDateModalComponent', () => {
 
       component.ngOnInit();
 
-      expect(component.isLoadingAllStudents).toBeTruthy();
-      expect(component.hasLoadedAllStudentsFailed).toBeFalsy();
+      expect(component.isLoadingAllStudents).toBeFalsy();
+      expect(component.hasLoadedAllStudentsFailed).toBeTruthy();
       expect(component.isLoadingFeedbackSession).toBeFalsy();
       expect(component.hasLoadingFeedbackSessionFailed).toBeFalsy();
       fixture.detectChanges();
@@ -155,10 +159,11 @@ describe('IndividualExtensionDateModalComponent', () => {
         status: 404,
         error: { message: 'This is a test message' },
       }));
+      jest.spyOn(timezoneService, 'formatToString').mockReturnValue(testTimeString);
 
       component.ngOnInit();
 
-      expect(component.isLoadingAllStudents).toBeTruthy();
+      expect(component.isLoadingAllStudents).toBeFalsy();
       expect(component.hasLoadedAllStudentsFailed).toBeFalsy();
       expect(component.isLoadingFeedbackSession).toBeFalsy();
       expect(component.hasLoadingFeedbackSessionFailed).toBeTruthy();
@@ -173,10 +178,11 @@ describe('IndividualExtensionDateModalComponent', () => {
         error: { message: 'This is a test message' },
       }));
       jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+      jest.spyOn(timezoneService, 'formatToString').mockReturnValue(testTimeString);
 
       component.ngOnInit();
 
-      expect(component.isLoadingAllStudents).toBeTruthy();
+      expect(component.isLoadingAllStudents).toBeFalsy();
       expect(component.hasLoadedAllStudentsFailed).toBeFalsy();
       expect(component.isLoadingFeedbackSession).toBeFalsy();
       expect(component.hasLoadingFeedbackSessionFailed).toBeTruthy();

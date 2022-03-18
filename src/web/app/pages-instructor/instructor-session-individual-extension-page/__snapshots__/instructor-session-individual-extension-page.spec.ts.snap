@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`IndividualExtensionDateModalComponent should snap when clicking the Select All button 1`] = `
+exports[`InstructorSessionIndividualExtensionPageComponent should snap when clicking the Select All button 1`] = `
 <tm-instructor-session-individual-extension-page
   DATETIME_FORMAT={[Function String]}
   SortBy={[Function Object]}
@@ -132,6 +132,7 @@ exports[`IndividualExtensionDateModalComponent should snap when clicking the Sel
         <div>
           <button
             class="btn btn-danger"
+            disabled=""
             id="delete-btn"
             type="button"
           >
@@ -315,7 +316,7 @@ exports[`IndividualExtensionDateModalComponent should snap when clicking the Sel
 </tm-instructor-session-individual-extension-page>
 `;
 
-exports[`IndividualExtensionDateModalComponent should snap when feedback session loading 1`] = `
+exports[`InstructorSessionIndividualExtensionPageComponent should snap when feedback session loading 1`] = `
 <tm-instructor-session-individual-extension-page
   DATETIME_FORMAT={[Function String]}
   SortBy={[Function Object]}
@@ -453,7 +454,7 @@ exports[`IndividualExtensionDateModalComponent should snap when feedback session
 </tm-instructor-session-individual-extension-page>
 `;
 
-exports[`IndividualExtensionDateModalComponent should snap with details and extended students 1`] = `
+exports[`InstructorSessionIndividualExtensionPageComponent should snap with details and extended students 1`] = `
 <tm-instructor-session-individual-extension-page
   DATETIME_FORMAT={[Function String]}
   SortBy={[Function Object]}
@@ -585,6 +586,7 @@ exports[`IndividualExtensionDateModalComponent should snap with details and exte
         <div>
           <button
             class="btn btn-danger"
+            disabled=""
             id="delete-btn"
             type="button"
           >
@@ -768,7 +770,718 @@ exports[`IndividualExtensionDateModalComponent should snap with details and exte
 </tm-instructor-session-individual-extension-page>
 `;
 
-exports[`IndividualExtensionDateModalComponent should stop loading if student service returns 404 1`] = `
+exports[`InstructorSessionIndividualExtensionPageComponent should snap with student session loading 1`] = `
+<tm-instructor-session-individual-extension-page
+  DATETIME_FORMAT={[Function String]}
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
+  columnsData={[Function Array]}
+  courseId={[Function String]}
+  courseName=""
+  courseService={[Function CourseService]}
+  feedbackSessionEndingTime="0"
+  feedbackSessionName="undefined"
+  feedbackSessionTimeZone=""
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  hasLoadedAllStudentsFailed="false"
+  hasLoadingFeedbackSessionFailed="false"
+  isAllSelected="false"
+  isLoadingAllStudents={[Function Boolean]}
+  isLoadingFeedbackSession="false"
+  isOpen={[Function Boolean]}
+  ngbModal={[Function NgbModal]}
+  route={[Function Object]}
+  rowsData={[Function Array]}
+  sortBy={[Function Number]}
+  sortOrder="0"
+  statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
+  studentsOfCourse={[Function Array]}
+  tableComparatorService={[Function TableComparatorService]}
+  timezoneService={[Function TimezoneService]}
+>
+  <div>
+    <div
+      class="card border-primary margin-top-20px"
+    >
+      <div
+        class="card-body"
+      >
+        <div
+          class="row text-center"
+        >
+          <div
+            class="col-md-2 text-md-right font-bold"
+          >
+            Course ID
+          </div>
+          <div
+            class="col-md-3 text-md-left"
+            id="time-zone"
+          >
+             exampleId 
+          </div>
+        </div>
+        <div
+          class="row text-center"
+        >
+          <div
+            class="col-md-2 text-md-right font-bold"
+          >
+            Time Zone
+          </div>
+          <div
+            class="col-md-3 text-md-left"
+            id="time-zone"
+          >
+          </div>
+        </div>
+        <div
+          class="row text-center"
+        >
+          <div
+            class="col-md-2 text-md-right font-bold"
+          >
+            Course Name
+          </div>
+          <div
+            class="col-md-10 text-md-left"
+            id="course-name"
+          >
+          </div>
+        </div>
+        <div
+          class="row text-center"
+        >
+          <div
+            class="col-md-2 text-md-right font-bold"
+          >
+            Session Name
+          </div>
+          <div
+            class="col-md-10 text-md-left"
+            id="course-name"
+          >
+          </div>
+        </div>
+        <div
+          class="row text-center"
+        >
+          <div
+            class="col-md-2 text-md-right font-bold"
+          >
+            Original Deadline
+          </div>
+          <div
+            class="col-md-10 text-md-left"
+            id="course-name"
+          >
+             5 Apr 2000 2:00:00 
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="container ml-1"
+    >
+      <div
+        class="align-row"
+      >
+        <div>
+          <button
+            class="btn btn-success"
+            disabled=""
+            id="extend-btn"
+            type="button"
+          >
+            Extend
+          </button>
+        </div>
+        <div>
+          <button
+            class="btn btn-danger"
+            disabled=""
+            id="delete-btn"
+            type="button"
+          >
+            Delete
+          </button>
+        </div>
+      </div>
+      <small>
+        Select students from list below and click apply or remove to change their feedback session deadline extension.
+      </small>
+    </div>
+  </div><tm-loading-spinner>
+    <div
+      class="loading-container"
+    >
+      <div
+        class="row spinner-border text-primary"
+        role="status"
+      />
+      <div
+        class="row text-secondary"
+      >
+        Loading...
+      </div>
+    </div>
+  </tm-loading-spinner>
+</tm-instructor-session-individual-extension-page>
+`;
+
+exports[`InstructorSessionIndividualExtensionPageComponent should stop loading if course service returns 404 1`] = `
+<tm-instructor-session-individual-extension-page
+  DATETIME_FORMAT={[Function String]}
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
+  columnsData={[Function Array]}
+  courseId={[Function String]}
+  courseName=""
+  courseService={[Function CourseService]}
+  feedbackSessionEndingTime="0"
+  feedbackSessionName="undefined"
+  feedbackSessionTimeZone=""
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  hasLoadedAllStudentsFailed="false"
+  hasLoadingFeedbackSessionFailed={[Function Boolean]}
+  isAllSelected="false"
+  isLoadingAllStudents="false"
+  isLoadingFeedbackSession="false"
+  isOpen={[Function Boolean]}
+  ngbModal={[Function NgbModal]}
+  route={[Function Object]}
+  rowsData={[Function Array]}
+  sortBy={[Function Number]}
+  sortOrder="0"
+  statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
+  studentsOfCourse={[Function Array]}
+  tableComparatorService={[Function TableComparatorService]}
+  timezoneService={[Function TimezoneService]}
+>
+  <div>
+    <div
+      class="card border-primary margin-top-20px"
+    >
+      <div
+        class="card-body"
+      >
+        <div
+          class="row text-center"
+        >
+          <div
+            class="col-md-2 text-md-right font-bold"
+          >
+            Course ID
+          </div>
+          <div
+            class="col-md-3 text-md-left"
+            id="time-zone"
+          >
+             exampleId 
+          </div>
+        </div>
+        <div
+          class="row text-center"
+        >
+          <div
+            class="col-md-2 text-md-right font-bold"
+          >
+            Time Zone
+          </div>
+          <div
+            class="col-md-3 text-md-left"
+            id="time-zone"
+          >
+          </div>
+        </div>
+        <div
+          class="row text-center"
+        >
+          <div
+            class="col-md-2 text-md-right font-bold"
+          >
+            Course Name
+          </div>
+          <div
+            class="col-md-10 text-md-left"
+            id="course-name"
+          >
+          </div>
+        </div>
+        <div
+          class="row text-center"
+        >
+          <div
+            class="col-md-2 text-md-right font-bold"
+          >
+            Session Name
+          </div>
+          <div
+            class="col-md-10 text-md-left"
+            id="course-name"
+          >
+          </div>
+        </div>
+        <div
+          class="row text-center"
+        >
+          <div
+            class="col-md-2 text-md-right font-bold"
+          >
+            Original Deadline
+          </div>
+          <div
+            class="col-md-10 text-md-left"
+            id="course-name"
+          >
+             5 Apr 2000 2:00:00 
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="container ml-1"
+    >
+      <div
+        class="align-row"
+      >
+        <div>
+          <button
+            class="btn btn-success"
+            disabled=""
+            id="extend-btn"
+            type="button"
+          >
+            Extend
+          </button>
+        </div>
+        <div>
+          <button
+            class="btn btn-danger"
+            disabled=""
+            id="delete-btn"
+            type="button"
+          >
+            Delete
+          </button>
+        </div>
+      </div>
+      <small>
+        Select students from list below and click apply or remove to change their feedback session deadline extension.
+      </small>
+    </div>
+  </div><div>
+    <div
+      class="modal-body"
+    >
+      <div
+        class="table-responsive"
+      >
+        <table
+          class="table table-bordered"
+          id="student-list-table"
+        >
+          <thead>
+            <tr>
+              <th>
+                <label>
+                  <input
+                    id="select-all-btn"
+                    type="checkbox"
+                  />
+                   Select all
+                </label>
+              </th>
+              <th
+                class="sortable-header"
+              >
+                 Section 
+                <span
+                  class="fa-stack"
+                >
+                  <i
+                    class="fas fa-sort"
+                  />
+                  <i
+                    class="fas fa-sort-down"
+                  />
+                </span>
+              </th>
+              <th
+                class="sortable-header"
+              >
+                 Team 
+                <span
+                  class="fa-stack"
+                >
+                  <i
+                    class="fas fa-sort"
+                  />
+                </span>
+              </th>
+              <th
+                class="sortable-header"
+              >
+                 Name 
+                <span
+                  class="fa-stack"
+                >
+                  <i
+                    class="fas fa-sort"
+                  />
+                </span>
+              </th>
+              <th
+                class="sortable-header"
+              >
+                 Email 
+                <span
+                  class="fa-stack"
+                >
+                  <i
+                    class="fas fa-sort"
+                  />
+                </span>
+              </th>
+              <th
+                class="sortable-header"
+              >
+                 Current Deadline 
+                <span
+                  class="fa-stack"
+                >
+                  <i
+                    class="fas fa-sort"
+                  />
+                </span>
+              </th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+    </div>
+  </div>
+</tm-instructor-session-individual-extension-page>
+`;
+
+exports[`InstructorSessionIndividualExtensionPageComponent should stop loading if feedback session service returns 404 1`] = `
+<tm-instructor-session-individual-extension-page
+  DATETIME_FORMAT={[Function String]}
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
+  columnsData={[Function Array]}
+  courseId={[Function String]}
+  courseName={[Function String]}
+  courseService={[Function CourseService]}
+  feedbackSessionEndingTime="0"
+  feedbackSessionName="undefined"
+  feedbackSessionTimeZone=""
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  hasLoadedAllStudentsFailed="false"
+  hasLoadingFeedbackSessionFailed={[Function Boolean]}
+  isAllSelected="false"
+  isLoadingAllStudents="false"
+  isLoadingFeedbackSession="false"
+  isOpen={[Function Boolean]}
+  ngbModal={[Function NgbModal]}
+  route={[Function Object]}
+  rowsData={[Function Array]}
+  sortBy={[Function Number]}
+  sortOrder="0"
+  statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
+  studentsOfCourse={[Function Array]}
+  tableComparatorService={[Function TableComparatorService]}
+  timezoneService={[Function TimezoneService]}
+>
+  <div>
+    <div
+      class="card border-primary margin-top-20px"
+    >
+      <div
+        class="card-body"
+      >
+        <div
+          class="row text-center"
+        >
+          <div
+            class="col-md-2 text-md-right font-bold"
+          >
+            Course ID
+          </div>
+          <div
+            class="col-md-3 text-md-left"
+            id="time-zone"
+          >
+             exampleId 
+          </div>
+        </div>
+        <div
+          class="row text-center"
+        >
+          <div
+            class="col-md-2 text-md-right font-bold"
+          >
+            Time Zone
+          </div>
+          <div
+            class="col-md-3 text-md-left"
+            id="time-zone"
+          >
+          </div>
+        </div>
+        <div
+          class="row text-center"
+        >
+          <div
+            class="col-md-2 text-md-right font-bold"
+          >
+            Course Name
+          </div>
+          <div
+            class="col-md-10 text-md-left"
+            id="course-name"
+          >
+             Example Course 
+          </div>
+        </div>
+        <div
+          class="row text-center"
+        >
+          <div
+            class="col-md-2 text-md-right font-bold"
+          >
+            Session Name
+          </div>
+          <div
+            class="col-md-10 text-md-left"
+            id="course-name"
+          >
+          </div>
+        </div>
+        <div
+          class="row text-center"
+        >
+          <div
+            class="col-md-2 text-md-right font-bold"
+          >
+            Original Deadline
+          </div>
+          <div
+            class="col-md-10 text-md-left"
+            id="course-name"
+          >
+             5 Apr 2000 2:00:00 
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="container ml-1"
+    >
+      <div
+        class="align-row"
+      >
+        <div>
+          <button
+            class="btn btn-success"
+            disabled=""
+            id="extend-btn"
+            type="button"
+          >
+            Extend
+          </button>
+        </div>
+        <div>
+          <button
+            class="btn btn-danger"
+            disabled=""
+            id="delete-btn"
+            type="button"
+          >
+            Delete
+          </button>
+        </div>
+      </div>
+      <small>
+        Select students from list below and click apply or remove to change their feedback session deadline extension.
+      </small>
+    </div>
+  </div><div>
+    <div
+      class="modal-body"
+    >
+      <div
+        class="table-responsive"
+      >
+        <table
+          class="table table-bordered"
+          id="student-list-table"
+        >
+          <thead>
+            <tr>
+              <th>
+                <label>
+                  <input
+                    id="select-all-btn"
+                    type="checkbox"
+                  />
+                   Select all
+                </label>
+              </th>
+              <th
+                class="sortable-header"
+              >
+                 Section 
+                <span
+                  class="fa-stack"
+                >
+                  <i
+                    class="fas fa-sort"
+                  />
+                  <i
+                    class="fas fa-sort-down"
+                  />
+                </span>
+              </th>
+              <th
+                class="sortable-header"
+              >
+                 Team 
+                <span
+                  class="fa-stack"
+                >
+                  <i
+                    class="fas fa-sort"
+                  />
+                </span>
+              </th>
+              <th
+                class="sortable-header"
+              >
+                 Name 
+                <span
+                  class="fa-stack"
+                >
+                  <i
+                    class="fas fa-sort"
+                  />
+                </span>
+              </th>
+              <th
+                class="sortable-header"
+              >
+                 Email 
+                <span
+                  class="fa-stack"
+                >
+                  <i
+                    class="fas fa-sort"
+                  />
+                </span>
+              </th>
+              <th
+                class="sortable-header"
+              >
+                 Current Deadline 
+                <span
+                  class="fa-stack"
+                >
+                  <i
+                    class="fas fa-sort"
+                  />
+                </span>
+              </th>
+            </tr>
+          </thead>
+          <tr>
+            <td
+              class="align-center"
+            >
+              <label>
+                <input
+                  type="checkbox"
+                />
+              </label>
+            </td>
+            <td>
+              Section 1
+            </td>
+            <td>
+              Team 1
+            </td>
+            <td>
+              Alice
+            </td>
+            <td>
+              alice@tmms.com
+            </td>
+            <td>
+              5 Apr 2000 2:00:00
+            </td>
+          </tr>
+          <tr>
+            <td
+              class="align-center"
+            >
+              <label>
+                <input
+                  type="checkbox"
+                />
+              </label>
+            </td>
+            <td>
+              Section 1
+            </td>
+            <td>
+              Team 1
+            </td>
+            <td>
+              Bob
+            </td>
+            <td>
+              bob@tmms.com
+            </td>
+            <td>
+              5 Apr 2000 2:00:00
+            </td>
+          </tr>
+          <tr>
+            <td
+              class="align-center"
+            >
+              <label>
+                <input
+                  type="checkbox"
+                />
+              </label>
+            </td>
+            <td>
+              Section 1
+            </td>
+            <td>
+              Team 1
+            </td>
+            <td>
+              alex
+            </td>
+            <td>
+              alex@tmms.com
+            </td>
+            <td>
+              5 Apr 2000 2:00:00
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</tm-instructor-session-individual-extension-page>
+`;
+
+exports[`InstructorSessionIndividualExtensionPageComponent should stop loading if student service returns 404 1`] = `
 <tm-instructor-session-individual-extension-page
   DATETIME_FORMAT={[Function String]}
   SortBy={[Function Object]}
@@ -900,6 +1613,7 @@ exports[`IndividualExtensionDateModalComponent should stop loading if student se
         <div>
           <button
             class="btn btn-danger"
+            disabled=""
             id="delete-btn"
             type="button"
           >

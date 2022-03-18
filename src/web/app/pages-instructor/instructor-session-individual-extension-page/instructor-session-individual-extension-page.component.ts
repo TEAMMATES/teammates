@@ -106,6 +106,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
       },
       (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
+        this.isLoadingAllStudents = false;
         this.hasLoadingFeedbackSessionFailed = true;
       },
     );
@@ -227,8 +228,10 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
   }
 
   hasSelectedValidStudentsForDeletion(): boolean {
-    return true;
-
+    for (const student of this.studentsOfCourse) {
+      if (student.selected && student.hasExtension) return true;
+    }
+    return false;
   }
 
   selectAllStudents(): void {
