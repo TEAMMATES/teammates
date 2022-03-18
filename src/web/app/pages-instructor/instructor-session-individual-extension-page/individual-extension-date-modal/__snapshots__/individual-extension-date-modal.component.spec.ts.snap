@@ -83,6 +83,43 @@ exports[`IndividualExtensionDateModalComponent should snap with the error modal 
           <select
             class="form-control ng-untouched ng-pristine ng-valid"
           >
+            <option
+              value="12 hours"
+            >
+               12 hours 
+              <div>
+                 (1 Jan 1970 08:00) 
+              </div>
+            </option>
+            <option
+              value="1 day"
+            >
+               1 day 
+              <div>
+                 (2 Jan 1970 07:30) 
+              </div>
+            </option>
+            <option
+              value="3 days"
+            >
+               3 days 
+              <div>
+                 (4 Jan 1970 07:30) 
+              </div>
+            </option>
+            <option
+              value="1 week"
+            >
+               1 week 
+              <div>
+                 (8 Jan 1970 07:30) 
+              </div>
+            </option>
+            <option
+              value="Customize"
+            >
+               Customize 
+            </option>
           </select>
         </div>
       </div>
@@ -712,6 +749,43 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend to ra
           <select
             class="form-control ng-untouched ng-pristine ng-valid"
           >
+            <option
+              value="12 hours"
+            >
+               12 hours 
+              <div>
+                 (1 Jan 1970 08:00) 
+              </div>
+            </option>
+            <option
+              value="1 day"
+            >
+               1 day 
+              <div>
+                 (2 Jan 1970 07:30) 
+              </div>
+            </option>
+            <option
+              value="3 days"
+            >
+               3 days 
+              <div>
+                 (4 Jan 1970 07:30) 
+              </div>
+            </option>
+            <option
+              value="1 week"
+            >
+               1 week 
+              <div>
+                 (8 Jan 1970 07:30) 
+              </div>
+            </option>
+            <option
+              value="Customize"
+            >
+               Customize 
+            </option>
           </select>
         </div>
       </div>
@@ -821,6 +895,43 @@ exports[`IndividualExtensionDateModalComponent should snap with the extended stu
           <select
             class="form-control ng-untouched ng-pristine ng-valid"
           >
+            <option
+              value="12 hours"
+            >
+               12 hours 
+              <div>
+                 (1 Jan 1970 08:00) 
+              </div>
+            </option>
+            <option
+              value="1 day"
+            >
+               1 day 
+              <div>
+                 (2 Jan 1970 07:30) 
+              </div>
+            </option>
+            <option
+              value="3 days"
+            >
+               3 days 
+              <div>
+                 (4 Jan 1970 07:30) 
+              </div>
+            </option>
+            <option
+              value="1 week"
+            >
+               1 week 
+              <div>
+                 (8 Jan 1970 07:30) 
+              </div>
+            </option>
+            <option
+              value="Customize"
+            >
+               Customize 
+            </option>
           </select>
         </div>
       </div>

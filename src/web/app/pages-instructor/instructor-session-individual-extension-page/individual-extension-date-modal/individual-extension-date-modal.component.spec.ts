@@ -1,17 +1,16 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import SpyInstance = jest.SpyInstance;
 import { SimpleModalService } from '../../../../services/simple-modal.service';
 import { TimezoneService } from '../../../../services/timezone.service';
 import { createMockNgbModalRef } from '../../../../test-helpers/mock-ngb-modal-ref';
 import {
   FeedbackSession,
-  FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus, ResponseVisibleSetting, SessionVisibleSetting,
+  FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus, ResponseVisibleSetting, SessionVisibleSetting
 } from '../../../../types/api-output';
-import { SimpleModalModule } from '../../../components/simple-modal/simple-modal.module';
 import { InstructorSessionIndividualExtensionPageModule } from '../instructor-session-individual-extension-page.module';
 import { IndividualExtensionDateModalComponent, RadioOptions } from './individual-extension-date-modal.component';
+import SpyInstance = jest.SpyInstance;
 
 describe('IndividualExtensionDateModalComponent', () => {
     const testFeedbackSession: FeedbackSession = {
@@ -40,7 +39,6 @@ describe('IndividualExtensionDateModalComponent', () => {
         TestBed.configureTestingModule({
           imports: [
             HttpClientTestingModule,
-            SimpleModalModule,
             InstructorSessionIndividualExtensionPageModule,
           ],
           providers: [NgbActiveModal],

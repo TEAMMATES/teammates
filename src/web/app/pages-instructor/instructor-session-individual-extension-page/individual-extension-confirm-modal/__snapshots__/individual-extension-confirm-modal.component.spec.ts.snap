@@ -4,12 +4,14 @@ exports[`IndividualExtensionConfirmModalComponent should snap with the extended 
 <tm-individual-extension-confirm-modal
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  activeModal={[Function NgbActiveModal]}
   extensionTimestamp={[Function Number]}
   isNotifyStudents="false"
+  modalType="0"
   onConfirmExtensionCallBack={[Function EventEmitter_]}
   sortBy={[Function Number]}
   sortOrder="0"
-  studentsToExtend={[Function Array]}
+  studentsSelected={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
 >
   <div
@@ -31,148 +33,145 @@ exports[`IndividualExtensionConfirmModalComponent should snap with the extended 
   </div><div
     class="modal-body"
   >
-     The new deadline of 
-    <b>
-      14 Jul 2017 10:40
-    </b>
-     will be applied to the following 
-    <b>
-      3 students
-    </b>
-     upon confirmation: 
+    <div>
+       The new deadline of 
+      <b>
+        14 Jul 2017 10:40
+      </b>
+       will be applied to the following 
+      <b>
+        3 students
+      </b>
+       upon confirmation: 
+    </div>
     <div
-      class="container ml-1"
-    />
-    <div
-      class="modal-body"
+      class="table-responsive"
     >
-      <div
-        class="table-responsive"
+      <table
+        class="table table-bordered"
+        id="student-list-table"
       >
-        <table
-          class="table table-bordered"
-          id="student-list-table"
-        >
-          <thead>
-            <tr>
-              <th
-                class="sortable-header"
-              >
-                 Section 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                  <i
-                    class="fas fa-sort-down"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Team 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Name 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Email 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Original Deadline 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-            </tr>
-          </thead>
+        <thead>
           <tr>
-            <td>
-              Test Section 1
-            </td>
-            <td>
-              Test Section 1
-            </td>
-            <td>
-              Test Student 1
-            </td>
-            <td>
-              testStudent1@gmail.com
-            </td>
-            <td>
-              14 Jul 2017 10:40
-            </td>
+            <th
+              class="sortable-header"
+            >
+               Section 
+              <span
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+                <i
+                  class="fas fa-sort-down"
+                />
+              </span>
+            </th>
+            <th
+              class="sortable-header"
+            >
+               Team 
+              <span
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+            </th>
+            <th
+              class="sortable-header"
+            >
+               Name 
+              <span
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+            </th>
+            <th
+              class="sortable-header"
+            >
+               Email 
+              <span
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+            </th>
+            <th
+              class="sortable-header"
+            >
+              <span>
+                Original Deadline 
+              </span>
+              <span
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+            </th>
           </tr>
-          <tr>
-            <td>
-              Test Section 2
-            </td>
-            <td>
-              Test Section 2
-            </td>
-            <td>
-              Test Student 2
-            </td>
-            <td>
-              testStudent2@gmail.com
-            </td>
-            <td>
-              7 Nov 2017 04:26
-            </td>
-          </tr>
-          <tr>
-            <td>
-              Test Section 3
-            </td>
-            <td>
-              Test Section 3
-            </td>
-            <td>
-              Test Student 3
-            </td>
-            <td>
-              testStudent3@gmail.com
-            </td>
-            <td>
-              7 Nov 2017 04:26
-            </td>
-          </tr>
-        </table>
-      </div>
+        </thead>
+        <tr>
+          <td>
+            Test Section 1
+          </td>
+          <td>
+            Test Section 1
+          </td>
+          <td>
+            Test Student 1
+          </td>
+          <td>
+            testStudent1@gmail.com
+          </td>
+          <td>
+            14 Jul 2017 10:40
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Test Section 2
+          </td>
+          <td>
+            Test Section 2
+          </td>
+          <td>
+            Test Student 2
+          </td>
+          <td>
+            testStudent2@gmail.com
+          </td>
+          <td>
+            7 Nov 2017 04:26
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Test Section 3
+          </td>
+          <td>
+            Test Section 3
+          </td>
+          <td>
+            Test Student 3
+          </td>
+          <td>
+            testStudent3@gmail.com
+          </td>
+          <td>
+            7 Nov 2017 04:26
+          </td>
+        </tr>
+      </table>
     </div>
     <div
       class="form-check"

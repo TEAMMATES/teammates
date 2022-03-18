@@ -1,19 +1,17 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { StudentService } from '../../../services/student.service';
+import { TimezoneService } from '../../../services/timezone.service';
 import {
   Course, FeedbackSession, FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus, Student,
   Students,
 } from '../../../types/api-output';
 import { ResponseVisibleSetting, SessionVisibleSetting } from '../../../types/api-request';
-import { SimpleModalModule } from '../../components/simple-modal/simple-modal.module';
-import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
 import { InstructorSessionIndividualExtensionPageComponent }
   from './instructor-session-individual-extension-page.component';
 import { InstructorSessionIndividualExtensionPageModule } from './instructor-session-individual-extension-page.module';
@@ -23,14 +21,14 @@ describe('IndividualExtensionDateModalComponent', () => {
       courseId: 'exampleId',
       courseName: 'Example Course',
       institute: 'Test Institute',
-      timeZone: 'UTC (UTC)',
+      timeZone: 'UTC',
       creationTimestamp: 0,
       deletionTimestamp: 1000,
     };
 
     const testFeedbackSession: FeedbackSession = {
         courseId: 'testId1',
-        timeZone: 'Asia/Singapore',
+        timeZone: 'UTC',
         feedbackSessionName: 'Test Session',
         instructions: 'Instructions',
         submissionStartTimestamp: 1000000000000,
@@ -75,17 +73,26 @@ describe('IndividualExtensionDateModalComponent', () => {
     let studentService: StudentService;
     let courseService: CourseService;
     let feedbackSessionsService: FeedbackSessionsService;
+    let timezoneService: TimezoneService;
 
     beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
           imports: [
             HttpClientTestingModule,
-            RouterTestingModule,
-            TeammatesCommonModule,
-            SimpleModalModule,
+            RouterModule,
             InstructorSessionIndividualExtensionPageModule,
           ],
-          providers: [NgbActiveModal],
+          providers: [StudentService, CourseService, TimezoneService, FeedbackSessionsService,
+            {
+              provide: ActivatedRoute,
+              useValue: {
+                queryParams: of({
+                  courseid: testCourse.courseId,
+                  feedbackSessionName: testFeedbackSession.feedbackSessionName,
+                }),
+              },
+            },
+          ],
         })
         .compileComponents();
       }));
@@ -96,6 +103,8 @@ describe('IndividualExtensionDateModalComponent', () => {
         studentService = TestBed.inject(StudentService);
         courseService = TestBed.inject(CourseService);
         feedbackSessionsService = TestBed.inject(FeedbackSessionsService);
+        timezoneService = TestBed.inject(TimezoneService);
+        jest.spyOn(timezoneService, 'guessTimezone').mockReturnValue('UTC');
         fixture.detectChanges();
       });
 
@@ -131,8 +140,8 @@ describe('IndividualExtensionDateModalComponent', () => {
 
       component.ngOnInit();
 
-      expect(component.isLoadingAllStudents).toBeFalsy();
-      expect(component.hasLoadedAllStudentsFailed).toBeTruthy();
+      expect(component.isLoadingAllStudents).toBeTruthy();
+      expect(component.hasLoadedAllStudentsFailed).toBeFalsy();
       expect(component.isLoadingFeedbackSession).toBeFalsy();
       expect(component.hasLoadingFeedbackSessionFailed).toBeFalsy();
       fixture.detectChanges();
@@ -149,7 +158,7 @@ describe('IndividualExtensionDateModalComponent', () => {
 
       component.ngOnInit();
 
-      expect(component.isLoadingAllStudents).toBeFalsy();
+      expect(component.isLoadingAllStudents).toBeTruthy();
       expect(component.hasLoadedAllStudentsFailed).toBeFalsy();
       expect(component.isLoadingFeedbackSession).toBeFalsy();
       expect(component.hasLoadingFeedbackSessionFailed).toBeTruthy();
@@ -167,7 +176,7 @@ describe('IndividualExtensionDateModalComponent', () => {
 
       component.ngOnInit();
 
-      expect(component.isLoadingAllStudents).toBeFalsy();
+      expect(component.isLoadingAllStudents).toBeTruthy();
       expect(component.hasLoadedAllStudentsFailed).toBeFalsy();
       expect(component.isLoadingFeedbackSession).toBeFalsy();
       expect(component.hasLoadingFeedbackSessionFailed).toBeTruthy();
@@ -180,7 +189,7 @@ describe('IndividualExtensionDateModalComponent', () => {
       jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
       jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
 
-      component.getAllStudentsOfCourse();
+      component.ngOnInit();
 
       fixture.detectChanges();
       expect(fixture).toMatchSnapshot();
@@ -214,4 +223,59 @@ describe('IndividualExtensionDateModalComponent', () => {
       expect(deleteButton.textContent).toEqual('Delete');
       expect(deleteButton.disabled).toBeTruthy();
     });
+
+    it('should enable the extend button when a student is selected', () => {
+      jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
+      jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
+      jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+      component.ngOnInit();
+      component.studentsOfCourse[0].selected = true;
+      fixture.detectChanges();
+
+      const extendButton: any = fixture.debugElement.nativeElement.querySelector('#extend-btn');
+      const deleteButton: any = fixture.debugElement.nativeElement.querySelector('#delete-btn');
+
+      expect(extendButton.textContent).toEqual('Extend');
+      expect(extendButton.disabled).toBeFalsy();
+      expect(deleteButton.textContent).toEqual('Delete');
+      expect(deleteButton.disabled).toBeTruthy();
+    });
+
+    it('should enable extend and delete button when student with extension selected', () => {
+      jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
+      jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
+      jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+      component.ngOnInit();
+      component.studentsOfCourse[0].hasExtension = true;
+      component.studentsOfCourse[0].selected = true;
+      fixture.detectChanges();
+
+      const extendButton: any = fixture.debugElement.nativeElement.querySelector('#extend-btn');
+      const deleteButton: any = fixture.debugElement.nativeElement.querySelector('#delete-btn');
+
+      expect(extendButton.textContent).toEqual('Extend');
+      expect(extendButton.disabled).toBeFalsy();
+      expect(deleteButton.textContent).toEqual('Delete');
+      expect(deleteButton.disabled).toBeFalsy();
+    });
+
+    it('should disable delete button if one of selected students does not have extension', () => {
+      jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
+      jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
+      jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+      component.ngOnInit();
+      component.studentsOfCourse[0].hasExtension = true;
+      component.studentsOfCourse[0].selected = true;
+      component.studentsOfCourse[1].selected = true;
+      fixture.detectChanges();
+
+      const extendButton: any = fixture.debugElement.nativeElement.querySelector('#extend-btn');
+      const deleteButton: any = fixture.debugElement.nativeElement.querySelector('#delete-btn');
+
+      expect(extendButton.textContent).toEqual('Extend');
+      expect(extendButton.disabled).toBeFalsy();
+      expect(deleteButton.textContent).toEqual('Delete');
+      expect(deleteButton.disabled).toBeFalsy();
+    });
+
 });

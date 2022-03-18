@@ -95,7 +95,7 @@ export class IndividualExtensionDateModalComponent {
 
   getExtensionTimestamp(): number {
     if (this.isRadioExtendBy()) {
-      if (this.isCustomize() && this.extendByDeadlineOptions.has(this.extendByDeadlineKey)) {
+      if (!this.isCustomize() && this.extendByDeadlineOptions.has(this.extendByDeadlineKey)) {
         return DateTimeHelper.addTime(this.feedbackSessionEndingTime, 0,
           this.extendByDeadlineOptions.get(this.extendByDeadlineKey)!.valueOf(), 0);
       }
@@ -112,19 +112,24 @@ export class IndividualExtensionDateModalComponent {
     return this.feedbackSessionEndingTime;
   }
 
+  // TODO: Refactor as injectable
+  addTime(minutes: number, hours: number, days: number): number {
+    return DateTimeHelper.addTime(this.feedbackSessionEndingTime, minutes, hours, days);
+  }
+
   isValidForm() : boolean {
     return this.getExtensionTimestamp() > this.feedbackSessionEndingTime;
   }
 
-  private isRadioExtendBy(): boolean {
+  isRadioExtendBy(): boolean {
     return this.radioOption === RadioOptions.EXTEND_BY;
   }
 
-  private isRadioExtendTo(): boolean {
+  isRadioExtendTo(): boolean {
     return this.radioOption === RadioOptions.EXTEND_TO;
   }
 
-  private isCustomize(): boolean {
+  isCustomize(): boolean {
     return this.isRadioExtendBy() && this.extendByDeadlineKey === 'Customize';
   }
 

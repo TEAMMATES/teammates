@@ -1,17 +1,24 @@
-<div class="modal-header alert-primary">
-  <h5 class="modal-title">Confirm extension of feedback session</h5>
+<!-- <div class="modal-header alert-danger"> -->
+
+<div class="modal-header" [ngClass]="{'alert-primary': isExtendModal(), 'alert-danger' : isDeleteModal()}">
+  <h5 class="modal-title" *ngIf="isExtendModal()">Confirm extension of feedback session</h5>
+  <h5 class="modal-title" *ngIf="isDeleteModal()">Confirm deletion of feedback session extensions</h5>
   <button type="button" class="close" (click)="activeModal.dismiss()">
     <i class="fas fa-times"></i>
   </button>
 </div>
 
-<div class="modal-body">
-  The new deadline of <b>{{ extensionTimestamp | date:'d MMM yyyy hh:mm' }}</b> will be applied
-  to the following <b>{{studentsToExtend.length}} students</b> upon confirmation:
-  <div class="container ml-1">
-</div>
+<div class="modal-body" >
+  <div *ngIf="isExtendModal()">
+    The new deadline of <b>{{ extensionTimestamp | date:'d MMM yyyy hh:mm' }}</b> will be applied
+    to the following <b>{{studentsSelected.length}} students</b> upon confirmation:
+  </div>
 
-<div class="modal-body">
+  <div *ngIf="isDeleteModal()">
+    The deadline of the following <b>{{studentsSelected.length}}</b> students
+    will be reverted back to the original deadline of <b>{{ extensionTimestamp | date:'d MMM yyyy hh:mm' }}</b> upon confirmation:
+  </div>
+
   <div class="table-responsive">
     <table id="student-list-table" class="table table-bordered">
       <thead>
@@ -55,7 +62,8 @@
             </span>
           </th>
           <th class="sortable-header" (click)="sortCoursesBy(SortBy.SESSION_END_DATE)">
-            Original Deadline
+            <span *ngIf="isExtendModal()">Original Deadline </span>
+            <span *ngIf="isDeleteModal()">Current Deadline </span>
             <span class="fa-stack">
               <i class="fas fa-sort"></i>
               <i
@@ -67,7 +75,7 @@
           </th>
         </tr>
       </thead>
-      <tr *ngFor="let student of studentsToExtend; index as i">
+      <tr *ngFor="let student of studentsSelected; index as i">
         <td>{{ student.sectionName }}</td>
         <td>{{ student.teamName }}</td>
         <td>{{ student.studentName }}</td>
@@ -76,12 +84,14 @@
       </tr>
     </table>
   </div>
-</div>
 
   <div class="form-check">
     <input class="form-check-input" type="checkbox" [(ngModel)]="isNotifyStudents" id="flexCheckChecked">
-    <label class="form-check-label" for="flexCheckChecked">
+    <label class="form-check-label" for="flexCheckChecked" *ngIf="isExtendModal()">
       Notify students by email about this extension
+    </label>
+    <label class="form-check-label" for="flexCheckChecked" *ngIf="isDeleteModal()">
+      Notify students by email about this deletion
     </label>
   </div>
 
@@ -91,5 +101,6 @@
 
 <div class="modal-footer">
   <button type="button" class="btn btn-light" (click)="activeModal.dismiss()">No, Cancel the Operation</button>
-  <button type="button" class="btn btn-success modal-btn-ok" (click)="onExtend()">Confirm</button>
+  <button *ngIf="isExtendModal()" type="button" class="btn btn-success modal-btn-ok" (click)="onExtend()">Confirm</button>
+  <button *ngIf="isDeleteModal()" type="button" class="btn btn-danger modal-btn-ok" (click)="onExtend()">Delete Extension(s)</button>
 </div>

@@ -28,7 +28,7 @@
       <div class="row text-center">
         <div class="col-md-2 text-md-right font-bold">Original Deadline</div>
         <div id="course-name" class="col-md-10 text-md-left">
-          {{ feedbackSessionEndingTime | date:'d MMM yyyy hh:mm' }}
+          {{ timezoneService.formatToString(feedbackSessionEndingTime, feedbackSessionTimeZone, DATETIME_FORMAT) }}
         </div>
       </div>
     </div>
@@ -39,7 +39,7 @@
         <button type="button" id="extend-btn" class="btn btn-success" (click)="onExtend()" [disabled]="!hasSelectedStudents()">Extend</button>
       </div>
       <div>
-        <button type="button" id="delete-btn" class="btn btn-danger" (click)="onDelete()" [disabled]="!hasSelectedStudents()">Delete</button>
+        <button type="button" id="delete-btn" class="btn btn-danger" (click)="onDelete()" [disabled]="!hasSelectedValidStudentsForDeletion()">Delete</button>
       </div>
     </div>
     <small
@@ -120,7 +120,7 @@
           <td>{{ student.teamName }}</td>
           <td>{{ student.studentName }}</td>
           <td>{{ student.studentEmail }}</td>
-          <td>{{ student.studentExtensionDeadline | date:'d MMM yyyy hh:mm' }}</td>
+          <td>{{ timezoneService.formatToString(student.studentExtensionDeadline, feedbackSessionTimeZone, DATETIME_FORMAT) }}</td>
         </tr>
       </table>
     </div>

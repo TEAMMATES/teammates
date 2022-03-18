@@ -1,9 +1,10 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import {
-    FeedbackSession,
-    FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus, ResponseVisibleSetting, SessionVisibleSetting,
+  FeedbackSession,
+  FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus, ResponseVisibleSetting, SessionVisibleSetting,
 } from '../../../../types/api-output';
-import { SimpleModalModule } from '../../../components/simple-modal/simple-modal.module';
 import { InstructorSessionIndividualExtensionPageModule } from '../instructor-session-individual-extension-page.module';
 import { StudentExtensionTableColumnModel } from '../student-extension-table-column-model';
 import { IndividualExtensionConfirmModalComponent } from './individual-extension-confirm-modal.component';
@@ -62,9 +63,10 @@ describe('IndividualExtensionConfirmModalComponent', () => {
     beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
           imports: [
-            SimpleModalModule,
+            HttpClientTestingModule,
             InstructorSessionIndividualExtensionPageModule,
           ],
+          providers: [NgbActiveModal],
         })
         .compileComponents();
       }));
@@ -84,7 +86,7 @@ describe('IndividualExtensionConfirmModalComponent', () => {
     });
 
     it('should snap with the extended students', () => {
-        component.studentsToExtend = [studentModel1, studentModel2, studentModel3];
+        component.studentsSelected = [studentModel1, studentModel2, studentModel3];
         component.extensionTimestamp = testFeedbackSession.submissionEndTimestamp;
         fixture.detectChanges();
         expect(fixture).toMatchSnapshot();

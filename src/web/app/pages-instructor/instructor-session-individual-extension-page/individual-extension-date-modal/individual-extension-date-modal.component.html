@@ -21,15 +21,15 @@
     </label>
   </div>
 
-  <div *ngIf="radioOption===RadioOptions.EXTEND_BY">
+  <div *ngIf="isRadioExtendBy()">
     <small>Extend the feedback session by:</small>
     <div id="submission-start-date">
         <div class="input-group">
             <select class="form-control" [(ngModel)]="extendByDeadlineKey">
-              <option *ngFor="let deadlineOption of deadlineOptions | keyvalue: sortMapByOriginalOrder" [value]="deadlineOption.key">
+              <option *ngFor="let deadlineOption of extendByDeadlineOptions | keyvalue: sortMapByOriginalOrder" [value]="deadlineOption.key">
                 {{ deadlineOption.key }}
                 <div *ngIf="deadlineOption.key !== 'Customize'">
-                  ({{addTime(0, deadlineOption.value, 0) | date:'d MMM yyyy hh:mm'}})
+                  ({{ addTime(0, deadlineOption.value, 0) | date:'d MMM yyyy hh:mm' }})
                 </div>
               </option>
             </select>
@@ -37,7 +37,7 @@
     </div>
   </div>
 
-  <div *ngIf="radioOption===RadioOptions.EXTEND_TO">
+  <div *ngIf="isRadioExtendTo()">
     <small>The new deadline of the feedback session will be:</small>
     <div id="submission-start-date">
         <div class="input-group">
@@ -76,7 +76,7 @@
   <br>
   <p>
     The new extended deadline will be:
-    {{addTime(extendByDatePicker.minutes, extendByDatePicker.hours, extendByDatePicker.days) | date:'d MMM yyyy hh:mm'}}
+    {{ addTime(extendByDatePicker.minutes, extendByDatePicker.hours, extendByDatePicker.days) | date:'d MMM yyyy hh:mm'}}
   </p>
 </div>
 <br>

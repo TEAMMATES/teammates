@@ -1,7 +1,13 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { TableComparatorService } from '../../../../services/table-comparator.service';
 import { SortBy, SortOrder } from '../../../../types/sort-properties';
 import { StudentExtensionTableColumnModel } from '../student-extension-table-column-model';
+
+export enum ExtensionModalType {
+  EXTEND, DELETE,
+}
+
 /**
  * Modal to confirm permanent deletion of a feedback session.
  */
@@ -13,7 +19,10 @@ import { StudentExtensionTableColumnModel } from '../student-extension-table-col
 export class IndividualExtensionConfirmModalComponent {
 
   @Input()
-  studentsToExtend: StudentExtensionTableColumnModel[] = [];
+  modalType: ExtensionModalType = ExtensionModalType.EXTEND;
+
+  @Input()
+  studentsSelected: StudentExtensionTableColumnModel[] = [];
 
   @Input()
   extensionTimestamp: number = 0;
@@ -21,7 +30,8 @@ export class IndividualExtensionConfirmModalComponent {
   @Output()
   onConfirmExtensionCallBack: EventEmitter<boolean> = new EventEmitter();
 
-  constructor(private tableComparatorService: TableComparatorService) { }
+  constructor(public activeModal: NgbActiveModal,
+              private tableComparatorService: TableComparatorService) { }
 
   SortBy: typeof SortBy = SortBy;
   SortOrder: typeof SortOrder = SortOrder;
@@ -34,10 +44,22 @@ export class IndividualExtensionConfirmModalComponent {
     this.onConfirmExtensionCallBack.emit(this.isNotifyStudents);
   }
 
+  onDelete(): void {
+    this.onConfirmExtensionCallBack.emit(this.isNotifyStudents);
+  }
+
+  isDeleteModal() {
+    return this.modalType === ExtensionModalType.DELETE;
+  }
+
+  isExtendModal() {
+    return this.modalType === ExtensionModalType.EXTEND;
+  }
+
   sortCoursesBy(by: SortBy): void {
     this.sortBy = by;
     this.sortOrder = this.sortOrder === SortOrder.DESC ? SortOrder.ASC : SortOrder.DESC;
-    this.studentsToExtend.sort(this.sortPanelsBy(by));
+    this.studentsSelected.sort(this.sortPanelsBy(by));
   }
 
   sortPanelsBy(by: SortBy): (a: StudentExtensionTableColumnModel, b: StudentExtensionTableColumnModel) => number {
