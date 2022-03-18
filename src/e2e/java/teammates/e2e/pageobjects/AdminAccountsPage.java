@@ -25,9 +25,6 @@ public class AdminAccountsPage extends AppPage {
     @FindBy(id = "account-email")
     private WebElement accountEmail;
 
-    @FindBy(id = "account-institute")
-    private WebElement accountInstitute;
-
     @FindBy(id = "account-is-instructor")
     private WebElement accountIsInstructor;
 
@@ -56,7 +53,6 @@ public class AdminAccountsPage extends AppPage {
         assertEquals(account.getGoogleId(), accountId.getText());
         assertEquals(account.getName(), accountName.getText());
         assertEquals(account.getEmail(), accountEmail.getText());
-        assertEquals(account.getInstitute(), accountInstitute.getText());
         assertEquals(account.isInstructor(), Boolean.parseBoolean(accountIsInstructor.getText()));
     }
 
