@@ -9,22 +9,32 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
   courseId={[Function String]}
   courseName={[Function String]}
   courseService={[Function CourseService]}
+  feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTime={[Function Number]}
   feedbackSessionName="undefined"
   feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
+  hasLoadedAllInstructorsFailed={[Function Boolean]}
   hasLoadedAllStudentsFailed="false"
   hasLoadingFeedbackSessionFailed="false"
+  instructorDeadlines={[Function Object]}
+  instructorService={[Function InstructorService]}
+  instructorsOfCourse={[Function Array]}
+  isAllInstructorsSelected="false"
   isAllStudentsSelected="false"
+  isLoadingAllInstructors={[Function Boolean]}
   isLoadingAllStudents="false"
   isLoadingFeedbackSession="false"
-  isOpen={[Function Boolean]}
+  isSubmittingDeadlines="false"
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
   rowsData={[Function Array]}
-  sortBy={[Function Number]}
-  sortOrder="0"
+  sortInstructorOrder="0"
+  sortInstructorsBy={[Function Number]}
+  sortStudentOrder="0"
+  sortStudentsBy={[Function Number]}
   statusMessageService={[Function StatusMessageService]}
+  studentDeadlines={[Function Object]}
   studentService={[Function StudentService]}
   studentsOfCourse={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
@@ -141,13 +151,16 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
         </div>
       </div>
       <small>
-        Select students from list below and click apply or remove to change their feedback session deadline extension.
+        Select students or instructors from list below and click apply or remove to change their feedback session deadline extension.
       </small>
     </div>
   </div><div>
     <div
       class="modal-body"
     >
+      <h1>
+        Students
+      </h1>
       <div
         class="table-responsive"
       >
@@ -312,7 +325,21 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
         </table>
       </div>
     </div>
-  </div>
+  </div><tm-loading-spinner>
+    <div
+      class="loading-container"
+    >
+      <div
+        class="row spinner-border text-primary"
+        role="status"
+      />
+      <div
+        class="row text-secondary"
+      >
+        Loading...
+      </div>
+    </div>
+  </tm-loading-spinner>
 </tm-instructor-session-individual-extension-page>
 `;
 
@@ -325,22 +352,32 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when feed
   courseId={[Function String]}
   courseName=""
   courseService={[Function CourseService]}
+  feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTime="0"
   feedbackSessionName="undefined"
   feedbackSessionTimeZone=""
   feedbackSessionsService={[Function FeedbackSessionsService]}
+  hasLoadedAllInstructorsFailed={[Function Boolean]}
   hasLoadedAllStudentsFailed="false"
   hasLoadingFeedbackSessionFailed="false"
+  instructorDeadlines={[Function Object]}
+  instructorService={[Function InstructorService]}
+  instructorsOfCourse={[Function Array]}
+  isAllInstructorsSelected="false"
   isAllStudentsSelected="false"
+  isLoadingAllInstructors={[Function Boolean]}
   isLoadingAllStudents="false"
   isLoadingFeedbackSession={[Function Boolean]}
-  isOpen={[Function Boolean]}
+  isSubmittingDeadlines="false"
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
   rowsData={[Function Array]}
-  sortBy={[Function Number]}
-  sortOrder="0"
+  sortInstructorOrder="0"
+  sortInstructorsBy={[Function Number]}
+  sortStudentOrder="0"
+  sortStudentsBy={[Function Number]}
   statusMessageService={[Function StatusMessageService]}
+  studentDeadlines={[Function Object]}
   studentService={[Function StudentService]}
   studentsOfCourse={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
@@ -364,6 +401,9 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when feed
     <div
       class="modal-body"
     >
+      <h1>
+        Students
+      </h1>
       <div
         class="table-responsive"
       >
@@ -450,7 +490,21 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when feed
         </table>
       </div>
     </div>
-  </div>
+  </div><tm-loading-spinner>
+    <div
+      class="loading-container"
+    >
+      <div
+        class="row spinner-border text-primary"
+        role="status"
+      />
+      <div
+        class="row text-secondary"
+      >
+        Loading...
+      </div>
+    </div>
+  </tm-loading-spinner>
 </tm-instructor-session-individual-extension-page>
 `;
 
@@ -463,22 +517,32 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
   courseId={[Function String]}
   courseName={[Function String]}
   courseService={[Function CourseService]}
+  feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTime={[Function Number]}
   feedbackSessionName="undefined"
   feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
+  hasLoadedAllInstructorsFailed={[Function Boolean]}
   hasLoadedAllStudentsFailed="false"
   hasLoadingFeedbackSessionFailed="false"
+  instructorDeadlines={[Function Object]}
+  instructorService={[Function InstructorService]}
+  instructorsOfCourse={[Function Array]}
+  isAllInstructorsSelected="false"
   isAllStudentsSelected="false"
+  isLoadingAllInstructors={[Function Boolean]}
   isLoadingAllStudents="false"
   isLoadingFeedbackSession="false"
-  isOpen={[Function Boolean]}
+  isSubmittingDeadlines="false"
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
   rowsData={[Function Array]}
-  sortBy={[Function Number]}
-  sortOrder="0"
+  sortInstructorOrder="0"
+  sortInstructorsBy={[Function Number]}
+  sortStudentOrder="0"
+  sortStudentsBy={[Function Number]}
   statusMessageService={[Function StatusMessageService]}
+  studentDeadlines={[Function Object]}
   studentService={[Function StudentService]}
   studentsOfCourse={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
@@ -595,13 +659,16 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
         </div>
       </div>
       <small>
-        Select students from list below and click apply or remove to change their feedback session deadline extension.
+        Select students or instructors from list below and click apply or remove to change their feedback session deadline extension.
       </small>
     </div>
   </div><div>
     <div
       class="modal-body"
     >
+      <h1>
+        Students
+      </h1>
       <div
         class="table-responsive"
       >
@@ -766,7 +833,21 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
         </table>
       </div>
     </div>
-  </div>
+  </div><tm-loading-spinner>
+    <div
+      class="loading-container"
+    >
+      <div
+        class="row spinner-border text-primary"
+        role="status"
+      />
+      <div
+        class="row text-secondary"
+      >
+        Loading...
+      </div>
+    </div>
+  </tm-loading-spinner>
 </tm-instructor-session-individual-extension-page>
 `;
 
@@ -779,22 +860,32 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with stud
   courseId={[Function String]}
   courseName=""
   courseService={[Function CourseService]}
+  feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTime="0"
   feedbackSessionName="undefined"
   feedbackSessionTimeZone=""
   feedbackSessionsService={[Function FeedbackSessionsService]}
+  hasLoadedAllInstructorsFailed={[Function Boolean]}
   hasLoadedAllStudentsFailed="false"
   hasLoadingFeedbackSessionFailed="false"
+  instructorDeadlines={[Function Object]}
+  instructorService={[Function InstructorService]}
+  instructorsOfCourse={[Function Array]}
+  isAllInstructorsSelected="false"
   isAllStudentsSelected="false"
+  isLoadingAllInstructors={[Function Boolean]}
   isLoadingAllStudents={[Function Boolean]}
   isLoadingFeedbackSession="false"
-  isOpen={[Function Boolean]}
+  isSubmittingDeadlines="false"
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
   rowsData={[Function Array]}
-  sortBy={[Function Number]}
-  sortOrder="0"
+  sortInstructorOrder="0"
+  sortInstructorsBy={[Function Number]}
+  sortStudentOrder="0"
+  sortStudentsBy={[Function Number]}
   statusMessageService={[Function StatusMessageService]}
+  studentDeadlines={[Function Object]}
   studentService={[Function StudentService]}
   studentsOfCourse={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
@@ -909,10 +1000,24 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with stud
         </div>
       </div>
       <small>
-        Select students from list below and click apply or remove to change their feedback session deadline extension.
+        Select students or instructors from list below and click apply or remove to change their feedback session deadline extension.
       </small>
     </div>
   </div><tm-loading-spinner>
+    <div
+      class="loading-container"
+    >
+      <div
+        class="row spinner-border text-primary"
+        role="status"
+      />
+      <div
+        class="row text-secondary"
+      >
+        Loading...
+      </div>
+    </div>
+  </tm-loading-spinner><tm-loading-spinner>
     <div
       class="loading-container"
     >
@@ -939,22 +1044,32 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
   courseId={[Function String]}
   courseName=""
   courseService={[Function CourseService]}
+  feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTime="0"
   feedbackSessionName="undefined"
   feedbackSessionTimeZone=""
   feedbackSessionsService={[Function FeedbackSessionsService]}
+  hasLoadedAllInstructorsFailed={[Function Boolean]}
   hasLoadedAllStudentsFailed="false"
   hasLoadingFeedbackSessionFailed={[Function Boolean]}
+  instructorDeadlines={[Function Object]}
+  instructorService={[Function InstructorService]}
+  instructorsOfCourse={[Function Array]}
+  isAllInstructorsSelected="false"
   isAllStudentsSelected="false"
+  isLoadingAllInstructors={[Function Boolean]}
   isLoadingAllStudents="false"
   isLoadingFeedbackSession="false"
-  isOpen={[Function Boolean]}
+  isSubmittingDeadlines="false"
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
   rowsData={[Function Array]}
-  sortBy={[Function Number]}
-  sortOrder="0"
+  sortInstructorOrder="0"
+  sortInstructorsBy={[Function Number]}
+  sortStudentOrder="0"
+  sortStudentsBy={[Function Number]}
   statusMessageService={[Function StatusMessageService]}
+  studentDeadlines={[Function Object]}
   studentService={[Function StudentService]}
   studentsOfCourse={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
@@ -1069,13 +1184,16 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
         </div>
       </div>
       <small>
-        Select students from list below and click apply or remove to change their feedback session deadline extension.
+        Select students or instructors from list below and click apply or remove to change their feedback session deadline extension.
       </small>
     </div>
   </div><div>
     <div
       class="modal-body"
     >
+      <h1>
+        Students
+      </h1>
       <div
         class="table-responsive"
       >
@@ -1162,7 +1280,21 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
         </table>
       </div>
     </div>
-  </div>
+  </div><tm-loading-spinner>
+    <div
+      class="loading-container"
+    >
+      <div
+        class="row spinner-border text-primary"
+        role="status"
+      />
+      <div
+        class="row text-secondary"
+      >
+        Loading...
+      </div>
+    </div>
+  </tm-loading-spinner>
 </tm-instructor-session-individual-extension-page>
 `;
 
@@ -1175,22 +1307,32 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
   courseId={[Function String]}
   courseName={[Function String]}
   courseService={[Function CourseService]}
+  feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTime="0"
   feedbackSessionName="undefined"
   feedbackSessionTimeZone=""
   feedbackSessionsService={[Function FeedbackSessionsService]}
+  hasLoadedAllInstructorsFailed={[Function Boolean]}
   hasLoadedAllStudentsFailed="false"
   hasLoadingFeedbackSessionFailed={[Function Boolean]}
+  instructorDeadlines={[Function Object]}
+  instructorService={[Function InstructorService]}
+  instructorsOfCourse={[Function Array]}
+  isAllInstructorsSelected="false"
   isAllStudentsSelected="false"
+  isLoadingAllInstructors={[Function Boolean]}
   isLoadingAllStudents="false"
   isLoadingFeedbackSession="false"
-  isOpen={[Function Boolean]}
+  isSubmittingDeadlines="false"
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
   rowsData={[Function Array]}
-  sortBy={[Function Number]}
-  sortOrder="0"
+  sortInstructorOrder="0"
+  sortInstructorsBy={[Function Number]}
+  sortStudentOrder="0"
+  sortStudentsBy={[Function Number]}
   statusMessageService={[Function StatusMessageService]}
+  studentDeadlines={[Function Object]}
   studentService={[Function StudentService]}
   studentsOfCourse={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
@@ -1306,13 +1448,16 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
         </div>
       </div>
       <small>
-        Select students from list below and click apply or remove to change their feedback session deadline extension.
+        Select students or instructors from list below and click apply or remove to change their feedback session deadline extension.
       </small>
     </div>
   </div><div>
     <div
       class="modal-body"
     >
+      <h1>
+        Students
+      </h1>
       <div
         class="table-responsive"
       >
@@ -1477,7 +1622,21 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
         </table>
       </div>
     </div>
-  </div>
+  </div><tm-loading-spinner>
+    <div
+      class="loading-container"
+    >
+      <div
+        class="row spinner-border text-primary"
+        role="status"
+      />
+      <div
+        class="row text-secondary"
+      >
+        Loading...
+      </div>
+    </div>
+  </tm-loading-spinner>
 </tm-instructor-session-individual-extension-page>
 `;
 
@@ -1490,22 +1649,32 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
   courseId={[Function String]}
   courseName={[Function String]}
   courseService={[Function CourseService]}
+  feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTime={[Function Number]}
   feedbackSessionName="undefined"
   feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
+  hasLoadedAllInstructorsFailed={[Function Boolean]}
   hasLoadedAllStudentsFailed={[Function Boolean]}
   hasLoadingFeedbackSessionFailed="false"
+  instructorDeadlines={[Function Object]}
+  instructorService={[Function InstructorService]}
+  instructorsOfCourse={[Function Array]}
+  isAllInstructorsSelected="false"
   isAllStudentsSelected="false"
+  isLoadingAllInstructors={[Function Boolean]}
   isLoadingAllStudents="false"
   isLoadingFeedbackSession="false"
-  isOpen={[Function Boolean]}
+  isSubmittingDeadlines="false"
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
   rowsData={[Function Array]}
-  sortBy={[Function Number]}
-  sortOrder="0"
+  sortInstructorOrder="0"
+  sortInstructorsBy={[Function Number]}
+  sortStudentOrder="0"
+  sortStudentsBy={[Function Number]}
   statusMessageService={[Function StatusMessageService]}
+  studentDeadlines={[Function Object]}
   studentService={[Function StudentService]}
   studentsOfCourse={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
@@ -1622,13 +1791,16 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
         </div>
       </div>
       <small>
-        Select students from list below and click apply or remove to change their feedback session deadline extension.
+        Select students or instructors from list below and click apply or remove to change their feedback session deadline extension.
       </small>
     </div>
   </div><div>
     <div
       class="modal-body"
     >
+      <h1>
+        Students
+      </h1>
       <div
         class="table-responsive"
       >
@@ -1715,6 +1887,20 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
         </table>
       </div>
     </div>
-  </div>
+  </div><tm-loading-spinner>
+    <div
+      class="loading-container"
+    >
+      <div
+        class="row spinner-border text-primary"
+        role="status"
+      />
+      <div
+        class="row text-secondary"
+      >
+        Loading...
+      </div>
+    </div>
+  </tm-loading-spinner>
 </tm-instructor-session-individual-extension-page>
 `;

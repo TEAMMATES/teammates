@@ -11,6 +11,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the error modal 
   extendByDeadlineOptions={[Function Map]}
   feedbackSessionEndingTime="0"
   feedbackSessionTimeZone={[Function String]}
+  numberOfInstructors="0"
   numberOfStudents={[Function Number]}
   onConfirmCallBack={[Function EventEmitter_]}
   radioOption={[Function Number]}
@@ -40,8 +41,13 @@ exports[`IndividualExtensionDateModalComponent should snap with the error modal 
   >
      Extending the feedback session for 
     <b>
-      10 students:
+      10
     </b>
+     student(s) and 
+    <b>
+      0
+    </b>
+     instructor(s):
   </div><div
     class="container ml-1"
   >
@@ -88,7 +94,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the error modal 
             >
                12 hours 
               <div>
-                 (1 Jan 1970 08:00) 
+                 (5 Apr 2000 2:00:00) 
               </div>
             </option>
             <option
@@ -96,7 +102,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the error modal 
             >
                1 day 
               <div>
-                 (2 Jan 1970 07:30) 
+                 (5 Apr 2000 2:00:00) 
               </div>
             </option>
             <option
@@ -104,7 +110,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the error modal 
             >
                3 days 
               <div>
-                 (4 Jan 1970 07:30) 
+                 (5 Apr 2000 2:00:00) 
               </div>
             </option>
             <option
@@ -112,7 +118,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the error modal 
             >
                1 week 
               <div>
-                 (8 Jan 1970 07:30) 
+                 (5 Apr 2000 2:00:00) 
               </div>
             </option>
             <option
@@ -157,6 +163,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
   extendByDeadlineOptions={[Function Map]}
   feedbackSessionEndingTime="0"
   feedbackSessionTimeZone=""
+  numberOfInstructors="0"
   numberOfStudents={[Function Number]}
   onConfirmCallBack={[Function EventEmitter_]}
   radioOption={[Function Number]}
@@ -186,8 +193,13 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
   >
      Extending the feedback session for 
     <b>
-      10 students:
+      10
     </b>
+     student(s) and 
+    <b>
+      0
+    </b>
+     instructor(s):
   </div><div
     class="container ml-1"
   >
@@ -417,6 +429,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
   extendByDeadlineOptions={[Function Map]}
   feedbackSessionEndingTime="0"
   feedbackSessionTimeZone=""
+  numberOfInstructors="0"
   numberOfStudents={[Function Number]}
   onConfirmCallBack={[Function EventEmitter_]}
   radioOption={[Function Number]}
@@ -446,8 +459,13 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
   >
      Extending the feedback session for 
     <b>
-      10 students:
+      10
     </b>
+     student(s) and 
+    <b>
+      0
+    </b>
+     instructor(s):
   </div><div
     class="container ml-1"
   >
@@ -677,6 +695,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend to ra
   extendByDeadlineOptions={[Function Map]}
   feedbackSessionEndingTime="0"
   feedbackSessionTimeZone=""
+  numberOfInstructors="0"
   numberOfStudents={[Function Number]}
   onConfirmCallBack={[Function EventEmitter_]}
   radioOption={[Function Number]}
@@ -706,8 +725,13 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend to ra
   >
      Extending the feedback session for 
     <b>
-      10 students:
+      10
     </b>
+     student(s) and 
+    <b>
+      0
+    </b>
+     instructor(s):
   </div><div
     class="container ml-1"
   >
@@ -754,7 +778,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend to ra
             >
                12 hours 
               <div>
-                 (1 Jan 1970 08:00) 
+                 (5 Apr 2000 2:00:00) 
               </div>
             </option>
             <option
@@ -762,7 +786,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend to ra
             >
                1 day 
               <div>
-                 (2 Jan 1970 07:30) 
+                 (5 Apr 2000 2:00:00) 
               </div>
             </option>
             <option
@@ -770,7 +794,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend to ra
             >
                3 days 
               <div>
-                 (4 Jan 1970 07:30) 
+                 (5 Apr 2000 2:00:00) 
               </div>
             </option>
             <option
@@ -778,7 +802,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend to ra
             >
                1 week 
               <div>
-                 (8 Jan 1970 07:30) 
+                 (5 Apr 2000 2:00:00) 
               </div>
             </option>
             <option
@@ -823,6 +847,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extended stu
   extendByDeadlineOptions={[Function Map]}
   feedbackSessionEndingTime="0"
   feedbackSessionTimeZone=""
+  numberOfInstructors="0"
   numberOfStudents={[Function Number]}
   onConfirmCallBack={[Function EventEmitter_]}
   radioOption={[Function Number]}
@@ -852,8 +877,13 @@ exports[`IndividualExtensionDateModalComponent should snap with the extended stu
   >
      Extending the feedback session for 
     <b>
-      10 students:
+      10
     </b>
+     student(s) and 
+    <b>
+      0
+    </b>
+     instructor(s):
   </div><div
     class="container ml-1"
   >
@@ -900,7 +930,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extended stu
             >
                12 hours 
               <div>
-                 (1 Jan 1970 08:00) 
+                 (5 Apr 2000 2:00:00) 
               </div>
             </option>
             <option
@@ -908,7 +938,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extended stu
             >
                1 day 
               <div>
-                 (2 Jan 1970 07:30) 
+                 (5 Apr 2000 2:00:00) 
               </div>
             </option>
             <option
@@ -916,7 +946,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extended stu
             >
                3 days 
               <div>
-                 (4 Jan 1970 07:30) 
+                 (5 Apr 2000 2:00:00) 
               </div>
             </option>
             <option
@@ -924,7 +954,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extended stu
             >
                1 week 
               <div>
-                 (8 Jan 1970 07:30) 
+                 (5 Apr 2000 2:00:00) 
               </div>
             </option>
             <option

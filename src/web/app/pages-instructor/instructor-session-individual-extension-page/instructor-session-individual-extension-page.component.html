@@ -58,7 +58,7 @@
         <thead>
           <tr>
             <th (click)="selectAllStudents()">
-              <label><input type="checkbox" id="select-all-btn" [checked]="isAllStudentsSelected" /> Select all</label>
+              <label><input type="checkbox" id="select-all-student-btn" [checked]="isAllStudentsSelected" /> Select all</label>
             </th>
             <th class="sortable-header" (click)="sortStudentColumnsBy(SortBy.SECTION_NAME)">
               Section
@@ -137,7 +137,7 @@
         <thead>
           <tr>
             <th (click)="selectAllInstructors()">
-              <label><input type="checkbox" id="select-all-btn" [checked]="isAllInstructorsSelected" /> Select all</label>
+              <label><input type="checkbox" id="select-all-instructor-btn" [checked]="isAllInstructorsSelected" /> Select all</label>
             </th>
             <th class="sortable-header" (click)="sortInstructorsColumnsBy(SortBy.INSTITUTION)">
               Institute

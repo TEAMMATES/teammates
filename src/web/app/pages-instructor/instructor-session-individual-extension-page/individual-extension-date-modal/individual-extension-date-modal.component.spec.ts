@@ -14,20 +14,22 @@ import SpyInstance = jest.SpyInstance;
 
 describe('IndividualExtensionDateModalComponent', () => {
     const testFeedbackSession: FeedbackSession = {
-        courseId: 'testId1',
-        timeZone: 'Asia/Singapore',
-        feedbackSessionName: 'Test Session',
-        instructions: 'Instructions',
-        submissionStartTimestamp: 1000000000000,
-        submissionEndTimestamp: 1500000000000,
-        gracePeriod: 0,
-        sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
-        responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
-        submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
-        publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
-        isClosingEmailEnabled: true,
-        isPublishedEmailEnabled: true,
-        createdAtTimestamp: 0,
+      courseId: 'testId1',
+      timeZone: 'Asia/Singapore',
+      feedbackSessionName: 'Test Session',
+      instructions: 'Instructions',
+      submissionStartTimestamp: 1000000000000,
+      submissionEndTimestamp: 1500000000000,
+      gracePeriod: 0,
+      sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+      responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+      submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+      publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
+      isClosingEmailEnabled: true,
+      isPublishedEmailEnabled: true,
+      createdAtTimestamp: 0,
+      studentDeadlines: {},
+      instructorDeadlines: {},
     };
 
     const testTimeString = '5 Apr 2000 2:00:00';
@@ -51,8 +53,8 @@ describe('IndividualExtensionDateModalComponent', () => {
     beforeEach(() => {
         fixture = TestBed.createComponent(IndividualExtensionDateModalComponent);
         component = fixture.componentInstance;
-        timeZoneService = TestBed.inject(TimezoneService);
         simpleModalService = TestBed.inject(SimpleModalService);
+        timeZoneService = TestBed.inject(TimezoneService);
         jest.spyOn(timeZoneService, 'formatToString').mockReturnValue(testTimeString);
         fixture.detectChanges();
       });

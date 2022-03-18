@@ -16,8 +16,7 @@
 
   <div *ngIf="isDeleteModal()">
     The deadline of the following <b>{{studentsSelected.length}}</b> student(s) and <b>{{instructorsSelected.length}}</b>
-    instructor(s) will be reverted back to the original deadline of 
-    <b>{{ timezoneService.formatToString(extensionTimestamp, feedbackSessionTimeZone, DATETIME_FORMAT) }}</b> upon confirmation:
+    instructor(s) will be reverted back to the original deadline of <b>{{ timezoneService.formatToString(extensionTimestamp, feedbackSessionTimeZone, DATETIME_FORMAT) }}</b> upon confirmation:
   </div>
 
   <div class="table-responsive" *ngIf="studentsSelected.length!==0">
@@ -143,7 +142,6 @@
       </tr>
     </table>
   </div>
-
 
   <div class="form-check">
     <input class="form-check-input" type="checkbox" [(ngModel)]="isNotifyStudents" id="flexCheckChecked">
