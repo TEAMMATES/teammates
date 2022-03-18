@@ -47,46 +47,11 @@ public class FileStore {
         new File(BASE_URI).mkdir();
     }
 
-    private static final String COURSE_TO_INSTITUTE_CACHE_FILEPATH = BASE_URI + "CourseToInstituteCache.encrypted";
     private static final String INSTITUTES_STATS_FILEPATH = BASE_URI + "InstitutesStats.encrypted";
     private static final String INSTITUTES_STATS_METADATA_FILEPATH = BASE_URI + "InstitutesStatsMetadata.json";
 
     private FileStore() {
         // utility class
-    }
-
-    /**
-     * Gets the cache service.
-     *
-     * <p>If the cache is persisted to the disk, decrypts and parses it to warm up the cache.
-     */
-    public static CourseToInstituteCache getCourseToInstituteCacheFromFileIfPossible() throws Exception {
-        // parse courseToInstituteCacheFile
-        File courseToInstituteCacheFile = new File(COURSE_TO_INSTITUTE_CACHE_FILEPATH);
-        CourseToInstituteCache courseToInstituteCache = new CourseToInstituteCache();
-        if (courseToInstituteCacheFile.isFile()) {
-            courseToInstituteCache = parseEncryptedJsonFile(COURSE_TO_INSTITUTE_CACHE_FILEPATH,
-                    jsonReader -> {
-                        CourseToInstituteCache cache = new CourseToInstituteCache();
-                        jsonReader.beginObject();
-                        while (jsonReader.hasNext()) {
-                            cache.populate(jsonReader.nextName(), jsonReader.nextString());
-                        }
-                        jsonReader.endObject();
-                        return cache;
-                    });
-        }
-
-        return courseToInstituteCache;
-    }
-
-    /**
-     * Encrypts and persists the cache to a file in disk.
-     */
-    public static void saveCourseToInstituteCacheToFile(CourseToInstituteCache courseToInstituteCache)
-            throws Exception {
-        saveEncryptedJsonToFile(COURSE_TO_INSTITUTE_CACHE_FILEPATH, courseToInstituteCache.asMap(),
-                new TypeToken<Map<String, String>>(){}.getType());
     }
 
     /**
