@@ -28,4 +28,14 @@ export class NotificationService {
   getNotifications(): Observable<Notifications> {
     return this.httpRequestService.get(ResourceEndpoints.NOTIFICATION);
   }
+
+  /**
+   * Deletes a notification by calling API.
+   */
+  deleteNotification(notificationId: string): Observable<void> {
+    const paramsMap: { [key: string]: string } = {
+      notificationid: notificationId,
+    };
+    return this.httpRequestService.delete(ResourceEndpoints.NOTIFICATION, paramsMap);
+  }
 }

@@ -200,6 +200,26 @@ export class AdminNotificationsPageComponent implements OnInit {
   }
 
   /**
+   * Deletes a notification.
+   */
+  deleteNotificationHandler(notificationId: string): void {
+    this.notificationService.deleteNotification(notificationId)
+      .subscribe(
+        () => {
+          this.statusMessageService.showSuccessToast('Notification deleted successfully.');
+          this.notificationsTableRowModels = this.notificationsTableRowModels.filter(
+            (notificationsTableRowModel: NotificationsTableRowModel) => {
+              return notificationsTableRowModel.notification.notificationId !== notificationId;
+            },
+          );
+        },
+        (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
+      );
+  }
+
+  /**
    * Handles sorting event from the table sub-component.
    */
   sortNotificationsTableRowModelsHandler(sortBy: SortBy): void {

@@ -64,11 +64,11 @@
         <td class="text-break">{{ notificationsTableRowModel.notification.notificationType }}</td>
         <td class="actions-cell">
           <div class="d-flex">
-            <!-- TODO: Implement edit and delete later -->
+            <!-- TODO: Implement edit -->
             <button type="button" class="btn btn-light btn-sm">
               Edit
             </button>
-            <button type="button" class="btn btn-light btn-sm">
+            <button type="button" class="btn btn-danger btn-sm" (click)="deleteNotification(notificationsTableRowModel.notification.notificationId, notificationsTableRowModel.notification.title)">
               Delete
             </button>
           </div>
