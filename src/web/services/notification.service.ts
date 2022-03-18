@@ -23,7 +23,7 @@ export class NotificationService {
   }
 
   /**
-   * Retrieve all notifications by calling API.
+   * Retrieves all notifications by calling API.
    */
   getNotifications(): Observable<Notifications> {
     return this.httpRequestService.get(ResourceEndpoints.NOTIFICATIONS);
@@ -50,7 +50,7 @@ export class NotificationService {
   }
 
   /**
-   * Retrieve all notifications for a specific target user type.
+   * Retrieves all notifications for a specific target user type.
    */
   getNotificationsByTargetUser(userType: NotificationTargetUser): Observable<Notifications> {
     const paramMap: Record<string, string> = {
