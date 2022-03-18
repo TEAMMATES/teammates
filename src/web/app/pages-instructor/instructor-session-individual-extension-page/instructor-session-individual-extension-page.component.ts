@@ -21,7 +21,10 @@ import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { ColumnData, SortableTableCellData } from '../../components/sortable-table/sortable-table.component';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorExtensionTableColumnModel, StudentExtensionTableColumnModel } from './extension-table-column-model';
-import { ExtensionModalType, IndividualExtensionConfirmModalComponent } from './individual-extension-confirm-modal/individual-extension-confirm-modal.component';
+import {
+  ExtensionModalType,
+  IndividualExtensionConfirmModalComponent,
+} from './individual-extension-confirm-modal/individual-extension-confirm-modal.component';
 import {
   IndividualExtensionDateModalComponent,
 } from './individual-extension-date-modal/individual-extension-date-modal.component';
@@ -138,13 +141,16 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
             (resp: ErrorMessageOutput) => {
               this.statusMessageService.showErrorToast(resp.error.message);
               this.hasLoadingFeedbackSessionFailed = true;
+              this.isLoadingAllStudents = false;
+              this.isLoadingAllInstructors = false;
             },
           );
       },
       (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
-        this.isLoadingAllStudents = false;
         this.hasLoadingFeedbackSessionFailed = true;
+        this.isLoadingAllStudents = false;
+        this.isLoadingAllInstructors = false;
       },
     );
   }
