@@ -10,9 +10,6 @@
       <label class="col-sm-2 control-label">Email:</label>
       <div id="account-email" class="col-sm-10">{{ accountInfo.email }}</div>
 
-      <label class="col-sm-2 control-label">Is Instructor:</label>
-      <div id="account-is-instructor" class="col-sm-10">{{ accountInfo.isInstructor }}</div>
-
       <div class="mx-auto" style="margin-top: 20px;">
         <button id="btn-downgrade-account" class="btn btn-sm btn-warning" style="margin-right: 10px;" *ngIf="accountInfo.isInstructor" (click)="downgradeAccountToStudent()">
           <i class="fas fa-times"></i> Downgrade to Student
@@ -51,12 +48,6 @@
         </tr>
       </tbody>
     </table>
-  </div>
-  <div *ngIf="!accountInfo.isInstructor" class="alert alert-warning">
-    <i class="fas fa-exclamation-circle"></i> This account is not an instructor.
-  </div>
-  <div *ngIf="accountInfo.isInstructor && !instructorCourses.length" class="alert alert-warning">
-    <i class="fas fa-exclamation-circle"></i> No instructor courses found for this account.
   </div>
 </div>
 

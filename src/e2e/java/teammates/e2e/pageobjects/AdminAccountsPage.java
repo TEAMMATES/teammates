@@ -25,9 +25,6 @@ public class AdminAccountsPage extends AppPage {
     @FindBy(id = "account-email")
     private WebElement accountEmail;
 
-    @FindBy(id = "account-is-instructor")
-    private WebElement accountIsInstructor;
-
     @FindBy(id = "instructor-table")
     private WebElement instructorTable;
 
@@ -53,7 +50,6 @@ public class AdminAccountsPage extends AppPage {
         assertEquals(account.getGoogleId(), accountId.getText());
         assertEquals(account.getName(), accountName.getText());
         assertEquals(account.getEmail(), accountEmail.getText());
-        assertEquals(account.isInstructor(), Boolean.parseBoolean(accountIsInstructor.getText()));
     }
 
     public void clickRemoveInstructorFromCourse(String courseId) {
