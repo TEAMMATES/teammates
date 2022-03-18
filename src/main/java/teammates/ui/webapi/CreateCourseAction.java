@@ -1,5 +1,8 @@
 package teammates.ui.webapi;
 
+import java.util.List;
+import java.util.Objects;
+
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -25,6 +28,20 @@ class CreateCourseAction extends Action {
         if (!userInfo.isInstructor) {
             throw new UnauthorizedAccessException("Instructor privilege is required to access this resource.");
         }
+
+        String institute = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
+
+        List<InstructorAttributes> existingInstructors = logic.getInstructorsForGoogleId(userInfo.getId());
+        boolean canCreateCourse = existingInstructors
+                .stream()
+                .filter(InstructorAttributes::hasCoownerPrivileges)
+                .map(instructor -> logic.getCourse(instructor.getCourseId()))
+                .filter(Objects::nonNull)
+                .anyMatch(course -> institute.equals(course.getInstitute()));
+        if (!canCreateCourse) {
+            throw new UnauthorizedAccessException("You are not allowed to create a course under this institute. "
+                    + "If you wish to do so, please request for an account under the institute.", true);
+        }
     }
 
     @Override
@@ -40,9 +57,7 @@ class CreateCourseAction extends Action {
 
         String newCourseId = courseCreateRequest.getCourseId();
         String newCourseName = courseCreateRequest.getCourseName();
-
-        String institute = Const.UNKNOWN_INSTITUTION;
-        // TODO get institute via some other means
+        String institute = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
 
         CourseAttributes courseAttributes =
                 CourseAttributes.builder(newCourseId)

@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { CopyCourseModalComponent } from './copy-course-modal.component';
 
 /**
@@ -13,6 +14,7 @@ import { CopyCourseModalComponent } from './copy-course-modal.component';
   imports: [
     CommonModule,
     FormsModule,
+    NgbTooltipModule,
   ],
   entryComponents: [
     CopyCourseModalComponent,

@@ -340,9 +340,8 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         /* Explanation: SUT has 5 paths. They are,
          * path 1 - exit because the account doesn't' exist.
-         * path 2 - exit because the account exists but doesn't have instructor privileges.
-         * path 3 - exit because course creation failed.
-         * path 4 - exit because instructor creation failed.
+         * path 2 - exit because course creation failed.
+         * path 3/4 - exit because instructor creation failed.
          * path 5 - success.
          * Accordingly, we have 5 test cases.
          */
@@ -373,29 +372,14 @@ public class CoursesLogicTest extends BaseLogicTest {
         verifyAbsentInDatabase(c);
         verifyAbsentInDatabase(i);
 
-        ______TS("fails: account doesn't have instructor privileges");
+        ______TS("fails: error during course creation");
 
         AccountAttributes a = AccountAttributes.builder(i.getGoogleId())
                 .withName(i.getName())
-                .withIsInstructor(false)
+                .withIsInstructor(true)
                 .withEmail(i.getEmail())
                 .build();
-
         accountsLogic.createAccount(a);
-        ae = assertThrows(AssertionError.class,
-                () -> coursesLogic.createCourseAndInstructor(i.getGoogleId(),
-                        CourseAttributes.builder(c.getId())
-                                .withName(c.getName())
-                                .withTimezone(c.getTimeZone())
-                                .withInstitute(c.getInstitute())
-                                .build()));
-        AssertHelper.assertContains("doesn't have instructor privileges", ae.getMessage());
-        verifyAbsentInDatabase(c);
-        verifyAbsentInDatabase(i);
-
-        ______TS("fails: error during course creation");
-
-        accountsLogic.makeAccountInstructor(a.getGoogleId());
 
         CourseAttributes invalidCourse = CourseAttributes
                 .builder("invalid id")
