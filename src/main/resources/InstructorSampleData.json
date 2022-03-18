@@ -696,7 +696,7 @@
         "points": 100,
         "constSumOptions": []
       },
-      "questionDescription": "If a team member did an equal share of the work, give 100 points. If a team member did about 10% more than an equal share of the work, give 110 points, and so on",
+      "questionDescription": "If a team member did an equal share of the work, give 100 points. If a team member did about 10% more than an equal share of the work, give 110 points, and so on.",
       "questionNumber": 1,
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
@@ -2925,7 +2925,7 @@
       "recipientSection": "Tutorial Group 1",
       "responseDetails": {
         "answers": [
-          10
+          60
         ],
         "questionType": "CONSTSUM"
       }
@@ -3105,7 +3105,7 @@
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
         "answers": [
-          10
+          60
         ],
         "questionType": "CONSTSUM"
       }
@@ -4047,7 +4047,6 @@
         "answer": "Nice designs Francis. Good work!"
       }
     }
-
   },
   "feedbackResponseComments": {
     "comment1FromT1C1ToR1Q2S1C1": {
