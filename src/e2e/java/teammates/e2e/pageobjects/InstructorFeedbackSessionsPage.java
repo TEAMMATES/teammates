@@ -158,7 +158,7 @@ public class InstructorFeedbackSessionsPage extends AppPage {
 
         if (isUsingTemplate) {
             selectDropdownOptionByText(sessionTypeDropdown,
-                    "session using template: team peer evaluation (percentage-based)");
+                    "session using template: team peer feedback (percentage-based)");
         } else {
             selectDropdownOptionByText(sessionTypeDropdown, "session with my own questions");
         }
