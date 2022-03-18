@@ -321,7 +321,6 @@ public abstract class AbstractBackDoor {
     public CourseData getCourseData(String courseId) {
         Map<String, String> params = new HashMap<>();
         params.put(Const.ParamsNames.COURSE_ID, courseId);
-        params.put(Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT);
         ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.COURSE, params);
         if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
             return null;
