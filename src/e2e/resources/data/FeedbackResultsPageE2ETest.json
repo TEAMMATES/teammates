@@ -4,43 +4,37 @@
       "googleId": "tm.e2e.FRes.instr",
       "name": "Teammates Test",
       "isInstructor": true,
-      "email": "FRes.instr@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "FRes.instr@gmail.tmt"
     },
     "FRes.alice.b": {
       "googleId": "tm.e2e.FRes.alice.b",
       "name": "Alice B.",
       "isInstructor": false,
-      "email": "FRes.alice.b@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "FRes.alice.b@gmail.tmt"
     },
     "FRes.benny.c": {
       "googleId": "tm.e2e.FRes.benny.c",
       "name": "Benny C.",
       "isInstructor": false,
-      "email": "FRes.benny.c@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "FRes.benny.c@gmail.tmt"
     },
     "FRes.charlie.d": {
       "googleId": "tm.e2e.FRes.charlie.d",
       "name": "Charlie D.",
       "isInstructor": false,
-      "email": "FRes.charlie.d@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "FRes.charlie.d@gmail.tmt"
     },
     "FRes.danny.e": {
       "googleId": "tm.e2e.FRes.danny.e",
       "name": "Danny E.",
       "isInstructor": false,
-      "email": "FRes.danny.e@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "FRes.danny.e@gmail.tmt"
     },
     "FRes.emily.f": {
       "googleId": "tm.e2e.FRes.emily.f",
       "name": "Emily F.",
       "isInstructor": false,
-      "email": "FRes.emily.f@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "FRes.emily.f@gmail.tmt"
     }
   },
   "courses": {

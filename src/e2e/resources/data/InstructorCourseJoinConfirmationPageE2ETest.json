@@ -4,8 +4,7 @@
       "googleId": "tm.e2e.ICJoinConf.instr",
       "name": "Teammates Test",
       "isInstructor": true,
-      "email": "ICJoinConf.instr@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "ICJoinConf.instr@gmail.tmt"
     }
   },
   "accountRequests": {

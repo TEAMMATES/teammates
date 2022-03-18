@@ -4,8 +4,7 @@
       "googleId": "tm.e2e.IHome.instructor.tmms",
       "name": "Teammates Test",
       "isInstructor": true,
-      "email": "IHome.instructor.tmms@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "IHome.instructor.tmms@gmail.tmt"
     }
   },
   "courses": {

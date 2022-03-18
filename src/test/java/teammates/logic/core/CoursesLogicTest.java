@@ -237,7 +237,6 @@ public class CoursesLogicTest extends BaseLogicTest {
         accountsLogic.createAccount(AccountAttributes.builder("instructor1")
                 .withName("Instructor 1")
                 .withEmail("instructor@email.tmt")
-                .withInstitute("TEAMMATES Test Institute 1")
                 .withIsInstructor(true)
                 .build());
         coursesLogic.createCourseAndInstructor("instructor1",
@@ -380,7 +379,6 @@ public class CoursesLogicTest extends BaseLogicTest {
                 .withName(i.getName())
                 .withIsInstructor(false)
                 .withEmail(i.getEmail())
-                .withInstitute("TEAMMATES Test Institute 5")
                 .build();
 
         accountsLogic.createAccount(a);

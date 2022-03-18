@@ -4,43 +4,37 @@
       "googleId": "tm.e2e.FSubmit.instr",
       "name": "Teammates Test",
       "isInstructor": true,
-      "email": "FSubmit.instr@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "FSubmit.instr@gmail.tmt"
     },
     "FSubmit.instr2": {
       "googleId": "tm.e2e.FSubmit.instr2",
       "name": "Teammates Test2",
       "isInstructor": true,
-      "email": "FSubmit.instr2@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "FSubmit.instr2@gmail.tmt"
     },
     "FSubmit.alice.b": {
       "googleId": "tm.e2e.FSubmit.alice.b",
       "name": "Alice B.",
       "isInstructor": false,
-      "email": "FSubmit.alice.b@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "FSubmit.alice.b@gmail.tmt"
     },
     "FSubmit.charlie.d": {
       "googleId": "tm.e2e.FSubmit.charlie.d",
       "name": "Charlie D.",
       "isInstructor": false,
-      "email": "FSubmit.charlie.d@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "FSubmit.charlie.d@gmail.tmt"
     },
     "FSubmit.danny.e": {
       "googleId": "tm.e2e.FSubmit.danny.e",
       "name": "Danny E.",
       "isInstructor": false,
-      "email": "FSubmit.danny.e@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "FSubmit.danny.e@gmail.tmt"
     },
     "FSubmit.emily.f": {
       "googleId": "tm.e2e.FSubmit.emily.f",
       "name": "Emily F.",
       "isInstructor": false,
-      "email": "FSubmit.emily.f@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "FSubmit.emily.f@gmail.tmt"
     }
   },
   "courses": {

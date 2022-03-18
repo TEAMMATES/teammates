@@ -23,8 +23,6 @@ public class Account extends BaseEntity {
 
     private String email;
 
-    private String institute;
-
     @Translate(InstantTranslatorFactory.class)
     private Instant createdAt;
 
@@ -36,24 +34,16 @@ public class Account extends BaseEntity {
     /**
      * Instantiates a new account.
      *
-     * @param googleId
-     *            the Google ID of the user.
-     * @param name
-     *            The name of the user.
-     * @param isInstructor
-     *            Does this account has instructor privileges?
-     * @param email
-     *            The official email of the user.
-     * @param institute
-     *            The university/school/institute e.g., "Abrons State University, Alaska"
+     * @param googleId the Google ID of the user.
+     * @param name The name of the user.
+     * @param isInstructor Does this account has instructor privileges?
+     * @param email The official email of the user.
      */
-    public Account(String googleId, String name, boolean isInstructor,
-            String email, String institute) {
+    public Account(String googleId, String name, boolean isInstructor, String email) {
         this.setGoogleId(googleId);
         this.setName(name);
         this.setIsInstructor(isInstructor);
         this.setEmail(email);
-        this.setInstitute(institute);
         this.setCreatedAt(Instant.now());
     }
 
@@ -87,14 +77,6 @@ public class Account extends BaseEntity {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getInstitute() {
-        return institute;
-    }
-
-    public void setInstitute(String institute) {
-        this.institute = institute;
     }
 
     public Instant getCreatedAt() {

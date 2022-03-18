@@ -4,29 +4,25 @@
       "googleId": "tm.e2e.IFRep.instr",
       "name": "Teammates Test 1",
       "isInstructor": true,
-      "email": "IFRep.instr1@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "IFRep.instr1@gmail.tmt"
     },
     "tm.e2e.IFRep.alice.b": {
       "googleId": "tm.e2e.IFRep.alice.b",
       "name": "Alice B.",
       "isInstructor": false,
-      "email": "IFRep.alice.b@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "IFRep.alice.b@gmail.tmt"
     },
     "tm.e2e.IFRep.benny.c": {
       "googleId": "tm.e2e.IFRep.benny.c",
       "name": "Benny C.",
       "isInstructor": false,
-      "email": "IFRep.benny.c@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "IFRep.benny.c@gmail.tmt"
     },
     "tm.e2e.IFRep.charlie.d": {
       "googleId": "tm.e2e.IFRep.charlie.d",
       "name": "Charlie D.",
       "isInstructor": false,
-      "email": "IFRep.charlie.d@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "IFRep.charlie.d@gmail.tmt"
     }
   },
   "courses": {

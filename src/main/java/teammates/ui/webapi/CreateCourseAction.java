@@ -1,13 +1,11 @@
 package teammates.ui.webapi;
 
-import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.StringHelper;
 import teammates.ui.output.CourseData;
 import teammates.ui.request.CourseCreateRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
@@ -44,10 +42,7 @@ class CreateCourseAction extends Action {
         String newCourseName = courseCreateRequest.getCourseName();
 
         String institute = Const.UNKNOWN_INSTITUTION;
-        AccountAttributes account = logic.getAccount(userInfo.getId());
-        if (account != null && !StringHelper.isEmpty(account.getInstitute())) {
-            institute = account.getInstitute();
-        }
+        // TODO get institute via some other means
 
         CourseAttributes courseAttributes =
                 CourseAttributes.builder(newCourseId)

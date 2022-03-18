@@ -4,57 +4,49 @@
       "googleId": "instructor1OfCourse1",
       "name": "Teammates Test",
       "isInstructor": true,
-      "email": "instructor1@course1.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "instructor1@course1.tmt"
     },
     "instructor2OfCourse1": {
       "googleId": "instructor2OfCourse1",
       "name": "Teammates Test2",
       "isInstructor": true,
-      "email": "instructor2@course1.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "instructor2@course1.tmt"
     },
     "instructor1OfCourse2": {
       "googleId": "idOfInstructor1OfCourse2",
       "name": "Instructor 1 of Course 2",
       "isInstructor": true,
-      "email": "instr1@course2.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "instr1@course2.tmt"
     },
     "helperOfCourse1": {
       "googleId": "idOfHelperOfCourse1",
       "name": "helper of Course 1",
       "isInstructor": true,
-      "email": "helper@course1.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "helper@course1.tmt"
     },
     "student1InCourse1": {
       "googleId": "student1InCourse1",
       "name": "Student 1 in course 1",
       "isInstructor": false,
-      "email": "student1inCourse1@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "student1inCourse1@gmail.tmt"
     },
     "student2InCourse1": {
       "googleId": "student2InCourse1",
       "name": "Student 2 in course 1",
       "isInstructor": false,
-      "email": "student2inCourse1@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "student2inCourse1@gmail.tmt"
     },
     "student3InCourse1": {
       "googleId": "student3InCourse1",
       "name": "Student 3 in course 1",
       "isInstructor": false,
-      "email": "student3inCourse1@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "student3inCourse1@gmail.tmt"
     },
     "student1InCourse2": {
       "googleId": "student1InCourse2",
       "name": "Student 1 in course 2",
       "isInstructor": false,
-      "email": "student1inCourse2@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "student1inCourse2@gmail.tmt"
     }
   },
   "courses": {

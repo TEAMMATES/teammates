@@ -27,7 +27,6 @@ export class AdminAccountsPageComponent implements OnInit {
     name: '',
     email: '',
     isInstructor: false,
-    institute: '',
     createdAtTimeStamp: 0,
   };
 

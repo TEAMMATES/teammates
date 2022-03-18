@@ -4,15 +4,13 @@
       "googleId": "tm.e2e.SHome.instr",
       "name": "Teammates Test",
       "isInstructor": true,
-      "email": "SHome.instr@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "SHome.instr@gmail.tmt"
     },
     "SHome.student": {
       "googleId": "tm.e2e.SHome.student",
       "name": "Alice B",
       "isInstructor": false,
-      "email": "SHome.student@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "SHome.student@gmail.tmt"
     }
   },
   "courses": {

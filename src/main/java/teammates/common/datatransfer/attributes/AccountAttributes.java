@@ -19,7 +19,6 @@ public class AccountAttributes extends EntityAttributes<Account> {
     private String name;
     private boolean isInstructor;
     private String email;
-    private String institute;
     private Instant createdAt;
 
     private AccountAttributes(String googleId) {
@@ -35,7 +34,6 @@ public class AccountAttributes extends EntityAttributes<Account> {
         accountAttributes.name = a.getName();
         accountAttributes.isInstructor = a.isInstructor();
         accountAttributes.email = a.getEmail();
-        accountAttributes.institute = a.getInstitute();
         accountAttributes.createdAt = a.getCreatedAt();
 
         return accountAttributes;
@@ -57,7 +55,6 @@ public class AccountAttributes extends EntityAttributes<Account> {
         accountAttributes.name = this.name;
         accountAttributes.isInstructor = this.isInstructor;
         accountAttributes.email = this.email;
-        accountAttributes.institute = this.institute;
         accountAttributes.createdAt = this.createdAt;
 
         return accountAttributes;
@@ -95,14 +92,6 @@ public class AccountAttributes extends EntityAttributes<Account> {
         this.email = email;
     }
 
-    public String getInstitute() {
-        return institute;
-    }
-
-    public void setInstitute(String institute) {
-        this.institute = institute;
-    }
-
     public Instant getCreatedAt() {
         return createdAt;
     }
@@ -121,8 +110,6 @@ public class AccountAttributes extends EntityAttributes<Account> {
 
         addNonEmptyError(FieldValidator.getInvalidityInfoForEmail(email), errors);
 
-        addNonEmptyError(FieldValidator.getInvalidityInfoForInstituteName(institute), errors);
-
         // No validation for isInstructor and createdAt fields.
 
         return errors;
@@ -130,7 +117,7 @@ public class AccountAttributes extends EntityAttributes<Account> {
 
     @Override
     public Account toEntity() {
-        return new Account(googleId, name, isInstructor, email, institute);
+        return new Account(googleId, name, isInstructor, email);
     }
 
     @Override
@@ -140,10 +127,7 @@ public class AccountAttributes extends EntityAttributes<Account> {
 
     @Override
     public int hashCode() {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(this.email).append(this.name)
-                .append(this.institute).append(this.googleId);
-        return stringBuilder.toString().hashCode();
+        return (this.email + this.name + this.googleId).hashCode();
     }
 
     @Override
@@ -156,7 +140,6 @@ public class AccountAttributes extends EntityAttributes<Account> {
             AccountAttributes otherAccount = (AccountAttributes) other;
             return Objects.equals(this.email, otherAccount.email)
                     && Objects.equals(this.name, otherAccount.name)
-                    && Objects.equals(this.institute, otherAccount.institute)
                     && Objects.equals(this.googleId, otherAccount.googleId);
         } else {
             return false;
@@ -168,7 +151,6 @@ public class AccountAttributes extends EntityAttributes<Account> {
         this.googleId = SanitizationHelper.sanitizeGoogleId(googleId);
         this.name = SanitizationHelper.sanitizeName(name);
         this.email = SanitizationHelper.sanitizeEmail(email);
-        this.institute = SanitizationHelper.sanitizeTitle(institute);
     }
 
     /**
@@ -210,13 +192,6 @@ public class AccountAttributes extends EntityAttributes<Account> {
             assert email != null;
 
             accountAttributes.email = email;
-            return this;
-        }
-
-        public Builder withInstitute(String institute) {
-            assert institute != null;
-
-            accountAttributes.institute = institute;
             return this;
         }
 

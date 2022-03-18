@@ -52,7 +52,6 @@ public class AccountsLogicTest extends BaseLogicTest {
         AccountAttributes accountToCreate = AccountAttributes.builder("id")
                 .withName("name")
                 .withEmail("test@email.com")
-                .withInstitute("dev")
                 .withIsInstructor(true)
                 .build();
 
@@ -66,7 +65,6 @@ public class AccountsLogicTest extends BaseLogicTest {
         accountToCreate = AccountAttributes.builder("")
                 .withName("name")
                 .withEmail("test@email.com")
-                .withInstitute("dev")
                 .withIsInstructor(true)
                 .build();
         AccountAttributes[] finalAccount = new AccountAttributes[] { accountToCreate };
@@ -85,7 +83,6 @@ public class AccountsLogicTest extends BaseLogicTest {
         AccountAttributes firstAccount = AccountAttributes.builder("first.googleId")
                 .withName("name")
                 .withEmail("test@email.com")
-                .withInstitute("dev")
                 .withIsInstructor(true)
                 .build();
         accountsDb.createEntity(firstAccount);
@@ -98,14 +95,12 @@ public class AccountsLogicTest extends BaseLogicTest {
         AccountAttributes secondAccount = AccountAttributes.builder("second.googleId")
                 .withName("name")
                 .withEmail("test@email.com")
-                .withInstitute("dev")
                 .withIsInstructor(true)
                 .build();
         accountsDb.createEntity(secondAccount);
         AccountAttributes thirdAccount = AccountAttributes.builder("third.googleId")
                 .withName("name")
                 .withEmail("test@email.com")
-                .withInstitute("dev")
                 .withIsInstructor(false)
                 .build();
         accountsDb.createEntity(thirdAccount);
@@ -211,7 +206,6 @@ public class AccountsLogicTest extends BaseLogicTest {
         AccountAttributes accountData = AccountAttributes.builder(correctStudentId)
                 .withName("nameABC")
                 .withEmail("real@gmail.com")
-                .withInstitute("TEAMMATES Test Institute 1")
                 .withIsInstructor(true)
                 .build();
 
@@ -381,9 +375,6 @@ public class AccountsLogicTest extends BaseLogicTest {
         joinedInstructor = instructorsLogic.getInstructorForEmail(instructor.getCourseId(), nonInstrAccount.getEmail());
         assertEquals(nonInstrAccount.getGoogleId(), joinedInstructor.getGoogleId());
         assertTrue(accountsLogic.isAccountAnInstructor(nonInstrAccount.getGoogleId()));
-
-        AccountAttributes instructorAccount = accountsLogic.getAccount(nonInstrAccount.getGoogleId());
-        assertEquals("TEAMMATES Test Institute 1", instructorAccount.getInstitute());
 
         accountsLogic.deleteAccountCascade(nonInstrAccount.getGoogleId());
 

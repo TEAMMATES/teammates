@@ -11,7 +11,6 @@ public class AccountData extends ApiOutput {
     private final String name;
     private final boolean isInstructor;
     private final String email;
-    private final String institute;
     private final long createdAtTimeStamp;
 
     public AccountData(AccountAttributes accountInfo) {
@@ -19,12 +18,7 @@ public class AccountData extends ApiOutput {
         this.name = accountInfo.getName();
         this.isInstructor = accountInfo.isInstructor();
         this.email = accountInfo.getEmail();
-        this.institute = accountInfo.getInstitute();
         this.createdAtTimeStamp = accountInfo.getCreatedAt().toEpochMilli();
-    }
-
-    public String getInstitute() {
-        return institute;
     }
 
     public String getEmail() {

@@ -124,14 +124,12 @@ public final class AccountsLogic {
         }
 
         AccountAttributes account = accountsDb.getAccount(googleId);
-        String instituteToSave = coursesLogic.getCourseInstitute(instructor.getCourseId());
 
         if (account == null) {
             try {
                 createAccount(AccountAttributes.builder(googleId)
                         .withName(instructor.getName())
                         .withEmail(instructor.getEmail())
-                        .withInstitute(instituteToSave)
                         .withIsInstructor(true)
                         .build());
             } catch (EntityAlreadyExistsException e) {
@@ -278,7 +276,6 @@ public final class AccountsLogic {
                 .withEmail(student.getEmail())
                 .withName(student.getName())
                 .withIsInstructor(false)
-                .withInstitute(coursesLogic.getCourseInstitute(student.getCourse()))
                 .build();
 
         accountsDb.createEntity(account);

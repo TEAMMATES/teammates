@@ -80,7 +80,6 @@ public class AccountsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
                 .withName("Test account Name")
                 .withIsInstructor(false)
                 .withEmail("fresh-account@email.com")
-                .withInstitute("TEAMMATES Test Institute 1")
                 .build();
 
         accountsDb.createEntity(a);
@@ -90,7 +89,6 @@ public class AccountsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
         AccountAttributes duplicatedAccount = AccountAttributes.builder("test.account")
                 .withName("name2")
                 .withEmail("test2@email.com")
-                .withInstitute("de2v")
                 .withIsInstructor(false)
                 .build();
         assertThrows(EntityAlreadyExistsException.class, () -> {
@@ -224,7 +222,6 @@ public class AccountsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
                 .withName("Valid Fresh Account")
                 .withIsInstructor(isInstructor)
                 .withEmail("valid@email.com")
-                .withInstitute("TEAMMATES Test Institute 1")
                 .build();
     }
 }

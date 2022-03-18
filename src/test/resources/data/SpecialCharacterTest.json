@@ -4,43 +4,37 @@
       "googleId": "FQLogicPCT.instr",
       "name": "Teammates Test",
       "isInstructor": true,
-      "email": "FQLogicPCT.instr@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "FQLogicPCT.instr@gmail.tmt"
     },
     "FQLogicPCT.alice.b": {
       "googleId": "FQLogicPCT.alice.b",
       "name": "Alice B.",
       "isInstructor": false,
-      "email": "FQLogicPCT.alice.b@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "FQLogicPCT.alice.b@gmail.tmt"
     },
     "FQLogicPCT.benny.c": {
       "googleId": "FQLogicPCT.benny.c",
       "name": "Benny C.",
       "isInstructor": false,
-      "email": "FQLogicPCT.benny.c@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "FQLogicPCT.benny.c@gmail.tmt"
     },
     "FQLogicPCT.charlie.d": {
       "googleId": "FQLogicPCT.charlie.d",
       "name": "Charlie D.",
       "isInstructor": false,
-      "email": "FQLogicPCT.charlie.d@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "FQLogicPCT.charlie.d@gmail.tmt"
     },
     "FQLogicPCT.danny.e": {
       "googleId": "FQLogicPCT.danny.e",
       "name": "Danny E.",
       "isInstructor": false,
-      "email": "FQLogicPCT.danny.e@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "FQLogicPCT.danny.e@gmail.tmt"
     },
     "FQLogicPCT.emily.f": {
       "googleId": "FQLogicPCT.emily.f",
       "name": "Emily F.",
       "isInstructor": false,
-      "email": "FQLogicPCT.emily.f@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "FQLogicPCT.emily.f@gmail.tmt"
     }
   },
   "courses": {

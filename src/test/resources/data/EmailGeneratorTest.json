@@ -4,78 +4,67 @@
       "googleId": "idOfInstructor1OfCourse1",
       "name": "Instructor 1 of Course 1",
       "isInstructor": true,
-      "email": "instr1@course1.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "instr1@course1.tmt"
     },
     "instructor2OfCourse1": {
       "googleId": "idOfInstructor2OfCourse1",
       "name": "Instructor 2 of Course 1",
       "isInstructor": true,
-      "email": "instr2@course1.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "instr2@course1.tmt"
     },
     "instructor3": {
       "googleId": "idOfInstructor3",
       "name": "Instructor 3 of Course 1",
       "isInstructor": true,
-      "email": "instr3@course1n2.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "instr3@course1n2.tmt"
     },
     "helperOfCourse1": {
       "googleId": "idOfHelperOfCourse1",
       "name": "Helper of Course 1",
       "isInstructor": true,
-      "email": "helper@course1.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "helper@course1.tmt"
     },
     "instructor1OfCourse2": {
       "googleId": "idOfInstructor1OfCourse2",
       "name": "Instructor 1 of Course 2",
       "isInstructor": true,
-      "email": "instr1@course2.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "instr1@course2.tmt"
     },
     "instructor1OfTestingNoEmailsSentCourse": {
       "googleId": "idOfInstructor1OfTestingNoEmailsSentCourse",
       "name": "Instructor 1 of No Emails Sent Course",
       "isInstructor": true,
-      "email": "instructor1@noemailssent.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "instructor1@noemailssent.tmt"
     },
     "instructor1OfTestingSanitizationCourse": {
       "googleId": "idOfInstructor1OfTestingSanitizationCourse",
       "name": "Instructor<script> alert('hi!'); </script>",
       "isInstructor": true,
-      "email": "instructor1@sanitization.tmt",
-      "institute": "inst<script> alert('hi!'); </script>"
+      "email": "instructor1@sanitization.tmt"
     },
     "student1InCourse1": {
       "googleId": "student1InCourse1",
       "name": "Student 1 in course 1",
       "isInstructor": false,
-      "email": "student1InCourse1@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "student1InCourse1@gmail.tmt"
     },
     "student2InCourse1": {
       "googleId": "student2InCourse1",
       "name": "Student in two courses",
       "isInstructor": false,
-      "email": "student2InCourse1@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "student2InCourse1@gmail.tmt"
     },
     "student1InTestingNoEmailsSentCourse": {
       "googleId": "student1InTestingNoEmailsSentCourse",
       "name": "Student in course with no session emails sent",
       "isInstructor": false,
-      "email": "student1@noemailssent.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "student1@noemailssent.tmt"
     },
     "student1InTestingSanitizationCourse": {
       "googleId": "student1InTestingSanitizationCourse",
       "name": "Stud1<script> alert('hi!'); </script>",
       "isInstructor": false,
-      "email": "normal@sanitization.tmt",
-      "institute": "inst<script> alert('hi!'); </script>"
+      "email": "normal@sanitization.tmt"
     }
   },
   "courses": {

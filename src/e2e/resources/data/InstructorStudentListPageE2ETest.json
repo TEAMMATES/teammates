@@ -4,15 +4,13 @@
       "googleId": "tm.e2e.ISList.instr1",
       "name": "Instructor of Course 1",
       "isInstructor": true,
-      "email": "ISList.instr1@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "ISList.instr1@gmail.tmt"
     },
     "Student3Course3": {
       "googleId": "tm.e2e.ISList.charlie.tmms",
       "name": "Charlie D",
       "isInstructor": false,
-      "email": "ISList.charlie.tmms@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 5"
+      "email": "ISList.charlie.tmms@gmail.tmt"
     }
   },
   "courses": {
