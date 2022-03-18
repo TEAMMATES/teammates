@@ -81,7 +81,7 @@
         <td>{{ student.teamName }}</td>
         <td>{{ student.name }}</td>
         <td>{{ student.email }}</td>
-        <td>{{ student.extensionDeadline | date:'d MMM yyyy hh:mm' }}</td>
+        <td>{{ timezoneService.formatToString(student.extensionDeadline, feedbackSessionTimeZone, DATETIME_FORMAT) }}</td>
       </tr>
     </table>
   </div>

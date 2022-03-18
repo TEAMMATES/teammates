@@ -82,6 +82,7 @@ describe('IndividualExtensionConfirmModalComponent', () => {
         timeZoneService = TestBed.inject(TimezoneService);
         jest.spyOn(timeZoneService, 'formatToString').mockReturnValue(testTimeString);
         component = fixture.componentInstance;
+        component.feedbackSessionTimeZone = 'Asia/Singapore';
         fixture.detectChanges();
       });
 

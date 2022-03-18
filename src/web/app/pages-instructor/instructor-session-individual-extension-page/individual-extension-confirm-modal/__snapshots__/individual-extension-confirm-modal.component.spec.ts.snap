@@ -7,7 +7,7 @@ exports[`IndividualExtensionConfirmModalComponent should snap with the extended 
   SortOrder={[Function Object]}
   activeModal={[Function NgbActiveModal]}
   extensionTimestamp={[Function Number]}
-  feedbackSessionTimeZone=""
+  feedbackSessionTimeZone={[Function String]}
   instructorsSelected={[Function Array]}
   isNotifyStudents="false"
   modalType="0"
@@ -147,7 +147,7 @@ exports[`IndividualExtensionConfirmModalComponent should snap with the extended 
             testStudent1@gmail.com
           </td>
           <td>
-            14 Jul 2017 10:40
+            5 Apr 2000 2:00:00
           </td>
         </tr>
         <tr>
@@ -164,7 +164,7 @@ exports[`IndividualExtensionConfirmModalComponent should snap with the extended 
             testStudent2@gmail.com
           </td>
           <td>
-            7 Nov 2017 04:26
+            5 Apr 2000 2:00:00
           </td>
         </tr>
         <tr>
@@ -181,7 +181,7 @@ exports[`IndividualExtensionConfirmModalComponent should snap with the extended 
             testStudent3@gmail.com
           </td>
           <td>
-            7 Nov 2017 04:26
+            5 Apr 2000 2:00:00
           </td>
         </tr>
       </table>
