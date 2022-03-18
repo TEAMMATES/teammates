@@ -27,6 +27,9 @@ export class IndividualExtensionDateModalComponent {
   numberOfStudents: number = 0;
 
   @Input()
+  numberOfInstructors: number = 0;
+
+  @Input()
   feedbackSessionEndingTime: number = 0;
 
   @Input()
@@ -112,9 +115,9 @@ export class IndividualExtensionDateModalComponent {
     return this.feedbackSessionEndingTime;
   }
 
-  // TODO: Refactor as injectable
-  addTime(minutes: number, hours: number, days: number): number {
-    return DateTimeHelper.addTime(this.feedbackSessionEndingTime, minutes, hours, days);
+  addTimeAndFormat(minutes: number, hours: number, days: number): string {
+    const time = DateTimeHelper.addTime(this.feedbackSessionEndingTime, minutes, hours, days);
+    return this.timeZoneService.formatToString(time, this.feedbackSessionTimeZone, this.DATETIME_FORMAT);
   }
 
   isValidForm() : boolean {

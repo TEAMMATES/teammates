@@ -5,8 +5,8 @@ import {
   FeedbackSession,
   FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus, ResponseVisibleSetting, SessionVisibleSetting,
 } from '../../../../types/api-output';
+import { StudentExtensionTableColumnModel } from '../extension-table-column-model';
 import { InstructorSessionIndividualExtensionPageModule } from '../instructor-session-individual-extension-page.module';
-import { StudentExtensionTableColumnModel } from '../student-extension-table-column-model';
 import { IndividualExtensionConfirmModalComponent } from './individual-extension-confirm-modal.component';
 
 describe('IndividualExtensionConfirmModalComponent', () => {
@@ -30,9 +30,9 @@ describe('IndividualExtensionConfirmModalComponent', () => {
     const studentModel1: StudentExtensionTableColumnModel = {
         sectionName: 'Test Section 1',
         teamName: 'Test Section 1',
-        studentName: 'Test Student 1',
-        studentEmail: 'testStudent1@gmail.com',
-        studentExtensionDeadline: 1500000000000,
+        name: 'Test Student 1',
+        email: 'testStudent1@gmail.com',
+        extensionDeadline: 1500000000000,
         hasExtension: false,
         selected: true,
     };
@@ -40,9 +40,9 @@ describe('IndividualExtensionConfirmModalComponent', () => {
     const studentModel2: StudentExtensionTableColumnModel = {
         sectionName: 'Test Section 2',
         teamName: 'Test Section 2',
-        studentName: 'Test Student 2',
-        studentEmail: 'testStudent2@gmail.com',
-        studentExtensionDeadline: 1510000000000,
+        name: 'Test Student 2',
+        email: 'testStudent2@gmail.com',
+        extensionDeadline: 1510000000000,
         hasExtension: true,
         selected: true,
     };
@@ -50,9 +50,9 @@ describe('IndividualExtensionConfirmModalComponent', () => {
     const studentModel3: StudentExtensionTableColumnModel = {
         sectionName: 'Test Section 3',
         teamName: 'Test Section 3',
-        studentName: 'Test Student 3',
-        studentEmail: 'testStudent3@gmail.com',
-        studentExtensionDeadline: 1510000000000,
+        name: 'Test Student 3',
+        email: 'testStudent3@gmail.com',
+        extensionDeadline: 1510000000000,
         hasExtension: true,
         selected: true,
     };

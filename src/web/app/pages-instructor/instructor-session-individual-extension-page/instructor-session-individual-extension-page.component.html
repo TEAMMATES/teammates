@@ -36,75 +36,77 @@
   <div class="container ml-1">
     <div class="align-row">
       <div>
-        <button type="button" id="extend-btn" class="btn btn-success" (click)="onExtend()" [disabled]="!hasSelectedStudents()">Extend</button>
+        <button type="button" id="extend-btn" class="btn btn-success" (click)="onExtend()" [disabled]="!hasSelected()">Extend</button>
       </div>
       <div>
-        <button type="button" id="delete-btn" class="btn btn-danger" (click)="onDelete()" [disabled]="!hasSelectedValidStudentsForDeletion()">Delete</button>
+        <button type="button" id="delete-btn" class="btn btn-danger" (click)="onDelete()" [disabled]="!hasSelectedValidForDeletion()">Delete</button>
       </div>
     </div>
     <small
-      >Select students from list below and click apply or remove to change their feedback session deadline
+      >Select students or instructors from list below and click apply or remove to change their feedback session deadline
       extension.</small
     >
   </div>
 </div>
 
+<!-- TODO: Use lazy loading toggleable dropdowns-->
 <div *tmIsLoading="isLoadingAllStudents">
   <div class="modal-body">
+    <h1>Students</h1>
     <div class="table-responsive">
       <table id="student-list-table" class="table table-bordered">
         <thead>
           <tr>
             <th (click)="selectAllStudents()">
-              <label><input type="checkbox" id="select-all-btn" [checked]="isAllSelected" /> Select all</label>
+              <label><input type="checkbox" id="select-all-btn" [checked]="isAllStudentsSelected" /> Select all</label>
             </th>
-            <th class="sortable-header" (click)="sortCoursesBy(SortBy.SECTION_NAME)">
+            <th class="sortable-header" (click)="sortStudentColumnsBy(SortBy.SECTION_NAME)">
               Section
               <span class="fa-stack">
                 <i class="fas fa-sort"></i>
-                <i *ngIf="sortBy === SortBy.SECTION_NAME && sortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
-                <i *ngIf="sortBy === SortBy.SECTION_NAME && sortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+                <i *ngIf="sortStudentsBy === SortBy.SECTION_NAME && sortStudentOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
+                <i *ngIf="sortStudentsBy === SortBy.SECTION_NAME && sortStudentOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
               </span>
             </th>
-            <th class="sortable-header" (click)="sortCoursesBy(SortBy.TEAM_NAME)">
+            <th class="sortable-header" (click)="sortStudentColumnsBy(SortBy.TEAM_NAME)">
               Team
               <span class="fa-stack">
                 <i class="fas fa-sort"></i>
-                <i *ngIf="sortBy === SortBy.TEAM_NAME && sortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
-                <i *ngIf="sortBy === SortBy.TEAM_NAME && sortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+                <i *ngIf="sortStudentsBy === SortBy.TEAM_NAME && sortStudentOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
+                <i *ngIf="sortStudentsBy === SortBy.TEAM_NAME && sortStudentOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
               </span>
             </th>
-            <th class="sortable-header" (click)="sortCoursesBy(SortBy.RESPONDENT_NAME)">
+            <th class="sortable-header" (click)="sortStudentColumnsBy(SortBy.RESPONDENT_NAME)">
               Name
               <span class="fa-stack">
                 <i class="fas fa-sort"></i>
                 <i
-                  *ngIf="sortBy === SortBy.RESPONDENT_NAME && sortOrder === SortOrder.DESC"
+                  *ngIf="sortStudentsBy === SortBy.RESPONDENT_NAME && sortStudentOrder === SortOrder.DESC"
                   class="fas fa-sort-down"
                 ></i>
-                <i *ngIf="sortBy === SortBy.RESPONDENT_NAME && sortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+                <i *ngIf="sortStudentsBy === SortBy.RESPONDENT_NAME && sortStudentOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
               </span>
             </th>
-            <th class="sortable-header" (click)="sortCoursesBy(SortBy.RESPONDENT_EMAIL)">
+            <th class="sortable-header" (click)="sortStudentColumnsBy(SortBy.RESPONDENT_EMAIL)">
               Email
               <span class="fa-stack">
                 <i class="fas fa-sort"></i>
                 <i
-                  *ngIf="sortBy === SortBy.RESPONDENT_EMAIL && sortOrder === SortOrder.DESC"
+                  *ngIf="sortStudentsBy === SortBy.RESPONDENT_EMAIL && sortStudentOrder === SortOrder.DESC"
                   class="fas fa-sort-down"
                 ></i>
-                <i *ngIf="sortBy === SortBy.RESPONDENT_EMAIL && sortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+                <i *ngIf="sortStudentsBy === SortBy.RESPONDENT_EMAIL && sortStudentOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
               </span>
             </th>
-            <th class="sortable-header" (click)="sortCoursesBy(SortBy.SESSION_END_DATE)">
+            <th class="sortable-header" (click)="sortStudentColumnsBy(SortBy.SESSION_END_DATE)">
               Current Deadline
               <span class="fa-stack">
                 <i class="fas fa-sort"></i>
                 <i
-                  *ngIf="sortBy === SortBy.SESSION_END_DATE && sortOrder === SortOrder.DESC"
+                  *ngIf="sortStudentsBy === SortBy.SESSION_END_DATE && sortStudentOrder === SortOrder.DESC"
                   class="fas fa-sort-down"
                 ></i>
-                <i *ngIf="sortBy === SortBy.SESSION_END_DATE && sortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+                <i *ngIf="sortStudentsBy === SortBy.SESSION_END_DATE && sortStudentOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
               </span>
             </th>
           </tr>
@@ -118,9 +120,76 @@
           </td>
           <td>{{ student.sectionName }}</td>
           <td>{{ student.teamName }}</td>
-          <td>{{ student.studentName }}</td>
-          <td>{{ student.studentEmail }}</td>
-          <td>{{ timezoneService.formatToString(student.studentExtensionDeadline, feedbackSessionTimeZone, DATETIME_FORMAT) }}</td>
+          <td>{{ student.name }}</td>
+          <td>{{ student.email }}</td>
+          <td>{{ timezoneService.formatToString(student.extensionDeadline, feedbackSessionTimeZone, DATETIME_FORMAT) }}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div *tmIsLoading="isLoadingAllInstructors">
+  <div class="modal-body">
+    <h1>Instructors</h1>
+    <div class="table-responsive">
+      <table id="student-list-table" class="table table-bordered">
+        <thead>
+          <tr>
+            <th (click)="selectAllInstructors()">
+              <label><input type="checkbox" id="select-all-btn" [checked]="isAllInstructorsSelected" /> Select all</label>
+            </th>
+            <th class="sortable-header" (click)="sortInstructorsColumnsBy(SortBy.INSTITUTION)">
+              Institute
+              <span class="fa-stack">
+                <i class="fas fa-sort"></i>
+                <i *ngIf="sortInstructorsBy === SortBy.SECTION_NAME && sortInstructorOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
+                <i *ngIf="sortInstructorsBy === SortBy.SECTION_NAME && sortInstructorOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+              </span>
+            </th>
+            <th class="sortable-header" (click)="sortInstructorsColumnsBy(SortBy.RESPONDENT_NAME)">
+              Name
+              <span class="fa-stack">
+                <i class="fas fa-sort"></i>
+                <i
+                  *ngIf="sortInstructorsBy === SortBy.RESPONDENT_EMAIL && sortInstructorOrder === SortOrder.DESC"
+                  class="fas fa-sort-down"
+                ></i>
+                <i *ngIf="sortInstructorsBy === SortBy.RESPONDENT_EMAIL && sortInstructorOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+              </span>
+            </th>
+            <th class="sortable-header" (click)="sortInstructorsColumnsBy(SortBy.RESPONDENT_EMAIL)">
+              Email
+              <span class="fa-stack">
+                <i class="fas fa-sort"></i>
+                <i *ngIf="sortInstructorsBy === SortBy.TEAM_NAME && sortInstructorOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
+                <i *ngIf="sortInstructorsBy === SortBy.TEAM_NAME && sortInstructorOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+              </span>
+            </th>
+            <th class="sortable-header" (click)="sortInstructorsColumnsBy(SortBy.SESSION_END_DATE)">
+              Current Deadline
+              <span class="fa-stack">
+                <i class="fas fa-sort"></i>
+                <i
+                  *ngIf="sortInstructorsBy === SortBy.SESSION_END_DATE && sortInstructorOrder === SortOrder.DESC"
+                  class="fas fa-sort-down"
+                ></i>
+                <i *ngIf="sortInstructorsBy === SortBy.SESSION_END_DATE && sortInstructorOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+              </span>
+            </th>
+          </tr>
+        </thead>
+        <tr
+          *ngFor="let instructor of instructorsOfCourse; index as i"
+          [ngClass]="{ 'table-warning': instructor.hasExtension === true }"
+        >
+          <td class="align-center" (click)="selectIntructor(i)">
+            <label><input type="checkbox" [checked]="instructor.selected"/></label>
+          </td>
+          <td>{{ instructor.institute }}</td>
+          <td>{{ instructor.name }}</td>
+          <td>{{ instructor.email }}</td>
+          <td>{{ timezoneService.formatToString(instructor.extensionDeadline, feedbackSessionTimeZone, DATETIME_FORMAT) }}</td>
         </tr>
       </table>
     </div>

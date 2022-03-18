@@ -5,7 +5,7 @@
   </button>
 </div>
 <div class="modal-body">
-  Extending the feedback session for <b>{{numberOfStudents}} students:</b>
+  Extending the feedback session for <b>{{numberOfStudents}}</b> student(s) and <b>{{numberOfInstructors}}</b> instructor(s):
 </div>
 
 <div class="container ml-1">
@@ -29,7 +29,7 @@
               <option *ngFor="let deadlineOption of extendByDeadlineOptions | keyvalue: sortMapByOriginalOrder" [value]="deadlineOption.key">
                 {{ deadlineOption.key }}
                 <div *ngIf="deadlineOption.key !== 'Customize'">
-                  ({{ addTime(0, deadlineOption.value, 0) | date:'d MMM yyyy hh:mm' }})
+                  ({{ addTimeAndFormat(0, deadlineOption.value, 0) }})
                 </div>
               </option>
             </select>
@@ -76,7 +76,7 @@
   <br>
   <p>
     The new extended deadline will be:
-    {{ addTime(extendByDatePicker.minutes, extendByDatePicker.hours, extendByDatePicker.days) | date:'d MMM yyyy hh:mm'}}
+    {{ addTimeAndFormat(extendByDatePicker.minutes, extendByDatePicker.hours, extendByDatePicker.days) }}
   </p>
 </div>
 <br>

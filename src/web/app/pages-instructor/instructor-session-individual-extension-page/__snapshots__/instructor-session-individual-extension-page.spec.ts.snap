@@ -15,7 +15,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadedAllStudentsFailed="false"
   hasLoadingFeedbackSessionFailed="false"
-  isAllSelected="false"
+  isAllStudentsSelected="false"
   isLoadingAllStudents="false"
   isLoadingFeedbackSession="false"
   isOpen={[Function Boolean]}
@@ -331,7 +331,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when feed
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadedAllStudentsFailed="false"
   hasLoadingFeedbackSessionFailed="false"
-  isAllSelected="false"
+  isAllStudentsSelected="false"
   isLoadingAllStudents="false"
   isLoadingFeedbackSession={[Function Boolean]}
   isOpen={[Function Boolean]}
@@ -469,7 +469,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadedAllStudentsFailed="false"
   hasLoadingFeedbackSessionFailed="false"
-  isAllSelected="false"
+  isAllStudentsSelected="false"
   isLoadingAllStudents="false"
   isLoadingFeedbackSession="false"
   isOpen={[Function Boolean]}
@@ -785,7 +785,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with stud
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadedAllStudentsFailed="false"
   hasLoadingFeedbackSessionFailed="false"
-  isAllSelected="false"
+  isAllStudentsSelected="false"
   isLoadingAllStudents={[Function Boolean]}
   isLoadingFeedbackSession="false"
   isOpen={[Function Boolean]}
@@ -945,7 +945,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadedAllStudentsFailed="false"
   hasLoadingFeedbackSessionFailed={[Function Boolean]}
-  isAllSelected="false"
+  isAllStudentsSelected="false"
   isLoadingAllStudents="false"
   isLoadingFeedbackSession="false"
   isOpen={[Function Boolean]}
@@ -1181,7 +1181,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadedAllStudentsFailed="false"
   hasLoadingFeedbackSessionFailed={[Function Boolean]}
-  isAllSelected="false"
+  isAllStudentsSelected="false"
   isLoadingAllStudents="false"
   isLoadingFeedbackSession="false"
   isOpen={[Function Boolean]}
@@ -1496,7 +1496,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadedAllStudentsFailed={[Function Boolean]}
   hasLoadingFeedbackSessionFailed="false"
-  isAllSelected="false"
+  isAllStudentsSelected="false"
   isLoadingAllStudents="false"
   isLoadingFeedbackSession="false"
   isOpen={[Function Boolean]}
