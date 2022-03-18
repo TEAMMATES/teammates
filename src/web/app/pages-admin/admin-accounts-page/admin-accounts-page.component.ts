@@ -92,20 +92,6 @@ export class AdminAccountsPageComponent implements OnInit {
   }
 
   /**
-   * Downgrades the instructor account to student.
-   */
-  downgradeAccountToStudent(): void {
-    const id: string = this.accountInfo.googleId;
-    this.accountService.downgradeAccount(id).subscribe(() => {
-      this.instructorCourses = [];
-      this.loadAccountInfo(id);
-      this.statusMessageService.showSuccessToast('Instructor account is successfully downgraded to student.');
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorToast(resp.error.message);
-    });
-  }
-
-  /**
    * Deletes the entire account.
    */
   deleteAccount(): void {

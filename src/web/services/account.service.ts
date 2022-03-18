@@ -34,16 +34,6 @@ export class AccountService {
   }
 
   /**
-   * Downgrades an account from instructor to student by calling API.
-   */
-  downgradeAccount(id: string): Observable<MessageOutput> {
-    const paramMap: Record<string, string> = {
-      instructorid: id,
-    };
-    return this.httpRequestService.put(ResourceEndpoints.ACCOUNT_DOWNGRADE, paramMap);
-  }
-
-  /**
    * Deletes an account by calling API.
    */
   deleteAccount(id: string): Observable<MessageOutput> {

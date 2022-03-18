@@ -31,9 +31,6 @@ public class AdminAccountsPage extends AppPage {
     @FindBy(id = "student-table")
     private WebElement studentTable;
 
-    @FindBy(id = "btn-downgrade-account")
-    private WebElement downgradeAccountButton;
-
     @FindBy(id = "btn-delete-account")
     private WebElement deleteAccountButton;
 
@@ -87,11 +84,6 @@ public class AdminAccountsPage extends AppPage {
             fail("Student to be deleted is not found");
         }
         click(deleteButton);
-        waitForPageToLoad(true);
-    }
-
-    public void clickDowngradeAccount() {
-        click(downgradeAccountButton);
         waitForPageToLoad(true);
     }
 

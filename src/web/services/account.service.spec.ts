@@ -105,14 +105,6 @@ describe('AccountService', () => {
     expect(spyHttpRequestService.put).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT_REQUEST_RESET, paramMap);
   });
 
-  it('should execute PUT on account/downgrade endpoint', () => {
-    service.downgradeAccount(id);
-    const paramMap: Record<string, string> = {
-      instructorid: id,
-    };
-    expect(spyHttpRequestService.put).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT_DOWNGRADE, paramMap);
-  });
-
   it('should execute PUT on account/reset endpoint for student', () => {
     service.resetStudentAccount(id, 'testStudentEmail');
     const paramMap: Record<string, string> = {
