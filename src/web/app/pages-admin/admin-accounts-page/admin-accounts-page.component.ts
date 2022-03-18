@@ -26,7 +26,6 @@ export class AdminAccountsPageComponent implements OnInit {
     googleId: '',
     name: '',
     email: '',
-    isInstructor: false,
     createdAtTimeStamp: 0,
   };
 

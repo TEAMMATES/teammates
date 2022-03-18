@@ -3,13 +3,11 @@
     "instructor1": {
       "googleId": "idOfInstructor1",
       "name": "Instructor 1",
-      "isInstructor": true,
       "email": "instr1@course1.tmt"
     },
     "student1": {
       "googleId": "idOfStudent1",
       "name": "student 1",
-      "isInstructor": false,
       "email": "student1@gmail.tmt"
     }
   },

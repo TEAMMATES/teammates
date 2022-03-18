@@ -3,7 +3,6 @@
     "IHome.instr": {
       "googleId": "tm.e2e.IHome.instructor.tmms",
       "name": "Teammates Test",
-      "isInstructor": true,
       "email": "IHome.instructor.tmms@gmail.tmt"
     }
   },

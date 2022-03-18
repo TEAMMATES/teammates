@@ -237,7 +237,6 @@ public class CoursesLogicTest extends BaseLogicTest {
         accountsLogic.createAccount(AccountAttributes.builder("instructor1")
                 .withName("Instructor 1")
                 .withEmail("instructor@email.tmt")
-                .withIsInstructor(true)
                 .build());
         coursesLogic.createCourseAndInstructor("instructor1",
                 CourseAttributes.builder("course1")
@@ -376,7 +375,6 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         AccountAttributes a = AccountAttributes.builder(i.getGoogleId())
                 .withName(i.getName())
-                .withIsInstructor(true)
                 .withEmail(i.getEmail())
                 .build();
         accountsLogic.createAccount(a);

@@ -400,20 +400,6 @@ public class Logic {
     }
 
     /**
-     * Downgrades an instructor account to student account.
-     *
-     * <p>Cascade deletes all instructors associated with the account.
-     *
-     * <br/>Preconditions: <br/>
-     * * All parameters are non-null.
-     */
-    public void downgradeInstructorToStudentCascade(String googleId) throws EntityDoesNotExistException {
-        assert googleId != null;
-
-        accountsLogic.downgradeInstructorToStudentCascade(googleId);
-    }
-
-    /**
      * Deletes an instructor cascade its associated feedback responses, deadline extensions and comments.
      *
      * <p>Fails silently if the student does not exist.

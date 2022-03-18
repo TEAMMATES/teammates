@@ -393,6 +393,13 @@ public final class StudentsDb extends EntitiesDb<CourseStudent, StudentAttribute
         return getCourseStudentsForCourseQuery(courseId, batchSize).list();
     }
 
+    /**
+     * Returns true if there are any student entities associated with the googleId.
+     */
+    public boolean hasStudentsForGoogleId(String googleId) {
+        return !getCourseStudentsForGoogleIdQuery(googleId).keys().list().isEmpty();
+    }
+
     private Query<CourseStudent> getCourseStudentsForGoogleIdQuery(String googleId) {
         return load().filter("googleId =", googleId);
     }

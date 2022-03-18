@@ -107,7 +107,6 @@ public class GetAccountsActionTest extends BaseActionTest<GetAccountsAction> {
             assertEquals(accountAttributes.getGoogleId(), accountData.getGoogleId());
             assertEquals(accountAttributes.getName(), accountData.getName());
             assertEquals(accountAttributes.getEmail(), accountData.getEmail());
-            assertEquals(accountAttributes.isInstructor(), accountData.isInstructor());
         }
     }
 }

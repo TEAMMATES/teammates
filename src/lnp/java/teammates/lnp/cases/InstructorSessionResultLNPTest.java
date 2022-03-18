@@ -63,7 +63,6 @@ public class InstructorSessionResultLNPTest extends BaseLNPTestCase {
                     accounts.put(STUDENT_NAME + i, AccountAttributes.builder(STUDENT_NAME + i + ".tmms")
                             .withEmail(STUDENT_EMAIL + i + "@gmail.tmt")
                             .withName(STUDENT_NAME + i)
-                            .withIsInstructor(false)
                             .build()
                     );
                 }

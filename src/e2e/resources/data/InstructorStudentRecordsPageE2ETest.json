@@ -3,13 +3,11 @@
     "teammates.test": {
       "googleId": "tm.e2e.ISRecords.teammates.test",
       "name": "Teammates Test",
-      "isInstructor": true,
       "email": "teammates.test@gmail.tmt"
     },
     "benny.c.tmms@ISR.CS2104": {
       "googleId": "tm.e2e.ISRecords.benny.c.tmms",
       "name": "Benny Charlés",
-      "isInstructor": false,
       "email": "benny.c.tmms@gmail.tmt"
     }
   },

@@ -3,7 +3,6 @@
     "ICSDet.instr": {
       "googleId": "tm.e2e.ICSDet.instr",
       "name": "Teammates Test",
-      "isInstructor": true,
       "email": "ICSDet.instr@gmail.tmt"
     }
   },

@@ -9,14 +9,12 @@ public class AccountData extends ApiOutput {
 
     private final String googleId;
     private final String name;
-    private final boolean isInstructor;
     private final String email;
     private final long createdAtTimeStamp;
 
     public AccountData(AccountAttributes accountInfo) {
         this.googleId = accountInfo.getGoogleId();
         this.name = accountInfo.getName();
-        this.isInstructor = accountInfo.isInstructor();
         this.email = accountInfo.getEmail();
         this.createdAtTimeStamp = accountInfo.getCreatedAt().toEpochMilli();
     }
@@ -37,7 +35,4 @@ public class AccountData extends ApiOutput {
         return name;
     }
 
-    public boolean isInstructor() {
-        return this.isInstructor;
-    }
 }

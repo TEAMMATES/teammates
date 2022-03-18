@@ -22,7 +22,7 @@ public class AccountsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
 
     @Test
     public void testGetAccount() throws Exception {
-        AccountAttributes a = createNewAccount("valid.googleId", false);
+        AccountAttributes a = createNewAccount("valid.googleId");
 
         ______TS("typical success case without");
         AccountAttributes retrieved = accountsDb.getAccount(a.getGoogleId());
@@ -51,15 +51,15 @@ public class AccountsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
         assertTrue(accounts.isEmpty());
 
         ______TS("typical success case: one account with email");
-        AccountAttributes firstAccount = createNewAccount("first.googleId", true);
+        AccountAttributes firstAccount = createNewAccount("first.googleId");
 
         accounts = accountsDb.getAccountsForEmail("valid@email.com");
 
         assertEquals(List.of(firstAccount), accounts);
 
         ______TS("typical success case: multiple accounts with email");
-        AccountAttributes secondAccount = createNewAccount("second.googleId", true);
-        AccountAttributes thirdAccount = createNewAccount("third.googleId", false);
+        AccountAttributes secondAccount = createNewAccount("second.googleId");
+        AccountAttributes thirdAccount = createNewAccount("third.googleId");
 
         accounts = accountsDb.getAccountsForEmail("valid@email.com");
 
@@ -78,7 +78,6 @@ public class AccountsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
         ______TS("typical success case");
         AccountAttributes a = AccountAttributes.builder("test.account")
                 .withName("Test account Name")
-                .withIsInstructor(false)
                 .withEmail("fresh-account@email.com")
                 .build();
 
@@ -89,7 +88,6 @@ public class AccountsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
         AccountAttributes duplicatedAccount = AccountAttributes.builder("test.account")
                 .withName("name2")
                 .withEmail("test2@email.com")
-                .withIsInstructor(false)
                 .build();
         assertThrows(EntityAlreadyExistsException.class, () -> {
             accountsDb.createEntity(duplicatedAccount);
@@ -115,7 +113,7 @@ public class AccountsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
 
     @Test
     public void testUpdateAccount_noChangeToAccount_shouldNotIssueSaveRequest() throws Exception {
-        AccountAttributes a = createNewAccount("valid.googleId", true);
+        AccountAttributes a = createNewAccount("valid.googleId");
 
         AccountAttributes updatedAccount =
                 accountsDb.updateAccount(
@@ -124,40 +122,21 @@ public class AccountsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
 
         // please verify the log message manually to ensure that saving request is not issued
         assertEquals(JsonUtils.toJson(a), JsonUtils.toJson(updatedAccount));
-
-        updatedAccount =
-                accountsDb.updateAccount(
-                        AccountAttributes.updateOptionsBuilder(a.getGoogleId())
-                                .withIsInstructor(a.isInstructor())
-                                .build());
-
-        // please verify the log message manually to ensure that saving request is not issued
-        assertEquals(JsonUtils.toJson(a), JsonUtils.toJson(updatedAccount));
     }
 
     @Test
     public void testUpdateAccount() throws Exception {
-        AccountAttributes a = createNewAccount("valid.googleId", false);
+        AccountAttributes a = createNewAccount("valid.googleId");
 
         ______TS("typical edit success case");
-        assertFalse(a.isInstructor());
-        AccountAttributes updatedAccount = accountsDb.updateAccount(
-                AccountAttributes.updateOptionsBuilder(a.getGoogleId())
-                        .withIsInstructor(true)
-                        .build()
-        );
 
-        AccountAttributes actualAccount = accountsDb.getAccount(a.getGoogleId());
-
-        assertTrue(actualAccount.isInstructor());
-        assertTrue(updatedAccount.isInstructor());
+        // No test case as currently account is not updatable
 
         ______TS("non-existent account");
 
         EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
                 () -> accountsDb.updateAccount(
                         AccountAttributes.updateOptionsBuilder("non.existent")
-                                .withIsInstructor(true)
                                 .build()
                 ));
         AssertHelper.assertContains(AccountsDb.ERROR_UPDATE_NON_EXISTENT, ednee.getMessage());
@@ -170,24 +149,9 @@ public class AccountsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
         accountsDb.deleteAccount(a.getGoogleId());
     }
 
-    // the test is to ensure that optimized saving policy is implemented without false negative
-    @Test
-    public void testUpdateAccount_singleFieldUpdate_shouldUpdateCorrectly() throws Exception {
-        AccountAttributes typicalAccount = createNewAccount("valid.googleId", false);
-
-        assertFalse(typicalAccount.isInstructor());
-        AccountAttributes updatedAccount = accountsDb.updateAccount(
-                AccountAttributes.updateOptionsBuilder(typicalAccount.getGoogleId())
-                        .withIsInstructor(true)
-                        .build());
-        AccountAttributes actualAccount = accountsDb.getAccount(typicalAccount.getGoogleId());
-        assertTrue(actualAccount.isInstructor());
-        assertTrue(updatedAccount.isInstructor());
-    }
-
     @Test
     public void testDeleteAccount() throws Exception {
-        AccountAttributes a = createNewAccount("valid.googleId", true);
+        AccountAttributes a = createNewAccount("valid.googleId");
 
         ______TS("silent deletion of non-existent account");
 
@@ -212,16 +176,12 @@ public class AccountsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
                 () -> accountsDb.deleteAccount(null));
     }
 
-    private AccountAttributes createNewAccount(String googleId, boolean isInstructor) throws Exception {
-        AccountAttributes a = getNewAccountAttributes(googleId, isInstructor);
+    private AccountAttributes createNewAccount(String googleId) throws Exception {
+        AccountAttributes a = AccountAttributes.builder(googleId)
+                .withName("Valid Fresh Account")
+                .withEmail("valid@email.com")
+                .build();
         return accountsDb.putEntity(a);
     }
 
-    private AccountAttributes getNewAccountAttributes(String googleId, boolean isInstructor) {
-        return AccountAttributes.builder(googleId)
-                .withName("Valid Fresh Account")
-                .withIsInstructor(isInstructor)
-                .withEmail("valid@email.com")
-                .build();
-    }
 }

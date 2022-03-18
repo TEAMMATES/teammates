@@ -3,7 +3,6 @@
     "instructorWithEvals": {
       "googleId": "tm.e2e.AutSesRem.instructor",
       "name": "Test Ins for Aut Sessions Reminder",
-      "isInstructor": true,
       "email": "AutSesRem.instructor@gmail.tmt"
     }
   },

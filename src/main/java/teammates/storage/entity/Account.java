@@ -19,8 +19,6 @@ public class Account extends BaseEntity {
 
     private String name;
 
-    private boolean isInstructor;
-
     private String email;
 
     @Translate(InstantTranslatorFactory.class)
@@ -36,13 +34,11 @@ public class Account extends BaseEntity {
      *
      * @param googleId the Google ID of the user.
      * @param name The name of the user.
-     * @param isInstructor Does this account has instructor privileges?
      * @param email The official email of the user.
      */
-    public Account(String googleId, String name, boolean isInstructor, String email) {
+    public Account(String googleId, String name, String email) {
         this.setGoogleId(googleId);
         this.setName(name);
-        this.setIsInstructor(isInstructor);
         this.setEmail(email);
         this.setCreatedAt(Instant.now());
     }
@@ -61,14 +57,6 @@ public class Account extends BaseEntity {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public boolean isInstructor() {
-        return isInstructor;
-    }
-
-    public void setIsInstructor(boolean accountIsInstructor) {
-        this.isInstructor = accountIsInstructor;
     }
 
     public String getEmail() {

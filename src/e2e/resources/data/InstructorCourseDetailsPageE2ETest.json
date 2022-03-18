@@ -3,25 +3,21 @@
     "ICDet.instr": {
       "googleId": "tm.e2e.ICDet.instr",
       "name": "Teammates Test",
-      "isInstructor": true,
       "email": "ICDet.instr@gmail.tmt"
     },
     "ICDet.instr2": {
       "googleId": "tm.e2e.ICDet.instr2",
       "name": "Teammates Test 2",
-      "isInstructor": true,
       "email": "ICDet.instr2@gmail.tmt"
     },
     "Alice": {
       "googleId": "tm.e2e.ICDet.alice.b",
       "name": "Alice Betsy",
-      "isInstructor": false,
       "email": "alice.b.tmms@gmail.tmt"
     },
     "Danny": {
       "googleId": "tm.e2e.ICDet.danny.e",
       "name": "Charlie Davis",
-      "isInstructor": false,
       "email": "danny.e.tmms@gmail.tmt"
     }
   },

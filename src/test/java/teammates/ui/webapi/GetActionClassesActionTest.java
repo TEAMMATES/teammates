@@ -111,7 +111,6 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 GetCourseAction.class,
                 UpdateCourseAction.class,
                 GetFeedbackQuestionRecipientsAction.class,
-                DowngradeAccountAction.class,
                 RemindFeedbackSessionSubmissionAction.class,
                 FeedbackSessionUnpublishedEmailWorkerAction.class,
                 SendEmailWorkerAction.class,
