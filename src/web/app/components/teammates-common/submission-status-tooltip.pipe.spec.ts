@@ -1,9 +1,9 @@
 import { FeedbackSessionSubmissionStatus } from '../../../types/api-output';
-import { SubmissionStatusNamePipe } from './submission-status-name.pipe';
+import { SubmissionStatusTooltipPipe } from './submission-status-tooltip.pipe';
 
-describe('SubmissionStatusNamePipe', () => {
+describe('SubmissionStatusTooltipPipe', () => {
   it('create an instance', () => {
-    const pipe: SubmissionStatusNamePipe = new SubmissionStatusNamePipe();
+    const pipe: SubmissionStatusTooltipPipe = new SubmissionStatusTooltipPipe();
     expect(pipe).toBeTruthy();
   });
 
@@ -14,13 +14,15 @@ describe('SubmissionStatusNamePipe', () => {
       instructorDeadlines: {},
     };
     const hasNoOngoingDeadlines = {
-      studentDeadlines: { nonOngoingExtension: new Date('2019-01-01').valueOf() },
-      instructorDeadlines: {},
+      studentDeadlines: { nonOngoingExtension1: new Date('2019-01-01').valueOf() },
+      instructorDeadlines: { nonOngoingExtension2: new Date('2019-02-01').valueOf() },
     };
-    const pipe: SubmissionStatusNamePipe = new SubmissionStatusNamePipe();
+    const pipe: SubmissionStatusTooltipPipe = new SubmissionStatusTooltipPipe();
+
     expect(pipe.transform(FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN, hasNoDeadlines)).toEqual(
       pipe.transform(FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN),
     );
+
     expect(pipe.transform(FeedbackSessionSubmissionStatus.OPEN, hasNoOngoingDeadlines)).toEqual(
       pipe.transform(FeedbackSessionSubmissionStatus.OPEN),
     );
@@ -29,20 +31,21 @@ describe('SubmissionStatusNamePipe', () => {
   it('transform with deadlines correctly', () => {
     jest.useFakeTimers().setSystemTime(new Date('2020-01-01').getTime());
     const hasOngoingDeadlines = {
-      studentDeadlines: { ongoingExtension: new Date('2021-01-01').valueOf() },
-      instructorDeadlines: { nonOngoingExtension: new Date('2019-01-01').valueOf() },
+      studentDeadlines: { ongoingDeadline: new Date('2021-01-01').valueOf() },
+      instructorDeadlines: { nonOngoingDeadline: new Date('2019-01-01').valueOf() },
     };
-    const pipe: SubmissionStatusNamePipe = new SubmissionStatusNamePipe();
-    const extensionMessage = '(Ext. ongoing)';
 
-    const notVisibleWithExtension = pipe.transform(FeedbackSessionSubmissionStatus.NOT_VISIBLE, hasOngoingDeadlines);
-    expect(notVisibleWithExtension.substring(
-      notVisibleWithExtension.length - extensionMessage.length, notVisibleWithExtension.length),
+    const pipe: SubmissionStatusTooltipPipe = new SubmissionStatusTooltipPipe();
+    const extensionMessage = 'with current ongoing session extensions.';
+
+    const notVisibileWithExtension = pipe.transform(FeedbackSessionSubmissionStatus.NOT_VISIBLE, hasOngoingDeadlines);
+    expect(notVisibileWithExtension.substring(
+      notVisibileWithExtension.length - extensionMessage.length, notVisibileWithExtension.length),
     ).toEqual(extensionMessage);
 
-    const visibleWithExtension = pipe.transform(FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN, hasOngoingDeadlines);
-    expect(visibleWithExtension.substring(
-      visibleWithExtension.length - extensionMessage.length, visibleWithExtension.length),
+    const visibileWithExtension = pipe.transform(FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN, hasOngoingDeadlines);
+    expect(visibileWithExtension.substring(
+      visibileWithExtension.length - extensionMessage.length, visibileWithExtension.length),
     ).toEqual(extensionMessage);
 
     const openWithExtension = pipe.transform(FeedbackSessionSubmissionStatus.OPEN, hasOngoingDeadlines);
