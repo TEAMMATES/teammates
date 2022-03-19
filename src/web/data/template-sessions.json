@@ -6,7 +6,7 @@
                 "feedbackQuestionId": "",
                 "questionNumber": 1,
                 "questionBrief": "How much work did each team member contribute? (response will be shown anonymously to each team member). ",
-                "questionDescription": "",
+                "questionDescription": "If a team member did an equal share of the work, give 100 points. If a team member did about 10% more than an equal share of the work, give 110 points, and so on.",
 
                 "questionType": "CONSTSUM",
                 "questionDetails": {
