@@ -801,7 +801,7 @@ describe('AdminSearchPageComponent', () => {
       },
     }));
 
-    const spyStatusMessageService = jest.spyOn(statusMessageService, 'showErrorToast')
+    const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast')
         .mockImplementation((args: string) => {
           expect(args).toEqual('This is the error message.');
         });
@@ -845,7 +845,7 @@ describe('AdminSearchPageComponent', () => {
       },
     }));
 
-    const spyStatusMessageService = jest.spyOn(statusMessageService, 'showErrorToast')
+    const spyStatusMessageService: any = jest.spyOn(statusMessageService, 'showErrorToast')
       .mockImplementation((args: string) => {
         expect(args).toEqual('This is the error message.');
       });
@@ -868,7 +868,7 @@ describe('AdminSearchPageComponent', () => {
       message: 'Account request successfully deleted.',
     }));
 
-    const spyStatusMessageService = jest.spyOn(statusMessageService, 'showSuccessToast')
+    const spyStatusMessageService: any = jest.spyOn(statusMessageService, 'showSuccessToast')
         .mockImplementation((args: string) => {
           expect(args).toEqual('Account request successfully deleted.');
         });
@@ -899,7 +899,7 @@ describe('AdminSearchPageComponent', () => {
         expect(args).toEqual('This is the error message.');
       });
 
-    const resetButton: any = fixture.debugElement.nativeElement.querySelector('#reset-account-request-0');
+    const resetButton = fixture.debugElement.nativeElement.querySelector('#reset-account-request-0');
     resetButton.click();
 
     expect(spyStatusMessageService).toBeCalled();
@@ -919,12 +919,12 @@ describe('AdminSearchPageComponent', () => {
     }));
 
     const spyStatusMessageService = jest.spyOn(statusMessageService, 'showSuccessToast')
-        .mockImplementation((args: string) => {
-          expect(args)
-              .toEqual(`Reset successful. An email has been sent to ${DEFAULT_ACCOUNT_REQUEST_SEARCH_RESULT.email}.`);
-        });
+      .mockImplementation((args: string) => {
+        expect(args)
+            .toEqual(`Reset successful. An email has been sent to ${DEFAULT_ACCOUNT_REQUEST_SEARCH_RESULT.email}.`);
+      });
 
-    const resetButton: any = fixture.debugElement.nativeElement.querySelector('#reset-account-request-0');
+    const resetButton = fixture.debugElement.nativeElement.querySelector('#reset-account-request-0');
     resetButton.click();
 
     expect(spyStatusMessageService).toBeCalled();

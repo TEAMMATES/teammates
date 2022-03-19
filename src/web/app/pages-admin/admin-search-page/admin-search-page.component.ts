@@ -259,7 +259,7 @@ export class AdminSearchPageComponent {
       this.accountService.resetAccountRequest(accountRequest.email, accountRequest.institute)
         .subscribe(() => {
           this.statusMessageService
-              .showSuccessToast(`Reset successful. An email has been sent to ${accountRequest.email}.`);
+            .showSuccessToast(`Reset successful. An email has been sent to ${accountRequest.email}.`);
           accountRequest.registeredAtText = '';
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);

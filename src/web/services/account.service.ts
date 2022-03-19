@@ -67,7 +67,7 @@ export class AccountService {
   /**
    * Resets an account request by calling API.
    */
-   resetAccountRequest(email: string, institute: string): Observable<JoinLink> {
+  resetAccountRequest(email: string, institute: string): Observable<JoinLink> {
     const paramMap: Record<string, string> = {
       instructoremail: email,
       instructorinstitution: institute,
