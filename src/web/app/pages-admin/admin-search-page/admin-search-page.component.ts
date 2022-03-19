@@ -247,6 +247,26 @@ export class AdminSearchPageComponent {
     }, () => {});
   }
 
+  resetAccountRequest(accountRequest: AccountRequestSearchResult): void {
+    const modalContent = `Are you sure you want to reset the account request for
+        <strong>${accountRequest.name}</strong> with email <strong>${accountRequest.email}</strong> from
+        <strong>${accountRequest.institute}</strong>?
+        An email with the account registration link will also be sent to the instructor.`;
+    const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
+        `Reset account request for <strong>${accountRequest.name}</strong>?`, SimpleModalType.WARNING, modalContent);
+
+    modalRef.result.then(() => {
+      this.accountService.resetAccountRequest(accountRequest.email, accountRequest.institute)
+        .subscribe(() => {
+          this.statusMessageService
+              .showSuccessToast(`Reset successful. An email has been sent to ${accountRequest.email}.`);
+          accountRequest.registeredAtText = '';
+        }, (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        });
+    }, () => {});
+  }
+
   deleteAccountRequest(accountRequest: AccountRequestSearchResult): void {
     const modalContent: string = `Are you sure you want to delete the account request for
         <strong>${accountRequest.name}</strong> with email <strong>${accountRequest.email}</strong> from
