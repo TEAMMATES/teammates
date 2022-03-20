@@ -1,6 +1,7 @@
 package teammates.ui.webapi;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.attributes.NotificationAttributes;
@@ -42,13 +43,12 @@ public class GetNotificationsAction extends Action {
     @Override
     public JsonResult execute() {
         String targetUserString = getRequestParamValue(Const.ParamsNames.NOTIFICATION_TARGET_USER);
-        // TODO: Use isFetchingAll to decide whether to fetch unread notification only.
-        // boolean isFetchingAll = Boolean.parseBoolean(
-        //     getRequestParamValue(Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL));
+        boolean isFetchingAll = Boolean.parseBoolean(
+            getRequestParamValue(Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL));
 
         List<NotificationAttributes> notificationAttributes;
         if (targetUserString == null && userInfo.isAdmin) {
-            // if the admin wants to retrieve all notifications
+            // retrieve all notifications
             notificationAttributes = logic.getAllNotifications();
         } else {
             String targetUserErrorMessage = FieldValidator.getInvalidityInfoForNotificationTargetUser(targetUserString);
@@ -63,8 +63,18 @@ public class GetNotificationsAction extends Action {
                     logic.getActiveNotificationsByTargetUser(targetUser);
         }
 
-        NotificationsData responseData = new NotificationsData(notificationAttributes);
+        if (!isFetchingAll) {
+            // only unread notifications are returned
+            List<String> readNotifications = logic.getReadNotificationsId(userInfo.getId());
+            if (readNotifications != null) {
+                notificationAttributes = notificationAttributes
+                        .stream()
+                        .filter(n -> !readNotifications.contains(n.getNotificationId()))
+                        .collect(Collectors.toList());
+            }
+        }
 
+        NotificationsData responseData = new NotificationsData(notificationAttributes);
         if (!userInfo.isAdmin) {
             responseData.getNotifications().forEach(NotificationData::hideInformationForNonAdmin);
         }

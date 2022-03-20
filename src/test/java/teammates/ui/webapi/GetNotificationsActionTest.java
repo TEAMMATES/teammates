@@ -1,10 +1,14 @@
 package teammates.ui.webapi;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.NotificationTargetUser;
+import teammates.common.datatransfer.NotificationStyle;
+import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.NotificationAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -167,11 +171,58 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
                 String.valueOf(true));
     }
 
+    @Test
+    public void testExecute_withFalseIsFetchingAll_shouldReturnUnreadNotifications() {
+        ______TS("Request to fetch unread notification only");
+
+        InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
+        loginAsInstructor(instructor.getGoogleId());
+        Set<String> readNotificationsId = typicalBundle.accounts.get("instructor1OfCourse1").getReadNotifications().keySet();
+
+        String[] requestParams = new String[] {
+                Const.ParamsNames.NOTIFICATION_TARGET_USER, NotificationTargetUser.INSTRUCTOR.toString(),
+                Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL, String.valueOf(false),
+        };
+
+        GetNotificationsAction action = getAction(requestParams);
+        JsonResult jsonResult = getJsonResult(action);
+
+        NotificationsData output = (NotificationsData) jsonResult.getOutput();
+        List<NotificationData> notifications = output.getNotifications();
+        verifyDoesNotContainNotifications(notifications, readNotificationsId);
+    }
+
+    @Test
+    public void testExecute_withoutIsFetchingAll_shouldReturnUnreadNotifications() {
+        ______TS("Request without isfetchingall");
+
+        InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
+        loginAsInstructor(instructor.getGoogleId());
+        Set<String> readNotificationsId = typicalBundle.accounts.get("instructor1OfCourse1").getReadNotifications().keySet();
+
+        String[] requestParams = new String[] {
+                Const.ParamsNames.NOTIFICATION_TARGET_USER, NotificationTargetUser.INSTRUCTOR.toString()
+        };
+
+        GetNotificationsAction action = getAction(requestParams);
+        JsonResult jsonResult = getJsonResult(action);
+
+        NotificationsData output = (NotificationsData) jsonResult.getOutput();
+        List<NotificationData> notifications = output.getNotifications();
+        verifyDoesNotContainNotifications(notifications, readNotificationsId);
+    }
+
     private void verifyNotificationEquals(NotificationAttributes expected, NotificationData actual) {
         assertEquals(expected.getNotificationId(), actual.getNotificationId());
         assertEquals(expected.getStyle(), actual.getStyle());
         assertEquals(expected.getTargetUser(), actual.getTargetUser());
         assertEquals(expected.getTitle(), actual.getTitle());
         assertEquals(expected.getMessage(), actual.getMessage());
+    }
+
+    private void verifyDoesNotContainNotifications(List<NotificationData> notifications, Set<String> readIds) {
+        for (NotificationData n : notifications) {
+            assertFalse(readIds.contains(n.getNotificationId()));
+        }
     }
 }

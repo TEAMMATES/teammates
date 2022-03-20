@@ -98,6 +98,10 @@ public class Logic {
 
         return accountsLogic.getAccountsForEmail(email);
     }
+    
+    public List<String> getReadNotificationsId(String googleId) {
+        return accountsLogic.getReadNotificationsId(googleId);
+    }
 
     public String getCourseInstitute(String courseId) {
         return coursesLogic.getCourseInstitute(courseId);
