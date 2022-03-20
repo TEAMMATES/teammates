@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ResourceEndpoints } from '../types/api-const';
-import { Notification, Notifications } from '../types/api-output';
+import { MessageOutput, Notification, Notifications } from '../types/api-output';
 import { CreateNotificationRequest } from '../types/api-request';
 import { HttpRequestService } from './http-request.service';
 
@@ -32,7 +32,7 @@ export class NotificationService {
   /**
    * Deletes a notification by calling API.
    */
-  deleteNotification(notificationId: string): Observable<void> {
+  deleteNotification(notificationId: string): Observable<MessageOutput> {
     const paramsMap: { [key: string]: string } = {
       notificationid: notificationId,
     };

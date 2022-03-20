@@ -5,7 +5,7 @@ import { NotificationService } from '../../../services/notification.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
 import { TimezoneService } from '../../../services/timezone.service';
-import { Notification, Notifications } from '../../../types/api-output';
+import { MessageOutput, Notification, Notifications } from '../../../types/api-output';
 import { NotificationType, NotificationTargetUser } from '../../../types/api-request';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
@@ -188,8 +188,8 @@ export class AdminNotificationsPageComponent implements OnInit {
   deleteNotificationHandler(notificationId: string): void {
     this.notificationService.deleteNotification(notificationId)
       .subscribe(
-        () => {
-          this.statusMessageService.showSuccessToast('Notification deleted successfully.');
+        (msg: MessageOutput) => {
+          this.statusMessageService.showSuccessToast(msg.message);
           this.notificationsTableRowModels = this.notificationsTableRowModels.filter(
             (notificationsTableRowModel: NotificationsTableRowModel) => {
               return notificationsTableRowModel.notification.notificationId !== notificationId;
