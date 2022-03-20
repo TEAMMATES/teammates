@@ -14,11 +14,11 @@ public class CreateNotificationRequest extends BasicRequest {
     private String title;
     private String message;
 
-    public Long getStartTimestamp() {
+    public long getStartTimestamp() {
         return this.startTimestamp;
     }
 
-    public Long getEndTimestamp() {
+    public long getEndTimestamp() {
         return this.endTimestamp;
     }
 
