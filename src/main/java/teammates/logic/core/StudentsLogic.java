@@ -106,6 +106,13 @@ public final class StudentsLogic {
     }
 
     /**
+     * Gets the first {@code batchSize} students of a course.
+     */
+    public List<StudentAttributes> getStudentsForCourse(String courseId, int batchSize) {
+        return studentsDb.getStudentsForCourse(courseId, batchSize);
+    }
+
+    /**
      * Gets all students of a section.
      */
     public List<StudentAttributes> getStudentsForSection(String sectionName, String courseId) {
@@ -379,11 +386,12 @@ public final class StudentsLogic {
     }
 
     /**
-     * Deletes all the students in the course cascade their associated responses and comments.
+     * Deletes the first {@code batchSize} of the remaining students in the course cascade their
+     * associated responses and comments.
      */
-    public void deleteStudentsInCourseCascade(String courseId) {
-        List<StudentAttributes> studentsInCourse = getStudentsForCourse(courseId);
-        for (StudentAttributes student : studentsInCourse) {
+    public void deleteStudentsInCourseCascade(String courseId, int batchSize) {
+        var studentsInCourse = getStudentsForCourse(courseId, batchSize);
+        for (var student : studentsInCourse) {
             RequestTracer.checkRemainingTime();
             deleteStudentCascade(courseId, student.getEmail());
         }
