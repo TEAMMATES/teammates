@@ -2,12 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import moment from 'moment-timezone';
 import { finalize } from 'rxjs/operators';
 import { NotificationService } from '../../../services/notification.service';
+import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import { MessageOutput, Notification, Notifications } from '../../../types/api-output';
 import { NotificationStyle, NotificationTargetUser } from '../../../types/api-request';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
+import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
 import {
@@ -26,6 +28,7 @@ export class AdminNotificationsPageComponent implements OnInit {
 
   NotificationEditFormMode = NotificationEditFormMode;
 
+  currentNotificationEditFormMode = NotificationEditFormMode.ADD;
   isNotificationLoading = false;
   hasNotificationLoadingFailed = false;
 
@@ -47,7 +50,6 @@ export class AdminNotificationsPageComponent implements OnInit {
     message: '',
 
     isSaving: false,
-    isEditable: true,
     isDeleting: false,
   };
 
@@ -57,6 +59,7 @@ export class AdminNotificationsPageComponent implements OnInit {
 
   constructor(
     private notificationService: NotificationService,
+    private simpleModalService: SimpleModalService,
     private statusMessageService: StatusMessageService,
     private tableComparatorService: TableComparatorService,
     private timezoneService: TimezoneService,
@@ -68,9 +71,11 @@ export class AdminNotificationsPageComponent implements OnInit {
   }
 
   /**
-   * Initializes values for the notification edit form model.
+   * Closes form and initializes values for the edit form model.
    */
   initNotificationEditFormModel(): void {
+    this.isNotificationEditFormExpanded = false;
+
     const nearFuture: moment.Moment = moment().add(1, 'hours');
     const tomorrow: moment.Moment = moment().add(1, 'days');
     this.notificationEditFormModel = {
@@ -100,9 +105,10 @@ export class AdminNotificationsPageComponent implements OnInit {
       message: '',
 
       isSaving: false,
-      isEditable: true,
       isDeleting: false,
     };
+
+    this.currentNotificationEditFormMode = NotificationEditFormMode.ADD;
   }
 
   /**
@@ -139,6 +145,68 @@ export class AdminNotificationsPageComponent implements OnInit {
     this.isNotificationLoading = false;
     this.hasNotificationLoadingFailed = false;
     this.loadNotifications();
+  }
+
+  /**
+   * Loads notification data into the edit form for updating actions.
+   */
+  loadNotificationEditFormHandler(notification: Notification): void {
+    if (this.notificationEditFormModel.notificationId === notification.notificationId) {
+      // Not to do anything if the notification is already loaded
+      return;
+    }
+    if (this.isNotificationEditFormExpanded) {
+      // Warns user that the existing edits will be cleared
+      this.simpleModalService.openConfirmationModal(
+        'Discard unsaved edit?',
+        SimpleModalType.WARNING,
+        'Warning: If you choose to edit another notification, any unsaved changes will be lost.',
+      ).result.then(() => {
+        this.loadNotificationEditForm(notification);
+      });
+    } else {
+      this.loadNotificationEditForm(notification);
+    }
+  }
+
+  loadNotificationEditForm(notification: Notification): void {
+    const startTime = moment(notification.startTimestamp);
+    const endTime = moment(notification.startTimestamp);
+    this.notificationEditFormModel = {
+      notificationId: notification.notificationId,
+      shown: notification.shown,
+
+      startTime: {
+        minute: startTime.hour() === 0 ? 59 : 0, // for 00:00 midnight, we use 23:59
+        hour: startTime.hour() === 0 ? 23 : startTime.hour(),
+      },
+      startDate: {
+        year: startTime.year(),
+        month: startTime.month() + 1, // moment return 0-11 for month
+        day: startTime.date(),
+      },
+      endTime: {
+        minute: endTime.hour() === 0 ? 59 : 0, // for 00:00 midnight, we use 23:59
+        hour: endTime.hour() === 0 ? 23 : endTime.hour(),
+      },
+      endDate: {
+        year: endTime.year(),
+        month: endTime.month() + 1, // moment return 0-11 for month
+        day: endTime.date(),
+      },
+
+      type: notification.notificationType,
+      targetUser: notification.targetUser,
+
+      title: notification.title,
+      message: notification.message,
+
+      isSaving: false,
+      isDeleting: false,
+    };
+
+    this.currentNotificationEditFormMode = NotificationEditFormMode.EDIT;
+    this.isNotificationEditFormExpanded = true;
   }
 
   /**

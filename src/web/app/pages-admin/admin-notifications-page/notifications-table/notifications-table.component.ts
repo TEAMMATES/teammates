@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
 import { TimezoneService } from '../../../../services/timezone.service';
+import { Notification } from '../../../../types/api-output';
 import { SortBy, SortOrder } from '../../../../types/sort-properties';
 import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
 import { NotificationsTableHeaderColorScheme, NotificationsTableRowModel } from './notifications-table-model';
@@ -35,6 +36,8 @@ export class NotificationsTableComponent implements OnInit {
   @Output()
   deleteNotificationEvent: EventEmitter<String> = new EventEmitter();
 
+  loadNotificationEditFormEvent: EventEmitter<Notification> = new EventEmitter();
+
   constructor(private simpleModalService: SimpleModalService, private timezoneService: TimezoneService) { }
 
   ngOnInit(): void {
@@ -58,5 +61,12 @@ export class NotificationsTableComponent implements OnInit {
       `Do you want to delete this notification (titled "${title}") permanently? This action will not be reversible.`,
     );
     modalRef.result.then(() => this.deleteNotificationEvent.emit(notificationId));
+  }
+
+  /**
+   * Loads the notification edit form.
+   */
+  loadNotificationEditForm(notification: Notification): void {
+    this.loadNotificationEditFormEvent.emit(notification);
   }
 }

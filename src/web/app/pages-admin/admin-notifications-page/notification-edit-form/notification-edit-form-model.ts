@@ -37,6 +37,5 @@ export interface NotificationEditFormModel {
   message: string;
 
   isSaving: boolean;
-  isEditable: boolean;
   isDeleting: boolean;
 }
