@@ -5,12 +5,10 @@ import java.util.List;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.NotificationTargetUser;
-import teammates.common.datatransfer.NotificationType;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.NotificationAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
-import teammates.storage.entity.Notification;
 import teammates.ui.output.NotificationData;
 import teammates.ui.output.NotificationsData;
 
@@ -176,4 +174,5 @@ public class GetNotificationActionTest extends BaseActionTest<GetNotificationAct
         assertEquals(expected.getTargetUser(), actual.getTargetUser());
         assertEquals(expected.getTitle(), actual.getTitle());
         assertEquals(expected.getMessage(), actual.getMessage());
-    }}
+    }
+}
