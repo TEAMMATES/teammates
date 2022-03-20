@@ -10,16 +10,16 @@
 
 <div class="modal-body" >
   <div *ngIf="isExtendModal()">
-    The new deadline of <b>{{ timezoneService.formatToString(extensionTimestamp, feedbackSessionTimeZone, DATETIME_FORMAT) }}</b> will be applied
-    to the following <b>{{studentsSelected.length}}</b> student(s) and <b>{{instructorsSelected.length}}</b> instructor(s) upon confirmation:
+    The new deadline of <b>{{ extensionTimestamp | formatDateDetail: feedbackSessionTimeZone }}</b> will be applied
+    to the following <b>{{selectedStudents.length}}</b> student(s) and <b>{{selectedInstructors.length}}</b> instructor(s) upon confirmation:
   </div>
 
   <div *ngIf="isDeleteModal()">
-    The deadline of the following <b>{{studentsSelected.length}}</b> student(s) and <b>{{instructorsSelected.length}}</b>
-    instructor(s) will be reverted back to the original deadline of <b>{{ timezoneService.formatToString(extensionTimestamp, feedbackSessionTimeZone, DATETIME_FORMAT) }}</b> upon confirmation:
+    The deadline of the following <b>{{selectedStudents.length}}</b> student(s) and <b>{{selectedInstructors.length}}</b>
+    instructor(s) will be reverted back to the original deadline of <b>{{ extensionTimestamp | formatDateDetail: feedbackSessionTimeZone }}</b> upon confirmation:
   </div>
 
-  <div class="table-responsive" *ngIf="studentsSelected.length!==0">
+  <div class="table-responsive" *ngIf="selectedStudents.length!==0">
     <h1>Students</h1>
     <table id="student-list-table" class="table table-bordered">
       <thead>
@@ -76,17 +76,17 @@
           </th>
         </tr>
       </thead>
-      <tr *ngFor="let student of studentsSelected; index as i">
+      <tr *ngFor="let student of selectedStudents;">
         <td>{{ student.sectionName }}</td>
         <td>{{ student.teamName }}</td>
         <td>{{ student.name }}</td>
         <td>{{ student.email }}</td>
-        <td>{{ timezoneService.formatToString(student.extensionDeadline, feedbackSessionTimeZone, DATETIME_FORMAT) }}</td>
+        <td>{{ student.extensionDeadline | formatDateDetail: feedbackSessionTimeZone }}</td>
       </tr>
     </table>
   </div>
 
-  <div class="table-responsive" *ngIf="instructorsSelected.length!==0">
+  <div class="table-responsive" *ngIf="selectedInstructors.length!==0">
     <h1>Instructors</h1>
     <table id="student-list-table" class="table table-bordered">
       <thead>
@@ -132,24 +132,24 @@
         </tr>
       </thead>
       <tr
-        *ngFor="let instructor of instructorsSelected; index as i"
+        *ngFor="let instructor of selectedInstructors;"
         [ngClass]="{ 'table-warning': instructor.hasExtension === true }"
       >
         <td>{{ instructor.institute }}</td>
         <td>{{ instructor.name }}</td>
         <td>{{ instructor.email }}</td>
-        <td>{{ timezoneService.formatToString(instructor.extensionDeadline, feedbackSessionTimeZone, DATETIME_FORMAT) }}</td>
+        <td>{{ instructor.extensionDeadline | formatDateDetail: feedbackSessionTimeZone }}</td>
       </tr>
     </table>
   </div>
 
   <div class="form-check">
-    <input class="form-check-input" type="checkbox" [(ngModel)]="isNotifyStudents" id="flexCheckChecked">
+    <input class="form-check-input" type="checkbox" [(ngModel)]="isNotifyIndividuals" id="flexCheckChecked">
     <label class="form-check-label" for="flexCheckChecked" *ngIf="isExtendModal()">
       Notify affected students and/or instructors by email about this extension
     </label>
     <label class="form-check-label" for="flexCheckChecked" *ngIf="isDeleteModal()">
-      Notify affected students and/or instructors by email about this deletion
+      Notify affected students and/or instructors by email about the cancellation of their extension
     </label>
   </div>
 
@@ -158,7 +158,7 @@
 <br>
 
 <div class="modal-footer">
-  <button type="button" class="btn btn-light" (click)="activeModal.dismiss()">No, Cancel the Operation</button>
+  <button type="button" class="btn btn-light" (click)="activeModal.dismiss()">No, cancel the Operation</button>
   <button *ngIf="isExtendModal()" type="button" class="btn btn-success modal-btn-ok" (click)="onExtend()">Confirm</button>
   <button *ngIf="isDeleteModal()" type="button" class="btn btn-danger modal-btn-ok" (click)="onExtend()">Delete Extension(s)</button>
 </div>

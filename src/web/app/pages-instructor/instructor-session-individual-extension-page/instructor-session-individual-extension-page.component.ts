@@ -50,7 +50,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
   isAllStudentsSelected: boolean = false;
   isAllInstructorsSelected: boolean = false;
 
-  courseId: string = '0';
+  courseId: string = '';
   courseName: string = '';
   feedbackSessionName: string = '';
 
@@ -125,14 +125,10 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
           .getFeedbackSession({
             courseId: this.courseId,
             feedbackSessionName: this.feedbackSessionName,
-            intent: Intent.INSTRUCTOR_RESULT,
+            intent: Intent.FULL_DETAIL,
           })
           .pipe(map((feedbackSession: FeedbackSession) => {
-            this.feedbackSessionEndingTime = feedbackSession.submissionEndTimestamp;
-            this.feedbackSessionTimeZone = feedbackSession.timeZone;
-            this.studentDeadlines = feedbackSession.studentDeadlines ?? {};
-            this.instructorDeadlines = feedbackSession.instructorDeadlines ?? {};
-            this.feedbackSessionDetails = this.getFeedbackSessionDetails(feedbackSession);
+            this.getFeedbackSessionDetails(feedbackSession);
           }))
           .subscribe(() => {
               this.getAllStudentsOfCourse(); // Both students and instructors need feedback ending time.
@@ -173,8 +169,8 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
       );
   }
 
-  private getFeedbackSessionDetails(feedbackSession: FeedbackSession): FeedbackSessionBasicRequest {
-    const details: FeedbackSessionBasicRequest = {
+  private getFeedbackSessionDetails(feedbackSession: FeedbackSession): void {
+    this.feedbackSessionDetails = {
       instructions: feedbackSession.instructions,
       submissionStartTimestamp: feedbackSession.submissionStartTimestamp,
       submissionEndTimestamp: feedbackSession.submissionEndTimestamp,
@@ -186,7 +182,10 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
       isClosingEmailEnabled: feedbackSession.isClosingEmailEnabled,
       isPublishedEmailEnabled: feedbackSession.isPublishedEmailEnabled,
     };
-    return details;
+    this.feedbackSessionEndingTime = feedbackSession.submissionEndTimestamp;
+    this.feedbackSessionTimeZone = feedbackSession.timeZone;
+    this.studentDeadlines = feedbackSession.studentDeadlines ?? {};
+    this.instructorDeadlines = feedbackSession.instructorDeadlines ?? {};
   }
 
   private mapStudentToStudentModel(student: Student):
@@ -198,7 +197,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
       email: student.email,
       extensionDeadline: this.feedbackSessionEndingTime,
       hasExtension: false,
-      selected: false,
+      isSelected: false,
     };
 
     if (student.email in this.studentDeadlines) {
@@ -210,7 +209,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
   }
 
   getNumberOfSelectedStudents(): number {
-    return this.studentsOfCourse.filter((x) => x.selected).length;
+    return this.studentsOfCourse.filter((x) => x.isSelected).length;
   }
 
   /**
@@ -224,11 +223,10 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
           return this.mapInstructorToInstructorModel(instructor);
         });
       }))
-      .subscribe(() => {
-        }, (resp: ErrorMessageOutput) => {
+      .subscribe(() => {}, (resp: ErrorMessageOutput) => {
         this.hasLoadedAllInstructorsFailed = true;
         this.statusMessageService.showErrorToast(resp.error.message);
-    });
+      });
   }
 
   private mapInstructorToInstructorModel(instructor: Instructor): InstructorExtensionTableColumnModel {
@@ -238,7 +236,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
       email: instructor.email,
       extensionDeadline: this.feedbackSessionEndingTime,
       hasExtension: false,
-      selected: false,
+      isSelected: false,
     };
 
     if (instructor.email in this.instructorDeadlines) {
@@ -249,13 +247,13 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
   }
 
   getNumberOfSelectedInstructors(): number {
-    return this.instructorsOfCourse.filter((x) => x.selected).length;
+    return this.instructorsOfCourse.filter((x) => x.isSelected).length;
   }
 
   onExtend(): void {
     const modalRef: NgbModalRef = this.ngbModal.open(IndividualExtensionDateModalComponent);
-    modalRef.componentInstance.numberOfStudents = this.getNumberOfSelectedStudents();
-    modalRef.componentInstance.numberOfInstructors = this.getNumberOfSelectedInstructors();
+    modalRef.componentInstance.numStudents = this.getNumberOfSelectedStudents();
+    modalRef.componentInstance.numInstructors = this.getNumberOfSelectedInstructors();
     modalRef.componentInstance.feedbackSessionEndingTime = this.feedbackSessionEndingTime;
     modalRef.componentInstance.feedbackSessionTimeZone = this.feedbackSessionTimeZone;
     modalRef.componentInstance.onConfirmCallBack.subscribe((extensionTimestamp: number) => {
@@ -266,131 +264,122 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
 
   private onConfirmExtension(extensionTimestamp: number): void {
     const modalRef: NgbModalRef = this.ngbModal.open(IndividualExtensionConfirmModalComponent);
-    const studentsSelected = this.getSelectedStudents();
-    const instructorsSelected = this.getSelectedInstructors();
-    modalRef.componentInstance.studentsSelected = studentsSelected;
-    modalRef.componentInstance.instructorsSelected = instructorsSelected;
+    const selectedStudents = this.getSelectedStudents();
+    const selectedInstructors = this.getSelectedInstructors();
+    modalRef.componentInstance.selectedStudents = selectedStudents;
+    modalRef.componentInstance.selectedInstructors = selectedInstructors;
     modalRef.componentInstance.extensionTimestamp = extensionTimestamp;
     modalRef.componentInstance.feedbackSessionTimeZone = this.feedbackSessionTimeZone;
     modalRef.componentInstance.modalType = ExtensionModalType.EXTEND;
 
-    modalRef.componentInstance.onConfirmExtensionCallBack.subscribe((isNotifyStudents: boolean) => {
-      this.handleCreateDeadlines(studentsSelected, instructorsSelected, extensionTimestamp, isNotifyStudents);
+    modalRef.componentInstance.onConfirmExtensionCallBack.subscribe((isNotifyIndividuals: boolean) => {
+      this.handleCreateDeadlines(selectedStudents, selectedInstructors, extensionTimestamp, isNotifyIndividuals);
       modalRef.close();
     });
   }
 
   onDelete(): void {
     const modalRef: NgbModalRef = this.ngbModal.open(IndividualExtensionConfirmModalComponent);
-    const studentsSelected = this.getSelectedStudents();
-    const instructorsSelected = this.getSelectedInstructors();
+    const selectedStudents = this.getSelectedStudents();
+    const selectedInstructors = this.getSelectedInstructors();
     modalRef.componentInstance.modalType = ExtensionModalType.DELETE;
-    modalRef.componentInstance.studentsSelected = studentsSelected;
-    modalRef.componentInstance.instructorsSelected = instructorsSelected;
+    modalRef.componentInstance.selectedStudents = selectedStudents;
+    modalRef.componentInstance.selectedInstructors = selectedInstructors;
     modalRef.componentInstance.extensionTimestamp = this.feedbackSessionEndingTime;
     modalRef.componentInstance.feedbackSessionTimeZone = this.feedbackSessionTimeZone;
-    modalRef.componentInstance.onConfirmExtensionCallBack.subscribe((isNotifyStudents: boolean) => {
-      this.handleDeleteDeadlines(studentsSelected, instructorsSelected, isNotifyStudents);
+    modalRef.componentInstance.onConfirmExtensionCallBack.subscribe((isNotifyIndividuals: boolean) => {
+      this.handleDeleteDeadlines(selectedStudents, selectedInstructors, isNotifyIndividuals);
       modalRef.close();
     });
   }
 
-  private handleCreateDeadlines(studentsSelected: StudentExtensionTableColumnModel[],
-                          instructorsSelected: InstructorExtensionTableColumnModel[],
-                          extensionTimestamp: number, isNotifyStudents: boolean): void {
+  private handleCreateDeadlines(selectedStudents: StudentExtensionTableColumnModel[],
+                          selectedInstructors: InstructorExtensionTableColumnModel[],
+                          extensionTimestamp: number, isNotifyIndividuals: boolean): void {
 
     const request: FeedbackSessionUpdateRequest = {
-      studentDeadlines: this.getUpdatedDeadlines(studentsSelected, extensionTimestamp),
-      instructorDeadlines: this.getUpdatedDeadlines(instructorsSelected, extensionTimestamp),
-      isGoingToNotifyAboutDeadlines: isNotifyStudents,
+      studentDeadlines: this.getUpdatedDeadlines(selectedStudents, extensionTimestamp, true),
+      instructorDeadlines: this.getUpdatedDeadlines(selectedInstructors, extensionTimestamp, false),
+      isGoingToNotifyAboutDeadlines: isNotifyIndividuals,
       ...this.feedbackSessionDetails,
     };
 
     this.isSubmittingDeadlines = true;
     this.feedbackSessionsService.updateFeedbackSession(this.courseId, this.feedbackSessionName, request)
         .pipe(finalize(() => { this.isSubmittingDeadlines = false; }))
-        .subscribe((updatedFeedbackSession: FeedbackSession) => {
-          this.studentDeadlines = updatedFeedbackSession.studentDeadlines ?? {};
-          this.instructorDeadlines = updatedFeedbackSession.instructorDeadlines ?? {};
+        .subscribe(() => {
+          this.loadFeedbackSessionAndIndividuals();
           this.statusMessageService.showSuccessToast(
-          `Extension for ${studentsSelected.length} students and ${instructorsSelected.length} instructors
+          `Extension(s) for ${selectedStudents.length} student(s) and ${selectedInstructors.length} instructor(s)
            have been successful!`);
         }, (resp: ErrorMessageOutput) => {
          this.statusMessageService.showErrorToast(resp.error.message);
         });
   }
 
-  private getUpdatedDeadlines(individualsSelected: StudentExtensionTableColumnModel[] |
-                            InstructorExtensionTableColumnModel[],
-                            extensionTimestamp: number): Record<string, number> {
-    let record: Record<string, number> = {};
-    if (this.isStudents(individualsSelected)) {
-      record = this.studentDeadlines;
-    } else {
-      record = this.instructorDeadlines;
-    }
+  private getUpdatedDeadlines(selectedIndividuals: StudentExtensionTableColumnModel[] |
+    InstructorExtensionTableColumnModel[], extensionTimestamp: number, isStudent: boolean): Record<string, number> {
+      let record: Record<string, number> = {};
+      if (isStudent) {
+        record = { ...this.studentDeadlines };
+      } else {
+        record = { ...this.instructorDeadlines };
+      }
 
-    individualsSelected.forEach((x) => { record[x.email] = extensionTimestamp; });
-    return record;
+      selectedIndividuals.forEach((x) => { record[x.email] = extensionTimestamp; });
+      return record;
   }
 
-  private handleDeleteDeadlines(studentsSelected: StudentExtensionTableColumnModel[],
-    instructorsSelected: InstructorExtensionTableColumnModel[], isNotifyStudents: boolean): void {
+  private handleDeleteDeadlines(selectedStudents: StudentExtensionTableColumnModel[],
+    selectedInstructors: InstructorExtensionTableColumnModel[], isNotifyIndividuals: boolean): void {
 
     const request: FeedbackSessionUpdateRequest = {
-      studentDeadlines: this.getDeletedDeadlines(studentsSelected),
-      instructorDeadlines: this.getDeletedDeadlines(instructorsSelected),
-      isGoingToNotifyAboutDeadlines: isNotifyStudents,
+      studentDeadlines: this.getDeletedDeadlines(selectedStudents, true),
+      instructorDeadlines: this.getDeletedDeadlines(selectedInstructors, false),
+      isGoingToNotifyAboutDeadlines: isNotifyIndividuals,
       ...this.feedbackSessionDetails,
     };
 
     this.isSubmittingDeadlines = true;
     this.feedbackSessionsService.updateFeedbackSession(this.courseId, this.feedbackSessionName, request)
     .pipe(finalize(() => { this.isSubmittingDeadlines = false; }))
-    .subscribe((updatedFeedbackSession: FeedbackSession) => {
-      this.studentDeadlines = updatedFeedbackSession.studentDeadlines ?? {};
-      this.instructorDeadlines = updatedFeedbackSession.instructorDeadlines ?? {};
+    .subscribe(() => {
+      this.loadFeedbackSessionAndIndividuals();
       this.statusMessageService.showSuccessToast(
-      `Deletion for ${studentsSelected.length} students and ${instructorsSelected.length} instructors
-      have been successful!`);
+      `Deletion of extension(s) for ${selectedStudents.length} student(s) and ${selectedInstructors.length} `
+      + 'instructor(s) have been successful!');
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 
-  private getDeletedDeadlines(individualsSelected: StudentExtensionTableColumnModel[] |
-    InstructorExtensionTableColumnModel[]): Record<string, number> {
+  private getDeletedDeadlines(selectedIndividuals: StudentExtensionTableColumnModel[] |
+  InstructorExtensionTableColumnModel[], isStudent: boolean): Record<string, number> {
     let record: Record<string, number> = {};
-    if (this.isStudents(individualsSelected)) {
-      record = this.studentDeadlines;
+    if (isStudent) {
+      record = { ...this.studentDeadlines };
     } else {
-      record = this.instructorDeadlines;
+      record = { ...this.instructorDeadlines };
     }
 
-    individualsSelected.forEach((x) => { delete record[x.email]; });
+    selectedIndividuals.forEach((x) => { delete record[x.email]; });
     return record;
   }
 
-  private isStudents(individualsSelected: StudentExtensionTableColumnModel[] |
-    InstructorExtensionTableColumnModel[]): boolean {
-      return 'sectionName' in individualsSelected;
-
-    }
-
   getSelectedStudents(): StudentExtensionTableColumnModel[] {
-    return this.studentsOfCourse.filter((x) => x.selected);
+    return this.studentsOfCourse.filter((x) => x.isSelected);
   }
 
   getSelectedInstructors(): InstructorExtensionTableColumnModel[] {
-    return this.instructorsOfCourse.filter((x) => x.selected);
+    return this.instructorsOfCourse.filter((x) => x.isSelected);
   }
 
   hasSelected(): boolean {
     for (const student of this.studentsOfCourse) {
-      if (student.selected) return true;
+      if (student.isSelected) return true;
     }
     for (const instructor of this.instructorsOfCourse) {
-      if (instructor.selected) return true;
+      if (instructor.isSelected) return true;
     }
     return false;
   }
@@ -399,13 +388,13 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     let hasStudentSelected = false;
     let hasInstructorSelected = false;
     for (const student of this.studentsOfCourse) {
-      if (student.selected) {
+      if (student.isSelected) {
         if (!student.hasExtension) return false;
         hasStudentSelected = true;
       }
     }
     for (const instructor of this.instructorsOfCourse) {
-      if (instructor.selected) {
+      if (instructor.isSelected) {
         if (!instructor.hasExtension) return false;
         hasInstructorSelected = true;
       }
@@ -415,20 +404,20 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
 
   selectAllStudents(): void {
     this.isAllStudentsSelected = !this.isAllStudentsSelected;
-    this.studentsOfCourse.forEach((x) => { x.selected = this.isAllStudentsSelected; });
+    this.studentsOfCourse.forEach((x) => { x.isSelected = this.isAllStudentsSelected; });
   }
 
   selectAllInstructors(): void {
     this.isAllInstructorsSelected = !this.isAllInstructorsSelected;
-    this.instructorsOfCourse.forEach((x) => { x.selected = this.isAllInstructorsSelected; });
+    this.instructorsOfCourse.forEach((x) => { x.isSelected = this.isAllInstructorsSelected; });
   }
 
   selectStudent(i: number): void {
-    this.studentsOfCourse[i].selected = !this.studentsOfCourse[i].selected;
+    this.studentsOfCourse[i].isSelected = !this.studentsOfCourse[i].isSelected;
   }
 
   selectIntructor(i: number): void {
-    this.instructorsOfCourse[i].selected = !this.instructorsOfCourse[i].selected;
+    this.instructorsOfCourse[i].isSelected = !this.instructorsOfCourse[i].isSelected;
   }
 
   sortStudentColumnsBy(by: SortBy): void {

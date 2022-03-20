@@ -20,6 +20,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback question f
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadingFeedbackQuestionsFailed={[Function Boolean]}
   hasLoadingFeedbackSessionFailed="false"
+  instructorDeadlines={[Function Object]}
   instructorService={[Function InstructorService]}
   instructorsCanBePreviewedAs={[Function Array]}
   isAddingFromTemplate="false"
@@ -40,6 +41,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback question f
   sessionEditFormModel={[Function Object]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
+  studentDeadlines={[Function Object]}
   studentService={[Function StudentService]}
   studentsOfCourse={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
@@ -104,6 +106,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback questions 
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadingFeedbackQuestionsFailed="false"
   hasLoadingFeedbackSessionFailed="false"
+  instructorDeadlines={[Function Object]}
   instructorService={[Function InstructorService]}
   instructorsCanBePreviewedAs={[Function Array]}
   isAddingFromTemplate="false"
@@ -124,6 +127,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback questions 
   sessionEditFormModel={[Function Object]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
+  studentDeadlines={[Function Object]}
   studentService={[Function StudentService]}
   studentsOfCourse={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
@@ -188,6 +192,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session fa
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadingFeedbackQuestionsFailed="false"
   hasLoadingFeedbackSessionFailed={[Function Boolean]}
+  instructorDeadlines={[Function Object]}
   instructorService={[Function InstructorService]}
   instructorsCanBePreviewedAs={[Function Array]}
   isAddingFromTemplate="false"
@@ -208,6 +213,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session fa
   sessionEditFormModel={[Function Object]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
+  studentDeadlines={[Function Object]}
   studentService={[Function StudentService]}
   studentsOfCourse={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
@@ -275,6 +281,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session is
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadingFeedbackQuestionsFailed="false"
   hasLoadingFeedbackSessionFailed="false"
+  instructorDeadlines={[Function Object]}
   instructorService={[Function InstructorService]}
   instructorsCanBePreviewedAs={[Function Array]}
   isAddingFromTemplate="false"
@@ -295,6 +302,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session is
   sessionEditFormModel={[Function Object]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
+  studentDeadlines={[Function Object]}
   studentService={[Function StudentService]}
   studentsOfCourse={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
@@ -359,6 +367,7 @@ exports[`InstructorSessionEditPageComponent should snap with default fields 1`] 
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadingFeedbackQuestionsFailed="false"
   hasLoadingFeedbackSessionFailed="false"
+  instructorDeadlines={[Function Object]}
   instructorService={[Function InstructorService]}
   instructorsCanBePreviewedAs={[Function Array]}
   isAddingFromTemplate="false"
@@ -379,6 +388,7 @@ exports[`InstructorSessionEditPageComponent should snap with default fields 1`] 
   sessionEditFormModel={[Function Object]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
+  studentDeadlines={[Function Object]}
   studentService={[Function StudentService]}
   studentsOfCourse={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
@@ -443,6 +453,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadingFeedbackQuestionsFailed="false"
   hasLoadingFeedbackSessionFailed="false"
+  instructorDeadlines={[Function Object]}
   instructorService={[Function InstructorService]}
   instructorsCanBePreviewedAs={[Function Array]}
   isAddingFromTemplate="false"
@@ -463,6 +474,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
   sessionEditFormModel={[Function Object]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
+  studentDeadlines={[Function Object]}
   studentService={[Function StudentService]}
   studentsOfCourse={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
@@ -1078,7 +1090,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                   >
                     <a
                       class="pl-3 pt-2"
-                      href="/web/instructor/sessions/individual-extension?courseid=testId&fsname=test%20session&editingMode=true"
+                      href="/web/instructor/sessions/individual-extension?courseid=testId&fsname=test%20session"
                       tmrouterlink="/web/instructor/sessions/individual-extension"
                     >
                        Individual Deadline Extensions 
@@ -2831,6 +2843,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadingFeedbackQuestionsFailed="false"
   hasLoadingFeedbackSessionFailed="false"
+  instructorDeadlines={[Function Object]}
   instructorService={[Function InstructorService]}
   instructorsCanBePreviewedAs={[Function Array]}
   isAddingFromTemplate="false"
@@ -2851,6 +2864,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
   sessionEditFormModel={[Function Object]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
+  studentDeadlines={[Function Object]}
   studentService={[Function StudentService]}
   studentsOfCourse={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
@@ -3463,7 +3477,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                   >
                     <a
                       class="pl-3 pt-2"
-                      href="/web/instructor/sessions/individual-extension?courseid=&fsname=&editingMode=true"
+                      href="/web/instructor/sessions/individual-extension?courseid=&fsname="
                       tmrouterlink="/web/instructor/sessions/individual-extension"
                     >
                        Individual Deadline Extensions 

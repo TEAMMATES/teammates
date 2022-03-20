@@ -3,6 +3,9 @@
 exports[`IndividualExtensionDateModalComponent should snap with the error modal 1`] = `
 <tm-individual-extension-date-modal
   DATETIME_FORMAT={[Function String]}
+  ONE_DAY_IN_MILLISECONDS={[Function Number]}
+  ONE_HOUR_IN_MILLISECONDS={[Function Number]}
+  ONE_MINUTE_IN_MILLISECONDS={[Function Number]}
   RadioOptions={[Function Object]}
   activeModal={[Function NgbActiveModal]}
   datePicker={[Function Object]}
@@ -11,8 +14,8 @@ exports[`IndividualExtensionDateModalComponent should snap with the error modal 
   extendByDeadlineOptions={[Function Map]}
   feedbackSessionEndingTime="0"
   feedbackSessionTimeZone={[Function String]}
-  numberOfInstructors="0"
-  numberOfStudents={[Function Number]}
+  numInstructors={[Function Number]}
+  numStudents={[Function Number]}
   onConfirmCallBack={[Function EventEmitter_]}
   radioOption={[Function Number]}
   simpleModalService={[Function SimpleModalService]}
@@ -45,7 +48,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the error modal 
     </b>
      student(s) and 
     <b>
-      0
+      20
     </b>
      instructor(s):
   </div><div
@@ -84,7 +87,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the error modal 
         id="submission-start-date"
       >
         <div
-          class="input-group"
+          class="input-group w-75"
         >
           <select
             class="form-control ng-untouched ng-pristine ng-valid"
@@ -138,7 +141,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the error modal 
         class="btn btn-light"
         type="button"
       >
-        No, Cancel the Operation
+        No, cancel the Operation
       </button>
       <button
         class="btn btn-success modal-btn-ok"
@@ -155,6 +158,9 @@ exports[`IndividualExtensionDateModalComponent should snap with the error modal 
 exports[`IndividualExtensionDateModalComponent should snap with the extend by radio option 1`] = `
 <tm-individual-extension-date-modal
   DATETIME_FORMAT={[Function String]}
+  ONE_DAY_IN_MILLISECONDS={[Function Number]}
+  ONE_HOUR_IN_MILLISECONDS={[Function Number]}
+  ONE_MINUTE_IN_MILLISECONDS={[Function Number]}
   RadioOptions={[Function Object]}
   activeModal={[Function NgbActiveModal]}
   datePicker={[Function Object]}
@@ -163,8 +169,8 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
   extendByDeadlineOptions={[Function Map]}
   feedbackSessionEndingTime="0"
   feedbackSessionTimeZone=""
-  numberOfInstructors="0"
-  numberOfStudents={[Function Number]}
+  numInstructors={[Function Number]}
+  numStudents={[Function Number]}
   onConfirmCallBack={[Function EventEmitter_]}
   radioOption={[Function Number]}
   simpleModalService={[Function SimpleModalService]}
@@ -197,7 +203,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
     </b>
      student(s) and 
     <b>
-      0
+      20
     </b>
      instructor(s):
   </div><div
@@ -404,7 +410,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
         class="btn btn-light"
         type="button"
       >
-        No, Cancel the Operation
+        No, cancel the Operation
       </button>
       <button
         class="btn btn-success modal-btn-ok"
@@ -421,6 +427,9 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
 exports[`IndividualExtensionDateModalComponent should snap with the extend by radio option with customize 1`] = `
 <tm-individual-extension-date-modal
   DATETIME_FORMAT={[Function String]}
+  ONE_DAY_IN_MILLISECONDS={[Function Number]}
+  ONE_HOUR_IN_MILLISECONDS={[Function Number]}
+  ONE_MINUTE_IN_MILLISECONDS={[Function Number]}
   RadioOptions={[Function Object]}
   activeModal={[Function NgbActiveModal]}
   datePicker={[Function Object]}
@@ -429,8 +438,8 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
   extendByDeadlineOptions={[Function Map]}
   feedbackSessionEndingTime="0"
   feedbackSessionTimeZone=""
-  numberOfInstructors="0"
-  numberOfStudents={[Function Number]}
+  numInstructors={[Function Number]}
+  numStudents={[Function Number]}
   onConfirmCallBack={[Function EventEmitter_]}
   radioOption={[Function Number]}
   simpleModalService={[Function SimpleModalService]}
@@ -463,7 +472,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
     </b>
      student(s) and 
     <b>
-      0
+      20
     </b>
      instructor(s):
   </div><div
@@ -670,7 +679,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
         class="btn btn-light"
         type="button"
       >
-        No, Cancel the Operation
+        No, cancel the Operation
       </button>
       <button
         class="btn btn-success modal-btn-ok"
@@ -687,6 +696,9 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
 exports[`IndividualExtensionDateModalComponent should snap with the extend to radio option with timepicker 1`] = `
 <tm-individual-extension-date-modal
   DATETIME_FORMAT={[Function String]}
+  ONE_DAY_IN_MILLISECONDS={[Function Number]}
+  ONE_HOUR_IN_MILLISECONDS={[Function Number]}
+  ONE_MINUTE_IN_MILLISECONDS={[Function Number]}
   RadioOptions={[Function Object]}
   activeModal={[Function NgbActiveModal]}
   datePicker={[Function Object]}
@@ -695,8 +707,8 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend to ra
   extendByDeadlineOptions={[Function Map]}
   feedbackSessionEndingTime="0"
   feedbackSessionTimeZone=""
-  numberOfInstructors="0"
-  numberOfStudents={[Function Number]}
+  numInstructors={[Function Number]}
+  numStudents={[Function Number]}
   onConfirmCallBack={[Function EventEmitter_]}
   radioOption={[Function Number]}
   simpleModalService={[Function SimpleModalService]}
@@ -729,7 +741,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend to ra
     </b>
      student(s) and 
     <b>
-      0
+      20
     </b>
      instructor(s):
   </div><div
@@ -768,7 +780,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend to ra
         id="submission-start-date"
       >
         <div
-          class="input-group"
+          class="input-group w-75"
         >
           <select
             class="form-control ng-untouched ng-pristine ng-valid"
@@ -822,7 +834,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend to ra
         class="btn btn-light"
         type="button"
       >
-        No, Cancel the Operation
+        No, cancel the Operation
       </button>
       <button
         class="btn btn-success modal-btn-ok"
@@ -839,6 +851,9 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend to ra
 exports[`IndividualExtensionDateModalComponent should snap with the extended students 1`] = `
 <tm-individual-extension-date-modal
   DATETIME_FORMAT={[Function String]}
+  ONE_DAY_IN_MILLISECONDS={[Function Number]}
+  ONE_HOUR_IN_MILLISECONDS={[Function Number]}
+  ONE_MINUTE_IN_MILLISECONDS={[Function Number]}
   RadioOptions={[Function Object]}
   activeModal={[Function NgbActiveModal]}
   datePicker={[Function Object]}
@@ -847,8 +862,8 @@ exports[`IndividualExtensionDateModalComponent should snap with the extended stu
   extendByDeadlineOptions={[Function Map]}
   feedbackSessionEndingTime="0"
   feedbackSessionTimeZone=""
-  numberOfInstructors="0"
-  numberOfStudents={[Function Number]}
+  numInstructors={[Function Number]}
+  numStudents={[Function Number]}
   onConfirmCallBack={[Function EventEmitter_]}
   radioOption={[Function Number]}
   simpleModalService={[Function SimpleModalService]}
@@ -881,7 +896,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extended stu
     </b>
      student(s) and 
     <b>
-      0
+      20
     </b>
      instructor(s):
   </div><div
@@ -920,7 +935,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extended stu
         id="submission-start-date"
       >
         <div
-          class="input-group"
+          class="input-group w-75"
         >
           <select
             class="form-control ng-untouched ng-pristine ng-valid"
@@ -974,7 +989,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extended stu
         class="btn btn-light"
         type="button"
       >
-        No, Cancel the Operation
+        No, cancel the Operation
       </button>
       <button
         class="btn btn-success modal-btn-ok"

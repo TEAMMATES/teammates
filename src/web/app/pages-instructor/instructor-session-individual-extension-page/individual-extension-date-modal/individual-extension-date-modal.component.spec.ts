@@ -56,6 +56,8 @@ describe('IndividualExtensionDateModalComponent', () => {
         simpleModalService = TestBed.inject(SimpleModalService);
         timeZoneService = TestBed.inject(TimezoneService);
         jest.spyOn(timeZoneService, 'formatToString').mockReturnValue(testTimeString);
+        component.numStudents = 10;
+        component.numInstructors = 20;
         fixture.detectChanges();
       });
 
@@ -68,13 +70,11 @@ describe('IndividualExtensionDateModalComponent', () => {
     });
 
     it('should snap with the extended students', () => {
-        component.numberOfStudents = 10;
         fixture.detectChanges();
         expect(fixture).toMatchSnapshot();
       });
 
     it('should snap with the extend by radio option', () => {
-        component.numberOfStudents = 10;
         component.extendByDeadlineKey = '12 hours';
         component.radioOption = RadioOptions.EXTEND_TO;
         fixture.detectChanges();
@@ -82,16 +82,14 @@ describe('IndividualExtensionDateModalComponent', () => {
     });
 
     it('should snap with the extend by radio option with customize', () => {
-      component.numberOfStudents = 10;
       component.extendByDeadlineKey = 'Customize';
       component.radioOption = RadioOptions.EXTEND_TO;
-      component.extendByDatePicker = { minutes: 10, hours: 20, days: 100 };
+      component.extendByDatePicker = { hours: 20, days: 100 };
       fixture.detectChanges();
       expect(fixture).toMatchSnapshot();
     });
 
     it('should snap with the extend to radio option with timepicker', () => {
-      component.numberOfStudents = 10;
       component.radioOption = RadioOptions.EXTEND_BY;
       component.datePicker = { year: 2022, month: 10, day: 10 };
       component.timePicker = { hour: 10, minute: 30 };
@@ -100,7 +98,6 @@ describe('IndividualExtensionDateModalComponent', () => {
     });
 
     it('should snap with the error modal', () => {
-      component.numberOfStudents = 10;
       component.feedbackSessionTimeZone = testFeedbackSession.timeZone;
       component.radioOption = RadioOptions.EXTEND_BY;
       component.datePicker = { year: 2020, month: 10, day: 10 };

@@ -9,9 +9,6 @@ export enum ExtensionModalType {
   EXTEND, DELETE,
 }
 
-/**
- * Modal to confirm permanent deletion of a feedback session.
- */
 @Component({
   selector: 'tm-individual-extension-confirm-modal',
   templateUrl: './individual-extension-confirm-modal.component.html',
@@ -23,10 +20,10 @@ export class IndividualExtensionConfirmModalComponent {
   modalType: ExtensionModalType = ExtensionModalType.EXTEND;
 
   @Input()
-  studentsSelected: StudentExtensionTableColumnModel[] = [];
+  selectedStudents: StudentExtensionTableColumnModel[] = [];
 
   @Input()
-  instructorsSelected: InstructorExtensionTableColumnModel[] = [];
+  selectedInstructors: InstructorExtensionTableColumnModel[] = [];
 
   @Input()
   extensionTimestamp: number = 0;
@@ -50,14 +47,14 @@ export class IndividualExtensionConfirmModalComponent {
 
   DATETIME_FORMAT: string = 'd MMM YYYY h:mm:ss';
 
-  isNotifyStudents: boolean = false;
+  isNotifyIndividuals: boolean = false;
 
   onExtend(): void {
-    this.onConfirmExtensionCallBack.emit(this.isNotifyStudents);
+    this.onConfirmExtensionCallBack.emit(this.isNotifyIndividuals);
   }
 
   onDelete(): void {
-    this.onConfirmExtensionCallBack.emit(this.isNotifyStudents);
+    this.onConfirmExtensionCallBack.emit(this.isNotifyIndividuals);
   }
 
   isDeleteModal() : boolean {
@@ -71,7 +68,7 @@ export class IndividualExtensionConfirmModalComponent {
   sortStudentColumnsBy(by: SortBy): void {
     this.sortStudentsBy = by;
     this.sortStudentOrder = this.sortStudentOrder === SortOrder.DESC ? SortOrder.ASC : SortOrder.DESC;
-    this.studentsSelected.sort(this.sortStudentPanelsBy(by));
+    this.selectedStudents.sort(this.sortStudentPanelsBy(by));
   }
 
   sortStudentPanelsBy(by: SortBy): (a: StudentExtensionTableColumnModel, b: StudentExtensionTableColumnModel)
@@ -111,7 +108,7 @@ export class IndividualExtensionConfirmModalComponent {
   sortInstructorsColumnsBy(by: SortBy): void {
     this.sortInstructorsBy = by;
     this.sortInstructorOrder = this.sortInstructorOrder === SortOrder.DESC ? SortOrder.ASC : SortOrder.DESC;
-    this.instructorsSelected.sort(this.sortInstructorPanelsBy(by));
+    this.selectedInstructors.sort(this.sortInstructorPanelsBy(by));
   }
 
   sortInstructorPanelsBy(by: SortBy): (a: InstructorExtensionTableColumnModel, b: InstructorExtensionTableColumnModel)

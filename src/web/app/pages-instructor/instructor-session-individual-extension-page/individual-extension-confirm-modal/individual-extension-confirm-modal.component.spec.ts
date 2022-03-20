@@ -37,7 +37,7 @@ describe('IndividualExtensionConfirmModalComponent', () => {
         email: 'testStudent1@gmail.com',
         extensionDeadline: 1500000000000,
         hasExtension: false,
-        selected: true,
+        isSelected: true,
     };
 
     const studentModel2: StudentExtensionTableColumnModel = {
@@ -47,7 +47,7 @@ describe('IndividualExtensionConfirmModalComponent', () => {
         email: 'testStudent2@gmail.com',
         extensionDeadline: 1510000000000,
         hasExtension: true,
-        selected: true,
+        isSelected: true,
     };
 
     const studentModel3: StudentExtensionTableColumnModel = {
@@ -57,7 +57,7 @@ describe('IndividualExtensionConfirmModalComponent', () => {
         email: 'testStudent3@gmail.com',
         extensionDeadline: 1510000000000,
         hasExtension: true,
-        selected: true,
+        isSelected: true,
     };
 
     const testTimeString = '5 Apr 2000 2:00:00';
@@ -95,7 +95,7 @@ describe('IndividualExtensionConfirmModalComponent', () => {
     });
 
     it('should snap with the extended students and instructors', () => {
-        component.studentsSelected = [studentModel1, studentModel2, studentModel3];
+        component.selectedStudents = [studentModel1, studentModel2, studentModel3];
         component.extensionTimestamp = testFeedbackSession.submissionEndTimestamp;
         fixture.detectChanges();
         expect(fixture).toMatchSnapshot();

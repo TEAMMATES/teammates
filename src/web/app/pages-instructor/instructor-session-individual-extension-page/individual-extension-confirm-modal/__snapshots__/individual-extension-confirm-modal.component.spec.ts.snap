@@ -8,15 +8,15 @@ exports[`IndividualExtensionConfirmModalComponent should snap with the extended 
   activeModal={[Function NgbActiveModal]}
   extensionTimestamp={[Function Number]}
   feedbackSessionTimeZone={[Function String]}
-  instructorsSelected={[Function Array]}
-  isNotifyStudents="false"
+  isNotifyIndividuals="false"
   modalType="0"
   onConfirmExtensionCallBack={[Function EventEmitter_]}
+  selectedInstructors={[Function Array]}
+  selectedStudents={[Function Array]}
   sortInstructorOrder="0"
   sortInstructorsBy={[Function Number]}
   sortStudentOrder="0"
   sortStudentsBy={[Function Number]}
-  studentsSelected={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
   timezoneService={[Function TimezoneService]}
 >
@@ -208,7 +208,7 @@ exports[`IndividualExtensionConfirmModalComponent should snap with the extended 
       class="btn btn-light"
       type="button"
     >
-      No, Cancel the Operation
+      No, cancel the Operation
     </button>
     <button
       class="btn btn-success modal-btn-ok"

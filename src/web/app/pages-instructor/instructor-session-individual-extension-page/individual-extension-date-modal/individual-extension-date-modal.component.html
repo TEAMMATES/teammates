@@ -5,7 +5,7 @@
   </button>
 </div>
 <div class="modal-body">
-  Extending the feedback session for <b>{{numberOfStudents}}</b> student(s) and <b>{{numberOfInstructors}}</b> instructor(s):
+  Extending the feedback session for <b>{{numStudents}}</b> student(s) and <b>{{numInstructors}}</b> instructor(s):
 </div>
 
 <div class="container ml-1">
@@ -24,12 +24,12 @@
   <div *ngIf="isRadioExtendBy()">
     <small>Extend the feedback session by:</small>
     <div id="submission-start-date">
-        <div class="input-group">
+        <div class="input-group w-75">
             <select class="form-control" [(ngModel)]="extendByDeadlineKey">
               <option *ngFor="let deadlineOption of extendByDeadlineOptions | keyvalue: sortMapByOriginalOrder" [value]="deadlineOption.key">
                 {{ deadlineOption.key }}
                 <div *ngIf="deadlineOption.key !== 'Customize'">
-                  ({{ addTimeAndFormat(0, deadlineOption.value, 0) }})
+                  ({{ addTimeAndFormat(deadlineOption.value, 0) }})
                 </div>
               </option>
             </select>
@@ -40,49 +40,45 @@
   <div *ngIf="isRadioExtendTo()">
     <small>The new deadline of the feedback session will be:</small>
     <div id="submission-start-date">
-        <div class="input-group">
-          <tm-datepicker [date]="datePicker"
+      <div class="input-group">
+        <tm-datepicker [date]="datePicker"
           (dateChangeCallback)="onChangeDateTime($event,'date')"
-          [minDate]="getDateFormat(feedbackSessionEndingTime)"></tm-datepicker>
-        <div class="col-md-5">
-          <tm-timepicker id="submission-end-time"
+          [minDate]="getDateFormat(feedbackSessionEndingTime)">
+        </tm-datepicker>
+      <div class="col-md-5">
+        <tm-timepicker id="submission-end-time"
           [time]="timePicker"
           (timeChange)="onChangeDateTime($event,'time')">
-          </tm-timepicker>
-        </div>
+        </tm-timepicker>
       </div>
     </div>
   </div>
+</div>
 
 <div *ngIf="isCustomize()">
   <br>
-    <form class="form-inline">
-      <div>
-        <label for="form-minutes">Minutes</label>
-        <input class="form-control mb-2" name="form-minutes" type="text" placeholder="Minutes"
-        [(ngModel)]="extendByDatePicker.minutes">
-      </div>
-      <div>
-        <label for="form-minutes">Hours</label>
-        <input class="form-control mx-sm-3 mb-2" name="form-hours" type="text" placeholder="Hours"
-        [(ngModel)]="extendByDatePicker.hours">
-      </div>
-      <div>
-        <label for="form-minutes">Days</label>
-        <input class="form-control mb-2" name="form-days" type="text" placeholder="Days"
-        [(ngModel)]="extendByDatePicker.days">
+    <form class="container">
+      <div class="row">
+        <div class="col-sm hours">
+          <small>Hours</small>
+          <input class="form-control" id="form-hours" name="form-hours" type="text" placeholder="Hours" [(ngModel)]="extendByDatePicker.hours">
+        </div>
+        <div class="col-sm">
+          <small>Days</small>
+          <input class="form-control" id="form-days" name="form-days" type="text" placeholder="Days" [(ngModel)]="extendByDatePicker.days">
+        </div>
       </div>
     </form>
   <br>
   <p>
     The new extended deadline will be:
-    {{ addTimeAndFormat(extendByDatePicker.minutes, extendByDatePicker.hours, extendByDatePicker.days) }}
+    {{ addTimeAndFormat(extendByDatePicker.hours, extendByDatePicker.days) }}
   </p>
 </div>
 <br>
 
 <div class="modal-footer">
-  <button type="button" class="btn btn-light" (click)="activeModal.dismiss()">No, Cancel the Operation</button>
+  <button type="button" class="btn btn-light" (click)="activeModal.dismiss()">No, cancel the Operation</button>
   <button type="button" class="btn btn-success modal-btn-ok" (click)="onConfirm()" [disabled]="!isValidForm()">
     Save Changes</button>
 </div>

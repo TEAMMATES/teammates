@@ -119,7 +119,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
               class="col-md-10 text-md-left"
               id="course-name"
             >
-               5 Jul 2017 2:40:00 
+               Fri, 14 Jul 2017, 02:40 AM UTC 
             </div>
           </div>
         </div>
@@ -272,7 +272,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
                 alice@tmms.com
               </td>
               <td>
-                1 Nov 2017 8:26:40
+                Mon, 06 Nov 2017, 08:26 PM UTC
               </td>
             </tr>
             <tr>
@@ -298,7 +298,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
                 bob@tmms.com
               </td>
               <td>
-                5 Jul 2017 2:40:00
+                Fri, 14 Jul 2017, 02:40 AM UTC
               </td>
             </tr>
             <tr>
@@ -324,7 +324,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
                 alex@tmms.com
               </td>
               <td>
-                5 Jul 2017 2:40:00
+                Fri, 14 Jul 2017, 02:40 AM UTC
               </td>
             </tr>
           </table>
@@ -585,7 +585,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
               class="col-md-10 text-md-left"
               id="course-name"
             >
-               5 Jul 2017 2:40:00 
+               Fri, 14 Jul 2017, 02:40 AM UTC 
             </div>
           </div>
         </div>
@@ -738,7 +738,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
                 alice@tmms.com
               </td>
               <td>
-                1 Nov 2017 8:26:40
+                Mon, 06 Nov 2017, 08:26 PM UTC
               </td>
             </tr>
             <tr>
@@ -764,7 +764,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
                 bob@tmms.com
               </td>
               <td>
-                5 Jul 2017 2:40:00
+                Fri, 14 Jul 2017, 02:40 AM UTC
               </td>
             </tr>
             <tr>
@@ -790,7 +790,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
                 alex@tmms.com
               </td>
               <td>
-                5 Jul 2017 2:40:00
+                Fri, 14 Jul 2017, 02:40 AM UTC
               </td>
             </tr>
           </table>
@@ -1289,7 +1289,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
               class="col-md-10 text-md-left"
               id="course-name"
             >
-               5 Jul 2017 2:40:00 
+               Fri, 14 Jul 2017, 02:40 AM UTC 
             </div>
           </div>
         </div>
@@ -1442,7 +1442,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
                 alice@tmms.com
               </td>
               <td>
-                1 Nov 2017 8:26:40
+                Mon, 06 Nov 2017, 08:26 PM UTC
               </td>
             </tr>
             <tr>
@@ -1468,7 +1468,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
                 bob@tmms.com
               </td>
               <td>
-                5 Jul 2017 2:40:00
+                Fri, 14 Jul 2017, 02:40 AM UTC
               </td>
             </tr>
             <tr>
@@ -1494,7 +1494,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
                 alex@tmms.com
               </td>
               <td>
-                5 Jul 2017 2:40:00
+                Fri, 14 Jul 2017, 02:40 AM UTC
               </td>
             </tr>
           </table>
@@ -1707,7 +1707,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
               class="col-md-10 text-md-left"
               id="course-name"
             >
-               5 Jul 2017 2:40:00 
+               Fri, 14 Jul 2017, 02:40 AM UTC 
             </div>
           </div>
         </div>
@@ -2093,7 +2093,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
               class="col-md-10 text-md-left"
               id="course-name"
             >
-               5 Jul 2017 2:40:00 
+               Fri, 14 Jul 2017, 02:40 AM UTC 
             </div>
           </div>
         </div>
@@ -2246,7 +2246,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
                 alice@tmms.com
               </td>
               <td>
-                1 Nov 2017 8:26:40
+                Mon, 06 Nov 2017, 08:26 PM UTC
               </td>
             </tr>
             <tr>
@@ -2272,7 +2272,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
                 bob@tmms.com
               </td>
               <td>
-                5 Jul 2017 2:40:00
+                Fri, 14 Jul 2017, 02:40 AM UTC
               </td>
             </tr>
             <tr>
@@ -2298,7 +2298,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
                 alex@tmms.com
               </td>
               <td>
-                5 Jul 2017 2:40:00
+                Fri, 14 Jul 2017, 02:40 AM UTC
               </td>
             </tr>
           </table>
@@ -3567,7 +3567,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
               class="col-md-10 text-md-left"
               id="course-name"
             >
-               5 Jul 2017 2:40:00 
+               Fri, 14 Jul 2017, 02:40 AM UTC 
             </div>
           </div>
         </div>
@@ -3720,7 +3720,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
                 alice@tmms.com
               </td>
               <td>
-                1 Nov 2017 8:26:40
+                Mon, 06 Nov 2017, 08:26 PM UTC
               </td>
             </tr>
             <tr>
@@ -3746,7 +3746,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
                 bob@tmms.com
               </td>
               <td>
-                5 Jul 2017 2:40:00
+                Fri, 14 Jul 2017, 02:40 AM UTC
               </td>
             </tr>
             <tr>
@@ -3772,7 +3772,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
                 alex@tmms.com
               </td>
               <td>
-                5 Jul 2017 2:40:00
+                Fri, 14 Jul 2017, 02:40 AM UTC
               </td>
             </tr>
           </table>
@@ -3921,7 +3921,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
               class="col-md-10 text-md-left"
               id="course-name"
             >
-               5 Jul 2017 2:40:00 
+               Fri, 14 Jul 2017, 02:40 AM UTC 
             </div>
           </div>
         </div>

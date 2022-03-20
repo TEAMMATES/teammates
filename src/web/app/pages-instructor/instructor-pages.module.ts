@@ -79,7 +79,7 @@ const routes: Routes = [
           import('./instructor-session-individual-extension-page/instructor-session-individual-extension-page.module')
             .then((m: any) => m.InstructorSessionIndividualExtensionPageModule),
         data: {
-          pageTitle: 'Individual Student Extensions',
+          pageTitle: 'Individual Deadline Extensions',
         },
       },
       {

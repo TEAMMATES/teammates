@@ -29,7 +29,7 @@
         <div class="row text-center">
           <div class="col-md-2 text-md-right font-bold">Original Deadline</div>
           <div id="course-name" class="col-md-10 text-md-left">
-            {{ timezoneService.formatToString(feedbackSessionEndingTime, feedbackSessionTimeZone, DATETIME_FORMAT) }}
+            {{ feedbackSessionEndingTime | formatDateDetail: feedbackSessionTimeZone }}
           </div>
         </div>
       </div>
@@ -119,13 +119,13 @@
             [ngClass]="{ 'table-warning': student.hasExtension === true }"
           >
             <td class="align-center" (click)="selectStudent(i)">
-              <label><input type="checkbox" [checked]="student.selected"/></label>
+              <label><input type="checkbox" [checked]="student.isSelected"/></label>
             </td>
             <td>{{ student.sectionName }}</td>
             <td>{{ student.teamName }}</td>
             <td>{{ student.name }}</td>
             <td>{{ student.email }}</td>
-            <td>{{ timezoneService.formatToString(student.extensionDeadline, feedbackSessionTimeZone, DATETIME_FORMAT) }}</td>
+            <td>{{ student.extensionDeadline | formatDateDetail: feedbackSessionTimeZone }}</td>
           </tr>
         </table>
       </div>
@@ -189,12 +189,12 @@
           [ngClass]="{ 'table-warning': instructor.hasExtension === true }"
         >
           <td class="align-center" (click)="selectIntructor(i)">
-            <label><input type="checkbox" [checked]="instructor.selected"/></label>
+            <label><input type="checkbox" [checked]="instructor.isSelected"/></label>
           </td>
           <td>{{ instructor.institute }}</td>
           <td>{{ instructor.name }}</td>
           <td>{{ instructor.email }}</td>
-          <td>{{ timezoneService.formatToString(instructor.extensionDeadline, feedbackSessionTimeZone, DATETIME_FORMAT) }}</td>
+          <td>{{ instructor.extensionDeadline | formatDateDetail: feedbackSessionTimeZone }}</td>
         </tr>
       </table>
     </div>

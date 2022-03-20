@@ -3,9 +3,11 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { of, throwError } from 'rxjs';
+import SpyInstance = jest.SpyInstance;
 import { CourseService } from '../../../services/course.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { InstructorService } from '../../../services/instructor.service';
+import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import {
@@ -106,6 +108,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     let courseService: CourseService;
     let feedbackSessionsService: FeedbackSessionsService;
     let timezoneService: TimezoneService;
+    let statusMessageService: StatusMessageService;
 
     beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
@@ -137,6 +140,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
         courseService = TestBed.inject(CourseService);
         feedbackSessionsService = TestBed.inject(FeedbackSessionsService);
         timezoneService = TestBed.inject(TimezoneService);
+        statusMessageService = TestBed.inject(StatusMessageService);
         jest.spyOn(timezoneService, 'guessTimezone').mockReturnValue('UTC');
         fixture.detectChanges();
       });
@@ -208,6 +212,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
       jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
       jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
       jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(of(instructors));
+      const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast');
 
       component.ngOnInit();
 
@@ -218,6 +223,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
       expect(component.isLoadingFeedbackSession).toBeFalsy();
       expect(component.hasLoadingFeedbackSessionFailed).toBeFalsy();
       fixture.detectChanges();
+      expect(spyStatusMessageService).toBeCalled();
       expect(fixture).toMatchSnapshot();
     });
 
@@ -229,6 +235,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
         status: 404,
         error: { message: 'This is a test message' },
       }));
+      const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast');
 
       component.ngOnInit();
 
@@ -239,6 +246,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
       expect(component.isLoadingFeedbackSession).toBeFalsy();
       expect(component.hasLoadingFeedbackSessionFailed).toBeFalsy();
       fixture.detectChanges();
+      expect(spyStatusMessageService).toBeCalled();
       expect(fixture).toMatchSnapshot();
     });
 
@@ -250,6 +258,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
         error: { message: 'This is a test message' },
       }));
       jest.spyOn(timezoneService, 'formatToString').mockReturnValue(testTimeString);
+      const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast');
 
       component.ngOnInit();
 
@@ -260,6 +269,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
       expect(component.isLoadingFeedbackSession).toBeFalsy();
       expect(component.hasLoadingFeedbackSessionFailed).toBeTruthy();
       fixture.detectChanges();
+      expect(spyStatusMessageService).toBeCalled();
       expect(fixture).toMatchSnapshot();
     });
 
@@ -272,6 +282,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
       jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
       jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(of(instructors));
       jest.spyOn(timezoneService, 'formatToString').mockReturnValue(testTimeString);
+      const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast');
 
       component.ngOnInit();
 
@@ -282,6 +293,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
       expect(component.isLoadingFeedbackSession).toBeFalsy();
       expect(component.hasLoadingFeedbackSessionFailed).toBeTruthy();
       fixture.detectChanges();
+      expect(spyStatusMessageService).toBeCalled();
       expect(fixture).toMatchSnapshot();
     });
 
@@ -359,7 +371,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
       jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
       jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
       component.ngOnInit();
-      component.studentsOfCourse[1].selected = true; // Bob has no extension
+      component.studentsOfCourse[1].isSelected = true; // Bob has no extension
       component.isLoadingAllInstructors = false;
       component.isLoadingAllStudents = false;
       component.isLoadingFeedbackSession = false;
@@ -379,7 +391,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
       jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
       jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
       component.ngOnInit();
-      component.studentsOfCourse[0].selected = true; // Alice has extension
+      component.studentsOfCourse[0].isSelected = true; // Alice has extension
       component.isLoadingAllInstructors = false;
       component.isLoadingAllStudents = false;
       component.isLoadingFeedbackSession = false;
@@ -400,8 +412,8 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
       jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
       jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
       component.ngOnInit();
-      component.studentsOfCourse[0].selected = true; // Alice has extension
-      component.studentsOfCourse[1].selected = true; // Bob does not
+      component.studentsOfCourse[0].isSelected = true; // Alice has extension
+      component.studentsOfCourse[1].isSelected = true; // Bob does not
       component.isLoadingAllInstructors = false;
       component.isLoadingAllStudents = false;
       component.isLoadingFeedbackSession = false;
