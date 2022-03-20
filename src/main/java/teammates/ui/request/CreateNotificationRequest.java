@@ -38,6 +38,30 @@ public class CreateNotificationRequest extends BasicRequest {
         return this.message;
     }
 
+    public void setStartTimestamp(long startTimestamp) {
+        this.startTimestamp = startTimestamp;
+    }
+
+    public void setEndTimestamp(long endTimestamp) {
+        this.endTimestamp = endTimestamp;
+    }
+
+    public void setNotificationType(NotificationType notificationType) {
+        this.notificationType = notificationType;
+    }
+
+    public void setTargetUser(NotificationTargetUser targetUser) {
+        this.targetUser = targetUser;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
     @Override
     public void validate() throws InvalidHttpRequestBodyException {
         assertTrue(startTimestamp > 0L, "Start timestamp should be greater than zero");
