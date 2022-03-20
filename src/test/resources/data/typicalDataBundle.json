@@ -1871,10 +1871,10 @@
     }
   },
    "notifications": {
-    "notification-1": {
-      "notificationId": "notification-1",
+    "notification1": {
+      "notificationId": "notification1",
       "startTime": "2011-01-01T00:00:00Z",
-      "endTime": "2024-01-01T00:00:00Z",
+      "endTime": "2099-01-01T00:00:00Z",
       "createdAt": "2011-01-01T00:00:00Z",
       "updatedAt": "2011-01-01T00:00:00Z",
       "type": "DEPRECATION",
@@ -1883,10 +1883,10 @@
       "message": "Deprecation happens in three minutes",
       "shown": false
     },
-    "notification-2": {
-      "notificationId": "notification-2",
+    "notification2": {
+      "notificationId": "notification2",
       "startTime": "2011-02-02T00:00:00Z",
-      "endTime": "2024-02-02T00:00:00Z",
+      "endTime": "2099-02-02T00:00:00Z",
       "createdAt": "2011-01-01T00:00:00Z",
       "updatedAt": "2011-01-01T00:00:00Z",
       "type": "VERSION_NOTE",
@@ -1895,10 +1895,10 @@
       "message": "Exciting features",
       "shown": false
     },
-    "notification-3": {
-      "notificationId": "notification-3",
+    "notification3": {
+      "notificationId": "notification3",
       "startTime": "2011-03-03T00:00:00Z",
-      "endTime": "2024-03-03T00:00:00Z",
+      "endTime": "2099-03-03T00:00:00Z",
       "createdAt": "2011-01-01T00:00:00Z",
       "updatedAt": "2011-01-01T00:00:00Z",
       "type": "VERSION_NOTE",
@@ -1907,10 +1907,10 @@
       "message": "The version note content",
       "shown": false
     },
-    "notification-4": {
-      "notificationId": "notification-4",
+    "notification4": {
+      "notificationId": "notification4",
       "startTime": "2011-04-04T00:00:00Z",
-      "endTime": "2024-04-04T00:00:00Z",
+      "endTime": "2099-04-04T00:00:00Z",
       "createdAt": "2011-01-01T00:00:00Z",
       "updatedAt": "2011-01-01T00:00:00Z",
       "type": "MAINTENANCE",
@@ -1919,10 +1919,10 @@
       "message": "The content of maintenance",
       "shown": false
     },
-    "notification-5": {
-      "notificationId": "notification-5",
+    "notification5": {
+      "notificationId": "notification5",
       "startTime": "2011-05-05T00:00:00Z",
-      "endTime": "2024-05-05T00:00:00Z",
+      "endTime": "2099-05-05T00:00:00Z",
       "createdAt": "2011-01-01T00:00:00Z",
       "updatedAt": "2011-01-01T00:00:00Z",
       "type": "TIPS",
@@ -1931,10 +1931,10 @@
       "message": "The first tip content",
       "shown": false
     },
-    "notification-6": {
-      "notificationId": "notification-6",
+    "notification6": {
+      "notificationId": "notification6",
       "startTime": "2011-06-06T00:00:00Z",
-      "endTime": "2024-06-06T00:00:00Z",
+      "endTime": "2099-06-06T00:00:00Z",
       "createdAt": "2011-01-01T00:00:00Z",
       "updatedAt": "2011-01-01T00:00:00Z",
       "type": "DEPRECATION",
