@@ -492,7 +492,7 @@ public final class FeedbackSessionsLogic {
      * Gets the expected number of submissions for a feedback session.
      */
     public int getExpectedTotalSubmission(FeedbackSessionAttributes fsa) {
-        List<StudentAttributes> students = studentsLogic.getStudentsForCourse(fsa.getCourseId());
+        Integer numOfStudents = studentsLogic.getNumberOfStudentsForCourse(fsa.getCourseId());
         List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForCourse(fsa.getCourseId());
         List<FeedbackQuestionAttributes> questions =
                 fqLogic.getFeedbackQuestionsForSession(fsa.getFeedbackSessionName(), fsa.getCourseId());
@@ -501,7 +501,7 @@ public final class FeedbackSessionsLogic {
         int expectedTotal = 0;
 
         if (!studentQns.isEmpty()) {
-            expectedTotal += students.size();
+            expectedTotal += numOfStudents;
         }
 
         for (InstructorAttributes instructor : instructors) {
