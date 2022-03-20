@@ -1,8 +1,8 @@
 package teammates.storage.api;
 
-import java.util.List;
+import java.time.Instant;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.testng.annotations.Test;
@@ -133,9 +133,8 @@ public class AccountsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
 
         ______TS("typical edit success case");
 
-        Map<String, Long> readNotifications = new LinkedHashMap<>();
-        // Friday, March 1, 2030 8:00:00 AM GMT+08:00
-        readNotifications.put("1", Long.valueOf("1898553600000"));
+        Map<String, Instant> readNotifications = new HashMap<>();
+        readNotifications.put("1", Instant.now());
 
         ______TS("typical edit success case");
         assertEquals(new HashMap<>(), a.getReadNotifications());

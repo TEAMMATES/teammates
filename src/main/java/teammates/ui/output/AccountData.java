@@ -1,6 +1,7 @@
 package teammates.ui.output;
 
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
 
@@ -18,7 +19,13 @@ public class AccountData extends ApiOutput {
         this.googleId = accountInfo.getGoogleId();
         this.name = accountInfo.getName();
         this.email = accountInfo.getEmail();
-        this.readNotifications = accountInfo.getReadNotifications();
+        this.readNotifications = accountInfo.getReadNotifications()
+            .entrySet()
+            .stream()
+            .collect(Collectors.toMap(
+                e -> e.getKey(),
+                e -> e.getValue().toEpochMilli()
+            ));
     }
 
     public String getEmail() {

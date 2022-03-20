@@ -1,7 +1,7 @@
 package teammates.common.datatransfer.attributes;
 
+import java.time.Instant;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.testng.annotations.Test;
@@ -134,7 +134,7 @@ public class AccountAttributesTest extends BaseAttributesTest {
 
     @Test
     public void testValueOf() {
-        Account genericAccount = new Account("id", "Joe", "joe@example.com", new LinkedHashMap<>());
+        Account genericAccount = new Account("id", "Joe", "joe@example.com", new HashMap<>());
 
         AccountAttributes observedAccountAttributes = AccountAttributes.valueOf(genericAccount);
 
@@ -241,9 +241,8 @@ public class AccountAttributesTest extends BaseAttributesTest {
         String name = "valid name";
         String email = "valid@email.com";
 
-        Map<String, Long> readNotifications = new LinkedHashMap<>();
-        // Friday, March 1, 2030 8:00:00 AM GMT+08:00
-        readNotifications.put("1", Long.valueOf("1898553600000"));
+        Map<String, Instant> readNotifications = new HashMap<>();
+        readNotifications.put("1", Instant.now());
 
         return AccountAttributes.builder(googleId)
                 .withName(name)

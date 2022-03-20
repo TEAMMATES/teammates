@@ -2,6 +2,7 @@ package teammates.storage.api;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 
@@ -76,7 +77,7 @@ public final class AccountsDb extends EntitiesDb<Account, AccountAttributes> {
         }
 
         // update only if change
-        boolean hasSameAttributes = this.<Map<String, Long>>hasSameValue(account.getReadNotifications(),
+        boolean hasSameAttributes = this.<Map<String, Instant>>hasSameValue(account.getReadNotifications(),
                 newAttributes.getReadNotifications());
         if (hasSameAttributes) {
             log.info(String.format(OPTIMIZED_SAVING_POLICY_APPLIED, Account.class.getSimpleName(), updateOptions));

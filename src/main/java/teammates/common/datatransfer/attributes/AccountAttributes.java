@@ -22,7 +22,7 @@ public class AccountAttributes extends EntityAttributes<Account> {
     private String googleId;
     private String name;
     private String email;
-    private Map<String, Long> readNotifications;
+    private Map<String, Instant> readNotifications;
     private Instant createdAt;
 
     private AccountAttributes(String googleId) {
@@ -89,11 +89,11 @@ public class AccountAttributes extends EntityAttributes<Account> {
         this.email = email;
     }
 
-    public Map<String, Long> getReadNotifications() {
+    public Map<String, Instant> getReadNotifications() {
         return readNotifications;
     }
 
-    public void setReadNotifications(Map<String, Long> readNotifications) {
+    public void setReadNotifications(Map<String, Instant> readNotifications) {
         this.readNotifications = readNotifications;
     }
 
@@ -127,7 +127,8 @@ public class AccountAttributes extends EntityAttributes<Account> {
 
     @Override
     public String toString() {
-        return JsonUtils.toJson(this, AccountAttributes.class);
+        return "AccountAttributes [googleId=" + googleId + ", name=" + name
+               + ", email=" + email + "]";
     }
 
     @Override
@@ -214,7 +215,7 @@ public class AccountAttributes extends EntityAttributes<Account> {
     public static class UpdateOptions {
         private String googleId;
 
-        private UpdateOption<Map<String, Long>> readNotificationsOption = UpdateOption.empty();
+        private UpdateOption<Map<String, Instant>> readNotificationsOption = UpdateOption.empty();
 
         private UpdateOptions(String googleId) {
             assert googleId != null;
@@ -269,7 +270,7 @@ public class AccountAttributes extends EntityAttributes<Account> {
             this.updateOptions = updateOptions;
         }
 
-        public B withReadNotifications(Map<String, Long> readNotifications) {
+        public B withReadNotifications(Map<String, Instant> readNotifications) {
             updateOptions.readNotificationsOption = UpdateOption.of(readNotifications);
             return thisBuilder;
         }
