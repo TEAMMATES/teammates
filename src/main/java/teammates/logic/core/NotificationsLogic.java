@@ -40,6 +40,13 @@ public final class NotificationsLogic {
     }
 
     /**
+     * Checks if a notification id exists.
+     */
+    public boolean doesNotificationExists(String id) {
+        return notificationsDb.doesNotificationExists(id);
+    }
+
+    /**
      * Gets all notifications.
      */
     public List<NotificationAttributes> getAllNotifications() {

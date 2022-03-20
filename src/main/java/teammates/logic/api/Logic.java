@@ -103,6 +103,18 @@ public class Logic {
         return accountsLogic.getReadNotificationsId(googleId);
     }
 
+    /**
+     * Updates notification of {@code notificationId}
+     * 
+     * <p>Preconditions:</p>
+     * * All parameters are non-null.
+     */
+    public AccountAttributes updateReadNotifications(
+            String googleId, String notificationId, Instant endTime) throws EntityDoesNotExistException {
+        assert googleId != null;
+        return accountsLogic.updateReadNotifications(googleId, notificationId, endTime);
+    }
+
     public String getCourseInstitute(String courseId) {
         return coursesLogic.getCourseInstitute(courseId);
     }
@@ -113,6 +125,13 @@ public class Logic {
 
     public List<NotificationAttributes> getAllNotifications() {
         return notificationsLogic.getAllNotifications();
+    }
+
+    /**
+     * Checks if a notification of {@code notificationId} exists.
+     */
+    public boolean doesNotificationExists(String notificationId) {
+        return notificationsLogic.doesNotificationExists(notificationId);
     }
 
     /**

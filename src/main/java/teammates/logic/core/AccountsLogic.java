@@ -1,7 +1,9 @@
 package teammates.logic.core;
 
 import java.util.ArrayList;
+import java.time.Instant;
 import java.util.List;
+import java.util.Map;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -251,4 +253,32 @@ public final class AccountsLogic {
         accountsDb.createEntity(account);
     }
 
+    /**
+     * Updates the read notifications of an account.
+     */
+    public AccountAttributes updateReadNotifications(String googleId, String notificationId, Instant endTime)
+            throws EntityDoesNotExistException {
+        AccountAttributes a = accountsDb.getAccount(googleId);
+        if (a == null) {
+            throw new EntityDoesNotExistException("Invalid account id.");
+        }
+        Map<String, Instant> updatedReadNotifications = a.getReadNotifications();
+        for (Map.Entry<String, Instant> notification : updatedReadNotifications.entrySet()) {
+            if (notification.getValue().isBefore(Instant.now())) {
+                updatedReadNotifications.remove(notification.getKey());
+            }
+        }
+        updatedReadNotifications.put(notificationId, endTime);
+
+        try {
+            return accountsDb.updateAccount(
+                    AccountAttributes.updateOptionsBuilder(googleId)
+                            .withReadNotifications(updatedReadNotifications)
+                            .build());
+        } catch (InvalidParametersException e) {
+            assert false : "Invalid account data detected unexpectedly "
+                    + "while updating read notifications for account " + googleId + ": " + e.getMessage();
+        }
+        throw new EntityDoesNotExistException("Invalid update to read notification in account");
+    }
 }
