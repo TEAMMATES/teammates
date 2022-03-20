@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -201,7 +200,7 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
         Set<String> readNotificationsId = typicalBundle.accounts.get("instructor1OfCourse1").getReadNotifications().keySet();
 
         String[] requestParams = new String[] {
-                Const.ParamsNames.NOTIFICATION_TARGET_USER, NotificationTargetUser.INSTRUCTOR.toString()
+                Const.ParamsNames.NOTIFICATION_TARGET_USER, NotificationTargetUser.INSTRUCTOR.toString(),
         };
 
         GetNotificationsAction action = getAction(requestParams);

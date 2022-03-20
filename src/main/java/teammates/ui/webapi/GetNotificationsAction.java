@@ -43,9 +43,6 @@ public class GetNotificationsAction extends Action {
     @Override
     public JsonResult execute() {
         String targetUserString = getRequestParamValue(Const.ParamsNames.NOTIFICATION_TARGET_USER);
-        boolean isFetchingAll = Boolean.parseBoolean(
-            getRequestParamValue(Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL));
-
         List<NotificationAttributes> notificationAttributes;
         if (targetUserString == null && userInfo.isAdmin) {
             // retrieve all notifications
@@ -63,15 +60,15 @@ public class GetNotificationsAction extends Action {
                     logic.getActiveNotificationsByTargetUser(targetUser);
         }
 
+        boolean isFetchingAll = Boolean.parseBoolean(
+                getRequestParamValue(Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL));
         if (!isFetchingAll) {
             // only unread notifications are returned
             List<String> readNotifications = logic.getReadNotificationsId(userInfo.getId());
-            if (readNotifications != null) {
-                notificationAttributes = notificationAttributes
-                        .stream()
-                        .filter(n -> !readNotifications.contains(n.getNotificationId()))
-                        .collect(Collectors.toList());
-            }
+            notificationAttributes = notificationAttributes
+                    .stream()
+                    .filter(n -> !readNotifications.contains(n.getNotificationId()))
+                    .collect(Collectors.toList());
         }
 
         NotificationsData responseData = new NotificationsData(notificationAttributes);
