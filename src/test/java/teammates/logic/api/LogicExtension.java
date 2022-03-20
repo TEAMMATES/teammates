@@ -6,6 +6,7 @@ import java.util.List;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
+import teammates.common.datatransfer.attributes.NotificationAttributes;
 
 /**
  * Holds additional methods for {@link Logic} used only in tests.
@@ -33,6 +34,10 @@ public class LogicExtension extends Logic {
 
     public List<FeedbackResponseAttributes> getFeedbackResponsesForQuestion(String feedbackQuestionId) {
         return feedbackResponsesLogic.getFeedbackResponsesForQuestion(feedbackQuestionId);
+    }
+
+    public NotificationAttributes getNotification(String notificationId) {
+        return notificationsLogic.getNotification(notificationId);
     }
 
 }
