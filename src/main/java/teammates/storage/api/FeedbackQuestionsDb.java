@@ -65,7 +65,6 @@ public final class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, Feed
         return load()
                 .filter("feedbackSessionName =", feedbackSessionName)
                 .filter("courseId =", courseId)
-                .project("giverType")
                 .list()
                 .stream()
                 .collect(Collectors.groupingBy(FeedbackQuestion::getGiverType, Collectors.counting()));
