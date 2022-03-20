@@ -266,5 +266,4 @@ public class NotificationAttributesTest extends BaseTestCase {
 
         assertFalse(notificationAttributes.hashCode() == notificationAttributesDifferent.hashCode());
     }
-
 }

@@ -10,6 +10,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.NotificationAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
+import teammates.storage.entity.Notification;
 import teammates.ui.output.NotificationData;
 import teammates.ui.output.NotificationsData;
 
@@ -82,7 +83,7 @@ public class GetNotificationActionTest extends BaseActionTest<GetNotificationAct
         ______TS("accessible to admin");
         loginAsAdmin();
         requestParams = new String[] {
-                Const.ParamsNames.NOTIFICATION_TARGET_USER, NotificationTargetUser.STUDENT.toString(),
+                Const.ParamsNames.NOTIFICATION_TARGET_USER, null,
                 Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL, String.valueOf(true),
         };
         verifyCanAccess(requestParams);
@@ -94,7 +95,7 @@ public class GetNotificationActionTest extends BaseActionTest<GetNotificationAct
         int expectedNumberOfNotifications = 4;
         InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         loginAsInstructor(instructor.getGoogleId());
-        NotificationAttributes notification = typicalBundle.notifications.get("notification-5");
+        NotificationAttributes notification = typicalBundle.notifications.get("notification5");
 
         String[] requestParams = new String[] {
                 Const.ParamsNames.NOTIFICATION_TARGET_USER, NotificationTargetUser.INSTRUCTOR.toString(),
@@ -112,22 +113,18 @@ public class GetNotificationActionTest extends BaseActionTest<GetNotificationAct
         assertEquals(expectedNumberOfNotifications, notifications.size());
 
         NotificationData firstNotification = notifications.get(0);
-        assertEquals("notification-5", firstNotification.getNotificationId());
-        assertEquals(NotificationType.TIPS, firstNotification.getNotificationType());
-        assertEquals(NotificationTargetUser.INSTRUCTOR, firstNotification.getTargetUser());
-        assertEquals("The first tip to instructor", firstNotification.getTitle());
-        assertEquals("The first tip content", firstNotification.getMessage());
+        verifyNotificationEquals(notification, firstNotification);
     }
 
     @Test
-    public void testExecute_withUserTypeForAdmin_shouldReturnData() {
+    public void testExecute_withoutUserTypeForAdmin_shouldReturnAllNotifications() {
         ______TS("Admin request to fetch notification");
-        int expectedNumberOfNotifications = 4;
+        int expectedNumberOfNotifications = typicalBundle.notifications.size();
         loginAsAdmin();
-        NotificationAttributes notification = typicalBundle.notifications.get("notification-6");
+        NotificationAttributes notification = typicalBundle.notifications.get("notification6");
 
         String[] requestParams = new String[] {
-                Const.ParamsNames.NOTIFICATION_TARGET_USER, NotificationTargetUser.STUDENT.toString(),
+                Const.ParamsNames.NOTIFICATION_TARGET_USER, null,
                 Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL, String.valueOf(true),
         };
 
@@ -138,15 +135,11 @@ public class GetNotificationActionTest extends BaseActionTest<GetNotificationAct
         List<NotificationData> notifications = output.getNotifications();
 
         assertEquals(expectedNumberOfNotifications,
-                logic.getActiveNotificationsByTargetUser(notification.getTargetUser()).size());
+                logic.getAllNotifications().size());
         assertEquals(expectedNumberOfNotifications, notifications.size());
 
         NotificationData firstNotification = notifications.get(0);
-        assertEquals("notification-6", firstNotification.getNotificationId());
-        assertEquals(NotificationType.DEPRECATION, firstNotification.getNotificationType());
-        assertEquals(NotificationTargetUser.STUDENT, firstNotification.getTargetUser());
-        assertEquals("The note of maintenance", firstNotification.getTitle());
-        assertEquals("The content of maintenance", firstNotification.getMessage());
+        verifyNotificationEquals(notification, firstNotification);
     }
 
     @Test
@@ -176,4 +169,11 @@ public class GetNotificationActionTest extends BaseActionTest<GetNotificationAct
                 Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL,
                 String.valueOf(true));
     }
-}
+
+    private void verifyNotificationEquals(NotificationAttributes expected, NotificationData actual) {
+        assertEquals(expected.getNotificationId(), actual.getNotificationId());
+        assertEquals(expected.getType(), actual.getNotificationType());
+        assertEquals(expected.getTargetUser(), actual.getTargetUser());
+        assertEquals(expected.getTitle(), actual.getTitle());
+        assertEquals(expected.getMessage(), actual.getMessage());
+    }}
