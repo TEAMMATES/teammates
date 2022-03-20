@@ -10,7 +10,6 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -493,7 +492,7 @@ public final class FeedbackSessionsLogic {
      */
     public int getExpectedTotalSubmission(FeedbackSessionAttributes fsa) {
         Integer numOfStudents = studentsLogic.getNumberOfStudentsForCourse(fsa.getCourseId());
-        List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForCourse(fsa.getCourseId());
+        List<String> instructorEmails = instructorsLogic.getInstructorEmailsForCourse(fsa.getCourseId());
         List<FeedbackQuestionAttributes> questions =
                 fqLogic.getFeedbackQuestionsForSession(fsa.getFeedbackSessionName(), fsa.getCourseId());
         List<FeedbackQuestionAttributes> studentQns = fqLogic.getFeedbackQuestionsForStudents(questions);
@@ -504,9 +503,9 @@ public final class FeedbackSessionsLogic {
             expectedTotal += numOfStudents;
         }
 
-        for (InstructorAttributes instructor : instructors) {
+        for (String instructorEmail : instructorEmails) {
             List<FeedbackQuestionAttributes> instructorQns =
-                    fqLogic.getFeedbackQuestionsForInstructors(questions, fsa.isCreator(instructor.getEmail()));
+                    fqLogic.getFeedbackQuestionsForInstructors(questions, fsa.isCreator(instructorEmail));
             if (!instructorQns.isEmpty()) {
                 expectedTotal += 1;
             }
