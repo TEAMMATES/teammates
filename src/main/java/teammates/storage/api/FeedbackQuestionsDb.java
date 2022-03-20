@@ -3,6 +3,8 @@ package teammates.storage.api;
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.googlecode.objectify.cmd.LoadType;
 import com.googlecode.objectify.cmd.Query;
@@ -50,6 +52,23 @@ public final class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, Feed
         assert courseId != null;
 
         return makeAttributesOrNull(getFeedbackQuestionEntity(feedbackSessionName, courseId, questionNumber));
+    }
+
+    /**
+     * Gets feedback question count grouped by giver types of a session.
+     */
+    public Map<FeedbackParticipantType, Long> getFeedbackQuestionGiverTypeCountForSession(
+            String feedbackSessionName, String courseId) {
+        assert feedbackSessionName != null;
+        assert courseId != null;
+
+        return load()
+                .filter("feedbackSessionName =", feedbackSessionName)
+                .filter("courseId =", courseId)
+                .project("giverType")
+                .list()
+                .stream()
+                .collect(Collectors.groupingBy(FeedbackQuestion::getGiverType, Collectors.counting()));
     }
 
     /**

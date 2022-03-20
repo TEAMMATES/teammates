@@ -122,6 +122,31 @@ public final class FeedbackQuestionsLogic {
         return questions;
     }
 
+    /**
+     * Gets the number of questions for student to answer from a map of giver type to question counts.
+     */
+    public long getFeedbackQuestionForStudentCountFrom(Map<FeedbackParticipantType, Long> giverTypeCounts) {
+        return giverTypeCounts.getOrDefault(FeedbackParticipantType.STUDENTS, 0L)
+                + giverTypeCounts.getOrDefault(FeedbackParticipantType.TEAMS, 0L);
+    }
+
+    /**
+     * Gets the number of questions for instructor to answer from a map of giver type to question counts.
+     */
+    public long getFeedbackQuestionForInstructorCountFrom(
+            Map<FeedbackParticipantType, Long> giverTypeCounts, boolean isCreator) {
+        return giverTypeCounts.getOrDefault(FeedbackParticipantType.INSTRUCTORS, 0L)
+                + (isCreator ? giverTypeCounts.getOrDefault(FeedbackParticipantType.SELF, 0L) : 0);
+    }
+
+    /**
+     * Gets a {@link Map} of FeedbackQuestion giver types to count in the given session.
+     */
+    public Map<FeedbackParticipantType, Long> getFeedbackQuestionGiverCountForSession(
+            String feedbackSessionName, String courseId) {
+        return fqDb.getFeedbackQuestionGiverTypeCountForSession(feedbackSessionName, courseId);
+    }
+
     // TODO can be removed once we are sure that question numbers will be consistent
     private boolean areQuestionNumbersConsistent(List<FeedbackQuestionAttributes> questions) {
         Set<Integer> questionNumbersInSession = new HashSet<>();

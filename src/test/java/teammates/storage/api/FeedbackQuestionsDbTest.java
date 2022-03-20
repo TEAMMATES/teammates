@@ -4,6 +4,7 @@ import static teammates.common.util.FieldValidator.PARTICIPANT_TYPE_TEAM_ERROR_M
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.testng.annotations.Test;
 import org.testng.collections.Lists;
@@ -284,6 +285,47 @@ public class FeedbackQuestionsDbTest extends BaseTestCaseWithLocalDatabaseAccess
         actual = fqDb.getFeedbackQuestion("non-existent id");
 
         assertNull(actual);
+    }
+
+    @Test
+    public void testGetFeedbackQuestionGiverTypeCountsForSession() throws Exception {
+        ______TS("standard success case");
+        FeedbackQuestionAttributes fqa = getNewFeedbackQuestionAttributes();
+
+        // remove possibly conflicting entity from the database
+        deleteFeedbackQuestion(fqa);
+
+        int[] numOfQuestions = createNewQuestionsForDifferentRecipientTypes();
+
+        Map<FeedbackParticipantType, Long> giverTypeCounts =
+                fqDb.getFeedbackQuestionGiverTypeCountForSession(
+                        fqa.getFeedbackSessionName(),
+                        fqa.getCourseId());
+
+        assertEquals(Long.valueOf(numOfQuestions[0]), giverTypeCounts.get(FeedbackParticipantType.INSTRUCTORS));
+        assertEquals(Long.valueOf(numOfQuestions[1]), giverTypeCounts.get(FeedbackParticipantType.STUDENTS));
+        assertEquals(Long.valueOf(numOfQuestions[2]), giverTypeCounts.get(FeedbackParticipantType.SELF));
+        assertEquals(Long.valueOf(numOfQuestions[3]), giverTypeCounts.get(FeedbackParticipantType.TEAMS));
+
+        ______TS("null params");
+
+        assertThrows(AssertionError.class,
+                () -> fqDb.getFeedbackQuestionGiverTypeCountForSession(null, fqa.getCourseId()));
+
+        assertThrows(AssertionError.class,
+                () -> fqDb.getFeedbackQuestionGiverTypeCountForSession(fqa.getFeedbackSessionName(), null));
+
+        ______TS("non-existant session");
+
+        assertTrue(fqDb.getFeedbackQuestionGiverTypeCountForSession(
+                "non-existant session", fqa.getCourseId()).isEmpty());
+
+        ______TS("no questions in session");
+
+        assertTrue(fqDb.getFeedbackQuestionGiverTypeCountForSession(
+                "Empty session", fqa.getCourseId()).isEmpty());
+
+        deleteFeedbackQuestions(numOfQuestions[0] + numOfQuestions[1] + numOfQuestions[2] + numOfQuestions[3]);
     }
 
     @Test

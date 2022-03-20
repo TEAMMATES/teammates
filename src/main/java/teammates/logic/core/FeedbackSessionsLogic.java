@@ -3,6 +3,7 @@ package teammates.logic.core;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
@@ -493,25 +494,21 @@ public final class FeedbackSessionsLogic {
     public int getExpectedTotalSubmission(FeedbackSessionAttributes fsa) {
         Integer numOfStudents = studentsLogic.getNumberOfStudentsForCourse(fsa.getCourseId());
         List<String> instructorEmails = instructorsLogic.getInstructorEmailsForCourse(fsa.getCourseId());
-        List<FeedbackQuestionAttributes> questions =
-                fqLogic.getFeedbackQuestionsForSession(fsa.getFeedbackSessionName(), fsa.getCourseId());
-        List<FeedbackQuestionAttributes> studentQns = fqLogic.getFeedbackQuestionsForStudents(questions);
+        Map<FeedbackParticipantType, Long> giverTypeCounts = fqLogic.getFeedbackQuestionGiverCountForSession(
+                fsa.getFeedbackSessionName(), fsa.getCourseId());
 
-        int expectedTotal = 0;
-
-        if (!studentQns.isEmpty()) {
+        long expectedTotal = 0;
+        if (fqLogic.getFeedbackQuestionForStudentCountFrom(giverTypeCounts) > 0) {
             expectedTotal += numOfStudents;
         }
 
         for (String instructorEmail : instructorEmails) {
-            List<FeedbackQuestionAttributes> instructorQns =
-                    fqLogic.getFeedbackQuestionsForInstructors(questions, fsa.isCreator(instructorEmail));
-            if (!instructorQns.isEmpty()) {
+            if (fqLogic.getFeedbackQuestionForInstructorCountFrom(giverTypeCounts, fsa.isCreator(instructorEmail)) > 0) {
                 expectedTotal += 1;
             }
         }
 
-        return expectedTotal;
+        return (int) expectedTotal;
     }
 
     /**
