@@ -768,10 +768,10 @@ public class Logic {
      * <br/>Preconditions: <br>
      * * All parameters are non-null.
      */
-    public void deleteStudentsInCourseCascade(String courseId) {
+    public void deleteStudentsInCourseCascade(String courseId, int batchSize) {
         assert courseId != null;
 
-        studentsLogic.deleteStudentsInCourseCascade(courseId);
+        studentsLogic.deleteStudentsInCourseCascade(courseId, batchSize);
     }
 
     /**
