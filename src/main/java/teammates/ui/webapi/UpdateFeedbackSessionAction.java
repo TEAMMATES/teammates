@@ -1,6 +1,7 @@
 package teammates.ui.webapi;
 
 import java.time.Instant;
+import java.util.Collection;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -43,6 +44,11 @@ class UpdateFeedbackSessionAction extends Action {
     @Override
     public JsonResult execute() throws InvalidHttpRequestBodyException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+        String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+        // TODO: Use the value here.
+        getBooleanRequestParamValue(Const.ParamsNames.MUST_NOTIFY_ABOUT_DEADLINES);
+
+        FeedbackSessionAttributes feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
 
         FeedbackSessionUpdateRequest updateRequest =
                 getAndValidateRequestBody(FeedbackSessionUpdateRequest.class);
@@ -50,17 +56,19 @@ class UpdateFeedbackSessionAction extends Action {
         Map<String, Instant> studentDeadlines = updateRequest.getStudentDeadlines();
         Map<String, Instant> instructorDeadlines = updateRequest.getInstructorDeadlines();
         try {
-            logic.verifyAllStudentsExistInCourse(courseId, studentDeadlines.keySet());
-            logic.verifyAllInstructorsExistInCourse(courseId, instructorDeadlines.keySet());
+            boolean hasExtraStudents = hasExtraEmailAddresses(feedbackSession.getStudentDeadlines().keySet(),
+                    studentDeadlines.keySet());
+            boolean hasExtraInstructors = hasExtraEmailAddresses(feedbackSession.getInstructorDeadlines().keySet(),
+                    instructorDeadlines.keySet());
+            if (hasExtraStudents) {
+                logic.verifyAllStudentsExistInCourse(courseId, studentDeadlines.keySet());
+            }
+            if (hasExtraInstructors) {
+                logic.verifyAllInstructorsExistInCourse(courseId, instructorDeadlines.keySet());
+            }
         } catch (EntityDoesNotExistException e) {
             throw new EntityNotFoundException(e);
         }
-
-        String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        // TODO: Use the value here.
-        getBooleanRequestParamValue(Const.ParamsNames.MUST_NOTIFY_ABOUT_DEADLINES);
-
-        FeedbackSessionAttributes feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
 
         String timeZone = feedbackSession.getTimeZone();
         Instant startTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
@@ -102,6 +110,11 @@ class UpdateFeedbackSessionAction extends Action {
             log.severe("Unexpected error", ednee);
             return new JsonResult(ednee.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
+    }
+
+    private boolean hasExtraEmailAddresses(Collection<String> oldEmailAddresses, Collection<String> newEmailAddresses) {
+        return newEmailAddresses.stream()
+                .anyMatch(newEmailAddress -> !oldEmailAddresses.contains(newEmailAddress));
     }
 
 }
