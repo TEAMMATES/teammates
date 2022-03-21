@@ -19,6 +19,8 @@ public final class UsageStatisticsAttributes extends EntityAttributes<UsageStati
     private int numStudents;
     private int numInstructors;
     private int numAccountRequests;
+    private int numEmails;
+    private int numSubmissions;
 
     private UsageStatisticsAttributes(Instant startTime, int timePeriod) {
         this.startTime = startTime;
@@ -36,6 +38,8 @@ public final class UsageStatisticsAttributes extends EntityAttributes<UsageStati
         attributes.numStudents = us.getNumStudents();
         attributes.numInstructors = us.getNumInstructors();
         attributes.numAccountRequests = us.getNumAccountRequests();
+        attributes.numEmails = us.getNumEmails();
+        attributes.numSubmissions = us.getNumSubmissions();
 
         return attributes;
     }
@@ -52,6 +56,8 @@ public final class UsageStatisticsAttributes extends EntityAttributes<UsageStati
         attributes.numStudents = this.numStudents;
         attributes.numInstructors = this.numInstructors;
         attributes.numAccountRequests = this.numAccountRequests;
+        attributes.numEmails = this.numEmails;
+        attributes.numSubmissions = this.numSubmissions;
 
         return attributes;
     }
@@ -84,6 +90,14 @@ public final class UsageStatisticsAttributes extends EntityAttributes<UsageStati
         return numAccountRequests;
     }
 
+    public int getNumEmails() {
+        return numEmails;
+    }
+
+    public int getNumSubmissions() {
+        return numSubmissions;
+    }
+
     @Override
     public List<String> getInvalidityInfo() {
         // Nothing to check
@@ -93,7 +107,7 @@ public final class UsageStatisticsAttributes extends EntityAttributes<UsageStati
     @Override
     public UsageStatistics toEntity() {
         return new UsageStatistics(startTime, timePeriod, numResponses, numCourses, numStudents, numInstructors,
-                numAccountRequests);
+                numAccountRequests, numEmails, numSubmissions);
     }
 
     @Override
@@ -174,6 +188,16 @@ public final class UsageStatisticsAttributes extends EntityAttributes<UsageStati
 
         public Builder withNumAccountRequests(int numAccountRequests) {
             usa.numAccountRequests = numAccountRequests;
+            return this;
+        }
+
+        public Builder withNumEmails(int numEmails) {
+            usa.numEmails = numEmails;
+            return this;
+        }
+
+        public Builder withNumSubmissions(int numSubmissions) {
+            usa.numSubmissions = numSubmissions;
             return this;
         }
 

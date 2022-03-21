@@ -14,6 +14,8 @@ public class UsageStatisticsData extends ApiOutput {
     private final int numStudents;
     private final int numInstructors;
     private final int numAccountRequests;
+    private final int numEmails;
+    private final int numSubmissions;
 
     public UsageStatisticsData(UsageStatisticsAttributes attributes) {
         this.startTime = attributes.getStartTime().toEpochMilli();
@@ -23,6 +25,8 @@ public class UsageStatisticsData extends ApiOutput {
         this.numStudents = attributes.getNumStudents();
         this.numInstructors = attributes.getNumInstructors();
         this.numAccountRequests = attributes.getNumAccountRequests();
+        this.numEmails = attributes.getNumEmails();
+        this.numSubmissions = attributes.getNumSubmissions();
     }
 
     public long getStartTime() {
@@ -51,6 +55,14 @@ public class UsageStatisticsData extends ApiOutput {
 
     public int getNumAccountRequests() {
         return numAccountRequests;
+    }
+
+    public int getNumEmails() {
+        return numEmails;
+    }
+
+    public int getNumSubmissions() {
+        return numSubmissions;
     }
 
 }

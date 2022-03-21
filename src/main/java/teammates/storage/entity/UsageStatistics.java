@@ -29,6 +29,8 @@ public class UsageStatistics extends BaseEntity {
     private int numStudents;
     private int numInstructors;
     private int numAccountRequests;
+    private int numEmails;
+    private int numSubmissions;
 
     @SuppressWarnings("unused")
     private UsageStatistics() {
@@ -36,7 +38,7 @@ public class UsageStatistics extends BaseEntity {
     }
 
     public UsageStatistics(Instant startTime, int timePeriod, int numResponses, int numCourses, int numStudents,
-                           int numInstructors, int numAccountRequests) {
+                           int numInstructors, int numAccountRequests, int numEmails, int numSubmissions) {
         this.id = generateId(startTime, timePeriod);
         this.startTime = startTime;
         this.timePeriod = timePeriod;
@@ -45,6 +47,8 @@ public class UsageStatistics extends BaseEntity {
         this.numStudents = numStudents;
         this.numInstructors = numInstructors;
         this.numAccountRequests = numAccountRequests;
+        this.numEmails = numEmails;
+        this.numSubmissions = numSubmissions;
     }
 
     public String getId() {
@@ -77,6 +81,14 @@ public class UsageStatistics extends BaseEntity {
 
     public int getNumAccountRequests() {
         return numAccountRequests;
+    }
+
+    public int getNumEmails() {
+        return numEmails;
+    }
+
+    public int getNumSubmissions() {
+        return numSubmissions;
     }
 
     /**
