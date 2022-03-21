@@ -131,10 +131,7 @@
           </th>
         </tr>
       </thead>
-      <tr
-        *ngFor="let instructor of selectedInstructors;"
-        [ngClass]="{ 'table-warning': instructor.hasExtension === true }"
-      >
+      <tr *ngFor="let instructor of selectedInstructors;">
         <td>{{ instructor.institute }}</td>
         <td>{{ instructor.name }}</td>
         <td>{{ instructor.email }}</td>
