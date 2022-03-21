@@ -127,6 +127,8 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
 
         ______TS("create new deadline extension for student");
 
+        assertNull(expectedStudentDeadlines.get("student1InCourse1@gmail.tmt"));
+
         FeedbackSessionUpdateRequest updateRequest = getTypicalFeedbackSessionUpdateRequest();
         Map<String, Long> newStudentDeadlines = convertDeadlinesToLong(updateRequest.getStudentDeadlines());
         newStudentDeadlines.put("student1InCourse1@gmail.tmt", endTimePlus1Day);
@@ -141,6 +143,8 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
 
         ______TS("update deadline extension for student");
 
+        assertNotEquals(endTimePlus2Days, expectedStudentDeadlines.get("student1InCourse1@gmail.tmt"));
+
         updateRequest = getTypicalFeedbackSessionUpdateRequest();
         newStudentDeadlines = convertDeadlinesToLong(updateRequest.getStudentDeadlines());
         newStudentDeadlines.put("student1InCourse1@gmail.tmt", endTimePlus2Days);
@@ -154,6 +158,8 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         assertEquals(expectedStudentDeadlines, response.getStudentDeadlines());
 
         ______TS("delete deadline extension for student");
+
+        assertNotNull(expectedStudentDeadlines.get("student1InCourse1@gmail.tmt"));
 
         // The typical update request does not contain the course 1 student 1's email.
         updateRequest = getTypicalFeedbackSessionUpdateRequest();
@@ -248,6 +254,8 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
 
         ______TS("create new deadline extension for instructor");
 
+        assertNull(expectedInstructorDeadlines.get("helper@course1.tmt"));
+
         FeedbackSessionUpdateRequest updateRequest = getTypicalFeedbackSessionUpdateRequest();
         Map<String, Long> newInstructorDeadlines = convertDeadlinesToLong(updateRequest.getInstructorDeadlines());
         newInstructorDeadlines.put("helper@course1.tmt", endTimePlus1Day);
@@ -262,6 +270,8 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
 
         ______TS("update deadline extension for instructor");
 
+        assertNotEquals(endTimePlus2Days, expectedInstructorDeadlines.get("helper@course1.tmt"));
+
         updateRequest = getTypicalFeedbackSessionUpdateRequest();
         newInstructorDeadlines = convertDeadlinesToLong(updateRequest.getInstructorDeadlines());
         newInstructorDeadlines.put("helper@course1.tmt", endTimePlus2Days);
@@ -275,6 +285,8 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         assertEquals(expectedInstructorDeadlines, response.getInstructorDeadlines());
 
         ______TS("delete deadline extension for instructor");
+
+        assertNotNull(expectedInstructorDeadlines.get("helper@course1.tmt"));
 
         // The typical update request does not contain the course 1 helper instructor's email.
         updateRequest = getTypicalFeedbackSessionUpdateRequest();
