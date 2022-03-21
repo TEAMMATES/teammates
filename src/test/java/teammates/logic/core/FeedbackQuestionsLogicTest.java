@@ -910,14 +910,14 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
     private void testGetFeedbackQuestionGiverCount() {
         ______TS("Valid session valid course should give correct counts counts");
-        Map<FeedbackParticipantType, Long> giverTypeCounts = fqLogic.getFeedbackQuestionGiverCountForSession(
+        Map<FeedbackParticipantType, Integer> giverTypeCounts = fqLogic.getFeedbackQuestionGiverCountForSession(
                 "First feedback session", "idOfTypicalCourse1");
         long studentTypeCount = giverTypeCounts.get(FeedbackParticipantType.STUDENTS);
         long instructorTypeCount = giverTypeCounts.get(FeedbackParticipantType.INSTRUCTORS);
         long selfTypeCount = giverTypeCounts.get(FeedbackParticipantType.SELF);
-        assertEquals(2L, studentTypeCount);
-        assertEquals(1L, instructorTypeCount);
-        assertEquals(2L, selfTypeCount);
+        assertEquals(2, studentTypeCount);
+        assertEquals(1, instructorTypeCount);
+        assertEquals(2, selfTypeCount);
 
         assertEquals(studentTypeCount, fqLogic.getFeedbackQuestionForStudentCountFrom(giverTypeCounts));
 
@@ -928,19 +928,19 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
         ______TS("Invalid session valid course should give no count");
         giverTypeCounts = fqLogic.getFeedbackQuestionGiverCountForSession("invalid session", "idOfTypicalCourse1");
-        assertEquals(0L, giverTypeCounts.size());
+        assertEquals(0, giverTypeCounts.size());
 
-        assertEquals(0L, fqLogic.getFeedbackQuestionForStudentCountFrom(giverTypeCounts));
-        assertEquals(0L, fqLogic.getFeedbackQuestionForInstructorCountFrom(giverTypeCounts, false));
-        assertEquals(0L, fqLogic.getFeedbackQuestionForInstructorCountFrom(giverTypeCounts, true));
+        assertEquals(0, fqLogic.getFeedbackQuestionForStudentCountFrom(giverTypeCounts));
+        assertEquals(0, fqLogic.getFeedbackQuestionForInstructorCountFrom(giverTypeCounts, false));
+        assertEquals(0, fqLogic.getFeedbackQuestionForInstructorCountFrom(giverTypeCounts, true));
 
         ______TS("Invalid session invalid course should give no count");
         giverTypeCounts = fqLogic.getFeedbackQuestionGiverCountForSession("invalid session", "invalid course");
-        assertEquals(0L, giverTypeCounts.size());
+        assertEquals(0, giverTypeCounts.size());
 
-        assertEquals(0L, fqLogic.getFeedbackQuestionForStudentCountFrom(giverTypeCounts));
-        assertEquals(0L, fqLogic.getFeedbackQuestionForInstructorCountFrom(giverTypeCounts, false));
-        assertEquals(0L, fqLogic.getFeedbackQuestionForInstructorCountFrom(giverTypeCounts, true));
+        assertEquals(0, fqLogic.getFeedbackQuestionForStudentCountFrom(giverTypeCounts));
+        assertEquals(0, fqLogic.getFeedbackQuestionForInstructorCountFrom(giverTypeCounts, false));
+        assertEquals(0, fqLogic.getFeedbackQuestionForInstructorCountFrom(giverTypeCounts, true));
     }
 
     private void testHasFeedbackQuestionsForInstructor() {

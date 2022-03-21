@@ -494,10 +494,10 @@ public final class FeedbackSessionsLogic {
     public int getExpectedTotalSubmission(FeedbackSessionAttributes fsa) {
         Integer numOfStudents = studentsLogic.getNumberOfStudentsForCourse(fsa.getCourseId());
         List<String> instructorEmails = instructorsLogic.getInstructorEmailsForCourse(fsa.getCourseId());
-        Map<FeedbackParticipantType, Long> giverTypeCounts = fqLogic.getFeedbackQuestionGiverCountForSession(
+        Map<FeedbackParticipantType, Integer> giverTypeCounts = fqLogic.getFeedbackQuestionGiverCountForSession(
                 fsa.getFeedbackSessionName(), fsa.getCourseId());
 
-        long expectedTotal = 0;
+        int expectedTotal = 0;
         if (fqLogic.getFeedbackQuestionForStudentCountFrom(giverTypeCounts) > 0) {
             expectedTotal += numOfStudents;
         }
@@ -508,7 +508,7 @@ public final class FeedbackSessionsLogic {
             }
         }
 
-        return (int) expectedTotal;
+        return expectedTotal;
     }
 
     /**

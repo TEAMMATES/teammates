@@ -297,15 +297,15 @@ public class FeedbackQuestionsDbTest extends BaseTestCaseWithLocalDatabaseAccess
 
         int[] numOfQuestions = createNewQuestionsForDifferentRecipientTypes();
 
-        Map<FeedbackParticipantType, Long> giverTypeCounts =
+        Map<FeedbackParticipantType, Integer> giverTypeCounts =
                 fqDb.getFeedbackQuestionGiverTypeCountForSession(
                         fqa.getFeedbackSessionName(),
                         fqa.getCourseId());
 
-        assertEquals(Long.valueOf(numOfQuestions[0]), giverTypeCounts.get(FeedbackParticipantType.INSTRUCTORS));
-        assertEquals(Long.valueOf(numOfQuestions[1]), giverTypeCounts.get(FeedbackParticipantType.STUDENTS));
-        assertEquals(Long.valueOf(numOfQuestions[2]), giverTypeCounts.get(FeedbackParticipantType.SELF));
-        assertEquals(Long.valueOf(numOfQuestions[3]), giverTypeCounts.get(FeedbackParticipantType.TEAMS));
+        assertEquals(Integer.valueOf(numOfQuestions[0]), giverTypeCounts.get(FeedbackParticipantType.INSTRUCTORS));
+        assertEquals(Integer.valueOf(numOfQuestions[1]), giverTypeCounts.get(FeedbackParticipantType.STUDENTS));
+        assertEquals(Integer.valueOf(numOfQuestions[2]), giverTypeCounts.get(FeedbackParticipantType.SELF));
+        assertEquals(Integer.valueOf(numOfQuestions[3]), giverTypeCounts.get(FeedbackParticipantType.TEAMS));
 
         ______TS("null params");
 

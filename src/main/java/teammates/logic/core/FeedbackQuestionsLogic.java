@@ -125,24 +125,24 @@ public final class FeedbackQuestionsLogic {
     /**
      * Gets the number of questions for student to answer from a map of giver type to question counts.
      */
-    public long getFeedbackQuestionForStudentCountFrom(Map<FeedbackParticipantType, Long> giverTypeCounts) {
-        return giverTypeCounts.getOrDefault(FeedbackParticipantType.STUDENTS, 0L)
-                + giverTypeCounts.getOrDefault(FeedbackParticipantType.TEAMS, 0L);
+    public long getFeedbackQuestionForStudentCountFrom(Map<FeedbackParticipantType, Integer> giverTypeCounts) {
+        return giverTypeCounts.getOrDefault(FeedbackParticipantType.STUDENTS, 0)
+                + giverTypeCounts.getOrDefault(FeedbackParticipantType.TEAMS, 0);
     }
 
     /**
      * Gets the number of questions for instructor to answer from a map of giver type to question counts.
      */
     public long getFeedbackQuestionForInstructorCountFrom(
-            Map<FeedbackParticipantType, Long> giverTypeCounts, boolean isCreator) {
-        return giverTypeCounts.getOrDefault(FeedbackParticipantType.INSTRUCTORS, 0L)
-                + (isCreator ? giverTypeCounts.getOrDefault(FeedbackParticipantType.SELF, 0L) : 0);
+            Map<FeedbackParticipantType, Integer> giverTypeCounts, boolean isCreator) {
+        return giverTypeCounts.getOrDefault(FeedbackParticipantType.INSTRUCTORS, 0)
+                + (isCreator ? giverTypeCounts.getOrDefault(FeedbackParticipantType.SELF, 0) : 0);
     }
 
     /**
      * Gets a {@link Map} of FeedbackQuestion giver types to count in the given session.
      */
-    public Map<FeedbackParticipantType, Long> getFeedbackQuestionGiverCountForSession(
+    public Map<FeedbackParticipantType, Integer> getFeedbackQuestionGiverCountForSession(
             String feedbackSessionName, String courseId) {
         return fqDb.getFeedbackQuestionGiverTypeCountForSession(feedbackSessionName, courseId);
     }

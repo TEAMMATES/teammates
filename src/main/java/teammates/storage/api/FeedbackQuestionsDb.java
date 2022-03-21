@@ -57,7 +57,7 @@ public final class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, Feed
     /**
      * Gets feedback question count grouped by giver types of a session.
      */
-    public Map<FeedbackParticipantType, Long> getFeedbackQuestionGiverTypeCountForSession(
+    public Map<FeedbackParticipantType, Integer> getFeedbackQuestionGiverTypeCountForSession(
             String feedbackSessionName, String courseId) {
         assert feedbackSessionName != null;
         assert courseId != null;
@@ -67,7 +67,7 @@ public final class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, Feed
                 .filter("courseId =", courseId)
                 .list()
                 .stream()
-                .collect(Collectors.groupingBy(FeedbackQuestion::getGiverType, Collectors.counting()));
+                .collect(Collectors.groupingBy(FeedbackQuestion::getGiverType, Collectors.summingInt(x -> 1)));
     }
 
     /**
