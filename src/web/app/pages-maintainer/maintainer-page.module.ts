@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PageNotFoundComponent } from '../page-not-found/page-not-found.component';
 import { PageNotFoundModule } from '../page-not-found/page-not-found.module';
-import { LogsPageComponent } from '../pages-logs/logs-page.component';
 
 const routes: Routes = [
   {
@@ -11,7 +10,8 @@ const routes: Routes = [
     data: {
       isAdmin: false,
     },
-    component: LogsPageComponent,
+    loadChildren: () => import('../pages-monitoring/logs-page/logs-page.module')
+        .then((m: any) => m.LogsPageModule),
   },
   {
     path: '',

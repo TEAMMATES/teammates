@@ -47,7 +47,7 @@ const routes: Routes = [
     data: {
       isAdmin: true,
     },
-    loadChildren: () => import('../pages-logs/logs-page.module')
+    loadChildren: () => import('../pages-monitoring/logs-page/logs-page.module')
         .then((m: any) => m.LogsPageModule),
   },
   {
