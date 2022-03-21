@@ -30,6 +30,16 @@ export class NotificationService {
   }
 
   /**
+   * Updates a notification by calling API.
+   */
+   updateNotification(request: NotificationUpdateRequest, notificationId: string): Observable<Notification> {
+    const paramsMap: { [key: string]: string } = {
+      notificationid: notificationId,
+    };
+    return this.httpRequestService.put(ResourceEndpoints.NOTIFICATION, paramsMap, request);
+  }
+
+  /**
    * Deletes a notification by calling API.
    */
   deleteNotification(notificationId: string): Observable<MessageOutput> {
