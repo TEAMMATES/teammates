@@ -108,7 +108,7 @@ public final class StudentsLogic {
     /**
      * Gets the number of students of a course.
      */
-    public Integer getNumberOfStudentsForCourse(String courseId) {
+    public int getNumberOfStudentsForCourse(String courseId) {
         return studentsDb.getNumberOfStudentsForCourse(courseId);
     }
 
