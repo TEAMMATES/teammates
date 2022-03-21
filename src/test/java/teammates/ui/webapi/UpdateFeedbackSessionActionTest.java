@@ -45,6 +45,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         String[] param = new String[] {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
+                Const.ParamsNames.MUST_NOTIFY_ABOUT_DEADLINES, String.valueOf(false),
         };
 
         verifyHttpRequestBodyFailure(null, param);
@@ -54,8 +55,15 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         FeedbackSessionUpdateRequest updateRequest = getTypicalFeedbackSessionUpdateRequest();
 
         verifyHttpParameterFailure(updateRequest);
-        verifyHttpParameterFailure(updateRequest, Const.ParamsNames.COURSE_ID, session.getCourseId());
-        verifyHttpParameterFailure(updateRequest, Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName());
+        verifyHttpParameterFailure(updateRequest,
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName());
+        verifyHttpParameterFailure(updateRequest,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
+                Const.ParamsNames.MUST_NOTIFY_ABOUT_DEADLINES, String.valueOf(false));
+        verifyHttpParameterFailure(updateRequest,
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.MUST_NOTIFY_ABOUT_DEADLINES, String.valueOf(false));
 
         ______TS("success: Typical case");
 
@@ -127,6 +135,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         String[] param = new String[] {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
+                Const.ParamsNames.MUST_NOTIFY_ABOUT_DEADLINES, String.valueOf(false),
         };
 
         ______TS("create new deadline extension for student");
@@ -254,6 +263,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         String[] param = new String[] {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
+                Const.ParamsNames.MUST_NOTIFY_ABOUT_DEADLINES, String.valueOf(false),
         };
 
         ______TS("create new deadline extension for instructor");
@@ -376,6 +386,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         String[] param = new String[] {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
+                Const.ParamsNames.MUST_NOTIFY_ABOUT_DEADLINES, String.valueOf(false),
         };
         FeedbackSessionUpdateRequest updateRequest = getTypicalFeedbackSessionUpdateRequest();
         updateRequest.setCustomSessionVisibleTimestamp(
@@ -405,6 +416,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         String[] param = new String[] {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
+                Const.ParamsNames.MUST_NOTIFY_ABOUT_DEADLINES, String.valueOf(false),
         };
         FeedbackSessionUpdateRequest updateRequest = getTypicalFeedbackSessionUpdateRequest();
         updateRequest.setSessionVisibleSetting(SessionVisibleSetting.AT_OPEN);
@@ -427,6 +439,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         param = new String[] {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
+                Const.ParamsNames.MUST_NOTIFY_ABOUT_DEADLINES, String.valueOf(false),
         };
         updateRequest = getTypicalFeedbackSessionUpdateRequest();
         updateRequest.setSessionVisibleSetting(SessionVisibleSetting.AT_OPEN);
@@ -449,6 +462,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         String[] param = new String[] {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
+                Const.ParamsNames.MUST_NOTIFY_ABOUT_DEADLINES, String.valueOf(false),
         };
         param = addUserIdToParams(instructor1ofCourse1.getGoogleId(), param);
         FeedbackSessionUpdateRequest updateRequest = getTypicalFeedbackSessionUpdateRequest();
@@ -468,6 +482,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         String[] param = new String[] {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
+                Const.ParamsNames.MUST_NOTIFY_ABOUT_DEADLINES, String.valueOf(false),
         };
         FeedbackSessionUpdateRequest updateRequest = getTypicalFeedbackSessionUpdateRequest();
         updateRequest.setInstructions(null);
@@ -519,6 +534,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "abcSession",
+                Const.ParamsNames.MUST_NOTIFY_ABOUT_DEADLINES, String.valueOf(false),
         };
 
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
@@ -529,6 +545,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
+                Const.ParamsNames.MUST_NOTIFY_ABOUT_DEADLINES, String.valueOf(false),
         };
 
         verifyInaccessibleWithoutModifySessionPrivilege(submissionParams);

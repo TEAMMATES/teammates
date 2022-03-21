@@ -57,6 +57,8 @@ class UpdateFeedbackSessionAction extends Action {
         }
 
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+        // TODO: Use the value here.
+        getBooleanRequestParamValue(Const.ParamsNames.MUST_NOTIFY_ABOUT_DEADLINES);
 
         FeedbackSessionAttributes feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
 
