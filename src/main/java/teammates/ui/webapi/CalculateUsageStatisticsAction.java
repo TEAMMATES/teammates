@@ -26,6 +26,10 @@ public class CalculateUsageStatisticsAction extends AdminOnlyAction {
 
         UsageStatisticsAttributes overallUsageStats = UsageStatisticsAttributes.builder(startTime, COLLECTION_TIME_PERIOD)
                 .withNumResponses(entitiesStats.getNumResponses())
+                .withNumCourses(entitiesStats.getNumCourses())
+                .withNumStudents(entitiesStats.getNumStudents())
+                .withNumInstructors(entitiesStats.getNumInstructors())
+                .withNumAccountRequests(entitiesStats.getNumAccountRequests())
                 .build();
 
         try {

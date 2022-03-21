@@ -25,17 +25,26 @@ public class UsageStatistics extends BaseEntity {
     private int timePeriod;
 
     private int numResponses;
+    private int numCourses;
+    private int numStudents;
+    private int numInstructors;
+    private int numAccountRequests;
 
     @SuppressWarnings("unused")
     private UsageStatistics() {
         // required by Objectify
     }
 
-    public UsageStatistics(Instant startTime, int timePeriod, int numResponses) {
+    public UsageStatistics(Instant startTime, int timePeriod, int numResponses, int numCourses, int numStudents,
+                           int numInstructors, int numAccountRequests) {
         this.id = generateId(startTime, timePeriod);
         this.startTime = startTime;
         this.timePeriod = timePeriod;
         this.numResponses = numResponses;
+        this.numCourses = numCourses;
+        this.numStudents = numStudents;
+        this.numInstructors = numInstructors;
+        this.numAccountRequests = numAccountRequests;
     }
 
     public String getId() {
@@ -52,6 +61,22 @@ public class UsageStatistics extends BaseEntity {
 
     public int getNumResponses() {
         return numResponses;
+    }
+
+    public int getNumCourses() {
+        return numCourses;
+    }
+
+    public int getNumStudents() {
+        return numStudents;
+    }
+
+    public int getNumInstructors() {
+        return numInstructors;
+    }
+
+    public int getNumAccountRequests() {
+        return numAccountRequests;
     }
 
     /**

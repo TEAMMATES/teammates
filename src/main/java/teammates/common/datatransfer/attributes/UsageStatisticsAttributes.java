@@ -15,6 +15,10 @@ public final class UsageStatisticsAttributes extends EntityAttributes<UsageStati
     private final Instant startTime;
     private final int timePeriod;
     private int numResponses;
+    private int numCourses;
+    private int numStudents;
+    private int numInstructors;
+    private int numAccountRequests;
 
     private UsageStatisticsAttributes(Instant startTime, int timePeriod) {
         this.startTime = startTime;
@@ -28,6 +32,10 @@ public final class UsageStatisticsAttributes extends EntityAttributes<UsageStati
         UsageStatisticsAttributes attributes = new UsageStatisticsAttributes(us.getStartTime(), us.getTimePeriod());
 
         attributes.numResponses = us.getNumResponses();
+        attributes.numCourses = us.getNumCourses();
+        attributes.numStudents = us.getNumStudents();
+        attributes.numInstructors = us.getNumInstructors();
+        attributes.numAccountRequests = us.getNumAccountRequests();
 
         return attributes;
     }
@@ -40,6 +48,10 @@ public final class UsageStatisticsAttributes extends EntityAttributes<UsageStati
                 new UsageStatisticsAttributes(this.startTime, this.timePeriod);
 
         attributes.numResponses = this.numResponses;
+        attributes.numCourses = this.numCourses;
+        attributes.numStudents = this.numStudents;
+        attributes.numInstructors = this.numInstructors;
+        attributes.numAccountRequests = this.numAccountRequests;
 
         return attributes;
     }
@@ -56,6 +68,22 @@ public final class UsageStatisticsAttributes extends EntityAttributes<UsageStati
         return numResponses;
     }
 
+    public int getNumCourses() {
+        return numCourses;
+    }
+
+    public int getNumStudents() {
+        return numStudents;
+    }
+
+    public int getNumInstructors() {
+        return numInstructors;
+    }
+
+    public int getNumAccountRequests() {
+        return numAccountRequests;
+    }
+
     @Override
     public List<String> getInvalidityInfo() {
         // Nothing to check
@@ -64,7 +92,8 @@ public final class UsageStatisticsAttributes extends EntityAttributes<UsageStati
 
     @Override
     public UsageStatistics toEntity() {
-        return new UsageStatistics(startTime, timePeriod, numResponses);
+        return new UsageStatistics(startTime, timePeriod, numResponses, numCourses, numStudents, numInstructors,
+                numAccountRequests);
     }
 
     @Override
@@ -125,6 +154,26 @@ public final class UsageStatisticsAttributes extends EntityAttributes<UsageStati
 
         public Builder withNumResponses(int numResponses) {
             usa.numResponses = numResponses;
+            return this;
+        }
+
+        public Builder withNumCourses(int numCourses) {
+            usa.numCourses = numCourses;
+            return this;
+        }
+
+        public Builder withNumStudents(int numStudents) {
+            usa.numStudents = numStudents;
+            return this;
+        }
+
+        public Builder withNumInstructors(int numInstructors) {
+            usa.numInstructors = numInstructors;
+            return this;
+        }
+
+        public Builder withNumAccountRequests(int numAccountRequests) {
+            usa.numAccountRequests = numAccountRequests;
             return this;
         }
 
