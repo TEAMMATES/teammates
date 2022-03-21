@@ -135,6 +135,7 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 SearchAccountRequestsAction.class,
                 CreateNotificationAction.class,
                 GetNotificationAction.class,
+                UpdateNotificationAction.class,
                 DeleteNotificationAction.class
         );
         List<String> expectedActionClassesNames = expectedActionClasses.stream()

@@ -10,8 +10,8 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Logger;
 import teammates.ui.output.NotificationData;
-import teammates.ui.request.NotificationCreateRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
+import teammates.ui.request.NotificationCreateRequest;
 
 /**
  * Action: Creates a new notification banner.
