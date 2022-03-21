@@ -39,8 +39,8 @@ const routes: Routes = [
   },
   {
     path: 'timezone',
-    loadChildren: () => import('./admin-timezone-page/admin-timezone-page.module')
-        .then((m: any) => m.AdminTimezonePageModule),
+    loadChildren: () => import('../pages-monitoring/timezone-page/timezone-page.module')
+        .then((m: any) => m.TimezonePageModule),
   },
   {
     path: 'logs',

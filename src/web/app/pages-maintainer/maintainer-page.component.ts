@@ -25,6 +25,10 @@ export class MaintainerPageComponent implements OnInit {
       url: '/web/maintainer',
       display: 'Home',
     },
+    {
+      url: '/web/maintainer/timezone',
+      display: 'Timezone Listing',
+    },
   ];
   isFetchingAuthDetails: boolean = false;
 

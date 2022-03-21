@@ -7,11 +7,11 @@ import { TimeZones } from '../../../types/api-output';
  * Timezone listing page for admin use.
  */
 @Component({
-  selector: 'tm-admin-timezone-page',
-  templateUrl: './admin-timezone-page.component.html',
-  styleUrls: ['./admin-timezone-page.component.scss'],
+  selector: 'tm-timezone-page',
+  templateUrl: './timezone-page.component.html',
+  styleUrls: ['./timezone-page.component.scss'],
 })
-export class AdminTimezonePageComponent implements OnInit {
+export class TimezonePageComponent implements OnInit {
 
   javaTzVersion: string = '';
   javaTimezones: Record<string, number> = {};

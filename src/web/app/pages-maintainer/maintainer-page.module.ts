@@ -14,6 +14,11 @@ const routes: Routes = [
         .then((m: any) => m.LogsPageModule),
   },
   {
+    path: 'timezone',
+    loadChildren: () => import('../pages-monitoring/timezone-page/timezone-page.module')
+        .then((m: any) => m.TimezonePageModule),
+  },
+  {
     path: '',
     pathMatch: 'full',
     redirectTo: 'home',
