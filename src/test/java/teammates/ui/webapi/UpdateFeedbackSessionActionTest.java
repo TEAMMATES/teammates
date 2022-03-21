@@ -40,6 +40,15 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
 
         loginAsInstructor(instructor1ofCourse1.getGoogleId());
 
+        ______TS("Missing request body");
+
+        String[] param = new String[] {
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
+        };
+
+        verifyHttpRequestBodyFailure(null, param);
+
         ______TS("Not enough parameters");
 
         FeedbackSessionUpdateRequest updateRequest = getTypicalFeedbackSessionUpdateRequest();
@@ -49,11 +58,6 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         verifyHttpParameterFailure(updateRequest, Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName());
 
         ______TS("success: Typical case");
-
-        String[] param = new String[] {
-                Const.ParamsNames.COURSE_ID, session.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
-        };
 
         UpdateFeedbackSessionAction a = getAction(updateRequest, param);
         JsonResult r = getJsonResult(a);
