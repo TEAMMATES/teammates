@@ -2,6 +2,9 @@ package teammates.storage.api;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
+import java.time.Instant;
+import java.util.List;
+
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.LoadType;
 
@@ -24,6 +27,17 @@ public final class UsageStatisticsDb extends EntitiesDb<UsageStatistics, UsageSt
 
     public static UsageStatisticsDb inst() {
         return instance;
+    }
+
+    /**
+     * Gets a list of statistics objects between start time and end time.
+     */
+    public List<UsageStatisticsAttributes> getUsageStatisticsForTimeRange(Instant startTime, Instant endTime) {
+        List<UsageStatistics> entities = load()
+                .filter("startTime >=", startTime)
+                .filter("startTime <", endTime)
+                .list();
+        return makeAttributes(entities);
     }
 
     @Override
