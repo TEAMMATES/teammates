@@ -315,7 +315,7 @@ public class FeedbackQuestionsDbTest extends BaseTestCaseWithLocalDatabaseAccess
         assertThrows(AssertionError.class,
                 () -> fqDb.getFeedbackQuestionGiverTypeCountForSession(fqa.getFeedbackSessionName(), null));
 
-        ______TS("non-existant session");
+        ______TS("non-existent session");
 
         assertTrue(fqDb.getFeedbackQuestionGiverTypeCountForSession(
                 "non-existant session", fqa.getCourseId()).isEmpty());
@@ -406,7 +406,7 @@ public class FeedbackQuestionsDbTest extends BaseTestCaseWithLocalDatabaseAccess
         assertThrows(AssertionError.class,
                 () -> fqDb.getFeedbackQuestionsForGiverType(fqa.getFeedbackSessionName(), fqa.getCourseId(), null));
 
-        ______TS("non-existant session");
+        ______TS("non-existent session");
 
         assertTrue(fqDb.getFeedbackQuestionsForGiverType("non-existant session", fqa.getCourseId(),
                                                          FeedbackParticipantType.STUDENTS).isEmpty());

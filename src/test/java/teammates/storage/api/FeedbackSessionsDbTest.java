@@ -199,7 +199,7 @@ public class FeedbackSessionsDbTest extends BaseTestCaseWithLocalDatabaseAccess 
 
         assertEquals(expected.toString(), actual.toString());
 
-        ______TS("non-existant session");
+        ______TS("non-existent session");
 
         assertNull(fsDb.getFeedbackSession("non-course", "Non-existant feedback session"));
 
