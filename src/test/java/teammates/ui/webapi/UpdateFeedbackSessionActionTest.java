@@ -1,6 +1,7 @@
 package teammates.ui.webapi;
 
-import java.util.HashMap;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -100,14 +101,9 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         assertNotNull(response.getCreatedAtTimestamp());
         assertNull(response.getDeletedAtTimestamp());
 
-        Map<String, Long> expectedStudentDeadlines = new HashMap<>();
-        expectedStudentDeadlines.put("student3InCourse1@gmail.tmt", 1809126000000L);
-        expectedStudentDeadlines.put("student4InCourse1@gmail.tmt", 1809126000000L);
-        expectedStudentDeadlines.put("student5InCourse1@gmail.tmt", 1809126000000L);
+        Map<String, Long> expectedStudentDeadlines = convertDeadlinesToLong(session.getStudentDeadlines());
         assertEquals(expectedStudentDeadlines, response.getStudentDeadlines());
-        Map<String, Long> expectedInstructorDeadlines = new HashMap<>();
-        expectedInstructorDeadlines.put("instructor1@course1.tmt", 1809126000000L);
-        expectedInstructorDeadlines.put("instructor2@course1.tmt", 1809126000000L);
+        Map<String, Long> expectedInstructorDeadlines = convertDeadlinesToLong(session.getInstructorDeadlines());
         assertEquals(expectedInstructorDeadlines, response.getInstructorDeadlines());
     }
 
@@ -115,6 +111,12 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
     public void testExecute_changeDeadlineForStudents_shouldChangeDeadlinesCorrectlyWhenAppropriate() {
         InstructorAttributes instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         FeedbackSessionAttributes session = typicalBundle.feedbackSessions.get("session1InCourse1");
+
+        Map<String, Long> expectedStudentDeadlines = convertDeadlinesToLong(session.getStudentDeadlines());
+        Instant endTime = session.getEndTime();
+        // These are arbitrary.
+        long endTimePlus1Day = endTime.plus(Duration.ofDays(1)).toEpochMilli();
+        long endTimePlus2Days = endTime.plus(Duration.ofDays(2)).toEpochMilli();
 
         loginAsInstructor(instructor1ofCourse1.getGoogleId());
 
@@ -126,68 +128,49 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         ______TS("create new deadline extension for student");
 
         FeedbackSessionUpdateRequest updateRequest = getTypicalFeedbackSessionUpdateRequest();
-        Map<String, Long> newStudentDeadlines = updateRequest.getStudentDeadlines()
-                .entrySet()
-                .stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().toEpochMilli()));
-        newStudentDeadlines.put("student1InCourse1@gmail.tmt", 1809126000000L);
+        Map<String, Long> newStudentDeadlines = convertDeadlinesToLong(updateRequest.getStudentDeadlines());
+        newStudentDeadlines.put("student1InCourse1@gmail.tmt", endTimePlus1Day);
         updateRequest.setStudentDeadlines(newStudentDeadlines);
 
         UpdateFeedbackSessionAction a = getAction(updateRequest, param);
         JsonResult r = getJsonResult(a);
         FeedbackSessionData response = (FeedbackSessionData) r.getOutput();
 
-        Map<String, Long> expectedStudentDeadlines = new HashMap<>();
-        expectedStudentDeadlines.put("student1InCourse1@gmail.tmt", 1809126000000L);
-        expectedStudentDeadlines.put("student3InCourse1@gmail.tmt", 1809126000000L);
-        expectedStudentDeadlines.put("student4InCourse1@gmail.tmt", 1809126000000L);
-        expectedStudentDeadlines.put("student5InCourse1@gmail.tmt", 1809126000000L);
+        expectedStudentDeadlines.put("student1InCourse1@gmail.tmt", endTimePlus1Day);
         assertEquals(expectedStudentDeadlines, response.getStudentDeadlines());
 
         ______TS("update deadline extension for student");
 
         updateRequest = getTypicalFeedbackSessionUpdateRequest();
-        newStudentDeadlines = updateRequest.getStudentDeadlines()
-                .entrySet()
-                .stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().toEpochMilli()));
-        newStudentDeadlines.put("student1InCourse1@gmail.tmt", 1809212400000L);
+        newStudentDeadlines = convertDeadlinesToLong(updateRequest.getStudentDeadlines());
+        newStudentDeadlines.put("student1InCourse1@gmail.tmt", endTimePlus2Days);
         updateRequest.setStudentDeadlines(newStudentDeadlines);
 
         a = getAction(updateRequest, param);
         r = getJsonResult(a);
         response = (FeedbackSessionData) r.getOutput();
 
-        expectedStudentDeadlines = new HashMap<>();
-        expectedStudentDeadlines.put("student1InCourse1@gmail.tmt", 1809212400000L);
-        expectedStudentDeadlines.put("student3InCourse1@gmail.tmt", 1809126000000L);
-        expectedStudentDeadlines.put("student4InCourse1@gmail.tmt", 1809126000000L);
-        expectedStudentDeadlines.put("student5InCourse1@gmail.tmt", 1809126000000L);
+        expectedStudentDeadlines.put("student1InCourse1@gmail.tmt", endTimePlus2Days);
         assertEquals(expectedStudentDeadlines, response.getStudentDeadlines());
 
         ______TS("delete deadline extension for student");
 
-        // the typical update request does not contain the course 1 student 1's email
+        // The typical update request does not contain the course 1 student 1's email.
         updateRequest = getTypicalFeedbackSessionUpdateRequest();
 
         a = getAction(updateRequest, param);
         r = getJsonResult(a);
         response = (FeedbackSessionData) r.getOutput();
 
-        expectedStudentDeadlines = new HashMap<>();
-        expectedStudentDeadlines.put("student3InCourse1@gmail.tmt", 1809126000000L);
-        expectedStudentDeadlines.put("student4InCourse1@gmail.tmt", 1809126000000L);
-        expectedStudentDeadlines.put("student5InCourse1@gmail.tmt", 1809126000000L);
+        // The deadline for course 1 student 1 was deleted; the map no longer contains a deadline for them.
+        expectedStudentDeadlines.remove("student1InCourse1@gmail.tmt");
         assertEquals(expectedStudentDeadlines, response.getStudentDeadlines());
 
         ______TS("change deadline extension for non-existent student; should throw EntityNotFoundException");
 
         updateRequest = getTypicalFeedbackSessionUpdateRequest();
-        newStudentDeadlines = updateRequest.getStudentDeadlines()
-                .entrySet()
-                .stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().toEpochMilli()));
-        newStudentDeadlines.put("nonExistentStudent@gmail.tmt", 1809126000000L);
+        newStudentDeadlines = convertDeadlinesToLong(updateRequest.getStudentDeadlines());
+        newStudentDeadlines.put("nonExistentStudent@gmail.tmt", endTimePlus1Day);
         updateRequest.setStudentDeadlines(newStudentDeadlines);
 
         a = getAction(updateRequest, param);
@@ -197,11 +180,9 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
                 + "should throw InvalidHttpRequestBodyException");
 
         updateRequest = getTypicalFeedbackSessionUpdateRequest();
-        newStudentDeadlines = updateRequest.getStudentDeadlines()
-                .entrySet()
-                .stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().toEpochMilli()));
-        newStudentDeadlines.put("student1InCourse1@gmail.tmt", 1546003051000L);
+        Instant newEndTime = updateRequest.getSubmissionEndTime();
+        newStudentDeadlines = convertDeadlinesToLong(updateRequest.getStudentDeadlines());
+        newStudentDeadlines.put("student1InCourse1@gmail.tmt", newEndTime.toEpochMilli());
         updateRequest.setStudentDeadlines(newStudentDeadlines);
 
         a = getAction(updateRequest, param);
@@ -211,11 +192,9 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
                 + "should throw InvalidHttpRequestBodyException");
 
         updateRequest = getTypicalFeedbackSessionUpdateRequest();
-        newStudentDeadlines = updateRequest.getStudentDeadlines()
-                .entrySet()
-                .stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().toEpochMilli()));
-        newStudentDeadlines.put("student1InCourse1@gmail.tmt", 1546003050999L);
+        newEndTime = updateRequest.getSubmissionEndTime();
+        newStudentDeadlines = convertDeadlinesToLong(updateRequest.getStudentDeadlines());
+        newStudentDeadlines.put("student1InCourse1@gmail.tmt", newEndTime.plus(Duration.ofMillis(-1)).toEpochMilli());
         updateRequest.setStudentDeadlines(newStudentDeadlines);
 
         a = getAction(updateRequest, param);
@@ -229,6 +208,12 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         InstructorAttributes instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         FeedbackSessionAttributes session = typicalBundle.feedbackSessions.get("session1InCourse1");
 
+        Map<String, Long> expectedInstructorDeadlines = convertDeadlinesToLong(session.getInstructorDeadlines());
+        Instant endTime = session.getEndTime();
+        // These are arbitrary.
+        long endTimePlus1Day = endTime.plus(Duration.ofDays(1)).toEpochMilli();
+        long endTimePlus2Days = endTime.plus(Duration.ofDays(2)).toEpochMilli();
+
         loginAsInstructor(instructor1ofCourse1.getGoogleId());
 
         String[] param = new String[] {
@@ -239,66 +224,50 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         ______TS("create new deadline extension for instructor");
 
         FeedbackSessionUpdateRequest updateRequest = getTypicalFeedbackSessionUpdateRequest();
-        Map<String, Long> newInstructorDeadlines = updateRequest.getInstructorDeadlines()
-                .entrySet()
-                .stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().toEpochMilli()));
-        newInstructorDeadlines.put("helper@course1.tmt", 1809126000000L);
+        Map<String, Long> newInstructorDeadlines = convertDeadlinesToLong(updateRequest.getInstructorDeadlines());
+        newInstructorDeadlines.put("helper@course1.tmt", endTimePlus1Day);
         updateRequest.setInstructorDeadlines(newInstructorDeadlines);
 
         UpdateFeedbackSessionAction a = getAction(updateRequest, param);
         JsonResult r = getJsonResult(a);
         FeedbackSessionData response = (FeedbackSessionData) r.getOutput();
 
-        Map<String, Long> expectedInstructorDeadlines = new HashMap<>();
-        expectedInstructorDeadlines.put("instructor1@course1.tmt", 1809126000000L);
-        expectedInstructorDeadlines.put("instructor2@course1.tmt", 1809126000000L);
-        expectedInstructorDeadlines.put("helper@course1.tmt", 1809126000000L);
+        expectedInstructorDeadlines.put("helper@course1.tmt", endTimePlus1Day);
         assertEquals(expectedInstructorDeadlines, response.getInstructorDeadlines());
 
         ______TS("update deadline extension for instructor");
 
         updateRequest = getTypicalFeedbackSessionUpdateRequest();
-        newInstructorDeadlines = updateRequest.getInstructorDeadlines()
-                .entrySet()
-                .stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().toEpochMilli()));
-        newInstructorDeadlines.put("helper@course1.tmt", 1809298800000L);
+        newInstructorDeadlines = convertDeadlinesToLong(updateRequest.getInstructorDeadlines());
+        newInstructorDeadlines.put("helper@course1.tmt", endTimePlus2Days);
         updateRequest.setInstructorDeadlines(newInstructorDeadlines);
 
         a = getAction(updateRequest, param);
         r = getJsonResult(a);
         response = (FeedbackSessionData) r.getOutput();
 
-        expectedInstructorDeadlines = new HashMap<>();
-        expectedInstructorDeadlines.put("instructor1@course1.tmt", 1809126000000L);
-        expectedInstructorDeadlines.put("instructor2@course1.tmt", 1809126000000L);
-        expectedInstructorDeadlines.put("helper@course1.tmt", 1809298800000L);
+        expectedInstructorDeadlines.put("helper@course1.tmt", endTimePlus2Days);
         assertEquals(expectedInstructorDeadlines, response.getInstructorDeadlines());
 
         ______TS("delete deadline extension for instructor");
 
-        // the typical update request does not contain the course 1 helper instructor's email
+        // The typical update request does not contain the course 1 helper instructor's email.
         updateRequest = getTypicalFeedbackSessionUpdateRequest();
 
         a = getAction(updateRequest, param);
         r = getJsonResult(a);
         response = (FeedbackSessionData) r.getOutput();
 
-        expectedInstructorDeadlines = new HashMap<>();
-        expectedInstructorDeadlines.put("instructor1@course1.tmt", 1809126000000L);
-        expectedInstructorDeadlines.put("instructor2@course1.tmt", 1809126000000L);
+        // The deadline for course 1 helper instructor was deleted; the map no longer contains a deadline for them.
+        expectedInstructorDeadlines.remove("helper@course1.tmt");
         assertEquals(expectedInstructorDeadlines, response.getInstructorDeadlines());
 
         ______TS("change deadline extension for non-existent instructor; "
                 + "should throw EntityNotFoundException");
 
         updateRequest = getTypicalFeedbackSessionUpdateRequest();
-        newInstructorDeadlines = updateRequest.getInstructorDeadlines()
-                .entrySet()
-                .stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().toEpochMilli()));
-        newInstructorDeadlines.put("nonExistentInstructor@gmail.tmt", 1809126000000L);
+        newInstructorDeadlines = convertDeadlinesToLong(updateRequest.getInstructorDeadlines());
+        newInstructorDeadlines.put("nonExistentInstructor@gmail.tmt", endTimePlus1Day);
         updateRequest.setInstructorDeadlines(newInstructorDeadlines);
 
         a = getAction(updateRequest, param);
@@ -308,11 +277,9 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
                 + "should throw InvalidHttpRequestBodyException");
 
         updateRequest = getTypicalFeedbackSessionUpdateRequest();
-        newInstructorDeadlines = updateRequest.getInstructorDeadlines()
-                .entrySet()
-                .stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().toEpochMilli()));
-        newInstructorDeadlines.put("helper@course1.tmt", 1546003051000L);
+        Instant newEndTime = updateRequest.getSubmissionEndTime();
+        newInstructorDeadlines = convertDeadlinesToLong(updateRequest.getInstructorDeadlines());
+        newInstructorDeadlines.put("helper@course1.tmt", newEndTime.toEpochMilli());
         updateRequest.setInstructorDeadlines(newInstructorDeadlines);
 
         a = getAction(updateRequest, param);
@@ -322,11 +289,9 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
                 + "should throw InvalidHttpRequestBodyException");
 
         updateRequest = getTypicalFeedbackSessionUpdateRequest();
-        newInstructorDeadlines = updateRequest.getInstructorDeadlines()
-                .entrySet()
-                .stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().toEpochMilli()));
-        newInstructorDeadlines.put("helper@course1.tmt", 1546003050999L);
+        newEndTime = updateRequest.getSubmissionEndTime();
+        newInstructorDeadlines = convertDeadlinesToLong(updateRequest.getInstructorDeadlines());
+        newInstructorDeadlines.put("helper@course1.tmt", newEndTime.plus(Duration.ofMillis(-1)).toEpochMilli());
         updateRequest.setInstructorDeadlines(newInstructorDeadlines);
 
         a = getAction(updateRequest, param);
@@ -461,17 +426,20 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         updateRequest.setClosingEmailEnabled(false);
         updateRequest.setPublishedEmailEnabled(false);
 
-        Map<String, Long> studentDeadlines = new HashMap<>();
-        studentDeadlines.put("student3InCourse1@gmail.tmt", 1809126000000L);
-        studentDeadlines.put("student4InCourse1@gmail.tmt", 1809126000000L);
-        studentDeadlines.put("student5InCourse1@gmail.tmt", 1809126000000L);
+        FeedbackSessionAttributes session1InCourse1 = typicalBundle.feedbackSessions
+                .get("session1InCourse1");
+        Map<String, Long> studentDeadlines = convertDeadlinesToLong(session1InCourse1.getStudentDeadlines());
         updateRequest.setStudentDeadlines(studentDeadlines);
-        Map<String, Long> instructorDeadlines = new HashMap<>();
-        instructorDeadlines.put("instructor1@course1.tmt", 1809126000000L);
-        instructorDeadlines.put("instructor2@course1.tmt", 1809126000000L);
+        Map<String, Long> instructorDeadlines = convertDeadlinesToLong(session1InCourse1.getInstructorDeadlines());
         updateRequest.setInstructorDeadlines(instructorDeadlines);
 
         return updateRequest;
+    }
+
+    private Map<String, Long> convertDeadlinesToLong(Map<String, Instant> deadlines) {
+        return deadlines.entrySet()
+                .stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().toEpochMilli()));
     }
 
     @Override

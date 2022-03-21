@@ -1,8 +1,8 @@
 package teammates.ui.request;
 
 import java.time.Instant;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * The update request of a feedback session.
@@ -18,22 +18,18 @@ public class FeedbackSessionUpdateRequest extends FeedbackSessionBasicRequest {
      * Gets the deadlines for students.
      */
     public Map<String, Instant> getStudentDeadlines() {
-        Map<String, Instant> studentDeadlineInstants = new HashMap<>();
-        studentDeadlines.forEach((emailAddress, deadline) -> {
-            studentDeadlineInstants.put(emailAddress, Instant.ofEpochMilli(deadline));
-        });
-        return studentDeadlineInstants;
+        return studentDeadlines.entrySet()
+                .stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, entry -> Instant.ofEpochMilli(entry.getValue())));
     }
 
     /**
      * Gets the deadlines for instructors.
      */
     public Map<String, Instant> getInstructorDeadlines() {
-        Map<String, Instant> instructorDeadlineInstants = new HashMap<>();
-        instructorDeadlines.forEach((emailAddress, deadline) -> {
-            instructorDeadlineInstants.put(emailAddress, Instant.ofEpochMilli(deadline));
-        });
-        return instructorDeadlineInstants;
+        return instructorDeadlines.entrySet()
+                .stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, entry -> Instant.ofEpochMilli(entry.getValue())));
     }
 
     public boolean isGoingToNotifyAboutDeadlines() {

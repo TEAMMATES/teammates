@@ -586,8 +586,7 @@ public final class FieldValidator {
 
     /**
      * Checks if the session end time is before all extended deadlines.
-     * @return Error string if any deadline in {@code deadlines} is before {@code sessionEnd}
-     *         Empty string if any deadline in {@code deadlines} is after {@code sessionEnd}
+     * @return Error string if any deadline in {@code deadlines} is before {@code sessionEnd}, an empty one otherwise.
      */
     public static String getInvalidityInfoForTimeForSessionEndAndExtendedDeadlines(
             Instant sessionEnd, Map<String, Instant> deadlines) {

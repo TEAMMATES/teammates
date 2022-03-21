@@ -612,7 +612,7 @@ public class FieldValidatorTest extends BaseTestCase {
                 FieldValidator.getInvalidityInfoForTimeForSessionEndAndExtendedDeadlines(
                         sessionEnd, extendedDeadlines));
 
-        ______TS("extended deadline earlier than the end time");
+        ______TS("extended deadline at the same time as the end time");
         extendedDeadlines.put("participant@email.com", sessionEnd);
         assertEquals("The extended deadlines for this feedback session cannot be earlier than or at the same time as "
                         + "the end time.",
