@@ -167,6 +167,15 @@ public final class StudentsDb extends EntitiesDb<CourseStudent, StudentAttribute
     }
 
     /**
+     * Gets the total number of students of a course.
+     */
+    public int getNumberOfStudentsForCourse(String courseId) {
+        assert courseId != null;
+
+        return getCourseStudentsForCourseQuery(courseId).count();
+    }
+
+    /**
      * Gets all students of a course.
      */
     public List<StudentAttributes> getStudentsForCourse(String courseId) {
@@ -176,12 +185,12 @@ public final class StudentsDb extends EntitiesDb<CourseStudent, StudentAttribute
     }
 
     /**
-     * Gets all students of a course.
+     * Gets the first {@code batchSize} students of the course.
      */
-    public int getNumberOfStudentsForCourse(String courseId) {
+    public List<StudentAttributes> getStudentsForCourse(String courseId, int batchSize) {
         assert courseId != null;
 
-        return getCourseStudentsForCourseQuery(courseId).count();
+        return makeAttributes(getCourseStudentEntitiesForCourse(courseId, batchSize));
     }
 
     /**
@@ -341,8 +350,18 @@ public final class StudentsDb extends EntitiesDb<CourseStudent, StudentAttribute
         return load().filter("courseId =", courseId);
     }
 
+    private Query<CourseStudent> getCourseStudentsForCourseQuery(String courseId, int batchSize) {
+        return load()
+                .filter("courseId =", courseId)
+                .limit(batchSize);
+    }
+
     private List<CourseStudent> getCourseStudentEntitiesForCourse(String courseId) {
         return getCourseStudentsForCourseQuery(courseId).list();
+    }
+
+    private List<CourseStudent> getCourseStudentEntitiesForCourse(String courseId, int batchSize) {
+        return getCourseStudentsForCourseQuery(courseId, batchSize).list();
     }
 
     private Query<CourseStudent> getCourseStudentsForGoogleIdQuery(String googleId) {
