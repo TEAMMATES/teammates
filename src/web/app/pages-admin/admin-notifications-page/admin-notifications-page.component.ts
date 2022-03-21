@@ -5,7 +5,7 @@ import { NotificationService } from '../../../services/notification.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
 import { TimezoneService } from '../../../services/timezone.service';
-import { Notification, Notifications } from '../../../types/api-output';
+import { MessageOutput, Notification, Notifications } from '../../../types/api-output';
 import { NotificationType, NotificationTargetUser } from '../../../types/api-request';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
@@ -116,7 +116,6 @@ export class AdminNotificationsPageComponent implements OnInit {
         (notifications: Notifications) => {
           notifications.notifications.forEach((notification: Notification) => {
             this.notificationsTableRowModels.push({
-              index: -1,
               isHighlighted: false,
               notification,
             });
@@ -125,13 +124,6 @@ export class AdminNotificationsPageComponent implements OnInit {
           // note: order is set to be descending here as it will be reversed later
           this.notificationsTableRowModelsSortOrder = SortOrder.ASC;
           this.sortNotificationsTableRowModelsHandler(SortBy.NOTIFICATION_CREATE_TIME);
-
-          const size = this.notificationsTableRowModels.length;
-          this.notificationsTableRowModels.forEach(
-            (notificationsTableRowModel: NotificationsTableRowModel, index: number) => {
-              notificationsTableRowModel.index = size - index;
-            },
-          );
         },
         (resp: ErrorMessageOutput) => {
           this.hasNotificationLoadingFailed = true;
@@ -176,16 +168,7 @@ export class AdminNotificationsPageComponent implements OnInit {
       (notification: Notification) => {
         this.statusMessageService.showSuccessToast('Notification created successfully.');
 
-        // get the max index of the existing notifications
-        const maxIndex = this.notificationsTableRowModels.reduce(
-          (prevMax: number, notificationsTableRowModel: NotificationsTableRowModel) => {
-            return Math.max(prevMax, notificationsTableRowModel.index);
-          },
-          0,
-        );
-
         this.notificationsTableRowModels.unshift({
-          index: maxIndex + 1,
           isHighlighted: true,
           notification,
         });
@@ -197,6 +180,26 @@ export class AdminNotificationsPageComponent implements OnInit {
         this.statusMessageService.showErrorToast(resp.error.message);
       },
     );
+  }
+
+  /**
+   * Deletes a notification.
+   */
+  deleteNotificationHandler(notificationId: string): void {
+    this.notificationService.deleteNotification(notificationId)
+      .subscribe(
+        (msg: MessageOutput) => {
+          this.statusMessageService.showSuccessToast(msg.message);
+          this.notificationsTableRowModels = this.notificationsTableRowModels.filter(
+            (notificationsTableRowModel: NotificationsTableRowModel) => {
+              return notificationsTableRowModel.notification.notificationId !== notificationId;
+            },
+          );
+        },
+        (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
+      );
   }
 
   /**

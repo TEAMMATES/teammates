@@ -26,6 +26,7 @@
                               [notificationsTableRowModels]="notificationsTableRowModels"
                               [notificationsTableRowModelsSortBy]="notificationsTableRowModelsSortBy"
                               [notificationsTableRowModelsSortOrder]="notificationsTableRowModelsSortOrder"
+                              (deleteNotificationEvent)="deleteNotificationHandler($event)"
                               (sortNotificationsTableRowModelsEvent)="sortNotificationsTableRowModelsHandler($event)"></tm-notifications-table>
     </div>
   </div>
