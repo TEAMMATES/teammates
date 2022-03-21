@@ -1487,4 +1487,17 @@ public class Logic {
 
         return usageStatisticsLogic.getUsageStatisticsForTimeRange(startTime, endTime);
     }
+
+    public UsageStatisticsAttributes calculateEntitiesStatisticsForTimeRange(Instant startTime, Instant endTime) {
+        assert startTime != null;
+        assert endTime != null;
+        assert startTime.toEpochMilli() < endTime.toEpochMilli();
+        return usageStatisticsLogic.calculateEntitiesStatisticsForTimeRange(startTime, endTime);
+    }
+
+    public void createUsageStatistics(UsageStatisticsAttributes attributes)
+            throws EntityAlreadyExistsException, InvalidParametersException {
+        usageStatisticsLogic.createUsageStatistics(attributes);
+    }
+
 }

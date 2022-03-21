@@ -1,5 +1,6 @@
 package teammates.logic.core;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -996,6 +997,13 @@ public final class FeedbackResponsesLogic {
         }
 
         return viewableResponses.getResponses();
+    }
+
+    /**
+     * Gets the number of feedback responses created within a specified time range.
+     */
+    int getNumFeedbackResponsesByTimeRange(Instant startTime, Instant endTime) {
+        return frDb.getNumFeedbackResponsesByTimeRange(startTime, endTime);
     }
 
     /**
