@@ -55,7 +55,7 @@
                 <tm-ajax-loading *ngIf="isLoadingCsv"></tm-ajax-loading>
                 Download Student List
               </button>
-              <button id="btn-delete-all" type="button" class="btn btn-danger btn-margin-left" (click)="openDeleteAllStudentsModal()" value="Delete All Students">
+              <button id="btn-delete-all" type="button" class="btn btn-danger btn-margin-left" (click)="openDeleteAllStudentsConfirmationModal()" value="Delete All Students">
                 <i *ngIf="!isDeleting" class="fa fa-trash"></i>
                 <tm-ajax-loading *ngIf="isDeleting"></tm-ajax-loading>
                 Delete All Students
