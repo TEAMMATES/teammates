@@ -166,6 +166,31 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         expectedStudentDeadlines.remove("student1InCourse1@gmail.tmt");
         assertEquals(expectedStudentDeadlines, response.getStudentDeadlines());
 
+        ______TS("C_UD deadline extensions for students simultaneously");
+
+        assertNull(expectedStudentDeadlines.get("student1InCourse1@gmail.tmt"));
+        assertNotEquals(endTimePlus2Days, expectedStudentDeadlines.get("student3InCourse1@gmail.tmt"));
+        assertNotNull(expectedStudentDeadlines.get("student4InCourse1@gmail.tmt"));
+
+        updateRequest = getTypicalFeedbackSessionUpdateRequest();
+        newStudentDeadlines = convertDeadlinesToLong(updateRequest.getStudentDeadlines());
+        newStudentDeadlines.put("student1InCourse1@gmail.tmt", endTimePlus1Day);
+        newStudentDeadlines.put("student3InCourse1@gmail.tmt", endTimePlus2Days);
+        newStudentDeadlines.remove("student4InCourse1@gmail.tmt");
+        updateRequest.setStudentDeadlines(newStudentDeadlines);
+
+        a = getAction(updateRequest, param);
+        r = getJsonResult(a);
+        response = (FeedbackSessionData) r.getOutput();
+
+        // Create deadline.
+        expectedStudentDeadlines.put("student1InCourse1@gmail.tmt", endTimePlus1Day);
+        // Update deadline.
+        expectedStudentDeadlines.put("student3InCourse1@gmail.tmt", endTimePlus2Days);
+        // Delete deadline.
+        expectedStudentDeadlines.remove("student4InCourse1@gmail.tmt");
+        assertEquals(expectedStudentDeadlines, response.getStudentDeadlines());
+
         ______TS("change deadline extension for non-existent student; should throw EntityNotFoundException");
 
         updateRequest = getTypicalFeedbackSessionUpdateRequest();
@@ -260,6 +285,31 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
 
         // The deadline for course 1 helper instructor was deleted; the map no longer contains a deadline for them.
         expectedInstructorDeadlines.remove("helper@course1.tmt");
+        assertEquals(expectedInstructorDeadlines, response.getInstructorDeadlines());
+
+        ______TS("C_UD deadline extensions for instructors simultaneously");
+
+        assertNull(expectedInstructorDeadlines.get("helper@course1.tmt"));
+        assertNotEquals(endTimePlus2Days, expectedInstructorDeadlines.get("instructor1@course1.tmt"));
+        assertNotNull(expectedInstructorDeadlines.get("instructor2@course1.tmt"));
+
+        updateRequest = getTypicalFeedbackSessionUpdateRequest();
+        newInstructorDeadlines = convertDeadlinesToLong(updateRequest.getInstructorDeadlines());
+        newInstructorDeadlines.put("helper@course1.tmt", endTimePlus1Day);
+        newInstructorDeadlines.put("instructor1@course1.tmt", endTimePlus2Days);
+        newInstructorDeadlines.remove("instructor2@course1.tmt");
+        updateRequest.setInstructorDeadlines(newInstructorDeadlines);
+
+        a = getAction(updateRequest, param);
+        r = getJsonResult(a);
+        response = (FeedbackSessionData) r.getOutput();
+
+        // Create deadline.
+        expectedInstructorDeadlines.put("helper@course1.tmt", endTimePlus1Day);
+        // Update deadline.
+        expectedInstructorDeadlines.put("instructor1@course1.tmt", endTimePlus2Days);
+        // Delete deadline.
+        expectedInstructorDeadlines.remove("instructor2@course1.tmt");
         assertEquals(expectedInstructorDeadlines, response.getInstructorDeadlines());
 
         ______TS("change deadline extension for non-existent instructor; "
