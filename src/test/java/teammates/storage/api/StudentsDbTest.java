@@ -361,7 +361,7 @@ public class StudentsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
         assertNotNull(studentsDb.getStudentForEmail(anotherStudent.getCourse(), anotherStudent.getEmail()));
 
         // there are students in the course
-        assertFalse(studentsDb.getNumberOfStudentsForCourse(s.getCourse()) == 0);
+        assertNotEquals(0, studentsDb.getNumberOfStudentsForCourse(s.getCourse()));
 
         studentsDb.deleteStudents(
                 AttributesDeletionQuery.builder()
