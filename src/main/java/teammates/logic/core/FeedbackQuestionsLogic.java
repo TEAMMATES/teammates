@@ -125,7 +125,7 @@ public final class FeedbackQuestionsLogic {
     /**
      * Gets the number of questions for student to answer from a map of giver type to question counts.
      */
-    public long getFeedbackQuestionForStudentCountFrom(Map<FeedbackParticipantType, Integer> giverTypeCounts) {
+    public int getFeedbackQuestionForStudentCountFrom(Map<FeedbackParticipantType, Integer> giverTypeCounts) {
         return giverTypeCounts.getOrDefault(FeedbackParticipantType.STUDENTS, 0)
                 + giverTypeCounts.getOrDefault(FeedbackParticipantType.TEAMS, 0);
     }
@@ -133,7 +133,7 @@ public final class FeedbackQuestionsLogic {
     /**
      * Gets the number of questions for instructor to answer from a map of giver type to question counts.
      */
-    public long getFeedbackQuestionForInstructorCountFrom(
+    public int getFeedbackQuestionForInstructorCountFrom(
             Map<FeedbackParticipantType, Integer> giverTypeCounts, boolean isCreator) {
         return giverTypeCounts.getOrDefault(FeedbackParticipantType.INSTRUCTORS, 0)
                 + (isCreator ? giverTypeCounts.getOrDefault(FeedbackParticipantType.SELF, 0) : 0);

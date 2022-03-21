@@ -912,9 +912,9 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         ______TS("Valid session valid course should give correct counts");
         Map<FeedbackParticipantType, Integer> giverTypeCounts = fqLogic.getFeedbackQuestionGiverCountForSession(
                 "First feedback session", "idOfTypicalCourse1");
-        long studentTypeCount = giverTypeCounts.get(FeedbackParticipantType.STUDENTS);
-        long instructorTypeCount = giverTypeCounts.get(FeedbackParticipantType.INSTRUCTORS);
-        long selfTypeCount = giverTypeCounts.get(FeedbackParticipantType.SELF);
+        int studentTypeCount = giverTypeCounts.get(FeedbackParticipantType.STUDENTS);
+        int instructorTypeCount = giverTypeCounts.get(FeedbackParticipantType.INSTRUCTORS);
+        int selfTypeCount = giverTypeCounts.get(FeedbackParticipantType.SELF);
         assertEquals(2, studentTypeCount);
         assertEquals(1, instructorTypeCount);
         assertEquals(2, selfTypeCount);

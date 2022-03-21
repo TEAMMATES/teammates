@@ -492,7 +492,7 @@ public final class FeedbackSessionsLogic {
      * Gets the expected number of submissions for a feedback session.
      */
     public int getExpectedTotalSubmission(FeedbackSessionAttributes fsa) {
-        Integer numOfStudents = studentsLogic.getNumberOfStudentsForCourse(fsa.getCourseId());
+        int numOfStudents = studentsLogic.getNumberOfStudentsForCourse(fsa.getCourseId());
         List<String> instructorEmails = instructorsLogic.getInstructorEmailsForCourse(fsa.getCourseId());
         Map<FeedbackParticipantType, Integer> giverTypeCounts = fqLogic.getFeedbackQuestionGiverCountForSession(
                 fsa.getFeedbackSessionName(), fsa.getCourseId());
