@@ -147,7 +147,7 @@ public final class InstructorsDb extends EntitiesDb<Instructor, InstructorAttrib
     }
 
     /**
-     * Gets all instructors of a course.
+     * Gets the emails of all instructors of a course.
      */
     public List<String> getInstructorEmailsForCourse(String courseId) {
         assert courseId != null;
