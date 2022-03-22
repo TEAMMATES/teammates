@@ -122,31 +122,6 @@ public final class FeedbackQuestionsLogic {
         return questions;
     }
 
-    /**
-     * Gets the number of questions for student to answer from a map of giver type to question counts.
-     */
-    public int getFeedbackQuestionForStudentCountFrom(Map<FeedbackParticipantType, Integer> giverTypeCounts) {
-        return giverTypeCounts.getOrDefault(FeedbackParticipantType.STUDENTS, 0)
-                + giverTypeCounts.getOrDefault(FeedbackParticipantType.TEAMS, 0);
-    }
-
-    /**
-     * Gets the number of questions for instructor to answer from a map of giver type to question counts.
-     */
-    public int getFeedbackQuestionForInstructorCountFrom(
-            Map<FeedbackParticipantType, Integer> giverTypeCounts, boolean isCreator) {
-        return giverTypeCounts.getOrDefault(FeedbackParticipantType.INSTRUCTORS, 0)
-                + (isCreator ? giverTypeCounts.getOrDefault(FeedbackParticipantType.SELF, 0) : 0);
-    }
-
-    /**
-     * Gets a {@link Map} of FeedbackQuestion giver types to count in the given session.
-     */
-    public Map<FeedbackParticipantType, Integer> getFeedbackQuestionGiverCountForSession(
-            String feedbackSessionName, String courseId) {
-        return fqDb.getFeedbackQuestionGiverTypeCountForSession(feedbackSessionName, courseId);
-    }
-
     // TODO can be removed once we are sure that question numbers will be consistent
     private boolean areQuestionNumbersConsistent(List<FeedbackQuestionAttributes> questions) {
         Set<Integer> questionNumbersInSession = new HashSet<>();
@@ -179,6 +154,25 @@ public final class FeedbackQuestionsLogic {
         if (userEmail != null && fsLogic.isCreatorOfSession(feedbackSessionName, courseId, userEmail)) {
             hasQuestions = fqDb.hasFeedbackQuestionsForGiverType(
                     feedbackSessionName, courseId, FeedbackParticipantType.SELF);
+        }
+
+        return hasQuestions;
+    }
+
+    /**
+     * Checks if there are any questions for the given session that instructors can view/submit.
+     */
+    public boolean hasFeedbackQuestionsForInstructors(
+            FeedbackSessionAttributes fsa, String userEmail) {
+        boolean hasQuestions = fqDb.hasFeedbackQuestionsForGiverType(
+                fsa.getFeedbackSessionName(), fsa.getCourseId(), FeedbackParticipantType.INSTRUCTORS);
+        if (hasQuestions) {
+            return true;
+        }
+
+        if (userEmail != null && fsa.isCreator(userEmail)) {
+            hasQuestions = fqDb.hasFeedbackQuestionsForGiverType(
+                    fsa.getFeedbackSessionName(), fsa.getCourseId(), FeedbackParticipantType.SELF);
         }
 
         return hasQuestions;

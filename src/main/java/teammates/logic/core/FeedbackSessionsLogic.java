@@ -3,7 +3,6 @@ package teammates.logic.core;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
@@ -494,16 +493,14 @@ public final class FeedbackSessionsLogic {
     public int getExpectedTotalSubmission(FeedbackSessionAttributes fsa) {
         int numOfStudents = studentsLogic.getNumberOfStudentsForCourse(fsa.getCourseId());
         List<String> instructorEmails = instructorsLogic.getInstructorEmailsForCourse(fsa.getCourseId());
-        Map<FeedbackParticipantType, Integer> giverTypeCounts = fqLogic.getFeedbackQuestionGiverCountForSession(
-                fsa.getFeedbackSessionName(), fsa.getCourseId());
 
         int expectedTotal = 0;
-        if (fqLogic.getFeedbackQuestionForStudentCountFrom(giverTypeCounts) > 0) {
+        if (fqLogic.hasFeedbackQuestionsForStudents(fsa.getFeedbackSessionName(), fsa.getCourseId())) {
             expectedTotal += numOfStudents;
         }
 
         for (String instructorEmail : instructorEmails) {
-            if (fqLogic.getFeedbackQuestionForInstructorCountFrom(giverTypeCounts, fsa.isCreator(instructorEmail)) > 0) {
+            if (fqLogic.hasFeedbackQuestionsForInstructors(fsa, instructorEmail)) {
                 expectedTotal += 1;
             }
         }
