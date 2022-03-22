@@ -51,6 +51,14 @@ const routes: Routes = [
         .then((m: any) => m.LogsPageModule),
   },
   {
+    path: 'stats',
+    loadChildren: () => import('../pages-monitoring/usage-stats-page/usage-statistics-page.module')
+        .then((m: any) => m.UsageStatisticsPageModule),
+    data: {
+      pageTitle: 'Usage Statistics',
+    },
+  },
+  {
     path: '',
     pathMatch: 'full',
     redirectTo: 'home',

@@ -1,0 +1,60 @@
+<p>Data available from: 1 January 2016, 00:00 UTC</p>
+<div class="card bg-form no-border">
+  <div class="card-body">
+    <div class="row form-group">
+      <div class="col-5">
+        <div class="col-12 mb-1">
+          <label for="search-from-datepicker" class="font-weight-bold">Search period from</label>
+        </div>
+        <div class="input-group">
+          <div class="col-md-8 input-group">
+            <input id="search-from-datepicker" type="text" class="form-control" ngbDatepicker [minDate]="earliestSearchDate" [maxDate]="dateToday" [(ngModel)]="formModel.fromDate" #logsFromDp="ngbDatepicker">
+            <button class="btn btn-light" (click)="logsFromDp.toggle()" type="button">
+              <i class="fas fa-calendar-alt"></i>
+            </button>
+          </div>
+          <div class="col-md-4">
+            <ngb-timepicker [(ngModel)]="formModel.fromTime" [spinners]="false"></ngb-timepicker>
+          </div>
+        </div>
+      </div>
+      <div class="col-5">
+        <div class="col-12 mb-1">
+          <label for="search-to-datepicker" class="font-weight-bold">Search period until</label>
+        </div>
+        <div class="input-group">
+          <div class="col-md-8 input-group">
+            <input id="search-to-datepicker" type="text" class="form-control" ngbDatepicker [minDate]="earliestSearchDate" [maxDate]="dateToday" [(ngModel)]="formModel.toDate" #logsToDp="ngbDatepicker"/>
+            <button class="btn btn-light" (click)="logsToDp.toggle()" type="button">
+              <i class="fas fa-calendar-alt"></i>
+            </button>
+          </div>
+          <div class="col-md-4">
+            <ngb-timepicker [(ngModel)]="formModel.toTime" [spinners]="false"></ngb-timepicker>
+          </div>
+        </div>
+      </div>
+      <div class="col-2">
+        <div class="col-12 mb-1">
+          <label for="data-to-display" class="font-weight-bold">Data to display:</label>
+        </div>
+        <select id="data-to-display" class="form-control col-12" [ngModel]="formModel.dataType" (ngModelChange)="changeStatsType($event)">
+          <option [value]="StatisticsType.NUM_RESPONSES"># of responses</option>
+          <option [value]="StatisticsType.NUM_COURSES"># of courses</option>
+          <option [value]="StatisticsType.NUM_STUDENTS"># of students</option>
+          <option [value]="StatisticsType.NUM_INSTRUCTORS"># of instructors</option>
+          <option [value]="StatisticsType.NUM_ACCOUNT_REQUESTS"># of account requests</option>
+          <option [value]="StatisticsType.NUM_EMAILS"># of emails</option>
+          <option [value]="StatisticsType.NUM_SUBMISSIONS"># of submissions</option>
+        </select>
+      </div>
+      <div class="col-1 mt-4">
+        <button id="query-button" class="float-right btn btn-primary" (click)="getUsageStatistics()">Query</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="hasQueried">
+  <tm-stats-line-chart *tmIsLoading="isLoading" [data]="dataToDraw" [timeRange]="timeRange" [dataName]="itemName"></tm-stats-line-chart>
+</div>
