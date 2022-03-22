@@ -205,6 +205,16 @@ public final class StudentsDb extends EntitiesDb<CourseStudent, StudentAttribute
     }
 
     /**
+     * Gets count of students of a team of a course.
+     */
+    public int getStudentCountForTeam(String teamName, String courseId) {
+        assert teamName != null;
+        assert courseId != null;
+
+        return getCourseStudentCountForTeam(teamName, courseId);
+    }
+
+    /**
      * Gets all unregistered students of a course.
      */
     public List<StudentAttributes> getUnregisteredStudentsForCourse(String courseId) {
@@ -368,6 +378,13 @@ public final class StudentsDb extends EntitiesDb<CourseStudent, StudentAttribute
                 .filter("teamName =", teamName)
                 .filter("courseId =", courseId)
                 .list();
+    }
+
+    private int getCourseStudentCountForTeam(String teamName, String courseId) {
+        return load()
+                .filter("teamName =", teamName)
+                .filter("courseId =", courseId)
+                .count();
     }
 
     private List<CourseStudent> getCourseStudentEntitiesForSection(String sectionName, String courseId) {

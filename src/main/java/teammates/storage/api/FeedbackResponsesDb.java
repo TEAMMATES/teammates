@@ -119,7 +119,7 @@ public final class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, Feed
 
         return !load()
                 .filter("feedbackQuestionId =", feedbackQuestionId)
-                .limit(1)
+                .keys()
                 .list()
                 .isEmpty();
     }
@@ -313,7 +313,7 @@ public final class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, Feed
      */
     public boolean hasFeedbackResponseEntitiesForCourse(String courseId) {
         assert courseId != null;
-        return !load().filter("courseId =", courseId).limit(1).list().isEmpty();
+        return !load().filter("courseId =", courseId).keys().list().isEmpty();
     }
 
     private FeedbackResponse getFeedbackResponseEntity(String feedbackResponseId) {

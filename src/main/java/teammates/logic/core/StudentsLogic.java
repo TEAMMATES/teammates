@@ -409,7 +409,7 @@ public final class StudentsLogic {
         }
 
         frLogic.deleteFeedbackResponsesInvolvedEntityOfCourseCascade(courseId, studentEmail);
-        if (studentsDb.getStudentsForTeam(student.getTeam(), student.getCourse()).size() == 1) {
+        if (studentsDb.getStudentCountForTeam(student.getTeam(), student.getCourse()) == 1) {
             // the student is the only student in the team, delete responses related to the team
             frLogic.deleteFeedbackResponsesInvolvedEntityOfCourseCascade(student.getCourse(), student.getTeam());
         }
