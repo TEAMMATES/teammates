@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 
@@ -11,6 +12,8 @@ import teammates.ui.output.UsageStatisticsRangeData;
  * Gets usage statistics for a specified time period.
  */
 class GetUsageStatisticsAction extends Action {
+
+    private static final Duration MAX_SEARCH_WINDOW = Duration.ofDays(184L); // covering six whole months
 
     @Override
     AuthType getMinAuthLevel() {
@@ -47,6 +50,11 @@ class GetUsageStatisticsAction extends Action {
 
         if (endTime > Instant.now().toEpochMilli()) {
             throw new InvalidHttpParameterException("The end time must not exceed the current time.");
+        }
+
+        if (endTime - startTime > MAX_SEARCH_WINDOW.toMillis()) {
+            throw new InvalidHttpParameterException("The search window must not exceed "
+                    + MAX_SEARCH_WINDOW.toDays() + " full days.");
         }
 
         List<UsageStatisticsAttributes> usageStatisticsInRange =
