@@ -610,8 +610,7 @@ public class FieldValidatorTest extends BaseTestCase {
 
     @Test
     public void testGetInvalidityInfoForNotificationTitle_valid_returnEmptyString() {
-        String title = "valid title";
-        assertEquals("", FieldValidator.getInvalidityInfoForNotificationTitle(title));
+        assertEquals("", FieldValidator.getInvalidityInfoForNotificationTitle("valid title"));
     }
 
     @Test
@@ -630,8 +629,7 @@ public class FieldValidatorTest extends BaseTestCase {
 
     @Test
     public void testGetInvalidityInfoForNotificationBody_valid_returnEmptyString() {
-        String body = "valid body";
-        assertEquals("", FieldValidator.getInvalidityInfoForNotificationBody(body));
+        assertEquals("", FieldValidator.getInvalidityInfoForNotificationBody("valid body"));
     }
 
     @Test
@@ -642,27 +640,25 @@ public class FieldValidatorTest extends BaseTestCase {
 
     @Test
     public void testGetInvalidityInfoForNotificationType_valid_returnEmptyString() {
-        String notificationType = "DEPRECATION";
-        assertEquals("", FieldValidator.getInvalidityInfoForNotificationType(notificationType));
+        assertEquals("", FieldValidator.getInvalidityInfoForNotificationType("DEPRECATION"));
     }
 
     @Test
     public void testGetInvalidityInfoForNotificationType_inValid_returnErrorString() {
         String notificationType = "invalid type";
-        assertEquals("\"invalid type\" is not an accepted notification type to TEAMMATES. ",
+        assertEquals("\"" + notificationType + "\" is not an accepted notification type to TEAMMATES. ",
                 FieldValidator.getInvalidityInfoForNotificationType(notificationType));
     }
 
     @Test
     public void testGetInvalidityInfoForNotificationTargetUser_valid_returnEmptyString() {
-        String user = "GENERAL";
-        assertEquals("", FieldValidator.getInvalidityInfoForNotificationTargetUser(user));
+        assertEquals("", FieldValidator.getInvalidityInfoForNotificationTargetUser("GENERAL"));
     }
 
     @Test
     public void testGetInvalidityInfoForNotificationTargetUser_inValid_returnErrorString() {
         String user = "invalid user";
-        assertEquals("\"invalid user\" is not an accepted notification target user to TEAMMATES. ",
+        assertEquals("\"" + user + "\" is not an accepted notification target user to TEAMMATES. ",
                 FieldValidator.getInvalidityInfoForNotificationTargetUser(user));
     }
 
