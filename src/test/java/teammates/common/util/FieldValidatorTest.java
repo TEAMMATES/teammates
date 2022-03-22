@@ -590,6 +590,83 @@ public class FieldValidatorTest extends BaseTestCase {
     }
 
     @Test
+    public void testGetInvalidityInfoForTimeForNotificationStartAndEnd_valid_returnEmptyString() {
+        Instant notificationStart = TimeHelperExtension.getInstantHoursOffsetFromNow(-1);
+        Instant notificationEnd = TimeHelperExtension.getInstantHoursOffsetFromNow(1);
+        assertEquals("",
+                FieldValidator.getInvalidityInfoForTimeForNotificationStartAndEnd(
+                        notificationStart, notificationEnd));
+    }
+
+    @Test
+    public void testGetInvalidityInfoForTimeForNotificationStartAndEnd_inValid_returnErrorString() {
+        Instant notificationStart = TimeHelperExtension.getInstantHoursOffsetFromNow(1);
+        Instant notificationEnd = TimeHelperExtension.getInstantHoursOffsetFromNow(-1);
+        assertEquals("The time when the notification will expire for this notification cannot be earlier "
+                        + "than the time when the notification will be visible.",
+                FieldValidator.getInvalidityInfoForTimeForNotificationStartAndEnd(
+                        notificationStart, notificationEnd));
+    }
+
+    @Test
+    public void testGetInvalidityInfoForNotificationTitle_valid_returnEmptyString() {
+        String title = "valid title";
+        assertEquals("", FieldValidator.getInvalidityInfoForNotificationTitle(title));
+    }
+
+    @Test
+    public void testGetInvalidityInfoForNotificationTitle_inValid_returnErrorString() {
+        assertEquals("The field 'notification title' is empty.",
+                FieldValidator.getInvalidityInfoForNotificationTitle(""));
+        String invalidNotificationTitle = StringHelperExtension.generateStringOfLength(
+                FieldValidator.NOTIFICATION_TITLE_MAX_LENGTH + 1);
+        assertEquals("\"" + invalidNotificationTitle + "\" is not acceptable to TEAMMATES as a/an "
+                        + "notification title because it is too long. "
+                        + "The value of a/an notification title should be no longer than "
+                        + FieldValidator.NOTIFICATION_TITLE_MAX_LENGTH
+                        + " characters. It should not be empty.",
+                FieldValidator.getInvalidityInfoForNotificationTitle(invalidNotificationTitle));
+    }
+
+    @Test
+    public void testGetInvalidityInfoForNotificationBody_valid_returnEmptyString() {
+        String body = "valid body";
+        assertEquals("", FieldValidator.getInvalidityInfoForNotificationBody(body));
+    }
+
+    @Test
+    public void testGetInvalidityInfoForNotificationBody_inValid_returnErrorString() {
+        assertEquals("The field 'notification message' is empty.",
+                FieldValidator.getInvalidityInfoForNotificationBody(""));
+    }
+
+    @Test
+    public void testGetInvalidityInfoForNotificationType_valid_returnEmptyString() {
+        String notificationType = "DEPRECATION";
+        assertEquals("", FieldValidator.getInvalidityInfoForNotificationType(notificationType));
+    }
+
+    @Test
+    public void testGetInvalidityInfoForNotificationType_inValid_returnErrorString() {
+        String notificationType = "invalid type";
+        assertEquals("\"invalid type\" is not an accepted notification type to TEAMMATES. ",
+                FieldValidator.getInvalidityInfoForNotificationType(notificationType));
+    }
+
+    @Test
+    public void testGetInvalidityInfoForNotificationTargetUser_valid_returnEmptyString() {
+        String user = "GENERAL";
+        assertEquals("", FieldValidator.getInvalidityInfoForNotificationTargetUser(user));
+    }
+
+    @Test
+    public void testGetInvalidityInfoForNotificationTargetUser_inValid_returnErrorString() {
+        String user = "invalid user";
+        assertEquals("\"invalid user\" is not an accepted notification target user to TEAMMATES. ",
+                FieldValidator.getInvalidityInfoForNotificationTargetUser(user));
+    }
+
+    @Test
     public void testRegexName() {
         ______TS("success: typical name");
         String name = "Benny Charlés";
