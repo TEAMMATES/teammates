@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { SimpleModalService } from '../../../../services/simple-modal.service';
 import { TimezoneService } from '../../../../services/timezone.service';
 import { SortBy, SortOrder } from '../../../../types/sort-properties';
+import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
 import { NotificationsTableHeaderColorScheme, NotificationsTableRowModel } from './notifications-table-model';
 
 @Component({
@@ -30,7 +32,10 @@ export class NotificationsTableComponent implements OnInit {
   @Output()
   sortNotificationsTableRowModelsEvent: EventEmitter<SortBy> = new EventEmitter();
 
-  constructor(private timezoneService: TimezoneService) { }
+  @Output()
+  deleteNotificationEvent: EventEmitter<String> = new EventEmitter();
+
+  constructor(private simpleModalService: SimpleModalService, private timezoneService: TimezoneService) { }
 
   ngOnInit(): void {
     this.guessTimezone = this.timezoneService.guessTimezone();
@@ -39,7 +44,19 @@ export class NotificationsTableComponent implements OnInit {
   /**
    * Sorts the list of feedback session row.
    */
-   sortNotificationsTableRowModels(by: SortBy): void {
+  sortNotificationsTableRowModels(by: SortBy): void {
     this.sortNotificationsTableRowModelsEvent.emit(by);
+  }
+
+  /**
+   * Deletes a notification based on its ID.
+   */
+  deleteNotification(notificationId: string, title: string): void {
+    const modalRef = this.simpleModalService.openConfirmationModal(
+      'Confirm your action',
+      SimpleModalType.DANGER,
+      `Do you want to delete this notification (titled "${title}") permanently? This action will not be reversible.`,
+    );
+    modalRef.result.then(() => this.deleteNotificationEvent.emit(notificationId));
   }
 }
