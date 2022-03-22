@@ -19,6 +19,7 @@ import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.NotificationAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.InvalidParametersException;
@@ -33,6 +34,7 @@ import teammates.storage.api.FeedbackResponseCommentsDb;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.api.InstructorsDb;
+import teammates.storage.api.NotificationsDb;
 import teammates.storage.api.ProfilesDb;
 import teammates.storage.api.StudentsDb;
 
@@ -55,6 +57,7 @@ public final class DataBundleLogic {
     private final FeedbackQuestionsDb fqDb = FeedbackQuestionsDb.inst();
     private final FeedbackResponsesDb frDb = FeedbackResponsesDb.inst();
     private final FeedbackResponseCommentsDb fcDb = FeedbackResponseCommentsDb.inst();
+    private final NotificationsDb nfDb = NotificationsDb.inst();
 
     private DataBundleLogic() {
         // prevent initialization
@@ -90,6 +93,7 @@ public final class DataBundleLogic {
         Collection<FeedbackQuestionAttributes> questions = dataBundle.feedbackQuestions.values();
         Collection<FeedbackResponseAttributes> responses = dataBundle.feedbackResponses.values();
         Collection<FeedbackResponseCommentAttributes> responseComments = dataBundle.feedbackResponseComments.values();
+        Collection<NotificationAttributes> notifications = dataBundle.notifications.values();
 
         // For ensuring only one account per Google ID is created
         Map<String, AccountAttributes> googleIdAccountMap = new HashMap<>();
@@ -115,6 +119,7 @@ public final class DataBundleLogic {
 
         List<FeedbackResponseAttributes> newFeedbackResponses = frDb.putEntities(responses);
         List<FeedbackResponseCommentAttributes> newFeedbackResponseComments = fcDb.putEntities(responseComments);
+        List<NotificationAttributes> newNotifications = nfDb.putEntities(notifications);
 
         updateDataBundleValue(newAccounts, dataBundle.accounts);
         updateDataBundleValue(newAccountRequests, dataBundle.accountRequests);
@@ -126,6 +131,7 @@ public final class DataBundleLogic {
         updateDataBundleValue(createdQuestions, dataBundle.feedbackQuestions);
         updateDataBundleValue(newFeedbackResponses, dataBundle.feedbackResponses);
         updateDataBundleValue(newFeedbackResponseComments, dataBundle.feedbackResponseComments);
+        updateDataBundleValue(newNotifications, dataBundle.notifications);
 
         return dataBundle;
 
@@ -378,6 +384,9 @@ public final class DataBundleLogic {
         });
         dataBundle.accountRequests.values().forEach(accountRequest -> {
             accountRequestsDb.deleteAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
+        });
+        dataBundle.notifications.values().forEach(notification -> {
+            nfDb.deleteNotification(notification.getNotificationId());
         });
     }
 

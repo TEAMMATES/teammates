@@ -1869,5 +1869,79 @@
       "institute": "TEAMMATES Test Institute 2",
       "createdAt": "2011-01-01T00:00:00Z"
     }
+  },
+   "notifications": {
+    "notification1": {
+      "notificationId": "notification1",
+      "startTime": "2011-01-01T00:00:00Z",
+      "endTime": "2099-01-01T00:00:00Z",
+      "createdAt": "2011-01-01T00:00:00Z",
+      "updatedAt": "2011-01-01T00:00:00Z",
+      "type": "DEPRECATION",
+      "targetUser": "GENERAL",
+      "title": "A deprecation note",
+      "message": "Deprecation happens in three minutes",
+      "shown": false
+    },
+    "notification2": {
+      "notificationId": "notification2",
+      "startTime": "2011-02-02T00:00:00Z",
+      "endTime": "2099-02-02T00:00:00Z",
+      "createdAt": "2011-01-01T00:00:00Z",
+      "updatedAt": "2011-01-01T00:00:00Z",
+      "type": "VERSION_NOTE",
+      "targetUser": "STUDENT",
+      "title": "A note for update",
+      "message": "Exciting features",
+      "shown": false
+    },
+    "notification3": {
+      "notificationId": "notification3",
+      "startTime": "2011-03-03T00:00:00Z",
+      "endTime": "2099-03-03T00:00:00Z",
+      "createdAt": "2011-01-01T00:00:00Z",
+      "updatedAt": "2011-01-01T00:00:00Z",
+      "type": "VERSION_NOTE",
+      "targetUser": "INSTRUCTOR",
+      "title": "The first version note",
+      "message": "The version note content",
+      "shown": false
+    },
+    "notification4": {
+      "notificationId": "notification4",
+      "startTime": "2011-04-04T00:00:00Z",
+      "endTime": "2099-04-04T00:00:00Z",
+      "createdAt": "2011-01-01T00:00:00Z",
+      "updatedAt": "2011-01-01T00:00:00Z",
+      "type": "MAINTENANCE",
+      "targetUser": "GENERAL",
+      "title": "The note of maintenance",
+      "message": "The content of maintenance",
+      "shown": false
+    },
+    "notification5": {
+      "notificationId": "notification5",
+      "startTime": "2011-05-05T00:00:00Z",
+      "endTime": "2099-05-05T00:00:00Z",
+      "createdAt": "2011-01-01T00:00:00Z",
+      "updatedAt": "2011-01-01T00:00:00Z",
+      "type": "TIPS",
+      "targetUser": "INSTRUCTOR",
+      "title": "The first tip to instructor",
+      "message": "The first tip content",
+      "shown": false
+    },
+    "notification6": {
+      "notificationId": "notification6",
+      "startTime": "2011-06-06T00:00:00Z",
+      "endTime": "2099-06-06T00:00:00Z",
+      "createdAt": "2011-01-01T00:00:00Z",
+      "updatedAt": "2011-01-01T00:00:00Z",
+      "type": "DEPRECATION",
+      "targetUser": "STUDENT",
+      "title": "The note of maintenance",
+      "message": "The content of maintenance",
+      "shown": false
+    }
   }
 }
