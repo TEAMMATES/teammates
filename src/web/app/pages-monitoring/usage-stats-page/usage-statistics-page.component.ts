@@ -17,12 +17,18 @@ export enum StatisticsType {
   NUM_SUBMISSIONS,
 }
 
+export enum AggregationType {
+  HOURLY,
+  DAILY,
+}
+
 interface FormQueryModel {
   fromDate: DateFormat;
   fromTime: TimeFormat;
   toDate: DateFormat;
   toTime: TimeFormat;
   dataType: StatisticsType;
+  aggregationType: AggregationType;
 }
 
 export interface DataPoint {
@@ -41,6 +47,7 @@ export interface DataPoint {
 export class UsageStatisticsPageComponent implements OnInit {
 
   StatisticsType = StatisticsType;
+  AggregationType = AggregationType;
 
   itemName = 'responses';
 
@@ -50,6 +57,7 @@ export class UsageStatisticsPageComponent implements OnInit {
     toDate: { year: 0, month: 0, day: 0 },
     toTime: { hour: 0, minute: 0 },
     dataType: StatisticsType.NUM_RESPONSES,
+    aggregationType: AggregationType.HOURLY,
   };
   dateToday: DateFormat = { year: 0, month: 0, day: 0 };
   earliestSearchDate: DateFormat = { year: 2016, month: 1, day: 1 };
@@ -115,10 +123,25 @@ export class UsageStatisticsPageComponent implements OnInit {
     this.drawLineChart();
   }
 
+  changeAggregationType(type: AggregationType): void {
+    this.formModel.aggregationType = type;
+    this.drawLineChart();
+  }
+
   drawLineChart(): void {
     if (!this.fetchedData.length) {
       return;
     }
+    if (+this.formModel.aggregationType === AggregationType.DAILY && this.fetchedData.length < 24 * 7) {
+      // Do not allow daily aggregation if there are too few data, e.g. less than one week
+      this.statusMessageService.showWarningToast('There is too little data to be aggregated daily.');
+      this.formModel.aggregationType = AggregationType.HOURLY;
+    } else if (+this.formModel.aggregationType === AggregationType.HOURLY && this.fetchedData.length > 30 * 24) {
+      // Do not allow hourly aggregation if there are too many data, e.g. more than one month
+      this.statusMessageService.showWarningToast('There is too many data to be aggregated hourly.');
+      this.formModel.aggregationType = AggregationType.DAILY;
+    }
+    const aggregateDaily = +this.formModel.aggregationType === AggregationType.DAILY;
     let dataToDraw = this.fetchedData.map((statisticsObj: UsageStatistics) => {
       let value: number;
       switch (+this.formModel.dataType) {
@@ -158,6 +181,28 @@ export class UsageStatisticsPageComponent implements OnInit {
         date: new Date(statisticsObj.startTime).toISOString(),
       };
     });
+
+    if (aggregateDaily) {
+      const aggregated: DataPoint[] = [];
+      let current: DataPoint = {
+        value: 0,
+        date: dataToDraw[0].date,
+      };
+      for (const hourlyData of dataToDraw) {
+        const shouldChangeDate = new Date(hourlyData.date).getUTCHours() === 0;
+        if (shouldChangeDate) {
+          aggregated.push(current);
+          current = {
+            value: hourlyData.value,
+            date: hourlyData.date,
+          };
+        } else {
+          current.value += hourlyData.value;
+        }
+      }
+      aggregated.push(current);
+      dataToDraw = aggregated;
+    }
 
     this.dataToDraw = dataToDraw;
   }

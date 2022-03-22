@@ -2,7 +2,7 @@
 <div class="card bg-form no-border">
   <div class="card-body">
     <div class="row form-group">
-      <div class="col-5">
+      <div class="col-4">
         <div class="col-12 mb-1">
           <label for="search-from-datepicker" class="font-weight-bold">Search period from</label>
         </div>
@@ -18,7 +18,7 @@
           </div>
         </div>
       </div>
-      <div class="col-5">
+      <div class="col-4">
         <div class="col-12 mb-1">
           <label for="search-to-datepicker" class="font-weight-bold">Search period until</label>
         </div>
@@ -46,6 +46,15 @@
           <option [value]="StatisticsType.NUM_ACCOUNT_REQUESTS"># of account requests</option>
           <option [value]="StatisticsType.NUM_EMAILS"># of emails</option>
           <option [value]="StatisticsType.NUM_SUBMISSIONS"># of submissions</option>
+        </select>
+      </div>
+      <div class="col-2">
+        <div class="col-12 mb-1">
+          <label for="data-aggregation" class="font-weight-bold">Data aggregation:</label>
+        </div>
+        <select id="data-aggregation" class="form-control col-12" [ngModel]="formModel.aggregationType" (ngModelChange)="changeAggregationType($event)">
+          <option [value]="AggregationType.HOURLY">Hourly</option>
+          <option [value]="AggregationType.DAILY">Daily</option>
         </select>
       </div>
       <div class="col-1 mt-4">
