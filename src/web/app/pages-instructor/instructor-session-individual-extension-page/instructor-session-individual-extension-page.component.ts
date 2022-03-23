@@ -55,7 +55,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
   feedbackSessionName: string = '';
 
   feedbackSessionEndingTime: number = 0;
-  feedbackSessionTimeZone: string = '';
+  feedbackSessionTimeZone: string = 'UTC';
 
   feedbackSessionDetails: FeedbackSessionBasicRequest = {
     instructions: '',

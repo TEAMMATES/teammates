@@ -944,7 +944,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when feed
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTime="0"
   feedbackSessionName="undefined"
-  feedbackSessionTimeZone=""
+  feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadedAllInstructorsFailed="false"
   hasLoadedAllStudentsFailed="false"
@@ -2452,7 +2452,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with inst
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTime="0"
   feedbackSessionName="undefined"
-  feedbackSessionTimeZone=""
+  feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadedAllInstructorsFailed="false"
   hasLoadedAllStudentsFailed="false"
@@ -2515,6 +2515,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with inst
               class="col-md-3 text-md-left"
               id="time-zone"
             >
+               UTC 
             </div>
           </div>
           <div
@@ -2721,7 +2722,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with stud
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTime="0"
   feedbackSessionName="undefined"
-  feedbackSessionTimeZone=""
+  feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadedAllInstructorsFailed="false"
   hasLoadedAllStudentsFailed="false"
@@ -2784,6 +2785,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with stud
               class="col-md-3 text-md-left"
               id="time-zone"
             >
+               UTC 
             </div>
           </div>
           <div
@@ -2978,7 +2980,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTime="0"
   feedbackSessionName="undefined"
-  feedbackSessionTimeZone=""
+  feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadedAllInstructorsFailed="false"
   hasLoadedAllStudentsFailed="false"
@@ -3219,7 +3221,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTime="0"
   feedbackSessionName="undefined"
-  feedbackSessionTimeZone=""
+  feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadedAllInstructorsFailed="false"
   hasLoadedAllStudentsFailed="false"
