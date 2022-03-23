@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.NotificationTargetUser;
@@ -39,6 +40,18 @@ public class NotificationsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
 
     private final NotificationsDb notificationsDb = NotificationsDb.inst();
 
+    /**
+     * Removes all notifications created by each test.
+     */
+    @AfterMethod
+    public void cleanUp() {
+        List<NotificationAttributes> retrieved = notificationsDb.getAllNotifications();
+        assertNotNull(retrieved);
+
+        ______TS("clean up: delete " + retrieved.size() + " notifications");
+        retrieved.forEach(n -> notificationsDb.deleteNotification(n.getNotificationId()));
+    }
+
     @Test
     public void testGetNotification() throws Exception {
         NotificationAttributes n = createNewNotification();
@@ -53,9 +66,6 @@ public class NotificationsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
 
         ______TS("failure: null parameter");
         assertThrows(AssertionError.class, () -> notificationsDb.getNotification(null));
-
-        // delete created account
-        notificationsDb.deleteNotification(n.getNotificationId());
     }
 
     @Test
@@ -64,7 +74,7 @@ public class NotificationsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
         final int numOfNotifications = 10;
 
         Set<String> notificationIds = new HashSet<>();
-        // Create 10 new notifications and set the occurance to be false.
+        // Creates 10 new notifications and set the occurance to be false.
         for (int i = 0; i < numOfNotifications; i++) {
             NotificationAttributes n = createNewNotification();
             notificationIds.add(n.getNotificationId());
@@ -72,17 +82,8 @@ public class NotificationsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
 
         List<NotificationAttributes> retrieved = notificationsDb.getAllNotifications();
 
-        assertNotNull(retrieved);
-        // Make sure the same 10 notifications are retrieved.
-        assertEquals(numOfNotifications, retrieved.size());
-        retrieved.forEach(n -> {
-            assertNotNull(n);
-            assertTrue(notificationIds.contains(n.getNotificationId()));
-            notificationIds.remove(n.getNotificationId());
-
-            // delete created account
-            notificationsDb.deleteNotification(n.getNotificationId());
-        });
+        // Verifies that what was retrieved is exactly the same as what was created.
+        this.verifyNotifications(retrieved, notificationIds);
     }
 
     @Test
@@ -94,49 +95,48 @@ public class NotificationsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
         final int numOfExpectedOngoingNotification = 10;
         final int numOfExpiredNotification = 5;
 
-        Set<String> allNotificationIds = new HashSet<>();
         Set<String> expectedNotificationIds = new HashSet<>();
 
         // Add some notifications that are not started yet. They should not be returned.
         for (int i = 0; i < numOfNotStartedNotification; i++) {
-            allNotificationIds.add(notificationsDb.createEntity(NotificationAttributes.builder(UUID.randomUUID().toString())
+            notificationsDb.createEntity(NotificationAttributes.builder(UUID.randomUUID().toString())
                     .withTitle(TITLE)
                     .withMessage(MESSAGE)
                     .withType(TYPE)
                     .withTargetUser(TARGET_USER)
                     .withStartTime(Instant.now().plusSeconds(3600))
                     .withEndTime(Instant.now().plusSeconds(4200))
-                    .build()).getNotificationId());
+                    .build());
         }
 
         // Add some notifications that have expired. They should not be returned.
         for (int i = 0; i < numOfExpiredNotification; i++) {
-            allNotificationIds.add(notificationsDb.createEntity(NotificationAttributes.builder(UUID.randomUUID().toString())
+            notificationsDb.createEntity(NotificationAttributes.builder(UUID.randomUUID().toString())
                     .withTitle(TITLE)
                     .withMessage(MESSAGE)
                     .withType(TYPE)
                     .withTargetUser(TARGET_USER)
                     .withStartTime(Instant.now().minusSeconds(4200))
                     .withEndTime(Instant.now().minusSeconds(3600))
-                    .build()).getNotificationId());
+                    .build());
         }
 
         // Add some ongoing notifications but not the target user we are interested. They should not be returned.
         for (int i = 0; i < numOfOtherOngoingNotification; i++) {
-            allNotificationIds.add(notificationsDb.createEntity(NotificationAttributes.builder(UUID.randomUUID().toString())
+            notificationsDb.createEntity(NotificationAttributes.builder(UUID.randomUUID().toString())
                     .withTitle(TITLE)
                     .withMessage(MESSAGE)
                     .withType(TYPE)
                     .withTargetUser(TARGET_USER_DIFF)
                     .withStartTime(Instant.now().minusSeconds(3600))
                     .withEndTime(Instant.now().plusSeconds(3600))
-                    .build()).getNotificationId());
+                    .build());
         }
 
         // Create 2 at a time, one with expected target user and one with GENERAL
         // All of these created notifications should be returned
         for (int i = 0; i < numOfExpectedOngoingNotification; i += 2) {
-            NotificationAttributes n = notificationsDb.createEntity(
+            expectedNotificationIds.add(notificationsDb.createEntity(
                     NotificationAttributes.builder(UUID.randomUUID().toString())
                             .withTitle(TITLE)
                             .withMessage(MESSAGE)
@@ -144,53 +144,37 @@ public class NotificationsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
                             .withTargetUser(TARGET_USER)
                             .withStartTime(Instant.now().minusSeconds(3600))
                             .withEndTime(Instant.now().plusSeconds(3600))
-                            .build());
+                            .build()).getNotificationId());
 
-            allNotificationIds.add(n.getNotificationId());
-            expectedNotificationIds.add(n.getNotificationId());
-
-            n = notificationsDb.createEntity(NotificationAttributes.builder(UUID.randomUUID().toString())
-                    .withTitle(TITLE)
-                    .withMessage(MESSAGE)
-                    .withType(TYPE)
-                    .withTargetUser(NotificationTargetUser.GENERAL)
-                    .withStartTime(Instant.now().minusSeconds(3600))
-                    .withEndTime(Instant.now().plusSeconds(3600))
-                    .build());
-
-            allNotificationIds.add(n.getNotificationId());
-            expectedNotificationIds.add(n.getNotificationId());
+            expectedNotificationIds.add(notificationsDb.createEntity(
+                    NotificationAttributes.builder(UUID.randomUUID().toString())
+                            .withTitle(TITLE)
+                            .withMessage(MESSAGE)
+                            .withType(TYPE)
+                            .withTargetUser(NotificationTargetUser.GENERAL)
+                            .withStartTime(Instant.now().minusSeconds(3600))
+                            .withEndTime(Instant.now().plusSeconds(3600))
+                            .build()).getNotificationId());
         }
 
         List<NotificationAttributes> retrieved = notificationsDb.getActiveNotificationsByTargetUser(TARGET_USER);
 
-        assertNotNull(retrieved);
-        assertEquals(numOfExpectedOngoingNotification, retrieved.size());
-        retrieved.forEach(n -> {
-            assertNotNull(n);
-            assertTrue(expectedNotificationIds.contains(n.getNotificationId()));
-            expectedNotificationIds.remove(n.getNotificationId());
-        });
-
-        // delete created account
-        allNotificationIds.forEach(notificationsDb::deleteNotification);
+        // Verifies that what was retrieved is exactly the same as what was expected.
+        this.verifyNotifications(retrieved, expectedNotificationIds);
     }
 
     @Test
     public void testCreateNotification() throws Exception {
         ______TS("typical success case");
-        NotificationAttributes n = createNewNotification();
+        NotificationAttributes n1 = createNewNotification();
 
         ______TS("failure: duplicate notification with the same ID");
-        assertThrows(EntityAlreadyExistsException.class, () -> notificationsDb.createEntity(n));
-
-        notificationsDb.deleteNotification(n.getNotificationId());
+        assertThrows(EntityAlreadyExistsException.class, () -> notificationsDb.createEntity(n1));
 
         ______TS("failure: invalid non-null parameters");
-        n.setTitle("");
-        assertThrows(InvalidParametersException.class, () -> notificationsDb.createEntity(n));
-
-        notificationsDb.deleteNotification(n.getNotificationId());
+        NotificationAttributes n2 = getNewNotificationAttributes();
+        n2.setTitle("");
+        assertThrows(InvalidParametersException.class, () -> notificationsDb.createEntity(n2));
 
         ______TS("failure: null parameters");
         assertThrows(AssertionError.class, () -> notificationsDb.createEntity(null));
@@ -217,8 +201,6 @@ public class NotificationsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
                 notificationsDb.updateNotification(NotificationAttributes.updateOptionsBuilder(n.getNotificationId())
                         .withTitle("")
                         .build()));
-
-        notificationsDb.deleteNotification(n.getNotificationId());
 
         ______TS("failure: null update options");
         assertThrows(AssertionError.class, () -> notificationsDb.updateNotification(null));
@@ -256,8 +238,6 @@ public class NotificationsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
         assertEquals(START_TIME, n.getStartTime());
         assertEquals(END_TIME, n.getEndTime());
         assertTrue(n.isShown());
-
-        notificationsDb.deleteNotification(n.getNotificationId());
     }
 
     @Test
@@ -319,8 +299,6 @@ public class NotificationsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
                         .withShown()
                         .build()).isShown());
         assertTrue(notificationsDb.getNotification(n.getNotificationId()).isShown());
-
-        notificationsDb.deleteNotification(n.getNotificationId());
     }
 
     @Test
@@ -351,8 +329,6 @@ public class NotificationsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
         ______TS("true after entity creation");
         notificationsDb.createEntity(n);
         assertEquals(true, notificationsDb.hasExistingEntities(n));
-
-        notificationsDb.deleteNotification(n.getNotificationId());
     }
 
     private NotificationAttributes createNewNotification()
@@ -385,5 +361,22 @@ public class NotificationsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
                 .withStartTime(START_TIME_DIFF)
                 .withEndTime(END_TIME_DIFF)
                 .build();
+    }
+
+    /**
+     * Verifies that the retrieved notifications' IDs match the expected set of IDs.
+     */
+    private void verifyNotifications(List<NotificationAttributes> retrieved, Set<String> ids) throws Exception {
+        assertNotNull(retrieved);
+        assertEquals(ids.size(), retrieved.size());
+
+        Set<String> recordedNotifications = new HashSet<>();
+        retrieved.forEach(n -> {
+            // Checks that each notification retrieved is in the set and appears only once.
+            assertNotNull(n);
+            assertTrue(ids.contains(n.getNotificationId()));
+            assertFalse(recordedNotifications.contains(n.getNotificationId()));
+            recordedNotifications.add(n.getNotificationId());
+        });
     }
 }
