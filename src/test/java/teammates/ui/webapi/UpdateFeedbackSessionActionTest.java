@@ -45,7 +45,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         String[] param = new String[] {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
-                Const.ParamsNames.MUST_NOTIFY_ABOUT_DEADLINES, String.valueOf(false),
+                Const.ParamsNames.NOTIFY_ABOUT_DEADLINES, String.valueOf(false),
         };
 
         verifyHttpRequestBodyFailure(null, param);
@@ -56,14 +56,20 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
 
         verifyHttpParameterFailure(updateRequest);
         verifyHttpParameterFailure(updateRequest,
-                Const.ParamsNames.COURSE_ID, session.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName());
-        verifyHttpParameterFailure(updateRequest,
+                // Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
-                Const.ParamsNames.MUST_NOTIFY_ABOUT_DEADLINES, String.valueOf(false));
+                Const.ParamsNames.NOTIFY_ABOUT_DEADLINES, String.valueOf(false)
+        );
         verifyHttpParameterFailure(updateRequest,
+                // Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
-                Const.ParamsNames.MUST_NOTIFY_ABOUT_DEADLINES, String.valueOf(false));
+                Const.ParamsNames.NOTIFY_ABOUT_DEADLINES, String.valueOf(false)
+        );
+        verifyHttpParameterFailure(updateRequest,
+                // Const.ParamsNames.NOTIFY_ABOUT_DEADLINES, String.valueOf(false),
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName()
+        );
 
         ______TS("success: Typical case");
 
@@ -124,6 +130,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         InstructorAttributes instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         FeedbackSessionAttributes session = typicalBundle.feedbackSessions.get("session1InCourse1");
 
+        String studentAEmailAddress = "student1InCourse1@gmail.tmt";
         Map<String, Long> expectedStudentDeadlines = convertDeadlinesToLong(session.getStudentDeadlines());
         Instant endTime = session.getEndTime();
         // These are arbitrary.
@@ -135,44 +142,44 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         String[] param = new String[] {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
-                Const.ParamsNames.MUST_NOTIFY_ABOUT_DEADLINES, String.valueOf(false),
+                Const.ParamsNames.NOTIFY_ABOUT_DEADLINES, String.valueOf(false),
         };
 
         ______TS("create new deadline extension for student");
 
-        assertNull(expectedStudentDeadlines.get("student1InCourse1@gmail.tmt"));
+        assertNull(expectedStudentDeadlines.get(studentAEmailAddress));
 
         FeedbackSessionUpdateRequest updateRequest = getTypicalFeedbackSessionUpdateRequest();
         Map<String, Long> newStudentDeadlines = convertDeadlinesToLong(updateRequest.getStudentDeadlines());
-        newStudentDeadlines.put("student1InCourse1@gmail.tmt", endTimePlus1Day);
+        newStudentDeadlines.put(studentAEmailAddress, endTimePlus1Day);
         updateRequest.setStudentDeadlines(newStudentDeadlines);
 
         UpdateFeedbackSessionAction a = getAction(updateRequest, param);
         JsonResult r = getJsonResult(a);
         FeedbackSessionData response = (FeedbackSessionData) r.getOutput();
 
-        expectedStudentDeadlines.put("student1InCourse1@gmail.tmt", endTimePlus1Day);
+        expectedStudentDeadlines.put(studentAEmailAddress, endTimePlus1Day);
         assertEquals(expectedStudentDeadlines, response.getStudentDeadlines());
 
         ______TS("update deadline extension for student");
 
-        assertNotEquals(endTimePlus2Days, expectedStudentDeadlines.get("student1InCourse1@gmail.tmt"));
+        assertNotEquals(endTimePlus2Days, expectedStudentDeadlines.get(studentAEmailAddress));
 
         updateRequest = getTypicalFeedbackSessionUpdateRequest();
         newStudentDeadlines = convertDeadlinesToLong(updateRequest.getStudentDeadlines());
-        newStudentDeadlines.put("student1InCourse1@gmail.tmt", endTimePlus2Days);
+        newStudentDeadlines.put(studentAEmailAddress, endTimePlus2Days);
         updateRequest.setStudentDeadlines(newStudentDeadlines);
 
         a = getAction(updateRequest, param);
         r = getJsonResult(a);
         response = (FeedbackSessionData) r.getOutput();
 
-        expectedStudentDeadlines.put("student1InCourse1@gmail.tmt", endTimePlus2Days);
+        expectedStudentDeadlines.put(studentAEmailAddress, endTimePlus2Days);
         assertEquals(expectedStudentDeadlines, response.getStudentDeadlines());
 
         ______TS("delete deadline extension for student");
 
-        assertNotNull(expectedStudentDeadlines.get("student1InCourse1@gmail.tmt"));
+        assertNotNull(expectedStudentDeadlines.get(studentAEmailAddress));
 
         // The typical update request does not contain the course 1 student 1's email.
         updateRequest = getTypicalFeedbackSessionUpdateRequest();
@@ -182,20 +189,23 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         response = (FeedbackSessionData) r.getOutput();
 
         // The deadline for course 1 student 1 was deleted; the map no longer contains a deadline for them.
-        expectedStudentDeadlines.remove("student1InCourse1@gmail.tmt");
+        expectedStudentDeadlines.remove(studentAEmailAddress);
         assertEquals(expectedStudentDeadlines, response.getStudentDeadlines());
 
-        ______TS("C_UD deadline extensions for students simultaneously");
+        ______TS("C_UD on extensions for different students within the same request");
 
-        assertNull(expectedStudentDeadlines.get("student1InCourse1@gmail.tmt"));
-        assertNotEquals(endTimePlus2Days, expectedStudentDeadlines.get("student3InCourse1@gmail.tmt"));
-        assertNotNull(expectedStudentDeadlines.get("student4InCourse1@gmail.tmt"));
+        String studentBEmailAddress = "student3InCourse1@gmail.tmt";
+        String studentCEmailAddress = "student4InCourse1@gmail.tmt";
+
+        assertNull(expectedStudentDeadlines.get(studentAEmailAddress));
+        assertNotEquals(endTimePlus2Days, expectedStudentDeadlines.get(studentBEmailAddress));
+        assertNotNull(expectedStudentDeadlines.get(studentCEmailAddress));
 
         updateRequest = getTypicalFeedbackSessionUpdateRequest();
         newStudentDeadlines = convertDeadlinesToLong(updateRequest.getStudentDeadlines());
-        newStudentDeadlines.put("student1InCourse1@gmail.tmt", endTimePlus1Day);
-        newStudentDeadlines.put("student3InCourse1@gmail.tmt", endTimePlus2Days);
-        newStudentDeadlines.remove("student4InCourse1@gmail.tmt");
+        newStudentDeadlines.put(studentAEmailAddress, endTimePlus1Day);
+        newStudentDeadlines.put(studentBEmailAddress, endTimePlus2Days);
+        newStudentDeadlines.remove(studentCEmailAddress);
         updateRequest.setStudentDeadlines(newStudentDeadlines);
 
         a = getAction(updateRequest, param);
@@ -203,11 +213,11 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         response = (FeedbackSessionData) r.getOutput();
 
         // Create deadline.
-        expectedStudentDeadlines.put("student1InCourse1@gmail.tmt", endTimePlus1Day);
+        expectedStudentDeadlines.put(studentAEmailAddress, endTimePlus1Day);
         // Update deadline.
-        expectedStudentDeadlines.put("student3InCourse1@gmail.tmt", endTimePlus2Days);
+        expectedStudentDeadlines.put(studentBEmailAddress, endTimePlus2Days);
         // Delete deadline.
-        expectedStudentDeadlines.remove("student4InCourse1@gmail.tmt");
+        expectedStudentDeadlines.remove(studentCEmailAddress);
         assertEquals(expectedStudentDeadlines, response.getStudentDeadlines());
 
         ______TS("change deadline extension for non-existent student; should throw EntityNotFoundException");
@@ -217,8 +227,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         newStudentDeadlines.put("nonExistentStudent@gmail.tmt", endTimePlus1Day);
         updateRequest.setStudentDeadlines(newStudentDeadlines);
 
-        a = getAction(updateRequest, param);
-        assertThrows(EntityNotFoundException.class, a::execute);
+        verifyEntityNotFound(updateRequest, param);
 
         ______TS("change deadline extension for student to the same time as the end time; "
                 + "should throw InvalidHttpRequestBodyException");
@@ -226,11 +235,10 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         updateRequest = getTypicalFeedbackSessionUpdateRequest();
         Instant newEndTime = updateRequest.getSubmissionEndTime();
         newStudentDeadlines = convertDeadlinesToLong(updateRequest.getStudentDeadlines());
-        newStudentDeadlines.put("student1InCourse1@gmail.tmt", newEndTime.toEpochMilli());
+        newStudentDeadlines.put(studentAEmailAddress, newEndTime.toEpochMilli());
         updateRequest.setStudentDeadlines(newStudentDeadlines);
 
-        a = getAction(updateRequest, param);
-        assertThrows(InvalidHttpRequestBodyException.class, a::execute);
+        verifyHttpRequestBodyFailure(updateRequest, param);
 
         ______TS("change deadline extension for student to before end time; "
                 + "should throw InvalidHttpRequestBodyException");
@@ -238,11 +246,10 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         updateRequest = getTypicalFeedbackSessionUpdateRequest();
         newEndTime = updateRequest.getSubmissionEndTime();
         newStudentDeadlines = convertDeadlinesToLong(updateRequest.getStudentDeadlines());
-        newStudentDeadlines.put("student1InCourse1@gmail.tmt", newEndTime.plus(Duration.ofMillis(-1)).toEpochMilli());
+        newStudentDeadlines.put(studentAEmailAddress, newEndTime.plus(Duration.ofMillis(-1)).toEpochMilli());
         updateRequest.setStudentDeadlines(newStudentDeadlines);
 
-        a = getAction(updateRequest, param);
-        assertThrows(InvalidHttpRequestBodyException.class, a::execute);
+        verifyHttpRequestBodyFailure(updateRequest, param);
 
         logoutUser();
     }
@@ -252,6 +259,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         InstructorAttributes instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         FeedbackSessionAttributes session = typicalBundle.feedbackSessions.get("session1InCourse1");
 
+        String instructorAEmailAddress = "helper@course1.tmt";
         Map<String, Long> expectedInstructorDeadlines = convertDeadlinesToLong(session.getInstructorDeadlines());
         Instant endTime = session.getEndTime();
         // These are arbitrary.
@@ -263,44 +271,44 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         String[] param = new String[] {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
-                Const.ParamsNames.MUST_NOTIFY_ABOUT_DEADLINES, String.valueOf(false),
+                Const.ParamsNames.NOTIFY_ABOUT_DEADLINES, String.valueOf(false),
         };
 
         ______TS("create new deadline extension for instructor");
 
-        assertNull(expectedInstructorDeadlines.get("helper@course1.tmt"));
+        assertNull(expectedInstructorDeadlines.get(instructorAEmailAddress));
 
         FeedbackSessionUpdateRequest updateRequest = getTypicalFeedbackSessionUpdateRequest();
         Map<String, Long> newInstructorDeadlines = convertDeadlinesToLong(updateRequest.getInstructorDeadlines());
-        newInstructorDeadlines.put("helper@course1.tmt", endTimePlus1Day);
+        newInstructorDeadlines.put(instructorAEmailAddress, endTimePlus1Day);
         updateRequest.setInstructorDeadlines(newInstructorDeadlines);
 
         UpdateFeedbackSessionAction a = getAction(updateRequest, param);
         JsonResult r = getJsonResult(a);
         FeedbackSessionData response = (FeedbackSessionData) r.getOutput();
 
-        expectedInstructorDeadlines.put("helper@course1.tmt", endTimePlus1Day);
+        expectedInstructorDeadlines.put(instructorAEmailAddress, endTimePlus1Day);
         assertEquals(expectedInstructorDeadlines, response.getInstructorDeadlines());
 
         ______TS("update deadline extension for instructor");
 
-        assertNotEquals(endTimePlus2Days, expectedInstructorDeadlines.get("helper@course1.tmt"));
+        assertNotEquals(endTimePlus2Days, expectedInstructorDeadlines.get(instructorAEmailAddress));
 
         updateRequest = getTypicalFeedbackSessionUpdateRequest();
         newInstructorDeadlines = convertDeadlinesToLong(updateRequest.getInstructorDeadlines());
-        newInstructorDeadlines.put("helper@course1.tmt", endTimePlus2Days);
+        newInstructorDeadlines.put(instructorAEmailAddress, endTimePlus2Days);
         updateRequest.setInstructorDeadlines(newInstructorDeadlines);
 
         a = getAction(updateRequest, param);
         r = getJsonResult(a);
         response = (FeedbackSessionData) r.getOutput();
 
-        expectedInstructorDeadlines.put("helper@course1.tmt", endTimePlus2Days);
+        expectedInstructorDeadlines.put(instructorAEmailAddress, endTimePlus2Days);
         assertEquals(expectedInstructorDeadlines, response.getInstructorDeadlines());
 
         ______TS("delete deadline extension for instructor");
 
-        assertNotNull(expectedInstructorDeadlines.get("helper@course1.tmt"));
+        assertNotNull(expectedInstructorDeadlines.get(instructorAEmailAddress));
 
         // The typical update request does not contain the course 1 helper instructor's email.
         updateRequest = getTypicalFeedbackSessionUpdateRequest();
@@ -310,20 +318,23 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         response = (FeedbackSessionData) r.getOutput();
 
         // The deadline for course 1 helper instructor was deleted; the map no longer contains a deadline for them.
-        expectedInstructorDeadlines.remove("helper@course1.tmt");
+        expectedInstructorDeadlines.remove(instructorAEmailAddress);
         assertEquals(expectedInstructorDeadlines, response.getInstructorDeadlines());
 
-        ______TS("C_UD deadline extensions for instructors simultaneously");
+        ______TS("C_UD on extensions for different instructors within the same request");
 
-        assertNull(expectedInstructorDeadlines.get("helper@course1.tmt"));
-        assertNotEquals(endTimePlus2Days, expectedInstructorDeadlines.get("instructor1@course1.tmt"));
-        assertNotNull(expectedInstructorDeadlines.get("instructor2@course1.tmt"));
+        String instructorBEmailAddress = "instructor1@course1.tmt";
+        String instructorCEmailAddress = "instructor2@course1.tmt";
+
+        assertNull(expectedInstructorDeadlines.get(instructorAEmailAddress));
+        assertNotEquals(endTimePlus2Days, expectedInstructorDeadlines.get(instructorBEmailAddress));
+        assertNotNull(expectedInstructorDeadlines.get(instructorCEmailAddress));
 
         updateRequest = getTypicalFeedbackSessionUpdateRequest();
         newInstructorDeadlines = convertDeadlinesToLong(updateRequest.getInstructorDeadlines());
-        newInstructorDeadlines.put("helper@course1.tmt", endTimePlus1Day);
-        newInstructorDeadlines.put("instructor1@course1.tmt", endTimePlus2Days);
-        newInstructorDeadlines.remove("instructor2@course1.tmt");
+        newInstructorDeadlines.put(instructorAEmailAddress, endTimePlus1Day);
+        newInstructorDeadlines.put(instructorBEmailAddress, endTimePlus2Days);
+        newInstructorDeadlines.remove(instructorCEmailAddress);
         updateRequest.setInstructorDeadlines(newInstructorDeadlines);
 
         a = getAction(updateRequest, param);
@@ -331,11 +342,11 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         response = (FeedbackSessionData) r.getOutput();
 
         // Create deadline.
-        expectedInstructorDeadlines.put("helper@course1.tmt", endTimePlus1Day);
+        expectedInstructorDeadlines.put(instructorAEmailAddress, endTimePlus1Day);
         // Update deadline.
-        expectedInstructorDeadlines.put("instructor1@course1.tmt", endTimePlus2Days);
+        expectedInstructorDeadlines.put(instructorBEmailAddress, endTimePlus2Days);
         // Delete deadline.
-        expectedInstructorDeadlines.remove("instructor2@course1.tmt");
+        expectedInstructorDeadlines.remove(instructorCEmailAddress);
         assertEquals(expectedInstructorDeadlines, response.getInstructorDeadlines());
 
         ______TS("change deadline extension for non-existent instructor; "
@@ -346,8 +357,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         newInstructorDeadlines.put("nonExistentInstructor@gmail.tmt", endTimePlus1Day);
         updateRequest.setInstructorDeadlines(newInstructorDeadlines);
 
-        a = getAction(updateRequest, param);
-        assertThrows(EntityNotFoundException.class, a::execute);
+        verifyEntityNotFound(updateRequest, param);
 
         ______TS("change deadline extension for instructor to the same time as the end time; "
                 + "should throw InvalidHttpRequestBodyException");
@@ -355,11 +365,10 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         updateRequest = getTypicalFeedbackSessionUpdateRequest();
         Instant newEndTime = updateRequest.getSubmissionEndTime();
         newInstructorDeadlines = convertDeadlinesToLong(updateRequest.getInstructorDeadlines());
-        newInstructorDeadlines.put("helper@course1.tmt", newEndTime.toEpochMilli());
+        newInstructorDeadlines.put(instructorAEmailAddress, newEndTime.toEpochMilli());
         updateRequest.setInstructorDeadlines(newInstructorDeadlines);
 
-        a = getAction(updateRequest, param);
-        assertThrows(InvalidHttpRequestBodyException.class, a::execute);
+        verifyHttpRequestBodyFailure(updateRequest, param);
 
         ______TS("change deadline extension for instructor to before end time; "
                 + "should throw InvalidHttpRequestBodyException");
@@ -367,11 +376,10 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         updateRequest = getTypicalFeedbackSessionUpdateRequest();
         newEndTime = updateRequest.getSubmissionEndTime();
         newInstructorDeadlines = convertDeadlinesToLong(updateRequest.getInstructorDeadlines());
-        newInstructorDeadlines.put("helper@course1.tmt", newEndTime.plus(Duration.ofMillis(-1)).toEpochMilli());
+        newInstructorDeadlines.put(instructorAEmailAddress, newEndTime.plus(Duration.ofMillis(-1)).toEpochMilli());
         updateRequest.setInstructorDeadlines(newInstructorDeadlines);
 
-        a = getAction(updateRequest, param);
-        assertThrows(InvalidHttpRequestBodyException.class, a::execute);
+        verifyHttpRequestBodyFailure(updateRequest, param);
 
         logoutUser();
     }
@@ -386,7 +394,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         String[] param = new String[] {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
-                Const.ParamsNames.MUST_NOTIFY_ABOUT_DEADLINES, String.valueOf(false),
+                Const.ParamsNames.NOTIFY_ABOUT_DEADLINES, String.valueOf(false),
         };
         FeedbackSessionUpdateRequest updateRequest = getTypicalFeedbackSessionUpdateRequest();
         updateRequest.setCustomSessionVisibleTimestamp(
@@ -416,7 +424,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         String[] param = new String[] {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
-                Const.ParamsNames.MUST_NOTIFY_ABOUT_DEADLINES, String.valueOf(false),
+                Const.ParamsNames.NOTIFY_ABOUT_DEADLINES, String.valueOf(false),
         };
         FeedbackSessionUpdateRequest updateRequest = getTypicalFeedbackSessionUpdateRequest();
         updateRequest.setSessionVisibleSetting(SessionVisibleSetting.AT_OPEN);
@@ -439,7 +447,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         param = new String[] {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
-                Const.ParamsNames.MUST_NOTIFY_ABOUT_DEADLINES, String.valueOf(false),
+                Const.ParamsNames.NOTIFY_ABOUT_DEADLINES, String.valueOf(false),
         };
         updateRequest = getTypicalFeedbackSessionUpdateRequest();
         updateRequest.setSessionVisibleSetting(SessionVisibleSetting.AT_OPEN);
@@ -462,7 +470,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         String[] param = new String[] {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
-                Const.ParamsNames.MUST_NOTIFY_ABOUT_DEADLINES, String.valueOf(false),
+                Const.ParamsNames.NOTIFY_ABOUT_DEADLINES, String.valueOf(false),
         };
         param = addUserIdToParams(instructor1ofCourse1.getGoogleId(), param);
         FeedbackSessionUpdateRequest updateRequest = getTypicalFeedbackSessionUpdateRequest();
@@ -482,7 +490,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         String[] param = new String[] {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
-                Const.ParamsNames.MUST_NOTIFY_ABOUT_DEADLINES, String.valueOf(false),
+                Const.ParamsNames.NOTIFY_ABOUT_DEADLINES, String.valueOf(false),
         };
         FeedbackSessionUpdateRequest updateRequest = getTypicalFeedbackSessionUpdateRequest();
         updateRequest.setInstructions(null);
@@ -534,7 +542,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "abcSession",
-                Const.ParamsNames.MUST_NOTIFY_ABOUT_DEADLINES, String.valueOf(false),
+                Const.ParamsNames.NOTIFY_ABOUT_DEADLINES, String.valueOf(false),
         };
 
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
@@ -545,7 +553,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
-                Const.ParamsNames.MUST_NOTIFY_ABOUT_DEADLINES, String.valueOf(false),
+                Const.ParamsNames.NOTIFY_ABOUT_DEADLINES, String.valueOf(false),
         };
 
         verifyInaccessibleWithoutModifySessionPrivilege(submissionParams);

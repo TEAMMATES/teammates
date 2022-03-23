@@ -450,24 +450,24 @@ public class StudentsLogicTest extends BaseLogicTest {
         Collection<String> studentEmailAddresses = new ArrayList<>();
         studentEmailAddresses.add(student.getEmail());
 
-        ______TS("existing student");
+        ______TS("existing student email address in existing course");
 
         // should not throw an exception
         studentsLogic.verifyAllStudentsExistInCourse(courseId, studentEmailAddresses);
 
-        ______TS("existing student in non-existent course");
+        ______TS("existing student email address in non-existent course");
 
         assertThrows(EntityDoesNotExistException.class, () ->
                 studentsLogic.verifyAllStudentsExistInCourse("non-existent-course", studentEmailAddresses));
 
-        ______TS("non-existent student in existing course");
+        ______TS("non-existent student email address in existing course");
 
         studentEmailAddresses.add("non-existent.student@email.com");
 
         assertThrows(EntityDoesNotExistException.class, () ->
                 studentsLogic.verifyAllStudentsExistInCourse(courseId, studentEmailAddresses));
 
-        ______TS("non-existent student in non-existent course");
+        ______TS("non-existent student email address in non-existent course");
 
         assertThrows(EntityDoesNotExistException.class, () ->
                 studentsLogic.verifyAllStudentsExistInCourse("non-existent-course", studentEmailAddresses));

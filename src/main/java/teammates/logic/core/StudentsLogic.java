@@ -150,6 +150,8 @@ public final class StudentsLogic {
 
     /**
      * Checks if all the given students exist in the given course.
+     *
+     * @throws EntityDoesNotExistException If some student does not exist in the course.
      */
     public void verifyAllStudentsExistInCourse(String courseId, Collection<String> studentEmailAddresses)
             throws EntityDoesNotExistException {

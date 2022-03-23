@@ -122,18 +122,13 @@ public final class StudentsDb extends EntitiesDb<CourseStudent, StudentAttribute
         if (studentEmailAddresses.isEmpty()) {
             return true;
         }
-        Set<String> existingStudentEmailAddressesInCourse = load().filter("courseId =", courseId)
+        Set<String> existingStudentEmailAddresses = load().filter("courseId =", courseId)
                 .project("email")
                 .list()
                 .stream()
                 .map(CourseStudent::getEmail)
                 .collect(Collectors.toSet());
-        for (String studentEmailAddress : studentEmailAddresses) {
-            if (!existingStudentEmailAddressesInCourse.contains(studentEmailAddress)) {
-                return false;
-            }
-        }
-        return true;
+        return existingStudentEmailAddresses.containsAll(studentEmailAddresses);
     }
 
     /**

@@ -602,27 +602,27 @@ public final class FieldValidator {
     private static String getInvalidityInfoForFirstTimeIsBeforeSecondTime(
             Instant earlierTime, Instant laterTime, String earlierTimeFieldName, String laterTimeFieldName) {
         return getInvalidityInfoForFirstTimeComparedToSecondTime(earlierTime, laterTime, earlierTimeFieldName,
-                laterTimeFieldName, (firstTime, secondTime) -> secondTime.isBefore(firstTime),
+                laterTimeFieldName,
+                (firstTime, secondTime) -> firstTime.isBefore(secondTime) || firstTime.equals(secondTime),
                 TIME_BEFORE_ERROR_MESSAGE);
     }
 
     private static String getInvalidityInfoForFirstTimeIsStrictlyBeforeSecondTime(
             Instant earlierTime, Instant laterTime, String earlierTimeFieldName, String laterTimeFieldName) {
         return getInvalidityInfoForFirstTimeComparedToSecondTime(earlierTime, laterTime, earlierTimeFieldName,
-                laterTimeFieldName,
-                (firstTime, secondTime) -> secondTime.isBefore(firstTime) || secondTime.equals(firstTime),
+                laterTimeFieldName, Instant::isBefore,
                 TIME_BEFORE_OR_EQUAL_ERROR_MESSAGE);
     }
 
     private static String getInvalidityInfoForFirstTimeComparedToSecondTime(Instant earlierTime, Instant laterTime,
-            String earlierTimeFieldName, String laterTimeFieldName, BiPredicate<Instant, Instant> invalidityChecker,
+            String earlierTimeFieldName, String laterTimeFieldName, BiPredicate<Instant, Instant> validityChecker,
             String invalidityInfoTemplate) {
         assert earlierTime != null;
         assert laterTime != null;
         if (TimeHelper.isSpecialTime(earlierTime) || TimeHelper.isSpecialTime(laterTime)) {
             return "";
         }
-        if (invalidityChecker.test(earlierTime, laterTime)) {
+        if (!validityChecker.test(earlierTime, laterTime)) {
             return String.format(invalidityInfoTemplate, laterTimeFieldName, earlierTimeFieldName);
         }
         return "";

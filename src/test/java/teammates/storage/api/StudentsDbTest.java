@@ -113,21 +113,21 @@ public class StudentsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
         Collection<String> studentEmailAddresses = new ArrayList<>();
         studentEmailAddresses.add(student.getEmail());
 
-        ______TS("all existing students");
+        ______TS("all existing student email addresses");
 
         assertTrue(studentsDb.hasExistingStudentsInCourse(student.getCourse(), studentEmailAddresses));
 
-        ______TS("all existing students in non-existent course");
+        ______TS("all existing student email addresses in non-existent course");
 
         assertFalse(studentsDb.hasExistingStudentsInCourse("non-existent-course", studentEmailAddresses));
 
-        ______TS("some non-existent student in existing course");
+        ______TS("some non-existent student email address in existing course");
 
         studentEmailAddresses.add("non-existent.student@email.com");
 
         assertFalse(studentsDb.hasExistingStudentsInCourse(student.getCourse(), studentEmailAddresses));
 
-        ______TS("some non-existent student in non-existent course");
+        ______TS("some non-existent student email address in non-existent course");
 
         assertFalse(studentsDb.hasExistingStudentsInCourse("non-existent-course", studentEmailAddresses));
     }

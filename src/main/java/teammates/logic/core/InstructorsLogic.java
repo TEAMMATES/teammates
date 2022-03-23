@@ -97,6 +97,8 @@ public final class InstructorsLogic {
 
     /**
      * Checks if all the given instructors exist in the given course.
+     *
+     * @throws EntityDoesNotExistException If some instructor does not exist in the course.
      */
     public void verifyAllInstructorsExistInCourse(String courseId, Collection<String> instructorEmailAddresses)
             throws EntityDoesNotExistException {

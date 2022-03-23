@@ -115,21 +115,21 @@ public class InstructorsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
         Collection<String> instructorEmailAddresses = new ArrayList<>();
         instructorEmailAddresses.add(instructor.getEmail());
 
-        ______TS("all existing instructors");
+        ______TS("all existing instructor email addresses");
 
         assertTrue(instructorsDb.hasExistingInstructorsInCourse(instructor.getCourseId(), instructorEmailAddresses));
 
-        ______TS("all existing instructors in non-existent course");
+        ______TS("all existing instructor email addresses in non-existent course");
 
         assertFalse(instructorsDb.hasExistingInstructorsInCourse("non-existent-course", instructorEmailAddresses));
 
-        ______TS("some non-existent instructor in existing course");
+        ______TS("some non-existent instructor email address in existing course");
 
         instructorEmailAddresses.add("non-existent.instructor@email.com");
 
         assertFalse(instructorsDb.hasExistingInstructorsInCourse(instructor.getCourseId(), instructorEmailAddresses));
 
-        ______TS("some non-existent instructor in non-existent course");
+        ______TS("some non-existent instructor email address in non-existent course");
 
         assertFalse(instructorsDb.hasExistingInstructorsInCourse("non-existent-course", instructorEmailAddresses));
     }

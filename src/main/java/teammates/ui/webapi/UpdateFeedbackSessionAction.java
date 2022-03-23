@@ -1,7 +1,6 @@
 package teammates.ui.webapi;
 
 import java.time.Instant;
-import java.util.Collection;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -46,20 +45,22 @@ class UpdateFeedbackSessionAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         // TODO: Use the value here.
-        getBooleanRequestParamValue(Const.ParamsNames.MUST_NOTIFY_ABOUT_DEADLINES);
+        getBooleanRequestParamValue(Const.ParamsNames.NOTIFY_ABOUT_DEADLINES);
 
         FeedbackSessionAttributes feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
 
         FeedbackSessionUpdateRequest updateRequest =
                 getAndValidateRequestBody(FeedbackSessionUpdateRequest.class);
 
+        Map<String, Instant> oldStudentDeadlines = feedbackSession.getStudentDeadlines();
+        Map<String, Instant> oldInstructorDeadlines = feedbackSession.getInstructorDeadlines();
         Map<String, Instant> studentDeadlines = updateRequest.getStudentDeadlines();
         Map<String, Instant> instructorDeadlines = updateRequest.getInstructorDeadlines();
         try {
-            boolean hasExtraStudents = hasExtraEmailAddresses(feedbackSession.getStudentDeadlines().keySet(),
-                    studentDeadlines.keySet());
-            boolean hasExtraInstructors = hasExtraEmailAddresses(feedbackSession.getInstructorDeadlines().keySet(),
-                    instructorDeadlines.keySet());
+            boolean hasExtraStudents = !oldStudentDeadlines.keySet()
+                    .containsAll(studentDeadlines.keySet());
+            boolean hasExtraInstructors = !oldInstructorDeadlines.keySet()
+                    .containsAll(instructorDeadlines.keySet());
             if (hasExtraStudents) {
                 logic.verifyAllStudentsExistInCourse(courseId, studentDeadlines.keySet());
             }
@@ -110,11 +111,6 @@ class UpdateFeedbackSessionAction extends Action {
             log.severe("Unexpected error", ednee);
             return new JsonResult(ednee.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
-    }
-
-    private boolean hasExtraEmailAddresses(Collection<String> oldEmailAddresses, Collection<String> newEmailAddresses) {
-        return newEmailAddresses.stream()
-                .anyMatch(newEmailAddress -> !oldEmailAddresses.contains(newEmailAddress));
     }
 
 }

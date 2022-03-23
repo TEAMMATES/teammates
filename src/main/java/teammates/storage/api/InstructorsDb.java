@@ -105,18 +105,13 @@ public final class InstructorsDb extends EntitiesDb<Instructor, InstructorAttrib
         if (instructorEmailAddresses.isEmpty()) {
             return true;
         }
-        Set<String> existingInstructorEmailAddressesInCourse = load().filter("courseId =", courseId)
+        Set<String> existingInstructorEmailAddresses = load().filter("courseId =", courseId)
                 .project("email")
                 .list()
                 .stream()
                 .map(Instructor::getEmail)
                 .collect(Collectors.toSet());
-        for (String instructorEmailAddress : instructorEmailAddresses) {
-            if (!existingInstructorEmailAddressesInCourse.contains(instructorEmailAddress)) {
-                return false;
-            }
-        }
-        return true;
+        return existingInstructorEmailAddresses.containsAll(instructorEmailAddresses);
     }
 
     /**

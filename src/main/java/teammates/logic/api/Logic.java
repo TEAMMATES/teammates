@@ -115,6 +115,14 @@ public class Logic {
         accountsLogic.deleteAccountCascade(googleId);
     }
 
+    /**
+     * Verifies that all the given instructors exist in the given course.
+     *
+     * <p>Preconditions:</p>
+     * * All parameters are non-null.
+     *
+     * @throws EntityDoesNotExistException If some instructor does not exist in the course.
+     */
     public void verifyAllInstructorsExistInCourse(String courseId, Collection<String> instructorEmailAddresses)
             throws EntityDoesNotExistException {
         assert courseId != null;
@@ -1383,6 +1391,14 @@ public class Logic {
         dataBundleLogic.putDocuments(dataBundle);
     }
 
+    /**
+     * Verifies that all the given students exist in the given course.
+     *
+     * <p>Preconditions:</p>
+     * * All parameters are non-null.
+     *
+     * @throws EntityDoesNotExistException If some student does not exist in the course.
+     */
     public void verifyAllStudentsExistInCourse(String courseId, Collection<String> studentEmailAddresses)
             throws EntityDoesNotExistException {
         assert courseId != null;
