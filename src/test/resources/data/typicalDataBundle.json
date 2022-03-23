@@ -1870,7 +1870,7 @@
       "createdAt": "2011-01-01T00:00:00Z"
     }
   },
-   "notifications": {
+  "notifications": {
     "notification1": {
       "notificationId": "notification1",
       "startTime": "2011-01-01T00:00:00Z",
