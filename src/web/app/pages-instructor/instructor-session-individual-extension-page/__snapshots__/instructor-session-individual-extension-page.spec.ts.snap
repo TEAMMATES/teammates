@@ -430,7 +430,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
                 tester1@tester.com
               </td>
               <td>
-                5 Jul 2017 2:40:00
+                Fri, 14 Jul 2017, 02:40 AM UTC
               </td>
             </tr>
             <tr
@@ -455,7 +455,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
                 tester2@tester.com
               </td>
               <td>
-                1 Nov 2017 8:26:40
+                Mon, 06 Nov 2017, 08:26 PM UTC
               </td>
             </tr>
           </table>
@@ -896,7 +896,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
                 tester1@tester.com
               </td>
               <td>
-                5 Jul 2017 2:40:00
+                Fri, 14 Jul 2017, 02:40 AM UTC
               </td>
             </tr>
             <tr
@@ -921,7 +921,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
                 tester2@tester.com
               </td>
               <td>
-                1 Nov 2017 8:26:40
+                Mon, 06 Nov 2017, 08:26 PM UTC
               </td>
             </tr>
           </table>
@@ -1938,7 +1938,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
                 tester1@tester.com
               </td>
               <td>
-                5 Jul 2017 2:40:00
+                Fri, 14 Jul 2017, 02:40 AM UTC
               </td>
             </tr>
             <tr
@@ -1963,7 +1963,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
                 tester2@tester.com
               </td>
               <td>
-                1 Nov 2017 8:26:40
+                Mon, 06 Nov 2017, 08:26 PM UTC
               </td>
             </tr>
           </table>
@@ -2404,7 +2404,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
                 tester1@tester.com
               </td>
               <td>
-                5 Jul 2017 2:40:00
+                Fri, 14 Jul 2017, 02:40 AM UTC
               </td>
             </tr>
             <tr
@@ -2429,7 +2429,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
                 tester2@tester.com
               </td>
               <td>
-                1 Nov 2017 8:26:40
+                Mon, 06 Nov 2017, 08:26 PM UTC
               </td>
             </tr>
           </table>
@@ -4076,7 +4076,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
                 tester1@tester.com
               </td>
               <td>
-                5 Jul 2017 2:40:00
+                Fri, 14 Jul 2017, 02:40 AM UTC
               </td>
             </tr>
             <tr
@@ -4101,7 +4101,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
                 tester2@tester.com
               </td>
               <td>
-                1 Nov 2017 8:26:40
+                Mon, 06 Nov 2017, 08:26 PM UTC
               </td>
             </tr>
           </table>
