@@ -109,27 +109,35 @@ public class StudentsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
     @Test
     public void testHasExistingStudentsInCourse() throws Exception {
 
-        StudentAttributes student = createNewStudent();
+        StudentAttributes student1 = createNewStudent("student1@uni.edu");
+        StudentAttributes student2 = createNewStudent("student2@uni.edu");
+        String courseId = student1.getCourse();
+        assertEquals(courseId, student2.getCourse());
+        String nonExistentCourseId = "non-existent-course";
+
         Collection<String> studentEmailAddresses = new ArrayList<>();
-        studentEmailAddresses.add(student.getEmail());
+        studentEmailAddresses.add(student1.getEmail());
 
         ______TS("all existing student email addresses");
 
-        assertTrue(studentsDb.hasExistingStudentsInCourse(student.getCourse(), studentEmailAddresses));
+        assertTrue(studentsDb.hasExistingStudentsInCourse(courseId, studentEmailAddresses));
+
+        studentEmailAddresses.add(student2.getEmail());
+        assertTrue(studentsDb.hasExistingStudentsInCourse(courseId, studentEmailAddresses));
 
         ______TS("all existing student email addresses in non-existent course");
 
-        assertFalse(studentsDb.hasExistingStudentsInCourse("non-existent-course", studentEmailAddresses));
+        assertFalse(studentsDb.hasExistingStudentsInCourse(nonExistentCourseId, studentEmailAddresses));
 
         ______TS("some non-existent student email address in existing course");
 
         studentEmailAddresses.add("non-existent.student@email.com");
 
-        assertFalse(studentsDb.hasExistingStudentsInCourse(student.getCourse(), studentEmailAddresses));
+        assertFalse(studentsDb.hasExistingStudentsInCourse(courseId, studentEmailAddresses));
 
         ______TS("some non-existent student email address in non-existent course");
 
-        assertFalse(studentsDb.hasExistingStudentsInCourse("non-existent-course", studentEmailAddresses));
+        assertFalse(studentsDb.hasExistingStudentsInCourse(nonExistentCourseId, studentEmailAddresses));
     }
 
     @Test
