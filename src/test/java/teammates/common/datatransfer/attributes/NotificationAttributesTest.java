@@ -13,29 +13,15 @@ import teammates.test.BaseTestCase;
  * SUT: {@link NotificationAttributes}.
  */
 public class NotificationAttributesTest extends BaseTestCase {
-    private static final Instant STARTTIME_ONE = Instant.now().plusSeconds(3600);
-    private static final Instant ENDTIME_ONE = Instant.now().plusSeconds(7200);
-    private static final Instant STARTTIME_TWO = Instant.now().plusSeconds(1000);
-    private static final Instant ENDTIME_TWO = Instant.now().plusSeconds(10000);
-
     @Test
     public void testValueOf_withAllFieldPopulatedNotificationAttributes_shouldGenerateAttributesCorrectly() {
         Notification notification = new Notification("valid-notification-id",
-                STARTTIME_ONE, ENDTIME_ONE,
+                Instant.now().plusSeconds(3600), Instant.now().plusSeconds(7200),
                 NotificationType.DEPRECATION, NotificationTargetUser.INSTRUCTOR,
                 "valid notification title", "valid notification message", false,
                 Instant.now(), Instant.now());
         NotificationAttributes nfa = NotificationAttributes.valueOf(notification);
-        assertEquals(notification.getNotificationId(), nfa.getNotificationId());
-        assertEquals(notification.getStartTime(), nfa.getStartTime());
-        assertEquals(notification.getEndTime(), nfa.getEndTime());
-        assertEquals(notification.getType(), nfa.getType());
-        assertEquals(notification.getTargetUser(), nfa.getTargetUser());
-        assertEquals(notification.getTitle(), nfa.getTitle());
-        assertEquals(notification.getMessage(), nfa.getMessage());
-        assertEquals(notification.isShown(), nfa.isShown());
-        assertEquals(notification.getCreatedAt(), nfa.getCreatedAt());
-        assertEquals(notification.getUpdatedAt(), nfa.getUpdatedAt());
+        verifyNotificationEquals(nfa, notification);
     }
 
     @Test
@@ -91,29 +77,21 @@ public class NotificationAttributesTest extends BaseTestCase {
 
     @Test
     public void testBuilder_withTypicalData_shouldBuildCorrectAttributes() {
-        Notification notification = new Notification(STARTTIME_ONE, ENDTIME_ONE,
-                NotificationType.TIPS, NotificationTargetUser.GENERAL,
-                "Another tip for usage", "Here the message starts");
-        NotificationAttributes nfa = NotificationAttributes.valueOf(notification);
-        assertEquals(STARTTIME_ONE, nfa.getStartTime());
-        assertEquals(ENDTIME_ONE, nfa.getEndTime());
-        assertEquals(NotificationType.TIPS, nfa.getType());
-        assertEquals(NotificationTargetUser.GENERAL, nfa.getTargetUser());
-        assertEquals("Another tip for usage", nfa.getTitle());
-        assertEquals("Here the message starts", nfa.getMessage());
+        NotificationAttributes nfa = generateTypicalNotificationAttributesObject();
+        assertEquals("notificationId", nfa.getNotificationId());
+        assertEquals(Instant.ofEpochSecond(1234567890), nfa.getStartTime());
+        assertEquals(Instant.ofEpochSecond(1234567890).plusSeconds(7200), nfa.getEndTime());
+        assertEquals(NotificationType.DEPRECATION, nfa.getType());
+        assertEquals(NotificationTargetUser.INSTRUCTOR, nfa.getTargetUser());
+        assertEquals("valid notification title", nfa.getTitle());
+        assertEquals("valid message", nfa.getMessage());
     }
 
     @Test
     public void testCopyConstructor_shouldDoDeepCopyOfNotificationDetails() {
-        NotificationAttributes nfa1 = NotificationAttributes.builder("notificationId")
-                .withStartTime(STARTTIME_ONE)
-                .withEndTime(ENDTIME_ONE)
-                .withType(NotificationType.DEPRECATION)
-                .withTargetUser(NotificationTargetUser.INSTRUCTOR)
-                .withTitle("valid notification title")
-                .withMessage("The first message")
-                .build();
+        NotificationAttributes nfa1 = generateTypicalNotificationAttributesObject();
         NotificationAttributes nfa2 = nfa1.getCopy();
+        nfa1.setMessage("The first message");
         nfa2.setMessage("The second message");
 
         assertEquals(nfa1.getMessage(), "The first message");
@@ -124,8 +102,8 @@ public class NotificationAttributesTest extends BaseTestCase {
     public void testUpdateOptions_withTypicalUpdateOptions_shouldUpdateAttributeCorrectly() {
         NotificationAttributes.UpdateOptions updateOptions =
                 NotificationAttributes.updateOptionsBuilder("notificationId")
-                        .withStartTime(STARTTIME_TWO)
-                        .withEndTime(ENDTIME_TWO)
+                        .withStartTime(Instant.ofEpochSecond(1234567890).plusSeconds(1000))
+                        .withEndTime(Instant.ofEpochSecond(1234567890).plusSeconds(10000))
                         .withType(NotificationType.VERSION_NOTE)
                         .withTargetUser(NotificationTargetUser.STUDENT)
                         .withTitle("The edited title")
@@ -134,20 +112,11 @@ public class NotificationAttributesTest extends BaseTestCase {
 
         assertEquals("notificationId", updateOptions.getNotificationId());
 
-        NotificationAttributes notificationAttributes =
-                NotificationAttributes.builder("notificationId")
-                .withStartTime(STARTTIME_ONE)
-                .withEndTime(ENDTIME_ONE)
-                .withType(NotificationType.DEPRECATION)
-                .withTargetUser(NotificationTargetUser.INSTRUCTOR)
-                .withTitle("valid notification title")
-                .withMessage("The first message")
-                .build();
-
+        NotificationAttributes notificationAttributes = generateTypicalNotificationAttributesObject();
         notificationAttributes.update(updateOptions);
 
-        assertEquals(STARTTIME_TWO, notificationAttributes.getStartTime());
-        assertEquals(ENDTIME_TWO, notificationAttributes.getEndTime());
+        assertEquals(Instant.ofEpochSecond(1234567890).plusSeconds(1000), notificationAttributes.getStartTime());
+        assertEquals(Instant.ofEpochSecond(1234567890).plusSeconds(10000), notificationAttributes.getEndTime());
         assertEquals(NotificationType.VERSION_NOTE, notificationAttributes.getType());
         assertEquals(NotificationTargetUser.STUDENT, notificationAttributes.getTargetUser());
         assertEquals("The edited title", notificationAttributes.getTitle());
@@ -180,15 +149,7 @@ public class NotificationAttributesTest extends BaseTestCase {
 
     @Test
     public void testEquals() {
-        NotificationAttributes notificationAttributes =
-                NotificationAttributes.builder("notificationId")
-                .withStartTime(STARTTIME_ONE)
-                .withEndTime(ENDTIME_ONE)
-                .withType(NotificationType.DEPRECATION)
-                .withTargetUser(NotificationTargetUser.INSTRUCTOR)
-                .withTitle("valid notification title")
-                .withMessage("valid message")
-                .build();
+        NotificationAttributes notificationAttributes = generateTypicalNotificationAttributesObject();
 
         // When the two notifications are exact copies
         NotificationAttributes notificationAttributesCopy = notificationAttributes.getCopy();
@@ -196,22 +157,14 @@ public class NotificationAttributesTest extends BaseTestCase {
         assertTrue(notificationAttributes.equals(notificationAttributesCopy));
 
         // When the two notifications have same values but created at different time
-        NotificationAttributes notificationAttributesSimilar =
-                NotificationAttributes.builder("notificationId")
-                .withStartTime(STARTTIME_ONE)
-                .withEndTime(ENDTIME_ONE)
-                .withType(NotificationType.DEPRECATION)
-                .withTargetUser(NotificationTargetUser.INSTRUCTOR)
-                .withTitle("valid notification title")
-                .withMessage("valid message")
-                .build();
+        NotificationAttributes notificationAttributesSimilar = generateTypicalNotificationAttributesObject();
 
         assertTrue(notificationAttributes.equals(notificationAttributesSimilar));
 
         NotificationAttributes notificationAttributesDifferent =
                 NotificationAttributes.builder("differentId")
-                .withStartTime(STARTTIME_ONE)
-                .withEndTime(ENDTIME_ONE)
+                .withStartTime(Instant.ofEpochSecond(1234567890))
+                .withEndTime(Instant.ofEpochSecond(1234567890).plusSeconds(7200))
                 .withType(NotificationType.DEPRECATION)
                 .withTargetUser(NotificationTargetUser.INSTRUCTOR)
                 .withTitle("valid notification title")
@@ -226,15 +179,7 @@ public class NotificationAttributesTest extends BaseTestCase {
 
     @Test
     public void testHashCode() {
-        NotificationAttributes notificationAttributes =
-                NotificationAttributes.builder("notificationId")
-                        .withStartTime(STARTTIME_ONE)
-                        .withEndTime(ENDTIME_ONE)
-                        .withType(NotificationType.DEPRECATION)
-                        .withTargetUser(NotificationTargetUser.INSTRUCTOR)
-                        .withTitle("valid notification title")
-                        .withMessage("valid message")
-                        .build();
+        NotificationAttributes notificationAttributes = generateTypicalNotificationAttributesObject();
 
         // When the two notifications are exact copies
         NotificationAttributes notificationAttributesCopy = notificationAttributes.getCopy();
@@ -242,22 +187,15 @@ public class NotificationAttributesTest extends BaseTestCase {
         assertTrue(notificationAttributes.hashCode() == notificationAttributesCopy.hashCode());
 
         // When the two notifications have same values but created at different time
-        NotificationAttributes notificationAttributesSimilar =
-                NotificationAttributes.builder("notificationId")
-                        .withStartTime(STARTTIME_ONE)
-                        .withEndTime(ENDTIME_ONE)
-                        .withType(NotificationType.DEPRECATION)
-                        .withTargetUser(NotificationTargetUser.INSTRUCTOR)
-                        .withTitle("valid notification title")
-                        .withMessage("valid message")
-                        .build();
+        NotificationAttributes notificationAttributesSimilar = generateTypicalNotificationAttributesObject();
 
         assertTrue(notificationAttributes.hashCode() == notificationAttributesSimilar.hashCode());
 
+        // notification attributes with a different id.
         NotificationAttributes notificationAttributesDifferent =
                 NotificationAttributes.builder("differentId")
-                        .withStartTime(STARTTIME_ONE)
-                        .withEndTime(ENDTIME_ONE)
+                        .withStartTime(Instant.ofEpochSecond(1234567890))
+                        .withEndTime(Instant.ofEpochSecond(1234567890).plusSeconds(7200))
                         .withType(NotificationType.DEPRECATION)
                         .withTargetUser(NotificationTargetUser.INSTRUCTOR)
                         .withTitle("valid notification title")
@@ -265,5 +203,29 @@ public class NotificationAttributesTest extends BaseTestCase {
                         .build();
 
         assertFalse(notificationAttributes.hashCode() == notificationAttributesDifferent.hashCode());
+    }
+
+    private NotificationAttributes generateTypicalNotificationAttributesObject() {
+        return NotificationAttributes.builder("notificationId")
+                .withStartTime(Instant.ofEpochSecond(1234567890))
+                .withEndTime(Instant.ofEpochSecond(1234567890).plusSeconds(7200))
+                .withType(NotificationType.DEPRECATION)
+                .withTargetUser(NotificationTargetUser.INSTRUCTOR)
+                .withTitle("valid notification title")
+                .withMessage("valid message")
+                .build();
+    }
+
+    private void verifyNotificationEquals(NotificationAttributes nfa, Notification notification) {
+        assertEquals(notification.getNotificationId(), nfa.getNotificationId());
+        assertEquals(notification.getStartTime(), nfa.getStartTime());
+        assertEquals(notification.getEndTime(), nfa.getEndTime());
+        assertEquals(notification.getType(), nfa.getType());
+        assertEquals(notification.getTargetUser(), nfa.getTargetUser());
+        assertEquals(notification.getTitle(), nfa.getTitle());
+        assertEquals(notification.getMessage(), nfa.getMessage());
+        assertEquals(notification.isShown(), nfa.isShown());
+        assertEquals(notification.getCreatedAt(), nfa.getCreatedAt());
+        assertEquals(notification.getUpdatedAt(), nfa.getUpdatedAt());
     }
 }

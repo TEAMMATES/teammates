@@ -90,10 +90,11 @@ public class GetNotificationActionTest extends BaseActionTest<GetNotificationAct
     @Test
     public void testExecute_withValidUserTypeForNonAdmin_shouldReturnData() {
         ______TS("Request to fetch notification");
-        int expectedNumberOfNotifications = 4;
         InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         loginAsInstructor(instructor.getGoogleId());
         NotificationAttributes notification = typicalBundle.notifications.get("notification5");
+        int expectedNumberOfNotifications =
+                logic.getActiveNotificationsByTargetUser(notification.getTargetUser()).size();
 
         String[] requestParams = new String[] {
                 Const.ParamsNames.NOTIFICATION_TARGET_USER, NotificationTargetUser.INSTRUCTOR.toString(),
@@ -106,8 +107,6 @@ public class GetNotificationActionTest extends BaseActionTest<GetNotificationAct
         NotificationsData output = (NotificationsData) jsonResult.getOutput();
         List<NotificationData> notifications = output.getNotifications();
 
-        assertEquals(expectedNumberOfNotifications,
-                logic.getActiveNotificationsByTargetUser(notification.getTargetUser()).size());
         assertEquals(expectedNumberOfNotifications, notifications.size());
 
         NotificationData firstNotification = notifications.get(0);
