@@ -91,6 +91,10 @@ public class NotificationsLogicTest extends BaseLogicTest {
                 .build();
     }
 
+    // Equivalent to verifyInDatabase
+    // we are unable to implement the methods necessary in BaseTestCaseWithDatabaseAccess to support this
+    // due to a dependency in BaseE2ETest that requires a getNotification endpoint which
+    // our API does not support
     private void assertEqual(NotificationAttributes notif1, NotificationAttributes notif2) {
         assertEquals(notif1.getNotificationId(), notif2.getNotificationId());
         assertEquals(notif1.getStartTime(), notif2.getStartTime());
