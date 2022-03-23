@@ -2,9 +2,9 @@ package teammates.ui.webapi;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
@@ -16,7 +16,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
-import teammates.ui.request.DeadlineExtensionRequest;
+import teammates.ui.request.DeadlineExtensionsRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
@@ -28,129 +28,120 @@ class DeadlineExtensionsWorkerAction extends AdminOnlyAction {
 
     @Override
     public JsonResult execute() throws InvalidHttpRequestBodyException {
-        DeadlineExtensionRequest deadlineExtensionRequest = getAndValidateRequestBody(DeadlineExtensionRequest.class);
-        CourseAttributes course = logic.getCourse(deadlineExtensionRequest.getCourseId());
-        FeedbackSessionAttributes session = logic.getFeedbackSession(deadlineExtensionRequest.getFeedbackSessionName(),
-                deadlineExtensionRequest.getCourseId());
+        DeadlineExtensionsRequest request = getAndValidateRequestBody(DeadlineExtensionsRequest.class);
+        CourseAttributes course = logic.getCourse(request.getCourseId());
+        FeedbackSessionAttributes session = logic.getFeedbackSession(request.getFeedbackSessionName(),
+                request.getCourseId());
 
         if (course == null || session == null) {
-            log.severe("Course with id: " + deadlineExtensionRequest.getCourseId() + " or feedback session: "
-                    + deadlineExtensionRequest.getFeedbackSessionName() + " not found when updating deadline extensions");
+            log.severe("Course with id: " + request.getCourseId() + " or feedback session: "
+                    + request.getFeedbackSessionName() + " not found when updating deadline extensions");
             return new JsonResult("Failure");
         }
 
-        boolean notifyUsers = deadlineExtensionRequest.getNotifyUsers();
+        boolean notifyUsers = request.getNotifyUsers();
         List<EmailWrapper> emailsToSend = new ArrayList<>();
 
-        createOrUpdateDeadlineExtensions(course, session,
-                deadlineExtensionRequest.getStudentExtensionsToModify(), false, notifyUsers, emailsToSend);
-        createOrUpdateDeadlineExtensions(course, session,
-                deadlineExtensionRequest.getInstructorExtensionsToModify(), true, notifyUsers, emailsToSend);
-        revokeDeadlineExtensions(course, session,
-                deadlineExtensionRequest.getStudentExtensionsToRevoke(), false, notifyUsers, emailsToSend);
-        revokeDeadlineExtensions(course, session,
-                deadlineExtensionRequest.getInstructorExtensionsToRevoke(), true, notifyUsers, emailsToSend);
+        // Process student deadline extensions
+        processDeadlineExtensions(course, session, request.getOldStudentDeadlines(), request.getNewStudentDeadlines(),
+                false, notifyUsers, emailsToSend);
+
+        // Process instructor deadline extensions
+        processDeadlineExtensions(course, session, request.getOldInstructorDeadlines(), request.getNewInstructorDeadlines(),
+                true, notifyUsers, emailsToSend);
 
         taskQueuer.scheduleEmailsForSending(emailsToSend);
 
         return new JsonResult("Successful");
     }
 
-    private void createOrUpdateDeadlineExtensions(CourseAttributes course, FeedbackSessionAttributes session,
-            Map<String, Long> extensionsToModify, boolean isInstructorMap,
-            boolean notifyUsers, List<EmailWrapper> emailsToSend) {
-        for (var entry : extensionsToModify.entrySet()) {
-            String email = entry.getKey();
-            Instant endTime = Instant.ofEpochMilli(entry.getValue());
-            DeadlineExtensionAttributes deadlineExtension =
-                    logic.getDeadlineExtension(course.getId(), session.getFeedbackSessionName(), email, isInstructorMap);
-            EmailWrapper emailWrapper;
+    private void processDeadlineExtensions(CourseAttributes course, FeedbackSessionAttributes session,
+            Map<String, Instant> oldDeadlines, Map<String, Instant> newDeadlines,
+            boolean areInstructors, boolean notifyUsers, List<EmailWrapper> emailsToSend) {
 
-            if (deadlineExtension == null) {
-                emailWrapper = createDeadlineExtension(course, session, email, endTime, isInstructorMap, notifyUsers);
-            } else {
-                emailWrapper = updateDeadlineExtension(course, session, email,
-                        deadlineExtension.getEndTime(), endTime, isInstructorMap, notifyUsers);
-            }
+        // Revoke deadline extensions
+        Map<String, Instant> deadlinesToRevoke = new HashMap<>(oldDeadlines);
+        deadlinesToRevoke.keySet().removeAll(newDeadlines.keySet());
 
-            if (emailWrapper != null) {
-                emailsToSend.add(emailWrapper);
-            }
-        }
-    }
+        deadlinesToRevoke.keySet().forEach(email ->
+                logic.deleteDeadlineExtension(course.getId(), session.getFeedbackSessionName(), email, areInstructors));
 
-    private void revokeDeadlineExtensions(CourseAttributes course, FeedbackSessionAttributes session,
-            List<String> extensionsToRevoke, boolean isInstructor, boolean notifyUsers, List<EmailWrapper> emailsToSend) {
-        emailsToSend.addAll(extensionsToRevoke
+        // Create deadline extensions
+        Map<String, Instant> deadlinesToCreate = new HashMap<>(newDeadlines);
+        deadlinesToCreate.keySet().removeAll(oldDeadlines.keySet());
+
+        deadlinesToCreate.entrySet()
                 .stream()
-                .map(email -> revokeDeadlineExtension(course, session, email, isInstructor, notifyUsers))
-                .filter(Objects::nonNull)
-                .collect(Collectors.toList()));
+                .map(entry ->
+                    DeadlineExtensionAttributes
+                            .builder(course.getId(), session.getFeedbackSessionName(), entry.getKey(), areInstructors)
+                            .withEndTime(entry.getValue())
+                            .build())
+                .forEach(deadlineExtension -> {
+                    try {
+                        logic.createDeadlineExtension(deadlineExtension);
+                    } catch (InvalidParametersException | EntityAlreadyExistsException e) {
+                        log.severe("Unexpected error while creating deadline extension", e);
+                    }
+                });
+
+        // Update deadline extensions
+        Map<String, Instant> deadlinesToUpdate = new HashMap<>(newDeadlines);
+        deadlinesToUpdate = deadlinesToUpdate.entrySet().stream()
+                .filter(entry -> oldDeadlines.containsKey(entry.getKey())
+                        && !entry.getValue().equals(oldDeadlines.get(entry.getKey())))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+
+        deadlinesToUpdate.entrySet()
+                .stream()
+                .map(entry -> DeadlineExtensionAttributes.updateOptionsBuilder(
+                                    course.getId(), session.getFeedbackSessionName(), entry.getKey(), areInstructors)
+                            .withEndTime(entry.getValue())
+                            .build())
+                .forEach(updateOptions -> {
+                    try {
+                        logic.updateDeadlineExtension(updateOptions);
+                    } catch (InvalidParametersException | EntityDoesNotExistException e) {
+                        log.severe("Unexpected error while updating deadline extension", e);
+                    }
+                });
+
+        if (notifyUsers) {
+            emailsToSend.addAll(getDeadlineRevokedEmails(course, session, deadlinesToRevoke, areInstructors));
+            emailsToSend.addAll(getDeadlineCreatedEmails(course, session, deadlinesToCreate, areInstructors));
+            emailsToSend.addAll(getDeadlineUpdatedEmails(course, session, deadlinesToUpdate, oldDeadlines, areInstructors));
+        }
+
     }
 
-    private EmailWrapper createDeadlineExtension(CourseAttributes course, FeedbackSessionAttributes session,
-            String userEmail, Instant endTime, boolean isInstructor, boolean notifyUsers) {
-        DeadlineExtensionAttributes deadlineExtension = DeadlineExtensionAttributes
-                .builder(course.getId(), session.getFeedbackSessionName(), userEmail, isInstructor)
-                .withEndTime(endTime)
-                .build();
-
-        try {
-            logic.createDeadlineExtension(deadlineExtension);
-        } catch (InvalidParametersException | EntityAlreadyExistsException e) {
-            log.severe("Unexpected error while creating deadline extension", e);
-            return null;
-        }
-
-        if (!notifyUsers) {
-            return null;
-        }
-
-        return emailGenerator.generateDeadlineExtensionEmail(course, session, session.getEndTime(), endTime,
-                EmailType.DEADLINE_EXTENSION_GIVEN, userEmail, isInstructor);
+    private List<EmailWrapper> getDeadlineRevokedEmails(CourseAttributes course,
+            FeedbackSessionAttributes session, Map<String, Instant> deadlines, boolean areInstructors) {
+        return deadlines.entrySet()
+                .stream()
+                .map(entry ->
+                        emailGenerator.generateDeadlineExtensionEmail(course, session, entry.getValue(),
+                                session.getEndTime(), EmailType.DEADLINE_EXTENSION_REVOKED, entry.getKey(), areInstructors))
+                .collect(Collectors.toList());
     }
 
-    private EmailWrapper updateDeadlineExtension(
-            CourseAttributes course, FeedbackSessionAttributes session, String userEmail, Instant oldEndTime,
-            Instant endTime, boolean isInstructor, boolean notifyUsers) {
-        DeadlineExtensionAttributes.UpdateOptions updateOptions =
-                DeadlineExtensionAttributes.updateOptionsBuilder(
-                        course.getId(), session.getFeedbackSessionName(), userEmail, isInstructor)
-                        .withEndTime(endTime)
-                        .build();
-
-        try {
-            logic.updateDeadlineExtension(updateOptions);
-        } catch (InvalidParametersException | EntityDoesNotExistException e) {
-            log.severe("Unexpected error while updating deadline extension", e);
-            return null;
-        }
-
-        if (!notifyUsers) {
-            return null;
-        }
-
-        return emailGenerator.generateDeadlineExtensionEmail(course, session, oldEndTime, endTime,
-                EmailType.DEADLINE_EXTENSION_UPDATED, userEmail, isInstructor);
+    private List<EmailWrapper> getDeadlineCreatedEmails(CourseAttributes course,
+            FeedbackSessionAttributes session, Map<String, Instant> deadlines, boolean areInstructors) {
+        return deadlines.entrySet()
+                .stream()
+                .map(entry ->
+                        emailGenerator.generateDeadlineExtensionEmail(course, session, session.getEndTime(),
+                                entry.getValue(), EmailType.DEADLINE_EXTENSION_GIVEN, entry.getKey(), areInstructors))
+                .collect(Collectors.toList());
     }
 
-    private EmailWrapper revokeDeadlineExtension(CourseAttributes course, FeedbackSessionAttributes session,
-            String userEmail, boolean isInstructor, boolean notifyUsers) {
-        DeadlineExtensionAttributes deadlineExtension =
-                logic.getDeadlineExtension(course.getId(), session.getFeedbackSessionName(), userEmail, isInstructor);
-        if (deadlineExtension == null) {
-            log.severe("Unexpected error while revoking deadline extension");
-            return null;
-        }
-
-        logic.deleteDeadlineExtension(course.getId(), session.getFeedbackSessionName(), userEmail, isInstructor);
-
-        if (!notifyUsers) {
-            return null;
-        }
-
-        return emailGenerator.generateDeadlineExtensionEmail(course, session, deadlineExtension.getEndTime(),
-                session.getEndTime(), EmailType.DEADLINE_EXTENSION_REVOKED, userEmail, isInstructor);
+    private List<EmailWrapper> getDeadlineUpdatedEmails(CourseAttributes course, FeedbackSessionAttributes session,
+            Map<String, Instant> deadlines, Map<String, Instant> oldDeadlines, boolean areInstructors) {
+        return deadlines.entrySet()
+                .stream()
+                .map(entry ->
+                        emailGenerator.generateDeadlineExtensionEmail(course, session, oldDeadlines.get(entry.getKey()),
+                                entry.getValue(), EmailType.DEADLINE_EXTENSION_UPDATED, entry.getKey(), areInstructors))
+                .collect(Collectors.toList());
     }
 
 }
