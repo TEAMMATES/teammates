@@ -42,7 +42,7 @@ export class IndividualExtensionConfirmModalComponent {
   SortOrder: typeof SortOrder = SortOrder;
   sortStudentsBy: SortBy = SortBy.SECTION_NAME;
   sortStudentOrder: SortOrder = SortOrder.DESC;
-  sortInstructorsBy: SortBy = SortBy.SECTION_NAME;
+  sortInstructorsBy: SortBy = SortBy.RESPONDENT_NAME;
   sortInstructorOrder: SortOrder = SortOrder.DESC;
 
   DATETIME_FORMAT: string = 'd MMM YYYY h:mm:ss';
@@ -117,12 +117,6 @@ export class IndividualExtensionConfirmModalComponent {
       let strA: string;
       let strB: string;
       switch (by) {
-        case SortBy.INSTITUTION:
-          if (!a.institute) a.institute = '';
-          if (!b.institute) b.institute = '';
-          strA = a.institute;
-          strB = b.institute;
-          break;
         case SortBy.RESPONDENT_NAME:
           strA = a.name;
           strB = b.name;
@@ -131,6 +125,10 @@ export class IndividualExtensionConfirmModalComponent {
           strA = a.email;
           strB = b.email;
           break;
+        case SortBy.INSTRUCTOR_PERMISSION_ROLE:
+          strA = a.role ? a.role.valueOf() : '';
+          strB = b.role ? b.role.valueOf() : '';
+          break
         case SortBy.SESSION_END_DATE:
           strA = a.extensionDeadline.toString();
           strB = b.extensionDeadline.toString();
@@ -139,7 +137,7 @@ export class IndividualExtensionConfirmModalComponent {
           strA = '';
           strB = '';
       }
-      return this.tableComparatorService.compare(by, this.sortStudentOrder, strA, strB);
+      return this.tableComparatorService.compare(by, this.sortInstructorOrder, strA, strB);
     };
   }
 }

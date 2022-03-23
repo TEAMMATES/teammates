@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import moment from 'moment-timezone';
+import { InstructorPermissionRole } from '../types/api-request';
 import { SortBy, SortOrder } from '../types/sort-properties';
 
 /**
@@ -88,6 +89,27 @@ export class TableComparatorService {
     return (order === SortOrder.DESC ? -1 : 1) * Math.sign(numA - numB);
   }
 
+    /**
+     * Compares two permission roles of instructors.
+     * If either role is invalid, it will be seen as 'smaller'
+     * If both roles are invalid, strA will always be seen as 'larger'
+     */
+  compareRoles(roleA: string, roleB: string, order: SortOrder): number {
+    const roles = Object.keys(InstructorPermissionRole)
+    const numA = roles.indexOf(roleA)
+    const numB = roles.indexOf(roleB)
+
+    if (Number.isNaN(numA)) {
+      return 1;
+    }
+
+    if (Number.isNaN(numB)) {
+      return -1;
+    }
+ 
+    return (order === SortOrder.DESC ? -1 : 1) * Math.sign(numA - numB);
+  }
+
   /**
    * Compares two strings depending on element to sort by and the order given.
    */
@@ -173,6 +195,8 @@ export class TableComparatorService {
         return this.compareNumbers(strA, strB, order);
       case SortBy.LOG_DATE:
         return this.compareChronologically(strA, strB, order);
+      case SortBy.INSTRUCTOR_PERMISSION_ROLE:
+        return this.compareRoles(strA, strB, order);
       default:
         return 0;
     }

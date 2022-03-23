@@ -231,8 +231,8 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
 
   private mapInstructorToInstructorModel(instructor: Instructor): InstructorExtensionTableColumnModel {
     const instructorData: InstructorExtensionTableColumnModel = {
-      institute: instructor.institute,
       name: instructor.name,
+      role: instructor.role,
       email: instructor.email,
       extensionDeadline: this.feedbackSessionEndingTime,
       hasExtension: false,
@@ -472,12 +472,6 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
       let strA: string;
       let strB: string;
       switch (by) {
-        case SortBy.INSTITUTION:
-          if (!a.institute) a.institute = '';
-          if (!b.institute) b.institute = '';
-          strA = a.institute;
-          strB = b.institute;
-          break;
         case SortBy.RESPONDENT_NAME:
           strA = a.name;
           strB = b.name;
@@ -486,6 +480,10 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
           strA = a.email;
           strB = b.email;
           break;
+        case SortBy.INSTRUCTOR_PERMISSION_ROLE:
+          strA = a.role ? a.role : '';
+          strB = b.role ? b.role : '';
+          break  
         case SortBy.SESSION_END_DATE:
           strA = a.extensionDeadline.toString();
           strB = b.extensionDeadline.toString();
@@ -494,7 +492,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
           strA = '';
           strB = '';
       }
-      return this.tableComparatorService.compare(by, this.sortStudentOrder, strA, strB);
+      return this.tableComparatorService.compare(by, this.sortInstructorOrder, strA, strB);
     };
   }
 

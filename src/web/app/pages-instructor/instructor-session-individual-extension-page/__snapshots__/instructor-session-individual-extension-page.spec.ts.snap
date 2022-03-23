@@ -344,7 +344,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
         >
           <table
             class="table table-bordered"
-            id="student-list-table"
+            id="instructor-list-table"
           >
             <thead>
               <tr>
@@ -356,21 +356,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
                     />
                      Select all
                   </label>
-                </th>
-                <th
-                  class="sortable-header"
-                >
-                   Institute 
-                  <span
-                    class="fa-stack"
-                  >
-                    <i
-                      class="fas fa-sort"
-                    />
-                    <i
-                      class="fas fa-sort-down"
-                    />
-                  </span>
                 </th>
                 <th
                   class="sortable-header"
@@ -388,6 +373,18 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
                   class="sortable-header"
                 >
                    Email 
+                  <span
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </th>
+                <th
+                  class="sortable-header"
+                >
+                   Role 
                   <span
                     class="fa-stack"
                   >
@@ -421,13 +418,13 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
                 </label>
               </td>
               <td>
-                institute
-              </td>
-              <td>
                 tester1
               </td>
               <td>
                 tester1@tester.com
+              </td>
+              <td>
+                Custom
               </td>
               <td>
                 Fri, 14 Jul 2017, 02:40 AM UTC
@@ -446,13 +443,13 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
                 </label>
               </td>
               <td>
-                institute
-              </td>
-              <td>
                 tester2HasExtension
               </td>
               <td>
                 tester2@tester.com
+              </td>
+              <td>
+                Custom
               </td>
               <td>
                 Mon, 06 Nov 2017, 08:26 PM UTC
@@ -810,7 +807,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
         >
           <table
             class="table table-bordered"
-            id="student-list-table"
+            id="instructor-list-table"
           >
             <thead>
               <tr>
@@ -822,21 +819,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
                     />
                      Select all
                   </label>
-                </th>
-                <th
-                  class="sortable-header"
-                >
-                   Institute 
-                  <span
-                    class="fa-stack"
-                  >
-                    <i
-                      class="fas fa-sort"
-                    />
-                    <i
-                      class="fas fa-sort-down"
-                    />
-                  </span>
                 </th>
                 <th
                   class="sortable-header"
@@ -854,6 +836,18 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
                   class="sortable-header"
                 >
                    Email 
+                  <span
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </th>
+                <th
+                  class="sortable-header"
+                >
+                   Role 
                   <span
                     class="fa-stack"
                   >
@@ -887,13 +881,13 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
                 </label>
               </td>
               <td>
-                institute
-              </td>
-              <td>
                 tester1
               </td>
               <td>
                 tester1@tester.com
+              </td>
+              <td>
+                Custom
               </td>
               <td>
                 Fri, 14 Jul 2017, 02:40 AM UTC
@@ -912,13 +906,13 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
                 </label>
               </td>
               <td>
-                institute
-              </td>
-              <td>
                 tester2HasExtension
               </td>
               <td>
                 tester2@tester.com
+              </td>
+              <td>
+                Custom
               </td>
               <td>
                 Mon, 06 Nov 2017, 08:26 PM UTC
@@ -1096,7 +1090,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when feed
         >
           <table
             class="table table-bordered"
-            id="student-list-table"
+            id="instructor-list-table"
           >
             <thead>
               <tr>
@@ -1108,21 +1102,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when feed
                     />
                      Select all
                   </label>
-                </th>
-                <th
-                  class="sortable-header"
-                >
-                   Institute 
-                  <span
-                    class="fa-stack"
-                  >
-                    <i
-                      class="fas fa-sort"
-                    />
-                    <i
-                      class="fas fa-sort-down"
-                    />
-                  </span>
                 </th>
                 <th
                   class="sortable-header"
@@ -1140,6 +1119,18 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when feed
                   class="sortable-header"
                 >
                    Email 
+                  <span
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </th>
+                <th
+                  class="sortable-header"
+                >
+                   Role 
                   <span
                     class="fa-stack"
                   >
@@ -1514,7 +1505,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
         >
           <table
             class="table table-bordered"
-            id="student-list-table"
+            id="instructor-list-table"
           >
             <thead>
               <tr>
@@ -1526,21 +1517,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
                     />
                      Select all
                   </label>
-                </th>
-                <th
-                  class="sortable-header"
-                >
-                   Institute 
-                  <span
-                    class="fa-stack"
-                  >
-                    <i
-                      class="fas fa-sort"
-                    />
-                    <i
-                      class="fas fa-sort-down"
-                    />
-                  </span>
                 </th>
                 <th
                   class="sortable-header"
@@ -1558,6 +1534,18 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
                   class="sortable-header"
                 >
                    Email 
+                  <span
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </th>
+                <th
+                  class="sortable-header"
+                >
+                   Role 
                   <span
                     class="fa-stack"
                   >
@@ -1852,7 +1840,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
         >
           <table
             class="table table-bordered"
-            id="student-list-table"
+            id="instructor-list-table"
           >
             <thead>
               <tr>
@@ -1864,21 +1852,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
                     />
                      Select all
                   </label>
-                </th>
-                <th
-                  class="sortable-header"
-                >
-                   Institute 
-                  <span
-                    class="fa-stack"
-                  >
-                    <i
-                      class="fas fa-sort"
-                    />
-                    <i
-                      class="fas fa-sort-down"
-                    />
-                  </span>
                 </th>
                 <th
                   class="sortable-header"
@@ -1896,6 +1869,18 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
                   class="sortable-header"
                 >
                    Email 
+                  <span
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </th>
+                <th
+                  class="sortable-header"
+                >
+                   Role 
                   <span
                     class="fa-stack"
                   >
@@ -1929,13 +1914,13 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
                 </label>
               </td>
               <td>
-                institute
-              </td>
-              <td>
                 tester1
               </td>
               <td>
                 tester1@tester.com
+              </td>
+              <td>
+                Custom
               </td>
               <td>
                 Fri, 14 Jul 2017, 02:40 AM UTC
@@ -1954,13 +1939,13 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
                 </label>
               </td>
               <td>
-                institute
-              </td>
-              <td>
                 tester2HasExtension
               </td>
               <td>
                 tester2@tester.com
+              </td>
+              <td>
+                Custom
               </td>
               <td>
                 Mon, 06 Nov 2017, 08:26 PM UTC
@@ -2318,7 +2303,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
         >
           <table
             class="table table-bordered"
-            id="student-list-table"
+            id="instructor-list-table"
           >
             <thead>
               <tr>
@@ -2330,21 +2315,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
                     />
                      Select all
                   </label>
-                </th>
-                <th
-                  class="sortable-header"
-                >
-                   Institute 
-                  <span
-                    class="fa-stack"
-                  >
-                    <i
-                      class="fas fa-sort"
-                    />
-                    <i
-                      class="fas fa-sort-down"
-                    />
-                  </span>
                 </th>
                 <th
                   class="sortable-header"
@@ -2362,6 +2332,18 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
                   class="sortable-header"
                 >
                    Email 
+                  <span
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </th>
+                <th
+                  class="sortable-header"
+                >
+                   Role 
                   <span
                     class="fa-stack"
                   >
@@ -2395,13 +2377,13 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
                 </label>
               </td>
               <td>
-                institute
-              </td>
-              <td>
                 tester1
               </td>
               <td>
                 tester1@tester.com
+              </td>
+              <td>
+                Custom
               </td>
               <td>
                 Fri, 14 Jul 2017, 02:40 AM UTC
@@ -2420,13 +2402,13 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
                 </label>
               </td>
               <td>
-                institute
-              </td>
-              <td>
                 tester2HasExtension
               </td>
               <td>
                 tester2@tester.com
+              </td>
+              <td>
+                Custom
               </td>
               <td>
                 Mon, 06 Nov 2017, 08:26 PM UTC
@@ -2894,7 +2876,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with stud
         >
           <table
             class="table table-bordered"
-            id="student-list-table"
+            id="instructor-list-table"
           >
             <thead>
               <tr>
@@ -2906,21 +2888,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with stud
                     />
                      Select all
                   </label>
-                </th>
-                <th
-                  class="sortable-header"
-                >
-                   Institute 
-                  <span
-                    class="fa-stack"
-                  >
-                    <i
-                      class="fas fa-sort"
-                    />
-                    <i
-                      class="fas fa-sort-down"
-                    />
-                  </span>
                 </th>
                 <th
                   class="sortable-header"
@@ -2938,6 +2905,18 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with stud
                   class="sortable-header"
                 >
                    Email 
+                  <span
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </th>
+                <th
+                  class="sortable-header"
+                >
+                   Role 
                   <span
                     class="fa-stack"
                   >
@@ -3135,7 +3114,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
         >
           <table
             class="table table-bordered"
-            id="student-list-table"
+            id="instructor-list-table"
           >
             <thead>
               <tr>
@@ -3147,21 +3126,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
                     />
                      Select all
                   </label>
-                </th>
-                <th
-                  class="sortable-header"
-                >
-                   Institute 
-                  <span
-                    class="fa-stack"
-                  >
-                    <i
-                      class="fas fa-sort"
-                    />
-                    <i
-                      class="fas fa-sort-down"
-                    />
-                  </span>
                 </th>
                 <th
                   class="sortable-header"
@@ -3179,6 +3143,18 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
                   class="sortable-header"
                 >
                    Email 
+                  <span
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </th>
+                <th
+                  class="sortable-header"
+                >
+                   Role 
                   <span
                     class="fa-stack"
                   >
@@ -3376,7 +3352,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
         >
           <table
             class="table table-bordered"
-            id="student-list-table"
+            id="instructor-list-table"
           >
             <thead>
               <tr>
@@ -3388,21 +3364,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
                     />
                      Select all
                   </label>
-                </th>
-                <th
-                  class="sortable-header"
-                >
-                   Institute 
-                  <span
-                    class="fa-stack"
-                  >
-                    <i
-                      class="fas fa-sort"
-                    />
-                    <i
-                      class="fas fa-sort-down"
-                    />
-                  </span>
                 </th>
                 <th
                   class="sortable-header"
@@ -3420,6 +3381,18 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
                   class="sortable-header"
                 >
                    Email 
+                  <span
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </th>
+                <th
+                  class="sortable-header"
+                >
+                   Role 
                   <span
                     class="fa-stack"
                   >
@@ -3992,7 +3965,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
         >
           <table
             class="table table-bordered"
-            id="student-list-table"
+            id="instructor-list-table"
           >
             <thead>
               <tr>
@@ -4004,21 +3977,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
                     />
                      Select all
                   </label>
-                </th>
-                <th
-                  class="sortable-header"
-                >
-                   Institute 
-                  <span
-                    class="fa-stack"
-                  >
-                    <i
-                      class="fas fa-sort"
-                    />
-                    <i
-                      class="fas fa-sort-down"
-                    />
-                  </span>
                 </th>
                 <th
                   class="sortable-header"
@@ -4036,6 +3994,18 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
                   class="sortable-header"
                 >
                    Email 
+                  <span
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </th>
+                <th
+                  class="sortable-header"
+                >
+                   Role 
                   <span
                     class="fa-stack"
                   >
@@ -4069,13 +4039,13 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
                 </label>
               </td>
               <td>
-                institute
-              </td>
-              <td>
                 tester1
               </td>
               <td>
                 tester1@tester.com
+              </td>
+              <td>
+                Custom
               </td>
               <td>
                 Fri, 14 Jul 2017, 02:40 AM UTC
@@ -4094,13 +4064,13 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
                 </label>
               </td>
               <td>
-                institute
-              </td>
-              <td>
                 tester2HasExtension
               </td>
               <td>
                 tester2@tester.com
+              </td>
+              <td>
+                Custom
               </td>
               <td>
                 Mon, 06 Nov 2017, 08:26 PM UTC

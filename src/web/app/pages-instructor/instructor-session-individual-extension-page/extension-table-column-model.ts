@@ -1,3 +1,5 @@
+import { InstructorPermissionRole } from '../../../types/api-request';
+
 export interface StudentExtensionTableColumnModel {
   sectionName: string;
   teamName: string;
@@ -9,9 +11,9 @@ export interface StudentExtensionTableColumnModel {
 }
 
 export interface InstructorExtensionTableColumnModel {
-  institute?: string;
   name: string;
   email: string;
+  role?: InstructorPermissionRole;
   extensionDeadline: number;
   hasExtension: boolean;
   isSelected: boolean;
