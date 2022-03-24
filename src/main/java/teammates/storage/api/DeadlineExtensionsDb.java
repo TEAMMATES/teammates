@@ -179,13 +179,14 @@ public final class DeadlineExtensionsDb extends EntitiesDb<DeadlineExtension, De
             return false;
         }
 
-        // Valid combination of parameters:
-        // courseId
-        // courseId, feedbackSessionName
-        // courseId, isInstructor, userEmail
-        return !query.isIsInstructorPresent() && !query.isUserEmailPresent() && !query.isFeedbackSessionNamePresent()
-                || !query.isIsInstructorPresent() && !query.isUserEmailPresent() && query.isFeedbackSessionNamePresent()
-                || query.isIsInstructorPresent() && query.isUserEmailPresent() && !query.isFeedbackSessionNamePresent();
+        boolean isValidForDeletingAllInCourse = !query.isIsInstructorPresent() && !query.isUserEmailPresent()
+                && !query.isFeedbackSessionNamePresent();
+        boolean isValidForDeletingAllInSession = !query.isIsInstructorPresent() && !query.isUserEmailPresent()
+                && query.isFeedbackSessionNamePresent();
+        boolean isValidForDeletingAllForUser = query.isIsInstructorPresent() && query.isUserEmailPresent()
+                && !query.isFeedbackSessionNamePresent();
+
+        return isValidForDeletingAllInCourse || isValidForDeletingAllInSession || isValidForDeletingAllForUser;
     }
 
     /**
