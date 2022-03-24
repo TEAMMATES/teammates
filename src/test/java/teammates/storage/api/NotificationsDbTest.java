@@ -1,7 +1,9 @@
 package teammates.storage.api;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import org.testng.annotations.AfterMethod;
@@ -23,15 +25,11 @@ public class NotificationsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
     private final NotificationsDb notificationsDb = NotificationsDb.inst();
     private final Map<String, NotificationAttributes> typicalNotifications = getTypicalDataBundle().notifications;
 
-    // Notification attributes will be assigned with value at setup()
-    private NotificationAttributes n;
-
     @BeforeMethod
     public void setup() throws Exception {
         for (NotificationAttributes n : typicalNotifications.values()) {
             notificationsDb.createEntity(n);
         }
-        n = typicalNotifications.get("notification1");
     }
 
     /**
@@ -40,20 +38,20 @@ public class NotificationsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
     @AfterMethod
     public void cleanUp() {
         List<NotificationAttributes> retrieved = notificationsDb.getAllNotifications();
-        assertNotNull(retrieved);
-
         retrieved.forEach(n -> notificationsDb.deleteNotification(n.getNotificationId()));
     }
 
     @Test
     public void testGetNotification() throws Exception {
+        NotificationAttributes n = typicalNotifications.get("notification1");
+
         ______TS("typical success case");
-        NotificationAttributes retrieved = notificationsDb.getNotification(n.getNotificationId());
-        assertNotNull(retrieved);
+        NotificationAttributes actual = notificationsDb.getNotification(n.getNotificationId());
+        assertNotNull(actual);
 
         ______TS("expect null for non-existent account");
-        retrieved = notificationsDb.getNotification("invalid_notification_id");
-        assertNull(retrieved);
+        actual = notificationsDb.getNotification("invalid_notification_id");
+        assertNull(actual);
 
         ______TS("failure: null parameter");
         assertThrows(AssertionError.class, () -> notificationsDb.getNotification(null));
@@ -62,12 +60,16 @@ public class NotificationsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
     @Test
     public void testGetAllNotifications() throws Exception {
         ______TS("typical success case");
-        List<NotificationAttributes> retrieved = notificationsDb.getAllNotifications();
+        List<NotificationAttributes> actual = notificationsDb.getAllNotifications();
 
-        // Verifies only the number of returned notifications is correct.
-        // No duplications or wrong data checks are made.
-        assertNotNull(retrieved);
-        assertEquals(typicalNotifications.size(), retrieved.size());
+        assertNotNull(actual);
+        typicalNotifications.values().forEach(n -> {
+            if (actual.contains(n)) {
+                actual.remove(n);
+            } else {
+                assertTrue(false);
+            }
+        });
     }
 
     @Test
@@ -75,16 +77,25 @@ public class NotificationsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
         // Conditions for this API: endTime > now, startTime < now, targetUser == specified target user
         ______TS("typical success case");
 
-        // This size has to be changed if any changes are made to typicalDataBundle
-        final int expectedReturnSize = 4;
-
-        List<NotificationAttributes> retrieved =
+        List<NotificationAttributes> actual =
                 notificationsDb.getActiveNotificationsByTargetUser(NotificationTargetUser.STUDENT);
 
-        // Verifies only the number of returned notifications is correct.
-        // No duplications or wrong data checks are made.
-        assertNotNull(retrieved);
-        assertEquals(expectedReturnSize, retrieved.size());
+        assertNotNull(actual);
+
+        // This set may need to be updated when the typical data bundle is updated
+        Set<NotificationAttributes> expected = new HashSet<>();
+        expected.add(typicalNotifications.get("notification1"));
+        expected.add(typicalNotifications.get("notification2"));
+        expected.add(typicalNotifications.get("notification4"));
+        expected.add(typicalNotifications.get("notification6"));
+
+        expected.forEach(n -> {
+            if (actual.contains(n)) {
+                actual.remove(n);
+            } else {
+                assertTrue(false);
+            }
+        });
     }
 
     @Test
@@ -107,6 +118,8 @@ public class NotificationsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
     // TODO: for extension, some fields are not allowed to be updated after shown is true
     @Test
     public void testUpdateNotification() throws Exception {
+        NotificationAttributes n = typicalNotifications.get("notification1");
+
         ______TS("typical success case");
         // Try to update to another set of values, currently n's attributes are from notification1
         NotificationAttributes original = typicalNotifications.get("notification1");
@@ -147,9 +160,10 @@ public class NotificationsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
                         .build()));
 
         ______TS("failure: invalid non-null parameters");
+        final String notificationId = n.getNotificationId();
         // Empty title is used here, which triggers InvalidParametersException
         assertThrows(InvalidParametersException.class, () ->
-                notificationsDb.updateNotification(NotificationAttributes.updateOptionsBuilder(n.getNotificationId())
+                notificationsDb.updateNotification(NotificationAttributes.updateOptionsBuilder(notificationId)
                         .withTitle("")
                         .build()));
 
@@ -159,6 +173,8 @@ public class NotificationsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
 
     @Test
     public void testUpdateNotification_singleFieldUpdate_shouldUpdateSuccessfully() throws Exception {
+        NotificationAttributes n = typicalNotifications.get("notification1");
+
         ______TS("success: single field - title");
         // Try to update to another set of values, currently n's attributes are from notification1
         NotificationAttributes original = typicalNotifications.get("notification1");
@@ -226,6 +242,8 @@ public class NotificationsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
 
     @Test
     public void testDeleteNotification() throws Exception {
+        NotificationAttributes n = typicalNotifications.get("notification1");
+
         ______TS("silent deletion of non-existant notification");
         notificationsDb.deleteNotification("invalid_notification_id");
 
