@@ -104,9 +104,9 @@ public final class NotificationsDb extends EntitiesDb<Notification, Notification
             throw new InvalidParametersException(newAttributes.getInvalidityInfo());
         }
 
-        saveEntity(notification);
+        putEntity(newAttributes);
 
-        return makeAttributes(notification);
+        return newAttributes;
     }
 
     /**
@@ -121,12 +121,7 @@ public final class NotificationsDb extends EntitiesDb<Notification, Notification
     }
 
     private Notification getNotificationEntity(String notificationId) {
-        Notification notification = load().id(notificationId).now();
-        if (notification == null) {
-            return null;
-        }
-
-        return notification;
+        return load().id(notificationId).now();
     }
 
     @Override
