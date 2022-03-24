@@ -64,11 +64,8 @@ public class NotificationsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
 
         assertNotNull(actual);
         typicalNotifications.values().forEach(n -> {
-            if (actual.contains(n)) {
-                actual.remove(n);
-            } else {
-                assertTrue(false);
-            }
+            assertTrue(actual.contains(n));
+            actual.remove(n);
         });
     }
 
@@ -90,11 +87,8 @@ public class NotificationsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
         expected.add(typicalNotifications.get("notification6"));
 
         expected.forEach(n -> {
-            if (actual.contains(n)) {
-                actual.remove(n);
-            } else {
-                assertTrue(false);
-            }
+            assertTrue(actual.contains(n));
+            actual.remove(n);
         });
     }
 
