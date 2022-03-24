@@ -57,6 +57,7 @@ class UpdateFeedbackSessionAction extends Action {
         Map<String, Instant> studentDeadlines = updateRequest.getStudentDeadlines();
         Map<String, Instant> instructorDeadlines = updateRequest.getInstructorDeadlines();
         try {
+            // These ensure the existence checks are only done whenever necessary in order to reduce data reads.
             boolean hasExtraStudents = !oldStudentDeadlines.keySet()
                     .containsAll(studentDeadlines.keySet());
             boolean hasExtraInstructors = !oldInstructorDeadlines.keySet()
