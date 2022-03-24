@@ -128,7 +128,7 @@ export class IndividualExtensionConfirmModalComponent {
         case SortBy.INSTRUCTOR_PERMISSION_ROLE:
           strA = a.role ? a.role.valueOf() : '';
           strB = b.role ? b.role.valueOf() : '';
-          break
+          break;
         case SortBy.SESSION_END_DATE:
           strA = a.extensionDeadline.toString();
           strB = b.extensionDeadline.toString();

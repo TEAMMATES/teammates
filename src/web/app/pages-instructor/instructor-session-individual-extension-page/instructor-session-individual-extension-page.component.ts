@@ -483,7 +483,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
         case SortBy.INSTRUCTOR_PERMISSION_ROLE:
           strA = a.role ? a.role : '';
           strB = b.role ? b.role : '';
-          break  
+          break;
         case SortBy.SESSION_END_DATE:
           strA = a.extensionDeadline.toString();
           strB = b.extensionDeadline.toString();

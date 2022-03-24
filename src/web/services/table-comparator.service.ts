@@ -95,9 +95,9 @@ export class TableComparatorService {
      * If both roles are invalid, strA will always be seen as 'larger'
      */
   compareRoles(roleA: string, roleB: string, order: SortOrder): number {
-    const roles = Object.keys(InstructorPermissionRole)
-    const numA = roles.indexOf(roleA)
-    const numB = roles.indexOf(roleB)
+    const roles = Object.keys(InstructorPermissionRole);
+    const numA = roles.indexOf(roleA);
+    const numB = roles.indexOf(roleB);
 
     if (Number.isNaN(numA)) {
       return 1;
@@ -106,7 +106,7 @@ export class TableComparatorService {
     if (Number.isNaN(numB)) {
       return -1;
     }
- 
+
     return (order === SortOrder.DESC ? -1 : 1) * Math.sign(numA - numB);
   }
 
