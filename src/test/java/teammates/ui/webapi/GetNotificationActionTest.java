@@ -118,7 +118,7 @@ public class GetNotificationActionTest extends BaseActionTest<GetNotificationAct
         ______TS("Admin request to fetch notification");
         int expectedNumberOfNotifications = typicalBundle.notifications.size();
         loginAsAdmin();
-        NotificationAttributes notification = typicalBundle.notifications.get("notification6");
+        NotificationAttributes notification = typicalBundle.notifications.get("notStartedNotification2");
 
         String[] requestParams = new String[] {
                 Const.ParamsNames.NOTIFICATION_TARGET_USER, null,
