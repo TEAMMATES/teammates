@@ -57,6 +57,8 @@ export class AdminNotificationsPageComponent implements OnInit {
   notificationsTableRowModelsSortBy = SortBy.NOTIFICATION_CREATE_TIME;
   notificationsTableRowModelsSortOrder = SortOrder.DESC;
 
+  guessTimezone = 'UTC';
+
   constructor(
     private notificationService: NotificationService,
     private simpleModalService: SimpleModalService,
@@ -68,6 +70,7 @@ export class AdminNotificationsPageComponent implements OnInit {
   ngOnInit(): void {
     this.initNotificationEditFormModel();
     this.loadNotifications();
+    this.guessTimezone = this.timezoneService.guessTimezone();
   }
 
   /**

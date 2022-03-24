@@ -1,5 +1,8 @@
 <h1>Notifications</h1>
 <p>This page allows you to create and manage notifications which are shown to respective target users when they access TEAMMATES.</p>
+<div id="notifications-timezone">
+  <p>All dates are displayed in {{ guessTimezone }} time.</p>
+</div>
 
 <div>
   <button id="btn-add-notification" class="btn btn-success" (click)="isNotificationEditFormExpanded = true"
@@ -25,6 +28,7 @@
       </div>
 
       <tm-notifications-table *ngIf = "notificationsTableRowModels.length > 0"
+                              [guessTimezone]="guessTimezone"
                               [notificationsTableRowModels]="notificationsTableRowModels"
                               [notificationsTableRowModelsSortBy]="notificationsTableRowModelsSortBy"
                               [notificationsTableRowModelsSortOrder]="notificationsTableRowModelsSortOrder"
