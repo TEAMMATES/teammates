@@ -92,7 +92,7 @@ export class TableComparatorService {
     /**
      * Compares two permission roles of instructors.
      * If either role is invalid, it will be seen as 'smaller'
-     * If both roles are invalid, strA will always be seen as 'larger'
+     * If both roles are invalid, roleA will always be seen as 'larger'
      */
   compareRoles(roleA: string, roleB: string, order: SortOrder): number {
     const roles = Object.keys(InstructorPermissionRole);
@@ -107,7 +107,7 @@ export class TableComparatorService {
       return -1;
     }
 
-    return (order === SortOrder.DESC ? -1 : 1) * Math.sign(numA - numB);
+    return (order === SortOrder.DESC ? -1 : 1) * Math.sign(numB - numA);
   }
 
   /**

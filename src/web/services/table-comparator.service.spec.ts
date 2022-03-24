@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { InstructorPermissionRole } from '../types/api-request';
 import { SortBy, SortOrder } from '../types/sort-properties';
 import { TableComparatorService } from './table-comparator.service';
 
@@ -26,6 +27,17 @@ describe('SortableService', () => {
   it('should compare naturally correctly', () => {
     expect(service.compareNaturally('Team 2', 'Team 11', SortOrder.ASC)).toEqual(-1);
     expect(service.compareNaturally('Team 2', 'Team 11', SortOrder.DESC)).toEqual(1);
+  });
+
+  it('should compare roles correctly', () => {
+    expect(service.compareRoles(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+      InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM, SortOrder.ASC)).toEqual(1);
+    expect(service.compareRoles(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM,
+      InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER, SortOrder.DESC)).toEqual(1);
+    expect(service.compareRoles(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_OBSERVER,
+      InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_TUTOR, SortOrder.DESC)).toEqual(-1);
+    expect(service.compareRoles(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_TUTOR,
+      InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_OBSERVER, SortOrder.ASC)).toEqual(-1);
   });
 
   it('should call correct method of comparison depending on element to sort by', () => {
