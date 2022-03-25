@@ -52,6 +52,8 @@ class UpdateFeedbackSessionAction extends Action {
     public JsonResult execute() throws InvalidHttpRequestBodyException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+        // TODO: Use the value here.
+        getBooleanRequestParamValue(Const.ParamsNames.NOTIFY_ABOUT_DEADLINES);
 
         FeedbackSessionAttributes feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
 
