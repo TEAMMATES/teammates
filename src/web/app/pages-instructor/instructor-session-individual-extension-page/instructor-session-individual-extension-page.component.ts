@@ -266,11 +266,11 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     const modalRef: NgbModalRef = this.ngbModal.open(IndividualExtensionConfirmModalComponent);
     const selectedStudents = this.getSelectedStudents();
     const selectedInstructors = this.getSelectedInstructors();
+    modalRef.componentInstance.modalType = ExtensionModalType.EXTEND;
     modalRef.componentInstance.selectedStudents = selectedStudents;
     modalRef.componentInstance.selectedInstructors = selectedInstructors;
     modalRef.componentInstance.extensionTimestamp = extensionTimestamp;
     modalRef.componentInstance.feedbackSessionTimeZone = this.feedbackSessionTimeZone;
-    modalRef.componentInstance.modalType = ExtensionModalType.EXTEND;
 
     modalRef.componentInstance.onConfirmExtensionCallBack.subscribe((isNotifyIndividuals: boolean) => {
       this.handleCreateDeadlines(selectedStudents, selectedInstructors, extensionTimestamp, isNotifyIndividuals);
@@ -280,13 +280,14 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
 
   onDelete(): void {
     const modalRef: NgbModalRef = this.ngbModal.open(IndividualExtensionConfirmModalComponent);
-    const selectedStudents = this.getSelectedStudents();
-    const selectedInstructors = this.getSelectedInstructors();
+    const selectedStudents = this.getSelectedStudentsWithExtensions();
+    const selectedInstructors = this.getSelectedInstructorsWithExtensions();
     modalRef.componentInstance.modalType = ExtensionModalType.DELETE;
     modalRef.componentInstance.selectedStudents = selectedStudents;
     modalRef.componentInstance.selectedInstructors = selectedInstructors;
     modalRef.componentInstance.extensionTimestamp = this.feedbackSessionEndingTime;
     modalRef.componentInstance.feedbackSessionTimeZone = this.feedbackSessionTimeZone;
+
     modalRef.componentInstance.onConfirmExtensionCallBack.subscribe((isNotifyIndividuals: boolean) => {
       this.handleDeleteDeadlines(selectedStudents, selectedInstructors, isNotifyIndividuals);
       modalRef.close();
@@ -370,8 +371,16 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     return this.studentsOfCourse.filter((x) => x.isSelected);
   }
 
+  getSelectedStudentsWithExtensions(): StudentExtensionTableColumnModel[] {
+    return this.studentsOfCourse.filter((x) => x.isSelected && x.hasExtension);
+  }
+
   getSelectedInstructors(): InstructorExtensionTableColumnModel[] {
     return this.instructorsOfCourse.filter((x) => x.isSelected);
+  }
+
+  getSelectedInstructorsWithExtensions(): InstructorExtensionTableColumnModel[] {
+    return this.instructorsOfCourse.filter((x) => x.isSelected && x.hasExtension);
   }
 
   hasSelected(): boolean {
@@ -384,22 +393,17 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     return false;
   }
 
+  /**
+   * Checks if at least one valid extension has been selected
+   */
   hasSelectedValidForDeletion(): boolean {
-    let hasStudentSelected = false;
-    let hasInstructorSelected = false;
     for (const student of this.studentsOfCourse) {
-      if (student.isSelected) {
-        if (!student.hasExtension) return false;
-        hasStudentSelected = true;
-      }
+      if (student.isSelected && student.hasExtension) return true;
     }
     for (const instructor of this.instructorsOfCourse) {
-      if (instructor.isSelected) {
-        if (!instructor.hasExtension) return false;
-        hasInstructorSelected = true;
-      }
+      if (instructor.isSelected && instructor.hasExtension) return true;
     }
-    return (hasStudentSelected || hasInstructorSelected);
+    return false;
   }
 
   selectAllStudents(): void {

@@ -407,7 +407,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
       expect(deleteButton.disabled).toBeFalsy();
     });
 
-    it('should disable delete button if one of selected students does not have extension', () => {
+    it('should enable delete button even if one of selected students does not have extension', () => {
       jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
       jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
       jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
@@ -426,7 +426,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
       expect(extendButton.textContent).toEqual('Extend / Edit');
       expect(extendButton.disabled).toBeFalsy();
       expect(deleteButton.textContent).toEqual('Delete');
-      expect(deleteButton.disabled).toBeTruthy();
+      expect(deleteButton.disabled).toBeFalsy();
     });
 
 });
