@@ -1,6 +1,7 @@
 package teammates.logic.core;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,6 +48,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
 
     @Test
     public void testAll() throws Exception {
+        testVerifyAllInstructorsExistInCourse();
         testGetInstructorForEmail();
         testGetInstructorForGoogleId();
         testGetInstructorsForGoogleId();
@@ -108,6 +110,37 @@ public class InstructorsLogicTest extends BaseLogicTest {
         ______TS("failure: null parameters");
 
         assertThrows(AssertionError.class, () -> instructorsLogic.createInstructor(null));
+    }
+
+    private void testVerifyAllInstructorsExistInCourse() throws Exception {
+
+        InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
+        String courseId = instructor.getCourseId();
+
+        Collection<String> instructorEmailAddresses = new ArrayList<>();
+        instructorEmailAddresses.add(instructor.getEmail());
+
+        ______TS("existing instructor email address in existing course");
+
+        // should not throw an exception
+        instructorsLogic.verifyAllInstructorsExistInCourse(courseId, instructorEmailAddresses);
+
+        ______TS("existing instructor email address in non-existent course");
+
+        assertThrows(EntityDoesNotExistException.class, () ->
+                instructorsLogic.verifyAllInstructorsExistInCourse("non-existent-course", instructorEmailAddresses));
+
+        ______TS("non-existent instructor email address in existing course");
+
+        instructorEmailAddresses.add("non-existent.instructor@email.com");
+
+        assertThrows(EntityDoesNotExistException.class, () ->
+                instructorsLogic.verifyAllInstructorsExistInCourse(courseId, instructorEmailAddresses));
+
+        ______TS("non-existent instructor email address in non-existent course");
+
+        assertThrows(EntityDoesNotExistException.class, () ->
+                instructorsLogic.verifyAllInstructorsExistInCourse("non-existent-course", instructorEmailAddresses));
     }
 
     private void testGetInstructorForEmail() {

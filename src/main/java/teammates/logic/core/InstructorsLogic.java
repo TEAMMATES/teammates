@@ -2,6 +2,7 @@ package teammates.logic.core;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 
@@ -94,6 +95,20 @@ public final class InstructorsLogic {
                         .withIsArchived(archiveStatus)
                         .build()
         );
+    }
+
+    /**
+     * Checks if all the given instructors exist in the given course.
+     *
+     * @throws EntityDoesNotExistException If some instructor does not exist in the course.
+     */
+    public void verifyAllInstructorsExistInCourse(String courseId, Collection<String> instructorEmailAddresses)
+            throws EntityDoesNotExistException {
+        boolean hasOnlyExistingInstructors = instructorsDb
+                .hasExistingInstructorsInCourse(courseId, instructorEmailAddresses);
+        if (!hasOnlyExistingInstructors) {
+            throw new EntityDoesNotExistException("There are instructors that do not exist in the course.");
+        }
     }
 
     /**
