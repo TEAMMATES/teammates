@@ -113,6 +113,7 @@ public final class Const {
         public static final String INSTRUCTOR_EMAIL = "instructoremail";
         public static final String INSTRUCTOR_INSTITUTION = "instructorinstitution";
         public static final String IS_CREATING_ACCOUNT = "iscreatingaccount";
+        public static final String IS_INSTRUCTOR = "isinstructor";
 
         public static final String FEEDBACK_SESSION_NAME = "fsname";
         public static final String FEEDBACK_SESSION_STARTTIME = "starttime";
@@ -384,6 +385,8 @@ public final class Const {
      */
     public static class TaskQueue {
         public static final String URI_PREFIX = "/worker";
+
+        public static final String DEADLINE_EXTENSIONS_WORKER_URL = URI_PREFIX + "/deadlineExtensions";
 
         public static final String FEEDBACK_SESSION_PUBLISHED_EMAIL_QUEUE_NAME =
                 "feedback-session-published-email-queue";

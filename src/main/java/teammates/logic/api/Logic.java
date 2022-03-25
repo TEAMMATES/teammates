@@ -13,6 +13,7 @@ import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.DeadlineExtensionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
@@ -31,6 +32,7 @@ import teammates.logic.core.AccountRequestsLogic;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.DataBundleLogic;
+import teammates.logic.core.DeadlineExtensionsLogic;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponseCommentsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
@@ -51,6 +53,7 @@ public class Logic {
 
     final AccountsLogic accountsLogic = AccountsLogic.inst();
     final AccountRequestsLogic accountRequestsLogic = AccountRequestsLogic.inst();
+    final DeadlineExtensionsLogic deadlineExtensionsLogic = DeadlineExtensionsLogic.inst();
     final StudentsLogic studentsLogic = StudentsLogic.inst();
     final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     final CoursesLogic coursesLogic = CoursesLogic.inst();
@@ -288,7 +291,7 @@ public class Logic {
     /**
      * Updates an instructor by {@link InstructorAttributes.UpdateOptionsWithGoogleId}.
      *
-     * <p>Cascade update the comments and responses given by the instructor.
+     * <p>Cascade update the comments, responses and deadline extensions associated with the instructor.
      *
      * <br/>Preconditions: <br/>
      * * All parameters are non-null.
@@ -351,7 +354,7 @@ public class Logic {
     }
 
     /**
-     * Deletes an instructor cascade its associated feedback responses and comments.
+     * Deletes an instructor cascade its associated feedback responses, deadline extensions and comments.
      *
      * <p>Fails silently if the student does not exist.
      *
@@ -464,7 +467,7 @@ public class Logic {
     }
 
     /**
-     * Deletes a course cascade its students, instructors, sessions, responses and comments.
+     * Deletes a course cascade its students, instructors, sessions, responses, deadline extensions and comments.
      *
      * <p>Fails silently if no such course.
      *
@@ -710,7 +713,8 @@ public class Logic {
     /**
      * Updates a student by {@link StudentAttributes.UpdateOptions}.
      *
-     * <p>If email changed, update by recreating the student and cascade update all responses the student gives/receives.
+     * <p>If email changed, update by recreating the student and cascade update all responses
+     * the student gives/receives as well as any deadline extensions given to the student.
      *
      * <p>If team changed, cascade delete all responses the student gives/receives within that team.
      *
@@ -779,7 +783,7 @@ public class Logic {
     }
 
     /**
-     * Deletes a student cascade its associated feedback responses and comments.
+     * Deletes a student cascade its associated feedback responses, deadline extensions and comments.
      *
      * <p>Fails silently if the student does not exist.
      *
@@ -794,7 +798,7 @@ public class Logic {
     }
 
     /**
-     * Deletes all the students in the course cascade their associated responses and comments.
+     * Deletes all the students in the course cascade their associated responses, deadline extensions and comments.
      *
      * <br/>Preconditions: <br>
      * * All parameters are non-null.
@@ -1046,7 +1050,7 @@ public class Logic {
     }
 
     /**
-     * Deletes a feedback session cascade to its associated questions, responses and comments.
+     * Deletes a feedback session cascade to its associated questions, responses, deadline extensions and comments.
      *
      * <br/>Preconditions: <br/>
      * * All parameters are non-null.
@@ -1542,6 +1546,84 @@ public class Logic {
     public void createUsageStatistics(UsageStatisticsAttributes attributes)
             throws EntityAlreadyExistsException, InvalidParametersException {
         usageStatisticsLogic.createUsageStatistics(attributes);
+    }
+
+
+    /**
+     * Updates a deadline extension.
+     *
+     * <p>Preconditions:</p>
+     * * All parameters are non-null.
+     *
+     * @return the updated deadline extension
+     * @throws InvalidParametersException if the updated deadline extension is not valid
+     * @throws EntityDoesNotExistException if the deadline extension to update does not exist
+     */
+    public DeadlineExtensionAttributes updateDeadlineExtension(DeadlineExtensionAttributes.UpdateOptions updateOptions)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        assert updateOptions != null;
+
+        return deadlineExtensionsLogic.updateDeadlineExtension(updateOptions);
+    }
+
+    /**
+     * Creates a deadline extension.
+     *
+     * <p>Preconditions:</p>
+     * * All parameters are non-null.
+     *
+     * @return the created deadline extension
+     * @throws InvalidParametersException if the deadline extension is not valid
+     * @throws EntityAlreadyExistsException if the deadline extension to create already exists
+     */
+    public DeadlineExtensionAttributes createDeadlineExtension(DeadlineExtensionAttributes deadlineExtension)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        assert deadlineExtension != null;
+
+        return deadlineExtensionsLogic.createDeadlineExtension(deadlineExtension);
+    }
+
+    /**
+     * Deletes a deadline extension.
+     *
+     * <p>Preconditions:</p>
+     * * All parameters are non-null.
+     *
+     * <p>Fails silently if the deadline extension doesn't exist.</p>
+     */
+    public void deleteDeadlineExtension(
+            String courseId, String feedbackSessionName, String userEmail, boolean isInstructor) {
+        assert courseId != null;
+        assert feedbackSessionName != null;
+        assert userEmail != null;
+
+        deadlineExtensionsLogic.deleteDeadlineExtension(courseId, feedbackSessionName, userEmail, isInstructor);
+    }
+
+    /**
+     * Gets a deadline extension by {@code courseId}, {@code feedbackSessionName},
+     * {@code userEmail} and {@code isInstructor}.
+     *
+     * <p>Preconditions:</p>
+     * * All parameters are non-null.
+     *
+     * @return the deadline extension if it exists, null otherwise
+     */
+    public DeadlineExtensionAttributes getDeadlineExtension(
+            String courseId, String feedbackSessionName, String userEmail, boolean isInstructor) {
+        assert courseId != null;
+        assert feedbackSessionName != null;
+        assert userEmail != null;
+
+        return deadlineExtensionsLogic.getDeadlineExtension(courseId, feedbackSessionName, userEmail, isInstructor);
+    }
+
+    /**
+     * Gets a list of deadline extensions with end time within the next 24 hours
+     * and possibly need a closing email to be sent.
+     */
+    public List<DeadlineExtensionAttributes> getDeadlineExtensionsPossiblyNeedingClosingEmail() {
+        return deadlineExtensionsLogic.getDeadlineExtensionsPossiblyNeedingClosingEmail();
     }
 
 }

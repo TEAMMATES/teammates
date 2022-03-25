@@ -7,6 +7,9 @@ public enum EmailType {
 
     // CHECKSTYLE.OFF:JavadocVariable enum names are self-documenting
 
+    DEADLINE_EXTENSION_GIVEN("TEAMMATES: Deadline extension given [Course: %s][Feedback Session: %s]"),
+    DEADLINE_EXTENSION_UPDATED("TEAMMATES: Deadline extension updated [Course: %s][Feedback Session: %s]"),
+    DEADLINE_EXTENSION_REVOKED("TEAMMATES: Deadline extension revoked [Course: %s][Feedback Session: %s]"),
     FEEDBACK_OPENING_SOON("TEAMMATES: Feedback session opening soon [Course: %s][Feedback Session: %s]"),
     FEEDBACK_OPENING("TEAMMATES: Feedback session now open [Course: %s][Feedback Session: %s]"),
     FEEDBACK_SESSION_REMINDER("TEAMMATES: Feedback session reminder [Course: %s][Feedback Session: %s]"),
