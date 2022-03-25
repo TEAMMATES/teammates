@@ -21,6 +21,7 @@ import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.NotificationAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.logic.api.LogicExtension;
@@ -140,6 +141,11 @@ public abstract class BaseTestCaseWithLocalDatabaseAccess extends BaseTestCaseWi
     @Override
     protected AccountRequestAttributes getAccountRequest(AccountRequestAttributes accountRequest) {
         return logic.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
+    }
+
+    @Override
+    protected NotificationAttributes getNotification(NotificationAttributes notification) {
+        return logic.getNotification(notification.getNotificationId());
     }
 
     protected void removeAndRestoreTypicalDataBundle() {

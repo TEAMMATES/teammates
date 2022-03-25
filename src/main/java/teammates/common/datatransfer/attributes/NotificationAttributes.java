@@ -83,6 +83,10 @@ public class NotificationAttributes extends EntityAttributes<Notification> {
         return notificationId;
     }
 
+    public void setNotificationId(String notificationId) {
+        this.notificationId = notificationId;
+    }
+
     public Instant getStartTime() {
         return startTime;
     }

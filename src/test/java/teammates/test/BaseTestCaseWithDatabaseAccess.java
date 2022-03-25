@@ -10,6 +10,7 @@ import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.NotificationAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.JsonUtils;
@@ -77,6 +78,9 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
 
         } else if (expected instanceof AccountRequestAttributes) {
             return getAccountRequest((AccountRequestAttributes) expected);
+
+        } else if (expected instanceof NotificationAttributes) {
+            return getNotification((NotificationAttributes) expected);
 
         } else {
             throw new RuntimeException("Unknown entity type!");
@@ -156,6 +160,12 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
             AccountRequestAttributes actualAccountRequest = (AccountRequestAttributes) actual;
             assertEquals(JsonUtils.toJson(expectedAccountRequest), JsonUtils.toJson(actualAccountRequest));
 
+        } else if (expected instanceof NotificationAttributes) {
+            NotificationAttributes expectedNotification = (NotificationAttributes) expected;
+            NotificationAttributes actualNotification = (NotificationAttributes) actual;
+            equalizeIrrelevantData(expectedNotification, actualNotification);
+            assertEquals(JsonUtils.toJson(expectedNotification), JsonUtils.toJson(actualNotification));
+
         } else {
             throw new RuntimeException("Unknown entity type!");
         }
@@ -216,6 +226,15 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
         }
     }
 
+    private void equalizeIrrelevantData(NotificationAttributes expected, NotificationAttributes actual) {
+        // Ignore time field as it is stamped at the time of creation in testing
+        expected.setCreatedAt(actual.getCreatedAt());
+        expected.setUpdatedAt(actual.getUpdatedAt());
+
+        // Ignore ID field as it is unique - UUID
+        expected.setNotificationId(actual.getNotificationId());
+    }
+
     protected abstract StudentProfileAttributes getStudentProfile(StudentProfileAttributes studentProfileAttributes);
 
     protected abstract CourseAttributes getCourse(CourseAttributes course);
@@ -233,6 +252,8 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
     protected abstract StudentAttributes getStudent(StudentAttributes student);
 
     protected abstract AccountRequestAttributes getAccountRequest(AccountRequestAttributes accountRequest);
+
+    protected abstract NotificationAttributes getNotification(NotificationAttributes notification);
 
     protected void removeAndRestoreDataBundle(DataBundle testData) {
         int retryLimit = OPERATION_RETRY_COUNT;
