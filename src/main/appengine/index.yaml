@@ -67,3 +67,23 @@ indexes:
     name: sentOpeningSoonEmail
   - direction: asc
     name: startTime
+- kind: DeadlineExtension
+  properties:
+  - direction: asc
+    name: courseId
+  - direction: asc
+    name: feedbackSessionName
+- kind: DeadlineExtension
+  properties:
+  - direction: asc
+    name: courseId
+  - direction: asc
+    name: userEmail
+  - direction: asc
+    name: isInstructor
+- kind: DeadlineExtension
+  properties:
+  - direction: asc
+    name: endTime
+  - direction: asc
+    name: sentClosingEmail

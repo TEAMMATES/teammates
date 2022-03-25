@@ -141,6 +141,18 @@ public class TestDataValidityTest extends BaseTestCase {
                                 .add("Invalid account request email: " + accountRequest.getEmail());
                     }
                 });
+
+                dataBundle.deadlineExtensions.forEach((id, deadlineExtension) -> {
+                    if (!isValidTestCourseId(deadlineExtension.getCourseId(), testPage)) {
+                        errors.computeIfAbsent(pathString, k -> new ArrayList<>())
+                                .add("Invalid deadline extension course ID: " + deadlineExtension.getCourseId());
+                    }
+
+                    if (!isValidTestEmail(deadlineExtension.getUserEmail())) {
+                        errors.computeIfAbsent(pathString, k -> new ArrayList<>())
+                                .add("Invalid deadline extension user email: " + deadlineExtension.getUserEmail());
+                    }
+                });
             });
         }
 

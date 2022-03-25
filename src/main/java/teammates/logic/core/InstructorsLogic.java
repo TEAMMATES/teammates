@@ -37,6 +37,7 @@ public final class InstructorsLogic {
     private FeedbackResponsesLogic frLogic;
     private FeedbackResponseCommentsLogic frcLogic;
     private FeedbackQuestionsLogic fqLogic;
+    private DeadlineExtensionsLogic deLogic;
 
     private InstructorsLogic() {
         // prevent initialization
@@ -50,6 +51,7 @@ public final class InstructorsLogic {
         fqLogic = FeedbackQuestionsLogic.inst();
         frLogic = FeedbackResponsesLogic.inst();
         frcLogic = FeedbackResponseCommentsLogic.inst();
+        deLogic = DeadlineExtensionsLogic.inst();
     }
 
     /**
@@ -195,7 +197,7 @@ public final class InstructorsLogic {
     /**
      * Updates an instructor by {@link InstructorAttributes.UpdateOptionsWithGoogleId}.
      *
-     * <p>Cascade update the comments and responses given by the instructor.
+     * <p>Cascade update the comments, responses and deadline extensions associated with the instructor.
      *
      * @return updated instructor
      * @throws InvalidParametersException if attributes to update are not valid
@@ -261,6 +263,9 @@ public final class InstructorsLogic {
             // cascade comments
             frcLogic.updateFeedbackResponseCommentsEmails(
                     updatedInstructor.getCourseId(), originalInstructor.getEmail(), updatedInstructor.getEmail());
+            // cascade deadline extensions
+            deLogic.updateDeadlineExtensionsWithNewEmail(updatedInstructor.getCourseId(),
+                    originalInstructor.getEmail(), updatedInstructor.getEmail(), true);
         }
 
         return updatedInstructor;
@@ -302,7 +307,7 @@ public final class InstructorsLogic {
     }
 
     /**
-     * Deletes an instructor cascade its associated feedback responses and comments.
+     * Deletes an instructor cascade its associated feedback responses, deadline extensions and comments.
      *
      * <p>Fails silently if the student does not exist.
      */
@@ -314,10 +319,12 @@ public final class InstructorsLogic {
 
         frLogic.deleteFeedbackResponsesInvolvedEntityOfCourseCascade(courseId, email);
         instructorsDb.deleteInstructor(courseId, email);
+        deLogic.deleteDeadlineExtensions(courseId, email, true);
     }
 
     /**
-     * Deletes all instructors associated with a googleId and cascade delete its associated feedback responses and comments.
+     * Deletes all instructors associated with a googleId and cascade delete its associated feedback responses,
+     * deadline extensions and comments.
      */
     public void deleteInstructorsForGoogleIdCascade(String googleId) {
         List<InstructorAttributes> instructors = instructorsDb.getInstructorsForGoogleId(googleId, false);
