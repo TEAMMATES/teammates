@@ -76,9 +76,6 @@ exports[`IndividualExtensionConfirmModalComponent should snap with the extended 
                 <i
                   class="fas fa-sort"
                 />
-                <i
-                  class="fas fa-sort-down"
-                />
               </span>
             </th>
             <th
@@ -128,6 +125,9 @@ exports[`IndividualExtensionConfirmModalComponent should snap with the extended 
               >
                 <i
                   class="fas fa-sort"
+                />
+                <i
+                  class="fas fa-sort-down"
                 />
               </span>
             </th>

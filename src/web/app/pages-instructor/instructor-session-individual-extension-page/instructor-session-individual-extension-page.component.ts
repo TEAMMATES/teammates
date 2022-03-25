@@ -42,9 +42,9 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
 
   SortBy: typeof SortBy = SortBy;
   SortOrder: typeof SortOrder = SortOrder;
-  sortStudentsBy: SortBy = SortBy.SECTION_NAME;
+  sortStudentsBy: SortBy = SortBy.SESSION_END_DATE;
   sortStudentOrder: SortOrder = SortOrder.DESC;
-  sortInstructorsBy: SortBy = SortBy.SECTION_NAME;
+  sortInstructorsBy: SortBy = SortBy.SESSION_END_DATE;
   sortInstructorOrder: SortOrder = SortOrder.DESC;
 
   isAllStudentsSelected: boolean = false;

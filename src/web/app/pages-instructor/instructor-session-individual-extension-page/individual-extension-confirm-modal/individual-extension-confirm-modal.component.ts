@@ -40,9 +40,9 @@ export class IndividualExtensionConfirmModalComponent {
 
   SortBy: typeof SortBy = SortBy;
   SortOrder: typeof SortOrder = SortOrder;
-  sortStudentsBy: SortBy = SortBy.SECTION_NAME;
+  sortStudentsBy: SortBy = SortBy.SESSION_END_DATE;
   sortStudentOrder: SortOrder = SortOrder.DESC;
-  sortInstructorsBy: SortBy = SortBy.RESPONDENT_NAME;
+  sortInstructorsBy: SortBy = SortBy.SESSION_END_DATE;
   sortInstructorOrder: SortOrder = SortOrder.DESC;
 
   DATETIME_FORMAT: string = 'd MMM YYYY h:mm:ss';
