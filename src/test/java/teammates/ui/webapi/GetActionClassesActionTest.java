@@ -133,6 +133,7 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 StudentSearchIndexingWorkerAction.class,
                 AccountRequestSearchIndexingWorkerAction.class,
                 SearchAccountRequestsAction.class,
+                GetNotificationAction.class,
                 CreateNotificationAction.class,
                 DeleteNotificationAction.class,
                 GetNotificationsAction.class
