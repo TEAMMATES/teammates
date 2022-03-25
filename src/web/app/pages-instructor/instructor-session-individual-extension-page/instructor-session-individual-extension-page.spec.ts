@@ -360,7 +360,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
       const extendButton: any = fixture.debugElement.nativeElement.querySelector('#extend-btn');
       const deleteButton: any = fixture.debugElement.nativeElement.querySelector('#delete-btn');
 
-      expect(extendButton.textContent).toEqual('Extend');
+      expect(extendButton.textContent).toEqual('Extend / Edit');
       expect(extendButton.disabled).toBeTruthy();
       expect(deleteButton.textContent).toEqual('Delete');
       expect(deleteButton.disabled).toBeTruthy();
@@ -380,7 +380,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
       const extendButton: any = fixture.debugElement.nativeElement.querySelector('#extend-btn');
       const deleteButton: any = fixture.debugElement.nativeElement.querySelector('#delete-btn');
 
-      expect(extendButton.textContent).toEqual('Extend');
+      expect(extendButton.textContent).toEqual('Extend / Edit');
       expect(extendButton.disabled).toBeFalsy();
       expect(deleteButton.textContent).toEqual('Delete');
       expect(deleteButton.disabled).toBeTruthy();
@@ -401,7 +401,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
       const extendButton: any = fixture.debugElement.nativeElement.querySelector('#extend-btn');
       const deleteButton: any = fixture.debugElement.nativeElement.querySelector('#delete-btn');
 
-      expect(extendButton.textContent).toEqual('Extend');
+      expect(extendButton.textContent).toEqual('Extend / Edit');
       expect(extendButton.disabled).toBeFalsy();
       expect(deleteButton.textContent).toEqual('Delete');
       expect(deleteButton.disabled).toBeFalsy();
@@ -423,7 +423,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
       const extendButton: any = fixture.debugElement.nativeElement.querySelector('#extend-btn');
       const deleteButton: any = fixture.debugElement.nativeElement.querySelector('#delete-btn');
 
-      expect(extendButton.textContent).toEqual('Extend');
+      expect(extendButton.textContent).toEqual('Extend / Edit');
       expect(extendButton.disabled).toBeFalsy();
       expect(deleteButton.textContent).toEqual('Delete');
       expect(deleteButton.disabled).toBeTruthy();

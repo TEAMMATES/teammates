@@ -35,16 +35,16 @@
       </div>
     </div>
     <div class="container ml-1">
+      <p> Select students or instructors from list below and click apply or remove to change their feedback session deadline
+        extension. </p>
       <div class="align-row">
         <div>
-          <button type="button" id="extend-btn" class="btn btn-success" (click)="onExtend()" [disabled]="!hasSelected()">Extend</button>
+          <button type="button" id="extend-btn" class="btn btn-success" (click)="onExtend()" [disabled]="!hasSelected()">Extend / Edit</button>
         </div>
         <div>
           <button type="button" id="delete-btn" class="btn btn-danger" (click)="onDelete()" [disabled]="!hasSelectedValidForDeletion()">Delete</button>
         </div>
       </div>
-      <p> Select students or instructors from list below and click apply or remove to change their feedback session deadline
-        extension. </p>
     </div>
   </div>
 </tm-loading-retry>

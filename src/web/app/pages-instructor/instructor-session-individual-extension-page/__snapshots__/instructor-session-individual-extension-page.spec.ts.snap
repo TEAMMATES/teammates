@@ -127,6 +127,9 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
       <div
         class="container ml-1"
       >
+        <p>
+           Select students or instructors from list below and click apply or remove to change their feedback session deadline extension. 
+        </p>
         <div
           class="align-row"
         >
@@ -137,7 +140,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
               id="extend-btn"
               type="button"
             >
-              Extend
+              Extend / Edit
             </button>
           </div>
           <div>
@@ -151,9 +154,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
             </button>
           </div>
         </div>
-        <p>
-           Select students or instructors from list below and click apply or remove to change their feedback session deadline extension. 
-        </p>
       </div>
     </div>
   </tm-loading-retry><tm-loading-retry>
@@ -593,6 +593,9 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
       <div
         class="container ml-1"
       >
+        <p>
+           Select students or instructors from list below and click apply or remove to change their feedback session deadline extension. 
+        </p>
         <div
           class="align-row"
         >
@@ -603,7 +606,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
               id="extend-btn"
               type="button"
             >
-              Extend
+              Extend / Edit
             </button>
           </div>
           <div>
@@ -617,9 +620,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
             </button>
           </div>
         </div>
-        <p>
-           Select students or instructors from list below and click apply or remove to change their feedback session deadline extension. 
-        </p>
       </div>
     </div>
   </tm-loading-retry><tm-loading-retry>
@@ -1297,6 +1297,9 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
       <div
         class="container ml-1"
       >
+        <p>
+           Select students or instructors from list below and click apply or remove to change their feedback session deadline extension. 
+        </p>
         <div
           class="align-row"
         >
@@ -1307,7 +1310,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
               id="extend-btn"
               type="button"
             >
-              Extend
+              Extend / Edit
             </button>
           </div>
           <div>
@@ -1321,9 +1324,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
             </button>
           </div>
         </div>
-        <p>
-           Select students or instructors from list below and click apply or remove to change their feedback session deadline extension. 
-        </p>
       </div>
     </div>
   </tm-loading-retry><tm-loading-retry>
@@ -1715,6 +1715,9 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
       <div
         class="container ml-1"
       >
+        <p>
+           Select students or instructors from list below and click apply or remove to change their feedback session deadline extension. 
+        </p>
         <div
           class="align-row"
         >
@@ -1725,7 +1728,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
               id="extend-btn"
               type="button"
             >
-              Extend
+              Extend / Edit
             </button>
           </div>
           <div>
@@ -1739,9 +1742,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
             </button>
           </div>
         </div>
-        <p>
-           Select students or instructors from list below and click apply or remove to change their feedback session deadline extension. 
-        </p>
       </div>
     </div>
   </tm-loading-retry><tm-loading-retry>
@@ -2101,6 +2101,9 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
       <div
         class="container ml-1"
       >
+        <p>
+           Select students or instructors from list below and click apply or remove to change their feedback session deadline extension. 
+        </p>
         <div
           class="align-row"
         >
@@ -2111,7 +2114,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
               id="extend-btn"
               type="button"
             >
-              Extend
+              Extend / Edit
             </button>
           </div>
           <div>
@@ -2125,9 +2128,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
             </button>
           </div>
         </div>
-        <p>
-           Select students or instructors from list below and click apply or remove to change their feedback session deadline extension. 
-        </p>
       </div>
     </div>
   </tm-loading-retry><tm-loading-retry>
@@ -2566,6 +2566,9 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with inst
       <div
         class="container ml-1"
       >
+        <p>
+           Select students or instructors from list below and click apply or remove to change their feedback session deadline extension. 
+        </p>
         <div
           class="align-row"
         >
@@ -2576,7 +2579,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with inst
               id="extend-btn"
               type="button"
             >
-              Extend
+              Extend / Edit
             </button>
           </div>
           <div>
@@ -2590,9 +2593,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with inst
             </button>
           </div>
         </div>
-        <p>
-           Select students or instructors from list below and click apply or remove to change their feedback session deadline extension. 
-        </p>
       </div>
     </div>
   </tm-loading-retry><tm-loading-retry>
@@ -2836,6 +2836,9 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with stud
       <div
         class="container ml-1"
       >
+        <p>
+           Select students or instructors from list below and click apply or remove to change their feedback session deadline extension. 
+        </p>
         <div
           class="align-row"
         >
@@ -2846,7 +2849,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with stud
               id="extend-btn"
               type="button"
             >
-              Extend
+              Extend / Edit
             </button>
           </div>
           <div>
@@ -2860,9 +2863,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with stud
             </button>
           </div>
         </div>
-        <p>
-           Select students or instructors from list below and click apply or remove to change their feedback session deadline extension. 
-        </p>
       </div>
     </div>
   </tm-loading-retry><tm-loading-retry>
@@ -3577,6 +3577,9 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
       <div
         class="container ml-1"
       >
+        <p>
+           Select students or instructors from list below and click apply or remove to change their feedback session deadline extension. 
+        </p>
         <div
           class="align-row"
         >
@@ -3587,7 +3590,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
               id="extend-btn"
               type="button"
             >
-              Extend
+              Extend / Edit
             </button>
           </div>
           <div>
@@ -3601,9 +3604,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
             </button>
           </div>
         </div>
-        <p>
-           Select students or instructors from list below and click apply or remove to change their feedback session deadline extension. 
-        </p>
       </div>
     </div>
   </tm-loading-retry><tm-loading-retry>
@@ -3931,6 +3931,9 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
       <div
         class="container ml-1"
       >
+        <p>
+           Select students or instructors from list below and click apply or remove to change their feedback session deadline extension. 
+        </p>
         <div
           class="align-row"
         >
@@ -3941,7 +3944,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
               id="extend-btn"
               type="button"
             >
-              Extend
+              Extend / Edit
             </button>
           </div>
           <div>
@@ -3955,9 +3958,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
             </button>
           </div>
         </div>
-        <p>
-           Select students or instructors from list below and click apply or remove to change their feedback session deadline extension. 
-        </p>
       </div>
     </div>
   </tm-loading-retry><tm-loading-retry>
