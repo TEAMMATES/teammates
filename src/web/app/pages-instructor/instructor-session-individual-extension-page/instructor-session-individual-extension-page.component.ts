@@ -315,12 +315,12 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     const request: FeedbackSessionUpdateRequest = {
       studentDeadlines: this.getUpdatedDeadlines(selectedStudents, extensionTimestamp, true),
       instructorDeadlines: this.getUpdatedDeadlines(selectedInstructors, extensionTimestamp, false),
-      isGoingToNotifyAboutDeadlines: isNotifyIndividuals,
       ...this.feedbackSessionDetails,
     };
 
     this.isSubmittingDeadlines = true;
-    this.feedbackSessionsService.updateFeedbackSession(this.courseId, this.feedbackSessionName, request)
+    this.feedbackSessionsService.updateFeedbackSession(this.courseId,
+      this.feedbackSessionName, isNotifyIndividuals, request)
         .pipe(finalize(() => { this.isSubmittingDeadlines = false; }))
         .subscribe(() => {
           this.loadFeedbackSessionAndIndividuals();
@@ -351,12 +351,12 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     const request: FeedbackSessionUpdateRequest = {
       studentDeadlines: this.getDeletedDeadlines(selectedStudents, true),
       instructorDeadlines: this.getDeletedDeadlines(selectedInstructors, false),
-      isGoingToNotifyAboutDeadlines: isNotifyIndividuals,
       ...this.feedbackSessionDetails,
     };
 
     this.isSubmittingDeadlines = true;
-    this.feedbackSessionsService.updateFeedbackSession(this.courseId, this.feedbackSessionName, request)
+    this.feedbackSessionsService.updateFeedbackSession(this.courseId,
+      this.feedbackSessionName, isNotifyIndividuals, request)
     .pipe(finalize(() => { this.isSubmittingDeadlines = false; }))
     .subscribe(() => {
       this.loadFeedbackSessionAndIndividuals();
