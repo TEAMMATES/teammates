@@ -7,8 +7,9 @@ import teammates.common.datatransfer.attributes.AccountAttributes;
  */
 public class AccountData extends ApiOutput {
 
+    ApiOutput apiOutput = new ApiOutput();
+
     private final String googleId;
-    private final String name;
     private final boolean isInstructor;
     private final String email;
     private final String institute;
@@ -16,7 +17,7 @@ public class AccountData extends ApiOutput {
 
     public AccountData(AccountAttributes accountInfo) {
         this.googleId = accountInfo.getGoogleId();
-        this.name = accountInfo.getName();
+        this.apiOutput.name = accountInfo.getName();
         this.isInstructor = accountInfo.isInstructor();
         this.email = accountInfo.getEmail();
         this.institute = accountInfo.getInstitute();
@@ -40,7 +41,7 @@ public class AccountData extends ApiOutput {
     }
 
     public String getName() {
-        return name;
+        return apiOutput.name;
     }
 
     public boolean isInstructor() {

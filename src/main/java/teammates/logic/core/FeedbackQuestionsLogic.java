@@ -1,16 +1,5 @@
 package teammates.logic.core;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import javax.annotation.Nullable;
-
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -26,6 +15,10 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.storage.api.FeedbackQuestionsDb;
+
+import javax.annotation.Nullable;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Handles operations related to feedback questions.
@@ -131,13 +124,18 @@ public final class FeedbackQuestionsLogic {
             }
         }
 
-        for (int i = 1; i <= questions.size(); i++) {
-            if (!questionNumbersInSession.contains(i)) {
-                return false;
-            }
-        }
+        if (questionInSession(questions, questionNumbersInSession)) return false;
 
         return true;
+    }
+
+    private boolean questionInSession(List<FeedbackQuestionAttributes> questions, Set<Integer> questionNumbersInSession) {
+        for (int i = 1; i <= questions.size(); i++) {
+            if (!questionNumbersInSession.contains(i)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -151,11 +149,16 @@ public final class FeedbackQuestionsLogic {
             return true;
         }
 
+        hasQuestions = isHasQuestions(feedbackSessionName, courseId, userEmail, hasQuestions);
+
+        return hasQuestions;
+    }
+
+    private boolean isHasQuestions(String feedbackSessionName, String courseId, String userEmail, boolean hasQuestions) {
         if (userEmail != null && fsLogic.isCreatorOfSession(feedbackSessionName, courseId, userEmail)) {
             hasQuestions = fqDb.hasFeedbackQuestionsForGiverType(
                     feedbackSessionName, courseId, FeedbackParticipantType.SELF);
         }
-
         return hasQuestions;
     }
 

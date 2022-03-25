@@ -10,6 +10,8 @@ public class ApiOutput {
     @Nullable
     private String requestId;
 
+    public String name;
+
     public String getRequestId() {
         return requestId;
     }

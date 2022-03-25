@@ -1,10 +1,5 @@
 package teammates.logic.core;
 
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -18,6 +13,10 @@ import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.common.util.TimeHelper;
 import teammates.storage.api.FeedbackSessionsDb;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Handles operations related to feedback sessions.
@@ -542,18 +541,8 @@ public final class FeedbackSessionsLogic {
         }
 
         // Allow user to view the feedback session if there are any question whose responses are visible to the user
-        List<FeedbackQuestionAttributes> questionsWithVisibleResponses = new ArrayList<>();
-        List<FeedbackQuestionAttributes> questionsForUser =
-                fqLogic.getFeedbackQuestionsForSession(session.getFeedbackSessionName(), session.getCourseId());
-        for (FeedbackQuestionAttributes question : questionsForUser) {
-            if (!isInstructor && frLogic.isResponseOfFeedbackQuestionVisibleToStudent(question)
-                    || isInstructor && frLogic.isResponseOfFeedbackQuestionVisibleToInstructor(question)) {
-                // We only need one question with visible responses for the entire session to be visible
-                questionsWithVisibleResponses.add(question);
-                break;
-            }
-        }
-
+        teammates.logic.core.FeedbackQuestionAttributesLogic feedbackQuestionAttributesLogic = new FeedbackQuestionAttributesLogic();
+        List<FeedbackQuestionAttributes> questionsWithVisibleResponses = feedbackQuestionAttributesLogic.getFeedbackQuestionAttributes(session, isInstructor, fqLogic, frLogic);
         return session.isVisible() && !questionsWithVisibleResponses.isEmpty();
     }
 

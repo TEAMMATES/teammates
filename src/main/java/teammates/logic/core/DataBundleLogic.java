@@ -1,40 +1,16 @@
 package teammates.logic.core;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorPrivileges;
-import teammates.common.datatransfer.attributes.AccountAttributes;
-import teammates.common.datatransfer.attributes.AccountRequestAttributes;
-import teammates.common.datatransfer.attributes.CourseAttributes;
-import teammates.common.datatransfer.attributes.EntityAttributes;
-import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
-import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.datatransfer.attributes.StudentProfileAttributes;
+import teammates.common.datatransfer.attributes.*;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
-import teammates.storage.api.AccountRequestsDb;
-import teammates.storage.api.AccountsDb;
-import teammates.storage.api.CoursesDb;
-import teammates.storage.api.FeedbackQuestionsDb;
-import teammates.storage.api.FeedbackResponseCommentsDb;
-import teammates.storage.api.FeedbackResponsesDb;
-import teammates.storage.api.FeedbackSessionsDb;
-import teammates.storage.api.InstructorsDb;
-import teammates.storage.api.ProfilesDb;
-import teammates.storage.api.StudentsDb;
+import teammates.storage.api.*;
+
+import java.util.*;
 
 /**
  * Handles operations related to data bundles.
@@ -51,10 +27,10 @@ public final class DataBundleLogic {
     private final CoursesDb coursesDb = CoursesDb.inst();
     private final StudentsDb studentsDb = StudentsDb.inst();
     private final InstructorsDb instructorsDb = InstructorsDb.inst();
-    private final FeedbackSessionsDb fbDb = FeedbackSessionsDb.inst();
-    private final FeedbackQuestionsDb fqDb = FeedbackQuestionsDb.inst();
-    private final FeedbackResponsesDb frDb = FeedbackResponsesDb.inst();
-    private final FeedbackResponseCommentsDb fcDb = FeedbackResponseCommentsDb.inst();
+    private final FeedbackSessionsDb feedbackSessionsDb = FeedbackSessionsDb.inst();
+    private final FeedbackQuestionsDb feedbackQuestionsDb = FeedbackQuestionsDb.inst();
+    private final FeedbackResponsesDb feedbackResponsesDb = FeedbackResponsesDb.inst();
+    private final FeedbackResponseCommentsDb feedbackResponseCommentsDb = FeedbackResponseCommentsDb.inst();
 
     private DataBundleLogic() {
         // prevent initialization
@@ -108,13 +84,13 @@ public final class DataBundleLogic {
         List<CourseAttributes> newCourses = coursesDb.putEntities(courses);
         List<InstructorAttributes> newInstructors = instructorsDb.putEntities(instructors);
         List<StudentAttributes> newStudents = studentsDb.putEntities(students);
-        List<FeedbackSessionAttributes> newFeedbackSessions = fbDb.putEntities(sessions);
+        List<FeedbackSessionAttributes> newFeedbackSessions = feedbackSessionsDb.putEntities(sessions);
 
-        List<FeedbackQuestionAttributes> createdQuestions = fqDb.putEntities(questions);
+        List<FeedbackQuestionAttributes> createdQuestions = feedbackQuestionsDb.putEntities(questions);
         injectRealIds(responses, responseComments, createdQuestions);
 
-        List<FeedbackResponseAttributes> newFeedbackResponses = frDb.putEntities(responses);
-        List<FeedbackResponseCommentAttributes> newFeedbackResponseComments = fcDb.putEntities(responseComments);
+        List<FeedbackResponseAttributes> newFeedbackResponses = feedbackResponsesDb.putEntities(responses);
+        List<FeedbackResponseCommentAttributes> newFeedbackResponseComments = feedbackResponseCommentsDb.putEntities(responseComments);
 
         updateDataBundleValue(newAccounts, dataBundle.accounts);
         updateDataBundleValue(newAccountRequests, dataBundle.accountRequests);
@@ -391,10 +367,10 @@ public final class DataBundleLogic {
                 AttributesDeletionQuery query = AttributesDeletionQuery.builder()
                         .withCourseId(courseId)
                         .build();
-                fcDb.deleteFeedbackResponseComments(query);
-                frDb.deleteFeedbackResponses(query);
-                fqDb.deleteFeedbackQuestions(query);
-                fbDb.deleteFeedbackSessions(query);
+                feedbackResponseCommentsDb.deleteFeedbackResponseComments(query);
+                feedbackResponsesDb.deleteFeedbackResponses(query);
+                feedbackQuestionsDb.deleteFeedbackQuestions(query);
+                feedbackSessionsDb.deleteFeedbackSessions(query);
                 studentsDb.deleteStudents(query);
                 instructorsDb.deleteInstructors(query);
 

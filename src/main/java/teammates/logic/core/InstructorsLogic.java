@@ -1,21 +1,19 @@
 package teammates.logic.core;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InstructorUpdateException;
-import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.SearchServiceException;
+import teammates.common.exception.*;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.storage.api.InstructorsDb;
+import teammates.storage.search.InstructorSearchManager;
+import teammates.storage.search.SearchManagerFactory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Handles operations related to instructors.
@@ -49,13 +47,17 @@ public final class InstructorsLogic {
         frcLogic = FeedbackResponseCommentsLogic.inst();
     }
 
+
+    private InstructorSearchManager getSearchManager() {
+        return SearchManagerFactory.getInstructorSearchManager();
+    }
     /**
      * Creates or updates search document for the given instructor.
      *
      * @param instructor the instructor to be put into documents
      */
     public void putDocument(InstructorAttributes instructor) throws SearchServiceException {
-        instructorsDb.putDocument(instructor);
+        getSearchManager().putDocument(instructor);
     }
 
     /**

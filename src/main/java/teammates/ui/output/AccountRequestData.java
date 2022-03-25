@@ -1,16 +1,17 @@
 package teammates.ui.output;
 
-import javax.annotation.Nullable;
-
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
+
+import javax.annotation.Nullable;
 
 /**
  * Output format of account request data.
  */
 public class AccountRequestData extends ApiOutput {
 
+    ApiOutput apiOutput = new ApiOutput();
+
     private final String email;
-    private final String name;
     private final String institute;
     private final String registrationKey;
     @Nullable
@@ -18,7 +19,7 @@ public class AccountRequestData extends ApiOutput {
     private final long createdAt;
 
     public AccountRequestData(AccountRequestAttributes accountRequestInfo) {
-        this.name = accountRequestInfo.getName();
+        this.apiOutput.name = accountRequestInfo.getName();
         this.email = accountRequestInfo.getEmail();
         this.institute = accountRequestInfo.getInstitute();
         this.registrationKey = accountRequestInfo.getRegistrationKey();
@@ -39,7 +40,7 @@ public class AccountRequestData extends ApiOutput {
     }
 
     public String getName() {
-        return name;
+        return apiOutput.name;
     }
 
     public String getRegistrationKey() {
