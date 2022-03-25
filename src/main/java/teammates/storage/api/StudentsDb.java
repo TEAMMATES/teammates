@@ -3,8 +3,10 @@ package teammates.storage.api;
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.googlecode.objectify.Key;
@@ -111,6 +113,22 @@ public final class StudentsDb extends EntitiesDb<CourseStudent, StudentAttribute
         }
         log.severe("Failed to generate new registration key for student after " + MAX_KEY_REGENERATION_TRIES + " tries");
         throw new EntityAlreadyExistsException("Could not regenerate a new course registration key for the student.");
+    }
+
+    /**
+     * Checks if the given students exist in the given course.
+     */
+    public boolean hasExistingStudentsInCourse(String courseId, Collection<String> studentEmailAddresses) {
+        if (studentEmailAddresses.isEmpty()) {
+            return true;
+        }
+        Set<String> existingStudentEmailAddresses = load().filter("courseId =", courseId)
+                .project("email")
+                .list()
+                .stream()
+                .map(CourseStudent::getEmail)
+                .collect(Collectors.toSet());
+        return existingStudentEmailAddresses.containsAll(studentEmailAddresses);
     }
 
     /**

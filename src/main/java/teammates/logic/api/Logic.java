@@ -1,6 +1,7 @@
 package teammates.logic.api;
 
 import java.time.Instant;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -112,6 +113,22 @@ public class Logic {
         assert googleId != null;
 
         accountsLogic.deleteAccountCascade(googleId);
+    }
+
+    /**
+     * Verifies that all the given instructors exist in the given course.
+     *
+     * <p>Preconditions:</p>
+     * * All parameters are non-null.
+     *
+     * @throws EntityDoesNotExistException If some instructor does not exist in the course.
+     */
+    public void verifyAllInstructorsExistInCourse(String courseId, Collection<String> instructorEmailAddresses)
+            throws EntityDoesNotExistException {
+        assert courseId != null;
+        assert instructorEmailAddresses != null;
+
+        instructorsLogic.verifyAllInstructorsExistInCourse(courseId, instructorEmailAddresses);
     }
 
     /**
@@ -1372,6 +1389,22 @@ public class Logic {
      */
     public void putDocuments(DataBundle dataBundle) throws SearchServiceException {
         dataBundleLogic.putDocuments(dataBundle);
+    }
+
+    /**
+     * Verifies that all the given students exist in the given course.
+     *
+     * <p>Preconditions:</p>
+     * * All parameters are non-null.
+     *
+     * @throws EntityDoesNotExistException If some student does not exist in the course.
+     */
+    public void verifyAllStudentsExistInCourse(String courseId, Collection<String> studentEmailAddresses)
+            throws EntityDoesNotExistException {
+        assert courseId != null;
+        assert studentEmailAddresses != null;
+
+        studentsLogic.verifyAllStudentsExistInCourse(courseId, studentEmailAddresses);
     }
 
     public boolean isStudentsInSameTeam(String courseId, String student1Email, String student2Email) {

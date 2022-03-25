@@ -433,6 +433,9 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
 
       isClosingEmailEnabled: this.sessionEditFormModel.isClosingEmailEnabled,
       isPublishedEmailEnabled: this.sessionEditFormModel.isPublishedEmailEnabled,
+
+      studentDeadlines: {},
+      instructorDeadlines: {},
     }).pipe(finalize(() => {
       this.sessionEditFormModel.isSaving = false;
     })).subscribe((feedbackSession: FeedbackSession) => {
