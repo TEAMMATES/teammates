@@ -22,6 +22,7 @@ import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.NotificationAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.logic.api.LogicExtension;
@@ -146,8 +147,13 @@ public abstract class BaseTestCaseWithLocalDatabaseAccess extends BaseTestCaseWi
     @Override
     protected DeadlineExtensionAttributes getDeadlineExtension(DeadlineExtensionAttributes deadlineExtension) {
         return logic.getDeadlineExtension(
-            deadlineExtension.getCourseId(), deadlineExtension.getFeedbackSessionName(),
-            deadlineExtension.getUserEmail(), deadlineExtension.getIsInstructor());
+                deadlineExtension.getCourseId(), deadlineExtension.getFeedbackSessionName(),
+                deadlineExtension.getUserEmail(), deadlineExtension.getIsInstructor());
+    }
+
+    @Override
+    protected NotificationAttributes getNotification(NotificationAttributes notification) {
+        return logic.getNotification(notification.getNotificationId());
     }
 
     protected void removeAndRestoreTypicalDataBundle() {
