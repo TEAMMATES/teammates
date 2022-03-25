@@ -161,7 +161,9 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
         map((students: Students) => {
           this.studentsOfCourse = students.students.map((student) => this.mapStudentToStudentModel(student));
         }))
-      .subscribe(() => {},
+      .subscribe(() => {
+        this.initialSortOfStudents();
+      },
         (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
           this.hasLoadedAllStudentsFailed = true;
@@ -208,6 +210,12 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     return studentData;
   }
 
+  private initialSortOfStudents(): void {
+    this.studentsOfCourse.sort(this.sortStudentPanelsBy(SortBy.TEAM_NAME));
+    this.studentsOfCourse.sort(this.sortStudentPanelsBy(SortBy.SECTION_NAME));
+    this.studentsOfCourse.sort(this.sortStudentPanelsBy(SortBy.SESSION_END_DATE));
+  }
+
   getNumberOfSelectedStudents(): number {
     return this.studentsOfCourse.filter((x) => x.isSelected).length;
   }
@@ -223,7 +231,8 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
           return this.mapInstructorToInstructorModel(instructor);
         });
       }))
-      .subscribe(() => {}, (resp: ErrorMessageOutput) => {
+      .subscribe(() => { this.initialSortOfInstructors(); },
+      (resp: ErrorMessageOutput) => {
         this.hasLoadedAllInstructorsFailed = true;
         this.statusMessageService.showErrorToast(resp.error.message);
       });
@@ -248,6 +257,11 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
 
   getNumberOfSelectedInstructors(): number {
     return this.instructorsOfCourse.filter((x) => x.isSelected).length;
+  }
+
+  private initialSortOfInstructors(): void {
+    this.instructorsOfCourse.sort(this.sortInstructorPanelsBy(SortBy.INSTRUCTOR_PERMISSION_ROLE));
+    this.instructorsOfCourse.sort(this.sortInstructorPanelsBy(SortBy.SESSION_END_DATE));
   }
 
   onExtend(): void {

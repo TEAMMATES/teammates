@@ -410,29 +410,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
                 </th>
               </tr>
             </thead>
-            <tr>
-              <td
-                class="align-center"
-              >
-                <label>
-                  <input
-                    type="checkbox"
-                  />
-                </label>
-              </td>
-              <td>
-                tester1
-              </td>
-              <td>
-                tester1@tester.com
-              </td>
-              <td>
-                Custom
-              </td>
-              <td>
-                Fri, 14 Jul 2017, 02:40 AM UTC
-              </td>
-            </tr>
             <tr
               class="table-warning"
             >
@@ -456,6 +433,29 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
               </td>
               <td>
                 Mon, 06 Nov 2017, 08:26 PM UTC
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="align-center"
+              >
+                <label>
+                  <input
+                    type="checkbox"
+                  />
+                </label>
+              </td>
+              <td>
+                tester1
+              </td>
+              <td>
+                tester1@tester.com
+              </td>
+              <td>
+                Custom
+              </td>
+              <td>
+                Fri, 14 Jul 2017, 02:40 AM UTC
               </td>
             </tr>
           </table>
@@ -876,29 +876,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
                 </th>
               </tr>
             </thead>
-            <tr>
-              <td
-                class="align-center"
-              >
-                <label>
-                  <input
-                    type="checkbox"
-                  />
-                </label>
-              </td>
-              <td>
-                tester1
-              </td>
-              <td>
-                tester1@tester.com
-              </td>
-              <td>
-                Custom
-              </td>
-              <td>
-                Fri, 14 Jul 2017, 02:40 AM UTC
-              </td>
-            </tr>
             <tr
               class="table-warning"
             >
@@ -922,6 +899,29 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
               </td>
               <td>
                 Mon, 06 Nov 2017, 08:26 PM UTC
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="align-center"
+              >
+                <label>
+                  <input
+                    type="checkbox"
+                  />
+                </label>
+              </td>
+              <td>
+                tester1
+              </td>
+              <td>
+                tester1@tester.com
+              </td>
+              <td>
+                Custom
+              </td>
+              <td>
+                Fri, 14 Jul 2017, 02:40 AM UTC
               </td>
             </tr>
           </table>
@@ -1918,29 +1918,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
                 </th>
               </tr>
             </thead>
-            <tr>
-              <td
-                class="align-center"
-              >
-                <label>
-                  <input
-                    type="checkbox"
-                  />
-                </label>
-              </td>
-              <td>
-                tester1
-              </td>
-              <td>
-                tester1@tester.com
-              </td>
-              <td>
-                Custom
-              </td>
-              <td>
-                Fri, 14 Jul 2017, 02:40 AM UTC
-              </td>
-            </tr>
             <tr
               class="table-warning"
             >
@@ -1964,6 +1941,29 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
               </td>
               <td>
                 Mon, 06 Nov 2017, 08:26 PM UTC
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="align-center"
+              >
+                <label>
+                  <input
+                    type="checkbox"
+                  />
+                </label>
+              </td>
+              <td>
+                tester1
+              </td>
+              <td>
+                tester1@tester.com
+              </td>
+              <td>
+                Custom
+              </td>
+              <td>
+                Fri, 14 Jul 2017, 02:40 AM UTC
               </td>
             </tr>
           </table>
@@ -2384,29 +2384,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
                 </th>
               </tr>
             </thead>
-            <tr>
-              <td
-                class="align-center"
-              >
-                <label>
-                  <input
-                    type="checkbox"
-                  />
-                </label>
-              </td>
-              <td>
-                tester1
-              </td>
-              <td>
-                tester1@tester.com
-              </td>
-              <td>
-                Custom
-              </td>
-              <td>
-                Fri, 14 Jul 2017, 02:40 AM UTC
-              </td>
-            </tr>
             <tr
               class="table-warning"
             >
@@ -2430,6 +2407,29 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
               </td>
               <td>
                 Mon, 06 Nov 2017, 08:26 PM UTC
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="align-center"
+              >
+                <label>
+                  <input
+                    type="checkbox"
+                  />
+                </label>
+              </td>
+              <td>
+                tester1
+              </td>
+              <td>
+                tester1@tester.com
+              </td>
+              <td>
+                Custom
+              </td>
+              <td>
+                Fri, 14 Jul 2017, 02:40 AM UTC
               </td>
             </tr>
           </table>
@@ -4058,29 +4058,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
                 </th>
               </tr>
             </thead>
-            <tr>
-              <td
-                class="align-center"
-              >
-                <label>
-                  <input
-                    type="checkbox"
-                  />
-                </label>
-              </td>
-              <td>
-                tester1
-              </td>
-              <td>
-                tester1@tester.com
-              </td>
-              <td>
-                Custom
-              </td>
-              <td>
-                Fri, 14 Jul 2017, 02:40 AM UTC
-              </td>
-            </tr>
             <tr
               class="table-warning"
             >
@@ -4104,6 +4081,29 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
               </td>
               <td>
                 Mon, 06 Nov 2017, 08:26 PM UTC
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="align-center"
+              >
+                <label>
+                  <input
+                    type="checkbox"
+                  />
+                </label>
+              </td>
+              <td>
+                tester1
+              </td>
+              <td>
+                tester1@tester.com
+              </td>
+              <td>
+                Custom
+              </td>
+              <td>
+                Fri, 14 Jul 2017, 02:40 AM UTC
               </td>
             </tr>
           </table>
