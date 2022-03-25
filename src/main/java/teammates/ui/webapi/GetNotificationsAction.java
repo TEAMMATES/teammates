@@ -10,7 +10,7 @@ import teammates.ui.output.NotificationData;
 import teammates.ui.output.NotificationsData;
 
 /**
- * Action: Get a list of notifications.
+ * Action: Gets a list of notifications.
  */
 public class GetNotificationsAction extends Action {
 
