@@ -12,7 +12,7 @@ import teammates.ui.output.NotificationsData;
 /**
  * Action: Get a list of notifications.
  */
-public class GetNotificationAction extends Action {
+public class GetNotificationsAction extends Action {
 
     private static final String INVALID_TARGET_USER = "Target user can only be STUDENT or INSTRUCTOR.";
     private static final String UNAUTHORIZED_ACCESS = "You are not allowed to view this resource!";
