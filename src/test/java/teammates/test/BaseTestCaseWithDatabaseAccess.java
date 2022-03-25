@@ -79,6 +79,9 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
         } else if (expected instanceof AccountRequestAttributes) {
             return getAccountRequest((AccountRequestAttributes) expected);
 
+        } else if (expected instanceof NotificationAttributes) {
+            return getNotification((NotificationAttributes) expected);
+
         } else {
             throw new RuntimeException("Unknown entity type!");
         }
