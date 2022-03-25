@@ -330,6 +330,7 @@ public final class Const {
         public static final String STUDENT = URI_PREFIX + "/student";
         public static final String STUDENT_KEY = URI_PREFIX + "/student/key";
         public static final String NOTIFICATION = URI_PREFIX + "/notification";
+        public static final String NOTIFICATIONS = URI_PREFIX + "/notifications";
         public static final String SESSIONS_ONGOING = URI_PREFIX + "/sessions/ongoing";
         public static final String SESSION = URI_PREFIX + "/session";
         public static final String SESSION_PUBLISH = URI_PREFIX + "/session/publish";

@@ -111,6 +111,18 @@ public class Logic {
         return notificationsLogic.getAllNotifications();
     }
 
+    /**
+     * Gets a notification by ID.
+     *
+     * <p>Preconditions:</p>
+     * * All parameters are non-null.
+     *
+     * @return Null if no match found.
+     */
+    public NotificationAttributes getNotification(String id) {
+        return notificationsLogic.getNotification(id);
+    }
+
     public NotificationAttributes createNotification(NotificationAttributes notification) throws
             InvalidParametersException, EntityAlreadyExistsException {
         return notificationsLogic.createNotification(notification);
