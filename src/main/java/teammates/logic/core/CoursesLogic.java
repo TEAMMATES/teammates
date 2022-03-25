@@ -49,6 +49,7 @@ public final class CoursesLogic {
     private FeedbackResponseCommentsLogic frcLogic;
     private InstructorsLogic instructorsLogic;
     private StudentsLogic studentsLogic;
+    private DeadlineExtensionsLogic deadlineExtensionsLogic;
 
     private CoursesLogic() {
         // prevent initialization
@@ -66,6 +67,7 @@ public final class CoursesLogic {
         frcLogic = FeedbackResponseCommentsLogic.inst();
         instructorsLogic = InstructorsLogic.inst();
         studentsLogic = StudentsLogic.inst();
+        deadlineExtensionsLogic = DeadlineExtensionsLogic.inst();
     }
 
     /**
@@ -302,7 +304,7 @@ public final class CoursesLogic {
     }
 
     /**
-     * Deletes a course cascade its students, instructors, sessions, responses and comments.
+     * Deletes a course cascade its students, instructors, sessions, responses, deadline extensions and comments.
      *
      * <p>Fails silently if no such course.
      */
@@ -320,6 +322,7 @@ public final class CoursesLogic {
         feedbackSessionsLogic.deleteFeedbackSessions(query);
         studentsLogic.deleteStudents(query);
         instructorsLogic.deleteInstructors(query);
+        deadlineExtensionsLogic.deleteDeadlineExtensions(query);
 
         coursesDb.deleteCourse(courseId);
     }

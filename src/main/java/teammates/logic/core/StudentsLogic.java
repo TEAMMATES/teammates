@@ -39,6 +39,7 @@ public final class StudentsLogic {
     private final StudentsDb studentsDb = StudentsDb.inst();
 
     private FeedbackResponsesLogic frLogic;
+    private DeadlineExtensionsLogic deLogic;
 
     private StudentsLogic() {
         // prevent initialization
@@ -50,6 +51,7 @@ public final class StudentsLogic {
 
     void initLogicDependencies() {
         frLogic = FeedbackResponsesLogic.inst();
+        deLogic = DeadlineExtensionsLogic.inst();
     }
 
     /**
@@ -201,7 +203,8 @@ public final class StudentsLogic {
     /**
      * Updates a student by {@link StudentAttributes.UpdateOptions}.
      *
-     * <p>If email changed, update by recreating the student and cascade update all responses the student gives/receives.
+     * <p>If email changed, update by recreating the student and cascade update all responses
+     * the student gives/receives as well as any deadline extensions given to the student.
      *
      * <p>If team changed, cascade delete all responses the student gives/receives within that team.
      *
@@ -222,6 +225,8 @@ public final class StudentsLogic {
         if (!originalStudent.getEmail().equals(updatedStudent.getEmail())) {
             frLogic.updateFeedbackResponsesForChangingEmail(
                     updatedStudent.getCourse(), originalStudent.getEmail(), updatedStudent.getEmail());
+            deLogic.updateDeadlineExtensionsWithNewEmail(
+                    originalStudent.getCourse(), originalStudent.getEmail(), updatedStudent.getEmail(), false);
         }
 
         // adjust submissions if moving to a different team
@@ -393,7 +398,7 @@ public final class StudentsLogic {
     }
 
     /**
-     * Deletes all the students in the course cascade their associated responses and comments.
+     * Deletes all the students in the course cascade their associated responses, deadline extensions and comments.
      */
     public void deleteStudentsInCourseCascade(String courseId) {
         List<StudentAttributes> studentsInCourse = getStudentsForCourse(courseId);
@@ -404,7 +409,7 @@ public final class StudentsLogic {
     }
 
     /**
-     * Deletes a student cascade its associated feedback responses and comments.
+     * Deletes a student cascade its associated feedback responses, deadline extensions and comments.
      *
      * <p>Fails silently if the student does not exist.
      */
@@ -420,10 +425,12 @@ public final class StudentsLogic {
             frLogic.deleteFeedbackResponsesInvolvedEntityOfCourseCascade(student.getCourse(), student.getTeam());
         }
         studentsDb.deleteStudent(courseId, studentEmail);
+        deLogic.deleteDeadlineExtensions(courseId, studentEmail, false);
     }
 
     /**
-     * Deletes all students associated a googleId and cascade its associated feedback responses and comments.
+     * Deletes all students associated a googleId and cascade
+     * its associated feedback responses, deadline extensions and comments.
      */
     public void deleteStudentsForGoogleIdCascade(String googleId) {
         List<StudentAttributes> students = getStudentsForGoogleId(googleId);

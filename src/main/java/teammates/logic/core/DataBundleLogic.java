@@ -13,6 +13,7 @@ import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.DeadlineExtensionAttributes;
 import teammates.common.datatransfer.attributes.EntityAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -28,6 +29,7 @@ import teammates.common.util.StringHelper;
 import teammates.storage.api.AccountRequestsDb;
 import teammates.storage.api.AccountsDb;
 import teammates.storage.api.CoursesDb;
+import teammates.storage.api.DeadlineExtensionsDb;
 import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponseCommentsDb;
 import teammates.storage.api.FeedbackResponsesDb;
@@ -49,6 +51,7 @@ public final class DataBundleLogic {
     private final AccountRequestsDb accountRequestsDb = AccountRequestsDb.inst();
     private final ProfilesDb profilesDb = ProfilesDb.inst();
     private final CoursesDb coursesDb = CoursesDb.inst();
+    private final DeadlineExtensionsDb deadlineExtensionsDb = DeadlineExtensionsDb.inst();
     private final StudentsDb studentsDb = StudentsDb.inst();
     private final InstructorsDb instructorsDb = InstructorsDb.inst();
     private final FeedbackSessionsDb fbDb = FeedbackSessionsDb.inst();
@@ -66,7 +69,8 @@ public final class DataBundleLogic {
 
     /**
      * Persists data in the given {@link DataBundle} to the database, including
-     * accounts, courses, instructors, students, sessions, questions, responses, and comments.
+     * accounts, courses, deadline extensions, instructors, students, sessions, questions,
+     * responses, and comments.
      *
      * <p>Accounts are generated for students and instructors with Google IDs
      * if the corresponding accounts are not found in the data bundle.
@@ -90,6 +94,7 @@ public final class DataBundleLogic {
         Collection<FeedbackQuestionAttributes> questions = dataBundle.feedbackQuestions.values();
         Collection<FeedbackResponseAttributes> responses = dataBundle.feedbackResponses.values();
         Collection<FeedbackResponseCommentAttributes> responseComments = dataBundle.feedbackResponseComments.values();
+        Collection<DeadlineExtensionAttributes> deadlineExtensions = dataBundle.deadlineExtensions.values();
 
         // For ensuring only one account per Google ID is created
         Map<String, AccountAttributes> googleIdAccountMap = new HashMap<>();
@@ -109,6 +114,7 @@ public final class DataBundleLogic {
         List<InstructorAttributes> newInstructors = instructorsDb.putEntities(instructors);
         List<StudentAttributes> newStudents = studentsDb.putEntities(students);
         List<FeedbackSessionAttributes> newFeedbackSessions = fbDb.putEntities(sessions);
+        List<DeadlineExtensionAttributes> newDeadlineExtensions = deadlineExtensionsDb.putEntities(deadlineExtensions);
 
         List<FeedbackQuestionAttributes> createdQuestions = fqDb.putEntities(questions);
         injectRealIds(responses, responseComments, createdQuestions);
@@ -120,6 +126,7 @@ public final class DataBundleLogic {
         updateDataBundleValue(newAccountRequests, dataBundle.accountRequests);
         updateDataBundleValue(newProfiles, dataBundle.profiles);
         updateDataBundleValue(newCourses, dataBundle.courses);
+        updateDataBundleValue(newDeadlineExtensions, dataBundle.deadlineExtensions);
         updateDataBundleValue(newInstructors, dataBundle.instructors);
         updateDataBundleValue(newStudents, dataBundle.students);
         updateDataBundleValue(newFeedbackSessions, dataBundle.feedbackSessions);
@@ -366,7 +373,7 @@ public final class DataBundleLogic {
      */
     public void removeDataBundle(DataBundle dataBundle) {
 
-        // Questions and responses will be deleted automatically.
+        // Questions, responses and deadline extensions will be deleted automatically.
         // We don't attempt to delete them again, to save time.
         deleteCourses(dataBundle.courses.values());
 
@@ -397,6 +404,7 @@ public final class DataBundleLogic {
                 fbDb.deleteFeedbackSessions(query);
                 studentsDb.deleteStudents(query);
                 instructorsDb.deleteInstructors(query);
+                deadlineExtensionsDb.deleteDeadlineExtensions(query);
 
                 coursesDb.deleteCourse(courseId);
             });

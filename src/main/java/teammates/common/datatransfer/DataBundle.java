@@ -6,6 +6,7 @@ import java.util.Map;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.DeadlineExtensionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
@@ -24,6 +25,7 @@ public class DataBundle {
     public Map<String, AccountAttributes> accounts = new LinkedHashMap<>();
     public Map<String, AccountRequestAttributes> accountRequests = new LinkedHashMap<>();
     public Map<String, CourseAttributes> courses = new LinkedHashMap<>();
+    public Map<String, DeadlineExtensionAttributes> deadlineExtensions = new LinkedHashMap<>();
     public Map<String, InstructorAttributes> instructors = new LinkedHashMap<>();
     public Map<String, StudentAttributes> students = new LinkedHashMap<>();
     public Map<String, FeedbackSessionAttributes> feedbackSessions = new LinkedHashMap<>();
