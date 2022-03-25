@@ -1,6 +1,8 @@
 package teammates.ui.webapi;
 
 import java.time.Instant;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.apache.http.HttpStatus;
 
@@ -42,11 +44,33 @@ class UpdateFeedbackSessionAction extends Action {
     public JsonResult execute() throws InvalidHttpRequestBodyException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+        // TODO: Use the value here.
+        getBooleanRequestParamValue(Const.ParamsNames.NOTIFY_ABOUT_DEADLINES);
 
         FeedbackSessionAttributes feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
 
         FeedbackSessionUpdateRequest updateRequest =
                 getAndValidateRequestBody(FeedbackSessionUpdateRequest.class);
+
+        Map<String, Instant> oldStudentDeadlines = feedbackSession.getStudentDeadlines();
+        Map<String, Instant> oldInstructorDeadlines = feedbackSession.getInstructorDeadlines();
+        Map<String, Instant> studentDeadlines = updateRequest.getStudentDeadlines();
+        Map<String, Instant> instructorDeadlines = updateRequest.getInstructorDeadlines();
+        try {
+            // These ensure the existence checks are only done whenever necessary in order to reduce data reads.
+            boolean hasExtraStudents = !oldStudentDeadlines.keySet()
+                    .containsAll(studentDeadlines.keySet());
+            boolean hasExtraInstructors = !oldInstructorDeadlines.keySet()
+                    .containsAll(instructorDeadlines.keySet());
+            if (hasExtraStudents) {
+                logic.verifyAllStudentsExistInCourse(courseId, studentDeadlines.keySet());
+            }
+            if (hasExtraInstructors) {
+                logic.verifyAllInstructorsExistInCourse(courseId, instructorDeadlines.keySet());
+            }
+        } catch (EntityDoesNotExistException e) {
+            throw new EntityNotFoundException(e);
+        }
 
         String timeZone = feedbackSession.getTimeZone();
         Instant startTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
@@ -57,6 +81,14 @@ class UpdateFeedbackSessionAction extends Action {
                 updateRequest.getSessionVisibleFromTime(), timeZone, true);
         Instant resultsVisibleTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
                 updateRequest.getResultsVisibleFromTime(), timeZone, true);
+        studentDeadlines = studentDeadlines.entrySet()
+                .stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, entry -> TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                        entry.getValue(), timeZone, true)));
+        instructorDeadlines = instructorDeadlines.entrySet()
+                .stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, entry -> TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                        entry.getValue(), timeZone, true)));
         try {
             FeedbackSessionAttributes updateFeedbackSession = logic.updateFeedbackSession(
                     FeedbackSessionAttributes.updateOptionsBuilder(feedbackSessionName, courseId)
@@ -68,6 +100,8 @@ class UpdateFeedbackSessionAction extends Action {
                             .withResultsVisibleFromTime(resultsVisibleTime)
                             .withIsClosingEmailEnabled(updateRequest.isClosingEmailEnabled())
                             .withIsPublishedEmailEnabled(updateRequest.isPublishedEmailEnabled())
+                            .withStudentDeadlines(studentDeadlines)
+                            .withInstructorDeadlines(instructorDeadlines)
                             .build());
 
             return new JsonResult(new FeedbackSessionData(updateFeedbackSession));

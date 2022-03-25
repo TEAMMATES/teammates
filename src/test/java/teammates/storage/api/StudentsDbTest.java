@@ -3,6 +3,9 @@ package teammates.storage.api;
 import static teammates.common.util.FieldValidator.COURSE_ID_ERROR_MESSAGE;
 import static teammates.common.util.FieldValidator.REASON_INCORRECT_FORMAT;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
@@ -101,6 +104,40 @@ public class StudentsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
         assertThrows(AssertionError.class, () -> studentsDb.createEntity(null));
 
         studentsDb.deleteStudent(s.getCourse(), s.getEmail());
+    }
+
+    @Test
+    public void testHasExistingStudentsInCourse() throws Exception {
+
+        StudentAttributes student1 = createNewStudent("student1@uni.edu");
+        StudentAttributes student2 = createNewStudent("student2@uni.edu");
+        String courseId = student1.getCourse();
+        assertEquals(courseId, student2.getCourse());
+        String nonExistentCourseId = "non-existent-course";
+
+        Collection<String> studentEmailAddresses = new ArrayList<>();
+        studentEmailAddresses.add(student1.getEmail());
+
+        ______TS("all existing student email addresses");
+
+        assertTrue(studentsDb.hasExistingStudentsInCourse(courseId, studentEmailAddresses));
+
+        studentEmailAddresses.add(student2.getEmail());
+        assertTrue(studentsDb.hasExistingStudentsInCourse(courseId, studentEmailAddresses));
+
+        ______TS("all existing student email addresses in non-existent course");
+
+        assertFalse(studentsDb.hasExistingStudentsInCourse(nonExistentCourseId, studentEmailAddresses));
+
+        ______TS("some non-existent student email address in existing course");
+
+        studentEmailAddresses.add("non-existent.student@email.com");
+
+        assertFalse(studentsDb.hasExistingStudentsInCourse(courseId, studentEmailAddresses));
+
+        ______TS("some non-existent student email address in non-existent course");
+
+        assertFalse(studentsDb.hasExistingStudentsInCourse(nonExistentCourseId, studentEmailAddresses));
     }
 
     @Test

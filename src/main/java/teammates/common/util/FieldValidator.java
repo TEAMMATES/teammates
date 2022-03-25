@@ -9,7 +9,9 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.function.BiPredicate;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 
@@ -92,6 +94,8 @@ public final class FieldValidator {
     public static final String GIVER_TYPE_NAME = "feedback giver";
     public static final String RECIPIENT_TYPE_NAME = "feedback recipient";
     public static final String VIEWER_TYPE_NAME = "feedback viewer";
+
+    public static final String EXTENDED_DEADLINES_FIELD_NAME = "extended deadlines";
 
     ////////////////////
     // ERROR MESSAGES //
@@ -191,8 +195,10 @@ public final class FieldValidator {
 
     public static final String SESSION_VISIBLE_TIME_FIELD_NAME = "time when the session will be visible";
     public static final String RESULTS_VISIBLE_TIME_FIELD_NAME = "time when the results will be visible";
-    public static final String TIME_FRAME_ERROR_MESSAGE =
-                "The %s for this feedback session cannot be earlier than the %s.";
+    public static final String TIME_BEFORE_ERROR_MESSAGE =
+            "The %s for this feedback session cannot be earlier than the %s.";
+    public static final String TIME_BEFORE_OR_EQUAL_ERROR_MESSAGE =
+            "The %s for this feedback session cannot be earlier than or at the same time as the %s.";
 
     public static final String PARTICIPANT_TYPE_ERROR_MESSAGE = "%s is not a valid %s.";
     public static final String PARTICIPANT_TYPE_TEAM_ERROR_MESSAGE =
@@ -578,15 +584,46 @@ public final class FieldValidator {
                 SESSION_VISIBLE_TIME_FIELD_NAME, RESULTS_VISIBLE_TIME_FIELD_NAME);
     }
 
+    /**
+     * Checks if the session end time is before all extended deadlines.
+     * @return Error string if any deadline in {@code deadlines} is before {@code sessionEnd}, an empty one otherwise.
+     */
+    public static String getInvalidityInfoForTimeForSessionEndAndExtendedDeadlines(
+            Instant sessionEnd, Map<String, Instant> deadlines) {
+        return deadlines.entrySet()
+                .stream()
+                .map(entry -> getInvalidityInfoForFirstTimeIsStrictlyBeforeSecondTime(sessionEnd, entry.getValue(),
+                        SESSION_END_TIME_FIELD_NAME, EXTENDED_DEADLINES_FIELD_NAME))
+                .filter(invalidityInfo -> !invalidityInfo.isEmpty())
+                .findFirst()
+                .orElse("");
+    }
+
     private static String getInvalidityInfoForFirstTimeIsBeforeSecondTime(
             Instant earlierTime, Instant laterTime, String earlierTimeFieldName, String laterTimeFieldName) {
+        return getInvalidityInfoForFirstTimeComparedToSecondTime(earlierTime, laterTime, earlierTimeFieldName,
+                laterTimeFieldName,
+                (firstTime, secondTime) -> firstTime.isBefore(secondTime) || firstTime.equals(secondTime),
+                TIME_BEFORE_ERROR_MESSAGE);
+    }
+
+    private static String getInvalidityInfoForFirstTimeIsStrictlyBeforeSecondTime(
+            Instant earlierTime, Instant laterTime, String earlierTimeFieldName, String laterTimeFieldName) {
+        return getInvalidityInfoForFirstTimeComparedToSecondTime(earlierTime, laterTime, earlierTimeFieldName,
+                laterTimeFieldName, Instant::isBefore,
+                TIME_BEFORE_OR_EQUAL_ERROR_MESSAGE);
+    }
+
+    private static String getInvalidityInfoForFirstTimeComparedToSecondTime(Instant earlierTime, Instant laterTime,
+            String earlierTimeFieldName, String laterTimeFieldName, BiPredicate<Instant, Instant> validityChecker,
+            String invalidityInfoTemplate) {
         assert earlierTime != null;
         assert laterTime != null;
         if (TimeHelper.isSpecialTime(earlierTime) || TimeHelper.isSpecialTime(laterTime)) {
             return "";
         }
-        if (laterTime.isBefore(earlierTime)) {
-            return String.format(TIME_FRAME_ERROR_MESSAGE, laterTimeFieldName, earlierTimeFieldName);
+        if (!validityChecker.test(earlierTime, laterTime)) {
+            return String.format(invalidityInfoTemplate, laterTimeFieldName, earlierTimeFieldName);
         }
         return "";
     }
