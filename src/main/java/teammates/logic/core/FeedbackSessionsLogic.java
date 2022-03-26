@@ -495,14 +495,25 @@ public final class FeedbackSessionsLogic {
         List<String> instructorEmails = instructorsLogic.getInstructorEmailsForCourse(fsa.getCourseId());
 
         int expectedTotal = 0;
-        if (fqLogic.hasFeedbackQuestionsForStudents(fsa.getFeedbackSessionName(), fsa.getCourseId())) {
+        if (fqLogic.hasFeedbackQuestionsForStudents(fsa)) {
             expectedTotal += numOfStudents;
         }
 
-        for (String instructorEmail : instructorEmails) {
-            if (fqLogic.hasFeedbackQuestionsForInstructors(fsa, instructorEmail)) {
-                expectedTotal += 1;
-            }
+        // Check a creator and a non-creator once each to prevent unnecessary data read.
+        List<String> creatorEmails = instructorEmails.stream()
+                .filter(fsa::isCreator)
+                .collect(Collectors.toList());
+        if (!creatorEmails.isEmpty()
+                && fqLogic.hasFeedbackQuestionsForInstructors(fsa, true)) {
+            expectedTotal += creatorEmails.size();
+        }
+
+        List<String> nonCreatorEmails = instructorEmails.stream()
+                .filter(email -> !fsa.isCreator(email))
+                .collect(Collectors.toList());
+        if (!nonCreatorEmails.isEmpty()
+                && fqLogic.hasFeedbackQuestionsForInstructors(fsa, false)) {
+            expectedTotal += nonCreatorEmails.size();
         }
 
         return expectedTotal;
@@ -559,8 +570,8 @@ public final class FeedbackSessionsLogic {
         }
 
         return isInstructor
-                ? fqLogic.hasFeedbackQuestionsForInstructors(session.getFeedbackSessionName(), session.getCourseId(), null)
-                : fqLogic.hasFeedbackQuestionsForStudents(session.getFeedbackSessionName(), session.getCourseId());
+                ? fqLogic.hasFeedbackQuestionsForInstructors(session, false)
+                : fqLogic.hasFeedbackQuestionsForStudents(session);
     }
 
 }

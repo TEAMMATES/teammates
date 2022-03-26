@@ -144,33 +144,14 @@ public final class FeedbackQuestionsLogic {
      * Checks if there are any questions for the given session that instructors can view/submit.
      */
     public boolean hasFeedbackQuestionsForInstructors(
-            String feedbackSessionName, String courseId, String userEmail) {
-        boolean hasQuestions = fqDb.hasFeedbackQuestionsForGiverType(
-                feedbackSessionName, courseId, FeedbackParticipantType.INSTRUCTORS);
-        if (hasQuestions) {
-            return true;
-        }
-
-        if (userEmail != null && fsLogic.isCreatorOfSession(feedbackSessionName, courseId, userEmail)) {
-            hasQuestions = fqDb.hasFeedbackQuestionsForGiverType(
-                    feedbackSessionName, courseId, FeedbackParticipantType.SELF);
-        }
-
-        return hasQuestions;
-    }
-
-    /**
-     * Checks if there are any questions for the given session that instructors can view/submit.
-     */
-    public boolean hasFeedbackQuestionsForInstructors(
-            FeedbackSessionAttributes fsa, String userEmail) {
+            FeedbackSessionAttributes fsa, Boolean isCreator) {
         boolean hasQuestions = fqDb.hasFeedbackQuestionsForGiverType(
                 fsa.getFeedbackSessionName(), fsa.getCourseId(), FeedbackParticipantType.INSTRUCTORS);
         if (hasQuestions) {
             return true;
         }
 
-        if (userEmail != null && fsa.isCreator(userEmail)) {
+        if (isCreator) {
             hasQuestions = fqDb.hasFeedbackQuestionsForGiverType(
                     fsa.getFeedbackSessionName(), fsa.getCourseId(), FeedbackParticipantType.SELF);
         }
@@ -221,10 +202,11 @@ public final class FeedbackQuestionsLogic {
     /**
      * Checks if there are any questions for the given session that students can view/submit.
      */
-    public boolean hasFeedbackQuestionsForStudents(
-            String feedbackSessionName, String courseId) {
-        return fqDb.hasFeedbackQuestionsForGiverType(feedbackSessionName, courseId, FeedbackParticipantType.STUDENTS)
-                || fqDb.hasFeedbackQuestionsForGiverType(feedbackSessionName, courseId, FeedbackParticipantType.TEAMS);
+    public boolean hasFeedbackQuestionsForStudents(FeedbackSessionAttributes fsa) {
+        return fqDb.hasFeedbackQuestionsForGiverType(
+                fsa.getFeedbackSessionName(), fsa.getCourseId(), FeedbackParticipantType.STUDENTS)
+                || fqDb.hasFeedbackQuestionsForGiverType(
+                        fsa.getFeedbackSessionName(), fsa.getCourseId(), FeedbackParticipantType.TEAMS);
     }
 
     /**
