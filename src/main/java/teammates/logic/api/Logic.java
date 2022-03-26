@@ -93,7 +93,19 @@ public class Logic {
     }
 
     /**
-     * Gets notification by ID.
+     * Gets a notification by ID.
+     *
+     * <p>Preconditions:</p>
+     * * All parameters are non-null.
+     *
+     * @return Null if no match found.
+     */
+    public NotificationAttributes getNotification(String id) {
+        return notificationsLogic.getNotification(id);
+    }
+
+    /**
+     * Creates a notification.
      *
      * <p>Preconditions:</p>
      * * All parameters are non-null.
