@@ -14,11 +14,11 @@ public class CreateNotificationRequest extends BasicRequest {
     private String title;
     private String message;
 
-    public Long getStartTimestamp() {
+    public long getStartTimestamp() {
         return this.startTimestamp;
     }
 
-    public Long getEndTimestamp() {
+    public long getEndTimestamp() {
         return this.endTimestamp;
     }
 
@@ -38,10 +38,34 @@ public class CreateNotificationRequest extends BasicRequest {
         return this.message;
     }
 
+    public void setStartTimestamp(long startTimestamp) {
+        this.startTimestamp = startTimestamp;
+    }
+
+    public void setEndTimestamp(long endTimestamp) {
+        this.endTimestamp = endTimestamp;
+    }
+
+    public void setNotificationType(NotificationType notificationType) {
+        this.notificationType = notificationType;
+    }
+
+    public void setTargetUser(NotificationTargetUser targetUser) {
+        this.targetUser = targetUser;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
     @Override
     public void validate() throws InvalidHttpRequestBodyException {
-        assertTrue(startTimestamp > 0L, "Start timestamp should be more than zero");
-        assertTrue(endTimestamp > 0L, "End timestamp should be more than zero");
+        assertTrue(startTimestamp > 0L, "Start timestamp should be greater than zero");
+        assertTrue(endTimestamp > 0L, "End timestamp should be greater than zero");
         assertTrue(notificationType != null, "Notification type cannot be null");
         assertTrue(targetUser != null, "Notification target user cannot be null");
         assertTrue(title != null, "Notification title cannot be null");
