@@ -12,8 +12,8 @@ public class NotificationData extends ApiOutput {
     private String notificationId;
     private long startTimestamp;
     private long endTimestamp;
-    private Long createdAt;
-    private Long updatedAt;
+    private long createdAt;
+    private long updatedAt;
     private NotificationType notificationType;
     private NotificationTargetUser targetUser;
     private String title;
@@ -23,7 +23,7 @@ public class NotificationData extends ApiOutput {
     public NotificationData(NotificationAttributes notificationAttributes) {
         this.notificationId = notificationAttributes.getNotificationId();
         this.startTimestamp = notificationAttributes.getStartTime().toEpochMilli();
-        this.endTimestamp = notificationAttributes.getStartTime().toEpochMilli();
+        this.endTimestamp = notificationAttributes.getEndTime().toEpochMilli();
         this.createdAt = notificationAttributes.getCreatedAt().toEpochMilli();
         this.updatedAt = notificationAttributes.getUpdatedAt().toEpochMilli();
         this.notificationType = notificationAttributes.getType();
@@ -45,11 +45,11 @@ public class NotificationData extends ApiOutput {
         return this.endTimestamp;
     }
 
-    public Long getCreatedAt() {
+    public long getCreatedAt() {
         return this.createdAt;
     }
 
-    public Long getUpdatedAt() {
+    public long getUpdatedAt() {
         return this.updatedAt;
     }
 

@@ -13,15 +13,15 @@ import teammates.ui.output.NotificationData;
 import teammates.ui.output.NotificationsData;
 
 /**
- * SUT: {@link GetNotificationAction}.
+ * SUT: {@link GetNotificationsAction}.
  */
-public class GetNotificationActionTest extends BaseActionTest<GetNotificationAction> {
+public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsAction> {
 
     // TODO: add tests for isfetchingall
 
     @Override
     String getActionUri() {
-        return Const.ResourceURIs.NOTIFICATION;
+        return Const.ResourceURIs.NOTIFICATIONS;
     }
 
     @Override
@@ -101,7 +101,7 @@ public class GetNotificationActionTest extends BaseActionTest<GetNotificationAct
                 Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL, String.valueOf(true),
         };
 
-        GetNotificationAction action = getAction(requestParams);
+        GetNotificationsAction action = getAction(requestParams);
         JsonResult jsonResult = getJsonResult(action);
 
         NotificationsData output = (NotificationsData) jsonResult.getOutput();
@@ -118,14 +118,14 @@ public class GetNotificationActionTest extends BaseActionTest<GetNotificationAct
         ______TS("Admin request to fetch notification");
         int expectedNumberOfNotifications = typicalBundle.notifications.size();
         loginAsAdmin();
-        NotificationAttributes notification = typicalBundle.notifications.get("notification6");
+        NotificationAttributes notification = typicalBundle.notifications.get("notStartedNotification2");
 
         String[] requestParams = new String[] {
                 Const.ParamsNames.NOTIFICATION_TARGET_USER, null,
                 Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL, String.valueOf(true),
         };
 
-        GetNotificationAction action = getAction(requestParams);
+        GetNotificationsAction action = getAction(requestParams);
         JsonResult jsonResult = getJsonResult(action);
 
         NotificationsData output = (NotificationsData) jsonResult.getOutput();
@@ -144,7 +144,7 @@ public class GetNotificationActionTest extends BaseActionTest<GetNotificationAct
         ______TS("Request without user type for non admin");
         InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         loginAsInstructor(instructor.getGoogleId());
-        GetNotificationAction action = getAction(Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL, String.valueOf(true));
+        GetNotificationsAction action = getAction(Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL, String.valueOf(true));
         assertThrows(AssertionError.class, action::execute);
     }
 

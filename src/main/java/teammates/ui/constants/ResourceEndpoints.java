@@ -46,6 +46,7 @@ public enum ResourceEndpoints {
     RESPONSES(ResourceURIs.RESPONSES),
     HAS_RESPONSES(ResourceURIs.HAS_RESPONSES),
     NOTIFICATION(ResourceURIs.NOTIFICATION),
+    NOTIFICATIONS(ResourceURIs.NOTIFICATIONS),
     JOIN(ResourceURIs.JOIN),
     JOIN_REMIND(ResourceURIs.JOIN_REMIND),
     TIMEZONE(ResourceURIs.TIMEZONE),

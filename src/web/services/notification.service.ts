@@ -26,7 +26,7 @@ export class NotificationService {
    * Retrieve all notifications by calling API.
    */
   getNotifications(): Observable<Notifications> {
-    return this.httpRequestService.get(ResourceEndpoints.NOTIFICATION);
+    return this.httpRequestService.get(ResourceEndpoints.NOTIFICATIONS);
   }
 
   /**

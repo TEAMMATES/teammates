@@ -39,6 +39,7 @@ import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.NotificationAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.HttpRequestFailedException;
 import teammates.common.util.Const;
@@ -58,6 +59,7 @@ import teammates.ui.output.FeedbackVisibilityType;
 import teammates.ui.output.InstructorData;
 import teammates.ui.output.InstructorsData;
 import teammates.ui.output.MessageOutput;
+import teammates.ui.output.NotificationData;
 import teammates.ui.output.NumberOfEntitiesToGiveFeedbackToSetting;
 import teammates.ui.output.ResponseVisibleSetting;
 import teammates.ui.output.SessionVisibleSetting;
@@ -772,6 +774,37 @@ public abstract class AbstractBackDoor {
         params.put(Const.ParamsNames.INSTRUCTOR_EMAIL, email);
         params.put(Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
         executeDeleteRequest(Const.ResourceURIs.ACCOUNT_REQUEST, params);
+    }
+
+    /**
+     * Gets notification data from the database.
+     */
+    public NotificationData getNotificationData(String notificationId) {
+        Map<String, String> params = new HashMap<>();
+        params.put(Const.ParamsNames.NOTIFICATION_ID, notificationId);
+        ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.NOTIFICATION, params);
+        if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
+            return null;
+        }
+        return JsonUtils.fromJson(response.responseBody, NotificationData.class);
+    }
+
+    /**
+     * Gets a notification from the database.
+     */
+    public NotificationAttributes getNotification(String notificationId) {
+        NotificationData notificationData = getNotificationData(notificationId);
+        if (notificationData == null) {
+            return null;
+        }
+        return NotificationAttributes.builder(notificationData.getNotificationId())
+                .withStartTime(Instant.ofEpochMilli(notificationData.getStartTimestamp()))
+                .withEndTime(Instant.ofEpochMilli(notificationData.getEndTimestamp()))
+                .withType(notificationData.getNotificationType())
+                .withTargetUser(notificationData.getTargetUser())
+                .withTitle(notificationData.getTitle())
+                .withMessage(notificationData.getMessage())
+                .build();
     }
 
     private static final class ResponseBodyAndCode {

@@ -1,16 +1,20 @@
 package teammates.storage.api;
 
-import java.time.Instant;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.NotificationTargetUser;
-import teammates.common.datatransfer.NotificationType;
 import teammates.common.datatransfer.attributes.NotificationAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.storage.entity.Notification;
 import teammates.test.BaseTestCaseWithLocalDatabaseAccess;
 
 /**
@@ -19,52 +23,87 @@ import teammates.test.BaseTestCaseWithLocalDatabaseAccess;
 public class NotificationsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
 
     private final NotificationsDb notificationsDb = NotificationsDb.inst();
+    private final Map<String, NotificationAttributes> typicalNotifications = getTypicalDataBundle().notifications;
+
+    @BeforeMethod
+    public void setup() throws Exception {
+        for (NotificationAttributes n : typicalNotifications.values()) {
+            notificationsDb.createEntity(n);
+        }
+    }
+
+    /**
+     * Removes all notifications created by each test.
+     */
+    @AfterMethod
+    public void cleanUp() {
+        List<NotificationAttributes> retrieved = notificationsDb.getAllNotifications();
+        retrieved.forEach(n -> notificationsDb.deleteNotification(n.getNotificationId()));
+    }
 
     @Test
     public void testGetNotification() throws Exception {
-        NotificationAttributes n = createNewNotification();
+        NotificationAttributes n = typicalNotifications.get("notification1");
 
         ______TS("typical success case");
-        NotificationAttributes retrieved = notificationsDb.getNotification(n.getNotificationId());
-        assertNotNull(retrieved);
+        NotificationAttributes actual = notificationsDb.getNotification(n.getNotificationId());
+        assertNotNull(actual);
 
         ______TS("expect null for non-existent account");
-        retrieved = notificationsDb.getNotification("non.existent");
-        assertNull(retrieved);
+        actual = notificationsDb.getNotification("invalid_notification_id");
+        assertNull(actual);
 
         ______TS("failure: null parameter");
         assertThrows(AssertionError.class, () -> notificationsDb.getNotification(null));
+    }
 
-        // delete created account
-        notificationsDb.deleteNotification(n.getNotificationId());
+    @Test
+    public void testGetAllNotifications() throws Exception {
+        ______TS("typical success case");
+        List<NotificationAttributes> actual = notificationsDb.getAllNotifications();
+
+        assertNotNull(actual);
+        typicalNotifications.values().forEach(n -> {
+            assertTrue(actual.contains(n));
+            actual.remove(n);
+        });
+    }
+
+    @Test
+    public void testGetActiveNotificationsByTargetUser() throws Exception {
+        // Conditions for this API: endTime > now, startTime < now, targetUser == specified target user
+        ______TS("typical success case");
+
+        List<NotificationAttributes> actual =
+                notificationsDb.getActiveNotificationsByTargetUser(NotificationTargetUser.STUDENT);
+
+        assertNotNull(actual);
+
+        // This set may need to be updated when the typical data bundle is updated
+        Set<NotificationAttributes> expected = new HashSet<>();
+        expected.add(typicalNotifications.get("notification1"));
+        expected.add(typicalNotifications.get("notification2"));
+        expected.add(typicalNotifications.get("notification4"));
+        expected.add(typicalNotifications.get("notification6"));
+
+        expected.forEach(n -> {
+            assertTrue(actual.contains(n));
+            actual.remove(n);
+        });
     }
 
     @Test
     public void testCreateNotification() throws Exception {
         ______TS("typical success case");
-        String uuid = UUID.randomUUID().toString();
-        NotificationAttributes n = NotificationAttributes.builder(uuid)
-                .withTitle("title")
-                .withMessage("demo message")
-                .withType(NotificationType.DEPRECATION)
-                .withTargetUser(NotificationTargetUser.GENERAL)
-                .withStartTime(Instant.now())
-                .withEndTime(Instant.now().plusSeconds(3600))
-                .build();
+        NotificationAttributes n1 = createNewNotification();
 
-        notificationsDb.createEntity(n);
+        ______TS("failure: duplicate notification with the same ID");
+        assertThrows(EntityAlreadyExistsException.class, () -> notificationsDb.createEntity(n1));
 
-        ______TS("duplicate notification, creation fail");
-        NotificationAttributes dup = NotificationAttributes.builder(uuid)
-                .withTitle("title2")
-                .withMessage("demo message2")
-                .withType(NotificationType.MAINTENANCE)
-                .withTargetUser(NotificationTargetUser.STUDENT)
-                .withStartTime(Instant.now())
-                .withEndTime(Instant.now().plusSeconds(3600))
-                .build();
-
-        assertThrows(EntityAlreadyExistsException.class, () -> notificationsDb.createEntity(dup));
+        ______TS("failure: invalid non-null parameters");
+        NotificationAttributes n2 = getNewNotificationAttributes();
+        n2.setTitle("");
+        assertThrows(InvalidParametersException.class, () -> notificationsDb.createEntity(n2));
 
         ______TS("failure: null parameters");
         assertThrows(AssertionError.class, () -> notificationsDb.createEntity(null));
@@ -73,75 +112,118 @@ public class NotificationsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
     // TODO: for extension, some fields are not allowed to be updated after shown is true
     @Test
     public void testUpdateNotification() throws Exception {
-        final String TITLE = "title";
-        final String TITLE_DIFF = "title_diff";
-        final String MESSAGE = "message";
-        final String MESSAGE_DIFF = "message_diff";
-        final NotificationType TYPE = NotificationType.DEPRECATION;
-        final NotificationType TYPE_DIFF = NotificationType.MAINTENANCE;
-        final NotificationTargetUser TARGET_USER = NotificationTargetUser.STUDENT;
-        final NotificationTargetUser TARGET_USER_DIFF = NotificationTargetUser.GENERAL;
-        final Instant START_TIME = Instant.now();
-        final Instant START_TIME_DIFF = START_TIME.plusSeconds(600);
-        final Instant END_TIME = START_TIME.plusSeconds(3600);
-        final Instant END_TIME_DIFF = END_TIME.plusSeconds(600);
+        NotificationAttributes n = typicalNotifications.get("notification1");
 
-        NotificationAttributes n = notificationsDb.createEntity(NotificationAttributes.builder(UUID.randomUUID().toString())
-                .withTitle(TITLE)
-                .withMessage(MESSAGE)
-                .withType(TYPE)
-                .withTargetUser(TARGET_USER)
-                .withStartTime(START_TIME)
-                .withEndTime(END_TIME)
-                .build());
+        ______TS("typical success case");
+        // Try to update to another set of values, currently n's attributes are from notification1
+        NotificationAttributes original = typicalNotifications.get("notification1");
+        NotificationAttributes differentNotification = typicalNotifications.get("notification2");
+
+        assertEquals(original.getTitle(), n.getTitle());
+        assertEquals(original.getMessage(), n.getMessage());
+        assertEquals(original.getType(), n.getType());
+        assertEquals(original.getTargetUser(), n.getTargetUser());
+        assertEquals(original.getStartTime(), n.getStartTime());
+        assertEquals(original.getEndTime(), n.getEndTime());
+        assertFalse(n.isShown());
+
+        notificationsDb.updateNotification(
+                NotificationAttributes.updateOptionsBuilder(n.getNotificationId())
+                        .withTitle(differentNotification.getTitle())
+                        .withMessage(differentNotification.getMessage())
+                        .withType(differentNotification.getType())
+                        .withTargetUser(differentNotification.getTargetUser())
+                        .withStartTime(differentNotification.getStartTime())
+                        .withEndTime(differentNotification.getEndTime())
+                        .withShown()
+                        .build());
+
+        n = notificationsDb.getNotification(n.getNotificationId());
+        assertEquals(differentNotification.getTitle(), n.getTitle());
+        assertEquals(differentNotification.getMessage(), n.getMessage());
+        assertEquals(differentNotification.getType(), n.getType());
+        assertEquals(differentNotification.getTargetUser(), n.getTargetUser());
+        assertEquals(differentNotification.getStartTime(), n.getStartTime());
+        assertEquals(differentNotification.getEndTime(), n.getEndTime());
+        assertTrue(n.isShown());
+
+        ______TS("failure: update non-existent notification");
+        assertThrows(EntityDoesNotExistException.class, () ->
+                notificationsDb.updateNotification(NotificationAttributes.updateOptionsBuilder("invalid_notification_id")
+                        .withTitle("title")
+                        .build()));
+
+        ______TS("failure: invalid non-null parameters");
+        final String notificationId = n.getNotificationId();
+        // Empty title is used here, which triggers InvalidParametersException
+        assertThrows(InvalidParametersException.class, () ->
+                notificationsDb.updateNotification(NotificationAttributes.updateOptionsBuilder(notificationId)
+                        .withTitle("")
+                        .build()));
+
+        ______TS("failure: null update options");
+        assertThrows(AssertionError.class, () -> notificationsDb.updateNotification(null));
+    }
+
+    @Test
+    public void testUpdateNotification_singleFieldUpdate_shouldUpdateSuccessfully() throws Exception {
+        NotificationAttributes n = typicalNotifications.get("notification1");
 
         ______TS("success: single field - title");
-        assertEquals(TITLE, notificationsDb.getNotification(n.getNotificationId()).getTitle());
-        assertEquals(TITLE_DIFF, notificationsDb.updateNotification(
+        // Try to update to another set of values, currently n's attributes are from notification1
+        NotificationAttributes original = typicalNotifications.get("notification1");
+        NotificationAttributes differentNotification = typicalNotifications.get("notification2");
+
+        assertEquals(original.getTitle(), notificationsDb.getNotification(n.getNotificationId()).getTitle());
+        assertEquals(differentNotification.getTitle(), notificationsDb.updateNotification(
                 NotificationAttributes.updateOptionsBuilder(n.getNotificationId())
-                        .withTitle(TITLE_DIFF)
+                        .withTitle(differentNotification.getTitle())
                         .build()).getTitle());
-        assertEquals(TITLE_DIFF, notificationsDb.getNotification(n.getNotificationId()).getTitle());
+        assertEquals(differentNotification.getTitle(), notificationsDb.getNotification(n.getNotificationId()).getTitle());
 
         ______TS("success: single field - message");
-        assertEquals(MESSAGE, notificationsDb.getNotification(n.getNotificationId()).getMessage());
-        assertEquals(MESSAGE_DIFF, notificationsDb.updateNotification(
+        assertEquals(original.getMessage(), notificationsDb.getNotification(n.getNotificationId()).getMessage());
+        assertEquals(differentNotification.getMessage(), notificationsDb.updateNotification(
                 NotificationAttributes.updateOptionsBuilder(n.getNotificationId())
-                        .withMessage(MESSAGE_DIFF)
+                        .withMessage(differentNotification.getMessage())
                         .build()).getMessage());
-        assertEquals(MESSAGE_DIFF, notificationsDb.getNotification(n.getNotificationId()).getMessage());
+        assertEquals(differentNotification.getMessage(),
+                notificationsDb.getNotification(n.getNotificationId()).getMessage());
 
         ______TS("success: single field - type");
-        assertEquals(TYPE, notificationsDb.getNotification(n.getNotificationId()).getType());
-        assertEquals(TYPE_DIFF, notificationsDb.updateNotification(
+        assertEquals(original.getType(), notificationsDb.getNotification(n.getNotificationId()).getType());
+        assertEquals(differentNotification.getType(), notificationsDb.updateNotification(
                 NotificationAttributes.updateOptionsBuilder(n.getNotificationId())
-                        .withType(TYPE_DIFF)
+                        .withType(differentNotification.getType())
                         .build()).getType());
-        assertEquals(TYPE_DIFF, notificationsDb.getNotification(n.getNotificationId()).getType());
+        assertEquals(differentNotification.getType(), notificationsDb.getNotification(n.getNotificationId()).getType());
 
         ______TS("success: single field - targetUser");
-        assertEquals(TARGET_USER, notificationsDb.getNotification(n.getNotificationId()).getTargetUser());
-        assertEquals(TARGET_USER_DIFF, notificationsDb.updateNotification(
+        assertEquals(original.getTargetUser(), notificationsDb.getNotification(n.getNotificationId()).getTargetUser());
+        assertEquals(differentNotification.getTargetUser(), notificationsDb.updateNotification(
                 NotificationAttributes.updateOptionsBuilder(n.getNotificationId())
-                        .withTargetUser(TARGET_USER_DIFF)
+                        .withTargetUser(differentNotification.getTargetUser())
                         .build()).getTargetUser());
-        assertEquals(TARGET_USER_DIFF, notificationsDb.getNotification(n.getNotificationId()).getTargetUser());
+        assertEquals(differentNotification.getTargetUser(),
+                notificationsDb.getNotification(n.getNotificationId()).getTargetUser());
 
         ______TS("success: single field - startTime");
-        assertEquals(START_TIME, notificationsDb.getNotification(n.getNotificationId()).getStartTime());
-        assertEquals(START_TIME_DIFF, notificationsDb.updateNotification(
+        assertEquals(original.getStartTime(), notificationsDb.getNotification(n.getNotificationId()).getStartTime());
+        assertEquals(differentNotification.getStartTime(), notificationsDb.updateNotification(
                 NotificationAttributes.updateOptionsBuilder(n.getNotificationId())
-                        .withStartTime(START_TIME_DIFF)
+                        .withStartTime(differentNotification.getStartTime())
                         .build()).getStartTime());
-        assertEquals(START_TIME_DIFF, notificationsDb.getNotification(n.getNotificationId()).getStartTime());
+        assertEquals(differentNotification.getStartTime(),
+                notificationsDb.getNotification(n.getNotificationId()).getStartTime());
 
         ______TS("success: single field - endTime");
-        assertEquals(END_TIME, notificationsDb.getNotification(n.getNotificationId()).getEndTime());
-        assertEquals(END_TIME_DIFF, notificationsDb.updateNotification(
+        assertEquals(original.getEndTime(), notificationsDb.getNotification(n.getNotificationId()).getEndTime());
+        assertEquals(differentNotification.getEndTime(), notificationsDb.updateNotification(
                 NotificationAttributes.updateOptionsBuilder(n.getNotificationId())
-                        .withEndTime(END_TIME_DIFF)
+                        .withEndTime(differentNotification.getEndTime())
                         .build()).getEndTime());
-        assertEquals(END_TIME_DIFF, notificationsDb.getNotification(n.getNotificationId()).getEndTime());
+        assertEquals(differentNotification.getEndTime(),
+                notificationsDb.getNotification(n.getNotificationId()).getEndTime());
 
         ______TS("success: single field - shown");
         assertFalse(notificationsDb.getNotification(n.getNotificationId()).isShown());
@@ -150,50 +232,21 @@ public class NotificationsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
                         .withShown()
                         .build()).isShown());
         assertTrue(notificationsDb.getNotification(n.getNotificationId()).isShown());
-
-        ______TS("success: bulk update");
-        // We will try to revert back to the original attribute to test bulk update
-        // Note: Update of shown is not revertable so not to check it here
-        n = notificationsDb.getNotification(n.getNotificationId());
-        assertEquals(TITLE_DIFF, n.getTitle());
-        assertEquals(MESSAGE_DIFF, n.getMessage());
-        assertEquals(TYPE_DIFF, n.getType());
-        assertEquals(TARGET_USER_DIFF, n.getTargetUser());
-        assertEquals(START_TIME_DIFF, n.getStartTime());
-        assertEquals(END_TIME_DIFF, n.getEndTime());
-        assertTrue(n.isShown());
-        notificationsDb.updateNotification(
-                NotificationAttributes.updateOptionsBuilder(n.getNotificationId())
-                        .withTitle(TITLE)
-                        .withMessage(MESSAGE)
-                        .withType(TYPE)
-                        .withTargetUser(TARGET_USER)
-                        .withStartTime(START_TIME)
-                        .withEndTime(END_TIME)
-                        .build());
-
-        n = notificationsDb.getNotification(n.getNotificationId());
-        assertEquals(TITLE, n.getTitle());
-        assertEquals(MESSAGE, n.getMessage());
-        assertEquals(TYPE, n.getType());
-        assertEquals(TARGET_USER, n.getTargetUser());
-        assertEquals(START_TIME, n.getStartTime());
-        assertEquals(END_TIME, n.getEndTime());
-        assertTrue(n.isShown());
     }
 
     @Test
     public void testDeleteNotification() throws Exception {
-        ______TS("silent deletion of non-existant notification");
-        notificationsDb.deleteNotification("non.existent");
+        NotificationAttributes n = typicalNotifications.get("notification1");
 
-        NotificationAttributes n = createNewNotification();
+        ______TS("silent deletion of non-existant notification");
+        notificationsDb.deleteNotification("invalid_notification_id");
+
         ______TS("typical success case");
         assertNotNull(notificationsDb.getNotification(n.getNotificationId()));
         notificationsDb.deleteNotification(n.getNotificationId());
         assertNull(notificationsDb.getNotification(n.getNotificationId()));
 
-        ______TS("silent deletion of the same key twice");
+        ______TS("silent deletion of the same notification twice");
         notificationsDb.deleteNotification(n.getNotificationId());
 
         ______TS("failure: null parameter");
@@ -210,27 +263,6 @@ public class NotificationsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
         ______TS("true after entity creation");
         notificationsDb.createEntity(n);
         assertEquals(true, notificationsDb.hasExistingEntities(n));
-
-        notificationsDb.deleteNotification(n.getNotificationId());
-    }
-
-    @Test
-    public void testMakeAttributes() {
-        ______TS("typical success conversion");
-        Notification entity = new Notification(UUID.randomUUID().toString(), Instant.now(), Instant.now().plusSeconds(3600),
-                NotificationType.DEPRECATION, NotificationTargetUser.GENERAL, "title", "demo message",
-                false, Instant.now(), Instant.now());
-        NotificationAttributes attributes = notificationsDb.makeAttributes(entity);
-        assertEquals(entity.getNotificationId(), attributes.getNotificationId());
-        assertEquals(entity.getStartTime(), attributes.getStartTime());
-        assertEquals(entity.getEndTime(), attributes.getEndTime());
-        assertEquals(entity.getType(), attributes.getType());
-        assertEquals(entity.getTargetUser(), attributes.getTargetUser());
-        assertEquals(entity.getTitle(), attributes.getTitle());
-        assertEquals(entity.getMessage(), attributes.getMessage());
-        assertEquals(entity.getCreatedAt(), attributes.getCreatedAt());
-        assertEquals(entity.getUpdatedAt(), attributes.getUpdatedAt());
-        assertEquals(entity.isShown(), attributes.isShown());
     }
 
     private NotificationAttributes createNewNotification()
@@ -239,13 +271,14 @@ public class NotificationsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
     }
 
     private NotificationAttributes getNewNotificationAttributes() {
+        NotificationAttributes typical = typicalNotifications.get("notification1");
         return NotificationAttributes.builder(UUID.randomUUID().toString())
-                .withTitle("title")
-                .withMessage("demo message")
-                .withType(NotificationType.DEPRECATION)
-                .withTargetUser(NotificationTargetUser.GENERAL)
-                .withStartTime(Instant.now())
-                .withEndTime(Instant.now().plusSeconds(3600))
+                .withTitle(typical.getTitle())
+                .withMessage(typical.getMessage())
+                .withType(typical.getType())
+                .withTargetUser(typical.getTargetUser())
+                .withStartTime(typical.getStartTime())
+                .withEndTime(typical.getEndTime())
                 .build();
     }
 }

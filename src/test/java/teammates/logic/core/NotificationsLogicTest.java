@@ -42,7 +42,7 @@ public class NotificationsLogicTest extends BaseLogicTest {
         notifDb.createEntity(n);
 
         NotificationAttributes retrievedNotif = notifLogic.getNotification(n.getNotificationId());
-        assertEqual(n, retrievedNotif);
+        verifyPresentInDatabase(retrievedNotif);
 
         notifDb.deleteNotification(n.getNotificationId());
         ______TS("failure: Null parameter");
@@ -60,8 +60,7 @@ public class NotificationsLogicTest extends BaseLogicTest {
 
         n = getTypicalNotification();
         notifLogic.createNotification(n);
-        // Equivalent to verifyInDatabase, since there is no getNotification endpoint
-        assertEquals(n, notifDb.getNotification(n.getNotificationId()));
+        verifyPresentInDatabase(n);
 
         notifDb.deleteNotification(n.getNotificationId());
         ______TS("failure: Null parameter");
@@ -75,8 +74,7 @@ public class NotificationsLogicTest extends BaseLogicTest {
         n.setTitle("");
         Exception e = assertThrows(Exception.class, () -> notifLogic.createNotification(n));
         assertEquals("The field 'notification title' is empty.", e.getMessage());
-        // Equivalent to verifyAbsentInDatabase, since there is no getNotification endpoint
-        assertNull(notifDb.getNotification(n.getNotificationId()));
+        verifyAbsentInDatabase(n);
     }
 
     private NotificationAttributes getTypicalNotification() {
@@ -89,15 +87,5 @@ public class NotificationsLogicTest extends BaseLogicTest {
                 .withTitle("Maintenance Notice")
                 .withMessage("Maintenance at 3pm today")
                 .build();
-    }
-
-    private void assertEqual(NotificationAttributes notif1, NotificationAttributes notif2) {
-        assertEquals(notif1.getNotificationId(), notif2.getNotificationId());
-        assertEquals(notif1.getStartTime(), notif2.getStartTime());
-        assertEquals(notif1.getEndTime(), notif2.getEndTime());
-        assertEquals(notif1.getType(), notif2.getType());
-        assertEquals(notif1.getTargetUser(), notif2.getTargetUser());
-        assertEquals(notif1.getTitle(), notif2.getTitle());
-        assertEquals(notif1.getMessage(), notif2.getMessage());
     }
 }
