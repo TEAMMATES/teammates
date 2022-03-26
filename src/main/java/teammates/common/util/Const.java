@@ -379,6 +379,7 @@ public final class Const {
     public static class TaskQueue {
         public static final String URI_PREFIX = "/worker";
 
+        public static final String DEADLINE_EXTENSIONS_QUEUE_NAME = "deadline-extensions-queue";
         public static final String DEADLINE_EXTENSIONS_WORKER_URL = URI_PREFIX + "/deadlineExtensions";
 
         public static final String FEEDBACK_SESSION_PUBLISHED_EMAIL_QUEUE_NAME =

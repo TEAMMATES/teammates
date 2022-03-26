@@ -64,3 +64,7 @@ queue:
   bucket_size: 10
   retry_parameters:
     min_backoff_seconds: 1
+- name: deadline-extensions-queue
+  mode: push
+  rate: 1/s
+  bucket_size: 5
