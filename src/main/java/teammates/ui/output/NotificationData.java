@@ -10,10 +10,10 @@ import teammates.common.datatransfer.attributes.NotificationAttributes;
 public class NotificationData extends ApiOutput {
 
     private String notificationId;
-    private Long startTimestamp;
-    private Long endTimestamp;
-    private Long createdAt;
-    private Long updatedAt;
+    private long startTimestamp;
+    private long endTimestamp;
+    private long createdAt;
+    private long updatedAt;
     private NotificationType notificationType;
     private NotificationTargetUser targetUser;
     private String title;
@@ -37,19 +37,19 @@ public class NotificationData extends ApiOutput {
         return this.notificationId;
     }
 
-    public Long getStartTimestamp() {
+    public long getStartTimestamp() {
         return this.startTimestamp;
     }
 
-    public Long getEndTimestamp() {
+    public long getEndTimestamp() {
         return this.endTimestamp;
     }
 
-    public Long getCreatedAt() {
+    public long getCreatedAt() {
         return this.createdAt;
     }
 
-    public Long getUpdatedAt() {
+    public long getUpdatedAt() {
         return this.updatedAt;
     }
 
