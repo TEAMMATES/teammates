@@ -4,7 +4,7 @@ import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.NotificationType;
 
 /**
- * The basic request of modifying a notification.
+ * The basic request for a notification.
  */
 public class NotificationBasicRequest extends BasicRequest {
     private Long startTimestamp;
