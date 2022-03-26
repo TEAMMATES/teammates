@@ -248,12 +248,8 @@ public final class FeedbackSessionsLogic {
             return true;
         }
 
-        String feedbackSessionName = fsa.getFeedbackSessionName();
-        String courseId = fsa.getCourseId();
-        List<FeedbackQuestionAttributes> allQuestions =
-                fqLogic.getFeedbackQuestionsForInstructors(feedbackSessionName, courseId, userEmail);
         // if there is no question for instructor, session is attempted
-        return allQuestions.isEmpty();
+        return !fqLogic.hasFeedbackQuestionsForInstructors(fsa, fsa.isCreator(userEmail));
     }
 
     /**
