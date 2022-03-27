@@ -135,6 +135,7 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 SearchAccountRequestsAction.class,
                 GetNotificationAction.class,
                 CreateNotificationAction.class,
+                UpdateNotificationAction.class,
                 DeleteNotificationAction.class,
                 GetNotificationsAction.class
         );

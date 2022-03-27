@@ -5,8 +5,8 @@ import teammates.common.datatransfer.NotificationType;
 import teammates.common.datatransfer.attributes.NotificationAttributes;
 import teammates.common.util.Const;
 import teammates.ui.output.NotificationData;
-import teammates.ui.request.CreateNotificationRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
+import teammates.ui.request.NotificationCreateRequest;
 
 /**
  * SUT: {@link CreateNotificationAction}.
@@ -37,7 +37,7 @@ public class CreateNotificationActionTest extends BaseActionTest<CreateNotificat
 
         loginAsAdmin();
         ______TS("Typical Case: Add notification successfully");
-        CreateNotificationRequest req = getTypicalCreateRequest();
+        NotificationCreateRequest req = getTypicalCreateRequest();
         CreateNotificationAction action = getAction(req);
         NotificationData res = (NotificationData) action.execute().getOutput();
 
@@ -102,8 +102,8 @@ public class CreateNotificationActionTest extends BaseActionTest<CreateNotificat
         verifyOnlyAdminCanAccess();
     }
 
-    private CreateNotificationRequest getTypicalCreateRequest() {
-        CreateNotificationRequest req = new CreateNotificationRequest();
+    private NotificationCreateRequest getTypicalCreateRequest() {
+        NotificationCreateRequest req = new NotificationCreateRequest();
 
         req.setStartTimestamp(testNotificationAttribute.getStartTime().toEpochMilli());
         req.setEndTimestamp(testNotificationAttribute.getEndTime().toEpochMilli());
