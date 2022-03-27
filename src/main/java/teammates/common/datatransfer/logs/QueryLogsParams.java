@@ -10,9 +10,9 @@ public class QueryLogsParams {
     private long endTime;
     private String traceId;
     private String actionClass;
-    private RequestLogUser userInfoParams;
+    private RequestLogUser userInfoParams = new RequestLogUser();
     private String logEvent;
-    private SourceLocation sourceLocation;
+    private SourceLocation sourceLocation = new SourceLocation(null, null, null);
     private String exceptionClass;
     private String latency;
     private String status;

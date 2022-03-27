@@ -1,5 +1,6 @@
 package teammates.logic.core;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -378,6 +379,13 @@ public final class InstructorsLogic {
         }
 
         return instructorsDb.regenerateEntityKey(originalInstructor);
+    }
+
+    /**
+     * Gets the number of instructors created within a specified time range.
+     */
+    int getNumInstructorsByTimeRange(Instant startTime, Instant endTime) {
+        return instructorsDb.getNumInstructorsByTimeRange(startTime, endTime);
     }
 
 }
