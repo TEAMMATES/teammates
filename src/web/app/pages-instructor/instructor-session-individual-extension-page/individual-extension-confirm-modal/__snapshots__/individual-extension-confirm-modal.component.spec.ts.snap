@@ -18,7 +18,6 @@ exports[`IndividualExtensionConfirmModalComponent should snap with the extended 
   sortStudentOrder="0"
   sortStudentsBy={[Function Number]}
   tableComparatorService={[Function TableComparatorService]}
-  timezoneService={[Function TimezoneService]}
 >
   <div
     class="modal-header alert-primary"
@@ -52,7 +51,7 @@ exports[`IndividualExtensionConfirmModalComponent should snap with the extended 
       <b>
         0
       </b>
-       instructor(s) upon confirmation: 
+       instructor(s): 
     </div>
     <div
       class="table-responsive"

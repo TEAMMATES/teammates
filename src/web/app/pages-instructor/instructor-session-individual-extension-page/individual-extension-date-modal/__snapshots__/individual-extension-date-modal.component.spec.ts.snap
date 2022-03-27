@@ -55,9 +55,6 @@ exports[`IndividualExtensionDateModalComponent should snap with the error modal 
     class="container ml-1"
   >
     <div
-      class="row pl-3 pt-2"
-    />
-    <div
       class="row pl-3"
     >
       <label
@@ -134,23 +131,22 @@ exports[`IndividualExtensionDateModalComponent should snap with the error modal 
       </div>
     </div>
     <br />
-    <div
-      class="modal-footer"
+  </div><div
+    class="modal-footer"
+  >
+    <button
+      class="btn btn-light"
+      type="button"
     >
-      <button
-        class="btn btn-light"
-        type="button"
-      >
-        No, cancel the Operation
-      </button>
-      <button
-        class="btn btn-success modal-btn-ok"
-        disabled=""
-        type="button"
-      >
-         Save Changes
-      </button>
-    </div>
+      No, cancel the Operation
+    </button>
+    <button
+      class="btn btn-success modal-btn-ok"
+      disabled=""
+      type="button"
+    >
+       Save Changes
+    </button>
   </div>
 </tm-individual-extension-date-modal>
 `;
@@ -210,9 +206,6 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
     class="container ml-1"
   >
     <div
-      class="row pl-3 pt-2"
-    />
-    <div
       class="row pl-3"
     >
       <label
@@ -403,23 +396,22 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
       </div>
     </div>
     <br />
-    <div
-      class="modal-footer"
+  </div><div
+    class="modal-footer"
+  >
+    <button
+      class="btn btn-light"
+      type="button"
     >
-      <button
-        class="btn btn-light"
-        type="button"
-      >
-        No, cancel the Operation
-      </button>
-      <button
-        class="btn btn-success modal-btn-ok"
-        disabled=""
-        type="button"
-      >
-         Save Changes
-      </button>
-    </div>
+      No, cancel the Operation
+    </button>
+    <button
+      class="btn btn-success modal-btn-ok"
+      disabled=""
+      type="button"
+    >
+       Save Changes
+    </button>
   </div>
 </tm-individual-extension-date-modal>
 `;
@@ -479,9 +471,6 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
     class="container ml-1"
   >
     <div
-      class="row pl-3 pt-2"
-    />
-    <div
       class="row pl-3"
     >
       <label
@@ -672,23 +661,22 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
       </div>
     </div>
     <br />
-    <div
-      class="modal-footer"
+  </div><div
+    class="modal-footer"
+  >
+    <button
+      class="btn btn-light"
+      type="button"
     >
-      <button
-        class="btn btn-light"
-        type="button"
-      >
-        No, cancel the Operation
-      </button>
-      <button
-        class="btn btn-success modal-btn-ok"
-        disabled=""
-        type="button"
-      >
-         Save Changes
-      </button>
-    </div>
+      No, cancel the Operation
+    </button>
+    <button
+      class="btn btn-success modal-btn-ok"
+      disabled=""
+      type="button"
+    >
+       Save Changes
+    </button>
   </div>
 </tm-individual-extension-date-modal>
 `;
@@ -748,9 +736,6 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend to ra
     class="container ml-1"
   >
     <div
-      class="row pl-3 pt-2"
-    />
-    <div
       class="row pl-3"
     >
       <label
@@ -827,23 +812,22 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend to ra
       </div>
     </div>
     <br />
-    <div
-      class="modal-footer"
+  </div><div
+    class="modal-footer"
+  >
+    <button
+      class="btn btn-light"
+      type="button"
     >
-      <button
-        class="btn btn-light"
-        type="button"
-      >
-        No, cancel the Operation
-      </button>
-      <button
-        class="btn btn-success modal-btn-ok"
-        disabled=""
-        type="button"
-      >
-         Save Changes
-      </button>
-    </div>
+      No, cancel the Operation
+    </button>
+    <button
+      class="btn btn-success modal-btn-ok"
+      disabled=""
+      type="button"
+    >
+       Save Changes
+    </button>
   </div>
 </tm-individual-extension-date-modal>
 `;
@@ -903,9 +887,6 @@ exports[`IndividualExtensionDateModalComponent should snap with the extended stu
     class="container ml-1"
   >
     <div
-      class="row pl-3 pt-2"
-    />
-    <div
       class="row pl-3"
     >
       <label
@@ -982,23 +963,22 @@ exports[`IndividualExtensionDateModalComponent should snap with the extended stu
       </div>
     </div>
     <br />
-    <div
-      class="modal-footer"
+  </div><div
+    class="modal-footer"
+  >
+    <button
+      class="btn btn-light"
+      type="button"
     >
-      <button
-        class="btn btn-light"
-        type="button"
-      >
-        No, cancel the Operation
-      </button>
-      <button
-        class="btn btn-success modal-btn-ok"
-        disabled=""
-        type="button"
-      >
-         Save Changes
-      </button>
-    </div>
+      No, cancel the Operation
+    </button>
+    <button
+      class="btn btn-success modal-btn-ok"
+      disabled=""
+      type="button"
+    >
+       Save Changes
+    </button>
   </div>
 </tm-individual-extension-date-modal>
 `;

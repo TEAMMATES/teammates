@@ -41,7 +41,7 @@ describe('SortableService', () => {
     expect(service.compareRoles(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
       InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER, SortOrder.ASC)).toEqual(0);
     expect(service.compareRoles(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-      InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER, SortOrder.DESC)).toEqual(0);
+      InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER, SortOrder.DESC)).toEqual(-0);
   });
 
   it('should call correct method of comparison depending on element to sort by', () => {

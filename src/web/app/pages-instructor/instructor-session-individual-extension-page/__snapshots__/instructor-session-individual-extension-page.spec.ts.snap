@@ -38,12 +38,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
   studentService={[Function StudentService]}
   studentsOfCourse={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
-  timezoneService={[Function TimezoneService]}
 >
   <tm-loading-retry>
     <div>
       <div
-        class="card border-primary margin-top-20px"
+        class="card bg-light top-padded text-center text-sm-left"
       >
         <div
           class="card-body"
@@ -128,7 +127,15 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
         class="container ml-1"
       >
         <p>
-           Select students or instructors from list below and click apply or remove to change their feedback session deadline extension. 
+           Select students or instructors from list below and click 
+          <b>
+            Extend / Edit
+          </b>
+           or 
+          <b>
+            Delete
+          </b>
+           to change their feedback session deadline extension. 
         </p>
         <div
           class="align-row"
@@ -504,12 +511,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
   studentService={[Function StudentService]}
   studentsOfCourse={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
-  timezoneService={[Function TimezoneService]}
 >
   <tm-loading-retry>
     <div>
       <div
-        class="card border-primary margin-top-20px"
+        class="card bg-light top-padded text-center text-sm-left"
       >
         <div
           class="card-body"
@@ -594,7 +600,15 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
         class="container ml-1"
       >
         <p>
-           Select students or instructors from list below and click apply or remove to change their feedback session deadline extension. 
+           Select students or instructors from list below and click 
+          <b>
+            Extend / Edit
+          </b>
+           or 
+          <b>
+            Delete
+          </b>
+           to change their feedback session deadline extension. 
         </p>
         <div
           class="align-row"
@@ -970,7 +984,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when feed
   studentService={[Function StudentService]}
   studentsOfCourse={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
-  timezoneService={[Function TimezoneService]}
 >
   <tm-loading-retry>
     <tm-loading-spinner>
@@ -1208,12 +1221,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
   studentService={[Function StudentService]}
   studentsOfCourse={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
-  timezoneService={[Function TimezoneService]}
 >
   <tm-loading-retry>
     <div>
       <div
-        class="card border-primary margin-top-20px"
+        class="card bg-light top-padded text-center text-sm-left"
       >
         <div
           class="card-body"
@@ -1298,7 +1310,15 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
         class="container ml-1"
       >
         <p>
-           Select students or instructors from list below and click apply or remove to change their feedback session deadline extension. 
+           Select students or instructors from list below and click 
+          <b>
+            Extend / Edit
+          </b>
+           or 
+          <b>
+            Delete
+          </b>
+           to change their feedback session deadline extension. 
         </p>
         <div
           class="align-row"
@@ -1626,12 +1646,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
   studentService={[Function StudentService]}
   studentsOfCourse={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
-  timezoneService={[Function TimezoneService]}
 >
   <tm-loading-retry>
     <div>
       <div
-        class="card border-primary margin-top-20px"
+        class="card bg-light top-padded text-center text-sm-left"
       >
         <div
           class="card-body"
@@ -1716,7 +1735,15 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
         class="container ml-1"
       >
         <p>
-           Select students or instructors from list below and click apply or remove to change their feedback session deadline extension. 
+           Select students or instructors from list below and click 
+          <b>
+            Extend / Edit
+          </b>
+           or 
+          <b>
+            Delete
+          </b>
+           to change their feedback session deadline extension. 
         </p>
         <div
           class="align-row"
@@ -2012,12 +2039,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
   studentService={[Function StudentService]}
   studentsOfCourse={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
-  timezoneService={[Function TimezoneService]}
 >
   <tm-loading-retry>
     <div>
       <div
-        class="card border-primary margin-top-20px"
+        class="card bg-light top-padded text-center text-sm-left"
       >
         <div
           class="card-body"
@@ -2102,7 +2128,15 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
         class="container ml-1"
       >
         <p>
-           Select students or instructors from list below and click apply or remove to change their feedback session deadline extension. 
+           Select students or instructors from list below and click 
+          <b>
+            Extend / Edit
+          </b>
+           or 
+          <b>
+            Delete
+          </b>
+           to change their feedback session deadline extension. 
         </p>
         <div
           class="align-row"
@@ -2478,12 +2512,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with inst
   studentService={[Function StudentService]}
   studentsOfCourse={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
-  timezoneService={[Function TimezoneService]}
 >
   <tm-loading-retry>
     <div>
       <div
-        class="card border-primary margin-top-20px"
+        class="card bg-light top-padded text-center text-sm-left"
       >
         <div
           class="card-body"
@@ -2567,7 +2600,15 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with inst
         class="container ml-1"
       >
         <p>
-           Select students or instructors from list below and click apply or remove to change their feedback session deadline extension. 
+           Select students or instructors from list below and click 
+          <b>
+            Extend / Edit
+          </b>
+           or 
+          <b>
+            Delete
+          </b>
+           to change their feedback session deadline extension. 
         </p>
         <div
           class="align-row"
@@ -2748,12 +2789,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with stud
   studentService={[Function StudentService]}
   studentsOfCourse={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
-  timezoneService={[Function TimezoneService]}
 >
   <tm-loading-retry>
     <div>
       <div
-        class="card border-primary margin-top-20px"
+        class="card bg-light top-padded text-center text-sm-left"
       >
         <div
           class="card-body"
@@ -2837,7 +2877,15 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with stud
         class="container ml-1"
       >
         <p>
-           Select students or instructors from list below and click apply or remove to change their feedback session deadline extension. 
+           Select students or instructors from list below and click 
+          <b>
+            Extend / Edit
+          </b>
+           or 
+          <b>
+            Delete
+          </b>
+           to change their feedback session deadline extension. 
         </p>
         <div
           class="align-row"
@@ -3006,7 +3054,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
   studentService={[Function StudentService]}
   studentsOfCourse={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
-  timezoneService={[Function TimezoneService]}
 >
   <tm-loading-retry>
     <div
@@ -3216,7 +3263,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
   SortOrder={[Function Object]}
   columnsData={[Function Array]}
   courseId={[Function String]}
-  courseName={[Function String]}
+  courseName=""
   courseService={[Function CourseService]}
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTime="0"
@@ -3247,7 +3294,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
   studentService={[Function StudentService]}
   studentsOfCourse={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
-  timezoneService={[Function TimezoneService]}
 >
   <tm-loading-retry>
     <div
@@ -3488,12 +3534,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
   studentService={[Function StudentService]}
   studentsOfCourse={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
-  timezoneService={[Function TimezoneService]}
 >
   <tm-loading-retry>
     <div>
       <div
-        class="card border-primary margin-top-20px"
+        class="card bg-light top-padded text-center text-sm-left"
       >
         <div
           class="card-body"
@@ -3578,7 +3623,15 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
         class="container ml-1"
       >
         <p>
-           Select students or instructors from list below and click apply or remove to change their feedback session deadline extension. 
+           Select students or instructors from list below and click 
+          <b>
+            Extend / Edit
+          </b>
+           or 
+          <b>
+            Delete
+          </b>
+           to change their feedback session deadline extension. 
         </p>
         <div
           class="align-row"
@@ -3842,12 +3895,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
   studentService={[Function StudentService]}
   studentsOfCourse={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
-  timezoneService={[Function TimezoneService]}
 >
   <tm-loading-retry>
     <div>
       <div
-        class="card border-primary margin-top-20px"
+        class="card bg-light top-padded text-center text-sm-left"
       >
         <div
           class="card-body"
@@ -3932,7 +3984,15 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
         class="container ml-1"
       >
         <p>
-           Select students or instructors from list below and click apply or remove to change their feedback session deadline extension. 
+           Select students or instructors from list below and click 
+          <b>
+            Extend / Edit
+          </b>
+           or 
+          <b>
+            Delete
+          </b>
+           to change their feedback session deadline extension. 
         </p>
         <div
           class="align-row"

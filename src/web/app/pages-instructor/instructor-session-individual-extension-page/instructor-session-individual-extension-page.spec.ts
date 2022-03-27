@@ -140,7 +140,6 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
       feedbackSessionsService = TestBed.inject(FeedbackSessionsService);
       timezoneService = TestBed.inject(TimezoneService);
       statusMessageService = TestBed.inject(StatusMessageService);
-      jest.spyOn(timezoneService, 'guessTimezone').mockReturnValue('UTC');
       fixture.detectChanges();
   });
 
