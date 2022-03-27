@@ -103,7 +103,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     private courseService: CourseService,
     private tableComparatorService: TableComparatorService,
     private instructorService: InstructorService,
-  ) { }
+  ) {}
 
   /**
    * Loads a feedback session.
@@ -115,28 +115,35 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     this.hasLoadingFeedbackSessionFailed = false;
     this.isLoadingAllInstructors = true;
     this.hasLoadedAllStudentsFailed = false;
-    forkJoin([this.courseService.getCourseAsInstructor(this.courseId),
+    forkJoin([
+      this.courseService.getCourseAsInstructor(this.courseId),
       this.feedbackSessionsService.getFeedbackSession({
         courseId: this.courseId,
         feedbackSessionName: this.feedbackSessionName,
         intent: Intent.FULL_DETAIL,
       }),
-    ]).pipe(finalize(() => {
-      this.isLoadingFeedbackSession = false;
-    })).subscribe((value: any[]) => {
-      const course = value[0] as Course;
-      this.courseName = course.courseName;
-      const feedbackSession = value[1] as FeedbackSession;
-      this.setFeedbackSessionDetails(feedbackSession);
-      this.getAllStudentsOfCourse(); // Both students and instructors need feedback ending time.
-      this.getAllInstructorsOfCourse();
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorToast(resp.error.message);
-      this.hasLoadingFeedbackSessionFailed = true;
-      this.isLoadingAllStudents = false;
-      this.isLoadingAllInstructors = false;
-    },
-    );
+    ])
+      .pipe(
+        finalize(() => {
+          this.isLoadingFeedbackSession = false;
+        }),
+      )
+      .subscribe(
+        (value: any[]) => {
+          const course = value[0] as Course;
+          this.courseName = course.courseName;
+          const feedbackSession = value[1] as FeedbackSession;
+          this.setFeedbackSessionDetails(feedbackSession);
+          this.getAllStudentsOfCourse(); // Both students and instructors need feedback ending time.
+          this.getAllInstructorsOfCourse();
+        },
+        (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+          this.hasLoadingFeedbackSessionFailed = true;
+          this.isLoadingAllStudents = false;
+          this.isLoadingAllInstructors = false;
+        },
+      );
   }
 
   /**
@@ -145,13 +152,18 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
   private getAllStudentsOfCourse(): void {
     this.studentService
       .getStudentsFromCourse({ courseId: this.courseId })
-      .pipe(finalize(() => { this.isLoadingAllStudents = false; }),
+      .pipe(
+        finalize(() => {
+          this.isLoadingAllStudents = false;
+        }),
         map((students: Students) => {
           this.studentsOfCourse = students.students.map((student) => this.mapStudentToStudentModel(student));
-        }))
-      .subscribe(() => {
-        this.initialSortOfStudents();
-      },
+        }),
+      )
+      .subscribe(
+        () => {
+          this.initialSortOfStudents();
+        },
         (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
           this.hasLoadedAllStudentsFailed = true;
@@ -207,18 +219,22 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
    * Loads the instructors in the course
    */
   private getAllInstructorsOfCourse(): void {
-    this.instructorService.loadInstructors({ courseId: this.courseId, intent: Intent.FULL_DETAIL })
-      .pipe(finalize(() => { this.isLoadingAllInstructors = false; }),
-      map((instructors: Instructors) => {
-        this.instructorsOfCourse = instructors.instructors.map((instructor) => {
-          return this.mapInstructorToInstructorModel(instructor);
-        });
-      }))
+    this.instructorService
+      .loadInstructors({ courseId: this.courseId, intent: Intent.FULL_DETAIL })
+      .pipe(
+        finalize(() => { this.isLoadingAllInstructors = false; }),
+        map((instructors: Instructors) => {
+          this.instructorsOfCourse = instructors.instructors.map((instructor) => {
+            return this.mapInstructorToInstructorModel(instructor);
+          });
+        }),
+      )
       .subscribe(() => { this.initialSortOfInstructors(); },
-      (resp: ErrorMessageOutput) => {
-        this.hasLoadedAllInstructorsFailed = true;
-        this.statusMessageService.showErrorToast(resp.error.message);
-      });
+        (resp: ErrorMessageOutput) => {
+          this.hasLoadedAllInstructorsFailed = true;
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
+      );
   }
 
   private mapInstructorToInstructorModel(instructor: Instructor): InstructorExtensionTableColumnModel {
@@ -287,10 +303,12 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     });
   }
 
-  private handleCreateDeadlines(selectedStudents: StudentExtensionTableColumnModel[],
+  private handleCreateDeadlines(
+    selectedStudents: StudentExtensionTableColumnModel[],
     selectedInstructors: InstructorExtensionTableColumnModel[],
-    extensionTimestamp: number, isNotifyDeadlines: boolean): void {
-
+    extensionTimestamp: number,
+    isNotifyDeadlines: boolean,
+  ): void {
     const request: FeedbackSessionUpdateRequest = {
       studentDeadlines: this.getUpdatedDeadlines(selectedStudents, extensionTimestamp, true),
       instructorDeadlines: this.getUpdatedDeadlines(selectedInstructors, extensionTimestamp, false),
@@ -298,57 +316,27 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     };
 
     this.isSubmittingDeadlines = true;
-    this.feedbackSessionsService.updateFeedbackSession(this.courseId, this.feedbackSessionName, request,
-      isNotifyDeadlines)
-        .pipe(finalize(() => { this.isSubmittingDeadlines = false; }))
-        .subscribe(() => {
+    this.feedbackSessionsService
+      .updateFeedbackSession(this.courseId, this.feedbackSessionName, request, isNotifyDeadlines)
+      .pipe(finalize(() => { this.isSubmittingDeadlines = false; }))
+      .subscribe(() => {
           this.loadFeedbackSessionAndIndividuals();
           this.statusMessageService.showSuccessToast(
-          `Extension(s) for ${selectedStudents.length} student(s) and ${selectedInstructors.length} instructor(s)
-           have been successful!`);
-        }, (resp: ErrorMessageOutput) => {
-         this.statusMessageService.showErrorToast(resp.error.message);
-        });
+            `Extension(s) for ${selectedStudents.length} student(s) and ${selectedInstructors.length} instructor(s)
+           have been successful!`,
+          );
+        },
+        (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
+      );
   }
 
-  private getUpdatedDeadlines(selectedIndividuals: StudentExtensionTableColumnModel[] |
-    InstructorExtensionTableColumnModel[], extensionTimestamp: number, isStudent: boolean): Record<string, number> {
-      let record: Record<string, number> = {};
-      if (isStudent) {
-        record = { ...this.studentDeadlines };
-      } else {
-        record = { ...this.instructorDeadlines };
-      }
-
-      selectedIndividuals.forEach((x) => { record[x.email] = extensionTimestamp; });
-      return record;
-  }
-
-  private handleDeleteDeadlines(selectedStudents: StudentExtensionTableColumnModel[],
-    selectedInstructors: InstructorExtensionTableColumnModel[], isNotifyDeadlines: boolean): void {
-
-    const request: FeedbackSessionUpdateRequest = {
-      studentDeadlines: this.getDeletedDeadlines(selectedStudents, true),
-      instructorDeadlines: this.getDeletedDeadlines(selectedInstructors, false),
-      ...this.feedbackSessionDetails,
-    };
-
-    this.isSubmittingDeadlines = true;
-    this.feedbackSessionsService.updateFeedbackSession(this.courseId, this.feedbackSessionName, request,
-      isNotifyDeadlines)
-    .pipe(finalize(() => { this.isSubmittingDeadlines = false; }))
-    .subscribe(() => {
-      this.loadFeedbackSessionAndIndividuals();
-      this.statusMessageService.showSuccessToast(
-      `Deletion of extension(s) for ${selectedStudents.length} student(s) and ${selectedInstructors.length} `
-      + 'instructor(s) have been successful!');
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorToast(resp.error.message);
-    });
-  }
-
-  private getDeletedDeadlines(selectedIndividuals: StudentExtensionTableColumnModel[] |
-  InstructorExtensionTableColumnModel[], isStudent: boolean): Record<string, number> {
+  private getUpdatedDeadlines(
+    selectedIndividuals: StudentExtensionTableColumnModel[] | InstructorExtensionTableColumnModel[],
+    extensionTimestamp: number,
+    isStudent: boolean,
+  ): Record<string, number> {
     let record: Record<string, number> = {};
     if (isStudent) {
       record = { ...this.studentDeadlines };
@@ -356,7 +344,59 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
       record = { ...this.instructorDeadlines };
     }
 
-    selectedIndividuals.forEach((x) => { delete record[x.email]; });
+    selectedIndividuals.forEach((x) => {
+      record[x.email] = extensionTimestamp;
+    });
+    return record;
+  }
+
+  private handleDeleteDeadlines(
+    selectedStudents: StudentExtensionTableColumnModel[],
+    selectedInstructors: InstructorExtensionTableColumnModel[],
+    isNotifyDeadlines: boolean,
+  ): void {
+    const request: FeedbackSessionUpdateRequest = {
+      studentDeadlines: this.getDeletedDeadlines(selectedStudents, true),
+      instructorDeadlines: this.getDeletedDeadlines(selectedInstructors, false),
+      ...this.feedbackSessionDetails,
+    };
+
+    this.isSubmittingDeadlines = true;
+    this.feedbackSessionsService
+      .updateFeedbackSession(this.courseId, this.feedbackSessionName, request, isNotifyDeadlines)
+      .pipe(
+        finalize(() => {
+          this.isSubmittingDeadlines = false;
+        }),
+      )
+      .subscribe(
+        () => {
+          this.loadFeedbackSessionAndIndividuals();
+          this.statusMessageService.showSuccessToast(
+            `Deletion of extension(s) for ${selectedStudents.length} student(s) and ${selectedInstructors.length} `
+              + 'instructor(s) have been successful!',
+          );
+        },
+        (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
+      );
+  }
+
+  private getDeletedDeadlines(
+    selectedIndividuals: StudentExtensionTableColumnModel[] | InstructorExtensionTableColumnModel[],
+    isStudent: boolean,
+  ): Record<string, number> {
+    let record: Record<string, number> = {};
+    if (isStudent) {
+      record = { ...this.studentDeadlines };
+    } else {
+      record = { ...this.instructorDeadlines };
+    }
+
+    selectedIndividuals.forEach((x) => {
+      delete record[x.email];
+    });
     return record;
   }
 
@@ -409,12 +449,16 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
 
   selectAllStudents(): void {
     this.isAllStudentsSelected = !this.isAllStudentsSelected;
-    this.studentsOfCourse.forEach((x) => { x.isSelected = this.isAllStudentsSelected; });
+    this.studentsOfCourse.forEach((x) => {
+      x.isSelected = this.isAllStudentsSelected;
+    });
   }
 
   selectAllInstructors(): void {
     this.isAllInstructorsSelected = !this.isAllInstructorsSelected;
-    this.instructorsOfCourse.forEach((x) => { x.isSelected = this.isAllInstructorsSelected; });
+    this.instructorsOfCourse.forEach((x) => {
+      x.isSelected = this.isAllInstructorsSelected;
+    });
   }
 
   selectStudent(i: number): void {
@@ -431,8 +475,9 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     this.studentsOfCourse.sort(this.sortStudentPanelsBy(by));
   }
 
-  private sortStudentPanelsBy(by: SortBy): (a: StudentExtensionTableColumnModel, b: StudentExtensionTableColumnModel)
-    => number {
+  private sortStudentPanelsBy(
+    by: SortBy,
+  ): (a: StudentExtensionTableColumnModel, b: StudentExtensionTableColumnModel) => number {
     return (a: StudentExtensionTableColumnModel, b: StudentExtensionTableColumnModel): number => {
       let strA: string;
       let strB: string;
@@ -471,8 +516,9 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     this.instructorsOfCourse.sort(this.sortInstructorPanelsBy(by));
   }
 
-  private sortInstructorPanelsBy(by: SortBy): (a: InstructorExtensionTableColumnModel,
-    b: InstructorExtensionTableColumnModel) => number {
+  private sortInstructorPanelsBy(
+    by: SortBy,
+  ): (a: InstructorExtensionTableColumnModel, b: InstructorExtensionTableColumnModel) => number {
     return (a: InstructorExtensionTableColumnModel, b: InstructorExtensionTableColumnModel): number => {
       let strA: string;
       let strB: string;

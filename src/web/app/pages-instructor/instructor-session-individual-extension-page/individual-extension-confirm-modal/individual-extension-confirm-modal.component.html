@@ -6,15 +6,17 @@
   </button>
 </div>
 
-<div class="modal-body" >
+<div class="modal-body">
   <div *ngIf="isExtendModal()">
     The new deadline of <b>{{ extensionTimestamp | formatDateDetail: feedbackSessionTimeZone }}</b> will be applied
-    to the following <b>{{selectedStudents.length}}</b> student(s) and <b>{{selectedInstructors.length}}</b> instructor(s):
+    to the following <b>{{ selectedStudents.length }}</b> student(s) and <b>{{ selectedInstructors.length }}</b>
+    instructor(s):
   </div>
 
   <div *ngIf="isDeleteModal()">
-    The deadline of the following <b>{{selectedStudents.length}}</b> student(s) and <b>{{selectedInstructors.length}}</b>
-    instructor(s) will be reverted back to the original deadline of <b>{{ extensionTimestamp | formatDateDetail: feedbackSessionTimeZone }}</b>:
+    The deadline of the following <b>{{ selectedStudents.length }}</b> student(s) and
+    <b>{{ selectedInstructors.length }}</b> instructor(s) will be reverted back to the original deadline of
+    <b>{{ extensionTimestamp | formatDateDetail: feedbackSessionTimeZone }}</b>:
   </div>
 
   <div class="table-responsive" *ngIf="selectedStudents.length!==0">
@@ -26,38 +28,40 @@
             Section
             <span class="fa-stack">
               <i class="fas fa-sort"></i>
-              <i *ngIf="sortStudentsBy === SortBy.SECTION_NAME && sortStudentOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
-              <i *ngIf="sortStudentsBy === SortBy.SECTION_NAME && sortStudentOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+              <i *ngIf="sortStudentsBy === SortBy.SECTION_NAME && sortStudentOrder === SortOrder.DESC"
+                class="fas fa-sort-down"></i>
+              <i *ngIf="sortStudentsBy === SortBy.SECTION_NAME && sortStudentOrder === SortOrder.ASC"
+                class="fas fa-sort-up"></i>
             </span>
           </th>
           <th class="sortable-header" (click)="sortStudentColumnsBy(SortBy.TEAM_NAME)">
             Team
             <span class="fa-stack">
               <i class="fas fa-sort"></i>
-              <i *ngIf="sortStudentsBy === SortBy.TEAM_NAME && sortStudentOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
-              <i *ngIf="sortStudentsBy === SortBy.TEAM_NAME && sortStudentOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+              <i *ngIf="sortStudentsBy === SortBy.TEAM_NAME && sortStudentOrder === SortOrder.DESC"
+                class="fas fa-sort-down"></i>
+              <i *ngIf="sortStudentsBy === SortBy.TEAM_NAME && sortStudentOrder === SortOrder.ASC"
+                class="fas fa-sort-up"></i>
             </span>
           </th>
           <th class="sortable-header" (click)="sortStudentColumnsBy(SortBy.RESPONDENT_NAME)">
             Name
             <span class="fa-stack">
               <i class="fas fa-sort"></i>
-              <i
-                *ngIf="sortStudentsBy === SortBy.RESPONDENT_NAME && sortStudentOrder === SortOrder.DESC"
-                class="fas fa-sort-down"
-              ></i>
-              <i *ngIf="sortStudentsBy === SortBy.RESPONDENT_NAME && sortStudentOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+              <i *ngIf="sortStudentsBy === SortBy.RESPONDENT_NAME && sortStudentOrder === SortOrder.DESC"
+                class="fas fa-sort-down"></i>
+              <i *ngIf="sortStudentsBy === SortBy.RESPONDENT_NAME && sortStudentOrder === SortOrder.ASC"
+                class="fas fa-sort-up"></i>
             </span>
           </th>
           <th class="sortable-header" (click)="sortStudentColumnsBy(SortBy.RESPONDENT_EMAIL)">
             Email
             <span class="fa-stack">
               <i class="fas fa-sort"></i>
-              <i
-                *ngIf="sortStudentsBy === SortBy.RESPONDENT_EMAIL && sortStudentOrder === SortOrder.DESC"
-                class="fas fa-sort-down"
-              ></i>
-              <i *ngIf="sortStudentsBy === SortBy.RESPONDENT_EMAIL && sortStudentOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+              <i *ngIf="sortStudentsBy === SortBy.RESPONDENT_EMAIL && sortStudentOrder === SortOrder.DESC"
+                class="fas fa-sort-down"></i>
+              <i *ngIf="sortStudentsBy === SortBy.RESPONDENT_EMAIL && sortStudentOrder === SortOrder.ASC"
+                class="fas fa-sort-up"></i>
             </span>
           </th>
           <th class="sortable-header" (click)="sortStudentColumnsBy(SortBy.SESSION_END_DATE)">
@@ -65,11 +69,10 @@
             <span *ngIf="isDeleteModal()">Current Deadline </span>
             <span class="fa-stack">
               <i class="fas fa-sort"></i>
-              <i
-                *ngIf="sortStudentsBy === SortBy.SESSION_END_DATE && sortStudentOrder === SortOrder.DESC"
-                class="fas fa-sort-down"
-              ></i>
-              <i *ngIf="sortStudentsBy === SortBy.SESSION_END_DATE && sortStudentOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+              <i *ngIf="sortStudentsBy === SortBy.SESSION_END_DATE && sortStudentOrder === SortOrder.DESC"
+                class="fas fa-sort-down"></i>
+              <i *ngIf="sortStudentsBy === SortBy.SESSION_END_DATE && sortStudentOrder === SortOrder.ASC"
+                class="fas fa-sort-up"></i>
             </span>
           </th>
         </tr>
@@ -93,38 +96,40 @@
             Name
             <span class="fa-stack">
               <i class="fas fa-sort"></i>
-              <i
-                *ngIf="sortInstructorsBy === SortBy.RESPONDENT_NAME && sortInstructorOrder === SortOrder.DESC"
-                class="fas fa-sort-down"
-              ></i>
-              <i *ngIf="sortInstructorsBy === SortBy.RESPONDENT_NAME && sortInstructorOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+              <i *ngIf="sortInstructorsBy === SortBy.RESPONDENT_NAME && sortInstructorOrder === SortOrder.DESC"
+                class="fas fa-sort-down"></i>
+              <i *ngIf="sortInstructorsBy === SortBy.RESPONDENT_NAME && sortInstructorOrder === SortOrder.ASC"
+                class="fas fa-sort-up"></i>
             </span>
           </th>
           <th class="sortable-header" (click)="sortInstructorsColumnsBy(SortBy.RESPONDENT_EMAIL)">
             Email
             <span class="fa-stack">
               <i class="fas fa-sort"></i>
-              <i *ngIf="sortInstructorsBy === SortBy.RESPONDENT_EMAIL && sortInstructorOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
-              <i *ngIf="sortInstructorsBy === SortBy.RESPONDENT_EMAIL && sortInstructorOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+              <i *ngIf="sortInstructorsBy === SortBy.RESPONDENT_EMAIL && sortInstructorOrder === SortOrder.DESC"
+                class="fas fa-sort-down"></i>
+              <i *ngIf="sortInstructorsBy === SortBy.RESPONDENT_EMAIL && sortInstructorOrder === SortOrder.ASC"
+                class="fas fa-sort-up"></i>
             </span>
           </th>
           <th class="sortable-header" (click)="sortInstructorsColumnsBy(SortBy.INSTRUCTOR_PERMISSION_ROLE)">
             Role
             <span class="fa-stack">
               <i class="fas fa-sort"></i>
-              <i *ngIf="sortInstructorsBy === SortBy.INSTRUCTOR_PERMISSION_ROLE && sortInstructorOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
-              <i *ngIf="sortInstructorsBy === SortBy.INSTRUCTOR_PERMISSION_ROLE && sortInstructorOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+              <i *ngIf="sortInstructorsBy === SortBy.INSTRUCTOR_PERMISSION_ROLE && sortInstructorOrder === SortOrder.DESC"
+                class="fas fa-sort-down"></i>
+              <i *ngIf="sortInstructorsBy === SortBy.INSTRUCTOR_PERMISSION_ROLE && sortInstructorOrder === SortOrder.ASC"
+                class="fas fa-sort-up"></i>
             </span>
           </th>
           <th class="sortable-header" (click)="sortInstructorsColumnsBy(SortBy.SESSION_END_DATE)">
             Current Deadline
             <span class="fa-stack">
               <i class="fas fa-sort"></i>
-              <i
-                *ngIf="sortInstructorsBy === SortBy.SESSION_END_DATE && sortInstructorOrder === SortOrder.DESC"
-                class="fas fa-sort-down"
-              ></i>
-              <i *ngIf="sortInstructorsBy === SortBy.SESSION_END_DATE && sortInstructorOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+              <i *ngIf="sortInstructorsBy === SortBy.SESSION_END_DATE && sortInstructorOrder === SortOrder.DESC"
+                class="fas fa-sort-down"></i>
+              <i *ngIf="sortInstructorsBy === SortBy.SESSION_END_DATE && sortInstructorOrder === SortOrder.ASC"
+                class="fas fa-sort-up"></i>
             </span>
           </th>
         </tr>
@@ -154,6 +159,8 @@
 
 <div class="modal-footer">
   <button type="button" class="btn btn-light" (click)="activeModal.dismiss()">No, cancel the Operation</button>
-  <button *ngIf="isExtendModal()" type="button" class="btn btn-success modal-btn-ok" (click)="onExtend()">Confirm</button>
-  <button *ngIf="isDeleteModal()" type="button" class="btn btn-danger modal-btn-ok" (click)="onExtend()">Delete Extension(s)</button>
+  <button *ngIf="isExtendModal()" type="button" class="btn btn-success modal-btn-ok"
+    (click)="onExtend()">Confirm</button>
+  <button *ngIf="isDeleteModal()" type="button" class="btn btn-danger modal-btn-ok" (click)="onExtend()">Delete
+    Extension(s)</button>
 </div>

@@ -7,7 +7,10 @@ import { TimezoneService } from '../../../../services/timezone.service';
 import { createMockNgbModalRef } from '../../../../test-helpers/mock-ngb-modal-ref';
 import {
   FeedbackSession,
-  FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus, ResponseVisibleSetting, SessionVisibleSetting,
+  FeedbackSessionPublishStatus,
+  FeedbackSessionSubmissionStatus,
+  ResponseVisibleSetting,
+  SessionVisibleSetting,
 } from '../../../../types/api-output';
 import { InstructorSessionIndividualExtensionPageModule } from '../instructor-session-individual-extension-page.module';
 import { IndividualExtensionDateModalComponent, RadioOptions } from './individual-extension-date-modal.component';
@@ -39,42 +42,40 @@ describe('IndividualExtensionDateModalComponent', () => {
   let simpleModalService: SimpleModalService;
   let timeZoneService: TimezoneService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(
+    waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [
-          HttpClientTestingModule,
-          InstructorSessionIndividualExtensionPageModule,
-        ],
+        imports: [HttpClientTestingModule, InstructorSessionIndividualExtensionPageModule],
         providers: [NgbActiveModal],
-      })
-      .compileComponents();
-  }));
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
-      fixture = TestBed.createComponent(IndividualExtensionDateModalComponent);
-      component = fixture.componentInstance;
-      simpleModalService = TestBed.inject(SimpleModalService);
-      timeZoneService = TestBed.inject(TimezoneService);
-      jest.spyOn(timeZoneService, 'formatToString').mockReturnValue(testTimeString);
-      component.numStudents = 10;
-      component.numInstructors = 20;
-      fixture.detectChanges();
+    fixture = TestBed.createComponent(IndividualExtensionDateModalComponent);
+    component = fixture.componentInstance;
+    simpleModalService = TestBed.inject(SimpleModalService);
+    timeZoneService = TestBed.inject(TimezoneService);
+    jest.spyOn(timeZoneService, 'formatToString').mockReturnValue(testTimeString);
+    component.numStudents = 10;
+    component.numInstructors = 20;
+    fixture.detectChanges();
   });
 
   it('should create', () => {
-      expect(component).toBeTruthy();
+    expect(component).toBeTruthy();
   });
 
   it('should snap with the extended students', () => {
-      fixture.detectChanges();
-      expect(fixture).toMatchSnapshot();
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
   });
 
   it('should snap with the extend by radio option', () => {
-      component.extendByDeadlineKey = '12 hours';
-      component.radioOption = RadioOptions.EXTEND_TO;
-      fixture.detectChanges();
-      expect(fixture).toMatchSnapshot();
+    component.extendByDeadlineKey = '12 hours';
+    component.radioOption = RadioOptions.EXTEND_TO;
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
   });
 
   it('should snap with the extend by radio option with customize', () => {
@@ -98,8 +99,9 @@ describe('IndividualExtensionDateModalComponent', () => {
     component.radioOption = RadioOptions.EXTEND_BY;
     component.datePicker = { year: 2020, month: 10, day: 10 };
     component.DATETIME_FORMAT = 'd MMM YYYY h:mm:ss';
-    const modalSpy: SpyInstance = jest.spyOn(simpleModalService, 'openConfirmationModal').mockReturnValue(
-      createMockNgbModalRef());
+    const modalSpy: SpyInstance = jest
+      .spyOn(simpleModalService, 'openConfirmationModal')
+      .mockReturnValue(createMockNgbModalRef());
 
     component.onConfirm();
 

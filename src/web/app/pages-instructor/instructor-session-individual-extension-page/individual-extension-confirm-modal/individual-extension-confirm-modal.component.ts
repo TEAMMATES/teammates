@@ -5,7 +5,8 @@ import { SortBy, SortOrder } from '../../../../types/sort-properties';
 import { InstructorExtensionTableColumnModel, StudentExtensionTableColumnModel } from '../extension-table-column-model';
 
 export enum ExtensionModalType {
-  EXTEND, DELETE,
+  EXTEND,
+  DELETE,
 }
 
 @Component({
@@ -14,7 +15,6 @@ export enum ExtensionModalType {
   styleUrls: ['./individual-extension-confirm-modal.component.scss'],
 })
 export class IndividualExtensionConfirmModalComponent {
-
   @Input()
   modalType: ExtensionModalType = ExtensionModalType.EXTEND;
 
@@ -33,8 +33,7 @@ export class IndividualExtensionConfirmModalComponent {
   @Output()
   onConfirmExtensionCallBack: EventEmitter<boolean> = new EventEmitter();
 
-  constructor(public activeModal: NgbActiveModal,
-              private tableComparatorService: TableComparatorService) { }
+  constructor(public activeModal: NgbActiveModal, private tableComparatorService: TableComparatorService) {}
 
   SortBy: typeof SortBy = SortBy;
   SortOrder: typeof SortOrder = SortOrder;
@@ -55,11 +54,11 @@ export class IndividualExtensionConfirmModalComponent {
     this.onConfirmExtensionCallBack.emit(this.isNotifyDeadlines);
   }
 
-  isDeleteModal() : boolean {
+  isDeleteModal(): boolean {
     return this.modalType === ExtensionModalType.DELETE;
   }
 
-  isExtendModal() : boolean {
+  isExtendModal(): boolean {
     return this.modalType === ExtensionModalType.EXTEND;
   }
 
@@ -69,8 +68,9 @@ export class IndividualExtensionConfirmModalComponent {
     this.selectedStudents.sort(this.sortStudentPanelsBy(by));
   }
 
-  sortStudentPanelsBy(by: SortBy): (a: StudentExtensionTableColumnModel, b: StudentExtensionTableColumnModel)
-  => number {
+  sortStudentPanelsBy(
+    by: SortBy,
+  ): (a: StudentExtensionTableColumnModel, b: StudentExtensionTableColumnModel) => number {
     return (a: StudentExtensionTableColumnModel, b: StudentExtensionTableColumnModel): number => {
       let strA: string;
       let strB: string;
@@ -109,8 +109,9 @@ export class IndividualExtensionConfirmModalComponent {
     this.selectedInstructors.sort(this.sortInstructorPanelsBy(by));
   }
 
-  sortInstructorPanelsBy(by: SortBy): (a: InstructorExtensionTableColumnModel, b: InstructorExtensionTableColumnModel)
-  => number {
+  sortInstructorPanelsBy(
+    by: SortBy,
+  ): (a: InstructorExtensionTableColumnModel, b: InstructorExtensionTableColumnModel) => number {
     return (a: InstructorExtensionTableColumnModel, b: InstructorExtensionTableColumnModel): number => {
       let strA: string;
       let strB: string;

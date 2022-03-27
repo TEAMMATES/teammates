@@ -14,14 +14,23 @@ import {
   Course,
   FeedbackSession,
   FeedbackSessionPublishStatus,
-  FeedbackSessionSubmissionStatus, Instructor, Instructors, JoinState, Student,
+  FeedbackSessionSubmissionStatus,
+  Instructor,
+  Instructors,
+  JoinState,
+  Student,
   Students,
 } from '../../../types/api-output';
-import { ResponseVisibleSetting, SessionVisibleSetting } from '../../../types/api-request';
+import {
+  ResponseVisibleSetting,
+  SessionVisibleSetting,
+} from '../../../types/api-request';
 import {
   InstructorSessionIndividualExtensionPageComponent,
 } from './instructor-session-individual-extension-page.component';
-import { InstructorSessionIndividualExtensionPageModule } from './instructor-session-individual-extension-page.module';
+import {
+  InstructorSessionIndividualExtensionPageModule,
+} from './instructor-session-individual-extension-page.module';
 
 describe('InstructorSessionIndividualExtensionPageComponent', () => {
   const testCourse: Course = {
@@ -109,42 +118,43 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
   let timezoneService: TimezoneService;
   let statusMessageService: StatusMessageService;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-        RouterModule,
-        InstructorSessionIndividualExtensionPageModule,
-      ],
-      providers: [StudentService, CourseService, TimezoneService, FeedbackSessionsService,
-        {
-          provide: ActivatedRoute,
-          useValue: {
-            queryParams: of({
-              courseid: testCourse.courseId,
-              feedbackSessionName: testFeedbackSession.feedbackSessionName,
-            }),
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [HttpClientTestingModule, RouterModule, InstructorSessionIndividualExtensionPageModule],
+        providers: [
+          StudentService,
+          CourseService,
+          TimezoneService,
+          FeedbackSessionsService,
+          {
+            provide: ActivatedRoute,
+            useValue: {
+              queryParams: of({
+                courseid: testCourse.courseId,
+                feedbackSessionName: testFeedbackSession.feedbackSessionName,
+              }),
+            },
           },
-        },
-      ],
-    })
-    .compileComponents();
-  }));
+        ],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
-      fixture = TestBed.createComponent(InstructorSessionIndividualExtensionPageComponent);
-      component = fixture.componentInstance;
-      studentService = TestBed.inject(StudentService);
-      instructorService = TestBed.inject(InstructorService);
-      courseService = TestBed.inject(CourseService);
-      feedbackSessionsService = TestBed.inject(FeedbackSessionsService);
-      timezoneService = TestBed.inject(TimezoneService);
-      statusMessageService = TestBed.inject(StatusMessageService);
-      fixture.detectChanges();
+    fixture = TestBed.createComponent(InstructorSessionIndividualExtensionPageComponent);
+    component = fixture.componentInstance;
+    studentService = TestBed.inject(StudentService);
+    instructorService = TestBed.inject(InstructorService);
+    courseService = TestBed.inject(CourseService);
+    feedbackSessionsService = TestBed.inject(FeedbackSessionsService);
+    timezoneService = TestBed.inject(TimezoneService);
+    statusMessageService = TestBed.inject(StatusMessageService);
+    fixture.detectChanges();
   });
 
   it('should create', () => {
-      expect(component).toBeTruthy();
+    expect(component).toBeTruthy();
   });
 
   it('should snap with student loading', () => {
@@ -199,10 +209,12 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
   });
 
   it('should stop loading if student service returns 404', () => {
-    jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(throwError({
-      status: 404,
-      error: { message: 'This is a test message' },
-    }));
+    jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(
+      throwError({
+        status: 404,
+        error: { message: 'This is a test message' },
+      }),
+    );
     jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
     jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
     jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(of(instructors));
@@ -225,10 +237,12 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
     jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
     jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
-    jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(throwError({
-      status: 404,
-      error: { message: 'This is a test message' },
-    }));
+    jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(
+      throwError({
+        status: 404,
+        error: { message: 'This is a test message' },
+      }),
+    );
     const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast');
 
     component.ngOnInit();
@@ -247,10 +261,12 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
   it('should stop loading if feedback session service returns 404', () => {
     jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
     jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
-    jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(throwError({
-      status: 404,
-      error: { message: 'This is a test message' },
-    }));
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(
+      throwError({
+        status: 404,
+        error: { message: 'This is a test message' },
+      }),
+    );
     jest.spyOn(timezoneService, 'formatToString').mockReturnValue(testTimeString);
     const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast');
 
@@ -269,10 +285,12 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
 
   it('should stop loading if course service returns 404', () => {
     jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
-    jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(throwError({
-      status: 404,
-      error: { message: 'This is a test message' },
-    }));
+    jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(
+      throwError({
+        status: 404,
+        error: { message: 'This is a test message' },
+      }),
+    );
     jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
     jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(of(instructors));
     jest.spyOn(timezoneService, 'formatToString').mockReturnValue(testTimeString);

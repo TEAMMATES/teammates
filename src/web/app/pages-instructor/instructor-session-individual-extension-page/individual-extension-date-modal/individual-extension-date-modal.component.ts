@@ -16,8 +16,8 @@ export enum RadioOptions {
 @Component({
   selector: 'tm-individual-extension-date-modal',
   templateUrl: './individual-extension-date-modal.component.html',
+  styleUrls: ['./individual-extension-date-modal.component.scss'],
 })
-
 export class IndividualExtensionDateModalComponent {
   @Input()
   numStudents: number = 0;
@@ -33,9 +33,11 @@ export class IndividualExtensionDateModalComponent {
 
   @Output() onConfirmCallBack: EventEmitter<number> = new EventEmitter();
 
-  constructor(public activeModal: NgbActiveModal,
-              private timeZoneService: TimezoneService,
-              private simpleModalService: SimpleModalService) {}
+  constructor(
+    public activeModal: NgbActiveModal,
+    private timeZoneService: TimezoneService,
+    private simpleModalService: SimpleModalService,
+  ) {}
 
   RadioOptions: typeof RadioOptions = RadioOptions;
   radioOption: RadioOptions = RadioOptions.EXTEND_BY;
@@ -58,17 +60,25 @@ export class IndividualExtensionDateModalComponent {
 
   onConfirm(): void {
     if (this.getExtensionTimestamp() < Date.now()) {
-      const extensionTimeString = this.timeZoneService
-        .formatToString(this.getExtensionTimestamp(), this.feedbackSessionTimeZone, this.DATETIME_FORMAT);
-      const currentTimeString = this.timeZoneService
-        .formatToString(Date.now(), this.feedbackSessionTimeZone, this.DATETIME_FORMAT);
-      this.simpleModalService.openConfirmationModal(
-        'Are you sure you wish to set the new deadline to before the current time?',
-        SimpleModalType.WARNING,
-        '<b>Any users affected will have their sessions closed immediately.</b>'
-        + ` The current time now is ${currentTimeString} and you are extending to`
-        + ` ${extensionTimeString} in ${this.feedbackSessionTimeZone}. Do you wish to proceed?`,
-      ).result.then(() => this.onConfirmCallBack.emit(this.getExtensionTimestamp()));
+      const extensionTimeString = this.timeZoneService.formatToString(
+        this.getExtensionTimestamp(),
+        this.feedbackSessionTimeZone,
+        this.DATETIME_FORMAT,
+      );
+      const currentTimeString = this.timeZoneService.formatToString(
+        Date.now(),
+        this.feedbackSessionTimeZone,
+        this.DATETIME_FORMAT,
+      );
+      this.simpleModalService
+        .openConfirmationModal(
+          'Are you sure you wish to set the new deadline to before the current time?',
+          SimpleModalType.WARNING,
+          '<b>Any users affected will have their sessions closed immediately.</b>'
+            + ` The current time now is ${currentTimeString} and you are extending to`
+            + ` ${extensionTimeString} in ${this.feedbackSessionTimeZone}. Do you wish to proceed?`,
+        )
+        .result.then(() => this.onConfirmCallBack.emit(this.getExtensionTimestamp()));
     } else {
       this.onConfirmCallBack.emit(this.getExtensionTimestamp());
     }
@@ -82,7 +92,7 @@ export class IndividualExtensionDateModalComponent {
     }
   }
 
-  getDateFormat(timestamp: number) : DateFormat {
+  getDateFormat(timestamp: number): DateFormat {
     let momentInstance: moment.Moment = moment(timestamp);
     if (momentInstance.hour() === 0 && momentInstance.minute() === 0) {
       momentInstance = momentInstance.subtract(1, 'minute');
@@ -99,14 +109,16 @@ export class IndividualExtensionDateModalComponent {
       if (this.isCustomize()) {
         return this.addTime(this.feedbackSessionEndingTime, this.extendByDatePicker.hours,
           this.extendByDatePicker.days);
-      } if (this.extendByDeadlineOptions.has(this.extendByDeadlineKey)) {
+      }
+      if (this.extendByDeadlineOptions.has(this.extendByDeadlineKey)) {
         return this.addTime(this.feedbackSessionEndingTime,
-          this.extendByDeadlineOptions.get(this.extendByDeadlineKey)!.valueOf(), 0);
+          this.extendByDeadlineOptions.get(this.extendByDeadlineKey)!.valueOf(), 0,
+        );
       }
     }
     if (this.isRadioExtendTo()) {
-      return this.timeZoneService
-        .resolveLocalDateTime(this.datePicker, this.timePicker, this.feedbackSessionTimeZone, true);
+      return this.timeZoneService.resolveLocalDateTime(this.datePicker, this.timePicker, this.feedbackSessionTimeZone,
+        true);
     }
     return this.feedbackSessionEndingTime;
   }
@@ -118,10 +130,10 @@ export class IndividualExtensionDateModalComponent {
   }
 
   private addTime(timestamp: number, hours: number, days: number): number {
-    return timestamp + (hours * this.ONE_HOUR_IN_MILLISECONDS) + (days * this.ONE_DAY_IN_MILLISECONDS);
+    return timestamp + hours * this.ONE_HOUR_IN_MILLISECONDS + days * this.ONE_DAY_IN_MILLISECONDS;
   }
 
-  isValidForm() : boolean {
+  isValidForm(): boolean {
     return this.getExtensionTimestamp() > this.feedbackSessionEndingTime;
   }
 

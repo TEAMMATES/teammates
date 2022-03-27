@@ -4,7 +4,10 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { TimezoneService } from '../../../../services/timezone.service';
 import {
   FeedbackSession,
-  FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus, ResponseVisibleSetting, SessionVisibleSetting,
+  FeedbackSessionPublishStatus,
+  FeedbackSessionSubmissionStatus,
+  ResponseVisibleSetting,
+  SessionVisibleSetting,
 } from '../../../../types/api-output';
 import { StudentExtensionTableColumnModel } from '../extension-table-column-model';
 import { InstructorSessionIndividualExtensionPageModule } from '../instructor-session-individual-extension-page.module';
@@ -31,13 +34,13 @@ describe('IndividualExtensionConfirmModalComponent', () => {
   };
 
   const studentModel1: StudentExtensionTableColumnModel = {
-      sectionName: 'Test Section 1',
-      teamName: 'Test Section 1',
-      name: 'Test Student 1',
-      email: 'testStudent1@gmail.com',
-      extensionDeadline: 1500000000000,
-      hasExtension: false,
-      isSelected: true,
+    sectionName: 'Test Section 1',
+    teamName: 'Test Section 1',
+    name: 'Test Student 1',
+    email: 'testStudent1@gmail.com',
+    extensionDeadline: 1500000000000,
+    hasExtension: false,
+    isSelected: true,
   };
   const studentModel2: StudentExtensionTableColumnModel = {
     sectionName: 'Test Section 2',
@@ -64,16 +67,14 @@ describe('IndividualExtensionConfirmModalComponent', () => {
   let fixture: ComponentFixture<IndividualExtensionConfirmModalComponent>;
   let timeZoneService: TimezoneService;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-        InstructorSessionIndividualExtensionPageModule,
-      ],
-      providers: [NgbActiveModal],
-    })
-    .compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [HttpClientTestingModule, InstructorSessionIndividualExtensionPageModule],
+        providers: [NgbActiveModal],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(IndividualExtensionConfirmModalComponent);
