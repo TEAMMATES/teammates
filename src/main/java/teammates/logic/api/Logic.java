@@ -134,6 +134,11 @@ public class Logic {
         return notificationsLogic.createNotification(notification);
     }
 
+    public NotificationAttributes updateNotification(NotificationAttributes.UpdateOptions updateOptions) throws
+            InvalidParametersException, EntityDoesNotExistException {
+        return notificationsLogic.updateNotification(updateOptions);
+    }
+
     /**
      * Deletes notification by ID.
      *

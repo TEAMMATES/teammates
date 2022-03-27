@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ResourceEndpoints } from '../types/api-const';
 import { MessageOutput, Notification, Notifications } from '../types/api-output';
-import { CreateNotificationRequest } from '../types/api-request';
+import { NotificationCreateRequest, NotificationUpdateRequest } from '../types/api-request';
 import { HttpRequestService } from './http-request.service';
 
 /**
@@ -18,7 +18,7 @@ export class NotificationService {
   /**
    * Creates a notification by calling API.
    */
-  createNotification(request: CreateNotificationRequest): Observable<Notification> {
+  createNotification(request: NotificationCreateRequest): Observable<Notification> {
     return this.httpRequestService.post(ResourceEndpoints.NOTIFICATION, {}, request);
   }
 
@@ -27,6 +27,16 @@ export class NotificationService {
    */
   getNotifications(): Observable<Notifications> {
     return this.httpRequestService.get(ResourceEndpoints.NOTIFICATIONS);
+  }
+
+  /**
+   * Updates a notification by calling API.
+   */
+   updateNotification(request: NotificationUpdateRequest, notificationId: string): Observable<Notification> {
+    const paramsMap: { [key: string]: string } = {
+      notificationid: notificationId,
+    };
+    return this.httpRequestService.put(ResourceEndpoints.NOTIFICATION, paramsMap, request);
   }
 
   /**

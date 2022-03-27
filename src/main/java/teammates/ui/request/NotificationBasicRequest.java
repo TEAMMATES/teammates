@@ -4,11 +4,11 @@ import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.NotificationType;
 
 /**
- * The request for creating a notification.
+ * The basic request for a notification.
  */
-public class CreateNotificationRequest extends BasicRequest {
-    private Long startTimestamp;
-    private Long endTimestamp;
+public class NotificationBasicRequest extends BasicRequest {
+    private long startTimestamp;
+    private long endTimestamp;
     private NotificationType notificationType;
     private NotificationTargetUser targetUser;
     private String title;
