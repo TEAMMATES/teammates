@@ -123,6 +123,9 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         assertEquals(expectedStudentDeadlines, response.getStudentDeadlines());
         Map<String, Long> expectedInstructorDeadlines = convertDeadlinesToLong(session.getInstructorDeadlines());
         assertEquals(expectedInstructorDeadlines, response.getInstructorDeadlines());
+
+        // The typical feedback session update request does not change any selective deadlines.
+        verifyNoTasksAdded();
     }
 
     @Test
