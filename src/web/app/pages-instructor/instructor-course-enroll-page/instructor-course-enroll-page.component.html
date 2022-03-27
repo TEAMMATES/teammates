@@ -96,6 +96,7 @@
               </div>
               <div class="enroll-button-group">
                 <button
+                    [ngClass]="{'w-50': isEnrolling}"
                     type="submit"
                     title="Enroll"
                     id="btn-enroll"
@@ -103,6 +104,7 @@
                     class="btn btn-success float-right"
                     [disabled]="isEnrolling"
                     (click)="submitEnrollData()">
+                  <tm-progress-bar *ngIf="isEnrolling"></tm-progress-bar>
                   <tm-ajax-loading *ngIf="isEnrolling"></tm-ajax-loading>
                   Enroll students
                 </button>
