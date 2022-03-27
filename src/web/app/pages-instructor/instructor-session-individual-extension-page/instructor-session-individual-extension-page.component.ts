@@ -123,11 +123,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
         intent: Intent.FULL_DETAIL,
       }),
     ])
-      .pipe(
-        finalize(() => {
-          this.isLoadingFeedbackSession = false;
-        }),
-      )
+      .pipe(finalize(() => { this.isLoadingFeedbackSession = false; }))
       .subscribe(
         (value: any[]) => {
           const course = value[0] as Course;
@@ -152,16 +148,14 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
   private getAllStudentsOfCourse(): void {
     this.studentService
       .getStudentsFromCourse({ courseId: this.courseId })
-      .pipe(
-        finalize(() => {
-          this.isLoadingAllStudents = false;
-        }),
+      .pipe(finalize(() => { this.isLoadingAllStudents = false; }),
         map((students: Students) => {
-          this.studentsOfCourse = students.students.map((student) => this.mapStudentToStudentModel(student));
+          return students.students.map((student) => this.mapStudentToStudentModel(student));
         }),
       )
       .subscribe(
-        () => {
+        (studentModels: StudentExtensionTableColumnModel[]) => {
+          this.studentsOfCourse = studentModels;
           this.initialSortOfStudents();
         },
         (resp: ErrorMessageOutput) => {
@@ -224,13 +218,13 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
       .pipe(
         finalize(() => { this.isLoadingAllInstructors = false; }),
         map((instructors: Instructors) => {
-          this.instructorsOfCourse = instructors.instructors.map((instructor) => {
-            return this.mapInstructorToInstructorModel(instructor);
-          });
+           return instructors.instructors.map((instructor) => this.mapInstructorToInstructorModel(instructor));
         }),
       )
-      .subscribe(() => { this.initialSortOfInstructors(); },
-        (resp: ErrorMessageOutput) => {
+      .subscribe((instructorModels: InstructorExtensionTableColumnModel[]) => {
+        this.instructorsOfCourse = instructorModels;
+        this.initialSortOfInstructors();
+      }, (resp: ErrorMessageOutput) => {
           this.hasLoadedAllInstructorsFailed = true;
           this.statusMessageService.showErrorToast(resp.error.message);
         },
@@ -364,11 +358,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     this.isSubmittingDeadlines = true;
     this.feedbackSessionsService
       .updateFeedbackSession(this.courseId, this.feedbackSessionName, request, isNotifyDeadlines)
-      .pipe(
-        finalize(() => {
-          this.isSubmittingDeadlines = false;
-        }),
-      )
+      .pipe(finalize(() => { this.isSubmittingDeadlines = false; }))
       .subscribe(
         () => {
           this.loadFeedbackSessionAndIndividuals();
