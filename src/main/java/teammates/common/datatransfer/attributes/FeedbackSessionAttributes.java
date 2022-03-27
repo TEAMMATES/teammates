@@ -631,7 +631,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
 
         @Override
         public String toString() {
-            return "StudentAttributes.UpdateOptions ["
+            return "FeedbackSessionAttributes.UpdateOptions ["
                     + "feedbackSessionName = " + feedbackSessionName
                     + ", courseId = " + courseId
                     + ", instructions = " + instructionsOption
