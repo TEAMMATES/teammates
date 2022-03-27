@@ -16,7 +16,6 @@ export enum RadioOptions {
 @Component({
   selector: 'tm-individual-extension-date-modal',
   templateUrl: './individual-extension-date-modal.component.html',
-  styleUrls: ['./individual-extension-date-modal.component.scss'],
 })
 
 export class IndividualExtensionDateModalComponent {
@@ -97,19 +96,17 @@ export class IndividualExtensionDateModalComponent {
 
   getExtensionTimestamp(): number {
     if (this.isRadioExtendBy()) {
-      if (!this.isCustomize() && this.extendByDeadlineOptions.has(this.extendByDeadlineKey)) {
-        return this.addTime(this.feedbackSessionEndingTime,
-          this.extendByDeadlineOptions.get(this.extendByDeadlineKey)!.valueOf(), 0);
-      }
       if (this.isCustomize()) {
         return this.addTime(this.feedbackSessionEndingTime, this.extendByDatePicker.hours,
           this.extendByDatePicker.days);
+      } if (this.extendByDeadlineOptions.has(this.extendByDeadlineKey)) {
+        return this.addTime(this.feedbackSessionEndingTime,
+          this.extendByDeadlineOptions.get(this.extendByDeadlineKey)!.valueOf(), 0);
       }
     }
     if (this.isRadioExtendTo()) {
-      const timestamp = this.timeZoneService
+      return this.timeZoneService
         .resolveLocalDateTime(this.datePicker, this.timePicker, this.feedbackSessionTimeZone, true);
-      return timestamp;
     }
     return this.feedbackSessionEndingTime;
   }
@@ -120,7 +117,7 @@ export class IndividualExtensionDateModalComponent {
     return dateDetailPipe.transform(time, this.feedbackSessionTimeZone);
   }
 
-  addTime(timestamp: number, hours: number, days: number): number {
+  private addTime(timestamp: number, hours: number, days: number): number {
     return timestamp + (hours * this.ONE_HOUR_IN_MILLISECONDS) + (days * this.ONE_DAY_IN_MILLISECONDS);
   }
 
@@ -143,5 +140,4 @@ export class IndividualExtensionDateModalComponent {
   sortMapByOriginalOrder = (): number => {
     return 0;
   };
-
 }

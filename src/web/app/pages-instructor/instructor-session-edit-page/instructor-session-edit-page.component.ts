@@ -423,7 +423,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
           this.sessionEditFormModel.timeZone, true);
     }
 
-    this.feedbackSessionsService.updateFeedbackSession(this.courseId, this.feedbackSessionName, false, {
+    this.feedbackSessionsService.updateFeedbackSession(this.courseId, this.feedbackSessionName, {
       instructions: this.sessionEditFormModel.instructions,
 
       submissionStartTimestamp: submissionStartTime,

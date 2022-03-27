@@ -24,409 +24,403 @@ import {
 import { InstructorSessionIndividualExtensionPageModule } from './instructor-session-individual-extension-page.module';
 
 describe('InstructorSessionIndividualExtensionPageComponent', () => {
-    const testCourse: Course = {
-      courseId: 'exampleId',
-      courseName: 'Example Course',
-      institute: 'Test Institute',
-      timeZone: 'UTC',
-      creationTimestamp: 0,
-      deletionTimestamp: 1000,
-    };
+  const testCourse: Course = {
+    courseId: 'exampleId',
+    courseName: 'Example Course',
+    institute: 'Test Institute',
+    timeZone: 'UTC',
+    creationTimestamp: 0,
+    deletionTimestamp: 1000,
+  };
 
-    const testFeedbackSession: FeedbackSession = {
-      courseId: 'testId1',
-      timeZone: 'UTC',
-      feedbackSessionName: 'Test Session',
-      instructions: 'Instructions',
-      submissionStartTimestamp: 1000000000000,
-      submissionEndTimestamp: 1500000000000,
-      gracePeriod: 0,
-      sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
-      responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
-      submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
-      publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
-      isClosingEmailEnabled: true,
-      isPublishedEmailEnabled: true,
-      createdAtTimestamp: 0,
-      studentDeadlines: { 'alice@tmms.com': 1510000000000 },
-      instructorDeadlines: { 'tester2@tester.com': 1510000000000 },
-    };
+  const testFeedbackSession: FeedbackSession = {
+    courseId: 'testId1',
+    timeZone: 'UTC',
+    feedbackSessionName: 'Test Session',
+    instructions: 'Instructions',
+    submissionStartTimestamp: 1000000000000,
+    submissionEndTimestamp: 1500000000000,
+    gracePeriod: 0,
+    sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+    responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+    submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+    publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
+    isClosingEmailEnabled: true,
+    isPublishedEmailEnabled: true,
+    createdAtTimestamp: 0,
+    studentDeadlines: { 'alice@tmms.com': 1510000000000 },
+    instructorDeadlines: { 'tester2@tester.com': 1510000000000 },
+  };
 
-    const testStudent1: Student = {
-      email: 'alice@tmms.com',
-      courseId: 'testId',
-      name: 'AliceHasExtension',
-      teamName: 'Team 1',
-      sectionName: 'Section 1',
-    };
-    const testStudent2: Student = {
-      email: 'bob@tmms.com',
-      courseId: 'testId',
-      name: 'Bob',
-      teamName: 'Team 1',
-      sectionName: 'Section 1',
-    };
-    const testStudent3: Student = {
-      email: 'alex@tmms.com',
-      courseId: 'testId',
-      name: 'alex',
-      teamName: 'Team 1',
-      sectionName: 'Section 1',
-    };
-    const students: Students = {
-      students: [testStudent1, testStudent2, testStudent3],
-    };
+  const testStudent1: Student = {
+    email: 'alice@tmms.com',
+    courseId: 'testId',
+    name: 'AliceHasExtension',
+    teamName: 'Team 1',
+    sectionName: 'Section 1',
+  };
+  const testStudent2: Student = {
+    email: 'bob@tmms.com',
+    courseId: 'testId',
+    name: 'Bob',
+    teamName: 'Team 1',
+    sectionName: 'Section 1',
+  };
+  const testStudent3: Student = {
+    email: 'alex@tmms.com',
+    courseId: 'testId',
+    name: 'alex',
+    teamName: 'Team 1',
+    sectionName: 'Section 1',
+  };
+  const students: Students = {
+    students: [testStudent1, testStudent2, testStudent3],
+  };
 
-    const testInstructor1: Instructor = {
-      name: 'tester1',
-      email: 'tester1@tester.com',
-      googleId: 'instructor-google-id',
-      courseId: 'test-exa.demo',
-      institute: 'institute',
-      joinState: JoinState.JOINED,
-    };
+  const testInstructor1: Instructor = {
+    name: 'tester1',
+    email: 'tester1@tester.com',
+    googleId: 'instructor-google-id',
+    courseId: 'test-exa.demo',
+    institute: 'institute',
+    joinState: JoinState.JOINED,
+  };
+  const testInstructor2: Instructor = {
+    name: 'tester2HasExtension',
+    email: 'tester2@tester.com',
+    googleId: 'instructor-google-id',
+    courseId: 'test-exa.demo',
+    institute: 'institute',
+    joinState: JoinState.JOINED,
+  };
 
-    const testInstructor2: Instructor = {
-      name: 'tester2HasExtension',
-      email: 'tester2@tester.com',
-      googleId: 'instructor-google-id',
-      courseId: 'test-exa.demo',
-      institute: 'institute',
-      joinState: JoinState.JOINED,
-    };
+  const instructors: Instructors = {
+    instructors: [testInstructor1, testInstructor2],
+  };
 
-    const instructors: Instructors = {
-      instructors: [testInstructor1, testInstructor2],
-    };
+  const testTimeString = '5 Apr 2000 2:00:00';
 
-    const testTimeString = '5 Apr 2000 2:00:00';
+  let component: InstructorSessionIndividualExtensionPageComponent;
+  let fixture: ComponentFixture<InstructorSessionIndividualExtensionPageComponent>;
+  let studentService: StudentService;
+  let instructorService: InstructorService;
+  let courseService: CourseService;
+  let feedbackSessionsService: FeedbackSessionsService;
+  let timezoneService: TimezoneService;
+  let statusMessageService: StatusMessageService;
 
-    let component: InstructorSessionIndividualExtensionPageComponent;
-    let fixture: ComponentFixture<InstructorSessionIndividualExtensionPageComponent>;
-    let studentService: StudentService;
-    let instructorService: InstructorService;
-    let courseService: CourseService;
-    let feedbackSessionsService: FeedbackSessionsService;
-    let timezoneService: TimezoneService;
-    let statusMessageService: StatusMessageService;
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        HttpClientTestingModule,
+        RouterModule,
+        InstructorSessionIndividualExtensionPageModule,
+      ],
+      providers: [StudentService, CourseService, TimezoneService, FeedbackSessionsService,
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            queryParams: of({
+              courseid: testCourse.courseId,
+              feedbackSessionName: testFeedbackSession.feedbackSessionName,
+            }),
+          },
+        },
+      ],
+    })
+    .compileComponents();
+  }));
 
-    beforeEach(waitForAsync(() => {
-        TestBed.configureTestingModule({
-          imports: [
-            HttpClientTestingModule,
-            RouterModule,
-            InstructorSessionIndividualExtensionPageModule,
-          ],
-          providers: [StudentService, CourseService, TimezoneService, FeedbackSessionsService,
-            {
-              provide: ActivatedRoute,
-              useValue: {
-                queryParams: of({
-                  courseid: testCourse.courseId,
-                  feedbackSessionName: testFeedbackSession.feedbackSessionName,
-                }),
-              },
-            },
-          ],
-        })
-        .compileComponents();
-      }));
-
-    beforeEach(() => {
-        fixture = TestBed.createComponent(InstructorSessionIndividualExtensionPageComponent);
-        component = fixture.componentInstance;
-        studentService = TestBed.inject(StudentService);
-        instructorService = TestBed.inject(InstructorService);
-        courseService = TestBed.inject(CourseService);
-        feedbackSessionsService = TestBed.inject(FeedbackSessionsService);
-        timezoneService = TestBed.inject(TimezoneService);
-        statusMessageService = TestBed.inject(StatusMessageService);
-        jest.spyOn(timezoneService, 'guessTimezone').mockReturnValue('UTC');
-        fixture.detectChanges();
-      });
-
-    it('should create', () => {
-        expect(component).toBeTruthy();
-      });
-
-    it('should snap with default fields', () => {
-        expect(component).toBeTruthy();
-    });
-
-    it('should snap with student loading', () => {
-      jest.spyOn(timezoneService, 'formatToString').mockReturnValue(testTimeString);
-      component.isLoadingAllStudents = true;
-      component.isLoadingAllInstructors = false;
-      component.isLoadingFeedbackSession = false;
+  beforeEach(() => {
+      fixture = TestBed.createComponent(InstructorSessionIndividualExtensionPageComponent);
+      component = fixture.componentInstance;
+      studentService = TestBed.inject(StudentService);
+      instructorService = TestBed.inject(InstructorService);
+      courseService = TestBed.inject(CourseService);
+      feedbackSessionsService = TestBed.inject(FeedbackSessionsService);
+      timezoneService = TestBed.inject(TimezoneService);
+      statusMessageService = TestBed.inject(StatusMessageService);
+      jest.spyOn(timezoneService, 'guessTimezone').mockReturnValue('UTC');
       fixture.detectChanges();
-      expect(fixture).toMatchSnapshot();
-    });
+  });
 
-    it('should snap with instructor loading', () => {
-      jest.spyOn(timezoneService, 'formatToString').mockReturnValue(testTimeString);
-      component.isLoadingAllInstructors = true;
-      component.isLoadingFeedbackSession = false;
-      component.isLoadingAllStudents = false;
-      fixture.detectChanges();
-      expect(fixture).toMatchSnapshot();
-    });
+  it('should create', () => {
+      expect(component).toBeTruthy();
+  });
 
-    it('should snap when feedback session loading', () => {
-      jest.spyOn(timezoneService, 'formatToString').mockReturnValue(testTimeString);
-      component.isLoadingFeedbackSession = true;
-      component.isLoadingAllStudents = false;
-      component.isLoadingAllInstructors = false;
-      fixture.detectChanges();
-      expect(fixture).toMatchSnapshot();
-    });
+  it('should snap with student loading', () => {
+    jest.spyOn(timezoneService, 'formatToString').mockReturnValue(testTimeString);
+    component.isLoadingAllStudents = true;
+    component.isLoadingAllInstructors = false;
+    component.isLoadingFeedbackSession = false;
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
 
-    it('should snap when there are no students', () => {
-      jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of({ students: [] }));
-      jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
-      jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
-      jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(of(instructors));
+  it('should snap with instructor loading', () => {
+    jest.spyOn(timezoneService, 'formatToString').mockReturnValue(testTimeString);
+    component.isLoadingAllInstructors = true;
+    component.isLoadingFeedbackSession = false;
+    component.isLoadingAllStudents = false;
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
 
-      component.ngOnInit();
+  it('should snap when feedback session loading', () => {
+    jest.spyOn(timezoneService, 'formatToString').mockReturnValue(testTimeString);
+    component.isLoadingFeedbackSession = true;
+    component.isLoadingAllStudents = false;
+    component.isLoadingAllInstructors = false;
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
 
-      fixture.detectChanges();
-      expect(fixture).toMatchSnapshot();
-    });
+  it('should snap when there are no students', () => {
+    jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of({ students: [] }));
+    jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+    jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(of(instructors));
 
-    it('should snap when there are no instructors', () => {
-      jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
-      jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
-      jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
-      jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(of({ instructors: [] }));
+    component.ngOnInit();
 
-      component.ngOnInit();
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
 
-      fixture.detectChanges();
-      expect(fixture).toMatchSnapshot();
-    });
+  it('should snap when there are no instructors', () => {
+    jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
+    jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+    jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(of({ instructors: [] }));
 
-    it('should stop loading if student service returns 404', () => {
-      jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(throwError({
-        status: 404,
-        error: { message: 'This is a test message' },
-      }));
-      jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
-      jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
-      jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(of(instructors));
-      const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast');
+    component.ngOnInit();
 
-      component.ngOnInit();
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
 
-      expect(component.isLoadingAllInstructors).toBeFalsy();
-      expect(component.hasLoadedAllInstructorsFailed).toBeFalsy();
-      expect(component.isLoadingAllStudents).toBeFalsy();
-      expect(component.hasLoadedAllStudentsFailed).toBeTruthy();
-      expect(component.isLoadingFeedbackSession).toBeFalsy();
-      expect(component.hasLoadingFeedbackSessionFailed).toBeFalsy();
-      fixture.detectChanges();
-      expect(spyStatusMessageService).toBeCalled();
-      expect(fixture).toMatchSnapshot();
-    });
+  it('should stop loading if student service returns 404', () => {
+    jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(throwError({
+      status: 404,
+      error: { message: 'This is a test message' },
+    }));
+    jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+    jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(of(instructors));
+    const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast');
 
-    it('should stop loading if instructor service returns 404', () => {
-      jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
-      jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
-      jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
-      jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(throwError({
-        status: 404,
-        error: { message: 'This is a test message' },
-      }));
-      const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast');
+    component.ngOnInit();
 
-      component.ngOnInit();
+    expect(component.isLoadingAllInstructors).toBeFalsy();
+    expect(component.hasLoadedAllInstructorsFailed).toBeFalsy();
+    expect(component.isLoadingAllStudents).toBeFalsy();
+    expect(component.hasLoadedAllStudentsFailed).toBeTruthy();
+    expect(component.isLoadingFeedbackSession).toBeFalsy();
+    expect(component.hasLoadingFeedbackSessionFailed).toBeFalsy();
+    fixture.detectChanges();
+    expect(spyStatusMessageService).toBeCalled();
+    expect(fixture).toMatchSnapshot();
+  });
 
-      expect(component.isLoadingAllInstructors).toBeFalsy();
-      expect(component.hasLoadedAllInstructorsFailed).toBeTruthy();
-      expect(component.isLoadingAllStudents).toBeFalsy();
-      expect(component.hasLoadedAllStudentsFailed).toBeFalsy();
-      expect(component.isLoadingFeedbackSession).toBeFalsy();
-      expect(component.hasLoadingFeedbackSessionFailed).toBeFalsy();
-      fixture.detectChanges();
-      expect(spyStatusMessageService).toBeCalled();
-      expect(fixture).toMatchSnapshot();
-    });
+  it('should stop loading if instructor service returns 404', () => {
+    jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
+    jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+    jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(throwError({
+      status: 404,
+      error: { message: 'This is a test message' },
+    }));
+    const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast');
 
-    it('should stop loading if feedback session service returns 404', () => {
-      jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
-      jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
-      jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(throwError({
-        status: 404,
-        error: { message: 'This is a test message' },
-      }));
-      jest.spyOn(timezoneService, 'formatToString').mockReturnValue(testTimeString);
-      const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast');
+    component.ngOnInit();
 
-      component.ngOnInit();
+    expect(component.isLoadingAllInstructors).toBeFalsy();
+    expect(component.hasLoadedAllInstructorsFailed).toBeTruthy();
+    expect(component.isLoadingAllStudents).toBeFalsy();
+    expect(component.hasLoadedAllStudentsFailed).toBeFalsy();
+    expect(component.isLoadingFeedbackSession).toBeFalsy();
+    expect(component.hasLoadingFeedbackSessionFailed).toBeFalsy();
+    fixture.detectChanges();
+    expect(spyStatusMessageService).toBeCalled();
+    expect(fixture).toMatchSnapshot();
+  });
 
-      expect(component.isLoadingAllInstructors).toBeFalsy();
-      expect(component.hasLoadedAllInstructorsFailed).toBeFalsy();
-      expect(component.isLoadingAllStudents).toBeFalsy();
-      expect(component.hasLoadedAllStudentsFailed).toBeFalsy();
-      expect(component.isLoadingFeedbackSession).toBeFalsy();
-      expect(component.hasLoadingFeedbackSessionFailed).toBeTruthy();
-      fixture.detectChanges();
-      expect(spyStatusMessageService).toBeCalled();
-      expect(fixture).toMatchSnapshot();
-    });
+  it('should stop loading if feedback session service returns 404', () => {
+    jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
+    jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(throwError({
+      status: 404,
+      error: { message: 'This is a test message' },
+    }));
+    jest.spyOn(timezoneService, 'formatToString').mockReturnValue(testTimeString);
+    const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast');
 
-    it('should stop loading if course service returns 404', () => {
-      jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
-      jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(throwError({
-        status: 404,
-        error: { message: 'This is a test message' },
-      }));
-      jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
-      jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(of(instructors));
-      jest.spyOn(timezoneService, 'formatToString').mockReturnValue(testTimeString);
-      const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast');
+    component.ngOnInit();
 
-      component.ngOnInit();
+    expect(component.isLoadingAllInstructors).toBeFalsy();
+    expect(component.hasLoadedAllInstructorsFailed).toBeFalsy();
+    expect(component.isLoadingAllStudents).toBeFalsy();
+    expect(component.hasLoadedAllStudentsFailed).toBeFalsy();
+    expect(component.isLoadingFeedbackSession).toBeFalsy();
+    expect(component.hasLoadingFeedbackSessionFailed).toBeTruthy();
+    fixture.detectChanges();
+    expect(spyStatusMessageService).toBeCalled();
+    expect(fixture).toMatchSnapshot();
+  });
 
-      expect(component.isLoadingAllInstructors).toBeFalsy();
-      expect(component.hasLoadedAllInstructorsFailed).toBeFalsy();
-      expect(component.isLoadingAllStudents).toBeFalsy();
-      expect(component.hasLoadedAllStudentsFailed).toBeFalsy();
-      expect(component.isLoadingFeedbackSession).toBeFalsy();
-      expect(component.hasLoadingFeedbackSessionFailed).toBeTruthy();
-      fixture.detectChanges();
-      expect(spyStatusMessageService).toBeCalled();
-      expect(fixture).toMatchSnapshot();
-    });
+  it('should stop loading if course service returns 404', () => {
+    jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
+    jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(throwError({
+      status: 404,
+      error: { message: 'This is a test message' },
+    }));
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+    jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(of(instructors));
+    jest.spyOn(timezoneService, 'formatToString').mockReturnValue(testTimeString);
+    const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast');
 
-    it('should snap with details and extended students', () => {
-      jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
-      jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
-      jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(of(instructors));
-      jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+    component.ngOnInit();
 
-      component.ngOnInit();
-      component.isLoadingAllInstructors = false;
-      component.isLoadingAllStudents = false;
-      component.isLoadingFeedbackSession = false;
+    expect(component.isLoadingAllInstructors).toBeFalsy();
+    expect(component.hasLoadedAllInstructorsFailed).toBeFalsy();
+    expect(component.isLoadingAllStudents).toBeFalsy();
+    expect(component.hasLoadedAllStudentsFailed).toBeFalsy();
+    expect(component.isLoadingFeedbackSession).toBeFalsy();
+    expect(component.hasLoadingFeedbackSessionFailed).toBeTruthy();
+    fixture.detectChanges();
+    expect(spyStatusMessageService).toBeCalled();
+    expect(fixture).toMatchSnapshot();
+  });
 
-      fixture.detectChanges();
-      expect(fixture).toMatchSnapshot();
-    });
+  it('should snap with details and extended students', () => {
+    jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
+    jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
+    jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(of(instructors));
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
 
-    it('should snap when clicking the Select All Students button', () => {
-      jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
-      jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
-      jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
-      jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(of(instructors));
-      component.ngOnInit();
-      component.isLoadingAllInstructors = false;
-      component.isLoadingAllStudents = false;
-      component.isLoadingFeedbackSession = false;
+    component.ngOnInit();
+    component.isLoadingAllInstructors = false;
+    component.isLoadingAllStudents = false;
+    component.isLoadingFeedbackSession = false;
 
-      fixture.detectChanges();
-      const selectAllButton = fixture.debugElement.query(By.css('#select-all-student-btn'));
-      selectAllButton.triggerEventHandler('click', null);
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
 
-      expect(fixture).toMatchSnapshot();
-    });
+  it('should snap when clicking the Select All Students button', () => {
+    jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
+    jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+    jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(of(instructors));
+    component.ngOnInit();
+    component.isLoadingAllInstructors = false;
+    component.isLoadingAllStudents = false;
+    component.isLoadingFeedbackSession = false;
 
-    it('should snap when clicking the Select All Instructors button', () => {
-      jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
-      jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
-      jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
-      jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(of(instructors));
-      component.ngOnInit();
-      component.isLoadingAllInstructors = false;
-      component.isLoadingAllStudents = false;
-      component.isLoadingFeedbackSession = false;
+    fixture.detectChanges();
+    const selectAllButton = fixture.debugElement.query(By.css('#select-all-student-btn'));
+    selectAllButton.triggerEventHandler('click', null);
 
-      fixture.detectChanges();
-      const selectAllButton = fixture.debugElement.query(By.css('#select-all-instructor-btn'));
-      selectAllButton.triggerEventHandler('click', null);
+    expect(fixture).toMatchSnapshot();
+  });
 
-      expect(fixture).toMatchSnapshot();
-    });
+  it('should snap when clicking the Select All Instructors button', () => {
+    jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
+    jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+    jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(of(instructors));
+    component.ngOnInit();
+    component.isLoadingAllInstructors = false;
+    component.isLoadingAllStudents = false;
+    component.isLoadingFeedbackSession = false;
 
-    it('should disable extend and delete button when no student selected', () => {
-      jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
-      jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
-      jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
-      component.ngOnInit();
-      component.isLoadingAllInstructors = false;
-      component.isLoadingAllStudents = false;
-      component.isLoadingFeedbackSession = false;
+    fixture.detectChanges();
+    const selectAllButton = fixture.debugElement.query(By.css('#select-all-instructor-btn'));
+    selectAllButton.triggerEventHandler('click', null);
 
-      fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
 
-      const extendButton: any = fixture.debugElement.nativeElement.querySelector('#extend-btn');
-      const deleteButton: any = fixture.debugElement.nativeElement.querySelector('#delete-btn');
+  it('should disable extend and delete button when no student selected', () => {
+    jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
+    jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+    component.ngOnInit();
+    component.isLoadingAllInstructors = false;
+    component.isLoadingAllStudents = false;
+    component.isLoadingFeedbackSession = false;
 
-      expect(extendButton.textContent).toEqual('Extend / Edit');
-      expect(extendButton.disabled).toBeTruthy();
-      expect(deleteButton.textContent).toEqual('Delete');
-      expect(deleteButton.disabled).toBeTruthy();
-    });
+    fixture.detectChanges();
 
-    it('should enable the extend button when a student is selected', () => {
-      jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
-      jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
-      jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
-      component.ngOnInit();
-      component.studentsOfCourse[1].isSelected = true; // Bob has no extension
-      component.isLoadingAllInstructors = false;
-      component.isLoadingAllStudents = false;
-      component.isLoadingFeedbackSession = false;
-      fixture.detectChanges();
+    const extendButton: any = fixture.debugElement.nativeElement.querySelector('#extend-btn');
+    const deleteButton: any = fixture.debugElement.nativeElement.querySelector('#delete-btn');
 
-      const extendButton: any = fixture.debugElement.nativeElement.querySelector('#extend-btn');
-      const deleteButton: any = fixture.debugElement.nativeElement.querySelector('#delete-btn');
+    expect(extendButton.textContent).toEqual('Extend / Edit');
+    expect(extendButton.disabled).toBeTruthy();
+    expect(deleteButton.textContent).toEqual('Delete');
+    expect(deleteButton.disabled).toBeTruthy();
+  });
 
-      expect(extendButton.textContent).toEqual('Extend / Edit');
-      expect(extendButton.disabled).toBeFalsy();
-      expect(deleteButton.textContent).toEqual('Delete');
-      expect(deleteButton.disabled).toBeTruthy();
-    });
+  it('should enable the extend button when a student is selected', () => {
+    jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
+    jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+    component.ngOnInit();
+    component.studentsOfCourse[1].isSelected = true; // Bob has no extension
+    component.isLoadingAllInstructors = false;
+    component.isLoadingAllStudents = false;
+    component.isLoadingFeedbackSession = false;
+    fixture.detectChanges();
 
-    it('should enable extend and delete button when student with extension selected', () => {
-      jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
-      jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
-      jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
-      component.ngOnInit();
-      component.studentsOfCourse[0].isSelected = true; // Alice has extension
-      component.isLoadingAllInstructors = false;
-      component.isLoadingAllStudents = false;
-      component.isLoadingFeedbackSession = false;
+    const extendButton: any = fixture.debugElement.nativeElement.querySelector('#extend-btn');
+    const deleteButton: any = fixture.debugElement.nativeElement.querySelector('#delete-btn');
 
-      fixture.detectChanges();
+    expect(extendButton.textContent).toEqual('Extend / Edit');
+    expect(extendButton.disabled).toBeFalsy();
+    expect(deleteButton.textContent).toEqual('Delete');
+    expect(deleteButton.disabled).toBeTruthy();
+  });
 
-      const extendButton: any = fixture.debugElement.nativeElement.querySelector('#extend-btn');
-      const deleteButton: any = fixture.debugElement.nativeElement.querySelector('#delete-btn');
+  it('should enable extend and delete button when student with extension selected', () => {
+    jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
+    jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+    component.ngOnInit();
+    component.studentsOfCourse[0].isSelected = true; // Alice has extension
+    component.isLoadingAllInstructors = false;
+    component.isLoadingAllStudents = false;
+    component.isLoadingFeedbackSession = false;
 
-      expect(extendButton.textContent).toEqual('Extend / Edit');
-      expect(extendButton.disabled).toBeFalsy();
-      expect(deleteButton.textContent).toEqual('Delete');
-      expect(deleteButton.disabled).toBeFalsy();
-    });
+    fixture.detectChanges();
 
-    it('should enable delete button even if one of selected students does not have extension', () => {
-      jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
-      jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
-      jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
-      component.ngOnInit();
-      component.studentsOfCourse[0].isSelected = true; // Alice has extension
-      component.studentsOfCourse[1].isSelected = true; // Bob does not
-      component.isLoadingAllInstructors = false;
-      component.isLoadingAllStudents = false;
-      component.isLoadingFeedbackSession = false;
+    const extendButton: any = fixture.debugElement.nativeElement.querySelector('#extend-btn');
+    const deleteButton: any = fixture.debugElement.nativeElement.querySelector('#delete-btn');
 
-      fixture.detectChanges();
+    expect(extendButton.textContent).toEqual('Extend / Edit');
+    expect(extendButton.disabled).toBeFalsy();
+    expect(deleteButton.textContent).toEqual('Delete');
+    expect(deleteButton.disabled).toBeFalsy();
+  });
 
-      const extendButton: any = fixture.debugElement.nativeElement.querySelector('#extend-btn');
-      const deleteButton: any = fixture.debugElement.nativeElement.querySelector('#delete-btn');
+  it('should enable delete button even if one of selected students does not have extension', () => {
+    jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
+    jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+    component.ngOnInit();
+    component.studentsOfCourse[0].isSelected = true; // Alice has extension
+    component.studentsOfCourse[1].isSelected = true; // Bob does not
+    component.isLoadingAllInstructors = false;
+    component.isLoadingAllStudents = false;
+    component.isLoadingFeedbackSession = false;
 
-      expect(extendButton.textContent).toEqual('Extend / Edit');
-      expect(extendButton.disabled).toBeFalsy();
-      expect(deleteButton.textContent).toEqual('Delete');
-      expect(deleteButton.disabled).toBeFalsy();
-    });
+    fixture.detectChanges();
 
+    const extendButton: any = fixture.debugElement.nativeElement.querySelector('#extend-btn');
+    const deleteButton: any = fixture.debugElement.nativeElement.querySelector('#delete-btn');
+
+    expect(extendButton.textContent).toEqual('Extend / Edit');
+    expect(extendButton.disabled).toBeFalsy();
+    expect(deleteButton.textContent).toEqual('Delete');
+    expect(deleteButton.disabled).toBeFalsy();
+  });
 });

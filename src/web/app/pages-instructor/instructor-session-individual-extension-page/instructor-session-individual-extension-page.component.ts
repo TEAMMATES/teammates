@@ -8,7 +8,6 @@ import { InstructorService } from '../../../services/instructor.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
-import { TimezoneService } from '../../../services/timezone.service';
 import { Course, FeedbackSession, Instructor, Instructors, Student, Students } from '../../../types/api-output';
 import {
   FeedbackSessionBasicRequest,
@@ -95,7 +94,6 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
   }
 
   constructor(
-    public timezoneService: TimezoneService,
     private statusMessageService: StatusMessageService,
     private feedbackSessionsService: FeedbackSessionsService,
     private studentService: StudentService,
@@ -109,7 +107,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
   /**
    * Loads a feedback session.
    */
-   loadFeedbackSessionAndIndividuals(): void {
+  loadFeedbackSessionAndIndividuals(): void {
     this.isLoadingAllStudents = true;
     this.hasLoadedAllStudentsFailed = false;
     this.isLoadingFeedbackSession = true;
@@ -128,7 +126,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
             intent: Intent.FULL_DETAIL,
           })
           .pipe(map((feedbackSession: FeedbackSession) => {
-            this.getFeedbackSessionDetails(feedbackSession);
+            this.setFeedbackSessionDetails(feedbackSession);
           }))
           .subscribe(() => {
               this.getAllStudentsOfCourse(); // Both students and instructors need feedback ending time.
@@ -171,7 +169,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
       );
   }
 
-  private getFeedbackSessionDetails(feedbackSession: FeedbackSession): void {
+  private setFeedbackSessionDetails(feedbackSession: FeedbackSession): void {
     this.feedbackSessionDetails = {
       instructions: feedbackSession.instructions,
       submissionStartTimestamp: feedbackSession.submissionStartTimestamp,
@@ -190,8 +188,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     this.instructorDeadlines = feedbackSession.instructorDeadlines ?? {};
   }
 
-  private mapStudentToStudentModel(student: Student):
-    StudentExtensionTableColumnModel {
+  private mapStudentToStudentModel(student: Student): StudentExtensionTableColumnModel {
     const studentData: StudentExtensionTableColumnModel = {
       sectionName: student.sectionName,
       teamName: student.teamName,
@@ -214,10 +211,6 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     this.studentsOfCourse.sort(this.sortStudentPanelsBy(SortBy.TEAM_NAME));
     this.studentsOfCourse.sort(this.sortStudentPanelsBy(SortBy.SECTION_NAME));
     this.studentsOfCourse.sort(this.sortStudentPanelsBy(SortBy.SESSION_END_DATE));
-  }
-
-  getNumberOfSelectedStudents(): number {
-    return this.studentsOfCourse.filter((x) => x.isSelected).length;
   }
 
   /**
@@ -255,10 +248,6 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     return instructorData;
   }
 
-  getNumberOfSelectedInstructors(): number {
-    return this.instructorsOfCourse.filter((x) => x.isSelected).length;
-  }
-
   private initialSortOfInstructors(): void {
     this.instructorsOfCourse.sort(this.sortInstructorPanelsBy(SortBy.INSTRUCTOR_PERMISSION_ROLE));
     this.instructorsOfCourse.sort(this.sortInstructorPanelsBy(SortBy.SESSION_END_DATE));
@@ -286,8 +275,8 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     modalRef.componentInstance.extensionTimestamp = extensionTimestamp;
     modalRef.componentInstance.feedbackSessionTimeZone = this.feedbackSessionTimeZone;
 
-    modalRef.componentInstance.onConfirmExtensionCallBack.subscribe((isNotifyIndividuals: boolean) => {
-      this.handleCreateDeadlines(selectedStudents, selectedInstructors, extensionTimestamp, isNotifyIndividuals);
+    modalRef.componentInstance.onConfirmExtensionCallBack.subscribe((isNotifyDeadlines: boolean) => {
+      this.handleCreateDeadlines(selectedStudents, selectedInstructors, extensionTimestamp, isNotifyDeadlines);
       modalRef.close();
     });
   }
@@ -302,15 +291,15 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     modalRef.componentInstance.extensionTimestamp = this.feedbackSessionEndingTime;
     modalRef.componentInstance.feedbackSessionTimeZone = this.feedbackSessionTimeZone;
 
-    modalRef.componentInstance.onConfirmExtensionCallBack.subscribe((isNotifyIndividuals: boolean) => {
-      this.handleDeleteDeadlines(selectedStudents, selectedInstructors, isNotifyIndividuals);
+    modalRef.componentInstance.onConfirmExtensionCallBack.subscribe((isNotifyDeadlines: boolean) => {
+      this.handleDeleteDeadlines(selectedStudents, selectedInstructors, isNotifyDeadlines);
       modalRef.close();
     });
   }
 
   private handleCreateDeadlines(selectedStudents: StudentExtensionTableColumnModel[],
-                          selectedInstructors: InstructorExtensionTableColumnModel[],
-                          extensionTimestamp: number, isNotifyIndividuals: boolean): void {
+    selectedInstructors: InstructorExtensionTableColumnModel[],
+    extensionTimestamp: number, isNotifyDeadlines: boolean): void {
 
     const request: FeedbackSessionUpdateRequest = {
       studentDeadlines: this.getUpdatedDeadlines(selectedStudents, extensionTimestamp, true),
@@ -319,8 +308,8 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     };
 
     this.isSubmittingDeadlines = true;
-    this.feedbackSessionsService.updateFeedbackSession(this.courseId,
-      this.feedbackSessionName, isNotifyIndividuals, request)
+    this.feedbackSessionsService.updateFeedbackSession(this.courseId, this.feedbackSessionName, request,
+      isNotifyDeadlines)
         .pipe(finalize(() => { this.isSubmittingDeadlines = false; }))
         .subscribe(() => {
           this.loadFeedbackSessionAndIndividuals();
@@ -346,7 +335,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
   }
 
   private handleDeleteDeadlines(selectedStudents: StudentExtensionTableColumnModel[],
-    selectedInstructors: InstructorExtensionTableColumnModel[], isNotifyIndividuals: boolean): void {
+    selectedInstructors: InstructorExtensionTableColumnModel[], isNotifyDeadlines: boolean): void {
 
     const request: FeedbackSessionUpdateRequest = {
       studentDeadlines: this.getDeletedDeadlines(selectedStudents, true),
@@ -355,8 +344,8 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     };
 
     this.isSubmittingDeadlines = true;
-    this.feedbackSessionsService.updateFeedbackSession(this.courseId,
-      this.feedbackSessionName, isNotifyIndividuals, request)
+    this.feedbackSessionsService.updateFeedbackSession(this.courseId, this.feedbackSessionName, request,
+      isNotifyDeadlines)
     .pipe(finalize(() => { this.isSubmittingDeadlines = false; }))
     .subscribe(() => {
       this.loadFeedbackSessionAndIndividuals();
@@ -381,19 +370,27 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     return record;
   }
 
-  getSelectedStudents(): StudentExtensionTableColumnModel[] {
+  private getSelectedStudents(): StudentExtensionTableColumnModel[] {
     return this.studentsOfCourse.filter((x) => x.isSelected);
   }
 
-  getSelectedStudentsWithExtensions(): StudentExtensionTableColumnModel[] {
+  getNumberOfSelectedStudents(): number {
+    return this.getSelectedStudents().length;
+  }
+
+  private getSelectedStudentsWithExtensions(): StudentExtensionTableColumnModel[] {
     return this.studentsOfCourse.filter((x) => x.isSelected && x.hasExtension);
   }
 
-  getSelectedInstructors(): InstructorExtensionTableColumnModel[] {
+  private getSelectedInstructors(): InstructorExtensionTableColumnModel[] {
     return this.instructorsOfCourse.filter((x) => x.isSelected);
   }
 
-  getSelectedInstructorsWithExtensions(): InstructorExtensionTableColumnModel[] {
+  private getNumberOfSelectedInstructors(): number {
+    return this.getSelectedInstructors().length;
+  }
+
+  private getSelectedInstructorsWithExtensions(): InstructorExtensionTableColumnModel[] {
     return this.instructorsOfCourse.filter((x) => x.isSelected && x.hasExtension);
   }
 
@@ -444,7 +441,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     this.studentsOfCourse.sort(this.sortStudentPanelsBy(by));
   }
 
-  sortStudentPanelsBy(by: SortBy): (a: StudentExtensionTableColumnModel, b: StudentExtensionTableColumnModel)
+  private sortStudentPanelsBy(by: SortBy): (a: StudentExtensionTableColumnModel, b: StudentExtensionTableColumnModel)
     => number {
     return (a: StudentExtensionTableColumnModel, b: StudentExtensionTableColumnModel): number => {
       let strA: string;
@@ -484,8 +481,8 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     this.instructorsOfCourse.sort(this.sortInstructorPanelsBy(by));
   }
 
-  sortInstructorPanelsBy(by: SortBy): (a: InstructorExtensionTableColumnModel, b: InstructorExtensionTableColumnModel)
-  => number {
+  private sortInstructorPanelsBy(by: SortBy): (a: InstructorExtensionTableColumnModel,
+    b: InstructorExtensionTableColumnModel) => number {
     return (a: InstructorExtensionTableColumnModel, b: InstructorExtensionTableColumnModel): number => {
       let strA: string;
       let strB: string;
@@ -499,8 +496,8 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
           strB = b.email;
           break;
         case SortBy.INSTRUCTOR_PERMISSION_ROLE:
-          strA = a.role ? a.role : '';
-          strB = b.role ? b.role : '';
+          strA = a.role || '';
+          strB = b.role || '';
           break;
         case SortBy.SESSION_END_DATE:
           strA = a.extensionDeadline.toString();
@@ -513,5 +510,4 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
       return this.tableComparatorService.compare(by, this.sortInstructorOrder, strA, strB);
     };
   }
-
 }

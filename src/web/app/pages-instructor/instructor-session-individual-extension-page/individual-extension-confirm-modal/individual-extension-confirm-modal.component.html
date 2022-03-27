@@ -1,5 +1,3 @@
-<!-- <div class="modal-header alert-danger"> -->
-
 <div class="modal-header" [ngClass]="{'alert-primary': isExtendModal(), 'alert-danger' : isDeleteModal()}">
   <h5 class="modal-title" *ngIf="isExtendModal()">Confirm extension of feedback session</h5>
   <h5 class="modal-title" *ngIf="isDeleteModal()">Confirm deletion of feedback session extensions</h5>
@@ -11,12 +9,12 @@
 <div class="modal-body" >
   <div *ngIf="isExtendModal()">
     The new deadline of <b>{{ extensionTimestamp | formatDateDetail: feedbackSessionTimeZone }}</b> will be applied
-    to the following <b>{{selectedStudents.length}}</b> student(s) and <b>{{selectedInstructors.length}}</b> instructor(s) upon confirmation:
+    to the following <b>{{selectedStudents.length}}</b> student(s) and <b>{{selectedInstructors.length}}</b> instructor(s):
   </div>
 
   <div *ngIf="isDeleteModal()">
     The deadline of the following <b>{{selectedStudents.length}}</b> student(s) and <b>{{selectedInstructors.length}}</b>
-    instructor(s) will be reverted back to the original deadline of <b>{{ extensionTimestamp | formatDateDetail: feedbackSessionTimeZone }}</b> upon confirmation:
+    instructor(s) will be reverted back to the original deadline of <b>{{ extensionTimestamp | formatDateDetail: feedbackSessionTimeZone }}</b>:
   </div>
 
   <div class="table-responsive" *ngIf="selectedStudents.length!==0">
@@ -141,7 +139,7 @@
   </div>
 
   <div class="form-check">
-    <input class="form-check-input" type="checkbox" [(ngModel)]="isNotifyIndividuals" id="flexCheckChecked">
+    <input class="form-check-input" type="checkbox" [(ngModel)]="isNotifyDeadlines" id="flexCheckChecked">
     <label class="form-check-label" for="flexCheckChecked" *ngIf="isExtendModal()">
       Notify affected students and/or instructors by email about this extension
     </label>

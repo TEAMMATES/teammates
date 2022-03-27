@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { TableComparatorService } from '../../../../services/table-comparator.service';
-import { TimezoneService } from '../../../../services/timezone.service';
 import { SortBy, SortOrder } from '../../../../types/sort-properties';
 import { InstructorExtensionTableColumnModel, StudentExtensionTableColumnModel } from '../extension-table-column-model';
 
@@ -35,7 +34,6 @@ export class IndividualExtensionConfirmModalComponent {
   onConfirmExtensionCallBack: EventEmitter<boolean> = new EventEmitter();
 
   constructor(public activeModal: NgbActiveModal,
-              public timezoneService: TimezoneService,
               private tableComparatorService: TableComparatorService) { }
 
   SortBy: typeof SortBy = SortBy;
@@ -47,14 +45,14 @@ export class IndividualExtensionConfirmModalComponent {
 
   DATETIME_FORMAT: string = 'd MMM YYYY h:mm:ss';
 
-  isNotifyIndividuals: boolean = false;
+  isNotifyDeadlines: boolean = false;
 
   onExtend(): void {
-    this.onConfirmExtensionCallBack.emit(this.isNotifyIndividuals);
+    this.onConfirmExtensionCallBack.emit(this.isNotifyDeadlines);
   }
 
   onDelete(): void {
-    this.onConfirmExtensionCallBack.emit(this.isNotifyIndividuals);
+    this.onConfirmExtensionCallBack.emit(this.isNotifyDeadlines);
   }
 
   isDeleteModal() : boolean {
@@ -72,7 +70,7 @@ export class IndividualExtensionConfirmModalComponent {
   }
 
   sortStudentPanelsBy(by: SortBy): (a: StudentExtensionTableColumnModel, b: StudentExtensionTableColumnModel)
-    => number {
+  => number {
     return (a: StudentExtensionTableColumnModel, b: StudentExtensionTableColumnModel): number => {
       let strA: string;
       let strB: string;
@@ -126,8 +124,8 @@ export class IndividualExtensionConfirmModalComponent {
           strB = b.email;
           break;
         case SortBy.INSTRUCTOR_PERMISSION_ROLE:
-          strA = a.role ? a.role.valueOf() : '';
-          strB = b.role ? b.role.valueOf() : '';
+          strA = a.role || '';
+          strB = b.role || '';
           break;
         case SortBy.SESSION_END_DATE:
           strA = a.extensionDeadline.toString();

@@ -15,36 +15,36 @@ import { InstructorSessionIndividualExtensionPageComponent }
 from './instructor-session-individual-extension-page.component';
 
 const routes: Routes = [
-    {
-      path: '',
-      component: InstructorSessionIndividualExtensionPageComponent,
-    },
-  ];
+  {
+    path: '',
+    component: InstructorSessionIndividualExtensionPageComponent,
+  },
+];
 
 @NgModule({
-    imports: [
-      CommonModule,
-      ReactiveFormsModule,
-      TeammatesCommonModule,
-      FormsModule,
-      RouterModule.forChild(routes),
-      LoadingSpinnerModule,
-      DatepickerModule,
-      TimepickerModule,
-      LoadingRetryModule,
-    ],
-    entryComponents: [
-      IndividualExtensionDateModalComponent,
-      IndividualExtensionConfirmModalComponent,
-    ],
-    declarations: [
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    TeammatesCommonModule,
+    FormsModule,
+    RouterModule.forChild(routes),
+    LoadingSpinnerModule,
+    DatepickerModule,
+    TimepickerModule,
+    LoadingRetryModule,
+  ],
+  entryComponents: [
+    IndividualExtensionDateModalComponent,
+    IndividualExtensionConfirmModalComponent,
+  ],
+  declarations: [
+    InstructorSessionIndividualExtensionPageComponent,
+    IndividualExtensionDateModalComponent,
+    IndividualExtensionConfirmModalComponent,
+  ],
+  exports: [
       InstructorSessionIndividualExtensionPageComponent,
-      IndividualExtensionDateModalComponent,
-      IndividualExtensionConfirmModalComponent,
-    ],
-    exports: [
-        InstructorSessionIndividualExtensionPageComponent,
-    ],
-  })
+  ],
+})
 
 export class InstructorSessionIndividualExtensionPageModule { }

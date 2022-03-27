@@ -8,7 +8,7 @@ exports[`IndividualExtensionConfirmModalComponent should snap with the extended 
   activeModal={[Function NgbActiveModal]}
   extensionTimestamp={[Function Number]}
   feedbackSessionTimeZone={[Function String]}
-  isNotifyIndividuals="false"
+  isNotifyDeadlines="false"
   modalType="0"
   onConfirmExtensionCallBack={[Function EventEmitter_]}
   selectedInstructors={[Function Array]}
