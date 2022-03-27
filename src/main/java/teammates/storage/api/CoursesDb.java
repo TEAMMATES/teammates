@@ -167,4 +167,15 @@ public final class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
 
         return CourseAttributes.valueOf(entity);
     }
+
+    /**
+     * Gets the number of courses created within a specified time range.
+     */
+    public int getNumCoursesByTimeRange(Instant startTime, Instant endTime) {
+        return load()
+                .filter("createdAt >=", startTime)
+                .filter("createdAt <", endTime)
+                .count();
+    }
+
 }

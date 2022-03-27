@@ -1,5 +1,6 @@
 package teammates.logic.core;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringJoiner;
@@ -462,6 +463,13 @@ public final class StudentsLogic {
     private boolean isSectionChanged(String originalSection, String newSection) {
         return newSection != null && originalSection != null
                 && !originalSection.equals(newSection);
+    }
+
+    /**
+     * Gets the number of students created within a specified time range.
+     */
+    int getNumStudentsByTimeRange(Instant startTime, Instant endTime) {
+        return studentsDb.getNumStudentsByTimeRange(startTime, endTime);
     }
 
 }
