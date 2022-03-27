@@ -105,7 +105,7 @@ class UpdateFeedbackSessionAction extends Action {
                             .build());
 
             if (!studentDeadlines.equals(oldStudentDeadlines) || !instructorDeadlines.equals(oldInstructorDeadlines)) {
-                taskQueuer.scheduleDeadlineExtensionsCudAndPossiblyNotify(courseId, feedbackSessionName,
+                taskQueuer.scheduleChangesToDeadlineExtensions(courseId, feedbackSessionName,
                         notifyAboutDeadlines, oldStudentDeadlines, studentDeadlines, oldInstructorDeadlines,
                         instructorDeadlines);
             }

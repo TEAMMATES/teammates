@@ -249,7 +249,7 @@ public class TaskQueuer {
     /**
      * Schedules to create, update, and delete (C_UD) deadline extension entities, and possibly notify users of them.
      */
-    public void scheduleDeadlineExtensionsCudAndPossiblyNotify(String courseId, String feedbackSessionName,
+    public void scheduleChangesToDeadlineExtensions(String courseId, String feedbackSessionName,
             boolean notifyAboutDeadlines, Map<String, Instant> oldStudentDeadlines,
             Map<String, Instant> newStudentDeadlines, Map<String, Instant> oldInstructorDeadlines,
             Map<String, Instant> newInstructorDeadlines) {
