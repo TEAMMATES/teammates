@@ -1,6 +1,6 @@
 <tm-loading-retry [shouldShowRetry]="hasLoadingFeedbackSessionFailed" [message]="'Failed to load course and feedback session'" (retryEvent)="loadFeedbackSessionAndIndividuals()">
   <div *tmIsLoading="isLoadingFeedbackSession">
-    <div class="card border-primary margin-top-20px">
+    <div class="card bg-light top-padded text-center text-sm-left">
       <div class="card-body">
         <div class="row text-center">
           <div class="col-md-2 text-md-right font-bold">Course ID</div>
