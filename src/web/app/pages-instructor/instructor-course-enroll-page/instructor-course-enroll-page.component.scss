@@ -73,6 +73,10 @@
   display: inline-block;
 }
 
+.enroll-button-group * {
+  max-height: inherit;
+}
+
 table {
   table-layout: fixed;
 }
