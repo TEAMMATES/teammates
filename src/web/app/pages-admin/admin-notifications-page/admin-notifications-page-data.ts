@@ -1,5 +1,5 @@
-import { Notification, NotificationTargetUser, NotificationType } from "../../../types/api-output";
-import { NotificationEditFormModel } from "./notification-edit-form/notification-edit-form-model";
+import { Notification, NotificationTargetUser, NotificationType } from '../../../types/api-output';
+import { NotificationEditFormModel } from './notification-edit-form/notification-edit-form-model';
 
 /**
  * Structure for example of notification edit model.

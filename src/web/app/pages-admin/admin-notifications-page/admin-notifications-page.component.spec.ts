@@ -5,12 +5,16 @@ import SpyInstance = jest.SpyInstance;
 import { NotificationService } from '../../../services/notification.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { Notification } from '../../../types/api-output';
-import { EXAMPLE_NOTIFICATION_EDIT_MODEL, EXAMPLE_NOTIFICATION_ONE, EXAMPLE_NOTIFICATION_TWO } from './admin-notifications-page-data';
+import { SortBy } from '../../../types/sort-properties';
+import {
+  EXAMPLE_NOTIFICATION_EDIT_MODEL,
+  EXAMPLE_NOTIFICATION_ONE,
+  EXAMPLE_NOTIFICATION_TWO,
+} from './admin-notifications-page-data';
 
 import { AdminNotificationsPageComponent } from './admin-notifications-page.component';
 import { AdminNotificationsPageModule } from './admin-notifications-page.module';
 import { NotificationsTableRowModel } from './notifications-table/notifications-table-model';
-import { SortBy } from '../../../types/sort-properties';
 
 describe('AdminNotificationsPageComponent', () => {
   let component: AdminNotificationsPageComponent;
@@ -28,6 +32,9 @@ describe('AdminNotificationsPageComponent', () => {
     notification: EXAMPLE_NOTIFICATION_TWO,
   };
 
+  /**
+   * Verifies the row model is updated as expected.
+   */
   function verifyFirstRowModelEqualToExample(expected: Notification): void {
     expect(component.notificationsTableRowModels[0].notification.notificationId).toEqual(expected.notificationId);
     expect(component.notificationsTableRowModels[0].notification.shown).toBeFalsy();
@@ -106,7 +113,7 @@ describe('AdminNotificationsPageComponent', () => {
     verifyFirstRowModelEqualToExample(EXAMPLE_NOTIFICATION_ONE);
   });
 
-  it('should display error message when notification failed to load', () => {
+  it('should display error message when failed to create notification', () => {
     component.notificationEditFormModel = EXAMPLE_NOTIFICATION_EDIT_MODEL;
     jest.spyOn(notificationService, 'createNotification').mockReturnValue(throwError({
       error: {
@@ -154,16 +161,12 @@ describe('AdminNotificationsPageComponent', () => {
     });
 
     component.deleteNotificationHandler(EXAMPLE_NOTIFICATION_EDIT_MODEL.notificationId);
-
-    fixture.whenStable()
-    .then(() => {
-      expect(spy).toHaveBeenCalledTimes(1);
-      expect(component.notificationsTableRowModels.length).toEqual(0);
-    });
+    expect(spy).toHaveBeenCalledTimes(1);
+    expect(component.notificationsTableRowModels.length).toEqual(0);
   });
 
   it('should sort notification by start time', () => {
-    component.notificationsTableRowModels = [notificationTableRowModel1, notificationTableRowModel2]
+    component.notificationsTableRowModels = [notificationTableRowModel1, notificationTableRowModel2];
     component.notificationsTableRowModelsSortBy = SortBy.NOTIFICATION_CREATE_TIME;
     component.sortNotificationsTableRowModelsHandler(SortBy.NOTIFICATION_START_TIME);
     expect(component.notificationsTableRowModelsSortBy).toEqual(SortBy.NOTIFICATION_START_TIME);
