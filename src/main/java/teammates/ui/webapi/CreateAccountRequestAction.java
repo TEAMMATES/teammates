@@ -28,6 +28,8 @@ class CreateAccountRequestAction extends AdminOnlyAction {
 
         try {
             accountRequestAttributes = logic.createAccountRequest(accountRequestToCreate);
+            // only schedule for search indexing if account request created successfully
+            taskQueuer.scheduleAccountRequestForSearchIndexing(instructorEmail, instructorInstitution);
         } catch (InvalidParametersException ipe) {
             throw new InvalidHttpRequestBodyException(ipe);
         } catch (EntityAlreadyExistsException eaee) {
@@ -37,13 +39,15 @@ class CreateAccountRequestAction extends AdminOnlyAction {
 
         assert accountRequestAttributes != null;
 
+        if (accountRequestAttributes.getRegisteredAt() != null) {
+            throw new InvalidOperationException("Cannot create account request as instructor has already registered.");
+        }
+
         String joinLink = accountRequestAttributes.getRegistrationUrl();
 
         EmailWrapper email = emailGenerator.generateNewInstructorAccountJoinEmail(
                 instructorEmail, instructorName, joinLink);
         emailSender.sendEmail(email);
-
-        taskQueuer.scheduleAccountRequestForSearchIndexing(instructorEmail, instructorInstitution);
 
         JoinLinkData output = new JoinLinkData(joinLink);
         return new JsonResult(output);

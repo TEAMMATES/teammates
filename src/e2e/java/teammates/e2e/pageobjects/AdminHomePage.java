@@ -1,8 +1,12 @@
 package teammates.e2e.pageobjects;
 
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+
+import teammates.test.ThreadHelper;
 
 /**
  * Represents the admin home page of the website.
@@ -75,4 +79,20 @@ public class AdminHomePage extends AppPage {
         return element.getText();
     }
 
+    public void clickMoreInfoButtonForRegisteredInstructor(int i) {
+        By by = By.id("instructor-" + i + "-registered-info-button");
+        waitForElementVisibility(by);
+        WebElement element = browser.driver.findElement(by);
+        element.click();
+        waitForElementVisibility(By.className("modal-backdrop"));
+    }
+
+    public void clickResetAccountRequestLink() {
+        By by = By.id("reset-account-request-link");
+        WebElement element = browser.driver.findElement(by);
+        element.click();
+        ThreadHelper.waitFor(1000); // Modals are stacked, wait briefly to ensure confirmation modal is shown
+        List<WebElement> okButtons = browser.driver.findElements(By.className("modal-btn-ok"));
+        clickDismissModalButtonAndWaitForModalHidden(okButtons.get(1)); // Second modal is confirmation modal
+    }
 }

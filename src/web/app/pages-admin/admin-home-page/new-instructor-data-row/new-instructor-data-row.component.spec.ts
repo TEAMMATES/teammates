@@ -161,6 +161,62 @@ describe('NewInstructorDataRowComponent', () => {
     expect(isInEditMode).toBeFalsy();
   });
 
+  it('should emit showRegisteredInstructorModalEvent when info button clicked', () => {
+    component.instructor = {
+      name: 'Instructor',
+      email: 'instructor@instruct.or',
+      institution: 'Institutional Institution of Institute',
+      status: 'FAIL',
+      statusCode: 409,
+      isCurrentlyBeingEdited: false,
+    };
+    fixture.detectChanges();
+
+    let hasEmitted = false;
+    component.showRegisteredInstructorModalEvent
+      .pipe(first())
+      .subscribe(() => {
+        hasEmitted = true;
+      });
+
+    fixture.debugElement
+      .query(By.css(`#instructor-${expectedIndex}-registered-info-button`))
+      .triggerEventHandler('click', null);
+    expect(hasEmitted).toBeTruthy();
+  });
+
+  it('should not display more info button if statusCode is not 409', () => {
+    component.instructor = {
+      name: 'Instructor',
+      email: 'instructor@instruct.or',
+      institution: 'Institutional Institution of Institute',
+      status: 'FAIL',
+      statusCode: 500,
+      isCurrentlyBeingEdited: false,
+    };
+    fixture.detectChanges();
+
+    const debugElement = fixture.debugElement
+      .query(By.css(`#instructor-${expectedIndex}-registered-info-button`));
+    expect(debugElement).toBeNull();
+  });
+
+  it('should display more info button if statusCode is 409', () => {
+    component.instructor = {
+      name: 'Instructor',
+      email: 'instructor@instruct.or',
+      institution: 'Institutional Institution of Institute',
+      status: 'FAIL',
+      statusCode: 409,
+      isCurrentlyBeingEdited: false,
+    };
+    fixture.detectChanges();
+
+    const debugElement = fixture.debugElement
+      .query(By.css(`#instructor-${expectedIndex}-registered-info-button`));
+    expect(debugElement).toBeTruthy();
+  });
+
   it('should set isBeingEdited to true when editing starts', () => {
     editButtonEl.click();
 
