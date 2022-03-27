@@ -487,14 +487,18 @@ public final class FeedbackSessionsLogic {
      * Gets the expected number of submissions for a feedback session.
      */
     public int getExpectedTotalSubmission(FeedbackSessionAttributes fsa) {
-        int numOfStudents = studentsLogic.getNumberOfStudentsForCourse(fsa.getCourseId());
-        List<String> instructorEmails = instructorsLogic.getInstructorEmailsForCourse(fsa.getCourseId());
-
         int expectedTotal = 0;
+
         if (fqLogic.hasFeedbackQuestionsForStudents(fsa)) {
-            expectedTotal += numOfStudents;
+            expectedTotal += studentsLogic.getNumberOfStudentsForCourse(fsa.getCourseId());
         }
 
+        // Pre-flight check to ensure there are any questions for instructors.
+        if (!fqLogic.hasFeedbackQuestionsForInstructors(fsa, true)) {
+            return expectedTotal;
+        }
+
+        List<String> instructorEmails = instructorsLogic.getInstructorEmailsForCourse(fsa.getCourseId());
         if (instructorEmails.isEmpty()) {
             return expectedTotal;
         }
