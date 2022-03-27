@@ -23,8 +23,8 @@ export interface SortableTableCellData {
   displayValue?: string; // Raw string to be display in the cell
   style?: string; // Optional value used to set style of data
   customComponent?: {
-    component: Type<any>;
-    componentData: Record<string, any>; // @Input values for component
+    component: Type<any>,
+    componentData: Record<string, any>, // @Input values for component
   };
 }
 

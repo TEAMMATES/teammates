@@ -363,7 +363,7 @@ export class FeedbackSessionsService {
   getFeedbackSessionResults(queryParams: {
     courseId: string,
     feedbackSessionName: string,
-    intent: Intent
+    intent: Intent,
     questionId?: string,
     groupBySection?: string,
     key?: string,
