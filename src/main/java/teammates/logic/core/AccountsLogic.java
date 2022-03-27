@@ -63,6 +63,13 @@ public final class AccountsLogic {
     }
 
     /**
+     * Returns a list of accounts with email matching {@code email}.
+     */
+    public List<AccountAttributes> getAccountsForEmail(String email) {
+        return accountsDb.getAccountsForEmail(email);
+    }
+
+    /**
      * Returns true if the given account exists and is an instructor.
      */
     public boolean isAccountAnInstructor(String googleId) {

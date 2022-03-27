@@ -79,6 +79,18 @@ public class Logic {
         return accountsLogic.getAccount(googleId);
     }
 
+    /**
+     * Returns a list of accounts with email matching {@code email}.
+     *
+     * <br/> Preconditions: <br/>
+     * * All parameters are non-null.
+     */
+    public List<AccountAttributes> getAccountsForEmail(String email) {
+        assert email != null;
+
+        return accountsLogic.getAccountsForEmail(email);
+    }
+
     public String getCourseInstitute(String courseId) {
         return coursesLogic.getCourseInstitute(courseId);
     }
