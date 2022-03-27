@@ -27,7 +27,7 @@ public class UpdateNotificationAction extends AdminOnlyAction {
         UpdateOptions newNotification = NotificationAttributes.updateOptionsBuilder(notificationId)
                 .withStartTime(startTime)
                 .withEndTime(endTime)
-                .withType(notificationRequest.getNotificationType())
+                .withStyle(notificationRequest.getStyle())
                 .withTargetUser(notificationRequest.getTargetUser())
                 .withTitle(notificationRequest.getTitle())
                 .withMessage(notificationRequest.getMessage())

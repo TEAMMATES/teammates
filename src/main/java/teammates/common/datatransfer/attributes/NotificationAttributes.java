@@ -7,8 +7,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
+import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
-import teammates.common.datatransfer.NotificationType;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
@@ -22,7 +22,7 @@ public class NotificationAttributes extends EntityAttributes<Notification> {
     private String notificationId;
     private Instant startTime;
     private Instant endTime;
-    private NotificationType type;
+    private NotificationStyle style;
     private NotificationTargetUser targetUser;
     private String title;
     private String message;
@@ -42,7 +42,7 @@ public class NotificationAttributes extends EntityAttributes<Notification> {
 
         notificationAttributes.startTime = n.getStartTime();
         notificationAttributes.endTime = n.getEndTime();
-        notificationAttributes.type = n.getType();
+        notificationAttributes.style = n.getStyle();
         notificationAttributes.targetUser = n.getTargetUser();
         notificationAttributes.title = n.getTitle();
         notificationAttributes.message = n.getMessage();
@@ -68,7 +68,7 @@ public class NotificationAttributes extends EntityAttributes<Notification> {
 
         notificationAttributes.startTime = this.startTime;
         notificationAttributes.endTime = this.endTime;
-        notificationAttributes.type = this.type;
+        notificationAttributes.style = this.style;
         notificationAttributes.targetUser = this.targetUser;
         notificationAttributes.title = this.title;
         notificationAttributes.message = this.message;
@@ -103,12 +103,12 @@ public class NotificationAttributes extends EntityAttributes<Notification> {
         this.endTime = endTime;
     }
 
-    public NotificationType getType() {
-        return type;
+    public NotificationStyle getStyle() {
+        return style;
     }
 
-    public void setType(NotificationType type) {
-        this.type = type;
+    public void setStyle(NotificationStyle style) {
+        this.style = style;
     }
 
     public NotificationTargetUser getTargetUser() {
@@ -181,7 +181,7 @@ public class NotificationAttributes extends EntityAttributes<Notification> {
 
         addNonEmptyError(FieldValidator.getInvalidityInfoForTimeForNotificationStartAndEnd(startTime, endTime), errors);
 
-        addNonEmptyError(FieldValidator.getInvalidityInfoForNotificationType(type.name()), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForNotificationStyle(style.name()), errors);
 
         addNonEmptyError(FieldValidator.getInvalidityInfoForNotificationTargetUser(targetUser.name()), errors);
 
@@ -194,7 +194,7 @@ public class NotificationAttributes extends EntityAttributes<Notification> {
 
     @Override
     public Notification toEntity() {
-        return new Notification(notificationId, startTime, endTime, type,
+        return new Notification(notificationId, startTime, endTime, style,
                 targetUser, title, message, shown, createdAt, updatedAt);
     }
 
@@ -235,7 +235,7 @@ public class NotificationAttributes extends EntityAttributes<Notification> {
     public void update(UpdateOptions updateOptions) {
         updateOptions.startTimeOption.ifPresent(s -> startTime = s);
         updateOptions.endTimeOption.ifPresent(e -> endTime = e);
-        updateOptions.typeOption.ifPresent(t -> type = t);
+        updateOptions.styleOption.ifPresent(t -> style = t);
         updateOptions.targetUserOption.ifPresent(u -> targetUser = u);
         updateOptions.titleOption.ifPresent(t -> title = t);
         updateOptions.messageOption.ifPresent(m -> message = m);
@@ -285,7 +285,7 @@ public class NotificationAttributes extends EntityAttributes<Notification> {
 
         private UpdateOption<Instant> startTimeOption = UpdateOption.empty();
         private UpdateOption<Instant> endTimeOption = UpdateOption.empty();
-        private UpdateOption<NotificationType> typeOption = UpdateOption.empty();
+        private UpdateOption<NotificationStyle> styleOption = UpdateOption.empty();
         private UpdateOption<NotificationTargetUser> targetUserOption = UpdateOption.empty();
         private UpdateOption<String> titleOption = UpdateOption.empty();
         private UpdateOption<String> messageOption = UpdateOption.empty();
@@ -306,7 +306,7 @@ public class NotificationAttributes extends EntityAttributes<Notification> {
             return "NotificationAttributes.UpdateOptions ["
                     + "startTime = " + startTimeOption
                     + ", endTime = " + endTimeOption
-                    + ", type = " + typeOption
+                    + ", style = " + styleOption
                     + ", targetUser = " + targetUserOption
                     + ", title = " + titleOption
                     + ", message = " + messageOption
@@ -368,10 +368,10 @@ public class NotificationAttributes extends EntityAttributes<Notification> {
             return thisBuilder;
         }
 
-        public B withType(NotificationType type) {
-            assert type != null;
+        public B withStyle(NotificationStyle style) {
+            assert style != null;
 
-            updateOptions.typeOption = UpdateOption.of(type);
+            updateOptions.styleOption = UpdateOption.of(style);
             return thisBuilder;
         }
 

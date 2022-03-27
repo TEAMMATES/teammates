@@ -9,8 +9,8 @@ import com.googlecode.objectify.annotation.Index;
 import com.googlecode.objectify.annotation.OnSave;
 import com.googlecode.objectify.annotation.Translate;
 
+import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
-import teammates.common.datatransfer.NotificationType;
 
 /**
  * Represents a unique notification in the system.
@@ -28,7 +28,7 @@ public class Notification extends BaseEntity {
     @Translate(InstantTranslatorFactory.class)
     private Instant endTime;
 
-    private NotificationType type;
+    private NotificationStyle style;
 
     private NotificationTargetUser targetUser;
 
@@ -54,16 +54,16 @@ public class Notification extends BaseEntity {
      *
      * @param startTime start time for the notification to be shown to users
      * @param endTime notifications are hidden from users after endTime
-     * @param type type of the notification (e.g. maintainance, depreciation, etc.)
+     * @param style style of the notification (e.g. success, warning, etc.)
      * @param targetUser student or instructor
      * @param title title of the notification
      * @param message message body of the notification
      */
-    public Notification(Instant startTime, Instant endTime, NotificationType type, NotificationTargetUser targetUser,
+    public Notification(Instant startTime, Instant endTime, NotificationStyle style, NotificationTargetUser targetUser,
             String title, String message) {
         this.setStartTime(startTime);
         this.setEndTime(endTime);
-        this.setType(type);
+        this.setStyle(style);
         this.setTargetUser(targetUser);
         this.setTitle(title);
         this.setMessage(message);
@@ -79,11 +79,11 @@ public class Notification extends BaseEntity {
      * This is mainly for conversion from attributes to entity.
      */
     public Notification(String notificationId, Instant startTime, Instant endTime,
-                        NotificationType type, NotificationTargetUser targetUser,
+                        NotificationStyle style, NotificationTargetUser targetUser,
                         String title, String message, boolean shown, Instant createdAt, Instant updatedAt) {
         this.setStartTime(startTime);
         this.setEndTime(endTime);
-        this.setType(type);
+        this.setStyle(style);
         this.setTargetUser(targetUser);
         this.setTitle(title);
         this.setMessage(message);
@@ -119,12 +119,12 @@ public class Notification extends BaseEntity {
         this.endTime = endTime;
     }
 
-    public NotificationType getType() {
-        return type;
+    public NotificationStyle getStyle() {
+        return style;
     }
 
-    public void setType(NotificationType type) {
-        this.type = type;
+    public void setStyle(NotificationStyle style) {
+        this.style = style;
     }
 
     public NotificationTargetUser getTargetUser() {

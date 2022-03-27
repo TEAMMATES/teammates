@@ -6,7 +6,7 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import { MessageOutput, Notification, Notifications } from '../../../types/api-output';
-import { NotificationType, NotificationTargetUser } from '../../../types/api-request';
+import { NotificationStyle, NotificationTargetUser } from '../../../types/api-request';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
@@ -40,7 +40,7 @@ export class AdminNotificationsPageComponent implements OnInit {
     endTime: { hour: 0, minute: 0 },
     endDate: { year: 0, month: 0, day: 0 },
 
-    type: NotificationType.MAINTENANCE,
+    style: NotificationStyle.SUCCESS,
     targetUser: NotificationTargetUser.GENERAL,
 
     title: '',
@@ -93,7 +93,7 @@ export class AdminNotificationsPageComponent implements OnInit {
         day: tomorrow.date(),
       },
 
-      type: NotificationType.MAINTENANCE,
+      style: NotificationStyle.SUCCESS,
       targetUser: NotificationTargetUser.GENERAL,
 
       title: '',
@@ -158,7 +158,7 @@ export class AdminNotificationsPageComponent implements OnInit {
     this.notificationService.createNotification({
       title: this.notificationEditFormModel.title,
       message: this.notificationEditFormModel.message,
-      notificationType: this.notificationEditFormModel.type,
+      style: this.notificationEditFormModel.style,
       targetUser: this.notificationEditFormModel.targetUser,
       startTimestamp: startTime,
       endTimestamp: endTime,
@@ -253,9 +253,9 @@ export class AdminNotificationsPageComponent implements OnInit {
             strA = String(a.notification.targetUser);
             strB = String(b.notification.targetUser);
             break;
-          case SortBy.NOTIFICATION_TYPE:
-            strA = String(a.notification.notificationType);
-            strB = String(b.notification.notificationType);
+          case SortBy.NOTIFICATION_STYLE:
+            strA = String(a.notification.style);
+            strB = String(b.notification.style);
             break;
           default:
             strA = '';

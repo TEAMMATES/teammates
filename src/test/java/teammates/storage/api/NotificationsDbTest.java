@@ -121,7 +121,7 @@ public class NotificationsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
 
         assertEquals(original.getTitle(), n.getTitle());
         assertEquals(original.getMessage(), n.getMessage());
-        assertEquals(original.getType(), n.getType());
+        assertEquals(original.getStyle(), n.getStyle());
         assertEquals(original.getTargetUser(), n.getTargetUser());
         assertEquals(original.getStartTime(), n.getStartTime());
         assertEquals(original.getEndTime(), n.getEndTime());
@@ -131,7 +131,7 @@ public class NotificationsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
                 NotificationAttributes.updateOptionsBuilder(n.getNotificationId())
                         .withTitle(differentNotification.getTitle())
                         .withMessage(differentNotification.getMessage())
-                        .withType(differentNotification.getType())
+                        .withStyle(differentNotification.getStyle())
                         .withTargetUser(differentNotification.getTargetUser())
                         .withStartTime(differentNotification.getStartTime())
                         .withEndTime(differentNotification.getEndTime())
@@ -141,7 +141,7 @@ public class NotificationsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
         n = notificationsDb.getNotification(n.getNotificationId());
         assertEquals(differentNotification.getTitle(), n.getTitle());
         assertEquals(differentNotification.getMessage(), n.getMessage());
-        assertEquals(differentNotification.getType(), n.getType());
+        assertEquals(differentNotification.getStyle(), n.getStyle());
         assertEquals(differentNotification.getTargetUser(), n.getTargetUser());
         assertEquals(differentNotification.getStartTime(), n.getStartTime());
         assertEquals(differentNotification.getEndTime(), n.getEndTime());
@@ -191,12 +191,12 @@ public class NotificationsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
                 notificationsDb.getNotification(n.getNotificationId()).getMessage());
 
         ______TS("success: single field - type");
-        assertEquals(original.getType(), notificationsDb.getNotification(n.getNotificationId()).getType());
-        assertEquals(differentNotification.getType(), notificationsDb.updateNotification(
+        assertEquals(original.getStyle(), notificationsDb.getNotification(n.getNotificationId()).getStyle());
+        assertEquals(differentNotification.getStyle(), notificationsDb.updateNotification(
                 NotificationAttributes.updateOptionsBuilder(n.getNotificationId())
-                        .withType(differentNotification.getType())
-                        .build()).getType());
-        assertEquals(differentNotification.getType(), notificationsDb.getNotification(n.getNotificationId()).getType());
+                        .withStyle(differentNotification.getStyle())
+                        .build()).getStyle());
+        assertEquals(differentNotification.getStyle(), notificationsDb.getNotification(n.getNotificationId()).getStyle());
 
         ______TS("success: single field - targetUser");
         assertEquals(original.getTargetUser(), notificationsDb.getNotification(n.getNotificationId()).getTargetUser());
@@ -275,7 +275,7 @@ public class NotificationsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
         return NotificationAttributes.builder(UUID.randomUUID().toString())
                 .withTitle(typical.getTitle())
                 .withMessage(typical.getMessage())
-                .withType(typical.getType())
+                .withStyle(typical.getStyle())
                 .withTargetUser(typical.getTargetUser())
                 .withStartTime(typical.getStartTime())
                 .withEndTime(typical.getEndTime())

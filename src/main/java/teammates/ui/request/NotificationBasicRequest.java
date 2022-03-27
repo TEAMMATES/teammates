@@ -1,7 +1,7 @@
 package teammates.ui.request;
 
+import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
-import teammates.common.datatransfer.NotificationType;
 
 /**
  * The basic request for a notification.
@@ -9,7 +9,7 @@ import teammates.common.datatransfer.NotificationType;
 public class NotificationBasicRequest extends BasicRequest {
     private long startTimestamp;
     private long endTimestamp;
-    private NotificationType notificationType;
+    private NotificationStyle style;
     private NotificationTargetUser targetUser;
     private String title;
     private String message;
@@ -22,8 +22,8 @@ public class NotificationBasicRequest extends BasicRequest {
         return this.endTimestamp;
     }
 
-    public NotificationType getNotificationType() {
-        return this.notificationType;
+    public NotificationStyle getStyle() {
+        return this.style;
     }
 
     public NotificationTargetUser getTargetUser() {
@@ -46,8 +46,8 @@ public class NotificationBasicRequest extends BasicRequest {
         this.endTimestamp = endTimestamp;
     }
 
-    public void setNotificationType(NotificationType notificationType) {
-        this.notificationType = notificationType;
+    public void setStyle(NotificationStyle style) {
+        this.style = style;
     }
 
     public void setTargetUser(NotificationTargetUser targetUser) {
@@ -66,7 +66,7 @@ public class NotificationBasicRequest extends BasicRequest {
     public void validate() throws InvalidHttpRequestBodyException {
         assertTrue(startTimestamp > 0L, "Start timestamp should be greater than zero");
         assertTrue(endTimestamp > 0L, "End timestamp should be greater than zero");
-        assertTrue(notificationType != null, "Notification type cannot be null");
+        assertTrue(style != null, "Notification style cannot be null");
         assertTrue(targetUser != null, "Notification target user cannot be null");
         assertTrue(title != null, "Notification title cannot be null");
         assertTrue(message != null, "Notification message cannot be null");

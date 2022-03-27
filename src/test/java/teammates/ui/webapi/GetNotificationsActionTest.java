@@ -169,7 +169,7 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
 
     private void verifyNotificationEquals(NotificationAttributes expected, NotificationData actual) {
         assertEquals(expected.getNotificationId(), actual.getNotificationId());
-        assertEquals(expected.getType(), actual.getNotificationType());
+        assertEquals(expected.getStyle(), actual.getStyle());
         assertEquals(expected.getTargetUser(), actual.getTargetUser());
         assertEquals(expected.getTitle(), actual.getTitle());
         assertEquals(expected.getMessage(), actual.getMessage());

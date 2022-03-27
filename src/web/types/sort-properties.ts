@@ -390,7 +390,7 @@ export enum SortBy {
     /**
      * The type of notification
      */
-    NOTIFICATION_TYPE,
+    NOTIFICATION_STYLE,
 }
 
 /**
