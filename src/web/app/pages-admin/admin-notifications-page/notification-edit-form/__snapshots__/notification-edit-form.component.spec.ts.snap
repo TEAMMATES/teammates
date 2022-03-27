@@ -1,0 +1,621 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NotificationEditFormComponent should snap with default view 1`] = `
+<tm-notification-edit-form
+  NOTIFICATION_TITLE_MAX_LENGTH={[Function Number]}
+  NotificationEditFormMode={[Function Object]}
+  NotificationTargetUser={[Function Object]}
+  NotificationType={[Function Object]}
+  addNewNotificationEvent={[Function EventEmitter_]}
+  cancelEditingNotificationEvent={[Function EventEmitter_]}
+  closeEditFormEvent={[Function EventEmitter_]}
+  courseCandidates={[Function Array]}
+  deleteExistingNotificationEvent={[Function EventEmitter_]}
+  editExistingNotificationEvent={[Function EventEmitter_]}
+  formMode="0"
+  guessTimezone={[Function String]}
+  model={[Function Object]}
+  modelChange={[Function EventEmitter_]}
+  simpleModalService={[Function SimpleModalService]}
+  timezoneService={[Function TimezoneService]}
+>
+  <div
+    class="card card-plain"
+  >
+    <div
+      class="close-header"
+    >
+      <button
+        aria-label="Close"
+        class="close"
+        type="button"
+      >
+        <span
+          aria-hidden="true"
+        >
+          ×
+        </span>
+      </button>
+    </div>
+    <div
+      class="card-body"
+    >
+      <div
+        class="card border-primary margin-top-20px"
+      >
+        <div
+          class="card-body"
+        >
+          <div
+            class="row text-center"
+          >
+            <div
+              class="col-md-2 text-md-right font-weight-bold"
+            >
+              <span
+                class="ngb-tooltip-class"
+                ngbtooltip="The indended recipients of this notification."
+              >
+                Target user group
+              </span>
+            </div>
+            <div
+              class="col-md-auto text-md-left"
+            >
+              <select
+                class="form-control ng-untouched ng-pristine ng-valid"
+                id="targer-user"
+              >
+                <option
+                  value="0: STUDENT"
+                >
+                  Students
+                </option>
+                <option
+                  value="1: INSTRUCTOR"
+                >
+                  Instructors
+                </option>
+                <option
+                  value="2: GENERAL"
+                >
+                  General (for both students and instructors)
+                </option>
+              </select>
+            </div>
+          </div>
+          <br />
+          <div
+            class="row text-center"
+          >
+            <div
+              class="col-md-2 text-md-right font-weight-bold"
+            >
+              <span
+                class="ngb-tooltip-class"
+                ngbtooltip="Different types correspond to different background colours at display."
+              >
+                Notification type
+              </span>
+            </div>
+            <div
+              class="col-md-auto text-md-left"
+            >
+              <select
+                class="form-control ng-untouched ng-pristine ng-valid"
+                id="notification-type"
+              >
+                <option
+                  class="text-warning"
+                  value="0: MAINTENANCE"
+                >
+                  Maintenance
+                </option>
+                <option
+                  class="text-primary"
+                  value="1: VERSION_NOTE"
+                >
+                  Version note
+                </option>
+                <option
+                  class="text-secondary"
+                  value="2: DEPRECATION"
+                >
+                  Depreciation
+                </option>
+                <option
+                  class="text-success"
+                  value="3: TIPS"
+                >
+                  Tips
+                </option>
+              </select>
+            </div>
+          </div>
+          <br />
+          <div
+            class="row text-center"
+          >
+            <div
+              class="col-md-2 text-md-right font-weight-bold"
+            >
+              <span
+                class="ngb-tooltip-class"
+                ngbtooltip="Enter the name of the notification e.g. Version Changelog 8.9.1."
+              >
+                Title
+              </span>
+            </div>
+            <div
+              class="col-md-10 text-md-left"
+            >
+              <input
+                class="form-control ng-untouched ng-pristine ng-valid"
+                id="notification-title"
+                maxlength="80"
+                placeholder="e.g. Version Changelog 8.9.1"
+                type="text"
+              />
+              <div>
+                 80 characters left 
+              </div>
+            </div>
+          </div>
+          <br />
+          <div
+            class="row text-center"
+          >
+            <div
+              class="col-md-2 text-md-right font-weight-bold"
+            >
+              <span
+                class="ngb-tooltip-class"
+                ngbtooltip="Message body of the notification."
+              >
+                Message content
+              </span>
+            </div>
+            <div
+              class="col-md-10 text-md-left"
+            >
+              <tm-rich-text-editor
+                id="message"
+              >
+                <div
+                  inviewport=""
+                >
+                </div>
+              </tm-rich-text-editor>
+            </div>
+          </div>
+          <br />
+        </div>
+      </div>
+      <div
+        class="card border-primary margin-top-20px"
+      >
+        <div
+          class="card-body"
+        >
+          <div
+            class="row text-center"
+          >
+            <div
+              class="col-md-2 text-md-right font-weight-bold"
+            >
+              <span
+                class="ngb-tooltip-class"
+                ngbtooltip="This timezone is deduced based on your system/browser's settings."
+              >
+                Timezone
+              </span>
+            </div>
+            <div
+              class="col-md-4 text-md-left"
+              id="submission-status"
+            >
+               Asia/Singapore 
+            </div>
+          </div>
+          <div
+            class="row text-center margin-top-20px"
+          >
+            <div
+              class="col-md-6"
+            >
+              <div
+                class="col-12 text-md-left"
+              >
+                <div>
+                  <label
+                    class="ngb-tooltip-class label-control font-weight-bold"
+                    ngbtooltip="Users will be able to see the notification."
+                  >
+                     Notification start time 
+                  </label>
+                </div>
+              </div>
+              <div
+                class="row text-center align-items-center"
+              >
+                <div
+                  class="col-md-7 col-xs-center"
+                  id="notification-start-date"
+                >
+                  <tm-datepicker>
+                    <div
+                      class="input-group"
+                    >
+                      <input
+                        class="form-control ng-untouched ng-pristine ng-valid"
+                        ngbdatepicker=""
+                        type="text"
+                      />
+                      <div
+                        class="input-group-append"
+                      >
+                        <button
+                          class="btn btn-light"
+                          type="button"
+                        >
+                          <i
+                            class="fas fa-calendar-alt"
+                          />
+                        </button>
+                      </div>
+                    </div>
+                  </tm-datepicker>
+                </div>
+                <div
+                  class="col-md-5"
+                >
+                  <tm-timepicker
+                    id="notification-start-time"
+                  >
+                    <select
+                      class="form-control ng-untouched ng-pristine ng-valid"
+                    >
+                      <option
+                        value="1: Object"
+                      >
+                         01:00H 
+                      </option>
+                      <option
+                        value="2: Object"
+                      >
+                         02:00H 
+                      </option>
+                      <option
+                        value="3: Object"
+                      >
+                         03:00H 
+                      </option>
+                      <option
+                        value="4: Object"
+                      >
+                         04:00H 
+                      </option>
+                      <option
+                        value="5: Object"
+                      >
+                         05:00H 
+                      </option>
+                      <option
+                        value="6: Object"
+                      >
+                         06:00H 
+                      </option>
+                      <option
+                        value="7: Object"
+                      >
+                         07:00H 
+                      </option>
+                      <option
+                        value="8: Object"
+                      >
+                         08:00H 
+                      </option>
+                      <option
+                        value="9: Object"
+                      >
+                         09:00H 
+                      </option>
+                      <option
+                        value="10: Object"
+                      >
+                         10:00H 
+                      </option>
+                      <option
+                        value="11: Object"
+                      >
+                         11:00H 
+                      </option>
+                      <option
+                        value="12: Object"
+                      >
+                         12:00H 
+                      </option>
+                      <option
+                        value="13: Object"
+                      >
+                         13:00H 
+                      </option>
+                      <option
+                        value="14: Object"
+                      >
+                         14:00H 
+                      </option>
+                      <option
+                        value="15: Object"
+                      >
+                         15:00H 
+                      </option>
+                      <option
+                        value="16: Object"
+                      >
+                         16:00H 
+                      </option>
+                      <option
+                        value="17: Object"
+                      >
+                         17:00H 
+                      </option>
+                      <option
+                        value="18: Object"
+                      >
+                         18:00H 
+                      </option>
+                      <option
+                        value="19: Object"
+                      >
+                         19:00H 
+                      </option>
+                      <option
+                        value="20: Object"
+                      >
+                         20:00H 
+                      </option>
+                      <option
+                        value="21: Object"
+                      >
+                         21:00H 
+                      </option>
+                      <option
+                        value="22: Object"
+                      >
+                         22:00H 
+                      </option>
+                      <option
+                        value="23: Object"
+                      >
+                         23:00H 
+                      </option>
+                      <option
+                        value="0: Object"
+                      >
+                        23:59H
+                      </option>
+                      <option
+                        value="24: Object"
+                      >
+                        00:00H
+                      </option>
+                    </select>
+                  </tm-timepicker>
+                </div>
+              </div>
+            </div>
+            <div
+              class="col-md-6 border-left-gray"
+            >
+              <div
+                class="row text-center"
+              >
+                <div
+                  class="col-12 text-md-left ml-md-2"
+                >
+                  <label
+                    class="ngb-tooltip-class label-control font-weight-bold"
+                    ngbtooltip="Notification will be hidden from users."
+                  >
+                     Notification end time 
+                  </label>
+                </div>
+              </div>
+              <div
+                class="row align-items-center"
+              >
+                <div
+                  class="col-md-7 col-xs-center"
+                  id="notification-end-date"
+                >
+                  <tm-datepicker>
+                    <div
+                      class="input-group"
+                    >
+                      <input
+                        class="form-control ng-untouched ng-pristine ng-valid"
+                        ngbdatepicker=""
+                        type="text"
+                      />
+                      <div
+                        class="input-group-append"
+                      >
+                        <button
+                          class="btn btn-light"
+                          type="button"
+                        >
+                          <i
+                            class="fas fa-calendar-alt"
+                          />
+                        </button>
+                      </div>
+                    </div>
+                  </tm-datepicker>
+                </div>
+                <div
+                  class="col-md-5"
+                >
+                  <tm-timepicker
+                    id="notification-end-time"
+                  >
+                    <select
+                      class="form-control ng-untouched ng-pristine ng-valid"
+                    >
+                      <option
+                        value="1: Object"
+                      >
+                         01:00H 
+                      </option>
+                      <option
+                        value="2: Object"
+                      >
+                         02:00H 
+                      </option>
+                      <option
+                        value="3: Object"
+                      >
+                         03:00H 
+                      </option>
+                      <option
+                        value="4: Object"
+                      >
+                         04:00H 
+                      </option>
+                      <option
+                        value="5: Object"
+                      >
+                         05:00H 
+                      </option>
+                      <option
+                        value="6: Object"
+                      >
+                         06:00H 
+                      </option>
+                      <option
+                        value="7: Object"
+                      >
+                         07:00H 
+                      </option>
+                      <option
+                        value="8: Object"
+                      >
+                         08:00H 
+                      </option>
+                      <option
+                        value="9: Object"
+                      >
+                         09:00H 
+                      </option>
+                      <option
+                        value="10: Object"
+                      >
+                         10:00H 
+                      </option>
+                      <option
+                        value="11: Object"
+                      >
+                         11:00H 
+                      </option>
+                      <option
+                        value="12: Object"
+                      >
+                         12:00H 
+                      </option>
+                      <option
+                        value="13: Object"
+                      >
+                         13:00H 
+                      </option>
+                      <option
+                        value="14: Object"
+                      >
+                         14:00H 
+                      </option>
+                      <option
+                        value="15: Object"
+                      >
+                         15:00H 
+                      </option>
+                      <option
+                        value="16: Object"
+                      >
+                         16:00H 
+                      </option>
+                      <option
+                        value="17: Object"
+                      >
+                         17:00H 
+                      </option>
+                      <option
+                        value="18: Object"
+                      >
+                         18:00H 
+                      </option>
+                      <option
+                        value="19: Object"
+                      >
+                         19:00H 
+                      </option>
+                      <option
+                        value="20: Object"
+                      >
+                         20:00H 
+                      </option>
+                      <option
+                        value="21: Object"
+                      >
+                         21:00H 
+                      </option>
+                      <option
+                        value="22: Object"
+                      >
+                         22:00H 
+                      </option>
+                      <option
+                        value="23: Object"
+                      >
+                         23:00H 
+                      </option>
+                      <option
+                        value="0: Object"
+                      >
+                        23:59H
+                      </option>
+                      <option
+                        value="24: Object"
+                      >
+                        00:00H
+                      </option>
+                    </select>
+                  </tm-timepicker>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="row margin-top-20px"
+      >
+        <div
+          class="col-12 text-center"
+        >
+          <span
+            class="loader"
+          />
+          <div>
+            <button
+              class="btn btn-primary"
+              id="btn-create-notification"
+              type="button"
+            >
+              Create Notification 
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</tm-notification-edit-form>
+`;

@@ -1,0 +1,612 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NotificationsTableComponent should snap like in notification page with 2 notifications sorted by create time 1`] = `
+<tm-notifications-table
+  NotificationsTableHeaderColorScheme={[Function Object]}
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
+  deleteNotificationEvent={[Function EventEmitter_]}
+  guessTimezone={[Function String]}
+  headerColorScheme="0"
+  notificationsTableRowModels={[Function Array]}
+  notificationsTableRowModelsSortBy={[Function Number]}
+  notificationsTableRowModelsSortOrder="0"
+  simpleModalService={[Function SimpleModalService]}
+  sortNotificationsTableRowModelsEvent={[Function EventEmitter_]}
+  timezoneService={[Function TimezoneService]}
+>
+  <div
+    class="row"
+  >
+    <div
+      class="col-12"
+    >
+      <table
+        class="table table-responsive-lg table-striped table-bordered margin-bottom-0"
+        id="notifications-table"
+      >
+        <thead>
+          <tr
+            class="bg-primary text-white"
+          >
+            <th
+              class="sortable-header"
+            >
+               Title 
+              <span
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+            </th>
+            <th
+              class="sortable-header"
+            >
+               Start Time 
+              <span
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+            </th>
+            <th
+              class="sortable-header"
+            >
+               End Time 
+              <span
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+            </th>
+            <th
+              class="sortable-header"
+            >
+               Target User 
+              <span
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+            </th>
+            <th
+              class="sortable-header"
+            >
+               Type 
+              <span
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+            </th>
+            <th
+              class="sortable-header"
+            >
+               Creation Time 
+              <span
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+                <i
+                  class="fas fa-sort-down"
+                />
+              </span>
+            </th>
+            <th>
+              Actions
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            class="table-success"
+          >
+            <td
+              class="text-break"
+            >
+              valid title
+            </td>
+            <td
+              class="text-break"
+            >
+              <span
+                class="ngb-tooltip-class"
+              >
+                1 Jan 7:30 AM
+              </span>
+            </td>
+            <td
+              class="text-break"
+            >
+              <span
+                class="ngb-tooltip-class"
+              >
+                1 Jan 7:30 AM
+              </span>
+            </td>
+            <td
+              class="text-break"
+            >
+              INSTRUCTOR
+            </td>
+            <td
+              class="text-break"
+            >
+              MAINTENANCE
+            </td>
+            <td
+              class="text-break"
+            >
+              <span
+                class="ngb-tooltip-class"
+              >
+                1 Jan 7:30 AM
+              </span>
+            </td>
+            <td
+              class="actions-cell"
+            >
+              <div
+                class="d-flex"
+              >
+                <button
+                  class="btn btn-light btn-sm"
+                  type="button"
+                >
+                   Edit 
+                </button>
+                <button
+                  class="btn btn-danger btn-sm"
+                  type="button"
+                >
+                   Delete 
+                </button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td
+              class="text-break"
+            >
+              valid title 2
+            </td>
+            <td
+              class="text-break"
+            >
+              <span
+                class="ngb-tooltip-class"
+              >
+                19 Jan 7:26 AM
+              </span>
+            </td>
+            <td
+              class="text-break"
+            >
+              <span
+                class="ngb-tooltip-class"
+              >
+                19 Jan 7:26 AM
+              </span>
+            </td>
+            <td
+              class="text-break"
+            >
+              GENERAL
+            </td>
+            <td
+              class="text-break"
+            >
+              DEPRECATION
+            </td>
+            <td
+              class="text-break"
+            >
+              <span
+                class="ngb-tooltip-class"
+              >
+                19 Jan 7:13 AM
+              </span>
+            </td>
+            <td
+              class="actions-cell"
+            >
+              <div
+                class="d-flex"
+              >
+                <button
+                  class="btn btn-light btn-sm"
+                  type="button"
+                >
+                   Edit 
+                </button>
+                <button
+                  class="btn btn-danger btn-sm"
+                  type="button"
+                >
+                   Delete 
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</tm-notifications-table>
+`;
+
+exports[`NotificationsTableComponent should snap like in notification page with 2 notifications sorted by start time 1`] = `
+<tm-notifications-table
+  NotificationsTableHeaderColorScheme={[Function Object]}
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
+  deleteNotificationEvent={[Function EventEmitter_]}
+  guessTimezone={[Function String]}
+  headerColorScheme="0"
+  notificationsTableRowModels={[Function Array]}
+  notificationsTableRowModelsSortBy={[Function Number]}
+  notificationsTableRowModelsSortOrder="0"
+  simpleModalService={[Function SimpleModalService]}
+  sortNotificationsTableRowModelsEvent={[Function EventEmitter_]}
+  timezoneService={[Function TimezoneService]}
+>
+  <div
+    class="row"
+  >
+    <div
+      class="col-12"
+    >
+      <table
+        class="table table-responsive-lg table-striped table-bordered margin-bottom-0"
+        id="notifications-table"
+      >
+        <thead>
+          <tr
+            class="bg-primary text-white"
+          >
+            <th
+              class="sortable-header"
+            >
+               Title 
+              <span
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+            </th>
+            <th
+              class="sortable-header"
+            >
+               Start Time 
+              <span
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+                <i
+                  class="fas fa-sort-down"
+                />
+              </span>
+            </th>
+            <th
+              class="sortable-header"
+            >
+               End Time 
+              <span
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+            </th>
+            <th
+              class="sortable-header"
+            >
+               Target User 
+              <span
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+            </th>
+            <th
+              class="sortable-header"
+            >
+               Type 
+              <span
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+            </th>
+            <th
+              class="sortable-header"
+            >
+               Creation Time 
+              <span
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+            </th>
+            <th>
+              Actions
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            class="table-success"
+          >
+            <td
+              class="text-break"
+            >
+              valid title
+            </td>
+            <td
+              class="text-break"
+            >
+              <span
+                class="ngb-tooltip-class"
+              >
+                1 Jan 7:30 AM
+              </span>
+            </td>
+            <td
+              class="text-break"
+            >
+              <span
+                class="ngb-tooltip-class"
+              >
+                1 Jan 7:30 AM
+              </span>
+            </td>
+            <td
+              class="text-break"
+            >
+              INSTRUCTOR
+            </td>
+            <td
+              class="text-break"
+            >
+              MAINTENANCE
+            </td>
+            <td
+              class="text-break"
+            >
+              <span
+                class="ngb-tooltip-class"
+              >
+                1 Jan 7:30 AM
+              </span>
+            </td>
+            <td
+              class="actions-cell"
+            >
+              <div
+                class="d-flex"
+              >
+                <button
+                  class="btn btn-light btn-sm"
+                  type="button"
+                >
+                   Edit 
+                </button>
+                <button
+                  class="btn btn-danger btn-sm"
+                  type="button"
+                >
+                   Delete 
+                </button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td
+              class="text-break"
+            >
+              valid title 2
+            </td>
+            <td
+              class="text-break"
+            >
+              <span
+                class="ngb-tooltip-class"
+              >
+                19 Jan 7:26 AM
+              </span>
+            </td>
+            <td
+              class="text-break"
+            >
+              <span
+                class="ngb-tooltip-class"
+              >
+                19 Jan 7:26 AM
+              </span>
+            </td>
+            <td
+              class="text-break"
+            >
+              GENERAL
+            </td>
+            <td
+              class="text-break"
+            >
+              DEPRECATION
+            </td>
+            <td
+              class="text-break"
+            >
+              <span
+                class="ngb-tooltip-class"
+              >
+                19 Jan 7:13 AM
+              </span>
+            </td>
+            <td
+              class="actions-cell"
+            >
+              <div
+                class="d-flex"
+              >
+                <button
+                  class="btn btn-light btn-sm"
+                  type="button"
+                >
+                   Edit 
+                </button>
+                <button
+                  class="btn btn-danger btn-sm"
+                  type="button"
+                >
+                   Delete 
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</tm-notifications-table>
+`;
+
+exports[`NotificationsTableComponent should snap with default fields 1`] = `
+<tm-notifications-table
+  NotificationsTableHeaderColorScheme={[Function Object]}
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
+  deleteNotificationEvent={[Function EventEmitter_]}
+  guessTimezone={[Function String]}
+  headerColorScheme="0"
+  notificationsTableRowModels={[Function Array]}
+  notificationsTableRowModelsSortBy={[Function Number]}
+  notificationsTableRowModelsSortOrder="0"
+  simpleModalService={[Function SimpleModalService]}
+  sortNotificationsTableRowModelsEvent={[Function EventEmitter_]}
+  timezoneService={[Function TimezoneService]}
+>
+  <div
+    class="row"
+  >
+    <div
+      class="col-12"
+    >
+      <table
+        class="table table-responsive-lg table-striped table-bordered margin-bottom-0"
+        id="notifications-table"
+      >
+        <thead>
+          <tr
+            class="bg-primary text-white"
+          >
+            <th
+              class="sortable-header"
+            >
+               Title 
+              <span
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+            </th>
+            <th
+              class="sortable-header"
+            >
+               Start Time 
+              <span
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+            </th>
+            <th
+              class="sortable-header"
+            >
+               End Time 
+              <span
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+            </th>
+            <th
+              class="sortable-header"
+            >
+               Target User 
+              <span
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+            </th>
+            <th
+              class="sortable-header"
+            >
+               Type 
+              <span
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+            </th>
+            <th
+              class="sortable-header"
+            >
+               Creation Time 
+              <span
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+                <i
+                  class="fas fa-sort-down"
+                />
+              </span>
+            </th>
+            <th>
+              Actions
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</tm-notifications-table>
+`;

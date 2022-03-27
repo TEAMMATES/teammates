@@ -245,9 +245,8 @@ export class AdminNotificationsPageComponent implements OnInit {
           isHighlighted: true,
           notification,
         });
-        this.statusMessageService.showSuccessToast('Notification created successfully.');
-
         this.initNotificationEditFormModel();
+        this.statusMessageService.showSuccessToast('Notification created successfully.');
       },
       (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
