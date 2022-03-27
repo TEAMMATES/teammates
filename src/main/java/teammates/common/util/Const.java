@@ -150,6 +150,7 @@ public final class Const {
         public static final String USER_CAPTCHA_RESPONSE = "captcharesponse";
 
         public static final String EMAIL_TYPE = "emailtype";
+        public static final String USER_EMAIL = "useremail";
 
         public static final String ENTITY_TYPE = "entitytype";
 
@@ -305,6 +306,8 @@ public final class Const {
         public static final String ACCOUNT_RESET = URI_PREFIX + "/account/reset";
         public static final String ACCOUNT_DOWNGRADE = URI_PREFIX + "/account/downgrade";
         public static final String ACCOUNT_REQUEST = URI_PREFIX + "/account/request";
+        public static final String ACCOUNT_REQUEST_RESET = ACCOUNT_REQUEST + "/reset";
+        public static final String ACCOUNTS = URI_PREFIX + "/accounts";
         public static final String RESPONSE_COMMENT = URI_PREFIX + "/responsecomment";
         public static final String COURSE = URI_PREFIX + "/course";
         public static final String COURSE_ARCHIVE = URI_PREFIX + "/course/archive";

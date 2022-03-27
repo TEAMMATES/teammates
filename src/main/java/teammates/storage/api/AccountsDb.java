@@ -2,6 +2,8 @@ package teammates.storage.api;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
+import java.util.List;
+
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.LoadType;
 
@@ -35,6 +37,17 @@ public final class AccountsDb extends EntitiesDb<Account, AccountAttributes> {
         assert googleId != null;
 
         return googleId.isEmpty() ? null : makeAttributesOrNull(getAccountEntity(googleId));
+    }
+
+    /**
+     * Returns a list of accounts with email matching {@code email}.
+     */
+    public List<AccountAttributes> getAccountsForEmail(String email) {
+        assert email != null;
+
+        List<Account> accounts = load().filter("email =", email).list();
+
+        return makeAttributes(accounts);
     }
 
     /**
