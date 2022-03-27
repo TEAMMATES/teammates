@@ -49,6 +49,8 @@ public final class ActionFactory {
         map(ResourceURIs.ACCOUNT_REQUEST, GET, GetAccountRequestAction.class);
         map(ResourceURIs.ACCOUNT_REQUEST, POST, CreateAccountRequestAction.class);
         map(ResourceURIs.ACCOUNT_REQUEST, DELETE, DeleteAccountRequestAction.class);
+        map(ResourceURIs.ACCOUNT_REQUEST_RESET, PUT, ResetAccountRequestAction.class);
+        map(ResourceURIs.ACCOUNTS, GET, GetAccountsAction.class);
         map(ResourceURIs.COURSE, GET, GetCourseAction.class);
         map(ResourceURIs.COURSE, DELETE, DeleteCourseAction.class);
         map(ResourceURIs.COURSE, POST, CreateCourseAction.class);
@@ -125,6 +127,7 @@ public final class ActionFactory {
         map(ResourceURIs.SESSION_LOGS, POST, CreateFeedbackSessionLogAction.class);
         map(ResourceURIs.SESSION_LOGS, GET, GetFeedbackSessionLogsAction.class);
         map(ResourceURIs.LOGS, GET, QueryLogsAction.class);
+        map(ResourceURIs.USAGE_STATISTICS, GET, GetUsageStatisticsAction.class);
         map(ResourceURIs.ACTION_CLASS, GET, GetActionClassesAction.class);
 
         // Cron jobs; use GET request
@@ -138,6 +141,7 @@ public final class ActionFactory {
         map(CronJobURIs.AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS, GET, FeedbackSessionPublishedRemindersAction.class);
         map(CronJobURIs.AUTOMATED_FEEDBACK_OPENING_SOON_REMINDERS, GET,
                 FeedbackSessionOpeningSoonRemindersAction.class);
+        map(CronJobURIs.AUTOMATED_USAGE_STATISTICS_COLLECTION, GET, CalculateUsageStatisticsAction.class);
 
         // Task queue workers; use POST request
         // Reference: https://cloud.google.com/tasks/docs/creating-appengine-tasks

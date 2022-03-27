@@ -249,8 +249,6 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
         }
 
         public B withRegisteredAt(Instant registeredAt) {
-            assert registeredAt != null;
-
             updateOptions.registeredAtOption = UpdateOption.of(registeredAt);
             return thisBuilder;
         }

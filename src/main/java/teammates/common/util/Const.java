@@ -150,6 +150,7 @@ public final class Const {
         public static final String USER_CAPTCHA_RESPONSE = "captcharesponse";
 
         public static final String EMAIL_TYPE = "emailtype";
+        public static final String USER_EMAIL = "useremail";
 
         public static final String ENTITY_TYPE = "entitytype";
 
@@ -305,6 +306,8 @@ public final class Const {
         public static final String ACCOUNT_RESET = URI_PREFIX + "/account/reset";
         public static final String ACCOUNT_DOWNGRADE = URI_PREFIX + "/account/downgrade";
         public static final String ACCOUNT_REQUEST = URI_PREFIX + "/account/request";
+        public static final String ACCOUNT_REQUEST_RESET = ACCOUNT_REQUEST + "/reset";
+        public static final String ACCOUNTS = URI_PREFIX + "/accounts";
         public static final String RESPONSE_COMMENT = URI_PREFIX + "/responsecomment";
         public static final String COURSE = URI_PREFIX + "/course";
         public static final String COURSE_ARCHIVE = URI_PREFIX + "/course/archive";
@@ -335,6 +338,7 @@ public final class Const {
         public static final String QUESTION = URI_PREFIX + "/question";
         public static final String QUESTION_RECIPIENTS = URI_PREFIX + "/question/recipients";
         public static final String RESPONSES = URI_PREFIX + "/responses";
+        public static final String USAGE_STATISTICS = URI_PREFIX + "/usagestats";
         public static final String HAS_RESPONSES = URI_PREFIX + "/hasResponses";
         public static final String JOIN = URI_PREFIX + "/join";
         public static final String JOIN_REMIND = URI_PREFIX + "/join/remind";
@@ -369,6 +373,8 @@ public final class Const {
                 URI_PREFIX + "/feedbackSessionClosingReminders";
         public static final String AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS =
                 URI_PREFIX + "/feedbackSessionPublishedReminders";
+        public static final String AUTOMATED_USAGE_STATISTICS_COLLECTION =
+                URI_PREFIX + "/calculateUsageStatistics";
     }
 
     /**

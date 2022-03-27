@@ -123,6 +123,14 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         ______TS("Typical case: Expand and collapse links");
         searchPage.verifyLinkExpansionButtons(student, instructor, accountRequest);
 
+        ______TS("Typical case: Reset account request successful");
+        searchContent = accountRequest.getEmail();
+        searchPage.clearSearchBox();
+        searchPage.inputSearchContent(searchContent);
+        searchPage.clickSearchButton();
+        searchPage.clickResetAccountRequestButton(accountRequest);
+        assertNull(BACKDOOR.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute()).getRegisteredAt());
+
         ______TS("Typical case: Delete account request successful");
         accountRequest = testData.accountRequests.get("unregisteredInstructor1");
         searchContent = accountRequest.getEmail();
