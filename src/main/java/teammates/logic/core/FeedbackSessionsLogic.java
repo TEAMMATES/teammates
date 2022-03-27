@@ -493,7 +493,7 @@ public final class FeedbackSessionsLogic {
             expectedTotal += studentsLogic.getNumberOfStudentsForCourse(fsa.getCourseId());
         }
 
-        // Pre-flight check to ensure there are any questions for instructors.
+        // Pre-flight check to ensure there are questions for instructors.
         if (!fqLogic.hasFeedbackQuestionsForInstructors(fsa, true)) {
             return expectedTotal;
         }
@@ -507,14 +507,11 @@ public final class FeedbackSessionsLogic {
         if (fqLogic.hasFeedbackQuestionsForInstructors(fsa, false)) {
             expectedTotal += instructorEmails.size();
         } else {
-            // No questions for instructors. Check if any for session creator.
+            // No questions for instructors. There must be questions for creator.
             List<String> creatorEmails = instructorEmails.stream()
                     .filter(fsa::isCreator)
                     .collect(Collectors.toList());
-            if (!creatorEmails.isEmpty()
-                    && fqLogic.hasFeedbackQuestionsForInstructors(fsa, true)) {
-                expectedTotal += creatorEmails.size();
-            }
+            expectedTotal += creatorEmails.size();
         }
 
         return expectedTotal;
