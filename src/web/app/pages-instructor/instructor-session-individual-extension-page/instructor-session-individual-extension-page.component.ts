@@ -142,7 +142,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
   /**
    * Gets all students of a course.
    */
-  getAllStudentsOfCourse(): void {
+  private getAllStudentsOfCourse(): void {
     this.studentService
       .getStudentsFromCourse({ courseId: this.courseId })
       .pipe(finalize(() => { this.isLoadingAllStudents = false; }),
@@ -206,7 +206,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
   /**
    * Loads the instructors in the course
    */
-  getAllInstructorsOfCourse(): void {
+  private getAllInstructorsOfCourse(): void {
     this.instructorService.loadInstructors({ courseId: this.courseId, intent: Intent.FULL_DETAIL })
       .pipe(finalize(() => { this.isLoadingAllInstructors = false; }),
       map((instructors: Instructors) => {
