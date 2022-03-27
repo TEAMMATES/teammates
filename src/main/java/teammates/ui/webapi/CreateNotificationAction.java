@@ -10,8 +10,8 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Logger;
 import teammates.ui.output.NotificationData;
-import teammates.ui.request.CreateNotificationRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
+import teammates.ui.request.NotificationCreateRequest;
 
 /**
  * Action: Creates a new notification banner.
@@ -21,7 +21,7 @@ public class CreateNotificationAction extends AdminOnlyAction {
 
     @Override
     public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
-        CreateNotificationRequest notificationRequest = getAndValidateRequestBody(CreateNotificationRequest.class);
+        NotificationCreateRequest notificationRequest = getAndValidateRequestBody(NotificationCreateRequest.class);
 
         Instant startTime = Instant.ofEpochMilli(notificationRequest.getStartTimestamp());
         Instant endTime = Instant.ofEpochMilli(notificationRequest.getEndTimestamp());
