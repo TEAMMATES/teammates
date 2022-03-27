@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { forkJoin } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
@@ -114,38 +115,27 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     this.hasLoadingFeedbackSessionFailed = false;
     this.isLoadingAllInstructors = true;
     this.hasLoadedAllStudentsFailed = false;
-    this.courseService
-      .getCourseAsInstructor(this.courseId)
-      .pipe(finalize(() => { this.isLoadingFeedbackSession = false; }))
-      .subscribe((course: Course) => {
-        this.courseName = course.courseName;
-        this.feedbackSessionsService
-          .getFeedbackSession({
-            courseId: this.courseId,
-            feedbackSessionName: this.feedbackSessionName,
-            intent: Intent.FULL_DETAIL,
-          })
-          .pipe(map((feedbackSession: FeedbackSession) => {
-            this.setFeedbackSessionDetails(feedbackSession);
-          }))
-          .subscribe(() => {
-              this.getAllStudentsOfCourse(); // Both students and instructors need feedback ending time.
-              this.getAllInstructorsOfCourse();
-            },
-            (resp: ErrorMessageOutput) => {
-              this.statusMessageService.showErrorToast(resp.error.message);
-              this.hasLoadingFeedbackSessionFailed = true;
-              this.isLoadingAllStudents = false;
-              this.isLoadingAllInstructors = false;
-            },
-          );
-      },
-      (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
-        this.hasLoadingFeedbackSessionFailed = true;
-        this.isLoadingAllStudents = false;
-        this.isLoadingAllInstructors = false;
-      },
+    forkJoin([this.courseService.getCourseAsInstructor(this.courseId),
+      this.feedbackSessionsService.getFeedbackSession({
+        courseId: this.courseId,
+        feedbackSessionName: this.feedbackSessionName,
+        intent: Intent.FULL_DETAIL,
+      }),
+    ]).pipe(finalize(() => {
+      this.isLoadingFeedbackSession = false;
+    })).subscribe((value: any[]) => {
+      const course = value[0] as Course;
+      this.courseName = course.courseName;
+      const feedbackSession = value[1] as FeedbackSession;
+      this.setFeedbackSessionDetails(feedbackSession);
+      this.getAllStudentsOfCourse(); // Both students and instructors need feedback ending time.
+      this.getAllInstructorsOfCourse();
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorToast(resp.error.message);
+      this.hasLoadingFeedbackSessionFailed = true;
+      this.isLoadingAllStudents = false;
+      this.isLoadingAllInstructors = false;
+    },
     );
   }
 
