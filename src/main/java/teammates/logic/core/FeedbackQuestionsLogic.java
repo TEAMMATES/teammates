@@ -144,7 +144,7 @@ public final class FeedbackQuestionsLogic {
      * Checks if there are any questions for the given session that instructors can view/submit.
      */
     public boolean hasFeedbackQuestionsForInstructors(
-            FeedbackSessionAttributes fsa, Boolean isCreator) {
+            FeedbackSessionAttributes fsa, boolean isCreator) {
         boolean hasQuestions = fqDb.hasFeedbackQuestionsForGiverType(
                 fsa.getFeedbackSessionName(), fsa.getCourseId(), FeedbackParticipantType.INSTRUCTORS);
         if (hasQuestions) {

@@ -495,21 +495,22 @@ public final class FeedbackSessionsLogic {
             expectedTotal += numOfStudents;
         }
 
-        // Check a creator and a non-creator once each to prevent unnecessary data read.
-        List<String> creatorEmails = instructorEmails.stream()
-                .filter(fsa::isCreator)
-                .collect(Collectors.toList());
-        if (!creatorEmails.isEmpty()
-                && fqLogic.hasFeedbackQuestionsForInstructors(fsa, true)) {
-            expectedTotal += creatorEmails.size();
+        if (instructorEmails.isEmpty()) {
+            return expectedTotal;
         }
 
-        List<String> nonCreatorEmails = instructorEmails.stream()
-                .filter(email -> !fsa.isCreator(email))
-                .collect(Collectors.toList());
-        if (!nonCreatorEmails.isEmpty()
-                && fqLogic.hasFeedbackQuestionsForInstructors(fsa, false)) {
-            expectedTotal += nonCreatorEmails.size();
+        // Check presence of questions for instructors.
+        if (fqLogic.hasFeedbackQuestionsForInstructors(fsa, false)) {
+            expectedTotal += instructorEmails.size();
+        } else {
+            // No questions for instructors. Check if any for session creator.
+            List<String> creatorEmails = instructorEmails.stream()
+                    .filter(fsa::isCreator)
+                    .collect(Collectors.toList());
+            if (!creatorEmails.isEmpty()
+                    && fqLogic.hasFeedbackQuestionsForInstructors(fsa, true)) {
+                expectedTotal += creatorEmails.size();
+            }
         }
 
         return expectedTotal;

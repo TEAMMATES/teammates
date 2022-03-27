@@ -907,7 +907,6 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         assertTrue(completeGiverRecipientMap.get("Team 1.2").contains("Team 1.1</td></div>'\""));
     }
 
-    @Test
     private void testHasFeedbackQuestionsForInstructor() {
         ______TS("Valid session valid instructor should have questions");
         FeedbackSessionAttributes fsa = fsLogic.getFeedbackSession("First feedback session", "idOfTypicalCourse1");
