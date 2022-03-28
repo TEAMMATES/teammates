@@ -306,10 +306,10 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Gets the {@code sessionEditFormModel} with {@link FeedbackSession} entity.
    */
   getSessionEditFormModel(feedbackSession: FeedbackSession, isEditable: boolean = false): SessionEditFormModel {
-    const submissionStart: { date: DateFormat; time: TimeFormat } =
+    const submissionStart: { date: DateFormat, time: TimeFormat } =
         this.getDateTimeAtTimezone(feedbackSession.submissionStartTimestamp, feedbackSession.timeZone, true);
 
-    const submissionEnd: { date: DateFormat; time: TimeFormat } =
+    const submissionEnd: { date: DateFormat, time: TimeFormat } =
         this.getDateTimeAtTimezone(feedbackSession.submissionEndTimestamp, feedbackSession.timeZone, true);
 
     const model: SessionEditFormModel = {
@@ -351,14 +351,14 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     };
 
     if (feedbackSession.customSessionVisibleTimestamp) {
-      const customSessionVisible: { date: DateFormat; time: TimeFormat } =
+      const customSessionVisible: { date: DateFormat, time: TimeFormat } =
           this.getDateTimeAtTimezone(feedbackSession.customSessionVisibleTimestamp, feedbackSession.timeZone, true);
       model.customSessionVisibleTime = customSessionVisible.time;
       model.customSessionVisibleDate = customSessionVisible.date;
     }
 
     if (feedbackSession.customResponseVisibleTimestamp) {
-      const customResponseVisible: { date: DateFormat; time: TimeFormat } =
+      const customResponseVisible: { date: DateFormat, time: TimeFormat } =
           this.getDateTimeAtTimezone(feedbackSession.customResponseVisibleTimestamp, feedbackSession.timeZone, true);
       model.customResponseVisibleTime = customResponseVisible.time;
       model.customResponseVisibleDate = customResponseVisible.date;
@@ -371,7 +371,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Get the local date and time of timezone from timestamp.
    */
   private getDateTimeAtTimezone(timestamp: number, timeZone: string, resolveMidnightTo2359: boolean):
-      { date: DateFormat; time: TimeFormat } {
+      { date: DateFormat, time: TimeFormat } {
     let momentInstance: moment.Moment = this.timezoneService.getMomentInstance(timestamp, timeZone);
     if (resolveMidnightTo2359 && momentInstance.hour() === 0 && momentInstance.minute() === 0) {
       momentInstance = momentInstance.subtract(1, 'minute');
