@@ -1,6 +1,19 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { NotificationStyle } from '../../../types/api-output';
-import { notificationStyleConfigMap } from '../../../types/notification-style-config';
+
+/**
+ * Maps between notification style and description text.
+ */
+const descriptionMapping: Record<NotificationStyle, string> = {
+  PRIMARY: 'Primary (blue)',
+  SECONDARY: 'Secondary (grey)',
+  SUCCESS: 'Success (green)',
+  DANGER: 'Danger (red)',
+  WARNING: 'Warning (yellow)',
+  INFO: 'Info (cyan)',
+  LIGHT: 'Light',
+  DARK: 'Dark',
+};
 
 /**
  * Pipe to handle the transformation of an NotificationStyle to a string description.
@@ -11,7 +24,7 @@ import { notificationStyleConfigMap } from '../../../types/notification-style-co
 export class NotificationStyleDescriptionPipe implements PipeTransform {
 
   transform(style: NotificationStyle): string {
-    return notificationStyleConfigMap[style].description;
+    return descriptionMapping[style];
   }
 
 }

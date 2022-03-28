@@ -388,7 +388,7 @@ export enum SortBy {
     NOTIFICATION_TARGET_USER,
 
     /**
-     * The type of notification
+     * The style of notification
      */
     NOTIFICATION_STYLE,
 }
