@@ -36,10 +36,8 @@
               <span class="ngb-tooltip-class" ngbTooltip="Different styles correspond to different background colours at display.">Notification style</span>
             </div>
             <div class="col-md-auto text-md-left">
-              <select id="notification-style" class="form-control" [ngModel]="model.style" (ngModelChange)="triggerModelChange('type', $event)">
-                <!-- TODO: fill in others -->
-                <option class="bg-success" [ngValue]="NotificationStyle.SUCCESS">Green (Success)</option>
-                <option class="bg-danger" [ngValue]="NotificationStyle.DANGER">Red (Danger)</option>
+              <select id="notification-style" class="form-control" [ngModel]="model.style" (ngModelChange)="triggerModelChange('style', $event)">
+                <option *ngFor="let style of NotificationStyle | keyvalue" [ngClass]="style.key | notificationStyleClass" [ngValue]="style.value">{{ style.key | notificationStyleDescription }}</option>
               </select>
             </div>
           </div>

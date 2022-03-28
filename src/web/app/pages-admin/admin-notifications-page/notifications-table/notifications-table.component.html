@@ -36,7 +36,7 @@
           </span>
         </th>
         <th class="sortable-header" (click)="sortNotificationsTableRowModels(SortBy.NOTIFICATION_STYLE)">
-          Type
+          Style
           <span class="fa-stack">
             <i class="fas fa-sort"></i>
             <i class="fas fa-sort-down" *ngIf="notificationsTableRowModelsSortBy === SortBy.NOTIFICATION_STYLE && notificationsTableRowModelsSortOrder === SortOrder.DESC"></i>
@@ -60,7 +60,7 @@
         <td class="text-break"><span class="ngb-tooltip-class" ngbTooltip="{{ notificationsTableRowModel.notification.startTimestamp | formatDateDetail: guessTimezone }}">{{ notificationsTableRowModel.notification.startTimestamp | formatDateBrief: guessTimezone }}</span></td>
         <td class="text-break"><span class="ngb-tooltip-class" ngbTooltip="{{ notificationsTableRowModel.notification.endTimestamp | formatDateDetail: guessTimezone }}">{{ notificationsTableRowModel.notification.endTimestamp | formatDateBrief: guessTimezone }}</span></td>
         <td class="text-break">{{ notificationsTableRowModel.notification.targetUser }}</td>
-        <td class="text-break">{{ notificationsTableRowModel.notification.style }}</td>
+        <td class="text-break" [ngClass]="notificationsTableRowModel.notification.style | notificationStyleClass">{{ notificationsTableRowModel.notification.style | notificationStyleDescription }}</td>
         <td class="text-break"><span class="ngb-tooltip-class" ngbTooltip="{{ notificationsTableRowModel.notification.createdAt | formatDateDetail: guessTimezone }}">{{ notificationsTableRowModel.notification.createdAt | formatDateBrief: guessTimezone }}</span></td>
         <td class="actions-cell">
           <div class="d-flex">

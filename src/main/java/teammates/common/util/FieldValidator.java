@@ -598,8 +598,8 @@ public final class FieldValidator {
     /**
      * Checks if {@code style} is one of the recognized notification style {@link #NOTIFICATION_STYLE_ACCEPTED_VALUES}.
      *
-     * @return An explanation of why the {@code type} is not acceptable.
-     *         Returns an empty string if the {@code type} is acceptable.
+     * @return An explanation of why the {@code style} is not acceptable.
+     *         Returns an empty string if the {@code style} is acceptable.
      */
     public static String getInvalidityInfoForNotificationStyle(String style) {
         assert style != null;
