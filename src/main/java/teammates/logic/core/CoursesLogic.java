@@ -340,4 +340,11 @@ public final class CoursesLogic {
         coursesDb.restoreDeletedCourse(courseId);
     }
 
+    /**
+     * Gets the number of courses created within a specified time range.
+     */
+    int getNumCoursesByTimeRange(Instant startTime, Instant endTime) {
+        return coursesDb.getNumCoursesByTimeRange(startTime, endTime);
+    }
+
 }

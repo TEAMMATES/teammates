@@ -2,6 +2,7 @@ package teammates.storage.api;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -430,6 +431,16 @@ public final class StudentsDb extends EntitiesDb<CourseStudent, StudentAttribute
         }
         log.severe("Failed to generate new registration key for student after " + MAX_KEY_REGENERATION_TRIES + " tries");
         throw new EntityAlreadyExistsException("Unable to create new student");
+    }
+
+    /**
+     * Gets the number of students created within a specified time range.
+     */
+    public int getNumStudentsByTimeRange(Instant startTime, Instant endTime) {
+        return load()
+                .filter("createdAt >=", startTime)
+                .filter("createdAt <", endTime)
+                .count();
     }
 
 }

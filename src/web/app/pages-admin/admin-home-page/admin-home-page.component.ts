@@ -1,9 +1,16 @@
-import { Component } from '@angular/core';
-import { finalize } from 'rxjs/operators';
+import { Component, TemplateRef, ViewChild } from '@angular/core';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { forkJoin, Observable, of, throwError } from 'rxjs';
+import { catchError, finalize, map, mergeMap } from 'rxjs/operators';
 import { AccountService } from '../../../services/account.service';
-import { JoinLink } from '../../../types/api-output';
+import { CourseService } from '../../../services/course.service';
+import { LinkService } from '../../../services/link.service';
+import { SimpleModalService } from '../../../services/simple-modal.service';
+import { StatusMessageService } from '../../../services/status-message.service';
+import { Account, Accounts, Courses, JoinLink } from '../../../types/api-output';
+import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { InstructorData } from './instructor-data';
+import { InstructorData, RegisteredInstructorAccountData } from './instructor-data';
 
 /**
  * Admin home page.
@@ -25,7 +32,20 @@ export class AdminHomePageComponent {
 
   isAddingInstructors: boolean = false;
 
-  constructor(private accountService: AccountService) {}
+  isRegisteredInstructorModalLoading = false;
+  registeredInstructorIndex: number = 0;
+  registeredInstructorAccountData: RegisteredInstructorAccountData[] = [];
+
+  @ViewChild('registeredInstructorModal') registeredInstructorModal!: TemplateRef<any>;
+
+  constructor(
+    private accountService: AccountService,
+    private courseService: CourseService,
+    private simpleModalService: SimpleModalService,
+    private statusMessageService: StatusMessageService,
+    private linkService: LinkService,
+    private ngbModal: NgbModal,
+  ) {}
 
   /**
    * Validates and adds the instructor details filled with first form.
@@ -98,10 +118,12 @@ export class AdminHomePageComponent {
         }))
         .subscribe((resp: JoinLink) => {
           instructor.status = 'SUCCESS';
+          instructor.statusCode = 200;
           instructor.joinLink = resp.joinLink;
           this.activeRequests -= 1;
         }, (resp: ErrorMessageOutput) => {
           instructor.status = 'FAIL';
+          instructor.statusCode = resp.status;
           instructor.message = resp.error.message;
           this.activeRequests -= 1;
         });
@@ -131,6 +153,112 @@ export class AdminHomePageComponent {
     for (let i: number = 0; i < this.instructorsConsolidated.length; i += 1) {
       this.addInstructor(i);
     }
+  }
+
+  /**
+   * Opens a modal containing more information about a registered instructor.
+   */
+  showRegisteredInstructorModal(i: number): void {
+    this.registeredInstructorIndex = i;
+    this.registeredInstructorAccountData = [];
+    this.isRegisteredInstructorModalLoading = true;
+
+    const email = this.instructorsConsolidated[i].email;
+
+    const modalRef: NgbModalRef = this.simpleModalService.openInformationModal(
+      'An instructor has already registered using this account request',
+      SimpleModalType.INFO,
+      this.registeredInstructorModal,
+      undefined,
+      { scrollable: true },
+    );
+
+    this.accountService.getAccounts(email).pipe(
+      map((accounts: Accounts) => accounts.accounts),
+      mergeMap((accounts: Account[]) =>
+        forkJoin(accounts.map(
+          (account: Account) => this.getRegisteredAccountData(account.googleId)),
+        ),
+      ),
+      finalize(() => { this.isRegisteredInstructorModalLoading = false; }),
+    ).subscribe((resp: RegisteredInstructorAccountData[]) => {
+      this.registeredInstructorAccountData = resp;
+    }, (resp: ErrorMessageOutput) => {
+      modalRef.dismiss();
+      this.statusMessageService.showErrorToast(resp.error.message);
+    });
+  }
+
+  private getRegisteredAccountData(googleId: string): Observable<RegisteredInstructorAccountData> {
+    const getStudentCourses: Observable<Courses> = this.courseService
+      .getStudentCoursesInMasqueradeMode(googleId)
+      .pipe(
+        catchError((err: ErrorMessageOutput) => {
+          if (err.status === 403) {
+            // User is not a student
+            return of({ courses: [] });
+          }
+          return throwError(err);
+        }),
+      );
+    const getInstructorCourses: Observable<Courses> = this.courseService
+      .getInstructorCoursesInMasqueradeMode(googleId)
+      .pipe(
+        catchError((err: ErrorMessageOutput) => {
+          if (err.status === 403) {
+            // User is not an instructor
+            return of({ courses: [] });
+          }
+          return throwError(err);
+        }),
+      );
+
+    return forkJoin([
+      getStudentCourses,
+      getInstructorCourses,
+    ]).pipe(
+      map((value: [Courses, Courses]) => {
+        const manageAccountLink = this.linkService
+          .generateManageAccountLink(googleId, this.linkService.ADMIN_ACCOUNTS_PAGE);
+        return {
+          googleId,
+          manageAccountLink,
+          studentCourses: value[0].courses,
+          instructorCourses: value[1].courses,
+        };
+      }),
+    );
+  }
+
+  resetAccountRequest(i: number): void {
+    const modalContent = `Are you sure you want to reset the account request for
+        <strong>${this.instructorsConsolidated[i].name}</strong> with email
+        <strong>${this.instructorsConsolidated[i].email}</strong> from
+        <strong>${this.instructorsConsolidated[i].institution}</strong>?
+        An email with the account registration link will also be sent to the instructor.`;
+    const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
+        `Reset account request for <strong>${this.instructorsConsolidated[i].name}</strong>?`,
+        SimpleModalType.WARNING,
+        modalContent);
+
+    modalRef.result.then(() => {
+      this.accountService
+        .resetAccountRequest(
+          this.instructorsConsolidated[i].email,
+          this.instructorsConsolidated[i].institution,
+        )
+        .subscribe(
+          (resp: JoinLink) => {
+            this.instructorsConsolidated[i].status = 'SUCCESS';
+            this.instructorsConsolidated[i].statusCode = 200;
+            this.instructorsConsolidated[i].joinLink = resp.joinLink;
+            this.ngbModal.dismissAll();
+          },
+          (resp: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorToast(resp.error.message);
+          },
+        );
+    }, () => {});
   }
 
 }

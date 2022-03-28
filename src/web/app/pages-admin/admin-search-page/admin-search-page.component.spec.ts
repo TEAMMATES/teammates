@@ -878,4 +878,55 @@ describe('AdminSearchPageComponent', () => {
 
     expect(spyStatusMessageService).toBeCalled();
   });
+
+  it('should show error message when resetting account request is unsuccessful', () => {
+    component.accountRequests = [DEFAULT_ACCOUNT_REQUEST_SEARCH_RESULT];
+    component.accountRequests[0].registeredAtText = 'Wed, 09 Feb 2022, 10:23 AM +00:00';
+    fixture.detectChanges();
+
+    jest.spyOn(ngbModal, 'open').mockImplementation(() => {
+      return createMockNgbModalRef({});
+    });
+
+    jest.spyOn(accountService, 'resetAccountRequest').mockReturnValue(throwError({
+      error: {
+        message: 'This is the error message.',
+      },
+    }));
+
+    const spyStatusMessageService = jest.spyOn(statusMessageService, 'showErrorToast')
+      .mockImplementation((args: string) => {
+        expect(args).toEqual('This is the error message.');
+      });
+
+    const resetButton = fixture.debugElement.nativeElement.querySelector('#reset-account-request-0');
+    resetButton.click();
+
+    expect(spyStatusMessageService).toBeCalled();
+  });
+
+  it('should show success message when resetting account request is successful', () => {
+    component.accountRequests = [DEFAULT_ACCOUNT_REQUEST_SEARCH_RESULT];
+    component.accountRequests[0].registeredAtText = 'Wed, 09 Feb 2022, 10:23 AM +00:00';
+    fixture.detectChanges();
+
+    jest.spyOn(ngbModal, 'open').mockImplementation(() => {
+      return createMockNgbModalRef({});
+    });
+
+    jest.spyOn(accountService, 'resetAccountRequest').mockReturnValue(of({
+      joinLink: 'joinlink',
+    }));
+
+    const spyStatusMessageService = jest.spyOn(statusMessageService, 'showSuccessToast')
+      .mockImplementation((args: string) => {
+        expect(args)
+            .toEqual(`Reset successful. An email has been sent to ${DEFAULT_ACCOUNT_REQUEST_SEARCH_RESULT.email}.`);
+      });
+
+    const resetButton = fixture.debugElement.nativeElement.querySelector('#reset-account-request-0');
+    resetButton.click();
+
+    expect(spyStatusMessageService).toBeCalled();
+  });
 });
