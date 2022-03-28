@@ -1,5 +1,6 @@
 package teammates.logic.core;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringJoiner;
@@ -103,6 +104,13 @@ public final class StudentsLogic {
      */
     public List<StudentAttributes> getStudentsForCourse(String courseId) {
         return studentsDb.getStudentsForCourse(courseId);
+    }
+
+    /**
+     * Gets the first {@code batchSize} students of a course.
+     */
+    public List<StudentAttributes> getStudentsForCourse(String courseId, int batchSize) {
+        return studentsDb.getStudentsForCourse(courseId, batchSize);
     }
 
     /**
@@ -379,11 +387,12 @@ public final class StudentsLogic {
     }
 
     /**
-     * Deletes all the students in the course cascade their associated responses and comments.
+     * Deletes the first {@code batchSize} of the remaining students in the course cascade their
+     * associated responses and comments.
      */
-    public void deleteStudentsInCourseCascade(String courseId) {
-        List<StudentAttributes> studentsInCourse = getStudentsForCourse(courseId);
-        for (StudentAttributes student : studentsInCourse) {
+    public void deleteStudentsInCourseCascade(String courseId, int batchSize) {
+        var studentsInCourse = getStudentsForCourse(courseId, batchSize);
+        for (var student : studentsInCourse) {
             RequestTracer.checkRemainingTime();
             deleteStudentCascade(courseId, student.getEmail());
         }
@@ -401,7 +410,7 @@ public final class StudentsLogic {
         }
 
         frLogic.deleteFeedbackResponsesInvolvedEntityOfCourseCascade(courseId, studentEmail);
-        if (studentsDb.getStudentsForTeam(student.getTeam(), student.getCourse()).size() == 1) {
+        if (studentsDb.getStudentCountForTeam(student.getTeam(), student.getCourse()) == 1) {
             // the student is the only student in the team, delete responses related to the team
             frLogic.deleteFeedbackResponsesInvolvedEntityOfCourseCascade(student.getCourse(), student.getTeam());
         }
@@ -454,6 +463,13 @@ public final class StudentsLogic {
     private boolean isSectionChanged(String originalSection, String newSection) {
         return newSection != null && originalSection != null
                 && !originalSection.equals(newSection);
+    }
+
+    /**
+     * Gets the number of students created within a specified time range.
+     */
+    int getNumStudentsByTimeRange(Instant startTime, Instant endTime) {
+        return studentsDb.getNumStudentsByTimeRange(startTime, endTime);
     }
 
 }

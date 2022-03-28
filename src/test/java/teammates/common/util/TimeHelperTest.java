@@ -3,6 +3,7 @@ package teammates.common.util;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.Month;
+import java.time.OffsetDateTime;
 import java.time.ZoneId;
 
 import org.testng.annotations.Test;
@@ -69,6 +70,26 @@ public class TimeHelperTest extends BaseTestCase {
         forwardAdjusted = TimeHelper.getMidnightAdjustedInstantBasedOnZone(instantAt2359, wrongTimeZone, true);
         assertEquals("Sun, 29 Nov 2015, 11:59 PM UTC",
                 TimeHelper.formatInstant(forwardAdjusted, zoneId, DATETIME_DISPLAY_FORMAT));
+    }
+
+    @Test
+    public void testGetInstantNearestHourBefore() {
+        Instant expected = Instant.parse("2020-12-31T16:00:00Z");
+        Instant actual = TimeHelper.getInstantNearestHourBefore(Instant.parse("2020-12-31T16:00:00Z"));
+
+        assertEquals(expected, actual);
+
+        actual = TimeHelper.getInstantNearestHourBefore(Instant.parse("2020-12-31T16:10:00Z"));
+
+        assertEquals(expected, actual);
+
+        actual = TimeHelper.getInstantNearestHourBefore(OffsetDateTime.parse("2021-01-01T00:30:00+08:00").toInstant());
+
+        assertEquals(expected, actual);
+
+        actual = TimeHelper.getInstantNearestHourBefore(OffsetDateTime.parse("2020-12-31T12:59:00-04:00").toInstant());
+
+        assertEquals(expected, actual);
     }
 
 }
