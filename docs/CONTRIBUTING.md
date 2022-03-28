@@ -1,9 +1,3 @@
-{% set title = "Workflow: Contributing" %}
-
-<frontmatter>
-  title: "Workflow: Contributing"
-</frontmatter>
-
 # Contributing to TEAMMATES
 
 Thanks for taking your time to contribute to TEAMMATES!

@@ -6,7 +6,7 @@ TEAMMATES is a free online tool for managing peer evaluations and other feedback
 
 We welcome contributions from developers, especially students. Here are some resources:
 
-* [**Contributor Orientation Guide**](contributing.md): This document describes what you need to know/do to become a contributor.
+* [**Contributor Orientation Guide**](contributing-doc.md): This document describes what you need to know/do to become a contributor.
 * [**Project ideas page**](https://github.com/TEAMMATES/teammates/wiki): These are for those who would like to do a relatively bigger projects with TEAMMATES (e.g. summer internships).
 
 ## Documentation For Developers

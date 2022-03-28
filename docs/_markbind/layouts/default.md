@@ -9,7 +9,7 @@
       <span style="font-style:italic;font-size:small">[dev docs]</span>
     </a>
     <li><a href="{{ baseUrl }}/index.html" class="nav-link">HOME</a></li>
-    <li><a href="{{ baseUrl }}/contributing.html" class="nav-link">CONTRIBUTING</a></li>
+    <li><a href="{{ baseUrl }}/contributing-doc.html" class="nav-link">CONTRIBUTING</a></li>
     <li><a href="{{ baseUrl }}/about.html" class="nav-link">ABOUT</a></li>
     <li><a href="http://teammatesv4.appspot.com/" target="_blank" class="nav-link">PRODUCT WEBSITE <md>:glyphicon-share-alt:</md></a></li>
     <li><a href="https://github.com/TEAMMATES/teammates" target="_blank" class="nav-link"><md>:fab-github:</md></a></li>
@@ -37,7 +37,7 @@
   * [Search]({{ baseUrl }}/search.html)
   * [Documentation]({{ baseUrl }}/documentation.html)
 * Workflow :expanded:
-  * [Contributing]({{ baseUrl }}/contributing.html)
+  * [Contributing]({{ baseUrl }}/contributing-doc.html)
   * [Issues]({{ baseUrl }}/issues.html)
   * [Process]({{ baseUrl }}/process.html)
   * [Development]({{ baseUrl }}/development.html)
