@@ -50,7 +50,7 @@ export class TimepickerComponent {
    * Checks whether the time is in the fixed list to select.
    */
   isInFixedList(time: TimeFormat): boolean {
-    return (time.hour >= 1 && time.hour <= 22 && time.minute === 0)
+    return (time.hour >= 1 && time.hour <= 23 && time.minute === 0)
         || (time.hour === 23 && time.minute === 59);
   }
 
