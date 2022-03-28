@@ -144,16 +144,16 @@ public final class FeedbackQuestionsLogic {
      * Checks if there are any questions for the given session that instructors can view/submit.
      */
     public boolean hasFeedbackQuestionsForInstructors(
-            String feedbackSessionName, String courseId, String userEmail) {
+            FeedbackSessionAttributes fsa, boolean isCreator) {
         boolean hasQuestions = fqDb.hasFeedbackQuestionsForGiverType(
-                feedbackSessionName, courseId, FeedbackParticipantType.INSTRUCTORS);
+                fsa.getFeedbackSessionName(), fsa.getCourseId(), FeedbackParticipantType.INSTRUCTORS);
         if (hasQuestions) {
             return true;
         }
 
-        if (userEmail != null && fsLogic.isCreatorOfSession(feedbackSessionName, courseId, userEmail)) {
+        if (isCreator) {
             hasQuestions = fqDb.hasFeedbackQuestionsForGiverType(
-                    feedbackSessionName, courseId, FeedbackParticipantType.SELF);
+                    fsa.getFeedbackSessionName(), fsa.getCourseId(), FeedbackParticipantType.SELF);
         }
 
         return hasQuestions;
@@ -202,10 +202,11 @@ public final class FeedbackQuestionsLogic {
     /**
      * Checks if there are any questions for the given session that students can view/submit.
      */
-    public boolean hasFeedbackQuestionsForStudents(
-            String feedbackSessionName, String courseId) {
-        return fqDb.hasFeedbackQuestionsForGiverType(feedbackSessionName, courseId, FeedbackParticipantType.STUDENTS)
-                || fqDb.hasFeedbackQuestionsForGiverType(feedbackSessionName, courseId, FeedbackParticipantType.TEAMS);
+    public boolean hasFeedbackQuestionsForStudents(FeedbackSessionAttributes fsa) {
+        return fqDb.hasFeedbackQuestionsForGiverType(
+                fsa.getFeedbackSessionName(), fsa.getCourseId(), FeedbackParticipantType.STUDENTS)
+                || fqDb.hasFeedbackQuestionsForGiverType(
+                        fsa.getFeedbackSessionName(), fsa.getCourseId(), FeedbackParticipantType.TEAMS);
     }
 
     /**

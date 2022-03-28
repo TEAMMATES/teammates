@@ -168,6 +168,15 @@ public final class StudentsDb extends EntitiesDb<CourseStudent, StudentAttribute
     }
 
     /**
+     * Gets the total number of students of a course.
+     */
+    public int getNumberOfStudentsForCourse(String courseId) {
+        assert courseId != null;
+
+        return getCourseStudentsForCourseQuery(courseId).count();
+    }
+
+    /**
      * Gets all students of a course.
      */
     public List<StudentAttributes> getStudentsForCourse(String courseId) {
