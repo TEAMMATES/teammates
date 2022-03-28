@@ -14,13 +14,13 @@ enum NotificationFontColor {
  */
 const fontColorMapping: Record<NotificationStyle, string> = {
   PRIMARY: NotificationFontColor.WHITE,
-    SECONDARY: NotificationFontColor.WHITE,
-    SUCCESS: NotificationFontColor.WHITE,
-    DANGER: NotificationFontColor.WHITE,
-    WARNING: NotificationFontColor.DARK,
-    INFO: NotificationFontColor.WHITE,
-    LIGHT: NotificationFontColor.DARK,
-    DARK: NotificationFontColor.WHITE,
+  SECONDARY: NotificationFontColor.WHITE,
+  SUCCESS: NotificationFontColor.WHITE,
+  DANGER: NotificationFontColor.WHITE,
+  WARNING: NotificationFontColor.DARK,
+  INFO: NotificationFontColor.WHITE,
+  LIGHT: NotificationFontColor.DARK,
+  DARK: NotificationFontColor.WHITE,
 };
 
 /**
