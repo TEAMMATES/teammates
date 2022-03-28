@@ -2,6 +2,7 @@ package teammates.logic.core;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
@@ -121,6 +122,16 @@ public final class InstructorsLogic {
      */
     public InstructorAttributes getInstructorForRegistrationKey(String registrationKey) {
         return instructorsDb.getInstructorForRegistrationKey(registrationKey);
+    }
+
+    /**
+     * Gets emails of all instructors of a course.
+     */
+    public List<String> getInstructorEmailsForCourse(String courseId) {
+        List<String> instructorEmails = instructorsDb.getInstructorEmailsForCourse(courseId);
+        instructorEmails.sort(Comparator.naturalOrder());
+
+        return instructorEmails;
     }
 
     /**

@@ -10,7 +10,6 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -249,12 +248,8 @@ public final class FeedbackSessionsLogic {
             return true;
         }
 
-        String feedbackSessionName = fsa.getFeedbackSessionName();
-        String courseId = fsa.getCourseId();
-        List<FeedbackQuestionAttributes> allQuestions =
-                fqLogic.getFeedbackQuestionsForInstructors(feedbackSessionName, courseId, userEmail);
         // if there is no question for instructor, session is attempted
-        return allQuestions.isEmpty();
+        return !fqLogic.hasFeedbackQuestionsForInstructors(fsa, fsa.isCreator(userEmail));
     }
 
     /**
@@ -492,24 +487,31 @@ public final class FeedbackSessionsLogic {
      * Gets the expected number of submissions for a feedback session.
      */
     public int getExpectedTotalSubmission(FeedbackSessionAttributes fsa) {
-        List<StudentAttributes> students = studentsLogic.getStudentsForCourse(fsa.getCourseId());
-        List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForCourse(fsa.getCourseId());
-        List<FeedbackQuestionAttributes> questions =
-                fqLogic.getFeedbackQuestionsForSession(fsa.getFeedbackSessionName(), fsa.getCourseId());
-        List<FeedbackQuestionAttributes> studentQns = fqLogic.getFeedbackQuestionsForStudents(questions);
-
         int expectedTotal = 0;
 
-        if (!studentQns.isEmpty()) {
-            expectedTotal += students.size();
+        if (fqLogic.hasFeedbackQuestionsForStudents(fsa)) {
+            expectedTotal += studentsLogic.getNumberOfStudentsForCourse(fsa.getCourseId());
         }
 
-        for (InstructorAttributes instructor : instructors) {
-            List<FeedbackQuestionAttributes> instructorQns =
-                    fqLogic.getFeedbackQuestionsForInstructors(questions, fsa.isCreator(instructor.getEmail()));
-            if (!instructorQns.isEmpty()) {
-                expectedTotal += 1;
-            }
+        // Pre-flight check to ensure there are questions for instructors.
+        if (!fqLogic.hasFeedbackQuestionsForInstructors(fsa, true)) {
+            return expectedTotal;
+        }
+
+        List<String> instructorEmails = instructorsLogic.getInstructorEmailsForCourse(fsa.getCourseId());
+        if (instructorEmails.isEmpty()) {
+            return expectedTotal;
+        }
+
+        // Check presence of questions for instructors.
+        if (fqLogic.hasFeedbackQuestionsForInstructors(fsa, false)) {
+            expectedTotal += instructorEmails.size();
+        } else {
+            // No questions for instructors. There must be questions for creator.
+            List<String> creatorEmails = instructorEmails.stream()
+                    .filter(fsa::isCreator)
+                    .collect(Collectors.toList());
+            expectedTotal += creatorEmails.size();
         }
 
         return expectedTotal;
@@ -566,8 +568,8 @@ public final class FeedbackSessionsLogic {
         }
 
         return isInstructor
-                ? fqLogic.hasFeedbackQuestionsForInstructors(session.getFeedbackSessionName(), session.getCourseId(), null)
-                : fqLogic.hasFeedbackQuestionsForStudents(session.getFeedbackSessionName(), session.getCourseId());
+                ? fqLogic.hasFeedbackQuestionsForInstructors(session, false)
+                : fqLogic.hasFeedbackQuestionsForStudents(session);
     }
 
 }

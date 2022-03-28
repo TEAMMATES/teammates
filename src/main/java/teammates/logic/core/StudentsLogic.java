@@ -100,6 +100,13 @@ public final class StudentsLogic {
     }
 
     /**
+     * Gets the total number of students of a course.
+     */
+    public int getNumberOfStudentsForCourse(String courseId) {
+        return studentsDb.getNumberOfStudentsForCourse(courseId);
+    }
+
+    /**
      * Gets all students of a course.
      */
     public List<StudentAttributes> getStudentsForCourse(String courseId) {

@@ -51,6 +51,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         testGetStudentForRegistrationKey();
         testGetStudentsForGoogleId();
         testGetStudentForCourseIdAndGoogleId();
+        testGetNumberOfStudentsForCourse();
         testGetStudentsForCourse();
         testIsStudentInAnyCourse();
         testIsStudentInTeam();
@@ -409,6 +410,31 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         assertThrows(AssertionError.class,
                 () -> studentsLogic.getStudentForCourseIdAndGoogleId("valid.course", null));
+    }
+
+    private void testGetNumberOfStudentsForCourse() {
+
+        ______TS("course with multiple students");
+
+        CourseAttributes course1OfInstructor1 = dataBundle.courses.get("typicalCourse1");
+        int numOfStudents = studentsLogic.getNumberOfStudentsForCourse(course1OfInstructor1.getId());
+        assertEquals(5, numOfStudents);
+
+        ______TS("course with 0 students");
+
+        CourseAttributes course2OfInstructor1 = dataBundle.courses.get("courseNoEvals");
+        numOfStudents = studentsLogic.getNumberOfStudentsForCourse(course2OfInstructor1.getId());
+        assertEquals(0, numOfStudents);
+
+        ______TS("null parameter");
+
+        assertThrows(AssertionError.class, () -> studentsLogic.getNumberOfStudentsForCourse(null));
+
+        ______TS("non-existent course");
+
+        numOfStudents = studentsLogic.getNumberOfStudentsForCourse("non-existent");
+        assertEquals(0, numOfStudents);
+
     }
 
     private void testGetStudentsForCourse() {

@@ -148,6 +148,21 @@ public final class InstructorsDb extends EntitiesDb<Instructor, InstructorAttrib
     }
 
     /**
+     * Gets the emails of all instructors of a course.
+     */
+    public List<String> getInstructorEmailsForCourse(String courseId) {
+        assert courseId != null;
+
+        return load()
+                .filter("courseId =", courseId)
+                .project("email")
+                .list()
+                .stream()
+                .map(Instructor::getEmail)
+                .collect(Collectors.toList());
+    }
+
+    /**
      * Gets all instructors of a course.
      */
     public List<InstructorAttributes> getInstructorsForCourse(String courseId) {
