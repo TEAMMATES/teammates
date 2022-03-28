@@ -838,7 +838,9 @@
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
       "isPublishedEmailEnabled": true,
-      "studentDeadlines": {},
+      "studentDeadlines": {
+        "student1InCourse1@gmail.tmt": "2026-04-28T23:00:00Z"
+      },
       "instructorDeadlines": {}
     },
     "closedSession": {
@@ -1766,6 +1768,16 @@
       "courseId": "idOfTypicalCourse1",
       "feedbackSessionName": "Second feedback session",
       "userEmail": "student4InCourse1@gmail.tmt",
+      "isInstructor": false,
+      "endTime": "2026-04-28T23:00:00Z",
+      "sentClosingEmail": false,
+      "createdAt": "2026-04-28T21:00:00Z",
+      "updatedAt": "2026-04-28T21:00:00Z"
+    },
+    "student1InCourse1GracePeriodSession": {
+      "courseId": "idOfTypicalCourse1",
+      "feedbackSessionName": "Grace Period Session",
+      "userEmail": "student1InCourse1@gmail.tmt",
       "isInstructor": false,
       "endTime": "2026-04-28T23:00:00Z",
       "sentClosingEmail": false,
