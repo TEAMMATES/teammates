@@ -240,7 +240,7 @@ public final class AccountsLogic {
     }
 
     /**
-     * Deletes both instructor and student privileges, as long as the account and associated student profile.
+     * Deletes both instructor and student privileges, as well as the account and associated student profile.
      *
      * <ul>
      * <li>Fails silently if no such account.</li>

@@ -66,7 +66,7 @@ public final class DataBundleLogic {
 
     /**
      * Persists data in the given {@link DataBundle} to the database, including
-     * accounts, courses, instructors, students, sessions, questions, responses, and comments.
+     * accounts, account requests, courses, instructors, students, sessions, questions, responses, and comments.
      *
      * <p>Accounts are generated for students and instructors with Google IDs
      * if the corresponding accounts are not found in the data bundle.

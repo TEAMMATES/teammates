@@ -258,7 +258,7 @@ export enum SortBy {
     RANK_OPTIONS_OVERALL_RANK,
 
     /**
-     * Giver's / Recipients's team
+     * Giver's / Recipient's team
      */
     RANK_RECIPIENTS_TEAM,
 
@@ -318,7 +318,7 @@ export enum SortBy {
     CONSTSUM_OPTIONS_OPTION,
 
     /**
-     * Option's recieved/total/average points
+     * Option's received/total/average points
      */
     CONSTSUM_OPTIONS_POINTS,
 
