@@ -2,7 +2,6 @@
 
 exports[`IndividualExtensionConfirmModalComponent should snap with the extended students and instructors 1`] = `
 <tm-individual-extension-confirm-modal
-  DATETIME_FORMAT={[Function String]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
   activeModal={[Function NgbActiveModal]}

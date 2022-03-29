@@ -2,7 +2,6 @@
 
 exports[`InstructorSessionIndividualExtensionPageComponent should snap when clicking the Select All Instructors button 1`] = `
 <tm-instructor-session-individual-extension-page
-  DATETIME_FORMAT={[Function String]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
   columnsData={[Function Array]}
@@ -474,7 +473,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
 
 exports[`InstructorSessionIndividualExtensionPageComponent should snap when clicking the Select All Students button 1`] = `
 <tm-instructor-session-individual-extension-page
-  DATETIME_FORMAT={[Function String]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
   columnsData={[Function Array]}
@@ -946,7 +944,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
 
 exports[`InstructorSessionIndividualExtensionPageComponent should snap when feedback session loading 1`] = `
 <tm-instructor-session-individual-extension-page
-  DATETIME_FORMAT={[Function String]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
   columnsData={[Function Array]}
@@ -1206,7 +1203,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when feed
 
 exports[`InstructorSessionIndividualExtensionPageComponent should snap when there are no instructors 1`] = `
 <tm-instructor-session-individual-extension-page
-  DATETIME_FORMAT={[Function String]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
   columnsData={[Function Array]}
@@ -1630,7 +1626,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
 
 exports[`InstructorSessionIndividualExtensionPageComponent should snap when there are no students 1`] = `
 <tm-instructor-session-individual-extension-page
-  DATETIME_FORMAT={[Function String]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
   columnsData={[Function Array]}
@@ -2022,7 +2017,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
 
 exports[`InstructorSessionIndividualExtensionPageComponent should snap with details and extended students 1`] = `
 <tm-instructor-session-individual-extension-page
-  DATETIME_FORMAT={[Function String]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
   columnsData={[Function Array]}
@@ -2494,7 +2488,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
 
 exports[`InstructorSessionIndividualExtensionPageComponent should snap with instructor loading 1`] = `
 <tm-instructor-session-individual-extension-page
-  DATETIME_FORMAT={[Function String]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
   columnsData={[Function Array]}
@@ -2770,7 +2763,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with inst
 
 exports[`InstructorSessionIndividualExtensionPageComponent should snap with student loading 1`] = `
 <tm-instructor-session-individual-extension-page
-  DATETIME_FORMAT={[Function String]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
   columnsData={[Function Array]}
@@ -3034,7 +3026,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with stud
 
 exports[`InstructorSessionIndividualExtensionPageComponent should stop loading if course service returns 404 1`] = `
 <tm-instructor-session-individual-extension-page
-  DATETIME_FORMAT={[Function String]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
   columnsData={[Function Array]}
@@ -3297,7 +3288,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
 
 exports[`InstructorSessionIndividualExtensionPageComponent should stop loading if feedback session service returns 404 1`] = `
 <tm-instructor-session-individual-extension-page
-  DATETIME_FORMAT={[Function String]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
   columnsData={[Function Array]}
@@ -3560,7 +3550,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
 
 exports[`InstructorSessionIndividualExtensionPageComponent should stop loading if instructor service returns 404 1`] = `
 <tm-instructor-session-individual-extension-page
-  DATETIME_FORMAT={[Function String]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
   columnsData={[Function Array]}
@@ -3920,7 +3909,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
 
 exports[`InstructorSessionIndividualExtensionPageComponent should stop loading if student service returns 404 1`] = `
 <tm-instructor-session-individual-extension-page
-  DATETIME_FORMAT={[Function String]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
   columnsData={[Function Array]}

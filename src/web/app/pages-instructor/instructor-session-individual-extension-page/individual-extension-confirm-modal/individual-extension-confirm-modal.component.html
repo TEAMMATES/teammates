@@ -123,7 +123,8 @@
             </span>
           </th>
           <th class="sortable-header" (click)="sortInstructorsColumnsBy(SortBy.SESSION_END_DATE)">
-            Current Deadline
+            <span *ngIf="isExtendModal()">Original Deadline </span>
+            <span *ngIf="isDeleteModal()">Current Deadline </span>
             <span class="fa-stack">
               <i class="fas fa-sort"></i>
               <i *ngIf="sortInstructorsBy === SortBy.SESSION_END_DATE && sortInstructorOrder === SortOrder.DESC"

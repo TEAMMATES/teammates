@@ -2,18 +2,19 @@
 
 exports[`IndividualExtensionDateModalComponent should snap with the error modal 1`] = `
 <tm-individual-extension-date-modal
-  DATETIME_FORMAT={[Function String]}
   ONE_DAY_IN_MILLISECONDS={[Function Number]}
   ONE_HOUR_IN_MILLISECONDS={[Function Number]}
   ONE_MINUTE_IN_MILLISECONDS={[Function Number]}
   RadioOptions={[Function Object]}
   activeModal={[Function NgbActiveModal]}
+  dateDetailPipe={[Function FormatDateDetailPipe]}
   datePicker={[Function Object]}
   extendByDatePicker={[Function Object]}
   extendByDeadlineKey=""
   extendByDeadlineOptions={[Function Map]}
   feedbackSessionEndingTime="0"
-  feedbackSessionTimeZone={[Function String]}
+  feedbackSessionTimeZone=""
+  getExtensionTimestamp={[Function Function]}
   numInstructors={[Function Number]}
   numStudents={[Function Number]}
   onConfirmCallBack={[Function EventEmitter_]}
@@ -94,7 +95,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the error modal 
             >
                12 hours 
               <div>
-                 (5 Apr 2000 2:00:00) 
+                 (Sat, 5 Apr 2000 2:00 +08) 
               </div>
             </option>
             <option
@@ -102,7 +103,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the error modal 
             >
                1 day 
               <div>
-                 (5 Apr 2000 2:00:00) 
+                 (Sat, 5 Apr 2000 2:00 +08) 
               </div>
             </option>
             <option
@@ -110,7 +111,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the error modal 
             >
                3 days 
               <div>
-                 (5 Apr 2000 2:00:00) 
+                 (Sat, 5 Apr 2000 2:00 +08) 
               </div>
             </option>
             <option
@@ -118,7 +119,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the error modal 
             >
                1 week 
               <div>
-                 (5 Apr 2000 2:00:00) 
+                 (Sat, 5 Apr 2000 2:00 +08) 
               </div>
             </option>
             <option
@@ -142,7 +143,6 @@ exports[`IndividualExtensionDateModalComponent should snap with the error modal 
     </button>
     <button
       class="btn btn-success modal-btn-ok"
-      disabled=""
       type="button"
     >
        Save Changes
@@ -153,12 +153,12 @@ exports[`IndividualExtensionDateModalComponent should snap with the error modal 
 
 exports[`IndividualExtensionDateModalComponent should snap with the extend by radio option 1`] = `
 <tm-individual-extension-date-modal
-  DATETIME_FORMAT={[Function String]}
   ONE_DAY_IN_MILLISECONDS={[Function Number]}
   ONE_HOUR_IN_MILLISECONDS={[Function Number]}
   ONE_MINUTE_IN_MILLISECONDS={[Function Number]}
   RadioOptions={[Function Object]}
   activeModal={[Function NgbActiveModal]}
+  dateDetailPipe={[Function FormatDateDetailPipe]}
   datePicker={[Function Object]}
   extendByDatePicker={[Function Object]}
   extendByDeadlineKey={[Function String]}
@@ -418,12 +418,12 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
 
 exports[`IndividualExtensionDateModalComponent should snap with the extend by radio option with customize 1`] = `
 <tm-individual-extension-date-modal
-  DATETIME_FORMAT={[Function String]}
   ONE_DAY_IN_MILLISECONDS={[Function Number]}
   ONE_HOUR_IN_MILLISECONDS={[Function Number]}
   ONE_MINUTE_IN_MILLISECONDS={[Function Number]}
   RadioOptions={[Function Object]}
   activeModal={[Function NgbActiveModal]}
+  dateDetailPipe={[Function FormatDateDetailPipe]}
   datePicker={[Function Object]}
   extendByDatePicker={[Function Object]}
   extendByDeadlineKey={[Function String]}
@@ -683,12 +683,12 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
 
 exports[`IndividualExtensionDateModalComponent should snap with the extend to radio option with timepicker 1`] = `
 <tm-individual-extension-date-modal
-  DATETIME_FORMAT={[Function String]}
   ONE_DAY_IN_MILLISECONDS={[Function Number]}
   ONE_HOUR_IN_MILLISECONDS={[Function Number]}
   ONE_MINUTE_IN_MILLISECONDS={[Function Number]}
   RadioOptions={[Function Object]}
   activeModal={[Function NgbActiveModal]}
+  dateDetailPipe={[Function FormatDateDetailPipe]}
   datePicker={[Function Object]}
   extendByDatePicker={[Function Object]}
   extendByDeadlineKey=""
@@ -775,7 +775,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend to ra
             >
                12 hours 
               <div>
-                 (5 Apr 2000 2:00:00) 
+                 (Sat, 5 Apr 2000 2:00 +08) 
               </div>
             </option>
             <option
@@ -783,7 +783,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend to ra
             >
                1 day 
               <div>
-                 (5 Apr 2000 2:00:00) 
+                 (Sat, 5 Apr 2000 2:00 +08) 
               </div>
             </option>
             <option
@@ -791,7 +791,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend to ra
             >
                3 days 
               <div>
-                 (5 Apr 2000 2:00:00) 
+                 (Sat, 5 Apr 2000 2:00 +08) 
               </div>
             </option>
             <option
@@ -799,7 +799,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend to ra
             >
                1 week 
               <div>
-                 (5 Apr 2000 2:00:00) 
+                 (Sat, 5 Apr 2000 2:00 +08) 
               </div>
             </option>
             <option
@@ -834,12 +834,12 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend to ra
 
 exports[`IndividualExtensionDateModalComponent should snap with the extended students 1`] = `
 <tm-individual-extension-date-modal
-  DATETIME_FORMAT={[Function String]}
   ONE_DAY_IN_MILLISECONDS={[Function Number]}
   ONE_HOUR_IN_MILLISECONDS={[Function Number]}
   ONE_MINUTE_IN_MILLISECONDS={[Function Number]}
   RadioOptions={[Function Object]}
   activeModal={[Function NgbActiveModal]}
+  dateDetailPipe={[Function FormatDateDetailPipe]}
   datePicker={[Function Object]}
   extendByDatePicker={[Function Object]}
   extendByDeadlineKey=""
@@ -926,7 +926,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extended stu
             >
                12 hours 
               <div>
-                 (5 Apr 2000 2:00:00) 
+                 (Sat, 5 Apr 2000 2:00 +08) 
               </div>
             </option>
             <option
@@ -934,7 +934,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extended stu
             >
                1 day 
               <div>
-                 (5 Apr 2000 2:00:00) 
+                 (Sat, 5 Apr 2000 2:00 +08) 
               </div>
             </option>
             <option
@@ -942,7 +942,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extended stu
             >
                3 days 
               <div>
-                 (5 Apr 2000 2:00:00) 
+                 (Sat, 5 Apr 2000 2:00 +08) 
               </div>
             </option>
             <option
@@ -950,7 +950,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extended stu
             >
                1 week 
               <div>
-                 (5 Apr 2000 2:00:00) 
+                 (Sat, 5 Apr 2000 2:00 +08) 
               </div>
             </option>
             <option

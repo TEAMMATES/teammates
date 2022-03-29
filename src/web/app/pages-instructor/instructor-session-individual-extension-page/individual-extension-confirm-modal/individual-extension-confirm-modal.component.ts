@@ -42,8 +42,6 @@ export class IndividualExtensionConfirmModalComponent {
   sortInstructorsBy: SortBy = SortBy.SESSION_END_DATE;
   sortInstructorOrder: SortOrder = SortOrder.DESC;
 
-  DATETIME_FORMAT: string = 'd MMM YYYY h:mm:ss';
-
   isNotifyDeadlines: boolean = false;
 
   onExtend(): void {

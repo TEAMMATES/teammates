@@ -38,7 +38,6 @@ import {
   styleUrls: ['./instructor-session-individual-extension-page.component.scss'],
 })
 export class InstructorSessionIndividualExtensionPageComponent implements OnInit {
-  DATETIME_FORMAT: string = 'd MMM YYYY h:mm:ss';
 
   SortBy: typeof SortBy = SortBy;
   SortOrder: typeof SortOrder = SortOrder;
@@ -317,8 +316,8 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
       .subscribe(() => {
           this.loadFeedbackSessionAndIndividuals();
           this.statusMessageService.showSuccessToast(
-            `Extension(s) for ${selectedStudents.length} student(s) and ${selectedInstructors.length} instructor(s)
-           have been successful!`,
+            `Sucessfully created extension(s) for ${selectedStudents.length} student(s)`
+            + ` and ${selectedInstructors.length} instructor(s)!`,
           );
         },
         (resp: ErrorMessageOutput) => {
@@ -364,8 +363,8 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
         () => {
           this.loadFeedbackSessionAndIndividuals();
           this.statusMessageService.showSuccessToast(
-            `Deletion of extension(s) for ${selectedStudents.length} student(s) and ${selectedInstructors.length} `
-              + 'instructor(s) have been successful!',
+            `Successfully deleleted extension(s) for ${selectedStudents.length} student(s) and`
+            + ` ${selectedInstructors.length} instructor(s)!`,
           );
         },
         (resp: ErrorMessageOutput) => {

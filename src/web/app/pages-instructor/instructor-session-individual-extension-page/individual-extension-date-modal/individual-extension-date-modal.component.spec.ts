@@ -5,37 +5,12 @@ import SpyInstance = jest.SpyInstance;
 import { SimpleModalService } from '../../../../services/simple-modal.service';
 import { TimezoneService } from '../../../../services/timezone.service';
 import { createMockNgbModalRef } from '../../../../test-helpers/mock-ngb-modal-ref';
-import {
-  FeedbackSession,
-  FeedbackSessionPublishStatus,
-  FeedbackSessionSubmissionStatus,
-  ResponseVisibleSetting,
-  SessionVisibleSetting,
-} from '../../../../types/api-output';
+import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
 import { InstructorSessionIndividualExtensionPageModule } from '../instructor-session-individual-extension-page.module';
 import { IndividualExtensionDateModalComponent, RadioOptions } from './individual-extension-date-modal.component';
 
 describe('IndividualExtensionDateModalComponent', () => {
-  const testFeedbackSession: FeedbackSession = {
-    courseId: 'testId1',
-    timeZone: 'Asia/Singapore',
-    feedbackSessionName: 'Test Session',
-    instructions: 'Instructions',
-    submissionStartTimestamp: 1000000000000,
-    submissionEndTimestamp: 1500000000000,
-    gracePeriod: 0,
-    sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
-    responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
-    submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
-    publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
-    isClosingEmailEnabled: true,
-    isPublishedEmailEnabled: true,
-    createdAtTimestamp: 0,
-    studentDeadlines: {},
-    instructorDeadlines: {},
-  };
-
-  const testTimeString = '5 Apr 2000 2:00:00';
+  const testTimeString = 'Sat, 5 Apr 2000 2:00 +08';
 
   let component: IndividualExtensionDateModalComponent;
   let fixture: ComponentFixture<IndividualExtensionDateModalComponent>;
@@ -95,17 +70,26 @@ describe('IndividualExtensionDateModalComponent', () => {
   });
 
   it('should snap with the error modal', () => {
-    component.feedbackSessionTimeZone = testFeedbackSession.timeZone;
-    component.radioOption = RadioOptions.EXTEND_BY;
-    component.datePicker = { year: 2020, month: 10, day: 10 };
-    component.DATETIME_FORMAT = 'd MMM YYYY h:mm:ss';
-    const modalSpy: SpyInstance = jest
-      .spyOn(simpleModalService, 'openConfirmationModal')
-      .mockReturnValue(createMockNgbModalRef());
+    // Set mocked picked time to be lesser than current system time
+    jest.useFakeTimers('modern').setSystemTime(new Date('2021-01-01').getTime());
+    jest.spyOn(component, 'getExtensionTimestamp').mockReturnValue(new Date('2020-10-10').valueOf());
+    const modalSpy: SpyInstance = jest.spyOn(simpleModalService, 'openConfirmationModal').mockImplementation(
+      () => createMockNgbModalRef({
+        header: 'mock header', content: 'mock content', type: SimpleModalType.WARNING,
+      }),
+    );
 
     component.onConfirm();
 
+    expect(Date.now()).toEqual(new Date('2021-01-01').valueOf());
+    expect(component.getExtensionTimestamp()).toBeLessThan(Date.now());
     expect(modalSpy).toHaveBeenCalledTimes(1);
+    expect(modalSpy).toHaveBeenLastCalledWith(
+      'Are you sure you wish to set the new deadline to before the current time?',
+      SimpleModalType.WARNING,
+      '<b>Any users affected will have their sessions closed immediately.</b> '
+      + 'The current time now is Sat, 5 Apr 2000 2:00 +08 and you are extending to Sat, 5 Apr 2000 2:00 +08.'
+      + ' Do you wish to proceed?');
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });

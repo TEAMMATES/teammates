@@ -50,25 +50,24 @@ export class IndividualExtensionDateModalComponent {
     ['Customize', 0],
   ]);
 
-  DATETIME_FORMAT: string = 'd MMM YYYY h:mm:ss';
   ONE_MINUTE_IN_MILLISECONDS = 60 * 1000;
   ONE_HOUR_IN_MILLISECONDS = 60 * this.ONE_MINUTE_IN_MILLISECONDS;
   ONE_DAY_IN_MILLISECONDS = 24 * this.ONE_HOUR_IN_MILLISECONDS;
   datePicker: DateFormat = { year: 0, month: 0, day: 0 };
   timePicker: TimeFormat = { hour: 23, minute: 59 };
   extendByDatePicker = { hours: 0, days: 0 };
+  dateDetailPipe = new FormatDateDetailPipe(this.timeZoneService);
 
   onConfirm(): void {
     if (this.getExtensionTimestamp() < Date.now()) {
-      const extensionTimeString = this.timeZoneService.formatToString(
+
+      const extensionTimeString = this.dateDetailPipe.transform(
         this.getExtensionTimestamp(),
         this.feedbackSessionTimeZone,
-        this.DATETIME_FORMAT,
       );
-      const currentTimeString = this.timeZoneService.formatToString(
+      const currentTimeString = this.dateDetailPipe.transform(
         Date.now(),
         this.feedbackSessionTimeZone,
-        this.DATETIME_FORMAT,
       );
       this.simpleModalService
         .openConfirmationModal(
@@ -76,7 +75,7 @@ export class IndividualExtensionDateModalComponent {
           SimpleModalType.WARNING,
           '<b>Any users affected will have their sessions closed immediately.</b>'
             + ` The current time now is ${currentTimeString} and you are extending to`
-            + ` ${extensionTimeString} in ${this.feedbackSessionTimeZone}. Do you wish to proceed?`,
+            + ` ${extensionTimeString}. Do you wish to proceed?`,
         )
         .result.then(() => this.onConfirmCallBack.emit(this.getExtensionTimestamp()));
     } else {
@@ -125,8 +124,7 @@ export class IndividualExtensionDateModalComponent {
 
   addTimeAndFormat(hours: number, days: number): string {
     const time = this.addTime(this.feedbackSessionEndingTime, hours, days);
-    const dateDetailPipe = new FormatDateDetailPipe(this.timeZoneService);
-    return dateDetailPipe.transform(time, this.feedbackSessionTimeZone);
+    return this.dateDetailPipe.transform(time, this.feedbackSessionTimeZone);
   }
 
   private addTime(timestamp: number, hours: number, days: number): number {
