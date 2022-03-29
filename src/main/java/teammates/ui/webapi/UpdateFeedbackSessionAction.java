@@ -44,8 +44,6 @@ class UpdateFeedbackSessionAction extends Action {
     public JsonResult execute() throws InvalidHttpRequestBodyException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        // TODO: Use the value here.
-        getBooleanRequestParamValue(Const.ParamsNames.NOTIFY_ABOUT_DEADLINES);
 
         FeedbackSessionAttributes feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
 
@@ -71,6 +69,8 @@ class UpdateFeedbackSessionAction extends Action {
         } catch (EntityDoesNotExistException e) {
             throw new EntityNotFoundException(e);
         }
+
+        boolean notifyAboutDeadlines = getBooleanRequestParamValue(Const.ParamsNames.NOTIFY_ABOUT_DEADLINES);
 
         String timeZone = feedbackSession.getTimeZone();
         Instant startTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
@@ -103,6 +103,12 @@ class UpdateFeedbackSessionAction extends Action {
                             .withStudentDeadlines(studentDeadlines)
                             .withInstructorDeadlines(instructorDeadlines)
                             .build());
+
+            if (!studentDeadlines.equals(oldStudentDeadlines) || !instructorDeadlines.equals(oldInstructorDeadlines)) {
+                taskQueuer.scheduleChangesToDeadlineExtensions(courseId, feedbackSessionName,
+                        notifyAboutDeadlines, oldStudentDeadlines, studentDeadlines, oldInstructorDeadlines,
+                        instructorDeadlines);
+            }
 
             return new JsonResult(new FeedbackSessionData(updateFeedbackSession));
         } catch (InvalidParametersException ipe) {
