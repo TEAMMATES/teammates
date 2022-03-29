@@ -3,6 +3,10 @@ package teammates.logic.core;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.function.BiFunction;
+import java.util.function.Function;
+import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
@@ -314,6 +318,44 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
+     * Updates the instructor email address for all their deadlines in the feedback sessions of the given course.
+     */
+    public void updateFeedbackSessionsInstructorDeadlinesWithNewEmail(String courseId, String oldEmailAddress,
+            String newEmailAddress) {
+        updateFeedbackSessionsDeadlinesWithNewEmail(courseId, oldEmailAddress, newEmailAddress,
+                FeedbackSessionAttributes::getInstructorDeadlines,
+                FeedbackSessionAttributes.UpdateOptions.Builder::withInstructorDeadlines);
+    }
+
+    /**
+     * Updates the student email address for all their deadlines in the feedback sessions of the given course.
+     */
+    public void updateFeedbackSessionsStudentDeadlinesWithNewEmail(String courseId, String oldEmailAddress,
+            String newEmailAddress) {
+        updateFeedbackSessionsDeadlinesWithNewEmail(courseId, oldEmailAddress, newEmailAddress,
+                FeedbackSessionAttributes::getStudentDeadlines,
+                FeedbackSessionAttributes.UpdateOptions.Builder::withStudentDeadlines);
+    }
+
+    /**
+     * Deletes the instructor email address for all their deadlines in the feedback sessions of the given course.
+     */
+    public void deleteFeedbackSessionsDeadlinesForInstructor(String courseId, String emailAddress) {
+        deleteFeedbackSessionsDeadlinesForUser(courseId, emailAddress,
+                FeedbackSessionAttributes::getInstructorDeadlines,
+                FeedbackSessionAttributes.UpdateOptions.Builder::withInstructorDeadlines);
+    }
+
+    /**
+     * Deletes the student email address for all their deadlines in the feedback sessions of the given course.
+     */
+    public void deleteFeedbackSessionsDeadlinesForStudent(String courseId, String emailAddress) {
+        deleteFeedbackSessionsDeadlinesForUser(courseId, emailAddress,
+                FeedbackSessionAttributes::getStudentDeadlines,
+                FeedbackSessionAttributes.UpdateOptions.Builder::withStudentDeadlines);
+    }
+
+    /**
      * Updates all feedback sessions of {@code courseId} to have be in {@code courseTimeZone}.
      */
     public void updateFeedbackSessionsTimeZoneForCourse(String courseId, String courseTimeZone) {
@@ -566,6 +608,54 @@ public final class FeedbackSessionsLogic {
                 : fqLogic.getFeedbackQuestionsForStudents(session.getFeedbackSessionName(), session.getCourseId());
 
         return session.isVisible() && !questionsToAnswer.isEmpty();
+    }
+
+    private void updateFeedbackSessionsDeadlinesWithNewEmail(String courseId, String oldEmailAddress,
+            String newEmailAddress, Function<FeedbackSessionAttributes, Map<String, Instant>> deadlinesGetter,
+            BiFunction<FeedbackSessionAttributes.UpdateOptions.Builder, Map<String, Instant>,
+                    FeedbackSessionAttributes.UpdateOptions.Builder> withDeadlinesBuilder) {
+        if (oldEmailAddress.equals(newEmailAddress)) {
+            return;
+        }
+        updateFeedbackSessionsDeadlinesForUser(courseId, oldEmailAddress, deadlinesGetter, deadlines -> {
+            deadlines.put(newEmailAddress, deadlines.remove(oldEmailAddress));
+            return deadlines;
+        }, withDeadlinesBuilder);
+    }
+
+    private void deleteFeedbackSessionsDeadlinesForUser(String courseId, String emailAddress,
+            Function<FeedbackSessionAttributes, Map<String, Instant>> deadlinesGetter,
+            BiFunction<FeedbackSessionAttributes.UpdateOptions.Builder, Map<String, Instant>,
+                    FeedbackSessionAttributes.UpdateOptions.Builder> withDeadlinesBuilder) {
+        updateFeedbackSessionsDeadlinesForUser(courseId, emailAddress, deadlinesGetter, deadlines -> {
+            deadlines.remove(emailAddress);
+            return deadlines;
+        }, withDeadlinesBuilder);
+    }
+
+    private void updateFeedbackSessionsDeadlinesForUser(String courseId, String emailAddress,
+            Function<FeedbackSessionAttributes, Map<String, Instant>> deadlinesGetter,
+            UnaryOperator<Map<String, Instant>> deadlinesUpdater,
+            BiFunction<FeedbackSessionAttributes.UpdateOptions.Builder, Map<String, Instant>,
+                    FeedbackSessionAttributes.UpdateOptions.Builder> withDeadlinesBuilder) {
+        List<FeedbackSessionAttributes> feedbackSessions = fsDb.getFeedbackSessionsForCourse(courseId);
+        feedbackSessions.forEach(feedbackSession -> {
+            Map<String, Instant> deadlines = deadlinesGetter.apply(feedbackSession);
+            if (!deadlines.containsKey(emailAddress)) {
+                return;
+            }
+            deadlines = deadlinesUpdater.apply(deadlines);
+            FeedbackSessionAttributes.UpdateOptions.Builder updateOptionsBuilder = FeedbackSessionAttributes
+                    .updateOptionsBuilder(feedbackSession.getFeedbackSessionName(), feedbackSession.getCourseId());
+            FeedbackSessionAttributes.UpdateOptions updateOptions = withDeadlinesBuilder.apply(updateOptionsBuilder,
+                            deadlines)
+                    .build();
+            try {
+                fsDb.updateFeedbackSession(updateOptions);
+            } catch (InvalidParametersException | EntityDoesNotExistException e) {
+                assert false : "Updating deadlines in feedback sessions for a user should not cause: " + e.getMessage();
+            }
+        });
     }
 
 }
