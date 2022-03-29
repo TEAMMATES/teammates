@@ -18,6 +18,7 @@ import {
   SessionVisibleSetting,
 } from '../../../types/api-request';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
+import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorExtensionTableColumnModel, StudentExtensionTableColumnModel } from './extension-table-column-model';
 import {
@@ -40,6 +41,7 @@ enum DeadlineHandlerType {
   selector: 'tm-instructor-session-individual-extension-page',
   templateUrl: './instructor-session-individual-extension-page.component.html',
   styleUrls: ['./instructor-session-individual-extension-page.component.scss'],
+  animations: [collapseAnim],
 })
 export class InstructorSessionIndividualExtensionPageComponent implements OnInit {
   feedbackSessionDetails: FeedbackSessionBasicRequest = {
@@ -83,6 +85,9 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
   isLoadingFeedbackSession: boolean = true;
   hasLoadingFeedbackSessionFailed: boolean = false;
   isSubmittingDeadlines: boolean = false;
+
+  hasStudentTabExpanded: boolean = false;
+  hasInstructorTabExpanded: boolean = false;
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
@@ -435,15 +440,30 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     this.isAllInstructorsSelected = numInstructorsSelected === numInstructors;
   }
 
+  toggleInstructorTab(): void {
+    this.hasInstructorTabExpanded = !this.hasInstructorTabExpanded;
+  }
+
+  toggleStudentTab(): void {
+    this.hasStudentTabExpanded = !this.hasStudentTabExpanded;
+  }
+
+  private resetTables(): void {
+    this.hasStudentTabExpanded = false;
+    this.hasInstructorTabExpanded = false;
+    this.isAllInstructorsSelected = false;
+    this.isAllStudentsSelected = false;
+  }
+
+  openTabs(): void {
+    this.hasStudentTabExpanded = true;
+    this.hasInstructorTabExpanded = true;
+  }
+
   sortStudentColumnsBy(by: SortBy): void {
     this.sortStudentsBy = by;
     this.sortStudentOrder = this.sortStudentOrder === SortOrder.DESC ? SortOrder.ASC : SortOrder.DESC;
     this.studentsOfCourse.sort(this.sortStudentPanelsBy(by));
-  }
-
-  private resetTables(): void {
-    this.isAllInstructorsSelected = false;
-    this.isAllStudentsSelected = false;
   }
 
   private sortStudentPanelsBy(

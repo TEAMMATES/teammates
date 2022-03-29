@@ -12,9 +12,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
   feedbackSessionName="undefined"
   feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
+  hasInstructorTabExpanded={[Function Boolean]}
   hasLoadedAllInstructorsFailed="false"
   hasLoadedAllStudentsFailed="false"
   hasLoadingFeedbackSessionFailed="false"
+  hasStudentTabExpanded={[Function Boolean]}
   instructorDeadlines={[Function Object]}
   instructorService={[Function InstructorService]}
   instructorsOfCourse={[Function Array]}
@@ -134,312 +136,371 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
     </div>
   </tm-loading-retry><tm-loading-retry>
     <div>
-      <h1>
-        Students
-      </h1>
       <div
-        class="table-responsive"
+        class="card"
       >
-        <table
-          class="table table-bordered table-hover"
-          id="student-list-table"
+        <div
+          class="card-header cursor-pointer bg-primary text-white"
         >
-          <thead>
-            <tr>
-              <th>
-                <label>
-                  <input
-                    id="select-all-student-btn"
-                    type="checkbox"
-                  />
-                   Select all
-                </label>
-              </th>
-              <th
-                class="sortable-header"
+          <strong
+            class="text-break"
+          >
+            Students
+          </strong>
+          <div
+            class="card-header-btn-toolbar"
+          >
+            <tm-panel-chevron>
+              <div
+                class="chevron"
               >
-                 Section 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Team 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Name 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Email 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Current Deadline 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                  <i
-                    class="fas fa-sort-down"
-                  />
-                </span>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              class="table-warning"
-              id="student-row-0"
+                <i
+                  class="fas fa-chevron-up"
+                />
+              </div>
+            </tm-panel-chevron>
+          </div>
+        </div>
+        <div
+          class="card-body ng-trigger ng-trigger-collapseAnim"
+          style=""
+        >
+          <div
+            class="table-responsive"
+          >
+            <table
+              class="table table-bordered table-hover"
+              id="student-list-table"
             >
-              <td
-                class="align-center"
+              <thead>
+                <tr>
+                  <th>
+                    <label>
+                      <input
+                        id="select-all-student-btn"
+                        type="checkbox"
+                      />
+                       Select all
+                    </label>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Section 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Team 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Name 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Email 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Current Deadline 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                      <i
+                        class="fas fa-sort-down"
+                        style=""
+                      />
+                    </span>
+                  </th>
+                </tr>
+              </thead>
+              <tr
+                class="table-warning"
+                id="student-row-0"
+                style=""
               >
-                <label>
-                  <input
-                    type="checkbox"
-                  />
-                </label>
-              </td>
-              <td>
-                Section 1
-              </td>
-              <td>
-                Team 1
-              </td>
-              <td>
-                AliceHasExtension
-              </td>
-              <td>
-                alice@tmms.com
-              </td>
-              <td>
-                Mon, 06 Nov 2017, 08:26 PM UTC
-              </td>
-            </tr>
-            <tr
-              id="student-row-1"
-            >
-              <td
-                class="align-center"
+                <td
+                  class="align-center"
+                >
+                  <label>
+                    <input
+                      type="checkbox"
+                    />
+                  </label>
+                </td>
+                <td>
+                  Section 1
+                </td>
+                <td>
+                  Team 1
+                </td>
+                <td>
+                  AliceHasExtension
+                </td>
+                <td>
+                  alice@tmms.com
+                </td>
+                <td>
+                  Mon, 06 Nov 2017, 08:26 PM UTC
+                </td>
+              </tr>
+              <tr
+                id="student-row-1"
+                style=""
               >
-                <label>
-                  <input
-                    type="checkbox"
-                  />
-                </label>
-              </td>
-              <td>
-                Section 1
-              </td>
-              <td>
-                Team 1
-              </td>
-              <td>
-                Bob
-              </td>
-              <td>
-                bob@tmms.com
-              </td>
-              <td>
-                Fri, 14 Jul 2017, 02:40 AM UTC
-              </td>
-            </tr>
-            <tr
-              id="student-row-2"
-            >
-              <td
-                class="align-center"
+                <td
+                  class="align-center"
+                >
+                  <label>
+                    <input
+                      type="checkbox"
+                    />
+                  </label>
+                </td>
+                <td>
+                  Section 1
+                </td>
+                <td>
+                  Team 1
+                </td>
+                <td>
+                  Bob
+                </td>
+                <td>
+                  bob@tmms.com
+                </td>
+                <td>
+                  Fri, 14 Jul 2017, 02:40 AM UTC
+                </td>
+              </tr>
+              <tr
+                id="student-row-2"
+                style=""
               >
-                <label>
-                  <input
-                    type="checkbox"
-                  />
-                </label>
-              </td>
-              <td>
-                Section 1
-              </td>
-              <td>
-                Team 1
-              </td>
-              <td>
-                Alex
-              </td>
-              <td>
-                alex@tmms.com
-              </td>
-              <td>
-                Fri, 14 Jul 2017, 02:40 AM UTC
-              </td>
-            </tr>
-          </tbody>
-        </table>
+                <td
+                  class="align-center"
+                >
+                  <label>
+                    <input
+                      type="checkbox"
+                    />
+                  </label>
+                </td>
+                <td>
+                  Section 1
+                </td>
+                <td>
+                  Team 1
+                </td>
+                <td>
+                  Alex
+                </td>
+                <td>
+                  alex@tmms.com
+                </td>
+                <td>
+                  Fri, 14 Jul 2017, 02:40 AM UTC
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   </tm-loading-retry><br /><tm-loading-retry>
     <div>
-      <h1>
-        Instructors
-      </h1>
       <div
-        class="table-responsive"
+        class="card"
       >
-        <table
-          class="table table-bordered table-hover"
-          id="instructor-list-table"
+        <div
+          class="card-header cursor-pointer bg-primary text-white"
         >
-          <thead>
-            <tr>
-              <th>
-                <label>
-                  <input
-                    id="select-all-instructor-btn"
-                    type="checkbox"
-                  />
-                   Select all
-                </label>
-              </th>
-              <th
-                class="sortable-header"
+          <strong
+            class="text-break"
+          >
+            Instructors
+          </strong>
+          <div
+            class="card-header-btn-toolbar"
+          >
+            <tm-panel-chevron>
+              <div
+                class="chevron"
               >
-                 Name 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Email 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Role 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Current Deadline 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                  <i
-                    class="fas fa-sort-down"
-                  />
-                </span>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              class="table-warning"
-              id="instructor-row-0"
+                <i
+                  class="fas fa-chevron-up"
+                />
+              </div>
+            </tm-panel-chevron>
+          </div>
+        </div>
+        <div
+          class="card-body ng-trigger ng-trigger-collapseAnim"
+          style=""
+        >
+          <div
+            class="table-responsive"
+          >
+            <table
+              class="table table-bordered table-hover"
+              id="instructor-list-table"
             >
-              <td
-                class="align-center"
+              <thead>
+                <tr>
+                  <th>
+                    <label>
+                      <input
+                        id="select-all-instructor-btn"
+                        type="checkbox"
+                      />
+                       Select all
+                    </label>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Name 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Email 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Role 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Current Deadline 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                      <i
+                        class="fas fa-sort-down"
+                        style=""
+                      />
+                    </span>
+                  </th>
+                </tr>
+              </thead>
+              <tr
+                class="table-warning"
+                id="instructor-row-0"
+                style=""
               >
-                <label>
-                  <input
-                    type="checkbox"
-                  />
-                </label>
-              </td>
-              <td>
-                tester2HasExtension
-              </td>
-              <td>
-                tester2@tester.com
-              </td>
-              <td>
-                Custom
-              </td>
-              <td>
-                Mon, 06 Nov 2017, 08:26 PM UTC
-              </td>
-            </tr>
-            <tr
-              id="instructor-row-1"
-            >
-              <td
-                class="align-center"
+                <td
+                  class="align-center"
+                >
+                  <label>
+                    <input
+                      type="checkbox"
+                    />
+                  </label>
+                </td>
+                <td>
+                  tester2HasExtension
+                </td>
+                <td>
+                  tester2@tester.com
+                </td>
+                <td>
+                  Custom
+                </td>
+                <td>
+                  Mon, 06 Nov 2017, 08:26 PM UTC
+                </td>
+              </tr>
+              <tr
+                id="instructor-row-1"
+                style=""
               >
-                <label>
-                  <input
-                    type="checkbox"
-                  />
-                </label>
-              </td>
-              <td>
-                tester1
-              </td>
-              <td>
-                tester1@tester.com
-              </td>
-              <td>
-                Custom
-              </td>
-              <td>
-                Fri, 14 Jul 2017, 02:40 AM UTC
-              </td>
-            </tr>
-          </tbody>
-        </table>
+                <td
+                  class="align-center"
+                >
+                  <label>
+                    <input
+                      type="checkbox"
+                    />
+                  </label>
+                </td>
+                <td>
+                  tester1
+                </td>
+                <td>
+                  tester1@tester.com
+                </td>
+                <td>
+                  Custom
+                </td>
+                <td>
+                  Fri, 14 Jul 2017, 02:40 AM UTC
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   </tm-loading-retry><br /><div
@@ -479,9 +540,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
   feedbackSessionName="undefined"
   feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
+  hasInstructorTabExpanded={[Function Boolean]}
   hasLoadedAllInstructorsFailed="false"
   hasLoadedAllStudentsFailed="false"
   hasLoadingFeedbackSessionFailed="false"
+  hasStudentTabExpanded={[Function Boolean]}
   instructorDeadlines={[Function Object]}
   instructorService={[Function InstructorService]}
   instructorsOfCourse={[Function Array]}
@@ -601,312 +664,371 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
     </div>
   </tm-loading-retry><tm-loading-retry>
     <div>
-      <h1>
-        Students
-      </h1>
       <div
-        class="table-responsive"
+        class="card"
       >
-        <table
-          class="table table-bordered table-hover"
-          id="student-list-table"
+        <div
+          class="card-header cursor-pointer bg-primary text-white"
         >
-          <thead>
-            <tr>
-              <th>
-                <label>
-                  <input
-                    id="select-all-student-btn"
-                    type="checkbox"
-                  />
-                   Select all
-                </label>
-              </th>
-              <th
-                class="sortable-header"
+          <strong
+            class="text-break"
+          >
+            Students
+          </strong>
+          <div
+            class="card-header-btn-toolbar"
+          >
+            <tm-panel-chevron>
+              <div
+                class="chevron"
               >
-                 Section 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Team 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Name 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Email 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Current Deadline 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                  <i
-                    class="fas fa-sort-down"
-                  />
-                </span>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              class="table-warning"
-              id="student-row-0"
+                <i
+                  class="fas fa-chevron-up"
+                />
+              </div>
+            </tm-panel-chevron>
+          </div>
+        </div>
+        <div
+          class="card-body ng-trigger ng-trigger-collapseAnim"
+          style=""
+        >
+          <div
+            class="table-responsive"
+          >
+            <table
+              class="table table-bordered table-hover"
+              id="student-list-table"
             >
-              <td
-                class="align-center"
+              <thead>
+                <tr>
+                  <th>
+                    <label>
+                      <input
+                        id="select-all-student-btn"
+                        type="checkbox"
+                      />
+                       Select all
+                    </label>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Section 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Team 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Name 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Email 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Current Deadline 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                      <i
+                        class="fas fa-sort-down"
+                        style=""
+                      />
+                    </span>
+                  </th>
+                </tr>
+              </thead>
+              <tr
+                class="table-warning"
+                id="student-row-0"
+                style=""
               >
-                <label>
-                  <input
-                    type="checkbox"
-                  />
-                </label>
-              </td>
-              <td>
-                Section 1
-              </td>
-              <td>
-                Team 1
-              </td>
-              <td>
-                AliceHasExtension
-              </td>
-              <td>
-                alice@tmms.com
-              </td>
-              <td>
-                Mon, 06 Nov 2017, 08:26 PM UTC
-              </td>
-            </tr>
-            <tr
-              id="student-row-1"
-            >
-              <td
-                class="align-center"
+                <td
+                  class="align-center"
+                >
+                  <label>
+                    <input
+                      type="checkbox"
+                    />
+                  </label>
+                </td>
+                <td>
+                  Section 1
+                </td>
+                <td>
+                  Team 1
+                </td>
+                <td>
+                  AliceHasExtension
+                </td>
+                <td>
+                  alice@tmms.com
+                </td>
+                <td>
+                  Mon, 06 Nov 2017, 08:26 PM UTC
+                </td>
+              </tr>
+              <tr
+                id="student-row-1"
+                style=""
               >
-                <label>
-                  <input
-                    type="checkbox"
-                  />
-                </label>
-              </td>
-              <td>
-                Section 1
-              </td>
-              <td>
-                Team 1
-              </td>
-              <td>
-                Bob
-              </td>
-              <td>
-                bob@tmms.com
-              </td>
-              <td>
-                Fri, 14 Jul 2017, 02:40 AM UTC
-              </td>
-            </tr>
-            <tr
-              id="student-row-2"
-            >
-              <td
-                class="align-center"
+                <td
+                  class="align-center"
+                >
+                  <label>
+                    <input
+                      type="checkbox"
+                    />
+                  </label>
+                </td>
+                <td>
+                  Section 1
+                </td>
+                <td>
+                  Team 1
+                </td>
+                <td>
+                  Bob
+                </td>
+                <td>
+                  bob@tmms.com
+                </td>
+                <td>
+                  Fri, 14 Jul 2017, 02:40 AM UTC
+                </td>
+              </tr>
+              <tr
+                id="student-row-2"
+                style=""
               >
-                <label>
-                  <input
-                    type="checkbox"
-                  />
-                </label>
-              </td>
-              <td>
-                Section 1
-              </td>
-              <td>
-                Team 1
-              </td>
-              <td>
-                Alex
-              </td>
-              <td>
-                alex@tmms.com
-              </td>
-              <td>
-                Fri, 14 Jul 2017, 02:40 AM UTC
-              </td>
-            </tr>
-          </tbody>
-        </table>
+                <td
+                  class="align-center"
+                >
+                  <label>
+                    <input
+                      type="checkbox"
+                    />
+                  </label>
+                </td>
+                <td>
+                  Section 1
+                </td>
+                <td>
+                  Team 1
+                </td>
+                <td>
+                  Alex
+                </td>
+                <td>
+                  alex@tmms.com
+                </td>
+                <td>
+                  Fri, 14 Jul 2017, 02:40 AM UTC
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   </tm-loading-retry><br /><tm-loading-retry>
     <div>
-      <h1>
-        Instructors
-      </h1>
       <div
-        class="table-responsive"
+        class="card"
       >
-        <table
-          class="table table-bordered table-hover"
-          id="instructor-list-table"
+        <div
+          class="card-header cursor-pointer bg-primary text-white"
         >
-          <thead>
-            <tr>
-              <th>
-                <label>
-                  <input
-                    id="select-all-instructor-btn"
-                    type="checkbox"
-                  />
-                   Select all
-                </label>
-              </th>
-              <th
-                class="sortable-header"
+          <strong
+            class="text-break"
+          >
+            Instructors
+          </strong>
+          <div
+            class="card-header-btn-toolbar"
+          >
+            <tm-panel-chevron>
+              <div
+                class="chevron"
               >
-                 Name 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Email 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Role 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Current Deadline 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                  <i
-                    class="fas fa-sort-down"
-                  />
-                </span>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              class="table-warning"
-              id="instructor-row-0"
+                <i
+                  class="fas fa-chevron-up"
+                />
+              </div>
+            </tm-panel-chevron>
+          </div>
+        </div>
+        <div
+          class="card-body ng-trigger ng-trigger-collapseAnim"
+          style=""
+        >
+          <div
+            class="table-responsive"
+          >
+            <table
+              class="table table-bordered table-hover"
+              id="instructor-list-table"
             >
-              <td
-                class="align-center"
+              <thead>
+                <tr>
+                  <th>
+                    <label>
+                      <input
+                        id="select-all-instructor-btn"
+                        type="checkbox"
+                      />
+                       Select all
+                    </label>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Name 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Email 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Role 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Current Deadline 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                      <i
+                        class="fas fa-sort-down"
+                        style=""
+                      />
+                    </span>
+                  </th>
+                </tr>
+              </thead>
+              <tr
+                class="table-warning"
+                id="instructor-row-0"
+                style=""
               >
-                <label>
-                  <input
-                    type="checkbox"
-                  />
-                </label>
-              </td>
-              <td>
-                tester2HasExtension
-              </td>
-              <td>
-                tester2@tester.com
-              </td>
-              <td>
-                Custom
-              </td>
-              <td>
-                Mon, 06 Nov 2017, 08:26 PM UTC
-              </td>
-            </tr>
-            <tr
-              id="instructor-row-1"
-            >
-              <td
-                class="align-center"
+                <td
+                  class="align-center"
+                >
+                  <label>
+                    <input
+                      type="checkbox"
+                    />
+                  </label>
+                </td>
+                <td>
+                  tester2HasExtension
+                </td>
+                <td>
+                  tester2@tester.com
+                </td>
+                <td>
+                  Custom
+                </td>
+                <td>
+                  Mon, 06 Nov 2017, 08:26 PM UTC
+                </td>
+              </tr>
+              <tr
+                id="instructor-row-1"
+                style=""
               >
-                <label>
-                  <input
-                    type="checkbox"
-                  />
-                </label>
-              </td>
-              <td>
-                tester1
-              </td>
-              <td>
-                tester1@tester.com
-              </td>
-              <td>
-                Custom
-              </td>
-              <td>
-                Fri, 14 Jul 2017, 02:40 AM UTC
-              </td>
-            </tr>
-          </tbody>
-        </table>
+                <td
+                  class="align-center"
+                >
+                  <label>
+                    <input
+                      type="checkbox"
+                    />
+                  </label>
+                </td>
+                <td>
+                  tester1
+                </td>
+                <td>
+                  tester1@tester.com
+                </td>
+                <td>
+                  Custom
+                </td>
+                <td>
+                  Fri, 14 Jul 2017, 02:40 AM UTC
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   </tm-loading-retry><br /><div
@@ -946,9 +1068,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when feed
   feedbackSessionName="undefined"
   feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
+  hasInstructorTabExpanded={[Function Boolean]}
   hasLoadedAllInstructorsFailed="false"
   hasLoadedAllStudentsFailed="false"
   hasLoadingFeedbackSessionFailed="false"
+  hasStudentTabExpanded={[Function Boolean]}
   instructorDeadlines={[Function Object]}
   instructorService={[Function InstructorService]}
   instructorsOfCourse={[Function Array]}
@@ -988,176 +1112,230 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when feed
     </tm-loading-spinner>
   </tm-loading-retry><tm-loading-retry>
     <div>
-      <h1>
-        Students
-      </h1>
       <div
-        class="table-responsive"
+        class="card"
       >
-        <table
-          class="table table-bordered table-hover"
-          id="student-list-table"
+        <div
+          class="card-header cursor-pointer bg-primary text-white"
         >
-          <thead>
-            <tr>
-              <th>
-                <label>
-                  <input
-                    id="select-all-student-btn"
-                    type="checkbox"
-                  />
-                   Select all
-                </label>
-              </th>
-              <th
-                class="sortable-header"
+          <strong
+            class="text-break"
+          >
+            Students
+          </strong>
+          <div
+            class="card-header-btn-toolbar"
+          >
+            <tm-panel-chevron>
+              <div
+                class="chevron"
               >
-                 Section 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Team 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Name 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Email 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Current Deadline 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                  <i
-                    class="fas fa-sort-down"
-                  />
-                </span>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-          </tbody>
-        </table>
+                <i
+                  class="fas fa-chevron-up"
+                />
+              </div>
+            </tm-panel-chevron>
+          </div>
+        </div>
+        <div
+          class="card-body ng-trigger ng-trigger-collapseAnim ng-animating"
+          style=""
+        >
+          <div
+            class="table-responsive"
+          >
+            <table
+              class="table table-bordered table-hover"
+              id="student-list-table"
+            >
+              <thead>
+                <tr>
+                  <th>
+                    <label>
+                      <input
+                        id="select-all-student-btn"
+                        type="checkbox"
+                      />
+                       Select all
+                    </label>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Section 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Team 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Name 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Email 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Current Deadline 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                      <i
+                        class="fas fa-sort-down"
+                        style=""
+                      />
+                    </span>
+                  </th>
+                </tr>
+              </thead>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   </tm-loading-retry><br /><tm-loading-retry>
     <div>
-      <h1>
-        Instructors
-      </h1>
       <div
-        class="table-responsive"
+        class="card"
       >
-        <table
-          class="table table-bordered table-hover"
-          id="instructor-list-table"
+        <div
+          class="card-header cursor-pointer bg-primary text-white"
         >
-          <thead>
-            <tr>
-              <th>
-                <label>
-                  <input
-                    id="select-all-instructor-btn"
-                    type="checkbox"
-                  />
-                   Select all
-                </label>
-              </th>
-              <th
-                class="sortable-header"
+          <strong
+            class="text-break"
+          >
+            Instructors
+          </strong>
+          <div
+            class="card-header-btn-toolbar"
+          >
+            <tm-panel-chevron>
+              <div
+                class="chevron"
               >
-                 Name 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Email 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Role 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Current Deadline 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                  <i
-                    class="fas fa-sort-down"
-                  />
-                </span>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-          </tbody>
-        </table>
+                <i
+                  class="fas fa-chevron-up"
+                />
+              </div>
+            </tm-panel-chevron>
+          </div>
+        </div>
+        <div
+          class="card-body ng-trigger ng-trigger-collapseAnim ng-animating"
+          style=""
+        >
+          <div
+            class="table-responsive"
+          >
+            <table
+              class="table table-bordered table-hover"
+              id="instructor-list-table"
+            >
+              <thead>
+                <tr>
+                  <th>
+                    <label>
+                      <input
+                        id="select-all-instructor-btn"
+                        type="checkbox"
+                      />
+                       Select all
+                    </label>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Name 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Email 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Role 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Current Deadline 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                      <i
+                        class="fas fa-sort-down"
+                        style=""
+                      />
+                    </span>
+                  </th>
+                </tr>
+              </thead>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   </tm-loading-retry><br /><div
@@ -1199,9 +1377,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
   feedbackSessionName="undefined"
   feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
+  hasInstructorTabExpanded={[Function Boolean]}
   hasLoadedAllInstructorsFailed="false"
   hasLoadedAllStudentsFailed="false"
   hasLoadingFeedbackSessionFailed="false"
+  hasStudentTabExpanded={[Function Boolean]}
   instructorDeadlines={[Function Object]}
   instructorService={[Function InstructorService]}
   instructorsOfCourse={[Function Array]}
@@ -1321,261 +1501,318 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
     </div>
   </tm-loading-retry><tm-loading-retry>
     <div>
-      <h1>
-        Students
-      </h1>
       <div
-        class="table-responsive"
+        class="card"
       >
-        <table
-          class="table table-bordered table-hover"
-          id="student-list-table"
+        <div
+          class="card-header cursor-pointer bg-primary text-white"
         >
-          <thead>
-            <tr>
-              <th>
-                <label>
-                  <input
-                    id="select-all-student-btn"
-                    type="checkbox"
-                  />
-                   Select all
-                </label>
-              </th>
-              <th
-                class="sortable-header"
+          <strong
+            class="text-break"
+          >
+            Students
+          </strong>
+          <div
+            class="card-header-btn-toolbar"
+          >
+            <tm-panel-chevron>
+              <div
+                class="chevron"
               >
-                 Section 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Team 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Name 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Email 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Current Deadline 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                  <i
-                    class="fas fa-sort-down"
-                  />
-                </span>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              class="table-warning"
-              id="student-row-0"
+                <i
+                  class="fas fa-chevron-up"
+                />
+              </div>
+            </tm-panel-chevron>
+          </div>
+        </div>
+        <div
+          class="card-body ng-trigger ng-trigger-collapseAnim ng-animating"
+          style=""
+        >
+          <div
+            class="table-responsive"
+          >
+            <table
+              class="table table-bordered table-hover"
+              id="student-list-table"
             >
-              <td
-                class="align-center"
+              <thead>
+                <tr>
+                  <th>
+                    <label>
+                      <input
+                        id="select-all-student-btn"
+                        type="checkbox"
+                      />
+                       Select all
+                    </label>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Section 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Team 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Name 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Email 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Current Deadline 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                      <i
+                        class="fas fa-sort-down"
+                        style=""
+                      />
+                    </span>
+                  </th>
+                </tr>
+              </thead>
+              <tr
+                class="table-warning"
+                id="student-row-0"
+                style=""
               >
-                <label>
-                  <input
-                    type="checkbox"
-                  />
-                </label>
-              </td>
-              <td>
-                Section 1
-              </td>
-              <td>
-                Team 1
-              </td>
-              <td>
-                AliceHasExtension
-              </td>
-              <td>
-                alice@tmms.com
-              </td>
-              <td>
-                Mon, 06 Nov 2017, 08:26 PM UTC
-              </td>
-            </tr>
-            <tr
-              id="student-row-1"
-            >
-              <td
-                class="align-center"
+                <td
+                  class="align-center"
+                >
+                  <label>
+                    <input
+                      type="checkbox"
+                    />
+                  </label>
+                </td>
+                <td>
+                  Section 1
+                </td>
+                <td>
+                  Team 1
+                </td>
+                <td>
+                  AliceHasExtension
+                </td>
+                <td>
+                  alice@tmms.com
+                </td>
+                <td>
+                  Mon, 06 Nov 2017, 08:26 PM UTC
+                </td>
+              </tr>
+              <tr
+                id="student-row-1"
+                style=""
               >
-                <label>
-                  <input
-                    type="checkbox"
-                  />
-                </label>
-              </td>
-              <td>
-                Section 1
-              </td>
-              <td>
-                Team 1
-              </td>
-              <td>
-                Bob
-              </td>
-              <td>
-                bob@tmms.com
-              </td>
-              <td>
-                Fri, 14 Jul 2017, 02:40 AM UTC
-              </td>
-            </tr>
-            <tr
-              id="student-row-2"
-            >
-              <td
-                class="align-center"
+                <td
+                  class="align-center"
+                >
+                  <label>
+                    <input
+                      type="checkbox"
+                    />
+                  </label>
+                </td>
+                <td>
+                  Section 1
+                </td>
+                <td>
+                  Team 1
+                </td>
+                <td>
+                  Bob
+                </td>
+                <td>
+                  bob@tmms.com
+                </td>
+                <td>
+                  Fri, 14 Jul 2017, 02:40 AM UTC
+                </td>
+              </tr>
+              <tr
+                id="student-row-2"
+                style=""
               >
-                <label>
-                  <input
-                    type="checkbox"
-                  />
-                </label>
-              </td>
-              <td>
-                Section 1
-              </td>
-              <td>
-                Team 1
-              </td>
-              <td>
-                Alex
-              </td>
-              <td>
-                alex@tmms.com
-              </td>
-              <td>
-                Fri, 14 Jul 2017, 02:40 AM UTC
-              </td>
-            </tr>
-          </tbody>
-        </table>
+                <td
+                  class="align-center"
+                >
+                  <label>
+                    <input
+                      type="checkbox"
+                    />
+                  </label>
+                </td>
+                <td>
+                  Section 1
+                </td>
+                <td>
+                  Team 1
+                </td>
+                <td>
+                  Alex
+                </td>
+                <td>
+                  alex@tmms.com
+                </td>
+                <td>
+                  Fri, 14 Jul 2017, 02:40 AM UTC
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   </tm-loading-retry><br /><tm-loading-retry>
     <div>
-      <h1>
-        Instructors
-      </h1>
       <div
-        class="table-responsive"
+        class="card"
       >
-        <table
-          class="table table-bordered table-hover"
-          id="instructor-list-table"
+        <div
+          class="card-header cursor-pointer bg-primary text-white"
         >
-          <thead>
-            <tr>
-              <th>
-                <label>
-                  <input
-                    id="select-all-instructor-btn"
-                    type="checkbox"
-                  />
-                   Select all
-                </label>
-              </th>
-              <th
-                class="sortable-header"
+          <strong
+            class="text-break"
+          >
+            Instructors
+          </strong>
+          <div
+            class="card-header-btn-toolbar"
+          >
+            <tm-panel-chevron>
+              <div
+                class="chevron"
               >
-                 Name 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Email 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Role 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Current Deadline 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                  <i
-                    class="fas fa-sort-down"
-                  />
-                </span>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-          </tbody>
-        </table>
+                <i
+                  class="fas fa-chevron-up"
+                />
+              </div>
+            </tm-panel-chevron>
+          </div>
+        </div>
+        <div
+          class="card-body ng-trigger ng-trigger-collapseAnim ng-animating"
+          style=""
+        >
+          <div
+            class="table-responsive"
+          >
+            <table
+              class="table table-bordered table-hover"
+              id="instructor-list-table"
+            >
+              <thead>
+                <tr>
+                  <th>
+                    <label>
+                      <input
+                        id="select-all-instructor-btn"
+                        type="checkbox"
+                      />
+                       Select all
+                    </label>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Name 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Email 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Role 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Current Deadline 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                      <i
+                        class="fas fa-sort-down"
+                        style=""
+                      />
+                    </span>
+                  </th>
+                </tr>
+              </thead>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   </tm-loading-retry><br /><div
@@ -1617,9 +1854,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
   feedbackSessionName="undefined"
   feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
+  hasInstructorTabExpanded={[Function Boolean]}
   hasLoadedAllInstructorsFailed="false"
   hasLoadedAllStudentsFailed="false"
   hasLoadingFeedbackSessionFailed="false"
+  hasStudentTabExpanded={[Function Boolean]}
   instructorDeadlines={[Function Object]}
   instructorService={[Function InstructorService]}
   instructorsOfCourse={[Function Array]}
@@ -1739,227 +1978,283 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
     </div>
   </tm-loading-retry><tm-loading-retry>
     <div>
-      <h1>
-        Students
-      </h1>
       <div
-        class="table-responsive"
+        class="card"
       >
-        <table
-          class="table table-bordered table-hover"
-          id="student-list-table"
+        <div
+          class="card-header cursor-pointer bg-primary text-white"
         >
-          <thead>
-            <tr>
-              <th>
-                <label>
-                  <input
-                    id="select-all-student-btn"
-                    type="checkbox"
-                  />
-                   Select all
-                </label>
-              </th>
-              <th
-                class="sortable-header"
+          <strong
+            class="text-break"
+          >
+            Students
+          </strong>
+          <div
+            class="card-header-btn-toolbar"
+          >
+            <tm-panel-chevron>
+              <div
+                class="chevron"
               >
-                 Section 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Team 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Name 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Email 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Current Deadline 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                  <i
-                    class="fas fa-sort-down"
-                  />
-                </span>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-          </tbody>
-        </table>
+                <i
+                  class="fas fa-chevron-up"
+                />
+              </div>
+            </tm-panel-chevron>
+          </div>
+        </div>
+        <div
+          class="card-body ng-trigger ng-trigger-collapseAnim ng-animating"
+          style=""
+        >
+          <div
+            class="table-responsive"
+          >
+            <table
+              class="table table-bordered table-hover"
+              id="student-list-table"
+            >
+              <thead>
+                <tr>
+                  <th>
+                    <label>
+                      <input
+                        id="select-all-student-btn"
+                        type="checkbox"
+                      />
+                       Select all
+                    </label>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Section 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Team 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Name 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Email 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Current Deadline 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                      <i
+                        class="fas fa-sort-down"
+                        style=""
+                      />
+                    </span>
+                  </th>
+                </tr>
+              </thead>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   </tm-loading-retry><br /><tm-loading-retry>
     <div>
-      <h1>
-        Instructors
-      </h1>
       <div
-        class="table-responsive"
+        class="card"
       >
-        <table
-          class="table table-bordered table-hover"
-          id="instructor-list-table"
+        <div
+          class="card-header cursor-pointer bg-primary text-white"
         >
-          <thead>
-            <tr>
-              <th>
-                <label>
-                  <input
-                    id="select-all-instructor-btn"
-                    type="checkbox"
-                  />
-                   Select all
-                </label>
-              </th>
-              <th
-                class="sortable-header"
+          <strong
+            class="text-break"
+          >
+            Instructors
+          </strong>
+          <div
+            class="card-header-btn-toolbar"
+          >
+            <tm-panel-chevron>
+              <div
+                class="chevron"
               >
-                 Name 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Email 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Role 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Current Deadline 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                  <i
-                    class="fas fa-sort-down"
-                  />
-                </span>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              class="table-warning"
-              id="instructor-row-0"
+                <i
+                  class="fas fa-chevron-up"
+                />
+              </div>
+            </tm-panel-chevron>
+          </div>
+        </div>
+        <div
+          class="card-body ng-trigger ng-trigger-collapseAnim ng-animating"
+          style=""
+        >
+          <div
+            class="table-responsive"
+          >
+            <table
+              class="table table-bordered table-hover"
+              id="instructor-list-table"
             >
-              <td
-                class="align-center"
+              <thead>
+                <tr>
+                  <th>
+                    <label>
+                      <input
+                        id="select-all-instructor-btn"
+                        type="checkbox"
+                      />
+                       Select all
+                    </label>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Name 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Email 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Role 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Current Deadline 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                      <i
+                        class="fas fa-sort-down"
+                        style=""
+                      />
+                    </span>
+                  </th>
+                </tr>
+              </thead>
+              <tr
+                class="table-warning"
+                id="instructor-row-0"
+                style=""
               >
-                <label>
-                  <input
-                    type="checkbox"
-                  />
-                </label>
-              </td>
-              <td>
-                tester2HasExtension
-              </td>
-              <td>
-                tester2@tester.com
-              </td>
-              <td>
-                Custom
-              </td>
-              <td>
-                Mon, 06 Nov 2017, 08:26 PM UTC
-              </td>
-            </tr>
-            <tr
-              id="instructor-row-1"
-            >
-              <td
-                class="align-center"
+                <td
+                  class="align-center"
+                >
+                  <label>
+                    <input
+                      type="checkbox"
+                    />
+                  </label>
+                </td>
+                <td>
+                  tester2HasExtension
+                </td>
+                <td>
+                  tester2@tester.com
+                </td>
+                <td>
+                  Custom
+                </td>
+                <td>
+                  Mon, 06 Nov 2017, 08:26 PM UTC
+                </td>
+              </tr>
+              <tr
+                id="instructor-row-1"
+                style=""
               >
-                <label>
-                  <input
-                    type="checkbox"
-                  />
-                </label>
-              </td>
-              <td>
-                tester1
-              </td>
-              <td>
-                tester1@tester.com
-              </td>
-              <td>
-                Custom
-              </td>
-              <td>
-                Fri, 14 Jul 2017, 02:40 AM UTC
-              </td>
-            </tr>
-          </tbody>
-        </table>
+                <td
+                  class="align-center"
+                >
+                  <label>
+                    <input
+                      type="checkbox"
+                    />
+                  </label>
+                </td>
+                <td>
+                  tester1
+                </td>
+                <td>
+                  tester1@tester.com
+                </td>
+                <td>
+                  Custom
+                </td>
+                <td>
+                  Fri, 14 Jul 2017, 02:40 AM UTC
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   </tm-loading-retry><br /><div
@@ -2001,9 +2296,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
   feedbackSessionName="undefined"
   feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
+  hasInstructorTabExpanded={[Function Boolean]}
   hasLoadedAllInstructorsFailed="false"
   hasLoadedAllStudentsFailed="false"
   hasLoadingFeedbackSessionFailed="false"
+  hasStudentTabExpanded={[Function Boolean]}
   instructorDeadlines={[Function Object]}
   instructorService={[Function InstructorService]}
   instructorsOfCourse={[Function Array]}
@@ -2123,312 +2420,371 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
     </div>
   </tm-loading-retry><tm-loading-retry>
     <div>
-      <h1>
-        Students
-      </h1>
       <div
-        class="table-responsive"
+        class="card"
       >
-        <table
-          class="table table-bordered table-hover"
-          id="student-list-table"
+        <div
+          class="card-header cursor-pointer bg-primary text-white"
         >
-          <thead>
-            <tr>
-              <th>
-                <label>
-                  <input
-                    id="select-all-student-btn"
-                    type="checkbox"
-                  />
-                   Select all
-                </label>
-              </th>
-              <th
-                class="sortable-header"
+          <strong
+            class="text-break"
+          >
+            Students
+          </strong>
+          <div
+            class="card-header-btn-toolbar"
+          >
+            <tm-panel-chevron>
+              <div
+                class="chevron"
               >
-                 Section 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Team 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Name 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Email 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Current Deadline 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                  <i
-                    class="fas fa-sort-down"
-                  />
-                </span>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              class="table-warning"
-              id="student-row-0"
+                <i
+                  class="fas fa-chevron-up"
+                />
+              </div>
+            </tm-panel-chevron>
+          </div>
+        </div>
+        <div
+          class="card-body ng-trigger ng-trigger-collapseAnim ng-animating"
+          style=""
+        >
+          <div
+            class="table-responsive"
+          >
+            <table
+              class="table table-bordered table-hover"
+              id="student-list-table"
             >
-              <td
-                class="align-center"
+              <thead>
+                <tr>
+                  <th>
+                    <label>
+                      <input
+                        id="select-all-student-btn"
+                        type="checkbox"
+                      />
+                       Select all
+                    </label>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Section 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Team 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Name 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Email 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Current Deadline 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                      <i
+                        class="fas fa-sort-down"
+                        style=""
+                      />
+                    </span>
+                  </th>
+                </tr>
+              </thead>
+              <tr
+                class="table-warning"
+                id="student-row-0"
+                style=""
               >
-                <label>
-                  <input
-                    type="checkbox"
-                  />
-                </label>
-              </td>
-              <td>
-                Section 1
-              </td>
-              <td>
-                Team 1
-              </td>
-              <td>
-                AliceHasExtension
-              </td>
-              <td>
-                alice@tmms.com
-              </td>
-              <td>
-                Mon, 06 Nov 2017, 08:26 PM UTC
-              </td>
-            </tr>
-            <tr
-              id="student-row-1"
-            >
-              <td
-                class="align-center"
+                <td
+                  class="align-center"
+                >
+                  <label>
+                    <input
+                      type="checkbox"
+                    />
+                  </label>
+                </td>
+                <td>
+                  Section 1
+                </td>
+                <td>
+                  Team 1
+                </td>
+                <td>
+                  AliceHasExtension
+                </td>
+                <td>
+                  alice@tmms.com
+                </td>
+                <td>
+                  Mon, 06 Nov 2017, 08:26 PM UTC
+                </td>
+              </tr>
+              <tr
+                id="student-row-1"
+                style=""
               >
-                <label>
-                  <input
-                    type="checkbox"
-                  />
-                </label>
-              </td>
-              <td>
-                Section 1
-              </td>
-              <td>
-                Team 1
-              </td>
-              <td>
-                Bob
-              </td>
-              <td>
-                bob@tmms.com
-              </td>
-              <td>
-                Fri, 14 Jul 2017, 02:40 AM UTC
-              </td>
-            </tr>
-            <tr
-              id="student-row-2"
-            >
-              <td
-                class="align-center"
+                <td
+                  class="align-center"
+                >
+                  <label>
+                    <input
+                      type="checkbox"
+                    />
+                  </label>
+                </td>
+                <td>
+                  Section 1
+                </td>
+                <td>
+                  Team 1
+                </td>
+                <td>
+                  Bob
+                </td>
+                <td>
+                  bob@tmms.com
+                </td>
+                <td>
+                  Fri, 14 Jul 2017, 02:40 AM UTC
+                </td>
+              </tr>
+              <tr
+                id="student-row-2"
+                style=""
               >
-                <label>
-                  <input
-                    type="checkbox"
-                  />
-                </label>
-              </td>
-              <td>
-                Section 1
-              </td>
-              <td>
-                Team 1
-              </td>
-              <td>
-                Alex
-              </td>
-              <td>
-                alex@tmms.com
-              </td>
-              <td>
-                Fri, 14 Jul 2017, 02:40 AM UTC
-              </td>
-            </tr>
-          </tbody>
-        </table>
+                <td
+                  class="align-center"
+                >
+                  <label>
+                    <input
+                      type="checkbox"
+                    />
+                  </label>
+                </td>
+                <td>
+                  Section 1
+                </td>
+                <td>
+                  Team 1
+                </td>
+                <td>
+                  Alex
+                </td>
+                <td>
+                  alex@tmms.com
+                </td>
+                <td>
+                  Fri, 14 Jul 2017, 02:40 AM UTC
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   </tm-loading-retry><br /><tm-loading-retry>
     <div>
-      <h1>
-        Instructors
-      </h1>
       <div
-        class="table-responsive"
+        class="card"
       >
-        <table
-          class="table table-bordered table-hover"
-          id="instructor-list-table"
+        <div
+          class="card-header cursor-pointer bg-primary text-white"
         >
-          <thead>
-            <tr>
-              <th>
-                <label>
-                  <input
-                    id="select-all-instructor-btn"
-                    type="checkbox"
-                  />
-                   Select all
-                </label>
-              </th>
-              <th
-                class="sortable-header"
+          <strong
+            class="text-break"
+          >
+            Instructors
+          </strong>
+          <div
+            class="card-header-btn-toolbar"
+          >
+            <tm-panel-chevron>
+              <div
+                class="chevron"
               >
-                 Name 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Email 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Role 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Current Deadline 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                  <i
-                    class="fas fa-sort-down"
-                  />
-                </span>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              class="table-warning"
-              id="instructor-row-0"
+                <i
+                  class="fas fa-chevron-up"
+                />
+              </div>
+            </tm-panel-chevron>
+          </div>
+        </div>
+        <div
+          class="card-body ng-trigger ng-trigger-collapseAnim ng-animating"
+          style=""
+        >
+          <div
+            class="table-responsive"
+          >
+            <table
+              class="table table-bordered table-hover"
+              id="instructor-list-table"
             >
-              <td
-                class="align-center"
+              <thead>
+                <tr>
+                  <th>
+                    <label>
+                      <input
+                        id="select-all-instructor-btn"
+                        type="checkbox"
+                      />
+                       Select all
+                    </label>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Name 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Email 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Role 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Current Deadline 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                      <i
+                        class="fas fa-sort-down"
+                        style=""
+                      />
+                    </span>
+                  </th>
+                </tr>
+              </thead>
+              <tr
+                class="table-warning"
+                id="instructor-row-0"
+                style=""
               >
-                <label>
-                  <input
-                    type="checkbox"
-                  />
-                </label>
-              </td>
-              <td>
-                tester2HasExtension
-              </td>
-              <td>
-                tester2@tester.com
-              </td>
-              <td>
-                Custom
-              </td>
-              <td>
-                Mon, 06 Nov 2017, 08:26 PM UTC
-              </td>
-            </tr>
-            <tr
-              id="instructor-row-1"
-            >
-              <td
-                class="align-center"
+                <td
+                  class="align-center"
+                >
+                  <label>
+                    <input
+                      type="checkbox"
+                    />
+                  </label>
+                </td>
+                <td>
+                  tester2HasExtension
+                </td>
+                <td>
+                  tester2@tester.com
+                </td>
+                <td>
+                  Custom
+                </td>
+                <td>
+                  Mon, 06 Nov 2017, 08:26 PM UTC
+                </td>
+              </tr>
+              <tr
+                id="instructor-row-1"
+                style=""
               >
-                <label>
-                  <input
-                    type="checkbox"
-                  />
-                </label>
-              </td>
-              <td>
-                tester1
-              </td>
-              <td>
-                tester1@tester.com
-              </td>
-              <td>
-                Custom
-              </td>
-              <td>
-                Fri, 14 Jul 2017, 02:40 AM UTC
-              </td>
-            </tr>
-          </tbody>
-        </table>
+                <td
+                  class="align-center"
+                >
+                  <label>
+                    <input
+                      type="checkbox"
+                    />
+                  </label>
+                </td>
+                <td>
+                  tester1
+                </td>
+                <td>
+                  tester1@tester.com
+                </td>
+                <td>
+                  Custom
+                </td>
+                <td>
+                  Fri, 14 Jul 2017, 02:40 AM UTC
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   </tm-loading-retry><br /><div
@@ -2470,9 +2826,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with inst
   feedbackSessionName="undefined"
   feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
+  hasInstructorTabExpanded={[Function Boolean]}
   hasLoadedAllInstructorsFailed="false"
   hasLoadedAllStudentsFailed="false"
   hasLoadingFeedbackSessionFailed="false"
+  hasStudentTabExpanded={[Function Boolean]}
   instructorDeadlines={[Function Object]}
   instructorService={[Function InstructorService]}
   instructorsOfCourse={[Function Array]}
@@ -2591,95 +2949,122 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with inst
     </div>
   </tm-loading-retry><tm-loading-retry>
     <div>
-      <h1>
-        Students
-      </h1>
       <div
-        class="table-responsive"
+        class="card"
       >
-        <table
-          class="table table-bordered table-hover"
-          id="student-list-table"
+        <div
+          class="card-header cursor-pointer bg-primary text-white"
         >
-          <thead>
-            <tr>
-              <th>
-                <label>
-                  <input
-                    id="select-all-student-btn"
-                    type="checkbox"
-                  />
-                   Select all
-                </label>
-              </th>
-              <th
-                class="sortable-header"
+          <strong
+            class="text-break"
+          >
+            Students
+          </strong>
+          <div
+            class="card-header-btn-toolbar"
+          >
+            <tm-panel-chevron>
+              <div
+                class="chevron"
               >
-                 Section 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Team 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Name 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Email 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Current Deadline 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                  <i
-                    class="fas fa-sort-down"
-                  />
-                </span>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-          </tbody>
-        </table>
+                <i
+                  class="fas fa-chevron-up"
+                />
+              </div>
+            </tm-panel-chevron>
+          </div>
+        </div>
+        <div
+          class="card-body ng-trigger ng-trigger-collapseAnim ng-animating"
+          style=""
+        >
+          <div
+            class="table-responsive"
+          >
+            <table
+              class="table table-bordered table-hover"
+              id="student-list-table"
+            >
+              <thead>
+                <tr>
+                  <th>
+                    <label>
+                      <input
+                        id="select-all-student-btn"
+                        type="checkbox"
+                      />
+                       Select all
+                    </label>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Section 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Team 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Name 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Email 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Current Deadline 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                      <i
+                        class="fas fa-sort-down"
+                        style=""
+                      />
+                    </span>
+                  </th>
+                </tr>
+              </thead>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   </tm-loading-retry><br /><tm-loading-retry>
@@ -2737,9 +3122,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with stud
   feedbackSessionName="undefined"
   feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
+  hasInstructorTabExpanded={[Function Boolean]}
   hasLoadedAllInstructorsFailed="false"
   hasLoadedAllStudentsFailed="false"
   hasLoadingFeedbackSessionFailed="false"
+  hasStudentTabExpanded={[Function Boolean]}
   instructorDeadlines={[Function Object]}
   instructorService={[Function InstructorService]}
   instructorsOfCourse={[Function Array]}
@@ -2874,83 +3261,110 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with stud
     </tm-loading-spinner>
   </tm-loading-retry><br /><tm-loading-retry>
     <div>
-      <h1>
-        Instructors
-      </h1>
       <div
-        class="table-responsive"
+        class="card"
       >
-        <table
-          class="table table-bordered table-hover"
-          id="instructor-list-table"
+        <div
+          class="card-header cursor-pointer bg-primary text-white"
         >
-          <thead>
-            <tr>
-              <th>
-                <label>
-                  <input
-                    id="select-all-instructor-btn"
-                    type="checkbox"
-                  />
-                   Select all
-                </label>
-              </th>
-              <th
-                class="sortable-header"
+          <strong
+            class="text-break"
+          >
+            Instructors
+          </strong>
+          <div
+            class="card-header-btn-toolbar"
+          >
+            <tm-panel-chevron>
+              <div
+                class="chevron"
               >
-                 Name 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Email 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Role 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Current Deadline 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                  <i
-                    class="fas fa-sort-down"
-                  />
-                </span>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-          </tbody>
-        </table>
+                <i
+                  class="fas fa-chevron-up"
+                />
+              </div>
+            </tm-panel-chevron>
+          </div>
+        </div>
+        <div
+          class="card-body ng-trigger ng-trigger-collapseAnim ng-animating"
+          style=""
+        >
+          <div
+            class="table-responsive"
+          >
+            <table
+              class="table table-bordered table-hover"
+              id="instructor-list-table"
+            >
+              <thead>
+                <tr>
+                  <th>
+                    <label>
+                      <input
+                        id="select-all-instructor-btn"
+                        type="checkbox"
+                      />
+                       Select all
+                    </label>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Name 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Email 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Role 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Current Deadline 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                      <i
+                        class="fas fa-sort-down"
+                        style=""
+                      />
+                    </span>
+                  </th>
+                </tr>
+              </thead>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   </tm-loading-retry><br /><div
@@ -2992,9 +3406,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
   feedbackSessionName="undefined"
   feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
+  hasInstructorTabExpanded={[Function Boolean]}
   hasLoadedAllInstructorsFailed="false"
   hasLoadedAllStudentsFailed="false"
   hasLoadingFeedbackSessionFailed={[Function Boolean]}
+  hasStudentTabExpanded={[Function Boolean]}
   instructorDeadlines={[Function Object]}
   instructorService={[Function InstructorService]}
   instructorsOfCourse={[Function Array]}
@@ -3037,176 +3453,230 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
     </div>
   </tm-loading-retry><tm-loading-retry>
     <div>
-      <h1>
-        Students
-      </h1>
       <div
-        class="table-responsive"
+        class="card"
       >
-        <table
-          class="table table-bordered table-hover"
-          id="student-list-table"
+        <div
+          class="card-header cursor-pointer bg-primary text-white"
         >
-          <thead>
-            <tr>
-              <th>
-                <label>
-                  <input
-                    id="select-all-student-btn"
-                    type="checkbox"
-                  />
-                   Select all
-                </label>
-              </th>
-              <th
-                class="sortable-header"
+          <strong
+            class="text-break"
+          >
+            Students
+          </strong>
+          <div
+            class="card-header-btn-toolbar"
+          >
+            <tm-panel-chevron>
+              <div
+                class="chevron"
               >
-                 Section 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Team 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Name 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Email 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Current Deadline 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                  <i
-                    class="fas fa-sort-down"
-                  />
-                </span>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-          </tbody>
-        </table>
+                <i
+                  class="fas fa-chevron-up"
+                />
+              </div>
+            </tm-panel-chevron>
+          </div>
+        </div>
+        <div
+          class="card-body ng-trigger ng-trigger-collapseAnim ng-animating"
+          style=""
+        >
+          <div
+            class="table-responsive"
+          >
+            <table
+              class="table table-bordered table-hover"
+              id="student-list-table"
+            >
+              <thead>
+                <tr>
+                  <th>
+                    <label>
+                      <input
+                        id="select-all-student-btn"
+                        type="checkbox"
+                      />
+                       Select all
+                    </label>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Section 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Team 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Name 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Email 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Current Deadline 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                      <i
+                        class="fas fa-sort-down"
+                        style=""
+                      />
+                    </span>
+                  </th>
+                </tr>
+              </thead>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   </tm-loading-retry><br /><tm-loading-retry>
     <div>
-      <h1>
-        Instructors
-      </h1>
       <div
-        class="table-responsive"
+        class="card"
       >
-        <table
-          class="table table-bordered table-hover"
-          id="instructor-list-table"
+        <div
+          class="card-header cursor-pointer bg-primary text-white"
         >
-          <thead>
-            <tr>
-              <th>
-                <label>
-                  <input
-                    id="select-all-instructor-btn"
-                    type="checkbox"
-                  />
-                   Select all
-                </label>
-              </th>
-              <th
-                class="sortable-header"
+          <strong
+            class="text-break"
+          >
+            Instructors
+          </strong>
+          <div
+            class="card-header-btn-toolbar"
+          >
+            <tm-panel-chevron>
+              <div
+                class="chevron"
               >
-                 Name 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Email 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Role 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Current Deadline 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                  <i
-                    class="fas fa-sort-down"
-                  />
-                </span>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-          </tbody>
-        </table>
+                <i
+                  class="fas fa-chevron-up"
+                />
+              </div>
+            </tm-panel-chevron>
+          </div>
+        </div>
+        <div
+          class="card-body ng-trigger ng-trigger-collapseAnim ng-animating"
+          style=""
+        >
+          <div
+            class="table-responsive"
+          >
+            <table
+              class="table table-bordered table-hover"
+              id="instructor-list-table"
+            >
+              <thead>
+                <tr>
+                  <th>
+                    <label>
+                      <input
+                        id="select-all-instructor-btn"
+                        type="checkbox"
+                      />
+                       Select all
+                    </label>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Name 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Email 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Role 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Current Deadline 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                      <i
+                        class="fas fa-sort-down"
+                        style=""
+                      />
+                    </span>
+                  </th>
+                </tr>
+              </thead>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   </tm-loading-retry><br /><div
@@ -3248,9 +3718,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
   feedbackSessionName="undefined"
   feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
+  hasInstructorTabExpanded={[Function Boolean]}
   hasLoadedAllInstructorsFailed="false"
   hasLoadedAllStudentsFailed="false"
   hasLoadingFeedbackSessionFailed={[Function Boolean]}
+  hasStudentTabExpanded={[Function Boolean]}
   instructorDeadlines={[Function Object]}
   instructorService={[Function InstructorService]}
   instructorsOfCourse={[Function Array]}
@@ -3293,176 +3765,230 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
     </div>
   </tm-loading-retry><tm-loading-retry>
     <div>
-      <h1>
-        Students
-      </h1>
       <div
-        class="table-responsive"
+        class="card"
       >
-        <table
-          class="table table-bordered table-hover"
-          id="student-list-table"
+        <div
+          class="card-header cursor-pointer bg-primary text-white"
         >
-          <thead>
-            <tr>
-              <th>
-                <label>
-                  <input
-                    id="select-all-student-btn"
-                    type="checkbox"
-                  />
-                   Select all
-                </label>
-              </th>
-              <th
-                class="sortable-header"
+          <strong
+            class="text-break"
+          >
+            Students
+          </strong>
+          <div
+            class="card-header-btn-toolbar"
+          >
+            <tm-panel-chevron>
+              <div
+                class="chevron"
               >
-                 Section 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Team 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Name 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Email 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Current Deadline 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                  <i
-                    class="fas fa-sort-down"
-                  />
-                </span>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-          </tbody>
-        </table>
+                <i
+                  class="fas fa-chevron-up"
+                />
+              </div>
+            </tm-panel-chevron>
+          </div>
+        </div>
+        <div
+          class="card-body ng-trigger ng-trigger-collapseAnim ng-animating"
+          style=""
+        >
+          <div
+            class="table-responsive"
+          >
+            <table
+              class="table table-bordered table-hover"
+              id="student-list-table"
+            >
+              <thead>
+                <tr>
+                  <th>
+                    <label>
+                      <input
+                        id="select-all-student-btn"
+                        type="checkbox"
+                      />
+                       Select all
+                    </label>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Section 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Team 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Name 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Email 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Current Deadline 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                      <i
+                        class="fas fa-sort-down"
+                        style=""
+                      />
+                    </span>
+                  </th>
+                </tr>
+              </thead>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   </tm-loading-retry><br /><tm-loading-retry>
     <div>
-      <h1>
-        Instructors
-      </h1>
       <div
-        class="table-responsive"
+        class="card"
       >
-        <table
-          class="table table-bordered table-hover"
-          id="instructor-list-table"
+        <div
+          class="card-header cursor-pointer bg-primary text-white"
         >
-          <thead>
-            <tr>
-              <th>
-                <label>
-                  <input
-                    id="select-all-instructor-btn"
-                    type="checkbox"
-                  />
-                   Select all
-                </label>
-              </th>
-              <th
-                class="sortable-header"
+          <strong
+            class="text-break"
+          >
+            Instructors
+          </strong>
+          <div
+            class="card-header-btn-toolbar"
+          >
+            <tm-panel-chevron>
+              <div
+                class="chevron"
               >
-                 Name 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Email 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Role 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Current Deadline 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                  <i
-                    class="fas fa-sort-down"
-                  />
-                </span>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-          </tbody>
-        </table>
+                <i
+                  class="fas fa-chevron-up"
+                />
+              </div>
+            </tm-panel-chevron>
+          </div>
+        </div>
+        <div
+          class="card-body ng-trigger ng-trigger-collapseAnim ng-animating"
+          style=""
+        >
+          <div
+            class="table-responsive"
+          >
+            <table
+              class="table table-bordered table-hover"
+              id="instructor-list-table"
+            >
+              <thead>
+                <tr>
+                  <th>
+                    <label>
+                      <input
+                        id="select-all-instructor-btn"
+                        type="checkbox"
+                      />
+                       Select all
+                    </label>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Name 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Email 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Role 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Current Deadline 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                      <i
+                        class="fas fa-sort-down"
+                        style=""
+                      />
+                    </span>
+                  </th>
+                </tr>
+              </thead>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   </tm-loading-retry><br /><div
@@ -3504,9 +4030,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
   feedbackSessionName="undefined"
   feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
+  hasInstructorTabExpanded={[Function Boolean]}
   hasLoadedAllInstructorsFailed={[Function Boolean]}
   hasLoadedAllStudentsFailed="false"
   hasLoadingFeedbackSessionFailed="false"
+  hasStudentTabExpanded={[Function Boolean]}
   instructorDeadlines={[Function Object]}
   instructorService={[Function InstructorService]}
   instructorsOfCourse={[Function Array]}
@@ -3626,180 +4154,210 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
     </div>
   </tm-loading-retry><tm-loading-retry>
     <div>
-      <h1>
-        Students
-      </h1>
       <div
-        class="table-responsive"
+        class="card"
       >
-        <table
-          class="table table-bordered table-hover"
-          id="student-list-table"
+        <div
+          class="card-header cursor-pointer bg-primary text-white"
         >
-          <thead>
-            <tr>
-              <th>
-                <label>
-                  <input
-                    id="select-all-student-btn"
-                    type="checkbox"
-                  />
-                   Select all
-                </label>
-              </th>
-              <th
-                class="sortable-header"
+          <strong
+            class="text-break"
+          >
+            Students
+          </strong>
+          <div
+            class="card-header-btn-toolbar"
+          >
+            <tm-panel-chevron>
+              <div
+                class="chevron"
               >
-                 Section 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Team 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Name 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Email 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Current Deadline 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                  <i
-                    class="fas fa-sort-down"
-                  />
-                </span>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              class="table-warning"
-              id="student-row-0"
+                <i
+                  class="fas fa-chevron-up"
+                />
+              </div>
+            </tm-panel-chevron>
+          </div>
+        </div>
+        <div
+          class="card-body ng-trigger ng-trigger-collapseAnim ng-animating"
+          style=""
+        >
+          <div
+            class="table-responsive"
+          >
+            <table
+              class="table table-bordered table-hover"
+              id="student-list-table"
             >
-              <td
-                class="align-center"
+              <thead>
+                <tr>
+                  <th>
+                    <label>
+                      <input
+                        id="select-all-student-btn"
+                        type="checkbox"
+                      />
+                       Select all
+                    </label>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Section 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Team 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Name 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Email 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Current Deadline 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                      <i
+                        class="fas fa-sort-down"
+                        style=""
+                      />
+                    </span>
+                  </th>
+                </tr>
+              </thead>
+              <tr
+                class="table-warning"
+                id="student-row-0"
+                style=""
               >
-                <label>
-                  <input
-                    type="checkbox"
-                  />
-                </label>
-              </td>
-              <td>
-                Section 1
-              </td>
-              <td>
-                Team 1
-              </td>
-              <td>
-                AliceHasExtension
-              </td>
-              <td>
-                alice@tmms.com
-              </td>
-              <td>
-                Mon, 06 Nov 2017, 08:26 PM UTC
-              </td>
-            </tr>
-            <tr
-              id="student-row-1"
-            >
-              <td
-                class="align-center"
+                <td
+                  class="align-center"
+                >
+                  <label>
+                    <input
+                      type="checkbox"
+                    />
+                  </label>
+                </td>
+                <td>
+                  Section 1
+                </td>
+                <td>
+                  Team 1
+                </td>
+                <td>
+                  AliceHasExtension
+                </td>
+                <td>
+                  alice@tmms.com
+                </td>
+                <td>
+                  Mon, 06 Nov 2017, 08:26 PM UTC
+                </td>
+              </tr>
+              <tr
+                id="student-row-1"
+                style=""
               >
-                <label>
-                  <input
-                    type="checkbox"
-                  />
-                </label>
-              </td>
-              <td>
-                Section 1
-              </td>
-              <td>
-                Team 1
-              </td>
-              <td>
-                Bob
-              </td>
-              <td>
-                bob@tmms.com
-              </td>
-              <td>
-                Fri, 14 Jul 2017, 02:40 AM UTC
-              </td>
-            </tr>
-            <tr
-              id="student-row-2"
-            >
-              <td
-                class="align-center"
+                <td
+                  class="align-center"
+                >
+                  <label>
+                    <input
+                      type="checkbox"
+                    />
+                  </label>
+                </td>
+                <td>
+                  Section 1
+                </td>
+                <td>
+                  Team 1
+                </td>
+                <td>
+                  Bob
+                </td>
+                <td>
+                  bob@tmms.com
+                </td>
+                <td>
+                  Fri, 14 Jul 2017, 02:40 AM UTC
+                </td>
+              </tr>
+              <tr
+                id="student-row-2"
+                style=""
               >
-                <label>
-                  <input
-                    type="checkbox"
-                  />
-                </label>
-              </td>
-              <td>
-                Section 1
-              </td>
-              <td>
-                Team 1
-              </td>
-              <td>
-                Alex
-              </td>
-              <td>
-                alex@tmms.com
-              </td>
-              <td>
-                Fri, 14 Jul 2017, 02:40 AM UTC
-              </td>
-            </tr>
-          </tbody>
-        </table>
+                <td
+                  class="align-center"
+                >
+                  <label>
+                    <input
+                      type="checkbox"
+                    />
+                  </label>
+                </td>
+                <td>
+                  Section 1
+                </td>
+                <td>
+                  Team 1
+                </td>
+                <td>
+                  Alex
+                </td>
+                <td>
+                  alex@tmms.com
+                </td>
+                <td>
+                  Fri, 14 Jul 2017, 02:40 AM UTC
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   </tm-loading-retry><br /><tm-loading-retry>
@@ -3860,9 +4418,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
   feedbackSessionName="undefined"
   feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
+  hasInstructorTabExpanded={[Function Boolean]}
   hasLoadedAllInstructorsFailed="false"
   hasLoadedAllStudentsFailed={[Function Boolean]}
   hasLoadingFeedbackSessionFailed="false"
+  hasStudentTabExpanded={[Function Boolean]}
   instructorDeadlines={[Function Object]}
   instructorService={[Function InstructorService]}
   instructorsOfCourse={[Function Array]}
@@ -4001,134 +4561,163 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
     </div>
   </tm-loading-retry><br /><tm-loading-retry>
     <div>
-      <h1>
-        Instructors
-      </h1>
       <div
-        class="table-responsive"
+        class="card"
       >
-        <table
-          class="table table-bordered table-hover"
-          id="instructor-list-table"
+        <div
+          class="card-header cursor-pointer bg-primary text-white"
         >
-          <thead>
-            <tr>
-              <th>
-                <label>
-                  <input
-                    id="select-all-instructor-btn"
-                    type="checkbox"
-                  />
-                   Select all
-                </label>
-              </th>
-              <th
-                class="sortable-header"
+          <strong
+            class="text-break"
+          >
+            Instructors
+          </strong>
+          <div
+            class="card-header-btn-toolbar"
+          >
+            <tm-panel-chevron>
+              <div
+                class="chevron"
               >
-                 Name 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Email 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Role 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </th>
-              <th
-                class="sortable-header"
-              >
-                 Current Deadline 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                  <i
-                    class="fas fa-sort-down"
-                  />
-                </span>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              class="table-warning"
-              id="instructor-row-0"
+                <i
+                  class="fas fa-chevron-up"
+                />
+              </div>
+            </tm-panel-chevron>
+          </div>
+        </div>
+        <div
+          class="card-body ng-trigger ng-trigger-collapseAnim ng-animating"
+          style=""
+        >
+          <div
+            class="table-responsive"
+          >
+            <table
+              class="table table-bordered table-hover"
+              id="instructor-list-table"
             >
-              <td
-                class="align-center"
+              <thead>
+                <tr>
+                  <th>
+                    <label>
+                      <input
+                        id="select-all-instructor-btn"
+                        type="checkbox"
+                      />
+                       Select all
+                    </label>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Name 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Email 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Role 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Current Deadline 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                      <i
+                        class="fas fa-sort-down"
+                        style=""
+                      />
+                    </span>
+                  </th>
+                </tr>
+              </thead>
+              <tr
+                class="table-warning"
+                id="instructor-row-0"
+                style=""
               >
-                <label>
-                  <input
-                    type="checkbox"
-                  />
-                </label>
-              </td>
-              <td>
-                tester2HasExtension
-              </td>
-              <td>
-                tester2@tester.com
-              </td>
-              <td>
-                Custom
-              </td>
-              <td>
-                Mon, 06 Nov 2017, 08:26 PM UTC
-              </td>
-            </tr>
-            <tr
-              id="instructor-row-1"
-            >
-              <td
-                class="align-center"
+                <td
+                  class="align-center"
+                >
+                  <label>
+                    <input
+                      type="checkbox"
+                    />
+                  </label>
+                </td>
+                <td>
+                  tester2HasExtension
+                </td>
+                <td>
+                  tester2@tester.com
+                </td>
+                <td>
+                  Custom
+                </td>
+                <td>
+                  Mon, 06 Nov 2017, 08:26 PM UTC
+                </td>
+              </tr>
+              <tr
+                id="instructor-row-1"
+                style=""
               >
-                <label>
-                  <input
-                    type="checkbox"
-                  />
-                </label>
-              </td>
-              <td>
-                tester1
-              </td>
-              <td>
-                tester1@tester.com
-              </td>
-              <td>
-                Custom
-              </td>
-              <td>
-                Fri, 14 Jul 2017, 02:40 AM UTC
-              </td>
-            </tr>
-          </tbody>
-        </table>
+                <td
+                  class="align-center"
+                >
+                  <label>
+                    <input
+                      type="checkbox"
+                    />
+                  </label>
+                </td>
+                <td>
+                  tester1
+                </td>
+                <td>
+                  tester1@tester.com
+                </td>
+                <td>
+                  Custom
+                </td>
+                <td>
+                  Fri, 14 Jul 2017, 02:40 AM UTC
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   </tm-loading-retry><br /><div

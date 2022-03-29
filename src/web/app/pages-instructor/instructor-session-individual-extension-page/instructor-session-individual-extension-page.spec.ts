@@ -1,6 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
@@ -121,7 +122,11 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [HttpClientTestingModule, RouterModule, InstructorSessionIndividualExtensionPageModule],
+        imports: [HttpClientTestingModule,
+          RouterModule,
+          InstructorSessionIndividualExtensionPageModule,
+          NoopAnimationsModule,
+        ],
         providers: [
           StudentService,
           CourseService,
@@ -162,6 +167,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     component.isLoadingAllStudents = true;
     component.isLoadingAllInstructors = false;
     component.isLoadingFeedbackSession = false;
+    component.openTabs();
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
@@ -171,6 +177,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     component.isLoadingAllInstructors = true;
     component.isLoadingFeedbackSession = false;
     component.isLoadingAllStudents = false;
+    component.openTabs();
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
@@ -180,6 +187,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     component.isLoadingFeedbackSession = true;
     component.isLoadingAllStudents = false;
     component.isLoadingAllInstructors = false;
+    component.openTabs();
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
@@ -191,6 +199,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(of(instructors));
 
     component.ngOnInit();
+    component.openTabs();
 
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
@@ -203,6 +212,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(of({ instructors: [] }));
 
     component.ngOnInit();
+    component.openTabs();
 
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
@@ -221,6 +231,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast');
 
     component.ngOnInit();
+    component.openTabs();
 
     expect(component.isLoadingAllInstructors).toBeFalsy();
     expect(component.hasLoadedAllInstructorsFailed).toBeFalsy();
@@ -246,6 +257,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast');
 
     component.ngOnInit();
+    component.openTabs();
 
     expect(component.isLoadingAllInstructors).toBeFalsy();
     expect(component.hasLoadedAllInstructorsFailed).toBeTruthy();
@@ -271,6 +283,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast');
 
     component.ngOnInit();
+    component.openTabs();
 
     expect(component.isLoadingAllInstructors).toBeFalsy();
     expect(component.hasLoadedAllInstructorsFailed).toBeFalsy();
@@ -297,6 +310,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast');
 
     component.ngOnInit();
+    component.openTabs();
 
     expect(component.isLoadingAllInstructors).toBeFalsy();
     expect(component.hasLoadedAllInstructorsFailed).toBeFalsy();
@@ -316,6 +330,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
 
     component.ngOnInit();
+    component.openTabs();
     fixture.detectChanges();
 
     expect(component.isLoadingAllInstructors).toBeFalsy();
@@ -330,6 +345,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
     jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(of(instructors));
     component.ngOnInit();
+    component.openTabs();
     fixture.detectChanges();
 
     const selectAllButton = fixture.debugElement.query(By.css('#select-all-student-btn')).nativeElement;
@@ -346,6 +362,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
     jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(of(instructors));
     component.ngOnInit();
+    component.openTabs();
     fixture.detectChanges();
 
     const selectAllButton = fixture.debugElement.query(By.css('#select-all-instructor-btn')).nativeElement;
@@ -362,6 +379,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
     jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(of(instructors));
     component.ngOnInit();
+    component.openTabs();
     component.isLoadingAllInstructors = false;
     component.isLoadingAllStudents = false;
     component.isLoadingFeedbackSession = false;
@@ -397,6 +415,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
     jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
     component.ngOnInit();
+    component.openTabs();
     fixture.detectChanges();
 
     const extendButton: any = fixture.debugElement.nativeElement.querySelector('#extend-btn');
@@ -413,6 +432,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
     jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
     component.ngOnInit();
+    component.openTabs();
     component.studentsOfCourse[1].isSelected = true; // Bob has no extension
     fixture.detectChanges();
 
@@ -430,6 +450,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
     jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
     component.ngOnInit();
+    component.openTabs();
     component.studentsOfCourse[0].isSelected = true; // Alice has extension
     fixture.detectChanges();
 
@@ -447,6 +468,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
     jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
     component.ngOnInit();
+    component.openTabs();
     component.studentsOfCourse[0].isSelected = true; // Alice has extension
     component.studentsOfCourse[1].isSelected = true; // Bob does not
     fixture.detectChanges();

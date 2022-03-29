@@ -5,6 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { DatepickerModule } from '../../components/datepicker/datepicker.module';
 import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
+import { PanelChevronModule } from '../../components/panel-chevron/panel-chevron.module';
 import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
 import { TimepickerModule } from '../../components/timepicker/timepicker.module';
 import {
@@ -29,6 +30,7 @@ const routes: Routes = [
     CommonModule,
     ReactiveFormsModule,
     TeammatesCommonModule,
+    PanelChevronModule,
     FormsModule,
     RouterModule.forChild(routes),
     LoadingSpinnerModule,
