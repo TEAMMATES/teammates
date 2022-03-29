@@ -70,11 +70,13 @@ describe('StudentService', () => {
   it('should execute DELETE when deleting all students in a course', () => {
     const paramMap: Record<string, string> = {
       courseid: 'CS3281',
+      limit: '100',
     };
     jest.spyOn(spyHttpRequestService, 'delete');
 
-    service.deleteAllStudentsFromCourse({
+    service.batchDeleteStudentsFromCourse({
       courseId: paramMap.courseid,
+      limit: parseInt(paramMap.limit, 10),
     });
 
     expect(spyHttpRequestService.delete)

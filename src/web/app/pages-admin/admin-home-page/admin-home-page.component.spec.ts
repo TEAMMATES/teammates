@@ -3,6 +3,11 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { of, throwError } from 'rxjs';
 import { AccountService } from '../../../services/account.service';
+import { CourseService } from '../../../services/course.service';
+import { LinkService } from '../../../services/link.service';
+import { SimpleModalService } from '../../../services/simple-modal.service';
+import { StatusMessageService } from '../../../services/status-message.service';
+import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { AdminHomePageComponent } from './admin-home-page.component';
@@ -12,7 +17,10 @@ import { NewInstructorDataRowComponent } from './new-instructor-data-row/new-ins
 describe('AdminHomePageComponent', () => {
   let component: AdminHomePageComponent;
   let fixture: ComponentFixture<AdminHomePageComponent>;
-  let service: AccountService;
+  let accountService: AccountService;
+  let courseService: CourseService;
+  let linkService: LinkService;
+  let simpleModalService: SimpleModalService;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -26,14 +34,23 @@ describe('AdminHomePageComponent', () => {
         LoadingSpinnerModule,
         AjaxLoadingModule,
       ],
-      providers: [AccountService],
+      providers: [
+        AccountService,
+        CourseService,
+        SimpleModalService,
+        StatusMessageService,
+        LinkService,
+      ],
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AdminHomePageComponent);
-    service = TestBed.inject(AccountService);
+    accountService = TestBed.inject(AccountService);
+    courseService = TestBed.inject(CourseService);
+    simpleModalService = TestBed.inject(SimpleModalService);
+    linkService = TestBed.inject(LinkService);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -166,7 +183,7 @@ describe('AdminHomePageComponent', () => {
         message: 'This should not be displayed',
       },
     ];
-    jest.spyOn(service, 'createAccountRequest').mockReturnValue(of({
+    jest.spyOn(accountService, 'createAccountRequest').mockReturnValue(of({
       joinLink: 'http://localhost:4200/web/join',
     }));
     fixture.detectChanges();
@@ -191,7 +208,7 @@ describe('AdminHomePageComponent', () => {
         message: 'This should not be displayed',
       },
     ];
-    jest.spyOn(service, 'createAccountRequest').mockReturnValue(throwError({
+    jest.spyOn(accountService, 'createAccountRequest').mockReturnValue(throwError({
       error: {
         message: 'This is the error message',
       },
@@ -222,6 +239,7 @@ describe('AdminHomePageComponent', () => {
         email: 'instructorb@example.com',
         institution: 'Sample Institution B',
         status: 'SUCCESS',
+        statusCode: 200,
         isCurrentlyBeingEdited: false,
         joinLink: 'http://localhost:4200/web/join',
         message: 'This should not be displayed',
@@ -231,6 +249,7 @@ describe('AdminHomePageComponent', () => {
         email: 'instructorc@example.com',
         institution: 'Sample Institution C',
         status: 'FAIL',
+        statusCode: 400,
         isCurrentlyBeingEdited: false,
         joinLink: 'This should not be displayed',
         message: 'The instructor cannot be added for some reason',
@@ -270,6 +289,7 @@ describe('AdminHomePageComponent', () => {
         email: 'instructorc@example.com',
         institution: 'Sample Institution C',
         status: 'FAIL',
+        statusCode: 400,
         isCurrentlyBeingEdited: false,
         joinLink: 'This should not be displayed',
         message: 'The instructor cannot be added for some reason',
@@ -304,6 +324,7 @@ describe('AdminHomePageComponent', () => {
         email: 'instructorb@example.com',
         institution: 'Sample Institution B',
         status: 'SUCCESS',
+        statusCode: 200,
         isCurrentlyBeingEdited: false,
         joinLink: 'http://localhost:4200/web/join',
         message: 'This should not be displayed',
@@ -313,6 +334,7 @@ describe('AdminHomePageComponent', () => {
         email: 'instructorc@example.com',
         institution: 'Sample Institution C',
         status: 'FAIL',
+        statusCode: 400,
         isCurrentlyBeingEdited: false,
         joinLink: 'This should not be displayed',
         message: 'The instructor cannot be added for some reason',
@@ -356,6 +378,7 @@ describe('AdminHomePageComponent', () => {
         email: 'instructorc@example.com',
         institution: 'Sample Institution C',
         status: 'FAIL',
+        statusCode: 400,
         isCurrentlyBeingEdited: false,
         joinLink: 'This should not be displayed',
         message: 'The instructor cannot be added for some reason',
@@ -392,6 +415,7 @@ describe('AdminHomePageComponent', () => {
         email: 'instructorb@example.com',
         institution: 'Sample Institution B',
         status: 'SUCCESS',
+        statusCode: 200,
         isCurrentlyBeingEdited: false,
         joinLink: 'http://localhost:4200/web/join',
         message: 'This should not be displayed',
@@ -401,9 +425,20 @@ describe('AdminHomePageComponent', () => {
         email: 'instructorc@example.com',
         institution: 'Sample Institution C',
         status: 'FAIL',
+        statusCode: 400,
         isCurrentlyBeingEdited: false,
         joinLink: 'This should not be displayed',
         message: 'The instructor cannot be added for some reason',
+      },
+      {
+        name: 'Instructor D',
+        email: 'instructord@example.com',
+        institution: 'Sample Institution C',
+        status: 'FAIL',
+        statusCode: 409,
+        isCurrentlyBeingEdited: false,
+        joinLink: 'This should not be displayed',
+        message: 'Cannot create account request as instructor has already registered.',
       },
     ];
     fixture.detectChanges();
@@ -496,5 +531,153 @@ describe('AdminHomePageComponent', () => {
         isCurrentlyBeingEdited: false,
       },
     );
+  });
+
+  it('should call showRegisteredInstructorModal when info button for registered instructors clicked', () => {
+    component.instructorsConsolidated = [
+      {
+        name: 'Instructor A',
+        email: 'instructora@example.com',
+        institution: 'Sample Institution A',
+        status: 'FAIL',
+        statusCode: 409,
+        isCurrentlyBeingEdited: false,
+        joinLink: 'This should not be displayed',
+        message: 'message',
+      },
+    ];
+
+    fixture.detectChanges();
+
+    const spy = jest.spyOn(component, 'showRegisteredInstructorModal').mockImplementation(() => {});
+
+    const infoButton = fixture.debugElement.nativeElement.querySelector('#instructor-0-registered-info-button');
+    infoButton.click();
+
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should fetch account and course information when showRegisteredInstructorModal is called', () => {
+    component.instructorsConsolidated = [
+      {
+        name: 'Instructor A',
+        email: 'instructora@example.com',
+        institution: 'Sample Institution A',
+        status: 'FAIL',
+        statusCode: 409,
+        isCurrentlyBeingEdited: false,
+        joinLink: 'This should not be displayed',
+        message: 'message',
+      },
+    ];
+
+    const modalSpy = jest
+      .spyOn(simpleModalService, 'openInformationModal')
+      .mockReturnValue(createMockNgbModalRef());
+    const getAccountsSpy = jest
+      .spyOn(accountService, 'getAccounts')
+      .mockReturnValue(of({
+        accounts: [
+          {
+            googleId: 'googleId',
+            name: 'name',
+            institute: 'instutute',
+            isInstructor: true,
+            email: 'email',
+            createdAtTimeStamp: 0,
+          },
+        ],
+      }));
+    const getStudentCoursesSpy = jest
+      .spyOn(courseService, 'getStudentCoursesInMasqueradeMode')
+      .mockReturnValue(of({
+        courses: [
+          {
+            courseId: 'courseId',
+            courseName: 'courseName',
+            timeZone: 'not used',
+            institute: 'institute',
+            creationTimestamp: 0,
+            deletionTimestamp: 0,
+          },
+        ],
+      }));
+    const getInstructorCoursesSpy = jest
+      .spyOn(courseService, 'getInstructorCoursesInMasqueradeMode')
+      .mockReturnValue(of({
+        courses: [
+          {
+            courseId: 'courseId',
+            courseName: 'courseName',
+            timeZone: 'not used',
+            institute: 'institute',
+            creationTimestamp: 0,
+            deletionTimestamp: 0,
+          },
+        ],
+      }));
+    const generateAccountLinkSpy = jest
+      .spyOn(linkService, 'generateManageAccountLink')
+      .mockReturnValue('manageAccountLink');
+
+    fixture.detectChanges();
+
+    component.showRegisteredInstructorModal(0);
+
+    expect(modalSpy).toHaveBeenCalledTimes(1);
+    expect(getAccountsSpy).toHaveBeenCalledTimes(1);
+    expect(getAccountsSpy).toHaveBeenCalledWith('instructora@example.com');
+    expect(getStudentCoursesSpy).toHaveBeenCalledTimes(1);
+    expect(getStudentCoursesSpy).toHaveBeenCalledWith('googleId');
+    expect(getInstructorCoursesSpy).toHaveBeenCalledTimes(1);
+    expect(getInstructorCoursesSpy).toHaveBeenCalledWith('googleId');
+    expect(generateAccountLinkSpy).toHaveBeenCalledTimes(1);
+    expect(generateAccountLinkSpy).toHaveBeenCalledWith('googleId', '/admin/accounts');
+    expect(component.isRegisteredInstructorModalLoading).toBeFalsy();
+  });
+
+  it('should call reset account endpoint when resetAccountRequest called', async () => {
+    component.instructorsConsolidated = [
+      {
+        name: 'Instructor A',
+        email: 'instructora@example.com',
+        institution: 'Sample Institution A',
+        status: 'FAIL',
+        statusCode: 409,
+        isCurrentlyBeingEdited: false,
+        joinLink: 'This should not be displayed',
+        message: 'message',
+      },
+    ];
+
+    fixture.detectChanges();
+
+    const resetAccountSpy = jest.spyOn(accountService, 'resetAccountRequest').mockReturnValue(of({
+      joinLink: 'link',
+    }));
+
+    const modalSpy = jest
+      .spyOn(simpleModalService, 'openConfirmationModal')
+      .mockImplementation(() => {
+        return createMockNgbModalRef();
+      });
+
+    component.resetAccountRequest(0);
+
+    await fixture.whenStable().then(() => {
+      expect(modalSpy).toHaveBeenCalledTimes(1);
+      expect(resetAccountSpy).toBeCalledTimes(1);
+      expect(resetAccountSpy).toBeCalledWith('instructora@example.com', 'Sample Institution A');
+      expect(component.instructorsConsolidated[0]).toEqual({
+        name: 'Instructor A',
+        email: 'instructora@example.com',
+        institution: 'Sample Institution A',
+        status: 'SUCCESS',
+        statusCode: 200,
+        isCurrentlyBeingEdited: false,
+        joinLink: 'link',
+        message: 'message',
+      });
+    });
   });
 });

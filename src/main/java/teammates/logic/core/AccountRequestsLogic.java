@@ -1,5 +1,6 @@
 package teammates.logic.core;
 
+import java.time.Instant;
 import java.util.List;
 
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
@@ -98,6 +99,13 @@ public final class AccountRequestsLogic {
     public List<AccountRequestAttributes> searchAccountRequestsInWholeSystem(String queryString)
             throws SearchServiceException {
         return accountRequestsDb.searchAccountRequestsInWholeSystem(queryString);
+    }
+
+    /**
+     * Gets the number of account requests created within a specified time range.
+     */
+    int getNumAccountRequestsByTimeRange(Instant startTime, Instant endTime) {
+        return accountRequestsDb.getNumAccountRequestsByTimeRange(startTime, endTime);
     }
 
 }

@@ -95,7 +95,7 @@ public class FeedbackSubmitPage extends AppPage {
     }
 
     public void verifyWarningMessageForPartialResponse(int[] unansweredQuestions) {
-        click(getSubmitButton());
+        click(getSubmitAllQuestionsButton());
         StringBuilder expectedSb = new StringBuilder();
         for (int unansweredQuestion : unansweredQuestions) {
             expectedSb.append(unansweredQuestion).append(", ");
@@ -107,21 +107,22 @@ public class FeedbackSubmitPage extends AppPage {
     }
 
     public void verifyCannotSubmit() {
-        assertFalse(getSubmitButton().isEnabled());
+        WebElement submitButton = waitForElementPresence(By.cssSelector("[id^='btn-submit-qn-']"));
+        if (submitButton != null) {
+            assertFalse(submitButton.isEnabled());
+        }
     }
 
     public void addComment(int qnNumber, String recipient, String newComment) {
         WebElement commentSection = getCommentSection(qnNumber, recipient);
         click(commentSection.findElement(By.id("btn-add-comment")));
         writeToCommentEditor(commentSection, newComment);
-        clickSubmitButton();
     }
 
     public void editComment(int qnNumber, String recipient, String editedComment) {
         WebElement commentSection = getCommentSection(qnNumber, recipient);
         click(commentSection.findElement(By.id("btn-edit-comment")));
         writeToCommentEditor(commentSection, editedComment);
-        clickSubmitButton();
     }
 
     public void deleteComment(int qnNumber, String recipient) {
@@ -145,10 +146,9 @@ public class FeedbackSubmitPage extends AppPage {
                 + questionDetails.getRecommendedLength() + " words");
     }
 
-    public void submitTextResponse(int qnNumber, String recipient, FeedbackResponseAttributes response) {
+    public void fillTextResponse(int qnNumber, String recipient, FeedbackResponseAttributes response) {
         FeedbackTextResponseDetails responseDetails = (FeedbackTextResponseDetails) response.getResponseDetailsCopy();
         writeToRichTextEditor(getTextResponseEditor(qnNumber, recipient), responseDetails.getAnswer());
-        clickSubmitButton();
     }
 
     public void verifyTextResponse(int qnNumber, String recipient, FeedbackResponseAttributes response) {
@@ -179,7 +179,7 @@ public class FeedbackSubmitPage extends AppPage {
         }
     }
 
-    public void submitMcqResponse(int qnNumber, String recipient, FeedbackResponseAttributes response) {
+    public void fillMcqResponse(int qnNumber, String recipient, FeedbackResponseAttributes response) {
         FeedbackMcqResponseDetails responseDetails = (FeedbackMcqResponseDetails) response.getResponseDetailsCopy();
         if (responseDetails.isOther()) {
             markOptionAsSelected(getMcqOtherOptionRadioBtn(qnNumber, recipient));
@@ -193,7 +193,6 @@ public class FeedbackSubmitPage extends AppPage {
                 }
             }
         }
-        clickSubmitButton();
     }
 
     public void verifyMcqResponse(int qnNumber, String recipient, FeedbackResponseAttributes response) {
@@ -250,7 +249,7 @@ public class FeedbackSubmitPage extends AppPage {
         verifyMsqSelectableOptionsMessage(qnNumber, questionDetails);
     }
 
-    public void submitMsqResponse(int qnNumber, String recipient, FeedbackResponseAttributes response) {
+    public void fillMsqResponse(int qnNumber, String recipient, FeedbackResponseAttributes response) {
         FeedbackMsqResponseDetails responseDetails = (FeedbackMsqResponseDetails) response.getResponseDetailsCopy();
         List<String> answers = responseDetails.getAnswers();
         if (answers.get(0).isEmpty()) {
@@ -269,7 +268,6 @@ public class FeedbackSubmitPage extends AppPage {
             markOptionAsSelected(getMsqOtherOptionCheckbox(qnNumber, recipient));
             fillTextBox(getMsqOtherOptionTextbox(qnNumber, recipient), responseDetails.getOtherFieldContent());
         }
-        clickSubmitButton();
     }
 
     public void verifyMsqResponse(int qnNumber, String recipient, FeedbackResponseAttributes response) {
@@ -308,11 +306,10 @@ public class FeedbackSubmitPage extends AppPage {
         assertEquals(actualValues, possibleValues);
     }
 
-    public void submitNumScaleResponse(int qnNumber, String recipient, FeedbackResponseAttributes response) {
+    public void fillNumScaleResponse(int qnNumber, String recipient, FeedbackResponseAttributes response) {
         FeedbackNumericalScaleResponseDetails responseDetails =
                 (FeedbackNumericalScaleResponseDetails) response.getResponseDetailsCopy();
         fillTextBox(getNumScaleInput(qnNumber, recipient), Double.toString(responseDetails.getAnswer()));
-        clickSubmitButton();
     }
 
     public void verifyNumScaleResponse(int qnNumber, String recipient, FeedbackResponseAttributes response) {
@@ -351,7 +348,7 @@ public class FeedbackSubmitPage extends AppPage {
         }
     }
 
-    public void submitConstSumOptionResponse(int qnNumber, String recipient, FeedbackResponseAttributes response) {
+    public void fillConstSumOptionResponse(int qnNumber, String recipient, FeedbackResponseAttributes response) {
         FeedbackConstantSumResponseDetails responseDetails =
                 (FeedbackConstantSumResponseDetails) response.getResponseDetailsCopy();
         List<Integer> answers = responseDetails.getAnswers();
@@ -359,7 +356,6 @@ public class FeedbackSubmitPage extends AppPage {
         for (int i = 0; i < answers.size(); i++) {
             fillTextBox(constSumInputs.get(i), Integer.toString(answers.get(i)));
         }
-        clickSubmitButton();
     }
 
     public void verifyConstSumOptionResponse(int qnNumber, String recipient, FeedbackResponseAttributes response) {
@@ -372,14 +368,13 @@ public class FeedbackSubmitPage extends AppPage {
         }
     }
 
-    public void submitConstSumRecipientResponse(int qnNumber, List<FeedbackResponseAttributes> responses) {
+    public void fillConstSumRecipientResponse(int qnNumber, List<FeedbackResponseAttributes> responses) {
         List<WebElement> recipientInputs = getConstSumRecipientInputs(qnNumber);
         for (int i = 0; i < responses.size(); i++) {
             FeedbackConstantSumResponseDetails response =
                     (FeedbackConstantSumResponseDetails) responses.get(i).getResponseDetailsCopy();
             fillTextBox(recipientInputs.get(i), Integer.toString(response.getAnswers().get(0)));
         }
-        clickSubmitButton();
     }
 
     public void verifyConstSumRecipientResponse(int qnNumber, List<FeedbackResponseAttributes> responses) {
@@ -401,14 +396,13 @@ public class FeedbackSubmitPage extends AppPage {
         }
     }
 
-    public void submitContributionResponse(int qnNumber, List<FeedbackResponseAttributes> responses) {
+    public void fillContributionResponse(int qnNumber, List<FeedbackResponseAttributes> responses) {
         List<WebElement> dropdowns = getContributionDropdowns(qnNumber);
         for (int i = 0; i < responses.size(); i++) {
             FeedbackContributionResponseDetails response =
                     (FeedbackContributionResponseDetails) responses.get(i).getResponseDetailsCopy();
             selectDropdownOptionByText(dropdowns.get(i), getContributionString(response.getAnswer()));
         }
-        clickSubmitButton();
     }
 
     public void verifyContributionResponse(int qnNumber, List<FeedbackResponseAttributes> responses) {
@@ -442,14 +436,13 @@ public class FeedbackSubmitPage extends AppPage {
         verifyTableBodyValues(getRubricTable(qnNumber, recipient), expectedTable);
     }
 
-    public void submitRubricResponse(int qnNumber, String recipient, FeedbackResponseAttributes response) {
+    public void fillRubricResponse(int qnNumber, String recipient, FeedbackResponseAttributes response) {
         FeedbackRubricResponseDetails responseDetails =
                 (FeedbackRubricResponseDetails) response.getResponseDetailsCopy();
         List<Integer> answers = responseDetails.getAnswer();
         for (int i = 0; i < answers.size(); i++) {
             click(getRubricInputs(qnNumber, recipient, i + 2).get(answers.get(i)));
         }
-        clickSubmitButton();
     }
 
     public void verifyRubricResponse(int qnNumber, String recipient, FeedbackResponseAttributes response) {
@@ -480,7 +473,7 @@ public class FeedbackSubmitPage extends AppPage {
         }
     }
 
-    public void submitRankOptionResponse(int qnNumber, String recipient, FeedbackResponseAttributes response) {
+    public void fillRankOptionResponse(int qnNumber, String recipient, FeedbackResponseAttributes response) {
         FeedbackRankOptionsResponseDetails responseDetails =
                 (FeedbackRankOptionsResponseDetails) response.getResponseDetailsCopy();
         List<Integer> answers = responseDetails.getAnswers();
@@ -492,7 +485,6 @@ public class FeedbackSubmitPage extends AppPage {
                         Integer.toString(answers.get(i)));
             }
         }
-        clickSubmitButton();
     }
 
     public void verifyRankOptionResponse(int qnNumber, String recipient, FeedbackResponseAttributes response) {
@@ -510,7 +502,7 @@ public class FeedbackSubmitPage extends AppPage {
         }
     }
 
-    public void submitRankRecipientResponse(int qnNumber, List<FeedbackResponseAttributes> responses) {
+    public void fillRankRecipientResponse(int qnNumber, List<FeedbackResponseAttributes> responses) {
         List<WebElement> recipientDropdowns = getRankRecipientDropdowns(qnNumber);
         for (int i = 0; i < responses.size(); i++) {
             FeedbackRankRecipientsResponseDetails response =
@@ -521,7 +513,6 @@ public class FeedbackSubmitPage extends AppPage {
                 selectDropdownOptionByText(recipientDropdowns.get(i), Integer.toString(response.getAnswer()));
             }
         }
-        clickSubmitButton();
     }
 
     public void verifyRankRecipientResponse(int qnNumber, List<FeedbackResponseAttributes> responses) {
@@ -577,7 +568,11 @@ public class FeedbackSubmitPage extends AppPage {
     private WebElement getQuestionForm(int qnNumber) {
         By questionFormId = By.id("question-submission-form");
         waitForElementPresence(questionFormId);
-        return browser.driver.findElements(questionFormId).get(qnNumber - 1);
+        WebElement questionForm = browser.driver.findElements(questionFormId).get(qnNumber - 1);
+        // Scroll to the question to ensure that the details are fully loaded
+        scrollElementToCenter(questionForm);
+        waitUntilAnimationFinish();
+        return questionForm;
     }
 
     private String getQuestionBrief(int qnNumber) {
@@ -665,11 +660,16 @@ public class FeedbackSubmitPage extends AppPage {
         }
     }
 
-    private void clickSubmitButton() {
-        clickAndConfirm(getSubmitButton());
+    public void clickSubmitQuestionButton(int qnNumber) {
+        WebElement submitQnButton = waitForElementPresence(By.id("btn-submit-qn-" + qnNumber));
+        clickAndConfirm(submitQnButton);
     }
 
-    private WebElement getSubmitButton() {
+    public void clickSubmitAllQuestionsButton() {
+        clickAndConfirm(getSubmitAllQuestionsButton());
+    }
+
+    private WebElement getSubmitAllQuestionsButton() {
         return waitForElementPresence(By.id("btn-submit"));
     }
 

@@ -75,6 +75,33 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
         assertEquals(String.format(EmailType.NEW_INSTRUCTOR_ACCOUNT.getSubject(), name),
                 emailSent.getSubject());
         assertEquals(email, emailSent.getRecipient());
+        assertTrue(emailSent.getContent().contains(joinLink));
+
+        ______TS("Account request already exists: instructor unregistered, email sent again");
+
+        a = getAction(req);
+        r = getJsonResult(a);
+        output = (JoinLinkData) r.getOutput();
+        assertEquals(joinLink, output.getJoinLink());
+
+        verifyNumberOfEmailsSent(1);
+        verifyNoTasksAdded(); // Account request not added to search indexing queue
+
+        emailSent = mockEmailSender.getEmailsSent().get(0);
+        assertEquals(String.format(EmailType.NEW_INSTRUCTOR_ACCOUNT.getSubject(), name),
+                emailSent.getSubject());
+        assertEquals(email, emailSent.getRecipient());
+        assertTrue(emailSent.getContent().contains(joinLink));
+
+        ______TS("Account request already exists: instructor registered, InvalidOperationException thrown");
+
+        accountRequestAttributes = typicalBundle.accountRequests.get("instructor1OfCourse1");
+
+        req = buildCreateRequest(accountRequestAttributes.getName(),
+                accountRequestAttributes.getInstitute(), accountRequestAttributes.getEmail());
+
+        InvalidOperationException ioe = verifyInvalidOperation(req);
+        assertEquals("Cannot create account request as instructor has already registered.", ioe.getMessage());
 
         ______TS("Error: invalid parameter");
 

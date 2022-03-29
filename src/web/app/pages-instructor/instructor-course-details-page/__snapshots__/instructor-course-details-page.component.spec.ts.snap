@@ -11,6 +11,7 @@ exports[`InstructorCourseDetailsPageComponent should snap when students are stil
   isLoadingCsv="false"
   isStudentsLoading={[Function Boolean]}
   ngbModal={[Function NgbModal]}
+  progressBarService={[Function ProgressBarService]}
   route={[Function ActivatedRoute]}
   sectionsLoaded="0"
   simpleModalService={[Function SimpleModalService]}
@@ -52,6 +53,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
   isLoadingCsv="false"
   isStudentsLoading="false"
   ngbModal={[Function NgbModal]}
+  progressBarService={[Function ProgressBarService]}
   route={[Function ActivatedRoute]}
   sectionsLoaded="0"
   simpleModalService={[Function SimpleModalService]}
@@ -129,6 +131,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                 <p
                   class="form-control-static"
                 >
+                  0
                 </p>
               </div>
             </div>
@@ -147,6 +150,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                 <p
                   class="form-control-static"
                 >
+                  0
                 </p>
               </div>
             </div>
@@ -165,6 +169,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                 <p
                   class="form-control-static"
                 >
+                  0
                 </p>
               </div>
             </div>
@@ -219,6 +224,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
   isLoadingCsv="false"
   isStudentsLoading="false"
   ngbModal={[Function NgbModal]}
+  progressBarService={[Function ProgressBarService]}
   route={[Function ActivatedRoute]}
   sectionsLoaded="0"
   simpleModalService={[Function SimpleModalService]}
@@ -296,6 +302,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                 <p
                   class="form-control-static"
                 >
+                  1
                 </p>
               </div>
             </div>
@@ -314,6 +321,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                 <p
                   class="form-control-static"
                 >
+                  1
                 </p>
               </div>
             </div>
@@ -332,6 +340,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                 <p
                   class="form-control-static"
                 >
+                  1
                 </p>
               </div>
             </div>
@@ -579,6 +588,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with default fields 1`
   isLoadingCsv="false"
   isStudentsLoading={[Function Boolean]}
   ngbModal={[Function NgbModal]}
+  progressBarService={[Function ProgressBarService]}
   route={[Function ActivatedRoute]}
   sectionsLoaded="0"
   simpleModalService={[Function SimpleModalService]}

@@ -9,11 +9,11 @@ import teammates.common.util.Const;
 import teammates.common.util.EmailSendingStatus;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
-import teammates.logic.core.EmailSenderService;
-import teammates.logic.core.EmptyEmailService;
-import teammates.logic.core.MailgunService;
-import teammates.logic.core.MailjetService;
-import teammates.logic.core.SendgridService;
+import teammates.logic.external.EmailSenderService;
+import teammates.logic.external.EmptyEmailService;
+import teammates.logic.external.MailgunService;
+import teammates.logic.external.MailjetService;
+import teammates.logic.external.SendgridService;
 
 /**
  * Handles operations related to sending emails.

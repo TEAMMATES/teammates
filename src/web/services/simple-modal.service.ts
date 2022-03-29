@@ -1,5 +1,5 @@
 import { Injectable, TemplateRef } from '@angular/core';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalOptions, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { SimpleModalType } from '../app/components/simple-modal/simple-modal-type';
 import { SimpleModalComponent } from '../app/components/simple-modal/simple-modal.component';
 
@@ -31,50 +31,51 @@ export class SimpleModalService {
    * @param header to be displayed on the modal
    * @param type which determines the look of the modal
    * @param content to be displayed in the body of the modal. content supports HTML tags
-   * @param options See {@code SimpleModalOptions}
+   * @param simpleModalOptions See {@code SimpleModalOptions}
+   * @param ngbModalOptions See {@code NgbModalOptions}
    */
-  private open(header: string, type: SimpleModalType,
-       content: string | TemplateRef<any>, options?: SimpleModalOptions): NgbModalRef {
-    const modalRef: NgbModalRef = this.ngbModal.open(SimpleModalComponent);
+  private open(header: string, type: SimpleModalType, content: string | TemplateRef<any>,
+      simpleModalOptions?: SimpleModalOptions, ngbModalOptions?: NgbModalOptions): NgbModalRef {
+    const modalRef: NgbModalRef = this.ngbModal.open(SimpleModalComponent, ngbModalOptions);
     modalRef.componentInstance.header = header;
     modalRef.componentInstance.content = content;
     modalRef.componentInstance.type = type;
-    if (options) {
-      Object.entries(options).forEach(([key, value]: [string, string | boolean]) => {
+    if (simpleModalOptions) {
+      Object.entries(simpleModalOptions).forEach(([key, value]: [string, string | boolean]) => {
         modalRef.componentInstance[key] = value;
       });
     }
     return modalRef;
   }
 
-  openConfirmationModal(header: string, type: SimpleModalType,
-                        content: string | TemplateRef<any>, options?: SimpleModalOptions): NgbModalRef {
+  openConfirmationModal(header: string, type: SimpleModalType, content: string | TemplateRef<any>,
+      simpleModalOptions?: SimpleModalOptions, ngbModalOptions?: NgbModalOptions): NgbModalRef {
     const modalOptions: SimpleModalOptions = {
       isInformationOnly: false,
       confirmMessage: 'Yes',
       cancelMessage: 'No, cancel the operation',
-      ...options,
+      ...simpleModalOptions,
     };
-    return this.open(header, type, content, modalOptions);
+    return this.open(header, type, content, modalOptions, ngbModalOptions);
   }
 
-  openInformationModal(header: string, type: SimpleModalType,
-                       content: string | TemplateRef<any>, options?: SimpleModalOptions): NgbModalRef {
+  openInformationModal(header: string, type: SimpleModalType, content: string | TemplateRef<any>,
+      simpleModalOptions?: SimpleModalOptions, ngbModalOptions?: NgbModalOptions): NgbModalRef {
     const modalOptions: SimpleModalOptions = {
       isInformationOnly: true,
       confirmMessage: 'OK',
-      ...options,
+      ...simpleModalOptions,
     };
-    return this.open(header, type, content, modalOptions);
+    return this.open(header, type, content, modalOptions, ngbModalOptions);
   }
 
-  openLoadingModal(header: string, type: SimpleModalType,
-                       content: string | TemplateRef<any>, options?: SimpleModalOptions): NgbModalRef {
+  openLoadingModal(header: string, type: SimpleModalType, content: string | TemplateRef<any>,
+      simpleModalOptions?: SimpleModalOptions, ngbModalOptions?: NgbModalOptions): NgbModalRef {
     const modalOptions: SimpleModalOptions = {
       isInformationOnly: true,
       confirmMessage: 'Abort',
-      ...options,
+      ...simpleModalOptions,
     };
-    return this.open(header, type, content, modalOptions);
+    return this.open(header, type, content, modalOptions, ngbModalOptions);
   }
 }

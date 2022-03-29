@@ -1,5 +1,7 @@
 package teammates.logic.core;
 
+import java.util.List;
+
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -70,6 +72,53 @@ public class AccountsLogicTest extends BaseLogicTest {
         AccountAttributes[] finalAccount = new AccountAttributes[] { accountToCreate };
         assertThrows(InvalidParametersException.class, () -> accountsLogic.createAccount(finalAccount[0]));
 
+    }
+
+    @Test
+    public void testGetAccountsForEmail() throws Exception {
+        ______TS("typical success case: no accounts with email");
+        List<AccountAttributes> accounts = accountsDb.getAccountsForEmail("test@email.com");
+
+        assertTrue(accounts.isEmpty());
+
+        ______TS("typical success case: one account with email");
+        AccountAttributes firstAccount = AccountAttributes.builder("first.googleId")
+                .withName("name")
+                .withEmail("test@email.com")
+                .withInstitute("dev")
+                .withIsInstructor(true)
+                .build();
+        accountsDb.createEntity(firstAccount);
+
+        accounts = accountsDb.getAccountsForEmail("test@email.com");
+
+        assertEquals(List.of(firstAccount), accounts);
+
+        ______TS("typical success case: multiple accounts with email");
+        AccountAttributes secondAccount = AccountAttributes.builder("second.googleId")
+                .withName("name")
+                .withEmail("test@email.com")
+                .withInstitute("dev")
+                .withIsInstructor(true)
+                .build();
+        accountsDb.createEntity(secondAccount);
+        AccountAttributes thirdAccount = AccountAttributes.builder("third.googleId")
+                .withName("name")
+                .withEmail("test@email.com")
+                .withInstitute("dev")
+                .withIsInstructor(false)
+                .build();
+        accountsDb.createEntity(thirdAccount);
+
+        accounts = accountsDb.getAccountsForEmail("test@email.com");
+
+        assertEquals(3, accounts.size());
+        assertTrue(List.of(firstAccount, secondAccount, thirdAccount).containsAll(accounts));
+
+        // delete created accounts
+        accountsDb.deleteAccount(firstAccount.getGoogleId());
+        accountsDb.deleteAccount(secondAccount.getGoogleId());
+        accountsDb.deleteAccount(thirdAccount.getGoogleId());
     }
 
     @Test

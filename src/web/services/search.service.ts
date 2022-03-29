@@ -290,8 +290,8 @@ export class SearchService {
       name: '',
       email: '',
       institute: '',
-      createdAt: '',
-      registeredAt: '',
+      createdAtText: '',
+      registeredAtText: '',
       registrationLink: '',
       showLinks: false,
     };
@@ -299,10 +299,8 @@ export class SearchService {
     const { registrationKey, createdAt, registeredAt, name, institute, email }: AccountRequest = accountRequest;
 
     const timezone: string = this.timezoneService.guessTimezone() || 'UTC';
-    accountRequestResult.createdAt = this.formatTimestampAsString(createdAt, timezone);
-    accountRequestResult.registeredAt = registeredAt
-        ? this.formatTimestampAsString(registeredAt, timezone)
-        : 'Not Registered Yet';
+    accountRequestResult.createdAtText = this.formatTimestampAsString(createdAt, timezone);
+    accountRequestResult.registeredAtText = registeredAt ? this.formatTimestampAsString(registeredAt, timezone) : null;
 
     const registrationLink: string = this.linkService.generateAccountRegistrationLink(registrationKey);
     accountRequestResult = { ...accountRequestResult, name, email, institute, registrationLink };
@@ -457,8 +455,8 @@ export interface AccountRequestSearchResult {
   name: string;
   email: string;
   institute: string;
-  createdAt: string;
-  registeredAt: string;
+  createdAtText: string;
+  registeredAtText: string | null;
   registrationLink: string;
   showLinks: boolean;
 }
@@ -498,9 +496,9 @@ export interface StudentAccountSearchResult extends InstructorAccountSearchResul
  */
 export interface FeedbackSessionsGroup {
   [name: string]: {
-    startTime: string;
-    endTime: string;
-    feedbackSessionUrl: string;
+    startTime: string,
+    endTime: string,
+    feedbackSessionUrl: string,
   };
 }
 

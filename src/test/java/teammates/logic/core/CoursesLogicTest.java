@@ -1,5 +1,6 @@
 package teammates.logic.core;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +13,6 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -49,7 +49,7 @@ public class CoursesLogicTest extends BaseLogicTest {
 
     @Test
     public void testUpdateCourseCascade_shouldCascadeUpdateTimezoneOfFeedbackSessions() throws Exception {
-        CourseAttributes typicalCourse1 = dataBundle.courses.get("typicalCourse1");
+        var typicalCourse1 = dataBundle.courses.get("typicalCourse1");
         assertNotEquals("UTC", typicalCourse1.getTimeZone());
 
         coursesLogic.updateCourseCascade(
@@ -57,8 +57,18 @@ public class CoursesLogicTest extends BaseLogicTest {
                         .withTimezone("UTC")
                         .build());
 
-        List<FeedbackSessionAttributes> sessionsOfCourse = fsLogic.getFeedbackSessionsForCourse(typicalCourse1.getId());
+        ______TS("success: recover all sessions after course creation");
+        var sessionsOfCourse = fsLogic.getFeedbackSessionsForCourse(typicalCourse1.getId());
         assertFalse(sessionsOfCourse.isEmpty());
+
+        var sessionsWithinRecoveryRange = fsLogic.getFeedbackSessionsForCourseStartingAfter(
+                typicalCourse1.getId(), typicalCourse1.getCreatedAt());
+        assertEquals(sessionsOfCourse.size(), sessionsWithinRecoveryRange.size());
+
+        ______TS("success: recover some sessions some time after course creation");
+        var sessionsOutsideRecoveryRange = fsLogic.getFeedbackSessionsForCourseStartingAfter(
+                typicalCourse1.getId(), typicalCourse1.getCreatedAt().plus(Duration.ofDays(30)));
+        assertEquals(sessionsOfCourse.size() - 1, sessionsOutsideRecoveryRange.size());
         assertTrue(sessionsOfCourse.stream().allMatch(s -> "UTC".equals(s.getTimeZone())));
     }
 
