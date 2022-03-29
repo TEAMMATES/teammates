@@ -816,7 +816,9 @@
       "studentDeadlines": {
         "student4InCourse1@gmail.tmt": "2026-04-28T23:00:00Z"
       },
-      "instructorDeadlines": {}
+      "instructorDeadlines": {
+        "instructor1@course1.tmt": "2027-04-30T23:00:00Z"
+      }
     },
     "gracePeriodSession": {
       "feedbackSessionName": "Grace Period Session",
