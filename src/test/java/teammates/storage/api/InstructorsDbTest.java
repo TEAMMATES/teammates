@@ -211,6 +211,31 @@ public class InstructorsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
     }
 
     @Test
+    public void testGetInstructorEmailsForCourse() {
+
+        ______TS("Success: get instructors of a specific course");
+
+        String courseId = "idOfTypicalCourse1";
+
+        List<String> emails = instructorsDb.getInstructorEmailsForCourse(courseId);
+        List<InstructorAttributes> instructors = instructorsDb.getInstructorsForCourse(courseId);
+        assertEquals(5, emails.size());
+        assertEquals(5, instructors.size());
+        for (var instructor : instructors) {
+            assertTrue(emails.contains(instructor.getEmail()));
+        }
+
+        ______TS("Failure: no instructors for a course");
+
+        emails = instructorsDb.getInstructorEmailsForCourse("non-exist-course");
+        assertEquals(0, emails.size());
+
+        ______TS("Failure: null parameters");
+
+        assertThrows(AssertionError.class, () -> instructorsDb.getInstructorEmailsForCourse(null));
+    }
+
+    @Test
     public void testGetInstructorsForCourse() {
 
         ______TS("Success: get instructors of a specific course");

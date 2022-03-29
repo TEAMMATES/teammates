@@ -27,7 +27,8 @@ export class LogService {
     courseId: string,
     feedbackSessionName: string,
     studentEmail: string,
-    logType: FeedbackSessionLogType }): Observable<string> {
+    logType: FeedbackSessionLogType,
+  }): Observable<string> {
     const paramMap: Record<string, string> = {
       courseid: queryParams.courseId,
       fsname: queryParams.feedbackSessionName,

@@ -3,8 +3,6 @@ package teammates.storage.api;
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.time.Instant;
-import java.util.Comparator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -93,40 +91,6 @@ public final class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, Feedba
     }
 
     /**
-     * Gets a list of feedback sessions within the given time range.
-     */
-    public List<FeedbackSessionAttributes> getFeedbackSessionsWithinTimeRange(Instant rangeStart, Instant rangeEnd) {
-
-        List<FeedbackSession> feedbackSessionList = new LinkedList<>();
-
-        List<FeedbackSession> startEntities = load()
-                .filter("startTime >=", rangeStart)
-                .filter("startTime <", rangeEnd)
-                .list();
-        List<FeedbackSession> endEntities = load()
-                .filter("endTime >=", rangeStart)
-                .filter("endTime <", rangeEnd)
-                .list();
-        List<FeedbackSession> resultsVisibleEntities = load()
-                .filter("resultsVisibleFromTime >", rangeStart)
-                .filter("resultsVisibleFromTime <=", rangeEnd)
-                .list();
-
-        endEntities.removeAll(startEntities);
-        resultsVisibleEntities.removeAll(startEntities);
-        resultsVisibleEntities.removeAll(endEntities);
-
-        feedbackSessionList.addAll(startEntities);
-        feedbackSessionList.addAll(endEntities);
-        feedbackSessionList.addAll(resultsVisibleEntities);
-
-        return makeAttributes(feedbackSessionList).stream()
-                .sorted(Comparator.comparing(FeedbackSessionAttributes::getStartTime))
-                .filter(fs -> !fs.isSessionDeleted())
-                .collect(Collectors.toList());
-    }
-
-    /**
      * Gets a soft-deleted feedback session.
      *
      * @return null if not found or not soft-deleted.
@@ -153,6 +117,15 @@ public final class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, Feedba
         assert courseId != null;
 
         return makeAttributes(getFeedbackSessionEntitiesForCourse(courseId)).stream()
+                .filter(session -> !session.isSessionDeleted())
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Gets a list of all sessions starting from some date for the given course except those are soft-deleted.
+     */
+    public List<FeedbackSessionAttributes> getFeedbackSessionsForCourseStartingAfter(String courseId, Instant after) {
+        return makeAttributes(getFeedbackSessionEntitiesForCourseStartingAfter(courseId, after)).stream()
                 .filter(session -> !session.isSessionDeleted())
                 .collect(Collectors.toList());
     }
@@ -364,6 +337,13 @@ public final class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, Feedba
         return load().filter("courseId =", courseId).list();
     }
 
+    private List<FeedbackSession> getFeedbackSessionEntitiesForCourseStartingAfter(String courseId, Instant after) {
+        return load()
+                .filter("courseId =", courseId)
+                .filter("startTime >=", after)
+                .list();
+    }
+
     private List<FeedbackSession> getFeedbackSessionEntitiesPossiblyNeedingOpeningSoonEmail() {
         return load()
                 .filter("startTime >", TimeHelper.getInstantDaysOffsetFromNow(-2))
@@ -416,6 +396,7 @@ public final class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, Feedba
         return !load()
                 .filterKey(Key.create(FeedbackSession.class,
                         FeedbackSession.generateId(entityToCreate.getFeedbackSessionName(), entityToCreate.getCourseId())))
+                .keys()
                 .list()
                 .isEmpty();
     }

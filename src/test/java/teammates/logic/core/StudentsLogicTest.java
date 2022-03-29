@@ -51,6 +51,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         testGetStudentForRegistrationKey();
         testGetStudentsForGoogleId();
         testGetStudentForCourseIdAndGoogleId();
+        testGetNumberOfStudentsForCourse();
         testGetStudentsForCourse();
         testIsStudentInAnyCourse();
         testIsStudentInTeam();
@@ -411,6 +412,31 @@ public class StudentsLogicTest extends BaseLogicTest {
                 () -> studentsLogic.getStudentForCourseIdAndGoogleId("valid.course", null));
     }
 
+    private void testGetNumberOfStudentsForCourse() {
+
+        ______TS("course with multiple students");
+
+        CourseAttributes course1OfInstructor1 = dataBundle.courses.get("typicalCourse1");
+        int numOfStudents = studentsLogic.getNumberOfStudentsForCourse(course1OfInstructor1.getId());
+        assertEquals(5, numOfStudents);
+
+        ______TS("course with 0 students");
+
+        CourseAttributes course2OfInstructor1 = dataBundle.courses.get("courseNoEvals");
+        numOfStudents = studentsLogic.getNumberOfStudentsForCourse(course2OfInstructor1.getId());
+        assertEquals(0, numOfStudents);
+
+        ______TS("null parameter");
+
+        assertThrows(AssertionError.class, () -> studentsLogic.getNumberOfStudentsForCourse(null));
+
+        ______TS("non-existent course");
+
+        numOfStudents = studentsLogic.getNumberOfStudentsForCourse("non-existent");
+        assertEquals(0, numOfStudents);
+
+    }
+
     private void testGetStudentsForCourse() {
 
         ______TS("course with multiple students");
@@ -438,6 +464,14 @@ public class StudentsLogicTest extends BaseLogicTest {
         studentList = studentsLogic.getStudentsForCourse("non-existent");
         assertEquals(0, studentList.size());
 
+        ______TS("with delete limit");
+
+        var deleteLimit = 2;
+
+        studentList = studentsLogic.getStudentsForCourse(course1OfInstructor1.getId(), deleteLimit);
+
+        // number of students retrieved should be equal to the limit
+        assertEquals(deleteLimit, studentList.size());
     }
 
     private void testIsStudentInAnyCourse() {
@@ -618,31 +652,52 @@ public class StudentsLogicTest extends BaseLogicTest {
 
     @Test
     public void testDeleteStudentsInCourseCascade_typicalCase_shouldDoCascadeDeletion() {
-        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
+        var student1InCourse1 = dataBundle.students.get("student1InCourse1");
+        var student2InCourse1 = dataBundle.students.get("student2InCourse1");
 
-        // there are students in the course
-        assertFalse(studentsLogic.getStudentsForCourse(student1InCourse1.getCourse()).isEmpty());
-        // some have give responses
+        var courseId = student1InCourse1.getCourse();
+
+        // there are 5 students in the course initially
+        assertEquals(5, studentsLogic.getStudentsForCourse(courseId).size());
+
+        // student 1 of course 1 has given/received responses
         assertFalse(
                 frLogic.getFeedbackResponsesFromGiverForCourse(
-                        student1InCourse1.getCourse(), student1InCourse1.getEmail()).isEmpty());
+                        courseId, student1InCourse1.getEmail()).isEmpty());
         assertFalse(
                 frLogic.getFeedbackResponsesForReceiverForCourse(
-                        student1InCourse1.getCourse(), student1InCourse1.getEmail()).isEmpty());
+                        courseId, student1InCourse1.getEmail()).isEmpty());
 
-        studentsLogic.deleteStudentsInCourseCascade(student1InCourse1.getCourse());
+        // student 2 of course 1 has given/received responses
+        assertFalse(
+                frLogic.getFeedbackResponsesFromGiverForCourse(
+                        courseId, student2InCourse1.getEmail()).isEmpty());
+        assertFalse(
+                frLogic.getFeedbackResponsesForReceiverForCourse(
+                        courseId, student2InCourse1.getEmail()).isEmpty());
 
-        // students are deleted
-        assertTrue(studentsLogic.getStudentsForCourse(student1InCourse1.getCourse()).isEmpty());
-        // but course exist
-        assertNotNull(coursesLogic.getCourse(student1InCourse1.getCourse()));
-        // their responses are gone
+        var deleteLimit = 2;
+        studentsLogic.deleteStudentsInCourseCascade(courseId, deleteLimit);
+
+        // 3 students remaining after deletion of 2 students
+        assertEquals(3, studentsLogic.getStudentsForCourse(courseId).size());
+
+        // course still exists
+        assertNotNull(coursesLogic.getCourse(courseId));
+
+        // responses to and from student 1 and 2 are deleted
         assertTrue(
                 frLogic.getFeedbackResponsesFromGiverForCourse(
-                        student1InCourse1.getCourse(), student1InCourse1.getEmail()).isEmpty());
+                        courseId, student1InCourse1.getEmail()).isEmpty());
         assertTrue(
                 frLogic.getFeedbackResponsesForReceiverForCourse(
-                        student1InCourse1.getCourse(), student1InCourse1.getEmail()).isEmpty());
+                        courseId, student1InCourse1.getEmail()).isEmpty());
+        assertTrue(
+                frLogic.getFeedbackResponsesFromGiverForCourse(
+                        courseId, student2InCourse1.getEmail()).isEmpty());
+        assertTrue(
+                frLogic.getFeedbackResponsesForReceiverForCourse(
+                        courseId, student2InCourse1.getEmail()).isEmpty());
     }
 
     @Test
@@ -671,10 +726,12 @@ public class StudentsLogicTest extends BaseLogicTest {
 
     @Test
     public void testDeleteStudentsInCourseCascade_nonExistCourse_shouldPass() {
-        studentsLogic.deleteStudentsInCourseCascade("not_exist");
+        // large limit which is guaranteed to be bigger than the number of students in any course
+        var deleteLimit = dataBundle.students.size();
+        studentsLogic.deleteStudentsInCourseCascade("not_exist", deleteLimit);
 
         // other students are not affected
-        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
+        var student1InCourse1 = dataBundle.students.get("student1InCourse1");
         assertNotNull(studentsLogic.getStudentForEmail(student1InCourse1.getCourse(), student1InCourse1.getEmail()));
     }
 

@@ -344,7 +344,7 @@ public class StudentsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
                         .build());
 
         // should pass, others students remain
-        assertEquals(1, studentsDb.getStudentsForCourse(s.getCourse()).size());
+        assertEquals(1, studentsDb.getNumberOfStudentsForCourse(s.getCourse()));
 
         // delete all students in a course
 
@@ -361,16 +361,16 @@ public class StudentsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
         assertNotNull(studentsDb.getStudentForEmail(anotherStudent.getCourse(), anotherStudent.getEmail()));
 
         // there are students in the course
-        assertFalse(studentsDb.getStudentsForCourse(s.getCourse()).isEmpty());
+        assertNotEquals(0, studentsDb.getNumberOfStudentsForCourse(s.getCourse()));
 
         studentsDb.deleteStudents(
                 AttributesDeletionQuery.builder()
                         .withCourseId(s.getCourse())
                         .build());
 
-        assertEquals(0, studentsDb.getStudentsForCourse(s.getCourse()).size());
+        assertEquals(0, studentsDb.getNumberOfStudentsForCourse(s.getCourse()));
         // other course should remain
-        assertEquals(1, studentsDb.getStudentsForCourse(anotherStudent.getCourse()).size());
+        assertEquals(1, studentsDb.getNumberOfStudentsForCourse(anotherStudent.getCourse()));
 
         // clean up
         studentsDb.deleteStudent(anotherStudent.getCourse(), anotherStudent.getEmail());

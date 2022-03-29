@@ -293,6 +293,22 @@ public class AdminSearchPage extends AppPage {
         return getExpandedRowInputValue(accountRequestRow, EXPANDED_ROWS_HEADER_ACCOUNT_REGISTRATION_LINK);
     }
 
+    public void clickDeleteAccountRequestButton(AccountRequestAttributes accountRequest) {
+        WebElement accountRequestRow = getAccountRequestRow(accountRequest);
+        WebElement deleteButton = accountRequestRow.findElement(By.cssSelector("[id^='delete-account-request-']"));
+        deleteButton.click();
+        waitForConfirmationModalAndClickOk();
+        waitForPageToLoad();
+    }
+
+    public void clickResetAccountRequestButton(AccountRequestAttributes accountRequest) {
+        WebElement accountRequestRow = getAccountRequestRow(accountRequest);
+        WebElement deleteButton = accountRequestRow.findElement(By.cssSelector("[id^='reset-account-request-']"));
+        deleteButton.click();
+        waitForConfirmationModalAndClickOk();
+        waitForPageToLoad();
+    }
+
     public int getNumExpandedRows(WebElement row) {
         String xpath = "following-sibling::tr[1]/td/ul/li";
         return row.findElements(By.xpath(xpath)).size();

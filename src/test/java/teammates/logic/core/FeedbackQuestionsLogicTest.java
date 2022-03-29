@@ -77,80 +77,11 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
     @Test
     public void allTests() throws Exception {
-        testGetRecipientsForQuestion();
+        testHasFeedbackQuestionsForInstructor();
         testGetFeedbackQuestionsForInstructor();
+        testHasFeedbackQuestionsForStudents();
         testGetFeedbackQuestionsForStudents();
-        testIsQuestionAnswered();
         testAddQuestion();
-    }
-
-    private void testGetRecipientsForQuestion() throws Exception {
-        FeedbackQuestionAttributes question;
-        String email;
-        Map<String, String> recipients;
-
-        ______TS("response to students, total 5");
-
-        question = getQuestionFromDatabase("qn2InSession1InCourse1");
-        email = dataBundle.students.get("student1InCourse1").getEmail();
-        recipients = fqLogic.getRecipientsForQuestion(question, email);
-        assertEquals(recipients.size(), 4); // 5 students minus giver himself
-
-        email = dataBundle.instructors.get("instructor1OfCourse1").getEmail();
-        recipients = fqLogic.getRecipientsForQuestion(question, email);
-        assertEquals(recipients.size(), 5); // instructor is not student so he can respond to all 5.
-
-        ______TS("response to instructors, total 3");
-
-        question = getQuestionFromDatabase("qn2InSession1InCourse2");
-        email = dataBundle.instructors.get("instructor1OfCourse2").getEmail();
-        recipients = fqLogic.getRecipientsForQuestion(question, email);
-        assertEquals(recipients.size(), 2); // 3 - giver = 2
-
-        ______TS("empty case: response to team members, but alone");
-
-        question = getQuestionFromDatabase("team.members.feedback");
-        email = dataBundle.students.get("student5InCourse1").getEmail();
-        recipients = fqLogic.getRecipientsForQuestion(question, email);
-        assertEquals(recipients.size(), 0);
-
-        ______TS("response from team to itself");
-
-        question = getQuestionFromDatabase("graceperiod.session.feedbackFromTeamToSelf");
-        email = dataBundle.students.get("student1InCourse1").getEmail();
-        String teamName = dataBundle.students.get("student1InCourse1").getTeam();
-        recipients = fqLogic.getRecipientsForQuestion(question, email);
-        assertEquals(recipients.size(), 1);
-        assertTrue(recipients.containsKey(teamName));
-        assertEquals(recipients.get(teamName), teamName);
-
-        ______TS("special case: response to other team, instructor is also student");
-        question = getQuestionFromDatabase("team.feedback");
-        email = dataBundle.students.get("student1InCourse1").getEmail();
-        accountsLogic.makeAccountInstructor(dataBundle.students.get("student1InCourse1").getGoogleId());
-
-        recipients = fqLogic.getRecipientsForQuestion(question, email);
-
-        assertEquals(recipients.size(), 1);
-
-        ______TS("to nobody (general feedback)");
-        question = getQuestionFromDatabase("qn3InSession1InCourse1");
-        email = dataBundle.students.get("student1InCourse1").getEmail();
-        accountsLogic.makeAccountInstructor(dataBundle.students.get("student1InCourse1").getGoogleId());
-
-        recipients = fqLogic.getRecipientsForQuestion(question, email);
-        assertEquals(recipients.get(Const.GENERAL_QUESTION), Const.GENERAL_QUESTION);
-        assertEquals(recipients.size(), 1);
-
-        ______TS("to self");
-        question = getQuestionFromDatabase("qn1InSession1InCourse1");
-        email = dataBundle.students.get("student1InCourse1").getEmail();
-        accountsLogic.makeAccountInstructor(dataBundle.students.get("student1InCourse1").getGoogleId());
-
-        recipients = fqLogic.getRecipientsForQuestion(question, email);
-        assertEquals(recipients.get(email), FeedbackQuestionsLogic.USER_NAME_FOR_SELF);
-        assertEquals(recipients.size(), 1);
-
     }
 
     @Test
@@ -976,6 +907,20 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         assertTrue(completeGiverRecipientMap.get("Team 1.2").contains("Team 1.1</td></div>'\""));
     }
 
+    private void testHasFeedbackQuestionsForInstructor() {
+        ______TS("Valid session valid instructor should have questions");
+        FeedbackSessionAttributes fsa = fsLogic.getFeedbackSession("First feedback session", "idOfTypicalCourse1");
+        assertTrue(fqLogic.hasFeedbackQuestionsForInstructors(fsa, false));
+
+        ______TS("Valid session without questions for instructor should return false");
+        fsa = fsLogic.getFeedbackSession("session without instructor questions", "idOfArchivedCourse");
+        assertFalse(fqLogic.hasFeedbackQuestionsForInstructors(fsa, false));
+
+        ______TS("Invalid session should not have questions");
+        fsa.setFeedbackSessionName("non-existent session");
+        assertFalse(fqLogic.hasFeedbackQuestionsForInstructors(fsa, false));
+    }
+
     private void testGetFeedbackQuestionsForInstructor() {
         List<FeedbackQuestionAttributes> expectedQuestions;
         List<FeedbackQuestionAttributes> actualQuestions;
@@ -1034,6 +979,20 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         assertEquals(actualQuestions, expectedQuestions);
     }
 
+    private void testHasFeedbackQuestionsForStudents() {
+        ______TS("Valid session should have questions");
+        FeedbackSessionAttributes fsa = fsLogic.getFeedbackSession("First feedback session", "idOfTypicalCourse1");
+        assertTrue(fqLogic.hasFeedbackQuestionsForStudents(fsa));
+
+        ______TS("Valid session without questions for students should return false");
+        fsa = fsLogic.getFeedbackSession("session without student questions", "idOfArchivedCourse");
+        assertFalse(fqLogic.hasFeedbackQuestionsForStudents(fsa));
+
+        ______TS("Invalid session should not have questions");
+        fsa.setFeedbackSessionName("non-existent session");
+        assertFalse(fqLogic.hasFeedbackQuestionsForStudents(fsa));
+    }
+
     private void testGetFeedbackQuestionsForStudents() {
         List<FeedbackQuestionAttributes> expectedQuestions;
         List<FeedbackQuestionAttributes> actualQuestions;
@@ -1087,17 +1046,6 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         actualQuestions = fqLogic.getFeedbackQuestionsForStudents(allQuestions);
 
         assertEquals(actualQuestions, expectedQuestions);
-    }
-
-    private void testIsQuestionAnswered() throws Exception {
-        FeedbackQuestionAttributes question;
-
-        ______TS("test question is fully answered by user");
-
-        question = getQuestionFromDatabase("qn1InSession1InCourse1");
-        assertTrue(fqLogic.isQuestionFullyAnsweredByUser(question, "student1InCourse1@gmail.tmt"));
-
-        assertFalse(fqLogic.isQuestionFullyAnsweredByUser(question, "studentWithNoResponses@gmail.tmt"));
     }
 
     private FeedbackQuestionAttributes getQuestionFromDatabase(String questionKey) {

@@ -2,6 +2,7 @@ package teammates.storage.api;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -144,6 +145,21 @@ public final class InstructorsDb extends EntitiesDb<Instructor, InstructorAttrib
         assert googleId != null;
 
         return makeAttributes(getInstructorEntitiesForGoogleId(googleId, omitArchived));
+    }
+
+    /**
+     * Gets the emails of all instructors of a course.
+     */
+    public List<String> getInstructorEmailsForCourse(String courseId) {
+        assert courseId != null;
+
+        return load()
+                .filter("courseId =", courseId)
+                .project("email")
+                .list()
+                .stream()
+                .map(Instructor::getEmail)
+                .collect(Collectors.toList());
     }
 
     /**
@@ -413,6 +429,16 @@ public final class InstructorsDb extends EntitiesDb<Instructor, InstructorAttrib
         log.severe("Failed to generate new registration key for instructor after "
                 + MAX_KEY_REGENERATION_TRIES + " tries");
         throw new EntityAlreadyExistsException("Unable to create new instructor");
+    }
+
+    /**
+     * Gets the number of instructors created within a specified time range.
+     */
+    public int getNumInstructorsByTimeRange(Instant startTime, Instant endTime) {
+        return load()
+                .filter("createdAt >=", startTime)
+                .filter("createdAt <", endTime)
+                .count();
     }
 
 }

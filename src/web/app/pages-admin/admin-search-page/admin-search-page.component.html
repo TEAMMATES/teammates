@@ -217,6 +217,7 @@
           <th>Institute</th>
           <th>Created At</th>
           <th>Registered At</th>
+          <th>Options</th>
         </tr>
       </thead>
       <tbody>
@@ -236,8 +237,16 @@
             </td>
             <td>{{ accountRequest.email }}</td>
             <td>{{ accountRequest.institute }}</td>
-            <td>{{ accountRequest.createdAt }}</td>
-            <td>{{ accountRequest.registeredAt }}</td>
+            <td>{{ accountRequest.createdAtText }}</td>
+            <td>{{ accountRequest.registeredAtText || 'Not Registered Yet' }}</td>
+            <td>
+              <a id="reset-account-request-{{i}}" href="javascript:;" (click)="$event.stopPropagation(); resetAccountRequest(accountRequest);" *ngIf="accountRequest.registeredAtText">
+                <i class="fas fa-sync"></i> Reset Account Request
+              </a>
+              <div class="ngb-tooltip-class" [ngbTooltip]="accountRequest.registeredAtText && 'Account requests of registered instructors cannot be deleted'">
+                <button id="delete-account-request-{{i}}" class="btn btn-danger" [disabled]="accountRequest.registeredAtText" (click)="$event.stopPropagation(); deleteAccountRequest(accountRequest);">Delete</button>
+              </div>
+            </td>
           </tr>
           <tr *ngIf="accountRequest.showLinks">
             <td colspan="6">

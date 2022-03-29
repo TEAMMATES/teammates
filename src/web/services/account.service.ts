@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ResourceEndpoints } from '../types/api-const';
-import { Account, JoinLink, MessageOutput } from '../types/api-output';
+import { Account, Accounts, JoinLink, MessageOutput } from '../types/api-output';
 import { AccountCreateRequest } from '../types/api-request';
 import { HttpRequestService } from './http-request.service';
 
@@ -54,6 +54,28 @@ export class AccountService {
   }
 
   /**
+   * Deletes an account request by calling API.
+   */
+  deleteAccountRequest(email: string, institute: string): Observable<MessageOutput> {
+    const paramMap: Record<string, string> = {
+      instructoremail: email,
+      instructorinstitution: institute,
+    };
+    return this.httpRequestService.delete(ResourceEndpoints.ACCOUNT_REQUEST, paramMap);
+  }
+
+  /**
+   * Resets an account request by calling API.
+   */
+  resetAccountRequest(email: string, institute: string): Observable<JoinLink> {
+    const paramMap: Record<string, string> = {
+      instructoremail: email,
+      instructorinstitution: institute,
+    };
+    return this.httpRequestService.put(ResourceEndpoints.ACCOUNT_REQUEST_RESET, paramMap);
+  }
+
+  /**
    * Resets a student account by calling API.
    */
   resetStudentAccount(courseId: string, studentEmail: string): Observable<MessageOutput> {
@@ -83,6 +105,16 @@ export class AccountService {
       instructorid: googleId,
     };
     return this.httpRequestService.get(ResourceEndpoints.ACCOUNT, paramMap);
+  }
+
+  /**
+   * Gets accounts by calling API.
+   */
+  getAccounts(email: string): Observable<Accounts> {
+    const paramMap: Record<string, string> = {
+      useremail: email,
+    };
+    return this.httpRequestService.get(ResourceEndpoints.ACCOUNTS, paramMap);
   }
 
 }

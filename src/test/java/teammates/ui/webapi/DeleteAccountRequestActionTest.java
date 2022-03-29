@@ -24,17 +24,29 @@ public class DeleteAccountRequestActionTest extends BaseActionTest<DeleteAccount
     @Override
     @Test
     protected void testExecute() {
-        AccountRequestAttributes accountRequest = typicalBundle.accountRequests.get("unregisteredInstructor1");
+        AccountRequestAttributes registeredAccountRequest = typicalBundle.accountRequests.get("instructor1OfCourse1");
+        AccountRequestAttributes unregisteredAccountRequest = typicalBundle.accountRequests.get("unregisteredInstructor1");
 
         ______TS("Not enough parameters");
 
         verifyHttpParameterFailure();
 
-        ______TS("Typical case, delete an existing account request");
+        ______TS("Deleting an account request of a registered instructor should fail");
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.INSTRUCTOR_EMAIL, accountRequest.getEmail(),
-                Const.ParamsNames.INSTRUCTOR_INSTITUTION, accountRequest.getInstitute(),
+                Const.ParamsNames.INSTRUCTOR_EMAIL, registeredAccountRequest.getEmail(),
+                Const.ParamsNames.INSTRUCTOR_INSTITUTION, registeredAccountRequest.getInstitute(),
+        };
+
+        InvalidOperationException ex = verifyInvalidOperation(submissionParams);
+        assertEquals("Account request of a registered instructor cannot be deleted.", ex.getMessage());
+        assertNotNull(logic.getAccountRequest(registeredAccountRequest.getEmail(), registeredAccountRequest.getInstitute()));
+
+        ______TS("Typical case, delete an existing account request");
+
+        submissionParams = new String[] {
+                Const.ParamsNames.INSTRUCTOR_EMAIL, unregisteredAccountRequest.getEmail(),
+                Const.ParamsNames.INSTRUCTOR_INSTITUTION, unregisteredAccountRequest.getInstitute(),
         };
 
         DeleteAccountRequestAction action = getAction(submissionParams);
@@ -42,9 +54,9 @@ public class DeleteAccountRequestActionTest extends BaseActionTest<DeleteAccount
 
         MessageOutput msg = (MessageOutput) result.getOutput();
 
-        assertEquals(msg.getMessage(), "Account request successfully deleted.");
-
-        assertNull(logic.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute()));
+        assertEquals("Account request successfully deleted.", msg.getMessage());
+        assertNull(logic.getAccountRequest(unregisteredAccountRequest.getEmail(),
+                unregisteredAccountRequest.getInstitute()));
 
         ______TS("Typical case, delete non-existing account request");
 
@@ -53,7 +65,7 @@ public class DeleteAccountRequestActionTest extends BaseActionTest<DeleteAccount
         msg = (MessageOutput) result.getOutput();
 
         // should fail silently.
-        assertEquals(msg.getMessage(), "Account request successfully deleted.");
+        assertEquals("Account request successfully deleted.", msg.getMessage());
 
     }
 

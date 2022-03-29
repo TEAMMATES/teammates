@@ -2,6 +2,7 @@ package teammates.storage.api;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -161,6 +162,16 @@ public final class AccountRequestsDb extends EntitiesDb<AccountRequest, AccountR
         assert entity != null;
 
         return AccountRequestAttributes.valueOf(entity);
+    }
+
+    /**
+     * Gets the number of account requests created within a specified time range.
+     */
+    public int getNumAccountRequestsByTimeRange(Instant startTime, Instant endTime) {
+        return load()
+                .filter("createdAt >=", startTime)
+                .filter("createdAt <", endTime)
+                .count();
     }
 
 }
