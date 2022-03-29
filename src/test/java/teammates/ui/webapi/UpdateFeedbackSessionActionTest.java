@@ -123,6 +123,9 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         assertEquals(expectedStudentDeadlines, response.getStudentDeadlines());
         Map<String, Long> expectedInstructorDeadlines = convertDeadlinesToLong(session.getInstructorDeadlines());
         assertEquals(expectedInstructorDeadlines, response.getInstructorDeadlines());
+
+        // The typical feedback session update request does not change any selective deadlines.
+        verifyNoTasksAdded();
     }
 
     @Test
@@ -145,6 +148,8 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
                 Const.ParamsNames.NOTIFY_ABOUT_DEADLINES, String.valueOf(false),
         };
 
+        verifyNoTasksAdded();
+
         ______TS("create new deadline extension for student");
 
         assertNull(expectedStudentDeadlines.get(studentAEmailAddress));
@@ -160,6 +165,8 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
 
         expectedStudentDeadlines.put(studentAEmailAddress, endTimePlus1Day);
         assertEquals(expectedStudentDeadlines, response.getStudentDeadlines());
+
+        verifySpecifiedTasksAdded(Const.TaskQueue.DEADLINE_EXTENSIONS_QUEUE_NAME, 1);
 
         ______TS("update deadline extension for student");
 
@@ -177,6 +184,8 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         expectedStudentDeadlines.put(studentAEmailAddress, endTimePlus2Days);
         assertEquals(expectedStudentDeadlines, response.getStudentDeadlines());
 
+        verifySpecifiedTasksAdded(Const.TaskQueue.DEADLINE_EXTENSIONS_QUEUE_NAME, 1);
+
         ______TS("delete deadline extension for student");
 
         assertNotNull(expectedStudentDeadlines.get(studentAEmailAddress));
@@ -191,6 +200,8 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         // The deadline for course 1 student 1 was deleted; the map no longer contains a deadline for them.
         expectedStudentDeadlines.remove(studentAEmailAddress);
         assertEquals(expectedStudentDeadlines, response.getStudentDeadlines());
+
+        verifySpecifiedTasksAdded(Const.TaskQueue.DEADLINE_EXTENSIONS_QUEUE_NAME, 1);
 
         ______TS("C_UD on extensions for different students within the same request");
 
@@ -220,6 +231,8 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         expectedStudentDeadlines.remove(studentCEmailAddress);
         assertEquals(expectedStudentDeadlines, response.getStudentDeadlines());
 
+        verifySpecifiedTasksAdded(Const.TaskQueue.DEADLINE_EXTENSIONS_QUEUE_NAME, 1);
+
         ______TS("change deadline extension for non-existent student; should throw EntityNotFoundException");
 
         updateRequest = getTypicalFeedbackSessionUpdateRequest();
@@ -228,6 +241,8 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         updateRequest.setStudentDeadlines(newStudentDeadlines);
 
         verifyEntityNotFound(updateRequest, param);
+
+        verifyNoTasksAdded();
 
         ______TS("change deadline extension for student to the same time as the end time; "
                 + "should throw InvalidHttpRequestBodyException");
@@ -240,6 +255,8 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
 
         verifyHttpRequestBodyFailure(updateRequest, param);
 
+        verifyNoTasksAdded();
+
         ______TS("change deadline extension for student to before end time; "
                 + "should throw InvalidHttpRequestBodyException");
 
@@ -250,6 +267,8 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         updateRequest.setStudentDeadlines(newStudentDeadlines);
 
         verifyHttpRequestBodyFailure(updateRequest, param);
+
+        verifyNoTasksAdded();
 
         logoutUser();
     }
@@ -274,6 +293,8 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
                 Const.ParamsNames.NOTIFY_ABOUT_DEADLINES, String.valueOf(false),
         };
 
+        verifyNoTasksAdded();
+
         ______TS("create new deadline extension for instructor");
 
         assertNull(expectedInstructorDeadlines.get(instructorAEmailAddress));
@@ -289,6 +310,8 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
 
         expectedInstructorDeadlines.put(instructorAEmailAddress, endTimePlus1Day);
         assertEquals(expectedInstructorDeadlines, response.getInstructorDeadlines());
+
+        verifySpecifiedTasksAdded(Const.TaskQueue.DEADLINE_EXTENSIONS_QUEUE_NAME, 1);
 
         ______TS("update deadline extension for instructor");
 
@@ -306,6 +329,8 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         expectedInstructorDeadlines.put(instructorAEmailAddress, endTimePlus2Days);
         assertEquals(expectedInstructorDeadlines, response.getInstructorDeadlines());
 
+        verifySpecifiedTasksAdded(Const.TaskQueue.DEADLINE_EXTENSIONS_QUEUE_NAME, 1);
+
         ______TS("delete deadline extension for instructor");
 
         assertNotNull(expectedInstructorDeadlines.get(instructorAEmailAddress));
@@ -320,6 +345,8 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         // The deadline for course 1 helper instructor was deleted; the map no longer contains a deadline for them.
         expectedInstructorDeadlines.remove(instructorAEmailAddress);
         assertEquals(expectedInstructorDeadlines, response.getInstructorDeadlines());
+
+        verifySpecifiedTasksAdded(Const.TaskQueue.DEADLINE_EXTENSIONS_QUEUE_NAME, 1);
 
         ______TS("C_UD on extensions for different instructors within the same request");
 
@@ -349,6 +376,8 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         expectedInstructorDeadlines.remove(instructorCEmailAddress);
         assertEquals(expectedInstructorDeadlines, response.getInstructorDeadlines());
 
+        verifySpecifiedTasksAdded(Const.TaskQueue.DEADLINE_EXTENSIONS_QUEUE_NAME, 1);
+
         ______TS("change deadline extension for non-existent instructor; "
                 + "should throw EntityNotFoundException");
 
@@ -358,6 +387,8 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         updateRequest.setInstructorDeadlines(newInstructorDeadlines);
 
         verifyEntityNotFound(updateRequest, param);
+
+        verifyNoTasksAdded();
 
         ______TS("change deadline extension for instructor to the same time as the end time; "
                 + "should throw InvalidHttpRequestBodyException");
@@ -370,6 +401,8 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
 
         verifyHttpRequestBodyFailure(updateRequest, param);
 
+        verifyNoTasksAdded();
+
         ______TS("change deadline extension for instructor to before end time; "
                 + "should throw InvalidHttpRequestBodyException");
 
@@ -380,6 +413,8 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         updateRequest.setInstructorDeadlines(newInstructorDeadlines);
 
         verifyHttpRequestBodyFailure(updateRequest, param);
+
+        verifyNoTasksAdded();
 
         logoutUser();
     }
