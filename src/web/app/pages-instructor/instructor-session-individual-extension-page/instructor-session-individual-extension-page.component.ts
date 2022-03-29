@@ -106,9 +106,10 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
   ) {}
 
   /**
-   * Loads a feedback session.
+   * Loads a feedback session and individuals
    */
   loadFeedbackSessionAndIndividuals(): void {
+    this.resetTables();
     this.isLoadingAllStudents = true;
     this.hasLoadedAllStudentsFailed = false;
     this.isLoadingFeedbackSession = true;
@@ -463,6 +464,11 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     this.sortStudentsBy = by;
     this.sortStudentOrder = this.sortStudentOrder === SortOrder.DESC ? SortOrder.ASC : SortOrder.DESC;
     this.studentsOfCourse.sort(this.sortStudentPanelsBy(by));
+  }
+
+  private resetTables(): void {
+    this.isAllInstructorsSelected = false;
+    this.isAllStudentsSelected = false;
   }
 
   private sortStudentPanelsBy(
