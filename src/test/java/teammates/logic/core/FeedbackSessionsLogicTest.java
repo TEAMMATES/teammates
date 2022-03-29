@@ -4,7 +4,11 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -698,6 +702,182 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         // updated session not published, status set to false
         assertFalse(fsLogic.getFeedbackSession(
                 typicalSession.getFeedbackSessionName(), typicalSession.getCourseId()).isSentPublishedEmail());
+    }
+
+    @Test
+    public void testUpdateFeedbackSessionsInstructorDeadlinesWithNewEmail() {
+        InstructorAttributes instructorToBeUpdated = dataBundle.instructors.get("instructor1OfCourse1");
+        String courseId = instructorToBeUpdated.getCourseId();
+        String oldEmailAddress = instructorToBeUpdated.getEmail();
+        String newEmailAddress = "new@email.tmt";
+
+        Map<Instant, Integer> oldDeadlineCounts = fsLogic.getFeedbackSessionsForCourse(courseId)
+                .stream()
+                .map(FeedbackSessionAttributes::getInstructorDeadlines)
+                .filter(instructorDeadlines -> instructorDeadlines.containsKey(oldEmailAddress))
+                .map(instructorDeadlines -> instructorDeadlines.get(oldEmailAddress))
+                .reduce(new HashMap<>(), (counts, deadline) -> {
+                    int count = counts.getOrDefault(deadline, 0);
+                    counts.put(deadline, count + 1);
+                    return counts;
+                }, (curr, next) -> {
+                    curr.putAll(next);
+                    return curr;
+                });
+        assertEquals(2, oldDeadlineCounts.values()
+                .stream()
+                .reduce(0, Integer::sum)
+                .intValue());
+
+        fsLogic.updateFeedbackSessionsInstructorDeadlinesWithNewEmail(courseId, oldEmailAddress, newEmailAddress);
+
+        assertTrue(fsLogic.getFeedbackSessionsForCourse(courseId)
+                .stream()
+                .noneMatch(feedbackSessionAttributes -> feedbackSessionAttributes.getInstructorDeadlines()
+                        .containsKey(oldEmailAddress)));
+        Map<Instant, Integer> newDeadlineCounts = fsLogic.getFeedbackSessionsForCourse(courseId)
+                .stream()
+                .map(FeedbackSessionAttributes::getInstructorDeadlines)
+                .filter(instructorDeadlines -> instructorDeadlines.containsKey(newEmailAddress))
+                .map(instructorDeadlines -> instructorDeadlines.get(newEmailAddress))
+                .reduce(new HashMap<>(), (counts, deadline) -> {
+                    int count = counts.getOrDefault(deadline, 0);
+                    counts.put(deadline, count + 1);
+                    return counts;
+                }, (curr, next) -> {
+                    curr.putAll(next);
+                    return curr;
+                });
+        assertEquals(oldDeadlineCounts, newDeadlineCounts);
+    }
+
+    @Test
+    public void testUpdateFeedbackSessionsStudentDeadlinesWithNewEmail() {
+        StudentAttributes student4InCourse1 = dataBundle.students.get("student4InCourse1");
+        String courseId = student4InCourse1.getCourse();
+        String oldEmailAddress = student4InCourse1.getEmail();
+        String newEmailAddress = "new@email.tmt";
+
+        Map<Instant, Integer> oldDeadlineCounts = fsLogic.getFeedbackSessionsForCourse(courseId)
+                .stream()
+                .map(FeedbackSessionAttributes::getStudentDeadlines)
+                .filter(studentDeadlines -> studentDeadlines.containsKey(oldEmailAddress))
+                .map(studentDeadlines -> studentDeadlines.get(oldEmailAddress))
+                .reduce(new HashMap<>(), (counts, deadline) -> {
+                    int count = counts.getOrDefault(deadline, 0);
+                    counts.put(deadline, count + 1);
+                    return counts;
+                }, (curr, next) -> {
+                    curr.putAll(next);
+                    return curr;
+                });
+        assertEquals(2, oldDeadlineCounts.values()
+                .stream()
+                .reduce(0, Integer::sum)
+                .intValue());
+
+        fsLogic.updateFeedbackSessionsStudentDeadlinesWithNewEmail(courseId, oldEmailAddress, newEmailAddress);
+
+        assertTrue(fsLogic.getFeedbackSessionsForCourse(courseId)
+                .stream()
+                .noneMatch(feedbackSessionAttributes -> feedbackSessionAttributes.getStudentDeadlines()
+                        .containsKey(oldEmailAddress)));
+        Map<Instant, Integer> newDeadlineCounts = fsLogic.getFeedbackSessionsForCourse(courseId)
+                .stream()
+                .map(FeedbackSessionAttributes::getStudentDeadlines)
+                .filter(studentDeadlines -> studentDeadlines.containsKey(newEmailAddress))
+                .map(studentDeadlines -> studentDeadlines.get(newEmailAddress))
+                .reduce(new HashMap<>(), (counts, deadline) -> {
+                    int count = counts.getOrDefault(deadline, 0);
+                    counts.put(deadline, count + 1);
+                    return counts;
+                }, (curr, next) -> {
+                    curr.putAll(next);
+                    return curr;
+                });
+        assertEquals(oldDeadlineCounts, newDeadlineCounts);
+    }
+
+    @Test
+    public void testDeleteFeedbackSessionsDeadlinesForInstructor() {
+        InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        verifyPresentInDatabase(instructor1OfCourse1);
+
+        String courseId = instructor1OfCourse1.getCourseId();
+        String emailAddress = instructor1OfCourse1.getEmail();
+
+        // The instructor should have selective deadlines.
+        Set<FeedbackSessionAttributes> oldSessionsWithInstructor1Deadlines = fsLogic
+                .getFeedbackSessionsForCourse(courseId)
+                .stream()
+                .filter(feedbackSessionAttributes -> feedbackSessionAttributes.getInstructorDeadlines()
+                        .containsKey(emailAddress))
+                .collect(Collectors.toSet());
+        assertEquals(2, oldSessionsWithInstructor1Deadlines.size());
+        Map<FeedbackSessionAttributes, Integer> oldSessionsDeadlineCounts = oldSessionsWithInstructor1Deadlines
+                .stream()
+                .collect(Collectors.toMap(fsa -> fsa, fsa -> fsa.getInstructorDeadlines().size()));
+
+        fsLogic.deleteFeedbackSessionsDeadlinesForInstructor(courseId, emailAddress);
+
+        // The instructor should have no more selective deadlines.
+        Set<FeedbackSessionAttributes> newSessionsWithInstructor1Deadlines = fsLogic
+                .getFeedbackSessionsForCourse(courseId)
+                .stream()
+                .filter(feedbackSessionAttributes -> feedbackSessionAttributes.getInstructorDeadlines()
+                        .containsKey(emailAddress))
+                .collect(Collectors.toSet());
+        assertTrue(newSessionsWithInstructor1Deadlines.isEmpty());
+        Map<FeedbackSessionAttributes, Integer> expectedSessionsDeadlineCounts = oldSessionsDeadlineCounts.entrySet()
+                .stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue() - 1));
+        Map<FeedbackSessionAttributes, Integer> newSessionsDeadlineCounts = fsLogic
+                .getFeedbackSessionsForCourse(courseId)
+                .stream()
+                .filter(oldSessionsWithInstructor1Deadlines::contains)
+                .collect(Collectors.toMap(fsa -> fsa, fsa -> fsa.getInstructorDeadlines().size()));
+        assertEquals(expectedSessionsDeadlineCounts, newSessionsDeadlineCounts);
+    }
+
+    @Test
+    public void testDeleteFeedbackSessionsDeadlinesForStudent() {
+        StudentAttributes student4InCourse1 = dataBundle.students.get("student4InCourse1");
+        verifyPresentInDatabase(student4InCourse1);
+
+        String courseId = student4InCourse1.getCourse();
+        String emailAddress = student4InCourse1.getEmail();
+
+        // The student should have selective deadlines.
+        Set<FeedbackSessionAttributes> oldSessionsWithStudent4Deadlines = fsLogic
+                .getFeedbackSessionsForCourse(courseId)
+                .stream()
+                .filter(feedbackSessionAttributes -> feedbackSessionAttributes.getStudentDeadlines()
+                        .containsKey(emailAddress))
+                .collect(Collectors.toSet());
+        assertEquals(2, oldSessionsWithStudent4Deadlines.size());
+        Map<FeedbackSessionAttributes, Integer> oldSessionsDeadlineCounts = oldSessionsWithStudent4Deadlines
+                .stream()
+                .collect(Collectors.toMap(fsa -> fsa, fsa -> fsa.getStudentDeadlines().size()));
+
+        fsLogic.deleteFeedbackSessionsDeadlinesForStudent(courseId, emailAddress);
+
+        // The student should have no more selective deadlines.
+        Set<FeedbackSessionAttributes> newSessionsWithStudent4Deadlines = fsLogic
+                .getFeedbackSessionsForCourse(courseId)
+                .stream()
+                .filter(feedbackSessionAttributes -> feedbackSessionAttributes.getStudentDeadlines()
+                        .containsKey(emailAddress))
+                .collect(Collectors.toSet());
+        assertTrue(newSessionsWithStudent4Deadlines.isEmpty());
+        Map<FeedbackSessionAttributes, Integer> expectedSessionsDeadlineCounts = oldSessionsDeadlineCounts.entrySet()
+                .stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue() - 1));
+        Map<FeedbackSessionAttributes, Integer> newSessionsDeadlineCounts = fsLogic
+                .getFeedbackSessionsForCourse(courseId)
+                .stream()
+                .filter(oldSessionsWithStudent4Deadlines::contains)
+                .collect(Collectors.toMap(fsa -> fsa, fsa -> fsa.getStudentDeadlines().size()));
+        assertEquals(expectedSessionsDeadlineCounts, newSessionsDeadlineCounts);
     }
 
     private void testPublishUnpublishFeedbackSession() throws Exception {
