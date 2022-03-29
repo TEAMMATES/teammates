@@ -39,6 +39,7 @@ public final class StudentsLogic {
     private final StudentsDb studentsDb = StudentsDb.inst();
 
     private FeedbackResponsesLogic frLogic;
+    private FeedbackSessionsLogic fsLogic;
     private DeadlineExtensionsLogic deLogic;
 
     private StudentsLogic() {
@@ -51,6 +52,7 @@ public final class StudentsLogic {
 
     void initLogicDependencies() {
         frLogic = FeedbackResponsesLogic.inst();
+        fsLogic = FeedbackSessionsLogic.inst();
         deLogic = DeadlineExtensionsLogic.inst();
     }
 
@@ -225,6 +227,8 @@ public final class StudentsLogic {
         if (!originalStudent.getEmail().equals(updatedStudent.getEmail())) {
             frLogic.updateFeedbackResponsesForChangingEmail(
                     updatedStudent.getCourse(), originalStudent.getEmail(), updatedStudent.getEmail());
+            fsLogic.updateFeedbackSessionsStudentDeadlinesWithNewEmail(originalStudent.getCourse(),
+                    originalStudent.getEmail(), updatedStudent.getEmail());
             deLogic.updateDeadlineExtensionsWithNewEmail(
                     originalStudent.getCourse(), originalStudent.getEmail(), updatedStudent.getEmail(), false);
         }
@@ -425,6 +429,7 @@ public final class StudentsLogic {
             frLogic.deleteFeedbackResponsesInvolvedEntityOfCourseCascade(student.getCourse(), student.getTeam());
         }
         studentsDb.deleteStudent(courseId, studentEmail);
+        fsLogic.deleteFeedbackSessionsDeadlinesForStudent(courseId, studentEmail);
         deLogic.deleteDeadlineExtensions(courseId, studentEmail, false);
     }
 
