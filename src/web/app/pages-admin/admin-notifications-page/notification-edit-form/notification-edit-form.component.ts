@@ -3,7 +3,7 @@ import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
 import { TimezoneService } from '../../../../services/timezone.service';
 import { ApiConst } from '../../../../types/api-const';
-import { NotificationTargetUser, NotificationType } from '../../../../types/api-request';
+import { NotificationTargetUser, NotificationStyle } from '../../../../types/api-request';
 import { DatePickerFormatter } from '../../../components/datepicker/datepicker-formatter';
 import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
 import { collapseAnim } from '../../../components/teammates-common/collapse-anim';
@@ -19,7 +19,7 @@ import { NotificationEditFormMode, NotificationEditFormModel } from './notificat
 export class NotificationEditFormComponent implements OnInit {
 
   NotificationEditFormMode = NotificationEditFormMode;
-  NotificationType = NotificationType;
+  NotificationStyle = NotificationStyle;
   NotificationTargetUser = NotificationTargetUser;
 
   NOTIFICATION_TITLE_MAX_LENGTH = ApiConst.NOTIFICATION_TITLE_MAX_LENGTH;
@@ -36,7 +36,7 @@ export class NotificationEditFormComponent implements OnInit {
     endTime: { hour: 0, minute: 0 },
     endDate: { year: 0, month: 0, day: 0 },
 
-    type: NotificationType.MAINTENANCE,
+    style: NotificationStyle.SUCCESS,
     targetUser: NotificationTargetUser.GENERAL,
 
     title: '',

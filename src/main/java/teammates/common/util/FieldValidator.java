@@ -13,8 +13,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
-import teammates.common.datatransfer.NotificationType;
 
 /**
  * Used to handle the data validation aspect e.g. validate emails, names, etc.
@@ -58,12 +58,12 @@ public final class FieldValidator {
     public static final String NOTIFICATION_NAME = "notification";
     public static final String NOTIFICATION_VISIBLE_TIME_FIELD_NAME = "time when the notification will be visible";
     public static final String NOTIFICATION_EXPIRY_TIME_FIELD_NAME = "time when the notification will expire";
-    public static final String NOTIFICATION_TYPE_FIELD_NAME = "notification type";
-    public static final List<String> NOTIFICATION_TYPE_ACCEPTED_VALUES =
+    public static final String NOTIFICATION_STYLE_FIELD_NAME = "notification style";
+    public static final List<String> NOTIFICATION_STYLE_ACCEPTED_VALUES =
             Collections.unmodifiableList(
                     Arrays.stream(
-                            NotificationType.values())
-                            .map(NotificationType::toString)
+                            NotificationStyle.values())
+                            .map(NotificationStyle::toString)
                             .collect(Collectors.toList())
             );
     public static final String NOTIFICATION_TARGET_USER_FIELD_NAME = "notification target user";
@@ -218,8 +218,8 @@ public final class FieldValidator {
     public static final String ROLE_ERROR_MESSAGE =
             "\"%s\" is not an accepted " + ROLE_FIELD_NAME + " to TEAMMATES. ";
 
-    public static final String NOTIFICATION_TYPE_ERROR_MESSAGE =
-            "\"%s\" is not an accepted " + NOTIFICATION_TYPE_FIELD_NAME + " to TEAMMATES. ";
+    public static final String NOTIFICATION_STYLE_ERROR_MESSAGE =
+            "\"%s\" is not an accepted " + NOTIFICATION_STYLE_FIELD_NAME + " to TEAMMATES. ";
 
     public static final String NOTIFICATION_TARGET_USER_ERROR_MESSAGE =
             "\"%s\" is not an accepted " + NOTIFICATION_TARGET_USER_FIELD_NAME + " to TEAMMATES. ";
@@ -596,17 +596,17 @@ public final class FieldValidator {
     }
 
     /**
-     * Checks if {@code type} is one of the recognized notification type {@link #NOTIFICATION_TYPE_ACCEPTED_VALUES}.
+     * Checks if {@code style} is one of the recognized notification style {@link #NOTIFICATION_STYLE_ACCEPTED_VALUES}.
      *
-     * @return An explanation of why the {@code type} is not acceptable.
-     *         Returns an empty string if the {@code type} is acceptable.
+     * @return An explanation of why the {@code style} is not acceptable.
+     *         Returns an empty string if the {@code style} is acceptable.
      */
-    public static String getInvalidityInfoForNotificationType(String type) {
-        assert type != null;
+    public static String getInvalidityInfoForNotificationStyle(String style) {
+        assert style != null;
         try {
-            NotificationType.valueOf(type);
+            NotificationStyle.valueOf(style);
         } catch (IllegalArgumentException e) {
-            return String.format(NOTIFICATION_TYPE_ERROR_MESSAGE, type);
+            return String.format(NOTIFICATION_STYLE_ERROR_MESSAGE, style);
         }
         return "";
     }
