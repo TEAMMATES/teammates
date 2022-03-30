@@ -190,7 +190,7 @@ public class NotificationsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
         assertEquals(differentNotification.getMessage(),
                 notificationsDb.getNotification(n.getNotificationId()).getMessage());
 
-        ______TS("success: single field - type");
+        ______TS("success: single field - style");
         assertEquals(original.getStyle(), notificationsDb.getNotification(n.getNotificationId()).getStyle());
         assertEquals(differentNotification.getStyle(), notificationsDb.updateNotification(
                 NotificationAttributes.updateOptionsBuilder(n.getNotificationId())
