@@ -1793,6 +1793,16 @@
       "sentClosingEmail": false,
       "createdAt": "2027-04-30T15:00:00Z",
       "updatedAt": "2027-04-30T15:00:00Z"
+    },
+    "instructor1InCourse1Session2": {
+      "courseId": "idOfTypicalCourse1",
+      "feedbackSessionName": "Second feedback session",
+      "userEmail": "instructor1@course1.tmt",
+      "isInstructor": true,
+      "endTime": "2027-04-30T23:00:00Z",
+      "sentClosingEmail": false,
+      "createdAt": "2027-04-30T15:00:00Z",
+      "updatedAt": "2027-04-30T15:00:00Z"
     }
   },
   "profiles": {
