@@ -32,7 +32,7 @@ export class NotificationService {
   /**
    * Updates a notification by calling API.
    */
-   updateNotification(request: NotificationUpdateRequest, notificationId: string): Observable<Notification> {
+  updateNotification(request: NotificationUpdateRequest, notificationId: string): Observable<Notification> {
     const paramsMap: { [key: string]: string } = {
       notificationid: notificationId,
     };

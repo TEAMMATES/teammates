@@ -195,7 +195,7 @@ export class AdminNotificationsPageComponent implements OnInit {
         day: endTime.date(),
       },
 
-      type: notification.notificationType,
+      style: notification.style,
       targetUser: notification.targetUser,
 
       title: notification.title,
@@ -239,6 +239,49 @@ export class AdminNotificationsPageComponent implements OnInit {
         this.notificationsTableRowModels.unshift({
           isHighlighted: true,
           notification,
+        });
+
+        this.isNotificationEditFormExpanded = false;
+        this.initNotificationEditFormModel();
+      },
+      (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
+    );
+  }
+
+  /**
+   * Updates an existing notification.
+   */
+  editExistingNotificationHandler(): void {
+    this.notificationEditFormModel.isSaving = true;
+
+    // Timezone is not specified here so it will be guessed from browser's request.
+    const startTime = this.timezoneService.resolveLocalDateTime(
+      this.notificationEditFormModel.startDate, this.notificationEditFormModel.startTime,
+    );
+    const endTime = this.timezoneService.resolveLocalDateTime(
+      this.notificationEditFormModel.endDate, this.notificationEditFormModel.endTime,
+    );
+
+    this.notificationService.updateNotification({
+      title: this.notificationEditFormModel.title,
+      message: this.notificationEditFormModel.message,
+      style: this.notificationEditFormModel.style,
+      targetUser: this.notificationEditFormModel.targetUser,
+      startTimestamp: startTime,
+      endTimestamp: endTime,
+    }, this.notificationEditFormModel.notificationId)
+    .pipe(finalize(() => { this.notificationEditFormModel.isSaving = false; }))
+    .subscribe(
+      (notification: Notification) => {
+        this.statusMessageService.showSuccessToast('Notification updated successfully.');
+
+        this.notificationsTableRowModels.forEach((rowModel: NotificationsTableRowModel) => {
+          if (rowModel.notification.notificationId === notification.notificationId) {
+            rowModel.isHighlighted = true;
+            rowModel.notification = notification;
+          }
         });
 
         this.isNotificationEditFormExpanded = false;
