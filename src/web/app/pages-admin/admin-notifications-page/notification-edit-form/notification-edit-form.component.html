@@ -13,7 +13,7 @@
               <span class="ngb-tooltip-class" ngbTooltip="The indended recipients of this notification.">Target user group</span>
             </div>
             <div class="col-md-auto text-md-left">
-              <select id="targer-user" class="form-control" [ngModel]="model.targetUser" (ngModelChange)="triggerModelChange('targetUser', $event)">
+              <select id="target-user" class="form-control" [ngModel]="model.targetUser" (ngModelChange)="triggerModelChange('targetUser', $event)">
                 <option [ngValue]="NotificationTargetUser.STUDENT">Students</option>
                 <option [ngValue]="NotificationTargetUser.INSTRUCTOR">Instructors</option>
                 <option [ngValue]="NotificationTargetUser.GENERAL">General (for both students and instructors)</option>
