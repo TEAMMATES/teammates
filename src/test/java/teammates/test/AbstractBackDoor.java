@@ -800,7 +800,7 @@ public abstract class AbstractBackDoor {
         return NotificationAttributes.builder(notificationData.getNotificationId())
                 .withStartTime(Instant.ofEpochMilli(notificationData.getStartTimestamp()))
                 .withEndTime(Instant.ofEpochMilli(notificationData.getEndTimestamp()))
-                .withType(notificationData.getNotificationType())
+                .withStyle(notificationData.getStyle())
                 .withTargetUser(notificationData.getTargetUser())
                 .withTitle(notificationData.getTitle())
                 .withMessage(notificationData.getMessage())

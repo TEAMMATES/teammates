@@ -1,7 +1,7 @@
 package teammates.ui.webapi;
 
+import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
-import teammates.common.datatransfer.NotificationType;
 import teammates.common.datatransfer.attributes.NotificationAttributes;
 import teammates.common.util.Const;
 import teammates.ui.output.NotificationData;
@@ -29,7 +29,7 @@ public class CreateNotificationActionTest extends BaseActionTest<CreateNotificat
     protected void testExecute() throws Exception {
         long startTime = testNotificationAttribute.getStartTime().toEpochMilli();
         long endTime = testNotificationAttribute.getEndTime().toEpochMilli();
-        NotificationType type = testNotificationAttribute.getType();
+        NotificationStyle style = testNotificationAttribute.getStyle();
         NotificationTargetUser targetUser = testNotificationAttribute.getTargetUser();
         String title = testNotificationAttribute.getTitle();
         String message = testNotificationAttribute.getMessage();
@@ -46,7 +46,7 @@ public class CreateNotificationActionTest extends BaseActionTest<CreateNotificat
         // check that notification returned has same properties as notification created
         assertEquals(createdNotification.getStartTime().toEpochMilli(), res.getStartTimestamp());
         assertEquals(createdNotification.getEndTime().toEpochMilli(), res.getEndTimestamp());
-        assertEquals(createdNotification.getType(), res.getNotificationType());
+        assertEquals(createdNotification.getStyle(), res.getStyle());
         assertEquals(createdNotification.getTargetUser(), res.getTargetUser());
         assertEquals(createdNotification.getTitle(), res.getTitle());
         assertEquals(createdNotification.getTitle(), res.getMessage());
@@ -54,16 +54,16 @@ public class CreateNotificationActionTest extends BaseActionTest<CreateNotificat
         // check DB correctly processed request
         assertEquals(startTime, createdNotification.getStartTime().toEpochMilli());
         assertEquals(endTime, createdNotification.getEndTime().toEpochMilli());
-        assertEquals(type, createdNotification.getType());
+        assertEquals(style, createdNotification.getStyle());
         assertEquals(targetUser, createdNotification.getTargetUser());
         assertEquals(title, createdNotification.getTitle());
         assertEquals(message, createdNotification.getTitle());
 
         ______TS("Parameters cannot be null");
         req = getTypicalCreateRequest();
-        req.setNotificationType(null);
+        req.setStyle(null);
         InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(req);
-        assertEquals("Notification type cannot be null", ex.getMessage());
+        assertEquals("Notification style cannot be null", ex.getMessage());
 
         req = getTypicalCreateRequest();
         req.setTargetUser(null);
@@ -107,7 +107,7 @@ public class CreateNotificationActionTest extends BaseActionTest<CreateNotificat
 
         req.setStartTimestamp(testNotificationAttribute.getStartTime().toEpochMilli());
         req.setEndTimestamp(testNotificationAttribute.getEndTime().toEpochMilli());
-        req.setNotificationType(testNotificationAttribute.getType());
+        req.setStyle(testNotificationAttribute.getStyle());
         req.setTargetUser(testNotificationAttribute.getTargetUser());
         req.setTitle(testNotificationAttribute.getTitle());
         req.setMessage(testNotificationAttribute.getMessage());
