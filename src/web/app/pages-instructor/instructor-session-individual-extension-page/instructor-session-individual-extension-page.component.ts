@@ -253,6 +253,9 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     this.instructorsOfCourse.sort(this.sortInstructorPanelsBy(SortBy.SESSION_END_DATE));
   }
 
+  /**
+   * Handles the the date and time selection modal to create/update deadlines.
+   */
   onExtend(): void {
     const modalRef: NgbModalRef = this.ngbModal.open(IndividualExtensionDateModalComponent);
     modalRef.componentInstance.numStudents = this.getNumberOfSelectedStudents();
@@ -265,6 +268,9 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     });
   }
 
+  /**
+   * Handles the opening the confirmation modal to create/update deadlines.
+   */
   private onConfirmExtension(extensionTimestamp: number): void {
     const modalRef: NgbModalRef = this.ngbModal.open(IndividualExtensionConfirmModalComponent);
     const selectedStudents = this.getSelectedStudents();
@@ -277,10 +283,14 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
 
     modalRef.componentInstance.onConfirmExtensionCallBack.subscribe((isNotifyDeadlines: boolean) => {
       this.handleCreateDeadlines(selectedStudents, selectedInstructors, extensionTimestamp, isNotifyDeadlines);
+      modalRef.componentInstance.isSubmitting = false;
       modalRef.close();
     });
   }
 
+  /**
+   * Handles the opening the confirmation modal to delete deadlines.
+   */
   onDelete(): void {
     const modalRef: NgbModalRef = this.ngbModal.open(IndividualExtensionConfirmModalComponent);
     const selectedStudents = this.getSelectedStudentsWithExtensions();
@@ -293,6 +303,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
 
     modalRef.componentInstance.onConfirmExtensionCallBack.subscribe((isNotifyDeadlines: boolean) => {
       this.handleDeleteDeadlines(selectedStudents, selectedInstructors, isNotifyDeadlines);
+      modalRef.componentInstance.isSubmitting = false;
       modalRef.close();
     });
   }

@@ -42,13 +42,11 @@ export class IndividualExtensionConfirmModalComponent {
   sortInstructorsBy: SortBy = SortBy.SESSION_END_DATE;
   sortInstructorOrder: SortOrder = SortOrder.DESC;
 
+  isSubmitting: boolean = false;
   isNotifyDeadlines: boolean = false;
 
-  onExtend(): void {
-    this.onConfirmExtensionCallBack.emit(this.isNotifyDeadlines);
-  }
-
-  onDelete(): void {
+  onConfirm(): void {
+    this.isSubmitting = true;
     this.onConfirmExtensionCallBack.emit(this.isNotifyDeadlines);
   }
 

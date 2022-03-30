@@ -77,7 +77,7 @@ export class IndividualExtensionDateModalComponent {
             + ` The current time now is ${currentTimeString} and you are extending to`
             + ` ${extensionTimeString}. Do you wish to proceed?`,
         )
-        .result.then(() => this.onConfirmCallBack.emit(this.getExtensionTimestamp()));
+        .result.then(() => this.onConfirmCallBack.emit(this.getExtensionTimestamp()), () => {});
     } else {
       this.onConfirmCallBack.emit(this.getExtensionTimestamp());
     }
