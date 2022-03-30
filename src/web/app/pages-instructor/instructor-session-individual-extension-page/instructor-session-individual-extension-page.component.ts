@@ -149,9 +149,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     this.studentService
       .getStudentsFromCourse({ courseId: this.courseId })
       .pipe(finalize(() => { this.isLoadingAllStudents = false; }),
-        map((students: Students) => {
-          return students.students.map((student) => this.mapStudentToStudentModel(student));
-        }),
+        map(({ students }: Students) => students.map((student) => this.mapStudentToStudentModel(student))),
       )
       .subscribe(
         (studentModels: StudentExtensionTableColumnModel[]) => {
@@ -217,9 +215,10 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
       .loadInstructors({ courseId: this.courseId, intent: Intent.FULL_DETAIL })
       .pipe(
         finalize(() => { this.isLoadingAllInstructors = false; }),
-        map((instructors: Instructors) => {
-           return instructors.instructors.map((instructor) => this.mapInstructorToInstructorModel(instructor));
-        }),
+        map(({ instructors }: Instructors) => instructors.map((instructor) => {
+            return this.mapInstructorToInstructorModel(instructor);
+          }),
+        ),
       )
       .subscribe((instructorModels: InstructorExtensionTableColumnModel[]) => {
         this.instructorsOfCourse = instructorModels;
