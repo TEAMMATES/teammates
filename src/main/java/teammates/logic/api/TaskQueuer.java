@@ -1,6 +1,5 @@
 package teammates.logic.api;
 
-import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,7 +13,6 @@ import teammates.common.util.TaskWrapper;
 import teammates.logic.core.GoogleCloudTasksService;
 import teammates.logic.core.LocalTaskQueueService;
 import teammates.logic.core.TaskQueueService;
-import teammates.ui.request.DeadlineExtensionsRequest;
 import teammates.ui.request.FeedbackSessionRemindRequest;
 import teammates.ui.request.SendEmailRequest;
 
@@ -244,21 +242,6 @@ public class TaskQueuer {
 
         addTask(TaskQueue.SEARCH_INDEXING_QUEUE_NAME, TaskQueue.STUDENT_SEARCH_INDEXING_WORKER_URL,
                 paramMap, null);
-    }
-
-    /**
-     * Schedules to create, update, and delete (C_UD) deadline extension entities, and possibly notify users of them.
-     */
-    public void scheduleChangesToDeadlineExtensions(String courseId, String feedbackSessionName,
-            boolean notifyAboutDeadlines, Map<String, Instant> oldStudentDeadlines,
-            Map<String, Instant> newStudentDeadlines, Map<String, Instant> oldInstructorDeadlines,
-            Map<String, Instant> newInstructorDeadlines) {
-        DeadlineExtensionsRequest deadlineExtensionsRequest = new DeadlineExtensionsRequest(courseId,
-                feedbackSessionName, notifyAboutDeadlines, oldStudentDeadlines, newStudentDeadlines,
-                oldInstructorDeadlines, newInstructorDeadlines);
-
-        addTask(TaskQueue.DEADLINE_EXTENSIONS_QUEUE_NAME, TaskQueue.DEADLINE_EXTENSIONS_WORKER_URL, new HashMap<>(),
-                deadlineExtensionsRequest);
     }
 
     private void scheduleEmailForSending(EmailWrapper email, long emailDelayTimer) {

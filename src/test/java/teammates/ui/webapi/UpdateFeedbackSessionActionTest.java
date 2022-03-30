@@ -2,6 +2,7 @@ package teammates.ui.webapi;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -11,11 +12,16 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.EmailType;
+import teammates.common.util.EmailWrapper;
+import teammates.common.util.TaskWrapper;
+import teammates.common.util.TimeHelper;
 import teammates.ui.output.FeedbackSessionData;
 import teammates.ui.output.ResponseVisibleSetting;
 import teammates.ui.output.SessionVisibleSetting;
 import teammates.ui.request.FeedbackSessionUpdateRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
+import teammates.ui.request.SendEmailRequest;
 
 /**
  * SUT: {@link UpdateFeedbackSessionAction}.
@@ -133,7 +139,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         InstructorAttributes instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         FeedbackSessionAttributes session = typicalBundle.feedbackSessions.get("session1InCourse1");
 
-        String studentAEmailAddress = "student1InCourse1@gmail.tmt";
+        final String studentAEmailAddress = "student1InCourse1@gmail.tmt";
         Map<String, Long> expectedStudentDeadlines = convertDeadlinesToLong(session.getStudentDeadlines());
         Instant endTime = session.getEndTime();
         // These are arbitrary.
@@ -165,8 +171,10 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
 
         expectedStudentDeadlines.put(studentAEmailAddress, endTimePlus1Day);
         assertEquals(expectedStudentDeadlines, response.getStudentDeadlines());
+        assertEquals(endTimePlus1Day, logic.getDeadlineExtension(session.getCourseId(),
+                session.getFeedbackSessionName(), studentAEmailAddress, false).getEndTime().toEpochMilli());
 
-        verifySpecifiedTasksAdded(Const.TaskQueue.DEADLINE_EXTENSIONS_QUEUE_NAME, 1);
+        verifyNoTasksAdded();
 
         ______TS("update deadline extension for student");
 
@@ -183,8 +191,10 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
 
         expectedStudentDeadlines.put(studentAEmailAddress, endTimePlus2Days);
         assertEquals(expectedStudentDeadlines, response.getStudentDeadlines());
+        assertEquals(endTimePlus2Days, logic.getDeadlineExtension(session.getCourseId(),
+                session.getFeedbackSessionName(), studentAEmailAddress, false).getEndTime().toEpochMilli());
 
-        verifySpecifiedTasksAdded(Const.TaskQueue.DEADLINE_EXTENSIONS_QUEUE_NAME, 1);
+        verifyNoTasksAdded();
 
         ______TS("delete deadline extension for student");
 
@@ -200,18 +210,25 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         // The deadline for course 1 student 1 was deleted; the map no longer contains a deadline for them.
         expectedStudentDeadlines.remove(studentAEmailAddress);
         assertEquals(expectedStudentDeadlines, response.getStudentDeadlines());
+        assertNull(logic.getDeadlineExtension(session.getCourseId(),
+                session.getFeedbackSessionName(), studentAEmailAddress, false));
 
-        verifySpecifiedTasksAdded(Const.TaskQueue.DEADLINE_EXTENSIONS_QUEUE_NAME, 1);
+        verifyNoTasksAdded();
 
         ______TS("C_UD on extensions for different students within the same request");
 
-        String studentBEmailAddress = "student3InCourse1@gmail.tmt";
-        String studentCEmailAddress = "student4InCourse1@gmail.tmt";
+        final String studentBEmailAddress = "student3InCourse1@gmail.tmt";
+        final String studentCEmailAddress = "student4InCourse1@gmail.tmt";
 
         assertNull(expectedStudentDeadlines.get(studentAEmailAddress));
         assertNotEquals(endTimePlus2Days, expectedStudentDeadlines.get(studentBEmailAddress));
         assertNotNull(expectedStudentDeadlines.get(studentCEmailAddress));
 
+        param = new String[] {
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
+                Const.ParamsNames.NOTIFY_ABOUT_DEADLINES, String.valueOf(true),
+        };
         updateRequest = getTypicalFeedbackSessionUpdateRequest();
         newStudentDeadlines = convertDeadlinesToLong(updateRequest.getStudentDeadlines());
         newStudentDeadlines.put(studentAEmailAddress, endTimePlus1Day);
@@ -230,8 +247,62 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         // Delete deadline.
         expectedStudentDeadlines.remove(studentCEmailAddress);
         assertEquals(expectedStudentDeadlines, response.getStudentDeadlines());
+        assertEquals(endTimePlus1Day, logic.getDeadlineExtension(session.getCourseId(),
+                session.getFeedbackSessionName(), studentAEmailAddress, false).getEndTime().toEpochMilli());
+        assertEquals(endTimePlus2Days, logic.getDeadlineExtension(session.getCourseId(),
+                session.getFeedbackSessionName(), studentBEmailAddress, false).getEndTime().toEpochMilli());
+        assertNull(logic.getDeadlineExtension(session.getCourseId(),
+                session.getFeedbackSessionName(), studentCEmailAddress, false));
 
-        verifySpecifiedTasksAdded(Const.TaskQueue.DEADLINE_EXTENSIONS_QUEUE_NAME, 1);
+        // Verify correct emails sent
+        verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 3);
+        List<TaskWrapper> tasksAdded = mockTaskQueuer.getTasksAdded();
+
+        CourseAttributes course = logic.getCourse(session.getCourseId());
+        for (var task : tasksAdded) {
+            SendEmailRequest requestBody = (SendEmailRequest) task.getRequestBody();
+            EmailWrapper email = requestBody.getEmail();
+            String userEmail = email.getRecipient();
+            String expectedSubject = "";
+            String oldDeadline = "";
+            String newDeadline = "";
+
+            switch(userEmail) {
+            case studentAEmailAddress:
+                expectedSubject = String.format(EmailType.DEADLINE_EXTENSION_GIVEN.getSubject(),
+                        course.getName(), session.getFeedbackSessionName());
+                oldDeadline = getFormattedInstantForDeadlineExtensionEmail(
+                        updateRequest.getSubmissionEndTime(), session.getTimeZone());
+                newDeadline = getFormattedInstantForDeadlineExtensionEmail(
+                        Instant.ofEpochMilli(endTimePlus1Day), session.getTimeZone());
+                break;
+            case studentBEmailAddress:
+                expectedSubject = String.format(EmailType.DEADLINE_EXTENSION_UPDATED.getSubject(),
+                        course.getName(), session.getFeedbackSessionName());
+                oldDeadline = getFormattedInstantForDeadlineExtensionEmail(
+                        session.getStudentDeadlines().get(studentBEmailAddress), session.getTimeZone());
+                newDeadline = getFormattedInstantForDeadlineExtensionEmail(
+                        Instant.ofEpochMilli(endTimePlus2Days), session.getTimeZone());
+                break;
+            case studentCEmailAddress:
+                expectedSubject = String.format(EmailType.DEADLINE_EXTENSION_REVOKED.getSubject(),
+                        course.getName(), session.getFeedbackSessionName());
+                oldDeadline = getFormattedInstantForDeadlineExtensionEmail(
+                        session.getStudentDeadlines().get(studentCEmailAddress), session.getTimeZone());
+                newDeadline = getFormattedInstantForDeadlineExtensionEmail(
+                        updateRequest.getSubmissionEndTime(), session.getTimeZone());
+                break;
+            default:
+                fail("Email sent to wrong user: " + userEmail);
+                break;
+            }
+
+            // content[0] contains old deadline, content[1] contains new deadline
+            String[] content = email.getContent().split("New Deadline:");
+            assertEquals(expectedSubject, email.getSubject());
+            assertTrue(content[0].contains(oldDeadline));
+            assertTrue(content[1].contains(newDeadline));
+        }
 
         ______TS("change deadline extension for non-existent student; should throw EntityNotFoundException");
 
@@ -278,7 +349,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         InstructorAttributes instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         FeedbackSessionAttributes session = typicalBundle.feedbackSessions.get("session1InCourse1");
 
-        String instructorAEmailAddress = "helper@course1.tmt";
+        final String instructorAEmailAddress = "helper@course1.tmt";
         Map<String, Long> expectedInstructorDeadlines = convertDeadlinesToLong(session.getInstructorDeadlines());
         Instant endTime = session.getEndTime();
         // These are arbitrary.
@@ -310,8 +381,10 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
 
         expectedInstructorDeadlines.put(instructorAEmailAddress, endTimePlus1Day);
         assertEquals(expectedInstructorDeadlines, response.getInstructorDeadlines());
+        assertEquals(endTimePlus1Day, logic.getDeadlineExtension(session.getCourseId(),
+                session.getFeedbackSessionName(), instructorAEmailAddress, true).getEndTime().toEpochMilli());
 
-        verifySpecifiedTasksAdded(Const.TaskQueue.DEADLINE_EXTENSIONS_QUEUE_NAME, 1);
+        verifyNoTasksAdded();
 
         ______TS("update deadline extension for instructor");
 
@@ -328,8 +401,10 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
 
         expectedInstructorDeadlines.put(instructorAEmailAddress, endTimePlus2Days);
         assertEquals(expectedInstructorDeadlines, response.getInstructorDeadlines());
+        assertEquals(endTimePlus2Days, logic.getDeadlineExtension(session.getCourseId(),
+                session.getFeedbackSessionName(), instructorAEmailAddress, true).getEndTime().toEpochMilli());
 
-        verifySpecifiedTasksAdded(Const.TaskQueue.DEADLINE_EXTENSIONS_QUEUE_NAME, 1);
+        verifyNoTasksAdded();
 
         ______TS("delete deadline extension for instructor");
 
@@ -345,13 +420,20 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         // The deadline for course 1 helper instructor was deleted; the map no longer contains a deadline for them.
         expectedInstructorDeadlines.remove(instructorAEmailAddress);
         assertEquals(expectedInstructorDeadlines, response.getInstructorDeadlines());
+        assertNull(logic.getDeadlineExtension(
+                session.getCourseId(), session.getFeedbackSessionName(), instructorAEmailAddress, true));
 
-        verifySpecifiedTasksAdded(Const.TaskQueue.DEADLINE_EXTENSIONS_QUEUE_NAME, 1);
+        verifyNoTasksAdded();
 
         ______TS("C_UD on extensions for different instructors within the same request");
 
-        String instructorBEmailAddress = "instructor1@course1.tmt";
-        String instructorCEmailAddress = "instructor2@course1.tmt";
+        final String instructorBEmailAddress = "instructor1@course1.tmt";
+        final String instructorCEmailAddress = "instructor2@course1.tmt";
+        param = new String[] {
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
+                Const.ParamsNames.NOTIFY_ABOUT_DEADLINES, String.valueOf(true),
+        };
 
         assertNull(expectedInstructorDeadlines.get(instructorAEmailAddress));
         assertNotEquals(endTimePlus2Days, expectedInstructorDeadlines.get(instructorBEmailAddress));
@@ -375,8 +457,62 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         // Delete deadline.
         expectedInstructorDeadlines.remove(instructorCEmailAddress);
         assertEquals(expectedInstructorDeadlines, response.getInstructorDeadlines());
+        assertEquals(endTimePlus1Day, logic.getDeadlineExtension(session.getCourseId(),
+                session.getFeedbackSessionName(), instructorAEmailAddress, true).getEndTime().toEpochMilli());
+        assertEquals(endTimePlus2Days, logic.getDeadlineExtension(session.getCourseId(),
+                session.getFeedbackSessionName(), instructorBEmailAddress, true).getEndTime().toEpochMilli());
+        assertNull(logic.getDeadlineExtension(
+                session.getCourseId(), session.getFeedbackSessionName(), instructorCEmailAddress, true));
 
-        verifySpecifiedTasksAdded(Const.TaskQueue.DEADLINE_EXTENSIONS_QUEUE_NAME, 1);
+        // Verify correct emails sent
+        verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 3);
+        List<TaskWrapper> tasksAdded = mockTaskQueuer.getTasksAdded();
+
+        CourseAttributes course = logic.getCourse(session.getCourseId());
+        for (var task : tasksAdded) {
+            SendEmailRequest requestBody = (SendEmailRequest) task.getRequestBody();
+            EmailWrapper email = requestBody.getEmail();
+            String userEmail = email.getRecipient();
+            String expectedSubject = "";
+            String oldDeadline = "";
+            String newDeadline = "";
+
+            switch(userEmail) {
+            case instructorAEmailAddress:
+                expectedSubject = String.format(EmailType.DEADLINE_EXTENSION_GIVEN.getSubject(),
+                        course.getName(), session.getFeedbackSessionName());
+                oldDeadline = getFormattedInstantForDeadlineExtensionEmail(
+                        updateRequest.getSubmissionEndTime(), session.getTimeZone());
+                newDeadline = getFormattedInstantForDeadlineExtensionEmail(
+                        Instant.ofEpochMilli(endTimePlus1Day), session.getTimeZone());
+                break;
+            case instructorBEmailAddress:
+                expectedSubject = String.format(EmailType.DEADLINE_EXTENSION_UPDATED.getSubject(),
+                        course.getName(), session.getFeedbackSessionName());
+                oldDeadline = getFormattedInstantForDeadlineExtensionEmail(
+                        session.getInstructorDeadlines().get(instructorBEmailAddress), session.getTimeZone());
+                newDeadline = getFormattedInstantForDeadlineExtensionEmail(
+                        Instant.ofEpochMilli(endTimePlus2Days), session.getTimeZone());
+                break;
+            case instructorCEmailAddress:
+                expectedSubject = String.format(EmailType.DEADLINE_EXTENSION_REVOKED.getSubject(),
+                        course.getName(), session.getFeedbackSessionName());
+                oldDeadline = getFormattedInstantForDeadlineExtensionEmail(
+                        session.getInstructorDeadlines().get(instructorCEmailAddress), session.getTimeZone());
+                newDeadline = getFormattedInstantForDeadlineExtensionEmail(
+                        updateRequest.getSubmissionEndTime(), session.getTimeZone());
+                break;
+            default:
+                fail("Email sent to wrong user: " + userEmail);
+                break;
+            }
+
+            // content[0] contains old deadline, content[1] contains new deadline
+            String[] content = email.getContent().split("New Deadline:");
+            assertEquals(expectedSubject, email.getSubject());
+            assertTrue(content[0].contains(oldDeadline));
+            assertTrue(content[1].contains(newDeadline));
+        }
 
         ______TS("change deadline extension for non-existent instructor; "
                 + "should throw EntityNotFoundException");
@@ -564,6 +700,12 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         return deadlines.entrySet()
                 .stream()
                 .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().toEpochMilli()));
+    }
+
+    private String getFormattedInstantForDeadlineExtensionEmail(Instant instant, String timezone) {
+        String datetimeDisplayFormat = "EEE, dd MMM yyyy, hh:mm a z";
+        Instant midnightAdjustedInstant = TimeHelper.getMidnightAdjustedInstantBasedOnZone(instant, timezone, false);
+        return TimeHelper.formatInstant(midnightAdjustedInstant, timezone, datetimeDisplayFormat);
     }
 
     @Override
