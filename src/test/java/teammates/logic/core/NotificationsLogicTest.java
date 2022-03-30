@@ -5,8 +5,8 @@ import java.time.Instant;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
-import teammates.common.datatransfer.NotificationType;
 import teammates.common.datatransfer.attributes.NotificationAttributes;
 import teammates.storage.api.NotificationsDb;
 
@@ -82,7 +82,7 @@ public class NotificationsLogicTest extends BaseLogicTest {
                 .builder("some-notif-id")
                 .withStartTime(Instant.now())
                 .withEndTime(Instant.now().plusSeconds(100))
-                .withType(NotificationType.MAINTENANCE)
+                .withStyle(NotificationStyle.WARNING)
                 .withTargetUser(NotificationTargetUser.INSTRUCTOR)
                 .withTitle("Maintenance Notice")
                 .withMessage("Maintenance at 3pm today")

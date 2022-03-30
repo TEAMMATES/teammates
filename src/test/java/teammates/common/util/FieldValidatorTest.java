@@ -675,15 +675,15 @@ public class FieldValidatorTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetInvalidityInfoForNotificationType_valid_returnEmptyString() {
-        assertEquals("", FieldValidator.getInvalidityInfoForNotificationType("DEPRECATION"));
+    public void testGetInvalidityInfoForNotificationStyle_valid_returnEmptyString() {
+        assertEquals("", FieldValidator.getInvalidityInfoForNotificationStyle("SUCCESS"));
     }
 
     @Test
-    public void testGetInvalidityInfoForNotificationType_inValid_returnErrorString() {
-        String invalidNotificationType = "invalid type";
-        assertEquals("\"" + invalidNotificationType + "\" is not an accepted notification type to TEAMMATES. ",
-                FieldValidator.getInvalidityInfoForNotificationType(invalidNotificationType));
+    public void testGetInvalidityInfoForNotificationStyle_inValid_returnErrorString() {
+        String invalidStyle = "invalid style";
+        assertEquals("\"" + invalidStyle + "\" is not an accepted notification style to TEAMMATES. ",
+                FieldValidator.getInvalidityInfoForNotificationStyle(invalidStyle));
     }
 
     @Test

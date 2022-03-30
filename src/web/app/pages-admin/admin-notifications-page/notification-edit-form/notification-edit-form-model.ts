@@ -1,4 +1,4 @@
-import { NotificationTargetUser, NotificationType } from '../../../../types/api-request';
+import { NotificationTargetUser, NotificationStyle } from '../../../../types/api-request';
 import { DateFormat } from '../../../components/datepicker/datepicker.component';
 import { TimeFormat } from '../../../components/timepicker/timepicker.component';
 
@@ -30,7 +30,7 @@ export interface NotificationEditFormModel {
   endTime: TimeFormat;
   endDate: DateFormat;
 
-  type: NotificationType;
+  style: NotificationStyle;
   targetUser: NotificationTargetUser;
 
   title: string;

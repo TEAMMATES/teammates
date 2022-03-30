@@ -33,14 +33,11 @@
 
           <div class="row text-center">
             <div class="col-md-2 text-md-right font-weight-bold">
-              <span class="ngb-tooltip-class" ngbTooltip="Different types correspond to different background colours at display.">Notification type</span>
+              <span class="ngb-tooltip-class" ngbTooltip="Different styles correspond to different background colours at display.">Notification style</span>
             </div>
             <div class="col-md-auto text-md-left">
-              <select id="notification-type" class="form-control" [ngModel]="model.type" (ngModelChange)="triggerModelChange('type', $event)">
-                <option class="text-warning" [ngValue]="NotificationType.MAINTENANCE">Maintenance</option>
-                <option class="text-primary" [ngValue]="NotificationType.VERSION_NOTE">Version note</option>
-                <option class="text-secondary" [ngValue]="NotificationType.DEPRECATION">Depreciation</option>
-                <option class="text-success" [ngValue]="NotificationType.TIPS">Tips</option>
+              <select id="notification-style" class="form-control" [ngModel]="model.style" (ngModelChange)="triggerModelChange('style', $event)">
+                <option *ngFor="let style of NotificationStyle | keyvalue" [ngClass]="style.key | notificationStyleClass" [ngValue]="style.value">{{ style.key | notificationStyleDescription }}</option>
               </select>
             </div>
           </div>

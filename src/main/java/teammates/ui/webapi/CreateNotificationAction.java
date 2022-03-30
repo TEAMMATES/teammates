@@ -29,7 +29,7 @@ public class CreateNotificationAction extends AdminOnlyAction {
         NotificationAttributes newNotification = NotificationAttributes.builder(UUID.randomUUID().toString())
                 .withStartTime(startTime)
                 .withEndTime(endTime)
-                .withType(notificationRequest.getNotificationType())
+                .withStyle(notificationRequest.getStyle())
                 .withTargetUser(notificationRequest.getTargetUser())
                 .withTitle(notificationRequest.getTitle())
                 .withMessage(notificationRequest.getMessage())

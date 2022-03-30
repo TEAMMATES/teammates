@@ -1,7 +1,7 @@
 package teammates.ui.output;
 
+import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
-import teammates.common.datatransfer.NotificationType;
 import teammates.common.datatransfer.attributes.NotificationAttributes;
 
 /**
@@ -14,7 +14,7 @@ public class NotificationData extends ApiOutput {
     private long endTimestamp;
     private long createdAt;
     private long updatedAt;
-    private NotificationType notificationType;
+    private NotificationStyle style;
     private NotificationTargetUser targetUser;
     private String title;
     private String message;
@@ -26,7 +26,7 @@ public class NotificationData extends ApiOutput {
         this.endTimestamp = notificationAttributes.getEndTime().toEpochMilli();
         this.createdAt = notificationAttributes.getCreatedAt().toEpochMilli();
         this.updatedAt = notificationAttributes.getUpdatedAt().toEpochMilli();
-        this.notificationType = notificationAttributes.getType();
+        this.style = notificationAttributes.getStyle();
         this.targetUser = notificationAttributes.getTargetUser();
         this.title = notificationAttributes.getTitle();
         this.message = notificationAttributes.getMessage();
@@ -53,8 +53,8 @@ public class NotificationData extends ApiOutput {
         return this.updatedAt;
     }
 
-    public NotificationType getNotificationType() {
-        return this.notificationType;
+    public NotificationStyle getStyle() {
+        return this.style;
     }
 
     public NotificationTargetUser getTargetUser() {
