@@ -171,7 +171,7 @@ export class AdminNotificationsPageComponent implements OnInit {
 
   loadNotificationEditForm(notification: Notification): void {
     const startTime = moment(notification.startTimestamp);
-    const endTime = moment(notification.startTimestamp);
+    const endTime = moment(notification.endTimestamp);
     this.notificationEditFormModel = {
       notificationId: notification.notificationId,
       shown: notification.shown,
