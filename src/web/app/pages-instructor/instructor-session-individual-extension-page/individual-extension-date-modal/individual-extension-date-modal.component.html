@@ -41,7 +41,7 @@
     <div id="submission-start-date">
       <div class="input-group">
         <tm-datepicker [date]="datePicker" (dateChangeCallback)="onChangeDateTime($event,'date')"
-          [minDate]="getDateFormat(feedbackSessionEndingTime)">
+          [minDate]="getDateFormat(feedbackSessionEndingTimestamp)">
         </tm-datepicker>
         <div class="col-md-5">
           <tm-timepicker id="submission-end-time" [time]="timePicker" (timeChange)="onChangeDateTime($event,'time')">
@@ -56,17 +56,20 @@
       <div class="row">
         <div class="col-sm pl-0">
           <small>Hours</small>
-          <input class="form-control" id="form-hours" name="form-hours" type="text" placeholder="Hours"
+          <input class="form-control" id="form-hours" name="form-hours" type="number" placeholder="Hours"
             [(ngModel)]="extendByDatePicker.hours">
         </div>
         <div class="col-sm">
           <small>Days</small>
-          <input class="form-control" id="form-days" name="form-days" type="text" placeholder="Days"
+          <input class="form-control" id="form-days" name="form-days" type="number" placeholder="Days"
             [(ngModel)]="extendByDatePicker.days">
         </div>
       </div>
     </form>
     <br>
+    <p *ngIf="!isCustomizeDateTimeIntegers()" class="red-text">Please input only integers into both blanks.</p>
+    <p *ngIf="!isDateSelectedLaterThanCurrentEndingTimestamp()" class="red-text">Please input a date later than the current session ending date.</p>
+    <p *ngIf="!isCustomizeBeforeMaxDate()" class="red-text">Please input a valid date.</p>
     <p class="mb-0">
       The new extended deadline will be: {{ addTimeAndFormat(extendByDatePicker.hours, extendByDatePicker.days) }}
     </p>

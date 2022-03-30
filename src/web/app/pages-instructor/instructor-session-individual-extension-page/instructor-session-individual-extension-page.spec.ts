@@ -335,10 +335,12 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     component.isLoadingFeedbackSession = false;
 
     fixture.detectChanges();
-    const selectAllButton = fixture.debugElement.query(By.css('#select-all-student-btn'));
-    selectAllButton.triggerEventHandler('click', null);
+    const selectAllButton = fixture.debugElement.query(By.css('#select-all-student-btn')).nativeElement;
+    selectAllButton.click();
+    fixture.detectChanges();
 
     expect(fixture).toMatchSnapshot();
+    expect(component.isAllStudentsSelected).toBeTruthy();
   });
 
   it('should snap when clicking the Select All Instructors button', () => {
@@ -352,10 +354,48 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     component.isLoadingFeedbackSession = false;
 
     fixture.detectChanges();
-    const selectAllButton = fixture.debugElement.query(By.css('#select-all-instructor-btn'));
-    selectAllButton.triggerEventHandler('click', null);
+    const selectAllButton = fixture.debugElement.query(By.css('#select-all-instructor-btn')).nativeElement;
+    selectAllButton.click();
+    fixture.detectChanges();
 
     expect(fixture).toMatchSnapshot();
+    expect(component.isAllInstructorsSelected).toBeTruthy();
+  });
+
+  it('should not select all students and instructors after unselecting', () => {
+    jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
+    jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+    jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(of(instructors));
+    component.ngOnInit();
+    component.isLoadingAllInstructors = false;
+    component.isLoadingAllStudents = false;
+    component.isLoadingFeedbackSession = false;
+    fixture.detectChanges();
+
+    const selectAllButtonStudents = fixture.debugElement.query(By.css('#select-all-student-btn')).nativeElement;
+    selectAllButtonStudents.click();
+    fixture.detectChanges();
+
+    expect(component.isAllStudentsSelected).toBeTruthy();
+
+    const studentRow = fixture.debugElement.query(By.css('#student-row-0')).nativeElement;
+    studentRow.click();
+    fixture.detectChanges();
+
+    expect(component.isAllStudentsSelected).toBeFalsy();
+
+    const selectAllInstructorButton = fixture.debugElement.query(By.css('#select-all-instructor-btn')).nativeElement;
+    selectAllInstructorButton.click();
+    fixture.detectChanges();
+
+    expect(component.isAllInstructorsSelected).toBeTruthy();
+
+    const instructorRow = fixture.debugElement.query(By.css('#instructor-row-0')).nativeElement;
+    instructorRow.click();
+    fixture.detectChanges();
+
+    expect(component.isAllInstructorsSelected).toBeFalsy();
   });
 
   it('should disable extend and delete button when no student selected', () => {

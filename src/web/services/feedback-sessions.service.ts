@@ -109,7 +109,7 @@ export class FeedbackSessionsService {
     const paramMap: Record<string, string> = {
       courseid: courseId,
       fsname: feedbackSessionName,
-      notifydeadlines: isNotifyDeadlines ? 'true' : 'false',
+      notifydeadlines: String(isNotifyDeadlines),
     };
     return this.httpRequestService.put(ResourceEndpoints.SESSION, paramMap, request);
   }

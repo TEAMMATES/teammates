@@ -26,7 +26,7 @@ export class IndividualExtensionDateModalComponent {
   numInstructors: number = 0;
 
   @Input()
-  feedbackSessionEndingTime: number = 0;
+  feedbackSessionEndingTimestamp: number = 0;
 
   @Input()
   feedbackSessionTimeZone: string = '';
@@ -53,6 +53,8 @@ export class IndividualExtensionDateModalComponent {
   ONE_MINUTE_IN_MILLISECONDS = 60 * 1000;
   ONE_HOUR_IN_MILLISECONDS = 60 * this.ONE_MINUTE_IN_MILLISECONDS;
   ONE_DAY_IN_MILLISECONDS = 24 * this.ONE_HOUR_IN_MILLISECONDS;
+  MAX_EPOCH_TIME_IN_DAYS = 100000000;
+  MAX_EPOCH_TIME_IN_MILLISECONDS = this.MAX_EPOCH_TIME_IN_DAYS * this.ONE_DAY_IN_MILLISECONDS;
   datePicker: DateFormat = { year: 0, month: 0, day: 0 };
   timePicker: TimeFormat = { hour: 23, minute: 59 };
   extendByDatePicker = { hours: 0, days: 0 };
@@ -106,11 +108,11 @@ export class IndividualExtensionDateModalComponent {
   getExtensionTimestamp(): number {
     if (this.isRadioExtendBy()) {
       if (this.isCustomize()) {
-        return this.addTime(this.feedbackSessionEndingTime, this.extendByDatePicker.hours,
+        return this.addTime(this.feedbackSessionEndingTimestamp, this.extendByDatePicker.hours,
           this.extendByDatePicker.days);
       }
       if (this.extendByDeadlineOptions.has(this.extendByDeadlineKey)) {
-        return this.addTime(this.feedbackSessionEndingTime,
+        return this.addTime(this.feedbackSessionEndingTimestamp,
           this.extendByDeadlineOptions.get(this.extendByDeadlineKey)!.valueOf(), 0,
         );
       }
@@ -119,11 +121,11 @@ export class IndividualExtensionDateModalComponent {
       return this.timeZoneService.resolveLocalDateTime(this.datePicker, this.timePicker, this.feedbackSessionTimeZone,
         true);
     }
-    return this.feedbackSessionEndingTime;
+    return this.feedbackSessionEndingTimestamp;
   }
 
   addTimeAndFormat(hours: number, days: number): string {
-    const time = this.addTime(this.feedbackSessionEndingTime, hours, days);
+    const time = this.addTime(this.feedbackSessionEndingTimestamp, hours, days);
     return this.dateDetailPipe.transform(time, this.feedbackSessionTimeZone);
   }
 
@@ -132,7 +134,33 @@ export class IndividualExtensionDateModalComponent {
   }
 
   isValidForm(): boolean {
-    return this.getExtensionTimestamp() > this.feedbackSessionEndingTime;
+    return this.isDateSelectedLaterThanCurrentEndingTimestamp() && this.isCustomizeValid();
+  }
+
+  isDateSelectedLaterThanCurrentEndingTimestamp(): boolean {
+    return this.getExtensionTimestamp() > this.feedbackSessionEndingTimestamp;
+  }
+
+  isCustomizeValid(): boolean {
+    return this.isCustomizeDateTimeIntegers() && this.isCustomizeBeforeMaxDate();
+  }
+
+  isCustomizeDateTimeIntegers(): boolean {
+    if (this.isCustomize()) {
+      if (!Number.isInteger(this.extendByDatePicker.days) || !Number.isInteger(this.extendByDatePicker.hours)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  isCustomizeBeforeMaxDate(): boolean {
+    if (this.isCustomize()) {
+      const timeSelected = this.addTime(this.feedbackSessionEndingTimestamp, this.extendByDatePicker.hours,
+        this.extendByDatePicker.days);
+      return timeSelected < this.MAX_EPOCH_TIME_IN_MILLISECONDS;
+    }
+    return true;
   }
 
   isRadioExtendBy(): boolean {

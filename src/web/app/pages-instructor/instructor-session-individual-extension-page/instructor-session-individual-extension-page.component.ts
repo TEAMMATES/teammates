@@ -53,7 +53,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
   courseName: string = '';
   feedbackSessionName: string = '';
 
-  feedbackSessionEndingTime: number = 0;
+  feedbackSessionEndingTimestamp: number = 0;
   feedbackSessionTimeZone: string = 'UTC';
 
   feedbackSessionDetails: FeedbackSessionBasicRequest = {
@@ -178,7 +178,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
       isClosingEmailEnabled: feedbackSession.isClosingEmailEnabled,
       isPublishedEmailEnabled: feedbackSession.isPublishedEmailEnabled,
     };
-    this.feedbackSessionEndingTime = feedbackSession.submissionEndTimestamp;
+    this.feedbackSessionEndingTimestamp = feedbackSession.submissionEndTimestamp;
     this.feedbackSessionTimeZone = feedbackSession.timeZone;
     this.studentDeadlines = feedbackSession.studentDeadlines ?? {};
     this.instructorDeadlines = feedbackSession.instructorDeadlines ?? {};
@@ -190,7 +190,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
       teamName: student.teamName,
       name: student.name,
       email: student.email,
-      extensionDeadline: this.feedbackSessionEndingTime,
+      extensionDeadline: this.feedbackSessionEndingTimestamp,
       hasExtension: false,
       isSelected: false,
     };
@@ -236,7 +236,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
       name: instructor.name,
       role: instructor.role,
       email: instructor.email,
-      extensionDeadline: this.feedbackSessionEndingTime,
+      extensionDeadline: this.feedbackSessionEndingTimestamp,
       hasExtension: false,
       isSelected: false,
     };
@@ -260,7 +260,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     const modalRef: NgbModalRef = this.ngbModal.open(IndividualExtensionDateModalComponent);
     modalRef.componentInstance.numStudents = this.getNumberOfSelectedStudents();
     modalRef.componentInstance.numInstructors = this.getNumberOfSelectedInstructors();
-    modalRef.componentInstance.feedbackSessionEndingTime = this.feedbackSessionEndingTime;
+    modalRef.componentInstance.feedbackSessionEndingTimestamp = this.feedbackSessionEndingTimestamp;
     modalRef.componentInstance.feedbackSessionTimeZone = this.feedbackSessionTimeZone;
     modalRef.componentInstance.onConfirmCallBack.subscribe((extensionTimestamp: number) => {
       this.onConfirmExtension(extensionTimestamp);
@@ -298,7 +298,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     modalRef.componentInstance.modalType = ExtensionModalType.DELETE;
     modalRef.componentInstance.selectedStudents = selectedStudents;
     modalRef.componentInstance.selectedInstructors = selectedInstructors;
-    modalRef.componentInstance.extensionTimestamp = this.feedbackSessionEndingTime;
+    modalRef.componentInstance.extensionTimestamp = this.feedbackSessionEndingTimestamp;
     modalRef.componentInstance.feedbackSessionTimeZone = this.feedbackSessionTimeZone;
 
     modalRef.componentInstance.onConfirmExtensionCallBack.subscribe((isNotifyDeadlines: boolean) => {
@@ -464,10 +464,24 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
 
   selectStudent(i: number): void {
     this.studentsOfCourse[i].isSelected = !this.studentsOfCourse[i].isSelected;
+    this.updateSelectAllStudents();
+  }
+
+  private updateSelectAllStudents(): void {
+    const numStudentsSelected = this.getNumberOfSelectedStudents();
+    const numStudents = this.studentsOfCourse.length;
+    this.isAllStudentsSelected = numStudentsSelected === numStudents;
   }
 
   selectIntructor(i: number): void {
     this.instructorsOfCourse[i].isSelected = !this.instructorsOfCourse[i].isSelected;
+    this.updateSelectAllInstructors();
+  }
+
+  private updateSelectAllInstructors(): void {
+    const numInstructorsSelected = this.getNumberOfSelectedInstructors();
+    const numInstructors = this.instructorsOfCourse.length;
+    this.isAllInstructorsSelected = numInstructorsSelected === numInstructors;
   }
 
   sortStudentColumnsBy(by: SortBy): void {
