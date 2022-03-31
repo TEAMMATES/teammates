@@ -23,10 +23,6 @@ Before running tests, modify `src/e2e/resources/test.properties` if necessary, e
 <panel header="#### Using Firefox" no-close>
 
 * You need to use geckodriver for testing with Firefox.
-<<<<<<< HEAD
-=======
-
->>>>>>> 8d3a7affdc (Revert documentation improvements to minimise changes)
   * Download the latest stable geckodriver from [here](https://github.com/mozilla/geckodriver/releases).
     The site will also inform the versions of Firefox that can be used with the driver.
   * Specify the path to the geckodriver executable in `test.geckodriver.path` value in `test.properties`.
@@ -63,10 +59,6 @@ Before running tests, modify `src/e2e/resources/test.properties` if necessary, e
 Only modern Edge (Chromium-based) is supported.
 
 * You need to use edgedriver for testing with Edge.
-<<<<<<< HEAD
-=======
-
->>>>>>> 8d3a7affdc (Revert documentation improvements to minimise changes)
   * Download the latest stable edgedriver from [here](https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/).
     The site will also inform the versions of Edge that can be used with the driver.
   * Specify the path to the edgedriver executable in `test.edgedriver.path` value in `test.properties`.
@@ -88,46 +80,26 @@ Test suite | Command | Results can be viewed in
 `E2E tests` | `./gradlew e2eTests` | `{project folder}/build/reports/e2e-test-try-{n}/index.html`, where `{n}` is the sequence number of the test run
 Any individual E2E test | `./gradlew e2eTestTry1 --tests TestClassName` | `{project folder}/build/reports/e2e-test-try-1/index.html`
 
-<<<<<<< HEAD
 - `E2E tests` will be run in their entirety once and the failed tests will be re-run a few times. 
 - Before running `E2E tests`, it is important to have the dev server running locally first if you are testing against it.
 - When running the test cases, a few cases may fail (this can happen due to timing issues). They can be re-run until they pass without affecting the accuracy of the tests.
-=======
-* `E2E tests` will be run in their entirety once and the failed tests will be re-run a few times.
-* Before running `E2E tests`, it is important to have the dev server running locally first if you are testing against it.
-* When running the test cases, a few cases may fail (this can happen due to timing issues). They can be re-run until they pass without affecting the accuracy of the tests.
->>>>>>> 8d3a7affdc (Revert documentation improvements to minimise changes)
 
 ### Testing against production server
 
 If you are testing against a production server (staging server or live server), some additional tasks need to be done.
 
 1. Edit `src/e2e/resources/test.properties` as instructed is in its comments.
-<<<<<<< HEAD
    * In particular, you will need a legitimate Gmail account to be used for testing.
 
 1. If you are testing email sending, you need to setup a `Gmail API` as follows:
-=======
-
-   * In particular, you will need a legitimate Gmail account to be used for testing.
-
-1. If you are testing email sending, you need to setup a `Gmail API` as follows:
-
->>>>>>> 8d3a7affdc (Revert documentation improvements to minimise changes)
    * [Obtain a Gmail API credentials](https://github.com/TEAMMATES/teammates-ops/blob/master/platform-guide.md#setting-up-gmail-api-credentials) and download it.
    * Copy the file to `src/e2e/resources/gmail-api` (create the `gmail-api` folder) of your project and rename it to `client_secret.json`.
    * It is also possible to use the Gmail API credentials from any other Google Cloud Platform project for this purpose.
    * Run `EmailAccountTest` to confirm that the setup works. For the first run, it is expected that you will need to grant access from the test Gmail account to the above API.
 
-<<<<<<< HEAD
 1. Run the full test suite or any subset of it as how you would have done it in dev server. 
    * Do note that the GAE daily quota is usually not enough to run the full test suite, in particular for accounts with no billing enabled.
    
-=======
-1. Run the full test suite or any subset of it as how you would have done it in dev server.
-   * Do note that the GAE daily quota is usually not enough to run the full test suite, in particular for accounts with no billing enabled.
-
->>>>>>> 8d3a7affdc (Revert documentation improvements to minimise changes)
 ## Creating E2E tests
   
 As E2E tests should be written from the end user perspective, each test case should reflect some user workflow.

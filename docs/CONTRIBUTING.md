@@ -2,7 +2,7 @@
 
 Thanks for taking your time to contribute to TEAMMATES!
 
-We welcome contributions from anyone, in particular, students (see [here](https://teammatesv4.appspot.com/web/front/about) for the list of our contributors). One of the main objectives of TEAMMATES is to help students get experience in an OSS production environment. Here are some information that might be useful to would-be contributors.
+We welcome contributions from anyone, in particular, students (see [here](https://teammatesv4.appspot.com/web/front/about) for the list of our contributors). One of the main objectives of TEAMMATES is to help students get experience in an OSS production environment. Here are some information that might be useful to would-be contributors.
 
 ## Getting started
 
@@ -85,7 +85,7 @@ Try your best to be familiar with at least building and testing the application 
 
 #### Phase C: Start contributing
 
-When you are ready for a real contribution, you are advised to start with an issue labelled [good first issue](https://github.com/TEAMMATES/teammates/issues?q=is:issue+is:open+label:"good+first+issue") (but do not do more than one of those), then move on to other issues labelled [help wanted](https://github.com/TEAMMATES/teammates/issues?q=is:issue+is:open+label:"help+wanted").
+When you are ready for a real contribution, you are advised to start with an issue labelled [good first issue](https://github.com/TEAMMATES/teammates/issues?q=is:issue+is:open+label:"good+first+issue") (but do not do more than one of those), then move on to other issues labelled [help wanted](https://github.com/TEAMMATES/teammates/issues?q=is:issue+is:open+label:"help+wanted").
 Steps for fixing an issue are lined out in the [process document](process.md).
 
 > In the event that you cannot find a `good first issue`-labelled issue, you can start with a `help wanted`-labelled issue.
