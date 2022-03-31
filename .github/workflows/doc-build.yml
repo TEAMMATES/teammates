@@ -1,4 +1,4 @@
-name: Build doc site from PR
+name: Build doc site
 
 on:
   push:
@@ -29,21 +29,19 @@ jobs:
           script: |
             const fs = require('fs');
             // check if build directory exists
-            const dir = './_site';
+            const dir = './docs/_site';
 
             // check if directory exists
             if (fs.existsSync(dir)) {
-                console.log('Directory exists!');
+                console.log('Built exists!');
             } else {
-                console.log('Directory not found.');
-                core.setFailed('Documentation Build Error!')
+                console.log('Built not found.');
+                core.setFailed('Developer Documentation Error!')
             }
-      - name: Display the path
-        run: echo $PATH
-        shell: bash
-      - name: Deploy UG on release, to markbind.org
+      - name: Deploy on push
         if: ${{ success() && github.event_name == 'push' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: >-
+        run: |
+          cd docs
           markbind deploy --ci
