@@ -649,7 +649,8 @@ public final class FeedbackSessionsLogic {
             try {
                 fsDb.updateFeedbackSession(updateOptions);
             } catch (InvalidParametersException | EntityDoesNotExistException e) {
-                assert false : "Updating deadlines in feedback sessions for a user should not cause: " + e.getMessage();
+                // Both Exceptions should not be thrown.
+                log.severe("Unexpected error", e);
             }
         });
     }
