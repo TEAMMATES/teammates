@@ -49,6 +49,7 @@ public class AdminNotificationsPageE2ETest extends BaseE2ETestCase {
                 .build();
 
         notificationsPage.addNotification(newNotification);
+        notificationsPage.verifyStatusMessage("Notification created successfully.");
         String newestNotificationId = notificationsPage.getNewestNotificationId();
         NotificationAttributes createdNotification = getNotification(newestNotificationId);
         notificationsPage.verifyNotificationAttributes(newNotification, createdNotification);
@@ -56,6 +57,9 @@ public class AdminNotificationsPageE2ETest extends BaseE2ETestCase {
         ______TS("edit notification");
 
         ______TS("delete notification");
+        notificationsPage.deleteNotification(createdNotification);
+        notificationsPage.verifyStatusMessage("Notification has been deleted.");
+        verifyAbsentInDatabase(createdNotification);
 
     }
 

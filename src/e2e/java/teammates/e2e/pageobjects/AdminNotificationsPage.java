@@ -1,12 +1,10 @@
 package teammates.e2e.pageobjects;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -67,23 +65,11 @@ public class AdminNotificationsPage extends AppPage {
     }
 
     public void verifyNotificationsTable(NotificationAttributes[] notifications) {
-        boolean[] notificationVerified = new boolean[notifications.length];
-        List<WebElement> notificationRows = notificationsTable.findElement(By.tagName("tbody"))
-                .findElements(By.tagName("tr"));
-        for (int i = 0; i < notifications.length; i++) {
-            NotificationAttributes notification = notifications[i];
-            for (WebElement notificationRow : notificationRows) {
-                String id = notificationRow.getAttribute("id");
-                // Only validate for the preset notifications
-                // This is because the page will display all notifications in the database, which is not predictable
-                if (notification.getNotificationId().equals(id)) {
-                    verifyTableRowValues(notificationRow, getNotificationTableDisplayDetails(notifications[i]));
-                    notificationVerified[i] = true;
-                }
-            }
-        }
-        for (int i = 0; i < notifications.length; i++) {
-            assertTrue(notificationVerified[i]);
+        // Only validates that the notifications are present in the notifications table instead of checking every row
+        // This is because the page will display all notifications in the database, which is not predictable
+        for (NotificationAttributes notification : notifications) {
+            WebElement notificationRow = notificationsTable.findElement(By.id(notification.getNotificationId()));
+            verifyTableRowValues(notificationRow, getNotificationTableDisplayDetails(notification));
         }
     }
 
@@ -110,7 +96,16 @@ public class AdminNotificationsPage extends AppPage {
         setNotificationEndDateTime(newNotification.getEndTime());
 
         clickCreateNotificationButton();
-        waitForPageToLoad();
+        waitForPageToLoad(true);
+    }
+
+    public void deleteNotification(NotificationAttributes notification) {
+        WebElement notificationRow = notificationsTable.findElement(By.id(notification.getNotificationId()));
+        WebElement deleteButton = notificationRow.findElement(By.className("btn-danger"));
+
+        deleteButton.click();
+        waitForConfirmationModalAndClickOk();
+        waitForPageToLoad(true);
     }
 
     public String getNewestNotificationId() {
