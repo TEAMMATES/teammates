@@ -141,9 +141,9 @@ All Page Object classes inherit from `AppPage` which contains methods that are c
 
 ### Things to avoid when writing E2E tests
   
-1. **Testing based on implementation** - The focus should be on user actions instead of implementation details. Therefore, black box testing should be adopted and test cases should be designed around use cases.
-1. **Excessive exception testing** - Testing edge cases with E2E tests should be avoided. This is because E2E tests are expensive to run and not that effective for isolating bugs. Hence we should focus on the happy path and exception paths that are more common. We should leave more exhaustive testing to lower-level unit or integration tests.
-1. **Not following “Tell Don’t Ask" Principle** - Instead of “asking” for data from the page objects and performing operations on them, “tell” the page object to do the operations. This is mostly seen in the verification methods where assertions are done in the page object instead of in the test case. This improves readability and maintainability as data and behavior are placed together.  
+1. **Testing based on implementation** - The focus should be on user actions instead of implementation details. Therefore, black box testing should be adopted and test cases should be designed around use cases.   
+1. **Excessive exception testing** - Testing edge cases with E2E tests should be avoided. This is because E2E tests are expensive to run and not that effective for isolating bugs. Hence we should focus on the happy path and exception paths that are more common. We should leave more exhaustive testing to lower-level unit or integration tests.   
+1. **Not following "Tell Don't Ask" Principle** - Instead of "asking" for data from the page objects and performing operations on them, "tell" the page object to do the operations. This is mostly seen in the verification methods where assertions are done in the page object instead of in the test case. This improves readability and maintainability as data and behavior are placed together.  
   
 ### FAQ  
   
