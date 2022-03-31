@@ -1,10 +1,5 @@
-{% set title = "Best Practices: UI Design" %}
-<span id="title" class="d-none">{{ title }}</span>
-
 <frontmatter>
-  title: "{{ title }}"
-  pageNav: 3
-  pageNavTitle: "Chapters of This Page"
+  title: "Best Practices: UI Design"
 </frontmatter>
 
 # UI Design Best Practices
