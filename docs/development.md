@@ -286,8 +286,8 @@ If you need to deploy your application to a staging server, refer to [this guide
 
 Most of developers may not need to write and/or run client scripts but if you are to do so, take note of the following:
 
-- If you are to run a script in a production environment, there are additional steps to follow. Refer to [this guide](https://github.com/TEAMMATES/teammates-ops/blob/master/platform-guide.md#running-client-scripts).
-- It is not encouraged to compile and run any script via command line; use any of the supported IDEs to significantly ease this task.
+* If you are to run a script in a production environment, there are additional steps to follow. Refer to [this guide](https://github.com/TEAMMATES/teammates-ops/blob/master/platform-guide.md#running-client-scripts).
+* It is not encouraged to compile and run any script via command line; use any of the supported IDEs to significantly ease this task.
 
 ## Config points
 
@@ -295,29 +295,29 @@ There are several files used to configure various aspects of the system.
 
 **Main**: These vary from developer to developer and are subjected to frequent changes.
 
-- `build.properties`: Contains the general purpose configuration values to be used by the web API.
-- `config.ts`: Contains the general purpose configuration values to be used by the web application.
-- `test.properties`: Contains the configuration values for the test driver.
-  - There are two separate `test.properties`; one for component tests and one for E2E tests.
-- `client.properties`: Contains some configuration values used in client scripts.
-- `app.yaml`: Contains the configuration for deploying the application on GAE.
+* `build.properties`: Contains the general purpose configuration values to be used by the web API.
+* `config.ts`: Contains the general purpose configuration values to be used by the web application.
+* `test.properties`: Contains the configuration values for the test driver.
+  * There are two separate `test.properties`; one for component tests and one for E2E tests.
+* `client.properties`: Contains some configuration values used in client scripts.
+* `app.yaml`: Contains the configuration for deploying the application on GAE.
 
 **Tasks**: These do not concern the application directly, but rather the development process.
 
-- `build.gradle`: Contains the back-end third-party dependencies specification, as well as configurations for automated tasks/routines to be run via Gradle.
-- `gradle.properties`, `gradle-wrapper.properties`: Contains the Gradle and Gradle wrapper configuration.
-- `package.json`: Contains the front-end third-party dependencies specification, as well as configurations for automated tasks/routines to be run via NPM.
-- `angular.json`: Contains the Angular application configuration.
-- `component.yml`: GitHub Action configuration for component tests.
-- `e2e.yml`: GitHub Action configuration for E2E tests.
-- `lnp.yml`: GitHub Action configuration for load & performance tests.
+* `build.gradle`: Contains the back-end third-party dependencies specification, as well as configurations for automated tasks/routines to be run via Gradle.
+* `gradle.properties`, `gradle-wrapper.properties`: Contains the Gradle and Gradle wrapper configuration.
+* `package.json`: Contains the front-end third-party dependencies specification, as well as configurations for automated tasks/routines to be run via NPM.
+* `angular.json`: Contains the Angular application configuration.
+* `component.yml`: GitHub Action configuration for component tests.
+* `e2e.yml`: GitHub Action configuration for E2E tests.
+* `lnp.yml`: GitHub Action configuration for load & performance tests.
 
 **Static Analysis**: These are used to maintain code quality and measure code coverage. See [Static Analysis](static-analysis.md).
-- `static-analysis/*`: Contains most of the configuration files for all the different static analysis tools.
+* `static-analysis/*`: Contains most of the configuration files for all the different static analysis tools.
 
 **Other**: These are rarely, if ever will be, subjected to changes.
-- `logging.properties`: Contains the java.util.logging configuration.
-- `web.xml`: Contains the web server configuration, e.g servlets to run, mapping from URLs to servlets, security constraints, etc.
-- `cron.yaml`: Contains the cron jobs specification.
-- `queue.yaml`: Contains the task queues configuration.
-- `index.yaml`: Contains the Google Cloud Datastore indexes configuration.
+* `logging.properties`: Contains the java.util.logging configuration.
+* `web.xml`: Contains the web server configuration, e.g servlets to run, mapping from URLs to servlets, security constraints, etc.
+* `cron.yaml`: Contains the cron jobs specification.
+* `queue.yaml`: Contains the task queues configuration.
+* `index.yaml`: Contains the Google Cloud Datastore indexes configuration.

@@ -172,30 +172,30 @@ Many classes in this layer make use of proxy pattern, i.e. they only connect to 
 
 Access control:
 
-- Although this component provides methods that are relevant to access control (e.g. providing user information), the access control check itself does not happen in this component. The UI is expected to check access control (using `GateKeeper` class) before calling a method in the logic component.
++ Although this component provides methods that are relevant to access control (e.g. providing user information), the access control check itself does not happen in this component. The UI is expected to check access control (using `GateKeeper` class) before calling a method in the logic component.
 
 API for creating entities:
 
-- Null parameters: Causes an assertion failure.
-- Invalid parameters: Throws `InvalidParametersException`.
-- Entity already exists: Throws `EntityAlreadyExistsException` (escalated from Storage level).
++ Null parameters: Causes an assertion failure.
++ Invalid parameters: Throws `InvalidParametersException`.
++ Entity already exists: Throws `EntityAlreadyExistsException` (escalated from Storage level).
 
 API for retrieving entities:
 
-- Attempting to retrieve objects using `null` parameters: Causes an assertion failure.
-- Entity not found:
-  - Returns `null` if the target entity not found. This way, read operations can be used easily for checking the existence of an entity.
++ Attempting to retrieve objects using `null` parameters: Causes an assertion failure.
++ Entity not found:
+  + Returns `null` if the target entity not found. This way, read operations can be used easily for checking the existence of an entity.
 
 API for updating entities:
 
-- Update is done using `*UpdateOptions` inside every `*Attributes`. The `UpdateOptions` will specify what is used to identify the entity to update and what will be updated.
-- Entity not found: Throws `EntityDoesNotExistException`.
++ Update is done using `*UpdateOptions` inside every `*Attributes`. The `UpdateOptions` will specify what is used to identify the entity to update and what will be updated.
++ Entity not found: Throws `EntityDoesNotExistException`.
 - Invalid parameters: Throws `InvalidParametersException`.
 
 API for deleting entities:
 
-- FailDeleteSilentlyPolicy: In general, delete operation do not throw exceptions if the target entity does not exist. This is because if it does not exist, it is as good as deleted.
-- Cascade policy:   When a parent entity is deleted, entities that have referential integrity with the deleted entity should also be deleted.
++ FailDeleteSilentlyPolicy: In general, delete operation do not throw exceptions if the target entity does not exist. This is because if it does not exist, it is as good as deleted.
++ Cascade policy:   When a parent entity is deleted, entities that have referential integrity with the deleted entity should also be deleted.
   Refer to the API for the cascade logic.
 
 ## Storage Component
@@ -204,10 +204,10 @@ The `Storage` component performs CRUD (Create, Read, Update, Delete) operations 
 It contains minimal logic beyond what is directly relevant to CRUD operations.
 In particular, it is reponsible for:
 
-- Validating data inside entities before creating/updating them, to ensure they are in a valid state.
-- Hiding the complexities of the database from the `Logic` component.
-- Hiding the persistable objects: Classes in the `storage::entity` package are not visible outside this component to hide information specific to data persistence.
-  - Instead, a corresponding non-persistent [data transfer object](http://en.wikipedia.org/wiki/Data_transfer_object) named `*Attributes` (e.g., `CourseAttributes` is the data transfer object for `Course` entities) object is returned. These datatransfer classes are in `common::datatransfer` package, to be explained later.
++ Validating data inside entities before creating/updating them, to ensure they are in a valid state.
++ Hiding the complexities of the database from the `Logic` component.
++ Hiding the persistable objects: Classes in the `storage::entity` package are not visible outside this component to hide information specific to data persistence.
+  + Instead, a corresponding non-persistent [data transfer object](http://en.wikipedia.org/wiki/Data_transfer_object) named `*Attributes` (e.g., `CourseAttributes` is the data transfer object for `Course` entities) object is returned. These datatransfer classes are in `common::datatransfer` package, to be explained later.
 
 The `Storage` component does not perform any cascade delete/create operations. Cascade logic is handled by the `Logic` component.
 
@@ -215,9 +215,9 @@ The `Storage` component does not perform any cascade delete/create operations. C
 
 Package overview:
 
-- **`storage.api`**: Provides the API of the component to be accessed by the logic component.
-- **`storage.entity`**: Classes that represent persistable entities.
-- **`storage.search`**: Classes for dealing with searching and indexing.
++ **`storage.api`**: Provides the API of the component to be accessed by the logic component.
++ **`storage.entity`**: Classes that represent persistable entities.
++ **`storage.search`**: Classes for dealing with searching and indexing.
 
 <puml src="diagrams/StorageClassDiagram.puml"></puml>
 
@@ -237,21 +237,21 @@ Implementation of Transaction Control has been minimized due to limitations of G
 
 API for creating:
 
-- Attempt to create an entity that already exists: Throws `EntityAlreadyExistsException`.
-- Attempt to create an entity with invalid data: Throws `InvalidParametersException`.
++ Attempt to create an entity that already exists: Throws `EntityAlreadyExistsException`.
++ Attempt to create an entity with invalid data: Throws `InvalidParametersException`.
 
 API for retrieving:
 
-- Attempt to retrieve an entity that does not exist: Returns `null`.
++ Attempt to retrieve an entity that does not exist: Returns `null`.
 
 API for updating:
 
-- Attempt to update an entity that does not exist: Throws `EntityDoesNotExistException`.
-- Attempt to update an entity with invalid data: Throws `InvalidParametersException`.
++ Attempt to update an entity that does not exist: Throws `EntityDoesNotExistException`.
++ Attempt to update an entity with invalid data: Throws `InvalidParametersException`.
 
 API for deleting:
 
-- Attempt to delete an entity that does not exist: Fails silently.
++ Attempt to delete an entity that does not exist: Fails silently.
 
 ## Common Component
 

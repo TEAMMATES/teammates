@@ -7,7 +7,7 @@
 
 Thanks for taking your time to contribute to TEAMMATES!
 
-We welcome contributions from anyone, in particular, students (see [here](https://teammatesv4.appspot.com/web/front/about) for the list of our contributors). One o8f the main objectives of TEAMMATES is to help students get experience in an OSS production environment. Here are some information that might be useful to would-be contributors.
+We welcome contributions from anyone, in particular, students (see [here](https://teammatesv4.appspot.com/web/front/about) for the list of our contributors). One of the main objectives of TEAMMATES is to help students get experience in an OSS production environment. Here are some information that might be useful to would-be contributors.
 
 ## Getting started
 
@@ -37,7 +37,7 @@ If you are certain that you are reporting a new issue, [open a new issue](https:
 We welcome anyone manually testing our product and reporting bugs or suggestions for enhancements in the issue tracker.
 
 If you want to undertake such a role without actually contributing code, [get an instructor account from TEAMMATES](https://teammatesv4.appspot.com/web/front/request).
-Remember to mention the purpose of your request under "Any other comments/queries".
+Remember to mention the purpose of your request under "Any other comments/queries". 
 
 ### Submitting a pull request
 
@@ -54,8 +54,8 @@ Contributing to an OSS project requires you to figure out things on your own whe
 
 Of course we are happy to guide you if you encounter any difficulties when doing these tasks; we have provided a [troubleshooting guide](troubleshooting-guide.md) for some commonly faced problems. Failing that, you may post a help request in our [issue tracker](https://github.com/TEAMMATES/teammates/issues).
 
-> * The task descriptions are brief by intention. We want you to try to figure out how to do those things by yourself.
-> * While the dev team members will be glad to answer your questions, you will not make a good impression if you ask questions which are already answered in the mentioned resources.
+> - The task descriptions are brief by intention. We want you to try to figure out how to do those things by yourself.
+> - While the dev team members will be glad to answer your questions, you will not make a good impression if you ask questions which are already answered in the mentioned resources.
 
 ### Knowledge required
 
