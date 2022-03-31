@@ -1,0 +1,49 @@
+name: Build doc site from PR
+
+on:
+  push:
+    branches:
+      - master
+      - release
+  pull_request:
+    branches:
+      - master 
+      - release
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: dev docs
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 12
+      - run: npm i -g markbind-cli@3.1.1
+      - run: |
+          cd docs
+          markbind build
+      - uses: actions/github-script@v6
+        id: check-error
+        with:
+          script: |
+            const fs = require('fs');
+            // check if build directory exists
+            const dir = './_site';
+
+            // check if directory exists
+            if (fs.existsSync(dir)) {
+                console.log('Directory exists!');
+            } else {
+                console.log('Directory not found.');
+                core.setFailed('Documentation Build Error!')
+            }
+      - name: Display the path
+        run: echo $PATH
+        shell: bash
+      - name: Deploy UG on release, to markbind.org
+        if: ${{ success() && github.event_name == 'push' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: >-
+          markbind deploy --ci
