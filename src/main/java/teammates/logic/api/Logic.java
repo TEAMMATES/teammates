@@ -113,7 +113,7 @@ public class Logic {
     }
 
     /**
-     * Deletes both instructor and student privileges, as long as the account and associated student profile.
+     * Deletes both instructor and student privileges, as well as the account and associated student profile.
      *
      * <ul>
      * <li>Fails silently if no such account.</li>
@@ -306,7 +306,7 @@ public class Logic {
 
     /**
      * Make the instructor join the course, i.e. associate the Google ID to the instructor.<br>
-     * Creates an account for the instructor if there is no existing account for him.
+     * Creates an account for the instructor if no existing account is found.
      * Preconditions: <br>
      * * Parameters regkey and googleId are non-null.
      */
@@ -437,7 +437,6 @@ public class Logic {
      * @param courseId The course of which the archive status is to be changed
      * @param archiveStatus The archive status to be set
      */
-
     public void setArchiveStatusOfInstructor(String googleId, String courseId, boolean archiveStatus)
             throws InvalidParametersException, EntityDoesNotExistException {
 
@@ -719,7 +718,7 @@ public class Logic {
 
     /**
      * Make the student join the course, i.e. associate the Google ID to the student.<br>
-     * Create an account for the student if there is no account exist for him.
+     * Create an account for the student if no existing account is found.
      * Preconditions: <br>
      * * All parameters are non-null.
      * @param key the registration key
@@ -1421,7 +1420,7 @@ public class Logic {
      *
      * @return the updated account request
      * @throws InvalidParametersException if the account request is not valid
-     * @throws EntityDoesNotExistException if the account request does not exist
+     * @throws EntityDoesNotExistException if the account request to update does not exist
      */
     public AccountRequestAttributes updateAccountRequest(AccountRequestAttributes.UpdateOptions updateOptions)
             throws InvalidParametersException, EntityDoesNotExistException {

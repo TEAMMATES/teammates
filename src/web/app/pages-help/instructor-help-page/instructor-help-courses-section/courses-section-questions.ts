@@ -13,7 +13,7 @@ export enum CoursesSectionQuestions {
   SIZE_LIMIT = 'size-limit',
 
   /**
-   * What should I do if my course doesn’t have teams?
+   * What should I do if my course doesn't have teams?
    */
   NO_TEAMS = 'no-teams',
 
