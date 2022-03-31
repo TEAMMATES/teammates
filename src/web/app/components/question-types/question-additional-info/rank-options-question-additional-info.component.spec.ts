@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { FeedbackQuestionType, FeedbackRankOptionsQuestionDetails } from '../../../../types/api-output';
 import { NO_VALUE } from '../../../../types/feedback-response-details';
@@ -8,7 +8,7 @@ describe('RankOptionsQuestionAdditionalInfoComponent', () => {
   let component: RankOptionsQuestionAdditionalInfoComponent;
   let fixture: ComponentFixture<RankOptionsQuestionAdditionalInfoComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [RankOptionsQuestionAdditionalInfoComponent],
     })

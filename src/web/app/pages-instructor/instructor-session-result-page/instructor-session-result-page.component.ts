@@ -33,7 +33,9 @@ import {
 import { Intent } from '../../../types/api-request';
 import { CommentToCommentRowModelPipe } from '../../components/comment-box/comment-to-comment-row-model.pipe';
 import { CommentsToCommentTableModelPipe } from '../../components/comment-box/comments-to-comment-table-model.pipe';
-import { StudentListInfoTableRowModel } from '../../components/sessions-table/respondent-list-info-table/respondent-list-info-table-model';
+import {
+  StudentListInfoTableRowModel,
+} from '../../components/sessions-table/respondent-list-info-table/respondent-list-info-table-model';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorCommentsComponent } from '../instructor-comments.component';
@@ -375,24 +377,26 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
     const isPublished: boolean = this.session.publishStatus === FeedbackSessionPublishStatus.PUBLISHED;
     let modalRef: NgbModalRef;
     if (isPublished) {
-      const modalContent: string = `An email will be sent to students to inform them that the session has been unpublished and the session responses
-          will no longer be viewable by students.`;
+      const modalContent: string =
+          `An email will be sent to students to inform them that the session has been unpublished
+          and the session responses will no longer be viewable by students.`;
       modalRef = this.simpleModalService.openConfirmationModal(
           `Unpublish this session <strong>${this.session.feedbackSessionName}</strong>?`,
           SimpleModalType.WARNING, modalContent);
     } else {
-      const modalContent: string = 'An email will be sent to students to inform them that the responses are ready for viewing.';
+      const modalContent: string =
+          'An email will be sent to students to inform them that the responses are ready for viewing.';
       modalRef = this.simpleModalService.openConfirmationModal(
           `Publish this session <strong>${this.session.feedbackSessionName}</strong>?`,
           SimpleModalType.WARNING, modalContent);
     }
 
     modalRef.result.then(() => {
-      const response: Observable<any> = isPublished ?
-          this.feedbackSessionsService.unpublishFeedbackSession(
+      const response: Observable<any> = isPublished
+          ? this.feedbackSessionsService.unpublishFeedbackSession(
             this.session.courseId, this.session.feedbackSessionName,
-          ) :
-          this.feedbackSessionsService.publishFeedbackSession(
+          )
+          : this.feedbackSessionsService.publishFeedbackSession(
             this.session.courseId, this.session.feedbackSessionName,
           );
 
@@ -434,7 +438,9 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
       Object.values(this.questionsModel).map((questionTabModel: QuestionTabModel) => questionTabModel.question),
       this.section.length === 0 ? undefined : this.section,
       this.section.length === 0 ? undefined : this.sectionType,
-    )).pipe(finalize(() => this.isDownloadingResults = false))
+    )).pipe(finalize(() => {
+      this.isDownloadingResults = false;
+    }))
       .subscribe();
   }
 
@@ -461,10 +467,10 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
    * Handle expand all questions button event.
    */
   toggleExpandAllHandler(): void {
-    if (!this.isExpandAll) {
-      this.expandAllTabs();
-    } else {
+    if (this.isExpandAll) {
       this.collapseAllTabs();
+    } else {
+      this.expandAllTabs();
     }
   }
 

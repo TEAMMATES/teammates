@@ -20,8 +20,6 @@ export class AboutPageComponent implements OnInit {
   multipleContributors: any[] = [];
   singleContributors: any[] = [];
 
-  constructor() {}
-
   private setUrl(dev: any): any {
     if (dev.username) {
       if (!dev.url) {

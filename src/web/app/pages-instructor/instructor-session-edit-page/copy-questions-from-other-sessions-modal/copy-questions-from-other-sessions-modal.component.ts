@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { TableComparatorService } from '../../../../services/table-comparator.service';
 import { FeedbackQuestion } from '../../../../types/api-output';
@@ -13,7 +13,7 @@ import { QuestionToCopyCandidate } from './copy-questions-from-other-sessions-mo
   templateUrl: './copy-questions-from-other-sessions-modal.component.html',
   styleUrls: ['./copy-questions-from-other-sessions-modal.component.scss'],
 })
-export class CopyQuestionsFromOtherSessionsModalComponent implements OnInit {
+export class CopyQuestionsFromOtherSessionsModalComponent {
 
   // enum
   SortBy: typeof SortBy = SortBy;
@@ -25,9 +25,6 @@ export class CopyQuestionsFromOtherSessionsModalComponent implements OnInit {
   candidatesSortOrder: SortOrder = SortOrder.ASC;
 
   constructor(public activeModal: NgbActiveModal, private tableComparatorService: TableComparatorService) { }
-
-  ngOnInit(): void {
-  }
 
   /**
    * Gets the selected questions to copy.

@@ -1,6 +1,4 @@
-import {
-    Directive, HostListener,
-  } from '@angular/core';
+import { Directive, HostListener } from '@angular/core';
 
 /**
  * Directive for loading spinner component

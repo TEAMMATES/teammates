@@ -45,13 +45,15 @@ const routes: Routes = [
         children: [
           {
             path: 'details',
-            loadChildren: () => import('./instructor-course-student-details-page/instructor-course-student-details-page.module')
-                .then((m: any) => m.InstructorCourseStudentDetailsPageModule),
+            loadChildren: () =>
+                import('./instructor-course-student-details-page/instructor-course-student-details-page.module')
+                    .then((m: any) => m.InstructorCourseStudentDetailsPageModule),
           },
           {
             path: 'edit',
-            loadChildren: () => import('./instructor-course-student-edit-page/instructor-course-student-edit-page.module')
-                .then((m: any) => m.InstructorCourseStudentEditPageModule),
+            loadChildren: () =>
+                import('./instructor-course-student-edit-page/instructor-course-student-edit-page.module')
+                    .then((m: any) => m.InstructorCourseStudentEditPageModule),
             data: {
               pageTitle: 'Edit Student Details',
             },

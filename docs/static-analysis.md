@@ -48,8 +48,7 @@ General rule of thumb when suppressing rules:
 | PMD | `./gradlew pmdMain`, `./gradlew pmdTest` |
 | SpotBugs | `./gradlew spotbugsMain`, `./gradlew spotbugsTest` |
 | ArchUnit | `./gradlew architectureTest` |
-| TSLint | `npm run lint:ts` |
-| JSONlint | `npm run lint:json` |
+| ESLint | `npm run lint:ts` |
 | stylelint | `npm run lint:css` |
 | lintspaces | `npm run lint:spaces` |
 

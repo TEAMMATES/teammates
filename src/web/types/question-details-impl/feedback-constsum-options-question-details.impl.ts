@@ -1,5 +1,6 @@
-// tslint:disable-next-line:max-line-length
-import { ConstsumOptionsQuestionStatisticsCalculation } from '../../app/components/question-types/question-statistics/question-statistics-calculation/constsum-options-question-statistics-calculation';
+import {
+  ConstsumOptionsQuestionStatisticsCalculation,
+} from '../../app/components/question-types/question-statistics/question-statistics-calculation/constsum-options-question-statistics-calculation';
 import {
   FeedbackConstantSumDistributePointsType,
   FeedbackConstantSumQuestionDetails,

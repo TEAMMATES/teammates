@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { FormsModule } from '@angular/forms';
 import { ContributionQuestionEditDetailsFormComponent } from './contribution-question-edit-details-form.component';
@@ -7,7 +7,7 @@ describe('ContributionQuestionEditDetailsFormComponent', () => {
   let component: ContributionQuestionEditDetailsFormComponent;
   let fixture: ComponentFixture<ContributionQuestionEditDetailsFormComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [FormsModule],
       declarations: [ContributionQuestionEditDetailsFormComponent],

@@ -1,9 +1,10 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import {
   FeedbackResponseComment, FeedbackVisibilityType, ResponseOutput,
 } from '../../../../types/api-output';
 import { collapseAnim } from '../../teammates-common/collapse-anim';
-import { CommentRowMode, CommentRowModel } from '../comment-row/comment-row.component';
+import { CommentRowModel } from '../comment-row/comment-row.component';
+import { CommentRowMode } from '../comment-row/comment-row.mode';
 
 /**
  * Model for CommentTableComponent.
@@ -25,7 +26,7 @@ export interface CommentTableModel {
   styleUrls: ['./comment-table.component.scss'],
   animations: [collapseAnim],
 })
-export class CommentTableComponent implements OnInit {
+export class CommentTableComponent {
 
   // enum
   CommentRowMode: typeof CommentRowMode = CommentRowMode;
@@ -70,11 +71,6 @@ export class CommentTableComponent implements OnInit {
   @Output()
   updateCommentEvent: EventEmitter<number> = new EventEmitter();
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
   /**
    * Triggers the delete comment event.
    */
@@ -109,7 +105,7 @@ export class CommentTableComponent implements OnInit {
    * Triggers the change of the model for the form.
    */
   triggerModelChange(field: string, data: any): void {
-    this.modelChange.emit(Object.assign({}, this.model, { [field]: data }));
+    this.modelChange.emit({ ...this.model, [field]: data });
   }
 
   /**
@@ -124,7 +120,7 @@ export class CommentTableComponent implements OnInit {
    */
   handleCloseEditingCommentRowEvent(index: number): void {
     const newRowModel: CommentRowModel = JSON.parse(JSON.stringify(this.model.commentRows[index]));
-    // tslint:disable-next-line:no-non-null-assertion
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const originalComment: FeedbackResponseComment = newRowModel.originalComment!;
     newRowModel.commentEditFormModel = {
       commentText: originalComment.commentText,

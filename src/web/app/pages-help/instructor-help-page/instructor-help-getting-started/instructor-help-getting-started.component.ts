@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from '../../../../environments/environment';
 import { CoursesSectionQuestions } from '../instructor-help-courses-section/courses-section-questions';
@@ -15,7 +15,7 @@ import { Sections } from '../sections';
   templateUrl: './instructor-help-getting-started.component.html',
   styleUrls: ['./instructor-help-getting-started.component.scss'],
 })
-export class InstructorHelpGettingStartedComponent implements OnInit {
+export class InstructorHelpGettingStartedComponent {
 
   // enum
   StudentsSectionQuestions: typeof StudentsSectionQuestions = StudentsSectionQuestions;
@@ -35,9 +35,6 @@ export class InstructorHelpGettingStartedComponent implements OnInit {
     r.data.subscribe((resp: any) => {
       this.instructorHelpPath = resp.instructorHelpPath;
     });
-  }
-
-  ngOnInit(): void {
   }
 
   /**

@@ -1,7 +1,7 @@
 <tm-loading-retry [shouldShowRetry]="hasCoursesLoadingFailed" [message]="'Failed to load courses'" (retryEvent)="loadStudentCourses()">
   <div *tmIsLoading="isCoursesLoading"></div>
   <div *ngIf="!isCoursesLoading">
-    <div *ngIf="courses.length == 0; else coursesContainer">
+    <div *ngIf="courses.length === 0; else coursesContainer">
       You are not enrolled in any courses. Please refer to the <a tmRouterLink="/web/student/help">help page</a>
       if you need more information.
     </div>

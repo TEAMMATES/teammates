@@ -73,7 +73,7 @@ export class NumScaleQuestionEditAnswerFormComponent
       return true;
     }
 
-    if (isNaN(value)) {
+    if (Number.isNaN(value)) {
       return false;
     }
 

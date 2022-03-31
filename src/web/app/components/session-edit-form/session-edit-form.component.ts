@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgbCalendar, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
 import { TemplateSession } from '../../../services/feedback-sessions.service';
@@ -27,7 +27,7 @@ import { SessionEditFormMode, SessionEditFormModel } from './session-edit-form-m
   providers: [{ provide: NgbDateParserFormatter, useClass: SessionEditFormDatePickerFormatter }],
   animations: [collapseAnim],
 })
-export class SessionEditFormComponent implements OnInit {
+export class SessionEditFormComponent {
 
   // enum
   SessionEditFormMode: typeof SessionEditFormMode = SessionEditFormMode;
@@ -115,9 +115,6 @@ export class SessionEditFormComponent implements OnInit {
 
   constructor(private simpleModalService: SimpleModalService, public calendar: NgbCalendar) { }
 
-  ngOnInit(): void {
-  }
-
   /**
    * Triggers the change of the model for the form.
    */
@@ -154,7 +151,7 @@ export class SessionEditFormComponent implements OnInit {
       case ResponseVisibleSetting.LATER:
       case ResponseVisibleSetting.AT_VISIBLE:
         return this.model.submissionStartDate;
-      case ResponseVisibleSetting.CUSTOM:
+      case ResponseVisibleSetting.CUSTOM: {
         const submissionStartDate: moment.Moment = this.getMomentInstance(this.model.submissionStartDate);
         const responseVisibleDate: moment.Moment = this.getMomentInstance(this.model.customResponseVisibleDate);
         if (submissionStartDate.isBefore(responseVisibleDate)) {
@@ -162,6 +159,7 @@ export class SessionEditFormComponent implements OnInit {
         }
 
         return this.model.customResponseVisibleDate;
+      }
       default:
         return {
           year: 0,
@@ -228,9 +226,11 @@ export class SessionEditFormComponent implements OnInit {
    * Handles delete current feedback session button click event.
    */
   deleteHandler(): void {
-    this.simpleModalService.openConfirmationModal(`Delete the session <strong>${ this.model.feedbackSessionName }</strong>?`,
+    this.simpleModalService.openConfirmationModal(
+        `Delete the session <strong>${this.model.feedbackSessionName}</strong>?`,
         SimpleModalType.WARNING,
-        'The session will be moved to the recycle bin. This action can be reverted by going to the "Sessions" tab and restoring the desired session(s).',
+        'The session will be moved to the recycle bin. This action can be reverted '
+        + 'by going to the "Sessions" tab and restoring the desired session(s).',
     ).result.then(() => {
       this.deleteExistingSessionEvent.emit();
     }, () => {});

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ProgressBarModule } from '../progress-bar/progress-bar.module';
 import { SimpleModalComponent } from './simple-modal.component';
@@ -7,7 +7,7 @@ describe('SimpleModalComponent', () => {
   let component: SimpleModalComponent;
   let fixture: ComponentFixture<SimpleModalComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [SimpleModalComponent],
       providers: [NgbActiveModal],

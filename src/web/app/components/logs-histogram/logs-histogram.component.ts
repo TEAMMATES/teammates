@@ -24,8 +24,6 @@ export class LogsHistogramComponent implements OnInit, OnChanges {
   private yScale: any;
   private yAxis: any;
 
-  constructor() { }
-
   ngOnInit(): void {
     this.createSvg();
     this.drawBars();
@@ -99,14 +97,15 @@ export class LogsHistogramComponent implements OnInit, OnChanges {
       .enter()
       .append('rect')
       .attr('class', 'bar')
-      .attr('x', (d: LogsHistogramDataModel) => this.xScale(d.sourceLocation.file  + d.sourceLocation.function))
+      .attr('x', (d: LogsHistogramDataModel) => this.xScale(d.sourceLocation.file + d.sourceLocation.function))
       .attr('y', (d: LogsHistogramDataModel) => this.yScale(d.numberOfTimes))
       .attr('height', (d: LogsHistogramDataModel) => this.height - this.yScale(d.numberOfTimes))
       .attr('width', this.xScale.bandwidth())
       .style('fill', 'steelblue')
       .on('mouseover', (d: LogsHistogramDataModel) =>
         tooltip
-          .html(`File: ${d.sourceLocation.file} <br> Function: ${d.sourceLocation.function} <br> Frequency: ${d.numberOfTimes}`)
+          .html(`File: ${d.sourceLocation.file} <br> Function: ${d.sourceLocation.function}`
+              + ` <br> Frequency: ${d.numberOfTimes}`)
           .style('visibility', 'visible'))
       .on('mousemove', () => {
         const top: number = d3.event.pageY - 10;

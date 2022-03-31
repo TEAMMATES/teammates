@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   FeedbackRankRecipientsQuestionDetails,
 } from '../../../../types/api-output';
@@ -15,13 +15,10 @@ import { QuestionEditDetailsFormComponent } from './question-edit-details-form.c
   styleUrls: ['./rank-recipients-question-edit-details-form.component.scss'],
 })
 export class RankRecipientsQuestionEditDetailsFormComponent
-    extends QuestionEditDetailsFormComponent<FeedbackRankRecipientsQuestionDetails> implements OnInit {
+    extends QuestionEditDetailsFormComponent<FeedbackRankRecipientsQuestionDetails> {
 
   constructor() {
     super(DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS());
-  }
-
-  ngOnInit(): void {
   }
 
   /**

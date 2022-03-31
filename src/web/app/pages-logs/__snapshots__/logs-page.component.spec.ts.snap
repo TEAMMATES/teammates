@@ -55,21 +55,14 @@ exports[`LogsPageComponent should snap when page is still loading 1`] = `
       </div>
     </div>
   </tm-loading-spinner><div>
-    
-    
     <div
       class="center mb-4"
     >
-      
     </div>
-    
-    
     <div
       class="center mb-4"
     >
-      
     </div>
-    
   </div>
 </tm-logs-page>
 `;
@@ -171,7 +164,6 @@ exports[`LogsPageComponent should snap when searching for details in search form
                     <div
                       class="ngb-tp-input-container ngb-tp-hour"
                     >
-                      
                       <input
                         aria-label="Hours"
                         class="ngb-tp-input form-control"
@@ -180,7 +172,6 @@ exports[`LogsPageComponent should snap when searching for details in search form
                         placeholder="HH"
                         type="text"
                       />
-                      
                     </div>
                     <div
                       class="ngb-tp-spacer"
@@ -190,7 +181,6 @@ exports[`LogsPageComponent should snap when searching for details in search form
                     <div
                       class="ngb-tp-input-container ngb-tp-minute"
                     >
-                      
                       <input
                         aria-label="Minutes"
                         class="ngb-tp-input form-control"
@@ -199,12 +189,7 @@ exports[`LogsPageComponent should snap when searching for details in search form
                         placeholder="MM"
                         type="text"
                       />
-                      
                     </div>
-                    
-                    
-                    
-                    
                   </div>
                 </fieldset>
               </ngb-timepicker>
@@ -255,7 +240,6 @@ exports[`LogsPageComponent should snap when searching for details in search form
                     <div
                       class="ngb-tp-input-container ngb-tp-hour"
                     >
-                      
                       <input
                         aria-label="Hours"
                         class="ngb-tp-input form-control"
@@ -264,7 +248,6 @@ exports[`LogsPageComponent should snap when searching for details in search form
                         placeholder="HH"
                         type="text"
                       />
-                      
                     </div>
                     <div
                       class="ngb-tp-spacer"
@@ -274,7 +257,6 @@ exports[`LogsPageComponent should snap when searching for details in search form
                     <div
                       class="ngb-tp-input-container ngb-tp-minute"
                     >
-                      
                       <input
                         aria-label="Minutes"
                         class="ngb-tp-input form-control"
@@ -283,19 +265,13 @@ exports[`LogsPageComponent should snap when searching for details in search form
                         placeholder="MM"
                         type="text"
                       />
-                      
                     </div>
-                    
-                    
-                    
-                    
                   </div>
                 </fieldset>
               </ngb-timepicker>
             </div>
           </div>
         </div>
-        
         <div
           class="col-4"
         >
@@ -331,7 +307,6 @@ exports[`LogsPageComponent should snap when searching for details in search form
                 <select
                   class="form-control inline ng-untouched ng-pristine ng-valid"
                 >
-                  
                   <option
                     value="INFO"
                   >
@@ -365,7 +340,6 @@ exports[`LogsPageComponent should snap when searching for details in search form
                 <select
                   class="form-control inline ng-untouched ng-pristine ng-valid"
                 >
-                  
                   <option
                     value="INFO"
                   >
@@ -399,7 +373,6 @@ exports[`LogsPageComponent should snap when searching for details in search form
                 <select
                   class="form-control inline ng-untouched ng-pristine ng-valid"
                 >
-                  
                   <option
                     value="REQUEST_LOG"
                   >
@@ -442,7 +415,6 @@ exports[`LogsPageComponent should snap when searching for details in search form
           </button>
         </div>
       </div>
-      
       <div
         class="row form-group"
       >
@@ -463,11 +435,8 @@ exports[`LogsPageComponent should snap when searching for details in search form
           </div>
         </div>
       </div>
-      
     </div>
   </div><div>
-    
-    
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -483,8 +452,6 @@ exports[`LogsPageComponent should snap when searching for details in search form
         </div>
       </div>
     </tm-loading-spinner>
-    
-    
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -500,7 +467,6 @@ exports[`LogsPageComponent should snap when searching for details in search form
         </div>
       </div>
     </tm-loading-spinner>
-    
   </div>
 </tm-logs-page>
 `;
@@ -560,21 +526,14 @@ exports[`LogsPageComponent should snap with default fields 1`] = `
       </div>
     </div>
   </tm-loading-spinner><div>
-    
-    
     <div
       class="center mb-4"
     >
-      
     </div>
-    
-    
     <div
       class="center mb-4"
     >
-      
     </div>
-    
   </div>
 </tm-logs-page>
 `;
