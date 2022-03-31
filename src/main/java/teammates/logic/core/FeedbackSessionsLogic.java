@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BiFunction;
+import java.util.function.Consumer;
 import java.util.function.Function;
-import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
@@ -617,25 +617,21 @@ public final class FeedbackSessionsLogic {
         if (oldEmailAddress.equals(newEmailAddress)) {
             return;
         }
-        updateFeedbackSessionsDeadlinesForUser(courseId, oldEmailAddress, deadlinesGetter, deadlines -> {
-            deadlines.put(newEmailAddress, deadlines.remove(oldEmailAddress));
-            return deadlines;
-        }, withDeadlinesBuilder);
+        updateFeedbackSessionsDeadlinesForUser(courseId, oldEmailAddress, deadlinesGetter,
+                deadlines -> deadlines.put(newEmailAddress, deadlines.remove(oldEmailAddress)), withDeadlinesBuilder);
     }
 
     private void deleteFeedbackSessionsDeadlinesForUser(String courseId, String emailAddress,
             Function<FeedbackSessionAttributes, Map<String, Instant>> deadlinesGetter,
             BiFunction<FeedbackSessionAttributes.UpdateOptions.Builder, Map<String, Instant>,
                     FeedbackSessionAttributes.UpdateOptions.Builder> withDeadlinesBuilder) {
-        updateFeedbackSessionsDeadlinesForUser(courseId, emailAddress, deadlinesGetter, deadlines -> {
-            deadlines.remove(emailAddress);
-            return deadlines;
-        }, withDeadlinesBuilder);
+        updateFeedbackSessionsDeadlinesForUser(courseId, emailAddress, deadlinesGetter,
+                deadlines -> deadlines.remove(emailAddress), withDeadlinesBuilder);
     }
 
     private void updateFeedbackSessionsDeadlinesForUser(String courseId, String emailAddress,
             Function<FeedbackSessionAttributes, Map<String, Instant>> deadlinesGetter,
-            UnaryOperator<Map<String, Instant>> deadlinesUpdater,
+            Consumer<Map<String, Instant>> deadlinesUpdater,
             BiFunction<FeedbackSessionAttributes.UpdateOptions.Builder, Map<String, Instant>,
                     FeedbackSessionAttributes.UpdateOptions.Builder> withDeadlinesBuilder) {
         List<FeedbackSessionAttributes> feedbackSessions = fsDb.getFeedbackSessionsForCourse(courseId);
@@ -644,7 +640,7 @@ public final class FeedbackSessionsLogic {
             if (!deadlines.containsKey(emailAddress)) {
                 return;
             }
-            deadlines = deadlinesUpdater.apply(deadlines);
+            deadlinesUpdater.accept(deadlines);
             FeedbackSessionAttributes.UpdateOptions.Builder updateOptionsBuilder = FeedbackSessionAttributes
                     .updateOptionsBuilder(feedbackSession.getFeedbackSessionName(), feedbackSession.getCourseId());
             FeedbackSessionAttributes.UpdateOptions updateOptions = withDeadlinesBuilder.apply(updateOptionsBuilder,
