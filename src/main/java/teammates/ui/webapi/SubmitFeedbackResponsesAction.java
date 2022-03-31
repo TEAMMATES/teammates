@@ -50,7 +50,6 @@ class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
                 getNonNullFeedbackSession(feedbackQuestion.getFeedbackSessionName(), feedbackQuestion.getCourseId());
 
         verifyInstructorCanSeeQuestionIfInModeration(feedbackQuestion);
-        verifySessionOpenExceptForModeration(feedbackSession);
         verifyNotPreview();
 
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
@@ -58,11 +57,15 @@ class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
         case STUDENT_SUBMISSION:
             gateKeeper.verifyAnswerableForStudent(feedbackQuestion);
             StudentAttributes studentAttributes = getStudentOfCourseFromRequest(feedbackQuestion.getCourseId());
+            feedbackSession = feedbackSession.sanitizeForStudent(studentAttributes.getEmail());
+            verifySessionOpenExceptForModeration(feedbackSession);
             checkAccessControlForStudentFeedbackSubmission(studentAttributes, feedbackSession);
             break;
         case INSTRUCTOR_SUBMISSION:
             gateKeeper.verifyAnswerableForInstructor(feedbackQuestion);
             InstructorAttributes instructorAttributes = getInstructorOfCourseFromRequest(feedbackQuestion.getCourseId());
+            feedbackSession = feedbackSession.sanitizeForInstructor(instructorAttributes.getEmail());
+            verifySessionOpenExceptForModeration(feedbackSession);
             checkAccessControlForInstructorFeedbackSubmission(instructorAttributes, feedbackSession);
             break;
         case INSTRUCTOR_RESULT:
