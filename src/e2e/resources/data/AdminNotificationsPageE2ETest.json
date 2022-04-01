@@ -20,8 +20,8 @@
       "updatedAt": "2011-01-01T00:00:00Z",
       "style": "SUCCESS",
       "targetUser": "STUDENT",
-      "title": "<p>A note for update</p>",
-      "message": "Exciting features",
+      "title": "A note for update",
+      "message": "<p>Exciting features</p>",
       "shown": false
     }
   }

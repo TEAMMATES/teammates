@@ -1880,7 +1880,7 @@
       "style": "DANGER",
       "targetUser": "GENERAL",
       "title": "A deprecation note",
-      "message": "Deprecation happens in three minutes",
+      "message": "<p>Deprecation happens in three minutes</p>",
       "shown": false
     },
     "notification2": {
@@ -1892,7 +1892,7 @@
       "style": "SUCCESS",
       "targetUser": "STUDENT",
       "title": "A note for update",
-      "message": "Exciting features",
+      "message": "<p>Exciting features</p>",
       "shown": false
     },
     "notification3": {
@@ -1904,7 +1904,7 @@
       "style": "SUCCESS",
       "targetUser": "INSTRUCTOR",
       "title": "The first version note",
-      "message": "The version note content",
+      "message": "<p>The version note content</p>",
       "shown": false
     },
     "notification4": {
@@ -1916,7 +1916,7 @@
       "style": "WARNING",
       "targetUser": "GENERAL",
       "title": "The note of maintenance",
-      "message": "The content of maintenance",
+      "message": "<p>The content of maintenance</p>",
       "shown": false
     },
     "notification5": {
@@ -1928,7 +1928,7 @@
       "style": "INFO",
       "targetUser": "INSTRUCTOR",
       "title": "The first tip to instructor",
-      "message": "The first tip content",
+      "message": "<p>The first tip content</p>",
       "shown": false
     },
     "notification6": {
@@ -1940,7 +1940,7 @@
       "style": "DANGER",
       "targetUser": "STUDENT",
       "title": "The note of maintenance",
-      "message": "The content of maintenance",
+      "message": "<p>The content of maintenance</p>",
       "shown": false
     },
     "expiredNotification1": {
@@ -1952,7 +1952,7 @@
       "style": "DANGER",
       "targetUser": "GENERAL",
       "title": "A deprecation note",
-      "message": "Deprecation happens in three minutes",
+      "message": "<p>Deprecation happens in three minutes</p>",
       "shown": false
     },
     "expiredNotification2": {
@@ -1964,7 +1964,7 @@
       "style": "DANGER",
       "targetUser": "GENERAL",
       "title": "A deprecation note",
-      "message": "Deprecation happens in three minutes",
+      "message": "<p>Deprecation happens in three minutes</p>",
       "shown": false
     },
     "notStartedNotification1": {
@@ -1976,7 +1976,7 @@
       "style": "DANGER",
       "targetUser": "GENERAL",
       "title": "A deprecation note",
-      "message": "Deprecation happens in three minutes",
+      "message": "<p>Deprecation happens in three minutes</p>",
       "shown": false
     },
     "notStartedNotification2": {
@@ -1988,7 +1988,7 @@
       "style": "DANGER",
       "targetUser": "GENERAL",
       "title": "A deprecation note",
-      "message": "Deprecation happens in three minutes",
+      "message": "<p>Deprecation happens in three minutes</p>",
       "shown": false
     }
   }
