@@ -594,8 +594,9 @@ public final class EmailGenerator {
         return createdDeadlines.entrySet()
                 .stream()
                 .map(entry ->
-                        generateDeadlineExtensionEmail(course, session, session.getEndTime(),
-                                entry.getValue(), EmailType.DEADLINE_EXTENSION_GIVEN, entry.getKey(), areInstructors))
+                        generateDeadlineExtensionEmail(course, session,
+                                session.getEndTime(), entry.getValue(), EmailType.DEADLINE_EXTENSION_GIVEN,
+                                entry.getKey(), areInstructors))
                 .collect(Collectors.toList());
     }
 
@@ -607,8 +608,9 @@ public final class EmailGenerator {
         return updatedDeadlines.entrySet()
                 .stream()
                 .map(entry ->
-                        generateDeadlineExtensionEmail(course, session, oldDeadlines.get(entry.getKey()),
-                                entry.getValue(), EmailType.DEADLINE_EXTENSION_UPDATED, entry.getKey(), areInstructors))
+                        generateDeadlineExtensionEmail(course, session,
+                                oldDeadlines.get(entry.getKey()), entry.getValue(), EmailType.DEADLINE_EXTENSION_UPDATED,
+                                entry.getKey(), areInstructors))
                 .collect(Collectors.toList());
     }
 
@@ -620,8 +622,9 @@ public final class EmailGenerator {
         return revokedDeadlines.entrySet()
                 .stream()
                 .map(entry ->
-                        generateDeadlineExtensionEmail(course, session, entry.getValue(),
-                                session.getEndTime(), EmailType.DEADLINE_EXTENSION_REVOKED, entry.getKey(), areInstructors))
+                        generateDeadlineExtensionEmail(course, session,
+                                entry.getValue(), session.getEndTime(), EmailType.DEADLINE_EXTENSION_REVOKED,
+                                entry.getKey(), areInstructors))
                 .collect(Collectors.toList());
     }
 

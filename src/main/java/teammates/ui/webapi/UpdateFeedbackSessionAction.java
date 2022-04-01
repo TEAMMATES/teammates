@@ -2,6 +2,7 @@ package teammates.ui.webapi;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -119,24 +120,24 @@ class UpdateFeedbackSessionAction extends Action {
         boolean notifyAboutDeadlines = getBooleanRequestParamValue(Const.ParamsNames.NOTIFY_ABOUT_DEADLINES);
 
         List<EmailWrapper> emailsToSend = new ArrayList<>();
-        if (!studentDeadlines.equals(oldStudentDeadlines)) {
-            processDeadlineExtensions(courseId, feedbackSession, oldStudentDeadlines, studentDeadlines,
-                    false, notifyAboutDeadlines, emailsToSend);
-        }
 
-        if (!instructorDeadlines.equals(oldInstructorDeadlines)) {
-            processDeadlineExtensions(courseId, feedbackSession, oldInstructorDeadlines, instructorDeadlines,
-                    true, notifyAboutDeadlines, emailsToSend);
-        }
+        emailsToSend.addAll(processDeadlineExtensions(courseId, feedbackSession, oldStudentDeadlines, studentDeadlines,
+                false, notifyAboutDeadlines));
+        emailsToSend.addAll(processDeadlineExtensions(courseId, feedbackSession, oldInstructorDeadlines, instructorDeadlines,
+                true, notifyAboutDeadlines));
 
         taskQueuer.scheduleEmailsForSending(emailsToSend);
 
         return new JsonResult(new FeedbackSessionData(feedbackSession));
     }
 
-    private void processDeadlineExtensions(String courseId, FeedbackSessionAttributes session,
+    private List<EmailWrapper> processDeadlineExtensions(String courseId, FeedbackSessionAttributes session,
             Map<String, Instant> oldDeadlines, Map<String, Instant> newDeadlines,
-            boolean areInstructors, boolean notifyUsers, List<EmailWrapper> emailsToSend) {
+            boolean areInstructors, boolean notifyUsers) {
+        if (oldDeadlines.equals(newDeadlines)) {
+            return Collections.emptyList();
+        }
+
         // Revoke deadline extensions
         Map<String, Instant> deadlinesToRevoke = new HashMap<>(oldDeadlines);
         deadlinesToRevoke.keySet().removeAll(newDeadlines.keySet());
@@ -150,11 +151,10 @@ class UpdateFeedbackSessionAction extends Action {
 
         deadlinesToCreate.entrySet()
                 .stream()
-                .map(entry ->
-                    DeadlineExtensionAttributes
-                            .builder(courseId, session.getFeedbackSessionName(), entry.getKey(), areInstructors)
-                            .withEndTime(entry.getValue())
-                            .build())
+                .map(entry -> DeadlineExtensionAttributes
+                        .builder(courseId, session.getFeedbackSessionName(), entry.getKey(), areInstructors)
+                        .withEndTime(entry.getValue())
+                        .build())
                 .forEach(deadlineExtension -> {
                     try {
                         logic.createDeadlineExtension(deadlineExtension);
@@ -173,10 +173,9 @@ class UpdateFeedbackSessionAction extends Action {
         deadlinesToUpdate.entrySet()
                 .stream()
                 .map(entry -> DeadlineExtensionAttributes
-                            .updateOptionsBuilder(
-                                    courseId, session.getFeedbackSessionName(), entry.getKey(), areInstructors)
-                            .withEndTime(entry.getValue())
-                            .build())
+                        .updateOptionsBuilder(courseId, session.getFeedbackSessionName(), entry.getKey(), areInstructors)
+                        .withEndTime(entry.getValue())
+                        .build())
                 .forEach(updateOptions -> {
                     try {
                         logic.updateDeadlineExtension(updateOptions);
@@ -185,6 +184,7 @@ class UpdateFeedbackSessionAction extends Action {
                     }
                 });
 
+        List<EmailWrapper> emailsToSend = new ArrayList<>();
         if (notifyUsers) {
             CourseAttributes course = logic.getCourse(courseId);
             emailsToSend.addAll(emailGenerator
@@ -194,7 +194,7 @@ class UpdateFeedbackSessionAction extends Action {
             emailsToSend.addAll(emailGenerator
                     .generateDeadlineUpdatedEmails(course, session, deadlinesToUpdate, oldDeadlines, areInstructors));
         }
-
+        return emailsToSend;
     }
 
 }
