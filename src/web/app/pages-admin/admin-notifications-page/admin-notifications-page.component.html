@@ -11,10 +11,9 @@
 
 <div class="margin-top-30px" *ngIf="isNotificationEditFormExpanded && !isNotificationLoading" @collapseAnim>
   <tm-notification-edit-form [formMode]="currentNotificationEditFormMode" [(model)]="notificationEditFormModel"
-                        (addNewNotificationEvent)="addNewNotificationHandler()"
-                        (editExistingNotificationEvent)="editExistingNotificationHandler()"
-                        (cancelEditingNotificationEvent)="initNotificationEditFormModel()"
-  ></tm-notification-edit-form>
+                             (addNewNotificationEvent)="addNewNotificationHandler()"
+                             (editExistingNotificationEvent)="editExistingNotificationHandler()"
+                             (cancelEditingNotificationEvent)="initNotificationEditFormModel()"></tm-notification-edit-form>
 </div>
 
 <tm-loading-retry [shouldShowRetry]="hasNotificationLoadingFailed" [message]="'Failed to load data'"

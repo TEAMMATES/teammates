@@ -36,6 +36,7 @@ export class NotificationsTableComponent implements OnInit {
   @Output()
   deleteNotificationEvent: EventEmitter<String> = new EventEmitter();
 
+  @Output()
   loadNotificationEditFormEvent: EventEmitter<Notification> = new EventEmitter();
 
   constructor(private simpleModalService: SimpleModalService, private timezoneService: TimezoneService) { }
