@@ -55,6 +55,16 @@ public class AdminNotificationsPageE2ETest extends BaseE2ETestCase {
         notificationsPage.verifyNotificationAttributes(newNotification, createdNotification);
 
         ______TS("edit notification");
+        createdNotification.setStartTime(TimeHelper.parseInstant("2025-05-09T12:00:00Z"));
+        createdNotification.setEndTime(TimeHelper.parseInstant("2045-06-01T22:00:00Z"));
+        createdNotification.setStyle(NotificationStyle.DANGER);
+        createdNotification.setTargetUser(NotificationTargetUser.INSTRUCTOR);
+        createdNotification.setTitle("Edited E2E test notification 1");
+        createdNotification.setMessage("<p>Edited E2E test notification message</p>");
+
+        notificationsPage.editNotification(createdNotification);
+        notificationsPage.verifyStatusMessage("Notification updated successfully.");
+        verifyPresentInDatabase(createdNotification);
 
         ______TS("delete notification");
         notificationsPage.deleteNotification(createdNotification);

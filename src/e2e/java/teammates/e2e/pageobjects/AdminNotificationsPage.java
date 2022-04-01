@@ -52,6 +52,9 @@ public class AdminNotificationsPage extends AppPage {
     @FindBy(id = "btn-create-notification")
     private WebElement createNotificationButton;
 
+    @FindBy(id = "btn-edit-notification")
+    private WebElement editNotificationButton;
+
     @FindBy(id = "notifications-table")
     private WebElement notificationsTable;
 
@@ -84,18 +87,25 @@ public class AdminNotificationsPage extends AppPage {
         assertEquals(expected.getMessage(), actual.getMessage());
     }
 
-    public void addNotification(NotificationAttributes newNotification) {
+    public void addNotification(NotificationAttributes notification) {
         clickAddNotificationButton();
-        waitForElementPresence(By.cssSelector("#message iframe"));
+        waitForElementPresence(By.id("btn-create-notification"));
 
-        selectDropdownOptionByText(notificationTargetUserDropdown, getTargetUserText(newNotification.getTargetUser()));
-        selectDropdownOptionByText(notificationStyleDropdown, getNotificationStyle(newNotification.getStyle()));
-        fillTextBox(notificationTitleTextBox, newNotification.getTitle());
-        setMessage(newNotification.getMessage());
-        setNotificationStartDateTime(newNotification.getStartTime());
-        setNotificationEndDateTime(newNotification.getEndTime());
+        fillNotificationForm(notification);
 
         clickCreateNotificationButton();
+        waitForPageToLoad(true);
+    }
+
+    public void editNotification(NotificationAttributes notification) {
+        WebElement notificationRow = notificationsTable.findElement(By.id(notification.getNotificationId()));
+        WebElement editButton = notificationRow.findElement(By.className("btn-light"));
+        editButton.click();
+        waitForElementPresence(By.id("btn-edit-notification"));
+
+        fillNotificationForm(notification);
+
+        clickEditNotificationButton();
         waitForPageToLoad(true);
     }
 
@@ -106,6 +116,15 @@ public class AdminNotificationsPage extends AppPage {
         deleteButton.click();
         waitForConfirmationModalAndClickOk();
         waitForPageToLoad(true);
+    }
+
+    public void fillNotificationForm(NotificationAttributes notification) {
+        selectDropdownOptionByText(notificationTargetUserDropdown, getTargetUserText(notification.getTargetUser()));
+        selectDropdownOptionByText(notificationStyleDropdown, getNotificationStyle(notification.getStyle()));
+        fillTextBox(notificationTitleTextBox, notification.getTitle());
+        setMessage(notification.getMessage());
+        setNotificationStartDateTime(notification.getStartTime());
+        setNotificationEndDateTime(notification.getEndTime());
     }
 
     public String getNewestNotificationId() {
@@ -119,6 +138,10 @@ public class AdminNotificationsPage extends AppPage {
 
     private void clickCreateNotificationButton() {
         click(createNotificationButton);
+    }
+
+    private void clickEditNotificationButton() {
+        click(editNotificationButton);
     }
 
     private void setMessage(String message) {
@@ -196,7 +219,7 @@ public class AdminNotificationsPage extends AppPage {
         case WARNING:
             return "Warning (yellow)";
         case INFO:
-            return "Danger (red)";
+            return "Info (cyan)";
         case LIGHT:
             return "Light";
         case DARK:

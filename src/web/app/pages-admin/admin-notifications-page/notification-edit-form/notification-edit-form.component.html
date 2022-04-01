@@ -128,7 +128,7 @@
             </button>
           </div>
           <div *ngIf="formMode === NotificationEditFormMode.EDIT">
-            <button type="button" class="btn btn-success" [disabled]="model.isSaving" *ngIf="formMode === NotificationEditFormMode.EDIT" (click)="submitFormHandler()">
+            <button id="btn-edit-notification" type="button" class="btn btn-success" [disabled]="model.isSaving" *ngIf="formMode === NotificationEditFormMode.EDIT" (click)="submitFormHandler()">
               <tm-ajax-loading *ngIf="model.isSaving"></tm-ajax-loading>Save Changes
             </button>
           </div>
