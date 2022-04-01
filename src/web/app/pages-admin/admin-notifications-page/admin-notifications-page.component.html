@@ -3,15 +3,17 @@
 
 <div>
   <button id="btn-add-notification" class="btn btn-success" (click)="isNotificationEditFormExpanded = true"
-          [disabled]="isNotificationEditFormExpanded || isNotificationLoading"><i class="fas fa-plus"></i> Add New Notification
+          [disabled]="isNotificationEditFormExpanded || isNotificationLoading">
+          <span *ngIf="currentNotificationEditFormMode === NotificationEditFormMode.ADD else editbtn"><i class="fas fa-plus"></i> Add New Notification</span>
+          <ng-template #editbtn><i class="fas fa-cog"></i> Edit Existing Notification</ng-template>
   </button>
 </div>
 
 <div class="margin-top-30px" *ngIf="isNotificationEditFormExpanded && !isNotificationLoading" @collapseAnim>
-  <tm-notification-edit-form [formMode]="NotificationEditFormMode.ADD" [(model)]="notificationEditFormModel"
-                        (addNewNotificationEvent)="addNewNotificationHandler()"
-                        (closeEditFormEvent)="isNotificationEditFormExpanded = false"
-  ></tm-notification-edit-form>
+  <tm-notification-edit-form [formMode]="currentNotificationEditFormMode" [(model)]="notificationEditFormModel"
+                             (addNewNotificationEvent)="addNewNotificationHandler()"
+                             (editExistingNotificationEvent)="editExistingNotificationHandler()"
+                             (cancelEditingNotificationEvent)="initNotificationEditFormModel()"></tm-notification-edit-form>
 </div>
 
 <tm-loading-retry [shouldShowRetry]="hasNotificationLoadingFailed" [message]="'Failed to load data'"
@@ -27,6 +29,7 @@
                               [notificationsTableRowModelsSortBy]="notificationsTableRowModelsSortBy"
                               [notificationsTableRowModelsSortOrder]="notificationsTableRowModelsSortOrder"
                               (deleteNotificationEvent)="deleteNotificationHandler($event)"
+                              (loadNotificationEditFormEvent)="loadNotificationEditFormHandler($event)"
                               (sortNotificationsTableRowModelsEvent)="sortNotificationsTableRowModelsHandler($event)"></tm-notifications-table>
     </div>
   </div>

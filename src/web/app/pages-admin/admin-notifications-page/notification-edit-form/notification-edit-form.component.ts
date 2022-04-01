@@ -43,7 +43,6 @@ export class NotificationEditFormComponent implements OnInit {
     message: '',
 
     isSaving: false,
-    isEditable: true,
     isDeleting: false,
   };
 
@@ -68,9 +67,6 @@ export class NotificationEditFormComponent implements OnInit {
 
   @Output()
   deleteExistingNotificationEvent = new EventEmitter<void>();
-
-  @Output()
-  closeEditFormEvent = new EventEmitter<void>();
 
   constructor(
     private timezoneService: TimezoneService,
@@ -112,7 +108,7 @@ export class NotificationEditFormComponent implements OnInit {
     this.simpleModalService.openConfirmationModal('Discard unsaved edit?',
         SimpleModalType.WARNING, 'Warning: Any unsaved changes will be lost.').result.then(() => {
           this.cancelEditingNotificationEvent.emit();
-        }, () => {});
+        });
   }
 
   /**
@@ -125,14 +121,7 @@ export class NotificationEditFormComponent implements OnInit {
         'This action is not reversible and the delete will be permanent.',
     ).result.then(() => {
       this.deleteExistingNotificationEvent.emit();
-    }, () => {});
-  }
-
-  /**
-   * Handles closing of the edit form.
-   */
-  closeEditFormHandler(): void {
-    this.closeEditFormEvent.emit();
+    });
   }
 
 }
