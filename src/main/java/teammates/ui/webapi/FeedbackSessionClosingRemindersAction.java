@@ -1,7 +1,9 @@
 package teammates.ui.webapi;
 
+import java.time.Instant;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.attributes.DeadlineExtensionAttributes;
@@ -54,11 +56,14 @@ class FeedbackSessionClosingRemindersAction extends AdminOnlyAction {
                 continue;
             }
 
-            List<EmailWrapper> emailsToBeSent =
-                    emailGenerator.generateFeedbackSessionClosingWithExtensionEmails(feedbackSession, deadlineExtensions);
+            List<DeadlineExtensionAttributes> validDeadlineExtensions =
+                    filterValidDeadlineExtensions(deadlineExtensions, feedbackSession);
+            List<EmailWrapper> emailsToBeSent = emailGenerator
+                    .generateFeedbackSessionClosingWithExtensionEmails(feedbackSession, validDeadlineExtensions);
             taskQueuer.scheduleEmailsForSending(emailsToBeSent);
+
             try {
-                for (var deadlineExtension : deadlineExtensions) {
+                for (var deadlineExtension : validDeadlineExtensions) {
                     DeadlineExtensionAttributes.UpdateOptions updateOptions = DeadlineExtensionAttributes
                             .updateOptionsBuilder(courseId, feedbackSessionName,
                                     deadlineExtension.getUserEmail(), deadlineExtension.getIsInstructor())
@@ -72,6 +77,29 @@ class FeedbackSessionClosingRemindersAction extends AdminOnlyAction {
         }
 
         return new JsonResult("Successful");
+    }
+
+    /**
+     * Remove invalid deadline extensions from the given {@code deadlineExtensions}.
+     *
+     * <p>Deadline Extensions may not be synced up with the deadlines in feedback session.
+     * Treat deadlines in feedback session as the single source of truth and verify their existence before sending emails.
+     */
+    private List<DeadlineExtensionAttributes> filterValidDeadlineExtensions(
+            List<DeadlineExtensionAttributes> deadlineExtensions, FeedbackSessionAttributes session) {
+        Map<String, Instant> studentDeadlines = session.getStudentDeadlines();
+        Map<String, Instant> instructorDeadlines = session.getInstructorDeadlines();
+
+        return deadlineExtensions.stream()
+                .filter(de ->
+                    de.getIsInstructor() && isValidDeadlineExtension(de, instructorDeadlines)
+                            || !de.getIsInstructor() && isValidDeadlineExtension(de, studentDeadlines))
+                .collect(Collectors.toList());
+    }
+
+    private boolean isValidDeadlineExtension(DeadlineExtensionAttributes deadlineExtension,
+            Map<String, Instant> actualDeadlines) {
+        return deadlineExtension.getEndTime().equals(actualDeadlines.get(deadlineExtension.getUserEmail()));
     }
 
 }

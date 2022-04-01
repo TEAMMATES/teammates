@@ -1,6 +1,8 @@
 package teammates.ui.webapi;
 
+import java.time.Instant;
 import java.util.List;
+import java.util.Map;
 
 import org.testng.annotations.Test;
 
@@ -49,8 +51,7 @@ public class FeedbackSessionClosingRemindersActionTest
         verifyNoTasksAdded();
 
         ______TS("1 session closing soon, 1 session closing soon with disabled closing reminder, "
-                + "1 session closing soon but not yet opened, "
-                + "1 student, 1 instructor with extended deadine, 1 student with extended deadline already attempted");
+                + "1 session closing soon but not yet opened");
 
         // Modify session to close in 24 hours
 
@@ -105,30 +106,6 @@ public class FeedbackSessionClosingRemindersActionTest
         session3.setSentOpenEmail(false); // fsLogic will set the flag to true
         verifyPresentInDatabase(session3);
 
-        // update deadline extensions to have end time within the next 24 hours
-        DeadlineExtensionAttributes deadlineExtensionStudent =
-                typicalBundle.deadlineExtensions.get("student4InCourse1Session1");
-        DeadlineExtensionAttributes deadlineExtensionStudentAlreadyAnswered =
-                typicalBundle.deadlineExtensions.get("student3InCourse1Session1");
-        DeadlineExtensionAttributes deadlineExtensionInstructor =
-                typicalBundle.deadlineExtensions.get("instructor2InCourse1Session1");
-        List<DeadlineExtensionAttributes> deadlineExtensions = List.of(
-                deadlineExtensionStudent,
-                deadlineExtensionStudentAlreadyAnswered,
-                deadlineExtensionInstructor);
-
-        for (DeadlineExtensionAttributes deadlineExtension : deadlineExtensions) {
-            logic.updateDeadlineExtension(
-                    DeadlineExtensionAttributes
-                            .updateOptionsBuilder(
-                                deadlineExtension.getCourseId(),
-                                deadlineExtension.getFeedbackSessionName(),
-                                deadlineExtension.getUserEmail(),
-                                deadlineExtension.getIsInstructor())
-                            .withEndTime(TimeHelperExtension.getInstantHoursOffsetFromNow(12))
-                            .build());
-        }
-
         // wait for very briefly so that the above session will be within the time limit
         ThreadHelper.waitFor(5);
 
@@ -137,8 +114,7 @@ public class FeedbackSessionClosingRemindersActionTest
 
         // 5 students, 5 instructors, and 3 co-owner instructors in course1
         // 3 students and 2 instructors in session have deadline extensions and should not receive email
-        // 2 student, 1 instructor with deadline extensions within time period
-        verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 11);
+        verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 8);
 
         String courseName = logic.getCourse(session1.getCourseId()).getName();
         List<TaskWrapper> tasksAdded = mockTaskQueuer.getTasksAdded();
@@ -165,6 +141,91 @@ public class FeedbackSessionClosingRemindersActionTest
         action.execute();
 
         verifyNoTasksAdded();
+
+        ______TS("2 students and 1 instructor with valid deadline extensions,"
+                + "1 student in session with reminders disabled,"
+                + "2 students with invalid deadline extensions");
+
+        // update deadline extensions to have end time within the next 24 hours
+        var studentDe = typicalBundle.deadlineExtensions.get("student3InCourse1Session1");
+        var studentOutdatedEndTimeDe = typicalBundle.deadlineExtensions.get("student4InCourse1Session1");
+        var studentDeletedDeadlineDe = typicalBundle.deadlineExtensions.get("student5InCourse1Session1");
+        var studentRemindersDisabledDe = typicalBundle.deadlineExtensions.get("student4InCourse1Session2");
+        var studentDifferentCourseDe = typicalBundle.deadlineExtensions.get("student1InCourse1GracePeriodSession");
+        var instructorDe = typicalBundle.deadlineExtensions.get("instructor2InCourse1Session1");
+
+        List<DeadlineExtensionAttributes> deadlineExtensions = List.of(
+                studentDe,
+                studentRemindersDisabledDe,
+                studentDifferentCourseDe,
+                studentOutdatedEndTimeDe,
+                studentDeletedDeadlineDe,
+                instructorDe);
+
+        Instant extendedDeadlineTime = TimeHelperExtension.getInstantHoursOffsetFromNow(16);
+        Instant sessionClosingTime = TimeHelperExtension.getInstantHoursOffsetFromNow(2);
+
+        for (var deadlineExtension : deadlineExtensions) {
+            logic.updateDeadlineExtension(
+                    DeadlineExtensionAttributes
+                            .updateOptionsBuilder(
+                                deadlineExtension.getCourseId(),
+                                deadlineExtension.getFeedbackSessionName(),
+                                deadlineExtension.getUserEmail(),
+                                deadlineExtension.getIsInstructor())
+                            .withEndTime(extendedDeadlineTime)
+                            .build());
+        }
+
+        logic.updateFeedbackSession(
+                FeedbackSessionAttributes
+                        .updateOptionsBuilder(session1.getFeedbackSessionName(), session1.getCourseId())
+                        .withEndTime(sessionClosingTime)
+                        .withSentClosingEmail(true)
+                        .withStudentDeadlines(Map.of(studentDe.getUserEmail(), extendedDeadlineTime,
+                                studentOutdatedEndTimeDe.getUserEmail(), extendedDeadlineTime.minusSeconds(60 * 60)))
+                        .withInstructorDeadlines(Map.of(instructorDe.getUserEmail(), extendedDeadlineTime))
+                        .build());
+        logic.updateFeedbackSession(
+                FeedbackSessionAttributes
+                        .updateOptionsBuilder(session2.getFeedbackSessionName(), session2.getCourseId())
+                        .withEndTime(sessionClosingTime)
+                        .withSentClosingEmail(true)
+                        .withStudentDeadlines(Map.of(studentRemindersDisabledDe.getUserEmail(), extendedDeadlineTime))
+                        .build());
+        logic.updateFeedbackSession(
+                FeedbackSessionAttributes
+                        .updateOptionsBuilder(session3.getFeedbackSessionName(), session3.getCourseId())
+                        .withStartTime(TimeHelperExtension.getInstantHoursOffsetFromNow(-1))
+                        .withEndTime(sessionClosingTime)
+                        .withSentClosingEmail(true)
+                        .withIsClosingEmailEnabled(true)
+                        .withStudentDeadlines(Map.of(studentDifferentCourseDe.getUserEmail(), extendedDeadlineTime))
+                        .build());
+
+        // wait for very briefly so that the above session will be within the time limit
+        ThreadHelper.waitFor(5);
+
+        action = getAction();
+        action.execute();
+
+        // sentClosingEmail is true for all sessions, should only send emails to those with extended deadlines
+        // 2 students, 1 instructor with valid deadline extensions within time period
+        // 1 student in session with reminders disabled
+        // 1 student with outdated deadline, 1 student with deleted deadline
+        verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 3);
+
+        tasksAdded = mockTaskQueuer.getTasksAdded();
+        for (var task : tasksAdded) {
+            SendEmailRequest requestBody = (SendEmailRequest) task.getRequestBody();
+            EmailWrapper email = requestBody.getEmail();
+            String expectedSubjectSession1 = String.format(EmailType.FEEDBACK_CLOSING.getSubject(),
+                    courseName, session1.getFeedbackSessionName());
+            String expectedSubjectSession3 = String.format(EmailType.FEEDBACK_CLOSING.getSubject(),
+                    courseName, session3.getFeedbackSessionName());
+            assertTrue(expectedSubjectSession1.equals(email.getSubject())
+                    || expectedSubjectSession3.equals(email.getSubject()));
+        }
 
     }
 
