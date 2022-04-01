@@ -16,6 +16,7 @@
       "pageNavTitle": "Chapters of This Page"
     }
   }],
+  "pagesExclude": ["node_modules/*"],
   "deploy": {
     "message": "Site Update."
   },
