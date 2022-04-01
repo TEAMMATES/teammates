@@ -1,7 +1,6 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
-import { TimezoneService } from '../../../../services/timezone.service';
 import { ApiConst } from '../../../../types/api-const';
 import { NotificationTargetUser, NotificationStyle } from '../../../../types/api-request';
 import { DatePickerFormatter } from '../../../components/datepicker/datepicker-formatter';
@@ -16,7 +15,7 @@ import { NotificationEditFormMode, NotificationEditFormModel } from './notificat
   providers: [{ provide: NgbDateParserFormatter, useClass: DatePickerFormatter }],
   animations: [collapseAnim],
 })
-export class NotificationEditFormComponent implements OnInit {
+export class NotificationEditFormComponent {
 
   NotificationEditFormMode = NotificationEditFormMode;
   NotificationStyle = NotificationStyle;
@@ -24,7 +23,8 @@ export class NotificationEditFormComponent implements OnInit {
 
   NOTIFICATION_TITLE_MAX_LENGTH = ApiConst.NOTIFICATION_TITLE_MAX_LENGTH;
 
-  guessTimezone = '';
+  @Input()
+  guessTimezone = 'UTC';
 
   @Input()
   model: NotificationEditFormModel = {
@@ -68,14 +68,7 @@ export class NotificationEditFormComponent implements OnInit {
   @Output()
   deleteExistingNotificationEvent = new EventEmitter<void>();
 
-  constructor(
-    private timezoneService: TimezoneService,
-    private simpleModalService: SimpleModalService,
-  ) { }
-
-  ngOnInit(): void {
-    this.guessTimezone = this.timezoneService.guessTimezone();
-  }
+  constructor(private simpleModalService: SimpleModalService) { }
 
   /**
    * Triggers the change of the model for the form.

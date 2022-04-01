@@ -13,7 +13,9 @@
 </div>
 
 <div class="margin-top-30px" *ngIf="isNotificationEditFormExpanded && !isNotificationLoading" @collapseAnim>
-  <tm-notification-edit-form [formMode]="currentNotificationEditFormMode" [(model)]="notificationEditFormModel"
+  <tm-notification-edit-form [formMode]="currentNotificationEditFormMode"
+                             [(model)]="notificationEditFormModel"
+                             [guessTimezone]="guessTimezone"
                              (addNewNotificationEvent)="addNewNotificationHandler()"
                              (editExistingNotificationEvent)="editExistingNotificationHandler()"
                              (cancelEditingNotificationEvent)="initNotificationEditFormModel()"></tm-notification-edit-form>
