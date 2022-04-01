@@ -162,14 +162,14 @@ public class AdminNotificationsPage extends AppPage {
     }
 
     private String[] getNotificationTableDisplayDetails(NotificationAttributes notification) {
-        String[] details = new String[6];
-        details[0] = notification.getTitle();
-        details[1] = getTableDisplayDateString(notification.getStartTime());
-        details[2] = getTableDisplayDateString(notification.getEndTime());
-        details[3] = notification.getTargetUser().toString();
-        details[4] = getNotificationStyle(notification.getStyle());
-        details[5] = getTableDisplayDateString(notification.getCreatedAt());
-        return details;
+        return new String[] {
+            notification.getTitle(),
+            getTableDisplayDateString(notification.getStartTime()),
+            getTableDisplayDateString(notification.getEndTime()),
+            notification.getTargetUser().toString(),
+            getNotificationStyle(notification.getStyle()),
+            getTableDisplayDateString(notification.getCreatedAt()),
+        };
     }
 
     private String getTimezone() {

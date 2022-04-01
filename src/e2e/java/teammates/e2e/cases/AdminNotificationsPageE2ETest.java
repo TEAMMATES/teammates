@@ -30,7 +30,6 @@ public class AdminNotificationsPageE2ETest extends BaseE2ETestCase {
     public void testAll() {
 
         ______TS("verify loaded data");
-
         AppUrl url = createFrontendUrl(Const.WebPageURIs.ADMIN_NOTIFICATIONS_PAGE);
         AdminNotificationsPage notificationsPage = loginAdminToPage(url, AdminNotificationsPage.class);
         notificationsPage.verifyNotificationsTable(notifications);
