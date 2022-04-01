@@ -8,6 +8,7 @@ exports[`NotificationsTableComponent should snap like in notification page with 
   deleteNotificationEvent={[Function EventEmitter_]}
   guessTimezone={[Function String]}
   headerColorScheme="0"
+  loadNotificationEditFormEvent={[Function EventEmitter_]}
   notificationsTableRowModels={[Function Array]}
   notificationsTableRowModelsSortBy={[Function Number]}
   notificationsTableRowModelsSortOrder="0"
@@ -80,7 +81,7 @@ exports[`NotificationsTableComponent should snap like in notification page with 
             <th
               class="sortable-header"
             >
-               Type 
+               Style 
               <span
                 class="fa-stack"
               >
@@ -142,9 +143,9 @@ exports[`NotificationsTableComponent should snap like in notification page with 
               INSTRUCTOR
             </td>
             <td
-              class="text-break"
+              class="text-break bg-success text-white"
             >
-              MAINTENANCE
+              Success (green)
             </td>
             <td
               class="text-break"
@@ -206,9 +207,9 @@ exports[`NotificationsTableComponent should snap like in notification page with 
               GENERAL
             </td>
             <td
-              class="text-break"
+              class="text-break bg-danger text-white"
             >
-              DEPRECATION
+              Danger (red)
             </td>
             <td
               class="text-break"
@@ -255,6 +256,7 @@ exports[`NotificationsTableComponent should snap like in notification page with 
   deleteNotificationEvent={[Function EventEmitter_]}
   guessTimezone={[Function String]}
   headerColorScheme="0"
+  loadNotificationEditFormEvent={[Function EventEmitter_]}
   notificationsTableRowModels={[Function Array]}
   notificationsTableRowModelsSortBy={[Function Number]}
   notificationsTableRowModelsSortOrder="0"
@@ -330,7 +332,7 @@ exports[`NotificationsTableComponent should snap like in notification page with 
             <th
               class="sortable-header"
             >
-               Type 
+               Style 
               <span
                 class="fa-stack"
               >
@@ -389,9 +391,9 @@ exports[`NotificationsTableComponent should snap like in notification page with 
               INSTRUCTOR
             </td>
             <td
-              class="text-break"
+              class="text-break bg-success text-white"
             >
-              MAINTENANCE
+              Success (green)
             </td>
             <td
               class="text-break"
@@ -453,9 +455,9 @@ exports[`NotificationsTableComponent should snap like in notification page with 
               GENERAL
             </td>
             <td
-              class="text-break"
+              class="text-break bg-danger text-white"
             >
-              DEPRECATION
+              Danger (red)
             </td>
             <td
               class="text-break"
@@ -502,6 +504,7 @@ exports[`NotificationsTableComponent should snap with default fields 1`] = `
   deleteNotificationEvent={[Function EventEmitter_]}
   guessTimezone={[Function String]}
   headerColorScheme="0"
+  loadNotificationEditFormEvent={[Function EventEmitter_]}
   notificationsTableRowModels={[Function Array]}
   notificationsTableRowModelsSortBy={[Function Number]}
   notificationsTableRowModelsSortOrder="0"
@@ -574,7 +577,7 @@ exports[`NotificationsTableComponent should snap with default fields 1`] = `
             <th
               class="sortable-header"
             >
-               Type 
+               Style 
               <span
                 class="fa-stack"
               >

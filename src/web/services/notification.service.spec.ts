@@ -1,7 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { ResourceEndpoints } from '../types/api-const';
-import { NotificationBasicRequest, NotificationTargetUser, NotificationType } from '../types/api-request';
+import { NotificationBasicRequest, NotificationStyle, NotificationTargetUser } from '../types/api-request';
 import { HttpRequestService } from './http-request.service';
 import { NotificationService } from './notification.service';
 
@@ -12,7 +12,7 @@ describe('NotificationService', () => {
   const requestBody: NotificationBasicRequest = {
     startTimestamp: 0,
     endTimestamp: 0,
-    notificationType: NotificationType.DEPRECATION,
+    style: NotificationStyle.SECONDARY,
     targetUser: NotificationTargetUser.GENERAL,
     title: '',
     message: '',

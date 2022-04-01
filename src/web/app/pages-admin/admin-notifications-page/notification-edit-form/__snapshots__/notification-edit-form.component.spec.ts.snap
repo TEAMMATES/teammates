@@ -4,11 +4,10 @@ exports[`NotificationEditFormComponent should snap with default view 1`] = `
 <tm-notification-edit-form
   NOTIFICATION_TITLE_MAX_LENGTH={[Function Number]}
   NotificationEditFormMode={[Function Object]}
+  NotificationStyle={[Function Object]}
   NotificationTargetUser={[Function Object]}
-  NotificationType={[Function Object]}
   addNewNotificationEvent={[Function EventEmitter_]}
   cancelEditingNotificationEvent={[Function EventEmitter_]}
-  closeEditFormEvent={[Function EventEmitter_]}
   courseCandidates={[Function Array]}
   deleteExistingNotificationEvent={[Function EventEmitter_]}
   editExistingNotificationEvent={[Function EventEmitter_]}
@@ -93,9 +92,9 @@ exports[`NotificationEditFormComponent should snap with default view 1`] = `
             >
               <span
                 class="ngb-tooltip-class"
-                ngbtooltip="Different types correspond to different background colours at display."
+                ngbtooltip="Different styles correspond to different background colours at display."
               >
-                Notification type
+                Notification style
               </span>
             </div>
             <div
@@ -103,31 +102,55 @@ exports[`NotificationEditFormComponent should snap with default view 1`] = `
             >
               <select
                 class="form-control ng-untouched ng-pristine ng-valid"
-                id="notification-type"
+                id="notification-style"
               >
                 <option
-                  class="text-warning"
-                  value="0: MAINTENANCE"
+                  class="bg-danger text-white"
+                  value="0: DANGER"
                 >
-                  Maintenance
+                  Danger (red)
                 </option>
                 <option
-                  class="text-primary"
-                  value="1: VERSION_NOTE"
+                  class="bg-dark text-white"
+                  value="1: DARK"
                 >
-                  Version note
+                  Dark
                 </option>
                 <option
-                  class="text-secondary"
-                  value="2: DEPRECATION"
+                  class="bg-info text-white"
+                  value="2: INFO"
                 >
-                  Depreciation
+                  Info (cyan)
                 </option>
                 <option
-                  class="text-success"
-                  value="3: TIPS"
+                  class="bg-light text-dark"
+                  value="3: LIGHT"
                 >
-                  Tips
+                  Light
+                </option>
+                <option
+                  class="bg-primary text-white"
+                  value="4: PRIMARY"
+                >
+                  Primary (blue)
+                </option>
+                <option
+                  class="bg-secondary text-white"
+                  value="5: SECONDARY"
+                >
+                  Secondary (grey)
+                </option>
+                <option
+                  class="bg-success text-white"
+                  value="6: SUCCESS"
+                >
+                  Success (green)
+                </option>
+                <option
+                  class="bg-warning text-dark"
+                  value="7: WARNING"
+                >
+                  Warning (yellow)
                 </option>
               </select>
             </div>

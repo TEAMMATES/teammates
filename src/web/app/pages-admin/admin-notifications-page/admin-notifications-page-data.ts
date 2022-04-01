@@ -1,4 +1,4 @@
-import { Notification, NotificationTargetUser, NotificationType } from '../../../types/api-output';
+import { Notification, NotificationStyle, NotificationTargetUser } from '../../../types/api-output';
 import { NotificationEditFormModel } from './notification-edit-form/notification-edit-form-model';
 
 /**
@@ -13,14 +13,13 @@ export const EXAMPLE_NOTIFICATION_EDIT_MODEL: NotificationEditFormModel = {
   endTime: { hour: 0, minute: 0 },
   endDate: { year: 0, month: 0, day: 0 },
 
-  type: NotificationType.MAINTENANCE,
+  style: NotificationStyle.SUCCESS,
   targetUser: NotificationTargetUser.INSTRUCTOR,
 
   title: 'valid title',
   message: 'valid message',
 
   isSaving: false,
-  isEditable: true,
   isDeleting: false,
 };
 /**
@@ -32,7 +31,7 @@ export const EXAMPLE_NOTIFICATION_ONE: Notification = {
   endTimestamp: 1,
   createdAt: 0,
   updatedAt: 0,
-  notificationType: NotificationType.MAINTENANCE,
+  style: NotificationStyle.SUCCESS,
   targetUser: NotificationTargetUser.INSTRUCTOR,
   title: 'valid title',
   message: 'valid message',
@@ -47,7 +46,7 @@ export const EXAMPLE_NOTIFICATION_TWO: Notification = {
   endTimestamp: 1554977204,
   createdAt: 1554232400,
   updatedAt: 1554232400,
-  notificationType: NotificationType.DEPRECATION,
+  style: NotificationStyle.DANGER,
   targetUser: NotificationTargetUser.GENERAL,
   title: 'valid title 2',
   message: 'valid message 2',
