@@ -4,8 +4,8 @@ import { Notification } from '../../../../types/api-output';
  * The model for a row in the notifications table.
  */
 export interface NotificationsTableRowModel {
-  isHighlighted: boolean,
-  notification: Notification,
+  isHighlighted: boolean;
+  notification: Notification;
 }
 
 /**
