@@ -268,7 +268,7 @@ Package overview:
 
 `common.datatransfer` package contains lightweight "data transfer object" classes for transferring data among components. They can be combined in various ways to transfer structured data between components. Given below are three examples.
 
-<puml src="diagrams/dataTransferClasses.puml"></puml>
+<puml src="diagrams/DataTransferClasses.puml"></puml>
 
 1. `Test Driver` can use the `DataBundle` in this manner to send an arbitrary number of objects to be persisted in the database.
 1. This structure can be used to transfer search results of a student or instructor or response comments.
