@@ -149,7 +149,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     this.studentService
       .getStudentsFromCourse({ courseId: this.courseId })
       .pipe(finalize(() => { this.isLoadingAllStudents = false; }),
-        map(({ students }: Students) => students.map((student) => this.mapStudentToStudentModel(student))),
+        map(({ students }: Students) => this.mapStudentsToStudentModels(students)),
       )
       .subscribe(
         (studentModels: StudentExtensionTableColumnModel[]) => {
@@ -182,23 +182,25 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     this.instructorDeadlines = feedbackSession.instructorDeadlines ?? {};
   }
 
-  private mapStudentToStudentModel(student: Student): StudentExtensionTableColumnModel {
-    const studentData: StudentExtensionTableColumnModel = {
-      sectionName: student.sectionName,
-      teamName: student.teamName,
-      name: student.name,
-      email: student.email,
-      extensionDeadline: this.feedbackSessionEndingTimestamp,
-      hasExtension: false,
-      isSelected: false,
-    };
+  private mapStudentsToStudentModels(students: Student[]): StudentExtensionTableColumnModel[] {
+    return students.map((student) => {
+      const studentData: StudentExtensionTableColumnModel = {
+        sectionName: student.sectionName,
+        teamName: student.teamName,
+        name: student.name,
+        email: student.email,
+        extensionDeadline: this.feedbackSessionEndingTimestamp,
+        hasExtension: false,
+        isSelected: false,
+      };
 
-    if (student.email in this.studentDeadlines) {
-      studentData.hasExtension = true;
-      studentData.extensionDeadline = this.studentDeadlines[student.email];
-    }
+      if (student.email in this.studentDeadlines) {
+        studentData.hasExtension = true;
+        studentData.extensionDeadline = this.studentDeadlines[student.email];
+      }
 
-    return studentData;
+      return studentData;
+    });
   }
 
   private initialSortOfStudents(): void {
@@ -215,10 +217,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
       .loadInstructors({ courseId: this.courseId, intent: Intent.FULL_DETAIL })
       .pipe(
         finalize(() => { this.isLoadingAllInstructors = false; }),
-        map(({ instructors }: Instructors) => instructors.map((instructor) => {
-            return this.mapInstructorToInstructorModel(instructor);
-          }),
-        ),
+        map(({ instructors }: Instructors) => this.mapInstructorsToInstructorModels(instructors)),
       )
       .subscribe((instructorModels: InstructorExtensionTableColumnModel[]) => {
         this.instructorsOfCourse = instructorModels;
@@ -230,21 +229,23 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
       );
   }
 
-  private mapInstructorToInstructorModel(instructor: Instructor): InstructorExtensionTableColumnModel {
-    const instructorData: InstructorExtensionTableColumnModel = {
-      name: instructor.name,
-      role: instructor.role,
-      email: instructor.email,
-      extensionDeadline: this.feedbackSessionEndingTimestamp,
-      hasExtension: false,
-      isSelected: false,
-    };
+  private mapInstructorsToInstructorModels(instructors: Instructor[]): InstructorExtensionTableColumnModel[] {
+    return instructors.map((instructor) => {
+      const instructorData: InstructorExtensionTableColumnModel = {
+        name: instructor.name,
+        role: instructor.role,
+        email: instructor.email,
+        extensionDeadline: this.feedbackSessionEndingTimestamp,
+        hasExtension: false,
+        isSelected: false,
+      };
 
-    if (instructor.email in this.instructorDeadlines) {
-      instructorData.hasExtension = true;
-      instructorData.extensionDeadline = this.instructorDeadlines[instructor.email];
-    }
-    return instructorData;
+      if (instructor.email in this.instructorDeadlines) {
+        instructorData.hasExtension = true;
+        instructorData.extensionDeadline = this.instructorDeadlines[instructor.email];
+      }
+      return instructorData;
+    });
   }
 
   private initialSortOfInstructors(): void {
