@@ -4,10 +4,10 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.testng.annotations.AfterClass;
@@ -243,14 +243,7 @@ public class StudentsLogicTest extends BaseLogicTest {
                 .map(FeedbackSessionAttributes::getStudentDeadlines)
                 .filter(studentDeadlines -> studentDeadlines.containsKey(oldEmailAddress))
                 .map(studentDeadlines -> studentDeadlines.get(oldEmailAddress))
-                .reduce(new HashMap<>(), (counts, deadline) -> {
-                    int count = counts.getOrDefault(deadline, 0);
-                    counts.put(deadline, count + 1);
-                    return counts;
-                }, (curr, next) -> {
-                    curr.putAll(next);
-                    return curr;
-                });
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.summingInt(deadline -> 1)));
         assertEquals(2, oldDeadlineCounts.values()
                 .stream()
                 .reduce(0, Integer::sum)
@@ -271,14 +264,7 @@ public class StudentsLogicTest extends BaseLogicTest {
                 .map(FeedbackSessionAttributes::getStudentDeadlines)
                 .filter(studentDeadlines -> studentDeadlines.containsKey(newEmailAddress))
                 .map(studentDeadlines -> studentDeadlines.get(newEmailAddress))
-                .reduce(new HashMap<>(), (counts, deadline) -> {
-                    int count = counts.getOrDefault(deadline, 0);
-                    counts.put(deadline, count + 1);
-                    return counts;
-                }, (curr, next) -> {
-                    curr.putAll(next);
-                    return curr;
-                });
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.summingInt(deadline -> 1)));
         assertEquals(oldDeadlineCounts, newDeadlineCounts);
     }
 
@@ -642,10 +628,10 @@ public class StudentsLogicTest extends BaseLogicTest {
                 .filter(feedbackSessionAttributes -> feedbackSessionAttributes.getStudentDeadlines()
                         .containsKey(emailAddress))
                 .collect(Collectors.toSet());
-        assertEquals(2, oldSessionsWithStudent4Deadlines.size());
         Map<FeedbackSessionAttributes, Integer> oldSessionsDeadlineCounts = oldSessionsWithStudent4Deadlines
                 .stream()
                 .collect(Collectors.toMap(fsa -> fsa, fsa -> fsa.getStudentDeadlines().size()));
+        assertEquals(2, oldSessionsWithStudent4Deadlines.size());
 
         studentsLogic.deleteStudentCascade(student4InCourse1.getCourse(), student4InCourse1.getEmail());
 

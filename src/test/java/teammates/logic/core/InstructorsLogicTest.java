@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.testng.annotations.BeforeMethod;
@@ -334,14 +335,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
                 .map(FeedbackSessionAttributes::getInstructorDeadlines)
                 .filter(instructorDeadlines -> instructorDeadlines.containsKey(oldEmailAddress))
                 .map(instructorDeadlines -> instructorDeadlines.get(oldEmailAddress))
-                .reduce(new HashMap<>(), (counts, deadline) -> {
-                    int count = counts.getOrDefault(deadline, 0);
-                    counts.put(deadline, count + 1);
-                    return counts;
-                }, (curr, next) -> {
-                    curr.putAll(next);
-                    return curr;
-                });
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.summingInt(deadline -> 1)));
         assertEquals(2, oldDeadlineCounts.values()
                 .stream()
                 .reduce(0, Integer::sum)
@@ -363,14 +357,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
                 .map(FeedbackSessionAttributes::getInstructorDeadlines)
                 .filter(instructorDeadlines -> instructorDeadlines.containsKey(newEmailAddress))
                 .map(instructorDeadlines -> instructorDeadlines.get(newEmailAddress))
-                .reduce(new HashMap<>(), (counts, deadline) -> {
-                    int count = counts.getOrDefault(deadline, 0);
-                    counts.put(deadline, count + 1);
-                    return counts;
-                }, (curr, next) -> {
-                    curr.putAll(next);
-                    return curr;
-                });
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.summingInt(deadline -> 1)));
         assertEquals(oldDeadlineCounts, newDeadlineCounts);
     }
 
@@ -586,10 +573,10 @@ public class InstructorsLogicTest extends BaseLogicTest {
                 .filter(feedbackSessionAttributes -> feedbackSessionAttributes.getInstructorDeadlines()
                         .containsKey(email))
                 .collect(Collectors.toSet());
-        assertEquals(2, oldSessionsWithInstructor1Deadlines.size());
         Map<FeedbackSessionAttributes, Integer> oldSessionsDeadlineCounts = oldSessionsWithInstructor1Deadlines
                 .stream()
                 .collect(Collectors.toMap(fsa -> fsa, fsa -> fsa.getInstructorDeadlines().size()));
+        assertEquals(2, oldSessionsWithInstructor1Deadlines.size());
 
         instructorsLogic.deleteInstructorCascade(courseId, email);
 
