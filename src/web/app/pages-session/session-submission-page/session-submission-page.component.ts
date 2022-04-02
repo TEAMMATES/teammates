@@ -545,7 +545,8 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
               isValid: true,
             };
             if (matchedExistingResponse && matchedExistingResponse.giverComment) {
-              submissionForm.commentByGiver = this.getCommentModel(matchedExistingResponse.giverComment);
+              submissionForm.commentByGiver = this.getCommentModel(
+                  matchedExistingResponse.giverComment, recipient.recipientIdentifier);
             }
             model.recipientSubmissionForms.push(submissionForm);
           });
@@ -557,12 +558,17 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
             model.customNumberOfEntitiesToGiveFeedbackTo - existingResponses.responses.length;
 
           existingResponses.responses.forEach((response: FeedbackResponse) => {
-            model.recipientSubmissionForms.push({
+            const submissionForm: FeedbackResponseRecipientSubmissionFormModel = {
               recipientIdentifier: response.recipientIdentifier,
               responseDetails: response.responseDetails,
               responseId: response.feedbackResponseId,
               isValid: true,
-            });
+            };
+            if (response.giverComment) {
+              submissionForm.commentByGiver = this.getCommentModel(
+                  response.giverComment, response.recipientIdentifier);
+            }
+            model.recipientSubmissionForms.push(submissionForm);
           });
 
           // generate empty submission forms
@@ -582,9 +588,10 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   /**
    * Gets the comment model for a given comment.
    */
-  getCommentModel(comment: FeedbackResponseComment): CommentRowModel {
+  getCommentModel(comment: FeedbackResponseComment, recipientIdentifier: string): CommentRowModel {
     return {
       originalComment: comment,
+      originalRecipientIdentifier: recipientIdentifier,
       commentEditFormModel: {
         commentText: comment.commentText,
         // the participant comment shall not use custom visibilities
@@ -737,8 +744,11 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
       return of({});
     }
 
-    if (!recipientSubmissionFormModel.commentByGiver.originalComment) {
-      // comment is new
+    const isSameRecipient = recipientSubmissionFormModel.recipientIdentifier
+        === recipientSubmissionFormModel.commentByGiver.originalRecipientIdentifier;
+
+    if (!recipientSubmissionFormModel.commentByGiver.originalComment || !isSameRecipient) {
+      // comment is new or original comment deleted because recipient has changed
 
       if (recipientSubmissionFormModel.commentByGiver.commentEditFormModel.commentText === '') {
         // new comment is empty
@@ -758,7 +768,8 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
         moderatedperson: this.moderatedPerson,
       }).pipe(
           tap((comment: FeedbackResponseComment) => {
-            recipientSubmissionFormModel.commentByGiver = this.getCommentModel(comment);
+            recipientSubmissionFormModel.commentByGiver = this.getCommentModel(
+                comment, recipientSubmissionFormModel.recipientIdentifier);
           }),
       );
     }
@@ -790,7 +801,8 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
       moderatedperson: this.moderatedPerson,
     }).pipe(
         tap((comment: FeedbackResponseComment) => {
-          recipientSubmissionFormModel.commentByGiver = this.getCommentModel(comment);
+          recipientSubmissionFormModel.commentByGiver = this.getCommentModel(
+              comment, recipientSubmissionFormModel.recipientIdentifier);
         }),
     );
   }
