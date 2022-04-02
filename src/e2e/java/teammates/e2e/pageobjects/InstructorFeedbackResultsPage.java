@@ -1026,6 +1026,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     private List<WebElement> getCommentFields(WebElement commentSection) {
+        waitForElementPresence(By.tagName("tm-comment-row"));
         return commentSection.findElements(By.tagName("tm-comment-row"));
     }
 

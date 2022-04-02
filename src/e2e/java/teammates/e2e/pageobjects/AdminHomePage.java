@@ -84,7 +84,7 @@ public class AdminHomePage extends AppPage {
         waitForElementVisibility(by);
         WebElement element = browser.driver.findElement(by);
         element.click();
-        waitForElementVisibility(By.className("modal-backdrop"));
+        waitForElementVisibility(By.id("reset-account-request-link"));
     }
 
     public void clickResetAccountRequestLink() {
