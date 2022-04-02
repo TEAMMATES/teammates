@@ -1,5 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import moment from 'moment-timezone';
 import { SortBy, SortOrder } from '../../../../types/sort-properties';
 import { EXAMPLE_NOTIFICATION_ONE, EXAMPLE_NOTIFICATION_TWO } from '../admin-notifications-page-data';
 import { AdminNotificationsPageModule } from '../admin-notifications-page.module';
@@ -46,6 +47,7 @@ describe('NotificationsTableComponent', () => {
   };
 
   it('should snap like in notification page with 2 notifications sorted by create time', () => {
+    moment.tz.setDefault('UTC');
     component.notificationsTableRowModels = [notificationTableRowModel1, notificationTableRowModel2];
     component.notificationsTableRowModelsSortBy = SortBy.NOTIFICATION_CREATE_TIME;
     component.notificationsTableRowModelsSortOrder = SortOrder.DESC;
@@ -54,6 +56,7 @@ describe('NotificationsTableComponent', () => {
   });
 
   it('should snap like in notification page with 2 notifications sorted by start time', () => {
+    moment.tz.setDefault('UTC');
     component.notificationsTableRowModels = [notificationTableRowModel1, notificationTableRowModel2];
     component.notificationsTableRowModelsSortBy = SortBy.NOTIFICATION_START_TIME;
     component.notificationsTableRowModelsSortOrder = SortOrder.DESC;

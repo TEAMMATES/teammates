@@ -1,3 +1,4 @@
+import moment from 'moment-timezone';
 import { Notification, NotificationStyle, NotificationTargetUser } from '../../../types/api-output';
 import { NotificationEditFormModel } from './notification-edit-form/notification-edit-form-model';
 
@@ -27,10 +28,10 @@ export const EXAMPLE_NOTIFICATION_EDIT_MODEL: NotificationEditFormModel = {
  */
 export const EXAMPLE_NOTIFICATION_ONE: Notification = {
   notificationId: 'notification1',
-  startTimestamp: 0,
-  endTimestamp: 1,
-  createdAt: 0,
-  updatedAt: 0,
+  startTimestamp: moment('2017-09-15 09:30:00').valueOf(),
+  endTimestamp: moment('2050-09-15 09:30:00').valueOf(),
+  createdAt: moment('2017-09-15 09:30:00').valueOf(),
+  updatedAt: moment('2017-09-15 09:30:00').valueOf(),
   style: NotificationStyle.SUCCESS,
   targetUser: NotificationTargetUser.INSTRUCTOR,
   title: 'valid title',
@@ -42,10 +43,10 @@ export const EXAMPLE_NOTIFICATION_ONE: Notification = {
  */
 export const EXAMPLE_NOTIFICATION_TWO: Notification = {
   notificationId: 'notification2',
-  startTimestamp: 1554960204,
-  endTimestamp: 1554977204,
-  createdAt: 1554232400,
-  updatedAt: 1554232400,
+  startTimestamp: moment('2018-09-15 09:30:00').valueOf(),
+  endTimestamp: moment('2050-09-15 09:30:00').valueOf(),
+  createdAt: moment('2017-08-15 09:30:00').valueOf(),
+  updatedAt: moment('2017-08-15 09:30:00').valueOf(),
   style: NotificationStyle.DANGER,
   targetUser: NotificationTargetUser.GENERAL,
   title: 'valid title 2',

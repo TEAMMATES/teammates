@@ -1,5 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import moment from 'moment-timezone';
+import { TimezoneService } from '../../../../services/timezone.service';
 import { NotificationTargetUser } from '../../../../types/api-output';
 import { EXAMPLE_NOTIFICATION_EDIT_MODEL } from '../admin-notifications-page-data';
 import { AdminNotificationsPageModule } from '../admin-notifications-page.module';
@@ -9,12 +11,16 @@ import { NotificationEditFormComponent } from './notification-edit-form.componen
 describe('NotificationEditFormComponent', () => {
   let component: NotificationEditFormComponent;
   let fixture: ComponentFixture<NotificationEditFormComponent>;
+  let timezoneService: TimezoneService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
         AdminNotificationsPageModule,
         HttpClientTestingModule,
+      ],
+      providers: [
+        TimezoneService,
       ],
     })
     .compileComponents();
@@ -23,6 +29,9 @@ describe('NotificationEditFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(NotificationEditFormComponent);
     component = fixture.componentInstance;
+    timezoneService = TestBed.inject(TimezoneService);
+    moment.tz.setDefault('UTC');
+    jest.spyOn(timezoneService, 'guessTimezone').mockReturnValue('Asia/Singapore');
     fixture.detectChanges();
   });
 
