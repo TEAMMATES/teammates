@@ -4,10 +4,10 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.testng.annotations.BeforeMethod;
@@ -711,23 +711,18 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         String oldEmailAddress = instructorToBeUpdated.getEmail();
         String newEmailAddress = "new@email.tmt";
 
-        Map<Instant, Integer> oldDeadlineCounts = fsLogic.getFeedbackSessionsForCourse(courseId)
+        ______TS("Update email; transfers deadlines to new email.");
+
+        Map<Instant, Long> oldDeadlineCounts = fsLogic.getFeedbackSessionsForCourse(courseId)
                 .stream()
                 .map(FeedbackSessionAttributes::getInstructorDeadlines)
                 .filter(instructorDeadlines -> instructorDeadlines.containsKey(oldEmailAddress))
                 .map(instructorDeadlines -> instructorDeadlines.get(oldEmailAddress))
-                .reduce(new HashMap<>(), (counts, deadline) -> {
-                    int count = counts.getOrDefault(deadline, 0);
-                    counts.put(deadline, count + 1);
-                    return counts;
-                }, (curr, next) -> {
-                    curr.putAll(next);
-                    return curr;
-                });
-        assertEquals(2, oldDeadlineCounts.values()
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+        assertEquals(2L, oldDeadlineCounts.values()
                 .stream()
-                .reduce(0, Integer::sum)
-                .intValue());
+                .reduce(0L, Long::sum)
+                .longValue());
 
         fsLogic.updateFeedbackSessionsInstructorDeadlinesWithNewEmail(courseId, oldEmailAddress, newEmailAddress);
 
@@ -735,19 +730,12 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 .stream()
                 .noneMatch(feedbackSessionAttributes -> feedbackSessionAttributes.getInstructorDeadlines()
                         .containsKey(oldEmailAddress)));
-        Map<Instant, Integer> newDeadlineCounts = fsLogic.getFeedbackSessionsForCourse(courseId)
+        Map<Instant, Long> newDeadlineCounts = fsLogic.getFeedbackSessionsForCourse(courseId)
                 .stream()
                 .map(FeedbackSessionAttributes::getInstructorDeadlines)
                 .filter(instructorDeadlines -> instructorDeadlines.containsKey(newEmailAddress))
                 .map(instructorDeadlines -> instructorDeadlines.get(newEmailAddress))
-                .reduce(new HashMap<>(), (counts, deadline) -> {
-                    int count = counts.getOrDefault(deadline, 0);
-                    counts.put(deadline, count + 1);
-                    return counts;
-                }, (curr, next) -> {
-                    curr.putAll(next);
-                    return curr;
-                });
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
         assertEquals(oldDeadlineCounts, newDeadlineCounts);
     }
 
@@ -758,23 +746,18 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         String oldEmailAddress = student4InCourse1.getEmail();
         String newEmailAddress = "new@email.tmt";
 
-        Map<Instant, Integer> oldDeadlineCounts = fsLogic.getFeedbackSessionsForCourse(courseId)
+        ______TS("Update email; transfers deadlines to new email.");
+
+        Map<Instant, Long> oldDeadlineCounts = fsLogic.getFeedbackSessionsForCourse(courseId)
                 .stream()
                 .map(FeedbackSessionAttributes::getStudentDeadlines)
                 .filter(studentDeadlines -> studentDeadlines.containsKey(oldEmailAddress))
                 .map(studentDeadlines -> studentDeadlines.get(oldEmailAddress))
-                .reduce(new HashMap<>(), (counts, deadline) -> {
-                    int count = counts.getOrDefault(deadline, 0);
-                    counts.put(deadline, count + 1);
-                    return counts;
-                }, (curr, next) -> {
-                    curr.putAll(next);
-                    return curr;
-                });
-        assertEquals(2, oldDeadlineCounts.values()
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+        assertEquals(2L, oldDeadlineCounts.values()
                 .stream()
-                .reduce(0, Integer::sum)
-                .intValue());
+                .reduce(0L, Long::sum)
+                .longValue());
 
         fsLogic.updateFeedbackSessionsStudentDeadlinesWithNewEmail(courseId, oldEmailAddress, newEmailAddress);
 
@@ -782,19 +765,12 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 .stream()
                 .noneMatch(feedbackSessionAttributes -> feedbackSessionAttributes.getStudentDeadlines()
                         .containsKey(oldEmailAddress)));
-        Map<Instant, Integer> newDeadlineCounts = fsLogic.getFeedbackSessionsForCourse(courseId)
+        Map<Instant, Long> newDeadlineCounts = fsLogic.getFeedbackSessionsForCourse(courseId)
                 .stream()
                 .map(FeedbackSessionAttributes::getStudentDeadlines)
                 .filter(studentDeadlines -> studentDeadlines.containsKey(newEmailAddress))
                 .map(studentDeadlines -> studentDeadlines.get(newEmailAddress))
-                .reduce(new HashMap<>(), (counts, deadline) -> {
-                    int count = counts.getOrDefault(deadline, 0);
-                    counts.put(deadline, count + 1);
-                    return counts;
-                }, (curr, next) -> {
-                    curr.putAll(next);
-                    return curr;
-                });
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
         assertEquals(oldDeadlineCounts, newDeadlineCounts);
     }
 
@@ -806,6 +782,8 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         String courseId = instructor1OfCourse1.getCourseId();
         String emailAddress = instructor1OfCourse1.getEmail();
 
+        ______TS("Delete user; deadlines associated with the email are removed.");
+
         // The instructor should have selective deadlines.
         Set<FeedbackSessionAttributes> oldSessionsWithInstructor1Deadlines = fsLogic
                 .getFeedbackSessionsForCourse(courseId)
@@ -813,10 +791,10 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 .filter(feedbackSessionAttributes -> feedbackSessionAttributes.getInstructorDeadlines()
                         .containsKey(emailAddress))
                 .collect(Collectors.toSet());
-        assertEquals(2, oldSessionsWithInstructor1Deadlines.size());
         Map<FeedbackSessionAttributes, Integer> oldSessionsDeadlineCounts = oldSessionsWithInstructor1Deadlines
                 .stream()
                 .collect(Collectors.toMap(fsa -> fsa, fsa -> fsa.getInstructorDeadlines().size()));
+        assertEquals(2, oldSessionsWithInstructor1Deadlines.size());
 
         fsLogic.deleteFeedbackSessionsDeadlinesForInstructor(courseId, emailAddress);
 
@@ -847,6 +825,8 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         String courseId = student4InCourse1.getCourse();
         String emailAddress = student4InCourse1.getEmail();
 
+        ______TS("Delete user; deadlines associated with the email are removed.");
+
         // The student should have selective deadlines.
         Set<FeedbackSessionAttributes> oldSessionsWithStudent4Deadlines = fsLogic
                 .getFeedbackSessionsForCourse(courseId)
@@ -854,10 +834,10 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 .filter(feedbackSessionAttributes -> feedbackSessionAttributes.getStudentDeadlines()
                         .containsKey(emailAddress))
                 .collect(Collectors.toSet());
-        assertEquals(2, oldSessionsWithStudent4Deadlines.size());
         Map<FeedbackSessionAttributes, Integer> oldSessionsDeadlineCounts = oldSessionsWithStudent4Deadlines
                 .stream()
                 .collect(Collectors.toMap(fsa -> fsa, fsa -> fsa.getStudentDeadlines().size()));
+        assertEquals(2, oldSessionsWithStudent4Deadlines.size());
 
         fsLogic.deleteFeedbackSessionsDeadlinesForStudent(courseId, emailAddress);
 
