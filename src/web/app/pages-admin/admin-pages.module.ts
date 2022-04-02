@@ -39,16 +39,24 @@ const routes: Routes = [
   },
   {
     path: 'timezone',
-    loadChildren: () => import('./admin-timezone-page/admin-timezone-page.module')
-        .then((m: any) => m.AdminTimezonePageModule),
+    loadChildren: () => import('../pages-monitoring/timezone-page/timezone-page.module')
+        .then((m: any) => m.TimezonePageModule),
   },
   {
     path: 'logs',
     data: {
       isAdmin: true,
     },
-    loadChildren: () => import('../pages-logs/logs-page.module')
+    loadChildren: () => import('../pages-monitoring/logs-page/logs-page.module')
         .then((m: any) => m.LogsPageModule),
+  },
+  {
+    path: 'stats',
+    loadChildren: () => import('../pages-monitoring/usage-stats-page/usage-statistics-page.module')
+        .then((m: any) => m.UsageStatisticsPageModule),
+    data: {
+      pageTitle: 'Usage Statistics',
+    },
   },
   {
     path: '',

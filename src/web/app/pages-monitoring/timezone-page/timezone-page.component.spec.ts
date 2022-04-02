@@ -1,15 +1,15 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
-import { AdminTimezonePageComponent } from './admin-timezone-page.component';
+import { TimezonePageComponent } from './timezone-page.component';
 
-describe('AdminTimezonePageComponent', () => {
-  let component: AdminTimezonePageComponent;
-  let fixture: ComponentFixture<AdminTimezonePageComponent>;
+describe('TimezonePageComponent', () => {
+  let component: TimezonePageComponent;
+  let fixture: ComponentFixture<TimezonePageComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [AdminTimezonePageComponent],
+      declarations: [TimezonePageComponent],
       imports: [
         HttpClientTestingModule,
         LoadingSpinnerModule,
@@ -19,7 +19,7 @@ describe('AdminTimezonePageComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AdminTimezonePageComponent);
+    fixture = TestBed.createComponent(TimezonePageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

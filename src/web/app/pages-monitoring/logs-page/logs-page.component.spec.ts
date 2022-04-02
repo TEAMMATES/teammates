@@ -4,10 +4,10 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
-import { LogService } from '../../services/log.service';
-import { StatusMessageService } from '../../services/status-message.service';
-import { TimezoneService } from '../../services/timezone.service';
-import { GeneralLogEntry, LogEvent, LogSeverity } from '../../types/api-output';
+import { LogService } from '../../../services/log.service';
+import { StatusMessageService } from '../../../services/status-message.service';
+import { TimezoneService } from '../../../services/timezone.service';
+import { GeneralLogEntry, LogEvent, LogSeverity } from '../../../types/api-output';
 import { LogsPageComponent } from './logs-page.component';
 import { LogsPageModule } from './logs-page.module';
 

@@ -2,12 +2,12 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
-import { AdminTimezonePageComponent } from './admin-timezone-page.component';
+import { TimezonePageComponent } from './timezone-page.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: AdminTimezonePageComponent,
+    component: TimezonePageComponent,
   },
 ];
 
@@ -16,10 +16,10 @@ const routes: Routes = [
  */
 @NgModule({
   declarations: [
-    AdminTimezonePageComponent,
+    TimezonePageComponent,
   ],
   exports: [
-    AdminTimezonePageComponent,
+    TimezonePageComponent,
   ],
   imports: [
     CommonModule,
@@ -27,4 +27,4 @@ const routes: Routes = [
     LoadingSpinnerModule,
   ],
 })
-export class AdminTimezonePageModule { }
+export class TimezonePageModule { }
