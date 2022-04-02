@@ -3,6 +3,8 @@ package teammates.ui.webapi;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
+import org.testng.annotations.Test;
+
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.attributes.NotificationAttributes;
@@ -28,14 +30,13 @@ public class UpdateNotificationActionTest extends BaseActionTest<UpdateNotificat
         return PUT;
     }
 
+    @Test
     @Override
     protected void testExecute() throws Exception {
         String[] requestParams = new String[] {
                 Const.ParamsNames.NOTIFICATION_ID, testNotificationAttribute.getNotificationId(),
         };
         NotificationUpdateRequest req = getTypicalUpdateRequest();
-        long startTime = req.getStartTimestamp();
-        long endTime = req.getEndTimestamp();
         NotificationStyle style = req.getStyle();
         NotificationTargetUser targetUser = req.getTargetUser();
         String title = req.getTitle();
@@ -52,12 +53,12 @@ public class UpdateNotificationActionTest extends BaseActionTest<UpdateNotificat
 
         NotificationAttributes updatedNotification = logic.getNotification(res.getNotificationId());
 
-        assertEquals(startTime, updatedNotification.getStartTime().toEpochMilli());
-        assertEquals(endTime, updatedNotification.getEndTime().toEpochMilli());
+        assertEquals(res.getStartTimestamp(), updatedNotification.getStartTime().toEpochMilli());
+        assertEquals(res.getEndTimestamp(), updatedNotification.getEndTime().toEpochMilli());
         assertEquals(style, updatedNotification.getStyle());
         assertEquals(targetUser, updatedNotification.getTargetUser());
         assertEquals(title, updatedNotification.getTitle());
-        assertEquals(message, updatedNotification.getTitle());
+        assertEquals(message, updatedNotification.getMessage());
 
         ______TS("Parameters cannot be null");
         req = getTypicalUpdateRequest();
@@ -94,16 +95,17 @@ public class UpdateNotificationActionTest extends BaseActionTest<UpdateNotificat
         ______TS("Invalid parameter should throw an error");
         req = getTypicalUpdateRequest();
         req.setTitle(invalidTitle);
-        verifyHttpParameterFailure(req, requestParams);
+        verifyHttpRequestBodyFailure(req, requestParams);
 
         ______TS("Non-existent notification should throw an error");
         requestParams = new String[] {
                 Const.ParamsNames.NOTIFICATION_ID, invalidNotificationId,
         };
         req = getTypicalUpdateRequest();
-        verifyHttpParameterFailure(req, requestParams);
+        verifyEntityNotFound(req, requestParams);
     }
 
+    @Test
     @Override
     protected void testAccessControl() throws Exception {
         verifyOnlyAdminCanAccess();
@@ -113,7 +115,7 @@ public class UpdateNotificationActionTest extends BaseActionTest<UpdateNotificat
         NotificationUpdateRequest req = new NotificationUpdateRequest();
 
         req.setStartTimestamp(Instant.now().toEpochMilli());
-        req.setEndTimestamp(Instant.now().plus(5, ChronoUnit.MONTHS).toEpochMilli());
+        req.setEndTimestamp(Instant.now().plus(5, ChronoUnit.DAYS).toEpochMilli());
         req.setStyle(NotificationStyle.INFO);
         req.setTargetUser(NotificationTargetUser.GENERAL);
         req.setTitle("New notification title");

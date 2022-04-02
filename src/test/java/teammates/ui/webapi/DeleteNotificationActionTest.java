@@ -1,5 +1,7 @@
 package teammates.ui.webapi;
 
+import org.testng.annotations.Test;
+
 import teammates.common.datatransfer.attributes.NotificationAttributes;
 import teammates.common.util.Const;
 import teammates.ui.output.MessageOutput;
@@ -21,6 +23,7 @@ public class DeleteNotificationActionTest extends BaseActionTest<DeleteNotificat
         return DELETE;
     }
 
+    @Test
     @Override
     protected void testExecute() throws Exception {
         loginAsAdmin();
@@ -58,6 +61,7 @@ public class DeleteNotificationActionTest extends BaseActionTest<DeleteNotificat
         assertEquals("Notification has been deleted.", msg.getMessage());
     }
 
+    @Test
     @Override
     protected void testAccessControl() throws Exception {
         verifyOnlyAdminCanAccess();
