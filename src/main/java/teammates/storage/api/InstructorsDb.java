@@ -155,7 +155,6 @@ public final class InstructorsDb extends EntitiesDb<Instructor, InstructorAttrib
 
         return load()
                 .filter("courseId =", courseId)
-                .project("email")
                 .list()
                 .stream()
                 .map(Instructor::getEmail)
