@@ -22,10 +22,16 @@ public class AdminNotificationsPage extends AppPage {
     @FindBy(id = "btn-add-notification")
     private WebElement addNotificationButton;
 
+    @FindBy(id = "btn-create-notification")
+    private WebElement createNotificationButton;
+
+    @FindBy(id = "btn-edit-notification")
+    private WebElement editNotificationButton;
+
     @FindBy(id = "notifications-timezone")
     private WebElement notificationsTimezone;
 
-    @FindBy(id = "target-user")
+    @FindBy(id = "notification-target-user")
     private WebElement notificationTargetUserDropdown;
 
     @FindBy(id = "notification-style")
@@ -34,7 +40,7 @@ public class AdminNotificationsPage extends AppPage {
     @FindBy(id = "notification-title")
     private WebElement notificationTitleTextBox;
 
-    @FindBy(id = "message")
+    @FindBy(id = "notification-message")
     private WebElement notificationMessageEditor;
 
     @FindBy(id = "notification-start-date")
@@ -48,12 +54,6 @@ public class AdminNotificationsPage extends AppPage {
 
     @FindBy(id = "notification-end-time")
     private WebElement endTimeDropdown;
-
-    @FindBy(id = "btn-create-notification")
-    private WebElement createNotificationButton;
-
-    @FindBy(id = "btn-edit-notification")
-    private WebElement editNotificationButton;
 
     @FindBy(id = "notifications-table")
     private WebElement notificationsTable;
@@ -77,7 +77,7 @@ public class AdminNotificationsPage extends AppPage {
     }
 
     public void verifyNotificationAttributes(NotificationAttributes expected, NotificationAttributes actual) {
-        // Note: Notification ID is not checked
+        // Notification ID is not checked
         // as the actual notification has a randomly generated ID
         assertEquals(expected.getStartTime(), actual.getStartTime());
         assertEquals(expected.getEndTime(), actual.getEndTime());
@@ -128,6 +128,7 @@ public class AdminNotificationsPage extends AppPage {
     }
 
     public String getNewestNotificationId() {
+        // Returns first element encountered since newest notification is at the top row
         WebElement latestNotificationRow = notificationsTable.findElement(By.className("table-success"));
         return latestNotificationRow.getAttribute("id");
     }

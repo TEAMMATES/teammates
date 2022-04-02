@@ -13,7 +13,7 @@
               <span class="ngb-tooltip-class" ngbTooltip="The indended recipients of this notification.">Target user group</span>
             </div>
             <div class="col-md-auto text-md-left">
-              <select id="target-user" class="form-control" [ngModel]="model.targetUser" (ngModelChange)="triggerModelChange('targetUser', $event)">
+              <select id="notification-target-user" class="form-control" [ngModel]="model.targetUser" (ngModelChange)="triggerModelChange('targetUser', $event)">
                 <option [ngValue]="NotificationTargetUser.STUDENT">Students</option>
                 <option [ngValue]="NotificationTargetUser.INSTRUCTOR">Instructors</option>
                 <option [ngValue]="NotificationTargetUser.GENERAL">General (for both students and instructors)</option>
@@ -51,7 +51,7 @@
               <span class="ngb-tooltip-class" ngbTooltip="Message body of the notification.">Message content</span>
             </div>
             <div class="col-md-10 text-md-left">
-              <tm-rich-text-editor id="message" [richText]="model.message" (richTextChange)="triggerModelChange('message', $event)"></tm-rich-text-editor>
+              <tm-rich-text-editor id="notification-message" [richText]="model.message" (richTextChange)="triggerModelChange('message', $event)"></tm-rich-text-editor>
             </div>
           </div>
           <br/>
