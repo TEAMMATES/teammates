@@ -1,11 +1,13 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import moment from 'moment-timezone';
 import { of, throwError } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
 import { NotificationService } from '../../../services/notification.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
+import { TimezoneService } from '../../../services/timezone.service';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
 import { Notification } from '../../../types/api-output';
 import { SortBy } from '../../../types/sort-properties';
@@ -25,6 +27,7 @@ describe('AdminNotificationsPageComponent', () => {
   let notificationService: NotificationService;
   let statusMessageService: StatusMessageService;
   let simpleModalService: SimpleModalService;
+  let timezoneService: TimezoneService;
 
   const notificationTableRowModel1: NotificationsTableRowModel = {
     isHighlighted: true,
@@ -54,6 +57,9 @@ describe('AdminNotificationsPageComponent', () => {
         HttpClientTestingModule,
         BrowserAnimationsModule,
       ],
+      providers: [
+        TimezoneService,
+      ],
     })
     .compileComponents();
   });
@@ -63,7 +69,10 @@ describe('AdminNotificationsPageComponent', () => {
     notificationService = TestBed.inject(NotificationService);
     statusMessageService = TestBed.inject(StatusMessageService);
     simpleModalService = TestBed.inject(SimpleModalService);
+    timezoneService = TestBed.inject(TimezoneService);
     component = fixture.componentInstance;
+    moment.tz.setDefault('UTC');
+    jest.spyOn(timezoneService, 'guessTimezone').mockReturnValue('Asia/Singapore');
     fixture.detectChanges();
   });
 
@@ -167,6 +176,7 @@ describe('AdminNotificationsPageComponent', () => {
   });
 
   it('should snap when notification edit form expanded for editing existent notification', () => {
+    moment.tz.setDefault('UTC');
     jest.spyOn(notificationService, 'getNotifications').mockReturnValue(of({
       notifications: [EXAMPLE_NOTIFICATION_ONE],
     }));
@@ -181,7 +191,7 @@ describe('AdminNotificationsPageComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should display warning when current changes to existing notification is not saved', async () => {
+  it('should display warning when attempts to edit another notification when form is open', async () => {
     const promise: Promise<void> = Promise.resolve();
     const modalSpy: SpyInstance = jest.spyOn(simpleModalService, 'openConfirmationModal')
         .mockReturnValue(createMockNgbModalRef({}, promise));
@@ -200,6 +210,7 @@ describe('AdminNotificationsPageComponent', () => {
     component.notificationEditFormModel.message = 'new message';
     expect(component.notificationEditFormModel.message).toEqual('new message');
 
+    // attempts to load edit form for another notification
     component.loadNotificationEditFormHandler(component.notificationsTableRowModels[1].notification);
     await promise;
     expect(component.notificationsTableRowModels[0].notification.message).toEqual(expectedMessage);

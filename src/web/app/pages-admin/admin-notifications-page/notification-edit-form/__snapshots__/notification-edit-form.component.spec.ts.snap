@@ -9,7 +9,6 @@ exports[`NotificationEditFormComponent should snap with default view 1`] = `
   addNewNotificationEvent={[Function EventEmitter_]}
   cancelEditingNotificationEvent={[Function EventEmitter_]}
   courseCandidates={[Function Array]}
-  deleteExistingNotificationEvent={[Function EventEmitter_]}
   editExistingNotificationEvent={[Function EventEmitter_]}
   formMode="0"
   guessTimezone={[Function String]}
@@ -105,54 +104,55 @@ exports[`NotificationEditFormComponent should snap with default view 1`] = `
                 id="notification-style"
               >
                 <option
-                  class="bg-danger text-white"
                   value="0: DANGER"
                 >
                   Danger (red)
                 </option>
                 <option
-                  class="bg-dark text-white"
                   value="1: DARK"
                 >
                   Dark
                 </option>
                 <option
-                  class="bg-info text-white"
                   value="2: INFO"
                 >
                   Info (cyan)
                 </option>
                 <option
-                  class="bg-light text-dark"
                   value="3: LIGHT"
                 >
                   Light
                 </option>
                 <option
-                  class="bg-primary text-white"
                   value="4: PRIMARY"
                 >
                   Primary (blue)
                 </option>
                 <option
-                  class="bg-secondary text-white"
                   value="5: SECONDARY"
                 >
                   Secondary (grey)
                 </option>
                 <option
-                  class="bg-success text-white"
                   value="6: SUCCESS"
                 >
                   Success (green)
                 </option>
                 <option
-                  class="bg-warning text-dark"
                   value="7: WARNING"
                 >
                   Warning (yellow)
                 </option>
               </select>
+            </div>
+            <div
+              class="col-md-auto text-md-middle d-flex bg-success text-white"
+            >
+              <span
+                class="align-self-center"
+              >
+                Style Demonstration
+              </span>
             </div>
           </div>
           <br />
