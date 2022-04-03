@@ -46,7 +46,7 @@
   <div *tmIsLoading="isLoadingAllStudents">
     <h1>Students</h1>
     <div class="table-responsive">
-      <table id="student-list-table" class="table table-bordered">
+      <table id="student-list-table" class="table table-bordered table-hover">
         <thead>
           <tr>
             <th (click)="selectAllStudents()">
@@ -105,17 +105,19 @@
             </th>
           </tr>
         </thead>
-        <tr *ngFor="let student of studentsOfCourse; index as i" id="student-row-{{ i }}" (click)="selectStudent(i)"
-          [ngClass]="{ 'table-warning': student.hasExtension === true }">
-          <td class="align-center">
-            <label><input type="checkbox" [checked]="student.isSelected" /></label>
-          </td>
-          <td>{{ student.sectionName }}</td>
-          <td>{{ student.teamName }}</td>
-          <td>{{ student.name }}</td>
-          <td>{{ student.email }}</td>
-          <td>{{ student.extensionDeadline | formatDateDetail: feedbackSessionTimeZone }}</td>
-        </tr>
+        <tbody>
+          <tr *ngFor="let student of studentsOfCourse; index as i" id="student-row-{{ i }}" (click)="selectStudent(i)"
+            [ngClass]="{ 'table-warning': student.hasExtension === true }">
+            <td class="align-center">
+              <label><input type="checkbox" [checked]="student.isSelected" /></label>
+            </td>
+            <td>{{ student.sectionName }}</td>
+            <td>{{ student.teamName }}</td>
+            <td>{{ student.name }}</td>
+            <td>{{ student.email }}</td>
+            <td>{{ student.extensionDeadline | formatDateDetail: feedbackSessionTimeZone }}</td>
+          </tr>
+        </tbody>
       </table>
     </div>
   </div>
@@ -128,7 +130,7 @@
   <div *tmIsLoading="isLoadingAllInstructors">
     <h1>Instructors</h1>
     <div class="table-responsive">
-      <table id="instructor-list-table" class="table table-bordered">
+      <table id="instructor-list-table" class="table table-bordered table-hover">
         <thead>
           <tr>
             <th (click)="selectAllInstructors()">
@@ -177,16 +179,18 @@
             </th>
           </tr>
         </thead>
-        <tr *ngFor="let instructor of instructorsOfCourse; index as i" id="instructor-row-{{ i }}" (click)="selectIntructor(i)"
-          [ngClass]="{ 'table-warning': instructor.hasExtension === true }">
-          <td class="align-center">
-            <label><input type="checkbox" [checked]="instructor.isSelected" /></label>
-          </td>
-          <td>{{ instructor.name }}</td>
-          <td>{{ instructor.email }}</td>
-          <td>{{ instructor.role | instructorRoleName }}</td>
-          <td>{{ instructor.extensionDeadline | formatDateDetail: feedbackSessionTimeZone }}</td>
-        </tr>
+        <tbody>
+          <tr *ngFor="let instructor of instructorsOfCourse; index as i" id="instructor-row-{{ i }}" (click)="selectIntructor(i)"
+            [ngClass]="{ 'table-warning': instructor.hasExtension === true }">
+            <td class="align-center">
+              <label><input type="checkbox" [checked]="instructor.isSelected" /></label>
+            </td>
+            <td>{{ instructor.name }}</td>
+            <td>{{ instructor.email }}</td>
+            <td>{{ instructor.role | instructorRoleName }}</td>
+            <td>{{ instructor.extensionDeadline | formatDateDetail: feedbackSessionTimeZone }}</td>
+          </tr>
+        </tbody>
       </table>
     </div>
   </div>

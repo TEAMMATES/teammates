@@ -143,7 +143,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
         class="table-responsive"
       >
         <table
-          class="table table-bordered"
+          class="table table-bordered table-hover"
           id="student-list-table"
         >
           <thead>
@@ -222,91 +222,93 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
               </th>
             </tr>
           </thead>
-          <tr
-            class="table-warning"
-            id="student-row-0"
-          >
-            <td
-              class="align-center"
+          <tbody>
+            <tr
+              class="table-warning"
+              id="student-row-0"
             >
-              <label>
-                <input
-                  type="checkbox"
-                />
-              </label>
-            </td>
-            <td>
-              Section 1
-            </td>
-            <td>
-              Team 1
-            </td>
-            <td>
-              AliceHasExtension
-            </td>
-            <td>
-              alice@tmms.com
-            </td>
-            <td>
-              Mon, 06 Nov 2017, 08:26 PM UTC
-            </td>
-          </tr>
-          <tr
-            id="student-row-1"
-          >
-            <td
-              class="align-center"
+              <td
+                class="align-center"
+              >
+                <label>
+                  <input
+                    type="checkbox"
+                  />
+                </label>
+              </td>
+              <td>
+                Section 1
+              </td>
+              <td>
+                Team 1
+              </td>
+              <td>
+                AliceHasExtension
+              </td>
+              <td>
+                alice@tmms.com
+              </td>
+              <td>
+                Mon, 06 Nov 2017, 08:26 PM UTC
+              </td>
+            </tr>
+            <tr
+              id="student-row-1"
             >
-              <label>
-                <input
-                  type="checkbox"
-                />
-              </label>
-            </td>
-            <td>
-              Section 1
-            </td>
-            <td>
-              Team 1
-            </td>
-            <td>
-              Bob
-            </td>
-            <td>
-              bob@tmms.com
-            </td>
-            <td>
-              Fri, 14 Jul 2017, 02:40 AM UTC
-            </td>
-          </tr>
-          <tr
-            id="student-row-2"
-          >
-            <td
-              class="align-center"
+              <td
+                class="align-center"
+              >
+                <label>
+                  <input
+                    type="checkbox"
+                  />
+                </label>
+              </td>
+              <td>
+                Section 1
+              </td>
+              <td>
+                Team 1
+              </td>
+              <td>
+                Bob
+              </td>
+              <td>
+                bob@tmms.com
+              </td>
+              <td>
+                Fri, 14 Jul 2017, 02:40 AM UTC
+              </td>
+            </tr>
+            <tr
+              id="student-row-2"
             >
-              <label>
-                <input
-                  type="checkbox"
-                />
-              </label>
-            </td>
-            <td>
-              Section 1
-            </td>
-            <td>
-              Team 1
-            </td>
-            <td>
-              alex
-            </td>
-            <td>
-              alex@tmms.com
-            </td>
-            <td>
-              Fri, 14 Jul 2017, 02:40 AM UTC
-            </td>
-          </tr>
+              <td
+                class="align-center"
+              >
+                <label>
+                  <input
+                    type="checkbox"
+                  />
+                </label>
+              </td>
+              <td>
+                Section 1
+              </td>
+              <td>
+                Team 1
+              </td>
+              <td>
+                alex
+              </td>
+              <td>
+                alex@tmms.com
+              </td>
+              <td>
+                Fri, 14 Jul 2017, 02:40 AM UTC
+              </td>
+            </tr>
+          </tbody>
         </table>
       </div>
     </div>
@@ -319,7 +321,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
         class="table-responsive"
       >
         <table
-          class="table table-bordered"
+          class="table table-bordered table-hover"
           id="instructor-list-table"
         >
           <thead>
@@ -386,57 +388,59 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
               </th>
             </tr>
           </thead>
-          <tr
-            class="table-warning"
-            id="instructor-row-0"
-          >
-            <td
-              class="align-center"
+          <tbody>
+            <tr
+              class="table-warning"
+              id="instructor-row-0"
             >
-              <label>
-                <input
-                  type="checkbox"
-                />
-              </label>
-            </td>
-            <td>
-              tester2HasExtension
-            </td>
-            <td>
-              tester2@tester.com
-            </td>
-            <td>
-              Custom
-            </td>
-            <td>
-              Mon, 06 Nov 2017, 08:26 PM UTC
-            </td>
-          </tr>
-          <tr
-            id="instructor-row-1"
-          >
-            <td
-              class="align-center"
+              <td
+                class="align-center"
+              >
+                <label>
+                  <input
+                    type="checkbox"
+                  />
+                </label>
+              </td>
+              <td>
+                tester2HasExtension
+              </td>
+              <td>
+                tester2@tester.com
+              </td>
+              <td>
+                Custom
+              </td>
+              <td>
+                Mon, 06 Nov 2017, 08:26 PM UTC
+              </td>
+            </tr>
+            <tr
+              id="instructor-row-1"
             >
-              <label>
-                <input
-                  type="checkbox"
-                />
-              </label>
-            </td>
-            <td>
-              tester1
-            </td>
-            <td>
-              tester1@tester.com
-            </td>
-            <td>
-              Custom
-            </td>
-            <td>
-              Fri, 14 Jul 2017, 02:40 AM UTC
-            </td>
-          </tr>
+              <td
+                class="align-center"
+              >
+                <label>
+                  <input
+                    type="checkbox"
+                  />
+                </label>
+              </td>
+              <td>
+                tester1
+              </td>
+              <td>
+                tester1@tester.com
+              </td>
+              <td>
+                Custom
+              </td>
+              <td>
+                Fri, 14 Jul 2017, 02:40 AM UTC
+              </td>
+            </tr>
+          </tbody>
         </table>
       </div>
     </div>
@@ -608,7 +612,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
         class="table-responsive"
       >
         <table
-          class="table table-bordered"
+          class="table table-bordered table-hover"
           id="student-list-table"
         >
           <thead>
@@ -687,91 +691,93 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
               </th>
             </tr>
           </thead>
-          <tr
-            class="table-warning"
-            id="student-row-0"
-          >
-            <td
-              class="align-center"
+          <tbody>
+            <tr
+              class="table-warning"
+              id="student-row-0"
             >
-              <label>
-                <input
-                  type="checkbox"
-                />
-              </label>
-            </td>
-            <td>
-              Section 1
-            </td>
-            <td>
-              Team 1
-            </td>
-            <td>
-              AliceHasExtension
-            </td>
-            <td>
-              alice@tmms.com
-            </td>
-            <td>
-              Mon, 06 Nov 2017, 08:26 PM UTC
-            </td>
-          </tr>
-          <tr
-            id="student-row-1"
-          >
-            <td
-              class="align-center"
+              <td
+                class="align-center"
+              >
+                <label>
+                  <input
+                    type="checkbox"
+                  />
+                </label>
+              </td>
+              <td>
+                Section 1
+              </td>
+              <td>
+                Team 1
+              </td>
+              <td>
+                AliceHasExtension
+              </td>
+              <td>
+                alice@tmms.com
+              </td>
+              <td>
+                Mon, 06 Nov 2017, 08:26 PM UTC
+              </td>
+            </tr>
+            <tr
+              id="student-row-1"
             >
-              <label>
-                <input
-                  type="checkbox"
-                />
-              </label>
-            </td>
-            <td>
-              Section 1
-            </td>
-            <td>
-              Team 1
-            </td>
-            <td>
-              Bob
-            </td>
-            <td>
-              bob@tmms.com
-            </td>
-            <td>
-              Fri, 14 Jul 2017, 02:40 AM UTC
-            </td>
-          </tr>
-          <tr
-            id="student-row-2"
-          >
-            <td
-              class="align-center"
+              <td
+                class="align-center"
+              >
+                <label>
+                  <input
+                    type="checkbox"
+                  />
+                </label>
+              </td>
+              <td>
+                Section 1
+              </td>
+              <td>
+                Team 1
+              </td>
+              <td>
+                Bob
+              </td>
+              <td>
+                bob@tmms.com
+              </td>
+              <td>
+                Fri, 14 Jul 2017, 02:40 AM UTC
+              </td>
+            </tr>
+            <tr
+              id="student-row-2"
             >
-              <label>
-                <input
-                  type="checkbox"
-                />
-              </label>
-            </td>
-            <td>
-              Section 1
-            </td>
-            <td>
-              Team 1
-            </td>
-            <td>
-              alex
-            </td>
-            <td>
-              alex@tmms.com
-            </td>
-            <td>
-              Fri, 14 Jul 2017, 02:40 AM UTC
-            </td>
-          </tr>
+              <td
+                class="align-center"
+              >
+                <label>
+                  <input
+                    type="checkbox"
+                  />
+                </label>
+              </td>
+              <td>
+                Section 1
+              </td>
+              <td>
+                Team 1
+              </td>
+              <td>
+                alex
+              </td>
+              <td>
+                alex@tmms.com
+              </td>
+              <td>
+                Fri, 14 Jul 2017, 02:40 AM UTC
+              </td>
+            </tr>
+          </tbody>
         </table>
       </div>
     </div>
@@ -784,7 +790,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
         class="table-responsive"
       >
         <table
-          class="table table-bordered"
+          class="table table-bordered table-hover"
           id="instructor-list-table"
         >
           <thead>
@@ -851,57 +857,59 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
               </th>
             </tr>
           </thead>
-          <tr
-            class="table-warning"
-            id="instructor-row-0"
-          >
-            <td
-              class="align-center"
+          <tbody>
+            <tr
+              class="table-warning"
+              id="instructor-row-0"
             >
-              <label>
-                <input
-                  type="checkbox"
-                />
-              </label>
-            </td>
-            <td>
-              tester2HasExtension
-            </td>
-            <td>
-              tester2@tester.com
-            </td>
-            <td>
-              Custom
-            </td>
-            <td>
-              Mon, 06 Nov 2017, 08:26 PM UTC
-            </td>
-          </tr>
-          <tr
-            id="instructor-row-1"
-          >
-            <td
-              class="align-center"
+              <td
+                class="align-center"
+              >
+                <label>
+                  <input
+                    type="checkbox"
+                  />
+                </label>
+              </td>
+              <td>
+                tester2HasExtension
+              </td>
+              <td>
+                tester2@tester.com
+              </td>
+              <td>
+                Custom
+              </td>
+              <td>
+                Mon, 06 Nov 2017, 08:26 PM UTC
+              </td>
+            </tr>
+            <tr
+              id="instructor-row-1"
             >
-              <label>
-                <input
-                  type="checkbox"
-                />
-              </label>
-            </td>
-            <td>
-              tester1
-            </td>
-            <td>
-              tester1@tester.com
-            </td>
-            <td>
-              Custom
-            </td>
-            <td>
-              Fri, 14 Jul 2017, 02:40 AM UTC
-            </td>
-          </tr>
+              <td
+                class="align-center"
+              >
+                <label>
+                  <input
+                    type="checkbox"
+                  />
+                </label>
+              </td>
+              <td>
+                tester1
+              </td>
+              <td>
+                tester1@tester.com
+              </td>
+              <td>
+                Custom
+              </td>
+              <td>
+                Fri, 14 Jul 2017, 02:40 AM UTC
+              </td>
+            </tr>
+          </tbody>
         </table>
       </div>
     </div>
@@ -993,7 +1001,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when feed
         class="table-responsive"
       >
         <table
-          class="table table-bordered"
+          class="table table-bordered table-hover"
           id="student-list-table"
         >
           <thead>
@@ -1072,6 +1080,8 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when feed
               </th>
             </tr>
           </thead>
+          <tbody>
+          </tbody>
         </table>
       </div>
     </div>
@@ -1084,7 +1094,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when feed
         class="table-responsive"
       >
         <table
-          class="table table-bordered"
+          class="table table-bordered table-hover"
           id="instructor-list-table"
         >
           <thead>
@@ -1151,6 +1161,8 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when feed
               </th>
             </tr>
           </thead>
+          <tbody>
+          </tbody>
         </table>
       </div>
     </div>
@@ -1324,7 +1336,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
         class="table-responsive"
       >
         <table
-          class="table table-bordered"
+          class="table table-bordered table-hover"
           id="student-list-table"
         >
           <thead>
@@ -1403,91 +1415,93 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
               </th>
             </tr>
           </thead>
-          <tr
-            class="table-warning"
-            id="student-row-0"
-          >
-            <td
-              class="align-center"
+          <tbody>
+            <tr
+              class="table-warning"
+              id="student-row-0"
             >
-              <label>
-                <input
-                  type="checkbox"
-                />
-              </label>
-            </td>
-            <td>
-              Section 1
-            </td>
-            <td>
-              Team 1
-            </td>
-            <td>
-              AliceHasExtension
-            </td>
-            <td>
-              alice@tmms.com
-            </td>
-            <td>
-              Mon, 06 Nov 2017, 08:26 PM UTC
-            </td>
-          </tr>
-          <tr
-            id="student-row-1"
-          >
-            <td
-              class="align-center"
+              <td
+                class="align-center"
+              >
+                <label>
+                  <input
+                    type="checkbox"
+                  />
+                </label>
+              </td>
+              <td>
+                Section 1
+              </td>
+              <td>
+                Team 1
+              </td>
+              <td>
+                AliceHasExtension
+              </td>
+              <td>
+                alice@tmms.com
+              </td>
+              <td>
+                Mon, 06 Nov 2017, 08:26 PM UTC
+              </td>
+            </tr>
+            <tr
+              id="student-row-1"
             >
-              <label>
-                <input
-                  type="checkbox"
-                />
-              </label>
-            </td>
-            <td>
-              Section 1
-            </td>
-            <td>
-              Team 1
-            </td>
-            <td>
-              Bob
-            </td>
-            <td>
-              bob@tmms.com
-            </td>
-            <td>
-              Fri, 14 Jul 2017, 02:40 AM UTC
-            </td>
-          </tr>
-          <tr
-            id="student-row-2"
-          >
-            <td
-              class="align-center"
+              <td
+                class="align-center"
+              >
+                <label>
+                  <input
+                    type="checkbox"
+                  />
+                </label>
+              </td>
+              <td>
+                Section 1
+              </td>
+              <td>
+                Team 1
+              </td>
+              <td>
+                Bob
+              </td>
+              <td>
+                bob@tmms.com
+              </td>
+              <td>
+                Fri, 14 Jul 2017, 02:40 AM UTC
+              </td>
+            </tr>
+            <tr
+              id="student-row-2"
             >
-              <label>
-                <input
-                  type="checkbox"
-                />
-              </label>
-            </td>
-            <td>
-              Section 1
-            </td>
-            <td>
-              Team 1
-            </td>
-            <td>
-              alex
-            </td>
-            <td>
-              alex@tmms.com
-            </td>
-            <td>
-              Fri, 14 Jul 2017, 02:40 AM UTC
-            </td>
-          </tr>
+              <td
+                class="align-center"
+              >
+                <label>
+                  <input
+                    type="checkbox"
+                  />
+                </label>
+              </td>
+              <td>
+                Section 1
+              </td>
+              <td>
+                Team 1
+              </td>
+              <td>
+                alex
+              </td>
+              <td>
+                alex@tmms.com
+              </td>
+              <td>
+                Fri, 14 Jul 2017, 02:40 AM UTC
+              </td>
+            </tr>
+          </tbody>
         </table>
       </div>
     </div>
@@ -1500,7 +1514,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
         class="table-responsive"
       >
         <table
-          class="table table-bordered"
+          class="table table-bordered table-hover"
           id="instructor-list-table"
         >
           <thead>
@@ -1567,6 +1581,8 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
               </th>
             </tr>
           </thead>
+          <tbody>
+          </tbody>
         </table>
       </div>
     </div>
@@ -1740,7 +1756,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
         class="table-responsive"
       >
         <table
-          class="table table-bordered"
+          class="table table-bordered table-hover"
           id="student-list-table"
         >
           <thead>
@@ -1819,6 +1835,8 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
               </th>
             </tr>
           </thead>
+          <tbody>
+          </tbody>
         </table>
       </div>
     </div>
@@ -1831,7 +1849,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
         class="table-responsive"
       >
         <table
-          class="table table-bordered"
+          class="table table-bordered table-hover"
           id="instructor-list-table"
         >
           <thead>
@@ -1898,57 +1916,59 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
               </th>
             </tr>
           </thead>
-          <tr
-            class="table-warning"
-            id="instructor-row-0"
-          >
-            <td
-              class="align-center"
+          <tbody>
+            <tr
+              class="table-warning"
+              id="instructor-row-0"
             >
-              <label>
-                <input
-                  type="checkbox"
-                />
-              </label>
-            </td>
-            <td>
-              tester2HasExtension
-            </td>
-            <td>
-              tester2@tester.com
-            </td>
-            <td>
-              Custom
-            </td>
-            <td>
-              Mon, 06 Nov 2017, 08:26 PM UTC
-            </td>
-          </tr>
-          <tr
-            id="instructor-row-1"
-          >
-            <td
-              class="align-center"
+              <td
+                class="align-center"
+              >
+                <label>
+                  <input
+                    type="checkbox"
+                  />
+                </label>
+              </td>
+              <td>
+                tester2HasExtension
+              </td>
+              <td>
+                tester2@tester.com
+              </td>
+              <td>
+                Custom
+              </td>
+              <td>
+                Mon, 06 Nov 2017, 08:26 PM UTC
+              </td>
+            </tr>
+            <tr
+              id="instructor-row-1"
             >
-              <label>
-                <input
-                  type="checkbox"
-                />
-              </label>
-            </td>
-            <td>
-              tester1
-            </td>
-            <td>
-              tester1@tester.com
-            </td>
-            <td>
-              Custom
-            </td>
-            <td>
-              Fri, 14 Jul 2017, 02:40 AM UTC
-            </td>
-          </tr>
+              <td
+                class="align-center"
+              >
+                <label>
+                  <input
+                    type="checkbox"
+                  />
+                </label>
+              </td>
+              <td>
+                tester1
+              </td>
+              <td>
+                tester1@tester.com
+              </td>
+              <td>
+                Custom
+              </td>
+              <td>
+                Fri, 14 Jul 2017, 02:40 AM UTC
+              </td>
+            </tr>
+          </tbody>
         </table>
       </div>
     </div>
@@ -2122,7 +2142,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
         class="table-responsive"
       >
         <table
-          class="table table-bordered"
+          class="table table-bordered table-hover"
           id="student-list-table"
         >
           <thead>
@@ -2201,91 +2221,93 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
               </th>
             </tr>
           </thead>
-          <tr
-            class="table-warning"
-            id="student-row-0"
-          >
-            <td
-              class="align-center"
+          <tbody>
+            <tr
+              class="table-warning"
+              id="student-row-0"
             >
-              <label>
-                <input
-                  type="checkbox"
-                />
-              </label>
-            </td>
-            <td>
-              Section 1
-            </td>
-            <td>
-              Team 1
-            </td>
-            <td>
-              AliceHasExtension
-            </td>
-            <td>
-              alice@tmms.com
-            </td>
-            <td>
-              Mon, 06 Nov 2017, 08:26 PM UTC
-            </td>
-          </tr>
-          <tr
-            id="student-row-1"
-          >
-            <td
-              class="align-center"
+              <td
+                class="align-center"
+              >
+                <label>
+                  <input
+                    type="checkbox"
+                  />
+                </label>
+              </td>
+              <td>
+                Section 1
+              </td>
+              <td>
+                Team 1
+              </td>
+              <td>
+                AliceHasExtension
+              </td>
+              <td>
+                alice@tmms.com
+              </td>
+              <td>
+                Mon, 06 Nov 2017, 08:26 PM UTC
+              </td>
+            </tr>
+            <tr
+              id="student-row-1"
             >
-              <label>
-                <input
-                  type="checkbox"
-                />
-              </label>
-            </td>
-            <td>
-              Section 1
-            </td>
-            <td>
-              Team 1
-            </td>
-            <td>
-              Bob
-            </td>
-            <td>
-              bob@tmms.com
-            </td>
-            <td>
-              Fri, 14 Jul 2017, 02:40 AM UTC
-            </td>
-          </tr>
-          <tr
-            id="student-row-2"
-          >
-            <td
-              class="align-center"
+              <td
+                class="align-center"
+              >
+                <label>
+                  <input
+                    type="checkbox"
+                  />
+                </label>
+              </td>
+              <td>
+                Section 1
+              </td>
+              <td>
+                Team 1
+              </td>
+              <td>
+                Bob
+              </td>
+              <td>
+                bob@tmms.com
+              </td>
+              <td>
+                Fri, 14 Jul 2017, 02:40 AM UTC
+              </td>
+            </tr>
+            <tr
+              id="student-row-2"
             >
-              <label>
-                <input
-                  type="checkbox"
-                />
-              </label>
-            </td>
-            <td>
-              Section 1
-            </td>
-            <td>
-              Team 1
-            </td>
-            <td>
-              alex
-            </td>
-            <td>
-              alex@tmms.com
-            </td>
-            <td>
-              Fri, 14 Jul 2017, 02:40 AM UTC
-            </td>
-          </tr>
+              <td
+                class="align-center"
+              >
+                <label>
+                  <input
+                    type="checkbox"
+                  />
+                </label>
+              </td>
+              <td>
+                Section 1
+              </td>
+              <td>
+                Team 1
+              </td>
+              <td>
+                alex
+              </td>
+              <td>
+                alex@tmms.com
+              </td>
+              <td>
+                Fri, 14 Jul 2017, 02:40 AM UTC
+              </td>
+            </tr>
+          </tbody>
         </table>
       </div>
     </div>
@@ -2298,7 +2320,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
         class="table-responsive"
       >
         <table
-          class="table table-bordered"
+          class="table table-bordered table-hover"
           id="instructor-list-table"
         >
           <thead>
@@ -2365,57 +2387,59 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
               </th>
             </tr>
           </thead>
-          <tr
-            class="table-warning"
-            id="instructor-row-0"
-          >
-            <td
-              class="align-center"
+          <tbody>
+            <tr
+              class="table-warning"
+              id="instructor-row-0"
             >
-              <label>
-                <input
-                  type="checkbox"
-                />
-              </label>
-            </td>
-            <td>
-              tester2HasExtension
-            </td>
-            <td>
-              tester2@tester.com
-            </td>
-            <td>
-              Custom
-            </td>
-            <td>
-              Mon, 06 Nov 2017, 08:26 PM UTC
-            </td>
-          </tr>
-          <tr
-            id="instructor-row-1"
-          >
-            <td
-              class="align-center"
+              <td
+                class="align-center"
+              >
+                <label>
+                  <input
+                    type="checkbox"
+                  />
+                </label>
+              </td>
+              <td>
+                tester2HasExtension
+              </td>
+              <td>
+                tester2@tester.com
+              </td>
+              <td>
+                Custom
+              </td>
+              <td>
+                Mon, 06 Nov 2017, 08:26 PM UTC
+              </td>
+            </tr>
+            <tr
+              id="instructor-row-1"
             >
-              <label>
-                <input
-                  type="checkbox"
-                />
-              </label>
-            </td>
-            <td>
-              tester1
-            </td>
-            <td>
-              tester1@tester.com
-            </td>
-            <td>
-              Custom
-            </td>
-            <td>
-              Fri, 14 Jul 2017, 02:40 AM UTC
-            </td>
-          </tr>
+              <td
+                class="align-center"
+              >
+                <label>
+                  <input
+                    type="checkbox"
+                  />
+                </label>
+              </td>
+              <td>
+                tester1
+              </td>
+              <td>
+                tester1@tester.com
+              </td>
+              <td>
+                Custom
+              </td>
+              <td>
+                Fri, 14 Jul 2017, 02:40 AM UTC
+              </td>
+            </tr>
+          </tbody>
         </table>
       </div>
     </div>
@@ -2588,7 +2612,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with inst
         class="table-responsive"
       >
         <table
-          class="table table-bordered"
+          class="table table-bordered table-hover"
           id="student-list-table"
         >
           <thead>
@@ -2667,6 +2691,8 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with inst
               </th>
             </tr>
           </thead>
+          <tbody>
+          </tbody>
         </table>
       </div>
     </div>
@@ -2871,7 +2897,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with stud
         class="table-responsive"
       >
         <table
-          class="table table-bordered"
+          class="table table-bordered table-hover"
           id="instructor-list-table"
         >
           <thead>
@@ -2938,6 +2964,8 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with stud
               </th>
             </tr>
           </thead>
+          <tbody>
+          </tbody>
         </table>
       </div>
     </div>
@@ -3034,7 +3062,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
         class="table-responsive"
       >
         <table
-          class="table table-bordered"
+          class="table table-bordered table-hover"
           id="student-list-table"
         >
           <thead>
@@ -3113,6 +3141,8 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
               </th>
             </tr>
           </thead>
+          <tbody>
+          </tbody>
         </table>
       </div>
     </div>
@@ -3125,7 +3155,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
         class="table-responsive"
       >
         <table
-          class="table table-bordered"
+          class="table table-bordered table-hover"
           id="instructor-list-table"
         >
           <thead>
@@ -3192,6 +3222,8 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
               </th>
             </tr>
           </thead>
+          <tbody>
+          </tbody>
         </table>
       </div>
     </div>
@@ -3288,7 +3320,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
         class="table-responsive"
       >
         <table
-          class="table table-bordered"
+          class="table table-bordered table-hover"
           id="student-list-table"
         >
           <thead>
@@ -3367,6 +3399,8 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
               </th>
             </tr>
           </thead>
+          <tbody>
+          </tbody>
         </table>
       </div>
     </div>
@@ -3379,7 +3413,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
         class="table-responsive"
       >
         <table
-          class="table table-bordered"
+          class="table table-bordered table-hover"
           id="instructor-list-table"
         >
           <thead>
@@ -3446,6 +3480,8 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
               </th>
             </tr>
           </thead>
+          <tbody>
+          </tbody>
         </table>
       </div>
     </div>
@@ -3619,7 +3655,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
         class="table-responsive"
       >
         <table
-          class="table table-bordered"
+          class="table table-bordered table-hover"
           id="student-list-table"
         >
           <thead>
@@ -3698,91 +3734,93 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
               </th>
             </tr>
           </thead>
-          <tr
-            class="table-warning"
-            id="student-row-0"
-          >
-            <td
-              class="align-center"
+          <tbody>
+            <tr
+              class="table-warning"
+              id="student-row-0"
             >
-              <label>
-                <input
-                  type="checkbox"
-                />
-              </label>
-            </td>
-            <td>
-              Section 1
-            </td>
-            <td>
-              Team 1
-            </td>
-            <td>
-              AliceHasExtension
-            </td>
-            <td>
-              alice@tmms.com
-            </td>
-            <td>
-              Mon, 06 Nov 2017, 08:26 PM UTC
-            </td>
-          </tr>
-          <tr
-            id="student-row-1"
-          >
-            <td
-              class="align-center"
+              <td
+                class="align-center"
+              >
+                <label>
+                  <input
+                    type="checkbox"
+                  />
+                </label>
+              </td>
+              <td>
+                Section 1
+              </td>
+              <td>
+                Team 1
+              </td>
+              <td>
+                AliceHasExtension
+              </td>
+              <td>
+                alice@tmms.com
+              </td>
+              <td>
+                Mon, 06 Nov 2017, 08:26 PM UTC
+              </td>
+            </tr>
+            <tr
+              id="student-row-1"
             >
-              <label>
-                <input
-                  type="checkbox"
-                />
-              </label>
-            </td>
-            <td>
-              Section 1
-            </td>
-            <td>
-              Team 1
-            </td>
-            <td>
-              Bob
-            </td>
-            <td>
-              bob@tmms.com
-            </td>
-            <td>
-              Fri, 14 Jul 2017, 02:40 AM UTC
-            </td>
-          </tr>
-          <tr
-            id="student-row-2"
-          >
-            <td
-              class="align-center"
+              <td
+                class="align-center"
+              >
+                <label>
+                  <input
+                    type="checkbox"
+                  />
+                </label>
+              </td>
+              <td>
+                Section 1
+              </td>
+              <td>
+                Team 1
+              </td>
+              <td>
+                Bob
+              </td>
+              <td>
+                bob@tmms.com
+              </td>
+              <td>
+                Fri, 14 Jul 2017, 02:40 AM UTC
+              </td>
+            </tr>
+            <tr
+              id="student-row-2"
             >
-              <label>
-                <input
-                  type="checkbox"
-                />
-              </label>
-            </td>
-            <td>
-              Section 1
-            </td>
-            <td>
-              Team 1
-            </td>
-            <td>
-              alex
-            </td>
-            <td>
-              alex@tmms.com
-            </td>
-            <td>
-              Fri, 14 Jul 2017, 02:40 AM UTC
-            </td>
-          </tr>
+              <td
+                class="align-center"
+              >
+                <label>
+                  <input
+                    type="checkbox"
+                  />
+                </label>
+              </td>
+              <td>
+                Section 1
+              </td>
+              <td>
+                Team 1
+              </td>
+              <td>
+                alex
+              </td>
+              <td>
+                alex@tmms.com
+              </td>
+              <td>
+                Fri, 14 Jul 2017, 02:40 AM UTC
+              </td>
+            </tr>
+          </tbody>
         </table>
       </div>
     </div>
@@ -3994,7 +4032,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
         class="table-responsive"
       >
         <table
-          class="table table-bordered"
+          class="table table-bordered table-hover"
           id="instructor-list-table"
         >
           <thead>
@@ -4061,57 +4099,59 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
               </th>
             </tr>
           </thead>
-          <tr
-            class="table-warning"
-            id="instructor-row-0"
-          >
-            <td
-              class="align-center"
+          <tbody>
+            <tr
+              class="table-warning"
+              id="instructor-row-0"
             >
-              <label>
-                <input
-                  type="checkbox"
-                />
-              </label>
-            </td>
-            <td>
-              tester2HasExtension
-            </td>
-            <td>
-              tester2@tester.com
-            </td>
-            <td>
-              Custom
-            </td>
-            <td>
-              Mon, 06 Nov 2017, 08:26 PM UTC
-            </td>
-          </tr>
-          <tr
-            id="instructor-row-1"
-          >
-            <td
-              class="align-center"
+              <td
+                class="align-center"
+              >
+                <label>
+                  <input
+                    type="checkbox"
+                  />
+                </label>
+              </td>
+              <td>
+                tester2HasExtension
+              </td>
+              <td>
+                tester2@tester.com
+              </td>
+              <td>
+                Custom
+              </td>
+              <td>
+                Mon, 06 Nov 2017, 08:26 PM UTC
+              </td>
+            </tr>
+            <tr
+              id="instructor-row-1"
             >
-              <label>
-                <input
-                  type="checkbox"
-                />
-              </label>
-            </td>
-            <td>
-              tester1
-            </td>
-            <td>
-              tester1@tester.com
-            </td>
-            <td>
-              Custom
-            </td>
-            <td>
-              Fri, 14 Jul 2017, 02:40 AM UTC
-            </td>
-          </tr>
+              <td
+                class="align-center"
+              >
+                <label>
+                  <input
+                    type="checkbox"
+                  />
+                </label>
+              </td>
+              <td>
+                tester1
+              </td>
+              <td>
+                tester1@tester.com
+              </td>
+              <td>
+                Custom
+              </td>
+              <td>
+                Fri, 14 Jul 2017, 02:40 AM UTC
+              </td>
+            </tr>
+          </tbody>
         </table>
       </div>
     </div>
