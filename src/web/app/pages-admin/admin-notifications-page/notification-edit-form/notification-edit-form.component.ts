@@ -65,9 +65,6 @@ export class NotificationEditFormComponent {
   @Output()
   cancelEditingNotificationEvent = new EventEmitter<void>();
 
-  @Output()
-  deleteExistingNotificationEvent = new EventEmitter<void>();
-
   constructor(private simpleModalService: SimpleModalService) { }
 
   /**
@@ -102,19 +99,6 @@ export class NotificationEditFormComponent {
         SimpleModalType.WARNING, 'Warning: Any unsaved changes will be lost.').result.then(() => {
           this.cancelEditingNotificationEvent.emit();
         });
-  }
-
-  /**
-   * Handles delete current feedback session button click event.
-   */
-  deleteHandler(): void {
-    this.simpleModalService.openConfirmationModal(
-        `Delete the notification <strong>${this.model.title}</strong>?`,
-        SimpleModalType.WARNING,
-        'This action is not reversible and the delete will be permanent.',
-    ).result.then(() => {
-      this.deleteExistingNotificationEvent.emit();
-    });
   }
 
 }
