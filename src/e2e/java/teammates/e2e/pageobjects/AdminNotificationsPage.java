@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -128,9 +129,15 @@ public class AdminNotificationsPage extends AppPage {
     }
 
     public String getNewestNotificationId() {
-        // Returns first element encountered since newest notification is at the top row
-        WebElement latestNotificationRow = notificationsTable.findElement(By.className("table-success"));
-        return latestNotificationRow.getAttribute("id");
+        // Sorts notifications by descending creation time
+        WebElement creationTimeHeader = notificationsTable.findElements(By.tagName("th")).get(5);
+        if (creationTimeHeader.findElements(By.className("fa-sort-down")).size() == 0) {
+            click(creationTimeHeader);
+        }
+        // Returns id of first row in table since newest notification is at the top row
+        List<WebElement> notificationRows =
+                notificationsTable.findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
+        return notificationRows.get(0).getAttribute("id");
     }
 
     private void clickAddNotificationButton() {
