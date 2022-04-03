@@ -17,9 +17,6 @@ import teammates.ui.request.NotificationUpdateRequest;
  * SUT: {@link UpdateNotificationAction}.
  */
 public class UpdateNotificationActionTest extends BaseActionTest<UpdateNotificationAction> {
-    private static final String TEST_NOTIFICATION = "notification1";
-    private final NotificationAttributes testNotificationAttribute = typicalBundle.notifications.get(TEST_NOTIFICATION);
-
     @Override
     String getActionUri() {
         return Const.ResourceURIs.NOTIFICATION;
@@ -33,6 +30,9 @@ public class UpdateNotificationActionTest extends BaseActionTest<UpdateNotificat
     @Test
     @Override
     protected void testExecute() throws Exception {
+        final String TEST_NOTIFICATION = "notification1";
+        NotificationAttributes testNotificationAttribute = typicalBundle.notifications.get(TEST_NOTIFICATION);
+
         String[] requestParams = new String[] {
                 Const.ParamsNames.NOTIFICATION_ID, testNotificationAttribute.getNotificationId(),
         };
@@ -53,8 +53,9 @@ public class UpdateNotificationActionTest extends BaseActionTest<UpdateNotificat
 
         NotificationAttributes updatedNotification = logic.getNotification(res.getNotificationId());
 
-        assertEquals(res.getStartTimestamp(), updatedNotification.getStartTime().toEpochMilli());
-        assertEquals(res.getEndTimestamp(), updatedNotification.getEndTime().toEpochMilli());
+        // Verify that correctly updated in the DB
+        assertEquals(req.getStartTimestamp(), updatedNotification.getStartTime().toEpochMilli());
+        assertEquals(req.getEndTimestamp(), updatedNotification.getEndTime().toEpochMilli());
         assertEquals(style, updatedNotification.getStyle());
         assertEquals(targetUser, updatedNotification.getTargetUser());
         assertEquals(title, updatedNotification.getTitle());
@@ -103,6 +104,11 @@ public class UpdateNotificationActionTest extends BaseActionTest<UpdateNotificat
         };
         req = getTypicalUpdateRequest();
         verifyEntityNotFound(req, requestParams);
+
+        ______TS("Not enough request parameters should throw an error");
+        requestParams = new String[] {};
+        req = getTypicalUpdateRequest();
+        verifyHttpParameterFailure(req, requestParams);
     }
 
     @Test

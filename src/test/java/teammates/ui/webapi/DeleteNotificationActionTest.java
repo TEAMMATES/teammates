@@ -10,9 +10,6 @@ import teammates.ui.output.MessageOutput;
  * SUT: {@link DeleteNotificationAction}.
  */
 public class DeleteNotificationActionTest extends BaseActionTest<DeleteNotificationAction> {
-    private static final String TEST_NOTIFICATION = "notification1";
-    private final NotificationAttributes testNotificationAttribute = typicalBundle.notifications.get(TEST_NOTIFICATION);
-
     @Override
     String getActionUri() {
         return Const.ResourceURIs.NOTIFICATION;
@@ -26,6 +23,9 @@ public class DeleteNotificationActionTest extends BaseActionTest<DeleteNotificat
     @Test
     @Override
     protected void testExecute() throws Exception {
+        final String TEST_NOTIFICATION = "notification1";
+        NotificationAttributes testNotificationAttribute = typicalBundle.notifications.get(TEST_NOTIFICATION);
+
         loginAsAdmin();
 
         ______TS("Typical Case: Delete notification successfully");
@@ -40,6 +40,22 @@ public class DeleteNotificationActionTest extends BaseActionTest<DeleteNotificat
 
         verifyAbsentInDatabase(testNotificationAttribute);
 
+        ______TS("Deleting non-existent notification should fail silently");
+        String invalidNotificationId = "non-existent notification";
+        requestParams = new String[] {
+                Const.ParamsNames.NOTIFICATION_ID, invalidNotificationId,
+        };
+
+        NotificationAttributes nonExistentNotification = typicalBundle.notifications.get(TEST_NOTIFICATION);
+        nonExistentNotification.setNotificationId(invalidNotificationId);
+
+        verifyAbsentInDatabase(nonExistentNotification);
+
+        action = getAction(requestParams);
+        response = getJsonResult(action);
+        msg = (MessageOutput) response.getOutput();
+        assertEquals("Notification has been deleted.", msg.getMessage());
+
         ______TS("Notification ID cannot be null");
         requestParams = new String[] {
                 Const.ParamsNames.NOTIFICATION_ID, null,
@@ -47,18 +63,10 @@ public class DeleteNotificationActionTest extends BaseActionTest<DeleteNotificat
 
         verifyHttpParameterFailure(requestParams);
 
-        ______TS("Deleting non-existent notification");
-        // Deleting a non-existent notificiation will not throw an error and fail silently
-        requestParams = new String[] {
-                Const.ParamsNames.NOTIFICATION_ID, "non-existent notification",
-        };
+        ______TS("Not enough request parameters should throw an error");
+        requestParams = new String[] {};
+        verifyHttpParameterFailure(requestParams);
 
-        verifyAbsentInDatabase(testNotificationAttribute);
-
-        action = getAction(requestParams);
-        response = getJsonResult(action);
-        msg = (MessageOutput) response.getOutput();
-        assertEquals("Notification has been deleted.", msg.getMessage());
     }
 
     @Test
