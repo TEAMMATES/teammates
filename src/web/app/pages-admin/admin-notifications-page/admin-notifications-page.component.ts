@@ -149,26 +149,30 @@ export class AdminNotificationsPageComponent implements OnInit {
 
   /**
    * Loads notification data into the edit form for updating actions.
+   * Will do checks to skip or show warnings if necessary.
    */
   loadNotificationEditFormHandler(notification: Notification): void {
-    if (this.notificationEditFormModel.notificationId === notification.notificationId) {
-      // Not to do anything if the notification is already loaded
-      return;
-    }
     if (this.isNotificationEditFormExpanded) {
-      // Warns user that the existing edits will be cleared
-      this.simpleModalService.openConfirmationModal(
-        'Discard unsaved edit?',
-        SimpleModalType.WARNING,
-        'Warning: If you choose to edit another notification, any unsaved changes will be lost.',
-      ).result.then(() => {
-        this.loadNotificationEditForm(notification);
-      });
+      if (this.notificationEditFormModel.notificationId !== notification.notificationId) {
+        // Warns user that the existing edits will be cleared
+        this.simpleModalService.openConfirmationModal(
+          'Discard unsaved edit?',
+          SimpleModalType.WARNING,
+          'Warning: If you choose to edit another notification, any unsaved changes will be lost.',
+        ).result.then(() => {
+          this.loadNotificationEditForm(notification);
+        });
+      }
+      // Not to do anything if the notification is already loaded
     } else {
+      // Loads notification data into the edit form without doing any check if the form was closed originally
       this.loadNotificationEditForm(notification);
     }
   }
 
+  /**
+   * The actual function to load data into edit form.
+   */
   loadNotificationEditForm(notification: Notification): void {
     const startTime = moment(notification.startTimestamp);
     const endTime = moment(notification.endTimestamp);
@@ -241,7 +245,6 @@ export class AdminNotificationsPageComponent implements OnInit {
           notification,
         });
 
-        this.isNotificationEditFormExpanded = false;
         this.initNotificationEditFormModel();
       },
       (resp: ErrorMessageOutput) => {
@@ -284,7 +287,6 @@ export class AdminNotificationsPageComponent implements OnInit {
           }
         });
 
-        this.isNotificationEditFormExpanded = false;
         this.initNotificationEditFormModel();
       },
       (resp: ErrorMessageOutput) => {
