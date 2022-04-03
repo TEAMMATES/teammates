@@ -5,6 +5,7 @@ import moment from 'moment-timezone';
 import { forkJoin, Observable, of } from 'rxjs';
 import { concatMap, finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
+import { DeadlineExtensionHelper, DeadlineHandlerType } from '../../../services/deadline-extension-helper';
 import {
   CommonVisibilitySetting,
   FeedbackQuestionsService,
@@ -49,6 +50,10 @@ import { CopySessionModalResult } from '../../components/copy-session-modal/copy
 import { CopySessionModalComponent } from '../../components/copy-session-modal/copy-session-modal.component';
 import { DateFormat } from '../../components/datepicker/datepicker.component';
 import {
+  ExtensionConfirmModalComponent,
+  ExtensionModalType,
+} from '../../components/extension-confirm-modal/extension-confirm-modal.component';
+import {
   QuestionEditFormMode,
   QuestionEditFormModel,
 } from '../../components/question-edit-form/question-edit-form-model';
@@ -60,6 +65,10 @@ import { SimpleModalType } from '../../components/simple-modal/simple-modal-type
 import { TimeFormat } from '../../components/timepicker/timepicker.component';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorSessionBasePageComponent } from '../instructor-session-base-page.component';
+import {
+  InstructorExtensionTableColumnModel,
+  StudentExtensionTableColumnModel,
+} from '../instructor-session-individual-extension-page/extension-table-column-model';
 import {
   FeedbackSessionTabModel,
 } from './copy-questions-from-other-sessions-modal/copy-questions-from-other-sessions-modal-model';
@@ -400,9 +409,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Handles editing existing session event.
    */
   editExistingSessionHandler(): void {
-    this.sessionEditFormModel.isEditable = false;
     this.feedbackSessionModelBeforeEditing = JSON.parse(JSON.stringify(this.sessionEditFormModel));
-    this.sessionEditFormModel.isSaving = true;
 
     const submissionStartTime: number = this.timezoneService.resolveLocalDateTime(
         this.sessionEditFormModel.submissionStartDate, this.sessionEditFormModel.submissionStartTime,
@@ -423,6 +430,28 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
           this.sessionEditFormModel.timeZone, true);
     }
 
+    const isDeadlinesBeforeNewEndTime = DeadlineExtensionHelper
+      .isDeadlinesBeforeNewEndTime(this.studentDeadlines, this.instructorDeadlines, submissionEndTime);
+    if (isDeadlinesBeforeNewEndTime) {
+      this.handleValidationAndUpdateOfDeadlines(submissionEndTime).subscribe((resultOfDeadlineValidation) => {
+        if (!resultOfDeadlineValidation.isAcceptDeletionOfDeadlines) {
+          this.sessionEditFormModel.isSaving = false;
+          this.sessionEditFormModel.isEditable = true;
+          return;
+        }
+        this.updateFeedbackSession(submissionStartTime, submissionEndTime, sessionVisibleTime, responseVisibleTime,
+          resultOfDeadlineValidation.isNotifyDeadlines);
+      });
+
+    } else {
+      this.updateFeedbackSession(submissionStartTime, submissionEndTime, sessionVisibleTime, responseVisibleTime);
+    }
+  }
+
+  updateFeedbackSession(submissionStartTime: number, submissionEndTime: number, sessionVisibleTime: number,
+    responseVisibleTime: number, isNotifyDeadlines?: boolean): void {
+    this.sessionEditFormModel.isSaving = true;
+    this.sessionEditFormModel.isEditable = false;
     this.feedbackSessionsService.updateFeedbackSession(this.courseId, this.feedbackSessionName, {
       instructions: this.sessionEditFormModel.instructions,
 
@@ -441,7 +470,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
 
       studentDeadlines: this.studentDeadlines,
       instructorDeadlines: this.instructorDeadlines,
-    }).pipe(finalize(() => {
+    }, isNotifyDeadlines,
+    ).pipe(finalize(() => {
       this.sessionEditFormModel.isSaving = false;
     })).subscribe((feedbackSession: FeedbackSession) => {
       this.sessionEditFormModel = this.getSessionEditFormModel(feedbackSession);
@@ -452,6 +482,51 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     });
   }
 
+  handleValidationAndUpdateOfDeadlines(submissionEndTimestamp: number): Observable<{
+    isNotifyDeadlines: boolean, isAcceptDeletionOfDeadlines: boolean,
+   }> {
+    const affectedStudentDeadlines = DeadlineExtensionHelper.setDeadlinesBeforeEndTime(
+      this.studentDeadlines, submissionEndTimestamp);
+    const affectedInstructorDeadlines = DeadlineExtensionHelper.setDeadlinesBeforeEndTime(
+      this.instructorDeadlines, submissionEndTimestamp);
+    const affectedStudents = this.studentsOfCourse.filter((student) => affectedStudentDeadlines[student.email]);
+    const affectedInstructors = this.instructorsCanBePreviewedAs
+      .filter((instructor) => affectedInstructorDeadlines[instructor.email]);
+    const affectedStudentModels = DeadlineExtensionHelper.mapStudentsToStudentModels(
+      affectedStudents, affectedStudentDeadlines, submissionEndTimestamp,
+    );
+    const affectedInstructorModels = DeadlineExtensionHelper.mapInstructorsToInstructorModels(
+      affectedInstructors, affectedInstructorDeadlines, submissionEndTimestamp,
+    );
+
+    const modalRef: NgbModalRef = this.ngbModal.open(ExtensionConfirmModalComponent);
+    modalRef.componentInstance.modalType = ExtensionModalType.VALIDATE_DEADLINE;
+    modalRef.componentInstance.selectedStudents = affectedStudentModels;
+    modalRef.componentInstance.selectedInstructors = affectedInstructorModels;
+    modalRef.componentInstance.extensionTimestamp = submissionEndTimestamp;
+    modalRef.componentInstance.feedbackSessionTimeZone = this.sessionEditFormModel.timeZone;
+
+    let resultFromModal = { isNotifyDeadlines: false, isAcceptDeletionOfDeadlines: false };
+    modalRef.componentInstance.onConfirmExtensionCallBack.subscribe((isNotifyDeadlines: boolean) => {
+      this.updateDeadlines(affectedStudentModels, affectedInstructorModels, affectedStudentDeadlines,
+        affectedInstructorDeadlines);
+      modalRef.componentInstance.isSubmitting = false;
+      modalRef.close();
+      resultFromModal = { isNotifyDeadlines, isAcceptDeletionOfDeadlines: true };
+    }, () => { });
+
+    return of(resultFromModal);
+  }
+
+  updateDeadlines(affectedStudents: StudentExtensionTableColumnModel[],
+    affectedInstructors: InstructorExtensionTableColumnModel[], affectedStudentDeadlines: Record<string, number>,
+    affectedInstructorDeadlines: Record<string, number>,
+  ): void {
+    this.studentDeadlines = DeadlineExtensionHelper
+      .getUpdatedDeadlines(affectedStudents, affectedStudentDeadlines, DeadlineHandlerType.DELETE);
+    this.instructorDeadlines = DeadlineExtensionHelper
+      .getUpdatedDeadlines(affectedInstructors, affectedInstructorDeadlines, DeadlineHandlerType.DELETE);
+  }
   /**
    * Handles canceling existing session event without saving changes.
    */
@@ -1027,6 +1102,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
 
           // TODO use privilege API to filter instructors who has INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS
           // in the feedback session
+              // TODO change the instructorsCanBePreviewdAs in session edit to instructorsOfCourse
 
           // sort the instructor list based on name
           this.instructorsCanBePreviewedAs.sort((a: Instructor, b: Instructor): number => {

@@ -4,12 +4,13 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
+import { DeadlineExtensionHelper, DeadlineHandlerType } from '../../../services/deadline-extension-helper';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { InstructorService } from '../../../services/instructor.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
-import { Course, FeedbackSession, Instructor, Instructors, Student, Students } from '../../../types/api-output';
+import { Course, FeedbackSession, Instructors, Students } from '../../../types/api-output';
 import {
   FeedbackSessionBasicRequest,
   FeedbackSessionUpdateRequest,
@@ -18,20 +19,15 @@ import {
   SessionVisibleSetting,
 } from '../../../types/api-request';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
+import {
+  ExtensionConfirmModalComponent,
+  ExtensionModalType,
+} from '../../components/extension-confirm-modal/extension-confirm-modal.component';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorExtensionTableColumnModel, StudentExtensionTableColumnModel } from './extension-table-column-model';
 import {
-  ExtensionModalType,
-  IndividualExtensionConfirmModalComponent,
-} from './individual-extension-confirm-modal/individual-extension-confirm-modal.component';
-import {
   IndividualExtensionDateModalComponent,
 } from './individual-extension-date-modal/individual-extension-date-modal.component';
-
-enum DeadlineHandlerType {
-  CREATE,
-  DELETE,
-}
 
 /**
  * Send reminders to respondents modal.
@@ -147,7 +143,9 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
   private getAllStudentsOfCourse(): void {
     this.studentService
       .getStudentsFromCourse({ courseId: this.courseId })
-      .pipe(map(({ students }: Students) => this.mapStudentsToStudentModels(students)))
+      .pipe(map(({ students }: Students) => DeadlineExtensionHelper
+        .mapStudentsToStudentModels(students, this.studentDeadlines, this.feedbackSessionEndingTimestamp)),
+      )
       .subscribe(
         (studentModels: StudentExtensionTableColumnModel[]) => {
           this.studentsOfCourse = studentModels;
@@ -179,27 +177,6 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     this.instructorDeadlines = feedbackSession.instructorDeadlines ?? {};
   }
 
-  private mapStudentsToStudentModels(students: Student[]): StudentExtensionTableColumnModel[] {
-    return students.map((student) => {
-      const studentData: StudentExtensionTableColumnModel = {
-        sectionName: student.sectionName,
-        teamName: student.teamName,
-        name: student.name,
-        email: student.email,
-        extensionDeadline: this.feedbackSessionEndingTimestamp,
-        hasExtension: false,
-        isSelected: false,
-      };
-
-      if (student.email in this.studentDeadlines) {
-        studentData.hasExtension = true;
-        studentData.extensionDeadline = this.studentDeadlines[student.email];
-      }
-
-      return studentData;
-    });
-  }
-
   private initialSortOfStudents(): void {
     this.studentsOfCourse.sort(this.sortStudentPanelsBy(SortBy.TEAM_NAME));
     this.studentsOfCourse.sort(this.sortStudentPanelsBy(SortBy.SECTION_NAME));
@@ -212,7 +189,8 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
   private getAllInstructorsOfCourse(): void {
     this.instructorService
       .loadInstructors({ courseId: this.courseId, intent: Intent.FULL_DETAIL })
-      .pipe(map(({ instructors }: Instructors) => this.mapInstructorsToInstructorModels(instructors)))
+      .pipe(map(({ instructors }: Instructors) => DeadlineExtensionHelper
+        .mapInstructorsToInstructorModels(instructors, this.instructorDeadlines, this.feedbackSessionEndingTimestamp)))
       .subscribe((instructorModels: InstructorExtensionTableColumnModel[]) => {
         this.instructorsOfCourse = instructorModels;
         this.initialSortOfInstructors();
@@ -221,25 +199,6 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
           this.statusMessageService.showErrorToast(resp.error.message);
         },
       );
-  }
-
-  private mapInstructorsToInstructorModels(instructors: Instructor[]): InstructorExtensionTableColumnModel[] {
-    return instructors.map((instructor) => {
-      const instructorData: InstructorExtensionTableColumnModel = {
-        name: instructor.name,
-        role: instructor.role,
-        email: instructor.email,
-        extensionDeadline: this.feedbackSessionEndingTimestamp,
-        hasExtension: false,
-        isSelected: false,
-      };
-
-      if (instructor.email in this.instructorDeadlines) {
-        instructorData.hasExtension = true;
-        instructorData.extensionDeadline = this.instructorDeadlines[instructor.email];
-      }
-      return instructorData;
-    });
   }
 
   private initialSortOfInstructors(): void {
@@ -266,7 +225,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
    * Handles the opening the confirmation modal to create/update deadlines.
    */
   private onConfirmExtension(extensionTimestamp: number): void {
-    const modalRef: NgbModalRef = this.ngbModal.open(IndividualExtensionConfirmModalComponent);
+    const modalRef: NgbModalRef = this.ngbModal.open(ExtensionConfirmModalComponent);
     const selectedStudents = this.getSelectedStudents();
     const selectedInstructors = this.getSelectedInstructors();
     modalRef.componentInstance.modalType = ExtensionModalType.EXTEND;
@@ -288,7 +247,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
    * Handles the opening the confirmation modal to delete deadlines.
    */
   onDelete(): void {
-    const modalRef: NgbModalRef = this.ngbModal.open(IndividualExtensionConfirmModalComponent);
+    const modalRef: NgbModalRef = this.ngbModal.open(ExtensionConfirmModalComponent);
     const selectedStudents = this.getSelectedStudentsWithExtensions();
     const selectedInstructors = this.getSelectedInstructorsWithExtensions();
     modalRef.componentInstance.modalType = ExtensionModalType.DELETE;
@@ -314,9 +273,9 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     extensionTimestamp?: number,
   ): void {
     const request: FeedbackSessionUpdateRequest = {
-      studentDeadlines: this.getUpdatedDeadlines(selectedStudents, this.studentDeadlines,
+      studentDeadlines: DeadlineExtensionHelper.getUpdatedDeadlines(selectedStudents, this.studentDeadlines,
         updateDeadlinesType, extensionTimestamp),
-      instructorDeadlines: this.getUpdatedDeadlines(selectedInstructors, this.instructorDeadlines,
+      instructorDeadlines: DeadlineExtensionHelper.getUpdatedDeadlines(selectedInstructors, this.instructorDeadlines,
         updateDeadlinesType, extensionTimestamp),
       ...this.feedbackSessionDetails,
     };
@@ -343,27 +302,6 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     this.statusMessageService.showSuccessToast(
       `Successfully ${updateAction} extension(s) for ${selectedStudents.length} student(s) and`
     + ` ${selectedInstructors.length} instructor(s)!`);
-  }
-
-  private getUpdatedDeadlines(
-    selectedIndividuals: StudentExtensionTableColumnModel[] | InstructorExtensionTableColumnModel[],
-    deadlinesToCopyFrom: Record<string, number>,
-    updateDeadlinesType: DeadlineHandlerType,
-    extensionTimestamp?: number,
-  ): Record<string, number> {
-    const record: Record<string, number> = { ...deadlinesToCopyFrom };
-
-    if (updateDeadlinesType === DeadlineHandlerType.CREATE) {
-      selectedIndividuals.forEach((x) => {
-        record[x.email] = extensionTimestamp!;
-      });
-    } else {
-      selectedIndividuals.forEach((x) => {
-        delete record[x.email];
-      });
-    }
-
-    return record;
   }
 
   private getSelectedStudents(): StudentExtensionTableColumnModel[] {
