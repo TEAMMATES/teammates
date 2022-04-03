@@ -68,13 +68,9 @@ public class AdminNotificationsPage extends AppPage {
         return getPageSource().contains("Notifications");
     }
 
-    public void verifyNotificationsTable(NotificationAttributes[] notifications) {
-        // Only validates that the notifications are present in the notifications table instead of checking every row
-        // This is because the page will display all notifications in the database, which is not predictable
-        for (NotificationAttributes notification : notifications) {
-            WebElement notificationRow = notificationsTable.findElement(By.id(notification.getNotificationId()));
-            verifyTableRowValues(notificationRow, getNotificationTableDisplayDetails(notification));
-        }
+    public void verifyNotificationsTableRow(NotificationAttributes notification) {
+        WebElement notificationRow = notificationsTable.findElement(By.id(notification.getNotificationId()));
+        verifyTableRowValues(notificationRow, getNotificationTableDisplayDetails(notification));
     }
 
     public void verifyNotificationAttributes(NotificationAttributes expected, NotificationAttributes actual) {
@@ -129,15 +125,18 @@ public class AdminNotificationsPage extends AppPage {
     }
 
     public String getNewestNotificationId() {
-        // Sorts notifications by descending creation time
-        WebElement creationTimeHeader = notificationsTable.findElements(By.tagName("th")).get(5);
-        if (creationTimeHeader.findElements(By.className("fa-sort-down")).size() == 0) {
-            click(creationTimeHeader);
-        }
+        sortNotificationsTableByDescendingCreateTime();
         // Returns id of first row in table since newest notification is at the top row
         List<WebElement> notificationRows =
                 notificationsTable.findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
         return notificationRows.get(0).getAttribute("id");
+    }
+
+    public void sortNotificationsTableByDescendingCreateTime() {
+        WebElement creationTimeHeader = notificationsTable.findElements(By.tagName("th")).get(5);
+        if (creationTimeHeader.findElements(By.className("fa-sort-down")).size() == 0) {
+            click(creationTimeHeader);
+        }
     }
 
     private void clickAddNotificationButton() {
