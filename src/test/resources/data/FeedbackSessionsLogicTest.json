@@ -609,8 +609,12 @@
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
       "isPublishedEmailEnabled": true,
-      "studentDeadlines": {},
-      "instructorDeadlines": {}
+      "studentDeadlines": {
+        "student4InCourse1@gmail.tmt": "2037-04-30T23:00:00Z"
+      },
+      "instructorDeadlines": {
+        "instructor1@course1.tmt": "2037-04-30T23:00:00Z"
+      }
     },
     "session2InCourse1": {
       "feedbackSessionName": "Second feedback session",
@@ -632,8 +636,12 @@
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
       "isPublishedEmailEnabled": true,
-      "studentDeadlines": {},
-      "instructorDeadlines": {}
+      "studentDeadlines": {
+        "student4InCourse1@gmail.tmt": "2030-04-28T23:00:00Z"
+      },
+      "instructorDeadlines": {
+        "instructor1@course1.tmt": "2030-04-28T23:00:00Z"
+      }
     },
     "gracePeriodSession": {
       "feedbackSessionName": "Grace Period Session",
@@ -1451,6 +1459,48 @@
       "isCommentFromFeedbackParticipant": false,
       "createdAt": "2016-01-01T23:59:00Z",
       "commentText": "Instructor 1 comment to Team 2.1"
+    }
+  },
+  "deadlineExtensions": {
+    "student4InCourse1Session1": {
+      "courseId": "idOfTypicalCourse1",
+      "feedbackSessionName": "First feedback session",
+      "userEmail": "student4InCourse1@gmail.tmt",
+      "isInstructor": false,
+      "endTime": "2037-04-30T23:00:00Z",
+      "sentClosingEmail": false,
+      "createdAt": "2037-04-30T20:00:00Z",
+      "updatedAt": "2037-04-30T20:00:00Z"
+    },
+    "instructor1InCourse1Session1": {
+      "courseId": "idOfTypicalCourse1",
+      "feedbackSessionName": "First feedback session",
+      "userEmail": "instructor1@course1.tmt",
+      "isInstructor": true,
+      "endTime": "2037-04-30T23:00:00Z",
+      "sentClosingEmail": false,
+      "createdAt": "2037-04-30T20:00:00Z",
+      "updatedAt": "2037-04-30T20:00:00Z"
+    },
+    "student4InCourse1Session2": {
+      "courseId": "idOfTypicalCourse1",
+      "feedbackSessionName": "Second feedback session",
+      "userEmail": "student4InCourse1@gmail.tmt",
+      "isInstructor": false,
+      "endTime": "2030-04-28T23:00:00Z",
+      "sentClosingEmail": false,
+      "createdAt": "2030-04-28T20:00:00Z",
+      "updatedAt": "2030-04-28T20:00:00Z"
+    },
+    "instructor1InCourse1Session2": {
+      "courseId": "idOfTypicalCourse1",
+      "feedbackSessionName": "Second feedback session",
+      "userEmail": "instructor1@course1.tmt",
+      "isInstructor": true,
+      "endTime": "2030-04-28T23:00:00Z",
+      "sentClosingEmail": false,
+      "createdAt": "2030-04-28T20:00:00Z",
+      "updatedAt": "2030-04-28T20:00:00Z"
     }
   },
   "profiles": {
