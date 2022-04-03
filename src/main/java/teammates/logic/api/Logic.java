@@ -1548,7 +1548,6 @@ public class Logic {
         usageStatisticsLogic.createUsageStatistics(attributes);
     }
 
-
     /**
      * Updates a deadline extension.
      *

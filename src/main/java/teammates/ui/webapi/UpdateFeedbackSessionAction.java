@@ -1,15 +1,23 @@
 package teammates.ui.webapi;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.http.HttpStatus;
 
+import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.DeadlineExtensionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
 import teammates.common.util.TimeHelper;
 import teammates.ui.output.FeedbackSessionData;
@@ -70,8 +78,6 @@ class UpdateFeedbackSessionAction extends Action {
             throw new EntityNotFoundException(e);
         }
 
-        boolean notifyAboutDeadlines = getBooleanRequestParamValue(Const.ParamsNames.NOTIFY_ABOUT_DEADLINES);
-
         String timeZone = feedbackSession.getTimeZone();
         Instant startTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
                 updateRequest.getSubmissionStartTime(), timeZone, true);
@@ -90,7 +96,7 @@ class UpdateFeedbackSessionAction extends Action {
                 .collect(Collectors.toMap(Map.Entry::getKey, entry -> TimeHelper.getMidnightAdjustedInstantBasedOnZone(
                         entry.getValue(), timeZone, true)));
         try {
-            FeedbackSessionAttributes updateFeedbackSession = logic.updateFeedbackSession(
+            feedbackSession = logic.updateFeedbackSession(
                     FeedbackSessionAttributes.updateOptionsBuilder(feedbackSessionName, courseId)
                             .withInstructions(updateRequest.getInstructions())
                             .withStartTime(startTime)
@@ -103,14 +109,6 @@ class UpdateFeedbackSessionAction extends Action {
                             .withStudentDeadlines(studentDeadlines)
                             .withInstructorDeadlines(instructorDeadlines)
                             .build());
-
-            if (!studentDeadlines.equals(oldStudentDeadlines) || !instructorDeadlines.equals(oldInstructorDeadlines)) {
-                taskQueuer.scheduleChangesToDeadlineExtensions(courseId, feedbackSessionName,
-                        notifyAboutDeadlines, oldStudentDeadlines, studentDeadlines, oldInstructorDeadlines,
-                        instructorDeadlines);
-            }
-
-            return new JsonResult(new FeedbackSessionData(updateFeedbackSession));
         } catch (InvalidParametersException ipe) {
             throw new InvalidHttpRequestBodyException(ipe);
         } catch (EntityDoesNotExistException ednee) {
@@ -118,6 +116,85 @@ class UpdateFeedbackSessionAction extends Action {
             log.severe("Unexpected error", ednee);
             return new JsonResult(ednee.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
+
+        boolean notifyAboutDeadlines = getBooleanRequestParamValue(Const.ParamsNames.NOTIFY_ABOUT_DEADLINES);
+
+        List<EmailWrapper> emailsToSend = new ArrayList<>();
+
+        emailsToSend.addAll(processDeadlineExtensions(courseId, feedbackSession, oldStudentDeadlines, studentDeadlines,
+                false, notifyAboutDeadlines));
+        emailsToSend.addAll(processDeadlineExtensions(courseId, feedbackSession, oldInstructorDeadlines, instructorDeadlines,
+                true, notifyAboutDeadlines));
+
+        taskQueuer.scheduleEmailsForSending(emailsToSend);
+
+        return new JsonResult(new FeedbackSessionData(feedbackSession));
+    }
+
+    private List<EmailWrapper> processDeadlineExtensions(String courseId, FeedbackSessionAttributes session,
+            Map<String, Instant> oldDeadlines, Map<String, Instant> newDeadlines,
+            boolean areInstructors, boolean notifyUsers) {
+        if (oldDeadlines.equals(newDeadlines)) {
+            return Collections.emptyList();
+        }
+
+        // Revoke deadline extensions
+        Map<String, Instant> deadlinesToRevoke = new HashMap<>(oldDeadlines);
+        deadlinesToRevoke.keySet().removeAll(newDeadlines.keySet());
+
+        deadlinesToRevoke.keySet().forEach(email ->
+                logic.deleteDeadlineExtension(courseId, session.getFeedbackSessionName(), email, areInstructors));
+
+        // Create deadline extensions
+        Map<String, Instant> deadlinesToCreate = new HashMap<>(newDeadlines);
+        deadlinesToCreate.keySet().removeAll(oldDeadlines.keySet());
+
+        deadlinesToCreate.entrySet()
+                .stream()
+                .map(entry -> DeadlineExtensionAttributes
+                        .builder(courseId, session.getFeedbackSessionName(), entry.getKey(), areInstructors)
+                        .withEndTime(entry.getValue())
+                        .build())
+                .forEach(deadlineExtension -> {
+                    try {
+                        logic.createDeadlineExtension(deadlineExtension);
+                    } catch (InvalidParametersException | EntityAlreadyExistsException e) {
+                        log.severe("Unexpected error while creating deadline extension", e);
+                    }
+                });
+
+        // Update deadline extensions
+        Map<String, Instant> deadlinesToUpdate = new HashMap<>(newDeadlines);
+        deadlinesToUpdate = deadlinesToUpdate.entrySet().stream()
+                .filter(entry -> oldDeadlines.containsKey(entry.getKey())
+                        && !entry.getValue().equals(oldDeadlines.get(entry.getKey())))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+
+        deadlinesToUpdate.entrySet()
+                .stream()
+                .map(entry -> DeadlineExtensionAttributes
+                        .updateOptionsBuilder(courseId, session.getFeedbackSessionName(), entry.getKey(), areInstructors)
+                        .withEndTime(entry.getValue())
+                        .build())
+                .forEach(updateOptions -> {
+                    try {
+                        logic.updateDeadlineExtension(updateOptions);
+                    } catch (InvalidParametersException | EntityDoesNotExistException e) {
+                        log.severe("Unexpected error while updating deadline extension", e);
+                    }
+                });
+
+        List<EmailWrapper> emailsToSend = new ArrayList<>();
+        if (notifyUsers) {
+            CourseAttributes course = logic.getCourse(courseId);
+            emailsToSend.addAll(emailGenerator
+                    .generateDeadlineRevokedEmails(course, session, deadlinesToRevoke, areInstructors));
+            emailsToSend.addAll(emailGenerator
+                    .generateDeadlineGivenEmails(course, session, deadlinesToCreate, areInstructors));
+            emailsToSend.addAll(emailGenerator
+                    .generateDeadlineUpdatedEmails(course, session, deadlinesToUpdate, oldDeadlines, areInstructors));
+        }
+        return emailsToSend;
     }
 
 }

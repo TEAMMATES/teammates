@@ -587,9 +587,48 @@ public final class EmailGenerator {
     }
 
     /**
-     * Generates deadline extension given/updated/revoked email.
+     * Generates deadline extension given emails.
      */
-    public EmailWrapper generateDeadlineExtensionEmail(
+    public List<EmailWrapper> generateDeadlineGivenEmails(CourseAttributes course,
+            FeedbackSessionAttributes session, Map<String, Instant> createdDeadlines, boolean areInstructors) {
+        return createdDeadlines.entrySet()
+                .stream()
+                .map(entry ->
+                        generateDeadlineExtensionEmail(course, session,
+                                session.getEndTime(), entry.getValue(), EmailType.DEADLINE_EXTENSION_GIVEN,
+                                entry.getKey(), areInstructors))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Generates deadline extension updated emails.
+     */
+    public List<EmailWrapper> generateDeadlineUpdatedEmails(CourseAttributes course, FeedbackSessionAttributes session,
+            Map<String, Instant> updatedDeadlines, Map<String, Instant> oldDeadlines, boolean areInstructors) {
+        return updatedDeadlines.entrySet()
+                .stream()
+                .map(entry ->
+                        generateDeadlineExtensionEmail(course, session,
+                                oldDeadlines.get(entry.getKey()), entry.getValue(), EmailType.DEADLINE_EXTENSION_UPDATED,
+                                entry.getKey(), areInstructors))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Generates deadline extension revoked emails.
+     */
+    public List<EmailWrapper> generateDeadlineRevokedEmails(CourseAttributes course,
+            FeedbackSessionAttributes session, Map<String, Instant> revokedDeadlines, boolean areInstructors) {
+        return revokedDeadlines.entrySet()
+                .stream()
+                .map(entry ->
+                        generateDeadlineExtensionEmail(course, session,
+                                entry.getValue(), session.getEndTime(), EmailType.DEADLINE_EXTENSION_REVOKED,
+                                entry.getKey(), areInstructors))
+                .collect(Collectors.toList());
+    }
+
+    private EmailWrapper generateDeadlineExtensionEmail(
             CourseAttributes course, FeedbackSessionAttributes session, Instant oldEndTime, Instant endTime,
             EmailType emailType, String userEmail, boolean isInstructor) {
         String status;
