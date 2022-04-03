@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { EMPTY } from 'rxjs';
 import { expand, finalize, reduce, tap } from 'rxjs/operators';
-import { LogService } from '../../services/log.service';
-import { StatusMessageService } from '../../services/status-message.service';
-import { TimezoneService } from '../../services/timezone.service';
-import { ApiConst } from '../../types/api-const';
+import { LogService } from '../../../services/log.service';
+import { StatusMessageService } from '../../../services/status-message.service';
+import { TimezoneService } from '../../../services/timezone.service';
+import { ApiConst } from '../../../types/api-const';
 import {
   ActionClasses,
   GeneralLogEntry,
@@ -15,13 +15,13 @@ import {
   QueryLogsParams,
   RequestLogUser,
   SourceLocation,
-} from '../../types/api-output';
-import { DateFormat } from '../components/datepicker/datepicker.component';
-import { LogsHistogramDataModel } from '../components/logs-histogram/logs-histogram-model';
-import { LogsTableRowModel } from '../components/logs-table/logs-table-model';
-import { collapseAnim } from '../components/teammates-common/collapse-anim';
-import { TimeFormat } from '../components/timepicker/timepicker.component';
-import { ErrorMessageOutput } from '../error-message-output';
+} from '../../../types/api-output';
+import { DateFormat } from '../../components/datepicker/datepicker.component';
+import { LogsHistogramDataModel } from '../../components/logs-histogram/logs-histogram-model';
+import { LogsTableRowModel } from '../../components/logs-table/logs-table-model';
+import { collapseAnim } from '../../components/teammates-common/collapse-anim';
+import { TimeFormat } from '../../components/timepicker/timepicker.component';
+import { ErrorMessageOutput } from '../../error-message-output';
 
 /**
  * Model for searching of logs.
