@@ -15,6 +15,7 @@ import {
 import { AdminNotificationsPageComponent } from './admin-notifications-page.component';
 import { AdminNotificationsPageModule } from './admin-notifications-page.module';
 import { NotificationsTableRowModel } from './notifications-table/notifications-table-model';
+// import { NotificationEditFormMode } from './notification-edit-form/notification-edit-form-model';
 
 describe('AdminNotificationsPageComponent', () => {
   let component: AdminNotificationsPageComponent;
@@ -82,8 +83,11 @@ describe('AdminNotificationsPageComponent', () => {
   });
 
   it('should snap when notification edit form expanded', () => {
-    component.isNotificationEditFormExpanded = true;
+    component.isNotificationLoading = false;
     fixture.detectChanges();
+    const button: any = fixture.debugElement.nativeElement.querySelector('#btn-add-notification');
+    expect(button.textContent).toEqual(' Add New Notification');
+    button.click();
     expect(fixture).toMatchSnapshot();
   });
 

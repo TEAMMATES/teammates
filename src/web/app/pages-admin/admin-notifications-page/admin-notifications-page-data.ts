@@ -43,10 +43,10 @@ export const EXAMPLE_NOTIFICATION_ONE: Notification = {
  */
 export const EXAMPLE_NOTIFICATION_TWO: Notification = {
   notificationId: 'notification2',
-  startTimestamp: moment('2018-09-15 09:30:00').valueOf(),
+  startTimestamp: moment('2018-12-15 09:30:00').valueOf(),
   endTimestamp: moment('2050-09-15 09:30:00').valueOf(),
-  createdAt: moment('2017-08-15 09:30:00').valueOf(),
-  updatedAt: moment('2017-08-15 09:30:00').valueOf(),
+  createdAt: moment('2018-11-15 09:30:00').valueOf(),
+  updatedAt: moment('2018-11-15 09:30:00').valueOf(),
   style: NotificationStyle.DANGER,
   targetUser: NotificationTargetUser.GENERAL,
   title: 'valid title 2',

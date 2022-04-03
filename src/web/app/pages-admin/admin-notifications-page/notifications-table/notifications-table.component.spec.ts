@@ -11,6 +11,14 @@ import { NotificationsTableComponent } from './notifications-table.component';
 describe('NotificationsTableComponent', () => {
   let component: NotificationsTableComponent;
   let fixture: ComponentFixture<NotificationsTableComponent>;
+  const notificationTableRowModel1: NotificationsTableRowModel = {
+    isHighlighted: true,
+    notification: EXAMPLE_NOTIFICATION_ONE,
+  };
+  const notificationTableRowModel2: NotificationsTableRowModel = {
+    isHighlighted: false,
+    notification: EXAMPLE_NOTIFICATION_TWO,
+  };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -35,16 +43,6 @@ describe('NotificationsTableComponent', () => {
   it('should snap with default fields', () => {
     expect(fixture).toMatchSnapshot();
   });
-
-  const notificationTableRowModel1: NotificationsTableRowModel = {
-    isHighlighted: true,
-    notification: EXAMPLE_NOTIFICATION_ONE,
-  };
-
-  const notificationTableRowModel2: NotificationsTableRowModel = {
-    isHighlighted: false,
-    notification: EXAMPLE_NOTIFICATION_TWO,
-  };
 
   it('should snap like in notification page with 2 notifications sorted by create time', () => {
     moment.tz.setDefault('UTC');

@@ -6,7 +6,7 @@ exports[`AdminNotificationsPageComponent should snap when notification edit form
   currentNotificationEditFormMode="0"
   hasNotificationLoadingFailed="false"
   isNotificationEditFormExpanded={[Function Boolean]}
-  isNotificationLoading={[Function Boolean]}
+  isNotificationLoading="false"
   notificationEditFormModel={[Function Object]}
   notificationService={[Function NotificationService]}
   notificationsTableRowModels={[Function Array]}
@@ -24,7 +24,6 @@ exports[`AdminNotificationsPageComponent should snap when notification edit form
   </p><div>
     <button
       class="btn btn-success"
-      disabled=""
       id="btn-add-notification"
     >
       <span>
@@ -38,21 +37,14 @@ exports[`AdminNotificationsPageComponent should snap when notification edit form
     <div
       class="margin-top-30px"
     >
-      <tm-loading-spinner>
+      <div>
         <div
-          class="loading-container"
+          class="alert alert-warning margin-top-30px"
+          role="alert"
         >
-          <div
-            class="row spinner-border text-primary"
-            role="status"
-          />
-          <div
-            class="row text-secondary"
-          >
-            Loading...
-          </div>
+           You have not created any notifications yet. Use the form above to create a notification. 
         </div>
-      </tm-loading-spinner>
+      </div>
     </div>
     <br />
   </tm-loading-retry>

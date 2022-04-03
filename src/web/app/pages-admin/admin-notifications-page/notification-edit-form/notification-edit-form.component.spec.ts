@@ -43,13 +43,13 @@ describe('NotificationEditFormComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('set up with EXAMPLE_NOTIFICATION_EDIT_MODEL', () => {
+  it('should set up with EXAMPLE_NOTIFICATION_EDIT_MODEL', () => {
     component.model = EXAMPLE_NOTIFICATION_EDIT_MODEL;
     const model: NotificationEditFormModel = component.model;
     expect(model).toBe(EXAMPLE_NOTIFICATION_EDIT_MODEL);
   });
 
-  it('triggerModelChange with EXAMPLE_NOTIFICATION_EDIT_MODEL', () => {
+  it('should triggerModelChange with EXAMPLE_NOTIFICATION_EDIT_MODEL', () => {
     component.model = EXAMPLE_NOTIFICATION_EDIT_MODEL;
     component.modelChange.subscribe((data: NotificationEditFormModel) => {
       component.model = data;
