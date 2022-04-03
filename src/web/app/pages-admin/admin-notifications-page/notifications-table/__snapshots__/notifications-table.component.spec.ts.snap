@@ -117,7 +117,7 @@ exports[`NotificationsTableComponent should snap like in notification page with 
             <td
               class="text-break"
             >
-              valid title
+              valid title 1
             </td>
             <td
               class="text-break"
@@ -365,7 +365,7 @@ exports[`NotificationsTableComponent should snap like in notification page with 
             <td
               class="text-break"
             >
-              valid title
+              valid title 1
             </td>
             <td
               class="text-break"

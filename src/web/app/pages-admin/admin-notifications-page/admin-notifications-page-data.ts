@@ -34,8 +34,8 @@ export const EXAMPLE_NOTIFICATION_ONE: Notification = {
   updatedAt: moment('2017-09-15 09:30:00').valueOf(),
   style: NotificationStyle.SUCCESS,
   targetUser: NotificationTargetUser.INSTRUCTOR,
-  title: 'valid title',
-  message: 'valid message',
+  title: 'valid title 1',
+  message: 'valid message 1',
   shown: false,
 };
 /**

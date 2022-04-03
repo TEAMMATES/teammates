@@ -1,8 +1,12 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import moment from 'moment-timezone';
+import SpyInstance = jest.SpyInstance;
+import { SimpleModalService } from '../../../../services/simple-modal.service';
 import { TimezoneService } from '../../../../services/timezone.service';
+import { createMockNgbModalRef } from '../../../../test-helpers/mock-ngb-modal-ref';
 import { NotificationTargetUser } from '../../../../types/api-output';
+import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
 import { EXAMPLE_NOTIFICATION_EDIT_MODEL } from '../admin-notifications-page-data';
 import { AdminNotificationsPageModule } from '../admin-notifications-page.module';
 import { NotificationEditFormModel } from './notification-edit-form-model';
@@ -12,6 +16,7 @@ describe('NotificationEditFormComponent', () => {
   let component: NotificationEditFormComponent;
   let fixture: ComponentFixture<NotificationEditFormComponent>;
   let timezoneService: TimezoneService;
+  let simpleModalService: SimpleModalService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -21,6 +26,7 @@ describe('NotificationEditFormComponent', () => {
       ],
       providers: [
         TimezoneService,
+        SimpleModalService,
       ],
     })
     .compileComponents();
@@ -30,6 +36,7 @@ describe('NotificationEditFormComponent', () => {
     fixture = TestBed.createComponent(NotificationEditFormComponent);
     component = fixture.componentInstance;
     timezoneService = TestBed.inject(TimezoneService);
+    simpleModalService = TestBed.inject(SimpleModalService);
     moment.tz.setDefault('UTC');
     jest.spyOn(timezoneService, 'guessTimezone').mockReturnValue('Asia/Singapore');
     fixture.detectChanges();
@@ -65,5 +72,20 @@ describe('NotificationEditFormComponent', () => {
     expect(model.message).toBe(testStr);
     expect(model.targetUser).toBe(NotificationTargetUser.GENERAL);
     expect(model.endDate.year).toBe(1);
+  });
+
+  it('should display warning when discarding edit to current notification', async () => {
+    component.model = EXAMPLE_NOTIFICATION_EDIT_MODEL;
+    component.modelChange.subscribe((data: NotificationEditFormModel) => {
+      component.model = data;
+    });
+    const promise: Promise<void> = Promise.resolve();
+    const modalSpy: SpyInstance = jest.spyOn(simpleModalService, 'openConfirmationModal')
+        .mockReturnValue(createMockNgbModalRef({}, promise));
+    component.cancelHandler();
+    await promise;
+    expect(modalSpy).toHaveBeenCalledTimes(1);
+    expect(modalSpy).toHaveBeenLastCalledWith('Discard unsaved edit?',
+        SimpleModalType.WARNING, 'Warning: Any unsaved changes will be lost.');
   });
 });
