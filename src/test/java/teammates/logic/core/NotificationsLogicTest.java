@@ -1,14 +1,17 @@
 package teammates.logic.core;
 
-import java.time.Instant;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.attributes.NotificationAttributes;
+import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.api.NotificationsDb;
@@ -20,6 +23,7 @@ public class NotificationsLogicTest extends BaseLogicTest {
     private NotificationAttributes n;
     private final NotificationsDb notifDb = NotificationsDb.inst();
     private final NotificationsLogic notifLogic = NotificationsLogic.inst();
+    private final Map<String, NotificationAttributes> typicalNotifications = getTypicalDataBundle().notifications;
 
     @Override
     protected void prepareTestData() {
@@ -42,62 +46,68 @@ public class NotificationsLogicTest extends BaseLogicTest {
         testDeleteNotification();
     }
 
-    private void testGetNotification() throws Exception {
+    private void testGetNotification() {
+        n = typicalNotifications.get("notification1");
+
         ______TS("success: typical case");
 
-        n = getTypicalNotification();
-        notifDb.createEntity(n);
+        NotificationAttributes actual = notifLogic.getNotification(n.getNotificationId());
+        verifyPresentInDatabase(actual);
+        verifyNotificationEquals(n, actual);
 
-        NotificationAttributes retrievedNotif = notifLogic.getNotification(n.getNotificationId());
-        verifyPresentInDatabase(retrievedNotif);
-
-        removeNotificationsFromDb(n);
-
-        ______TS("failure: Null parameter");
+        ______TS("failure: null parameter");
 
         assertThrows(AssertionError.class,
                 () -> notifLogic.getNotification(null));
 
-        ______TS("failure: notification doesn't exist");
+        ______TS("failure: non-existent notification");
 
-        assertNull(notifLogic.getNotification("nonexistant-notification"));
+        assertNull(notifLogic.getNotification("invalid_notification_id"));
     }
 
-    private void testGetAllNotifications() throws Exception {
-        ______TS("success: retrieve all when there exist notifications");
+    private void testGetAllNotifications() {
+        ______TS("success: retrieve all notifications that exist in database");
 
-        n = getTypicalNotification();
-        notifDb.createEntity(n);
-        NotificationAttributes n1 = getTypicalNotification();
-        n1.setNotificationId("new-notification-id");
-        notifDb.createEntity(n1);
-
-        List<NotificationAttributes> retreivedNotifs = notifLogic.getAllNotifications();
-        retreivedNotifs.forEach(this::verifyPresentInDatabase);
-
-        removeNotificationsFromDb(n, n1);
+        List<NotificationAttributes> actual = notifLogic.getAllNotifications();
+        assertNotNull(actual);
+        typicalNotifications.values().forEach(n -> {
+            assertTrue(actual.contains(n));
+            actual.remove(n);
+        });
     }
 
-    private void testGetActiveNotificationsByTargetUser() throws Exception {
-        ______TS("success : valid target user");
+    private void testGetActiveNotificationsByTargetUser() {
+        ______TS("success: valid target user");
 
-        n = getTypicalNotification();
-        n.setTargetUser(NotificationTargetUser.STUDENT);
-        notifDb.createEntity(n);
-        List<NotificationAttributes> retreivedNotifs =
+        List<NotificationAttributes> actual =
                 notifLogic.getActiveNotificationsByTargetUser(NotificationTargetUser.STUDENT);
 
-        assertTrue(retreivedNotifs.contains(n));
-        removeNotificationsFromDb(n);
+        assertNotNull(actual);
+
+        Set<NotificationAttributes> expected = new HashSet<>();
+        expected.add(typicalNotifications.get("notification1"));
+        expected.add(typicalNotifications.get("notification2"));
+        expected.add(typicalNotifications.get("notification4"));
+        expected.add(typicalNotifications.get("notification6"));
+
+        expected.forEach(n -> {
+            assertTrue(actual.contains(n));
+            actual.remove(n);
+        });
     }
 
     private void testCreateNotification() throws Exception {
         ______TS("success: typical case");
 
-        n = getTypicalNotification();
+        n = getNewNotificationAttributes();
         notifLogic.createNotification(n);
 
         verifyPresentInDatabase(n);
+
+        ______TS("failure: duplicate notification with the same ID");
+
+        assertThrows(EntityAlreadyExistsException.class, () -> notifLogic.createNotification(n));
+
         removeNotificationsFromDb(n);
 
         ______TS("failure: Null parameter");
@@ -107,7 +117,7 @@ public class NotificationsLogicTest extends BaseLogicTest {
 
         ______TS("failure: test create with invalid title name");
 
-        n = getTypicalNotification();
+        n = getNewNotificationAttributes();
         n.setTitle("");
         Exception e = assertThrows(Exception.class, () -> notifLogic.createNotification(n));
         assertEquals("The field 'notification title' is empty.", e.getMessage());
@@ -117,25 +127,32 @@ public class NotificationsLogicTest extends BaseLogicTest {
     private void testUpdateNotification() throws Exception {
         ______TS("success: typical case");
 
-        n = dataBundle.notifications.get("notification1");
+        n = typicalNotifications.get("notification1");
+        NotificationAttributes differentNotification = typicalNotifications.get("notification2");
 
         NotificationAttributes.UpdateOptions update1 =
                 NotificationAttributes.updateOptionsBuilder(n.getNotificationId())
-                        .withStyle(NotificationStyle.WARNING)
-                        .withTargetUser(NotificationTargetUser.STUDENT)
-                        .withTitle("The edited title")
-                        .withMessage("The edited message")
+                        .withTitle(differentNotification.getTitle())
+                        .withMessage(differentNotification.getMessage())
+                        .withStyle(differentNotification.getStyle())
+                        .withTargetUser(differentNotification.getTargetUser())
+                        .withStartTime(differentNotification.getStartTime())
+                        .withEndTime(differentNotification.getEndTime())
+                        .withShown()
                         .build();
 
         NotificationAttributes actual = notifLogic.updateNotification(update1);
-        assertEquals(NotificationStyle.WARNING, actual.getStyle());
-        assertEquals(NotificationTargetUser.STUDENT, actual.getTargetUser());
-        assertEquals("The edited title", actual.getTitle());
-        assertEquals("The edited message", actual.getMessage());
+        assertEquals(differentNotification.getTitle(), actual.getTitle());
+        assertEquals(differentNotification.getMessage(), actual.getMessage());
+        assertEquals(differentNotification.getStyle(), actual.getStyle());
+        assertEquals(differentNotification.getTargetUser(), actual.getTargetUser());
+        assertEquals(differentNotification.getStartTime(), actual.getStartTime());
+        assertEquals(differentNotification.getEndTime(), actual.getEndTime());
+        assertTrue(actual.isShown());
 
-        ______TS("failure: invalid build options");
+        ______TS("failure: invalid update options");
 
-        n = dataBundle.notifications.get("notification1");
+        n = typicalNotifications.get("notification1");
 
         NotificationAttributes.UpdateOptions update2 =
                 NotificationAttributes.updateOptionsBuilder(n.getNotificationId())
@@ -154,34 +171,46 @@ public class NotificationsLogicTest extends BaseLogicTest {
 
         assertThrows(EntityDoesNotExistException.class,
                 () -> notifLogic.updateNotification(update3));
+
+        ______TS("failure: null update options");
+
+        assertThrows(AssertionError.class, () -> notifLogic.updateNotification(null));
     }
 
     private void testDeleteNotification() {
         ______TS("success: delete corresponding notification");
 
-        n = dataBundle.notifications.get("notification1");
+        n = typicalNotifications.get("notification1");
         notifLogic.deleteNotification(n.getNotificationId());
 
         verifyAbsentInDatabase(n);
 
-        ______TS("failure: invalid id");
+        ______TS("failure: silent deletion of the same notification twice");
+
+        notifLogic.deleteNotification(n.getNotificationId());
+
+        ______TS("failure: silent deletion of non-existent notification");
 
         int expectedLength = notifDb.getAllNotifications().size();
         notifLogic.deleteNotification("invalid-id");
         int actualLength = notifDb.getAllNotifications().size();
 
         assertEquals(expectedLength, actualLength);
+
+        ______TS("failure: null parameter");
+
+        assertThrows(AssertionError.class, () -> notifLogic.deleteNotification(null));
     }
 
-    private NotificationAttributes getTypicalNotification() {
-        return NotificationAttributes
-                .builder("some-notif-id")
-                .withStartTime(Instant.now())
-                .withEndTime(Instant.now().plusSeconds(100))
-                .withStyle(NotificationStyle.WARNING)
-                .withTargetUser(NotificationTargetUser.INSTRUCTOR)
-                .withTitle("Maintenance Notice")
-                .withMessage("Maintenance at 3pm today")
+    private NotificationAttributes getNewNotificationAttributes() {
+        NotificationAttributes typical = typicalNotifications.get("notification1");
+        return NotificationAttributes.builder(UUID.randomUUID().toString())
+                .withTitle(typical.getTitle())
+                .withMessage(typical.getMessage())
+                .withStyle(typical.getStyle())
+                .withTargetUser(typical.getTargetUser())
+                .withStartTime(typical.getStartTime())
+                .withEndTime(typical.getEndTime())
                 .build();
     }
 
@@ -189,5 +218,16 @@ public class NotificationsLogicTest extends BaseLogicTest {
         for (NotificationAttributes notif : notifications) {
             notifDb.deleteNotification(notif.getNotificationId());
         }
+    }
+
+    private void verifyNotificationEquals(NotificationAttributes expected, NotificationAttributes actual) {
+        assertEquals(expected.getNotificationId(), actual.getNotificationId());
+        assertEquals(expected.getMessage(), actual.getMessage());
+        assertEquals(expected.getStyle(), actual.getStyle());
+        assertEquals(expected.getTargetUser(), actual.getTargetUser());
+        assertEquals(expected.getTitle(), actual.getTitle());
+        assertEquals(expected.getMessage(), actual.getMessage());
+        assertEquals(expected.getStartTime(), actual.getStartTime());
+        assertEquals(expected.getEndTime(), actual.getEndTime());
     }
 }
