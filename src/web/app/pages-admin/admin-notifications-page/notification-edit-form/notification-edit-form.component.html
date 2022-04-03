@@ -28,8 +28,11 @@
             </div>
             <div class="col-md-auto text-md-left">
               <select id="notification-style" class="form-control" [ngModel]="model.style" (ngModelChange)="triggerModelChange('style', $event)">
-                <option *ngFor="let style of NotificationStyle | keyvalue" [ngClass]="style.key | notificationStyleClass" [ngValue]="style.value">{{ style.key | notificationStyleDescription }}</option>
+                <option *ngFor="let style of NotificationStyle | keyvalue" [ngValue]="style.value">{{ style.key | notificationStyleDescription }}</option>
               </select>
+            </div>
+            <div class="col-md-auto text-md-middle d-flex" [ngClass]="model.style | notificationStyleClass">
+              <span class="align-self-center">Style Demonstration</span>
             </div>
           </div>
           <br/>
