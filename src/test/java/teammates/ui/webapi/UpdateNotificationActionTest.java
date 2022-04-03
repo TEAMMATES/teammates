@@ -30,8 +30,7 @@ public class UpdateNotificationActionTest extends BaseActionTest<UpdateNotificat
     @Test
     @Override
     protected void testExecute() throws Exception {
-        final String TEST_NOTIFICATION = "notification1";
-        NotificationAttributes testNotificationAttribute = typicalBundle.notifications.get(TEST_NOTIFICATION);
+        NotificationAttributes testNotificationAttribute = typicalBundle.notifications.get("notification1");
 
         String[] requestParams = new String[] {
                 Const.ParamsNames.NOTIFICATION_ID, testNotificationAttribute.getNotificationId(),
