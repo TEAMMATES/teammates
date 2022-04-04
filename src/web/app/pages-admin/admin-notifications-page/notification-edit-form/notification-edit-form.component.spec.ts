@@ -37,8 +37,8 @@ describe('NotificationEditFormComponent', () => {
     component = fixture.componentInstance;
     timezoneService = TestBed.inject(TimezoneService);
     simpleModalService = TestBed.inject(SimpleModalService);
-    moment.tz.setDefault('UTC');
     jest.spyOn(timezoneService, 'guessTimezone').mockReturnValue('Asia/Singapore');
+    moment.tz.setDefault('SGT');
     fixture.detectChanges();
   });
 

@@ -71,8 +71,7 @@ describe('AdminNotificationsPageComponent', () => {
     simpleModalService = TestBed.inject(SimpleModalService);
     timezoneService = TestBed.inject(TimezoneService);
     component = fixture.componentInstance;
-    moment.tz.setDefault('UTC');
-    jest.spyOn(timezoneService, 'guessTimezone').mockReturnValue('Asia/Singapore');
+    moment.tz.setDefault('SGT');
     fixture.detectChanges();
   });
 
@@ -97,6 +96,7 @@ describe('AdminNotificationsPageComponent', () => {
   });
 
   it('should snap when notification edit form expanded for adding notification', () => {
+    jest.spyOn(timezoneService, 'guessTimezone').mockReturnValue('Asia/Singapore');
     jest.spyOn(notificationService, 'getNotifications').mockReturnValue(of());
     component.initNotificationEditFormModel();
     component.loadNotifications();
@@ -111,6 +111,20 @@ describe('AdminNotificationsPageComponent', () => {
     expect(component.isNotificationLoading).toBeFalsy();
     expect(component.isNotificationEditFormExpanded).toBeTruthy();
     expect(fixture).toMatchSnapshot();
+  });
+
+  it('should disable edit button when notification edit form expanded for existent notification', () => {
+    jest.spyOn(notificationService, 'getNotifications').mockReturnValue(of({
+      notifications: [EXAMPLE_NOTIFICATION_ONE],
+    }));
+    component.initNotificationEditFormModel();
+    component.loadNotifications();
+    component.loadNotificationEditForm(component.notificationsTableRowModels[0].notification);
+    fixture.detectChanges();
+
+    const btn: any = fixture.debugElement.nativeElement.querySelector('#btn-add-notification');
+    expect(btn.disabled).toBeTruthy();
+    expect(btn.textContent).toEqual(' Edit Existing Notification');
   });
 
   it('should load correct notification for a given API output', () => {
@@ -173,22 +187,6 @@ describe('AdminNotificationsPageComponent', () => {
 
     expect(spy).toBeCalled();
     expect(component.hasNotificationLoadingFailed).toBeTruthy();
-  });
-
-  it('should snap when notification edit form expanded for editing existent notification', () => {
-    moment.tz.setDefault('UTC');
-    jest.spyOn(notificationService, 'getNotifications').mockReturnValue(of({
-      notifications: [EXAMPLE_NOTIFICATION_ONE],
-    }));
-    component.initNotificationEditFormModel();
-    component.loadNotifications();
-    component.loadNotificationEditForm(component.notificationsTableRowModels[0].notification);
-    fixture.detectChanges();
-
-    const btn: any = fixture.debugElement.nativeElement.querySelector('#btn-add-notification');
-    expect(btn.disabled).toBeTruthy();
-    expect(btn.textContent).toEqual(' Edit Existing Notification');
-    expect(fixture).toMatchSnapshot();
   });
 
   it('should display warning when attempts to edit another notification when form is open', async () => {
