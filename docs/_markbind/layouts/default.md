@@ -5,13 +5,13 @@
 <header fixed>
   <navbar placement="top" type="inverse">
     <a slot="brand" href="{{ baseUrl }}/index.html" title="Home" class="navbar-brand">
-      <pic src="https://teammatesv4.appspot.com/assets/images/teammateslogo.png" width="150" alt="Logo" caption=""/>
+      <pic src="{{ baseUrl }}/teammateslogo.png" width="150" alt="Logo" caption=""/>
       <span style="font-style:italic;font-size:small">[dev docs]</span>
     </a>
     <li><a href="{{ baseUrl }}/index.html" class="nav-link">Home</a></li>
     <li><a href="{{ baseUrl }}/contributing-doc.html" class="nav-link">Contributing</a></li>
     <li><a href="{{ baseUrl }}/about.html" class="nav-link">About</a></li>
-    <li><a href="http://teammatesv4.appspot.com/" target="_blank" class="nav-link">Product Website <md>:glyphicon-share-alt:</md></a></li>
+    <li><a href="https://teammatesv4.appspot.com/" target="_blank" class="nav-link">Product Website <md>:glyphicon-share-alt:</md></a></li>
     <li><a href="https://github.com/TEAMMATES/teammates" target="_blank" class="nav-link"><md>:fab-github:</md></a></li>
   <li slot="right">
     <form class="navbar-form">
@@ -36,9 +36,9 @@
   * [Setting Up]({{ baseUrl }}/setting-up.html)
 * [Contributing]({{ baseUrl }}/contributing-doc.html)
 * Workflow :expanded:
-  * [Documentation]({{ baseUrl }}/documentation.html)
   * [Issues]({{ baseUrl }}/issues.html)
   * [Process]({{ baseUrl }}/process.html)
+  * [Documentation]({{ baseUrl }}/documentation.html)
   * [Development]({{ baseUrl }}/development.html)
 * [Design]({{ baseUrl }}/design.html)
 * Best Practices :expanded:

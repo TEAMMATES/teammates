@@ -12,7 +12,7 @@ MarkBind is used to create a static site for developer documentation, and can pa
 
 To preview changes to documentation on the markbind:
 
-1. Install `npm`
+1. Install `npm` (version 7 or higher) and `Node.js` (version 12 or higher)
 1. Navigate to the `/docs` folder in your fork of the TEAMMATES repository
 1. Run `npm ci` to install the necessary tools to build documentation, such as MarkBind.
 1. Preview the website with the command `npm serve` to view the site locally. The live preview in the should update automatically to reflect changes you make to the docs.
