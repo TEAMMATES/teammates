@@ -81,8 +81,8 @@ public class Browser {
     /**
      * Waits for the page to load. This includes all AJAX requests and Angular animations in the page.
      *
-     * @param excludeToast Set this to true if toast message's disappearance should not be counted
-     *         as criteria for page load's completion.
+     * @param excludeToast Set this to true if toast message"s disappearance should not be counted
+     *         as criteria for page load"s completion.
      */
     public void waitForPageLoad(boolean excludeToast) {
         try {
@@ -98,7 +98,7 @@ public class Browser {
     }
 
     /**
-     * Waits for the page to load by only looking at the page's readyState.
+     * Waits for the page to load by only looking at the page"s readyState.
      */
     public void waitForPageReadyState() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(TestProperties.TEST_TIMEOUT));
@@ -159,6 +159,9 @@ public class Browser {
             }
             System.setProperty("webdriver.gecko.driver", TestProperties.GECKODRIVER_PATH);
 
+            // System.setProperty("webdriver.firefox.bin", "C:\\Program Files\\Mozilla Firefox\\firefox.exe");
+            // System.setProperty("webdriver.firefox.bin", "/mnt/c/Program Files/Mozilla Firefox/firefox.exe");
+            // TODO: Check the driver compatibility versioning or whatever. And firefox"s version. 
             FirefoxProfile profile = new FirefoxProfile();
 
             // Allow CSV files to be download automatically, without a download popup.
@@ -188,6 +191,13 @@ public class Browser {
             ChromeOptions options = new ChromeOptions();
             options.setExperimentalOption("prefs", chromePrefs);
             options.addArguments("--allow-file-access-from-files");
+            options.setBinary("/mnt/c/Program Files (x86)/Google/Chrome/Application/firefoox.exe");
+            options.addArguments("--no-sandbox");
+            options.addArguments("--disable-extensions");
+            options.addArguments("--headless");
+            options.addArguments("--disable-gpu");
+            options.addArguments("--remote-debugging-port=9222");
+            options.addArguments("--disable-dev-shm-usage");
             if (TestProperties.isDevServer()) {
                 options.addArguments("incognito");
             }

@@ -7,9 +7,11 @@ import static org.junit.Assert.assertTrue;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -72,6 +74,8 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     @FindBy(id = "submission-start-time")
     private WebElement startTimeDropdown;
+
+    //TODO: Add the date picker here
 
     @FindBy(id = "submission-end-date")
     private WebElement endDateBox;
@@ -875,32 +879,88 @@ public class InstructorFeedbackEditPage extends AppPage {
         return getDisplayedDateTime(instant, timeZone, "HH:00") + "H";
     }
 
+    private String getYearString(Instant instant, String timeZone) {
+        ZonedDateTime dateTime = instant.atZone(ZoneId.of(timeZone));
+        return dateTime.format(DateTimeFormatter.ofPattern("YYYY", Locale.ENGLISH));
+    }
+
+    private String getMonthString(Instant instant, String timeZone) {
+        ZonedDateTime dateTime = instant.atZone(ZoneId.of(timeZone));
+        return dateTime.format(DateTimeFormatter.ofPattern("MMM", Locale.ENGLISH));
+    }
+
+    private String getDayString(Instant instant, String timeZone) {
+        ZonedDateTime dateTime = instant.atZone(ZoneId.of(timeZone));
+        return dateTime.format(DateTimeFormatter.ofPattern("dd", Locale.ENGLISH));
+    }
+
     private void setInstructions(String newInstructions) {
         writeToRichTextEditor(instructionsEditor.findElement(By.tagName("editor")), newInstructions);
     }
 
+    // TODO: Fix this
     private void setSessionStartDateTime(Instant startInstant, String timeZone) {
-        setDateTime(startDateBox.findElement(By.tagName("input")), startTimeDropdown, startInstant, timeZone);
+        setDateTime(startDateBox, startTimeDropdown, startInstant, timeZone);
     }
 
+    // TODO: Fix this
     private void setSessionEndDateTime(Instant endInstant, String timeZone) {
-        setDateTime(endDateBox.findElement(By.tagName("input")), endTimeDropdown, endInstant, timeZone);
+        setDateTime(endDateBox.findElement(By.tagName("button")), endTimeDropdown, endInstant, timeZone);
     }
 
+    // TODO: Fix this
     private void setVisibilityDateTime(Instant startInstant, String timeZone) {
         setDateTime(sessionVisibilityDateBox.findElement(By.tagName("input")),
                 sessionVisibilityTimeDropdown, startInstant, timeZone);
     }
 
+    // TODO: Fix this
     private void setResponseDateTime(Instant endInstant, String timeZone) {
         setDateTime(responseVisibilityDateBox.findElement(By.tagName("input")),
                 responseVisibilityTimeDropdown, endInstant, timeZone);
     }
 
+    // TODO: Fix this
     private void setDateTime(WebElement dateBox, WebElement timeBox, Instant startInstant, String timeZone) {
-        fillTextBox(dateBox, getDateString(startInstant, timeZone));
+        fillDatePicker(dateBox, startInstant, timeZone);
+        // TODO: Fix this. We're not filling the text box. This should be changed to some other thing.
+        // fillTextBox(dateBox, getDateString(startInstant, timeZone));
 
         selectDropdownOptionByText(timeBox.findElement(By.tagName("select")), getTimeString(startInstant, timeZone));
+    }
+
+    private void fillDatePicker(WebElement dateBox, Instant startInstant, String timeZone) {
+        WebElement buttonToOpenPicker = dateBox.findElement(By.tagName("button"));
+        click(buttonToOpenPicker);
+
+        WebElement datePicker = dateBox.findElement(By.tagName("ngb-datepicker"));
+        WebElement monthAndYearPicker = datePicker.findElement(By.tagName("ngb-datepicker-navigation-select"));
+        WebElement monthPicker = monthAndYearPicker.findElement(By.cssSelector("[aria-label='Select month']"));
+        WebElement yearPicker = monthAndYearPicker.findElement(By.cssSelector("[aria-label='Select year']"));
+
+        String year = getYearString(startInstant, timeZone);
+        String month = getMonthString(startInstant, timeZone);
+        String date = getDateString(startInstant, timeZone); 
+
+        System.out.println(String.format("%s %s %s %s", datePicker, monthAndYearPicker, monthPicker, yearPicker));
+        System.out.println(String.format("%s %s %s", year, month, date));
+
+        selectDropdownOptionByText(yearPicker, year);
+        selectDropdownOptionByText(monthPicker, month);
+        selectDropdownOptionByValue(datePicker, date);
+
+/*         click(yearPicker);
+        WebElement yearOption = yearPicker.findElement(By.cssSelector(String.format("[value='%s'", year)));
+        click(yearOption);
+
+        click(monthPicker);  
+        WebElement monthOption = monthPicker.findElement(By.cssSelector(String.format("[aria-label='%s'", month)));
+        click(monthOption);
+        WebElement dayPicker = datePicker.findElement(By.cssSelector(String.format("[aria-label='%s']",  )))
+        // Day aria-label format: Day, Month Date, Year
+        // TODO: Pick the correct month and year
+ */
+
     }
 
     private void selectGracePeriod(long gracePeriodMinutes) {
