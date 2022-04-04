@@ -52,7 +52,7 @@ public class NotificationsLogicTest extends BaseLogicTest {
         ______TS("success: typical case");
 
         NotificationAttributes actual = notifLogic.getNotification(n.getNotificationId());
-        verifyPresentInDatabase(actual);
+        assertNotNull(actual);
         verifyNotificationEquals(n, actual);
 
         ______TS("failure: null parameter");
