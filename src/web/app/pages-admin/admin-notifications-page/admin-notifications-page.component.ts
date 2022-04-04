@@ -241,12 +241,11 @@ export class AdminNotificationsPageComponent implements OnInit {
     .pipe(finalize(() => { this.notificationEditFormModel.isSaving = false; }))
     .subscribe(
       (notification: Notification) => {
-        this.statusMessageService.showSuccessToast('Notification created successfully.');
-
         this.notificationsTableRowModels.unshift({
           isHighlighted: true,
           notification,
         });
+        this.statusMessageService.showSuccessToast('Notification created successfully.');
 
         this.initNotificationEditFormModel();
       },
