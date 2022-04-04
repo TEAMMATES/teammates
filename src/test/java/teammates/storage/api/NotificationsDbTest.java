@@ -49,7 +49,7 @@ public class NotificationsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
         NotificationAttributes actual = notificationsDb.getNotification(n.getNotificationId());
         assertNotNull(actual);
 
-        ______TS("expect null for non-existent account");
+        ______TS("expect null for non-existent notification");
         actual = notificationsDb.getNotification("invalid_notification_id");
         assertNull(actual);
 
@@ -238,7 +238,7 @@ public class NotificationsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
     public void testDeleteNotification() throws Exception {
         NotificationAttributes n = typicalNotifications.get("notification1");
 
-        ______TS("silent deletion of non-existant notification");
+        ______TS("silent deletion of non-existent notification");
         notificationsDb.deleteNotification("invalid_notification_id");
 
         ______TS("typical success case");
