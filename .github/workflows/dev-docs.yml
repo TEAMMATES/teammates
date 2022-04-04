@@ -12,34 +12,25 @@ jobs:
   build:
     runs-on: ubuntu-latest
     name: Dev docs
+    defaults:
+      run:
+        shell: bash
+        working-directory: docs
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
           node-version: 12
-      - run: npm i -g markbind-cli@3.1.1
-      - run: |
-          cd docs
-          markbind build
-      - uses: actions/github-script@v6
-        id: check-error
-        with:
-          script: |
-            const fs = require('fs');
-            // check if build directory exists
-            const dir = './docs/_site';
-
-            // check if directory exists
-            if (fs.existsSync(dir)) {
-                console.log('Build exists!');
-            } else {
-                console.log('Build not found!');
-                core.setFailed('Developer Documentation Error!')
-            }
+      - run: npm ci
+      - run: npm run build
+      - name: Check build status
+        run: |
+          if [ ! -d "./_site" ]; then
+            echo "Build Error"
+            exit 1
+          fi
       - name: Deploy on push
         if: ${{ success() && github.event_name == 'push' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          cd docs
-          markbind deploy --ci
+        run: npm run deploy
