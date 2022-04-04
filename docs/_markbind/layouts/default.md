@@ -8,10 +8,10 @@
       <pic src="https://teammatesv4.appspot.com/assets/images/teammateslogo.png" width="150" alt="Logo" caption=""/>
       <span style="font-style:italic;font-size:small">[dev docs]</span>
     </a>
-    <li><a href="{{ baseUrl }}/index.html" class="nav-link">HOME</a></li>
-    <li><a href="{{ baseUrl }}/contributing-doc.html" class="nav-link">CONTRIBUTING</a></li>
-    <li><a href="{{ baseUrl }}/about.html" class="nav-link">ABOUT</a></li>
-    <li><a href="http://teammatesv4.appspot.com/" target="_blank" class="nav-link">PRODUCT WEBSITE <md>:glyphicon-share-alt:</md></a></li>
+    <li><a href="{{ baseUrl }}/index.html" class="nav-link">Home</a></li>
+    <li><a href="{{ baseUrl }}/contributing-doc.html" class="nav-link">Contributing</a></li>
+    <li><a href="{{ baseUrl }}/about.html" class="nav-link">About</a></li>
+    <li><a href="http://teammatesv4.appspot.com/" target="_blank" class="nav-link">Product Website <md>:glyphicon-share-alt:</md></a></li>
     <li><a href="https://github.com/TEAMMATES/teammates" target="_blank" class="nav-link"><md>:fab-github:</md></a></li>
   <li slot="right">
     <form class="navbar-form">
@@ -29,15 +29,14 @@
     <div class="nav-component slim-scroll">
       <site-nav>
 
-* About Teammates :expanded:
+* About TEAMMATES :expanded:
   * [Introduction]({{ baseUrl }}/index.html)
   * [Overview]({{ baseUrl }}/overview.html)
 * Getting Started :expanded:
   * [Setting Up]({{ baseUrl }}/setting-up.html)
-  * [Search]({{ baseUrl }}/search.html)
-  * [Documentation]({{ baseUrl }}/documentation.html)
+* [Contributing]({{ baseUrl }}/contributing-doc.html)
 * Workflow :expanded:
-  * [Contributing]({{ baseUrl }}/contributing-doc.html)
+  * [Documentation]({{ baseUrl }}/documentation.html)
   * [Issues]({{ baseUrl }}/issues.html)
   * [Process]({{ baseUrl }}/process.html)
   * [Development]({{ baseUrl }}/development.html)
@@ -46,15 +45,15 @@
   * [Coding]({{ baseUrl }}/best-practices/coding.html)
   * [Testing]({{ baseUrl }}/best-practices/testing.html)
   * [Data Migration]({{ baseUrl }}/best-practices/data-migration.html)
-  * [Ui Design]({{ baseUrl }}/best-practices/ui-design.html)
-* Testing :expanded:
+  * [UI Design]({{ baseUrl }}/best-practices/ui-design.html)
+* How-to :expanded:
+  * [Captcha]({{ baseUrl }}/captcha.html)
+  * [Emails]({{ baseUrl }}/emails.html)
   * [End-to-End Testing]({{ baseUrl }}/e2e-testing.html)
   * [Performance Testing]({{ baseUrl }}/performance-testing.html)
+  * [Search]({{ baseUrl }}/search.html)
   * [Snapshot Testing]({{ baseUrl }}/snapshot-testing.html)
   * [Static Analysis]({{ baseUrl }}/static-analysis.html)
-* How-to :expanded:
-  * [Emails]({{ baseUrl }}/emails.html)
-  * [Captcha]({{ baseUrl }}/captcha.html)
 * [Troubleshooting Guide]({{ baseUrl }}/troubleshooting-guide.html)
 * [Glossary]({{ baseUrl }}/glossary.html)
       </site-nav>

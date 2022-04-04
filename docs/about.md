@@ -3,6 +3,7 @@
 </frontmatter>
 
 # About
+
 TEAMMATES is a free online tool for managing peer evaluations and other feedback paths of your students.
 It is provided as a cloud-based service for educators/students and is currently used by hundreds of universities across the world. Here are more statistics about our project: [Project Stats](https://www.openhub.net/p/teammatesonline).
 
@@ -10,6 +11,7 @@ We welcome contributions from anyone, in particular, students (see [here](https:
 ## Acknowledgements
 
 TEAMMATES team wishes to thank the following invaluable contributions:
+
 * [**School of Computing, National University of Singapore (NUS)**](http://www.comp.nus.edu.sg), for providing us with the infrastructure support to run the project.
 * [**Centre for Development of Teaching and Learning (CDTL)**](http://www.cdtl.nus.edu.sg/) of NUS, for supporting us with several *Teaching Enhancement Grants* over the years.
 * **Learning Innovation Fund-Technology (LIF-T)** initiative of NUS, for funding us for the 2015-2018 period.

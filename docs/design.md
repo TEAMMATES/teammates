@@ -185,13 +185,13 @@ API for retrieving entities:
 
 + Attempting to retrieve objects using `null` parameters: Causes an assertion failure.
 + Entity not found:
-  + Returns `null` if the target entity not found. This way, read operations can be used easily for checking the existence of an entity.
+  - Returns `null` if the target entity not found. This way, read operations can be used easily for checking the existence of an entity.
 
 API for updating entities:
 
 + Update is done using `*UpdateOptions` inside every `*Attributes`. The `UpdateOptions` will specify what is used to identify the entity to update and what will be updated.
 + Entity not found: Throws `EntityDoesNotExistException`.
-- Invalid parameters: Throws `InvalidParametersException`.
++ Invalid parameters: Throws `InvalidParametersException`.
 
 API for deleting entities:
 
@@ -205,10 +205,10 @@ The `Storage` component performs CRUD (Create, Read, Update, Delete) operations 
 It contains minimal logic beyond what is directly relevant to CRUD operations.
 In particular, it is reponsible for:
 
-+ Validating data inside entities before creating/updating them, to ensure they are in a valid state.
-+ Hiding the complexities of the database from the `Logic` component.
-+ Hiding the persistable objects: Classes in the `storage::entity` package are not visible outside this component to hide information specific to data persistence.
-  + Instead, a corresponding non-persistent [data transfer object](http://en.wikipedia.org/wiki/Data_transfer_object) named `*Attributes` (e.g., `CourseAttributes` is the data transfer object for `Course` entities) object is returned. These datatransfer classes are in `common::datatransfer` package, to be explained later.
+- Validating data inside entities before creating/updating them, to ensure they are in a valid state.
+- Hiding the complexities of the database from the `Logic` component.
+- Hiding the persistable objects: Classes in the `storage::entity` package are not visible outside this component to hide information specific to data persistence.
+  - Instead, a corresponding non-persistent [data transfer object](http://en.wikipedia.org/wiki/Data_transfer_object) named `*Attributes` (e.g., `CourseAttributes` is the data transfer object for `Course` entities) object is returned. These datatransfer classes are in `common::datatransfer` package, to be explained later.
 
 The `Storage` component does not perform any cascade delete/create operations. Cascade logic is handled by the `Logic` component.
 

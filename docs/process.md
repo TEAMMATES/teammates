@@ -77,7 +77,7 @@ Notes:
 
 ### Step 3: Fix the issue
 
-> If this is your first issue, you may want to look at our coding and testing best practices as well as coding conventions (links given [here](index.html)).
+> If this is your first issue, you may want to look at our coding and testing best practices as well as coding conventions (links given [here](index.md)).
 
 Make the changes to the code, tests, and documentations as needed by the issue.
 
@@ -128,13 +128,11 @@ Make the changes to the code, tests, and documentations as needed by the issue.
 
    * **All affected tests are passing** on your dev server.<br>
      You are more than welcome to also ensure that all tests are passing on your dev server.
-   * **Staging-tested (if need be)**: If your new code might behave differently on a remote server than how it behaves on the dev server,
-     ensure that the affected tests are passing against the updated app running on your own GAE staging server.
+   * **Staging-tested (if need be)**: If your new code might behave differently on a remote server than how it behaves on the dev server, ensure that the affected tests are passing against the updated app running on your own GAE staging server.
    * **No unrelated changes** are introduced in the branch. This includes unnecessary formatting changes.
    * All changes or additions to functional code are **accompanied by changes or additions in tests**, even if they are absent before.
    * All new public APIs (methods, classes) are **documented with header comments**.
-   * **Documentations are updated** when necessary, particularly when there are changes or additions to software design as well as user-facing features.
-      * [MarkBind](https://markbind.org/) is used for documentation. Refer to [this guide](documentation.md) to understand how to use it.
+   * **Documentations are updated** when necessary, particularly when there are changes or additions to software design as well as user-facing features. [MarkBind](https://markbind.org/) is used for developer documentation. Refer to [this guide](documentation.md) to understand how to use it.
 
 1. Push your branch to your fork, or to the main repo only if necessary.
    ```sh
@@ -279,4 +277,4 @@ This instruction set will use the issue `Remove unnecessary System.out.printlns 
     e.g. `[#3942] Remove unnecessary System.out.printlns from Java files (#3944)`.
   * Where appropriate (e.g. merging a long-lived feature branch), the ["Rebase and merge"](https://help.github.com/articles/about-pull-request-merges/#rebase-and-merge-your-pull-request-commits) option can be used instead.
   * Apply a `c.*` label to the PR to indicate the type of the PR, if it has not been done before.
-* If the PR necessitates a data migration, [create a data migration issue](https://github.com/TEAMMATES/teammates/issues/new?template=data-migration.html) after merging.
+* If the PR necessitates a data migration, [create a data migration issue](https://github.com/TEAMMATES/teammates/issues/new?template=data-migration.md) after merging.
