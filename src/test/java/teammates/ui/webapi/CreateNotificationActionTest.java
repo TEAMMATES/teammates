@@ -1,5 +1,7 @@
 package teammates.ui.webapi;
 
+import org.testng.annotations.Test;
+
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.attributes.NotificationAttributes;
@@ -25,6 +27,7 @@ public class CreateNotificationActionTest extends BaseActionTest<CreateNotificat
         return POST;
     }
 
+    @Test
     @Override
     protected void testExecute() throws Exception {
         long startTime = testNotificationAttribute.getStartTime().toEpochMilli();
@@ -49,7 +52,7 @@ public class CreateNotificationActionTest extends BaseActionTest<CreateNotificat
         assertEquals(createdNotification.getStyle(), res.getStyle());
         assertEquals(createdNotification.getTargetUser(), res.getTargetUser());
         assertEquals(createdNotification.getTitle(), res.getTitle());
-        assertEquals(createdNotification.getTitle(), res.getMessage());
+        assertEquals(createdNotification.getMessage(), res.getMessage());
 
         // check DB correctly processed request
         assertEquals(startTime, createdNotification.getStartTime().toEpochMilli());
@@ -57,7 +60,7 @@ public class CreateNotificationActionTest extends BaseActionTest<CreateNotificat
         assertEquals(style, createdNotification.getStyle());
         assertEquals(targetUser, createdNotification.getTargetUser());
         assertEquals(title, createdNotification.getTitle());
-        assertEquals(message, createdNotification.getTitle());
+        assertEquals(message, createdNotification.getMessage());
 
         ______TS("Parameters cannot be null");
         req = getTypicalCreateRequest();
@@ -94,9 +97,10 @@ public class CreateNotificationActionTest extends BaseActionTest<CreateNotificat
         ______TS("Invalid parameter should throw an error");
         req = getTypicalCreateRequest();
         req.setTitle(invalidTitle);
-        verifyHttpParameterFailure(req);
+        verifyHttpRequestBodyFailure(req);
     }
 
+    @Test
     @Override
     protected void testAccessControl() throws Exception {
         verifyOnlyAdminCanAccess();

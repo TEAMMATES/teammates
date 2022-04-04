@@ -11,6 +11,6 @@ public class DeleteNotificationAction extends AdminOnlyAction {
     public JsonResult execute() {
         String notificationId = getNonNullRequestParamValue(Const.ParamsNames.NOTIFICATION_ID);
         logic.deleteNotification(notificationId);
-        return new JsonResult("Notification has been deleted");
+        return new JsonResult("Notification has been deleted.");
     }
 }
