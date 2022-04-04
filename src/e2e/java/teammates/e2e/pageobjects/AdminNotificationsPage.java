@@ -1,7 +1,5 @@
 package teammates.e2e.pageobjects;
 
-import static org.junit.Assert.assertEquals;
-
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -73,17 +71,6 @@ public class AdminNotificationsPage extends AppPage {
         verifyTableRowValues(notificationRow, getNotificationTableDisplayDetails(notification));
     }
 
-    public void verifyNotificationAttributes(NotificationAttributes expected, NotificationAttributes actual) {
-        // Notification ID is not checked
-        // as the actual notification has a randomly generated ID
-        assertEquals(expected.getStartTime(), actual.getStartTime());
-        assertEquals(expected.getEndTime(), actual.getEndTime());
-        assertEquals(expected.getStyle(), actual.getStyle());
-        assertEquals(expected.getTargetUser(), actual.getTargetUser());
-        assertEquals(expected.getTitle(), actual.getTitle());
-        assertEquals(expected.getMessage(), actual.getMessage());
-    }
-
     public void addNotification(NotificationAttributes notification) {
         clickAddNotificationButton();
         waitForElementPresence(By.id("btn-create-notification"));
@@ -124,9 +111,7 @@ public class AdminNotificationsPage extends AppPage {
         setNotificationEndDateTime(notification.getEndTime());
     }
 
-    public String getNewestNotificationId() {
-        sortNotificationsTableByDescendingCreateTime();
-        // Returns id of first row in table since newest notification is at the top row
+    public String getFirstRowNotificationId() {
         List<WebElement> notificationRows =
                 notificationsTable.findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
         return notificationRows.get(0).getAttribute("id");

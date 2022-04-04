@@ -32,16 +32,16 @@ public class AdminNotificationsPageE2ETest extends BaseE2ETestCase {
         ______TS("verify loaded data");
         AppUrl url = createFrontendUrl(Const.WebPageURIs.ADMIN_NOTIFICATIONS_PAGE);
         AdminNotificationsPage notificationsPage = loginAdminToPage(url, AdminNotificationsPage.class);
-        verifyPresentInDatabase(notifications[0]);
-        verifyPresentInDatabase(notifications[1]);
         // Only validates that the notifications are present in the notifications table instead of checking every row
         // This is because the page will display all notifications in the database, which is not predictable
         notificationsPage.verifyNotificationsTableRow(notifications[0]);
         notificationsPage.verifyNotificationsTableRow(notifications[1]);
+        verifyPresentInDatabase(notifications[0]);
+        verifyPresentInDatabase(notifications[1]);
 
         ______TS("add new notification");
         NotificationAttributes newNotification = NotificationAttributes
-                .builder("tm.e2e.ANotifications.notif1")
+                .builder("placeholder-notif-id")
                 .withStartTime(TimeHelper.parseInstant("2035-04-01T22:00:00Z"))
                 .withEndTime(TimeHelper.parseInstant("2035-04-30T20:00:00Z"))
                 .withStyle(NotificationStyle.SUCCESS)
@@ -52,32 +52,37 @@ public class AdminNotificationsPageE2ETest extends BaseE2ETestCase {
 
         notificationsPage.addNotification(newNotification);
         notificationsPage.verifyStatusMessage("Notification created successfully.");
-        String newestNotificationId = notificationsPage.getNewestNotificationId();
-        NotificationAttributes createdNotification = getNotification(newestNotificationId);
-        notificationsPage.verifyNotificationAttributes(newNotification, createdNotification);
-        notificationsPage.verifyNotificationsTableRow(createdNotification);
+
+        // Replace placeholder ID with actual ID of created notification
+        notificationsPage.sortNotificationsTableByDescendingCreateTime();
+        String newestNotificationId = notificationsPage.getFirstRowNotificationId();
+        newNotification.setNotificationId(newestNotificationId);
+
+        // Checks that notification is in the database first
+        // so that newNotification is updated with the created time before checking table row
+        verifyPresentInDatabase(newNotification);
+        notificationsPage.verifyNotificationsTableRow(newNotification);
 
         ______TS("edit notification");
-        createdNotification.setStartTime(TimeHelper.parseInstant("2025-05-09T12:00:00Z"));
-        createdNotification.setEndTime(TimeHelper.parseInstant("2045-06-01T22:00:00Z"));
-        createdNotification.setStyle(NotificationStyle.DANGER);
-        createdNotification.setTargetUser(NotificationTargetUser.INSTRUCTOR);
-        createdNotification.setTitle("Edited E2E test notification 1");
-        createdNotification.setMessage("<p>Edited E2E test notification message</p>");
+        newNotification.setStartTime(TimeHelper.parseInstant("2025-05-09T12:00:00Z"));
+        newNotification.setEndTime(TimeHelper.parseInstant("2045-06-01T22:00:00Z"));
+        newNotification.setStyle(NotificationStyle.DANGER);
+        newNotification.setTargetUser(NotificationTargetUser.INSTRUCTOR);
+        newNotification.setTitle("Edited E2E test notification 1");
+        newNotification.setMessage("<p>Edited E2E test notification message</p>");
 
-        notificationsPage.editNotification(createdNotification);
+        notificationsPage.editNotification(newNotification);
         notificationsPage.verifyStatusMessage("Notification updated successfully.");
-        verifyPresentInDatabase(createdNotification);
-        notificationsPage.verifyNotificationsTableRow(createdNotification);
+        notificationsPage.verifyNotificationsTableRow(newNotification);
 
         // verify that notification is present in database by reloading
         notificationsPage.reloadPage();
-        notificationsPage.verifyNotificationsTableRow(createdNotification);
+        notificationsPage.verifyNotificationsTableRow(newNotification);
 
         ______TS("delete notification");
-        notificationsPage.deleteNotification(createdNotification);
+        notificationsPage.deleteNotification(newNotification);
         notificationsPage.verifyStatusMessage("Notification has been deleted.");
-        verifyAbsentInDatabase(createdNotification);
+        verifyAbsentInDatabase(newNotification);
 
     }
 
