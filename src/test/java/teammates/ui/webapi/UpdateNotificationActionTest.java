@@ -92,6 +92,14 @@ public class UpdateNotificationActionTest extends BaseActionTest<UpdateNotificat
         ex = verifyHttpRequestBodyFailure(req, requestParams);
         assertEquals("End timestamp should be greater than zero", ex.getMessage());
 
+        ______TS("Start timestamp should not be after end timestamp");
+        req = getTypicalUpdateRequest();
+        req.setEndTimestamp(req.getStartTimestamp() - 100);
+        ex = verifyHttpRequestBodyFailure(req, requestParams);
+        assertEquals("The time when the notification will expire for this notification "
+                + "cannot be earlier than the time when the notification will be visible.",
+                ex.getMessage());
+
         ______TS("Invalid parameter should throw an error");
         req = getTypicalUpdateRequest();
         req.setTitle(invalidTitle);
@@ -105,9 +113,8 @@ public class UpdateNotificationActionTest extends BaseActionTest<UpdateNotificat
         verifyEntityNotFound(req, requestParams);
 
         ______TS("Not enough request parameters should throw an error");
-        requestParams = new String[] {};
         req = getTypicalUpdateRequest();
-        verifyHttpParameterFailure(req, requestParams);
+        verifyHttpParameterFailure(req);
     }
 
     @Test

@@ -23,8 +23,7 @@ public class DeleteNotificationActionTest extends BaseActionTest<DeleteNotificat
     @Test
     @Override
     protected void testExecute() throws Exception {
-        final String TEST_NOTIFICATION = "notification1";
-        NotificationAttributes testNotificationAttribute = typicalBundle.notifications.get(TEST_NOTIFICATION);
+        NotificationAttributes testNotificationAttribute = typicalBundle.notifications.get("notification1");
 
         loginAsAdmin();
 
@@ -46,7 +45,7 @@ public class DeleteNotificationActionTest extends BaseActionTest<DeleteNotificat
                 Const.ParamsNames.NOTIFICATION_ID, invalidNotificationId,
         };
 
-        NotificationAttributes nonExistentNotification = typicalBundle.notifications.get(TEST_NOTIFICATION);
+        NotificationAttributes nonExistentNotification = typicalBundle.notifications.get("notification1");
         nonExistentNotification.setNotificationId(invalidNotificationId);
 
         verifyAbsentInDatabase(nonExistentNotification);
@@ -64,8 +63,7 @@ public class DeleteNotificationActionTest extends BaseActionTest<DeleteNotificat
         verifyHttpParameterFailure(requestParams);
 
         ______TS("Not enough request parameters should throw an error");
-        requestParams = new String[] {};
-        verifyHttpParameterFailure(requestParams);
+        verifyHttpParameterFailure();
 
     }
 
