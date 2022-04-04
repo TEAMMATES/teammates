@@ -43,7 +43,7 @@ export class IndividualExtensionDateModalComponent {
   radioOption: RadioOptions = RadioOptions.EXTEND_BY;
   extendByDeadlineKey: String = '';
   extendByDeadlineOptions: Map<String, Number> = new Map([
-    ['12 hours', 0.5],
+    ['12 hours', 12],
     ['1 day', 24],
     ['3 days', 72],
     ['1 week', 168],
