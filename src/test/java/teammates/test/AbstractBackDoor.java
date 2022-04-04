@@ -34,6 +34,7 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.DeadlineExtensionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
@@ -44,10 +45,12 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.HttpRequestFailedException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
+import teammates.common.util.TimeHelper;
 import teammates.ui.output.AccountData;
 import teammates.ui.output.AccountRequestData;
 import teammates.ui.output.CourseData;
 import teammates.ui.output.CoursesData;
+import teammates.ui.output.DeadlineExtensionData;
 import teammates.ui.output.FeedbackQuestionData;
 import teammates.ui.output.FeedbackQuestionsData;
 import teammates.ui.output.FeedbackResponseCommentData;
@@ -534,6 +537,11 @@ public abstract class AbstractBackDoor {
             return null;
         }
 
+        Map<String, Instant> studentDeadlines =
+                convertDeadlinesToInstant(sessionData.getStudentDeadlines(), sessionData.getTimeZone());
+        Map<String, Instant> instructorDeadlines =
+                convertDeadlinesToInstant(sessionData.getInstructorDeadlines(), sessionData.getTimeZone());
+
         FeedbackSessionAttributes sessionAttributes = FeedbackSessionAttributes
                 .builder(sessionData.getFeedbackSessionName(), sessionData.getCourseId())
                 .withInstructions(sessionData.getInstructions())
@@ -543,6 +551,8 @@ public abstract class AbstractBackDoor {
                 .withGracePeriod(Duration.ofMinutes(sessionData.getGracePeriod()))
                 .withIsClosingEmailEnabled(sessionData.getIsClosingEmailEnabled())
                 .withIsPublishedEmailEnabled(sessionData.getIsPublishedEmailEnabled())
+                .withStudentDeadlines(studentDeadlines)
+                .withInstructorDeadlines(instructorDeadlines)
                 .build();
 
         sessionAttributes.setCreatedTime(Instant.ofEpochMilli(sessionData.getCreatedAtTimestamp()));
@@ -564,6 +574,15 @@ public abstract class AbstractBackDoor {
         }
 
         return sessionAttributes;
+    }
+
+    private Map<String, Instant> convertDeadlinesToInstant(Map<String, Long> deadlines, String timezone) {
+        return deadlines.entrySet()
+                .stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, entry -> {
+                    Instant deadline = Instant.ofEpochMilli(entry.getValue());
+                    return TimeHelper.getMidnightAdjustedInstantBasedOnZone(deadline, timezone, true);
+                }));
     }
 
     /**
@@ -822,6 +841,32 @@ public abstract class AbstractBackDoor {
         Map<String, String> params = new HashMap<>();
         params.put(Const.ParamsNames.NOTIFICATION_ID, notificationId);
         executeDeleteRequest(Const.ResourceURIs.NOTIFICATION, params);
+    }
+
+    /**
+     * Gets a deadline extension from the database.
+     */
+    public DeadlineExtensionAttributes getDeadlineExtension(
+            String courseId, String feedbackSessionName, String userEmail, boolean isInstructor) {
+        Map<String, String> params = new HashMap<>();
+        params.put(Const.ParamsNames.COURSE_ID, courseId);
+        params.put(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
+        params.put(Const.ParamsNames.USER_EMAIL, userEmail);
+        params.put(Const.ParamsNames.IS_INSTRUCTOR, Boolean.toString(isInstructor));
+
+        ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.DEADLINE_EXTENSION, params);
+        if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
+            return null;
+        }
+
+        DeadlineExtensionData deadlineExtensionData = JsonUtils.fromJson(response.responseBody, DeadlineExtensionData.class);
+
+        return DeadlineExtensionAttributes.builder(
+                deadlineExtensionData.getCourseId(), deadlineExtensionData.getFeedbackSessionName(),
+                deadlineExtensionData.getUserEmail(), deadlineExtensionData.getIsInstructor())
+                .withEndTime(Instant.ofEpochMilli(deadlineExtensionData.getEndTime()))
+                .withSentClosingEmail(deadlineExtensionData.getSentClosingEmail())
+                .build();
     }
 
     private static final class ResponseBodyAndCode {
