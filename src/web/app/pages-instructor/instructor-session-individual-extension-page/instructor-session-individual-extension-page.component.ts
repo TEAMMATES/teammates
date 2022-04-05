@@ -123,23 +123,25 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
         intent: Intent.FULL_DETAIL,
       }),
     ])
-      .pipe(finalize(() => { this.isLoadingFeedbackSession = false; }))
-      .subscribe(
-        (value: any[]) => {
-          const course = value[0] as Course;
-          this.courseName = course.courseName;
-          const feedbackSession = value[1] as FeedbackSession;
-          this.setFeedbackSessionDetails(feedbackSession);
-          this.getAllStudentsOfCourse(); // Both students and instructors need feedback ending time.
-          this.getAllInstructorsOfCourse();
-        },
-        (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorToast(resp.error.message);
-          this.hasLoadingFeedbackSessionFailed = true;
-          this.isLoadingAllStudents = false;
-          this.isLoadingAllInstructors = false;
-        },
-      );
+    .pipe(finalize(() => {
+      this.isLoadingFeedbackSession = false;
+      this.isLoadingAllStudents = false;
+      this.isLoadingAllInstructors = false;
+    }))
+    .subscribe(
+      (value: any[]) => {
+        const course = value[0] as Course;
+        this.courseName = course.courseName;
+        const feedbackSession = value[1] as FeedbackSession;
+        this.setFeedbackSessionDetails(feedbackSession);
+        this.getAllStudentsOfCourse(); // Both students and instructors need feedback ending time.
+        this.getAllInstructorsOfCourse();
+      },
+      (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+        this.hasLoadingFeedbackSessionFailed = true;
+      },
+    );
   }
 
   /**
@@ -148,9 +150,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
   private getAllStudentsOfCourse(): void {
     this.studentService
       .getStudentsFromCourse({ courseId: this.courseId })
-      .pipe(finalize(() => { this.isLoadingAllStudents = false; }),
-        map(({ students }: Students) => this.mapStudentsToStudentModels(students)),
-      )
+      .pipe(map(({ students }: Students) => this.mapStudentsToStudentModels(students)))
       .subscribe(
         (studentModels: StudentExtensionTableColumnModel[]) => {
           this.studentsOfCourse = studentModels;
@@ -215,10 +215,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
   private getAllInstructorsOfCourse(): void {
     this.instructorService
       .loadInstructors({ courseId: this.courseId, intent: Intent.FULL_DETAIL })
-      .pipe(
-        finalize(() => { this.isLoadingAllInstructors = false; }),
-        map(({ instructors }: Instructors) => this.mapInstructorsToInstructorModels(instructors)),
-      )
+      .pipe(map(({ instructors }: Instructors) => this.mapInstructorsToInstructorModels(instructors)))
       .subscribe((instructorModels: InstructorExtensionTableColumnModel[]) => {
         this.instructorsOfCourse = instructorModels;
         this.initialSortOfInstructors();
