@@ -21,8 +21,8 @@ public class DeadlineExtensionAttributes extends EntityAttributes<DeadlineExtens
     private boolean isInstructor;
     private boolean sentClosingEmail;
     private Instant endTime;
-    private Instant createdAt;
-    private Instant updatedAt;
+    private transient Instant createdAt;
+    private transient Instant updatedAt;
 
     private DeadlineExtensionAttributes(String courseId,
             String feedbackSessionName, String userEmail, boolean isInstructor) {

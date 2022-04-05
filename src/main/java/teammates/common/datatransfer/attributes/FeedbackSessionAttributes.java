@@ -43,7 +43,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     private Map<String, Instant> studentDeadlines;
     private Map<String, Instant> instructorDeadlines;
 
-    private Supplier<Instant> deadlineSupplier;
+    private transient Supplier<Instant> deadlineSupplier;
 
     private FeedbackSessionAttributes(String feedbackSessionName, String courseId) {
         this.feedbackSessionName = feedbackSessionName;
