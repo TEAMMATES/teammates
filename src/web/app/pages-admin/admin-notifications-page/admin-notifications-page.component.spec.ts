@@ -71,6 +71,7 @@ describe('AdminNotificationsPageComponent', () => {
     simpleModalService = TestBed.inject(SimpleModalService);
     timezoneService = TestBed.inject(TimezoneService);
     component = fixture.componentInstance;
+    jest.spyOn(timezoneService, 'guessTimezone').mockReturnValue('Asia/Singapore');
     moment.tz.setDefault('SGT');
     fixture.detectChanges();
   });
@@ -242,5 +243,10 @@ describe('AdminNotificationsPageComponent', () => {
     component.notificationsTableRowModelsSortBy = SortBy.NOTIFICATION_CREATE_TIME;
     component.sortNotificationsTableRowModelsHandler(SortBy.NOTIFICATION_START_TIME);
     expect(component.notificationsTableRowModelsSortBy).toEqual(SortBy.NOTIFICATION_START_TIME);
+
+    const expected : NotificationsTableRowModel[] = [notificationTableRowModel1, notificationTableRowModel2]
+        .sort(component.getNotificationsTableRowModelsComparator());
+    expect(expected[0]).toBe(component.notificationsTableRowModels[0]);
+    expect(expected[1]).toBe(component.notificationsTableRowModels[1]);
   });
 });

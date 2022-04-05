@@ -334,7 +334,6 @@ export class AdminNotificationsPageComponent implements OnInit {
         notificationsTableRowModel.isHighlighted = false;
       },
     );
-
     this.notificationsTableRowModels.sort(this.getNotificationsTableRowModelsComparator());
   }
 

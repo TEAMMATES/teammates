@@ -15,7 +15,6 @@ exports[`NotificationEditFormComponent should snap with default view 1`] = `
   model={[Function Object]}
   modelChange={[Function EventEmitter_]}
   simpleModalService={[Function SimpleModalService]}
-  timezoneService={[Function TimezoneService]}
 >
   <div
     class="card card-plain"
@@ -62,7 +61,7 @@ exports[`NotificationEditFormComponent should snap with default view 1`] = `
             >
               <select
                 class="form-control ng-untouched ng-pristine ng-valid"
-                id="targer-user"
+                id="notification-target-user"
               >
                 <option
                   value="0: STUDENT"
@@ -202,7 +201,7 @@ exports[`NotificationEditFormComponent should snap with default view 1`] = `
               class="col-md-10 text-md-left"
             >
               <tm-rich-text-editor
-                id="message"
+                id="notification-message"
               >
                 <div
                   inviewport=""
@@ -237,7 +236,7 @@ exports[`NotificationEditFormComponent should snap with default view 1`] = `
               class="col-md-4 text-md-left"
               id="submission-status"
             >
-               Asia/Singapore 
+               UTC 
             </div>
           </div>
           <div

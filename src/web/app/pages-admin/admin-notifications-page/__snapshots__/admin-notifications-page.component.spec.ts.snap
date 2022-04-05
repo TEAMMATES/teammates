@@ -4,6 +4,7 @@ exports[`AdminNotificationsPageComponent should snap when notification edit form
 <tm-admin-notifications-page
   NotificationEditFormMode={[Function Object]}
   currentNotificationEditFormMode="0"
+  guessTimezone={[Function String]}
   hasNotificationLoadingFailed="false"
   isNotificationEditFormExpanded={[Function Boolean]}
   isNotificationLoading="false"
@@ -21,7 +22,13 @@ exports[`AdminNotificationsPageComponent should snap when notification edit form
     Notifications
   </h1><p>
     This page allows you to create and manage notifications which are shown to respective target users when they access TEAMMATES.
-  </p><div>
+  </p><div
+    id="notifications-timezone"
+  >
+    <p>
+      All dates are displayed in Asia/Singapore time.
+    </p>
+  </div><div>
     <button
       class="btn btn-success"
       disabled=""
@@ -86,7 +93,7 @@ exports[`AdminNotificationsPageComponent should snap when notification edit form
                 >
                   <select
                     class="form-control ng-untouched ng-pristine ng-valid"
-                    id="targer-user"
+                    id="notification-target-user"
                   >
                     <option
                       value="0: STUDENT"
@@ -226,7 +233,7 @@ exports[`AdminNotificationsPageComponent should snap when notification edit form
                   class="col-md-10 text-md-left"
                 >
                   <tm-rich-text-editor
-                    id="message"
+                    id="notification-message"
                   >
                     <div
                       inviewport=""
@@ -677,6 +684,7 @@ exports[`AdminNotificationsPageComponent should snap when notifications are load
 <tm-admin-notifications-page
   NotificationEditFormMode={[Function Object]}
   currentNotificationEditFormMode="0"
+  guessTimezone={[Function String]}
   hasNotificationLoadingFailed="false"
   isNotificationEditFormExpanded="false"
   isNotificationLoading={[Function Boolean]}
@@ -694,7 +702,13 @@ exports[`AdminNotificationsPageComponent should snap when notifications are load
     Notifications
   </h1><p>
     This page allows you to create and manage notifications which are shown to respective target users when they access TEAMMATES.
-  </p><div>
+  </p><div
+    id="notifications-timezone"
+  >
+    <p>
+      All dates are displayed in Asia/Singapore time.
+    </p>
+  </div><div>
     <button
       class="btn btn-success"
       disabled=""
@@ -736,6 +750,7 @@ exports[`AdminNotificationsPageComponent should snap when notifications failed t
 <tm-admin-notifications-page
   NotificationEditFormMode={[Function Object]}
   currentNotificationEditFormMode="0"
+  guessTimezone={[Function String]}
   hasNotificationLoadingFailed={[Function Boolean]}
   isNotificationEditFormExpanded="false"
   isNotificationLoading={[Function Boolean]}
@@ -753,7 +768,13 @@ exports[`AdminNotificationsPageComponent should snap when notifications failed t
     Notifications
   </h1><p>
     This page allows you to create and manage notifications which are shown to respective target users when they access TEAMMATES.
-  </p><div>
+  </p><div
+    id="notifications-timezone"
+  >
+    <p>
+      All dates are displayed in Asia/Singapore time.
+    </p>
+  </div><div>
     <button
       class="btn btn-success"
       disabled=""
@@ -793,6 +814,7 @@ exports[`AdminNotificationsPageComponent should snap with default view 1`] = `
 <tm-admin-notifications-page
   NotificationEditFormMode={[Function Object]}
   currentNotificationEditFormMode="0"
+  guessTimezone={[Function String]}
   hasNotificationLoadingFailed="false"
   isNotificationEditFormExpanded="false"
   isNotificationLoading={[Function Boolean]}
@@ -810,7 +832,13 @@ exports[`AdminNotificationsPageComponent should snap with default view 1`] = `
     Notifications
   </h1><p>
     This page allows you to create and manage notifications which are shown to respective target users when they access TEAMMATES.
-  </p><div>
+  </p><div
+    id="notifications-timezone"
+  >
+    <p>
+      All dates are displayed in Asia/Singapore time.
+    </p>
+  </div><div>
     <button
       class="btn btn-success"
       disabled=""

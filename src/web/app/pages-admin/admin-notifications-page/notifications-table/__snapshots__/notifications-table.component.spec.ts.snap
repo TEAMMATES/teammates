@@ -14,7 +14,6 @@ exports[`NotificationsTableComponent should snap like in notification page with 
   notificationsTableRowModelsSortOrder="0"
   simpleModalService={[Function SimpleModalService]}
   sortNotificationsTableRowModelsEvent={[Function EventEmitter_]}
-  timezoneService={[Function TimezoneService]}
 >
   <div
     class="row"
@@ -113,6 +112,7 @@ exports[`NotificationsTableComponent should snap like in notification page with 
         <tbody>
           <tr
             class="table-success"
+            id="notification1"
           >
             <td
               class="text-break"
@@ -125,7 +125,7 @@ exports[`NotificationsTableComponent should snap like in notification page with 
               <span
                 class="ngb-tooltip-class"
               >
-                15 Sep 9:30 AM
+                15 Sep 1:30 AM
               </span>
             </td>
             <td
@@ -134,7 +134,7 @@ exports[`NotificationsTableComponent should snap like in notification page with 
               <span
                 class="ngb-tooltip-class"
               >
-                15 Sep 9:30 AM
+                15 Sep 1:30 AM
               </span>
             </td>
             <td
@@ -153,7 +153,7 @@ exports[`NotificationsTableComponent should snap like in notification page with 
               <span
                 class="ngb-tooltip-class"
               >
-                15 Sep 9:30 AM
+                15 Sep 1:30 AM
               </span>
             </td>
             <td
@@ -177,7 +177,9 @@ exports[`NotificationsTableComponent should snap like in notification page with 
               </div>
             </td>
           </tr>
-          <tr>
+          <tr
+            id="notification2"
+          >
             <td
               class="text-break"
             >
@@ -189,7 +191,7 @@ exports[`NotificationsTableComponent should snap like in notification page with 
               <span
                 class="ngb-tooltip-class"
               >
-                15 Dec 9:30 AM
+                15 Dec 1:30 AM
               </span>
             </td>
             <td
@@ -198,7 +200,7 @@ exports[`NotificationsTableComponent should snap like in notification page with 
               <span
                 class="ngb-tooltip-class"
               >
-                15 Sep 9:30 AM
+                15 Sep 1:30 AM
               </span>
             </td>
             <td
@@ -217,7 +219,7 @@ exports[`NotificationsTableComponent should snap like in notification page with 
               <span
                 class="ngb-tooltip-class"
               >
-                15 Nov 9:30 AM
+                15 Nov 1:30 AM
               </span>
             </td>
             <td
@@ -262,7 +264,6 @@ exports[`NotificationsTableComponent should snap like in notification page with 
   notificationsTableRowModelsSortOrder="0"
   simpleModalService={[Function SimpleModalService]}
   sortNotificationsTableRowModelsEvent={[Function EventEmitter_]}
-  timezoneService={[Function TimezoneService]}
 >
   <div
     class="row"
@@ -361,6 +362,7 @@ exports[`NotificationsTableComponent should snap like in notification page with 
         <tbody>
           <tr
             class="table-success"
+            id="notification1"
           >
             <td
               class="text-break"
@@ -373,7 +375,7 @@ exports[`NotificationsTableComponent should snap like in notification page with 
               <span
                 class="ngb-tooltip-class"
               >
-                15 Sep 9:30 AM
+                15 Sep 1:30 AM
               </span>
             </td>
             <td
@@ -382,7 +384,7 @@ exports[`NotificationsTableComponent should snap like in notification page with 
               <span
                 class="ngb-tooltip-class"
               >
-                15 Sep 9:30 AM
+                15 Sep 1:30 AM
               </span>
             </td>
             <td
@@ -401,7 +403,7 @@ exports[`NotificationsTableComponent should snap like in notification page with 
               <span
                 class="ngb-tooltip-class"
               >
-                15 Sep 9:30 AM
+                15 Sep 1:30 AM
               </span>
             </td>
             <td
@@ -425,7 +427,9 @@ exports[`NotificationsTableComponent should snap like in notification page with 
               </div>
             </td>
           </tr>
-          <tr>
+          <tr
+            id="notification2"
+          >
             <td
               class="text-break"
             >
@@ -437,7 +441,7 @@ exports[`NotificationsTableComponent should snap like in notification page with 
               <span
                 class="ngb-tooltip-class"
               >
-                15 Dec 9:30 AM
+                15 Dec 1:30 AM
               </span>
             </td>
             <td
@@ -446,7 +450,7 @@ exports[`NotificationsTableComponent should snap like in notification page with 
               <span
                 class="ngb-tooltip-class"
               >
-                15 Sep 9:30 AM
+                15 Sep 1:30 AM
               </span>
             </td>
             <td
@@ -465,7 +469,7 @@ exports[`NotificationsTableComponent should snap like in notification page with 
               <span
                 class="ngb-tooltip-class"
               >
-                15 Nov 9:30 AM
+                15 Nov 1:30 AM
               </span>
             </td>
             <td
@@ -510,7 +514,6 @@ exports[`NotificationsTableComponent should snap with default fields 1`] = `
   notificationsTableRowModelsSortOrder="0"
   simpleModalService={[Function SimpleModalService]}
   sortNotificationsTableRowModelsEvent={[Function EventEmitter_]}
-  timezoneService={[Function TimezoneService]}
 >
   <div
     class="row"

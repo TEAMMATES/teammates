@@ -1,6 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import moment from 'moment-timezone';
+import { TimezoneService } from '../../../../services/timezone.service';
 import { SortBy, SortOrder } from '../../../../types/sort-properties';
 import { EXAMPLE_NOTIFICATION_ONE, EXAMPLE_NOTIFICATION_TWO } from '../admin-notifications-page-data';
 import { AdminNotificationsPageModule } from '../admin-notifications-page.module';
@@ -11,6 +12,7 @@ import { NotificationsTableComponent } from './notifications-table.component';
 describe('NotificationsTableComponent', () => {
   let component: NotificationsTableComponent;
   let fixture: ComponentFixture<NotificationsTableComponent>;
+  let timezoneService: TimezoneService;
 
   const notificationTableRowModel1: NotificationsTableRowModel = {
     isHighlighted: true,
@@ -34,6 +36,8 @@ describe('NotificationsTableComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(NotificationsTableComponent);
     component = fixture.componentInstance;
+    timezoneService = TestBed.inject(TimezoneService);
+    jest.spyOn(timezoneService, 'guessTimezone').mockReturnValue('Asia/Singapore');
     moment.tz.setDefault('SGT');
     fixture.detectChanges();
   });
