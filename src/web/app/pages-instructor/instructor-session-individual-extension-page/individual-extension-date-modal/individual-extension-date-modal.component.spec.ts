@@ -108,8 +108,8 @@ describe('IndividualExtensionDateModalComponent', () => {
 
   it('should snap with the extend to radio option with timepicker', () => {
     component.radioOption = RadioOptions.EXTEND_TO;
-    component.datePicker = { year: 2022, month: 10, day: 10 };
-    component.timePicker = { hour: 10, minute: 30 };
+    component.extendToDatePicker = { year: 2022, month: 10, day: 10 };
+    component.extendToTimePicker = { hour: 10, minute: 30 };
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });

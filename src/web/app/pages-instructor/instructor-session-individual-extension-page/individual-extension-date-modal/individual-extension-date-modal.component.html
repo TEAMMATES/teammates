@@ -40,11 +40,11 @@
     <small>The new deadline of the feedback session will be:</small>
     <div id="submission-start-date">
       <div class="input-group">
-        <tm-datepicker [date]="datePicker" (dateChangeCallback)="onChangeDateTime($event,'date')"
+        <tm-datepicker [date]="extendToDatePicker" (dateChangeCallback)="onChangeDateTime($event, DateTime.DATE)"
           [minDate]="getDateFormat(feedbackSessionEndingTimestamp)">
         </tm-datepicker>
         <div class="col-md-5">
-          <tm-timepicker id="submission-end-time" [time]="timePicker" (timeChange)="onChangeDateTime($event,'time')">
+          <tm-timepicker id="submission-end-time" [time]="extendToTimePicker" (timeChange)="onChangeDateTime($event, DateTime.TIME)">
           </tm-timepicker>
         </div>
       </div>

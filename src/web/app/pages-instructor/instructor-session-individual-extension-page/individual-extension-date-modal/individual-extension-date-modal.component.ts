@@ -8,11 +8,15 @@ import { SimpleModalType } from '../../../components/simple-modal/simple-modal-t
 import { FormatDateDetailPipe } from '../../../components/teammates-common/format-date-detail.pipe';
 import { TimeFormat } from '../../../components/timepicker/timepicker.component';
 
-export enum RadioOptions {
+enum RadioOptions {
   EXTEND_TO = 1,
   EXTEND_BY = 2,
 }
 
+enum DateTime {
+  DATE,
+  TIME,
+}
 @Component({
   selector: 'tm-individual-extension-date-modal',
   templateUrl: './individual-extension-date-modal.component.html',
@@ -41,6 +45,8 @@ export class IndividualExtensionDateModalComponent {
 
   RadioOptions: typeof RadioOptions = RadioOptions;
   radioOption: RadioOptions = RadioOptions.EXTEND_BY;
+  DateTime: typeof DateTime = DateTime;
+
   extendByDeadlineKey: String = '';
   extendByDeadlineOptions: Map<String, Number> = new Map([
     ['12 hours', 12],
@@ -49,15 +55,15 @@ export class IndividualExtensionDateModalComponent {
     ['1 week', 168],
     ['Customize', 0],
   ]);
+  extendByDatePicker = { hours: 0, days: 0 };
 
   ONE_MINUTE_IN_MILLISECONDS = 60 * 1000;
   ONE_HOUR_IN_MILLISECONDS = 60 * this.ONE_MINUTE_IN_MILLISECONDS;
   ONE_DAY_IN_MILLISECONDS = 24 * this.ONE_HOUR_IN_MILLISECONDS;
   MAX_EPOCH_TIME_IN_DAYS = 100000000;
   MAX_EPOCH_TIME_IN_MILLISECONDS = this.MAX_EPOCH_TIME_IN_DAYS * this.ONE_DAY_IN_MILLISECONDS;
-  datePicker: DateFormat = { year: 0, month: 0, day: 0 };
-  timePicker: TimeFormat = { hour: 23, minute: 59 };
-  extendByDatePicker = { hours: 0, days: 0 };
+  extendToDatePicker: DateFormat = { year: 0, month: 0, day: 0 };
+  extendToTimePicker: TimeFormat = { hour: 23, minute: 59 };
   dateDetailPipe = new FormatDateDetailPipe(this.timeZoneService);
 
   onConfirm(): void {
@@ -85,11 +91,11 @@ export class IndividualExtensionDateModalComponent {
     }
   }
 
-  onChangeDateTime(data: DateFormat | TimeFormat, field: string): void {
-    if (field === 'date') {
-      this.datePicker = data as DateFormat;
-    } else if (field === 'time') {
-      this.timePicker = data as TimeFormat;
+  onChangeDateTime(data: DateFormat | TimeFormat, field: DateTime): void {
+    if (field === DateTime.DATE) {
+      this.extendToDatePicker = data as DateFormat;
+    } else if (field === DateTime.TIME) {
+      this.extendToTimePicker = data as TimeFormat;
     }
   }
 
@@ -118,7 +124,9 @@ export class IndividualExtensionDateModalComponent {
       }
     }
     if (this.isRadioExtendTo()) {
-      return this.timeZoneService.resolveLocalDateTime(this.datePicker, this.timePicker, this.feedbackSessionTimeZone,
+      return this.timeZoneService.resolveLocalDateTime(
+        this.extendToDatePicker,
+        this.extendToTimePicker, this.feedbackSessionTimeZone,
         true);
     }
     return this.feedbackSessionEndingTimestamp;

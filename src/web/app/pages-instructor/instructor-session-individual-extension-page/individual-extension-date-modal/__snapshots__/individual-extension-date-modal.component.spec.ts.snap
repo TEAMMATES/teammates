@@ -10,10 +10,11 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
   RadioOptions={[Function Object]}
   activeModal={[Function NgbActiveModal]}
   dateDetailPipe={[Function FormatDateDetailPipe]}
-  datePicker={[Function Object]}
   extendByDatePicker={[Function Object]}
   extendByDeadlineKey={[Function String]}
   extendByDeadlineOptions={[Function Map]}
+  extendToDatePicker={[Function Object]}
+  extendToTimePicker={[Function Object]}
   feedbackSessionEndingTimestamp="0"
   feedbackSessionTimeZone=""
   numInstructors={[Function Number]}
@@ -22,7 +23,6 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
   radioOption={[Function Number]}
   simpleModalService={[Function SimpleModalService]}
   sortMapByOriginalOrder={[Function Function]}
-  timePicker={[Function Object]}
   timeZoneService={[Function TimezoneService]}
 >
   <div
@@ -162,10 +162,11 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
   RadioOptions={[Function Object]}
   activeModal={[Function NgbActiveModal]}
   dateDetailPipe={[Function FormatDateDetailPipe]}
-  datePicker={[Function Object]}
   extendByDatePicker={[Function Object]}
   extendByDeadlineKey={[Function String]}
   extendByDeadlineOptions={[Function Map]}
+  extendToDatePicker={[Function Object]}
+  extendToTimePicker={[Function Object]}
   feedbackSessionEndingTimestamp="0"
   feedbackSessionTimeZone=""
   numInstructors={[Function Number]}
@@ -174,7 +175,6 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
   radioOption={[Function Number]}
   simpleModalService={[Function SimpleModalService]}
   sortMapByOriginalOrder={[Function Function]}
-  timePicker={[Function Object]}
   timeZoneService={[Function TimezoneService]}
 >
   <div
@@ -359,10 +359,11 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend to ra
   RadioOptions={[Function Object]}
   activeModal={[Function NgbActiveModal]}
   dateDetailPipe={[Function FormatDateDetailPipe]}
-  datePicker={[Function Object]}
   extendByDatePicker={[Function Object]}
   extendByDeadlineKey=""
   extendByDeadlineOptions={[Function Map]}
+  extendToDatePicker={[Function Object]}
+  extendToTimePicker={[Function Object]}
   feedbackSessionEndingTimestamp="0"
   feedbackSessionTimeZone=""
   numInstructors={[Function Number]}
@@ -371,7 +372,6 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend to ra
   radioOption={[Function Number]}
   simpleModalService={[Function SimpleModalService]}
   sortMapByOriginalOrder={[Function Function]}
-  timePicker={[Function Object]}
   timeZoneService={[Function TimezoneService]}
 >
   <div
@@ -630,10 +630,11 @@ exports[`IndividualExtensionDateModalComponent should snap with the extended stu
   RadioOptions={[Function Object]}
   activeModal={[Function NgbActiveModal]}
   dateDetailPipe={[Function FormatDateDetailPipe]}
-  datePicker={[Function Object]}
   extendByDatePicker={[Function Object]}
   extendByDeadlineKey=""
   extendByDeadlineOptions={[Function Map]}
+  extendToDatePicker={[Function Object]}
+  extendToTimePicker={[Function Object]}
   feedbackSessionEndingTimestamp="0"
   feedbackSessionTimeZone=""
   numInstructors={[Function Number]}
@@ -642,7 +643,6 @@ exports[`IndividualExtensionDateModalComponent should snap with the extended stu
   radioOption={[Function Number]}
   simpleModalService={[Function SimpleModalService]}
   sortMapByOriginalOrder={[Function Function]}
-  timePicker={[Function Object]}
   timeZoneService={[Function TimezoneService]}
 >
   <div
@@ -783,10 +783,11 @@ exports[`IndividualExtensionDateModalComponent should snap with the warning moda
   RadioOptions={[Function Object]}
   activeModal={[Function NgbActiveModal]}
   dateDetailPipe={[Function FormatDateDetailPipe]}
-  datePicker={[Function Object]}
   extendByDatePicker={[Function Object]}
   extendByDeadlineKey=""
   extendByDeadlineOptions={[Function Map]}
+  extendToDatePicker={[Function Object]}
+  extendToTimePicker={[Function Object]}
   feedbackSessionEndingTimestamp="0"
   feedbackSessionTimeZone=""
   getExtensionTimestamp={[Function Function]}
@@ -796,7 +797,6 @@ exports[`IndividualExtensionDateModalComponent should snap with the warning moda
   radioOption={[Function Number]}
   simpleModalService={[Function SimpleModalService]}
   sortMapByOriginalOrder={[Function Function]}
-  timePicker={[Function Object]}
   timeZoneService={[Function TimezoneService]}
 >
   <div
