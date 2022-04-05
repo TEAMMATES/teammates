@@ -5,18 +5,18 @@ import { NotificationBasicRequest, NotificationStyle, NotificationTargetUser } f
 import { HttpRequestService } from './http-request.service';
 import { NotificationService } from './notification.service';
 
+const requestBody: NotificationBasicRequest = {
+  startTimestamp: 0,
+  endTimestamp: 0,
+  style: NotificationStyle.SECONDARY,
+  targetUser: NotificationTargetUser.GENERAL,
+  title: '',
+  message: '',
+};
+
 describe('NotificationService', () => {
   let spyHttpRequestService: any;
   let service: NotificationService;
-
-  const requestBody: NotificationBasicRequest = {
-    startTimestamp: 0,
-    endTimestamp: 0,
-    style: NotificationStyle.SECONDARY,
-    targetUser: NotificationTargetUser.GENERAL,
-    title: '',
-    message: '',
-  };
 
   beforeEach(() => {
     spyHttpRequestService = {

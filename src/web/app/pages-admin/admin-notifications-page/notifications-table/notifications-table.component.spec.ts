@@ -1,24 +1,47 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import moment from 'moment-timezone';
+import { NotificationStyle, NotificationTargetUser } from '../../../../types/api-output';
 import { SortBy, SortOrder } from '../../../../types/sort-properties';
-import { EXAMPLE_NOTIFICATION_ONE, EXAMPLE_NOTIFICATION_TWO } from '../admin-notifications-page-data';
 import { AdminNotificationsPageModule } from '../admin-notifications-page.module';
 import { NotificationsTableRowModel } from './notifications-table-model';
-
 import { NotificationsTableComponent } from './notifications-table.component';
+
+const notificationTableRowModel1: NotificationsTableRowModel = {
+  isHighlighted: true,
+  notification: {
+    notificationId: 'notification1',
+    startTimestamp: moment('2017-09-15 09:30:00').valueOf(),
+    endTimestamp: moment('2050-09-15 09:30:00').valueOf(),
+    createdAt: moment('2017-09-15 09:30:00').valueOf(),
+    updatedAt: moment('2017-09-15 09:30:00').valueOf(),
+    style: NotificationStyle.SUCCESS,
+    targetUser: NotificationTargetUser.INSTRUCTOR,
+    title: 'valid title 1',
+    message: 'valid message 1',
+    shown: false,
+  },
+};
+
+const notificationTableRowModel2: NotificationsTableRowModel = {
+  isHighlighted: false,
+  notification: {
+    notificationId: 'notification2',
+    startTimestamp: moment('2018-12-15 09:30:00').valueOf(),
+    endTimestamp: moment('2050-09-15 09:30:00').valueOf(),
+    createdAt: moment('2018-11-15 09:30:00').valueOf(),
+    updatedAt: moment('2018-11-15 09:30:00').valueOf(),
+    style: NotificationStyle.DANGER,
+    targetUser: NotificationTargetUser.GENERAL,
+    title: 'valid title 2',
+    message: 'valid message 2',
+    shown: false,
+  },
+};
 
 describe('NotificationsTableComponent', () => {
   let component: NotificationsTableComponent;
   let fixture: ComponentFixture<NotificationsTableComponent>;
-
-  const notificationTableRowModel1: NotificationsTableRowModel = {
-    isHighlighted: true,
-    notification: EXAMPLE_NOTIFICATION_ONE,
-  };
-  const notificationTableRowModel2: NotificationsTableRowModel = {
-    isHighlighted: false,
-    notification: EXAMPLE_NOTIFICATION_TWO,
-  };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({

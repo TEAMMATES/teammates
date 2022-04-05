@@ -1,6 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import moment from 'moment-timezone';
 import { of, throwError } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
 import { NotificationService } from '../../../services/notification.service';
@@ -8,17 +9,68 @@ import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
-import { Notification } from '../../../types/api-output';
+import { Notification, NotificationStyle, NotificationTargetUser } from '../../../types/api-output';
 import { SortBy } from '../../../types/sort-properties';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
-import {
-  EXAMPLE_NOTIFICATION_EDIT_MODEL,
-  EXAMPLE_NOTIFICATION_ONE,
-  EXAMPLE_NOTIFICATION_TWO,
-} from './admin-notifications-page-data';
 import { AdminNotificationsPageComponent } from './admin-notifications-page.component';
 import { AdminNotificationsPageModule } from './admin-notifications-page.module';
+import { NotificationEditFormModel } from './notification-edit-form/notification-edit-form-model';
 import { NotificationsTableRowModel } from './notifications-table/notifications-table-model';
+
+const exampleNotificationEditModel: NotificationEditFormModel = {
+  notificationId: 'notification1',
+  shown: false,
+
+  startTime: { hour: 0, minute: 0 },
+  startDate: { year: 0, month: 0, day: 0 },
+  endTime: { hour: 0, minute: 0 },
+  endDate: { year: 0, month: 0, day: 0 },
+
+  style: NotificationStyle.SUCCESS,
+  targetUser: NotificationTargetUser.INSTRUCTOR,
+
+  title: 'valid title',
+  message: 'valid message',
+
+  isSaving: false,
+  isDeleting: false,
+};
+
+const exampleNotificationOne: Notification = {
+  notificationId: 'notification1',
+  startTimestamp: moment('2017-09-15 09:30:00').valueOf(),
+  endTimestamp: moment('2050-09-15 09:30:00').valueOf(),
+  createdAt: moment('2017-09-15 09:30:00').valueOf(),
+  updatedAt: moment('2017-09-15 09:30:00').valueOf(),
+  style: NotificationStyle.SUCCESS,
+  targetUser: NotificationTargetUser.INSTRUCTOR,
+  title: 'valid title 1',
+  message: 'valid message 1',
+  shown: false,
+};
+
+const exampleNotificationTwo: Notification = {
+  notificationId: 'notification2',
+  startTimestamp: moment('2018-12-15 09:30:00').valueOf(),
+  endTimestamp: moment('2050-09-15 09:30:00').valueOf(),
+  createdAt: moment('2018-11-15 09:30:00').valueOf(),
+  updatedAt: moment('2018-11-15 09:30:00').valueOf(),
+  style: NotificationStyle.DANGER,
+  targetUser: NotificationTargetUser.GENERAL,
+  title: 'valid title 2',
+  message: 'valid message 2',
+  shown: false,
+};
+
+const notificationTableRowModel1: NotificationsTableRowModel = {
+  isHighlighted: true,
+  notification: exampleNotificationOne,
+};
+
+const notificationTableRowModel2: NotificationsTableRowModel = {
+  isHighlighted: false,
+  notification: exampleNotificationTwo,
+};
 
 describe('AdminNotificationsPageComponent', () => {
   let component: AdminNotificationsPageComponent;
@@ -26,16 +78,6 @@ describe('AdminNotificationsPageComponent', () => {
   let notificationService: NotificationService;
   let statusMessageService: StatusMessageService;
   let simpleModalService: SimpleModalService;
-
-  const notificationTableRowModel1: NotificationsTableRowModel = {
-    isHighlighted: true,
-    notification: EXAMPLE_NOTIFICATION_ONE,
-  };
-
-  const notificationTableRowModel2: NotificationsTableRowModel = {
-    isHighlighted: false,
-    notification: EXAMPLE_NOTIFICATION_TWO,
-  };
 
   /**
    * Verifies the row model is updated as expected.
@@ -110,7 +152,7 @@ describe('AdminNotificationsPageComponent', () => {
 
   it('should disable edit button when notification edit form expanded for existent notification', () => {
     jest.spyOn(notificationService, 'getNotifications').mockReturnValue(of({
-      notifications: [EXAMPLE_NOTIFICATION_ONE],
+      notifications: [exampleNotificationOne],
     }));
     component.initNotificationEditFormModel();
     component.loadNotifications();
@@ -124,17 +166,17 @@ describe('AdminNotificationsPageComponent', () => {
 
   it('should load correct notification for a given API output', () => {
     jest.spyOn(notificationService, 'getNotifications').mockReturnValue(of({
-      notifications: [EXAMPLE_NOTIFICATION_ONE],
+      notifications: [exampleNotificationOne],
     }));
 
     component.loadNotifications();
 
     expect(component.notificationsTableRowModels.length).toEqual(1);
-    verifyFirstRowModelEqualToExample(EXAMPLE_NOTIFICATION_ONE);
+    verifyFirstRowModelEqualToExample(exampleNotificationOne);
   });
 
   it('should add notification for all fields filled in', () => {
-    jest.spyOn(notificationService, 'createNotification').mockReturnValue(of(EXAMPLE_NOTIFICATION_ONE));
+    jest.spyOn(notificationService, 'createNotification').mockReturnValue(of(exampleNotificationOne));
     const spy: SpyInstance = jest.spyOn(statusMessageService, 'showSuccessToast')
     .mockImplementation((args: string) => {
       expect(args).toEqual('Successfully created');
@@ -145,11 +187,11 @@ describe('AdminNotificationsPageComponent', () => {
     expect(spy).toHaveBeenCalledTimes(1);
     expect(component.isNotificationEditFormExpanded).toBeFalsy();
     expect(component.notificationsTableRowModels.length).toEqual(1);
-    verifyFirstRowModelEqualToExample(EXAMPLE_NOTIFICATION_ONE);
+    verifyFirstRowModelEqualToExample(exampleNotificationOne);
   });
 
   it('should display error message when failed to create notification', () => {
-    component.notificationEditFormModel = EXAMPLE_NOTIFICATION_EDIT_MODEL;
+    component.notificationEditFormModel = exampleNotificationEditModel;
     jest.spyOn(notificationService, 'createNotification').mockReturnValue(throwError({
       error: {
         message: 'This is the error message.',
@@ -189,7 +231,7 @@ describe('AdminNotificationsPageComponent', () => {
     const modalSpy: SpyInstance = jest.spyOn(simpleModalService, 'openConfirmationModal')
         .mockReturnValue(createMockNgbModalRef({}, promise));
     jest.spyOn(notificationService, 'getNotifications').mockReturnValue(of({
-      notifications: [EXAMPLE_NOTIFICATION_ONE, EXAMPLE_NOTIFICATION_TWO],
+      notifications: [exampleNotificationOne, exampleNotificationTwo],
     }));
     component.initNotificationEditFormModel();
     component.loadNotifications();
@@ -227,7 +269,7 @@ describe('AdminNotificationsPageComponent', () => {
       expect(args).toEqual('Successfully deleted');
     });
 
-    component.deleteNotificationHandler(EXAMPLE_NOTIFICATION_EDIT_MODEL.notificationId);
+    component.deleteNotificationHandler(exampleNotificationEditModel.notificationId);
     expect(spy).toHaveBeenCalledTimes(1);
     expect(component.notificationsTableRowModels.length).toEqual(0);
   });

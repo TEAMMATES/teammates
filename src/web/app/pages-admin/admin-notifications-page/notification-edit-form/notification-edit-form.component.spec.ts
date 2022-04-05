@@ -5,12 +5,30 @@ import SpyInstance = jest.SpyInstance;
 import { SimpleModalService } from '../../../../services/simple-modal.service';
 import { TimezoneService } from '../../../../services/timezone.service';
 import { createMockNgbModalRef } from '../../../../test-helpers/mock-ngb-modal-ref';
-import { NotificationTargetUser } from '../../../../types/api-output';
+import { NotificationStyle, NotificationTargetUser } from '../../../../types/api-output';
 import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
-import { EXAMPLE_NOTIFICATION_EDIT_MODEL } from '../admin-notifications-page-data';
 import { AdminNotificationsPageModule } from '../admin-notifications-page.module';
 import { NotificationEditFormModel } from './notification-edit-form-model';
 import { NotificationEditFormComponent } from './notification-edit-form.component';
+
+const exampleNotificationEditModel: NotificationEditFormModel = {
+  notificationId: 'notification1',
+  shown: false,
+
+  startTime: { hour: 0, minute: 0 },
+  startDate: { year: 0, month: 0, day: 0 },
+  endTime: { hour: 0, minute: 0 },
+  endDate: { year: 0, month: 0, day: 0 },
+
+  style: NotificationStyle.SUCCESS,
+  targetUser: NotificationTargetUser.INSTRUCTOR,
+
+  title: 'valid title',
+  message: 'valid message',
+
+  isSaving: false,
+  isDeleting: false,
+};
 
 describe('NotificationEditFormComponent', () => {
   let component: NotificationEditFormComponent;
@@ -50,14 +68,14 @@ describe('NotificationEditFormComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should set up with EXAMPLE_NOTIFICATION_EDIT_MODEL', () => {
-    component.model = EXAMPLE_NOTIFICATION_EDIT_MODEL;
+  it('should set up with exampleNotificationEditModel', () => {
+    component.model = exampleNotificationEditModel;
     const model: NotificationEditFormModel = component.model;
-    expect(model).toBe(EXAMPLE_NOTIFICATION_EDIT_MODEL);
+    expect(model).toBe(exampleNotificationEditModel);
   });
 
-  it('should triggerModelChange with EXAMPLE_NOTIFICATION_EDIT_MODEL', () => {
-    component.model = EXAMPLE_NOTIFICATION_EDIT_MODEL;
+  it('should triggerModelChange with exampleNotificationEditModel', () => {
+    component.model = exampleNotificationEditModel;
     component.modelChange.subscribe((data: NotificationEditFormModel) => {
       component.model = data;
     });
@@ -75,7 +93,7 @@ describe('NotificationEditFormComponent', () => {
   });
 
   it('should display warning when discarding edit to current notification', async () => {
-    component.model = EXAMPLE_NOTIFICATION_EDIT_MODEL;
+    component.model = exampleNotificationEditModel;
     component.modelChange.subscribe((data: NotificationEditFormModel) => {
       component.model = data;
     });
