@@ -190,7 +190,7 @@ class UpdateFeedbackSessionAction extends Action {
             emailsToSend.addAll(emailGenerator
                     .generateDeadlineRevokedEmails(course, session, deadlinesToRevoke, areInstructors));
             emailsToSend.addAll(emailGenerator
-                    .generateDeadlineGivenEmails(course, session, deadlinesToCreate, areInstructors));
+                    .generateDeadlineGrantedEmails(course, session, deadlinesToCreate, areInstructors));
             emailsToSend.addAll(emailGenerator
                     .generateDeadlineUpdatedEmails(course, session, deadlinesToUpdate, oldDeadlines, areInstructors));
         }

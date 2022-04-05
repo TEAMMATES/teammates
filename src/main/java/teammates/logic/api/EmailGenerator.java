@@ -587,15 +587,15 @@ public final class EmailGenerator {
     }
 
     /**
-     * Generates deadline extension given emails.
+     * Generates deadline extension granted emails.
      */
-    public List<EmailWrapper> generateDeadlineGivenEmails(CourseAttributes course,
+    public List<EmailWrapper> generateDeadlineGrantedEmails(CourseAttributes course,
             FeedbackSessionAttributes session, Map<String, Instant> createdDeadlines, boolean areInstructors) {
         return createdDeadlines.entrySet()
                 .stream()
                 .map(entry ->
                         generateDeadlineExtensionEmail(course, session,
-                                session.getEndTime(), entry.getValue(), EmailType.DEADLINE_EXTENSION_GIVEN,
+                                session.getEndTime(), entry.getValue(), EmailType.DEADLINE_EXTENSION_GRANTED,
                                 entry.getKey(), areInstructors))
                 .collect(Collectors.toList());
     }
@@ -634,8 +634,8 @@ public final class EmailGenerator {
         String status;
 
         switch(emailType) {
-        case DEADLINE_EXTENSION_GIVEN:
-            status = "You have been given a deadline extension for the following feedback session.";
+        case DEADLINE_EXTENSION_GRANTED:
+            status = "You have been granted a deadline extension for the following feedback session.";
             break;
         case DEADLINE_EXTENSION_UPDATED:
             status = "Your deadline for the following feedback session has been updated.";

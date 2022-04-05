@@ -368,18 +368,18 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         Instant originalEndTime = session.getEndTime();
         Instant newEndTime = TimeHelper.parseInstant("2027-04-30T23:00:00Z");
-        emails = emailGenerator.generateDeadlineGivenEmails(course, session,
+        emails = emailGenerator.generateDeadlineGrantedEmails(course, session,
                 Map.of(student2.getUserEmail(), newEndTime), false);
-        subject = String.format(EmailType.DEADLINE_EXTENSION_GIVEN.getSubject(),
+        subject = String.format(EmailType.DEADLINE_EXTENSION_GRANTED.getSubject(),
                 course.getName(), session.getFeedbackSessionName());
 
         verifyEmail(emails.get(0), student2.getUserEmail(), subject, "/deadlineExtensionGivenStudent.html");
 
         ______TS("Deadline extension given to instructor");
 
-        emails = emailGenerator.generateDeadlineGivenEmails(course, session,
+        emails = emailGenerator.generateDeadlineGrantedEmails(course, session,
                 Map.of(instructor2.getUserEmail(), newEndTime), true);
-        subject = String.format(EmailType.DEADLINE_EXTENSION_GIVEN.getSubject(),
+        subject = String.format(EmailType.DEADLINE_EXTENSION_GRANTED.getSubject(),
                 course.getName(), session.getFeedbackSessionName());
 
         verifyEmail(emails.get(0), instructor2.getUserEmail(), subject, "/deadlineExtensionGivenInstructor.html");
