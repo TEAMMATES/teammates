@@ -797,7 +797,7 @@ public abstract class AbstractBackDoor {
         if (notificationData == null) {
             return null;
         }
-        return NotificationAttributes.builder(notificationData.getNotificationId())
+        NotificationAttributes notification = NotificationAttributes.builder(notificationData.getNotificationId())
                 .withStartTime(Instant.ofEpochMilli(notificationData.getStartTimestamp()))
                 .withEndTime(Instant.ofEpochMilli(notificationData.getEndTimestamp()))
                 .withStyle(notificationData.getStyle())
@@ -805,6 +805,9 @@ public abstract class AbstractBackDoor {
                 .withTitle(notificationData.getTitle())
                 .withMessage(notificationData.getMessage())
                 .build();
+        notification.setCreatedAt(Instant.ofEpochMilli(notificationData.getCreatedAt()));
+        notification.setUpdatedAt(Instant.ofEpochMilli(notificationData.getUpdatedAt()));
+        return notification;
     }
 
     private static final class ResponseBodyAndCode {

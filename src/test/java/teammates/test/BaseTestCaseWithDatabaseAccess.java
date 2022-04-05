@@ -246,9 +246,6 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
         // Ignore time field as it is stamped at the time of creation in testing
         expected.setCreatedAt(actual.getCreatedAt());
         expected.setUpdatedAt(actual.getUpdatedAt());
-
-        // Ignore ID field as it is unique - UUID
-        expected.setNotificationId(actual.getNotificationId());
     }
 
     protected abstract StudentProfileAttributes getStudentProfile(StudentProfileAttributes studentProfileAttributes);
