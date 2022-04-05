@@ -2,6 +2,7 @@
 
 exports[`IndividualExtensionDateModalComponent should snap with the extend by radio option 1`] = `
 <tm-individual-extension-date-modal
+  DateTime={[Function Object]}
   MAX_EPOCH_TIME_IN_DAYS={[Function Number]}
   MAX_EPOCH_TIME_IN_MILLISECONDS={[Function Number]}
   ONE_DAY_IN_MILLISECONDS={[Function Number]}
@@ -154,6 +155,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
 
 exports[`IndividualExtensionDateModalComponent should snap with the extend by radio option with customize 1`] = `
 <tm-individual-extension-date-modal
+  DateTime={[Function Object]}
   MAX_EPOCH_TIME_IN_DAYS={[Function Number]}
   MAX_EPOCH_TIME_IN_MILLISECONDS={[Function Number]}
   ONE_DAY_IN_MILLISECONDS={[Function Number]}
@@ -351,6 +353,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
 
 exports[`IndividualExtensionDateModalComponent should snap with the extend to radio option with timepicker 1`] = `
 <tm-individual-extension-date-modal
+  DateTime={[Function Object]}
   MAX_EPOCH_TIME_IN_DAYS={[Function Number]}
   MAX_EPOCH_TIME_IN_MILLISECONDS={[Function Number]}
   ONE_DAY_IN_MILLISECONDS={[Function Number]}
@@ -622,6 +625,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend to ra
 
 exports[`IndividualExtensionDateModalComponent should snap with the extended students 1`] = `
 <tm-individual-extension-date-modal
+  DateTime={[Function Object]}
   MAX_EPOCH_TIME_IN_DAYS={[Function Number]}
   MAX_EPOCH_TIME_IN_MILLISECONDS={[Function Number]}
   ONE_DAY_IN_MILLISECONDS={[Function Number]}
@@ -775,6 +779,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extended stu
 
 exports[`IndividualExtensionDateModalComponent should snap with the warning modal 1`] = `
 <tm-individual-extension-date-modal
+  DateTime={[Function Object]}
   MAX_EPOCH_TIME_IN_DAYS={[Function Number]}
   MAX_EPOCH_TIME_IN_MILLISECONDS={[Function Number]}
   ONE_DAY_IN_MILLISECONDS={[Function Number]}

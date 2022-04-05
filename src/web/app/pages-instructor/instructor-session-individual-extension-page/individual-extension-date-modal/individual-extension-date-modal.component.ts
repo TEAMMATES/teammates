@@ -8,7 +8,7 @@ import { SimpleModalType } from '../../../components/simple-modal/simple-modal-t
 import { FormatDateDetailPipe } from '../../../components/teammates-common/format-date-detail.pipe';
 import { TimeFormat } from '../../../components/timepicker/timepicker.component';
 
-enum RadioOptions {
+export enum RadioOptions {
   EXTEND_TO = 1,
   EXTEND_BY = 2,
 }
