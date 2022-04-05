@@ -1,7 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import moment from 'moment-timezone';
 import { of, throwError } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
 import { NotificationService } from '../../../services/notification.service';
@@ -27,7 +26,6 @@ describe('AdminNotificationsPageComponent', () => {
   let notificationService: NotificationService;
   let statusMessageService: StatusMessageService;
   let simpleModalService: SimpleModalService;
-  let timezoneService: TimezoneService;
 
   const notificationTableRowModel1: NotificationsTableRowModel = {
     isHighlighted: true,
@@ -69,10 +67,7 @@ describe('AdminNotificationsPageComponent', () => {
     notificationService = TestBed.inject(NotificationService);
     statusMessageService = TestBed.inject(StatusMessageService);
     simpleModalService = TestBed.inject(SimpleModalService);
-    timezoneService = TestBed.inject(TimezoneService);
     component = fixture.componentInstance;
-    jest.spyOn(timezoneService, 'guessTimezone').mockReturnValue('Asia/Singapore');
-    moment.tz.setDefault('SGT');
     fixture.detectChanges();
   });
 
@@ -97,7 +92,6 @@ describe('AdminNotificationsPageComponent', () => {
   });
 
   it('should snap when notification edit form expanded for adding notification', () => {
-    jest.spyOn(timezoneService, 'guessTimezone').mockReturnValue('Asia/Singapore');
     jest.spyOn(notificationService, 'getNotifications').mockReturnValue(of());
     component.initNotificationEditFormModel();
     component.loadNotifications();

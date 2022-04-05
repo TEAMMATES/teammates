@@ -125,7 +125,7 @@ exports[`NotificationsTableComponent should snap like in notification page with 
               <span
                 class="ngb-tooltip-class"
               >
-                15 Sep 1:30 AM
+                15 Sep 9:30 AM
               </span>
             </td>
             <td
@@ -134,7 +134,7 @@ exports[`NotificationsTableComponent should snap like in notification page with 
               <span
                 class="ngb-tooltip-class"
               >
-                15 Sep 1:30 AM
+                15 Sep 9:30 AM
               </span>
             </td>
             <td
@@ -153,7 +153,7 @@ exports[`NotificationsTableComponent should snap like in notification page with 
               <span
                 class="ngb-tooltip-class"
               >
-                15 Sep 1:30 AM
+                15 Sep 9:30 AM
               </span>
             </td>
             <td
@@ -191,7 +191,7 @@ exports[`NotificationsTableComponent should snap like in notification page with 
               <span
                 class="ngb-tooltip-class"
               >
-                15 Dec 1:30 AM
+                15 Dec 9:30 AM
               </span>
             </td>
             <td
@@ -200,7 +200,7 @@ exports[`NotificationsTableComponent should snap like in notification page with 
               <span
                 class="ngb-tooltip-class"
               >
-                15 Sep 1:30 AM
+                15 Sep 9:30 AM
               </span>
             </td>
             <td
@@ -219,7 +219,7 @@ exports[`NotificationsTableComponent should snap like in notification page with 
               <span
                 class="ngb-tooltip-class"
               >
-                15 Nov 1:30 AM
+                15 Nov 9:30 AM
               </span>
             </td>
             <td
@@ -375,7 +375,7 @@ exports[`NotificationsTableComponent should snap like in notification page with 
               <span
                 class="ngb-tooltip-class"
               >
-                15 Sep 1:30 AM
+                15 Sep 9:30 AM
               </span>
             </td>
             <td
@@ -384,7 +384,7 @@ exports[`NotificationsTableComponent should snap like in notification page with 
               <span
                 class="ngb-tooltip-class"
               >
-                15 Sep 1:30 AM
+                15 Sep 9:30 AM
               </span>
             </td>
             <td
@@ -403,7 +403,7 @@ exports[`NotificationsTableComponent should snap like in notification page with 
               <span
                 class="ngb-tooltip-class"
               >
-                15 Sep 1:30 AM
+                15 Sep 9:30 AM
               </span>
             </td>
             <td
@@ -441,7 +441,7 @@ exports[`NotificationsTableComponent should snap like in notification page with 
               <span
                 class="ngb-tooltip-class"
               >
-                15 Dec 1:30 AM
+                15 Dec 9:30 AM
               </span>
             </td>
             <td
@@ -450,7 +450,7 @@ exports[`NotificationsTableComponent should snap like in notification page with 
               <span
                 class="ngb-tooltip-class"
               >
-                15 Sep 1:30 AM
+                15 Sep 9:30 AM
               </span>
             </td>
             <td
@@ -469,7 +469,7 @@ exports[`NotificationsTableComponent should snap like in notification page with 
               <span
                 class="ngb-tooltip-class"
               >
-                15 Nov 1:30 AM
+                15 Nov 9:30 AM
               </span>
             </td>
             <td
