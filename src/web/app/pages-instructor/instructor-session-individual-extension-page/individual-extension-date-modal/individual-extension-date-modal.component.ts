@@ -67,28 +67,28 @@ export class IndividualExtensionDateModalComponent {
   dateDetailPipe = new FormatDateDetailPipe(this.timeZoneService);
 
   onConfirm(): void {
-    if (this.getExtensionTimestamp() < Date.now()) {
-
-      const extensionTimeString = this.dateDetailPipe.transform(
-        this.getExtensionTimestamp(),
-        this.feedbackSessionTimeZone,
-      );
-      const currentTimeString = this.dateDetailPipe.transform(
-        Date.now(),
-        this.feedbackSessionTimeZone,
-      );
-      this.simpleModalService
-        .openConfirmationModal(
-          'Are you sure you wish to set the new deadline to before the current time?',
-          SimpleModalType.WARNING,
-          '<b>Any users affected will have their sessions closed immediately.</b>'
-            + ` The current time now is ${currentTimeString} and you are extending to`
-            + ` ${extensionTimeString}. Do you wish to proceed?`,
-        )
-        .result.then(() => this.onConfirmCallBack.emit(this.getExtensionTimestamp()), () => {});
-    } else {
+    if (this.getExtensionTimestamp() >= Date.now()) {
       this.onConfirmCallBack.emit(this.getExtensionTimestamp());
+      return;
     }
+
+    const extensionTimeString = this.dateDetailPipe.transform(
+      this.getExtensionTimestamp(),
+      this.feedbackSessionTimeZone,
+    );
+    const currentTimeString = this.dateDetailPipe.transform(
+      Date.now(),
+      this.feedbackSessionTimeZone,
+    );
+    this.simpleModalService
+      .openConfirmationModal(
+        'Are you sure you wish to set the new deadline to before the current time?',
+        SimpleModalType.WARNING,
+        '<b>Any users affected will have their sessions closed immediately.</b>'
+          + ` The current time now is ${currentTimeString} and you are extending to`
+          + ` ${extensionTimeString}. Do you wish to proceed?`,
+      )
+      .result.then(() => this.onConfirmCallBack.emit(this.getExtensionTimestamp()), () => {});
   }
 
   onChangeDateTime(data: DateFormat | TimeFormat, field: DateTime): void {
@@ -154,21 +154,21 @@ export class IndividualExtensionDateModalComponent {
   }
 
   isCustomizeDateTimeIntegers(): boolean {
-    if (this.isCustomize()) {
-      if (!Number.isInteger(this.extendByDatePicker.days) || !Number.isInteger(this.extendByDatePicker.hours)) {
-        return false;
-      }
+    if (!this.isCustomize()) {
+      return true;
     }
-    return true;
+
+    return Number.isInteger(this.extendByDatePicker.days) && Number.isInteger(this.extendByDatePicker.hours);
   }
 
   isCustomizeBeforeMaxDate(): boolean {
-    if (this.isCustomize()) {
-      const timeSelected = this.addTime(this.feedbackSessionEndingTimestamp, this.extendByDatePicker.hours,
-        this.extendByDatePicker.days);
-      return timeSelected < this.MAX_EPOCH_TIME_IN_MILLISECONDS;
+    if (!this.isCustomize()) {
+      return true;
     }
-    return true;
+
+    const timeSelected = this.addTime(this.feedbackSessionEndingTimestamp, this.extendByDatePicker.hours,
+      this.extendByDatePicker.days);
+    return timeSelected < this.MAX_EPOCH_TIME_IN_MILLISECONDS;
   }
 
   isRadioExtendBy(): boolean {
