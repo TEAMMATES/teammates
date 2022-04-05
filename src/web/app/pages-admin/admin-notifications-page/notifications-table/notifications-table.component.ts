@@ -1,6 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
-import { TimezoneService } from '../../../../services/timezone.service';
 import { Notification } from '../../../../types/api-output';
 import { SortBy, SortOrder } from '../../../../types/sort-properties';
 import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
@@ -11,11 +10,12 @@ import { NotificationsTableHeaderColorScheme, NotificationsTableRowModel } from 
   templateUrl: './notifications-table.component.html',
   styleUrls: ['./notifications-table.component.scss'],
 })
-export class NotificationsTableComponent implements OnInit {
+export class NotificationsTableComponent {
   SortBy = SortBy;
   SortOrder = SortOrder;
   NotificationsTableHeaderColorScheme = NotificationsTableHeaderColorScheme;
 
+  @Input()
   guessTimezone = 'UTC';
 
   @Input()
@@ -39,11 +39,7 @@ export class NotificationsTableComponent implements OnInit {
   @Output()
   loadNotificationEditFormEvent: EventEmitter<Notification> = new EventEmitter();
 
-  constructor(private simpleModalService: SimpleModalService, private timezoneService: TimezoneService) { }
-
-  ngOnInit(): void {
-    this.guessTimezone = this.timezoneService.guessTimezone();
-  }
+  constructor(private simpleModalService: SimpleModalService) { }
 
   /**
    * Sorts the list of feedback session row.
