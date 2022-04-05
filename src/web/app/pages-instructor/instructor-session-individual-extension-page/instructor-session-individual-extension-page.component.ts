@@ -29,6 +29,11 @@ import {
   IndividualExtensionDateModalComponent,
 } from './individual-extension-date-modal/individual-extension-date-modal.component';
 
+enum DeadlineHandlerType {
+  CREATE,
+  DELETE,
+}
+
 /**
  * Send reminders to respondents modal.
  */
@@ -279,7 +284,8 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     modalRef.componentInstance.feedbackSessionTimeZone = this.feedbackSessionTimeZone;
 
     modalRef.componentInstance.onConfirmExtensionCallBack.subscribe((isNotifyDeadlines: boolean) => {
-      this.handleCreateDeadlines(selectedStudents, selectedInstructors, extensionTimestamp, isNotifyDeadlines);
+      this.handleCreateAndDeleteDeadlines(selectedStudents, selectedInstructors, DeadlineHandlerType.CREATE,
+        isNotifyDeadlines, extensionTimestamp);
       modalRef.componentInstance.isSubmitting = false;
       modalRef.close();
     });
@@ -299,21 +305,25 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     modalRef.componentInstance.feedbackSessionTimeZone = this.feedbackSessionTimeZone;
 
     modalRef.componentInstance.onConfirmExtensionCallBack.subscribe((isNotifyDeadlines: boolean) => {
-      this.handleDeleteDeadlines(selectedStudents, selectedInstructors, isNotifyDeadlines);
+      this.handleCreateAndDeleteDeadlines(selectedStudents, selectedInstructors, DeadlineHandlerType.DELETE,
+        isNotifyDeadlines);
       modalRef.componentInstance.isSubmitting = false;
       modalRef.close();
     });
   }
 
-  private handleCreateDeadlines(
+  private handleCreateAndDeleteDeadlines(
     selectedStudents: StudentExtensionTableColumnModel[],
     selectedInstructors: InstructorExtensionTableColumnModel[],
-    extensionTimestamp: number,
+    updateDeadlinesType: DeadlineHandlerType,
     isNotifyDeadlines: boolean,
+    extensionTimestamp?: number,
   ): void {
     const request: FeedbackSessionUpdateRequest = {
-      studentDeadlines: this.getUpdatedDeadlines(selectedStudents, extensionTimestamp, true),
-      instructorDeadlines: this.getUpdatedDeadlines(selectedInstructors, extensionTimestamp, false),
+      studentDeadlines: this.getUpdatedDeadlines(selectedStudents, this.studentDeadlines,
+        updateDeadlinesType, extensionTimestamp),
+      instructorDeadlines: this.getUpdatedDeadlines(selectedInstructors, this.instructorDeadlines,
+        updateDeadlinesType, extensionTimestamp),
       ...this.feedbackSessionDetails,
     };
 
@@ -323,78 +333,41 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
       .pipe(finalize(() => { this.isSubmittingDeadlines = false; }))
       .subscribe(() => {
           this.loadFeedbackSessionAndIndividuals();
-          this.statusMessageService.showSuccessToast(
-            `Sucessfully created extension(s) for ${selectedStudents.length} student(s)`
-            + ` and ${selectedInstructors.length} instructor(s)!`,
-          );
+          this.showSucessToast(updateDeadlinesType, selectedStudents, selectedInstructors);
         },
         (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
         },
       );
+  }
+
+  private showSucessToast(updateDeadlinesType: DeadlineHandlerType,
+    selectedStudents: StudentExtensionTableColumnModel[],
+    selectedInstructors: InstructorExtensionTableColumnModel[]): void {
+    const updateAction = updateDeadlinesType === DeadlineHandlerType.CREATE ? 'created' : 'deleted';
+    this.statusMessageService.showSuccessToast(
+      `Successfully ${updateAction} extension(s) for ${selectedStudents.length} student(s) and`
+      + ` ${selectedInstructors.length} instructor(s)!`);
   }
 
   private getUpdatedDeadlines(
     selectedIndividuals: StudentExtensionTableColumnModel[] | InstructorExtensionTableColumnModel[],
-    extensionTimestamp: number,
-    isStudent: boolean,
+    deadlinesToCopyFrom: Record<string, number>,
+    updateDeadlinesType: DeadlineHandlerType,
+    extensionTimestamp?: number,
   ): Record<string, number> {
-    let record: Record<string, number> = {};
-    if (isStudent) {
-      record = { ...this.studentDeadlines };
+    const record: Record<string, number> = { ...deadlinesToCopyFrom };
+
+    if (updateDeadlinesType === DeadlineHandlerType.CREATE) {
+      selectedIndividuals.forEach((x) => {
+        record[x.email] = extensionTimestamp!;
+      });
     } else {
-      record = { ...this.instructorDeadlines };
+      selectedIndividuals.forEach((x) => {
+        delete record[x.email];
+      });
     }
 
-    selectedIndividuals.forEach((x) => {
-      record[x.email] = extensionTimestamp;
-    });
-    return record;
-  }
-
-  private handleDeleteDeadlines(
-    selectedStudents: StudentExtensionTableColumnModel[],
-    selectedInstructors: InstructorExtensionTableColumnModel[],
-    isNotifyDeadlines: boolean,
-  ): void {
-    const request: FeedbackSessionUpdateRequest = {
-      studentDeadlines: this.getDeletedDeadlines(selectedStudents, true),
-      instructorDeadlines: this.getDeletedDeadlines(selectedInstructors, false),
-      ...this.feedbackSessionDetails,
-    };
-
-    this.isSubmittingDeadlines = true;
-    this.feedbackSessionsService
-      .updateFeedbackSession(this.courseId, this.feedbackSessionName, request, isNotifyDeadlines)
-      .pipe(finalize(() => { this.isSubmittingDeadlines = false; }))
-      .subscribe(
-        () => {
-          this.loadFeedbackSessionAndIndividuals();
-          this.statusMessageService.showSuccessToast(
-            `Successfully deleleted extension(s) for ${selectedStudents.length} student(s) and`
-            + ` ${selectedInstructors.length} instructor(s)!`,
-          );
-        },
-        (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorToast(resp.error.message);
-        },
-      );
-  }
-
-  private getDeletedDeadlines(
-    selectedIndividuals: StudentExtensionTableColumnModel[] | InstructorExtensionTableColumnModel[],
-    isStudent: boolean,
-  ): Record<string, number> {
-    let record: Record<string, number> = {};
-    if (isStudent) {
-      record = { ...this.studentDeadlines };
-    } else {
-      record = { ...this.instructorDeadlines };
-    }
-
-    selectedIndividuals.forEach((x) => {
-      delete record[x.email];
-    });
     return record;
   }
 
