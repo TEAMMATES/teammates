@@ -102,7 +102,7 @@ export class IndividualExtensionDateModalComponent {
   getDateFormat(timestamp: number): DateFormat {
     let momentInstance: moment.Moment = moment(timestamp);
     if (momentInstance.hour() === 0 && momentInstance.minute() === 0) {
-      momentInstance = momentInstance.subtract(1, 'minute');
+      momentInstance = momentInstance.subtract(1, 'minute'); // formats midnight to 23:59
     }
     return {
       year: momentInstance.year(),
