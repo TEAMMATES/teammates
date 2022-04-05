@@ -128,25 +128,25 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
         intent: Intent.FULL_DETAIL,
       }),
     ])
-    .pipe(finalize(() => {
-      this.isLoadingFeedbackSession = false;
-      this.isLoadingAllStudents = false;
-      this.isLoadingAllInstructors = false;
-    }))
-    .subscribe(
-      (value: any[]) => {
-        const course = value[0] as Course;
-        this.courseName = course.courseName;
-        const feedbackSession = value[1] as FeedbackSession;
-        this.setFeedbackSessionDetails(feedbackSession);
-        this.getAllStudentsOfCourse(); // Both students and instructors need feedback ending time.
-        this.getAllInstructorsOfCourse();
-      },
-      (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
-        this.hasLoadingFeedbackSessionFailed = true;
-      },
-    );
+      .pipe(finalize(() => {
+        this.isLoadingFeedbackSession = false;
+        this.isLoadingAllStudents = false;
+        this.isLoadingAllInstructors = false;
+      }))
+      .subscribe(
+        (value: any[]) => {
+          const course = value[0] as Course;
+          this.courseName = course.courseName;
+          const feedbackSession = value[1] as FeedbackSession;
+          this.setFeedbackSessionDetails(feedbackSession);
+          this.getAllStudentsOfCourse(); // Both students and instructors need feedback ending time.
+          this.getAllInstructorsOfCourse();
+        },
+        (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+          this.hasLoadingFeedbackSessionFailed = true;
+        },
+      );
   }
 
   /**
