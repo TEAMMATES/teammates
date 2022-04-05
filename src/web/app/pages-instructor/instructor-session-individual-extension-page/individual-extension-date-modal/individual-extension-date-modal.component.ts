@@ -132,7 +132,7 @@ export class IndividualExtensionDateModalComponent {
     return this.feedbackSessionEndingTimestamp;
   }
 
-  addTimeAndFormat(hours: number, days: number): string {
+  extendAndFormatEndTimeBy(hours: number, days: number): string {
     const time = this.addTime(this.feedbackSessionEndingTimestamp, hours, days);
     return this.dateDetailPipe.transform(time, this.feedbackSessionTimeZone);
   }

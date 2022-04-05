@@ -28,7 +28,7 @@
             [value]="deadlineOption.key">
             {{ deadlineOption.key }}
             <div *ngIf="deadlineOption.key !== 'Customize'">
-              ({{ addTimeAndFormat(deadlineOption.value, 0) }})
+              ({{ extendAndFormatEndTimeBy(deadlineOption.value, 0) }})
             </div>
           </option>
         </select>
@@ -71,7 +71,7 @@
     <p *ngIf="!isDateSelectedLaterThanCurrentEndingTimestamp()" class="text-danger"><span class="fa fa-times"></span> Please input a date later than the current session ending date.</p>
     <p *ngIf="!isCustomizeBeforeMaxDate()" class="text-danger"><span class="fa fa-times"></span> Please input a valid date.</p>
     <p class="mb-0">
-      The new extended deadline will be: {{ addTimeAndFormat(extendByDatePicker.hours, extendByDatePicker.days) }}
+      The new extended deadline will be: {{ extendAndFormatEndTimeBy(extendByDatePicker.hours, extendByDatePicker.days) }}
     </p>
   </div>
 
