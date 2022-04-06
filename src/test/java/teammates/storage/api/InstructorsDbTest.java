@@ -1,6 +1,7 @@
 package teammates.storage.api;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.testng.annotations.BeforeMethod;
@@ -105,6 +106,40 @@ public class InstructorsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
 
         assertThrows(AssertionError.class, () -> instructorsDb.createEntity(null));
 
+    }
+
+    @Test
+    public void testHasExistingInstructorsInCourse() {
+
+        InstructorAttributes instructor1 = dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor2 = dataBundle.instructors.get("instructor2OfCourse1");
+        String courseId = instructor1.getCourseId();
+        assertEquals(courseId, instructor2.getCourseId());
+        String nonExistentCourseId = "non-existent-course";
+
+        Collection<String> instructorEmailAddresses = new ArrayList<>();
+        instructorEmailAddresses.add(instructor1.getEmail());
+
+        ______TS("all existing instructor email addresses");
+
+        assertTrue(instructorsDb.hasExistingInstructorsInCourse(courseId, instructorEmailAddresses));
+
+        instructorEmailAddresses.add(instructor2.getEmail());
+        assertTrue(instructorsDb.hasExistingInstructorsInCourse(courseId, instructorEmailAddresses));
+
+        ______TS("all existing instructor email addresses in non-existent course");
+
+        assertFalse(instructorsDb.hasExistingInstructorsInCourse(nonExistentCourseId, instructorEmailAddresses));
+
+        ______TS("some non-existent instructor email address in existing course");
+
+        instructorEmailAddresses.add("non-existent.instructor@email.com");
+
+        assertFalse(instructorsDb.hasExistingInstructorsInCourse(courseId, instructorEmailAddresses));
+
+        ______TS("some non-existent instructor email address in non-existent course");
+
+        assertFalse(instructorsDb.hasExistingInstructorsInCourse(nonExistentCourseId, instructorEmailAddresses));
     }
 
     @Test

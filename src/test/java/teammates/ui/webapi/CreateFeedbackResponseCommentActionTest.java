@@ -1,8 +1,10 @@
 package teammates.ui.webapi;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.testng.annotations.Test;
@@ -17,6 +19,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
+import teammates.common.util.TimeHelper;
 import teammates.ui.output.CommentVisibilityType;
 import teammates.ui.output.FeedbackResponseCommentData;
 import teammates.ui.request.FeedbackResponseCommentCreateRequest;
@@ -568,6 +571,80 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                 new String[] {"Section B"});
 
         verifyCannotAccess(submissionParams);
+    }
+
+    @Test
+    public void testAccessControl_instructorSubmissionPastEndTime_shouldAllowIfBeforeDeadline() throws Exception {
+        String feedbackSessionName = session1InCourse1.getFeedbackSessionName();
+        String courseId = session1InCourse1.getCourseId();
+        Instant newEndTime = TimeHelper.getInstantDaysOffsetFromNow(-2);
+        logic.updateFeedbackSession(FeedbackSessionAttributes.updateOptionsBuilder(feedbackSessionName, courseId)
+                .withEndTime(newEndTime)
+                .build());
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response1ForQ1.getId()),
+        };
+
+        ______TS("No selective deadline; should fail.");
+
+        verifyCannotAccess(submissionParams);
+
+        ______TS("After selective deadline; should fail.");
+
+        Map<String, Instant> newInstructorDeadlines = Map.of(
+                instructor1OfCourse1.getEmail(), TimeHelper.getInstantDaysOffsetFromNow(-1));
+        logic.updateFeedbackSession(FeedbackSessionAttributes.updateOptionsBuilder(feedbackSessionName, courseId)
+                .withInstructorDeadlines(newInstructorDeadlines)
+                .build());
+        verifyCannotAccess(submissionParams);
+
+        ______TS("Before selective deadline; should pass.");
+
+        newInstructorDeadlines = Map.of(
+                instructor1OfCourse1.getEmail(), TimeHelper.getInstantDaysOffsetFromNow(1));
+        logic.updateFeedbackSession(FeedbackSessionAttributes.updateOptionsBuilder(feedbackSessionName, courseId)
+                .withInstructorDeadlines(newInstructorDeadlines)
+                .build());
+        verifyCanAccess(submissionParams);
+    }
+
+    @Test
+    public void testAccessControl_studentSubmissionPastEndTime_shouldAllowIfBeforeDeadline() throws Exception {
+        String feedbackSessionName = session1InCourse1.getFeedbackSessionName();
+        String courseId = session1InCourse1.getCourseId();
+        Instant newEndTime = TimeHelper.getInstantDaysOffsetFromNow(-2);
+        logic.updateFeedbackSession(FeedbackSessionAttributes.updateOptionsBuilder(feedbackSessionName, courseId)
+                .withEndTime(newEndTime)
+                .build());
+        loginAsStudent(student1InCourse1.getGoogleId());
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response1ForQ3.getId()),
+        };
+
+        ______TS("No selective deadline; should fail.");
+
+        verifyCannotAccess(submissionParams);
+
+        ______TS("After selective deadline; should fail.");
+
+        Map<String, Instant> newStudentDeadlines = Map.of(
+                student1InCourse1.getEmail(), TimeHelper.getInstantDaysOffsetFromNow(-1));
+        logic.updateFeedbackSession(FeedbackSessionAttributes.updateOptionsBuilder(feedbackSessionName, courseId)
+                .withStudentDeadlines(newStudentDeadlines)
+                .build());
+        verifyCannotAccess(submissionParams);
+
+        ______TS("Before selective deadline; should pass.");
+
+        newStudentDeadlines = Map.of(
+                student1InCourse1.getEmail(), TimeHelper.getInstantDaysOffsetFromNow(1));
+        logic.updateFeedbackSession(FeedbackSessionAttributes.updateOptionsBuilder(feedbackSessionName, courseId)
+                .withStudentDeadlines(newStudentDeadlines)
+                .build());
+        verifyCanAccess(submissionParams);
     }
 
     private String[] getSubmissionParamsForCrossSectionResponse() {

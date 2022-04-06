@@ -782,7 +782,16 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {
+        "student3InCourse1@gmail.tmt": "2027-04-30T23:00:00Z",
+        "student4InCourse1@gmail.tmt": "2027-04-30T23:00:00Z",
+        "student5InCourse1@gmail.tmt": "2027-04-30T23:00:00Z"
+      },
+      "instructorDeadlines": {
+        "instructor1@course1.tmt": "2027-04-30T23:00:00Z",
+        "instructor2@course1.tmt": "2027-04-30T23:00:00Z"
+      }
     },
     "session2InCourse1": {
       "feedbackSessionName": "Second feedback session",
@@ -803,7 +812,13 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {
+        "student4InCourse1@gmail.tmt": "2026-04-28T23:00:00Z"
+      },
+      "instructorDeadlines": {
+        "instructor1@course1.tmt": "2027-04-30T23:00:00Z"
+      }
     },
     "gracePeriodSession": {
       "feedbackSessionName": "Grace Period Session",
@@ -824,7 +839,11 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {
+        "student1InCourse1@gmail.tmt": "2026-04-28T23:00:00Z"
+      },
+      "instructorDeadlines": {}
     },
     "closedSession": {
       "feedbackSessionName": "Closed Session",
@@ -845,7 +864,9 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
     },
     "empty.session": {
       "feedbackSessionName": "Empty session",
@@ -866,7 +887,9 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
     },
     "awaiting.session": {
       "feedbackSessionName": "non visible session",
@@ -887,7 +910,9 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
     },
     "archiveCourse.session1": {
       "feedbackSessionName": "session without student questions",
@@ -908,7 +933,9 @@
       "sentPublishedEmail": true,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
     },
     "archiveCourse.session2": {
       "feedbackSessionName": "session without instructor questions",
@@ -929,7 +956,9 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
     },
     "session1InCourse2": {
       "feedbackSessionName": "Instructor feedback session",
@@ -950,7 +979,9 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
     },
     "session2InCourse2": {
       "feedbackSessionName": "Not answerable feedback session",
@@ -971,7 +1002,9 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
     },
     "session1InCourse3": {
       "feedbackSessionName": "First feedback session",
@@ -992,7 +1025,9 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
     },
     "session2InCourse3": {
       "feedbackSessionName": "Second feedback session",
@@ -1014,7 +1049,9 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
     },
     "session1InCourse4": {
       "feedbackSessionName": "First feedback session",
@@ -1036,7 +1073,9 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
     },
     "session1InTestingSanitizationCourse": {
       "feedbackSessionName": "Normal feedback session name",
@@ -1057,7 +1096,9 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
     }
   },
   "feedbackQuestions": {
@@ -1738,6 +1779,88 @@
       "commentText": "Instructor 3 comment to instr1C2 response to student1C2"
     }
   },
+  "deadlineExtensions": {
+    "student3InCourse1Session1": {
+      "courseId": "idOfTypicalCourse1",
+      "feedbackSessionName": "First feedback session",
+      "userEmail": "student3InCourse1@gmail.tmt",
+      "isInstructor": false,
+      "endTime": "2027-04-30T23:00:00Z",
+      "sentClosingEmail": false,
+      "createdAt": "2027-04-30T20:00:00Z",
+      "updatedAt": "2027-04-30T20:00:00Z"
+    },
+    "student4InCourse1Session1": {
+      "courseId": "idOfTypicalCourse1",
+      "feedbackSessionName": "First feedback session",
+      "userEmail": "student4InCourse1@gmail.tmt",
+      "isInstructor": false,
+      "endTime": "2027-04-30T23:00:00Z",
+      "sentClosingEmail": false,
+      "createdAt": "2027-04-30T20:00:00Z",
+      "updatedAt": "2027-04-30T20:00:00Z"
+    },
+    "student5InCourse1Session1": {
+      "courseId": "idOfTypicalCourse1",
+      "feedbackSessionName": "First feedback session",
+      "userEmail": "student5InCourse1@gmail.tmt",
+      "isInstructor": false,
+      "endTime": "2027-04-30T23:00:00Z",
+      "sentClosingEmail": false,
+      "createdAt": "2027-04-30T20:00:00Z",
+      "updatedAt": "2027-04-30T20:00:00Z"
+    },
+    "student4InCourse1Session2": {
+      "courseId": "idOfTypicalCourse1",
+      "feedbackSessionName": "Second feedback session",
+      "userEmail": "student4InCourse1@gmail.tmt",
+      "isInstructor": false,
+      "endTime": "2026-04-28T23:00:00Z",
+      "sentClosingEmail": false,
+      "createdAt": "2026-04-28T21:00:00Z",
+      "updatedAt": "2026-04-28T21:00:00Z"
+    },
+    "student1InCourse1GracePeriodSession": {
+      "courseId": "idOfTypicalCourse1",
+      "feedbackSessionName": "Grace Period Session",
+      "userEmail": "student1InCourse1@gmail.tmt",
+      "isInstructor": false,
+      "endTime": "2026-04-28T23:00:00Z",
+      "sentClosingEmail": false,
+      "createdAt": "2026-04-28T21:00:00Z",
+      "updatedAt": "2026-04-28T21:00:00Z"
+    },
+    "instructor1InCourse1Session1": {
+      "courseId": "idOfTypicalCourse1",
+      "feedbackSessionName": "First feedback session",
+      "userEmail": "instructor1@course1.tmt",
+      "isInstructor": true,
+      "endTime": "2027-04-30T23:00:00Z",
+      "sentClosingEmail": false,
+      "createdAt": "2027-04-30T15:00:00Z",
+      "updatedAt": "2027-04-30T15:00:00Z"
+    },
+    "instructor2InCourse1Session1": {
+      "courseId": "idOfTypicalCourse1",
+      "feedbackSessionName": "First feedback session",
+      "userEmail": "instructor2@course1.tmt",
+      "isInstructor": true,
+      "endTime": "2027-04-30T23:00:00Z",
+      "sentClosingEmail": false,
+      "createdAt": "2027-04-30T15:00:00Z",
+      "updatedAt": "2027-04-30T15:00:00Z"
+    },
+    "instructor1InCourse1Session2": {
+      "courseId": "idOfTypicalCourse1",
+      "feedbackSessionName": "Second feedback session",
+      "userEmail": "instructor1@course1.tmt",
+      "isInstructor": true,
+      "endTime": "2027-04-30T23:00:00Z",
+      "sentClosingEmail": false,
+      "createdAt": "2027-04-30T15:00:00Z",
+      "updatedAt": "2027-04-30T15:00:00Z"
+    }
+  },
   "profiles": {
     "student1InCourse1": {
       "googleId": "student1InCourse1",
@@ -1868,6 +1991,128 @@
       "email": "unregisteredinstructor2@gmail.tmt",
       "institute": "TEAMMATES Test Institute 2",
       "createdAt": "2011-01-01T00:00:00Z"
+    }
+  },
+  "notifications": {
+    "notification1": {
+      "notificationId": "notification1",
+      "startTime": "2011-01-01T00:00:00Z",
+      "endTime": "2099-01-01T00:00:00Z",
+      "createdAt": "2011-01-01T00:00:00Z",
+      "updatedAt": "2011-01-01T00:00:00Z",
+      "style": "DANGER",
+      "targetUser": "GENERAL",
+      "title": "A deprecation note",
+      "message": "<p>Deprecation happens in three minutes</p>",
+      "shown": false
+    },
+    "notification2": {
+      "notificationId": "notification2",
+      "startTime": "2011-02-02T00:00:00Z",
+      "endTime": "2099-02-02T00:00:00Z",
+      "createdAt": "2011-01-01T00:00:00Z",
+      "updatedAt": "2011-01-01T00:00:00Z",
+      "style": "SUCCESS",
+      "targetUser": "STUDENT",
+      "title": "A note for update",
+      "message": "<p>Exciting features</p>",
+      "shown": false
+    },
+    "notification3": {
+      "notificationId": "notification3",
+      "startTime": "2011-03-03T00:00:00Z",
+      "endTime": "2099-03-03T00:00:00Z",
+      "createdAt": "2011-01-01T00:00:00Z",
+      "updatedAt": "2011-01-01T00:00:00Z",
+      "style": "SUCCESS",
+      "targetUser": "INSTRUCTOR",
+      "title": "The first version note",
+      "message": "<p>The version note content</p>",
+      "shown": false
+    },
+    "notification4": {
+      "notificationId": "notification4",
+      "startTime": "2011-04-04T00:00:00Z",
+      "endTime": "2099-04-04T00:00:00Z",
+      "createdAt": "2011-01-01T00:00:00Z",
+      "updatedAt": "2011-01-01T00:00:00Z",
+      "style": "WARNING",
+      "targetUser": "GENERAL",
+      "title": "The note of maintenance",
+      "message": "<p>The content of maintenance</p>",
+      "shown": false
+    },
+    "notification5": {
+      "notificationId": "notification5",
+      "startTime": "2011-05-05T00:00:00Z",
+      "endTime": "2099-05-05T00:00:00Z",
+      "createdAt": "2011-01-01T00:00:00Z",
+      "updatedAt": "2011-01-01T00:00:00Z",
+      "style": "INFO",
+      "targetUser": "INSTRUCTOR",
+      "title": "The first tip to instructor",
+      "message": "<p>The first tip content</p>",
+      "shown": false
+    },
+    "notification6": {
+      "notificationId": "notification6",
+      "startTime": "2011-06-06T00:00:00Z",
+      "endTime": "2099-06-06T00:00:00Z",
+      "createdAt": "2011-01-01T00:00:00Z",
+      "updatedAt": "2011-01-01T00:00:00Z",
+      "style": "DANGER",
+      "targetUser": "STUDENT",
+      "title": "The note of maintenance",
+      "message": "<p>The content of maintenance</p>",
+      "shown": false
+    },
+    "expiredNotification1": {
+      "notificationId": "expiredNotification1",
+      "startTime": "2011-01-01T00:00:00Z",
+      "endTime": "2011-02-02T00:00:00Z",
+      "createdAt": "2011-01-01T00:00:00Z",
+      "updatedAt": "2011-01-01T00:00:00Z",
+      "style": "DANGER",
+      "targetUser": "GENERAL",
+      "title": "A deprecation note",
+      "message": "<p>Deprecation happens in three minutes</p>",
+      "shown": false
+    },
+    "expiredNotification2": {
+      "notificationId": "expiredNotification2",
+      "startTime": "2011-02-02T00:00:00Z",
+      "endTime": "2011-03-03T00:00:00Z",
+      "createdAt": "2011-01-01T00:00:00Z",
+      "updatedAt": "2011-01-01T00:00:00Z",
+      "style": "DANGER",
+      "targetUser": "GENERAL",
+      "title": "A deprecation note",
+      "message": "<p>Deprecation happens in three minutes</p>",
+      "shown": false
+    },
+    "notStartedNotification1": {
+      "notificationId": "notStartedNotification1",
+      "startTime": "2099-01-01T00:00:00Z",
+      "endTime": "2099-02-02T00:00:00Z",
+      "createdAt": "2011-01-01T00:00:00Z",
+      "updatedAt": "2011-01-01T00:00:00Z",
+      "style": "DANGER",
+      "targetUser": "GENERAL",
+      "title": "A deprecation note",
+      "message": "<p>Deprecation happens in three minutes</p>",
+      "shown": false
+    },
+    "notStartedNotification2": {
+      "notificationId": "notStartedNotification2",
+      "startTime": "2099-02-02T00:00:00Z",
+      "endTime": "2099-03-03T00:00:00Z",
+      "createdAt": "2011-01-01T00:00:00Z",
+      "updatedAt": "2011-01-01T00:00:00Z",
+      "style": "DANGER",
+      "targetUser": "GENERAL",
+      "title": "A deprecation note",
+      "message": "<p>Deprecation happens in three minutes</p>",
+      "shown": false
     }
   }
 }

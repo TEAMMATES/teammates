@@ -1,0 +1,19 @@
+.actions-cell button:not(.dropdown-item) {
+  margin-left: var(--btn-margin);
+}
+
+.sortable-header {
+  cursor: pointer;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.margin-bottom-0 {
+  margin-bottom: 0;
+}
+
+.padding-left-7px {
+  padding-left: 7px;
+}
