@@ -65,6 +65,7 @@ export class IndividualExtensionDateModalComponent {
   extendToDatePicker: DateFormat = { year: 0, month: 0, day: 0 };
   extendToTimePicker: TimeFormat = { hour: 23, minute: 59 };
   dateDetailPipe = new FormatDateDetailPipe(this.timeZoneService);
+  sortMapByOriginalOrder = (): number => 0;
 
   onConfirm(): void {
     if (this.getExtensionTimestamp() >= Date.now()) {
@@ -182,8 +183,4 @@ export class IndividualExtensionDateModalComponent {
   isCustomize(): boolean {
     return this.isRadioExtendBy() && this.extendByDeadlineKey === 'Customize';
   }
-
-  sortMapByOriginalOrder = (): number => {
-    return 0;
-  };
 }

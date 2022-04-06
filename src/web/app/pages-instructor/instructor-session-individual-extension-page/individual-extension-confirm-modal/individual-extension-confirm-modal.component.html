@@ -20,7 +20,7 @@
       <b>{{ extensionTimestamp | formatDateDetail: feedbackSessionTimeZone }}</b>:
     </div>
 
-    <div class="table-responsive" *ngIf="selectedStudents.length!==0">
+    <div class="table-responsive" *ngIf="selectedStudents.length !== 0">
       <h1>Students</h1>
       <table id="student-list-table" class="table table-bordered">
         <thead>
@@ -88,7 +88,7 @@
       </table>
     </div>
 
-    <div class="table-responsive" *ngIf="selectedInstructors.length!==0">
+    <div class="table-responsive" *ngIf="selectedInstructors.length !== 0">
       <h1>Instructors</h1>
       <table id="instructor-list-table" class="table table-bordered">
         <thead>

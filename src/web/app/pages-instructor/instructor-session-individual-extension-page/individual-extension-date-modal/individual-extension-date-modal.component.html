@@ -67,9 +67,9 @@
       </div>
     </form>
     <br>
-    <p *ngIf="!isCustomizeDateTimeIntegers()" class="text-danger"><span class="fa fa-times"></span> Please input only integers into both blanks.</p>
-    <p *ngIf="!isDateSelectedLaterThanCurrentEndingTimestamp()" class="text-danger"><span class="fa fa-times"></span> Please input a date later than the current session ending date.</p>
-    <p *ngIf="!isCustomizeBeforeMaxDate()" class="text-danger"><span class="fa fa-times"></span> Please input a valid date.</p>
+    <p *ngIf="!isCustomizeDateTimeIntegers()" class="text-danger m-0"><span class="fa fa-times"></span> Please input only integers into both blanks.</p>
+    <p *ngIf="!isDateSelectedLaterThanCurrentEndingTimestamp()" class="text-danger m-0"><span class="fa fa-times"></span> Please input a date later than the current session ending date.</p>
+    <p *ngIf="!isCustomizeBeforeMaxDate()" class="text-danger m-0"><span class="fa fa-times"></span> Please input a valid date.</p>
     <p class="mb-0">
       The new extended deadline will be: {{ extendAndFormatEndTimeBy(extendByDatePicker.hours, extendByDatePicker.days) }}
     </p>

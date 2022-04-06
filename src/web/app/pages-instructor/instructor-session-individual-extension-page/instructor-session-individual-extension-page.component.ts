@@ -343,11 +343,12 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
 
   private showSucessToast(updateDeadlinesType: DeadlineHandlerType,
     selectedStudents: StudentExtensionTableColumnModel[],
-    selectedInstructors: InstructorExtensionTableColumnModel[]): void {
+    selectedInstructors: InstructorExtensionTableColumnModel[],
+  ): void {
     const updateAction = updateDeadlinesType === DeadlineHandlerType.CREATE ? 'created' : 'deleted';
     this.statusMessageService.showSuccessToast(
       `Successfully ${updateAction} extension(s) for ${selectedStudents.length} student(s) and`
-      + ` ${selectedInstructors.length} instructor(s)!`);
+    + ` ${selectedInstructors.length} instructor(s)!`);
   }
 
   private getUpdatedDeadlines(
