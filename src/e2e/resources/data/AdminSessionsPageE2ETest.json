@@ -3,9 +3,7 @@
     "instructor1OfCourse1": {
       "googleId": "tm.e2e.ASess.instr1",
       "name": "Instructor1 of Course1",
-      "isInstructor": true,
-      "email": "ASess.instructor1@gmail.tmt",
-      "institute": "TEAMMATES Institute 1"
+      "email": "ASess.instructor1@gmail.tmt"
     }
   },
   "courses": {

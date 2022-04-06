@@ -79,6 +79,7 @@ describe('CopyCourseModalComponent', () => {
   it('should enable copy button after new courseId is provided', () => {
     component.newCourseId = 'Test02';
     component.newCourseName = 'TestName02';
+    component.newCourseInstitute = 'Test institute';
     fixture.detectChanges();
     const copyButton: any = fixture.debugElement.query(By.css('#btn-confirm-copy-course'));
     expect(copyButton.nativeElement.disabled).toBeFalsy();

@@ -417,6 +417,8 @@ describe('InstructorCoursesPageComponent', () => {
   it('should show add course form and disable button when clicking on add new course', () => {
     component.activeCourses = [courseModelCS3282];
     component.isLoading = false;
+    fixture.detectChanges();
+
     const button: any = fixture.debugElement.nativeElement.querySelector('#btn-add-course');
     button.click();
     fixture.detectChanges();
@@ -552,6 +554,7 @@ describe('InstructorCoursesPageComponent', () => {
 
   it('should snap when new course form is expanded', () => {
     component.isAddNewCourseFormExpanded = true;
+    component.isLoading = false;
     // Mock the timezone service to prevent unexpected changes in time zones over time, such as daylight savings time
     const timezones: Record<string, number> = {
       Jamaica: -5 * 60,

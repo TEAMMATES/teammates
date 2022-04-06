@@ -40,11 +40,14 @@ export class CourseService {
   /**
    * Get course data by calling API as an instructor.
    */
-  getCourseAsInstructor(courseId: string): Observable<Course> {
+  getCourseAsInstructor(courseId: string, regKey?: string): Observable<Course> {
     const paramMap: Record<string, string> = {
       courseid: courseId,
       entitytype: 'instructor',
     };
+    if (regKey) {
+      paramMap.key = regKey;
+    }
     return this.httpRequestService.get(ResourceEndpoints.COURSE, paramMap);
   }
 
@@ -61,11 +64,14 @@ export class CourseService {
   /**
    * Get course data by calling API as a student.
    */
-  getCourseAsStudent(courseId: string): Observable<Course> {
+  getCourseAsStudent(courseId: string, regKey?: string): Observable<Course> {
     const paramMap: Record<string, string> = {
       courseid: courseId,
       entitytype: 'student',
     };
+    if (regKey) {
+      paramMap.key = regKey;
+    }
     return this.httpRequestService.get(ResourceEndpoints.COURSE, paramMap);
   }
 
@@ -120,8 +126,10 @@ export class CourseService {
   /**
    * Creates a course by calling API.
    */
-  createCourse(request: CourseCreateRequest): Observable<Course> {
-    const paramMap: Record<string, string> = {};
+  createCourse(institute: string, request: CourseCreateRequest): Observable<Course> {
+    const paramMap: Record<string, string> = {
+      instructorinstitution: institute,
+    };
     return this.httpRequestService.post(ResourceEndpoints.COURSE, paramMap, request);
   }
 

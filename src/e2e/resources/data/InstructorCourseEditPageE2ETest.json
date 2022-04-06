@@ -3,16 +3,12 @@
     "ICEdit.coowner": {
       "googleId": "tm.e2e.ICEdit.coowner",
       "name": "Teammates Test",
-      "isInstructor": true,
-      "email": "ICEdit.coowner@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "ICEdit.coowner@gmail.tmt"
     },
      "ICEdit.observer": {
       "googleId": "tm.e2e.ICEdit.observer",
       "name": "Teammates Instructor",
-      "isInstructor": true,
-      "email": "ICEdit.observer@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "ICEdit.observer@gmail.tmt"
     }
   },
   "courses": {

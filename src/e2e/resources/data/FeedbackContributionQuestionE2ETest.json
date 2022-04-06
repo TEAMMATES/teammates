@@ -3,9 +3,7 @@
     "instructorWithSessions": {
       "googleId": "tm.e2e.FContrQn.instructor",
       "name": "Teammates Test",
-      "isInstructor": true,
-      "email": "tmms.test@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "tmms.test@gmail.tmt"
     }
   },
   "courses": {

@@ -52,8 +52,6 @@ public class AccountsLogicTest extends BaseLogicTest {
         AccountAttributes accountToCreate = AccountAttributes.builder("id")
                 .withName("name")
                 .withEmail("test@email.com")
-                .withInstitute("dev")
-                .withIsInstructor(true)
                 .build();
 
         accountsLogic.createAccount(accountToCreate);
@@ -66,8 +64,6 @@ public class AccountsLogicTest extends BaseLogicTest {
         accountToCreate = AccountAttributes.builder("")
                 .withName("name")
                 .withEmail("test@email.com")
-                .withInstitute("dev")
-                .withIsInstructor(true)
                 .build();
         AccountAttributes[] finalAccount = new AccountAttributes[] { accountToCreate };
         assertThrows(InvalidParametersException.class, () -> accountsLogic.createAccount(finalAccount[0]));
@@ -85,8 +81,6 @@ public class AccountsLogicTest extends BaseLogicTest {
         AccountAttributes firstAccount = AccountAttributes.builder("first.googleId")
                 .withName("name")
                 .withEmail("test@email.com")
-                .withInstitute("dev")
-                .withIsInstructor(true)
                 .build();
         accountsDb.createEntity(firstAccount);
 
@@ -98,15 +92,11 @@ public class AccountsLogicTest extends BaseLogicTest {
         AccountAttributes secondAccount = AccountAttributes.builder("second.googleId")
                 .withName("name")
                 .withEmail("test@email.com")
-                .withInstitute("dev")
-                .withIsInstructor(true)
                 .build();
         accountsDb.createEntity(secondAccount);
         AccountAttributes thirdAccount = AccountAttributes.builder("third.googleId")
                 .withName("name")
                 .withEmail("test@email.com")
-                .withInstitute("dev")
-                .withIsInstructor(false)
                 .build();
         accountsDb.createEntity(thirdAccount);
 
@@ -119,39 +109,6 @@ public class AccountsLogicTest extends BaseLogicTest {
         accountsDb.deleteAccount(firstAccount.getGoogleId());
         accountsDb.deleteAccount(secondAccount.getGoogleId());
         accountsDb.deleteAccount(thirdAccount.getGoogleId());
-    }
-
-    @Test
-    public void testAccountFunctions() throws Exception {
-
-        ______TS("test isAccountAnInstructor");
-
-        assertTrue(accountsLogic.isAccountAnInstructor("idOfInstructor1OfCourse1"));
-
-        assertFalse(accountsLogic.isAccountAnInstructor("student1InCourse1"));
-        assertFalse(accountsLogic.isAccountAnInstructor("id-does-not-exist"));
-
-        ______TS("test downgradeInstructorToStudentCascade");
-
-        accountsLogic.downgradeInstructorToStudentCascade("idOfInstructor2OfCourse1");
-        assertFalse(accountsLogic.isAccountAnInstructor("idOfInstructor2OfCourse1"));
-
-        accountsLogic.downgradeInstructorToStudentCascade("student1InCourse1");
-        assertFalse(accountsLogic.isAccountAnInstructor("student1InCourse1"));
-
-        assertThrows(EntityDoesNotExistException.class, () -> {
-            accountsLogic.downgradeInstructorToStudentCascade("id-does-not-exist");
-        });
-
-        ______TS("test makeAccountInstructor");
-
-        accountsLogic.makeAccountInstructor("student2InCourse1");
-        assertTrue(accountsLogic.isAccountAnInstructor("student2InCourse1"));
-        accountsLogic.downgradeInstructorToStudentCascade("student2InCourse1");
-
-        assertThrows(EntityDoesNotExistException.class, () -> {
-            accountsLogic.makeAccountInstructor("id-does-not-exist");
-        });
     }
 
     @Test
@@ -211,8 +168,6 @@ public class AccountsLogicTest extends BaseLogicTest {
         AccountAttributes accountData = AccountAttributes.builder(correctStudentId)
                 .withName("nameABC")
                 .withEmail("real@gmail.com")
-                .withInstitute("TEAMMATES Test Institute 1")
-                .withIsInstructor(true)
                 .build();
 
         accountsLogic.createAccount(accountData);
@@ -263,31 +218,7 @@ public class AccountsLogicTest extends BaseLogicTest {
         accountData.setGoogleId(correctStudentId);
         accountData.setEmail(originalEmail);
         accountData.setName("name");
-        accountData.setInstructor(false);
         verifyPresentInDatabase(accountData);
-
-        ______TS("success: join course as student does not revoke instructor status");
-
-        // promote account to instructor
-        accountsLogic.makeAccountInstructor(correctStudentId);
-
-        // make the student 'unregistered' again
-        studentData.setGoogleId("");
-        studentsLogic.updateStudentCascade(
-                StudentAttributes.updateOptionsBuilder(studentData.getCourse(), studentData.getEmail())
-                        .withGoogleId(studentData.getGoogleId())
-                        .build()
-        );
-        assertEquals("",
-                studentsLogic.getStudentForEmail(studentData.getCourse(), studentData.getEmail()).getGoogleId());
-
-        // rejoin
-        accountsLogic.joinCourseForStudent(key, correctStudentId);
-        assertEquals(correctStudentId,
-                studentsLogic.getStudentForEmail(studentData.getCourse(), studentData.getEmail()).getGoogleId());
-
-        // check if still instructor
-        assertTrue(accountsLogic.isAccountAnInstructor(correctStudentId));
 
         accountsLogic.deleteAccountCascade(correctStudentId);
         accountsLogic.deleteAccountCascade(existingId);
@@ -346,14 +277,11 @@ public class AccountsLogicTest extends BaseLogicTest {
 
         instructorsLogic.createInstructor(newIns);
         key[0] = getKeyForInstructor(instructor.getCourseId(), nonInstrAccount.getEmail());
-        assertFalse(accountsLogic.getAccount(nonInstrAccount.getGoogleId()).isInstructor());
 
         accountsLogic.joinCourseForInstructor(key[0], nonInstrAccount.getGoogleId());
 
         joinedInstructor = instructorsLogic.getInstructorForEmail(instructor.getCourseId(), nonInstrAccount.getEmail());
         assertEquals(nonInstrAccount.getGoogleId(), joinedInstructor.getGoogleId());
-        assertTrue(accountsLogic.getAccount(nonInstrAccount.getGoogleId()).isInstructor());
-        assertTrue(accountsLogic.isAccountAnInstructor(nonInstrAccount.getGoogleId()));
 
         ______TS("success: instructor join and assigned institute when some instructors have not joined course");
 
@@ -380,10 +308,6 @@ public class AccountsLogicTest extends BaseLogicTest {
 
         joinedInstructor = instructorsLogic.getInstructorForEmail(instructor.getCourseId(), nonInstrAccount.getEmail());
         assertEquals(nonInstrAccount.getGoogleId(), joinedInstructor.getGoogleId());
-        assertTrue(accountsLogic.isAccountAnInstructor(nonInstrAccount.getGoogleId()));
-
-        AccountAttributes instructorAccount = accountsLogic.getAccount(nonInstrAccount.getGoogleId());
-        assertEquals("TEAMMATES Test Institute 1", instructorAccount.getInstitute());
 
         accountsLogic.deleteAccountCascade(nonInstrAccount.getGoogleId());
 

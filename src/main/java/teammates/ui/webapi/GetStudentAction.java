@@ -61,13 +61,7 @@ class GetStudentAction extends Action {
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
 
         if (studentEmail == null) {
-            student = getUnregisteredStudent().orElseGet(() -> {
-                if (userInfo == null) {
-                    return null;
-                }
-
-                return logic.getStudentForGoogleId(courseId, userInfo.id);
-            });
+            student = getPossiblyUnregisteredStudent(courseId);
         } else {
             student = logic.getStudentForEmail(courseId, studentEmail);
         }

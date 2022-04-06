@@ -3,72 +3,52 @@
     "instructor1OfCourse1": {
       "googleId": "FSQTT.idOfInstructor1OfCourse1",
       "name": "Instructor 1 of Course 1",
-      "isInstructor": true,
-      "email": "instr1@course1.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "instr1@course1.tmt"
     },
     "instructor2OfCourse1": {
       "googleId": "FSQTT.idOfInstructor2OfCourse1",
       "name": "Instructor 2 of Course 1",
-      "isInstructor": true,
-      "email": "instr2@course1.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "instr2@course1.tmt"
     },
     "instructor1OfCourse2": {
       "googleId": "FSQTT.idOfInstructor1OfCourse2",
       "name": "Instructor 1 of Course 2",
-      "isInstructor": true,
-      "email": "instr1@course2.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "instr1@course2.tmt"
     },
     "instructor2OfCourse2": {
       "googleId": "FSQTT.idOfInstructor2OfCourse2",
       "name": "Instructor 2 of Course 2",
-      "isInstructor": true,
-      "email": "instr2@course2.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "instr2@course2.tmt"
     },
     "instructor3": {
       "googleId": "FSQTT.idOfInstructor3",
       "name": "Instructor 3 of Course 1 and 2",
-      "isInstructor": true,
-      "email": "instr3@course1n2.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "instr3@course1n2.tmt"
     },
     "instructor4": {
       "googleId": "FSQTT.idOfInstructor4",
       "name": "Instructor 4 of CourseNoEvals",
-      "isInstructor": true,
-      "email": "instr4@coursenoevals.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "instr4@coursenoevals.tmt"
     },
     "instructor1OfCourseWithSections": {
       "googleId": "FSQTT.idOfInstructor1OfCourseWithSections",
       "name": "Instructor 1 of Course With Sections",
-      "isInstructor": true,
-      "email": "instr1@coursewithsections.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "instr1@coursewithsections.tmt"
     },
     "instructorWithoutCourses": {
       "googleId": "FSQTT.instructorWithoutCourses",
       "name": "Instructor Without Courses",
-      "isInstructor": true,
-      "email": "iwc@yahoo.tmt",
-      "institute": "TEAMMATES Test Institute 7"
+      "email": "iwc@yahoo.tmt"
     },
     "student1InCourse1": {
       "googleId": "FSQTT.student1InCourse1",
       "name": "Student 1 in course 1",
-      "isInstructor": false,
-      "email": "sudent1inCourse1@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "sudent1inCourse1@gmail.tmt"
     },
     "student2InCourse1": {
       "googleId": "FSQTT.student2InCourse1",
       "name": "Student in two courses",
-      "isInstructor": false,
-      "email": "sudent2inCourse1@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "sudent2inCourse1@gmail.tmt"
     }
   },
   "courses": {

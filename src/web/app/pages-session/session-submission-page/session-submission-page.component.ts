@@ -7,6 +7,7 @@ import { forkJoin, Observable, of } from 'rxjs';
 import { catchError, finalize, switchMap, tap } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../../../services/auth.service';
+import { CourseService } from '../../../services/course.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackResponseCommentService } from '../../../services/feedback-response-comment.service';
 import { FeedbackResponsesResponse, FeedbackResponsesService } from '../../../services/feedback-responses.service';
@@ -20,6 +21,7 @@ import { StudentService } from '../../../services/student.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import {
   AuthInfo,
+  Course,
   FeedbackParticipantType,
   FeedbackQuestion,
   FeedbackQuestionRecipient,
@@ -80,6 +82,8 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   personName: string = '';
   personEmail: string = '';
 
+  courseName: string = '';
+  courseInstitute: string = '';
   formattedSessionOpeningTime: string = '';
   formattedSessionClosingTime: string = '';
   feedbackSessionInstructions: string = '';
@@ -96,6 +100,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   isModerationHintExpanded: boolean = false;
   moderatedQuestionId: string = '';
 
+  isCourseLoading: boolean = true;
   isFeedbackSessionLoading: boolean = true;
   isFeedbackSessionQuestionsLoading: boolean = true;
   hasFeedbackSessionQuestionsLoadingFailed: boolean = false;
@@ -112,6 +117,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
               private feedbackSessionsService: FeedbackSessionsService,
               private studentService: StudentService,
               private instructorService: InstructorService,
+              private courseService: CourseService,
               private ngbModal: NgbModal,
               private simpleModalService: SimpleModalService,
               private pageScrollService: PageScrollService,
@@ -163,6 +169,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                     { courseid: this.courseId, fsname: this.feedbackSessionName });
               } else {
                 // Valid, unused registration key; load information based on the key
+                this.loadCourseInfo();
                 this.loadPersonName();
                 this.loadFeedbackSession();
               }
@@ -197,6 +204,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
         } else if (this.loggedInUser) {
           // Load information based on logged in user
           // This will also cover moderation/preview cases
+          this.loadCourseInfo();
           this.loadPersonName();
           this.loadFeedbackSession();
         } else {
@@ -251,6 +259,33 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
       return;
     }
     this.scrollToQuestion();
+  }
+
+  private loadCourseInfo(): void {
+    this.isCourseLoading = true;
+    let request: Observable<Course>;
+    switch (this.intent) {
+      case Intent.STUDENT_SUBMISSION:
+        if (this.moderatedPerson || this.previewAsPerson) {
+          request = this.courseService.getCourseAsInstructor(this.courseId);
+        } else {
+          request = this.courseService.getCourseAsStudent(this.courseId, this.regKey);
+        }
+        break;
+      case Intent.INSTRUCTOR_SUBMISSION:
+        request = this.courseService.getCourseAsInstructor(this.courseId, this.regKey);
+        break;
+      default:
+        this.isCourseLoading = false;
+        return;
+    }
+    request.subscribe((resp: Course) => {
+      this.courseName = resp.courseName;
+      this.courseInstitute = resp.institute;
+      this.isCourseLoading = false;
+    }, () => {
+      this.isCourseLoading = false;
+    });
   }
 
   /**

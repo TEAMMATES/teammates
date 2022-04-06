@@ -420,6 +420,13 @@ public final class InstructorsLogic {
     }
 
     /**
+     * Returns true if the user associated with the googleId is an instructor in any course in the system.
+     */
+    public boolean isInstructorInAnyCourse(String googleId) {
+        return instructorsDb.hasInstructorsForGoogleId(googleId);
+    }
+
+    /**
      * Gets the number of instructors created within a specified time range.
      */
     int getNumInstructorsByTimeRange(Instant startTime, Instant endTime) {

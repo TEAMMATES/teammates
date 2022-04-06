@@ -3,39 +3,43 @@
     <h1>Course Details</h1>
     <div class="card">
       <div class="card-body fill-plain">
-        <div class="form">
-          <div class="form-group row">
-            <label class="col-sm-2 text-sm-right">Course ID:</label>
-            <div id="course-id" class="col-sm-9 text-sm-left">
-              <p class="form-control-static">{{courseDetails.course.courseId}}</p>
-            </div>
-          </div>
-          <div class="form-group row">
-            <label class="col-sm-2 text-sm-right">Course name:</label>
-            <div id="course-name" class="col-sm-9 text-sm-left">
-              <p class="form-control-static">{{courseDetails.course.courseName}}</p>
-            </div>
-          </div>
-          <div class="form-group row">
-            <label class="col-sm-2 text-sm-right">Sections:</label>
-            <div id="num-sections" class="col-sm-9 text-sm-left">
-              <p class="form-control-static">{{courseDetails.stats.numOfSections}}</p>
-            </div>
-          </div>
-          <div class="form-group row">
-            <label class="col-sm-2 text-sm-right">Teams:</label>
-            <div id="num-teams" class="col-sm-9 text-sm-left">
-              <p class="form-control-static">{{courseDetails.stats.numOfTeams}}</p>
-            </div>
-          </div>
-          <div class="form-group row">
-            <label class="col-sm-2 text-sm-right">Total students:</label>
-            <div id="num-students" class="col-sm-9 text-sm-left">
-              <p class="form-control-static">{{courseDetails.stats.numOfStudents}}</p>
-            </div>
-          </div>
+        <div class="row">
+          <label class="col-sm-2 text-sm-right">Course ID:</label>
+          <span id="course-id" class="col-sm-9 text-sm-left">
+            {{courseDetails.course.courseId}}
+          </span>
         </div>
-        <div class="form-group row">
+        <div class="row">
+          <label class="col-sm-2 text-sm-right">Course name:</label>
+          <span id="course-name" class="col-sm-9 text-sm-left">
+            {{courseDetails.course.courseName}}
+          </span>
+        </div>
+        <div class="row">
+          <label class="col-sm-2 text-sm-right">Course institute:</label>
+          <span id="course-institute" class="col-sm-9 text-sm-left">
+            {{courseDetails.course.institute}}
+          </span>
+        </div>
+        <div class="row">
+          <label class="col-sm-2 text-sm-right">Sections:</label>
+          <span id="num-sections" class="col-sm-9 text-sm-left">
+            {{courseDetails.stats.numOfSections}}
+          </span>
+        </div>
+        <div class="row">
+          <label class="col-sm-2 text-sm-right">Teams:</label>
+          <span id="num-teams" class="col-sm-9 text-sm-left">
+            {{courseDetails.stats.numOfTeams}}
+          </span>
+        </div>
+        <div class="row">
+          <label class="col-sm-2 text-sm-right">Total students:</label>
+          <span id="num-students" class="col-sm-9 text-sm-left">
+            {{courseDetails.stats.numOfStudents}}
+          </span>
+        </div>
+        <div class="row">
           <label class="col-sm-2 text-sm-right control-label">Instructors:</label>
           <div id="instructors" class="col-sm-9 text-sm-left">
             <div *ngFor="let instructor of instructors">
@@ -43,24 +47,22 @@
             </div>
           </div>
         </div>
-        <div *ngIf="students.length > 0">
-          <div class="form-group">
-            <div class="text-center">
-              <button id="btn-remind-all" type="button" class="btn btn-primary" (click)="openRemindStudentModal()" value="Remind Students to Join">
-                <i class="fa fa-envelope"></i>
-                Remind Students to Join
-              </button>
-              <button id="btn-download" type="button" class="btn btn-primary btn-margin-left" (click)="downloadAllStudentsFromCourse(courseDetails.course.courseId)">
-                <i *ngIf="!isLoadingCsv" class="fa fa-download"></i>
-                <tm-ajax-loading *ngIf="isLoadingCsv"></tm-ajax-loading>
-                Download Student List
-              </button>
-              <button id="btn-delete-all" type="button" class="btn btn-danger btn-margin-left" (click)="openDeleteAllStudentsConfirmationModal()" value="Delete All Students">
-                <i *ngIf="!isDeleting" class="fa fa-trash"></i>
-                <tm-ajax-loading *ngIf="isDeleting"></tm-ajax-loading>
-                Delete All Students
-              </button>
-            </div>
+        <div *ngIf="students.length > 0" style="margin-top: 10px;">
+          <div class="text-center">
+            <button id="btn-remind-all" type="button" class="btn btn-primary" (click)="openRemindStudentModal()" value="Remind Students to Join">
+              <i class="fa fa-envelope"></i>
+              Remind Students to Join
+            </button>
+            <button id="btn-download" type="button" class="btn btn-primary btn-margin-left" (click)="downloadAllStudentsFromCourse(courseDetails.course.courseId)">
+              <i *ngIf="!isLoadingCsv" class="fa fa-download"></i>
+              <tm-ajax-loading *ngIf="isLoadingCsv"></tm-ajax-loading>
+              Download Student List
+            </button>
+            <button id="btn-delete-all" type="button" class="btn btn-danger btn-margin-left" (click)="openDeleteAllStudentsConfirmationModal()" value="Delete All Students">
+              <i *ngIf="!isDeleting" class="fa fa-trash"></i>
+              <tm-ajax-loading *ngIf="isDeleting"></tm-ajax-loading>
+              Delete All Students
+            </button>
           </div>
         </div>
       </div>

@@ -70,14 +70,6 @@ public final class AccountsLogic {
     }
 
     /**
-     * Returns true if the given account exists and is an instructor.
-     */
-    public boolean isAccountAnInstructor(String googleId) {
-        AccountAttributes a = accountsDb.getAccount(googleId);
-        return a != null && a.isInstructor();
-    }
-
-    /**
      * Joins the user as a student.
      */
     public StudentAttributes joinCourseForStudent(String registrationKey, String googleId)
@@ -124,21 +116,16 @@ public final class AccountsLogic {
         }
 
         AccountAttributes account = accountsDb.getAccount(googleId);
-        String instituteToSave = coursesLogic.getCourseInstitute(instructor.getCourseId());
 
         if (account == null) {
             try {
                 createAccount(AccountAttributes.builder(googleId)
                         .withName(instructor.getName())
                         .withEmail(instructor.getEmail())
-                        .withInstitute(instituteToSave)
-                        .withIsInstructor(true)
                         .build());
             } catch (EntityAlreadyExistsException e) {
                 assert false : "Account already exists.";
             }
-        } else {
-            makeAccountInstructor(googleId);
         }
 
         // Update the googleId of the student entity for the instructor which was created from sample data.
@@ -165,7 +152,7 @@ public final class AccountsLogic {
         if (instructorForKey.isRegistered()) {
             if (instructorForKey.getGoogleId().equals(googleId)) {
                 AccountAttributes existingAccount = accountsDb.getAccount(googleId);
-                if (existingAccount != null && existingAccount.isInstructor()) {
+                if (existingAccount != null) {
                     throw new EntityAlreadyExistsException("Instructor has already joined course");
                 }
             } else {
@@ -209,37 +196,6 @@ public final class AccountsLogic {
     }
 
     /**
-     * Downgrades an instructor account to student account.
-     *
-     * <p>Cascade deletes all instructors associated with the account.
-     */
-    public void downgradeInstructorToStudentCascade(String googleId) throws EntityDoesNotExistException {
-        instructorsLogic.deleteInstructorsForGoogleIdCascade(googleId);
-
-        try {
-            accountsDb.updateAccount(
-                    AccountAttributes.updateOptionsBuilder(googleId)
-                            .withIsInstructor(false)
-                            .build()
-            );
-        } catch (InvalidParametersException e) {
-            assert false : "Invalid account data detected unexpectedly "
-                    + "while removing instruction privileges from account " + googleId + ": " + e.getMessage();
-        }
-    }
-
-    /**
-     * Makes an account as an instructor account.
-     */
-    void makeAccountInstructor(String googleId) throws InvalidParametersException, EntityDoesNotExistException {
-        accountsDb.updateAccount(
-                AccountAttributes.updateOptionsBuilder(googleId)
-                        .withIsInstructor(true)
-                        .build()
-        );
-    }
-
-    /**
      * Deletes both instructor and student privileges, as well as the account and associated student profile.
      *
      * <ul>
@@ -277,8 +233,6 @@ public final class AccountsLogic {
         AccountAttributes account = AccountAttributes.builder(student.getGoogleId())
                 .withEmail(student.getEmail())
                 .withName(student.getName())
-                .withIsInstructor(false)
-                .withInstitute(coursesLogic.getCourseInstitute(student.getCourse()))
                 .build();
 
         accountsDb.createEntity(account);

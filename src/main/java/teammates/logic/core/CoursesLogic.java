@@ -102,8 +102,6 @@ public final class CoursesLogic {
 
         AccountAttributes courseCreator = accountsLogic.getAccount(instructorGoogleId);
         assert courseCreator != null : "Trying to create a course for a non-existent instructor :" + instructorGoogleId;
-        assert courseCreator.isInstructor()
-                : "Trying to create a course for a person who doesn't have instructor privileges :" + instructorGoogleId;
 
         CourseAttributes createdCourse = createCourse(courseToCreate);
 

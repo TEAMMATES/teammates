@@ -3,9 +3,7 @@
     "instructor": {
       "googleId": "tm.e2e.ICs.instructor",
       "name": "Teammates Demo Instr",
-      "isInstructor": true,
-      "email": "ICs.instructor@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "ICs.instructor@gmail.tmt"
     }
   },
   "courses": {

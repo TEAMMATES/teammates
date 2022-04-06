@@ -348,8 +348,6 @@ public final class DataBundleLogic {
         return AccountAttributes.builder(instructor.getGoogleId())
                 .withName(instructor.getName())
                 .withEmail(instructor.getEmail())
-                .withInstitute("TEAMMATES Test Institute 1")
-                .withIsInstructor(true)
                 .build();
     }
 
@@ -357,8 +355,6 @@ public final class DataBundleLogic {
         return AccountAttributes.builder(student.getGoogleId())
                 .withName(student.getName())
                 .withEmail(student.getEmail())
-                .withInstitute("TEAMMATES Test Institute 1")
-                .withIsInstructor(false)
                 .build();
     }
 

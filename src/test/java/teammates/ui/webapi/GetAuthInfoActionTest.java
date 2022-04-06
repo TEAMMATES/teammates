@@ -44,7 +44,6 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
         assertEquals(a.createLoginUrl("", Const.WebPageURIs.ADMIN_HOME_PAGE), output.getAdminLoginUrl());
         assertEquals(a.createLoginUrl("", Const.WebPageURIs.MAINTAINER_HOME_PAGE), output.getMaintainerLoginUrl());
         assertNull(output.getUser());
-        assertNull(output.getInstitute());
         assertFalse(output.isMasquerade());
 
         ______TS("Normal case: No logged in user, has nextUrl parameter");
@@ -61,7 +60,6 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
         assertEquals(a.createLoginUrl("", nextUrl), output.getAdminLoginUrl());
         assertEquals(a.createLoginUrl("", nextUrl), output.getMaintainerLoginUrl());
         assertNull(output.getUser());
-        assertNull(output.getInstitute());
         assertFalse(output.isMasquerade());
 
         ______TS("Normal case: With logged in user");
@@ -84,8 +82,6 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
         assertFalse(user.isStudent);
         assertEquals("idOfInstructor1OfCourse1", user.id);
 
-        assertEquals("TEAMMATES Test Institute 1", output.getInstitute());
-
         ______TS("Normal case: Admin masquerading as user");
 
         loginAsAdmin();
@@ -101,8 +97,6 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
         assertNull(output.getAdminLoginUrl());
         assertNull(output.getMaintainerLoginUrl());
         assertTrue(output.isMasquerade());
-
-        assertEquals("TEAMMATES Test Institute 1", output.getInstitute());
 
         user = output.getUser();
         assertFalse(user.isAdmin);
@@ -128,8 +122,6 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
         assertFalse(user.isInstructor);
         assertFalse(user.isStudent);
         assertEquals("unregisteredId", user.id);
-
-        assertNull(output.getInstitute());
     }
 
     @Test

@@ -184,7 +184,7 @@ public final class StudentsLogic {
      * Returns true if the user associated with the googleId is a student in any course in the system.
      */
     public boolean isStudentInAnyCourse(String googleId) {
-        return !getStudentsForGoogleId(googleId).isEmpty();
+        return studentsDb.hasStudentsForGoogleId(googleId);
     }
 
     /**
