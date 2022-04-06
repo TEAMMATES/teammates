@@ -184,6 +184,15 @@ task generateTypes {
     dependsOn generateApiConstants
 }
 
+task execScript(type: JavaExec) {
+    description "Run user defined scripts specified by project variable - userScript"
+
+    classpath = sourceSets.test.runtimeClasspath
+    if (project.hasProperty("userScript")) {
+        mainClass = "teammates.client.scripts.${project.property('userScript')}"
+    }
+}
+
 // SETUP TASKS
 
 task createConfigs {
