@@ -581,10 +581,8 @@ describe('AdminHomePageComponent', () => {
           {
             googleId: 'googleId',
             name: 'name',
-            institute: 'instutute',
-            isInstructor: true,
             email: 'email',
-            createdAtTimeStamp: 0,
+            readNotifications: {},
           },
         ],
       }));
