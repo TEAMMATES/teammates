@@ -52,8 +52,8 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         newSession = FeedbackSessionAttributes
                 .builder("New Session", course.getId())
                 .withCreatorEmail(instructor.getEmail())
-                .withStartTime(TimeHelper.parseInstant("2035-04-01T22:00:00Z"))
-                .withEndTime(TimeHelper.parseInstant("2035-04-30T20:00:00Z"))
+                .withStartTime(TimeHelper.parseInstant("2030-04-01T22:00:00Z"))
+                .withEndTime(TimeHelper.parseInstant("2030-04-30T20:00:00Z"))
                 .withSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING)
                 .withResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER)
                 .withGracePeriod(Duration.ZERO)

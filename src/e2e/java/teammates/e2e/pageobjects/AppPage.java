@@ -341,6 +341,25 @@ public abstract class AppPage {
         textBoxElement.sendKeys(Keys.TAB); // blur the element to receive events
     }
 
+    protected void fillDatePicker(WebElement dateBox, Instant startInstant, String timeZone) {
+        WebElement buttonToOpenPicker = dateBox.findElement(By.tagName("button"));
+        click(buttonToOpenPicker);
+
+        WebElement datePicker = dateBox.findElement(By.tagName("ngb-datepicker"));
+        WebElement monthAndYearPicker = datePicker.findElement(By.tagName("ngb-datepicker-navigation-select"));
+        WebElement monthPicker = monthAndYearPicker.findElement(By.cssSelector("[aria-label='Select month']"));
+        WebElement yearPicker = monthAndYearPicker.findElement(By.cssSelector("[aria-label='Select year']"));
+        WebElement dayPicker = datePicker.findElement(By.cssSelector("ngb-datepicker-month"));
+
+        String year = getYearString(startInstant, timeZone);
+        String month = getMonthString(startInstant, timeZone);
+        String date = getFullDateString(startInstant, timeZone);
+
+        selectDropdownOptionByText(yearPicker, year);
+        selectDropdownOptionByText(monthPicker, month);
+        dayPicker.findElement(By.cssSelector(String.format("[aria-label='%s']", date))).click();
+    }
+
     protected void fillFileBox(RemoteWebElement fileBoxElement, String fileName) {
         if (fileName.isEmpty()) {
             fileBoxElement.clear();
@@ -671,4 +690,15 @@ public abstract class AppPage {
         return DateTimeFormatter.ofPattern(pattern).format(zonedDateTime);
     }
 
+    private String getFullDateString(Instant instant, String timeZone) {
+        return getDisplayedDateTime(instant, timeZone, "EEEE, MMMM d, yyyy");
+    }
+
+    private String getYearString(Instant instant, String timeZone) {
+        return getDisplayedDateTime(instant, timeZone, "yyyy");
+    }
+
+    private String getMonthString(Instant instant, String timeZone) {
+        return getDisplayedDateTime(instant, timeZone, "MMM");
+    }
 }
