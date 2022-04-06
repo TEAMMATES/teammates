@@ -113,6 +113,7 @@ public final class Const {
         public static final String INSTRUCTOR_EMAIL = "instructoremail";
         public static final String INSTRUCTOR_INSTITUTION = "instructorinstitution";
         public static final String IS_CREATING_ACCOUNT = "iscreatingaccount";
+        public static final String IS_INSTRUCTOR = "isinstructor";
 
         public static final String FEEDBACK_SESSION_NAME = "fsname";
         public static final String FEEDBACK_SESSION_STARTTIME = "starttime";
@@ -158,6 +159,8 @@ public final class Const {
 
         public static final String TIMEZONE = "timezone";
 
+        public static final String NOTIFY_ABOUT_DEADLINES = "notifydeadlines";
+
         public static final String QUERY_LOGS_STARTTIME = "starttime";
         public static final String QUERY_LOGS_ENDTIME = "endtime";
         public static final String QUERY_LOGS_SEVERITY = "severity";
@@ -176,6 +179,10 @@ public final class Const {
         public static final String QUERY_LOGS_ORDER = "order";
 
         public static final String LIMIT = "limit";
+
+        public static final String NOTIFICATION_ID = "notificationid";
+        public static final String NOTIFICATION_TARGET_USER = "usertype";
+        public static final String NOTIFICATION_IS_FETCHING_ALL = "isfetchingall";
     }
 
     /**
@@ -259,6 +266,7 @@ public final class Const {
         public static final String ADMIN_SESSIONS_PAGE = ADMIN_PAGE + "/sessions";
         public static final String ADMIN_TIMEZONE_PAGE = ADMIN_PAGE + "/timezone";
         public static final String ADMIN_LOGS_PAGE = ADMIN_PAGE + "/logs";
+        public static final String ADMIN_NOTIFICATIONS_PAGE = ADMIN_PAGE + "/notifications";
 
         public static final String MAINTAINER_HOME_PAGE = MAINTAINER_PAGE + "/home";
 
@@ -322,6 +330,8 @@ public final class Const {
         public static final String STUDENTS = URI_PREFIX + "/students";
         public static final String STUDENT = URI_PREFIX + "/student";
         public static final String STUDENT_KEY = URI_PREFIX + "/student/key";
+        public static final String NOTIFICATION = URI_PREFIX + "/notification";
+        public static final String NOTIFICATIONS = URI_PREFIX + "/notifications";
         public static final String SESSIONS_ONGOING = URI_PREFIX + "/sessions/ongoing";
         public static final String SESSION = URI_PREFIX + "/session";
         public static final String SESSION_PUBLISH = URI_PREFIX + "/session/publish";

@@ -1,0 +1,141 @@
+<div class="card card-plain">
+    <div class="close-header">
+      <button type="button" class="close" aria-label="Close" (click)="cancelHandler()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="card-body">
+      <div class="card border-primary margin-top-20px">
+        <div class="card-body">
+
+          <div class="row text-center">
+            <div class="col-md-2 text-md-right font-weight-bold">
+              <span class="ngb-tooltip-class" ngbTooltip="The indended recipients of this notification.">Target user group</span>
+            </div>
+            <div class="col-md-auto text-md-left">
+              <select id="notification-target-user" class="form-control" [ngModel]="model.targetUser" (ngModelChange)="triggerModelChange('targetUser', $event)">
+                <option [ngValue]="NotificationTargetUser.STUDENT">Students</option>
+                <option [ngValue]="NotificationTargetUser.INSTRUCTOR">Instructors</option>
+                <option [ngValue]="NotificationTargetUser.GENERAL">General (for both students and instructors)</option>
+              </select>
+            </div>
+          </div>
+          <br/>
+
+          <div class="row text-center">
+            <div class="col-md-2 text-md-right font-weight-bold">
+              <span class="ngb-tooltip-class" ngbTooltip="Different styles correspond to different background colours at display.">Notification style</span>
+            </div>
+            <div class="col-md-auto text-md-left">
+              <select id="notification-style" class="form-control" [ngModel]="model.style" (ngModelChange)="triggerModelChange('style', $event)">
+                <option *ngFor="let style of NotificationStyle | keyvalue" [ngValue]="style.value">{{ style.key | notificationStyleDescription }}</option>
+              </select>
+            </div>
+            <div class="col-md-auto text-md-middle d-flex" [ngClass]="model.style | notificationStyleClass">
+              <span class="align-self-center">Style Demonstration</span>
+            </div>
+          </div>
+          <br/>
+
+          <div class="row text-center">
+            <div class="col-md-2 text-md-right font-weight-bold">
+              <span class="ngb-tooltip-class" ngbTooltip="Enter the name of the notification e.g. Version Changelog 8.9.1.">Title</span>
+            </div>
+            <div class="col-md-10 text-md-left">
+              <input id="notification-title" type="text" class="form-control" [ngModel]="model.title" (ngModelChange)="triggerModelChange('title', $event)" placeholder="e.g. Version Changelog 8.9.1" maxlength="{{NOTIFICATION_TITLE_MAX_LENGTH}}" />
+              <div>
+                {{NOTIFICATION_TITLE_MAX_LENGTH - model.title.length}} characters left
+              </div>
+            </div>
+          </div>
+          <br/>
+          <div class="row text-center">
+            <div class="col-md-2 text-md-right font-weight-bold">
+              <span class="ngb-tooltip-class" ngbTooltip="Message body of the notification.">Message content</span>
+            </div>
+            <div class="col-md-10 text-md-left">
+              <tm-rich-text-editor id="notification-message" [richText]="model.message" (richTextChange)="triggerModelChange('message', $event)"></tm-rich-text-editor>
+            </div>
+          </div>
+          <br/>
+
+          <div class="row text-center" *ngIf="formMode === NotificationEditFormMode.EDIT">
+            <div class="col-md-2 text-md-right font-weight-bold">
+              Shown Status
+            </div>
+            <div id="submission-status" class="col-md-4 text-md-left">
+              {{ model.shown ? 'Yes' : 'No' }}
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="card border-primary margin-top-20px">
+        <div class="card-body">
+          <div class="row text-center">
+            <div class="col-md-2 text-md-right font-weight-bold">
+              <span class="ngb-tooltip-class" ngbTooltip="This timezone is deduced based on your system/browser's settings.">Timezone</span>
+            </div>
+            <div id="submission-status" class="col-md-4 text-md-left">
+              {{ guessTimezone }}
+            </div>
+          </div>
+
+          <div class="row text-center margin-top-20px">
+            <div class="col-md-6">
+              <div class="col-12 text-md-left">
+                <div>
+                  <label class="ngb-tooltip-class label-control font-weight-bold" ngbTooltip="Users will be able to see the notification.">
+                    Notification start time
+                  </label>
+                </div>
+              </div>
+              <div class="row text-center align-items-center">
+                <div id="notification-start-date" class="col-md-7 col-xs-center">
+                  <tm-datepicker (dateChangeCallback)="triggerModelChange('startDate', $event)"
+                                 [date]="model.startDate"></tm-datepicker>
+                </div>
+                <div class="col-md-5">
+                  <tm-timepicker id="notification-start-time" [time]="model.startTime" (timeChange)="triggerModelChange('startTime', $event)"></tm-timepicker>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 border-left-gray">
+              <div class="row text-center">
+                <div class="col-12 text-md-left ml-md-2">
+                  <label class="ngb-tooltip-class label-control font-weight-bold" ngbTooltip="Notification will be hidden from users.">
+                    Notification end time
+                  </label>
+                </div>
+              </div>
+              <div class="row align-items-center">
+                <div id="notification-end-date" class="col-md-7 col-xs-center">
+                  <tm-datepicker (dateChangeCallback)="triggerModelChange('endDate', $event)"
+                                 [minDate]="model.startDate" [date]="model.endDate"></tm-datepicker>
+                </div>
+                <div class="col-md-5">
+                  <tm-timepicker id="notification-end-time" [time]="model.endTime" (timeChange)="triggerModelChange('endTime', $event)"></tm-timepicker>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row margin-top-20px">
+        <div class="col-12 text-center">
+          <span class="loader"></span>
+          <div *ngIf="formMode === NotificationEditFormMode.ADD">
+            <button id="btn-create-notification" type="button" class="btn btn-primary" [disabled]="model.isSaving" (click)="submitFormHandler()">
+              <tm-ajax-loading *ngIf="model.isSaving"></tm-ajax-loading>Create Notification
+            </button>
+          </div>
+          <div *ngIf="formMode === NotificationEditFormMode.EDIT">
+            <button id="btn-edit-notification" type="button" class="btn btn-success" [disabled]="model.isSaving" *ngIf="formMode === NotificationEditFormMode.EDIT" (click)="submitFormHandler()">
+              <tm-ajax-loading *ngIf="model.isSaving"></tm-ajax-loading>Save Changes
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
