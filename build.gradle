@@ -188,7 +188,9 @@ task execScript(type: JavaExec) {
     description "Run user defined scripts specified by project variable - userScript"
 
     classpath = sourceSets.test.runtimeClasspath
-    mainClass = project.hasProperty("userScript") ? "teammates.client.scripts.${project.property('userScript')}" : "teammates.client.scripts.PlaceholderUserScript"
+    if (project.hasProperty("userScript")) {
+        mainClass = "teammates.client.scripts.${project.property('userScript')}"
+    }
 }
 
 // SETUP TASKS
