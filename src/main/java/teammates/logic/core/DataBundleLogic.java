@@ -13,12 +13,14 @@ import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.DeadlineExtensionAttributes;
 import teammates.common.datatransfer.attributes.EntityAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.NotificationAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.InvalidParametersException;
@@ -28,11 +30,13 @@ import teammates.common.util.StringHelper;
 import teammates.storage.api.AccountRequestsDb;
 import teammates.storage.api.AccountsDb;
 import teammates.storage.api.CoursesDb;
+import teammates.storage.api.DeadlineExtensionsDb;
 import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponseCommentsDb;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.api.InstructorsDb;
+import teammates.storage.api.NotificationsDb;
 import teammates.storage.api.ProfilesDb;
 import teammates.storage.api.StudentsDb;
 
@@ -49,12 +53,14 @@ public final class DataBundleLogic {
     private final AccountRequestsDb accountRequestsDb = AccountRequestsDb.inst();
     private final ProfilesDb profilesDb = ProfilesDb.inst();
     private final CoursesDb coursesDb = CoursesDb.inst();
+    private final DeadlineExtensionsDb deadlineExtensionsDb = DeadlineExtensionsDb.inst();
     private final StudentsDb studentsDb = StudentsDb.inst();
     private final InstructorsDb instructorsDb = InstructorsDb.inst();
     private final FeedbackSessionsDb fbDb = FeedbackSessionsDb.inst();
     private final FeedbackQuestionsDb fqDb = FeedbackQuestionsDb.inst();
     private final FeedbackResponsesDb frDb = FeedbackResponsesDb.inst();
     private final FeedbackResponseCommentsDb fcDb = FeedbackResponseCommentsDb.inst();
+    private final NotificationsDb nfDb = NotificationsDb.inst();
 
     private DataBundleLogic() {
         // prevent initialization
@@ -66,7 +72,8 @@ public final class DataBundleLogic {
 
     /**
      * Persists data in the given {@link DataBundle} to the database, including
-     * accounts, courses, instructors, students, sessions, questions, responses, and comments.
+     * accounts, account requests, courses, deadline extensions, instructors, students, sessions,
+     * questions, responses, and comments.
      *
      * <p>Accounts are generated for students and instructors with Google IDs
      * if the corresponding accounts are not found in the data bundle.
@@ -90,6 +97,8 @@ public final class DataBundleLogic {
         Collection<FeedbackQuestionAttributes> questions = dataBundle.feedbackQuestions.values();
         Collection<FeedbackResponseAttributes> responses = dataBundle.feedbackResponses.values();
         Collection<FeedbackResponseCommentAttributes> responseComments = dataBundle.feedbackResponseComments.values();
+        Collection<DeadlineExtensionAttributes> deadlineExtensions = dataBundle.deadlineExtensions.values();
+        Collection<NotificationAttributes> notifications = dataBundle.notifications.values();
 
         // For ensuring only one account per Google ID is created
         Map<String, AccountAttributes> googleIdAccountMap = new HashMap<>();
@@ -109,23 +118,27 @@ public final class DataBundleLogic {
         List<InstructorAttributes> newInstructors = instructorsDb.putEntities(instructors);
         List<StudentAttributes> newStudents = studentsDb.putEntities(students);
         List<FeedbackSessionAttributes> newFeedbackSessions = fbDb.putEntities(sessions);
+        List<DeadlineExtensionAttributes> newDeadlineExtensions = deadlineExtensionsDb.putEntities(deadlineExtensions);
 
         List<FeedbackQuestionAttributes> createdQuestions = fqDb.putEntities(questions);
         injectRealIds(responses, responseComments, createdQuestions);
 
         List<FeedbackResponseAttributes> newFeedbackResponses = frDb.putEntities(responses);
         List<FeedbackResponseCommentAttributes> newFeedbackResponseComments = fcDb.putEntities(responseComments);
+        List<NotificationAttributes> newNotifications = nfDb.putEntities(notifications);
 
         updateDataBundleValue(newAccounts, dataBundle.accounts);
         updateDataBundleValue(newAccountRequests, dataBundle.accountRequests);
         updateDataBundleValue(newProfiles, dataBundle.profiles);
         updateDataBundleValue(newCourses, dataBundle.courses);
+        updateDataBundleValue(newDeadlineExtensions, dataBundle.deadlineExtensions);
         updateDataBundleValue(newInstructors, dataBundle.instructors);
         updateDataBundleValue(newStudents, dataBundle.students);
         updateDataBundleValue(newFeedbackSessions, dataBundle.feedbackSessions);
         updateDataBundleValue(createdQuestions, dataBundle.feedbackQuestions);
         updateDataBundleValue(newFeedbackResponses, dataBundle.feedbackResponses);
         updateDataBundleValue(newFeedbackResponseComments, dataBundle.feedbackResponseComments);
+        updateDataBundleValue(newNotifications, dataBundle.notifications);
 
         return dataBundle;
 
@@ -335,8 +348,6 @@ public final class DataBundleLogic {
         return AccountAttributes.builder(instructor.getGoogleId())
                 .withName(instructor.getName())
                 .withEmail(instructor.getEmail())
-                .withInstitute("TEAMMATES Test Institute 1")
-                .withIsInstructor(true)
                 .build();
     }
 
@@ -344,8 +355,6 @@ public final class DataBundleLogic {
         return AccountAttributes.builder(student.getGoogleId())
                 .withName(student.getName())
                 .withEmail(student.getEmail())
-                .withInstitute("TEAMMATES Test Institute 1")
-                .withIsInstructor(false)
                 .build();
     }
 
@@ -366,7 +375,7 @@ public final class DataBundleLogic {
      */
     public void removeDataBundle(DataBundle dataBundle) {
 
-        // Questions and responses will be deleted automatically.
+        // Questions, responses and deadline extensions will be deleted automatically.
         // We don't attempt to delete them again, to save time.
         deleteCourses(dataBundle.courses.values());
 
@@ -378,6 +387,9 @@ public final class DataBundleLogic {
         });
         dataBundle.accountRequests.values().forEach(accountRequest -> {
             accountRequestsDb.deleteAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
+        });
+        dataBundle.notifications.values().forEach(notification -> {
+            nfDb.deleteNotification(notification.getNotificationId());
         });
     }
 
@@ -397,6 +409,7 @@ public final class DataBundleLogic {
                 fbDb.deleteFeedbackSessions(query);
                 studentsDb.deleteStudents(query);
                 instructorsDb.deleteInstructors(query);
+                deadlineExtensionsDb.deleteDeadlineExtensions(query);
 
                 coursesDb.deleteCourse(courseId);
             });

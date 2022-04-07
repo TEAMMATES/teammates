@@ -3,9 +3,7 @@
     "instructorWithSessions": {
       "googleId": "tm.e2e.FRankRcptQn.instructor",
       "name": "Teammates Test",
-      "isInstructor": true,
-      "email": "tmms.test@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "tmms.test@gmail.tmt"
     }
   },
   "courses": {
@@ -150,7 +148,9 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
     },
     "openSession2": {
       "feedbackSessionName": "Second Session",
@@ -170,7 +170,9 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
     }
   },
   "feedbackQuestions": {

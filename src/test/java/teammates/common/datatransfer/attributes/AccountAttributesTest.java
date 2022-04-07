@@ -5,7 +5,6 @@ import org.testng.annotations.Test;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
-import teammates.common.util.StringHelperExtension;
 import teammates.storage.entity.Account;
 
 /**
@@ -34,12 +33,7 @@ public class AccountAttributesTest extends BaseAttributesTest {
                 + getPopulatedErrorMessage(
                       FieldValidator.EMAIL_ERROR_MESSAGE, "invalid@email@com",
                       FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
-                      FieldValidator.EMAIL_MAX_LENGTH) + System.lineSeparator()
-                + getPopulatedErrorMessage(
-                      FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE,
-                      "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                      FieldValidator.INSTITUTE_NAME_FIELD_NAME, FieldValidator.REASON_TOO_LONG,
-                      FieldValidator.INSTITUTE_NAME_MAX_LENGTH);
+                      FieldValidator.EMAIL_MAX_LENGTH);
         assertFalse("all valid values", account.isValid());
         assertEquals("all valid values", expectedError, StringHelper.toString(account.getInvalidityInfo()));
 
@@ -50,15 +44,13 @@ public class AccountAttributesTest extends BaseAttributesTest {
     public void testToEntity() {
         AccountAttributes account = createValidAccountAttributesObject();
         Account expectedAccount = new Account(account.getGoogleId(), account.getName(),
-                account.isInstructor(), account.getEmail(), account.getInstitute());
+                account.getEmail());
 
         Account actualAccount = account.toEntity();
 
         assertEquals(expectedAccount.getGoogleId(), actualAccount.getGoogleId());
         assertEquals(expectedAccount.getName(), actualAccount.getName());
         assertEquals(expectedAccount.getEmail(), actualAccount.getEmail());
-        assertEquals(expectedAccount.getInstitute(), actualAccount.getInstitute());
-        assertEquals(expectedAccount.isInstructor(), actualAccount.isInstructor());
     }
 
     @Test
@@ -81,7 +73,6 @@ public class AccountAttributesTest extends BaseAttributesTest {
         assertEquals(SanitizationHelper.sanitizeGoogleId(expectedAccount.getGoogleId()), actualAccount.getGoogleId());
         assertEquals(SanitizationHelper.sanitizeName(expectedAccount.getName()), actualAccount.getName());
         assertEquals(SanitizationHelper.sanitizeEmail(expectedAccount.getEmail()), actualAccount.getEmail());
-        assertEquals(SanitizationHelper.sanitizeTitle(expectedAccount.getInstitute()), actualAccount.getInstitute());
     }
 
     @Test
@@ -92,8 +83,6 @@ public class AccountAttributesTest extends BaseAttributesTest {
 
         assertNull(observedAccountAttributes.getCreatedAt());
         assertNull(observedAccountAttributes.getEmail());
-        assertNull(observedAccountAttributes.getInstitute());
-        assertFalse(observedAccountAttributes.isInstructor());
         assertNull(observedAccountAttributes.getName());
     }
 
@@ -102,20 +91,15 @@ public class AccountAttributesTest extends BaseAttributesTest {
         String expectedGoogleId = "dummyGoogleId";
         String expectedEmail = "email@example.com";
         String expectedName = "dummyName";
-        String expectedInstitute = "dummyInstitute";
 
         AccountAttributes observedAccountAttributes = AccountAttributes.builder(expectedGoogleId)
                 .withEmail(expectedEmail)
                 .withName(expectedName)
-                .withInstitute(expectedInstitute)
-                .withIsInstructor(true)
                 .build();
 
         assertEquals(expectedGoogleId, observedAccountAttributes.getGoogleId());
         assertEquals(expectedEmail, observedAccountAttributes.getEmail());
         assertNull(observedAccountAttributes.getCreatedAt());
-        assertEquals(expectedInstitute, observedAccountAttributes.getInstitute());
-        assertTrue(observedAccountAttributes.isInstructor());
         assertEquals(expectedName, observedAccountAttributes.getName());
     }
 
@@ -140,26 +124,17 @@ public class AccountAttributesTest extends BaseAttributesTest {
                     .withEmail(null)
                     .build();
         });
-
-        assertThrows(AssertionError.class, () -> {
-            AccountAttributes
-                    .builder("id")
-                    .withInstitute(null)
-                    .build();
-        });
     }
 
     @Test
     public void testValueOf() {
-        Account genericAccount = new Account("id", "Joe", true, "joe@example.com", "Teammates Institute");
+        Account genericAccount = new Account("id", "Joe", "joe@example.com");
 
         AccountAttributes observedAccountAttributes = AccountAttributes.valueOf(genericAccount);
 
         assertEquals(genericAccount.getGoogleId(), observedAccountAttributes.getGoogleId());
         assertEquals(genericAccount.getName(), observedAccountAttributes.getName());
-        assertEquals(genericAccount.isInstructor(), observedAccountAttributes.isInstructor());
         assertEquals(genericAccount.getEmail(), observedAccountAttributes.getEmail());
-        assertEquals(genericAccount.getInstitute(), observedAccountAttributes.getInstitute());
         assertEquals(genericAccount.getCreatedAt(), observedAccountAttributes.getCreatedAt());
     }
 
@@ -170,11 +145,9 @@ public class AccountAttributesTest extends BaseAttributesTest {
         AccountAttributes copy = account.getCopy();
 
         assertNotSame(account, copy);
-        assertFalse(account.isInstructor());
 
         assertEquals(account.getGoogleId(), copy.getGoogleId());
         assertEquals(account.getName(), copy.getName());
-        assertEquals(account.getInstitute(), copy.getInstitute());
         assertEquals(account.getEmail(), copy.getEmail());
     }
 
@@ -185,30 +158,11 @@ public class AccountAttributesTest extends BaseAttributesTest {
         AccountAttributes copy = account.getCopy();
 
         assertNotSame(account, copy);
-        assertFalse(account.isInstructor());
 
         assertEquals("id", copy.getGoogleId());
         assertNull("name should be null", copy.getName());
-        assertNull("institute should be null", copy.getInstitute());
         assertNull("email should be null", copy.getEmail());
         assertNull("email should be null", copy.getCreatedAt());
-    }
-
-    @Test
-    public void testUpdateOptions_withTypicalUpdateOptions_shouldUpdateAttributeCorrectly() {
-        AccountAttributes.UpdateOptions updateOptions =
-                AccountAttributes.updateOptionsBuilder("testGoogleId")
-                        .withIsInstructor(true)
-                        .build();
-
-        assertEquals("testGoogleId", updateOptions.getGoogleId());
-
-        AccountAttributes accountAttributes =
-                AccountAttributes.builder("testGoogleId").withIsInstructor(false).build();
-
-        accountAttributes.update(updateOptions);
-
-        assertTrue(accountAttributes.isInstructor());
     }
 
     @Test
@@ -228,8 +182,6 @@ public class AccountAttributesTest extends BaseAttributesTest {
         AccountAttributes accountDifferent = AccountAttributes.builder("another")
                 .withName("Another Name")
                 .withEmail("Another Email")
-                .withInstitute("Another Institute")
-                .withIsInstructor(false)
                 .build();
 
         assertFalse(account.equals(accountDifferent));
@@ -254,8 +206,6 @@ public class AccountAttributesTest extends BaseAttributesTest {
         AccountAttributes accountDifferent = AccountAttributes.builder("another")
                 .withName("Another Name")
                 .withEmail("Another Email")
-                .withInstitute("Another Institute")
-                .withIsInstructor(false)
                 .build();
 
         assertFalse(account.hashCode() == accountDifferent.hashCode());
@@ -271,15 +221,11 @@ public class AccountAttributesTest extends BaseAttributesTest {
 
         String googleId = "invalid google id";
         String name = ""; //invalid name
-        boolean isInstructor = false;
         String email = "invalid@email@com";
-        String institute = StringHelperExtension.generateStringOfLength(FieldValidator.INSTITUTE_NAME_MAX_LENGTH + 1);
 
         return AccountAttributes.builder(googleId)
                 .withName(name)
                 .withEmail(email)
-                .withInstitute(institute)
-                .withIsInstructor(isInstructor)
                 .build();
     }
 
@@ -287,24 +233,18 @@ public class AccountAttributesTest extends BaseAttributesTest {
 
         String googleId = "valid.google.id";
         String name = "valid name";
-        boolean isInstructor = false;
         String email = "valid@email.com";
-        String institute = "valid institute name";
 
         return AccountAttributes.builder(googleId)
                 .withName(name)
                 .withEmail(email)
-                .withInstitute(institute)
-                .withIsInstructor(isInstructor)
                 .build();
     }
 
     private AccountAttributes createAccountAttributesToSanitize() {
         return AccountAttributes.builder("    google'Id@gmail.com\t")
                         .withName("'n    \t\t    a me'\n\n")
-                        .withInstitute("Some\t  \\       institute   \n/")
                         .withEmail("   <my&email>@gmail.com\n")
-                        .withIsInstructor(true)
                         .build();
     }
 

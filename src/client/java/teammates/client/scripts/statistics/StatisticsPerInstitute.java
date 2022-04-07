@@ -2,30 +2,38 @@ package teammates.client.scripts.statistics;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.googlecode.objectify.cmd.Query;
 
 import teammates.client.connector.DatastoreClient;
 import teammates.client.util.LoopHelper;
-import teammates.storage.entity.Account;
+import teammates.common.util.Const;
+import teammates.storage.entity.Course;
 import teammates.storage.entity.CourseStudent;
+import teammates.storage.entity.Instructor;
 
 /**
  * Script that calculates the number of unique students and instructors per institute.
  */
 public class StatisticsPerInstitute extends DatastoreClient {
 
-    private StatisticsBundle bundle;
-    private CourseToInstituteCache courseToInstituteCache;
+    private final StatisticsBundle bundle;
+    private final Map<String, String> courseToInstituteCache = new HashMap<>();
 
     StatisticsPerInstitute() throws Exception {
         bundle = FileStore.getStatisticsBundleFromFileIfPossible();
-        courseToInstituteCache = FileStore.getCourseToInstituteCacheFromFileIfPossible();
     }
 
     public static void main(String[] args) throws Exception {
         StatisticsPerInstitute statistics = new StatisticsPerInstitute();
         statistics.doOperationRemotely();
+    }
+
+    private String getCourseInstitute(String courseId) {
+        Course course = ofy().load().type(Course.class).id(courseId).now();
+        return course == null || course.getInstitute() == null ? Const.UNKNOWN_INSTITUTION : course.getInstitute();
     }
 
     @Override
@@ -46,8 +54,8 @@ public class StatisticsPerInstitute extends DatastoreClient {
                     ofy().load().type(CourseStudent.class)
                             .filter("createdAt >", queryEntitiesFrom)
                             .filter("createdAt <=", queryEntitiesTo);
-            Query<Account> accountQuery =
-                    ofy().load().type(Account.class)
+            Query<Instructor> instructorQuery =
+                    ofy().load().type(Instructor.class)
                             .filter("createdAt >", queryEntitiesFrom)
                             .filter("createdAt <=", queryEntitiesTo);
 
@@ -56,20 +64,20 @@ public class StatisticsPerInstitute extends DatastoreClient {
                     "Counting institutions stats by scanning student entities...");
             Iterable<CourseStudent> students = CursorIterator.iterate(studentQuery);
             for (CourseStudent student : students) {
-                String instituteOfTheStudent = courseToInstituteCache.get(student.getCourseId());
+                String instituteOfTheStudent = courseToInstituteCache.computeIfAbsent(student.getCourseId(),
+                        k -> getCourseInstitute(student.getCourseId()));
                 bundle.addStudentEmailToInstitute(instituteOfTheStudent, student.getEmail());
                 loopHelper.recordLoop();
             }
 
             // generate institute stats by scanning account (instructor) entities
             loopHelper = new LoopHelper(100,
-                    "Counting institutions stats by scanning account (instructor) entities...");
-            Iterable<Account> accounts = CursorIterator.iterate(accountQuery);
-            for (Account account : accounts) {
-                if (!account.isInstructor()) {
-                    continue;
-                }
-                bundle.addInstructorEmailToInstitute(account.getInstitute(), account.getEmail());
+                    "Counting institutions stats by scanning instructor entities...");
+            Iterable<Instructor> instructors = CursorIterator.iterate(instructorQuery);
+            for (Instructor instructor : instructors) {
+                String instituteOfTheInstructor = courseToInstituteCache.computeIfAbsent(instructor.getCourseId(),
+                        k -> getCourseInstitute(instructor.getCourseId()));
+                bundle.addInstructorEmailToInstitute(instituteOfTheInstructor, instructor.getEmail());
                 loopHelper.recordLoop();
             }
 
@@ -122,7 +130,6 @@ public class StatisticsPerInstitute extends DatastoreClient {
         try {
             bundle.setStatsSince(queryEntitiesTo);
             FileStore.saveStatisticsBundleToFile(bundle);
-            FileStore.saveCourseToInstituteCacheToFile(courseToInstituteCache);
         } catch (Exception e) {
             System.out.println("===== Error saving checkpoint when counting stats from %s to %s =====%n");
             e.printStackTrace();

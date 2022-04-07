@@ -6,7 +6,7 @@ import teammates.common.util.Const;
 import teammates.ui.output.FeedbackSessionData;
 
 /**
- * Move the feedback sesion to the recycle bin.
+ * Move the feedback session to the recycle bin.
  */
 class BinFeedbackSessionAction extends Action {
 

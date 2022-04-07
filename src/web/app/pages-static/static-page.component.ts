@@ -15,7 +15,6 @@ export class StaticPageComponent implements OnInit {
   studentLoginUrl: string = '';
   instructorLoginUrl: string = '';
   user: string = '';
-  institute?: string = '';
   isInstructor: boolean = false;
   isStudent: boolean = false;
   isAdmin: boolean = false;
@@ -73,7 +72,6 @@ export class StaticPageComponent implements OnInit {
         if (res.masquerade) {
           this.user += ' (M)';
         }
-        this.institute = res.institute;
         this.isInstructor = res.user.isInstructor;
         this.isStudent = res.user.isStudent;
         this.isAdmin = res.user.isAdmin;

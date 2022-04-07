@@ -14,10 +14,8 @@ import {
   Student,
 } from '../../../types/api-output';
 import { SortBy } from '../../../types/sort-properties';
+import { DatePickerFormatter } from '../../components/datepicker/datepicker-formatter';
 import { DateFormat } from '../../components/datepicker/datepicker.component';
-import {
-  SessionEditFormDatePickerFormatter,
-} from '../../components/session-edit-form/session-edit-form-datepicker-formatter';
 import { ColumnData, SortableTableCellData } from '../../components/sortable-table/sortable-table.component';
 import { TimeFormat } from '../../components/timepicker/timepicker.component';
 import { ErrorMessageOutput } from '../../error-message-output';
@@ -50,7 +48,7 @@ interface FeedbackSessionLogModel {
 @Component({
   selector: 'tm-instructor-audit-logs-page',
   templateUrl: './instructor-audit-logs-page.component.html',
-  providers: [{ provide: NgbDateParserFormatter, useClass: SessionEditFormDatePickerFormatter }],
+  providers: [{ provide: NgbDateParserFormatter, useClass: DatePickerFormatter }],
   styleUrls: ['./instructor-audit-logs-page.component.scss'],
 })
 export class InstructorAuditLogsPageComponent implements OnInit {

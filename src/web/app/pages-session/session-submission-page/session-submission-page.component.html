@@ -49,34 +49,36 @@
   </div>
 </div>
 
-<div class="card card-plain" *tmIsLoading="isFeedbackSessionLoading">
+<div class="card card-plain" *tmIsLoading="isCourseLoading || isFeedbackSessionLoading">
   <div class="card-body">
-    <br class="mobile-invisible"/>
     <div class="row text-center">
-      <div class="col-md-2 text-md-right"><b>Course ID:</b></div>
+      <label class="col-md-2 text-md-right">Course ID:</label>
       <div id="course-id" class="col-md-10 text-md-left">{{ courseId }}</div>
     </div>
-    <br class="mobile-invisible"/>
+    <div class="row text-center" *ngIf="courseName">
+      <label class="col-md-2 text-md-right">Course name:</label>
+      <div id="course-name" class="col-md-10 text-md-left">{{ courseName }}</div>
+    </div>
+    <div class="row text-center" *ngIf="courseInstitute">
+      <label class="col-md-2 text-md-right">Course institute:</label>
+      <div id="course-institute" class="col-md-10 text-md-left">{{ courseInstitute }}</div>
+    </div>
     <div class="row text-center">
-      <div class="col-md-2 text-md-right"><b>Session:</b></div>
+      <label class="col-md-2 text-md-right">Session:</label>
       <div id="fs-name" class="col-md-10 text-md-left">{{ feedbackSessionName }}</div>
     </div>
-    <br class="mobile-invisible"/>
     <div class="row text-center">
-      <div class="col-md-2 text-md-right"><b>Opening time:</b></div>
+      <label class="col-md-2 text-md-right">Opening time:</label>
       <div id="opening-time" class="col-md-10 text-md-left">{{ formattedSessionOpeningTime }}</div>
     </div>
-    <br class="mobile-invisible"/>
     <div class="row text-center">
-      <div class="col-md-2 text-md-right"><b>Closing time:</b></div>
+      <label class="col-md-2 text-md-right">Closing time:</label>
       <div id="closing-time" class="col-md-10 text-md-left">{{ formattedSessionClosingTime }}</div>
     </div>
-    <br class="mobile-invisible"/>
     <div class="row text-center">
-      <div class="col-md-2 text-md-right"><b>Instructions:</b></div>
+      <label class="col-md-2 text-md-right">Instructions:</label>
       <div id="instructions" class="col-md-10 text-md-left" [innerHTML]="feedbackSessionInstructions | safeHtml"></div>
     </div>
-    <br class="mobile-invisible"/>
   </div>
 </div>
 
@@ -91,7 +93,6 @@
                                  (deleteCommentEvent)="deleteParticipantComment(i, $event)"
     ></tm-question-submission-form>
 
-    <br class="mobile-invisible"/>
     <div class="row" *ngIf="questionsNeedingSubmission.length === 0">
       <div class="col-12 text-center">
         <div class="alert alert-info" role="alert">

@@ -3,28 +3,21 @@
     "instructor1OfCourse1": {
       "googleId": "idOfInstructor1OfCourse1",
       "name": "Instructor 1 of Course 1",
-      "isInstructor": true,
-      "email": "instr1@course1.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "instr1@course1.tmt"
     },
     "student1InCourse1": {
       "googleId": "student1InCourse1",
       "name": "Student 1 in course 1",
-      "isInstructor": false,
-      "email": "student1InCourse1@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "student1InCourse1@gmail.tmt"
     },
     "student2InCourse1": {
       "googleId": "student2InCourse1",
       "name": "Student in two courses",
-      "isInstructor": false,
-      "email": "student2InCourse1@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "student2InCourse1@gmail.tmt"
     },
     "student3InCourse1": {
       "googleId": "student3InCourse1",
       "name": "student3 In Course1",
-      "isInstructor": false,
       "email": "student3InCourse1@gmail.tmt"
     }
   },
@@ -84,7 +77,9 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
     }
   },
   "feedbackQuestions": {

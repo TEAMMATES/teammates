@@ -14,7 +14,6 @@ import { AuthInfo } from '../../types/api-output';
 export class InstructorPageComponent implements OnInit {
 
   user: string = '';
-  institute?: string = '';
   isInstructor: boolean = false;
   isStudent: boolean = false;
   isAdmin: boolean = false;
@@ -60,7 +59,6 @@ export class InstructorPageComponent implements OnInit {
           if (res.masquerade) {
             this.user += ' (M)';
           }
-          this.institute = res.institute;
           this.isInstructor = res.user.isInstructor;
           this.isStudent = res.user.isStudent;
           this.isAdmin = res.user.isAdmin;

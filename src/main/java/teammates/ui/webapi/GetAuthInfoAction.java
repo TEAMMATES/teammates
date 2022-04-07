@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.servlet.http.Cookie;
 
-import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.StringHelper;
@@ -54,10 +53,7 @@ class GetAuthInfoAction extends Action {
                 );
             }
         } else {
-            String googleId = userInfo.getId();
-            AccountAttributes accountInfo = logic.getAccount(googleId);
-            String institute = accountInfo == null ? null : accountInfo.getInstitute();
-            output = new AuthInfo(userInfo, institute, authType == AuthType.MASQUERADE);
+            output = new AuthInfo(userInfo, authType == AuthType.MASQUERADE);
         }
 
         String csrfToken = StringHelper.encrypt(req.getSession().getId());

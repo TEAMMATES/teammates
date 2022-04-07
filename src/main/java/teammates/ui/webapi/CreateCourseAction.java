@@ -1,13 +1,14 @@
 package teammates.ui.webapi;
 
-import teammates.common.datatransfer.attributes.AccountAttributes;
+import java.util.List;
+import java.util.Objects;
+
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.StringHelper;
 import teammates.ui.output.CourseData;
 import teammates.ui.request.CourseCreateRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
@@ -27,6 +28,20 @@ class CreateCourseAction extends Action {
         if (!userInfo.isInstructor) {
             throw new UnauthorizedAccessException("Instructor privilege is required to access this resource.");
         }
+
+        String institute = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
+
+        List<InstructorAttributes> existingInstructors = logic.getInstructorsForGoogleId(userInfo.getId());
+        boolean canCreateCourse = existingInstructors
+                .stream()
+                .filter(InstructorAttributes::hasCoownerPrivileges)
+                .map(instructor -> logic.getCourse(instructor.getCourseId()))
+                .filter(Objects::nonNull)
+                .anyMatch(course -> institute.equals(course.getInstitute()));
+        if (!canCreateCourse) {
+            throw new UnauthorizedAccessException("You are not allowed to create a course under this institute. "
+                    + "If you wish to do so, please request for an account under the institute.", true);
+        }
     }
 
     @Override
@@ -42,12 +57,7 @@ class CreateCourseAction extends Action {
 
         String newCourseId = courseCreateRequest.getCourseId();
         String newCourseName = courseCreateRequest.getCourseName();
-
-        String institute = Const.UNKNOWN_INSTITUTION;
-        AccountAttributes account = logic.getAccount(userInfo.getId());
-        if (account != null && !StringHelper.isEmpty(account.getInstitute())) {
-            institute = account.getInstitute();
-        }
+        String institute = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
 
         CourseAttributes courseAttributes =
                 CourseAttributes.builder(newCourseId)

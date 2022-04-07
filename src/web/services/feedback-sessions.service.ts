@@ -105,7 +105,11 @@ export class FeedbackSessionsService {
    */
   updateFeedbackSession(courseId: string, feedbackSessionName: string, request: FeedbackSessionUpdateRequest):
       Observable<FeedbackSession> {
-    const paramMap: Record<string, string> = { courseid: courseId, fsname: feedbackSessionName };
+    const paramMap: Record<string, string> = {
+      courseid: courseId,
+      fsname: feedbackSessionName,
+      notifydeadlines: 'false',
+    };
     return this.httpRequestService.put(ResourceEndpoints.SESSION, paramMap, request);
   }
 
@@ -363,7 +367,7 @@ export class FeedbackSessionsService {
   getFeedbackSessionResults(queryParams: {
     courseId: string,
     feedbackSessionName: string,
-    intent: Intent
+    intent: Intent,
     questionId?: string,
     groupBySection?: string,
     key?: string,

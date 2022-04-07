@@ -274,6 +274,24 @@ public abstract class Action {
         return Optional.empty();
     }
 
+    InstructorAttributes getPossiblyUnregisteredInstructor(String courseId) {
+        return getUnregisteredInstructor().orElseGet(() -> {
+            if (userInfo == null) {
+                return null;
+            }
+            return logic.getInstructorForGoogleId(courseId, userInfo.getId());
+        });
+    }
+
+    StudentAttributes getPossiblyUnregisteredStudent(String courseId) {
+        return getUnregisteredStudent().orElseGet(() -> {
+            if (userInfo == null) {
+                return null;
+            }
+            return logic.getStudentForGoogleId(courseId, userInfo.getId());
+        });
+    }
+
     InstructorPermissionSet constructInstructorPrivileges(InstructorAttributes instructor, String feedbackSessionName) {
         InstructorPermissionSet privilege = instructor.getPrivileges().getCourseLevelPrivileges();
         if (feedbackSessionName != null) {

@@ -18,8 +18,9 @@ import { CommentRowMode } from './comment-row.mode';
  * Model for a comment row.
  */
 export interface CommentRowModel {
-  // original comment can be null under ADD mode
+  // original comment and recipient identifier can be null under ADD mode
   originalComment?: FeedbackResponseComment;
+  originalRecipientIdentifier?: string;
   /**
    * Timezone of the original comment.
    */

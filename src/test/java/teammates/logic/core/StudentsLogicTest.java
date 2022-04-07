@@ -1,8 +1,14 @@
 package teammates.logic.core;
 
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeMethod;
@@ -12,6 +18,7 @@ import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -31,6 +38,7 @@ public class StudentsLogicTest extends BaseLogicTest {
     private final CoursesLogic coursesLogic = CoursesLogic.inst();
     private final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
     private final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
+    private final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
 
     @Override
     protected void prepareTestData() {
@@ -51,7 +59,9 @@ public class StudentsLogicTest extends BaseLogicTest {
         testGetStudentForRegistrationKey();
         testGetStudentsForGoogleId();
         testGetStudentForCourseIdAndGoogleId();
+        testGetNumberOfStudentsForCourse();
         testGetStudentsForCourse();
+        testVerifyAllStudentsExistInCourse();
         testIsStudentInAnyCourse();
         testIsStudentInTeam();
         testIsStudentsInSameTeam();
@@ -220,6 +230,43 @@ public class StudentsLogicTest extends BaseLogicTest {
                 ));
         AssertHelper.assertContains(FieldValidator.REASON_INCORRECT_FORMAT, ipe.getMessage());
 
+    }
+
+    @Test
+    public void testUpdateStudentCascade_emailChanged_shouldUpdateStudentDeadlineMaps() throws Exception {
+        StudentAttributes student4InCourse1 = dataBundle.students.get("student4InCourse1");
+        String courseId = student4InCourse1.getCourse();
+        String oldEmailAddress = student4InCourse1.getEmail();
+        String newEmailAddress = "new@email.tmt";
+
+        Map<Instant, Integer> oldDeadlineCounts = fsLogic.getFeedbackSessionsForCourse(courseId)
+                .stream()
+                .map(FeedbackSessionAttributes::getStudentDeadlines)
+                .filter(studentDeadlines -> studentDeadlines.containsKey(oldEmailAddress))
+                .map(studentDeadlines -> studentDeadlines.get(oldEmailAddress))
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.summingInt(deadline -> 1)));
+        assertEquals(2, oldDeadlineCounts.values()
+                .stream()
+                .reduce(0, Integer::sum)
+                .intValue());
+
+        studentsLogic.updateStudentCascade(
+                StudentAttributes.updateOptionsBuilder(student4InCourse1.getCourse(), oldEmailAddress)
+                        .withNewEmail(newEmailAddress)
+                        .build()
+        );
+
+        assertTrue(fsLogic.getFeedbackSessionsForCourse(courseId)
+                .stream()
+                .noneMatch(feedbackSessionAttributes -> feedbackSessionAttributes.getStudentDeadlines()
+                        .containsKey(oldEmailAddress)));
+        Map<Instant, Integer> newDeadlineCounts = fsLogic.getFeedbackSessionsForCourse(courseId)
+                .stream()
+                .map(FeedbackSessionAttributes::getStudentDeadlines)
+                .filter(studentDeadlines -> studentDeadlines.containsKey(newEmailAddress))
+                .map(studentDeadlines -> studentDeadlines.get(newEmailAddress))
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.summingInt(deadline -> 1)));
+        assertEquals(oldDeadlineCounts, newDeadlineCounts);
     }
 
     @Test
@@ -411,6 +458,31 @@ public class StudentsLogicTest extends BaseLogicTest {
                 () -> studentsLogic.getStudentForCourseIdAndGoogleId("valid.course", null));
     }
 
+    private void testGetNumberOfStudentsForCourse() {
+
+        ______TS("course with multiple students");
+
+        CourseAttributes course1OfInstructor1 = dataBundle.courses.get("typicalCourse1");
+        int numOfStudents = studentsLogic.getNumberOfStudentsForCourse(course1OfInstructor1.getId());
+        assertEquals(5, numOfStudents);
+
+        ______TS("course with 0 students");
+
+        CourseAttributes course2OfInstructor1 = dataBundle.courses.get("courseNoEvals");
+        numOfStudents = studentsLogic.getNumberOfStudentsForCourse(course2OfInstructor1.getId());
+        assertEquals(0, numOfStudents);
+
+        ______TS("null parameter");
+
+        assertThrows(AssertionError.class, () -> studentsLogic.getNumberOfStudentsForCourse(null));
+
+        ______TS("non-existent course");
+
+        numOfStudents = studentsLogic.getNumberOfStudentsForCourse("non-existent");
+        assertEquals(0, numOfStudents);
+
+    }
+
     private void testGetStudentsForCourse() {
 
         ______TS("course with multiple students");
@@ -446,6 +518,37 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         // number of students retrieved should be equal to the limit
         assertEquals(deleteLimit, studentList.size());
+    }
+
+    private void testVerifyAllStudentsExistInCourse() throws Exception {
+
+        StudentAttributes student = dataBundle.students.get("student1InCourse1");
+        String courseId = student.getCourse();
+
+        Collection<String> studentEmailAddresses = new ArrayList<>();
+        studentEmailAddresses.add(student.getEmail());
+
+        ______TS("existing student email address in existing course");
+
+        // should not throw an exception
+        studentsLogic.verifyAllStudentsExistInCourse(courseId, studentEmailAddresses);
+
+        ______TS("existing student email address in non-existent course");
+
+        assertThrows(EntityDoesNotExistException.class, () ->
+                studentsLogic.verifyAllStudentsExistInCourse("non-existent-course", studentEmailAddresses));
+
+        ______TS("non-existent student email address in existing course");
+
+        studentEmailAddresses.add("non-existent.student@email.com");
+
+        assertThrows(EntityDoesNotExistException.class, () ->
+                studentsLogic.verifyAllStudentsExistInCourse(courseId, studentEmailAddresses));
+
+        ______TS("non-existent student email address in non-existent course");
+
+        assertThrows(EntityDoesNotExistException.class, () ->
+                studentsLogic.verifyAllStudentsExistInCourse("non-existent-course", studentEmailAddresses));
     }
 
     private void testIsStudentInAnyCourse() {
@@ -542,6 +645,47 @@ public class StudentsLogicTest extends BaseLogicTest {
         assertFalse(
                 frLogic.getGiverSetThatAnswerFeedbackSession(fra.getCourseId(),
                         fra.getFeedbackSessionName()).contains(fra.getGiver()));
+    }
+
+    @Test
+    public void testDeleteStudentCascade_withSelectiveDeadlines_shouldDeleteDeadlines() {
+        StudentAttributes student4InCourse1 = dataBundle.students.get("student4InCourse1");
+        verifyPresentInDatabase(student4InCourse1);
+
+        String courseId = student4InCourse1.getCourse();
+        String emailAddress = student4InCourse1.getEmail();
+
+        // The student should have selective deadlines.
+        Set<FeedbackSessionAttributes> oldSessionsWithStudent4Deadlines = fsLogic
+                .getFeedbackSessionsForCourse(courseId)
+                .stream()
+                .filter(feedbackSessionAttributes -> feedbackSessionAttributes.getStudentDeadlines()
+                        .containsKey(emailAddress))
+                .collect(Collectors.toSet());
+        Map<FeedbackSessionAttributes, Integer> oldSessionsDeadlineCounts = oldSessionsWithStudent4Deadlines
+                .stream()
+                .collect(Collectors.toMap(fsa -> fsa, fsa -> fsa.getStudentDeadlines().size()));
+        assertEquals(2, oldSessionsWithStudent4Deadlines.size());
+
+        studentsLogic.deleteStudentCascade(student4InCourse1.getCourse(), student4InCourse1.getEmail());
+
+        // The student should have no more selective deadlines.
+        Set<FeedbackSessionAttributes> newSessionsWithStudent4Deadlines = fsLogic
+                .getFeedbackSessionsForCourse(courseId)
+                .stream()
+                .filter(feedbackSessionAttributes -> feedbackSessionAttributes.getStudentDeadlines()
+                        .containsKey(emailAddress))
+                .collect(Collectors.toSet());
+        assertTrue(newSessionsWithStudent4Deadlines.isEmpty());
+        Map<FeedbackSessionAttributes, Integer> expectedSessionsDeadlineCounts = oldSessionsDeadlineCounts.entrySet()
+                .stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue() - 1));
+        Map<FeedbackSessionAttributes, Integer> newSessionsDeadlineCounts = fsLogic
+                .getFeedbackSessionsForCourse(courseId)
+                .stream()
+                .filter(oldSessionsWithStudent4Deadlines::contains)
+                .collect(Collectors.toMap(fsa -> fsa, fsa -> fsa.getStudentDeadlines().size()));
+        assertEquals(expectedSessionsDeadlineCounts, newSessionsDeadlineCounts);
     }
 
     @Test

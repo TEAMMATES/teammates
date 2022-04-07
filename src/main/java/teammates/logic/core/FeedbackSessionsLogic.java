@@ -3,6 +3,8 @@ package teammates.logic.core;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
@@ -10,7 +12,6 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -49,6 +50,7 @@ public final class FeedbackSessionsLogic {
     private FeedbackResponseCommentsLogic frcLogic;
     private InstructorsLogic instructorsLogic;
     private StudentsLogic studentsLogic;
+    private DeadlineExtensionsLogic deLogic;
 
     private FeedbackSessionsLogic() {
         // prevent initialization
@@ -65,6 +67,7 @@ public final class FeedbackSessionsLogic {
         frcLogic = FeedbackResponseCommentsLogic.inst();
         instructorsLogic = InstructorsLogic.inst();
         studentsLogic = StudentsLogic.inst();
+        deLogic = DeadlineExtensionsLogic.inst();
     }
 
     /**
@@ -249,12 +252,8 @@ public final class FeedbackSessionsLogic {
             return true;
         }
 
-        String feedbackSessionName = fsa.getFeedbackSessionName();
-        String courseId = fsa.getCourseId();
-        List<FeedbackQuestionAttributes> allQuestions =
-                fqLogic.getFeedbackQuestionsForInstructors(feedbackSessionName, courseId, userEmail);
         // if there is no question for instructor, session is attempted
-        return allQuestions.isEmpty();
+        return !fqLogic.hasFeedbackQuestionsForInstructors(fsa, fsa.isCreator(userEmail));
     }
 
     /**
@@ -312,6 +311,36 @@ public final class FeedbackSessionsLogic {
         }
 
         return fsDb.updateFeedbackSession(newUpdateOptions.build());
+    }
+
+    /**
+     * Updates the instructor email address for all their deadlines in the feedback sessions of the given course.
+     */
+    public void updateFeedbackSessionsInstructorDeadlinesWithNewEmail(String courseId, String oldEmailAddress,
+            String newEmailAddress) {
+        updateFeedbackSessionsDeadlinesWithNewEmail(courseId, oldEmailAddress, newEmailAddress, true);
+    }
+
+    /**
+     * Updates the student email address for all their deadlines in the feedback sessions of the given course.
+     */
+    public void updateFeedbackSessionsStudentDeadlinesWithNewEmail(String courseId, String oldEmailAddress,
+            String newEmailAddress) {
+        updateFeedbackSessionsDeadlinesWithNewEmail(courseId, oldEmailAddress, newEmailAddress, false);
+    }
+
+    /**
+     * Deletes the instructor email address for all their deadlines in the feedback sessions of the given course.
+     */
+    public void deleteFeedbackSessionsDeadlinesForInstructor(String courseId, String emailAddress) {
+        deleteFeedbackSessionsDeadlinesForUser(courseId, emailAddress, true);
+    }
+
+    /**
+     * Deletes the student email address for all their deadlines in the feedback sessions of the given course.
+     */
+    public void deleteFeedbackSessionsDeadlinesForStudent(String courseId, String emailAddress) {
+        deleteFeedbackSessionsDeadlinesForUser(courseId, emailAddress, false);
     }
 
     /**
@@ -449,7 +478,7 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
-     * Deletes a feedback session cascade to its associated questions, responses and comments.
+     * Deletes a feedback session cascade to its associated questions, responses, deadline extensions and comments.
      */
     public void deleteFeedbackSessionCascade(String feedbackSessionName, String courseId) {
         AttributesDeletionQuery query = AttributesDeletionQuery.builder()
@@ -459,6 +488,7 @@ public final class FeedbackSessionsLogic {
         frcLogic.deleteFeedbackResponseComments(query);
         frLogic.deleteFeedbackResponses(query);
         fqLogic.deleteFeedbackQuestions(query);
+        deLogic.deleteDeadlineExtensions(query);
 
         fsDb.deleteFeedbackSession(feedbackSessionName, courseId);
     }
@@ -492,24 +522,31 @@ public final class FeedbackSessionsLogic {
      * Gets the expected number of submissions for a feedback session.
      */
     public int getExpectedTotalSubmission(FeedbackSessionAttributes fsa) {
-        List<StudentAttributes> students = studentsLogic.getStudentsForCourse(fsa.getCourseId());
-        List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForCourse(fsa.getCourseId());
-        List<FeedbackQuestionAttributes> questions =
-                fqLogic.getFeedbackQuestionsForSession(fsa.getFeedbackSessionName(), fsa.getCourseId());
-        List<FeedbackQuestionAttributes> studentQns = fqLogic.getFeedbackQuestionsForStudents(questions);
-
         int expectedTotal = 0;
 
-        if (!studentQns.isEmpty()) {
-            expectedTotal += students.size();
+        if (fqLogic.hasFeedbackQuestionsForStudents(fsa)) {
+            expectedTotal += studentsLogic.getNumberOfStudentsForCourse(fsa.getCourseId());
         }
 
-        for (InstructorAttributes instructor : instructors) {
-            List<FeedbackQuestionAttributes> instructorQns =
-                    fqLogic.getFeedbackQuestionsForInstructors(questions, fsa.isCreator(instructor.getEmail()));
-            if (!instructorQns.isEmpty()) {
-                expectedTotal += 1;
-            }
+        // Pre-flight check to ensure there are questions for instructors.
+        if (!fqLogic.hasFeedbackQuestionsForInstructors(fsa, true)) {
+            return expectedTotal;
+        }
+
+        List<String> instructorEmails = instructorsLogic.getInstructorEmailsForCourse(fsa.getCourseId());
+        if (instructorEmails.isEmpty()) {
+            return expectedTotal;
+        }
+
+        // Check presence of questions for instructors.
+        if (fqLogic.hasFeedbackQuestionsForInstructors(fsa, false)) {
+            expectedTotal += instructorEmails.size();
+        } else {
+            // No questions for instructors. There must be questions for creator.
+            List<String> creatorEmails = instructorEmails.stream()
+                    .filter(fsa::isCreator)
+                    .collect(Collectors.toList());
+            expectedTotal += creatorEmails.size();
         }
 
         return expectedTotal;
@@ -566,8 +603,52 @@ public final class FeedbackSessionsLogic {
         }
 
         return isInstructor
-                ? fqLogic.hasFeedbackQuestionsForInstructors(session.getFeedbackSessionName(), session.getCourseId(), null)
-                : fqLogic.hasFeedbackQuestionsForStudents(session.getFeedbackSessionName(), session.getCourseId());
+                ? fqLogic.hasFeedbackQuestionsForInstructors(session, false)
+                : fqLogic.hasFeedbackQuestionsForStudents(session);
+    }
+
+    private void updateFeedbackSessionsDeadlinesWithNewEmail(String courseId, String oldEmailAddress,
+            String newEmailAddress, boolean isInstructor) {
+        if (oldEmailAddress.equals(newEmailAddress)) {
+            return;
+        }
+        updateFeedbackSessionsDeadlinesForUser(courseId, oldEmailAddress, isInstructor,
+                deadlines -> deadlines.put(newEmailAddress, deadlines.remove(oldEmailAddress)));
+    }
+
+    private void deleteFeedbackSessionsDeadlinesForUser(String courseId, String emailAddress, boolean isInstructor) {
+        updateFeedbackSessionsDeadlinesForUser(courseId, emailAddress, isInstructor,
+                deadlines -> deadlines.remove(emailAddress));
+    }
+
+    private void updateFeedbackSessionsDeadlinesForUser(String courseId, String emailAddress, boolean isInstructor,
+            Consumer<Map<String, Instant>> deadlinesUpdater) {
+        List<FeedbackSessionAttributes> feedbackSessions = fsDb.getFeedbackSessionsForCourse(courseId);
+        feedbackSessions.forEach(feedbackSession -> {
+            FeedbackSessionAttributes.UpdateOptions.Builder updateOptionsBuilder = FeedbackSessionAttributes
+                    .updateOptionsBuilder(feedbackSession.getFeedbackSessionName(), courseId);
+            if (isInstructor) {
+                Map<String, Instant> instructorDeadlines = feedbackSession.getInstructorDeadlines();
+                if (!instructorDeadlines.containsKey(emailAddress)) {
+                    return;
+                }
+                deadlinesUpdater.accept(instructorDeadlines);
+                updateOptionsBuilder.withInstructorDeadlines(instructorDeadlines);
+            } else {
+                Map<String, Instant> studentDeadlines = feedbackSession.getStudentDeadlines();
+                if (!studentDeadlines.containsKey(emailAddress)) {
+                    return;
+                }
+                deadlinesUpdater.accept(studentDeadlines);
+                updateOptionsBuilder.withStudentDeadlines(studentDeadlines);
+            }
+            try {
+                fsDb.updateFeedbackSession(updateOptionsBuilder.build());
+            } catch (InvalidParametersException | EntityDoesNotExistException e) {
+                // Both Exceptions should not be thrown.
+                log.severe("Unexpected error", e);
+            }
+        });
     }
 
 }

@@ -1,9 +1,14 @@
 package teammates.logic.core;
 
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -12,6 +17,7 @@ import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -32,6 +38,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
     private final CoursesLogic coursesLogic = CoursesLogic.inst();
     private final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
     private final FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
+    private final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
 
     @Override
     protected void prepareTestData() {
@@ -47,6 +54,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
 
     @Test
     public void testAll() throws Exception {
+        testVerifyAllInstructorsExistInCourse();
         testGetInstructorForEmail();
         testGetInstructorForGoogleId();
         testGetInstructorsForGoogleId();
@@ -108,6 +116,37 @@ public class InstructorsLogicTest extends BaseLogicTest {
         ______TS("failure: null parameters");
 
         assertThrows(AssertionError.class, () -> instructorsLogic.createInstructor(null));
+    }
+
+    private void testVerifyAllInstructorsExistInCourse() throws Exception {
+
+        InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
+        String courseId = instructor.getCourseId();
+
+        Collection<String> instructorEmailAddresses = new ArrayList<>();
+        instructorEmailAddresses.add(instructor.getEmail());
+
+        ______TS("existing instructor email address in existing course");
+
+        // should not throw an exception
+        instructorsLogic.verifyAllInstructorsExistInCourse(courseId, instructorEmailAddresses);
+
+        ______TS("existing instructor email address in non-existent course");
+
+        assertThrows(EntityDoesNotExistException.class, () ->
+                instructorsLogic.verifyAllInstructorsExistInCourse("non-existent-course", instructorEmailAddresses));
+
+        ______TS("non-existent instructor email address in existing course");
+
+        instructorEmailAddresses.add("non-existent.instructor@email.com");
+
+        assertThrows(EntityDoesNotExistException.class, () ->
+                instructorsLogic.verifyAllInstructorsExistInCourse(courseId, instructorEmailAddresses));
+
+        ______TS("non-existent instructor email address in non-existent course");
+
+        assertThrows(EntityDoesNotExistException.class, () ->
+                instructorsLogic.verifyAllInstructorsExistInCourse("non-existent-course", instructorEmailAddresses));
     }
 
     private void testGetInstructorForEmail() {
@@ -282,6 +321,44 @@ public class InstructorsLogicTest extends BaseLogicTest {
         assertThrows(AssertionError.class,
                 () -> instructorsLogic.verifyAtLeastOneInstructorIsDisplayed(null,
                         true, true));
+    }
+
+    @Test
+    public void testUpdateInstructorByGoogleIdCascade_shouldCascadeUpdateToFeedbackSessions() throws Exception {
+        InstructorAttributes instructorToBeUpdated = dataBundle.instructors.get("instructor1OfCourse1");
+        String courseId = instructorToBeUpdated.getCourseId();
+        String oldEmailAddress = instructorToBeUpdated.getEmail();
+        String newEmailAddress = "new@email.tmt";
+
+        Map<Instant, Integer> oldDeadlineCounts = fsLogic.getFeedbackSessionsForCourse(courseId)
+                .stream()
+                .map(FeedbackSessionAttributes::getInstructorDeadlines)
+                .filter(instructorDeadlines -> instructorDeadlines.containsKey(oldEmailAddress))
+                .map(instructorDeadlines -> instructorDeadlines.get(oldEmailAddress))
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.summingInt(deadline -> 1)));
+        assertEquals(2, oldDeadlineCounts.values()
+                .stream()
+                .reduce(0, Integer::sum)
+                .intValue());
+
+        instructorsLogic.updateInstructorByGoogleIdCascade(
+                InstructorAttributes
+                        .updateOptionsWithGoogleIdBuilder(
+                                courseId, instructorToBeUpdated.getGoogleId())
+                        .withEmail(newEmailAddress)
+                        .build());
+
+        assertTrue(fsLogic.getFeedbackSessionsForCourse(courseId)
+                .stream()
+                .noneMatch(feedbackSessionAttributes -> feedbackSessionAttributes.getInstructorDeadlines()
+                        .containsKey(oldEmailAddress)));
+        Map<Instant, Integer> newDeadlineCounts = fsLogic.getFeedbackSessionsForCourse(courseId)
+                .stream()
+                .map(FeedbackSessionAttributes::getInstructorDeadlines)
+                .filter(instructorDeadlines -> instructorDeadlines.containsKey(newEmailAddress))
+                .map(instructorDeadlines -> instructorDeadlines.get(newEmailAddress))
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.summingInt(deadline -> 1)));
+        assertEquals(oldDeadlineCounts, newDeadlineCounts);
     }
 
     @Test
@@ -489,12 +566,42 @@ public class InstructorsLogicTest extends BaseLogicTest {
         assertFalse(frLogic.getFeedbackResponsesFromGiverForCourse(courseId, email).isEmpty());
         assertFalse(frLogic.getFeedbackResponsesForReceiverForCourse(courseId, email).isEmpty());
 
+        // The instructor should have selective deadlines.
+        Set<FeedbackSessionAttributes> oldSessionsWithInstructor1Deadlines = fsLogic
+                .getFeedbackSessionsForCourse(courseId)
+                .stream()
+                .filter(feedbackSessionAttributes -> feedbackSessionAttributes.getInstructorDeadlines()
+                        .containsKey(email))
+                .collect(Collectors.toSet());
+        Map<FeedbackSessionAttributes, Integer> oldSessionsDeadlineCounts = oldSessionsWithInstructor1Deadlines
+                .stream()
+                .collect(Collectors.toMap(fsa -> fsa, fsa -> fsa.getInstructorDeadlines().size()));
+        assertEquals(2, oldSessionsWithInstructor1Deadlines.size());
+
         instructorsLogic.deleteInstructorCascade(courseId, email);
 
         verifyAbsentInDatabase(instructorDeleted);
         // there should be no response of the instructor
         assertTrue(frLogic.getFeedbackResponsesFromGiverForCourse(courseId, email).isEmpty());
         assertTrue(frLogic.getFeedbackResponsesForReceiverForCourse(courseId, email).isEmpty());
+
+        // The instructor should have no more selective deadlines.
+        Set<FeedbackSessionAttributes> newSessionsWithInstructor1Deadlines = fsLogic
+                .getFeedbackSessionsForCourse(courseId)
+                .stream()
+                .filter(feedbackSessionAttributes -> feedbackSessionAttributes.getInstructorDeadlines()
+                        .containsKey(email))
+                .collect(Collectors.toSet());
+        assertTrue(newSessionsWithInstructor1Deadlines.isEmpty());
+        Map<FeedbackSessionAttributes, Integer> expectedSessionsDeadlineCounts = oldSessionsDeadlineCounts.entrySet()
+                .stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue() - 1));
+        Map<FeedbackSessionAttributes, Integer> newSessionsDeadlineCounts = fsLogic
+                .getFeedbackSessionsForCourse(courseId)
+                .stream()
+                .filter(oldSessionsWithInstructor1Deadlines::contains)
+                .collect(Collectors.toMap(fsa -> fsa, fsa -> fsa.getInstructorDeadlines().size()));
+        assertEquals(expectedSessionsDeadlineCounts, newSessionsDeadlineCounts);
 
         ______TS("failure: null parameter");
 

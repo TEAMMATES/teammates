@@ -53,6 +53,9 @@ public class InstructorCourseEditPage extends AppPage {
     @FindBy(id = "course-name")
     private WebElement courseNameTextBox;
 
+    @FindBy(id = "course-institute")
+    private WebElement courseInstituteTextBox;
+
     @FindBy(id = "time-zone")
     private WebElement timeZoneDropDown;
 
@@ -80,6 +83,7 @@ public class InstructorCourseEditPage extends AppPage {
     public void verifyCourseDetails(CourseAttributes course) {
         assertEquals(course.getId(), getCourseId());
         assertEquals(course.getName(), getCourseName());
+        assertEquals(course.getInstitute(), getCourseInstitute());
         assertEquals(course.getTimeZone(), getTimeZone());
     }
 
@@ -338,6 +342,10 @@ public class InstructorCourseEditPage extends AppPage {
 
     public String getCourseName() {
         return courseNameTextBox.getAttribute("value");
+    }
+
+    public String getCourseInstitute() {
+        return courseInstituteTextBox.getAttribute("value");
     }
 
     public String getTimeZone() {

@@ -3,23 +3,17 @@
     "instructor1OfCourse1": {
       "googleId": "tm.e2e.ASearch.instr1",
       "name": "Instructor1 of Course1",
-      "isInstructor": true,
-      "email": "ASearch.instructor1@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "ASearch.instructor1@gmail.tmt"
     },
     "instructor2OfCourse1": {
       "googleId": "tm.e2e.ASearch.instr2",
       "name": "Instructor2 of Course1",
-      "isInstructor": true,
-      "email": "ASearch.instructor2@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "ASearch.instructor2@gmail.tmt"
     },
     "student1InCourse1": {
       "googleId": "tm.e2e.ASearch.student1",
       "name": "Student1 in course1",
-      "isInstructor": false,
-      "email": "ASearch.student1@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "ASearch.student1@gmail.tmt"
     }
   },
   "courses": {
@@ -109,7 +103,9 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
     },
   "session2InCourse1": {
     "feedbackSessionName": "ASearch.Second feedback session",
@@ -130,7 +126,9 @@
     "sentPublishedEmail": false,
     "isOpeningEmailEnabled": true,
     "isClosingEmailEnabled": true,
-    "isPublishedEmailEnabled": true
+    "isPublishedEmailEnabled": true,
+    "studentDeadlines": {},
+    "instructorDeadlines": {}
     }
   },
   "accountRequests": {

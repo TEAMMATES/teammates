@@ -4,8 +4,10 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.googlecode.objectify.Key;
@@ -115,6 +117,22 @@ public final class StudentsDb extends EntitiesDb<CourseStudent, StudentAttribute
     }
 
     /**
+     * Checks if the given students exist in the given course.
+     */
+    public boolean hasExistingStudentsInCourse(String courseId, Collection<String> studentEmailAddresses) {
+        if (studentEmailAddresses.isEmpty()) {
+            return true;
+        }
+        Set<String> existingStudentEmailAddresses = load().filter("courseId =", courseId)
+                .project("email")
+                .list()
+                .stream()
+                .map(CourseStudent::getEmail)
+                .collect(Collectors.toSet());
+        return existingStudentEmailAddresses.containsAll(studentEmailAddresses);
+    }
+
+    /**
      * Gets a student by unique ID courseId-email.
      */
     public StudentAttributes getStudentForEmail(String courseId, String email) {
@@ -165,6 +183,15 @@ public final class StudentsDb extends EntitiesDb<CourseStudent, StudentAttribute
         assert googleId != null;
 
         return makeAttributes(getCourseStudentEntitiesForGoogleId(googleId));
+    }
+
+    /**
+     * Gets the total number of students of a course.
+     */
+    public int getNumberOfStudentsForCourse(String courseId) {
+        assert courseId != null;
+
+        return getCourseStudentsForCourseQuery(courseId).count();
     }
 
     /**
@@ -364,6 +391,13 @@ public final class StudentsDb extends EntitiesDb<CourseStudent, StudentAttribute
 
     private List<CourseStudent> getCourseStudentEntitiesForCourse(String courseId, int batchSize) {
         return getCourseStudentsForCourseQuery(courseId, batchSize).list();
+    }
+
+    /**
+     * Returns true if there are any student entities associated with the googleId.
+     */
+    public boolean hasStudentsForGoogleId(String googleId) {
+        return !getCourseStudentsForGoogleIdQuery(googleId).keys().list().isEmpty();
     }
 
     private Query<CourseStudent> getCourseStudentsForGoogleIdQuery(String googleId) {

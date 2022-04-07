@@ -10,6 +10,8 @@ import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.Account;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * The data transfer object for {@link Account} entities.
  */
@@ -17,9 +19,7 @@ public class AccountAttributes extends EntityAttributes<Account> {
 
     private String googleId;
     private String name;
-    private boolean isInstructor;
     private String email;
-    private String institute;
     private Instant createdAt;
 
     private AccountAttributes(String googleId) {
@@ -33,9 +33,7 @@ public class AccountAttributes extends EntityAttributes<Account> {
         AccountAttributes accountAttributes = new AccountAttributes(a.getGoogleId());
 
         accountAttributes.name = a.getName();
-        accountAttributes.isInstructor = a.isInstructor();
         accountAttributes.email = a.getEmail();
-        accountAttributes.institute = a.getInstitute();
         accountAttributes.createdAt = a.getCreatedAt();
 
         return accountAttributes;
@@ -55,20 +53,10 @@ public class AccountAttributes extends EntityAttributes<Account> {
         AccountAttributes accountAttributes = new AccountAttributes(this.googleId);
 
         accountAttributes.name = this.name;
-        accountAttributes.isInstructor = this.isInstructor;
         accountAttributes.email = this.email;
-        accountAttributes.institute = this.institute;
         accountAttributes.createdAt = this.createdAt;
 
         return accountAttributes;
-    }
-
-    public boolean isInstructor() {
-        return isInstructor;
-    }
-
-    public void setInstructor(boolean instructor) {
-        isInstructor = instructor;
     }
 
     public String getGoogleId() {
@@ -95,14 +83,6 @@ public class AccountAttributes extends EntityAttributes<Account> {
         this.email = email;
     }
 
-    public String getInstitute() {
-        return institute;
-    }
-
-    public void setInstitute(String institute) {
-        this.institute = institute;
-    }
-
     public Instant getCreatedAt() {
         return createdAt;
     }
@@ -121,16 +101,14 @@ public class AccountAttributes extends EntityAttributes<Account> {
 
         addNonEmptyError(FieldValidator.getInvalidityInfoForEmail(email), errors);
 
-        addNonEmptyError(FieldValidator.getInvalidityInfoForInstituteName(institute), errors);
-
-        // No validation for isInstructor and createdAt fields.
+        // No validation necessary for createdAt field.
 
         return errors;
     }
 
     @Override
     public Account toEntity() {
-        return new Account(googleId, name, isInstructor, email, institute);
+        return new Account(googleId, name, email);
     }
 
     @Override
@@ -140,10 +118,7 @@ public class AccountAttributes extends EntityAttributes<Account> {
 
     @Override
     public int hashCode() {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(this.email).append(this.name)
-                .append(this.institute).append(this.googleId);
-        return stringBuilder.toString().hashCode();
+        return (this.email + this.name + this.googleId).hashCode();
     }
 
     @Override
@@ -156,7 +131,6 @@ public class AccountAttributes extends EntityAttributes<Account> {
             AccountAttributes otherAccount = (AccountAttributes) other;
             return Objects.equals(this.email, otherAccount.email)
                     && Objects.equals(this.name, otherAccount.name)
-                    && Objects.equals(this.institute, otherAccount.institute)
                     && Objects.equals(this.googleId, otherAccount.googleId);
         } else {
             return false;
@@ -168,14 +142,13 @@ public class AccountAttributes extends EntityAttributes<Account> {
         this.googleId = SanitizationHelper.sanitizeGoogleId(googleId);
         this.name = SanitizationHelper.sanitizeName(name);
         this.email = SanitizationHelper.sanitizeEmail(email);
-        this.institute = SanitizationHelper.sanitizeTitle(institute);
     }
 
     /**
      * Updates with {@link UpdateOptions}.
      */
     public void update(UpdateOptions updateOptions) {
-        updateOptions.isInstructorOption.ifPresent(s -> isInstructor = s);
+        // currently, account does not have any updatable field
     }
 
     /**
@@ -213,13 +186,6 @@ public class AccountAttributes extends EntityAttributes<Account> {
             return this;
         }
 
-        public Builder withInstitute(String institute) {
-            assert institute != null;
-
-            accountAttributes.institute = institute;
-            return this;
-        }
-
         @Override
         public AccountAttributes build() {
             accountAttributes.update(updateOptions);
@@ -233,8 +199,6 @@ public class AccountAttributes extends EntityAttributes<Account> {
      */
     public static class UpdateOptions {
         private String googleId;
-
-        private UpdateOption<Boolean> isInstructorOption = UpdateOption.empty();
 
         private UpdateOptions(String googleId) {
             assert googleId != null;
@@ -250,7 +214,6 @@ public class AccountAttributes extends EntityAttributes<Account> {
         public String toString() {
             return "AccountAttributes.UpdateOptions ["
                     + "googleId = " + googleId
-                    + ", isInstructor = " + isInstructorOption
                     + "]";
         }
 
@@ -282,15 +245,11 @@ public class AccountAttributes extends EntityAttributes<Account> {
     private abstract static class BasicBuilder<T, B extends BasicBuilder<T, B>> {
 
         UpdateOptions updateOptions;
+        @SuppressFBWarnings("URF_UNREAD_FIELD")
         B thisBuilder;
 
         BasicBuilder(UpdateOptions updateOptions) {
             this.updateOptions = updateOptions;
-        }
-
-        public B withIsInstructor(boolean isInstructor) {
-            updateOptions.isInstructorOption = UpdateOption.of(isInstructor);
-            return thisBuilder;
         }
 
         public abstract T build();

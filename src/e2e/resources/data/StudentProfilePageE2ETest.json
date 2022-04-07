@@ -3,9 +3,7 @@
     "studentWithExistingProfile": {
       "googleId": "tm.e2e.SProf.student",
       "name": "Benny C",
-      "isInstructor": false,
-      "email": "SProf.student@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 7"
+      "email": "SProf.student@gmail.tmt"
     }
   },
   "courses": {

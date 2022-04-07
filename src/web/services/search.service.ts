@@ -496,9 +496,9 @@ export interface StudentAccountSearchResult extends InstructorAccountSearchResul
  */
 export interface FeedbackSessionsGroup {
   [name: string]: {
-    startTime: string;
-    endTime: string;
-    feedbackSessionUrl: string;
+    startTime: string,
+    endTime: string,
+    feedbackSessionUrl: string,
   };
 }
 

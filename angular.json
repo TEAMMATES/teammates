@@ -9,9 +9,11 @@
       "projectType": "application",
       "prefix": "tm",
       "schematics": {
-        "@schematics/angular:component": {
-          "style": "scss",
+        "@schematics/angular:application": {
           "strict": true
+        },
+        "@schematics/angular:component": {
+          "style": "scss"
         }
       },
       "architect": {

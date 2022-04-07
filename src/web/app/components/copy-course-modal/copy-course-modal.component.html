@@ -26,7 +26,19 @@
         <span>{{ COURSE_NAME_MAX_LENGTH - newCourseName.length }} characters left</span>
       </div>
       <div class="form-group">
-        <label><span ngbTooltip="You should not need to change this as it is auto-detected based on your device settings. TEAMMATES automatically adjusts
+        <label class="ngb-tooltip-class">
+          <span ngbTooltip="Note that you can only create a new course under an institute in which you are already a course co-owner.">
+            Course institute:
+          </span>
+        </label>
+        <div class="input-group">
+          <select id="copy-course-institute" class="form-control" [(ngModel)]="newCourseInstitute">
+            <option *ngFor="let institute of institutes" [value]="institute">{{ institute }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="ngb-tooltip-class"><span ngbTooltip="You should not need to change this as it is auto-detected based on your device settings. TEAMMATES automatically adjusts
           to match the current time offset in your area, including clock changes due to daylight saving time.">Time Zone:</span></label>
         <div class="input-group">
           <select id="copy-time-zone" class="form-control" [(ngModel)]="newTimezone">
@@ -71,5 +83,5 @@
 <div class="modal-footer">
   <button type="button" class="btn btn-light" (click)="activeModal.dismiss()">Cancel</button>
   <button id="btn-confirm-copy-course" type="button" class="btn btn-primary" (click)="copy()"
-    [disabled]="!newCourseId || !newCourseName">Copy</button>
+    [disabled]="!newCourseId || !newCourseName || !newCourseInstitute">Copy</button>
 </div>

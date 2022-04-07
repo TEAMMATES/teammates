@@ -3,107 +3,77 @@
     "instructor1OfCourse1": {
       "googleId": "idOfInstructor1OfCourse1",
       "name": "Instructor 1 of Course 1",
-      "isInstructor": true,
-      "email": "instr1@course1.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "instr1@course1.tmt"
     },
     "instructor2OfCourse1": {
       "googleId": "idOfInstructor2OfCourse1",
       "name": "Instructor 2 of Course 1",
-      "isInstructor": true,
-      "email": "instr2@course1.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "instr2@course1.tmt"
     },
     "helperOfCourse1": {
       "googleId": "idOfHelperOfCourse1",
       "name": "Helper of Course 1",
-      "isInstructor": true,
-      "email": "helper@course1.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "helper@course1.tmt"
     },
     "instructor1OfCourse2": {
       "googleId": "idOfInstructor1OfCourse2",
       "name": "Instructor 1 of Course 2",
-      "isInstructor": true,
-      "email": "instr1@course2.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "instr1@course2.tmt"
     },
     "instructor2OfCourse2": {
       "googleId": "idOfInstructor2OfCourse2",
       "name": "Instructor 2 of Course 2",
-      "isInstructor": true,
-      "email": "instr2@course2.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "instr2@course2.tmt"
     },
     "instructor1OfCourse3": {
       "googleId": "idOfInstructor1OfCourse3",
       "name": "Instructor 1 of Course 3",
-      "isInstructor": true,
-      "email": "instr1@course3.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "instr1@course3.tmt"
     },
     "instructor3": {
       "googleId": "idOfInstructor3",
       "name": "Instructor 3 of Course 1 and 2",
-      "isInstructor": true,
-      "email": "instr3@course1n2.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "instr3@course1n2.tmt"
     },
     "instructor4": {
       "googleId": "idOfInstructor4",
       "name": "Instructor 4 of CourseNoEvals",
-      "isInstructor": true,
-      "email": "instr4@coursenoevals.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "instr4@coursenoevals.tmt"
     },
     "instructor5": {
       "googleId": "idOfInstructor5",
       "name": "Instructor 5 of CourseNoRegister",
-      "isInstructor": true,
-      "email": "instructor5@courseNoRegister.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "instructor5@courseNoRegister.tmt"
     },
     "instructorWithoutCourses": {
       "googleId": "instructorWithoutCourses",
       "name": "Instructor Without Courses",
-      "isInstructor": true,
-      "email": "iwc@yahoo.tmt",
-      "institute": "TEAMMATES Test Institute 7"
+      "email": "iwc@yahoo.tmt"
     },
     "instructorWithOnlyOneSampleCourse": {
       "googleId": "idOfInstructorWithOnlyOneSampleCourse",
       "name": "Instructor With Only One Sample Course",
-      "isInstructor": true,
-      "email": "iwosc@yahoo.tmt",
-      "institute": "TEAMMATES Test Institute 7"
+      "email": "iwosc@yahoo.tmt"
     },
     "instructorOfArchivedCourse": {
       "googleId": "idOfInstructorOfArchivedCourse",
       "name": "InstructorOfArchiveCourse name",
-      "isInstructor": true,
-      "email": "instructorOfArchiveCourse@archiveCourse.tmt",
-      "institute": "TEAMMATES Test Institute 5"
+      "email": "instructorOfArchiveCourse@archiveCourse.tmt"
     },
     "student1InCourse1": {
       "googleId": "student1InCourse1",
       "name": "Student 1 in course 1",
-      "isInstructor": false,
-      "email": "student1InCourse1@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "student1InCourse1@gmail.tmt"
     },
     "student2InCourse1": {
       "googleId": "student2InCourse1",
       "name": "Student in two courses",
-      "isInstructor": false,
-      "email": "student2InCourse1@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "student2InCourse1@gmail.tmt"
     },
     "student1InArchivedCourse": {
       "googleId": "student1InArchivedCourse",
       "name": "Student in Archived Course",
-      "isInstructor": false,
-      "email": "student1InCourse1@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "student1InCourse1@gmail.tmt"
     }
   },
   "courses": {
@@ -608,7 +578,13 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {
+        "student4InCourse1@gmail.tmt": "2037-04-30T23:00:00Z"
+      },
+      "instructorDeadlines": {
+        "instructor1@course1.tmt": "2037-04-30T23:00:00Z"
+      }
     },
     "session2InCourse1": {
       "feedbackSessionName": "Second feedback session",
@@ -629,7 +605,13 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {
+        "student4InCourse1@gmail.tmt": "2030-04-28T23:00:00Z"
+      },
+      "instructorDeadlines": {
+        "instructor1@course1.tmt": "2030-04-28T23:00:00Z"
+      }
     },
     "gracePeriodSession": {
       "feedbackSessionName": "Grace Period Session",
@@ -650,7 +632,9 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
     },
     "closedSession": {
       "feedbackSessionName": "Closed Session",
@@ -671,7 +655,9 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
     },
     "empty.session": {
       "feedbackSessionName": "Empty session",
@@ -692,7 +678,9 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
     },
     "awaiting.session": {
       "feedbackSessionName": "non visible session",
@@ -713,7 +701,9 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
     },
     "archiveCourse.session1": {
       "feedbackSessionName": "session without student questions",
@@ -734,7 +724,9 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
     },
     "session1InCourse2": {
       "feedbackSessionName": "Instructor feedback session",
@@ -755,7 +747,9 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
     },
     "session1InCourse3": {
       "feedbackSessionName": "First feedback session",
@@ -777,7 +771,9 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
     },
     "session2InCourse3": {
       "feedbackSessionName": "Second feedback session",
@@ -798,7 +794,9 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
     }
   },
   "feedbackQuestions": {
@@ -1431,6 +1429,48 @@
       "isCommentFromFeedbackParticipant": false,
       "createdAt": "2016-01-01T23:59:00Z",
       "commentText": "Instructor 1 comment to Team 2.1"
+    }
+  },
+  "deadlineExtensions": {
+    "student4InCourse1Session1": {
+      "courseId": "idOfTypicalCourse1",
+      "feedbackSessionName": "First feedback session",
+      "userEmail": "student4InCourse1@gmail.tmt",
+      "isInstructor": false,
+      "endTime": "2037-04-30T23:00:00Z",
+      "sentClosingEmail": false,
+      "createdAt": "2037-04-30T20:00:00Z",
+      "updatedAt": "2037-04-30T20:00:00Z"
+    },
+    "instructor1InCourse1Session1": {
+      "courseId": "idOfTypicalCourse1",
+      "feedbackSessionName": "First feedback session",
+      "userEmail": "instructor1@course1.tmt",
+      "isInstructor": true,
+      "endTime": "2037-04-30T23:00:00Z",
+      "sentClosingEmail": false,
+      "createdAt": "2037-04-30T20:00:00Z",
+      "updatedAt": "2037-04-30T20:00:00Z"
+    },
+    "student4InCourse1Session2": {
+      "courseId": "idOfTypicalCourse1",
+      "feedbackSessionName": "Second feedback session",
+      "userEmail": "student4InCourse1@gmail.tmt",
+      "isInstructor": false,
+      "endTime": "2030-04-28T23:00:00Z",
+      "sentClosingEmail": false,
+      "createdAt": "2030-04-28T20:00:00Z",
+      "updatedAt": "2030-04-28T20:00:00Z"
+    },
+    "instructor1InCourse1Session2": {
+      "courseId": "idOfTypicalCourse1",
+      "feedbackSessionName": "Second feedback session",
+      "userEmail": "instructor1@course1.tmt",
+      "isInstructor": true,
+      "endTime": "2030-04-28T23:00:00Z",
+      "sentClosingEmail": false,
+      "createdAt": "2030-04-28T20:00:00Z",
+      "updatedAt": "2030-04-28T20:00:00Z"
     }
   },
   "profiles": {

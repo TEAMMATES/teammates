@@ -13,6 +13,8 @@ import { FormatPhotoUrlPipe } from './format-photo-url.pipe';
 import { GeneratedChoicePipe } from './generated-choice.pipe';
 import { InstructorRoleDescriptionPipe } from './instructor-role-description.pipe';
 import { InstructorRoleNamePipe } from './instructor-role-name.pipe';
+import { NotificationStyleClassPipe } from './notification-style-class.pipe';
+import { NotificationStyleDescriptionPipe } from './notification-style-description.pipe';
 import { PublishStatusNamePipe } from './publish-status-name.pipe';
 import { QuestionTypeNamePipe } from './question-type-name.pipe';
 import { SafeHtmlPipe } from './safe-html.pipe';
@@ -59,6 +61,8 @@ import {
     VisibilityControlNamePipe,
     VisibilityTypeDescriptionPipe,
     VisibilityTypeNamePipe,
+    NotificationStyleDescriptionPipe,
+    NotificationStyleClassPipe,
   ],
   exports: [
     EnumToArrayPipe,
@@ -81,6 +85,8 @@ import {
     VisibilityControlNamePipe,
     VisibilityTypeDescriptionPipe,
     VisibilityTypeNamePipe,
+    NotificationStyleDescriptionPipe,
+    NotificationStyleClassPipe,
   ],
 })
 export class TeammatesCommonModule { }

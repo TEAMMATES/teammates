@@ -8,6 +8,9 @@ exports[`SessionSubmissionPageComponent should snap when feedback session questi
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
   courseId={[Function String]}
+  courseInstitute=""
+  courseName=""
+  courseService={[Function CourseService]}
   document={[Function Document]}
   entityType={[Function String]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
@@ -22,6 +25,7 @@ exports[`SessionSubmissionPageComponent should snap when feedback session questi
   hasFeedbackSessionQuestionsLoadingFailed={[Function Boolean]}
   instructorService={[Function InstructorService]}
   intent={[Function String]}
+  isCourseLoading={[Function Boolean]}
   isFeedbackSessionLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
   isModerationHintExpanded="false"
@@ -134,6 +138,9 @@ exports[`SessionSubmissionPageComponent should snap when saving responses 1`] = 
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
   courseId={[Function String]}
+  courseInstitute=""
+  courseName=""
+  courseService={[Function CourseService]}
   document={[Function Document]}
   entityType={[Function String]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
@@ -148,6 +155,7 @@ exports[`SessionSubmissionPageComponent should snap when saving responses 1`] = 
   hasFeedbackSessionQuestionsLoadingFailed="false"
   instructorService={[Function InstructorService]}
   intent={[Function String]}
+  isCourseLoading={[Function Boolean]}
   isFeedbackSessionLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
   isModerationHintExpanded="false"
@@ -257,6 +265,9 @@ exports[`SessionSubmissionPageComponent should snap with default fields 1`] = `
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
   courseId={[Function String]}
+  courseInstitute=""
+  courseName=""
+  courseService={[Function CourseService]}
   document={[Function Document]}
   entityType={[Function String]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
@@ -271,6 +282,7 @@ exports[`SessionSubmissionPageComponent should snap with default fields 1`] = `
   hasFeedbackSessionQuestionsLoadingFailed="false"
   instructorService={[Function InstructorService]}
   intent={[Function String]}
+  isCourseLoading={[Function Boolean]}
   isFeedbackSessionLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
   isModerationHintExpanded="false"
@@ -380,6 +392,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
   courseId={[Function String]}
+  courseInstitute={[Function String]}
+  courseName={[Function String]}
+  courseService={[Function CourseService]}
   document={[Function Document]}
   entityType={[Function String]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
@@ -394,6 +409,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
   hasFeedbackSessionQuestionsLoadingFailed="false"
   instructorService={[Function InstructorService]}
   intent={[Function String]}
+  isCourseLoading="false"
   isFeedbackSessionLoading="false"
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
   isModerationHintExpanded="false"
@@ -468,19 +484,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
     <div
       class="card-body"
     >
-      <br
-        class="mobile-invisible"
-      />
       <div
         class="row text-center"
       >
-        <div
+        <label
           class="col-md-2 text-md-right"
         >
-          <b>
-            Course ID:
-          </b>
-        </div>
+          Course ID:
+        </label>
         <div
           class="col-md-10 text-md-left"
           id="course-id"
@@ -488,19 +499,44 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
           test.exa-demo
         </div>
       </div>
-      <br
-        class="mobile-invisible"
-      />
       <div
         class="row text-center"
       >
-        <div
+        <label
           class="col-md-2 text-md-right"
         >
-          <b>
-            Session:
-          </b>
+          Course name:
+        </label>
+        <div
+          class="col-md-10 text-md-left"
+          id="course-name"
+        >
+          Course name
         </div>
+      </div>
+      <div
+        class="row text-center"
+      >
+        <label
+          class="col-md-2 text-md-right"
+        >
+          Course institute:
+        </label>
+        <div
+          class="col-md-10 text-md-left"
+          id="course-institute"
+        >
+          Test institute
+        </div>
+      </div>
+      <div
+        class="row text-center"
+      >
+        <label
+          class="col-md-2 text-md-right"
+        >
+          Session:
+        </label>
         <div
           class="col-md-10 text-md-left"
           id="fs-name"
@@ -508,19 +544,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
           First team feedback session
         </div>
       </div>
-      <br
-        class="mobile-invisible"
-      />
       <div
         class="row text-center"
       >
-        <div
+        <label
           class="col-md-2 text-md-right"
         >
-          <b>
-            Opening time:
-          </b>
-        </div>
+          Opening time:
+        </label>
         <div
           class="col-md-10 text-md-left"
           id="opening-time"
@@ -528,19 +559,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
           Sun, 01 Apr, 2012, 11:59 PM +08
         </div>
       </div>
-      <br
-        class="mobile-invisible"
-      />
       <div
         class="row text-center"
       >
-        <div
+        <label
           class="col-md-2 text-md-right"
         >
-          <b>
-            Closing time:
-          </b>
-        </div>
+          Closing time:
+        </label>
         <div
           class="col-md-10 text-md-left"
           id="closing-time"
@@ -548,19 +574,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
           Mon, 02 Apr, 2012, 11:59 PM +08
         </div>
       </div>
-      <br
-        class="mobile-invisible"
-      />
       <div
         class="row text-center"
       >
-        <div
+        <label
           class="col-md-2 text-md-right"
         >
-          <b>
-            Instructions:
-          </b>
-        </div>
+          Instructions:
+        </label>
         <div
           class="col-md-10 text-md-left"
           id="instructions"
@@ -568,9 +589,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
           Please give your feedback based on the following questions.
         </div>
       </div>
-      <br
-        class="mobile-invisible"
-      />
     </div>
   </div><tm-loading-retry>
     <tm-loading-spinner>
@@ -600,6 +618,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
   courseId={[Function String]}
+  courseInstitute=""
+  courseName=""
+  courseService={[Function CourseService]}
   document={[Function Document]}
   entityType={[Function String]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
@@ -614,6 +635,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   hasFeedbackSessionQuestionsLoadingFailed="false"
   instructorService={[Function InstructorService]}
   intent={[Function String]}
+  isCourseLoading="false"
   isFeedbackSessionLoading="false"
   isFeedbackSessionQuestionsLoading="false"
   isModerationHintExpanded="false"
@@ -687,19 +709,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
     <div
       class="card-body"
     >
-      <br
-        class="mobile-invisible"
-      />
       <div
         class="row text-center"
       >
-        <div
+        <label
           class="col-md-2 text-md-right"
         >
-          <b>
-            Course ID:
-          </b>
-        </div>
+          Course ID:
+        </label>
         <div
           class="col-md-10 text-md-left"
           id="course-id"
@@ -707,19 +724,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           CS3281
         </div>
       </div>
-      <br
-        class="mobile-invisible"
-      />
       <div
         class="row text-center"
       >
-        <div
+        <label
           class="col-md-2 text-md-right"
         >
-          <b>
-            Session:
-          </b>
-        </div>
+          Session:
+        </label>
         <div
           class="col-md-10 text-md-left"
           id="fs-name"
@@ -727,65 +739,47 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           Feedback Session Name
         </div>
       </div>
-      <br
-        class="mobile-invisible"
-      />
       <div
         class="row text-center"
       >
-        <div
+        <label
           class="col-md-2 text-md-right"
         >
-          <b>
-            Opening time:
-          </b>
-        </div>
+          Opening time:
+        </label>
         <div
           class="col-md-10 text-md-left"
           id="opening-time"
         >
         </div>
       </div>
-      <br
-        class="mobile-invisible"
-      />
       <div
         class="row text-center"
       >
-        <div
+        <label
           class="col-md-2 text-md-right"
         >
-          <b>
-            Closing time:
-          </b>
-        </div>
+          Closing time:
+        </label>
         <div
           class="col-md-10 text-md-left"
           id="closing-time"
         >
         </div>
       </div>
-      <br
-        class="mobile-invisible"
-      />
       <div
         class="row text-center"
       >
-        <div
+        <label
           class="col-md-2 text-md-right"
         >
-          <b>
-            Instructions:
-          </b>
-        </div>
+          Instructions:
+        </label>
         <div
           class="col-md-10 text-md-left"
           id="instructions"
         />
       </div>
-      <br
-        class="mobile-invisible"
-      />
     </div>
   </div><tm-loading-retry>
     <div>
@@ -2813,9 +2807,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           </div>
         </div>
       </tm-question-submission-form>
-      <br
-        class="mobile-invisible"
-      />
       <div
         class="row"
       >
@@ -2845,6 +2836,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
   courseId={[Function String]}
+  courseInstitute=""
+  courseName=""
+  courseService={[Function CourseService]}
   document={[Function Document]}
   entityType={[Function String]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
@@ -2859,6 +2853,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   hasFeedbackSessionQuestionsLoadingFailed="false"
   instructorService={[Function InstructorService]}
   intent={[Function String]}
+  isCourseLoading="false"
   isFeedbackSessionLoading="false"
   isFeedbackSessionQuestionsLoading="false"
   isModerationHintExpanded="false"
@@ -2932,19 +2927,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
     <div
       class="card-body"
     >
-      <br
-        class="mobile-invisible"
-      />
       <div
         class="row text-center"
       >
-        <div
+        <label
           class="col-md-2 text-md-right"
         >
-          <b>
-            Course ID:
-          </b>
-        </div>
+          Course ID:
+        </label>
         <div
           class="col-md-10 text-md-left"
           id="course-id"
@@ -2952,19 +2942,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           CS3281
         </div>
       </div>
-      <br
-        class="mobile-invisible"
-      />
       <div
         class="row text-center"
       >
-        <div
+        <label
           class="col-md-2 text-md-right"
         >
-          <b>
-            Session:
-          </b>
-        </div>
+          Session:
+        </label>
         <div
           class="col-md-10 text-md-left"
           id="fs-name"
@@ -2972,65 +2957,47 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           Feedback Session Name
         </div>
       </div>
-      <br
-        class="mobile-invisible"
-      />
       <div
         class="row text-center"
       >
-        <div
+        <label
           class="col-md-2 text-md-right"
         >
-          <b>
-            Opening time:
-          </b>
-        </div>
+          Opening time:
+        </label>
         <div
           class="col-md-10 text-md-left"
           id="opening-time"
         >
         </div>
       </div>
-      <br
-        class="mobile-invisible"
-      />
       <div
         class="row text-center"
       >
-        <div
+        <label
           class="col-md-2 text-md-right"
         >
-          <b>
-            Closing time:
-          </b>
-        </div>
+          Closing time:
+        </label>
         <div
           class="col-md-10 text-md-left"
           id="closing-time"
         >
         </div>
       </div>
-      <br
-        class="mobile-invisible"
-      />
       <div
         class="row text-center"
       >
-        <div
+        <label
           class="col-md-2 text-md-right"
         >
-          <b>
-            Instructions:
-          </b>
-        </div>
+          Instructions:
+        </label>
         <div
           class="col-md-10 text-md-left"
           id="instructions"
         />
       </div>
-      <br
-        class="mobile-invisible"
-      />
     </div>
   </div><tm-loading-retry>
     <div>
@@ -5083,9 +5050,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           </div>
         </div>
       </tm-question-submission-form>
-      <br
-        class="mobile-invisible"
-      />
       <div
         class="row"
       >
@@ -5116,6 +5080,9 @@ exports[`SessionSubmissionPageComponent should snap with user that is logged in 
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
   courseId={[Function String]}
+  courseInstitute=""
+  courseName=""
+  courseService={[Function CourseService]}
   document={[Function Document]}
   entityType={[Function String]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
@@ -5130,6 +5097,7 @@ exports[`SessionSubmissionPageComponent should snap with user that is logged in 
   hasFeedbackSessionQuestionsLoadingFailed="false"
   instructorService={[Function InstructorService]}
   intent={[Function String]}
+  isCourseLoading={[Function Boolean]}
   isFeedbackSessionLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
   isModerationHintExpanded="false"
@@ -5240,6 +5208,9 @@ exports[`SessionSubmissionPageComponent should snap with user that is not logged
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
   courseId={[Function String]}
+  courseInstitute=""
+  courseName=""
+  courseService={[Function CourseService]}
   document={[Function Document]}
   entityType={[Function String]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
@@ -5254,6 +5225,7 @@ exports[`SessionSubmissionPageComponent should snap with user that is not logged
   hasFeedbackSessionQuestionsLoadingFailed="false"
   instructorService={[Function InstructorService]}
   intent={[Function String]}
+  isCourseLoading={[Function Boolean]}
   isFeedbackSessionLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
   isModerationHintExpanded="false"
