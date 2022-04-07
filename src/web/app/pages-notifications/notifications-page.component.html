@@ -25,7 +25,7 @@
   <ng-container>
     <div class="notification-tabs" *ngFor="let notificationTab of notificationTabs">
       <div class="card">
-        <div class="card-header cursor-pointer bg-primary text-white" (click)="toggleCard(notificationTab)">
+        <div class="card-header cursor-pointer" [ngClass]="notificationTab.notification.style | notificationStyleClass" (click)="toggleCard(notificationTab)">
           <strong class="text-break">{{notificationTab.notification.title}} [{{notificationTab.startDate}} - {{notificationTab.endDate}}]</strong>
           <div class="card-header-btn-toolbar">
             <tm-panel-chevron [isExpanded]="notificationTab.hasTabExpanded"></tm-panel-chevron>

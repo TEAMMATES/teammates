@@ -34,7 +34,7 @@ export class NotificationsPageComponent implements OnInit {
 
   userType: NotificationTargetUser = NotificationTargetUser.GENERAL;
   notificationTabs: NotificationTab[] = [];
-  notificationsSortBy: SortBy = SortBy.NOTIFICATION_END_TIME;
+  notificationsSortBy: SortBy = SortBy.NONE;
 
   isLoadingNotifications: boolean = false;
   hasLoadingFailed: boolean = false;

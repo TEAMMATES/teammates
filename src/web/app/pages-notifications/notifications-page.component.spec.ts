@@ -4,6 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { LoadingRetryModule } from '../components/loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../components/loading-spinner/loading-spinner.module';
 import { PanelChevronModule } from '../components/panel-chevron/panel-chevron.module';
+import { TeammatesCommonModule } from '../components/teammates-common/teammates-common.module';
 import { NotificationsPageComponent } from './notifications-page.component';
 
 describe('NotificationsPageComponent', () => {
@@ -19,6 +20,7 @@ describe('NotificationsPageComponent', () => {
         PanelChevronModule,
         LoadingSpinnerModule,
         LoadingRetryModule,
+        TeammatesCommonModule,
       ],
     })
     .compileComponents();

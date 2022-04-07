@@ -56,6 +56,6 @@ export class NotificationService {
     const paramMap: Record<string, string> = {
       usertype: userType,
     };
-    return this.httpRequestService.get(ResourceEndpoints.NOTIFICATION, paramMap);
+    return this.httpRequestService.get(ResourceEndpoints.NOTIFICATIONS, paramMap);
   }
 }
