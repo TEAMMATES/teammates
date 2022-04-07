@@ -1,5 +1,5 @@
 <frontmatter>
-  title: "End-to-End"
+  title: "End-to-End Testing"
 </frontmatter>
 
 # E2E Testing  
