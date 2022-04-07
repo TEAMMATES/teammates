@@ -1,5 +1,5 @@
 <frontmatter>
-  title: "Getting Started: Setting Up"
+  title: "Setting Up"
 </frontmatter>
 
 # Setting up a development environment

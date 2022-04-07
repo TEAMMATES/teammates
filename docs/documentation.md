@@ -1,5 +1,5 @@
 <frontmatter>
-  title: "Getting Started: Documentation"
+  title: "Documentation"
 </frontmatter>
 
 # Documentation

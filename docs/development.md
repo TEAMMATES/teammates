@@ -1,5 +1,5 @@
 <frontmatter>
-  title: "Workflow: Development"
+  title: "Development"
 </frontmatter>
 
 # Development Guidelines

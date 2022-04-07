@@ -1,5 +1,5 @@
 <frontmatter>
-  title: "Testing: Static Analysis"
+  title: "Static Analysis"
 </frontmatter>
 
 # Static Analysis

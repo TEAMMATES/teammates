@@ -1,5 +1,5 @@
 <frontmatter>
-  title: "How-to: Emails"
+  title: "Emails"
 </frontmatter>
 
 # Using alternative email providers

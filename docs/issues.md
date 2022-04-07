@@ -1,5 +1,5 @@
 <frontmatter>
-  title: "Workflow: Issues"
+  title: "Issues"
 </frontmatter>
 
 # Issue tracker

@@ -1,5 +1,5 @@
 <frontmatter>
-  title: "Testing: Performance"
+  title: "Performance"
 </frontmatter>
 
 # Performance Testing

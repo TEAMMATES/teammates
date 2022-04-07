@@ -1,5 +1,5 @@
 <frontmatter>
-  title:  "Testing: Snapshot"
+  title:  "Snapshot"
 </frontmatter>
 
 # Snapshot Testing

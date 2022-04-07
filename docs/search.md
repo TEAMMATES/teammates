@@ -1,5 +1,5 @@
 <frontmatter>
-  title: "Getting Started: Search"
+  title: "Search"
 </frontmatter>
 
 # Full-text Search Feature Support

@@ -1,5 +1,5 @@
 <frontmatter>
-  title: "How-to: Captcha"
+  title: "Captcha"
 </frontmatter>
 
 # Setting up CAPTCHA

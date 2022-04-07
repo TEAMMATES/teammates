@@ -1,5 +1,5 @@
 <frontmatter>
-  title: "Workflow: Contributing"
+  title: "Contributing"
 </frontmatter>
 
 <include src="CONTRIBUTING.md"/>
