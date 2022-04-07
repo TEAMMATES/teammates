@@ -1,5 +1,3 @@
-{% set title = "Workflow: Contributing" %}
-
 <frontmatter>
   title: "Workflow: Contributing"
 </frontmatter>

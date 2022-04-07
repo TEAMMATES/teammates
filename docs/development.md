@@ -157,8 +157,6 @@ The steps for adding a student is almost identical to the steps for adding instr
 - Where appropriate, change the reference to "instructor" to "student".
 - `Students` → `Enroll` to add students for the course.
 
-**Alternative**: Run the E2E test cases, they create several student and instructor accounts in the database. Use one of them to log in.
-
 </panel>
 </br>
 

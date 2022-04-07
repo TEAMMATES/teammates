@@ -1,6 +1,6 @@
 {
   "baseUrl": "/teammates",
-  "faviconPath": "teammatesIcon.png",
+  "faviconPath": "images/teammatesIcon.png",
   "titlePrefix": "TEAMMATES",
   "ignore": [
     "_markbind/layouts/*",
@@ -23,8 +23,7 @@
     {
       "glob": "**/*.+(md)",
       "frontmatter": {
-        "pageNav": 3,
-        "pageNavTitle": "Chapters of This Page"
+        "pageNav": 3
       }
     }
   ],

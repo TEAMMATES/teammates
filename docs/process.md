@@ -132,7 +132,7 @@ Make the changes to the code, tests, and documentations as needed by the issue.
    * **No unrelated changes** are introduced in the branch. This includes unnecessary formatting changes.
    * All changes or additions to functional code are **accompanied by changes or additions in tests**, even if they are absent before.
    * All new public APIs (methods, classes) are **documented with header comments**.
-   * **Documentations are updated** when necessary, particularly when there are changes or additions to software design as well as user-facing features. [MarkBind](https://markbind.org/) is used for developer documentation. Refer to [this guide](documentation.md) to understand how to use it.
+   * **Documentations are updated** when necessary, particularly when there are changes or additions to software design as well as user-facing features.
 
 1. Push your branch to your fork, or to the main repo only if necessary.
    ```sh

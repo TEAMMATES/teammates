@@ -5,7 +5,7 @@
 <header fixed>
   <navbar placement="top" type="inverse">
     <a slot="brand" href="{{ baseUrl }}/index.html" title="Home" class="navbar-brand">
-      <pic src="{{ baseUrl }}/teammateslogo.png" width="150" alt="Logo" caption=""/>
+      <pic src="{{ baseUrl }}/images/teammateslogo.png" width="150" alt="Logo" caption=""/>
       <span style="font-style:italic;font-size:small">[dev docs]</span>
     </a>
     <li><a href="{{ baseUrl }}/index.html" class="nav-link">Home</a></li>
@@ -23,9 +23,6 @@
 
 <div id="flex-body">
   <nav id="site-nav" class="fixed-header-padding">
-    <div class="site-nav-top">
-      <div class="font-weight-bold mb-2" style="font-size: 1.25rem;">Table of Contents</div>
-    </div>
     <div class="nav-component slim-scroll">
       <site-nav>
 
@@ -38,7 +35,6 @@
 * Workflow :expanded:
   * [Issues]({{ baseUrl }}/issues.html)
   * [Process]({{ baseUrl }}/process.html)
-  * [Documentation]({{ baseUrl }}/documentation.html)
   * [Development]({{ baseUrl }}/development.html)
 * [Design]({{ baseUrl }}/design.html)
 * Best Practices :expanded:
@@ -48,6 +44,7 @@
   * [UI Design]({{ baseUrl }}/best-practices/ui-design.html)
 * How-to :expanded:
   * [Captcha]({{ baseUrl }}/captcha.html)
+  * [Documentation]({{ baseUrl }}/documentation.html)
   * [Emails]({{ baseUrl }}/emails.html)
   * [End-to-End Testing]({{ baseUrl }}/e2e-testing.html)
   * [Performance Testing]({{ baseUrl }}/performance-testing.html)

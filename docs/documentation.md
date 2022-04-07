@@ -2,22 +2,19 @@
   title: "Getting Started: Documentation"
 </frontmatter>
 
-# MarkBind Documentation
+# Documentation
 
-This project uses [MarkBind](https://markbind.org/) for developer documentation.
-
+This project uses [MarkBind](https://markbind.org/) for developer documentation. MarkBind is used to create a static site, and can parse markdown, GitHub Flavoured Markdown and more.
 ## Quickstart
 
-MarkBind is used to create a static site for developer documentation, and can parse markdown, git flavoured markdown and more. Generally, edits to documentation files in docs will be reflected on the website with no further action, due to auto-deployment by Github actions.
-
-To preview changes to documentation on the markbind:
+To preview changes to documentation on MarkBind:
 
 1. Install `npm` (version 7 or higher) and `Node.js` (version 12 or higher)
 1. Navigate to the `/docs` folder in your fork of the TEAMMATES repository
-1. Run `npm i` to install the necessary tools to build documentation, such as MarkBind.
-1. Preview the website with the command `npm run serve` to view the site locally. The live preview in the should update automatically to reflect changes you make to the docs.
+1. Run `npm ci` to install the necessary tools to build documentation, such as MarkBind.
+1. Use `npm run serve` to view the site locally. The live preview in the should update automatically to reflect changes you make to the docs.
 
-Editing the docs is similar to how you edit any Markdown file. For most changes, knowledge of MarkBind is sufficient. However, MarkBind also supports:
+Editing the docs is similar to how you edit any Markdown file. For most changes, knowledge of Markdown is sufficient. However, MarkBind also supports:
 
 1. [Content reuse: reusing and including portions of documents in other documents](https://markbind.org/userGuide/reusingContents.html)
 1. [Expandable panels](https://markbind.org/userGuide/components/presentation.html#panels)
@@ -47,4 +44,4 @@ Read the [MarkBind user guide](https://markbind.org/userGuide) if you need more 
 
 ## Deploying to Github pages
 
-Note that deployment is done automatically upon pushing to master, due to the setup Github Action. See `dev-docs.yml` for more details, and [this section of the MarkBind user guide](https://markbind.org/userGuide/deployingTheSite.html).
+Documentation is automatically deployed after each push to `master` branch, as configured in `dev-docs.yml`. For more details see [this section of the MarkBind user guide](https://markbind.org/userGuide/deployingTheSite.html).

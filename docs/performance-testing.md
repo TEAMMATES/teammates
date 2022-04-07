@@ -10,8 +10,7 @@ The performance test cases are located in the [`teammates.lnp.cases`](https://gi
 
 ## Creating Performance Tests
 
-Each new test case must inherit the `BaseLNPTestCase` class, and implement the methods required for generating the test data and the JMeter L&P test plan.  
-The L&P test plans are created in Java using the JMeter API.
+Each new test case must inherit the `BaseLNPTestCase` class, and implement the methods required for generating the test data and the JMeter L&P test plan. The L&P test plans are created in Java using the JMeter API.
 
 The inherited test cases can run JMeter test by calling `runJmeter` method. When passing the parameter `shouldCreateJmxFile` as `true`, an equivalent `.jmx` file can be generated from this test plan.
 
