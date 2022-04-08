@@ -12,8 +12,6 @@ import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.Account;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 /**
  * The data transfer object for {@link Account} entities.
  */
@@ -263,7 +261,6 @@ public class AccountAttributes extends EntityAttributes<Account> {
     private abstract static class BasicBuilder<T, B extends BasicBuilder<T, B>> {
 
         UpdateOptions updateOptions;
-        @SuppressFBWarnings("URF_UNREAD_FIELD")
         B thisBuilder;
 
         BasicBuilder(UpdateOptions updateOptions) {
