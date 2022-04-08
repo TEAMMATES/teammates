@@ -1,0 +1,7 @@
+<div class="banner bg-success text-white" *ngIf="isShown && notifications.length > 0" @collapseAnim>
+  <button type="button" class="close" aria-label="Close" (click)="closeNotification()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <h5>{{ notifications[0].title }}</h5>
+  <div [innerHTML]="notifications[0].message"></div>
+</div>

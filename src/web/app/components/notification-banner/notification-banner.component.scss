@@ -1,0 +1,19 @@
+.banner {
+  position: fixed;
+  top: 50px;
+  width: 100%;
+  padding: 20px 100px;
+  z-index: 900;
+}
+
+@media (max-width: 1024px) {
+  .banner {
+    padding: 20px 50px;
+  }
+}
+
+@media (max-width: 768px) {
+  .banner {
+    padding: 20px;
+  }
+}
