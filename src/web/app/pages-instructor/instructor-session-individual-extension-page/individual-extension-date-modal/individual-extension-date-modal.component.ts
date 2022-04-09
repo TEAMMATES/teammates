@@ -112,8 +112,8 @@ export class IndividualExtensionDateModalComponent {
   getExtensionTimestamp(): number {
     if (this.isRadioExtendBy()) {
       if (this.isCustomize()) {
-        return this.addTime(this.feedbackSessionEndingTimestamp, this.extendByDatePicker.hours,
-          this.extendByDatePicker.days);
+        return this.addTime(this.feedbackSessionEndingTimestamp,
+          this.extendByDatePicker.hours, this.extendByDatePicker.days);
       }
       if (this.extendByDeadlineOptions.has(this.extendByDeadlineKey)) {
         return this.addTime(this.feedbackSessionEndingTimestamp,
