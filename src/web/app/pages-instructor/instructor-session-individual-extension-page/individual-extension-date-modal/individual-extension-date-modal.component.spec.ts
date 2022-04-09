@@ -12,11 +12,14 @@ import { IndividualExtensionDateModalComponent, RadioOptions } from './individua
 describe('IndividualExtensionDateModalComponent', () => {
   const testTimeString = 'Sat, 5 Apr 2000 2:00 +08';
   const MAX_EPOCH_TIME_IN_DAYS = 100000000;
+  const ONE_MINUTE_IN_MILLISECONDS = 60 * 1000;
+  const ONE_HOUR_IN_MILLISECONDS = 60 * ONE_MINUTE_IN_MILLISECONDS;
 
   let component: IndividualExtensionDateModalComponent;
   let fixture: ComponentFixture<IndividualExtensionDateModalComponent>;
   let simpleModalService: SimpleModalService;
   let timeZoneService: TimezoneService;
+  let formatSpy: SpyInstance;
 
   beforeEach(
     waitForAsync(() => {
@@ -32,7 +35,7 @@ describe('IndividualExtensionDateModalComponent', () => {
     component = fixture.componentInstance;
     simpleModalService = TestBed.inject(SimpleModalService);
     timeZoneService = TestBed.inject(TimezoneService);
-    jest.spyOn(timeZoneService, 'formatToString').mockReturnValue(testTimeString);
+    formatSpy = jest.spyOn(timeZoneService, 'formatToString').mockReturnValue(testTimeString);
     component.numStudents = 10;
     component.numInstructors = 20;
     fixture.detectChanges();
@@ -54,12 +57,53 @@ describe('IndividualExtensionDateModalComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
+  it('should display correct time with the extend by radio option', () => {
+    formatSpy.mockRestore();
+    component.radioOption = RadioOptions.EXTEND_BY;
+    component.feedbackSessionTimeZone = 'Asia/Singapore';
+    component.feedbackSessionEndingTimestamp = 1600000000000;
+    expect(component.extendAndFormatEndTimeBy(0, 0)).toEqual('Sun, 13 Sep 2020, 08:26 PM +08');
+
+    component.extendByDeadlineKey = '12 hours';
+    expect(component.getExtensionTimestamp()).toEqual(
+      component.feedbackSessionEndingTimestamp + (12 * ONE_HOUR_IN_MILLISECONDS));
+    expect(component.extendAndFormatEndTimeBy(12, 0)).toEqual('Mon, 14 Sep 2020, 08:26 AM +08');
+
+    component.extendByDeadlineKey = '1 day';
+    expect(component.getExtensionTimestamp()).toEqual(
+      component.feedbackSessionEndingTimestamp + (24 * ONE_HOUR_IN_MILLISECONDS));
+    expect(component.extendAndFormatEndTimeBy(24, 0)).toEqual('Mon, 14 Sep 2020, 08:26 PM +08');
+
+    component.extendByDeadlineKey = '3 days';
+    expect(component.getExtensionTimestamp()).toEqual(
+      component.feedbackSessionEndingTimestamp + (72 * ONE_HOUR_IN_MILLISECONDS));
+    expect(component.extendAndFormatEndTimeBy(72, 0)).toEqual('Wed, 16 Sep 2020, 08:26 PM +08');
+
+    component.extendByDeadlineKey = '1 week';
+    expect(component.getExtensionTimestamp()).toEqual(
+      component.feedbackSessionEndingTimestamp + (168 * ONE_HOUR_IN_MILLISECONDS));
+    expect(component.extendAndFormatEndTimeBy(168, 0)).toEqual('Sun, 20 Sep 2020, 08:26 PM +08');
+  });
+
   it('should snap with the extend by radio option with customize', () => {
     component.extendByDeadlineKey = 'Customize';
     component.radioOption = RadioOptions.EXTEND_BY;
     component.extendByDatePicker = { hours: 20, days: 100 };
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
+  });
+
+  it('should display correct time with the extend by customize option', () => {
+    formatSpy.mockRestore();
+    component.radioOption = RadioOptions.EXTEND_BY;
+    component.extendByDeadlineKey = 'Customize';
+    component.feedbackSessionTimeZone = 'Asia/Singapore';
+    component.feedbackSessionEndingTimestamp = 1600000000000;
+    expect(component.extendAndFormatEndTimeBy(0, 0)).toEqual('Sun, 13 Sep 2020, 08:26 PM +08');
+    expect(component.extendAndFormatEndTimeBy(20, 0)).toEqual('Mon, 14 Sep 2020, 04:26 PM +08');
+    expect(component.extendAndFormatEndTimeBy(0, 20)).toEqual('Sat, 03 Oct 2020, 08:26 PM +08');
+    expect(component.extendAndFormatEndTimeBy(20, 20)).toEqual('Sun, 04 Oct 2020, 04:26 PM +08');
+    expect(component.extendAndFormatEndTimeBy(0, MAX_EPOCH_TIME_IN_DAYS)).toEqual('Invalid date');
   });
 
   it('should display only the message for date to be later than session ending timestamp as default', () => {
