@@ -1,6 +1,9 @@
 package teammates.storage.api;
 
+import java.time.Instant;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.testng.annotations.Test;
 
@@ -130,7 +133,21 @@ public class AccountsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
 
         ______TS("typical edit success case");
 
-        // No test case as currently account is not updatable
+        Map<String, Instant> readNotifications = new HashMap<>();
+        readNotifications.put("1", Instant.now());
+
+        ______TS("typical edit success case");
+        assertEquals(new HashMap<>(), a.getReadNotifications());
+        AccountAttributes updatedAccount = accountsDb.updateAccount(
+                AccountAttributes.updateOptionsBuilder(a.getGoogleId())
+                        .withReadNotifications(readNotifications)
+                        .build()
+        );
+
+        AccountAttributes actualAccount = accountsDb.getAccount(a.getGoogleId());
+
+        assertEquals(readNotifications, actualAccount.getReadNotifications());
+        assertEquals(readNotifications, updatedAccount.getReadNotifications());
 
         ______TS("non-existent account");
 

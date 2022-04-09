@@ -26,6 +26,7 @@ export class AdminAccountsPageComponent implements OnInit {
     googleId: '',
     name: '',
     email: '',
+    readNotifications: {},
   };
 
   isLoadingAccountInfo: boolean = false;

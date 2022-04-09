@@ -3,17 +3,20 @@
     "instructor1OfCourse1": {
       "googleId": "tm.e2e.ASearch.instr1",
       "name": "Instructor1 of Course1",
-      "email": "ASearch.instructor1@gmail.tmt"
+      "email": "ASearch.instructor1@gmail.tmt",
+      "readNotifications": {}
     },
     "instructor2OfCourse1": {
       "googleId": "tm.e2e.ASearch.instr2",
       "name": "Instructor2 of Course1",
-      "email": "ASearch.instructor2@gmail.tmt"
+      "email": "ASearch.instructor2@gmail.tmt",
+      "readNotifications": {}
     },
     "student1InCourse1": {
       "googleId": "tm.e2e.ASearch.student1",
       "name": "Student1 in course1",
-      "email": "ASearch.student1@gmail.tmt"
+      "email": "ASearch.student1@gmail.tmt",
+      "readNotifications": {}
     }
   },
   "courses": {
