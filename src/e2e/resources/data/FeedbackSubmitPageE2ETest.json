@@ -3,32 +3,38 @@
     "FSubmit.instr": {
       "googleId": "tm.e2e.FSubmit.instr",
       "name": "Teammates Test",
-      "email": "FSubmit.instr@gmail.tmt"
+      "email": "FSubmit.instr@gmail.tmt",
+      "readNotifications": {}
     },
     "FSubmit.instr2": {
       "googleId": "tm.e2e.FSubmit.instr2",
       "name": "Teammates Test2",
-      "email": "FSubmit.instr2@gmail.tmt"
+      "email": "FSubmit.instr2@gmail.tmt",
+      "readNotifications": {}
     },
     "FSubmit.alice.b": {
       "googleId": "tm.e2e.FSubmit.alice.b",
       "name": "Alice B.",
-      "email": "FSubmit.alice.b@gmail.tmt"
+      "email": "FSubmit.alice.b@gmail.tmt",
+      "readNotifications": {}
     },
     "FSubmit.charlie.d": {
       "googleId": "tm.e2e.FSubmit.charlie.d",
       "name": "Charlie D.",
-      "email": "FSubmit.charlie.d@gmail.tmt"
+      "email": "FSubmit.charlie.d@gmail.tmt",
+      "readNotifications": {}
     },
     "FSubmit.danny.e": {
       "googleId": "tm.e2e.FSubmit.danny.e",
       "name": "Danny E.",
-      "email": "FSubmit.danny.e@gmail.tmt"
+      "email": "FSubmit.danny.e@gmail.tmt",
+      "readNotifications": {}
     },
     "FSubmit.emily.f": {
       "googleId": "tm.e2e.FSubmit.emily.f",
       "name": "Emily F.",
-      "email": "FSubmit.emily.f@gmail.tmt"
+      "email": "FSubmit.emily.f@gmail.tmt",
+      "readNotifications": {}
     }
   },
   "courses": {

@@ -1,5 +1,9 @@
 package teammates.common.datatransfer.attributes;
 
+import java.time.Instant;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.testng.annotations.Test;
 
 import teammates.common.util.FieldValidator;
@@ -44,13 +48,14 @@ public class AccountAttributesTest extends BaseAttributesTest {
     public void testToEntity() {
         AccountAttributes account = createValidAccountAttributesObject();
         Account expectedAccount = new Account(account.getGoogleId(), account.getName(),
-                account.getEmail());
+                account.getEmail(), account.getReadNotifications());
 
         Account actualAccount = account.toEntity();
 
         assertEquals(expectedAccount.getGoogleId(), actualAccount.getGoogleId());
         assertEquals(expectedAccount.getName(), actualAccount.getName());
         assertEquals(expectedAccount.getEmail(), actualAccount.getEmail());
+        assertEquals(expectedAccount.getReadNotifications(), actualAccount.getReadNotifications());
     }
 
     @Test
@@ -80,6 +85,7 @@ public class AccountAttributesTest extends BaseAttributesTest {
         AccountAttributes observedAccountAttributes = AccountAttributes.builder("id").build();
 
         assertEquals("id", observedAccountAttributes.getGoogleId());
+        assertEquals(new HashMap<>(), observedAccountAttributes.getReadNotifications());
 
         assertNull(observedAccountAttributes.getCreatedAt());
         assertNull(observedAccountAttributes.getEmail());
@@ -128,7 +134,7 @@ public class AccountAttributesTest extends BaseAttributesTest {
 
     @Test
     public void testValueOf() {
-        Account genericAccount = new Account("id", "Joe", "joe@example.com");
+        Account genericAccount = new Account("id", "Joe", "joe@example.com", new HashMap<>());
 
         AccountAttributes observedAccountAttributes = AccountAttributes.valueOf(genericAccount);
 
@@ -235,9 +241,13 @@ public class AccountAttributesTest extends BaseAttributesTest {
         String name = "valid name";
         String email = "valid@email.com";
 
+        Map<String, Instant> readNotifications = new HashMap<>();
+        readNotifications.put("1", Instant.now());
+
         return AccountAttributes.builder(googleId)
                 .withName(name)
                 .withEmail(email)
+                .withReadNotifications(readNotifications)
                 .build();
     }
 
