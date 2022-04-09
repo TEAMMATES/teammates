@@ -391,28 +391,26 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
   }
 
   hasSelected(): boolean {
-    return [...this.studentsOfCourse, ...this.instructorsOfCourse].some((user) => user.isSelected);
+    return this.studentsOfCourse.some((user) => user.isSelected)
+      || this.instructorsOfCourse.some((user) => user.isSelected);
   }
 
   /**
    * Checks if at least one valid extension has been selected
    */
   hasSelectedValidForDeletion(): boolean {
-    return [...this.studentsOfCourse, ...this.instructorsOfCourse].some((user) => user.isSelected && user.hasExtension);
+    return this.studentsOfCourse.some((user) => user.isSelected && user.hasExtension)
+      || this.instructorsOfCourse.some((user) => user.isSelected && user.hasExtension);
   }
 
   selectAllStudents(): void {
     this.isAllStudentsSelected = !this.isAllStudentsSelected;
-    this.studentsOfCourse.forEach((x) => {
-      x.isSelected = this.isAllStudentsSelected;
-    });
+    this.studentsOfCourse.forEach((x) => { x.isSelected = this.isAllStudentsSelected; });
   }
 
   selectAllInstructors(): void {
     this.isAllInstructorsSelected = !this.isAllInstructorsSelected;
-    this.instructorsOfCourse.forEach((x) => {
-      x.isSelected = this.isAllInstructorsSelected;
-    });
+    this.instructorsOfCourse.forEach((x) => { x.isSelected = this.isAllInstructorsSelected; });
   }
 
   selectStudent(i: number): void {
