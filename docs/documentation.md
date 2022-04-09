@@ -9,10 +9,10 @@ This project uses [MarkBind](https://markbind.org/) for developer documentation.
 
 To preview changes to documentation on MarkBind:
 
-1. Install `npm` (version 7 or higher) and `Node.js` (version 12 or higher)
+1. Install `npm` and `Node.js` (version 12 or higher)
 1. Navigate to the `/docs` folder in your fork of the TEAMMATES repository
 1. Run `npm ci` to install the necessary tools to build documentation, such as MarkBind.
-1. Use `npm run serve` to view the site locally. The live preview in the should update automatically to reflect changes you make to the docs.
+1. Use `npm run serve` to view the site locally. The live preview should update automatically to reflect changes you make to the docs.
 
 Editing the docs is similar to how you edit any Markdown file. For most changes, knowledge of Markdown is sufficient. However, MarkBind also supports:
 

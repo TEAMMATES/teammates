@@ -41,10 +41,12 @@ Open Windows Explorer → Right-click on Computer → Advanced System Settings �
 **SOLUTION 2**: Make sure that the path is set correctly following the example from `test.template.properties`.
 </panel>
 
-<panel header='On Linux: `java.io.IOException: Directory "/tmpfiles" could not be created`'no-close>
+<panel header='On Linux: `java.io.IOException: Directory "/tmpfiles" could not be created`' no-close>
 
 Add `-Djava.io.tmpdir=/path/to/teammates/tmp` for the tests' run configurations. The "tmp" folder in the specified directory needs to be created before running the tests.
 </panel>
+
+<br/>
 
 ## Submitting help request
 
