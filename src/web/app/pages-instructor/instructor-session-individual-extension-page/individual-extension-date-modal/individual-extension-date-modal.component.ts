@@ -17,6 +17,7 @@ enum DateTime {
   DATE,
   TIME,
 }
+
 @Component({
   selector: 'tm-individual-extension-date-modal',
   templateUrl: './individual-extension-date-modal.component.html',
@@ -65,6 +66,7 @@ export class IndividualExtensionDateModalComponent {
   extendToDatePicker: DateFormat = { year: 0, month: 0, day: 0 };
   extendToTimePicker: TimeFormat = { hour: 23, minute: 59 };
   dateDetailPipe = new FormatDateDetailPipe(this.timeZoneService);
+
   sortMapByOriginalOrder = (): number => 0;
 
   onConfirm(): void {
@@ -73,14 +75,9 @@ export class IndividualExtensionDateModalComponent {
       return;
     }
 
-    const extensionTimeString = this.dateDetailPipe.transform(
-      this.getExtensionTimestamp(),
-      this.feedbackSessionTimeZone,
-    );
-    const currentTimeString = this.dateDetailPipe.transform(
-      Date.now(),
-      this.feedbackSessionTimeZone,
-    );
+    const extensionTimeString = this.adjustToFeedbackSessionTimeZone(this.getExtensionTimestamp());
+    const currentTimeString = this.adjustToFeedbackSessionTimeZone(Date.now());
+
     this.simpleModalService
       .openConfirmationModal(
         'Are you sure you wish to set the new deadline to before the current time?',
@@ -135,11 +132,15 @@ export class IndividualExtensionDateModalComponent {
 
   extendAndFormatEndTimeBy(hours: number, days: number): string {
     const time = this.addTime(this.feedbackSessionEndingTimestamp, hours, days);
-    return this.dateDetailPipe.transform(time, this.feedbackSessionTimeZone);
+    return this.adjustToFeedbackSessionTimeZone(time);
   }
 
   private addTime(timestamp: number, hours: number, days: number): number {
     return timestamp + hours * this.ONE_HOUR_IN_MILLISECONDS + days * this.ONE_DAY_IN_MILLISECONDS;
+  }
+
+  private adjustToFeedbackSessionTimeZone(time: number): string {
+    return this.dateDetailPipe.transform(time, this.feedbackSessionTimeZone);
   }
 
   isValidForm(): boolean {
@@ -167,8 +168,8 @@ export class IndividualExtensionDateModalComponent {
       return true;
     }
 
-    const timeSelected = this.addTime(this.feedbackSessionEndingTimestamp, this.extendByDatePicker.hours,
-      this.extendByDatePicker.days);
+    const timeSelected = this.addTime(this.feedbackSessionEndingTimestamp,
+      this.extendByDatePicker.hours, this.extendByDatePicker.days);
     return timeSelected < this.MAX_EPOCH_TIME_IN_MILLISECONDS;
   }
 
@@ -176,11 +177,11 @@ export class IndividualExtensionDateModalComponent {
     return this.radioOption === RadioOptions.EXTEND_BY;
   }
 
-  isRadioExtendTo(): boolean {
-    return this.radioOption === RadioOptions.EXTEND_TO;
-  }
-
   isCustomize(): boolean {
     return this.isRadioExtendBy() && this.extendByDeadlineKey === 'Customize';
+  }
+
+  isRadioExtendTo(): boolean {
+    return this.radioOption === RadioOptions.EXTEND_TO;
   }
 }

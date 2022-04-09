@@ -18,7 +18,6 @@ import {
   SessionVisibleSetting,
 } from '../../../types/api-request';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
-import { ColumnData, SortableTableCellData } from '../../components/sortable-table/sortable-table.component';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorExtensionTableColumnModel, StudentExtensionTableColumnModel } from './extension-table-column-model';
 import {
@@ -43,24 +42,6 @@ enum DeadlineHandlerType {
   styleUrls: ['./instructor-session-individual-extension-page.component.scss'],
 })
 export class InstructorSessionIndividualExtensionPageComponent implements OnInit {
-
-  SortBy: typeof SortBy = SortBy;
-  SortOrder: typeof SortOrder = SortOrder;
-  sortStudentsBy: SortBy = SortBy.SESSION_END_DATE;
-  sortStudentOrder: SortOrder = SortOrder.DESC;
-  sortInstructorsBy: SortBy = SortBy.SESSION_END_DATE;
-  sortInstructorOrder: SortOrder = SortOrder.DESC;
-
-  isAllStudentsSelected: boolean = false;
-  isAllInstructorsSelected: boolean = false;
-
-  courseId: string = '';
-  courseName: string = '';
-  feedbackSessionName: string = '';
-
-  feedbackSessionEndingTimestamp: number = 0;
-  feedbackSessionTimeZone: string = 'UTC';
-
   feedbackSessionDetails: FeedbackSessionBasicRequest = {
     instructions: '',
     submissionStartTimestamp: 0,
@@ -74,13 +55,26 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     isPublishedEmailEnabled: false,
   };
 
-  columnsData: ColumnData[] = [];
-  rowsData: SortableTableCellData[][] = [];
+  feedbackSessionEndingTimestamp: number = 0;
+  feedbackSessionTimeZone: string = 'UTC';
+  courseId: string = '';
+  courseName: string = '';
+  feedbackSessionName: string = '';
 
   studentsOfCourse: StudentExtensionTableColumnModel[] = [];
   instructorsOfCourse: InstructorExtensionTableColumnModel[] = [];
   studentDeadlines: Record<string, number> = {};
   instructorDeadlines: Record<string, number> = {};
+
+  SortBy: typeof SortBy = SortBy;
+  SortOrder: typeof SortOrder = SortOrder;
+  sortStudentsBy: SortBy = SortBy.SESSION_END_DATE;
+  sortStudentOrder: SortOrder = SortOrder.DESC;
+  sortInstructorsBy: SortBy = SortBy.SESSION_END_DATE;
+  sortInstructorOrder: SortOrder = SortOrder.DESC;
+
+  isAllStudentsSelected: boolean = false;
+  isAllInstructorsSelected: boolean = false;
 
   isLoadingAllStudents: boolean = true;
   hasLoadedAllStudentsFailed: boolean = false;
@@ -134,10 +128,8 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
         this.isLoadingAllInstructors = false;
       }))
       .subscribe(
-        (value: any[]) => {
-          const course = value[0] as Course;
+        ([course, feedbackSession]: [Course, FeedbackSession]) => {
           this.courseName = course.courseName;
-          const feedbackSession = value[1] as FeedbackSession;
           this.setFeedbackSessionDetails(feedbackSession);
           this.getAllStudentsOfCourse(); // Both students and instructors need feedback ending time.
           this.getAllInstructorsOfCourse();
@@ -284,7 +276,8 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     modalRef.componentInstance.feedbackSessionTimeZone = this.feedbackSessionTimeZone;
 
     modalRef.componentInstance.onConfirmExtensionCallBack.subscribe((isNotifyDeadlines: boolean) => {
-      this.handleCreateAndDeleteDeadlines(selectedStudents, selectedInstructors, DeadlineHandlerType.CREATE,
+      this.handleCreateAndDeleteDeadlines(selectedStudents, selectedInstructors,
+        DeadlineHandlerType.CREATE,
         isNotifyDeadlines, extensionTimestamp);
       modalRef.componentInstance.isSubmitting = false;
       modalRef.close();
@@ -305,7 +298,8 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     modalRef.componentInstance.feedbackSessionTimeZone = this.feedbackSessionTimeZone;
 
     modalRef.componentInstance.onConfirmExtensionCallBack.subscribe((isNotifyDeadlines: boolean) => {
-      this.handleCreateAndDeleteDeadlines(selectedStudents, selectedInstructors, DeadlineHandlerType.DELETE,
+      this.handleCreateAndDeleteDeadlines(selectedStudents, selectedInstructors,
+        DeadlineHandlerType.DELETE,
         isNotifyDeadlines);
       modalRef.componentInstance.isSubmitting = false;
       modalRef.close();
@@ -333,7 +327,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
       .pipe(finalize(() => { this.isSubmittingDeadlines = false; }))
       .subscribe(() => {
           this.loadFeedbackSessionAndIndividuals();
-          this.showSucessToast(updateDeadlinesType, selectedStudents, selectedInstructors);
+          this.showSuccessToast(updateDeadlinesType, selectedStudents, selectedInstructors);
         },
         (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
@@ -341,7 +335,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
       );
   }
 
-  private showSucessToast(updateDeadlinesType: DeadlineHandlerType,
+  private showSuccessToast(updateDeadlinesType: DeadlineHandlerType,
     selectedStudents: StudentExtensionTableColumnModel[],
     selectedInstructors: InstructorExtensionTableColumnModel[],
   ): void {

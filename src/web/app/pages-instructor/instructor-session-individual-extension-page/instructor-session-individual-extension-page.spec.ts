@@ -78,7 +78,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
   const testStudent3: Student = {
     email: 'alex@tmms.com',
     courseId: 'testId',
-    name: 'alex',
+    name: 'Alex',
     teamName: 'Team 1',
     sectionName: 'Section 1',
   };
@@ -316,11 +316,11 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
 
     component.ngOnInit();
-    component.isLoadingAllInstructors = false;
-    component.isLoadingAllStudents = false;
-    component.isLoadingFeedbackSession = false;
-
     fixture.detectChanges();
+
+    expect(component.isLoadingAllInstructors).toBeFalsy();
+    expect(component.isLoadingAllStudents).toBeFalsy();
+    expect(component.isLoadingFeedbackSession).toBeFalsy();
     expect(fixture).toMatchSnapshot();
   });
 
@@ -330,11 +330,8 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
     jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(of(instructors));
     component.ngOnInit();
-    component.isLoadingAllInstructors = false;
-    component.isLoadingAllStudents = false;
-    component.isLoadingFeedbackSession = false;
-
     fixture.detectChanges();
+
     const selectAllButton = fixture.debugElement.query(By.css('#select-all-student-btn')).nativeElement;
     selectAllButton.click();
     fixture.detectChanges();
@@ -349,11 +346,8 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
     jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(of(instructors));
     component.ngOnInit();
-    component.isLoadingAllInstructors = false;
-    component.isLoadingAllStudents = false;
-    component.isLoadingFeedbackSession = false;
-
     fixture.detectChanges();
+
     const selectAllButton = fixture.debugElement.query(By.css('#select-all-instructor-btn')).nativeElement;
     selectAllButton.click();
     fixture.detectChanges();
@@ -403,10 +397,6 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
     jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
     component.ngOnInit();
-    component.isLoadingAllInstructors = false;
-    component.isLoadingAllStudents = false;
-    component.isLoadingFeedbackSession = false;
-
     fixture.detectChanges();
 
     const extendButton: any = fixture.debugElement.nativeElement.querySelector('#extend-btn');
@@ -424,9 +414,6 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
     component.ngOnInit();
     component.studentsOfCourse[1].isSelected = true; // Bob has no extension
-    component.isLoadingAllInstructors = false;
-    component.isLoadingAllStudents = false;
-    component.isLoadingFeedbackSession = false;
     fixture.detectChanges();
 
     const extendButton: any = fixture.debugElement.nativeElement.querySelector('#extend-btn');
@@ -444,10 +431,6 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
     component.ngOnInit();
     component.studentsOfCourse[0].isSelected = true; // Alice has extension
-    component.isLoadingAllInstructors = false;
-    component.isLoadingAllStudents = false;
-    component.isLoadingFeedbackSession = false;
-
     fixture.detectChanges();
 
     const extendButton: any = fixture.debugElement.nativeElement.querySelector('#extend-btn');
@@ -466,10 +449,6 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     component.ngOnInit();
     component.studentsOfCourse[0].isSelected = true; // Alice has extension
     component.studentsOfCourse[1].isSelected = true; // Bob does not
-    component.isLoadingAllInstructors = false;
-    component.isLoadingAllStudents = false;
-    component.isLoadingFeedbackSession = false;
-
     fixture.detectChanges();
 
     const extendButton: any = fixture.debugElement.nativeElement.querySelector('#extend-btn');

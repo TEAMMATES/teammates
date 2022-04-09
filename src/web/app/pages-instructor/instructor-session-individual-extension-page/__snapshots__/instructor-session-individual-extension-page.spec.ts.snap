@@ -4,7 +4,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
 <tm-instructor-session-individual-extension-page
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  columnsData={[Function Array]}
   courseId={[Function String]}
   courseName={[Function String]}
   courseService={[Function CourseService]}
@@ -27,7 +26,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
   isSubmittingDeadlines="false"
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
-  rowsData={[Function Array]}
   sortInstructorOrder="0"
   sortInstructorsBy={[Function Number]}
   sortStudentOrder="0"
@@ -299,7 +297,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
                 Team 1
               </td>
               <td>
-                alex
+                Alex
               </td>
               <td>
                 alex@tmms.com
@@ -473,7 +471,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
 <tm-instructor-session-individual-extension-page
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  columnsData={[Function Array]}
   courseId={[Function String]}
   courseName={[Function String]}
   courseService={[Function CourseService]}
@@ -496,7 +493,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
   isSubmittingDeadlines="false"
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
-  rowsData={[Function Array]}
   sortInstructorOrder="0"
   sortInstructorsBy={[Function Number]}
   sortStudentOrder="0"
@@ -768,7 +764,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
                 Team 1
               </td>
               <td>
-                alex
+                Alex
               </td>
               <td>
                 alex@tmms.com
@@ -942,7 +938,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when feed
 <tm-instructor-session-individual-extension-page
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  columnsData={[Function Array]}
   courseId={[Function String]}
   courseName=""
   courseService={[Function CourseService]}
@@ -965,7 +960,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when feed
   isSubmittingDeadlines="false"
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
-  rowsData={[Function Array]}
   sortInstructorOrder="0"
   sortInstructorsBy={[Function Number]}
   sortStudentOrder="0"
@@ -1197,7 +1191,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
 <tm-instructor-session-individual-extension-page
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  columnsData={[Function Array]}
   courseId={[Function String]}
   courseName={[Function String]}
   courseService={[Function CourseService]}
@@ -1220,7 +1213,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
   isSubmittingDeadlines="false"
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
-  rowsData={[Function Array]}
   sortInstructorOrder="0"
   sortInstructorsBy={[Function Number]}
   sortStudentOrder="0"
@@ -1492,7 +1484,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
                 Team 1
               </td>
               <td>
-                alex
+                Alex
               </td>
               <td>
                 alex@tmms.com
@@ -1617,7 +1609,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
 <tm-instructor-session-individual-extension-page
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  columnsData={[Function Array]}
   courseId={[Function String]}
   courseName={[Function String]}
   courseService={[Function CourseService]}
@@ -1640,7 +1631,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
   isSubmittingDeadlines="false"
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
-  rowsData={[Function Array]}
   sortInstructorOrder="0"
   sortInstructorsBy={[Function Number]}
   sortStudentOrder="0"
@@ -2003,7 +1993,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
 <tm-instructor-session-individual-extension-page
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  columnsData={[Function Array]}
   courseId={[Function String]}
   courseName={[Function String]}
   courseService={[Function CourseService]}
@@ -2026,7 +2015,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
   isSubmittingDeadlines="false"
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
-  rowsData={[Function Array]}
   sortInstructorOrder="0"
   sortInstructorsBy={[Function Number]}
   sortStudentOrder="0"
@@ -2298,7 +2286,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
                 Team 1
               </td>
               <td>
-                alex
+                Alex
               </td>
               <td>
                 alex@tmms.com
@@ -2474,7 +2462,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with inst
 <tm-instructor-session-individual-extension-page
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  columnsData={[Function Array]}
   courseId={[Function String]}
   courseName=""
   courseService={[Function CourseService]}
@@ -2497,7 +2484,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with inst
   isSubmittingDeadlines="false"
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
-  rowsData={[Function Array]}
   sortInstructorOrder="0"
   sortInstructorsBy={[Function Number]}
   sortStudentOrder="0"
@@ -2743,7 +2729,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with stud
 <tm-instructor-session-individual-extension-page
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  columnsData={[Function Array]}
   courseId={[Function String]}
   courseName=""
   courseService={[Function CourseService]}
@@ -2766,7 +2751,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with stud
   isSubmittingDeadlines="false"
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
-  rowsData={[Function Array]}
   sortInstructorOrder="0"
   sortInstructorsBy={[Function Number]}
   sortStudentOrder="0"
@@ -3000,7 +2984,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
 <tm-instructor-session-individual-extension-page
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  columnsData={[Function Array]}
   courseId={[Function String]}
   courseName=""
   courseService={[Function CourseService]}
@@ -3023,7 +3006,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
   isSubmittingDeadlines="false"
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
-  rowsData={[Function Array]}
   sortInstructorOrder="0"
   sortInstructorsBy={[Function Number]}
   sortStudentOrder="0"
@@ -3258,7 +3240,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
 <tm-instructor-session-individual-extension-page
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  columnsData={[Function Array]}
   courseId={[Function String]}
   courseName=""
   courseService={[Function CourseService]}
@@ -3281,7 +3262,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
   isSubmittingDeadlines="false"
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
-  rowsData={[Function Array]}
   sortInstructorOrder="0"
   sortInstructorsBy={[Function Number]}
   sortStudentOrder="0"
@@ -3516,7 +3496,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
 <tm-instructor-session-individual-extension-page
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  columnsData={[Function Array]}
   courseId={[Function String]}
   courseName={[Function String]}
   courseService={[Function CourseService]}
@@ -3539,7 +3518,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
   isSubmittingDeadlines="false"
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
-  rowsData={[Function Array]}
   sortInstructorOrder="0"
   sortInstructorsBy={[Function Number]}
   sortStudentOrder="0"
@@ -3811,7 +3789,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
                 Team 1
               </td>
               <td>
-                alex
+                Alex
               </td>
               <td>
                 alex@tmms.com
@@ -3874,7 +3852,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
 <tm-instructor-session-individual-extension-page
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  columnsData={[Function Array]}
   courseId={[Function String]}
   courseName={[Function String]}
   courseService={[Function CourseService]}
@@ -3897,7 +3874,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
   isSubmittingDeadlines="false"
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
-  rowsData={[Function Array]}
   sortInstructorOrder="0"
   sortInstructorsBy={[Function Number]}
   sortStudentOrder="0"
