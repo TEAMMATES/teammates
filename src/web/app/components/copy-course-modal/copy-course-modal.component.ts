@@ -4,6 +4,7 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import { Course, FeedbackSession } from '../../../types/api-output';
 import { COURSE_ID_MAX_LENGTH, COURSE_NAME_MAX_LENGTH } from '../../../types/field-validator';
+import { CopyCourseModalResult } from './copy-course-modal-model';
 
 interface Timezone {
   id: string;
@@ -39,10 +40,12 @@ export class CopyCourseModalComponent implements OnInit {
 
   isCopyFromOtherSession: boolean = false;
   newCourseIdIsConflicting: boolean = false;
+  institutes: string[] = [];
   timezones: Timezone[] = [];
   newTimezone: string = '';
   newCourseId: string = '';
   newCourseName: string = '';
+  newCourseInstitute: string = '';
   oldCourseId: string = '';
   oldCourseName: string = '';
 
@@ -60,6 +63,10 @@ export class CopyCourseModalComponent implements OnInit {
         const sign: string = offset < 0 ? '-' : '+';
         return { id, offset: offset === 0 ? 'UTC' : `UTC ${sign}${zeroPad(hourOffset)}:${zeroPad(minOffset)}` };
       });
+    this.institutes = Array.from(new Set(this.allCourses.map((course: Course) => course.institute)));
+    if (this.institutes.length) {
+      this.newCourseInstitute = this.institutes[0];
+    }
     this.newTimezone = this.timezoneService.guessTimezone();
   }
 
@@ -81,14 +88,17 @@ export class CopyCourseModalComponent implements OnInit {
       return;
     }
 
-    this.activeModal.close({
+    const result: CopyCourseModalResult = {
       newCourseId: this.newCourseId,
       newCourseName: this.newCourseName,
+      newCourseInstitute: this.newCourseInstitute,
       oldCourseId: this.oldCourseId,
       newTimeZone: this.newTimezone,
-      selectedFeedbackSessionList: Array.from(this.selectedFeedbackSessions),
+      selectedFeedbackSessionList: this.selectedFeedbackSessions,
       totalNumberOfSessions: this.selectedFeedbackSessions.size,
-    });
+    };
+
+    this.activeModal.close(result);
   }
 
   /**

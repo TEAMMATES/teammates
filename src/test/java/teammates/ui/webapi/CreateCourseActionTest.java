@@ -4,6 +4,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.ui.output.CourseData;
 import teammates.ui.request.CourseCreateRequest;
@@ -29,7 +30,17 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
 
         ______TS("Not enough parameters");
 
-        verifyHttpRequestBodyFailure(null);
+        String[] submissionParams = {
+                Const.ParamsNames.INSTRUCTOR_INSTITUTION, "TEAMMATES Test Institute 1",
+        };
+
+        CourseCreateRequest courseCreateRequest = new CourseCreateRequest();
+        courseCreateRequest.setCourseName("New Course");
+        courseCreateRequest.setTimeZone("UTC");
+        courseCreateRequest.setCourseId("new-course");
+
+        verifyHttpRequestBodyFailure(null, submissionParams);
+        verifyHttpParameterFailure(courseCreateRequest);
 
         ______TS("Typical case with new course id");
 
@@ -37,17 +48,12 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
         String instructorId = instructor1OfCourse1.getGoogleId();
         String courseId = instructor1OfCourse1.getCourseId();
 
-        CourseCreateRequest courseCreateRequest = new CourseCreateRequest();
-        courseCreateRequest.setCourseName("New Course");
-        courseCreateRequest.setTimeZone("UTC");
-        courseCreateRequest.setCourseId("new-course");
-
         if (logic.getCourse("new-course") != null) {
             logic.deleteCourseCascade("new-course");
         }
 
         loginAsInstructor(instructorId);
-        CreateCourseAction action = getAction(courseCreateRequest);
+        CreateCourseAction action = getAction(courseCreateRequest, submissionParams);
 
         JsonResult result = getJsonResult(action);
 
@@ -71,7 +77,7 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
         courseCreateRequest.setTimeZone("UTC");
         courseCreateRequest.setCourseId(courseId);
 
-        InvalidOperationException ioe = verifyInvalidOperation(courseCreateRequest);
+        InvalidOperationException ioe = verifyInvalidOperation(courseCreateRequest, submissionParams);
         assertEquals("The course ID idOfTypicalCourse1 has been used by another course, possibly by some other user. "
                 + "Please try again with a different course ID.", ioe.getMessage());
 
@@ -81,14 +87,41 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
         courseCreateRequest.setTimeZone("UTC");
         courseCreateRequest.setCourseId("");
 
-        verifyHttpRequestBodyFailure(courseCreateRequest);
+        verifyHttpRequestBodyFailure(courseCreateRequest, submissionParams);
     }
 
     @Override
     @Test
     protected void testAccessControl() {
-        String[] submissionParams = new String[] {};
+        InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
 
-        verifyOnlyInstructorsCanAccess(submissionParams);
+        ______TS("Cannot access with wrong/missing institute param");
+
+        verifyHttpParameterFailureAcl();
+
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.INSTRUCTOR_INSTITUTION, "Unknown Institute",
+        };
+        verifyCannotAccess(submissionParams);
+
+        ______TS("Can access with correct institute param");
+
+        submissionParams = new String[] {
+                Const.ParamsNames.INSTRUCTOR_INSTITUTION, "TEAMMATES Test Institute 1",
+        };
+        verifyCanAccess(submissionParams);
+
+        ______TS("Cannot access without instructor privilege");
+
+        StudentAttributes studentAttributes = typicalBundle.students.get("student1InCourse1");
+        loginAsStudent(studentAttributes.getGoogleId());
+
+        verifyCannotAccess(submissionParams);
+
+        loginAsUnregistered("Unknown");
+
+        verifyCannotAccess(submissionParams);
     }
+
 }

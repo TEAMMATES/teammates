@@ -169,6 +169,26 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
               class="col-3 text-right"
             >
               <label>
+                Course institute:
+              </label>
+            </div>
+            <div
+              class="col-9"
+            >
+              <span
+                id="course-institute"
+              >
+                Test Institute
+              </span>
+            </div>
+          </div>
+          <div
+            class="row"
+          >
+            <div
+              class="col-3 text-right"
+            >
+              <label>
                 Instructors:
               </label>
             </div>

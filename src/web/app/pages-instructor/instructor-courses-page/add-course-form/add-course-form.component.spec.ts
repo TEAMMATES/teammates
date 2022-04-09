@@ -141,6 +141,8 @@ describe('AddCourseFormComponent', () => {
       isClosingEmailEnabled: true,
       isPublishedEmailEnabled: true,
       createdAtTimestamp: 0,
+      studentDeadlines: {},
+      instructorDeadlines: {},
     };
 
     jest.spyOn(feedbackSessionsService, 'getFeedbackSessionsForInstructor')

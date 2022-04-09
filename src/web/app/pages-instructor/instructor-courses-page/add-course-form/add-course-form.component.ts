@@ -40,10 +40,12 @@ export class AddCourseFormComponent implements OnInit {
   @Output() closeCourseFormEvent: EventEmitter<void> = new EventEmitter<void>();
   @Output() copyCourseEvent: EventEmitter<CopyCourseModalResult> = new EventEmitter<CopyCourseModalResult>();
 
+  institutes: string[] = [];
   timezones: Timezone[] = [];
   timezone: string = '';
   newCourseId: string = '';
   newCourseName: string = '';
+  newCourseInstitute: string = '';
   isAddingCourse: boolean = false;
 
   constructor(private statusMessageService: StatusMessageService,
@@ -62,7 +64,10 @@ export class AddCourseFormComponent implements OnInit {
         offset: offset === 0 ? 'UTC' : `UTC ${sign}${formatTwoDigits(hourOffset)}:${formatTwoDigits(minOffset)}`,
       });
     }
-
+    this.institutes = Array.from(new Set(this.allCourses.map((course: Course) => course.institute)));
+    if (this.institutes.length) {
+      this.newCourseInstitute = this.institutes[0];
+    }
     this.timezone = this.timezoneService.guessTimezone();
   }
 
@@ -90,7 +95,7 @@ export class AddCourseFormComponent implements OnInit {
     }
 
     this.isAddingCourse = true;
-    this.courseService.createCourse({
+    this.courseService.createCourse(this.newCourseInstitute, {
       courseName: this.newCourseName,
       timeZone: this.timezone,
       courseId: this.newCourseId,
@@ -99,12 +104,11 @@ export class AddCourseFormComponent implements OnInit {
     })).subscribe(() => {
       this.courseAdded.emit();
       this.statusMessageService.showSuccessToast('The course has been added.');
+      this.newCourseId = '';
+      this.newCourseName = '';
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorToast(resp.error.message);
     });
-    this.newCourseId = '';
-    this.newCourseName = '';
-    this.timezone = this.timezoneService.guessTimezone();
   }
 
   /**

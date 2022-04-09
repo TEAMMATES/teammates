@@ -28,8 +28,7 @@
           <label class="col-sm-2 font-weight-bold text-md-right">Course ID:</label>
           <div class="col-sm-9">
             <input id="course-id" class="col-xs-12 form-control" type="text" tabindex="1"
-                   #courseId="ngModel" [(ngModel)]="course.courseId" name="courseId"
-                   [maxlength]="FormValidator.COURSE_ID_MAX_LENGTH" required disabled>
+                   [(ngModel)]="course.courseId" name="courseId" required disabled>
           </div>
         </div>
         <div class="form-row form-group">
@@ -44,6 +43,13 @@
               <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
               The field Course Name should not be empty.
             </div>
+          </div>
+        </div>
+        <div class="form-row form-group">
+          <label class="col-sm-2 font-weight-bold text-md-right">Course institute:</label>
+          <div class="col-sm-9">
+            <input id="course-institute" class="col-xs-12 form-control" type="text"
+                   [(ngModel)]="course.institute" name="institute" required disabled>
           </div>
         </div>
         <div class="form-row form-group">

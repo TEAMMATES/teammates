@@ -9,6 +9,8 @@ public class AttributesDeletionQuery {
     private String feedbackSessionName;
     private String questionId;
     private String responseId;
+    private String userEmail;
+    private Boolean isInstructor;
 
     private AttributesDeletionQuery() {
         // use builder to construct query
@@ -30,6 +32,14 @@ public class AttributesDeletionQuery {
         return responseId != null;
     }
 
+    public boolean isUserEmailPresent() {
+        return userEmail != null;
+    }
+
+    public boolean isIsInstructorPresent() {
+        return isInstructor != null;
+    }
+
     public String getCourseId() {
         return courseId;
     }
@@ -44,6 +54,14 @@ public class AttributesDeletionQuery {
 
     public String getResponseId() {
         return responseId;
+    }
+
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public Boolean getIsInstructor() {
+        return isInstructor;
     }
 
     /**
@@ -80,6 +98,8 @@ public class AttributesDeletionQuery {
             assert attributesDeletionQuery.isCourseIdPresent() : "Session name must come together with course ID";
             assert !attributesDeletionQuery.isQuestionIdPresent() : INVALID_COMBINATION;
             assert !attributesDeletionQuery.isResponseIdPresent() : INVALID_COMBINATION;
+            assert !attributesDeletionQuery.isUserEmailPresent() : INVALID_COMBINATION;
+            assert !attributesDeletionQuery.isIsInstructorPresent() : INVALID_COMBINATION;
 
             attributesDeletionQuery.feedbackSessionName = feedbackSessionName;
             return this;
@@ -90,6 +110,8 @@ public class AttributesDeletionQuery {
             assert !attributesDeletionQuery.isCourseIdPresent() : INVALID_COMBINATION;
             assert !attributesDeletionQuery.isFeedbackSessionNamePresent() : INVALID_COMBINATION;
             assert !attributesDeletionQuery.isResponseIdPresent() : INVALID_COMBINATION;
+            assert !attributesDeletionQuery.isUserEmailPresent() : INVALID_COMBINATION;
+            assert !attributesDeletionQuery.isIsInstructorPresent() : INVALID_COMBINATION;
 
             attributesDeletionQuery.questionId = questionId;
             return this;
@@ -100,8 +122,29 @@ public class AttributesDeletionQuery {
             assert !attributesDeletionQuery.isCourseIdPresent() : INVALID_COMBINATION;
             assert !attributesDeletionQuery.isFeedbackSessionNamePresent() : INVALID_COMBINATION;
             assert !attributesDeletionQuery.isQuestionIdPresent() : INVALID_COMBINATION;
+            assert !attributesDeletionQuery.isUserEmailPresent() : INVALID_COMBINATION;
+            assert !attributesDeletionQuery.isIsInstructorPresent() : INVALID_COMBINATION;
 
             attributesDeletionQuery.responseId = responseId;
+            return this;
+        }
+
+        public Builder withUserEmail(String userEmail) {
+            assert userEmail != null;
+            assert !attributesDeletionQuery.isFeedbackSessionNamePresent() : INVALID_COMBINATION;
+            assert !attributesDeletionQuery.isResponseIdPresent() : INVALID_COMBINATION;
+            assert !attributesDeletionQuery.isQuestionIdPresent() : INVALID_COMBINATION;
+
+            attributesDeletionQuery.userEmail = userEmail;
+            return this;
+        }
+
+        public Builder withIsInstructor(boolean isInstructor) {
+            assert !attributesDeletionQuery.isFeedbackSessionNamePresent() : INVALID_COMBINATION;
+            assert !attributesDeletionQuery.isResponseIdPresent() : INVALID_COMBINATION;
+            assert !attributesDeletionQuery.isQuestionIdPresent() : INVALID_COMBINATION;
+
+            attributesDeletionQuery.isInstructor = isInstructor;
             return this;
         }
 
@@ -110,6 +153,8 @@ public class AttributesDeletionQuery {
                     || attributesDeletionQuery.isFeedbackSessionNamePresent()
                     || attributesDeletionQuery.isQuestionIdPresent()
                     || attributesDeletionQuery.isResponseIdPresent()
+                    || attributesDeletionQuery.isUserEmailPresent()
+                    || attributesDeletionQuery.isIsInstructorPresent()
                     : INVALID_COMBINATION;
 
             return attributesDeletionQuery;

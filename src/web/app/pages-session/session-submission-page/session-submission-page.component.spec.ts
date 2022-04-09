@@ -105,6 +105,8 @@ describe('SessionSubmissionPageComponent', () => {
     isClosingEmailEnabled: true,
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
+    studentDeadlines: {},
+    instructorDeadlines: {},
   };
 
   const testComment: FeedbackResponseComment = {
@@ -129,6 +131,7 @@ describe('SessionSubmissionPageComponent', () => {
     isValid: true,
     commentByGiver: {
       originalComment: testComment,
+      originalRecipientIdentifier: 'barry-harris-id',
       commentEditFormModel: {
         commentText: 'comment text here',
         isUsingCustomVisibilities: false,
@@ -149,6 +152,7 @@ describe('SessionSubmissionPageComponent', () => {
     isValid: true,
     commentByGiver: {
       originalComment: testComment,
+      originalRecipientIdentifier: 'recipient-identifier',
       commentEditFormModel: {
         commentText: '',
         isUsingCustomVisibilities: false,
@@ -210,6 +214,7 @@ describe('SessionSubmissionPageComponent', () => {
     isValid: true,
     commentByGiver: {
       originalComment: testComment,
+      originalRecipientIdentifier: 'barry-harris-id',
       commentEditFormModel: {
         commentText: 'comment text',
         isUsingCustomVisibilities: false,
@@ -671,9 +676,12 @@ describe('SessionSubmissionPageComponent', () => {
     component.loggedInUser = 'logged-in-user';
     component.personName = 'person name';
     component.personEmail = 'person@email.com';
+    component.courseName = 'Course name';
+    component.courseInstitute = 'Test institute';
     component.formattedSessionOpeningTime = 'Sun, 01 Apr, 2012, 11:59 PM +08';
     component.formattedSessionClosingTime = 'Mon, 02 Apr, 2012, 11:59 PM +08';
     component.feedbackSessionInstructions = 'Please give your feedback based on the following questions.';
+    component.isCourseLoading = false;
     component.isFeedbackSessionLoading = false;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
@@ -692,6 +700,7 @@ describe('SessionSubmissionPageComponent', () => {
       testRankOptionsQuestionSubmissionForm,
       testRankRecipientsQuestionSubmissionForm,
     ];
+    component.isCourseLoading = false;
     component.isFeedbackSessionLoading = false;
     component.isFeedbackSessionQuestionsLoading = false;
     fixture.detectChanges();
@@ -712,6 +721,7 @@ describe('SessionSubmissionPageComponent', () => {
       testRankRecipientsQuestionSubmissionForm,
     ];
     component.isSubmissionFormsDisabled = true;
+    component.isCourseLoading = false;
     component.isFeedbackSessionLoading = false;
     component.isFeedbackSessionQuestionsLoading = false;
     fixture.detectChanges();
@@ -1133,7 +1143,8 @@ describe('SessionSubmissionPageComponent', () => {
         .mockReturnValue(of(testComment));
 
     component.createCommentRequest(testSubmissionForm).subscribe(() => {
-      expect(testSubmissionForm.commentByGiver).toEqual(component.getCommentModel(testComment));
+      expect(testSubmissionForm.commentByGiver).toEqual(
+          component.getCommentModel(testComment, testSubmissionForm.recipientIdentifier));
     });
 
     expect(commentSpy).toHaveBeenCalledTimes(1);
@@ -1145,6 +1156,27 @@ describe('SessionSubmissionPageComponent', () => {
         { key: testQueryParams.key, moderatedperson: '' });
   });
 
+  it('should create comment request to create new comment when submission form has original comment'
+      + 'with different original recipient', () => {
+    const testSubmissionForm: FeedbackResponseRecipientSubmissionFormModel = deepCopy(testMcqRecipientSubmissionForm);
+    testSubmissionForm.commentByGiver!.originalRecipientIdentifier = 'other-recipient-identifier';
+    const commentSpy: SpyInstance = jest.spyOn(feedbackResponseCommentService, 'createComment')
+        .mockReturnValue(of(testComment));
+
+    component.createCommentRequest(testSubmissionForm).subscribe(() => {
+      expect(testSubmissionForm.commentByGiver).toEqual(
+          component.getCommentModel(testComment, testSubmissionForm.recipientIdentifier));
+    });
+
+    expect(commentSpy).toHaveBeenCalledTimes(1);
+    expect(commentSpy).toHaveBeenLastCalledWith({
+      commentText: 'comment text here',
+      showCommentTo: [],
+      showGiverNameTo: [],
+    }, testMcqRecipientSubmissionForm.responseId, Intent.STUDENT_SUBMISSION,
+        { key: testQueryParams.key, moderatedperson: '' });
+  });
+
   it('should create comment request to update existing comment when submission form has original comment', () => {
     const testSubmissionForm: FeedbackResponseRecipientSubmissionFormModel = deepCopy(testMcqRecipientSubmissionForm);
     const expectedId: any = testMcqRecipientSubmissionForm.commentByGiver?.originalComment?.feedbackResponseCommentId;
@@ -1152,7 +1184,8 @@ describe('SessionSubmissionPageComponent', () => {
         .mockReturnValue(of(testComment));
 
     component.createCommentRequest(testSubmissionForm).subscribe(() => {
-      expect(testSubmissionForm.commentByGiver).toEqual(component.getCommentModel(testComment));
+      expect(testSubmissionForm.commentByGiver).toEqual(
+          component.getCommentModel(testComment, testSubmissionForm.recipientIdentifier));
     });
 
     expect(commentSpy).toHaveBeenCalledTimes(1);

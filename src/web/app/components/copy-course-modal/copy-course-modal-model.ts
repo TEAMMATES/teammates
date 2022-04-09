@@ -6,6 +6,7 @@ import { FeedbackSession } from '../../../types/api-output';
 export interface CopyCourseModalResult {
   newCourseId: string;
   newCourseName: string;
+  newCourseInstitute: string;
   oldCourseId: string;
   newTimeZone: string;
   selectedFeedbackSessionList: Set<FeedbackSession>;

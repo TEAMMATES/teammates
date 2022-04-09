@@ -9,9 +9,11 @@ exports[`CopyCourseModalComponent should snap when copying from other sessions 1
   allCourses={[Function Array]}
   courseToFeedbackSession={[Function Object]}
   fetchFeedbackSessionsEvent={[Function EventEmitter_]}
+  institutes={[Function Array]}
   isCopyFromOtherSession={[Function Boolean]}
   newCourseId=""
   newCourseIdIsConflicting="false"
+  newCourseInstitute=""
   newCourseName=""
   newTimezone={[Function String]}
   oldCourseId=""
@@ -93,7 +95,31 @@ exports[`CopyCourseModalComponent should snap when copying from other sessions 1
         <div
           class="form-group"
         >
-          <label>
+          <label
+            class="ngb-tooltip-class"
+          >
+            <span
+              ngbtooltip="Note that you can only create a new course under an institute in which you are already a course co-owner."
+            >
+               Course institute: 
+            </span>
+          </label>
+          <div
+            class="input-group"
+          >
+            <select
+              class="form-control ng-untouched ng-pristine ng-valid"
+              id="copy-course-institute"
+            >
+            </select>
+          </div>
+        </div>
+        <div
+          class="form-group"
+        >
+          <label
+            class="ngb-tooltip-class"
+          >
             <span
               ngbtooltip="You should not need to change this as it is auto-detected based on your device settings. TEAMMATES automatically adjusts
             to match the current time offset in your area, including clock changes due to daylight saving time."
@@ -179,9 +205,11 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
   allCourses={[Function Array]}
   courseToFeedbackSession={[Function Object]}
   fetchFeedbackSessionsEvent={[Function EventEmitter_]}
+  institutes={[Function Array]}
   isCopyFromOtherSession="false"
   newCourseId=""
   newCourseIdIsConflicting="false"
+  newCourseInstitute=""
   newCourseName=""
   newTimezone={[Function String]}
   oldCourseId=""
@@ -268,7 +296,31 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
         <div
           class="form-group"
         >
-          <label>
+          <label
+            class="ngb-tooltip-class"
+          >
+            <span
+              ngbtooltip="Note that you can only create a new course under an institute in which you are already a course co-owner."
+            >
+               Course institute: 
+            </span>
+          </label>
+          <div
+            class="input-group"
+          >
+            <select
+              class="form-control ng-untouched ng-pristine ng-valid"
+              id="copy-course-institute"
+            >
+            </select>
+          </div>
+        </div>
+        <div
+          class="form-group"
+        >
+          <label
+            class="ngb-tooltip-class"
+          >
             <span
               ngbtooltip="You should not need to change this as it is auto-detected based on your device settings. TEAMMATES automatically adjusts
             to match the current time offset in your area, including clock changes due to daylight saving time."
@@ -338,9 +390,11 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
   allCourses={[Function Array]}
   courseToFeedbackSession={[Function Object]}
   fetchFeedbackSessionsEvent={[Function EventEmitter_]}
+  institutes={[Function Array]}
   isCopyFromOtherSession="false"
   newCourseId={[Function String]}
   newCourseIdIsConflicting="false"
+  newCourseInstitute=""
   newCourseName=""
   newTimezone={[Function String]}
   oldCourseId=""
@@ -427,7 +481,31 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
         <div
           class="form-group"
         >
-          <label>
+          <label
+            class="ngb-tooltip-class"
+          >
+            <span
+              ngbtooltip="Note that you can only create a new course under an institute in which you are already a course co-owner."
+            >
+               Course institute: 
+            </span>
+          </label>
+          <div
+            class="input-group"
+          >
+            <select
+              class="form-control ng-untouched ng-pristine ng-valid"
+              id="copy-course-institute"
+            >
+            </select>
+          </div>
+        </div>
+        <div
+          class="form-group"
+        >
+          <label
+            class="ngb-tooltip-class"
+          >
             <span
               ngbtooltip="You should not need to change this as it is auto-detected based on your device settings. TEAMMATES automatically adjusts
             to match the current time offset in your area, including clock changes due to daylight saving time."

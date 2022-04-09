@@ -15,6 +15,7 @@ component Storage {
         rectangle Account
         rectangle AccountRequest
         rectangle CourseStudent
+        rectangle DeadlineExtension
         rectangle Instructor
         rectangle StudentProfile
         rectangle FeedbackResponse

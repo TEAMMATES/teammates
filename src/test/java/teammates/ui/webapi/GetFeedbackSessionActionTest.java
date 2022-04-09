@@ -1,10 +1,17 @@
 package teammates.ui.webapi;
 
+import java.time.Instant;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.ui.output.FeedbackSessionData;
@@ -91,6 +98,934 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         assertEquals(feedbackSessionAttributes.getCreatedTime().toEpochMilli(), response.getCreatedAtTimestamp());
         assertNull(response.getDeletedAtTimestamp());
+
+        assertEqualDeadlines(feedbackSessionAttributes.getStudentDeadlines(), response.getStudentDeadlines(), timeZone);
+        assertEqualDeadlines(feedbackSessionAttributes.getInstructorDeadlines(), response.getInstructorDeadlines(),
+                timeZone);
+
+        logoutUser();
+    }
+
+    @Test
+    protected void testExecute_fullDetail() {
+
+        InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
+        FeedbackSessionAttributes feedbackSessionAttributes = typicalBundle.feedbackSessions.get("session1InCourse1");
+        String courseId = feedbackSessionAttributes.getCourseId();
+        String feedbackSessionName = feedbackSessionAttributes.getFeedbackSessionName();
+        String timeZone = feedbackSessionAttributes.getTimeZone();
+        String[] params = new String[] {
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
+                Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),
+        };
+
+        ______TS("get full detail; no extensions; before end time");
+
+        Instant now = Instant.now();
+        Instant newEndTime = now.plusSeconds(60 * 60);
+        Map<String, Instant> studentDeadlines = new HashMap<>();
+        Map<String, Instant> instructorDeadlines = new HashMap<>();
+        updateFirstFeedbackSessionOfTypicalCourse1(newEndTime, studentDeadlines, instructorDeadlines);
+        GetFeedbackSessionAction a = getAction(params);
+        JsonResult r = getJsonResult(a);
+        FeedbackSessionData response = (FeedbackSessionData) r.getOutput();
+
+        assertEquals(courseId, response.getCourseId());
+        assertEquals(feedbackSessionName, response.getFeedbackSessionName());
+        assertEquals(timeZone, response.getTimeZone());
+        assertEquals(feedbackSessionAttributes.getInstructions(), response.getInstructions());
+
+        assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(feedbackSessionAttributes.getStartTime(),
+                        timeZone, true).toEpochMilli(),
+                response.getSubmissionStartTimestamp());
+        assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(newEndTime, timeZone, true)
+                        .toEpochMilli(),
+                response.getSubmissionEndTimestamp());
+        assertEquals(feedbackSessionAttributes.getGracePeriodMinutes(), response.getGracePeriod().longValue());
+
+        assertEquals(SessionVisibleSetting.CUSTOM, response.getSessionVisibleSetting());
+        assertEquals(TimeHelper
+                        .getMidnightAdjustedInstantBasedOnZone(feedbackSessionAttributes.getSessionVisibleFromTime(),
+                        timeZone, true).toEpochMilli(),
+                response.getSessionVisibleFromTimestamp().longValue());
+        assertEquals(TimeHelper
+                        .getMidnightAdjustedInstantBasedOnZone(feedbackSessionAttributes.getSessionVisibleFromTime(),
+                        timeZone, true).toEpochMilli(),
+                response.getCustomSessionVisibleTimestamp().longValue());
+
+        assertEquals(ResponseVisibleSetting.CUSTOM, response.getResponseVisibleSetting());
+        assertEquals(TimeHelper
+                        .getMidnightAdjustedInstantBasedOnZone(feedbackSessionAttributes.getResultsVisibleFromTime(),
+                        timeZone, true).toEpochMilli(),
+                response.getResultVisibleFromTimestamp().longValue());
+        assertEquals(TimeHelper
+                        .getMidnightAdjustedInstantBasedOnZone(feedbackSessionAttributes.getResultsVisibleFromTime(),
+                        timeZone, true).toEpochMilli(),
+                response.getCustomResponseVisibleTimestamp().longValue());
+
+        assertEquals(FeedbackSessionSubmissionStatus.OPEN, response.getSubmissionStatus());
+        assertEquals(FeedbackSessionPublishStatus.NOT_PUBLISHED, response.getPublishStatus());
+
+        assertEquals(feedbackSessionAttributes.isClosingEmailEnabled(), response.getIsClosingEmailEnabled());
+        assertEquals(feedbackSessionAttributes.isPublishedEmailEnabled(), response.getIsPublishedEmailEnabled());
+
+        assertEquals(feedbackSessionAttributes.getCreatedTime().toEpochMilli(), response.getCreatedAtTimestamp());
+        assertNull(response.getDeletedAtTimestamp());
+
+        assertEqualDeadlines(studentDeadlines, response.getStudentDeadlines(), timeZone);
+        assertEqualDeadlines(instructorDeadlines, response.getInstructorDeadlines(), timeZone);
+
+        ______TS("get full detail; no extensions; after end time but within grace period");
+
+        now = Instant.now();
+        newEndTime = now.plusSeconds(-60);
+        studentDeadlines = new HashMap<>();
+        instructorDeadlines = new HashMap<>();
+        updateFirstFeedbackSessionOfTypicalCourse1(newEndTime, studentDeadlines, instructorDeadlines);
+        a = getAction(params);
+        r = getJsonResult(a);
+        response = (FeedbackSessionData) r.getOutput();
+
+        assertEquals(FeedbackSessionSubmissionStatus.GRACE_PERIOD, response.getSubmissionStatus());
+
+        assertEqualDeadlines(studentDeadlines, response.getStudentDeadlines(), timeZone);
+        assertEqualDeadlines(instructorDeadlines, response.getInstructorDeadlines(), timeZone);
+
+        ______TS("get full detail; no extensions; after end time and beyond grace period");
+
+        now = Instant.now();
+        newEndTime = now.plusSeconds(-60 * 60 * 24);
+        studentDeadlines = new HashMap<>();
+        instructorDeadlines = new HashMap<>();
+        updateFirstFeedbackSessionOfTypicalCourse1(newEndTime, studentDeadlines, instructorDeadlines);
+        a = getAction(params);
+        r = getJsonResult(a);
+        response = (FeedbackSessionData) r.getOutput();
+
+        assertEquals(FeedbackSessionSubmissionStatus.CLOSED, response.getSubmissionStatus());
+
+        assertEqualDeadlines(studentDeadlines, response.getStudentDeadlines(), timeZone);
+        assertEqualDeadlines(instructorDeadlines, response.getInstructorDeadlines(), timeZone);
+
+        ______TS("get full detail; some extensions; before end time");
+
+        now = Instant.now();
+        newEndTime = now.plusSeconds(60 * 60);
+        studentDeadlines = new HashMap<>();
+        studentDeadlines.put("student1InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 21));
+        studentDeadlines.put("student2InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 22));
+        instructorDeadlines = new HashMap<>();
+        studentDeadlines.put("instr1@course1.tmt", now.plusSeconds(60 * 60 * 23));
+        studentDeadlines.put("instr2@course1.tmt", now.plusSeconds(60 * 60 * 24));
+        updateFirstFeedbackSessionOfTypicalCourse1(newEndTime, studentDeadlines, instructorDeadlines);
+        a = getAction(params);
+        r = getJsonResult(a);
+        response = (FeedbackSessionData) r.getOutput();
+
+        assertEquals(FeedbackSessionSubmissionStatus.OPEN, response.getSubmissionStatus());
+
+        assertEqualDeadlines(studentDeadlines, response.getStudentDeadlines(), timeZone);
+        assertEqualDeadlines(instructorDeadlines, response.getInstructorDeadlines(), timeZone);
+
+        ______TS("get full detail; some extensions; after end time but within grace period");
+
+        now = Instant.now();
+        newEndTime = now.plusSeconds(-60);
+        studentDeadlines = new HashMap<>();
+        studentDeadlines.put("student1InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 21));
+        studentDeadlines.put("student2InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 22));
+        instructorDeadlines = new HashMap<>();
+        studentDeadlines.put("instr1@course1.tmt", now.plusSeconds(60 * 60 * 23));
+        studentDeadlines.put("instr2@course1.tmt", now.plusSeconds(60 * 60 * 24));
+        updateFirstFeedbackSessionOfTypicalCourse1(newEndTime, studentDeadlines, instructorDeadlines);
+        a = getAction(params);
+        r = getJsonResult(a);
+        response = (FeedbackSessionData) r.getOutput();
+
+        assertEquals(FeedbackSessionSubmissionStatus.GRACE_PERIOD, response.getSubmissionStatus());
+
+        assertEqualDeadlines(studentDeadlines, response.getStudentDeadlines(), timeZone);
+        assertEqualDeadlines(instructorDeadlines, response.getInstructorDeadlines(), timeZone);
+
+        ______TS("get full detail; some extensions; after end time and beyond grace period");
+
+        now = Instant.now();
+        newEndTime = now.plusSeconds(-60 * 60 * 24);
+        studentDeadlines = new HashMap<>();
+        studentDeadlines.put("student1InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 21));
+        studentDeadlines.put("student2InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 22));
+        instructorDeadlines = new HashMap<>();
+        studentDeadlines.put("instr1@course1.tmt", now.plusSeconds(60 * 60 * 23));
+        studentDeadlines.put("instr2@course1.tmt", now.plusSeconds(60 * 60 * 24));
+        updateFirstFeedbackSessionOfTypicalCourse1(newEndTime, studentDeadlines, instructorDeadlines);
+        a = getAction(params);
+        r = getJsonResult(a);
+        response = (FeedbackSessionData) r.getOutput();
+
+        assertEquals(FeedbackSessionSubmissionStatus.CLOSED, response.getSubmissionStatus());
+
+        assertEqualDeadlines(studentDeadlines, response.getStudentDeadlines(), timeZone);
+        assertEqualDeadlines(instructorDeadlines, response.getInstructorDeadlines(), timeZone);
+
+        logoutUser();
+    }
+
+    @Test
+    protected void testExecute_instructorSubmission() {
+
+        InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
+        FeedbackSessionAttributes feedbackSessionAttributes = typicalBundle.feedbackSessions.get("session1InCourse1");
+        String courseId = feedbackSessionAttributes.getCourseId();
+        String feedbackSessionName = feedbackSessionAttributes.getFeedbackSessionName();
+        String timeZone = feedbackSessionAttributes.getTimeZone();
+        String[] params = new String[] {
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
+                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
+        };
+
+        ______TS("get submission by instructor with no extension; before end time");
+
+        Instant now = Instant.now();
+        Instant newEndTime = now.plusSeconds(60 * 60);
+        Map<String, Instant> studentDeadlines = new HashMap<>();
+        studentDeadlines.put("student1InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 21));
+        studentDeadlines.put("student2InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 22));
+        Map<String, Instant> instructorDeadlines = new HashMap<>();
+        instructorDeadlines.put("instr2@course1.tmt", now.plusSeconds(60 * 60 * 24));
+        updateFirstFeedbackSessionOfTypicalCourse1(newEndTime, studentDeadlines, instructorDeadlines);
+        GetFeedbackSessionAction a = getAction(params);
+        JsonResult r = getJsonResult(a);
+        FeedbackSessionData response = (FeedbackSessionData) r.getOutput();
+
+        assertEquals(courseId, response.getCourseId());
+        assertEquals(feedbackSessionName, response.getFeedbackSessionName());
+        assertEquals(timeZone, response.getTimeZone());
+        assertEquals(feedbackSessionAttributes.getInstructions(), response.getInstructions());
+
+        assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(feedbackSessionAttributes.getStartTime(),
+                        timeZone, true).toEpochMilli(),
+                response.getSubmissionStartTimestamp());
+        assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(newEndTime, timeZone, true)
+                        .toEpochMilli(),
+                response.getSubmissionEndTimestamp());
+        assertNull(response.getGracePeriod());
+
+        assertNull(response.getSessionVisibleSetting());
+        assertNull(response.getSessionVisibleFromTimestamp());
+        assertNull(response.getCustomSessionVisibleTimestamp());
+
+        assertNull(response.getResponseVisibleSetting());
+        assertNull(response.getResultVisibleFromTimestamp());
+        assertNull(response.getCustomResponseVisibleTimestamp());
+
+        assertEquals(FeedbackSessionSubmissionStatus.OPEN, response.getSubmissionStatus());
+        assertEquals(FeedbackSessionPublishStatus.NOT_PUBLISHED, response.getPublishStatus());
+
+        assertNull(response.getIsClosingEmailEnabled());
+        assertNull(response.getIsPublishedEmailEnabled());
+
+        assertEquals(0, response.getCreatedAtTimestamp());
+        assertNull(response.getDeletedAtTimestamp());
+
+        assertTrue(response.getStudentDeadlines().isEmpty());
+        assertTrue(response.getInstructorDeadlines().isEmpty());
+
+        ______TS("get submission by instructor with no extension; after end time but within grace period");
+
+        now = Instant.now();
+        newEndTime = now.plusSeconds(-60);
+        studentDeadlines = new HashMap<>();
+        studentDeadlines.put("student1InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 21));
+        studentDeadlines.put("student2InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 22));
+        instructorDeadlines = new HashMap<>();
+        instructorDeadlines.put("instr2@course1.tmt", now.plusSeconds(60 * 60 * 24));
+        updateFirstFeedbackSessionOfTypicalCourse1(newEndTime, studentDeadlines, instructorDeadlines);
+        a = getAction(params);
+        r = getJsonResult(a);
+        response = (FeedbackSessionData) r.getOutput();
+
+        assertEquals(FeedbackSessionSubmissionStatus.GRACE_PERIOD, response.getSubmissionStatus());
+
+        assertTrue(response.getStudentDeadlines().isEmpty());
+        assertTrue(response.getInstructorDeadlines().isEmpty());
+
+        ______TS("get submission by instructor with no extension; after end time and beyond grace period");
+
+        now = Instant.now();
+        newEndTime = now.plusSeconds(-60 * 60);
+        studentDeadlines = new HashMap<>();
+        studentDeadlines.put("student1InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 21));
+        studentDeadlines.put("student2InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 22));
+        instructorDeadlines = new HashMap<>();
+        instructorDeadlines.put("instr2@course1.tmt", now.plusSeconds(60 * 60 * 24));
+        updateFirstFeedbackSessionOfTypicalCourse1(newEndTime, studentDeadlines, instructorDeadlines);
+        a = getAction(params);
+        r = getJsonResult(a);
+        response = (FeedbackSessionData) r.getOutput();
+
+        assertEquals(FeedbackSessionSubmissionStatus.CLOSED, response.getSubmissionStatus());
+
+        assertTrue(response.getStudentDeadlines().isEmpty());
+        assertTrue(response.getInstructorDeadlines().isEmpty());
+
+        ______TS("get submission by instructor with extension; before end time");
+
+        now = Instant.now();
+        newEndTime = now.plusSeconds(60 * 60);
+        studentDeadlines = new HashMap<>();
+        studentDeadlines.put("student1InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 21));
+        studentDeadlines.put("student2InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 22));
+        instructorDeadlines = new HashMap<>();
+        instructorDeadlines.put(instructor1OfCourse1.getEmail(), now.plusSeconds(60 * 60 * 23));
+        instructorDeadlines.put("instr2@course1.tmt", now.plusSeconds(60 * 60 * 24));
+        updateFirstFeedbackSessionOfTypicalCourse1(newEndTime, studentDeadlines, instructorDeadlines);
+        a = getAction(params);
+        r = getJsonResult(a);
+        response = (FeedbackSessionData) r.getOutput();
+
+        assertEquals(FeedbackSessionSubmissionStatus.OPEN, response.getSubmissionStatus());
+
+        assertTrue(response.getStudentDeadlines().isEmpty());
+        assertTrue(response.getInstructorDeadlines().containsKey(instructor1OfCourse1.getEmail()));
+        assertEquals(1, response.getInstructorDeadlines().size());
+
+        ______TS("get submission by instructor with extension; after end time but before extended deadline");
+
+        now = Instant.now();
+        newEndTime = now.plusSeconds(-60 * 60 * 24);
+        studentDeadlines = new HashMap<>();
+        studentDeadlines.put("student1InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 21));
+        studentDeadlines.put("student2InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 22));
+        instructorDeadlines = new HashMap<>();
+        instructorDeadlines.put(instructor1OfCourse1.getEmail(), now.plusSeconds(60 * 60 * 3));
+        instructorDeadlines.put("instr2@course1.tmt", now.plusSeconds(60 * 60 * 24));
+        updateFirstFeedbackSessionOfTypicalCourse1(newEndTime, studentDeadlines, instructorDeadlines);
+        a = getAction(params);
+        r = getJsonResult(a);
+        response = (FeedbackSessionData) r.getOutput();
+
+        assertEquals(FeedbackSessionSubmissionStatus.OPEN, response.getSubmissionStatus());
+
+        assertTrue(response.getStudentDeadlines().isEmpty());
+        assertTrue(response.getInstructorDeadlines().containsKey(instructor1OfCourse1.getEmail()));
+        assertEquals(1, response.getInstructorDeadlines().size());
+
+        ______TS("get submission by instructor with extension; after extended deadline but within grace period");
+
+        now = Instant.now();
+        newEndTime = now.plusSeconds(-60 * 60 * 24);
+        studentDeadlines = new HashMap<>();
+        studentDeadlines.put("student1InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 21));
+        studentDeadlines.put("student2InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 22));
+        instructorDeadlines = new HashMap<>();
+        instructorDeadlines.put(instructor1OfCourse1.getEmail(), now.plusSeconds(-60 * 3));
+        instructorDeadlines.put("instr2@course1.tmt", now.plusSeconds(60 * 60 * 24));
+        updateFirstFeedbackSessionOfTypicalCourse1(newEndTime, studentDeadlines, instructorDeadlines);
+        a = getAction(params);
+        r = getJsonResult(a);
+        response = (FeedbackSessionData) r.getOutput();
+
+        assertEquals(FeedbackSessionSubmissionStatus.GRACE_PERIOD, response.getSubmissionStatus());
+
+        assertTrue(response.getStudentDeadlines().isEmpty());
+        assertTrue(response.getInstructorDeadlines().containsKey(instructor1OfCourse1.getEmail()));
+        assertEquals(1, response.getInstructorDeadlines().size());
+
+        ______TS("get submission by instructor with extension; after extended deadline and beyond grace period");
+
+        now = Instant.now();
+        newEndTime = now.plusSeconds(-60 * 60 * 24);
+        studentDeadlines = new HashMap<>();
+        studentDeadlines.put("student1InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 21));
+        studentDeadlines.put("student2InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 22));
+        instructorDeadlines = new HashMap<>();
+        instructorDeadlines.put(instructor1OfCourse1.getEmail(), now.plusSeconds(-60 * 60 * 3));
+        instructorDeadlines.put("instr2@course1.tmt", now.plusSeconds(60 * 60 * 24));
+        updateFirstFeedbackSessionOfTypicalCourse1(newEndTime, studentDeadlines, instructorDeadlines);
+        a = getAction(params);
+        r = getJsonResult(a);
+        response = (FeedbackSessionData) r.getOutput();
+
+        assertEquals(FeedbackSessionSubmissionStatus.CLOSED, response.getSubmissionStatus());
+
+        assertTrue(response.getStudentDeadlines().isEmpty());
+        assertTrue(response.getInstructorDeadlines().containsKey(instructor1OfCourse1.getEmail()));
+        assertEquals(1, response.getInstructorDeadlines().size());
+
+        logoutUser();
+    }
+
+    @Test
+    protected void testExecute_instructorResult() {
+
+        InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
+        FeedbackSessionAttributes feedbackSessionAttributes = typicalBundle.feedbackSessions.get("session1InCourse1");
+        String courseId = feedbackSessionAttributes.getCourseId();
+        String feedbackSessionName = feedbackSessionAttributes.getFeedbackSessionName();
+        String timeZone = feedbackSessionAttributes.getTimeZone();
+        String[] params = new String[] {
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
+                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
+        };
+
+        ______TS("get result by instructor with no extension; before end time");
+
+        Instant now = Instant.now();
+        Instant newEndTime = now.plusSeconds(60 * 60);
+        Map<String, Instant> studentDeadlines = new HashMap<>();
+        studentDeadlines.put("student1InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 21));
+        studentDeadlines.put("student2InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 22));
+        Map<String, Instant> instructorDeadlines = new HashMap<>();
+        instructorDeadlines.put("instr2@course1.tmt", now.plusSeconds(60 * 60 * 24));
+        updateFirstFeedbackSessionOfTypicalCourse1(newEndTime, studentDeadlines, instructorDeadlines);
+        GetFeedbackSessionAction a = getAction(params);
+        JsonResult r = getJsonResult(a);
+        FeedbackSessionData response = (FeedbackSessionData) r.getOutput();
+
+        assertEquals(courseId, response.getCourseId());
+        assertEquals(feedbackSessionName, response.getFeedbackSessionName());
+        assertEquals(timeZone, response.getTimeZone());
+        assertEquals(feedbackSessionAttributes.getInstructions(), response.getInstructions());
+
+        assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(feedbackSessionAttributes.getStartTime(),
+                        timeZone, true).toEpochMilli(),
+                response.getSubmissionStartTimestamp());
+        assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(newEndTime, timeZone, true)
+                        .toEpochMilli(),
+                response.getSubmissionEndTimestamp());
+        assertNull(response.getGracePeriod());
+
+        assertEquals(SessionVisibleSetting.CUSTOM, response.getSessionVisibleSetting());
+        assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(feedbackSessionAttributes
+                        .getSessionVisibleFromTime(), timeZone, true).toEpochMilli(),
+                response.getSessionVisibleFromTimestamp().longValue());
+        assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(feedbackSessionAttributes
+                        .getSessionVisibleFromTime(), timeZone, true).toEpochMilli(),
+                response.getCustomSessionVisibleTimestamp().longValue());
+
+        assertEquals(ResponseVisibleSetting.CUSTOM, response.getResponseVisibleSetting());
+        assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(feedbackSessionAttributes
+                        .getResultsVisibleFromTime(), timeZone, true).toEpochMilli(),
+                response.getResultVisibleFromTimestamp().longValue());
+        assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(feedbackSessionAttributes
+                        .getResultsVisibleFromTime(), timeZone, true).toEpochMilli(),
+                response.getCustomResponseVisibleTimestamp().longValue());
+
+        assertEquals(FeedbackSessionSubmissionStatus.OPEN, response.getSubmissionStatus());
+        assertEquals(FeedbackSessionPublishStatus.NOT_PUBLISHED, response.getPublishStatus());
+
+        assertNull(response.getIsClosingEmailEnabled());
+        assertNull(response.getIsPublishedEmailEnabled());
+
+        assertEquals(0, response.getCreatedAtTimestamp());
+        assertNull(response.getDeletedAtTimestamp());
+
+        assertTrue(response.getStudentDeadlines().isEmpty());
+        assertTrue(response.getInstructorDeadlines().isEmpty());
+
+        ______TS("get result by instructor with no extension; after end time but within grace period");
+
+        now = Instant.now();
+        newEndTime = now.plusSeconds(-60);
+        studentDeadlines = new HashMap<>();
+        studentDeadlines.put("student1InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 21));
+        studentDeadlines.put("student2InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 22));
+        instructorDeadlines = new HashMap<>();
+        instructorDeadlines.put("instr2@course1.tmt", now.plusSeconds(60 * 60 * 24));
+        updateFirstFeedbackSessionOfTypicalCourse1(newEndTime, studentDeadlines, instructorDeadlines);
+        a = getAction(params);
+        r = getJsonResult(a);
+        response = (FeedbackSessionData) r.getOutput();
+
+        assertEquals(FeedbackSessionSubmissionStatus.GRACE_PERIOD, response.getSubmissionStatus());
+
+        assertTrue(response.getStudentDeadlines().isEmpty());
+        assertTrue(response.getInstructorDeadlines().isEmpty());
+
+        ______TS("get result by instructor with no extension; after end time and beyond grace period");
+
+        now = Instant.now();
+        newEndTime = now.plusSeconds(-60 * 60);
+        studentDeadlines = new HashMap<>();
+        studentDeadlines.put("student1InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 21));
+        studentDeadlines.put("student2InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 22));
+        instructorDeadlines = new HashMap<>();
+        instructorDeadlines.put("instr2@course1.tmt", now.plusSeconds(60 * 60 * 24));
+        updateFirstFeedbackSessionOfTypicalCourse1(newEndTime, studentDeadlines, instructorDeadlines);
+        a = getAction(params);
+        r = getJsonResult(a);
+        response = (FeedbackSessionData) r.getOutput();
+
+        assertEquals(FeedbackSessionSubmissionStatus.CLOSED, response.getSubmissionStatus());
+
+        assertTrue(response.getStudentDeadlines().isEmpty());
+        assertTrue(response.getInstructorDeadlines().isEmpty());
+
+        ______TS("get result by instructor with extension; before end time");
+
+        now = Instant.now();
+        newEndTime = now.plusSeconds(60 * 60);
+        studentDeadlines = new HashMap<>();
+        studentDeadlines.put("student1InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 21));
+        studentDeadlines.put("student2InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 22));
+        instructorDeadlines = new HashMap<>();
+        instructorDeadlines.put(instructor1OfCourse1.getEmail(), now.plusSeconds(60 * 60 * 23));
+        instructorDeadlines.put("instr2@course1.tmt", now.plusSeconds(60 * 60 * 24));
+        updateFirstFeedbackSessionOfTypicalCourse1(newEndTime, studentDeadlines, instructorDeadlines);
+        a = getAction(params);
+        r = getJsonResult(a);
+        response = (FeedbackSessionData) r.getOutput();
+
+        assertEquals(FeedbackSessionSubmissionStatus.OPEN, response.getSubmissionStatus());
+
+        assertTrue(response.getStudentDeadlines().isEmpty());
+        assertTrue(response.getInstructorDeadlines().containsKey(instructor1OfCourse1.getEmail()));
+        assertEquals(1, response.getInstructorDeadlines().size());
+
+        ______TS("get result by instructor with extension; after end time but before extended deadline");
+
+        now = Instant.now();
+        newEndTime = now.plusSeconds(-60 * 60 * 24);
+        studentDeadlines = new HashMap<>();
+        studentDeadlines.put("student1InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 21));
+        studentDeadlines.put("student2InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 22));
+        instructorDeadlines = new HashMap<>();
+        instructorDeadlines.put(instructor1OfCourse1.getEmail(), now.plusSeconds(60 * 60 * 3));
+        instructorDeadlines.put("instr2@course1.tmt", now.plusSeconds(60 * 60 * 24));
+        updateFirstFeedbackSessionOfTypicalCourse1(newEndTime, studentDeadlines, instructorDeadlines);
+        a = getAction(params);
+        r = getJsonResult(a);
+        response = (FeedbackSessionData) r.getOutput();
+
+        assertEquals(FeedbackSessionSubmissionStatus.OPEN, response.getSubmissionStatus());
+
+        assertTrue(response.getStudentDeadlines().isEmpty());
+        assertTrue(response.getInstructorDeadlines().containsKey(instructor1OfCourse1.getEmail()));
+        assertEquals(1, response.getInstructorDeadlines().size());
+
+        ______TS("get result by instructor with extension; after extended deadline but within grace period");
+
+        now = Instant.now();
+        newEndTime = now.plusSeconds(-60 * 60 * 24);
+        studentDeadlines = new HashMap<>();
+        studentDeadlines.put("student1InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 21));
+        studentDeadlines.put("student2InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 22));
+        instructorDeadlines = new HashMap<>();
+        instructorDeadlines.put(instructor1OfCourse1.getEmail(), now.plusSeconds(-60 * 3));
+        instructorDeadlines.put("instr2@course1.tmt", now.plusSeconds(60 * 60 * 24));
+        updateFirstFeedbackSessionOfTypicalCourse1(newEndTime, studentDeadlines, instructorDeadlines);
+        a = getAction(params);
+        r = getJsonResult(a);
+        response = (FeedbackSessionData) r.getOutput();
+
+        assertEquals(FeedbackSessionSubmissionStatus.GRACE_PERIOD, response.getSubmissionStatus());
+
+        assertTrue(response.getStudentDeadlines().isEmpty());
+        assertTrue(response.getInstructorDeadlines().containsKey(instructor1OfCourse1.getEmail()));
+        assertEquals(1, response.getInstructorDeadlines().size());
+
+        ______TS("get result by instructor with extension; after extended deadline and beyond grace period");
+
+        now = Instant.now();
+        newEndTime = now.plusSeconds(-60 * 60 * 24);
+        studentDeadlines = new HashMap<>();
+        studentDeadlines.put("student1InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 21));
+        studentDeadlines.put("student2InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 22));
+        instructorDeadlines = new HashMap<>();
+        instructorDeadlines.put(instructor1OfCourse1.getEmail(), now.plusSeconds(-60 * 60 * 3));
+        instructorDeadlines.put("instr2@course1.tmt", now.plusSeconds(60 * 60 * 24));
+        updateFirstFeedbackSessionOfTypicalCourse1(newEndTime, studentDeadlines, instructorDeadlines);
+        a = getAction(params);
+        r = getJsonResult(a);
+        response = (FeedbackSessionData) r.getOutput();
+
+        assertEquals(FeedbackSessionSubmissionStatus.CLOSED, response.getSubmissionStatus());
+
+        assertTrue(response.getStudentDeadlines().isEmpty());
+        assertTrue(response.getInstructorDeadlines().containsKey(instructor1OfCourse1.getEmail()));
+        assertEquals(1, response.getInstructorDeadlines().size());
+
+        logoutUser();
+    }
+
+    @Test
+    protected void textExecute_studentSubmission() {
+
+        StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
+        loginAsStudent(student1InCourse1.getGoogleId());
+        FeedbackSessionAttributes feedbackSessionAttributes = typicalBundle.feedbackSessions.get("session1InCourse1");
+        String courseId = feedbackSessionAttributes.getCourseId();
+        String feedbackSessionName = feedbackSessionAttributes.getFeedbackSessionName();
+        String timeZone = feedbackSessionAttributes.getTimeZone();
+        String[] params = new String[] {
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
+                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
+        };
+
+        ______TS("get submission by student with no extension; before end time");
+
+        Instant now = Instant.now();
+        Instant newEndTime = now.plusSeconds(60 * 60);
+        Map<String, Instant> studentDeadlines = new HashMap<>();
+        studentDeadlines.put("student2InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 22));
+        Map<String, Instant> instructorDeadlines = new HashMap<>();
+        instructorDeadlines.put("instr1@course1.tmt", now.plusSeconds(60 * 60 * 23));
+        instructorDeadlines.put("instr2@course1.tmt", now.plusSeconds(60 * 60 * 24));
+        updateFirstFeedbackSessionOfTypicalCourse1(newEndTime, studentDeadlines, instructorDeadlines);
+        GetFeedbackSessionAction a = getAction(params);
+        JsonResult r = getJsonResult(a);
+        FeedbackSessionData response = (FeedbackSessionData) r.getOutput();
+
+        assertEquals(courseId, response.getCourseId());
+        assertEquals(feedbackSessionName, response.getFeedbackSessionName());
+        assertEquals(timeZone, response.getTimeZone());
+        assertEquals(feedbackSessionAttributes.getInstructions(), response.getInstructions());
+
+        assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(feedbackSessionAttributes.getStartTime(),
+                        timeZone, true).toEpochMilli(),
+                response.getSubmissionStartTimestamp());
+        assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(newEndTime, timeZone, true)
+                        .toEpochMilli(),
+                response.getSubmissionEndTimestamp());
+        assertNull(response.getGracePeriod());
+
+        assertNull(response.getSessionVisibleSetting());
+        assertNull(response.getSessionVisibleFromTimestamp());
+        assertNull(response.getCustomSessionVisibleTimestamp());
+
+        assertNull(response.getResponseVisibleSetting());
+        assertNull(response.getResultVisibleFromTimestamp());
+        assertNull(response.getCustomResponseVisibleTimestamp());
+
+        assertEquals(FeedbackSessionSubmissionStatus.OPEN, response.getSubmissionStatus());
+        assertEquals(FeedbackSessionPublishStatus.NOT_PUBLISHED, response.getPublishStatus());
+
+        assertNull(response.getIsClosingEmailEnabled());
+        assertNull(response.getIsPublishedEmailEnabled());
+
+        assertEquals(0, response.getCreatedAtTimestamp());
+        assertNull(response.getDeletedAtTimestamp());
+
+        assertTrue(response.getStudentDeadlines().isEmpty());
+        assertTrue(response.getInstructorDeadlines().isEmpty());
+
+        ______TS("get submission by student with no extension; after end time but within grace period");
+
+        now = Instant.now();
+        newEndTime = now.plusSeconds(-60);
+        studentDeadlines = new HashMap<>();
+        studentDeadlines.put("student2InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 22));
+        instructorDeadlines = new HashMap<>();
+        instructorDeadlines.put("instr1@course1.tmt", now.plusSeconds(60 * 60 * 23));
+        instructorDeadlines.put("instr2@course1.tmt", now.plusSeconds(60 * 60 * 24));
+        updateFirstFeedbackSessionOfTypicalCourse1(newEndTime, studentDeadlines, instructorDeadlines);
+        a = getAction(params);
+        r = getJsonResult(a);
+        response = (FeedbackSessionData) r.getOutput();
+
+        assertEquals(FeedbackSessionSubmissionStatus.GRACE_PERIOD, response.getSubmissionStatus());
+
+        assertTrue(response.getStudentDeadlines().isEmpty());
+        assertTrue(response.getInstructorDeadlines().isEmpty());
+
+        ______TS("get submission by student with no extension; after end time and beyond grace period");
+
+        now = Instant.now();
+        newEndTime = now.plusSeconds(-60 * 60);
+        studentDeadlines = new HashMap<>();
+        studentDeadlines.put("student2InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 22));
+        instructorDeadlines = new HashMap<>();
+        instructorDeadlines.put("instr1@course1.tmt", now.plusSeconds(60 * 60 * 23));
+        instructorDeadlines.put("instr2@course1.tmt", now.plusSeconds(60 * 60 * 24));
+        updateFirstFeedbackSessionOfTypicalCourse1(newEndTime, studentDeadlines, instructorDeadlines);
+        a = getAction(params);
+        r = getJsonResult(a);
+        response = (FeedbackSessionData) r.getOutput();
+
+        assertEquals(FeedbackSessionSubmissionStatus.CLOSED, response.getSubmissionStatus());
+
+        assertTrue(response.getStudentDeadlines().isEmpty());
+        assertTrue(response.getInstructorDeadlines().isEmpty());
+
+        ______TS("get submission by student with extension; before end time");
+
+        now = Instant.now();
+        newEndTime = now.plusSeconds(60 * 60);
+        studentDeadlines = new HashMap<>();
+        studentDeadlines.put(student1InCourse1.getEmail(), now.plusSeconds(60 * 60 * 21));
+        studentDeadlines.put("student2InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 22));
+        instructorDeadlines = new HashMap<>();
+        instructorDeadlines.put("instr1@course1.tmt", now.plusSeconds(60 * 60 * 23));
+        instructorDeadlines.put("instr2@course1.tmt", now.plusSeconds(60 * 60 * 24));
+        updateFirstFeedbackSessionOfTypicalCourse1(newEndTime, studentDeadlines, instructorDeadlines);
+        a = getAction(params);
+        r = getJsonResult(a);
+        response = (FeedbackSessionData) r.getOutput();
+
+        assertEquals(FeedbackSessionSubmissionStatus.OPEN, response.getSubmissionStatus());
+
+        assertTrue(response.getStudentDeadlines().containsKey(student1InCourse1.getEmail()));
+        assertEquals(1, response.getStudentDeadlines().size());
+        assertTrue(response.getInstructorDeadlines().isEmpty());
+
+        ______TS("get submission by student with extension; after end time but before extended deadline");
+
+        now = Instant.now();
+        newEndTime = now.plusSeconds(-60 * 60 * 24);
+        studentDeadlines = new HashMap<>();
+        studentDeadlines.put(student1InCourse1.getEmail(), now.plusSeconds(60 * 60));
+        studentDeadlines.put("student2InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 22));
+        instructorDeadlines = new HashMap<>();
+        instructorDeadlines.put("instr1@course1.tmt", now.plusSeconds(60 * 60 * 23));
+        instructorDeadlines.put("instr2@course1.tmt", now.plusSeconds(60 * 60 * 24));
+        updateFirstFeedbackSessionOfTypicalCourse1(newEndTime, studentDeadlines, instructorDeadlines);
+        a = getAction(params);
+        r = getJsonResult(a);
+        response = (FeedbackSessionData) r.getOutput();
+
+        assertEquals(FeedbackSessionSubmissionStatus.OPEN, response.getSubmissionStatus());
+
+        assertTrue(response.getStudentDeadlines().containsKey(student1InCourse1.getEmail()));
+        assertEquals(1, response.getStudentDeadlines().size());
+        assertTrue(response.getInstructorDeadlines().isEmpty());
+
+        ______TS("get submission by student with extension; after extended deadline but within grace period");
+
+        now = Instant.now();
+        newEndTime = now.plusSeconds(-60 * 60 * 24);
+        studentDeadlines = new HashMap<>();
+        studentDeadlines.put(student1InCourse1.getEmail(), now.plusSeconds(-60));
+        studentDeadlines.put("student2InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 22));
+        instructorDeadlines = new HashMap<>();
+        instructorDeadlines.put("instr1@course1.tmt", now.plusSeconds(60 * 60 * 23));
+        instructorDeadlines.put("instr2@course1.tmt", now.plusSeconds(60 * 60 * 24));
+        updateFirstFeedbackSessionOfTypicalCourse1(newEndTime, studentDeadlines, instructorDeadlines);
+        a = getAction(params);
+        r = getJsonResult(a);
+        response = (FeedbackSessionData) r.getOutput();
+
+        assertEquals(FeedbackSessionSubmissionStatus.GRACE_PERIOD, response.getSubmissionStatus());
+
+        assertTrue(response.getStudentDeadlines().containsKey(student1InCourse1.getEmail()));
+        assertEquals(1, response.getStudentDeadlines().size());
+        assertTrue(response.getInstructorDeadlines().isEmpty());
+
+        ______TS("get submission by student with extension; after extended deadline and beyond grace period");
+
+        now = Instant.now();
+        newEndTime = now.plusSeconds(-60 * 60 * 24);
+        studentDeadlines = new HashMap<>();
+        studentDeadlines.put(student1InCourse1.getEmail(), now.plusSeconds(-60 * 60));
+        studentDeadlines.put("student2InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 22));
+        instructorDeadlines = new HashMap<>();
+        instructorDeadlines.put("instr1@course1.tmt", now.plusSeconds(60 * 60 * 23));
+        instructorDeadlines.put("instr2@course1.tmt", now.plusSeconds(60 * 60 * 24));
+        updateFirstFeedbackSessionOfTypicalCourse1(newEndTime, studentDeadlines, instructorDeadlines);
+        a = getAction(params);
+        r = getJsonResult(a);
+        response = (FeedbackSessionData) r.getOutput();
+
+        assertEquals(FeedbackSessionSubmissionStatus.CLOSED, response.getSubmissionStatus());
+
+        assertTrue(response.getStudentDeadlines().containsKey(student1InCourse1.getEmail()));
+        assertEquals(1, response.getStudentDeadlines().size());
+        assertTrue(response.getInstructorDeadlines().isEmpty());
+
+        logoutUser();
+    }
+
+    @Test
+    protected void testExecute_studentResult() {
+
+        StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
+        loginAsStudent(student1InCourse1.getGoogleId());
+        FeedbackSessionAttributes feedbackSessionAttributes = typicalBundle.feedbackSessions.get("session1InCourse1");
+        String courseId = feedbackSessionAttributes.getCourseId();
+        String feedbackSessionName = feedbackSessionAttributes.getFeedbackSessionName();
+        String timeZone = feedbackSessionAttributes.getTimeZone();
+        String[] params = new String[] {
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
+                Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.toString(),
+        };
+
+        ______TS("get result by student with no extension; before end time");
+
+        Instant now = Instant.now();
+        Instant newEndTime = now.plusSeconds(60 * 60);
+        Map<String, Instant> studentDeadlines = new HashMap<>();
+        studentDeadlines.put("student2InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 22));
+        Map<String, Instant> instructorDeadlines = new HashMap<>();
+        instructorDeadlines.put("instr1@course1.tmt", now.plusSeconds(60 * 60 * 23));
+        instructorDeadlines.put("instr2@course1.tmt", now.plusSeconds(60 * 60 * 24));
+        updateFirstFeedbackSessionOfTypicalCourse1(newEndTime, studentDeadlines, instructorDeadlines);
+        GetFeedbackSessionAction a = getAction(params);
+        JsonResult r = getJsonResult(a);
+        FeedbackSessionData response = (FeedbackSessionData) r.getOutput();
+
+        assertEquals(courseId, response.getCourseId());
+        assertEquals(feedbackSessionName, response.getFeedbackSessionName());
+        assertEquals(timeZone, response.getTimeZone());
+        assertEquals(feedbackSessionAttributes.getInstructions(), response.getInstructions());
+
+        assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(feedbackSessionAttributes.getStartTime(),
+                        timeZone, true).toEpochMilli(),
+                response.getSubmissionStartTimestamp());
+        assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(newEndTime, timeZone, true)
+                        .toEpochMilli(),
+                response.getSubmissionEndTimestamp());
+        assertNull(response.getGracePeriod());
+
+        assertNull(response.getSessionVisibleSetting());
+        assertNull(response.getSessionVisibleFromTimestamp());
+        assertNull(response.getCustomSessionVisibleTimestamp());
+
+        assertNull(response.getResponseVisibleSetting());
+        assertNull(response.getResultVisibleFromTimestamp());
+        assertNull(response.getCustomResponseVisibleTimestamp());
+
+        assertEquals(FeedbackSessionSubmissionStatus.OPEN, response.getSubmissionStatus());
+        assertEquals(FeedbackSessionPublishStatus.NOT_PUBLISHED, response.getPublishStatus());
+
+        assertNull(response.getIsClosingEmailEnabled());
+        assertNull(response.getIsPublishedEmailEnabled());
+
+        assertEquals(0, response.getCreatedAtTimestamp());
+        assertNull(response.getDeletedAtTimestamp());
+
+        assertTrue(response.getStudentDeadlines().isEmpty());
+        assertTrue(response.getInstructorDeadlines().isEmpty());
+
+        ______TS("get result by student with no extension; after end time but within grace period");
+
+        now = Instant.now();
+        newEndTime = now.plusSeconds(-60);
+        studentDeadlines = new HashMap<>();
+        studentDeadlines.put("student2InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 22));
+        instructorDeadlines = new HashMap<>();
+        instructorDeadlines.put("instr1@course1.tmt", now.plusSeconds(60 * 60 * 23));
+        instructorDeadlines.put("instr2@course1.tmt", now.plusSeconds(60 * 60 * 24));
+        updateFirstFeedbackSessionOfTypicalCourse1(newEndTime, studentDeadlines, instructorDeadlines);
+        a = getAction(params);
+        r = getJsonResult(a);
+        response = (FeedbackSessionData) r.getOutput();
+
+        assertEquals(FeedbackSessionSubmissionStatus.GRACE_PERIOD, response.getSubmissionStatus());
+
+        assertTrue(response.getStudentDeadlines().isEmpty());
+        assertTrue(response.getInstructorDeadlines().isEmpty());
+
+        ______TS("get result by student with no extension; after end time and beyond grace period");
+
+        now = Instant.now();
+        newEndTime = now.plusSeconds(-60 * 60);
+        studentDeadlines = new HashMap<>();
+        studentDeadlines.put("student2InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 22));
+        instructorDeadlines = new HashMap<>();
+        instructorDeadlines.put("instr1@course1.tmt", now.plusSeconds(60 * 60 * 23));
+        instructorDeadlines.put("instr2@course1.tmt", now.plusSeconds(60 * 60 * 24));
+        updateFirstFeedbackSessionOfTypicalCourse1(newEndTime, studentDeadlines, instructorDeadlines);
+        a = getAction(params);
+        r = getJsonResult(a);
+        response = (FeedbackSessionData) r.getOutput();
+
+        assertEquals(FeedbackSessionSubmissionStatus.CLOSED, response.getSubmissionStatus());
+
+        assertTrue(response.getStudentDeadlines().isEmpty());
+        assertTrue(response.getInstructorDeadlines().isEmpty());
+
+        ______TS("get result by student with extension; before end time");
+
+        now = Instant.now();
+        newEndTime = now.plusSeconds(60 * 60);
+        studentDeadlines = new HashMap<>();
+        studentDeadlines.put(student1InCourse1.getEmail(), now.plusSeconds(60 * 60 * 21));
+        studentDeadlines.put("student2InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 22));
+        instructorDeadlines = new HashMap<>();
+        instructorDeadlines.put("instr1@course1.tmt", now.plusSeconds(60 * 60 * 23));
+        instructorDeadlines.put("instr2@course1.tmt", now.plusSeconds(60 * 60 * 24));
+        updateFirstFeedbackSessionOfTypicalCourse1(newEndTime, studentDeadlines, instructorDeadlines);
+        a = getAction(params);
+        r = getJsonResult(a);
+        response = (FeedbackSessionData) r.getOutput();
+
+        assertEquals(FeedbackSessionSubmissionStatus.OPEN, response.getSubmissionStatus());
+
+        assertTrue(response.getStudentDeadlines().containsKey(student1InCourse1.getEmail()));
+        assertEquals(1, response.getStudentDeadlines().size());
+        assertTrue(response.getInstructorDeadlines().isEmpty());
+
+        ______TS("get result by student with extension; after end time but before extended deadline");
+
+        now = Instant.now();
+        newEndTime = now.plusSeconds(-60 * 60 * 24);
+        studentDeadlines = new HashMap<>();
+        studentDeadlines.put(student1InCourse1.getEmail(), now.plusSeconds(60 * 60));
+        studentDeadlines.put("student2InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 22));
+        instructorDeadlines = new HashMap<>();
+        instructorDeadlines.put("instr1@course1.tmt", now.plusSeconds(60 * 60 * 23));
+        instructorDeadlines.put("instr2@course1.tmt", now.plusSeconds(60 * 60 * 24));
+        updateFirstFeedbackSessionOfTypicalCourse1(newEndTime, studentDeadlines, instructorDeadlines);
+        a = getAction(params);
+        r = getJsonResult(a);
+        response = (FeedbackSessionData) r.getOutput();
+
+        assertEquals(FeedbackSessionSubmissionStatus.OPEN, response.getSubmissionStatus());
+
+        assertTrue(response.getStudentDeadlines().containsKey(student1InCourse1.getEmail()));
+        assertEquals(1, response.getStudentDeadlines().size());
+        assertTrue(response.getInstructorDeadlines().isEmpty());
+
+        ______TS("get result by student with extension; after extended deadline but within grace period");
+
+        now = Instant.now();
+        newEndTime = now.plusSeconds(-60 * 60 * 24);
+        studentDeadlines = new HashMap<>();
+        studentDeadlines.put(student1InCourse1.getEmail(), now.plusSeconds(-60));
+        studentDeadlines.put("student2InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 22));
+        instructorDeadlines = new HashMap<>();
+        instructorDeadlines.put("instr1@course1.tmt", now.plusSeconds(60 * 60 * 23));
+        instructorDeadlines.put("instr2@course1.tmt", now.plusSeconds(60 * 60 * 24));
+        updateFirstFeedbackSessionOfTypicalCourse1(newEndTime, studentDeadlines, instructorDeadlines);
+        a = getAction(params);
+        r = getJsonResult(a);
+        response = (FeedbackSessionData) r.getOutput();
+
+        assertEquals(FeedbackSessionSubmissionStatus.GRACE_PERIOD, response.getSubmissionStatus());
+
+        assertTrue(response.getStudentDeadlines().containsKey(student1InCourse1.getEmail()));
+        assertEquals(1, response.getStudentDeadlines().size());
+        assertTrue(response.getInstructorDeadlines().isEmpty());
+
+        ______TS("get result by student with extension; after extended deadline and beyond grace period");
+
+        now = Instant.now();
+        newEndTime = now.plusSeconds(-60 * 60 * 24);
+        studentDeadlines = new HashMap<>();
+        studentDeadlines.put(student1InCourse1.getEmail(), now.plusSeconds(-60 * 60));
+        studentDeadlines.put("student2InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 22));
+        instructorDeadlines = new HashMap<>();
+        instructorDeadlines.put("instr1@course1.tmt", now.plusSeconds(60 * 60 * 23));
+        instructorDeadlines.put("instr2@course1.tmt", now.plusSeconds(60 * 60 * 24));
+        updateFirstFeedbackSessionOfTypicalCourse1(newEndTime, studentDeadlines, instructorDeadlines);
+        a = getAction(params);
+        r = getJsonResult(a);
+        response = (FeedbackSessionData) r.getOutput();
+
+        assertEquals(FeedbackSessionSubmissionStatus.CLOSED, response.getSubmissionStatus());
+
+        assertTrue(response.getStudentDeadlines().containsKey(student1InCourse1.getEmail()));
+        assertEquals(1, response.getStudentDeadlines().size());
+        assertTrue(response.getInstructorDeadlines().isEmpty());
+
+        logoutUser();
     }
 
     @Override
@@ -241,5 +1176,31 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
                 Const.ParamsNames.PREVIEWAS, previewPerson,
                 Const.ParamsNames.REGKEY, regKey,
         };
+    }
+
+    private void assertEqualDeadlines(Map<String, Instant> expectedDeadlineInstants, Map<String, Long> actualDeadlines,
+            String timeZone) {
+        Map<String, Long> expectedDeadlines = expectedDeadlineInstants.entrySet()
+                .stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, entry ->
+                        TimeHelper.getMidnightAdjustedInstantBasedOnZone(entry.getValue(), timeZone, true)
+                                .toEpochMilli()));
+        assertEquals(expectedDeadlines, actualDeadlines);
+    }
+
+    private void updateFirstFeedbackSessionOfTypicalCourse1(Instant newEndTime, Map<String, Instant> studentDeadlines,
+            Map<String, Instant> instructorDeadlines) {
+        try {
+            logic.updateFeedbackSession(FeedbackSessionAttributes
+                    .updateOptionsBuilder("First feedback session", "idOfTypicalCourse1")
+                    .withEndTime(newEndTime)
+                    .withStudentDeadlines(studentDeadlines)
+                    .withInstructorDeadlines(instructorDeadlines)
+                    .build());
+        } catch (EntityDoesNotExistException e) {
+            fail("\"First feedback session\" of \"idOfTypicalCourse1\" should be in typicalDataBundle.json");
+        } catch (InvalidParametersException e) {
+            fail("Parameters should be valid.");
+        }
     }
 }

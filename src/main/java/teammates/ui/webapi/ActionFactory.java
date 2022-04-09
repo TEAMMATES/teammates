@@ -44,7 +44,6 @@ public final class ActionFactory {
         map(ResourceURIs.ACCOUNT, GET, GetAccountAction.class);
         map(ResourceURIs.ACCOUNT, POST, CreateAccountAction.class);
         map(ResourceURIs.ACCOUNT, DELETE, DeleteAccountAction.class);
-        map(ResourceURIs.ACCOUNT_DOWNGRADE, PUT, DowngradeAccountAction.class);
         map(ResourceURIs.ACCOUNT_RESET, PUT, ResetAccountAction.class);
         map(ResourceURIs.ACCOUNT_REQUEST, GET, GetAccountRequestAction.class);
         map(ResourceURIs.ACCOUNT_REQUEST, POST, CreateAccountRequestAction.class);
@@ -80,6 +79,15 @@ public final class ActionFactory {
         map(ResourceURIs.STUDENT, DELETE, DeleteStudentAction.class);
         map(ResourceURIs.STUDENT, GET, GetStudentAction.class);
         map(ResourceURIs.STUDENT, PUT, UpdateStudentAction.class);
+
+        // NOTIFICATION APIs
+        map(ResourceURIs.NOTIFICATION, GET, GetNotificationAction.class);
+        map(ResourceURIs.NOTIFICATION, POST, CreateNotificationAction.class);
+        map(ResourceURIs.NOTIFICATION, PUT, UpdateNotificationAction.class);
+        map(ResourceURIs.NOTIFICATION, DELETE, DeleteNotificationAction.class);
+
+        // NOTIFICATIONS APIs
+        map(ResourceURIs.NOTIFICATIONS, GET, GetNotificationsAction.class);
 
         //SEARCH APIs
         map(ResourceURIs.SEARCH_INSTRUCTORS, GET, SearchInstructorsAction.class);

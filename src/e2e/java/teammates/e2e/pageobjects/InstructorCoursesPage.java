@@ -33,6 +33,9 @@ public class InstructorCoursesPage extends AppPage {
     @FindBy(id = "new-course-name")
     private WebElement courseNameTextBox;
 
+    @FindBy(id = "new-course-institute")
+    private WebElement courseInstituteDropdown;
+
     @FindBy(id = "new-time-zone")
     private WebElement timeZoneDropdown;
 
@@ -134,6 +137,7 @@ public class InstructorCoursesPage extends AppPage {
 
         fillTextBox(courseIdTextBox, newCourse.getId());
         fillTextBox(courseNameTextBox, newCourse.getName());
+        selectCourseInstitute(newCourse.getInstitute());
         selectNewTimeZone(newCourse.getTimeZone());
 
         click(submitButton);
@@ -285,6 +289,11 @@ public class InstructorCoursesPage extends AppPage {
 
     private WebElement getDeleteAllButton() {
         return browser.driver.findElement(By.id("btn-delete-all"));
+    }
+
+    private void selectCourseInstitute(String institute) {
+        Select dropdown = new Select(courseInstituteDropdown);
+        dropdown.selectByValue(institute);
     }
 
     private void selectNewTimeZone(String timeZone) {

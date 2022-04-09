@@ -32,14 +32,14 @@ class GetSessionResultsAction extends Action {
             gateKeeper.verifyAccessible(instructor, fs);
             break;
         case INSTRUCTOR_RESULT:
-            instructor = getInstructor(courseId);
+            instructor = getPossiblyUnregisteredInstructor(courseId);
             gateKeeper.verifyAccessible(instructor, fs);
             if (!fs.isPublished()) {
                 throw new UnauthorizedAccessException("This feedback session is not yet published.", true);
             }
             break;
         case STUDENT_RESULT:
-            StudentAttributes student = getStudent(courseId);
+            StudentAttributes student = getPossiblyUnregisteredStudent(courseId);
             gateKeeper.verifyAccessible(student, fs);
             if (!fs.isPublished()) {
                 throw new UnauthorizedAccessException("This feedback session is not yet published.", true);
@@ -51,24 +51,6 @@ class GetSessionResultsAction extends Action {
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);
         }
-    }
-
-    private InstructorAttributes getInstructor(String courseId) {
-        return getUnregisteredInstructor().orElseGet(() -> {
-            if (userInfo == null) {
-                return null;
-            }
-            return logic.getInstructorForGoogleId(courseId, userInfo.getId());
-        });
-    }
-
-    private StudentAttributes getStudent(String courseId) {
-        return getUnregisteredStudent().orElseGet(() -> {
-            if (userInfo == null) {
-                return null;
-            }
-            return logic.getStudentForGoogleId(courseId, userInfo.getId());
-        });
     }
 
     @Override
@@ -94,7 +76,7 @@ class GetSessionResultsAction extends Action {
             return new JsonResult(SessionResultsData.initForInstructor(bundle));
         case INSTRUCTOR_RESULT:
             // Section name filter is not applicable here
-            instructor = getInstructor(courseId);
+            instructor = getPossiblyUnregisteredInstructor(courseId);
 
             bundle = logic.getSessionResultsForUser(feedbackSessionName, courseId, instructor.getEmail(),
                     true, questionId);
@@ -107,7 +89,7 @@ class GetSessionResultsAction extends Action {
             return new JsonResult(SessionResultsData.initForStudent(bundle, student));
         case STUDENT_RESULT:
             // Section name filter is not applicable here
-            student = getStudent(courseId);
+            student = getPossiblyUnregisteredStudent(courseId);
 
             bundle = logic.getSessionResultsForUser(feedbackSessionName, courseId, student.getEmail(),
                     false, questionId);

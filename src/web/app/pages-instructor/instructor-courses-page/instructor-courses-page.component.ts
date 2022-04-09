@@ -311,7 +311,7 @@ export class InstructorCoursesPageComponent implements OnInit {
     this.totalNumberOfSessionsToCopy = result.totalNumberOfSessions;
     this.copyProgressPercentage = 0;
 
-    this.courseService.createCourse({
+    this.courseService.createCourse(result.newCourseInstitute, {
       courseName: result.newCourseName,
       timeZone: result.newTimeZone,
       courseId: result.newCourseId,

@@ -38,11 +38,12 @@ class DeleteFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
             StudentAttributes student = getStudentOfCourseFromRequest(courseId);
 
             gateKeeper.verifyAnswerableForStudent(question);
-            verifySessionOpenExceptForModeration(session);
             verifyInstructorCanSeeQuestionIfInModeration(question);
             verifyNotPreview();
 
             checkAccessControlForStudentFeedbackSubmission(student, session);
+            session = session.sanitizeForStudent(student.getEmail());
+            verifySessionOpenExceptForModeration(session);
             gateKeeper.verifyOwnership(frc,
                     question.getGiverType() == FeedbackParticipantType.TEAMS
                             ? student.getTeam() : student.getEmail());
@@ -51,11 +52,12 @@ class DeleteFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
             InstructorAttributes instructorAsFeedbackParticipant = getInstructorOfCourseFromRequest(courseId);
 
             gateKeeper.verifyAnswerableForInstructor(question);
-            verifySessionOpenExceptForModeration(session);
             verifyInstructorCanSeeQuestionIfInModeration(question);
             verifyNotPreview();
 
             checkAccessControlForInstructorFeedbackSubmission(instructorAsFeedbackParticipant, session);
+            session = session.sanitizeForInstructor(instructorAsFeedbackParticipant.getEmail());
+            verifySessionOpenExceptForModeration(session);
             gateKeeper.verifyOwnership(frc, instructorAsFeedbackParticipant.getEmail());
             break;
         case INSTRUCTOR_RESULT:
