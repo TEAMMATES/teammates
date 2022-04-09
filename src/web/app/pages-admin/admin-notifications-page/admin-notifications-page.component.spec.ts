@@ -17,7 +17,7 @@ import { AdminNotificationsPageModule } from './admin-notifications-page.module'
 import { NotificationEditFormModel } from './notification-edit-form/notification-edit-form-model';
 import { NotificationsTableRowModel } from './notifications-table/notifications-table-model';
 
-const exampleNotificationEditModel: NotificationEditFormModel = {
+const testNotificationEditModel: NotificationEditFormModel = {
   notificationId: 'notification1',
   shown: false,
 
@@ -36,7 +36,7 @@ const exampleNotificationEditModel: NotificationEditFormModel = {
   isDeleting: false,
 };
 
-const exampleNotificationOne: Notification = {
+const testNotificationOne: Notification = {
   notificationId: 'notification1',
   startTimestamp: moment('2017-09-15 09:30:00').valueOf(),
   endTimestamp: moment('2050-09-15 09:30:00').valueOf(),
@@ -49,7 +49,7 @@ const exampleNotificationOne: Notification = {
   shown: false,
 };
 
-const exampleNotificationTwo: Notification = {
+const testNotificationTwo: Notification = {
   notificationId: 'notification2',
   startTimestamp: moment('2018-12-15 09:30:00').valueOf(),
   endTimestamp: moment('2050-09-15 09:30:00').valueOf(),
@@ -64,12 +64,12 @@ const exampleNotificationTwo: Notification = {
 
 const notificationTableRowModel1: NotificationsTableRowModel = {
   isHighlighted: true,
-  notification: exampleNotificationOne,
+  notification: testNotificationOne,
 };
 
 const notificationTableRowModel2: NotificationsTableRowModel = {
   isHighlighted: false,
-  notification: exampleNotificationTwo,
+  notification: testNotificationTwo,
 };
 
 describe('AdminNotificationsPageComponent', () => {
@@ -78,17 +78,6 @@ describe('AdminNotificationsPageComponent', () => {
   let notificationService: NotificationService;
   let statusMessageService: StatusMessageService;
   let simpleModalService: SimpleModalService;
-
-  /**
-   * Verifies the row model is updated as expected.
-   */
-  function verifyFirstRowModelEqualToExample(expected: Notification): void {
-    expect(component.notificationsTableRowModels[0].notification.notificationId).toEqual(expected.notificationId);
-    expect(component.notificationsTableRowModels[0].notification.shown).toBeFalsy();
-    expect(component.notificationsTableRowModels[0].notification.targetUser).toEqual(expected.targetUser);
-    expect(component.notificationsTableRowModels[0].notification.title).toEqual(expected.title);
-    expect(component.notificationsTableRowModels[0].notification.message).toEqual(expected.message);
-  }
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -152,7 +141,7 @@ describe('AdminNotificationsPageComponent', () => {
 
   it('should disable edit button when notification edit form expanded for existent notification', () => {
     jest.spyOn(notificationService, 'getNotifications').mockReturnValue(of({
-      notifications: [exampleNotificationOne],
+      notifications: [testNotificationOne],
     }));
     component.initNotificationEditFormModel();
     component.loadNotifications();
@@ -166,17 +155,22 @@ describe('AdminNotificationsPageComponent', () => {
 
   it('should load correct notification for a given API output', () => {
     jest.spyOn(notificationService, 'getNotifications').mockReturnValue(of({
-      notifications: [exampleNotificationOne],
+      notifications: [testNotificationOne],
     }));
 
     component.loadNotifications();
 
     expect(component.notificationsTableRowModels.length).toEqual(1);
-    verifyFirstRowModelEqualToExample(exampleNotificationOne);
+    expect(component.notificationsTableRowModels[0].notification.notificationId)
+      .toEqual(testNotificationOne.notificationId);
+    expect(component.notificationsTableRowModels[0].notification.shown).toBeFalsy();
+    expect(component.notificationsTableRowModels[0].notification.targetUser).toEqual(testNotificationOne.targetUser);
+    expect(component.notificationsTableRowModels[0].notification.title).toEqual(testNotificationOne.title);
+    expect(component.notificationsTableRowModels[0].notification.message).toEqual(testNotificationOne.message);
   });
 
   it('should add notification for all fields filled in', () => {
-    jest.spyOn(notificationService, 'createNotification').mockReturnValue(of(exampleNotificationOne));
+    jest.spyOn(notificationService, 'createNotification').mockReturnValue(of(testNotificationOne));
     const spy: SpyInstance = jest.spyOn(statusMessageService, 'showSuccessToast')
     .mockImplementation((args: string) => {
       expect(args).toEqual('Successfully created');
@@ -187,11 +181,16 @@ describe('AdminNotificationsPageComponent', () => {
     expect(spy).toHaveBeenCalledTimes(1);
     expect(component.isNotificationEditFormExpanded).toBeFalsy();
     expect(component.notificationsTableRowModels.length).toEqual(1);
-    verifyFirstRowModelEqualToExample(exampleNotificationOne);
+    expect(component.notificationsTableRowModels[0].notification.notificationId)
+      .toEqual(testNotificationOne.notificationId);
+    expect(component.notificationsTableRowModels[0].notification.shown).toBeFalsy();
+    expect(component.notificationsTableRowModels[0].notification.targetUser).toEqual(testNotificationOne.targetUser);
+    expect(component.notificationsTableRowModels[0].notification.title).toEqual(testNotificationOne.title);
+    expect(component.notificationsTableRowModels[0].notification.message).toEqual(testNotificationOne.message);
   });
 
   it('should display error message when failed to create notification', () => {
-    component.notificationEditFormModel = exampleNotificationEditModel;
+    component.notificationEditFormModel = testNotificationEditModel;
     jest.spyOn(notificationService, 'createNotification').mockReturnValue(throwError({
       error: {
         message: 'This is the error message.',
@@ -231,7 +230,7 @@ describe('AdminNotificationsPageComponent', () => {
     const modalSpy: SpyInstance = jest.spyOn(simpleModalService, 'openConfirmationModal')
         .mockReturnValue(createMockNgbModalRef({}, promise));
     jest.spyOn(notificationService, 'getNotifications').mockReturnValue(of({
-      notifications: [exampleNotificationOne, exampleNotificationTwo],
+      notifications: [testNotificationOne, testNotificationTwo],
     }));
     component.initNotificationEditFormModel();
     component.loadNotifications();
@@ -248,7 +247,9 @@ describe('AdminNotificationsPageComponent', () => {
     // attempts to load edit form for another notification
     component.loadNotificationEditFormHandler(component.notificationsTableRowModels[1].notification);
     await promise;
+    // the first loaded notification message should not be updated to new message
     expect(component.notificationsTableRowModels[0].notification.message).toEqual(expectedMessage);
+    // notification edit form model should be updated to the newly loaded notification
     expect(component.notificationEditFormModel.message)
         .toEqual(component.notificationsTableRowModels[1].notification.message);
 
@@ -269,7 +270,7 @@ describe('AdminNotificationsPageComponent', () => {
       expect(args).toEqual('Successfully deleted');
     });
 
-    component.deleteNotificationHandler(exampleNotificationEditModel.notificationId);
+    component.deleteNotificationHandler(testNotificationEditModel.notificationId);
     expect(spy).toHaveBeenCalledTimes(1);
     expect(component.notificationsTableRowModels.length).toEqual(0);
   });
@@ -280,7 +281,7 @@ describe('AdminNotificationsPageComponent', () => {
     component.sortNotificationsTableRowModelsHandler(SortBy.NOTIFICATION_START_TIME);
     expect(component.notificationsTableRowModelsSortBy).toEqual(SortBy.NOTIFICATION_START_TIME);
 
-    const expected : NotificationsTableRowModel[] = [notificationTableRowModel1, notificationTableRowModel2]
+    const expected : NotificationsTableRowModel[] = [notificationTableRowModel2, notificationTableRowModel1]
         .sort(component.getNotificationsTableRowModelsComparator());
     expect(expected[0]).toBe(component.notificationsTableRowModels[0]);
     expect(expected[1]).toBe(component.notificationsTableRowModels[1]);

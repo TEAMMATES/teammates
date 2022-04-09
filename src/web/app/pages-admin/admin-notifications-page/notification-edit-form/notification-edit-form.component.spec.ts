@@ -11,7 +11,7 @@ import { AdminNotificationsPageModule } from '../admin-notifications-page.module
 import { NotificationEditFormModel } from './notification-edit-form-model';
 import { NotificationEditFormComponent } from './notification-edit-form.component';
 
-const exampleNotificationEditModel: NotificationEditFormModel = {
+const testNotificationEditModel: NotificationEditFormModel = {
   notificationId: 'notification1',
   shown: false,
 
@@ -68,14 +68,14 @@ describe('NotificationEditFormComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should set up with exampleNotificationEditModel', () => {
-    component.model = exampleNotificationEditModel;
+  it('should set up with testNotificationEditModel', () => {
+    component.model = testNotificationEditModel;
     const model: NotificationEditFormModel = component.model;
-    expect(model).toBe(exampleNotificationEditModel);
+    expect(model).toBe(testNotificationEditModel);
   });
 
-  it('should triggerModelChange with exampleNotificationEditModel', () => {
-    component.model = exampleNotificationEditModel;
+  it('should triggerModelChange with testNotificationEditModel', () => {
+    component.model = testNotificationEditModel;
     component.modelChange.subscribe((data: NotificationEditFormModel) => {
       component.model = data;
     });
@@ -93,7 +93,7 @@ describe('NotificationEditFormComponent', () => {
   });
 
   it('should display warning when discarding edit to current notification', async () => {
-    component.model = exampleNotificationEditModel;
+    component.model = testNotificationEditModel;
     component.modelChange.subscribe((data: NotificationEditFormModel) => {
       component.model = data;
     });
