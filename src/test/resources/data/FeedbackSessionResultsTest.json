@@ -3,47 +3,56 @@
     "instructor1OfCourse1": {
       "googleId": "FSRTest.idOfInstructor1OfCourse1",
       "name": "Instructor 1 of Course 1",
-      "email": "FSRTest.instr1@course1.tmt"
+      "email": "FSRTest.instr1@course1.tmt",
+      "readNotifications": {}
     },
     "instructor2OfCourse1": {
       "googleId": "FSRTest.idOfInstructor2OfCourse1",
       "name": "Instructor 2 of Course 1",
-      "email": "FSRTest.instr2@course1.tmt"
+      "email": "FSRTest.instr2@course1.tmt",
+      "readNotifications": {}
     },
     "instructor3": {
       "googleId": "FSRTest.idOfInstructor3",
       "name": "Instructor 3 of Course 1 and No Sessions",
-      "email": "FSRTest.instr3@course1n2.tmt"
+      "email": "FSRTest.instr3@course1n2.tmt",
+      "readNotifications": {}
     },
     "instructorWithoutCourses": {
       "googleId": "FSRTest.instructorWithoutCourses",
       "name": "Instructor Without Courses",
-      "email": "FSRTest.iwc@yahoo.tmt"
+      "email": "FSRTest.iwc@yahoo.tmt",
+      "readNotifications": {}
     },
     "student1InCourse1": {
       "googleId": "FSRTest.student1InCourse1",
       "name": "Student 1 in course 1",
-      "email": "FSRTest.sudent1inCourse1@gmail.tmt"
+      "email": "FSRTest.sudent1inCourse1@gmail.tmt",
+      "readNotifications": {}
     },
     "student2InCourse1": {
       "googleId": "FSRTest.student2InCourse1",
       "name": "Student in two courses",
-      "email": "FSRTest.sudent2inCourse1@gmail.tmt"
+      "email": "FSRTest.sudent2inCourse1@gmail.tmt",
+      "readNotifications": {}
     },
     "student3InCourse1": {
       "googleId": "FSRTest.student3InCourse1",
       "name": "Student 3 in course 1",
-      "email": "FSRTest.sudent1inCourse1@gmail.tmt"
+      "email": "FSRTest.sudent1inCourse1@gmail.tmt",
+      "readNotifications": {}
     },
     "student4InCourse1": {
       "googleId": "FSRTest.student4InCourse1",
       "name": "Student 4 in course 1",
-      "email": "FSRTest.sudent4inCourse1@gmail.tmt"
+      "email": "FSRTest.sudent4inCourse1@gmail.tmt",
+      "readNotifications": {}
     },
     "student5InCourse1": {
       "googleId": "FSRTest.student5InCourse1",
       "name": "Student 5 in course 1",
-      "email": "FSRTest.sudent5inCourse1@gmail.tmt"
+      "email": "FSRTest.sudent5inCourse1@gmail.tmt",
+      "readNotifications": {}
     }
   },
   "courses": {

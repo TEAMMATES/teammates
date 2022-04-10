@@ -3,7 +3,8 @@
     "instructorWithSessions": {
       "googleId": "tm.e2e.FContrQn.instructor",
       "name": "Teammates Test",
-      "email": "tmms.test@gmail.tmt"
+      "email": "tmms.test@gmail.tmt",
+      "readNotifications": {}
     }
   },
   "courses": {

@@ -2,15 +2,15 @@ package teammates.common.datatransfer.attributes;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.Account;
-
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * The data transfer object for {@link Account} entities.
@@ -20,10 +20,12 @@ public class AccountAttributes extends EntityAttributes<Account> {
     private String googleId;
     private String name;
     private String email;
+    private Map<String, Instant> readNotifications;
     private Instant createdAt;
 
     private AccountAttributes(String googleId) {
         this.googleId = googleId;
+        this.readNotifications = new HashMap<>();
     }
 
     /**
@@ -34,6 +36,7 @@ public class AccountAttributes extends EntityAttributes<Account> {
 
         accountAttributes.name = a.getName();
         accountAttributes.email = a.getEmail();
+        accountAttributes.readNotifications = a.getReadNotifications();
         accountAttributes.createdAt = a.getCreatedAt();
 
         return accountAttributes;
@@ -54,6 +57,7 @@ public class AccountAttributes extends EntityAttributes<Account> {
 
         accountAttributes.name = this.name;
         accountAttributes.email = this.email;
+        accountAttributes.readNotifications = this.readNotifications;
         accountAttributes.createdAt = this.createdAt;
 
         return accountAttributes;
@@ -83,6 +87,14 @@ public class AccountAttributes extends EntityAttributes<Account> {
         this.email = email;
     }
 
+    public Map<String, Instant> getReadNotifications() {
+        return readNotifications;
+    }
+
+    public void setReadNotifications(Map<String, Instant> readNotifications) {
+        this.readNotifications = readNotifications;
+    }
+
     public Instant getCreatedAt() {
         return createdAt;
     }
@@ -101,19 +113,20 @@ public class AccountAttributes extends EntityAttributes<Account> {
 
         addNonEmptyError(FieldValidator.getInvalidityInfoForEmail(email), errors);
 
-        // No validation necessary for createdAt field.
+        // No validation necessary for createdAt and readNotifications fields.
 
         return errors;
     }
 
     @Override
     public Account toEntity() {
-        return new Account(googleId, name, email);
+        return new Account(googleId, name, email, readNotifications);
     }
 
     @Override
     public String toString() {
-        return JsonUtils.toJson(this, AccountAttributes.class);
+        return "AccountAttributes [googleId=" + googleId + ", name=" + name
+               + ", email=" + email + "]";
     }
 
     @Override
@@ -148,7 +161,7 @@ public class AccountAttributes extends EntityAttributes<Account> {
      * Updates with {@link UpdateOptions}.
      */
     public void update(UpdateOptions updateOptions) {
-        // currently, account does not have any updatable field
+        updateOptions.readNotificationsOption.ifPresent(s -> readNotifications = s);
     }
 
     /**
@@ -195,10 +208,12 @@ public class AccountAttributes extends EntityAttributes<Account> {
     }
 
     /**
-     * Helper class to specific the fields to update in {@link AccountAttributes}.
+     * Helper class to specify the fields to update in {@link AccountAttributes}.
      */
     public static class UpdateOptions {
         private String googleId;
+
+        private UpdateOption<Map<String, Instant>> readNotificationsOption = UpdateOption.empty();
 
         private UpdateOptions(String googleId) {
             assert googleId != null;
@@ -214,6 +229,7 @@ public class AccountAttributes extends EntityAttributes<Account> {
         public String toString() {
             return "AccountAttributes.UpdateOptions ["
                     + "googleId = " + googleId
+                    + ", readNotifications = " + JsonUtils.toJson(readNotificationsOption)
                     + "]";
         }
 
@@ -245,11 +261,15 @@ public class AccountAttributes extends EntityAttributes<Account> {
     private abstract static class BasicBuilder<T, B extends BasicBuilder<T, B>> {
 
         UpdateOptions updateOptions;
-        @SuppressFBWarnings("URF_UNREAD_FIELD")
         B thisBuilder;
 
         BasicBuilder(UpdateOptions updateOptions) {
             this.updateOptions = updateOptions;
+        }
+
+        public B withReadNotifications(Map<String, Instant> readNotifications) {
+            updateOptions.readNotificationsOption = UpdateOption.of(readNotifications);
+            return thisBuilder;
         }
 
         public abstract T build();

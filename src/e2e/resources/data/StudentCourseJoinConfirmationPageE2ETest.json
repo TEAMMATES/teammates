@@ -3,12 +3,14 @@
     "SCJoinConf.instr": {
       "googleId": "tm.e2e.SCJoinConf.instr",
       "name": "Teammates Test",
-      "email": "SCJoinConf.instr@gmail.tmt"
+      "email": "SCJoinConf.instr@gmail.tmt",
+      "readNotifications": {}
     },
     "alice.tmms": {
       "googleId": "tm.e2e.SCJoinConf.alice",
       "name": "Alice B",
-      "email": "SCJoinConf.alice@gmail.tmt"
+      "email": "SCJoinConf.alice@gmail.tmt",
+      "readNotifications": {}
     }
   },
   "courses": {
