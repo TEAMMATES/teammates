@@ -365,7 +365,6 @@ spotbugs {
     reportLevel = "low"
     toolVersion = spotbugsVersion
     includeFilter = file("$rootProject.projectDir/static-analysis/teammates-spotbugs.xml")
-    excludeFilter = file("$rootProject.projectDir/static-analysis/teammates-spotbugs-exclude.xml")
 }
 
 tasks.withType(com.github.spotbugs.snom.SpotBugsTask) {
