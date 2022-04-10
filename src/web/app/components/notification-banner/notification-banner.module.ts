@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { TeammatesCommonModule } from '../teammates-common/teammates-common.module';
 import { NotificationBannerComponent } from './notification-banner.component';
 
 /**
@@ -8,6 +9,6 @@ import { NotificationBannerComponent } from './notification-banner.component';
 @NgModule({
   declarations: [NotificationBannerComponent],
   exports: [NotificationBannerComponent],
-  imports: [CommonModule],
+  imports: [CommonModule, TeammatesCommonModule],
 })
 export class NotificationBannerModule { }

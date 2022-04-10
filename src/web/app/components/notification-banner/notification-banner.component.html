@@ -1,4 +1,4 @@
-<div class="banner bg-success text-white" *ngIf="isShown && notifications.length > 0" @collapseAnim>
+<div class="banner" [ngClass]="notifications[0].style | notificationStyleClass" *ngIf="isShown && notifications.length > 0" @collapseAnim>
   <button type="button" class="close" aria-label="Close" (click)="closeNotification()">
     <span aria-hidden="true">&times;</span>
   </button>

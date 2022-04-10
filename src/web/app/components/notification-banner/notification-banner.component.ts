@@ -33,7 +33,9 @@ export class NotificationBannerComponent implements OnInit {
     if (this.isInstructor) {
       this.userType = NotificationTargetUser.INSTRUCTOR;
     }
-    this.fetchNotifications();
+    if (this.userType !== NotificationTargetUser.GENERAL) {
+      this.fetchNotifications();
+    }
   }
 
   fetchNotifications(): void {
@@ -41,12 +43,6 @@ export class NotificationBannerComponent implements OnInit {
       .subscribe((response: Notifications) => {
         this.notifications = response.notifications;
       });
-    if (this.isStudent && this.isInstructor) {
-      this.notificationService.getNotificationsByTargetUser(NotificationTargetUser.STUDENT)
-        .subscribe((response: Notifications) => {
-          this.notifications = this.notifications.concat(response.notifications);
-        });
-    }
   }
 
   closeNotification(): void {
