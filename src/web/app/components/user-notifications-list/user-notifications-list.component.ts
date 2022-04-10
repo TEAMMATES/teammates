@@ -1,14 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, Input, OnInit } from '@angular/core';
 import { finalize } from 'rxjs/operators';
-import { NotificationService } from '../../services/notification.service';
-import { StatusMessageService } from '../../services/status-message.service';
-import { TableComparatorService } from '../../services/table-comparator.service';
-import { TimezoneService } from '../../services/timezone.service';
-import { Notification, Notifications, NotificationTargetUser } from '../../types/api-output';
-import { SortBy, SortOrder } from '../../types/sort-properties';
-import { collapseAnim } from '../components/teammates-common/collapse-anim';
-import { ErrorMessageOutput } from '../error-message-output';
+import { NotificationService } from '../../../services/notification.service';
+import { StatusMessageService } from '../../../services/status-message.service';
+import { TableComparatorService } from '../../../services/table-comparator.service';
+import { TimezoneService } from '../../../services/timezone.service';
+import { Notification, Notifications, NotificationTargetUser } from '../../../types/api-output';
+import { SortBy, SortOrder } from '../../../types/sort-properties';
+import { ErrorMessageOutput } from '../../error-message-output';
+import { collapseAnim } from '../teammates-common/collapse-anim';
 
 interface NotificationTab {
   notification: Notification;
@@ -18,21 +17,23 @@ interface NotificationTab {
 }
 
 /**
- * Component for notifications page.
+ * Component for user notifications list.
  */
 @Component({
-  selector: 'tm-notifications-page',
-  templateUrl: './notifications-page.component.html',
-  styleUrls: ['./notifications-page.component.scss'],
+  selector: 'tm-user-notifications-list',
+  templateUrl: './user-notifications-list.component.html',
+  styleUrls: ['./user-notifications-list.component.scss'],
   animations: [collapseAnim],
 })
-export class NotificationsPageComponent implements OnInit {
+export class UserNotificationsListComponent implements OnInit {
 
   // enum
   NotificationTargetUser: typeof NotificationTargetUser = NotificationTargetUser;
   SortBy: typeof SortBy = SortBy;
 
+  @Input()
   userType: NotificationTargetUser = NotificationTargetUser.GENERAL;
+
   notificationTabs: NotificationTab[] = [];
   notificationsSortBy: SortBy = SortBy.NONE;
 
@@ -42,15 +43,13 @@ export class NotificationsPageComponent implements OnInit {
 
   DATE_FORMAT: string = 'DD MMM YYYY';
 
-  constructor(private router: Router,
-              private notificationService: NotificationService,
+  constructor(private notificationService: NotificationService,
               private statusMessageService: StatusMessageService,
               private timezoneService: TimezoneService,
               private tableComparatorService: TableComparatorService) { }
 
   ngOnInit(): void {
     this.timezone = this.timezoneService.guessTimezone();
-    this.userType = this.parseUserType(this.router.url);
     this.loadNotifications();
   }
 
@@ -125,29 +124,5 @@ export class NotificationsPageComponent implements OnInit {
       }
       return this.tableComparatorService.compare(by, order, strA, strB);
     });
-  }
-
-  getUserTypeString(): string {
-    switch (this.userType) {
-      case NotificationTargetUser.STUDENT:
-        return 'students';
-      case NotificationTargetUser.INSTRUCTOR:
-        return 'instructors';
-      default:
-        return 'all users';
-    }
-  }
-
-  parseUserType(url: string): NotificationTargetUser {
-    // From the url of the form /web/<user>/notifications, retrieves the <user> parameter
-    const param: string = url.split('/')[2];
-    switch (param) {
-      case 'student':
-        return NotificationTargetUser.STUDENT;
-      case 'instructor':
-        return NotificationTargetUser.INSTRUCTOR;
-      default:
-        return NotificationTargetUser.GENERAL;
-    }
   }
 }

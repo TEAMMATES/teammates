@@ -48,8 +48,8 @@ const routes: Routes = [
   },
   {
     path: 'notifications',
-    loadChildren: () => import('../pages-notifications/notifications-page.module')
-        .then((m: any) => m.NotificationsPageModule),
+    loadChildren: () => import('./student-notifications-page/student-notifications-page.module')
+        .then((m: any) => m.StudentNotificationsPageModule),
   },
   {
     path: 'help',

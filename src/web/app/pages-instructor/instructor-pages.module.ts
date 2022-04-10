@@ -140,8 +140,8 @@ const routes: Routes = [
   },
   {
     path: 'notifications',
-    loadChildren: () => import('../pages-notifications/notifications-page.module')
-        .then((m: any) => m.NotificationsPageModule),
+    loadChildren: () => import('./instructor-notifications-page/instructor-notifications-page.module')
+        .then((m: any) => m.InstructorNotificationsPageModule),
   },
   {
     path: 'help',
