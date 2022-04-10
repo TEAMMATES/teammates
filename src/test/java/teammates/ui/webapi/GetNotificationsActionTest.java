@@ -6,8 +6,6 @@ import java.util.Set;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.NotificationTargetUser;
-import teammates.common.datatransfer.NotificationStyle;
-import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.NotificationAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -19,8 +17,6 @@ import teammates.ui.output.NotificationsData;
  * SUT: {@link GetNotificationsAction}.
  */
 public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsAction> {
-
-    // TODO: add tests for isfetchingall
 
     @Override
     String getActionUri() {
@@ -91,7 +87,7 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
     }
 
     @Test
-    public void testExecute_withValidUserTypeForNonAdmin_shouldReturnData() {
+    public void testExecute_withValidUserTypeForNonAdmin_shouldHideAdminInfoAndReturnData() {
         ______TS("Request to fetch notification");
         InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         loginAsInstructor(instructor.getGoogleId());
@@ -110,10 +106,19 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
         NotificationsData output = (NotificationsData) jsonResult.getOutput();
         List<NotificationData> notifications = output.getNotifications();
 
+        // should fetch correct number of notifications
         assertEquals(expectedNumberOfNotifications, notifications.size());
 
+        // should hide admin only information
+        NotificationData expected = new NotificationData(notification);
+        expected.hideInformationForNonAdmin();
         NotificationData firstNotification = notifications.get(0);
-        verifyNotificationEquals(notification, firstNotification);
+        verifyNotificationEquals(expected, firstNotification);
+
+        // should update notification has shown attribute
+        List<NotificationAttributes> notificationAttributes =
+                logic.getActiveNotificationsByTargetUser(notification.getTargetUser());
+        notificationAttributes.forEach(n -> assertTrue(n.isShown()));
     }
 
     @Test
@@ -138,8 +143,14 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
                 logic.getAllNotifications().size());
         assertEquals(expectedNumberOfNotifications, notifications.size());
 
+        NotificationData expected = new NotificationData(notification);
         NotificationData firstNotification = notifications.get(0);
-        verifyNotificationEquals(notification, firstNotification);
+        verifyNotificationEquals(expected, firstNotification);
+
+        // notification has shown attribute should not be updated
+        List<NotificationAttributes> notificationAttributes =
+                logic.getActiveNotificationsByTargetUser(notification.getTargetUser());
+        notificationAttributes.forEach(n -> assertFalse(n.isShown()));
     }
 
     @Test
@@ -211,7 +222,7 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
         verifyDoesNotContainNotifications(notifications, readNotificationsId);
     }
 
-    private void verifyNotificationEquals(NotificationAttributes expected, NotificationData actual) {
+    private void verifyNotificationEquals(NotificationData expected, NotificationData actual) {
         assertEquals(expected.getNotificationId(), actual.getNotificationId());
         assertEquals(expected.getStyle(), actual.getStyle());
         assertEquals(expected.getTargetUser(), actual.getTargetUser());

@@ -5,6 +5,8 @@ import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.attributes.NotificationAttributes;
+import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.ui.output.NotificationData;
@@ -45,9 +47,10 @@ public class GetNotificationsAction extends Action {
         String targetUserString = getRequestParamValue(Const.ParamsNames.NOTIFICATION_TARGET_USER);
         List<NotificationAttributes> notificationAttributes;
         if (targetUserString == null && userInfo.isAdmin) {
-            // retrieve all notifications
+            // if admin does not specify targetUser, retrieve all notifications
             notificationAttributes = logic.getAllNotifications();
         } else {
+            // retrieve active notification for specified target user
             String targetUserErrorMessage = FieldValidator.getInvalidityInfoForNotificationTargetUser(targetUserString);
             if (!targetUserErrorMessage.isEmpty()) {
                 throw new InvalidHttpParameterException(targetUserErrorMessage);
@@ -63,7 +66,7 @@ public class GetNotificationsAction extends Action {
         boolean isFetchingAll = Boolean.parseBoolean(
                 getRequestParamValue(Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL));
         if (!isFetchingAll) {
-            // only unread notifications are returned
+            // only unread notifications are returned if user is not fetching all
             List<String> readNotifications = logic.getReadNotificationsId(userInfo.getId());
             notificationAttributes = notificationAttributes
                     .stream()
@@ -74,6 +77,23 @@ public class GetNotificationsAction extends Action {
         NotificationsData responseData = new NotificationsData(notificationAttributes);
         if (!userInfo.isAdmin) {
             responseData.getNotifications().forEach(NotificationData::hideInformationForNonAdmin);
+            // update shown attribute once a non-admin user fetches the notification
+            for (NotificationAttributes n : notificationAttributes) {
+                if (n.isShown()) {
+                    continue;
+                }
+                try {
+                    NotificationAttributes.UpdateOptions newNotification =
+                            NotificationAttributes.updateOptionsBuilder(n.getNotificationId())
+                                    .withShown()
+                                    .build();
+                    logic.updateNotification(newNotification);
+                } catch (InvalidParametersException e) {
+                    throw new InvalidHttpParameterException(e);
+                } catch (EntityDoesNotExistException ednee) {
+                    throw new EntityNotFoundException(ednee);
+                }
+            }
         }
         return new JsonResult(responseData);
     }

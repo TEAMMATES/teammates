@@ -98,7 +98,7 @@ public class Logic {
 
         return accountsLogic.getAccountsForEmail(email);
     }
-    
+
     public List<String> getReadNotificationsId(String googleId) {
         return accountsLogic.getReadNotificationsId(googleId);
     }

@@ -73,10 +73,19 @@ public class NotificationData extends ApiOutput {
         return this.shown;
     }
 
+    public void setCreatedAt(long timestamp) {
+        this.createdAt = timestamp;
+    }
+
+    public void setTargetUser(NotificationTargetUser user) {
+        this.targetUser = user;
+    }
+
     /**
      * Hides some attributes to instructor and students without appropriate privilege.
      */
     public void hideInformationForNonAdmin() {
-        // TODO: hide information that might be admin-only: target users, isShown, (starttime and endtime)
+        setCreatedAt(0);
+        setTargetUser(null);
     }
 }
