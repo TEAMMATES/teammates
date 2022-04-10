@@ -40,13 +40,6 @@ public final class NotificationsLogic {
     }
 
     /**
-     * Checks if a notification id exists.
-     */
-    public boolean doesNotificationExists(String id) {
-        return notificationsDb.doesNotificationExists(id);
-    }
-
-    /**
      * Gets all notifications.
      */
     public List<NotificationAttributes> getAllNotifications() {
@@ -93,6 +86,13 @@ public final class NotificationsLogic {
      */
     public void deleteNotification(String notificationId) {
         notificationsDb.deleteNotification(notificationId);
+    }
+
+    /**
+     * Checks if a notification associated with {@code notificationId} exists.
+     */
+    public boolean doesNotificationExists(String notificationId) {
+        return notificationsDb.doesNotificationExists(notificationId);
     }
 
 }

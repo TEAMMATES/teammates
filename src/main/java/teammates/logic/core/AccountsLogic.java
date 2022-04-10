@@ -30,6 +30,7 @@ public final class AccountsLogic {
     private CoursesLogic coursesLogic;
     private InstructorsLogic instructorsLogic;
     private StudentsLogic studentsLogic;
+    private NotificationsLogic notificationsLogic;
 
     private AccountsLogic() {
         // prevent initialization
@@ -44,6 +45,7 @@ public final class AccountsLogic {
         coursesLogic = CoursesLogic.inst();
         instructorsLogic = InstructorsLogic.inst();
         studentsLogic = StudentsLogic.inst();
+        notificationsLogic = NotificationsLogic.inst();
     }
 
     /**
@@ -257,17 +259,27 @@ public final class AccountsLogic {
      * Updates the read notifications of an account.
      */
     public AccountAttributes updateReadNotifications(String googleId, String notificationId, Instant endTime)
-            throws EntityDoesNotExistException {
+            throws InvalidParametersException, EntityDoesNotExistException {
         AccountAttributes a = accountsDb.getAccount(googleId);
         if (a == null) {
             throw new EntityDoesNotExistException("Invalid account id.");
         }
+
+        if (endTime.isBefore(Instant.now())) {
+            throw new InvalidParametersException("Notification has expired.");
+        }
         Map<String, Instant> updatedReadNotifications = a.getReadNotifications();
+
         for (Map.Entry<String, Instant> notification : updatedReadNotifications.entrySet()) {
             if (notification.getValue().isBefore(Instant.now())) {
                 updatedReadNotifications.remove(notification.getKey());
             }
         }
+
+        if (!notificationsLogic.doesNotificationExists(notificationId)) {
+            throw new EntityDoesNotExistException("Invalid notification id to read");
+        }
+
         updatedReadNotifications.put(notificationId, endTime);
 
         try {

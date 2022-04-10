@@ -43,15 +43,6 @@ public final class NotificationsDb extends EntitiesDb<Notification, Notification
     }
 
     /**
-     * Checks if a notification exists in database using keys-only query.
-     */
-    public boolean doesNotificationExists(String notificationId) {
-        Key<Notification> notificationKey = Key.create(Notification.class, notificationId);
-        Key<Notification> datastoreKey = load().filterKey(notificationKey).keys().first().now();
-        return datastoreKey != null && datastoreKey.equals(notificationKey);
-    }
-
-    /**
      * Gets all notifications.
      */
     public List<NotificationAttributes> getAllNotifications() {
@@ -127,6 +118,14 @@ public final class NotificationsDb extends EntitiesDb<Notification, Notification
         assert notificationId != null;
 
         deleteEntity(Key.create(Notification.class, notificationId));
+    }
+
+    /**
+     * Checks if a notification associated with {@code notificationId} exists.
+     */
+    public boolean doesNotificationExists(String notificationId) {
+        Key<Notification> keyToFind = Key.create(Notification.class, notificationId);
+        return !load().filterKey(keyToFind).keys().list().isEmpty();
     }
 
     private Notification getNotificationEntity(String notificationId) {
