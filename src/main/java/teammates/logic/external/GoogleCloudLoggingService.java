@@ -7,9 +7,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.google.api.gax.paging.Page;
-import com.google.appengine.logging.v1.LogLine;
-import com.google.appengine.logging.v1.RequestLog;
-import com.google.appengine.logging.v1.SourceReference;
 import com.google.cloud.logging.LogEntry;
 import com.google.cloud.logging.Logging;
 import com.google.cloud.logging.Logging.EntryListOption;
@@ -18,9 +15,6 @@ import com.google.cloud.logging.Logging.SortingOrder;
 import com.google.cloud.logging.LoggingOptions;
 import com.google.cloud.logging.Payload;
 import com.google.cloud.logging.Severity;
-import com.google.protobuf.Any;
-import com.google.protobuf.InvalidProtocolBufferException;
-import com.google.protobuf.util.JsonFormat;
 
 import teammates.common.datatransfer.ErrorLogEntry;
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
@@ -42,7 +36,6 @@ public class GoogleCloudLoggingService implements LogService {
 
     private static final String RESOURCE_TYPE_GAE_APP = "gae_app";
 
-    private static final String REQUEST_LOG_NAME = "appengine.googleapis.com%2Frequest_log";
     private static final String STDOUT_LOG_NAME = "stdout";
     private static final String STDERR_LOG_NAME = "stderr";
 
@@ -60,50 +53,11 @@ public class GoogleCloudLoggingService implements LogService {
         QueryLogsParams queryLogsParams = QueryLogsParams.builder(startTime.toEpochMilli(), endTime.toEpochMilli())
                 .withMinSeverity(LogSeverity.ERROR)
                 .build();
-        LogSearchParams logSearchParams = LogSearchParams.from(queryLogsParams)
-                .addLogName(REQUEST_LOG_NAME)
-                .setResourceType(RESOURCE_TYPE_GAE_APP);
 
         List<ErrorLogEntry> errorLogs = new ArrayList<>();
-
-        List<LogEntry> logEntries = getAllLogEntries(logSearchParams);
-
-        for (LogEntry logEntry : logEntries) {
-            Any entry = (Any) logEntry.getPayload().getData();
-
-            JsonFormat.TypeRegistry tr = JsonFormat.TypeRegistry.newBuilder()
-                    .add(RequestLog.getDescriptor())
-                    .add(LogLine.getDescriptor())
-                    .add(com.google.appengine.logging.v1.SourceLocation.getDescriptor())
-                    .add(SourceReference.getDescriptor())
-                    .build();
-
-            List<LogLine> logLines = new ArrayList<>();
-            try {
-                String logContentAsJson = JsonFormat.printer().usingTypeRegistry(tr).print(entry);
-
-                RequestLog.Builder builder = RequestLog.newBuilder();
-                JsonFormat.parser().ignoringUnknownFields().usingTypeRegistry(tr).merge(logContentAsJson, builder);
-                RequestLog reconvertedLog = builder.build();
-
-                logLines = reconvertedLog.getLineList();
-            } catch (InvalidProtocolBufferException e) {
-                // TODO
-            }
-
-            String trace = logEntry.getTrace();
-            if (trace != null) {
-                trace = trace.replace(TRACE_PREFIX, "");
-            }
-
-            for (LogLine line : logLines) {
-                if (line.getSeverity().getNumber() >= com.google.logging.type.LogSeverity.ERROR.getNumber()) {
-                    errorLogs.add(new ErrorLogEntry(
-                            line.getLogMessage().replaceAll("\n", "\n<br>"),
-                            line.getSeverity().toString(), trace)
-                    );
-                }
-            }
+        for (GeneralLogEntry logEntry : queryLogs(queryLogsParams).getLogEntries()) {
+            String message = logEntry.getDetails() == null ? logEntry.getMessage() : JsonUtils.toJson(logEntry.getDetails());
+            errorLogs.add(new ErrorLogEntry(message, logEntry.getSeverity().toString(), logEntry.getTrace()));
         }
         return errorLogs;
     }
