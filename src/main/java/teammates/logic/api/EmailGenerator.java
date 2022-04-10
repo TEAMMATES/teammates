@@ -1004,7 +1004,7 @@ public final class EmailGenerator {
                 EmailTemplates.SEVERE_ERROR_LOG_LINE,
                 "${index}", String.valueOf(index),
                 "${errorType}", logLevel,
-                "${errorMessage}", logMessage,
+                "${errorMessage}", logMessage.replaceAll("\n", "\n<br>"),
                 "${traceId}", traceId);
     }
 

@@ -147,9 +147,9 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
                 warningLogTimestamp1, warningLogTextPayload1, warningLogJsonPayLoad1);
         mockLogsProcessor.insertWarningLog(warningLogTrace2, warningLogInsertId2, warningLogSourceLocation2,
                 warningLogTimestamp2, warningLogTextPayload2, warningLogJsonPayLoad2);
-        mockLogsProcessor.insertGeneralErrorLog(errorLogTrace, errorLogInsertId1, errorLogSourceLocation1,
+        mockLogsProcessor.insertErrorLog(errorLogTrace, errorLogInsertId1, errorLogSourceLocation1,
                 errorLogTimestamp1, errorLogTextPayload1, errorLogJsonPayLoad1);
-        mockLogsProcessor.insertGeneralErrorLog(errorLogTrace, errorLogInsertId2, errorLogSourceLocation2,
+        mockLogsProcessor.insertErrorLog(errorLogTrace, errorLogInsertId2, errorLogSourceLocation2,
                 errorLogTimestamp2, errorLogTextPayload2, errorLogJsonPayLoad2);
 
         loginAsAdmin();

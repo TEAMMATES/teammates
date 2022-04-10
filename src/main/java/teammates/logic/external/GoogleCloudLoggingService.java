@@ -16,7 +16,6 @@ import com.google.cloud.logging.LoggingOptions;
 import com.google.cloud.logging.Payload;
 import com.google.cloud.logging.Severity;
 
-import teammates.common.datatransfer.ErrorLogEntry;
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
 import teammates.common.datatransfer.QueryLogsResults;
 import teammates.common.datatransfer.logs.FeedbackSessionAuditLogDetails;
@@ -42,25 +41,6 @@ public class GoogleCloudLoggingService implements LogService {
     private static final String ASCENDING_ORDER = "asc";
 
     private static final String TRACE_PREFIX = String.format("projects/%s/traces/", Config.APP_ID);
-
-    @Override
-    public List<ErrorLogEntry> getRecentErrorLogs() {
-        Instant endTime = Instant.now();
-        // Sets the range to 6 minutes to slightly overlap the 5 minute email timer
-        long queryRange = 1000 * 60 * 6;
-        Instant startTime = endTime.minusMillis(queryRange);
-
-        QueryLogsParams queryLogsParams = QueryLogsParams.builder(startTime.toEpochMilli(), endTime.toEpochMilli())
-                .withMinSeverity(LogSeverity.ERROR)
-                .build();
-
-        List<ErrorLogEntry> errorLogs = new ArrayList<>();
-        for (GeneralLogEntry logEntry : queryLogs(queryLogsParams).getLogEntries()) {
-            String message = logEntry.getDetails() == null ? logEntry.getMessage() : JsonUtils.toJson(logEntry.getDetails());
-            errorLogs.add(new ErrorLogEntry(message, logEntry.getSeverity().toString(), logEntry.getTrace()));
-        }
-        return errorLogs;
-    }
 
     @Override
     public QueryLogsResults queryLogs(QueryLogsParams queryLogsParams) {
