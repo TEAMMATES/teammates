@@ -72,12 +72,4 @@ public class NotificationData extends ApiOutput {
     public boolean isShown() {
         return this.shown;
     }
-
-    public void setCreatedAt(long timestamp) {
-        this.createdAt = timestamp;
-    }
-
-    public void setTargetUser(NotificationTargetUser user) {
-        this.targetUser = user;
-    }
 }

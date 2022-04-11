@@ -71,37 +71,39 @@ public class GetNotificationsAction extends Action {
         }
         boolean isFetchingAll = Boolean.parseBoolean(isFetchingAllString);
 
-        if (!isFetchingAll) {
-            // only unread notifications are returned if user is not fetching all
-            List<String> readNotifications = logic.getReadNotificationsId(userInfo.getId());
-            notificationAttributes = notificationAttributes
-                    .stream()
-                    .filter(n -> !readNotifications.contains(n.getNotificationId()))
-                    .collect(Collectors.toList());
+        if (isFetchingAll) {
+            return new JsonResult(new NotificationsData(notificationAttributes));
         }
 
-        if (!userInfo.isAdmin && !isFetchingAll) {
-            // if request is not from admin and fetches only unread notifications,
-            // update shown attribute for these notifications
-            for (NotificationAttributes n : notificationAttributes) {
-                if (n.isShown()) {
-                    continue;
-                }
-                try {
-                    NotificationAttributes.UpdateOptions newNotification =
-                            NotificationAttributes.updateOptionsBuilder(n.getNotificationId())
-                                    .withShown()
-                                    .build();
-                    logic.updateNotification(newNotification);
-                    n.setShown();
-                } catch (InvalidParametersException e) {
-                    throw new InvalidHttpParameterException(e);
-                } catch (EntityDoesNotExistException ednee) {
-                    throw new EntityNotFoundException(ednee);
-                }
+        // Filter unread notifications
+        List<String> readNotifications = logic.getReadNotificationsId(userInfo.getId());
+        notificationAttributes = notificationAttributes
+                .stream()
+                .filter(n -> !readNotifications.contains(n.getNotificationId()))
+                .collect(Collectors.toList());
+
+        if (userInfo.isAdmin) {
+            return new JsonResult(new NotificationsData(notificationAttributes));
+        }
+
+        // Update shown attribute once a non-admin user fetches unread notifications
+        for (NotificationAttributes n : notificationAttributes) {
+            if (n.isShown()) {
+                continue;
+            }
+            try {
+                NotificationAttributes.UpdateOptions newNotification =
+                        NotificationAttributes.updateOptionsBuilder(n.getNotificationId())
+                                .withShown()
+                                .build();
+                logic.updateNotification(newNotification);
+                n.setShown();
+            } catch (InvalidParametersException e) {
+                throw new InvalidHttpParameterException(e);
+            } catch (EntityDoesNotExistException ednee) {
+                throw new EntityNotFoundException(ednee);
             }
         }
-        NotificationsData responseData = new NotificationsData(notificationAttributes);
-        return new JsonResult(responseData);
+        return new JsonResult(new NotificationsData(notificationAttributes));
     }
 }
