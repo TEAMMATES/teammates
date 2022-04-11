@@ -17,7 +17,6 @@ import teammates.ui.output.NotificationsData;
 public class GetNotificationsAction extends Action {
 
     private static final String INVALID_TARGET_USER = "Target user can only be STUDENT or INSTRUCTOR.";
-    private static final String INVALID_IS_FETCHING_ALL = "Isfetchingall should either be boolean or not specified.";
     private static final String UNAUTHORIZED_ACCESS = "You are not allowed to view this resource!";
 
     @Override
@@ -64,12 +63,10 @@ public class GetNotificationsAction extends Action {
                     logic.getActiveNotificationsByTargetUser(targetUser);
         }
 
-        String isFetchingAllString = getRequestParamValue(Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL);
-        if (isFetchingAllString != null
-                && !isFetchingAllString.equals("true") && !isFetchingAllString.equals("false")) {
-            throw new InvalidHttpParameterException(INVALID_IS_FETCHING_ALL);
+        boolean isFetchingAll = false;
+        if (getRequestParamValue(Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL) != null) {
+            isFetchingAll = getBooleanRequestParamValue(Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL);
         }
-        boolean isFetchingAll = Boolean.parseBoolean(isFetchingAllString);
 
         if (isFetchingAll) {
             return new JsonResult(new NotificationsData(notificationAttributes));
