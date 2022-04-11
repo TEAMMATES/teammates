@@ -7,6 +7,11 @@
   word-break: break-word;
 }
 
+.banner-text {
+  max-height: 100px;
+  overflow: scroll;
+}
+
 @media (max-width: 1024px) {
   .banner {
     padding: 20px 50px;
