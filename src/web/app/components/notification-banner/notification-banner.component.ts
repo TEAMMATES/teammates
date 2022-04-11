@@ -15,31 +15,21 @@ import { collapseAnim } from '../teammates-common/collapse-anim';
 export class NotificationBannerComponent implements OnInit {
 
   @Input()
-  isStudent: boolean = false;
-
-  @Input()
-  isInstructor: boolean = false;
+  notificationTargetUser: NotificationTargetUser = NotificationTargetUser.GENERAL;
 
   isShown: boolean = true;
-  userType: NotificationTargetUser = NotificationTargetUser.GENERAL;
   notifications: Notification[] = [];
 
   constructor(private notificationService: NotificationService) { }
 
   ngOnInit(): void {
-    if (this.isStudent) {
-      this.userType = NotificationTargetUser.STUDENT;
-    }
-    if (this.isInstructor) {
-      this.userType = NotificationTargetUser.INSTRUCTOR;
-    }
-    if (this.userType !== NotificationTargetUser.GENERAL) {
+    if (this.notificationTargetUser !== NotificationTargetUser.GENERAL) {
       this.fetchNotifications();
     }
   }
 
   fetchNotifications(): void {
-    this.notificationService.getNotificationsByTargetUser(this.userType)
+    this.notificationService.getNotificationsByTargetUser(this.notificationTargetUser)
       .subscribe((response: Notifications) => {
         this.notifications = response.notifications;
       });

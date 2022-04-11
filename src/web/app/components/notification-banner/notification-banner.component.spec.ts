@@ -1,4 +1,7 @@
+import { CommonModule } from '@angular/common';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { TeammatesCommonModule } from '../teammates-common/teammates-common.module';
 
 import { NotificationBannerComponent } from './notification-banner.component';
 
@@ -9,6 +12,11 @@ describe('NotificationBannerComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [NotificationBannerComponent],
+      imports: [
+        CommonModule,
+        TeammatesCommonModule,
+        HttpClientTestingModule,
+      ],
     })
     .compileComponents();
   }));
