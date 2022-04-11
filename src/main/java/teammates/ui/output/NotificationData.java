@@ -80,12 +80,4 @@ public class NotificationData extends ApiOutput {
     public void setTargetUser(NotificationTargetUser user) {
         this.targetUser = user;
     }
-
-    /**
-     * Hides some attributes to instructor and students without appropriate privilege.
-     */
-    public void hideInformationForNonAdmin() {
-        setCreatedAt(0);
-        setTargetUser(null);
-    }
 }

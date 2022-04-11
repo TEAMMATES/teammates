@@ -2,6 +2,7 @@ package teammates.ui.webapi;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.testng.annotations.Test;
 
@@ -87,7 +88,7 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
     }
 
     @Test
-    public void testExecute_withValidUserTypeForNonAdmin_shouldHideAdminInfoAndReturnData() {
+    public void testExecute_withValidUserTypeForNonAdmin_shouldReturnData() {
         ______TS("Request to fetch notification");
         InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         loginAsInstructor(instructor.getGoogleId());
@@ -108,17 +109,6 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
 
         // should fetch correct number of notifications
         assertEquals(expectedNumberOfNotifications, notifications.size());
-
-        // should hide admin only information
-        NotificationData expected = new NotificationData(notification);
-        expected.hideInformationForNonAdmin();
-        NotificationData firstNotification = notifications.get(0);
-        verifyNotificationEquals(expected, firstNotification);
-
-        // should update notification has shown attribute
-        List<NotificationAttributes> notificationAttributes =
-                logic.getActiveNotificationsByTargetUser(notification.getTargetUser());
-        notificationAttributes.forEach(n -> assertTrue(n.isShown()));
     }
 
     @Test
@@ -147,7 +137,7 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
         NotificationData firstNotification = notifications.get(0);
         verifyNotificationEquals(expected, firstNotification);
 
-        // notification has shown attribute should not be updated
+        // notification's shown attribute should not be updated
         List<NotificationAttributes> notificationAttributes =
                 logic.getActiveNotificationsByTargetUser(notification.getTargetUser());
         notificationAttributes.forEach(n -> assertFalse(n.isShown()));
@@ -182,7 +172,7 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
     }
 
     @Test
-    public void testExecute_withFalseIsFetchingAll_shouldReturnUnreadNotifications() {
+    public void testExecute_withFalseIsFetchingAll_shouldUpdateShownAndReturnUnreadNotifications() {
         ______TS("Request to fetch unread notification only");
 
         InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
@@ -200,11 +190,19 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
         NotificationsData output = (NotificationsData) jsonResult.getOutput();
         List<NotificationData> notifications = output.getNotifications();
         verifyDoesNotContainNotifications(notifications, readNotificationsId);
+
+        // should update notification has shown attribute
+        List<NotificationAttributes> notificationAttributes =
+                logic.getActiveNotificationsByTargetUser(NotificationTargetUser.INSTRUCTOR);
+        notificationAttributes = notificationAttributes.stream()
+                .filter(n -> !readNotificationsId.contains(n.getNotificationId()))
+                .collect(Collectors.toList());
+        notificationAttributes.forEach(n -> assertTrue(n.isShown()));
     }
 
     @Test
-    public void testExecute_withoutIsFetchingAll_shouldReturnUnreadNotifications() {
-        ______TS("Request without isfetchingall");
+    public void testExecute_withoutIsFetchingAll_shouldUpdateShownAndReturnUnreadNotifications() {
+        ______TS("Request without isfetchingall is equivalent to a false isfetchingall");
 
         InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         loginAsInstructor(instructor.getGoogleId());
@@ -220,6 +218,22 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
         NotificationsData output = (NotificationsData) jsonResult.getOutput();
         List<NotificationData> notifications = output.getNotifications();
         verifyDoesNotContainNotifications(notifications, readNotificationsId);
+    }
+
+    @Test
+    public void testExecute_withInvalidIsFetchingAll_shouldFail() {
+        ______TS("Request with invalid isfetchingall");
+
+        InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
+        loginAsInstructor(instructor.getGoogleId());
+
+        String[] requestParams = new String[] {
+                Const.ParamsNames.NOTIFICATION_TARGET_USER, NotificationTargetUser.INSTRUCTOR.toString(),
+                Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL, "random-value",
+        };
+
+        GetNotificationsAction action = getAction(requestParams);
+        assertThrows(InvalidHttpParameterException.class, action::execute);
     }
 
     private void verifyNotificationEquals(NotificationData expected, NotificationData actual) {

@@ -9,7 +9,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.ui.output.NotificationData;
 import teammates.ui.output.NotificationsData;
 
 /**
@@ -18,6 +17,7 @@ import teammates.ui.output.NotificationsData;
 public class GetNotificationsAction extends Action {
 
     private static final String INVALID_TARGET_USER = "Target user can only be STUDENT or INSTRUCTOR.";
+    private static final String INVALID_IS_FETCHING_ALL = "Isfetchingall should either be boolean or not specified.";
     private static final String UNAUTHORIZED_ACCESS = "You are not allowed to view this resource!";
 
     @Override
@@ -46,8 +46,9 @@ public class GetNotificationsAction extends Action {
     public JsonResult execute() {
         String targetUserString = getRequestParamValue(Const.ParamsNames.NOTIFICATION_TARGET_USER);
         List<NotificationAttributes> notificationAttributes;
+
         if (targetUserString == null && userInfo.isAdmin) {
-            // if admin does not specify targetUser, retrieve all notifications
+            // if request is from admin and targetUser is not specified, retrieve all notifications
             notificationAttributes = logic.getAllNotifications();
         } else {
             // retrieve active notification for specified target user
@@ -63,8 +64,13 @@ public class GetNotificationsAction extends Action {
                     logic.getActiveNotificationsByTargetUser(targetUser);
         }
 
-        boolean isFetchingAll = Boolean.parseBoolean(
-                getRequestParamValue(Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL));
+        String isFetchingAllString = getRequestParamValue(Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL);
+        if (isFetchingAllString != null
+                && !isFetchingAllString.equals("true") && !isFetchingAllString.equals("false")) {
+            throw new InvalidHttpParameterException(INVALID_IS_FETCHING_ALL);
+        }
+        boolean isFetchingAll = Boolean.parseBoolean(isFetchingAllString);
+
         if (!isFetchingAll) {
             // only unread notifications are returned if user is not fetching all
             List<String> readNotifications = logic.getReadNotificationsId(userInfo.getId());
@@ -74,10 +80,9 @@ public class GetNotificationsAction extends Action {
                     .collect(Collectors.toList());
         }
 
-        NotificationsData responseData = new NotificationsData(notificationAttributes);
-        if (!userInfo.isAdmin) {
-            responseData.getNotifications().forEach(NotificationData::hideInformationForNonAdmin);
-            // update shown attribute once a non-admin user fetches the notification
+        if (!userInfo.isAdmin && !isFetchingAll) {
+            // if request is not from admin and fetches only unread notifications,
+            // update shown attribute for these notifications
             for (NotificationAttributes n : notificationAttributes) {
                 if (n.isShown()) {
                     continue;
@@ -88,6 +93,7 @@ public class GetNotificationsAction extends Action {
                                     .withShown()
                                     .build();
                     logic.updateNotification(newNotification);
+                    n.setShown();
                 } catch (InvalidParametersException e) {
                     throw new InvalidHttpParameterException(e);
                 } catch (EntityDoesNotExistException ednee) {
@@ -95,6 +101,7 @@ public class GetNotificationsAction extends Action {
                 }
             }
         }
+        NotificationsData responseData = new NotificationsData(notificationAttributes);
         return new JsonResult(responseData);
     }
 }
