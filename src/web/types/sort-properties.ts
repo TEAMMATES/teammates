@@ -33,6 +33,11 @@ export enum SortBy {
     STUDENT_GENDER,
 
     /**
+     * The role of an instructor.
+     */
+    INSTRUCTOR_PERMISSION_ROLE,
+
+    /**
      * Institution.
      */
     INSTITUTION,

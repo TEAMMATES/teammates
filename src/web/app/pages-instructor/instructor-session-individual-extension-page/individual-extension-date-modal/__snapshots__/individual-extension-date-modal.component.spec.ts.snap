@@ -1,0 +1,932 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`IndividualExtensionDateModalComponent should snap with the extend by radio option 1`] = `
+<tm-individual-extension-date-modal
+  DateTime={[Function Object]}
+  MAX_EPOCH_TIME_IN_DAYS={[Function Number]}
+  MAX_EPOCH_TIME_IN_MILLISECONDS={[Function Number]}
+  ONE_DAY_IN_MILLISECONDS={[Function Number]}
+  ONE_HOUR_IN_MILLISECONDS={[Function Number]}
+  ONE_MINUTE_IN_MILLISECONDS={[Function Number]}
+  RadioOptions={[Function Object]}
+  activeModal={[Function NgbActiveModal]}
+  dateDetailPipe={[Function FormatDateDetailPipe]}
+  extendByDatePicker={[Function Object]}
+  extendByDeadlineKey={[Function String]}
+  extendByDeadlineOptions={[Function Map]}
+  extendToDatePicker={[Function Object]}
+  extendToTimePicker={[Function Object]}
+  feedbackSessionEndingTimestamp="0"
+  feedbackSessionTimeZone=""
+  numInstructors={[Function Number]}
+  numStudents={[Function Number]}
+  onConfirmCallBack={[Function EventEmitter_]}
+  radioOption={[Function Number]}
+  simpleModalService={[Function SimpleModalService]}
+  sortMapByOriginalOrder={[Function Function]}
+  timeZoneService={[Function TimezoneService]}
+>
+  <div
+    class="modal-header alert-primary"
+  >
+    <h5
+      class="modal-title"
+    >
+      Select the new deadline for extension
+    </h5>
+    <button
+      class="close"
+      type="button"
+    >
+      <i
+        class="fas fa-times"
+      />
+    </button>
+  </div><div
+    class="modal-body"
+  >
+     Extending the feedback session for 
+    <b>
+      10
+    </b>
+     student(s) and 
+    <b>
+      20
+    </b>
+     instructor(s):
+  </div><div
+    class="container ml-1"
+  >
+    <div
+      class="row pl-3"
+    >
+      <label
+        class="mr-2"
+      >
+        <input
+          class="ng-untouched ng-pristine ng-valid"
+          name="optradio"
+          type="radio"
+        />
+         Extend deadline by 
+      </label>
+      <label>
+        <input
+          class="ng-untouched ng-pristine ng-valid"
+          name="optradio"
+          type="radio"
+        />
+         Extend deadline to 
+      </label>
+    </div>
+    <div>
+      <small>
+        Extend the feedback session by:
+      </small>
+      <div
+        id="submission-start-date"
+      >
+        <div
+          class="input-group w-75"
+        >
+          <select
+            class="form-control ng-untouched ng-pristine ng-valid"
+          >
+            <option
+              value="12 hours"
+            >
+               12 hours 
+              <div>
+                 (Sat, 5 Apr 2000 2:00 +08) 
+              </div>
+            </option>
+            <option
+              value="1 day"
+            >
+               1 day 
+              <div>
+                 (Sat, 5 Apr 2000 2:00 +08) 
+              </div>
+            </option>
+            <option
+              value="3 days"
+            >
+               3 days 
+              <div>
+                 (Sat, 5 Apr 2000 2:00 +08) 
+              </div>
+            </option>
+            <option
+              value="1 week"
+            >
+               1 week 
+              <div>
+                 (Sat, 5 Apr 2000 2:00 +08) 
+              </div>
+            </option>
+            <option
+              value="Customize"
+            >
+               Customize 
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <br />
+  </div><div
+    class="modal-footer"
+  >
+    <button
+      class="btn btn-light"
+      type="button"
+    >
+      No, cancel the Operation
+    </button>
+    <button
+      class="btn btn-success modal-btn-ok"
+      type="button"
+    >
+       Save Changes
+    </button>
+  </div>
+</tm-individual-extension-date-modal>
+`;
+
+exports[`IndividualExtensionDateModalComponent should snap with the extend by radio option with customize 1`] = `
+<tm-individual-extension-date-modal
+  DateTime={[Function Object]}
+  MAX_EPOCH_TIME_IN_DAYS={[Function Number]}
+  MAX_EPOCH_TIME_IN_MILLISECONDS={[Function Number]}
+  ONE_DAY_IN_MILLISECONDS={[Function Number]}
+  ONE_HOUR_IN_MILLISECONDS={[Function Number]}
+  ONE_MINUTE_IN_MILLISECONDS={[Function Number]}
+  RadioOptions={[Function Object]}
+  activeModal={[Function NgbActiveModal]}
+  dateDetailPipe={[Function FormatDateDetailPipe]}
+  extendByDatePicker={[Function Object]}
+  extendByDeadlineKey={[Function String]}
+  extendByDeadlineOptions={[Function Map]}
+  extendToDatePicker={[Function Object]}
+  extendToTimePicker={[Function Object]}
+  feedbackSessionEndingTimestamp="0"
+  feedbackSessionTimeZone=""
+  numInstructors={[Function Number]}
+  numStudents={[Function Number]}
+  onConfirmCallBack={[Function EventEmitter_]}
+  radioOption={[Function Number]}
+  simpleModalService={[Function SimpleModalService]}
+  sortMapByOriginalOrder={[Function Function]}
+  timeZoneService={[Function TimezoneService]}
+>
+  <div
+    class="modal-header alert-primary"
+  >
+    <h5
+      class="modal-title"
+    >
+      Select the new deadline for extension
+    </h5>
+    <button
+      class="close"
+      type="button"
+    >
+      <i
+        class="fas fa-times"
+      />
+    </button>
+  </div><div
+    class="modal-body"
+  >
+     Extending the feedback session for 
+    <b>
+      10
+    </b>
+     student(s) and 
+    <b>
+      20
+    </b>
+     instructor(s):
+  </div><div
+    class="container ml-1"
+  >
+    <div
+      class="row pl-3"
+    >
+      <label
+        class="mr-2"
+      >
+        <input
+          class="ng-untouched ng-pristine ng-valid"
+          name="optradio"
+          type="radio"
+        />
+         Extend deadline by 
+      </label>
+      <label>
+        <input
+          class="ng-untouched ng-pristine ng-valid"
+          name="optradio"
+          type="radio"
+        />
+         Extend deadline to 
+      </label>
+    </div>
+    <div>
+      <small>
+        Extend the feedback session by:
+      </small>
+      <div
+        id="submission-start-date"
+      >
+        <div
+          class="input-group w-75"
+        >
+          <select
+            class="form-control ng-untouched ng-pristine ng-valid"
+          >
+            <option
+              value="12 hours"
+            >
+               12 hours 
+              <div>
+                 (Sat, 5 Apr 2000 2:00 +08) 
+              </div>
+            </option>
+            <option
+              value="1 day"
+            >
+               1 day 
+              <div>
+                 (Sat, 5 Apr 2000 2:00 +08) 
+              </div>
+            </option>
+            <option
+              value="3 days"
+            >
+               3 days 
+              <div>
+                 (Sat, 5 Apr 2000 2:00 +08) 
+              </div>
+            </option>
+            <option
+              value="1 week"
+            >
+               1 week 
+              <div>
+                 (Sat, 5 Apr 2000 2:00 +08) 
+              </div>
+            </option>
+            <option
+              value="Customize"
+            >
+               Customize 
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div>
+      <form
+        class="container ng-untouched ng-pristine ng-valid"
+        novalidate=""
+      >
+        <div
+          class="row"
+        >
+          <div
+            class="col-sm pl-0"
+          >
+            <small>
+              Hours
+            </small>
+            <input
+              class="form-control ng-untouched ng-pristine ng-valid"
+              id="form-hours"
+              name="form-hours"
+              placeholder="Hours"
+              type="number"
+            />
+          </div>
+          <div
+            class="col-sm"
+          >
+            <small>
+              Days
+            </small>
+            <input
+              class="form-control ng-untouched ng-pristine ng-valid"
+              id="form-days"
+              name="form-days"
+              placeholder="Days"
+              type="number"
+            />
+          </div>
+        </div>
+      </form>
+      <br />
+      <p
+        class="mb-0"
+      >
+         The new extended deadline will be: Sat, 5 Apr 2000 2:00 +08 
+      </p>
+    </div>
+    <br />
+  </div><div
+    class="modal-footer"
+  >
+    <button
+      class="btn btn-light"
+      type="button"
+    >
+      No, cancel the Operation
+    </button>
+    <button
+      class="btn btn-success modal-btn-ok"
+      type="button"
+    >
+       Save Changes
+    </button>
+  </div>
+</tm-individual-extension-date-modal>
+`;
+
+exports[`IndividualExtensionDateModalComponent should snap with the extend to radio option with timepicker 1`] = `
+<tm-individual-extension-date-modal
+  DateTime={[Function Object]}
+  MAX_EPOCH_TIME_IN_DAYS={[Function Number]}
+  MAX_EPOCH_TIME_IN_MILLISECONDS={[Function Number]}
+  ONE_DAY_IN_MILLISECONDS={[Function Number]}
+  ONE_HOUR_IN_MILLISECONDS={[Function Number]}
+  ONE_MINUTE_IN_MILLISECONDS={[Function Number]}
+  RadioOptions={[Function Object]}
+  activeModal={[Function NgbActiveModal]}
+  dateDetailPipe={[Function FormatDateDetailPipe]}
+  extendByDatePicker={[Function Object]}
+  extendByDeadlineKey=""
+  extendByDeadlineOptions={[Function Map]}
+  extendToDatePicker={[Function Object]}
+  extendToTimePicker={[Function Object]}
+  feedbackSessionEndingTimestamp="0"
+  feedbackSessionTimeZone=""
+  numInstructors={[Function Number]}
+  numStudents={[Function Number]}
+  onConfirmCallBack={[Function EventEmitter_]}
+  radioOption={[Function Number]}
+  simpleModalService={[Function SimpleModalService]}
+  sortMapByOriginalOrder={[Function Function]}
+  timeZoneService={[Function TimezoneService]}
+>
+  <div
+    class="modal-header alert-primary"
+  >
+    <h5
+      class="modal-title"
+    >
+      Select the new deadline for extension
+    </h5>
+    <button
+      class="close"
+      type="button"
+    >
+      <i
+        class="fas fa-times"
+      />
+    </button>
+  </div><div
+    class="modal-body"
+  >
+     Extending the feedback session for 
+    <b>
+      10
+    </b>
+     student(s) and 
+    <b>
+      20
+    </b>
+     instructor(s):
+  </div><div
+    class="container ml-1"
+  >
+    <div
+      class="row pl-3"
+    >
+      <label
+        class="mr-2"
+      >
+        <input
+          class="ng-untouched ng-pristine ng-valid"
+          name="optradio"
+          type="radio"
+        />
+         Extend deadline by 
+      </label>
+      <label>
+        <input
+          class="ng-untouched ng-pristine ng-valid"
+          name="optradio"
+          type="radio"
+        />
+         Extend deadline to 
+      </label>
+    </div>
+    <div>
+      <small>
+        The new deadline of the feedback session will be:
+      </small>
+      <div
+        id="submission-start-date"
+      >
+        <div
+          class="input-group"
+        >
+          <tm-datepicker>
+            <div
+              class="input-group"
+            >
+              <input
+                class="form-control ng-untouched ng-pristine ng-valid"
+                ngbdatepicker=""
+                type="text"
+              />
+              <div
+                class="input-group-append"
+              >
+                <button
+                  class="btn btn-light"
+                  type="button"
+                >
+                  <i
+                    class="fas fa-calendar-alt"
+                  />
+                </button>
+              </div>
+            </div>
+          </tm-datepicker>
+          <div
+            class="col-md-5"
+          >
+            <tm-timepicker
+              id="submission-end-time"
+            >
+              <select
+                class="form-control ng-untouched ng-pristine ng-valid"
+              >
+                <option
+                  value="1: Object"
+                >
+                   01:00H 
+                </option>
+                <option
+                  value="2: Object"
+                >
+                   02:00H 
+                </option>
+                <option
+                  value="3: Object"
+                >
+                   03:00H 
+                </option>
+                <option
+                  value="4: Object"
+                >
+                   04:00H 
+                </option>
+                <option
+                  value="5: Object"
+                >
+                   05:00H 
+                </option>
+                <option
+                  value="6: Object"
+                >
+                   06:00H 
+                </option>
+                <option
+                  value="7: Object"
+                >
+                   07:00H 
+                </option>
+                <option
+                  value="8: Object"
+                >
+                   08:00H 
+                </option>
+                <option
+                  value="9: Object"
+                >
+                   09:00H 
+                </option>
+                <option
+                  value="10: Object"
+                >
+                   10:00H 
+                </option>
+                <option
+                  value="11: Object"
+                >
+                   11:00H 
+                </option>
+                <option
+                  value="12: Object"
+                >
+                   12:00H 
+                </option>
+                <option
+                  value="13: Object"
+                >
+                   13:00H 
+                </option>
+                <option
+                  value="14: Object"
+                >
+                   14:00H 
+                </option>
+                <option
+                  value="15: Object"
+                >
+                   15:00H 
+                </option>
+                <option
+                  value="16: Object"
+                >
+                   16:00H 
+                </option>
+                <option
+                  value="17: Object"
+                >
+                   17:00H 
+                </option>
+                <option
+                  value="18: Object"
+                >
+                   18:00H 
+                </option>
+                <option
+                  value="19: Object"
+                >
+                   19:00H 
+                </option>
+                <option
+                  value="20: Object"
+                >
+                   20:00H 
+                </option>
+                <option
+                  value="21: Object"
+                >
+                   21:00H 
+                </option>
+                <option
+                  value="22: Object"
+                >
+                   22:00H 
+                </option>
+                <option
+                  value="23: Object"
+                >
+                   23:00H 
+                </option>
+                <option
+                  value="0: Object"
+                >
+                  23:59H
+                </option>
+                <option
+                  value="24: Object"
+                >
+                  10:30H
+                </option>
+              </select>
+            </tm-timepicker>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br />
+  </div><div
+    class="modal-footer"
+  >
+    <button
+      class="btn btn-light"
+      type="button"
+    >
+      No, cancel the Operation
+    </button>
+    <button
+      class="btn btn-success modal-btn-ok"
+      type="button"
+    >
+       Save Changes
+    </button>
+  </div>
+</tm-individual-extension-date-modal>
+`;
+
+exports[`IndividualExtensionDateModalComponent should snap with the extended students 1`] = `
+<tm-individual-extension-date-modal
+  DateTime={[Function Object]}
+  MAX_EPOCH_TIME_IN_DAYS={[Function Number]}
+  MAX_EPOCH_TIME_IN_MILLISECONDS={[Function Number]}
+  ONE_DAY_IN_MILLISECONDS={[Function Number]}
+  ONE_HOUR_IN_MILLISECONDS={[Function Number]}
+  ONE_MINUTE_IN_MILLISECONDS={[Function Number]}
+  RadioOptions={[Function Object]}
+  activeModal={[Function NgbActiveModal]}
+  dateDetailPipe={[Function FormatDateDetailPipe]}
+  extendByDatePicker={[Function Object]}
+  extendByDeadlineKey=""
+  extendByDeadlineOptions={[Function Map]}
+  extendToDatePicker={[Function Object]}
+  extendToTimePicker={[Function Object]}
+  feedbackSessionEndingTimestamp="0"
+  feedbackSessionTimeZone=""
+  numInstructors={[Function Number]}
+  numStudents={[Function Number]}
+  onConfirmCallBack={[Function EventEmitter_]}
+  radioOption={[Function Number]}
+  simpleModalService={[Function SimpleModalService]}
+  sortMapByOriginalOrder={[Function Function]}
+  timeZoneService={[Function TimezoneService]}
+>
+  <div
+    class="modal-header alert-primary"
+  >
+    <h5
+      class="modal-title"
+    >
+      Select the new deadline for extension
+    </h5>
+    <button
+      class="close"
+      type="button"
+    >
+      <i
+        class="fas fa-times"
+      />
+    </button>
+  </div><div
+    class="modal-body"
+  >
+     Extending the feedback session for 
+    <b>
+      10
+    </b>
+     student(s) and 
+    <b>
+      20
+    </b>
+     instructor(s):
+  </div><div
+    class="container ml-1"
+  >
+    <div
+      class="row pl-3"
+    >
+      <label
+        class="mr-2"
+      >
+        <input
+          class="ng-untouched ng-pristine ng-valid"
+          name="optradio"
+          type="radio"
+        />
+         Extend deadline by 
+      </label>
+      <label>
+        <input
+          class="ng-untouched ng-pristine ng-valid"
+          name="optradio"
+          type="radio"
+        />
+         Extend deadline to 
+      </label>
+    </div>
+    <div>
+      <small>
+        Extend the feedback session by:
+      </small>
+      <div
+        id="submission-start-date"
+      >
+        <div
+          class="input-group w-75"
+        >
+          <select
+            class="form-control ng-untouched ng-pristine ng-valid"
+          >
+            <option
+              value="12 hours"
+            >
+               12 hours 
+              <div>
+                 (Sat, 5 Apr 2000 2:00 +08) 
+              </div>
+            </option>
+            <option
+              value="1 day"
+            >
+               1 day 
+              <div>
+                 (Sat, 5 Apr 2000 2:00 +08) 
+              </div>
+            </option>
+            <option
+              value="3 days"
+            >
+               3 days 
+              <div>
+                 (Sat, 5 Apr 2000 2:00 +08) 
+              </div>
+            </option>
+            <option
+              value="1 week"
+            >
+               1 week 
+              <div>
+                 (Sat, 5 Apr 2000 2:00 +08) 
+              </div>
+            </option>
+            <option
+              value="Customize"
+            >
+               Customize 
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <br />
+  </div><div
+    class="modal-footer"
+  >
+    <button
+      class="btn btn-light"
+      type="button"
+    >
+      No, cancel the Operation
+    </button>
+    <button
+      class="btn btn-success modal-btn-ok"
+      disabled=""
+      type="button"
+    >
+       Save Changes
+    </button>
+  </div>
+</tm-individual-extension-date-modal>
+`;
+
+exports[`IndividualExtensionDateModalComponent should snap with the warning modal 1`] = `
+<tm-individual-extension-date-modal
+  DateTime={[Function Object]}
+  MAX_EPOCH_TIME_IN_DAYS={[Function Number]}
+  MAX_EPOCH_TIME_IN_MILLISECONDS={[Function Number]}
+  ONE_DAY_IN_MILLISECONDS={[Function Number]}
+  ONE_HOUR_IN_MILLISECONDS={[Function Number]}
+  ONE_MINUTE_IN_MILLISECONDS={[Function Number]}
+  RadioOptions={[Function Object]}
+  activeModal={[Function NgbActiveModal]}
+  dateDetailPipe={[Function FormatDateDetailPipe]}
+  extendByDatePicker={[Function Object]}
+  extendByDeadlineKey=""
+  extendByDeadlineOptions={[Function Map]}
+  extendToDatePicker={[Function Object]}
+  extendToTimePicker={[Function Object]}
+  feedbackSessionEndingTimestamp="0"
+  feedbackSessionTimeZone=""
+  getExtensionTimestamp={[Function Function]}
+  numInstructors={[Function Number]}
+  numStudents={[Function Number]}
+  onConfirmCallBack={[Function EventEmitter_]}
+  radioOption={[Function Number]}
+  simpleModalService={[Function SimpleModalService]}
+  sortMapByOriginalOrder={[Function Function]}
+  timeZoneService={[Function TimezoneService]}
+>
+  <div
+    class="modal-header alert-primary"
+  >
+    <h5
+      class="modal-title"
+    >
+      Select the new deadline for extension
+    </h5>
+    <button
+      class="close"
+      type="button"
+    >
+      <i
+        class="fas fa-times"
+      />
+    </button>
+  </div><div
+    class="modal-body"
+  >
+     Extending the feedback session for 
+    <b>
+      10
+    </b>
+     student(s) and 
+    <b>
+      20
+    </b>
+     instructor(s):
+  </div><div
+    class="container ml-1"
+  >
+    <div
+      class="row pl-3"
+    >
+      <label
+        class="mr-2"
+      >
+        <input
+          class="ng-untouched ng-pristine ng-valid"
+          name="optradio"
+          type="radio"
+        />
+         Extend deadline by 
+      </label>
+      <label>
+        <input
+          class="ng-untouched ng-pristine ng-valid"
+          name="optradio"
+          type="radio"
+        />
+         Extend deadline to 
+      </label>
+    </div>
+    <div>
+      <small>
+        Extend the feedback session by:
+      </small>
+      <div
+        id="submission-start-date"
+      >
+        <div
+          class="input-group w-75"
+        >
+          <select
+            class="form-control ng-untouched ng-pristine ng-valid"
+          >
+            <option
+              value="12 hours"
+            >
+               12 hours 
+              <div>
+                 (Sat, 5 Apr 2000 2:00 +08) 
+              </div>
+            </option>
+            <option
+              value="1 day"
+            >
+               1 day 
+              <div>
+                 (Sat, 5 Apr 2000 2:00 +08) 
+              </div>
+            </option>
+            <option
+              value="3 days"
+            >
+               3 days 
+              <div>
+                 (Sat, 5 Apr 2000 2:00 +08) 
+              </div>
+            </option>
+            <option
+              value="1 week"
+            >
+               1 week 
+              <div>
+                 (Sat, 5 Apr 2000 2:00 +08) 
+              </div>
+            </option>
+            <option
+              value="Customize"
+            >
+               Customize 
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <br />
+  </div><div
+    class="modal-footer"
+  >
+    <button
+      class="btn btn-light"
+      type="button"
+    >
+      No, cancel the Operation
+    </button>
+    <button
+      class="btn btn-success modal-btn-ok"
+      type="button"
+    >
+       Save Changes
+    </button>
+  </div>
+</tm-individual-extension-date-modal>
+`;
