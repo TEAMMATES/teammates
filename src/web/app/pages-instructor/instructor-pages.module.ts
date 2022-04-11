@@ -148,6 +148,11 @@ const routes: Routes = [
         .then((m: any) => m.InstructorTrackViewPageModule),
   },
   {
+    path: 'notifications',
+    loadChildren: () => import('./instructor-notifications-page/instructor-notifications-page.module')
+        .then((m: any) => m.InstructorNotificationsPageModule),
+  },
+  {
     path: 'help',
     loadChildren: () => import('../pages-help/instructor-help-page/instructor-help-page.module')
         .then((m: any) => m.InstructorHelpPageModule),
