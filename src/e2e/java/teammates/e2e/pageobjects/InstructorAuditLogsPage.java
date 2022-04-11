@@ -100,13 +100,11 @@ public class InstructorAuditLogsPage extends AppPage {
     }
 
     public void setLogsFromDateTime(Instant instant, String timeZone) {
-        setDateTime(logsFromDatepicker, logsToTimepicker.findElement(By.className("form-control")),
-                instant, timeZone);
+        setDateTime(logsFromDatepicker, logsToTimepicker, instant, timeZone);
     }
 
     public void setLogsToDateTime(Instant instant, String timeZone) {
-        setDateTime(logsToDatepicker, logsToTimepicker.findElement(By.className("form-control")),
-                instant, timeZone);
+        setDateTime(logsToDatepicker, logsToTimepicker, instant, timeZone);
     }
 
     private String getTimeString(Instant instant, String timeZone) {

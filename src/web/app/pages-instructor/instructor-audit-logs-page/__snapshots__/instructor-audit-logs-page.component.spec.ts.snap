@@ -149,10 +149,10 @@ exports[`InstructorAuditLogsPageComponent should snap when searching for details
           >
             <div
               class="col-md-6 input-group"
+              id="logs-from-datepicker"
             >
               <input
                 class="form-control ng-untouched ng-pristine ng-valid"
-                id="logs-from-datepicker"
                 ngbdatepicker=""
                 readonly=""
                 type="text"
@@ -168,9 +168,10 @@ exports[`InstructorAuditLogsPageComponent should snap when searching for details
             </div>
             <div
               class="col-md-3"
-              id="logs-from-timepicker"
             >
-              <tm-timepicker>
+              <tm-timepicker
+                id="logs-from-timepicker"
+              >
                 <select
                   class="form-control ng-untouched ng-pristine ng-valid"
                 >
@@ -349,10 +350,10 @@ exports[`InstructorAuditLogsPageComponent should snap when searching for details
           >
             <div
               class="col-md-6 input-group"
+              id="logs-to-datepicker"
             >
               <input
                 class="form-control ng-untouched ng-pristine ng-valid"
-                id="logs-to-datepicker"
                 ngbdatepicker=""
                 readonly=""
                 type="text"
@@ -368,9 +369,10 @@ exports[`InstructorAuditLogsPageComponent should snap when searching for details
             </div>
             <div
               class="col-md-3"
-              id="logs-to-timepicker"
             >
-              <tm-timepicker>
+              <tm-timepicker
+                id="logs-to-timepicker"
+              >
                 <select
                   class="form-control ng-untouched ng-pristine ng-valid"
                 >
@@ -677,10 +679,10 @@ exports[`InstructorAuditLogsPageComponent should snap with results of a search 1
           >
             <div
               class="col-md-6 input-group"
+              id="logs-from-datepicker"
             >
               <input
                 class="form-control ng-untouched ng-pristine ng-valid"
-                id="logs-from-datepicker"
                 ngbdatepicker=""
                 readonly=""
                 type="text"
@@ -696,9 +698,10 @@ exports[`InstructorAuditLogsPageComponent should snap with results of a search 1
             </div>
             <div
               class="col-md-3"
-              id="logs-from-timepicker"
             >
-              <tm-timepicker>
+              <tm-timepicker
+                id="logs-from-timepicker"
+              >
                 <select
                   class="form-control ng-untouched ng-pristine ng-valid"
                 >
@@ -872,10 +875,10 @@ exports[`InstructorAuditLogsPageComponent should snap with results of a search 1
           >
             <div
               class="col-md-6 input-group"
+              id="logs-to-datepicker"
             >
               <input
                 class="form-control ng-untouched ng-pristine ng-valid"
-                id="logs-to-datepicker"
                 ngbdatepicker=""
                 readonly=""
                 type="text"
@@ -891,9 +894,10 @@ exports[`InstructorAuditLogsPageComponent should snap with results of a search 1
             </div>
             <div
               class="col-md-3"
-              id="logs-to-timepicker"
             >
-              <tm-timepicker>
+              <tm-timepicker
+                id="logs-to-timepicker"
+              >
                 <select
                   class="form-control ng-untouched ng-pristine ng-valid"
                 >
