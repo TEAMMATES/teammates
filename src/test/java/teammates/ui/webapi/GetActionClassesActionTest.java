@@ -141,7 +141,7 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 UpdateNotificationAction.class,
                 DeleteNotificationAction.class,
                 GetNotificationsAction.class,
-                CreateReadNotificationAction.class
+                MarkNotificationAsReadAction.class
         );
         List<String> expectedActionClassesNames = expectedActionClasses.stream()
                 .map(Class::getSimpleName)

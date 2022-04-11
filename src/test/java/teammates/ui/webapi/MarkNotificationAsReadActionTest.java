@@ -8,12 +8,12 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.NotificationAttributes;
 import teammates.common.util.Const;
 import teammates.ui.output.AccountData;
-import teammates.ui.request.ReadNotificationCreateRequest;
+import teammates.ui.request.MarkNotificationAsReadRequest;
 
 /**
- * SUT: {@link CreateReadNotificationAction}.
+ * SUT: {@link MarkNotificationAsReadAction}.
  */
-public class CreateReadNotificationActionTest extends BaseActionTest<CreateReadNotificationAction> {
+public class MarkNotificationAsReadActionTest extends BaseActionTest<MarkNotificationAsReadAction> {
 
     @Override
     String getActionUri() {
@@ -34,21 +34,21 @@ public class CreateReadNotificationActionTest extends BaseActionTest<CreateReadN
         loginAsInstructor(instructorId);
 
         ______TS("Typical case: add a read notification successfully");
-        ReadNotificationCreateRequest reqBody = new ReadNotificationCreateRequest(
+        MarkNotificationAsReadRequest reqBody = new MarkNotificationAsReadRequest(
                 notification.getNotificationId(), notification.getEndTime().toEpochMilli());
-        CreateReadNotificationAction action = getAction(reqBody);
+        MarkNotificationAsReadAction action = getAction(reqBody);
         JsonResult actionOutput = getJsonResult(action);
         AccountData response = (AccountData) actionOutput.getOutput();
         Map<String, Long> readNotifications = response.getReadNotifications();
         assertTrue(readNotifications.containsKey(notification.getNotificationId()));
 
         ______TS("Invalid case: Invalid notification id provided");
-        reqBody = new ReadNotificationCreateRequest(
+        reqBody = new MarkNotificationAsReadRequest(
                 "invalid id", notification.getEndTime().toEpochMilli());
-        verifyHttpRequestBodyFailure(reqBody);
+        verifyEntityNotFound(reqBody);
 
         ______TS("Invalid case: Invalid endTime.");
-        reqBody = new ReadNotificationCreateRequest(
+        reqBody = new MarkNotificationAsReadRequest(
                 notification.getNotificationId(), null);
         verifyHttpRequestBodyFailure(reqBody);
     }

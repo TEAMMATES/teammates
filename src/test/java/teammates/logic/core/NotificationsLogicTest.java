@@ -38,7 +38,7 @@ public class NotificationsLogicTest extends BaseLogicTest {
 
     @Test
     public void testAll() throws Exception {
-        // include all tests that does not modify the database.
+        // include all tests that do not modify the database.
         // tests such as create, delete and update are tested separately.
         testGetNotification();
         testGetAllNotifications();

@@ -256,28 +256,35 @@ public final class AccountsLogic {
     }
 
     /**
-     * Updates the read notifications of an account.
+     * Updates the readNotifications of an account.
+     *
+     * @param googleId google ID of the user who read the notification.
+     * @param notificationId notification to be marked as read.
+     * @param endTime the expiry time of the notification, i.e. notification will not be shown after this time.
+     * @return the account attribute with updated read notifications.
+     * @throws InvalidParametersException if the notification has expired.
+     * @throws EntityDoesNotExistException if account or notification is invalid.
      */
     public AccountAttributes updateReadNotifications(String googleId, String notificationId, Instant endTime)
             throws InvalidParametersException, EntityDoesNotExistException {
         AccountAttributes a = accountsDb.getAccount(googleId);
-        if (a == null) {
-            throw new EntityDoesNotExistException("Invalid account id.");
-        }
 
+        if (a == null) {
+            throw new EntityDoesNotExistException("Trying to update the read notifications of a non-existent account.");
+        }
+        if (!notificationsLogic.doesNotificationExists(notificationId)) {
+            throw new EntityDoesNotExistException("Trying to mark as read a notification that does not exist.");
+        }
         if (endTime.isBefore(Instant.now())) {
             throw new InvalidParametersException("Notification has expired.");
         }
-        Map<String, Instant> updatedReadNotifications = a.getReadNotifications();
 
+        Map<String, Instant> updatedReadNotifications = a.getReadNotifications();
+        // expired notifications are removed from readNotifications as inactive notification will no longer be fetched.
         for (Map.Entry<String, Instant> notification : updatedReadNotifications.entrySet()) {
             if (notification.getValue().isBefore(Instant.now())) {
                 updatedReadNotifications.remove(notification.getKey());
             }
-        }
-
-        if (!notificationsLogic.doesNotificationExists(notificationId)) {
-            throw new EntityDoesNotExistException("Invalid notification id to read");
         }
 
         updatedReadNotifications.put(notificationId, endTime);

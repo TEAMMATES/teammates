@@ -104,7 +104,7 @@ public class Logic {
     }
 
     /**
-     * Updates notification of {@code notificationId}.
+     * Updates user read status for notification with ID {@code notificationId} and expiry time {@code endTime}.
      *
      * <p>Preconditions:</p>
      * * All parameters are non-null. {@code endTime} must be after current moment.
