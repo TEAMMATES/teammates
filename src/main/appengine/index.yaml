@@ -87,3 +87,9 @@ indexes:
     name: sentClosingEmail
   - direction: asc
     name: endTime
+- kind: Notification
+  properties:
+  - direction: asc
+    name: targetUser
+  - direction: asc
+    name: endTime

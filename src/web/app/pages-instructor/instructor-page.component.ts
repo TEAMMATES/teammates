@@ -40,6 +40,10 @@ export class InstructorPageComponent implements OnInit {
       display: 'Search',
     },
     {
+      url: '/web/instructor/notifications',
+      display: 'Notifications',
+    },
+    {
       url: '/web/instructor/help',
       display: 'Help',
     },
