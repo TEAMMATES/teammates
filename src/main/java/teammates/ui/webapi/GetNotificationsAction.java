@@ -94,7 +94,6 @@ public class GetNotificationsAction extends Action {
                                 .withShown()
                                 .build();
                 logic.updateNotification(newNotification);
-                n.setShown();
             } catch (InvalidParametersException e) {
                 throw new InvalidHttpParameterException(e);
             } catch (EntityDoesNotExistException ednee) {
