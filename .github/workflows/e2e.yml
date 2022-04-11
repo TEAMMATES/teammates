@@ -5,6 +5,7 @@ on:
     branches:
       - master 
       - release
+      - 11236-test-e2e
   pull_request:
     branches:
       - master 

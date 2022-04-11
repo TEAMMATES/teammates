@@ -141,15 +141,15 @@ public class AdminNotificationsPage extends AppPage {
     }
 
     private void setNotificationStartDateTime(Instant startInstant) {
-        setDateTime(startDateBox.findElement(By.tagName("input")), startTimeDropdown, startInstant);
+        setDateTime(startDateBox, startTimeDropdown, startInstant);
     }
 
     private void setNotificationEndDateTime(Instant endInstant) {
-        setDateTime(endDateBox.findElement(By.tagName("input")), endTimeDropdown, endInstant);
+        setDateTime(endDateBox, endTimeDropdown, endInstant);
     }
 
     private void setDateTime(WebElement dateBox, WebElement timeBox, Instant startInstant) {
-        fillTextBox(dateBox, getInputDateString(startInstant));
+        fillDatePicker(dateBox, startInstant, getTimezone());
         selectDropdownOptionByText(timeBox.findElement(By.tagName("select")), getInputTimeString(startInstant));
     }
 
@@ -166,10 +166,6 @@ public class AdminNotificationsPage extends AppPage {
 
     private String getTimezone() {
         return notificationsTimezone.getText().replace("All dates are displayed in ", "").replace(" time.", "");
-    }
-
-    private String getInputDateString(Instant instant) {
-        return getDisplayedDateTime(instant, getTimezone(), "EE, dd MMM, yyyy");
     }
 
     private String getInputTimeString(Instant instant) {

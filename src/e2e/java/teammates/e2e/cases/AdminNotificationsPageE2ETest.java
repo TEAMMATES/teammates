@@ -42,8 +42,8 @@ public class AdminNotificationsPageE2ETest extends BaseE2ETestCase {
         ______TS("add new notification");
         NotificationAttributes newNotification = NotificationAttributes
                 .builder("placeholder-notif-id")
-                .withStartTime(TimeHelper.parseInstant("2035-04-01T22:00:00Z"))
-                .withEndTime(TimeHelper.parseInstant("2035-04-30T20:00:00Z"))
+                .withStartTime(TimeHelper.parseInstant("2030-04-01T22:00:00Z"))
+                .withEndTime(TimeHelper.parseInstant("2030-04-30T20:00:00Z"))
                 .withStyle(NotificationStyle.SUCCESS)
                 .withTargetUser(NotificationTargetUser.GENERAL)
                 .withTitle("E2E test notification 1")
@@ -65,7 +65,7 @@ public class AdminNotificationsPageE2ETest extends BaseE2ETestCase {
 
         ______TS("edit notification");
         newNotification.setStartTime(TimeHelper.parseInstant("2025-05-09T12:00:00Z"));
-        newNotification.setEndTime(TimeHelper.parseInstant("2045-06-01T22:00:00Z"));
+        newNotification.setEndTime(TimeHelper.parseInstant("2030-06-01T22:00:00Z"));
         newNotification.setStyle(NotificationStyle.DANGER);
         newNotification.setTargetUser(NotificationTargetUser.INSTRUCTOR);
         newNotification.setTitle("Edited E2E test notification 1");

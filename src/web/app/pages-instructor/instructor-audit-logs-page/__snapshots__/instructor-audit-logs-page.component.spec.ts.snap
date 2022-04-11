@@ -154,6 +154,7 @@ exports[`InstructorAuditLogsPageComponent should snap when searching for details
                 class="form-control ng-untouched ng-pristine ng-valid"
                 id="logs-from-datepicker"
                 ngbdatepicker=""
+                readonly=""
                 type="text"
               />
               <button
@@ -353,6 +354,7 @@ exports[`InstructorAuditLogsPageComponent should snap when searching for details
                 class="form-control ng-untouched ng-pristine ng-valid"
                 id="logs-to-datepicker"
                 ngbdatepicker=""
+                readonly=""
                 type="text"
               />
               <button
@@ -680,6 +682,7 @@ exports[`InstructorAuditLogsPageComponent should snap with results of a search 1
                 class="form-control ng-untouched ng-pristine ng-valid"
                 id="logs-from-datepicker"
                 ngbdatepicker=""
+                readonly=""
                 type="text"
               />
               <button
@@ -874,6 +877,7 @@ exports[`InstructorAuditLogsPageComponent should snap with results of a search 1
                 class="form-control ng-untouched ng-pristine ng-valid"
                 id="logs-to-datepicker"
                 ngbdatepicker=""
+                readonly=""
                 type="text"
               />
               <button
