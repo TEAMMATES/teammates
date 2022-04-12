@@ -84,6 +84,12 @@ indexes:
 - kind: DeadlineExtension
   properties:
   - direction: asc
-    name: endTime
-  - direction: asc
     name: sentClosingEmail
+  - direction: asc
+    name: endTime
+- kind: Notification
+  properties:
+  - direction: asc
+    name: targetUser
+  - direction: asc
+    name: endTime

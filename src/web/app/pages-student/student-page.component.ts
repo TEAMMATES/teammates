@@ -28,6 +28,10 @@ export class StudentPageComponent implements OnInit {
       display: 'Profile',
     },
     {
+      url: '/web/student/notifications',
+      display: 'Notifications',
+    },
+    {
       url: '/web/student/help',
       display: 'Help',
     },

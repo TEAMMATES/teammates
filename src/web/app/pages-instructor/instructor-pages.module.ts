@@ -74,6 +74,15 @@ const routes: Routes = [
         },
       },
       {
+        path: 'individual-extension',
+        loadChildren: () =>
+          import('./instructor-session-individual-extension-page/instructor-session-individual-extension-page.module')
+            .then((m: any) => m.InstructorSessionIndividualExtensionPageModule),
+        data: {
+          pageTitle: 'Individual Deadline Extensions',
+        },
+      },
+      {
         path: 'edit',
         loadChildren: () => import('./instructor-session-edit-page/instructor-session-edit-page.module')
             .then((m: any) => m.InstructorSessionEditPageModule),
@@ -137,6 +146,11 @@ const routes: Routes = [
     path: 'track-result-view',
     loadChildren: () => import('./instructor-track-view-page/instructor-track-view-page.module')
         .then((m: any) => m.InstructorTrackViewPageModule),
+  },
+  {
+    path: 'notifications',
+    loadChildren: () => import('./instructor-notifications-page/instructor-notifications-page.module')
+        .then((m: any) => m.InstructorNotificationsPageModule),
   },
   {
     path: 'help',
