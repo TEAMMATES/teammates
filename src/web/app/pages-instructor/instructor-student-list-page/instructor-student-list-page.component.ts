@@ -24,7 +24,7 @@ interface StudentIndexedData {
   [key: string]: Student[];
 }
 
-interface CourseTab {
+export interface CourseTab {
   course: Course;
   studentList: StudentListRowModel[];
   studentSortBy: SortBy;

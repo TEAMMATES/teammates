@@ -8,9 +8,9 @@
 <tm-loading-retry [shouldShowRetry]="hasLoadingFailed" [message]="'Failed to load courses'" (retryEvent)="loadCourses()">
   <div *tmIsLoading="isLoadingCourses"></div>
   <ng-container>
-    <div class="course-table" *ngFor="let courseTab of courseTabList">
+    <div class="course-table" *ngFor="let courseTab of courseTabList; let i = index">
       <div class="card">
-        <div class="card-header cursor-pointer bg-primary text-white" (click)="toggleCard(courseTab)">
+        <div class="card-header cursor-pointer bg-primary text-white" id="course-tab-card-header-{{i}}" (click)="toggleCard(courseTab)">
           <strong class="text-break">[{{courseTab.course.courseId}}]: {{courseTab.course.courseName}}</strong>
           <div class="card-header-btn-toolbar">
             <tm-panel-chevron [isExpanded]="courseTab.hasTabExpanded"></tm-panel-chevron>
