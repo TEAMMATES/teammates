@@ -2,6 +2,7 @@ package teammates.logic.core;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -279,11 +280,11 @@ public final class AccountsLogic {
             throw new InvalidParametersException("Trying to mark an expired notification as read.");
         }
 
-        Map<String, Instant> updatedReadNotifications = a.getReadNotifications();
-        // expired notifications are removed from readNotifications as inactive notification will no longer be fetched.
-        for (Map.Entry<String, Instant> notification : updatedReadNotifications.entrySet()) {
-            if (notification.getValue().isBefore(Instant.now())) {
-                updatedReadNotifications.remove(notification.getKey());
+        Map<String, Instant> updatedReadNotifications = new HashMap<>();
+        // only keep active notifications in readNotifications
+        for (Map.Entry<String, Instant> notification : a.getReadNotifications().entrySet()) {
+            if (notification.getValue().isAfter(Instant.now())) {
+                updatedReadNotifications.put(notification.getKey(), notification.getValue());
             }
         }
 
