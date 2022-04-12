@@ -29,7 +29,7 @@ export class NotificationBannerComponent implements OnInit {
   }
 
   fetchNotifications(): void {
-    this.notificationService.getNotificationsByTargetUser(this.notificationTargetUser)
+    this.notificationService.getUnreadNotificationsForTargetUser(this.notificationTargetUser)
       .subscribe((response: Notifications) => {
         this.notifications = response.notifications;
       });

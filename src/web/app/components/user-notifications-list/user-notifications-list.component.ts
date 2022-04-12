@@ -56,7 +56,7 @@ export class UserNotificationsListComponent implements OnInit {
   loadNotifications(): void {
     this.hasLoadingFailed = false;
     this.isLoadingNotifications = true;
-    this.notificationService.getNotificationsByTargetUser(this.userType)
+    this.notificationService.getAllNotificationsForTargetUser(this.userType)
       .pipe(finalize(() => { this.isLoadingNotifications = false; }))
       .subscribe((notifications: Notifications) => {
           notifications.notifications.forEach((notification: Notification) => {
