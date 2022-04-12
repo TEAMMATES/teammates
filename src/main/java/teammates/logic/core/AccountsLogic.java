@@ -261,9 +261,9 @@ public final class AccountsLogic {
      * @param googleId google ID of the user who read the notification.
      * @param notificationId notification to be marked as read.
      * @param endTime the expiry time of the notification, i.e. notification will not be shown after this time.
-     * @return the account attribute with updated read notifications.
+     * @return the account attributes with updated read notifications.
      * @throws InvalidParametersException if the notification has expired.
-     * @throws EntityDoesNotExistException if account or notification is invalid.
+     * @throws EntityDoesNotExistException if account or notification does not exist.
      */
     public AccountAttributes updateReadNotifications(String googleId, String notificationId, Instant endTime)
             throws InvalidParametersException, EntityDoesNotExistException {
@@ -276,7 +276,7 @@ public final class AccountsLogic {
             throw new EntityDoesNotExistException("Trying to mark as read a notification that does not exist.");
         }
         if (endTime.isBefore(Instant.now())) {
-            throw new InvalidParametersException("Notification has expired.");
+            throw new InvalidParametersException("Trying to mark an expired notification as read.");
         }
 
         Map<String, Instant> updatedReadNotifications = a.getReadNotifications();
@@ -294,8 +294,8 @@ public final class AccountsLogic {
                     AccountAttributes.updateOptionsBuilder(googleId)
                             .withReadNotifications(updatedReadNotifications)
                             .build());
-        } catch (InvalidParametersException e) {
-            assert false : "Invalid account data detected unexpectedly "
+        } catch (InvalidParametersException | EntityDoesNotExistException e) {
+            assert false : "Unexpected error "
                     + "while updating read notifications for account " + googleId + ": " + e.getMessage();
         }
         throw new EntityDoesNotExistException("Invalid update to read notification in account");

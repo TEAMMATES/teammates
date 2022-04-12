@@ -474,6 +474,6 @@ public class AccountsLogicTest extends BaseLogicTest {
                         notificationAttributes.getNotificationId(),
                         expiredNotification.getEndTime()));
 
-        assertEquals("Notification has expired.", e.getMessage());
+        assertEquals("Trying to mark an expired notification as read.", e.getMessage());
     }
 }

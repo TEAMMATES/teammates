@@ -23,7 +23,7 @@ public class MarkNotificationAsReadRequest extends BasicRequest {
     @Override
     public void validate() throws InvalidHttpRequestBodyException {
         assertTrue(notificationId != null, "Notification id should not be null.");
-        assertTrue(endTimestamp != null, "End timestamp shout not be null");
+        assertTrue(endTimestamp != null, "End timestamp should not be null");
         assertTrue(endTimestamp > 0L, "End timestamp should be more than zero");
     }
 }

@@ -33,7 +33,7 @@ public class MarkNotificationAsReadActionTest extends BaseActionTest<MarkNotific
         NotificationAttributes notification = typicalBundle.notifications.get("notification5");
         loginAsInstructor(instructorId);
 
-        ______TS("Typical case: add a read notification successfully");
+        ______TS("Typical success case: mark a notification as read");
         MarkNotificationAsReadRequest reqBody = new MarkNotificationAsReadRequest(
                 notification.getNotificationId(), notification.getEndTime().toEpochMilli());
         MarkNotificationAsReadAction action = getAction(reqBody);
@@ -43,13 +43,11 @@ public class MarkNotificationAsReadActionTest extends BaseActionTest<MarkNotific
         assertTrue(readNotifications.containsKey(notification.getNotificationId()));
 
         ______TS("Invalid case: Invalid notification id provided");
-        reqBody = new MarkNotificationAsReadRequest(
-                "invalid id", notification.getEndTime().toEpochMilli());
+        reqBody = new MarkNotificationAsReadRequest("invalid id", notification.getEndTime().toEpochMilli());
         verifyEntityNotFound(reqBody);
 
         ______TS("Invalid case: Invalid endTime.");
-        reqBody = new MarkNotificationAsReadRequest(
-                notification.getNotificationId(), null);
+        reqBody = new MarkNotificationAsReadRequest(notification.getNotificationId(), null);
         verifyHttpRequestBodyFailure(reqBody);
     }
 
