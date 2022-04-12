@@ -42,12 +42,12 @@ public class MarkNotificationAsReadActionTest extends BaseActionTest<MarkNotific
         Map<String, Long> readNotifications = response.getReadNotifications();
         assertTrue(readNotifications.containsKey(notification.getNotificationId()));
 
-        ______TS("Invalid case: Invalid notification id provided");
+        ______TS("Invalid case: mark non-existent notification as read");
         reqBody = new MarkNotificationAsReadRequest("invalid id", notification.getEndTime().toEpochMilli());
         verifyEntityNotFound(reqBody);
 
-        ______TS("Invalid case: Invalid endTime.");
-        reqBody = new MarkNotificationAsReadRequest(notification.getNotificationId(), null);
+        ______TS("Invalid case: notification end time is zero");
+        reqBody = new MarkNotificationAsReadRequest(notification.getNotificationId(), 0L);
         verifyHttpRequestBodyFailure(reqBody);
     }
 
