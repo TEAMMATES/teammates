@@ -36,28 +36,18 @@ describe('SubmissionStatusNamePipe', () => {
     const extensionMessage = '(Ext. ongoing)';
 
     const notVisibleWithExtension = pipe.transform(FeedbackSessionSubmissionStatus.NOT_VISIBLE, hasOngoingDeadlines);
-    expect(notVisibleWithExtension.substring(
-      notVisibleWithExtension.length - extensionMessage.length, notVisibleWithExtension.length),
-    ).toEqual(extensionMessage);
+    expect(notVisibleWithExtension.endsWith(extensionMessage)).toBeTruthy();
 
     const visibleWithExtension = pipe.transform(FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN, hasOngoingDeadlines);
-    expect(visibleWithExtension.substring(
-      visibleWithExtension.length - extensionMessage.length, visibleWithExtension.length),
-    ).toEqual(extensionMessage);
+    expect(visibleWithExtension.endsWith(extensionMessage)).toBeTruthy();
 
     const openWithExtension = pipe.transform(FeedbackSessionSubmissionStatus.OPEN, hasOngoingDeadlines);
-    expect(openWithExtension.substring(
-      openWithExtension.length - extensionMessage.length, openWithExtension.length),
-    ).toEqual(extensionMessage);
+    expect(openWithExtension.endsWith(extensionMessage)).toBeTruthy();
 
     const gracePeriodWithExtension = pipe.transform(FeedbackSessionSubmissionStatus.GRACE_PERIOD, hasOngoingDeadlines);
-    expect(gracePeriodWithExtension.substring(
-      gracePeriodWithExtension.length - extensionMessage.length, gracePeriodWithExtension.length),
-    ).toEqual(extensionMessage);
+    expect(gracePeriodWithExtension.endsWith(extensionMessage)).toBeTruthy();
 
     const closedWithExtension = pipe.transform(FeedbackSessionSubmissionStatus.CLOSED, hasOngoingDeadlines);
-    expect(closedWithExtension.substring(
-      closedWithExtension.length - extensionMessage.length, closedWithExtension.length),
-    ).toEqual(extensionMessage);
+    expect(closedWithExtension.endsWith(extensionMessage)).toBeTruthy();
   });
 });

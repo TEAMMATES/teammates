@@ -7,6 +7,11 @@ describe('SubmissionStatusTooltipPipe', () => {
     expect(pipe).toBeTruthy();
   });
 
+  it('transform with the tooltip description correctly', () => {
+    const pipe: SubmissionStatusTooltipPipe = new SubmissionStatusTooltipPipe();
+    expect(pipe).toBeTruthy();
+  });
+
   it('transform with no deadlines correctly', () => {
     jest.useFakeTimers().setSystemTime(new Date('2020-01-01').getTime());
     const hasNoDeadlines = {
@@ -36,31 +41,21 @@ describe('SubmissionStatusTooltipPipe', () => {
     };
 
     const pipe: SubmissionStatusTooltipPipe = new SubmissionStatusTooltipPipe();
-    const extensionMessage = 'with current ongoing session extensions.';
+    const extensionMessage = 'with current ongoing individual deadline extensions.';
 
-    const notVisibileWithExtension = pipe.transform(FeedbackSessionSubmissionStatus.NOT_VISIBLE, hasOngoingDeadlines);
-    expect(notVisibileWithExtension.substring(
-      notVisibileWithExtension.length - extensionMessage.length, notVisibileWithExtension.length),
-    ).toEqual(extensionMessage);
+    const notVisibleWithExtension = pipe.transform(FeedbackSessionSubmissionStatus.NOT_VISIBLE, hasOngoingDeadlines);
+    expect(notVisibleWithExtension.endsWith(extensionMessage)).toBeTruthy();
 
-    const visibileWithExtension = pipe.transform(FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN, hasOngoingDeadlines);
-    expect(visibileWithExtension.substring(
-      visibileWithExtension.length - extensionMessage.length, visibileWithExtension.length),
-    ).toEqual(extensionMessage);
+    const visibleWithExtension = pipe.transform(FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN, hasOngoingDeadlines);
+    expect(visibleWithExtension.endsWith(extensionMessage)).toBeTruthy();
 
     const openWithExtension = pipe.transform(FeedbackSessionSubmissionStatus.OPEN, hasOngoingDeadlines);
-    expect(openWithExtension.substring(
-      openWithExtension.length - extensionMessage.length, openWithExtension.length),
-    ).toEqual(extensionMessage);
+    expect(openWithExtension.endsWith(extensionMessage)).toBeTruthy();
 
     const gracePeriodWithExtension = pipe.transform(FeedbackSessionSubmissionStatus.GRACE_PERIOD, hasOngoingDeadlines);
-    expect(gracePeriodWithExtension.substring(
-      gracePeriodWithExtension.length - extensionMessage.length, gracePeriodWithExtension.length),
-    ).toEqual(extensionMessage);
+    expect(gracePeriodWithExtension.endsWith(extensionMessage)).toBeTruthy();
 
     const closedWithExtension = pipe.transform(FeedbackSessionSubmissionStatus.CLOSED, hasOngoingDeadlines);
-    expect(closedWithExtension.substring(
-      closedWithExtension.length - extensionMessage.length, closedWithExtension.length),
-    ).toEqual(extensionMessage);
+    expect(closedWithExtension.endsWith(extensionMessage)).toBeTruthy();
   });
 });

@@ -7,7 +7,7 @@ export class DeadlineExtensionHelper {
     instructorDeadlines: Record<string, number>,
   }): boolean {
     const timeNow = Date.now();
-    const allDeadlines: Record<string, number> = { ...deadlines.studentDeadlines, ...deadlines.instructorDeadlines };
-    return Object.values(allDeadlines).some((deadlineTimestamp) => deadlineTimestamp > timeNow);
+    return Object.values(deadlines.studentDeadlines).some((deadlineTimestamp) => deadlineTimestamp > timeNow)
+      || Object.values(deadlines.instructorDeadlines).some((deadlineTimestamp) => deadlineTimestamp > timeNow);
   }
 }

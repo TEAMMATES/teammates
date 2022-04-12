@@ -3,6 +3,7 @@ import { DeadlineExtensionHelper } from './deadline-extension-helper';
 describe('DeadlineExtensionHelper', () => {
   it('should detect ongoing extensions correctly', () => {
     const timeNow = Date.now();
+    jest.useFakeTimers().setSystemTime(timeNow);
     const fixedLengthOfTime = 1000000;
 
     const ongoingExtension: Record<string, number> = { ongoingExtension1: timeNow + fixedLengthOfTime };
@@ -32,7 +33,22 @@ describe('DeadlineExtensionHelper', () => {
 
     expect(DeadlineExtensionHelper.hasOngoingExtension({
         studentDeadlines: hasNoOngoingDeadlines,
+        instructorDeadlines: {},
+    })).toBeFalsy();
+
+    expect(DeadlineExtensionHelper.hasOngoingExtension({
+        studentDeadlines: {},
         instructorDeadlines: hasNoOngoingDeadlines,
+    })).toBeFalsy();
+
+    expect(DeadlineExtensionHelper.hasOngoingExtension({
+        studentDeadlines: hasNoOngoingDeadlines,
+        instructorDeadlines: hasNoOngoingDeadlines,
+    })).toBeFalsy();
+
+    expect(DeadlineExtensionHelper.hasOngoingExtension({
+        studentDeadlines: {},
+        instructorDeadlines: {},
     })).toBeFalsy();
   });
 });

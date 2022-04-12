@@ -51,7 +51,7 @@ export class SubmissionStatusTooltipPipe implements PipeTransform {
     }
 
     if (deadlines && DeadlineExtensionHelper.hasOngoingExtension(deadlines)) {
-      msg += ', with current ongoing session extensions';
+      msg += ', with current ongoing individual deadline extensions';
     }
 
     msg += '.';
