@@ -1,18 +1,13 @@
+<frontmatter>
+  title: "Development"
+</frontmatter>
+
 # Development Guidelines
 
 These are the common tasks involved when working on features, enhancements, bug fixes, etc. for TEAMMATES.
 
-* [Managing the dev server: front-end](#managing-the-dev-server-front-end)
-* [Managing the dev server: back-end](#managing-the-dev-server-back-end)
-* [Building front-end files](#building-front-end-files)
-* [Logging in to a TEAMMATES instance](#logging-in-to-a-teammates-instance)
-* [Running the Datastore emulator](#running-the-datastore-emulator)
-* [Testing](#testing)
-* [Deploying to a staging server](#deploying-to-a-staging-server)
-* [Running client scripts](#running-client-scripts)
-* [Config points](#config-points)
-
 The instructions in all parts of this document work for Linux, OS X, and Windows, with the following pointers:
+
 - Replace `./gradlew` to `gradlew.bat` if you are using Windows.
 - All the commands are assumed to be run from the root project folder, unless otherwise specified.
 - It is assumed that the development environment has been correctly set up. If this step has not been completed, refer to [this document](setting-up.md).
@@ -21,16 +16,24 @@ The instructions in all parts of this document work for Linux, OS X, and Windows
 
 ## Managing the dev server: front-end
 
-> `Dev server` is the server run in your local machine.
+<box type="definition">
+
+Dev server is the server run in your local machine.
+</box>
+
+<box type="definition">
 
 Front-end dev server is the Angular-based server handling the user interface.
+</box>
 
 First, you need to compile some type definitions from the back-end to be used in this dev server. Run the following command:
+
 ```sh
 ./gradlew generateTypes
 ```
 
 To start the dev server, run the following command until you see something like `｢wdm｣: Compiled successfully.`:
+
 ```sh
 npm run start
 ```
@@ -58,6 +61,7 @@ In order for the back-end to properly work, you need to have a running database 
 The details on how to run them locally can be found [here (for local Datastore emulator)](#running-the-datastore-emulator) and [here (for full-text search service)](search.md).
 
 If you have access to Docker, we have a Docker compose definition to run those services:
+
 ```sh
 docker-compose up -d
 ```
@@ -66,12 +70,14 @@ docker-compose up -d
 
 To start the server in the background, run the following command
 and wait until the task exits with a `BUILD SUCCESSFUL`:
+
 ```sh
 ./gradlew serverRun &
 ```
 
 To start the server in the foreground (e.g. if you want the console output to be visible),
 run the following command instead:
+
 ```sh
 ./gradlew serverRun
 ```
@@ -89,6 +95,7 @@ If the server is running in the foreground, press `Ctrl + C` (or equivalent in y
 In order for the dev server to be able to serve both the front-end and the back-end of the application, the front-end files need to be *bundled and transpiled* (afterwards `built`).
 
 Run the following commands to build the front-end files for the application's use in production mode:
+
 ```sh
 # Generate type definition file from back-end
 ./gradlew generateTypes
@@ -102,18 +109,22 @@ After this, the back-end dev server will also be able to serve the front-end.
 ## Logging in to a TEAMMATES instance
 
 This instruction set applies for both dev server and production server, with slight differences explained where applicable.
+
 - The local dev server is assumed to be accessible at `http://localhost:8080`.
   - This instruction also works when the local front-end dev server and back-end dev server are separate. In that case, the dev server address will be the front-end's, e.g. `http://localhost:4200`. However, a back-end server needs to be running in order for the authentication logic to work.
 - If a URL is given as relative, prepend the server URL to access the page, e.g `/web/page/somePage` is accessible in dev server at `http://localhost:8080/web/page/somePage`.
 
-### As administrator
+<panel header="**As administrator**">
 
 1. Go to any administrator page, e.g `/web/admin/home`. You may be prompted to log in.
-   You will be granted access only if your account has admin permission as defined in `build.properties`.
-1. When logged in as administrator, ***masquerade mode*** can also be used to impersonate instructors and students by adding `user=username` to the URL
- e.g `http://localhost:8080/web/student/home?user=johnKent`.
+  You will be granted access only if your account has admin permission as defined in `build.properties`.
 
-### As instructor
+1. When logged in as administrator, ***masquerade mode*** can also be used to impersonate instructors and students by adding `user=username` to the URL
+  e.g `http://localhost:8080/web/student/home?user=johnKent`.
+
+</panel>
+
+<panel header="**As instructor**">
 
 You need an instructor account which can be created by administrators.
 
@@ -135,15 +146,19 @@ Alternatively, an instructor can create other instructors for a course if s/he h
 1. Search for the instructor you added in. From the search results, click anywhere on the desired row to get the course join link for that instructor.
 1. Log out and use that join link to log in as the new instructor.
 
-### As student
+</panel>
+
+<panel header="**As student**">
 
 You need a student account which can be created by instructors (with sufficient privileges).
 
 The steps for adding a student is almost identical to the steps for adding instructors by another instructor:
+
 - Where appropriate, change the reference to "instructor" to "student".
 - `Students` → `Enroll` to add students for the course.
 
-**Alternative**: Run the E2E test cases, they create several student and instructor accounts in the database. Use one of them to log in.
+</panel>
+</br>
 
 ### Logging in without UI
 
@@ -167,38 +182,52 @@ GET http://localhost:8080/logout
 
 The Datastore emulator is an essential tool that we use to locally simulate production Datastore environment during development and testing of relevant features. For more information about the Datastore emulator, refer to [Google's official documentation](https://cloud.google.com/datastore/docs/tools/datastore-emulator).
 
-### Using quickstart script
+<panel header="**Using quickstart script**">
 
 You can use the pre-provided quickstart script which will run a local Datastore emulator instance sufficient for development use cases. The script is run via the following command:
+
 ```sh
 ./gradlew runDatastoreEmulator
 ```
 
 The Datastore emulator will be running in the port specified in the `build.properties` file.
 
-### Using Docker-based tooling
+</panel>
+
+<panel header="**Using Docker-based tooling**">
 
 We have a Docker compose definition to run dependent services, including local Datastore emulator. Run it under the `datastore` service name and bind to the container port `8484`:
+
 ```sh
 docker-compose run -p 8484:8484 datastore
 ```
 
-### Using Cloud SDK
+</panel>
+
+<panel header="**Using Cloud SDK**">
 
 Alternatively, you can use `gcloud` command to manage the local Datastore emulator instance directly. For this, you need a working [Google Cloud SDK](https://cloud.google.com/sdk/docs) in your development environment.
 
 1. Install the Datastore emulator component if you have not done so:
+
    ```sh
    gcloud components install cloud-datastore-emulator
    ```
+
 1. To run the emulator in port `8484`:
+
    ```sh
    gcloud beta emulators datastore start --host-port=localhost:8484
    ```
+
    Wait until you see the following message:
+
    ```
    [datastore] Dev App Server is now running.
    ```
+
+</panel>
+<br>
 
 ### Stopping the emulator
 
@@ -209,17 +238,20 @@ If you are using the Cloud SDK method, you can use `Ctrl + C` in the console to 
 ## Testing
 
 There are two big categories of testing in TEAMMATES:
+
 - **Component tests**: white-box unit and integration tests, i.e. they test the application components with full knowledge of the components' internal workings. This is configured in `src/test/resources/testng-component.xml` (back-end) and `src/web/jest.config.js` (front-end).
-- **E2E (end-to-end) tests**: black-box tests, i.e. they test the application as a whole without knowing any internal working. This is configured in `src/e2e/resources/testng-e2e.xml`. To learn more about E2E tests, refer to this [document](https://github.com/TEAMMATES/teammates/blob/master/docs/e2e-testing.md).  
+- **E2E (end-to-end) tests**: black-box tests, i.e. they test the application as a whole without knowing any internal working. This is configured in `src/e2e/resources/testng-e2e.xml`. To learn more about E2E tests, refer to this [document](e2e-testing.md).  
 
 #### Running the tests
 
 To run all front-end component tests in watch mode (i.e. any change to source code will automatically reload the tests), run the following command:
+
 ```sh
 npm run test
 ```
 
 To run all front-end component tests once and generate coverage data afterwards, run the following command:
+
 ```sh
 npm run coverage
 ```
@@ -236,9 +268,11 @@ Test suite | Command | Results can be viewed in
 Any individual component test | `./gradlew componentTests --tests TestClassName` | `{project folder}/build/reports/tests/componentTests/index.html`
 
 You can generate the coverage data with `jacocoReport` task after running tests, e.g.:
+
 ```sh
 ./gradlew componentTests jacocoReport
 ```
+
 The report can be found in the `build/reports/jacoco/jacocoReport/` directory.
 
 ## Deploying to a staging server
@@ -262,6 +296,7 @@ Most of developers may not need to write and/or run client scripts but if you ar
 There are several files used to configure various aspects of the system.
 
 **Main**: These vary from developer to developer and are subjected to frequent changes.
+
 * `build.properties`: Contains the general purpose configuration values to be used by the web API.
 * `config.ts`: Contains the general purpose configuration values to be used by the web application.
 * `test.properties`: Contains the configuration values for the test driver.
@@ -270,14 +305,19 @@ There are several files used to configure various aspects of the system.
 * `app.yaml`: Contains the configuration for deploying the application on GAE.
 
 **Tasks**: These do not concern the application directly, but rather the development process.
+
 * `build.gradle`: Contains the back-end third-party dependencies specification, as well as configurations for automated tasks/routines to be run via Gradle.
 * `gradle.properties`, `gradle-wrapper.properties`: Contains the Gradle and Gradle wrapper configuration.
 * `package.json`: Contains the front-end third-party dependencies specification, as well as configurations for automated tasks/routines to be run via NPM.
 * `angular.json`: Contains the Angular application configuration.
-* `component.yml`: GitHub Action configuration for component tests.
-* `e2e.yml`: GitHub Action configuration for E2E tests.
-* `lnp.yml`: GitHub Action configuration for load & performance tests.
 
+**GitHub Actions**: These are workflow files for GitHub Actions. They are placed under `.github/workflows` directory.
+
+* `component.yml`: Configuration for component tests.
+* `e2e.yml`: Configuration for E2E tests.
+* `e2e-cross.yml`: Configuration for cross-browser E2E tests.
+* `lnp.yml`: Configuration for load & performance tests.
+* `dev-docs.yml`: Configuration for developer documentation site.
 
 **Static Analysis**: These are used to maintain code quality and measure code coverage. See [Static Analysis](static-analysis.md).
 * `static-analysis/*`: Contains most of the configuration files for all the different static analysis tools.

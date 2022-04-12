@@ -1,0 +1,12 @@
+{
+  "name": "teammates-dev-docs",
+  "private": true,
+  "scripts": {
+    "build": "markbind build",
+    "serve": "markbind serve",
+    "deploy": "markbind deploy --ci"
+  },
+  "devDependencies": {
+    "markbind-cli": "^3.1.1"
+  }
+}

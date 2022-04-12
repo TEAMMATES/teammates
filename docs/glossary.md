@@ -1,3 +1,7 @@
+<frontmatter>
+  title : "Glossary"
+</frontmatter>
+
 # Glossary
 
 This document lines out the common terms used in the project.
@@ -35,7 +39,7 @@ This document lines out the common terms used in the project.
 + [**Ops repo**](https://github.com/TEAMMATES/teammates-ops): The repository containing maintenance and operations-specific information.
 + **Specs**: System Specification.
 
-`* server`:
+### Servers
 
 + **Dev server**: The development server running on your computer.
 + **CI server**: Continuous Integration server used for building/testing patches. We use GitHub Actions.
@@ -43,7 +47,7 @@ This document lines out the common terms used in the project.
 + **Staging server**: The server instance you created on Google App Engine for testing purpose.
 + **Live server**: The server running the released public version of the app (i.e. https://teammatesv4.appspot.com).
 
-`* tests`:
+### Tests
 
 + **All tests**: The full test suite.
 + **Component tests**: Unit and integration tests, i.e. white-box tests. There are separate component test suites for front-end and back-end.
