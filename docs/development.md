@@ -240,7 +240,7 @@ If you are using the Cloud SDK method, you can use `Ctrl + C` in the console to 
 There are two big categories of testing in TEAMMATES:
 
 - **Component tests**: white-box unit and integration tests, i.e. they test the application components with full knowledge of the components' internal workings. This is configured in `src/test/resources/testng-component.xml` (back-end) and `src/web/jest.config.js` (front-end).
-- **E2E (end-to-end) tests**: black-box tests, i.e. they test the application as a whole without knowing any internal working. This is configured in `src/e2e/resources/testng-e2e.xml`. To learn more about E2E tests, refer to this [document](https://github.com/TEAMMATES/teammates/blob/master/docs/e2e-testing.md).  
+- **E2E (end-to-end) tests**: black-box tests, i.e. they test the application as a whole without knowing any internal working. This is configured in `src/e2e/resources/testng-e2e.xml`. To learn more about E2E tests, refer to this [document](e2e-testing.md).  
 
 #### Running the tests
 
