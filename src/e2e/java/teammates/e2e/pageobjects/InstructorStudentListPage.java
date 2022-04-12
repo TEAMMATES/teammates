@@ -51,39 +51,39 @@ public class InstructorStudentListPage extends AppPage {
         }
     }
 
-    public void verifyStudentDetails(Map<String, CourseAttributes> courses, Map<String, StudentAttributes[]> students,
-            Map<String, Boolean> viewStudentsPermissions) {
-        List<WebElement> coursesTabs = getCoursesTabs();
+    public void verifyStudentDetails(Map<String, CourseAttributes> courses, Map<String, StudentAttributes[]> students) {
         assertEquals(students.size(), courses.size());
-        assertEquals(students.size(), coursesTabs.size());
-        assertEquals(viewStudentsPermissions.size(), coursesTabs.size());
 
-        students.forEach((courseId, studentsForCourse) -> verifyStudentDetails(courses.get(courseId), studentsForCourse,
-                viewStudentsPermissions.get(courseId)));
+        students.forEach((courseId, studentsForCourse) -> verifyStudentDetails(courses.get(courseId), studentsForCourse));
     }
 
-    public void verifyStudentDetails(CourseAttributes course, StudentAttributes[] students,
-            boolean isAbleToViewStudents) {
+    public void verifyStudentDetails(CourseAttributes course, StudentAttributes[] students) {
         WebElement targetCourse = getCourseTab(course);
         if (targetCourse == null) {
             fail("Course with ID " + course.getId() + " is not found");
         }
 
-        if (students.length > 0) {
-            WebElement studentList = targetCourse.findElement(By.tagName("table"));
-            verifyTableBodyValues(studentList, getExpectedStudentValues(students));
-            verifyDisplayedNumbers(targetCourse, students);
-        } else if (isAbleToViewStudents) {
+        if (students.length == 0) {
             String noStudentText = targetCourse.findElement(By.className("card-body")).getText();
             // Need to account for the text from the enroll students button as well
             String expectedText = "There are no students in this course."
                     + TestProperties.LINE_SEPARATOR + "Enroll Students";
             assertEquals(expectedText, noStudentText);
         } else {
-            String noViewStudentsPermissionText = targetCourse.findElement(By.className("card-body")).getText();
-            String expectedText = "You do not have permission to view the details of the students in this course.";
-            assertEquals(expectedText, noViewStudentsPermissionText);
+            WebElement studentList = targetCourse.findElement(By.tagName("table"));
+            verifyTableBodyValues(studentList, getExpectedStudentValues(students));
+            verifyDisplayedNumbers(targetCourse, students);
         }
+    }
+
+    public void verifyStudentDetailsNotViewable(CourseAttributes course) {
+        WebElement targetCourse = getCourseTab(course);
+        if (targetCourse == null) {
+            fail("Course with ID " + course.getId() + " is not found");
+        }
+        String noViewStudentsPermissionText = targetCourse.findElement(By.className("card-body")).getText();
+        String expectedText = "You do not have permission to view the details of the students in this course.";
+        assertEquals(expectedText, noViewStudentsPermissionText);
     }
 
     private WebElement getCourseTab(CourseAttributes course) {

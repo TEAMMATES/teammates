@@ -51,8 +51,6 @@ public class InstructorStudentListPageE2ETest extends BaseE2ETestCase {
 
         StudentAttributes[] studentsInCourse1 = {};
 
-        StudentAttributes[] studentsInCourse2 = {};
-
         StudentAttributes[] studentsInCourse3 = {
                 testData.students.get("Student1Course3"),
                 testData.students.get("Student2Course3"),
@@ -62,20 +60,14 @@ public class InstructorStudentListPageE2ETest extends BaseE2ETestCase {
 
         Map<String, StudentAttributes[]> courseIdToStudents = new HashMap<>();
         courseIdToStudents.put(course1.getId(), studentsInCourse1);
-        courseIdToStudents.put(course2.getId(), studentsInCourse2);
         courseIdToStudents.put(course3.getId(), studentsInCourse3);
 
         Map<String, CourseAttributes> courseIdToCourse = new HashMap<>();
         courseIdToCourse.put(course1.getId(), course1);
-        courseIdToCourse.put(course2.getId(), course2);
         courseIdToCourse.put(course3.getId(), course3);
 
-        Map<String, Boolean> courseIdToViewStudentsPermission = new HashMap<>();
-        courseIdToViewStudentsPermission.put(course1.getId(), true);
-        courseIdToViewStudentsPermission.put(course2.getId(), false);
-        courseIdToViewStudentsPermission.put(course3.getId(), true);
-
-        listPage.verifyStudentDetails(courseIdToCourse, courseIdToStudents, courseIdToViewStudentsPermission);
+        listPage.verifyStudentDetails(courseIdToCourse, courseIdToStudents);
+        listPage.verifyStudentDetailsNotViewable(course2);
 
         ______TS("link: enroll page");
 
@@ -121,7 +113,7 @@ public class InstructorStudentListPageE2ETest extends BaseE2ETestCase {
                 testData.students.get("Student4Course3"),
         };
 
-        listPage.verifyStudentDetails(course3, studentsAfterDelete, true);
+        listPage.verifyStudentDetails(course3, studentsAfterDelete);
         verifyAbsentInDatabase(studentToDelete);
 
     }
