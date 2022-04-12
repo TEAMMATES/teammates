@@ -716,7 +716,7 @@ describe('InstructorSessionEditPageComponent', () => {
         { courseid: 'testId2', fsname: 'Test Session' });
   });
 
-  it('should open danger modal if session end time updates end time after extensions', async () => {
+  it('should open danger modal if session end time updates end time after any extensions deadline', async () => {
     jest.spyOn(ngbModal, 'open');
     jest.spyOn(timeZoneService, 'resolveLocalDateTime').mockReturnValue(testFeedbackSession.submissionEndTimestamp);
     const validateSpy = jest.spyOn(InstructorSessionEditPageComponent.prototype,

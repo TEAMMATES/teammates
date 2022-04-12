@@ -22,7 +22,7 @@ export class DeadlineExtensionHelper {
       || Object.values(deadlines.instructorDeadlines).some((deadlineTimestamp) => deadlineTimestamp > timeNow);
   }
 
-  public static isDeadlinesBeforeNewEndTime(
+  public static isDeadlinesBeforeUpdatedEndTime(
     studentDeadlines: Record<string, number>,
     instructorDeadlines: Record<string, number>,
     newSubmissionEndTime: number,

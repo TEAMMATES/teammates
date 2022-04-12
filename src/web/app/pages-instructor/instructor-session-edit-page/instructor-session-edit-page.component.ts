@@ -430,9 +430,9 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
           this.sessionEditFormModel.timeZone, true);
     }
 
-    const isDeadlinesBeforeNewEndTime = DeadlineExtensionHelper
-      .isDeadlinesBeforeNewEndTime(this.studentDeadlines, this.instructorDeadlines, submissionEndTime);
-    if (isDeadlinesBeforeNewEndTime) {
+    const isDeadlinesBeforeUpdatedEndTime = DeadlineExtensionHelper
+      .isDeadlinesBeforeUpdatedEndTime(this.studentDeadlines, this.instructorDeadlines, submissionEndTime);
+    if (isDeadlinesBeforeUpdatedEndTime) {
       this.handleValidationAndUpdateOfDeadlines(submissionEndTime).subscribe((resultOfDeadlineValidation) => {
         if (!resultOfDeadlineValidation.isAcceptDeletionOfDeadlines) {
           this.sessionEditFormModel.isSaving = false;
