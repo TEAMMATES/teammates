@@ -1,7 +1,7 @@
 package teammates.logic.core;
 
-import java.util.ArrayList;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -289,15 +289,9 @@ public final class AccountsLogic {
 
         updatedReadNotifications.put(notificationId, endTime);
 
-        try {
-            return accountsDb.updateAccount(
-                    AccountAttributes.updateOptionsBuilder(googleId)
-                            .withReadNotifications(updatedReadNotifications)
-                            .build());
-        } catch (InvalidParametersException | EntityDoesNotExistException e) {
-            assert false : "Unexpected error "
-                    + "while updating read notifications for account " + googleId + ": " + e.getMessage();
-        }
-        throw new EntityDoesNotExistException("Invalid update to read notification in account");
+        return accountsDb.updateAccount(
+                AccountAttributes.updateOptionsBuilder(googleId)
+                        .withReadNotifications(updatedReadNotifications)
+                        .build());
     }
 }
