@@ -2,13 +2,13 @@ import { FeedbackSessionSubmissionStatus } from '../../../types/api-output';
 import { SubmissionStatusTooltipPipe } from './submission-status-tooltip.pipe';
 
 describe('SubmissionStatusTooltipPipe', () => {
-  it('create an instance', () => {
-    const pipe: SubmissionStatusTooltipPipe = new SubmissionStatusTooltipPipe();
-    expect(pipe).toBeTruthy();
+  let pipe: SubmissionStatusTooltipPipe;
+
+  beforeEach(() => {
+    pipe = new SubmissionStatusTooltipPipe();
   });
 
-  it('transform with the tooltip description correctly', () => {
-    const pipe: SubmissionStatusTooltipPipe = new SubmissionStatusTooltipPipe();
+  it('create an instance', () => {
     expect(pipe).toBeTruthy();
   });
 
@@ -22,7 +22,6 @@ describe('SubmissionStatusTooltipPipe', () => {
       studentDeadlines: { nonOngoingExtension1: new Date('2019-01-01').valueOf() },
       instructorDeadlines: { nonOngoingExtension2: new Date('2019-02-01').valueOf() },
     };
-    const pipe: SubmissionStatusTooltipPipe = new SubmissionStatusTooltipPipe();
 
     expect(pipe.transform(FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN, hasNoDeadlines)).toEqual(
       pipe.transform(FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN),
@@ -40,8 +39,7 @@ describe('SubmissionStatusTooltipPipe', () => {
       instructorDeadlines: { nonOngoingDeadline: new Date('2019-01-01').valueOf() },
     };
 
-    const pipe: SubmissionStatusTooltipPipe = new SubmissionStatusTooltipPipe();
-    const extensionMessage = 'with current ongoing individual deadline extensions.';
+    const extensionMessage = ', with current ongoing individual deadline extensions.';
 
     const notVisibleWithExtension = pipe.transform(FeedbackSessionSubmissionStatus.NOT_VISIBLE, hasOngoingDeadlines);
     expect(notVisibleWithExtension.endsWith(extensionMessage)).toBeTruthy();

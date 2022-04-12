@@ -2,8 +2,13 @@ import { FeedbackSessionSubmissionStatus } from '../../../types/api-output';
 import { SubmissionStatusNamePipe } from './submission-status-name.pipe';
 
 describe('SubmissionStatusNamePipe', () => {
+  let pipe: SubmissionStatusNamePipe;
+
+  beforeEach(() => {
+   pipe = new SubmissionStatusNamePipe();
+  });
+
   it('create an instance', () => {
-    const pipe: SubmissionStatusNamePipe = new SubmissionStatusNamePipe();
     expect(pipe).toBeTruthy();
   });
 
@@ -17,7 +22,6 @@ describe('SubmissionStatusNamePipe', () => {
       studentDeadlines: { nonOngoingExtension: new Date('2019-01-01').valueOf() },
       instructorDeadlines: {},
     };
-    const pipe: SubmissionStatusNamePipe = new SubmissionStatusNamePipe();
     expect(pipe.transform(FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN, hasNoDeadlines)).toEqual(
       pipe.transform(FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN),
     );
@@ -32,7 +36,6 @@ describe('SubmissionStatusNamePipe', () => {
       studentDeadlines: { ongoingExtension: new Date('2021-01-01').valueOf() },
       instructorDeadlines: { nonOngoingExtension: new Date('2019-01-01').valueOf() },
     };
-    const pipe: SubmissionStatusNamePipe = new SubmissionStatusNamePipe();
     const extensionMessage = '(Ext. ongoing)';
 
     const notVisibleWithExtension = pipe.transform(FeedbackSessionSubmissionStatus.NOT_VISIBLE, hasOngoingDeadlines);
