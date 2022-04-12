@@ -1,3 +1,4 @@
+import { HttpStatusCode } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { finalize } from 'rxjs/operators';
 import { CourseService, CourseStatistics } from '../../../services/course.service';
@@ -157,7 +158,7 @@ export class InstructorStudentListPageComponent implements OnInit {
             this.statusMessageService.showErrorToast(resp.error.message);
           });
         }, (resp: ErrorMessageOutput) => {
-          if (resp.error.message === 'You are not authorized to access this resource.') {
+          if (resp.status === HttpStatusCode.Forbidden) {
             courseTab.isAbleToViewStudents = false;
             courseTab.hasStudentLoaded = true;
           } else {
