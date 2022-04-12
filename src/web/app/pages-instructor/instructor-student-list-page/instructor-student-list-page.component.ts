@@ -32,7 +32,7 @@ interface CourseTab {
   hasTabExpanded: boolean;
   hasStudentLoaded: boolean;
   hasLoadingFailed: boolean;
-  isAbleToViewStudents: boolean,
+  isAbleToViewStudents: boolean;
   stats: CourseStatistics;
 }
 
