@@ -1,0 +1,81 @@
+@startuml
+!include diagrams/style.puml
+
+box Ui UI_COLOR_T1
+participant ":Browser" as Browser UI_COLOR
+participant GoogleAppEngine UI_COLOR
+participant ":WebPage\nServlet" as WebPage UI_COLOR
+participant ":*Filter" as Filter UI_COLOR
+participant ":WebApi\nServlet" as WebApi UI_COLOR
+participant ":Action\nFactory" as ActionFactory UI_COLOR
+participant ":*Action" as Action UI_COLOR
+participant ":*Result" as Result UI_COLOR
+end box
+
+box Logic LOGIC_COLOR_T1
+participant Logic LOGIC_COLOR
+end box
+
+Browser -> GoogleAppEngine
+activate GoogleAppEngine
+note right of Browser : Web\nPage
+
+GoogleAppEngine -> WebPage
+activate WebPage
+
+WebPage --> GoogleAppEngine
+deactivate WebPage
+
+GoogleAppEngine --> Browser
+deactivate GoogleAppEngine
+
+Browser -> GoogleAppEngine
+activate GoogleAppEngine
+
+GoogleAppEngine -> Filter : apply
+activate Filter
+
+Filter --> GoogleAppEngine
+deactivate Filter
+
+GoogleAppEngine -> WebApi : forward
+activate WebApi
+
+WebApi -> ActionFactory : getAction()
+activate ActionFactory
+
+create Action
+ActionFactory -> Action : create
+ActionFactory --> WebApi
+deactivate ActionFactory
+
+WebApi -> Action : checkAccessControl()
+activate Action
+
+Action --> WebApi
+deactivate Action
+
+WebApi -> Action : execute()
+activate Action
+
+Action -> Logic : perform action/get data
+Logic --> Action
+
+create Result
+Action -> Result : create
+
+Action --> WebApi
+deactivate Action
+
+WebApi -> Result : send()
+activate Result
+
+Result --> WebApi
+deactivate Result
+
+WebApi --> GoogleAppEngine
+deactivate WebApi
+
+GoogleAppEngine --> Browser
+deactivate GoogleAppEngine
+@enduml

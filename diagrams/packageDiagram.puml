@@ -1,0 +1,106 @@
+@startuml
+!include diagrams/style.puml
+skinparam componentBackgroundColor MODEL_COLOR_T1
+skinparam componentFontColor #FFFFFF
+skinparam folderBackgroundColor #FFFFFF
+skinparam rectangleBackgroundColor MODEL_COLOR
+skinparam arrowColor #000000
+
+component Common {
+    folder "common:util" as CommonUtil
+    folder "common::exception" as CommonException
+    folder "common::datatransfer" as CommonDataTransfer
+}
+
+component UI {
+    folder "ui::webapi" as UiWebApi
+    folder "ui::website" as UiWebsite
+}
+
+component Logic {
+    folder "logic::core" as LogicCore
+    folder "logic::external" as LogicExternal
+    folder "logic::api" as LogicApi
+}
+
+component Storage {
+    folder "storage::entity" as StorageEntity
+    folder "storage::api" as StorageApi
+    folder "storage::search" as StorageSearch
+}
+
+component TestDriver {
+    folder "test" as Test
+}
+
+component E2E {
+    folder "e2e::pageobjects" as E2EPageObjects
+    folder "e2e::cases" as E2ECases
+    folder "e2e::util" as E2EUtil
+}
+
+component Client  {
+    folder "client::scripts" as ClientScripts
+    folder "client::remoteapi" as ClientRemoteApi
+}
+
+database "Google\nCloud\Datastore" as GCD STORAGE_COLOR_T1
+
+UI ..> Common
+Logic ..> Common
+Storage ..> Common
+
+CommonDataTransfer ..> StorageEntity
+UiWebApi ..> LogicApi
+LogicCore ..> StorageApi
+StorageApi ..> GCD
+E2EPageObjects ..> UiWebsite
+ClientRemoteApi ..> GCD
+
+LogicApi ..> LogicCore
+LogicApi ..> LogicExternal
+StorageApi ..> StorageEntity
+StorageSearch <..> StorageApi
+E2ECases ..> E2EPageObjects
+E2ECases ..> E2EUtil
+ClientScripts ..> ClientRemoteApi
+
+' The hidden associations are for positioning purposes only
+Common -[hidden]down- UI
+UI -[hidden]up- Common
+Common -[hidden]down- Logic
+Logic -[hidden]up- Common
+Common -[hidden]down- Storage
+Storage -[hidden]up- Common
+
+UI -[hidden]right- Logic
+Logic -[hidden]right- Storage
+TestDriver -[hidden]right- E2E
+E2E -[hidden]right- Client
+
+UI -[hidden]down- TestDriver
+UiWebsite -[hidden]down- Test
+
+Logic -[hidden]down- E2E
+E2E -[hidden]up- Logic
+
+LogicApi -[hidden]down- E2EPageObjects
+Storage -[hidden]down- Client
+StorageSearch -[hidden]down- ClientScripts
+Storage -[hidden]right- GCD
+Client -[hidden]right- GCD
+
+UiWebApi -[hidden]down- UiWebsite
+LogicCore -[hidden]down- LogicApi
+LogicExternal -[hidden]down- LogicApi
+StorageEntity -[hidden]down- StorageApi
+StorageApi -[hidden]down- StorageSearch
+E2EPageObjects -[hidden]down- E2ECases
+E2ECases -[hidden]down- E2EUtil
+ClientScripts -[hidden]down- ClientRemoteApi
+CommonUtil -[hidden]right- CommonException
+CommonException -[hidden]right- CommonDataTransfer
+CommonDataTransfer -[hidden]down- StorageEntity
+CommonUtil -[hidden]down- UiWebApi
+
+@enduml

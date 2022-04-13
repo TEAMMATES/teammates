@@ -1,0 +1,73 @@
+@startuml
+!include diagrams/style.puml
+skinparam componentBackgroundColor MODEL_COLOR_T1
+skinparam componentFontColor #FFFFFF
+skinparam FolderBackgroundColor #FFFFFF
+skinparam rectangleBackgroundColor MODEL_COLOR
+skinparam rectangleFontColor #FFFFFF
+skinparam arrowColor #000000
+
+component Logic {
+    folder "logic::core" as Core {
+        rectangle AccountsLogic
+        rectangle InstructorsLogic
+        rectangle StudentsLogic
+        rectangle CoursesLogic
+        rectangle FeedbackSessionsLogic
+        rectangle "~*Logic" as Logic1
+    }
+
+    folder "logic::external" as External {
+        rectangle MailgunService
+        rectangle MailjetService
+        rectangle SendgridService
+        rectangle GoogleCloudTasksService
+        rectangle GoogleCloudStorageService
+        rectangle "~*Service" as Service
+    }
+
+    folder "logic::api" as Api {
+        rectangle EmailSender
+        rectangle EmailGenerator
+        rectangle TaskQueuer
+        rectangle FileStorage
+        rectangle RecaptchaVerifier
+        rectangle "Logic" as Logic2
+        rectangle UserProvision
+        rectangle LogsProcessor
+    }
+}
+
+rectangle ThirdPartyEmailAPIs
+rectangle "GoogleCloud\nTasksAPI" as GoogleCloudTasksApi
+rectangle "GoogleCloud\nStorageAPI" as GoogleCloudStorageApi
+rectangle "Other\nExternalAPIs" as OtherExternalApi
+rectangle UI
+storage Storage STORAGE_COLOR_T1
+
+MailgunService ..> ThirdPartyEmailAPIs
+MailjetService ..> ThirdPartyEmailAPIs
+SendgridService ..> ThirdPartyEmailAPIs
+GoogleCloudTasksService ..> GoogleCloudTasksApi
+GoogleCloudStorageService ..> GoogleCloudStorageApi
+Service ..> OtherExternalApi
+AccountsLogic ..> Storage
+InstructorsLogic ..> Storage
+StudentsLogic ..> Storage
+CoursesLogic ..> Storage
+FeedbackSessionsLogic ..> Storage
+Logic1 ..> Storage
+
+UI ..> Api
+Api ..> Core
+Api ..> External
+
+' The hidden associations are for positioning purposes only
+Api -[hidden]right- Core
+Core -[hidden]left- Api
+Api -[hidden]right- External
+External -[hidden]left- Api
+Core -[hidden]down- External
+External -[hidden]up- Core
+
+@enduml

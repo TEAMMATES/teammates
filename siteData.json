@@ -1,0 +1,326 @@
+{
+  "enableSearch": true,
+  "pages": [
+    {
+      "src": "CONTRIBUTING.md",
+      "title": "",
+      "headings": {
+        "contributing-to-teammates": "Contributing to TEAMMATES",
+        "getting-started": "Getting started",
+        "know-the-product-project": "Know the product/project",
+        "code-of-conduct": "Code of Conduct",
+        "how-can-i-contribute": "How can I contribute?",
+        "submitting-an-issue": "Submitting an issue",
+        "manual-testing": "Manual testing",
+        "submitting-a-pull-request": "Submitting a pull request",
+        "contributor-orientation-guide": "Contributor orientation guide",
+        "knowledge-required": "Knowledge required",
+        "orientation-task-list": "Orientation task list"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "SUPPORT.md",
+      "title": "",
+      "headings": {
+        "teammates-support": "TEAMMATES Support"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "best-practices/coding.md",
+      "title": "Best Practices: Coding",
+      "headings": {
+        "coding-best-practices": "Coding Best Practices",
+        "quality": "Quality",
+        "style": "Style",
+        "refactoring": "Refactoring",
+        "code-comments": "Code Comments",
+        "user-visible-text": "User-visible text",
+        "issue-tracking": "Issue tracking",
+        "revision-control": "Revision control",
+        "security": "Security"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "best-practices/data-migration.md",
+      "title": "Best Practices: Data Migration",
+      "headings": {
+        "data-migration-best-practices": "Data Migration Best Practices",
+        "making-code-work-for-both-schemas": "Making code work for both schemas",
+        "interchangeability-between-consecutive-versions": "Interchangeability between consecutive versions"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "best-practices/testing.md",
+      "title": "Best Practices: Testing",
+      "headings": {
+        "testing-best-practices": "Testing Best Practices",
+        "general-guidelines": "General guidelines"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "best-practices/ui-design.md",
+      "title": "Best Practices: UI Design",
+      "headings": {
+        "ui-design-best-practices": "UI Design Best Practices",
+        "be-forgiving-in-processing-input": "Be forgiving in processing input",
+        "be-descriptive": "Be descriptive",
+        "minimize-work-to-be-done-by-the-user": "Minimize work (to be done by the user)",
+        "take-user-point-of-view": "Take user point of view",
+        "be-consistent": "Be consistent"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "captcha.md",
+      "title": "Captcha",
+      "headings": {
+        "setting-up-captcha": "Setting up CAPTCHA"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "contributing-doc.md",
+      "title": "Contributing",
+      "headings": {
+        "contributing-to-teammates": "Contributing to TEAMMATES",
+        "getting-started": "Getting started",
+        "know-the-product-project": "Know the product/project",
+        "code-of-conduct": "Code of Conduct",
+        "how-can-i-contribute": "How can I contribute?",
+        "submitting-an-issue": "Submitting an issue",
+        "manual-testing": "Manual testing",
+        "submitting-a-pull-request": "Submitting a pull request",
+        "contributor-orientation-guide": "Contributor orientation guide",
+        "knowledge-required": "Knowledge required",
+        "orientation-task-list": "Orientation task list",
+        "teammates-support": "TEAMMATES Support"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "design.md",
+      "title": "Design",
+      "headings": {
+        "design": "Design",
+        "architecture": "Architecture",
+        "ui-component": "UI Component",
+        "user-invoked-requests": "User-invoked requests",
+        "automated-requests": "Automated requests",
+        "template-method-pattern": "Template Method pattern",
+        "policies": "Policies",
+        "logic-component": "Logic Component",
+        "logic-api": "Logic API",
+        "policies-2": "Policies",
+        "storage-component": "Storage Component",
+        "storage-api": "Storage API",
+        "policies-3": "Policies",
+        "common-component": "Common Component",
+        "test-driver-component": "Test Driver Component",
+        "e2e-component": "E2E Component",
+        "client-component": "Client Component"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "development.md",
+      "title": "Development",
+      "headings": {
+        "development-guidelines": "Development Guidelines",
+        "managing-the-dev-server-front-end": "Managing the dev server: front-end",
+        "managing-the-dev-server-back-end": "Managing the dev server: back-end",
+        "pre-requisites": "Pre-requisites",
+        "starting-the-dev-server": "Starting the dev server",
+        "stopping-the-dev-server": "Stopping the dev server",
+        "building-front-end-files": "Building front-end files",
+        "logging-in-to-a-teammates-instance": "Logging in to a TEAMMATES instance",
+        "logging-in-without-ui": "Logging in without UI",
+        "running-the-datastore-emulator": "Running the Datastore emulator",
+        "stopping-the-emulator": "Stopping the emulator",
+        "testing": "Testing",
+        "deploying-to-a-staging-server": "Deploying to a staging server",
+        "running-client-scripts": "Running client scripts",
+        "config-points": "Config points"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "documentation.md",
+      "title": "Documentation",
+      "headings": {
+        "documentation": "Documentation",
+        "installation": "Installation",
+        "quickstart": "Quickstart",
+        "deploying-to-github-pages": "Deploying to GitHub pages"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "e2e-testing.md",
+      "title": "End-to-End Testing",
+      "headings": {
+        "e2e-testing": "E2E Testing",
+        "what-is-e2e-testing": "What is E2E Testing?",
+        "running-e2e-tests": "Running E2E tests",
+        "configuring-browsers-for-e2e-testing": "Configuring browsers for E2E Testing",
+        "running-the-tests": "Running the tests",
+        "testing-against-production-server": "Testing against production server",
+        "creating-e2e-tests": "Creating E2E tests",
+        "page-object-pattern": "Page Object Pattern",
+        "creating-page-objects": "Creating Page Objects",
+        "things-to-avoid-when-writing-e2e-tests": "Things to avoid when writing E2E tests",
+        "faq": "FAQ"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "emails.md",
+      "title": "Emails",
+      "headings": {
+        "using-alternative-email-providers": "Using alternative email providers",
+        "sendgrid": "SendGrid",
+        "mailgun": "Mailgun",
+        "mailjet": "Mailjet"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "glossary.md",
+      "title": "Glossary",
+      "headings": {
+        "glossary": "Glossary",
+        "product-related": "Product-related",
+        "development-related": "Development-related",
+        "servers": "Servers",
+        "tests": "Tests"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "index.md",
+      "title": "Home",
+      "headings": {
+        "teammates": "TEAMMATES",
+        "interested-to-join-teammates-developer-team": "Interested to join TEAMMATES developer team?",
+        "documentation-for-developers": "Documentation For Developers",
+        "supplementary-documents": "Supplementary documents"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "issues.md",
+      "title": "Issues",
+      "headings": {
+        "issue-tracker": "Issue tracker",
+        "issue-lifecycle": "Issue lifecycle",
+        "issue-labels": "Issue labels"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "overview.md",
+      "title": "Overview",
+      "headings": {
+        "overview": "Overview",
+        "vision": "Vision",
+        "challenges": "Challenges",
+        "principles": "Principles"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "performance-testing.md",
+      "title": "Performance Testing",
+      "headings": {
+        "performance-testing": "Performance Testing",
+        "creating-performance-tests": "Creating Performance Tests",
+        "running-performance-tests": "Running Performance Tests",
+        "using-gradle": "Using Gradle",
+        "using-the-command-line": "Using the Command Line",
+        "using-jmeter-gui": "Using JMeter GUI"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "process.md",
+      "title": "Process",
+      "headings": {
+        "development-workflow": "Development Workflow",
+        "overview": "Overview",
+        "fixing-issues": "Fixing issues",
+        "step-1-pick-an-issue-to-fix": "Step 1: Pick an issue to fix",
+        "step-2-start-clean-from-a-new-branch": "Step 2: Start clean from a new branch",
+        "step-3-fix-the-issue": "Step 3: Fix the issue",
+        "step-4-submit-a-pr": "Step 4: Submit a PR",
+        "step-5-following-up": "Step 5: Following up",
+        "step-6-prepare-for-merging": "Step 6: Prepare for merging",
+        "reviewing-a-pr": "Reviewing a PR",
+        "merging-a-pr": "Merging a PR"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "search.md",
+      "title": "Search",
+      "headings": {
+        "full-text-search-feature-support": "Full-text Search Feature Support",
+        "setting-up-solr-using-docker": "Setting up Solr using Docker",
+        "setting-up-solr-manually": "Setting up Solr manually"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "setting-up.md",
+      "title": "Setting Up",
+      "headings": {
+        "setting-up-a-development-environment": "Setting up a development environment",
+        "step-1-obtain-your-own-copy-of-the-repository": "Step 1: Obtain your own copy of the repository",
+        "step-2-install-necessary-tools-and-languages": "Step 2: Install necessary tools and languages",
+        "step-3-set-up-project-specific-settings-and-dependencies": "Step 3: Set up project-specific settings and dependencies",
+        "step-4-start-developing": "Step 4: Start developing"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "snapshot-testing.md",
+      "title": "Snapshot Testing",
+      "headings": {
+        "snapshot-testing": "Snapshot Testing",
+        "what-is-snapshot-testing": "What is Snapshot Testing?",
+        "how-does-snapshot-testing-work": "How does Snapshot Testing work?",
+        "how-do-we-use-snapshot-testing": "How do we use Snapshot Testing?",
+        "when-do-we-use-snapshot-testing": "When do we use Snapshot Testing?",
+        "when-do-we-not-use-snapshot-testing": "When do we NOT use Snapshot Testing?",
+        "best-practices": "Best Practices",
+        "final-notes": "Final Notes"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "static-analysis.md",
+      "title": "Static Analysis",
+      "headings": {
+        "static-analysis": "Static Analysis",
+        "version-numbers": "Version numbers",
+        "tool-stack": "Tool stack",
+        "suppressing-rules": "Suppressing rules",
+        "running-static-analysis": "Running static analysis"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "troubleshooting-guide.md",
+      "title": "Troubleshooting Guide",
+      "headings": {
+        "developer-troubleshooting-guide": "Developer Troubleshooting Guide",
+        "common-test-errors-and-solutions": "Common test errors and solutions",
+        "submitting-help-request": "Submitting help request"
+      },
+      "headingKeywords": {}
+    }
+  ]
+}
