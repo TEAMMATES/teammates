@@ -1,25 +1,10 @@
 .banner {
-  position: sticky;
-  top: 50px;
   width: 100%;
-  padding: 1.25rem 6.25rem .625rem;
-  z-index: 900;
+  padding: 1.875rem;
   word-break: break-word;
 }
 
 .banner-text {
   max-height: 80px;
   overflow-y: auto;
-}
-
-@media (max-width: 1024px) {
-  .banner {
-    padding: 1.25rem 3.125rem .625rem;
-  }
-}
-
-@media (max-width: 768px) {
-  .banner {
-    padding: 1.25rem 1.25rem .625rem;
-  }
 }

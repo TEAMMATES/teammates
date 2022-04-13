@@ -42,10 +42,10 @@
     </ul>
   </div>
 </nav>
-<tm-notification-banner *ngIf="notificationTargetUser !== NotificationTargetUser.GENERAL" [notificationTargetUser]="notificationTargetUser"></tm-notification-banner>
 <tm-loader-bar></tm-loader-bar>
 <tm-toast [(toast)]="toast" aria-live="polite" aria-atomic="true"></tm-toast>
 <div id="main-content" class="container main-content">
+  <tm-notification-banner *ngIf="notificationTargetUser !== NotificationTargetUser.GENERAL" [notificationTargetUser]="notificationTargetUser"></tm-notification-banner>
   <div *tmIsLoading="isFetchingAuthDetails">
     <div *ngIf="isUnsupportedBrowser">
       <div class="alert alert-danger" role="alert">
