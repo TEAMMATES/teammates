@@ -448,32 +448,30 @@ public class AccountsLogicTest extends BaseLogicTest {
             assertTrue(notification.getValue().isAfter(Instant.now()));
         }
 
-        ______TS("failure: invalid googleId");
-
+        ______TS("failure: update read notifications with invalid parameter");
+        // invalid googleId
         assertThrows(EntityDoesNotExistException.class,
                 () -> accountsLogic.updateReadNotifications(
                         "not_exist",
                         notificationAttributes.getNotificationId(),
                         notificationAttributes.getEndTime()));
 
-        ______TS("failure: invalid notificationId");
-
+        // invalid notificationId
         assertThrows(EntityDoesNotExistException.class,
                 () -> accountsLogic.updateReadNotifications(
                         instructor2OfCourse1.getGoogleId(),
                         "invalid_notification_id",
                         notificationAttributes.getEndTime()));
 
-        ______TS("failure: expired notification");
-
+        // expired notification
         NotificationAttributes expiredNotification = dataBundle.notifications.get("expiredNotification1");
 
-        InvalidParametersException e = assertThrows(InvalidParametersException.class,
+        InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
                 () -> accountsLogic.updateReadNotifications(
                         instructor2OfCourse1.getGoogleId(),
                         notificationAttributes.getNotificationId(),
                         expiredNotification.getEndTime()));
 
-        assertEquals("Trying to mark an expired notification as read.", e.getMessage());
+        assertEquals("Trying to mark an expired notification as read.", ipe.getMessage());
     }
 }
