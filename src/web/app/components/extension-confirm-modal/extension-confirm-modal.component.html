@@ -151,12 +151,12 @@
       </table>
     </div>
 
-    <div class="form-check">
+    <div class="form-check" *ngIf="isDeleteModal() || isExtendModal()">
       <input class="form-check-input" type="checkbox" [(ngModel)]="isNotifyDeadlines" id="flexCheckChecked">
       <label class="form-check-label" for="flexCheckChecked" *ngIf="isExtendModal()">
         Notify affected students and/or instructors by email about this extension
       </label>
-      <label id="notify-deletion-btn" class="form-check-label" for="flexCheckChecked" *ngIf="isDeleteModal() || isValidateDeadlineModal()">
+      <label id="notify-deletion-btn" class="form-check-label" for="flexCheckChecked" *ngIf="isDeleteModal()">
         Notify affected students and/or instructors by email about the cancellation of their extension
       </label>
     </div>

@@ -430,26 +430,17 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
           this.sessionEditFormModel.timeZone, true);
     }
 
-    const isDeadlinesBeforeUpdatedEndTime = DeadlineExtensionHelper
-      .isDeadlinesBeforeUpdatedEndTime(this.studentDeadlines, this.instructorDeadlines, submissionEndTime);
-    if (isDeadlinesBeforeUpdatedEndTime) {
-      this.handleValidationAndUpdateOfDeadlines(submissionEndTime).subscribe((resultOfDeadlineValidation) => {
-        if (!resultOfDeadlineValidation.isAcceptDeletionOfDeadlines) {
-          this.sessionEditFormModel.isSaving = false;
-          this.sessionEditFormModel.isEditable = true;
-          return;
-        }
-        this.updateFeedbackSession(submissionStartTime, submissionEndTime, sessionVisibleTime, responseVisibleTime,
-          resultOfDeadlineValidation.isNotifyDeadlines);
-      });
-
-    } else {
+    this.handleValidationAndUpdateOfDeadlines(submissionEndTime).subscribe((isUpdateSession) => {
+      if (!isUpdateSession) {
+        return;
+      }
       this.updateFeedbackSession(submissionStartTime, submissionEndTime, sessionVisibleTime, responseVisibleTime);
-    }
+    });
+
   }
 
   updateFeedbackSession(submissionStartTime: number, submissionEndTime: number, sessionVisibleTime: number,
-    responseVisibleTime: number, isNotifyDeadlines?: boolean): void {
+    responseVisibleTime: number): void {
     this.sessionEditFormModel.isSaving = true;
     this.sessionEditFormModel.isEditable = false;
     this.feedbackSessionsService.updateFeedbackSession(this.courseId, this.feedbackSessionName, {
@@ -470,7 +461,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
 
       studentDeadlines: this.studentDeadlines,
       instructorDeadlines: this.instructorDeadlines,
-    }, isNotifyDeadlines,
+    },
     ).pipe(finalize(() => {
       this.sessionEditFormModel.isSaving = false;
     })).subscribe((feedbackSession: FeedbackSession) => {
@@ -482,9 +473,14 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     });
   }
 
-  handleValidationAndUpdateOfDeadlines(submissionEndTimestamp: number): Observable<{
-    isNotifyDeadlines: boolean, isAcceptDeletionOfDeadlines: boolean,
-   }> {
+  handleValidationAndUpdateOfDeadlines(submissionEndTimestamp: number): Observable<boolean> {
+    const hasDeadlinesBeforeUpdatedEndTime = DeadlineExtensionHelper
+      .hasDeadlinesBeforeUpdatedEndTime(this.studentDeadlines, this.instructorDeadlines, submissionEndTimestamp);
+
+    if (!hasDeadlinesBeforeUpdatedEndTime) {
+      return of(true); // no need to prompt for deletion
+    }
+
     const affectedStudentDeadlines = DeadlineExtensionHelper.setDeadlinesBeforeEndTime(
       this.studentDeadlines, submissionEndTimestamp);
     const affectedInstructorDeadlines = DeadlineExtensionHelper.setDeadlinesBeforeEndTime(
@@ -506,16 +502,17 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     modalRef.componentInstance.extensionTimestamp = submissionEndTimestamp;
     modalRef.componentInstance.feedbackSessionTimeZone = this.sessionEditFormModel.timeZone;
 
-    let resultFromModal = { isNotifyDeadlines: false, isAcceptDeletionOfDeadlines: false };
-    modalRef.componentInstance.onConfirmExtensionCallBack.subscribe((isNotifyDeadlines: boolean) => {
-      this.updateDeadlines(affectedStudentModels, affectedInstructorModels, affectedStudentDeadlines,
-        affectedInstructorDeadlines);
-      modalRef.componentInstance.isSubmitting = false;
-      modalRef.close();
-      resultFromModal = { isNotifyDeadlines, isAcceptDeletionOfDeadlines: true };
-    }, () => { });
-
-    return of(resultFromModal);
+    return new Observable((subscribeIsUserAccept) => {
+      modalRef.componentInstance.onConfirmExtensionCallBack.subscribe(() => {
+        this.updateDeadlines(affectedStudentModels, affectedInstructorModels, affectedStudentDeadlines,
+          affectedInstructorDeadlines);
+        modalRef.componentInstance.isSubmitting = false;
+        modalRef.close();
+        subscribeIsUserAccept.next(true);
+      }, () => {
+        subscribeIsUserAccept.next(false);
+      });
+    });
   }
 
   updateDeadlines(affectedStudents: StudentExtensionTableColumnModel[],
