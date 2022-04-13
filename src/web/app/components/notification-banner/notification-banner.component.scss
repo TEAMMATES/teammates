@@ -1,5 +1,5 @@
 .banner {
-  position: fixed;
+  position: sticky;
   top: 50px;
   width: 100%;
   padding: 20px 100px;
@@ -9,7 +9,7 @@
 
 .banner-text {
   max-height: 100px;
-  overflow: scroll;
+  overflow-y: scroll;
 }
 
 @media (max-width: 1024px) {
