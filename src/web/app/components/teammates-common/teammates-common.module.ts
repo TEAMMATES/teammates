@@ -22,6 +22,7 @@ import { StripHtmlTagsPipe } from './strip-html-tags.pipe';
 import { StudentNameWithPhotoComponent } from './student-name/student-name-with-photo.component';
 import { GenderFormatPipe } from './student-profile-gender.pipe';
 import { SubmissionStatusNamePipe } from './submission-status-name.pipe';
+import { SubmissionStatusTooltipPipe } from './submission-status-tooltip.pipe';
 import { ViewPhotoPopoverComponent } from './view-photo-popover/view-photo-popover.component';
 import {
   VisibilityControlNamePipe,
@@ -43,6 +44,7 @@ import {
   declarations: [
     EnumToArrayPipe,
     SubmissionStatusNamePipe,
+    SubmissionStatusTooltipPipe,
     PublishStatusNamePipe,
     FormatDateDetailPipe,
     GenderFormatPipe,
@@ -67,6 +69,7 @@ import {
   exports: [
     EnumToArrayPipe,
     SubmissionStatusNamePipe,
+    SubmissionStatusTooltipPipe,
     PublishStatusNamePipe,
     FormatDateDetailPipe,
     GenderFormatPipe,

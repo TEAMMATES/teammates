@@ -50,7 +50,7 @@
         <td *ngIf="columnsToShow.includes(SessionsTableColumn.END_DATE)">
           <span class="ngb-tooltip-class" [ngbTooltip]="sessionsTableRowModel.feedbackSession.submissionEndTimestamp | formatDateDetail: sessionsTableRowModel.feedbackSession.timeZone">{{ sessionsTableRowModel.feedbackSession.submissionEndTimestamp | formatDateBrief: sessionsTableRowModel.feedbackSession.timeZone }}</span></td>
         <td>
-          <span class="ngb-tooltip-class" [ngbTooltip]="sessionsTableRowModel.feedbackSession.submissionStatus | submissionStatusTooltip">{{ sessionsTableRowModel.feedbackSession.submissionStatus | submissionStatusName }}</span>
+          <span class="ngb-tooltip-class" [ngbTooltip]="sessionsTableRowModel.feedbackSession.submissionStatus | submissionStatusTooltip: getDeadlines(sessionsTableRowModel)">{{ sessionsTableRowModel.feedbackSession.submissionStatus | submissionStatusName: getDeadlines(sessionsTableRowModel) }}</span>
         </td>
         <td>
           <span class="ngb-tooltip-class" [ngbTooltip]="sessionsTableRowModel.feedbackSession.publishStatus | publishStatusTooltip">{{ sessionsTableRowModel.feedbackSession.publishStatus | publishStatusName }}</span>

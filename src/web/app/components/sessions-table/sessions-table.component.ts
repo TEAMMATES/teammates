@@ -197,4 +197,15 @@ export class SessionsTableComponent {
     this.rowClicked = rowIndex;
   }
 
+  /**
+   * Get the deadlines for student and instructors.
+   */
+  getDeadlines(model: SessionsTableRowModel): {
+    studentDeadlines: Record<string, number>, instructorDeadlines: Record<string, number>,
+  } {
+    return {
+      studentDeadlines: model.feedbackSession.studentDeadlines,
+      instructorDeadlines: model.feedbackSession.instructorDeadlines,
+    };
+  }
 }
