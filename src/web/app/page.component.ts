@@ -66,10 +66,10 @@ export class PageComponent {
    * Bootstrap 4 browser support: https://getbootstrap.com/docs/4.0/getting-started/browsers-devices/
    */
   minimumVersions: Record<string, number> = {
-    Chrome: 45,
-    Firefox: 40,
-    Safari: 7,
-    Edge: 44,
+    Chrome: 87,
+    Firefox: 86,
+    Safari: 13,
+    Edge: 88,
   };
 
   constructor(private router: Router, private route: ActivatedRoute, private title: Title,
