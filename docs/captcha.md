@@ -1,3 +1,7 @@
+<frontmatter>
+  title: "Captcha"
+</frontmatter>
+
 # Setting up CAPTCHA
 
 TEAMMATES uses [reCAPTCHA](https://developers.google.com/recaptcha/) on the `Recover Session Links` page as a security check. It helps protect the website by blocking spam bots and abusive traffic, and only allows valid human users to pass through.

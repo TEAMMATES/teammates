@@ -1,5 +1,6 @@
 package teammates.logic.core;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
@@ -60,6 +61,18 @@ public final class AccountsLogic {
      */
     public AccountAttributes getAccount(String googleId) {
         return accountsDb.getAccount(googleId);
+    }
+
+    /**
+     * Gets ids of read notifications in an account.
+     */
+    public List<String> getReadNotificationsId(String googleId) {
+        AccountAttributes a = accountsDb.getAccount(googleId);
+        List<String> readNotificationIds = new ArrayList<>();
+        if (a != null) {
+            readNotificationIds.addAll(a.getReadNotifications().keySet());
+        }
+        return readNotificationIds;
     }
 
     /**

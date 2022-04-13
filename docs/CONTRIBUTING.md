@@ -4,18 +4,6 @@ Thanks for taking your time to contribute to TEAMMATES!
 
 We welcome contributions from anyone, in particular, students (see [here](https://teammatesv4.appspot.com/web/front/about) for the list of our contributors). One of the main objectives of TEAMMATES is to help students get experience in an OSS production environment. Here are some information that might be useful to would-be contributors.
 
-* [Getting started](#getting-started)
-  * [Know the product/project](#know-the-productproject)
-  * [Code of Conduct](#code-of-conduct)
-* [How can I contribute?](#how-can-i-contribute)
-  * [Submitting an issue](#submitting-an-issue)
-  * [Manual testing](#manual-testing)
-  * [Submitting a pull request](#submitting-a-pull-request)
-* [Contributor orientation guide](#contributor-orientation-guide)
-  * [Knowledge required](#knowledge-required)
-  * [Orientation task list](#orientation-task-list)
-* [Other resources](#other-resources)
-
 ## Getting started
 
 ### Know the product/project
@@ -28,7 +16,7 @@ Understand what TEAMMATES is about, both as a product (users' point of view) and
 
 ### Code of Conduct
 
-By participating in this project, you agree to uphold the [TEAMMATES Code of Conduct](../.github/CODE_OF_CONDUCT.md), which is adopted from [Contributor Covenant Code of Conduct](https://www.contributor-covenant.org/).
+By participating in this project, you agree to uphold the [TEAMMATES Code of Conduct](https://github.com/TEAMMATES/teammates/blob/master/.github/CODE_OF_CONDUCT.md), which is adopted from [Contributor Covenant Code of Conduct](https://www.contributor-covenant.org/).
 
 ## How can I contribute?
 
@@ -51,7 +39,7 @@ Remember to mention the purpose of your request under "Any other comments/querie
 We accept patches/fixes in form of pull requests (PRs). Make sure that the pull request addresses an open issue in the issue tracker.
 Remember to follow the [TEAMMATES Development Process](process.md).
 
-By submitting a PR, you agree to allow the project team to license your work under the terms of the [GNU GPL v2 License](../LICENSE).
+By submitting a PR, you agree to allow the project team to license your work under the terms of the [GNU GPL v2 License](https://github.com/TEAMMATES/teammates/blob/master/LICENSE).
 
 If this is your first time contributing to TEAMMATES, you may want to read up the contributor orientation guide lined out in the next section.
 
@@ -84,8 +72,8 @@ Roles:
 
 #### Phase A: Set up locally
 
-1. [Set up TEAMMATES development environment on your computer.](setting-up.md)<br>
-   **Important: Follow instructions to the letter. Install the specified versions of the tool stack, not the latest versions.**
+1. [Set up TEAMMATES development environment on your computer.](setting-up.md)
+   * **Important: Follow instructions to the letter. Install the specified versions of the tool stack, not the latest versions.**
 1. Get all component tests to pass (more info in [_Development Guidelines_ document](development.md)).
 1. (Optional) Get all E2E tests to pass.
    It is OK to proceed to the next phase if you have fewer than 5 failing test cases.
@@ -108,8 +96,3 @@ Fixing an issue quickly is not the important thing. In fact, issues given to new
 We are more interested to see how you go about fixing the issue. We want to know whether you are systematic and detail-oriented.
 
 Take your time to learn and follow the workflow to the letter. Do not skip any steps because you think that step is "not important". We are more impressed when you finish an issue in fewer attempts than when you finish it in a shorter time but take many attempts because you were not meticulous enough along the way.
-
-## Other resources
-
-* [Support request](../.github/SUPPORT.md)
-* [Comprehensive directory of resources, including style guides](../docs/README.md)
