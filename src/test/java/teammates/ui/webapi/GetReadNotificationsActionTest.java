@@ -1,6 +1,6 @@
 package teammates.ui.webapi;
 
-import java.util.Map;
+import java.util.List;
 
 import org.testng.annotations.Test;
 
@@ -33,9 +33,11 @@ public class GetReadNotificationsActionTest extends BaseActionTest<GetReadNotifi
 
         ReadNotificationsData output = (ReadNotificationsData) jsonResult.getOutput();
 
-        Map<String, Long> readNotificationsData = output.getReadNotifications();
-        assertNotNull(readNotificationsData.get("notification1"));
-        assertNotNull(readNotificationsData.get("notification3"));
+        List<String> readNotificationsData = output.getReadNotifications();
+
+        assertTrue(readNotificationsData.contains("notification1"));
+        assertTrue(readNotificationsData.contains("notification3"));
+        assertEquals(2, readNotificationsData.size());
     }
 
     @Test

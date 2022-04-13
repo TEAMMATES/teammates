@@ -1,6 +1,7 @@
 package teammates.ui.webapi;
 
-import teammates.common.datatransfer.attributes.AccountAttributes;
+import java.util.List;
+
 import teammates.ui.output.ReadNotificationsData;
 
 /**
@@ -19,9 +20,9 @@ public class GetReadNotificationsAction extends Action {
 
     @Override
     public ActionResult execute() {
-        AccountAttributes accountAttributes =
-                logic.getAccount(userInfo.getId());
-        ReadNotificationsData output = new ReadNotificationsData(accountAttributes);
+        List<String> readNotifications =
+                logic.getReadNotificationsId(userInfo.getId());
+        ReadNotificationsData output = new ReadNotificationsData(readNotifications);
         return new JsonResult(output);
     }
 }

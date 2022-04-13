@@ -1,28 +1,19 @@
 package teammates.ui.output;
 
-import java.util.Map;
-import java.util.stream.Collectors;
-
-import teammates.common.datatransfer.attributes.AccountAttributes;
+import java.util.List;
 
 /**
  * Output format of read notifications.
  */
 public class ReadNotificationsData extends ApiOutput {
 
-    private final Map<String, Long> readNotifications;
+    private final List<String> readNotifications;
 
-    public ReadNotificationsData(AccountAttributes accountInfo) {
-        this.readNotifications = accountInfo.getReadNotifications()
-                .entrySet()
-                .stream()
-                .collect(Collectors.toMap(
-                        e -> e.getKey(),
-                        e -> e.getValue().toEpochMilli()
-                ));
+    public ReadNotificationsData(List<String> notificationIds) {
+        this.readNotifications = notificationIds;
     }
 
-    public Map<String, Long> getReadNotifications() {
+    public List<String> getReadNotifications() {
         return this.readNotifications;
     }
 

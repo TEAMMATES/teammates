@@ -1,7 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ResourceEndpoints } from '../types/api-const';
-import { Account, MessageOutput, Notification, Notifications, NotificationTargetUser } from '../types/api-output';
+import {
+  Account,
+  MessageOutput,
+  Notification,
+  Notifications,
+  NotificationTargetUser,
+  ReadNotifications,
+} from '../types/api-output';
 import {
   MarkNotificationAsReadRequest,
   NotificationCreateRequest,
@@ -80,5 +87,12 @@ export class NotificationService {
       isfetchingall: 'true',
     };
     return this.httpRequestService.get(ResourceEndpoints.NOTIFICATIONS, paramMap);
+  }
+
+  /**
+   * Retrieves read notifications for the user.
+   */
+  getReadNotifications(): Observable<ReadNotifications> {
+    return this.httpRequestService.get(ResourceEndpoints.NOTIFICATION_READ, {});
   }
 }
