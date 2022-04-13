@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { InViewportModule } from 'ng-in-viewport';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
 import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
@@ -34,6 +35,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     LoadingSpinnerModule,
     LoadingRetryModule,
+    InViewportModule,
   ],
   declarations: [
     SavingCompleteModalComponent,

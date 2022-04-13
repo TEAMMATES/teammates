@@ -44,11 +44,12 @@ public final class ActionFactory {
         map(ResourceURIs.ACCOUNT, GET, GetAccountAction.class);
         map(ResourceURIs.ACCOUNT, POST, CreateAccountAction.class);
         map(ResourceURIs.ACCOUNT, DELETE, DeleteAccountAction.class);
-        map(ResourceURIs.ACCOUNT_DOWNGRADE, PUT, DowngradeAccountAction.class);
         map(ResourceURIs.ACCOUNT_RESET, PUT, ResetAccountAction.class);
         map(ResourceURIs.ACCOUNT_REQUEST, GET, GetAccountRequestAction.class);
         map(ResourceURIs.ACCOUNT_REQUEST, POST, CreateAccountRequestAction.class);
         map(ResourceURIs.ACCOUNT_REQUEST, DELETE, DeleteAccountRequestAction.class);
+        map(ResourceURIs.ACCOUNT_REQUEST_RESET, PUT, ResetAccountRequestAction.class);
+        map(ResourceURIs.ACCOUNTS, GET, GetAccountsAction.class);
         map(ResourceURIs.COURSE, GET, GetCourseAction.class);
         map(ResourceURIs.COURSE, DELETE, DeleteCourseAction.class);
         map(ResourceURIs.COURSE, POST, CreateCourseAction.class);
@@ -78,6 +79,16 @@ public final class ActionFactory {
         map(ResourceURIs.STUDENT, DELETE, DeleteStudentAction.class);
         map(ResourceURIs.STUDENT, GET, GetStudentAction.class);
         map(ResourceURIs.STUDENT, PUT, UpdateStudentAction.class);
+
+        // NOTIFICATION APIs
+        map(ResourceURIs.NOTIFICATION, GET, GetNotificationAction.class);
+        map(ResourceURIs.NOTIFICATION, POST, CreateNotificationAction.class);
+        map(ResourceURIs.NOTIFICATION, PUT, UpdateNotificationAction.class);
+        map(ResourceURIs.NOTIFICATION, DELETE, DeleteNotificationAction.class);
+        map(ResourceURIs.NOTIFICATION_READ, POST, MarkNotificationAsReadAction.class);
+
+        // NOTIFICATIONS APIs
+        map(ResourceURIs.NOTIFICATIONS, GET, GetNotificationsAction.class);
 
         //SEARCH APIs
         map(ResourceURIs.SEARCH_INSTRUCTORS, GET, SearchInstructorsAction.class);
@@ -125,6 +136,7 @@ public final class ActionFactory {
         map(ResourceURIs.SESSION_LOGS, POST, CreateFeedbackSessionLogAction.class);
         map(ResourceURIs.SESSION_LOGS, GET, GetFeedbackSessionLogsAction.class);
         map(ResourceURIs.LOGS, GET, QueryLogsAction.class);
+        map(ResourceURIs.USAGE_STATISTICS, GET, GetUsageStatisticsAction.class);
         map(ResourceURIs.ACTION_CLASS, GET, GetActionClassesAction.class);
 
         // Cron jobs; use GET request
@@ -138,6 +150,7 @@ public final class ActionFactory {
         map(CronJobURIs.AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS, GET, FeedbackSessionPublishedRemindersAction.class);
         map(CronJobURIs.AUTOMATED_FEEDBACK_OPENING_SOON_REMINDERS, GET,
                 FeedbackSessionOpeningSoonRemindersAction.class);
+        map(CronJobURIs.AUTOMATED_USAGE_STATISTICS_COLLECTION, GET, CalculateUsageStatisticsAction.class);
 
         // Task queue workers; use POST request
         // Reference: https://cloud.google.com/tasks/docs/creating-appengine-tasks

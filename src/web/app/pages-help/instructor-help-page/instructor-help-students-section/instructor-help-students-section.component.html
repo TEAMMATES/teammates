@@ -1,7 +1,7 @@
 <div>
   <h2 class="color-blue" *ngIf="!key || showQuestion.length > 0">Students</h2>
   <!-- Section -->
-  <h4 *ngIf="displaySubsection(0, 3)">Student Records</h4>
+  <h4 *ngIf="displaySubsection(0, 4)">Student Records</h4>
   <!-- Question -->
   <tm-instructor-help-panel class="instr-help-qn-first" #question [hidden]="key && !showQuestion.includes(StudentsSectionQuestions.STUDENT_VIEW_PROFILE)"
                             [id]="StudentsSectionQuestions.STUDENT_VIEW_PROFILE"
@@ -79,7 +79,7 @@
     </tm-example-box>
   </tm-instructor-help-panel>
   <!--Question-->
-  <tm-instructor-help-panel class="instr-help-qn-last" #question [hidden]="key && !showQuestion.includes(StudentsSectionQuestions.STUDENT_VIEW_RESPONSES)"
+  <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(StudentsSectionQuestions.STUDENT_VIEW_RESPONSES)"
                             [id]="StudentsSectionQuestions.STUDENT_VIEW_RESPONSES"
                             headerText="How do I view all the responses a student has given and received?"
                             [(isPanelExpanded)]="questionsToCollapsed[StudentsSectionQuestions.STUDENT_VIEW_RESPONSES]">
@@ -96,10 +96,8 @@
       </li>
     </ol>
   </tm-instructor-help-panel>
-  <!-- Section -->
-  <h4 *ngIf="displaySubsection(3, 5)">Finding Students</h4>
   <!--Question -->
-  <tm-instructor-help-panel class="instr-help-qn-first" #question [hidden]="key && !showQuestion.includes(StudentsSectionQuestions.STUDENT_SEARCH)"
+  <tm-instructor-help-panel class="instr-help-qn-last" #question [hidden]="key && !showQuestion.includes(StudentsSectionQuestions.STUDENT_SEARCH)"
                             [id]="StudentsSectionQuestions.STUDENT_SEARCH"
                             headerText="How do I search for a student in my course?"
                             [(isPanelExpanded)]="questionsToCollapsed[StudentsSectionQuestions.STUDENT_SEARCH]">
@@ -111,9 +109,6 @@
       To search for a student:
     </p>
     <ol>
-      <li>
-        Tick the option <b>Students</b> below the search box.
-      </li>
       <li>
         Type your search terms into the search bar. You can search for a student record based on:
         <ul>
@@ -142,26 +137,8 @@
       <tm-student-result-table [studentTables]="exampleMultipleStudentResultTables" [isActionButtonsEnabled]="false"></tm-student-result-table>
     </tm-example-box>
   </tm-instructor-help-panel>
-  <!--Question-->
-  <tm-instructor-help-panel class="instr-help-qn-last" #question [hidden]="key && !showQuestion.includes(StudentsSectionQuestions.STUDENT_EMAIL)"
-                            [id]="StudentsSectionQuestions.STUDENT_EMAIL"
-                            headerText="How do I email a student or students in my course?"
-                            [(isPanelExpanded)]="questionsToCollapsed[StudentsSectionQuestions.STUDENT_EMAIL]">
-    <ol>
-      <li>
-        On the <b>Students</b> page, filter out the selected student/students.
-      </li>
-      <li>
-        Click
-        <button class="btn btn-sm btn-secondary">Copy Emails</button> to copy their email addresses to your clipboard.
-      </li>
-      <li>
-        Use your preferred email provider to email the students.
-      </li>
-    </ol>
-  </tm-instructor-help-panel>
   <!-- Section -->
-  <h4 *ngIf="displaySubsection(5, 7)">Student Accounts</h4>
+  <h4 *ngIf="displaySubsection(4, 6)">Student Accounts</h4>
   <!--Question-->
   <tm-instructor-help-panel class="instr-help-qn-first" #question [hidden]="key && !showQuestion.includes(StudentsSectionQuestions.STUDENT_GOOGLE_ACCOUNT)"
                             [id]="StudentsSectionQuestions.STUDENT_GOOGLE_ACCOUNT"

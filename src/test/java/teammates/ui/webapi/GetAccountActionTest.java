@@ -1,5 +1,7 @@
 package teammates.ui.webapi;
 
+import java.util.stream.Collectors;
+
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
@@ -55,8 +57,16 @@ public class GetAccountActionTest extends BaseActionTest<GetAccountAction> {
         assertEquals(response.getGoogleId(), instructor1OfCourse1.getGoogleId());
         assertEquals(response.getName(), instructor1OfCourse1.getName());
         assertEquals(response.getEmail(), instructor1OfCourse1.getEmail());
-        assertEquals(response.getInstitute(), instructor1OfCourse1.getInstitute());
-        assertTrue(response.isInstructor());
+        assertEquals(
+                response.getReadNotifications(),
+                instructor1OfCourse1.getReadNotifications()
+                    .entrySet()
+                    .stream()
+                    .collect(Collectors.toMap(
+                        e -> e.getKey(),
+                        e -> e.getValue().toEpochMilli()
+                    ))
+        );
 
         ______TS("Failure: invalid account not found");
 

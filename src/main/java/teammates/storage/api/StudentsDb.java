@@ -2,9 +2,12 @@ package teammates.storage.api;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.googlecode.objectify.Key;
@@ -114,6 +117,22 @@ public final class StudentsDb extends EntitiesDb<CourseStudent, StudentAttribute
     }
 
     /**
+     * Checks if the given students exist in the given course.
+     */
+    public boolean hasExistingStudentsInCourse(String courseId, Collection<String> studentEmailAddresses) {
+        if (studentEmailAddresses.isEmpty()) {
+            return true;
+        }
+        Set<String> existingStudentEmailAddresses = load().filter("courseId =", courseId)
+                .project("email")
+                .list()
+                .stream()
+                .map(CourseStudent::getEmail)
+                .collect(Collectors.toSet());
+        return existingStudentEmailAddresses.containsAll(studentEmailAddresses);
+    }
+
+    /**
      * Gets a student by unique ID courseId-email.
      */
     public StudentAttributes getStudentForEmail(String courseId, String email) {
@@ -167,12 +186,30 @@ public final class StudentsDb extends EntitiesDb<CourseStudent, StudentAttribute
     }
 
     /**
+     * Gets the total number of students of a course.
+     */
+    public int getNumberOfStudentsForCourse(String courseId) {
+        assert courseId != null;
+
+        return getCourseStudentsForCourseQuery(courseId).count();
+    }
+
+    /**
      * Gets all students of a course.
      */
     public List<StudentAttributes> getStudentsForCourse(String courseId) {
         assert courseId != null;
 
         return makeAttributes(getCourseStudentEntitiesForCourse(courseId));
+    }
+
+    /**
+     * Gets the first {@code batchSize} students of the course.
+     */
+    public List<StudentAttributes> getStudentsForCourse(String courseId, int batchSize) {
+        assert courseId != null;
+
+        return makeAttributes(getCourseStudentEntitiesForCourse(courseId, batchSize));
     }
 
     /**
@@ -193,6 +230,16 @@ public final class StudentsDb extends EntitiesDb<CourseStudent, StudentAttribute
         assert courseId != null;
 
         return makeAttributes(getCourseStudentEntitiesForTeam(teamName, courseId));
+    }
+
+    /**
+     * Gets count of students of a team of a course.
+     */
+    public int getStudentCountForTeam(String teamName, String courseId) {
+        assert teamName != null;
+        assert courseId != null;
+
+        return getCourseStudentCountForTeam(teamName, courseId);
     }
 
     /**
@@ -332,8 +379,25 @@ public final class StudentsDb extends EntitiesDb<CourseStudent, StudentAttribute
         return load().filter("courseId =", courseId);
     }
 
+    private Query<CourseStudent> getCourseStudentsForCourseQuery(String courseId, int batchSize) {
+        return load()
+                .filter("courseId =", courseId)
+                .limit(batchSize);
+    }
+
     private List<CourseStudent> getCourseStudentEntitiesForCourse(String courseId) {
         return getCourseStudentsForCourseQuery(courseId).list();
+    }
+
+    private List<CourseStudent> getCourseStudentEntitiesForCourse(String courseId, int batchSize) {
+        return getCourseStudentsForCourseQuery(courseId, batchSize).list();
+    }
+
+    /**
+     * Returns true if there are any student entities associated with the googleId.
+     */
+    public boolean hasStudentsForGoogleId(String googleId) {
+        return !getCourseStudentsForGoogleIdQuery(googleId).keys().list().isEmpty();
     }
 
     private Query<CourseStudent> getCourseStudentsForGoogleIdQuery(String googleId) {
@@ -349,6 +413,13 @@ public final class StudentsDb extends EntitiesDb<CourseStudent, StudentAttribute
                 .filter("teamName =", teamName)
                 .filter("courseId =", courseId)
                 .list();
+    }
+
+    private int getCourseStudentCountForTeam(String teamName, String courseId) {
+        return load()
+                .filter("teamName =", teamName)
+                .filter("courseId =", courseId)
+                .count();
     }
 
     private List<CourseStudent> getCourseStudentEntitiesForSection(String sectionName, String courseId) {
@@ -368,6 +439,7 @@ public final class StudentsDb extends EntitiesDb<CourseStudent, StudentAttribute
         return !load()
                 .filterKey(Key.create(CourseStudent.class,
                         CourseStudent.generateId(entityToCreate.getEmail(), entityToCreate.getCourse())))
+                .keys()
                 .list()
                 .isEmpty();
     }
@@ -393,6 +465,16 @@ public final class StudentsDb extends EntitiesDb<CourseStudent, StudentAttribute
         }
         log.severe("Failed to generate new registration key for student after " + MAX_KEY_REGENERATION_TRIES + " tries");
         throw new EntityAlreadyExistsException("Unable to create new student");
+    }
+
+    /**
+     * Gets the number of students created within a specified time range.
+     */
+    public int getNumStudentsByTimeRange(Instant startTime, Instant endTime) {
+        return load()
+                .filter("createdAt >=", startTime)
+                .filter("createdAt <", endTime)
+                .count();
     }
 
 }

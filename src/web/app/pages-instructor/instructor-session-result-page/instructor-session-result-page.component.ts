@@ -101,6 +101,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
   questionsModel: Record<string, QuestionTabModel> = {};
   isQuestionsLoaded: boolean = false;
   hasQuestionsLoadingFailed: boolean = false;
+  isNoResponseStudentsLoaded: boolean = false;
 
   isFeedbackSessionLoading: boolean = false;
   hasFeedbackSessionLoadingFailed: boolean = false;
@@ -130,6 +131,8 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
     isClosingEmailEnabled: true,
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
+    studentDeadlines: {},
+    instructorDeadlines: {},
   };
 
   @ViewChild(InstructorSessionNoResponsePanelComponent) noResponsePanel?:
@@ -270,6 +273,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
       // TODO team is missing
       this.noResponseStudents = this.allStudentsInCourse.filter((student: Student) =>
         !feedbackSessionSubmittedGiverSet.giverIdentifiers.includes(student.email));
+      this.isNoResponseStudentsLoaded = true;
     }, (resp: ErrorMessageOutput) => {
       this.hasNoResponseLoadingFailed = true;
       this.statusMessageService.showErrorToast(resp.error.message);

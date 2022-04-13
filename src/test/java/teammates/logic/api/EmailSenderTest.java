@@ -11,9 +11,9 @@ import com.sendgrid.helpers.mail.Mail;
 import com.sun.jersey.multipart.FormDataMultiPart;
 
 import teammates.common.util.EmailWrapper;
-import teammates.logic.core.MailgunService;
-import teammates.logic.core.MailjetService;
-import teammates.logic.core.SendgridService;
+import teammates.logic.external.MailgunService;
+import teammates.logic.external.MailjetService;
+import teammates.logic.external.SendgridService;
 
 /**
  * SUT: {@link SendgridService},

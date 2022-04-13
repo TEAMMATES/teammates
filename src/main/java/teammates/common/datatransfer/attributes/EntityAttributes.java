@@ -110,6 +110,13 @@ public abstract class EntityAttributes<E extends BaseEntity> {
             }
         }
 
+        /**
+         * Returns {@code true} if value is present, {@code false} otherwise.
+         */
+        boolean isPresent() {
+            return isValuePresent;
+        }
+
         @Override
         public String toString() {
             return isValuePresent

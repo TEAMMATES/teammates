@@ -1,13 +1,16 @@
 package teammates.logic.api;
 
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.ErrorLogEntry;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.DeadlineExtensionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -169,44 +172,39 @@ public class EmailGeneratorTest extends BaseLogicTest {
         ______TS("feedback session closing alerts");
 
         emails = emailGenerator.generateFeedbackSessionClosingEmails(session);
-        // 5 instructors, 3 students, and 3 co-owner instructors to be notified
-        assertEquals(11, emails.size());
+        // 5 instructors, 6 students, and 3 co-owner in session
+        // 2 instructors and 3 students with deadline extensions do not need to be notified
+        // 3 instructors, 3 students, and 3 co-owner to be notified
+        assertEquals(9, emails.size());
 
         subject = String.format(EmailType.FEEDBACK_CLOSING.getSubject(),
                                 course.getName(), session.getFeedbackSessionName());
 
-        // student1 has attempted the feedback session and closing alert is only sent for those who are
-        // yet to attempt, so we resort to student5
-        StudentAttributes student5 = studentsLogic.getStudentForEmail(course.getId(), "student5InCourse1@gmail.tmt");
-
-        for (EmailWrapper email : emails) {
-            if (email.getRecipient().equals(student1.getEmail())) {
-                fail("student1 has attempted the session and are not supposed to receive email");
-            }
-        }
-        verifyEmailReceivedCorrectly(emails, student5.getEmail(), subject, "/sessionClosingEmailForStudent.html");
+        verifyEmailReceivedCorrectly(emails, student1.getEmail(), subject, "/sessionClosingEmailForStudent.html");
         verifyEmailReceivedCorrectly(emails, instructor1.getEmail(), EmailWrapper.EMAIL_COPY_SUBJECT_PREFIX + subject,
                 "/sessionClosingEmailCopyToInstructor.html");
         verifyEmailReceivedCorrectly(emails, instructor1.getEmail(), subject, "/sessionClosingEmailForInstructor.html");
 
-        ______TS("feedback session closed alerts");
+        ______TS("feedback session closed alerts for co-owners");
 
         emails = emailGenerator.generateFeedbackSessionClosedEmails(session);
-        // 5 instructors, 3 students, and 3 co-owner instructors to be notified
-        assertEquals(11, emails.size());
+        List<InstructorAttributes> coOwners = instructorsLogic.getCoOwnersForCourse(course.getId());
+        assertEquals(coOwners.size(), emails.size());
 
         subject = String.format(EmailType.FEEDBACK_CLOSED.getSubject(),
                                 course.getName(), session.getFeedbackSessionName());
 
-        verifyEmailReceivedCorrectly(emails, student5.getEmail(), subject, "/sessionClosedEmailForStudent.html");
-        verifyEmailReceivedCorrectly(emails, instructor1.getEmail(), EmailWrapper.EMAIL_COPY_SUBJECT_PREFIX + subject,
-                "/sessionClosedEmailCopyToInstructor.html");
-        verifyEmailReceivedCorrectly(emails, instructor1.getEmail(), subject, "/sessionClosedEmailForInstructor.html");
+        // this instructor email has been given co-owner privileges in the test file and has joined
+        InstructorAttributes coOwnerJoined =
+                instructorsLogic.getInstructorForEmail(course.getId(), "instructor1@course1.tmt");
+
+        assertTrue(coOwnerJoined.hasCoownerPrivileges());
+
+        verifyEmailReceivedCorrectly(emails, coOwnerJoined.getEmail(), subject, "/sessionClosedEmailForCoOwner.html");
 
         ______TS("feedback session opening soon alerts for co-owners");
 
         emails = emailGenerator.generateFeedbackSessionOpeningSoonEmails(session);
-        List<InstructorAttributes> coOwners = instructorsLogic.getCoOwnersForCourse(course.getId());
         assertEquals(coOwners.size(), emails.size());
 
         subject = String.format(EmailType.FEEDBACK_OPENING_SOON.getSubject(), course.getName(),
@@ -220,10 +218,6 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         verifyEmailReceivedCorrectly(emails, coOwnerNotJoined.getEmail(), subject,
                 "/sessionOpeningSoonEmailForCoOwnerNotJoined.html");
-
-        // this instructor email has been given co-owner privileges in the test file and has joined
-        InstructorAttributes coOwnerJoined =
-                instructorsLogic.getInstructorForEmail(course.getId(), "instructor1@course1.tmt");
 
         assertTrue(coOwnerJoined.hasCoownerPrivileges());
 
@@ -334,15 +328,97 @@ public class EmailGeneratorTest extends BaseLogicTest {
         emails = emailGenerator.generateFeedbackSessionClosingEmails(notAnswerableSession);
         assertTrue(emails.isEmpty());
 
-        emails = emailGenerator.generateFeedbackSessionClosedEmails(notAnswerableSession);
-        assertTrue(emails.isEmpty());
-
         emails = emailGenerator.generateFeedbackSessionPublishedEmails(notAnswerableSession);
         assertTrue(emails.isEmpty());
 
         emails = emailGenerator.generateFeedbackSessionUnpublishedEmails(notAnswerableSession);
         assertTrue(emails.isEmpty());
 
+    }
+
+    @Test
+    public void testGenerateFeedbackSessionEmails_testUsersWithDeadlineExtensions() throws Exception {
+        FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
+        CourseAttributes course = dataBundle.courses.get("typicalCourse1");
+        DeadlineExtensionAttributes student2 = dataBundle.deadlineExtensions.get("student2InCourse1Session1");
+        DeadlineExtensionAttributes student4 = dataBundle.deadlineExtensions.get("student4InCourse1Session1");
+        DeadlineExtensionAttributes student5 = dataBundle.deadlineExtensions.get("student5InCourse1Session1");
+        DeadlineExtensionAttributes instructor2 = dataBundle.deadlineExtensions.get("instructor2InCourse1Session1");
+        DeadlineExtensionAttributes instructor3 = dataBundle.deadlineExtensions.get("instructor3InCourse1Session1");
+
+        List<DeadlineExtensionAttributes> deadlineExtensions =
+                List.of(student2, student4, student5, instructor2, instructor3);
+
+        ______TS("Feedback session closing alerts for users with deadline extensions");
+
+        List<EmailWrapper> emails =
+                emailGenerator.generateFeedbackSessionClosingWithExtensionEmails(session, deadlineExtensions);
+
+        assertEquals(deadlineExtensions.size(), emails.size());
+
+        String subject = String.format(EmailType.FEEDBACK_CLOSING.getSubject(),
+                                course.getName(), session.getFeedbackSessionName());
+
+        verifyEmailReceivedCorrectly(emails, student2.getUserEmail(),
+                subject, "/sessionClosingEmailForStudentWithExtension.html");
+        verifyEmailReceivedCorrectly(emails, instructor2.getUserEmail(),
+                subject, "/sessionClosingEmailForInstructorWithExtension.html");
+
+        ______TS("Deadline extension given to student");
+
+        Instant originalEndTime = session.getEndTime();
+        Instant newEndTime = TimeHelper.parseInstant("2027-04-30T23:00:00Z");
+        emails = emailGenerator.generateDeadlineGrantedEmails(course, session,
+                Map.of(student2.getUserEmail(), newEndTime), false);
+        subject = String.format(EmailType.DEADLINE_EXTENSION_GRANTED.getSubject(),
+                course.getName(), session.getFeedbackSessionName());
+
+        verifyEmail(emails.get(0), student2.getUserEmail(), subject, "/deadlineExtensionGivenStudent.html");
+
+        ______TS("Deadline extension given to instructor");
+
+        emails = emailGenerator.generateDeadlineGrantedEmails(course, session,
+                Map.of(instructor2.getUserEmail(), newEndTime), true);
+        subject = String.format(EmailType.DEADLINE_EXTENSION_GRANTED.getSubject(),
+                course.getName(), session.getFeedbackSessionName());
+
+        verifyEmail(emails.get(0), instructor2.getUserEmail(), subject, "/deadlineExtensionGivenInstructor.html");
+
+        ______TS("Deadline extension updated for student");
+
+        emails = emailGenerator.generateDeadlineUpdatedEmails(course, session,
+                Map.of(student2.getUserEmail(), newEndTime), Map.of(student2.getUserEmail(), originalEndTime), false);
+        subject = String.format(EmailType.DEADLINE_EXTENSION_UPDATED.getSubject(),
+                course.getName(), session.getFeedbackSessionName());
+
+        verifyEmail(emails.get(0), student2.getUserEmail(), subject, "/deadlineExtensionUpdatedStudent.html");
+
+        ______TS("Deadline extension updated for instructor");
+
+        emails = emailGenerator.generateDeadlineUpdatedEmails(course, session,
+                Map.of(instructor2.getUserEmail(), newEndTime), Map.of(instructor2.getUserEmail(), originalEndTime), true);
+        subject = String.format(EmailType.DEADLINE_EXTENSION_UPDATED.getSubject(),
+                course.getName(), session.getFeedbackSessionName());
+
+        verifyEmail(emails.get(0), instructor2.getUserEmail(), subject, "/deadlineExtensionUpdatedInstructor.html");
+
+        ______TS("Deadline extension revoked for student");
+
+        emails = emailGenerator.generateDeadlineRevokedEmails(course, session,
+                Map.of(student2.getUserEmail(), newEndTime), false);
+        subject = String.format(EmailType.DEADLINE_EXTENSION_REVOKED.getSubject(),
+                course.getName(), session.getFeedbackSessionName());
+
+        verifyEmail(emails.get(0), student2.getUserEmail(), subject, "/deadlineExtensionRevokedStudent.html");
+
+        ______TS("Deadline extension revoked for instructor");
+
+        emails = emailGenerator.generateDeadlineRevokedEmails(course, session,
+                Map.of(instructor2.getUserEmail(), newEndTime), true);
+        subject = String.format(EmailType.DEADLINE_EXTENSION_REVOKED.getSubject(),
+                course.getName(), session.getFeedbackSessionName());
+
+        verifyEmail(emails.get(0), instructor2.getUserEmail(), subject, "/deadlineExtensionRevokedInstructor.html");
     }
 
     @Test
@@ -369,18 +445,18 @@ public class EmailGeneratorTest extends BaseLogicTest {
         verifyEmailReceivedCorrectly(emails, instructor1.getEmail(), EmailWrapper.EMAIL_COPY_SUBJECT_PREFIX + subject,
                 "/sessionOpeningEmailTestingSanitizationCopyToInstructor.html");
 
-        ______TS("feedback session closed alerts: sanitization required");
+        ______TS("feedback session closing alerts: sanitization required");
 
-        emails = emailGenerator.generateFeedbackSessionClosedEmails(session);
+        emails = emailGenerator.generateFeedbackSessionClosingEmails(session);
         assertEquals(2, emails.size());
 
-        subject = String.format(EmailType.FEEDBACK_CLOSED.getSubject(),
+        subject = String.format(EmailType.FEEDBACK_CLOSING.getSubject(),
                 course.getName(), session.getFeedbackSessionName());
 
         verifyEmailReceivedCorrectly(emails, student1.getEmail(), subject,
-                "/sessionClosedEmailTestingSanitizationForStudent.html");
+                "/sessionClosingEmailTestingSanitizationForStudent.html");
         verifyEmailReceivedCorrectly(emails, instructor1.getEmail(), EmailWrapper.EMAIL_COPY_SUBJECT_PREFIX + subject,
-                "/sessionClosedEmailTestingSanitizationCopyToInstructor.html");
+                "/sessionClosingEmailTestingSanitizationCopyToInstructor.html");
 
         ______TS("feedback sessions summary of course email: sanitization required");
 

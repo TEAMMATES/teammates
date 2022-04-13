@@ -14,7 +14,6 @@ import { AuthInfo } from '../../types/api-output';
 export class StudentPageComponent implements OnInit {
 
   user: string = '';
-  institute?: string = '';
   isInstructor: boolean = false;
   isStudent: boolean = false;
   isAdmin: boolean = false;
@@ -27,6 +26,10 @@ export class StudentPageComponent implements OnInit {
     {
       url: '/web/student/profile',
       display: 'Profile',
+    },
+    {
+      url: '/web/student/notifications',
+      display: 'Notifications',
     },
     {
       url: '/web/student/help',
@@ -48,7 +51,6 @@ export class StudentPageComponent implements OnInit {
           if (res.masquerade) {
             this.user += ' (M)';
           }
-          this.institute = res.institute;
           this.isInstructor = res.user.isInstructor;
           this.isStudent = res.user.isStudent;
           this.isAdmin = res.user.isAdmin;

@@ -531,6 +531,8 @@ export const EXAMPLE_FEEDBACK_SESSION: FeedbackSession = {
   isClosingEmailEnabled: true,
   isPublishedEmailEnabled: true,
   createdAtTimestamp: 0,
+  studentDeadlines: {},
+  instructorDeadlines: {},
 };
 /**
  * Structure for example of distrution point option question detail
@@ -1504,6 +1506,8 @@ export const EXAMPLE_MCQ_QUESTION_WITH_WEIGHTS_MODEL: QuestionEditFormModel = {
  * Structure for example of responder rubric submission form model
  */
 export const EXAMPLE_RESPONDER_RUBRIC_SUBMISSION_FORM_MODEL: QuestionSubmissionFormModel = {
+  isLoading: false,
+  isLoaded: true,
   recipientList: [
     {
       recipientIdentifier: 'alice',

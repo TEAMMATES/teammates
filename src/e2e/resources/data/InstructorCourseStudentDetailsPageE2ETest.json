@@ -3,9 +3,8 @@
     "ICSDet.instr": {
       "googleId": "tm.e2e.ICSDet.instr",
       "name": "Teammates Test",
-      "isInstructor": true,
       "email": "ICSDet.instr@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "readNotifications": {}
     }
   },
   "courses": {

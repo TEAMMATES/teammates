@@ -1,5 +1,6 @@
 package teammates.logic.core;
 
+import java.time.Instant;
 import java.util.List;
 
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
@@ -35,7 +36,7 @@ public final class AccountRequestsLogic {
      *
      * @return the updated account request
      * @throws InvalidParametersException if the account request is not valid
-     * @throws EntityDoesNotExistException if the account request to create does not exist
+     * @throws EntityDoesNotExistException if the account request to update does not exist
      */
     public AccountRequestAttributes updateAccountRequest(AccountRequestAttributes.UpdateOptions updateOptions)
             throws InvalidParametersException, EntityDoesNotExistException {
@@ -98,6 +99,13 @@ public final class AccountRequestsLogic {
     public List<AccountRequestAttributes> searchAccountRequestsInWholeSystem(String queryString)
             throws SearchServiceException {
         return accountRequestsDb.searchAccountRequestsInWholeSystem(queryString);
+    }
+
+    /**
+     * Gets the number of account requests created within a specified time range.
+     */
+    int getNumAccountRequestsByTimeRange(Instant startTime, Instant endTime) {
+        return accountRequestsDb.getNumAccountRequestsByTimeRange(startTime, endTime);
     }
 
 }

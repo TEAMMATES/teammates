@@ -55,25 +55,6 @@ public class AdminAccountsPageE2ETest extends BaseE2ETestCase {
         accountsPage.verifyStatusMessage("Student is successfully deleted from course \"" + courseId + "\"");
         verifyAbsentInDatabase(student);
 
-        ______TS("action: downgrade instructor account");
-
-        InstructorAttributes instructor2 = testData.instructors.get("AAccounts.instr2-AAccounts.CS2104");
-        InstructorAttributes instructor3 = testData.instructors.get("AAccounts.instr2-AAccounts.CS1101");
-        verifyPresentInDatabase(instructor2);
-        verifyPresentInDatabase(instructor3);
-
-        accountsPage.clickDowngradeAccount();
-        accountsPage.verifyStatusMessage("Instructor account is successfully downgraded to student.");
-        accountsPage.waitForPageToLoad();
-
-        account = getAccount(googleId);
-        assertFalse(account.isInstructor());
-        accountsPage.verifyAccountDetails(account);
-
-        // instructor entities should also be deleted
-        verifyAbsentInDatabase(instructor2);
-        verifyAbsentInDatabase(instructor3);
-
         ______TS("action: delete account entirely");
 
         StudentAttributes student2 = testData.students.get("AAccounts.instr2-student-CS2104");

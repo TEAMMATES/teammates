@@ -41,6 +41,7 @@ exports[`InstructorCoursesPageComponent should snap when archived courses are ex
   <div>
     <button
       class="btn btn-success"
+      disabled=""
       id="btn-add-course"
     >
       <i
@@ -287,6 +288,7 @@ exports[`InstructorCoursesPageComponent should snap when courses are still loadi
   <div>
     <button
       class="btn btn-success"
+      disabled=""
       id="btn-add-course"
     >
       <i
@@ -782,7 +784,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
   isAddNewCourseFormExpanded={[Function Boolean]}
   isArchivedCourseExpanded="false"
   isCopyingCourse="false"
-  isLoading={[Function Boolean]}
+  isLoading="false"
   isRecycleBinExpanded="false"
   ngbModal={[Function NgbModal]}
   numberOfSessionsCopied="0"
@@ -870,6 +872,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
               >
                 <button
                   class="btn btn-info"
+                  disabled=""
                   id="btn-copy-course"
                   type="button"
                 >
@@ -920,6 +923,28 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                 placeholder="e.g. Software Engineering"
                 type="text"
               />
+            </div>
+          </div>
+          <div
+            class="form-group row"
+          >
+            <label
+              class="col-md-3 text-md-right col-form-label ngb-tooltip-class"
+            >
+              <span
+                ngbtooltip="Note that you can only create a new course under an institute in which you are already a course co-owner."
+              >
+                 Course institute: 
+              </span>
+            </label>
+            <div
+              class="col-md-6 text-md-left"
+            >
+              <select
+                class="form-control ng-untouched ng-pristine ng-valid"
+                id="new-course-institute"
+              >
+              </select>
             </div>
           </div>
           <div
@@ -992,6 +1017,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
             >
               <button
                 class="btn btn-success"
+                disabled=""
                 id="btn-save-course"
               >
                  Add Course 
@@ -1002,21 +1028,14 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
       </div>
     </tm-add-course-form>
   </div><tm-loading-retry>
-    <tm-loading-spinner>
+    <div>
       <div
-        class="loading-container"
+        class="alert alert-warning margin-top-30px"
+        role="alert"
       >
-        <div
-          class="row spinner-border text-primary"
-          role="status"
-        />
-        <div
-          class="row text-secondary"
-        >
-          Loading...
-        </div>
+         You do not seem to have any active courses. Use the button above to create a new course. 
       </div>
-    </tm-loading-spinner>
+    </div>
   </tm-loading-retry>
 </tm-instructor-courses-page>
 `;
@@ -1509,6 +1528,7 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
   <div>
     <button
       class="btn btn-success"
+      disabled=""
       id="btn-add-course"
     >
       <i

@@ -5,6 +5,10 @@
   box-shadow: 0 0 0 0;
 }
 
+label {
+  font-weight: bold;
+}
+
 @media (max-width: 768px) {
   .mobile-invisible {
     display: none;

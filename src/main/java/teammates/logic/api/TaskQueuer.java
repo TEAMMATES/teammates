@@ -10,9 +10,9 @@ import teammates.common.util.Const.TaskQueue;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
 import teammates.common.util.TaskWrapper;
-import teammates.logic.core.GoogleCloudTasksService;
-import teammates.logic.core.LocalTaskQueueService;
-import teammates.logic.core.TaskQueueService;
+import teammates.logic.external.GoogleCloudTasksService;
+import teammates.logic.external.LocalTaskQueueService;
+import teammates.logic.external.TaskQueueService;
 import teammates.ui.request.FeedbackSessionRemindRequest;
 import teammates.ui.request.SendEmailRequest;
 

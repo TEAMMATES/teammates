@@ -11,6 +11,7 @@ exports[`NewInstructorDataRowComponent should snap with default view 1`] = `
   isAddDisabled="false"
   isBeingEdited="false"
   removeInstructorEvent={[Function EventEmitter_]}
+  showRegisteredInstructorModalEvent={[Function EventEmitter_]}
   toggleEditModeEvent={[Function EventEmitter_]}
 >
   <td>
@@ -80,6 +81,7 @@ exports[`NewInstructorDataRowComponent should snap with edit cancelled 1`] = `
   isAddDisabled="false"
   isBeingEdited="false"
   removeInstructorEvent={[Function EventEmitter_]}
+  showRegisteredInstructorModalEvent={[Function EventEmitter_]}
   toggleEditModeEvent={[Function EventEmitter_]}
 >
   <td>
@@ -149,6 +151,7 @@ exports[`NewInstructorDataRowComponent should snap with edit confirmed 1`] = `
   isAddDisabled="false"
   isBeingEdited="false"
   removeInstructorEvent={[Function EventEmitter_]}
+  showRegisteredInstructorModalEvent={[Function EventEmitter_]}
   toggleEditModeEvent={[Function EventEmitter_]}
 >
   <td>
@@ -218,6 +221,7 @@ exports[`NewInstructorDataRowComponent should snap with instructor details edite
   isAddDisabled="false"
   isBeingEdited={[Function Boolean]}
   removeInstructorEvent={[Function EventEmitter_]}
+  showRegisteredInstructorModalEvent={[Function EventEmitter_]}
   toggleEditModeEvent={[Function EventEmitter_]}
 >
   <td>
@@ -281,6 +285,7 @@ exports[`NewInstructorDataRowComponent should snap with start of edit 1`] = `
   isAddDisabled="false"
   isBeingEdited={[Function Boolean]}
   removeInstructorEvent={[Function EventEmitter_]}
+  showRegisteredInstructorModalEvent={[Function EventEmitter_]}
   toggleEditModeEvent={[Function EventEmitter_]}
 >
   <td>

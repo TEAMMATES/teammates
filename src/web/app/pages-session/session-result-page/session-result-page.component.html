@@ -18,33 +18,36 @@
 <div *ngIf="!isFeedbackSessionResultsLoading && questions.length !== 0" class="alert alert-primary" role="alert">
   <i class="fas fa-exclamation-circle"></i> Note: Questions without responses (i.e., no responses received or responses are not meant to be visible to you) are not shown below.
 </div>
-<div class="card card-plain mt-3">
+<div *tmIsLoading="isCourseLoading || isFeedbackSessionDetailsLoading" class="card card-plain mt-3">
   <div class="card-body">
-    <br/>
     <div class="row text-center">
-      <div class="col-md-2 text-md-right"><b>Course ID:</b></div>
-      <div id="course-id" class="col-md-7 text-md-left">{{ session.courseId }}</div>
+      <label class="col-md-2 text-md-right">Course ID:</label>
+      <div id="course-id" class="col-md-7 text-md-left">{{ courseId }}</div>
     </div>
-    <br/>
-    <div class="row text-center">
-      <div class="col-md-2 text-md-right"><b>Session:</b></div>
-      <div id="session-name" class="col-md-7 text-md-left">{{ session.feedbackSessionName }}</div>
+    <div class="row text-center" *ngIf="courseName">
+      <label class="col-md-2 text-md-right">Course name:</label>
+      <div id="course-name" class="col-md-7 text-md-left">{{ courseName }}</div>
     </div>
-    <br/>
+    <div class="row text-center" *ngIf="courseInstitute">
+      <label class="col-md-2 text-md-right">Course institute:</label>
+      <div id="course-institute" class="col-md-7 text-md-left">{{ courseInstitute }}</div>
+    </div>
     <div class="row text-center">
-      <div class="col-md-2 text-md-right"><b>Opening time:</b></div>
+      <label class="col-md-2 text-md-right">Session:</label>
+      <div id="session-name" class="col-md-7 text-md-left">{{ feedbackSessionName }}</div>
+    </div>
+    <div class="row text-center">
+      <label class="col-md-2 text-md-right">Opening time:</label>
       <div id="opening-time" class="col-md-7 text-md-left">{{ formattedSessionOpeningTime }}</div>
     </div>
-    <br/>
     <div class="row text-center">
-      <div class="col-md-2 text-md-right"><b>Closing time:</b></div>
+      <label class="col-md-2 text-md-right">Closing time:</label>
       <div id="closing-time" class="col-md-7 text-md-left">{{ formattedSessionClosingTime }}</div>
     </div>
-    <br/>
   </div>
 </div>
 
-<div class="card bg-light" style="margin-bottom: 20px;" *ngIf="intent === Intent.INSTRUCTOR_RESULT">
+<div class="card bg-light" style="margin-bottom: 20px;" *ngIf="intent === Intent.INSTRUCTOR_RESULT && !isCourseLoading && !isFeedbackSessionDetailsLoading">
   <div class="card-body">
     If you wish to view the feedback results of the entire course, <a href="javascript:;" (click)="navigateToSessionReportPage(); $event.preventDefault()">click here</a>.
   </div>

@@ -70,7 +70,13 @@ src/client/java/teammates/client/scripts/log/
 src/e2e/resources/gmail-api/
 src/e2e/resources/downloads/
 src/web/dist/*
+src/web/webtools/*
 filestorage-dev/*
 datastore-dev/datastore/*
 
 !.gitkeep
+
+
+# Docs
+docs/_site/*
+docs/_markbind/logs/*

@@ -15,7 +15,6 @@ import { AuthInfo } from '../../types/api-output';
 export class AdminPageComponent implements OnInit {
 
   user: string = '';
-  institute?: string = '';
   isInstructor: boolean = false;
   isStudent: boolean = false;
   isAdmin: boolean = false;
@@ -38,8 +37,16 @@ export class AdminPageComponent implements OnInit {
       display: 'Timezone Listing',
     },
     {
+      url: '/web/admin/notifications',
+      display: 'Notifications',
+    },
+    {
       url: '/web/admin/logs',
       display: 'Logs',
+    },
+    {
+      url: '/web/admin/stats',
+      display: 'Usage Statistics',
     },
   ];
   isFetchingAuthDetails: boolean = false;
@@ -53,7 +60,6 @@ export class AdminPageComponent implements OnInit {
     this.authService.getAuthUser().subscribe((res: AuthInfo) => {
       if (res.user) {
         this.user = res.user.id;
-        this.institute = res.institute;
         this.isInstructor = res.user.isInstructor;
         this.isStudent = res.user.isStudent;
         this.isAdmin = res.user.isAdmin;

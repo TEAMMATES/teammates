@@ -27,4 +27,9 @@
     Instructor "{{ instructor.name }}" has been successfully created. [<a href="{{ instructor.joinLink }}">join link</a>]
   </span>
   <span class="message" *ngIf="instructor.status === 'FAIL'" id="message-instructor-{{ index }}">{{ instructor.message }}</span>
+  <span *ngIf="instructor.statusCode === 409">
+    <a id="instructor-{{ index }}-registered-info-button" type="button" (click)="showRegisteredInstructorModal();" class="btn btn-link">
+      <i class="fas fa-info-circle"></i>
+    </a>
+  </span>
 </td>
