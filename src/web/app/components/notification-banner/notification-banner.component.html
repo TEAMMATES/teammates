@@ -4,7 +4,9 @@
   </button>
   <h5>{{ notifications[0].title }}</h5>
   <div class="banner-text" [innerHTML]="notifications[0].message"></div>
-  <button id="btn-mark-as-read" class="float-right btn btn-primary" (click)="markNotificationAsRead(notifications[0])">
-    Mark as Read
-  </button>
+  <div class="d-flex flex-row-reverse mt-1">
+    <button id="btn-mark-as-read" type="button" class="btn btn-secondary" (click)="markNotificationAsRead(notifications[0])">
+      Mark as Read
+    </button>
+  </div>
 </div>

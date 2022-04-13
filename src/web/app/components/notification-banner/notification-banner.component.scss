@@ -2,24 +2,24 @@
   position: sticky;
   top: 50px;
   width: 100%;
-  padding: 20px 100px;
+  padding: 20px 100px 10px;
   z-index: 900;
   word-break: break-word;
 }
 
 .banner-text {
-  max-height: 100px;
-  overflow-y: scroll;
+  max-height: 80px;
+  overflow-y: auto;
 }
 
 @media (max-width: 1024px) {
   .banner {
-    padding: 20px 50px;
+    padding: 20px 50px 10px;
   }
 }
 
 @media (max-width: 768px) {
   .banner {
-    padding: 20px;
+    padding: 20px 20px 10px;
   }
 }
