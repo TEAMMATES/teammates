@@ -1,12 +1,15 @@
 package teammates.logic.core;
 
+import java.time.Instant;
 import java.util.List;
+import java.util.Map;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.NotificationAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -423,5 +426,52 @@ public class AccountsLogicTest extends BaseLogicTest {
         // other irrelevant instructors remain
         assertNotNull(instructorsLogic.getInstructorForEmail(
                 instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getEmail()));
+    }
+
+    @Test
+    public void testUpdateReadNotifications() throws Exception {
+        AccountAttributes instructor2OfCourse1 = dataBundle.accounts.get("instructor2OfCourse1");
+        NotificationAttributes notificationAttributes = dataBundle.notifications.get("notification4");
+
+        ______TS("success: mark notification as read and remove expired ones from read status");
+
+        AccountAttributes accountAttributes = accountsLogic.updateReadNotifications(
+                instructor2OfCourse1.getGoogleId(),
+                notificationAttributes.getNotificationId(),
+                notificationAttributes.getEndTime());
+        Map<String, Instant> updatedReadNotifications = accountAttributes.getReadNotifications();
+
+        assertNotNull(updatedReadNotifications.get("notification4"));
+        assertEquals(notificationAttributes.getEndTime(), updatedReadNotifications.get("notification4"));
+
+        for (Map.Entry<String, Instant> notification : updatedReadNotifications.entrySet()) {
+            assertTrue(notification.getValue().isAfter(Instant.now()));
+        }
+
+        ______TS("failure: update read notifications with invalid parameter");
+        // invalid googleId
+        assertThrows(EntityDoesNotExistException.class,
+                () -> accountsLogic.updateReadNotifications(
+                        "not_exist",
+                        notificationAttributes.getNotificationId(),
+                        notificationAttributes.getEndTime()));
+
+        // invalid notificationId
+        assertThrows(EntityDoesNotExistException.class,
+                () -> accountsLogic.updateReadNotifications(
+                        instructor2OfCourse1.getGoogleId(),
+                        "invalid_notification_id",
+                        notificationAttributes.getEndTime()));
+
+        // expired notification
+        NotificationAttributes expiredNotification = dataBundle.notifications.get("expiredNotification1");
+
+        InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
+                () -> accountsLogic.updateReadNotifications(
+                        instructor2OfCourse1.getGoogleId(),
+                        notificationAttributes.getNotificationId(),
+                        expiredNotification.getEndTime()));
+
+        assertEquals("Trying to mark an expired notification as read.", ipe.getMessage());
     }
 }

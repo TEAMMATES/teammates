@@ -103,16 +103,38 @@ public class Logic {
         return accountsLogic.getReadNotificationsId(googleId);
     }
 
+    /**
+     * Updates user read status for notification with ID {@code notificationId} and expiry time {@code endTime}.
+     *
+     * <p>Preconditions:</p>
+     * * All parameters are non-null. {@code endTime} must be after current moment.
+     */
+    public AccountAttributes updateReadNotifications(String googleId, String notificationId, Instant endTime)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        assert googleId != null;
+        return accountsLogic.updateReadNotifications(googleId, notificationId, endTime);
+    }
+
     public String getCourseInstitute(String courseId) {
         return coursesLogic.getCourseInstitute(courseId);
     }
 
+    /**
+     * Returns active notification for general users and the specified {@code targetUser}.
+     */
     public List<NotificationAttributes> getActiveNotificationsByTargetUser(NotificationTargetUser targetUser) {
         return notificationsLogic.getActiveNotificationsByTargetUser(targetUser);
     }
 
     public List<NotificationAttributes> getAllNotifications() {
         return notificationsLogic.getAllNotifications();
+    }
+
+    /**
+     * Checks if a notification of {@code notificationId} exists.
+     */
+    public boolean doesNotificationExists(String notificationId) {
+        return notificationsLogic.doesNotificationExists(notificationId);
     }
 
     /**
@@ -142,6 +164,15 @@ public class Logic {
         return notificationsLogic.createNotification(notification);
     }
 
+    /**
+     * Updates a notification.
+     *
+     * <p>Preconditions:</p>
+     * * All parameters are non-null.
+     * @return updated notification
+     * @throws InvalidParametersException if the notification is not valid
+     * @throws EntityDoesNotExistException if the notification does not exist in the database
+     */
     public NotificationAttributes updateNotification(NotificationAttributes.UpdateOptions updateOptions) throws
             InvalidParametersException, EntityDoesNotExistException {
         return notificationsLogic.updateNotification(updateOptions);

@@ -254,6 +254,18 @@ public class NotificationsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
     }
 
     @Test
+    public void testDoesNotificationExists() {
+        ______TS("case 1: true if notification exists");
+
+        NotificationAttributes n = typicalNotifications.get("notification1");
+        assertTrue(notificationsDb.doesNotificationExists(n.getNotificationId()));
+
+        ______TS("case 2: false if notification does not exist");
+
+        assertFalse(notificationsDb.doesNotificationExists("invalid-id"));
+    }
+
+    @Test
     public void testHasExistingEntities() throws Exception {
         NotificationAttributes n = getNewNotificationAttributes();
 

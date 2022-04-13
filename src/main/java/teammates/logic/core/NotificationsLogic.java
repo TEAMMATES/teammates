@@ -88,4 +88,11 @@ public final class NotificationsLogic {
         notificationsDb.deleteNotification(notificationId);
     }
 
+    /**
+     * Checks if a notification associated with {@code notificationId} exists.
+     */
+    public boolean doesNotificationExists(String notificationId) {
+        return notificationsDb.doesNotificationExists(notificationId);
+    }
+
 }
