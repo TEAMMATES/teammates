@@ -313,7 +313,7 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
 
         @Override
         public String toString() {
-            return "StudentAttributes.UpdateOptions ["
+            return "StudentProfileAttributes.UpdateOptions ["
                     + "googleId = " + googleId
                     + ", shortName = " + shortNameOption
                     + ", email = " + emailOption

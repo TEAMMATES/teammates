@@ -3,9 +3,8 @@
     "instructorWithEvals": {
       "googleId": "tm.e2e.AutSesRem.instructor",
       "name": "Test Ins for Aut Sessions Reminder",
-      "isInstructor": true,
       "email": "AutSesRem.instructor@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "readNotifications": {}
     }
   },
   "courses": {
@@ -71,7 +70,9 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
     },
     "closingSession": {
       "feedbackSessionName": "AutSesRem Closing Session",
@@ -91,7 +92,9 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
     },
     "closedSession": {
       "feedbackSessionName": "AutSesRem Closed Session",
@@ -111,7 +114,9 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
     },
     "publishedSession": {
       "feedbackSessionName": "AutSesRem Published Session",
@@ -131,7 +136,9 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
     }
   },
   "feedbackQuestions": {

@@ -2,6 +2,7 @@ package teammates.storage.api;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -119,7 +120,7 @@ public final class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, Feed
 
         return !load()
                 .filter("feedbackQuestionId =", feedbackQuestionId)
-                .limit(1)
+                .keys()
                 .list()
                 .isEmpty();
     }
@@ -313,7 +314,7 @@ public final class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, Feed
      */
     public boolean hasFeedbackResponseEntitiesForCourse(String courseId) {
         assert courseId != null;
-        return !load().filter("courseId =", courseId).limit(1).list().isEmpty();
+        return !load().filter("courseId =", courseId).keys().list().isEmpty();
     }
 
     private FeedbackResponse getFeedbackResponseEntity(String feedbackResponseId) {
@@ -419,6 +420,7 @@ public final class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, Feed
                 .filterKey(Key.create(FeedbackResponse.class,
                         FeedbackResponse.generateId(entityToCreate.getFeedbackQuestionId(),
                                 entityToCreate.getGiver(), entityToCreate.getRecipient())))
+                .keys()
                 .list()
                 .isEmpty();
     }
@@ -429,4 +431,15 @@ public final class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, Feed
 
         return FeedbackResponseAttributes.valueOf(entity);
     }
+
+    /**
+     * Gets the number of feedback responses created within a specified time range.
+     */
+    public int getNumFeedbackResponsesByTimeRange(Instant startTime, Instant endTime) {
+        return load()
+                .filter("createdAt >=", startTime)
+                .filter("createdAt <", endTime)
+                .count();
+    }
+
 }

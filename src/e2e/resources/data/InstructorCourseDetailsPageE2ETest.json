@@ -3,30 +3,26 @@
     "ICDet.instr": {
       "googleId": "tm.e2e.ICDet.instr",
       "name": "Teammates Test",
-      "isInstructor": true,
       "email": "ICDet.instr@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "readNotifications": {}
     },
     "ICDet.instr2": {
       "googleId": "tm.e2e.ICDet.instr2",
       "name": "Teammates Test 2",
-      "isInstructor": true,
       "email": "ICDet.instr2@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "readNotifications": {}
     },
     "Alice": {
       "googleId": "tm.e2e.ICDet.alice.b",
       "name": "Alice Betsy",
-      "isInstructor": false,
       "email": "alice.b.tmms@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "readNotifications": {}
     },
     "Danny": {
       "googleId": "tm.e2e.ICDet.danny.e",
       "name": "Charlie Davis",
-      "isInstructor": false,
       "email": "danny.e.tmms@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "readNotifications": {}
     }
   },
   "courses": {

@@ -504,7 +504,8 @@
     <tm-example-box *ngIf="questionsToCollapsed[QuestionsSectionQuestions.RUBRIC]" @collapseAnim>
       <tm-question-submission-form
               [formModel]="exampleResponderRubricSubmissionFormModel"
-              [isDisabled]="true"
+              [isSubmissionDisabled]="true"
+              [isFormsDisabled]="true"
       ></tm-question-submission-form>
     </tm-example-box>
     <p>

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import moment from 'moment-timezone';
+import { InstructorPermissionRole } from '../types/api-request';
 import { SortBy, SortOrder } from '../types/sort-properties';
 
 /**
@@ -88,6 +89,27 @@ export class TableComparatorService {
     return (order === SortOrder.DESC ? -1 : 1) * Math.sign(numA - numB);
   }
 
+    /**
+     * Compares two permission roles of instructors.
+     * If either role is invalid, it will be seen as 'smaller'
+     * If both roles are invalid, roleA will always be seen as 'larger'
+     */
+  compareRoles(roleA: string, roleB: string, order: SortOrder): number {
+    const roles = Object.keys(InstructorPermissionRole);
+    const numA = roles.indexOf(roleA);
+    const numB = roles.indexOf(roleB);
+
+    if (Number.isNaN(numA)) {
+      return 1;
+    }
+
+    if (Number.isNaN(numB)) {
+      return -1;
+    }
+
+    return (order === SortOrder.DESC ? -1 : 1) * Math.sign(numB - numA);
+  }
+
   /**
    * Compares two strings depending on element to sort by and the order given.
    */
@@ -131,6 +153,12 @@ export class TableComparatorService {
       case SortBy.SESSION_END_DATE:
       case SortBy.SESSION_CREATION_DATE:
       case SortBy.SESSION_DELETION_DATE:
+      case SortBy.NOTIFICATION_START_TIME:
+      case SortBy.NOTIFICATION_END_TIME:
+      case SortBy.NOTIFICATION_CREATE_TIME:
+      case SortBy.NOTIFICATION_TITLE:
+      case SortBy.NOTIFICATION_TARGET_USER:
+      case SortBy.NOTIFICATION_STYLE:
       case SortBy.QUESTION_TYPE:
       case SortBy.QUESTION_TEXT:
       case SortBy.GIVER_NAME:
@@ -167,6 +195,8 @@ export class TableComparatorService {
         return this.compareNumbers(strA, strB, order);
       case SortBy.LOG_DATE:
         return this.compareChronologically(strA, strB, order);
+      case SortBy.INSTRUCTOR_PERMISSION_ROLE:
+        return this.compareRoles(strA, strB, order);
       default:
         return 0;
     }

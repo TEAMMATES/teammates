@@ -23,21 +23,24 @@ public class DeleteStudentsActionTest extends BaseActionTest<DeleteStudentsActio
     @Override
     @Test
     protected void testExecute() {
-        InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
+        var instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
+        var deleteLimit = 3;
 
-        ______TS("success: delete all students");
+        ______TS("success: delete a limited number of students");
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
 
-        String[] submissionParams = new String[] {
+        var submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
+                Const.ParamsNames.LIMIT, String.valueOf(deleteLimit),
         };
 
-        DeleteStudentsAction action = getAction(submissionParams);
+        var action = getAction(submissionParams);
         getJsonResult(action);
 
         ______TS("fails silently if random course given");
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, "RANDOM_ID",
+                Const.ParamsNames.LIMIT, String.valueOf(deleteLimit),
         };
 
         action = getAction(submissionParams);

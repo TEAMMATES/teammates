@@ -1,9 +1,10 @@
+<frontmatter>
+  title: "Issues"
+</frontmatter>
+
 # Issue tracker
 
 This document describes how the issue tracker is used by the TEAMMATES project.
-
-* [Issue lifecycle](#issue-lifecycle)
-* [Issue labels](#issue-labels)
 
 ## Issue lifecycle
 
@@ -18,6 +19,7 @@ This portion will only describe the purpose of each *label group* briefly.
 The full description of each individual label can be viewed under the [labels page](https://github.com/TEAMMATES/teammates/labels).
 
 Grouped Labels
+
 * **Status (`s.*`)**: Classifies PRs based on **status**
   * No `s.*` label: PR is yet to be triaged
 * **Category (`c.*`)**: Classifies issues and PRs based on **type of work done**
@@ -28,6 +30,7 @@ Grouped Labels
   * No `t-*` label: usually documentation update, or mixture of many languages
   
 Standalone Labels
+
 * `enhancement`: Indicates new feature requests that have been accepted
 * `good first issue`: Indicates a good issue for first-time contributors
 * `help wanted`: Issues that should be tackled by project contributors

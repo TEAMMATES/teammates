@@ -25,20 +25,11 @@ public class AdminAccountsPage extends AppPage {
     @FindBy(id = "account-email")
     private WebElement accountEmail;
 
-    @FindBy(id = "account-institute")
-    private WebElement accountInstitute;
-
-    @FindBy(id = "account-is-instructor")
-    private WebElement accountIsInstructor;
-
     @FindBy(id = "instructor-table")
     private WebElement instructorTable;
 
     @FindBy(id = "student-table")
     private WebElement studentTable;
-
-    @FindBy(id = "btn-downgrade-account")
-    private WebElement downgradeAccountButton;
 
     @FindBy(id = "btn-delete-account")
     private WebElement deleteAccountButton;
@@ -56,8 +47,6 @@ public class AdminAccountsPage extends AppPage {
         assertEquals(account.getGoogleId(), accountId.getText());
         assertEquals(account.getName(), accountName.getText());
         assertEquals(account.getEmail(), accountEmail.getText());
-        assertEquals(account.getInstitute(), accountInstitute.getText());
-        assertEquals(account.isInstructor(), Boolean.parseBoolean(accountIsInstructor.getText()));
     }
 
     public void clickRemoveInstructorFromCourse(String courseId) {
@@ -68,7 +57,7 @@ public class AdminAccountsPage extends AppPage {
         for (WebElement instructorRow : instructorRows) {
             List<WebElement> cells = instructorRow.findElements(By.tagName("td"));
             if (cells.get(0).getText().startsWith("[" + courseId + "]")) {
-                deleteButton = cells.get(1).findElement(By.className("btn-danger"));
+                deleteButton = cells.get(2).findElement(By.className("btn-danger"));
             }
         }
 
@@ -87,7 +76,7 @@ public class AdminAccountsPage extends AppPage {
         for (WebElement studentRow : studentRows) {
             List<WebElement> cells = studentRow.findElements(By.tagName("td"));
             if (cells.get(0).getText().startsWith("[" + courseId + "]")) {
-                deleteButton = cells.get(1).findElement(By.className("btn-danger"));
+                deleteButton = cells.get(2).findElement(By.className("btn-danger"));
             }
         }
 
@@ -95,11 +84,6 @@ public class AdminAccountsPage extends AppPage {
             fail("Student to be deleted is not found");
         }
         click(deleteButton);
-        waitForPageToLoad(true);
-    }
-
-    public void clickDowngradeAccount() {
-        click(downgradeAccountButton);
         waitForPageToLoad(true);
     }
 

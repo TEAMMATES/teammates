@@ -1,0 +1,35 @@
+{
+  "baseUrl": "/teammates",
+  "faviconPath": "images/teammatesIcon.png",
+  "titlePrefix": "TEAMMATES",
+  "ignore": [
+    "_markbind/layouts/*",
+    "_markbind/logs/*",
+    "_site/*",
+    "site.json",
+    "*.md",
+    "*.njk",
+    ".git/*",
+    "node_modules/*"
+  ],
+  "style": {
+    "codeTheme": "light"
+  },
+  "pages": [
+    {
+      "src": "index.md",
+      "title": "Home"
+    },
+    {
+      "glob": "**/*.+(md)",
+      "frontmatter": {
+        "pageNav": 3
+      }
+    }
+  ],
+  "pagesExclude": ["node_modules/*"],
+  "deploy": {
+    "message": "Site Update."
+  },
+  "plugins": ["codeBlockCopyButtons"]
+}

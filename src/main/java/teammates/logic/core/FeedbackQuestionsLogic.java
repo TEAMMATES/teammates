@@ -141,6 +141,25 @@ public final class FeedbackQuestionsLogic {
     }
 
     /**
+     * Checks if there are any questions for the given session that instructors can view/submit.
+     */
+    public boolean hasFeedbackQuestionsForInstructors(
+            FeedbackSessionAttributes fsa, boolean isCreator) {
+        boolean hasQuestions = fqDb.hasFeedbackQuestionsForGiverType(
+                fsa.getFeedbackSessionName(), fsa.getCourseId(), FeedbackParticipantType.INSTRUCTORS);
+        if (hasQuestions) {
+            return true;
+        }
+
+        if (isCreator) {
+            hasQuestions = fqDb.hasFeedbackQuestionsForGiverType(
+                    fsa.getFeedbackSessionName(), fsa.getCourseId(), FeedbackParticipantType.SELF);
+        }
+
+        return hasQuestions;
+    }
+
+    /**
      * Gets a {@code List} of all questions for the given session that instructors can view/submit.
      */
     public List<FeedbackQuestionAttributes> getFeedbackQuestionsForInstructors(
@@ -178,6 +197,16 @@ public final class FeedbackQuestionsLogic {
         }
 
         return questions;
+    }
+
+    /**
+     * Checks if there are any questions for the given session that students can view/submit.
+     */
+    public boolean hasFeedbackQuestionsForStudents(FeedbackSessionAttributes fsa) {
+        return fqDb.hasFeedbackQuestionsForGiverType(
+                fsa.getFeedbackSessionName(), fsa.getCourseId(), FeedbackParticipantType.STUDENTS)
+                || fqDb.hasFeedbackQuestionsForGiverType(
+                        fsa.getFeedbackSessionName(), fsa.getCourseId(), FeedbackParticipantType.TEAMS);
     }
 
     /**

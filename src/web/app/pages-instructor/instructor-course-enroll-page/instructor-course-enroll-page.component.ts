@@ -1,11 +1,11 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-
 import { HotTableRegisterer } from '@handsontable/angular';
 import Handsontable from 'handsontable';
 import { concat, Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
+import { ProgressBarService } from '../../../services/progress-bar.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
@@ -95,6 +95,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
               private statusMessageService: StatusMessageService,
               private courseService: CourseService,
               private studentService: StudentService,
+              private progressBarService: ProgressBarService,
               private simpleModalService: SimpleModalService) { }
 
   ngOnInit(): void {
@@ -188,6 +189,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
         }),
     );
 
+    this.progressBarService.updateProgress(0);
     enrollRequests.pipe(finalize(() => {
       this.isEnrolling = false;
     })).subscribe({
@@ -206,6 +208,8 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
             }
           }
         }
+        const percentage: number = Math.round(100 * enrolledStudents.length / studentEnrollRequests.size);
+        this.progressBarService.updateProgress(percentage);
       },
       complete: () => {
         this.showEnrollResults = true;

@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
@@ -25,7 +26,7 @@ import teammates.e2e.util.TestProperties;
 public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
     private StudentAttributes student;
     private InstructorAttributes instructor;
-
+    private CourseAttributes course;
     private FeedbackSessionAttributes openSession;
     private FeedbackSessionAttributes closedSession;
     private FeedbackSessionAttributes gracePeriodSession;
@@ -39,6 +40,7 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
         removeAndRestoreDataBundle(testData);
 
         instructor = testData.instructors.get("FSubmit.instr");
+        course = testData.courses.get("FSubmit.CS2104");
         openSession = testData.feedbackSessions.get("Open Session");
         closedSession = testData.feedbackSessions.get("Closed Session");
         gracePeriodSession = testData.feedbackSessions.get("Grace Period Session");
@@ -53,7 +55,7 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
         FeedbackSubmitPage submitPage = loginToPage(url, FeedbackSubmitPage.class, instructor.getGoogleId());
 
         ______TS("verify loaded session data");
-        submitPage.verifyFeedbackSessionDetails(openSession);
+        submitPage.verifyFeedbackSessionDetails(openSession, course);
 
         ______TS("questions with giver type instructor");
         submitPage.verifyNumQuestions(1);
@@ -98,8 +100,24 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
         String questionId = getFeedbackQuestion(question).getId();
         String recipient = "Team 2";
         FeedbackResponseAttributes response = getMcqResponse(questionId, recipient, false, "UI");
-        submitPage.submitMcqResponse(1, recipient, response);
+        submitPage.fillMcqResponse(1, recipient, response);
+        submitPage.clickSubmitAllQuestionsButton();
 
+        verifyPresentInDatabase(response);
+
+        ______TS("can submit only one question");
+
+        response = getMcqResponse(questionId, recipient, false, "Algo");
+        submitPage.fillMcqResponse(1, recipient, response);
+
+        FeedbackQuestionAttributes question2 = testData.feedbackQuestions.get("qn2InGracePeriodSession");
+        String question2Id = getFeedbackQuestion(question2).getId();
+        FeedbackResponseAttributes response2 = getMcqResponse(question2Id, recipient, false, "Teammates Test");
+        submitPage.fillMcqResponse(2, recipient, response2);
+
+        submitPage.clickSubmitQuestionButton(1);
+        // Question 2 response should not be persisted as only question 1 is submitted
+        verifyAbsentInDatabase(response2);
         verifyPresentInDatabase(response);
 
         ______TS("add comment");
@@ -107,6 +125,9 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
         int qnToComment = 1;
         String comment = "<p>new comment</p>";
         submitPage.addComment(qnToComment, recipient, comment);
+        submitPage.clickSubmitAllQuestionsButton();
+
+        verifyPresentInDatabase(response2);
 
         submitPage.verifyComment(qnToComment, recipient, comment);
         verifyPresentInDatabase(getFeedbackResponseComment(responseId, comment));
@@ -114,6 +135,7 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
         ______TS("edit comment");
         comment = "<p>edited comment</p>";
         submitPage.editComment(qnToComment, recipient, comment);
+        submitPage.clickSubmitAllQuestionsButton();
 
         submitPage.verifyComment(qnToComment, recipient, comment);
         verifyPresentInDatabase(getFeedbackResponseComment(responseId, comment));
@@ -133,7 +155,7 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
                 .withParam("previewas", instructor.getEmail());
         submitPage = loginToPage(url, FeedbackSubmitPage.class, instructor.getGoogleId());
 
-        submitPage.verifyFeedbackSessionDetails(openSession);
+        submitPage.verifyFeedbackSessionDetails(openSession, course);
         submitPage.verifyNumQuestions(1);
         submitPage.verifyQuestionDetails(1, testData.feedbackQuestions.get("qn5InSession1"));
         submitPage.verifyCannotSubmit();
@@ -145,7 +167,7 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
                 .withParam("previewas", student.getEmail());
         submitPage = getNewPageInstance(url, FeedbackSubmitPage.class);
 
-        submitPage.verifyFeedbackSessionDetails(openSession);
+        submitPage.verifyFeedbackSessionDetails(openSession, course);
         submitPage.verifyNumQuestions(4);
         submitPage.verifyQuestionDetails(1, testData.feedbackQuestions.get("qn1InSession1"));
         submitPage.verifyQuestionDetails(2, testData.feedbackQuestions.get("qn2InSession1"));
@@ -161,14 +183,15 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
                 .withParam("moderatedquestionId", questionId);
         submitPage = getNewPageInstance(url, FeedbackSubmitPage.class);
 
-        submitPage.verifyFeedbackSessionDetails(gracePeriodSession);
+        submitPage.verifyFeedbackSessionDetails(gracePeriodSession, course);
         // One out of two questions in grace period session should not be visible
         submitPage.verifyNumQuestions(1);
         submitPage.verifyQuestionDetails(1, question);
 
         ______TS("submit moderated response");
-        response = getMcqResponse(questionId, recipient, false, "Algo");
-        submitPage.submitMcqResponse(1, recipient, response);
+        response = getMcqResponse(questionId, recipient, false, "UI");
+        submitPage.fillMcqResponse(1, recipient, response);
+        submitPage.clickSubmitQuestionButton(1);
 
         verifyPresentInDatabase(response);
     }

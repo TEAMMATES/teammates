@@ -9,10 +9,12 @@ exports[`AddCourseFormComponent should snap when not enabled 1`] = `
   courseAdded={[Function EventEmitter_]}
   courseService={[Function Object]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
+  institutes={[Function Array]}
   isAddingCourse="false"
   isCopyingCourse="false"
   isEnabled="false"
   newCourseId=""
+  newCourseInstitute=""
   newCourseName=""
   ngbModal={[Function NgbModal]}
   statusMessageService={[Function Object]}
@@ -78,6 +80,7 @@ exports[`AddCourseFormComponent should snap when not enabled 1`] = `
           >
             <button
               class="btn btn-info"
+              disabled=""
               id="btn-copy-course"
               type="button"
             >
@@ -137,6 +140,28 @@ exports[`AddCourseFormComponent should snap when not enabled 1`] = `
           class="col-md-3 text-md-right col-form-label ngb-tooltip-class"
         >
           <span
+            ngbtooltip="Note that you can only create a new course under an institute in which you are already a course co-owner."
+          >
+             Course institute: 
+          </span>
+        </label>
+        <div
+          class="col-md-6 text-md-left"
+        >
+          <select
+            class="form-control ng-untouched ng-pristine ng-valid"
+            id="new-course-institute"
+          >
+          </select>
+        </div>
+      </div>
+      <div
+        class="form-group row"
+      >
+        <label
+          class="col-md-3 text-md-right col-form-label ngb-tooltip-class"
+        >
+          <span
             ngbtooltip="You should not
                   need to change this as it is auto-detected based on your device settings. TEAMMATES automatically adjusts
                   to match the current time offset in your area, including clock changes due to daylight saving time."
@@ -181,6 +206,7 @@ exports[`AddCourseFormComponent should snap when not enabled 1`] = `
         >
           <button
             class="btn btn-success"
+            disabled=""
             id="btn-save-course"
           >
              Add Course 
@@ -201,10 +227,12 @@ exports[`AddCourseFormComponent should snap with default fields 1`] = `
   courseAdded={[Function EventEmitter_]}
   courseService={[Function Object]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
+  institutes={[Function Array]}
   isAddingCourse="false"
   isCopyingCourse="false"
   isEnabled={[Function Boolean]}
   newCourseId=""
+  newCourseInstitute=""
   newCourseName=""
   ngbModal={[Function NgbModal]}
   statusMessageService={[Function Object]}
@@ -270,6 +298,7 @@ exports[`AddCourseFormComponent should snap with default fields 1`] = `
           >
             <button
               class="btn btn-info"
+              disabled=""
               id="btn-copy-course"
               type="button"
             >
@@ -329,6 +358,28 @@ exports[`AddCourseFormComponent should snap with default fields 1`] = `
           class="col-md-3 text-md-right col-form-label ngb-tooltip-class"
         >
           <span
+            ngbtooltip="Note that you can only create a new course under an institute in which you are already a course co-owner."
+          >
+             Course institute: 
+          </span>
+        </label>
+        <div
+          class="col-md-6 text-md-left"
+        >
+          <select
+            class="form-control ng-untouched ng-pristine ng-valid"
+            id="new-course-institute"
+          >
+          </select>
+        </div>
+      </div>
+      <div
+        class="form-group row"
+      >
+        <label
+          class="col-md-3 text-md-right col-form-label ngb-tooltip-class"
+        >
+          <span
             ngbtooltip="You should not
                   need to change this as it is auto-detected based on your device settings. TEAMMATES automatically adjusts
                   to match the current time offset in your area, including clock changes due to daylight saving time."
@@ -373,6 +424,7 @@ exports[`AddCourseFormComponent should snap with default fields 1`] = `
         >
           <button
             class="btn btn-success"
+            disabled=""
             id="btn-save-course"
           >
              Add Course 

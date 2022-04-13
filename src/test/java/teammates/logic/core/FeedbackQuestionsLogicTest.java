@@ -32,7 +32,6 @@ import teammates.common.util.FieldValidator;
  */
 public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
-    private final AccountsLogic accountsLogic = AccountsLogic.inst();
     private final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
     private final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
     private final FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
@@ -77,7 +76,9 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
     @Test
     public void allTests() throws Exception {
+        testHasFeedbackQuestionsForInstructor();
         testGetFeedbackQuestionsForInstructor();
+        testHasFeedbackQuestionsForStudents();
         testGetFeedbackQuestionsForStudents();
         testAddQuestion();
     }
@@ -171,7 +172,6 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         ______TS("special case: response to other team, instructor is also student");
         question = getQuestionFromDatabase("team.feedback");
         studentGiver = dataBundle.students.get("student1InCourse1");
-        accountsLogic.makeAccountInstructor(studentGiver.getGoogleId());
         courseRoster = new CourseRoster(
                 studentsLogic.getStudentsForCourse(studentGiver.getCourse()),
                 instructorsLogic.getInstructorsForCourse(studentGiver.getCourse()));
@@ -184,7 +184,6 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         ______TS("to nobody (general feedback)");
         question = getQuestionFromDatabase("qn3InSession1InCourse1");
         studentGiver = dataBundle.students.get("student1InCourse1");
-        accountsLogic.makeAccountInstructor(studentGiver.getGoogleId());
         courseRoster = new CourseRoster(
                 studentsLogic.getStudentsForCourse(studentGiver.getCourse()),
                 instructorsLogic.getInstructorsForCourse(studentGiver.getCourse()));
@@ -199,7 +198,6 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         ______TS("to self");
         question = getQuestionFromDatabase("qn1InSession1InCourse1");
         studentGiver = dataBundle.students.get("student1InCourse1");
-        accountsLogic.makeAccountInstructor(studentGiver.getGoogleId());
         courseRoster = new CourseRoster(
                 studentsLogic.getStudentsForCourse(studentGiver.getCourse()),
                 instructorsLogic.getInstructorsForCourse(studentGiver.getCourse()));
@@ -905,6 +903,20 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         assertTrue(completeGiverRecipientMap.get("Team 1.2").contains("Team 1.1</td></div>'\""));
     }
 
+    private void testHasFeedbackQuestionsForInstructor() {
+        ______TS("Valid session valid instructor should have questions");
+        FeedbackSessionAttributes fsa = fsLogic.getFeedbackSession("First feedback session", "idOfTypicalCourse1");
+        assertTrue(fqLogic.hasFeedbackQuestionsForInstructors(fsa, false));
+
+        ______TS("Valid session without questions for instructor should return false");
+        fsa = fsLogic.getFeedbackSession("session without instructor questions", "idOfArchivedCourse");
+        assertFalse(fqLogic.hasFeedbackQuestionsForInstructors(fsa, false));
+
+        ______TS("Invalid session should not have questions");
+        fsa.setFeedbackSessionName("non-existent session");
+        assertFalse(fqLogic.hasFeedbackQuestionsForInstructors(fsa, false));
+    }
+
     private void testGetFeedbackQuestionsForInstructor() {
         List<FeedbackQuestionAttributes> expectedQuestions;
         List<FeedbackQuestionAttributes> actualQuestions;
@@ -961,6 +973,20 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         actualQuestions = fqLogic.getFeedbackQuestionsForInstructors(allQuestions, true);
 
         assertEquals(actualQuestions, expectedQuestions);
+    }
+
+    private void testHasFeedbackQuestionsForStudents() {
+        ______TS("Valid session should have questions");
+        FeedbackSessionAttributes fsa = fsLogic.getFeedbackSession("First feedback session", "idOfTypicalCourse1");
+        assertTrue(fqLogic.hasFeedbackQuestionsForStudents(fsa));
+
+        ______TS("Valid session without questions for students should return false");
+        fsa = fsLogic.getFeedbackSession("session without student questions", "idOfArchivedCourse");
+        assertFalse(fqLogic.hasFeedbackQuestionsForStudents(fsa));
+
+        ______TS("Invalid session should not have questions");
+        fsa.setFeedbackSessionName("non-existent session");
+        assertFalse(fqLogic.hasFeedbackQuestionsForStudents(fsa));
     }
 
     private void testGetFeedbackQuestionsForStudents() {

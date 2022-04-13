@@ -328,7 +328,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
     /**
      * The non-null assertion operator (!) is used below in `isDisplayedToStudents`,
      * `displayedToStudentsAs` and `role`. These attributes should never be undefined and are only
-     * typed as such to accomodate for a use case in SearchService.
+     * typed as such to accommodate for a use case in SearchService.
      */
     return {
       googleId: i.googleId,

@@ -2,13 +2,17 @@ package teammates.storage.api;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.LoadType;
+import com.googlecode.objectify.cmd.Query;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -97,6 +101,22 @@ public final class InstructorsDb extends EntitiesDb<Instructor, InstructorAttrib
     }
 
     /**
+     * Checks if the given instructors exist in the given course.
+     */
+    public boolean hasExistingInstructorsInCourse(String courseId, Collection<String> instructorEmailAddresses) {
+        if (instructorEmailAddresses.isEmpty()) {
+            return true;
+        }
+        Set<String> existingInstructorEmailAddresses = load().filter("courseId =", courseId)
+                .project("email")
+                .list()
+                .stream()
+                .map(Instructor::getEmail)
+                .collect(Collectors.toSet());
+        return existingInstructorEmailAddresses.containsAll(instructorEmailAddresses);
+    }
+
+    /**
      * Gets an instructor by unique constraint courseId-email.
      */
     public InstructorAttributes getInstructorForEmail(String courseId, String email) {
@@ -144,6 +164,20 @@ public final class InstructorsDb extends EntitiesDb<Instructor, InstructorAttrib
         assert googleId != null;
 
         return makeAttributes(getInstructorEntitiesForGoogleId(googleId, omitArchived));
+    }
+
+    /**
+     * Gets the emails of all instructors of a course.
+     */
+    public List<String> getInstructorEmailsForCourse(String courseId) {
+        assert courseId != null;
+
+        return load()
+                .filter("courseId =", courseId)
+                .list()
+                .stream()
+                .map(Instructor::getEmail)
+                .collect(Collectors.toList());
     }
 
     /**
@@ -313,9 +347,8 @@ public final class InstructorsDb extends EntitiesDb<Instructor, InstructorAttrib
     }
 
     private Instructor getInstructorEntityForGoogleId(String courseId, String googleId) {
-        return load()
+        return getInstructorsForGoogleIdQuery(googleId)
                 .filter("courseId =", courseId)
-                .filter("googleId =", googleId)
                 .first().now();
     }
 
@@ -353,8 +386,19 @@ public final class InstructorsDb extends EntitiesDb<Instructor, InstructorAttrib
         return instructorList.get(0);
     }
 
+    /**
+     * Returns true if there are any instructor entities associated with the googleId.
+     */
+    public boolean hasInstructorsForGoogleId(String googleId) {
+        return !getInstructorsForGoogleIdQuery(googleId).keys().list().isEmpty();
+    }
+
+    private Query<Instructor> getInstructorsForGoogleIdQuery(String googleId) {
+        return load().filter("googleId =", googleId);
+    }
+
     private List<Instructor> getInstructorEntitiesForGoogleId(String googleId) {
-        return load().filter("googleId =", googleId).list();
+        return getInstructorsForGoogleIdQuery(googleId).list();
     }
 
     /**
@@ -363,8 +407,7 @@ public final class InstructorsDb extends EntitiesDb<Instructor, InstructorAttrib
      */
     private List<Instructor> getInstructorEntitiesForGoogleId(String googleId, boolean omitArchived) {
         if (omitArchived) {
-            return load()
-                    .filter("googleId =", googleId)
+            return getInstructorsForGoogleIdQuery(googleId)
                     .filter("isArchived =", false)
                     .list();
         }
@@ -413,6 +456,16 @@ public final class InstructorsDb extends EntitiesDb<Instructor, InstructorAttrib
         log.severe("Failed to generate new registration key for instructor after "
                 + MAX_KEY_REGENERATION_TRIES + " tries");
         throw new EntityAlreadyExistsException("Unable to create new instructor");
+    }
+
+    /**
+     * Gets the number of instructors created within a specified time range.
+     */
+    public int getNumInstructorsByTimeRange(Instant startTime, Instant endTime) {
+        return load()
+                .filter("createdAt >=", startTime)
+                .filter("createdAt <", endTime)
+                .count();
     }
 
 }
