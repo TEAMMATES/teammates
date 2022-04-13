@@ -80,6 +80,10 @@ public class GetNotificationsAction extends Action {
                 .filter(n -> !readNotifications.contains(n.getNotificationId()))
                 .collect(Collectors.toList());
 
+        if (userInfo.isAdmin) {
+            return new JsonResult(new NotificationsData(notificationAttributes));
+        }
+
         // Update shown attribute once a non-admin user fetches unread notifications
         for (NotificationAttributes n : notificationAttributes) {
             if (n.isShown()) {
