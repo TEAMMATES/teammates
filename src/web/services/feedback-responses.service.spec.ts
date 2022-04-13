@@ -43,6 +43,20 @@ describe('FeedbackResponsesService', () => {
   let spyHttpRequestService: any;
   let service: FeedbackResponsesService;
 
+  const questionTypeToResponseDetails: Map<FeedbackQuestionType, FeedbackResponseDetails> =
+    new Map<FeedbackQuestionType, FeedbackResponseDetails>([
+    [FeedbackQuestionType.TEXT, DEFAULT_TEXT_RESPONSE_DETAILS()],
+    [FeedbackQuestionType.RANK_OPTIONS, DEFAULT_RANK_OPTIONS_RESPONSE_DETAILS()],
+    [FeedbackQuestionType.RANK_RECIPIENTS, DEFAULT_RANK_RECIPIENTS_RESPONSE_DETAILS()],
+    [FeedbackQuestionType.CONTRIB, DEFAULT_CONTRIBUTION_RESPONSE_DETAILS()],
+    [FeedbackQuestionType.NUMSCALE, DEFAULT_NUMSCALE_RESPONSE_DETAILS()],
+    [FeedbackQuestionType.MCQ, DEFAULT_MCQ_RESPONSE_DETAILS()],
+    [FeedbackQuestionType.MSQ, DEFAULT_MSQ_RESPONSE_DETAILS()],
+    [FeedbackQuestionType.RUBRIC, DEFAULT_RUBRIC_RESPONSE_DETAILS()],
+    [FeedbackQuestionType.CONSTSUM_OPTIONS, DEFAULT_CONSTSUM_RESPONSE_DETAILS()],
+    [FeedbackQuestionType.CONSTSUM_RECIPIENTS, DEFAULT_CONSTSUM_RESPONSE_DETAILS()],
+  ]);
+
   beforeEach(() => {
     spyHttpRequestService = {
       get: jest.fn(),
@@ -65,54 +79,10 @@ describe('FeedbackResponsesService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should retrieve the correct default essay/text response details', () => {
-    expect(service.getDefaultFeedbackResponseDetails(FeedbackQuestionType.TEXT))
-      .toStrictEqual(DEFAULT_TEXT_RESPONSE_DETAILS());
-  });
-
-  it('should retrieve the correct default rank (options) response details', () => {
-    expect(service.getDefaultFeedbackResponseDetails(FeedbackQuestionType.RANK_OPTIONS))
-      .toStrictEqual(DEFAULT_RANK_OPTIONS_RESPONSE_DETAILS());
-  });
-
-  it('should retrieve the correct default rank (recipients) response details', () => {
-    expect(service.getDefaultFeedbackResponseDetails(FeedbackQuestionType.RANK_RECIPIENTS))
-      .toStrictEqual(DEFAULT_RANK_RECIPIENTS_RESPONSE_DETAILS());
-  });
-
-  it('should retrieve the correct default team contribution response details', () => {
-    expect(service.getDefaultFeedbackResponseDetails(FeedbackQuestionType.CONTRIB))
-      .toStrictEqual(DEFAULT_CONTRIBUTION_RESPONSE_DETAILS());
-  });
-
-  it('should retrieve the correct default numerical scale response details', () => {
-    expect(service.getDefaultFeedbackResponseDetails(FeedbackQuestionType.NUMSCALE))
-      .toStrictEqual(DEFAULT_NUMSCALE_RESPONSE_DETAILS());
-  });
-
-  it('should retrieve the correct default MCQ response details', () => {
-    expect(service.getDefaultFeedbackResponseDetails(FeedbackQuestionType.MCQ))
-      .toStrictEqual(DEFAULT_MCQ_RESPONSE_DETAILS());
-  });
-
-  it('should retrieve the correct default MSQ response details', () => {
-    expect(service.getDefaultFeedbackResponseDetails(FeedbackQuestionType.MSQ))
-      .toStrictEqual(DEFAULT_MSQ_RESPONSE_DETAILS());
-  });
-
-  it('should retrieve the correct default rubric response details', () => {
-    expect(service.getDefaultFeedbackResponseDetails(FeedbackQuestionType.RUBRIC))
-      .toStrictEqual(DEFAULT_RUBRIC_RESPONSE_DETAILS());
-  });
-
-  it('should retrieve the correct default distribute points/constant sum (options) response details', () => {
-    expect(service.getDefaultFeedbackResponseDetails(FeedbackQuestionType.CONSTSUM_OPTIONS))
-      .toStrictEqual(DEFAULT_CONSTSUM_RESPONSE_DETAILS());
-  });
-
-  it('should retrieve the correct default distribute points/constant sum (recipients) response details', () => {
-    expect(service.getDefaultFeedbackResponseDetails(FeedbackQuestionType.CONSTSUM_RECIPIENTS))
-      .toStrictEqual(DEFAULT_CONSTSUM_RESPONSE_DETAILS());
+  it('should retrieve the correct default response details', () => {
+    for (const [questionType, responseDetails] of questionTypeToResponseDetails) {
+      expect(service.getDefaultFeedbackResponseDetails(questionType)).toStrictEqual(responseDetails);
+    }
   });
 
   it('should throw an error when trying to retrieve an unknown question type\'s response details', () => {
@@ -144,59 +114,11 @@ describe('FeedbackResponsesService', () => {
     expect(service.isFeedbackResponseDetailsEmpty(feedbackQuestionType, feedbackResponseDetails))
       .toBeTruthy();
 
-    feedbackResponseDetails.answers = [RANK_OPTIONS_ANSWER_NOT_SUBMITTED];
-    expect(service.isFeedbackResponseDetailsEmpty(feedbackQuestionType, feedbackResponseDetails))
-      .toBeTruthy();
-
-    feedbackResponseDetails.answers = [RANK_OPTIONS_ANSWER_NOT_SUBMITTED, RANK_OPTIONS_ANSWER_NOT_SUBMITTED];
-    expect(service.isFeedbackResponseDetailsEmpty(feedbackQuestionType, feedbackResponseDetails))
-      .toBeTruthy();
-
-    feedbackResponseDetails.answers = [null as unknown as number];
-    expect(service.isFeedbackResponseDetailsEmpty(feedbackQuestionType, feedbackResponseDetails))
-      .toBeTruthy();
-
-    feedbackResponseDetails.answers = [null as unknown as number, null as unknown as number];
-    expect(service.isFeedbackResponseDetailsEmpty(feedbackQuestionType, feedbackResponseDetails))
-      .toBeTruthy();
-
     feedbackResponseDetails.answers = [RANK_OPTIONS_ANSWER_NOT_SUBMITTED, null as unknown as number];
     expect(service.isFeedbackResponseDetailsEmpty(feedbackQuestionType, feedbackResponseDetails))
       .toBeTruthy();
 
-    feedbackResponseDetails.answers = [1, RANK_OPTIONS_ANSWER_NOT_SUBMITTED];
-    expect(service.isFeedbackResponseDetailsEmpty(feedbackQuestionType, feedbackResponseDetails))
-      .toBeFalsy();
-
-    feedbackResponseDetails.answers = [RANK_OPTIONS_ANSWER_NOT_SUBMITTED, 1, 2];
-    expect(service.isFeedbackResponseDetailsEmpty(feedbackQuestionType, feedbackResponseDetails))
-      .toBeFalsy();
-
-    feedbackResponseDetails.answers = [RANK_OPTIONS_ANSWER_NOT_SUBMITTED, 1, RANK_OPTIONS_ANSWER_NOT_SUBMITTED];
-    expect(service.isFeedbackResponseDetailsEmpty(feedbackQuestionType, feedbackResponseDetails))
-      .toBeFalsy();
-
-    feedbackResponseDetails.answers = [1, null as unknown as number];
-    expect(service.isFeedbackResponseDetailsEmpty(feedbackQuestionType, feedbackResponseDetails))
-      .toBeFalsy();
-
-    feedbackResponseDetails.answers = [null as unknown as number, 2, 1];
-    expect(service.isFeedbackResponseDetailsEmpty(feedbackQuestionType, feedbackResponseDetails))
-      .toBeFalsy();
-
-    feedbackResponseDetails.answers = [null as unknown as number, 1, null as unknown as number];
-    expect(service.isFeedbackResponseDetailsEmpty(feedbackQuestionType, feedbackResponseDetails))
-      .toBeFalsy();
-
     feedbackResponseDetails.answers = [null as unknown as number, 1, RANK_OPTIONS_ANSWER_NOT_SUBMITTED];
-    expect(service.isFeedbackResponseDetailsEmpty(feedbackQuestionType, feedbackResponseDetails))
-      .toBeFalsy();
-
-    feedbackResponseDetails.answers = [1];
-    expect(service.isFeedbackResponseDetailsEmpty(feedbackQuestionType, feedbackResponseDetails))
-      .toBeFalsy();
-
-    feedbackResponseDetails.answers = [2, 1];
     expect(service.isFeedbackResponseDetailsEmpty(feedbackQuestionType, feedbackResponseDetails))
       .toBeFalsy();
   });
@@ -294,10 +216,6 @@ describe('FeedbackResponsesService', () => {
     expect(service.isFeedbackResponseDetailsEmpty(feedbackQuestionType, feedbackResponseDetails))
       .toBeFalsy();
 
-    feedbackResponseDetails.answers = ['answer 1', 'answer 2'];
-    expect(service.isFeedbackResponseDetailsEmpty(feedbackQuestionType, feedbackResponseDetails))
-      .toBeFalsy();
-
     feedbackResponseDetails.isOther = true;
     expect(service.isFeedbackResponseDetailsEmpty(feedbackQuestionType, feedbackResponseDetails))
       .toBeFalsy();
@@ -316,21 +234,9 @@ describe('FeedbackResponsesService', () => {
     expect(service.isFeedbackResponseDetailsEmpty(feedbackQuestionType, feedbackResponseDetails))
       .toBeTruthy();
 
-    feedbackResponseDetails.answer = [RUBRIC_ANSWER_NOT_CHOSEN];
-    expect(service.isFeedbackResponseDetailsEmpty(feedbackQuestionType, feedbackResponseDetails))
-      .toBeTruthy();
-
     feedbackResponseDetails.answer = [RUBRIC_ANSWER_NOT_CHOSEN, RUBRIC_ANSWER_NOT_CHOSEN];
     expect(service.isFeedbackResponseDetailsEmpty(feedbackQuestionType, feedbackResponseDetails))
       .toBeTruthy();
-
-    feedbackResponseDetails.answer = [0, RUBRIC_ANSWER_NOT_CHOSEN];
-    expect(service.isFeedbackResponseDetailsEmpty(feedbackQuestionType, feedbackResponseDetails))
-      .toBeFalsy();
-
-    feedbackResponseDetails.answer = [RUBRIC_ANSWER_NOT_CHOSEN, 2, 1];
-    expect(service.isFeedbackResponseDetailsEmpty(feedbackQuestionType, feedbackResponseDetails))
-      .toBeFalsy();
 
     feedbackResponseDetails.answer = [RUBRIC_ANSWER_NOT_CHOSEN, 3, RUBRIC_ANSWER_NOT_CHOSEN];
     expect(service.isFeedbackResponseDetailsEmpty(feedbackQuestionType, feedbackResponseDetails))
@@ -347,10 +253,6 @@ describe('FeedbackResponsesService', () => {
     expect(service.isFeedbackResponseDetailsEmpty(feedbackQuestionType, feedbackResponseDetails))
       .toBeTruthy();
 
-    feedbackResponseDetails.answers = [100];
-    expect(service.isFeedbackResponseDetailsEmpty(feedbackQuestionType, feedbackResponseDetails))
-      .toBeFalsy();
-
     feedbackResponseDetails.answers = [40, 60];
     expect(service.isFeedbackResponseDetailsEmpty(feedbackQuestionType, feedbackResponseDetails))
       .toBeFalsy();
@@ -365,10 +267,6 @@ describe('FeedbackResponsesService', () => {
     };
     expect(service.isFeedbackResponseDetailsEmpty(feedbackQuestionType, feedbackResponseDetails))
       .toBeTruthy();
-
-    feedbackResponseDetails.answers = [100];
-    expect(service.isFeedbackResponseDetailsEmpty(feedbackQuestionType, feedbackResponseDetails))
-      .toBeFalsy();
 
     feedbackResponseDetails.answers = [70, 30];
     expect(service.isFeedbackResponseDetailsEmpty(feedbackQuestionType, feedbackResponseDetails))
