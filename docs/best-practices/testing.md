@@ -1,10 +1,14 @@
+<frontmatter>
+  title: "Best Practices: Testing"
+</frontmatter>
+
 # Testing Best Practices
 
 The goal is to make the system as fully covered by automated tests as possible.
 
 ## General guidelines
 
-* **Try TDD**: Try to follow Test Driven Development (TDD). In particular, when fixing a bug, write the test case first before fixing it.
+* **Try <tooltip content="Test Driven Development">TDD</tooltip>**: In particular, when fixing a bug, write the test case first before fixing it.
 * **Write independent tests**: A test should have minimal to zero impact to global state/other tests that are running (possibly in parallel).
 * **Write short tests**: It is better to have many `@Test`/`it` methods than to group all testing into one `@Test`/`it` method. This helps in debugging and rerunning failed tests.
 * **Avoid redundant tests**: Be mindful of the cost of running a test. Do not add redundant tests.

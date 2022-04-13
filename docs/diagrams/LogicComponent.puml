@@ -1,5 +1,5 @@
 @startuml
-!include style.puml
+!include diagrams/style.puml
 skinparam componentBackgroundColor MODEL_COLOR_T1
 skinparam componentFontColor #FFFFFF
 skinparam FolderBackgroundColor #FFFFFF

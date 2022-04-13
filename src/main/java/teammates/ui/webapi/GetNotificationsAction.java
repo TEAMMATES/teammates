@@ -1,12 +1,14 @@
 package teammates.ui.webapi;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.attributes.NotificationAttributes;
+import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.ui.output.NotificationData;
 import teammates.ui.output.NotificationsData;
 
 /**
@@ -42,15 +44,13 @@ public class GetNotificationsAction extends Action {
     @Override
     public JsonResult execute() {
         String targetUserString = getRequestParamValue(Const.ParamsNames.NOTIFICATION_TARGET_USER);
-        // TODO: Use isFetchingAll to decide whether to fetch unread notification only.
-        // boolean isFetchingAll = Boolean.parseBoolean(
-        //     getRequestParamValue(Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL));
-
         List<NotificationAttributes> notificationAttributes;
+
         if (targetUserString == null && userInfo.isAdmin) {
-            // if the admin wants to retrieve all notifications
+            // if request is from admin and targetUser is not specified, retrieve all notifications
             notificationAttributes = logic.getAllNotifications();
         } else {
+            // retrieve active notification for specified target user
             String targetUserErrorMessage = FieldValidator.getInvalidityInfoForNotificationTargetUser(targetUserString);
             if (!targetUserErrorMessage.isEmpty()) {
                 throw new InvalidHttpParameterException(targetUserErrorMessage);
@@ -63,11 +63,43 @@ public class GetNotificationsAction extends Action {
                     logic.getActiveNotificationsByTargetUser(targetUser);
         }
 
-        NotificationsData responseData = new NotificationsData(notificationAttributes);
-
-        if (!userInfo.isAdmin) {
-            responseData.getNotifications().forEach(NotificationData::hideInformationForNonAdmin);
+        boolean isFetchingAll = false;
+        if (getRequestParamValue(Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL) != null) {
+            isFetchingAll = getBooleanRequestParamValue(Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL);
         }
-        return new JsonResult(responseData);
+
+        if (isFetchingAll) {
+            return new JsonResult(new NotificationsData(notificationAttributes));
+        }
+
+        // Filter unread notifications
+        List<String> readNotifications = logic.getReadNotificationsId(userInfo.getId());
+        notificationAttributes = notificationAttributes
+                .stream()
+                .filter(n -> !readNotifications.contains(n.getNotificationId()))
+                .collect(Collectors.toList());
+
+        if (userInfo.isAdmin) {
+            return new JsonResult(new NotificationsData(notificationAttributes));
+        }
+
+        // Update shown attribute once a non-admin user fetches unread notifications
+        for (NotificationAttributes n : notificationAttributes) {
+            if (n.isShown()) {
+                continue;
+            }
+            try {
+                NotificationAttributes.UpdateOptions newNotification =
+                        NotificationAttributes.updateOptionsBuilder(n.getNotificationId())
+                                .withShown()
+                                .build();
+                logic.updateNotification(newNotification);
+            } catch (InvalidParametersException e) {
+                throw new InvalidHttpParameterException(e);
+            } catch (EntityDoesNotExistException ednee) {
+                throw new EntityNotFoundException(ednee);
+            }
+        }
+        return new JsonResult(new NotificationsData(notificationAttributes));
     }
 }

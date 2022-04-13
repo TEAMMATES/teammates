@@ -1,3 +1,7 @@
+<frontmatter>
+  title: "Overview"
+</frontmatter>
+
 # Overview
 
 ## Vision
@@ -33,3 +37,4 @@ We apply these principles to meet the challenges stated above.
 + **We know what we are doing**: For us, it is not enough to know something is broken, we should also know why it is broken. It is not enough to get something working, we should know how we got it to work.
 + **We seek the best, not stop at the first**: We do not settle for the first workable method to solve a problem. We study other ways of solving it and decide what is the best way for us.
 + **We take pains to save the team from pain**: Whenever we had to spend effort in figuring out something, we refine code/documents so that others don't have to go through the same pain. Whenever we figured out a less painful way of doing something, we make sure everyone in the team learn it too.
+

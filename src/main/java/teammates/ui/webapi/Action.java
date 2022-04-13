@@ -184,11 +184,11 @@ public abstract class Action {
      */
     boolean getBooleanRequestParamValue(String paramName) {
         String value = getNonNullRequestParamValue(paramName);
-        try {
+        if ("true".equalsIgnoreCase(value) || "false".equalsIgnoreCase(value)) {
             return Boolean.parseBoolean(value);
-        } catch (IllegalArgumentException e) {
+        } else {
             throw new InvalidHttpParameterException(
-                    "Expected boolean value for " + paramName + " parameter, but found: [" + value + "]", e);
+                    "Expected boolean value for " + paramName + " parameter, but found: [" + value + "]");
         }
     }
 

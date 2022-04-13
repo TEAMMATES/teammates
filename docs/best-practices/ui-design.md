@@ -1,3 +1,7 @@
+<frontmatter>
+  title: "Best Practices: UI Design"
+</frontmatter>
+
 # UI Design Best Practices
 
 The goal is to make the user guide unnecessary.

@@ -1,8 +1,17 @@
-# Documentation For Developers
+# TEAMMATES
+
+TEAMMATES is a free online tool for managing peer evaluations and other feedback paths of your students. It is provided as a cloud-based service for educators/students and is currently used by hundreds of universities across the world.
+
+## Interested to join TEAMMATES developer team?
+
+We welcome contributions from developers, especially students. Here are some resources:
+
+* [**Contributor Orientation Guide**](contributing-doc.md): This document describes what you need to know/do to become a contributor.
+* [**Project ideas page**](https://github.com/TEAMMATES/teammates/wiki): These are for those who would like to do a relatively bigger projects with TEAMMATES (e.g. summer internships).
+
+## Documentation For Developers
 
 Here are some documents important for TEAMMATES developers.
-
-## Main documents
 
 * The project [**vision, challenges, and principles**](overview.md) from a developer's perspective.
 * The [**glossary**](glossary.md) of terms used in the project.
@@ -13,7 +22,7 @@ Here are some documents important for TEAMMATES developers.
 * [**Developer Troubleshooting Guide**](troubleshooting-guide.md)
 * How the [**issue tracker**](issues.md) is used - issue lifecycle, issue labels, etc.
 
-## Supplementary documents
+### Supplementary documents
 
 * **Coding standards** for:
   [Java](https://oss-generic.github.io/process/codingStandards/CodingStandard-Java.html),
@@ -26,10 +35,9 @@ Here are some documents important for TEAMMATES developers.
   * [Testing](best-practices/testing.md)
   * [Data migration](best-practices/data-migration.md)
 
-## How-to documents
-
-* [Static analysis](static-analysis.md): Performing code quality check.
-* [Setting up third-party email providers](emails.md).
-* [Setting up CAPTCHA](captcha.md).
-* [Snapshot testing](snapshot-testing.md)
-* [E2E testing](e2e-testing.md)
+* **How-to guides** for:
+  * [Static analysis](static-analysis.md): Performing code quality checks
+  * [Setting up third-party email providers](emails.md)
+  * [Setting up CAPTCHA](captcha.md)
+  * [Snapshot testing](snapshot-testing.md)
+  * [E2E testing](e2e-testing.md)

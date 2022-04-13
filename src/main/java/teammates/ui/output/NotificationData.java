@@ -72,11 +72,4 @@ public class NotificationData extends ApiOutput {
     public boolean isShown() {
         return this.shown;
     }
-
-    /**
-     * Hides some attributes to instructor and students without appropriate privilege.
-     */
-    public void hideInformationForNonAdmin() {
-        // TODO: hide information that might be admin-only: target users, isShown, (starttime and endtime)
-    }
 }
