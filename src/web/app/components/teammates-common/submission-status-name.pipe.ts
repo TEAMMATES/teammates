@@ -1,4 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { DeadlineExtensionHelper } from '../../../services/deadline-extension-helper';
 import { FeedbackSessionSubmissionStatus } from '../../../types/api-output';
 
 /**
@@ -12,20 +13,32 @@ export class SubmissionStatusNamePipe implements PipeTransform {
   /**
    * Transforms {@link FeedbackSessionSubmissionStatus} to a simple name.
    */
-  transform(status: FeedbackSessionSubmissionStatus): string {
+  transform(status: FeedbackSessionSubmissionStatus, deadlines?: {
+    studentDeadlines: Record<string, number>, instructorDeadlines: Record<string, number>,
+  }): string {
+    let string = '';
     switch (status) {
       case FeedbackSessionSubmissionStatus.NOT_VISIBLE:
       case FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN:
-        return 'Awaiting';
+        string += 'Awaiting';
+        break;
       case FeedbackSessionSubmissionStatus.OPEN:
-        return 'Open';
+        string += 'Open';
+        break;
       case FeedbackSessionSubmissionStatus.GRACE_PERIOD:
-        return 'Open (grace period)';
+        string += 'Open (grace period)';
+        break;
       case FeedbackSessionSubmissionStatus.CLOSED:
-        return 'Closed';
+        string += 'Closed';
+        break;
       default:
         return 'Unknown';
     }
-  }
 
+    if (deadlines && DeadlineExtensionHelper.hasOngoingExtension(deadlines)) {
+      string += ' (Ext. ongoing)';
+    }
+
+    return string;
+  }
 }
