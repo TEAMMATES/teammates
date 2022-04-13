@@ -1,8 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ResourceEndpoints } from '../types/api-const';
-import { MessageOutput, Notification, Notifications, NotificationTargetUser } from '../types/api-output';
-import { NotificationCreateRequest, NotificationUpdateRequest } from '../types/api-request';
+import { Account, MessageOutput, Notification, Notifications, NotificationTargetUser } from '../types/api-output';
+import {
+  MarkNotificationAsReadRequest,
+  NotificationCreateRequest,
+  NotificationUpdateRequest,
+} from '../types/api-request';
 import { HttpRequestService } from './http-request.service';
 
 /**
@@ -33,20 +37,27 @@ export class NotificationService {
    * Updates a notification by calling API.
    */
   updateNotification(request: NotificationUpdateRequest, notificationId: string): Observable<Notification> {
-    const paramsMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       notificationid: notificationId,
     };
-    return this.httpRequestService.put(ResourceEndpoints.NOTIFICATION, paramsMap, request);
+    return this.httpRequestService.put(ResourceEndpoints.NOTIFICATION, paramMap, request);
   }
 
   /**
    * Deletes a notification by calling API.
    */
   deleteNotification(notificationId: string): Observable<MessageOutput> {
-    const paramsMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       notificationid: notificationId,
     };
-    return this.httpRequestService.delete(ResourceEndpoints.NOTIFICATION, paramsMap);
+    return this.httpRequestService.delete(ResourceEndpoints.NOTIFICATION, paramMap);
+  }
+
+  /**
+   * Marks a notification as read.
+   */
+  markNotificationAsRead(request: MarkNotificationAsReadRequest): Observable<Account> {
+    return this.httpRequestService.post(ResourceEndpoints.NOTIFICATION_READ, {}, request);
   }
 
   /**

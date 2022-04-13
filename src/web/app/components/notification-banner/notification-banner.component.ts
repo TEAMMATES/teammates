@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NotificationService } from '../../../services/notification.service';
+import { StatusMessageService } from '../../../services/status-message.service';
 import { Notification, Notifications, NotificationTargetUser } from '../../../types/api-output';
+import { ErrorMessageOutput } from '../../error-message-output';
 import { collapseAnim } from '../teammates-common/collapse-anim';
 
 /**
@@ -20,7 +22,8 @@ export class NotificationBannerComponent implements OnInit {
   isShown: boolean = true;
   notifications: Notification[] = [];
 
-  constructor(private notificationService: NotificationService) { }
+  constructor(private notificationService: NotificationService,
+              private statusMessageService: StatusMessageService) { }
 
   ngOnInit(): void {
     if (this.notificationTargetUser !== NotificationTargetUser.GENERAL) {
@@ -33,6 +36,22 @@ export class NotificationBannerComponent implements OnInit {
       .subscribe((response: Notifications) => {
         this.notifications = response.notifications;
       });
+  }
+
+  markNotificationAsRead(notification: Notification): void {
+    this.notificationService.markNotificationAsRead({
+      notificationId: notification.notificationId,
+      endTimestamp: notification.endTimestamp,
+    })
+      .subscribe(
+        () => {
+          this.statusMessageService.showSuccessToast('Notification marked as read.');
+          this.closeNotification();
+        },
+        (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
+      );
   }
 
   closeNotification(): void {

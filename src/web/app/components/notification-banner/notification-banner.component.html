@@ -1,7 +1,10 @@
 <div class="banner" [ngClass]="notifications[0].style | notificationStyleClass" *ngIf="isShown && notifications.length > 0" @collapseAnim>
-  <button type="button" class="close" aria-label="Close" (click)="closeNotification()">
+  <button id="btn-close-notif" type="button" class="close" aria-label="Close" (click)="closeNotification()">
     <span aria-hidden="true">&times;</span>
   </button>
   <h5>{{ notifications[0].title }}</h5>
   <div class="banner-text" [innerHTML]="notifications[0].message"></div>
+  <button id="btn-mark-as-read" class="float-right btn btn-primary" (click)="markNotificationAsRead(notifications[0])">
+    Mark as Read
+  </button>
 </div>
