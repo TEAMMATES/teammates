@@ -57,4 +57,8 @@ export class NotificationBannerComponent implements OnInit {
   closeNotification(): void {
     this.isShown = false;
   }
+
+  getButtonClass(notification: Notification): string {
+    return `btn btn-${notification.style.toLowerCase()}`;
+  }
 }
