@@ -120,6 +120,14 @@ public final class NotificationsDb extends EntitiesDb<Notification, Notification
         deleteEntity(Key.create(Notification.class, notificationId));
     }
 
+    /**
+     * Checks if a notification associated with {@code notificationId} exists.
+     */
+    public boolean doesNotificationExists(String notificationId) {
+        Key<Notification> keyToFind = Key.create(Notification.class, notificationId);
+        return !load().filterKey(keyToFind).keys().list().isEmpty();
+    }
+
     private Notification getNotificationEntity(String notificationId) {
         return load().id(notificationId).now();
     }

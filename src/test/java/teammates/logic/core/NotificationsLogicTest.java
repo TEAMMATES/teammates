@@ -38,65 +38,16 @@ public class NotificationsLogicTest extends BaseLogicTest {
 
     @Test
     public void testAll() throws Exception {
+        // include all tests that do not modify the database.
+        // tests such as create, delete and update are tested separately.
         testGetNotification();
         testGetAllNotifications();
         testGetActiveNotificationsByTargetUser();
-        testCreateNotification();
-        testUpdateNotification();
-        testDeleteNotification();
+        testDoesNotificationExists();
     }
 
-    private void testGetNotification() {
-        n = typicalNotifications.get("notification1");
-
-        ______TS("success: typical case");
-
-        NotificationAttributes actual = notifLogic.getNotification(n.getNotificationId());
-        assertNotNull(actual);
-        verifyNotificationEquals(n, actual);
-
-        ______TS("failure: null parameter");
-
-        assertThrows(AssertionError.class,
-                () -> notifLogic.getNotification(null));
-
-        ______TS("failure: non-existent notification");
-
-        assertNull(notifLogic.getNotification("invalid_notification_id"));
-    }
-
-    private void testGetAllNotifications() {
-        ______TS("success: retrieve all notifications that exist in database");
-
-        List<NotificationAttributes> actual = notifLogic.getAllNotifications();
-        assertNotNull(actual);
-        typicalNotifications.values().forEach(n -> {
-            assertTrue(actual.contains(n));
-            actual.remove(n);
-        });
-    }
-
-    private void testGetActiveNotificationsByTargetUser() {
-        ______TS("success: valid target user");
-
-        List<NotificationAttributes> actual =
-                notifLogic.getActiveNotificationsByTargetUser(NotificationTargetUser.STUDENT);
-
-        assertNotNull(actual);
-
-        Set<NotificationAttributes> expected = new HashSet<>();
-        expected.add(typicalNotifications.get("notification1"));
-        expected.add(typicalNotifications.get("notification2"));
-        expected.add(typicalNotifications.get("notification4"));
-        expected.add(typicalNotifications.get("notification6"));
-
-        expected.forEach(n -> {
-            assertTrue(actual.contains(n));
-            actual.remove(n);
-        });
-    }
-
-    private void testCreateNotification() throws Exception {
+    @Test
+    public void testCreateNotification() throws Exception {
         ______TS("success: typical case");
 
         n = getNewNotificationAttributes();
@@ -124,7 +75,8 @@ public class NotificationsLogicTest extends BaseLogicTest {
         verifyAbsentInDatabase(n);
     }
 
-    private void testUpdateNotification() throws Exception {
+    @Test
+    public void testUpdateNotification() throws Exception {
         ______TS("success: typical case");
 
         n = typicalNotifications.get("notification1");
@@ -177,7 +129,8 @@ public class NotificationsLogicTest extends BaseLogicTest {
         assertThrows(AssertionError.class, () -> notifLogic.updateNotification(null));
     }
 
-    private void testDeleteNotification() {
+    @Test
+    public void testDeleteNotification() {
         ______TS("success: delete corresponding notification");
 
         n = typicalNotifications.get("notification1");
@@ -200,6 +153,67 @@ public class NotificationsLogicTest extends BaseLogicTest {
         ______TS("failure: null parameter");
 
         assertThrows(AssertionError.class, () -> notifLogic.deleteNotification(null));
+    }
+
+    private void testGetNotification() {
+        n = typicalNotifications.get("notification1");
+
+        ______TS("success: typical case");
+
+        NotificationAttributes actual = notifLogic.getNotification(n.getNotificationId());
+        assertNotNull(actual);
+        verifyNotificationEquals(n, actual);
+
+        ______TS("failure: null parameter");
+
+        assertThrows(AssertionError.class,
+                () -> notifLogic.getNotification(null));
+
+        ______TS("failure: non-existent notification");
+
+        assertNull(notifLogic.getNotification("invalid_notification_id"));
+    }
+
+    private void testGetAllNotifications() {
+        ______TS("success: retrieve all notifications that exist in database");
+
+        List<NotificationAttributes> actual = notifLogic.getAllNotifications();
+        assertNotNull(actual);
+        typicalNotifications.values().forEach(n -> {
+            assertTrue(actual.contains(n));
+            actual.remove(n);
+        });
+    }
+
+    private void testGetActiveNotificationsByTargetUser() {
+        ______TS("success: valid target user");
+
+        List<NotificationAttributes> actual =
+                notifLogic.getActiveNotificationsByTargetUser(NotificationTargetUser.STUDENT);
+
+        assertNotNull(actual);
+
+        Set<NotificationAttributes> expected = new HashSet<>();
+        expected.add(typicalNotifications.get("notification1"));
+        expected.add(typicalNotifications.get("notification2"));
+        expected.add(typicalNotifications.get("notification4"));
+        expected.add(typicalNotifications.get("notification6"));
+
+        expected.forEach(n -> {
+            assertTrue(actual.contains(n));
+            actual.remove(n);
+        });
+    }
+
+    private void testDoesNotificationExists() {
+        ______TS("case 1: true if notification exists");
+
+        n = typicalNotifications.get("notification1");
+        assertTrue(notifLogic.doesNotificationExists(n.getNotificationId()));
+
+        ______TS("case 2: false if notification does not exist");
+
+        assertFalse(notifLogic.doesNotificationExists("invalid-id"));
     }
 
     private NotificationAttributes getNewNotificationAttributes() {
