@@ -9,6 +9,7 @@ import java.util.Objects;
 
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
+import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
@@ -27,7 +28,8 @@ public class NotificationAttributes extends EntityAttributes<Notification> {
     private String title;
     private String message;
     private boolean shown;
-    private transient Instant createdAt;
+    // createdAt is not transient as it is used for the frontend to sort by creation datetime.
+    private Instant createdAt;
     private transient Instant updatedAt;
 
     private NotificationAttributes(String notificationId) {
@@ -156,7 +158,7 @@ public class NotificationAttributes extends EntityAttributes<Notification> {
     }
 
     public Instant getUpdatedAt() {
-        return updatedAt;
+        return this.updatedAt == null ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : this.updatedAt;
     }
 
     public void setUpdatedAt(Instant updatedAt) {
