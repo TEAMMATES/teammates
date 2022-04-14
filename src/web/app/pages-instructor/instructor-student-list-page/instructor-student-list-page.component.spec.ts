@@ -2,11 +2,9 @@ import { HttpStatusCode } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
-import { of, throwError } from 'rxjs';
-import { CourseService } from '../../../services/course.service';
+import { throwError } from 'rxjs';
 import { StudentService } from '../../../services/student.service';
 import { Course } from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
@@ -19,7 +17,6 @@ describe('InstructorStudentListPageComponent', () => {
   let component: InstructorStudentListPageComponent;
   let fixture: ComponentFixture<InstructorStudentListPageComponent>;
   let studentService: StudentService;
-  let courseService: CourseService;
 
   const course1: Course = {
     courseId: 'course1Id',
@@ -93,7 +90,6 @@ describe('InstructorStudentListPageComponent', () => {
       ],
       providers: [
         StudentService,
-        CourseService,
       ],
     })
     .compileComponents();
@@ -102,7 +98,6 @@ describe('InstructorStudentListPageComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(InstructorStudentListPageComponent);
     studentService = TestBed.inject(StudentService);
-    courseService = TestBed.inject(CourseService);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -125,21 +120,11 @@ describe('InstructorStudentListPageComponent', () => {
   });
 
   it('should snap with a course with students the instructor has no permission to view', () => {
-    jest.spyOn(courseService, 'getAllCoursesAsInstructor').mockReturnValue(of({
-      courses: [course1],
-    }));
-    component.loadCourses();
-    fixture.detectChanges();
-    jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(throwError({
-      status: HttpStatusCode.Forbidden,
-      error: {
-        message: 'You are not authorized to access this resource.',
-      },
-    }));
-    const expectedIndex = 0;
-    const courseTabCardHeaderDe: any = fixture.debugElement
-      .query(By.css(`#course-tab-card-header-${expectedIndex}`));
-    courseTabCardHeaderDe.triggerEventHandler('click', null);
+    component.courseTabList.push(course1Tab);
+    component.isLoadingCourses = false;
+    component.courseTabList[0].hasTabExpanded = true;
+    component.courseTabList[0].hasStudentLoaded = true;
+    component.courseTabList[0].isAbleToViewStudents = false;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });

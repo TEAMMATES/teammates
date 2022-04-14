@@ -32,7 +32,6 @@ exports[`InstructorStudentListPageComponent should snap with a course with stude
       >
         <div
           class="card-header cursor-pointer bg-primary text-white"
-          id="course-tab-card-header-0"
         >
           <strong
             class="text-break"
