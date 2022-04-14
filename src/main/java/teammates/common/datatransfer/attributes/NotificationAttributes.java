@@ -27,8 +27,8 @@ public class NotificationAttributes extends EntityAttributes<Notification> {
     private String title;
     private String message;
     private boolean shown;
-    private Instant createdAt;
-    private Instant updatedAt;
+    private transient Instant createdAt;
+    private transient Instant updatedAt;
 
     private NotificationAttributes(String notificationId) {
         this.notificationId = notificationId;
