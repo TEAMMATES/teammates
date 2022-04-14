@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -49,6 +50,11 @@ public class InstructorStudentListPage extends AppPage {
                 waitUntilAnimationFinish();
             }
         }
+    }
+
+    public void verifyAllCoursesHaveTabs(Collection<CourseAttributes> courses) {
+        List<WebElement> courseTabs = getCoursesTabs();
+        assertEquals(courses.size(), courseTabs.size());
     }
 
     public void verifyStudentDetails(Map<String, CourseAttributes> courses, Map<String, StudentAttributes[]> students) {

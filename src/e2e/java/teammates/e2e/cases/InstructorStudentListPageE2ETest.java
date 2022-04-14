@@ -39,6 +39,8 @@ public class InstructorStudentListPageE2ETest extends BaseE2ETestCase {
         AppUrl listPageUrl = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_STUDENT_LIST_PAGE);
         InstructorStudentListPage listPage = loginToPage(listPageUrl, InstructorStudentListPage.class, instructorId);
 
+        listPage.verifyAllCoursesHaveTabs(testData.courses.values());
+
         CourseAttributes course1 = testData.courses.get("course1");
         CourseAttributes course2 = testData.courses.get("course2");
         CourseAttributes course3 = testData.courses.get("course3");
