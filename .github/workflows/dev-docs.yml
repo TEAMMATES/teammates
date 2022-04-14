@@ -21,6 +21,8 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: 12
+      - name: Install Graphviz
+        run: sudo apt install graphviz
       - run: npm ci
       - run: npm run build
       - name: Check build status
