@@ -13,6 +13,11 @@ All the commands in this document are assumed to be run from the `/docs` folder,
 1. Install `Node.js` (minimum version 12).
 1. Run `npm ci` to install the necessary tools to build documentation, including MarkBind.
 
+Install the following additional dependencies required by MarkBind to generate [PlantUML](https://plantuml.com/) diagrams locally:
+
+1. Install [Java](https://www.java.com/en/download/) 8 (or later).
+1. Install [Graphviz](https://www.graphviz.org/download/) v2.38 (or later).
+
 <box type="tip" light>
 
 You can also use a globally installed MarkBind if you have one. Make sure to use version `3.*.*`.
