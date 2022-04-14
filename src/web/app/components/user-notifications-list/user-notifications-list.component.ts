@@ -121,6 +121,10 @@ export class UserNotificationsListComponent implements OnInit {
       );
   }
 
+  getBodyTextClass(notificationTab: NotificationTab): string {
+    return notificationTab.isRead ? 'card-body' : 'card-body pb-0';
+  }
+
   getButtonClass(notificationTab: NotificationTab): string {
     return `btn btn-${notificationTab.notification.style.toLowerCase()}`;
   }

@@ -15,7 +15,7 @@ public class GetReadNotificationsAction extends Action {
 
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
-        // Any user can create a read status for notification.
+        // Any user can get the read notifications for their account.
     }
 
     @Override

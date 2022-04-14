@@ -93,6 +93,6 @@ export class NotificationService {
    * Retrieves read notifications for the user.
    */
   getReadNotifications(): Observable<ReadNotifications> {
-    return this.httpRequestService.get(ResourceEndpoints.NOTIFICATION_READ, {});
+    return this.httpRequestService.get(ResourceEndpoints.NOTIFICATION_READ);
   }
 }
