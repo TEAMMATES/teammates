@@ -430,13 +430,11 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
           this.sessionEditFormModel.timeZone, true);
     }
 
-    this.handleValidationAndUpdateOfDeadlines(submissionEndTime).subscribe((isUpdateSession) => {
-      if (!isUpdateSession) {
-        return;
+    this.handlePromptDeletionOfDeadlines(submissionEndTime).subscribe((isUpdateSession) => {
+      if (isUpdateSession) {
+        this.updateFeedbackSession(submissionStartTime, submissionEndTime, sessionVisibleTime, responseVisibleTime);
       }
-      this.updateFeedbackSession(submissionStartTime, submissionEndTime, sessionVisibleTime, responseVisibleTime);
     });
-
   }
 
   updateFeedbackSession(submissionStartTime: number, submissionEndTime: number, sessionVisibleTime: number,
@@ -473,7 +471,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     });
   }
 
-  handleValidationAndUpdateOfDeadlines(submissionEndTimestamp: number): Observable<boolean> {
+  handlePromptDeletionOfDeadlines(submissionEndTimestamp: number): Observable<boolean> {
     const hasDeadlinesBeforeUpdatedEndTime = DeadlineExtensionHelper
       .hasDeadlinesBeforeUpdatedEndTime(this.studentDeadlines, this.instructorDeadlines, submissionEndTimestamp);
 
@@ -481,19 +479,10 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       return of(true); // no need to prompt for deletion
     }
 
-    const affectedStudentDeadlines = DeadlineExtensionHelper.setDeadlinesBeforeEndTime(
-      this.studentDeadlines, submissionEndTimestamp);
-    const affectedInstructorDeadlines = DeadlineExtensionHelper.setDeadlinesBeforeEndTime(
-      this.instructorDeadlines, submissionEndTimestamp);
-    const affectedStudents = this.studentsOfCourse.filter((student) => affectedStudentDeadlines[student.email]);
-    const affectedInstructors = this.instructorsCanBePreviewedAs
-      .filter((instructor) => affectedInstructorDeadlines[instructor.email]);
-    const affectedStudentModels = DeadlineExtensionHelper.mapStudentsToStudentModels(
-      affectedStudents, affectedStudentDeadlines, submissionEndTimestamp,
-    );
-    const affectedInstructorModels = DeadlineExtensionHelper.mapInstructorsToInstructorModels(
-      affectedInstructors, affectedInstructorDeadlines, submissionEndTimestamp,
-    );
+    const [affectedStudentDeadlines, affectedInstructorDeadlines] = this
+      .getAffectedIndividualDeadlines(submissionEndTimestamp);
+    const [affectedStudentModels, affectedInstructorModels] = this
+      .getAffectedIndividualModels(submissionEndTimestamp, affectedStudentDeadlines, affectedInstructorDeadlines);
 
     const modalRef: NgbModalRef = this.ngbModal.open(ExtensionConfirmModalComponent);
     modalRef.componentInstance.modalType = ExtensionModalType.VALIDATE_DEADLINE;
@@ -513,6 +502,34 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
         subscribeIsUserAccept.next(false);
       });
     });
+  }
+
+  private getAffectedIndividualDeadlines(submissionEndTimestamp: number): [
+    Record<string, number>, Record<string, number>,
+  ] {
+    const affectedStudentDeadlines = DeadlineExtensionHelper.setDeadlinesBeforeEndTime(
+      this.studentDeadlines, submissionEndTimestamp);
+    const affectedInstructorDeadlines = DeadlineExtensionHelper.setDeadlinesBeforeEndTime(
+      this.instructorDeadlines, submissionEndTimestamp);
+    return [affectedStudentDeadlines, affectedInstructorDeadlines];
+  }
+
+  private getAffectedIndividualModels(
+    submissionEndTimestamp: number,
+    affectedStudentDeadlines: Record<string, number>,
+    affectedInstructorDeadlines: Record<string, number>,
+  ): [StudentExtensionTableColumnModel[], InstructorExtensionTableColumnModel[]] {
+    const affectedStudents = this.studentsOfCourse.filter((student) => affectedStudentDeadlines[student.email]);
+    const affectedInstructors = this.instructorsCanBePreviewedAs
+      .filter((instructor) => affectedInstructorDeadlines[instructor.email]);
+
+    const affectedStudentModels = DeadlineExtensionHelper.mapStudentsToStudentModels(
+      affectedStudents, affectedStudentDeadlines, submissionEndTimestamp,
+    );
+    const affectedInstructorModels = DeadlineExtensionHelper.mapInstructorsToInstructorModels(
+      affectedInstructors, affectedInstructorDeadlines, submissionEndTimestamp,
+    );
+    return [affectedStudentModels, affectedInstructorModels];
   }
 
   updateDeadlines(affectedStudents: StudentExtensionTableColumnModel[],

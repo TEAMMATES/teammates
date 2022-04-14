@@ -63,7 +63,6 @@ export class DeadlineExtensionHelper {
         studentData.hasExtension = true;
         studentData.extensionDeadline = studentDeadlines[student.email];
       }
-
       return studentData;
     });
   }
@@ -107,7 +106,6 @@ export class DeadlineExtensionHelper {
         delete record[x.email];
       });
     }
-
     return record;
   }
 }

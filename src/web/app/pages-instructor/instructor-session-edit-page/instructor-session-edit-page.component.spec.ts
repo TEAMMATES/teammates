@@ -720,7 +720,7 @@ describe('InstructorSessionEditPageComponent', () => {
     jest.spyOn(ngbModal, 'open');
     jest.spyOn(timeZoneService, 'resolveLocalDateTime').mockReturnValue(testFeedbackSession.submissionEndTimestamp);
     const validateSpy = jest.spyOn(InstructorSessionEditPageComponent.prototype,
-      'handleValidationAndUpdateOfDeadlines');
+      'handlePromptDeletionOfDeadlines');
     component.studentDeadlines = testStudentDeadlines;
     component.instructorDeadlines = testInstructorDeadlines;
     component.sessionEditFormModel = sessionEditFormModel;
