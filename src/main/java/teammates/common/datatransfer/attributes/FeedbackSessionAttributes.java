@@ -119,24 +119,24 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
      * Creates a copy that uses the specific deadline for the given student.
      *
      * @param studentEmail The email address of the given student.
-     * @return The sanitized copy of this object for the given student.
+     * @return The copy of this object for the given student.
      */
-    public FeedbackSessionAttributes sanitizeForStudent(String studentEmail) {
-        FeedbackSessionAttributes sanitizedCopy = getCopy();
-        sanitizedCopy.deadlineSupplier = () -> studentDeadlines.getOrDefault(studentEmail, endTime);
-        return sanitizedCopy;
+    public FeedbackSessionAttributes getCopyForStudent(String studentEmail) {
+        FeedbackSessionAttributes copy = getCopy();
+        copy.deadlineSupplier = () -> studentDeadlines.getOrDefault(studentEmail, endTime);
+        return copy;
     }
 
     /**
      * Creates a copy that uses the specific deadline for the given instructor.
      *
      * @param instructorEmail The email address of the given instructor.
-     * @return The sanitized copy of this object for the given instructor.
+     * @return The copy of this object for the given instructor.
      */
-    public FeedbackSessionAttributes sanitizeForInstructor(String instructorEmail) {
-        FeedbackSessionAttributes sanitizedCopy = getCopy();
-        sanitizedCopy.deadlineSupplier = () -> instructorDeadlines.getOrDefault(instructorEmail, endTime);
-        return sanitizedCopy;
+    public FeedbackSessionAttributes getCopyForInstructor(String instructorEmail) {
+        FeedbackSessionAttributes copy = getCopy();
+        copy.deadlineSupplier = () -> instructorDeadlines.getOrDefault(instructorEmail, endTime);
+        return copy;
     }
 
     public String getCourseId() {

@@ -78,7 +78,7 @@ class GetFeedbackSessionAction extends BasicFeedbackSubmissionAction {
     private FeedbackSessionData getFilteredStudentFeedbackSessionData(FeedbackSessionAttributes session) {
         StudentAttributes student = getStudentOfCourseFromRequest(session.getCourseId());
         String email = student.getEmail();
-        FeedbackSessionData response = new FeedbackSessionData(session.sanitizeForStudent(email));
+        FeedbackSessionData response = new FeedbackSessionData(session.getCopyForStudent(email));
         response.filterDeadlinesForStudent(email);
         return response;
     }
@@ -86,7 +86,7 @@ class GetFeedbackSessionAction extends BasicFeedbackSubmissionAction {
     private FeedbackSessionData getFilteredInstructorFeedbackSessionData(FeedbackSessionAttributes session) {
         InstructorAttributes instructor = getInstructorOfCourseFromRequest(session.getCourseId());
         String email = instructor.getEmail();
-        FeedbackSessionData response = new FeedbackSessionData(session.sanitizeForInstructor(email));
+        FeedbackSessionData response = new FeedbackSessionData(session.getCopyForInstructor(email));
         response.filterDeadlinesForInstructor(email);
         return response;
     }
