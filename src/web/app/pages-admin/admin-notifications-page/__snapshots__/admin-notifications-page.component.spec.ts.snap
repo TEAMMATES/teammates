@@ -177,7 +177,7 @@ exports[`AdminNotificationsPageComponent should snap when notification edit form
                   </select>
                 </div>
                 <div
-                  class="col-md-auto text-md-middle d-flex bg-success text-white"
+                  class="col-md-auto text-md-middle d-flex alert alert-success"
                 >
                   <span
                     class="align-self-center"

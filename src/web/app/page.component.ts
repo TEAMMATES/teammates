@@ -16,6 +16,7 @@ import { mapTo } from 'rxjs/operators';
 import uaParser from 'ua-parser-js';
 import { environment } from '../environments/environment';
 import { StatusMessageService } from '../services/status-message.service';
+import { NotificationTargetUser } from '../types/api-output';
 import { Toast } from './components/toast/toast';
 
 const DEFAULT_TITLE: string = 'TEAMMATES - Online Peer Feedback/Evaluation System for Student Team Projects';
@@ -30,6 +31,9 @@ const DEFAULT_TITLE: string = 'TEAMMATES - Online Peer Feedback/Evaluation Syste
 })
 export class PageComponent {
 
+  // enum
+  NotificationTargetUser: typeof NotificationTargetUser = NotificationTargetUser;
+
   @Input() isFetchingAuthDetails: boolean = false;
   @Input() studentLoginUrl: string = '';
   @Input() instructorLoginUrl: string = '';
@@ -39,6 +43,7 @@ export class PageComponent {
   @Input() isAdmin: boolean = false;
   @Input() isMaintainer: boolean = false;
   @Input() isValidUser: boolean = false;
+  @Input() notificationTargetUser: NotificationTargetUser = NotificationTargetUser.GENERAL;
   @Input() pageTitle: string = '';
   @Input() hideAuthInfo: boolean = false;
   @Input() navItems: any[] = [];
