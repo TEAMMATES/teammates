@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ResourceEndpoints } from '../types/api-const';
 import {
-  Account,
   MessageOutput,
   Notification,
   Notifications,
@@ -63,14 +62,14 @@ export class NotificationService {
   /**
    * Marks a notification as read.
    */
-  markNotificationAsRead(request: MarkNotificationAsReadRequest): Observable<Account> {
+  markNotificationAsRead(request: MarkNotificationAsReadRequest): Observable<ReadNotifications> {
     return this.httpRequestService.post(ResourceEndpoints.NOTIFICATION_READ, {}, request);
   }
 
   /**
    * Retrieves unread notifications for a specific target user type.
    */
-   getUnreadNotificationsForTargetUser(userType: NotificationTargetUser): Observable<Notifications> {
+  getUnreadNotificationsForTargetUser(userType: NotificationTargetUser): Observable<Notifications> {
     const paramMap: Record<string, string> = {
       usertype: userType,
       isfetchingall: 'false',

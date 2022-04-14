@@ -5,7 +5,6 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import {
-  Account,
   Notification,
   Notifications,
   NotificationTargetUser,
@@ -109,8 +108,8 @@ export class UserNotificationsListComponent implements OnInit {
       endTimestamp: notification.endTimestamp,
     })
       .subscribe(
-        (account: Account) => {
-          this.readNotifications = new Set(Object.keys(account.readNotifications));
+        (readNotifications: ReadNotifications) => {
+          this.readNotifications = new Set(readNotifications.readNotifications);
           notificationTab.isRead = true;
           this.statusMessageService.showSuccessToast('Notification marked as read.');
           notificationTab.hasTabExpanded = false;
