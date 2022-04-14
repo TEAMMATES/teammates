@@ -35,6 +35,7 @@ export class NotificationBannerComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(): void {
+    // Hide the notification banner if the user is on user notifications page
     if (this.url.includes('notifications')) {
       this.closeNotification();
     }
