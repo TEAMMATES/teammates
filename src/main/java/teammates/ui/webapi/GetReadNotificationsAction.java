@@ -5,7 +5,7 @@ import java.util.List;
 import teammates.ui.output.ReadNotificationsData;
 
 /**
- * Action: Gets read notifications in account entity.
+ * Action: Gets read notifications from account entity.
  */
 public class GetReadNotificationsAction extends Action {
     @Override
