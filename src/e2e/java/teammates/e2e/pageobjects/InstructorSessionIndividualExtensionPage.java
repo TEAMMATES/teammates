@@ -155,6 +155,12 @@ public class InstructorSessionIndividualExtensionPage extends AppPage {
         }
     }
 
+    public void selectStudents(int... indexes) {
+        for (int index : indexes) {
+            selectStudent(index);
+        }
+    }
+
     public void selectStudent(int index) {
         waitForElementPresence(By.id("student-checkbox-" + index)).click();
         waitUntilAnimationFinish();
