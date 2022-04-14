@@ -16,6 +16,7 @@ import { mapTo } from 'rxjs/operators';
 import uaParser from 'ua-parser-js';
 import { environment } from '../environments/environment';
 import { StatusMessageService } from '../services/status-message.service';
+import { NotificationTargetUser } from '../types/api-output';
 import { Toast } from './components/toast/toast';
 
 const DEFAULT_TITLE: string = 'TEAMMATES - Online Peer Feedback/Evaluation System for Student Team Projects';
@@ -30,6 +31,9 @@ const DEFAULT_TITLE: string = 'TEAMMATES - Online Peer Feedback/Evaluation Syste
 })
 export class PageComponent {
 
+  // enum
+  NotificationTargetUser: typeof NotificationTargetUser = NotificationTargetUser;
+
   @Input() isFetchingAuthDetails: boolean = false;
   @Input() studentLoginUrl: string = '';
   @Input() instructorLoginUrl: string = '';
@@ -39,12 +43,14 @@ export class PageComponent {
   @Input() isAdmin: boolean = false;
   @Input() isMaintainer: boolean = false;
   @Input() isValidUser: boolean = false;
+  @Input() notificationTargetUser: NotificationTargetUser = NotificationTargetUser.GENERAL;
   @Input() pageTitle: string = '';
   @Input() hideAuthInfo: boolean = false;
   @Input() navItems: any[] = [];
 
   isCollapsed: boolean = true;
   isUnsupportedBrowser: boolean = false;
+  isUsingIe: boolean = false;
   isCookieDisabled: boolean = false;
   browser: string = '';
   isNetworkOnline$: Observable<boolean>;
@@ -60,11 +66,10 @@ export class PageComponent {
    * Bootstrap 4 browser support: https://getbootstrap.com/docs/4.0/getting-started/browsers-devices/
    */
   minimumVersions: Record<string, number> = {
-    Chrome: 45,
-    IE: 11,
-    Firefox: 40,
-    Safari: 7,
-    Edge: 44,
+    Chrome: 87,
+    Firefox: 86,
+    Safari: 13,
+    Edge: 88,
   };
 
   constructor(private router: Router, private route: ActivatedRoute, private title: Title,
@@ -112,6 +117,9 @@ export class PageComponent {
     this.browser = `${browser.name} ${browser.version}`;
     this.isUnsupportedBrowser = !this.minimumVersions[browser.name]
         || this.minimumVersions[browser.name] > parseInt(browser.major, 10);
+    if (browser.name === 'IE') {
+      this.isUsingIe = true;
+    }
     this.isCookieDisabled = !navigator.cookieEnabled;
   }
 

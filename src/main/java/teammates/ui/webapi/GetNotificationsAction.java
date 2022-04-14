@@ -49,6 +49,7 @@ public class GetNotificationsAction extends Action {
         if (targetUserString == null && userInfo.isAdmin) {
             // if request is from admin and targetUser is not specified, retrieve all notifications
             notificationAttributes = logic.getAllNotifications();
+            return new JsonResult(new NotificationsData(notificationAttributes));
         } else {
             // retrieve active notification for specified target user
             String targetUserErrorMessage = FieldValidator.getInvalidityInfoForNotificationTargetUser(targetUserString);
