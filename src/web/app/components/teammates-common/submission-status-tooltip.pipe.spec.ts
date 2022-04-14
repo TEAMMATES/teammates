@@ -1,11 +1,11 @@
 import { FeedbackSessionSubmissionStatus } from '../../../types/api-output';
-import { SubmissionStatusNamePipe } from './submission-status-name.pipe';
+import { SubmissionStatusTooltipPipe } from './submission-status-tooltip.pipe';
 
-describe('SubmissionStatusNamePipe', () => {
-  let pipe: SubmissionStatusNamePipe;
+describe('SubmissionStatusTooltipPipe', () => {
+  let pipe: SubmissionStatusTooltipPipe;
 
   beforeEach(() => {
-   pipe = new SubmissionStatusNamePipe();
+    pipe = new SubmissionStatusTooltipPipe();
   });
 
   it('create an instance', () => {
@@ -19,12 +19,14 @@ describe('SubmissionStatusNamePipe', () => {
       instructorDeadlines: {},
     };
     const hasNoOngoingDeadlines = {
-      studentDeadlines: { nonOngoingExtension: new Date('2019-01-01').valueOf() },
-      instructorDeadlines: {},
+      studentDeadlines: { nonOngoingExtension1: new Date('2019-01-01').valueOf() },
+      instructorDeadlines: { nonOngoingExtension2: new Date('2019-02-01').valueOf() },
     };
+
     expect(pipe.transform(FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN, hasNoDeadlines)).toEqual(
       pipe.transform(FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN),
     );
+
     expect(pipe.transform(FeedbackSessionSubmissionStatus.OPEN, hasNoOngoingDeadlines)).toEqual(
       pipe.transform(FeedbackSessionSubmissionStatus.OPEN),
     );
@@ -33,10 +35,11 @@ describe('SubmissionStatusNamePipe', () => {
   it('transform with deadlines correctly', () => {
     jest.useFakeTimers().setSystemTime(new Date('2020-01-01').getTime());
     const hasOngoingDeadlines = {
-      studentDeadlines: { ongoingExtension: new Date('2021-01-01').valueOf() },
-      instructorDeadlines: { nonOngoingExtension: new Date('2019-01-01').valueOf() },
+      studentDeadlines: { ongoingDeadline: new Date('2021-01-01').valueOf() },
+      instructorDeadlines: { nonOngoingDeadline: new Date('2019-01-01').valueOf() },
     };
-    const extensionMessage = '(Ext. ongoing)';
+
+    const extensionMessage = ', with current ongoing individual deadline extensions.';
 
     const notVisibleWithExtension = pipe.transform(FeedbackSessionSubmissionStatus.NOT_VISIBLE, hasOngoingDeadlines);
     expect(notVisibleWithExtension.endsWith(extensionMessage)).toBeTruthy();
