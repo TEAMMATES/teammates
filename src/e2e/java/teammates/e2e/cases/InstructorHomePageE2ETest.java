@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.openqa.selenium.By;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -80,6 +81,9 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
         // use course index instead of searching for course in table to test sorted order of courses
         homePage.verifyCourseTabDetails(otherCourseIndex, otherCourse, otherCourseSessions);
         homePage.verifyCourseTabDetails(courseIndex, course, courseSessions);
+
+        ______TS("notification banner is visible");
+        assertTrue(homePage.isElementVisible(By.className("banner")));
 
         ______TS("verify response rate");
         for (int i = 0; i < courseSessions.length; i++) {

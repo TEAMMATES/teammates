@@ -34,6 +34,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.attributes.NotificationAttributes;
 import teammates.common.util.TimeHelper;
 import teammates.e2e.util.MaximumRetriesExceededException;
 import teammates.e2e.util.RetryManager;
@@ -446,6 +447,19 @@ public abstract class AppPage {
         for (int cellIndex = 0; cellIndex < expectedRowValues.length; cellIndex++) {
             assertEquals(expectedRowValues[cellIndex], cells.get(cellIndex).getText());
         }
+    }
+
+    public void verifyBannerContent(NotificationAttributes expected) {
+        WebElement banner = browser.driver.findElement(By.className("banner"));
+        String title = banner.findElement(By.tagName("h5")).getText();
+        String message = banner.findElement(By.className("banner-text")).getText();
+        assertEquals(expected.getTitle(), title);
+        assertEquals(expected.getMessage().replace("<p>", "").replace("</p>", ""),
+                message);
+    }
+
+    public boolean isBannerVisible() {
+        return isElementVisible(By.className("banner"));
     }
 
     /**

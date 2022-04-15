@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -29,6 +30,7 @@ public class StudentHomePageE2ETest extends BaseE2ETestCase {
         AppUrl url = createFrontendUrl(Const.WebPageURIs.STUDENT_HOME_PAGE);
         StudentHomePage homePage = loginToPage(url, StudentHomePage.class, "tm.e2e.SHome.student");
 
+        ______TS("courses visible to student are shown");
         List<String> courseIds = getAllVisibleCourseIds();
 
         for (int i = 0; i < courseIds.size(); i++) {
@@ -43,6 +45,9 @@ public class StudentHomePageE2ETest extends BaseE2ETestCase {
 
             homePage.verifyVisibleFeedbackSessionToStudents(feedbackSessionName, i);
         }
+
+        ______TS("notification banner is visible");
+        assertTrue(homePage.isElementVisible(By.className("banner")));
     }
 
     private List<String> getAllVisibleCourseIds() {
