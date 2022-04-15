@@ -10,7 +10,7 @@ import {
 export enum ExtensionModalType {
   EXTEND,
   DELETE,
-  SESSION_EDIT_DELETE,
+  SESSION_DELETE,
 }
 
 @Component({
@@ -62,8 +62,8 @@ export class ExtensionConfirmModalComponent {
     return this.modalType === ExtensionModalType.EXTEND;
   }
 
-  isSessionEditDeleteModal(): boolean {
-    return this.modalType === ExtensionModalType.SESSION_EDIT_DELETE;
+  isSessionDeleteModal(): boolean {
+    return this.modalType === ExtensionModalType.SESSION_DELETE;
   }
 
   sortStudentColumnsBy(by: SortBy): void {

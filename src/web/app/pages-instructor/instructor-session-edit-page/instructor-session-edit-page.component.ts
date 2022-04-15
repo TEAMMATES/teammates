@@ -489,7 +489,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       .getAffectedIndividualModels(submissionEndTimestamp, studentDeadlinesToDelete, instructorDeadlinesToDelete);
 
     const modalRef: NgbModalRef = this.ngbModal.open(ExtensionConfirmModalComponent);
-    modalRef.componentInstance.modalType = ExtensionModalType.SESSION_EDIT_DELETE;
+    modalRef.componentInstance.modalType = ExtensionModalType.SESSION_DELETE;
     modalRef.componentInstance.selectedStudents = affectedStudentModels;
     modalRef.componentInstance.selectedInstructors = affectedInstructorModels;
     modalRef.componentInstance.extensionTimestamp = submissionEndTimestamp;
