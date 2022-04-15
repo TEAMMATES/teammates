@@ -42,7 +42,7 @@
     </ul>
   </div>
 </nav>
-<tm-notification-banner *ngIf="(notificationTargetUser !== NotificationTargetUser.GENERAL) && (isStudent || isInstructor)"
+<tm-notification-banner *ngIf="isStudent || isInstructor"
                         [url]="getUrl()"
                         [notificationTargetUser]="notificationTargetUser"></tm-notification-banner>
 <tm-loader-bar></tm-loader-bar>
