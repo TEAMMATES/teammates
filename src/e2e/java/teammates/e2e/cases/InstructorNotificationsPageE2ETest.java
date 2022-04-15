@@ -35,7 +35,7 @@ public class InstructorNotificationsPageE2ETest extends BaseE2ETestCase {
         InstructorNotificationsPage notificationsPage = loginToPage(notificationsPageUrl, InstructorNotificationsPage.class,
                 account.getGoogleId());
 
-        ______TS("verify that only the correct notifications are shown");
+        ______TS("verify that only active notifications with correct target user are shown");
         NotificationAttributes[] notShownNotifications = {
                 testData.notifications.get("notification2"),
                 testData.notifications.get("expiredNotification1"),
