@@ -430,7 +430,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
           this.sessionEditFormModel.timeZone, true);
     }
 
-    this.handlePromptDeletionOfDeadlines(submissionEndTime).subscribe((isUpdateSession) => {
+    this.deleteDeadlineExtensionsHandler(submissionEndTime).subscribe((isUpdateSession) => {
       if (isUpdateSession) {
         this.updateFeedbackSession(submissionStartTime, submissionEndTime, sessionVisibleTime, responseVisibleTime);
       }
@@ -471,7 +471,10 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     });
   }
 
-  handlePromptDeletionOfDeadlines(submissionEndTimestamp: number): Observable<boolean> {
+  /**
+   * Prompts the user to delete individual extensions that are before or equal to the new session end time.
+   */
+  deleteDeadlineExtensionsHandler(submissionEndTimestamp: number): Observable<boolean> {
     const hasDeadlinesBeforeUpdatedEndTime = DeadlineExtensionHelper
       .hasDeadlinesBeforeUpdatedEndTime(this.studentDeadlines, this.instructorDeadlines, submissionEndTimestamp);
 
@@ -479,13 +482,13 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       return of(true); // no need to prompt for deletion
     }
 
-    const [affectedStudentDeadlines, affectedInstructorDeadlines] = this
-      .getAffectedIndividualDeadlines(submissionEndTimestamp);
+    const [studentDeadlinesToDelete, instructorDeadlinesToDelete] = this
+      .getIndividualDeadlinesToDelete(submissionEndTimestamp);
     const [affectedStudentModels, affectedInstructorModels] = this
-      .getAffectedIndividualModels(submissionEndTimestamp, affectedStudentDeadlines, affectedInstructorDeadlines);
+      .getAffectedIndividualModels(submissionEndTimestamp, studentDeadlinesToDelete, instructorDeadlinesToDelete);
 
     const modalRef: NgbModalRef = this.ngbModal.open(ExtensionConfirmModalComponent);
-    modalRef.componentInstance.modalType = ExtensionModalType.VALIDATE_DEADLINE;
+    modalRef.componentInstance.modalType = ExtensionModalType.SESSION_EDIT_DELETE;
     modalRef.componentInstance.selectedStudents = affectedStudentModels;
     modalRef.componentInstance.selectedInstructors = affectedInstructorModels;
     modalRef.componentInstance.extensionTimestamp = submissionEndTimestamp;
@@ -493,8 +496,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
 
     return new Observable((subscribeIsUserAccept) => {
       modalRef.componentInstance.onConfirmExtensionCallBack.subscribe(() => {
-        this.updateDeadlines(affectedStudentModels, affectedInstructorModels, affectedStudentDeadlines,
-          affectedInstructorDeadlines);
+        this.removeDeadlines(affectedStudentModels, affectedInstructorModels);
         modalRef.componentInstance.isSubmitting = false;
         modalRef.close();
         subscribeIsUserAccept.next(true);
@@ -504,16 +506,19 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     });
   }
 
-  private getAffectedIndividualDeadlines(submissionEndTimestamp: number): [
+  private getIndividualDeadlinesToDelete(submissionEndTimestamp: number): [
     Record<string, number>, Record<string, number>,
   ] {
-    const affectedStudentDeadlines = DeadlineExtensionHelper.setDeadlinesBeforeEndTime(
+    const studentDeadlinesToDelete = DeadlineExtensionHelper.setDeadlinesBeforeEndTime(
       this.studentDeadlines, submissionEndTimestamp);
-    const affectedInstructorDeadlines = DeadlineExtensionHelper.setDeadlinesBeforeEndTime(
+    const instructorDeadlinesToDelete = DeadlineExtensionHelper.setDeadlinesBeforeEndTime(
       this.instructorDeadlines, submissionEndTimestamp);
-    return [affectedStudentDeadlines, affectedInstructorDeadlines];
+    return [studentDeadlinesToDelete, instructorDeadlinesToDelete];
   }
 
+  /**
+   * Get models for individuals whose deadline extensions are before or equal to the new session end time.
+   */
   private getAffectedIndividualModels(
     submissionEndTimestamp: number,
     affectedStudentDeadlines: Record<string, number>,
@@ -532,14 +537,16 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     return [affectedStudentModels, affectedInstructorModels];
   }
 
-  updateDeadlines(affectedStudents: StudentExtensionTableColumnModel[],
-    affectedInstructors: InstructorExtensionTableColumnModel[], affectedStudentDeadlines: Record<string, number>,
-    affectedInstructorDeadlines: Record<string, number>,
+  /**
+   * Update and set deadlines after filtering out extensions that exist before or equal to the new session end time.
+   */
+  private removeDeadlines(students: StudentExtensionTableColumnModel[],
+    instructors: InstructorExtensionTableColumnModel[],
   ): void {
     this.studentDeadlines = DeadlineExtensionHelper
-      .getUpdatedDeadlines(affectedStudents, affectedStudentDeadlines, DeadlineHandlerType.DELETE);
+      .getUpdatedDeadlines(students, this.studentDeadlines, DeadlineHandlerType.DELETE);
     this.instructorDeadlines = DeadlineExtensionHelper
-      .getUpdatedDeadlines(affectedInstructors, affectedInstructorDeadlines, DeadlineHandlerType.DELETE);
+      .getUpdatedDeadlines(instructors, this.instructorDeadlines, DeadlineHandlerType.DELETE);
   }
   /**
    * Handles canceling existing session event without saving changes.

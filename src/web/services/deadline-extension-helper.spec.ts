@@ -123,14 +123,14 @@ describe('DeadlineExtensionHelper', () => {
   });
 
   it('should detect extensions before given end time correctly', () => {
-    expect(DeadlineExtensionHelper.hasDeadlinesBeforeUpdatedEndTime(
-      hasOngingDeadlines, hasNoOngoingDeadlines, timeNow)).toBeTruthy();
-    expect(DeadlineExtensionHelper.hasDeadlinesBeforeUpdatedEndTime(
-      hasOngingDeadlines, hasOngingDeadlines, timeNow)).toBeTruthy();
-    expect(DeadlineExtensionHelper.hasDeadlinesBeforeUpdatedEndTime(
-      hasNoOngoingDeadlines, hasNoOngoingDeadlines, timeNow)).toBeTruthy();
-    expect(DeadlineExtensionHelper.hasDeadlinesBeforeUpdatedEndTime(
-      hasOngingDeadlines, hasNoOngoingDeadlines, timeNow - (2 * fixedLengthOfTime))).toBeFalsy();
+    expect(DeadlineExtensionHelper.hasDeadlinesAfterTime(
+      hasOngingDeadlines, hasNoOngoingDeadlines, timeNow)).toBeFalsy();
+    expect(DeadlineExtensionHelper.hasDeadlinesAfterTime(
+      hasOngingDeadlines, hasOngingDeadlines, timeNow)).toBeFalsy();
+    expect(DeadlineExtensionHelper.hasDeadlinesAfterTime(
+      hasNoOngoingDeadlines, hasNoOngoingDeadlines, timeNow)).toBeFalsy();
+    expect(DeadlineExtensionHelper.hasDeadlinesAfterTime(
+      hasOngingDeadlines, hasNoOngoingDeadlines, timeNow - (2 * fixedLengthOfTime))).toBeTruthy();
   });
 
   it('should filter and set deadlines before given end time correctly', () => {

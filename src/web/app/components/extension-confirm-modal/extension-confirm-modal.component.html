@@ -1,7 +1,7 @@
 <fieldset [disabled]="isSubmitting">
-  <div class="modal-header" [ngClass]="{'alert-primary': isExtendModal(), 'alert-danger' : isDeleteModal() || isValidateDeadlineModal()}">
+  <div class="modal-header" [ngClass]="{'alert-primary': isExtendModal(), 'alert-danger' : isDeleteModal() || isSessionEditDeleteModal()}">
     <h5 class="modal-title" *ngIf="isExtendModal()">Confirm extension of feedback session</h5>
-    <h5 class="modal-title" *ngIf="isDeleteModal() || isValidateDeadlineModal()">Confirm deletion of feedback session extensions</h5>
+    <h5 class="modal-title" *ngIf="isDeleteModal() || isSessionEditDeleteModal()">Confirm deletion of feedback session extensions</h5>
     <button type="button" class="close" (click)="activeModal.dismiss()">
       <i class="fas fa-times"></i>
     </button>
@@ -20,7 +20,7 @@
       <b>{{ extensionTimestamp | formatDateDetail: feedbackSessionTimeZone }}</b>:
     </div>
 
-    <div *ngIf="isValidateDeadlineModal()">
+    <div *ngIf="isSessionEditDeleteModal()">
       The extensions of the following <b>{{ selectedStudents.length }}</b> student(s) and
       <b>{{ selectedInstructors.length }}</b> instructor(s) will be deleted, as they are before your new session end time of
       <b>{{ extensionTimestamp | formatDateDetail: feedbackSessionTimeZone }}</b>:
@@ -73,7 +73,7 @@
             </th>
             <th class="sortable-header" (click)="sortStudentColumnsBy(SortBy.SESSION_END_DATE)">
               <span *ngIf="isExtendModal()">Original Deadline </span>
-              <span *ngIf="isDeleteModal() || isValidateDeadlineModal()">Current Deadline </span>
+              <span *ngIf="isDeleteModal() || isSessionEditDeleteModal()">Current Deadline </span>
               <span class="fa-stack">
                 <i class="fas fa-sort"></i>
                 <i *ngIf="sortStudentsBy === SortBy.SESSION_END_DATE && sortStudentOrder === SortOrder.DESC"
@@ -131,7 +131,7 @@
             </th>
             <th class="sortable-header" (click)="sortInstructorsColumnsBy(SortBy.SESSION_END_DATE)">
               <span *ngIf="isExtendModal()">Original Deadline </span>
-              <span *ngIf="isDeleteModal() || isValidateDeadlineModal()">Current Deadline </span>
+              <span *ngIf="isDeleteModal() || isSessionEditDeleteModal()">Current Deadline </span>
               <span class="fa-stack">
                 <i class="fas fa-sort"></i>
                 <i *ngIf="sortInstructorsBy === SortBy.SESSION_END_DATE && sortInstructorOrder === SortOrder.DESC"
@@ -156,7 +156,7 @@
       <label class="form-check-label" for="flexCheckChecked" *ngIf="isExtendModal()">
         Notify affected students and/or instructors by email about this extension
       </label>
-      <label id="notify-deletion-btn" class="form-check-label" for="flexCheckChecked" *ngIf="isDeleteModal()">
+      <label class="form-check-label" for="flexCheckChecked" *ngIf="isDeleteModal()">
         Notify affected students and/or instructors by email about the cancellation of their extension
       </label>
     </div>
@@ -169,7 +169,7 @@
     <button type="button" class="btn btn-light" (click)="activeModal.dismiss()">No, cancel the Operation</button>
     <button *ngIf="isExtendModal()" type="button" class="btn btn-success modal-btn-ok"
       (click)="onConfirm()">Confirm</button>
-    <button *ngIf="isDeleteModal() || isValidateDeadlineModal()" id="delete-extension-btn" type="button" class="btn btn-danger modal-btn-ok" (click)="onConfirm()">Delete
+    <button *ngIf="isDeleteModal() || isSessionEditDeleteModal()" id="delete-extension-btn" type="button" class="btn btn-danger modal-btn-ok" (click)="onConfirm()">Delete
       Extension(s)</button>
   </div>
 </fieldset>

@@ -10,7 +10,7 @@ import {
 export enum ExtensionModalType {
   EXTEND,
   DELETE,
-  VALIDATE_DEADLINE,
+  SESSION_EDIT_DELETE,
 }
 
 @Component({
@@ -62,8 +62,8 @@ export class ExtensionConfirmModalComponent {
     return this.modalType === ExtensionModalType.EXTEND;
   }
 
-  isValidateDeadlineModal(): boolean {
-    return this.modalType === ExtensionModalType.VALIDATE_DEADLINE;
+  isSessionEditDeleteModal(): boolean {
+    return this.modalType === ExtensionModalType.SESSION_EDIT_DELETE;
   }
 
   sortStudentColumnsBy(by: SortBy): void {
