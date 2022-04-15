@@ -1,11 +1,15 @@
 package teammates.storage.entity;
 
 import java.time.Instant;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
+import com.googlecode.objectify.annotation.Serialize;
 import com.googlecode.objectify.annotation.Translate;
+import com.googlecode.objectify.annotation.Unindex;
 
 /**
  * Represents a unique user in the system.
@@ -19,11 +23,11 @@ public class Account extends BaseEntity {
 
     private String name;
 
-    private boolean isInstructor;
-
     private String email;
 
-    private String institute;
+    @Unindex
+    @Serialize
+    private Map<String, Instant> readNotifications;
 
     @Translate(InstantTranslatorFactory.class)
     private Instant createdAt;
@@ -36,24 +40,16 @@ public class Account extends BaseEntity {
     /**
      * Instantiates a new account.
      *
-     * @param googleId
-     *            the Google ID of the user.
-     * @param name
-     *            The name of the user.
-     * @param isInstructor
-     *            Does this account has instructor privileges?
-     * @param email
-     *            The official email of the user.
-     * @param institute
-     *            The university/school/institute e.g., "Abrons State University, Alaska"
+     * @param googleId the Google ID of the user.
+     * @param name The name of the user.
+     * @param email The official email of the user.
+     * @param readNotifications The notifications that the user has read, stored in a map of ID to end time.
      */
-    public Account(String googleId, String name, boolean isInstructor,
-            String email, String institute) {
+    public Account(String googleId, String name, String email, Map<String, Instant> readNotifications) {
         this.setGoogleId(googleId);
         this.setName(name);
-        this.setIsInstructor(isInstructor);
         this.setEmail(email);
-        this.setInstitute(institute);
+        this.setReadNotifications(readNotifications);
         this.setCreatedAt(Instant.now());
     }
 
@@ -73,14 +69,6 @@ public class Account extends BaseEntity {
         this.name = name;
     }
 
-    public boolean isInstructor() {
-        return isInstructor;
-    }
-
-    public void setIsInstructor(boolean accountIsInstructor) {
-        this.isInstructor = accountIsInstructor;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -89,12 +77,19 @@ public class Account extends BaseEntity {
         this.email = email;
     }
 
-    public String getInstitute() {
-        return institute;
+    /**
+     * Retrieves the account's read notifications map.
+     * Returns an empty map if the account does not yet have the readNotifications attribute.
+     */
+    public Map<String, Instant> getReadNotifications() {
+        if (readNotifications == null) {
+            return new HashMap<>();
+        }
+        return readNotifications;
     }
 
-    public void setInstitute(String institute) {
-        this.institute = institute;
+    public void setReadNotifications(Map<String, Instant> readNotifications) {
+        this.readNotifications = readNotifications;
     }
 
     public Instant getCreatedAt() {

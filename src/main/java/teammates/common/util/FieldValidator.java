@@ -9,9 +9,14 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.function.BiPredicate;
+import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.NotificationStyle;
+import teammates.common.datatransfer.NotificationTargetUser;
 
 /**
  * Used to handle the data validation aspect e.g. validate emails, names, etc.
@@ -47,6 +52,32 @@ public final class FieldValidator {
     public static final String EMAIL_FIELD_NAME = "email";
     public static final int EMAIL_MAX_LENGTH = 254;
 
+    // notification-related
+    public static final String NOTIFICATION_TITLE_FIELD_NAME = "notification title";
+    public static final String NOTIFICATION_MESSAGE_FIELD_NAME = "notification message";
+    public static final String NOTIFICATION_NAME = "notification";
+    public static final String NOTIFICATION_VISIBLE_TIME_FIELD_NAME = "time when the notification will be visible";
+    public static final String NOTIFICATION_EXPIRY_TIME_FIELD_NAME = "time when the notification will expire";
+    public static final String NOTIFICATION_STYLE_FIELD_NAME = "notification style";
+    public static final String NOTIFICATION_TARGET_USER_FIELD_NAME = "notification target user";
+    public static final int NOTIFICATION_TITLE_MAX_LENGTH = 80;
+
+    public static final List<String> NOTIFICATION_STYLE_ACCEPTED_VALUES =
+            Collections.unmodifiableList(
+                    Arrays.stream(
+                            NotificationStyle.values())
+                            .map(NotificationStyle::toString)
+                            .collect(Collectors.toList())
+            );
+
+    public static final List<String> NOTIFICATION_TARGET_USER_ACCEPTED_VALUES =
+            Collections.unmodifiableList(
+                    Arrays.stream(
+                            NotificationTargetUser.values())
+                            .map(NotificationTargetUser::toString)
+                            .collect(Collectors.toList())
+            );
+
     // others
     public static final String STUDENT_ROLE_COMMENTS_FIELD_NAME = "comments about a student enrolled in a course";
     public static final int STUDENT_ROLE_COMMENTS_MAX_LENGTH = 500;
@@ -73,6 +104,7 @@ public final class FieldValidator {
     public static final String COURSE_ID_FIELD_NAME = "course ID";
     public static final int COURSE_ID_MAX_LENGTH = 64;
 
+    public static final String SESSION_NAME = "feedback session";
     public static final String SESSION_START_TIME_FIELD_NAME = "start time";
     public static final String SESSION_END_TIME_FIELD_NAME = "end time";
     public static final String TIME_ZONE_FIELD_NAME = "time zone";
@@ -92,6 +124,8 @@ public final class FieldValidator {
     public static final String GIVER_TYPE_NAME = "feedback giver";
     public static final String RECIPIENT_TYPE_NAME = "feedback recipient";
     public static final String VIEWER_TYPE_NAME = "feedback viewer";
+
+    public static final String EXTENDED_DEADLINES_FIELD_NAME = "extended deadlines";
 
     ////////////////////
     // ERROR MESSAGES //
@@ -189,10 +223,19 @@ public final class FieldValidator {
     public static final String ROLE_ERROR_MESSAGE =
             "\"%s\" is not an accepted " + ROLE_FIELD_NAME + " to TEAMMATES. ";
 
+    public static final String NOTIFICATION_STYLE_ERROR_MESSAGE =
+            "\"%s\" is not an accepted " + NOTIFICATION_STYLE_FIELD_NAME + " to TEAMMATES. ";
+
+    public static final String NOTIFICATION_TARGET_USER_ERROR_MESSAGE =
+            "\"%s\" is not an accepted " + NOTIFICATION_TARGET_USER_FIELD_NAME + " to TEAMMATES. ";
+
     public static final String SESSION_VISIBLE_TIME_FIELD_NAME = "time when the session will be visible";
     public static final String RESULTS_VISIBLE_TIME_FIELD_NAME = "time when the results will be visible";
-    public static final String TIME_FRAME_ERROR_MESSAGE =
-                "The %s for this feedback session cannot be earlier than the %s.";
+
+    public static final String TIME_BEFORE_ERROR_MESSAGE =
+            "The %s for this %s cannot be earlier than the %s.";
+    public static final String TIME_BEFORE_OR_EQUAL_ERROR_MESSAGE =
+            "The %s for this %s cannot be earlier than or at the same time as the %s.";
 
     public static final String PARTICIPANT_TYPE_ERROR_MESSAGE = "%s is not a valid %s.";
     public static final String PARTICIPANT_TYPE_TEAM_ERROR_MESSAGE =
@@ -521,6 +564,79 @@ public final class FieldValidator {
     }
 
     /**
+     * Checks if the notification title is a non-null non-empty string.
+     *
+     * @param notificationTitle The title of the notification.
+     * @return An explanation of why the {@code notificationTitle} is not acceptable.
+     *         Returns an empty string "" if the {@code notificationTitle} is acceptable.
+     */
+    public static String getInvalidityInfoForNotificationTitle(String notificationTitle) {
+
+        assert notificationTitle != null : "Non-null value expected for notification title";
+
+        if (notificationTitle.isEmpty()) {
+            return getPopulatedEmptyStringErrorMessage(EMPTY_STRING_ERROR_INFO,
+                NOTIFICATION_TITLE_FIELD_NAME, NOTIFICATION_TITLE_MAX_LENGTH);
+        } else if (notificationTitle.length() > NOTIFICATION_TITLE_MAX_LENGTH) {
+            return getPopulatedErrorMessage(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, notificationTitle,
+                NOTIFICATION_TITLE_FIELD_NAME, REASON_TOO_LONG, NOTIFICATION_TITLE_MAX_LENGTH);
+        }
+
+        return "";
+    }
+
+    /**
+     * Checks if the notification message is a non-null non-empty string.
+     *
+     * @param notificationMessage The notification message.
+     * @return An explanation of why the {@code notificationMessage} is not acceptable.
+     *         Returns an empty string "" if the {@code notificationMessage} is acceptable.
+     */
+    public static String getInvalidityInfoForNotificationBody(String notificationMessage) {
+
+        assert notificationMessage != null : "Non-null value expected for notification message";
+
+        if (notificationMessage.isEmpty()) {
+            return getPopulatedEmptyStringErrorMessage(EMPTY_STRING_ERROR_INFO, NOTIFICATION_MESSAGE_FIELD_NAME, 0);
+        }
+
+        return "";
+    }
+
+    /**
+     * Checks if {@code style} is one of the recognized notification style {@link #NOTIFICATION_STYLE_ACCEPTED_VALUES}.
+     *
+     * @return An explanation of why the {@code style} is not acceptable.
+     *         Returns an empty string if the {@code style} is acceptable.
+     */
+    public static String getInvalidityInfoForNotificationStyle(String style) {
+        assert style != null;
+        try {
+            NotificationStyle.valueOf(style);
+        } catch (IllegalArgumentException e) {
+            return String.format(NOTIFICATION_STYLE_ERROR_MESSAGE, style);
+        }
+        return "";
+    }
+
+    /**
+     * Checks if {@code targetUser} is one of the
+     * recognized notification target user groups {@link #NOTIFICATION_TARGET_USER_ACCEPTED_VALUES}.
+     *
+     * @return An explanation of why the {@code targetUser} is not acceptable.
+     *         Returns an empty string if the {@code targetUser} is acceptable.
+     */
+    public static String getInvalidityInfoForNotificationTargetUser(String targetUser) {
+        assert targetUser != null;
+        try {
+            NotificationTargetUser.valueOf(targetUser);
+        } catch (IllegalArgumentException e) {
+            return String.format(NOTIFICATION_TARGET_USER_ERROR_MESSAGE, targetUser);
+        }
+        return "";
+    }
+
+    /**
      * Checks if the given string is a non-null string no longer than
      * the specified length {@code maxLength}. However, this string can be empty.
      *
@@ -553,7 +669,7 @@ public final class FieldValidator {
      */
     public static String getInvalidityInfoForTimeForSessionStartAndEnd(Instant sessionStart, Instant sessionEnd) {
         return getInvalidityInfoForFirstTimeIsBeforeSecondTime(
-                sessionStart, sessionEnd, SESSION_START_TIME_FIELD_NAME, SESSION_END_TIME_FIELD_NAME);
+                sessionStart, sessionEnd, SESSION_NAME, SESSION_START_TIME_FIELD_NAME, SESSION_END_TIME_FIELD_NAME);
     }
 
     /**
@@ -563,8 +679,8 @@ public final class FieldValidator {
      */
     public static String getInvalidityInfoForTimeForVisibilityStartAndSessionStart(
             Instant visibilityStart, Instant sessionStart) {
-        return getInvalidityInfoForFirstTimeIsBeforeSecondTime(
-                visibilityStart, sessionStart, SESSION_VISIBLE_TIME_FIELD_NAME, SESSION_START_TIME_FIELD_NAME);
+        return getInvalidityInfoForFirstTimeIsBeforeSecondTime(visibilityStart, sessionStart,
+                SESSION_NAME, SESSION_VISIBLE_TIME_FIELD_NAME, SESSION_START_TIME_FIELD_NAME);
     }
 
     /**
@@ -575,19 +691,67 @@ public final class FieldValidator {
     public static String getInvalidityInfoForTimeForVisibilityStartAndResultsPublish(
             Instant visibilityStart, Instant resultsPublish) {
         return getInvalidityInfoForFirstTimeIsBeforeSecondTime(visibilityStart, resultsPublish,
-                SESSION_VISIBLE_TIME_FIELD_NAME, RESULTS_VISIBLE_TIME_FIELD_NAME);
+                SESSION_NAME, SESSION_VISIBLE_TIME_FIELD_NAME, RESULTS_VISIBLE_TIME_FIELD_NAME);
     }
 
-    private static String getInvalidityInfoForFirstTimeIsBeforeSecondTime(
-            Instant earlierTime, Instant laterTime, String earlierTimeFieldName, String laterTimeFieldName) {
+    /**
+     * Checks if the session end time is before all extended deadlines.
+     * @return Error string if any deadline in {@code deadlines} is before {@code sessionEnd}, an empty one otherwise.
+     */
+    public static String getInvalidityInfoForTimeForSessionEndAndExtendedDeadlines(
+            Instant sessionEnd, Map<String, Instant> deadlines) {
+        return deadlines.entrySet()
+                .stream()
+                .map(entry -> getInvalidityInfoForFirstTimeIsStrictlyBeforeSecondTime(sessionEnd, entry.getValue(),
+                        SESSION_NAME, SESSION_END_TIME_FIELD_NAME, EXTENDED_DEADLINES_FIELD_NAME))
+                .filter(invalidityInfo -> !invalidityInfo.isEmpty())
+                .findFirst()
+                .orElse("");
+    }
+
+    /**
+     * Checks if Notification Start Time is before Notification End Time.
+     * @return Error string if {@code notificationStart} is before {@code notificationEnd}
+     *         Empty string if {@code notificationStart} is after {@code notificationEnd}
+     */
+    public static String getInvalidityInfoForTimeForNotificationStartAndEnd(
+            Instant notificationStart, Instant notificationExpiry) {
+        return getInvalidityInfoForFirstTimeIsBeforeSecondTime(notificationStart, notificationExpiry,
+                NOTIFICATION_NAME, NOTIFICATION_VISIBLE_TIME_FIELD_NAME, NOTIFICATION_EXPIRY_TIME_FIELD_NAME);
+    }
+
+    private static String getInvalidityInfoForFirstTimeIsBeforeSecondTime(Instant earlierTime, Instant laterTime,
+            String entityName, String earlierTimeFieldName, String laterTimeFieldName) {
+        return getInvalidityInfoForFirstTimeComparedToSecondTime(earlierTime, laterTime, entityName,
+                earlierTimeFieldName, laterTimeFieldName,
+                (firstTime, secondTime) -> firstTime.isBefore(secondTime) || firstTime.equals(secondTime),
+                TIME_BEFORE_ERROR_MESSAGE);
+    }
+
+    private static String getInvalidityInfoForFirstTimeIsStrictlyBeforeSecondTime(
+            Instant earlierTime, Instant laterTime, String entityName, String earlierTimeFieldName,
+            String laterTimeFieldName) {
+        return getInvalidityInfoForFirstTimeComparedToSecondTime(earlierTime, laterTime, entityName,
+                earlierTimeFieldName, laterTimeFieldName, Instant::isBefore,
+                TIME_BEFORE_OR_EQUAL_ERROR_MESSAGE);
+    }
+
+    private static String getInvalidityInfoForFirstTimeComparedToSecondTime(Instant earlierTime, Instant laterTime,
+            String entityName, String earlierTimeFieldName, String laterTimeFieldName,
+            BiPredicate<Instant, Instant> validityChecker,
+            String invalidityInfoTemplate) {
+
         assert earlierTime != null;
         assert laterTime != null;
+
         if (TimeHelper.isSpecialTime(earlierTime) || TimeHelper.isSpecialTime(laterTime)) {
             return "";
         }
-        if (laterTime.isBefore(earlierTime)) {
-            return String.format(TIME_FRAME_ERROR_MESSAGE, laterTimeFieldName, earlierTimeFieldName);
+
+        if (!validityChecker.test(earlierTime, laterTime)) {
+            return String.format(invalidityInfoTemplate, laterTimeFieldName, entityName, earlierTimeFieldName);
         }
+
         return "";
     }
 

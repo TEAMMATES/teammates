@@ -14,6 +14,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -54,8 +55,10 @@ public class FeedbackSubmitPage extends AppPage {
         return getPageTitle().contains("Submit Feedback");
     }
 
-    public void verifyFeedbackSessionDetails(FeedbackSessionAttributes feedbackSession) {
+    public void verifyFeedbackSessionDetails(FeedbackSessionAttributes feedbackSession, CourseAttributes course) {
         assertEquals(getCourseId(), feedbackSession.getCourseId());
+        assertEquals(getCourseName(), course.getName());
+        assertEquals(getCourseInstitute(), course.getInstitute());
         assertEquals(getFeedbackSessionName(), feedbackSession.getFeedbackSessionName());
         assertDateEquals(getOpeningTime(), feedbackSession.getStartTime(), feedbackSession.getTimeZone());
         assertDateEquals(getClosingTime(), feedbackSession.getEndTime(), feedbackSession.getTimeZone());
@@ -531,6 +534,14 @@ public class FeedbackSubmitPage extends AppPage {
 
     private String getCourseId() {
         return browser.driver.findElement(By.id("course-id")).getText();
+    }
+
+    private String getCourseName() {
+        return browser.driver.findElement(By.id("course-name")).getText();
+    }
+
+    private String getCourseInstitute() {
+        return browser.driver.findElement(By.id("course-institute")).getText();
     }
 
     private String getFeedbackSessionName() {

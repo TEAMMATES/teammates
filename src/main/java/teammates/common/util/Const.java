@@ -113,6 +113,7 @@ public final class Const {
         public static final String INSTRUCTOR_EMAIL = "instructoremail";
         public static final String INSTRUCTOR_INSTITUTION = "instructorinstitution";
         public static final String IS_CREATING_ACCOUNT = "iscreatingaccount";
+        public static final String IS_INSTRUCTOR = "isinstructor";
 
         public static final String FEEDBACK_SESSION_NAME = "fsname";
         public static final String FEEDBACK_SESSION_STARTTIME = "starttime";
@@ -152,12 +153,15 @@ public final class Const {
         public static final String USER_CAPTCHA_RESPONSE = "captcharesponse";
 
         public static final String EMAIL_TYPE = "emailtype";
+        public static final String USER_EMAIL = "useremail";
 
         public static final String ENTITY_TYPE = "entitytype";
 
         public static final String INTENT = "intent";
 
         public static final String TIMEZONE = "timezone";
+
+        public static final String NOTIFY_ABOUT_DEADLINES = "notifydeadlines";
 
         public static final String QUERY_LOGS_STARTTIME = "starttime";
         public static final String QUERY_LOGS_ENDTIME = "endtime";
@@ -175,6 +179,13 @@ public final class Const {
         public static final String QUERY_LOGS_VERSION = "version";
         public static final String QUERY_LOGS_EXTRA_FILTERS = "extrafilters";
         public static final String QUERY_LOGS_ORDER = "order";
+
+        public static final String LIMIT = "limit";
+
+        public static final String NOTIFICATION_ID = "notificationid";
+        public static final String NOTIFICATION_TARGET_USER = "usertype";
+        public static final String NOTIFICATION_IS_FETCHING_ALL = "isfetchingall";
+        public static final String NOTFICATION_END_TIME = "endtime";
     }
 
     /**
@@ -258,6 +269,7 @@ public final class Const {
         public static final String ADMIN_SESSIONS_PAGE = ADMIN_PAGE + "/sessions";
         public static final String ADMIN_TIMEZONE_PAGE = ADMIN_PAGE + "/timezone";
         public static final String ADMIN_LOGS_PAGE = ADMIN_PAGE + "/logs";
+        public static final String ADMIN_NOTIFICATIONS_PAGE = ADMIN_PAGE + "/notifications";
 
         public static final String MAINTAINER_HOME_PAGE = MAINTAINER_PAGE + "/home";
 
@@ -266,6 +278,8 @@ public final class Const {
         public static final String INSTRUCTOR_SESSIONS_PAGE = INSTRUCTOR_PAGE + "/sessions";
         public static final String INSTRUCTOR_SESSION_SUBMISSION_PAGE = INSTRUCTOR_PAGE + "/sessions/submission";
         public static final String INSTRUCTOR_SESSION_EDIT_PAGE = INSTRUCTOR_PAGE + "/sessions/edit";
+        public static final String INSTRUCTOR_SESSION_INDIVIDUAL_EXTENSION_PAGE = INSTRUCTOR_PAGE
+                + "/sessions/individual-extension";
         public static final String INSTRUCTOR_SESSION_RESULTS_PAGE = INSTRUCTOR_PAGE + "/sessions/result";
         public static final String INSTRUCTOR_SESSION_REPORT_PAGE = INSTRUCTOR_PAGE + "/sessions/report";
         public static final String INSTRUCTOR_COURSES_PAGE = INSTRUCTOR_PAGE + "/courses";
@@ -303,8 +317,9 @@ public final class Const {
         public static final String AUTH_REGKEY = URI_PREFIX + "/auth/regkey";
         public static final String ACCOUNT = URI_PREFIX + "/account";
         public static final String ACCOUNT_RESET = URI_PREFIX + "/account/reset";
-        public static final String ACCOUNT_DOWNGRADE = URI_PREFIX + "/account/downgrade";
         public static final String ACCOUNT_REQUEST = URI_PREFIX + "/account/request";
+        public static final String ACCOUNT_REQUEST_RESET = ACCOUNT_REQUEST + "/reset";
+        public static final String ACCOUNTS = URI_PREFIX + "/accounts";
         public static final String RESPONSE_COMMENT = URI_PREFIX + "/responsecomment";
         public static final String COURSE = URI_PREFIX + "/course";
         public static final String COURSE_ARCHIVE = URI_PREFIX + "/course/archive";
@@ -319,6 +334,9 @@ public final class Const {
         public static final String STUDENTS = URI_PREFIX + "/students";
         public static final String STUDENT = URI_PREFIX + "/student";
         public static final String STUDENT_KEY = URI_PREFIX + "/student/key";
+        public static final String NOTIFICATION = URI_PREFIX + "/notification";
+        public static final String NOTIFICATIONS = URI_PREFIX + "/notifications";
+        public static final String NOTIFICATION_READ = URI_PREFIX + "/notification/read";
         public static final String SESSIONS_ONGOING = URI_PREFIX + "/sessions/ongoing";
         public static final String SESSION = URI_PREFIX + "/session";
         public static final String SESSION_PUBLISH = URI_PREFIX + "/session/publish";
@@ -335,6 +353,7 @@ public final class Const {
         public static final String QUESTION = URI_PREFIX + "/question";
         public static final String QUESTION_RECIPIENTS = URI_PREFIX + "/question/recipients";
         public static final String RESPONSES = URI_PREFIX + "/responses";
+        public static final String USAGE_STATISTICS = URI_PREFIX + "/usagestats";
         public static final String HAS_RESPONSES = URI_PREFIX + "/hasResponses";
         public static final String JOIN = URI_PREFIX + "/join";
         public static final String JOIN_REMIND = URI_PREFIX + "/join/remind";
@@ -369,6 +388,8 @@ public final class Const {
                 URI_PREFIX + "/feedbackSessionClosingReminders";
         public static final String AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS =
                 URI_PREFIX + "/feedbackSessionPublishedReminders";
+        public static final String AUTOMATED_USAGE_STATISTICS_COLLECTION =
+                URI_PREFIX + "/calculateUsageStatistics";
     }
 
     /**

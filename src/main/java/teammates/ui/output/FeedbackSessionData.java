@@ -1,6 +1,8 @@
 package teammates.ui.output;
 
 import java.time.Instant;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
 
@@ -46,6 +48,9 @@ public class FeedbackSessionData extends ApiOutput {
     @Nullable
     private InstructorPermissionSet privileges;
 
+    private Map<String, Long> studentDeadlines;
+    private Map<String, Long> instructorDeadlines;
+
     public FeedbackSessionData(FeedbackSessionAttributes feedbackSessionAttributes) {
         String timeZone = feedbackSessionAttributes.getTimeZone();
         this.courseId = feedbackSessionAttributes.getCourseId();
@@ -89,11 +94,11 @@ public class FeedbackSessionData extends ApiOutput {
         if (feedbackSessionAttributes.isOpened()) {
             this.submissionStatus = FeedbackSessionSubmissionStatus.OPEN;
         }
-        if (feedbackSessionAttributes.isClosed()) {
-            this.submissionStatus = FeedbackSessionSubmissionStatus.CLOSED;
-        }
         if (feedbackSessionAttributes.isInGracePeriod()) {
             this.submissionStatus = FeedbackSessionSubmissionStatus.GRACE_PERIOD;
+        }
+        if (feedbackSessionAttributes.isClosed()) {
+            this.submissionStatus = FeedbackSessionSubmissionStatus.CLOSED;
         }
 
         if (feedbackSessionAttributes.isPublished()) {
@@ -111,6 +116,20 @@ public class FeedbackSessionData extends ApiOutput {
         } else {
             this.deletedAtTimestamp = feedbackSessionAttributes.getDeletedTime().toEpochMilli();
         }
+
+        this.studentDeadlines = feedbackSessionAttributes.getStudentDeadlines()
+                .entrySet()
+                .stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, entry ->
+                        TimeHelper.getMidnightAdjustedInstantBasedOnZone(entry.getValue(), timeZone, true)
+                                .toEpochMilli()));
+
+        this.instructorDeadlines = feedbackSessionAttributes.getInstructorDeadlines()
+                .entrySet()
+                .stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, entry ->
+                        TimeHelper.getMidnightAdjustedInstantBasedOnZone(entry.getValue(), timeZone, true)
+                                .toEpochMilli()));
     }
 
     public String getCourseId() {
@@ -181,6 +200,14 @@ public class FeedbackSessionData extends ApiOutput {
         return isPublishedEmailEnabled;
     }
 
+    public Map<String, Long> getStudentDeadlines() {
+        return studentDeadlines;
+    }
+
+    public Map<String, Long> getInstructorDeadlines() {
+        return instructorDeadlines;
+    }
+
     public void setSessionVisibleFromTimestamp(Long sessionVisibleFromTimestamp) {
         this.sessionVisibleFromTimestamp = sessionVisibleFromTimestamp;
     }
@@ -239,6 +266,38 @@ public class FeedbackSessionData extends ApiOutput {
 
     public void setPrivileges(InstructorPermissionSet privileges) {
         this.privileges = privileges;
+    }
+
+    public void setStudentDeadlines(Map<String, Long> studentDeadlines) {
+        this.studentDeadlines = studentDeadlines;
+    }
+
+    public void setInstructorDeadlines(Map<String, Long> instructorDeadlines) {
+        this.instructorDeadlines = instructorDeadlines;
+    }
+
+    /**
+     * Filter out all the deadlines that are not for the given student.
+     */
+    public void filterDeadlinesForStudent(String studentEmail) {
+        if (studentDeadlines.containsKey(studentEmail)) {
+            studentDeadlines = Map.of(studentEmail, studentDeadlines.get(studentEmail));
+        } else {
+            studentDeadlines.clear();
+        }
+        instructorDeadlines.clear();
+    }
+
+    /**
+     * Filter out all the deadlines that are not for the given instructor.
+     */
+    public void filterDeadlinesForInstructor(String instructorEmail) {
+        studentDeadlines.clear();
+        if (instructorDeadlines.containsKey(instructorEmail)) {
+            instructorDeadlines = Map.of(instructorEmail, instructorDeadlines.get(instructorEmail));
+        } else {
+            instructorDeadlines.clear();
+        }
     }
 
     /**

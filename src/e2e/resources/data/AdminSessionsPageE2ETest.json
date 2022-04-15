@@ -3,9 +3,8 @@
     "instructor1OfCourse1": {
       "googleId": "tm.e2e.ASess.instr1",
       "name": "Instructor1 of Course1",
-      "isInstructor": true,
       "email": "ASess.instructor1@gmail.tmt",
-      "institute": "TEAMMATES Institute 1"
+      "readNotifications": {}
     }
   },
   "courses": {
@@ -61,7 +60,9 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
     },
     "session2InCourse1": {
       "feedbackSessionName": "Awaiting feedback session",
@@ -82,7 +83,9 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
     },
     "session3InCourse1": {
       "feedbackSessionName": "Future feedback session",
@@ -103,7 +106,9 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
     }
   }
 }

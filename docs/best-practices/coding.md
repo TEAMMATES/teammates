@@ -1,3 +1,7 @@
+<frontmatter>
+  title: "Best Practices: Coding"
+</frontmatter>
+
 # Coding Best Practices
 
 ## Quality

@@ -20,6 +20,16 @@ public final class TimeHelper {
     }
 
     /**
+     * Returns an Instant that represents the nearest hour before the given object.
+     *
+     * <p>The time zone used is assumed to be the default timezone, namely UTC.
+     */
+    public static Instant getInstantNearestHourBefore(Instant instant) {
+        String nearestHourString = formatInstant(instant, Const.DEFAULT_TIME_ZONE, "yyyy-MM-dd'T'HH:00:00.00'Z'");
+        return parseInstant(nearestHourString);
+    }
+
+    /**
      * Returns an Instant that is offset by a number of days from now.
      *
      * @param offsetInDays integer number of days to offset by

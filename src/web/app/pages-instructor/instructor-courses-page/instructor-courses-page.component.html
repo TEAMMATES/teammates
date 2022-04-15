@@ -1,10 +1,10 @@
 <div>
   <button id="btn-add-course" class="btn btn-success" (click)="isAddNewCourseFormExpanded = true"
-          [disabled]="isAddNewCourseFormExpanded"><i class="fas fa-plus"></i> Add New Course
+          [disabled]="isAddNewCourseFormExpanded || isLoading"><i class="fas fa-plus"></i> Add New Course
   </button>
 </div>
 
-<div id="add-course-section" class="course-section" *ngIf="isAddNewCourseFormExpanded" @collapseAnim>
+<div id="add-course-section" class="course-section" *ngIf="isAddNewCourseFormExpanded && !isLoading" @collapseAnim>
   <tm-add-course-form (courseAdded)="loadInstructorCourses()"
                       (closeCourseFormEvent)="isAddNewCourseFormExpanded = false"
                       (copyCourseEvent)="createCourse($event)"

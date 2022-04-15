@@ -33,6 +33,11 @@ export enum SortBy {
     STUDENT_GENDER,
 
     /**
+     * The role of an instructor.
+     */
+    INSTRUCTOR_PERMISSION_ROLE,
+
+    /**
      * Institution.
      */
     INSTITUTION,
@@ -45,7 +50,7 @@ export enum SortBy {
     /**
      * Join status
      */
-     JOIN_STATUS,
+    JOIN_STATUS,
 
     /**
      * Course ID.
@@ -258,7 +263,7 @@ export enum SortBy {
     RANK_OPTIONS_OVERALL_RANK,
 
     /**
-     * Giver's / Recipients's team
+     * Giver's / Recipient's team
      */
     RANK_RECIPIENTS_TEAM,
 
@@ -318,7 +323,7 @@ export enum SortBy {
     CONSTSUM_OPTIONS_OPTION,
 
     /**
-     * Option's recieved/total/average points
+     * Option's received/total/average points
      */
     CONSTSUM_OPTIONS_POINTS,
 
@@ -361,6 +366,36 @@ export enum SortBy {
      * The status of result view
      */
     RESULT_VIEW_STATUS,
+
+    /**
+     * The title of notification
+     */
+    NOTIFICATION_TITLE,
+
+    /**
+     * The start date/time of notification
+     */
+    NOTIFICATION_START_TIME,
+
+    /**
+     * The end date/time of notification
+     */
+    NOTIFICATION_END_TIME,
+
+    /**
+     * The date/time for the creation of notification
+     */
+    NOTIFICATION_CREATE_TIME,
+
+    /**
+     * The target user (visibility) of notification
+     */
+    NOTIFICATION_TARGET_USER,
+
+    /**
+     * The style of notification
+     */
+    NOTIFICATION_STYLE,
 }
 
 /**

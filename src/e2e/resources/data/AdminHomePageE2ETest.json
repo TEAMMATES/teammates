@@ -1,0 +1,53 @@
+{
+  "accounts": {
+    "AHome.instructor1OfCourse1": {
+      "googleId": "tm.e2e.AHome.inst1",
+      "name": "Teammates Instr1",
+      "email": "AHome.instr1@gmail.tmt"
+    }
+  },
+  "accountRequests": {
+    "AHome.instructor1OfCourse1": {
+      "name": "Teammates Instr1",
+      "email": "AHome.instr1@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1",
+      "createdAt": "2011-01-01T00:00:00Z",
+      "registeredAt": "1970-02-14T00:00:00Z"
+    }
+  },
+  "courses": {
+    "AHome.typicalCourse1": {
+      "createdAt": "2012-03-20T23:59:00Z",
+      "id": "tm.e2e.AHome.course1",
+      "name": "Typical Course 1",
+      "institute": "TEAMMATES Test Institute 1",
+      "timeZone": "Africa/Johannesburg"
+    }
+  },
+  "instructors": {
+    "AHome.instructor1OfCourse1": {
+      "googleId": "tm.e2e.AHome.inst1",
+      "courseId": "tm.e2e.AHome.course1",
+      "name": "Teammates Instr1",
+      "email": "AHome.instr1@gmail.tmt",
+      "isArchived": false,
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canModifyCourse": true,
+          "canModifyInstructor": true,
+          "canModifySession": true,
+          "canModifyStudent": true,
+          "canViewStudentInSections": true,
+          "canViewSessionInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    }
+  }
+}

@@ -3,7 +3,7 @@ package teammates.logic.api;
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.util.Config;
-import teammates.logic.core.AccountsLogic;
+import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
 
 /**
@@ -13,7 +13,7 @@ public class UserProvision {
 
     private static final UserProvision instance = new UserProvision();
 
-    private final AccountsLogic accountsLogic = AccountsLogic.inst();
+    private final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     private final StudentsLogic studentsLogic = StudentsLogic.inst();
 
     UserProvision() {
@@ -36,7 +36,7 @@ public class UserProvision {
 
         String userId = user.id;
         user.isAdmin = Config.APP_ADMINS.contains(userId);
-        user.isInstructor = accountsLogic.isAccountAnInstructor(userId);
+        user.isInstructor = instructorsLogic.isInstructorInAnyCourse(userId);
         user.isStudent = studentsLogic.isStudentInAnyCourse(userId);
         user.isMaintainer = Config.APP_MAINTAINERS.contains(user.getId());
         return user;
@@ -56,7 +56,7 @@ public class UserProvision {
     public UserInfo getMasqueradeUser(String googleId) {
         UserInfo userInfo = new UserInfo(googleId);
         userInfo.isAdmin = false;
-        userInfo.isInstructor = accountsLogic.isAccountAnInstructor(googleId);
+        userInfo.isInstructor = instructorsLogic.isInstructorInAnyCourse(googleId);
         userInfo.isStudent = studentsLogic.isStudentInAnyCourse(googleId);
         userInfo.isMaintainer = Config.APP_MAINTAINERS.contains(googleId);
         return userInfo;

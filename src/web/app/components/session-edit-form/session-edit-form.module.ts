@@ -9,7 +9,6 @@ import { TeammatesCommonModule } from '../teammates-common/teammates-common.modu
 import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
 import { TimepickerModule } from '../timepicker/timepicker.module';
 import { SessionEditFormComponent } from './session-edit-form.component';
-import { SubmissionStatusNamePipe } from './submission-status-name.pipe';
 
 /**
  * Module for instructor session edit/create form.
@@ -28,7 +27,6 @@ import { SubmissionStatusNamePipe } from './submission-status-name.pipe';
   ],
   declarations: [
     SessionEditFormComponent,
-    SubmissionStatusNamePipe,
   ],
   exports: [
     SessionEditFormComponent,

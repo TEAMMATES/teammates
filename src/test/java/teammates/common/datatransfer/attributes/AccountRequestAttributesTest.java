@@ -74,14 +74,6 @@ public class AccountRequestAttributesTest extends BaseTestCase {
                     .builder(null, null, null)
                     .build();
         });
-
-        assertThrows(AssertionError.class, () -> {
-            AccountRequestAttributes
-                    .builder("valid@test.com", "valid institute", "valid name")
-                    .withRegisteredAt(null)
-                    .build();
-        });
-
     }
 
     @Test

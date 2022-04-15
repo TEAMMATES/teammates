@@ -3,9 +3,8 @@
     "SCDet.instr": {
       "googleId": "tm.e2e.SCDet.instr",
       "name": "Instructor",
-      "isInstructor": true,
       "email": "tmms.test@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "readNotifications": {}
     }
   },
   "courses": {

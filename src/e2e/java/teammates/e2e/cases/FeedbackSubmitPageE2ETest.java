@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
@@ -25,7 +26,7 @@ import teammates.e2e.util.TestProperties;
 public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
     private StudentAttributes student;
     private InstructorAttributes instructor;
-
+    private CourseAttributes course;
     private FeedbackSessionAttributes openSession;
     private FeedbackSessionAttributes closedSession;
     private FeedbackSessionAttributes gracePeriodSession;
@@ -39,6 +40,7 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
         removeAndRestoreDataBundle(testData);
 
         instructor = testData.instructors.get("FSubmit.instr");
+        course = testData.courses.get("FSubmit.CS2104");
         openSession = testData.feedbackSessions.get("Open Session");
         closedSession = testData.feedbackSessions.get("Closed Session");
         gracePeriodSession = testData.feedbackSessions.get("Grace Period Session");
@@ -53,7 +55,7 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
         FeedbackSubmitPage submitPage = loginToPage(url, FeedbackSubmitPage.class, instructor.getGoogleId());
 
         ______TS("verify loaded session data");
-        submitPage.verifyFeedbackSessionDetails(openSession);
+        submitPage.verifyFeedbackSessionDetails(openSession, course);
 
         ______TS("questions with giver type instructor");
         submitPage.verifyNumQuestions(1);
@@ -153,7 +155,7 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
                 .withParam("previewas", instructor.getEmail());
         submitPage = loginToPage(url, FeedbackSubmitPage.class, instructor.getGoogleId());
 
-        submitPage.verifyFeedbackSessionDetails(openSession);
+        submitPage.verifyFeedbackSessionDetails(openSession, course);
         submitPage.verifyNumQuestions(1);
         submitPage.verifyQuestionDetails(1, testData.feedbackQuestions.get("qn5InSession1"));
         submitPage.verifyCannotSubmit();
@@ -165,7 +167,7 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
                 .withParam("previewas", student.getEmail());
         submitPage = getNewPageInstance(url, FeedbackSubmitPage.class);
 
-        submitPage.verifyFeedbackSessionDetails(openSession);
+        submitPage.verifyFeedbackSessionDetails(openSession, course);
         submitPage.verifyNumQuestions(4);
         submitPage.verifyQuestionDetails(1, testData.feedbackQuestions.get("qn1InSession1"));
         submitPage.verifyQuestionDetails(2, testData.feedbackQuestions.get("qn2InSession1"));
@@ -181,7 +183,7 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
                 .withParam("moderatedquestionId", questionId);
         submitPage = getNewPageInstance(url, FeedbackSubmitPage.class);
 
-        submitPage.verifyFeedbackSessionDetails(gracePeriodSession);
+        submitPage.verifyFeedbackSessionDetails(gracePeriodSession, course);
         // One out of two questions in grace period session should not be visible
         submitPage.verifyNumQuestions(1);
         submitPage.verifyQuestionDetails(1, question);

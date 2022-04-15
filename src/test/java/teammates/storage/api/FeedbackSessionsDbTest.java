@@ -1,12 +1,15 @@
 package teammates.storage.api;
 
 import static teammates.common.util.FieldValidator.SESSION_END_TIME_FIELD_NAME;
+import static teammates.common.util.FieldValidator.SESSION_NAME;
 import static teammates.common.util.FieldValidator.SESSION_START_TIME_FIELD_NAME;
-import static teammates.common.util.FieldValidator.TIME_FRAME_ERROR_MESSAGE;
+import static teammates.common.util.FieldValidator.TIME_BEFORE_ERROR_MESSAGE;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.testng.annotations.AfterMethod;
@@ -451,6 +454,8 @@ public class FeedbackSessionsDbTest extends BaseTestCaseWithLocalDatabaseAccess 
                         .withSentPublishedEmail(fs.isSentPublishedEmail())
                         .withIsClosingEmailEnabled(fs.isClosingEmailEnabled())
                         .withIsPublishedEmailEnabled(fs.isPublishedEmailEnabled())
+                        .withStudentDeadlines(fs.getStudentDeadlines())
+                        .withInstructorDeadlines(fs.getInstructorDeadlines())
                         .build());
 
         assertEquals(JsonUtils.toJson(fs), JsonUtils.toJson(updatedFs));
@@ -479,7 +484,8 @@ public class FeedbackSessionsDbTest extends BaseTestCaseWithLocalDatabaseAccess 
                                 .withResultsVisibleFromTime(invalidFs.getResultsVisibleFromTime())
                                 .build()));
         assertEquals(
-                String.format(TIME_FRAME_ERROR_MESSAGE, SESSION_END_TIME_FIELD_NAME, SESSION_START_TIME_FIELD_NAME),
+                String.format(TIME_BEFORE_ERROR_MESSAGE, SESSION_END_TIME_FIELD_NAME, SESSION_NAME,
+                        SESSION_START_TIME_FIELD_NAME),
                 ipe.getLocalizedMessage());
 
         ______TS("feedback session does not exist");
@@ -661,6 +667,30 @@ public class FeedbackSessionsDbTest extends BaseTestCaseWithLocalDatabaseAccess 
         actualFs = fsDb.getFeedbackSession(typicalFs.getCourseId(), typicalFs.getFeedbackSessionName());
         assertFalse(updatedFs.isPublishedEmailEnabled());
         assertFalse(actualFs.isPublishedEmailEnabled());
+
+        assertEquals(new HashMap<>(), actualFs.getStudentDeadlines());
+        Map<String, Instant> newStudentDeadlines = new HashMap<>();
+        newStudentDeadlines.put("student@school.edu", Instant.now());
+        updatedFs = fsDb.updateFeedbackSession(
+                FeedbackSessionAttributes
+                        .updateOptionsBuilder(typicalFs.getFeedbackSessionName(), typicalFs.getCourseId())
+                        .withStudentDeadlines(newStudentDeadlines)
+                        .build());
+        actualFs = fsDb.getFeedbackSession(typicalFs.getCourseId(), typicalFs.getFeedbackSessionName());
+        assertEquals(newStudentDeadlines, updatedFs.getStudentDeadlines());
+        assertEquals(newStudentDeadlines, actualFs.getStudentDeadlines());
+
+        assertEquals(new HashMap<>(), actualFs.getInstructorDeadlines());
+        Map<String, Instant> newInstructorDeadlines = new HashMap<>();
+        newInstructorDeadlines.put("instructor@school.edu", Instant.now());
+        updatedFs = fsDb.updateFeedbackSession(
+                FeedbackSessionAttributes
+                        .updateOptionsBuilder(typicalFs.getFeedbackSessionName(), typicalFs.getCourseId())
+                        .withInstructorDeadlines(newInstructorDeadlines)
+                        .build());
+        actualFs = fsDb.getFeedbackSession(typicalFs.getCourseId(), typicalFs.getFeedbackSessionName());
+        assertEquals(newInstructorDeadlines, updatedFs.getInstructorDeadlines());
+        assertEquals(newInstructorDeadlines, actualFs.getInstructorDeadlines());
     }
 
     private FeedbackSessionAttributes getNewFeedbackSession() {

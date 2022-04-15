@@ -11,8 +11,8 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
@@ -301,6 +301,14 @@ public class AdminSearchPage extends AppPage {
         waitForPageToLoad();
     }
 
+    public void clickResetAccountRequestButton(AccountRequestAttributes accountRequest) {
+        WebElement accountRequestRow = getAccountRequestRow(accountRequest);
+        WebElement deleteButton = accountRequestRow.findElement(By.cssSelector("[id^='reset-account-request-']"));
+        deleteButton.click();
+        waitForConfirmationModalAndClickOk();
+        waitForPageToLoad();
+    }
+
     public int getNumExpandedRows(WebElement row) {
         String xpath = "following-sibling::tr[1]/td/ul/li";
         return row.findElements(By.xpath(xpath)).size();
@@ -329,7 +337,7 @@ public class AdminSearchPage extends AppPage {
         }
     }
 
-    public void verifyStudentRowContent(StudentAttributes student, AccountAttributes account,
+    public void verifyStudentRowContent(StudentAttributes student, CourseAttributes course,
                                         String expectedDetails, String expectedManageAccountLink,
                                         String expectedHomePageLink) {
         WebElement studentRow = getStudentRow(student);
@@ -343,7 +351,7 @@ public class AdminSearchPage extends AppPage {
 
         String expectedName = student.getName();
         String expectedGoogleId = StringHelper.convertToEmptyStringIfNull(student.getGoogleId());
-        String expectedInstitute = StringHelper.convertToEmptyStringIfNull(account.getInstitute());
+        String expectedInstitute = StringHelper.convertToEmptyStringIfNull(course.getInstitute());
         String expectedComment = StringHelper.convertToEmptyStringIfNull(student.getComments());
 
         assertEquals(expectedDetails, actualDetails);
@@ -369,7 +377,7 @@ public class AdminSearchPage extends AppPage {
         assertEquals(expectedNumExpandedRows, actualNumExpandedRows);
     }
 
-    public void verifyInstructorRowContent(InstructorAttributes instructor, AccountAttributes account,
+    public void verifyInstructorRowContent(InstructorAttributes instructor, CourseAttributes course,
                                            String expectedManageAccountLink, String expectedHomePageLink) {
         WebElement instructorRow = getInstructorRow(instructor);
         String actualCourseId = getInstructorCourseId(instructorRow);
@@ -382,7 +390,7 @@ public class AdminSearchPage extends AppPage {
         String expectedCourseId = instructor.getCourseId();
         String expectedName = instructor.getName();
         String expectedGoogleId = StringHelper.convertToEmptyStringIfNull(instructor.getGoogleId());
-        String expectedInstitute = StringHelper.convertToEmptyStringIfNull(account.getInstitute());
+        String expectedInstitute = StringHelper.convertToEmptyStringIfNull(course.getInstitute());
 
         assertEquals(expectedCourseId, actualCourseId);
         assertEquals(expectedName, actualName);

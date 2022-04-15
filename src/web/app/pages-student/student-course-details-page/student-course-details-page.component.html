@@ -20,6 +20,14 @@
               <span id="course-name">{{ course.courseName }}</span>
             </div>
           </div>
+          <div class="row">
+            <div class="col-3 text-right">
+              <label>Course institute:</label>
+            </div>
+            <div class="col-9">
+              <span id="course-institute">{{ course.institute }}</span>
+            </div>
+          </div>
         </ng-container>
         <ng-container *ngIf="instructorDetails && instructorDetails.length">
           <div class="row">

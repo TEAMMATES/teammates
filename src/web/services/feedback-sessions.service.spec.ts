@@ -34,6 +34,8 @@ describe('FeedbackSessionsService', () => {
     responseVisibleSetting: ResponseVisibleSetting.CUSTOM,
     isClosingEmailEnabled: false,
     isPublishedEmailEnabled: false,
+    studentDeadlines: {},
+    instructorDeadlines: {},
   };
 
   beforeEach(() => {
@@ -68,6 +70,8 @@ describe('FeedbackSessionsService', () => {
         isClosingEmailEnabled: false,
         isPublishedEmailEnabled: false,
         createdAtTimestamp: 0,
+        studentDeadlines: {},
+        instructorDeadlines: {},
       },
       responseRate: '',
       isLoadingResponseRate: false,

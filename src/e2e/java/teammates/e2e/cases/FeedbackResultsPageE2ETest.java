@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
@@ -25,6 +26,7 @@ import teammates.e2e.pageobjects.FeedbackResultsPage;
  */
 public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
     private FeedbackResultsPage resultsPage;
+    private CourseAttributes course;
     private FeedbackSessionAttributes openSession;
     private List<FeedbackQuestionAttributes> questions = new ArrayList<>();
 
@@ -33,6 +35,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         testData = loadDataBundle("/FeedbackResultsPageE2ETest.json");
         removeAndRestoreDataBundle(testData);
 
+        course = testData.courses.get("FRes.CS2104");
         openSession = testData.feedbackSessions.get("Open Session");
         for (int i = 1; i <= testData.feedbackQuestions.size(); i++) {
             questions.add(testData.feedbackQuestions.get("qn" + i));
@@ -52,7 +55,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
                 .withRegistrationKey(getKeyForStudent(unregistered));
         resultsPage = getNewPageInstance(url, FeedbackResultsPage.class);
 
-        resultsPage.verifyFeedbackSessionDetails(openSession);
+        resultsPage.verifyFeedbackSessionDetails(openSession, course);
 
         ______TS("unregistered student: questions with responses loaded");
         verifyLoadedQuestions(unregistered);
@@ -64,7 +67,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
                 .withSessionName(openSession.getFeedbackSessionName());
         resultsPage = loginToPage(url, FeedbackResultsPage.class, student.getGoogleId());
 
-        resultsPage.verifyFeedbackSessionDetails(openSession);
+        resultsPage.verifyFeedbackSessionDetails(openSession, course);
 
         ______TS("registered student: questions with responses loaded");
         verifyLoadedQuestions(student);
@@ -105,7 +108,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
                 .withSessionName(openSession.getFeedbackSessionName());
         resultsPage = loginToPage(url, FeedbackResultsPage.class, instructor.getGoogleId());
 
-        resultsPage.verifyFeedbackSessionDetails(openSession);
+        resultsPage.verifyFeedbackSessionDetails(openSession, course);
 
         ______TS("registered instructor: questions with responses loaded");
         verifyLoadedQuestions(instructor);

@@ -6,12 +6,12 @@
   </div>
   <div class="card-body">
     <div class="row" *ngIf="formMode === SessionEditFormMode.ADD">
-      <div class="col-md-6">
+      <div class="col-md-7">
         <div class="row align-items-center">
-          <div class="col-md-4">
-            <h5 class="text-center">Create new</h5>
+          <div class="col-md-3">
+            <h5 class="text-right">Create new</h5>
           </div>
-          <div class="col-9 col-md-7">
+          <div class="col-9 col-md-8">
             <select id="session-type" class="form-control" [ngModel]="model.templateSessionName" (ngModelChange)="triggerModelChange('templateSessionName', $event)">
               <option *ngFor="let templateSession of templateSessions" [ngValue]="templateSession.name">{{ templateSession.name }}</option>
             </select>
@@ -21,12 +21,12 @@
           </div>
         </div>
       </div>
-      <div class="col-md-6">
+      <div class="col-md-5">
         <div class="row text-center align-items-center mt-1">
-          <div class="col-md-3">
+          <div class="col-md-2">
             <h5 class="text-md-right">Or: </h5>
           </div>
-          <div class="col-md-9 text-md-left">
+          <div class="col-md-10 text-md-left">
             <button id="btn-copy-session" type="button" class="btn btn-info align-row" (click)="copyOthersHandler()">
               <span>Copy from previous feedback sessions</span>
               <div class="padding-left-7px">
@@ -129,7 +129,7 @@
     <div class="card border-primary margin-top-20px">
       <div class="card-body">
         <div class="row text-center">
-          <div class="col-md-5">
+          <div class="col-md-4">
             <div class="col-12 text-md-left">
               <div>
                 <label class="ngb-tooltip-class label-control font-bold" ngbTooltip="Users can start submitting responses.">
@@ -147,7 +147,7 @@
               </div>
             </div>
           </div>
-          <div class="col-md-5 border-left-gray">
+          <div class="col-md-4 border-left-gray">
             <div class="row text-center">
               <div class="col-12 text-md-left ml-md-2">
                 <label class="ngb-tooltip-class label-control font-bold" ngbTooltip="No more submissions from users.">
@@ -165,7 +165,7 @@
               </div>
             </div>
           </div>
-          <div class="col-md-2 border-left-gray">
+          <div class="col-md-4 border-left-gray">
             <div class="row text-center">
               <div class="ngb-tooltip-class col-12 text-md-left ml-md-2" ngbTooltip="Amount of time the system will continue accepting submissions after the specified deadline.">
                 <label class="control-label font-bold">
@@ -179,6 +179,14 @@
                   <option *ngFor="let graceMinute of [0, 5, 10, 15, 20, 25, 30]" [ngValue]="graceMinute">{{ graceMinute + ' min'}}</option>
                 </select>
               </div>
+            </div>
+            <div class="row">
+              <a class="pl-3 pt-2"
+                tmRouterLink="/web/instructor/sessions/individual-extension"
+                [queryParams]="{ courseid: model.courseId, fsname: model.feedbackSessionName }">
+                Individual Deadline Extensions
+                <i class="fas fa-edit"></i>
+              </a>
             </div>
           </div>
         </div>

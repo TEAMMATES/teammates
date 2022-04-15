@@ -3,16 +3,14 @@
     "SHome.instr": {
       "googleId": "tm.e2e.SHome.instr",
       "name": "Teammates Test",
-      "isInstructor": true,
       "email": "SHome.instr@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "readNotifications": {}
     },
     "SHome.student": {
       "googleId": "tm.e2e.SHome.student",
       "name": "Alice B",
-      "isInstructor": false,
       "email": "SHome.student@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "readNotifications": {}
     }
   },
   "courses": {
@@ -193,7 +191,9 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
     },
     "SHome.CS2104:Graced Feedback Session": {
       "feedbackSessionName": "Graced Feedback Session",
@@ -214,7 +214,9 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
     },
     "SHome.CS2104:No Question Feedback Session": {
       "feedbackSessionName": "No Question Feedback Session",
@@ -235,7 +237,9 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
     },
     "SHome.CS2104:Future Feedback Session": {
       "feedbackSessionName": "Future Feedback Session",
@@ -256,7 +260,9 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
     },
     "SHome.CS2104:Closed Feedback Session": {
       "feedbackSessionName": "Closed Feedback Session",
@@ -277,7 +283,9 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
     },
     "SHome.CS4221:Session with no Student Questions": {
       "feedbackSessionName": "Session without Student Questions",
@@ -298,7 +306,9 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
     }
   },
   "feedbackQuestions": {

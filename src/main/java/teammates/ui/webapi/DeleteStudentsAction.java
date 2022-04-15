@@ -26,10 +26,11 @@ class DeleteStudentsAction extends Action {
 
     @Override
     public JsonResult execute() {
-        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+        var courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+        var limit = getNonNullRequestParamValue(Const.ParamsNames.LIMIT);
 
-        logic.deleteStudentsInCourseCascade(courseId);
+        logic.deleteStudentsInCourseCascade(courseId, Integer.parseInt(limit));
 
-        return new JsonResult("All the students have been removed from the course");
+        return new JsonResult("Successful");
     }
 }

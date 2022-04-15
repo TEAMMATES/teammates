@@ -3,16 +3,14 @@
     "SCJoinConf.instr": {
       "googleId": "tm.e2e.SCJoinConf.instr",
       "name": "Teammates Test",
-      "isInstructor": true,
       "email": "SCJoinConf.instr@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "readNotifications": {}
     },
     "alice.tmms": {
       "googleId": "tm.e2e.SCJoinConf.alice",
       "name": "Alice B",
-      "isInstructor": false,
       "email": "SCJoinConf.alice@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "readNotifications": {}
     }
   },
   "courses": {

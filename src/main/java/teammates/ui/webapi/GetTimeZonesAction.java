@@ -11,7 +11,19 @@ import teammates.ui.output.TimeZonesData;
 /**
  * Action: get supported time zones.
  */
-class GetTimeZonesAction extends AdminOnlyAction {
+class GetTimeZonesAction extends Action {
+
+    @Override
+    AuthType getMinAuthLevel() {
+        return AuthType.LOGGED_IN;
+    }
+
+    @Override
+    void checkSpecificAccessControl() throws UnauthorizedAccessException {
+        if (!userInfo.isMaintainer && !userInfo.isAdmin) {
+            throw new UnauthorizedAccessException("Only Maintainers or Admin are allowed to access this resource.");
+        }
+    }
 
     @Override
     public JsonResult execute() {

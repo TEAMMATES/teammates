@@ -1,7 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { ResourceEndpoints } from '../types/api-const';
-import { CourseArchiveRequest, CourseCreateRequest } from '../types/api-request';
+import { CourseArchiveRequest, CourseCreateRequest, CourseUpdateRequest } from '../types/api-request';
 import { CourseService } from './course.service';
 import { HttpRequestService } from './http-request.service';
 
@@ -111,15 +111,16 @@ describe('CourseService', () => {
       courseName: 'test-name',
       timeZone: 'test-zone',
     };
-    const paramMap: { [key: string]: string } = {};
-    service.createCourse(request);
+    const paramMap: { [key: string]: string } = {
+      instructorinstitution: 'test-institute',
+    };
+    service.createCourse('test-institute', request);
     expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.COURSE, paramMap, request);
   });
 
   it('should execute PUT to update course', () => {
     const courseid: string = 'test-id';
-    const request: CourseCreateRequest = {
-      courseId: courseid,
+    const request: CourseUpdateRequest = {
       courseName: 'test-name',
       timeZone: 'test-zone',
     };

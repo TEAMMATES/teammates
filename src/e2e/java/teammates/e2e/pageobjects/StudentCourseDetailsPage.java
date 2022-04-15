@@ -28,6 +28,9 @@ public class StudentCourseDetailsPage extends AppPage {
     @FindBy(id = "course-id")
     private WebElement courseIdField;
 
+    @FindBy(id = "course-institute")
+    private WebElement courseInstituteField;
+
     @FindBy(id = "instructors")
     private WebElement instructorsList;
 
@@ -55,6 +58,7 @@ public class StudentCourseDetailsPage extends AppPage {
     public void verifyCourseDetails(CourseAttributes courseDetails) {
         assertEquals(courseDetails.getName(), courseNameField.getText());
         assertEquals(courseDetails.getId(), courseIdField.getText());
+        assertEquals(courseDetails.getInstitute(), courseInstituteField.getText());
     }
 
     public void verifyInstructorsDetails(InstructorAttributes[] instructorDetails) {

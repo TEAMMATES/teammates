@@ -15,7 +15,6 @@ import { AuthInfo } from '../../types/api-output';
 export class MaintainerPageComponent implements OnInit {
 
   user: string = '';
-  institute?: string = '';
   isInstructor: boolean = false;
   isStudent: boolean = false;
   isAdmin: boolean = false;
@@ -24,6 +23,14 @@ export class MaintainerPageComponent implements OnInit {
     {
       url: '/web/maintainer',
       display: 'Home',
+    },
+    {
+      url: '/web/maintainer/timezone',
+      display: 'Timezone Listing',
+    },
+    {
+      url: '/web/maintainer/stats',
+      display: 'Usage Statistics',
     },
   ];
   isFetchingAuthDetails: boolean = false;
@@ -41,7 +48,6 @@ export class MaintainerPageComponent implements OnInit {
           if (res.masquerade) {
             this.user += ' (M)';
           }
-          this.institute = res.institute;
           this.isInstructor = res.user.isInstructor;
           this.isStudent = res.user.isStudent;
           this.isAdmin = res.user.isAdmin;
