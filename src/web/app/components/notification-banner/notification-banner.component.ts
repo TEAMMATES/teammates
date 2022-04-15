@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { NotificationService } from '../../../services/notification.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { Notification, Notifications, NotificationTargetUser } from '../../../types/api-output';
@@ -14,7 +14,10 @@ import { collapseAnim } from '../teammates-common/collapse-anim';
   styleUrls: ['./notification-banner.component.scss'],
   animations: [collapseAnim],
 })
-export class NotificationBannerComponent implements OnInit {
+export class NotificationBannerComponent implements OnInit, OnChanges {
+
+  @Input()
+  url: string = '';
 
   @Input()
   notificationTargetUser: NotificationTargetUser = NotificationTargetUser.GENERAL;
@@ -28,6 +31,13 @@ export class NotificationBannerComponent implements OnInit {
   ngOnInit(): void {
     if (this.notificationTargetUser !== NotificationTargetUser.GENERAL) {
       this.fetchNotifications();
+    }
+  }
+
+  ngOnChanges(): void {
+    // Hide the notification banner if the user is on user notifications page
+    if (this.url.includes('notifications')) {
+      this.closeNotification();
     }
   }
 

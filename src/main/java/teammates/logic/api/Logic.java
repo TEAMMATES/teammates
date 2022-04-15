@@ -109,7 +109,7 @@ public class Logic {
      * <p>Preconditions:</p>
      * * All parameters are non-null. {@code endTime} must be after current moment.
      */
-    public AccountAttributes updateReadNotifications(String googleId, String notificationId, Instant endTime)
+    public List<String> updateReadNotifications(String googleId, String notificationId, Instant endTime)
             throws InvalidParametersException, EntityDoesNotExistException {
         assert googleId != null;
         return accountsLogic.updateReadNotifications(googleId, notificationId, endTime);

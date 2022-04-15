@@ -266,7 +266,7 @@ public final class AccountsLogic {
      * @throws InvalidParametersException if the notification has expired.
      * @throws EntityDoesNotExistException if account or notification does not exist.
      */
-    public AccountAttributes updateReadNotifications(String googleId, String notificationId, Instant endTime)
+    public List<String> updateReadNotifications(String googleId, String notificationId, Instant endTime)
             throws InvalidParametersException, EntityDoesNotExistException {
         AccountAttributes a = accountsDb.getAccount(googleId);
 
@@ -290,9 +290,10 @@ public final class AccountsLogic {
 
         updatedReadNotifications.put(notificationId, endTime);
 
-        return accountsDb.updateAccount(
+        AccountAttributes accountAttributes = accountsDb.updateAccount(
                 AccountAttributes.updateOptionsBuilder(googleId)
                         .withReadNotifications(updatedReadNotifications)
                         .build());
+        return new ArrayList<>(accountAttributes.getReadNotifications().keySet());
     }
 }

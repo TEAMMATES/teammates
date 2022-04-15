@@ -144,6 +144,13 @@ export class PageComponent {
       this.ngbModal.dismissAll();
     }
   }
+
+  /**
+   * Method to get the url of the current route.
+   */
+  getUrl(): string {
+    return this.router.url;
+  }
 }
 
 /**
