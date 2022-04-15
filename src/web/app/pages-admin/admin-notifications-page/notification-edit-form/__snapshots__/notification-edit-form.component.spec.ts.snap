@@ -51,7 +51,7 @@ exports[`NotificationEditFormComponent should snap with default view 1`] = `
             >
               <span
                 class="ngb-tooltip-class"
-                ngbtooltip="The indended recipients of this notification."
+                ngbtooltip="The intended recipients of this notification."
               >
                 Target user group
               </span>
