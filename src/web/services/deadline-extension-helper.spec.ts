@@ -12,7 +12,7 @@ const fixedLengthOfTime = 1000000;
 const ongoingExtension: Record<string, number> = { ongoingExtension1: timeNow + fixedLengthOfTime };
 const notOngoingExtension2: Record<string, number> = { notOngoingExtension2: timeNow };
 const notOngoingExtension1: Record<string, number> = { notOngoingExtension1: timeNow - fixedLengthOfTime };
-const hasOngingDeadlines: Record<string, number> = {
+const hasOngoingDeadlines: Record<string, number> = {
     ...ongoingExtension, ...notOngoingExtension1, ...notOngoingExtension2,
 };
 const hasNoOngoingDeadlines: Record<string, number> = {
@@ -87,18 +87,18 @@ describe('DeadlineExtensionHelper', () => {
 
   it('should detect ongoing extensions correctly', () => {
     expect(DeadlineExtensionHelper.hasOngoingExtension({
-        studentDeadlines: hasOngingDeadlines,
+        studentDeadlines: hasOngoingDeadlines,
         instructorDeadlines: hasNoOngoingDeadlines,
     })).toBeTruthy();
 
     expect(DeadlineExtensionHelper.hasOngoingExtension({
         studentDeadlines: hasNoOngoingDeadlines,
-        instructorDeadlines: hasOngingDeadlines,
+        instructorDeadlines: hasOngoingDeadlines,
     })).toBeTruthy();
 
     expect(DeadlineExtensionHelper.hasOngoingExtension({
-        studentDeadlines: hasOngingDeadlines,
-        instructorDeadlines: hasOngingDeadlines,
+        studentDeadlines: hasOngoingDeadlines,
+        instructorDeadlines: hasOngoingDeadlines,
     })).toBeTruthy();
 
     expect(DeadlineExtensionHelper.hasOngoingExtension({
@@ -123,7 +123,7 @@ describe('DeadlineExtensionHelper', () => {
   });
 
   it('should filter and set deadlines before given end time correctly', () => {
-    expect(Object.keys(DeadlineExtensionHelper.getDeadlinesBeforeOrEqualToEndTime(hasOngingDeadlines, timeNow)).length)
+    expect(Object.keys(DeadlineExtensionHelper.getDeadlinesBeforeOrEqualToEndTime(hasOngoingDeadlines, timeNow)).length)
       .toEqual(2);
     expect(
       Object.keys(DeadlineExtensionHelper.getDeadlinesBeforeOrEqualToEndTime(hasNoOngoingDeadlines, timeNow)).length,
@@ -152,18 +152,18 @@ describe('DeadlineExtensionHelper', () => {
   it('should get deadlines correctly after updating deadlines for creation', () => {
     const existingExtensionForStudentModel1: Record<string, number> = { 'student1Model@example.com': 0 };
     const existingExtensionForInstructorModel1: Record<string, number> = { 'instructor1Model@example.com': 0 };
-    const hasOngingDeadlinesWithStudent = { ...hasOngingDeadlines, ...existingExtensionForStudentModel1 };
-    const hasOngingDeadlinesWithInstructor = { ...hasOngingDeadlines, ...existingExtensionForInstructorModel1 };
+    const hasOngoingDeadlinesWithStudent = { ...hasOngoingDeadlines, ...existingExtensionForStudentModel1 };
+    const hasOngoingDeadlinesWithInstructor = { ...hasOngoingDeadlines, ...existingExtensionForInstructorModel1 };
 
     const updatedStudentDeadlines = DeadlineExtensionHelper.getUpdatedDeadlines([student1Model, student2Model],
-      hasOngingDeadlinesWithStudent, DeadlineHandlerType.CREATE, 100);
+      hasOngoingDeadlinesWithStudent, DeadlineHandlerType.CREATE, 100);
     expect(Object.keys(updatedStudentDeadlines).length).toEqual(5);
     expect(updatedStudentDeadlines['student1Model@example.com']).toEqual(100);
     expect(updatedStudentDeadlines['student2Model@example.com']).toEqual(100);
 
     const updatedInstructorDeadlines = DeadlineExtensionHelper
       .getUpdatedDeadlines([instructor1ModelWithExtension, instructor2ModelWithExtension],
-        hasOngingDeadlinesWithInstructor, DeadlineHandlerType.CREATE, 200);
+        hasOngoingDeadlinesWithInstructor, DeadlineHandlerType.CREATE, 200);
     expect(Object.keys(updatedInstructorDeadlines).length).toEqual(5);
     expect(updatedInstructorDeadlines['instructor1Model@example.com']).toEqual(200);
     expect(updatedInstructorDeadlines['instructor2Model@example.com']).toEqual(200);
@@ -172,13 +172,13 @@ describe('DeadlineExtensionHelper', () => {
   it('should get deadlines correctly after updating deadlines for deletion', () => {
     const student1ModelExtension: Record<string, number> = { 'student1Model@example.com': 0 };
     const instructor1ModelExtension: Record<string, number> = { 'instructor1Model@example.com': 0 };
-    const hasOngingDeadlinesWithStudent = { ...hasOngingDeadlines, ...student1ModelExtension };
-    const hasOngingDeadlinesWithInstructor = { ...hasOngingDeadlines, ...instructor1ModelExtension };
+    const hasOngoingDeadlinesWithStudent = { ...hasOngoingDeadlines, ...student1ModelExtension };
+    const hasOngoingDeadlinesWithInstructor = { ...hasOngoingDeadlines, ...instructor1ModelExtension };
 
     expect(Object.keys(DeadlineExtensionHelper.getUpdatedDeadlines([student1Model, student2Model],
-      hasOngingDeadlinesWithStudent, DeadlineHandlerType.DELETE)).length).toEqual(3);
+      hasOngoingDeadlinesWithStudent, DeadlineHandlerType.DELETE)).length).toEqual(3);
     expect(Object.keys(DeadlineExtensionHelper
       .getUpdatedDeadlines([instructor1ModelWithExtension, instructor2ModelWithExtension],
-        hasOngingDeadlinesWithInstructor, DeadlineHandlerType.DELETE)).length).toEqual(3);
+        hasOngoingDeadlinesWithInstructor, DeadlineHandlerType.DELETE)).length).toEqual(3);
   });
 });
