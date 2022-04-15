@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.TreeMap;
 import java.util.function.Supplier;
 
 import teammates.common.util.Const;
@@ -123,7 +124,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
      */
     public FeedbackSessionAttributes sanitizeForStudent(String studentEmail) {
         FeedbackSessionAttributes sanitizedCopy = getCopy();
-        sanitizedCopy.deadlineSupplier = () -> studentDeadlines.getOrDefault(studentEmail, endTime);
+        sanitizedCopy.deadlineSupplier = () -> sanitizedCopy.studentDeadlines.getOrDefault(studentEmail, endTime);
         return sanitizedCopy;
     }
 
@@ -135,7 +136,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
      */
     public FeedbackSessionAttributes sanitizeForInstructor(String instructorEmail) {
         FeedbackSessionAttributes sanitizedCopy = getCopy();
-        sanitizedCopy.deadlineSupplier = () -> instructorDeadlines.getOrDefault(instructorEmail, endTime);
+        sanitizedCopy.deadlineSupplier = () -> sanitizedCopy.instructorDeadlines.getOrDefault(instructorEmail, endTime);
         return sanitizedCopy;
     }
 
@@ -164,8 +165,8 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
                 createdTime, deletedTime, startTime, endTime, sessionVisibleFromTime, resultsVisibleFromTime,
                 timeZone, getGracePeriodMinutes(),
                 sentOpeningSoonEmail, sentOpenEmail, sentClosingEmail, sentClosedEmail, sentPublishedEmail,
-                isOpeningEmailEnabled, isClosingEmailEnabled, isPublishedEmailEnabled, studentDeadlines,
-                instructorDeadlines);
+                isOpeningEmailEnabled, isClosingEmailEnabled, isPublishedEmailEnabled, new HashMap<>(studentDeadlines),
+                new HashMap<>(instructorDeadlines));
     }
 
     @Override
@@ -410,8 +411,8 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
                + ", isOpeningEmailEnabled=" + isOpeningEmailEnabled
                + ", isClosingEmailEnabled=" + isClosingEmailEnabled
                + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled
-               + ", studentDeadlines=" + studentDeadlines
-               + ", instructorDeadlines=" + instructorDeadlines
+               + ", studentDeadlines=" + new TreeMap<>(studentDeadlines)
+               + ", instructorDeadlines=" + new TreeMap<>(instructorDeadlines)
                + "]";
     }
 
