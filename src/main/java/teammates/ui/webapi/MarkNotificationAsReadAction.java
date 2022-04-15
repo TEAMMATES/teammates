@@ -1,11 +1,11 @@
 package teammates.ui.webapi;
 
 import java.time.Instant;
+import java.util.List;
 
-import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.ui.output.AccountData;
+import teammates.ui.output.ReadNotificationsData;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 import teammates.ui.request.MarkNotificationAsReadRequest;
 
@@ -32,9 +32,9 @@ public class MarkNotificationAsReadAction extends Action {
         Instant endTime = Instant.ofEpochMilli(readNotificationCreateRequest.getEndTimestamp());
 
         try {
-            AccountAttributes accountAttributes =
+            List<String> readNotifications =
                     logic.updateReadNotifications(userInfo.getId(), notificationId, endTime);
-            AccountData output = new AccountData(accountAttributes);
+            ReadNotificationsData output = new ReadNotificationsData(readNotifications);
             return new JsonResult(output);
         } catch (EntityDoesNotExistException e) {
             throw new EntityNotFoundException(e);

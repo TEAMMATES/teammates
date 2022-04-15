@@ -65,10 +65,12 @@ public final class NotificationsDb extends EntitiesDb<Notification, Notification
                 .filter("endTime >", Instant.now())
                 .list();
 
-        endEntities.addAll(load()
-                .filter("targetUser", NotificationTargetUser.GENERAL)
-                .filter("endTime >", Instant.now())
-                .list());
+        if (targetUser != NotificationTargetUser.GENERAL) {
+            endEntities.addAll(load()
+                    .filter("targetUser", NotificationTargetUser.GENERAL)
+                    .filter("endTime >", Instant.now())
+                    .list());
+        }
 
         List<Notification> ongoingNotifications = endEntities.stream()
                 .filter(notification ->

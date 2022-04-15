@@ -27,8 +27,9 @@ public class NotificationAttributes extends EntityAttributes<Notification> {
     private String title;
     private String message;
     private boolean shown;
+    // createdAt is not transient as it is used for the frontend to sort by creation datetime.
     private Instant createdAt;
-    private Instant updatedAt;
+    private transient Instant updatedAt;
 
     private NotificationAttributes(String notificationId) {
         this.notificationId = notificationId;

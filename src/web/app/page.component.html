@@ -42,20 +42,29 @@
     </ul>
   </div>
 </nav>
+<tm-notification-banner *ngIf="isStudent || isInstructor"
+                        [url]="getUrl()"
+                        [notificationTargetUser]="notificationTargetUser"></tm-notification-banner>
 <tm-loader-bar></tm-loader-bar>
 <tm-toast [(toast)]="toast" aria-live="polite" aria-atomic="true"></tm-toast>
 <div id="main-content" class="container main-content">
   <div *tmIsLoading="isFetchingAuthDetails">
-    <div *ngIf="isUnsupportedBrowser">
+    <div *ngIf="isUnsupportedBrowser && !isUsingIe">
       <div class="alert alert-danger" role="alert">
         <i class="fas fa-exclamation-circle"></i>&nbsp;You are currently using {{ browser }}. This web browser is not officially supported by TEAMMATES.
         In case this web browser does not display the webpage correctly you may wish to view it in the following supported browsers:
         <ol>
-          <li>Microsoft Internet Explorer {{ minimumVersions['IE'] }}+</li>
           <li>Chrome {{ minimumVersions['Chrome'] }}+</li>
+          <li>Edge {{ minimumVersions['Edge'] }}+</li>
           <li>Firefox {{ minimumVersions['Firefox'] }}+</li>
           <li>Safari {{ minimumVersions['Safari'] }}+</li>
         </ol>
+      </div>
+    </div>
+    <div *ngIf="isUsingIe">
+      <div class="alert alert-danger" role="alert">
+        <i class="fas fa-exclamation-circle"></i>&nbsp;You are currently using Internet Explorer (IE). TEAMMATES support for IE is not guaranteed and will be dropped on 30 June 2022.
+        You are recommended to use an up-to-date browser such as Chrome, Firefox, Edge, or Safari.
       </div>
     </div>
     <div *ngIf="(isNetworkOnline$ | async) === false">

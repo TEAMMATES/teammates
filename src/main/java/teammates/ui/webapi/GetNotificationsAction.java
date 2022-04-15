@@ -35,8 +35,8 @@ public class GetNotificationsAction extends Action {
             throw new InvalidHttpParameterException(targetUserErrorMessage);
         }
         NotificationTargetUser targetUser = NotificationTargetUser.valueOf(targetUserString);
-        if (targetUser == NotificationTargetUser.INSTRUCTOR && userInfo.isStudent
-                || targetUser == NotificationTargetUser.STUDENT && userInfo.isInstructor) {
+        if (targetUser == NotificationTargetUser.INSTRUCTOR && !userInfo.isInstructor
+                || targetUser == NotificationTargetUser.STUDENT && !userInfo.isStudent) {
             throw new UnauthorizedAccessException(UNAUTHORIZED_ACCESS);
         }
     }
@@ -49,6 +49,7 @@ public class GetNotificationsAction extends Action {
         if (targetUserString == null && userInfo.isAdmin) {
             // if request is from admin and targetUser is not specified, retrieve all notifications
             notificationAttributes = logic.getAllNotifications();
+            return new JsonResult(new NotificationsData(notificationAttributes));
         } else {
             // retrieve active notification for specified target user
             String targetUserErrorMessage = FieldValidator.getInvalidityInfoForNotificationTargetUser(targetUserString);

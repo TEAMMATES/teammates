@@ -12,11 +12,7 @@ public class GetNotificationAction extends AdminOnlyAction {
 
     @Override
     public JsonResult execute() throws InvalidHttpRequestBodyException {
-        String notificationId = getRequestParamValue(Const.ParamsNames.NOTIFICATION_ID);
-
-        if (notificationId == null) {
-            throw new InvalidHttpParameterException("Notification ID cannot be null");
-        }
+        String notificationId = getNonNullRequestParamValue(Const.ParamsNames.NOTIFICATION_ID);
 
         NotificationAttributes notification = logic.getNotification(notificationId);
 

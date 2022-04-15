@@ -109,7 +109,7 @@ public class Logic {
      * <p>Preconditions:</p>
      * * All parameters are non-null. {@code endTime} must be after current moment.
      */
-    public AccountAttributes updateReadNotifications(String googleId, String notificationId, Instant endTime)
+    public List<String> updateReadNotifications(String googleId, String notificationId, Instant endTime)
             throws InvalidParametersException, EntityDoesNotExistException {
         assert googleId != null;
         return accountsLogic.updateReadNotifications(googleId, notificationId, endTime);
@@ -131,13 +131,6 @@ public class Logic {
     }
 
     /**
-     * Checks if a notification of {@code notificationId} exists.
-     */
-    public boolean doesNotificationExists(String notificationId) {
-        return notificationsLogic.doesNotificationExists(notificationId);
-    }
-
-    /**
      * Gets a notification by ID.
      *
      * <p>Preconditions:</p>
@@ -145,8 +138,8 @@ public class Logic {
      *
      * @return Null if no match found.
      */
-    public NotificationAttributes getNotification(String id) {
-        return notificationsLogic.getNotification(id);
+    public NotificationAttributes getNotification(String notificationId) {
+        return notificationsLogic.getNotification(notificationId);
     }
 
     /**
