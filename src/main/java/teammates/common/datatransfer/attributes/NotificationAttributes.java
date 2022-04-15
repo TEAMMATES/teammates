@@ -9,7 +9,6 @@ import java.util.Objects;
 
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
-import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
@@ -158,7 +157,7 @@ public class NotificationAttributes extends EntityAttributes<Notification> {
     }
 
     public Instant getUpdatedAt() {
-        return this.updatedAt == null ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : this.updatedAt;
+        return updatedAt;
     }
 
     public void setUpdatedAt(Instant updatedAt) {
