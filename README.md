@@ -12,14 +12,14 @@ It is provided as a cloud-based service for educators/students and is currently 
 
 This is the developer web site for TEAMMATES. **Click [here](http://teammatesv4.appspot.com/) to go to the TEAMMATES product website.**
 
-[**Documentation for Developers** :book:](docs/README.md) |
+[**Documentation for Developers** :book:](https://teammates.github.io/teammates) |
 [Version History](https://github.com/TEAMMATES/teammates/milestones?direction=desc&sort=due_date&state=closed) |
 [Project Stats](https://www.openhub.net/p/teammatesonline)
 
 ## Interested to join TEAMMATES developer team?
 
 We welcome contributions from developers, especially students. Here are some resources:
-* [**Contributor Orientation Guide**](docs/CONTRIBUTING.md): This document describes what you need to know/do to become a contributor.
+* [**Contributor Orientation Guide**](https://teammates.github.io/teammates/contributing-doc.html): This document describes what you need to know/do to become a contributor.
 * [**Project ideas page**](https://github.com/TEAMMATES/teammates/wiki): These are for those who would like to do a relatively bigger projects with TEAMMATES (e.g. summer internships).
 
 ## Acknowledgements
