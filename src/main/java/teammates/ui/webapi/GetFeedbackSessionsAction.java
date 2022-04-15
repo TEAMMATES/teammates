@@ -13,13 +13,14 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
-import teammates.ui.output.FeedbackSessionData;
 import teammates.ui.output.FeedbackSessionsData;
 
 /**
  * Get a list of feedback sessions.
  */
 class GetFeedbackSessionsAction extends Action {
+
+    private static final String NO_SUCH_USER_FOUND = "No such user found.";
 
     @Override
     AuthType getMinAuthLevel() {
@@ -69,15 +70,23 @@ class GetFeedbackSessionsAction extends Action {
         String entityType = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
 
         List<FeedbackSessionAttributes> feedbackSessionAttributes;
+        List<StudentAttributes> students = new ArrayList<>();
         List<InstructorAttributes> instructors = new ArrayList<>();
 
         if (courseId == null) {
             if (entityType.equals(Const.EntityType.STUDENT)) {
-                List<StudentAttributes> students = logic.getStudentsForGoogleId(userInfo.getId());
+                students = logic.getStudentsForGoogleId(userInfo.getId());
                 feedbackSessionAttributes = new ArrayList<>();
                 for (StudentAttributes student : students) {
                     feedbackSessionAttributes.addAll(logic.getFeedbackSessionsForCourse(student.getCourse()));
                 }
+                if (students.isEmpty()) {
+                    throw new EntityNotFoundException(NO_SUCH_USER_FOUND);
+                }
+                String emailAddress = students.get(0).getEmail();
+                feedbackSessionAttributes = feedbackSessionAttributes.stream()
+                        .map(instructorSession -> instructorSession.sanitizeForStudent(emailAddress))
+                        .collect(Collectors.toList());
             } else if (entityType.equals(Const.EntityType.INSTRUCTOR)) {
                 boolean isInRecycleBin = getBooleanRequestParamValue(Const.ParamsNames.IS_IN_RECYCLE_BIN);
 
@@ -88,13 +97,38 @@ class GetFeedbackSessionsAction extends Action {
                 } else {
                     feedbackSessionAttributes = logic.getFeedbackSessionsListForInstructor(instructors);
                 }
+                if (instructors.isEmpty()) {
+                    throw new EntityNotFoundException(NO_SUCH_USER_FOUND);
+                }
+                String emailAddress = instructors.get(0).getEmail();
+                feedbackSessionAttributes = feedbackSessionAttributes.stream()
+                        .map(instructorSession -> instructorSession.sanitizeForInstructor(emailAddress))
+                        .collect(Collectors.toList());
             } else {
                 feedbackSessionAttributes = new ArrayList<>();
             }
         } else {
             feedbackSessionAttributes = logic.getFeedbackSessionsForCourse(courseId);
-            if (entityType.equals(Const.EntityType.INSTRUCTOR)) {
-                instructors = Collections.singletonList(logic.getInstructorForGoogleId(courseId, userInfo.getId()));
+            if (entityType.equals(Const.EntityType.STUDENT) && !feedbackSessionAttributes.isEmpty()) {
+                StudentAttributes student = logic.getStudentForGoogleId(courseId, userInfo.getId());
+                students = Collections.singletonList(student);
+                if (student == null) {
+                    throw new EntityNotFoundException(NO_SUCH_USER_FOUND);
+                }
+                String emailAddress = student.getEmail();
+                feedbackSessionAttributes = feedbackSessionAttributes.stream()
+                        .map(instructorSession -> instructorSession.sanitizeForStudent(emailAddress))
+                        .collect(Collectors.toList());
+            } else if (entityType.equals(Const.EntityType.INSTRUCTOR) && !feedbackSessionAttributes.isEmpty()) {
+                InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
+                instructors = Collections.singletonList(instructor);
+                if (instructor == null) {
+                    throw new EntityNotFoundException(NO_SUCH_USER_FOUND);
+                }
+                String emailAddress = instructor.getEmail();
+                feedbackSessionAttributes = feedbackSessionAttributes.stream()
+                        .map(instructorSession -> instructorSession.sanitizeForInstructor(emailAddress))
+                        .collect(Collectors.toList());
             }
         }
 
@@ -109,7 +143,14 @@ class GetFeedbackSessionsAction extends Action {
 
         FeedbackSessionsData responseData = new FeedbackSessionsData(feedbackSessionAttributes);
         if (entityType.equals(Const.EntityType.STUDENT)) {
-            responseData.getFeedbackSessions().forEach(FeedbackSessionData::hideInformationForStudent);
+            String emailAddress = students.isEmpty() ? null : students.get(0).getEmail();
+            responseData.getFeedbackSessions().forEach(session -> {
+                session.hideInformationForStudent();
+                if (emailAddress == null) {
+                    return;
+                }
+                session.filterDeadlinesForStudent(emailAddress);
+            });
         } else if (entityType.equals(Const.EntityType.INSTRUCTOR)) {
             responseData.getFeedbackSessions().forEach(session -> {
                 InstructorAttributes instructor = courseIdToInstructor.get(session.getCourseId());
