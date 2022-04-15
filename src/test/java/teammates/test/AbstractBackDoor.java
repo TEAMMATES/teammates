@@ -310,6 +310,15 @@ public abstract class AbstractBackDoor {
         return AccountAttributes.builder(accountData.getGoogleId())
                 .withName(accountData.getName())
                 .withEmail(accountData.getEmail())
+                .withReadNotifications(
+                    accountData.getReadNotifications()
+                        .entrySet()
+                        .stream()
+                        .collect(Collectors.toMap(
+                            e -> e.getKey(),
+                            e -> Instant.ofEpochMilli(e.getValue())
+                        ))
+                )
                 .build();
     }
 

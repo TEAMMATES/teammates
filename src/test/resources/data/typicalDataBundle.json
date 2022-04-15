@@ -5,8 +5,8 @@
       "name": "Instructor 1 of Course 1",
       "email": "instr1@course1.tmt",
       "readNotifications": {
-        "notification1": "2012-01-01T00:00:00Z",
-        "notification3": "2013-01-01T00:00:00Z"
+        "notification1": "2099-01-01T00:00:00Z",
+        "notification3": "2099-03-03T00:00:00Z"
       }
     },
     "instructor2OfCourse1": {
@@ -14,7 +14,7 @@
       "name": "Instructor 2 of Course 1",
       "email": "instr2@course1.tmt",
       "readNotifications": {
-        "expiredNotification1": "2012-01-01T00:00:00Z"
+        "expiredNotification1": "2011-02-02T00:00:00Z"
       }
     },
     "helperOfCourse1": {
