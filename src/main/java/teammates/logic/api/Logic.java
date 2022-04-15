@@ -131,13 +131,6 @@ public class Logic {
     }
 
     /**
-     * Checks if a notification of {@code notificationId} exists.
-     */
-    public boolean doesNotificationExists(String notificationId) {
-        return notificationsLogic.doesNotificationExists(notificationId);
-    }
-
-    /**
      * Gets a notification by ID.
      *
      * <p>Preconditions:</p>
@@ -145,8 +138,8 @@ public class Logic {
      *
      * @return Null if no match found.
      */
-    public NotificationAttributes getNotification(String id) {
-        return notificationsLogic.getNotification(id);
+    public NotificationAttributes getNotification(String notificationId) {
+        return notificationsLogic.getNotification(notificationId);
     }
 
     /**
