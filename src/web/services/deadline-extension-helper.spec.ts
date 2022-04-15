@@ -10,8 +10,8 @@ const timeNow = Date.now();
 const fixedLengthOfTime = 1000000;
 
 const ongoingExtension: Record<string, number> = { ongoingExtension1: timeNow + fixedLengthOfTime };
-const notOngoingExtension1: Record<string, number> = { notOngoingExtension1: timeNow - fixedLengthOfTime };
 const notOngoingExtension2: Record<string, number> = { notOngoingExtension2: timeNow };
+const notOngoingExtension1: Record<string, number> = { notOngoingExtension1: timeNow - fixedLengthOfTime };
 const hasOngingDeadlines: Record<string, number> = {
     ...ongoingExtension, ...notOngoingExtension1, ...notOngoingExtension2,
 };
@@ -122,22 +122,12 @@ describe('DeadlineExtensionHelper', () => {
     })).toBeFalsy();
   });
 
-  it('should detect extensions before given end time correctly', () => {
-    expect(DeadlineExtensionHelper.hasDeadlinesAfterTime(
-      hasOngingDeadlines, hasNoOngoingDeadlines, timeNow)).toBeFalsy();
-    expect(DeadlineExtensionHelper.hasDeadlinesAfterTime(
-      hasOngingDeadlines, hasOngingDeadlines, timeNow)).toBeFalsy();
-    expect(DeadlineExtensionHelper.hasDeadlinesAfterTime(
-      hasNoOngoingDeadlines, hasNoOngoingDeadlines, timeNow)).toBeFalsy();
-    expect(DeadlineExtensionHelper.hasDeadlinesAfterTime(
-      hasOngingDeadlines, hasNoOngoingDeadlines, timeNow - (2 * fixedLengthOfTime))).toBeTruthy();
-  });
-
   it('should filter and set deadlines before given end time correctly', () => {
-    expect(Object.keys(DeadlineExtensionHelper.setDeadlinesBeforeEndTime(hasOngingDeadlines, timeNow)).length)
-      .toEqual(1);
-    expect(Object.keys(DeadlineExtensionHelper.setDeadlinesBeforeEndTime(hasNoOngoingDeadlines, timeNow)).length)
-      .toEqual(1);
+    expect(Object.keys(DeadlineExtensionHelper.getDeadlinesBeforeOrEqualToEndTime(hasOngingDeadlines, timeNow)).length)
+      .toEqual(2);
+    expect(
+      Object.keys(DeadlineExtensionHelper.getDeadlinesBeforeOrEqualToEndTime(hasNoOngoingDeadlines, timeNow)).length,
+    ).toEqual(2);
   });
 
   it('should map students correctly', () => {

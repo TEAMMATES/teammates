@@ -475,15 +475,16 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Prompts the user to delete individual extensions that are before or equal to the new session end time.
    */
   deleteDeadlineExtensionsHandler(submissionEndTimestamp: number): Observable<boolean> {
-    const hasDeadlinesBeforeUpdatedEndTime = DeadlineExtensionHelper
-      .hasDeadlinesBeforeUpdatedEndTime(this.studentDeadlines, this.instructorDeadlines, submissionEndTimestamp);
+    const [studentDeadlinesToDelete, instructorDeadlinesToDelete] = this
+      .getIndividualDeadlinesToDelete(submissionEndTimestamp);
 
-    if (!hasDeadlinesBeforeUpdatedEndTime) {
+    const isAllDeadlinesAfterUpdatedEndTime = studentDeadlinesToDelete.length === 0
+      && instructorDeadlinesToDelete.length === 0;
+
+    if (isAllDeadlinesAfterUpdatedEndTime) {
       return of(true); // no need to prompt for deletion
     }
 
-    const [studentDeadlinesToDelete, instructorDeadlinesToDelete] = this
-      .getIndividualDeadlinesToDelete(submissionEndTimestamp);
     const [affectedStudentModels, affectedInstructorModels] = this
       .getAffectedIndividualModels(submissionEndTimestamp, studentDeadlinesToDelete, instructorDeadlinesToDelete);
 
@@ -509,9 +510,9 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   private getIndividualDeadlinesToDelete(submissionEndTimestamp: number): [
     Record<string, number>, Record<string, number>,
   ] {
-    const studentDeadlinesToDelete = DeadlineExtensionHelper.setDeadlinesBeforeEndTime(
+    const studentDeadlinesToDelete = DeadlineExtensionHelper.getDeadlinesBeforeOrEqualToEndTime(
       this.studentDeadlines, submissionEndTimestamp);
-    const instructorDeadlinesToDelete = DeadlineExtensionHelper.setDeadlinesBeforeEndTime(
+    const instructorDeadlinesToDelete = DeadlineExtensionHelper.getDeadlinesBeforeOrEqualToEndTime(
       this.instructorDeadlines, submissionEndTimestamp);
     return [studentDeadlinesToDelete, instructorDeadlinesToDelete];
   }

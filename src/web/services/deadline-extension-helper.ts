@@ -22,26 +22,17 @@ export class DeadlineExtensionHelper {
       || Object.values(deadlines.instructorDeadlines).some((deadlineTimestamp) => deadlineTimestamp > timeNow);
   }
 
-  public static hasDeadlinesBeforeUpdatedEndTime(
-    studentDeadlines: Record<string, number>,
-    instructorDeadlines: Record<string, number>,
-    newSubmissionEndTime: number,
-  ): boolean {
-    const allDeadlines: Record<string, number> = { ...studentDeadlines, ...instructorDeadlines };
-    return Object.values(allDeadlines).some((deadlineTimestamp) => deadlineTimestamp < newSubmissionEndTime);
-  }
-
-  public static setDeadlinesBeforeEndTime(
+  public static getDeadlinesBeforeOrEqualToEndTime(
     deadlines: Record<string, number>,
     submissionEndTime: number,
   ): Record<string, number> {
-    const deadlinesToSet: Record<string, number> = {};
+    const deadlinesBeforeOrEqualToEndTime: Record<string, number> = {};
     for (const [emailOfIndividual, deadlineOfIndividual] of Object.entries(deadlines)) {
-      if (deadlineOfIndividual < submissionEndTime) {
-        deadlinesToSet[emailOfIndividual] = deadlineOfIndividual;
+      if (deadlineOfIndividual <= submissionEndTime) {
+        deadlinesBeforeOrEqualToEndTime[emailOfIndividual] = deadlineOfIndividual;
       }
     }
-    return deadlinesToSet;
+    return deadlinesBeforeOrEqualToEndTime;
   }
 
   public static mapStudentsToStudentModels(students: Student[],
