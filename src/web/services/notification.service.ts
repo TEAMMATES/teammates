@@ -1,8 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ResourceEndpoints } from '../types/api-const';
-import { MessageOutput, Notification, Notifications, NotificationTargetUser } from '../types/api-output';
-import { NotificationCreateRequest, NotificationUpdateRequest } from '../types/api-request';
+import {
+  MessageOutput,
+  Notification,
+  Notifications,
+  NotificationTargetUser,
+  ReadNotifications,
+} from '../types/api-output';
+import {
+  MarkNotificationAsReadRequest,
+  NotificationCreateRequest,
+  NotificationUpdateRequest,
+} from '../types/api-request';
 import { HttpRequestService } from './http-request.service';
 
 /**
@@ -33,29 +43,55 @@ export class NotificationService {
    * Updates a notification by calling API.
    */
   updateNotification(request: NotificationUpdateRequest, notificationId: string): Observable<Notification> {
-    const paramsMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       notificationid: notificationId,
     };
-    return this.httpRequestService.put(ResourceEndpoints.NOTIFICATION, paramsMap, request);
+    return this.httpRequestService.put(ResourceEndpoints.NOTIFICATION, paramMap, request);
   }
 
   /**
    * Deletes a notification by calling API.
    */
   deleteNotification(notificationId: string): Observable<MessageOutput> {
-    const paramsMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       notificationid: notificationId,
     };
-    return this.httpRequestService.delete(ResourceEndpoints.NOTIFICATION, paramsMap);
+    return this.httpRequestService.delete(ResourceEndpoints.NOTIFICATION, paramMap);
+  }
+
+  /**
+   * Marks a notification as read.
+   */
+  markNotificationAsRead(request: MarkNotificationAsReadRequest): Observable<ReadNotifications> {
+    return this.httpRequestService.post(ResourceEndpoints.NOTIFICATION_READ, {}, request);
+  }
+
+  /**
+   * Retrieves unread notifications for a specific target user type.
+   */
+  getUnreadNotificationsForTargetUser(userType: NotificationTargetUser): Observable<Notifications> {
+    const paramMap: Record<string, string> = {
+      usertype: userType,
+      isfetchingall: 'false',
+    };
+    return this.httpRequestService.get(ResourceEndpoints.NOTIFICATIONS, paramMap);
   }
 
   /**
    * Retrieves all notifications for a specific target user type.
    */
-  getNotificationsByTargetUser(userType: NotificationTargetUser): Observable<Notifications> {
+  getAllNotificationsForTargetUser(userType: NotificationTargetUser): Observable<Notifications> {
     const paramMap: Record<string, string> = {
       usertype: userType,
+      isfetchingall: 'true',
     };
     return this.httpRequestService.get(ResourceEndpoints.NOTIFICATIONS, paramMap);
+  }
+
+  /**
+   * Retrieves read notifications for the user.
+   */
+  getReadNotifications(): Observable<ReadNotifications> {
+    return this.httpRequestService.get(ResourceEndpoints.NOTIFICATION_READ);
   }
 }

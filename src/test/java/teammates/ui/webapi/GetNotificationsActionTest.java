@@ -242,6 +242,8 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
         assertEquals(expected.getTargetUser(), actual.getTargetUser());
         assertEquals(expected.getTitle(), actual.getTitle());
         assertEquals(expected.getMessage(), actual.getMessage());
+        assertEquals(expected.getStartTimestamp(), actual.getStartTimestamp());
+        assertEquals(expected.getEndTimestamp(), actual.getEndTimestamp());
     }
 
     private void verifyDoesNotContainNotifications(List<NotificationData> notifications, Set<String> readIds) {
