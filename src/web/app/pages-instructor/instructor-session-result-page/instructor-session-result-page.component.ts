@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { saveAs } from 'file-saver';
 import { Observable, of } from 'rxjs';
-import { concatAll, concatMap, finalize } from 'rxjs/operators';
+import { concatMap, finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackResponseCommentService } from '../../../services/feedback-response-comment.service';
@@ -308,23 +308,14 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
     }
     of(...Object.keys(this.sectionsModel)).pipe(
         concatMap((sectionName: string) => {
-          return of(this.feedbackSessionsService.getFeedbackSessionResults({
+          return this.feedbackSessionsService.getFeedbackSessionResults({
             questionId,
             courseId: this.session.courseId,
             feedbackSessionName: this.session.feedbackSessionName,
             intent: Intent.FULL_DETAIL,
             groupBySection: sectionName,
-            sectionByGiverReceiver: 'giver',
-          }),
-          this.feedbackSessionsService.getFeedbackSessionResults({
-            questionId,
-            courseId: this.session.courseId,
-            feedbackSessionName: this.session.feedbackSessionName,
-            intent: Intent.FULL_DETAIL,
-            groupBySection: sectionName,
-            sectionByGiverReceiver: 'receiver',
-          }),
-          ).pipe(concatAll());
+            sectionByGiverReceiver: 'both',
+          });
         }),
     ).subscribe(
       {
