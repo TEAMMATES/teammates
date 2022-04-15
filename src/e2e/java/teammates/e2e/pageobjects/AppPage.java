@@ -347,8 +347,8 @@ public abstract class AppPage {
 
         WebElement datePicker = dateBox.findElement(By.tagName("ngb-datepicker"));
         WebElement monthAndYearPicker = datePicker.findElement(By.tagName("ngb-datepicker-navigation-select"));
-        WebElement monthPicker = monthAndYearPicker.findElement(By.cssSelector("[aria-label='Select month']"));
-        WebElement yearPicker = monthAndYearPicker.findElement(By.cssSelector("[aria-label='Select year']"));
+        WebElement monthPicker = monthAndYearPicker.findElement(By.cssSelector("[title='Select month']"));
+        WebElement yearPicker = monthAndYearPicker.findElement(By.cssSelector("[title='Select year']"));
         WebElement dayPicker = datePicker.findElement(By.cssSelector("ngb-datepicker-month"));
 
         String year = getYearString(startInstant, timeZone);

@@ -410,7 +410,6 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    */
   editExistingSessionHandler(): void {
     this.feedbackSessionModelBeforeEditing = JSON.parse(JSON.stringify(this.sessionEditFormModel));
-    this.sessionEditFormModel.isSaving = true;
 
     const submissionStartTime: number = this.timezoneService.resolveLocalDateTime(
         this.sessionEditFormModel.submissionStartDate, this.sessionEditFormModel.submissionStartTime,
@@ -431,6 +430,17 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
           this.sessionEditFormModel.timeZone, true);
     }
 
+    this.deleteDeadlineExtensionsHandler(submissionEndTime).subscribe((isUpdateSession) => {
+      if (isUpdateSession) {
+        this.updateFeedbackSession(submissionStartTime, submissionEndTime, sessionVisibleTime, responseVisibleTime);
+      }
+    });
+  }
+
+  updateFeedbackSession(submissionStartTime: number, submissionEndTime: number, sessionVisibleTime: number,
+    responseVisibleTime: number): void {
+    this.sessionEditFormModel.isSaving = true;
+    this.sessionEditFormModel.isEditable = false;
     this.feedbackSessionsService.updateFeedbackSession(this.courseId, this.feedbackSessionName, {
       instructions: this.sessionEditFormModel.instructions,
 
