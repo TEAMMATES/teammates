@@ -8,6 +8,7 @@ import { catchError, finalize, switchMap, tap } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../../../services/auth.service';
 import { CourseService } from '../../../services/course.service';
+import { DeadlineExtensionHelper } from '../../../services/deadline-extension-helper';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackResponseCommentService } from '../../../services/feedback-response-comment.service';
 import { FeedbackResponsesResponse, FeedbackResponsesService } from '../../../services/feedback-responses.service';
@@ -68,6 +69,8 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   // enum
   FeedbackSessionSubmissionStatus: typeof FeedbackSessionSubmissionStatus = FeedbackSessionSubmissionStatus;
   Intent: typeof Intent = Intent;
+
+  FIFTEEN_MINUTES = 15 * 60 * 1000;
 
   courseId: string = '';
   feedbackSessionName: string = '';
@@ -360,8 +363,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
         this.formattedSessionOpeningTime = this.timezoneService
           .formatToString(feedbackSession.submissionStartTimestamp, feedbackSession.timeZone, TIME_FORMAT);
 
-        this.formattedSessionClosingTime = this.timezoneService
-          .formatToString(feedbackSession.submissionEndTimestamp, feedbackSession.timeZone, TIME_FORMAT);
+        this.formattedSessionClosingTime = this.getformattedSessionClosingTime(feedbackSession, TIME_FORMAT);
 
         this.feedbackSessionSubmissionStatus = feedbackSession.submissionStatus;
         this.feedbackSessionTimezone = feedbackSession.timeZone;
@@ -379,8 +381,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                 'Feedback Session Not Open', SimpleModalType.WARNING, modalContent);
               break;
             case FeedbackSessionSubmissionStatus.OPEN:
-              // closing in 15 minutes
-              if (feedbackSession.submissionEndTimestamp - Date.now() < 15 * 60 * 1000) {
+              if (this.isFeedbackEndingLessThanFifteenMintues(feedbackSession)) {
                 modalContent = 'Warning: you have less than 15 minutes before the submission deadline expires!';
                 this.simpleModalService.openInformationModal(
                   'Feedback Session Will Be Closing Soon!', SimpleModalType.WARNING, modalContent);
@@ -889,6 +890,21 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
       questionSubmissionForm.isLoading = true;
       this.loadFeedbackQuestionRecipientsForQuestion(questionSubmissionForm);
     }
+  }
+
+  private getformattedSessionClosingTime(feedbackSession: FeedbackSession, TIME_FORMAT: string): string {
+    const userSessionEndingTime = DeadlineExtensionHelper.getUserFeedbackSessionEndingTimestamp(feedbackSession);
+    let formattedString = this.timezoneService.formatToString(
+      userSessionEndingTime, feedbackSession.timeZone, TIME_FORMAT);
+    if (DeadlineExtensionHelper.hasUserOngoingExtension(feedbackSession)) {
+      formattedString += ' (Extension ongoing)';
+    }
+    return formattedString;
+  }
+
+  private isFeedbackEndingLessThanFifteenMintues(feedbackSession: FeedbackSession): boolean {
+    const userSessionEndingTime = DeadlineExtensionHelper.getUserFeedbackSessionEndingTimestamp(feedbackSession);
+    return (userSessionEndingTime - Date.now()) < this.FIFTEEN_MINUTES;
   }
 
 }
