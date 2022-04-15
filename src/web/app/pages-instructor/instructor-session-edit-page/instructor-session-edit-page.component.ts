@@ -192,7 +192,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   // all students of the course
   studentsOfCourse: Student[] = [];
   emailOfStudentToPreview: string = '';
-  // all instructors of course
+  // all instructors of the course
   instructorsOfCourse: Instructor[] = [];
   emailOfInstructorToPreview: string = '';
 
@@ -538,9 +538,6 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     return [affectedStudentModels, affectedInstructorModels];
   }
 
-  /**
-   * Update and set deadlines after filtering out extensions that exist before or equal to the new session end time.
-   */
   private removeDeadlines(students: StudentExtensionTableColumnModel[],
     instructors: InstructorExtensionTableColumnModel[],
   ): void {
@@ -1112,7 +1109,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   }
 
   /**
-   * Gets all instructors of a course which can be previewed as.
+   * Gets all instructors of a course.
    */
   getAllInstructors(): void {
     this.instructorService.loadInstructors({
