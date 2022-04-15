@@ -1,8 +1,10 @@
 package teammates.ui.webapi;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.testng.annotations.Test;
@@ -133,7 +135,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         FeedbackSessionsData fsData = (FeedbackSessionsData) getJsonResult(action).getOutput();
 
         assertEquals(2, fsData.getFeedbackSessions().size());
-        assertAllStudentSessionsMatch(fsData, sessionsInCourse2);
+        assertAllStudentSessionsMatch(fsData, sessionsInCourse2, instructor1OfCourse1.getEmail());
     }
 
     @Test
@@ -150,7 +152,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
 
         GetFeedbackSessionsAction action = getAction(submissionParam);
         FeedbackSessionsData fsData = (FeedbackSessionsData) getJsonResult(action).getOutput();
-        assertAllStudentSessionsMatch(fsData, sessionsInCourse2);
+        assertAllStudentSessionsMatch(fsData, sessionsInCourse2, student2InCourse2.getEmail());
     }
 
     @Test
@@ -184,7 +186,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         FeedbackSessionsData fsData = (FeedbackSessionsData) getJsonResult(action).getOutput();
 
         assertEquals(4, fsData.getFeedbackSessions().size());
-        assertAllStudentSessionsMatch(fsData, sessionsInCourse1.subList(0, 4));
+        assertAllStudentSessionsMatch(fsData, sessionsInCourse1.subList(0, 4), student1InCourse1.getEmail());
 
     }
 
@@ -201,7 +203,213 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         FeedbackSessionsData fsData = (FeedbackSessionsData) getJsonResult(a).getOutput();
 
         assertEquals(4, fsData.getFeedbackSessions().size());
-        assertAllStudentSessionsMatch(fsData, sessionsInCourse1.subList(0, 4));
+        assertAllStudentSessionsMatch(fsData, sessionsInCourse1.subList(0, 4), student1InCourse1.getEmail());
+    }
+
+    @Test
+    protected void testExecute_asStudentWithDeadlines_shouldHaveCorrectSubmissionStatus() throws Exception {
+        StudentAttributes student4InCourse1 = typicalBundle.students.get("student4InCourse1");
+        String emailAddress = student4InCourse1.getEmail();
+        FeedbackSessionAttributes session2InCourse1 = typicalBundle.feedbackSessions.get("session2InCourse1");
+        loginAsStudent(student4InCourse1.getGoogleId());
+
+        Instant newEndTime = Instant.now().plus(Duration.ofHours(-1));
+        logic.updateFeedbackSession(FeedbackSessionAttributes.updateOptionsBuilder(
+                session2InCourse1.getFeedbackSessionName(), session2InCourse1.getCourseId())
+                .withEndTime(newEndTime)
+                .build());
+        List<FeedbackSessionAttributes> expectedSessions = sessionsInCourse1.stream()
+                .map(session -> session.sanitizeForStudent(emailAddress))
+                .collect(Collectors.toList());
+        FeedbackSessionAttributes expectedSession2InCourse1 = expectedSessions.get(
+                expectedSessions.indexOf(session2InCourse1));
+        expectedSession2InCourse1.setEndTime(newEndTime);
+
+        String[] submissionParam = {
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
+        };
+
+        ______TS("Before deadline; should indicate open.");
+
+        GetFeedbackSessionsAction a = getAction(submissionParam);
+        FeedbackSessionsData fsData = (FeedbackSessionsData) getJsonResult(a).getOutput();
+
+        assertAllStudentSessionsMatch(fsData, expectedSessions.subList(0, 4), emailAddress);
+
+        ______TS("After deadline but within grace period; should indicate in grace period.");
+
+        Map<String, Instant> studentDeadlines = expectedSession2InCourse1.getStudentDeadlines();
+        studentDeadlines.put(emailAddress, Instant.now().plusSeconds(-1));
+        logic.updateFeedbackSession(FeedbackSessionAttributes.updateOptionsBuilder(
+                expectedSession2InCourse1.getFeedbackSessionName(), expectedSession2InCourse1.getCourseId())
+                .withStudentDeadlines(studentDeadlines)
+                .build());
+
+        a = getAction(submissionParam);
+        fsData = (FeedbackSessionsData) getJsonResult(a).getOutput();
+
+        assertAllStudentSessionsMatch(fsData, expectedSessions.subList(0, 4), emailAddress);
+
+        ______TS("After deadline and beyond grace period; should indicate closed.");
+
+        studentDeadlines.put(emailAddress, Instant.now().plus(Duration.ofHours(-1)));
+        logic.updateFeedbackSession(FeedbackSessionAttributes.updateOptionsBuilder(
+                expectedSession2InCourse1.getFeedbackSessionName(), expectedSession2InCourse1.getCourseId())
+                .withStudentDeadlines(studentDeadlines)
+                .build());
+
+        a = getAction(submissionParam);
+        fsData = (FeedbackSessionsData) getJsonResult(a).getOutput();
+
+        assertAllStudentSessionsMatch(fsData, expectedSessions.subList(0, 4), emailAddress);
+
+        ______TS("Before deadline with course ID; should indicate open.");
+
+        submissionParam = new String[] {
+                Const.ParamsNames.COURSE_ID, student4InCourse1.getCourse(),
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
+        };
+
+        studentDeadlines.put(emailAddress, Instant.now().plus(Duration.ofHours(1)));
+        logic.updateFeedbackSession(FeedbackSessionAttributes.updateOptionsBuilder(
+                expectedSession2InCourse1.getFeedbackSessionName(), expectedSession2InCourse1.getCourseId())
+                .withStudentDeadlines(studentDeadlines)
+                .build());
+
+        a = getAction(submissionParam);
+        fsData = (FeedbackSessionsData) getJsonResult(a).getOutput();
+
+        assertAllStudentSessionsMatch(fsData, expectedSessions.subList(0, 4), emailAddress);
+
+        ______TS("After deadline but within grace period with course ID; should indicate in grace period.");
+
+        studentDeadlines.put(emailAddress, Instant.now().plusSeconds(-1));
+        logic.updateFeedbackSession(FeedbackSessionAttributes.updateOptionsBuilder(
+                expectedSession2InCourse1.getFeedbackSessionName(), expectedSession2InCourse1.getCourseId())
+                .withStudentDeadlines(studentDeadlines)
+                .build());
+
+        a = getAction(submissionParam);
+        fsData = (FeedbackSessionsData) getJsonResult(a).getOutput();
+
+        assertAllStudentSessionsMatch(fsData, expectedSessions.subList(0, 4), emailAddress);
+
+        ______TS("After deadline and beyond grace period with course ID; should indicate closed.");
+
+        studentDeadlines.put(emailAddress, Instant.now().plus(Duration.ofHours(-1)));
+        logic.updateFeedbackSession(FeedbackSessionAttributes.updateOptionsBuilder(
+                expectedSession2InCourse1.getFeedbackSessionName(), expectedSession2InCourse1.getCourseId())
+                .withStudentDeadlines(studentDeadlines)
+                .build());
+
+        a = getAction(submissionParam);
+        fsData = (FeedbackSessionsData) getJsonResult(a).getOutput();
+
+        assertAllStudentSessionsMatch(fsData, expectedSessions.subList(0, 4), emailAddress);
+    }
+
+    @Test
+    protected void testExecute_asInstructorWithDeadlines_shouldHaveCorrectSubmissionStatus() throws Exception {
+        InstructorAttributes helperOfCourse1 = typicalBundle.instructors.get("helperOfCourse1");
+        String emailAddress = helperOfCourse1.getEmail();
+        FeedbackSessionAttributes session2InCourse1 = typicalBundle.feedbackSessions.get("session2InCourse1");
+        loginAsInstructor(helperOfCourse1.getGoogleId());
+
+        Instant newEndTime = Instant.now().plus(Duration.ofHours(-1));
+        logic.updateFeedbackSession(FeedbackSessionAttributes.updateOptionsBuilder(
+                session2InCourse1.getFeedbackSessionName(), session2InCourse1.getCourseId())
+                .withEndTime(newEndTime)
+                .build());
+        List<FeedbackSessionAttributes> expectedSessions = sessionsInCourse1.stream()
+                .map(session -> session.sanitizeForInstructor(emailAddress))
+                .collect(Collectors.toList());
+        FeedbackSessionAttributes expectedSession2InCourse1 = expectedSessions.get(
+                expectedSessions.indexOf(session2InCourse1));
+        expectedSession2InCourse1.setEndTime(newEndTime);
+
+        String[] submissionParam = {
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
+                Const.ParamsNames.IS_IN_RECYCLE_BIN, String.valueOf(false),
+        };
+
+        ______TS("Before deadline; should indicate open.");
+
+        GetFeedbackSessionsAction a = getAction(submissionParam);
+        FeedbackSessionsData fsData = (FeedbackSessionsData) getJsonResult(a).getOutput();
+
+        assertAllInstructorSessionsMatch(fsData, expectedSessions);
+
+        ______TS("After deadline but within grace period; should indicate in grace period.");
+
+        Map<String, Instant> instructorDeadlines = expectedSession2InCourse1.getInstructorDeadlines();
+        instructorDeadlines.put(emailAddress, Instant.now().plusSeconds(-1));
+        logic.updateFeedbackSession(FeedbackSessionAttributes.updateOptionsBuilder(
+                expectedSession2InCourse1.getFeedbackSessionName(), expectedSession2InCourse1.getCourseId())
+                .withInstructorDeadlines(instructorDeadlines)
+                .build());
+
+        a = getAction(submissionParam);
+        fsData = (FeedbackSessionsData) getJsonResult(a).getOutput();
+
+        assertAllInstructorSessionsMatch(fsData, expectedSessions);
+
+        ______TS("After deadline and beyond grace period; should indicate closed.");
+
+        instructorDeadlines.put(emailAddress, Instant.now().plus(Duration.ofHours(-1)));
+        logic.updateFeedbackSession(FeedbackSessionAttributes.updateOptionsBuilder(
+                        expectedSession2InCourse1.getFeedbackSessionName(), expectedSession2InCourse1.getCourseId())
+                .withInstructorDeadlines(instructorDeadlines)
+                .build());
+
+        a = getAction(submissionParam);
+        fsData = (FeedbackSessionsData) getJsonResult(a).getOutput();
+
+        assertAllInstructorSessionsMatch(fsData, expectedSessions);
+
+        ______TS("Before deadline with course ID; should indicate open.");
+
+        submissionParam = new String[] {
+                Const.ParamsNames.COURSE_ID, helperOfCourse1.getCourseId(),
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
+                Const.ParamsNames.IS_IN_RECYCLE_BIN, String.valueOf(false),
+        };
+
+        instructorDeadlines.put(emailAddress, Instant.now().plus(Duration.ofHours(1)));
+        logic.updateFeedbackSession(FeedbackSessionAttributes.updateOptionsBuilder(
+                expectedSession2InCourse1.getFeedbackSessionName(), expectedSession2InCourse1.getCourseId())
+                .withInstructorDeadlines(instructorDeadlines)
+                .build());
+
+        a = getAction(submissionParam);
+        fsData = (FeedbackSessionsData) getJsonResult(a).getOutput();
+
+        assertAllInstructorSessionsMatch(fsData, expectedSessions);
+
+        ______TS("After deadline but within grace period with course ID; should indicate in grace period.");
+
+        instructorDeadlines.put(emailAddress, Instant.now().plusSeconds(-1));
+        logic.updateFeedbackSession(FeedbackSessionAttributes.updateOptionsBuilder(
+                expectedSession2InCourse1.getFeedbackSessionName(), expectedSession2InCourse1.getCourseId())
+                .withInstructorDeadlines(instructorDeadlines)
+                .build());
+
+        a = getAction(submissionParam);
+        fsData = (FeedbackSessionsData) getJsonResult(a).getOutput();
+
+        assertAllInstructorSessionsMatch(fsData, expectedSessions);
+
+        ______TS("After deadline and beyond grace period with course ID; should indicate closed.");
+
+        instructorDeadlines.put(emailAddress, Instant.now().plus(Duration.ofHours(-1)));
+        logic.updateFeedbackSession(FeedbackSessionAttributes.updateOptionsBuilder(
+                expectedSession2InCourse1.getFeedbackSessionName(), expectedSession2InCourse1.getCourseId())
+                .withInstructorDeadlines(instructorDeadlines)
+                .build());
+
+        a = getAction(submissionParam);
+        fsData = (FeedbackSessionsData) getJsonResult(a).getOutput();
+
+        assertAllInstructorSessionsMatch(fsData, expectedSessions);
     }
 
     @Test
@@ -276,6 +484,16 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         verifyAccessibleForAdmin(adminEntityParam);
         verifyInaccessibleForUnregisteredUsers(studentEntityParam);
         verifyInaccessibleWithoutLogin();
+    }
+
+    private void assertDeadlinesFilteredForStudent(FeedbackSessionData sessionData,
+            FeedbackSessionAttributes expectedSession, String emailAddress) {
+        boolean hasDeadline = expectedSession.getStudentDeadlines().containsKey(emailAddress);
+        boolean returnsDeadline = sessionData.getStudentDeadlines().containsKey(emailAddress);
+        boolean returnsDeadlineForStudentIfExists = !hasDeadline || returnsDeadline;
+        boolean returnsOtherDeadlines = sessionData.getStudentDeadlines().size() > (hasDeadline ? 1 : 0);
+        boolean returnsOnlyDeadlineForStudentIfExists = !returnsOtherDeadlines && returnsDeadlineForStudentIfExists;
+        assertTrue(returnsOnlyDeadlineForStudentIfExists);
     }
 
     private void assertInformationHiddenForStudent(FeedbackSessionData data) {
@@ -411,7 +629,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
     }
 
     private void assertAllStudentSessionsMatch(FeedbackSessionsData sessionsData,
-                                               List<FeedbackSessionAttributes> expectedSessions) {
+            List<FeedbackSessionAttributes> expectedSessions, String emailAddress) {
 
         assertEquals(sessionsData.getFeedbackSessions().size(), expectedSessions.size());
         for (FeedbackSessionData sessionData : sessionsData.getFeedbackSessions()) {
@@ -421,8 +639,10 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
                             && session.getCourseId().equals(sessionData.getCourseId())).collect(Collectors.toList());
 
             assertEquals(1, matchedSessions.size());
-            assertPartialInformationMatch(sessionData, matchedSessions.get(0));
+            FeedbackSessionAttributes matchedSession = matchedSessions.get(0);
+            assertPartialInformationMatch(sessionData, matchedSession);
             assertInformationHiddenForStudent(sessionData);
+            assertDeadlinesFilteredForStudent(sessionData, matchedSession, emailAddress);
         }
     }
 }
