@@ -10,8 +10,8 @@ const timeNow = Date.now();
 const fixedLengthOfTime = 1000000;
 
 const ongoingExtension: Record<string, number> = { ongoingExtension1: timeNow + fixedLengthOfTime };
-const notOngoingExtension2: Record<string, number> = { notOngoingExtension2: timeNow };
 const notOngoingExtension1: Record<string, number> = { notOngoingExtension1: timeNow - fixedLengthOfTime };
+const notOngoingExtension2: Record<string, number> = { notOngoingExtension2: timeNow };
 const hasOngoingDeadlines: Record<string, number> = {
     ...ongoingExtension, ...notOngoingExtension1, ...notOngoingExtension2,
 };

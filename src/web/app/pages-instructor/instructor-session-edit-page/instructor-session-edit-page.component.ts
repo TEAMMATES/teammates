@@ -477,8 +477,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     const [studentDeadlinesToDelete, instructorDeadlinesToDelete] = this
       .getIndividualDeadlinesToDelete(submissionEndTimestamp);
 
-    const isAllDeadlinesAfterUpdatedEndTime = studentDeadlinesToDelete.length === 0
-      && instructorDeadlinesToDelete.length === 0;
+    const isAllDeadlinesAfterUpdatedEndTime = Object.values(studentDeadlinesToDelete).length === 0
+      && Object.values(instructorDeadlinesToDelete).length === 0;
 
     if (isAllDeadlinesAfterUpdatedEndTime) {
       return of(true); // no need to prompt for deletion
