@@ -33,7 +33,6 @@ public class GetNotificationActionTest extends BaseActionTest<GetNotificationAct
         verifyOnlyAdminCanAccess();
     }
 
-    @Test
     @Override
     protected void testExecute() {
         // See independent test cases
@@ -58,13 +57,13 @@ public class GetNotificationActionTest extends BaseActionTest<GetNotificationAct
 
     @Test
     protected void testExecute_withInvalidNotificationId_shouldThrowError() {
-        ______TS("Failure: Notification id does not exist.");
+        ______TS("Failure: Notification does not exist");
 
         GetNotificationAction action = getAction(Const.ParamsNames.NOTIFICATION_ID, "invalid-notif");
         EntityNotFoundException enfe = assertThrows(EntityNotFoundException.class, action::execute);
         assertEquals("Notification does not exist.", enfe.getMessage());
 
-        ______TS("Failure: Notification id is null.");
+        ______TS("Failure: Notification id is null");
         GetNotificationAction action2 = getAction(Const.ParamsNames.NOTIFICATION_ID, null);
         InvalidHttpParameterException ihpe = assertThrows(InvalidHttpParameterException.class, action2::execute);
         assertEquals("The [notificationid] HTTP parameter is null.", ihpe.getMessage());
