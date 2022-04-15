@@ -192,8 +192,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   // all students of the course
   studentsOfCourse: Student[] = [];
   emailOfStudentToPreview: string = '';
-  // instructors which can be previewed as
-  instructorsCanBePreviewedAs: Instructor[] = [];
+  // all instructors of course
+  instructorsOfCourse: Instructor[] = [];
   emailOfInstructorToPreview: string = '';
 
   get isAllCollapsed(): boolean {
@@ -232,7 +232,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       this.loadFeedbackSession();
       this.loadFeedbackQuestions();
       this.getAllStudentsOfCourse();
-      this.getAllInstructorsCanBePreviewedAs();
+      this.getAllInstructors();
     });
   }
 
@@ -526,7 +526,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     affectedInstructorDeadlines: Record<string, number>,
   ): [StudentExtensionTableColumnModel[], InstructorExtensionTableColumnModel[]] {
     const affectedStudents = this.studentsOfCourse.filter((student) => affectedStudentDeadlines[student.email]);
-    const affectedInstructors = this.instructorsCanBePreviewedAs
+    const affectedInstructors = this.instructorsOfCourse
       .filter((instructor) => affectedInstructorDeadlines[instructor.email]);
 
     const affectedStudentModels = DeadlineExtensionHelper.mapStudentsToStudentModels(
@@ -1114,26 +1114,24 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   /**
    * Gets all instructors of a course which can be previewed as.
    */
-  getAllInstructorsCanBePreviewedAs(): void {
+  getAllInstructors(): void {
     this.instructorService.loadInstructors({
       courseId: this.courseId,
       intent: Intent.FULL_DETAIL,
     })
         .subscribe((instructors: Instructors) => {
-          this.instructorsCanBePreviewedAs = instructors.instructors;
-
+          this.instructorsOfCourse = instructors.instructors;
           // TODO use privilege API to filter instructors who has INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS
           // in the feedback session
-              // TODO change the instructorsCanBePreviewdAs in session edit to instructorsOfCourse
 
           // sort the instructor list based on name
-          this.instructorsCanBePreviewedAs.sort((a: Instructor, b: Instructor): number => {
+          this.instructorsOfCourse.sort((a: Instructor, b: Instructor): number => {
             return a.name.localeCompare(b.name);
           });
 
           // select the first instructor
-          if (this.instructorsCanBePreviewedAs.length >= 1) {
-            this.emailOfInstructorToPreview = this.instructorsCanBePreviewedAs[0].email;
+          if (this.instructorsOfCourse.length >= 1) {
+            this.emailOfInstructorToPreview = this.instructorsOfCourse[0].email;
           }
         }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
   }

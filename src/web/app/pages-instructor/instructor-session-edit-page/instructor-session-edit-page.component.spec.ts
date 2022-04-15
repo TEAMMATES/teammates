@@ -484,9 +484,9 @@ describe('InstructorSessionEditPageComponent', () => {
     };
     jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(of(instructors));
 
-    component.getAllInstructorsCanBePreviewedAs();
-    expect(component.instructorsCanBePreviewedAs.length).toBe(2);
-    expect(component.instructorsCanBePreviewedAs[0].name).toBe(testInstructor1.name);
+    component.getAllInstructors();
+    expect(component.instructorsOfCourse.length).toBe(2);
+    expect(component.instructorsOfCourse[0].name).toBe(testInstructor1.name);
     expect(component.emailOfInstructorToPreview).toBe(testInstructor1.email);
   });
 
@@ -501,7 +501,7 @@ describe('InstructorSessionEditPageComponent', () => {
         expect(args).toEqual('This is the error message.');
       });
 
-    component.getAllInstructorsCanBePreviewedAs();
+    component.getAllInstructors();
 
     expect(spy).toBeCalled();
   });
