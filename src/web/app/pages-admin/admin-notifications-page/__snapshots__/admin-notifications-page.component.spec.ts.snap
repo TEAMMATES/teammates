@@ -70,7 +70,7 @@ exports[`AdminNotificationsPageComponent should snap when notification edit form
           class="card-body"
         >
           <div
-            class="card border-primary margin-top-20px"
+            class="card border-primary"
           >
             <div
               class="card-body"
@@ -177,7 +177,7 @@ exports[`AdminNotificationsPageComponent should snap when notification edit form
                   </select>
                 </div>
                 <div
-                  class="col-md-auto text-md-middle d-flex alert alert-success"
+                  class="col-md-auto text-md-middle d-flex mb-0 border border-secondary alert alert-success"
                 >
                   <span
                     class="align-self-center"

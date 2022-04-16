@@ -35,8 +35,8 @@ public class GetNotificationsAction extends Action {
             throw new InvalidHttpParameterException(targetUserErrorMessage);
         }
         NotificationTargetUser targetUser = NotificationTargetUser.valueOf(targetUserString);
-        if (targetUser == NotificationTargetUser.INSTRUCTOR && userInfo.isStudent
-                || targetUser == NotificationTargetUser.STUDENT && userInfo.isInstructor) {
+        if (targetUser == NotificationTargetUser.INSTRUCTOR && !userInfo.isInstructor
+                || targetUser == NotificationTargetUser.STUDENT && !userInfo.isStudent) {
             throw new UnauthorizedAccessException(UNAUTHORIZED_ACCESS);
         }
     }

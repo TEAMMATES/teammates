@@ -39,6 +39,8 @@ public class InstructorStudentListPageE2ETest extends BaseE2ETestCase {
         AppUrl listPageUrl = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_STUDENT_LIST_PAGE);
         InstructorStudentListPage listPage = loginToPage(listPageUrl, InstructorStudentListPage.class, instructorId);
 
+        listPage.verifyAllCoursesHaveTabs(testData.courses.values());
+
         CourseAttributes course1 = testData.courses.get("course1");
         CourseAttributes course2 = testData.courses.get("course2");
         CourseAttributes course3 = testData.courses.get("course3");
@@ -51,14 +53,6 @@ public class InstructorStudentListPageE2ETest extends BaseE2ETestCase {
 
         StudentAttributes[] studentsInCourse1 = {};
 
-        // Note: by right, there should not be any student shown here as the instructor does not have sufficient privilege
-        // However, due to issue #8000, the students will be listed anyway
-        StudentAttributes[] studentsInCourse2 = {
-                testData.students.get("Student1Course2"),
-                testData.students.get("Student2Course2"),
-                testData.students.get("Student3Course2"),
-        };
-
         StudentAttributes[] studentsInCourse3 = {
                 testData.students.get("Student1Course3"),
                 testData.students.get("Student2Course3"),
@@ -68,15 +62,14 @@ public class InstructorStudentListPageE2ETest extends BaseE2ETestCase {
 
         Map<String, StudentAttributes[]> courseIdToStudents = new HashMap<>();
         courseIdToStudents.put(course1.getId(), studentsInCourse1);
-        courseIdToStudents.put(course2.getId(), studentsInCourse2);
         courseIdToStudents.put(course3.getId(), studentsInCourse3);
 
         Map<String, CourseAttributes> courseIdToCourse = new HashMap<>();
         courseIdToCourse.put(course1.getId(), course1);
-        courseIdToCourse.put(course2.getId(), course2);
         courseIdToCourse.put(course3.getId(), course3);
 
         listPage.verifyStudentDetails(courseIdToCourse, courseIdToStudents);
+        listPage.verifyStudentDetailsNotViewable(course2);
 
         ______TS("link: enroll page");
 
