@@ -100,10 +100,6 @@ class GetFeedbackSessionsAction extends Action {
                 } else {
                     feedbackSessionAttributes = logic.getFeedbackSessionsListForInstructor(instructors);
                 }
-                String emailAddress = instructors.get(0).getEmail();
-                feedbackSessionAttributes = feedbackSessionAttributes.stream()
-                        .map(instructorSession -> instructorSession.sanitizeForInstructor(emailAddress))
-                        .collect(Collectors.toList());
             } else {
                 feedbackSessionAttributes = new ArrayList<>();
             }
@@ -119,13 +115,8 @@ class GetFeedbackSessionsAction extends Action {
                 feedbackSessionAttributes.forEach(session -> sessionNameToStudent
                         .put(session.getFeedbackSessionName(), emailAddress));
                 courseIdAndSessionNameToStudent.put(courseId, sessionNameToStudent);
-            } else if (entityType.equals(Const.EntityType.INSTRUCTOR) && !feedbackSessionAttributes.isEmpty()) {
-                InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
-                instructors = Collections.singletonList(instructor);
-                String emailAddress = instructor.getEmail();
-                feedbackSessionAttributes = feedbackSessionAttributes.stream()
-                        .map(instructorSession -> instructorSession.sanitizeForInstructor(emailAddress))
-                        .collect(Collectors.toList());
+            } else if (entityType.equals(Const.EntityType.INSTRUCTOR)) {
+                instructors = Collections.singletonList(logic.getInstructorForGoogleId(courseId, userInfo.getId()));
             }
         }
 
