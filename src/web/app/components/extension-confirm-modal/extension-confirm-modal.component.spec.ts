@@ -1,19 +1,18 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { TimezoneService } from '../../../../services/timezone.service';
+import { TimezoneService } from '../../../services/timezone.service';
 import {
-  FeedbackSession,
-  FeedbackSessionPublishStatus,
-  FeedbackSessionSubmissionStatus,
-  ResponseVisibleSetting,
-  SessionVisibleSetting,
-} from '../../../../types/api-output';
-import { StudentExtensionTableColumnModel } from '../extension-table-column-model';
-import { InstructorSessionIndividualExtensionPageModule } from '../instructor-session-individual-extension-page.module';
-import { IndividualExtensionConfirmModalComponent } from './individual-extension-confirm-modal.component';
+  FeedbackSession, FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus,
+} from '../../../types/api-output';
+import { ResponseVisibleSetting, SessionVisibleSetting } from '../../../types/api-request';
+import {
+  StudentExtensionTableColumnModel,
+} from '../../pages-instructor/instructor-session-individual-extension-page/extension-table-column-model';
+import { ExtensionConfirmModalComponent } from './extension-confirm-modal.component';
+import { ExtensionConfirmModalModule } from './extension-confirm-modal.module';
 
-describe('IndividualExtensionConfirmModalComponent', () => {
+describe('ExtensionConfirmModalComponent', () => {
   const testFeedbackSession: FeedbackSession = {
     courseId: 'testId1',
     timeZone: 'Asia/Singapore',
@@ -63,21 +62,21 @@ describe('IndividualExtensionConfirmModalComponent', () => {
 
   const testTimeString = '5 Apr 2000 2:00:00';
 
-  let component: IndividualExtensionConfirmModalComponent;
-  let fixture: ComponentFixture<IndividualExtensionConfirmModalComponent>;
+  let component: ExtensionConfirmModalComponent;
+  let fixture: ComponentFixture<ExtensionConfirmModalComponent>;
   let timeZoneService: TimezoneService;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [HttpClientTestingModule, InstructorSessionIndividualExtensionPageModule],
+        imports: [HttpClientTestingModule, ExtensionConfirmModalModule],
         providers: [NgbActiveModal],
       }).compileComponents();
     }),
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(IndividualExtensionConfirmModalComponent);
+    fixture = TestBed.createComponent(ExtensionConfirmModalComponent);
     timeZoneService = TestBed.inject(TimezoneService);
     jest.spyOn(timeZoneService, 'formatToString').mockReturnValue(testTimeString);
     component = fixture.componentInstance;
