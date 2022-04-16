@@ -1,9 +1,9 @@
 {
   "accounts": {
-    "SNotifications.student": {
-      "googleId": "tm.e2e.SNotifications.student",
+    "SNotifs.student": {
+      "googleId": "tm.e2e.SNotifs.student",
       "name": "Alice B",
-      "email": "SNotifications.student@gmail.tmt",
+      "email": "SNotifs.student@gmail.tmt",
       "readNotifications": {
         "notification4": "2099-04-04T00:00:00Z"
       }
@@ -11,17 +11,17 @@
   },
   "courses": {
     "typicalCourse1": {
-      "id": "tm.e2e.SNotifications.course1",
+      "id": "tm.e2e.SNotifs.course1",
       "name": "Typical Course 1",
       "institute": "TEAMMATES Test Institute 1",
       "timeZone": "Africa/Johannesburg"
     }
   },
   "students": {
-    "SNotifications.student": {
-      "googleId": "tm.e2e.SNotifications.student",
-      "email": "SNotifications.student@gmail.tmt",
-      "course": "tm.e2e.SNotifications.course1",
+    "SNotifs.student": {
+      "googleId": "tm.e2e.SNotifs.student",
+      "email": "SNotifs.student@gmail.tmt",
+      "course": "tm.e2e.SNotifs.course1",
       "name": "Amy Betsy</option></td></div>'\"",
       "comments": "This student's name is Amy Betsy</option></td></div>'\"",
       "team": "Team 1</td></div>'\"",

@@ -1,9 +1,9 @@
 {
   "accounts": {
-    "INotifications.instr": {
-      "googleId": "tm.e2e.INotifications.instr",
+    "INotifs.instr": {
+      "googleId": "tm.e2e.INotifs.instr",
       "name": "Teammates Test",
-      "email": "INotifications.instr@gmail.tmt",
+      "email": "INotifs.instr@gmail.tmt",
       "readNotifications": {
         "notification4": "2099-04-04T00:00:00Z"
       }
@@ -11,18 +11,18 @@
   },
   "courses": {
     "typicalCourse1": {
-      "id": "tm.e2e.INotifications.course1",
+      "id": "tm.e2e.INotifs.course1",
       "name": "Typical Course 1",
       "institute": "TEAMMATES Test Institute 1",
       "timeZone": "Africa/Johannesburg"
     }
   },
   "instructors": {
-    "INotifications.instr": {
-      "googleId": "tm.e2e.INotifications.instr",
-      "courseId": "tm.e2e.INotifications.course1",
+    "INotifs.instr": {
+      "googleId": "tm.e2e.INotifs.instr",
+      "courseId": "tm.e2e.INotifs.course1",
       "name": "Teammates Instr1",
-      "email": "INotifications.instr@gmail.tmt",
+      "email": "INotifs.instr@gmail.tmt",
       "isArchived": false,
       "role": "Co-owner",
       "isDisplayedToStudents": true,

@@ -26,7 +26,7 @@ public class StudentNotificationsPageE2ETest extends BaseE2ETestCase {
     @Test
     @Override
     public void testAll() {
-        AccountAttributes account = testData.accounts.get("SNotifications.student");
+        AccountAttributes account = testData.accounts.get("SNotifs.student");
         AppUrl notificationsPageUrl = createFrontendUrl(Const.WebPageURIs.STUDENT_NOTIFICATIONS_PAGE);
         StudentNotificationsPage notificationsPage = loginToPage(notificationsPageUrl, StudentNotificationsPage.class,
                 account.getGoogleId());
