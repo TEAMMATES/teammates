@@ -16,21 +16,17 @@ import teammates.e2e.pageobjects.InstructorNotificationsPage;
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_NOTIFICATIONS_PAGE}.
  */
 public class InstructorNotificationsPageE2ETest extends BaseE2ETestCase {
-    private AccountAttributes account;
-    private NotificationAttributes notificationToMarkAsRead;
 
     @Override
     protected void prepareTestData() {
         testData = loadDataBundle("/InstructorNotificationsPageE2ETest.json");
         removeAndRestoreDataBundle(testData);
-
-        account = testData.accounts.get("INotifications.instr");
-        notificationToMarkAsRead = testData.notifications.get("notification3");
     }
 
     @Test
     @Override
     public void testAll() {
+        AccountAttributes account = testData.accounts.get("INotifications.instr");
         AppUrl notificationsPageUrl = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_NOTIFICATIONS_PAGE);
         InstructorNotificationsPage notificationsPage = loginToPage(notificationsPageUrl, InstructorNotificationsPage.class,
                 account.getGoogleId());
@@ -50,6 +46,7 @@ public class InstructorNotificationsPageE2ETest extends BaseE2ETestCase {
         notificationsPage.verifyShownNotifications(shownNotifications, account.getReadNotifications().keySet());
 
         ______TS("mark notification as read");
+        NotificationAttributes notificationToMarkAsRead = testData.notifications.get("notification3");
         notificationsPage.markNotificationAsRead(notificationToMarkAsRead);
         notificationsPage.verifyStatusMessage("Notification marked as read.");
 
