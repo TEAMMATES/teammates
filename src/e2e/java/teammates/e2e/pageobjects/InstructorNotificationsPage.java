@@ -11,7 +11,7 @@ public class InstructorNotificationsPage extends UserNotificationsPage {
 
     @Override
     protected boolean containsExpectedPageContents() {
-        return getPageSource().contains("Notifications");
+        return getPageSource().contains("Instructor Notifications");
     }
 
 }
