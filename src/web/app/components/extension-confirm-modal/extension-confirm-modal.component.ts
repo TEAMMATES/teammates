@@ -1,20 +1,24 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { TableComparatorService } from '../../../../services/table-comparator.service';
-import { SortBy, SortOrder } from '../../../../types/sort-properties';
-import { InstructorExtensionTableColumnModel, StudentExtensionTableColumnModel } from '../extension-table-column-model';
+import { TableComparatorService } from '../../../services/table-comparator.service';
+import { SortBy, SortOrder } from '../../../types/sort-properties';
+import {
+  StudentExtensionTableColumnModel,
+  InstructorExtensionTableColumnModel,
+} from '../../pages-instructor/instructor-session-individual-extension-page/extension-table-column-model';
 
 export enum ExtensionModalType {
   EXTEND,
   DELETE,
+  SESSION_DELETE,
 }
 
 @Component({
-  selector: 'tm-individual-extension-confirm-modal',
-  templateUrl: './individual-extension-confirm-modal.component.html',
-  styleUrls: ['./individual-extension-confirm-modal.component.scss'],
+  selector: 'tm-extension-confirm-modal',
+  templateUrl: './extension-confirm-modal.component.html',
+  styleUrls: ['./extension-confirm-modal.component.scss'],
 })
-export class IndividualExtensionConfirmModalComponent {
+export class ExtensionConfirmModalComponent {
   @Input()
   modalType: ExtensionModalType = ExtensionModalType.EXTEND;
 
@@ -56,6 +60,10 @@ export class IndividualExtensionConfirmModalComponent {
 
   isExtendModal(): boolean {
     return this.modalType === ExtensionModalType.EXTEND;
+  }
+
+  isSessionDeleteModal(): boolean {
+    return this.modalType === ExtensionModalType.SESSION_DELETE;
   }
 
   sortStudentColumnsBy(by: SortBy): void {

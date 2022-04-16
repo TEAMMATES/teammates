@@ -308,10 +308,12 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
         FeedbackSessionAttributes sanitizedSession1InCourse1 = session1InCourse1.getCopyForStudent(
                 student1InCourse1.getEmail());
         assertEquals(sanitizedSession1InCourse1.getEndTime(), sanitizedSession1InCourse1.getDeadline());
+        assertEquals(student1InCourse1.getEmail(), sanitizedSession1InCourse1.getUserEmail());
 
         sanitizedSession1InCourse1 = session1InCourse1.getCopyForStudent(student3InCourse1.getEmail());
         assertEquals(sanitizedSession1InCourse1.getStudentDeadlines().get(student3InCourse1.getEmail()),
                 sanitizedSession1InCourse1.getDeadline());
+        assertEquals(student3InCourse1.getEmail(), sanitizedSession1InCourse1.getUserEmail());
 
         assertEquals(session1InCourse1.getEndTime(), session1InCourse1.getDeadline());
     }
@@ -328,10 +330,12 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
         FeedbackSessionAttributes sanitizedSession1InCourse1 = session1InCourse1.getCopyForInstructor(
                 helperOfCourse1.getEmail());
         assertEquals(sanitizedSession1InCourse1.getEndTime(), sanitizedSession1InCourse1.getDeadline());
+        assertEquals(helperOfCourse1.getEmail(), sanitizedSession1InCourse1.getUserEmail());
 
         sanitizedSession1InCourse1 = session1InCourse1.getCopyForInstructor(instructor1OfCourse1.getEmail());
         assertEquals(sanitizedSession1InCourse1.getInstructorDeadlines().get(instructor1OfCourse1.getEmail()),
                 sanitizedSession1InCourse1.getDeadline());
+        assertEquals(instructor1OfCourse1.getEmail(), sanitizedSession1InCourse1.getUserEmail());
 
         assertEquals(session1InCourse1.getEndTime(), session1InCourse1.getDeadline());
     }

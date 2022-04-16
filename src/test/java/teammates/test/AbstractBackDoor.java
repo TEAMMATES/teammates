@@ -310,6 +310,15 @@ public abstract class AbstractBackDoor {
         return AccountAttributes.builder(accountData.getGoogleId())
                 .withName(accountData.getName())
                 .withEmail(accountData.getEmail())
+                .withReadNotifications(
+                    accountData.getReadNotifications()
+                        .entrySet()
+                        .stream()
+                        .collect(Collectors.toMap(
+                            e -> e.getKey(),
+                            e -> Instant.ofEpochMilli(e.getValue())
+                        ))
+                )
                 .build();
     }
 
@@ -804,6 +813,15 @@ public abstract class AbstractBackDoor {
                 .build();
         notification.setCreatedAt(Instant.ofEpochMilli(notificationData.getCreatedAt()));
         return notification;
+    }
+
+    /**
+     * Deletes a notification from the database.
+     */
+    public void deleteNotification(String notificationId) {
+        Map<String, String> params = new HashMap<>();
+        params.put(Const.ParamsNames.NOTIFICATION_ID, notificationId);
+        executeDeleteRequest(Const.ResourceURIs.NOTIFICATION, params);
     }
 
     private static final class ResponseBodyAndCode {

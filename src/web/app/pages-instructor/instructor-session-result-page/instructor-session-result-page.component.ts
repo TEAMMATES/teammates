@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { saveAs } from 'file-saver';
 import { Observable, of } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import { concatMap, finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackResponseCommentService } from '../../../services/feedback-response-comment.service';
@@ -33,6 +33,7 @@ import {
 import { Intent } from '../../../types/api-request';
 import { CommentToCommentRowModelPipe } from '../../components/comment-box/comment-to-comment-row-model.pipe';
 import { CommentsToCommentTableModelPipe } from '../../components/comment-box/comments-to-comment-table-model.pipe';
+import { QuestionStatistics } from '../../components/question-types/question-statistics/question-statistics';
 import {
   StudentListInfoTableRowModel,
 } from '../../components/sessions-table/respondent-list-info-table/respondent-list-info-table-model';
@@ -299,24 +300,54 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
       // Do not re-fetch data
       return;
     }
-    this.feedbackSessionsService.getFeedbackSessionResults({
-      questionId,
-      courseId: this.session.courseId,
-      feedbackSessionName: this.session.feedbackSessionName,
-      intent: Intent.FULL_DETAIL,
-    })
-    .subscribe((resp: SessionResults) => {
-      if (resp.questions.length) {
-        const responses: QuestionOutput = resp.questions[0];
-        this.questionsModel[questionId].responses = responses.allResponses;
-        this.questionsModel[questionId].statistics = responses.questionStatistics;
-        this.questionsModel[questionId].hasPopulated = true;
 
-        this.preprocessComments(responses.allResponses);
-      }
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorToast(resp.error.message);
-    });
+    const missingRespMap: Map<string, ResponseOutput> = new Map();
+    const tmpMap: Map<string, ResponseOutput> = new Map();
+
+    if (this.hasSectionsLoadingFailed) {
+      // the page would not render properly
+      return;
+    }
+    of(...Object.keys(this.sectionsModel)).pipe(
+        concatMap((sectionName: string) => {
+          return this.feedbackSessionsService.getFeedbackSessionResults({
+            questionId,
+            courseId: this.session.courseId,
+            feedbackSessionName: this.session.feedbackSessionName,
+            intent: Intent.FULL_DETAIL,
+            groupBySection: sectionName,
+            sectionByGiverReceiver: 'both',
+          });
+        }),
+    ).subscribe(
+      {
+        next: (resp: SessionResults) => {
+          if (!resp.questions.length) {
+            return;
+          }
+          const responses: QuestionOutput = resp.questions[0];
+          responses.allResponses.forEach((response: ResponseOutput) =>
+              (response.isMissingResponse
+                  ? missingRespMap.set(response.responseId, response)
+                  : tmpMap.set(response.responseId, response)));
+          this.questionsModel[questionId].statistics = QuestionStatistics.appendStats(
+              this.questionsModel[questionId].statistics,
+              responses.questionStatistics);
+
+          this.preprocessComments(responses.allResponses);
+        },
+        complete: () => {
+          tmpMap.forEach((response: ResponseOutput) =>
+              this.questionsModel[questionId].responses.push(response));
+          missingRespMap.forEach((response: ResponseOutput) =>
+              this.questionsModel[questionId].responses.push(response));
+          this.questionsModel[questionId].hasPopulated = true;
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
+      },
+    );
   }
 
   /**

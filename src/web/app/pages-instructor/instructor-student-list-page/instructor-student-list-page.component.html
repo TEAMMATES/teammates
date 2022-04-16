@@ -68,12 +68,20 @@
         </div>
 
         <ng-template #noStudentsTemplate>
-          <h5>There are no students in this course.</h5>
-          <a id="btn-enroll" class="btn btn-success"
-              tmRouterLink="/web/instructor/courses/enroll"
-              [queryParams]="{courseid: courseTab.course.courseId}">
-            Enroll Students
-          </a>
+          <ng-container *ngIf="courseTab.isAbleToViewStudents, else noViewStudentsPermissionTemplate">
+            <h5>There are no students in this course.</h5>
+            <a id="btn-enroll" class="btn btn-success"
+               tmRouterLink="/web/instructor/courses/enroll"
+               [queryParams]="{courseid: courseTab.course.courseId}">
+              Enroll Students
+            </a>
+          </ng-container>
+        </ng-template>
+
+        <ng-template #noViewStudentsPermissionTemplate>
+          <div class="alert alert-danger" role="alert">
+            <h5>You do not have permission to view the details of the students in this course.</h5>
+          </div>
         </ng-template>
 
       </div>
