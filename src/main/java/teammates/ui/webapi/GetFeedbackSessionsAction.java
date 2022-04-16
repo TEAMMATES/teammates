@@ -105,7 +105,8 @@ class GetFeedbackSessionsAction extends Action {
             }
         } else {
             feedbackSessionAttributes = logic.getFeedbackSessionsForCourse(courseId);
-            if (entityType.equals(Const.EntityType.STUDENT) && !feedbackSessionAttributes.isEmpty()) {
+            boolean isPotentiallyInvalidCourseId = feedbackSessionAttributes.isEmpty();
+            if (entityType.equals(Const.EntityType.STUDENT) && !isPotentiallyInvalidCourseId) {
                 StudentAttributes student = logic.getStudentForGoogleId(courseId, userInfo.getId());
                 String emailAddress = student.getEmail();
                 feedbackSessionAttributes = feedbackSessionAttributes.stream()
