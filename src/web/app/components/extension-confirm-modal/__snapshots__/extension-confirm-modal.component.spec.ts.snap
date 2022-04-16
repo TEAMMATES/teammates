@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`IndividualExtensionConfirmModalComponent should snap with the extended students and instructors 1`] = `
-<tm-individual-extension-confirm-modal
+exports[`ExtensionConfirmModalComponent should snap with the extended students and instructors 1`] = `
+<tm-extension-confirm-modal
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
   activeModal={[Function NgbActiveModal]}
@@ -221,5 +221,5 @@ exports[`IndividualExtensionConfirmModalComponent should snap with the extended 
       </button>
     </div>
   </fieldset>
-</tm-individual-extension-confirm-modal>
+</tm-extension-confirm-modal>
 `;
