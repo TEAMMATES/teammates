@@ -13,6 +13,7 @@ import { NavigationService } from '../../../services/navigation.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
+import { TimezoneService } from '../../../services/timezone.service';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
 import {
   Course,
@@ -38,6 +39,9 @@ import {
 } from '../../../types/api-output';
 import { CopySessionModalResult } from '../../components/copy-session-modal/copy-session-modal-model';
 import { CopySessionModalComponent } from '../../components/copy-session-modal/copy-session-modal.component';
+import {
+  ExtensionConfirmModalComponent,
+} from '../../components/extension-confirm-modal/extension-confirm-modal.component';
 import { QuestionEditFormModel } from '../../components/question-edit-form/question-edit-form-model';
 import { SessionEditFormModel } from '../../components/session-edit-form/session-edit-form-model';
 import {
@@ -240,6 +244,15 @@ describe('InstructorSessionEditPageComponent', () => {
     hasEmailSettingsPanelExpanded: false,
   };
 
+  const testStudentDeadlines: Record<string, number> = {
+    'alice@tmms.com': 1400000000000,
+    'bob@tmms.com': 1400000000000,
+  };
+  const testInstructorDeadlines: Record<string, number> = {
+    'testB@example.com': 1300000000000,
+    'testA@example.com': 1300000000000,
+  };
+
   let component: InstructorSessionEditPageComponent;
   let fixture: ComponentFixture<InstructorSessionEditPageComponent>;
   let feedbackSessionsService: FeedbackSessionsService;
@@ -250,6 +263,7 @@ describe('InstructorSessionEditPageComponent', () => {
   let navigationService: NavigationService;
   let statusMessageService: StatusMessageService;
   let simpleModalService: SimpleModalService;
+  let timeZoneService: TimezoneService;
   let ngbModal: NgbModal;
 
   beforeEach(waitForAsync(() => {
@@ -284,6 +298,7 @@ describe('InstructorSessionEditPageComponent', () => {
     navigationService = TestBed.inject(NavigationService);
     statusMessageService = TestBed.inject(StatusMessageService);
     simpleModalService = TestBed.inject(SimpleModalService);
+    timeZoneService = TestBed.inject(TimezoneService);
     ngbModal = TestBed.inject(NgbModal);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -469,9 +484,9 @@ describe('InstructorSessionEditPageComponent', () => {
     };
     jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(of(instructors));
 
-    component.getAllInstructorsCanBePreviewedAs();
-    expect(component.instructorsCanBePreviewedAs.length).toBe(2);
-    expect(component.instructorsCanBePreviewedAs[0].name).toBe(testInstructor1.name);
+    component.getAllInstructors();
+    expect(component.instructorsOfCourse.length).toBe(2);
+    expect(component.instructorsOfCourse[0].name).toBe(testInstructor1.name);
     expect(component.emailOfInstructorToPreview).toBe(testInstructor1.email);
   });
 
@@ -486,7 +501,7 @@ describe('InstructorSessionEditPageComponent', () => {
         expect(args).toEqual('This is the error message.');
       });
 
-    component.getAllInstructorsCanBePreviewedAs();
+    component.getAllInstructors();
 
     expect(spy).toBeCalled();
   });
@@ -699,5 +714,18 @@ describe('InstructorSessionEditPageComponent', () => {
     expect(navSpy).toHaveBeenLastCalledWith(expect.anything(), '/web/instructor/sessions/edit',
         'The feedback session has been copied. Please modify settings/questions as necessary.',
         { courseid: 'testId2', fsname: 'Test Session' });
+  });
+
+  it('should open danger modal if session end time updates end time after any extensions deadline', () => {
+    jest.spyOn(ngbModal, 'open');
+    jest.spyOn(timeZoneService, 'resolveLocalDateTime').mockReturnValue(testFeedbackSession.submissionEndTimestamp);
+    const validateSpy = jest.spyOn(InstructorSessionEditPageComponent.prototype,
+      'deleteDeadlineExtensionsHandler');
+    component.studentDeadlines = testStudentDeadlines;
+    component.instructorDeadlines = testInstructorDeadlines;
+    component.sessionEditFormModel = sessionEditFormModel;
+    component.editExistingSessionHandler();
+    expect(validateSpy).toHaveBeenCalledWith(testFeedbackSession.submissionEndTimestamp);
+    expect(ngbModal.open).toHaveBeenCalledWith(ExtensionConfirmModalComponent);
   });
 });
