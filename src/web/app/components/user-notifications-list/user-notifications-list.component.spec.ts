@@ -80,29 +80,29 @@ describe('UserNotificationsListComponent', () => {
     jest.spyOn(notificationService, 'getReadNotifications').mockReturnValue(of({
       readNotifications: [],
     }));
-    const spy1: SpyInstance = jest.spyOn(notificationService, 'markNotificationAsRead')
-    .mockImplementation((request: MarkNotificationAsReadRequest) => {
-      expect(request.notificationId).toEqual(testNotificationOne.notificationId);
-      return of({
-        readNotifications: [request.notificationId],
+    const apiSpy: SpyInstance = jest.spyOn(notificationService, 'markNotificationAsRead')
+      .mockImplementation((request: MarkNotificationAsReadRequest) => {
+        expect(request.notificationId).toEqual(testNotificationOne.notificationId);
+        return of({
+          readNotifications: [request.notificationId],
+        });
       });
-    });
-    const spy2: SpyInstance = jest.spyOn(statusMessageService, 'showSuccessToast')
-    .mockImplementation((args: string) => {
-      expect(args).toEqual('Notification marked as read.');
-    });
+    const messageSpy: SpyInstance = jest.spyOn(statusMessageService, 'showSuccessToast')
+      .mockImplementation((args: string) => {
+        expect(args).toEqual('Notification marked as read.');
+      });
 
     component.ngOnInit();
     fixture.detectChanges();
     expect(component.notificationTabs[0].hasTabExpanded).toBeTruthy();
     fixture.debugElement.query(By.css('#btn-mark-as-read')).nativeElement.click();
-    expect(spy1).toHaveBeenCalledTimes(1);
-    expect(spy2).toHaveBeenCalledTimes(1);
+    expect(apiSpy).toHaveBeenCalledTimes(1);
+    expect(messageSpy).toHaveBeenCalledTimes(1);
     // check that it is no longer expanded
     expect(component.notificationTabs[0].hasTabExpanded).toBeFalsy();
   });
 
-  it('should toggle the tab when the header is clicked', () => {
+  it('should collapse an expanded tab when the header is clicked', () => {
     jest.spyOn(notificationService, 'getAllNotificationsForTargetUser').mockReturnValue(of({
       notifications: [testNotificationOne],
     }));

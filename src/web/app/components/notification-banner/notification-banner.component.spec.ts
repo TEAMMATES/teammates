@@ -90,25 +90,25 @@ describe('NotificationBannerComponent', () => {
     jest.spyOn(notificationService, 'markNotificationAsRead').mockReturnValue(of({
       readNotifications: [testNotificationOne.notificationId],
     }));
-    const spy1: SpyInstance = jest.spyOn(notificationService, 'markNotificationAsRead')
-    .mockImplementation((request: MarkNotificationAsReadRequest) => {
-      expect(request.notificationId).toEqual(testNotificationOne.notificationId);
-      return of({
-        readNotifications: [request.notificationId],
+    const apiSpy: SpyInstance = jest.spyOn(notificationService, 'markNotificationAsRead')
+      .mockImplementation((request: MarkNotificationAsReadRequest) => {
+        expect(request.notificationId).toEqual(testNotificationOne.notificationId);
+        return of({
+          readNotifications: [request.notificationId],
+        });
       });
-    });
-    const spy2: SpyInstance = jest.spyOn(statusMessageService, 'showSuccessToast')
-    .mockImplementation((args: string) => {
-      expect(args).toEqual('Notification marked as read.');
-    });
+    const messageSpy: SpyInstance = jest.spyOn(statusMessageService, 'showSuccessToast')
+      .mockImplementation((args: string) => {
+        expect(args).toEqual('Notification marked as read.');
+      });
     component.ngOnInit();
     fixture.detectChanges();
 
     expect(component.isShown).toBeTruthy();
     const button = fixture.debugElement.query(By.css('#btn-mark-as-read')).nativeElement;
     button.click();
-    expect(spy1).toBeCalledTimes(1);
-    expect(spy2).toBeCalledTimes(1);
+    expect(apiSpy).toBeCalledTimes(1);
+    expect(messageSpy).toBeCalledTimes(1);
     expect(component.isShown).toBeFalsy();
   });
 
