@@ -68,7 +68,6 @@ public class UserNotificationsPage extends AppPage {
             // Open tab if notification is unread
             click(cardHeader);
             waitForPageToLoad();
-            waitUntilAnimationFinish();
         } else {
             assertTrue(chevronClass.contains("fa-chevron-up"));
         }
@@ -86,7 +85,6 @@ public class UserNotificationsPage extends AppPage {
             // Close tab if notification is read
             click(cardHeader);
             waitForPageToLoad();
-            waitUntilAnimationFinish();
         } else {
             // Check style of mark as read button if notification is unread
             assertTrue(markAsReadBtnList.get(0).getAttribute("class").contains(getButtonClass(notification.getStyle())));

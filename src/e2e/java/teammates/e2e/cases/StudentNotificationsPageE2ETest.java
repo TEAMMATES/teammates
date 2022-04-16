@@ -58,5 +58,11 @@ public class StudentNotificationsPageE2ETest extends BaseE2ETestCase {
         verifyPresentInDatabase(account);
 
         notificationsPage.verifyNotificationTab(notificationToMarkAsRead, account.getReadNotifications().keySet());
+
+        ______TS("delete test notifications from database");
+        for (NotificationAttributes notification : testData.notifications.values()) {
+            BACKDOOR.deleteNotification(notification.getNotificationId());
+            verifyAbsentInDatabase(notification);
+        }
     }
 }

@@ -815,6 +815,15 @@ public abstract class AbstractBackDoor {
         return notification;
     }
 
+    /**
+     * Deletes a notification from the database.
+     */
+    public void deleteNotification(String notificationId) {
+        Map<String, String> params = new HashMap<>();
+        params.put(Const.ParamsNames.NOTIFICATION_ID, notificationId);
+        executeDeleteRequest(Const.ResourceURIs.NOTIFICATION, params);
+    }
+
     private static final class ResponseBodyAndCode {
 
         String responseBody;
