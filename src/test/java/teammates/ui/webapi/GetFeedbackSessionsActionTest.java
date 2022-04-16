@@ -219,7 +219,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
                 .withEndTime(newEndTime)
                 .build());
         List<FeedbackSessionAttributes> expectedSessions = sessionsInCourse1.stream()
-                .map(session -> session.sanitizeForStudent(emailAddress))
+                .map(session -> session.getCopyForStudent(emailAddress))
                 .collect(Collectors.toList());
         int expectedSession2InCourse1Index = expectedSessions.indexOf(session2InCourse1);
         FeedbackSessionAttributes expectedSession2InCourse1 = expectedSessions.get(expectedSession2InCourse1Index);

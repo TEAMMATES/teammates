@@ -121,26 +121,26 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
      * Creates a copy that uses the specific deadline for the given student.
      *
      * @param studentEmail The email address of the given student.
-     * @return The sanitized copy of this object for the given student.
+     * @return The copy of this object for the given student.
      */
-    public FeedbackSessionAttributes sanitizeForStudent(String studentEmail) {
-        FeedbackSessionAttributes sanitizedCopy = getCopy();
-        sanitizedCopy.deadlineSupplier = () -> sanitizedCopy.studentDeadlines.getOrDefault(studentEmail, endTime);
-        sanitizedCopy.userEmail = studentEmail;
-        return sanitizedCopy;
+    public FeedbackSessionAttributes getCopyForStudent(String studentEmail) {
+        FeedbackSessionAttributes copy = getCopy();
+        copy.deadlineSupplier = () -> copy.studentDeadlines.getOrDefault(studentEmail, endTime);
+        copy.userEmail = studentEmail;
+        return copy;
     }
 
     /**
      * Creates a copy that uses the specific deadline for the given instructor.
      *
      * @param instructorEmail The email address of the given instructor.
-     * @return The sanitized copy of this object for the given instructor.
+     * @return The copy of this object for the given instructor.
      */
-    public FeedbackSessionAttributes sanitizeForInstructor(String instructorEmail) {
-        FeedbackSessionAttributes sanitizedCopy = getCopy();
-        sanitizedCopy.deadlineSupplier = () -> sanitizedCopy.instructorDeadlines.getOrDefault(instructorEmail, endTime);
-        sanitizedCopy.userEmail = instructorEmail;
-        return sanitizedCopy;
+    public FeedbackSessionAttributes getCopyForInstructor(String instructorEmail) {
+        FeedbackSessionAttributes copy = getCopy();
+        copy.deadlineSupplier = () -> copy.instructorDeadlines.getOrDefault(instructorEmail, endTime);
+        copy.userEmail = instructorEmail;
+        return copy;
     }
 
     public String getCourseId() {
