@@ -109,7 +109,7 @@
           <tr *ngFor="let student of studentsOfCourse; index as i" id="student-row-{{ i }}" (click)="selectStudent(i)"
             [ngClass]="{ 'table-warning': student.hasExtension === true }">
             <td class="align-center">
-              <label><input type="checkbox" [checked]="student.isSelected" /></label>
+              <label><input type="checkbox" id="student-checkbox-{{ i }}" [checked]="student.isSelected" /></label>
             </td>
             <td>{{ student.sectionName }}</td>
             <td>{{ student.teamName }}</td>
@@ -183,7 +183,7 @@
           <tr *ngFor="let instructor of instructorsOfCourse; index as i" id="instructor-row-{{ i }}" (click)="selectIntructor(i)"
             [ngClass]="{ 'table-warning': instructor.hasExtension === true }">
             <td class="align-center">
-              <label><input type="checkbox" [checked]="instructor.isSelected" /></label>
+              <label><input type="checkbox" id="instructor-checkbox-{{ i }}" [checked]="instructor.isSelected" /></label>
             </td>
             <td>{{ instructor.name }}</td>
             <td>{{ instructor.email }}</td>
