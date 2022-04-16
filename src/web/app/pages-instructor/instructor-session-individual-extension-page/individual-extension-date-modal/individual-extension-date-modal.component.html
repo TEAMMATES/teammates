@@ -11,10 +11,10 @@
 <div class="container ml-1">
 
   <div class="row pl-3">
-    <label class="mr-2"><input type="radio" name="optradio" [value]="RadioOptions.EXTEND_BY" [(ngModel)]="radioOption">
+    <label class="mr-2"><input id="extend-deadline-by" type="radio" name="optradio" [value]="RadioOptions.EXTEND_BY" [(ngModel)]="radioOption">
       Extend deadline by
     </label>
-    <label><input type="radio" name="optradio" [(ngModel)]="radioOption" [value]="RadioOptions.EXTEND_TO">
+    <label><input id="extend-deadline-to" type="radio" name="optradio" [(ngModel)]="radioOption" [value]="RadioOptions.EXTEND_TO">
       Extend deadline to
     </label>
   </div>
@@ -23,7 +23,7 @@
     <small>Extend the feedback session by:</small>
     <div id="submission-start-date">
       <div class="input-group w-75">
-        <select class="form-control" [(ngModel)]="extendByDeadlineKey">
+        <select id="extend-by-dropdown" class="form-control" [(ngModel)]="extendByDeadlineKey">
           <option *ngFor="let deadlineOption of extendByDeadlineOptions | keyvalue: sortMapByOriginalOrder"
             [value]="deadlineOption.key">
             {{ deadlineOption.key }}
@@ -40,7 +40,10 @@
     <small>The new deadline of the feedback session will be:</small>
     <div id="submission-start-date">
       <div class="input-group">
-        <tm-datepicker [date]="extendToDatePicker" (dateChangeCallback)="onChangeDateTime($event, DateTime.DATE)"
+        <tm-datepicker
+          id="submission-end-date"
+          [date]="extendToDatePicker"
+          (dateChangeCallback)="onChangeDateTime($event, DateTime.DATE)"
           [minDate]="getDateFormat(feedbackSessionEndingTimestamp)">
         </tm-datepicker>
         <div class="col-md-5">

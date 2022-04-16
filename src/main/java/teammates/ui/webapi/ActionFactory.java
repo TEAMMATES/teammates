@@ -55,6 +55,7 @@ public final class ActionFactory {
         map(ResourceURIs.COURSE, POST, CreateCourseAction.class);
         map(ResourceURIs.COURSE, PUT, UpdateCourseAction.class);
         map(ResourceURIs.COURSE_ARCHIVE, PUT, ArchiveCourseAction.class);
+        map(ResourceURIs.DEADLINE_EXTENSION, GET, GetDeadlineExtensionAction.class);
         map(ResourceURIs.BIN_COURSE, PUT, BinCourseAction.class);
         map(ResourceURIs.BIN_COURSE, DELETE, RestoreCourseAction.class);
         map(ResourceURIs.COURSES, GET, GetCoursesAction.class);

@@ -13,8 +13,6 @@ public class DeadlineExtensionData extends ApiOutput {
     private final boolean isInstructor;
     private final boolean sentClosingEmail;
     private final long endTime;
-    private final long createdAt;
-    private final long updatedAt;
 
     public DeadlineExtensionData(DeadlineExtensionAttributes deadlineExtension) {
         this.courseId = deadlineExtension.getCourseId();
@@ -23,8 +21,6 @@ public class DeadlineExtensionData extends ApiOutput {
         this.isInstructor = deadlineExtension.getIsInstructor();
         this.sentClosingEmail = deadlineExtension.getSentClosingEmail();
         this.endTime = deadlineExtension.getEndTime().toEpochMilli();
-        this.createdAt = deadlineExtension.getCreatedAt().toEpochMilli();
-        this.updatedAt = deadlineExtension.getUpdatedAt().toEpochMilli();
     }
 
     public String getCourseId() {
@@ -49,14 +45,6 @@ public class DeadlineExtensionData extends ApiOutput {
 
     public long getEndTime() {
         return endTime;
-    }
-
-    public long getCreatedAt() {
-        return createdAt;
-    }
-
-    public long getUpdatedAt() {
-        return updatedAt;
     }
 
 }
