@@ -5,8 +5,8 @@
       "name": "Instructor 1 of Course 1",
       "email": "instr1@course1.tmt",
       "readNotifications": {
-        "notification1": "2012-01-01T00:00:00Z",
-        "notification3": "2013-01-01T00:00:00Z"
+        "notification1": "2099-01-01T00:00:00Z",
+        "notification3": "2099-03-03T00:00:00Z"
       }
     },
     "instructor2OfCourse1": {
@@ -14,7 +14,7 @@
       "name": "Instructor 2 of Course 1",
       "email": "instr2@course1.tmt",
       "readNotifications": {
-        "expiredNotification1": "2012-01-01T00:00:00Z"
+        "expiredNotification1": "2011-02-02T00:00:00Z"
       }
     },
     "helperOfCourse1": {
@@ -1986,7 +1986,6 @@
       "startTime": "2011-01-01T00:00:00Z",
       "endTime": "2099-01-01T00:00:00Z",
       "createdAt": "2011-01-01T00:00:00Z",
-      "updatedAt": "2011-01-01T00:00:00Z",
       "style": "DANGER",
       "targetUser": "GENERAL",
       "title": "A deprecation note",
@@ -1998,7 +1997,6 @@
       "startTime": "2011-02-02T00:00:00Z",
       "endTime": "2099-02-02T00:00:00Z",
       "createdAt": "2011-01-01T00:00:00Z",
-      "updatedAt": "2011-01-01T00:00:00Z",
       "style": "SUCCESS",
       "targetUser": "STUDENT",
       "title": "A note for update",
@@ -2010,7 +2008,6 @@
       "startTime": "2011-03-03T00:00:00Z",
       "endTime": "2099-03-03T00:00:00Z",
       "createdAt": "2011-01-01T00:00:00Z",
-      "updatedAt": "2011-01-01T00:00:00Z",
       "style": "SUCCESS",
       "targetUser": "INSTRUCTOR",
       "title": "The first version note",
@@ -2022,7 +2019,6 @@
       "startTime": "2011-04-04T00:00:00Z",
       "endTime": "2099-04-04T00:00:00Z",
       "createdAt": "2011-01-01T00:00:00Z",
-      "updatedAt": "2011-01-01T00:00:00Z",
       "style": "WARNING",
       "targetUser": "GENERAL",
       "title": "The note of maintenance",
@@ -2034,7 +2030,6 @@
       "startTime": "2011-05-05T00:00:00Z",
       "endTime": "2099-05-05T00:00:00Z",
       "createdAt": "2011-01-01T00:00:00Z",
-      "updatedAt": "2011-01-01T00:00:00Z",
       "style": "INFO",
       "targetUser": "INSTRUCTOR",
       "title": "The first tip to instructor",
@@ -2046,7 +2041,6 @@
       "startTime": "2011-06-06T00:00:00Z",
       "endTime": "2099-06-06T00:00:00Z",
       "createdAt": "2011-01-01T00:00:00Z",
-      "updatedAt": "2011-01-01T00:00:00Z",
       "style": "DANGER",
       "targetUser": "STUDENT",
       "title": "The note of maintenance",
@@ -2058,7 +2052,6 @@
       "startTime": "2011-01-01T00:00:00Z",
       "endTime": "2011-02-02T00:00:00Z",
       "createdAt": "2011-01-01T00:00:00Z",
-      "updatedAt": "2011-01-01T00:00:00Z",
       "style": "DANGER",
       "targetUser": "GENERAL",
       "title": "A deprecation note",
@@ -2070,7 +2063,6 @@
       "startTime": "2011-02-02T00:00:00Z",
       "endTime": "2011-03-03T00:00:00Z",
       "createdAt": "2011-01-01T00:00:00Z",
-      "updatedAt": "2011-01-01T00:00:00Z",
       "style": "DANGER",
       "targetUser": "GENERAL",
       "title": "A deprecation note",
@@ -2082,7 +2074,6 @@
       "startTime": "2099-01-01T00:00:00Z",
       "endTime": "2099-02-02T00:00:00Z",
       "createdAt": "2011-01-01T00:00:00Z",
-      "updatedAt": "2011-01-01T00:00:00Z",
       "style": "DANGER",
       "targetUser": "GENERAL",
       "title": "A deprecation note",
@@ -2094,7 +2085,6 @@
       "startTime": "2099-02-02T00:00:00Z",
       "endTime": "2099-03-03T00:00:00Z",
       "createdAt": "2011-01-01T00:00:00Z",
-      "updatedAt": "2011-01-01T00:00:00Z",
       "style": "DANGER",
       "targetUser": "GENERAL",
       "title": "A deprecation note",
