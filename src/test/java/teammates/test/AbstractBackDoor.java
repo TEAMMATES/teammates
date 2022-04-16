@@ -803,7 +803,6 @@ public abstract class AbstractBackDoor {
                 .withMessage(notificationData.getMessage())
                 .build();
         notification.setCreatedAt(Instant.ofEpochMilli(notificationData.getCreatedAt()));
-        notification.setUpdatedAt(Instant.ofEpochMilli(notificationData.getUpdatedAt()));
         return notification;
     }
 

@@ -41,7 +41,6 @@ const testNotificationOne: Notification = {
   startTimestamp: moment('2017-09-15 09:30:00').valueOf(),
   endTimestamp: moment('2050-09-15 09:30:00').valueOf(),
   createdAt: moment('2017-09-15 09:30:00').valueOf(),
-  updatedAt: moment('2017-09-15 09:30:00').valueOf(),
   style: NotificationStyle.SUCCESS,
   targetUser: NotificationTargetUser.INSTRUCTOR,
   title: 'valid title 1',
@@ -54,7 +53,6 @@ const testNotificationTwo: Notification = {
   startTimestamp: moment('2018-12-15 09:30:00').valueOf(),
   endTimestamp: moment('2050-09-15 09:30:00').valueOf(),
   createdAt: moment('2018-11-15 09:30:00').valueOf(),
-  updatedAt: moment('2018-11-15 09:30:00').valueOf(),
   style: NotificationStyle.DANGER,
   targetUser: NotificationTargetUser.GENERAL,
   title: 'valid title 2',
@@ -165,8 +163,13 @@ describe('AdminNotificationsPageComponent', () => {
       .toEqual(testNotificationOne.notificationId);
     expect(component.notificationsTableRowModels[0].notification.shown).toBeFalsy();
     expect(component.notificationsTableRowModels[0].notification.targetUser).toEqual(testNotificationOne.targetUser);
+    expect(component.notificationsTableRowModels[0].notification.style).toEqual(testNotificationOne.style);
     expect(component.notificationsTableRowModels[0].notification.title).toEqual(testNotificationOne.title);
     expect(component.notificationsTableRowModels[0].notification.message).toEqual(testNotificationOne.message);
+    expect(component.notificationsTableRowModels[0].notification.startTimestamp)
+      .toEqual(testNotificationOne.startTimestamp);
+    expect(component.notificationsTableRowModels[0].notification.endTimestamp)
+      .toEqual(testNotificationOne.endTimestamp);
   });
 
   it('should add notification for all fields filled in', () => {
@@ -184,9 +187,14 @@ describe('AdminNotificationsPageComponent', () => {
     expect(component.notificationsTableRowModels[0].notification.notificationId)
       .toEqual(testNotificationOne.notificationId);
     expect(component.notificationsTableRowModels[0].notification.shown).toBeFalsy();
+    expect(component.notificationsTableRowModels[0].notification.style).toEqual(testNotificationOne.style);
     expect(component.notificationsTableRowModels[0].notification.targetUser).toEqual(testNotificationOne.targetUser);
     expect(component.notificationsTableRowModels[0].notification.title).toEqual(testNotificationOne.title);
     expect(component.notificationsTableRowModels[0].notification.message).toEqual(testNotificationOne.message);
+    expect(component.notificationsTableRowModels[0].notification.startTimestamp)
+      .toEqual(testNotificationOne.startTimestamp);
+    expect(component.notificationsTableRowModels[0].notification.endTimestamp)
+      .toEqual(testNotificationOne.endTimestamp);
   });
 
   it('should display error message when failed to create notification', () => {

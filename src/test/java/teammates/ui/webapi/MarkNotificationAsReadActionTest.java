@@ -1,13 +1,13 @@
 package teammates.ui.webapi;
 
-import java.util.Map;
+import java.util.List;
 
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.NotificationAttributes;
 import teammates.common.util.Const;
-import teammates.ui.output.AccountData;
+import teammates.ui.output.ReadNotificationsData;
 import teammates.ui.request.MarkNotificationAsReadRequest;
 
 /**
@@ -38,9 +38,9 @@ public class MarkNotificationAsReadActionTest extends BaseActionTest<MarkNotific
                 notification.getNotificationId(), notification.getEndTime().toEpochMilli());
         MarkNotificationAsReadAction action = getAction(reqBody);
         JsonResult actionOutput = getJsonResult(action);
-        AccountData response = (AccountData) actionOutput.getOutput();
-        Map<String, Long> readNotifications = response.getReadNotifications();
-        assertTrue(readNotifications.containsKey(notification.getNotificationId()));
+        ReadNotificationsData response = (ReadNotificationsData) actionOutput.getOutput();
+        List<String> readNotifications = response.getReadNotifications();
+        assertTrue(readNotifications.contains(notification.getNotificationId()));
 
         ______TS("Invalid case: mark non-existent notification as read");
         reqBody = new MarkNotificationAsReadRequest("invalid id", notification.getEndTime().toEpochMilli());

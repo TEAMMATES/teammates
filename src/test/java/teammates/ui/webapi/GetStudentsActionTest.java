@@ -104,6 +104,19 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
         };
         verifyCannotAccess(submissionParams);
 
+        ______TS("no view students privileges (instructor access)");
+        InstructorAttributes helperOfCourse1 = typicalBundle.instructors.get("helperOfCourse1");
+
+        // ensure the reason for not being able to access is not due to being from a different course
+        assertEquals("idOfTypicalCourse1", typicalBundle.courses.get("typicalCourse1").getId());
+        assertEquals("idOfTypicalCourse1", helperOfCourse1.getCourseId());
+
+        loginAsInstructor(helperOfCourse1.getGoogleId());
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, "idOfTypicalCourse1",
+        };
+        verifyCannotAccess(submissionParams);
+
         ______TS("unknown courseId and/or teamName (student access)");
         StudentAttributes studentAttributes = typicalBundle.students.get("student1InCourse1");
 

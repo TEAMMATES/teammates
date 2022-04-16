@@ -435,16 +435,19 @@ public class AccountsLogicTest extends BaseLogicTest {
 
         ______TS("success: mark notification as read and remove expired ones from read status");
 
-        AccountAttributes accountAttributes = accountsLogic.updateReadNotifications(
+        List<String> readNotificationIds = accountsLogic.updateReadNotifications(
                 instructor2OfCourse1.getGoogleId(),
                 notificationAttributes.getNotificationId(),
                 notificationAttributes.getEndTime());
-        Map<String, Instant> updatedReadNotifications = accountAttributes.getReadNotifications();
 
-        assertNotNull(updatedReadNotifications.get("notification4"));
-        assertEquals(notificationAttributes.getEndTime(), updatedReadNotifications.get("notification4"));
+        assertTrue(readNotificationIds.contains("notification4"));
 
-        for (Map.Entry<String, Instant> notification : updatedReadNotifications.entrySet()) {
+        AccountAttributes accountAttributes = accountsLogic.getAccount(instructor2OfCourse1.getGoogleId());
+        Map<String, Instant> readNotifications = accountAttributes.getReadNotifications();
+
+        assertEquals(notificationAttributes.getEndTime(), readNotifications.get("notification4"));
+
+        for (Map.Entry<String, Instant> notification : readNotifications.entrySet()) {
             assertTrue(notification.getValue().isAfter(Instant.now()));
         }
 

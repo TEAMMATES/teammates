@@ -84,6 +84,11 @@ public class AdminNotificationsPageE2ETest extends BaseE2ETestCase {
         notificationsPage.verifyStatusMessage("Notification has been deleted.");
         verifyAbsentInDatabase(newNotification);
 
+        notificationsPage.deleteNotification(notifications[0]);
+        verifyAbsentInDatabase(notifications[0]);
+        notificationsPage.deleteNotification(notifications[1]);
+        verifyAbsentInDatabase(notifications[1]);
+
     }
 
 }

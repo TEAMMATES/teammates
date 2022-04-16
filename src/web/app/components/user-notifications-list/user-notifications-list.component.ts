@@ -4,7 +4,12 @@ import { NotificationService } from '../../../services/notification.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
 import { TimezoneService } from '../../../services/timezone.service';
-import { Notification, Notifications, NotificationTargetUser } from '../../../types/api-output';
+import {
+  Notification,
+  Notifications,
+  NotificationTargetUser,
+  ReadNotifications,
+} from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { collapseAnim } from '../teammates-common/collapse-anim';
@@ -12,6 +17,7 @@ import { collapseAnim } from '../teammates-common/collapse-anim';
 interface NotificationTab {
   notification: Notification;
   hasTabExpanded: boolean;
+  isRead: boolean;
   startDate: string;
   endDate: string;
 }
@@ -36,6 +42,7 @@ export class UserNotificationsListComponent implements OnInit {
 
   notificationTabs: NotificationTab[] = [];
   notificationsSortBy: SortBy = SortBy.NONE;
+  readNotifications: Set<String> = new Set();
 
   isLoadingNotifications: boolean = false;
   hasLoadingFailed: boolean = false;
@@ -56,13 +63,24 @@ export class UserNotificationsListComponent implements OnInit {
   loadNotifications(): void {
     this.hasLoadingFailed = false;
     this.isLoadingNotifications = true;
-    this.notificationService.getNotificationsByTargetUser(this.userType)
+
+    this.notificationService.getReadNotifications()
+      .subscribe((readNotifications: ReadNotifications) => {
+        this.readNotifications = new Set(readNotifications.readNotifications);
+      }, (resp: ErrorMessageOutput) => {
+        this.hasLoadingFailed = true;
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
+    );
+
+    this.notificationService.getAllNotificationsForTargetUser(this.userType)
       .pipe(finalize(() => { this.isLoadingNotifications = false; }))
       .subscribe((notifications: Notifications) => {
           notifications.notifications.forEach((notification: Notification) => {
             this.notificationTabs.push({
               notification,
-              hasTabExpanded: true,
+              hasTabExpanded: !this.readNotifications.has(notification.notificationId),
+              isRead: this.readNotifications.has(notification.notificationId),
               startDate: this.timezoneService.formatToString(
                 notification.startTimestamp, this.timezone, this.DATE_FORMAT,
               ),
@@ -81,6 +99,33 @@ export class UserNotificationsListComponent implements OnInit {
 
   toggleCard(notificationTab: NotificationTab): void {
     notificationTab.hasTabExpanded = !notificationTab.hasTabExpanded;
+  }
+
+  markNotificationAsRead(notificationTab: NotificationTab): void {
+    const notification: Notification = notificationTab.notification;
+    this.notificationService.markNotificationAsRead({
+      notificationId: notification.notificationId,
+      endTimestamp: notification.endTimestamp,
+    })
+      .subscribe(
+        (readNotifications: ReadNotifications) => {
+          this.readNotifications = new Set(readNotifications.readNotifications);
+          notificationTab.isRead = true;
+          this.statusMessageService.showSuccessToast('Notification marked as read.');
+          notificationTab.hasTabExpanded = false;
+        },
+        (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
+      );
+  }
+
+  getBodyTextClass(notificationTab: NotificationTab): string {
+    return notificationTab.isRead ? 'card-body' : 'card-body pb-0';
+  }
+
+  getButtonClass(notificationTab: NotificationTab): string {
+    return `btn btn-${notificationTab.notification.style.toLowerCase()}`;
   }
 
   /**

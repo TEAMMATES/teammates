@@ -9,6 +9,7 @@ import java.util.Set;
 import javax.annotation.Nullable;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.FeedbackResultFetchType;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
@@ -109,7 +110,7 @@ public class Logic {
      * <p>Preconditions:</p>
      * * All parameters are non-null. {@code endTime} must be after current moment.
      */
-    public AccountAttributes updateReadNotifications(String googleId, String notificationId, Instant endTime)
+    public List<String> updateReadNotifications(String googleId, String notificationId, Instant endTime)
             throws InvalidParametersException, EntityDoesNotExistException {
         assert googleId != null;
         return accountsLogic.updateReadNotifications(googleId, notificationId, endTime);
@@ -131,13 +132,6 @@ public class Logic {
     }
 
     /**
-     * Checks if a notification of {@code notificationId} exists.
-     */
-    public boolean doesNotificationExists(String notificationId) {
-        return notificationsLogic.doesNotificationExists(notificationId);
-    }
-
-    /**
      * Gets a notification by ID.
      *
      * <p>Preconditions:</p>
@@ -145,8 +139,8 @@ public class Logic {
      *
      * @return Null if no match found.
      */
-    public NotificationAttributes getNotification(String id) {
-        return notificationsLogic.getNotification(id);
+    public NotificationAttributes getNotification(String notificationId) {
+        return notificationsLogic.getNotification(notificationId);
     }
 
     /**
@@ -1255,17 +1249,18 @@ public class Logic {
     /**
      * Gets the session result for a feedback session.
      *
-     * @see FeedbackResponsesLogic#getSessionResultsForCourse(String, String, String, String, String)
+     * @see FeedbackResponsesLogic#getSessionResultsForCourse(
+     * String, String, String, String, String, FeedbackResultFetchType)
      */
     public SessionResultsBundle getSessionResultsForCourse(
             String feedbackSessionName, String courseId, String userEmail,
-            @Nullable String questionId, @Nullable String section) {
+            @Nullable String questionId, @Nullable String section, @Nullable FeedbackResultFetchType fetchType) {
         assert feedbackSessionName != null;
         assert courseId != null;
         assert userEmail != null;
 
         return feedbackResponsesLogic.getSessionResultsForCourse(
-                feedbackSessionName, courseId, userEmail, questionId, section);
+                feedbackSessionName, courseId, userEmail, questionId, section, fetchType);
     }
 
     /**

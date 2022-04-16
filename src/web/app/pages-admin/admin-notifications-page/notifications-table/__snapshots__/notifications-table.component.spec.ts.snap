@@ -143,7 +143,7 @@ exports[`NotificationsTableComponent should snap like in notification page with 
               INSTRUCTOR
             </td>
             <td
-              class="text-break bg-success text-white"
+              class="text-break alert alert-success"
             >
               Success (green)
             </td>
@@ -209,7 +209,7 @@ exports[`NotificationsTableComponent should snap like in notification page with 
               GENERAL
             </td>
             <td
-              class="text-break bg-danger text-white"
+              class="text-break alert alert-danger"
             >
               Danger (red)
             </td>
@@ -393,7 +393,7 @@ exports[`NotificationsTableComponent should snap like in notification page with 
               INSTRUCTOR
             </td>
             <td
-              class="text-break bg-success text-white"
+              class="text-break alert alert-success"
             >
               Success (green)
             </td>
@@ -459,7 +459,7 @@ exports[`NotificationsTableComponent should snap like in notification page with 
               GENERAL
             </td>
             <td
-              class="text-break bg-danger text-white"
+              class="text-break alert alert-danger"
             >
               Danger (red)
             </td>
