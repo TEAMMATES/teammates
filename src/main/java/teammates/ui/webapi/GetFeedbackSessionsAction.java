@@ -82,7 +82,7 @@ class GetFeedbackSessionsAction extends Action {
 
                     if (!userInfo.isAdmin) {
                         sessions = sessions.stream()
-                                .map(session -> session.sanitizeForStudent(emailAddress))
+                                .map(session -> session.getCopyForStudent(emailAddress))
                                 .collect(Collectors.toList());
                     }
 
@@ -108,7 +108,7 @@ class GetFeedbackSessionsAction extends Action {
                 assert student != null;
                 String emailAddress = student.getEmail();
                 feedbackSessionAttributes = feedbackSessionAttributes.stream()
-                        .map(instructorSession -> instructorSession.sanitizeForStudent(emailAddress))
+                        .map(instructorSession -> instructorSession.getCopyForStudent(emailAddress))
                         .collect(Collectors.toList());
             } else if (entityType.equals(Const.EntityType.INSTRUCTOR)) {
                 instructors = Collections.singletonList(logic.getInstructorForGoogleId(courseId, userInfo.getId()));
