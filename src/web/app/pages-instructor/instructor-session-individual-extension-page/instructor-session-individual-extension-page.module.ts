@@ -1,15 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { DatepickerModule } from '../../components/datepicker/datepicker.module';
+import {
+  ExtensionConfirmModalComponent,
+} from '../../components/extension-confirm-modal/extension-confirm-modal.component';
+import { ExtensionConfirmModalModule } from '../../components/extension-confirm-modal/extension-confirm-modal.module';
 import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
 import { TimepickerModule } from '../../components/timepicker/timepicker.module';
-import {
-  IndividualExtensionConfirmModalComponent,
-} from './individual-extension-confirm-modal/individual-extension-confirm-modal.component';
 import {
   IndividualExtensionDateModalComponent,
 } from './individual-extension-date-modal/individual-extension-date-modal.component';
@@ -27,7 +28,6 @@ const routes: Routes = [
 @NgModule({
   imports: [
     CommonModule,
-    ReactiveFormsModule,
     TeammatesCommonModule,
     FormsModule,
     RouterModule.forChild(routes),
@@ -35,12 +35,12 @@ const routes: Routes = [
     DatepickerModule,
     TimepickerModule,
     LoadingRetryModule,
+    ExtensionConfirmModalModule,
   ],
-  entryComponents: [IndividualExtensionDateModalComponent, IndividualExtensionConfirmModalComponent],
+  entryComponents: [IndividualExtensionDateModalComponent, ExtensionConfirmModalComponent],
   declarations: [
     InstructorSessionIndividualExtensionPageComponent,
     IndividualExtensionDateModalComponent,
-    IndividualExtensionConfirmModalComponent,
   ],
   exports: [InstructorSessionIndividualExtensionPageComponent],
 })
