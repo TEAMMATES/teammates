@@ -64,13 +64,9 @@ public class GoogleCloudLoggingService implements LogService {
                 .addLogName(REQUEST_LOG_NAME)
                 .setResourceType(RESOURCE_TYPE_GAE_APP);
 
-        List<LogEntry> logEntries = new ArrayList<>();
         List<ErrorLogEntry> errorLogs = new ArrayList<>();
 
-        Page<LogEntry> entries = getLogEntries(logSearchParams, 0);
-        for (LogEntry entry : entries.iterateAll()) {
-            logEntries.add(entry);
-        }
+        List<LogEntry> logEntries = getAllLogEntries(logSearchParams);
 
         for (LogEntry logEntry : logEntries) {
             Any entry = (Any) logEntry.getPayload().getData();
@@ -120,7 +116,7 @@ public class GoogleCloudLoggingService implements LogService {
                 .addLogName(STDERR_LOG_NAME)
                 .setResourceType(RESOURCE_TYPE_GAE_APP);
 
-        Page<LogEntry> logEntriesInPage = getLogEntries(logSearchParams, queryLogsParams.getPageSize());
+        Page<LogEntry> logEntriesInPage = getPageLogEntries(logSearchParams, queryLogsParams.getPageSize());
         List<GeneralLogEntry> logEntries = new ArrayList<>();
         for (LogEntry entry : logEntriesInPage.getValues()) {
             Severity severity = entry.getSeverity();
@@ -205,11 +201,7 @@ public class GoogleCloudLoggingService implements LogService {
         LogSearchParams logSearchParams = LogSearchParams.from(queryLogsParams)
                 .addLogName(STDOUT_LOG_NAME)
                 .setResourceType(RESOURCE_TYPE_GAE_APP);
-        Page<LogEntry> entries = getLogEntries(logSearchParams, 0);
-        List<LogEntry> logEntries = new ArrayList<>();
-        for (LogEntry entry : entries.iterateAll()) {
-            logEntries.add(entry);
-        }
+        List<LogEntry> logEntries = getAllLogEntries(logSearchParams);
 
         List<FeedbackSessionLogEntry> fsLogEntries = new ArrayList<>();
         for (LogEntry entry : logEntries) {
@@ -235,7 +227,38 @@ public class GoogleCloudLoggingService implements LogService {
         return fsLogEntries;
     }
 
-    private Page<LogEntry> getLogEntries(LogSearchParams s, int pageSize) {
+    private List<LogEntry> getAllLogEntries(LogSearchParams logSearchParams) {
+        Logging logging = LoggingOptions.getDefaultInstance().getService();
+        List<EntryListOption> entryListOptions = convertLogSearchParams(logSearchParams, 0);
+        Page<LogEntry> entries = logging.listLogEntries(entryListOptions.toArray(new EntryListOption[] {}));
+
+        List<LogEntry> logEntries = new ArrayList<>();
+        for (LogEntry entry : entries.iterateAll()) {
+            logEntries.add(entry);
+        }
+
+        try {
+            logging.close();
+        } catch (Exception e) {
+            // ignore exception when closing resource
+        }
+        return logEntries;
+    }
+
+    private Page<LogEntry> getPageLogEntries(LogSearchParams logSearchParams, int pageSize) {
+        Logging logging = LoggingOptions.getDefaultInstance().getService();
+        List<EntryListOption> entryListOptions = convertLogSearchParams(logSearchParams, pageSize);
+        Page<LogEntry> entries = logging.listLogEntries(entryListOptions.toArray(new EntryListOption[] {}));
+
+        try {
+            logging.close();
+        } catch (Exception e) {
+            // ignore exception when closing resource
+        }
+        return entries;
+    }
+
+    private List<EntryListOption> convertLogSearchParams(LogSearchParams s, int pageSize) {
         LoggingOptions options = LoggingOptions.getDefaultInstance();
         QueryLogsParams q = s.queryLogsParams;
 
@@ -318,15 +341,7 @@ public class GoogleCloudLoggingService implements LogService {
             }
         }
 
-        Logging logging = options.getService();
-        Page<LogEntry> entries = logging.listLogEntries(entryListOptions.toArray(new EntryListOption[] {}));
-
-        try {
-            logging.close();
-        } catch (Exception e) {
-            // ignore exception when closing resource
-        }
-        return entries;
+        return entryListOptions;
     }
 
     /**

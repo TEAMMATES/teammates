@@ -1,6 +1,10 @@
 package teammates.logic.core;
 
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -27,6 +31,7 @@ public final class AccountsLogic {
     private CoursesLogic coursesLogic;
     private InstructorsLogic instructorsLogic;
     private StudentsLogic studentsLogic;
+    private NotificationsLogic notificationsLogic;
 
     private AccountsLogic() {
         // prevent initialization
@@ -41,6 +46,7 @@ public final class AccountsLogic {
         coursesLogic = CoursesLogic.inst();
         instructorsLogic = InstructorsLogic.inst();
         studentsLogic = StudentsLogic.inst();
+        notificationsLogic = NotificationsLogic.inst();
     }
 
     /**
@@ -60,6 +66,18 @@ public final class AccountsLogic {
      */
     public AccountAttributes getAccount(String googleId) {
         return accountsDb.getAccount(googleId);
+    }
+
+    /**
+     * Gets ids of read notifications in an account.
+     */
+    public List<String> getReadNotificationsId(String googleId) {
+        AccountAttributes a = accountsDb.getAccount(googleId);
+        List<String> readNotificationIds = new ArrayList<>();
+        if (a != null) {
+            readNotificationIds.addAll(a.getReadNotifications().keySet());
+        }
+        return readNotificationIds;
     }
 
     /**
@@ -238,4 +256,44 @@ public final class AccountsLogic {
         accountsDb.createEntity(account);
     }
 
+    /**
+     * Updates the readNotifications of an account.
+     *
+     * @param googleId google ID of the user who read the notification.
+     * @param notificationId notification to be marked as read.
+     * @param endTime the expiry time of the notification, i.e. notification will not be shown after this time.
+     * @return the account attributes with updated read notifications.
+     * @throws InvalidParametersException if the notification has expired.
+     * @throws EntityDoesNotExistException if account or notification does not exist.
+     */
+    public List<String> updateReadNotifications(String googleId, String notificationId, Instant endTime)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        AccountAttributes a = accountsDb.getAccount(googleId);
+
+        if (a == null) {
+            throw new EntityDoesNotExistException("Trying to update the read notifications of a non-existent account.");
+        }
+        if (!notificationsLogic.doesNotificationExists(notificationId)) {
+            throw new EntityDoesNotExistException("Trying to mark as read a notification that does not exist.");
+        }
+        if (endTime.isBefore(Instant.now())) {
+            throw new InvalidParametersException("Trying to mark an expired notification as read.");
+        }
+
+        Map<String, Instant> updatedReadNotifications = new HashMap<>();
+        // only keep active notifications in readNotifications
+        for (Map.Entry<String, Instant> notification : a.getReadNotifications().entrySet()) {
+            if (notification.getValue().isAfter(Instant.now())) {
+                updatedReadNotifications.put(notification.getKey(), notification.getValue());
+            }
+        }
+
+        updatedReadNotifications.put(notificationId, endTime);
+
+        AccountAttributes accountAttributes = accountsDb.updateAccount(
+                AccountAttributes.updateOptionsBuilder(googleId)
+                        .withReadNotifications(updatedReadNotifications)
+                        .build());
+        return new ArrayList<>(accountAttributes.getReadNotifications().keySet());
+    }
 }

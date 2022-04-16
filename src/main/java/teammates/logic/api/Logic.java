@@ -9,6 +9,7 @@ import java.util.Set;
 import javax.annotation.Nullable;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.FeedbackResultFetchType;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
@@ -99,10 +100,29 @@ public class Logic {
         return accountsLogic.getAccountsForEmail(email);
     }
 
+    public List<String> getReadNotificationsId(String googleId) {
+        return accountsLogic.getReadNotificationsId(googleId);
+    }
+
+    /**
+     * Updates user read status for notification with ID {@code notificationId} and expiry time {@code endTime}.
+     *
+     * <p>Preconditions:</p>
+     * * All parameters are non-null. {@code endTime} must be after current moment.
+     */
+    public List<String> updateReadNotifications(String googleId, String notificationId, Instant endTime)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        assert googleId != null;
+        return accountsLogic.updateReadNotifications(googleId, notificationId, endTime);
+    }
+
     public String getCourseInstitute(String courseId) {
         return coursesLogic.getCourseInstitute(courseId);
     }
 
+    /**
+     * Returns active notification for general users and the specified {@code targetUser}.
+     */
     public List<NotificationAttributes> getActiveNotificationsByTargetUser(NotificationTargetUser targetUser) {
         return notificationsLogic.getActiveNotificationsByTargetUser(targetUser);
     }
@@ -119,8 +139,8 @@ public class Logic {
      *
      * @return Null if no match found.
      */
-    public NotificationAttributes getNotification(String id) {
-        return notificationsLogic.getNotification(id);
+    public NotificationAttributes getNotification(String notificationId) {
+        return notificationsLogic.getNotification(notificationId);
     }
 
     /**
@@ -138,6 +158,15 @@ public class Logic {
         return notificationsLogic.createNotification(notification);
     }
 
+    /**
+     * Updates a notification.
+     *
+     * <p>Preconditions:</p>
+     * * All parameters are non-null.
+     * @return updated notification
+     * @throws InvalidParametersException if the notification is not valid
+     * @throws EntityDoesNotExistException if the notification does not exist in the database
+     */
     public NotificationAttributes updateNotification(NotificationAttributes.UpdateOptions updateOptions) throws
             InvalidParametersException, EntityDoesNotExistException {
         return notificationsLogic.updateNotification(updateOptions);
@@ -1220,17 +1249,18 @@ public class Logic {
     /**
      * Gets the session result for a feedback session.
      *
-     * @see FeedbackResponsesLogic#getSessionResultsForCourse(String, String, String, String, String)
+     * @see FeedbackResponsesLogic#getSessionResultsForCourse(
+     * String, String, String, String, String, FeedbackResultFetchType)
      */
     public SessionResultsBundle getSessionResultsForCourse(
             String feedbackSessionName, String courseId, String userEmail,
-            @Nullable String questionId, @Nullable String section) {
+            @Nullable String questionId, @Nullable String section, @Nullable FeedbackResultFetchType fetchType) {
         assert feedbackSessionName != null;
         assert courseId != null;
         assert userEmail != null;
 
         return feedbackResponsesLogic.getSessionResultsForCourse(
-                feedbackSessionName, courseId, userEmail, questionId, section);
+                feedbackSessionName, courseId, userEmail, questionId, section, fetchType);
     }
 
     /**

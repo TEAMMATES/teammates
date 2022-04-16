@@ -127,6 +127,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     hasVisibleSettingsPanelExpanded: false,
     hasEmailSettingsPanelExpanded: false,
   };
+  studentDeadlines: Record<string, number> = {};
+  instructorDeadlines: Record<string, number> = {};
 
   // to get the original session model on discard changes
   feedbackSessionModelBeforeEditing: SessionEditFormModel = JSON.parse(JSON.stringify(this.sessionEditFormModel));
@@ -350,6 +352,9 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       hasEmailSettingsPanelExpanded: !feedbackSession.isClosingEmailEnabled || !feedbackSession.isPublishedEmailEnabled,
     };
 
+    this.studentDeadlines = feedbackSession.studentDeadlines;
+    this.instructorDeadlines = feedbackSession.instructorDeadlines;
+
     if (feedbackSession.customSessionVisibleTimestamp) {
       const customSessionVisible: { date: DateFormat, time: TimeFormat } =
           this.getDateTimeAtTimezone(feedbackSession.customSessionVisibleTimestamp, feedbackSession.timeZone, true);
@@ -434,8 +439,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       isClosingEmailEnabled: this.sessionEditFormModel.isClosingEmailEnabled,
       isPublishedEmailEnabled: this.sessionEditFormModel.isPublishedEmailEnabled,
 
-      studentDeadlines: {},
-      instructorDeadlines: {},
+      studentDeadlines: this.studentDeadlines,
+      instructorDeadlines: this.instructorDeadlines,
     }).pipe(finalize(() => {
       this.sessionEditFormModel.isSaving = false;
     })).subscribe((feedbackSession: FeedbackSession) => {

@@ -131,6 +131,8 @@ public final class Const {
 
         public static final String FEEDBACK_RESULTS_GROUPBYSECTION = "frgroupbysection";
 
+        public static final String FEEDBACK_RESULTS_SECTION_BY_GIVER_RECEIVER = "frsessionbygiverreceiver";
+
         public static final String PREVIEWAS = "previewas";
 
         public static final String STUDENT_ID = "googleid";
@@ -183,6 +185,7 @@ public final class Const {
         public static final String NOTIFICATION_ID = "notificationid";
         public static final String NOTIFICATION_TARGET_USER = "usertype";
         public static final String NOTIFICATION_IS_FETCHING_ALL = "isfetchingall";
+        public static final String NOTFICATION_END_TIME = "endtime";
     }
 
     /**
@@ -275,6 +278,8 @@ public final class Const {
         public static final String INSTRUCTOR_SESSIONS_PAGE = INSTRUCTOR_PAGE + "/sessions";
         public static final String INSTRUCTOR_SESSION_SUBMISSION_PAGE = INSTRUCTOR_PAGE + "/sessions/submission";
         public static final String INSTRUCTOR_SESSION_EDIT_PAGE = INSTRUCTOR_PAGE + "/sessions/edit";
+        public static final String INSTRUCTOR_SESSION_INDIVIDUAL_EXTENSION_PAGE = INSTRUCTOR_PAGE
+                + "/sessions/individual-extension";
         public static final String INSTRUCTOR_SESSION_RESULTS_PAGE = INSTRUCTOR_PAGE + "/sessions/result";
         public static final String INSTRUCTOR_SESSION_REPORT_PAGE = INSTRUCTOR_PAGE + "/sessions/report";
         public static final String INSTRUCTOR_COURSES_PAGE = INSTRUCTOR_PAGE + "/courses";
@@ -331,6 +336,7 @@ public final class Const {
         public static final String STUDENT_KEY = URI_PREFIX + "/student/key";
         public static final String NOTIFICATION = URI_PREFIX + "/notification";
         public static final String NOTIFICATIONS = URI_PREFIX + "/notifications";
+        public static final String NOTIFICATION_READ = URI_PREFIX + "/notification/read";
         public static final String SESSIONS_ONGOING = URI_PREFIX + "/sessions/ongoing";
         public static final String SESSION = URI_PREFIX + "/session";
         public static final String SESSION_PUBLISH = URI_PREFIX + "/session/publish";

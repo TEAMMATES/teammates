@@ -20,14 +20,12 @@ import {
   SendRemindersToRespondentsModalComponent,
 } from './send-reminders-to-respondents-modal/send-reminders-to-respondents-modal.component';
 import { SessionsTableComponent } from './sessions-table.component';
-import { SubmissionStatusTooltipPipe } from './submission-status-tooltip.pipe';
 
 /**
  * Module for sessions table.
  */
 @NgModule({
   declarations: [
-    SubmissionStatusTooltipPipe,
     PublishStatusTooltipPipe,
     SessionsTableComponent,
     ResendResultsLinkToRespondentModalComponent,
@@ -44,6 +42,7 @@ import { SubmissionStatusTooltipPipe } from './submission-status-tooltip.pipe';
     FormsModule,
     CopySessionModalModule,
     RouterModule,
+    TeammatesCommonModule,
     TeammatesRouterModule,
   ],
   entryComponents: [

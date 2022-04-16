@@ -53,7 +53,6 @@ public final class FieldValidator {
     public static final int EMAIL_MAX_LENGTH = 254;
 
     // notification-related
-    // TODO: Change max length of title and message according to frontend
     public static final String NOTIFICATION_TITLE_FIELD_NAME = "notification title";
     public static final String NOTIFICATION_MESSAGE_FIELD_NAME = "notification message";
     public static final String NOTIFICATION_NAME = "notification";

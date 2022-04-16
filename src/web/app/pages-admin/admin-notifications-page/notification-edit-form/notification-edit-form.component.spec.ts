@@ -68,7 +68,21 @@ describe('NotificationEditFormComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
+  it('should snap with notification', () => {
+    component.model = testNotificationEditModel;
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should snap with notification that has been shown to users', () => {
+    testNotificationEditModel.shown = true;
+    component.model = testNotificationEditModel;
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
+
   it('should set up with testNotificationEditModel', () => {
+    testNotificationEditModel.shown = false;
     component.model = testNotificationEditModel;
     const model: NotificationEditFormModel = component.model;
     expect(model).toBe(testNotificationEditModel);

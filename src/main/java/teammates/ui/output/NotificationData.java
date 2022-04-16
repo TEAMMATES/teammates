@@ -13,7 +13,6 @@ public class NotificationData extends ApiOutput {
     private long startTimestamp;
     private long endTimestamp;
     private long createdAt;
-    private long updatedAt;
     private NotificationStyle style;
     private NotificationTargetUser targetUser;
     private String title;
@@ -25,7 +24,6 @@ public class NotificationData extends ApiOutput {
         this.startTimestamp = notificationAttributes.getStartTime().toEpochMilli();
         this.endTimestamp = notificationAttributes.getEndTime().toEpochMilli();
         this.createdAt = notificationAttributes.getCreatedAt().toEpochMilli();
-        this.updatedAt = notificationAttributes.getUpdatedAt().toEpochMilli();
         this.style = notificationAttributes.getStyle();
         this.targetUser = notificationAttributes.getTargetUser();
         this.title = notificationAttributes.getTitle();
@@ -49,10 +47,6 @@ public class NotificationData extends ApiOutput {
         return this.createdAt;
     }
 
-    public long getUpdatedAt() {
-        return this.updatedAt;
-    }
-
     public NotificationStyle getStyle() {
         return this.style;
     }
@@ -71,12 +65,5 @@ public class NotificationData extends ApiOutput {
 
     public boolean isShown() {
         return this.shown;
-    }
-
-    /**
-     * Hides some attributes to instructor and students without appropriate privilege.
-     */
-    public void hideInformationForNonAdmin() {
-        // TODO: hide information that might be admin-only: target users, isShown, (starttime and endtime)
     }
 }

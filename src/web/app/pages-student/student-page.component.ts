@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { AuthService } from '../../services/auth.service';
-import { AuthInfo } from '../../types/api-output';
+import { AuthInfo, NotificationTargetUser } from '../../types/api-output';
 
 /**
  * Base skeleton for student pages.
@@ -28,11 +28,16 @@ export class StudentPageComponent implements OnInit {
       display: 'Profile',
     },
     {
+      url: '/web/student/notifications',
+      display: 'Notifications',
+    },
+    {
       url: '/web/student/help',
       display: 'Help',
     },
   ];
   isFetchingAuthDetails: boolean = false;
+  notificationTargetUser: NotificationTargetUser = NotificationTargetUser.STUDENT;
 
   private backendUrl: string = environment.backendUrl;
 

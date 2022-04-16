@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { AuthService } from '../../services/auth.service';
-import { AuthInfo } from '../../types/api-output';
+import { AuthInfo, NotificationTargetUser } from '../../types/api-output';
 
 /**
  * Base skeleton for instructor pages.
@@ -40,11 +40,16 @@ export class InstructorPageComponent implements OnInit {
       display: 'Search',
     },
     {
+      url: '/web/instructor/notifications',
+      display: 'Notifications',
+    },
+    {
       url: '/web/instructor/help',
       display: 'Help',
     },
   ];
   isFetchingAuthDetails: boolean = false;
+  notificationTargetUser: NotificationTargetUser = NotificationTargetUser.INSTRUCTOR;
 
   private backendUrl: string = environment.backendUrl;
 

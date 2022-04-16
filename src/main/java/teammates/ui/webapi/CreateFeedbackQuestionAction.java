@@ -12,7 +12,7 @@ import teammates.ui.request.FeedbackQuestionCreateRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
- * Create a feedback question.
+ * Creates a feedback question.
  */
 class CreateFeedbackQuestionAction extends Action {
 
