@@ -44,6 +44,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     private Map<String, Instant> studentDeadlines;
     private Map<String, Instant> instructorDeadlines;
 
+    private transient String userEmail;
     private transient Supplier<Instant> deadlineSupplier;
 
     private FeedbackSessionAttributes(String feedbackSessionName, String courseId) {
@@ -125,6 +126,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     public FeedbackSessionAttributes sanitizeForStudent(String studentEmail) {
         FeedbackSessionAttributes sanitizedCopy = getCopy();
         sanitizedCopy.deadlineSupplier = () -> sanitizedCopy.studentDeadlines.getOrDefault(studentEmail, endTime);
+        sanitizedCopy.userEmail = studentEmail;
         return sanitizedCopy;
     }
 
@@ -137,6 +139,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     public FeedbackSessionAttributes sanitizeForInstructor(String instructorEmail) {
         FeedbackSessionAttributes sanitizedCopy = getCopy();
         sanitizedCopy.deadlineSupplier = () -> sanitizedCopy.instructorDeadlines.getOrDefault(instructorEmail, endTime);
+        sanitizedCopy.userEmail = instructorEmail;
         return sanitizedCopy;
     }
 
@@ -253,6 +256,10 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
             return endTime;
         }
         return deadlineSupplier.get();
+    }
+
+    public String getUserEmail() {
+        return userEmail;
     }
 
     /**

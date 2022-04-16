@@ -55,15 +55,15 @@ class GetFeedbackSessionAction extends BasicFeedbackSubmissionAction {
         switch (intent) {
         case STUDENT_SUBMISSION:
         case STUDENT_RESULT:
-            response = getFilteredStudentFeedbackSessionData(feedbackSession);
+            response = getStudentFeedbackSessionData(feedbackSession);
             response.hideInformationForStudent();
             break;
         case INSTRUCTOR_SUBMISSION:
-            response = getFilteredInstructorFeedbackSessionData(feedbackSession);
-            response.hideInformationForStudent();
+            response = getInstructorFeedbackSessionData(feedbackSession);
+            response.hideInformationForInstructorSubmission();
             break;
         case INSTRUCTOR_RESULT:
-            response = getFilteredInstructorFeedbackSessionData(feedbackSession);
+            response = getInstructorFeedbackSessionData(feedbackSession);
             response.hideInformationForInstructor();
             break;
         case FULL_DETAIL:
@@ -75,19 +75,15 @@ class GetFeedbackSessionAction extends BasicFeedbackSubmissionAction {
         return new JsonResult(response);
     }
 
-    private FeedbackSessionData getFilteredStudentFeedbackSessionData(FeedbackSessionAttributes session) {
+    private FeedbackSessionData getStudentFeedbackSessionData(FeedbackSessionAttributes session) {
         StudentAttributes student = getStudentOfCourseFromRequest(session.getCourseId());
         String email = student.getEmail();
-        FeedbackSessionData response = new FeedbackSessionData(session.sanitizeForStudent(email));
-        response.filterDeadlinesForStudent(email);
-        return response;
+        return new FeedbackSessionData(session.sanitizeForStudent(email));
     }
 
-    private FeedbackSessionData getFilteredInstructorFeedbackSessionData(FeedbackSessionAttributes session) {
+    private FeedbackSessionData getInstructorFeedbackSessionData(FeedbackSessionAttributes session) {
         InstructorAttributes instructor = getInstructorOfCourseFromRequest(session.getCourseId());
         String email = instructor.getEmail();
-        FeedbackSessionData response = new FeedbackSessionData(session.sanitizeForInstructor(email));
-        response.filterDeadlinesForInstructor(email);
-        return response;
+        return new FeedbackSessionData(session.sanitizeForInstructor(email));
     }
 }

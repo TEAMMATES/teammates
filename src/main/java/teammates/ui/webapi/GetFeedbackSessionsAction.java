@@ -68,7 +68,6 @@ class GetFeedbackSessionsAction extends Action {
         String entityType = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
 
         List<FeedbackSessionAttributes> feedbackSessionAttributes;
-        Map<String, Map<String, String>> courseIdAndSessionNameToStudent = new HashMap<>();
         List<InstructorAttributes> instructors = new ArrayList<>();
 
         if (courseId == null) {
@@ -83,12 +82,6 @@ class GetFeedbackSessionsAction extends Action {
                             .map(session -> session.sanitizeForStudent(emailAddress))
                             .collect(Collectors.toList());
                     feedbackSessionAttributes.addAll(sessions);
-                    if (!courseIdAndSessionNameToStudent.containsKey(studentCourseId)) {
-                        courseIdAndSessionNameToStudent.put(studentCourseId, new HashMap<>());
-                    }
-                    Map<String, String> sessionNameToStudent = courseIdAndSessionNameToStudent.get(studentCourseId);
-                    sessions.forEach(session -> sessionNameToStudent
-                            .put(session.getFeedbackSessionName(), emailAddress));
                 }
             } else if (entityType.equals(Const.EntityType.INSTRUCTOR)) {
                 boolean isInRecycleBin = getBooleanRequestParamValue(Const.ParamsNames.IS_IN_RECYCLE_BIN);
@@ -105,18 +98,13 @@ class GetFeedbackSessionsAction extends Action {
             }
         } else {
             feedbackSessionAttributes = logic.getFeedbackSessionsForCourse(courseId);
-            boolean isPotentiallyInvalidCourseId = feedbackSessionAttributes.isEmpty();
-            if (entityType.equals(Const.EntityType.STUDENT) && !isPotentiallyInvalidCourseId) {
+            if (entityType.equals(Const.EntityType.STUDENT) && !feedbackSessionAttributes.isEmpty()) {
                 StudentAttributes student = logic.getStudentForGoogleId(courseId, userInfo.getId());
                 assert student != null;
                 String emailAddress = student.getEmail();
                 feedbackSessionAttributes = feedbackSessionAttributes.stream()
                         .map(instructorSession -> instructorSession.sanitizeForStudent(emailAddress))
                         .collect(Collectors.toList());
-                Map<String, String> sessionNameToStudent = new HashMap<>();
-                feedbackSessionAttributes.forEach(session -> sessionNameToStudent
-                        .put(session.getFeedbackSessionName(), emailAddress));
-                courseIdAndSessionNameToStudent.put(courseId, sessionNameToStudent);
             } else if (entityType.equals(Const.EntityType.INSTRUCTOR)) {
                 instructors = Collections.singletonList(logic.getInstructorForGoogleId(courseId, userInfo.getId()));
             }
@@ -135,9 +123,6 @@ class GetFeedbackSessionsAction extends Action {
         if (entityType.equals(Const.EntityType.STUDENT)) {
             responseData.getFeedbackSessions().forEach(session -> {
                 session.hideInformationForStudent();
-                String emailAddress = courseIdAndSessionNameToStudent.get(session.getCourseId())
-                        .get(session.getFeedbackSessionName());
-                session.filterDeadlinesForStudent(emailAddress);
             });
         } else if (entityType.equals(Const.EntityType.INSTRUCTOR)) {
             responseData.getFeedbackSessions().forEach(session -> {
