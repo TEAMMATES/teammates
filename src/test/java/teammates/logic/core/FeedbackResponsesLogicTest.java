@@ -14,6 +14,7 @@ import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.FeedbackResultFetchType;
 import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -945,7 +946,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         // no section specified
         SessionResultsBundle bundle = frLogic.getSessionResultsForCourse(
                 fq.getFeedbackSessionName(), fq.getCourseId(), instructor.getEmail(),
-                fq.getId(), null);
+                fq.getId(), null, FeedbackResultFetchType.BOTH);
         assertEquals(1, bundle.getQuestionResponseMap().size());
         List<FeedbackResponseAttributes> responseForQuestion =
                 bundle.getQuestionResponseMap().entrySet().iterator().next().getValue();
@@ -955,7 +956,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         fq = getQuestionFromDatabase("qn2InSession1InCourse1");
         bundle = frLogic.getSessionResultsForCourse(
                 fq.getFeedbackSessionName(), fq.getCourseId(), instructor.getEmail(),
-                fq.getId(), "Section 1");
+                fq.getId(), "Section 1", FeedbackResultFetchType.BOTH);
         assertEquals(1, bundle.getQuestionResponseMap().size());
         responseForQuestion = bundle.getQuestionResponseMap().entrySet().iterator().next().getValue();
         assertEquals(3, responseForQuestion.size());
@@ -971,7 +972,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         InstructorAttributes instructor = responseBundle.instructors.get("instructor1OfCourse1");
         SessionResultsBundle bundle = frLogic.getSessionResultsForCourse(
                 session.getFeedbackSessionName(), session.getCourseId(), instructor.getEmail(),
-                null, null);
+                null, null, FeedbackResultFetchType.BOTH);
 
         // Instructor can see responses: q2r1-3, q3r1-2, q4r1-3, q5r1, q6r1
         int totalResponse = 0;
@@ -1033,7 +1034,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         InstructorAttributes instructor = responseBundle.instructors.get("instructor1OfCourse1");
         SessionResultsBundle bundle = frLogic.getSessionResultsForCourse(
                 session.getFeedbackSessionName(), session.getCourseId(), instructor.getEmail(),
-                null, "Section A");
+                null, "Section A", FeedbackResultFetchType.BOTH);
 
         // Instructor can see responses: q2r1-3, q3r1-2, q4r1-3, q5r1, q6r1
         // after filtering by section, the number of responses seen by instructor will differ.
@@ -1075,6 +1076,70 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         Map<Long, Boolean> commentGiverVisibilityTable = bundle.getCommentGiverVisibilityTable();
         assertEquals(0, commentGiverVisibilityTable.size());
     }
+
+    @Test
+    public void testGetSessionResultsForCourse_responseFetchByGiverOrReceiverOnly_shouldGenerateCorrectBundle() {
+        var responseBundle = loadDataBundle("/FeedbackSessionResultsTest.json");
+        removeAndRestoreDataBundle(responseBundle);
+
+        var session = responseBundle.feedbackSessions.get("standard.session");
+
+        var instructor = responseBundle.instructors.get("instructor1OfCourse1");
+        var sectionToTest = "Section A";
+        Map<String, List<FeedbackResponseAttributes>> questionResponseMapByGiver = frLogic.getSessionResultsForCourse(
+                session.getFeedbackSessionName(), session.getCourseId(), instructor.getEmail(),
+                null, sectionToTest, FeedbackResultFetchType.GIVER)
+                .getQuestionResponseMap();
+        questionResponseMapByGiver.forEach((key, responses) -> {
+            responses.forEach(resp -> {
+                assertEquals(sectionToTest, resp.getGiverSection());
+            });
+        });
+
+        Map<String, List<FeedbackResponseAttributes>> questionResponseMapByReceiver =
+                frLogic.getSessionResultsForCourse(
+                session.getFeedbackSessionName(), session.getCourseId(), instructor.getEmail(),
+                null, sectionToTest, FeedbackResultFetchType.RECEIVER)
+                .getQuestionResponseMap();
+        questionResponseMapByReceiver.forEach((key, responses) -> {
+            responses.forEach(resp -> {
+                assertEquals(sectionToTest, resp.getRecipientSection());
+            });
+        });
+    }
+
+    @Test
+    public void testGetSessionResultsForCourse_splitResponseFetchByGiverAndReceiver_shouldGenerateCorrectBundle() {
+        var responseBundle = loadDataBundle("/FeedbackSessionResultsTest.json");
+        removeAndRestoreDataBundle(responseBundle);
+
+        FeedbackSessionAttributes session = responseBundle.feedbackSessions.get("standard.session");
+
+        InstructorAttributes instructor = responseBundle.instructors.get("instructor1OfCourse1");
+        Map<String, List<FeedbackResponseAttributes>> questionResponseMapFromMultiFetch =
+                frLogic.getSessionResultsForCourse(
+                        session.getFeedbackSessionName(), session.getCourseId(), instructor.getEmail(),
+                        null, "Section A", FeedbackResultFetchType.GIVER).getQuestionResponseMap();
+        frLogic.getSessionResultsForCourse(
+                session.getFeedbackSessionName(), session.getCourseId(), instructor.getEmail(),
+                null, "Section A", FeedbackResultFetchType.RECEIVER)
+                .getQuestionResponseMap()
+                .forEach(questionResponseMapFromMultiFetch::putIfAbsent);
+
+        // Equal to session result fetch by both type
+        Map<String, List<FeedbackResponseAttributes>> questionResponseMapFromFetchBoth =
+                frLogic.getSessionResultsForCourse(
+                        session.getFeedbackSessionName(), session.getCourseId(), instructor.getEmail(),
+                        null, "Section A", FeedbackResultFetchType.BOTH).getQuestionResponseMap();
+
+        for (var entry : questionResponseMapFromFetchBoth.entrySet()) {
+            List<FeedbackResponseAttributes> respFromFetchBoth = entry.getValue();
+            List<FeedbackResponseAttributes> respFromMultiFetch = questionResponseMapFromMultiFetch.get(entry.getKey());
+            assertEquals(respFromFetchBoth.size(), respFromMultiFetch.size());
+            assertTrue(new HashSet<>(respFromMultiFetch).equals(new HashSet<>(respFromFetchBoth)));
+        }
+    }
+
 
     // TODO: check for cases where a person is both a student and an instructor
 
