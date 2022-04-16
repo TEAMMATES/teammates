@@ -1,26 +1,9 @@
 .banner {
-  position: sticky;
-  top: 70px;
-  margin: 0 5rem;
   padding: 1.875rem 1.875rem 1.25rem;
-  z-index: 900;
   word-break: break-word;
 }
 
 .banner-text {
   max-height: 80px;
   overflow-y: auto;
-}
-
-@media (max-width: 1024px) {
-  .banner {
-    margin: 0 1.25rem;
-  }
-}
-
-@media (max-width: 768px) {
-  .banner {
-    top: 50px;
-    margin: 0;
-  }
 }
