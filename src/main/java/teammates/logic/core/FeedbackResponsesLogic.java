@@ -15,6 +15,7 @@ import javax.annotation.Nullable;
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.FeedbackResultFetchType;
 import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -110,14 +111,16 @@ public final class FeedbackResponsesLogic {
      * @param feedbackSessionName the name if the session
      * @param courseId the course ID of the session
      * @param section if null, will retrieve all responses in the session
+     * @param fetchType if not null, will retrieve responses by giver, receiver sections, or both
      * @return a list of responses
      */
     public List<FeedbackResponseAttributes> getFeedbackResponsesForSessionInSection(
-            String feedbackSessionName, String courseId, @Nullable String section) {
+            String feedbackSessionName, String courseId, @Nullable String section,
+            @Nullable FeedbackResultFetchType fetchType) {
         if (section == null) {
             return getFeedbackResponsesForSession(feedbackSessionName, courseId);
         }
-        return frDb.getFeedbackResponsesForSessionInSection(feedbackSessionName, courseId, section);
+        return frDb.getFeedbackResponsesForSessionInSection(feedbackSessionName, courseId, section, fetchType);
     }
 
     /**
@@ -142,11 +145,11 @@ public final class FeedbackResponsesLogic {
      * @return a list of responses
      */
     public List<FeedbackResponseAttributes> getFeedbackResponsesForQuestionInSection(
-            String feedbackQuestionId, @Nullable String section) {
+            String feedbackQuestionId, @Nullable String section, FeedbackResultFetchType fetchType) {
         if (section == null) {
             return getFeedbackResponsesForQuestion(feedbackQuestionId);
         }
-        return frDb.getFeedbackResponsesForQuestionInSection(feedbackQuestionId, section);
+        return frDb.getFeedbackResponsesForQuestionInSection(feedbackQuestionId, section, fetchType);
     }
 
     /**
@@ -445,11 +448,12 @@ public final class FeedbackResponsesLogic {
      * @param instructorEmail the instructor viewing the feedback session
      * @param questionId if not null, will only return partial bundle for the question
      * @param section if not null, will only return partial bundle for the section
+     * @param fetchType if not null, will fetch responses by giver, receiver sections, or both
      * @return the session result bundle
      */
     public SessionResultsBundle getSessionResultsForCourse(
             String feedbackSessionName, String courseId, String instructorEmail,
-            @Nullable String questionId, @Nullable String section) {
+            @Nullable String questionId, @Nullable String section, @Nullable FeedbackResultFetchType fetchType) {
         CourseRoster roster = new CourseRoster(
                 studentsLogic.getStudentsForCourse(courseId),
                 instructorsLogic.getInstructorsForCourse(courseId));
@@ -462,9 +466,9 @@ public final class FeedbackResponsesLogic {
         List<FeedbackResponseAttributes> allResponses;
         // load all response for instructors and passively filter them later
         if (questionId == null) {
-            allResponses = getFeedbackResponsesForSessionInSection(feedbackSessionName, courseId, section);
+            allResponses = getFeedbackResponsesForSessionInSection(feedbackSessionName, courseId, section, fetchType);
         } else {
-            allResponses = getFeedbackResponsesForQuestionInSection(questionId, section);
+            allResponses = getFeedbackResponsesForQuestionInSection(questionId, section, fetchType);
         }
         RequestTracer.checkRemainingTime();
 
