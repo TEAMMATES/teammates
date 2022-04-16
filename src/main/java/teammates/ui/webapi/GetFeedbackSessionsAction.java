@@ -108,6 +108,7 @@ class GetFeedbackSessionsAction extends Action {
             boolean isPotentiallyInvalidCourseId = feedbackSessionAttributes.isEmpty();
             if (entityType.equals(Const.EntityType.STUDENT) && !isPotentiallyInvalidCourseId) {
                 StudentAttributes student = logic.getStudentForGoogleId(courseId, userInfo.getId());
+                assert student != null;
                 String emailAddress = student.getEmail();
                 feedbackSessionAttributes = feedbackSessionAttributes.stream()
                         .map(instructorSession -> instructorSession.sanitizeForStudent(emailAddress))
