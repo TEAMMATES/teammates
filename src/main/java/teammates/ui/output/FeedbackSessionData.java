@@ -22,6 +22,7 @@ public class FeedbackSessionData extends ApiOutput {
 
     private final Long submissionStartTimestamp;
     private final Long submissionEndTimestamp;
+    @Nullable
     private final Long submissionEndWithExtensionTimestamp;
     @Nullable
     private Long sessionVisibleFromTimestamp;
