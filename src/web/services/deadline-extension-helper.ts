@@ -4,11 +4,6 @@ import {
 } from '../app/pages-instructor/instructor-session-individual-extension-page/extension-table-column-model';
 import { Instructor, Student } from '../types/api-output';
 
-export enum DeadlineHandlerType {
-  CREATE,
-  DELETE,
-}
-
 /**
  * Deadline Extension utility functions.
  */
@@ -80,23 +75,26 @@ export class DeadlineExtensionHelper {
     });
   }
 
-  public static getUpdatedDeadlines(
+  public static getUpdatedDeadlinesForCreation(
     selectedIndividuals: StudentExtensionTableColumnModel[] | InstructorExtensionTableColumnModel[],
     deadlinesToCopyFrom: Record<string, number>,
-    updateDeadlinesType: DeadlineHandlerType,
     extensionTimestamp?: number,
   ): Record<string, number> {
     const record: Record<string, number> = { ...deadlinesToCopyFrom };
+    selectedIndividuals.forEach((x) => {
+      record[x.email] = extensionTimestamp!;
+    });
+    return record;
+  }
 
-    if (updateDeadlinesType === DeadlineHandlerType.CREATE) {
-      selectedIndividuals.forEach((x) => {
-        record[x.email] = extensionTimestamp!;
-      });
-    } else {
-      selectedIndividuals.forEach((x) => {
-        delete record[x.email];
-      });
-    }
+  public static getUpdatedDeadlinesForDeletion(
+    selectedIndividuals: StudentExtensionTableColumnModel[] | InstructorExtensionTableColumnModel[],
+    deadlinesToCopyFrom: Record<string, number>,
+  ): Record<string, number> {
+    const record: Record<string, number> = { ...deadlinesToCopyFrom };
+    selectedIndividuals.forEach((x) => {
+      delete record[x.email];
+    });
     return record;
   }
 }

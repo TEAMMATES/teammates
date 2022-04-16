@@ -4,7 +4,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
-import { DeadlineExtensionHelper, DeadlineHandlerType } from '../../../services/deadline-extension-helper';
+import { DeadlineExtensionHelper } from '../../../services/deadline-extension-helper';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { InstructorService } from '../../../services/instructor.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -235,9 +235,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     modalRef.componentInstance.feedbackSessionTimeZone = this.feedbackSessionTimeZone;
 
     modalRef.componentInstance.onConfirmExtensionCallBack.subscribe((isNotifyDeadlines: boolean) => {
-      this.handleCreateAndDeleteDeadlines(selectedStudents, selectedInstructors,
-        DeadlineHandlerType.CREATE,
-        isNotifyDeadlines, extensionTimestamp);
+      this.handleCreateDeadlines(selectedStudents, selectedInstructors, isNotifyDeadlines, extensionTimestamp);
       modalRef.componentInstance.isSubmitting = false;
       modalRef.close();
     });
@@ -257,36 +255,58 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     modalRef.componentInstance.feedbackSessionTimeZone = this.feedbackSessionTimeZone;
 
     modalRef.componentInstance.onConfirmExtensionCallBack.subscribe((isNotifyDeadlines: boolean) => {
-      this.handleCreateAndDeleteDeadlines(selectedStudents, selectedInstructors,
-        DeadlineHandlerType.DELETE,
-        isNotifyDeadlines);
+      this.handleDeleteDeadlines(selectedStudents, selectedInstructors, isNotifyDeadlines);
       modalRef.componentInstance.isSubmitting = false;
       modalRef.close();
     });
   }
 
-  private handleCreateAndDeleteDeadlines(
+  private handleCreateDeadlines(
     selectedStudents: StudentExtensionTableColumnModel[],
     selectedInstructors: InstructorExtensionTableColumnModel[],
-    updateDeadlinesType: DeadlineHandlerType,
     isNotifyDeadlines: boolean,
-    extensionTimestamp?: number,
+    extensionTimestamp: number,
   ): void {
+    const updatedDeadlinesForCreation = this.getUpdatedDeadlinesForCreation(
+      selectedStudents, selectedInstructors, extensionTimestamp);
     const request: FeedbackSessionUpdateRequest = {
-      studentDeadlines: DeadlineExtensionHelper.getUpdatedDeadlines(selectedStudents, this.studentDeadlines,
-        updateDeadlinesType, extensionTimestamp),
-      instructorDeadlines: DeadlineExtensionHelper.getUpdatedDeadlines(selectedInstructors, this.instructorDeadlines,
-        updateDeadlinesType, extensionTimestamp),
+      ...updatedDeadlinesForCreation,
       ...this.feedbackSessionDetails,
     };
 
+    this.handleUpdateDeadlines(request, selectedStudents.length,
+      selectedInstructors.length, isNotifyDeadlines, 'created');
+  }
+
+  private handleDeleteDeadlines(
+    selectedStudents: StudentExtensionTableColumnModel[],
+    selectedInstructors: InstructorExtensionTableColumnModel[],
+    isNotifyDeadlines: boolean,
+  ): void {
+    const updatedDeadlinesForDeletion = this.getUpdatedDeadlinesForDeletion(
+      selectedStudents, selectedInstructors);
+    const request: FeedbackSessionUpdateRequest = {
+      ...updatedDeadlinesForDeletion,
+      ...this.feedbackSessionDetails,
+    };
+    this.handleUpdateDeadlines(request, selectedStudents.length,
+      selectedInstructors.length, isNotifyDeadlines, 'deleted');
+  }
+
+  private handleUpdateDeadlines(
+    request: FeedbackSessionUpdateRequest,
+    numStudentsUpdated: number,
+    numInstructorsUpdated: number,
+    isNotifyDeadlines: boolean,
+    actionForToast: string,
+  ): void {
     this.isSubmittingDeadlines = true;
     this.feedbackSessionsService
       .updateFeedbackSession(this.courseId, this.feedbackSessionName, request, isNotifyDeadlines)
       .pipe(finalize(() => { this.isSubmittingDeadlines = false; }))
       .subscribe(() => {
           this.loadFeedbackSessionAndIndividuals();
-          this.showSuccessToast(updateDeadlinesType, selectedStudents, selectedInstructors);
+          this.showSuccessToast(actionForToast, numStudentsUpdated, numInstructorsUpdated);
         },
         (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
@@ -294,14 +314,32 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
       );
   }
 
-  private showSuccessToast(updateDeadlinesType: DeadlineHandlerType,
-    selectedStudents: StudentExtensionTableColumnModel[],
+  private getUpdatedDeadlinesForCreation(selectedStudents: StudentExtensionTableColumnModel[],
+    selectedInstructors: InstructorExtensionTableColumnModel[], extensionTimestamp: number,
+  ): { studentDeadlines: Record<string, number>, instructorDeadlines: Record<string, number> } {
+    const studentDeadlines = DeadlineExtensionHelper.getUpdatedDeadlinesForCreation(
+      selectedStudents, this.studentDeadlines, extensionTimestamp);
+    const instructorDeadlines = DeadlineExtensionHelper.getUpdatedDeadlinesForCreation(
+      selectedInstructors, this.instructorDeadlines, extensionTimestamp);
+
+    return { studentDeadlines, instructorDeadlines };
+  }
+
+  private getUpdatedDeadlinesForDeletion(selectedStudents: StudentExtensionTableColumnModel[],
     selectedInstructors: InstructorExtensionTableColumnModel[],
-  ): void {
-    const updateAction = updateDeadlinesType === DeadlineHandlerType.CREATE ? 'created' : 'deleted';
+  ): { studentDeadlines: Record<string, number>, instructorDeadlines: Record<string, number> } {
+    const studentDeadlines = DeadlineExtensionHelper.getUpdatedDeadlinesForDeletion(
+      selectedStudents, this.studentDeadlines);
+    const instructorDeadlines = DeadlineExtensionHelper.getUpdatedDeadlinesForDeletion(
+      selectedInstructors, this.instructorDeadlines);
+
+    return { studentDeadlines, instructorDeadlines };
+  }
+
+  private showSuccessToast(updateAction: string, numOfStudentsUpdated: number, numOfInstructorsUpdated: number): void {
     this.statusMessageService.showSuccessToast(
-      `Successfully ${updateAction} extension(s) for ${selectedStudents.length} student(s) and`
-    + ` ${selectedInstructors.length} instructor(s)!`);
+      `Successfully ${updateAction} extension(s) for ${numOfStudentsUpdated} student(s) and`
+      + ` ${numOfInstructorsUpdated} instructor(s)!`);
   }
 
   private getSelectedStudents(): StudentExtensionTableColumnModel[] {

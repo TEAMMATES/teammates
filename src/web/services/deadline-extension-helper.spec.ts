@@ -4,7 +4,7 @@ import {
 } from '../app/pages-instructor/instructor-session-individual-extension-page/extension-table-column-model';
 import { Instructor, JoinState, Student } from '../types/api-output';
 import { InstructorPermissionRole } from '../types/api-request';
-import { DeadlineExtensionHelper, DeadlineHandlerType } from './deadline-extension-helper';
+import { DeadlineExtensionHelper } from './deadline-extension-helper';
 
 const timeNow = Date.now();
 const fixedLengthOfTime = 1000000;
@@ -155,15 +155,14 @@ describe('DeadlineExtensionHelper', () => {
     const hasOngoingDeadlinesWithStudent = { ...hasOngoingDeadlines, ...existingExtensionForStudentModel1 };
     const hasOngoingDeadlinesWithInstructor = { ...hasOngoingDeadlines, ...existingExtensionForInstructorModel1 };
 
-    const updatedStudentDeadlines = DeadlineExtensionHelper.getUpdatedDeadlines([student1Model, student2Model],
-      hasOngoingDeadlinesWithStudent, DeadlineHandlerType.CREATE, 100);
+    const updatedStudentDeadlines = DeadlineExtensionHelper
+      .getUpdatedDeadlinesForCreation([student1Model, student2Model], hasOngoingDeadlinesWithStudent, 100);
     expect(Object.keys(updatedStudentDeadlines).length).toEqual(5);
     expect(updatedStudentDeadlines['student1Model@example.com']).toEqual(100);
     expect(updatedStudentDeadlines['student2Model@example.com']).toEqual(100);
 
-    const updatedInstructorDeadlines = DeadlineExtensionHelper
-      .getUpdatedDeadlines([instructor1ModelWithExtension, instructor2ModelWithExtension],
-        hasOngoingDeadlinesWithInstructor, DeadlineHandlerType.CREATE, 200);
+    const updatedInstructorDeadlines = DeadlineExtensionHelper.getUpdatedDeadlinesForCreation(
+      [instructor1ModelWithExtension, instructor2ModelWithExtension], hasOngoingDeadlinesWithInstructor, 200);
     expect(Object.keys(updatedInstructorDeadlines).length).toEqual(5);
     expect(updatedInstructorDeadlines['instructor1Model@example.com']).toEqual(200);
     expect(updatedInstructorDeadlines['instructor2Model@example.com']).toEqual(200);
@@ -175,10 +174,10 @@ describe('DeadlineExtensionHelper', () => {
     const hasOngoingDeadlinesWithStudent = { ...hasOngoingDeadlines, ...student1ModelExtension };
     const hasOngoingDeadlinesWithInstructor = { ...hasOngoingDeadlines, ...instructor1ModelExtension };
 
-    expect(Object.keys(DeadlineExtensionHelper.getUpdatedDeadlines([student1Model, student2Model],
-      hasOngoingDeadlinesWithStudent, DeadlineHandlerType.DELETE)).length).toEqual(3);
+    expect(Object.keys(DeadlineExtensionHelper.getUpdatedDeadlinesForDeletion([student1Model, student2Model],
+      hasOngoingDeadlinesWithStudent)).length).toEqual(3);
     expect(Object.keys(DeadlineExtensionHelper
-      .getUpdatedDeadlines([instructor1ModelWithExtension, instructor2ModelWithExtension],
-        hasOngoingDeadlinesWithInstructor, DeadlineHandlerType.DELETE)).length).toEqual(3);
+      .getUpdatedDeadlinesForDeletion([instructor1ModelWithExtension, instructor2ModelWithExtension],
+        hasOngoingDeadlinesWithInstructor)).length).toEqual(3);
   });
 });

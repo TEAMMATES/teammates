@@ -5,7 +5,7 @@ import moment from 'moment-timezone';
 import { forkJoin, Observable, of } from 'rxjs';
 import { concatMap, finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
-import { DeadlineExtensionHelper, DeadlineHandlerType } from '../../../services/deadline-extension-helper';
+import { DeadlineExtensionHelper } from '../../../services/deadline-extension-helper';
 import {
   CommonVisibilitySetting,
   FeedbackQuestionsService,
@@ -541,9 +541,9 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     instructors: InstructorExtensionTableColumnModel[],
   ): void {
     this.studentDeadlines = DeadlineExtensionHelper
-      .getUpdatedDeadlines(students, this.studentDeadlines, DeadlineHandlerType.DELETE);
+      .getUpdatedDeadlinesForDeletion(students, this.studentDeadlines);
     this.instructorDeadlines = DeadlineExtensionHelper
-      .getUpdatedDeadlines(instructors, this.instructorDeadlines, DeadlineHandlerType.DELETE);
+      .getUpdatedDeadlinesForDeletion(instructors, this.instructorDeadlines);
   }
   /**
    * Handles canceling existing session event without saving changes.
