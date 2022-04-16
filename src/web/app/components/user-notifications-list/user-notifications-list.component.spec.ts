@@ -1,11 +1,14 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import moment from 'moment-timezone';
 import { of } from 'rxjs';
+import SpyInstance = jest.SpyInstance;
 import { NotificationService } from '../../../services/notification.service';
-// import { StatusMessageService } from '../../../services/status-message.service';
+import { StatusMessageService } from '../../../services/status-message.service';
 import { Notification, NotificationStyle, NotificationTargetUser } from '../../../types/api-output';
+import { MarkNotificationAsReadRequest } from '../../../types/api-request';
 import { SortBy } from '../../../types/sort-properties';
 import { LoadingRetryModule } from '../loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
@@ -16,7 +19,7 @@ import { UserNotificationsListComponent } from './user-notifications-list.compon
 describe('UserNotificationsListComponent', () => {
   let component: UserNotificationsListComponent;
   let notificationService: NotificationService;
-  // let statusMessageService: StatusMessageService;
+  let statusMessageService: StatusMessageService;
   let fixture: ComponentFixture<UserNotificationsListComponent>;
 
   const testNotificationOne: Notification = {
@@ -61,13 +64,54 @@ describe('UserNotificationsListComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UserNotificationsListComponent);
     notificationService = TestBed.inject(NotificationService);
-    // statusMessageService = TestBed.inject(StatusMessageService);
+    statusMessageService = TestBed.inject(StatusMessageService);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should mark notification as read when button is clicked', () => {
+    jest.spyOn(notificationService, 'getAllNotificationsForTargetUser').mockReturnValue(of({
+      notifications: [testNotificationOne],
+    }));
+    jest.spyOn(notificationService, 'getReadNotifications').mockReturnValue(of({
+      readNotifications: [],
+    }));
+    const spy1: SpyInstance = jest.spyOn(notificationService, 'markNotificationAsRead')
+    .mockImplementation((request: MarkNotificationAsReadRequest) => {
+      expect(request.notificationId).toEqual(testNotificationOne.notificationId);
+      return of({
+        readNotifications: [request.notificationId],
+      });
+    });
+    const spy2: SpyInstance = jest.spyOn(statusMessageService, 'showSuccessToast')
+    .mockImplementation((args: string) => {
+      expect(args).toEqual('Notification marked as read.');
+    });
+
+    component.ngOnInit();
+    fixture.detectChanges();
+    expect(component.notificationTabs[0].hasTabExpanded).toBeTruthy();
+    fixture.debugElement.query(By.css('#btn-mark-as-read')).nativeElement.click();
+    expect(spy1).toHaveBeenCalledTimes(1);
+    expect(spy2).toHaveBeenCalledTimes(1);
+    // check that it is no longer expanded
+    expect(component.notificationTabs[0].hasTabExpanded).toBeFalsy();
+  });
+
+  it('should toggle the tab when the header is clicked', () => {
+    jest.spyOn(notificationService, 'getAllNotificationsForTargetUser').mockReturnValue(of({
+      notifications: [testNotificationOne],
+    }));
+    component.ngOnInit();
+    fixture.detectChanges();
+
+    expect(component.notificationTabs[0].hasTabExpanded).toBeTruthy();
+    fixture.debugElement.query(By.css('.card-header')).nativeElement.click();
+    expect(component.notificationTabs[0].hasTabExpanded).toBeFalsy();
   });
 
   it('should snap with default fields when loading', () => {
