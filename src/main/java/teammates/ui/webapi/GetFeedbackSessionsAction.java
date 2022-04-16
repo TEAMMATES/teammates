@@ -20,8 +20,6 @@ import teammates.ui.output.FeedbackSessionsData;
  */
 class GetFeedbackSessionsAction extends Action {
 
-    private static final String NO_SUCH_USER_FOUND = "No such user found.";
-
     @Override
     AuthType getMinAuthLevel() {
         return AuthType.LOGGED_IN;
@@ -80,9 +78,6 @@ class GetFeedbackSessionsAction extends Action {
                 for (StudentAttributes student : students) {
                     feedbackSessionAttributes.addAll(logic.getFeedbackSessionsForCourse(student.getCourse()));
                 }
-                if (students.isEmpty()) {
-                    throw new EntityNotFoundException(NO_SUCH_USER_FOUND);
-                }
                 String emailAddress = students.get(0).getEmail();
                 feedbackSessionAttributes = feedbackSessionAttributes.stream()
                         .map(instructorSession -> instructorSession.sanitizeForStudent(emailAddress))
@@ -97,9 +92,6 @@ class GetFeedbackSessionsAction extends Action {
                 } else {
                     feedbackSessionAttributes = logic.getFeedbackSessionsListForInstructor(instructors);
                 }
-                if (instructors.isEmpty()) {
-                    throw new EntityNotFoundException(NO_SUCH_USER_FOUND);
-                }
                 String emailAddress = instructors.get(0).getEmail();
                 feedbackSessionAttributes = feedbackSessionAttributes.stream()
                         .map(instructorSession -> instructorSession.sanitizeForInstructor(emailAddress))
@@ -112,9 +104,6 @@ class GetFeedbackSessionsAction extends Action {
             if (entityType.equals(Const.EntityType.STUDENT) && !feedbackSessionAttributes.isEmpty()) {
                 StudentAttributes student = logic.getStudentForGoogleId(courseId, userInfo.getId());
                 students = Collections.singletonList(student);
-                if (student == null) {
-                    throw new EntityNotFoundException(NO_SUCH_USER_FOUND);
-                }
                 String emailAddress = student.getEmail();
                 feedbackSessionAttributes = feedbackSessionAttributes.stream()
                         .map(instructorSession -> instructorSession.sanitizeForStudent(emailAddress))
@@ -122,9 +111,6 @@ class GetFeedbackSessionsAction extends Action {
             } else if (entityType.equals(Const.EntityType.INSTRUCTOR) && !feedbackSessionAttributes.isEmpty()) {
                 InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
                 instructors = Collections.singletonList(instructor);
-                if (instructor == null) {
-                    throw new EntityNotFoundException(NO_SUCH_USER_FOUND);
-                }
                 String emailAddress = instructor.getEmail();
                 feedbackSessionAttributes = feedbackSessionAttributes.stream()
                         .map(instructorSession -> instructorSession.sanitizeForInstructor(emailAddress))
