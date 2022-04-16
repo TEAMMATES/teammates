@@ -221,8 +221,8 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         List<FeedbackSessionAttributes> expectedSessions = sessionsInCourse1.stream()
                 .map(session -> session.sanitizeForStudent(emailAddress))
                 .collect(Collectors.toList());
-        FeedbackSessionAttributes expectedSession2InCourse1 = expectedSessions.get(
-                expectedSessions.indexOf(session2InCourse1));
+        int expectedSession2InCourse1Index = expectedSessions.indexOf(session2InCourse1);
+        FeedbackSessionAttributes expectedSession2InCourse1 = expectedSessions.get(expectedSession2InCourse1Index);
         expectedSession2InCourse1.setEndTime(newEndTime);
 
         String[] submissionParam = {
@@ -323,8 +323,8 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         List<FeedbackSessionAttributes> expectedSessions = sessionsInCourse1.stream()
                 .map(session -> session.sanitizeForInstructor(emailAddress))
                 .collect(Collectors.toList());
-        FeedbackSessionAttributes expectedSession2InCourse1 = expectedSessions.get(
-                expectedSessions.indexOf(session2InCourse1));
+        int expectedSession2InCourse1Index = expectedSessions.indexOf(session2InCourse1);
+        FeedbackSessionAttributes expectedSession2InCourse1 = expectedSessions.get(expectedSession2InCourse1Index);
         expectedSession2InCourse1.setEndTime(newEndTime);
 
         String[] submissionParam = {
