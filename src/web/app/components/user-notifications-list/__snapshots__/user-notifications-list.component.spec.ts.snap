@@ -134,10 +134,7 @@ exports[`UserNotificationsListComponent should snap when it fails to load 1`] = 
   timezoneService={[Function TimezoneService]}
   userType={[Function String]}
 >
-  <div
-    class="row mb-3"
-  >
-  </div><tm-loading-retry>
+  <tm-loading-retry>
     <div
       class="text-center"
     >
@@ -674,21 +671,7 @@ exports[`UserNotificationsListComponent should snap with default fields when loa
   timezoneService={[Function TimezoneService]}
   userType={[Function String]}
 >
-  <tm-loading-spinner>
-    <div
-      class="loading-container"
-    >
-      <div
-        class="row spinner-border text-primary"
-        role="status"
-      />
-      <div
-        class="row text-secondary"
-      >
-        Loading...
-      </div>
-    </div>
-  </tm-loading-spinner><tm-loading-retry>
+  <tm-loading-retry>
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -725,10 +708,7 @@ exports[`UserNotificationsListComponent should snap with no notifications 1`] = 
   timezoneService={[Function TimezoneService]}
   userType={[Function String]}
 >
-  <div
-    class="row mb-3"
-  >
-  </div><tm-loading-retry>
+  <tm-loading-retry>
     <div>
       <div
         class="alert alert-warning margin-top-30px"

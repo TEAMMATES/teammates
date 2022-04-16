@@ -7,21 +7,6 @@ exports[`StudentNotificationsPageComponent should snap with default fields 1`] =
   <h1>
     Student Notifications
   </h1><tm-user-notifications-list>
-    <tm-loading-spinner>
-      <div
-        class="loading-container"
-      >
-        <div
-          class="row spinner-border text-primary"
-          role="status"
-        />
-        <div
-          class="row text-secondary"
-        >
-          Loading...
-        </div>
-      </div>
-    </tm-loading-spinner>
     <tm-loading-retry>
       <tm-loading-spinner>
         <div
