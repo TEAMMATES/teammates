@@ -1,4 +1,7 @@
-<div class="row mb-3" [id]="timezone" *ngIf="notificationTabs.length > 0">
+<div id="notifications-timezone">
+  <p>All dates are displayed in {{ timezone }} time.</p>
+</div>
+<div class="row mb-3" *ngIf="notificationTabs.length > 0">
   <div class="col-12">
     <div class="float-right">
       <strong class="d-inline"> Sort By: </strong>

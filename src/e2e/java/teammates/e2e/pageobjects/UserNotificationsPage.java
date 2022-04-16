@@ -24,6 +24,9 @@ public class UserNotificationsPage extends AppPage {
     @FindBy(id = "notification-tabs")
     private WebElement notificationTabs;
 
+    @FindBy(id = "notifications-timezone")
+    private WebElement notificationsTimezone;
+
     public UserNotificationsPage(Browser browser) {
         super(browser);
     }
@@ -97,7 +100,7 @@ public class UserNotificationsPage extends AppPage {
     }
 
     private String getTimezone() {
-        return browser.driver.findElement(By.className("row")).getAttribute("id");
+        return notificationsTimezone.getText().replace("All dates are displayed in ", "").replace(" time.", "");
     }
 
     private String getHeaderText(NotificationAttributes notification) {
