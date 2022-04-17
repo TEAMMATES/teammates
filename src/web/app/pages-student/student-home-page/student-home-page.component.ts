@@ -162,7 +162,7 @@ export class StudentHomePageComponent implements OnInit {
    */
   getSubmissionStatusTooltip(session: StudentSession): string {
     let msg: string = '';
-    const hasUserOngoingExtension = DeadlineExtensionHelper.hasUserOngoingExtension(session.session);
+    const hasStudentOngoingExtension = this.hasStudentOngoingExtension(session.session);
 
     if (session.isWaitingToOpen) {
       msg += this.studentFeedbackSessionStatusAwaiting;
@@ -172,11 +172,11 @@ export class StudentHomePageComponent implements OnInit {
       msg += this.studentFeedbackSessionStatusPending;
     }
 
-    if (hasUserOngoingExtension && (session.isSubmitted || session.isOpened)) {
+    if (hasStudentOngoingExtension && (session.isSubmitted || session.isOpened)) {
       msg += this.studentFeedbackSessionStatusExtension;
     }
 
-    if (!session.isOpened && !session.isWaitingToOpen && !hasUserOngoingExtension) {
+    if (!session.isOpened && !session.isWaitingToOpen && !hasStudentOngoingExtension) {
       msg += this.studentFeedbackSessionStatusClosed;
     }
     return msg;
@@ -186,9 +186,9 @@ export class StudentHomePageComponent implements OnInit {
    * Gets the status for the submission.
    */
   getSubmissionStatus(session: StudentSession): string {
-    const hasUserOngoingExtension = DeadlineExtensionHelper.hasUserOngoingExtension(session.session);
+    const hasStudentOngoingExtension = this.hasStudentOngoingExtension(session.session);
     return this.sessionSubmissionStatusPipe.transform(
-      session.isOpened, session.isWaitingToOpen, session.isSubmitted, hasUserOngoingExtension);
+      session.isOpened, session.isWaitingToOpen, session.isSubmitted, hasStudentOngoingExtension);
   }
 
   /**
@@ -200,13 +200,17 @@ export class StudentHomePageComponent implements OnInit {
   }
 
   getSubmissionEndDateTooltip({ session }: StudentSession): string {
-    const hasUserOngoingExtension = DeadlineExtensionHelper.hasUserOngoingExtension(session);
-    if (!hasUserOngoingExtension) {
+    const hasStudentOngoingExtension = this.hasStudentOngoingExtension(session);
+    if (!hasStudentOngoingExtension) {
       return '';
     }
     const originalEndTime = this.formatDateDetailPipe.transform(session.submissionEndTimestamp, session.timeZone);
     return `The session's original end date is ${originalEndTime}.`
       + ' An instructor has granted you an extension to this date.';
+  }
+
+  hasStudentOngoingExtension(session: FeedbackSession): boolean {
+    return DeadlineExtensionHelper.hasUserOngoingExtension(session);
   }
 
   /**

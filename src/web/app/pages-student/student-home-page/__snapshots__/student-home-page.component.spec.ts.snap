@@ -213,12 +213,16 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
                   </span>
                 </td>
                 <td>
-                  <span>
+                  <span
+                    class="ngb-tooltip-class"
+                  >
                      Submitted 
                   </span>
                 </td>
                 <td>
-                  <span>
+                  <span
+                    class="ngb-tooltip-class"
+                  >
                      Not Published 
                   </span>
                 </td>
@@ -253,12 +257,16 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
                   </span>
                 </td>
                 <td>
-                  <span>
+                  <span
+                    class="ngb-tooltip-class"
+                  >
                      Closed 
                   </span>
                 </td>
                 <td>
-                  <span>
+                  <span
+                    class="ngb-tooltip-class"
+                  >
                      Not Published 
                   </span>
                 </td>
@@ -347,12 +355,16 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
                   </span>
                 </td>
                 <td>
-                  <span>
+                  <span
+                    class="ngb-tooltip-class"
+                  >
                      Submitted 
                   </span>
                 </td>
                 <td>
-                  <span>
+                  <span
+                    class="ngb-tooltip-class"
+                  >
                      Not Published 
                   </span>
                 </td>
@@ -387,12 +399,16 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
                   </span>
                 </td>
                 <td>
-                  <span>
+                  <span
+                    class="ngb-tooltip-class"
+                  >
                      Closed 
                   </span>
                 </td>
                 <td>
-                  <span>
+                  <span
+                    class="ngb-tooltip-class"
+                  >
                      Not Published 
                   </span>
                 </td>
@@ -590,12 +606,16 @@ exports[`StudentHomePageComponent should snap with feedback sessions 1`] = `
                   </span>
                 </td>
                 <td>
-                  <span>
+                  <span
+                    class="ngb-tooltip-class"
+                  >
                      Submitted 
                   </span>
                 </td>
                 <td>
-                  <span>
+                  <span
+                    class="ngb-tooltip-class"
+                  >
                      Published 
                   </span>
                 </td>
@@ -630,12 +650,16 @@ exports[`StudentHomePageComponent should snap with feedback sessions 1`] = `
                   </span>
                 </td>
                 <td>
-                  <span>
+                  <span
+                    class="ngb-tooltip-class"
+                  >
                      Pending 
                   </span>
                 </td>
                 <td>
-                  <span>
+                  <span
+                    class="ngb-tooltip-class"
+                  >
                      Not Published 
                   </span>
                 </td>
