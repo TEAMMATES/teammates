@@ -452,9 +452,9 @@ public abstract class AppPage {
     public void verifyBannerContent(NotificationAttributes expected) {
         WebElement banner = browser.driver.findElement(By.className("banner"));
         String title = banner.findElement(By.tagName("h5")).getText();
-        String message = banner.findElement(By.className("banner-text")).getText();
+        String message = banner.findElement(By.className("banner-text")).getAttribute("innerHTML");
         assertEquals(expected.getTitle(), title);
-        assertEquals(expected.getMessage().replace("<p>", "").replace("</p>", ""),
+        assertEquals(expected.getMessage(),
                 message);
     }
 

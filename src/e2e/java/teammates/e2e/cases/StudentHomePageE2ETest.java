@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -47,7 +46,7 @@ public class StudentHomePageE2ETest extends BaseE2ETestCase {
         }
 
         ______TS("notification banner is visible");
-        assertTrue(homePage.isElementVisible(By.className("banner")));
+        assertTrue(homePage.isBannerVisible());
     }
 
     private List<String> getAllVisibleCourseIds() {

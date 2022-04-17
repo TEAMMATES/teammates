@@ -76,7 +76,17 @@ class GetFeedbackSessionsAction extends Action {
                 List<StudentAttributes> students = logic.getStudentsForGoogleId(userInfo.getId());
                 feedbackSessionAttributes = new ArrayList<>();
                 for (StudentAttributes student : students) {
-                    feedbackSessionAttributes.addAll(logic.getFeedbackSessionsForCourse(student.getCourse()));
+                    String studentCourseId = student.getCourse();
+                    String emailAddress = student.getEmail();
+                    List<FeedbackSessionAttributes> sessions = logic.getFeedbackSessionsForCourse(studentCourseId);
+
+                    if (!userInfo.isAdmin) {
+                        sessions = sessions.stream()
+                                .map(session -> session.getCopyForStudent(emailAddress))
+                                .collect(Collectors.toList());
+                    }
+
+                    feedbackSessionAttributes.addAll(sessions);
                 }
             } else if (entityType.equals(Const.EntityType.INSTRUCTOR)) {
                 boolean isInRecycleBin = getBooleanRequestParamValue(Const.ParamsNames.IS_IN_RECYCLE_BIN);
@@ -93,7 +103,14 @@ class GetFeedbackSessionsAction extends Action {
             }
         } else {
             feedbackSessionAttributes = logic.getFeedbackSessionsForCourse(courseId);
-            if (entityType.equals(Const.EntityType.INSTRUCTOR)) {
+            if (entityType.equals(Const.EntityType.STUDENT) && !userInfo.isAdmin && !feedbackSessionAttributes.isEmpty()) {
+                StudentAttributes student = logic.getStudentForGoogleId(courseId, userInfo.getId());
+                assert student != null;
+                String emailAddress = student.getEmail();
+                feedbackSessionAttributes = feedbackSessionAttributes.stream()
+                        .map(instructorSession -> instructorSession.getCopyForStudent(emailAddress))
+                        .collect(Collectors.toList());
+            } else if (entityType.equals(Const.EntityType.INSTRUCTOR)) {
                 instructors = Collections.singletonList(logic.getInstructorForGoogleId(courseId, userInfo.getId()));
             }
         }

@@ -78,6 +78,9 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(feedbackSessionAttributes.getEndTime(),
                 timeZone, true).toEpochMilli(),
                 response.getSubmissionEndTimestamp());
+        assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(feedbackSessionAttributes.getEndTime(),
+                timeZone, true).toEpochMilli(),
+                response.getSubmissionEndWithExtensionTimestamp());
         assertEquals(feedbackSessionAttributes.getGracePeriodMinutes(), response.getGracePeriod().longValue());
 
         assertEquals(SessionVisibleSetting.CUSTOM, response.getSessionVisibleSetting());
@@ -143,6 +146,9 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(newEndTime, timeZone, true)
                         .toEpochMilli(),
                 response.getSubmissionEndTimestamp());
+        assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(newEndTime, timeZone, true)
+                        .toEpochMilli(),
+                response.getSubmissionEndWithExtensionTimestamp());
         assertEquals(feedbackSessionAttributes.getGracePeriodMinutes(), response.getGracePeriod().longValue());
 
         assertEquals(SessionVisibleSetting.CUSTOM, response.getSessionVisibleSetting());
@@ -312,6 +318,9 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(newEndTime, timeZone, true)
                         .toEpochMilli(),
                 response.getSubmissionEndTimestamp());
+        assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(newEndTime, timeZone, true)
+                        .toEpochMilli(),
+                response.getSubmissionEndWithExtensionTimestamp());
         assertNull(response.getGracePeriod());
 
         assertNull(response.getSessionVisibleSetting());
@@ -352,6 +361,9 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         assertTrue(response.getStudentDeadlines().isEmpty());
         assertTrue(response.getInstructorDeadlines().isEmpty());
+        assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(newEndTime, timeZone, true)
+                        .toEpochMilli(),
+                response.getSubmissionEndWithExtensionTimestamp());
 
         ______TS("get submission by instructor with no extension; after end time and beyond grace period");
 
@@ -371,16 +383,20 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         assertTrue(response.getStudentDeadlines().isEmpty());
         assertTrue(response.getInstructorDeadlines().isEmpty());
+        assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(newEndTime, timeZone, true)
+                        .toEpochMilli(),
+                response.getSubmissionEndWithExtensionTimestamp());
 
         ______TS("get submission by instructor with extension; before end time");
 
         now = Instant.now();
         newEndTime = now.plusSeconds(60 * 60);
+        Instant extendedEndTime = now.plusSeconds(60 * 60 * 23);
         studentDeadlines = new HashMap<>();
         studentDeadlines.put("student1InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 21));
         studentDeadlines.put("student2InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 22));
         instructorDeadlines = new HashMap<>();
-        instructorDeadlines.put(instructor1OfCourse1.getEmail(), now.plusSeconds(60 * 60 * 23));
+        instructorDeadlines.put(instructor1OfCourse1.getEmail(), extendedEndTime);
         instructorDeadlines.put("instr2@course1.tmt", now.plusSeconds(60 * 60 * 24));
         updateFirstFeedbackSessionOfTypicalCourse1(newEndTime, studentDeadlines, instructorDeadlines);
         a = getAction(params);
@@ -392,16 +408,20 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         assertTrue(response.getStudentDeadlines().isEmpty());
         assertTrue(response.getInstructorDeadlines().containsKey(instructor1OfCourse1.getEmail()));
         assertEquals(1, response.getInstructorDeadlines().size());
+        assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(extendedEndTime, timeZone, true)
+                        .toEpochMilli(),
+                response.getSubmissionEndWithExtensionTimestamp());
 
         ______TS("get submission by instructor with extension; after end time but before extended deadline");
 
         now = Instant.now();
         newEndTime = now.plusSeconds(-60 * 60 * 24);
+        extendedEndTime = now.plusSeconds(60 * 60 * 3);
         studentDeadlines = new HashMap<>();
         studentDeadlines.put("student1InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 21));
         studentDeadlines.put("student2InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 22));
         instructorDeadlines = new HashMap<>();
-        instructorDeadlines.put(instructor1OfCourse1.getEmail(), now.plusSeconds(60 * 60 * 3));
+        instructorDeadlines.put(instructor1OfCourse1.getEmail(), extendedEndTime);
         instructorDeadlines.put("instr2@course1.tmt", now.plusSeconds(60 * 60 * 24));
         updateFirstFeedbackSessionOfTypicalCourse1(newEndTime, studentDeadlines, instructorDeadlines);
         a = getAction(params);
@@ -413,16 +433,20 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         assertTrue(response.getStudentDeadlines().isEmpty());
         assertTrue(response.getInstructorDeadlines().containsKey(instructor1OfCourse1.getEmail()));
         assertEquals(1, response.getInstructorDeadlines().size());
+        assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(extendedEndTime, timeZone, true)
+                        .toEpochMilli(),
+                response.getSubmissionEndWithExtensionTimestamp());
 
         ______TS("get submission by instructor with extension; after extended deadline but within grace period");
 
         now = Instant.now();
         newEndTime = now.plusSeconds(-60 * 60 * 24);
+        extendedEndTime = now.plusSeconds(-60 * 3);
         studentDeadlines = new HashMap<>();
         studentDeadlines.put("student1InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 21));
         studentDeadlines.put("student2InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 22));
         instructorDeadlines = new HashMap<>();
-        instructorDeadlines.put(instructor1OfCourse1.getEmail(), now.plusSeconds(-60 * 3));
+        instructorDeadlines.put(instructor1OfCourse1.getEmail(), extendedEndTime);
         instructorDeadlines.put("instr2@course1.tmt", now.plusSeconds(60 * 60 * 24));
         updateFirstFeedbackSessionOfTypicalCourse1(newEndTime, studentDeadlines, instructorDeadlines);
         a = getAction(params);
@@ -434,16 +458,20 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         assertTrue(response.getStudentDeadlines().isEmpty());
         assertTrue(response.getInstructorDeadlines().containsKey(instructor1OfCourse1.getEmail()));
         assertEquals(1, response.getInstructorDeadlines().size());
+        assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(extendedEndTime, timeZone, true)
+                        .toEpochMilli(),
+                response.getSubmissionEndWithExtensionTimestamp());
 
         ______TS("get submission by instructor with extension; after extended deadline and beyond grace period");
 
         now = Instant.now();
         newEndTime = now.plusSeconds(-60 * 60 * 24);
+        extendedEndTime = now.plusSeconds(-60 * 60 * 3);
         studentDeadlines = new HashMap<>();
         studentDeadlines.put("student1InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 21));
         studentDeadlines.put("student2InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 22));
         instructorDeadlines = new HashMap<>();
-        instructorDeadlines.put(instructor1OfCourse1.getEmail(), now.plusSeconds(-60 * 60 * 3));
+        instructorDeadlines.put(instructor1OfCourse1.getEmail(), extendedEndTime);
         instructorDeadlines.put("instr2@course1.tmt", now.plusSeconds(60 * 60 * 24));
         updateFirstFeedbackSessionOfTypicalCourse1(newEndTime, studentDeadlines, instructorDeadlines);
         a = getAction(params);
@@ -455,6 +483,9 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         assertTrue(response.getStudentDeadlines().isEmpty());
         assertTrue(response.getInstructorDeadlines().containsKey(instructor1OfCourse1.getEmail()));
         assertEquals(1, response.getInstructorDeadlines().size());
+        assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(extendedEndTime, timeZone, true)
+                        .toEpochMilli(),
+                response.getSubmissionEndWithExtensionTimestamp());
 
         logoutUser();
     }
@@ -516,7 +547,9 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(feedbackSessionAttributes
                         .getResultsVisibleFromTime(), timeZone, true).toEpochMilli(),
                 response.getCustomResponseVisibleTimestamp().longValue());
-
+        assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(newEndTime, timeZone, true)
+                        .toEpochMilli(),
+                response.getSubmissionEndWithExtensionTimestamp());
         assertEquals(FeedbackSessionSubmissionStatus.OPEN, response.getSubmissionStatus());
         assertEquals(FeedbackSessionPublishStatus.NOT_PUBLISHED, response.getPublishStatus());
 
@@ -547,6 +580,9 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         assertTrue(response.getStudentDeadlines().isEmpty());
         assertTrue(response.getInstructorDeadlines().isEmpty());
+        assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(newEndTime, timeZone, true)
+                        .toEpochMilli(),
+                response.getSubmissionEndWithExtensionTimestamp());
 
         ______TS("get result by instructor with no extension; after end time and beyond grace period");
 
@@ -566,16 +602,20 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         assertTrue(response.getStudentDeadlines().isEmpty());
         assertTrue(response.getInstructorDeadlines().isEmpty());
+        assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(newEndTime, timeZone, true)
+                        .toEpochMilli(),
+                response.getSubmissionEndWithExtensionTimestamp());
 
         ______TS("get result by instructor with extension; before end time");
 
         now = Instant.now();
         newEndTime = now.plusSeconds(60 * 60);
+        Instant extendedEndTime = now.plusSeconds(60 * 60 * 23);
         studentDeadlines = new HashMap<>();
         studentDeadlines.put("student1InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 21));
         studentDeadlines.put("student2InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 22));
         instructorDeadlines = new HashMap<>();
-        instructorDeadlines.put(instructor1OfCourse1.getEmail(), now.plusSeconds(60 * 60 * 23));
+        instructorDeadlines.put(instructor1OfCourse1.getEmail(), extendedEndTime);
         instructorDeadlines.put("instr2@course1.tmt", now.plusSeconds(60 * 60 * 24));
         updateFirstFeedbackSessionOfTypicalCourse1(newEndTime, studentDeadlines, instructorDeadlines);
         a = getAction(params);
@@ -587,16 +627,20 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         assertTrue(response.getStudentDeadlines().isEmpty());
         assertTrue(response.getInstructorDeadlines().containsKey(instructor1OfCourse1.getEmail()));
         assertEquals(1, response.getInstructorDeadlines().size());
+        assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(extendedEndTime, timeZone, true)
+                        .toEpochMilli(),
+                response.getSubmissionEndWithExtensionTimestamp());
 
         ______TS("get result by instructor with extension; after end time but before extended deadline");
 
         now = Instant.now();
         newEndTime = now.plusSeconds(-60 * 60 * 24);
+        extendedEndTime = now.plusSeconds(60 * 60 * 3);
         studentDeadlines = new HashMap<>();
         studentDeadlines.put("student1InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 21));
         studentDeadlines.put("student2InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 22));
         instructorDeadlines = new HashMap<>();
-        instructorDeadlines.put(instructor1OfCourse1.getEmail(), now.plusSeconds(60 * 60 * 3));
+        instructorDeadlines.put(instructor1OfCourse1.getEmail(), extendedEndTime);
         instructorDeadlines.put("instr2@course1.tmt", now.plusSeconds(60 * 60 * 24));
         updateFirstFeedbackSessionOfTypicalCourse1(newEndTime, studentDeadlines, instructorDeadlines);
         a = getAction(params);
@@ -608,16 +652,20 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         assertTrue(response.getStudentDeadlines().isEmpty());
         assertTrue(response.getInstructorDeadlines().containsKey(instructor1OfCourse1.getEmail()));
         assertEquals(1, response.getInstructorDeadlines().size());
+        assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(extendedEndTime, timeZone, true)
+                        .toEpochMilli(),
+                response.getSubmissionEndWithExtensionTimestamp());
 
         ______TS("get result by instructor with extension; after extended deadline but within grace period");
 
         now = Instant.now();
         newEndTime = now.plusSeconds(-60 * 60 * 24);
+        extendedEndTime = now.plusSeconds(-60 * 3);
         studentDeadlines = new HashMap<>();
         studentDeadlines.put("student1InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 21));
         studentDeadlines.put("student2InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 22));
         instructorDeadlines = new HashMap<>();
-        instructorDeadlines.put(instructor1OfCourse1.getEmail(), now.plusSeconds(-60 * 3));
+        instructorDeadlines.put(instructor1OfCourse1.getEmail(), extendedEndTime);
         instructorDeadlines.put("instr2@course1.tmt", now.plusSeconds(60 * 60 * 24));
         updateFirstFeedbackSessionOfTypicalCourse1(newEndTime, studentDeadlines, instructorDeadlines);
         a = getAction(params);
@@ -629,16 +677,20 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         assertTrue(response.getStudentDeadlines().isEmpty());
         assertTrue(response.getInstructorDeadlines().containsKey(instructor1OfCourse1.getEmail()));
         assertEquals(1, response.getInstructorDeadlines().size());
+        assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(extendedEndTime, timeZone, true)
+                        .toEpochMilli(),
+                response.getSubmissionEndWithExtensionTimestamp());
 
         ______TS("get result by instructor with extension; after extended deadline and beyond grace period");
 
         now = Instant.now();
         newEndTime = now.plusSeconds(-60 * 60 * 24);
+        extendedEndTime = now.plusSeconds(-60 * 60 * 3);
         studentDeadlines = new HashMap<>();
         studentDeadlines.put("student1InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 21));
         studentDeadlines.put("student2InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 22));
         instructorDeadlines = new HashMap<>();
-        instructorDeadlines.put(instructor1OfCourse1.getEmail(), now.plusSeconds(-60 * 60 * 3));
+        instructorDeadlines.put(instructor1OfCourse1.getEmail(), extendedEndTime);
         instructorDeadlines.put("instr2@course1.tmt", now.plusSeconds(60 * 60 * 24));
         updateFirstFeedbackSessionOfTypicalCourse1(newEndTime, studentDeadlines, instructorDeadlines);
         a = getAction(params);
@@ -650,6 +702,9 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         assertTrue(response.getStudentDeadlines().isEmpty());
         assertTrue(response.getInstructorDeadlines().containsKey(instructor1OfCourse1.getEmail()));
         assertEquals(1, response.getInstructorDeadlines().size());
+        assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(extendedEndTime, timeZone, true)
+                        .toEpochMilli(),
+                response.getSubmissionEndWithExtensionTimestamp());
 
         logoutUser();
     }
@@ -694,6 +749,9 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(newEndTime, timeZone, true)
                         .toEpochMilli(),
                 response.getSubmissionEndTimestamp());
+        assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(newEndTime, timeZone, true)
+                        .toEpochMilli(),
+                response.getSubmissionEndWithExtensionTimestamp());
         assertNull(response.getGracePeriod());
 
         assertNull(response.getSessionVisibleSetting());
@@ -734,6 +792,9 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         assertTrue(response.getStudentDeadlines().isEmpty());
         assertTrue(response.getInstructorDeadlines().isEmpty());
+        assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(newEndTime, timeZone, true)
+                        .toEpochMilli(),
+                response.getSubmissionEndWithExtensionTimestamp());
 
         ______TS("get submission by student with no extension; after end time and beyond grace period");
 
@@ -753,13 +814,17 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         assertTrue(response.getStudentDeadlines().isEmpty());
         assertTrue(response.getInstructorDeadlines().isEmpty());
+        assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(newEndTime, timeZone, true)
+                        .toEpochMilli(),
+                response.getSubmissionEndWithExtensionTimestamp());
 
         ______TS("get submission by student with extension; before end time");
 
         now = Instant.now();
         newEndTime = now.plusSeconds(60 * 60);
+        Instant extendedEndTime = now.plusSeconds(60 * 60 * 21);
         studentDeadlines = new HashMap<>();
-        studentDeadlines.put(student1InCourse1.getEmail(), now.plusSeconds(60 * 60 * 21));
+        studentDeadlines.put(student1InCourse1.getEmail(), extendedEndTime);
         studentDeadlines.put("student2InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 22));
         instructorDeadlines = new HashMap<>();
         instructorDeadlines.put("instr1@course1.tmt", now.plusSeconds(60 * 60 * 23));
@@ -774,13 +839,17 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         assertTrue(response.getStudentDeadlines().containsKey(student1InCourse1.getEmail()));
         assertEquals(1, response.getStudentDeadlines().size());
         assertTrue(response.getInstructorDeadlines().isEmpty());
+        assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(extendedEndTime, timeZone, true)
+                        .toEpochMilli(),
+                response.getSubmissionEndWithExtensionTimestamp());
 
         ______TS("get submission by student with extension; after end time but before extended deadline");
 
         now = Instant.now();
         newEndTime = now.plusSeconds(-60 * 60 * 24);
+        extendedEndTime = now.plusSeconds(60 * 60);
         studentDeadlines = new HashMap<>();
-        studentDeadlines.put(student1InCourse1.getEmail(), now.plusSeconds(60 * 60));
+        studentDeadlines.put(student1InCourse1.getEmail(), extendedEndTime);
         studentDeadlines.put("student2InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 22));
         instructorDeadlines = new HashMap<>();
         instructorDeadlines.put("instr1@course1.tmt", now.plusSeconds(60 * 60 * 23));
@@ -795,13 +864,17 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         assertTrue(response.getStudentDeadlines().containsKey(student1InCourse1.getEmail()));
         assertEquals(1, response.getStudentDeadlines().size());
         assertTrue(response.getInstructorDeadlines().isEmpty());
+        assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(extendedEndTime, timeZone, true)
+                        .toEpochMilli(),
+                response.getSubmissionEndWithExtensionTimestamp());
 
         ______TS("get submission by student with extension; after extended deadline but within grace period");
 
         now = Instant.now();
         newEndTime = now.plusSeconds(-60 * 60 * 24);
+        extendedEndTime = now.plusSeconds(-60);
         studentDeadlines = new HashMap<>();
-        studentDeadlines.put(student1InCourse1.getEmail(), now.plusSeconds(-60));
+        studentDeadlines.put(student1InCourse1.getEmail(), extendedEndTime);
         studentDeadlines.put("student2InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 22));
         instructorDeadlines = new HashMap<>();
         instructorDeadlines.put("instr1@course1.tmt", now.plusSeconds(60 * 60 * 23));
@@ -816,13 +889,17 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         assertTrue(response.getStudentDeadlines().containsKey(student1InCourse1.getEmail()));
         assertEquals(1, response.getStudentDeadlines().size());
         assertTrue(response.getInstructorDeadlines().isEmpty());
+        assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(extendedEndTime, timeZone, true)
+                        .toEpochMilli(),
+                response.getSubmissionEndWithExtensionTimestamp());
 
         ______TS("get submission by student with extension; after extended deadline and beyond grace period");
 
         now = Instant.now();
         newEndTime = now.plusSeconds(-60 * 60 * 24);
+        extendedEndTime = now.plusSeconds(-60 * 60);
         studentDeadlines = new HashMap<>();
-        studentDeadlines.put(student1InCourse1.getEmail(), now.plusSeconds(-60 * 60));
+        studentDeadlines.put(student1InCourse1.getEmail(), extendedEndTime);
         studentDeadlines.put("student2InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 22));
         instructorDeadlines = new HashMap<>();
         instructorDeadlines.put("instr1@course1.tmt", now.plusSeconds(60 * 60 * 23));
@@ -837,6 +914,9 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         assertTrue(response.getStudentDeadlines().containsKey(student1InCourse1.getEmail()));
         assertEquals(1, response.getStudentDeadlines().size());
         assertTrue(response.getInstructorDeadlines().isEmpty());
+        assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(extendedEndTime, timeZone, true)
+                        .toEpochMilli(),
+                response.getSubmissionEndWithExtensionTimestamp());
 
         logoutUser();
     }
@@ -881,6 +961,9 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(newEndTime, timeZone, true)
                         .toEpochMilli(),
                 response.getSubmissionEndTimestamp());
+        assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(newEndTime, timeZone, true)
+                        .toEpochMilli(),
+                response.getSubmissionEndWithExtensionTimestamp());
         assertNull(response.getGracePeriod());
 
         assertNull(response.getSessionVisibleSetting());
@@ -921,6 +1004,9 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         assertTrue(response.getStudentDeadlines().isEmpty());
         assertTrue(response.getInstructorDeadlines().isEmpty());
+        assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(newEndTime, timeZone, true)
+                        .toEpochMilli(),
+                response.getSubmissionEndWithExtensionTimestamp());
 
         ______TS("get result by student with no extension; after end time and beyond grace period");
 
@@ -940,13 +1026,17 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         assertTrue(response.getStudentDeadlines().isEmpty());
         assertTrue(response.getInstructorDeadlines().isEmpty());
+        assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(newEndTime, timeZone, true)
+                        .toEpochMilli(),
+                response.getSubmissionEndWithExtensionTimestamp());
 
         ______TS("get result by student with extension; before end time");
 
         now = Instant.now();
         newEndTime = now.plusSeconds(60 * 60);
+        Instant extendedEndTime = now.plusSeconds(60 * 60 * 21);
         studentDeadlines = new HashMap<>();
-        studentDeadlines.put(student1InCourse1.getEmail(), now.plusSeconds(60 * 60 * 21));
+        studentDeadlines.put(student1InCourse1.getEmail(), extendedEndTime);
         studentDeadlines.put("student2InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 22));
         instructorDeadlines = new HashMap<>();
         instructorDeadlines.put("instr1@course1.tmt", now.plusSeconds(60 * 60 * 23));
@@ -961,13 +1051,17 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         assertTrue(response.getStudentDeadlines().containsKey(student1InCourse1.getEmail()));
         assertEquals(1, response.getStudentDeadlines().size());
         assertTrue(response.getInstructorDeadlines().isEmpty());
+        assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(extendedEndTime, timeZone, true)
+                        .toEpochMilli(),
+                response.getSubmissionEndWithExtensionTimestamp());
 
         ______TS("get result by student with extension; after end time but before extended deadline");
 
         now = Instant.now();
         newEndTime = now.plusSeconds(-60 * 60 * 24);
+        extendedEndTime = now.plusSeconds(60 * 60);
         studentDeadlines = new HashMap<>();
-        studentDeadlines.put(student1InCourse1.getEmail(), now.plusSeconds(60 * 60));
+        studentDeadlines.put(student1InCourse1.getEmail(), extendedEndTime);
         studentDeadlines.put("student2InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 22));
         instructorDeadlines = new HashMap<>();
         instructorDeadlines.put("instr1@course1.tmt", now.plusSeconds(60 * 60 * 23));
@@ -982,13 +1076,17 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         assertTrue(response.getStudentDeadlines().containsKey(student1InCourse1.getEmail()));
         assertEquals(1, response.getStudentDeadlines().size());
         assertTrue(response.getInstructorDeadlines().isEmpty());
+        assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(extendedEndTime, timeZone, true)
+                        .toEpochMilli(),
+                response.getSubmissionEndWithExtensionTimestamp());
 
         ______TS("get result by student with extension; after extended deadline but within grace period");
 
         now = Instant.now();
         newEndTime = now.plusSeconds(-60 * 60 * 24);
+        extendedEndTime = now.plusSeconds(-60);
         studentDeadlines = new HashMap<>();
-        studentDeadlines.put(student1InCourse1.getEmail(), now.plusSeconds(-60));
+        studentDeadlines.put(student1InCourse1.getEmail(), extendedEndTime);
         studentDeadlines.put("student2InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 22));
         instructorDeadlines = new HashMap<>();
         instructorDeadlines.put("instr1@course1.tmt", now.plusSeconds(60 * 60 * 23));
@@ -1003,13 +1101,17 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         assertTrue(response.getStudentDeadlines().containsKey(student1InCourse1.getEmail()));
         assertEquals(1, response.getStudentDeadlines().size());
         assertTrue(response.getInstructorDeadlines().isEmpty());
+        assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(extendedEndTime, timeZone, true)
+                        .toEpochMilli(),
+                response.getSubmissionEndWithExtensionTimestamp());
 
         ______TS("get result by student with extension; after extended deadline and beyond grace period");
 
         now = Instant.now();
         newEndTime = now.plusSeconds(-60 * 60 * 24);
+        extendedEndTime = now.plusSeconds(-60 * 60);
         studentDeadlines = new HashMap<>();
-        studentDeadlines.put(student1InCourse1.getEmail(), now.plusSeconds(-60 * 60));
+        studentDeadlines.put(student1InCourse1.getEmail(), extendedEndTime);
         studentDeadlines.put("student2InCourse1@gmail.tmt", now.plusSeconds(60 * 60 * 22));
         instructorDeadlines = new HashMap<>();
         instructorDeadlines.put("instr1@course1.tmt", now.plusSeconds(60 * 60 * 23));
@@ -1024,6 +1126,9 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         assertTrue(response.getStudentDeadlines().containsKey(student1InCourse1.getEmail()));
         assertEquals(1, response.getStudentDeadlines().size());
         assertTrue(response.getInstructorDeadlines().isEmpty());
+        assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(extendedEndTime, timeZone, true)
+                        .toEpochMilli(),
+                response.getSubmissionEndWithExtensionTimestamp());
 
         logoutUser();
     }

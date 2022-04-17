@@ -60,7 +60,7 @@ class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
             if (studentAttributes == null) {
                 throw new EntityNotFoundException("Student does not exist.");
             }
-            feedbackSession = feedbackSession.sanitizeForStudent(studentAttributes.getEmail());
+            feedbackSession = feedbackSession.getCopyForStudent(studentAttributes.getEmail());
             verifySessionOpenExceptForModeration(feedbackSession);
             checkAccessControlForStudentFeedbackSubmission(studentAttributes, feedbackSession);
             break;
@@ -70,7 +70,7 @@ class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
             if (instructorAttributes == null) {
                 throw new EntityNotFoundException("Instructor does not exist.");
             }
-            feedbackSession = feedbackSession.sanitizeForInstructor(instructorAttributes.getEmail());
+            feedbackSession = feedbackSession.getCopyForInstructor(instructorAttributes.getEmail());
             verifySessionOpenExceptForModeration(feedbackSession);
             checkAccessControlForInstructorFeedbackSubmission(instructorAttributes, feedbackSession);
             break;
