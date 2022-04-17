@@ -1,8 +1,13 @@
 package teammates.ui.webapi;
 
+import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
 import teammates.common.datatransfer.ErrorLogEntry;
+import teammates.common.datatransfer.logs.GeneralLogEntry;
+import teammates.common.datatransfer.logs.LogSeverity;
+import teammates.common.datatransfer.logs.QueryLogsParams;
 import teammates.common.util.EmailWrapper;
 
 /**
@@ -12,17 +17,27 @@ class CompileLogsAction extends AdminOnlyAction {
 
     @Override
     public JsonResult execute() {
-        List<ErrorLogEntry> errorLogs = logsProcessor.getRecentErrorLogs();
-        sendEmail(errorLogs);
-        return new JsonResult("Successful");
-    }
+        Instant endTime = Instant.now();
+        // Sets the range to 6 minutes to slightly overlap the 5 minute email timer
+        long queryRange = 1000 * 60 * 6;
+        Instant startTime = endTime.minusMillis(queryRange);
 
-    private void sendEmail(List<ErrorLogEntry> logs) {
-        // Do not send any emails if there are no severe logs; prevents spamming
-        if (!logs.isEmpty()) {
-            EmailWrapper message = emailGenerator.generateCompiledLogsEmail(logs);
-            emailSender.sendReport(message);
+        QueryLogsParams queryLogsParams = QueryLogsParams.builder(startTime.toEpochMilli(), endTime.toEpochMilli())
+                .withMinSeverity(LogSeverity.ERROR)
+                .withPageSize(0)
+                .build();
+
+        List<ErrorLogEntry> errorLogs = new ArrayList<>();
+        for (GeneralLogEntry logEntry : logsProcessor.queryLogs(queryLogsParams).getLogEntries()) {
+            errorLogs.add(ErrorLogEntry.fromLogEntry(logEntry));
         }
+
+        // Do not send any emails if there are no severe logs; prevents spamming
+        if (!errorLogs.isEmpty()) {
+            EmailWrapper message = emailGenerator.generateCompiledLogsEmail(errorLogs);
+            emailSender.sendEmail(message);
+        }
+        return new JsonResult("Successful");
     }
 
 }
