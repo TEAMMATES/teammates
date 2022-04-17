@@ -454,8 +454,7 @@ public abstract class AppPage {
         String title = banner.findElement(By.tagName("h5")).getText();
         String message = banner.findElement(By.className("banner-text")).getAttribute("innerHTML");
         assertEquals(expected.getTitle(), title);
-        assertEquals(expected.getMessage(),
-                message);
+        assertEquals(expected.getMessage(), message);
     }
 
     public boolean isBannerVisible() {
