@@ -14,7 +14,7 @@ import {
   FeedbackSessionPublishStatus,
   FeedbackSessions,
   FeedbackSessionSubmissionStatus,
-  HasResponses
+  HasResponses,
 } from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { FormatDateDetailPipe } from '../../components/teammates-common/format-date-detail.pipe';
@@ -204,7 +204,7 @@ export class StudentHomePageComponent implements OnInit {
     if (!hasUserOngoingExtension) {
       return '';
     }
-    const originalEndTime = session.submissionEndTimestamp;
+    const originalEndTime = this.formatDateDetailPipe.transform(session.submissionEndTimestamp, session.timeZone);
     return `The session's original end date is ${originalEndTime}.`
       + ' An instructor has granted you an extension to this date.';
   }
