@@ -1,5 +1,8 @@
-<div class="row mb-3" *tmIsLoading="isLoadingNotifications">
-  <div class="col-12" *ngIf="notificationTabs.length > 0">
+<div id="notifications-timezone">
+  <p>All dates are displayed in {{ timezone }} time.</p>
+</div>
+<div class="row mb-3" *ngIf="notificationTabs.length > 0">
+  <div class="col-12">
     <div class="float-right">
       <strong class="d-inline"> Sort By: </strong>
       <div class="btn-group" data-toggle="buttons">
@@ -17,23 +20,25 @@
     </div>
   </div>
   <ng-container>
-    <div class="notification-tabs" *ngFor="let notificationTab of notificationTabs">
-      <div class="card">
-        <div class="card-header cursor-pointer mb-0" [ngClass]="notificationTab.notification.style | notificationStyleClass" (click)="toggleCard(notificationTab)">
-          <strong class="text-break">{{notificationTab.notification.title}} [{{notificationTab.startDate}} - {{notificationTab.endDate}}]</strong>
-          <div class="card-header-btn-toolbar">
-            <tm-panel-chevron [isExpanded]="notificationTab.hasTabExpanded"></tm-panel-chevron>
+    <div id="notification-tabs">
+      <div *ngFor="let notificationTab of notificationTabs">
+        <div [id]="notificationTab.notification.notificationId" class="card">
+          <div class="card-header cursor-pointer mb-0" [ngClass]="notificationTab.notification.style | notificationStyleClass" (click)="toggleCard(notificationTab)">
+            <strong class="text-break">{{notificationTab.notification.title}} [{{notificationTab.startDate}} - {{notificationTab.endDate}}]</strong>
+            <div class="card-header-btn-toolbar">
+              <tm-panel-chevron [isExpanded]="notificationTab.hasTabExpanded"></tm-panel-chevron>
+            </div>
           </div>
-        </div>
 
-        <div class="mb-0" *ngIf="notificationTab.hasTabExpanded" @collapseAnim>
-          <div [ngClass]="getBodyTextClass(notificationTab)">
-            <div [innerHtml]="notificationTab.notification.message"></div>
-          </div>
-          <div class="d-flex flex-row-reverse mr-4 mb-3" *ngIf="!notificationTab.isRead">
-            <button id="btn-mark-as-read" type="button" [ngClass]="getButtonClass(notificationTab)" (click)="markNotificationAsRead(notificationTab)">
-              Mark as Read
-            </button>
+          <div class="mb-0" *ngIf="notificationTab.hasTabExpanded" @collapseAnim>
+            <div [ngClass]="getBodyTextClass(notificationTab)">
+              <div id="notification-message" [innerHtml]="notificationTab.notification.message"></div>
+            </div>
+            <div class="d-flex flex-row-reverse mr-4 mb-3" *ngIf="!notificationTab.isRead">
+              <button id="btn-mark-as-read" type="button" [ngClass]="getButtonClass(notificationTab)" (click)="markNotificationAsRead(notificationTab)">
+                Mark as Read
+              </button>
+            </div>
           </div>
         </div>
       </div>

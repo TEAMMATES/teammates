@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.TreeMap;
 import java.util.function.Supplier;
 
 import teammates.common.util.Const;
@@ -43,6 +44,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     private Map<String, Instant> studentDeadlines;
     private Map<String, Instant> instructorDeadlines;
 
+    private transient String userEmail;
     private transient Supplier<Instant> deadlineSupplier;
 
     private FeedbackSessionAttributes(String feedbackSessionName, String courseId) {
@@ -119,24 +121,26 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
      * Creates a copy that uses the specific deadline for the given student.
      *
      * @param studentEmail The email address of the given student.
-     * @return The sanitized copy of this object for the given student.
+     * @return The copy of this object for the given student.
      */
-    public FeedbackSessionAttributes sanitizeForStudent(String studentEmail) {
-        FeedbackSessionAttributes sanitizedCopy = getCopy();
-        sanitizedCopy.deadlineSupplier = () -> studentDeadlines.getOrDefault(studentEmail, endTime);
-        return sanitizedCopy;
+    public FeedbackSessionAttributes getCopyForStudent(String studentEmail) {
+        FeedbackSessionAttributes copy = getCopy();
+        copy.deadlineSupplier = () -> copy.studentDeadlines.getOrDefault(studentEmail, endTime);
+        copy.userEmail = studentEmail;
+        return copy;
     }
 
     /**
      * Creates a copy that uses the specific deadline for the given instructor.
      *
      * @param instructorEmail The email address of the given instructor.
-     * @return The sanitized copy of this object for the given instructor.
+     * @return The copy of this object for the given instructor.
      */
-    public FeedbackSessionAttributes sanitizeForInstructor(String instructorEmail) {
-        FeedbackSessionAttributes sanitizedCopy = getCopy();
-        sanitizedCopy.deadlineSupplier = () -> instructorDeadlines.getOrDefault(instructorEmail, endTime);
-        return sanitizedCopy;
+    public FeedbackSessionAttributes getCopyForInstructor(String instructorEmail) {
+        FeedbackSessionAttributes copy = getCopy();
+        copy.deadlineSupplier = () -> copy.instructorDeadlines.getOrDefault(instructorEmail, endTime);
+        copy.userEmail = instructorEmail;
+        return copy;
     }
 
     public String getCourseId() {
@@ -164,8 +168,8 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
                 createdTime, deletedTime, startTime, endTime, sessionVisibleFromTime, resultsVisibleFromTime,
                 timeZone, getGracePeriodMinutes(),
                 sentOpeningSoonEmail, sentOpenEmail, sentClosingEmail, sentClosedEmail, sentPublishedEmail,
-                isOpeningEmailEnabled, isClosingEmailEnabled, isPublishedEmailEnabled, studentDeadlines,
-                instructorDeadlines);
+                isOpeningEmailEnabled, isClosingEmailEnabled, isPublishedEmailEnabled, new HashMap<>(studentDeadlines),
+                new HashMap<>(instructorDeadlines));
     }
 
     @Override
@@ -252,6 +256,10 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
             return endTime;
         }
         return deadlineSupplier.get();
+    }
+
+    public String getUserEmail() {
+        return userEmail;
     }
 
     /**
@@ -410,8 +418,8 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
                + ", isOpeningEmailEnabled=" + isOpeningEmailEnabled
                + ", isClosingEmailEnabled=" + isClosingEmailEnabled
                + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled
-               + ", studentDeadlines=" + studentDeadlines
-               + ", instructorDeadlines=" + instructorDeadlines
+               + ", studentDeadlines=" + new TreeMap<>(studentDeadlines)
+               + ", instructorDeadlines=" + new TreeMap<>(instructorDeadlines)
                + "]";
     }
 

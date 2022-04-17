@@ -297,7 +297,7 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
     }
 
     @Test
-    public void testSanitizeForStudent() {
+    public void testGetCopyForStudent() {
         DataBundle typicalDataBundle = getTypicalDataBundle();
         FeedbackSessionAttributes session1InCourse1 = typicalDataBundle.feedbackSessions
                 .get("session1InCourse1");
@@ -305,19 +305,21 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
         StudentAttributes student1InCourse1 = typicalDataBundle.students.get("student1InCourse1");
         StudentAttributes student3InCourse1 = typicalDataBundle.students.get("student3InCourse1");
 
-        FeedbackSessionAttributes sanitizedSession1InCourse1 = session1InCourse1.sanitizeForStudent(
+        FeedbackSessionAttributes sanitizedSession1InCourse1 = session1InCourse1.getCopyForStudent(
                 student1InCourse1.getEmail());
         assertEquals(sanitizedSession1InCourse1.getEndTime(), sanitizedSession1InCourse1.getDeadline());
+        assertEquals(student1InCourse1.getEmail(), sanitizedSession1InCourse1.getUserEmail());
 
-        sanitizedSession1InCourse1 = session1InCourse1.sanitizeForStudent(student3InCourse1.getEmail());
+        sanitizedSession1InCourse1 = session1InCourse1.getCopyForStudent(student3InCourse1.getEmail());
         assertEquals(sanitizedSession1InCourse1.getStudentDeadlines().get(student3InCourse1.getEmail()),
                 sanitizedSession1InCourse1.getDeadline());
+        assertEquals(student3InCourse1.getEmail(), sanitizedSession1InCourse1.getUserEmail());
 
         assertEquals(session1InCourse1.getEndTime(), session1InCourse1.getDeadline());
     }
 
     @Test
-    public void testSanitizeForInstructor() {
+    public void testGetCopyForInstructor() {
         DataBundle typicalDataBundle = getTypicalDataBundle();
         FeedbackSessionAttributes session1InCourse1 = typicalDataBundle.feedbackSessions
                 .get("session1InCourse1");
@@ -325,13 +327,15 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
         InstructorAttributes helperOfCourse1 = typicalDataBundle.instructors.get("helperOfCourse1");
         InstructorAttributes instructor1OfCourse1 = typicalDataBundle.instructors.get("instructor1OfCourse1");
 
-        FeedbackSessionAttributes sanitizedSession1InCourse1 = session1InCourse1.sanitizeForInstructor(
+        FeedbackSessionAttributes sanitizedSession1InCourse1 = session1InCourse1.getCopyForInstructor(
                 helperOfCourse1.getEmail());
         assertEquals(sanitizedSession1InCourse1.getEndTime(), sanitizedSession1InCourse1.getDeadline());
+        assertEquals(helperOfCourse1.getEmail(), sanitizedSession1InCourse1.getUserEmail());
 
-        sanitizedSession1InCourse1 = session1InCourse1.sanitizeForInstructor(instructor1OfCourse1.getEmail());
+        sanitizedSession1InCourse1 = session1InCourse1.getCopyForInstructor(instructor1OfCourse1.getEmail());
         assertEquals(sanitizedSession1InCourse1.getInstructorDeadlines().get(instructor1OfCourse1.getEmail()),
                 sanitizedSession1InCourse1.getDeadline());
+        assertEquals(instructor1OfCourse1.getEmail(), sanitizedSession1InCourse1.getUserEmail());
 
         assertEquals(session1InCourse1.getEndTime(), session1InCourse1.getDeadline());
     }
