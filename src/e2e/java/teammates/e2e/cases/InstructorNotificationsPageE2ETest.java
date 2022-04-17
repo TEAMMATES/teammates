@@ -59,6 +59,9 @@ public class InstructorNotificationsPageE2ETest extends BaseE2ETestCase {
 
         notificationsPage.verifyNotificationTab(notificationToMarkAsRead, account.getReadNotifications().keySet());
 
+        ______TS("notification banner is not visible");
+        assertFalse(notificationsPage.isBannerVisible());
+
         ______TS("delete test notifications from database");
         for (NotificationAttributes notification : testData.notifications.values()) {
             BACKDOOR.deleteNotification(notification.getNotificationId());

@@ -432,5 +432,19 @@
   },
   "feedbackResponses": {},
   "feedbackResponseComments": {},
-  "profiles": {}
+  "profiles": {},
+  "notifications": {
+    "notification1": {
+      "notificationId": "notification1",
+      "startTime": "2011-01-01T00:00:00Z",
+      "endTime": "2099-01-01T00:00:00Z",
+      "createdAt": "2011-01-01T00:00:00Z",
+      "updatedAt": "2011-01-01T00:00:00Z",
+      "style": "DANGER",
+      "targetUser": "GENERAL",
+      "title": "A deprecation note",
+      "message": "<p>Deprecation happens in three minutes</p>",
+      "shown": false
+    }
+  }
 }

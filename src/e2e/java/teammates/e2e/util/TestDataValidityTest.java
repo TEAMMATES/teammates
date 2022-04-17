@@ -210,7 +210,7 @@ public class TestDataValidityTest extends BaseTestCase {
                 .replace("Confirmation", "Conf")
                 .replace("Profile", "Prof")
                 .replace("Reminders", "Rem")
-                .replace("Notifications", "Notifs")
+                .replace("Notification", "Notif")
                 .replace("IndividualExtension", "Ie");
 
         // Shorten question types
