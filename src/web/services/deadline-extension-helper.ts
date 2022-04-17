@@ -107,6 +107,7 @@ export class DeadlineExtensionHelper {
 
   public static hasUserOngoingExtension(feedbackSession: FeedbackSession): boolean {
     const extensionTimestamp = feedbackSession.submissionEndWithExtensionTimestamp;
-    return extensionTimestamp !== undefined && extensionTimestamp > Date.now();
+    return extensionTimestamp !== undefined && extensionTimestamp > feedbackSession.submissionEndTimestamp
+      && extensionTimestamp > Date.now();
   }
 }
