@@ -46,7 +46,7 @@
               <ng-container>
                 <td class="text-break">{{ session.session.feedbackSessionName }}</td>
                 <td *ngIf="session.session.submissionEndTimestamp">
-                  <span [ngbTooltip]="getSubmissionEndDateTooltip(session)" [ngClass]="{'ngb-tooltip-class' : hasStudentOngoingExtension(session.session)}">
+                  <span [ngbTooltip]="getSubmissionEndDateTooltip(session)" [ngClass]="{'ngb-tooltip-class' : hasStudentExtension(session.session)}">
                     {{ getSubmissionEndDate(session) }}
                   </span>
                 </td>

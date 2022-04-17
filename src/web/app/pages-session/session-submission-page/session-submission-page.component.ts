@@ -896,14 +896,14 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
     const userSessionEndingTime = DeadlineExtensionHelper.getUserFeedbackSessionEndingTimestamp(feedbackSession);
     let formattedString = this.timezoneService.formatToString(
       userSessionEndingTime, feedbackSession.timeZone, TIME_FORMAT);
-    if (DeadlineExtensionHelper.hasUserOngoingExtension(feedbackSession)) {
-      formattedString += ' (Extension ongoing)';
+    if (DeadlineExtensionHelper.hasUserExtension(feedbackSession)) {
+      formattedString += ' (Extension given)';
     }
     return formattedString;
   }
 
   private isFeedbackEndingLessThanFifteenMinutes(feedbackSession: FeedbackSession): boolean {
-    const userSessionEndingTime = DeadlineExtensionHelper.getUserFeedbackSessionEndingTimestamp(feedbackSession);
+    const userSessionEndingTime = DeadlineExtensionHelper.getOngoingUserFeedbackSessionEndingTimestamp(feedbackSession);
     return (userSessionEndingTime - Date.now()) < this.FIFTEEN_MINUTES;
   }
 }

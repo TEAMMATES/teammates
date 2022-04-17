@@ -98,7 +98,7 @@ export class DeadlineExtensionHelper {
     return record;
   }
 
-  public static getUserFeedbackSessionEndingTimestamp(feedbackSession: FeedbackSession): number {
+  public static getOngoingUserFeedbackSessionEndingTimestamp(feedbackSession: FeedbackSession): number {
     if (DeadlineExtensionHelper.hasUserOngoingExtension(feedbackSession)) {
       return feedbackSession.submissionEndWithExtensionTimestamp!;
     }
@@ -107,7 +107,18 @@ export class DeadlineExtensionHelper {
 
   public static hasUserOngoingExtension(feedbackSession: FeedbackSession): boolean {
     const extensionTimestamp = feedbackSession.submissionEndWithExtensionTimestamp;
-    return extensionTimestamp !== undefined && extensionTimestamp > feedbackSession.submissionEndTimestamp
-      && extensionTimestamp > Date.now();
+    return this.hasUserExtension(feedbackSession) && extensionTimestamp! > Date.now();
+  }
+
+  public static getUserFeedbackSessionEndingTimestamp(feedbackSession: FeedbackSession): number {
+    if (DeadlineExtensionHelper.hasUserExtension(feedbackSession)) {
+      return feedbackSession.submissionEndWithExtensionTimestamp!;
+    }
+    return feedbackSession.submissionEndTimestamp;
+  }
+
+  public static hasUserExtension(feedbackSession: FeedbackSession): boolean {
+    const extensionTimestamp = feedbackSession.submissionEndWithExtensionTimestamp;
+    return extensionTimestamp !== undefined && extensionTimestamp > feedbackSession.submissionEndTimestamp;
   }
 }
