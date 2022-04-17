@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
+import { DeadlineExtensionHelper } from '../../../services/deadline-extension-helper';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
@@ -16,7 +17,9 @@ import {
   HasResponses,
 } from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
+import { FormatDateDetailPipe } from '../../components/teammates-common/format-date-detail.pipe';
 import { ErrorMessageOutput } from '../../error-message-output';
+import { SubmissionStatusPipe } from '../../pipes/session-submission-status.pipe';
 
 interface StudentCourse {
   course: Course;
@@ -52,6 +55,7 @@ export class StudentHomePageComponent implements OnInit {
   studentFeedbackSessionStatusAwaiting: string =
     'The session is not open for submission at this time. It is expected to open later.';
   studentFeedbackSessionStatusPending: string = 'The feedback session is yet to be completed by you.';
+  studentFeedbackSessionStatusExtension: string = ' An instructor has granted you a deadline extension.';
   studentFeedbackSessionStatusSubmitted: string = 'You have submitted your feedback for this session.';
   studentFeedbackSessionStatusClosed: string = ' The session is now closed for submissions.';
 
@@ -64,6 +68,9 @@ export class StudentHomePageComponent implements OnInit {
   hasCoursesLoadingFailed: boolean = false;
 
   sortBy: SortBy = SortBy.NONE;
+
+  sessionSubmissionStatusPipe = new SubmissionStatusPipe();
+  formatDateDetailPipe = new FormatDateDetailPipe(this.timezoneService);
 
   constructor(private route: ActivatedRoute,
     private courseService: CourseService,
@@ -155,6 +162,8 @@ export class StudentHomePageComponent implements OnInit {
    */
   getSubmissionStatusTooltip(session: StudentSession): string {
     let msg: string = '';
+    const hasStudentExtension = DeadlineExtensionHelper.hasUserExtension(session.session);
+    const hasOngoingStudentExtension = DeadlineExtensionHelper.hasOngoingExtension(session.session);
 
     if (session.isWaitingToOpen) {
       msg += this.studentFeedbackSessionStatusAwaiting;
@@ -163,10 +172,46 @@ export class StudentHomePageComponent implements OnInit {
     } else {
       msg += this.studentFeedbackSessionStatusPending;
     }
-    if (!session.isOpened && !session.isWaitingToOpen) {
+
+    if (hasStudentExtension && (session.isSubmitted || session.isOpened)) {
+      msg += this.studentFeedbackSessionStatusExtension;
+    }
+
+    if (!session.isOpened && !session.isWaitingToOpen && !hasOngoingStudentExtension) {
       msg += this.studentFeedbackSessionStatusClosed;
     }
     return msg;
+  }
+
+  /**
+   * Gets the status for the submission.
+   */
+  getSubmissionStatus(session: StudentSession): string {
+    const hasStudentExtension = this.hasStudentExtension(session.session);
+    return this.sessionSubmissionStatusPipe.transform(
+      session.isOpened, session.isWaitingToOpen, session.isSubmitted, hasStudentExtension);
+  }
+
+  /**
+   * Get the formatted date of the student's session end time.
+   */
+  getSubmissionEndDate({ session }: StudentSession): string {
+    const submissionEndDate = DeadlineExtensionHelper.getUserFeedbackSessionEndingTimestamp(session);
+    return this.formatDateDetailPipe.transform(submissionEndDate, session.timeZone);
+  }
+
+  getSubmissionEndDateTooltip({ session }: StudentSession): string {
+    const hasStudentExtension = this.hasStudentExtension(session);
+    if (!hasStudentExtension) {
+      return '';
+    }
+    const originalEndTime = this.formatDateDetailPipe.transform(session.submissionEndTimestamp, session.timeZone);
+    return `The session's original end date is ${originalEndTime}.`
+      + ' An instructor has granted you an extension to this date.';
+  }
+
+  hasStudentExtension(session: FeedbackSession): boolean {
+    return DeadlineExtensionHelper.hasUserExtension(session);
   }
 
   /**
