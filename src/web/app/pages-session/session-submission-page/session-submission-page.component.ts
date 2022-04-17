@@ -381,7 +381,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                 'Feedback Session Not Open', SimpleModalType.WARNING, modalContent);
               break;
             case FeedbackSessionSubmissionStatus.OPEN:
-              if (this.isFeedbackEndingLessThanFifteenMintues(feedbackSession)) {
+              if (this.isFeedbackEndingLessThanFifteenMinutes(feedbackSession)) {
                 modalContent = 'Warning: you have less than 15 minutes before the submission deadline expires!';
                 this.simpleModalService.openInformationModal(
                   'Feedback Session Will Be Closing Soon!', SimpleModalType.WARNING, modalContent);
@@ -902,7 +902,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
     return formattedString;
   }
 
-  private isFeedbackEndingLessThanFifteenMintues(feedbackSession: FeedbackSession): boolean {
+  private isFeedbackEndingLessThanFifteenMinutes(feedbackSession: FeedbackSession): boolean {
     const userSessionEndingTime = DeadlineExtensionHelper.getUserFeedbackSessionEndingTimestamp(feedbackSession);
     return (userSessionEndingTime - Date.now()) < this.FIFTEEN_MINUTES;
   }
