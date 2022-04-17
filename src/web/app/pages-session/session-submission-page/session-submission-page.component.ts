@@ -906,5 +906,4 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
     const userSessionEndingTime = DeadlineExtensionHelper.getUserFeedbackSessionEndingTimestamp(feedbackSession);
     return (userSessionEndingTime - Date.now()) < this.FIFTEEN_MINUTES;
   }
-
 }

@@ -204,7 +204,9 @@ export class StudentHomePageComponent implements OnInit {
     if (!hasUserOngoingExtension) {
       return '';
     }
-    return 'An instructor has granted you an extension to this date.';
+    const originalEndTime = session.submissionEndTimestamp;
+    return `The session's original end date is ${originalEndTime}.`
+      + ' An instructor has granted you an extension to this date.';
   }
 
   /**
