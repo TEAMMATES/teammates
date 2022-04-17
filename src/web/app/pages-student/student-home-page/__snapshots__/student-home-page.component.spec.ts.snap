@@ -208,7 +208,9 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
                   First Session
                 </td>
                 <td>
-                  Sat, 02 Feb 2019, 04:15 PM +08
+                  <span>
+                     Sat, 02 Feb 2019, 04:15 PM +08 
+                  </span>
                 </td>
                 <td>
                   <span>
@@ -246,7 +248,9 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
                   Second Session
                 </td>
                 <td>
-                  Sat, 02 Feb 2019, 04:15 PM +08
+                  <span>
+                     Sat, 02 Feb 2019, 04:15 PM +08 
+                  </span>
                 </td>
                 <td>
                   <span>
@@ -338,7 +342,9 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
                   Third Session
                 </td>
                 <td>
-                  Sat, 02 Feb 2019, 04:15 PM +08
+                  <span>
+                     Sat, 02 Feb 2019, 04:15 PM +08 
+                  </span>
                 </td>
                 <td>
                   <span>
@@ -376,7 +382,9 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
                   Fourth Session
                 </td>
                 <td>
-                  Sat, 02 Feb 2019, 04:15 PM +08
+                  <span>
+                     Sat, 02 Feb 2019, 04:15 PM +08 
+                  </span>
                 </td>
                 <td>
                   <span>
@@ -577,7 +585,9 @@ exports[`StudentHomePageComponent should snap with feedback sessions 1`] = `
                   First Session
                 </td>
                 <td>
-                  Sat, 02 Feb 2019, 04:15 PM +08
+                  <span>
+                     Sat, 02 Feb 2019, 04:15 PM +08 
+                  </span>
                 </td>
                 <td>
                   <span>
@@ -599,12 +609,6 @@ exports[`StudentHomePageComponent should snap with feedback sessions 1`] = `
                      View Responses 
                   </a>
                   <a
-                    class="btn btn-light btn-sm disabled"
-                    id="disabled-start-submit-btn-0"
-                  >
-                     Start Submission 
-                  </a>
-                  <a
                     class="btn btn-light btn-sm"
                     href="/web/student/sessions/submission?courseid=CS2103&fsname=First%20Session"
                     id="edit-submit-btn-0"
@@ -621,7 +625,9 @@ exports[`StudentHomePageComponent should snap with feedback sessions 1`] = `
                   Second Session
                 </td>
                 <td>
-                  Sat, 02 Feb 2019, 04:15 PM +08
+                  <span>
+                     Sat, 02 Feb 2019, 04:15 PM +08 
+                  </span>
                 </td>
                 <td>
                   <span>

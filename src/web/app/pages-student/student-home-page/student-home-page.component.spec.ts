@@ -989,7 +989,7 @@ describe('StudentHomePageComponent', () => {
             instructorDeadlines: {},
           },
           isOpened: true,
-          isWaitingToOpen: true,
+          isWaitingToOpen: false,
           isPublished: true,
           isSubmitted: true,
         },
