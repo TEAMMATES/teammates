@@ -80,11 +80,9 @@ class GetFeedbackSessionsAction extends Action {
                     String emailAddress = student.getEmail();
                     List<FeedbackSessionAttributes> sessions = logic.getFeedbackSessionsForCourse(studentCourseId);
 
-                    if (!userInfo.isAdmin) {
-                        sessions = sessions.stream()
-                                .map(session -> session.getCopyForStudent(emailAddress))
-                                .collect(Collectors.toList());
-                    }
+                    sessions = sessions.stream()
+                        .map(session -> session.getCopyForStudent(emailAddress))
+                        .collect(Collectors.toList());
 
                     feedbackSessionAttributes.addAll(sessions);
                 }
@@ -103,7 +101,7 @@ class GetFeedbackSessionsAction extends Action {
             }
         } else {
             feedbackSessionAttributes = logic.getFeedbackSessionsForCourse(courseId);
-            if (entityType.equals(Const.EntityType.STUDENT) && !userInfo.isAdmin && !feedbackSessionAttributes.isEmpty()) {
+            if (entityType.equals(Const.EntityType.STUDENT) && !feedbackSessionAttributes.isEmpty()) {
                 StudentAttributes student = logic.getStudentForGoogleId(courseId, userInfo.getId());
                 assert student != null;
                 String emailAddress = student.getEmail();

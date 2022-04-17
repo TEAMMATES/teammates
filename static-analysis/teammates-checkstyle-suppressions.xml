@@ -3,9 +3,6 @@
     "-//Checkstyle//DTD SuppressionFilter Configuration 1.1//EN"
     "https://checkstyle.org/dtds/suppressions_1_1.dtd">
 <suppressions>
-    <!-- Ignore auto-generated code -->
-    <suppress checks="." files="com[/\\]google[/\\]appengine[/\\]logging[/\\]v1[/\\].*\.java"/>
-
     <!-- Scripts inherently need main method to run -->
     <suppress checks="UncommentedMain" files="client[/\\]scripts[/\\].*\.java"/>
 

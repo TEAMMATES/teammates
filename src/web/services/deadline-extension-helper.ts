@@ -2,7 +2,7 @@ import {
   InstructorExtensionTableColumnModel,
   StudentExtensionTableColumnModel,
 } from '../app/pages-instructor/instructor-session-individual-extension-page/extension-table-column-model';
-import { Instructor, Student } from '../types/api-output';
+import { FeedbackSession, Instructor, Student } from '../types/api-output';
 
 /**
  * Deadline Extension utility functions.
@@ -96,5 +96,29 @@ export class DeadlineExtensionHelper {
       delete record[x.email];
     });
     return record;
+  }
+
+  public static getOngoingUserFeedbackSessionEndingTimestamp(feedbackSession: FeedbackSession): number {
+    if (DeadlineExtensionHelper.hasUserOngoingExtension(feedbackSession)) {
+      return feedbackSession.submissionEndWithExtensionTimestamp!;
+    }
+    return feedbackSession.submissionEndTimestamp;
+  }
+
+  public static hasUserOngoingExtension(feedbackSession: FeedbackSession): boolean {
+    const extensionTimestamp = feedbackSession.submissionEndWithExtensionTimestamp;
+    return this.hasUserExtension(feedbackSession) && extensionTimestamp! > Date.now();
+  }
+
+  public static getUserFeedbackSessionEndingTimestamp(feedbackSession: FeedbackSession): number {
+    if (DeadlineExtensionHelper.hasUserExtension(feedbackSession)) {
+      return feedbackSession.submissionEndWithExtensionTimestamp!;
+    }
+    return feedbackSession.submissionEndTimestamp;
+  }
+
+  public static hasUserExtension(feedbackSession: FeedbackSession): boolean {
+    const extensionTimestamp = feedbackSession.submissionEndWithExtensionTimestamp;
+    return extensionTimestamp !== undefined && extensionTimestamp > feedbackSession.submissionEndTimestamp;
   }
 }

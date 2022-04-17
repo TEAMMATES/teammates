@@ -90,16 +90,4 @@ public class EmailSender {
         return email.endsWith(Const.TEST_EMAIL_DOMAIN);
     }
 
-    /**
-     * Sends the given {@code report}.
-     */
-    public void sendReport(EmailWrapper report) {
-        try {
-            sendEmail(report);
-        } catch (Exception e) {
-            log.severe("Error in sending report: " + (report == null ? "" : report.getInfoForLogging())
-                       + "\nReport content: " + (report == null ? "" : report.getContent()), e);
-        }
-    }
-
 }

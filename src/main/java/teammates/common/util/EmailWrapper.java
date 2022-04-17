@@ -105,10 +105,4 @@ public class EmailWrapper {
         this.isCopy = isCopy;
     }
 
-    public String getInfoForLogging() {
-        return "[Email sent]to=" + getRecipient()
-               + "|from=" + getSenderEmail()
-               + "|subject=" + getSubject();
-    }
-
 }
