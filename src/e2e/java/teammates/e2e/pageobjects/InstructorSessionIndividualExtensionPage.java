@@ -216,8 +216,7 @@ public class InstructorSessionIndividualExtensionPage extends AppPage {
 
         // set date
         WebElement datePicker = browser.driver.findElement(By.id("submission-end-date"));
-        WebElement dateTextBox = datePicker.findElement(By.tagName("input"));
-        fillTextBox(dateTextBox, getDateString(extendedDeadline, session.getTimeZone()));
+        fillDatePicker(datePicker, extendedDeadline, session.getTimeZone());
 
         browser.driver.findElement(By.className("modal-btn-ok")).click();
         confirmChangesToDeadlineExtensions(notifyUsers);
@@ -234,10 +233,6 @@ public class InstructorSessionIndividualExtensionPage extends AppPage {
         WebElement okButton = browser.driver.findElement(By.className("modal-btn-ok"));
         clickDismissModalButtonAndWaitForModalHidden(okButton);
         waitForPageToLoad(true);
-    }
-
-    private String getDateString(Instant instant, String timezone) {
-        return TimeHelper.formatInstant(instant, timezone, "yyyy-MM-dd");
     }
 
     private String getTimeString(Instant instant, String timezone) {

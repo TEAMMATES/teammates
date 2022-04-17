@@ -133,17 +133,17 @@ public class FeedbackSessionBasicRequest extends BasicRequest {
         assertTrue(sessionVisibleSetting != null, "sessionVisibleSetting cannot be null");
         if (sessionVisibleSetting == SessionVisibleSetting.CUSTOM) {
             assertTrue(customSessionVisibleTimestamp != null,
-                    "session visible timestamp should not be null");
+                    "Session visible timestamp should not be null");
             assertTrue(customSessionVisibleTimestamp > 0L,
-                    "session visible timestamp should be more than zero");
+                    "Session visible timestamp should be more than zero");
         }
 
         assertTrue(responseVisibleSetting != null, "responseVisibleSetting cannot be null");
         if (responseVisibleSetting == ResponseVisibleSetting.CUSTOM) {
             assertTrue(customResponseVisibleTimestamp != null,
-                    "response visible timestamp should not be null");
+                    "Response visible timestamp should not be null");
             assertTrue(customResponseVisibleTimestamp > 0L,
-                    "response visible timestamp should be more than zero");
+                    "Response visible timestamp should be more than zero");
         }
     }
 }
