@@ -62,7 +62,9 @@ describe('NotificationBannerComponent', () => {
     notificationService = TestBed.inject(NotificationService);
     statusMessageService = TestBed.inject(StatusMessageService);
     component = fixture.componentInstance;
+    fixture.detectChanges();
     component.notificationTargetUser = NotificationTargetUser.STUDENT;
+    component.isShown = true;
     fixture.detectChanges();
   });
 
@@ -70,11 +72,19 @@ describe('NotificationBannerComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should close after clicking X', () => {
-    jest.spyOn(notificationService, 'getUnreadNotificationsForTargetUser').mockReturnValue(of({
-      notifications: [testNotificationOne],
+  it('should load data correctly', () => {
+    const spy = jest.spyOn(notificationService, 'getUnreadNotificationsForTargetUser').mockReturnValue(of({
+      notifications: [testNotificationOne, testNotificationTwo],
     }));
     component.ngOnInit();
+    expect(spy).toHaveBeenCalledTimes(1);
+    expect(component.notifications.length).toEqual(2);
+    expect(component.notifications[0]).toEqual(testNotificationOne);
+    expect(component.notifications[1]).toEqual(testNotificationTwo);
+  });
+
+  it('should close after clicking X', () => {
+    component.notifications = [testNotificationOne];
     fixture.detectChanges();
 
     expect(component.isShown).toBeTruthy();
@@ -84,12 +94,6 @@ describe('NotificationBannerComponent', () => {
   });
 
   it('should close after clicking mark as read', () => {
-    jest.spyOn(notificationService, 'getUnreadNotificationsForTargetUser').mockReturnValue(of({
-      notifications: [testNotificationOne],
-    }));
-    jest.spyOn(notificationService, 'markNotificationAsRead').mockReturnValue(of({
-      readNotifications: [testNotificationOne.notificationId],
-    }));
     const apiSpy: SpyInstance = jest.spyOn(notificationService, 'markNotificationAsRead')
       .mockImplementation((request: MarkNotificationAsReadRequest) => {
         expect(request.notificationId).toEqual(testNotificationOne.notificationId);
@@ -101,7 +105,7 @@ describe('NotificationBannerComponent', () => {
       .mockImplementation((args: string) => {
         expect(args).toEqual('Notification marked as read.');
       });
-    component.ngOnInit();
+    component.notifications = [testNotificationOne];
     fixture.detectChanges();
 
     expect(component.isShown).toBeTruthy();
@@ -112,36 +116,20 @@ describe('NotificationBannerComponent', () => {
     expect(component.isShown).toBeFalsy();
   });
 
-  it('should snap with default fields', () => {
-    expect(fixture).toMatchSnapshot();
-  });
-
   it('should snap with no unread notifications', () => {
-    jest.spyOn(notificationService, 'getUnreadNotificationsForTargetUser').mockReturnValue(of({
-      notifications: [],
-    }));
-    component.ngOnInit();
-    expect(component.notifications.length).toEqual(0);
+    component.notifications = [];
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
 
   it('should snap with 1 unread notification', () => {
-    jest.spyOn(notificationService, 'getUnreadNotificationsForTargetUser').mockReturnValue(of({
-      notifications: [testNotificationOne],
-    }));
-    component.ngOnInit();
-    expect(component.notifications.length).toEqual(1);
+    component.notifications = [testNotificationOne];
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
 
   it('should snap with multiple unread notifications', () => {
-    jest.spyOn(notificationService, 'getUnreadNotificationsForTargetUser').mockReturnValue(of({
-      notifications: [testNotificationOne, testNotificationTwo],
-    }));
-    component.ngOnInit();
-    expect(component.notifications.length).toEqual(2);
+    component.notifications = [testNotificationOne, testNotificationTwo];
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });

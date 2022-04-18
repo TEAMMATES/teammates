@@ -49,18 +49,6 @@ exports[`NotificationBannerComponent should snap with 1 unread notification 1`] 
 </tm-notification-banner>
 `;
 
-exports[`NotificationBannerComponent should snap with default fields 1`] = `
-<tm-notification-banner
-  isShown={[Function Boolean]}
-  notificationService={[Function NotificationService]}
-  notificationTargetUser={[Function String]}
-  notifications={[Function Array]}
-  statusMessageService={[Function StatusMessageService]}
-  url=""
->
-</tm-notification-banner>
-`;
-
 exports[`NotificationBannerComponent should snap with multiple unread notifications 1`] = `
 <tm-notification-banner
   isShown={[Function Boolean]}

@@ -7,6 +7,7 @@ import { of } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
 import { NotificationService } from '../../../services/notification.service';
 import { StatusMessageService } from '../../../services/status-message.service';
+import { TimezoneService } from '../../../services/timezone.service';
 import { Notification, NotificationStyle, NotificationTargetUser } from '../../../types/api-output';
 import { MarkNotificationAsReadRequest } from '../../../types/api-request';
 import { SortBy } from '../../../types/sort-properties';
@@ -14,7 +15,7 @@ import { LoadingRetryModule } from '../loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
 import { PanelChevronModule } from '../panel-chevron/panel-chevron.module';
 import { TeammatesCommonModule } from '../teammates-common/teammates-common.module';
-import { UserNotificationsListComponent } from './user-notifications-list.component';
+import { NotificationTab, UserNotificationsListComponent } from './user-notifications-list.component';
 
 describe('UserNotificationsListComponent', () => {
   let component: UserNotificationsListComponent;
@@ -46,6 +47,24 @@ describe('UserNotificationsListComponent', () => {
     shown: false,
   };
 
+  let timezone: string = '';
+  const DATE_FORMAT: string = 'DD MMM YYYY';
+
+  const getNotificationTabs = (notifications: Notification[], readNotifications: string[] = []): NotificationTab[] => {
+    const notificationTabs: NotificationTab[] = [];
+    notifications.forEach((notification) => {
+      const notificationTab: NotificationTab = {
+        notification,
+        hasTabExpanded: !readNotifications.includes(notification.notificationId),
+        isRead: readNotifications.includes(notification.notificationId),
+        startDate: moment(notification.startTimestamp).tz(timezone).format(DATE_FORMAT),
+        endDate: moment(notification.endTimestamp).tz(timezone).format(DATE_FORMAT),
+      };
+      notificationTabs.push(notificationTab);
+    });
+    return notificationTabs;
+  };
+
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [UserNotificationsListComponent],
@@ -65,7 +84,11 @@ describe('UserNotificationsListComponent', () => {
     fixture = TestBed.createComponent(UserNotificationsListComponent);
     notificationService = TestBed.inject(NotificationService);
     statusMessageService = TestBed.inject(StatusMessageService);
+    timezone = TestBed.inject(TimezoneService).guessTimezone();
     component = fixture.componentInstance;
+    fixture.detectChanges();
+    component.isLoadingNotifications = false;
+    component.hasLoadingFailed = false;
     fixture.detectChanges();
   });
 
@@ -73,13 +96,29 @@ describe('UserNotificationsListComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should load notifications from APIs correctly', () => {
+    // two notifications, only first one has been read
+    const getNotificationSpy = jest.spyOn(notificationService, 'getAllNotificationsForTargetUser').mockReturnValue(of({
+      notifications: [testNotificationOne, testNotificationTwo],
+    }));
+    const getReadNotificationSpy = jest.spyOn(notificationService, 'getReadNotifications').mockReturnValue(of({
+      readNotifications: [
+        testNotificationOne.notificationId,
+      ],
+    }));
+    component.loadNotifications();
+    expect(getNotificationSpy).toHaveBeenCalledTimes(1);
+    expect(getReadNotificationSpy).toHaveBeenCalledTimes(1);
+    expect(component.notificationTabs.length).toEqual(2);
+    expect(component.notificationTabs[0].notification === testNotificationOne).toBeTruthy();
+    expect(component.notificationTabs[1].notification === testNotificationTwo).toBeTruthy();
+    expect(component.notificationTabs[0].hasTabExpanded).toBeFalsy();
+    expect(component.notificationTabs[1].hasTabExpanded).toBeTruthy();
+    expect(component.notificationTabs[0].isRead).toBeTruthy();
+    expect(component.notificationTabs[1].isRead).toBeFalsy();
+  });
+
   it('should mark notification as read when button is clicked', () => {
-    jest.spyOn(notificationService, 'getAllNotificationsForTargetUser').mockReturnValue(of({
-      notifications: [testNotificationOne],
-    }));
-    jest.spyOn(notificationService, 'getReadNotifications').mockReturnValue(of({
-      readNotifications: [],
-    }));
     const apiSpy: SpyInstance = jest.spyOn(notificationService, 'markNotificationAsRead')
       .mockImplementation((request: MarkNotificationAsReadRequest) => {
         expect(request.notificationId).toEqual(testNotificationOne.notificationId);
@@ -92,7 +131,7 @@ describe('UserNotificationsListComponent', () => {
         expect(args).toEqual('Notification marked as read.');
       });
 
-    component.ngOnInit();
+    component.notificationTabs = getNotificationTabs([testNotificationOne]);
     fixture.detectChanges();
     expect(component.notificationTabs[0].hasTabExpanded).toBeTruthy();
     fixture.debugElement.query(By.css('#btn-mark-as-read')).nativeElement.click();
@@ -103,15 +142,26 @@ describe('UserNotificationsListComponent', () => {
   });
 
   it('should collapse an expanded tab when the header is clicked', () => {
-    jest.spyOn(notificationService, 'getAllNotificationsForTargetUser').mockReturnValue(of({
-      notifications: [testNotificationOne],
-    }));
-    component.ngOnInit();
+    component.notificationTabs = getNotificationTabs([testNotificationOne]);
     fixture.detectChanges();
 
     expect(component.notificationTabs[0].hasTabExpanded).toBeTruthy();
     fixture.debugElement.query(By.css('.card-header')).nativeElement.click();
     expect(component.notificationTabs[0].hasTabExpanded).toBeFalsy();
+  });
+
+  it('should sort notifications in correct order', () => {
+    component.notificationTabs = getNotificationTabs([testNotificationOne, testNotificationTwo]);
+    fixture.detectChanges();
+
+    // default order already checked above
+    component.sortNotificationsBy(SortBy.NOTIFICATION_START_TIME);
+    expect(component.notificationTabs[0].notification.startTimestamp
+      >= component.notificationTabs[1].notification.startTimestamp).toBeTruthy();
+
+    component.sortNotificationsBy(SortBy.NOTIFICATION_END_TIME);
+    expect(component.notificationTabs[0].notification.endTimestamp
+      <= component.notificationTabs[1].notification.endTimestamp).toBeTruthy();
   });
 
   it('should snap with default fields when loading', () => {
@@ -121,68 +171,45 @@ describe('UserNotificationsListComponent', () => {
   });
 
   it('should snap when it fails to load', () => {
-    component.isLoadingNotifications = false;
     component.hasLoadingFailed = true;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
 
   it('should snap with no notifications', () => {
-    component.isLoadingNotifications = false;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
 
   it('should snap when it loads the provided notifications', () => {
-    jest.spyOn(notificationService, 'getAllNotificationsForTargetUser').mockReturnValue(of({
-      notifications: [testNotificationOne, testNotificationTwo],
-    }));
-    component.loadNotifications();
-    expect(component.notificationTabs.length).toEqual(2);
+    component.notificationTabs = getNotificationTabs([testNotificationOne, testNotificationTwo]);
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
 
   it('should snap when all loaded notifications are read', () => {
-    jest.spyOn(notificationService, 'getAllNotificationsForTargetUser').mockReturnValue(of({
-      notifications: [testNotificationOne, testNotificationTwo],
-    }));
-    jest.spyOn(notificationService, 'getReadNotifications').mockReturnValue(of({
-      readNotifications: [
+    component.notificationTabs = getNotificationTabs(
+      [testNotificationOne, testNotificationTwo],
+      [
         testNotificationOne.notificationId,
         testNotificationTwo.notificationId,
       ],
-    }));
-    component.loadNotifications();
+    );
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
 
   it('should snap when it sorts the notification by start time', () => {
-    jest.spyOn(notificationService, 'getAllNotificationsForTargetUser').mockReturnValue(of({
-      notifications: [testNotificationOne, testNotificationTwo],
-    }));
-    component.loadNotifications();
-    component.sortNotificationsBy(SortBy.NOTIFICATION_START_TIME);
+    component.notificationTabs = getNotificationTabs([testNotificationTwo, testNotificationOne]);
+    component.notificationsSortBy = SortBy.NOTIFICATION_START_TIME;
     fixture.detectChanges();
-
-    // Start time is descending
-    expect(component.notificationTabs[0].notification.startTimestamp
-        >= component.notificationTabs[1].notification.startTimestamp).toBeTruthy();
     expect(fixture).toMatchSnapshot();
   });
 
   it('should snap when it sorts the notification by end time', () => {
-    jest.spyOn(notificationService, 'getAllNotificationsForTargetUser').mockReturnValue(of({
-      notifications: [testNotificationOne, testNotificationTwo],
-    }));
-    component.loadNotifications();
-    component.sortNotificationsBy(SortBy.NOTIFICATION_END_TIME);
+    component.notificationTabs = getNotificationTabs([testNotificationOne, testNotificationTwo]);
+    component.notificationsSortBy = SortBy.NOTIFICATION_END_TIME;
     fixture.detectChanges();
-
-    // End time is ascending
-    expect(component.notificationTabs[0].notification.endTimestamp
-        <= component.notificationTabs[1].notification.endTimestamp).toBeTruthy();
     expect(fixture).toMatchSnapshot();
   });
 });
