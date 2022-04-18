@@ -23,6 +23,8 @@ public class FeedbackSessionData extends ApiOutput {
     private final Long submissionStartTimestamp;
     private final Long submissionEndTimestamp;
     @Nullable
+    private final Long submissionEndWithExtensionTimestamp;
+    @Nullable
     private Long sessionVisibleFromTimestamp;
     @Nullable
     private Long resultVisibleFromTimestamp;
@@ -61,6 +63,8 @@ public class FeedbackSessionData extends ApiOutput {
                 feedbackSessionAttributes.getStartTime(), timeZone, true).toEpochMilli();
         this.submissionEndTimestamp = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
                 feedbackSessionAttributes.getEndTime(), timeZone, true).toEpochMilli();
+        this.submissionEndWithExtensionTimestamp = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                feedbackSessionAttributes.getDeadline(), timeZone, true).toEpochMilli();
         this.gracePeriod = feedbackSessionAttributes.getGracePeriodMinutes();
 
         Instant sessionVisibleTime = feedbackSessionAttributes.getSessionVisibleFromTime();
@@ -117,9 +121,11 @@ public class FeedbackSessionData extends ApiOutput {
             this.deletedAtTimestamp = feedbackSessionAttributes.getDeletedTime().toEpochMilli();
         }
 
+        String userEmail = feedbackSessionAttributes.getUserEmail();
         this.studentDeadlines = feedbackSessionAttributes.getStudentDeadlines()
                 .entrySet()
                 .stream()
+                .filter(entry -> userEmail == null || userEmail.equals(entry.getKey()))
                 .collect(Collectors.toMap(Map.Entry::getKey, entry ->
                         TimeHelper.getMidnightAdjustedInstantBasedOnZone(entry.getValue(), timeZone, true)
                                 .toEpochMilli()));
@@ -127,6 +133,7 @@ public class FeedbackSessionData extends ApiOutput {
         this.instructorDeadlines = feedbackSessionAttributes.getInstructorDeadlines()
                 .entrySet()
                 .stream()
+                .filter(entry -> userEmail == null || userEmail.equals(entry.getKey()))
                 .collect(Collectors.toMap(Map.Entry::getKey, entry ->
                         TimeHelper.getMidnightAdjustedInstantBasedOnZone(entry.getValue(), timeZone, true)
                                 .toEpochMilli()));
@@ -154,6 +161,10 @@ public class FeedbackSessionData extends ApiOutput {
 
     public long getSubmissionEndTimestamp() {
         return submissionEndTimestamp;
+    }
+
+    public long getSubmissionEndWithExtensionTimestamp() {
+        return submissionEndWithExtensionTimestamp;
     }
 
     public Long getSessionVisibleFromTimestamp() {
@@ -277,34 +288,31 @@ public class FeedbackSessionData extends ApiOutput {
     }
 
     /**
-     * Filter out all the deadlines that are not for the given student.
+     * Hides some attributes to student.
      */
-    public void filterDeadlinesForStudent(String studentEmail) {
-        if (studentDeadlines.containsKey(studentEmail)) {
-            studentDeadlines = Map.of(studentEmail, studentDeadlines.get(studentEmail));
-        } else {
-            studentDeadlines.clear();
-        }
+    public void hideInformationForStudent() {
+        hideInformationForStudentAndInstructor();
+        hideSessionVisibilityTimestamps();
         instructorDeadlines.clear();
     }
 
     /**
-     * Filter out all the deadlines that are not for the given instructor.
+     * Hides some attributes to instructor without appropriate privilege.
      */
-    public void filterDeadlinesForInstructor(String instructorEmail) {
+    public void hideInformationForInstructor() {
+        hideInformationForStudentAndInstructor();
         studentDeadlines.clear();
-        if (instructorDeadlines.containsKey(instructorEmail)) {
-            instructorDeadlines = Map.of(instructorEmail, instructorDeadlines.get(instructorEmail));
-        } else {
-            instructorDeadlines.clear();
-        }
     }
 
     /**
-     * Hides some attributes to student.
+     * Hides some attributes for instructor who is submitting feedback session.
      */
-    public void hideInformationForStudent() {
+    public void hideInformationForInstructorSubmission() {
         hideInformationForInstructor();
+        hideSessionVisibilityTimestamps();
+    }
+
+    private void hideSessionVisibilityTimestamps() {
         setSessionVisibleFromTimestamp(null);
         setResultVisibleFromTimestamp(null);
         setSessionVisibleSetting(null);
@@ -313,10 +321,7 @@ public class FeedbackSessionData extends ApiOutput {
         setCustomResponseVisibleTimestamp(null);
     }
 
-    /**
-     * Hides some attributes to instructor without appropriate privilege.
-     */
-    public void hideInformationForInstructor() {
+    private void hideInformationForStudentAndInstructor() {
         setClosingEmailEnabled(null);
         setPublishedEmailEnabled(null);
         setGracePeriod(null);

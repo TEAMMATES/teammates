@@ -65,6 +65,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
       >
         <input
           class="ng-untouched ng-pristine ng-valid"
+          id="extend-deadline-by"
           name="optradio"
           type="radio"
         />
@@ -73,6 +74,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
       <label>
         <input
           class="ng-untouched ng-pristine ng-valid"
+          id="extend-deadline-to"
           name="optradio"
           type="radio"
         />
@@ -91,6 +93,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
         >
           <select
             class="form-control ng-untouched ng-pristine ng-valid"
+            id="extend-by-dropdown"
           >
             <option
               value="12 hours"
@@ -218,6 +221,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
       >
         <input
           class="ng-untouched ng-pristine ng-valid"
+          id="extend-deadline-by"
           name="optradio"
           type="radio"
         />
@@ -226,6 +230,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
       <label>
         <input
           class="ng-untouched ng-pristine ng-valid"
+          id="extend-deadline-to"
           name="optradio"
           type="radio"
         />
@@ -244,6 +249,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
         >
           <select
             class="form-control ng-untouched ng-pristine ng-valid"
+            id="extend-by-dropdown"
           >
             <option
               value="12 hours"
@@ -416,6 +422,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend to ra
       >
         <input
           class="ng-untouched ng-pristine ng-valid"
+          id="extend-deadline-by"
           name="optradio"
           type="radio"
         />
@@ -424,6 +431,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend to ra
       <label>
         <input
           class="ng-untouched ng-pristine ng-valid"
+          id="extend-deadline-to"
           name="optradio"
           type="radio"
         />
@@ -440,13 +448,16 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend to ra
         <div
           class="input-group"
         >
-          <tm-datepicker>
+          <tm-datepicker
+            id="submission-end-date"
+          >
             <div
               class="input-group"
             >
               <input
                 class="form-control ng-untouched ng-pristine ng-valid"
                 ngbdatepicker=""
+                readonly=""
                 type="text"
               />
               <div
@@ -688,6 +699,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extended stu
       >
         <input
           class="ng-untouched ng-pristine ng-valid"
+          id="extend-deadline-by"
           name="optradio"
           type="radio"
         />
@@ -696,6 +708,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extended stu
       <label>
         <input
           class="ng-untouched ng-pristine ng-valid"
+          id="extend-deadline-to"
           name="optradio"
           type="radio"
         />
@@ -714,6 +727,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extended stu
         >
           <select
             class="form-control ng-untouched ng-pristine ng-valid"
+            id="extend-by-dropdown"
           >
             <option
               value="12 hours"
@@ -843,6 +857,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the warning moda
       >
         <input
           class="ng-untouched ng-pristine ng-valid"
+          id="extend-deadline-by"
           name="optradio"
           type="radio"
         />
@@ -851,6 +866,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the warning moda
       <label>
         <input
           class="ng-untouched ng-pristine ng-valid"
+          id="extend-deadline-to"
           name="optradio"
           type="radio"
         />
@@ -869,6 +885,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the warning moda
         >
           <select
             class="form-control ng-untouched ng-pristine ng-valid"
+            id="extend-by-dropdown"
           >
             <option
               value="12 hours"

@@ -291,12 +291,14 @@ public final class Const {
         public static final String INSTRUCTOR_STUDENT_LIST_PAGE = INSTRUCTOR_PAGE + "/students";
         public static final String INSTRUCTOR_STUDENT_RECORDS_PAGE = INSTRUCTOR_PAGE + "/students/records";
         public static final String INSTRUCTOR_AUDIT_LOGS_PAGE = INSTRUCTOR_PAGE + "/logs";
+        public static final String INSTRUCTOR_NOTIFICATIONS_PAGE = INSTRUCTOR_PAGE + "/notifications";
 
         public static final String STUDENT_HOME_PAGE = STUDENT_PAGE + "/home";
         public static final String STUDENT_COURSE_DETAILS_PAGE = STUDENT_PAGE + "/course";
         public static final String STUDENT_PROFILE_PAGE = STUDENT_PAGE + "/profile";
         public static final String STUDENT_SESSION_SUBMISSION_PAGE = STUDENT_PAGE + "/sessions/submission";
         public static final String STUDENT_SESSION_RESULTS_PAGE = STUDENT_PAGE + "/sessions/result";
+        public static final String STUDENT_NOTIFICATIONS_PAGE = STUDENT_PAGE + "/notifications";
 
         public static final String SESSION_RESULTS_PAGE = URI_PREFIX + "/sessions/result";
         public static final String SESSION_SUBMISSION_PAGE = URI_PREFIX + "/sessions/submission";
@@ -311,6 +313,7 @@ public final class Const {
 
         public static final String DATABUNDLE = URI_PREFIX + "/databundle";
         public static final String DATABUNDLE_DOCUMENTS = URI_PREFIX + "/databundle/documents";
+        public static final String DEADLINE_EXTENSION = URI_PREFIX + "/deadlineextension";
         public static final String EXCEPTION = URI_PREFIX + "/exception";
         public static final String ERROR_REPORT = URI_PREFIX + "/errorreport";
         public static final String AUTH = URI_PREFIX + "/auth";

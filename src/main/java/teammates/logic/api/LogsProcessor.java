@@ -3,7 +3,6 @@ package teammates.logic.api;
 import java.time.Instant;
 import java.util.List;
 
-import teammates.common.datatransfer.ErrorLogEntry;
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
 import teammates.common.datatransfer.QueryLogsResults;
 import teammates.common.datatransfer.logs.GeneralLogEntry;
@@ -35,13 +34,6 @@ public class LogsProcessor {
 
     public static LogsProcessor inst() {
         return instance;
-    }
-
-    /**
-     * Gets the list of recent error- or higher level logs.
-     */
-    public List<ErrorLogEntry> getRecentErrorLogs() {
-        return service.getRecentErrorLogs();
     }
 
     /**

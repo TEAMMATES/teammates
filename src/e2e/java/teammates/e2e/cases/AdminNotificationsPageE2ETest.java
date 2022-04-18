@@ -1,5 +1,9 @@
 package teammates.e2e.cases;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.NotificationStyle;
@@ -7,7 +11,6 @@ import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.attributes.NotificationAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.common.util.TimeHelper;
 import teammates.e2e.pageobjects.AdminNotificationsPage;
 
 /**
@@ -40,10 +43,11 @@ public class AdminNotificationsPageE2ETest extends BaseE2ETestCase {
         verifyPresentInDatabase(notifications[1]);
 
         ______TS("add new notification");
+        int currentYear = LocalDate.now().getYear();
         NotificationAttributes newNotification = NotificationAttributes
                 .builder("placeholder-notif-id")
-                .withStartTime(TimeHelper.parseInstant("2035-04-01T22:00:00Z"))
-                .withEndTime(TimeHelper.parseInstant("2035-04-30T20:00:00Z"))
+                .withStartTime(LocalDateTime.of(currentYear + 8, 1, 2, 12, 0).atZone(ZoneId.of("UTC")).toInstant())
+                .withEndTime(LocalDateTime.of(currentYear + 8, 1, 3, 12, 0).atZone(ZoneId.of("UTC")).toInstant())
                 .withStyle(NotificationStyle.SUCCESS)
                 .withTargetUser(NotificationTargetUser.GENERAL)
                 .withTitle("E2E test notification 1")
@@ -64,8 +68,8 @@ public class AdminNotificationsPageE2ETest extends BaseE2ETestCase {
         notificationsPage.verifyNotificationsTableRow(newNotification);
 
         ______TS("edit notification");
-        newNotification.setStartTime(TimeHelper.parseInstant("2025-05-09T12:00:00Z"));
-        newNotification.setEndTime(TimeHelper.parseInstant("2045-06-01T22:00:00Z"));
+        newNotification.setStartTime(LocalDateTime.of(currentYear + 7, 2, 2, 12, 0).atZone(ZoneId.of("UTC")).toInstant());
+        newNotification.setEndTime(LocalDateTime.of(currentYear + 7, 2, 3, 12, 0).atZone(ZoneId.of("UTC")).toInstant());
         newNotification.setStyle(NotificationStyle.DANGER);
         newNotification.setTargetUser(NotificationTargetUser.INSTRUCTOR);
         newNotification.setTitle("Edited E2E test notification 1");
@@ -84,10 +88,11 @@ public class AdminNotificationsPageE2ETest extends BaseE2ETestCase {
         notificationsPage.verifyStatusMessage("Notification has been deleted.");
         verifyAbsentInDatabase(newNotification);
 
-        notificationsPage.deleteNotification(notifications[0]);
-        verifyAbsentInDatabase(notifications[0]);
-        notificationsPage.deleteNotification(notifications[1]);
-        verifyAbsentInDatabase(notifications[1]);
+        ______TS("delete test notifications from database");
+        for (NotificationAttributes notification : notifications) {
+            notificationsPage.deleteNotification(notification);
+            verifyAbsentInDatabase(notification);
+        }
 
     }
 

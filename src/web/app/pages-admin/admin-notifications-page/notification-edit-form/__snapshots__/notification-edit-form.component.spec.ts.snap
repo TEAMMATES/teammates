@@ -271,6 +271,7 @@ exports[`NotificationEditFormComponent should snap with default view 1`] = `
                       <input
                         class="form-control ng-untouched ng-pristine ng-valid"
                         ngbdatepicker=""
+                        readonly=""
                         type="text"
                       />
                       <div
@@ -458,6 +459,7 @@ exports[`NotificationEditFormComponent should snap with default view 1`] = `
                       <input
                         class="form-control ng-untouched ng-pristine ng-valid"
                         ngbdatepicker=""
+                        readonly=""
                         type="text"
                       />
                       <div
@@ -913,6 +915,7 @@ exports[`NotificationEditFormComponent should snap with notification 1`] = `
                       <input
                         class="form-control ng-untouched ng-pristine ng-invalid"
                         ngbdatepicker=""
+                        readonly=""
                         type="text"
                       />
                       <div
@@ -1100,6 +1103,7 @@ exports[`NotificationEditFormComponent should snap with notification 1`] = `
                       <input
                         class="form-control ng-untouched ng-pristine ng-invalid"
                         ngbdatepicker=""
+                        readonly=""
                         type="text"
                       />
                       <div
@@ -1572,6 +1576,7 @@ exports[`NotificationEditFormComponent should snap with notification that has be
                       <input
                         class="form-control ng-untouched ng-pristine ng-invalid"
                         ngbdatepicker=""
+                        readonly=""
                         type="text"
                       />
                       <div
@@ -1759,6 +1764,7 @@ exports[`NotificationEditFormComponent should snap with notification that has be
                       <input
                         class="form-control ng-untouched ng-pristine ng-invalid"
                         ngbdatepicker=""
+                        readonly=""
                         type="text"
                       />
                       <div

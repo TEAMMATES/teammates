@@ -150,7 +150,7 @@
             <property name="sortStaticImportsAlphabetically" value="true"/>
         </module>
         <module name="IllegalImport">
-            <property name="illegalPkgs" value="sun,com.google.appengine.repackaged,com.google.appengine.labs.repackaged"/>
+            <property name="illegalPkgs" value="sun"/>
             <property name="illegalClasses" value="org.testng.Assert,org.testng.AssertJUnit,java.util.Date,java.util.Calendar,org.junit.Test"/>
         </module>
         <module name="NoLineWrap"/>

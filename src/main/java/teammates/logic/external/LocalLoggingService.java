@@ -16,7 +16,6 @@ import org.apache.commons.math3.random.RandomDataGenerator;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.JsonParseException;
 
-import teammates.common.datatransfer.ErrorLogEntry;
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
 import teammates.common.datatransfer.QueryLogsResults;
 import teammates.common.datatransfer.logs.ExceptionLogDetails;
@@ -64,12 +63,6 @@ public class LocalLoggingService implements LogService {
         } catch (JsonParseException e) {
             return new ArrayList<>();
         }
-    }
-
-    @Override
-    public List<ErrorLogEntry> getRecentErrorLogs() {
-        // Not supported in dev server
-        return new ArrayList<>();
     }
 
     @Override

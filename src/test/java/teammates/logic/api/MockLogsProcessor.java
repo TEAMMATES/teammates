@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import teammates.common.datatransfer.ErrorLogEntry;
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
 import teammates.common.datatransfer.QueryLogsResults;
 import teammates.common.datatransfer.logs.GeneralLogEntry;
@@ -18,16 +17,8 @@ import teammates.common.datatransfer.logs.SourceLocation;
  */
 public class MockLogsProcessor extends LogsProcessor {
 
-    private List<ErrorLogEntry> errorLogs = new ArrayList<>();
     private List<FeedbackSessionLogEntry> feedbackSessionLogs = new ArrayList<>();
     private List<GeneralLogEntry> generalLogs = new ArrayList<>();
-
-    /**
-     * Simulates insertion of error logs.
-     */
-    public void insertErrorLog(String message, String severity, String traceId) {
-        errorLogs.add(new ErrorLogEntry(message, severity, traceId));
-    }
 
     /**
      * Simulates insertion of feedback session logs.
@@ -35,11 +26,6 @@ public class MockLogsProcessor extends LogsProcessor {
     public void insertFeedbackSessionLog(String studentEmail, String feedbackSessionName,
             String fslType, long timestamp) {
         feedbackSessionLogs.add(new FeedbackSessionLogEntry(studentEmail, feedbackSessionName, fslType, timestamp));
-    }
-
-    @Override
-    public List<ErrorLogEntry> getRecentErrorLogs() {
-        return errorLogs;
     }
 
     /**
@@ -63,7 +49,7 @@ public class MockLogsProcessor extends LogsProcessor {
     /**
      * Simulates insertion of general ERROR logs.
      */
-    public void insertGeneralErrorLog(String trace, String insertId, SourceLocation sourceLocation,
+    public void insertErrorLog(String trace, String insertId, SourceLocation sourceLocation,
             long timestamp, String textPayloadMessage, LogDetails logDetails) {
         insertGeneralLog(LogSeverity.ERROR, trace, insertId,
                 sourceLocation, timestamp, textPayloadMessage, logDetails);
