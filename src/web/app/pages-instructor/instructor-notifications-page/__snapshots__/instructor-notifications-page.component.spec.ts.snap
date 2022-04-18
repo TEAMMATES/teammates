@@ -7,6 +7,13 @@ exports[`InstructorNotificationsPageComponent should snap with default fields 1`
   <h1>
     Instructor Notifications
   </h1><tm-user-notifications-list>
+    <div
+      id="notifications-timezone"
+    >
+      <p>
+        All dates are displayed in Africa/Abidjan time.
+      </p>
+    </div>
     <tm-loading-retry>
       <tm-loading-spinner>
         <div
@@ -23,6 +30,10 @@ exports[`InstructorNotificationsPageComponent should snap with default fields 1`
           </div>
         </div>
       </tm-loading-spinner>
+      <div
+        id="notification-tabs"
+      >
+      </div>
     </tm-loading-retry>
   </tm-user-notifications-list>
 </tm-instructor-notifications-page>

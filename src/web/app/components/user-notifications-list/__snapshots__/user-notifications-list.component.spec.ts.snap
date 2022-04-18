@@ -18,6 +18,12 @@ exports[`UserNotificationsListComponent should snap when all loaded notification
   userType={[Function String]}
 >
   <div
+    id="notifications-timezone"
+  >
+    <p>
+      All dates are displayed in Africa/Abidjan time.
+    </p>
+  </div><div
     class="row mb-3"
   >
     <div
@@ -54,61 +60,63 @@ exports[`UserNotificationsListComponent should snap when all loaded notification
     <div>
     </div>
     <div
-      class="notification-tabs"
+      id="notification-tabs"
     >
-      <div
-        class="card"
-      >
+      <div>
         <div
-          class="card-header cursor-pointer mb-0 alert alert-success"
+          class="card"
+          id="notification1"
         >
-          <strong
-            class="text-break"
-          >
-            valid title 1 [15 Sep 2017 - 15 Sep 2050]
-          </strong>
           <div
-            class="card-header-btn-toolbar"
+            class="card-header cursor-pointer mb-0 alert alert-success"
           >
-            <tm-panel-chevron>
-              <div
-                class="chevron"
-              >
-                <i
-                  class="fas fa-chevron-down"
-                />
-              </div>
-            </tm-panel-chevron>
+            <strong
+              class="text-break"
+            >
+              valid title 1 [15 Sep 2017 - 15 Sep 2050]
+            </strong>
+            <div
+              class="card-header-btn-toolbar"
+            >
+              <tm-panel-chevron>
+                <div
+                  class="chevron"
+                >
+                  <i
+                    class="fas fa-chevron-down"
+                  />
+                </div>
+              </tm-panel-chevron>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div
-      class="notification-tabs"
-    >
-      <div
-        class="card"
-      >
+      <div>
         <div
-          class="card-header cursor-pointer mb-0 alert alert-danger"
+          class="card"
+          id="notification2"
         >
-          <strong
-            class="text-break"
-          >
-            valid title 2 [15 Dec 2018 - 15 Nov 2050]
-          </strong>
           <div
-            class="card-header-btn-toolbar"
+            class="card-header cursor-pointer mb-0 alert alert-danger"
           >
-            <tm-panel-chevron>
-              <div
-                class="chevron"
-              >
-                <i
-                  class="fas fa-chevron-down"
-                />
-              </div>
-            </tm-panel-chevron>
+            <strong
+              class="text-break"
+            >
+              valid title 2 [15 Dec 2018 - 15 Nov 2050]
+            </strong>
+            <div
+              class="card-header-btn-toolbar"
+            >
+              <tm-panel-chevron>
+                <div
+                  class="chevron"
+                >
+                  <i
+                    class="fas fa-chevron-down"
+                  />
+                </div>
+              </tm-panel-chevron>
+            </div>
           </div>
         </div>
       </div>
@@ -134,7 +142,13 @@ exports[`UserNotificationsListComponent should snap when it fails to load 1`] = 
   timezoneService={[Function TimezoneService]}
   userType={[Function String]}
 >
-  <tm-loading-retry>
+  <div
+    id="notifications-timezone"
+  >
+    <p>
+      All dates are displayed in Africa/Abidjan time.
+    </p>
+  </div><tm-loading-retry>
     <div
       class="text-center"
     >
@@ -175,6 +189,12 @@ exports[`UserNotificationsListComponent should snap when it loads the provided n
   userType={[Function String]}
 >
   <div
+    id="notifications-timezone"
+  >
+    <p>
+      All dates are displayed in Africa/Abidjan time.
+    </p>
+  </div><div
     class="row mb-3"
   >
     <div
@@ -211,109 +231,115 @@ exports[`UserNotificationsListComponent should snap when it loads the provided n
     <div>
     </div>
     <div
-      class="notification-tabs"
+      id="notification-tabs"
     >
-      <div
-        class="card"
-      >
+      <div>
         <div
-          class="card-header cursor-pointer mb-0 alert alert-success"
-        >
-          <strong
-            class="text-break"
-          >
-            valid title 1 [15 Sep 2017 - 15 Sep 2050]
-          </strong>
-          <div
-            class="card-header-btn-toolbar"
-          >
-            <tm-panel-chevron>
-              <div
-                class="chevron"
-              >
-                <i
-                  class="fas fa-chevron-up"
-                />
-              </div>
-            </tm-panel-chevron>
-          </div>
-        </div>
-        <div
-          class="mb-0 ng-trigger ng-trigger-collapseAnim ng-animating"
-          style=""
+          class="card"
+          id="notification1"
         >
           <div
-            class="card-body pb-0"
+            class="card-header cursor-pointer mb-0 alert alert-success"
           >
-            <div>
-              valid message 1
+            <strong
+              class="text-break"
+            >
+              valid title 1 [15 Sep 2017 - 15 Sep 2050]
+            </strong>
+            <div
+              class="card-header-btn-toolbar"
+            >
+              <tm-panel-chevron>
+                <div
+                  class="chevron"
+                >
+                  <i
+                    class="fas fa-chevron-up"
+                  />
+                </div>
+              </tm-panel-chevron>
             </div>
           </div>
           <div
-            class="d-flex flex-row-reverse mr-4 mb-3"
+            class="mb-0 ng-trigger ng-trigger-collapseAnim ng-animating"
             style=""
           >
-            <button
-              class="btn btn-success"
-              id="btn-mark-as-read"
-              type="button"
+            <div
+              class="card-body pb-0"
             >
-               Mark as Read 
-            </button>
+              <div
+                id="notification-message"
+              >
+                valid message 1
+              </div>
+            </div>
+            <div
+              class="d-flex flex-row-reverse mr-4 mb-3"
+              style=""
+            >
+              <button
+                class="btn btn-success"
+                id="btn-mark-as-read"
+                type="button"
+              >
+                 Mark as Read 
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div
-      class="notification-tabs"
-    >
-      <div
-        class="card"
-      >
+      <div>
         <div
-          class="card-header cursor-pointer mb-0 alert alert-danger"
-        >
-          <strong
-            class="text-break"
-          >
-            valid title 2 [15 Dec 2018 - 15 Nov 2050]
-          </strong>
-          <div
-            class="card-header-btn-toolbar"
-          >
-            <tm-panel-chevron>
-              <div
-                class="chevron"
-              >
-                <i
-                  class="fas fa-chevron-up"
-                />
-              </div>
-            </tm-panel-chevron>
-          </div>
-        </div>
-        <div
-          class="mb-0 ng-trigger ng-trigger-collapseAnim ng-animating"
-          style=""
+          class="card"
+          id="notification2"
         >
           <div
-            class="card-body pb-0"
+            class="card-header cursor-pointer mb-0 alert alert-danger"
           >
-            <div>
-              valid message 2
+            <strong
+              class="text-break"
+            >
+              valid title 2 [15 Dec 2018 - 15 Nov 2050]
+            </strong>
+            <div
+              class="card-header-btn-toolbar"
+            >
+              <tm-panel-chevron>
+                <div
+                  class="chevron"
+                >
+                  <i
+                    class="fas fa-chevron-up"
+                  />
+                </div>
+              </tm-panel-chevron>
             </div>
           </div>
           <div
-            class="d-flex flex-row-reverse mr-4 mb-3"
+            class="mb-0 ng-trigger ng-trigger-collapseAnim ng-animating"
             style=""
           >
-            <button
-              class="btn btn-danger"
-              id="btn-mark-as-read"
-              type="button"
+            <div
+              class="card-body pb-0"
             >
-               Mark as Read 
-            </button>
+              <div
+                id="notification-message"
+              >
+                valid message 2
+              </div>
+            </div>
+            <div
+              class="d-flex flex-row-reverse mr-4 mb-3"
+              style=""
+            >
+              <button
+                class="btn btn-danger"
+                id="btn-mark-as-read"
+                type="button"
+              >
+                 Mark as Read 
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -340,6 +366,12 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
   userType={[Function String]}
 >
   <div
+    id="notifications-timezone"
+  >
+    <p>
+      All dates are displayed in Africa/Abidjan time.
+    </p>
+  </div><div
     class="row mb-3"
   >
     <div
@@ -377,109 +409,115 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
     <div>
     </div>
     <div
-      class="notification-tabs"
+      id="notification-tabs"
     >
-      <div
-        class="card"
-      >
+      <div>
         <div
-          class="card-header cursor-pointer mb-0 alert alert-success"
-        >
-          <strong
-            class="text-break"
-          >
-            valid title 1 [15 Sep 2017 - 15 Sep 2050]
-          </strong>
-          <div
-            class="card-header-btn-toolbar"
-          >
-            <tm-panel-chevron>
-              <div
-                class="chevron"
-              >
-                <i
-                  class="fas fa-chevron-up"
-                />
-              </div>
-            </tm-panel-chevron>
-          </div>
-        </div>
-        <div
-          class="mb-0 ng-trigger ng-trigger-collapseAnim ng-animating"
-          style=""
+          class="card"
+          id="notification1"
         >
           <div
-            class="card-body pb-0"
+            class="card-header cursor-pointer mb-0 alert alert-success"
           >
-            <div>
-              valid message 1
+            <strong
+              class="text-break"
+            >
+              valid title 1 [15 Sep 2017 - 15 Sep 2050]
+            </strong>
+            <div
+              class="card-header-btn-toolbar"
+            >
+              <tm-panel-chevron>
+                <div
+                  class="chevron"
+                >
+                  <i
+                    class="fas fa-chevron-up"
+                  />
+                </div>
+              </tm-panel-chevron>
             </div>
           </div>
           <div
-            class="d-flex flex-row-reverse mr-4 mb-3"
+            class="mb-0 ng-trigger ng-trigger-collapseAnim ng-animating"
             style=""
           >
-            <button
-              class="btn btn-success"
-              id="btn-mark-as-read"
-              type="button"
+            <div
+              class="card-body pb-0"
             >
-               Mark as Read 
-            </button>
+              <div
+                id="notification-message"
+              >
+                valid message 1
+              </div>
+            </div>
+            <div
+              class="d-flex flex-row-reverse mr-4 mb-3"
+              style=""
+            >
+              <button
+                class="btn btn-success"
+                id="btn-mark-as-read"
+                type="button"
+              >
+                 Mark as Read 
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div
-      class="notification-tabs"
-    >
-      <div
-        class="card"
-      >
+      <div>
         <div
-          class="card-header cursor-pointer mb-0 alert alert-danger"
-        >
-          <strong
-            class="text-break"
-          >
-            valid title 2 [15 Dec 2018 - 15 Nov 2050]
-          </strong>
-          <div
-            class="card-header-btn-toolbar"
-          >
-            <tm-panel-chevron>
-              <div
-                class="chevron"
-              >
-                <i
-                  class="fas fa-chevron-up"
-                />
-              </div>
-            </tm-panel-chevron>
-          </div>
-        </div>
-        <div
-          class="mb-0 ng-trigger ng-trigger-collapseAnim ng-animating"
-          style=""
+          class="card"
+          id="notification2"
         >
           <div
-            class="card-body pb-0"
+            class="card-header cursor-pointer mb-0 alert alert-danger"
           >
-            <div>
-              valid message 2
+            <strong
+              class="text-break"
+            >
+              valid title 2 [15 Dec 2018 - 15 Nov 2050]
+            </strong>
+            <div
+              class="card-header-btn-toolbar"
+            >
+              <tm-panel-chevron>
+                <div
+                  class="chevron"
+                >
+                  <i
+                    class="fas fa-chevron-up"
+                  />
+                </div>
+              </tm-panel-chevron>
             </div>
           </div>
           <div
-            class="d-flex flex-row-reverse mr-4 mb-3"
+            class="mb-0 ng-trigger ng-trigger-collapseAnim ng-animating"
             style=""
           >
-            <button
-              class="btn btn-danger"
-              id="btn-mark-as-read"
-              type="button"
+            <div
+              class="card-body pb-0"
             >
-               Mark as Read 
-            </button>
+              <div
+                id="notification-message"
+              >
+                valid message 2
+              </div>
+            </div>
+            <div
+              class="d-flex flex-row-reverse mr-4 mb-3"
+              style=""
+            >
+              <button
+                class="btn btn-danger"
+                id="btn-mark-as-read"
+                type="button"
+              >
+                 Mark as Read 
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -506,6 +544,12 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
   userType={[Function String]}
 >
   <div
+    id="notifications-timezone"
+  >
+    <p>
+      All dates are displayed in Africa/Abidjan time.
+    </p>
+  </div><div
     class="row mb-3"
   >
     <div
@@ -543,109 +587,115 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
     <div>
     </div>
     <div
-      class="notification-tabs"
+      id="notification-tabs"
     >
-      <div
-        class="card"
-      >
+      <div>
         <div
-          class="card-header cursor-pointer mb-0 alert alert-danger"
-        >
-          <strong
-            class="text-break"
-          >
-            valid title 2 [15 Dec 2018 - 15 Nov 2050]
-          </strong>
-          <div
-            class="card-header-btn-toolbar"
-          >
-            <tm-panel-chevron>
-              <div
-                class="chevron"
-              >
-                <i
-                  class="fas fa-chevron-up"
-                />
-              </div>
-            </tm-panel-chevron>
-          </div>
-        </div>
-        <div
-          class="mb-0 ng-trigger ng-trigger-collapseAnim ng-animating"
-          style=""
+          class="card"
+          id="notification2"
         >
           <div
-            class="card-body pb-0"
+            class="card-header cursor-pointer mb-0 alert alert-danger"
           >
-            <div>
-              valid message 2
+            <strong
+              class="text-break"
+            >
+              valid title 2 [15 Dec 2018 - 15 Nov 2050]
+            </strong>
+            <div
+              class="card-header-btn-toolbar"
+            >
+              <tm-panel-chevron>
+                <div
+                  class="chevron"
+                >
+                  <i
+                    class="fas fa-chevron-up"
+                  />
+                </div>
+              </tm-panel-chevron>
             </div>
           </div>
           <div
-            class="d-flex flex-row-reverse mr-4 mb-3"
+            class="mb-0 ng-trigger ng-trigger-collapseAnim ng-animating"
             style=""
           >
-            <button
-              class="btn btn-danger"
-              id="btn-mark-as-read"
-              type="button"
+            <div
+              class="card-body pb-0"
             >
-               Mark as Read 
-            </button>
+              <div
+                id="notification-message"
+              >
+                valid message 2
+              </div>
+            </div>
+            <div
+              class="d-flex flex-row-reverse mr-4 mb-3"
+              style=""
+            >
+              <button
+                class="btn btn-danger"
+                id="btn-mark-as-read"
+                type="button"
+              >
+                 Mark as Read 
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div
-      class="notification-tabs"
-    >
-      <div
-        class="card"
-      >
+      <div>
         <div
-          class="card-header cursor-pointer mb-0 alert alert-success"
-        >
-          <strong
-            class="text-break"
-          >
-            valid title 1 [15 Sep 2017 - 15 Sep 2050]
-          </strong>
-          <div
-            class="card-header-btn-toolbar"
-          >
-            <tm-panel-chevron>
-              <div
-                class="chevron"
-              >
-                <i
-                  class="fas fa-chevron-up"
-                />
-              </div>
-            </tm-panel-chevron>
-          </div>
-        </div>
-        <div
-          class="mb-0 ng-trigger ng-trigger-collapseAnim ng-animating"
-          style=""
+          class="card"
+          id="notification1"
         >
           <div
-            class="card-body pb-0"
+            class="card-header cursor-pointer mb-0 alert alert-success"
           >
-            <div>
-              valid message 1
+            <strong
+              class="text-break"
+            >
+              valid title 1 [15 Sep 2017 - 15 Sep 2050]
+            </strong>
+            <div
+              class="card-header-btn-toolbar"
+            >
+              <tm-panel-chevron>
+                <div
+                  class="chevron"
+                >
+                  <i
+                    class="fas fa-chevron-up"
+                  />
+                </div>
+              </tm-panel-chevron>
             </div>
           </div>
           <div
-            class="d-flex flex-row-reverse mr-4 mb-3"
+            class="mb-0 ng-trigger ng-trigger-collapseAnim ng-animating"
             style=""
           >
-            <button
-              class="btn btn-success"
-              id="btn-mark-as-read"
-              type="button"
+            <div
+              class="card-body pb-0"
             >
-               Mark as Read 
-            </button>
+              <div
+                id="notification-message"
+              >
+                valid message 1
+              </div>
+            </div>
+            <div
+              class="d-flex flex-row-reverse mr-4 mb-3"
+              style=""
+            >
+              <button
+                class="btn btn-success"
+                id="btn-mark-as-read"
+                type="button"
+              >
+                 Mark as Read 
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -671,7 +721,13 @@ exports[`UserNotificationsListComponent should snap with default fields when loa
   timezoneService={[Function TimezoneService]}
   userType={[Function String]}
 >
-  <tm-loading-retry>
+  <div
+    id="notifications-timezone"
+  >
+    <p>
+      All dates are displayed in Africa/Abidjan time.
+    </p>
+  </div><tm-loading-retry>
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -687,6 +743,10 @@ exports[`UserNotificationsListComponent should snap with default fields when loa
         </div>
       </div>
     </tm-loading-spinner>
+    <div
+      id="notification-tabs"
+    >
+    </div>
   </tm-loading-retry>
 </tm-user-notifications-list>
 `;
@@ -708,7 +768,13 @@ exports[`UserNotificationsListComponent should snap with no notifications 1`] = 
   timezoneService={[Function TimezoneService]}
   userType={[Function String]}
 >
-  <tm-loading-retry>
+  <div
+    id="notifications-timezone"
+  >
+    <p>
+      All dates are displayed in Africa/Abidjan time.
+    </p>
+  </div><tm-loading-retry>
     <div>
       <div
         class="alert alert-warning margin-top-30px"
@@ -716,6 +782,10 @@ exports[`UserNotificationsListComponent should snap with no notifications 1`] = 
       >
          There are no active notifications. 
       </div>
+    </div>
+    <div
+      id="notification-tabs"
+    >
     </div>
   </tm-loading-retry>
 </tm-user-notifications-list>
