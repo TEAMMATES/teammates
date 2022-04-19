@@ -86,6 +86,8 @@ public final class Templates {
                 FileHelper.readResourceFile("ownerEmailFragment-joinCourseBeforeEditDetails.html");
         public static final String FRAGMENT_CLOSED_VIEW_RESPONSES =
                 FileHelper.readResourceFile("ownerEmailFragment-viewResponses.html");
+        public static final String USER_DEADLINE_EXTENSION =
+                FileHelper.readResourceFile("userEmailTemplate-deadlineExtension.html");
     }
 
 }

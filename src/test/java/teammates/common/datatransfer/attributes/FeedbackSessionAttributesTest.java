@@ -3,9 +3,12 @@ package teammates.common.datatransfer.attributes;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.TimeHelperExtension;
@@ -47,6 +50,11 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
         assertTrue(fsa.isOpeningEmailEnabled());
         assertTrue(fsa.isClosingEmailEnabled());
         assertTrue(fsa.isPublishedEmailEnabled());
+
+        assertEquals(new HashMap<>(), fsa.getStudentDeadlines());
+        assertEquals(new HashMap<>(), fsa.getInstructorDeadlines());
+
+        assertEquals(fsa.getEndTime(), fsa.getDeadline());
     }
 
     @Test
@@ -108,6 +116,18 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
                     .withGracePeriod(null)
                     .build();
         });
+
+        assertThrows(AssertionError.class, () -> {
+            FeedbackSessionAttributes.builder("session name", "course")
+                    .withStudentDeadlines(null)
+                    .build();
+        });
+
+        assertThrows(AssertionError.class, () -> {
+            FeedbackSessionAttributes.builder("session name", "course")
+                    .withInstructorDeadlines(null)
+                    .build();
+        });
     }
 
     @Test
@@ -119,7 +139,7 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
                 Instant.now().minusSeconds(20), Instant.now().plusSeconds(20),
                 "UTC", 10,
                 false, false, false, false, false,
-                true, true, true);
+                true, true, true, new HashMap<>(), new HashMap<>());
 
         FeedbackSessionAttributes feedbackSessionAttributes = FeedbackSessionAttributes.valueOf(feedbackSession);
 
@@ -141,6 +161,10 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
         assertEquals(feedbackSession.isOpeningEmailEnabled(), feedbackSessionAttributes.isOpeningEmailEnabled());
         assertEquals(feedbackSession.isClosingEmailEnabled(), feedbackSessionAttributes.isClosingEmailEnabled());
         assertEquals(feedbackSession.isPublishedEmailEnabled(), feedbackSessionAttributes.isPublishedEmailEnabled());
+        assertEquals(feedbackSession.getStudentDeadlines(), feedbackSessionAttributes.getStudentDeadlines());
+        assertEquals(feedbackSession.getInstructorDeadlines(), feedbackSessionAttributes.getInstructorDeadlines());
+
+        assertEquals(feedbackSession.getEndTime(), feedbackSessionAttributes.getDeadline());
     }
 
     @Test
@@ -152,7 +176,7 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
                 Instant.now().minusSeconds(20), Instant.now().plusSeconds(20),
                 "UTC", 10, false,
                 false, false, false, false,
-                true, true, true);
+                true, true, true, null, null);
         assertNull(feedbackSession.getInstructions());
 
         FeedbackSessionAttributes feedbackSessionAttributes = FeedbackSessionAttributes.valueOf(feedbackSession);
@@ -175,6 +199,10 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
         assertEquals(feedbackSession.isOpeningEmailEnabled(), feedbackSessionAttributes.isOpeningEmailEnabled());
         assertEquals(feedbackSession.isClosingEmailEnabled(), feedbackSessionAttributes.isClosingEmailEnabled());
         assertEquals(feedbackSession.isPublishedEmailEnabled(), feedbackSessionAttributes.isPublishedEmailEnabled());
+        assertEquals(new HashMap<>(), feedbackSessionAttributes.getStudentDeadlines());
+        assertEquals(new HashMap<>(), feedbackSessionAttributes.getInstructorDeadlines());
+
+        assertEquals(feedbackSession.getEndTime(), feedbackSessionAttributes.getDeadline());
     }
 
     @Test
@@ -217,6 +245,11 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
         assertFalse(fsa.isSentClosedEmail());
         assertFalse(fsa.isSentPublishedEmail());
 
+        assertEquals(new HashMap<>(), fsa.getStudentDeadlines());
+        assertEquals(new HashMap<>(), fsa.getInstructorDeadlines());
+
+        assertEquals(endTime, fsa.getDeadline());
+
     }
 
     @Test
@@ -257,6 +290,54 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
         assertEquals(original.isSentOpeningSoonEmail(), copy.isSentOpeningSoonEmail());
         assertEquals(original.isSentOpenEmail(), copy.isSentOpenEmail());
         assertEquals(original.isSentPublishedEmail(), copy.isSentPublishedEmail());
+        assertEquals(original.getStudentDeadlines(), copy.getStudentDeadlines());
+        assertEquals(original.getInstructorDeadlines(), copy.getInstructorDeadlines());
+
+        assertEquals(original.getEndTime(), copy.getDeadline());
+    }
+
+    @Test
+    public void testGetCopyForStudent() {
+        DataBundle typicalDataBundle = getTypicalDataBundle();
+        FeedbackSessionAttributes session1InCourse1 = typicalDataBundle.feedbackSessions
+                .get("session1InCourse1");
+
+        StudentAttributes student1InCourse1 = typicalDataBundle.students.get("student1InCourse1");
+        StudentAttributes student3InCourse1 = typicalDataBundle.students.get("student3InCourse1");
+
+        FeedbackSessionAttributes sanitizedSession1InCourse1 = session1InCourse1.getCopyForStudent(
+                student1InCourse1.getEmail());
+        assertEquals(sanitizedSession1InCourse1.getEndTime(), sanitizedSession1InCourse1.getDeadline());
+        assertEquals(student1InCourse1.getEmail(), sanitizedSession1InCourse1.getUserEmail());
+
+        sanitizedSession1InCourse1 = session1InCourse1.getCopyForStudent(student3InCourse1.getEmail());
+        assertEquals(sanitizedSession1InCourse1.getStudentDeadlines().get(student3InCourse1.getEmail()),
+                sanitizedSession1InCourse1.getDeadline());
+        assertEquals(student3InCourse1.getEmail(), sanitizedSession1InCourse1.getUserEmail());
+
+        assertEquals(session1InCourse1.getEndTime(), session1InCourse1.getDeadline());
+    }
+
+    @Test
+    public void testGetCopyForInstructor() {
+        DataBundle typicalDataBundle = getTypicalDataBundle();
+        FeedbackSessionAttributes session1InCourse1 = typicalDataBundle.feedbackSessions
+                .get("session1InCourse1");
+
+        InstructorAttributes helperOfCourse1 = typicalDataBundle.instructors.get("helperOfCourse1");
+        InstructorAttributes instructor1OfCourse1 = typicalDataBundle.instructors.get("instructor1OfCourse1");
+
+        FeedbackSessionAttributes sanitizedSession1InCourse1 = session1InCourse1.getCopyForInstructor(
+                helperOfCourse1.getEmail());
+        assertEquals(sanitizedSession1InCourse1.getEndTime(), sanitizedSession1InCourse1.getDeadline());
+        assertEquals(helperOfCourse1.getEmail(), sanitizedSession1InCourse1.getUserEmail());
+
+        sanitizedSession1InCourse1 = session1InCourse1.getCopyForInstructor(instructor1OfCourse1.getEmail());
+        assertEquals(sanitizedSession1InCourse1.getInstructorDeadlines().get(instructor1OfCourse1.getEmail()),
+                sanitizedSession1InCourse1.getDeadline());
+        assertEquals(instructor1OfCourse1.getEmail(), sanitizedSession1InCourse1.getUserEmail());
+
+        assertEquals(session1InCourse1.getEndTime(), session1InCourse1.getDeadline());
     }
 
     @Test
@@ -295,6 +376,10 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
         Instant startTime = TimeHelper.getInstantDaysOffsetFromNow(-2);
         Instant endTime = TimeHelper.getInstantDaysOffsetFromNow(-1);
         Instant resultVisibleTime = TimeHelper.getInstantDaysOffsetFromNow(1);
+        Map<String, Instant> newStudentDeadlines = new HashMap<>();
+        newStudentDeadlines.put("student@school.edu", endTime.plusSeconds(3600L));
+        Map<String, Instant> newInstructorDeadlines = new HashMap<>();
+        newInstructorDeadlines.put("instructor@university.edu", endTime.plusSeconds(7200L));
         FeedbackSessionAttributes.UpdateOptions updateOptions =
                 FeedbackSessionAttributes.updateOptionsBuilder("sessionName", "courseId")
                         .withInstructions("instruction 1")
@@ -311,6 +396,8 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
                         .withSentPublishedEmail(true)
                         .withIsClosingEmailEnabled(true)
                         .withIsPublishedEmailEnabled(true)
+                        .withStudentDeadlines(newStudentDeadlines)
+                        .withInstructorDeadlines(newInstructorDeadlines)
                         .build();
 
         assertEquals("sessionName", updateOptions.getFeedbackSessionName());
@@ -347,6 +434,8 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
         assertTrue(feedbackSessionAttributes.isOpeningEmailEnabled());
         assertTrue(feedbackSessionAttributes.isClosingEmailEnabled());
         assertTrue(feedbackSessionAttributes.isPublishedEmailEnabled());
+        assertEquals(newStudentDeadlines, feedbackSessionAttributes.getStudentDeadlines());
+        assertEquals(newInstructorDeadlines, feedbackSessionAttributes.getInstructorDeadlines());
 
         // build update option based on existing update option
         FeedbackSessionAttributes.UpdateOptions newUpdateOptions =
@@ -386,6 +475,12 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
         assertThrows(AssertionError.class, () ->
                 FeedbackSessionAttributes.updateOptionsBuilder("session", "courseId")
                         .withGracePeriod(null));
+        assertThrows(AssertionError.class, () ->
+                FeedbackSessionAttributes.updateOptionsBuilder("session", "courseId")
+                        .withStudentDeadlines(null));
+        assertThrows(AssertionError.class, () ->
+                FeedbackSessionAttributes.updateOptionsBuilder("session", "courseId")
+                        .withInstructorDeadlines(null));
     }
 
     @Test

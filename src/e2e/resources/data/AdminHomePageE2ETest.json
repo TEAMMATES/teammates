@@ -3,9 +3,7 @@
     "AHome.instructor1OfCourse1": {
       "googleId": "tm.e2e.AHome.inst1",
       "name": "Teammates Instr1",
-      "isInstructor": true,
-      "email": "AHome.instr1@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "AHome.instr1@gmail.tmt"
     }
   },
   "accountRequests": {

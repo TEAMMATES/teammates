@@ -7,9 +7,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.google.api.gax.paging.Page;
-import com.google.appengine.logging.v1.LogLine;
-import com.google.appengine.logging.v1.RequestLog;
-import com.google.appengine.logging.v1.SourceReference;
 import com.google.cloud.logging.LogEntry;
 import com.google.cloud.logging.Logging;
 import com.google.cloud.logging.Logging.EntryListOption;
@@ -18,11 +15,7 @@ import com.google.cloud.logging.Logging.SortingOrder;
 import com.google.cloud.logging.LoggingOptions;
 import com.google.cloud.logging.Payload;
 import com.google.cloud.logging.Severity;
-import com.google.protobuf.Any;
-import com.google.protobuf.InvalidProtocolBufferException;
-import com.google.protobuf.util.JsonFormat;
 
-import teammates.common.datatransfer.ErrorLogEntry;
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
 import teammates.common.datatransfer.QueryLogsResults;
 import teammates.common.datatransfer.logs.FeedbackSessionAuditLogDetails;
@@ -42,75 +35,12 @@ public class GoogleCloudLoggingService implements LogService {
 
     private static final String RESOURCE_TYPE_GAE_APP = "gae_app";
 
-    private static final String REQUEST_LOG_NAME = "appengine.googleapis.com%2Frequest_log";
     private static final String STDOUT_LOG_NAME = "stdout";
     private static final String STDERR_LOG_NAME = "stderr";
 
     private static final String ASCENDING_ORDER = "asc";
 
     private static final String TRACE_PREFIX = String.format("projects/%s/traces/", Config.APP_ID);
-
-    @Override
-    public List<ErrorLogEntry> getRecentErrorLogs() {
-        Instant endTime = Instant.now();
-        // Sets the range to 6 minutes to slightly overlap the 5 minute email timer
-        long queryRange = 1000 * 60 * 6;
-        Instant startTime = endTime.minusMillis(queryRange);
-
-        QueryLogsParams queryLogsParams = QueryLogsParams.builder(startTime.toEpochMilli(), endTime.toEpochMilli())
-                .withMinSeverity(LogSeverity.ERROR)
-                .build();
-        LogSearchParams logSearchParams = LogSearchParams.from(queryLogsParams)
-                .addLogName(REQUEST_LOG_NAME)
-                .setResourceType(RESOURCE_TYPE_GAE_APP);
-
-        List<LogEntry> logEntries = new ArrayList<>();
-        List<ErrorLogEntry> errorLogs = new ArrayList<>();
-
-        Page<LogEntry> entries = getLogEntries(logSearchParams, 0);
-        for (LogEntry entry : entries.iterateAll()) {
-            logEntries.add(entry);
-        }
-
-        for (LogEntry logEntry : logEntries) {
-            Any entry = (Any) logEntry.getPayload().getData();
-
-            JsonFormat.TypeRegistry tr = JsonFormat.TypeRegistry.newBuilder()
-                    .add(RequestLog.getDescriptor())
-                    .add(LogLine.getDescriptor())
-                    .add(com.google.appengine.logging.v1.SourceLocation.getDescriptor())
-                    .add(SourceReference.getDescriptor())
-                    .build();
-
-            List<LogLine> logLines = new ArrayList<>();
-            try {
-                String logContentAsJson = JsonFormat.printer().usingTypeRegistry(tr).print(entry);
-
-                RequestLog.Builder builder = RequestLog.newBuilder();
-                JsonFormat.parser().ignoringUnknownFields().usingTypeRegistry(tr).merge(logContentAsJson, builder);
-                RequestLog reconvertedLog = builder.build();
-
-                logLines = reconvertedLog.getLineList();
-            } catch (InvalidProtocolBufferException e) {
-                // TODO
-            }
-
-            String trace = logEntry.getTrace();
-            if (trace != null) {
-                trace = trace.replace(TRACE_PREFIX, "");
-            }
-
-            for (LogLine line : logLines) {
-                if (line.getSeverity().getNumber() >= com.google.logging.type.LogSeverity.ERROR.getNumber()) {
-                    errorLogs.add(new ErrorLogEntry(
-                            line.getLogMessage().replaceAll("\n", "\n<br>"),
-                            line.getSeverity().toString(), trace)
-                    );
-                }
-            }
-        }
-        return errorLogs;
-    }
 
     @Override
     public QueryLogsResults queryLogs(QueryLogsParams queryLogsParams) {
@@ -120,7 +50,7 @@ public class GoogleCloudLoggingService implements LogService {
                 .addLogName(STDERR_LOG_NAME)
                 .setResourceType(RESOURCE_TYPE_GAE_APP);
 
-        Page<LogEntry> logEntriesInPage = getLogEntries(logSearchParams, queryLogsParams.getPageSize());
+        Page<LogEntry> logEntriesInPage = getPageLogEntries(logSearchParams, queryLogsParams.getPageSize());
         List<GeneralLogEntry> logEntries = new ArrayList<>();
         for (LogEntry entry : logEntriesInPage.getValues()) {
             Severity severity = entry.getSeverity();
@@ -205,11 +135,7 @@ public class GoogleCloudLoggingService implements LogService {
         LogSearchParams logSearchParams = LogSearchParams.from(queryLogsParams)
                 .addLogName(STDOUT_LOG_NAME)
                 .setResourceType(RESOURCE_TYPE_GAE_APP);
-        Page<LogEntry> entries = getLogEntries(logSearchParams, 0);
-        List<LogEntry> logEntries = new ArrayList<>();
-        for (LogEntry entry : entries.iterateAll()) {
-            logEntries.add(entry);
-        }
+        List<LogEntry> logEntries = getAllLogEntries(logSearchParams);
 
         List<FeedbackSessionLogEntry> fsLogEntries = new ArrayList<>();
         for (LogEntry entry : logEntries) {
@@ -235,7 +161,38 @@ public class GoogleCloudLoggingService implements LogService {
         return fsLogEntries;
     }
 
-    private Page<LogEntry> getLogEntries(LogSearchParams s, int pageSize) {
+    private List<LogEntry> getAllLogEntries(LogSearchParams logSearchParams) {
+        Logging logging = LoggingOptions.getDefaultInstance().getService();
+        List<EntryListOption> entryListOptions = convertLogSearchParams(logSearchParams, 0);
+        Page<LogEntry> entries = logging.listLogEntries(entryListOptions.toArray(new EntryListOption[] {}));
+
+        List<LogEntry> logEntries = new ArrayList<>();
+        for (LogEntry entry : entries.iterateAll()) {
+            logEntries.add(entry);
+        }
+
+        try {
+            logging.close();
+        } catch (Exception e) {
+            // ignore exception when closing resource
+        }
+        return logEntries;
+    }
+
+    private Page<LogEntry> getPageLogEntries(LogSearchParams logSearchParams, int pageSize) {
+        Logging logging = LoggingOptions.getDefaultInstance().getService();
+        List<EntryListOption> entryListOptions = convertLogSearchParams(logSearchParams, pageSize);
+        Page<LogEntry> entries = logging.listLogEntries(entryListOptions.toArray(new EntryListOption[] {}));
+
+        try {
+            logging.close();
+        } catch (Exception e) {
+            // ignore exception when closing resource
+        }
+        return entries;
+    }
+
+    private List<EntryListOption> convertLogSearchParams(LogSearchParams s, int pageSize) {
         LoggingOptions options = LoggingOptions.getDefaultInstance();
         QueryLogsParams q = s.queryLogsParams;
 
@@ -295,7 +252,7 @@ public class GoogleCloudLoggingService implements LogService {
             logFilters.add("jsonPayload.responseStatus=" + q.getStatus());
         }
         if (q.getVersion() != null) {
-            logFilters.add("resource.labels.version_id=\"" + q.getVersion() + "\"");
+            logFilters.add("jsonPayload.webVersion=\"" + q.getVersion() + "\"");
         }
         if (q.getExtraFilters() != null) {
             logFilters.add(q.getExtraFilters());
@@ -318,15 +275,7 @@ public class GoogleCloudLoggingService implements LogService {
             }
         }
 
-        Logging logging = options.getService();
-        Page<LogEntry> entries = logging.listLogEntries(entryListOptions.toArray(new EntryListOption[] {}));
-
-        try {
-            logging.close();
-        } catch (Exception e) {
-            // ignore exception when closing resource
-        }
-        return entries;
+        return entryListOptions;
     }
 
     /**

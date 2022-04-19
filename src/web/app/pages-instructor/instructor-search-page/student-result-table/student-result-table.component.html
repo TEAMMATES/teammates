@@ -1,20 +1,15 @@
-<div class="card border border-primary mb-4">
-  <div class="card-header text-white bg-primary font-weight-bold">Students</div>
-  <div class="card-body p-3">
-    <div *ngFor="let course of studentTables" class="card border border-light-blue mb-3 student-course-table">
-      <div class="card-header alert-primary font-weight-bold text-break">[{{course.courseId}}]</div>
-      <div class="card-body p-0">
-        <tm-student-list
-          [courseId]="course.courseId"
-          [students]="course.students"
-          [useGrayHeading]="true"
-          [enableRemindButton]="false"
-          [isActionButtonsEnabled]="isActionButtonsEnabled"
-          [tableSortBy]="studentSortBy" [tableSortOrder]="studentSortOrder"
-          (sortStudentListEvent)="sortStudentList(course.students, $event)"
-          (removeStudentFromCourseEvent)="removeStudent(course.students, $event)">
-        </tm-student-list>
-      </div>
-    </div>
+<div *ngFor="let course of studentTables" class="card border border-light-blue mb-3 student-course-table">
+  <div class="card-header alert-primary font-weight-bold text-break">[{{course.courseId}}]</div>
+  <div class="card-body p-0">
+    <tm-student-list
+      [courseId]="course.courseId"
+      [students]="course.students"
+      [useGrayHeading]="true"
+      [enableRemindButton]="false"
+      [isActionButtonsEnabled]="isActionButtonsEnabled"
+      [tableSortBy]="studentSortBy" [tableSortOrder]="studentSortOrder"
+      (sortStudentListEvent)="sortStudentList(course.students, $event)"
+      (removeStudentFromCourseEvent)="removeStudent(course.students, $event)">
+    </tm-student-list>
   </div>
 </div>

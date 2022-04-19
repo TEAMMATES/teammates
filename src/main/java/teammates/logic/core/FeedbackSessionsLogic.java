@@ -3,6 +3,8 @@ package teammates.logic.core;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
@@ -48,6 +50,7 @@ public final class FeedbackSessionsLogic {
     private FeedbackResponseCommentsLogic frcLogic;
     private InstructorsLogic instructorsLogic;
     private StudentsLogic studentsLogic;
+    private DeadlineExtensionsLogic deLogic;
 
     private FeedbackSessionsLogic() {
         // prevent initialization
@@ -64,6 +67,7 @@ public final class FeedbackSessionsLogic {
         frcLogic = FeedbackResponseCommentsLogic.inst();
         instructorsLogic = InstructorsLogic.inst();
         studentsLogic = StudentsLogic.inst();
+        deLogic = DeadlineExtensionsLogic.inst();
     }
 
     /**
@@ -310,6 +314,36 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
+     * Updates the instructor email address for all their deadlines in the feedback sessions of the given course.
+     */
+    public void updateFeedbackSessionsInstructorDeadlinesWithNewEmail(String courseId, String oldEmailAddress,
+            String newEmailAddress) {
+        updateFeedbackSessionsDeadlinesWithNewEmail(courseId, oldEmailAddress, newEmailAddress, true);
+    }
+
+    /**
+     * Updates the student email address for all their deadlines in the feedback sessions of the given course.
+     */
+    public void updateFeedbackSessionsStudentDeadlinesWithNewEmail(String courseId, String oldEmailAddress,
+            String newEmailAddress) {
+        updateFeedbackSessionsDeadlinesWithNewEmail(courseId, oldEmailAddress, newEmailAddress, false);
+    }
+
+    /**
+     * Deletes the instructor email address for all their deadlines in the feedback sessions of the given course.
+     */
+    public void deleteFeedbackSessionsDeadlinesForInstructor(String courseId, String emailAddress) {
+        deleteFeedbackSessionsDeadlinesForUser(courseId, emailAddress, true);
+    }
+
+    /**
+     * Deletes the student email address for all their deadlines in the feedback sessions of the given course.
+     */
+    public void deleteFeedbackSessionsDeadlinesForStudent(String courseId, String emailAddress) {
+        deleteFeedbackSessionsDeadlinesForUser(courseId, emailAddress, false);
+    }
+
+    /**
      * Updates all feedback sessions of {@code courseId} to have be in {@code courseTimeZone}.
      */
     public void updateFeedbackSessionsTimeZoneForCourse(String courseId, String courseTimeZone) {
@@ -444,7 +478,7 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
-     * Deletes a feedback session cascade to its associated questions, responses and comments.
+     * Deletes a feedback session cascade to its associated questions, responses, deadline extensions and comments.
      */
     public void deleteFeedbackSessionCascade(String feedbackSessionName, String courseId) {
         AttributesDeletionQuery query = AttributesDeletionQuery.builder()
@@ -454,6 +488,7 @@ public final class FeedbackSessionsLogic {
         frcLogic.deleteFeedbackResponseComments(query);
         frLogic.deleteFeedbackResponses(query);
         fqLogic.deleteFeedbackQuestions(query);
+        deLogic.deleteDeadlineExtensions(query);
 
         fsDb.deleteFeedbackSession(feedbackSessionName, courseId);
     }
@@ -570,6 +605,50 @@ public final class FeedbackSessionsLogic {
         return isInstructor
                 ? fqLogic.hasFeedbackQuestionsForInstructors(session, false)
                 : fqLogic.hasFeedbackQuestionsForStudents(session);
+    }
+
+    private void updateFeedbackSessionsDeadlinesWithNewEmail(String courseId, String oldEmailAddress,
+            String newEmailAddress, boolean isInstructor) {
+        if (oldEmailAddress.equals(newEmailAddress)) {
+            return;
+        }
+        updateFeedbackSessionsDeadlinesForUser(courseId, oldEmailAddress, isInstructor,
+                deadlines -> deadlines.put(newEmailAddress, deadlines.remove(oldEmailAddress)));
+    }
+
+    private void deleteFeedbackSessionsDeadlinesForUser(String courseId, String emailAddress, boolean isInstructor) {
+        updateFeedbackSessionsDeadlinesForUser(courseId, emailAddress, isInstructor,
+                deadlines -> deadlines.remove(emailAddress));
+    }
+
+    private void updateFeedbackSessionsDeadlinesForUser(String courseId, String emailAddress, boolean isInstructor,
+            Consumer<Map<String, Instant>> deadlinesUpdater) {
+        List<FeedbackSessionAttributes> feedbackSessions = fsDb.getFeedbackSessionsForCourse(courseId);
+        feedbackSessions.forEach(feedbackSession -> {
+            FeedbackSessionAttributes.UpdateOptions.Builder updateOptionsBuilder = FeedbackSessionAttributes
+                    .updateOptionsBuilder(feedbackSession.getFeedbackSessionName(), courseId);
+            if (isInstructor) {
+                Map<String, Instant> instructorDeadlines = feedbackSession.getInstructorDeadlines();
+                if (!instructorDeadlines.containsKey(emailAddress)) {
+                    return;
+                }
+                deadlinesUpdater.accept(instructorDeadlines);
+                updateOptionsBuilder.withInstructorDeadlines(instructorDeadlines);
+            } else {
+                Map<String, Instant> studentDeadlines = feedbackSession.getStudentDeadlines();
+                if (!studentDeadlines.containsKey(emailAddress)) {
+                    return;
+                }
+                deadlinesUpdater.accept(studentDeadlines);
+                updateOptionsBuilder.withStudentDeadlines(studentDeadlines);
+            }
+            try {
+                fsDb.updateFeedbackSession(updateOptionsBuilder.build());
+            } catch (InvalidParametersException | EntityDoesNotExistException e) {
+                // Both Exceptions should not be thrown.
+                log.severe("Unexpected error", e);
+            }
+        });
     }
 
 }

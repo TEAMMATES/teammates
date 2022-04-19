@@ -3,7 +3,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 /**
  * Pipe to handle the transformation of an enum to an array of all types it has.
  *
- * <p>Assums the enum is string in runtime.
+ * <p>Assumes the enum is string in runtime.
  */
 @Pipe({
   name: 'enumToArray',

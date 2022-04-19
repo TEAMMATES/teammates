@@ -13,6 +13,7 @@
             <class name="teammates.e2e.cases.AdminAccountsPageE2ETest" />
             <class name="teammates.e2e.cases.AdminSearchPageE2ETest" />
             <class name="teammates.e2e.cases.AdminSessionsPageE2ETest" />
+            <class name="teammates.e2e.cases.AdminNotificationsPageE2ETest" />
             <class name="teammates.e2e.cases.FeedbackConstSumOptionQuestionE2ETest" />
             <class name="teammates.e2e.cases.FeedbackConstSumRecipientQuestionE2ETest" />
             <class name="teammates.e2e.cases.FeedbackContributionQuestionE2ETest" />
@@ -38,12 +39,16 @@
             <class name="teammates.e2e.cases.InstructorFeedbackSessionsPageE2ETest" />
             <class name="teammates.e2e.cases.InstructorHomePageE2ETest" />
             <class name="teammates.e2e.cases.InstructorSearchPageE2ETest" />
+            <class name="teammates.e2e.cases.InstructorSessionIndividualExtensionPageE2ETest" />
             <class name="teammates.e2e.cases.InstructorStudentListPageE2ETest" />
             <class name="teammates.e2e.cases.InstructorStudentRecordsPageE2ETest" />
+            <class name="teammates.e2e.cases.NotificationBannerE2ETest" />
             <class name="teammates.e2e.cases.StudentCourseDetailsPageE2ETest" />
             <class name="teammates.e2e.cases.StudentCourseJoinConfirmationPageE2ETest" />
             <class name="teammates.e2e.cases.StudentHomePageE2ETest" />
             <class name="teammates.e2e.cases.StudentProfilePageE2ETest" />
+            <class name="teammates.e2e.cases.InstructorNotificationsPageE2ETest" />
+            <class name="teammates.e2e.cases.StudentNotificationsPageE2ETest" />
         </classes>
     </test>
 </suite>

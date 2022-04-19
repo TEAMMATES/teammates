@@ -1,7 +1,10 @@
 package teammates.ui.webapi;
 
+import java.time.Instant;
+
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.logs.SourceLocation;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
@@ -33,13 +36,25 @@ public class CompileLogsActionTest extends BaseActionTest<CompileLogsAction> {
 
         verifyNoEmailsSent();
 
-        ______TS("Email should be sent if there are logs");
+        ______TS("No email should be sent if there are no recent error logs");
 
-        // The class does not check for the log severity as it is assumed that the logs service
-        // will filter them correctly
+        SourceLocation sourceLocation = new SourceLocation("file5", 5L, "func5");
+        long timestampTooDistant = Instant.now().minusSeconds(7 * 60).toEpochMilli();
+        long correctTimestamp = Instant.now().minusSeconds(30).toEpochMilli();
+        mockLogsProcessor.insertErrorLog("errorlogtrace1", "errorloginsertid1", sourceLocation,
+                timestampTooDistant, "Error message 1", null);
+        mockLogsProcessor.insertWarningLog("warninglogtrace1", "warningloginsertid1", sourceLocation,
+                correctTimestamp, "Warning message 1", null);
 
-        mockLogsProcessor.insertErrorLog("Test info message", "INFO", "123456");
-        mockLogsProcessor.insertErrorLog("Test warning message", "WARNING", "abcdef");
+        action = getAction();
+        action.execute();
+
+        verifyNoEmailsSent();
+
+        ______TS("Email should be sent if there are recent error logs");
+
+        mockLogsProcessor.insertErrorLog("errorlogtrace1", "errorloginsertid1", sourceLocation,
+                correctTimestamp, "Error message 1", null);
 
         action = getAction();
         action.execute();

@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -51,10 +52,13 @@ public class InstructorStudentListPage extends AppPage {
         }
     }
 
+    public void verifyAllCoursesHaveTabs(Collection<CourseAttributes> courses) {
+        List<WebElement> courseTabs = getCoursesTabs();
+        assertEquals(courses.size(), courseTabs.size());
+    }
+
     public void verifyStudentDetails(Map<String, CourseAttributes> courses, Map<String, StudentAttributes[]> students) {
-        List<WebElement> coursesTabs = getCoursesTabs();
         assertEquals(students.size(), courses.size());
-        assertEquals(students.size(), coursesTabs.size());
 
         students.forEach((courseId, studentsForCourse) -> verifyStudentDetails(courses.get(courseId), studentsForCourse));
     }
@@ -76,6 +80,16 @@ public class InstructorStudentListPage extends AppPage {
             verifyTableBodyValues(studentList, getExpectedStudentValues(students));
             verifyDisplayedNumbers(targetCourse, students);
         }
+    }
+
+    public void verifyStudentDetailsNotViewable(CourseAttributes course) {
+        WebElement targetCourse = getCourseTab(course);
+        if (targetCourse == null) {
+            fail("Course with ID " + course.getId() + " is not found");
+        }
+        String noViewStudentsPermissionText = targetCourse.findElement(By.className("card-body")).getText();
+        String expectedText = "You do not have permission to view the details of the students in this course.";
+        assertEquals(expectedText, noViewStudentsPermissionText);
     }
 
     private WebElement getCourseTab(CourseAttributes course) {

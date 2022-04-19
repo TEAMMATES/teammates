@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { AuthService } from '../../services/auth.service';
-import { AuthInfo } from '../../types/api-output';
+import { AuthInfo, NotificationTargetUser } from '../../types/api-output';
 
 /**
  * Base skeleton for instructor pages.
@@ -14,7 +14,6 @@ import { AuthInfo } from '../../types/api-output';
 export class InstructorPageComponent implements OnInit {
 
   user: string = '';
-  institute?: string = '';
   isInstructor: boolean = false;
   isStudent: boolean = false;
   isAdmin: boolean = false;
@@ -41,11 +40,16 @@ export class InstructorPageComponent implements OnInit {
       display: 'Search',
     },
     {
+      url: '/web/instructor/notifications',
+      display: 'Notifications',
+    },
+    {
       url: '/web/instructor/help',
       display: 'Help',
     },
   ];
   isFetchingAuthDetails: boolean = false;
+  notificationTargetUser: NotificationTargetUser = NotificationTargetUser.INSTRUCTOR;
 
   private backendUrl: string = environment.backendUrl;
 
@@ -60,7 +64,6 @@ export class InstructorPageComponent implements OnInit {
           if (res.masquerade) {
             this.user += ' (M)';
           }
-          this.institute = res.institute;
           this.isInstructor = res.user.isInstructor;
           this.isStudent = res.user.isStudent;
           this.isAdmin = res.user.isAdmin;

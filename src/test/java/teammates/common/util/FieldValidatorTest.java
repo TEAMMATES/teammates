@@ -1,6 +1,8 @@
 package teammates.common.util;
 
 import java.time.Instant;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.testng.annotations.Test;
 
@@ -587,6 +589,113 @@ public class FieldValidatorTest extends BaseTestCase {
                          + "earlier than the time when the session will be visible.",
                      FieldValidator.getInvalidityInfoForTimeForVisibilityStartAndResultsPublish(
                          visibilityStart, resultsPublish));
+    }
+
+    @Test
+    public void testGetInvalidityInfoForTimeForSessionEndAndExtendedDeadlines_valid_returnEmptyString() {
+        Instant sessionEnd = TimeHelperExtension.getInstantHoursOffsetFromNow(-1);
+        Map<String, Instant> extendedDeadlines = new HashMap<>();
+        extendedDeadlines.put("participant@email.com", TimeHelperExtension.getInstantHoursOffsetFromNow(1));
+        assertEquals("",
+                FieldValidator.getInvalidityInfoForTimeForSessionEndAndExtendedDeadlines(
+                        sessionEnd, extendedDeadlines));
+    }
+
+    @Test
+    public void testGetInvalidityInfoForTimeForSessionEndAndExtendedDeadlines_invalid_returnErrorString() {
+        ______TS("extended deadline earlier than the end time");
+        Instant sessionEnd = TimeHelperExtension.getInstantHoursOffsetFromNow(1);
+        Map<String, Instant> extendedDeadlines = new HashMap<>();
+        extendedDeadlines.put("participant@email.com", TimeHelperExtension.getInstantHoursOffsetFromNow(-1));
+        assertEquals("The extended deadlines for this feedback session cannot be earlier than or at the same time as "
+                        + "the end time.",
+                FieldValidator.getInvalidityInfoForTimeForSessionEndAndExtendedDeadlines(
+                        sessionEnd, extendedDeadlines));
+
+        ______TS("extended deadline at the same time as the end time");
+        extendedDeadlines.put("participant@email.com", sessionEnd);
+        assertEquals("The extended deadlines for this feedback session cannot be earlier than or at the same time as "
+                        + "the end time.",
+                FieldValidator.getInvalidityInfoForTimeForSessionEndAndExtendedDeadlines(
+                        sessionEnd, extendedDeadlines));
+    }
+
+    @Test
+    public void testGetInvalidityInfoForTimeForNotificationStartAndEnd_valid_returnEmptyString() {
+        Instant notificationStart = TimeHelperExtension.getInstantHoursOffsetFromNow(-1);
+        Instant notificationEnd = TimeHelperExtension.getInstantHoursOffsetFromNow(1);
+
+        assertEquals("",
+                FieldValidator.getInvalidityInfoForTimeForNotificationStartAndEnd(
+                        notificationStart, notificationEnd));
+    }
+
+    @Test
+    public void testGetInvalidityInfoForTimeForNotificationStartAndEnd_inValid_returnErrorString() {
+        Instant notificationStart = TimeHelperExtension.getInstantHoursOffsetFromNow(1);
+        Instant notificationEnd = TimeHelperExtension.getInstantHoursOffsetFromNow(-1);
+
+        assertEquals("The time when the notification will expire for this notification cannot be earlier "
+                        + "than the time when the notification will be visible.",
+                FieldValidator.getInvalidityInfoForTimeForNotificationStartAndEnd(
+                        notificationStart, notificationEnd));
+    }
+
+    @Test
+    public void testGetInvalidityInfoForNotificationTitle_valid_returnEmptyString() {
+        assertEquals("", FieldValidator.getInvalidityInfoForNotificationTitle("valid title"));
+    }
+
+    @Test
+    public void testGetInvalidityInfoForNotificationTitle_inValid_returnErrorString() {
+        ______TS("Empty notification title");
+        assertEquals("The field 'notification title' is empty.",
+                FieldValidator.getInvalidityInfoForNotificationTitle(""));
+
+        ______TS("Notification title exceeds maximum length");
+        String invalidNotificationTitle = StringHelperExtension.generateStringOfLength(
+                FieldValidator.NOTIFICATION_TITLE_MAX_LENGTH + 1);
+        assertEquals("\"" + invalidNotificationTitle + "\" is not acceptable to TEAMMATES as a/an "
+                        + "notification title because it is too long. "
+                        + "The value of a/an notification title should be no longer than "
+                        + FieldValidator.NOTIFICATION_TITLE_MAX_LENGTH
+                        + " characters. It should not be empty.",
+                FieldValidator.getInvalidityInfoForNotificationTitle(invalidNotificationTitle));
+    }
+
+    @Test
+    public void testGetInvalidityInfoForNotificationBody_valid_returnEmptyString() {
+        assertEquals("", FieldValidator.getInvalidityInfoForNotificationBody("valid body"));
+    }
+
+    @Test
+    public void testGetInvalidityInfoForNotificationBody_inValid_returnErrorString() {
+        assertEquals("The field 'notification message' is empty.",
+                FieldValidator.getInvalidityInfoForNotificationBody(""));
+    }
+
+    @Test
+    public void testGetInvalidityInfoForNotificationStyle_valid_returnEmptyString() {
+        assertEquals("", FieldValidator.getInvalidityInfoForNotificationStyle("SUCCESS"));
+    }
+
+    @Test
+    public void testGetInvalidityInfoForNotificationStyle_inValid_returnErrorString() {
+        String invalidStyle = "invalid style";
+        assertEquals("\"" + invalidStyle + "\" is not an accepted notification style to TEAMMATES. ",
+                FieldValidator.getInvalidityInfoForNotificationStyle(invalidStyle));
+    }
+
+    @Test
+    public void testGetInvalidityInfoForNotificationTargetUser_valid_returnEmptyString() {
+        assertEquals("", FieldValidator.getInvalidityInfoForNotificationTargetUser("GENERAL"));
+    }
+
+    @Test
+    public void testGetInvalidityInfoForNotificationTargetUser_inValid_returnErrorString() {
+        String invalidUser = "invalid user";
+        assertEquals("\"" + invalidUser + "\" is not an accepted notification target user to TEAMMATES. ",
+                FieldValidator.getInvalidityInfoForNotificationTargetUser(invalidUser));
     }
 
     @Test

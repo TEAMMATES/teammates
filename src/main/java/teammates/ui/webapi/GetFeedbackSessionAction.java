@@ -51,24 +51,39 @@ class GetFeedbackSessionAction extends BasicFeedbackSubmissionAction {
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         FeedbackSessionAttributes feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
-        FeedbackSessionData response = new FeedbackSessionData(feedbackSession);
-
+        FeedbackSessionData response;
         switch (intent) {
         case STUDENT_SUBMISSION:
-        case INSTRUCTOR_SUBMISSION:
         case STUDENT_RESULT:
-            // hide some attributes for submission
+            response = getStudentFeedbackSessionData(feedbackSession);
             response.hideInformationForStudent();
             break;
+        case INSTRUCTOR_SUBMISSION:
+            response = getInstructorFeedbackSessionData(feedbackSession);
+            response.hideInformationForInstructorSubmission();
+            break;
         case INSTRUCTOR_RESULT:
+            response = getInstructorFeedbackSessionData(feedbackSession);
             response.hideInformationForInstructor();
             break;
         case FULL_DETAIL:
+            response = new FeedbackSessionData(feedbackSession);
             break;
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);
         }
-
         return new JsonResult(response);
+    }
+
+    private FeedbackSessionData getStudentFeedbackSessionData(FeedbackSessionAttributes session) {
+        StudentAttributes student = getStudentOfCourseFromRequest(session.getCourseId());
+        String email = student.getEmail();
+        return new FeedbackSessionData(session.getCopyForStudent(email));
+    }
+
+    private FeedbackSessionData getInstructorFeedbackSessionData(FeedbackSessionAttributes session) {
+        InstructorAttributes instructor = getInstructorOfCourseFromRequest(session.getCourseId());
+        String email = instructor.getEmail();
+        return new FeedbackSessionData(session.getCopyForInstructor(email));
     }
 }

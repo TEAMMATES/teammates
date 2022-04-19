@@ -1,6 +1,8 @@
 package teammates.ui.output;
 
 import java.time.Instant;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
 
@@ -20,6 +22,8 @@ public class FeedbackSessionData extends ApiOutput {
 
     private final Long submissionStartTimestamp;
     private final Long submissionEndTimestamp;
+    @Nullable
+    private final Long submissionEndWithExtensionTimestamp;
     @Nullable
     private Long sessionVisibleFromTimestamp;
     @Nullable
@@ -46,6 +50,9 @@ public class FeedbackSessionData extends ApiOutput {
     @Nullable
     private InstructorPermissionSet privileges;
 
+    private Map<String, Long> studentDeadlines;
+    private Map<String, Long> instructorDeadlines;
+
     public FeedbackSessionData(FeedbackSessionAttributes feedbackSessionAttributes) {
         String timeZone = feedbackSessionAttributes.getTimeZone();
         this.courseId = feedbackSessionAttributes.getCourseId();
@@ -56,6 +63,8 @@ public class FeedbackSessionData extends ApiOutput {
                 feedbackSessionAttributes.getStartTime(), timeZone, true).toEpochMilli();
         this.submissionEndTimestamp = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
                 feedbackSessionAttributes.getEndTime(), timeZone, true).toEpochMilli();
+        this.submissionEndWithExtensionTimestamp = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                feedbackSessionAttributes.getDeadline(), timeZone, true).toEpochMilli();
         this.gracePeriod = feedbackSessionAttributes.getGracePeriodMinutes();
 
         Instant sessionVisibleTime = feedbackSessionAttributes.getSessionVisibleFromTime();
@@ -89,11 +98,11 @@ public class FeedbackSessionData extends ApiOutput {
         if (feedbackSessionAttributes.isOpened()) {
             this.submissionStatus = FeedbackSessionSubmissionStatus.OPEN;
         }
-        if (feedbackSessionAttributes.isClosed()) {
-            this.submissionStatus = FeedbackSessionSubmissionStatus.CLOSED;
-        }
         if (feedbackSessionAttributes.isInGracePeriod()) {
             this.submissionStatus = FeedbackSessionSubmissionStatus.GRACE_PERIOD;
+        }
+        if (feedbackSessionAttributes.isClosed()) {
+            this.submissionStatus = FeedbackSessionSubmissionStatus.CLOSED;
         }
 
         if (feedbackSessionAttributes.isPublished()) {
@@ -111,6 +120,23 @@ public class FeedbackSessionData extends ApiOutput {
         } else {
             this.deletedAtTimestamp = feedbackSessionAttributes.getDeletedTime().toEpochMilli();
         }
+
+        String userEmail = feedbackSessionAttributes.getUserEmail();
+        this.studentDeadlines = feedbackSessionAttributes.getStudentDeadlines()
+                .entrySet()
+                .stream()
+                .filter(entry -> userEmail == null || userEmail.equals(entry.getKey()))
+                .collect(Collectors.toMap(Map.Entry::getKey, entry ->
+                        TimeHelper.getMidnightAdjustedInstantBasedOnZone(entry.getValue(), timeZone, true)
+                                .toEpochMilli()));
+
+        this.instructorDeadlines = feedbackSessionAttributes.getInstructorDeadlines()
+                .entrySet()
+                .stream()
+                .filter(entry -> userEmail == null || userEmail.equals(entry.getKey()))
+                .collect(Collectors.toMap(Map.Entry::getKey, entry ->
+                        TimeHelper.getMidnightAdjustedInstantBasedOnZone(entry.getValue(), timeZone, true)
+                                .toEpochMilli()));
     }
 
     public String getCourseId() {
@@ -135,6 +161,10 @@ public class FeedbackSessionData extends ApiOutput {
 
     public long getSubmissionEndTimestamp() {
         return submissionEndTimestamp;
+    }
+
+    public long getSubmissionEndWithExtensionTimestamp() {
+        return submissionEndWithExtensionTimestamp;
     }
 
     public Long getSessionVisibleFromTimestamp() {
@@ -179,6 +209,14 @@ public class FeedbackSessionData extends ApiOutput {
 
     public Boolean getIsPublishedEmailEnabled() {
         return isPublishedEmailEnabled;
+    }
+
+    public Map<String, Long> getStudentDeadlines() {
+        return studentDeadlines;
+    }
+
+    public Map<String, Long> getInstructorDeadlines() {
+        return instructorDeadlines;
     }
 
     public void setSessionVisibleFromTimestamp(Long sessionVisibleFromTimestamp) {
@@ -241,11 +279,40 @@ public class FeedbackSessionData extends ApiOutput {
         this.privileges = privileges;
     }
 
+    public void setStudentDeadlines(Map<String, Long> studentDeadlines) {
+        this.studentDeadlines = studentDeadlines;
+    }
+
+    public void setInstructorDeadlines(Map<String, Long> instructorDeadlines) {
+        this.instructorDeadlines = instructorDeadlines;
+    }
+
     /**
      * Hides some attributes to student.
      */
     public void hideInformationForStudent() {
+        hideInformationForStudentAndInstructor();
+        hideSessionVisibilityTimestamps();
+        instructorDeadlines.clear();
+    }
+
+    /**
+     * Hides some attributes to instructor without appropriate privilege.
+     */
+    public void hideInformationForInstructor() {
+        hideInformationForStudentAndInstructor();
+        studentDeadlines.clear();
+    }
+
+    /**
+     * Hides some attributes for instructor who is submitting feedback session.
+     */
+    public void hideInformationForInstructorSubmission() {
         hideInformationForInstructor();
+        hideSessionVisibilityTimestamps();
+    }
+
+    private void hideSessionVisibilityTimestamps() {
         setSessionVisibleFromTimestamp(null);
         setResultVisibleFromTimestamp(null);
         setSessionVisibleSetting(null);
@@ -254,10 +321,7 @@ public class FeedbackSessionData extends ApiOutput {
         setCustomResponseVisibleTimestamp(null);
     }
 
-    /**
-     * Hides some attributes to instructor without appropriate privilege.
-     */
-    public void hideInformationForInstructor() {
+    private void hideInformationForStudentAndInstructor() {
         setClosingEmailEnabled(null);
         setPublishedEmailEnabled(null);
         setGracePeriod(null);

@@ -1,3 +1,7 @@
+<frontmatter>
+  title: "Performance Testing"
+</frontmatter>
+
 # Performance Testing
 
 TEAMMATES makes use of [JMeter](https://jmeter.apache.org/) for load and performance (L&P) testing, and uses the [JMeter Java API](https://jmeter.apache.org/api/index.html) and TestNG to automate the process of running performance tests.
@@ -6,8 +10,7 @@ The performance test cases are located in the [`teammates.lnp.cases`](https://gi
 
 ## Creating Performance Tests
 
-Each new test case must inherit the `BaseLNPTestCase` class, and implement the methods required for generating the test data and the JMeter L&P test plan. 
-The L&P test plans are created in Java using the JMeter API.
+Each new test case must inherit the `BaseLNPTestCase` class, and implement the methods required for generating the test data and the JMeter L&P test plan. The L&P test plans are created in Java using the JMeter API.
 
 The inherited test cases can run JMeter test by calling `runJmeter` method. When passing the parameter `shouldCreateJmxFile` as `true`, an equivalent `.jmx` file can be generated from this test plan.
 
@@ -17,11 +20,11 @@ To see a sample implementation of a test case, you can refer to `StudentProfileL
 
 ## Running Performance Tests
 
-If you want to use your own copy of [JMeter](https://jmeter.apache.org/download_jmeter.cgi), update the `test.jmeter.*` properties in `src/lnp/resources/test.properties` accordingly.  
+If you want to use your own copy of [JMeter](https://jmeter.apache.org/download_jmeter.cgi), update the `test.jmeter.*` properties in `src/lnp/resources/test.properties` accordingly.
 
 First, open the terminal and navigate to the root of project folder. Start the backend server, i.e. `./gradlew serverRun`, before running the performance tests.
 
-For more details about how to set up and run your local server, please refer to [Developer Guide](https://github.com/TEAMMATES/teammates/blob/master/docs/development.md).
+For more details about how to set up and run your local server, please refer to the [Development Guidelines](development.md).
 
 ### Using Gradle
 
@@ -61,4 +64,7 @@ jmeter -n -t PATH_TO_TEST_FILE.jmx -l PATH_TO_RESULT_FILE.jtl -e -o REPORT_OUTPU
 You can also install JMeter and use its GUI to run performance tests. This is particularly useful when debugging or validating that the test works as expected.
 However, you should not use the GUI to run large scale tests as it is very resource intensive.
 
-> Remember to **disable or remove all `Listeners`** in the `.jmx` file, unless you are debugging. Having them enabled can have a negative impact on the test performance.
+<box type="info">
+
+Remember to **disable or remove all `Listeners`** in the `.jmx` file, unless you are debugging. Having them enabled can have a negative impact on the test performance.
+</box>

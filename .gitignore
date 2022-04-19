@@ -75,3 +75,8 @@ filestorage-dev/*
 datastore-dev/datastore/*
 
 !.gitkeep
+
+
+# Docs
+docs/_site/*
+docs/_markbind/logs/*

@@ -81,6 +81,9 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
         homePage.verifyCourseTabDetails(otherCourseIndex, otherCourse, otherCourseSessions);
         homePage.verifyCourseTabDetails(courseIndex, course, courseSessions);
 
+        ______TS("notification banner is visible");
+        assertTrue(homePage.isBannerVisible());
+
         ______TS("verify response rate");
         for (int i = 0; i < courseSessions.length; i++) {
             homePage.verifyResponseRate(courseIndex, i, getExpectedResponseRate(courseSessions[i]));

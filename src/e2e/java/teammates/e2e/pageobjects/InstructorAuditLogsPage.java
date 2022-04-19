@@ -100,17 +100,11 @@ public class InstructorAuditLogsPage extends AppPage {
     }
 
     public void setLogsFromDateTime(Instant instant, String timeZone) {
-        setDateTime(logsFromDatepicker, logsFromTimepicker.findElement(By.className("form-control")),
-                instant, timeZone);
+        setDateTime(logsFromDatepicker, logsToTimepicker, instant, timeZone);
     }
 
     public void setLogsToDateTime(Instant instant, String timeZone) {
-        setDateTime(logsToDatepicker, logsToTimepicker.findElement(By.className("form-control")),
-                instant, timeZone);
-    }
-
-    private String getDateString(Instant instant, String timeZone) {
-        return getDisplayedDateTime(instant, timeZone, "EE, dd MMM, yyyy");
+        setDateTime(logsToDatepicker, logsToTimepicker, instant, timeZone);
     }
 
     private String getTimeString(Instant instant, String timeZone) {
@@ -122,8 +116,8 @@ public class InstructorAuditLogsPage extends AppPage {
     }
 
     private void setDateTime(WebElement dateBox, WebElement timeBox, Instant startInstant, String timeZone) {
-        fillTextBox(dateBox, getDateString(startInstant, timeZone));
+        fillDatePicker(dateBox, startInstant, timeZone);
 
-        selectDropdownOptionByText(timeBox, getTimeString(startInstant, timeZone));
+        selectDropdownOptionByText(timeBox.findElement(By.tagName("select")), getTimeString(startInstant, timeZone));
     }
 }

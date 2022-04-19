@@ -2,6 +2,9 @@ package teammates.e2e.cases;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -16,7 +19,6 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.common.util.TimeHelper;
 import teammates.e2e.pageobjects.InstructorFeedbackSessionsPage;
 import teammates.e2e.util.TestProperties;
 import teammates.test.ThreadHelper;
@@ -49,11 +51,12 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
 
         openSession = testData.feedbackSessions.get("openSession");
         closedSession = testData.feedbackSessions.get("closedSession");
+        int currentYear = LocalDate.now().getYear();
         newSession = FeedbackSessionAttributes
                 .builder("New Session", course.getId())
                 .withCreatorEmail(instructor.getEmail())
-                .withStartTime(TimeHelper.parseInstant("2035-04-01T22:00:00Z"))
-                .withEndTime(TimeHelper.parseInstant("2035-04-30T20:00:00Z"))
+                .withStartTime(LocalDateTime.of(currentYear + 8, 1, 2, 12, 0).atZone(ZoneId.of("UTC")).toInstant())
+                .withEndTime(LocalDateTime.of(currentYear + 8, 1, 3, 12, 0).atZone(ZoneId.of("UTC")).toInstant())
                 .withSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING)
                 .withResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER)
                 .withGracePeriod(Duration.ZERO)

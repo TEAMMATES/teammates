@@ -1,5 +1,8 @@
 package teammates.ui.output;
 
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import teammates.common.datatransfer.attributes.AccountAttributes;
 
 /**
@@ -9,22 +12,20 @@ public class AccountData extends ApiOutput {
 
     private final String googleId;
     private final String name;
-    private final boolean isInstructor;
     private final String email;
-    private final String institute;
-    private final long createdAtTimeStamp;
+    private final Map<String, Long> readNotifications;
 
     public AccountData(AccountAttributes accountInfo) {
         this.googleId = accountInfo.getGoogleId();
         this.name = accountInfo.getName();
-        this.isInstructor = accountInfo.isInstructor();
         this.email = accountInfo.getEmail();
-        this.institute = accountInfo.getInstitute();
-        this.createdAtTimeStamp = accountInfo.getCreatedAt().toEpochMilli();
-    }
-
-    public String getInstitute() {
-        return institute;
+        this.readNotifications = accountInfo.getReadNotifications()
+            .entrySet()
+            .stream()
+            .collect(Collectors.toMap(
+                e -> e.getKey(),
+                e -> e.getValue().toEpochMilli()
+            ));
     }
 
     public String getEmail() {
@@ -35,15 +36,12 @@ public class AccountData extends ApiOutput {
         return googleId;
     }
 
-    public long getCreatedAtTimeStamp() {
-        return createdAtTimeStamp;
-    }
-
     public String getName() {
         return name;
     }
 
-    public boolean isInstructor() {
-        return this.isInstructor;
+    public Map<String, Long> getReadNotifications() {
+        return this.readNotifications;
     }
+
 }

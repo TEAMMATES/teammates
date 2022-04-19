@@ -184,11 +184,11 @@ public abstract class Action {
      */
     boolean getBooleanRequestParamValue(String paramName) {
         String value = getNonNullRequestParamValue(paramName);
-        try {
+        if ("true".equalsIgnoreCase(value) || "false".equalsIgnoreCase(value)) {
             return Boolean.parseBoolean(value);
-        } catch (IllegalArgumentException e) {
+        } else {
             throw new InvalidHttpParameterException(
-                    "Expected boolean value for " + paramName + " parameter, but found: [" + value + "]", e);
+                    "Expected boolean value for " + paramName + " parameter, but found: [" + value + "]");
         }
     }
 
@@ -272,6 +272,24 @@ public abstract class Action {
             return Optional.of(instructorAttributes);
         }
         return Optional.empty();
+    }
+
+    InstructorAttributes getPossiblyUnregisteredInstructor(String courseId) {
+        return getUnregisteredInstructor().orElseGet(() -> {
+            if (userInfo == null) {
+                return null;
+            }
+            return logic.getInstructorForGoogleId(courseId, userInfo.getId());
+        });
+    }
+
+    StudentAttributes getPossiblyUnregisteredStudent(String courseId) {
+        return getUnregisteredStudent().orElseGet(() -> {
+            if (userInfo == null) {
+                return null;
+            }
+            return logic.getStudentForGoogleId(courseId, userInfo.getId());
+        });
     }
 
     InstructorPermissionSet constructInstructorPrivileges(InstructorAttributes instructor, String feedbackSessionName) {

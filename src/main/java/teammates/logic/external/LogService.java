@@ -2,7 +2,6 @@ package teammates.logic.external;
 
 import java.util.List;
 
-import teammates.common.datatransfer.ErrorLogEntry;
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
 import teammates.common.datatransfer.QueryLogsResults;
 import teammates.common.datatransfer.logs.QueryLogsParams;
@@ -11,11 +10,6 @@ import teammates.common.datatransfer.logs.QueryLogsParams;
  * An interface used for logs operations such as reading/writing.
  */
 public interface LogService {
-
-    /**
-     * Gets the list of recent error- or higher level logs.
-     */
-    List<ErrorLogEntry> getRecentErrorLogs();
 
     /**
      * Gets the list of logs satisfying the given criteria.

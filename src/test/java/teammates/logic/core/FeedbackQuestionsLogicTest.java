@@ -32,7 +32,6 @@ import teammates.common.util.FieldValidator;
  */
 public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
-    private final AccountsLogic accountsLogic = AccountsLogic.inst();
     private final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
     private final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
     private final FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
@@ -173,7 +172,6 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         ______TS("special case: response to other team, instructor is also student");
         question = getQuestionFromDatabase("team.feedback");
         studentGiver = dataBundle.students.get("student1InCourse1");
-        accountsLogic.makeAccountInstructor(studentGiver.getGoogleId());
         courseRoster = new CourseRoster(
                 studentsLogic.getStudentsForCourse(studentGiver.getCourse()),
                 instructorsLogic.getInstructorsForCourse(studentGiver.getCourse()));
@@ -186,7 +184,6 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         ______TS("to nobody (general feedback)");
         question = getQuestionFromDatabase("qn3InSession1InCourse1");
         studentGiver = dataBundle.students.get("student1InCourse1");
-        accountsLogic.makeAccountInstructor(studentGiver.getGoogleId());
         courseRoster = new CourseRoster(
                 studentsLogic.getStudentsForCourse(studentGiver.getCourse()),
                 instructorsLogic.getInstructorsForCourse(studentGiver.getCourse()));
@@ -201,7 +198,6 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         ______TS("to self");
         question = getQuestionFromDatabase("qn1InSession1InCourse1");
         studentGiver = dataBundle.students.get("student1InCourse1");
-        accountsLogic.makeAccountInstructor(studentGiver.getGoogleId());
         courseRoster = new CourseRoster(
                 studentsLogic.getStudentsForCourse(studentGiver.getCourse()),
                 instructorsLogic.getInstructorsForCourse(studentGiver.getCourse()));

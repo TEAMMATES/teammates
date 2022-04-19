@@ -1,0 +1,287 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UsageStatisticsPageComponent should snap with default fields 1`] = `
+<tm-usage-statistics-page
+  AggregationType={[Function Object]}
+  StatisticsType={[Function Object]}
+  dataToDraw={[Function Array]}
+  dateToday={[Function Object]}
+  earliestSearchDate={[Function Object]}
+  fetchedData={[Function Array]}
+  formModel={[Function Object]}
+  hasQueried="false"
+  isLoading="false"
+  itemName={[Function String]}
+  statusMessageService={[Function StatusMessageService]}
+  timeRange={[Function Object]}
+  timezone={[Function String]}
+  timezoneService={[Function TimezoneService]}
+  usageStatisticsService={[Function UsageStatisticsService]}
+>
+  <p>
+    Data available from: 1 January 2016, 00:00 UTC
+  </p><div
+    class="card bg-form no-border"
+  >
+    <div
+      class="card-body"
+    >
+      <div
+        class="row form-group"
+      >
+        <div
+          class="col-4"
+        >
+          <div
+            class="col-12 mb-1"
+          >
+            <label
+              class="font-weight-bold"
+              for="search-from-datepicker"
+            >
+              Search period from
+            </label>
+          </div>
+          <div
+            class="input-group"
+          >
+            <div
+              class="col-md-8 input-group"
+            >
+              <input
+                class="form-control ng-untouched ng-pristine ng-valid"
+                id="search-from-datepicker"
+                ngbdatepicker=""
+                type="text"
+              />
+              <button
+                class="btn btn-light"
+                type="button"
+              >
+                <i
+                  class="fas fa-calendar-alt"
+                />
+              </button>
+            </div>
+            <div
+              class="col-md-4"
+            >
+              <ngb-timepicker
+                class="ng-untouched ng-pristine ng-valid"
+              >
+                <fieldset>
+                  <div
+                    class="ngb-tp"
+                  >
+                    <div
+                      class="ngb-tp-input-container ngb-tp-hour"
+                    >
+                      <input
+                        aria-label="Hours"
+                        class="ngb-tp-input form-control"
+                        inputmode="numeric"
+                        maxlength="2"
+                        placeholder="HH"
+                        type="text"
+                      />
+                    </div>
+                    <div
+                      class="ngb-tp-spacer"
+                    >
+                      :
+                    </div>
+                    <div
+                      class="ngb-tp-input-container ngb-tp-minute"
+                    >
+                      <input
+                        aria-label="Minutes"
+                        class="ngb-tp-input form-control"
+                        inputmode="numeric"
+                        maxlength="2"
+                        placeholder="MM"
+                        type="text"
+                      />
+                    </div>
+                  </div>
+                </fieldset>
+              </ngb-timepicker>
+            </div>
+          </div>
+        </div>
+        <div
+          class="col-4"
+        >
+          <div
+            class="col-12 mb-1"
+          >
+            <label
+              class="font-weight-bold"
+              for="search-to-datepicker"
+            >
+              Search period until
+            </label>
+          </div>
+          <div
+            class="input-group"
+          >
+            <div
+              class="col-md-8 input-group"
+            >
+              <input
+                class="form-control ng-untouched ng-pristine ng-valid"
+                id="search-to-datepicker"
+                ngbdatepicker=""
+                type="text"
+              />
+              <button
+                class="btn btn-light"
+                type="button"
+              >
+                <i
+                  class="fas fa-calendar-alt"
+                />
+              </button>
+            </div>
+            <div
+              class="col-md-4"
+            >
+              <ngb-timepicker
+                class="ng-untouched ng-pristine ng-valid"
+              >
+                <fieldset>
+                  <div
+                    class="ngb-tp"
+                  >
+                    <div
+                      class="ngb-tp-input-container ngb-tp-hour"
+                    >
+                      <input
+                        aria-label="Hours"
+                        class="ngb-tp-input form-control"
+                        inputmode="numeric"
+                        maxlength="2"
+                        placeholder="HH"
+                        type="text"
+                      />
+                    </div>
+                    <div
+                      class="ngb-tp-spacer"
+                    >
+                      :
+                    </div>
+                    <div
+                      class="ngb-tp-input-container ngb-tp-minute"
+                    >
+                      <input
+                        aria-label="Minutes"
+                        class="ngb-tp-input form-control"
+                        inputmode="numeric"
+                        maxlength="2"
+                        placeholder="MM"
+                        type="text"
+                      />
+                    </div>
+                  </div>
+                </fieldset>
+              </ngb-timepicker>
+            </div>
+          </div>
+        </div>
+        <div
+          class="col-2"
+        >
+          <div
+            class="col-12 mb-1"
+          >
+            <label
+              class="font-weight-bold"
+              for="data-to-display"
+            >
+              Data to display:
+            </label>
+          </div>
+          <select
+            class="form-control col-12 ng-untouched ng-pristine ng-valid"
+            id="data-to-display"
+          >
+            <option
+              value="0"
+            >
+              # of responses
+            </option>
+            <option
+              value="1"
+            >
+              # of courses
+            </option>
+            <option
+              value="2"
+            >
+              # of students
+            </option>
+            <option
+              value="3"
+            >
+              # of instructors
+            </option>
+            <option
+              value="4"
+            >
+              # of account requests
+            </option>
+            <option
+              value="5"
+            >
+              # of emails
+            </option>
+            <option
+              value="6"
+            >
+              # of submissions
+            </option>
+          </select>
+        </div>
+        <div
+          class="col-2"
+        >
+          <div
+            class="col-12 mb-1"
+          >
+            <label
+              class="font-weight-bold"
+              for="data-aggregation"
+            >
+              Data aggregation:
+            </label>
+          </div>
+          <select
+            class="form-control col-12 ng-untouched ng-pristine ng-valid"
+            id="data-aggregation"
+          >
+            <option
+              value="0"
+            >
+              Hourly
+            </option>
+            <option
+              value="1"
+            >
+              Daily
+            </option>
+          </select>
+        </div>
+        <div
+          class="col-1 mt-4"
+        >
+          <button
+            class="float-right btn btn-primary"
+            id="query-button"
+          >
+            Query
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</tm-usage-statistics-page>
+`;

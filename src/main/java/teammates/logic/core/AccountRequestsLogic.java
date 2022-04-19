@@ -36,7 +36,7 @@ public final class AccountRequestsLogic {
      *
      * @return the updated account request
      * @throws InvalidParametersException if the account request is not valid
-     * @throws EntityDoesNotExistException if the account request to create does not exist
+     * @throws EntityDoesNotExistException if the account request to update does not exist
      */
     public AccountRequestAttributes updateAccountRequest(AccountRequestAttributes.UpdateOptions updateOptions)
             throws InvalidParametersException, EntityDoesNotExistException {

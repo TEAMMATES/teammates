@@ -40,7 +40,7 @@
   <div *ngIf="!isLoadingFeedbackQuestions" class="card">
     <tm-preview-session-panel [courseId]="courseId" [feedbackSessionName]="feedbackSessionName"
                               [emailOfStudentToPreview]="emailOfStudentToPreview" [studentsOfCourse]="studentsOfCourse"
-                              [instructorsCanBePreviewedAs]="instructorsCanBePreviewedAs" [emailOfInstructorToPreview]="emailOfInstructorToPreview"
+                              [instructorsCanBePreviewedAs]="instructorsOfCourse" [emailOfInstructorToPreview]="emailOfInstructorToPreview"
     ></tm-preview-session-panel>
   </div>
 </tm-loading-retry>

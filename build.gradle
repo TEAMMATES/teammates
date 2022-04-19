@@ -75,7 +75,7 @@ dependencies {
 
     testImplementation("com.tngtech.archunit:archunit:0.11.0")
     testImplementation("junit:junit:4.13.2")
-    testImplementation("org.seleniumhq.selenium:selenium-java:4.1.2")
+    testImplementation("org.seleniumhq.selenium:selenium-java:4.1.3")
     testImplementation(testng)
     // For supporting authorization code flow locally
     testImplementation("com.google.oauth-client:google-oauth-client-jetty:1.33.1")
@@ -182,6 +182,15 @@ task generateTypes {
     dependsOn generateApiOutputFormat
     dependsOn generateApiRequestFormat
     dependsOn generateApiConstants
+}
+
+task execScript(type: JavaExec) {
+    description "Run user defined scripts specified by project variable - userScript"
+
+    classpath = sourceSets.test.runtimeClasspath
+    if (project.hasProperty("userScript")) {
+        mainClass = "teammates.client.scripts.${project.property('userScript')}"
+    }
 }
 
 // SETUP TASKS
@@ -356,7 +365,6 @@ spotbugs {
     reportLevel = "low"
     toolVersion = spotbugsVersion
     includeFilter = file("$rootProject.projectDir/static-analysis/teammates-spotbugs.xml")
-    excludeFilter = file("$rootProject.projectDir/static-analysis/teammates-spotbugs-exclude.xml")
 }
 
 tasks.withType(com.github.spotbugs.snom.SpotBugsTask) {

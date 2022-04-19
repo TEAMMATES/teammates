@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { AuthService } from '../../services/auth.service';
-import { AuthInfo } from '../../types/api-output';
+import { AuthInfo, NotificationTargetUser } from '../../types/api-output';
 
 /**
  * Base skeleton for student pages.
@@ -14,7 +14,6 @@ import { AuthInfo } from '../../types/api-output';
 export class StudentPageComponent implements OnInit {
 
   user: string = '';
-  institute?: string = '';
   isInstructor: boolean = false;
   isStudent: boolean = false;
   isAdmin: boolean = false;
@@ -29,11 +28,16 @@ export class StudentPageComponent implements OnInit {
       display: 'Profile',
     },
     {
+      url: '/web/student/notifications',
+      display: 'Notifications',
+    },
+    {
       url: '/web/student/help',
       display: 'Help',
     },
   ];
   isFetchingAuthDetails: boolean = false;
+  notificationTargetUser: NotificationTargetUser = NotificationTargetUser.STUDENT;
 
   private backendUrl: string = environment.backendUrl;
 
@@ -48,7 +52,6 @@ export class StudentPageComponent implements OnInit {
           if (res.masquerade) {
             this.user += ' (M)';
           }
-          this.institute = res.institute;
           this.isInstructor = res.user.isInstructor;
           this.isStudent = res.user.isStudent;
           this.isAdmin = res.user.isAdmin;

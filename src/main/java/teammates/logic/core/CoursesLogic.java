@@ -49,6 +49,7 @@ public final class CoursesLogic {
     private FeedbackResponseCommentsLogic frcLogic;
     private InstructorsLogic instructorsLogic;
     private StudentsLogic studentsLogic;
+    private DeadlineExtensionsLogic deadlineExtensionsLogic;
 
     private CoursesLogic() {
         // prevent initialization
@@ -66,6 +67,7 @@ public final class CoursesLogic {
         frcLogic = FeedbackResponseCommentsLogic.inst();
         instructorsLogic = InstructorsLogic.inst();
         studentsLogic = StudentsLogic.inst();
+        deadlineExtensionsLogic = DeadlineExtensionsLogic.inst();
     }
 
     /**
@@ -100,8 +102,6 @@ public final class CoursesLogic {
 
         AccountAttributes courseCreator = accountsLogic.getAccount(instructorGoogleId);
         assert courseCreator != null : "Trying to create a course for a non-existent instructor :" + instructorGoogleId;
-        assert courseCreator.isInstructor()
-                : "Trying to create a course for a person who doesn't have instructor privileges :" + instructorGoogleId;
 
         CourseAttributes createdCourse = createCourse(courseToCreate);
 
@@ -302,7 +302,7 @@ public final class CoursesLogic {
     }
 
     /**
-     * Deletes a course cascade its students, instructors, sessions, responses and comments.
+     * Deletes a course cascade its students, instructors, sessions, responses, deadline extensions and comments.
      *
      * <p>Fails silently if no such course.
      */
@@ -320,6 +320,7 @@ public final class CoursesLogic {
         feedbackSessionsLogic.deleteFeedbackSessions(query);
         studentsLogic.deleteStudents(query);
         instructorsLogic.deleteInstructors(query);
+        deadlineExtensionsLogic.deleteDeadlineExtensions(query);
 
         coursesDb.deleteCourse(courseId);
     }

@@ -1,3 +1,7 @@
+<frontmatter>
+  title: "Search"
+</frontmatter>
+
 # Full-text Search Feature Support
 
 We use [Apache Solr](https://solr.apache.org/guide/8_11/) to support full-text search features required by the application, such as searching for students and instructors.
@@ -37,4 +41,4 @@ You may notice that the setup steps in this method are a manual version of the D
    Started Solr server on port 8983 (pid=44665). Happy searching!
    ```
    **Verification:** the Solr admin console should be accessible in `http://localhost:8983`.
-1. Run all the commands defined in the [Solr startup script](../solr/solr.sh) in the Solr root directory.
+1. Run all the commands defined in the [Solr startup script](https://github.com/TEAMMATES/teammates/blob/master/solr/solr.sh) in the Solr root directory.

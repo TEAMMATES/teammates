@@ -1,3 +1,4 @@
+import { HttpStatusCode } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { finalize } from 'rxjs/operators';
 import { CourseService, CourseStatistics } from '../../../services/course.service';
@@ -23,7 +24,7 @@ interface StudentIndexedData {
   [key: string]: Student[];
 }
 
-interface CourseTab {
+export interface CourseTab {
   course: Course;
   studentList: StudentListRowModel[];
   studentSortBy: SortBy;
@@ -31,6 +32,7 @@ interface CourseTab {
   hasTabExpanded: boolean;
   hasStudentLoaded: boolean;
   hasLoadingFailed: boolean;
+  isAbleToViewStudents: boolean;
   stats: CourseStatistics;
 }
 
@@ -80,6 +82,7 @@ export class InstructorStudentListPageComponent implements OnInit {
               hasTabExpanded: false,
               hasStudentLoaded: false,
               hasLoadingFailed: false,
+              isAbleToViewStudents: true,
               stats: {
                 numOfSections: 0,
                 numOfStudents: 0,
@@ -155,7 +158,12 @@ export class InstructorStudentListPageComponent implements OnInit {
             this.statusMessageService.showErrorToast(resp.error.message);
           });
         }, (resp: ErrorMessageOutput) => {
-          courseTab.hasLoadingFailed = true;
+          if (resp.status === HttpStatusCode.Forbidden) {
+            courseTab.isAbleToViewStudents = false;
+            courseTab.hasStudentLoaded = true;
+          } else {
+            courseTab.hasLoadingFailed = true;
+          }
           courseTab.studentList = [];
           this.statusMessageService.showErrorToast(resp.error.message);
         });

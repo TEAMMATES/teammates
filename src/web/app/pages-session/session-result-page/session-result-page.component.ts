@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { Observable } from 'rxjs';
 import { finalize, switchMap, tap } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../../../services/auth.service';
+import { CourseService } from '../../../services/course.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { InstructorService } from '../../../services/instructor.service';
 import { LogService } from '../../../services/log.service';
@@ -13,6 +15,7 @@ import { StudentService } from '../../../services/student.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import {
   AuthInfo,
+  Course,
   FeedbackSession, FeedbackSessionLogType,
   FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus,
   Instructor,
@@ -54,8 +57,12 @@ export class SessionResultPageComponent implements OnInit {
     isClosingEmailEnabled: true,
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
+    studentDeadlines: {},
+    instructorDeadlines: {},
   };
   questions: QuestionOutput[] = [];
+  courseName: string = '';
+  courseInstitute: string = '';
   formattedSessionOpeningTime: string = '';
   formattedSessionClosingTime: string = '';
   personName: string = '';
@@ -69,6 +76,7 @@ export class SessionResultPageComponent implements OnInit {
 
   intent: Intent = Intent.STUDENT_RESULT;
 
+  isCourseLoading: boolean = true;
   isFeedbackSessionDetailsLoading: boolean = true;
   isFeedbackSessionResultsLoading: boolean = true;
   hasFeedbackSessionResultsLoadingFailed: boolean = false;
@@ -84,6 +92,7 @@ export class SessionResultPageComponent implements OnInit {
               private authService: AuthService,
               private studentService: StudentService,
               private instructorService: InstructorService,
+              private courseService: CourseService,
               private statusMessageService: StatusMessageService,
               private logService: LogService,
               private ngbModal: NgbModal) {
@@ -121,6 +130,7 @@ export class SessionResultPageComponent implements OnInit {
                     { courseid: this.courseId, fsname: this.feedbackSessionName });
               } else {
                 // Valid, unused registration key; load information based on the key
+                this.loadCourseInfo();
                 this.loadPersonName();
                 this.loadFeedbackSession();
               }
@@ -154,6 +164,7 @@ export class SessionResultPageComponent implements OnInit {
           });
         } else if (this.loggedInUser) {
           // Load information based on logged in user
+          this.loadCourseInfo();
           this.loadPersonName();
           this.loadFeedbackSession();
         } else {
@@ -164,6 +175,29 @@ export class SessionResultPageComponent implements OnInit {
         this.navigationService.navigateWithErrorMessage(this.router, '/web/front',
             'You are not authorized to view this page.');
       });
+    });
+  }
+
+  private loadCourseInfo(): void {
+    this.isCourseLoading = true;
+    let request: Observable<Course>;
+    switch (this.intent) {
+      case Intent.STUDENT_RESULT:
+        request = this.courseService.getCourseAsStudent(this.courseId, this.regKey);
+        break;
+      case Intent.INSTRUCTOR_RESULT:
+        request = this.courseService.getCourseAsInstructor(this.courseId, this.regKey);
+        break;
+      default:
+        this.isCourseLoading = false;
+        return;
+    }
+    request.subscribe((resp: Course) => {
+      this.courseName = resp.courseName;
+      this.courseInstitute = resp.institute;
+      this.isCourseLoading = false;
+    }, () => {
+      this.isCourseLoading = false;
     });
   }
 

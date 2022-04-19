@@ -8,3 +8,13 @@
   cursor: pointer;
   outline: none;
 }
+
+.form-control {
+  &[readonly] {
+    background-color: transparent;
+  }
+
+  &:disabled {
+    background-color: #E9ECEF;
+  }
+}
