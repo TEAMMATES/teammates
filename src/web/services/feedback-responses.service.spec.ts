@@ -385,9 +385,9 @@ describe('FeedbackResponsesService', () => {
   it('should call get when retrieving a feedback response', () => {
     const dummyIntent: Intent = Intent.STUDENT_SUBMISSION;
     const paramMap: Record<string, string> = {
-      questionid: '[auto-generated Datastore ID]',
+      questionid: '[dummy question ID]',
       intent: dummyIntent,
-      key: '[generated registration key]',
+      key: '[dummy registration key]',
       moderatedperson: '',
     };
     service.getFeedbackResponse({
@@ -401,7 +401,7 @@ describe('FeedbackResponsesService', () => {
 
   it('should call put when submitting a feedback response', () => {
     const paramMap: Record<string, string> = {
-      questionid: '[auto-generated Datastore ID]',
+      questionid: '[dummy question ID]',
     };
     const dummyRequest: FeedbackResponsesRequest = { responses: [] };
     const dummyAdditionalParams: { [key: string]: string } = {};
@@ -412,9 +412,9 @@ describe('FeedbackResponsesService', () => {
   it('should include additional parameters when submitting a feedback response', () => {
     const dummyIntent: Intent = Intent.STUDENT_SUBMISSION;
     const paramMap: Record<string, string> = {
-      questionid: '[auto-generated Datastore ID]',
+      questionid: '[dummy question ID]',
       intent: dummyIntent,
-      key: '[generated registration key]',
+      key: '[dummy registration key]',
       moderatedperson: '',
     };
     const dummyRequest: FeedbackResponsesRequest = { responses: [] };
