@@ -109,13 +109,10 @@ describe('UserNotificationsListComponent', () => {
     component.loadNotifications();
     expect(getNotificationSpy).toHaveBeenCalledTimes(1);
     expect(getReadNotificationSpy).toHaveBeenCalledTimes(1);
-    expect(component.notificationTabs.length).toEqual(2);
-    expect(component.notificationTabs[0].notification === testNotificationOne).toBeTruthy();
-    expect(component.notificationTabs[1].notification === testNotificationTwo).toBeTruthy();
-    expect(component.notificationTabs[0].hasTabExpanded).toBeFalsy();
-    expect(component.notificationTabs[1].hasTabExpanded).toBeTruthy();
-    expect(component.notificationTabs[0].isRead).toBeTruthy();
-    expect(component.notificationTabs[1].isRead).toBeFalsy();
+    expect(component.notificationTabs).toEqual(getNotificationTabs(
+      [testNotificationOne, testNotificationTwo],
+      [testNotificationOne.notificationId],
+    ));
   });
 
   it('should mark notification as read when button is clicked', () => {

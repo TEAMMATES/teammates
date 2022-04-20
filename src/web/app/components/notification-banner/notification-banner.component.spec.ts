@@ -78,9 +78,7 @@ describe('NotificationBannerComponent', () => {
     }));
     component.ngOnInit();
     expect(spy).toHaveBeenCalledTimes(1);
-    expect(component.notifications.length).toEqual(2);
-    expect(component.notifications[0]).toEqual(testNotificationOne);
-    expect(component.notifications[1]).toEqual(testNotificationTwo);
+    expect(component.notifications).toEqual([testNotificationOne, testNotificationTwo]);
   });
 
   it('should close after clicking X', () => {
