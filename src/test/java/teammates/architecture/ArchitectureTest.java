@@ -509,8 +509,7 @@ public class ArchitectureTest {
     @Test
     public void testArchitecture_externalApi_cloudLoggingApiCanOnlyBeAccessedByCloudLoggingService() {
         noClasses().that().doNotHaveSimpleName("GoogleCloudLoggingService")
-                .should().accessClassesThat().resideInAPackage("com.google.appengine.logging.v1..")
-                .orShould().accessClassesThat().resideInAPackage("com.google.cloud.logging..")
+                .should().accessClassesThat().resideInAPackage("com.google.cloud.logging..")
                 .check(ALL_CLASSES);
     }
 

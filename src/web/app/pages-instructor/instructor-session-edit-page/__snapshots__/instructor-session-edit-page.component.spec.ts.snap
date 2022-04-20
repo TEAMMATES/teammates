@@ -22,7 +22,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback question f
   hasLoadingFeedbackSessionFailed="false"
   instructorDeadlines={[Function Object]}
   instructorService={[Function InstructorService]}
-  instructorsCanBePreviewedAs={[Function Array]}
+  instructorsOfCourse={[Function Array]}
   isAddingFromTemplate="false"
   isAddingQuestionPanelExpanded="false"
   isCopyingQuestion="false"
@@ -108,7 +108,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback questions 
   hasLoadingFeedbackSessionFailed="false"
   instructorDeadlines={[Function Object]}
   instructorService={[Function InstructorService]}
-  instructorsCanBePreviewedAs={[Function Array]}
+  instructorsOfCourse={[Function Array]}
   isAddingFromTemplate="false"
   isAddingQuestionPanelExpanded="false"
   isCopyingQuestion="false"
@@ -194,7 +194,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session fa
   hasLoadingFeedbackSessionFailed={[Function Boolean]}
   instructorDeadlines={[Function Object]}
   instructorService={[Function InstructorService]}
-  instructorsCanBePreviewedAs={[Function Array]}
+  instructorsOfCourse={[Function Array]}
   isAddingFromTemplate="false"
   isAddingQuestionPanelExpanded="false"
   isCopyingQuestion="false"
@@ -283,7 +283,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session is
   hasLoadingFeedbackSessionFailed="false"
   instructorDeadlines={[Function Object]}
   instructorService={[Function InstructorService]}
-  instructorsCanBePreviewedAs={[Function Array]}
+  instructorsOfCourse={[Function Array]}
   isAddingFromTemplate="false"
   isAddingQuestionPanelExpanded="false"
   isCopyingQuestion="false"
@@ -369,7 +369,7 @@ exports[`InstructorSessionEditPageComponent should snap with default fields 1`] 
   hasLoadingFeedbackSessionFailed="false"
   instructorDeadlines={[Function Object]}
   instructorService={[Function InstructorService]}
-  instructorsCanBePreviewedAs={[Function Array]}
+  instructorsOfCourse={[Function Array]}
   isAddingFromTemplate="false"
   isAddingQuestionPanelExpanded="false"
   isCopyingQuestion="false"
@@ -455,7 +455,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
   hasLoadingFeedbackSessionFailed="false"
   instructorDeadlines={[Function Object]}
   instructorService={[Function InstructorService]}
-  instructorsCanBePreviewedAs={[Function Array]}
+  instructorsOfCourse={[Function Array]}
   isAddingFromTemplate="false"
   isAddingQuestionPanelExpanded="false"
   isCopyingQuestion="false"
@@ -710,6 +710,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             class="form-control ng-untouched ng-pristine ng-valid"
                             disabled=""
                             ngbdatepicker=""
+                            readonly=""
                             type="text"
                           />
                         </div>
@@ -881,6 +882,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             class="form-control ng-untouched ng-pristine ng-valid"
                             disabled=""
                             ngbdatepicker=""
+                            readonly=""
                             type="text"
                           />
                         </div>
@@ -2845,7 +2847,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
   hasLoadingFeedbackSessionFailed="false"
   instructorDeadlines={[Function Object]}
   instructorService={[Function InstructorService]}
-  instructorsCanBePreviewedAs={[Function Array]}
+  instructorsOfCourse={[Function Array]}
   isAddingFromTemplate="false"
   isAddingQuestionPanelExpanded={[Function Boolean]}
   isCopyingQuestion="false"
@@ -3097,6 +3099,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                             class="form-control ng-untouched ng-pristine ng-valid"
                             disabled=""
                             ngbdatepicker=""
+                            readonly=""
                             type="text"
                           />
                         </div>
@@ -3268,6 +3271,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                             class="form-control ng-untouched ng-pristine ng-valid"
                             disabled=""
                             ngbdatepicker=""
+                            readonly=""
                             type="text"
                           />
                         </div>

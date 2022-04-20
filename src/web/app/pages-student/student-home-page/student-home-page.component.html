@@ -45,14 +45,18 @@
             <tr *ngFor="let session of studentCourse.feedbackSessions; index as i">
               <ng-container>
                 <td class="text-break">{{ session.session.feedbackSessionName }}</td>
-                <td *ngIf="session.session.submissionEndTimestamp">{{ session.session.submissionEndTimestamp | formatDateDetail: session.session.timeZone }}</td>
-                <td>
-                  <span [ngbTooltip]="getSubmissionStatusTooltip(session)">
-                    {{ session.isOpened | sessionSubmissionStatus: session.isWaitingToOpen : session.isSubmitted }}
+                <td *ngIf="session.session.submissionEndTimestamp">
+                  <span [ngbTooltip]="getSubmissionEndDateTooltip(session)" [ngClass]="{'ngb-tooltip-class' : hasStudentExtension(session.session)}">
+                    {{ getSubmissionEndDate(session) }}
                   </span>
                 </td>
                 <td>
-                  <span [ngbTooltip]="getResponseStatusTooltip(session.isPublished)">
+                  <span [ngbTooltip]="getSubmissionStatusTooltip(session)" class="ngb-tooltip-class">
+                    {{ getSubmissionStatus(session) }}
+                  </span>
+                </td>
+                <td>
+                  <span [ngbTooltip]="getResponseStatusTooltip(session.isPublished)" class="ngb-tooltip-class">
                     {{ session.isPublished | sessionResponseStatus }}
                   </span>
                 </td>

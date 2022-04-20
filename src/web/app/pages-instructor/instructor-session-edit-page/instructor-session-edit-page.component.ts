@@ -5,6 +5,7 @@ import moment from 'moment-timezone';
 import { forkJoin, Observable, of } from 'rxjs';
 import { concatMap, finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
+import { DeadlineExtensionHelper } from '../../../services/deadline-extension-helper';
 import {
   CommonVisibilitySetting,
   FeedbackQuestionsService,
@@ -49,6 +50,10 @@ import { CopySessionModalResult } from '../../components/copy-session-modal/copy
 import { CopySessionModalComponent } from '../../components/copy-session-modal/copy-session-modal.component';
 import { DateFormat } from '../../components/datepicker/datepicker.component';
 import {
+  ExtensionConfirmModalComponent,
+  ExtensionModalType,
+} from '../../components/extension-confirm-modal/extension-confirm-modal.component';
+import {
   QuestionEditFormMode,
   QuestionEditFormModel,
 } from '../../components/question-edit-form/question-edit-form-model';
@@ -60,6 +65,10 @@ import { SimpleModalType } from '../../components/simple-modal/simple-modal-type
 import { TimeFormat } from '../../components/timepicker/timepicker.component';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorSessionBasePageComponent } from '../instructor-session-base-page.component';
+import {
+  InstructorExtensionTableColumnModel,
+  StudentExtensionTableColumnModel,
+} from '../instructor-session-individual-extension-page/extension-table-column-model';
 import {
   FeedbackSessionTabModel,
 } from './copy-questions-from-other-sessions-modal/copy-questions-from-other-sessions-modal-model';
@@ -183,8 +192,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   // all students of the course
   studentsOfCourse: Student[] = [];
   emailOfStudentToPreview: string = '';
-  // instructors which can be previewed as
-  instructorsCanBePreviewedAs: Instructor[] = [];
+  // all instructors of the course
+  instructorsOfCourse: Instructor[] = [];
   emailOfInstructorToPreview: string = '';
 
   get isAllCollapsed(): boolean {
@@ -223,7 +232,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       this.loadFeedbackSession();
       this.loadFeedbackQuestions();
       this.getAllStudentsOfCourse();
-      this.getAllInstructorsCanBePreviewedAs();
+      this.getAllInstructors();
     });
   }
 
@@ -400,9 +409,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Handles editing existing session event.
    */
   editExistingSessionHandler(): void {
-    this.sessionEditFormModel.isEditable = false;
     this.feedbackSessionModelBeforeEditing = JSON.parse(JSON.stringify(this.sessionEditFormModel));
-    this.sessionEditFormModel.isSaving = true;
 
     const submissionStartTime: number = this.timezoneService.resolveLocalDateTime(
         this.sessionEditFormModel.submissionStartDate, this.sessionEditFormModel.submissionStartTime,
@@ -423,6 +430,17 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
           this.sessionEditFormModel.timeZone, true);
     }
 
+    this.deleteDeadlineExtensionsHandler(submissionEndTime).subscribe((isUpdateSession) => {
+      if (isUpdateSession) {
+        this.updateFeedbackSession(submissionStartTime, submissionEndTime, sessionVisibleTime, responseVisibleTime);
+      }
+    });
+  }
+
+  updateFeedbackSession(submissionStartTime: number, submissionEndTime: number, sessionVisibleTime: number,
+    responseVisibleTime: number): void {
+    this.sessionEditFormModel.isSaving = true;
+    this.sessionEditFormModel.isEditable = false;
     this.feedbackSessionsService.updateFeedbackSession(this.courseId, this.feedbackSessionName, {
       instructions: this.sessionEditFormModel.instructions,
 
@@ -452,6 +470,81 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     });
   }
 
+  /**
+   * Prompts the user to delete individual extensions that are before or equal to the new session end time.
+   */
+  deleteDeadlineExtensionsHandler(submissionEndTimestamp: number): Observable<boolean> {
+    const [studentDeadlinesToDelete, instructorDeadlinesToDelete] = this
+      .getIndividualDeadlinesToDelete(submissionEndTimestamp);
+
+    const isAllDeadlinesAfterUpdatedEndTime = Object.values(studentDeadlinesToDelete).length === 0
+      && Object.values(instructorDeadlinesToDelete).length === 0;
+
+    if (isAllDeadlinesAfterUpdatedEndTime) {
+      return of(true); // no need to prompt for deletion
+    }
+
+    const [affectedStudentModels, affectedInstructorModels] = this
+      .getAffectedIndividualModels(submissionEndTimestamp, studentDeadlinesToDelete, instructorDeadlinesToDelete);
+
+    const modalRef: NgbModalRef = this.ngbModal.open(ExtensionConfirmModalComponent);
+    modalRef.componentInstance.modalType = ExtensionModalType.SESSION_DELETE;
+    modalRef.componentInstance.selectedStudents = affectedStudentModels;
+    modalRef.componentInstance.selectedInstructors = affectedInstructorModels;
+    modalRef.componentInstance.extensionTimestamp = submissionEndTimestamp;
+    modalRef.componentInstance.feedbackSessionTimeZone = this.sessionEditFormModel.timeZone;
+
+    return new Observable((subscribeIsUserAccept) => {
+      modalRef.componentInstance.onConfirmExtensionCallBack.subscribe(() => {
+        this.removeDeadlines(affectedStudentModels, affectedInstructorModels);
+        modalRef.componentInstance.isSubmitting = false;
+        modalRef.close();
+        subscribeIsUserAccept.next(true);
+      }, () => {
+        subscribeIsUserAccept.next(false);
+      });
+    });
+  }
+
+  private getIndividualDeadlinesToDelete(submissionEndTimestamp: number): [
+    Record<string, number>, Record<string, number>,
+  ] {
+    const studentDeadlinesToDelete = DeadlineExtensionHelper.getDeadlinesBeforeOrEqualToEndTime(
+      this.studentDeadlines, submissionEndTimestamp);
+    const instructorDeadlinesToDelete = DeadlineExtensionHelper.getDeadlinesBeforeOrEqualToEndTime(
+      this.instructorDeadlines, submissionEndTimestamp);
+    return [studentDeadlinesToDelete, instructorDeadlinesToDelete];
+  }
+
+  /**
+   * Get models for individuals whose deadline extensions are before or equal to the new session end time.
+   */
+  private getAffectedIndividualModels(
+    submissionEndTimestamp: number,
+    affectedStudentDeadlines: Record<string, number>,
+    affectedInstructorDeadlines: Record<string, number>,
+  ): [StudentExtensionTableColumnModel[], InstructorExtensionTableColumnModel[]] {
+    const affectedStudents = this.studentsOfCourse.filter((student) => affectedStudentDeadlines[student.email]);
+    const affectedInstructors = this.instructorsOfCourse
+      .filter((instructor) => affectedInstructorDeadlines[instructor.email]);
+
+    const affectedStudentModels = DeadlineExtensionHelper.mapStudentsToStudentModels(
+      affectedStudents, affectedStudentDeadlines, submissionEndTimestamp,
+    );
+    const affectedInstructorModels = DeadlineExtensionHelper.mapInstructorsToInstructorModels(
+      affectedInstructors, affectedInstructorDeadlines, submissionEndTimestamp,
+    );
+    return [affectedStudentModels, affectedInstructorModels];
+  }
+
+  private removeDeadlines(students: StudentExtensionTableColumnModel[],
+    instructors: InstructorExtensionTableColumnModel[],
+  ): void {
+    this.studentDeadlines = DeadlineExtensionHelper
+      .getUpdatedDeadlinesForDeletion(students, this.studentDeadlines);
+    this.instructorDeadlines = DeadlineExtensionHelper
+      .getUpdatedDeadlinesForDeletion(instructors, this.instructorDeadlines);
+  }
   /**
    * Handles canceling existing session event without saving changes.
    */
@@ -1015,27 +1108,26 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   }
 
   /**
-   * Gets all instructors of a course which can be previewed as.
+   * Gets all instructors of a course.
    */
-  getAllInstructorsCanBePreviewedAs(): void {
+  getAllInstructors(): void {
     this.instructorService.loadInstructors({
       courseId: this.courseId,
       intent: Intent.FULL_DETAIL,
     })
         .subscribe((instructors: Instructors) => {
-          this.instructorsCanBePreviewedAs = instructors.instructors;
-
+          this.instructorsOfCourse = instructors.instructors;
           // TODO use privilege API to filter instructors who has INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS
           // in the feedback session
 
           // sort the instructor list based on name
-          this.instructorsCanBePreviewedAs.sort((a: Instructor, b: Instructor): number => {
+          this.instructorsOfCourse.sort((a: Instructor, b: Instructor): number => {
             return a.name.localeCompare(b.name);
           });
 
           // select the first instructor
-          if (this.instructorsCanBePreviewedAs.length >= 1) {
-            this.emailOfInstructorToPreview = this.instructorsCanBePreviewedAs[0].email;
+          if (this.instructorsOfCourse.length >= 1) {
+            this.emailOfInstructorToPreview = this.instructorsOfCourse[0].email;
           }
         }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
   }
