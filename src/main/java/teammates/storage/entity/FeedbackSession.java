@@ -76,9 +76,11 @@ public class FeedbackSession extends BaseEntity {
 
     private boolean isPublishedEmailEnabled;
 
+    @Unindex
     @Serialize
     private Map<String, Instant> studentDeadlines;
 
+    @Unindex
     @Serialize
     private Map<String, Instant> instructorDeadlines;
 
