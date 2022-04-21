@@ -1,0 +1,111 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NotificationBannerComponent should snap with 1 unread notification 1`] = `
+<tm-notification-banner
+  isShown={[Function Boolean]}
+  notificationService={[Function NotificationService]}
+  notificationTargetUser={[Function String]}
+  notifications={[Function Array]}
+  statusMessageService={[Function StatusMessageService]}
+  url=""
+>
+  <div
+    class="banner alert alert-success ng-trigger ng-trigger-collapseAnim ng-animating"
+    id="notification-banner"
+    style=""
+  >
+    <button
+      aria-label="Close"
+      class="close"
+      id="btn-close-notif"
+      type="button"
+    >
+      <span
+        aria-hidden="true"
+      >
+        ×
+      </span>
+    </button>
+    <h5>
+      valid title 1
+    </h5>
+    <div
+      class="banner-text"
+    >
+      valid message 1
+    </div>
+    <div
+      class="d-flex flex-row-reverse mt-3 mr-2"
+    >
+      <button
+        class="btn btn-success"
+        id="btn-mark-as-read"
+        type="button"
+      >
+         Mark as Read 
+      </button>
+    </div>
+  </div>
+</tm-notification-banner>
+`;
+
+exports[`NotificationBannerComponent should snap with multiple unread notifications 1`] = `
+<tm-notification-banner
+  isShown={[Function Boolean]}
+  notificationService={[Function NotificationService]}
+  notificationTargetUser={[Function String]}
+  notifications={[Function Array]}
+  statusMessageService={[Function StatusMessageService]}
+  url=""
+>
+  <div
+    class="banner alert alert-success ng-trigger ng-trigger-collapseAnim ng-animating"
+    id="notification-banner"
+    style=""
+  >
+    <button
+      aria-label="Close"
+      class="close"
+      id="btn-close-notif"
+      type="button"
+    >
+      <span
+        aria-hidden="true"
+      >
+        ×
+      </span>
+    </button>
+    <h5>
+      valid title 1
+    </h5>
+    <div
+      class="banner-text"
+    >
+      valid message 1
+    </div>
+    <div
+      class="d-flex flex-row-reverse mt-3 mr-2"
+    >
+      <button
+        class="btn btn-success"
+        id="btn-mark-as-read"
+        type="button"
+      >
+         Mark as Read 
+      </button>
+    </div>
+  </div>
+</tm-notification-banner>
+`;
+
+exports[`NotificationBannerComponent should snap with no unread notifications 1`] = `
+<tm-notification-banner
+  isShown={[Function Boolean]}
+  notificationService={[Function NotificationService]}
+  notificationTargetUser={[Function String]}
+  notifications={[Function Array]}
+  statusMessageService={[Function StatusMessageService]}
+  url=""
+>
+</tm-notification-banner>
+`;

@@ -175,9 +175,9 @@ describe('AdminNotificationsPageComponent', () => {
   it('should add notification for all fields filled in', () => {
     jest.spyOn(notificationService, 'createNotification').mockReturnValue(of(testNotificationOne));
     const spy: SpyInstance = jest.spyOn(statusMessageService, 'showSuccessToast')
-    .mockImplementation((args: string) => {
-      expect(args).toEqual('Successfully created');
-    });
+      .mockImplementation((args: string) => {
+        expect(args).toEqual('Successfully created');
+      });
 
     component.addNewNotificationHandler();
 
@@ -236,7 +236,7 @@ describe('AdminNotificationsPageComponent', () => {
   it('should display warning when attempts to edit another notification when form is open', async () => {
     const promise: Promise<void> = Promise.resolve();
     const modalSpy: SpyInstance = jest.spyOn(simpleModalService, 'openConfirmationModal')
-        .mockReturnValue(createMockNgbModalRef({}, promise));
+      .mockReturnValue(createMockNgbModalRef({}, promise));
     jest.spyOn(notificationService, 'getNotifications').mockReturnValue(of({
       notifications: [testNotificationOne, testNotificationTwo],
     }));
@@ -274,9 +274,9 @@ describe('AdminNotificationsPageComponent', () => {
       message: 'Successfully deleted',
     }));
     const spy: SpyInstance = jest.spyOn(statusMessageService, 'showSuccessToast')
-    .mockImplementation((args: string) => {
-      expect(args).toEqual('Successfully deleted');
-    });
+      .mockImplementation((args: string) => {
+        expect(args).toEqual('Successfully deleted');
+      });
 
     component.deleteNotificationHandler(testNotificationEditModel.notificationId);
     expect(spy).toHaveBeenCalledTimes(1);

@@ -14,7 +14,7 @@ import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { collapseAnim } from '../teammates-common/collapse-anim';
 
-interface NotificationTab {
+export interface NotificationTab {
   notification: Notification;
   hasTabExpanded: boolean;
   isRead: boolean;
