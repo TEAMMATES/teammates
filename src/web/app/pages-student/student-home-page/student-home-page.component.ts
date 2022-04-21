@@ -135,7 +135,7 @@ export class StudentHomePageComponent implements OnInit {
           .subscribe((hasRes: HasResponses) => {
             if (!hasRes.hasResponsesBySession) {
               this.statusMessageService.showErrorToast(this.allStudentFeedbackSessionsNotReturned);
-              this.hasCoursesLoadingFailed = true;
+              courseRef.hasFeedbackSessionsLoadingFailed = true;
               return;
             }
 
@@ -147,7 +147,7 @@ export class StudentHomePageComponent implements OnInit {
 
             if (!isAllSessionsPresent) {
               this.statusMessageService.showErrorToast(this.allStudentFeedbackSessionsNotReturned);
-              this.hasCoursesLoadingFailed = true;
+              courseRef.hasFeedbackSessionsLoadingFailed = true;
               return;
             }
 
