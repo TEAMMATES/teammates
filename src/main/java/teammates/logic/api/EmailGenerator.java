@@ -521,8 +521,20 @@ public final class EmailGenerator {
         }
 
         String template = EmailTemplates.USER_FEEDBACK_SESSION.replace("${status}", FEEDBACK_STATUS_SESSION_CLOSING);
-        return generateFeedbackSessionEmailBases(course, session, students, instructors, Collections.emptyList(), template,
-                EmailType.FEEDBACK_CLOSING, FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW);
+        EmailType type = EmailType.FEEDBACK_CLOSING;
+        String feedbackAction = FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW;
+        List<EmailWrapper> emails = new ArrayList<>();
+        for (StudentAttributes student : students) {
+            FeedbackSessionAttributes studentSession = session.getCopyForStudent(student.getEmail());
+            emails.addAll(generateFeedbackSessionEmailBases(course, studentSession, Collections.singletonList(student),
+                    Collections.emptyList(), Collections.emptyList(), template, type, feedbackAction));
+        }
+        for (InstructorAttributes instructor : instructors) {
+            FeedbackSessionAttributes instructorSession = session.getCopyForInstructor(instructor.getEmail());
+            emails.addAll(generateFeedbackSessionEmailBases(course, instructorSession, Collections.emptyList(),
+                    Collections.singletonList(instructor), Collections.emptyList(), template, type, feedbackAction));
+        }
+        return emails;
     }
 
     /**
@@ -722,14 +734,15 @@ public final class EmailGenerator {
                 .toAbsoluteString();
 
         Instant endTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
-                session.getEndTime(), session.getTimeZone(), false);
+                session.getDeadline(), session.getTimeZone(), false);
         String emailBody = Templates.populateTemplate(template,
                 "${userName}", SanitizationHelper.sanitizeForHtml(student.getName()),
                 "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
                 "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
                 "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName()),
                 "${deadline}", SanitizationHelper.sanitizeForHtml(
-                        TimeHelper.formatInstant(endTime, session.getTimeZone(), DATETIME_DISPLAY_FORMAT)),
+                        TimeHelper.formatInstant(endTime, session.getTimeZone(), DATETIME_DISPLAY_FORMAT))
+                        + (session.getUserEmail() == null ? "" : " (after extension)"),
                 "${instructorPreamble}", "",
                 "${sessionInstructions}", session.getInstructionsString(),
                 "${submitUrl}", submitUrl,
@@ -762,14 +775,15 @@ public final class EmailGenerator {
                 .toAbsoluteString();
 
         Instant endTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
-                session.getEndTime(), session.getTimeZone(), false);
+                session.getDeadline(), session.getTimeZone(), false);
         String emailBody = Templates.populateTemplate(template,
                 "${userName}", SanitizationHelper.sanitizeForHtml(instructor.getName()),
                 "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
                 "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
                 "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName()),
                 "${deadline}", SanitizationHelper.sanitizeForHtml(
-                        TimeHelper.formatInstant(endTime, session.getTimeZone(), DATETIME_DISPLAY_FORMAT)),
+                        TimeHelper.formatInstant(endTime, session.getTimeZone(), DATETIME_DISPLAY_FORMAT))
+                        + (session.getUserEmail() == null ? "" : " (after extension)"),
                 "${instructorPreamble}", "",
                 "${sessionInstructions}", session.getInstructionsString(),
                 "${submitUrl}", submitUrl,
