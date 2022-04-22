@@ -28,6 +28,9 @@ public final class Config {
     /** The value of the "app.localdatastore.port" in build.properties file. */
     public static final int APP_LOCALDATASTORE_PORT;
 
+    /** The value of the "app.base.url" in build.properties file. */
+    public static final String BASE_URL;
+
     /** The value of the "app.taskqueue.active" in build.properties file. */
     public static final boolean TASKQUEUE_ACTIVE;
 
@@ -103,6 +106,9 @@ public final class Config {
     /** The value of the "app.maintenance" in build.properties file. */
     public static final boolean MAINTENANCE;
 
+    /** Indicates whether the current server is dev server. */
+    public static final boolean IS_DEV_SERVER;
+
     static {
         Properties properties = new Properties();
         try (InputStream buildPropStream = FileHelper.getResourceAsStream("build.properties")) {
@@ -110,46 +116,79 @@ public final class Config {
         } catch (IOException e) {
             assert false;
         }
-        APP_ID = properties.getProperty("app.id");
-        APP_REGION = properties.getProperty("app.region");
-        APP_VERSION = properties.getProperty("app.version");
-        APP_FRONTENDDEV_URL = properties.getProperty("app.frontenddev.url");
-        APP_LOCALDATASTORE_PORT = Integer.parseInt(properties.getProperty("app.localdatastore.port", "8484"));
-        TASKQUEUE_ACTIVE = Boolean.parseBoolean(properties.getProperty("app.taskqueue.active", "true"));
-        CSRF_KEY = properties.getProperty("app.csrf.key");
-        BACKDOOR_KEY = properties.getProperty("app.backdoor.key");
-        PRODUCTION_GCS_BUCKETNAME = properties.getProperty("app.production.gcs.bucketname");
-        BACKUP_GCS_BUCKETNAME = properties.getProperty("app.backup.gcs.bucketname");
-        ENCRYPTION_KEY = properties.getProperty("app.encryption.key");
-        OAUTH2_CLIENT_ID = properties.getProperty("app.oauth2.client.id");
-        OAUTH2_CLIENT_SECRET = properties.getProperty("app.oauth2.client.secret");
-        ENABLE_DEVSERVER_LOGIN = Boolean.parseBoolean(properties.getProperty("app.enable.devserver.login", "true"));
-        CAPTCHA_SECRET_KEY = properties.getProperty("app.captcha.secretkey");
+
+        String appVersion = properties.getProperty("app.version");
+        String appId = properties.getProperty("app.id");
+        IS_DEV_SERVER = isDevServer(appVersion, appId);
+
+        Properties devProperties = new Properties();
+        if (IS_DEV_SERVER) {
+            try (InputStream devPropStream = FileHelper.getResourceAsStream("build-dev.properties")) {
+                devProperties.load(devPropStream);
+            } catch (IOException e) {
+                assert false;
+            }
+            APP_ID = getProperty(properties, devProperties, "app.id");
+            APP_VERSION = getProperty(properties, devProperties, "app.version");
+        } else {
+            APP_ID = appId;
+            APP_VERSION = appVersion;
+        }
+
+        APP_REGION = getProperty(properties, devProperties, "app.region");
+        APP_FRONTENDDEV_URL = getProperty(properties, devProperties, "app.frontenddev.url");
+        APP_LOCALDATASTORE_PORT = Integer.parseInt(
+                getProperty(properties, devProperties, "app.localdatastore.port", "8484"));
+        BASE_URL = getProperty(properties, devProperties, "app.base.url");
+        TASKQUEUE_ACTIVE = Boolean.parseBoolean(getProperty(properties, devProperties, "app.taskqueue.active", "true"));
+        CSRF_KEY = getProperty(properties, devProperties, "app.csrf.key");
+        BACKDOOR_KEY = getProperty(properties, devProperties, "app.backdoor.key");
+        PRODUCTION_GCS_BUCKETNAME = getProperty(properties, devProperties, "app.production.gcs.bucketname");
+        BACKUP_GCS_BUCKETNAME = getProperty(properties, devProperties, "app.backup.gcs.bucketname");
+        ENCRYPTION_KEY = getProperty(properties, devProperties, "app.encryption.key");
+        OAUTH2_CLIENT_ID = getProperty(properties, devProperties, "app.oauth2.client.id");
+        OAUTH2_CLIENT_SECRET = getProperty(properties, devProperties, "app.oauth2.client.secret");
+        ENABLE_DEVSERVER_LOGIN = Boolean.parseBoolean(
+                getProperty(properties, devProperties, "app.enable.devserver.login", "true"));
+        CAPTCHA_SECRET_KEY = getProperty(properties, devProperties, "app.captcha.secretkey");
         APP_ADMINS = Collections.unmodifiableList(
-                Arrays.asList(properties.getProperty("app.admins", "").split(",")));
+                Arrays.asList(getProperty(properties, devProperties, "app.admins", "").split(",")));
         APP_MAINTAINERS = Collections.unmodifiableList(
-                Arrays.asList(properties.getProperty("app.maintainers", "").split(",")));
-        SUPPORT_EMAIL = properties.getProperty("app.crashreport.email");
-        EMAIL_SENDEREMAIL = properties.getProperty("app.email.senderemail");
-        EMAIL_SENDERNAME = properties.getProperty("app.email.sendername");
-        EMAIL_REPLYTO = properties.getProperty("app.email.replyto");
-        EMAIL_SERVICE = properties.getProperty("app.email.service");
-        SENDGRID_APIKEY = properties.getProperty("app.sendgrid.apikey");
-        MAILGUN_APIKEY = properties.getProperty("app.mailgun.apikey");
-        MAILGUN_DOMAINNAME = properties.getProperty("app.mailgun.domainname");
-        MAILJET_APIKEY = properties.getProperty("app.mailjet.apikey");
-        MAILJET_SECRETKEY = properties.getProperty("app.mailjet.secretkey");
-        SEARCH_SERVICE_HOST = properties.getProperty("app.search.service.host");
-        ENABLE_DATASTORE_BACKUP = Boolean.parseBoolean(properties.getProperty("app.enable.datastore.backup", "false"));
-        MAINTENANCE = Boolean.parseBoolean(properties.getProperty("app.maintenance", "false"));
+                Arrays.asList(getProperty(properties, devProperties, "app.maintainers", "").split(",")));
+        SUPPORT_EMAIL = getProperty(properties, devProperties, "app.crashreport.email");
+        EMAIL_SENDEREMAIL = getProperty(properties, devProperties, "app.email.senderemail");
+        EMAIL_SENDERNAME = getProperty(properties, devProperties, "app.email.sendername");
+        EMAIL_REPLYTO = getProperty(properties, devProperties, "app.email.replyto");
+        EMAIL_SERVICE = getProperty(properties, devProperties, "app.email.service");
+        SENDGRID_APIKEY = getProperty(properties, devProperties, "app.sendgrid.apikey");
+        MAILGUN_APIKEY = getProperty(properties, devProperties, "app.mailgun.apikey");
+        MAILGUN_DOMAINNAME = getProperty(properties, devProperties, "app.mailgun.domainname");
+        MAILJET_APIKEY = getProperty(properties, devProperties, "app.mailjet.apikey");
+        MAILJET_SECRETKEY = getProperty(properties, devProperties, "app.mailjet.secretkey");
+        SEARCH_SERVICE_HOST = getProperty(properties, devProperties, "app.search.service.host");
+        ENABLE_DATASTORE_BACKUP = Boolean.parseBoolean(
+                getProperty(properties, devProperties, "app.enable.datastore.backup", "false"));
+        MAINTENANCE = Boolean.parseBoolean(getProperty(properties, devProperties, "app.maintenance", "false"));
     }
 
     private Config() {
         // access static fields directly
     }
 
-    static String getBaseAppUrl() {
-        return isDevServer() ? "http://localhost:" + getPort() : "https://" + APP_ID + ".appspot.com";
+    static String getProperty(Properties properties, Properties devProperties, String key, String defaultValue) {
+        if (IS_DEV_SERVER) {
+            return devProperties.getProperty(key, properties.getProperty(key, defaultValue));
+        } else {
+            return properties.getProperty(key, defaultValue);
+        }
+    }
+
+    static String getProperty(Properties properties, Properties devProperties, String key) {
+        if (IS_DEV_SERVER) {
+            return devProperties.getProperty(key, properties.getProperty(key));
+        } else {
+            return properties.getProperty(key);
+        }
     }
 
     /**
@@ -177,14 +216,14 @@ public final class Config {
     /**
      * Returns true if the server is configured to be the dev server.
      */
-    public static boolean isDevServer() {
+    public static boolean isDevServer(String appVersion, String appId) {
         // In production server, GAE sets some non-overrideable environment variables.
         // We will make use of some of them to determine whether the server is dev server or not.
         // This means that any developer can replicate this condition in dev server,
         // but it is their own choice and risk should they choose to do so.
 
         String version = System.getenv("GAE_VERSION");
-        if (!APP_VERSION.equals(version)) {
+        if (!appVersion.equals(version)) {
             return true;
         }
 
@@ -192,7 +231,7 @@ public final class Config {
         if ("standard".equals(env)) {
             // GAE standard
             String appName = System.getenv("GAE_APPLICATION");
-            return appName == null || !appName.endsWith(APP_ID);
+            return appName == null || !appName.endsWith(appId);
         }
 
         // GAE flexible; GAE_ENV variable should not exist in GAE flexible environment
@@ -203,7 +242,7 @@ public final class Config {
      * Indicates whether dev server login is enabled.
      */
     public static boolean isDevServerLoginEnabled() {
-        return Config.isDevServer() && ENABLE_DEVSERVER_LOGIN;
+        return IS_DEV_SERVER && ENABLE_DEVSERVER_LOGIN;
     }
 
     /**
@@ -212,7 +251,7 @@ public final class Config {
      * {@code relativeUrl} must start with a "/".
      */
     public static AppUrl getFrontEndAppUrl(String relativeUrl) {
-        if (Config.isDevServer() && APP_FRONTENDDEV_URL != null) {
+        if (IS_DEV_SERVER && APP_FRONTENDDEV_URL != null) {
             return new AppUrl(APP_FRONTENDDEV_URL + relativeUrl);
         }
 
@@ -226,7 +265,7 @@ public final class Config {
      * {@code relativeUrl} must start with a "/".
      */
     private static AppUrl getBackEndAppUrl(String relativeUrl) {
-        return new AppUrl(getBaseAppUrl() + relativeUrl);
+        return new AppUrl(BASE_URL + relativeUrl);
     }
 
     public static boolean isUsingSendgrid() {

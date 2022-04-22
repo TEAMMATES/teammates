@@ -27,7 +27,7 @@ public class TaskQueuer {
     private final TaskQueueService service;
 
     TaskQueuer() {
-        if (Config.isDevServer()) {
+        if (Config.IS_DEV_SERVER) {
             service = new LocalTaskQueueService();
         } else {
             service = new GoogleCloudTasksService();

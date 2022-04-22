@@ -112,7 +112,7 @@ public class OriginCheckFilterTest extends BaseTestCase {
         FILTER.doFilter(mockRequest, mockResponse, mockFilterChain);
         assertEquals(HttpStatus.SC_OK, mockResponse.getStatus());
 
-        if (Config.isDevServer()) {
+        if (Config.IS_DEV_SERVER) {
 
             ______TS("Cross-origin GET request is allowed in dev server");
 
