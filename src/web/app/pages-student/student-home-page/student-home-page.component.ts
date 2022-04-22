@@ -106,10 +106,10 @@ export class StudentHomePageComponent implements OnInit {
             isFeedbackSessionsLoading: true,
             hasFeedbackSessionsLoadingFailed: false,
           });
-          this.courses.sort((a: StudentCourse, b: StudentCourse) =>
-              ((a.course.courseId > b.course.courseId) ? 1 : -1));
           this.loadFeedbackSessionsForCourse(course.courseId);
         }
+        this.courses.sort((a: StudentCourse, b: StudentCourse) =>
+            ((a.course.courseId > b.course.courseId) ? 1 : -1));
       }, (e: ErrorMessageOutput) => {
         this.hasCoursesLoadingFailed = true;
         this.statusMessageService.showErrorToast(e.error.message);
