@@ -423,7 +423,7 @@ describe('StudentHomePageComponent', () => {
 
     component.loadStudentCourses();
 
-    expect(component.hasCoursesLoadingFailed).toBeTruthy();
+    expect(component.courses[0].hasFeedbackSessionsLoadingFailed).toBeTruthy();
   });
 
   it('should sort feedback sessions first by createdAtTimestamp upon loading', () => {
