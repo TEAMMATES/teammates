@@ -13,6 +13,10 @@ import java.util.Properties;
  */
 public final class Config {
 
+    // Normally, the following property values are loaded from build.properties file.
+    // When in dev environment and they appear in build-dev.properties,
+    // they are overridden by the values in build-dev.properties.
+
     /** The value of the "app.id" in build.properties file. */
     public static final String APP_ID;
 
@@ -24,12 +28,6 @@ public final class Config {
 
     /** The value of the "app.frontenddev.url" in build.properties file. */
     public static final String APP_FRONTENDDEV_URL;
-
-    /** The value of the "app.localdatastore.port" in build.properties file. */
-    public static final int APP_LOCALDATASTORE_PORT;
-
-    /** The value of the "app.taskqueue.active" in build.properties file. */
-    public static final boolean TASKQUEUE_ACTIVE;
 
     /** The value of the "app.production.gcs.bucketname" in build.properties file. */
     public static final String PRODUCTION_GCS_BUCKETNAME;
@@ -51,9 +49,6 @@ public final class Config {
 
     /** The value of the "app.oauth2.client.secret" in build.properties file. */
     public static final String OAUTH2_CLIENT_SECRET;
-
-    /** The value of the "app.enable.devserver.login" in build.properties file. */
-    public static final boolean ENABLE_DEVSERVER_LOGIN;
 
     /** The value of the "app.captcha.secretkey" in build.properties file. */
     public static final String CAPTCHA_SECRET_KEY;
@@ -103,6 +98,20 @@ public final class Config {
     /** The value of the "app.maintenance" in build.properties file. */
     public static final boolean MAINTENANCE;
 
+    // The following properties are not used in production server.
+    // So they will only be read from build-dev.properties file.
+
+    /** The value of the "app.localdatastore.port" in build-dev.properties file. */
+    public static final int APP_LOCALDATASTORE_PORT;
+
+    /** The value of the "app.enable.devserver.login" in build-dev.properties file. */
+    public static final boolean ENABLE_DEVSERVER_LOGIN;
+
+    /** The value of the "app.taskqueue.active" in build-dev.properties file. */
+    public static final boolean TASKQUEUE_ACTIVE;
+
+    // Other properties
+
     /** Indicates whether the current server is dev server. */
     public static final boolean IS_DEV_SERVER;
 
@@ -123,8 +132,10 @@ public final class Config {
         Properties devProperties = new Properties();
         if (IS_DEV_SERVER) {
             try (InputStream devPropStream = FileHelper.getResourceAsStream("build-dev.properties")) {
-                devProperties.load(devPropStream);
-            } catch (IOException | NullPointerException e) {
+                if (devPropStream != null) {
+                    devProperties.load(devPropStream);
+                }
+            } catch (IOException e) {
                 log.warning("Dev environment detected but failed to load build-dev.properties file.");
             }
             APP_ID = getProperty(properties, devProperties, "app.id");
@@ -136,9 +147,6 @@ public final class Config {
 
         APP_REGION = getProperty(properties, devProperties, "app.region");
         APP_FRONTENDDEV_URL = getProperty(properties, devProperties, "app.frontenddev.url");
-        APP_LOCALDATASTORE_PORT = Integer.parseInt(
-                getProperty(properties, devProperties, "app.localdatastore.port", "8484"));
-        TASKQUEUE_ACTIVE = Boolean.parseBoolean(getProperty(properties, devProperties, "app.taskqueue.active", "true"));
         CSRF_KEY = getProperty(properties, devProperties, "app.csrf.key");
         BACKDOOR_KEY = getProperty(properties, devProperties, "app.backdoor.key");
         PRODUCTION_GCS_BUCKETNAME = getProperty(properties, devProperties, "app.production.gcs.bucketname");
@@ -146,8 +154,6 @@ public final class Config {
         ENCRYPTION_KEY = getProperty(properties, devProperties, "app.encryption.key");
         OAUTH2_CLIENT_ID = getProperty(properties, devProperties, "app.oauth2.client.id");
         OAUTH2_CLIENT_SECRET = getProperty(properties, devProperties, "app.oauth2.client.secret");
-        ENABLE_DEVSERVER_LOGIN = Boolean.parseBoolean(
-                getProperty(properties, devProperties, "app.enable.devserver.login", "true"));
         CAPTCHA_SECRET_KEY = getProperty(properties, devProperties, "app.captcha.secretkey");
         APP_ADMINS = Collections.unmodifiableList(
                 Arrays.asList(getProperty(properties, devProperties, "app.admins", "").split(",")));
@@ -167,6 +173,14 @@ public final class Config {
         ENABLE_DATASTORE_BACKUP = Boolean.parseBoolean(
                 getProperty(properties, devProperties, "app.enable.datastore.backup", "false"));
         MAINTENANCE = Boolean.parseBoolean(getProperty(properties, devProperties, "app.maintenance", "false"));
+
+        // Dev property values, read directly from devProperties
+        APP_LOCALDATASTORE_PORT = Integer.parseInt(
+                devProperties.getProperty("app.localdatastore.port", "8484"));
+        ENABLE_DEVSERVER_LOGIN = Boolean.parseBoolean(
+                devProperties.getProperty("app.enable.devserver.login", "true"));
+        TASKQUEUE_ACTIVE = Boolean.parseBoolean(
+                devProperties.getProperty("app.taskqueue.active", "true"));
     }
 
     private Config() {
