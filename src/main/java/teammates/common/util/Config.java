@@ -28,9 +28,6 @@ public final class Config {
     /** The value of the "app.localdatastore.port" in build.properties file. */
     public static final int APP_LOCALDATASTORE_PORT;
 
-    /** The value of the "app.base.url" in build.properties file. */
-    public static final String BASE_URL;
-
     /** The value of the "app.taskqueue.active" in build.properties file. */
     public static final boolean TASKQUEUE_ACTIVE;
 
@@ -109,6 +106,8 @@ public final class Config {
     /** Indicates whether the current server is dev server. */
     public static final boolean IS_DEV_SERVER;
 
+    private static final Logger log = Logger.getLogger();
+
     static {
         Properties properties = new Properties();
         try (InputStream buildPropStream = FileHelper.getResourceAsStream("build.properties")) {
@@ -125,8 +124,8 @@ public final class Config {
         if (IS_DEV_SERVER) {
             try (InputStream devPropStream = FileHelper.getResourceAsStream("build-dev.properties")) {
                 devProperties.load(devPropStream);
-            } catch (IOException e) {
-                assert false;
+            } catch (IOException | NullPointerException e) {
+                log.warning("Dev environment detected but failed to load build-dev.properties file.");
             }
             APP_ID = getProperty(properties, devProperties, "app.id");
             APP_VERSION = getProperty(properties, devProperties, "app.version");
@@ -139,7 +138,6 @@ public final class Config {
         APP_FRONTENDDEV_URL = getProperty(properties, devProperties, "app.frontenddev.url");
         APP_LOCALDATASTORE_PORT = Integer.parseInt(
                 getProperty(properties, devProperties, "app.localdatastore.port", "8484"));
-        BASE_URL = getProperty(properties, devProperties, "app.base.url");
         TASKQUEUE_ACTIVE = Boolean.parseBoolean(getProperty(properties, devProperties, "app.taskqueue.active", "true"));
         CSRF_KEY = getProperty(properties, devProperties, "app.csrf.key");
         BACKDOOR_KEY = getProperty(properties, devProperties, "app.backdoor.key");
@@ -175,7 +173,11 @@ public final class Config {
         // access static fields directly
     }
 
-    static String getProperty(Properties properties, Properties devProperties, String key, String defaultValue) {
+    public static String getBaseAppUrl() {
+        return IS_DEV_SERVER ? "http://localhost:" + getPort() : "https://" + APP_ID + ".appspot.com";
+    }
+
+    private static String getProperty(Properties properties, Properties devProperties, String key, String defaultValue) {
         if (IS_DEV_SERVER) {
             return devProperties.getProperty(key, properties.getProperty(key, defaultValue));
         } else {
@@ -183,7 +185,7 @@ public final class Config {
         }
     }
 
-    static String getProperty(Properties properties, Properties devProperties, String key) {
+    private static String getProperty(Properties properties, Properties devProperties, String key) {
         if (IS_DEV_SERVER) {
             return devProperties.getProperty(key, properties.getProperty(key));
         } else {
@@ -216,7 +218,7 @@ public final class Config {
     /**
      * Returns true if the server is configured to be the dev server.
      */
-    public static boolean isDevServer(String appVersion, String appId) {
+    private static boolean isDevServer(String appVersion, String appId) {
         // In production server, GAE sets some non-overrideable environment variables.
         // We will make use of some of them to determine whether the server is dev server or not.
         // This means that any developer can replicate this condition in dev server,
@@ -265,7 +267,7 @@ public final class Config {
      * {@code relativeUrl} must start with a "/".
      */
     private static AppUrl getBackEndAppUrl(String relativeUrl) {
-        return new AppUrl(BASE_URL + relativeUrl);
+        return new AppUrl(getBaseAppUrl() + relativeUrl);
     }
 
     public static boolean isUsingSendgrid() {
