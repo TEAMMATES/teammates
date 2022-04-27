@@ -1,12 +1,12 @@
 <div class="modal-header text-white"
      [ngClass]="{'bg-danger': hasFailToSaveQuestions, 'bg-success': !hasFailToSaveQuestions}">
   <h5 class="modal-title">
-        <span *ngIf="!hasFailToSaveQuestions">
-          <i class="fas fa-check-circle"></i> All responses submitted successfully!
-        </span>
+    <span *ngIf="!hasFailToSaveQuestions">
+      <i class="fas fa-check-circle"></i> Responses submitted successfully!
+    </span>
     <span *ngIf="hasFailToSaveQuestions">
-          <i class="fas fa-exclamation-circle"></i> Some response submissions failed!
-        </span>
+      <i class="fas fa-exclamation-circle"></i> Some response submissions failed!
+    </span>
   </h5>
   <button type="button" class="close" (click)="activeModal.dismiss()">
     <i class="fas fa-times"></i>
@@ -14,7 +14,7 @@
 </div>
 <div class="modal-body">
   <p id="not-answered-questions" *ngIf="notYetAnsweredQuestions.length !== 0">
-    <i class="fas fa-exclamation"></i> Note that some questions are yet to be answered.
+    <i class="fas fa-exclamation"></i> Note that some questions are yet to be fully answered.
     They are: {{ notYetAnsweredQuestions.join(', ') }}.
   </p>
   <div *ngIf="hasFailToSaveQuestions" class="text-danger" style="margin-bottom: 10px;">
@@ -28,22 +28,25 @@
   <p *ngIf="hasFailToSaveQuestions">
     Please try to submit your responses again.
   </p>
-  <p *ngIf="!hasFailToSaveQuestions">
+  <p *ngIf="!hasFailToSaveQuestions && questions.length === 1">
+    Your responses for question {{ questions[0].questionNumber }} have been successfully recorded!
+  </p>
+  <p *ngIf="!hasFailToSaveQuestions && questions.length > 1">
     All your responses have been successfully recorded!
   </p>
   <p>
     Note that you can change your responses and submit them again any time before the session closes.
   </p>
   <p *ngIf="!hasFailToSaveQuestions">
-    You are encouraged to download the proof of submission, which will also contain your latest responses.
+    <b>You are encouraged to download the proof of submission, which will also contain your latest responses.</b>
   </p>
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-info"
-          (click)="downloadProofOfSubmission()"
-          [disabled]="isAllQuestionSavingFailed">Download proof of submission</button>
-  <button type="button" class="btn modal-btn-ok"
+  <button type="button" class="btn modal-btn-ok btn-info"
           [ngClass]="
                 {'btn-danger': hasFailToSaveQuestions, 'btn-success': !hasFailToSaveQuestions}"
-          (click)="activeModal.close()">OK</button>
+          (click)="activeModal.close()">Don't download proof of submission</button>
+  <button type="button" class="btn btn-success"
+          (click)="downloadProofOfSubmission()"
+          [disabled]="isAllQuestionSavingFailed">Download proof of submission</button>
 </div>

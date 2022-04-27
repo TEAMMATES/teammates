@@ -9,11 +9,11 @@ import teammates.common.util.Const;
 import teammates.common.util.EmailSendingStatus;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
-import teammates.logic.core.EmailSenderService;
-import teammates.logic.core.EmptyEmailService;
-import teammates.logic.core.MailgunService;
-import teammates.logic.core.MailjetService;
-import teammates.logic.core.SendgridService;
+import teammates.logic.external.EmailSenderService;
+import teammates.logic.external.EmptyEmailService;
+import teammates.logic.external.MailgunService;
+import teammates.logic.external.MailjetService;
+import teammates.logic.external.SendgridService;
 
 /**
  * Handles operations related to sending emails.
@@ -88,18 +88,6 @@ public class EmailSender {
 
     private boolean isTestingAccount(String email) {
         return email.endsWith(Const.TEST_EMAIL_DOMAIN);
-    }
-
-    /**
-     * Sends the given {@code report}.
-     */
-    public void sendReport(EmailWrapper report) {
-        try {
-            sendEmail(report);
-        } catch (Exception e) {
-            log.severe("Error in sending report: " + (report == null ? "" : report.getInfoForLogging())
-                       + "\nReport content: " + (report == null ? "" : report.getContent()), e);
-        }
     }
 
 }

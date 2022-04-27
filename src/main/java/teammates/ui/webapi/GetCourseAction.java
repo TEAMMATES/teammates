@@ -13,28 +13,26 @@ class GetCourseAction extends Action {
 
     @Override
     AuthType getMinAuthLevel() {
-        return AuthType.LOGGED_IN;
+        return AuthType.PUBLIC;
     }
 
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
-        if (userInfo.isAdmin) {
+        if (userInfo != null && userInfo.isAdmin) {
             return;
         }
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String entityType = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
+        CourseAttributes course = logic.getCourse(courseId);
 
-        if (userInfo.isInstructor && Const.EntityType.INSTRUCTOR.equals(entityType)) {
-            gateKeeper.verifyAccessible(
-                    logic.getInstructorForGoogleId(courseId, userInfo.getId()),
-                    logic.getCourse(courseId));
+        if (Const.EntityType.INSTRUCTOR.equals(entityType)) {
+            gateKeeper.verifyAccessible(getPossiblyUnregisteredInstructor(courseId), course);
             return;
         }
 
-        if (userInfo.isStudent && Const.EntityType.STUDENT.equals(entityType)) {
-            CourseAttributes course = logic.getCourse(courseId);
-            gateKeeper.verifyAccessible(logic.getStudentForGoogleId(courseId, userInfo.getId()), course);
+        if (Const.EntityType.STUDENT.equals(entityType)) {
+            gateKeeper.verifyAccessible(getPossiblyUnregisteredStudent(courseId), course);
             return;
         }
 
@@ -49,13 +47,15 @@ class GetCourseAction extends Action {
             throw new EntityNotFoundException("No course with id: " + courseId);
         }
         CourseData output = new CourseData(courseAttributes);
-        String entityType = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
+        String entityType = getRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
         if (Const.EntityType.INSTRUCTOR.equals(entityType)) {
-            InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
+            InstructorAttributes instructor = getPossiblyUnregisteredInstructor(courseId);
             if (instructor != null) {
                 InstructorPermissionSet privilege = constructInstructorPrivileges(instructor, null);
                 output.setPrivileges(privilege);
             }
+        } else if (Const.EntityType.STUDENT.equals(entityType)) {
+            output.hideInformationForStudent();
         }
         return new JsonResult(output);
     }

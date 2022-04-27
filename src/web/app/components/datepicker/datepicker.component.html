@@ -5,7 +5,7 @@
       Today
     </button>
   </ng-template>
-  <input type="text" class="form-control" ngbDatepicker
+  <input type="text" class="form-control" ngbDatepicker readonly
          [ngModel]="date" (ngModelChange)="changeDate($event)"
          [maxDate]="maxDate" [minDate]="minDate" #timeDp="ngbDatepicker" [disabled]="disabled" [footerTemplate]="footer"/>
   <div class="input-group-append" *ngIf="!disabled">

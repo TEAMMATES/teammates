@@ -157,7 +157,8 @@ public class InstructorFeedbackSessionsPage extends AppPage {
         waitForElementPresence(By.cssSelector("#instructions iframe"));
 
         if (isUsingTemplate) {
-            selectDropdownOptionByText(sessionTypeDropdown, "session using template: team peer evaluation");
+            selectDropdownOptionByText(sessionTypeDropdown,
+                    "session using template: team peer feedback (percentage-based)");
         } else {
             selectDropdownOptionByText(sessionTypeDropdown, "session with my own questions");
         }
@@ -315,10 +316,6 @@ public class InstructorFeedbackSessionsPage extends AppPage {
         return details;
     }
 
-    private String getDateString(Instant instant, String timeZone) {
-        return getDisplayedDateTime(instant, timeZone, "EE, dd MMM, yyyy");
-    }
-
     private String getSimpleDateString(Instant instant, String timeZone) {
         return getDisplayedDateTime(instant, timeZone, "dd MMM, yyyy");
     }
@@ -348,27 +345,23 @@ public class InstructorFeedbackSessionsPage extends AppPage {
     }
 
     private void setSessionStartDateTime(Instant startInstant, String timeZone) {
-        setDateTime(startDateBox.findElement(By.tagName("input")),
-                startTimeDropdown, startInstant, timeZone);
+        setDateTime(startDateBox, startTimeDropdown, startInstant, timeZone);
     }
 
     private void setSessionEndDateTime(Instant endInstant, String timeZone) {
-        setDateTime(endDateBox.findElement(By.tagName("input")),
-                endTimeDropdown, endInstant, timeZone);
+        setDateTime(endDateBox, endTimeDropdown, endInstant, timeZone);
     }
 
     private void setVisibilityDateTime(Instant startInstant, String timeZone) {
-        setDateTime(sessionVisibilityDateBox.findElement(By.tagName("input")),
-                sessionVisibilityTimeDropdown, startInstant, timeZone);
+        setDateTime(sessionVisibilityDateBox, sessionVisibilityTimeDropdown, startInstant, timeZone);
     }
 
     private void setResponseDateTime(Instant endInstant, String timeZone) {
-        setDateTime(responseVisibilityDateBox.findElement(By.tagName("input")),
-                responseVisibilityTimeDropdown, endInstant, timeZone);
+        setDateTime(responseVisibilityDateBox, responseVisibilityTimeDropdown, endInstant, timeZone);
     }
 
     private void setDateTime(WebElement dateBox, WebElement timeBox, Instant startInstant, String timeZone) {
-        fillTextBox(dateBox, getDateString(startInstant, timeZone));
+        fillDatePicker(dateBox, startInstant, timeZone);
 
         selectDropdownOptionByText(timeBox.findElement(By.tagName("select")), getTimeString(startInstant, timeZone));
     }

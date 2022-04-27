@@ -17,6 +17,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -43,6 +44,12 @@ public class FeedbackResultsPage extends AppPage {
     @FindBy(id = "course-id")
     private WebElement courseId;
 
+    @FindBy(id = "course-name")
+    private WebElement courseName;
+
+    @FindBy(id = "course-institute")
+    private WebElement courseInstitute;
+
     @FindBy(id = "session-name")
     private WebElement sessionName;
 
@@ -61,8 +68,10 @@ public class FeedbackResultsPage extends AppPage {
         return getPageTitle().contains("Feedback Session Results");
     }
 
-    public void verifyFeedbackSessionDetails(FeedbackSessionAttributes feedbackSession) {
+    public void verifyFeedbackSessionDetails(FeedbackSessionAttributes feedbackSession, CourseAttributes course) {
         assertEquals(getCourseId(), feedbackSession.getCourseId());
+        assertEquals(getCourseName(), course.getName());
+        assertEquals(getCourseInstitute(), course.getInstitute());
         assertEquals(getFeedbackSessionName(), feedbackSession.getFeedbackSessionName());
         assertDateEquals(getOpeningTime(), feedbackSession.getStartTime(), feedbackSession.getTimeZone());
         assertDateEquals(getClosingTime(), feedbackSession.getEndTime(), feedbackSession.getTimeZone());
@@ -266,6 +275,14 @@ public class FeedbackResultsPage extends AppPage {
 
     private String getCourseId() {
         return courseId.getText();
+    }
+
+    private String getCourseName() {
+        return courseName.getText();
+    }
+
+    private String getCourseInstitute() {
+        return courseInstitute.getText();
     }
 
     private String getFeedbackSessionName() {

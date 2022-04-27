@@ -483,6 +483,10 @@
       "username": "dawidip"
     },
     {
+      "name": "Deep D Mistry",
+      "username": "deepdmistry"
+    },
+    {
       "multiple": true,
       "name": "Devang Gaur",
       "username": "dev-gaur"
@@ -498,6 +502,10 @@
     {
       "name": "Dilan Tharaka",
       "username": "tharakamd"
+    },
+    {
+      "name": "Dinesh Koushik",
+      "username": "DineshKoushik"
     },
     {
       "multiple": true,
@@ -579,10 +587,6 @@
     {
       "name": "Felix Chon",
       "username": "felixinjapan"
-    },
-    {
-      "name": "Fergus Mok",
-      "username": "FergusMok"
     },
     {
       "name": "Florian Digne",
@@ -682,6 +686,10 @@
       "username": "ihenria"
     },
     {
+      "name": "Hannah Chia",
+      "username": "kaixin-hc"
+    },
+    {
       "name": "Hardik Ruparel",
       "username": "Hardik27"
     },
@@ -717,11 +725,6 @@
     {
       "multiple": true,
       "name": "Hou Guochen"
-    },
-    {
-      "multiple": true,
-      "name": "Howard Liu",
-      "username": "fsgmhoward"
     },
     {
       "username": "hppranaav"
@@ -792,10 +795,6 @@
     },
     {
       "name": "Jayant Jain"
-    },
-    {
-      "name": "Jay Aljelo Saez Ting",
-      "username": "jayasting98"
     },
     {
       "name": "Jeff Wilson",
@@ -872,6 +871,10 @@
       "multiple": true,
       "name": "Josiah Khoo",
       "username": "josiahkhoo"
+    },
+    {
+      "name": "Jovyn Tan",
+      "username": "jovyntls"
     },
     {
       "name": "João Victor",
@@ -1049,6 +1052,10 @@
       "multiple": true,
       "name": "Liu Yiwen",
       "username": "0blivious"
+    },
+    {
+      "name": "Liu Yongliang",
+      "username": "tlylt"
     },
     {
       "multiple": true,
@@ -1240,11 +1247,6 @@
       "name": "Nguyen Truong Duy"
     },
     {
-      "multiple": true,
-      "name": "Nicolas Chang Weng Yew",
-      "username": "NicolasCwy"
-    },
-    {
       "name": "Nicolás Marzano",
       "username": "nmmarzano"
     },
@@ -1297,6 +1299,10 @@
     },
     {
       "username": "Olle251"
+    },
+    {
+      "name": "Ong Jun Xiong",
+      "username": "ong6"
     },
     {
       "name": "Onkar Shedge",
@@ -1721,6 +1727,10 @@
       "username": "SvetaNesterenko"
     },
     {
+      "name": "Sweta Tamrakar",
+      "username": "tamrakarsweta220"
+    },
+    {
       "name": "Syasya Azman",
       "username": "Syasyazman"
     },
@@ -2007,15 +2017,6 @@
       "username": "xyzhang00"
     },
     {
-      "name": "Zhang Ziqing",
-      "username": "ziqing26"
-    },
-    {
-      "multiple": true,
-      "name": "Zhao Jingjing",
-      "username": "zhaojj2209"
-    },
-    {
       "multiple": true,
       "name": "Zheng Pingxia"
     },
@@ -2035,6 +2036,36 @@
     }
   ],
   "committers": [
+    {
+      "name": "Fergus Mok",
+      "username": "FergusMok",
+      "startPeriod": "Feb 2022"
+    },
+    {
+      "name": "Howard Liu",
+      "username": "fsgmhoward",
+      "startPeriod": "Feb 2022"
+    },
+    {
+      "name": "Jay Aljelo Saez Ting",
+      "username": "jayasting98",
+      "startPeriod": "Feb 2022"
+    },
+    {
+      "name": "Nicolas Chang Weng Yew",
+      "username": "NicolasCwy",
+      "startPeriod": "Feb 2022"
+    },
+    {
+      "name": "Zhang Ziqing",
+      "username": "ziqing26",
+      "startPeriod": "Feb 2022"
+    },
+    {
+      "name": "Zhao Jingjing",
+      "username": "zhaojj2209",
+      "startPeriod": "Feb 2022"
+    },
     {
       "name": "Samuel Fang",
       "username": "samuelfangjw",
@@ -2255,16 +2286,6 @@
       ]
     },
     {
-      "name": "Rahul Rajesh",
-      "username": "rrtheonlyone",
-      "currentPosition": "Project Mentor (Aug 2021 - )",
-      "pastPositions": [
-        "Project Lead (Aug 2020 - Jul 2021)",
-        "Snr Developer (Jan 2020 - Jul 2020)",
-        "Committer (Jan 2019 - May 2019)"
-      ]
-    },
-    {
       "name": "Ahmed Bahajjaj",
       "username": "madanalogy",
       "currentPosition": "Project Lead (Aug 2020 - )",
@@ -2303,6 +2324,16 @@
       "currentPosition": "Snr Developer (Jan 2022 - )",
       "pastPositions": [
         "Committer (Aug 2020 - Dec 2021)"
+      ]
+    },
+    {
+      "name": "Rahul Rajesh",
+      "username": "rrtheonlyone",
+      "pastPositions": [
+        "Project Mentor (Aug 2021 - Dec 2021)",
+        "Project Lead (Aug 2020 - Jul 2021)",
+        "Snr Developer (Jan 2020 - Jul 2020)",
+        "Committer (Jan 2019 - May 2019)"
       ]
     },
     {

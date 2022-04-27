@@ -1,10 +1,12 @@
 package teammates.storage.entity;
 
 import java.time.Instant;
+import java.util.Map;
 
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
+import com.googlecode.objectify.annotation.Serialize;
 import com.googlecode.objectify.annotation.Translate;
 import com.googlecode.objectify.annotation.Unindex;
 
@@ -74,6 +76,14 @@ public class FeedbackSession extends BaseEntity {
 
     private boolean isPublishedEmailEnabled;
 
+    @Unindex
+    @Serialize
+    private Map<String, Instant> studentDeadlines;
+
+    @Unindex
+    @Serialize
+    private Map<String, Instant> instructorDeadlines;
+
     @SuppressWarnings("unused")
     private FeedbackSession() {
         // required by Objectify
@@ -84,7 +94,8 @@ public class FeedbackSession extends BaseEntity {
             Instant sessionVisibleFromTime, Instant resultsVisibleFromTime, String timeZone, long gracePeriod,
             boolean sentOpeningSoonEmail, boolean sentOpenEmail, boolean sentClosingEmail,
             boolean sentClosedEmail, boolean sentPublishedEmail, boolean isOpeningEmailEnabled,
-            boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled) {
+            boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled, Map<String, Instant> studentDeadlines,
+            Map<String, Instant> instructorDeadlines) {
         this.feedbackSessionName = feedbackSessionName;
         this.courseId = courseId;
         this.creatorEmail = creatorEmail;
@@ -105,6 +116,8 @@ public class FeedbackSession extends BaseEntity {
         this.isOpeningEmailEnabled = isOpeningEmailEnabled;
         this.isClosingEmailEnabled = isClosingEmailEnabled;
         this.isPublishedEmailEnabled = isPublishedEmailEnabled;
+        this.studentDeadlines = studentDeadlines;
+        this.instructorDeadlines = instructorDeadlines;
         this.feedbackSessionId = generateId(this.feedbackSessionName, this.courseId);
     }
 
@@ -276,6 +289,22 @@ public class FeedbackSession extends BaseEntity {
         this.isPublishedEmailEnabled = isPublishedEmailEnabled;
     }
 
+    public Map<String, Instant> getStudentDeadlines() {
+        return studentDeadlines;
+    }
+
+    public void setStudentDeadlines(Map<String, Instant> studentDeadlines) {
+        this.studentDeadlines = studentDeadlines;
+    }
+
+    public Map<String, Instant> getInstructorDeadlines() {
+        return instructorDeadlines;
+    }
+
+    public void setInstructorDeadlines(Map<String, Instant> instructorDeadlines) {
+        this.instructorDeadlines = instructorDeadlines;
+    }
+
     @Override
     public String toString() {
         return "FeedbackSession [feedbackSessionName=" + feedbackSessionName
@@ -294,6 +323,8 @@ public class FeedbackSession extends BaseEntity {
                 + ", isOpeningEmailEnabled=" + isOpeningEmailEnabled
                 + ", isClosingEmailEnabled=" + isClosingEmailEnabled
                 + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled
+                + ", studentDeadlines=" + studentDeadlines
+                + ", instructorDeadlines=" + instructorDeadlines
                 + "]";
     }
 

@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`StudentNotificationsPageComponent should snap with default fields 1`] = `
+<tm-student-notifications-page
+  userType={[Function String]}
+>
+  <h1>
+    Student Notifications
+  </h1><tm-user-notifications-list>
+    <div
+      id="notifications-timezone"
+    >
+      <p>
+        All dates are displayed in Africa/Abidjan time.
+      </p>
+    </div>
+    <tm-loading-retry>
+      <tm-loading-spinner>
+        <div
+          class="loading-container"
+        >
+          <div
+            class="row spinner-border text-primary"
+            role="status"
+          />
+          <div
+            class="row text-secondary"
+          >
+            Loading...
+          </div>
+        </div>
+      </tm-loading-spinner>
+      <div
+        id="notification-tabs"
+      >
+      </div>
+    </tm-loading-retry>
+  </tm-user-notifications-list>
+</tm-student-notifications-page>
+`;

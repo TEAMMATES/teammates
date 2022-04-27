@@ -40,6 +40,15 @@ describe('AccountService', () => {
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT, paramMap);
   });
 
+  it('should execute GET on accounts endpoint', () => {
+    const email = 'email@gmail.tmt';
+    service.getAccounts(email);
+    const paramMap: Record<string, string> = {
+      useremail: email,
+    };
+    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNTS, paramMap);
+  });
+
   it('should execute POST on account endpoint with timezone string', () => {
     const testKey: string = 'testKey';
     const testTimezone: string = 'UTC';
@@ -78,12 +87,22 @@ describe('AccountService', () => {
     expect(spyHttpRequestService.delete).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT, paramMap);
   });
 
-  it('should execute PUT on account/downgrade endpoint', () => {
-    service.downgradeAccount(id);
+  it('should execute DELETE on account request endpoint', () => {
+    service.deleteAccountRequest('testEmail', 'testInstitution');
     const paramMap: Record<string, string> = {
-      instructorid: id,
+      instructoremail: 'testEmail',
+      instructorinstitution: 'testInstitution',
     };
-    expect(spyHttpRequestService.put).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT_DOWNGRADE, paramMap);
+    expect(spyHttpRequestService.delete).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT_REQUEST, paramMap);
+  });
+
+  it('should execute PUT on account request reset endpoint', () => {
+    service.resetAccountRequest('testEmail', 'testInstitution');
+    const paramMap: Record<string, string> = {
+      instructoremail: 'testEmail',
+      instructorinstitution: 'testInstitution',
+    };
+    expect(spyHttpRequestService.put).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT_REQUEST_RESET, paramMap);
   });
 
   it('should execute PUT on account/reset endpoint for student', () => {

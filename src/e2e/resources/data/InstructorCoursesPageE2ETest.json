@@ -3,9 +3,8 @@
     "instructor": {
       "googleId": "tm.e2e.ICs.instructor",
       "name": "Teammates Demo Instr",
-      "isInstructor": true,
       "email": "ICs.instructor@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "readNotifications": {}
     }
   },
   "courses": {
@@ -182,7 +181,9 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
     }
   },
   "feedbackQuestions": {

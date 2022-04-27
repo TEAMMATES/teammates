@@ -283,7 +283,7 @@ export class QuestionEditFormComponent {
       if (!this.model.isQuestionHasResponses || !doChangesNeedWarning) {
         this.saveExistingQuestionEvent.emit();
       } else if (this.model.isFeedbackPathChanged) {
-        // warn user that editing feedback path will delete all messges
+        // warn user that editing feedback path will delete all messages
         const modalContent: string = `
             <p>You seem to have changed the feedback path settings of this question. Please note that changing the
             feedback path will cause <b>all existing responses to be deleted.</b> Proceed?</p>

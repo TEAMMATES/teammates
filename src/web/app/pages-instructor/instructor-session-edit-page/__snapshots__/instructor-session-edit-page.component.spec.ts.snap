@@ -20,8 +20,9 @@ exports[`InstructorSessionEditPageComponent should snap when feedback question f
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadingFeedbackQuestionsFailed={[Function Boolean]}
   hasLoadingFeedbackSessionFailed="false"
+  instructorDeadlines={[Function Object]}
   instructorService={[Function InstructorService]}
-  instructorsCanBePreviewedAs={[Function Array]}
+  instructorsOfCourse={[Function Array]}
   isAddingFromTemplate="false"
   isAddingQuestionPanelExpanded="false"
   isCopyingQuestion="false"
@@ -40,6 +41,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback question f
   sessionEditFormModel={[Function Object]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
+  studentDeadlines={[Function Object]}
   studentService={[Function StudentService]}
   studentsOfCourse={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
@@ -104,8 +106,9 @@ exports[`InstructorSessionEditPageComponent should snap when feedback questions 
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadingFeedbackQuestionsFailed="false"
   hasLoadingFeedbackSessionFailed="false"
+  instructorDeadlines={[Function Object]}
   instructorService={[Function InstructorService]}
-  instructorsCanBePreviewedAs={[Function Array]}
+  instructorsOfCourse={[Function Array]}
   isAddingFromTemplate="false"
   isAddingQuestionPanelExpanded="false"
   isCopyingQuestion="false"
@@ -124,6 +127,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback questions 
   sessionEditFormModel={[Function Object]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
+  studentDeadlines={[Function Object]}
   studentService={[Function StudentService]}
   studentsOfCourse={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
@@ -188,8 +192,9 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session fa
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadingFeedbackQuestionsFailed="false"
   hasLoadingFeedbackSessionFailed={[Function Boolean]}
+  instructorDeadlines={[Function Object]}
   instructorService={[Function InstructorService]}
-  instructorsCanBePreviewedAs={[Function Array]}
+  instructorsOfCourse={[Function Array]}
   isAddingFromTemplate="false"
   isAddingQuestionPanelExpanded="false"
   isCopyingQuestion="false"
@@ -208,6 +213,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session fa
   sessionEditFormModel={[Function Object]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
+  studentDeadlines={[Function Object]}
   studentService={[Function StudentService]}
   studentsOfCourse={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
@@ -275,8 +281,9 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session is
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadingFeedbackQuestionsFailed="false"
   hasLoadingFeedbackSessionFailed="false"
+  instructorDeadlines={[Function Object]}
   instructorService={[Function InstructorService]}
-  instructorsCanBePreviewedAs={[Function Array]}
+  instructorsOfCourse={[Function Array]}
   isAddingFromTemplate="false"
   isAddingQuestionPanelExpanded="false"
   isCopyingQuestion="false"
@@ -295,6 +302,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session is
   sessionEditFormModel={[Function Object]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
+  studentDeadlines={[Function Object]}
   studentService={[Function StudentService]}
   studentsOfCourse={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
@@ -359,8 +367,9 @@ exports[`InstructorSessionEditPageComponent should snap with default fields 1`] 
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadingFeedbackQuestionsFailed="false"
   hasLoadingFeedbackSessionFailed="false"
+  instructorDeadlines={[Function Object]}
   instructorService={[Function InstructorService]}
-  instructorsCanBePreviewedAs={[Function Array]}
+  instructorsOfCourse={[Function Array]}
   isAddingFromTemplate="false"
   isAddingQuestionPanelExpanded="false"
   isCopyingQuestion="false"
@@ -379,6 +388,7 @@ exports[`InstructorSessionEditPageComponent should snap with default fields 1`] 
   sessionEditFormModel={[Function Object]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
+  studentDeadlines={[Function Object]}
   studentService={[Function StudentService]}
   studentsOfCourse={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
@@ -443,8 +453,9 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadingFeedbackQuestionsFailed="false"
   hasLoadingFeedbackSessionFailed="false"
+  instructorDeadlines={[Function Object]}
   instructorService={[Function InstructorService]}
-  instructorsCanBePreviewedAs={[Function Array]}
+  instructorsOfCourse={[Function Array]}
   isAddingFromTemplate="false"
   isAddingQuestionPanelExpanded="false"
   isCopyingQuestion="false"
@@ -463,6 +474,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
   sessionEditFormModel={[Function Object]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
+  studentDeadlines={[Function Object]}
   studentService={[Function StudentService]}
   studentsOfCourse={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
@@ -669,7 +681,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                 class="row text-center"
               >
                 <div
-                  class="col-md-5"
+                  class="col-md-4"
                 >
                   <div
                     class="col-12 text-md-left"
@@ -698,6 +710,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             class="form-control ng-untouched ng-pristine ng-valid"
                             disabled=""
                             ngbdatepicker=""
+                            readonly=""
                             type="text"
                           />
                         </div>
@@ -838,7 +851,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                   </div>
                 </div>
                 <div
-                  class="col-md-5 border-left-gray"
+                  class="col-md-4 border-left-gray"
                 >
                   <div
                     class="row text-center"
@@ -869,6 +882,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             class="form-control ng-untouched ng-pristine ng-valid"
                             disabled=""
                             ngbdatepicker=""
+                            readonly=""
                             type="text"
                           />
                         </div>
@@ -1009,7 +1023,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                   </div>
                 </div>
                 <div
-                  class="col-md-2 border-left-gray"
+                  class="col-md-4 border-left-gray"
                 >
                   <div
                     class="row text-center"
@@ -1072,6 +1086,20 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                         </option>
                       </select>
                     </div>
+                  </div>
+                  <div
+                    class="row"
+                  >
+                    <a
+                      class="pl-3 pt-2"
+                      href="/web/instructor/sessions/individual-extension?courseid=testId&fsname=test%20session"
+                      tmrouterlink="/web/instructor/sessions/individual-extension"
+                    >
+                       Individual Deadline Extensions 
+                      <i
+                        class="fas fa-edit"
+                      />
+                    </a>
                   </div>
                 </div>
               </div>
@@ -2823,8 +2851,9 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadingFeedbackQuestionsFailed="false"
   hasLoadingFeedbackSessionFailed="false"
+  instructorDeadlines={[Function Object]}
   instructorService={[Function InstructorService]}
-  instructorsCanBePreviewedAs={[Function Array]}
+  instructorsOfCourse={[Function Array]}
   isAddingFromTemplate="false"
   isAddingQuestionPanelExpanded={[Function Boolean]}
   isCopyingQuestion="false"
@@ -2843,6 +2872,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
   sessionEditFormModel={[Function Object]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
+  studentDeadlines={[Function Object]}
   studentService={[Function StudentService]}
   studentsOfCourse={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
@@ -3046,7 +3076,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                 class="row text-center"
               >
                 <div
-                  class="col-md-5"
+                  class="col-md-4"
                 >
                   <div
                     class="col-12 text-md-left"
@@ -3075,6 +3105,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                             class="form-control ng-untouched ng-pristine ng-valid"
                             disabled=""
                             ngbdatepicker=""
+                            readonly=""
                             type="text"
                           />
                         </div>
@@ -3215,7 +3246,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                   </div>
                 </div>
                 <div
-                  class="col-md-5 border-left-gray"
+                  class="col-md-4 border-left-gray"
                 >
                   <div
                     class="row text-center"
@@ -3246,6 +3277,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                             class="form-control ng-untouched ng-pristine ng-valid"
                             disabled=""
                             ngbdatepicker=""
+                            readonly=""
                             type="text"
                           />
                         </div>
@@ -3386,7 +3418,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                   </div>
                 </div>
                 <div
-                  class="col-md-2 border-left-gray"
+                  class="col-md-4 border-left-gray"
                 >
                   <div
                     class="row text-center"
@@ -3449,6 +3481,20 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                         </option>
                       </select>
                     </div>
+                  </div>
+                  <div
+                    class="row"
+                  >
+                    <a
+                      class="pl-3 pt-2"
+                      href="/web/instructor/sessions/individual-extension?courseid=&fsname="
+                      tmrouterlink="/web/instructor/sessions/individual-extension"
+                    >
+                       Individual Deadline Extensions 
+                      <i
+                        class="fas fa-edit"
+                      />
+                    </a>
                   </div>
                 </div>
               </div>

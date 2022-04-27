@@ -1,15 +1,17 @@
 package teammates.logic.api;
 
+import java.time.Instant;
 import java.util.List;
 
-import teammates.common.datatransfer.ErrorLogEntry;
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
 import teammates.common.datatransfer.QueryLogsResults;
+import teammates.common.datatransfer.logs.GeneralLogEntry;
+import teammates.common.datatransfer.logs.LogEvent;
 import teammates.common.datatransfer.logs.QueryLogsParams;
 import teammates.common.util.Config;
-import teammates.logic.core.GoogleCloudLoggingService;
-import teammates.logic.core.LocalLoggingService;
-import teammates.logic.core.LogService;
+import teammates.logic.external.GoogleCloudLoggingService;
+import teammates.logic.external.LocalLoggingService;
+import teammates.logic.external.LogService;
 
 /**
  * Handles operations related to logs reading/writing.
@@ -35,13 +37,6 @@ public class LogsProcessor {
     }
 
     /**
-     * Gets the list of recent error- or higher level logs.
-     */
-    public List<ErrorLogEntry> getRecentErrorLogs() {
-        return service.getRecentErrorLogs();
-    }
-
-    /**
      * Queries and retrieves logs with given parameters.
      */
     public QueryLogsResults queryLogs(QueryLogsParams queryLogsParams) {
@@ -62,6 +57,32 @@ public class LogsProcessor {
     public List<FeedbackSessionLogEntry> getFeedbackSessionLogs(String courseId, String email,
             long startTime, long endTime, String fsName) {
         return service.getFeedbackSessionLogs(courseId, email, startTime, endTime, fsName);
+    }
+
+    /**
+     * Gets the number of logs for the event type and extra filters.
+     */
+    public int getNumberOfLogsForEvent(Instant startTime, Instant endTime, LogEvent logEvent, String extraFilters) {
+        int total = 0;
+        long logStartTime = startTime.toEpochMilli();
+
+        while (true) {
+            QueryLogsParams logsParams = QueryLogsParams.builder(logStartTime, endTime.toEpochMilli())
+                    .withLogEvent(logEvent.name())
+                    .withExtraFilters(extraFilters)
+                    .withOrder("asc")
+                    .withPageSize(300)
+                    .build();
+            QueryLogsResults logFetchResults = queryLogs(logsParams);
+            List<GeneralLogEntry> logs = logFetchResults.getLogEntries();
+            total += logs.size();
+            if (logFetchResults.getHasNextPage()) {
+                logStartTime = logs.get(logs.size() - 1).getTimestamp();
+            } else {
+                break;
+            }
+        }
+        return total;
     }
 
 }

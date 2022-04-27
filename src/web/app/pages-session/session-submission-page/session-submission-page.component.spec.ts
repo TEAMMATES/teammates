@@ -105,6 +105,8 @@ describe('SessionSubmissionPageComponent', () => {
     isClosingEmailEnabled: true,
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
+    studentDeadlines: {},
+    instructorDeadlines: {},
   };
 
   const testComment: FeedbackResponseComment = {
@@ -129,6 +131,7 @@ describe('SessionSubmissionPageComponent', () => {
     isValid: true,
     commentByGiver: {
       originalComment: testComment,
+      originalRecipientIdentifier: 'barry-harris-id',
       commentEditFormModel: {
         commentText: 'comment text here',
         isUsingCustomVisibilities: false,
@@ -149,6 +152,7 @@ describe('SessionSubmissionPageComponent', () => {
     isValid: true,
     commentByGiver: {
       originalComment: testComment,
+      originalRecipientIdentifier: 'recipient-identifier',
       commentEditFormModel: {
         commentText: '',
         isUsingCustomVisibilities: false,
@@ -210,6 +214,7 @@ describe('SessionSubmissionPageComponent', () => {
     isValid: true,
     commentByGiver: {
       originalComment: testComment,
+      originalRecipientIdentifier: 'barry-harris-id',
       commentEditFormModel: {
         commentText: 'comment text',
         isUsingCustomVisibilities: false,
@@ -316,6 +321,8 @@ describe('SessionSubmissionPageComponent', () => {
     showResponsesTo: [FeedbackVisibilityType.STUDENTS, FeedbackVisibilityType.INSTRUCTORS],
     showGiverNameTo: [],
     showRecipientNameTo: [],
+    isLoading: false,
+    isLoaded: true,
   };
 
   const testMcqQuestionSubmissionForm2: QuestionSubmissionFormModel = {
@@ -331,22 +338,15 @@ describe('SessionSubmissionPageComponent', () => {
     } as FeedbackMcqQuestionDetails,
     giverType: FeedbackParticipantType.INSTRUCTORS,
     recipientType: FeedbackParticipantType.TEAMS,
-    recipientList: [
-      {
-        recipientName: 'Barry Harris',
-        recipientIdentifier: 'barry-harris-id',
-      },
-      {
-        recipientName: 'Gene Harris',
-        recipientIdentifier: 'gene-harris-id',
-      },
-    ],
-    recipientSubmissionForms: [testMcqRecipientSubmissionForm3, testMcqRecipientSubmissionForm4],
+    recipientList: [],
+    recipientSubmissionForms: [],
     numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
     customNumberOfEntitiesToGiveFeedbackTo: 5,
     showResponsesTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     showGiverNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
+    isLoading: false,
+    isLoaded: false,
   };
 
   const testTextQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -368,6 +368,8 @@ describe('SessionSubmissionPageComponent', () => {
     showResponsesTo: [FeedbackVisibilityType.GIVER_TEAM_MEMBERS, FeedbackVisibilityType.INSTRUCTORS],
     showGiverNameTo: [],
     showRecipientNameTo: [],
+    isLoading: false,
+    isLoaded: true,
   };
 
   const testMsqQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -393,6 +395,8 @@ describe('SessionSubmissionPageComponent', () => {
     showResponsesTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     showGiverNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
+    isLoading: false,
+    isLoaded: true,
   };
 
   const testNumscaleQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -415,6 +419,8 @@ describe('SessionSubmissionPageComponent', () => {
     showResponsesTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     showGiverNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
+    isLoading: false,
+    isLoaded: true,
   };
 
   const testConstsumQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -440,6 +446,8 @@ describe('SessionSubmissionPageComponent', () => {
     showResponsesTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     showGiverNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
+    isLoading: false,
+    isLoaded: true,
   };
 
   const testContribQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -460,6 +468,8 @@ describe('SessionSubmissionPageComponent', () => {
     showResponsesTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     showGiverNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
+    isLoading: false,
+    isLoaded: true,
   };
 
   const testRubricQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -484,6 +494,8 @@ describe('SessionSubmissionPageComponent', () => {
     showResponsesTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     showGiverNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
+    isLoading: false,
+    isLoaded: true,
   };
 
   const testRankOptionsQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -504,6 +516,8 @@ describe('SessionSubmissionPageComponent', () => {
     showResponsesTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     showGiverNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
+    isLoading: false,
+    isLoaded: true,
   };
 
   const testRankRecipientsQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -526,6 +540,8 @@ describe('SessionSubmissionPageComponent', () => {
     showResponsesTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     showGiverNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
+    isLoading: false,
+    isLoaded: true,
   };
 
   const testInfo: AuthInfo = {
@@ -660,9 +676,12 @@ describe('SessionSubmissionPageComponent', () => {
     component.loggedInUser = 'logged-in-user';
     component.personName = 'person name';
     component.personEmail = 'person@email.com';
+    component.courseName = 'Course name';
+    component.courseInstitute = 'Test institute';
     component.formattedSessionOpeningTime = 'Sun, 01 Apr, 2012, 11:59 PM +08';
     component.formattedSessionClosingTime = 'Mon, 02 Apr, 2012, 11:59 PM +08';
     component.feedbackSessionInstructions = 'Please give your feedback based on the following questions.';
+    component.isCourseLoading = false;
     component.isFeedbackSessionLoading = false;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
@@ -681,9 +700,9 @@ describe('SessionSubmissionPageComponent', () => {
       testRankOptionsQuestionSubmissionForm,
       testRankRecipientsQuestionSubmissionForm,
     ];
+    component.isCourseLoading = false;
     component.isFeedbackSessionLoading = false;
     component.isFeedbackSessionQuestionsLoading = false;
-    component.isFeedbackSessionQuestionResponsesLoading = false;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
@@ -702,9 +721,9 @@ describe('SessionSubmissionPageComponent', () => {
       testRankRecipientsQuestionSubmissionForm,
     ];
     component.isSubmissionFormsDisabled = true;
+    component.isCourseLoading = false;
     component.isFeedbackSessionLoading = false;
     component.isFeedbackSessionQuestionsLoading = false;
-    component.isFeedbackSessionQuestionResponsesLoading = false;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
@@ -887,7 +906,7 @@ describe('SessionSubmissionPageComponent', () => {
     expect(navSpy).toHaveBeenLastCalledWith(expect.anything(), '/web/student/home');
   });
 
-  it('should load feedback questions and recipients and responses', () => {
+  it('should load feedback questions', () => {
     const testFeedbackQuestions: FeedbackQuestions = {
       questions: [
         {
@@ -908,6 +927,19 @@ describe('SessionSubmissionPageComponent', () => {
         },
       ],
     };
+
+    const getQuestionsSpy: SpyInstance = jest.spyOn(feedbackQuestionsService, 'getFeedbackQuestions')
+        .mockReturnValue(of(testFeedbackQuestions));
+
+    component.loadFeedbackQuestions();
+
+    expect(getQuestionsSpy).toHaveBeenLastCalledWith(getFeedbackSessionArgs);
+    expect(component.questionSubmissionForms.length).toEqual(1);
+    expect(component.questionSubmissionForms[0]).toEqual(testMcqQuestionSubmissionForm2);
+    expect(component.questionsNeedingSubmission.length).toEqual(0);
+  });
+
+  it('should load the recipients and responses of a question if not yet loaded', () => {
     const testFeedbackQuestionRecipients: FeedbackQuestionRecipients = {
       recipients: [
         {
@@ -924,16 +956,14 @@ describe('SessionSubmissionPageComponent', () => {
       responses: [testResponse1, testResponse2],
     };
 
-    const getQuestionsSpy: SpyInstance = jest.spyOn(feedbackQuestionsService, 'getFeedbackQuestions')
-        .mockReturnValue(of(testFeedbackQuestions));
     const loadRecipientsSpy: SpyInstance = jest.spyOn(feedbackQuestionsService, 'loadFeedbackQuestionRecipients')
         .mockReturnValue(of(testFeedbackQuestionRecipients));
     const getResponseSpy: SpyInstance = jest.spyOn(feedbackResponsesService, 'getFeedbackResponse')
         .mockReturnValue(of(testExistingResponses));
 
-    component.loadFeedbackQuestions();
+    component.questionSubmissionForms = [testMcqQuestionSubmissionForm2];
+    component.loadRecipientsAndResponses({ visible: true }, testMcqQuestionSubmissionForm2);
 
-    expect(getQuestionsSpy).toHaveBeenLastCalledWith(getFeedbackSessionArgs);
     expect(loadRecipientsSpy).toHaveBeenLastCalledWith({
       intent: 'STUDENT_SUBMISSION',
       key: 'reg-key',
@@ -947,16 +977,55 @@ describe('SessionSubmissionPageComponent', () => {
       moderatedPerson: '',
       questionId: testMcqQuestionSubmissionForm2.feedbackQuestionId,
     });
-    expect(component.questionSubmissionForms.length).toEqual(1);
-    expect(component.questionSubmissionForms[0]).toEqual(testMcqQuestionSubmissionForm2);
-    expect(component.hasAnyResponseToSubmit).toEqual(true);
+    expect(testMcqQuestionSubmissionForm2.isLoading).toBe(false);
+    expect(testMcqQuestionSubmissionForm2.isLoaded).toBe(true);
+    expect(testMcqQuestionSubmissionForm2.recipientList).toEqual([
+      {
+        recipientName: 'Barry Harris',
+        recipientIdentifier: 'barry-harris-id',
+      },
+      {
+        recipientName: 'Gene Harris',
+        recipientIdentifier: 'gene-harris-id',
+      },
+    ]);
+    expect(testMcqQuestionSubmissionForm2.recipientSubmissionForms).toEqual([
+      testMcqRecipientSubmissionForm3, testMcqRecipientSubmissionForm4,
+    ]);
+    expect(component.questionsNeedingSubmission.length).toEqual(1);
+  });
+
+  it('should not load the recipients and responses of a question if already loaded', () => {
+    const loadRecipientsSpy: SpyInstance = jest.spyOn(feedbackQuestionsService, 'loadFeedbackQuestionRecipients');
+    const getResponseSpy: SpyInstance = jest.spyOn(feedbackResponsesService, 'getFeedbackResponse');
+
+    testMcqQuestionSubmissionForm2.isLoaded = true;
+    component.loadRecipientsAndResponses({ visible: true }, testMcqQuestionSubmissionForm2);
+
+    testMsqQuestionSubmissionForm.isLoading = true;
+    component.loadRecipientsAndResponses({ visible: true }, testMsqQuestionSubmissionForm);
+
+    expect(loadRecipientsSpy).not.toHaveBeenCalled();
+    expect(getResponseSpy).not.toHaveBeenCalled();
+  });
+
+  it('should not load the recipients and responses of a question if the event is not correct', () => {
+    const loadRecipientsSpy: SpyInstance = jest.spyOn(feedbackQuestionsService, 'loadFeedbackQuestionRecipients');
+    const getResponseSpy: SpyInstance = jest.spyOn(feedbackResponsesService, 'getFeedbackResponse');
+
+    component.loadRecipientsAndResponses(null, testMcqQuestionSubmissionForm2);
+    component.loadRecipientsAndResponses({}, testMcqQuestionSubmissionForm2);
+    component.loadRecipientsAndResponses({ visible: false }, testMsqQuestionSubmissionForm);
+
+    expect(loadRecipientsSpy).not.toHaveBeenCalled();
+    expect(getResponseSpy).not.toHaveBeenCalled();
   });
 
   it('should check that there are no responses to submit', () => {
     const testSubmissionForm: QuestionSubmissionFormModel = deepCopy(testTextQuestionSubmissionForm);
     testSubmissionForm.recipientSubmissionForms = [];
     component.questionSubmissionForms = [testSubmissionForm];
-    expect(component.hasAnyResponseToSubmit).toEqual(false);
+    expect(component.questionsNeedingSubmission.length).toEqual(0);
   });
 
   it('should save feedback responses', () => {
@@ -981,7 +1050,7 @@ describe('SessionSubmissionPageComponent', () => {
     jest.spyOn(feedbackResponseCommentService, 'updateComment').mockReturnValue(of(testComment));
     jest.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef);
 
-    component.saveFeedbackResponses();
+    component.saveFeedbackResponses(component.questionSubmissionForms);
 
     expect(responseSpy).toBeCalledTimes(2);
     expect(responseSpy).toHaveBeenNthCalledWith(1, 'feedback-question-id-mcq', {
@@ -1038,7 +1107,7 @@ describe('SessionSubmissionPageComponent', () => {
     jest.spyOn(feedbackResponseCommentService, 'updateComment').mockReturnValue(of(testComment));
     jest.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef);
 
-    component.saveFeedbackResponses();
+    component.saveFeedbackResponses(component.questionSubmissionForms);
 
     expect(responseSpy).toBeCalledTimes(1);
     expect(responseSpy).toHaveBeenNthCalledWith(1, testQuestionSubmissionForm1.feedbackQuestionId, {
@@ -1074,7 +1143,8 @@ describe('SessionSubmissionPageComponent', () => {
         .mockReturnValue(of(testComment));
 
     component.createCommentRequest(testSubmissionForm).subscribe(() => {
-      expect(testSubmissionForm.commentByGiver).toEqual(component.getCommentModel(testComment));
+      expect(testSubmissionForm.commentByGiver).toEqual(
+          component.getCommentModel(testComment, testSubmissionForm.recipientIdentifier));
     });
 
     expect(commentSpy).toHaveBeenCalledTimes(1);
@@ -1086,6 +1156,27 @@ describe('SessionSubmissionPageComponent', () => {
         { key: testQueryParams.key, moderatedperson: '' });
   });
 
+  it('should create comment request to create new comment when submission form has original comment'
+      + 'with different original recipient', () => {
+    const testSubmissionForm: FeedbackResponseRecipientSubmissionFormModel = deepCopy(testMcqRecipientSubmissionForm);
+    testSubmissionForm.commentByGiver!.originalRecipientIdentifier = 'other-recipient-identifier';
+    const commentSpy: SpyInstance = jest.spyOn(feedbackResponseCommentService, 'createComment')
+        .mockReturnValue(of(testComment));
+
+    component.createCommentRequest(testSubmissionForm).subscribe(() => {
+      expect(testSubmissionForm.commentByGiver).toEqual(
+          component.getCommentModel(testComment, testSubmissionForm.recipientIdentifier));
+    });
+
+    expect(commentSpy).toHaveBeenCalledTimes(1);
+    expect(commentSpy).toHaveBeenLastCalledWith({
+      commentText: 'comment text here',
+      showCommentTo: [],
+      showGiverNameTo: [],
+    }, testMcqRecipientSubmissionForm.responseId, Intent.STUDENT_SUBMISSION,
+        { key: testQueryParams.key, moderatedperson: '' });
+  });
+
   it('should create comment request to update existing comment when submission form has original comment', () => {
     const testSubmissionForm: FeedbackResponseRecipientSubmissionFormModel = deepCopy(testMcqRecipientSubmissionForm);
     const expectedId: any = testMcqRecipientSubmissionForm.commentByGiver?.originalComment?.feedbackResponseCommentId;
@@ -1093,7 +1184,8 @@ describe('SessionSubmissionPageComponent', () => {
         .mockReturnValue(of(testComment));
 
     component.createCommentRequest(testSubmissionForm).subscribe(() => {
-      expect(testSubmissionForm.commentByGiver).toEqual(component.getCommentModel(testComment));
+      expect(testSubmissionForm.commentByGiver).toEqual(
+          component.getCommentModel(testComment, testSubmissionForm.recipientIdentifier));
     });
 
     expect(commentSpy).toHaveBeenCalledTimes(1);

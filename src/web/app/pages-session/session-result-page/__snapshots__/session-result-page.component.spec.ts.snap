@@ -6,6 +6,9 @@ exports[`SessionResultPageComponent should snap when session results failed to l
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   courseId={[Function String]}
+  courseInstitute=""
+  courseName=""
+  courseService={[Function CourseService]}
   entityType={[Function String]}
   feedbackSessionName={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
@@ -14,6 +17,8 @@ exports[`SessionResultPageComponent should snap when session results failed to l
   hasFeedbackSessionResultsLoadingFailed={[Function Boolean]}
   instructorService={[Function InstructorService]}
   intent={[Function String]}
+  isCourseLoading="false"
+  isFeedbackSessionDetailsLoading="false"
   isFeedbackSessionResultsLoading="false"
   logService={[Function LogService]}
   loggedInUser=""
@@ -61,75 +66,64 @@ exports[`SessionResultPageComponent should snap when session results failed to l
     <div
       class="card-body"
     >
-      <br />
       <div
         class="row text-center"
       >
-        <div
+        <label
           class="col-md-2 text-md-right"
         >
-          <b>
-            Course ID:
-          </b>
-        </div>
+          Course ID:
+        </label>
         <div
           class="col-md-7 text-md-left"
           id="course-id"
         >
+          CS3281
         </div>
       </div>
-      <br />
       <div
         class="row text-center"
       >
-        <div
+        <label
           class="col-md-2 text-md-right"
         >
-          <b>
-            Session:
-          </b>
-        </div>
+          Session:
+        </label>
         <div
           class="col-md-7 text-md-left"
           id="session-name"
         >
+          Peer Feedback
         </div>
       </div>
-      <br />
       <div
         class="row text-center"
       >
-        <div
+        <label
           class="col-md-2 text-md-right"
         >
-          <b>
-            Opening time:
-          </b>
-        </div>
+          Opening time:
+        </label>
         <div
           class="col-md-7 text-md-left"
           id="opening-time"
         >
         </div>
       </div>
-      <br />
       <div
         class="row text-center"
       >
-        <div
+        <label
           class="col-md-2 text-md-right"
         >
-          <b>
-            Closing time:
-          </b>
-        </div>
+          Closing time:
+        </label>
         <div
           class="col-md-7 text-md-left"
           id="closing-time"
         >
         </div>
       </div>
-      <br />
     </div>
   </div><tm-loading-retry>
     <div
@@ -160,6 +154,9 @@ exports[`SessionResultPageComponent should snap with an open feedback session wi
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   courseId={[Function String]}
+  courseInstitute=""
+  courseName=""
+  courseService={[Function CourseService]}
   entityType={[Function String]}
   feedbackSessionName={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
@@ -168,6 +165,8 @@ exports[`SessionResultPageComponent should snap with an open feedback session wi
   hasFeedbackSessionResultsLoadingFailed="false"
   instructorService={[Function InstructorService]}
   intent={[Function String]}
+  isCourseLoading="false"
+  isFeedbackSessionDetailsLoading="false"
   isFeedbackSessionResultsLoading="false"
   logService={[Function LogService]}
   loggedInUser=""
@@ -215,17 +214,14 @@ exports[`SessionResultPageComponent should snap with an open feedback session wi
     <div
       class="card-body"
     >
-      <br />
       <div
         class="row text-center"
       >
-        <div
+        <label
           class="col-md-2 text-md-right"
         >
-          <b>
-            Course ID:
-          </b>
-        </div>
+          Course ID:
+        </label>
         <div
           class="col-md-7 text-md-left"
           id="course-id"
@@ -233,59 +229,49 @@ exports[`SessionResultPageComponent should snap with an open feedback session wi
           CS3281
         </div>
       </div>
-      <br />
       <div
         class="row text-center"
       >
-        <div
+        <label
           class="col-md-2 text-md-right"
         >
-          <b>
-            Session:
-          </b>
-        </div>
+          Session:
+        </label>
         <div
           class="col-md-7 text-md-left"
           id="session-name"
         >
-          Peer Review 1
+          Peer Feedback
         </div>
       </div>
-      <br />
       <div
         class="row text-center"
       >
-        <div
+        <label
           class="col-md-2 text-md-right"
         >
-          <b>
-            Opening time:
-          </b>
-        </div>
+          Opening time:
+        </label>
         <div
           class="col-md-7 text-md-left"
           id="opening-time"
         >
         </div>
       </div>
-      <br />
       <div
         class="row text-center"
       >
-        <div
+        <label
           class="col-md-2 text-md-right"
         >
-          <b>
-            Closing time:
-          </b>
-        </div>
+          Closing time:
+        </label>
         <div
           class="col-md-7 text-md-left"
           id="closing-time"
         >
         </div>
       </div>
-      <br />
     </div>
   </div><tm-loading-retry>
     <div>
@@ -313,6 +299,9 @@ exports[`SessionResultPageComponent should snap with default fields 1`] = `
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   courseId={[Function String]}
+  courseInstitute=""
+  courseName=""
+  courseService={[Function CourseService]}
   entityType={[Function String]}
   feedbackSessionName={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
@@ -321,6 +310,8 @@ exports[`SessionResultPageComponent should snap with default fields 1`] = `
   hasFeedbackSessionResultsLoadingFailed="false"
   instructorService={[Function InstructorService]}
   intent={[Function String]}
+  isCourseLoading="false"
+  isFeedbackSessionDetailsLoading="false"
   isFeedbackSessionResultsLoading="false"
   logService={[Function LogService]}
   loggedInUser=""
@@ -368,75 +359,64 @@ exports[`SessionResultPageComponent should snap with default fields 1`] = `
     <div
       class="card-body"
     >
-      <br />
       <div
         class="row text-center"
       >
-        <div
+        <label
           class="col-md-2 text-md-right"
         >
-          <b>
-            Course ID:
-          </b>
-        </div>
+          Course ID:
+        </label>
         <div
           class="col-md-7 text-md-left"
           id="course-id"
         >
+          CS3281
         </div>
       </div>
-      <br />
       <div
         class="row text-center"
       >
-        <div
+        <label
           class="col-md-2 text-md-right"
         >
-          <b>
-            Session:
-          </b>
-        </div>
+          Session:
+        </label>
         <div
           class="col-md-7 text-md-left"
           id="session-name"
         >
+          Peer Feedback
         </div>
       </div>
-      <br />
       <div
         class="row text-center"
       >
-        <div
+        <label
           class="col-md-2 text-md-right"
         >
-          <b>
-            Opening time:
-          </b>
-        </div>
+          Opening time:
+        </label>
         <div
           class="col-md-7 text-md-left"
           id="opening-time"
         >
         </div>
       </div>
-      <br />
       <div
         class="row text-center"
       >
-        <div
+        <label
           class="col-md-2 text-md-right"
         >
-          <b>
-            Closing time:
-          </b>
-        </div>
+          Closing time:
+        </label>
         <div
           class="col-md-7 text-md-left"
           id="closing-time"
         >
         </div>
       </div>
-      <br />
     </div>
   </div><tm-loading-retry>
     <div>
@@ -464,6 +444,9 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   courseId={[Function String]}
+  courseInstitute=""
+  courseName=""
+  courseService={[Function CourseService]}
   entityType={[Function String]}
   feedbackSessionName={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
@@ -472,6 +455,8 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
   hasFeedbackSessionResultsLoadingFailed="false"
   instructorService={[Function InstructorService]}
   intent={[Function String]}
+  isCourseLoading="false"
+  isFeedbackSessionDetailsLoading="false"
   isFeedbackSessionResultsLoading="false"
   logService={[Function LogService]}
   loggedInUser=""
@@ -527,77 +512,64 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
     <div
       class="card-body"
     >
-      <br />
       <div
         class="row text-center"
       >
-        <div
+        <label
           class="col-md-2 text-md-right"
         >
-          <b>
-            Course ID:
-          </b>
-        </div>
+          Course ID:
+        </label>
         <div
           class="col-md-7 text-md-left"
           id="course-id"
         >
-          CS1231
+          CS3281
         </div>
       </div>
-      <br />
       <div
         class="row text-center"
       >
-        <div
+        <label
           class="col-md-2 text-md-right"
         >
-          <b>
-            Session:
-          </b>
-        </div>
+          Session:
+        </label>
         <div
           class="col-md-7 text-md-left"
           id="session-name"
         >
-          First Session
+          Peer Feedback
         </div>
       </div>
-      <br />
       <div
         class="row text-center"
       >
-        <div
+        <label
           class="col-md-2 text-md-right"
         >
-          <b>
-            Opening time:
-          </b>
-        </div>
+          Opening time:
+        </label>
         <div
           class="col-md-7 text-md-left"
           id="opening-time"
         >
         </div>
       </div>
-      <br />
       <div
         class="row text-center"
       >
-        <div
+        <label
           class="col-md-2 text-md-right"
         >
-          <b>
-            Closing time:
-          </b>
-        </div>
+          Closing time:
+        </label>
         <div
           class="col-md-7 text-md-left"
           id="closing-time"
         >
         </div>
       </div>
-      <br />
     </div>
   </div><tm-loading-retry>
     <div>
@@ -1029,6 +1001,9 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   courseId={[Function String]}
+  courseInstitute=""
+  courseName=""
+  courseService={[Function CourseService]}
   entityType={[Function String]}
   feedbackSessionName={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
@@ -1037,6 +1012,8 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
   hasFeedbackSessionResultsLoadingFailed="false"
   instructorService={[Function InstructorService]}
   intent={[Function String]}
+  isCourseLoading="false"
+  isFeedbackSessionDetailsLoading="false"
   isFeedbackSessionResultsLoading="false"
   logService={[Function LogService]}
   loggedInUser=""
@@ -1092,77 +1069,64 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
     <div
       class="card-body"
     >
-      <br />
       <div
         class="row text-center"
       >
-        <div
+        <label
           class="col-md-2 text-md-right"
         >
-          <b>
-            Course ID:
-          </b>
-        </div>
+          Course ID:
+        </label>
         <div
           class="col-md-7 text-md-left"
           id="course-id"
         >
-          CS1231
+          CS3281
         </div>
       </div>
-      <br />
       <div
         class="row text-center"
       >
-        <div
+        <label
           class="col-md-2 text-md-right"
         >
-          <b>
-            Session:
-          </b>
-        </div>
+          Session:
+        </label>
         <div
           class="col-md-7 text-md-left"
           id="session-name"
         >
-          First Session
+          Peer Feedback
         </div>
       </div>
-      <br />
       <div
         class="row text-center"
       >
-        <div
+        <label
           class="col-md-2 text-md-right"
         >
-          <b>
-            Opening time:
-          </b>
-        </div>
+          Opening time:
+        </label>
         <div
           class="col-md-7 text-md-left"
           id="opening-time"
         >
         </div>
       </div>
-      <br />
       <div
         class="row text-center"
       >
-        <div
+        <label
           class="col-md-2 text-md-right"
         >
-          <b>
-            Closing time:
-          </b>
-        </div>
+          Closing time:
+        </label>
         <div
           class="col-md-7 text-md-left"
           id="closing-time"
         >
         </div>
       </div>
-      <br />
     </div>
   </div><tm-loading-retry>
     <div>
@@ -1453,12 +1417,15 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
 </tm-session-result-page>
 `;
 
-exports[`SessionResultPageComponent should snap with session results are loading 1`] = `
+exports[`SessionResultPageComponent should snap with session details and results are loading 1`] = `
 <tm-session-result-page
   Intent={[Function Object]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   courseId={[Function String]}
+  courseInstitute=""
+  courseName=""
+  courseService={[Function CourseService]}
   entityType={[Function String]}
   feedbackSessionName={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
@@ -1467,6 +1434,102 @@ exports[`SessionResultPageComponent should snap with session results are loading
   hasFeedbackSessionResultsLoadingFailed="false"
   instructorService={[Function InstructorService]}
   intent={[Function String]}
+  isCourseLoading={[Function Boolean]}
+  isFeedbackSessionDetailsLoading={[Function Boolean]}
+  isFeedbackSessionResultsLoading={[Function Boolean]}
+  logService={[Function LogService]}
+  loggedInUser=""
+  navigationService={[Function NavigationService]}
+  ngbModal={[Function NgbModal]}
+  personEmail=""
+  personName=""
+  questions={[Function Array]}
+  regKey={[Function String]}
+  retryAttempts={[Function Number]}
+  route={[Function Object]}
+  router={[Function Router]}
+  session={[Function Object]}
+  statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
+  timezoneService={[Function TimezoneService]}
+  visibilityRecipient={[Function String]}
+>
+  <h1>
+     Feedback Session Results
+  </h1><div
+    class="row"
+  >
+    <div
+      class="col-12"
+    >
+      <div
+        class="alert alert-primary"
+        role="alert"
+      >
+        <div>
+           You are viewing feedback results as . You may submit feedback for sessions that are currently open and view results without logging in. To access other features you need to 
+          <a
+            href="#"
+          >
+            login using a Google account
+          </a>
+           (recommended). 
+        </div>
+      </div>
+    </div>
+  </div><tm-loading-spinner>
+    <div
+      class="loading-container"
+    >
+      <div
+        class="row spinner-border text-primary"
+        role="status"
+      />
+      <div
+        class="row text-secondary"
+      >
+        Loading...
+      </div>
+    </div>
+  </tm-loading-spinner><tm-loading-retry>
+    <tm-loading-spinner>
+      <div
+        class="loading-container"
+      >
+        <div
+          class="row spinner-border text-primary"
+          role="status"
+        />
+        <div
+          class="row text-secondary"
+        >
+          Loading...
+        </div>
+      </div>
+    </tm-loading-spinner>
+  </tm-loading-retry>
+</tm-session-result-page>
+`;
+
+exports[`SessionResultPageComponent should snap with session details loaded and results are loading 1`] = `
+<tm-session-result-page
+  Intent={[Function Object]}
+  authService={[Function AuthService]}
+  backendUrl={[Function String]}
+  courseId={[Function String]}
+  courseInstitute=""
+  courseName=""
+  courseService={[Function CourseService]}
+  entityType={[Function String]}
+  feedbackSessionName={[Function String]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  formattedSessionClosingTime=""
+  formattedSessionOpeningTime=""
+  hasFeedbackSessionResultsLoadingFailed="false"
+  instructorService={[Function InstructorService]}
+  intent={[Function String]}
+  isCourseLoading="false"
+  isFeedbackSessionDetailsLoading="false"
   isFeedbackSessionResultsLoading={[Function Boolean]}
   logService={[Function LogService]}
   loggedInUser=""
@@ -1514,75 +1577,64 @@ exports[`SessionResultPageComponent should snap with session results are loading
     <div
       class="card-body"
     >
-      <br />
       <div
         class="row text-center"
       >
-        <div
+        <label
           class="col-md-2 text-md-right"
         >
-          <b>
-            Course ID:
-          </b>
-        </div>
+          Course ID:
+        </label>
         <div
           class="col-md-7 text-md-left"
           id="course-id"
         >
+          CS3281
         </div>
       </div>
-      <br />
       <div
         class="row text-center"
       >
-        <div
+        <label
           class="col-md-2 text-md-right"
         >
-          <b>
-            Session:
-          </b>
-        </div>
+          Session:
+        </label>
         <div
           class="col-md-7 text-md-left"
           id="session-name"
         >
+          Peer Feedback
         </div>
       </div>
-      <br />
       <div
         class="row text-center"
       >
-        <div
+        <label
           class="col-md-2 text-md-right"
         >
-          <b>
-            Opening time:
-          </b>
-        </div>
+          Opening time:
+        </label>
         <div
           class="col-md-7 text-md-left"
           id="opening-time"
         >
         </div>
       </div>
-      <br />
       <div
         class="row text-center"
       >
-        <div
+        <label
           class="col-md-2 text-md-right"
         >
-          <b>
-            Closing time:
-          </b>
-        </div>
+          Closing time:
+        </label>
         <div
           class="col-md-7 text-md-left"
           id="closing-time"
         >
         </div>
       </div>
-      <br />
     </div>
   </div><tm-loading-retry>
     <tm-loading-spinner>
@@ -1610,6 +1662,9 @@ exports[`SessionResultPageComponent should snap with user that is logged in and 
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   courseId={[Function String]}
+  courseInstitute=""
+  courseName=""
+  courseService={[Function CourseService]}
   entityType={[Function String]}
   feedbackSessionName={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
@@ -1618,6 +1673,8 @@ exports[`SessionResultPageComponent should snap with user that is logged in and 
   hasFeedbackSessionResultsLoadingFailed="false"
   instructorService={[Function InstructorService]}
   intent={[Function String]}
+  isCourseLoading="false"
+  isFeedbackSessionDetailsLoading="false"
   isFeedbackSessionResultsLoading="false"
   logService={[Function LogService]}
   loggedInUser={[Function String]}
@@ -1666,75 +1723,64 @@ exports[`SessionResultPageComponent should snap with user that is logged in and 
     <div
       class="card-body"
     >
-      <br />
       <div
         class="row text-center"
       >
-        <div
+        <label
           class="col-md-2 text-md-right"
         >
-          <b>
-            Course ID:
-          </b>
-        </div>
+          Course ID:
+        </label>
         <div
           class="col-md-7 text-md-left"
           id="course-id"
         >
+          CS3281
         </div>
       </div>
-      <br />
       <div
         class="row text-center"
       >
-        <div
+        <label
           class="col-md-2 text-md-right"
         >
-          <b>
-            Session:
-          </b>
-        </div>
+          Session:
+        </label>
         <div
           class="col-md-7 text-md-left"
           id="session-name"
         >
+          Peer Feedback
         </div>
       </div>
-      <br />
       <div
         class="row text-center"
       >
-        <div
+        <label
           class="col-md-2 text-md-right"
         >
-          <b>
-            Opening time:
-          </b>
-        </div>
+          Opening time:
+        </label>
         <div
           class="col-md-7 text-md-left"
           id="opening-time"
         >
         </div>
       </div>
-      <br />
       <div
         class="row text-center"
       >
-        <div
+        <label
           class="col-md-2 text-md-right"
         >
-          <b>
-            Closing time:
-          </b>
-        </div>
+          Closing time:
+        </label>
         <div
           class="col-md-7 text-md-left"
           id="closing-time"
         >
         </div>
       </div>
-      <br />
     </div>
   </div><tm-loading-retry>
     <div>
@@ -1762,6 +1808,9 @@ exports[`SessionResultPageComponent should snap with user that is not logged in 
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   courseId={[Function String]}
+  courseInstitute=""
+  courseName=""
+  courseService={[Function CourseService]}
   entityType={[Function String]}
   feedbackSessionName={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
@@ -1770,6 +1819,8 @@ exports[`SessionResultPageComponent should snap with user that is not logged in 
   hasFeedbackSessionResultsLoadingFailed="false"
   instructorService={[Function InstructorService]}
   intent={[Function String]}
+  isCourseLoading="false"
+  isFeedbackSessionDetailsLoading="false"
   isFeedbackSessionResultsLoading="false"
   logService={[Function LogService]}
   loggedInUser=""
@@ -1817,75 +1868,64 @@ exports[`SessionResultPageComponent should snap with user that is not logged in 
     <div
       class="card-body"
     >
-      <br />
       <div
         class="row text-center"
       >
-        <div
+        <label
           class="col-md-2 text-md-right"
         >
-          <b>
-            Course ID:
-          </b>
-        </div>
+          Course ID:
+        </label>
         <div
           class="col-md-7 text-md-left"
           id="course-id"
         >
+          CS3281
         </div>
       </div>
-      <br />
       <div
         class="row text-center"
       >
-        <div
+        <label
           class="col-md-2 text-md-right"
         >
-          <b>
-            Session:
-          </b>
-        </div>
+          Session:
+        </label>
         <div
           class="col-md-7 text-md-left"
           id="session-name"
         >
+          Peer Feedback
         </div>
       </div>
-      <br />
       <div
         class="row text-center"
       >
-        <div
+        <label
           class="col-md-2 text-md-right"
         >
-          <b>
-            Opening time:
-          </b>
-        </div>
+          Opening time:
+        </label>
         <div
           class="col-md-7 text-md-left"
           id="opening-time"
         >
         </div>
       </div>
-      <br />
       <div
         class="row text-center"
       >
-        <div
+        <label
           class="col-md-2 text-md-right"
         >
-          <b>
-            Closing time:
-          </b>
-        </div>
+          Closing time:
+        </label>
         <div
           class="col-md-7 text-md-left"
           id="closing-time"
         >
         </div>
       </div>
-      <br />
     </div>
   </div><tm-loading-retry>
     <div>

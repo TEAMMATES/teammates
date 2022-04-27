@@ -2,12 +2,16 @@
 
 exports[`SessionSubmissionPageComponent should snap when feedback session questions have failed to load 1`] = `
 <tm-session-submission-page
+  FIFTEEN_MINUTES={[Function Number]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
   courseId={[Function String]}
+  courseInstitute=""
+  courseName=""
+  courseService={[Function CourseService]}
   document={[Function Document]}
   entityType={[Function String]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
@@ -22,8 +26,8 @@ exports[`SessionSubmissionPageComponent should snap when feedback session questi
   hasFeedbackSessionQuestionsLoadingFailed={[Function Boolean]}
   instructorService={[Function InstructorService]}
   intent={[Function String]}
+  isCourseLoading={[Function Boolean]}
   isFeedbackSessionLoading={[Function Boolean]}
-  isFeedbackSessionQuestionResponsesLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
   isModerationHintExpanded="false"
   isSavingResponses="false"
@@ -129,12 +133,16 @@ exports[`SessionSubmissionPageComponent should snap when feedback session questi
 
 exports[`SessionSubmissionPageComponent should snap when saving responses 1`] = `
 <tm-session-submission-page
+  FIFTEEN_MINUTES={[Function Number]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
   courseId={[Function String]}
+  courseInstitute=""
+  courseName=""
+  courseService={[Function CourseService]}
   document={[Function Document]}
   entityType={[Function String]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
@@ -149,8 +157,8 @@ exports[`SessionSubmissionPageComponent should snap when saving responses 1`] = 
   hasFeedbackSessionQuestionsLoadingFailed="false"
   instructorService={[Function InstructorService]}
   intent={[Function String]}
+  isCourseLoading={[Function Boolean]}
   isFeedbackSessionLoading={[Function Boolean]}
-  isFeedbackSessionQuestionResponsesLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
   isModerationHintExpanded="false"
   isSavingResponses={[Function Boolean]}
@@ -253,12 +261,16 @@ exports[`SessionSubmissionPageComponent should snap when saving responses 1`] = 
 
 exports[`SessionSubmissionPageComponent should snap with default fields 1`] = `
 <tm-session-submission-page
+  FIFTEEN_MINUTES={[Function Number]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
   courseId={[Function String]}
+  courseInstitute=""
+  courseName=""
+  courseService={[Function CourseService]}
   document={[Function Document]}
   entityType={[Function String]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
@@ -273,8 +285,8 @@ exports[`SessionSubmissionPageComponent should snap with default fields 1`] = `
   hasFeedbackSessionQuestionsLoadingFailed="false"
   instructorService={[Function InstructorService]}
   intent={[Function String]}
+  isCourseLoading={[Function Boolean]}
   isFeedbackSessionLoading={[Function Boolean]}
-  isFeedbackSessionQuestionResponsesLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
   isModerationHintExpanded="false"
   isSavingResponses="false"
@@ -377,12 +389,16 @@ exports[`SessionSubmissionPageComponent should snap with default fields 1`] = `
 
 exports[`SessionSubmissionPageComponent should snap with feedback session and user details 1`] = `
 <tm-session-submission-page
+  FIFTEEN_MINUTES={[Function Number]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
   courseId={[Function String]}
+  courseInstitute={[Function String]}
+  courseName={[Function String]}
+  courseService={[Function CourseService]}
   document={[Function Document]}
   entityType={[Function String]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
@@ -397,8 +413,8 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
   hasFeedbackSessionQuestionsLoadingFailed="false"
   instructorService={[Function InstructorService]}
   intent={[Function String]}
+  isCourseLoading="false"
   isFeedbackSessionLoading="false"
-  isFeedbackSessionQuestionResponsesLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
   isModerationHintExpanded="false"
   isSavingResponses="false"
@@ -472,19 +488,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
     <div
       class="card-body"
     >
-      <br
-        class="mobile-invisible"
-      />
       <div
         class="row text-center"
       >
-        <div
+        <label
           class="col-md-2 text-md-right"
         >
-          <b>
-            Course ID:
-          </b>
-        </div>
+          Course ID:
+        </label>
         <div
           class="col-md-10 text-md-left"
           id="course-id"
@@ -492,19 +503,44 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
           test.exa-demo
         </div>
       </div>
-      <br
-        class="mobile-invisible"
-      />
       <div
         class="row text-center"
       >
-        <div
+        <label
           class="col-md-2 text-md-right"
         >
-          <b>
-            Session:
-          </b>
+          Course name:
+        </label>
+        <div
+          class="col-md-10 text-md-left"
+          id="course-name"
+        >
+          Course name
         </div>
+      </div>
+      <div
+        class="row text-center"
+      >
+        <label
+          class="col-md-2 text-md-right"
+        >
+          Course institute:
+        </label>
+        <div
+          class="col-md-10 text-md-left"
+          id="course-institute"
+        >
+          Test institute
+        </div>
+      </div>
+      <div
+        class="row text-center"
+      >
+        <label
+          class="col-md-2 text-md-right"
+        >
+          Session:
+        </label>
         <div
           class="col-md-10 text-md-left"
           id="fs-name"
@@ -512,19 +548,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
           First team feedback session
         </div>
       </div>
-      <br
-        class="mobile-invisible"
-      />
       <div
         class="row text-center"
       >
-        <div
+        <label
           class="col-md-2 text-md-right"
         >
-          <b>
-            Opening time:
-          </b>
-        </div>
+          Opening time:
+        </label>
         <div
           class="col-md-10 text-md-left"
           id="opening-time"
@@ -532,19 +563,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
           Sun, 01 Apr, 2012, 11:59 PM +08
         </div>
       </div>
-      <br
-        class="mobile-invisible"
-      />
       <div
         class="row text-center"
       >
-        <div
+        <label
           class="col-md-2 text-md-right"
         >
-          <b>
-            Closing time:
-          </b>
-        </div>
+          Closing time:
+        </label>
         <div
           class="col-md-10 text-md-left"
           id="closing-time"
@@ -552,19 +578,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
           Mon, 02 Apr, 2012, 11:59 PM +08
         </div>
       </div>
-      <br
-        class="mobile-invisible"
-      />
       <div
         class="row text-center"
       >
-        <div
+        <label
           class="col-md-2 text-md-right"
         >
-          <b>
-            Instructions:
-          </b>
-        </div>
+          Instructions:
+        </label>
         <div
           class="col-md-10 text-md-left"
           id="instructions"
@@ -572,9 +593,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
           Please give your feedback based on the following questions.
         </div>
       </div>
-      <br
-        class="mobile-invisible"
-      />
     </div>
   </div><tm-loading-retry>
     <tm-loading-spinner>
@@ -598,12 +616,16 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
 
 exports[`SessionSubmissionPageComponent should snap with feedback session question submission forms 1`] = `
 <tm-session-submission-page
+  FIFTEEN_MINUTES={[Function Number]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
   courseId={[Function String]}
+  courseInstitute=""
+  courseName=""
+  courseService={[Function CourseService]}
   document={[Function Document]}
   entityType={[Function String]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
@@ -618,8 +640,8 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   hasFeedbackSessionQuestionsLoadingFailed="false"
   instructorService={[Function InstructorService]}
   intent={[Function String]}
+  isCourseLoading="false"
   isFeedbackSessionLoading="false"
-  isFeedbackSessionQuestionResponsesLoading="false"
   isFeedbackSessionQuestionsLoading="false"
   isModerationHintExpanded="false"
   isSavingResponses="false"
@@ -692,19 +714,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
     <div
       class="card-body"
     >
-      <br
-        class="mobile-invisible"
-      />
       <div
         class="row text-center"
       >
-        <div
+        <label
           class="col-md-2 text-md-right"
         >
-          <b>
-            Course ID:
-          </b>
-        </div>
+          Course ID:
+        </label>
         <div
           class="col-md-10 text-md-left"
           id="course-id"
@@ -712,19 +729,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           CS3281
         </div>
       </div>
-      <br
-        class="mobile-invisible"
-      />
       <div
         class="row text-center"
       >
-        <div
+        <label
           class="col-md-2 text-md-right"
         >
-          <b>
-            Session:
-          </b>
-        </div>
+          Session:
+        </label>
         <div
           class="col-md-10 text-md-left"
           id="fs-name"
@@ -732,70 +744,53 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           Feedback Session Name
         </div>
       </div>
-      <br
-        class="mobile-invisible"
-      />
       <div
         class="row text-center"
       >
-        <div
+        <label
           class="col-md-2 text-md-right"
         >
-          <b>
-            Opening time:
-          </b>
-        </div>
+          Opening time:
+        </label>
         <div
           class="col-md-10 text-md-left"
           id="opening-time"
         >
         </div>
       </div>
-      <br
-        class="mobile-invisible"
-      />
       <div
         class="row text-center"
       >
-        <div
+        <label
           class="col-md-2 text-md-right"
         >
-          <b>
-            Closing time:
-          </b>
-        </div>
+          Closing time:
+        </label>
         <div
           class="col-md-10 text-md-left"
           id="closing-time"
         >
         </div>
       </div>
-      <br
-        class="mobile-invisible"
-      />
       <div
         class="row text-center"
       >
-        <div
+        <label
           class="col-md-2 text-md-right"
         >
-          <b>
-            Instructions:
-          </b>
-        </div>
+          Instructions:
+        </label>
         <div
           class="col-md-10 text-md-left"
           id="instructions"
         />
       </div>
-      <br
-        class="mobile-invisible"
-      />
     </div>
   </div><tm-loading-retry>
     <div>
       <tm-question-submission-form
         id="feedback-question-id-mcq"
+        inviewport=""
       >
         <div
           class="card"
@@ -1032,6 +1027,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
       </tm-question-submission-form>
       <tm-question-submission-form
         id="feedback-question-id-text"
+        inviewport=""
       >
         <div
           class="card"
@@ -1158,6 +1154,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
       </tm-question-submission-form>
       <tm-question-submission-form
         id="feedback-question-id-mcq-2"
+        inviewport=""
       >
         <div
           class="card"
@@ -1231,206 +1228,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               <div
                 class="evaluee-col col-12"
               >
-                <div
-                  class="row"
-                >
-                  <div
-                    class="col-md-5 col-xs-12 margin-top-20px"
-                  >
-                    <div
-                      id="recipient-name-0"
-                    >
-                      <b>
-                        Barry Harris 
-                      </b>
-                      <span>
-                        (Team)
-                      </span>
-                    </div>
-                  </div>
-                  <div
-                    class="col margin-top-20px"
-                  >
-                    <tm-mcq-question-edit-answer-form>
-                      <tr>
-                        <td>
-                          <div
-                            class="radio"
-                          >
-                            <label
-                              class="margin-right-15px"
-                            >
-                              <input
-                                class="margin-right-15px"
-                                name="mcq-feedback-question-id-mcq-2barry-harris-id"
-                                type="radio"
-                              />
-                              <span
-                                class="option-text"
-                              >
-                                choice 1
-                              </span>
-                            </label>
-                          </div>
-                          <div
-                            class="radio"
-                          >
-                            <label
-                              class="margin-right-15px"
-                            >
-                              <input
-                                class="margin-right-15px"
-                                name="mcq-feedback-question-id-mcq-2barry-harris-id"
-                                type="radio"
-                              />
-                              <span
-                                class="option-text"
-                              >
-                                choice 2
-                              </span>
-                            </label>
-                          </div>
-                          <div
-                            class="radio"
-                          >
-                            <label
-                              class="margin-right-15px"
-                            >
-                              <input
-                                class="margin-right-15px"
-                                name="mcq-feedback-question-id-mcq-2barry-harris-id"
-                                type="radio"
-                              />
-                              <span
-                                class="option-text"
-                              >
-                                choice 3
-                              </span>
-                            </label>
-                          </div>
-                        </td>
-                      </tr>
-                    </tm-mcq-question-edit-answer-form>
-                  </div>
-                  <div
-                    class="col-12 margin-bottom-20px margin-top-10px indent"
-                    id="comment-section"
-                  >
-                    <div
-                      style="display: inline-block;"
-                    >
-                      <button
-                        class="btn btn-light btn-sm"
-                        id="btn-add-comment"
-                      >
-                        <i
-                          class="fas fa-comment"
-                        />
-                         [Optional] Comment on your response 
-                      </button>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="row"
-                >
-                  <div
-                    class="col-md-5 col-xs-12 margin-top-20px"
-                  >
-                    <div
-                      id="recipient-name-1"
-                    >
-                      <b>
-                        Gene Harris 
-                      </b>
-                      <span>
-                        (Team)
-                      </span>
-                    </div>
-                  </div>
-                  <div
-                    class="col margin-top-20px"
-                  >
-                    <tm-mcq-question-edit-answer-form>
-                      <tr>
-                        <td>
-                          <div
-                            class="radio"
-                          >
-                            <label
-                              class="margin-right-15px"
-                            >
-                              <input
-                                class="margin-right-15px"
-                                name="mcq-feedback-question-id-mcq-2gene-harris-id"
-                                type="radio"
-                              />
-                              <span
-                                class="option-text"
-                              >
-                                choice 1
-                              </span>
-                            </label>
-                          </div>
-                          <div
-                            class="radio"
-                          >
-                            <label
-                              class="margin-right-15px"
-                            >
-                              <input
-                                class="margin-right-15px"
-                                name="mcq-feedback-question-id-mcq-2gene-harris-id"
-                                type="radio"
-                              />
-                              <span
-                                class="option-text"
-                              >
-                                choice 2
-                              </span>
-                            </label>
-                          </div>
-                          <div
-                            class="radio"
-                          >
-                            <label
-                              class="margin-right-15px"
-                            >
-                              <input
-                                class="margin-right-15px"
-                                name="mcq-feedback-question-id-mcq-2gene-harris-id"
-                                type="radio"
-                              />
-                              <span
-                                class="option-text"
-                              >
-                                choice 3
-                              </span>
-                            </label>
-                          </div>
-                        </td>
-                      </tr>
-                    </tm-mcq-question-edit-answer-form>
-                  </div>
-                  <div
-                    class="col-12 margin-bottom-20px margin-top-10px indent"
-                    id="comment-section"
-                  >
-                    <div
-                      style="display: inline-block;"
-                    >
-                      <button
-                        class="btn btn-light btn-sm"
-                        id="btn-add-comment"
-                      >
-                        <i
-                          class="fas fa-comment"
-                        />
-                         [Optional] Comment on your response 
-                      </button>
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
             <div
@@ -1442,6 +1239,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
       </tm-question-submission-form>
       <tm-question-submission-form
         id="feedback-question-id-msq"
+        inviewport=""
       >
         <div
           class="card"
@@ -1694,11 +1492,28 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               class="col-12 constraint-margins"
             >
             </div>
+            <div
+              class="row"
+            >
+              <div
+                class="col-12 text-center"
+              >
+                <button
+                  class="btn btn-success"
+                  id="btn-submit-qn-4"
+                  ngbtooltip="You can save your responses for this question at any time and come back later to continue."
+                  type="submit"
+                >
+                  Submit Responses
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </tm-question-submission-form>
       <tm-question-submission-form
         id="feedback-question-id-numscale"
+        inviewport=""
       >
         <div
           class="card"
@@ -1841,11 +1656,28 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               class="col-12 constraint-margins"
             >
             </div>
+            <div
+              class="row"
+            >
+              <div
+                class="col-12 text-center"
+              >
+                <button
+                  class="btn btn-success"
+                  id="btn-submit-qn-5"
+                  ngbtooltip="You can save your responses for this question at any time and come back later to continue."
+                  type="submit"
+                >
+                  Submit Responses
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </tm-question-submission-form>
       <tm-question-submission-form
         id="feedback-question-id-constsum"
+        inviewport=""
       >
         <div
           class="card"
@@ -2002,11 +1834,28 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </div>
               </tm-constsum-recipients-question-constraint>
             </div>
+            <div
+              class="row"
+            >
+              <div
+                class="col-12 text-center"
+              >
+                <button
+                  class="btn btn-success"
+                  id="btn-submit-qn-6"
+                  ngbtooltip="You can save your responses for this question at any time and come back later to continue."
+                  type="submit"
+                >
+                  Submit Responses
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </tm-question-submission-form>
       <tm-question-submission-form
         id="feedback-question-id-contrib"
+        inviewport=""
       >
         <div
           class="card"
@@ -2270,11 +2119,28 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               class="col-12 constraint-margins"
             >
             </div>
+            <div
+              class="row"
+            >
+              <div
+                class="col-12 text-center"
+              >
+                <button
+                  class="btn btn-success"
+                  id="btn-submit-qn-7"
+                  ngbtooltip="You can save your responses for this question at any time and come back later to continue."
+                  type="submit"
+                >
+                  Submit Responses
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </tm-question-submission-form>
       <tm-question-submission-form
         id="feedback-question-id-rubric"
+        inviewport=""
       >
         <div
           class="card"
@@ -2521,11 +2387,28 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               class="col-12 constraint-margins"
             >
             </div>
+            <div
+              class="row"
+            >
+              <div
+                class="col-12 text-center"
+              >
+                <button
+                  class="btn btn-success"
+                  id="btn-submit-qn-8"
+                  ngbtooltip="You can save your responses for this question at any time and come back later to continue."
+                  type="submit"
+                >
+                  Submit Responses
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </tm-question-submission-form>
       <tm-question-submission-form
         id="feedback-question-id-rank-options"
+        inviewport=""
       >
         <div
           class="card"
@@ -2730,11 +2613,28 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               class="col-12 constraint-margins"
             >
             </div>
+            <div
+              class="row"
+            >
+              <div
+                class="col-12 text-center"
+              >
+                <button
+                  class="btn btn-success"
+                  id="btn-submit-qn-9"
+                  ngbtooltip="You can save your responses for this question at any time and come back later to continue."
+                  type="submit"
+                >
+                  Submit Responses
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </tm-question-submission-form>
       <tm-question-submission-form
         id="feedback-question-id-rank-recipients"
+        inviewport=""
       >
         <div
           class="card"
@@ -2893,12 +2793,25 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </div>
               </tm-rank-recipients-question-constraint>
             </div>
+            <div
+              class="row"
+            >
+              <div
+                class="col-12 text-center"
+              >
+                <button
+                  class="btn btn-success"
+                  id="btn-submit-qn-10"
+                  ngbtooltip="You can save your responses for this question at any time and come back later to continue."
+                  type="submit"
+                >
+                  Submit Responses
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </tm-question-submission-form>
-      <br
-        class="mobile-invisible"
-      />
       <div
         class="row"
       >
@@ -2911,7 +2824,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             ngbtooltip="You can save your responses at any time and come back later to continue."
             type="submit"
           >
-            Submit Feedback
+            Submit Responses for All Questions
           </button>
         </div>
       </div>
@@ -2922,12 +2835,16 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
 
 exports[`SessionSubmissionPageComponent should snap with feedback session question submission forms when disabled 1`] = `
 <tm-session-submission-page
+  FIFTEEN_MINUTES={[Function Number]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
   courseId={[Function String]}
+  courseInstitute=""
+  courseName=""
+  courseService={[Function CourseService]}
   document={[Function Document]}
   entityType={[Function String]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
@@ -2942,8 +2859,8 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   hasFeedbackSessionQuestionsLoadingFailed="false"
   instructorService={[Function InstructorService]}
   intent={[Function String]}
+  isCourseLoading="false"
   isFeedbackSessionLoading="false"
-  isFeedbackSessionQuestionResponsesLoading="false"
   isFeedbackSessionQuestionsLoading="false"
   isModerationHintExpanded="false"
   isSavingResponses="false"
@@ -3016,19 +2933,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
     <div
       class="card-body"
     >
-      <br
-        class="mobile-invisible"
-      />
       <div
         class="row text-center"
       >
-        <div
+        <label
           class="col-md-2 text-md-right"
         >
-          <b>
-            Course ID:
-          </b>
-        </div>
+          Course ID:
+        </label>
         <div
           class="col-md-10 text-md-left"
           id="course-id"
@@ -3036,19 +2948,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           CS3281
         </div>
       </div>
-      <br
-        class="mobile-invisible"
-      />
       <div
         class="row text-center"
       >
-        <div
+        <label
           class="col-md-2 text-md-right"
         >
-          <b>
-            Session:
-          </b>
-        </div>
+          Session:
+        </label>
         <div
           class="col-md-10 text-md-left"
           id="fs-name"
@@ -3056,70 +2963,53 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           Feedback Session Name
         </div>
       </div>
-      <br
-        class="mobile-invisible"
-      />
       <div
         class="row text-center"
       >
-        <div
+        <label
           class="col-md-2 text-md-right"
         >
-          <b>
-            Opening time:
-          </b>
-        </div>
+          Opening time:
+        </label>
         <div
           class="col-md-10 text-md-left"
           id="opening-time"
         >
         </div>
       </div>
-      <br
-        class="mobile-invisible"
-      />
       <div
         class="row text-center"
       >
-        <div
+        <label
           class="col-md-2 text-md-right"
         >
-          <b>
-            Closing time:
-          </b>
-        </div>
+          Closing time:
+        </label>
         <div
           class="col-md-10 text-md-left"
           id="closing-time"
         >
         </div>
       </div>
-      <br
-        class="mobile-invisible"
-      />
       <div
         class="row text-center"
       >
-        <div
+        <label
           class="col-md-2 text-md-right"
         >
-          <b>
-            Instructions:
-          </b>
-        </div>
+          Instructions:
+        </label>
         <div
           class="col-md-10 text-md-left"
           id="instructions"
         />
       </div>
-      <br
-        class="mobile-invisible"
-      />
     </div>
   </div><tm-loading-retry>
     <div>
       <tm-question-submission-form
         id="feedback-question-id-mcq"
+        inviewport=""
       >
         <div
           class="card"
@@ -3361,6 +3251,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
       </tm-question-submission-form>
       <tm-question-submission-form
         id="feedback-question-id-text"
+        inviewport=""
       >
         <div
           class="card"
@@ -3487,6 +3378,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
       </tm-question-submission-form>
       <tm-question-submission-form
         id="feedback-question-id-mcq-2"
+        inviewport=""
       >
         <div
           class="card"
@@ -3560,214 +3452,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               <div
                 class="evaluee-col col-12"
               >
-                <div
-                  class="row"
-                >
-                  <div
-                    class="col-md-5 col-xs-12 margin-top-20px"
-                  >
-                    <div
-                      id="recipient-name-0"
-                    >
-                      <b>
-                        Barry Harris 
-                      </b>
-                      <span>
-                        (Team)
-                      </span>
-                    </div>
-                  </div>
-                  <div
-                    class="col margin-top-20px"
-                  >
-                    <tm-mcq-question-edit-answer-form>
-                      <tr>
-                        <td>
-                          <div
-                            class="radio"
-                          >
-                            <label
-                              class="margin-right-15px"
-                            >
-                              <input
-                                class="margin-right-15px"
-                                disabled=""
-                                name="mcq-feedback-question-id-mcq-2barry-harris-id"
-                                type="radio"
-                              />
-                              <span
-                                class="option-text"
-                              >
-                                choice 1
-                              </span>
-                            </label>
-                          </div>
-                          <div
-                            class="radio"
-                          >
-                            <label
-                              class="margin-right-15px"
-                            >
-                              <input
-                                class="margin-right-15px"
-                                disabled=""
-                                name="mcq-feedback-question-id-mcq-2barry-harris-id"
-                                type="radio"
-                              />
-                              <span
-                                class="option-text"
-                              >
-                                choice 2
-                              </span>
-                            </label>
-                          </div>
-                          <div
-                            class="radio"
-                          >
-                            <label
-                              class="margin-right-15px"
-                            >
-                              <input
-                                class="margin-right-15px"
-                                disabled=""
-                                name="mcq-feedback-question-id-mcq-2barry-harris-id"
-                                type="radio"
-                              />
-                              <span
-                                class="option-text"
-                              >
-                                choice 3
-                              </span>
-                            </label>
-                          </div>
-                        </td>
-                      </tr>
-                    </tm-mcq-question-edit-answer-form>
-                  </div>
-                  <div
-                    class="col-12 margin-bottom-20px margin-top-10px indent"
-                    id="comment-section"
-                  >
-                    <div
-                      style="display: inline-block;"
-                    >
-                      <button
-                        class="btn btn-light btn-sm"
-                        disabled=""
-                        id="btn-add-comment"
-                      >
-                        <i
-                          class="fas fa-comment"
-                        />
-                         [Optional] Comment on your response 
-                      </button>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="row"
-                >
-                  <div
-                    class="col-md-5 col-xs-12 margin-top-20px"
-                  >
-                    <div
-                      id="recipient-name-1"
-                    >
-                      <b>
-                        Gene Harris 
-                      </b>
-                      <span>
-                        (Team)
-                      </span>
-                    </div>
-                  </div>
-                  <div
-                    class="col margin-top-20px"
-                  >
-                    <tm-mcq-question-edit-answer-form>
-                      <tr>
-                        <td>
-                          <div
-                            class="radio"
-                          >
-                            <label
-                              class="margin-right-15px"
-                            >
-                              <input
-                                class="margin-right-15px"
-                                disabled=""
-                                name="mcq-feedback-question-id-mcq-2gene-harris-id"
-                                type="radio"
-                              />
-                              <span
-                                class="option-text"
-                              >
-                                choice 1
-                              </span>
-                            </label>
-                          </div>
-                          <div
-                            class="radio"
-                          >
-                            <label
-                              class="margin-right-15px"
-                            >
-                              <input
-                                class="margin-right-15px"
-                                disabled=""
-                                name="mcq-feedback-question-id-mcq-2gene-harris-id"
-                                type="radio"
-                              />
-                              <span
-                                class="option-text"
-                              >
-                                choice 2
-                              </span>
-                            </label>
-                          </div>
-                          <div
-                            class="radio"
-                          >
-                            <label
-                              class="margin-right-15px"
-                            >
-                              <input
-                                class="margin-right-15px"
-                                disabled=""
-                                name="mcq-feedback-question-id-mcq-2gene-harris-id"
-                                type="radio"
-                              />
-                              <span
-                                class="option-text"
-                              >
-                                choice 3
-                              </span>
-                            </label>
-                          </div>
-                        </td>
-                      </tr>
-                    </tm-mcq-question-edit-answer-form>
-                  </div>
-                  <div
-                    class="col-12 margin-bottom-20px margin-top-10px indent"
-                    id="comment-section"
-                  >
-                    <div
-                      style="display: inline-block;"
-                    >
-                      <button
-                        class="btn btn-light btn-sm"
-                        disabled=""
-                        id="btn-add-comment"
-                      >
-                        <i
-                          class="fas fa-comment"
-                        />
-                         [Optional] Comment on your response 
-                      </button>
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
             <div
@@ -3779,6 +3463,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
       </tm-question-submission-form>
       <tm-question-submission-form
         id="feedback-question-id-msq"
+        inviewport=""
       >
         <div
           class="card"
@@ -4036,11 +3721,29 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               class="col-12 constraint-margins"
             >
             </div>
+            <div
+              class="row"
+            >
+              <div
+                class="col-12 text-center"
+              >
+                <button
+                  class="btn btn-success"
+                  disabled=""
+                  id="btn-submit-qn-4"
+                  ngbtooltip="You can save your responses for this question at any time and come back later to continue."
+                  type="submit"
+                >
+                  Submit Responses
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </tm-question-submission-form>
       <tm-question-submission-form
         id="feedback-question-id-numscale"
+        inviewport=""
       >
         <div
           class="card"
@@ -4183,11 +3886,29 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               class="col-12 constraint-margins"
             >
             </div>
+            <div
+              class="row"
+            >
+              <div
+                class="col-12 text-center"
+              >
+                <button
+                  class="btn btn-success"
+                  disabled=""
+                  id="btn-submit-qn-5"
+                  ngbtooltip="You can save your responses for this question at any time and come back later to continue."
+                  type="submit"
+                >
+                  Submit Responses
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </tm-question-submission-form>
       <tm-question-submission-form
         id="feedback-question-id-constsum"
+        inviewport=""
       >
         <div
           class="card"
@@ -4344,11 +4065,29 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </div>
               </tm-constsum-recipients-question-constraint>
             </div>
+            <div
+              class="row"
+            >
+              <div
+                class="col-12 text-center"
+              >
+                <button
+                  class="btn btn-success"
+                  disabled=""
+                  id="btn-submit-qn-6"
+                  ngbtooltip="You can save your responses for this question at any time and come back later to continue."
+                  type="submit"
+                >
+                  Submit Responses
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </tm-question-submission-form>
       <tm-question-submission-form
         id="feedback-question-id-contrib"
+        inviewport=""
       >
         <div
           class="card"
@@ -4612,11 +4351,29 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               class="col-12 constraint-margins"
             >
             </div>
+            <div
+              class="row"
+            >
+              <div
+                class="col-12 text-center"
+              >
+                <button
+                  class="btn btn-success"
+                  disabled=""
+                  id="btn-submit-qn-7"
+                  ngbtooltip="You can save your responses for this question at any time and come back later to continue."
+                  type="submit"
+                >
+                  Submit Responses
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </tm-question-submission-form>
       <tm-question-submission-form
         id="feedback-question-id-rubric"
+        inviewport=""
       >
         <div
           class="card"
@@ -4871,11 +4628,29 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               class="col-12 constraint-margins"
             >
             </div>
+            <div
+              class="row"
+            >
+              <div
+                class="col-12 text-center"
+              >
+                <button
+                  class="btn btn-success"
+                  disabled=""
+                  id="btn-submit-qn-8"
+                  ngbtooltip="You can save your responses for this question at any time and come back later to continue."
+                  type="submit"
+                >
+                  Submit Responses
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </tm-question-submission-form>
       <tm-question-submission-form
         id="feedback-question-id-rank-options"
+        inviewport=""
       >
         <div
           class="card"
@@ -5080,11 +4855,29 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               class="col-12 constraint-margins"
             >
             </div>
+            <div
+              class="row"
+            >
+              <div
+                class="col-12 text-center"
+              >
+                <button
+                  class="btn btn-success"
+                  disabled=""
+                  id="btn-submit-qn-9"
+                  ngbtooltip="You can save your responses for this question at any time and come back later to continue."
+                  type="submit"
+                >
+                  Submit Responses
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </tm-question-submission-form>
       <tm-question-submission-form
         id="feedback-question-id-rank-recipients"
+        inviewport=""
       >
         <div
           class="card"
@@ -5243,12 +5036,26 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </div>
               </tm-rank-recipients-question-constraint>
             </div>
+            <div
+              class="row"
+            >
+              <div
+                class="col-12 text-center"
+              >
+                <button
+                  class="btn btn-success"
+                  disabled=""
+                  id="btn-submit-qn-10"
+                  ngbtooltip="You can save your responses for this question at any time and come back later to continue."
+                  type="submit"
+                >
+                  Submit Responses
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </tm-question-submission-form>
-      <br
-        class="mobile-invisible"
-      />
       <div
         class="row"
       >
@@ -5262,7 +5069,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             ngbtooltip="You can save your responses at any time and come back later to continue."
             type="submit"
           >
-            Submit Feedback
+            Submit Responses for All Questions
           </button>
         </div>
       </div>
@@ -5273,12 +5080,16 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
 
 exports[`SessionSubmissionPageComponent should snap with user that is logged in and using session link 1`] = `
 <tm-session-submission-page
+  FIFTEEN_MINUTES={[Function Number]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
   courseId={[Function String]}
+  courseInstitute=""
+  courseName=""
+  courseService={[Function CourseService]}
   document={[Function Document]}
   entityType={[Function String]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
@@ -5293,8 +5104,8 @@ exports[`SessionSubmissionPageComponent should snap with user that is logged in 
   hasFeedbackSessionQuestionsLoadingFailed="false"
   instructorService={[Function InstructorService]}
   intent={[Function String]}
+  isCourseLoading={[Function Boolean]}
   isFeedbackSessionLoading={[Function Boolean]}
-  isFeedbackSessionQuestionResponsesLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
   isModerationHintExpanded="false"
   isSavingResponses="false"
@@ -5398,12 +5209,16 @@ exports[`SessionSubmissionPageComponent should snap with user that is logged in 
 
 exports[`SessionSubmissionPageComponent should snap with user that is not logged in and using session link 1`] = `
 <tm-session-submission-page
+  FIFTEEN_MINUTES={[Function Number]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
   courseId={[Function String]}
+  courseInstitute=""
+  courseName=""
+  courseService={[Function CourseService]}
   document={[Function Document]}
   entityType={[Function String]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
@@ -5418,8 +5233,8 @@ exports[`SessionSubmissionPageComponent should snap with user that is not logged
   hasFeedbackSessionQuestionsLoadingFailed="false"
   instructorService={[Function InstructorService]}
   intent={[Function String]}
+  isCourseLoading={[Function Boolean]}
   isFeedbackSessionLoading={[Function Boolean]}
-  isFeedbackSessionQuestionResponsesLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
   isModerationHintExpanded="false"
   isSavingResponses="false"

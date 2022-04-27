@@ -6,7 +6,6 @@
     <description>
         This is the PMD additional ruleset for TEAMMATES production code.
     </description>
-    <exclude-pattern>.*/com/google/appengine/logging/v1/.*</exclude-pattern> <!-- Ignore auto-generated code -->
     <exclude-pattern>.*/test/java/.*</exclude-pattern>
     <exclude-pattern>.*/e2e/java/.*</exclude-pattern>
     <exclude-pattern>.*/lnp/java/.*</exclude-pattern>

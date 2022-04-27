@@ -1,0 +1,82 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`InstructorStudentListPageComponent should snap with a course with students the instructor has no permission to view 1`] = `
+<tm-instructor-student-list-page
+  courseService={[Function CourseService]}
+  courseTabList={[Function Array]}
+  hasLoadingFailed="false"
+  instructorService={[Function InstructorService]}
+  isLoadingCourses="false"
+  statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
+  tableComparatorService={[Function TableComparatorService]}
+>
+  <h1>
+    Students
+  </h1><p>
+     This page gives the student details for all your courses. Expand the panels below to view the details of students in each course. Use the 
+    <a
+      href="/web/instructor/search"
+      tmrouterlink="/web/instructor/search"
+    >
+      'Search' page
+    </a>
+     if you need to locate the details of a specific student by name or email.
+  </p><hr /><tm-loading-retry>
+    <div />
+    <div
+      class="course-table"
+    >
+      <div
+        class="card"
+      >
+        <div
+          class="card-header cursor-pointer bg-primary text-white"
+        >
+          <strong
+            class="text-break"
+          >
+            [course1Id]: Course 1
+          </strong>
+          <div
+            class="card-header-btn-toolbar"
+          >
+            <tm-panel-chevron>
+              <div
+                class="chevron"
+              >
+                <i
+                  class="fas fa-chevron-up"
+                />
+              </div>
+            </tm-panel-chevron>
+          </div>
+        </div>
+        <div
+          class="ng-trigger ng-trigger-collapseAnim ng-animating"
+          style=""
+        >
+          <tm-loading-retry>
+            <div
+              style=""
+            >
+              <div
+                class="card-body"
+              >
+                <div
+                  class="alert alert-danger"
+                  role="alert"
+                >
+                  <h5>
+                    You do not have permission to view the details of the students in this course.
+                  </h5>
+                </div>
+              </div>
+            </div>
+          </tm-loading-retry>
+        </div>
+      </div>
+    </div>
+  </tm-loading-retry>
+</tm-instructor-student-list-page>
+`;

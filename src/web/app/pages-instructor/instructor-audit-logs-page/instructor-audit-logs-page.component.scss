@@ -13,3 +13,9 @@
 .no-activity-body {
   padding: .5rem 1rem;
 }
+
+.form-control {
+  &[readonly] {
+    background-color: white;
+  }
+}

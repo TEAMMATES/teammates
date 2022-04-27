@@ -1,0 +1,792 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UserNotificationsListComponent should snap when all loaded notifications are read 1`] = `
+<tm-user-notifications-list
+  DATE_FORMAT={[Function String]}
+  NotificationTargetUser={[Function Object]}
+  SortBy={[Function Object]}
+  hasLoadingFailed="false"
+  isLoadingNotifications="false"
+  notificationService={[Function NotificationService]}
+  notificationTabs={[Function Array]}
+  notificationsSortBy="0"
+  readNotifications={[Function Set]}
+  statusMessageService={[Function StatusMessageService]}
+  tableComparatorService={[Function TableComparatorService]}
+  timezone={[Function String]}
+  timezoneService={[Function TimezoneService]}
+  userType={[Function String]}
+>
+  <div
+    id="notifications-timezone"
+  >
+    <p>
+      All dates are displayed in Africa/Abidjan time.
+    </p>
+  </div><div
+    class="row mb-3"
+  >
+    <div
+      class="col-12"
+    >
+      <div
+        class="float-right"
+      >
+        <strong
+          class="d-inline"
+        >
+           Sort By: 
+        </strong>
+        <div
+          class="btn-group"
+          data-toggle="buttons"
+        >
+          <button
+            class="btn btn-light"
+            id="sort-end-time"
+          >
+            End Time
+          </button>
+          <button
+            class="btn btn-light"
+            id="sort-start-time"
+          >
+            Start Time
+          </button>
+        </div>
+      </div>
+    </div>
+  </div><tm-loading-retry>
+    <div>
+    </div>
+    <div
+      id="notification-tabs"
+    >
+      <div>
+        <div
+          class="card"
+          id="notification1"
+        >
+          <div
+            class="card-header cursor-pointer mb-0 alert alert-success"
+          >
+            <strong
+              class="text-break"
+            >
+              valid title 1 [15 Sep 2017 - 15 Sep 2050]
+            </strong>
+            <div
+              class="card-header-btn-toolbar"
+            >
+              <tm-panel-chevron>
+                <div
+                  class="chevron"
+                >
+                  <i
+                    class="fas fa-chevron-down"
+                  />
+                </div>
+              </tm-panel-chevron>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div
+          class="card"
+          id="notification2"
+        >
+          <div
+            class="card-header cursor-pointer mb-0 alert alert-danger"
+          >
+            <strong
+              class="text-break"
+            >
+              valid title 2 [15 Dec 2018 - 15 Nov 2050]
+            </strong>
+            <div
+              class="card-header-btn-toolbar"
+            >
+              <tm-panel-chevron>
+                <div
+                  class="chevron"
+                >
+                  <i
+                    class="fas fa-chevron-down"
+                  />
+                </div>
+              </tm-panel-chevron>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </tm-loading-retry>
+</tm-user-notifications-list>
+`;
+
+exports[`UserNotificationsListComponent should snap when it fails to load 1`] = `
+<tm-user-notifications-list
+  DATE_FORMAT={[Function String]}
+  NotificationTargetUser={[Function Object]}
+  SortBy={[Function Object]}
+  hasLoadingFailed={[Function Boolean]}
+  isLoadingNotifications="false"
+  notificationService={[Function NotificationService]}
+  notificationTabs={[Function Array]}
+  notificationsSortBy="0"
+  readNotifications={[Function Set]}
+  statusMessageService={[Function StatusMessageService]}
+  tableComparatorService={[Function TableComparatorService]}
+  timezone={[Function String]}
+  timezoneService={[Function TimezoneService]}
+  userType={[Function String]}
+>
+  <div
+    id="notifications-timezone"
+  >
+    <p>
+      All dates are displayed in Africa/Abidjan time.
+    </p>
+  </div><tm-loading-retry>
+    <div
+      class="text-center"
+    >
+      <p
+        class="text-muted m-1"
+      >
+        Failed to load notifications
+      </p>
+      <button
+        class="btn btn-primary"
+      >
+        <i
+          aria-hidden="true"
+          class="fas fa-redo"
+        />
+         Retry
+      </button>
+    </div>
+  </tm-loading-retry>
+</tm-user-notifications-list>
+`;
+
+exports[`UserNotificationsListComponent should snap when it loads the provided notifications 1`] = `
+<tm-user-notifications-list
+  DATE_FORMAT={[Function String]}
+  NotificationTargetUser={[Function Object]}
+  SortBy={[Function Object]}
+  hasLoadingFailed="false"
+  isLoadingNotifications="false"
+  notificationService={[Function NotificationService]}
+  notificationTabs={[Function Array]}
+  notificationsSortBy="0"
+  readNotifications={[Function Set]}
+  statusMessageService={[Function StatusMessageService]}
+  tableComparatorService={[Function TableComparatorService]}
+  timezone={[Function String]}
+  timezoneService={[Function TimezoneService]}
+  userType={[Function String]}
+>
+  <div
+    id="notifications-timezone"
+  >
+    <p>
+      All dates are displayed in Africa/Abidjan time.
+    </p>
+  </div><div
+    class="row mb-3"
+  >
+    <div
+      class="col-12"
+    >
+      <div
+        class="float-right"
+      >
+        <strong
+          class="d-inline"
+        >
+           Sort By: 
+        </strong>
+        <div
+          class="btn-group"
+          data-toggle="buttons"
+        >
+          <button
+            class="btn btn-light"
+            id="sort-end-time"
+          >
+            End Time
+          </button>
+          <button
+            class="btn btn-light"
+            id="sort-start-time"
+          >
+            Start Time
+          </button>
+        </div>
+      </div>
+    </div>
+  </div><tm-loading-retry>
+    <div>
+    </div>
+    <div
+      id="notification-tabs"
+    >
+      <div>
+        <div
+          class="card"
+          id="notification1"
+        >
+          <div
+            class="card-header cursor-pointer mb-0 alert alert-success"
+          >
+            <strong
+              class="text-break"
+            >
+              valid title 1 [15 Sep 2017 - 15 Sep 2050]
+            </strong>
+            <div
+              class="card-header-btn-toolbar"
+            >
+              <tm-panel-chevron>
+                <div
+                  class="chevron"
+                >
+                  <i
+                    class="fas fa-chevron-up"
+                  />
+                </div>
+              </tm-panel-chevron>
+            </div>
+          </div>
+          <div
+            class="mb-0 ng-trigger ng-trigger-collapseAnim ng-animating"
+            style=""
+          >
+            <div
+              class="card-body pb-0"
+            >
+              <div
+                id="notification-message"
+              >
+                valid message 1
+              </div>
+            </div>
+            <div
+              class="d-flex flex-row-reverse mr-4 mb-3"
+              style=""
+            >
+              <button
+                class="btn btn-success"
+                id="btn-mark-as-read"
+                type="button"
+              >
+                 Mark as Read 
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div
+          class="card"
+          id="notification2"
+        >
+          <div
+            class="card-header cursor-pointer mb-0 alert alert-danger"
+          >
+            <strong
+              class="text-break"
+            >
+              valid title 2 [15 Dec 2018 - 15 Nov 2050]
+            </strong>
+            <div
+              class="card-header-btn-toolbar"
+            >
+              <tm-panel-chevron>
+                <div
+                  class="chevron"
+                >
+                  <i
+                    class="fas fa-chevron-up"
+                  />
+                </div>
+              </tm-panel-chevron>
+            </div>
+          </div>
+          <div
+            class="mb-0 ng-trigger ng-trigger-collapseAnim ng-animating"
+            style=""
+          >
+            <div
+              class="card-body pb-0"
+            >
+              <div
+                id="notification-message"
+              >
+                valid message 2
+              </div>
+            </div>
+            <div
+              class="d-flex flex-row-reverse mr-4 mb-3"
+              style=""
+            >
+              <button
+                class="btn btn-danger"
+                id="btn-mark-as-read"
+                type="button"
+              >
+                 Mark as Read 
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </tm-loading-retry>
+</tm-user-notifications-list>
+`;
+
+exports[`UserNotificationsListComponent should snap when it sorts the notification by end time 1`] = `
+<tm-user-notifications-list
+  DATE_FORMAT={[Function String]}
+  NotificationTargetUser={[Function Object]}
+  SortBy={[Function Object]}
+  hasLoadingFailed="false"
+  isLoadingNotifications="false"
+  notificationService={[Function NotificationService]}
+  notificationTabs={[Function Array]}
+  notificationsSortBy={[Function Number]}
+  readNotifications={[Function Set]}
+  statusMessageService={[Function StatusMessageService]}
+  tableComparatorService={[Function TableComparatorService]}
+  timezone={[Function String]}
+  timezoneService={[Function TimezoneService]}
+  userType={[Function String]}
+>
+  <div
+    id="notifications-timezone"
+  >
+    <p>
+      All dates are displayed in Africa/Abidjan time.
+    </p>
+  </div><div
+    class="row mb-3"
+  >
+    <div
+      class="col-12"
+    >
+      <div
+        class="float-right"
+      >
+        <strong
+          class="d-inline"
+        >
+           Sort By: 
+        </strong>
+        <div
+          class="btn-group"
+          data-toggle="buttons"
+        >
+          <button
+            class="btn btn-light"
+            disabled=""
+            id="sort-end-time"
+          >
+            End Time
+          </button>
+          <button
+            class="btn btn-light"
+            id="sort-start-time"
+          >
+            Start Time
+          </button>
+        </div>
+      </div>
+    </div>
+  </div><tm-loading-retry>
+    <div>
+    </div>
+    <div
+      id="notification-tabs"
+    >
+      <div>
+        <div
+          class="card"
+          id="notification1"
+        >
+          <div
+            class="card-header cursor-pointer mb-0 alert alert-success"
+          >
+            <strong
+              class="text-break"
+            >
+              valid title 1 [15 Sep 2017 - 15 Sep 2050]
+            </strong>
+            <div
+              class="card-header-btn-toolbar"
+            >
+              <tm-panel-chevron>
+                <div
+                  class="chevron"
+                >
+                  <i
+                    class="fas fa-chevron-up"
+                  />
+                </div>
+              </tm-panel-chevron>
+            </div>
+          </div>
+          <div
+            class="mb-0 ng-trigger ng-trigger-collapseAnim ng-animating"
+            style=""
+          >
+            <div
+              class="card-body pb-0"
+            >
+              <div
+                id="notification-message"
+              >
+                valid message 1
+              </div>
+            </div>
+            <div
+              class="d-flex flex-row-reverse mr-4 mb-3"
+              style=""
+            >
+              <button
+                class="btn btn-success"
+                id="btn-mark-as-read"
+                type="button"
+              >
+                 Mark as Read 
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div
+          class="card"
+          id="notification2"
+        >
+          <div
+            class="card-header cursor-pointer mb-0 alert alert-danger"
+          >
+            <strong
+              class="text-break"
+            >
+              valid title 2 [15 Dec 2018 - 15 Nov 2050]
+            </strong>
+            <div
+              class="card-header-btn-toolbar"
+            >
+              <tm-panel-chevron>
+                <div
+                  class="chevron"
+                >
+                  <i
+                    class="fas fa-chevron-up"
+                  />
+                </div>
+              </tm-panel-chevron>
+            </div>
+          </div>
+          <div
+            class="mb-0 ng-trigger ng-trigger-collapseAnim ng-animating"
+            style=""
+          >
+            <div
+              class="card-body pb-0"
+            >
+              <div
+                id="notification-message"
+              >
+                valid message 2
+              </div>
+            </div>
+            <div
+              class="d-flex flex-row-reverse mr-4 mb-3"
+              style=""
+            >
+              <button
+                class="btn btn-danger"
+                id="btn-mark-as-read"
+                type="button"
+              >
+                 Mark as Read 
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </tm-loading-retry>
+</tm-user-notifications-list>
+`;
+
+exports[`UserNotificationsListComponent should snap when it sorts the notification by start time 1`] = `
+<tm-user-notifications-list
+  DATE_FORMAT={[Function String]}
+  NotificationTargetUser={[Function Object]}
+  SortBy={[Function Object]}
+  hasLoadingFailed="false"
+  isLoadingNotifications="false"
+  notificationService={[Function NotificationService]}
+  notificationTabs={[Function Array]}
+  notificationsSortBy={[Function Number]}
+  readNotifications={[Function Set]}
+  statusMessageService={[Function StatusMessageService]}
+  tableComparatorService={[Function TableComparatorService]}
+  timezone={[Function String]}
+  timezoneService={[Function TimezoneService]}
+  userType={[Function String]}
+>
+  <div
+    id="notifications-timezone"
+  >
+    <p>
+      All dates are displayed in Africa/Abidjan time.
+    </p>
+  </div><div
+    class="row mb-3"
+  >
+    <div
+      class="col-12"
+    >
+      <div
+        class="float-right"
+      >
+        <strong
+          class="d-inline"
+        >
+           Sort By: 
+        </strong>
+        <div
+          class="btn-group"
+          data-toggle="buttons"
+        >
+          <button
+            class="btn btn-light"
+            id="sort-end-time"
+          >
+            End Time
+          </button>
+          <button
+            class="btn btn-light"
+            disabled=""
+            id="sort-start-time"
+          >
+            Start Time
+          </button>
+        </div>
+      </div>
+    </div>
+  </div><tm-loading-retry>
+    <div>
+    </div>
+    <div
+      id="notification-tabs"
+    >
+      <div>
+        <div
+          class="card"
+          id="notification2"
+        >
+          <div
+            class="card-header cursor-pointer mb-0 alert alert-danger"
+          >
+            <strong
+              class="text-break"
+            >
+              valid title 2 [15 Dec 2018 - 15 Nov 2050]
+            </strong>
+            <div
+              class="card-header-btn-toolbar"
+            >
+              <tm-panel-chevron>
+                <div
+                  class="chevron"
+                >
+                  <i
+                    class="fas fa-chevron-up"
+                  />
+                </div>
+              </tm-panel-chevron>
+            </div>
+          </div>
+          <div
+            class="mb-0 ng-trigger ng-trigger-collapseAnim ng-animating"
+            style=""
+          >
+            <div
+              class="card-body pb-0"
+            >
+              <div
+                id="notification-message"
+              >
+                valid message 2
+              </div>
+            </div>
+            <div
+              class="d-flex flex-row-reverse mr-4 mb-3"
+              style=""
+            >
+              <button
+                class="btn btn-danger"
+                id="btn-mark-as-read"
+                type="button"
+              >
+                 Mark as Read 
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div
+          class="card"
+          id="notification1"
+        >
+          <div
+            class="card-header cursor-pointer mb-0 alert alert-success"
+          >
+            <strong
+              class="text-break"
+            >
+              valid title 1 [15 Sep 2017 - 15 Sep 2050]
+            </strong>
+            <div
+              class="card-header-btn-toolbar"
+            >
+              <tm-panel-chevron>
+                <div
+                  class="chevron"
+                >
+                  <i
+                    class="fas fa-chevron-up"
+                  />
+                </div>
+              </tm-panel-chevron>
+            </div>
+          </div>
+          <div
+            class="mb-0 ng-trigger ng-trigger-collapseAnim ng-animating"
+            style=""
+          >
+            <div
+              class="card-body pb-0"
+            >
+              <div
+                id="notification-message"
+              >
+                valid message 1
+              </div>
+            </div>
+            <div
+              class="d-flex flex-row-reverse mr-4 mb-3"
+              style=""
+            >
+              <button
+                class="btn btn-success"
+                id="btn-mark-as-read"
+                type="button"
+              >
+                 Mark as Read 
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </tm-loading-retry>
+</tm-user-notifications-list>
+`;
+
+exports[`UserNotificationsListComponent should snap with default fields when loading 1`] = `
+<tm-user-notifications-list
+  DATE_FORMAT={[Function String]}
+  NotificationTargetUser={[Function Object]}
+  SortBy={[Function Object]}
+  hasLoadingFailed="false"
+  isLoadingNotifications={[Function Boolean]}
+  notificationService={[Function NotificationService]}
+  notificationTabs={[Function Array]}
+  notificationsSortBy="0"
+  readNotifications={[Function Set]}
+  statusMessageService={[Function StatusMessageService]}
+  tableComparatorService={[Function TableComparatorService]}
+  timezone={[Function String]}
+  timezoneService={[Function TimezoneService]}
+  userType={[Function String]}
+>
+  <div
+    id="notifications-timezone"
+  >
+    <p>
+      All dates are displayed in Africa/Abidjan time.
+    </p>
+  </div><tm-loading-retry>
+    <tm-loading-spinner>
+      <div
+        class="loading-container"
+      >
+        <div
+          class="row spinner-border text-primary"
+          role="status"
+        />
+        <div
+          class="row text-secondary"
+        >
+          Loading...
+        </div>
+      </div>
+    </tm-loading-spinner>
+    <div
+      id="notification-tabs"
+    >
+    </div>
+  </tm-loading-retry>
+</tm-user-notifications-list>
+`;
+
+exports[`UserNotificationsListComponent should snap with no notifications 1`] = `
+<tm-user-notifications-list
+  DATE_FORMAT={[Function String]}
+  NotificationTargetUser={[Function Object]}
+  SortBy={[Function Object]}
+  hasLoadingFailed="false"
+  isLoadingNotifications="false"
+  notificationService={[Function NotificationService]}
+  notificationTabs={[Function Array]}
+  notificationsSortBy="0"
+  readNotifications={[Function Set]}
+  statusMessageService={[Function StatusMessageService]}
+  tableComparatorService={[Function TableComparatorService]}
+  timezone={[Function String]}
+  timezoneService={[Function TimezoneService]}
+  userType={[Function String]}
+>
+  <div
+    id="notifications-timezone"
+  >
+    <p>
+      All dates are displayed in Africa/Abidjan time.
+    </p>
+  </div><tm-loading-retry>
+    <div>
+      <div
+        class="alert alert-warning margin-top-30px"
+        role="alert"
+      >
+         There are no active notifications. 
+      </div>
+    </div>
+    <div
+      id="notification-tabs"
+    >
+    </div>
+  </tm-loading-retry>
+</tm-user-notifications-list>
+`;

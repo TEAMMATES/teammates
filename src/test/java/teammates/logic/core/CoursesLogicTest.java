@@ -1,5 +1,6 @@
 package teammates.logic.core;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +13,6 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -49,7 +49,7 @@ public class CoursesLogicTest extends BaseLogicTest {
 
     @Test
     public void testUpdateCourseCascade_shouldCascadeUpdateTimezoneOfFeedbackSessions() throws Exception {
-        CourseAttributes typicalCourse1 = dataBundle.courses.get("typicalCourse1");
+        var typicalCourse1 = dataBundle.courses.get("typicalCourse1");
         assertNotEquals("UTC", typicalCourse1.getTimeZone());
 
         coursesLogic.updateCourseCascade(
@@ -57,8 +57,18 @@ public class CoursesLogicTest extends BaseLogicTest {
                         .withTimezone("UTC")
                         .build());
 
-        List<FeedbackSessionAttributes> sessionsOfCourse = fsLogic.getFeedbackSessionsForCourse(typicalCourse1.getId());
+        ______TS("success: recover all sessions after course creation");
+        var sessionsOfCourse = fsLogic.getFeedbackSessionsForCourse(typicalCourse1.getId());
         assertFalse(sessionsOfCourse.isEmpty());
+
+        var sessionsWithinRecoveryRange = fsLogic.getFeedbackSessionsForCourseStartingAfter(
+                typicalCourse1.getId(), typicalCourse1.getCreatedAt());
+        assertEquals(sessionsOfCourse.size(), sessionsWithinRecoveryRange.size());
+
+        ______TS("success: recover some sessions some time after course creation");
+        var sessionsOutsideRecoveryRange = fsLogic.getFeedbackSessionsForCourseStartingAfter(
+                typicalCourse1.getId(), typicalCourse1.getCreatedAt().plus(Duration.ofDays(30)));
+        assertEquals(sessionsOfCourse.size() - 1, sessionsOutsideRecoveryRange.size());
         assertTrue(sessionsOfCourse.stream().allMatch(s -> "UTC".equals(s.getTimeZone())));
     }
 
@@ -227,8 +237,6 @@ public class CoursesLogicTest extends BaseLogicTest {
         accountsLogic.createAccount(AccountAttributes.builder("instructor1")
                 .withName("Instructor 1")
                 .withEmail("instructor@email.tmt")
-                .withInstitute("TEAMMATES Test Institute 1")
-                .withIsInstructor(true)
                 .build());
         coursesLogic.createCourseAndInstructor("instructor1",
                 CourseAttributes.builder("course1")
@@ -331,9 +339,8 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         /* Explanation: SUT has 5 paths. They are,
          * path 1 - exit because the account doesn't' exist.
-         * path 2 - exit because the account exists but doesn't have instructor privileges.
-         * path 3 - exit because course creation failed.
-         * path 4 - exit because instructor creation failed.
+         * path 2 - exit because course creation failed.
+         * path 3/4 - exit because instructor creation failed.
          * path 5 - success.
          * Accordingly, we have 5 test cases.
          */
@@ -364,30 +371,13 @@ public class CoursesLogicTest extends BaseLogicTest {
         verifyAbsentInDatabase(c);
         verifyAbsentInDatabase(i);
 
-        ______TS("fails: account doesn't have instructor privileges");
+        ______TS("fails: error during course creation");
 
         AccountAttributes a = AccountAttributes.builder(i.getGoogleId())
                 .withName(i.getName())
-                .withIsInstructor(false)
                 .withEmail(i.getEmail())
-                .withInstitute("TEAMMATES Test Institute 5")
                 .build();
-
         accountsLogic.createAccount(a);
-        ae = assertThrows(AssertionError.class,
-                () -> coursesLogic.createCourseAndInstructor(i.getGoogleId(),
-                        CourseAttributes.builder(c.getId())
-                                .withName(c.getName())
-                                .withTimezone(c.getTimeZone())
-                                .withInstitute(c.getInstitute())
-                                .build()));
-        AssertHelper.assertContains("doesn't have instructor privileges", ae.getMessage());
-        verifyAbsentInDatabase(c);
-        verifyAbsentInDatabase(i);
-
-        ______TS("fails: error during course creation");
-
-        accountsLogic.makeAccountInstructor(a.getGoogleId());
 
         CourseAttributes invalidCourse = CourseAttributes
                 .builder("invalid id")

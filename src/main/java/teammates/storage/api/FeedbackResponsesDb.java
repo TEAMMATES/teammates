@@ -2,7 +2,7 @@ package teammates.storage.api;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
-import java.util.ArrayList;
+import java.time.Instant;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -15,6 +15,7 @@ import com.googlecode.objectify.cmd.LoadType;
 import com.googlecode.objectify.cmd.Query;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
+import teammates.common.datatransfer.FeedbackResultFetchType;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -95,11 +96,12 @@ public final class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, Feed
      * Gets all feedback responses of a question in a specific section.
      */
     public List<FeedbackResponseAttributes> getFeedbackResponsesForQuestionInSection(
-            String feedbackQuestionId, String section) {
+            String feedbackQuestionId, String section, FeedbackResultFetchType fetchType) {
         assert feedbackQuestionId != null;
         assert section != null;
+        assert fetchType != null;
 
-        return makeAttributes(getFeedbackResponseEntitiesForQuestionInSection(feedbackQuestionId, section));
+        return makeAttributes(getFeedbackResponseEntitiesForQuestionInSection(feedbackQuestionId, section, fetchType));
     }
 
     /**
@@ -119,7 +121,7 @@ public final class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, Feed
 
         return !load()
                 .filter("feedbackQuestionId =", feedbackQuestionId)
-                .limit(1)
+                .keys()
                 .list()
                 .isEmpty();
     }
@@ -137,14 +139,17 @@ public final class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, Feed
 
     /**
      * Gets all responses given to/from a section in a feedback session in a course.
+     * Optionally, retrieves by either giver, receiver sections, or both.
      */
     public List<FeedbackResponseAttributes> getFeedbackResponsesForSessionInSection(
-            String feedbackSessionName, String courseId, String section) {
+            String feedbackSessionName, String courseId, String section, FeedbackResultFetchType fetchType) {
         assert feedbackSessionName != null;
         assert courseId != null;
         assert section != null;
+        assert fetchType != null;
 
-        return makeAttributes(getFeedbackResponseEntitiesForSessionInSection(feedbackSessionName, courseId, section));
+        return makeAttributes(getFeedbackResponseEntitiesForSessionInSection(
+                feedbackSessionName, courseId, section, fetchType));
     }
 
     /**
@@ -313,7 +318,7 @@ public final class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, Feed
      */
     public boolean hasFeedbackResponseEntitiesForCourse(String courseId) {
         assert courseId != null;
-        return !load().filter("courseId =", courseId).limit(1).list().isEmpty();
+        return !load().filter("courseId =", courseId).keys().list().isEmpty();
     }
 
     private FeedbackResponse getFeedbackResponseEntity(String feedbackResponseId) {
@@ -321,19 +326,21 @@ public final class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, Feed
     }
 
     private Collection<FeedbackResponse> getFeedbackResponseEntitiesForQuestionInSection(
-                String feedbackQuestionId, String section) {
-        List<FeedbackResponse> allResponses = new ArrayList<>();
+            String feedbackQuestionId, String section, FeedbackResultFetchType fetchType) {
+        Map<String, FeedbackResponse> allResponses = new HashMap<>();
 
-        allResponses.addAll(load()
-                .filter("feedbackQuestionId =", feedbackQuestionId)
-                .filter("giverSection =", section)
-                .list());
-        allResponses.addAll(load()
-                .filter("feedbackQuestionId =", feedbackQuestionId)
-                .filter("receiverSection =", section)
-                .list());
+        if (fetchType.shouldFetchByGiver()) {
+            load().filter("feedbackQuestionId =", feedbackQuestionId)
+                    .filter("giverSection =", section)
+                    .forEach(resp -> allResponses.put(resp.getId(), resp));
+        }
+        if (fetchType.shouldFetchByReceiver()) {
+            load().filter("feedbackQuestionId =", feedbackQuestionId)
+                    .filter("receiverSection =", section)
+                    .forEach(resp -> allResponses.put(resp.getId(), resp));
+        }
 
-        return removeDuplicates(allResponses);
+        return allResponses.values();
     }
 
     private List<FeedbackResponse> getFeedbackResponseEntitiesForQuestion(String feedbackQuestionId) {
@@ -350,30 +357,24 @@ public final class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, Feed
     }
 
     private Collection<FeedbackResponse> getFeedbackResponseEntitiesForSessionInSection(
-            String feedbackSessionName, String courseId, String section) {
-        List<FeedbackResponse> allResponse = new ArrayList<>();
+            String feedbackSessionName, String courseId, String section, FeedbackResultFetchType fetchType) {
+        Map<String, FeedbackResponse> allResponse = new HashMap<>();
 
-        allResponse.addAll(load()
-                .filter("feedbackSessionName =", feedbackSessionName)
-                .filter("courseId =", courseId)
-                .filter("giverSection =", section)
-                .list());
-
-        allResponse.addAll(load()
-                .filter("feedbackSessionName =", feedbackSessionName)
-                .filter("courseId =", courseId)
-                .filter("receiverSection =", section)
-                .list());
-
-        return removeDuplicates(allResponse);
-    }
-
-    private Collection<FeedbackResponse> removeDuplicates(Collection<FeedbackResponse> responses) {
-        Map<String, FeedbackResponse> uniqueResponses = new HashMap<>();
-        for (FeedbackResponse response : responses) {
-            uniqueResponses.put(response.getId(), response);
+        if (fetchType.shouldFetchByGiver()) {
+            load().filter("feedbackSessionName =", feedbackSessionName)
+                    .filter("courseId =", courseId)
+                    .filter("giverSection =", section)
+                    .forEach(resp -> allResponse.put(resp.getId(), resp));
         }
-        return uniqueResponses.values();
+
+        if (fetchType.shouldFetchByReceiver()) {
+            load().filter("feedbackSessionName =", feedbackSessionName)
+                    .filter("courseId =", courseId)
+                    .filter("receiverSection =", section)
+                    .forEach(resp -> allResponse.put(resp.getId(), resp));
+        }
+
+        return allResponse.values();
     }
 
     private List<FeedbackResponse> getFeedbackResponseEntitiesFromGiverForQuestion(
@@ -419,6 +420,7 @@ public final class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, Feed
                 .filterKey(Key.create(FeedbackResponse.class,
                         FeedbackResponse.generateId(entityToCreate.getFeedbackQuestionId(),
                                 entityToCreate.getGiver(), entityToCreate.getRecipient())))
+                .keys()
                 .list()
                 .isEmpty();
     }
@@ -429,4 +431,15 @@ public final class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, Feed
 
         return FeedbackResponseAttributes.valueOf(entity);
     }
+
+    /**
+     * Gets the number of feedback responses created within a specified time range.
+     */
+    public int getNumFeedbackResponsesByTimeRange(Instant startTime, Instant endTime) {
+        return load()
+                .filter("createdAt >=", startTime)
+                .filter("createdAt <", endTime)
+                .count();
+    }
+
 }

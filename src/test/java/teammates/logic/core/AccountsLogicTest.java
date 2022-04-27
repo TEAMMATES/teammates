@@ -1,10 +1,15 @@
 package teammates.logic.core;
 
+import java.time.Instant;
+import java.util.List;
+import java.util.Map;
+
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.NotificationAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -50,8 +55,6 @@ public class AccountsLogicTest extends BaseLogicTest {
         AccountAttributes accountToCreate = AccountAttributes.builder("id")
                 .withName("name")
                 .withEmail("test@email.com")
-                .withInstitute("dev")
-                .withIsInstructor(true)
                 .build();
 
         accountsLogic.createAccount(accountToCreate);
@@ -64,8 +67,6 @@ public class AccountsLogicTest extends BaseLogicTest {
         accountToCreate = AccountAttributes.builder("")
                 .withName("name")
                 .withEmail("test@email.com")
-                .withInstitute("dev")
-                .withIsInstructor(true)
                 .build();
         AccountAttributes[] finalAccount = new AccountAttributes[] { accountToCreate };
         assertThrows(InvalidParametersException.class, () -> accountsLogic.createAccount(finalAccount[0]));
@@ -73,36 +74,44 @@ public class AccountsLogicTest extends BaseLogicTest {
     }
 
     @Test
-    public void testAccountFunctions() throws Exception {
+    public void testGetAccountsForEmail() throws Exception {
+        ______TS("typical success case: no accounts with email");
+        List<AccountAttributes> accounts = accountsDb.getAccountsForEmail("test@email.com");
 
-        ______TS("test isAccountAnInstructor");
+        assertTrue(accounts.isEmpty());
 
-        assertTrue(accountsLogic.isAccountAnInstructor("idOfInstructor1OfCourse1"));
+        ______TS("typical success case: one account with email");
+        AccountAttributes firstAccount = AccountAttributes.builder("first.googleId")
+                .withName("name")
+                .withEmail("test@email.com")
+                .build();
+        accountsDb.createEntity(firstAccount);
 
-        assertFalse(accountsLogic.isAccountAnInstructor("student1InCourse1"));
-        assertFalse(accountsLogic.isAccountAnInstructor("id-does-not-exist"));
+        accounts = accountsDb.getAccountsForEmail("test@email.com");
 
-        ______TS("test downgradeInstructorToStudentCascade");
+        assertEquals(List.of(firstAccount), accounts);
 
-        accountsLogic.downgradeInstructorToStudentCascade("idOfInstructor2OfCourse1");
-        assertFalse(accountsLogic.isAccountAnInstructor("idOfInstructor2OfCourse1"));
+        ______TS("typical success case: multiple accounts with email");
+        AccountAttributes secondAccount = AccountAttributes.builder("second.googleId")
+                .withName("name")
+                .withEmail("test@email.com")
+                .build();
+        accountsDb.createEntity(secondAccount);
+        AccountAttributes thirdAccount = AccountAttributes.builder("third.googleId")
+                .withName("name")
+                .withEmail("test@email.com")
+                .build();
+        accountsDb.createEntity(thirdAccount);
 
-        accountsLogic.downgradeInstructorToStudentCascade("student1InCourse1");
-        assertFalse(accountsLogic.isAccountAnInstructor("student1InCourse1"));
+        accounts = accountsDb.getAccountsForEmail("test@email.com");
 
-        assertThrows(EntityDoesNotExistException.class, () -> {
-            accountsLogic.downgradeInstructorToStudentCascade("id-does-not-exist");
-        });
+        assertEquals(3, accounts.size());
+        assertTrue(List.of(firstAccount, secondAccount, thirdAccount).containsAll(accounts));
 
-        ______TS("test makeAccountInstructor");
-
-        accountsLogic.makeAccountInstructor("student2InCourse1");
-        assertTrue(accountsLogic.isAccountAnInstructor("student2InCourse1"));
-        accountsLogic.downgradeInstructorToStudentCascade("student2InCourse1");
-
-        assertThrows(EntityDoesNotExistException.class, () -> {
-            accountsLogic.makeAccountInstructor("id-does-not-exist");
-        });
+        // delete created accounts
+        accountsDb.deleteAccount(firstAccount.getGoogleId());
+        accountsDb.deleteAccount(secondAccount.getGoogleId());
+        accountsDb.deleteAccount(thirdAccount.getGoogleId());
     }
 
     @Test
@@ -162,8 +171,6 @@ public class AccountsLogicTest extends BaseLogicTest {
         AccountAttributes accountData = AccountAttributes.builder(correctStudentId)
                 .withName("nameABC")
                 .withEmail("real@gmail.com")
-                .withInstitute("TEAMMATES Test Institute 1")
-                .withIsInstructor(true)
                 .build();
 
         accountsLogic.createAccount(accountData);
@@ -214,31 +221,7 @@ public class AccountsLogicTest extends BaseLogicTest {
         accountData.setGoogleId(correctStudentId);
         accountData.setEmail(originalEmail);
         accountData.setName("name");
-        accountData.setInstructor(false);
         verifyPresentInDatabase(accountData);
-
-        ______TS("success: join course as student does not revoke instructor status");
-
-        // promote account to instructor
-        accountsLogic.makeAccountInstructor(correctStudentId);
-
-        // make the student 'unregistered' again
-        studentData.setGoogleId("");
-        studentsLogic.updateStudentCascade(
-                StudentAttributes.updateOptionsBuilder(studentData.getCourse(), studentData.getEmail())
-                        .withGoogleId(studentData.getGoogleId())
-                        .build()
-        );
-        assertEquals("",
-                studentsLogic.getStudentForEmail(studentData.getCourse(), studentData.getEmail()).getGoogleId());
-
-        // rejoin
-        accountsLogic.joinCourseForStudent(key, correctStudentId);
-        assertEquals(correctStudentId,
-                studentsLogic.getStudentForEmail(studentData.getCourse(), studentData.getEmail()).getGoogleId());
-
-        // check if still instructor
-        assertTrue(accountsLogic.isAccountAnInstructor(correctStudentId));
 
         accountsLogic.deleteAccountCascade(correctStudentId);
         accountsLogic.deleteAccountCascade(existingId);
@@ -297,14 +280,11 @@ public class AccountsLogicTest extends BaseLogicTest {
 
         instructorsLogic.createInstructor(newIns);
         key[0] = getKeyForInstructor(instructor.getCourseId(), nonInstrAccount.getEmail());
-        assertFalse(accountsLogic.getAccount(nonInstrAccount.getGoogleId()).isInstructor());
 
         accountsLogic.joinCourseForInstructor(key[0], nonInstrAccount.getGoogleId());
 
         joinedInstructor = instructorsLogic.getInstructorForEmail(instructor.getCourseId(), nonInstrAccount.getEmail());
         assertEquals(nonInstrAccount.getGoogleId(), joinedInstructor.getGoogleId());
-        assertTrue(accountsLogic.getAccount(nonInstrAccount.getGoogleId()).isInstructor());
-        assertTrue(accountsLogic.isAccountAnInstructor(nonInstrAccount.getGoogleId()));
 
         ______TS("success: instructor join and assigned institute when some instructors have not joined course");
 
@@ -331,10 +311,6 @@ public class AccountsLogicTest extends BaseLogicTest {
 
         joinedInstructor = instructorsLogic.getInstructorForEmail(instructor.getCourseId(), nonInstrAccount.getEmail());
         assertEquals(nonInstrAccount.getGoogleId(), joinedInstructor.getGoogleId());
-        assertTrue(accountsLogic.isAccountAnInstructor(nonInstrAccount.getGoogleId()));
-
-        AccountAttributes instructorAccount = accountsLogic.getAccount(nonInstrAccount.getGoogleId());
-        assertEquals("TEAMMATES Test Institute 1", instructorAccount.getInstitute());
 
         accountsLogic.deleteAccountCascade(nonInstrAccount.getGoogleId());
 
@@ -450,5 +426,55 @@ public class AccountsLogicTest extends BaseLogicTest {
         // other irrelevant instructors remain
         assertNotNull(instructorsLogic.getInstructorForEmail(
                 instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getEmail()));
+    }
+
+    @Test
+    public void testUpdateReadNotifications() throws Exception {
+        AccountAttributes instructor2OfCourse1 = dataBundle.accounts.get("instructor2OfCourse1");
+        NotificationAttributes notificationAttributes = dataBundle.notifications.get("notification4");
+
+        ______TS("success: mark notification as read and remove expired ones from read status");
+
+        List<String> readNotificationIds = accountsLogic.updateReadNotifications(
+                instructor2OfCourse1.getGoogleId(),
+                notificationAttributes.getNotificationId(),
+                notificationAttributes.getEndTime());
+
+        assertTrue(readNotificationIds.contains("notification4"));
+
+        AccountAttributes accountAttributes = accountsLogic.getAccount(instructor2OfCourse1.getGoogleId());
+        Map<String, Instant> readNotifications = accountAttributes.getReadNotifications();
+
+        assertEquals(notificationAttributes.getEndTime(), readNotifications.get("notification4"));
+
+        for (Map.Entry<String, Instant> notification : readNotifications.entrySet()) {
+            assertTrue(notification.getValue().isAfter(Instant.now()));
+        }
+
+        ______TS("failure: update read notifications with invalid parameter");
+        // invalid googleId
+        assertThrows(EntityDoesNotExistException.class,
+                () -> accountsLogic.updateReadNotifications(
+                        "not_exist",
+                        notificationAttributes.getNotificationId(),
+                        notificationAttributes.getEndTime()));
+
+        // invalid notificationId
+        assertThrows(EntityDoesNotExistException.class,
+                () -> accountsLogic.updateReadNotifications(
+                        instructor2OfCourse1.getGoogleId(),
+                        "invalid_notification_id",
+                        notificationAttributes.getEndTime()));
+
+        // expired notification
+        NotificationAttributes expiredNotification = dataBundle.notifications.get("expiredNotification1");
+
+        InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
+                () -> accountsLogic.updateReadNotifications(
+                        instructor2OfCourse1.getGoogleId(),
+                        notificationAttributes.getNotificationId(),
+                        expiredNotification.getEndTime()));
+
+        assertEquals("Trying to mark an expired notification as read.", ipe.getMessage());
     }
 }

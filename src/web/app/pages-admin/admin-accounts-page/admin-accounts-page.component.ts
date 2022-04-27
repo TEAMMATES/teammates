@@ -26,9 +26,7 @@ export class AdminAccountsPageComponent implements OnInit {
     googleId: '',
     name: '',
     email: '',
-    isInstructor: false,
-    institute: '',
-    createdAtTimeStamp: 0,
+    readNotifications: {},
   };
 
   isLoadingAccountInfo: boolean = false;
@@ -90,20 +88,6 @@ export class AdminAccountsPageComponent implements OnInit {
             this.statusMessageService.showErrorToast(resp.error.message);
           }
         });
-  }
-
-  /**
-   * Downgrades the instructor account to student.
-   */
-  downgradeAccountToStudent(): void {
-    const id: string = this.accountInfo.googleId;
-    this.accountService.downgradeAccount(id).subscribe(() => {
-      this.instructorCourses = [];
-      this.loadAccountInfo(id);
-      this.statusMessageService.showSuccessToast('Instructor account is successfully downgraded to student.');
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorToast(resp.error.message);
-    });
   }
 
   /**

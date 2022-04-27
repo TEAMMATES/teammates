@@ -4,7 +4,7 @@
     "start": "ng serve",
     "build": "ng build --configuration production",
     "analyze": "webpack-bundle-analyzer src/web/dist/stats.json",
-    "test": "ng test --watch",
+    "test": "TZ=UTC ng test --watch",
     "coverage": "rimraf coverage && ng test --coverage",
     "lint:ts": "ng lint --eslint-config static-analysis/teammates-eslint.yml",
     "lint:css": "stylelint \"src/web/**/*.css\" \"src/web/**/*.scss\" \"src/web/**/*.html\" --config static-analysis/teammates-stylelint.yml",

@@ -5,7 +5,7 @@ Fixes #
 <!-- Remove this portion after you have made the checks. -->
 
 Ensure that you have:
-- [ ] Read and understood our PR guideline: https://github.com/TEAMMATES/teammates/blob/master/docs/process.md#step-4-submit-a-pr
+- [ ] Read and understood our PR guideline: https://teammates.github.io/teammates/process.html#step-4-submit-a-pr
   - [ ] Added the issue number to the "Fixes" keyword above
   - [ ] Titled the PR as specified in the abovementioned document
 - [ ] Made your changes on a branch other than `master` and `release`

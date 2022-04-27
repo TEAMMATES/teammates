@@ -50,7 +50,6 @@ class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
                 getNonNullFeedbackSession(feedbackQuestion.getFeedbackSessionName(), feedbackQuestion.getCourseId());
 
         verifyInstructorCanSeeQuestionIfInModeration(feedbackQuestion);
-        verifySessionOpenExceptForModeration(feedbackSession);
         verifyNotPreview();
 
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
@@ -58,11 +57,21 @@ class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
         case STUDENT_SUBMISSION:
             gateKeeper.verifyAnswerableForStudent(feedbackQuestion);
             StudentAttributes studentAttributes = getStudentOfCourseFromRequest(feedbackQuestion.getCourseId());
+            if (studentAttributes == null) {
+                throw new EntityNotFoundException("Student does not exist.");
+            }
+            feedbackSession = feedbackSession.getCopyForStudent(studentAttributes.getEmail());
+            verifySessionOpenExceptForModeration(feedbackSession);
             checkAccessControlForStudentFeedbackSubmission(studentAttributes, feedbackSession);
             break;
         case INSTRUCTOR_SUBMISSION:
             gateKeeper.verifyAnswerableForInstructor(feedbackQuestion);
             InstructorAttributes instructorAttributes = getInstructorOfCourseFromRequest(feedbackQuestion.getCourseId());
+            if (instructorAttributes == null) {
+                throw new EntityNotFoundException("Instructor does not exist.");
+            }
+            feedbackSession = feedbackSession.getCopyForInstructor(instructorAttributes.getEmail());
+            verifySessionOpenExceptForModeration(feedbackSession);
             checkAccessControlForInstructorFeedbackSubmission(instructorAttributes, feedbackSession);
             break;
         case INSTRUCTOR_RESULT:

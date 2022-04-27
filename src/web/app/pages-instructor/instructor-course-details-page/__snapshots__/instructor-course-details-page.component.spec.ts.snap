@@ -11,6 +11,7 @@ exports[`InstructorCourseDetailsPageComponent should snap when students are stil
   isLoadingCsv="false"
   isStudentsLoading={[Function Boolean]}
   ngbModal={[Function NgbModal]}
+  progressBarService={[Function ProgressBarService]}
   route={[Function ActivatedRoute]}
   sectionsLoaded="0"
   simpleModalService={[Function SimpleModalService]}
@@ -52,6 +53,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
   isLoadingCsv="false"
   isStudentsLoading="false"
   ngbModal={[Function NgbModal]}
+  progressBarService={[Function ProgressBarService]}
   route={[Function ActivatedRoute]}
   sectionsLoaded="0"
   simpleModalService={[Function SimpleModalService]}
@@ -74,103 +76,97 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
           class="card-body fill-plain"
         >
           <div
-            class="form"
+            class="row"
           >
-            <div
-              class="form-group row"
+            <label
+              class="col-sm-2 text-sm-right"
             >
-              <label
-                class="col-sm-2 text-sm-right"
-              >
-                Course ID:
-              </label>
-              <div
-                class="col-sm-9 text-sm-left"
-                id="course-id"
-              >
-                <p
-                  class="form-control-static"
-                >
-                  CS101
-                </p>
-              </div>
-            </div>
-            <div
-              class="form-group row"
+              Course ID:
+            </label>
+            <span
+              class="col-sm-9 text-sm-left"
+              id="course-id"
             >
-              <label
-                class="col-sm-2 text-sm-right"
-              >
-                Course name:
-              </label>
-              <div
-                class="col-sm-9 text-sm-left"
-                id="course-name"
-              >
-                <p
-                  class="form-control-static"
-                >
-                  Introduction to CS
-                </p>
-              </div>
-            </div>
-            <div
-              class="form-group row"
-            >
-              <label
-                class="col-sm-2 text-sm-right"
-              >
-                Sections:
-              </label>
-              <div
-                class="col-sm-9 text-sm-left"
-                id="num-sections"
-              >
-                <p
-                  class="form-control-static"
-                >
-                </p>
-              </div>
-            </div>
-            <div
-              class="form-group row"
-            >
-              <label
-                class="col-sm-2 text-sm-right"
-              >
-                Teams:
-              </label>
-              <div
-                class="col-sm-9 text-sm-left"
-                id="num-teams"
-              >
-                <p
-                  class="form-control-static"
-                >
-                </p>
-              </div>
-            </div>
-            <div
-              class="form-group row"
-            >
-              <label
-                class="col-sm-2 text-sm-right"
-              >
-                Total students:
-              </label>
-              <div
-                class="col-sm-9 text-sm-left"
-                id="num-students"
-              >
-                <p
-                  class="form-control-static"
-                >
-                </p>
-              </div>
-            </div>
+               CS101 
+            </span>
           </div>
           <div
-            class="form-group row"
+            class="row"
+          >
+            <label
+              class="col-sm-2 text-sm-right"
+            >
+              Course name:
+            </label>
+            <span
+              class="col-sm-9 text-sm-left"
+              id="course-name"
+            >
+               Introduction to CS 
+            </span>
+          </div>
+          <div
+            class="row"
+          >
+            <label
+              class="col-sm-2 text-sm-right"
+            >
+              Course institute:
+            </label>
+            <span
+              class="col-sm-9 text-sm-left"
+              id="course-institute"
+            >
+               Test Institute 
+            </span>
+          </div>
+          <div
+            class="row"
+          >
+            <label
+              class="col-sm-2 text-sm-right"
+            >
+              Sections:
+            </label>
+            <span
+              class="col-sm-9 text-sm-left"
+              id="num-sections"
+            >
+               0 
+            </span>
+          </div>
+          <div
+            class="row"
+          >
+            <label
+              class="col-sm-2 text-sm-right"
+            >
+              Teams:
+            </label>
+            <span
+              class="col-sm-9 text-sm-left"
+              id="num-teams"
+            >
+               0 
+            </span>
+          </div>
+          <div
+            class="row"
+          >
+            <label
+              class="col-sm-2 text-sm-right"
+            >
+              Total students:
+            </label>
+            <span
+              class="col-sm-9 text-sm-left"
+              id="num-students"
+            >
+               0 
+            </span>
+          </div>
+          <div
+            class="row"
           >
             <label
               class="col-sm-2 text-sm-right control-label"
@@ -219,6 +215,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
   isLoadingCsv="false"
   isStudentsLoading="false"
   ngbModal={[Function NgbModal]}
+  progressBarService={[Function ProgressBarService]}
   route={[Function ActivatedRoute]}
   sectionsLoaded="0"
   simpleModalService={[Function SimpleModalService]}
@@ -241,103 +238,97 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
           class="card-body fill-plain"
         >
           <div
-            class="form"
+            class="row"
           >
-            <div
-              class="form-group row"
+            <label
+              class="col-sm-2 text-sm-right"
             >
-              <label
-                class="col-sm-2 text-sm-right"
-              >
-                Course ID:
-              </label>
-              <div
-                class="col-sm-9 text-sm-left"
-                id="course-id"
-              >
-                <p
-                  class="form-control-static"
-                >
-                  CS101
-                </p>
-              </div>
-            </div>
-            <div
-              class="form-group row"
+              Course ID:
+            </label>
+            <span
+              class="col-sm-9 text-sm-left"
+              id="course-id"
             >
-              <label
-                class="col-sm-2 text-sm-right"
-              >
-                Course name:
-              </label>
-              <div
-                class="col-sm-9 text-sm-left"
-                id="course-name"
-              >
-                <p
-                  class="form-control-static"
-                >
-                  Introduction to CS
-                </p>
-              </div>
-            </div>
-            <div
-              class="form-group row"
-            >
-              <label
-                class="col-sm-2 text-sm-right"
-              >
-                Sections:
-              </label>
-              <div
-                class="col-sm-9 text-sm-left"
-                id="num-sections"
-              >
-                <p
-                  class="form-control-static"
-                >
-                </p>
-              </div>
-            </div>
-            <div
-              class="form-group row"
-            >
-              <label
-                class="col-sm-2 text-sm-right"
-              >
-                Teams:
-              </label>
-              <div
-                class="col-sm-9 text-sm-left"
-                id="num-teams"
-              >
-                <p
-                  class="form-control-static"
-                >
-                </p>
-              </div>
-            </div>
-            <div
-              class="form-group row"
-            >
-              <label
-                class="col-sm-2 text-sm-right"
-              >
-                Total students:
-              </label>
-              <div
-                class="col-sm-9 text-sm-left"
-                id="num-students"
-              >
-                <p
-                  class="form-control-static"
-                >
-                </p>
-              </div>
-            </div>
+               CS101 
+            </span>
           </div>
           <div
-            class="form-group row"
+            class="row"
+          >
+            <label
+              class="col-sm-2 text-sm-right"
+            >
+              Course name:
+            </label>
+            <span
+              class="col-sm-9 text-sm-left"
+              id="course-name"
+            >
+               Introduction to CS 
+            </span>
+          </div>
+          <div
+            class="row"
+          >
+            <label
+              class="col-sm-2 text-sm-right"
+            >
+              Course institute:
+            </label>
+            <span
+              class="col-sm-9 text-sm-left"
+              id="course-institute"
+            >
+               Test Institute 
+            </span>
+          </div>
+          <div
+            class="row"
+          >
+            <label
+              class="col-sm-2 text-sm-right"
+            >
+              Sections:
+            </label>
+            <span
+              class="col-sm-9 text-sm-left"
+              id="num-sections"
+            >
+               1 
+            </span>
+          </div>
+          <div
+            class="row"
+          >
+            <label
+              class="col-sm-2 text-sm-right"
+            >
+              Teams:
+            </label>
+            <span
+              class="col-sm-9 text-sm-left"
+              id="num-teams"
+            >
+               1 
+            </span>
+          </div>
+          <div
+            class="row"
+          >
+            <label
+              class="col-sm-2 text-sm-right"
+            >
+              Total students:
+            </label>
+            <span
+              class="col-sm-9 text-sm-left"
+              id="num-students"
+            >
+               1 
+            </span>
+          </div>
+          <div
+            class="row"
           >
             <label
               class="col-sm-2 text-sm-right control-label"
@@ -353,46 +344,44 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
               </div>
             </div>
           </div>
-          <div>
+          <div
+            style="margin-top: 10px;"
+          >
             <div
-              class="form-group"
+              class="text-center"
             >
-              <div
-                class="text-center"
+              <button
+                class="btn btn-primary"
+                id="btn-remind-all"
+                type="button"
+                value="Remind Students to Join"
               >
-                <button
-                  class="btn btn-primary"
-                  id="btn-remind-all"
-                  type="button"
-                  value="Remind Students to Join"
-                >
-                  <i
-                    class="fa fa-envelope"
-                  />
-                   Remind Students to Join 
-                </button>
-                <button
-                  class="btn btn-primary btn-margin-left"
-                  id="btn-download"
-                  type="button"
-                >
-                  <i
-                    class="fa fa-download"
-                  />
-                   Download Student List 
-                </button>
-                <button
-                  class="btn btn-danger btn-margin-left"
-                  id="btn-delete-all"
-                  type="button"
-                  value="Delete All Students"
-                >
-                  <i
-                    class="fa fa-trash"
-                  />
-                   Delete All Students 
-                </button>
-              </div>
+                <i
+                  class="fa fa-envelope"
+                />
+                 Remind Students to Join 
+              </button>
+              <button
+                class="btn btn-primary btn-margin-left"
+                id="btn-download"
+                type="button"
+              >
+                <i
+                  class="fa fa-download"
+                />
+                 Download Student List 
+              </button>
+              <button
+                class="btn btn-danger btn-margin-left"
+                id="btn-delete-all"
+                type="button"
+                value="Delete All Students"
+              >
+                <i
+                  class="fa fa-trash"
+                />
+                 Delete All Students 
+              </button>
             </div>
           </div>
         </div>
@@ -579,6 +568,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with default fields 1`
   isLoadingCsv="false"
   isStudentsLoading={[Function Boolean]}
   ngbModal={[Function NgbModal]}
+  progressBarService={[Function ProgressBarService]}
   route={[Function ActivatedRoute]}
   sectionsLoaded="0"
   simpleModalService={[Function SimpleModalService]}

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
+import { DeadlineExtensionHelper } from '../../../services/deadline-extension-helper';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
@@ -16,11 +17,15 @@ import {
   HasResponses,
 } from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
+import { FormatDateDetailPipe } from '../../components/teammates-common/format-date-detail.pipe';
 import { ErrorMessageOutput } from '../../error-message-output';
+import { SubmissionStatusPipe } from '../../pipes/session-submission-status.pipe';
 
 interface StudentCourse {
   course: Course;
   feedbackSessions: StudentSession[];
+  isFeedbackSessionsLoading: boolean;
+  hasFeedbackSessionsLoadingFailed: boolean;
 }
 
 interface StudentSession {
@@ -52,6 +57,7 @@ export class StudentHomePageComponent implements OnInit {
   studentFeedbackSessionStatusAwaiting: string =
     'The session is not open for submission at this time. It is expected to open later.';
   studentFeedbackSessionStatusPending: string = 'The feedback session is yet to be completed by you.';
+  studentFeedbackSessionStatusExtension: string = ' An instructor has granted you a deadline extension.';
   studentFeedbackSessionStatusSubmitted: string = 'You have submitted your feedback for this session.';
   studentFeedbackSessionStatusClosed: string = ' The session is now closed for submissions.';
 
@@ -64,6 +70,9 @@ export class StudentHomePageComponent implements OnInit {
   hasCoursesLoadingFailed: boolean = false;
 
   sortBy: SortBy = SortBy.NONE;
+
+  sessionSubmissionStatusPipe = new SubmissionStatusPipe();
+  formatDateDetailPipe = new FormatDateDetailPipe(this.timezoneService);
 
   constructor(private route: ActivatedRoute,
     private courseService: CourseService,
@@ -87,67 +96,81 @@ export class StudentHomePageComponent implements OnInit {
     this.hasCoursesLoadingFailed = false;
     this.isCoursesLoading = true;
     this.courses = [];
-    this.courseService.getAllCoursesAsStudent().subscribe((resp: Courses) => {
-      if (!resp.courses.length) {
-        this.isCoursesLoading = false;
-      }
-      for (const course of resp.courses) {
-        this.feedbackSessionsService.getFeedbackSessionsForStudent('student', course.courseId)
-          .subscribe((fss: FeedbackSessions) => {
-            const sortedFss: FeedbackSession[] = this.sortFeedbackSessions(fss);
+    this.courseService.getAllCoursesAsStudent()
+      .pipe(finalize(() => { this.isCoursesLoading = false; }))
+      .subscribe((resp: Courses) => {
+        for (const course of resp.courses) {
+          this.courses.push({
+            course,
+            feedbackSessions: [],
+            isFeedbackSessionsLoading: true,
+            hasFeedbackSessionsLoadingFailed: false,
+          });
+          this.loadFeedbackSessionsForCourse(course.courseId);
+        }
+        this.courses.sort((a: StudentCourse, b: StudentCourse) =>
+            ((a.course.courseId > b.course.courseId) ? 1 : -1));
+      }, (e: ErrorMessageOutput) => {
+        this.hasCoursesLoadingFailed = true;
+        this.statusMessageService.showErrorToast(e.error.message);
+      });
+    }
 
-            const studentSessions: StudentSession[] = [];
-            this.feedbackSessionsService.hasStudentResponseForAllFeedbackSessionsInCourse(course.courseId)
-              .pipe(finalize(() => {
-                this.isCoursesLoading = false;
-              }))
-              .subscribe((hasRes: HasResponses) => {
-                if (!hasRes.hasResponsesBySession) {
-                  this.statusMessageService.showErrorToast(this.allStudentFeedbackSessionsNotReturned);
-                  this.hasCoursesLoadingFailed = true;
-                  return;
-                }
+  /**
+   * Load feedback sessions for a single course.
+   * The course should have been pushed to the this.courses array before this.
+   */
+  loadFeedbackSessionsForCourse(courseId: string): void {
+    // reference to the course within the this.courses array
+    const courseRef = this.courses.find((c) => c.course.courseId === courseId)!;
+    courseRef.isFeedbackSessionsLoading = true;
+    courseRef.hasFeedbackSessionsLoadingFailed = false;
+    this.feedbackSessionsService.getFeedbackSessionsForStudent('student', courseId)
+      .subscribe((fss: FeedbackSessions) => {
+        const sortedFss: FeedbackSession[] = this.sortFeedbackSessions(fss);
+        const studentSessions: StudentSession[] = courseRef.feedbackSessions;
 
-                const sessionsReturned: Set<string> = new Set(Object.keys(hasRes.hasResponsesBySession));
-                const isAllSessionsPresent: boolean =
-                  sortedFss.filter((fs: FeedbackSession) =>
-                    sessionsReturned.has(fs.feedbackSessionName)).length
-                    === sortedFss.length;
+        this.feedbackSessionsService.hasStudentResponseForAllFeedbackSessionsInCourse(courseId)
+          .pipe(finalize(() => { courseRef.isFeedbackSessionsLoading = false; }))
+          .subscribe((hasRes: HasResponses) => {
+            if (!hasRes.hasResponsesBySession) {
+              this.statusMessageService.showErrorToast(this.allStudentFeedbackSessionsNotReturned);
+              courseRef.hasFeedbackSessionsLoadingFailed = true;
+              return;
+            }
 
-                if (!isAllSessionsPresent) {
-                  this.statusMessageService.showErrorToast(this.allStudentFeedbackSessionsNotReturned);
-                  this.hasCoursesLoadingFailed = true;
-                  return;
-                }
+            const sessionsReturned: Set<string> = new Set(Object.keys(hasRes.hasResponsesBySession));
+            const isAllSessionsPresent: boolean =
+              sortedFss.filter((fs: FeedbackSession) =>
+                sessionsReturned.has(fs.feedbackSessionName)).length
+                === sortedFss.length;
 
-                for (const fs of sortedFss) {
-                  const isOpened: boolean = fs.submissionStatus === FeedbackSessionSubmissionStatus.OPEN;
-                  const isWaitingToOpen: boolean =
-                    fs.submissionStatus === FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN;
-                  const isPublished: boolean = fs.publishStatus === FeedbackSessionPublishStatus.PUBLISHED;
+            if (!isAllSessionsPresent) {
+              this.statusMessageService.showErrorToast(this.allStudentFeedbackSessionsNotReturned);
+              courseRef.hasFeedbackSessionsLoadingFailed = true;
+              return;
+            }
 
-                  const isSubmitted: boolean = hasRes.hasResponsesBySession[fs.feedbackSessionName];
-                  studentSessions.push({
-                    isOpened, isWaitingToOpen, isPublished, isSubmitted, session: fs,
-                  });
-                }
-              }, (error: ErrorMessageOutput) => {
-                this.hasCoursesLoadingFailed = true;
-                this.statusMessageService.showErrorToast(error.error.message);
+            for (const fs of sortedFss) {
+              const isOpened: boolean = fs.submissionStatus === FeedbackSessionSubmissionStatus.OPEN;
+              const isWaitingToOpen: boolean =
+                fs.submissionStatus === FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN;
+              const isPublished: boolean = fs.publishStatus === FeedbackSessionPublishStatus.PUBLISHED;
+
+              const isSubmitted: boolean = hasRes.hasResponsesBySession[fs.feedbackSessionName];
+              studentSessions.push({
+                isOpened, isWaitingToOpen, isPublished, isSubmitted, session: fs,
               });
-
-            this.courses.push({ course, feedbackSessions: studentSessions });
-            this.courses.sort((a: StudentCourse, b: StudentCourse) =>
-              ((a.course.courseId > b.course.courseId) ? 1 : -1));
+            }
           }, (error: ErrorMessageOutput) => {
-            this.hasCoursesLoadingFailed = true;
+            courseRef.hasFeedbackSessionsLoadingFailed = true;
             this.statusMessageService.showErrorToast(error.error.message);
           });
-      }
-    }, (e: ErrorMessageOutput) => {
-      this.hasCoursesLoadingFailed = true;
-      this.statusMessageService.showErrorToast(e.error.message);
-    });
+      }, (error: ErrorMessageOutput) => {
+        courseRef.isFeedbackSessionsLoading = false;
+        courseRef.hasFeedbackSessionsLoadingFailed = true;
+        this.statusMessageService.showErrorToast(error.error.message);
+      });
   }
 
   /**
@@ -155,6 +178,8 @@ export class StudentHomePageComponent implements OnInit {
    */
   getSubmissionStatusTooltip(session: StudentSession): string {
     let msg: string = '';
+    const hasStudentExtension = DeadlineExtensionHelper.hasUserExtension(session.session);
+    const hasOngoingStudentExtension = DeadlineExtensionHelper.hasOngoingExtension(session.session);
 
     if (session.isWaitingToOpen) {
       msg += this.studentFeedbackSessionStatusAwaiting;
@@ -163,10 +188,46 @@ export class StudentHomePageComponent implements OnInit {
     } else {
       msg += this.studentFeedbackSessionStatusPending;
     }
-    if (!session.isOpened && !session.isWaitingToOpen) {
+
+    if (hasStudentExtension && (session.isSubmitted || session.isOpened)) {
+      msg += this.studentFeedbackSessionStatusExtension;
+    }
+
+    if (!session.isOpened && !session.isWaitingToOpen && !hasOngoingStudentExtension) {
       msg += this.studentFeedbackSessionStatusClosed;
     }
     return msg;
+  }
+
+  /**
+   * Gets the status for the submission.
+   */
+  getSubmissionStatus(session: StudentSession): string {
+    const hasStudentExtension = this.hasStudentExtension(session.session);
+    return this.sessionSubmissionStatusPipe.transform(
+      session.isOpened, session.isWaitingToOpen, session.isSubmitted, hasStudentExtension);
+  }
+
+  /**
+   * Get the formatted date of the student's session end time.
+   */
+  getSubmissionEndDate({ session }: StudentSession): string {
+    const submissionEndDate = DeadlineExtensionHelper.getUserFeedbackSessionEndingTimestamp(session);
+    return this.formatDateDetailPipe.transform(submissionEndDate, session.timeZone);
+  }
+
+  getSubmissionEndDateTooltip({ session }: StudentSession): string {
+    const hasStudentExtension = this.hasStudentExtension(session);
+    if (!hasStudentExtension) {
+      return '';
+    }
+    const originalEndTime = this.formatDateDetailPipe.transform(session.submissionEndTimestamp, session.timeZone);
+    return `The session's original end date is ${originalEndTime}.`
+      + ' An instructor has granted you an extension to this date.';
+  }
+
+  hasStudentExtension(session: FeedbackSession): boolean {
+    return DeadlineExtensionHelper.hasUserExtension(session);
   }
 
   /**

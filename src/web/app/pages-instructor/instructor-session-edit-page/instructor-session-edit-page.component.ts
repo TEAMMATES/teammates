@@ -3,8 +3,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
 import { forkJoin, Observable, of } from 'rxjs';
-import { concatMap, finalize, map, mergeMap, switchMap } from 'rxjs/operators';
+import { concatMap, finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
+import { DeadlineExtensionHelper } from '../../../services/deadline-extension-helper';
 import {
   CommonVisibilitySetting,
   FeedbackQuestionsService,
@@ -43,10 +44,15 @@ import {
   Students,
 } from '../../../types/api-output';
 import { Intent } from '../../../types/api-request';
+import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { VisibilityControl } from '../../../types/visibility-control';
 import { CopySessionModalResult } from '../../components/copy-session-modal/copy-session-modal-model';
 import { CopySessionModalComponent } from '../../components/copy-session-modal/copy-session-modal.component';
 import { DateFormat } from '../../components/datepicker/datepicker.component';
+import {
+  ExtensionConfirmModalComponent,
+  ExtensionModalType,
+} from '../../components/extension-confirm-modal/extension-confirm-modal.component';
 import {
   QuestionEditFormMode,
   QuestionEditFormModel,
@@ -60,7 +66,11 @@ import { TimeFormat } from '../../components/timepicker/timepicker.component';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorSessionBasePageComponent } from '../instructor-session-base-page.component';
 import {
-  QuestionToCopyCandidate,
+  InstructorExtensionTableColumnModel,
+  StudentExtensionTableColumnModel,
+} from '../instructor-session-individual-extension-page/extension-table-column-model';
+import {
+  FeedbackSessionTabModel,
 } from './copy-questions-from-other-sessions-modal/copy-questions-from-other-sessions-modal-model';
 import {
   CopyQuestionsFromOtherSessionsModalComponent,
@@ -126,6 +136,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     hasVisibleSettingsPanelExpanded: false,
     hasEmailSettingsPanelExpanded: false,
   };
+  studentDeadlines: Record<string, number> = {};
+  instructorDeadlines: Record<string, number> = {};
 
   // to get the original session model on discard changes
   feedbackSessionModelBeforeEditing: SessionEditFormModel = JSON.parse(JSON.stringify(this.sessionEditFormModel));
@@ -180,8 +192,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   // all students of the course
   studentsOfCourse: Student[] = [];
   emailOfStudentToPreview: string = '';
-  // instructors which can be previewed as
-  instructorsCanBePreviewedAs: Instructor[] = [];
+  // all instructors of the course
+  instructorsOfCourse: Instructor[] = [];
   emailOfInstructorToPreview: string = '';
 
   get isAllCollapsed(): boolean {
@@ -220,7 +232,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       this.loadFeedbackSession();
       this.loadFeedbackQuestions();
       this.getAllStudentsOfCourse();
-      this.getAllInstructorsCanBePreviewedAs();
+      this.getAllInstructors();
     });
   }
 
@@ -305,11 +317,12 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Gets the {@code sessionEditFormModel} with {@link FeedbackSession} entity.
    */
   getSessionEditFormModel(feedbackSession: FeedbackSession, isEditable: boolean = false): SessionEditFormModel {
-    const submissionStart: { date: DateFormat; time: TimeFormat } =
-      this.getDateTimeAtTimezone(feedbackSession.submissionStartTimestamp, feedbackSession.timeZone, true);
 
-    const submissionEnd: { date: DateFormat; time: TimeFormat } =
-      this.getDateTimeAtTimezone(feedbackSession.submissionEndTimestamp, feedbackSession.timeZone, true);
+    const submissionStart: { date: DateFormat, time: TimeFormat } =
+        this.getDateTimeAtTimezone(feedbackSession.submissionStartTimestamp, feedbackSession.timeZone, true);
+
+    const submissionEnd: { date: DateFormat, time: TimeFormat } =
+        this.getDateTimeAtTimezone(feedbackSession.submissionEndTimestamp, feedbackSession.timeZone, true);
 
     const model: SessionEditFormModel = {
       isEditable,
@@ -349,16 +362,19 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       hasEmailSettingsPanelExpanded: !feedbackSession.isClosingEmailEnabled || !feedbackSession.isPublishedEmailEnabled,
     };
 
+    this.studentDeadlines = feedbackSession.studentDeadlines;
+    this.instructorDeadlines = feedbackSession.instructorDeadlines;
+
     if (feedbackSession.customSessionVisibleTimestamp) {
-      const customSessionVisible: { date: DateFormat; time: TimeFormat } =
-        this.getDateTimeAtTimezone(feedbackSession.customSessionVisibleTimestamp, feedbackSession.timeZone, true);
+      const customSessionVisible: { date: DateFormat, time: TimeFormat } =
+          this.getDateTimeAtTimezone(feedbackSession.customSessionVisibleTimestamp, feedbackSession.timeZone, true);
       model.customSessionVisibleTime = customSessionVisible.time;
       model.customSessionVisibleDate = customSessionVisible.date;
     }
 
     if (feedbackSession.customResponseVisibleTimestamp) {
-      const customResponseVisible: { date: DateFormat; time: TimeFormat } =
-        this.getDateTimeAtTimezone(feedbackSession.customResponseVisibleTimestamp, feedbackSession.timeZone, true);
+      const customResponseVisible: { date: DateFormat, time: TimeFormat } =
+          this.getDateTimeAtTimezone(feedbackSession.customResponseVisibleTimestamp, feedbackSession.timeZone, true);
       model.customResponseVisibleTime = customResponseVisible.time;
       model.customResponseVisibleDate = customResponseVisible.date;
     }
@@ -370,7 +386,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Get the local date and time of timezone from timestamp.
    */
   private getDateTimeAtTimezone(timestamp: number, timeZone: string, resolveMidnightTo2359: boolean):
-  { date: DateFormat; time: TimeFormat } {
+      { date: DateFormat, time: TimeFormat } {
     let momentInstance: moment.Moment = this.timezoneService.getMomentInstance(timestamp, timeZone);
     if (resolveMidnightTo2359 && momentInstance.hour() === 0 && momentInstance.minute() === 0) {
       momentInstance = momentInstance.subtract(1, 'minute');
@@ -394,9 +410,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Handles editing existing session event.
    */
   editExistingSessionHandler(): void {
-    this.sessionEditFormModel.isEditable = false;
     this.feedbackSessionModelBeforeEditing = JSON.parse(JSON.stringify(this.sessionEditFormModel));
-    this.sessionEditFormModel.isSaving = true;
 
     const submissionStartTime: number = this.timezoneService.resolveLocalDateTime(
       this.sessionEditFormModel.submissionStartDate, this.sessionEditFormModel.submissionStartTime,
@@ -417,6 +431,17 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
         this.sessionEditFormModel.timeZone, true);
     }
 
+    this.deleteDeadlineExtensionsHandler(submissionEndTime).subscribe((isUpdateSession) => {
+      if (isUpdateSession) {
+        this.updateFeedbackSession(submissionStartTime, submissionEndTime, sessionVisibleTime, responseVisibleTime);
+      }
+    });
+  }
+
+  updateFeedbackSession(submissionStartTime: number, submissionEndTime: number, sessionVisibleTime: number,
+    responseVisibleTime: number): void {
+    this.sessionEditFormModel.isSaving = true;
+    this.sessionEditFormModel.isEditable = false;
     this.feedbackSessionsService.updateFeedbackSession(this.courseId, this.feedbackSessionName, {
       instructions: this.sessionEditFormModel.instructions,
 
@@ -432,6 +457,9 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
 
       isClosingEmailEnabled: this.sessionEditFormModel.isClosingEmailEnabled,
       isPublishedEmailEnabled: this.sessionEditFormModel.isPublishedEmailEnabled,
+
+      studentDeadlines: this.studentDeadlines,
+      instructorDeadlines: this.instructorDeadlines,
     }).pipe(finalize(() => {
       this.sessionEditFormModel.isSaving = false;
     })).subscribe((feedbackSession: FeedbackSession) => {
@@ -443,6 +471,81 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     });
   }
 
+  /**
+   * Prompts the user to delete individual extensions that are before or equal to the new session end time.
+   */
+  deleteDeadlineExtensionsHandler(submissionEndTimestamp: number): Observable<boolean> {
+    const [studentDeadlinesToDelete, instructorDeadlinesToDelete] = this
+      .getIndividualDeadlinesToDelete(submissionEndTimestamp);
+
+    const isAllDeadlinesAfterUpdatedEndTime = Object.values(studentDeadlinesToDelete).length === 0
+      && Object.values(instructorDeadlinesToDelete).length === 0;
+
+    if (isAllDeadlinesAfterUpdatedEndTime) {
+      return of(true); // no need to prompt for deletion
+    }
+
+    const [affectedStudentModels, affectedInstructorModels] = this
+      .getAffectedIndividualModels(submissionEndTimestamp, studentDeadlinesToDelete, instructorDeadlinesToDelete);
+
+    const modalRef: NgbModalRef = this.ngbModal.open(ExtensionConfirmModalComponent);
+    modalRef.componentInstance.modalType = ExtensionModalType.SESSION_DELETE;
+    modalRef.componentInstance.selectedStudents = affectedStudentModels;
+    modalRef.componentInstance.selectedInstructors = affectedInstructorModels;
+    modalRef.componentInstance.extensionTimestamp = submissionEndTimestamp;
+    modalRef.componentInstance.feedbackSessionTimeZone = this.sessionEditFormModel.timeZone;
+
+    return new Observable((subscribeIsUserAccept) => {
+      modalRef.componentInstance.onConfirmExtensionCallBack.subscribe(() => {
+        this.removeDeadlines(affectedStudentModels, affectedInstructorModels);
+        modalRef.componentInstance.isSubmitting = false;
+        modalRef.close();
+        subscribeIsUserAccept.next(true);
+      }, () => {
+        subscribeIsUserAccept.next(false);
+      });
+    });
+  }
+
+  private getIndividualDeadlinesToDelete(submissionEndTimestamp: number): [
+    Record<string, number>, Record<string, number>,
+  ] {
+    const studentDeadlinesToDelete = DeadlineExtensionHelper.getDeadlinesBeforeOrEqualToEndTime(
+      this.studentDeadlines, submissionEndTimestamp);
+    const instructorDeadlinesToDelete = DeadlineExtensionHelper.getDeadlinesBeforeOrEqualToEndTime(
+      this.instructorDeadlines, submissionEndTimestamp);
+    return [studentDeadlinesToDelete, instructorDeadlinesToDelete];
+  }
+
+  /**
+   * Get models for individuals whose deadline extensions are before or equal to the new session end time.
+   */
+  private getAffectedIndividualModels(
+    submissionEndTimestamp: number,
+    affectedStudentDeadlines: Record<string, number>,
+    affectedInstructorDeadlines: Record<string, number>,
+  ): [StudentExtensionTableColumnModel[], InstructorExtensionTableColumnModel[]] {
+    const affectedStudents = this.studentsOfCourse.filter((student) => affectedStudentDeadlines[student.email]);
+    const affectedInstructors = this.instructorsOfCourse
+      .filter((instructor) => affectedInstructorDeadlines[instructor.email]);
+
+    const affectedStudentModels = DeadlineExtensionHelper.mapStudentsToStudentModels(
+      affectedStudents, affectedStudentDeadlines, submissionEndTimestamp,
+    );
+    const affectedInstructorModels = DeadlineExtensionHelper.mapInstructorsToInstructorModels(
+      affectedInstructors, affectedInstructorDeadlines, submissionEndTimestamp,
+    );
+    return [affectedStudentModels, affectedInstructorModels];
+  }
+
+  private removeDeadlines(students: StudentExtensionTableColumnModel[],
+    instructors: InstructorExtensionTableColumnModel[],
+  ): void {
+    this.studentDeadlines = DeadlineExtensionHelper
+      .getUpdatedDeadlinesForDeletion(students, this.studentDeadlines);
+    this.instructorDeadlines = DeadlineExtensionHelper
+      .getUpdatedDeadlinesForDeletion(instructors, this.instructorDeadlines);
+  }
   /**
    * Handles canceling existing session event without saving changes.
    */
@@ -919,37 +1022,30 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    */
   copyQuestionsFromOtherSessionsHandler(): void {
     this.isCopyingQuestion = true;
-    const questionToCopyCandidates: QuestionToCopyCandidate[] = [];
+    const feedbackSessionTabModels: FeedbackSessionTabModel[] = [];
 
     this.feedbackSessionsService.getFeedbackSessionsForInstructor().pipe(
-      switchMap((sessions: FeedbackSessions) => of(...sessions.feedbackSessions)),
-      mergeMap((session: FeedbackSession) => {
-        return this.feedbackQuestionsService.getFeedbackQuestions({
-          courseId: session.courseId,
-          feedbackSessionName: session.feedbackSessionName,
-          intent: Intent.FULL_DETAIL,
-        },
-        )
-          .pipe(
-            map((questions: FeedbackQuestions) => {
-              return questions.questions.map((q: FeedbackQuestion) => ({
-                courseId: session.courseId,
-                feedbackSessionName: session.feedbackSessionName,
-                question: q,
-
-                isSelected: false,
-              } as QuestionToCopyCandidate));
-            }),
-          );
-      }),
       finalize(() => {
         this.isCopyingQuestion = false;
       }),
-    ).subscribe((questionToCopyCandidate: QuestionToCopyCandidate[]) => {
-      questionToCopyCandidates.push(...questionToCopyCandidate);
+    ).subscribe((response: FeedbackSessions) => {
+      response.feedbackSessions.forEach((feedbackSession: FeedbackSession) => {
+        const model: FeedbackSessionTabModel = {
+          courseId: feedbackSession.courseId,
+          feedbackSessionName: feedbackSession.feedbackSessionName,
+          createdAtTimestamp: feedbackSession.createdAtTimestamp,
+          questionsTableRowModels: [],
+          isTabExpanded: false,
+          hasQuestionsLoaded: false,
+          hasLoadingFailed: false,
+          questionsTableRowModelsSortBy: SortBy.NONE,
+          questionsTableRowModelsSortOrder: SortOrder.ASC,
+        };
+        feedbackSessionTabModels.push(model);
+      });
     }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); }, () => {
       const ref: NgbModalRef = this.ngbModal.open(CopyQuestionsFromOtherSessionsModalComponent);
-      ref.componentInstance.questionToCopyCandidates = questionToCopyCandidates;
+      ref.componentInstance.feedbackSessionTabModels = feedbackSessionTabModels;
 
       ref.result.then((questionsToCopy: FeedbackQuestion[]) => {
         this.isCopyingQuestion = true;
@@ -980,7 +1076,9 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
         ).subscribe((newQuestion: FeedbackQuestion) => {
           this.questionEditFormModels.push(this.getQuestionEditFormModel(newQuestion));
           this.feedbackQuestionModels.set(newQuestion.feedbackQuestionId, newQuestion);
-          this.statusMessageService.showSuccessToast('The question has been added to this feedback session.');
+          this.statusMessageService.showSuccessToast(
+            'The selected question(s) have been added to this feedback session.',
+          );
         }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
       });
     });
@@ -1011,29 +1109,28 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   }
 
   /**
-   * Gets all instructors of a course which can be previewed as.
+   * Gets all instructors of a course.
    */
-  getAllInstructorsCanBePreviewedAs(): void {
+  getAllInstructors(): void {
     this.instructorService.loadInstructors({
       courseId: this.courseId,
       intent: Intent.FULL_DETAIL,
     })
-      .subscribe((instructors: Instructors) => {
-        this.instructorsCanBePreviewedAs = instructors.instructors;
+        .subscribe((instructors: Instructors) => {
+          this.instructorsOfCourse = instructors.instructors;
+          // TODO use privilege API to filter instructors who has INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS
+          // in the feedback session
 
-        // TODO use privilege API to filter instructors who has INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS
-        // in the feedback session
+          // sort the instructor list based on name
+          this.instructorsOfCourse.sort((a: Instructor, b: Instructor): number => {
+            return a.name.localeCompare(b.name);
+          });
 
-        // sort the instructor list based on name
-        this.instructorsCanBePreviewedAs.sort((a: Instructor, b: Instructor): number => {
-          return a.name.localeCompare(b.name);
-        });
-
-        // select the first instructor
-        if (this.instructorsCanBePreviewedAs.length >= 1) {
-          this.emailOfInstructorToPreview = this.instructorsCanBePreviewedAs[0].email;
-        }
-      }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
+          // select the first instructor
+          if (this.instructorsOfCourse.length >= 1) {
+            this.emailOfInstructorToPreview = this.instructorsOfCourse[0].email;
+          }
+        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
   }
 
   expandAll(): void {

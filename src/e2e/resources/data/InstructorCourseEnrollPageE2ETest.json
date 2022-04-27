@@ -3,9 +3,8 @@
     "ICEnroll.teammates.test": {
       "googleId": "tm.e2e.ICEnroll.teammates.test",
       "name": "Teammates Test",
-      "isInstructor": true,
       "email": "teammates.test@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "readNotifications": {}
     }
   },
   "courses": {
