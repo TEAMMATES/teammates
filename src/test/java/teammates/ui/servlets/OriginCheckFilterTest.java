@@ -118,7 +118,7 @@ public class OriginCheckFilterTest extends BaseTestCase {
 
             setupMocks(HttpGet.METHOD_NAME);
 
-            mockRequest.addHeader("referer", Config.APP_FRONTENDDEV_URL);
+            mockRequest.addHeader("referer", Config.APP_FRONTEND_URL);
             FILTER.doFilter(mockRequest, mockResponse, mockFilterChain);
             assertEquals(HttpStatus.SC_OK, mockResponse.getStatus());
 

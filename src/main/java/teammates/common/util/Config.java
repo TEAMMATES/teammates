@@ -27,7 +27,7 @@ public final class Config {
     public static final String APP_VERSION;
 
     /** The value of the "app.frontenddev.url" in build.properties file. */
-    public static final String APP_FRONTENDDEV_URL;
+    public static final String APP_FRONTEND_URL;
 
     /** The value of the "app.production.gcs.bucketname" in build.properties file. */
     public static final String PRODUCTION_GCS_BUCKETNAME;
@@ -110,6 +110,9 @@ public final class Config {
     /** The value of the "app.taskqueue.active" in build-dev.properties file. */
     public static final boolean TASKQUEUE_ACTIVE;
 
+    /** The value of the "app.backend.url" in build-dev.properties file. */
+    public static final String APP_BACKEND_URL;
+
     // Other properties
 
     /** Indicates whether the current server is dev server. */
@@ -146,7 +149,7 @@ public final class Config {
         }
 
         APP_REGION = getProperty(properties, devProperties, "app.region");
-        APP_FRONTENDDEV_URL = getProperty(properties, devProperties, "app.frontenddev.url");
+        APP_FRONTEND_URL = getProperty(properties, devProperties, "app.frontend.url");
         CSRF_KEY = getProperty(properties, devProperties, "app.csrf.key");
         BACKDOOR_KEY = getProperty(properties, devProperties, "app.backdoor.key");
         PRODUCTION_GCS_BUCKETNAME = getProperty(properties, devProperties, "app.production.gcs.bucketname");
@@ -181,14 +184,11 @@ public final class Config {
                 devProperties.getProperty("app.enable.devserver.login", "true"));
         TASKQUEUE_ACTIVE = Boolean.parseBoolean(
                 devProperties.getProperty("app.taskqueue.active", "true"));
+        APP_BACKEND_URL = getProperty(properties, devProperties, "app.backend.url", APP_FRONTEND_URL);
     }
 
     private Config() {
         // access static fields directly
-    }
-
-    public static String getBaseAppUrl() {
-        return IS_DEV_SERVER ? "http://localhost:" + getPort() : "https://" + APP_ID + ".appspot.com";
     }
 
     private static String getProperty(Properties properties, Properties devProperties, String key, String defaultValue) {
@@ -267,21 +267,7 @@ public final class Config {
      * {@code relativeUrl} must start with a "/".
      */
     public static AppUrl getFrontEndAppUrl(String relativeUrl) {
-        if (IS_DEV_SERVER && APP_FRONTENDDEV_URL != null) {
-            return new AppUrl(APP_FRONTENDDEV_URL + relativeUrl);
-        }
-
-        // In production, the back-end and front-end lives under the same domain
-        return getBackEndAppUrl(relativeUrl);
-    }
-
-    /**
-     * Creates an {@link AppUrl} for the supplied {@code relativeUrl} parameter.
-     * The base URL will be the application back-end URL.
-     * {@code relativeUrl} must start with a "/".
-     */
-    private static AppUrl getBackEndAppUrl(String relativeUrl) {
-        return new AppUrl(getBaseAppUrl() + relativeUrl);
+        return new AppUrl(APP_FRONTEND_URL + relativeUrl);
     }
 
     public static boolean isUsingSendgrid() {
