@@ -13,8 +13,8 @@ It is provided as a cloud-based service for educators/students and is currently 
 ## Table of Contents
 
 - [Product overview](#Product-overview)
-- [Documentation for developers](#Documentation-for-develpers)
-- [Contributing to TEAMMATES](#Contributing-to-)
+- [Documentation for developers](#Documentation-for-developers)
+- [Contributing to TEAMMATES](#Contributing-to-TEAMMATES)
 - [Acknowledgements](#Acknowledgements)
 - [Contact us](#Contacting-us)
 
@@ -32,7 +32,6 @@ To explore the product, here are some useful links:
 - [Product website](https://teammates.github.io/teammates/)
 - [Product key features](https://teammates.github.io/teammates/)
 - [FAQ for the product](https://teammates.github.io/teammates/)
-
 
 ### Documentation for developers
 
