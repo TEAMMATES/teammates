@@ -13,6 +13,7 @@ It is provided as a cloud-based service for educators/students and is currently 
 ## Table of Contents
 
 - [Product overview](#Product-overview)
+- [Quickstart](#Quickstart)
 - [Documentation for developers](#Documentation-for-developers)
 - [Contributing to TEAMMATES](#Contributing-to-TEAMMATES)
 - [Acknowledgements](#Acknowledgements)
@@ -21,7 +22,15 @@ It is provided as a cloud-based service for educators/students and is currently 
 
 ### Product overview
 
-Some of the key features of TEAMMATES.
+Product website: [TEAMMATES.com](https://teammates.github.io/teammates/)
+
+Features: [Product key features](https://teammates.github.io/teammates/)
+
+- View, edit, and search student records
+- Add, create, and enroll students/instructors 
+- View, change, and delete students/instructors
+- Manage and archive courses.
+- And more [features](https://teammates.github.io/teammates/)
 
 <img src="src/web/assets/images/feature1.png" width="1000">
 
@@ -29,9 +38,42 @@ Some of the key features of TEAMMATES.
 
 To explore the product, here are some useful links: 
 
-- [Product website](https://teammates.github.io/teammates/)
+- Product website: [TEAMMATES.com](https://teammates.github.io/teammates/)
 - [Product key features](https://teammates.github.io/teammates/)
 - [FAQ for the product](https://teammates.github.io/teammates/)
+
+### Quickstart
+
+This project uses MarkBind for developer documentation. MarkBind is used to create a static site, and can parse markdown, GitHub Flavoured Markdown, and more.
+
+All the commands in this document are assumed to be run from the /docs folder, unless specified otherwise.
+
+Installation
+
+1. Install Node.js (minimum version 12).
+2. Run npm ci to install the necessary tools to build documentation.
+
+Install the following additional dependencies required by MarkBind to generate PlantUML diagrams locally:
+
+1. Install Java 8 or later.
+2. Install Graphviz v2.38 (or later).
+
+> You can also use a globally installed MarkBind if you have one. Make sure to use version 3.*.*.
+
+* Run the following command to view the site locally:
+```bash
+npm run serve
+
+#Alternative if you wish to use a globally installed MarkBind
+markbind serve
+```
+
+The live preview will be available at localhost:8080 by default and should update automatically to reflect changes you make to the docs. If you wish to use another port (e.g. 8090), use the -p flag as follows:
+
+```bash
+npm run serve -- -p 8090
+markbind serve -p 8090
+```
 
 ### Documentation for developers
 
@@ -53,18 +95,14 @@ We welcome contributions from developers, especially students.
 
 ### Acknowledgements
 
-TEAMMATES team wishes to thank the following invaluable contributions:
-* [School of Computing, National University of Singapore (NUS)](http://www.comp.nus.edu.sg), for providing us with the infrastructure support to run the project.
-* [Centre for Development of Teaching and Learning (CDTL)](https://nus.edu.sg/cdtl) of NUS, for supporting us with several *Teaching Enhancement Grants* over the years.
-* Learning Innovation Fund-Technology (LIF-T) initiative of NUS, for funding us for the 2015-2018 period.
-* Google Summer of Code Program, for including TEAMMATES as a mentor organization in *GSoC2014*, *GSoC2015*, *GSoC2016*, *GSoC2017* and *GSoC2018* editions.
-* Facebook Open Academy Program, for including TEAMMATES as a mentor organization in FBOA 2016.
-* Jet Brains, for the [Intellij IDEA](https://www.jetbrains.com/idea/) licences
-* <img src="src/web/assets/images/yklogo.png" width="100"> [YourKit LLC](https://www.yourkit.com), for providing us with free licenses for the [YourKit Java Profiler](https://www.yourkit.com/java/profiler) (an industry leading profiler tool for Java applications).
-* <img src="src/web/assets/images/saucelabs.png" width="100"> [SauceLabs](https://saucelabs.com), for providing us with a free [Open Sauce account](https://saucelabs.com/open-source) for cross-browser testing.
+> #### [TEAMMATES team wishes to thank the following invaluable contributions](https://teammatesv4.appspot.com/web/front/about).
+
+
 
 ### Contacting us
 
 The best way to contact us is to [post a message in our issue tracker](https://github.com/TEAMMATES/teammates/issues/new). Our issue tracker doubles as a discussion forum. You can use it for things like asking questions about the project or requesting technical help.
 
 Alternatively (less preferred), you can email us at teammates@comp.nus.edu.sg.
+
+Blog: Visit the [TEAMMATES Blog](http://teammatesonline.blogspot.com/) to see our latest updates and information.
