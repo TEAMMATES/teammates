@@ -73,7 +73,7 @@ markbind serve -p 8090
 
 ### Documentation for developers
 
-**Click [here](https://teammates.github.io/teammates/) to view the FULL documentation for developers in details.**
+Click [here](https://teammates.github.io/teammates/) to view the FULL documentation for developers in details.
 
 1. [Environment Setup](https://teammates.github.io/teammates/setting-up.html) 
 2. [Development Guideline](https://teammates.github.io/teammates/development.html)
