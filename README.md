@@ -29,11 +29,9 @@ Some of the key features of TEAMMATES.
 
 Links: 
 
-⋅[Product website](https://teammates.github.io/teammates/)
-
-⋅[Product key features](https://teammates.github.io/teammates/)
-
-⋅[FAQ for product](https://teammates.github.io/teammates/)
+⋅⋅⋅ [Product website](https://teammates.github.io/teammates/)
+⋅⋅⋅ [Product key features](https://teammates.github.io/teammates/)
+⋅⋅⋅ [FAQ for product](https://teammates.github.io/teammates/)
 
 
 ## Documentation for developers
