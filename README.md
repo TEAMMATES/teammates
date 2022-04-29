@@ -36,19 +36,13 @@ Features: [Product key features](https://teammates.github.io/teammates/)
 
 <img src="src/web/assets/images/feature2.png" width="1000">
 
-To explore the product, here are some useful links: 
-
-- Product website: [TEAMMATES.com](https://teammates.github.io/teammates/)
-- [Product key features](https://teammates.github.io/teammates/)
-- [FAQ for the product](https://teammates.github.io/teammates/)
-
 ### Quickstart
 
 This project uses MarkBind for developer documentation. MarkBind is used to create a static site, and can parse markdown, GitHub Flavoured Markdown, and more.
 
 All the commands in this document are assumed to be run from the /docs folder, unless specified otherwise.
 
-Installation
+**Installation**
 
 1. Install Node.js (minimum version 12).
 2. Run npm ci to install the necessary tools to build documentation.
@@ -60,7 +54,9 @@ Install the following additional dependencies required by MarkBind to generate P
 
 > You can also use a globally installed MarkBind if you have one. Make sure to use version 3.*.*.
 
-* Run the following command to view the site locally:
+**Run**
+
+Run the following command to view the site locally:
 ```bash
 npm run serve
 
