@@ -27,11 +27,11 @@ Some of the key features of TEAMMATES.
 
 <img src="src/web/assets/images/feature2.png" width="1000">
 
-Links: 
+To explore the product, here are some useful links: 
 
-⋅⋅⋅ [Product website](https://teammates.github.io/teammates/)
-⋅⋅⋅ [Product key features](https://teammates.github.io/teammates/)
-⋅⋅⋅ [FAQ for product](https://teammates.github.io/teammates/)
+- [Product website](https://teammates.github.io/teammates/)
+- [Product key features](https://teammates.github.io/teammates/)
+- [FAQ for the product](https://teammates.github.io/teammates/)
 
 
 ## Documentation for developers
