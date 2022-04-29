@@ -5,22 +5,54 @@
 [![Codecov Coverage Status](https://codecov.io/gh/TEAMMATES/teammates/branch/master/graph/badge.svg)](https://codecov.io/gh/TEAMMATES/teammates)
 [![License](https://img.shields.io/badge/license-GPLv2-blue.svg)](LICENSE)
 
+<img src="src/web/assets/images/overview.png" width="1000">
+
 TEAMMATES is a free online tool for managing peer evaluations and other feedback paths of your students.
-It is provided as a cloud-based service for educators/students and is currently used by hundreds of universities across the world.
+It is provided as a cloud-based service for educators/students and is currently used by hundreds of universities across the world. This is the developer web site for TEAMMATES. 
 
-<img src="src/web/assets/images/overview.png" width="600">
+## Table of Contents
 
-This is the developer web site for TEAMMATES. **Click [here](http://teammatesv4.appspot.com/) to go to the TEAMMATES product website.**
+- [**Product overview**](#Product-overview)
+- [**Documentation for developers**](#Documentation-for-develpers)
+- [**Contributing to TEAMMATES**](#Contributing-to-)
+- [**Acknowledgements**](#Acknowledgements)
+- [**Contact us**](#Contacting-us)
 
-[**Documentation for Developers** :book:](https://teammates.github.io/teammates) |
-[Version History](https://github.com/TEAMMATES/teammates/milestones?direction=desc&sort=due_date&state=closed) |
-[Project Stats](https://www.openhub.net/p/teammatesonline)
 
-## Interested to join TEAMMATES developer team?
+## Product overview
 
-We welcome contributions from developers, especially students. Here are some resources:
-* [**Contributor Orientation Guide**](https://teammates.github.io/teammates/contributing-doc.html): This document describes what you need to know/do to become a contributor.
-* [**Project ideas page**](https://github.com/TEAMMATES/teammates/wiki): These are for those who would like to do a relatively bigger projects with TEAMMATES (e.g. summer internships).
+Some of the key features of TEAMMATES.
+
+<img src="src/web/assets/images/feature1.png" width="1000">
+
+<img src="src/web/assets/images/feature2.png" width="1000">
+
+Links: 
+
+⋅[Product website](https://teammates.github.io/teammates/)
+
+⋅[Product key features](https://teammates.github.io/teammates/)
+
+⋅[FAQ for product](https://teammates.github.io/teammates/)
+
+
+## Documentation for developers
+
+**Click [here](https://teammates.github.io/teammates/) to view the FULL documentation for developers in details.**
+
+1. [**Environment Setup**](https://teammates.github.io/teammates/setting-up.html) 
+2. [**Development Guideline**](https://teammates.github.io/teammates/development.html)
+3. [**Development Workflow**](https://teammates.github.io/teammates/process.html)
+3. [**Troubleshoot Guide**](https://teammates.github.io/teammates/troubleshooting-guide.html)
+3. [**Software Design**](https://teammates.github.io/teammates/design.html) - Architecture, APIs, etc
+4. [**TEAMMATES Glossary**](https://teammates.github.io/teammates/design.html) 
+
+
+## Contributing to TEAMMATES
+
+We welcome contributions from developers, especially students. 
+
+> #### [Please follow these steps to contribute](https://teammates.github.io/teammates/contributing-doc.html).
 
 ## Acknowledgements
 
