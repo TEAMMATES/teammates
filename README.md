@@ -17,7 +17,7 @@ It is provided as a cloud-based service for educators/students and is currently 
 - [Documentation for developers](#Documentation-for-developers)
 - [Contributing to TEAMMATES](#Contributing-to-TEAMMATES)
 - [Acknowledgements](#Acknowledgements)
-- [Contact us](#Contacting-us)
+- [Contacting us](#Contacting-us)
 
 
 ### Product overview
