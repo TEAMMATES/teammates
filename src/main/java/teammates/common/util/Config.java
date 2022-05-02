@@ -13,10 +13,6 @@ import java.util.Properties;
  */
 public final class Config {
 
-    // Normally, the following property values are loaded from build.properties file.
-    // When in dev environment and they appear in build-dev.properties,
-    // they are overridden by the values in build-dev.properties.
-
     /** The value of the "app.id" in build.properties file. */
     public static final String APP_ID;
 
@@ -98,9 +94,6 @@ public final class Config {
     /** The value of the "app.maintenance" in build.properties file. */
     public static final boolean MAINTENANCE;
 
-    // The following properties are not used in production server.
-    // So they will only be read from build-dev.properties file.
-
     /** The value of the "app.localdatastore.port" in build-dev.properties file. */
     public static final int APP_LOCALDATASTORE_PORT;
 
@@ -177,13 +170,11 @@ public final class Config {
                 getProperty(properties, devProperties, "app.enable.datastore.backup", "false"));
         MAINTENANCE = Boolean.parseBoolean(getProperty(properties, devProperties, "app.maintenance", "false"));
 
-        // Dev property values, read directly from devProperties
-        APP_LOCALDATASTORE_PORT = Integer.parseInt(
-                devProperties.getProperty("app.localdatastore.port", "8484"));
-        ENABLE_DEVSERVER_LOGIN = Boolean.parseBoolean(
-                devProperties.getProperty("app.enable.devserver.login", "true"));
-        TASKQUEUE_ACTIVE = Boolean.parseBoolean(
-                devProperties.getProperty("app.taskqueue.active", "true"));
+        // The following properties are not used in production server.
+        // So they will only be read from build-dev.properties file.
+        APP_LOCALDATASTORE_PORT = Integer.parseInt(devProperties.getProperty("app.localdatastore.port", "8484"));
+        ENABLE_DEVSERVER_LOGIN = Boolean.parseBoolean(devProperties.getProperty("app.enable.devserver.login", "false"));
+        TASKQUEUE_ACTIVE = Boolean.parseBoolean(devProperties.getProperty("app.taskqueue.active", "true"));
         APP_BACKEND_URL = getProperty(properties, devProperties, "app.backend.url", APP_FRONTEND_URL);
     }
 
@@ -193,18 +184,16 @@ public final class Config {
 
     private static String getProperty(Properties properties, Properties devProperties, String key, String defaultValue) {
         if (IS_DEV_SERVER) {
-            return devProperties.getProperty(key, properties.getProperty(key, defaultValue));
-        } else {
-            return properties.getProperty(key, defaultValue);
+            String val = devProperties.getProperty(key);
+            if (val != null) {
+                return val;
+            }
         }
+        return defaultValue == null ? properties.getProperty(key) : properties.getProperty(key, defaultValue);
     }
 
     private static String getProperty(Properties properties, Properties devProperties, String key) {
-        if (IS_DEV_SERVER) {
-            return devProperties.getProperty(key, properties.getProperty(key));
-        } else {
-            return properties.getProperty(key);
-        }
+        return getProperty(properties, devProperties, key, null);
     }
 
     /**
