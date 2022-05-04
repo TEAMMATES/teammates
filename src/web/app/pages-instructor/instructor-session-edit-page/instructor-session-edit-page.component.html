@@ -19,9 +19,9 @@
                              (duplicateCurrentQuestionEvent)="duplicateCurrentQuestionHandler(i)"
                              (deleteCurrentQuestionEvent)="deleteExistingQuestionHandler(i)"
                              [(formModel)]="questionEditFormModels[i]"></tm-question-edit-form>
-    </div>
-  <a class="scrollup-link" (click)="scrollToTopOfPage()" id="scrollUp">Back to top of page</a>
-</div>
+  </div>
+    <a class="scrollup-link" (click)="scrollToTopOfPage()" id="scrollUp">Back to top of page</a>
+  </div>
   <div *tmIsLoading="isAddingFromTemplate"></div>
   <br/>
   <div class="card" *ngIf="!isLoadingFeedbackQuestions && !isAddingQuestionPanelExpanded">
