@@ -77,4 +77,4 @@ jobs:
         run: npm run coverage 
       - name: Upload to Codecov 
         if: matrix.os == 'ubuntu-latest' #only upload to codecov on ubuntu VM 
-        run: bash <(curl -s https://codecov.io/bash)
+        uses: codecov/codecov-action@v3
