@@ -26,7 +26,7 @@ exports[`AdminNotificationsPageComponent should snap when notification edit form
     id="notifications-timezone"
   >
     <p>
-      All dates are displayed in Africa/Abidjan time.
+      All dates are displayed in UTC time.
     </p>
   </div><div>
     <button
@@ -268,7 +268,7 @@ exports[`AdminNotificationsPageComponent should snap when notification edit form
                   class="col-md-4 text-md-left"
                   id="submission-status"
                 >
-                   Africa/Abidjan 
+                   UTC 
                 </div>
               </div>
               <div
@@ -708,7 +708,7 @@ exports[`AdminNotificationsPageComponent should snap when notifications are load
     id="notifications-timezone"
   >
     <p>
-      All dates are displayed in Africa/Abidjan time.
+      All dates are displayed in UTC time.
     </p>
   </div><div>
     <button
@@ -774,7 +774,7 @@ exports[`AdminNotificationsPageComponent should snap when notifications failed t
     id="notifications-timezone"
   >
     <p>
-      All dates are displayed in Africa/Abidjan time.
+      All dates are displayed in UTC time.
     </p>
   </div><div>
     <button
@@ -838,7 +838,7 @@ exports[`AdminNotificationsPageComponent should snap with default view 1`] = `
     id="notifications-timezone"
   >
     <p>
-      All dates are displayed in Africa/Abidjan time.
+      All dates are displayed in UTC time.
     </p>
   </div><div>
     <button
