@@ -103,9 +103,6 @@ public final class Config {
     /** The value of the "app.taskqueue.active" in build-dev.properties file. */
     public static final boolean TASKQUEUE_ACTIVE;
 
-    /** The value of the "app.backend.url" in build-dev.properties file. */
-    public static final String APP_BACKEND_URL;
-
     // Other properties
 
     /** Indicates whether the current server is dev server. */
@@ -142,7 +139,7 @@ public final class Config {
         }
 
         APP_REGION = getProperty(properties, devProperties, "app.region");
-        APP_FRONTEND_URL = getProperty(properties, devProperties, "app.frontend.url");
+        APP_FRONTEND_URL = getProperty(properties, devProperties, "app.frontend.url", getDefaultFrontEndUrl());
         CSRF_KEY = getProperty(properties, devProperties, "app.csrf.key");
         BACKDOOR_KEY = getProperty(properties, devProperties, "app.backdoor.key");
         PRODUCTION_GCS_BUCKETNAME = getProperty(properties, devProperties, "app.production.gcs.bucketname");
@@ -175,13 +172,28 @@ public final class Config {
         APP_LOCALDATASTORE_PORT = Integer.parseInt(devProperties.getProperty("app.localdatastore.port", "8484"));
         ENABLE_DEVSERVER_LOGIN = Boolean.parseBoolean(devProperties.getProperty("app.enable.devserver.login", "false"));
         TASKQUEUE_ACTIVE = Boolean.parseBoolean(devProperties.getProperty("app.taskqueue.active", "true"));
-        APP_BACKEND_URL = getProperty(properties, devProperties, "app.backend.url", APP_FRONTEND_URL);
     }
 
     private Config() {
         // access static fields directly
     }
 
+    /**
+     * Returns the a default frontend URL if it is not set in property file(s).
+     */
+    private static String getDefaultFrontEndUrl() {
+        return IS_DEV_SERVER ? "http://localhost:" + getPort() : "https://" + APP_ID + ".appspot.com";
+    }
+
+    /**
+     * Returns the property value based on running environment.
+     *
+     * <p>If it is in dev server, it will return the value from build-dev.properties file.
+     * If the respective key does not exist in build-dev.properties file, or it is in production server,
+     * it will return the value from build.properties file instead.
+     *
+     * <p>If still no key found in build.properties file, the specified default value will be returned.
+     */
     private static String getProperty(Properties properties, Properties devProperties, String key, String defaultValue) {
         if (IS_DEV_SERVER) {
             String val = devProperties.getProperty(key);
@@ -192,6 +204,9 @@ public final class Config {
         return defaultValue == null ? properties.getProperty(key) : properties.getProperty(key, defaultValue);
     }
 
+    /**
+     * Returns the property value based on running environment. null is returned when no match values are found.
+     */
     private static String getProperty(Properties properties, Properties devProperties, String key) {
         return getProperty(properties, devProperties, key, null);
     }
