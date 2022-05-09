@@ -40,13 +40,15 @@ export class UserNotificationsListComponent implements OnInit {
   @Input()
   userType: NotificationTargetUser = NotificationTargetUser.GENERAL;
 
+  @Input()
+  timezone = '';
+
   notificationTabs: NotificationTab[] = [];
   notificationsSortBy: SortBy = SortBy.NONE;
   readNotifications: Set<String> = new Set();
 
   isLoadingNotifications: boolean = false;
   hasLoadingFailed: boolean = false;
-  timezone: string = '';
 
   DATE_FORMAT: string = 'DD MMM YYYY';
 
@@ -56,7 +58,6 @@ export class UserNotificationsListComponent implements OnInit {
               private tableComparatorService: TableComparatorService) { }
 
   ngOnInit(): void {
-    this.timezone = this.timezoneService.guessTimezone();
     this.loadNotifications();
   }
 
