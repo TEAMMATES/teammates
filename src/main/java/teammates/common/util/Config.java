@@ -181,7 +181,7 @@ public final class Config {
     /**
      * Returns the a default frontend URL if it is not set in property file(s).
      */
-    public static String getDefaultFrontEndUrl() {
+    static String getDefaultFrontEndUrl() {
         return IS_DEV_SERVER ? "http://localhost:" + getPort() : "https://" + APP_ID + ".appspot.com";
     }
 
