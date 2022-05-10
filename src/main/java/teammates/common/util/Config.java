@@ -22,7 +22,7 @@ public final class Config {
     /** The value of the "app.version" in build.properties file. */
     public static final String APP_VERSION;
 
-    /** The value of the "app.frontenddev.url" in build.properties file. */
+    /** The value of the "app.frontend.url" in build.properties file. */
     public static final String APP_FRONTEND_URL;
 
     /** The value of the "app.production.gcs.bucketname" in build.properties file. */
@@ -181,7 +181,7 @@ public final class Config {
     /**
      * Returns the a default frontend URL if it is not set in property file(s).
      */
-    private static String getDefaultFrontEndUrl() {
+    public static String getDefaultFrontEndUrl() {
         return IS_DEV_SERVER ? "http://localhost:" + getPort() : "https://" + APP_ID + ".appspot.com";
     }
 
