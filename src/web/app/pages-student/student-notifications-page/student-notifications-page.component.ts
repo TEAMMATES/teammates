@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { TimezoneService } from '../../../services/timezone.service';
 import { NotificationTargetUser } from '../../../types/api-output';
 
 /**
@@ -9,6 +10,15 @@ import { NotificationTargetUser } from '../../../types/api-output';
   templateUrl: './student-notifications-page.component.html',
   styleUrls: ['./student-notifications-page.component.scss'],
 })
-export class StudentNotificationsPageComponent {
-    userType: NotificationTargetUser = NotificationTargetUser.STUDENT;
+export class StudentNotificationsPageComponent implements OnInit {
+
+  userType: NotificationTargetUser = NotificationTargetUser.STUDENT;
+  timezone = '';
+
+  constructor(private timezoneService: TimezoneService) { }
+
+  ngOnInit(): void {
+    this.timezone = this.timezoneService.guessTimezone();
+  }
+
 }
