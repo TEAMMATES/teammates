@@ -204,7 +204,7 @@ export class InstructorAuditLogsPageComponent implements OnInit {
             { value: entry.studentData.name },
             {
               value: entry.feedbackSessionLogType.toString() as keyof typeof FeedbackSessionLogType
-                  === 'ACCESS' ? 'Viewed the submission page' : 'Submitted responses',
+                  === 'ACCESS' ? 'Viewed - In progress' : 'Submitted responses',
             },
             { value: entry.studentData.email },
             { value: entry.studentData.sectionName },
