@@ -131,7 +131,11 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
           this.getAllInstructorsOfCourse();
         },
         (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorToast(resp.error.message);
+          let errMsg = resp.error.message;
+          if (!this.feedbackSessionName) {
+            errMsg = 'You must save the new session before setting individual deadline extensions.'
+          }
+          this.statusMessageService.showErrorToast(errMsg);
           this.hasLoadingFeedbackSessionFailed = true;
         },
       );

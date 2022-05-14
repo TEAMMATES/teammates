@@ -182,7 +182,6 @@
             </div>
             <div class="row">
               <a class="pl-3 pt-2"
-                *ngIf="formMode !== SessionEditFormMode.ADD"
                 tmRouterLink="/web/instructor/sessions/individual-extension"
                 [queryParams]="{ courseid: model.courseId, fsname: model.feedbackSessionName }">
                 Individual Deadline Extensions
