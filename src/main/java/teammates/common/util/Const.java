@@ -429,6 +429,7 @@ public final class Const {
 
         public static final String SEND_EMAIL_QUEUE_NAME = "send-email-queue";
         public static final String SEND_EMAIL_WORKER_URL = URI_PREFIX + "/sendEmail";
+        public static final String DOWNLOAD_WORKER_URL = URI_PREFIX + "/download";
 
         public static final String STUDENT_COURSE_JOIN_EMAIL_QUEUE_NAME = "student-course-join-email-queue";
         public static final String STUDENT_COURSE_JOIN_EMAIL_WORKER_URL = URI_PREFIX + "/studentCourseJoinEmail";
