@@ -181,12 +181,19 @@
               </div>
             </div>
             <div class="row">
-              <a class="pl-3 pt-2"
-                tmRouterLink="/web/instructor/sessions/individual-extension"
-                [queryParams]="{ courseid: model.courseId, fsname: model.feedbackSessionName }">
-                Individual Deadline Extensions
-                <i class="fas fa-edit"></i>
-              </a>
+              <div
+                class="wrapper-a-tag"
+                [ngClass]="formMode === SessionEditFormMode.ADD ? 'cursor-not-allow':''"
+                [ngbTooltip]="'You must save the new session before setting individual deadline extensions'"
+                [disableTooltip]="formMode !== SessionEditFormMode.ADD">
+                <a class="pl-3 pt-2"
+                  [ngClass]="formMode === SessionEditFormMode.ADD ? 'pointer-events-none':''"
+                  tmRouterLink="/web/insructor/sessions/individual-extension"
+                  [queryParams]="{ courseid: model.courseId, fsname: model.feedbackSessionName }">
+                  Individual Deadline Extensions
+                  <i class="fas fa-edit"></i>
+                </a>
+              </div>
             </div>
           </div>
         </div>
