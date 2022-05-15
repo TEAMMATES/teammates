@@ -257,7 +257,8 @@ export class QuestionEditFormComponent {
     }
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
         `Discard unsaved ${isNewQuestion ? 'question' : 'edits'}?`, SimpleModalType.WARNING,
-        'Warning: Any unsaved changes will be lost');
+        'Warning: Any unsaved changes will be lost',
+        { cancelMessage: 'No, go back to editing' });
     modalRef.result.then(() => {
       this.discardChanges();
     }, () => {});
