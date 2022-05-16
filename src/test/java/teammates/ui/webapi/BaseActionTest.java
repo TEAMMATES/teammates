@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.Part;
 
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpDelete;
@@ -70,23 +69,23 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
     abstract String getRequestMethod();
 
     /**
-     * Gets an action with empty request body and empty multipart config.
+     * Gets an action with empty request body.
      */
     protected T getAction(String... params) {
-        return getAction(null, null, null, params);
+        return getAction(null, null, params);
     }
 
     /**
      * Gets an action with request body.
      */
     protected T getAction(BasicRequest requestBody, String... params) {
-        return getAction(JsonUtils.toCompactJson(requestBody), null, null, params);
+        return getAction(JsonUtils.toCompactJson(requestBody), null, params);
     }
 
     /**
-     * Gets an action with request body and multipart config.
+     * Gets an action with request body and cookie.
      */
-    protected T getAction(String body, Map<String, Part> parts, List<Cookie> cookies, String... params) {
+    protected T getAction(String body, List<Cookie> cookies, String... params) {
         mockTaskQueuer.clearTasks();
         mockEmailSender.clearEmails();
         MockHttpServletRequest req = new MockHttpServletRequest(getRequestMethod(), getActionUri());
@@ -95,11 +94,6 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
         }
         if (body != null) {
             req.setBody(body);
-        }
-        if (parts != null) {
-            parts.forEach((key, part) -> {
-                req.addPart(key, part);
-            });
         }
         if (cookies != null) {
             for (Cookie cookie : cookies) {
@@ -136,7 +130,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
      * Gets an action with list of cookies.
      */
     protected T getActionWithCookie(List<Cookie> cookies, String... params) {
-        return getAction(null, null, cookies, params);
+        return getAction(null, cookies, params);
     }
 
     @BeforeMethod
@@ -592,19 +586,6 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
             ActionResult r = a.execute();
             assertEquals(statusCode, r.getStatusCode());
             return (JsonResult) r;
-        } catch (InvalidOperationException | InvalidHttpRequestBodyException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    /**
-     * Executes the action and returns the result.
-     *
-     * <p>Assumption: The action returns a {@link ImageResult}.
-     */
-    protected ImageResult getImageResult(Action a) {
-        try {
-            return (ImageResult) a.execute();
         } catch (InvalidOperationException | InvalidHttpRequestBodyException e) {
             throw new RuntimeException(e);
         }
