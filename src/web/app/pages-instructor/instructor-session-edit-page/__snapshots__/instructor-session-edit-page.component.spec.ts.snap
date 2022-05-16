@@ -1090,16 +1090,20 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                   <div
                     class="row"
                   >
-                    <a
-                      class="pl-3 pt-2"
-                      href="/web/instructor/sessions/individual-extension?courseid=testId&fsname=test%20session"
-                      tmrouterlink="/web/instructor/sessions/individual-extension"
+                    <div
+                        class="wrapper-a-tag"
                     >
-                       Individual Deadline Extensions 
-                      <i
-                        class="fas fa-edit"
-                      />
-                    </a>
+                      <a
+                        class="pl-3 pt-2"
+                        href="/web/instructor/sessions/individual-extension?courseid=testId&fsname=test%20session"
+                        tmrouterlink="/web/instructor/sessions/individual-extension"
+                      >
+                        Individual Deadline Extensions
+                        <i
+                          class="fas fa-edit"
+                        />
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -3479,16 +3483,20 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                   <div
                     class="row"
                   >
-                    <a
-                      class="pl-3 pt-2"
-                      href="/web/instructor/sessions/individual-extension?courseid=&fsname="
-                      tmrouterlink="/web/instructor/sessions/individual-extension"
+                    <div
+                      class="wrapper-a-tag cursor-not-allow"
                     >
-                       Individual Deadline Extensions 
-                      <i
-                        class="fas fa-edit"
-                      />
-                    </a>
+                      <a
+                        class="pl-3 pt-2 pointer-events-none"
+                        href="/web/instructor/sessions/individual-extension?courseid=&fsname="
+                        tmrouterlink="/web/instructor/sessions/individual-extension"
+                      >
+                        Individual Deadline Extensions
+                        <i
+                          class="fas fa-edit"
+                        />
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>
