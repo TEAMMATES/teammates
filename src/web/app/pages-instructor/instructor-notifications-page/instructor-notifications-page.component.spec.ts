@@ -31,6 +31,8 @@ describe('InstructorNotificationsPageComponent', () => {
   });
 
   it('should snap with default fields', () => {
+    component.timezone = 'UTC';
+    fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
 });

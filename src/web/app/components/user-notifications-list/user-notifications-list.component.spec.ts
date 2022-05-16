@@ -7,7 +7,6 @@ import { of } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
 import { NotificationService } from '../../../services/notification.service';
 import { StatusMessageService } from '../../../services/status-message.service';
-import { TimezoneService } from '../../../services/timezone.service';
 import { Notification, NotificationStyle, NotificationTargetUser } from '../../../types/api-output';
 import { MarkNotificationAsReadRequest } from '../../../types/api-request';
 import { SortBy } from '../../../types/sort-properties';
@@ -25,9 +24,9 @@ describe('UserNotificationsListComponent', () => {
 
   const testNotificationOne: Notification = {
     notificationId: 'notification1',
-    startTimestamp: moment('2017-09-15 09:30:00').valueOf(),
-    endTimestamp: moment('2050-09-15 09:30:00').valueOf(),
-    createdAt: moment('2017-09-15 09:30:00').valueOf(),
+    startTimestamp: new Date('2017-09-15T09:30+00:00').getTime(),
+    endTimestamp: new Date('2050-09-15T09:30+00:00').getTime(),
+    createdAt: new Date('2017-09-15T09:30+00:00').getTime(),
     style: NotificationStyle.SUCCESS,
     targetUser: NotificationTargetUser.GENERAL,
     title: 'valid title 1',
@@ -37,9 +36,9 @@ describe('UserNotificationsListComponent', () => {
 
   const testNotificationTwo: Notification = {
     notificationId: 'notification2',
-    startTimestamp: moment('2018-12-15 09:30:00').valueOf(),
-    endTimestamp: moment('2050-11-15 09:30:00').valueOf(),
-    createdAt: moment('2018-11-15 09:30:00').valueOf(),
+    startTimestamp: new Date('2018-12-15T09:30+00:00').getTime(),
+    endTimestamp: new Date('2050-11-15T09:30+00:00').getTime(),
+    createdAt: new Date('2018-11-15T09:30+00:00').getTime(),
     style: NotificationStyle.DANGER,
     targetUser: NotificationTargetUser.GENERAL,
     title: 'valid title 2',
@@ -47,7 +46,7 @@ describe('UserNotificationsListComponent', () => {
     shown: false,
   };
 
-  let timezone: string = '';
+  const timezone: string = 'UTC';
   const DATE_FORMAT: string = 'DD MMM YYYY';
 
   const getNotificationTabs = (notifications: Notification[], readNotifications: string[] = []): NotificationTab[] => {
@@ -84,9 +83,9 @@ describe('UserNotificationsListComponent', () => {
     fixture = TestBed.createComponent(UserNotificationsListComponent);
     notificationService = TestBed.inject(NotificationService);
     statusMessageService = TestBed.inject(StatusMessageService);
-    timezone = TestBed.inject(TimezoneService).guessTimezone();
     component = fixture.componentInstance;
     fixture.detectChanges();
+    component.timezone = timezone;
     component.isLoadingNotifications = false;
     component.hasLoadingFailed = false;
     fixture.detectChanges();
@@ -174,7 +173,6 @@ describe('UserNotificationsListComponent', () => {
   });
 
   it('should snap with no notifications', () => {
-    fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
 

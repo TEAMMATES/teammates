@@ -1,7 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import moment from 'moment-timezone';
 import { of, throwError } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
 import { NotificationService } from '../../../services/notification.service';
@@ -38,9 +37,9 @@ const testNotificationEditModel: NotificationEditFormModel = {
 
 const testNotificationOne: Notification = {
   notificationId: 'notification1',
-  startTimestamp: moment('2017-09-15 09:30:00').valueOf(),
-  endTimestamp: moment('2050-09-15 09:30:00').valueOf(),
-  createdAt: moment('2017-09-15 09:30:00').valueOf(),
+  startTimestamp: new Date('2017-09-15T09:30+00:00').getTime(),
+  endTimestamp: new Date('2050-09-15T09:30+00:00').getTime(),
+  createdAt: new Date('2017-09-15T09:30+00:00').getTime(),
   style: NotificationStyle.SUCCESS,
   targetUser: NotificationTargetUser.INSTRUCTOR,
   title: 'valid title 1',
@@ -50,9 +49,9 @@ const testNotificationOne: Notification = {
 
 const testNotificationTwo: Notification = {
   notificationId: 'notification2',
-  startTimestamp: moment('2018-12-15 09:30:00').valueOf(),
-  endTimestamp: moment('2050-09-15 09:30:00').valueOf(),
-  createdAt: moment('2018-11-15 09:30:00').valueOf(),
+  startTimestamp: new Date('2018-12-15T09:30+00:00').getTime(),
+  endTimestamp: new Date('2050-09-15T09:30+00:00').getTime(),
+  createdAt: new Date('2018-11-15T09:30+00:00').getTime(),
   style: NotificationStyle.DANGER,
   targetUser: NotificationTargetUser.GENERAL,
   title: 'valid title 2',
@@ -97,6 +96,8 @@ describe('AdminNotificationsPageComponent', () => {
     statusMessageService = TestBed.inject(StatusMessageService);
     simpleModalService = TestBed.inject(SimpleModalService);
     component = fixture.componentInstance;
+    fixture.detectChanges();
+    component.guessTimezone = 'UTC';
     fixture.detectChanges();
   });
 

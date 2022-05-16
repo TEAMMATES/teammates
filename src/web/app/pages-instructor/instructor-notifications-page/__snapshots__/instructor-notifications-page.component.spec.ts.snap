@@ -2,6 +2,8 @@
 
 exports[`InstructorNotificationsPageComponent should snap with default fields 1`] = `
 <tm-instructor-notifications-page
+  timezone={[Function String]}
+  timezoneService={[Function TimezoneService]}
   userType={[Function String]}
 >
   <h1>
@@ -11,7 +13,7 @@ exports[`InstructorNotificationsPageComponent should snap with default fields 1`
       id="notifications-timezone"
     >
       <p>
-        All dates are displayed in Africa/Abidjan time.
+        All dates are displayed in UTC time.
       </p>
     </div>
     <tm-loading-retry>

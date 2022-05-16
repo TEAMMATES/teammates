@@ -21,7 +21,7 @@ exports[`UserNotificationsListComponent should snap when all loaded notification
     id="notifications-timezone"
   >
     <p>
-      All dates are displayed in Africa/Abidjan time.
+      All dates are displayed in UTC time.
     </p>
   </div><div
     class="row mb-3"
@@ -146,7 +146,7 @@ exports[`UserNotificationsListComponent should snap when it fails to load 1`] = 
     id="notifications-timezone"
   >
     <p>
-      All dates are displayed in Africa/Abidjan time.
+      All dates are displayed in UTC time.
     </p>
   </div><tm-loading-retry>
     <div
@@ -192,7 +192,7 @@ exports[`UserNotificationsListComponent should snap when it loads the provided n
     id="notifications-timezone"
   >
     <p>
-      All dates are displayed in Africa/Abidjan time.
+      All dates are displayed in UTC time.
     </p>
   </div><div
     class="row mb-3"
@@ -369,7 +369,7 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
     id="notifications-timezone"
   >
     <p>
-      All dates are displayed in Africa/Abidjan time.
+      All dates are displayed in UTC time.
     </p>
   </div><div
     class="row mb-3"
@@ -547,7 +547,7 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
     id="notifications-timezone"
   >
     <p>
-      All dates are displayed in Africa/Abidjan time.
+      All dates are displayed in UTC time.
     </p>
   </div><div
     class="row mb-3"
@@ -725,7 +725,7 @@ exports[`UserNotificationsListComponent should snap with default fields when loa
     id="notifications-timezone"
   >
     <p>
-      All dates are displayed in Africa/Abidjan time.
+      All dates are displayed in UTC time.
     </p>
   </div><tm-loading-retry>
     <tm-loading-spinner>
@@ -772,7 +772,7 @@ exports[`UserNotificationsListComponent should snap with no notifications 1`] = 
     id="notifications-timezone"
   >
     <p>
-      All dates are displayed in Africa/Abidjan time.
+      All dates are displayed in UTC time.
     </p>
   </div><tm-loading-retry>
     <div>

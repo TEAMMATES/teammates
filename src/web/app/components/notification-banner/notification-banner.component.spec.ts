@@ -3,7 +3,6 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import moment from 'moment-timezone';
 import { of } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
 import { NotificationService } from '../../../services/notification.service';
@@ -22,9 +21,9 @@ describe('NotificationBannerComponent', () => {
 
   const testNotificationOne: Notification = {
     notificationId: 'notification1',
-    startTimestamp: moment('2017-09-15 09:30:00').valueOf(),
-    endTimestamp: moment('2050-09-15 09:30:00').valueOf(),
-    createdAt: moment('2017-09-15 09:30:00').valueOf(),
+    startTimestamp: new Date('2017-09-15T09:30+00:00').getTime(),
+    endTimestamp: new Date('2050-09-15T09:30+00:00').getTime(),
+    createdAt: new Date('2017-09-15T09:30+00:00').getTime(),
     style: NotificationStyle.SUCCESS,
     targetUser: NotificationTargetUser.GENERAL,
     title: 'valid title 1',
@@ -34,9 +33,9 @@ describe('NotificationBannerComponent', () => {
 
   const testNotificationTwo: Notification = {
     notificationId: 'notification2',
-    startTimestamp: moment('2018-12-15 09:30:00').valueOf(),
-    endTimestamp: moment('2050-11-15 09:30:00').valueOf(),
-    createdAt: moment('2018-11-15 09:30:00').valueOf(),
+    startTimestamp: new Date('2018-12-15T09:30+00:00').getTime(),
+    endTimestamp: new Date('2050-11-15T09:30+00:00').getTime(),
+    createdAt: new Date('2018-11-15T09:30+00:00').getTime(),
     style: NotificationStyle.DANGER,
     targetUser: NotificationTargetUser.GENERAL,
     title: 'valid title 2',
