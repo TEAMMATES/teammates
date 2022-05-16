@@ -96,7 +96,6 @@ export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectio
     SessionsSectionQuestions.VIEW_ALL_RESPONSES,
     SessionsSectionQuestions.SESSION_ADD_COMMENTS,
     SessionsSectionQuestions.EDIT_DEL_COMMENT,
-    SessionsSectionQuestions.SESSION_SEARCH,
     SessionsSectionQuestions.VIEW_DELETED_SESSION,
     SessionsSectionQuestions.RESTORE_SESSION,
     SessionsSectionQuestions.PERMANENT_DEL_SESSION,
