@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { environment } from '../../../../environments/environment';
 import { TemplateSession } from '../../../../services/feedback-sessions.service';
 import {
   Course,
@@ -46,7 +46,6 @@ import {
   EXAMPLE_TEMPLATE_SESSIONS,
 } from './instructor-help-sessions-data';
 import { SessionsSectionQuestions } from './sessions-section-questions';
-import {environment} from "../../../../environments/environment";
 
 /**
  * Sessions Section of the Instructor Help Page.
