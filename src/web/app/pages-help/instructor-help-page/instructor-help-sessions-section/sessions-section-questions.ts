@@ -18,9 +18,9 @@ export enum SessionsSectionQuestions {
   SESSION_PREVIEW = 'session-preview',
 
   /**
-   * What should I do if a student says he/she cannot submit an evaluation due to a technical glitch?
+   * Can I submit responses on behalf of a student?
    */
-  SESSION_CANNOT_SUBMIT = 'session-cannot-submit',
+  SUBMIT_FOR_STUDENT = 'submit-for-student',
 
   /**
    * How do I view the results of my session?
@@ -71,4 +71,20 @@ export enum SessionsSectionQuestions {
    * How do I restore/delete all sessions from Recycle Bin?
    */
   RESTORE_DEL_ALL = 'restore-del-all',
+
+  /**
+   * How do I let students know about the session?
+   */
+  LET_STUDENT_KNOW_SESSION = "let-student-know-session",
+
+  /**
+   * What if a student says they didn’t receive the TEAMMATES email, as they were supposed to?
+   */
+  STUDENT_DID_NOT_RECEIVE_SESSION_EMAIL = "student-did-not-receive-session-email",
+
+  /**
+   * How do I extend the deadline of a session?
+   */
+  EXTEND_SESSION_DEADLINE = "extend-session-deadline",
+
 }

@@ -1,7 +1,7 @@
 <div>
   <h2 class="color-blue" *ngIf="!key || showQuestion.length > 0">Sessions</h2>
   <!--Section-->
-  <h4 *ngIf="displaySubsection(0, 4)">Setting Up Sessions</h4>
+  <h4 *ngIf="displaySubsection(0, 7)">Setting Up Sessions</h4>
   <!-- Question -->
   <tm-instructor-help-panel class="instr-help-qn-first" #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.TIPS_FOR_CONDUCTION_PEER_EVAL)"
                             [id]="SessionsSectionQuestions.TIPS_FOR_CONDUCTION_PEER_EVAL"
@@ -185,7 +185,7 @@
     </tm-example-box>
   </tm-instructor-help-panel>
   <!-- Question -->
-  <tm-instructor-help-panel class="instr-help-qn-last" #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.SESSION_PREVIEW)"
+  <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.SESSION_PREVIEW)"
                             [id]="SessionsSectionQuestions.SESSION_PREVIEW"
                             headerText="How do I preview a session?"
                             [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.SESSION_PREVIEW]">
@@ -204,14 +204,62 @@
       ></tm-preview-session-panel>
     </tm-example-box>
   </tm-instructor-help-panel>
+  <!-- Question -->
+  <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.LET_STUDENT_KNOW_SESSION)"
+                            [id]="SessionsSectionQuestions.LET_STUDENT_KNOW_SESSION"
+                            headerText="How do I let students know about the session?"
+                            [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.LET_STUDENT_KNOW_SESSION]">
+    <p>
+      No action is required from you for this. TEAMMATES will send an email (containing submission instructions) to each respondent when the session opens for submissions.
+      After that email has been sent out (you will receive a copy of it, for your reference), you are welcome to inform respondents using another means (outside of TEAMMATES) to lookout for the TEAMMATES email.
+    </p>
+    <p>
+      Note that the email generation can take up to 30 minutes from the session start time.
+    </p>
+    <p>
+      <b>Do not use the ‘publish’ feature for this purpose.</b> That feature is for making the responses available for viewing,
+      which you are likely to do after the session deadline is over, unless you want the responses to become visible as they are being collected.
+    </p>
+  </tm-instructor-help-panel>
+  <!-- Question -->
+  <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.STUDENT_DID_NOT_RECEIVE_SESSION_EMAIL)"
+                            [id]="SessionsSectionQuestions.STUDENT_DID_NOT_RECEIVE_SESSION_EMAIL"
+                            headerText="What if a student says they didn’t receive the TEAMMATES email, as they were supposed to?"
+                            [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.STUDENT_DID_NOT_RECEIVE_SESSION_EMAIL]">
+    <p>
+      Here are some remedies:
+    </p>
+    <ol>
+      <li>
+        Use the <button class="btn btn-sm btn-secondary">Remind</button> button on your <b>Home</b> page (there is one for each session) to resend emails to specific students or all those who haven't submitted yet. Also, ask students to check their spam box.
+      </li>
+      <li>
+        Ask students to go to <a href="https://teammatesv4.appspot.com/web/front/help/session-links-recovery">https://teammatesv4.appspot.com/web/front/help/session-links-recovery</a>, and request TEAMMATES to resend the links.
+        They should specify the exact email address that was used to enroll them in TEAMMATES.
+      </li>
+      <li>
+        Failing all above, ask students to email us at <a href="mailto:{{ supportEmail }}">{{ supportEmail }}</a> We can resend the email using an alternate means.
+        When they email us, they should use the email account currently registered in TEAMMATES (for identification).
+      </li>
+    </ol>
+  </tm-instructor-help-panel>
+  <!-- Question -->
+  <tm-instructor-help-panel class="instr-help-qn-last" #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.EXTEND_SESSION_DEADLINE)"
+                            [id]="SessionsSectionQuestions.EXTEND_SESSION_DEADLINE"
+                            headerText="How do I extend the deadline of a session?"
+                            [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.EXTEND_SESSION_DEADLINE]">
+    <p>
+      To extend the deadline for all respondents, edit the session and change the end date/time as desired. This can be done at any time.
+    </p>
+  </tm-instructor-help-panel>
 
   <!--Section-->
-  <h4 *ngIf="displaySubsection(4, 7)">Managing Session Responses</h4>
+  <h4 *ngIf="displaySubsection(7, 10)">Managing Session Responses</h4>
   <!-- Question -->
-  <tm-instructor-help-panel class="instr-help-qn-first" #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.SESSION_CANNOT_SUBMIT)"
-                            [id]="SessionsSectionQuestions.SESSION_CANNOT_SUBMIT"
+  <tm-instructor-help-panel class="instr-help-qn-first" #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.SUBMIT_FOR_STUDENT)"
+                            [id]="SessionsSectionQuestions.SUBMIT_FOR_STUDENT"
                             headerText="Can I submit responses on behalf of a student?"
-                            [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.SESSION_CANNOT_SUBMIT]">
+                            [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.SUBMIT_FOR_STUDENT]">
     <p>
       Yes, instructors can submit responses on behalf of a student. To do so:
     </p>
@@ -284,7 +332,7 @@
                             headerText="How do I view all the responses a student has given and received?"
                             [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.VIEW_ALL_RESPONSES]">
     <p>
-      To view the responses that Student A from Course B has given and received:
+      To view the responses that Student A from Course B has given and received (across all sessions in the course):
     </p>
     <ol>
       <li>
@@ -297,7 +345,7 @@
   </tm-instructor-help-panel>
 
   <!--Section-->
-  <h4 *ngIf="displaySubsection(7, 9)">Adding Comments to Responses</h4>
+  <h4 *ngIf="displaySubsection(10, 12)">Adding Comments to Responses</h4>
   <!-- Question -->
   <tm-instructor-help-panel class="instr-help-qn-first" #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.SESSION_ADD_COMMENTS)"
                             [id]="SessionsSectionQuestions.SESSION_ADD_COMMENTS"
@@ -368,7 +416,7 @@
   </tm-instructor-help-panel>
 
   <!--Section-->
-  <h4 *ngIf="displaySubsection(9, 13)">Restoring Deleted Sessions</h4>
+  <h4 *ngIf="displaySubsection(12, 16)">Restoring Deleted Sessions</h4>
   <!-- Question -->
   <tm-instructor-help-panel class="instr-help-qn-first" #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.VIEW_DELETED_SESSION)"
                             [id]="SessionsSectionQuestions.VIEW_DELETED_SESSION"
