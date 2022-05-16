@@ -1,10 +1,7 @@
 package teammates.ui.webapi;
 
-import java.io.IOException;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,15 +26,12 @@ import teammates.common.util.EmailWrapper;
 import teammates.common.util.JsonUtils;
 import teammates.logic.api.LogicExtension;
 import teammates.logic.api.MockEmailSender;
-import teammates.logic.api.MockFileStorage;
 import teammates.logic.api.MockLogsProcessor;
 import teammates.logic.api.MockRecaptchaVerifier;
 import teammates.logic.api.MockTaskQueuer;
 import teammates.logic.api.MockUserProvision;
 import teammates.test.BaseTestCaseWithLocalDatabaseAccess;
-import teammates.test.FileHelper;
 import teammates.test.MockHttpServletRequest;
-import teammates.test.MockPart;
 import teammates.ui.request.BasicRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 
@@ -59,7 +53,6 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
     LogicExtension logic = new LogicExtension();
     MockTaskQueuer mockTaskQueuer = new MockTaskQueuer();
     MockEmailSender mockEmailSender = new MockEmailSender();
-    MockFileStorage mockFileStorage = new MockFileStorage();
     MockLogsProcessor mockLogsProcessor = new MockLogsProcessor();
     MockUserProvision mockUserProvision = new MockUserProvision();
     MockRecaptchaVerifier mockRecaptchaVerifier = new MockRecaptchaVerifier();
@@ -105,7 +98,6 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
             T action = (T) ActionFactory.getAction(req, getRequestMethod());
             action.setTaskQueuer(mockTaskQueuer);
             action.setEmailSender(mockEmailSender);
-            action.setFileStorage(mockFileStorage);
             action.setLogsProcessor(mockLogsProcessor);
             action.setUserProvision(mockUserProvision);
             action.setRecaptchaVerifier(mockRecaptchaVerifier);
@@ -114,16 +106,6 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
         } catch (ActionMappingException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    /**
-     * Gets an action with request multipart config.
-     */
-    protected T getActionWithParts(String key, String filePath, String... params) throws IOException {
-        Map<String, Part> parts = new HashMap<>();
-        parts.put(key, new MockPart(filePath));
-
-        return getAction(null, parts, null, params);
     }
 
     /**
@@ -701,29 +683,6 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
      */
     protected void verifyNumberOfEmailsSent(int emailCount) {
         assertEquals(emailCount, mockEmailSender.getEmailsSent().size());
-    }
-
-    /**
-     * Writes a file into the mock file storage.
-     */
-    protected void writeFileToStorage(String targetFileName, String sourceFilePath) throws IOException {
-        byte[] bytes = FileHelper.readFileAsBytes(sourceFilePath);
-        String contentType = URLConnection.guessContentTypeFromName(sourceFilePath);
-        mockFileStorage.create(targetFileName, bytes, contentType);
-    }
-
-    /**
-     * Deletes a file from the mock file storage.
-     */
-    protected void deleteFile(String fileName) {
-        mockFileStorage.delete(fileName);
-    }
-
-    /**
-     * Returns true if the specified file exists in the mock file storage.
-     */
-    protected boolean doesFileExist(String fileName) {
-        return mockFileStorage.doesFileExist(fileName);
     }
 
 }
