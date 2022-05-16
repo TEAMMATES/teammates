@@ -199,7 +199,7 @@
         Click the <button class="btn btn-secondary btn-sm">Edit</button> button in the last column of the row corresponding to Student A.
       </li>
       <li>
-        A new page will open that allows you to <button class="btn btn-link" (click)="collapseStudentEditDetails.emit(true);">edit the student's profile</button>, including a field to edit the student's section.<br>
+        A new page will open that allows you to <a (click)="collapseStudentEditDetails.emit(true);" [tmRouterLink]="">edit the student's profile</a>, including a field to edit the student's section.<br>
       </li>
       <li>
         After editing the section name, click <button class="btn btn-primary btn-sm">Save Changes</button> to confirm Student A's new section.
@@ -247,7 +247,12 @@
       When a course has ended, you can archive it so that it doesn't appear in your home page. Course, student and session details of an archived course are still stored on TEAMMATES. However, you cannot edit, create feedback sessions for or enroll students in an archived course.
     </p>
     <p>
-      In your <b>Home</b> page, you will see panels for each course and a table of feedback sessions inside it, similar to the example below.<br>
+      In your <b>Home</b> page, you will see panels for each course and a table of feedback sessions inside it, similar to the example below:
+    </p>
+    <!--    <tm-example-box *ngIf="questionsToCollapsed[CoursesSectionQuestions.COURSE_ARCHIVE]" @collapseAnim>-->
+    <!--    TODO: add instructor home page course component example here -->
+    <!--    </tm-example-box>-->
+    <p>
       Click on the <button class="btn btn-primary btn-sm" type="button">Course <span class="caret"></span></button> button on the card heading of the course you want to archive.<br>
       Then select <button class="btn btn-secondary btn-sm" type="button">Archive</button> in the drop-down menu and click <b>OK</b> to confirm.
     </p>
