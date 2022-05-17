@@ -1,10 +1,10 @@
-import {Component} from '@angular/core';
-import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import { Component } from '@angular/core';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   InstructorListInfoTableRowModel,
   StudentListInfoTableRowModel,
 } from '../respondent-list-info-table/respondent-list-info-table-model';
-import {ReminderResponseModel} from "./send-reminders-to-respondents-model";
+import { ReminderResponseModel } from './send-reminders-to-respondents-model';
 
 /**
  * Send reminders to respondents modal.
@@ -95,7 +95,7 @@ export class SendRemindersToRespondentsModalComponent {
   collateReminderResponseHandler(): ReminderResponseModel {
     return {
       respondentsToSend: this.collateRespondentsToSend(),
-      isSendingCopyToInstructor: this.isSendingCopyToInstructor
+      isSendingCopyToInstructor: this.isSendingCopyToInstructor,
     };
   }
 

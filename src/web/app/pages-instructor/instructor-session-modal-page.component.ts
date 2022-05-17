@@ -28,13 +28,15 @@ import {
   SendRemindersToRespondentsModalComponent,
 } from '../components/sessions-table/send-reminders-to-respondents-modal/send-reminders-to-respondents-modal.component';
 import {
+    ReminderResponseModel,
+} from '../components/sessions-table/send-reminders-to-respondents-modal/send-reminders-to-respondents-model';
+import {
   SessionsTableRowModel,
 } from '../components/sessions-table/sessions-table-model';
 import { ErrorMessageOutput } from '../error-message-output';
 import {
   InstructorSessionBasePageComponent,
 } from './instructor-session-base-page.component';
-import {ReminderResponseModel} from "../components/sessions-table/send-reminders-to-respondents-modal/send-reminders-to-respondents-model";
 
 /**
  * The base page for session related page.
@@ -166,7 +168,7 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
           this.isSendReminderLoading = true;
           this.feedbackSessionsService.remindFeedbackSessionSubmissionForRespondents(courseId, feedbackSessionName, {
             usersToRemind: reminderResponse.respondentsToSend.map((m: any) => m.email),
-            sendCopyToInstructor: reminderResponse.isSendingCopyToInstructor
+            sendCopyToInstructor: reminderResponse.isSendingCopyToInstructor,
           }).pipe(finalize(() => {
             this.isSendReminderLoading = false;
           }))

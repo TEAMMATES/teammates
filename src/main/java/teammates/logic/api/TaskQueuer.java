@@ -80,6 +80,7 @@ public class TaskQueuer {
      * @param feedbackSessionName the name of the feedback session
      * @param usersToRemind the group of users to send the reminders to
      * @param requestingInstructorId the ID of the instructor who sends the reminder
+     * @param sendCopyToInstructor the indicator of whether to send an email copy to the requesting instructor
      */
     public void scheduleFeedbackSessionRemindersForParticularUsers(String courseId, String feedbackSessionName,
                                                                    String[] usersToRemind,

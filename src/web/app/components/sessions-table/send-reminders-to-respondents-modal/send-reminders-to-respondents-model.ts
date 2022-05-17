@@ -1,7 +1,7 @@
 import {
     InstructorListInfoTableRowModel,
-    StudentListInfoTableRowModel
-} from "../respondent-list-info-table/respondent-list-info-table-model";
+    StudentListInfoTableRowModel,
+} from '../respondent-list-info-table/respondent-list-info-table-model';
 
 /**
  * The model for a reminder response.
