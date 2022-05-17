@@ -34,6 +34,7 @@ import { ErrorMessageOutput } from '../error-message-output';
 import {
   InstructorSessionBasePageComponent,
 } from './instructor-session-base-page.component';
+import {ReminderResponseModel} from "../components/sessions-table/send-reminders-to-respondents-modal/send-reminders-to-respondents-model";
 
 /**
  * The base page for session related page.
@@ -161,10 +162,11 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
               isSelected: selectAllRespondents && !giverSet.has(instructor.email),
             } as InstructorListInfoTableRowModel));
 
-        modalRef.result.then((respondentsToRemind: any[]) => {
+        modalRef.result.then((reminderResponse: ReminderResponseModel) => {
           this.isSendReminderLoading = true;
           this.feedbackSessionsService.remindFeedbackSessionSubmissionForRespondents(courseId, feedbackSessionName, {
-            usersToRemind: respondentsToRemind.map((m: any) => m.email),
+            usersToRemind: reminderResponse.respondentsToSend.map((m: any) => m.email),
+            sendCopyToInstructor: reminderResponse.isSendingCopyToInstructor
           }).pipe(finalize(() => {
             this.isSendReminderLoading = false;
           }))

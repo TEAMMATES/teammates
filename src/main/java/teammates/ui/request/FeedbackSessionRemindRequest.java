@@ -9,13 +9,19 @@ public class FeedbackSessionRemindRequest extends BasicRequest {
     private final String feedbackSessionName;
     private final String requestingInstructorId;
     private final String[] usersToRemind;
+    private final boolean sendCopyToInstructor;
 
     public FeedbackSessionRemindRequest(String courseId, String feedbackSessionName, String requestingInstructorId,
                                         String[] usersToRemind) {
+        this(courseId, feedbackSessionName, requestingInstructorId, usersToRemind, true);
+    }
+    public FeedbackSessionRemindRequest(String courseId, String feedbackSessionName, String requestingInstructorId,
+                                        String[] usersToRemind, boolean sendCopyToInstructor) {
         this.courseId = courseId;
         this.feedbackSessionName = feedbackSessionName;
         this.requestingInstructorId = requestingInstructorId;
         this.usersToRemind = usersToRemind;
+        this.sendCopyToInstructor = sendCopyToInstructor;
     }
 
     public String getCourseId() {
@@ -32,6 +38,10 @@ public class FeedbackSessionRemindRequest extends BasicRequest {
 
     public String[] getUsersToRemind() {
         return usersToRemind;
+    }
+
+    public boolean getSendCopyToInstructor() {
+        return sendCopyToInstructor;
     }
 
     @Override

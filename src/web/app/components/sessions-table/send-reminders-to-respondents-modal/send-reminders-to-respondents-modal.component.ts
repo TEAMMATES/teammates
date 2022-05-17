@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import {Component} from '@angular/core';
+import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {
   InstructorListInfoTableRowModel,
   StudentListInfoTableRowModel,
 } from '../respondent-list-info-table/respondent-list-info-table-model';
+import {ReminderResponseModel} from "./send-reminders-to-respondents-model";
 
 /**
  * Send reminders to respondents modal.
@@ -20,6 +21,8 @@ export class SendRemindersToRespondentsModalComponent {
   feedbackSessionName: string = '';
   studentListInfoTableRowModels: StudentListInfoTableRowModel[] = [];
   instructorListInfoTableRowModels: InstructorListInfoTableRowModel[] = [];
+
+  isSendingCopyToInstructor: boolean = true;
 
   constructor(public activeModal: NgbActiveModal) {
   }
@@ -65,9 +68,16 @@ export class SendRemindersToRespondentsModalComponent {
   }
 
   /**
+   * Changes selection state for sending a copy to requesting instructor.
+   */
+  changeSelectionStatusForSendingCopyToInstructorHandler(shouldSelect: boolean): void {
+    this.isSendingCopyToInstructor = shouldSelect;
+  }
+
+  /**
    * Collates a list of selected students with selected status.
    */
-  collateRespondentsToSendHandler(): (StudentListInfoTableRowModel | InstructorListInfoTableRowModel)[] {
+  collateRespondentsToSend(): (StudentListInfoTableRowModel | InstructorListInfoTableRowModel)[] {
     const studentsToSend: (StudentListInfoTableRowModel | InstructorListInfoTableRowModel)[] =
         this.studentListInfoTableRowModels.map(
             (model: StudentListInfoTableRowModel) => ({ ...model }))
@@ -77,6 +87,16 @@ export class SendRemindersToRespondentsModalComponent {
             (model: InstructorListInfoTableRowModel) => ({ ...model }))
             .filter((model: InstructorListInfoTableRowModel) => model.isSelected);
     return studentsToSend.concat(instructorsToSend);
+  }
+
+  /**
+   * Collates reminder response.
+   */
+  collateReminderResponseHandler(): ReminderResponseModel {
+    return {
+      respondentsToSend: this.collateRespondentsToSend(),
+      isSendingCopyToInstructor: this.isSendingCopyToInstructor
+    };
   }
 
   /**

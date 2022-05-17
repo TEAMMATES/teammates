@@ -83,9 +83,11 @@ public class TaskQueuer {
      */
     public void scheduleFeedbackSessionRemindersForParticularUsers(String courseId, String feedbackSessionName,
                                                                    String[] usersToRemind,
-                                                                   String requestingInstructorId) {
+                                                                   String requestingInstructorId,
+                                                                   boolean sendCopyToInstructor) {
         FeedbackSessionRemindRequest remindRequest =
-                new FeedbackSessionRemindRequest(courseId, feedbackSessionName, requestingInstructorId, usersToRemind);
+                new FeedbackSessionRemindRequest(courseId, feedbackSessionName, requestingInstructorId, usersToRemind,
+                        sendCopyToInstructor);
 
         addTask(TaskQueue.FEEDBACK_SESSION_REMIND_PARTICULAR_USERS_EMAIL_QUEUE_NAME,
                 TaskQueue.FEEDBACK_SESSION_REMIND_PARTICULAR_USERS_EMAIL_WORKER_URL, new HashMap<>(), remindRequest);

@@ -28,13 +28,15 @@ class FeedbackSessionRemindParticularUsersEmailWorkerAction extends AdminOnlyAct
         String feedbackSessionName = remindRequest.getFeedbackSessionName();
         String courseId = remindRequest.getCourseId();
         String[] usersToRemind = remindRequest.getUsersToRemind();
+        boolean sendCopyToInstructor = remindRequest.getSendCopyToInstructor();
 
         try {
             FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
             List<StudentAttributes> studentsToRemindList = new ArrayList<>();
             List<InstructorAttributes> instructorsToRemindList = new ArrayList<>();
-            InstructorAttributes instructorToNotify =
-                    logic.getInstructorForGoogleId(courseId, googleIdOfInstructorToNotify);
+            InstructorAttributes instructorToNotify = sendCopyToInstructor
+                    ? logic.getInstructorForGoogleId(courseId, googleIdOfInstructorToNotify)
+                    : null;
 
             for (String userEmail : usersToRemind) {
                 StudentAttributes student = logic.getStudentForEmail(courseId, userEmail);
