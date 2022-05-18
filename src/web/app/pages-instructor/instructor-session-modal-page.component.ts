@@ -107,7 +107,7 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
         modalRef.result.then((respondentsToRemind: any[]) => {
           this.isSendReminderLoading = true;
           this.feedbackSessionsService.remindResultsLinkToRespondents(courseId, feedbackSessionName, {
-            usersToRemind: respondentsToRemind.map((m: any) => m.email),
+            usersToRemind: respondentsToRemind.map((m: any) => m.email), sendCopyToInstructor: true,
           }).pipe(finalize(() => {
             this.isSendReminderLoading = false;
           }))

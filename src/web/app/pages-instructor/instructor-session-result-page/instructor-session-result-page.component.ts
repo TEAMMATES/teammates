@@ -562,6 +562,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
     this.feedbackSessionsService
       .remindFeedbackSessionSubmissionForRespondents(this.session.courseId, this.session.feedbackSessionName, {
         usersToRemind: studentsToRemindData.map((m: StudentListInfoTableRowModel) => m.email),
+        sendCopyToInstructor: true,
       }).subscribe(() => {
         this.statusMessageService.showSuccessToast(
           'Reminder e-mails have been sent out to those students and instructors. '
