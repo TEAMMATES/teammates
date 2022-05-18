@@ -25,7 +25,7 @@ export class AdminPageComponent implements OnInit {
       display: 'Home',
     },
     {
-      display: 'Utilites',
+      display: 'Utilities',
       children: [
          {
            url: '/web/admin/search',
@@ -51,7 +51,7 @@ export class AdminPageComponent implements OnInit {
            url: '/web/admin/stats',
            display: 'Usage Statistics',
          },
-      ]
+      ],
     },
 
   ];
