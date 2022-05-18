@@ -25,29 +25,35 @@ export class AdminPageComponent implements OnInit {
       display: 'Home',
     },
     {
-      url: '/web/admin/search',
-      display: 'Search',
+      display: 'Utilites',
+      children: [
+         {
+           url: '/web/admin/search',
+           display: 'Search',
+         },
+         {
+           url: '/web/admin/sessions',
+           display: 'Sessions',
+         },
+         {
+           url: '/web/admin/timezone',
+           display: 'Timezone Listing',
+         },
+         {
+           url: '/web/admin/notifications',
+           display: 'Notifications',
+         },
+         {
+           url: '/web/admin/logs',
+           display: 'Logs',
+         },
+         {
+           url: '/web/admin/stats',
+           display: 'Usage Statistics',
+         },
+      ]
     },
-    {
-      url: '/web/admin/sessions',
-      display: 'Sessions',
-    },
-    {
-      url: '/web/admin/timezone',
-      display: 'Timezone Listing',
-    },
-    {
-      url: '/web/admin/notifications',
-      display: 'Notifications',
-    },
-    {
-      url: '/web/admin/logs',
-      display: 'Logs',
-    },
-    {
-      url: '/web/admin/stats',
-      display: 'Usage Statistics',
-    },
+
   ];
   isFetchingAuthDetails: boolean = false;
 
