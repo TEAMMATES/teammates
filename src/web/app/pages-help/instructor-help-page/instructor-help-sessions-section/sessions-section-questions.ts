@@ -68,12 +68,12 @@ export enum SessionsSectionQuestions {
   RESTORE_DEL_ALL = 'restore-del-all',
 
   /**
-   * How do I let students know about the session?
+   * How do I let students know about a session?
    */
   LET_STUDENT_KNOW_SESSION = 'let-student-know-session',
 
   /**
-   * What if a student says they didn’t receive the TEAMMATES email, as they were supposed to?
+   * What should I do if students say they didn’t receive the TEAMMATES email, as they were supposed to?
    */
   STUDENT_DID_NOT_RECEIVE_SESSION_EMAIL = 'student-did-not-receive-session-email',
 

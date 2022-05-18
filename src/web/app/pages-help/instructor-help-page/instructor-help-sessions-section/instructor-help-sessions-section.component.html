@@ -207,11 +207,11 @@
   <!-- Question -->
   <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.LET_STUDENT_KNOW_SESSION)"
                             [id]="SessionsSectionQuestions.LET_STUDENT_KNOW_SESSION"
-                            headerText="How do I let students know about the session?"
+                            headerText="How do I let students know about a session?"
                             [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.LET_STUDENT_KNOW_SESSION]">
     <p>
       No action is required from you for this. TEAMMATES will send an email (containing submission instructions) to each respondent when the session opens for submissions.
-      After that email has been sent out (you will receive a copy of it, for your reference), you are welcome to inform respondents using another means (outside of TEAMMATES) to lookout for the TEAMMATES email.
+      After that email has been sent out (you will receive a copy of it, for your reference), you are welcome to inform respondents using another means (outside of TEAMMATES) to look out for the TEAMMATES email.
     </p>
     <p>
       Note that the email generation can take up to 30 minutes from the session start time.
@@ -224,7 +224,7 @@
   <!-- Question -->
   <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.STUDENT_DID_NOT_RECEIVE_SESSION_EMAIL)"
                             [id]="SessionsSectionQuestions.STUDENT_DID_NOT_RECEIVE_SESSION_EMAIL"
-                            headerText="What if a student says they didn’t receive the TEAMMATES email, as they were supposed to?"
+                            headerText="What should I do if students say they didn’t receive the TEAMMATES email, as they were supposed to?"
                             [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.STUDENT_DID_NOT_RECEIVE_SESSION_EMAIL]">
     <p>
       Here are some remedies:
@@ -234,12 +234,12 @@
         Use the <button class="btn btn-sm btn-secondary">Remind</button> button on your <b>Home</b> page (there is one for each session) to resend emails to specific students or all those who haven't submitted yet. Also, ask students to check their spam box.
       </li>
       <li>
-        Ask students to go to <a href="https://teammatesv4.appspot.com/web/front/help/session-links-recovery">https://teammatesv4.appspot.com/web/front/help/session-links-recovery</a>, and request TEAMMATES to resend the links.
+        Ask students to go to <a href="https://teammatesv4.appspot.com/web/front/help/session-links-recovery">https://teammatesv4.appspot.com/web/front/help/session-links-recovery</a> and request TEAMMATES to resend the links.
         They should specify the exact email address that was used to enroll them in TEAMMATES.
       </li>
       <li>
         Failing all above, ask students to email us at <a href="mailto:{{ supportEmail }}">{{ supportEmail }}</a> We can resend the email using an alternate means.
-        When they email us, they should use the email account currently registered in TEAMMATES (for identification).
+        When they email us, they should use the email address currently registered in TEAMMATES (for identification).
       </li>
     </ol>
   </tm-instructor-help-panel>
