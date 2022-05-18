@@ -157,7 +157,20 @@
                     "canModifyStudent": false,
                     "canModifyInstructor": false
                 },
-                "sectionLevel": {},
+                "sectionLevel": {
+                    "Section 1": {
+                        "canViewStudentInSections": true,
+                        "canSubmitSessionInSections": true,
+                        "canModifySessionCommentsInSections": false,
+                        "canViewSessionInSections": false
+                    },
+                    "Section 2": {
+                        "canViewStudentInSections": true,
+                        "canSubmitSessionInSections": true,
+                        "canModifySessionCommentsInSections": true,
+                        "canViewSessionInSections": true
+                    }
+                },
                 "sessionLevel": {}
             }
         },
@@ -166,6 +179,37 @@
             "courseId": "FRV.idOfTypicalCourse1",
             "name": "Instructor5 Course1",
             "email": "FRV.instructor5@course1.tmt",
+            "isArchived": false,
+            "role": "Custom",
+            "isDisplayedToStudents": true,
+            "displayedName": "Instructor",
+            "privileges": {
+                "courseLevel": {
+                    "canViewStudentInSections": true,
+                    "canSubmitSessionInSections": true,
+                    "canModifySessionCommentsInSections": true,
+                    "canModifyCourse": true,
+                    "canViewSessionInSections": true,
+                    "canModifySession": true,
+                    "canModifyStudent": true,
+                    "canModifyInstructor": true
+                },
+                "sectionLevel": {
+                    "Section 2": {
+                        "canViewStudentInSections": true,
+                        "canSubmitSessionInSections": true,
+                        "canModifySessionCommentsInSections": false,
+                        "canViewSessionInSections": false
+                    }
+                },
+                "sessionLevel": {}
+            }
+        },
+        "FRV.instructor6OfCourse1": {
+            "googleId": "FRV.idOfInstructor6OfCourse1",
+            "courseId": "FRV.idOfTypicalCourse1",
+            "name": "Instructor6 Course1",
+            "email": "FRV.instructor6@course1.tmt",
             "isArchived": false,
             "role": "Custom",
             "isDisplayedToStudents": true,
@@ -181,8 +225,32 @@
                     "canModifyStudent": false,
                     "canModifyInstructor": false
                 },
-                "sectionLevel": {},
-                "sessionLevel": {}
+                "sectionLevel": {
+                    "Section 1": {
+                        "canViewStudentInSections": true,
+                        "canSubmitSessionInSections": true,
+                        "canModifySessionCommentsInSections": false,
+                        "canViewSessionInSections": false
+                    }
+                },
+                "sessionLevel": {
+                    "Section 1": {
+                        "First feedback session": {
+                            "canViewStudentInSections": true,
+                            "canSubmitSessionInSections": true,
+                            "canModifySessionCommentsInSections": true,
+                            "canViewSessionInSections": true
+                        }
+                    },
+                    "Section 2": {
+                        "Second feedback session": {
+                            "canViewStudentInSections": false,
+                            "canSubmitSessionInSections": false,
+                            "canModifySessionCommentsInSections": true,
+                            "canViewSessionInSections": true
+                        }
+                    }
+                }
             }
         }
     },
@@ -567,13 +635,16 @@
             "recipientType": "OWN_TEAM",
             "numberOfEntitiesToGiveFeedbackTo": -100,
             "showResponsesTo": [
-                "OWN_TEAM_MEMBERS"
+                "OWN_TEAM_MEMBERS",
+                "INSTRUCTORS"
             ],
             "showGiverNameTo": [
-                "OWN_TEAM_MEMBERS"
+                "OWN_TEAM_MEMBERS",
+                "INSTRUCTORS"
             ],
             "showRecipientNameTo": [
-                "OWN_TEAM_MEMBERS"
+                "OWN_TEAM_MEMBERS",
+                "INSTRUCTORS"
             ]
         },
         "FRV.qn6InSession2InCourse1": {
@@ -639,10 +710,10 @@
             "feedbackSessionName": "First feedback session",
             "courseId": "FRV.idOfTypicalCourse1",
             "feedbackQuestionId": "1",
-            "giver": "FRV.student2InCourse1@gmail.tmt",
-            "recipient": "FRV.student2InCourse1@gmail.tmt",
-            "giverSection": "Section 1",
-            "recipientSection": "Section 1",
+            "giver": "FRV.student5InCourse1@gmail.tmt",
+            "recipient": "FRV.student5InCourse1@gmail.tmt",
+            "giverSection": "Section 2",
+            "recipientSection": "Section 2",
             "responseDetails": {
                 "questionType": "TEXT",
                 "answer": "I'm cool'"
@@ -707,6 +778,19 @@
             "giver": "Team 1.2",
             "recipient": "FRV.instructor2@course1.tmt",
             "giverSection": "Section 2",
+            "recipientSection": "None",
+            "responseDetails": {
+                "questionType": "TEXT",
+                "answer": "My answer"
+            }
+        },
+        "FRV.response2ForQ6S1C1": {
+            "feedbackSessionName": "First feedback session",
+            "courseId": "FRV.idOfTypicalCourse1",
+            "feedbackQuestionId": "6",
+            "giver": "Team 1.3",
+            "recipient": "FRV.instructor2@course1.tmt",
+            "giverSection": "Section 1",
             "recipientSection": "None",
             "responseDetails": {
                 "questionType": "TEXT",
@@ -791,12 +875,38 @@
                 "answer": "My answer"
             }
         },
+        "FRV.response2ForQ3S2C1": {
+            "feedbackSessionName": "Second feedback session",
+            "courseId": "FRV.idOfTypicalCourse1",
+            "feedbackQuestionId": "3",
+            "giver": "FRV.instructor6@course1.tmt",
+            "recipient": "FRV.student5InCourse1@gmail.tmt",
+            "giverSection": "None",
+            "recipientSection": "Section 2",
+            "responseDetails": {
+                "questionType": "TEXT",
+                "answer": "My answer"
+            }
+        },
         "FRV.response1ForQ4S2C1": {
             "feedbackSessionName": "Second feedback session",
             "courseId": "FRV.idOfTypicalCourse1",
             "feedbackQuestionId": "4",
             "giver": "FRV.student1InCourse1@gmail.tmt",
             "recipient": "FRV.instructor1@course1.tmt",
+            "giverSection": "Section 1",
+            "recipientSection": "None",
+            "responseDetails": {
+                "questionType": "TEXT",
+                "answer": "My answer"
+            }
+        },
+        "FRV.response2ForQ4S2C1": {
+            "feedbackSessionName": "Second feedback session",
+            "courseId": "FRV.idOfTypicalCourse1",
+            "feedbackQuestionId": "4",
+            "giver": "FRV.student1InCourse1@gmail.tmt",
+            "recipient": "FRV.instructor4@course1.tmt",
             "giverSection": "Section 1",
             "recipientSection": "None",
             "responseDetails": {
@@ -812,6 +922,19 @@
             "recipient": "Team 1.3",
             "giverSection": "Section 1",
             "recipientSection": "Section 1",
+            "responseDetails": {
+                "questionType": "TEXT",
+                "answer": "My answer"
+            }
+        },
+        "FRV.response2ForQ5S2C1": {
+            "feedbackSessionName": "Second feedback session",
+            "courseId": "FRV.idOfTypicalCourse1",
+            "feedbackQuestionId": "5",
+            "giver": "FRV.student5InCourse1@gmail.tmt",
+            "recipient": "Team 1.2",
+            "giverSection": "Section 2",
+            "recipientSection": "Section 2",
             "responseDetails": {
                 "questionType": "TEXT",
                 "answer": "My answer"
