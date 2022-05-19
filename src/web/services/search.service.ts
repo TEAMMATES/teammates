@@ -158,8 +158,8 @@ export class SearchService {
     }: Student = student;
     studentResult = { ...studentResult, email, name, comments, team, section, googleId, institute };
 
-    const { courseId, courseName, isCourseDeleted }: Course = course;
-    studentResult = { ...studentResult, courseId, courseName, isCourseDeleted };
+    const { courseId, courseName, deletionTimestamp }: Course = course;
+    studentResult = { ...studentResult, courseId, courseName, isCourseDeleted: Boolean(deletionTimestamp) };
 
     let masqueradeGoogleId: string = '';
     for (const instructor of instructors.instructors) {
@@ -223,8 +223,8 @@ export class SearchService {
     const { email, name, googleId = '', institute = '' }: Instructor = instructor;
     instructorResult = { ...instructorResult, email, name, googleId, institute };
 
-    const { courseId, courseName, isCourseDeleted }: Course = course;
-    instructorResult = { ...instructorResult, courseId, courseName, isCourseDeleted };
+    const { courseId, courseName, deletionTimestamp }: Course = course;
+    instructorResult = { ...instructorResult, courseId, courseName, isCourseDeleted: Boolean(deletionTimestamp) };
 
     // Generate feedback session urls
     const { awaitingSessions, openSessions, notOpenSessions, publishedSessions }: StudentFeedbackSessions =
@@ -237,7 +237,6 @@ export class SearchService {
       .generateHomePageLink(googleId, this.linkService.INSTRUCTOR_HOME_PAGE);
     instructorResult.manageAccountLink = this.linkService
       .generateManageAccountLink(googleId, this.linkService.ADMIN_ACCOUNTS_PAGE);
-    // instructorResult.isCourseDeleted = this.courseService.getCourseAsAdmin(courseId).;
 
     return instructorResult;
   }

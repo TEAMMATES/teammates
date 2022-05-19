@@ -36,7 +36,6 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
   const testCourse: Course = {
     courseId: 'exampleId',
     courseName: 'Example Course',
-    isCourseDeleted: false,
     institute: 'Test Institute',
     timeZone: 'UTC',
     creationTimestamp: 0,

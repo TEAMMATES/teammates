@@ -36,7 +36,6 @@ describe('AddCourseFormComponent', () => {
   const testCourse: Course = {
     courseId: 'testId',
     courseName: 'Test Course',
-    isCourseDeleted: false,
     timeZone: 'Asia/Singapore',
     institute: 'Test Institute',
     creationTimestamp: 0,

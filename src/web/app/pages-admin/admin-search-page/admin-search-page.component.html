@@ -37,9 +37,9 @@
         <ng-container *ngFor="let instructor of instructors; let i = index">
           <tr (click)="instructor.showLinks = !instructor.showLinks">
             <td class="text-break">
-              <span [ngClass]="{'course-deleted': instructor.isCourseDeleted}" [ngbTooltip]="instructor.courseName">
+              <span [ngClass]="{'text-course-deleted': instructor.isCourseDeleted}" [ngbTooltip]="instructor.courseName">
                 {{ instructor.courseId }}
-                <i *ngIf="instructor.isCourseDeleted" class="fas fa-trash-alt course-deleted"></i>
+                <i *ngIf="instructor.isCourseDeleted" class="fas fa-trash-alt text-course-deleted"></i>
               </span>
               <br>
               <div class="col-sm-1">
@@ -129,9 +129,9 @@
         <ng-container *ngFor="let student of students; let i = index">
           <tr (click)="student.showLinks = !student.showLinks">
             <td>
-              <span class="text-break" [ngClass]="{'course-deleted': student.isCourseDeleted}" [ngbTooltip]="student.courseName">
+              <span class="text-break" [ngClass]="{'text-course-deleted': student.isCourseDeleted}" [ngbTooltip]="student.courseName">
                 {{ student.courseId }} [{{ student.section }}] ({{ student.team }})
-                <i *ngIf="student.isCourseDeleted" class="fas fa-trash-alt course-deleted"></i>
+                <i *ngIf="student.isCourseDeleted" class="fas fa-trash-alt text-course-deleted"></i>
               </span>
               <br>
               <div class="col-sm-1">

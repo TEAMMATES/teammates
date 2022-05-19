@@ -124,7 +124,6 @@ describe('InstructorCoursesPageComponent', () => {
   const courseCS1231: Course = {
     courseId: 'CS1231',
     courseName: 'Discrete Structures',
-    isCourseDeleted: false,
     creationTimestamp: date1.getTime(),
     deletionTimestamp: 0,
     timeZone: 'UTC',
@@ -134,7 +133,6 @@ describe('InstructorCoursesPageComponent', () => {
   const courseCS3281: Course = {
     courseId: 'CS3281',
     courseName: 'Thematic Systems Project I',
-    isCourseDeleted: false,
     creationTimestamp: date3.getTime(),
     deletionTimestamp: date4.getTime(),
     timeZone: 'UTC',
@@ -144,7 +142,6 @@ describe('InstructorCoursesPageComponent', () => {
   const courseCS3282: Course = {
     courseId: 'CS3282',
     courseName: 'Thematic Systems Project II',
-    isCourseDeleted: false,
     creationTimestamp: date5.getTime(),
     deletionTimestamp: date6.getTime(),
     timeZone: 'UTC',
@@ -154,7 +151,6 @@ describe('InstructorCoursesPageComponent', () => {
   const courseST4234: Course = {
     courseId: 'ST4234',
     courseName: 'Bayesian Statistics',
-    isCourseDeleted: false,
     creationTimestamp: date2.getTime(),
     deletionTimestamp: 0,
     timeZone: 'UTC',

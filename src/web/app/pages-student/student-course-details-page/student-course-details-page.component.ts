@@ -49,7 +49,6 @@ export class StudentCourseDetailsPageComponent implements OnInit {
   course: Course = {
     courseId: '',
     courseName: '',
-    isCourseDeleted: false,
     institute: '',
     timeZone: 'UTC',
     creationTimestamp: 0,
