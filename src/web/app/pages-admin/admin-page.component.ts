@@ -53,7 +53,6 @@ export class AdminPageComponent implements OnInit {
          },
       ],
     },
-
   ];
   isFetchingAuthDetails: boolean = false;
 
