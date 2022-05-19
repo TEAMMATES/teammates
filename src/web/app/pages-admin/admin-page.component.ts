@@ -25,27 +25,27 @@ export class AdminPageComponent implements OnInit {
       display: 'Home',
     },
     {
-      display: 'Utilities',
+      url: '/web/admin/search',
+      display: 'Search',
+    },
+    {
+      url: '/web/admin/sessions',
+      display: 'Sessions',
+    },
+    {
+      url: '/web/admin/notifications',
+      display: 'Notifications',
+    },
+    {
+      url: '/web/admin/logs',
+      display: 'Logs',
+    },
+    {
+      display: 'More',
       children: [
-         {
-           url: '/web/admin/search',
-           display: 'Search',
-         },
-         {
-           url: '/web/admin/sessions',
-           display: 'Sessions',
-         },
          {
            url: '/web/admin/timezone',
            display: 'Timezone Listing',
-         },
-         {
-           url: '/web/admin/notifications',
-           display: 'Notifications',
-         },
-         {
-           url: '/web/admin/logs',
-           display: 'Logs',
          },
          {
            url: '/web/admin/stats',
