@@ -167,7 +167,7 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
         modalRef.result.then((reminderResponse: ReminderResponseModel) => {
           this.isSendReminderLoading = true;
           this.feedbackSessionsService.remindFeedbackSessionSubmissionForRespondents(courseId, feedbackSessionName, {
-            usersToRemind: reminderResponse.respondentsToSend.map(m => m.email),
+            usersToRemind: reminderResponse.respondentsToSend.map((m) => m.email),
             isSendingCopyToInstructor: reminderResponse.isSendingCopyToInstructor,
           }).pipe(finalize(() => {
             this.isSendReminderLoading = false;
