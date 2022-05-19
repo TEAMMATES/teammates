@@ -2,19 +2,20 @@
 package teammates.test;
 
 import org.testng.annotations.Test;
+
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.logic.api.BaseLogicTest;
 import teammates.storage.api.StudentsDb;
 
 /**
- * Test whether a student can be added to a course && database
+ * Test whether a student can be added to a course && database.
  */
 public class CreateStudentInCourseTest extends BaseLogicTest {
 
     private final StudentsDb studentsDb = StudentsDb.inst();
 
     @Test
-    public void CreateStudentTest() throws Exception {
+    public void createStudentTest() throws Exception {
         StudentAttributes student = StudentAttributes
                 .builder("valid_course", "validEmail@gmail.com")
                 .withName("valid_student_name")
