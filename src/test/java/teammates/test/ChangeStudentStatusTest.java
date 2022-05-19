@@ -5,7 +5,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.logic.core.StudentsLogic;
 
 /**
  * Test cases to check the changes in a studentAttribute's course and team.
@@ -13,10 +12,9 @@ import teammates.logic.core.StudentsLogic;
 public class ChangeStudentStatusTest extends BaseTestCase {
 
     DataBundle dataBundle = new DataBundle();
-    private final StudentsLogic studentsLogic = StudentsLogic.inst();
 
     @Test
-    private void testChangeStudentCourse() {
+    public void testChangeStudentCourse() {
         ______TS("check current course");
         StudentAttributes student1 = dataBundle.students.get("student1InCourse1");
         String oldCourseName = "idOfTypicalCourse1";
@@ -32,7 +30,7 @@ public class ChangeStudentStatusTest extends BaseTestCase {
     }
 
     @Test
-    private void testChangeStudentTeam() {
+    public void testChangeStudentTeam() {
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         ______TS("get original team");
         String oldTeamName = student1InCourse1.getTeam();
