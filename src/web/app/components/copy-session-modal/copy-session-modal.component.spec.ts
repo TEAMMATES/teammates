@@ -66,6 +66,7 @@ describe('CopySessionModalComponent', () => {
   const courseSessionIn: Course = {
     courseId: 'Test01',
     courseName: 'Sample Course 101',
+    isCourseDeleted: false,
     institute: 'Test Institute',
     creationTimestamp: 1557764430000,
     deletionTimestamp: 0,
@@ -75,6 +76,7 @@ describe('CopySessionModalComponent', () => {
   const courseCopyTo: Course = {
     courseId: 'Test02',
     courseName: 'Sample Course 202',
+    isCourseDeleted: false,
     institute: 'Test Institute',
     creationTimestamp: 1557850830000,
     deletionTimestamp: 0,

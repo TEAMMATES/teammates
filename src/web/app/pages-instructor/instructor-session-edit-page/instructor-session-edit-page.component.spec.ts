@@ -56,6 +56,7 @@ describe('InstructorSessionEditPageComponent', () => {
   const testCourse1: Course = {
     courseId: 'testId1',
     courseName: 'Test Course 1',
+    isCourseDeleted: false,
     institute: 'Test Institute',
     timeZone: 'Asia/Singapore',
     creationTimestamp: 0,
@@ -65,6 +66,7 @@ describe('InstructorSessionEditPageComponent', () => {
   const testCourse2: Course = {
     courseId: 'testId2',
     courseName: 'Test Course 2',
+    isCourseDeleted: false,
     institute: 'Test Institute',
     timeZone: 'Asia/Singapore',
     creationTimestamp: 0,

@@ -64,6 +64,7 @@ describe('StudentCourseDetailsPageComponent', () => {
     const course: Course = {
       courseId: '1.1.c-demo2',
       courseName: 'Sample Course 101',
+      isCourseDeleted: false,
       institute: 'Test Institute',
       creationTimestamp: 1552472130000,
       deletionTimestamp: 0,

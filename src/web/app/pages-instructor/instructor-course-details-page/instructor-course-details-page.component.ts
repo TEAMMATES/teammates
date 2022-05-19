@@ -51,6 +51,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
     course: {
       courseId: '',
       courseName: '',
+      isCourseDeleted: false,
       institute: '',
       timeZone: '',
       creationTimestamp: 0,

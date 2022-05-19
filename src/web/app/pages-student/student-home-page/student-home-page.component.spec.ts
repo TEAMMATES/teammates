@@ -206,6 +206,7 @@ const studentCourses: Courses = {
   courses: [{
     courseId: 'CS1231',
     courseName: 'Discrete Structures',
+    isCourseDeleted: false,
     institute: 'Test Institute',
     timeZone: 'Asia/Singapore',
     creationTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00

@@ -114,6 +114,7 @@ describe('SearchService', () => {
   const mockCourse: Course = {
     courseId: 'dog.gma-demo',
     courseName: 'Sample Course 101',
+    isCourseDeleted: false,
     institute: 'Test Institute',
     timeZone: 'UTC',
     creationTimestamp: 1585487897502,

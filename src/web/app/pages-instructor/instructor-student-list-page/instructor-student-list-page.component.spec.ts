@@ -21,6 +21,7 @@ describe('InstructorStudentListPageComponent', () => {
   const course1: Course = {
     courseId: 'course1Id',
     courseName: 'Course 1',
+    isCourseDeleted: false,
     timeZone: 'UTC',
     institute: 'Institute',
     creationTimestamp: 1649791778732,

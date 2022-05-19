@@ -28,6 +28,7 @@ import { ViewRolePrivilegesModalComponent } from './view-role-privileges-modal/v
 const testCourse: Course = {
   courseId: 'exampleId',
   courseName: 'Example Course',
+  isCourseDeleted: false,
   institute: 'Test Institute',
   timeZone: 'UTC (UTC)',
   creationTimestamp: 0,
@@ -168,6 +169,7 @@ describe('InstructorCourseEditPageComponent', () => {
     jest.spyOn(courseService, 'updateCourse').mockReturnValue(of({
       courseId: 'exampleId',
       courseName: 'Example Course Changed',
+      isCourseDeleted: false,
       timeZone: 'UTC (UTC)',
       institute: 'Test institute',
       creationTimestamp: 0,

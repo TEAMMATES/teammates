@@ -18,6 +18,7 @@ import { InstructorCourseDetailsPageModule } from './instructor-course-details-p
 const course: Course = {
   courseId: 'CS101',
   courseName: 'Introduction to CS',
+  isCourseDeleted: false,
   timeZone: '',
   institute: 'Test Institute',
   creationTimestamp: 0,

@@ -41,6 +41,7 @@ describe('InstructorAuditLogsPageComponent', () => {
   const testCourse1: Course = {
     courseId: 'CS9999',
     courseName: 'CS9999',
+    isCourseDeleted: false,
     institute: 'Test Institute',
     timeZone: 'Asia/Singapore',
     creationTimestamp: 0,
@@ -59,6 +60,7 @@ describe('InstructorAuditLogsPageComponent', () => {
   const testCourse2: Course = {
     courseId: 'MA1234',
     courseName: 'MA1234',
+    isCourseDeleted: false,
     institute: 'Test Institute',
     timeZone: 'Asia/Singapore',
     creationTimestamp: 0,
@@ -77,6 +79,7 @@ describe('InstructorAuditLogsPageComponent', () => {
   const testCourse3: Course = {
     courseId: 'EE1111',
     courseName: 'EE1111',
+    isCourseDeleted: false,
     institute: 'Test Institute',
     timeZone: 'Asia/Singapore',
     creationTimestamp: 0,
