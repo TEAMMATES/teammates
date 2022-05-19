@@ -205,7 +205,7 @@ public class AdminSearchPage extends AppPage {
     public WebElement getInstructorRow(InstructorAttributes instructor) {
         String xpath = String.format(
                 "//table[@id='search-table-instructor']/tbody/tr[td[%d][span[text()='%s']] and td[%d]='%s']",
-                INSTRUCTOR_COL_COURSE_ID, instructor.getCourseId(), INSTRUCTOR_COL_NAME, instructor.getName());
+                INSTRUCTOR_COL_COURSE_ID, " " + instructor.getCourseId() + " ", INSTRUCTOR_COL_NAME, instructor.getName());
         return browser.driver.findElement(By.xpath(xpath));
     }
 
