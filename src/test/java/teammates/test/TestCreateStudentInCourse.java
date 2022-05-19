@@ -10,7 +10,7 @@ import teammates.storage.api.StudentsDb;
 /**
  * Test whether a student can be added to a course && database.
  */
-public class CreateStudentInCourseTest extends BaseLogicTest {
+public class TestCreateStudentInCourse extends BaseLogicTest {
 
     private final StudentsDb studentsDb = StudentsDb.inst();
 
