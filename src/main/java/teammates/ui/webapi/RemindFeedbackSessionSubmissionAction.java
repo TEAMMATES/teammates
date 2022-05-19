@@ -42,10 +42,10 @@ class RemindFeedbackSessionSubmissionAction extends Action {
         FeedbackSessionRespondentRemindRequest remindRequest =
                 getAndValidateRequestBody(FeedbackSessionRespondentRemindRequest.class);
         String[] usersToRemind = remindRequest.getUsersToRemind();
-        boolean sendCopyToInstructor = remindRequest.getSendCopyToInstructor();
+        boolean isSendingCopyToInstructor = remindRequest.getIsSendingCopyToInstructor();
 
         taskQueuer.scheduleFeedbackSessionRemindersForParticularUsers(courseId, feedbackSessionName,
-                usersToRemind, userInfo.getId(), sendCopyToInstructor);
+                usersToRemind, userInfo.getId(), isSendingCopyToInstructor);
 
         return new JsonResult("Reminders sent");
     }

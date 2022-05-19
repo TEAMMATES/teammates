@@ -70,23 +70,8 @@ export class SendRemindersToRespondentsModalComponent {
   /**
    * Changes selection state for sending a copy to requesting instructor.
    */
-  changeSelectionStatusForSendingCopyToInstructorHandler(shouldSelect: boolean): void {
-    this.isSendingCopyToInstructor = shouldSelect;
-  }
-
-  /**
-   * Collates a list of selected students with selected status.
-   */
-  collateRespondentsToSend(): (StudentListInfoTableRowModel | InstructorListInfoTableRowModel)[] {
-    const studentsToSend: (StudentListInfoTableRowModel | InstructorListInfoTableRowModel)[] =
-        this.studentListInfoTableRowModels.map(
-            (model: StudentListInfoTableRowModel) => ({ ...model }))
-            .filter((model: StudentListInfoTableRowModel) => model.isSelected);
-    const instructorsToSend: (StudentListInfoTableRowModel | InstructorListInfoTableRowModel)[] =
-        this.instructorListInfoTableRowModels.map(
-            (model: InstructorListInfoTableRowModel) => ({ ...model }))
-            .filter((model: InstructorListInfoTableRowModel) => model.isSelected);
-    return studentsToSend.concat(instructorsToSend);
+  changeSelectionStatusForSendingCopyToInstructorHandler(shouldSendCopy: boolean): void {
+    this.isSendingCopyToInstructor = shouldSendCopy;
   }
 
   /**
@@ -97,6 +82,21 @@ export class SendRemindersToRespondentsModalComponent {
       respondentsToSend: this.collateRespondentsToSend(),
       isSendingCopyToInstructor: this.isSendingCopyToInstructor,
     };
+  }
+
+  /**
+   * Collates a list of selected students with selected status.
+   */
+  private collateRespondentsToSend(): (StudentListInfoTableRowModel | InstructorListInfoTableRowModel)[] {
+    const studentsToSend: (StudentListInfoTableRowModel | InstructorListInfoTableRowModel)[] =
+        this.studentListInfoTableRowModels.map(
+            (model: StudentListInfoTableRowModel) => ({ ...model }))
+            .filter((model: StudentListInfoTableRowModel) => model.isSelected);
+    const instructorsToSend: (StudentListInfoTableRowModel | InstructorListInfoTableRowModel)[] =
+        this.instructorListInfoTableRowModels.map(
+            (model: InstructorListInfoTableRowModel) => ({ ...model }))
+            .filter((model: InstructorListInfoTableRowModel) => model.isSelected);
+    return studentsToSend.concat(instructorsToSend);
   }
 
   /**

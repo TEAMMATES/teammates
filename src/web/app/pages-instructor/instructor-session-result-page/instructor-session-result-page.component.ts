@@ -562,7 +562,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
     this.feedbackSessionsService
       .remindFeedbackSessionSubmissionForRespondents(this.session.courseId, this.session.feedbackSessionName, {
         usersToRemind: reminderResponse.respondentsToSend.map((m: any) => m.email),
-        sendCopyToInstructor: reminderResponse.isSendingCopyToInstructor,
+        isSendingCopyToInstructor: reminderResponse.isSendingCopyToInstructor,
       }).subscribe(() => {
         this.statusMessageService.showSuccessToast(
           'Reminder e-mails have been sent out to those students and instructors. '

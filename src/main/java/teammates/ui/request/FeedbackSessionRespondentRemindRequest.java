@@ -5,7 +5,7 @@ package teammates.ui.request;
  */
 public class FeedbackSessionRespondentRemindRequest extends BasicRequest {
     private String[] usersToRemind;
-    private boolean sendCopyToInstructor;
+    private boolean isSendingCopyToInstructor;
 
     public String[] getUsersToRemind() {
         return usersToRemind;
@@ -15,12 +15,12 @@ public class FeedbackSessionRespondentRemindRequest extends BasicRequest {
         this.usersToRemind = usersToRemind;
     }
 
-    public boolean getSendCopyToInstructor() {
-        return sendCopyToInstructor;
+    public boolean getIsSendingCopyToInstructor() {
+        return isSendingCopyToInstructor;
     }
 
-    public void setSendCopyToInstructor(boolean sendCopyToInstructor) {
-        this.sendCopyToInstructor = sendCopyToInstructor;
+    public void setIsSendingCopyToInstructor(boolean isSendingCopyToInstructor) {
+        this.isSendingCopyToInstructor = isSendingCopyToInstructor;
     }
 
     @Override
