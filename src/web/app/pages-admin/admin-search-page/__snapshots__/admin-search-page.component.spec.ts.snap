@@ -4,6 +4,7 @@ exports[`AdminSearchPageComponent should snap with a search key 1`] = `
 <tm-admin-search-page
   accountRequests={[Function Array]}
   accountService={[Function AccountService]}
+  courseInRecycleBinTip={[Function String]}
   emailGenerationService={[Function EmailGenerationService]}
   instructorService={[Function InstructorService]}
   instructors={[Function Array]}
@@ -54,6 +55,7 @@ exports[`AdminSearchPageComponent should snap with an expanded account requests 
 <tm-admin-search-page
   accountRequests={[Function Array]}
   accountService={[Function AccountService]}
+  courseInRecycleBinTip={[Function String]}
   emailGenerationService={[Function EmailGenerationService]}
   instructorService={[Function InstructorService]}
   instructors={[Function Array]}
@@ -230,6 +232,7 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
 <tm-admin-search-page
   accountRequests={[Function Array]}
   accountService={[Function AccountService]}
+  courseInRecycleBinTip={[Function String]}
   emailGenerationService={[Function EmailGenerationService]}
   instructorService={[Function InstructorService]}
   instructors={[Function Array]}
@@ -333,7 +336,7 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
               class="text-break"
             >
               <span>
-                test-exa.demo
+                 test-exa.demo 
               </span>
               <br />
               <div
@@ -481,6 +484,7 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
 <tm-admin-search-page
   accountRequests={[Function Array]}
   accountService={[Function AccountService]}
+  courseInRecycleBinTip={[Function String]}
   emailGenerationService={[Function EmailGenerationService]}
   instructorService={[Function InstructorService]}
   instructors={[Function Array]}
@@ -778,6 +782,7 @@ exports[`AdminSearchPageComponent should snap with default fields 1`] = `
 <tm-admin-search-page
   accountRequests={[Function Array]}
   accountService={[Function AccountService]}
+  courseInRecycleBinTip={[Function String]}
   emailGenerationService={[Function EmailGenerationService]}
   instructorService={[Function InstructorService]}
   instructors={[Function Array]}
