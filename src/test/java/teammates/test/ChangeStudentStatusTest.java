@@ -2,14 +2,14 @@ package teammates.test;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.logic.core.StudentsLogic;
 
-/*
-* Test cases to check the changes in a studentAttribute's course and team
-* */
-
+/**
+ * Test cases to check the changes in a studentAttribute's course and team.
+ */
 public class ChangeStudentStatusTest extends BaseTestCase {
 
     DataBundle dataBundle = new DataBundle();
