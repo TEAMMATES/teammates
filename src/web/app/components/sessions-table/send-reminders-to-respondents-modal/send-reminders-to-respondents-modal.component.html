@@ -33,13 +33,11 @@
     </h4>
   </ng-template>
 </div>
-<div class="modal-footer justify-content-between">
-  <div class="form-check">
+<div class="modal-footer">
+  <span class="form-check">
     <input id="sendCopyToIns" class="form-check-input" type="checkbox" [ngModel]="isSendingCopyToInstructor" (ngModelChange)="changeSelectionStatusForSendingCopyToInstructorHandler($event)"/>
     <label for="sendCopyToIns" class="form-check-label">Send me a copy</label>
-  </div>
-  <div class="btn-toolbar">
-    <button type="button" class="btn btn-light mr-2" (click)="activeModal.dismiss()">Cancel</button>
-    <button id="btn-confirm-send-reminder" type="button" class="btn btn-primary" (click)="activeModal.close(collateReminderResponseHandler())">Remind</button>
-  </div>
+  </span>
+  <button type="button" class="btn btn-light mr-2" (click)="activeModal.dismiss()">Cancel</button>
+  <button id="btn-confirm-send-reminder" type="button" class="btn btn-primary" (click)="activeModal.close(collateReminderResponseHandler())">Remind</button>
 </div>
