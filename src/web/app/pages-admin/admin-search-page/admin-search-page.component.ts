@@ -38,6 +38,8 @@ export class AdminSearchPageComponent {
   students: StudentAccountSearchResult[] = [];
   accountRequests: AccountRequestSearchResult[] = [];
 
+  readonly courseInRecycleBinTip = "This course is in the recycle bin.";
+
   constructor(
     private statusMessageService: StatusMessageService,
     private simpleModalService: SimpleModalService,
