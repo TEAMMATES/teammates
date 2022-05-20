@@ -109,8 +109,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   hasFeedbackSessionQuestionsLoadingFailed: boolean = false;
   retryAttempts: number = DEFAULT_NUMBER_OF_RETRY_ATTEMPTS;
 
-  private backendUrl: string = environment.backendUrl;
-
   constructor(private route: ActivatedRoute,
               private router: Router,
               private statusMessageService: StatusMessageService,
@@ -189,11 +187,9 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
               } else {
                 // There is no logged in user for a valid, used registration key, redirect to login page
                 // eslint-disable-next-line no-lonely-if
-                if (this.entityType === 'student') {
-                  window.location.href = `${this.backendUrl}${auth.studentLoginUrl}`;
-                } else if (this.entityType === 'instructor') {
-                  window.location.href = `${this.backendUrl}${auth.instructorLoginUrl}`;
-                }
+                this.loadCourseInfo();
+                this.loadPersonName();
+                this.loadFeedbackSession();
               }
             } else {
               // The registration key is invalid
@@ -415,12 +411,14 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
       }, (resp: ErrorMessageOutput) => {
         if (resp.status === 404) {
           this.simpleModalService.openInformationModal('Feedback Session Does Not Exist!', SimpleModalType.DANGER,
-              'The session does not exist (most likely deleted by the instructor after the submission link was sent).');
-          this.navigationService.navigateByURL(this.router, `/web/${this.entityType}/home`);
+              'The session does not exist (most likely deleted by the instructor after the submission link was sent).',
+              { redirectionUrl: this.loggedInUser ? `/web/${this.entityType}/home` : '/web/front/home' },
+              { backdrop: 'static' });
         } else if (resp.status === 403) {
           this.simpleModalService.openInformationModal('Not Authorised To Access!', SimpleModalType.DANGER,
-              resp.error.message);
-          this.navigationService.navigateByURL(this.router, `/web/${this.entityType}/home`);
+              resp.error.message,
+              { redirectionUrl: this.loggedInUser ? `/web/${this.entityType}/home` : '/web/front/home' },
+              { backdrop: 'static' });
         } else {
           this.navigationService.navigateWithErrorMessage(
               this.router, `/web/${this.entityType}/home`, resp.error.message);

@@ -11,6 +11,7 @@ export interface SimpleModalOptions {
   isInformationOnly?: boolean;
   confirmMessage?: string; // custom text message for confirm button
   cancelMessage?: string; // custom text message for cancel button
+  redirectionUrl?: string;
 }
 
 /**
