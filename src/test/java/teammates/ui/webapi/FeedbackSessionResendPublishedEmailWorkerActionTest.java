@@ -51,7 +51,7 @@ public class FeedbackSessionResendPublishedEmailWorkerActionTest
         };
 
         FeedbackSessionRemindRequest remindRequest = new FeedbackSessionRemindRequest(publishedSession.getCourseId(),
-                publishedSession.getFeedbackSessionName(), instructor1.getGoogleId(), usersToRemind);
+                publishedSession.getFeedbackSessionName(), instructor1.getGoogleId(), usersToRemind, true);
 
         FeedbackSessionResendPublishedEmailWorkerAction action = getAction(remindRequest);
         action.execute();
