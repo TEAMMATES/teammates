@@ -121,7 +121,7 @@ public class TaskQueuer {
     public void scheduleFeedbackSessionResendPublishedEmail(String courseId, String feedbackSessionName,
             String[] usersToEmail, String requestingInstructorId) {
         FeedbackSessionRemindRequest remindRequest =
-                new FeedbackSessionRemindRequest(courseId, feedbackSessionName, requestingInstructorId, usersToEmail);
+                new FeedbackSessionRemindRequest(courseId, feedbackSessionName, requestingInstructorId, usersToEmail, true);
 
         addTask(TaskQueue.FEEDBACK_SESSION_RESEND_PUBLISHED_EMAIL_QUEUE_NAME,
                 TaskQueue.FEEDBACK_SESSION_RESEND_PUBLISHED_EMAIL_WORKER_URL, new HashMap<>(), remindRequest);

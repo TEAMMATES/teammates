@@ -12,11 +12,6 @@ public class FeedbackSessionRemindRequest extends BasicRequest {
     private final boolean isSendingCopyToInstructor;
 
     public FeedbackSessionRemindRequest(String courseId, String feedbackSessionName, String requestingInstructorId,
-                                        String[] usersToRemind) {
-        this(courseId, feedbackSessionName, requestingInstructorId, usersToRemind, true);
-    }
-
-    public FeedbackSessionRemindRequest(String courseId, String feedbackSessionName, String requestingInstructorId,
                                         String[] usersToRemind, boolean isSendingCopyToInstructor) {
         this.courseId = courseId;
         this.feedbackSessionName = feedbackSessionName;
