@@ -12,7 +12,7 @@ import java.util.Properties;
 public final class TestProperties {
 
     /** The directory where JSON files used to create data bundles are stored. */
-    public static final String TEST_DATA_FOLDER = "src/e2e/resources/data"; //
+    public static final String TEST_DATA_FOLDER = "src/e2e/resources/data";
 
     /** The directory where webdriver downloads files to. */
     public static final String TEST_DOWNLOADS_FOLDER = "src/e2e/resources/downloads";
