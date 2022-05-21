@@ -2,6 +2,8 @@ import { Injectable, TemplateRef } from '@angular/core';
 import { NgbModal, NgbModalOptions, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { SimpleModalType } from '../app/components/simple-modal/simple-modal-type';
 import { SimpleModalComponent } from '../app/components/simple-modal/simple-modal.component';
+import { Router } from '@angular/router';
+import { NavigationService } from './navigation.service';
 
 /**
  * Optional parameters for modal.
@@ -23,7 +25,9 @@ export interface SimpleModalOptions {
 })
 export class SimpleModalService {
 
-  constructor(private ngbModal: NgbModal) {
+  constructor(private ngbModal: NgbModal,
+              private router: Router,
+              private navigationService: NavigationService) {
   }
 
   /**
@@ -46,6 +50,16 @@ export class SimpleModalService {
         modalRef.componentInstance[key] = value;
       });
     }
+    modalRef.closed.subscribe(() => {
+      if (simpleModalOptions?.redirectionUrl) {
+        this.navigationService.navigateByURL(this.router, simpleModalOptions.redirectionUrl);
+      }
+    });
+    modalRef.dismissed.subscribe(() => {
+      if (simpleModalOptions?.redirectionUrl) {
+        this.navigationService.navigateByURL(this.router, simpleModalOptions.redirectionUrl);
+      }
+    });
     return modalRef;
   }
 

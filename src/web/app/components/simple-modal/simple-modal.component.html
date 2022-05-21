@@ -14,7 +14,7 @@
     </h5>
   </div>
   <button type="button" class="close"
-    (click)="type === SimpleModalType.LOAD ? activeModal.close() : activeModal.dismiss(redirect())">
+    (click)="type === SimpleModalType.LOAD ? activeModal.close() : activeModal.dismiss()">
     <i class="fas fa-times"></i>
   </button>
 </div>
@@ -37,5 +37,5 @@
           'btn-warning' : type === SimpleModalType.WARNING,
           'btn-info' : type === SimpleModalType.INFO,
           'btn-primary' : type === SimpleModalType.NEUTRAL }"
-          (click)="activeModal.close(redirect())">{{ confirmMessage }}</button>
+          (click)="activeModal.close()">{{ confirmMessage }}</button>
 </div>
