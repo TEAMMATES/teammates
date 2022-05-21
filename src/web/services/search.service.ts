@@ -141,7 +141,7 @@ export class SearchService {
       institute: '',
       manageAccountLink: '',
       homePageLink: '',
-      recordsPageLink: '',
+      profilePageLink: '',
       courseJoinLink: '',
       googleId: '',
       showLinks: false,
@@ -164,8 +164,8 @@ export class SearchService {
     for (const instructor of instructors.instructors) {
       const instructorPrivilege: InstructorPrivilege | undefined = instructorPrivileges.shift();
       if (instructor.googleId != null
-          && (instructorPrivilege != null && instructorPrivilege.privileges.courseLevel.canModifyInstructor
-              || instructor.role === InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER)) {
+          && (instructor.role === InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER
+              || (instructorPrivilege != null && instructorPrivilege.privileges.courseLevel.canModifyInstructor))) {
         masqueradeGoogleId = instructor.googleId;
         break;
       }
@@ -180,7 +180,7 @@ export class SearchService {
     studentResult.courseJoinLink = this.linkService.generateCourseJoinLink(student, 'student');
     studentResult.homePageLink = this.linkService
       .generateHomePageLink(googleId, this.linkService.STUDENT_HOME_PAGE);
-    studentResult.recordsPageLink = this.linkService.generateRecordsPageLink(student, masqueradeGoogleId);
+    studentResult.profilePageLink = this.linkService.generateProfilePageLink(student, masqueradeGoogleId);
     studentResult.manageAccountLink = this.linkService
       .generateManageAccountLink(googleId, this.linkService.ADMIN_ACCOUNTS_PAGE);
 
@@ -488,7 +488,7 @@ export interface StudentAccountSearchResult extends InstructorAccountSearchResul
   section: string;
   team: string;
   comments: string;
-  recordsPageLink: string;
+  profilePageLink: string;
 }
 
 /**

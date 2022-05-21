@@ -604,7 +604,13 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
               </div>
             </td>
             <td>
-              Alice Betsy
+              <a
+                href="profile-page-link"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                 Alice Betsy
+              </a>
             </td>
             <td>
               <a
