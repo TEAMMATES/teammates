@@ -472,6 +472,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         StudentAttributes student5 = responseVisibilityBundle.students.get("FRV.student5InCourse1");
         StudentAttributes student6 = responseVisibilityBundle.students.get("FRV.student6InCourse1");
         StudentAttributes student7 = responseVisibilityBundle.students.get("FRV.student7InCourse1");
+        StudentAttributes student8 = responseVisibilityBundle.students.get("FRV.student8InCourse1");
 
         // stu -> self : instructors
         FeedbackQuestionAttributes fq11 = responseVisibilityBundle.feedbackQuestions.get("FRV.qn1InSession1InCourse1");
@@ -501,6 +502,12 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         FeedbackQuestionAttributes fq26 = responseVisibilityBundle.feedbackQuestions.get("FRV.qn6InSession2InCourse1");
         // team -> stu in same section : instructors
         FeedbackQuestionAttributes fq27 = responseVisibilityBundle.feedbackQuestions.get("FRV.qn7InSession2InCourse1");
+        // team -> team in same section : receiver
+        FeedbackQuestionAttributes fq28 = responseVisibilityBundle.feedbackQuestions.get("FRV.qn8InSession2InCourse1");
+        // stu -> team in same section : instructors
+        FeedbackQuestionAttributes fq29 = responseVisibilityBundle.feedbackQuestions.get("FRV.qn9InSession2InCourse1");
+        // ins -> team : instructors
+        FeedbackQuestionAttributes fq20 = responseVisibilityBundle.feedbackQuestions.get("FRV.qn10InSession2InCourse1");
 
         // stu1 -> stu1 (self feedback)
         FeedbackResponseAttributes fr111 = responseVisibilityBundle.feedbackResponses.get("FRV.response1ForQ1S1C1");
@@ -544,11 +551,18 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         FeedbackResponseAttributes fr261 = responseVisibilityBundle.feedbackResponses.get("FRV.response1ForQ6S2C1");
         // team1 -> stu7
         FeedbackResponseAttributes fr271 = responseVisibilityBundle.feedbackResponses.get("FRV.response1ForQ7S2C1");
+        // team3 -> team1
+        FeedbackResponseAttributes fr281 = responseVisibilityBundle.feedbackResponses.get("FRV.response1ForQ8S2C1");
+        // stu8 -> team1
+        FeedbackResponseAttributes fr291 = responseVisibilityBundle.feedbackResponses.get("FRV.response1ForQ9S2C1");
+        // ins2 -> team2
+        FeedbackResponseAttributes fr201 = responseVisibilityBundle.feedbackResponses.get("FRV.response1ForQ10S2C1");
 
         Set<String> studentsEmailInTeam1 = new HashSet<>(
                 Arrays.asList(student1.getEmail(), student2.getEmail(), student3.getEmail(), student4.getEmail()));
         Set<String> studentsEmailInTeam2 = new HashSet<>(Arrays.asList(student5.getEmail()));
         Set<String> studentsEmailInTeam3 = new HashSet<>(Arrays.asList(student6.getEmail(), student7.getEmail()));
+        Set<String> studentsEmailInTeam4 = new HashSet<>(Arrays.asList(student8.getEmail()));
 
         ______TS("test if visible to giver");
 
@@ -573,6 +587,8 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
                 fr131, fq13, null));
         assertTrue(frLogic.isResponseVisibleForUser(student5.getEmail(), false, student5, studentsEmailInTeam2,
                 fr161, fq16, null));
+        assertTrue(frLogic.isResponseVisibleForUser(student5.getEmail(), false, student5, studentsEmailInTeam2,
+                fr211, fq21, null));
         assertTrue(frLogic.isResponseVisibleForUser(student7.getEmail(), false, student7, studentsEmailInTeam3,
                 fr231, fq23, null));
         assertTrue(frLogic.isResponseVisibleForUser(student5.getEmail(), false, student5, studentsEmailInTeam2,
@@ -583,27 +599,35 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
                 fr121, fq12, null));
         assertFalse(frLogic.isResponseVisibleForUser(student5.getEmail(), false, student5, studentsEmailInTeam2,
                 fr171, fq17, null));
+        assertFalse(frLogic.isResponseVisibleForUser(student7.getEmail(), false, student7, studentsEmailInTeam3,
+                fr291, fq29, null));
 
         ______TS("test if visible to receiver");
 
         assertTrue(frLogic.isResponseVisibleForUser(student2.getEmail(), false, student2, studentsEmailInTeam1,
                 fr122, fq12, null));
+        // receiver's team members include receiver
+        assertTrue(frLogic.isResponseVisibleForUser(student6.getEmail(), false, student6, studentsEmailInTeam3,
+                fr171, fq17, null));
         assertTrue(frLogic.isResponseVisibleForUser(student5.getEmail(), false, student5, studentsEmailInTeam2,
                 fr211, fq21, null));
         assertTrue(frLogic.isResponseVisibleForUser(student3.getEmail(), false, student3, studentsEmailInTeam1,
                 fr221, fq22, null));
         assertTrue(frLogic.isResponseVisibleForUser(instructor1.getEmail(), true, null, null,
                 fr241, fq24, instructor1));
-        // receiver's team members include receiver?
-        // assertFalse(frLogic.isResponseVisibleForUser(student6.getEmail(), false, student6, studentsEmailInTeam3,
-        //        fr171, fq17, null));
+        // other students include receiver
+        assertTrue(frLogic.isResponseVisibleForUser(student6.getEmail(), false, student6, studentsEmailInTeam3,
+                fr261, fq26, null));
+        assertTrue(frLogic.isResponseVisibleForUser(student1.getEmail(), false, student1, studentsEmailInTeam1,
+                fr281, fq28, null));
         assertFalse(frLogic.isResponseVisibleForUser(instructor2.getEmail(), true, null, null,
                 fr181, fq18, instructor2));
-        // other students include receiver?
-        // assertFalse(frLogic.isResponseVisibleForUser(student6.getEmail(), false, student6, studentsEmailInTeam3,
-        //        fr261, fq26, null));
         assertFalse(frLogic.isResponseVisibleForUser(student7.getEmail(), false, student7, studentsEmailInTeam3,
                 fr271, fq27, null));
+        assertFalse(frLogic.isResponseVisibleForUser(student8.getEmail(), false, student8, studentsEmailInTeam4,
+                fr281, fq28, null));
+        assertFalse(frLogic.isResponseVisibleForUser(student5.getEmail(), false, student5, studentsEmailInTeam2,
+                fr201, fq20, null));
 
         ______TS("test if visible to giver's team members");
 
@@ -613,15 +637,15 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
                 fr221, fq22, null));
         assertTrue(frLogic.isResponseVisibleForUser(student7.getEmail(), false, student7, studentsEmailInTeam3,
                 fr251, fq25, null));
+        // other students include giver's team members
+        assertTrue(frLogic.isResponseVisibleForUser(student3.getEmail(), false, student3, studentsEmailInTeam1,
+                fr261, fq26, null));
         assertFalse(frLogic.isResponseVisibleForUser(student3.getEmail(), false, student3, studentsEmailInTeam1,
                 fr111, fq11, null));
         assertFalse(frLogic.isResponseVisibleForUser(student4.getEmail(), false, student4, studentsEmailInTeam1,
                 fr123, fq12, null));
         assertFalse(frLogic.isResponseVisibleForUser(student2.getEmail(), false, student2, studentsEmailInTeam1,
                 fr241, fq24, null));
-        // other students include giver's team members?
-        // assertFalse(frLogic.isResponseVisibleForUser(student3.getEmail(), false, student3, studentsEmailInTeam1,
-        //        fr261, fq26, null));
 
         ______TS("test if visible to receiver's team members");
 

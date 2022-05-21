@@ -317,6 +317,15 @@
       "comments": "",
       "team": "Team 1.3",
       "section": "Section 1"
+    },
+    "FRV.student8InCourse1": {
+      "googleId": "FRV.student8InCourse1",
+      "email": "FRV.student8InCourse1@gmail.tmt",
+      "course": "FRV.idOfTypicalCourse1",
+      "name": "student8 In Course1",
+      "comments": "",
+      "team": "Team 1.4",
+      "section": "Section 1"
     }
   },
   "feedbackSessions": {
@@ -690,6 +699,72 @@
       "showRecipientNameTo": [
         "INSTRUCTORS"
       ]
+    },
+    "FRV.qn8InSession2InCourse1": {
+      "feedbackSessionName": "Second feedback session",
+      "courseId": "FRV.idOfTypicalCourse1",
+      "questionDetails": {
+        "recommendedLength": 100,
+        "questionText": "New format Text question",
+        "questionType": "TEXT"
+      },
+      "questionNumber": 8,
+      "giverType": "TEAMS",
+      "recipientType": "TEAMS_IN_SAME_SECTION",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER"
+      ]
+    },
+    "FRV.qn9InSession2InCourse1": {
+      "feedbackSessionName": "Second feedback session",
+      "courseId": "FRV.idOfTypicalCourse1",
+      "questionDetails": {
+        "recommendedLength": 100,
+        "questionText": "New format Text question",
+        "questionType": "TEXT"
+      },
+      "questionNumber": 9,
+      "giverType": "STUDENTS",
+      "recipientType": "TEAMS_IN_SAME_SECTION",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    },
+    "FRV.qn10InSession2InCourse1": {
+      "feedbackSessionName": "Second feedback session",
+      "courseId": "FRV.idOfTypicalCourse1",
+      "questionDetails": {
+        "recommendedLength": 100,
+        "questionText": "New format Text question",
+        "questionType": "TEXT"
+      },
+      "questionNumber": 10,
+      "giverType": "INSTRUCTORS",
+      "recipientType": "TEAMS",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
     }
   },
   "feedbackResponses": {
@@ -961,6 +1036,45 @@
       "recipient": "FRV.student7InCourse1@gmail.tmt",
       "giverSection": "Section 1",
       "recipientSection": "Section 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "My answer"
+      }
+    },
+    "FRV.response1ForQ8S2C1": {
+      "feedbackSessionName": "Second feedback session",
+      "courseId": "FRV.idOfTypicalCourse1",
+      "feedbackQuestionId": "8",
+      "giver": "Team 1.3",
+      "recipient": "Team 1.1</td></div>'\"",
+      "giverSection": "Section 1",
+      "recipientSection": "Section 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "My answer"
+      }
+    },
+    "FRV.response1ForQ9S2C1": {
+      "feedbackSessionName": "Second feedback session",
+      "courseId": "FRV.idOfTypicalCourse1",
+      "feedbackQuestionId": "9",
+      "giver": "FRV.student8InCourse1@gmail.tmt",
+      "recipient": "Team 1.1</td></div>'\"",
+      "giverSection": "Section 1",
+      "recipientSection": "Section 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "My answer"
+      }
+    },
+    "FRV.response1ForQ10S2C1": {
+      "feedbackSessionName": "Second feedback session",
+      "courseId": "FRV.idOfTypicalCourse1",
+      "feedbackQuestionId": "10",
+      "giver": "FRV.instructor2@course1.tmt",
+      "recipient": "Team 1.2",
+      "giverSection": "None",
+      "recipientSection": "Section 2",
       "responseDetails": {
         "questionType": "TEXT",
         "answer": "My answer"
