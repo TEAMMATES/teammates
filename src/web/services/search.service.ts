@@ -162,12 +162,21 @@ export class SearchService {
 
     let masqueradeGoogleId: string = '';
     for (const instructor of instructors.instructors) {
-      const instructorPrivilege: InstructorPrivilege | undefined = instructorPrivileges.shift();
       if (instructor.googleId != null
-          && (instructor.role === InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER
-              || (instructorPrivilege != null && instructorPrivilege.privileges.courseLevel.canModifyInstructor))) {
+          && instructor.role === InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER) {
         masqueradeGoogleId = instructor.googleId;
         break;
+      }
+    }
+    // there's no instructor being co-owner; there's always at least one instructor with "modify instructor" permission
+    if (masqueradeGoogleId == '') {
+      for (const instructor of instructors.instructors) {
+        const instructorPrivilege: InstructorPrivilege | undefined = instructorPrivileges.shift();
+        if (instructor.googleId != null
+            && (instructorPrivilege != null && instructorPrivilege.privileges.courseLevel.canModifyInstructor)) {
+          masqueradeGoogleId = instructor.googleId;
+          break;
+        }
       }
     }
 
