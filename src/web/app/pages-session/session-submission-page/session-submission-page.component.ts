@@ -502,7 +502,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
               { redirectionUrl: this.loggedInUser ? `/web/${this.entityType}/home` : '/web/front/home' },
               { backdrop: 'static' });
         } else if (resp.status === 403) {
-          if (resp.error.message == 'Login is required to access this feedback session') {
+          if (resp.error.message === 'Login is required to access this feedback session') {
             if (this.entityType === 'student') {
               window.location.href = `${this.backendUrl}${auth.studentLoginUrl}`;
             } else if (this.entityType === 'instructor') {
@@ -511,8 +511,8 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
           } else {
             this.simpleModalService.openInformationModal('Not Authorised To Access!', SimpleModalType.DANGER,
                 resp.error.message,
-                {redirectionUrl: this.loggedInUser ? `/web/${this.entityType}/home` : '/web/front/home'},
-                {backdrop: 'static'});
+                { redirectionUrl: this.loggedInUser ? `/web/${this.entityType}/home` : '/web/front/home' },
+                { backdrop: 'static' });
           }
         } else {
           this.navigationService.navigateWithErrorMessage(

@@ -1,8 +1,8 @@
 import { Injectable, TemplateRef } from '@angular/core';
+import { Router } from '@angular/router';
 import { NgbModal, NgbModalOptions, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { SimpleModalType } from '../app/components/simple-modal/simple-modal-type';
 import { SimpleModalComponent } from '../app/components/simple-modal/simple-modal.component';
-import { Router } from '@angular/router';
 import { NavigationService } from './navigation.service';
 
 /**
