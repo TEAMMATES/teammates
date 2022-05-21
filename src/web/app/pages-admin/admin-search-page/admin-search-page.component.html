@@ -139,7 +139,9 @@
                 </button>
               </div>
             </td>
-            <td>{{ student.name }}</td>
+            <td><a href="{{ student.recordsPageLink }}"
+                   (click)="$event.stopPropagation()" target="_blank" rel="noopener noreferrer">
+              {{ student.name }}</a></td>
             <td><a href="{{ student.homePageLink }}" *ngIf="student.googleId"
                    (click)="$event.stopPropagation()" target="_blank" rel="noopener noreferrer">
               {{ student.googleId }}</a></td>
