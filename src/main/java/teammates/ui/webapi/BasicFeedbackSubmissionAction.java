@@ -79,9 +79,14 @@ abstract class BasicFeedbackSubmissionAction extends Action {
                     logic.getInstructorForGoogleId(feedbackSession.getCourseId(), userInfo.getId()), feedbackSession,
                     Const.InstructorPermissions.CAN_MODIFY_SESSION);
         } else {
-            if (!StringHelper.isEmpty(student.getGoogleId()) && userInfo != null
-                    && !userInfo.id.equals(student.getGoogleId())) {
-                throw new UnauthorizedAccessException("You are not authorized to access this feedback session");
+            if (!StringHelper.isEmpty(student.getGoogleId())) {
+                if (userInfo == null) {
+                    // Student is associated to a google ID; even if registration key is passed, do not allow access
+                    throw new UnauthorizedAccessException("Login is required to access this feedback session", true);
+                } else if (!userInfo.id.equals(student.getGoogleId())) {
+                    // Logged in student is not the same as the student registered for the given key, do not allow access
+                    throw new UnauthorizedAccessException("You are not authorized to access this feedback session");
+                }
             }
             gateKeeper.verifyAccessible(student, feedbackSession);
         }

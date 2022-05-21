@@ -219,6 +219,17 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
                         unregisteredStudent.getKey(), "", "");
         verifyAccessibleWithoutLogin(unregisteredStudentSubmissionParams);
 
+        ______TS("Access with correct but used regKey, should not be accessible by anyone");
+        StudentAttributes registeredStudent =
+                logic.getStudentForEmail(student1InCourse1.getCourse(), student1InCourse1.getEmail());
+        String[] registeredStudentSubmissionParams =
+                generateParameters(firstSessionInCourse1, 2, Intent.STUDENT_SUBMISSION,
+                        registeredStudent.getKey(), "", "");
+        verifyCannotAccess(registeredStudentSubmissionParams);
+
+        logoutUser();
+        verifyCannotAccess(registeredStudentSubmissionParams);
+
         ______TS("Question not intended shown to instructor, moderated instructor should not be accessible");
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
         String[] invalidModeratedInstructorSubmissionParams =
