@@ -75,5 +75,10 @@
             [ngModel]="model.generateOptionsFor" (ngModelChange)="triggerModelChange('generateOptionsFor', $event)">
       <option *ngFor="let option of PARTICIPANT_TYPES" [value]="option">{{ option | generatedChoice }}</option>
     </select>
+    <label class="bold-label margin-top-135px">
+            <input id="make-question-dropdown" class="form-check-input" type="checkbox" [ngModel]="model.otherEnabled"
+                   (ngModelChange)="triggerOtherEnabled($event)" [disabled]="!isEditable">
+            Show Question as drop-down
+    </label>
   </div>
 </div>
