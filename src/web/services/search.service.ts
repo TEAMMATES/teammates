@@ -169,7 +169,7 @@ export class SearchService {
       }
     }
     // there's no instructor being co-owner; there's always at least one instructor with "modify instructor" permission
-    if (masqueradeGoogleId == '') {
+    if (masqueradeGoogleId === '') {
       for (const instructor of instructors.instructors) {
         const instructorPrivilege: InstructorPrivilege | undefined = instructorPrivileges.shift();
         if (instructor.googleId != null
