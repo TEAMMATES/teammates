@@ -482,6 +482,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
    * @param auth The authentication information used in the redirection URL.
    */
   redirectToLoginPageIfFeedbackSessionAccessible(auth: AuthInfo): void {
+    this.loadCourseInfo();
     this.loadPersonName();
     this.isFeedbackSessionLoading = true;
     this.feedbackSessionsService.getFeedbackSession({
