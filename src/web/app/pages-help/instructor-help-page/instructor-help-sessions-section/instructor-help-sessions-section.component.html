@@ -1,6 +1,6 @@
 <div>
   <h2 class="color-blue" *ngIf="!key || showQuestion.length > 0">Sessions</h2>
-  <!--Section-->
+  <!-- Section -->
   <h4 *ngIf="displaySubsection(0, 7)">Setting Up Sessions</h4>
   <!-- Question -->
   <tm-instructor-help-panel class="instr-help-qn-first" #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.TIPS_FOR_CONDUCTION_PEER_EVAL)"
@@ -253,7 +253,7 @@
     </p>
   </tm-instructor-help-panel>
 
-  <!--Section-->
+  <!-- Section -->
   <h4 *ngIf="displaySubsection(7, 10)">Managing Session Responses</h4>
   <!-- Question -->
   <tm-instructor-help-panel class="instr-help-qn-first" #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.SUBMIT_FOR_STUDENT)"
@@ -281,7 +281,7 @@
       </li>
     </ol>
   </tm-instructor-help-panel>
-  <!--Question-->
+  <!-- Question -->
   <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.SESSION_VIEW_RESULTS)"
                             [id]="SessionsSectionQuestions.SESSION_VIEW_RESULTS"
                             headerText="How do I view the results of my session?"
@@ -326,7 +326,7 @@
       <tm-question-response-panel [questions]="exampleQuestionsWithResponses"></tm-question-response-panel>
     </tm-example-box>
   </tm-instructor-help-panel>
-  <!--Question-->
+  <!-- Question -->
   <tm-instructor-help-panel class="instr-help-qn-last" #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.VIEW_ALL_RESPONSES)"
                             [id]="SessionsSectionQuestions.VIEW_ALL_RESPONSES"
                             headerText="How do I view all the responses a student has given and received?"
@@ -344,7 +344,7 @@
     </ol>
   </tm-instructor-help-panel>
 
-  <!--Section-->
+  <!-- Section -->
   <h4 *ngIf="displaySubsection(10, 12)">Adding Comments to Responses</h4>
   <!-- Question -->
   <tm-instructor-help-panel class="instr-help-qn-first" #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.SESSION_ADD_COMMENTS)"
@@ -387,7 +387,7 @@
       </div>
     </tm-example-box>
   </tm-instructor-help-panel>
-  <!--Question-->
+  <!-- Question -->
   <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.EDIT_DEL_COMMENT)"
                             [id]="SessionsSectionQuestions.EDIT_DEL_COMMENT"
                             headerText="How do I edit or delete a comment on a response?"
@@ -415,7 +415,7 @@
     </ol>
   </tm-instructor-help-panel>
 
-  <!--Section-->
+  <!-- Section -->
   <h4 *ngIf="displaySubsection(12, 16)">Restoring Deleted Sessions</h4>
   <!-- Question -->
   <tm-instructor-help-panel class="instr-help-qn-first" #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.VIEW_DELETED_SESSION)"
