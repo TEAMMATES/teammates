@@ -80,12 +80,15 @@ public class TaskQueuer {
      * @param feedbackSessionName the name of the feedback session
      * @param usersToRemind the group of users to send the reminders to
      * @param requestingInstructorId the ID of the instructor who sends the reminder
+     * @param isSendingCopyToInstructor the indicator of whether to send an email copy to the requesting instructor
      */
     public void scheduleFeedbackSessionRemindersForParticularUsers(String courseId, String feedbackSessionName,
                                                                    String[] usersToRemind,
-                                                                   String requestingInstructorId) {
+                                                                   String requestingInstructorId,
+                                                                   boolean isSendingCopyToInstructor) {
         FeedbackSessionRemindRequest remindRequest =
-                new FeedbackSessionRemindRequest(courseId, feedbackSessionName, requestingInstructorId, usersToRemind);
+                new FeedbackSessionRemindRequest(courseId, feedbackSessionName, requestingInstructorId, usersToRemind,
+                        isSendingCopyToInstructor);
 
         addTask(TaskQueue.FEEDBACK_SESSION_REMIND_PARTICULAR_USERS_EMAIL_QUEUE_NAME,
                 TaskQueue.FEEDBACK_SESSION_REMIND_PARTICULAR_USERS_EMAIL_WORKER_URL, new HashMap<>(), remindRequest);
@@ -118,7 +121,7 @@ public class TaskQueuer {
     public void scheduleFeedbackSessionResendPublishedEmail(String courseId, String feedbackSessionName,
             String[] usersToEmail, String requestingInstructorId) {
         FeedbackSessionRemindRequest remindRequest =
-                new FeedbackSessionRemindRequest(courseId, feedbackSessionName, requestingInstructorId, usersToEmail);
+                new FeedbackSessionRemindRequest(courseId, feedbackSessionName, requestingInstructorId, usersToEmail, true);
 
         addTask(TaskQueue.FEEDBACK_SESSION_RESEND_PUBLISHED_EMAIL_QUEUE_NAME,
                 TaskQueue.FEEDBACK_SESSION_RESEND_PUBLISHED_EMAIL_WORKER_URL, new HashMap<>(), remindRequest);

@@ -34,6 +34,10 @@
   </ng-template>
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-light" (click)="activeModal.dismiss()">Cancel</button>
-  <button id="btn-confirm-send-reminder" type="button" class="btn btn-primary" (click)="activeModal.close(collateRespondentsToSendHandler())">Remind</button>
+  <span class="form-check">
+    <input id="sendCopyToIns" class="form-check-input" type="checkbox" [ngModel]="isSendingCopyToInstructor" (ngModelChange)="changeSelectionStatusForSendingCopyToInstructorHandler($event)"/>
+    <label for="sendCopyToIns" class="form-check-label">Send me a copy</label>
+  </span>
+  <button type="button" class="btn btn-light mr-2" (click)="activeModal.dismiss()">Cancel</button>
+  <button id="btn-confirm-send-reminder" type="button" class="btn btn-primary" (click)="activeModal.close(collateReminderResponseHandler())">Remind</button>
 </div>

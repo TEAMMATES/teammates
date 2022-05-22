@@ -33,10 +33,6 @@ export class AdminPageComponent implements OnInit {
       display: 'Sessions',
     },
     {
-      url: '/web/admin/timezone',
-      display: 'Timezone Listing',
-    },
-    {
       url: '/web/admin/notifications',
       display: 'Notifications',
     },
@@ -45,8 +41,17 @@ export class AdminPageComponent implements OnInit {
       display: 'Logs',
     },
     {
-      url: '/web/admin/stats',
-      display: 'Usage Statistics',
+      display: 'More',
+      children: [
+         {
+           url: '/web/admin/timezone',
+           display: 'Timezone Listing',
+         },
+         {
+           url: '/web/admin/stats',
+           display: 'Usage Statistics',
+         },
+      ],
     },
   ];
   isFetchingAuthDetails: boolean = false;
