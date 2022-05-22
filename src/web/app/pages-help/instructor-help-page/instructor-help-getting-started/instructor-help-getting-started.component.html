@@ -37,7 +37,7 @@
         Go to the <b>Courses</b> page and click the <button class="btn btn-secondary btn-sm">Enroll</button> button of the corresponding course.<br>
         Students can be enrolled into teams (e.g., project groups) and sections (e.g., tutorial classes, lecture groups) to facilitate giving feedback in and among these smaller groups.<br>
         TEAMMATES will <b>not</b> automatically notify students that they have been enrolled, as there is nothing for students to do in TEAMMATES until a session opens for submissions.<br>
-        TEAMMATES emails access instructions to students only when there is an action for them to perform e.g., when a session opens for submissions.
+        TEAMMATES will send an email with access instructions to students only when there is an action for them to perform e.g., when a session opens for submissions.
       </li>
       <li>
         <b><a [tmRouterLink]="instructorHelpPath" [queryParams]="{questionId: CoursesSectionQuestions.COURSE_ADD_INSTRUCTOR, section: Sections.courses}">Add instructors to the course</a></b><br>
@@ -132,7 +132,7 @@
       Click <a [tmRouterLink]="instructorHelpPath" [queryParams]="{questionId: SessionsSectionQuestions.STUDENT_DID_NOT_RECEIVE_SESSION_EMAIL, section: Sections.sessions}">here</a> to find out remedies if some students say they did not receive the TEAMMATES emails as expected.
     </p>
     <p>
-      See <a [tmRouterLink]="instructorHelpPath" [queryParams]="{questionId: SessionsSectionQuestions.EXTEND_SESSION_DEADLINE, section: Sections.sessions}">here</a> to find how to extend the deadline for all students, or for specific students.
+      Click <a [tmRouterLink]="instructorHelpPath" [queryParams]="{questionId: SessionsSectionQuestions.EXTEND_SESSION_DEADLINE, section: Sections.sessions}">here</a> to find how to extend the deadline for all students, or for specific students.
     </p>
     <p>
       While not normally needed, if you would like students to access TEAMMATES sooner (e.g., if you would like them to fill in their profile page in advance), you can get them to ‘join’ the course earlier by following these steps:
@@ -142,7 +142,7 @@
         In the <b>Courses</b> page, click the <button class="btn btn-light btn-sm dropdown-toggle">Other Actions</button> button of the course, and select <b>View</b> in the drop-down menu.
       </li>
       <li>
-        Then, click <button class="btn btn-sm btn-primary"><i class="fa fa-envelope"></i> Remind Students to Join</button> button, which will send them instructions to ‘join’ TEAMMATES immediately.
+        Then, click the <button class="btn btn-sm btn-primary"><i class="fa fa-envelope"></i> Remind Students to Join</button> button, which will send them instructions to ‘join’ TEAMMATES immediately.
       </li>
     </ol>
     <p>
