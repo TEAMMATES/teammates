@@ -22,7 +22,6 @@ import {
 } from '../../../types/api-output';
 import { Intent } from '../../../types/api-request';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
-import { CommentTableModel } from '../../components/comment-box/comment-table/comment-table.component';
 import { CommentToCommentRowModelPipe } from '../../components/comment-box/comment-to-comment-row-model.pipe';
 import { CommentsToCommentTableModelPipe } from '../../components/comment-box/comments-to-comment-table-model.pipe';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
@@ -52,7 +51,6 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
   studentEmail: string = '';
   studentTeam: string = '';
   studentSection: string = '';
-  instructorCommentTableModel: Record<string, CommentTableModel> = {};
 
   studentProfile: StudentProfile = {
     name: '',

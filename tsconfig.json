@@ -8,6 +8,7 @@
     "module": "es2020",
     "moduleResolution": "node",
     "noImplicitAny": true,
+    "noImplicitOverride": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "forceConsistentCasingInFileNames": true,
