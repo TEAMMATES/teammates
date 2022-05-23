@@ -873,37 +873,33 @@ describe('SessionSubmissionPageComponent', () => {
     expect(component.isSubmissionFormsDisabled).toEqual(true);
   });
 
-  it('should redirect when loading non-existent feedback session', () => {
+  it('should show session not found modal when loading non-existent feedback session', () => {
     jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(throwError({
       error: { message: 'This is an error' },
       status: 404,
     }));
-    const navSpy: SpyInstance = jest.spyOn(navService, 'navigateByURL').mockImplementation();
     const modalSpy: SpyInstance = jest.spyOn(simpleModalService, 'openInformationModal').mockImplementation();
 
     component.loadFeedbackSession();
 
     expect(modalSpy).toHaveBeenCalledTimes(1);
     expect(modalSpy).toHaveBeenLastCalledWith('Feedback Session Does Not Exist!', SimpleModalType.DANGER,
-        'The session does not exist (most likely deleted by the instructor after the submission link was sent).');
-    expect(navSpy).toHaveBeenCalledTimes(1);
-    expect(navSpy).toHaveBeenLastCalledWith(expect.anything(), '/web/student/home');
+        'The session does not exist (most likely deleted by the instructor after the submission link was sent).',
+        { redirectionUrl: '/web/front/home' }, { backdrop: 'static' });
   });
 
-  it('should redirect when loading non-viewable feedback session', () => {
+  it('should show session not visible modal when loading non-viewable feedback session', () => {
     jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(throwError({
       error: { message: 'This is an error' },
       status: 403,
     }));
-    const navSpy: SpyInstance = jest.spyOn(navService, 'navigateByURL').mockImplementation();
     const modalSpy: SpyInstance = jest.spyOn(simpleModalService, 'openInformationModal').mockImplementation();
 
     component.loadFeedbackSession();
 
     expect(modalSpy).toHaveBeenCalledTimes(1);
-    expect(modalSpy).toHaveBeenLastCalledWith('Not Authorised To Access!', SimpleModalType.DANGER, 'This is an error');
-    expect(navSpy).toHaveBeenCalledTimes(1);
-    expect(navSpy).toHaveBeenLastCalledWith(expect.anything(), '/web/student/home');
+    expect(modalSpy).toHaveBeenLastCalledWith('Not Authorised To Access!', SimpleModalType.DANGER, 'This is an error',
+        { redirectionUrl: '/web/front/home' }, { backdrop: 'static' });
   });
 
   it('should load feedback questions', () => {
