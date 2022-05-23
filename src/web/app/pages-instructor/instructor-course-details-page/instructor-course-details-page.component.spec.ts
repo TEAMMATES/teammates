@@ -240,6 +240,6 @@ describe('InstructorCourseDetailsPageComponent', () => {
 
     component.deleteAllStudentsFromCourse(course.courseId);
 
-    expect(spy).toBeCalled();
+    expect(spy).toHaveBeenCalled();
   });
 });

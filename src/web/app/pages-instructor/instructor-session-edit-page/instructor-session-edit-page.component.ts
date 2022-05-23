@@ -474,7 +474,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     modalRef.componentInstance.feedbackSessionTimeZone = this.sessionEditFormModel.timeZone;
 
     return new Observable((subscribeIsUserAccept) => {
-      modalRef.componentInstance.onConfirmExtensionCallBack.subscribe(() => {
+      modalRef.componentInstance.confirmExtensionCallbackEvent.subscribe(() => {
         this.removeDeadlines(affectedStudentModels, affectedInstructorModels);
         modalRef.componentInstance.isSubmitting = false;
         modalRef.close();

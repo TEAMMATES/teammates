@@ -242,7 +242,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     modalRef.componentInstance.numInstructors = this.getNumberOfSelectedInstructors();
     modalRef.componentInstance.feedbackSessionEndingTimestamp = this.feedbackSessionEndingTimestamp;
     modalRef.componentInstance.feedbackSessionTimeZone = this.feedbackSessionTimeZone;
-    modalRef.componentInstance.onConfirmCallBack.subscribe((extensionTimestamp: number) => {
+    modalRef.componentInstance.confirmCallbackEvent.subscribe((extensionTimestamp: number) => {
       this.onConfirmExtension(extensionTimestamp);
       modalRef.close();
     });
@@ -261,7 +261,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     modalRef.componentInstance.extensionTimestamp = extensionTimestamp;
     modalRef.componentInstance.feedbackSessionTimeZone = this.feedbackSessionTimeZone;
 
-    modalRef.componentInstance.onConfirmExtensionCallBack.subscribe((isNotifyDeadlines: boolean) => {
+    modalRef.componentInstance.confirmExtensionCallbackEvent.subscribe((isNotifyDeadlines: boolean) => {
       this.handleCreateDeadlines(selectedStudents, selectedInstructors, isNotifyDeadlines, extensionTimestamp);
       modalRef.componentInstance.isSubmitting = false;
       modalRef.close();
@@ -281,7 +281,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     modalRef.componentInstance.extensionTimestamp = this.feedbackSessionEndingTimestamp;
     modalRef.componentInstance.feedbackSessionTimeZone = this.feedbackSessionTimeZone;
 
-    modalRef.componentInstance.onConfirmExtensionCallBack.subscribe((isNotifyDeadlines: boolean) => {
+    modalRef.componentInstance.confirmExtensionCallbackEvent.subscribe((isNotifyDeadlines: boolean) => {
       this.handleDeleteDeadlines(selectedStudents, selectedInstructors, isNotifyDeadlines);
       modalRef.componentInstance.isSubmitting = false;
       modalRef.close();

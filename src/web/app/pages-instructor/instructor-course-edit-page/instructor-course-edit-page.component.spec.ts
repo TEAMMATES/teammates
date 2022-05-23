@@ -332,7 +332,7 @@ describe('InstructorCourseEditPageComponent', () => {
         .querySelector(`#btn-resend-invite-${component.instructorDetailPanels.length}`);
     button.click();
 
-    expect(mockReminderFunction).toBeCalledWith(testCourse.courseId, testInstructor2.email);
+    expect(mockReminderFunction).toHaveBeenCalledWith(testCourse.courseId, testInstructor2.email);
   });
 
   it('should snap with default fields', () => {

@@ -235,7 +235,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     expect(component.isLoadingFeedbackSession).toBeFalsy();
     expect(component.hasLoadingFeedbackSessionFailed).toBeFalsy();
     fixture.detectChanges();
-    expect(spyStatusMessageService).toBeCalled();
+    expect(spyStatusMessageService).toHaveBeenCalled();
     expect(fixture).toMatchSnapshot();
   });
 
@@ -260,7 +260,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     expect(component.isLoadingFeedbackSession).toBeFalsy();
     expect(component.hasLoadingFeedbackSessionFailed).toBeFalsy();
     fixture.detectChanges();
-    expect(spyStatusMessageService).toBeCalled();
+    expect(spyStatusMessageService).toHaveBeenCalled();
     expect(fixture).toMatchSnapshot();
   });
 
@@ -285,7 +285,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     expect(component.isLoadingFeedbackSession).toBeFalsy();
     expect(component.hasLoadingFeedbackSessionFailed).toBeTruthy();
     fixture.detectChanges();
-    expect(spyStatusMessageService).toBeCalled();
+    expect(spyStatusMessageService).toHaveBeenCalled();
     expect(fixture).toMatchSnapshot();
   });
 
@@ -311,7 +311,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     expect(component.isLoadingFeedbackSession).toBeFalsy();
     expect(component.hasLoadingFeedbackSessionFailed).toBeTruthy();
     fixture.detectChanges();
-    expect(spyStatusMessageService).toBeCalled();
+    expect(spyStatusMessageService).toHaveBeenCalled();
     expect(fixture).toMatchSnapshot();
   });
 

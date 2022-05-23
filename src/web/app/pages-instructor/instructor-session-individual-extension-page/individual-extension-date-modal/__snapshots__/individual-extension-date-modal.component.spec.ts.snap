@@ -8,6 +8,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
   RadioOptions={[Function Object]}
   __ngContext__={[Function LRootView]}
   activeModal={[Function NgbActiveModal]}
+  confirmCallbackEvent={[Function EventEmitter_]}
   dateDetailPipe={[Function FormatDateDetailPipe]}
   extendByDatePicker={[Function Object]}
   extendByDeadlineKey={[Function String]}
@@ -18,7 +19,6 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
   feedbackSessionTimeZone=""
   numInstructors={[Function Number]}
   numStudents={[Function Number]}
-  onConfirmCallBack={[Function EventEmitter_]}
   radioOption={[Function Number]}
   simpleModalService={[Function SimpleModalService]}
   sortMapByOriginalOrder={[Function Function]}
@@ -162,6 +162,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
   RadioOptions={[Function Object]}
   __ngContext__={[Function LRootView]}
   activeModal={[Function NgbActiveModal]}
+  confirmCallbackEvent={[Function EventEmitter_]}
   dateDetailPipe={[Function FormatDateDetailPipe]}
   extendByDatePicker={[Function Object]}
   extendByDeadlineKey={[Function String]}
@@ -172,7 +173,6 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
   feedbackSessionTimeZone=""
   numInstructors={[Function Number]}
   numStudents={[Function Number]}
-  onConfirmCallBack={[Function EventEmitter_]}
   radioOption={[Function Number]}
   simpleModalService={[Function SimpleModalService]}
   sortMapByOriginalOrder={[Function Function]}
@@ -361,6 +361,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend to ra
   RadioOptions={[Function Object]}
   __ngContext__={[Function LRootView]}
   activeModal={[Function NgbActiveModal]}
+  confirmCallbackEvent={[Function EventEmitter_]}
   dateDetailPipe={[Function FormatDateDetailPipe]}
   extendByDatePicker={[Function Object]}
   extendByDeadlineKey=""
@@ -371,7 +372,6 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend to ra
   feedbackSessionTimeZone=""
   numInstructors={[Function Number]}
   numStudents={[Function Number]}
-  onConfirmCallBack={[Function EventEmitter_]}
   radioOption={[Function Number]}
   simpleModalService={[Function SimpleModalService]}
   sortMapByOriginalOrder={[Function Function]}
@@ -636,6 +636,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extended stu
   RadioOptions={[Function Object]}
   __ngContext__={[Function LRootView]}
   activeModal={[Function NgbActiveModal]}
+  confirmCallbackEvent={[Function EventEmitter_]}
   dateDetailPipe={[Function FormatDateDetailPipe]}
   extendByDatePicker={[Function Object]}
   extendByDeadlineKey=""
@@ -646,7 +647,6 @@ exports[`IndividualExtensionDateModalComponent should snap with the extended stu
   feedbackSessionTimeZone=""
   numInstructors={[Function Number]}
   numStudents={[Function Number]}
-  onConfirmCallBack={[Function EventEmitter_]}
   radioOption={[Function Number]}
   simpleModalService={[Function SimpleModalService]}
   sortMapByOriginalOrder={[Function Function]}
@@ -791,6 +791,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the warning moda
   RadioOptions={[Function Object]}
   __ngContext__={[Function LRootView]}
   activeModal={[Function NgbActiveModal]}
+  confirmCallbackEvent={[Function EventEmitter_]}
   dateDetailPipe={[Function FormatDateDetailPipe]}
   extendByDatePicker={[Function Object]}
   extendByDeadlineKey=""
@@ -802,7 +803,6 @@ exports[`IndividualExtensionDateModalComponent should snap with the warning moda
   getExtensionTimestamp={[Function Function]}
   numInstructors={[Function Number]}
   numStudents={[Function Number]}
-  onConfirmCallBack={[Function EventEmitter_]}
   radioOption={[Function Number]}
   simpleModalService={[Function SimpleModalService]}
   sortMapByOriginalOrder={[Function Function]}

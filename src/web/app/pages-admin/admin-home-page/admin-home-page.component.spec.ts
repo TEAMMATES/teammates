@@ -668,8 +668,8 @@ describe('AdminHomePageComponent', () => {
 
     await fixture.whenStable().then(() => {
       expect(modalSpy).toHaveBeenCalledTimes(1);
-      expect(resetAccountSpy).toBeCalledTimes(1);
-      expect(resetAccountSpy).toBeCalledWith('instructora@example.com', 'Sample Institution A');
+      expect(resetAccountSpy).toHaveBeenCalledTimes(1);
+      expect(resetAccountSpy).toHaveBeenCalledWith('instructora@example.com', 'Sample Institution A');
       expect(component.instructorsConsolidated[0]).toEqual({
         name: 'Instructor A',
         email: 'instructora@example.com',

@@ -1049,7 +1049,7 @@ describe('SessionSubmissionPageComponent', () => {
 
     component.saveFeedbackResponses(component.questionSubmissionForms);
 
-    expect(responseSpy).toBeCalledTimes(2);
+    expect(responseSpy).toHaveBeenCalledTimes(2);
     expect(responseSpy).toHaveBeenNthCalledWith(1, 'feedback-question-id-mcq', {
       responses: [{
         recipient: testMcqRecipientSubmissionForm.recipientIdentifier,
@@ -1106,7 +1106,7 @@ describe('SessionSubmissionPageComponent', () => {
 
     component.saveFeedbackResponses(component.questionSubmissionForms);
 
-    expect(responseSpy).toBeCalledTimes(1);
+    expect(responseSpy).toHaveBeenCalledTimes(1);
     expect(responseSpy).toHaveBeenNthCalledWith(1, testQuestionSubmissionForm1.feedbackQuestionId, {
       responses: [{
         recipient: testMcqRecipientSubmissionForm.recipientIdentifier,

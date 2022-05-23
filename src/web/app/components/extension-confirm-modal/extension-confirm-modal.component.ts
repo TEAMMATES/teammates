@@ -35,7 +35,7 @@ export class ExtensionConfirmModalComponent {
   feedbackSessionTimeZone: string = '';
 
   @Output()
-  onConfirmExtensionCallBack: EventEmitter<boolean> = new EventEmitter();
+  confirmExtensionCallbackEvent: EventEmitter<boolean> = new EventEmitter();
 
   constructor(public activeModal: NgbActiveModal, private tableComparatorService: TableComparatorService) {}
 
@@ -51,7 +51,7 @@ export class ExtensionConfirmModalComponent {
 
   onConfirm(): void {
     this.isSubmitting = true;
-    this.onConfirmExtensionCallBack.emit(this.isNotifyDeadlines);
+    this.confirmExtensionCallbackEvent.emit(this.isNotifyDeadlines);
   }
 
   isDeleteModal(): boolean {

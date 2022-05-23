@@ -231,7 +231,7 @@ describe('AdminNotificationsPageComponent', () => {
 
     component.loadNotifications();
 
-    expect(spy).toBeCalled();
+    expect(spy).toHaveBeenCalled();
     expect(component.hasNotificationLoadingFailed).toBeTruthy();
   });
 

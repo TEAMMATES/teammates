@@ -56,8 +56,8 @@ const DESCENDING_ORDER: string = 'desc';
 })
 export class LogsPageComponent implements OnInit {
   readonly LOGS_RETENTION_PERIOD_IN_DAYS: number = ApiConst.LOGS_RETENTION_PERIOD;
-  readonly LOGS_RETENTION_PERIOD_IN_MILLISECONDS: number
-    = this.LOGS_RETENTION_PERIOD_IN_DAYS * Hours.IN_ONE_DAY * Milliseconds.IN_ONE_HOUR;
+  readonly LOGS_RETENTION_PERIOD_IN_MILLISECONDS: number =
+    this.LOGS_RETENTION_PERIOD_IN_DAYS * Hours.IN_ONE_DAY * Milliseconds.IN_ONE_HOUR;
   readonly SEVERITIES: LogSeverity[] = [
     LogSeverity.INFO, LogSeverity.WARNING, LogSeverity.ERROR,
   ];
