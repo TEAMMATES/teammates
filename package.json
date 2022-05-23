@@ -31,7 +31,6 @@
     "@handsontable/angular": "^5.1.1",
     "@ng-bootstrap/ng-bootstrap": "^10.0.0",
     "@tinymce/tinymce-angular": "^4.2.4",
-    "classlist.js": "^1.1.20150312",
     "d3": "^5.16.0",
     "file-saver": "^2.0.5",
     "handsontable": "^7.4.2",

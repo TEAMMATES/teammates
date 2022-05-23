@@ -50,7 +50,6 @@ export class PageComponent {
 
   isCollapsed: boolean = true;
   isUnsupportedBrowser: boolean = false;
-  isUsingIe: boolean = false;
   isCookieDisabled: boolean = false;
   browser: string = '';
   isNetworkOnline$: Observable<boolean>;
@@ -117,9 +116,6 @@ export class PageComponent {
     this.browser = `${browser.name} ${browser.version}`;
     this.isUnsupportedBrowser = !this.minimumVersions[browser.name]
         || this.minimumVersions[browser.name] > parseInt(browser.major, 10);
-    if (browser.name === 'IE') {
-      this.isUsingIe = true;
-    }
     this.isCookieDisabled = !navigator.cookieEnabled;
   }
 
