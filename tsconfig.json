@@ -21,7 +21,7 @@
     "strict": true,
     "target": "es2017",
     "lib": [
-      "es2018",
+      "es2020",
       "dom"
     ]
   },
