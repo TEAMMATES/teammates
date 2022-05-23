@@ -51,10 +51,8 @@ class JoinCourseAction extends Action {
             student = logic.joinCourseForStudent(regkey, userInfo.id);
         } catch (EntityDoesNotExistException ednee) {
             throw new EntityNotFoundException(ednee);
-        } catch (EntityAlreadyExistsException eaee) {
-            throw new InvalidOperationException(eaee);
-        } catch (JoinCourseException jce) {
-            throw new InvalidOperationException(jce.getMessage());
+        } catch (EntityAlreadyExistsException | JoinCourseException exception) {
+            throw new InvalidOperationException(exception);
         } catch (InvalidParametersException ipe) {
             // There should not be any invalid parameter here
             log.severe("Unexpected error", ipe);
@@ -73,10 +71,8 @@ class JoinCourseAction extends Action {
             instructor = logic.joinCourseForInstructor(regkey, userInfo.id);
         } catch (EntityDoesNotExistException ednee) {
             throw new EntityNotFoundException(ednee);
-        } catch (EntityAlreadyExistsException eaee) {
-            throw new InvalidOperationException(eaee);
-        } catch (JoinCourseException jce) {
-            throw new InvalidOperationException(jce.getMessage());
+        } catch (EntityAlreadyExistsException | JoinCourseException exception) {
+            throw new InvalidOperationException(exception);
         } catch (InvalidParametersException ipe) {
             // There should not be any invalid parameter here
             log.severe("Unexpected error", ipe);

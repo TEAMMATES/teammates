@@ -16,7 +16,7 @@ public class InvalidOperationException extends Exception {
         super(message);
     }
 
-    public InvalidOperationException(EntityAlreadyExistsException cause) {
+    public <T extends Exception> InvalidOperationException(T cause) {
         super(cause.getMessage(), cause);
     }
 
