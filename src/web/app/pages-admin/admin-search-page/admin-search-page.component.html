@@ -37,10 +37,8 @@
         <ng-container *ngFor="let instructor of instructors; let i = index">
           <tr (click)="instructor.showLinks = !instructor.showLinks">
             <td class="text-break">
-              <span [ngClass]="{'text-course-deleted': instructor.isCourseDeleted}" [ngbTooltip]="instructor.courseName">
-                {{ instructor.courseId }}
-              </span>
-              <i *ngIf="instructor.isCourseDeleted" class="fas fa-trash-alt text-course-deleted" [ngbTooltip]="courseInRecycleBinTip"></i>
+              <span class="ngb-tooltip-class" [ngClass]="{'text-course-deleted': instructor.isCourseDeleted}" [ngbTooltip]="instructor.courseName">{{ instructor.courseId }}</span>
+              <i *ngIf="instructor.isCourseDeleted" class="fas fa-trash-alt text-course-deleted margin-left-5px" [ngbTooltip]="courseInRecycleBinTip"></i>
               <br>
               <div class="col-sm-1">
                 <button *ngIf="!instructor.showLinks" class="btn">
@@ -129,10 +127,8 @@
         <ng-container *ngFor="let student of students; let i = index">
           <tr (click)="student.showLinks = !student.showLinks">
             <td>
-              <span class="text-break" [ngClass]="{'text-course-deleted': student.isCourseDeleted}" [ngbTooltip]="student.courseName">
-                {{ student.courseId }} [{{ student.section }}] ({{ student.team }})
-              </span>
-              <i *ngIf="student.isCourseDeleted" class="fas fa-trash-alt text-course-deleted" [ngbTooltip]="courseInRecycleBinTip"></i>
+              <span class="text-break" [ngClass]="{'text-course-deleted': student.isCourseDeleted}" [ngbTooltip]="student.courseName">{{ student.courseId }} [{{ student.section }}] ({{ student.team }})</span>
+              <i *ngIf="student.isCourseDeleted" class="fas fa-trash-alt text-course-deleted margin-left-5px" [ngbTooltip]="courseInRecycleBinTip"></i>
               <br>
               <div class="col-sm-1">
                 <button *ngIf="!student.showLinks" class="btn">
