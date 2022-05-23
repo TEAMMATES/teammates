@@ -16,6 +16,7 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.JoinCourseException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
@@ -83,7 +84,7 @@ class CreateAccountAction extends Action {
 
         try {
             logic.joinCourseForInstructor(instructorList.get(0).getKey(), userInfo.id);
-        } catch (EntityDoesNotExistException | EntityAlreadyExistsException | InvalidParametersException e) {
+        } catch (EntityDoesNotExistException | EntityAlreadyExistsException | InvalidParametersException | JoinCourseException e) {
             // EntityDoesNotExistException should not be thrown as all entities should exist in demo course.
             // EntityAlreadyExistsException should not be thrown as updated entities should not have
             // conflict with generated entities in new demo course.

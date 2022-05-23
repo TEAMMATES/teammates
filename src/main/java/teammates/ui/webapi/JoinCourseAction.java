@@ -8,6 +8,7 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.JoinCourseException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
@@ -72,6 +73,8 @@ class JoinCourseAction extends Action {
             throw new EntityNotFoundException(ednee);
         } catch (EntityAlreadyExistsException eaee) {
             throw new InvalidOperationException(eaee);
+        } catch (JoinCourseException jce) {
+            throw new InvalidOperationException(jce.getMessage());
         } catch (InvalidParametersException ipe) {
             // There should not be any invalid parameter here
             log.severe("Unexpected error", ipe);

@@ -7,12 +7,10 @@ import java.util.List;
 import java.util.Map;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InstructorUpdateException;
-import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.*;
 import teammates.storage.api.AccountsDb;
 
 /**
@@ -117,7 +115,7 @@ public final class AccountsLogic {
      * If the given institute is null, the instructor is given the institute of an existing instructor of the same course.
      */
     public InstructorAttributes joinCourseForInstructor(String key, String googleId)
-            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
+            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException, JoinCourseException {
         InstructorAttributes instructor = validateInstructorJoinRequest(key, googleId);
 
         // Register the instructor
@@ -160,8 +158,13 @@ public final class AccountsLogic {
     }
 
     private InstructorAttributes validateInstructorJoinRequest(String registrationKey, String googleId)
-            throws EntityDoesNotExistException, EntityAlreadyExistsException {
+            throws EntityDoesNotExistException, EntityAlreadyExistsException, JoinCourseException {
         InstructorAttributes instructorForKey = instructorsLogic.getInstructorForRegistrationKey(registrationKey);
+        CourseAttributes courseAttributes = coursesLogic.getCourse(instructorForKey.getCourseId());
+
+        if (courseAttributes.isCourseDeleted()) {
+            throw new JoinCourseException("Course is deleted");
+        }
 
         if (instructorForKey == null) {
             throw new EntityDoesNotExistException("No instructor with given registration key: " + registrationKey);

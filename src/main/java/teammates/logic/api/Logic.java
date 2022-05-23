@@ -25,12 +25,7 @@ import teammates.common.datatransfer.attributes.NotificationAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.datatransfer.attributes.UsageStatisticsAttributes;
-import teammates.common.exception.EnrollException;
-import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InstructorUpdateException;
-import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.SearchServiceException;
+import teammates.common.exception.*;
 import teammates.logic.core.AccountRequestsLogic;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
@@ -420,7 +415,7 @@ public class Logic {
      * * Parameters regkey and googleId are non-null.
      */
     public InstructorAttributes joinCourseForInstructor(String regkey, String googleId)
-            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
+            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException, JoinCourseException {
 
         assert googleId != null;
         assert regkey != null;
