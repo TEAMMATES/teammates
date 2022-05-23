@@ -6,6 +6,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
   MAX_EPOCH_TIME_IN_DAYS={[Function Number]}
   MAX_EPOCH_TIME_IN_MILLISECONDS={[Function Number]}
   RadioOptions={[Function Object]}
+  __ngContext__={[Function LRootView]}
   activeModal={[Function NgbActiveModal]}
   dateDetailPipe={[Function FormatDateDetailPipe]}
   extendByDatePicker={[Function Object]}
@@ -159,6 +160,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
   MAX_EPOCH_TIME_IN_DAYS={[Function Number]}
   MAX_EPOCH_TIME_IN_MILLISECONDS={[Function Number]}
   RadioOptions={[Function Object]}
+  __ngContext__={[Function LRootView]}
   activeModal={[Function NgbActiveModal]}
   dateDetailPipe={[Function FormatDateDetailPipe]}
   extendByDatePicker={[Function Object]}
@@ -357,6 +359,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend to ra
   MAX_EPOCH_TIME_IN_DAYS={[Function Number]}
   MAX_EPOCH_TIME_IN_MILLISECONDS={[Function Number]}
   RadioOptions={[Function Object]}
+  __ngContext__={[Function LRootView]}
   activeModal={[Function NgbActiveModal]}
   dateDetailPipe={[Function FormatDateDetailPipe]}
   extendByDatePicker={[Function Object]}
@@ -631,6 +634,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extended stu
   MAX_EPOCH_TIME_IN_DAYS={[Function Number]}
   MAX_EPOCH_TIME_IN_MILLISECONDS={[Function Number]}
   RadioOptions={[Function Object]}
+  __ngContext__={[Function LRootView]}
   activeModal={[Function NgbActiveModal]}
   dateDetailPipe={[Function FormatDateDetailPipe]}
   extendByDatePicker={[Function Object]}
@@ -785,6 +789,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the warning moda
   MAX_EPOCH_TIME_IN_DAYS={[Function Number]}
   MAX_EPOCH_TIME_IN_MILLISECONDS={[Function Number]}
   RadioOptions={[Function Object]}
+  __ngContext__={[Function LRootView]}
   activeModal={[Function NgbActiveModal]}
   dateDetailPipe={[Function FormatDateDetailPipe]}
   extendByDatePicker={[Function Object]}

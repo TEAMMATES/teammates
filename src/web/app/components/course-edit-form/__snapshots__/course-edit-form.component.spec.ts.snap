@@ -4,6 +4,7 @@ exports[`CourseEditFormComponent should snap when in ADD Mode and is display onl
 <tm-course-edit-form
   CourseEditFormMode={[Function Object]}
   FormValidator={[Function Object]}
+  __ngContext__={[Function LRootView]}
   addModel="undefined"
   closeFormEvent={[Function EventEmitter_]}
   copyCourseEvent={[Function EventEmitter_]}
@@ -196,7 +197,7 @@ exports[`CourseEditFormComponent should snap when in ADD Mode and is display onl
         class="form-group m-0"
       >
         <div
-          class=" col-sm-12 text-center"
+          class="col-sm-12 text-center"
         >
           <button
             class="btn btn-success"
@@ -217,6 +218,7 @@ exports[`CourseEditFormComponent should snap when in ADD Mode with default field
 <tm-course-edit-form
   CourseEditFormMode={[Function Object]}
   FormValidator={[Function Object]}
+  __ngContext__={[Function LRootView]}
   addModel={[Function Object]}
   closeFormEvent={[Function EventEmitter_]}
   copyCourseEvent={[Function EventEmitter_]}
@@ -229,7 +231,7 @@ exports[`CourseEditFormComponent should snap when in ADD Mode with default field
   isDisplayOnly="false"
   model={[Function Object]}
   ngbModal={[Function NgbModal]}
-  resetEventSubscription={[Function Subscriber]}
+  resetEventSubscription={[Function SafeSubscriber]}
   resetFormEvent={[Function EventEmitter_]}
   statusMessageService={[Function Object]}
   timezoneService={[Function Object]}
@@ -413,7 +415,7 @@ exports[`CourseEditFormComponent should snap when in ADD Mode with default field
         class="form-group m-0"
       >
         <div
-          class=" col-sm-12 text-center"
+          class="col-sm-12 text-center"
         >
           <button
             class="btn btn-success"
@@ -434,6 +436,7 @@ exports[`CourseEditFormComponent should snap when in EDIT Mode and is display on
 <tm-course-edit-form
   CourseEditFormMode={[Function Object]}
   FormValidator={[Function Object]}
+  __ngContext__={[Function LRootView]}
   addModel="undefined"
   closeFormEvent={[Function EventEmitter_]}
   copyCourseEvent={[Function EventEmitter_]}
@@ -629,7 +632,7 @@ exports[`CourseEditFormComponent should snap when in EDIT Mode and is display on
         class="form-group m-0"
       >
         <div
-          class=" col-sm-12 text-center"
+          class="col-sm-12 text-center"
         >
         </div>
       </div>
@@ -642,6 +645,7 @@ exports[`CourseEditFormComponent should snap when in EDIT Mode with default fiel
 <tm-course-edit-form
   CourseEditFormMode={[Function Object]}
   FormValidator={[Function Object]}
+  __ngContext__={[Function LRootView]}
   addModel="undefined"
   closeFormEvent={[Function EventEmitter_]}
   copyCourseEvent={[Function EventEmitter_]}
@@ -654,7 +658,7 @@ exports[`CourseEditFormComponent should snap when in EDIT Mode with default fiel
   isDisplayOnly="false"
   model={[Function Object]}
   ngbModal={[Function NgbModal]}
-  resetEventSubscription={[Function Subscriber]}
+  resetEventSubscription={[Function SafeSubscriber]}
   resetFormEvent={[Function EventEmitter_]}
   statusMessageService={[Function Object]}
   timezoneService={[Function Object]}
@@ -842,7 +846,7 @@ exports[`CourseEditFormComponent should snap when in EDIT Mode with default fiel
         class="form-group m-0"
       >
         <div
-          class=" col-sm-12 text-center"
+          class="col-sm-12 text-center"
         >
         </div>
       </div>

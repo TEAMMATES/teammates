@@ -5,6 +5,7 @@ exports[`StudentListComponent should snap with default fields 1`] = `
   JoinState={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  __ngContext__={[Function LRootView]}
   courseId=""
   courseService={[Function CourseService]}
   enableRemindButton="false"
@@ -103,6 +104,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
   JoinState={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  __ngContext__={[Function LRootView]}
   courseId=""
   courseService={[Function CourseService]}
   enableRemindButton={[Function Boolean]}
@@ -208,7 +210,6 @@ exports[`StudentListComponent should snap with enable remind button set to true 
           <td>
             <tm-view-photo-popover>
               <a
-                href="/"
                 queryparamshandling="preserve"
                 role="button"
               >
@@ -281,7 +282,6 @@ exports[`StudentListComponent should snap with enable remind button set to true 
           <td>
             <tm-view-photo-popover>
               <a
-                href="/"
                 queryparamshandling="preserve"
                 role="button"
               >
@@ -354,7 +354,6 @@ exports[`StudentListComponent should snap with enable remind button set to true 
           <td>
             <tm-view-photo-popover>
               <a
-                href="/"
                 queryparamshandling="preserve"
                 role="button"
               >
@@ -421,7 +420,6 @@ exports[`StudentListComponent should snap with enable remind button set to true 
           <td>
             <tm-view-photo-popover>
               <a
-                href="/"
                 queryparamshandling="preserve"
                 role="button"
               >
@@ -493,6 +491,7 @@ exports[`StudentListComponent should snap with enable remind button set to true,
   JoinState={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  __ngContext__={[Function LRootView]}
   courseId=""
   courseService={[Function CourseService]}
   enableRemindButton={[Function Boolean]}
@@ -598,7 +597,6 @@ exports[`StudentListComponent should snap with enable remind button set to true,
           <td>
             <tm-view-photo-popover>
               <a
-                href="/"
                 queryparamshandling="preserve"
                 role="button"
               >
@@ -671,7 +669,6 @@ exports[`StudentListComponent should snap with enable remind button set to true,
           <td>
             <tm-view-photo-popover>
               <a
-                href="/"
                 queryparamshandling="preserve"
                 role="button"
               >
@@ -738,7 +735,6 @@ exports[`StudentListComponent should snap with enable remind button set to true,
           <td>
             <tm-view-photo-popover>
               <a
-                href="/"
                 queryparamshandling="preserve"
                 role="button"
               >
@@ -805,7 +801,6 @@ exports[`StudentListComponent should snap with enable remind button set to true,
           <td>
             <tm-view-photo-popover>
               <a
-                href="/"
                 queryparamshandling="preserve"
                 role="button"
               >
@@ -877,6 +872,7 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
   JoinState={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  __ngContext__={[Function LRootView]}
   courseId=""
   courseService={[Function CourseService]}
   enableRemindButton="false"
@@ -982,7 +978,6 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
           <td>
             <tm-view-photo-popover>
               <a
-                href="/"
                 queryparamshandling="preserve"
                 role="button"
               >
@@ -1049,7 +1044,6 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
           <td>
             <tm-view-photo-popover>
               <a
-                href="/"
                 queryparamshandling="preserve"
                 role="button"
               >
@@ -1116,7 +1110,6 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
           <td>
             <tm-view-photo-popover>
               <a
-                href="/"
                 queryparamshandling="preserve"
                 role="button"
               >
@@ -1183,7 +1176,6 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
           <td>
             <tm-view-photo-popover>
               <a
-                href="/"
                 queryparamshandling="preserve"
                 role="button"
               >
@@ -1255,6 +1247,7 @@ exports[`StudentListComponent should snap with some student list data and some s
   JoinState={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  __ngContext__={[Function LRootView]}
   courseId=""
   courseService={[Function CourseService]}
   enableRemindButton="false"
@@ -1361,7 +1354,6 @@ exports[`StudentListComponent should snap with some student list data and some s
           <td>
             <tm-view-photo-popover>
               <a
-                href="/"
                 queryparamshandling="preserve"
                 role="button"
               >
@@ -1428,7 +1420,6 @@ exports[`StudentListComponent should snap with some student list data and some s
           <td>
             <tm-view-photo-popover>
               <a
-                href="/"
                 queryparamshandling="preserve"
                 role="button"
               >
@@ -1496,7 +1487,6 @@ exports[`StudentListComponent should snap with some student list data and some s
           <td>
             <tm-view-photo-popover>
               <a
-                href="/"
                 queryparamshandling="preserve"
                 role="button"
               >
@@ -1563,7 +1553,6 @@ exports[`StudentListComponent should snap with some student list data and some s
           <td>
             <tm-view-photo-popover>
               <a
-                href="/"
                 queryparamshandling="preserve"
                 role="button"
               >
@@ -1635,6 +1624,7 @@ exports[`StudentListComponent should snap with some student list data when not a
   JoinState={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  __ngContext__={[Function LRootView]}
   courseId=""
   courseService={[Function CourseService]}
   enableRemindButton="false"
@@ -1740,7 +1730,6 @@ exports[`StudentListComponent should snap with some student list data when not a
           <td>
             <tm-view-photo-popover>
               <a
-                href="/"
                 queryparamshandling="preserve"
                 role="button"
               >
@@ -1807,7 +1796,6 @@ exports[`StudentListComponent should snap with some student list data when not a
           <td>
             <tm-view-photo-popover>
               <a
-                href="/"
                 queryparamshandling="preserve"
                 role="button"
               >
@@ -1874,7 +1862,6 @@ exports[`StudentListComponent should snap with some student list data when not a
           <td>
             <tm-view-photo-popover>
               <a
-                href="/"
                 queryparamshandling="preserve"
                 role="button"
               >
@@ -1941,7 +1928,6 @@ exports[`StudentListComponent should snap with some student list data when not a
           <td>
             <tm-view-photo-popover>
               <a
-                href="/"
                 queryparamshandling="preserve"
                 role="button"
               >
@@ -2013,6 +1999,7 @@ exports[`StudentListComponent should snap with some student list data with no se
   JoinState={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  __ngContext__={[Function LRootView]}
   courseId=""
   courseService={[Function CourseService]}
   enableRemindButton="false"
@@ -2106,7 +2093,6 @@ exports[`StudentListComponent should snap with some student list data with no se
           <td>
             <tm-view-photo-popover>
               <a
-                href="/"
                 queryparamshandling="preserve"
                 role="button"
               >
@@ -2175,6 +2161,7 @@ exports[`StudentListComponent should snap with table head set to hidden 1`] = `
   JoinState={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  __ngContext__={[Function LRootView]}
   courseId=""
   courseService={[Function CourseService]}
   enableRemindButton="false"

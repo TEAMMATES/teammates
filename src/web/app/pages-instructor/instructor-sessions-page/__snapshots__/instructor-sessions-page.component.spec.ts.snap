@@ -7,6 +7,7 @@ exports[`InstructorSessionsPageComponent should snap when courses are loading 1`
   SessionsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  __ngContext__={[Function LRootView]}
   courseCandidates={[Function Array]}
   courseId="undefined"
   courseService={[Function CourseService]}
@@ -121,6 +122,7 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions are 
   SessionsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  __ngContext__={[Function LRootView]}
   courseCandidates={[Function Array]}
   courseId="undefined"
   courseService={[Function CourseService]}
@@ -235,6 +237,7 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions fail
   SessionsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  __ngContext__={[Function LRootView]}
   courseCandidates={[Function Array]}
   courseId="undefined"
   courseService={[Function CourseService]}
@@ -317,6 +320,7 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
   SessionsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  __ngContext__={[Function LRootView]}
   courseCandidates={[Function Array]}
   courseId="undefined"
   courseService={[Function CourseService]}
@@ -1219,6 +1223,7 @@ exports[`InstructorSessionsPageComponent should snap when recycle bin section is
   SessionsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  __ngContext__={[Function LRootView]}
   courseCandidates={[Function Array]}
   courseId="undefined"
   courseService={[Function CourseService]}
@@ -1333,6 +1338,7 @@ exports[`InstructorSessionsPageComponent should snap with active sessions 1`] = 
   SessionsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  __ngContext__={[Function LRootView]}
   courseCandidates={[Function Array]}
   courseId="undefined"
   courseService={[Function CourseService]}
@@ -1447,6 +1453,7 @@ exports[`InstructorSessionsPageComponent should snap with default fields 1`] = `
   SessionsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  __ngContext__={[Function LRootView]}
   courseCandidates={[Function Array]}
   courseId="undefined"
   courseService={[Function CourseService]}

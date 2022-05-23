@@ -4,6 +4,7 @@ exports[`ExtensionConfirmModalComponent should snap with the extended students a
 <tm-extension-confirm-modal
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  __ngContext__={[Function LRootView]}
   activeModal={[Function NgbActiveModal]}
   extensionTimestamp={[Function Number]}
   feedbackSessionTimeZone={[Function String]}
