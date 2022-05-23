@@ -251,11 +251,11 @@ describe('AdminSearchPageComponent', () => {
   });
 
   it('should display error message for invalid input', () => {
-    jest.spyOn(searchService, 'searchAdmin').mockReturnValue(throwError({
+    jest.spyOn(searchService, 'searchAdmin').mockReturnValue(throwError(() => ({
       error: {
         message: 'This is the error message',
       },
-    }));
+    })));
 
     const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast')
         .mockImplementation((args: string) => {
@@ -555,11 +555,11 @@ describe('AdminSearchPageComponent', () => {
       });
     });
 
-    jest.spyOn(accountService, 'resetInstructorAccount').mockReturnValue(throwError({
+    jest.spyOn(accountService, 'resetInstructorAccount').mockReturnValue(throwError(() => ({
       error: {
         message: 'This is the error message',
       },
-    }));
+    })));
 
     const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast')
         .mockImplementation((args: string) => {
@@ -630,11 +630,11 @@ describe('AdminSearchPageComponent', () => {
       });
     });
 
-    jest.spyOn(accountService, 'resetStudentAccount').mockReturnValue(throwError({
+    jest.spyOn(accountService, 'resetStudentAccount').mockReturnValue(throwError(() => ({
       error: {
         message: 'This is the error message.',
       },
-    }));
+    })));
 
     const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast')
         .mockImplementation((args: string) => {
@@ -749,11 +749,11 @@ describe('AdminSearchPageComponent', () => {
       return createMockNgbModalRef({});
     });
 
-    jest.spyOn(studentService, 'regenerateStudentKey').mockReturnValue(throwError({
+    jest.spyOn(studentService, 'regenerateStudentKey').mockReturnValue(throwError(() => ({
       error: {
         message: 'This is the error message.',
       },
-    }));
+    })));
 
     const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast')
         .mockImplementation((args: string) => {
@@ -808,11 +808,11 @@ describe('AdminSearchPageComponent', () => {
       return createMockNgbModalRef({});
     });
 
-    jest.spyOn(instructorService, 'regenerateInstructorKey').mockReturnValue(throwError({
+    jest.spyOn(instructorService, 'regenerateInstructorKey').mockReturnValue(throwError(() => ({
       error: {
         message: 'This is the error message.',
       },
-    }));
+    })));
 
     const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast')
         .mockImplementation((args: string) => {
@@ -833,11 +833,11 @@ describe('AdminSearchPageComponent', () => {
     component.students = [studentResult];
     fixture.detectChanges();
 
-    jest.spyOn(emailGenerationService, 'getCourseJoinEmail').mockReturnValue(throwError({
+    jest.spyOn(emailGenerationService, 'getCourseJoinEmail').mockReturnValue(throwError(() => ({
       error: {
         message: 'This is the error message.',
       },
-    }));
+    })));
 
     const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast')
         .mockImplementation((args: string) => {
@@ -858,11 +858,11 @@ describe('AdminSearchPageComponent', () => {
     component.students = [studentResult];
     fixture.detectChanges();
 
-    jest.spyOn(emailGenerationService, 'getFeedbackSessionReminderEmail').mockReturnValue(throwError({
+    jest.spyOn(emailGenerationService, 'getFeedbackSessionReminderEmail').mockReturnValue(throwError(() => ({
       error: {
         message: 'This is the error message.',
       },
-    }));
+    })));
 
     const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast')
         .mockImplementation((args: string) => {
@@ -902,11 +902,11 @@ describe('AdminSearchPageComponent', () => {
       return createMockNgbModalRef({});
     });
 
-    jest.spyOn(accountService, 'deleteAccountRequest').mockReturnValue(throwError({
+    jest.spyOn(accountService, 'deleteAccountRequest').mockReturnValue(throwError(() => ({
       error: {
         message: 'This is the error message.',
       },
-    }));
+    })));
 
     const spyStatusMessageService: any = jest.spyOn(statusMessageService, 'showErrorToast')
       .mockImplementation((args: string) => {
@@ -951,11 +951,11 @@ describe('AdminSearchPageComponent', () => {
       return createMockNgbModalRef({});
     });
 
-    jest.spyOn(accountService, 'resetAccountRequest').mockReturnValue(throwError({
+    jest.spyOn(accountService, 'resetAccountRequest').mockReturnValue(throwError(() => ({
       error: {
         message: 'This is the error message.',
       },
-    }));
+    })));
 
     const spyStatusMessageService = jest.spyOn(statusMessageService, 'showErrorToast')
       .mockImplementation((args: string) => {

@@ -875,10 +875,10 @@ describe('SessionSubmissionPageComponent', () => {
   });
 
   it('should show session not found modal when loading non-existent feedback session', () => {
-    jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(throwError({
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(throwError(() => ({
       error: { message: 'This is an error' },
       status: 404,
-    }));
+    })));
     const modalSpy: SpyInstance = jest.spyOn(simpleModalService, 'openInformationModal').mockImplementation();
 
     component.loadFeedbackSession(false, testInfo);
@@ -890,10 +890,10 @@ describe('SessionSubmissionPageComponent', () => {
   });
 
   it('should show session not visible modal when loading non-viewable feedback session', () => {
-    jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(throwError({
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(throwError(() => ({
       error: { message: 'This is an error' },
       status: 403,
-    }));
+    })));
     const modalSpy: SpyInstance = jest.spyOn(simpleModalService, 'openInformationModal').mockImplementation();
 
     component.loadFeedbackSession(false, testInfo);

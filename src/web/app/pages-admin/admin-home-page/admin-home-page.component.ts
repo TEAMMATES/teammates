@@ -198,7 +198,7 @@ export class AdminHomePageComponent {
             // User is not a student
             return of({ courses: [] });
           }
-          return throwError(err);
+          return throwError(() => err);
         }),
       );
     const getInstructorCourses: Observable<Courses> = this.courseService
@@ -209,7 +209,7 @@ export class AdminHomePageComponent {
             // User is not an instructor
             return of({ courses: [] });
           }
-          return throwError(err);
+          return throwError(() => err);
         }),
       );
 

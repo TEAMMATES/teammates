@@ -332,9 +332,9 @@ describe('SessionResultPageComponent', () => {
   });
 
   it('should navigate away when error occurs', () => {
-    jest.spyOn(authService, 'getAuthUser').mockReturnValue(throwError({
+    jest.spyOn(authService, 'getAuthUser').mockReturnValue(throwError(() => ({
       error: { message: 'This is error' },
-    }));
+    })));
     const navSpy: SpyInstance = jest.spyOn(navService, 'navigateWithErrorMessage').mockImplementation();
 
     fixture.detectChanges();

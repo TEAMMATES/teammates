@@ -1132,7 +1132,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       const allEditForms: NodeListOf<Element> = document.querySelectorAll('tm-question-edit-form');
       const newEditForm: Element = allEditForms[allEditForms.length - 1];
       const yOffset: number = -70; // Need offset because of the navBar
-      const y: number = newEditForm.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      const y: number = newEditForm.getBoundingClientRect().top + window.scrollY + yOffset;
       window.scrollTo({ top: y, behavior: 'smooth' });
     }, 0);
   }

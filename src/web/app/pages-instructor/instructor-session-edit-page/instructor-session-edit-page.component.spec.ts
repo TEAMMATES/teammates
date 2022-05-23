@@ -377,11 +377,11 @@ describe('InstructorSessionEditPageComponent', () => {
   it('should display error message when feedback session failed to load', () => {
     component.hasLoadingFeedbackSessionFailed = false;
     jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse1));
-    jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(throwError({
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(throwError(() => ({
       error: {
         message: 'This is the error message.',
       },
-    }));
+    })));
     const spy: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast')
       .mockImplementation((args: string) => {
         expect(args).toEqual('This is the error message.');
@@ -408,11 +408,11 @@ describe('InstructorSessionEditPageComponent', () => {
 
   it('should display error message when feedback question failed to load', () => {
     component.hasLoadingFeedbackQuestionsFailed = false;
-    jest.spyOn(feedbackQuestionsService, 'getFeedbackQuestions').mockReturnValue(throwError({
+    jest.spyOn(feedbackQuestionsService, 'getFeedbackQuestions').mockReturnValue(throwError(() => ({
       error: {
         message: 'This is the error message.',
       },
-    }));
+    })));
     const spy: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast')
       .mockImplementation((args: string) => {
         expect(args).toEqual('This is the error message.');
@@ -452,11 +452,11 @@ describe('InstructorSessionEditPageComponent', () => {
   });
 
   it('should display error message when failed to get student', () => {
-    jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(throwError({
+    jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(throwError(() => ({
       error: {
         message: 'This is the error message.',
       },
-    }));
+    })));
     const spy: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast')
       .mockImplementation((args: string) => {
         expect(args).toEqual('This is the error message.');
@@ -492,11 +492,11 @@ describe('InstructorSessionEditPageComponent', () => {
   });
 
   it('should display error message when failed to get instructor', () => {
-    jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(throwError({
+    jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(throwError(() => ({
       error: {
         message: 'This is the error message.',
       },
-    }));
+    })));
     const spy: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast')
       .mockImplementation((args: string) => {
         expect(args).toEqual('This is the error message.');

@@ -210,11 +210,11 @@ describe('AdminHomePageComponent', () => {
         message: 'This should not be displayed',
       },
     ];
-    jest.spyOn(accountService, 'createAccountRequest').mockReturnValue(throwError({
+    jest.spyOn(accountService, 'createAccountRequest').mockReturnValue(throwError(() => ({
       error: {
         message: 'This is the error message',
       },
-    }));
+    })));
     fixture.detectChanges();
 
     const index: number = 0;

@@ -228,11 +228,11 @@ describe('InstructorCourseDetailsPageComponent', () => {
     component.courseDetails = courseDetails;
     fixture.detectChanges();
 
-    jest.spyOn(studentService, 'batchDeleteStudentsFromCourse').mockReturnValue(throwError({
+    jest.spyOn(studentService, 'batchDeleteStudentsFromCourse').mockReturnValue(throwError(() => ({
       error: {
         message: 'This is the error message.',
       },
-    }));
+    })));
 
     const spy: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast').mockImplementation((args: string) => {
       expect(args).toEqual('This is the error message.');

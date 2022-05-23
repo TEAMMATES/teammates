@@ -139,12 +139,12 @@ export class StudentProfilePageComponent implements OnInit {
               return from(modalRef.result);
             }),
             // If no image is uploaded, throw an error
-            catchError(() => throwError({
+            catchError(() => throwError(() => ({
               error: {
                 message: 'No image uploaded',
               },
               status: NO_IMAGE_UPLOADED,
-            })),
+            }))),
             // Post the form data
             switchMap((formData: FormData) => {
               return this.studentProfileService.postProfilePicture(formData);

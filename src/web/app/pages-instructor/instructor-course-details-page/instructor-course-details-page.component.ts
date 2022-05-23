@@ -243,7 +243,11 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
       }
     }, () => {});
 
-    generate(0, (x) => x < totalNumOfRequests, (x) => x + 1).pipe(
+    generate({
+      initialState: 0,
+      condition: (x) => x < totalNumOfRequests,
+      iterate: (x) => x + 1,
+    }).pipe(
         concatMap(() => this.studentService.batchDeleteStudentsFromCourse(
             { courseId, limit: numOfStudentsToDeletePerRequest })),
         takeWhile(() => !deleteAborted),
