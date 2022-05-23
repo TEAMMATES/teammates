@@ -205,6 +205,9 @@ describe('InstructorCourseDetailsPageComponent', () => {
           expect(args).toEqual('All the students have been removed from the course');
         });
 
+    jest.spyOn(simpleModalService, 'openLoadingModal')
+        .mockReturnValue(createMockNgbModalRef());
+
     component.deleteAllStudentsFromCourse(course.courseId);
 
     // given a limit of 100 students per call and 350 students,
