@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { environment } from '../../../../environments/environment';
 import { TemplateSession } from '../../../../services/feedback-sessions.service';
 import {
   Course,
@@ -65,6 +65,8 @@ export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectio
   InstructorSessionResultSectionType: typeof InstructorSessionResultSectionType = InstructorSessionResultSectionType;
   SessionsSectionQuestions: typeof SessionsSectionQuestions = SessionsSectionQuestions;
 
+  readonly supportEmail: string = environment.supportEmail;
+  readonly frontendUrl: string = environment.frontendUrl;
   readonly exampleCommentEditFormModel: CommentEditFormModel = EXAMPLE_COMMENT_EDIT_FORM_MODEL;
   readonly exampleSessionEditFormModel: SessionEditFormModel = EXAMPLE_SESSION_EDIT_FORM_MODEL;
   readonly exampleResponse: ResponseOutput = EXAMPLE_RESPONSE;
@@ -86,12 +88,14 @@ export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectio
     SessionsSectionQuestions.SESSION_NEW_FEEDBACK,
     SessionsSectionQuestions.SESSION_QUESTIONS,
     SessionsSectionQuestions.SESSION_PREVIEW,
-    SessionsSectionQuestions.SESSION_CANNOT_SUBMIT,
+    SessionsSectionQuestions.LET_STUDENT_KNOW_SESSION,
+    SessionsSectionQuestions.STUDENT_DID_NOT_RECEIVE_SESSION_EMAIL,
+    SessionsSectionQuestions.EXTEND_SESSION_DEADLINE,
+    SessionsSectionQuestions.SUBMIT_FOR_STUDENT,
     SessionsSectionQuestions.SESSION_VIEW_RESULTS,
     SessionsSectionQuestions.VIEW_ALL_RESPONSES,
     SessionsSectionQuestions.SESSION_ADD_COMMENTS,
     SessionsSectionQuestions.EDIT_DEL_COMMENT,
-    SessionsSectionQuestions.SESSION_SEARCH,
     SessionsSectionQuestions.VIEW_DELETED_SESSION,
     SessionsSectionQuestions.RESTORE_SESSION,
     SessionsSectionQuestions.PERMANENT_DEL_SESSION,
