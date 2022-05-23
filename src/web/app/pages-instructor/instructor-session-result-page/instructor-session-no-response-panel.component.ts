@@ -16,6 +16,9 @@ import {
 import {
   SendRemindersToRespondentsModalComponent,
 } from '../../components/sessions-table/send-reminders-to-respondents-modal/send-reminders-to-respondents-modal.component';
+import {
+  ReminderResponseModel,
+} from '../../components/sessions-table/send-reminders-to-respondents-modal/send-reminders-to-respondents-model';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 
 /**
@@ -64,7 +67,7 @@ export class InstructorSessionNoResponsePanelComponent implements OnInit, OnChan
 
   noResponseStudentsInSection: Student[] = [];
 
-  @Output() studentsToRemindEvent: EventEmitter<StudentListInfoTableRowModel[]> = new EventEmitter();
+  @Output() studentsToRemindEvent: EventEmitter<ReminderResponseModel> = new EventEmitter();
 
   constructor(private ngbModal: NgbModal,
               private tableComparatorService: TableComparatorService) { }
@@ -109,8 +112,8 @@ export class InstructorSessionNoResponsePanelComponent implements OnInit, OnChan
         isSelected: nonResponseStudentEmailSet.has(student.email),
       } as StudentListInfoTableRowModel));
 
-    modalRef.result.then((studentsToRemind: StudentListInfoTableRowModel[]) => {
-      this.studentsToRemindEvent.emit(studentsToRemind);
+    modalRef.result.then((reminderResponse: ReminderResponseModel) => {
+      this.studentsToRemindEvent.emit(reminderResponse);
     }, () => {});
   }
 
