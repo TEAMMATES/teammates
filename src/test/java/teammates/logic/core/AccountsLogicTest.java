@@ -15,6 +15,7 @@ import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.JoinCourseException;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.storage.api.AccountsDb;
@@ -119,6 +120,8 @@ public class AccountsLogicTest extends BaseLogicTest {
 
         String correctStudentId = "correctStudentId";
         String courseId = "idOfTypicalCourse1";
+        String deletedCourseId = "idOfTypicalCourse3";
+        String deletedCourseName = "Typical Course 3 with 1 Evals";
         String originalEmail = "original@email.com";
 
         // Create correct student with original@email.com
@@ -194,6 +197,17 @@ public class AccountsLogicTest extends BaseLogicTest {
                 () -> accountsLogic.joinCourseForStudent(finalStudent.getKey(), "wrongstudent"));
         assertEquals("Student has already joined course", eaee.getMessage());
 
+        ______TS("failure: course deleted");
+
+        studentData.setCourse(deletedCourseId);
+        studentData = studentsLogic.createStudent(studentData);
+        StudentAttributes finalDeletedCourseStudent = studentData;
+
+        JoinCourseException jce = assertThrows(JoinCourseException.class,
+                () -> accountsLogic.joinCourseForStudent(finalDeletedCourseStudent.getKey(),
+                        finalDeletedCourseStudent.getGoogleId()));
+        assertEquals("Course " + deletedCourseName + " is deleted", jce.getMessage());
+
         ______TS("success: with encryption and new account to be created");
 
         accountsLogic.deleteAccountCascade(correctStudentId);
@@ -229,7 +243,8 @@ public class AccountsLogicTest extends BaseLogicTest {
 
     @Test
     public void testJoinCourseForInstructor() throws Exception {
-
+        String deletedCourseId = "idOfTypicalCourse3";
+        String deletedCourseName = "Typical Course 3 with 1 Evals";
         InstructorAttributes instructor = dataBundle.instructors.get("instructorNotYetJoinCourse");
         String loggedInGoogleId = "AccLogicT.instr.id";
         String[] key = new String[] {
@@ -339,6 +354,17 @@ public class AccountsLogicTest extends BaseLogicTest {
                 () -> accountsLogic.joinCourseForInstructor(invalidKey, loggedInGoogleId));
         assertEquals("No instructor with given registration key: " + invalidKey,
                 ednee.getMessage());
+
+        ______TS("failure: course deleted");
+
+        instructor.setCourseId(deletedCourseId);
+        instructor = instructorsLogic.createInstructor(instructor);
+        InstructorAttributes finalDeletedCourseInstructor = instructor;
+
+        JoinCourseException jce = assertThrows(JoinCourseException.class,
+                () -> accountsLogic.joinCourseForInstructor(finalDeletedCourseInstructor.getKey(),
+                        finalDeletedCourseInstructor.getGoogleId()));
+        assertEquals("Course " + deletedCourseName + " is deleted", jce.getMessage());
     }
 
     @Test

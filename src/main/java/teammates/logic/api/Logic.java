@@ -815,7 +815,7 @@ public class Logic {
      * @param key the registration key
      */
     public StudentAttributes joinCourseForStudent(String key, String googleId)
-            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
+            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException, JoinCourseException {
 
         assert googleId != null;
         assert key != null;

@@ -89,7 +89,7 @@ public final class AccountsLogic {
      * Joins the user as a student.
      */
     public StudentAttributes joinCourseForStudent(String registrationKey, String googleId)
-            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
+            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException, JoinCourseException {
         StudentAttributes student = validateStudentJoinRequest(registrationKey, googleId);
 
         // Register the student
@@ -160,14 +160,15 @@ public final class AccountsLogic {
     private InstructorAttributes validateInstructorJoinRequest(String registrationKey, String googleId)
             throws EntityDoesNotExistException, EntityAlreadyExistsException, JoinCourseException {
         InstructorAttributes instructorForKey = instructorsLogic.getInstructorForRegistrationKey(registrationKey);
-        CourseAttributes courseAttributes = coursesLogic.getCourse(instructorForKey.getCourseId());
-
-        if (courseAttributes.isCourseDeleted()) {
-            throw new JoinCourseException("Course is deleted");
-        }
 
         if (instructorForKey == null) {
             throw new EntityDoesNotExistException("No instructor with given registration key: " + registrationKey);
+        }
+
+        CourseAttributes courseAttributes = coursesLogic.getCourse(instructorForKey.getCourseId());
+
+        if (courseAttributes.isCourseDeleted()) {
+            throw new JoinCourseException("Course " + courseAttributes.getName() + " is deleted");
         }
 
         if (instructorForKey.isRegistered()) {
@@ -193,12 +194,18 @@ public final class AccountsLogic {
     }
 
     private StudentAttributes validateStudentJoinRequest(String registrationKey, String googleId)
-            throws EntityDoesNotExistException, EntityAlreadyExistsException {
+            throws EntityDoesNotExistException, EntityAlreadyExistsException, JoinCourseException {
 
         StudentAttributes studentRole = studentsLogic.getStudentForRegistrationKey(registrationKey);
 
         if (studentRole == null) {
             throw new EntityDoesNotExistException("No student with given registration key: " + registrationKey);
+        }
+
+        CourseAttributes courseAttributes = coursesLogic.getCourse(studentRole.getCourse());
+
+        if (courseAttributes.isCourseDeleted()) {
+            throw new JoinCourseException("Course " + courseAttributes.getName() + " is deleted");
         }
 
         if (studentRole.isRegistered()) {
