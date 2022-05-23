@@ -335,8 +335,10 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
             <td
               class="text-break"
             >
-              <span>
-                 test-exa.demo 
+              <span
+                class="ngb-tooltip-class"
+              >
+                test-exa.demo
               </span>
               <br />
               <div
@@ -591,7 +593,7 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
               <span
                 class="text-break"
               >
-                 test-exa.demo [section] (team) 
+                test-exa.demo [section] (team)
               </span>
               <br />
               <div
