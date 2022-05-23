@@ -38,7 +38,7 @@
           <tr (click)="instructor.showLinks = !instructor.showLinks">
             <td class="text-break">
               <span class="ngb-tooltip-class" [ngClass]="{'text-course-deleted': instructor.isCourseDeleted}" [ngbTooltip]="instructor.courseName">{{ instructor.courseId }}</span>
-              <i *ngIf="instructor.isCourseDeleted" class="fas fa-trash-alt text-course-deleted margin-left-5px" [ngbTooltip]="courseInRecycleBinTip"></i>
+              <i *ngIf="instructor.isCourseDeleted" class="fas fa-trash-alt text-course-deleted margin-left-5px bin-icon" [ngbTooltip]="courseInRecycleBinTip"></i>
               <br>
               <div class="col-sm-1">
                 <button *ngIf="!instructor.showLinks" class="btn">
@@ -128,7 +128,7 @@
           <tr (click)="student.showLinks = !student.showLinks">
             <td>
               <span class="text-break ngb-tooltip-class" [ngClass]="{'text-course-deleted': student.isCourseDeleted}" [ngbTooltip]="student.courseName">{{ student.courseId }} [{{ student.section }}] ({{ student.team }})</span>
-              <i *ngIf="student.isCourseDeleted" class="fas fa-trash-alt text-course-deleted margin-left-5px" [ngbTooltip]="courseInRecycleBinTip"></i>
+              <i *ngIf="student.isCourseDeleted" class="fas fa-trash-alt text-course-deleted margin-left-5px bin-icon" [ngbTooltip]="courseInRecycleBinTip"></i>
               <br>
               <div class="col-sm-1">
                 <button *ngIf="!student.showLinks" class="btn">
