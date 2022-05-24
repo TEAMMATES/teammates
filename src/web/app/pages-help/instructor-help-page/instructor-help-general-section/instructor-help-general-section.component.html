@@ -1,0 +1,31 @@
+<div>
+  <h2 class="color-blue" *ngIf="!key || showQuestion.length > 0">General</h2>
+  <!-- Question -->
+  <tm-instructor-help-panel class="instr-help-qn-first" #question [hidden]="key && !showQuestion.includes(GeneralSectionQuestions.FREE_FOR_USE)"
+                            [id]="GeneralSectionQuestions.FREE_FOR_USE"
+                            headerText="Is TEAMMATES free? How long is it going to stay free?"
+                            [(isPanelExpanded)]="questionsToCollapsed[GeneralSectionQuestions.FREE_FOR_USE]">
+    <p>
+      TEAMMATES is funded by education grants and is free for both instructors and students.<br>
+      At the moment we have no plans to commercialize TEAMMATES or offer paid services. In the unlikely event the free service is terminated, users will be informed at least one semester in advance.
+    </p>
+  </tm-instructor-help-panel>
+  <!-- Question -->
+  <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(GeneralSectionQuestions.DATA_PRIVACY)"
+                            [id]="GeneralSectionQuestions.DATA_PRIVACY"
+                            headerText="Is data from my courses in TEAMMATES used for research? Are they shared with third parties?"
+                            [(isPanelExpanded)]="questionsToCollapsed[GeneralSectionQuestions.DATA_PRIVACY]">
+    <p>
+      No and No. Furthermore, you may delete your data from TEAMMATES any time.
+    </p>
+  </tm-instructor-help-panel>
+  <!-- Question -->
+  <tm-instructor-help-panel class="instr-help-qn-last" #question [hidden]="key && !showQuestion.includes(GeneralSectionQuestions.DST_ADJUSTMENT)"
+                            [id]="GeneralSectionQuestions.DST_ADJUSTMENT"
+                            headerText="Does TEAMMATES cater for daylight saving time (DST) adjustments?"
+                            [(isPanelExpanded)]="questionsToCollapsed[GeneralSectionQuestions.DST_ADJUSTMENT]">
+    <p>
+      Yes, TEAMMATES automatically factors in daylight saving time.
+    </p>
+  </tm-instructor-help-panel>
+</div>

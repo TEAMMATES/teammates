@@ -54,6 +54,9 @@ import {
 import {
   InstructorHelpStudentsSectionComponent,
 } from './instructor-help-students-section/instructor-help-students-section.component';
+import {
+  InstructorHelpGeneralSectionComponent
+} from "./instructor-help-general-section/instructor-help-general-section.component";
 
 const routes: Routes = [
   {
@@ -102,6 +105,7 @@ const routes: Routes = [
     InstructorHelpSessionsSectionComponent,
     InstructorHelpQuestionsSectionComponent,
     InstructorHelpCoursesSectionComponent,
+    InstructorHelpGeneralSectionComponent,
   ],
   exports: [
     InstructorHelpPageComponent,
