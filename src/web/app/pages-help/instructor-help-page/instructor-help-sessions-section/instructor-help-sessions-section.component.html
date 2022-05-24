@@ -1,7 +1,7 @@
 <div>
   <h2 class="color-blue" *ngIf="!key || showQuestion.length > 0">Sessions</h2>
   <!-- Section -->
-  <h4 *ngIf="displaySubsection(0, 7)">Setting Up Sessions</h4>
+  <h4 *ngIf="displaySubsection(0, 9)">Setting Up Sessions</h4>
   <!-- Question -->
   <tm-instructor-help-panel class="instr-help-qn-first" #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.TIPS_FOR_CONDUCTION_PEER_EVAL)"
                             [id]="SessionsSectionQuestions.TIPS_FOR_CONDUCTION_PEER_EVAL"
@@ -185,6 +185,15 @@
     </tm-example-box>
   </tm-instructor-help-panel>
   <!-- Question -->
+  <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.SET_QUESTION_COMPULSORY)"
+                            [id]="SessionsSectionQuestions.SET_QUESTION_COMPULSORY"
+                            headerText="Can I set a question as ‘compulsory’?"
+                            [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.SET_QUESTION_COMPULSORY]">
+    <p>
+      Not at the moment. But you can mention in the question description that it is a compulsory question (TEAMMATES will not enforce it though).
+    </p>
+  </tm-instructor-help-panel>
+  <!-- Question -->
   <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.SESSION_PREVIEW)"
                             [id]="SessionsSectionQuestions.SESSION_PREVIEW"
                             headerText="How do I preview a session?"
@@ -244,7 +253,7 @@
     </ol>
   </tm-instructor-help-panel>
   <!-- Question -->
-  <tm-instructor-help-panel class="instr-help-qn-last" #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.EXTEND_SESSION_DEADLINE)"
+  <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.EXTEND_SESSION_DEADLINE)"
                             [id]="SessionsSectionQuestions.EXTEND_SESSION_DEADLINE"
                             headerText="How do I extend the deadline of a session?"
                             [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.EXTEND_SESSION_DEADLINE]">
@@ -252,11 +261,33 @@
       To extend the deadline for all respondents, edit the session and change the end date/time as desired. This can be done at any time.
     </p>
   </tm-instructor-help-panel>
+  <!-- Question -->
+  <tm-instructor-help-panel class="instr-help-qn-last" #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.CHANGE_VISIBILITY_AFTER_SESSION_START)"
+                            [id]="SessionsSectionQuestions.CHANGE_VISIBILITY_AFTER_SESSION_START"
+                            headerText="Can I change the visibility settings of questions after the session has started?"
+                            [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.CHANGE_VISIBILITY_AFTER_SESSION_START]">
+    <p>
+      Yes, but it is not recommended.
+    </p>
+    <p>
+      Reason: The current visibility setting of each question is shown to the respondent at the point of response submission i.e., responses are submitted based on the promise of a certain visibility.
+      Changing the visibility later would be like ‘breaking a promise’ you made earlier.
+    </p>
+  </tm-instructor-help-panel>
 
   <!-- Section -->
-  <h4 *ngIf="displaySubsection(7, 10)">Managing Session Responses</h4>
+  <h4 *ngIf="displaySubsection(9, 17)">Managing Session Responses</h4>
   <!-- Question -->
-  <tm-instructor-help-panel class="instr-help-qn-first" #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.SUBMIT_FOR_STUDENT)"
+  <tm-instructor-help-panel class="instr-help-qn-first" #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.STUDENT_EDIT_RESPONSE)"
+                            [id]="SessionsSectionQuestions.STUDENT_EDIT_RESPONSE"
+                            headerText="Can students edit responses they submitted earlier?"
+                            [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.STUDENT_EDIT_RESPONSE]">
+    <p>
+      Yes, they can edit responses any number of times, as long as the session is still open. To edit responses, they can use the same method they used when submitting the responses initially.
+    </p>
+  </tm-instructor-help-panel>
+  <!-- Question -->
+  <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.SUBMIT_FOR_STUDENT)"
                             [id]="SessionsSectionQuestions.SUBMIT_FOR_STUDENT"
                             headerText="Can I submit responses on behalf of a student?"
                             [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.SUBMIT_FOR_STUDENT]">
@@ -280,6 +311,15 @@
         Copy the student's responses to the corresponding questions, and click the <button type="button" class="btn btn-primary btn-lg">Submit Feedback</button> button.
       </li>
     </ol>
+  </tm-instructor-help-panel>
+  <!-- Question -->
+  <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.STUDENT_ACCESS_SUBMISSION_PAGE)"
+                            [id]="SessionsSectionQuestions.STUDENT_ACCESS_SUBMISSION_PAGE"
+                            headerText="Can I see when a student tried to access the submission page?"
+                            [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.STUDENT_ACCESS_SUBMISSION_PAGE]">
+    <p>
+      Not at the moment. If there is such a need, contact us and we'll try to find that information for you.
+    </p>
   </tm-instructor-help-panel>
   <!-- Question -->
   <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.SESSION_VIEW_RESULTS)"
@@ -327,7 +367,7 @@
     </tm-example-box>
   </tm-instructor-help-panel>
   <!-- Question -->
-  <tm-instructor-help-panel class="instr-help-qn-last" #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.VIEW_ALL_RESPONSES)"
+  <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.VIEW_ALL_RESPONSES)"
                             [id]="SessionsSectionQuestions.VIEW_ALL_RESPONSES"
                             headerText="How do I view all the responses a student has given and received?"
                             [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.VIEW_ALL_RESPONSES]">
@@ -343,9 +383,50 @@
       </li>
     </ol>
   </tm-instructor-help-panel>
+  <!-- Question -->
+  <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.MODERATE_RESPONSE)"
+                            [id]="SessionsSectionQuestions.MODERATE_RESPONSE"
+                            headerText="Am I able to moderate responses submitted by students?"
+                            [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.MODERATE_RESPONSE]">
+    <p>
+      Yes, the ‘moderate’ feature is available when you view the responses of a session.
+    </p>
+  </tm-instructor-help-panel>
+  <!-- Question -->
+  <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.STUDENT_SEE_RESPONSE)"
+                            [id]="SessionsSectionQuestions.STUDENT_SEE_RESPONSE"
+                            headerText="When do students get to see responses collected by a session?"
+                            [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.STUDENT_SEE_RESPONSE]">
+    <p>
+      Students can only see the responses after you have ‘published’ the responses of that session. Until then, they can only see the responses they submitted themselves.<br>
+      When you ‘publish’ responses of a session, TEAMMATES will email each student instructions for viewing responses.<br>
+      What students will get to see depends on the ‘visibility’ setting of each question.
+    </p>
+  </tm-instructor-help-panel>
+  <!-- Question -->
+  <tm-instructor-help-panel class="instr-help-qn-last" #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.STUDENT_DID_NOT_RECEIVE_RESULT_EMAIL)"
+                            [id]="SessionsSectionQuestions.STUDENT_DID_NOT_RECEIVE_RESULT_EMAIL"
+                            headerText="What if a student says s/he did not receive the link to view responses, even after I published the session responses?"
+                            [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.STUDENT_DID_NOT_RECEIVE_RESULT_EMAIL]">
+    <p>
+      Here are some options:
+    </p>
+    <ol>
+      <li>
+        The student can request TEAMMATES to resend the link [explain link recovery feature here].
+      </li>
+      <li>
+        Resend the link to the student using TEAMMATES [give details of the feature below].
+      </li>
+      <li>
+        Failing all above, ask students to email us at <a href="mailto:{{ supportEmail }}">{{ supportEmail }}</a> We can resend the email using an alternate means.
+        When they email us, they should use the email address currently registered in TEAMMATES (for identification).
+      </li>
+    </ol>
+  </tm-instructor-help-panel>
 
   <!-- Section -->
-  <h4 *ngIf="displaySubsection(10, 12)">Adding Comments to Responses</h4>
+  <h4 *ngIf="displaySubsection(17, 19)">Adding Comments to Responses</h4>
   <!-- Question -->
   <tm-instructor-help-panel class="instr-help-qn-first" #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.SESSION_ADD_COMMENTS)"
                             [id]="SessionsSectionQuestions.SESSION_ADD_COMMENTS"
@@ -416,7 +497,7 @@
   </tm-instructor-help-panel>
 
   <!-- Section -->
-  <h4 *ngIf="displaySubsection(12, 16)">Restoring Deleted Sessions</h4>
+  <h4 *ngIf="displaySubsection(19, 23)">Restoring Deleted Sessions</h4>
   <!-- Question -->
   <tm-instructor-help-panel class="instr-help-qn-first" #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.VIEW_DELETED_SESSION)"
                             [id]="SessionsSectionQuestions.VIEW_DELETED_SESSION"

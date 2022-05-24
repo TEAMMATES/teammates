@@ -82,4 +82,39 @@ export enum SessionsSectionQuestions {
    */
   EXTEND_SESSION_DEADLINE = 'extend-session-deadline',
 
+  /**
+   * Can I set a question as ‘compulsory’?
+   */
+  SET_QUESTION_COMPULSORY = 'set-question-compulsory',
+
+  /**
+   * Can I change the visibility settings of questions after the session has started?
+   */
+  CHANGE_VISIBILITY_AFTER_SESSION_START = 'change-visibility-after-session-start',
+
+  /**
+   * Can students edit responses they submitted earlier?
+   */
+  STUDENT_EDIT_RESPONSE = 'student-edit-response',
+
+  /**
+   * Can I see when a student tried to access the submission page?
+   */
+  STUDENT_ACCESS_SUBMISSION_PAGE = 'student-access-submission-page',
+
+  /**
+   * Am I able to moderate responses submitted by students?
+   */
+  MODERATE_RESPONSE = 'moderate-response',
+
+  /**
+   * When do students get to see responses collected by a session?
+   */
+  STUDENT_SEE_RESPONSE = 'student-see-response',
+
+  /**
+   * What if a student says s/he did not receive the link to view responses, even after I published the session responses?
+   */
+  STUDENT_DID_NOT_RECEIVE_RESULT_EMAIL = 'student-did-not-receive-session-email',
+
 }
