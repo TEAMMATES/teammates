@@ -43,6 +43,9 @@ import { ExampleBoxModule } from './example-box/example-box.module';
 import {
   InstructorHelpCoursesSectionComponent,
 } from './instructor-help-courses-section/instructor-help-courses-section.component';
+import {
+  InstructorHelpGeneralSectionComponent,
+} from './instructor-help-general-section/instructor-help-general-section.component';
 import { InstructorHelpPageComponent } from './instructor-help-page.component';
 import { InstructorHelpPanelComponent } from './instructor-help-panel/instructor-help-panel.component';
 import {
@@ -54,9 +57,6 @@ import {
 import {
   InstructorHelpStudentsSectionComponent,
 } from './instructor-help-students-section/instructor-help-students-section.component';
-import {
-  InstructorHelpGeneralSectionComponent
-} from "./instructor-help-general-section/instructor-help-general-section.component";
 
 const routes: Routes = [
   {
