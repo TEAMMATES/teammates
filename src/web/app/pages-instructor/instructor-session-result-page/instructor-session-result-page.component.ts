@@ -202,7 +202,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
       // load section tabs
       this.courseService.getCourseSectionNames(courseId)
         .subscribe((courseSectionNames: CourseSectionNames) => {
-          this.sectionsModel.None = {
+          this.sectionsModel['None'] = {
             questions: [],
             hasPopulated: false,
             isTabExpanded: false,

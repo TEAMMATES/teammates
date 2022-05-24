@@ -343,10 +343,10 @@ describe('InstructorCoursesPageComponent', () => {
     expect(studentSpy).toHaveBeenCalledTimes(1);
     expect(studentSpy).toHaveBeenLastCalledWith({ courseId: 'CS1231' });
 
-    expect(component.courseStats.CS1231.sections).toEqual(2);
-    expect(component.courseStats.CS1231.teams).toEqual(3);
-    expect(component.courseStats.CS1231.students).toEqual(8);
-    expect(component.courseStats.CS1231.unregistered).toEqual(1);
+    expect(component.courseStats['CS1231']['sections']).toEqual(2);
+    expect(component.courseStats['CS1231']['teams']).toEqual(3);
+    expect(component.courseStats['CS1231']['students']).toEqual(8);
+    expect(component.courseStats['CS1231']['unregistered']).toEqual(1);
   });
 
   it('should archive an active course', () => {

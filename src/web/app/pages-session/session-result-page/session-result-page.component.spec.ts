@@ -389,10 +389,10 @@ describe('SessionResultPageComponent', () => {
 
     component.ngOnInit();
     expect(getQuestionsSpy).toHaveBeenLastCalledWith({
-      courseId: testQueryParams.courseid,
-      feedbackSessionName: testQueryParams.fsname,
+      courseId: testQueryParams['courseid'],
+      feedbackSessionName: testQueryParams['fsname'],
       intent: Intent.STUDENT_RESULT,
-      key: testQueryParams.key,
+      key: testQueryParams['key'],
     });
     expect(component.questions.length).toEqual(1);
     expect(component.questions[0]).toEqual(testFeedbackQuestionModel);

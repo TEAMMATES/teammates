@@ -173,13 +173,13 @@ export class StudentProfilePageComponent implements OnInit {
   submitEditForm(): void {
     this.isSavingProfileEdit = true;
     this.studentProfileService.updateStudentProfile(this.id, {
-      shortName: this.editForm.controls.studentshortname.value,
-      email: this.editForm.controls.studentprofileemail.value,
-      institute: this.editForm.controls.studentprofileinstitute.value,
-      nationality: this.editForm.controls.studentnationality.value,
-      gender: this.editForm.controls.studentgender.value,
-      moreInfo: this.editForm.controls.studentprofilemoreinfo.value,
-      existingNationality: this.editForm.controls.existingNationality.value,
+      shortName: this.editForm.controls['studentshortname'].value,
+      email: this.editForm.controls['studentprofileemail'].value,
+      institute: this.editForm.controls['studentprofileinstitute'].value,
+      nationality: this.editForm.controls['studentnationality'].value,
+      gender: this.editForm.controls['studentgender'].value,
+      moreInfo: this.editForm.controls['studentprofilemoreinfo'].value,
+      existingNationality: this.editForm.controls['existingNationality'].value,
     }).pipe(finalize(() => {
       this.isSavingProfileEdit = false;
     })).subscribe((response: MessageOutput) => {

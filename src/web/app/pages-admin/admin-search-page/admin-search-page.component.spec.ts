@@ -654,28 +654,28 @@ describe('AdminSearchPageComponent', () => {
       awaitingSessions: {
         ...DEFAULT_FEEDBACK_SESSION_GROUP,
         sessionName: {
-          ...DEFAULT_FEEDBACK_SESSION_GROUP.sessionName,
+          ...DEFAULT_FEEDBACK_SESSION_GROUP['sessionName'],
           feedbackSessionUrl: 'awaitingSession?key=oldKey',
         },
       },
       openSessions: {
         ...DEFAULT_FEEDBACK_SESSION_GROUP,
         sessionName: {
-          ...DEFAULT_FEEDBACK_SESSION_GROUP.sessionName,
+          ...DEFAULT_FEEDBACK_SESSION_GROUP['sessionName'],
           feedbackSessionUrl: 'openSession?key=oldKey',
         },
       },
       notOpenSessions: {
         ...DEFAULT_FEEDBACK_SESSION_GROUP,
         sessionName: {
-          ...DEFAULT_FEEDBACK_SESSION_GROUP.sessionName,
+          ...DEFAULT_FEEDBACK_SESSION_GROUP['sessionName'],
           feedbackSessionUrl: 'notOpenSession?key=oldKey',
         },
       },
       publishedSessions: {
         ...DEFAULT_FEEDBACK_SESSION_GROUP,
         sessionName: {
-          ...DEFAULT_FEEDBACK_SESSION_GROUP.sessionName,
+          ...DEFAULT_FEEDBACK_SESSION_GROUP['sessionName'],
           feedbackSessionUrl: 'publishedSession?key=oldKey',
         },
       },
@@ -703,10 +703,10 @@ describe('AdminSearchPageComponent', () => {
     expect(spyStatusMessageService).toBeCalled();
 
     expect(studentResult.courseJoinLink).toEqual('courseJoinLink?key=newKey');
-    expect(studentResult.awaitingSessions.sessionName.feedbackSessionUrl).toEqual('awaitingSession?key=newKey');
-    expect(studentResult.openSessions.sessionName.feedbackSessionUrl).toEqual('openSession?key=newKey');
-    expect(studentResult.notOpenSessions.sessionName.feedbackSessionUrl).toEqual('notOpenSession?key=newKey');
-    expect(studentResult.publishedSessions.sessionName.feedbackSessionUrl).toEqual('publishedSession?key=newKey');
+    expect(studentResult.awaitingSessions['sessionName'].feedbackSessionUrl).toEqual('awaitingSession?key=newKey');
+    expect(studentResult.openSessions['sessionName'].feedbackSessionUrl).toEqual('openSession?key=newKey');
+    expect(studentResult.notOpenSessions['sessionName'].feedbackSessionUrl).toEqual('notOpenSession?key=newKey');
+    expect(studentResult.publishedSessions['sessionName'].feedbackSessionUrl).toEqual('publishedSession?key=newKey');
   });
 
   it('should show error message if fail to regenerate registration key for student in a course', () => {
@@ -716,28 +716,28 @@ describe('AdminSearchPageComponent', () => {
       awaitingSessions: {
         ...DEFAULT_FEEDBACK_SESSION_GROUP,
         sessionName: {
-          ...DEFAULT_FEEDBACK_SESSION_GROUP.sessionName,
+          ...DEFAULT_FEEDBACK_SESSION_GROUP['sessionName'],
           feedbackSessionUrl: 'awaitingSession?key=oldKey',
         },
       },
       openSessions: {
         ...DEFAULT_FEEDBACK_SESSION_GROUP,
         sessionName: {
-          ...DEFAULT_FEEDBACK_SESSION_GROUP.sessionName,
+          ...DEFAULT_FEEDBACK_SESSION_GROUP['sessionName'],
           feedbackSessionUrl: 'openSession?key=oldKey',
         },
       },
       notOpenSessions: {
         ...DEFAULT_FEEDBACK_SESSION_GROUP,
         sessionName: {
-          ...DEFAULT_FEEDBACK_SESSION_GROUP.sessionName,
+          ...DEFAULT_FEEDBACK_SESSION_GROUP['sessionName'],
           feedbackSessionUrl: 'notOpenSession?key=oldKey',
         },
       },
       publishedSessions: {
         ...DEFAULT_FEEDBACK_SESSION_GROUP,
         sessionName: {
-          ...DEFAULT_FEEDBACK_SESSION_GROUP.sessionName,
+          ...DEFAULT_FEEDBACK_SESSION_GROUP['sessionName'],
           feedbackSessionUrl: 'publishedSession?key=oldKey',
         },
       },

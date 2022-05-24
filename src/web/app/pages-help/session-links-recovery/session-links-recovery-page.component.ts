@@ -58,7 +58,7 @@ export class SessionLinksRecoveryPageComponent implements OnInit {
     this.isFormSubmitting = true;
 
     this.feedbackSessionsService.sendFeedbackSessionLinkToRecoveryEmail({
-      sessionLinksRecoveryEmail: sessionLinksRecoveryForm.controls.email.value,
+      sessionLinksRecoveryEmail: sessionLinksRecoveryForm.controls['email'].value,
       captchaResponse: this.captchaResponse,
     }).pipe(finalize(() => {
       this.isFormSubmitting = false;
