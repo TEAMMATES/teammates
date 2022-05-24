@@ -79,6 +79,7 @@ abstract class BasicFeedbackSubmissionAction extends Action {
                     logic.getInstructorForGoogleId(feedbackSession.getCourseId(), userInfo.getId()), feedbackSession,
                     Const.InstructorPermissions.CAN_MODIFY_SESSION);
         } else {
+            gateKeeper.verifyAccessible(student, feedbackSession);
             if (!StringHelper.isEmpty(student.getGoogleId())) {
                 if (userInfo == null) {
                     // Student is associated to a google ID; even if registration key is passed, do not allow access
@@ -88,7 +89,6 @@ abstract class BasicFeedbackSubmissionAction extends Action {
                     throw new UnauthorizedAccessException("You are not authorized to access this feedback session");
                 }
             }
-            gateKeeper.verifyAccessible(student, feedbackSession);
         }
     }
 
@@ -129,6 +129,7 @@ abstract class BasicFeedbackSubmissionAction extends Action {
             gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(feedbackSession.getCourseId(), userInfo.getId()),
                     feedbackSession, Const.InstructorPermissions.CAN_MODIFY_SESSION);
         } else {
+            gateKeeper.verifySessionSubmissionPrivilegeForInstructor(feedbackSession, instructor);
             if (!StringHelper.isEmpty(instructor.getGoogleId())) {
                 if (userInfo == null) {
                     // Instructor is associated to a google ID; even if registration key is passed, do not allow access
@@ -139,7 +140,6 @@ abstract class BasicFeedbackSubmissionAction extends Action {
                     throw new UnauthorizedAccessException("You are not authorized to access this feedback session");
                 }
             }
-            gateKeeper.verifySessionSubmissionPrivilegeForInstructor(feedbackSession, instructor);
         }
     }
 

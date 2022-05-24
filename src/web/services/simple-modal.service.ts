@@ -1,9 +1,7 @@
 import { Injectable, TemplateRef } from '@angular/core';
-import { Router } from '@angular/router';
 import { NgbModal, NgbModalOptions, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { SimpleModalType } from '../app/components/simple-modal/simple-modal-type';
 import { SimpleModalComponent } from '../app/components/simple-modal/simple-modal.component';
-import { NavigationService } from './navigation.service';
 
 /**
  * Optional parameters for modal.
@@ -13,7 +11,7 @@ export interface SimpleModalOptions {
   isInformationOnly?: boolean;
   confirmMessage?: string; // custom text message for confirm button
   cancelMessage?: string; // custom text message for cancel button
-  redirectionUrl?: string;
+  redirect?: () => void;
 }
 
 /**
@@ -25,9 +23,7 @@ export interface SimpleModalOptions {
 })
 export class SimpleModalService {
 
-  constructor(private ngbModal: NgbModal,
-              private router: Router,
-              private navigationService: NavigationService) {
+  constructor(private ngbModal: NgbModal) {
   }
 
   /**
@@ -51,14 +47,10 @@ export class SimpleModalService {
       });
     }
     modalRef.closed.subscribe(() => {
-      if (simpleModalOptions?.redirectionUrl) {
-        this.navigationService.navigateByURL(this.router, simpleModalOptions.redirectionUrl);
-      }
+      simpleModalOptions?.redirect?.();
     });
     modalRef.dismissed.subscribe(() => {
-      if (simpleModalOptions?.redirectionUrl) {
-        this.navigationService.navigateByURL(this.router, simpleModalOptions.redirectionUrl);
-      }
+      simpleModalOptions?.redirect?.();
     });
     return modalRef;
   }

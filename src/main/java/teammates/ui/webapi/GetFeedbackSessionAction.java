@@ -28,15 +28,11 @@ class GetFeedbackSessionAction extends BasicFeedbackSubmissionAction {
         case STUDENT_SUBMISSION:
         case STUDENT_RESULT:
             StudentAttributes studentAttributes = getStudentOfCourseFromRequest(courseId);
-            // Check accessibility before checking access control
-            gateKeeper.verifyAccessible(studentAttributes, feedbackSession);
             checkAccessControlForStudentFeedbackSubmission(studentAttributes, feedbackSession);
             break;
         case INSTRUCTOR_SUBMISSION:
         case INSTRUCTOR_RESULT:
             InstructorAttributes instructorAttributes = getInstructorOfCourseFromRequest(courseId);
-            // Check accessibility before checking access control
-            gateKeeper.verifyAccessible(instructorAttributes, feedbackSession);
             checkAccessControlForInstructorFeedbackSubmission(instructorAttributes, feedbackSession);
             break;
         case FULL_DETAIL:
