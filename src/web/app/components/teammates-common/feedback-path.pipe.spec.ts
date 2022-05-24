@@ -54,7 +54,12 @@ describe('RecipientTypeDescriptionPipe', () => {
 
   it('transform FeedbackParticipantType.STUDENTS', () => {
     expect(pipe.transform(FeedbackParticipantType.STUDENTS))
-      .toBe('Other students in the course');
+      .toBe('Students in the course');
+  });
+
+  it('transform FeedbackParticipantType.STUDENTS_EXCLUDING_SELF', () => {
+    expect(pipe.transform(FeedbackParticipantType.STUDENTS_EXCLUDING_SELF))
+        .toBe('Other students in the course');
   });
 
   it('transform FeedbackParticipantType.STUDENTS_IN_SAME_SECTION', () => {
@@ -69,7 +74,12 @@ describe('RecipientTypeDescriptionPipe', () => {
 
   it('transform FeedbackParticipantType.TEAMS', () => {
     expect(pipe.transform(FeedbackParticipantType.TEAMS))
-      .toBe('Other teams in the course');
+      .toBe('Teams in the course');
+  });
+
+  it('transform FeedbackParticipantType.TEAMS_EXCLUDING_SELF', () => {
+    expect(pipe.transform(FeedbackParticipantType.TEAMS_EXCLUDING_SELF))
+        .toBe('Other teams in the course');
   });
 
   it('transform FeedbackParticipantType.TEAMS_IN_SAME_SECTION', () => {
@@ -95,11 +105,6 @@ describe('RecipientTypeDescriptionPipe', () => {
   it('transform FeedbackParticipantType.NONE', () => {
     expect(pipe.transform(FeedbackParticipantType.NONE))
       .toBe('Nobody specific (For general class feedback)');
-  });
-
-  it('transform FeedbackParticipantType.TEAMS_EXCLUDING_SELF', () => {
-    expect(pipe.transform(FeedbackParticipantType.TEAMS_EXCLUDING_SELF))
-        .toBe('Unknown');
   });
 
   it('transform default', () => {

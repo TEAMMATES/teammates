@@ -45,12 +45,16 @@ export class RecipientTypeDescriptionPipe implements PipeTransform {
       case FeedbackParticipantType.SELF:
         return 'Giver (Self feedback)';
       case FeedbackParticipantType.STUDENTS:
+        return 'Students in the course';
+      case FeedbackParticipantType.STUDENTS_EXCLUDING_SELF:
         return 'Other students in the course';
       case FeedbackParticipantType.STUDENTS_IN_SAME_SECTION:
         return 'Other students in the same section';
       case FeedbackParticipantType.INSTRUCTORS:
         return 'Instructors in the course';
       case FeedbackParticipantType.TEAMS:
+        return 'Teams in the course';
+      case FeedbackParticipantType.TEAMS_EXCLUDING_SELF:
         return 'Other teams in the course';
       case FeedbackParticipantType.TEAMS_IN_SAME_SECTION:
         return 'Other teams in the same section';
