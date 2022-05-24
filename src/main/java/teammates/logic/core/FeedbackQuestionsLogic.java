@@ -307,8 +307,8 @@ public final class FeedbackQuestionsLogic {
             }
             break;
         case STUDENTS:
-        case STUDENTS_IN_SAME_SECTION:
         case STUDENTS_EXCLUDING_SELF:
+        case STUDENTS_IN_SAME_SECTION:
             List<StudentAttributes> studentList;
             if (courseRoster == null) {
                 if (generateOptionsFor == FeedbackParticipantType.STUDENTS_IN_SAME_SECTION) {
@@ -358,6 +358,7 @@ public final class FeedbackQuestionsLogic {
             }
             break;
         case TEAMS:
+        case TEAMS_EXCLUDING_SELF:
         case TEAMS_IN_SAME_SECTION:
             Map<String, List<StudentAttributes>> teamToTeamMembersTable;
             List<StudentAttributes> teamStudents;
