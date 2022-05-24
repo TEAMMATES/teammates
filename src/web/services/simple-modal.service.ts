@@ -46,12 +46,16 @@ export class SimpleModalService {
         modalRef.componentInstance[key] = value;
       });
     }
-    modalRef.closed.subscribe(() => {
-      simpleModalOptions?.redirect?.();
-    });
-    modalRef.dismissed.subscribe(() => {
-      simpleModalOptions?.redirect?.();
-    });
+    if (simpleModalOptions?.redirect) {
+      modalRef.closed.subscribe(() => {
+        simpleModalOptions?.redirect?.();
+      });
+    }
+    if (simpleModalOptions?.redirect) {
+      modalRef.dismissed.subscribe(() => {
+        simpleModalOptions?.redirect?.();
+      });
+    }
     return modalRef;
   }
 
