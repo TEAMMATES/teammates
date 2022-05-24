@@ -20,8 +20,7 @@ public class DataMigrationForStudentsAndTeamsRecipientType extends
 
     @Override
     protected Query<FeedbackQuestion> getFilterQuery() {
-        return ofy().load().type(FeedbackQuestion.class)
-                .filter("recipientType =", null);
+        return ofy().load().type(FeedbackQuestion.class);
     }
 
     @Override
