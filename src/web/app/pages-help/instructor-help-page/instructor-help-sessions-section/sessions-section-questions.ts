@@ -73,9 +73,9 @@ export enum SessionsSectionQuestions {
   LET_STUDENT_KNOW_SESSION = 'let-student-know-session',
 
   /**
-   * What should I do if students say they didn’t receive the TEAMMATES email, as they were supposed to?
+   * What should I do if students say they didn't receive the link to submit responses, as they were supposed to?
    */
-  STUDENT_DID_NOT_RECEIVE_SESSION_EMAIL = 'student-did-not-receive-session-email',
+  STUDENT_DID_NOT_RECEIVE_SUBMISSION_LINK = 'student-did-not-receive-submission-link',
 
   /**
    * How do I extend the deadline of a session?
@@ -108,13 +108,14 @@ export enum SessionsSectionQuestions {
   MODERATE_RESPONSE = 'moderate-response',
 
   /**
-   * When do students get to see responses collected by a session?
+   * When do students get to see the responses collected by a session?
    */
   STUDENT_SEE_RESPONSE = 'student-see-response',
 
   /**
-   * What if a student says s/he did not receive the link to view responses, even after I published the session responses?
+   * What should I do if students say they didn't receive the link to view results,
+   * even after I published the session responses?
    */
-  STUDENT_DID_NOT_RECEIVE_RESULT_EMAIL = 'student-did-not-receive-session-email',
+  STUDENT_DID_NOT_RECEIVE_RESULT_LINK = 'student-did-not-receive-session-link',
 
 }
