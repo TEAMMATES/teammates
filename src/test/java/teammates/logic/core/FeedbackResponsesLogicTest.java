@@ -569,7 +569,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
         assertTrue(frLogic.isResponseVisibleForUser(student1.getEmail(), false, student1, studentsEmailInTeam1,
                 fr111, fq11, null));
-        assertTrue(frLogic.isResponseVisibleForUser(instructor1.getEmail(), true, null, Collections.emptySet(),
+        assertTrue(frLogic.isResponseVisibleForUser(instructor1.getEmail(), true, null, null,
                 fr131, fq13, instructor1));
         assertTrue(frLogic.isResponseVisibleForUser(instructor1.getEmail(), true, null, Collections.emptySet(),
                 fr181, fq18, instructor1));
