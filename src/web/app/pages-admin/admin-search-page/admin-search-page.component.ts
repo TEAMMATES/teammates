@@ -59,49 +59,52 @@ export class AdminSearchPageComponent {
         this.searchQuery,
     ).pipe(finalize(() => {
       this.loadingBarService.hideLoadingBar();
-    })).subscribe((resp: AdminSearchResult) => {
-      const hasStudents: boolean = !!(resp.students && resp.students.length);
-      const hasInstructors: boolean = !!(resp.instructors && resp.instructors.length);
-      const hasAccountRequests: boolean = !!(resp.accountRequests && resp.accountRequests.length);
+    })).subscribe({
+      next: (resp: AdminSearchResult) => {
+        const hasStudents: boolean = !!(resp.students && resp.students.length);
+        const hasInstructors: boolean = !!(resp.instructors && resp.instructors.length);
+        const hasAccountRequests: boolean = !!(resp.accountRequests && resp.accountRequests.length);
 
-      if (!hasStudents && !hasInstructors && !hasAccountRequests) {
-        this.statusMessageService.showWarningToast('No results found.');
+        if (!hasStudents && !hasInstructors && !hasAccountRequests) {
+          this.statusMessageService.showWarningToast('No results found.');
+          this.instructors = [];
+          this.students = [];
+          this.accountRequests = [];
+          return;
+        }
+
+        this.instructors = resp.instructors;
+        this.students = resp.students;
+        this.accountRequests = resp.accountRequests;
+        this.hideAllInstructorsLinks();
+        this.hideAllStudentsLinks();
+        this.hideAllAccountRequestsLinks();
+
+        // prompt user to use more specific terms if search results limit reached
+        const limit: number = ApiConst.SEARCH_QUERY_SIZE_LIMIT;
+        const limitsReached: string[] = [];
+        if (this.students.length >= limit) {
+          limitsReached.push(`${limit} student results`);
+        }
+        if (this.instructors.length >= limit) {
+          limitsReached.push(`${limit} instructor results`);
+        }
+        if (this.accountRequests.length >= limit) {
+          limitsReached.push(`${limit} account request results`);
+        }
+        if (limitsReached.length) {
+          this.statusMessageService.showWarningToast(`${limitsReached.join(' and ')} have been shown on this page
+            but there may be more results not shown. Consider searching with more specific terms.`);
+        }
+
+        this.searchString = this.searchQuery;
+
+      },
+      error: (resp: ErrorMessageOutput) => {
         this.instructors = [];
         this.students = [];
-        this.accountRequests = [];
-        return;
-      }
-
-      this.instructors = resp.instructors;
-      this.students = resp.students;
-      this.accountRequests = resp.accountRequests;
-      this.hideAllInstructorsLinks();
-      this.hideAllStudentsLinks();
-      this.hideAllAccountRequestsLinks();
-
-      // prompt user to use more specific terms if search results limit reached
-      const limit: number = ApiConst.SEARCH_QUERY_SIZE_LIMIT;
-      const limitsReached: string[] = [];
-      if (this.students.length >= limit) {
-        limitsReached.push(`${limit} student results`);
-      }
-      if (this.instructors.length >= limit) {
-        limitsReached.push(`${limit} instructor results`);
-      }
-      if (this.accountRequests.length >= limit) {
-        limitsReached.push(`${limit} account request results`);
-      }
-      if (limitsReached.length) {
-        this.statusMessageService.showWarningToast(`${limitsReached.join(' and ')} have been shown on this page
-            but there may be more results not shown. Consider searching with more specific terms.`);
-      }
-
-      this.searchString = this.searchQuery;
-
-    }, (resp: ErrorMessageOutput) => {
-      this.instructors = [];
-      this.students = [];
-      this.statusMessageService.showErrorToast(resp.error.message);
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
     });
   }
 
@@ -175,11 +178,14 @@ export class AdminSearchPageComponent {
         `Reset <strong>${instructor.name}</strong>'s Google ID?`, SimpleModalType.WARNING, modalContent);
 
     modalRef.result.then(() => {
-      this.accountService.resetInstructorAccount(instructor.courseId, instructor.email).subscribe(() => {
-        this.search();
-        this.statusMessageService.showSuccessToast('The instructor\'s Google ID has been reset.');
-      }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
+      this.accountService.resetInstructorAccount(instructor.courseId, instructor.email).subscribe({
+        next: () => {
+          this.search();
+          this.statusMessageService.showSuccessToast('The instructor\'s Google ID has been reset.');
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
       });
     }, () => {});
   }
@@ -199,11 +205,14 @@ export class AdminSearchPageComponent {
         `Reset <strong>${student.name}</strong>'s Google ID?`, SimpleModalType.WARNING, modalContent);
 
     modalRef.result.then(() => {
-      this.accountService.resetStudentAccount(student.courseId, student.email).subscribe(() => {
-        student.googleId = '';
-        this.statusMessageService.showSuccessToast('The student\'s Google ID has been reset.');
-      }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
+      this.accountService.resetStudentAccount(student.courseId, student.email).subscribe({
+        next: () => {
+          student.googleId = '';
+          this.statusMessageService.showSuccessToast('The student\'s Google ID has been reset.');
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
       });
     }, () => {});
   }
@@ -220,11 +229,14 @@ export class AdminSearchPageComponent {
 
     modalRef.result.then(() => {
       this.studentService.regenerateStudentKey(student.courseId, student.email)
-        .subscribe((resp: RegenerateKey) => {
-          this.statusMessageService.showSuccessToast(resp.message);
-          this.updateDisplayedStudentCourseLinks(student, resp.newRegistrationKey);
-        }, (response: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorToast(response.error.message);
+        .subscribe({
+          next: (resp: RegenerateKey) => {
+            this.statusMessageService.showSuccessToast(resp.message);
+            this.updateDisplayedStudentCourseLinks(student, resp.newRegistrationKey);
+          },
+          error: (response: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorToast(response.error.message);
+          },
         });
     }, () => {});
   }
@@ -241,11 +253,14 @@ export class AdminSearchPageComponent {
 
     modalRef.result.then(() => {
       this.instructorService.regenerateInstructorKey(instructor.courseId, instructor.email)
-          .subscribe((resp: RegenerateKey) => {
-            this.statusMessageService.showSuccessToast(resp.message);
-            this.updateDisplayedInstructorCourseLinks(instructor, resp.newRegistrationKey);
-          }, (response: ErrorMessageOutput) => {
-            this.statusMessageService.showErrorToast(response.error.message);
+          .subscribe({
+            next: (resp: RegenerateKey) => {
+              this.statusMessageService.showSuccessToast(resp.message);
+              this.updateDisplayedInstructorCourseLinks(instructor, resp.newRegistrationKey);
+            },
+            error: (response: ErrorMessageOutput) => {
+              this.statusMessageService.showErrorToast(response.error.message);
+            },
           });
     }, () => {});
   }
@@ -260,12 +275,15 @@ export class AdminSearchPageComponent {
 
     modalRef.result.then(() => {
       this.accountService.resetAccountRequest(accountRequest.email, accountRequest.institute)
-        .subscribe(() => {
-          this.statusMessageService
-            .showSuccessToast(`Reset successful. An email has been sent to ${accountRequest.email}.`);
-          accountRequest.registeredAtText = '';
-        }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorToast(resp.error.message);
+        .subscribe({
+          next: () => {
+            this.statusMessageService
+                .showSuccessToast(`Reset successful. An email has been sent to ${accountRequest.email}.`);
+            accountRequest.registeredAtText = '';
+          },
+          error: (resp: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorToast(resp.error.message);
+          },
         });
     }, () => {});
   }
@@ -279,11 +297,14 @@ export class AdminSearchPageComponent {
 
     modalRef.result.then(() => {
       this.accountService.deleteAccountRequest(accountRequest.email, accountRequest.institute)
-      .subscribe((resp: MessageOutput) => {
-        this.statusMessageService.showSuccessToast(resp.message);
-        this.accountRequests = this.accountRequests.filter((x: AccountRequestSearchResult) => x !== accountRequest);
-      }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
+      .subscribe({
+        next: (resp: MessageOutput) => {
+          this.statusMessageService.showSuccessToast(resp.message);
+          this.accountRequests = this.accountRequests.filter((x: AccountRequestSearchResult) => x !== accountRequest);
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
       });
     }, () => {});
   }
@@ -337,12 +358,15 @@ export class AdminSearchPageComponent {
    */
   openCourseJoinEmail(courseId: string, studentemail: string): void {
     this.emailGenerationService.getCourseJoinEmail(courseId, studentemail)
-        .subscribe((email: Email) => {
-          window.location.href = `mailto:${email.recipient}`
-              + `?Subject=${email.subject}`
-              + `&body=${email.content}`;
-        }, (err: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorToast(err.error.message);
+        .subscribe({
+          next: (email: Email) => {
+            window.location.href = `mailto:${email.recipient}`
+                + `?Subject=${email.subject}`
+                + `&body=${email.content}`;
+          },
+          error: (err: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorToast(err.error.message);
+          },
         });
   }
 
@@ -351,12 +375,15 @@ export class AdminSearchPageComponent {
    */
   openFeedbackSessionReminderEmail(courseId: string, studentemail: string, fsname: string): void {
     this.emailGenerationService.getFeedbackSessionReminderEmail(courseId, studentemail, fsname)
-        .subscribe((email: Email) => {
-          window.location.href = `mailto:${email.recipient}`
-              + `?Subject=${email.subject}`
-              + `&body=${email.content}`;
-        }, (err: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorToast(err.error.message);
+        .subscribe({
+          next: (email: Email) => {
+            window.location.href = `mailto:${email.recipient}`
+                + `?Subject=${email.subject}`
+                + `&body=${email.content}`;
+          },
+          error: (err: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorToast(err.error.message);
+          },
         });
   }
 

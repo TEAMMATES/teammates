@@ -179,27 +179,30 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
         finalize(() => {
           this.isSearching = false;
         }),
-    ).subscribe((logs: FeedbackSessionLogs) => {
-      if (this.formModel.feedbackSessionName === '') {
-        logs.feedbackSessionLogs.forEach((log: FeedbackSessionLog) => {
-          log.feedbackSessionLogEntries.forEach((entry: FeedbackSessionLogEntry) => {
-            this.studentToLog[this.getStudentKey(log, entry.studentData.email)] = entry;
+    ).subscribe({
+      next: (logs: FeedbackSessionLogs) => {
+        if (this.formModel.feedbackSessionName === '') {
+          logs.feedbackSessionLogs.forEach((log: FeedbackSessionLog) => {
+            log.feedbackSessionLogEntries.forEach((entry: FeedbackSessionLogEntry) => {
+              this.studentToLog[this.getStudentKey(log, entry.studentData.email)] = entry;
+            });
+            this.searchResults.push(this.toFeedbackSessionLogModel(log));
           });
-          this.searchResults.push(this.toFeedbackSessionLogModel(log));
-        });
-      } else {
-        const targetFeedbackSessionLog = logs.feedbackSessionLogs.find((log: FeedbackSessionLog) =>
-            log.feedbackSessionData.feedbackSessionName === this.formModel.feedbackSessionName);
+        } else {
+          const targetFeedbackSessionLog = logs.feedbackSessionLogs.find((log: FeedbackSessionLog) =>
+              log.feedbackSessionData.feedbackSessionName === this.formModel.feedbackSessionName);
 
-        if (targetFeedbackSessionLog) {
-          targetFeedbackSessionLog.feedbackSessionLogEntries.forEach((entry: FeedbackSessionLogEntry) => {
-            this.studentToLog[this.getStudentKey(targetFeedbackSessionLog, entry.studentData.email)] = entry;
-          });
-          this.searchResults.push(this.toFeedbackSessionLogModel(targetFeedbackSessionLog));
+          if (targetFeedbackSessionLog) {
+            targetFeedbackSessionLog.feedbackSessionLogEntries.forEach((entry: FeedbackSessionLogEntry) => {
+              this.studentToLog[this.getStudentKey(targetFeedbackSessionLog, entry.studentData.email)] = entry;
+            });
+            this.searchResults.push(this.toFeedbackSessionLogModel(targetFeedbackSessionLog));
+          }
         }
-      }
-    }, (e: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorToast(e.error.message);
+      },
+      error: (e: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(e.error.message);
+      },
     });
   }
 
@@ -212,21 +215,25 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
         .pipe(finalize(() => {
           this.isLoading = false;
         }))
-        .subscribe((course: Course) => {
-              this.course = course;
-            },
-            (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
+        .subscribe({
+          next: (course: Course) => {
+            this.course = course;
+          },
+          error: (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message),
+        });
   }
 
   private loadFeedbackSessions(courseId: string): void {
     this.feedbackSessionsService
         .getFeedbackSessionsForInstructor(courseId)
-        .subscribe(((feedbackSessions: FeedbackSessions) => {
-              feedbackSessions.feedbackSessions.forEach((fs: FeedbackSession) => {
-                this.feedbackSessions.set(fs.feedbackSessionName, fs);
-              });
-            }),
-            (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
+        .subscribe({
+          next: (feedbackSessions: FeedbackSessions) => {
+            feedbackSessions.feedbackSessions.forEach((fs: FeedbackSession) => {
+              this.feedbackSessions.set(fs.feedbackSessionName, fs);
+            });
+          },
+          error: (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message),
+        });
   }
 
   /**

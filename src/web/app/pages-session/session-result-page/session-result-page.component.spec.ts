@@ -308,10 +308,10 @@ describe('SessionResultPageComponent', () => {
     expect(navSpy).toHaveBeenCalledTimes(1);
     expect(navSpy).toHaveBeenLastCalledWith('/web/front',
         `You are trying to access TEAMMATES using the Google account user-id, which
-                    is not linked to this TEAMMATES account. If you used a different Google account to
-                    join/access TEAMMATES before, please use that Google account to access TEAMMATES. If you
-                    cannot remember which Google account you used before, please email us at
-                    ${environment.supportEmail} for help.`);
+                        is not linked to this TEAMMATES account. If you used a different Google account to
+                        join/access TEAMMATES before, please use that Google account to access TEAMMATES. If you
+                        cannot remember which Google account you used before, please email us at
+                        ${environment.supportEmail} for help.`);
   });
 
   it('should deny access for invalid reg key', () => {

@@ -190,14 +190,17 @@ export class InstructorCourseEditPageComponent implements OnInit {
     this.isCourseLoading = true;
     this.courseService.getCourseAsInstructor(this.courseId).pipe(finalize(() => {
       this.isCourseLoading = false;
-    })).subscribe((resp: Course) => {
-      this.courseFormModel.course = resp;
-      this.courseFormModel.originalCourse = { ...resp };
-      this.currInstructorCoursePrivilege = resp.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE();
-      this.courseFormModel.canModifyCourse = this.currInstructorCoursePrivilege.canModifyCourse;
-    }, (resp: ErrorMessageOutput) => {
-      this.hasCourseLoadingFailed = true;
-      this.statusMessageService.showErrorToast(resp.error.message);
+    })).subscribe({
+      next: (resp: Course) => {
+        this.courseFormModel.course = resp;
+        this.courseFormModel.originalCourse = { ...resp };
+        this.currInstructorCoursePrivilege = resp.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE();
+        this.courseFormModel.canModifyCourse = this.currInstructorCoursePrivilege.canModifyCourse;
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.hasCourseLoadingFailed = true;
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
     });
   }
 
@@ -205,10 +208,13 @@ export class InstructorCourseEditPageComponent implements OnInit {
    * Loads the information of the current logged-in instructor.
    */
   loadCurrInstructorInfo(): void {
-    this.authService.getAuthUser().subscribe((res: AuthInfo) => {
-      this.currInstructorGoogleId = res.user === undefined ? '' : res.user.id;
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorToast(resp.error.message);
+    this.authService.getAuthUser().subscribe({
+      next: (res: AuthInfo) => {
+        this.currInstructorGoogleId = res.user === undefined ? '' : res.user.id;
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
     });
   }
 
@@ -216,11 +222,14 @@ export class InstructorCourseEditPageComponent implements OnInit {
    * Deletes the current course and redirects to 'Courses' page if action is successful.
    */
   deleteCourse(): void {
-    this.courseService.binCourse(this.courseId).subscribe((course: Course) => {
-      this.navigationService.navigateWithSuccessMessage('/web/instructor/courses',
-          `The course ${course.courseId} has been deleted. You can restore it from the Recycle Bin manually.`);
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorToast(resp.error.message);
+    this.courseService.binCourse(this.courseId).subscribe({
+      next: (course: Course) => {
+        this.navigationService.navigateWithSuccessMessage('/web/instructor/courses',
+            `The course ${course.courseId} has been deleted. You can restore it from the Recycle Bin manually.`);
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
     });
   }
 
@@ -234,13 +243,16 @@ export class InstructorCourseEditPageComponent implements OnInit {
       timeZone: this.courseFormModel.course.timeZone,
     }).pipe(finalize(() => {
       this.courseFormModel.isSaving = false;
-    })).subscribe((resp: Course) => {
-      this.statusMessageService.showSuccessToast('The course has been edited.');
-      this.courseFormModel.isEditing = false;
-      this.courseFormModel.course = resp;
-      this.courseFormModel.originalCourse = { ...resp };
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorToast(resp.error.message);
+    })).subscribe({
+      next: (resp: Course) => {
+        this.statusMessageService.showSuccessToast('The course has been edited.');
+        this.courseFormModel.isEditing = false;
+        this.courseFormModel.course = resp;
+        this.courseFormModel.originalCourse = { ...resp };
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
     });
     this.resetCourseFormEvent.emit();
   }
@@ -255,19 +267,22 @@ export class InstructorCourseEditPageComponent implements OnInit {
       courseId: this.courseId,
       intent: Intent.FULL_DETAIL,
     })
-        .subscribe((resp: Instructors) => {
-          this.instructorDetailPanels = resp.instructors.map((i: Instructor) => ({
-            originalInstructor: { ...i },
-            originalPanel: this.getInstructorEditPanelModel(i),
-            editPanel: this.getInstructorEditPanelModel(i),
-            isSavingInstructorEdit: false,
-          }));
-          this.instructorDetailPanels.forEach((panel: InstructorEditPanelDetail) => {
-            this.loadPermissionForInstructor(panel);
-          });
-        }, (resp: ErrorMessageOutput) => {
-          this.hasInstructorsLoadingFailed = true;
-          this.statusMessageService.showErrorToast(resp.error.message);
+        .subscribe({
+          next: (resp: Instructors) => {
+            this.instructorDetailPanels = resp.instructors.map((i: Instructor) => ({
+              originalInstructor: { ...i },
+              originalPanel: this.getInstructorEditPanelModel(i),
+              editPanel: this.getInstructorEditPanelModel(i),
+              isSavingInstructorEdit: false,
+            }));
+            this.instructorDetailPanels.forEach((panel: InstructorEditPanelDetail) => {
+              this.loadPermissionForInstructor(panel);
+            });
+          },
+          error: (resp: ErrorMessageOutput) => {
+            this.hasInstructorsLoadingFailed = true;
+            this.statusMessageService.showErrorToast(resp.error.message);
+          },
         });
   }
 
@@ -372,20 +387,23 @@ export class InstructorCourseEditPageComponent implements OnInit {
       requestBody: reqBody,
     }).pipe(finalize(() => {
       panelDetail.editPanel.isSavingInstructorEdit = false;
-    })).subscribe((resp: Instructor) => {
-      panelDetail.editPanel.isEditing = false;
-      panelDetail.originalInstructor = { ...resp };
-      const permission: InstructorOverallPermission = panelDetail.editPanel.permission;
+    })).subscribe({
+      next: (resp: Instructor) => {
+        panelDetail.editPanel.isEditing = false;
+        panelDetail.originalInstructor = { ...resp };
+        const permission: InstructorOverallPermission = panelDetail.editPanel.permission;
 
-      panelDetail.editPanel = this.getInstructorEditPanelModel(resp);
-      panelDetail.editPanel.permission = permission;
+        panelDetail.editPanel = this.getInstructorEditPanelModel(resp);
+        panelDetail.editPanel.permission = permission;
 
-      this.updatePrivilegeForInstructor(panelDetail.originalInstructor, panelDetail.editPanel.permission);
+        this.updatePrivilegeForInstructor(panelDetail.originalInstructor, panelDetail.editPanel.permission);
 
-      this.statusMessageService.showSuccessToast(`The instructor ${resp.name} has been updated.`);
+        this.statusMessageService.showSuccessToast(`The instructor ${resp.name} has been updated.`);
 
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorToast(resp.error.message);
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
     });
 
     panelDetail.originalPanel = JSON.parse(JSON.stringify(panelDetail.editPanel));
@@ -412,16 +430,19 @@ export class InstructorCourseEditPageComponent implements OnInit {
       this.instructorService.deleteInstructor({
         courseId: panelDetail.originalInstructor.courseId,
         instructorEmail: panelDetail.originalInstructor.email,
-      }).subscribe(() => {
-        if (panelDetail.originalInstructor.googleId === this.currInstructorGoogleId) {
-          this.navigationService.navigateWithSuccessMessage(
-                  '/web/instructor/courses', 'Instructor is successfully deleted.');
-        } else {
-          this.instructorDetailPanels.splice(index, 1);
-          this.statusMessageService.showSuccessToast('Instructor is successfully deleted.');
-        }
-      }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
+      }).subscribe({
+        next: () => {
+          if (panelDetail.originalInstructor.googleId === this.currInstructorGoogleId) {
+            this.navigationService.navigateWithSuccessMessage(
+                '/web/instructor/courses', 'Instructor is successfully deleted.');
+          } else {
+            this.instructorDetailPanels.splice(index, 1);
+            this.statusMessageService.showSuccessToast('Instructor is successfully deleted.');
+          }
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
       });
     }, () => {});
   }
@@ -439,10 +460,13 @@ export class InstructorCourseEditPageComponent implements OnInit {
     modalRef.result.then(() => {
       this.courseService
           .remindInstructorForJoin(panelDetail.originalInstructor.courseId, panelDetail.originalInstructor.email)
-          .subscribe((resp: MessageOutput) => {
-            this.statusMessageService.showSuccessToast(resp.message);
-          }, (resp: ErrorMessageOutput) => {
-            this.statusMessageService.showErrorToast(resp.error.message);
+          .subscribe({
+            next: (resp: MessageOutput) => {
+              this.statusMessageService.showSuccessToast(resp.message);
+            },
+            error: (resp: ErrorMessageOutput) => {
+              this.statusMessageService.showErrorToast(resp.error.message);
+            },
           });
     }, () => {});
   }
@@ -464,51 +488,54 @@ export class InstructorCourseEditPageComponent implements OnInit {
         .pipe(finalize(() => {
           this.isSavingNewInstructor = false;
         }))
-        .subscribe((resp: Instructor) => {
-          const newDetailPanels: InstructorEditPanelDetail = {
-            originalInstructor: { ...resp },
-            originalPanel: this.getInstructorEditPanelModel(resp),
-            editPanel: this.getInstructorEditPanelModel(resp),
-          };
-          newDetailPanels.editPanel.permission = this.newInstructorPanel.permission;
-          newDetailPanels.originalPanel = JSON.parse(JSON.stringify(newDetailPanels.editPanel));
+        .subscribe({
+          next: (resp: Instructor) => {
+            const newDetailPanels: InstructorEditPanelDetail = {
+              originalInstructor: { ...resp },
+              originalPanel: this.getInstructorEditPanelModel(resp),
+              editPanel: this.getInstructorEditPanelModel(resp),
+            };
+            newDetailPanels.editPanel.permission = this.newInstructorPanel.permission;
+            newDetailPanels.originalPanel = JSON.parse(JSON.stringify(newDetailPanels.editPanel));
 
-          this.instructorDetailPanels.push(newDetailPanels);
-          this.statusMessageService.showSuccessToast(`"The instructor ${resp.name} has been added successfully.
+            this.instructorDetailPanels.push(newDetailPanels);
+            this.statusMessageService.showSuccessToast(`"The instructor ${resp.name} has been added successfully.
           An email containing how to 'join' this course will be sent to ${resp.email} in a few minutes."`);
 
-          this.updatePrivilegeForInstructor(newDetailPanels.originalInstructor, newDetailPanels.editPanel.permission);
+            this.updatePrivilegeForInstructor(newDetailPanels.originalInstructor, newDetailPanels.editPanel.permission);
 
-          this.isAddingNewInstructor = false;
-          this.newInstructorPanel = {
-            googleId: '',
-            courseId: '',
-            email: '',
-            isDisplayedToStudents: true,
-            displayedToStudentsAs: '',
-            name: '',
-            role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-            joinState: JoinState.NOT_JOINED,
+            this.isAddingNewInstructor = false;
+            this.newInstructorPanel = {
+              googleId: '',
+              courseId: '',
+              email: '',
+              isDisplayedToStudents: true,
+              displayedToStudentsAs: '',
+              name: '',
+              role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+              joinState: JoinState.NOT_JOINED,
 
-            permission: {
-              privilege: {
-                canModifyCourse: true,
-                canModifySession: true,
-                canModifyStudent: true,
-                canModifyInstructor: true,
-                canViewStudentInSections: true,
-                canModifySessionCommentsInSections: true,
-                canViewSessionInSections: true,
-                canSubmitSessionInSections: true,
+              permission: {
+                privilege: {
+                  canModifyCourse: true,
+                  canModifySession: true,
+                  canModifyStudent: true,
+                  canModifyInstructor: true,
+                  canViewStudentInSections: true,
+                  canModifySessionCommentsInSections: true,
+                  canViewSessionInSections: true,
+                  canSubmitSessionInSections: true,
+                },
+                sectionLevel: [],
               },
-              sectionLevel: [],
-            },
 
-            isEditing: true,
-            isSavingInstructorEdit: false,
-          };
-        }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorToast(resp.error.message);
+              isEditing: true,
+              isSavingInstructorEdit: false,
+            };
+          },
+          error: (resp: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorToast(resp.error.message);
+          },
         });
   }
 
@@ -624,13 +651,16 @@ export class InstructorCourseEditPageComponent implements OnInit {
       courseId: instructor.courseId,
       instructorEmail: instructor.email,
       requestBody: { privileges },
-    }).subscribe(() => {
-      // privileges updated
-      // filter out empty permission setting
-      permission.sectionLevel = permission.sectionLevel.filter(
-          (sectionLevel: InstructorSectionLevelPermission) => sectionLevel.sectionNames.length !== 0);
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorToast(resp.error.message);
+    }).subscribe({
+      next: () => {
+        // privileges updated
+        // filter out empty permission setting
+        permission.sectionLevel = permission.sectionLevel.filter(
+            (sectionLevel: InstructorSectionLevelPermission) => sectionLevel.sectionNames.length !== 0);
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
     });
   }
 
@@ -644,63 +674,69 @@ export class InstructorCourseEditPageComponent implements OnInit {
     forkJoin([
       this.courseService.getAllCoursesAsInstructor('active'),
       this.courseService.getAllCoursesAsInstructor('archived'),
-    ]).subscribe((values: Courses[]) => {
-      const activeCourses: Courses = values[0];
-      const archivedCourses: Courses = values[1];
+    ]).subscribe({
+      next: (values: Courses[]) => {
+        const activeCourses: Courses = values[0];
+        const archivedCourses: Courses = values[1];
 
-      activeCourses.courses.forEach((course: Course) => {
-        if (course.courseId !== this.courseId && course.institute === this.courseFormModel.course.institute) {
-          const model: CourseTabModel = {
-            courseId: course.courseId,
-            courseName: course.courseName,
-            creationTimestamp: course.creationTimestamp,
-            isArchived: false,
-            instructorCandidates: [],
-            instructorCandidatesSortBy: SortBy.NONE,
-            instructorCandidatesSortOrder: SortOrder.ASC,
-            hasInstructorsLoaded: false,
-            isTabExpanded: false,
-            hasLoadingFailed: false,
-          };
-          courseTabModels.push(model);
-        }
-      });
-      archivedCourses.courses.forEach((course: Course) => {
-        if (course.courseId !== this.courseId && course.institute === this.courseFormModel.course.institute) {
-          const model: CourseTabModel = {
-            courseId: course.courseId,
-            courseName: course.courseName,
-            creationTimestamp: course.creationTimestamp,
-            isArchived: true,
-            instructorCandidates: [],
-            instructorCandidatesSortBy: SortBy.NONE,
-            instructorCandidatesSortOrder: SortOrder.ASC,
-            hasInstructorsLoaded: false,
-            isTabExpanded: false,
-            hasLoadingFailed: false,
-          };
-          courseTabModels.push(model);
-        }
-      });
-    }, (err: ErrorMessageOutput) => {
-      this.isCopyingInstructor = false;
-      this.statusMessageService.showErrorToast(err.error.message);
-    }, () => {
-      const modalRef: NgbModalRef = this.ngbModal.open(CopyInstructorsFromOtherCoursesModalComponent);
-      modalRef.componentInstance.courses = courseTabModels;
-
-      modalRef.dismissed.subscribe(() => { this.isCopyingInstructor = false; });
-
-      modalRef.componentInstance.copyClickedEvent.subscribe((instructors: Instructor[]) => {
-        this.verifyInstructorsToCopy(instructors).subscribe((hasCheckPassed: boolean) => {
-          if (!hasCheckPassed) {
-            modalRef.componentInstance.isCopyingSelectedInstructors = false;
-            return;
+        activeCourses.courses.forEach((course: Course) => {
+          if (course.courseId !== this.courseId && course.institute === this.courseFormModel.course.institute) {
+            const model: CourseTabModel = {
+              courseId: course.courseId,
+              courseName: course.courseName,
+              creationTimestamp: course.creationTimestamp,
+              isArchived: false,
+              instructorCandidates: [],
+              instructorCandidatesSortBy: SortBy.NONE,
+              instructorCandidatesSortOrder: SortOrder.ASC,
+              hasInstructorsLoaded: false,
+              isTabExpanded: false,
+              hasLoadingFailed: false,
+            };
+            courseTabModels.push(model);
           }
-
-          this.addNewInstructors(instructors, modalRef);
         });
-      });
+        archivedCourses.courses.forEach((course: Course) => {
+          if (course.courseId !== this.courseId && course.institute === this.courseFormModel.course.institute) {
+            const model: CourseTabModel = {
+              courseId: course.courseId,
+              courseName: course.courseName,
+              creationTimestamp: course.creationTimestamp,
+              isArchived: true,
+              instructorCandidates: [],
+              instructorCandidatesSortBy: SortBy.NONE,
+              instructorCandidatesSortOrder: SortOrder.ASC,
+              hasInstructorsLoaded: false,
+              isTabExpanded: false,
+              hasLoadingFailed: false,
+            };
+            courseTabModels.push(model);
+          }
+        });
+      },
+      error: (err: ErrorMessageOutput) => {
+        this.isCopyingInstructor = false;
+        this.statusMessageService.showErrorToast(err.error.message);
+      },
+      complete: () => {
+        const modalRef: NgbModalRef = this.ngbModal.open(CopyInstructorsFromOtherCoursesModalComponent);
+        modalRef.componentInstance.courses = courseTabModels;
+
+        modalRef.dismissed.subscribe(() => {
+          this.isCopyingInstructor = false;
+        });
+
+        modalRef.componentInstance.copyClickedEvent.subscribe((instructors: Instructor[]) => {
+          this.verifyInstructorsToCopy(instructors).subscribe((hasCheckPassed: boolean) => {
+            if (!hasCheckPassed) {
+              modalRef.componentInstance.isCopyingSelectedInstructors = false;
+              return;
+            }
+
+            this.addNewInstructors(instructors, modalRef);
+          });
+        });
+      },
     });
   }
 
@@ -727,21 +763,25 @@ export class InstructorCourseEditPageComponent implements OnInit {
         modalRef.componentInstance.isCopyingSelectedInstructors = false;
         modalRef.close();
       }),
-    ).subscribe((newInstructor: Instructor) => {
-      const newDetailPanels: InstructorEditPanelDetail = {
-        originalInstructor: { ...newInstructor },
-        originalPanel: this.getInstructorEditPanelModel(newInstructor),
-        editPanel: this.getInstructorEditPanelModel(newInstructor),
-      };
-      newDetailPanels.editPanel.permission = this.newInstructorPanel.permission;
-      newDetailPanels.originalPanel = JSON.parse(JSON.stringify(newDetailPanels.editPanel));
+    ).subscribe({
+      next: (newInstructor: Instructor) => {
+        const newDetailPanels: InstructorEditPanelDetail = {
+          originalInstructor: { ...newInstructor },
+          originalPanel: this.getInstructorEditPanelModel(newInstructor),
+          editPanel: this.getInstructorEditPanelModel(newInstructor),
+        };
+        newDetailPanels.editPanel.permission = this.newInstructorPanel.permission;
+        newDetailPanels.originalPanel = JSON.parse(JSON.stringify(newDetailPanels.editPanel));
 
-      this.instructorDetailPanels.push(newDetailPanels);
-    }, (err: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorToast(err.error.message);
-    }, () => {
-      this.statusMessageService.showSuccessToast(`The selected instructor(s) have been added successfully.
+        this.instructorDetailPanels.push(newDetailPanels);
+      },
+      error: (err: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(err.error.message);
+      },
+      complete: () => {
+        this.statusMessageService.showSuccessToast(`The selected instructor(s) have been added successfully.
       An email containing how to 'join' this course will be sent to them in a few minutes.`);
+      },
     });
   }
 

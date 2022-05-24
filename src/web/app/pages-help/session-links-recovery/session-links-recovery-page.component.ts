@@ -62,14 +62,17 @@ export class SessionLinksRecoveryPageComponent implements OnInit {
       captchaResponse: this.captchaResponse,
     }).pipe(finalize(() => {
       this.isFormSubmitting = false;
-    })).subscribe((resp: SessionLinksRecoveryResponse) => {
-      if (resp.isEmailSent) {
-        this.statusMessageService.showSuccessToast(resp.message);
-      } else {
-        this.statusMessageService.showErrorToast(resp.message);
-      }
-    }, (response: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorToast(response.error.message);
+    })).subscribe({
+      next: (resp: SessionLinksRecoveryResponse) => {
+        if (resp.isEmailSent) {
+          this.statusMessageService.showSuccessToast(resp.message);
+        } else {
+          this.statusMessageService.showErrorToast(resp.message);
+        }
+      },
+      error: (response: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(response.error.message);
+      },
     });
     this.resetFormGroups();
   }

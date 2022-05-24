@@ -771,10 +771,10 @@ describe('SessionSubmissionPageComponent', () => {
     expect(navSpy).toHaveBeenCalledTimes(1);
     expect(navSpy).toHaveBeenLastCalledWith('/web/front',
         `You are trying to access TEAMMATES using the Google account user-id, which
-                    is not linked to this TEAMMATES account. If you used a different Google account to
-                    join/access TEAMMATES before, please use that Google account to access TEAMMATES. If you
-                    cannot remember which Google account you used before, please email us at
-                    ${environment.supportEmail} for help.`);
+                        is not linked to this TEAMMATES account. If you used a different Google account to
+                        join/access TEAMMATES before, please use that Google account to access TEAMMATES. If you
+                        cannot remember which Google account you used before, please email us at
+                        ${environment.supportEmail} for help.`);
   });
 
   it('should deny unallowed access with invalid reg key', () => {
@@ -885,7 +885,7 @@ describe('SessionSubmissionPageComponent', () => {
 
     expect(modalSpy).toHaveBeenCalledTimes(1);
     expect(modalSpy).toHaveBeenLastCalledWith('Feedback Session Does Not Exist!', SimpleModalType.DANGER,
-        'The session does not exist (most likely deleted by the instructor after the submission link was sent).',
+        'The session does not exist (most likely deleted by an instructor after the submission link was sent).',
         { onClosed: expect.any(Function) }, { backdrop: 'static' });
   });
 

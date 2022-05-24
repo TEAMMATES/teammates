@@ -202,10 +202,15 @@ export class LogsPageComponent implements OnInit {
           this.isSearching = false;
           this.hasResult = true;
         }))
-      .subscribe((generalLogs: GeneralLogs) => {
-        this.hasPreviousPage = generalLogs.hasNextPage;
-        this.processLogsForTableView(generalLogs, true);
-      }, (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
+      .subscribe({
+        next: (generalLogs: GeneralLogs) => {
+          this.hasPreviousPage = generalLogs.hasNextPage;
+          this.processLogsForTableView(generalLogs, true);
+        },
+        error: (e: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(e.error.message);
+        },
+      });
   }
 
   private isFormValid(): boolean {
@@ -270,8 +275,10 @@ export class LogsPageComponent implements OnInit {
           this.hasResult = true;
         }),
       )
-      .subscribe((logResults: GeneralLogEntry[]) => this.processLogsForHistogram(logResults),
-        (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
+      .subscribe({
+        next: (logResults: GeneralLogEntry[]) => this.processLogsForHistogram(logResults),
+        error: (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message),
+      });
   }
 
   private processLogsForTableView(generalLogs: GeneralLogs, isDescendingOrder: boolean): void {
@@ -449,10 +456,13 @@ export class LogsPageComponent implements OnInit {
       .pipe(finalize(() => {
         this.isSearching = false;
       }))
-      .subscribe((generalLogs: GeneralLogs) => {
-        this.hasPreviousPage = generalLogs.hasNextPage;
-        this.processLogsForTableView(generalLogs, true);
-      }, (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
+      .subscribe({
+        next: (generalLogs: GeneralLogs) => {
+          this.hasPreviousPage = generalLogs.hasNextPage;
+          this.processLogsForTableView(generalLogs, true);
+        },
+        error: (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message),
+      });
   }
 
   private searchLaterLogs(): void {
@@ -460,9 +470,12 @@ export class LogsPageComponent implements OnInit {
       .pipe(finalize(() => {
         this.isSearchingLaterLogs = false;
       }))
-      .subscribe((generalLogs: GeneralLogs) => {
-        this.hasNextPage = generalLogs.hasNextPage;
-        this.processLogsForTableView(generalLogs, false);
-      }, (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
+      .subscribe({
+        next: (generalLogs: GeneralLogs) => {
+          this.hasNextPage = generalLogs.hasNextPage;
+          this.processLogsForTableView(generalLogs, false);
+        },
+        error: (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message),
+      });
   }
 }

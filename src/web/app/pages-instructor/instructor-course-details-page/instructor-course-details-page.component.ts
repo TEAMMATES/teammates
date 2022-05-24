@@ -103,10 +103,13 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
    * Loads the name of the course
    */
   private loadCourseName(courseid: string): void {
-    this.courseService.getCourseAsInstructor(courseid).subscribe((course: Course) => {
-      this.courseDetails.course = course;
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorToast(resp.error.message);
+    this.courseService.getCourseAsInstructor(courseid).subscribe({
+      next: (course: Course) => {
+        this.courseDetails.course = course;
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
     });
   }
 
@@ -115,10 +118,13 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
    */
   private loadInstructors(courseid: string): void {
     this.instructorService.loadInstructors({ courseId: courseid, intent: Intent.FULL_DETAIL })
-    .subscribe((instructors: Instructors) => {
-      this.instructors = instructors.instructors;
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorToast(resp.error.message);
+    .subscribe({
+      next: (instructors: Instructors) => {
+        this.instructors = instructors.instructors;
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
     });
   }
 
@@ -129,58 +135,64 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
     this.hasLoadingStudentsFailed = false;
     this.isStudentsLoading = true;
     this.studentService.getStudentsFromCourse({ courseId: courseid })
-    .subscribe((students: Students) => {
-      this.students = []; // Reset the list of students
-      this.sectionsLoaded = 0; // Reset sections loaded
-      const sections: StudentIndexedData = students.students.reduce((acc: StudentIndexedData, x: Student) => {
-        const term: string = x.sectionName;
-        (acc[term] = acc[term] || []).push(x);
-        return acc;
-      }, {});
-      const sectionLength: number = Object.keys(sections).length;
+    .subscribe({
+      next: (students: Students) => {
+        this.students = []; // Reset the list of students
+        this.sectionsLoaded = 0; // Reset sections loaded
+        const sections: StudentIndexedData = students.students.reduce((acc: StudentIndexedData, x: Student) => {
+          const term: string = x.sectionName;
+          (acc[term] = acc[term] || []).push(x);
+          return acc;
+        }, {});
+        const sectionLength: number = Object.keys(sections).length;
 
-      this.instructorService.loadInstructorPrivilege({
-        courseId: courseid,
-      }).subscribe((instructorPrivilege: InstructorPrivilege) => {
-        const courseLevelPrivilege: InstructorPermissionSet = instructorPrivilege.privileges.courseLevel;
+        this.instructorService.loadInstructorPrivilege({
+          courseId: courseid,
+        }).subscribe({
+          next: (instructorPrivilege: InstructorPrivilege) => {
+            const courseLevelPrivilege: InstructorPermissionSet = instructorPrivilege.privileges.courseLevel;
 
-        Object.keys(sections).forEach((sectionName: string) => {
-          const sectionLevelPrivilege: InstructorPermissionSet =
-              instructorPrivilege.privileges.sectionLevel[sectionName] || courseLevelPrivilege;
+            Object.keys(sections).forEach((sectionName: string) => {
+              const sectionLevelPrivilege: InstructorPermissionSet =
+                  instructorPrivilege.privileges.sectionLevel[sectionName] || courseLevelPrivilege;
 
-          const studentsInSection: Student[] = sections[sectionName];
-          const studentModels: StudentListRowModel[] = studentsInSection.map((studentInSection: Student) => {
-            return {
-              student: studentInSection,
-              isAllowedToViewStudentInSection: sectionLevelPrivilege.canViewStudentInSections,
-              isAllowedToModifyStudent: sectionLevelPrivilege.canModifyStudent,
-            };
-          });
+              const studentsInSection: Student[] = sections[sectionName];
+              const studentModels: StudentListRowModel[] = studentsInSection.map((studentInSection: Student) => {
+                return {
+                  student: studentInSection,
+                  isAllowedToViewStudentInSection: sectionLevelPrivilege.canViewStudentInSections,
+                  isAllowedToModifyStudent: sectionLevelPrivilege.canModifyStudent,
+                };
+              });
 
-          this.students.push(...studentModels);
-          this.students.sort(this.sortStudentBy(SortBy.NONE, SortOrder.ASC));
+              this.students.push(...studentModels);
+              this.students.sort(this.sortStudentBy(SortBy.NONE, SortOrder.ASC));
 
-          this.sectionsLoaded += 1;
-          if (this.sectionsLoaded === sectionLength) {
+              this.sectionsLoaded += 1;
+              if (this.sectionsLoaded === sectionLength) {
+                this.isStudentsLoading = false;
+              }
+            });
+          },
+          error: (resp: ErrorMessageOutput) => {
             this.isStudentsLoading = false;
-          }
+            this.hasLoadingStudentsFailed = true;
+            this.statusMessageService.showErrorToast(resp.error.message);
+          },
         });
-      }, (resp: ErrorMessageOutput) => {
+
+        if (!sectionLength) {
+          this.isStudentsLoading = false;
+        }
+
+        this.courseDetails.stats = this.courseService.calculateCourseStatistics(students.students);
+
+      },
+      error: (resp: ErrorMessageOutput) => {
         this.isStudentsLoading = false;
         this.hasLoadingStudentsFailed = true;
         this.statusMessageService.showErrorToast(resp.error.message);
-      });
-
-      if (!sectionLength) {
-        this.isStudentsLoading = false;
-      }
-
-      this.courseDetails.stats = this.courseService.calculateCourseStatistics(students.students);
-
-    }, (resp: ErrorMessageOutput) => {
-      this.isStudentsLoading = false;
-      this.hasLoadingStudentsFailed = true;
-      this.statusMessageService.showErrorToast(resp.error.message);
+      },
     });
   }
 
@@ -296,11 +308,14 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
       .pipe(finalize(() => {
         this.isLoadingCsv = false;
       }))
-      .subscribe((resp: string) => {
-        blob = new Blob([resp], { type: 'text/csv' });
-        saveAs(blob, filename);
-      }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
+      .subscribe({
+        next: (resp: string) => {
+          blob = new Blob([resp], { type: 'text/csv' });
+          saveAs(blob, filename);
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
       });
   }
 
@@ -308,10 +323,13 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
    * Remind all yet to join students in a course.
    */
   remindAllStudentsFromCourse(courseId: string): void {
-    this.courseService.remindUnregisteredStudentsForJoin(courseId).subscribe((resp: MessageOutput) => {
-      this.statusMessageService.showSuccessToast(resp.message);
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorToast(resp.error.message);
+    this.courseService.remindUnregisteredStudentsForJoin(courseId).subscribe({
+      next: (resp: MessageOutput) => {
+        this.statusMessageService.showSuccessToast(resp.message);
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
     });
   }
 
@@ -354,17 +372,20 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
    * Removes the student from course and update the course statistics
    */
   removeStudentFromCourse(studentEmail: string): void {
-    this.courseService.removeStudentFromCourse(this.courseDetails.course.courseId, studentEmail).subscribe(() => {
-      this.students =
-          this.students.filter((studentModel: StudentListRowModel) => studentModel.student.email !== studentEmail);
+    this.courseService.removeStudentFromCourse(this.courseDetails.course.courseId, studentEmail).subscribe({
+      next: () => {
+        this.students =
+            this.students.filter((studentModel: StudentListRowModel) => studentModel.student.email !== studentEmail);
 
-      const students: Student[] = this.students.map((studentModel: StudentListRowModel) => studentModel.student);
-      this.courseDetails.stats = this.courseService.calculateCourseStatistics(students);
+        const students: Student[] = this.students.map((studentModel: StudentListRowModel) => studentModel.student);
+        this.courseDetails.stats = this.courseService.calculateCourseStatistics(students);
 
-      this.statusMessageService
-          .showSuccessToast(`Student is successfully deleted from course "${this.courseDetails.course.courseId}"`);
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorToast(resp.error.message);
+        this.statusMessageService
+            .showSuccessToast(`Student is successfully deleted from course "${this.courseDetails.course.courseId}"`);
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
     });
   }
 
