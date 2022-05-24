@@ -101,7 +101,7 @@ export class InstructorHelpPageComponent implements AfterViewInit {
   }
 
   /**
-   * Scrolls to the section passed in.
+   * Scrolls to the section passed in
    */
   scroll(section: string): void {
     if (this.bodyRef) {
