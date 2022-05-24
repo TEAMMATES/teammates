@@ -145,9 +145,17 @@
                             headerText="Is it compulsory for students to use Google accounts?"
                             [(isPanelExpanded)]="questionsToCollapsed[StudentsSectionQuestions.STUDENT_GOOGLE_ACCOUNT]">
     <p>
-      Students can submit feedback and view results without having to login to TEAMMATES, unless they choose to link their Google account (optional). TEAMMATES will send students a unique URL to access their feedback sessions and results. However, students
-      who link their TEAMMATES account with their Google account will be able to access a dashboard of all their sessions and results through the TEAMMATES website.
+      Students can submit feedback and view results without having to login to TEAMMATES, unless they choose to link their Google account (optional). TEAMMATES will send students a unique URL to access their feedback sessions and results.
+      However, the following non-essential features are available only to users who have joined a TEAMMATES course using a Google account:
     </p>
+    <ol>
+      <li>
+        Creating a profile page to share more information about them (e.g., a photo) with classmates and instructors
+      </li>
+      <li>
+        Viewing all the courses/sessions in a single page, without needing to use submission links to access each
+      </li>
+    </ol>
   </tm-instructor-help-panel>
   <!--Question-->
   <tm-instructor-help-panel class="instr-help-qn-last" #question [hidden]="key && !showQuestion.includes(StudentsSectionQuestions.STUDENT_CHANGE_ID)"
@@ -155,7 +163,7 @@
                             headerText="How do I change the Google ID associated with a student?"
                             [(isPanelExpanded)]="questionsToCollapsed[StudentsSectionQuestions.STUDENT_CHANGE_ID]">
     <p>
-      At the moment, there is no way for students to update their own Google IDs.
+      At the moment, there is no way for students to update their own (or instructors to update their students’) Google IDs.
       <br> Please ask the student to <a href="mailto:{{ supportEmail }}">contact us</a> for assistance changing his/her Google ID.
     </p>
   </tm-instructor-help-panel>

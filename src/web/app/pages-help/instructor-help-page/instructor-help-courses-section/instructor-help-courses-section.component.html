@@ -199,7 +199,7 @@
         Click the <button class="btn btn-secondary btn-sm">Edit</button> button in the last column of the row corresponding to Student A.
       </li>
       <li>
-        A new page will open that allows you to <button class="btn btn-link" (click)="collapseStudentEditDetails.emit(true);">edit the student's profile</button>, including a field to edit the student's section.<br>
+        A new page will open that allows you to <a (click)="collapseStudentEditDetails.emit(true);" [tmRouterLink]="">edit the student's profile</a>, including a field to edit the student's section.<br>
       </li>
       <li>
         After editing the section name, click <button class="btn btn-primary btn-sm">Save Changes</button> to confirm Student A's new section.
