@@ -308,6 +308,7 @@ public final class FeedbackQuestionsLogic {
             break;
         case STUDENTS:
         case STUDENTS_IN_SAME_SECTION:
+        case STUDENTS_EXCLUDING_SELF:
             List<StudentAttributes> studentList;
             if (courseRoster == null) {
                 if (generateOptionsFor == FeedbackParticipantType.STUDENTS_IN_SAME_SECTION) {
