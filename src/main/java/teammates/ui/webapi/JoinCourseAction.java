@@ -8,7 +8,6 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.JoinCourseException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
@@ -51,8 +50,8 @@ class JoinCourseAction extends Action {
             student = logic.joinCourseForStudent(regkey, userInfo.id);
         } catch (EntityDoesNotExistException ednee) {
             throw new EntityNotFoundException(ednee);
-        } catch (EntityAlreadyExistsException | JoinCourseException exception) {
-            throw new InvalidOperationException(exception);
+        } catch (EntityAlreadyExistsException eaee) {
+            throw new InvalidOperationException(eaee);
         } catch (InvalidParametersException ipe) {
             // There should not be any invalid parameter here
             log.severe("Unexpected error", ipe);
@@ -71,8 +70,8 @@ class JoinCourseAction extends Action {
             instructor = logic.joinCourseForInstructor(regkey, userInfo.id);
         } catch (EntityDoesNotExistException ednee) {
             throw new EntityNotFoundException(ednee);
-        } catch (EntityAlreadyExistsException | JoinCourseException exception) {
-            throw new InvalidOperationException(exception);
+        } catch (EntityAlreadyExistsException eaee) {
+            throw new InvalidOperationException(eaee);
         } catch (InvalidParametersException ipe) {
             // There should not be any invalid parameter here
             log.severe("Unexpected error", ipe);

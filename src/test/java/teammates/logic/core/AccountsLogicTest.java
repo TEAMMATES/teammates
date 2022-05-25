@@ -15,7 +15,6 @@ import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.JoinCourseException;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.storage.api.AccountsDb;
@@ -203,10 +202,10 @@ public class AccountsLogicTest extends BaseLogicTest {
         studentData = studentsLogic.createStudent(studentData);
         StudentAttributes finalDeletedCourseStudent = studentData;
 
-        JoinCourseException jce = assertThrows(JoinCourseException.class,
+        ednee = assertThrows(EntityDoesNotExistException.class,
                 () -> accountsLogic.joinCourseForStudent(finalDeletedCourseStudent.getKey(),
                         finalDeletedCourseStudent.getGoogleId()));
-        assertEquals("Course " + deletedCourseName + " is deleted", jce.getMessage());
+        assertEquals("Course " + deletedCourseName + " is deleted", ednee.getMessage());
 
         ______TS("success: with encryption and new account to be created");
 
@@ -361,10 +360,10 @@ public class AccountsLogicTest extends BaseLogicTest {
         instructor = instructorsLogic.createInstructor(instructor);
         InstructorAttributes finalDeletedCourseInstructor = instructor;
 
-        JoinCourseException jce = assertThrows(JoinCourseException.class,
+        ednee = assertThrows(EntityDoesNotExistException.class,
                 () -> accountsLogic.joinCourseForInstructor(finalDeletedCourseInstructor.getKey(),
                         finalDeletedCourseInstructor.getGoogleId()));
-        assertEquals("Course " + deletedCourseName + " is deleted", jce.getMessage());
+        assertEquals("Course " + deletedCourseName + " is deleted", ednee.getMessage());
     }
 
     @Test

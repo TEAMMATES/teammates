@@ -14,7 +14,6 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.JoinCourseException;
 import teammates.storage.api.AccountsDb;
 
 /**
@@ -93,8 +92,7 @@ public final class AccountsLogic {
      * Joins the user as a student.
      */
     public StudentAttributes joinCourseForStudent(String registrationKey, String googleId)
-            throws InvalidParametersException, EntityDoesNotExistException,
-            EntityAlreadyExistsException, JoinCourseException {
+            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
         StudentAttributes student = validateStudentJoinRequest(registrationKey, googleId);
 
         // Register the student
@@ -120,8 +118,7 @@ public final class AccountsLogic {
      * If the given institute is null, the instructor is given the institute of an existing instructor of the same course.
      */
     public InstructorAttributes joinCourseForInstructor(String key, String googleId)
-            throws InvalidParametersException, EntityDoesNotExistException,
-            EntityAlreadyExistsException, JoinCourseException {
+            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
         InstructorAttributes instructor = validateInstructorJoinRequest(key, googleId);
 
         // Register the instructor
@@ -164,7 +161,7 @@ public final class AccountsLogic {
     }
 
     private InstructorAttributes validateInstructorJoinRequest(String registrationKey, String googleId)
-            throws EntityDoesNotExistException, EntityAlreadyExistsException, JoinCourseException {
+            throws EntityDoesNotExistException, EntityAlreadyExistsException {
         InstructorAttributes instructorForKey = instructorsLogic.getInstructorForRegistrationKey(registrationKey);
 
         if (instructorForKey == null) {
@@ -173,8 +170,8 @@ public final class AccountsLogic {
 
         CourseAttributes courseAttributes = coursesLogic.getCourse(instructorForKey.getCourseId());
 
-        if (courseAttributes.isCourseDeleted()) {
-            throw new JoinCourseException("Course " + courseAttributes.getName() + " is deleted");
+        if (courseAttributes != null && courseAttributes.isCourseDeleted()) {
+            throw new EntityDoesNotExistException("Course " + courseAttributes.getName() + " is deleted");
         }
 
         if (instructorForKey.isRegistered()) {
@@ -200,7 +197,7 @@ public final class AccountsLogic {
     }
 
     private StudentAttributes validateStudentJoinRequest(String registrationKey, String googleId)
-            throws EntityDoesNotExistException, EntityAlreadyExistsException, JoinCourseException {
+            throws EntityDoesNotExistException, EntityAlreadyExistsException {
 
         StudentAttributes studentRole = studentsLogic.getStudentForRegistrationKey(registrationKey);
 
@@ -210,8 +207,8 @@ public final class AccountsLogic {
 
         CourseAttributes courseAttributes = coursesLogic.getCourse(studentRole.getCourse());
 
-        if (courseAttributes.isCourseDeleted()) {
-            throw new JoinCourseException("Course " + courseAttributes.getName() + " is deleted");
+        if (courseAttributes != null && courseAttributes.isCourseDeleted()) {
+            throw new EntityDoesNotExistException("Course " + courseAttributes.getName() + " is deleted");
         }
 
         if (studentRole.isRegistered()) {
