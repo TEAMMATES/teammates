@@ -125,7 +125,7 @@ describe('InstructorStudentListPageComponent', () => {
     component.courseTabList[0].hasTabExpanded = true;
     component.courseTabList[0].hasStudentLoaded = true;
     component.courseTabList[0].isAbleToViewStudents = false;
-    fixture.detectChanges() ;
+    fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
 });
