@@ -46,6 +46,8 @@ public final class Templates {
                 FileHelper.readResourceFile("instructorEmailFragment-instructorCopyPreamble.html");
         public static final String FRAGMENT_INSTRUCTOR_COURSE_JOIN =
                 FileHelper.readResourceFile("instructorEmailFragment-courseJoin.html");
+        public static final String INSTRUCTOR_EXISTING_ACCOUNT =
+                FileHelper.readResourceFile("instructorEmail-existingAccount.html");
         public static final String FRAGMENT_INSTRUCTOR_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET =
                 FileHelper.readResourceFile("instructorEmailFragment-googleIdReset.html");
         public static final String FRAGMENT_INSTRUCTOR_COURSE_REJOIN_AFTER_REGKEY_RESET =

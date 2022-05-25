@@ -18,6 +18,7 @@ export class NewInstructorDataRowComponent implements OnInit {
   @Input() index!: number;
   @Input() isAddDisabled!: boolean;
   @Output() addInstructorEvent: EventEmitter<void> = new EventEmitter();
+  @Output() informInstructorEvent: EventEmitter<void> = new EventEmitter();
   @Output() removeInstructorEvent: EventEmitter<void> = new EventEmitter();
   @Output() toggleEditModeEvent: EventEmitter<boolean> = new EventEmitter();
   @Output() showRegisteredInstructorModalEvent: EventEmitter<void> = new EventEmitter();
@@ -33,6 +34,10 @@ export class NewInstructorDataRowComponent implements OnInit {
 
   addInstructor(): void {
     this.addInstructorEvent.emit();
+  }
+
+  informInstructor(): void {
+    this.informInstructorEvent.emit();
   }
 
   removeInstructor(): void {

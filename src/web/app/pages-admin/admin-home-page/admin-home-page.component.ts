@@ -7,7 +7,7 @@ import { CourseService } from '../../../services/course.service';
 import { LinkService } from '../../../services/link.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
-import { Account, Accounts, Courses, JoinLink } from '../../../types/api-output';
+import { Account, Accounts, Courses, JoinLink, MessageOutput } from '../../../types/api-output';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorData, RegisteredInstructorAccountData } from './instructor-data';
@@ -126,6 +126,22 @@ export class AdminHomePageComponent {
           instructor.statusCode = resp.status;
           instructor.message = resp.error.message;
           this.activeRequests -= 1;
+        });
+  }
+
+  /**
+   * Informs the instructor at the i-th index that his
+   * Google account is tied with an existing account.
+   */
+  informInstructor(i: number): void {
+    const instructor: InstructorData = this.instructorsConsolidated[i];
+
+    this.accountService
+        .sendExistingInstructorAccountEmail(instructor.email)
+        .subscribe((resp: MessageOutput) => {
+          this.statusMessageService.showSuccessToast(resp.message);
+        }, (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
         });
   }
 

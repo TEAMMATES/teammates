@@ -20,6 +20,7 @@ public enum EmailType {
     STUDENT_EMAIL_CHANGED("TEAMMATES: Summary of course [%s][Course ID: %s]"),
     STUDENT_COURSE_LINKS_REGENERATED("TEAMMATES: Your updated links for course [%s][Course ID: %s]"),
     INSTRUCTOR_COURSE_LINKS_REGENERATED("TEAMMATES: Your updated links for course [%s][Course ID: %s]"),
+    EXISTING_ACCOUNT_CONFLICTED("TEAMMATES: Your email is used by an existing account"),
     NEW_INSTRUCTOR_ACCOUNT("TEAMMATES: Welcome to TEAMMATES! %s"),
     STUDENT_COURSE_JOIN("TEAMMATES: Invitation to join course [%s][Course ID: %s]"),
     STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET("TEAMMATES: Your account has been reset for course [%s][Course ID: %s]"),

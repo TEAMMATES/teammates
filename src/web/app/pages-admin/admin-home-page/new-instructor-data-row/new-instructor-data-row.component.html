@@ -18,6 +18,7 @@
   <div class="button-group" *ngIf="!isBeingEdited && (instructor.status === 'PENDING' || instructor.status === 'FAIL')">
     <button class="action-btn btn btn-sm btn-primary text-nowrap" id="add-instructor-{{ index }}" style="margin-right: 10px;" (click)="addInstructor()" [disabled]="isAddDisabled">Add</button>
     <button class="action-btn btn btn-sm btn-info text-nowrap" id="edit-instructor-{{ index }}" style="margin-right: 10px;" (click)="editInstructor()">Edit</button>
+    <button class="action-btn btn btn-sm btn-warning text-nowrap" id="inform-instructor-{{ index }}" style="margin-right: 10px;" (click)="informInstructor()">Inform</button>
     <button class="action-btn btn btn-sm btn-danger" id="remove-instructor-{{ index }}" (click)="removeInstructor()">Remove</button>
   </div>
 </td>

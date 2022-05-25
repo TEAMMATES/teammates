@@ -76,6 +76,22 @@ public final class EmailGenerator {
         return generateFeedbackSessionOpeningOrClosingEmails(session, EmailType.FEEDBACK_OPENING);
     }
 
+    /**
+     * Generates the email for instructor with {@code instructorEmail}
+     * which is used by an existing account.
+     */
+    public EmailWrapper generateExistingInstructorAccountEmail(String instructorEmail) {
+        String emailBody = Templates.populateTemplate(EmailTemplates.INSTRUCTOR_EXISTING_ACCOUNT,
+                "${email}", instructorEmail);
+        EmailWrapper email = getEmptyEmailAddressedToEmail(instructorEmail);
+
+        email.setType(EmailType.EXISTING_ACCOUNT_CONFLICTED);
+        email.setSubjectFromType();
+        email.setContent(emailBody);
+
+        return email;
+    }
+
     private List<EmailWrapper> generateFeedbackSessionOpeningOrClosingEmails(
             FeedbackSessionAttributes session, EmailType emailType) {
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());

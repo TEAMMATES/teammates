@@ -354,6 +354,13 @@ exports[`AdminHomePageComponent should snap with disabled adding instructor butt
                     Edit
                   </button>
                   <button
+                    class="action-btn btn btn-sm btn-warning text-nowrap"
+                    id="inform-instructor-1"
+                    style="margin-right: 10px;"
+                  >
+                    Inform
+                  </button>
+                  <button
                     class="action-btn btn btn-sm btn-danger"
                     id="remove-instructor-1"
                   >
@@ -595,6 +602,13 @@ exports[`AdminHomePageComponent should snap with some instructors details 1`] = 
                     Edit
                   </button>
                   <button
+                    class="action-btn btn btn-sm btn-warning text-nowrap"
+                    id="inform-instructor-0"
+                    style="margin-right: 10px;"
+                  >
+                    Inform
+                  </button>
+                  <button
                     class="action-btn btn btn-sm btn-danger"
                     id="remove-instructor-0"
                   >
@@ -706,6 +720,13 @@ exports[`AdminHomePageComponent should snap with some instructors details 1`] = 
                     Edit
                   </button>
                   <button
+                    class="action-btn btn btn-sm btn-warning text-nowrap"
+                    id="inform-instructor-2"
+                    style="margin-right: 10px;"
+                  >
+                    Inform
+                  </button>
+                  <button
                     class="action-btn btn btn-sm btn-danger"
                     id="remove-instructor-2"
                   >
@@ -772,6 +793,13 @@ exports[`AdminHomePageComponent should snap with some instructors details 1`] = 
                     style="margin-right: 10px;"
                   >
                     Edit
+                  </button>
+                  <button
+                    class="action-btn btn btn-sm btn-warning text-nowrap"
+                    id="inform-instructor-3"
+                    style="margin-right: 10px;"
+                  >
+                    Inform
                   </button>
                   <button
                     class="action-btn btn btn-sm btn-danger"

@@ -107,4 +107,11 @@ export class AccountService {
     return this.httpRequestService.get(ResourceEndpoints.ACCOUNTS, paramMap);
   }
 
+  sendExistingInstructorAccountEmail(email: string): Observable<MessageOutput> {
+    const paramMap: Record<string, string> = {
+      instructoremail: email,
+    };
+    return this.httpRequestService.post(ResourceEndpoints.EXISTING_INSTRUCTOR, paramMap);
+  }
+
 }

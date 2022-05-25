@@ -37,6 +37,7 @@ public final class ActionFactory {
         map(ResourceURIs.USER_COOKIE, POST, GetUserCookieAction.class);
 
         map(ResourceURIs.ERROR_REPORT, POST, SendErrorReportAction.class);
+        map(ResourceURIs.EXISTING_INSTRUCTOR, POST, SendExistingInstructorEmailAction.class);
         map(ResourceURIs.TIMEZONE, GET, GetTimeZonesAction.class);
         map(ResourceURIs.NATIONALITIES, GET, GetNationalitiesAction.class);
         map(ResourceURIs.AUTH, GET, GetAuthInfoAction.class);

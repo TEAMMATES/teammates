@@ -316,6 +316,7 @@ public final class Const {
         public static final String DEADLINE_EXTENSION = URI_PREFIX + "/deadlineextension";
         public static final String EXCEPTION = URI_PREFIX + "/exception";
         public static final String ERROR_REPORT = URI_PREFIX + "/errorreport";
+        public static final String EXISTING_INSTRUCTOR = URI_PREFIX + "/existinginstructor";
         public static final String AUTH = URI_PREFIX + "/auth";
         public static final String AUTH_REGKEY = URI_PREFIX + "/auth/regkey";
         public static final String ACCOUNT = URI_PREFIX + "/account";

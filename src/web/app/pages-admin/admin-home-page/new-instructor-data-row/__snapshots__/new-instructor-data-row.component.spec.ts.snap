@@ -7,6 +7,7 @@ exports[`NewInstructorDataRowComponent should snap with default view 1`] = `
   editedInstructorInstitution={[Function String]}
   editedInstructorName={[Function String]}
   index="0"
+  informInstructorEvent={[Function EventEmitter_]}
   instructor={[Function Object]}
   isAddDisabled="false"
   isBeingEdited="false"
@@ -51,6 +52,13 @@ exports[`NewInstructorDataRowComponent should snap with default view 1`] = `
         style="margin-right: 10px;"
       >
         Edit
+      </button>
+      <button
+        class="action-btn btn btn-sm btn-warning text-nowrap"
+        id="inform-instructor-0"
+        style="margin-right: 10px;"
+      >
+        Inform
       </button>
       <button
         class="action-btn btn btn-sm btn-danger"
@@ -77,6 +85,7 @@ exports[`NewInstructorDataRowComponent should snap with edit cancelled 1`] = `
   editedInstructorInstitution={[Function String]}
   editedInstructorName={[Function String]}
   index="0"
+  informInstructorEvent={[Function EventEmitter_]}
   instructor={[Function Object]}
   isAddDisabled="false"
   isBeingEdited="false"
@@ -123,6 +132,13 @@ exports[`NewInstructorDataRowComponent should snap with edit cancelled 1`] = `
         Edit
       </button>
       <button
+        class="action-btn btn btn-sm btn-warning text-nowrap"
+        id="inform-instructor-0"
+        style="margin-right: 10px;"
+      >
+        Inform
+      </button>
+      <button
         class="action-btn btn btn-sm btn-danger"
         id="remove-instructor-0"
       >
@@ -147,6 +163,7 @@ exports[`NewInstructorDataRowComponent should snap with edit confirmed 1`] = `
   editedInstructorInstitution={[Function String]}
   editedInstructorName={[Function String]}
   index="0"
+  informInstructorEvent={[Function EventEmitter_]}
   instructor={[Function Object]}
   isAddDisabled="false"
   isBeingEdited="false"
@@ -193,6 +210,13 @@ exports[`NewInstructorDataRowComponent should snap with edit confirmed 1`] = `
         Edit
       </button>
       <button
+        class="action-btn btn btn-sm btn-warning text-nowrap"
+        id="inform-instructor-0"
+        style="margin-right: 10px;"
+      >
+        Inform
+      </button>
+      <button
         class="action-btn btn btn-sm btn-danger"
         id="remove-instructor-0"
       >
@@ -217,6 +241,7 @@ exports[`NewInstructorDataRowComponent should snap with instructor details edite
   editedInstructorInstitution={[Function String]}
   editedInstructorName={[Function String]}
   index="0"
+  informInstructorEvent={[Function EventEmitter_]}
   instructor={[Function Object]}
   isAddDisabled="false"
   isBeingEdited={[Function Boolean]}
@@ -281,6 +306,7 @@ exports[`NewInstructorDataRowComponent should snap with start of edit 1`] = `
   editedInstructorInstitution={[Function String]}
   editedInstructorName={[Function String]}
   index="0"
+  informInstructorEvent={[Function EventEmitter_]}
   instructor={[Function Object]}
   isAddDisabled="false"
   isBeingEdited={[Function Boolean]}
