@@ -286,26 +286,45 @@ describe('UserJoinPageComponent creating account', () => {
     expect(navSpy).toHaveBeenLastCalledWith(expect.anything(), '/web/instructor/home');
   });
 
-  it('should stop loading and show error message if 404 is returned when creating new account', () => {
-    jest.spyOn(authService, 'getAuthUser').mockReturnValue(of({
-      user: {
-        id: 'user',
-        isAdmin: false,
-        isInstructor: false,
-        isStudent: false,
-        isMaintainer: false,
-      },
-      masquerade: false,
-    }));
-    jest.spyOn(courseService, 'getJoinCourseStatus').mockReturnValue(throwError({
-      status: 404,
-    }));
+  describe('should stop loading and show error message', () => {
+    beforeEach(() => {
+      jest.spyOn(authService, 'getAuthUser').mockReturnValue(of({
+        user: {
+          id: 'user',
+          isAdmin: false,
+          isInstructor: false,
+          isStudent: false,
+          isMaintainer: false,
+        },
+        masquerade: false,
+      }));
+    });
 
-    component.ngOnInit();
+    it('if 404 is returned when creating new account', () => {
+      jest.spyOn(courseService, 'getJoinCourseStatus').mockReturnValue(throwError({
+        status: 404,
+      }));
 
-    expect(component.entityType).toBe('instructor');
-    expect(component.isCreatingAccount).toBeTruthy();
-    expect(component.isLoading).toBeFalsy();
-    expect(component.validUrl).toBeFalsy();
+      component.ngOnInit();
+
+      expect(component.entityType).toBe('instructor');
+      expect(component.isCreatingAccount).toBeTruthy();
+      expect(component.isLoading).toBeFalsy();
+      expect(component.validUrl).toBeFalsy();
+    });
+
+    it('if the course is deleted', () => {
+      jest.spyOn(courseService, 'getJoinCourseStatus').mockReturnValue(throwError({
+        errorMessage: 'Course A is deleted',
+        status: 404,
+      }));
+
+      component.ngOnInit();
+
+      expect(component.entityType).toBe('instructor');
+      expect(component.isCreatingAccount).toBeTruthy();
+      expect(component.isLoading).toBeFalsy();
+      expect(component.validUrl).toBeFalsy();
+    });
   });
 });

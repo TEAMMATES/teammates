@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoadingSpinnerModule } from './components/loading-spinner/loading-spinner.module';
-import { StatusMessageModule } from './components/status-message/status-message.module';
 import { UserJoinPageComponent } from './user-join-page.component';
 
 const routes: Routes = [
@@ -26,7 +25,6 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes),
     LoadingSpinnerModule,
-    StatusMessageModule,
   ],
 })
 export class UserJoinPageModule { }

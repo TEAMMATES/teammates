@@ -7,10 +7,10 @@ import { AccountService } from '../services/account.service';
 import { AuthService } from '../services/auth.service';
 import { CourseService } from '../services/course.service';
 import { NavigationService } from '../services/navigation.service';
-import { StatusMessageService } from '../services/status-message.service';
 import { TimezoneService } from '../services/timezone.service';
 import { AuthInfo, JoinStatus } from '../types/api-output';
 import { ErrorReportComponent } from './components/error-report/error-report.component';
+import { SimpleModalComponent } from './components/simple-modal/simple-modal.component';
 import { ErrorMessageOutput } from './error-message-output';
 
 /**
@@ -40,7 +40,6 @@ export class UserJoinPageComponent implements OnInit {
               private navigationService: NavigationService,
               private authService: AuthService,
               private timezoneService: TimezoneService,
-              private statusMessageService: StatusMessageService,
               private ngbModal: NgbModal) {}
 
   ngOnInit(): void {
@@ -102,7 +101,10 @@ export class UserJoinPageComponent implements OnInit {
       const errorMessage = resp.error.message;
 
       if (errorMessage.match(/Course .* is deleted/)) {
-        this.statusMessageService.showErrorToast(errorMessage);
+        const modalRef: any = this.ngbModal.open(SimpleModalComponent);
+        modalRef.componentInstance.content = 'The course you are trying to join has been deleted by an instructor';
+        modalRef.componentInstance.isInformationOnly = true;
+        modalRef.componentInstance.confirmMessage = 'OK';
       } else {
         const modalRef: any = this.ngbModal.open(ErrorReportComponent);
         modalRef.componentInstance.requestId = resp.error.requestId;

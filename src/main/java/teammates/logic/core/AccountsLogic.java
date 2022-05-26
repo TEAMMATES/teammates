@@ -170,7 +170,11 @@ public final class AccountsLogic {
 
         CourseAttributes courseAttributes = coursesLogic.getCourse(instructorForKey.getCourseId());
 
-        if (courseAttributes != null && courseAttributes.isCourseDeleted()) {
+        if (courseAttributes == null) {
+            throw new EntityDoesNotExistException("Course with id " + instructorForKey.getCourseId() + " does not exist");
+        }
+
+        if (courseAttributes.isCourseDeleted()) {
             throw new EntityDoesNotExistException("Course " + courseAttributes.getName() + " is deleted");
         }
 
@@ -207,7 +211,11 @@ public final class AccountsLogic {
 
         CourseAttributes courseAttributes = coursesLogic.getCourse(studentRole.getCourse());
 
-        if (courseAttributes != null && courseAttributes.isCourseDeleted()) {
+        if (courseAttributes == null) {
+            throw new EntityDoesNotExistException("Course with id " + studentRole.getCourse() + " does not exist");
+        }
+
+        if (courseAttributes.isCourseDeleted()) {
             throw new EntityDoesNotExistException("Course " + courseAttributes.getName() + " is deleted");
         }
 
