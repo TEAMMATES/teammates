@@ -15,10 +15,9 @@
 [![License](https://img.shields.io/badge/license-GPLv2-blue.svg)](LICENSE)
 </div>
 <div align="center">About</div>
-
+<br>
 TEAMMATES is a free online tool for managing peer evaluations and other feedback paths of your students. It is provided as a cloud-based service for educators/students and is currently used by hundreds of universities across the world.
-<h1>
-
+<br>
 
 ## Table of Contents
 
