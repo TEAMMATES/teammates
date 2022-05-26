@@ -128,6 +128,54 @@ describe('AdminSearchPageComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
+  it('should snap with a deleted course', () => {
+    component.instructors = [
+      {
+        name: 'instructor',
+        email: 'instructor@tester.com',
+        googleId: 'ins-google-id',
+        courseId: 'deleted-course',
+        courseName: 'deleted',
+        isCourseDeleted: true,
+        institute: 'institute',
+        courseJoinLink: 'course-join-link',
+        homePageLink: 'home-page-link',
+        manageAccountLink: 'manage-account-link',
+        showLinks: false,
+        awaitingSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+        openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+        notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+        publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+      },
+    ];
+    component.students = [
+      {
+        name: 'student',
+        email: 'student@gmail.tmt',
+        googleId: 'student-google-id',
+        courseId: 'deleted-course',
+        courseName: 'deleted',
+        isCourseDeleted: true,
+        institute: 'institute',
+        courseJoinLink: 'course-join-link',
+        homePageLink: 'home-page-link',
+        manageAccountLink: 'manage-account-link',
+        showLinks: false,
+        section: 'section',
+        team: 'team',
+        comments: 'comments',
+        recordsPageLink: 'records-page-link',
+        awaitingSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+        openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+        notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+        publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+      },
+    ];
+
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
+
   it('should snap with an expanded instructor table', () => {
     component.instructors = [
       {
