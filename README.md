@@ -36,6 +36,8 @@ Features: [Product key features](https://teammates.github.io/teammates/)
 
 <img src="src/web/assets/images/feature2.png" width="1000">
 
+<img src="src/web/assets/images/feature3.png" width="1000">
+
 ### Quickstart
 
 This project uses MarkBind for developer documentation. MarkBind is used to create a static site, and can parse markdown, GitHub Flavoured Markdown, and more.
