@@ -1,14 +1,24 @@
-# TEAMMATES Developer Web Site
+<h1 align="center">
+  <br>
+  <a href="https://github.com/salomonelli/best-resume-ever">
+  <img src="src/web/assets/images/overview.png" width="1000"></a>
+  <br>
+  TEAMMATES Developer Web Site
+  <br>
+</h1>
+
+<div align="center">
 
 [![GitHub Actions Build Status Component Tests](https://github.com/TEAMMATES/teammates/workflows/Component%20Tests/badge.svg)](https://github.com/TEAMMATES/teammates/actions)
 [![GitHub Actions Build Status E2E Tests](https://github.com/TEAMMATES/teammates/workflows/E2E%20Tests/badge.svg)](https://github.com/TEAMMATES/teammates/actions)
 [![Codecov Coverage Status](https://codecov.io/gh/TEAMMATES/teammates/branch/master/graph/badge.svg)](https://codecov.io/gh/TEAMMATES/teammates)
 [![License](https://img.shields.io/badge/license-GPLv2-blue.svg)](LICENSE)
+</div>
+<div align="center">About</div>
 
-<img src="src/web/assets/images/overview.png" width="1000">
+TEAMMATES is a free online tool for managing peer evaluations and other feedback paths of your students. It is provided as a cloud-based service for educators/students and is currently used by hundreds of universities across the world.
+<h1>
 
-TEAMMATES is a free online tool for managing peer evaluations and other feedback paths of your students.
-It is provided as a cloud-based service for educators/students and is currently used by hundreds of universities across the world. 
 
 ## Table of Contents
 
@@ -20,7 +30,7 @@ It is provided as a cloud-based service for educators/students and is currently 
 - [Contacting us](#Contacting-us)
 
 
-### Product overview
+## Product overview
 
 Product website: [TEAMMATES.com](https://teammates.github.io/teammates/)
 
@@ -38,7 +48,7 @@ Features: [Product key features](https://teammates.github.io/teammates/)
 
 <img src="src/web/assets/images/feature3.png" width="1000">
 
-### Quickstart
+## Quickstart
 
 Run the project locally to view features. This project uses MarkBind for developer documentation. MarkBind is used to create a static site, and can parse markdown, GitHub Flavoured Markdown, and more.
 
@@ -74,14 +84,14 @@ markbind serve -p 8090
 ```
 Click [here](https://teammates.github.io/teammates/documentation.html) to view the more about how to run the project locally.
 
-### Development environment and guidelines
+## Development environment and guidelines
 
 Click [here](https://teammates.github.io/teammates/) to view the FULL documentation for developers in details.
 
-1. [Setting up a development environment](https://teammates.github.io/teammates/setting-up.html) 
+1. [Development environment setup](https://teammates.github.io/teammates/setting-up.html) 
 2. [Development Guideline](https://teammates.github.io/teammates/development.html)
 
-### Documentation for developers
+## Documentation for developers
 
 1. [Development Workflow](https://teammates.github.io/teammates/process.html)
 2. [Troubleshoot Guide](https://teammates.github.io/teammates/troubleshooting-guide.html)
@@ -89,7 +99,7 @@ Click [here](https://teammates.github.io/teammates/) to view the FULL documentat
 4. [TEAMMATES Glossary](https://teammates.github.io/teammates/design.html) 
 
 
-### Contributing to TEAMMATES
+## Make a contribution
 
 We welcome contributions from developers, especially students. 
 
@@ -101,10 +111,10 @@ We welcome contributions from developers, especially students.
 
 
 
-### Contacting us
+## Contact us
 
 The best way to contact us is to [post a message in our issue tracker](https://github.com/TEAMMATES/teammates/issues/new). Our issue tracker doubles as a discussion forum. You can use it for things like asking questions about the project or requesting technical help.
 
 Alternatively (less preferred), you can email us at teammates@comp.nus.edu.sg.
 
-Blog: Visit the [TEAMMATES Blog](http://teammatesonline.blogspot.com/) to see our latest updates and information.
+Blog: visit the [TEAMMATES Blog](http://teammatesonline.blogspot.com/) to see our latest updates and information.
