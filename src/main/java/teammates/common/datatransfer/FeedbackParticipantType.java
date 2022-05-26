@@ -30,7 +30,7 @@ public enum FeedbackParticipantType {
      *
      * <p>Used to generate options for MCQ & MSQ.
      */
-    STUDENTS_EXCLUDING_SELF(false, false, false),
+    STUDENTS_EXCLUDING_SELF(false, true, true),
 
     /**
      * Instructors of the course.
@@ -50,7 +50,7 @@ public enum FeedbackParticipantType {
     /**
      * Teams of the course, excluding the response giver.
      */
-    TEAMS_EXCLUDING_SELF(false, false, false),
+    TEAMS_EXCLUDING_SELF(false, true, true),
 
     /**
      * Team of the response giver.
@@ -112,7 +112,7 @@ public enum FeedbackParticipantType {
     }
 
     public boolean isTeam() {
-        return this == TEAMS || this == OWN_TEAM || this == TEAMS_IN_SAME_SECTION;
+        return this == TEAMS || this == TEAMS_EXCLUDING_SELF || this == OWN_TEAM || this == TEAMS_IN_SAME_SECTION;
     }
 
     /**
