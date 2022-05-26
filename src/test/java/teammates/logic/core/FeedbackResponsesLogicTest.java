@@ -647,6 +647,9 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
                 fr123, fq12, null));
         assertFalse(frLogic.isResponseVisibleForUser(student2.getEmail(), false, student2, studentsEmailInTeam1,
                 fr241, fq24, null));
+        // invalid usage
+        assertFalse(frLogic.isResponseVisibleForUser(student8.getEmail(), false, student8, null,
+                fr281, fq28, null));
 
         ______TS("test if visible to receiver's team members");
 
