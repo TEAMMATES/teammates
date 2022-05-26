@@ -40,7 +40,7 @@ Features: [Product key features](https://teammates.github.io/teammates/)
 
 ### Quickstart
 
-This project uses MarkBind for developer documentation. MarkBind is used to create a static site, and can parse markdown, GitHub Flavoured Markdown, and more.
+Run the project locally to view features. This project uses MarkBind for developer documentation. MarkBind is used to create a static site, and can parse markdown, GitHub Flavoured Markdown, and more.
 
 All the commands in this document are assumed to be run from the /docs folder, unless specified otherwise.
 
@@ -72,15 +72,19 @@ The live preview will be available at localhost:8080 by default and should updat
 npm run serve -- -p 8090
 markbind serve -p 8090
 ```
+Click [here](https://teammates.github.io/teammates/documentation.html) to view the more about how to run the project locally.
 
-### Documentation for developers
+### Development environment and guidelines
 
 Click [here](https://teammates.github.io/teammates/) to view the FULL documentation for developers in details.
 
-1. [Environment Setup](https://teammates.github.io/teammates/setting-up.html) 
+1. [Setting up a development environment](https://teammates.github.io/teammates/setting-up.html) 
 2. [Development Guideline](https://teammates.github.io/teammates/development.html)
-3. [Development Workflow](https://teammates.github.io/teammates/process.html)
-3. [Troubleshoot Guide](https://teammates.github.io/teammates/troubleshooting-guide.html)
+
+### Documentation for developers
+
+1. [Development Workflow](https://teammates.github.io/teammates/process.html)
+2. [Troubleshoot Guide](https://teammates.github.io/teammates/troubleshooting-guide.html)
 3. [Software Design](https://teammates.github.io/teammates/design.html) - Architecture, APIs, etc
 4. [TEAMMATES Glossary](https://teammates.github.io/teammates/design.html) 
 
