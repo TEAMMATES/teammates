@@ -15,7 +15,6 @@
 [![License](https://img.shields.io/badge/license-GPLv2-blue.svg)](LICENSE)
 </div>
 <div align="center">About</div>
-<br>
 TEAMMATES is a free online tool for managing peer evaluations and other feedback paths of your students. It is provided as a cloud-based service for educators/students and is currently used by hundreds of universities across the world.
 <br>
 
@@ -81,7 +80,7 @@ The live preview will be available at localhost:8080 by default and should updat
 npm run serve -- -p 8090
 markbind serve -p 8090
 ```
-Click [here](https://teammates.github.io/teammates/documentation.html) to view the more about how to run the project locally.
+Click [here](https://teammates.github.io/teammates/documentation.html) to view more about how to run the project locally.
 
 ## Development environment and guidelines
 
@@ -109,11 +108,15 @@ We welcome contributions from developers, especially students.
 > #### [TEAMMATES team wishes to thank the following invaluable contributions](https://teammatesv4.appspot.com/web/front/about).
 
 
+## Get help
 
-## Contact us
+1. [Report issues](https://github.com/TEAMMATES/teammates/issues/new)
 
-The best way to contact us is to [post a message in our issue tracker](https://github.com/TEAMMATES/teammates/issues/new). Our issue tracker doubles as a discussion forum. You can use it for things like asking questions about the project or requesting technical help.
+    The best way to contact us is to [post a message in our issue tracker](https://github.com/TEAMMATES/teammates/issues/new). Our issue tracker doubles as a discussion forum. You can use it for things like asking questions about the project or requesting technical help.
 
-Alternatively (less preferred), you can email us at teammates@comp.nus.edu.sg.
+    Alternatively (less preferred), you can email us at teammates@comp.nus.edu.sg.
 
-Blog: visit the [TEAMMATES Blog](http://teammatesonline.blogspot.com/) to see our latest updates and information.
+    Blog: visit the [TEAMMATES Blog](http://teammatesonline.blogspot.com/) to see our latest updates and information.
+
+2. [Help for students](https://teammatesv4.appspot.com/web/front/help/student)
+3. [Help for instructors](https://teammatesv4.appspot.com/web/front/help/instructor)
