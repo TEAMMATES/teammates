@@ -120,7 +120,6 @@ public class AccountsLogicTest extends BaseLogicTest {
         String correctStudentId = "correctStudentId";
         String courseId = "idOfTypicalCourse1";
         String deletedCourseId = "idOfTypicalCourse3";
-        String deletedCourseName = "Typical Course 3 with 1 Evals";
         String originalEmail = "original@email.com";
 
         // Create correct student with original@email.com
@@ -205,7 +204,7 @@ public class AccountsLogicTest extends BaseLogicTest {
         ednee = assertThrows(EntityDoesNotExistException.class,
                 () -> accountsLogic.joinCourseForStudent(finalDeletedCourseStudent.getKey(),
                         finalDeletedCourseStudent.getGoogleId()));
-        assertEquals("Course " + deletedCourseName + " is deleted", ednee.getMessage());
+        assertEquals("The course you are trying to join has been deleted by an instructor", ednee.getMessage());
 
         ______TS("success: with encryption and new account to be created");
 
@@ -243,7 +242,6 @@ public class AccountsLogicTest extends BaseLogicTest {
     @Test
     public void testJoinCourseForInstructor() throws Exception {
         String deletedCourseId = "idOfTypicalCourse3";
-        String deletedCourseName = "Typical Course 3 with 1 Evals";
         InstructorAttributes instructor = dataBundle.instructors.get("instructorNotYetJoinCourse");
         String loggedInGoogleId = "AccLogicT.instr.id";
         String[] key = new String[] {
@@ -363,7 +361,7 @@ public class AccountsLogicTest extends BaseLogicTest {
         ednee = assertThrows(EntityDoesNotExistException.class,
                 () -> accountsLogic.joinCourseForInstructor(finalDeletedCourseInstructor.getKey(),
                         finalDeletedCourseInstructor.getGoogleId()));
-        assertEquals("Course " + deletedCourseName + " is deleted", ednee.getMessage());
+        assertEquals("The course you are trying to join has been deleted by an instructor", ednee.getMessage());
     }
 
     @Test

@@ -175,7 +175,7 @@ public final class AccountsLogic {
         }
 
         if (courseAttributes.isCourseDeleted()) {
-            throw new EntityDoesNotExistException("Course " + courseAttributes.getName() + " is deleted");
+            throw new EntityDoesNotExistException("The course you are trying to join has been deleted by an instructor");
         }
 
         if (instructorForKey.isRegistered()) {
@@ -216,7 +216,7 @@ public final class AccountsLogic {
         }
 
         if (courseAttributes.isCourseDeleted()) {
-            throw new EntityDoesNotExistException("Course " + courseAttributes.getName() + " is deleted");
+            throw new EntityDoesNotExistException("The course you are trying to join has been deleted by an instructor");
         }
 
         if (studentRole.isRegistered()) {
