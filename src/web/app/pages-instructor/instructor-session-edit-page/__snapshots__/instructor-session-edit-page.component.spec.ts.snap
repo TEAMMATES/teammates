@@ -4039,7 +4039,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                   <div
                     class="offset-1 col-md-4 text-md-right"
                   >
-                     The maximum number of students each respondent should give feedback to: 
+                     The maximum number of students_excluding_self each respondent should give feedback to: 
                   </div>
                   <div
                     class="col-md-2"
