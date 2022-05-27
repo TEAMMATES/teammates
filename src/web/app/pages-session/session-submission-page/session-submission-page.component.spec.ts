@@ -752,7 +752,7 @@ describe('SessionSubmissionPageComponent', () => {
 
     expect(navSpy).toHaveBeenCalledTimes(1);
     expect(navSpy).toHaveBeenLastCalledWith(expect.anything(), '/web/student/sessions/submission',
-        { courseid: 'CS3281', fsname: 'Feedback Session Name' });
+        { courseid: 'CS3281', fsname: 'Feedback Session Name', entitytype: 'student' });
   });
 
   it('should deny unallowed access with valid reg key for logged in user', () => {

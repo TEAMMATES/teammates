@@ -133,7 +133,7 @@ abstract class BasicFeedbackSubmissionAction extends Action {
             if (!StringHelper.isEmpty(instructor.getGoogleId())) {
                 if (userInfo == null) {
                     // Instructor is associated to a google ID; even if registration key is passed, do not allow access
-                    throw new UnauthorizedAccessException("Login is required to access this feedback session");
+                    throw new UnauthorizedAccessException("Login is required to access this feedback session", true);
                 } else if (!userInfo.id.equals(instructor.getGoogleId())) {
                     // Logged in instructor is not the same as the instructor registered for the given key,
                     // do not allow access

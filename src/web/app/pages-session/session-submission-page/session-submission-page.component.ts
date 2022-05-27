@@ -168,7 +168,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                 // The logged in user matches the registration key; redirect to the logged in URL
                 this.navigationService.navigateByURLWithParamEncoding(
                     this.router, `/web/${this.entityType}/sessions/submission`,
-                    { courseid: this.courseId, fsname: this.feedbackSessionName });
+                    { courseid: this.courseId, fsname: this.feedbackSessionName, entitytype: this.entityType });
               } else {
                 // Valid, unused registration key; load information based on the key
                 this.loadCourseInfo();
