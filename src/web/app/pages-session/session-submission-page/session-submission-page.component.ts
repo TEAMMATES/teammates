@@ -415,11 +415,12 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
               },
               { backdrop: 'static' });
         } else if (resp.status === 403) {
-          if (auth && resp.error.message === 'Login is required to access this feedback session') {
+          if (auth && !auth.user) {
+            // There is no logged in user for a valid, used registration key, redirect to login page
             if (this.entityType === 'student') {
-              window.location.href = `${this.backendUrl}${auth?.studentLoginUrl}`;
+              window.location.href = `${this.backendUrl}${auth.studentLoginUrl}`;
             } else if (this.entityType === 'instructor') {
-              window.location.href = `${this.backendUrl}${auth?.instructorLoginUrl}`;
+              window.location.href = `${this.backendUrl}${auth.instructorLoginUrl}`;
             }
           } else {
             this.simpleModalService.openInformationModal('Not Authorised To Access!', SimpleModalType.DANGER,
