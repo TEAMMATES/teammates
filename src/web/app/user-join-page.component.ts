@@ -7,10 +7,11 @@ import { AccountService } from '../services/account.service';
 import { AuthService } from '../services/auth.service';
 import { CourseService } from '../services/course.service';
 import { NavigationService } from '../services/navigation.service';
-import { SimpleModalService } from "../services/simple-modal.service";
+import { SimpleModalService } from '../services/simple-modal.service';
 import { TimezoneService } from '../services/timezone.service';
 import { AuthInfo, JoinStatus } from '../types/api-output';
 import { ErrorReportComponent } from './components/error-report/error-report.component';
+import { SimpleModalType } from './components/simple-modal/simple-modal-type';
 import { ErrorMessageOutput } from './error-message-output';
 
 /**
@@ -39,6 +40,7 @@ export class UserJoinPageComponent implements OnInit {
               private courseService: CourseService,
               private navigationService: NavigationService,
               private authService: AuthService,
+              private simpleModalService: SimpleModalService,
               private timezoneService: TimezoneService,
               private ngbModal: NgbModal) {}
 
@@ -105,10 +107,8 @@ export class UserJoinPageComponent implements OnInit {
         modalRef.componentInstance.requestId = resp.error.requestId;
         modalRef.componentInstance.errorMessage = errorMessage;
       } else {
-        const modalRef: any = this.ngbModal.open(SimpleModalService);
-        modalRef.componentInstance.content = errorMessage;
-        modalRef.componentInstance.isInformationOnly = true;
-        modalRef.componentInstance.confirmMessage = 'OK';
+        this.simpleModalService.openInformationModal('ERROR',
+            SimpleModalType.DANGER, errorMessage);
       }
     });
   }
