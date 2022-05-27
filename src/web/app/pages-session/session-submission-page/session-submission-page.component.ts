@@ -136,7 +136,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
     this.route.data.pipe(
         tap((data: any) => {
           this.intent = data.intent;
-          this.entityType = data.intent === Intent.INSTRUCTOR_SUBMISSION ? 'instructor' : '';
+          this.entityType = data.intent === Intent.INSTRUCTOR_SUBMISSION ? 'instructor' : this.entityType;
         }),
         switchMap(() => this.route.queryParams),
     ).subscribe((queryParams: any) => {
