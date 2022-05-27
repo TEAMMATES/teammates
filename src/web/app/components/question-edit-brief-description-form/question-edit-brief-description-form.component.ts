@@ -11,7 +11,10 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 export class QuestionEditBriefDescriptionFormComponent {
 
   @Input()
-  isDisabled: boolean = false;
+  isBriefDisabled: boolean = false;
+
+  @Input()
+  isDescriptionDisabled: boolean = false;
 
   @Input()
   brief: string = '';
