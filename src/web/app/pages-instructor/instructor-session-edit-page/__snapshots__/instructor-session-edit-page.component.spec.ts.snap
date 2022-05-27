@@ -3983,7 +3983,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                             Giver (Self feedback)
                           </option>
                           <option
-                            value="1: STUDENTS"
+                            value="1: STUDENTS_EXCLUDING_SELF"
                           >
                             Other students in the course
                           </option>
@@ -3998,7 +3998,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                             Instructors in the course
                           </option>
                           <option
-                            value="4: TEAMS"
+                            value="4: TEAMS_EXCLUDING_SELF"
                           >
                             Other teams in the course
                           </option>
