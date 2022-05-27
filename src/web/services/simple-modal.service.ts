@@ -47,10 +47,10 @@ export class SimpleModalService {
       });
       if (simpleModalOptions.onClosed) {
         modalRef.closed.subscribe(() => {
-          simpleModalOptions.onClosed?.();
+          simpleModalOptions.onClosed!();
         });
         modalRef.dismissed.subscribe(() => {
-          simpleModalOptions.onClosed?.();
+          simpleModalOptions.onClosed!();
         });
       }
     }

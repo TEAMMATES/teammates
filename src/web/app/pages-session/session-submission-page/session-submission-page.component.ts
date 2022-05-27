@@ -136,6 +136,11 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
     this.route.data.pipe(
         tap((data: any) => {
           this.intent = data.intent;
+          this.entityType = data.intent == Intent.STUDENT_SUBMISSION
+              ? 'student'
+              : data.intent == Intent.INSTRUCTOR_SUBMISSION
+              ? 'instructor'
+              : '';
         }),
         switchMap(() => this.route.queryParams),
     ).subscribe((queryParams: any) => {
@@ -168,12 +173,12 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                 // The logged in user matches the registration key; redirect to the logged in URL
                 this.navigationService.navigateByURLWithParamEncoding(
                     this.router, `/web/${this.entityType}/sessions/submission`,
-                    { courseid: this.courseId, fsname: this.feedbackSessionName, entitytype: this.entityType });
+                    { courseid: this.courseId, fsname: this.feedbackSessionName });
               } else {
                 // Valid, unused registration key; load information based on the key
                 this.loadCourseInfo();
                 this.loadPersonName();
-                this.loadFeedbackSession();
+                this.loadFeedbackSession(false, auth);
               }
             } else if (resp.isValid) {
               // At this point, registration key must already be used, otherwise access would be granted
@@ -186,7 +191,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                     cannot remember which Google account you used before, please email us at
                     ${environment.supportEmail} for help.`);
               } else {
-                this.loadFeedbackSession(auth);
+                this.loadFeedbackSession(true, auth);
               }
             } else {
               // The registration key is invalid
@@ -202,7 +207,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
           // This will also cover moderation/preview cases
           this.loadCourseInfo();
           this.loadPersonName();
-          this.loadFeedbackSession();
+          this.loadFeedbackSession(false, auth);
         } else {
           this.navigationService.navigateWithErrorMessage(this.router, '/web/front',
               'You are not authorized to view this page.');
@@ -338,7 +343,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   /**
    * Loads the feedback session information.
    */
-  loadFeedbackSession(auth?: AuthInfo): void {
+  loadFeedbackSession(loginRequired: boolean, auth: AuthInfo): void {
     this.isFeedbackSessionLoading = true;
     const TIME_FORMAT: string = 'ddd, DD MMM, YYYY, hh:mm A zz';
     this.feedbackSessionsService.getFeedbackSession({
@@ -415,7 +420,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
               },
               { backdrop: 'static' });
         } else if (resp.status === 403) {
-          if (auth && !auth.user) {
+          if (loginRequired && !auth.user) {
             // There is no logged in user for a valid, used registration key, redirect to login page
             if (this.entityType === 'student') {
               window.location.href = `${this.backendUrl}${auth.studentLoginUrl}`;

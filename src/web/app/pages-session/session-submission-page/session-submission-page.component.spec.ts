@@ -752,7 +752,7 @@ describe('SessionSubmissionPageComponent', () => {
 
     expect(navSpy).toHaveBeenCalledTimes(1);
     expect(navSpy).toHaveBeenLastCalledWith(expect.anything(), '/web/student/sessions/submission',
-        { courseid: 'CS3281', fsname: 'Feedback Session Name', entitytype: 'student' });
+        { courseid: 'CS3281', fsname: 'Feedback Session Name' });
   });
 
   it('should deny unallowed access with valid reg key for logged in user', () => {
@@ -822,7 +822,7 @@ describe('SessionSubmissionPageComponent', () => {
         .mockReturnValue(of(testOpenFeedbackSession));
     const modalSpy: SpyInstance = jest.spyOn(simpleModalService, 'openInformationModal').mockImplementation();
 
-    component.loadFeedbackSession();
+    component.loadFeedbackSession(false, testInfo);
 
     expect(fsSpy).toHaveBeenCalledTimes(1);
     expect(fsSpy).toHaveBeenLastCalledWith(getFeedbackSessionArgs);
@@ -842,7 +842,7 @@ describe('SessionSubmissionPageComponent', () => {
         .mockReturnValue(of(testClosedFeedbackSession));
     const modalSpy: SpyInstance = jest.spyOn(simpleModalService, 'openInformationModal').mockImplementation();
 
-    component.loadFeedbackSession();
+    component.loadFeedbackSession(false, testInfo);
 
     expect(fsSpy).toHaveBeenCalledTimes(1);
     expect(fsSpy).toHaveBeenLastCalledWith(getFeedbackSessionArgs);
@@ -861,7 +861,7 @@ describe('SessionSubmissionPageComponent', () => {
         .mockReturnValue(of(testVisibleNotOpenFeedbackSession));
     const modalSpy: SpyInstance = jest.spyOn(simpleModalService, 'openInformationModal').mockImplementation();
 
-    component.loadFeedbackSession();
+    component.loadFeedbackSession(false, testInfo);
 
     expect(fsSpy).toHaveBeenCalledTimes(1);
     expect(fsSpy).toHaveBeenLastCalledWith(getFeedbackSessionArgs);
@@ -880,7 +880,7 @@ describe('SessionSubmissionPageComponent', () => {
     }));
     const modalSpy: SpyInstance = jest.spyOn(simpleModalService, 'openInformationModal').mockImplementation();
 
-    component.loadFeedbackSession();
+    component.loadFeedbackSession(false, testInfo);
 
     expect(modalSpy).toHaveBeenCalledTimes(1);
     expect(modalSpy).toHaveBeenLastCalledWith('Feedback Session Does Not Exist!', SimpleModalType.DANGER,
@@ -895,7 +895,7 @@ describe('SessionSubmissionPageComponent', () => {
     }));
     const modalSpy: SpyInstance = jest.spyOn(simpleModalService, 'openInformationModal').mockImplementation();
 
-    component.loadFeedbackSession();
+    component.loadFeedbackSession(false, testInfo);
 
     expect(modalSpy).toHaveBeenCalledTimes(1);
     expect(modalSpy).toHaveBeenLastCalledWith('Not Authorised To Access!', SimpleModalType.DANGER, 'This is an error',
