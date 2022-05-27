@@ -30,7 +30,7 @@ public enum FeedbackParticipantType {
      *
      * <p>Used to generate options for MCQ & MSQ.
      */
-    STUDENTS_EXCLUDING_SELF(false, true, true),
+    STUDENTS_EXCLUDING_SELF(false, true, false),
 
     /**
      * Instructors of the course.
