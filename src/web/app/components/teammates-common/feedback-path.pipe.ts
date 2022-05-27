@@ -72,3 +72,33 @@ export class RecipientTypeDescriptionPipe implements PipeTransform {
   }
 
 }
+
+/**
+ * Pipe to handle the simplified display of {@link FeedbackParticipantType} from recipient's perspective.
+ */
+@Pipe({
+  name: 'recipientTypeSimplifiedDescription',
+})
+export class RecipientTypeSimplifiedDescriptionPipe implements PipeTransform {
+
+  /**
+   * Transforms {@link FeedbackParticipantType} to a simple description from recipient's perspective.
+   */
+  transform(type: FeedbackParticipantType): any {
+    switch (type) {
+      case FeedbackParticipantType.STUDENTS:
+      case FeedbackParticipantType.STUDENTS_EXCLUDING_SELF:
+      case FeedbackParticipantType.STUDENTS_IN_SAME_SECTION:
+        return 'students';
+      case FeedbackParticipantType.INSTRUCTORS:
+        return 'instructors';
+      case FeedbackParticipantType.TEAMS:
+      case FeedbackParticipantType.TEAMS_EXCLUDING_SELF:
+      case FeedbackParticipantType.TEAMS_IN_SAME_SECTION:
+        return 'teams';
+      default:
+        return 'Unknown';
+    }
+  }
+
+}
