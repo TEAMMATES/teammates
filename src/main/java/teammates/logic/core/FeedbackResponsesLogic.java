@@ -616,7 +616,7 @@ public final class FeedbackResponsesLogic {
         return missingResponses;
     }
 
-    private boolean isResponseVisibleForUser(
+    boolean isResponseVisibleForUser(
             String userEmail, boolean isInstructor, StudentAttributes student,
             Set<String> studentsEmailInTeam, FeedbackResponseAttributes response,
             FeedbackQuestionAttributes relatedQuestion, InstructorAttributes instructor) {
