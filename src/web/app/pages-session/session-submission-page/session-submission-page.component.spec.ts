@@ -885,7 +885,7 @@ describe('SessionSubmissionPageComponent', () => {
     expect(modalSpy).toHaveBeenCalledTimes(1);
     expect(modalSpy).toHaveBeenLastCalledWith('Feedback Session Does Not Exist!', SimpleModalType.DANGER,
         'The session does not exist (most likely deleted by the instructor after the submission link was sent).',
-        { redirect: expect.any(Function) }, { backdrop: 'static' });
+        { onClosed: expect.any(Function) }, { backdrop: 'static' });
   });
 
   it('should show session not visible modal when loading non-viewable feedback session', () => {
@@ -899,7 +899,7 @@ describe('SessionSubmissionPageComponent', () => {
 
     expect(modalSpy).toHaveBeenCalledTimes(1);
     expect(modalSpy).toHaveBeenLastCalledWith('Not Authorised To Access!', SimpleModalType.DANGER, 'This is an error',
-        { redirect: expect.any(Function) }, { backdrop: 'static' });
+        { onClosed: expect.any(Function) }, { backdrop: 'static' });
   });
 
   it('should load feedback questions', () => {

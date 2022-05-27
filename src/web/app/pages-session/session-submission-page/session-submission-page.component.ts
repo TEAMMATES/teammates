@@ -166,7 +166,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
             if (resp.isAllowedAccess) {
               if (resp.isUsed) {
                 // The logged in user matches the registration key; redirect to the logged in URL
-
                 this.navigationService.navigateByURLWithParamEncoding(
                     this.router, `/web/${this.entityType}/sessions/submission`,
                     { courseid: this.courseId, fsname: this.feedbackSessionName });
@@ -187,7 +186,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                     cannot remember which Google account you used before, please email us at
                     ${environment.supportEmail} for help.`);
               } else {
-                this.redirectToLoginPageIfFeedbackSessionAccessible(auth);
+                this.loadFeedbackSession(auth);
               }
             } else {
               // The registration key is invalid
@@ -339,7 +338,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   /**
    * Loads the feedback session information.
    */
-  loadFeedbackSession(): void {
+  loadFeedbackSession(auth?: AuthInfo): void {
     this.isFeedbackSessionLoading = true;
     const TIME_FORMAT: string = 'ddd, DD MMM, YYYY, hh:mm A zz';
     this.feedbackSessionsService.getFeedbackSession({
@@ -407,7 +406,34 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
               'Note On Submission', SimpleModalType.INFO, modalContent);
         }
       }, (resp: ErrorMessageOutput) => {
-        this.handleGetFeedbackSessionError(resp, false);
+        if (resp.status === 404) {
+          this.simpleModalService.openInformationModal('Feedback Session Does Not Exist!', SimpleModalType.DANGER,
+              'The session does not exist (most likely deleted by the instructor after the submission link was sent).',
+              {
+                onClosed: () => this.navigationService.navigateByURL(this.router,
+                    this.loggedInUser ? `/web/${this.entityType}/home` : '/web/front/home'),
+              },
+              { backdrop: 'static' });
+        } else if (resp.status === 403) {
+          if (auth && resp.error.message === 'Login is required to access this feedback session') {
+            if (this.entityType === 'student') {
+              window.location.href = `${this.backendUrl}${auth?.studentLoginUrl}`;
+            } else if (this.entityType === 'instructor') {
+              window.location.href = `${this.backendUrl}${auth?.instructorLoginUrl}`;
+            }
+          } else {
+            this.simpleModalService.openInformationModal('Not Authorised To Access!', SimpleModalType.DANGER,
+                resp.error.message,
+                {
+                  onClosed: () => this.navigationService.navigateByURL(this.router,
+                      this.loggedInUser ? `/web/${this.entityType}/home` : '/web/front/home'),
+                },
+                { backdrop: 'static' });
+          }
+        } else {
+          this.navigationService.navigateWithErrorMessage(
+              this.router, `/web/${this.entityType}/home`, resp.error.message);
+        }
       });
   }
 
@@ -459,59 +485,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
         }, (resp: ErrorMessageOutput) => {
           this.handleError(resp);
         });
-  }
-
-  /**
-   * Redirects to login page if feedback session is accessible.
-   *
-   * @param auth The authentication information used in the redirection URL.
-   */
-  redirectToLoginPageIfFeedbackSessionAccessible(auth: AuthInfo): void {
-    this.isFeedbackSessionLoading = true;
-    this.feedbackSessionsService.getFeedbackSession({
-      courseId: this.courseId,
-      feedbackSessionName: this.feedbackSessionName,
-      intent: this.intent,
-      key: this.regKey,
-      moderatedPerson: this.moderatedPerson,
-      previewAs: this.previewAsPerson,
-    }).pipe(finalize(() => {
-      this.isFeedbackSessionLoading = false;
-    }))
-      .subscribe(() => {}, (resp: ErrorMessageOutput) => {
-        this.handleGetFeedbackSessionError(resp, true, auth);
-      });
-  }
-
-  private handleGetFeedbackSessionError(resp: ErrorMessageOutput, isRegisteredUser: boolean, auth?: AuthInfo): void {
-    if (resp.status === 404) {
-      this.simpleModalService.openInformationModal('Feedback Session Does Not Exist!', SimpleModalType.DANGER,
-          'The session does not exist (most likely deleted by the instructor after the submission link was sent).',
-          {
-            redirect: () => this.navigationService.navigateByURL(this.router,
-                this.loggedInUser ? `/web/${this.entityType}/home` : '/web/front/home'),
-          },
-          { backdrop: 'static' });
-    } else if (resp.status === 403) {
-      if (isRegisteredUser && resp.error.message === 'Login is required to access this feedback session') {
-        if (this.entityType === 'student') {
-          window.location.href = `${this.backendUrl}${auth?.studentLoginUrl}`;
-        } else if (this.entityType === 'instructor') {
-          window.location.href = `${this.backendUrl}${auth?.instructorLoginUrl}`;
-        }
-      } else {
-        this.simpleModalService.openInformationModal('Not Authorised To Access!', SimpleModalType.DANGER,
-            resp.error.message,
-            {
-              redirect: () => this.navigationService.navigateByURL(this.router,
-                  this.loggedInUser ? `/web/${this.entityType}/home` : '/web/front/home'),
-            },
-            { backdrop: 'static' });
-      }
-    } else {
-      this.navigationService.navigateWithErrorMessage(
-          this.router, `/web/${this.entityType}/home`, resp.error.message);
-    }
   }
 
   /**
