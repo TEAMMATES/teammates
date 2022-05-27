@@ -84,7 +84,7 @@ export class RecipientTypeSimplifiedDescriptionPipe implements PipeTransform {
   /**
    * Transforms {@link FeedbackParticipantType} to a simple description from recipient's perspective.
    */
-  transform(type: FeedbackParticipantType): any {
+  transform(type: FeedbackParticipantType): string {
     switch (type) {
       case FeedbackParticipantType.STUDENTS:
       case FeedbackParticipantType.STUDENTS_EXCLUDING_SELF:
