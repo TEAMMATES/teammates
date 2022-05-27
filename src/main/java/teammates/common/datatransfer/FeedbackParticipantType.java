@@ -50,7 +50,7 @@ public enum FeedbackParticipantType {
     /**
      * Teams of the course, excluding the response giver.
      */
-    TEAMS_EXCLUDING_SELF(false, true, true),
+    TEAMS_EXCLUDING_SELF(false, true, false),
 
     /**
      * Team of the response giver.
