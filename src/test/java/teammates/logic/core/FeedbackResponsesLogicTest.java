@@ -564,6 +564,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         Set<String> studentsEmailInTeam2 = new HashSet<>(Arrays.asList(student5.getEmail()));
         Set<String> studentsEmailInTeam3 = new HashSet<>(Arrays.asList(student6.getEmail(), student7.getEmail()));
         Set<String> studentsEmailInTeam4 = new HashSet<>(Arrays.asList(student8.getEmail()));
+        Set<String> studentsEmailEmpty = Collections.emptySet();
 
         ______TS("test if visible to giver");
 
@@ -571,15 +572,15 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
                 fr111, fq11, null));
         assertTrue(frLogic.isResponseVisibleForUser(instructor1.getEmail(), true, null, null,
                 fr131, fq13, instructor1));
-        assertTrue(frLogic.isResponseVisibleForUser(instructor1.getEmail(), true, null, Collections.emptySet(),
+        assertTrue(frLogic.isResponseVisibleForUser(instructor1.getEmail(), true, null, studentsEmailEmpty,
                 fr181, fq18, instructor1));
-        assertTrue(frLogic.isResponseVisibleForUser(instructor2.getEmail(), true, null, Collections.emptySet(),
+        assertTrue(frLogic.isResponseVisibleForUser(instructor2.getEmail(), true, null, studentsEmailEmpty,
                 fr191, fq19, instructor2));
         assertTrue(frLogic.isResponseVisibleForUser(student2.getEmail(), false, student2, studentsEmailInTeam1,
                 fr211, fq21, null));
         assertTrue(frLogic.isResponseVisibleForUser(student4.getEmail(), false, student4, studentsEmailInTeam1,
                 fr221, fq22, null));
-        assertTrue(frLogic.isResponseVisibleForUser(instructor1.getEmail(), true, null, Collections.emptySet(),
+        assertTrue(frLogic.isResponseVisibleForUser(instructor1.getEmail(), true, null, studentsEmailEmpty,
                 fr231, fq23, instructor1));
 
         ______TS("test if visible to other students");
@@ -614,14 +615,14 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
                 fr211, fq21, null));
         assertTrue(frLogic.isResponseVisibleForUser(student3.getEmail(), false, student3, studentsEmailInTeam1,
                 fr221, fq22, null));
-        assertTrue(frLogic.isResponseVisibleForUser(instructor1.getEmail(), true, null, Collections.emptySet(),
+        assertTrue(frLogic.isResponseVisibleForUser(instructor1.getEmail(), true, null, studentsEmailEmpty,
                 fr241, fq24, instructor1));
         // other students include receiver
         assertTrue(frLogic.isResponseVisibleForUser(student6.getEmail(), false, student6, studentsEmailInTeam3,
                 fr261, fq26, null));
         assertTrue(frLogic.isResponseVisibleForUser(student1.getEmail(), false, student1, studentsEmailInTeam1,
                 fr281, fq28, null));
-        assertFalse(frLogic.isResponseVisibleForUser(instructor2.getEmail(), true, null, Collections.emptySet(),
+        assertFalse(frLogic.isResponseVisibleForUser(instructor2.getEmail(), true, null, studentsEmailEmpty,
                 fr181, fq18, instructor2));
         assertFalse(frLogic.isResponseVisibleForUser(student7.getEmail(), false, student7, studentsEmailInTeam3,
                 fr271, fq27, null));
@@ -666,87 +667,87 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
         ______TS("test if visible to instructors");
 
-        assertTrue(frLogic.isResponseVisibleForUser(instructor1.getEmail(), true, null, Collections.emptySet(),
+        assertTrue(frLogic.isResponseVisibleForUser(instructor1.getEmail(), true, null, studentsEmailEmpty,
                 fr111, fq11, instructor1));
-        assertTrue(frLogic.isResponseVisibleForUser(instructor2.getEmail(), true, null, Collections.emptySet(),
+        assertTrue(frLogic.isResponseVisibleForUser(instructor2.getEmail(), true, null, studentsEmailEmpty,
                 fr123, fq12, instructor2));
-        assertTrue(frLogic.isResponseVisibleForUser(instructor1.getEmail(), true, null, Collections.emptySet(),
+        assertTrue(frLogic.isResponseVisibleForUser(instructor1.getEmail(), true, null, studentsEmailEmpty,
                 fr131, fq13, instructor1));
-        assertTrue(frLogic.isResponseVisibleForUser(instructor2.getEmail(), true, null, Collections.emptySet(),
+        assertTrue(frLogic.isResponseVisibleForUser(instructor2.getEmail(), true, null, studentsEmailEmpty,
                 fr161, fq16, instructor2));
-        assertTrue(frLogic.isResponseVisibleForUser(instructor1.getEmail(), true, null, Collections.emptySet(),
+        assertTrue(frLogic.isResponseVisibleForUser(instructor1.getEmail(), true, null, studentsEmailEmpty,
                 fr191, fq19, instructor1));
-        assertTrue(frLogic.isResponseVisibleForUser(instructor2.getEmail(), true, null, Collections.emptySet(),
+        assertTrue(frLogic.isResponseVisibleForUser(instructor2.getEmail(), true, null, studentsEmailEmpty,
                 fr231, fq23, instructor2));
-        assertTrue(frLogic.isResponseVisibleForUser(instructor1.getEmail(), true, null, Collections.emptySet(),
+        assertTrue(frLogic.isResponseVisibleForUser(instructor1.getEmail(), true, null, studentsEmailEmpty,
                 fr271, fq27, instructor1));
-        assertFalse(frLogic.isResponseVisibleForUser(instructor1.getEmail(), true, null, Collections.emptySet(),
+        assertFalse(frLogic.isResponseVisibleForUser(instructor1.getEmail(), true, null, studentsEmailEmpty,
                 fr171, fq17, instructor1));
-        assertFalse(frLogic.isResponseVisibleForUser(instructor2.getEmail(), true, null, Collections.emptySet(),
+        assertFalse(frLogic.isResponseVisibleForUser(instructor2.getEmail(), true, null, studentsEmailEmpty,
                 fr181, fq18, instructor2));
-        assertFalse(frLogic.isResponseVisibleForUser(instructor2.getEmail(), true, null, Collections.emptySet(),
+        assertFalse(frLogic.isResponseVisibleForUser(instructor2.getEmail(), true, null, studentsEmailEmpty,
                 fr211, fq21, instructor2));
-        assertFalse(frLogic.isResponseVisibleForUser(instructor1.getEmail(), true, null, Collections.emptySet(),
+        assertFalse(frLogic.isResponseVisibleForUser(instructor1.getEmail(), true, null, studentsEmailEmpty,
                 fr221, fq22, instructor1));
 
-        assertFalse(frLogic.isResponseVisibleForUser(instructor3.getEmail(), true, null, Collections.emptySet(),
+        assertFalse(frLogic.isResponseVisibleForUser(instructor3.getEmail(), true, null, studentsEmailEmpty,
                 fr123, fq12, instructor3));
-        assertFalse(frLogic.isResponseVisibleForUser(instructor3.getEmail(), true, null, Collections.emptySet(),
+        assertFalse(frLogic.isResponseVisibleForUser(instructor3.getEmail(), true, null, studentsEmailEmpty,
                 fr161, fq16, instructor3));
-        assertFalse(frLogic.isResponseVisibleForUser(instructor3.getEmail(), true, null, Collections.emptySet(),
+        assertFalse(frLogic.isResponseVisibleForUser(instructor3.getEmail(), true, null, studentsEmailEmpty,
                 fr191, fq19, instructor3));
-        assertFalse(frLogic.isResponseVisibleForUser(instructor3.getEmail(), true, null, Collections.emptySet(),
+        assertFalse(frLogic.isResponseVisibleForUser(instructor3.getEmail(), true, null, studentsEmailEmpty,
                 fr251, fq25, instructor3));
 
-        assertTrue(frLogic.isResponseVisibleForUser(instructor4.getEmail(), true, null, Collections.emptySet(),
+        assertTrue(frLogic.isResponseVisibleForUser(instructor4.getEmail(), true, null, studentsEmailEmpty,
                 fr112, fq11, instructor4));
-        assertTrue(frLogic.isResponseVisibleForUser(instructor4.getEmail(), true, null, Collections.emptySet(),
+        assertTrue(frLogic.isResponseVisibleForUser(instructor4.getEmail(), true, null, studentsEmailEmpty,
                 fr252, fq25, instructor4));
-        assertFalse(frLogic.isResponseVisibleForUser(instructor4.getEmail(), true, null, Collections.emptySet(),
+        assertFalse(frLogic.isResponseVisibleForUser(instructor4.getEmail(), true, null, studentsEmailEmpty,
                 fr121, fq12, instructor4));
-        assertFalse(frLogic.isResponseVisibleForUser(instructor4.getEmail(), true, null, Collections.emptySet(),
+        assertFalse(frLogic.isResponseVisibleForUser(instructor4.getEmail(), true, null, studentsEmailEmpty,
                 fr122, fq12, instructor4));
-        assertFalse(frLogic.isResponseVisibleForUser(instructor4.getEmail(), true, null, Collections.emptySet(),
+        assertFalse(frLogic.isResponseVisibleForUser(instructor4.getEmail(), true, null, studentsEmailEmpty,
                 fr211, fq21, instructor4));
-        assertFalse(frLogic.isResponseVisibleForUser(instructor4.getEmail(), true, null, Collections.emptySet(),
+        assertFalse(frLogic.isResponseVisibleForUser(instructor4.getEmail(), true, null, studentsEmailEmpty,
                 fr242, fq24, instructor4));
-        assertFalse(frLogic.isResponseVisibleForUser(instructor4.getEmail(), true, null, Collections.emptySet(),
+        assertFalse(frLogic.isResponseVisibleForUser(instructor4.getEmail(), true, null, studentsEmailEmpty,
                 fr271, fq27, instructor4));
 
-        assertTrue(frLogic.isResponseVisibleForUser(instructor5.getEmail(), true, null, Collections.emptySet(),
+        assertTrue(frLogic.isResponseVisibleForUser(instructor5.getEmail(), true, null, studentsEmailEmpty,
                 fr162, fq16, instructor5));
-        assertTrue(frLogic.isResponseVisibleForUser(instructor5.getEmail(), true, null, Collections.emptySet(),
+        assertTrue(frLogic.isResponseVisibleForUser(instructor5.getEmail(), true, null, studentsEmailEmpty,
                 fr191, fq19, instructor5));
-        assertTrue(frLogic.isResponseVisibleForUser(instructor5.getEmail(), true, null, Collections.emptySet(),
+        assertTrue(frLogic.isResponseVisibleForUser(instructor5.getEmail(), true, null, studentsEmailEmpty,
                 fr271, fq27, instructor5));
-        assertFalse(frLogic.isResponseVisibleForUser(instructor5.getEmail(), true, null, Collections.emptySet(),
+        assertFalse(frLogic.isResponseVisibleForUser(instructor5.getEmail(), true, null, studentsEmailEmpty,
                 fr121, fq12, instructor5));
-        assertFalse(frLogic.isResponseVisibleForUser(instructor5.getEmail(), true, null, Collections.emptySet(),
+        assertFalse(frLogic.isResponseVisibleForUser(instructor5.getEmail(), true, null, studentsEmailEmpty,
                 fr122, fq12, instructor5));
-        assertFalse(frLogic.isResponseVisibleForUser(instructor5.getEmail(), true, null, Collections.emptySet(),
+        assertFalse(frLogic.isResponseVisibleForUser(instructor5.getEmail(), true, null, studentsEmailEmpty,
                 fr161, fq16, instructor5));
 
-        assertTrue(frLogic.isResponseVisibleForUser(instructor6.getEmail(), true, null, Collections.emptySet(),
+        assertTrue(frLogic.isResponseVisibleForUser(instructor6.getEmail(), true, null, studentsEmailEmpty,
                 fr111, fq11, instructor6));
-        assertTrue(frLogic.isResponseVisibleForUser(instructor6.getEmail(), true, null, Collections.emptySet(),
+        assertTrue(frLogic.isResponseVisibleForUser(instructor6.getEmail(), true, null, studentsEmailEmpty,
                 fr123, fq12, instructor6));
-        assertTrue(frLogic.isResponseVisibleForUser(instructor6.getEmail(), true, null, Collections.emptySet(),
+        assertTrue(frLogic.isResponseVisibleForUser(instructor6.getEmail(), true, null, studentsEmailEmpty,
                 fr252, fq25, instructor6));
-        assertFalse(frLogic.isResponseVisibleForUser(instructor6.getEmail(), true, null, Collections.emptySet(),
+        assertFalse(frLogic.isResponseVisibleForUser(instructor6.getEmail(), true, null, studentsEmailEmpty,
                 fr112, fq11, instructor6));
-        assertFalse(frLogic.isResponseVisibleForUser(instructor6.getEmail(), true, null, Collections.emptySet(),
+        assertFalse(frLogic.isResponseVisibleForUser(instructor6.getEmail(), true, null, studentsEmailEmpty,
                 fr121, fq12, instructor6));
         // "general" involved is checked as a section
-        assertFalse(frLogic.isResponseVisibleForUser(instructor6.getEmail(), true, null, Collections.emptySet(),
+        assertFalse(frLogic.isResponseVisibleForUser(instructor6.getEmail(), true, null, studentsEmailEmpty,
                 fr131, fq13, instructor6));
-        assertFalse(frLogic.isResponseVisibleForUser(instructor6.getEmail(), true, null, Collections.emptySet(),
+        assertFalse(frLogic.isResponseVisibleForUser(instructor6.getEmail(), true, null, studentsEmailEmpty,
                 fr161, fq16, instructor6));
         // "instructors" involved is checked as a section
-        assertFalse(frLogic.isResponseVisibleForUser(instructor6.getEmail(), true, null, Collections.emptySet(),
+        assertFalse(frLogic.isResponseVisibleForUser(instructor6.getEmail(), true, null, studentsEmailEmpty,
                 fr162, fq16, instructor6));
-        assertFalse(frLogic.isResponseVisibleForUser(instructor6.getEmail(), true, null, Collections.emptySet(),
+        assertFalse(frLogic.isResponseVisibleForUser(instructor6.getEmail(), true, null, studentsEmailEmpty,
                 fr191, fq19, instructor6));
-        assertFalse(frLogic.isResponseVisibleForUser(instructor6.getEmail(), true, null, Collections.emptySet(),
+        assertFalse(frLogic.isResponseVisibleForUser(instructor6.getEmail(), true, null, studentsEmailEmpty,
                 fr232, fq23, instructor6));
     }
 
