@@ -71,7 +71,8 @@ public class FeedbackContributionQuestionE2ETest extends BaseFeedbackQuestionE2E
 
         ______TS("edit question");
         questionDetails = (FeedbackContributionQuestionDetails) loadedQuestion.getQuestionDetailsCopy();
-        questionDetails.setNotSureAllowed(false);
+        questionDetails.setIsZeroSum(true);
+        questionDetails.setNotSureAllowed(true);
         loadedQuestion.setQuestionDetails(questionDetails);
         feedbackEditPage.editContributionQuestion(2, questionDetails);
         feedbackEditPage.waitForPageToLoad();

@@ -204,6 +204,7 @@ public class CreateFeedbackQuestionActionTest extends BaseActionTest<CreateFeedb
         createRequest.setQuestionBrief("this is the brief for contribution question");
         createRequest.setQuestionDescription("this is the description for contribution question");
         FeedbackContributionQuestionDetails textQuestionDetails = new FeedbackContributionQuestionDetails();
+        textQuestionDetails.setIsZeroSum(true);
         textQuestionDetails.setNotSureAllowed(false);
         createRequest.setQuestionDetails(textQuestionDetails);
         createRequest.setQuestionType(FeedbackQuestionType.CONTRIB);

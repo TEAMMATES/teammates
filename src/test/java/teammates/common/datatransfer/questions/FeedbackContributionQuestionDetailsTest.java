@@ -43,6 +43,22 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
     }
 
     @Test
+    public void testShouldChangesRequireResponseDeletion_sameIsZeroSum_shouldReturnFalse() {
+        FeedbackQuestionDetails feedbackContributionQuestionDetails = new FeedbackContributionQuestionDetails();
+        FeedbackContributionQuestionDetails newDetails = new FeedbackContributionQuestionDetails();
+        newDetails.setIsZeroSum(true);
+        assertFalse(feedbackContributionQuestionDetails.shouldChangesRequireResponseDeletion(newDetails));
+    }
+
+    @Test
+    public void testShouldChangesRequireResponseDeletion_differentZeroSum_shouldReturnTrue() {
+        FeedbackQuestionDetails feedbackContributionQuestionDetails = new FeedbackContributionQuestionDetails();
+        FeedbackContributionQuestionDetails newDetails = new FeedbackContributionQuestionDetails();
+        newDetails.setIsZeroSum(false);
+        assertTrue(feedbackContributionQuestionDetails.shouldChangesRequireResponseDeletion(newDetails));
+    }
+
+    @Test
     public void testShouldChangesRequireResponseDeletion_sameIsNotSureAllowed_shouldReturnFalse() {
         FeedbackQuestionDetails feedbackContributionQuestionDetails = new FeedbackContributionQuestionDetails();
         FeedbackContributionQuestionDetails newDetails = new FeedbackContributionQuestionDetails();
