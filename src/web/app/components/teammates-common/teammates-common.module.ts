@@ -6,7 +6,11 @@ import { NgbPopoverModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
 
 import { EnumToArrayPipe } from './enum-to-array.pipe';
-import { GiverTypeDescriptionPipe, RecipientTypeDescriptionPipe } from './feedback-path.pipe';
+import {
+  GiverTypeDescriptionPipe,
+  RecipientTypeDescriptionPipe,
+  RecipientTypeSimplifiedDescriptionPipe,
+} from './feedback-path.pipe';
 import { FormatDateBriefPipe } from './format-date-brief.pipe';
 import { FormatDateDetailPipe } from './format-date-detail.pipe';
 import { FormatPhotoUrlPipe } from './format-photo-url.pipe';
@@ -60,6 +64,7 @@ import {
     StudentNameWithPhotoComponent,
     GiverTypeDescriptionPipe,
     RecipientTypeDescriptionPipe,
+    RecipientTypeSimplifiedDescriptionPipe,
     VisibilityControlNamePipe,
     VisibilityTypeDescriptionPipe,
     VisibilityTypeNamePipe,
@@ -85,6 +90,7 @@ import {
     StudentNameWithPhotoComponent,
     GiverTypeDescriptionPipe,
     RecipientTypeDescriptionPipe,
+    RecipientTypeSimplifiedDescriptionPipe,
     VisibilityControlNamePipe,
     VisibilityTypeDescriptionPipe,
     VisibilityTypeNamePipe,
