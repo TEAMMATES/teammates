@@ -32,6 +32,7 @@ const DEFAULT_STUDENT_SEARCH_RESULT: StudentAccountSearchResult = {
   googleId: 'googleId',
   courseId: 'courseId',
   courseName: 'courseName',
+  isCourseDeleted: false,
   institute: 'institute',
   courseJoinLink: 'courseJoinLink',
   homePageLink: 'homePageLink',
@@ -53,6 +54,7 @@ const DEFAULT_INSTRUCTOR_SEARCH_RESULT: InstructorAccountSearchResult = {
   googleId: 'googleId',
   courseId: 'courseId',
   courseName: 'courseName',
+  isCourseDeleted: false,
   institute: 'institute',
   courseJoinLink: 'courseJoinLink',
   homePageLink: 'homePageLink',
@@ -126,6 +128,54 @@ describe('AdminSearchPageComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
+  it('should snap with a deleted course', () => {
+    component.instructors = [
+      {
+        name: 'instructor',
+        email: 'instructor@tester.com',
+        googleId: 'ins-google-id',
+        courseId: 'deleted-course',
+        courseName: 'deleted',
+        isCourseDeleted: true,
+        institute: 'institute',
+        courseJoinLink: 'course-join-link',
+        homePageLink: 'home-page-link',
+        manageAccountLink: 'manage-account-link',
+        showLinks: false,
+        awaitingSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+        openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+        notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+        publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+      },
+    ];
+    component.students = [
+      {
+        name: 'student',
+        email: 'student@gmail.tmt',
+        googleId: 'student-google-id',
+        courseId: 'deleted-course',
+        courseName: 'deleted',
+        isCourseDeleted: true,
+        institute: 'institute',
+        courseJoinLink: 'course-join-link',
+        homePageLink: 'home-page-link',
+        manageAccountLink: 'manage-account-link',
+        showLinks: false,
+        section: 'section',
+        team: 'team',
+        comments: 'comments',
+        recordsPageLink: 'records-page-link',
+        awaitingSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+        openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+        notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+        publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+      },
+    ];
+
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
+
   it('should snap with an expanded instructor table', () => {
     component.instructors = [
       {
@@ -134,6 +184,7 @@ describe('AdminSearchPageComponent', () => {
         googleId: 'instructor-google-id',
         courseId: 'test-exa.demo',
         courseName: 'demo',
+        isCourseDeleted: false,
         institute: 'institute',
         courseJoinLink: 'course-join-link',
         homePageLink: 'home-page-link',
@@ -158,6 +209,7 @@ describe('AdminSearchPageComponent', () => {
         googleId: 'student-google-id',
         courseId: 'test-exa.demo',
         courseName: 'demo',
+        isCourseDeleted: false,
         institute: 'institute',
         courseJoinLink: 'course-join-link',
         homePageLink: 'home-page-link',
@@ -239,6 +291,7 @@ describe('AdminSearchPageComponent', () => {
         googleId: 'googleId1',
         courseId: 'courseId1',
         courseName: 'courseName1',
+        isCourseDeleted: false,
         institute: 'institute1',
         courseJoinLink: 'courseJoinLink1',
         homePageLink: 'homePageLink1',
@@ -255,6 +308,7 @@ describe('AdminSearchPageComponent', () => {
         googleId: 'googleId2',
         courseId: 'courseId2',
         courseName: 'courseName2',
+        isCourseDeleted: false,
         institute: 'institute2',
         courseJoinLink: 'courseJoinLink2',
         homePageLink: 'homePageLink2',
@@ -292,6 +346,7 @@ describe('AdminSearchPageComponent', () => {
         googleId: 'googleId1',
         courseId: 'courseId1',
         courseName: 'courseName1',
+        isCourseDeleted: false,
         institute: 'institute1',
         courseJoinLink: 'courseJoinLink1',
         homePageLink: 'homePageLink1',
@@ -311,6 +366,7 @@ describe('AdminSearchPageComponent', () => {
         googleId: 'googleId2',
         courseId: 'courseId2',
         courseName: 'courseName2',
+        isCourseDeleted: false,
         institute: 'institute2',
         courseJoinLink: 'courseJoinLink2',
         homePageLink: 'homePageLink2',
@@ -389,6 +445,7 @@ describe('AdminSearchPageComponent', () => {
       googleId: 'googleId',
       courseId: 'courseId',
       courseName: 'courseName',
+      isCourseDeleted: false,
       institute: 'institute',
       courseJoinLink: 'courseJoinLink',
       homePageLink: 'homePageLink',
@@ -434,6 +491,7 @@ describe('AdminSearchPageComponent', () => {
       googleId: 'googleId',
       courseId: 'courseId',
       courseName: 'courseName',
+      isCourseDeleted: false,
       institute: 'institute',
       courseJoinLink: 'courseJoinLink',
       homePageLink: 'homePageLink',
@@ -474,6 +532,7 @@ describe('AdminSearchPageComponent', () => {
       googleId: 'googleId',
       courseId: 'courseId',
       courseName: 'courseName',
+      isCourseDeleted: false,
       institute: 'institute',
       courseJoinLink: 'courseJoinLink',
       homePageLink: 'homePageLink',
@@ -543,6 +602,7 @@ describe('AdminSearchPageComponent', () => {
       googleId: 'googleId',
       courseId: 'courseId',
       courseName: 'courseName',
+      isCourseDeleted: false,
       institute: 'institute',
       courseJoinLink: 'courseJoinLink',
       homePageLink: 'homePageLink',
