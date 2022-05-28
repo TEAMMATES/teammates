@@ -194,10 +194,12 @@ abstract class BasicFeedbackSubmissionAction extends Action {
         case NONE:
             return Const.DEFAULT_SECTION;
         case TEAMS:
+        case TEAMS_EXCLUDING_SELF:
         case TEAMS_IN_SAME_SECTION:
         case OWN_TEAM:
             return logic.getSectionForTeam(courseId, recipientIdentifier);
         case STUDENTS:
+        case STUDENTS_EXCLUDING_SELF:
         case STUDENTS_IN_SAME_SECTION:
         case OWN_TEAM_MEMBERS:
         case OWN_TEAM_MEMBERS_INCLUDING_SELF:
