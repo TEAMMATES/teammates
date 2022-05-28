@@ -1,0 +1,15 @@
+<div class="row" *ngIf="questionDetails.isZeroSum && !isAllFormsNotAnswered">
+    <div class="col-12">
+        <p *ngIf="isInsufficientSharesDistributed" class="text-danger"><span class="fa fa-times"></span>
+            Actual total is {{ totalAnsweredShares }}! Distribute the remaining {{ totalRequiredShares - totalAnsweredShares }} shares.</p>
+
+        <p *ngIf="isSharesOverAllocated" class="text-danger"><span class="fa fa-times"></span>
+            Actual total is {{ totalAnsweredShares }}! Remove the extra  {{ totalAnsweredShares - totalRequiredShares }} shares allocated.</p>
+
+        <p *ngIf="isAllSharesDistributed && !isAllFormsAnswered" class="text-danger"><span class="fa fa-times"></span>
+            All shares distributed but not all recipients are allocated a share.</p>
+
+        <p *ngIf="isAllSharesDistributed && isAllFormsAnswered" class="text-success"><span class="fa fa-check"></span>
+            All shares distributed!</p>
+    </div>
+</div>

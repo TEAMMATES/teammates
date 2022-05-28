@@ -44,6 +44,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
 
     private static final Logger log = Logger.getLogger();
 
+    private boolean isZeroSum;
     private boolean isNotSureAllowed;
 
     public FeedbackContributionQuestionDetails() {
@@ -52,13 +53,15 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
 
     public FeedbackContributionQuestionDetails(String questionText) {
         super(FeedbackQuestionType.CONTRIB, questionText);
+        isZeroSum = true;
         isNotSureAllowed = true;
     }
 
     @Override
     public boolean shouldChangesRequireResponseDeletion(FeedbackQuestionDetails newDetails) {
         FeedbackContributionQuestionDetails newContribDetails = (FeedbackContributionQuestionDetails) newDetails;
-        return newContribDetails.isNotSureAllowed != this.isNotSureAllowed;
+        return newContribDetails.isZeroSum != this.isZeroSum
+                || newContribDetails.isNotSureAllowed != this.isNotSureAllowed;
     }
 
     @Override
@@ -334,8 +337,16 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         return false;
     }
 
+    public boolean isZeroSum() {
+        return isZeroSum;
+    }
+
     public boolean isNotSureAllowed() {
         return isNotSureAllowed;
+    }
+
+    public void setIsZeroSum(boolean zeroSum) {
+        isZeroSum = zeroSum;
     }
 
     public void setNotSureAllowed(boolean notSureAllowed) {
