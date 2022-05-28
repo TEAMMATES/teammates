@@ -179,7 +179,7 @@
       "questionDescription": "<p>Testing description for first session</p>",
       "questionNumber": 1,
       "giverType": "STUDENTS",
-      "recipientType": "STUDENTS",
+      "recipientType": "STUDENTS_EXCLUDING_SELF",
       "numberOfEntitiesToGiveFeedbackTo": 1,
       "showResponsesTo": [
         "INSTRUCTORS",
