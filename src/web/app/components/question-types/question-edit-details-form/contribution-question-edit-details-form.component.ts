@@ -26,7 +26,10 @@ export class ContributionQuestionEditDetailsFormComponent
     super(DEFAULT_CONTRIBUTION_QUESTION_DETAILS());
   }
 
-  triggerModelChangeForIsZeroSum(zeroSum: boolean) {
+  /**
+   * Triggers the change of the zero sum checkbox.
+   */
+  triggerModelChangeForIsZeroSum(zeroSum: boolean): void {
     if (zeroSum) {
       this.triggerModelChangeBatch({
         isZeroSum: zeroSum,
