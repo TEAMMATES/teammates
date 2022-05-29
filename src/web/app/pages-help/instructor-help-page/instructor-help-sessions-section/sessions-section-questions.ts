@@ -83,7 +83,7 @@ export enum SessionsSectionQuestions {
   EXTEND_SESSION_DEADLINE = 'extend-session-deadline',
 
   /**
-   * Can I set a question as ‘compulsory’?
+   * Can I set a question as 'compulsory'?
    */
   SET_QUESTION_COMPULSORY = 'set-question-compulsory',
 
