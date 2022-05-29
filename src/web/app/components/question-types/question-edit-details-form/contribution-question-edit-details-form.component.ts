@@ -26,4 +26,14 @@ export class ContributionQuestionEditDetailsFormComponent
     super(DEFAULT_CONTRIBUTION_QUESTION_DETAILS());
   }
 
+  triggerModelChangeForIsZeroSum(zeroSum: boolean) {
+    if (zeroSum) {
+      this.triggerModelChangeBatch({
+        isZeroSum: zeroSum,
+        isNotSureAllowed: false,
+      });
+    } else {
+      this.triggerModelChange('isZeroSum', zeroSum);
+    }
+  }
 }
