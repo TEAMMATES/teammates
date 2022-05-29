@@ -16,7 +16,7 @@
     <div class="form-check form-check-inline">
       <label class="form-check-label">
         <input id="not-sure-checkbox" class="form-check-input" type="checkbox" [ngModel]="model.isNotSureAllowed" (ngModelChange)="triggerModelChange('isNotSureAllowed', $event)" [disabled]="model.isZeroSum || !isEditable">
-        Allow response giver to select 'Not Sure' as the answer
+        <b [ngClass]="{'disabled': model.isZeroSum || !isEditable}">Allow response giver to select 'Not Sure' as the answer</b>
       </label>
     </div>
   </div>
