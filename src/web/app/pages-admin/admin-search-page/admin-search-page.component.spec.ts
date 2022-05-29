@@ -164,7 +164,7 @@ describe('AdminSearchPageComponent', () => {
         section: 'section',
         team: 'team',
         comments: 'comments',
-        recordsPageLink: 'records-page-link',
+        profilePageLink: 'profile-page-link',
         awaitingSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
         openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
         notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,

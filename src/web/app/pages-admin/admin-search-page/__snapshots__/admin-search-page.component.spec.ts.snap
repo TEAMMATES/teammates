@@ -260,7 +260,13 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
               </div>
             </td>
             <td>
-              student
+              <a
+                href="profile-page-link"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                 student
+              </a>
             </td>
             <td>
               <a

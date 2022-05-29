@@ -42,7 +42,7 @@ describe('SearchService', () => {
     sectionName: 'Tutorial Group 1',
   };
 
-  const mockInstructor: Instructor = {
+  const mockInstructorA: Instructor = {
     googleId: 'test@example.com',
     courseId: 'dog.gma-demo',
     email: 'dog@gmail.com',
@@ -51,6 +51,30 @@ describe('SearchService', () => {
     name: 'Hi',
     key: 'impicklerick',
     role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+    joinState: JoinState.JOINED,
+  };
+
+  const mockInstructorB: Instructor = {
+    googleId: 'insB',
+    courseId: 'dog.gma-demo',
+    email: 'cat@gmail.com',
+    isDisplayedToStudents: true,
+    displayedToStudentsAs: 'Instructor',
+    name: 'Cat',
+    key: 'qwertyuiop',
+    role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM,
+    joinState: JoinState.JOINED,
+  };
+
+  const mockInstructorC: Instructor = {
+    googleId: 'insC',
+    courseId: 'dog.gma-demo',
+    email: 'animal@gmail.com',
+    isDisplayedToStudents: true,
+    displayedToStudentsAs: 'Instructor',
+    name: 'QWQ',
+    key: 'vjvkjsnffwicvvcsc',
+    role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM,
     joinState: JoinState.JOINED,
   };
 
@@ -93,7 +117,7 @@ describe('SearchService', () => {
     },
   ];
 
-  const mockPrivileges: InstructorPrivilege[] = [{
+  const mockPrivilegeA: InstructorPrivilege = {
     privileges: {
       courseLevel: {
         canModifyCourse: true,
@@ -109,7 +133,43 @@ describe('SearchService', () => {
       sessionLevel: {},
     },
     requestId: 'checkyourprivilege',
-  }];
+  };
+
+  const mockPrivilegeB: InstructorPrivilege = {
+    privileges: {
+      courseLevel: {
+        canModifyCourse: true,
+        canModifySession: true,
+        canModifyStudent: true,
+        canModifyInstructor: false,
+        canViewStudentInSections: true,
+        canModifySessionCommentsInSections: true,
+        canViewSessionInSections: true,
+        canSubmitSessionInSections: true,
+      },
+      sectionLevel: {},
+      sessionLevel: {},
+    },
+    requestId: '123gyijuyol56w8refw123ce8f5',
+  };
+
+  const mockPrivilegeC: InstructorPrivilege = {
+    privileges: {
+      courseLevel: {
+        canModifyCourse: false,
+        canModifySession: false,
+        canModifyStudent: false,
+        canModifyInstructor: true,
+        canViewStudentInSections: false,
+        canModifySessionCommentsInSections: false,
+        canViewSessionInSections: false,
+        canSubmitSessionInSections: false,
+      },
+      sectionLevel: {},
+      sessionLevel: {},
+    },
+    requestId: '98pa78342kjnk22s1213rsdff4',
+  };
 
   const mockCourse: Course = {
     courseId: 'dog.gma-demo',
@@ -185,24 +245,36 @@ describe('SearchService', () => {
   });
 
   it('should join students accurately when calling as admin', () => {
-    const result: StudentAccountSearchResult = service.joinAdminStudent(
+    const resultA: StudentAccountSearchResult = service.joinAdminStudent(
       mockStudent,
-      { instructors: [mockInstructor] },
+      { instructors: [mockInstructorC, mockInstructorB, mockInstructorA] },
       mockCourse,
       { feedbackSessions: mockSessions },
-      mockPrivileges,
+      [mockPrivilegeC, mockPrivilegeB, mockPrivilegeA],
     );
-    expect(result.comments).toBe("This student's name is Alice Betsy");
-    expect(result.courseId).toBe('dog.gma-demo');
-    expect(result.courseJoinLink).toBe(`${window.location.origin}/web/join?key=keyheehee&entitytype=student`);
-    expect(result.courseName).toBe('Sample Course 101');
-    expect(result.email).toBe('alice.b.tmms@gmail.tmt');
-    expect(result.manageAccountLink).toBe('/web/admin/accounts?instructorid=alice.b.tmms.sampleData');
+    expect(resultA.comments).toBe("This student's name is Alice Betsy");
+    expect(resultA.courseId).toBe('dog.gma-demo');
+    expect(resultA.courseJoinLink).toBe(`${window.location.origin}/web/join?key=keyheehee&entitytype=student`);
+    expect(resultA.courseName).toBe('Sample Course 101');
+    expect(resultA.email).toBe('alice.b.tmms@gmail.tmt');
+    expect(resultA.manageAccountLink).toBe('/web/admin/accounts?instructorid=alice.b.tmms.sampleData');
+    expect(resultA.profilePageLink).toBe('/web/instructor/courses/student/details?'
+      + 'courseid=dog.gma-demo&studentemail=alice.b.tmms%40gmail.tmt&user=test%40example.com');
+
+    const resultB: StudentAccountSearchResult = service.joinAdminStudent(
+      mockStudent,
+      { instructors: [mockInstructorB, mockInstructorC] },
+      mockCourse,
+      { feedbackSessions: mockSessions },
+      [mockPrivilegeB, mockPrivilegeC],
+    );
+    expect(resultB.profilePageLink).toBe('/web/instructor/courses/student/details?'
+      + 'courseid=dog.gma-demo&studentemail=alice.b.tmms%40gmail.tmt&user=insC');
   });
 
   it('should join instructors accurately when calling as admin', () => {
     const result: InstructorAccountSearchResult = service
-      .joinAdminInstructor(mockInstructor, mockCourse, { feedbackSessions: mockSessions });
+      .joinAdminInstructor(mockInstructorA, mockCourse, { feedbackSessions: mockSessions });
     expect(result.courseId).toBe('dog.gma-demo');
     expect(result.courseJoinLink).toBe(`${window.location.origin}/web/join?key=impicklerick&entitytype=instructor`);
     expect(result.courseName).toBe('Sample Course 101');

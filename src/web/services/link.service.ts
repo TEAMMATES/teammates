@@ -89,7 +89,6 @@ export class LinkService {
    */
   generateProfilePageLink(student: Student, instructorGoogleId: string): string {
     const { courseId: courseid, email: studentemail }: Student = student;
-    const frontendUrl: string = window.location.origin;
     const params: {
       [key: string]: string,
     } = {
@@ -100,7 +99,7 @@ export class LinkService {
 
     this.filterEmptyParams(params);
     const encodedParams: string = this.navigationService.encodeParams(params);
-    return `${frontendUrl}${this.URI_PREFIX}${this.INSTRUCTOR_STUDENT_PROFILE_PAGE}${encodedParams}`;
+    return `${this.URI_PREFIX}${this.INSTRUCTOR_STUDENT_PROFILE_PAGE}${encodedParams}`;
   }
 
   /**
