@@ -168,6 +168,7 @@ describe('InstructorCourseEditPageComponent', () => {
     jest.spyOn(courseService, 'updateCourse').mockReturnValue(of({
       courseId: 'exampleId',
       courseName: 'Example Course Changed',
+      isCourseDeleted: false,
       timeZone: 'UTC (UTC)',
       institute: 'Test institute',
       creationTimestamp: 0,
