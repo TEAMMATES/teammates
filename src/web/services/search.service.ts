@@ -163,7 +163,7 @@ export class SearchService {
 
     let masqueradeGoogleId: string = '';
     for (const instructor of instructors.instructors) {
-      if (instructor.googleId !== undefined
+      if (instructor.googleId
           && instructor.role === InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER) {
         masqueradeGoogleId = instructor.googleId;
         break;
@@ -174,8 +174,8 @@ export class SearchService {
     if (masqueradeGoogleId === '') {
       for (const instructor of instructors.instructors) {
         const instructorPrivilege: InstructorPrivilege | undefined = instructorPrivileges.shift();
-        if (instructor.googleId !== undefined
-            && (instructorPrivilege !== undefined && instructorPrivilege.privileges.courseLevel.canModifyInstructor)) {
+        if (instructor.googleId
+            && (instructorPrivilege && instructorPrivilege.privileges.courseLevel.canModifyInstructor)) {
           masqueradeGoogleId = instructor.googleId;
           break;
         }

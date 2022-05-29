@@ -245,30 +245,42 @@ describe('SearchService', () => {
   });
 
   it('should join students accurately when calling as admin', () => {
-    const resultA: StudentAccountSearchResult = service.joinAdminStudent(
+    const result: StudentAccountSearchResult = service.joinAdminStudent(
+      mockStudent,
+      { instructors: [mockInstructorA] },
+      mockCourse,
+      { feedbackSessions: mockSessions },
+      [mockPrivilegeA],
+    );
+    expect(result.comments).toBe("This student's name is Alice Betsy");
+    expect(result.courseId).toBe('dog.gma-demo');
+    expect(result.courseJoinLink).toBe(`${window.location.origin}/web/join?key=keyheehee&entitytype=student`);
+    expect(result.courseName).toBe('Sample Course 101');
+    expect(result.email).toBe('alice.b.tmms@gmail.tmt');
+    expect(result.manageAccountLink).toBe('/web/admin/accounts?instructorid=alice.b.tmms.sampleData');
+  });
+
+  it('should join students with correct profile page link when course has co-owner', () => {
+    const result: StudentAccountSearchResult = service.joinAdminStudent(
       mockStudent,
       { instructors: [mockInstructorC, mockInstructorB, mockInstructorA] },
       mockCourse,
       { feedbackSessions: mockSessions },
       [mockPrivilegeC, mockPrivilegeB, mockPrivilegeA],
     );
-    expect(resultA.comments).toBe("This student's name is Alice Betsy");
-    expect(resultA.courseId).toBe('dog.gma-demo');
-    expect(resultA.courseJoinLink).toBe(`${window.location.origin}/web/join?key=keyheehee&entitytype=student`);
-    expect(resultA.courseName).toBe('Sample Course 101');
-    expect(resultA.email).toBe('alice.b.tmms@gmail.tmt');
-    expect(resultA.manageAccountLink).toBe('/web/admin/accounts?instructorid=alice.b.tmms.sampleData');
-    expect(resultA.profilePageLink).toBe('/web/instructor/courses/student/details?'
+    expect(result.profilePageLink).toBe('/web/instructor/courses/student/details?'
       + 'courseid=dog.gma-demo&studentemail=alice.b.tmms%40gmail.tmt&user=test%40example.com');
+  });
 
-    const resultB: StudentAccountSearchResult = service.joinAdminStudent(
+  it('should join students with correct profile page link when course has no co-owner', () => {
+    const result: StudentAccountSearchResult = service.joinAdminStudent(
       mockStudent,
       { instructors: [mockInstructorB, mockInstructorC] },
       mockCourse,
       { feedbackSessions: mockSessions },
       [mockPrivilegeB, mockPrivilegeC],
     );
-    expect(resultB.profilePageLink).toBe('/web/instructor/courses/student/details?'
+    expect(result.profilePageLink).toBe('/web/instructor/courses/student/details?'
       + 'courseid=dog.gma-demo&studentemail=alice.b.tmms%40gmail.tmt&user=insC');
   });
 
