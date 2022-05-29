@@ -135,7 +135,7 @@ export class QuestionEditFormComponent {
     } as FeedbackTextQuestionDetails,
 
     giverType: FeedbackParticipantType.STUDENTS,
-    recipientType: FeedbackParticipantType.STUDENTS,
+    recipientType: FeedbackParticipantType.STUDENTS_EXCLUDING_SELF,
 
     numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
     customNumberOfEntitiesToGiveFeedbackTo: 1,
