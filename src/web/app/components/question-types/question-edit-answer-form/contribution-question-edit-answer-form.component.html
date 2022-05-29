@@ -10,7 +10,7 @@
               [ngClass]="{'color-positive': point > 100,
                 'color-negative': point < 100,
                 'color-neutral': point === 100}">{{ point | contributionPointDescription }}</option>
-      <option *ngIf="!questionDetails.isZeroSum && questionDetails.isNotSureAllowed" [ngValue]="CONTRIBUTION_POINT_NOT_SURE" class="color-neutral">Not Sure</option>
+      <option *ngIf="questionDetails.isNotSureAllowed" [ngValue]="CONTRIBUTION_POINT_NOT_SURE" class="color-neutral">Not Sure</option>
     </select>
   </div>
   <div class="col-lg-9 col-sm-6 col-xs-12" *ngIf="shouldShowHelpLink">
