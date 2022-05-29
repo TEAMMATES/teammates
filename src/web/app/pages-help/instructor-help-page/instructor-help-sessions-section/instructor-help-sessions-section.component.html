@@ -249,8 +249,26 @@
                             headerText="How do I extend the deadline of a session?"
                             [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.EXTEND_SESSION_DEADLINE]">
     <p>
-      To extend the deadline for all respondents, edit the session and change the end date/time as desired. This can be done at any time.
+      To extend the deadline for all respondents, edit the session and change the submission closing time as desired. This can be done at any time.
     </p>
+    <p>
+      To extend the deadline for specific students and/or instructors:
+    </p>
+    <ol>
+      <li>
+        Edit the session and click <a>Individual Deadline Extensions <i class="fas fa-edit"></i></a> next to <b>Submission closing time</b>.
+      </li>
+      <li>
+        Select the students and/or instructors you want to extend the deadline for, then click the <button class="btn btn-sm btn-success">Entend / Edit</button> button at the bottom.
+      </li>
+      <li>
+        Follow the instructions on the pop-up window to extend the deadline for a specific period or to a specific time.<br>
+        Note that if you choose to extend the deadline for a specific period, the new deadline calculated is based on the original submission closing time (not the current deadline for the selected students and/or instructors).
+      </li>
+      <li>
+        If you want to revert back the deadline for specific students and/or instructors to the original submission closing time, select the students and/or instructors and click the <button class="btn btn-sm btn-danger">Delete</button> button at the bottom.
+      </li>
+    </ol>
   </tm-instructor-help-panel>
 
   <!--Section-->
