@@ -593,6 +593,7 @@ describe('AdminHomePageComponent', () => {
           {
             courseId: 'courseId',
             courseName: 'courseName',
+            isCourseDeleted: false,
             timeZone: 'not used',
             institute: 'institute',
             creationTimestamp: 0,
@@ -607,6 +608,7 @@ describe('AdminHomePageComponent', () => {
           {
             courseId: 'courseId',
             courseName: 'courseName',
+            isCourseDeleted: false,
             timeZone: 'not used',
             institute: 'institute',
             creationTimestamp: 0,
