@@ -138,6 +138,7 @@ export class SearchService {
       publishedSessions: {},
       courseId: '',
       courseName: '',
+      isCourseDeleted: false,
       institute: '',
       manageAccountLink: '',
       homePageLink: '',
@@ -157,8 +158,8 @@ export class SearchService {
     }: Student = student;
     studentResult = { ...studentResult, email, name, comments, team, section, googleId, institute };
 
-    const { courseId, courseName }: Course = course;
-    studentResult = { ...studentResult, courseId, courseName };
+    const { courseId, courseName, deletionTimestamp }: Course = course;
+    studentResult = { ...studentResult, courseId, courseName, isCourseDeleted: Boolean(deletionTimestamp) };
 
     let masqueradeGoogleId: string = '';
     for (const instructor of instructors.instructors) {
@@ -216,6 +217,7 @@ export class SearchService {
       name: '',
       courseId: '',
       courseName: '',
+      isCourseDeleted: false,
       institute: '',
       manageAccountLink: '',
       homePageLink: '',
@@ -230,8 +232,8 @@ export class SearchService {
     const { email, name, googleId = '', institute = '' }: Instructor = instructor;
     instructorResult = { ...instructorResult, email, name, googleId, institute };
 
-    const { courseId, courseName }: Course = course;
-    instructorResult = { ...instructorResult, courseId, courseName };
+    const { courseId, courseName, deletionTimestamp }: Course = course;
+    instructorResult = { ...instructorResult, courseId, courseName, isCourseDeleted: Boolean(deletionTimestamp) };
 
     // Generate feedback session urls
     const { awaitingSessions, openSessions, notOpenSessions, publishedSessions }: StudentFeedbackSessions =
@@ -479,6 +481,7 @@ export interface InstructorAccountSearchResult {
   googleId: string;
   courseId: string;
   courseName: string;
+  isCourseDeleted: boolean;
   institute: string;
   courseJoinLink: string;
   homePageLink: string;
