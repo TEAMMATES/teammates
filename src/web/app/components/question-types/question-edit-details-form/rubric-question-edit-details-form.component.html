@@ -10,17 +10,24 @@
 </div>
 <table id="rubric-table" class="table table-bordered">
   <tbody cdkDropList [cdkDropListData]="model.rubricDescriptions" (cdkDropListDropped)="moveRow($event)">
-    <tr class="font-weight-bold item-center">
+    <tr cdkDropList cdkDropListOrientation="horizontal" [cdkDropListData]="model.rubricChoices" (cdkDropListDropped)="moveChoice($event)" class="font-weight-bold item-center">
       <td>
         <div>Choices <i class="fas fa-arrow-right"></i></div>
       </td>
-      <td *ngFor="let rubricChoice of model.rubricChoices; let j = index; trackBy: trackByIndex" [ngClass]="{'highlight-deletion': j === columnToHighlight}">
+      <td cdkDrag cdkDragLockAxis="x" *ngFor="let rubricChoice of model.rubricChoices; let j = index; trackBy: trackByIndex" [ngClass]="{'highlight-deletion': j === columnToHighlight}">
+        <div class="btn-group">
+          <button cdkDragHandle type="button" class="btn btn-light" [disabled]="!isEditable">&#8596;</button>
+          <button id="btn-delete-choice" type="button" class="btn btn-light" (click)="deleteChoice(j)"
+                  (mouseover)="columnToHighlight = j" (mouseleave)="columnToHighlight = -1"
+                  [disabled]="model.rubricChoices.length === 1 || !isEditable"
+          ><i class="fas fa-times"></i></button>
+        </div>
         <input type="text" class="form-control font-weight-bold" [disabled]="!isEditable"
                [ngModel]="rubricChoice" (ngModelChange)="triggerRubricChoiceChange($event, j)">
       </td>
     </tr>
-    <tr cdkDrag cdkDragLockAxis="y" *ngFor="let rubricDescriptionRow of model.rubricDescriptions; let i = index; trackBy: trackByIndex" [ngClass]="{'highlight-deletion': i === rowToHighlight}">
-      <td>
+    <tr *ngFor="let rubricDescriptionRow of model.rubricDescriptions; let i = index; trackBy: trackByIndex" [ngClass]="{'highlight-deletion': i === rowToHighlight}">
+      <td cdkDrag cdkDragLockAxis="y">
         <div class="input-group">
           <div class="btn-group-vertical">
             <button cdkDragHandle type="button" class="btn btn-light form-control" [disabled]="!isEditable">&#8597;</button>
@@ -41,18 +48,18 @@
                [ngModel]="model.rubricWeightsForEachCell[i][j]" (ngModelChange)="triggerRubricWeightChange($event, i, j)">
       </td>
     </tr>
-    <tr cdkDropList cdkDropListOrientation="horizontal" [cdkDropListData]="model.rubricChoices" (cdkDropListDropped)="moveChoice($event)">
-      <td></td>
-      <td cdkDrag cdkDragLockAxis="x" *ngFor="let rubricChoice of model.rubricChoices; let j = index;" class="text-center" [ngClass]="{'highlight-deletion': j === columnToHighlight}">
-        <div class="btn-group">
-          <button cdkDragHandle type="button" class="btn btn-light" [disabled]="!isEditable">&#8596;</button>
-          <button id="btn-delete-choice" type="button" class="btn btn-light" (click)="deleteChoice(j)"
-                  (mouseover)="columnToHighlight = j" (mouseleave)="columnToHighlight = -1"
-                  [disabled]="model.rubricChoices.length === 1 || !isEditable"
-          ><i class="fas fa-times"></i></button>
-        </div>
-      </td>
-    </tr>
+<!--    <tr cdkDropList cdkDropListOrientation="horizontal" [cdkDropListData]="model.rubricChoices" (cdkDropListDropped)="moveChoice($event)">-->
+<!--      <td></td>-->
+<!--      <td cdkDrag cdkDragLockAxis="x" *ngFor="let rubricChoice of model.rubricChoices; let j = index;" class="text-center" [ngClass]="{'highlight-deletion': j === columnToHighlight}">-->
+<!--        <div class="btn-group">-->
+<!--          <button cdkDragHandle type="button" class="btn btn-light" [disabled]="!isEditable">&#8596;</button>-->
+<!--          <button id="btn-delete-choice" type="button" class="btn btn-light" (click)="deleteChoice(j)"-->
+<!--                  (mouseover)="columnToHighlight = j" (mouseleave)="columnToHighlight = -1"-->
+<!--                  [disabled]="model.rubricChoices.length === 1 || !isEditable"-->
+<!--          ><i class="fas fa-times"></i></button>-->
+<!--        </div>-->
+<!--      </td>-->
+<!--    </tr>-->
   </tbody>
 </table>
 <div class="row">
