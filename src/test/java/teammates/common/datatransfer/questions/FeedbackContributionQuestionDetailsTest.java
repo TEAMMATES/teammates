@@ -62,7 +62,7 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
     public void testShouldChangesRequireResponseDeletion_sameIsNotSureAllowed_shouldReturnFalse() {
         FeedbackQuestionDetails feedbackContributionQuestionDetails = new FeedbackContributionQuestionDetails();
         FeedbackContributionQuestionDetails newDetails = new FeedbackContributionQuestionDetails();
-        newDetails.setNotSureAllowed(true);
+        newDetails.setNotSureAllowed(false);
         assertFalse(feedbackContributionQuestionDetails.shouldChangesRequireResponseDeletion(newDetails));
     }
 
@@ -70,7 +70,7 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
     public void testShouldChangesRequireResponseDeletion_differentIsNotSureAllowed_shouldReturnTrue() {
         FeedbackQuestionDetails feedbackContributionQuestionDetails = new FeedbackContributionQuestionDetails();
         FeedbackContributionQuestionDetails newDetails = new FeedbackContributionQuestionDetails();
-        newDetails.setNotSureAllowed(false);
+        newDetails.setNotSureAllowed(true);
         assertTrue(feedbackContributionQuestionDetails.shouldChangesRequireResponseDeletion(newDetails));
     }
 
@@ -458,6 +458,7 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
 
         ______TS("success: all answers of all responses are POINTS_NOT_SURE and notSure is allowed");
         responses.clear();
+        feedbackContributionQuestionDetails.setNotSureAllowed(true);
         for (int i = 0; i < 10; i++) {
             FeedbackContributionResponseDetails details = new FeedbackContributionResponseDetails();
             details.setAnswer(Const.POINTS_NOT_SURE);
