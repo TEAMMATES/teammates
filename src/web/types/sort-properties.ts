@@ -396,6 +396,11 @@ export enum SortBy {
      * The style of notification
      */
     NOTIFICATION_STYLE,
+
+    /**
+     * The number of the students
+     */
+    STU_NUM ,
 }
 
 /**

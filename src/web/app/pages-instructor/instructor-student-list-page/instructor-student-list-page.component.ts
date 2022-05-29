@@ -51,6 +51,10 @@ export class InstructorStudentListPageComponent implements OnInit {
   hasLoadingFailed: boolean = false;
   isLoadingCourses: boolean = false;
 
+    // enum
+  SortBy: typeof SortBy = SortBy;
+  coursesSortBy: SortBy = SortBy.COURSE_CREATION_DATE;
+
   constructor(private instructorService: InstructorService,
               private courseService: CourseService,
               private studentService: StudentService,
@@ -96,7 +100,12 @@ export class InstructorStudentListPageComponent implements OnInit {
           this.courseTabList = [];
           this.hasLoadingFailed = true;
           this.statusMessageService.showErrorToast(resp.error.message);
-        }, () => this.sortCourses());
+        }, () => {
+          this.sortCourses(this.coursesSortBy);
+          for(let i=0; i<this.courseTabList.length; i++){
+            this.loadStudents(this.courseTabList[i]);
+          }
+        });
   }
 
   /**
@@ -189,15 +198,63 @@ export class InstructorStudentListPageComponent implements OnInit {
     });
   }
 
-  /**
-   * Sorts the courses in the list according to course ID.
-   */
-  sortCourses(): void {
-    this.courseTabList.sort((a: CourseTab, b: CourseTab) => {
-      return this.tableComparatorService
-          .compare(SortBy.COURSE_ID, SortOrder.ASC, a.course.courseId, b.course.courseId);
-    });
-  }
+    /**
+     * Checks the option selected to sort courses.
+     */
+    isSelectedForSorting(by: SortBy): boolean {
+        return this.coursesSortBy === by;
+    }
+
+    /**
+     * Sorts the courses in the list according to selected option.
+     */
+    sortCourses(by: SortBy): void {
+        this.coursesSortBy = by;
+        if (this.courseTabList.length > 1) {
+          const coursesCopy: CourseTab[] = JSON.parse(JSON.stringify(this.courseTabList));
+          coursesCopy.sort(this.sortCoursesBy(by));
+          this.courseTabList = coursesCopy;
+        }
+    }
+
+    /**
+     * Returns a function to determine the order of sort for courses.
+     */
+    sortCoursesBy(by: SortBy):
+        ((a: { course: Course, stats:CourseStatistics}, b: { course: Course, stats:CourseStatistics}) => number) {
+        return ((a: { course: Course, stats:CourseStatistics}, b: { course: Course, stats:CourseStatistics}): number => {
+            let strA: string;
+            let strB: string;
+            let order: SortOrder;
+            switch (by) {
+                case SortBy.COURSE_NAME:
+                    strA = a.course.courseName;
+                    strB = b.course.courseName;
+                    order = SortOrder.ASC;
+                    break;
+                case SortBy.COURSE_ID:
+                    strA = a.course.courseId;
+                    strB = b.course.courseId;
+                    order = SortOrder.ASC;
+                    break;
+                case SortBy.COURSE_CREATION_DATE:
+                    strA = String(a.course.creationTimestamp);
+                    strB = String(b.course.creationTimestamp);
+                    order = SortOrder.DESC;
+                    break;
+                case SortBy.STU_NUM:
+                    strA = String(a.stats.numOfStudents);
+                    strB = String(b.stats.numOfStudents);
+                    order = SortOrder.DESC;
+                    break;
+                default:
+                    strA = '';
+                    strB = '';
+                    order = SortOrder.ASC;
+            }
+            return this.tableComparatorService.compare(by, order, strA, strB);
+        });
+    }
 
   /**
    * Sorts the student list.
