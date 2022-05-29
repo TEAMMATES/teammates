@@ -19,8 +19,7 @@ export class FeedbackContributionQuestionDetailsImpl extends AbstractFeedbackQue
     implements FeedbackContributionQuestionDetails {
 
   isZeroSum: boolean = true;
-  isNotSureAllowed: boolean = false
-  ;
+  isNotSureAllowed: boolean = false;
   questionText: string = '';
   questionType: FeedbackQuestionType = FeedbackQuestionType.CONTRIB;
 
