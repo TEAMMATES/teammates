@@ -9,7 +9,7 @@
   </div>
 </div>
 <table id="rubric-table" class="table table-bordered">
-  <tbody>
+  <tbody cdkDropList [cdkDropListData]="model.rubricDescriptions" (cdkDropListDropped)="moveRow($event)">
     <tr class="font-weight-bold item-center">
       <td>
         <div>Choices <i class="fas fa-arrow-right"></i></div>
@@ -19,13 +19,15 @@
                [ngModel]="rubricChoice" (ngModelChange)="triggerRubricChoiceChange($event, j)">
       </td>
     </tr>
-    <tr *ngFor="let rubricDescriptionRow of model.rubricDescriptions; let i = index; trackBy: trackByIndex" [ngClass]="{'highlight-deletion': i === rowToHighlight}">
+    <tr cdkDrag cdkDragLockAxis="y" *ngFor="let rubricDescriptionRow of model.rubricDescriptions; let i = index; trackBy: trackByIndex" [ngClass]="{'highlight-deletion': i === rowToHighlight}">
       <td>
         <div class="input-group">
-          <div class="input-group-prepend">
-            <span id="btn-delete-subquestion" class="input-group-text font-weight-bold cursor-pointer"
-                  (mouseover)="rowToHighlight = i" (mouseleave)="rowToHighlight = -1"
-                  (click)="deleteSubQuestion(i)"><i class="fas fa-times"></i></span>
+          <div class="btn-group-vertical">
+            <button cdkDragHandle type="button" class="btn btn-light form-control" [disabled]="!isEditable">&#8597;</button>
+            <button id="btn-delete-subquestion" type="button" class="btn btn-light form-control" (click)="deleteSubQuestion(i)"
+                    (mouseover)="rowToHighlight = i" (mouseleave)="rowToHighlight = -1"
+                    [disabled]="!isEditable"
+            ><i class="fas fa-times"></i></button>
           </div>
           <textarea class="form-control" [ngModel]="model.rubricSubQuestions[i]"
                     (ngModelChange)="triggerRubricSubQuestionChange($event, i)" rows="3" [disabled]="!isEditable"></textarea>
@@ -39,19 +41,15 @@
                [ngModel]="model.rubricWeightsForEachCell[i][j]" (ngModelChange)="triggerRubricWeightChange($event, i, j)">
       </td>
     </tr>
-    <tr>
+    <tr cdkDropList cdkDropListOrientation="horizontal" [cdkDropListData]="model.rubricChoices" (cdkDropListDropped)="moveChoice($event)">
       <td></td>
-      <td *ngFor="let rubricChoice of model.rubricChoices; let j = index;" class="text-center" [ngClass]="{'highlight-deletion': j === columnToHighlight}">
+      <td cdkDrag cdkDragLockAxis="x" *ngFor="let rubricChoice of model.rubricChoices; let j = index;" class="text-center" [ngClass]="{'highlight-deletion': j === columnToHighlight}">
         <div class="btn-group">
-          <button type="button" class="btn btn-light" [disabled]="j === 0 || !isEditable" ngbTooltip="Move column left"
-                  (click)="moveChoice(j, j - 1)"><i class="fas fa-arrow-left"></i></button>
+          <button cdkDragHandle type="button" class="btn btn-light" [disabled]="!isEditable">&#8596;</button>
           <button id="btn-delete-choice" type="button" class="btn btn-light" (click)="deleteChoice(j)"
                   (mouseover)="columnToHighlight = j" (mouseleave)="columnToHighlight = -1"
                   [disabled]="model.rubricChoices.length === 1 || !isEditable"
           ><i class="fas fa-times"></i></button>
-          <button type="button" class="btn btn-light" [disabled]="j === this.model.rubricChoices.length - 1 || !isEditable"
-                  ngbTooltip="Move column right"
-                  (click)="moveChoice(j, j + 1)"><i class="fas fa-arrow-right"></i></button>
         </div>
       </td>
     </tr>

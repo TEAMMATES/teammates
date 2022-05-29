@@ -1,5 +1,5 @@
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-
 import { FormsModule } from '@angular/forms';
 import { RubricQuestionEditDetailsFormComponent } from './rubric-question-edit-details-form.component';
 
@@ -11,6 +11,7 @@ describe('RubricQuestionEditDetailsFormComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         FormsModule,
+        DragDropModule,
       ],
       declarations: [RubricQuestionEditDetailsFormComponent],
     })

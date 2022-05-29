@@ -1,4 +1,4 @@
-import { moveItemInArray } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component } from '@angular/core';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
 import { FeedbackRubricQuestionDetails } from '../../../../types/api-output';
@@ -12,7 +12,7 @@ import { QuestionEditDetailsFormComponent } from './question-edit-details-form.c
 @Component({
   selector: 'tm-rubric-question-edit-details-form',
   templateUrl: './rubric-question-edit-details-form.component.html',
-  styleUrls: ['./rubric-question-edit-details-form.component.scss'],
+  styleUrls: ['./rubric-question-edit-details-form.component.scss', './cdk-drag-drop.scss'],
 })
 export class RubricQuestionEditDetailsFormComponent
     extends QuestionEditDetailsFormComponent<FeedbackRubricQuestionDetails> {
@@ -127,7 +127,10 @@ export class RubricQuestionEditDetailsFormComponent
   /**
    * Moves a choice.
    */
-  moveChoice(from: number, to: number): void {
+  moveChoice(event: CdkDragDrop<string[]>): void {
+    const from = event.previousIndex;
+    const to = event.currentIndex;
+
     const newChoices: string[] = this.model.rubricChoices.slice();
     moveItemInArray(newChoices, from, to);
 
@@ -229,6 +232,33 @@ export class RubricQuestionEditDetailsFormComponent
       hasAssignedWeights: isEnabled,
       rubricWeightsForEachCell:
           isEnabled ? this.model.rubricDescriptions.map((arr: string[]) => arr.map(() => 0)) : [],
+    });
+  }
+
+  /**
+   * Moves a row.
+   */
+  moveRow(event: CdkDragDrop<string[][]>): void {
+    const from = event.previousIndex;
+    const to = event.currentIndex;
+
+    const newSubQuestions: string[] = this.model.rubricSubQuestions.slice();
+    moveItemInArray(newSubQuestions, from, to);
+
+    const newDescriptions: string[][] = this.model.rubricDescriptions.slice();
+    moveItemInArray(newDescriptions, from, to);
+
+    // update weights
+    let newWeights: number[][] = [];
+    if (this.model.hasAssignedWeights) {
+      newWeights = this.model.rubricWeightsForEachCell.slice();
+      moveItemInArray(newWeights, from, to);
+    }
+
+    this.triggerModelChangeBatch({
+      rubricSubQuestions: newSubQuestions,
+      rubricDescriptions: newDescriptions,
+      rubricWeightsForEachCell: newWeights,
     });
   }
 }
