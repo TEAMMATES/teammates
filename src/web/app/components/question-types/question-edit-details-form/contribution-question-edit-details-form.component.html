@@ -1,10 +1,16 @@
 <div class="row">
   <br>
   <div class="col-12">
+    <a class="small" tmRouterLink="/web/instructor/help" [queryParams]="{questionId: QuestionsSectionQuestions.CONTRIBUTION, section: Sections.questions}" rel="noopener noreferrer" target="_blank">
+      <i class="fa fa-info-circle" aria-hidden="true"></i>
+      More about configuring ratings
+    </a>
+  </div>
+  <div class="col-12">
     <div class="form-check form-check-inline">
       <label class="form-check-label">
         <input id="zero-sum-checkbox" class="form-check-input" type="checkbox" [ngModel]="model.isZeroSum" (ngModelChange)="triggerModelChange('isZeroSum', $event)" [disabled]="!isEditable">
-        <b class="ngb-tooltip-class" ngbTooltip="Be careful not to unselect this if marks are intended to be given based on ratings received.">Force zero-sum</b>
+        <b>Ratings must add up to <code>(Team Size) x (Equal Share)</code></b>
       </label>
     </div>
   </div>

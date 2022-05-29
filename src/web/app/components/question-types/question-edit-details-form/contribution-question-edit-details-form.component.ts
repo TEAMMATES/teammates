@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
 import { FeedbackContributionQuestionDetails } from '../../../../types/api-output';
 import { DEFAULT_CONTRIBUTION_QUESTION_DETAILS } from '../../../../types/default-question-structs';
+import {
+  QuestionsSectionQuestions,
+} from '../../../pages-help/instructor-help-page/instructor-help-questions-section/questions-section-questions';
+import { Sections } from '../../../pages-help/instructor-help-page/sections';
 import { QuestionEditDetailsFormComponent } from './question-edit-details-form.component';
 
 /**
@@ -13,6 +17,10 @@ import { QuestionEditDetailsFormComponent } from './question-edit-details-form.c
 })
 export class ContributionQuestionEditDetailsFormComponent
     extends QuestionEditDetailsFormComponent<FeedbackContributionQuestionDetails> {
+
+  // enum
+  QuestionsSectionQuestions: typeof QuestionsSectionQuestions = QuestionsSectionQuestions;
+  Sections: typeof Sections = Sections;
 
   constructor() {
     super(DEFAULT_CONTRIBUTION_QUESTION_DETAILS());
