@@ -305,10 +305,13 @@
                             headerText="How do I view the results of my session?"
                             [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.SESSION_VIEW_RESULTS]">
     <p>
-      View responses to a session by clicking the <button class="btn btn-sm btn-secondary">Results</button> button of a session in the <b>Home</b> or <b>Sessions</b> page.<br>
-      Click <button class="btn btn-primary btn-sm">Edit View</button> to sort the results in an order that best suits you.
+      To view responses to a session, click the <button class="btn btn-light btn-sm dropdown-toggle">Results</button> button of a session in the <b>Home</b> or <b>Sessions</b> page, then select <b>View Results (course-wide)</b> in the drop-down menu.
     </p>
-    <p>5 different views are available, each denoting the order in which responses are grouped.
+    <p>
+      Use different options in the <b>View</b> drop-down menu to sort the results in an order that best suits you.
+    </p>
+    <p>
+      5 different views are available, each denoting the order in which responses are grouped.
       Additionally, you can group the results by team, show or hide statistics, view missing responses and filter responses from a particular section.
     </p>
     <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.SESSION_VIEW_RESULTS]" @collapseAnim>
