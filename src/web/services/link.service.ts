@@ -16,7 +16,7 @@ export class LinkService {
   STUDENT_HOME_PAGE: string = '/student/home';
   INSTRUCTOR_HOME_PAGE: string = '/instructor/home';
   ADMIN_ACCOUNTS_PAGE: string = '/admin/accounts';
-  INSTRUCTOR_STUDENT_RECORDS_PAGE: string = '/instructor/students/records';
+  INSTRUCTOR_STUDENT_PROFILE_PAGE: string = '/instructor/courses/student/details';
   SESSIONS_SUBMISSION_PAGE: string = '/sessions/submission';
   SESSIONS_RESULT_PAGE: string = '/sessions/result';
 
@@ -85,11 +85,10 @@ export class LinkService {
   }
 
   /**
-   * Generates record page link.
+   * Generates student profile page link.
    */
-  generateRecordsPageLink(student: Student, instructorGoogleId: string): string {
+  generateProfilePageLink(student: Student, instructorGoogleId: string): string {
     const { courseId: courseid, email: studentemail }: Student = student;
-    const frontendUrl: string = window.location.origin;
     const params: {
       [key: string]: string,
     } = {
@@ -100,7 +99,7 @@ export class LinkService {
 
     this.filterEmptyParams(params);
     const encodedParams: string = this.navigationService.encodeParams(params);
-    return `${frontendUrl}${this.URI_PREFIX}${this.INSTRUCTOR_STUDENT_RECORDS_PAGE}${encodedParams}`;
+    return `${this.URI_PREFIX}${this.INSTRUCTOR_STUDENT_PROFILE_PAGE}${encodedParams}`;
   }
 
   /**
