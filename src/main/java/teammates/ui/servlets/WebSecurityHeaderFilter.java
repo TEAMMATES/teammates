@@ -18,7 +18,7 @@ import teammates.common.util.Config;
  */
 public class WebSecurityHeaderFilter implements Filter {
 
-    private static final String IMG_SRC_CSP = Config.isDevServer()
+    private static final String IMG_SRC_CSP = Config.IS_DEV_SERVER
             ? "'self' data: http: https:"
             : "'self' data: https:";
 
