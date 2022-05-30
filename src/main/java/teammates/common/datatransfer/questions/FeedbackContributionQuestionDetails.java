@@ -351,7 +351,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         return isNotSureAllowed;
     }
 
-    public void setIsZeroSum(boolean zeroSum) {
+    public void setZeroSum(boolean zeroSum) {
         isZeroSum = zeroSum;
     }
 
