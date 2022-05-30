@@ -1,4 +1,4 @@
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component } from '@angular/core';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
 import { FeedbackRubricQuestionDetails } from '../../../../types/api-output';
@@ -12,7 +12,7 @@ import { QuestionEditDetailsFormComponent } from './question-edit-details-form.c
 @Component({
   selector: 'tm-rubric-question-edit-details-form',
   templateUrl: './rubric-question-edit-details-form.component.html',
-  styleUrls: ['./rubric-question-edit-details-form.component.scss', './cdk-drag-drop.scss'],
+  styleUrls: ['./rubric-question-edit-details-form.component.scss'],
 })
 export class RubricQuestionEditDetailsFormComponent
     extends QuestionEditDetailsFormComponent<FeedbackRubricQuestionDetails> {
@@ -127,10 +127,7 @@ export class RubricQuestionEditDetailsFormComponent
   /**
    * Moves a choice.
    */
-  moveChoice(event: CdkDragDrop<string[]>): void {
-    const from = event.previousIndex;
-    const to = event.currentIndex;
-
+  moveChoice(from: number, to: number): void {
     const newChoices: string[] = this.model.rubricChoices.slice();
     moveItemInArray(newChoices, from, to);
 
@@ -238,10 +235,7 @@ export class RubricQuestionEditDetailsFormComponent
   /**
    * Moves a row.
    */
-  moveRow(event: CdkDragDrop<string[][]>): void {
-    const from = event.previousIndex;
-    const to = event.currentIndex;
-
+  moveRow(from: number, to: number): void {
     const newSubQuestions: string[] = this.model.rubricSubQuestions.slice();
     moveItemInArray(newSubQuestions, from, to);
 
