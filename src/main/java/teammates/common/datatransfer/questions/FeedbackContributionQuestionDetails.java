@@ -258,7 +258,13 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
 
     @Override
     public List<String> validateQuestionDetails() {
-        return new ArrayList<>();
+        List<String> errors = new ArrayList<>();
+
+        if (this.isZeroSum && this.isNotSureAllowed) {
+            errors.add(CONTRIB_ERROR_INVALID_OPTION);
+        }
+
+        return errors;
     }
 
     @Override
