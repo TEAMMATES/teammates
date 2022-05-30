@@ -60,9 +60,9 @@ describe('Link Service', () => {
       .toBe('/web/generalkenobiyouareaboldone?instructorid=hello%20there');
   });
 
-  it('should generate the record page link', () => {
-    expect(service.generateRecordsPageLink(mockStudent, 'from my point of view the jedi are evil'))
-      .toBe(`${window.location.origin}/web/instructor/students/records?courseid=dog.gma-demo&studentemail=alice.`
+  it('should generate the student profile page link', () => {
+    expect(service.generateProfilePageLink(mockStudent, 'from my point of view the jedi are evil'))
+      .toBe('/web/instructor/courses/student/details?courseid=dog.gma-demo&studentemail=alice.'
             + 'b.tmms%40gmail.tmt&user=from%20my%20point%20of%20view%20the%20jedi%20are%20evil');
   });
 
