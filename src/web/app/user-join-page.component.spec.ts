@@ -2,14 +2,18 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { of, throwError } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
 import { AccountService } from '../services/account.service';
 import { AuthService } from '../services/auth.service';
 import { CourseService } from '../services/course.service';
 import { NavigationService } from '../services/navigation.service';
+import { SimpleModalService } from '../services/simple-modal.service';
 import { TimezoneService } from '../services/timezone.service';
+import { createMockNgbModalRef } from '../test-helpers/mock-ngb-modal-ref';
 import { LoadingSpinnerModule } from './components/loading-spinner/loading-spinner.module';
+import { SimpleModalType } from './components/simple-modal/simple-modal-type';
 import { UserJoinPageComponent } from './user-join-page.component';
 
 describe('UserJoinPageComponent', () => {
@@ -194,8 +198,10 @@ describe('UserJoinPageComponent creating account', () => {
   let navService: NavigationService;
   let authService: AuthService;
   let accountService: AccountService;
+  let simpleModalService: SimpleModalService;
   let courseService: CourseService;
   let timezoneService: TimezoneService;
+  let ngbModal: NgbModal;
 
   beforeEach((() => {
     TestBed.resetTestingModule();
@@ -210,6 +216,7 @@ describe('UserJoinPageComponent creating account', () => {
         NavigationService,
         CourseService,
         AuthService,
+        SimpleModalService,
         AccountService,
         TimezoneService,
         {
@@ -228,11 +235,13 @@ describe('UserJoinPageComponent creating account', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UserJoinPageComponent);
     component = fixture.componentInstance;
+    ngbModal = TestBed.inject(NgbModal);
     navService = TestBed.inject(NavigationService);
     authService = TestBed.inject(AuthService);
     accountService = TestBed.inject(AccountService);
     courseService = TestBed.inject(CourseService);
     timezoneService = TestBed.inject(TimezoneService);
+    simpleModalService = TestBed.inject(SimpleModalService);
     fixture.detectChanges();
   });
 
@@ -300,7 +309,7 @@ describe('UserJoinPageComponent creating account', () => {
       }));
     });
 
-    it('if 404 is returned when creating new account', () => {
+    it('if 404 is returned when creating account', () => {
       jest.spyOn(courseService, 'getJoinCourseStatus').mockReturnValue(throwError({
         status: 404,
       }));
@@ -313,18 +322,42 @@ describe('UserJoinPageComponent creating account', () => {
       expect(component.validUrl).toBeFalsy();
     });
 
-    it('if the course is deleted', () => {
-      jest.spyOn(courseService, 'getJoinCourseStatus').mockReturnValue(throwError({
-        errorMessage: 'Course A is deleted',
+    it('if 5xx is returned when joining course', () => {
+      const errorMessage = '502 ERROR';
+      jest.spyOn(courseService, 'joinCourse').mockReturnValue(throwError({
+        error: {
+          message: errorMessage,
+        },
+        status: 502,
+      }));
+
+      const modalSpy = jest
+          .spyOn(ngbModal, 'open')
+          .mockReturnValue(createMockNgbModalRef());
+
+      component.joinCourse();
+
+      expect(modalSpy).toHaveBeenCalledTimes(1);
+    });
+
+    it('if 4xx is returned when joining course', () => {
+      const errorMessage = '404 ERROR';
+      jest.spyOn(courseService, 'joinCourse').mockReturnValue(throwError({
+        error: {
+          message: errorMessage,
+        },
         status: 404,
       }));
 
-      component.ngOnInit();
+      const modalSpy = jest
+          .spyOn(simpleModalService, 'openInformationModal')
+          .mockReturnValue(createMockNgbModalRef());
 
-      expect(component.entityType).toBe('instructor');
-      expect(component.isCreatingAccount).toBeTruthy();
-      expect(component.isLoading).toBeFalsy();
-      expect(component.validUrl).toBeFalsy();
+      component.joinCourse();
+
+      expect(modalSpy).toHaveBeenCalledTimes(1);
+      expect(modalSpy).toHaveBeenCalledWith('ERROR',
+          SimpleModalType.DANGER, errorMessage);
     });
   });
 });
