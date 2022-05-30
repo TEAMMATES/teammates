@@ -59,8 +59,8 @@ public class OriginCheckFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
 
-        if (Config.isDevServer()) {
-            response.setHeader("Access-Control-Allow-Origin", Config.APP_FRONTENDDEV_URL);
+        if (Config.IS_DEV_SERVER) {
+            response.setHeader("Access-Control-Allow-Origin", Config.APP_FRONTEND_URL);
             response.setHeader("Access-Control-Allow-Methods", ALLOWED_HTTP_METHODS);
             response.setHeader("Access-Control-Allow-Headers", ALLOWED_HEADERS);
             response.setHeader("Access-Control-Allow-Credentials", "true");
@@ -145,7 +145,7 @@ public class OriginCheckFilter implements Filter {
             return false;
         }
 
-        if (Config.isDevServer() && Config.APP_FRONTENDDEV_URL.equals(origin)) {
+        if (Config.IS_DEV_SERVER && Config.APP_FRONTEND_URL.equals(origin)) {
             // Exception to the rule: front-end dev server requesting data from back-end dev server
             return true;
         }

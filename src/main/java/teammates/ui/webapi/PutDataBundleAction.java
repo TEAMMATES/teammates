@@ -18,7 +18,7 @@ class PutDataBundleAction extends Action {
 
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
-        if (!Config.isDevServer()) {
+        if (!Config.IS_DEV_SERVER) {
             throw new UnauthorizedAccessException("Admin privilege is required to access this resource.");
         }
     }
