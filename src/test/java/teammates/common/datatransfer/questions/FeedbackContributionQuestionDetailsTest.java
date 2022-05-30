@@ -75,8 +75,30 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
     }
 
     @Test
-    public void testValidateQuestionDetails_shouldReturnEmptyList() {
+    public void testValidateQuestionDetails() {
         FeedbackContributionQuestionDetails feedbackContributionQuestionDetails = new FeedbackContributionQuestionDetails();
+        List<String> expectedQuestionValidationResults = new ArrayList<>();
+
+        ______TS("failure: isZeroSum true and isNotSureAllowed true");
+        feedbackContributionQuestionDetails.setZeroSum(true);
+        feedbackContributionQuestionDetails.setNotSureAllowed(true);
+        expectedQuestionValidationResults.add(FeedbackContributionQuestionDetails.CONTRIB_ERROR_INVALID_OPTION);
+        assertEquals(expectedQuestionValidationResults,
+                feedbackContributionQuestionDetails.validateQuestionDetails());
+
+        ______TS("success: isZeroSum true and isNotSureAllowed false");
+        feedbackContributionQuestionDetails.setZeroSum(true);
+        feedbackContributionQuestionDetails.setNotSureAllowed(false);
+        assertTrue(feedbackContributionQuestionDetails.validateQuestionDetails().isEmpty());
+
+        ______TS("success: isZeroSum false and isNotSureAllowed true");
+        feedbackContributionQuestionDetails.setZeroSum(false);
+        feedbackContributionQuestionDetails.setNotSureAllowed(true);
+        assertTrue(feedbackContributionQuestionDetails.validateQuestionDetails().isEmpty());
+
+        ______TS("success: isZeroSum false and isNotSureAllowed false");
+        feedbackContributionQuestionDetails.setZeroSum(false);
+        feedbackContributionQuestionDetails.setNotSureAllowed(false);
         assertTrue(feedbackContributionQuestionDetails.validateQuestionDetails().isEmpty());
     }
 
