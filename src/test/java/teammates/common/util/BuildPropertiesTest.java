@@ -11,7 +11,9 @@ public class BuildPropertiesTest extends BaseTestCase {
 
     @Test
     public void checkPresence() {
-        assertNotNull(Config.getBaseAppUrl());
+        String frontEndUrl = Config.getDefaultFrontEndUrl();
+        assertNotNull(frontEndUrl);
+        assertFalse(frontEndUrl.isBlank());
     }
 
 }
