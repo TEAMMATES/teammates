@@ -22,6 +22,7 @@ import {
   StudentViewResponsesModule,
 } from '../../../components/question-responses/student-view-responses/student-view-responses.module';
 import { QuestionTextWithInfoModule } from '../../../components/question-text-with-info/question-text-with-info.module';
+import { RichTextEditorModule } from '../../../components/rich-text-editor/rich-text-editor.module';
 import { SessionEditFormModule } from '../../../components/session-edit-form/session-edit-form.module';
 import {
   SessionsRecycleBinTableModule,
@@ -56,7 +57,7 @@ describe('InstructorHelpSessionsSectionComponent', () => {
         InstructorSearchComponentsModule, InstructorSessionResultViewModule,
         PreviewSessionPanelModule, QuestionTextWithInfoModule, AddingQuestionPanelModule,
         FeedbackPathPanelModule, SingleStatisticsModule, StudentViewResponsesModule, ViewResultsPanelModule,
-        QuestionResponsePanelModule, VisibilityPanelModule, PanelChevronModule],
+        QuestionResponsePanelModule, RichTextEditorModule, VisibilityPanelModule, PanelChevronModule],
     })
     .compileComponents();
   }));
