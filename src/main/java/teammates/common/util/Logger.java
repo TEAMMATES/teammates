@@ -142,7 +142,7 @@ public final class Logger {
      */
     public void event(String message, LogDetails details) {
         String logMessage;
-        if (Config.isDevServer()) {
+        if (Config.IS_DEV_SERVER) {
             logMessage = formatLogMessageForHumanDisplay(message) + " extra_info: "
                     + JsonUtils.toCompactJson(details);
         } else {
@@ -187,7 +187,7 @@ public final class Logger {
     }
 
     private String getLogMessageWithStackTrace(String message, Throwable t, LogSeverity severity) {
-        if (Config.isDevServer()) {
+        if (Config.IS_DEV_SERVER) {
             StringWriter sw = new StringWriter();
             try (PrintWriter pw = new PrintWriter(sw)) {
                 t.printStackTrace(pw);
@@ -270,7 +270,7 @@ public final class Logger {
     }
 
     private String formatLogMessage(String message, LogSeverity severity) {
-        if (Config.isDevServer()) {
+        if (Config.IS_DEV_SERVER) {
             return formatLogMessageForHumanDisplay(message);
         }
         return formatLogMessageForCloudLogging(message, severity);

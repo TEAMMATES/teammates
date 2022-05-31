@@ -34,7 +34,7 @@ class DatastoreBackupAction extends AdminOnlyAction {
 
     @Override
     public JsonResult execute() {
-        if (Config.isDevServer()) {
+        if (Config.IS_DEV_SERVER) {
             log.info("Skipping backup in dev server.");
             return new JsonResult("Successful");
         }

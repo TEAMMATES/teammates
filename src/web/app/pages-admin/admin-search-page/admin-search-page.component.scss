@@ -5,3 +5,16 @@
 .margin-left-5px {
   margin-left: 5px;
 }
+
+.text-course-deleted {
+  color: #6B6B6B;
+}
+
+.bin-icon {
+  padding-bottom: 2px;
+  border-bottom: 1.1px dotted #808080;
+
+  &:hover {
+    border-bottom: 1.1px dotted #000;
+  }
+}

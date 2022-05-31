@@ -79,6 +79,7 @@ export class VisibilityStateMachine {
         this.applicability.delete(FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS);
         break;
       case FeedbackParticipantType.STUDENTS:
+      case FeedbackParticipantType.STUDENTS_EXCLUDING_SELF:
       case FeedbackParticipantType.STUDENTS_IN_SAME_SECTION:
         // all options enabled when recipientType is STUDENTS (subject to options disabled by giverType)
         break;
@@ -92,6 +93,7 @@ export class VisibilityStateMachine {
         this.applicability.delete(FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS);
         break;
       case FeedbackParticipantType.TEAMS:
+      case FeedbackParticipantType.TEAMS_EXCLUDING_SELF:
       case FeedbackParticipantType.TEAMS_IN_SAME_SECTION:
         // RECIPIENT_TEAM_MEMBERS is disabled because it is the same as RECIPIENT
         this.applicability.delete(FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS);

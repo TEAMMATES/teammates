@@ -170,7 +170,7 @@
       "questionDescription": "<p>Testing description for first session</p>",
       "questionNumber": 1,
       "giverType": "STUDENTS",
-      "recipientType": "TEAMS",
+      "recipientType": "TEAMS_EXCLUDING_SELF",
       "numberOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": [
         "INSTRUCTORS",
@@ -200,7 +200,7 @@
       "questionDescription": "<p>Testing description for second session</p>",
       "questionNumber": 1,
       "giverType": "STUDENTS",
-      "recipientType": "TEAMS",
+      "recipientType": "TEAMS_EXCLUDING_SELF",
       "numberOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": [
         "INSTRUCTORS",

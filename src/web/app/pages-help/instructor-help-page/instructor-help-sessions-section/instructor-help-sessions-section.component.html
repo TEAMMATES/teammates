@@ -1,7 +1,7 @@
 <div>
   <h2 class="color-blue" *ngIf="!key || showQuestion.length > 0">Sessions</h2>
-  <!--Section-->
-  <h4 *ngIf="displaySubsection(0, 7)">Setting Up Sessions</h4>
+  <!-- Section -->
+  <h4 *ngIf="displaySubsection(0, 9)">Setting Up Sessions</h4>
   <!-- Question -->
   <tm-instructor-help-panel class="instr-help-qn-first" #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.TIPS_FOR_CONDUCTION_PEER_EVAL)"
                             [id]="SessionsSectionQuestions.TIPS_FOR_CONDUCTION_PEER_EVAL"
@@ -25,10 +25,10 @@
       </li>
       <li>
         <b>Interpret contribution numbers with care.</b><br>
-        If you use ‘Team contribution’ type questions in your peer evaluations, keep in mind the contribution numbers reported by TEAMMATES are based on student perceptions and may not reflect the real contribution of a student. Therefore, use those numbers primarily to identify cases that need further investigation.
+        If you use 'Team contribution' type questions in your peer evaluations, keep in mind the contribution numbers reported by TEAMMATES are based on student perceptions and may not reflect the real contribution of a student. Therefore, use those numbers primarily to identify cases that need further investigation.
         <br> You may ignore minor variations in the contribution numbers reported by TEAMMATES. The difference between [Equal share] and [Equal share - 2%] is not significant and can very well be due to rounding off within the system.
-        <br> <br>Keep in mind that it is human nature for one to downplay the value of contributions from others when one’s own contribution is being compared to that of others. As a result, it is common for the ‘perceived contribution’ to be somewhat lower than what the student actually did.
-        <br> When taking further actions based on evaluation reports, also pay attention to the team’s consensus level about the contribution of a student. For example, you can take further actions with more confidence if all team members rated a certain student’s contribution low.
+        <br> <br>Keep in mind that it is human nature for one to downplay the value of contributions from others when one's own contribution is being compared to that of others. As a result, it is common for the 'perceived contribution' to be somewhat lower than what the student actually did.
+        <br> When taking further actions based on evaluation reports, also pay attention to the team's consensus level about the contribution of a student. For example, you can take further actions with more confidence if all team members rated a certain student's contribution low.
         <br><br>
       </li>
       <li>
@@ -164,13 +164,13 @@
     <ul>
       <li>
         <b>Feedback Path</b>: define who is giving feedback, and who the feedback is about.
-        Select a common feedback path from the dropdown menu, or choose "Other predefined combinations..."
+        Select a common feedback path from the drop-down menu, or choose "Other predefined combinations..."
         to define the Feedback Giver and Recipient separately.
-        If you choose a ‘team’ as the giver, any member can submit the response on behalf of the team.
+        If you choose a 'team' as the giver, any member can submit the response on behalf of the team.
       </li>
       <li>
         <b>Visibility options</b>: let students know who will be able to see their answers.
-        Select a common visibility option from the dropdown menu, or choose "Custom visibility options..."
+        Select a common visibility option from the drop-down menu, or choose "Custom visibility options..."
         to fully customize who can see the feedback response, the giver's identity, and the recipient's identity.
       </li>
     </ul>
@@ -182,6 +182,35 @@
     <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.SESSION_QUESTIONS]" @collapseAnim>
       <tm-feedback-path-panel></tm-feedback-path-panel>
       <tm-visibility-panel></tm-visibility-panel>
+    </tm-example-box>
+  </tm-instructor-help-panel>
+  <!-- Question -->
+  <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.SET_QUESTION_COMPULSORY)"
+                            [id]="SessionsSectionQuestions.SET_QUESTION_COMPULSORY"
+                            headerText="Can I set a question as 'compulsory'?"
+                            [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.SET_QUESTION_COMPULSORY]">
+    <p>
+      Not at the moment. But you can mention in the question description that it is a compulsory question (TEAMMATES will not enforce it though).
+    </p>
+    <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.SET_QUESTION_COMPULSORY]" @collapseAnim>
+      <div class="background-color-light-blue">
+        <div class="row padding-15px text-left">
+          <div class="col-md-2">
+            <div class="question-basic-info">Question</div>
+          </div>
+          <div class="col-md-10">
+            <textarea class="form-control" [disabled]="true" placeholder="How many hours did you spend on the project?"></textarea>
+          </div>
+        </div>
+        <div class="row padding-15px text-left">
+          <div class="col-md-2">
+            <div class="question-basic-info">[Optional]<br/>Description</div>
+          </div>
+          <div class="col-md-10">
+            <tm-rich-text-editor [richText]="'<p><strong>This question is </strong><span style=\'color: rgb(255, 0, 0); background-color: rgb(255, 255, 0);\'><strong>compulsory</strong></span><strong>!</strong></p>'" minHeightInPx="100"></tm-rich-text-editor>
+          </div>
+        </div>
+      </div>
     </tm-example-box>
   </tm-instructor-help-panel>
   <!-- Question -->
@@ -217,34 +246,34 @@
       Note that the email generation can take up to 30 minutes from the session start time.
     </p>
     <p>
-      <span class="text-danger">Do not use the ‘publish’ feature for this purpose.</span> That feature is for making the responses available for viewing,
+      <span class="text-danger">Do not use the 'publish' feature for this purpose.</span> That feature is for making the responses available for viewing,
       which you are likely to do after the session deadline is over, unless you want the responses to become visible as they are being collected.
     </p>
   </tm-instructor-help-panel>
   <!-- Question -->
-  <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.STUDENT_DID_NOT_RECEIVE_SESSION_EMAIL)"
-                            [id]="SessionsSectionQuestions.STUDENT_DID_NOT_RECEIVE_SESSION_EMAIL"
-                            headerText="What should I do if students say they didn’t receive the TEAMMATES email, as they were supposed to?"
-                            [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.STUDENT_DID_NOT_RECEIVE_SESSION_EMAIL]">
+  <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.STUDENT_DID_NOT_RECEIVE_SUBMISSION_LINK)"
+                            [id]="SessionsSectionQuestions.STUDENT_DID_NOT_RECEIVE_SUBMISSION_LINK"
+                            headerText="What should I do if students say they didn't receive the link to submit responses, as they were supposed to?"
+                            [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.STUDENT_DID_NOT_RECEIVE_SUBMISSION_LINK]">
     <p>
       Here are some remedies:
     </p>
     <ol>
       <li>
-        Use the <button class="btn btn-sm btn-secondary">Remind</button> button on your <b>Home</b> page (there is one for each session) to resend emails to specific students or all those who haven't submitted yet. Also, ask students to check their spam box.
-      </li>
-      <li>
-        Ask students to go to <a tmRouterLink="/web/front/help/session-links-recovery">the session links recovery page</a> and request TEAMMATES to resend the links.
+        Ask students to go to <a tmRouterLink="/web/front/help/session-links-recovery">the session links recovery page</a> and request TEAMMATES to resend the link.
         They should specify the exact email address that was used to enroll them in TEAMMATES.
       </li>
       <li>
-        Failing all above, ask students to email us at <a href="mailto:{{ supportEmail }}">{{ supportEmail }}</a> We can resend the email using an alternate means.
+        Use the <button class="btn btn-sm btn-secondary">Remind</button> button on your <b>Home</b> or <b>Sessions</b> page (there is one for each session) to resend emails to specific students or all those who haven't submitted yet. Also, ask students to check their spam box.
+      </li>
+      <li>
+        Failing all above, ask students to email us at <a href="mailto:{{ supportEmail }}">{{ supportEmail }}</a>. We can resend the email using an alternate means.
         When they email us, they should use the email address currently registered in TEAMMATES (for identification).
       </li>
     </ol>
   </tm-instructor-help-panel>
   <!-- Question -->
-  <tm-instructor-help-panel class="instr-help-qn-last" #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.EXTEND_SESSION_DEADLINE)"
+  <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.EXTEND_SESSION_DEADLINE)"
                             [id]="SessionsSectionQuestions.EXTEND_SESSION_DEADLINE"
                             headerText="How do I extend the deadline of a session?"
                             [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.EXTEND_SESSION_DEADLINE]">
@@ -252,11 +281,33 @@
       To extend the deadline for all respondents, edit the session and change the end date/time as desired. This can be done at any time.
     </p>
   </tm-instructor-help-panel>
-
-  <!--Section-->
-  <h4 *ngIf="displaySubsection(7, 10)">Managing Session Responses</h4>
   <!-- Question -->
-  <tm-instructor-help-panel class="instr-help-qn-first" #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.SUBMIT_FOR_STUDENT)"
+  <tm-instructor-help-panel class="instr-help-qn-last" #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.CHANGE_VISIBILITY_AFTER_SESSION_START)"
+                            [id]="SessionsSectionQuestions.CHANGE_VISIBILITY_AFTER_SESSION_START"
+                            headerText="Can I change the visibility settings of questions after the session has started?"
+                            [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.CHANGE_VISIBILITY_AFTER_SESSION_START]">
+    <p>
+      Yes, but it is not recommended.
+    </p>
+    <p>
+      Reason: The current visibility setting of each question is shown to the respondent at the point of response submission i.e., responses are submitted based on the promise of a certain visibility.
+      Changing the visibility later would be like 'breaking a promise' you made earlier.
+    </p>
+  </tm-instructor-help-panel>
+
+  <!-- Section -->
+  <h4 *ngIf="displaySubsection(9, 17)">Managing Session Responses</h4>
+  <!-- Question -->
+  <tm-instructor-help-panel class="instr-help-qn-first" #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.STUDENT_EDIT_RESPONSE)"
+                            [id]="SessionsSectionQuestions.STUDENT_EDIT_RESPONSE"
+                            headerText="Can students edit responses they submitted earlier?"
+                            [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.STUDENT_EDIT_RESPONSE]">
+    <p>
+      Yes, they can edit responses any number of times, as long as the session is still open. To edit responses, they can use the same method they used when submitting the responses initially.
+    </p>
+  </tm-instructor-help-panel>
+  <!-- Question -->
+  <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.SUBMIT_FOR_STUDENT)"
                             [id]="SessionsSectionQuestions.SUBMIT_FOR_STUDENT"
                             headerText="Can I submit responses on behalf of a student?"
                             [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.SUBMIT_FOR_STUDENT]">
@@ -281,7 +332,16 @@
       </li>
     </ol>
   </tm-instructor-help-panel>
-  <!--Question-->
+  <!-- Question -->
+  <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.STUDENT_ACCESS_SUBMISSION_PAGE)"
+                            [id]="SessionsSectionQuestions.STUDENT_ACCESS_SUBMISSION_PAGE"
+                            headerText="Can I see when a student tried to access the submission page?"
+                            [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.STUDENT_ACCESS_SUBMISSION_PAGE]">
+    <p>
+      Not at the moment. If there is such a need, email us at <a href="mailto:{{ supportEmail }}">{{ supportEmail }}</a>, and we'll try to find that information for you.
+    </p>
+  </tm-instructor-help-panel>
+  <!-- Question -->
   <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.SESSION_VIEW_RESULTS)"
                             [id]="SessionsSectionQuestions.SESSION_VIEW_RESULTS"
                             headerText="How do I view the results of my session?"
@@ -297,8 +357,7 @@
       <tm-view-results-panel></tm-view-results-panel>
     </tm-example-box>
     <p>
-      In the example below, results are sorted by <b>Giver > Recipient > Question</b>. Additionally, missing responses
-      have been recorded.
+      In the example below, results are sorted by <b>Giver &#8594; Recipient &#8594; Question</b>. Additionally, missing responses have been recorded.
     </p>
     <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.SESSION_VIEW_RESULTS]" @collapseAnim>
       <tm-instructor-session-result-grq-view [session]="this.exampleFeedbackSession"
@@ -326,8 +385,8 @@
       <tm-question-response-panel [questions]="exampleQuestionsWithResponses"></tm-question-response-panel>
     </tm-example-box>
   </tm-instructor-help-panel>
-  <!--Question-->
-  <tm-instructor-help-panel class="instr-help-qn-last" #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.VIEW_ALL_RESPONSES)"
+  <!-- Question -->
+  <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.VIEW_ALL_RESPONSES)"
                             [id]="SessionsSectionQuestions.VIEW_ALL_RESPONSES"
                             headerText="How do I view all the responses a student has given and received?"
                             [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.VIEW_ALL_RESPONSES]">
@@ -343,26 +402,82 @@
       </li>
     </ol>
   </tm-instructor-help-panel>
+  <!-- Question -->
+  <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.MODERATE_RESPONSE)"
+                            [id]="SessionsSectionQuestions.MODERATE_RESPONSE"
+                            headerText="Am I able to moderate responses submitted by students?"
+                            [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.MODERATE_RESPONSE]">
+    <p>
+      Yes, the 'moderate' feature is available when you view the results of a session.
+    </p>
+    <p>
+      To moderate a response in a session:
+    </p>
+    <ol>
+      <li>
+        <a (click)="jumpTo(SessionsSectionQuestions.SESSION_VIEW_RESULTS); questionsToCollapsed[SessionsSectionQuestions.SESSION_VIEW_RESULTS] = true" [tmRouterLink]="">View the results</a> of the session.
+      </li>
+      <li>
+        Locate the response you would like to moderate and click the <button class="btn btn-light btn-sm">Moderate response</button> button associated with the response.
+      </li>
+      <li>
+        Edit the response as if you were the submitter. Remember to click the <button class="btn btn-success btn-sm">Submit Responses</button> button after your edit.
+      </li>
+    </ol>
+  </tm-instructor-help-panel>
+  <!-- Question -->
+  <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.STUDENT_SEE_RESPONSE)"
+                            [id]="SessionsSectionQuestions.STUDENT_SEE_RESPONSE"
+                            headerText="When do students get to see the results collected by a session?"
+                            [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.STUDENT_SEE_RESPONSE]">
+    <p>
+      Students can only see the results after you have published the results of that session. Until then, they can only see responses submitted by themselves.<br>
+      When you publish the results of a session, TEAMMATES will email each student instructions for viewing results. What students will get to see depends on the visibility setting of each question.
+    </p>
+  </tm-instructor-help-panel>
+  <!-- Question -->
+  <tm-instructor-help-panel class="instr-help-qn-last" #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.STUDENT_DID_NOT_RECEIVE_RESULT_LINK)"
+                            [id]="SessionsSectionQuestions.STUDENT_DID_NOT_RECEIVE_RESULT_LINK"
+                            headerText="What should I do if students say they didn't receive the link to view results, even after I published the session responses?"
+                            [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.STUDENT_DID_NOT_RECEIVE_RESULT_LINK]">
+    <p>
+      Here are some remedies:
+    </p>
+    <ol>
+      <li>
+        Ask students to go to <a tmRouterLink="/web/front/help/session-links-recovery">the session links recovery page</a> and request TEAMMATES to resend the link.
+        They should specify the exact email address that was used to enroll them in TEAMMATES.
+      </li>
+      <li>
+        Go to the <b>Home</b> or <b>Sessions</b> page and click the <button class="btn btn-light btn-sm dropdown-toggle">Results</button> button of the published session.<br>
+        Then select <b>Resend link to view results</b> in the drop-down menu to resend emails to specific students. Make sure the session results are published if you are unable to see the option.
+      </li>
+      <li>
+        Failing all above, ask students to email us at <a href="mailto:{{ supportEmail }}">{{ supportEmail }}</a>. We can resend the email using an alternate means.
+        When they email us, they should use the email address currently registered in TEAMMATES (for identification).
+      </li>
+    </ol>
+  </tm-instructor-help-panel>
 
-  <!--Section-->
-  <h4 *ngIf="displaySubsection(10, 12)">Adding Comments to Responses</h4>
+  <!-- Section -->
+  <h4 *ngIf="displaySubsection(17, 19)">Adding Comments to Responses</h4>
   <!-- Question -->
   <tm-instructor-help-panel class="instr-help-qn-first" #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.SESSION_ADD_COMMENTS)"
                             [id]="SessionsSectionQuestions.SESSION_ADD_COMMENTS"
                             headerText="How do I create a comment on a response?"
                             [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.SESSION_ADD_COMMENTS]">
     <p>
-      While <a (click)="jumpTo(SessionsSectionQuestions.SESSION_VIEW_RESULTS); questionsToCollapsed[SessionsSectionQuestions.SESSION_VIEW_RESULTS] = true" [tmRouterLink]="">viewing the results</a> of a session, you can add comments to respondents' answers.
+      While viewing the results of a session, you can add comments to respondents' answers.
     </p>
     <p>
       To create comments on a response in a session:
     </p>
     <ol>
       <li>
-        View the results of a session.
+        <a (click)="jumpTo(SessionsSectionQuestions.SESSION_VIEW_RESULTS); questionsToCollapsed[SessionsSectionQuestions.SESSION_VIEW_RESULTS] = true" [tmRouterLink]="">View the results</a> of the session.
       </li>
       <li>
-        Click <button class="btn btn-light btn-sm dropdown-toggle">View</button> dropdown and change the view type to <b>Group by - Giver &gt; Recipient &gt; Question</b> or <b>Group by - Recipient &gt; Giver &gt; Question</b>.
+        Click the <button class="btn btn-light btn-sm dropdown-toggle">View</button> dropdown and change the view type to <b>Group by - Giver &#8594; Recipient &#8594; Question</b> or <b>Group by - Recipient &#8594; Giver &#8594; Question</b>.
       </li>
       <li>
         Click the <button type="button" class="btn btn-secondary btn-sm"><i class="fas fa-comment"></i>&nbsp;<i class="fas fa-plus"></i></button> icon on the right-hand side of the response you would like to comment on.
@@ -387,7 +502,7 @@
       </div>
     </tm-example-box>
   </tm-instructor-help-panel>
-  <!--Question-->
+  <!-- Question -->
   <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.EDIT_DEL_COMMENT)"
                             [id]="SessionsSectionQuestions.EDIT_DEL_COMMENT"
                             headerText="How do I edit or delete a comment on a response?"
@@ -415,8 +530,8 @@
     </ol>
   </tm-instructor-help-panel>
 
-  <!--Section-->
-  <h4 *ngIf="displaySubsection(12, 16)">Restoring Deleted Sessions</h4>
+  <!-- Section -->
+  <h4 *ngIf="displaySubsection(19, 23)">Restoring Deleted Sessions</h4>
   <!-- Question -->
   <tm-instructor-help-panel class="instr-help-qn-first" #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.VIEW_DELETED_SESSION)"
                             [id]="SessionsSectionQuestions.VIEW_DELETED_SESSION"
