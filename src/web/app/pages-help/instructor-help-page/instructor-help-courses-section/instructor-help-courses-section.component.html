@@ -32,7 +32,7 @@
   <!--Question-->
   <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.NO_TEAMS)"
                             [id]="CoursesSectionQuestions.NO_TEAMS"
-                            headerText="What should I do if my course doesn’t have teams?"
+                            headerText="What should I do if my course doesn't have teams?"
                             [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.NO_TEAMS]">
     <p>
       When you enroll students in a course, TEAMMATES requires you to specify a <b>Team</b> for each student.<br>
@@ -247,13 +247,14 @@
       When a course has ended, you can archive it so that it doesn't appear in your home page. Course, student and session details of an archived course are still stored on TEAMMATES. However, you cannot edit, create feedback sessions for or enroll students in an archived course.
     </p>
     <p>
-      In your <b>Home</b> page, you will see panels for each course and a table of feedback sessions inside it, similar to the example below.<br>
-      Click on the <button class="btn btn-primary btn-sm" type="button">Course <span class="caret"></span></button> button on the card heading of the course you want to archive.<br>
-      Then select <button class="btn btn-secondary btn-sm" type="button">Archive</button> in the drop-down menu and click <b>OK</b> to confirm.
+      In your <b>Home</b> page, you will see panels for each course and a table of feedback sessions inside it.<br>
+      Click on the <button class="btn btn-primary btn-sm dropdown-toggle" type="button">Course</button> button on the card heading of the course you want to archive.<br>
+      Then select <b>Archive</b> in the drop-down menu and click <b>Yes</b> to confirm.
     </p>
     <p>
       You can also archive a course from the <b>Courses</b> page.<br>
-      Under 'Active Courses', click on the <button class="btn btn-secondary btn-sm" type="button">Archive</button> button in the row corresponding to the course you want to archive.
+      Under 'Active Courses', click on the <button class="btn btn-light btn-sm dropdown-toggle" type="button">Other Actions</button> button in the row corresponding to the course you want to archive.<br>
+      Then select <b>Archive</b> in the drop-down menu.
     </p>
   </tm-instructor-help-panel>
   <!--Question-->
