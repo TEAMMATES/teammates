@@ -14,7 +14,7 @@ public class FileStorage {
     private final FileStorageService service;
 
     FileStorage() {
-        if (Config.isDevServer()) {
+        if (Config.IS_DEV_SERVER) {
             service = new LocalFileStorageService();
         } else {
             service = new GoogleCloudStorageService();

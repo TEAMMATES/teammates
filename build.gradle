@@ -202,6 +202,7 @@ task createConfigs {
         def templatesToCopy = [
             "gradle.template.properties",
             "src/main/resources/build.template.properties",
+            "src/main/resources/build-dev.template.properties",
             "src/web/environments/config.template.ts",
             "src/test/resources/test.template.properties",
             "src/lnp/resources/test.template.properties",
