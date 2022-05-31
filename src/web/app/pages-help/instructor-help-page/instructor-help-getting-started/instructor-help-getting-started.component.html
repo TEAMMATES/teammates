@@ -26,7 +26,7 @@
     <ol>
       <li>
         <b>Create a course</b><br>
-        From the <b>Home</b> page, click <button class="btn btn-primary btn-sm">Add New Course</button>.<br>
+        From the <b>Home</b> page, click <button class="btn btn-success btn-sm"><i class="fas fa-plus"></i> Add New Course</button>.<br>
         Fill out the following form. Hover your mouse over text to reveal tooltips which tell you what the element does.
         <tm-example-box>
           <tm-add-course-form [isEnabled]="false"></tm-add-course-form>
@@ -34,14 +34,14 @@
       </li>
       <li>
         <b><a [tmRouterLink]="instructorHelpPath" [queryParams]="{questionId: CoursesSectionQuestions.COURSE_ADD_STUDENTS, section: Sections.courses}">Enroll students in the course</a></b><br>
-        Go to the <b>Courses</b> page and click the <button class="btn btn-secondary btn-sm">Enroll</button> button of the corresponding course.<br>
+        Go to the <b>Courses</b> page and click the <button class="btn btn-light btn-sm">Enroll</button> button of the corresponding course.<br>
         Students can be enrolled into teams (e.g., project groups) and sections (e.g., tutorial classes, lecture groups) to facilitate giving feedback in and among these smaller groups.<br>
         TEAMMATES will <b>not</b> automatically notify students that they have been enrolled, as there is nothing for students to do in TEAMMATES until a session opens for submissions.<br>
         TEAMMATES will send an email with access instructions to students only when there is an action for them to perform e.g., when a session opens for submissions.
       </li>
       <li>
         <b><a [tmRouterLink]="instructorHelpPath" [queryParams]="{questionId: CoursesSectionQuestions.COURSE_ADD_INSTRUCTOR, section: Sections.courses}">Add instructors to the course</a></b><br>
-        From the <b>Courses</b> page, click the <button class="btn btn-secondary btn-sm" type="button">Edit</button> button of the course you would like to add instructors to. You will be directed to the <b>Edit Course</b> page where you can add a new instructor to your course.
+        From the <b>Courses</b> page, click the <button class="btn btn-light btn-sm dropdown-toggle">Other Actions</button> button of the course you would like to add instructors to, and select <b>Edit</b> in the drop-down menu. You will be directed to the <b>Edit Course</b> page where you can add a new instructor to your course.
         You can specify the <a [tmRouterLink]="instructorHelpPath" [queryParams]="{questionId: CoursesSectionQuestions.COURSE_INSTRUCTOR_ACCESS, section: Sections.courses}">access level</a> of any instructor you add to a course. For more information about how to add an instructor to your course, click <a [tmRouterLink]="instructorHelpPath" [queryParams]="{questionId: CoursesSectionQuestions.COURSE_ADD_INSTRUCTOR, section: Sections.courses}">here</a>.
       </li>
     </ol>
@@ -125,7 +125,7 @@
       </li>
     </ul>
     <p>
-      You can manually send reminders to students at any time while a session is open. Click the <button class="btn btn-sm btn-secondary">Remind</button> button of the session from the <b>Home</b> or <b>Sessions</b> page.<br>
+      You can manually send reminders to students at any time while a session is open. Use the <button class="btn btn-light btn-sm dropdown-toggle">Remind</button> button of the session from the <b>Home</b> or <b>Sessions</b> page.<br>
       In addition, you are welcome to (but not required to) use your own email announcements (outside of TEAMMATES) to inform students to look out for these TEAMMATES emails.
     </p>
     <p>
