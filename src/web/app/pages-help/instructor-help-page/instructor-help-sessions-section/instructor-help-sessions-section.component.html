@@ -346,7 +346,7 @@
         Ask the student to view the submission page and send you his/her answers to the session questions.
       </li>
       <li>
-        <a (click)="jumpTo(SessionsSectionQuestions.SESSION_VIEW_RESULTS); questionsToCollapsed[SessionsSectionQuestions.SESSION_VIEW_RESULTS] = true" [tmRouterLink]="">View the results</a> of the session.
+        <a (click)="jumpTo(SessionsSectionQuestions.SESSION_VIEW_RESULTS); questionsToCollapsed[SessionsSectionQuestions.SESSION_VIEW_RESULTS] = true" [tmRouterLink]="">View the course-wide results</a> of the session.
       </li>
       <li>
         Scroll to the panel titled <b>Participants who have not responded to any question</b>. Click on the panel to expand it.
@@ -448,14 +448,14 @@
                             headerText="Am I able to moderate responses submitted by students?"
                             [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.MODERATE_RESPONSE]">
     <p>
-      Yes, the 'moderate' feature is available when you view the results of a session.
+      Yes, the 'moderate' feature is available when you view the course-wide results of a session.
     </p>
     <p>
       To moderate a response in a session:
     </p>
     <ol>
       <li>
-        <a (click)="jumpTo(SessionsSectionQuestions.SESSION_VIEW_RESULTS); questionsToCollapsed[SessionsSectionQuestions.SESSION_VIEW_RESULTS] = true" [tmRouterLink]="">View the results</a> of the session.
+        <a (click)="jumpTo(SessionsSectionQuestions.SESSION_VIEW_RESULTS); questionsToCollapsed[SessionsSectionQuestions.SESSION_VIEW_RESULTS] = true" [tmRouterLink]="">View the course-wide results</a> of the session.
       </li>
       <li>
         Locate the response you would like to moderate and click the <button class="btn btn-light btn-sm">Moderate response</button> button associated with the response.
@@ -507,14 +507,14 @@
                             headerText="How do I create a comment on a response?"
                             [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.SESSION_ADD_COMMENTS]">
     <p>
-      While viewing the results of a session, you can add comments to respondents' answers.
+      While viewing the course-wide results of a session, you can add comments to respondents' answers.
     </p>
     <p>
       To create comments on a response in a session:
     </p>
     <ol>
       <li>
-        <a (click)="jumpTo(SessionsSectionQuestions.SESSION_VIEW_RESULTS); questionsToCollapsed[SessionsSectionQuestions.SESSION_VIEW_RESULTS] = true" [tmRouterLink]="">View the results</a> of the session.
+        <a (click)="jumpTo(SessionsSectionQuestions.SESSION_VIEW_RESULTS); questionsToCollapsed[SessionsSectionQuestions.SESSION_VIEW_RESULTS] = true" [tmRouterLink]="">View the course-wide results</a> of the session.
       </li>
       <li>
         Click the <button class="btn btn-light btn-sm dropdown-toggle">View</button> dropdown and change the view type to <b>Group by - Giver &#8594; Recipient &#8594; Question</b> or <b>Group by - Recipient &#8594; Giver &#8594; Question</b>.
