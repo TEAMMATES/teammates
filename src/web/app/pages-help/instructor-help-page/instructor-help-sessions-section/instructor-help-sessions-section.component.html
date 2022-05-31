@@ -136,7 +136,7 @@
                             [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.SESSION_QUESTIONS]">
     <p>
       After setting up a session, you can start adding questions.<br>
-      You can also access this page by clicking the <button class="btn btn-sm btn-secondary">Edit</button> button of the desired session from the <b>Home</b> or <b>Sessions</b> page.
+      You can also access this page by clicking the <button class="btn btn-sm btn-light">Edit</button> button of the desired session from the <b>Home</b> or <b>Sessions</b> page.
     </p>
     <p>
       To add a question:
@@ -223,7 +223,7 @@
       You can quickly and easily confirm that the questions and their settings are correct after editing questions.
     </p>
     <p>
-      To access the preview panel of a specific session, click the <button class="btn btn-sm btn-secondary">Edit</button> button for that session in the <b>Home</b> or <b>Sessions</b> page. The preview
+      To access the preview panel of a specific session, click the <button class="btn btn-sm btn-light">Edit</button> button for that session in the <b>Home</b> or <b>Sessions</b> page. The preview
       panel is located at the bottom of the Edit Feedback Session page.
     </p>
     <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.SESSION_PREVIEW]" @collapseAnim>
@@ -352,10 +352,10 @@
         Scroll to the panel titled <b>Participants who have not responded to any question</b>. Click on the panel to expand it.
       </li>
       <li>
-        Click the <button type="button" class="btn btn-sm btn-secondary">Submit Responses</button> button of the corresponding student. You will be directed to a page where you can submit responses on behalf of the student.
+        Click the <button type="button" class="btn btn-sm btn-light">Submit responses</button> button of the corresponding student. You will be directed to a page where you can submit responses on behalf of the student.
       </li>
       <li>
-        Copy the student's responses to the corresponding questions, and click the <button type="button" class="btn btn-primary btn-lg">Submit Feedback</button> button.
+        Copy the student's responses to the corresponding questions, and click the <button type="button" class="btn btn-success btn-sm">Submit Responses</button> button.
       </li>
     </ol>
   </tm-instructor-help-panel>
@@ -438,7 +438,7 @@
         Go to the <b>Students</b> page and click the panel heading for Course B. You will see a list of students enrolled in the course.
       </li>
       <li>
-        Click <button class="btn btn-sm btn-secondary">All Records</button> button corresponding to Student A to access all the responses Student A has given and received.
+        Click <button class="btn btn-sm btn-light">All Records</button> button corresponding to Student A to access all the responses Student A has given and received.
       </li>
     </ol>
   </tm-instructor-help-panel>
@@ -517,10 +517,10 @@
         <a (click)="jumpTo(SessionsSectionQuestions.SESSION_VIEW_RESULTS); questionsToCollapsed[SessionsSectionQuestions.SESSION_VIEW_RESULTS] = true" [tmRouterLink]="">View the course-wide results</a> of the session.
       </li>
       <li>
-        Click the <button class="btn btn-light btn-sm dropdown-toggle">View</button> dropdown and change the view type to <b>Group by - Giver &#8594; Recipient &#8594; Question</b> or <b>Group by - Recipient &#8594; Giver &#8594; Question</b>.
+        Click the <b>View</b> drop-down menu and change the view type to <b>Group by - Giver &#8594; Recipient &#8594; Question</b> or <b>Group by - Recipient &#8594; Giver &#8594; Question</b>.
       </li>
       <li>
-        Click the <button type="button" class="btn btn-secondary btn-sm"><i class="fas fa-comment"></i>&nbsp;<i class="fas fa-plus"></i></button> icon on the right-hand side of the response you would like to comment on.
+        Click the <button class="btn btn-outline-primary btn-sm"><i class="fas fa-comment"></i></button> icon on the right-hand side of the response you would like to comment on.
       </li>
       <li>
         Fill in the form, which will appear similar to the example below.
@@ -558,14 +558,14 @@
         Hover over the comment which you want to edit or delete.
       </li>
       <li>
-        Click the <i class="fas fa-pencil-alt"></i> icon to edit the comment, or
-        <i class="far fa-trash-alt"></i> icon to delete the comment. The icons are visible on the right-hand side of the comment field.
+        Click the <button class="btn btn-outline-primary btn-sm"><i class="fas fa-pencil-alt"></i></button> icon to edit the comment, or
+        <button class="btn btn-outline-primary btn-sm"><i class="fas fa-trash"></i></button> icon to delete the comment. The icons are visible on the right-hand side of the comment field.
       </li>
       <li>
-        If you are editing the comment, make your edits and click <button class="btn btn-primary btn-sm">Save</button> to save changes.
+        If you are editing the comment, make your edits and click <button class="btn btn-success btn-sm"><i class="fas fa-save"></i> Save</button> to save changes.
       </li>
       <li>
-        If you are deleting the comment, click <b>OK</b> to confirm that you want to delete the comment.
+        If you are deleting the comment, click <b>Yes</b> to confirm that you want to delete the comment.
       </li>
     </ol>
   </tm-instructor-help-panel>
@@ -599,7 +599,7 @@
                             [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.RESTORE_SESSION]">
     <p>
       To restore a deleted feedback session, first <a (click)="jumpTo(SessionsSectionQuestions.VIEW_DELETED_SESSION); questionsToCollapsed[SessionsSectionQuestions.VIEW_DELETED_SESSION] = true" [tmRouterLink]="">view the session</a> that you would like to restore in the <b>Sessions</b> page.<br>
-      Then, click on the <button href="#" class="btn btn-secondary btn-sm" type="button">Restore</button> button corresponding to the session you want to restore.
+      Then, click on the <button class="btn btn-light btn-sm">Restore</button> button corresponding to the session you want to restore.
     </p>
     <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.RESTORE_SESSION]" @collapseAnim>
       <tm-sessions-recycle-bin-table
@@ -618,7 +618,7 @@
                             [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.PERMANENT_DEL_SESSION]">
     <p>
       To permanently delete a feedback session, first <a (click)="jumpTo(SessionsSectionQuestions.VIEW_DELETED_SESSION); questionsToCollapsed[SessionsSectionQuestions.VIEW_DELETED_SESSION] = true" [tmRouterLink]="">view the session</a> that you would like to permanently delete in the <b>Sessions</b> page.<br>
-      Then, click on the <button href="#" class="btn btn-sm btn-danger" type="button">Delete Permanently</button> button corresponding to the session you want to delete.
+      Then, click on the <button class="btn btn-sm btn-light text-danger">Delete Permanently</button> button corresponding to the session you want to delete.
     </p>
     <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.PERMANENT_DEL_SESSION]" @collapseAnim>
       <tm-sessions-recycle-bin-table
@@ -637,8 +637,8 @@
                             [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.RESTORE_DEL_ALL]">
     <p>
       First <a (click)="jumpTo(SessionsSectionQuestions.VIEW_DELETED_SESSION); questionsToCollapsed[SessionsSectionQuestions.VIEW_DELETED_SESSION] = true" [tmRouterLink]="">view the session</a> and check for sessions in Recycle Bin.<br>
-      To restore all sessions, click on the <button href="#" class="btn btn-sm btn-secondary"><i class="fas fa-check"></i><strong> Restore All</strong></button> button in <b>Deleted feedback sessions</b> heading;
-      to delete all sessions, click on the <button href="#" class="btn btn-sm btn-danger"><i class="fas fa-times"></i><strong> Delete All</strong></button> button in <b>Deleted feedback sessions</b> heading.
+      To restore all sessions, click on the <button class="btn btn-sm btn-secondary"><i class="fas fa-check"></i> Restore All</button> button in <b>Deleted feedback sessions</b> heading;
+      to delete all sessions, click on the <button class="btn btn-sm btn-secondary"><i class="fas fa-times"></i> Delete All</button> button in <b>Deleted feedback sessions</b> heading.
     </p>
     <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.RESTORE_DEL_ALL]" @collapseAnim>
       <tm-sessions-recycle-bin-table
