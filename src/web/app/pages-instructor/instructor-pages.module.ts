@@ -41,6 +41,11 @@ const routes: Routes = [
             .then((m: any) => m.InstructorCourseEnrollPageModule),
       },
       {
+        path: 'student-activity-logs',
+        loadChildren: () => import('./instructor-student-activity-logs/instructor-student-activity-logs.module')
+            .then((m: any) => m.InstructorStudentActivityLogsModule),
+      },
+      {
         path: 'student',
         children: [
           {

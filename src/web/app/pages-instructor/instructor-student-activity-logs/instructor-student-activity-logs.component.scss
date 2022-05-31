@@ -1,0 +1,21 @@
+.bg-form {
+  background-color: #EAEFF5;
+}
+
+.no-border {
+  border: 0;
+}
+
+.alert-success-border {
+  border-color: #C3E6CB;
+}
+
+.no-activity-body {
+  padding: .5rem 1rem;
+}
+
+.form-control {
+  &[readonly] {
+    background-color: white;
+  }
+}
