@@ -44,6 +44,9 @@ import { ExampleBoxModule } from './example-box/example-box.module';
 import {
   InstructorHelpCoursesSectionComponent,
 } from './instructor-help-courses-section/instructor-help-courses-section.component';
+import {
+  InstructorHelpGeneralSectionComponent,
+} from './instructor-help-general-section/instructor-help-general-section.component';
 import { InstructorHelpPageComponent } from './instructor-help-page.component';
 import { InstructorHelpPanelComponent } from './instructor-help-panel/instructor-help-panel.component';
 import {
@@ -104,6 +107,7 @@ const routes: Routes = [
     InstructorHelpSessionsSectionComponent,
     InstructorHelpQuestionsSectionComponent,
     InstructorHelpCoursesSectionComponent,
+    InstructorHelpGeneralSectionComponent,
   ],
   exports: [
     InstructorHelpPageComponent,
