@@ -8,6 +8,18 @@
 <tm-loading-retry [shouldShowRetry]="hasLoadingFailed" [message]="'Failed to load courses'" (retryEvent)="loadCourses()">
   <div *tmIsLoading="isLoadingCourses"></div>
   <ng-container>
+    <div class="row mb-3" *ngIf="courseTabList.length > 0">
+      <div class="col">
+        <div class="float-right">
+          <strong class="d-inline"> Sort By: </strong>
+          <div class="btn-group" data-toggle="buttons">
+            <button id="sort-course-id" class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.COURSE_ID)" (click)="sortCourses(SortBy.COURSE_ID)">Course ID</button>
+            <button id="sort-course-name" class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.COURSE_NAME)" (click)="sortCourses(SortBy.COURSE_NAME)">Course Name</button>
+            <button id="sort-course-date" class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.COURSE_CREATION_DATE)" (click)="sortCourses(SortBy.COURSE_CREATION_DATE)">Creation Date</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="course-table" *ngFor="let courseTab of courseTabList">
       <div class="card">
         <div class="card-header cursor-pointer bg-primary text-white" (click)="toggleCard(courseTab)">

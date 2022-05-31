@@ -2,8 +2,10 @@
 
 exports[`InstructorStudentListPageComponent should snap with a course with students the instructor has no permission to view 1`] = `
 <tm-instructor-student-list-page
+  SortBy={[Function Object]}
   courseService={[Function CourseService]}
   courseTabList={[Function Array]}
+  coursesSortBy={[Function Number]}
   hasLoadingFailed="false"
   instructorService={[Function InstructorService]}
   isLoadingCourses="false"
@@ -24,6 +26,47 @@ exports[`InstructorStudentListPageComponent should snap with a course with stude
      if you need to locate the details of a specific student by name or email.
   </p><hr /><tm-loading-retry>
     <div />
+    <div
+      class="row mb-3"
+    >
+      <div
+        class="col"
+      >
+        <div
+          class="float-right"
+        >
+          <strong
+            class="d-inline"
+          >
+             Sort By: 
+          </strong>
+          <div
+            class="btn-group"
+            data-toggle="buttons"
+          >
+            <button
+              class="btn btn-light"
+              id="sort-course-id"
+            >
+              Course ID
+            </button>
+            <button
+              class="btn btn-light"
+              id="sort-course-name"
+            >
+              Course Name
+            </button>
+            <button
+              class="btn btn-light"
+              disabled=""
+              id="sort-course-date"
+            >
+              Creation Date
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
     <div
       class="course-table"
     >
