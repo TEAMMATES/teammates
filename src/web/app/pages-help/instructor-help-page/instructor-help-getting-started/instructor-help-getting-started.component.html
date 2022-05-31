@@ -164,30 +164,31 @@
     </p>
     <ul>
       <li>
-        <a [tmRouterLink]="instructorHelpPath" [queryParams]="{questionId: SessionsSectionQuestions.SESSION_VIEW_RESULTS, section: Sections.sessions}">View responses</a>: see what respondents have answered, even if the session is still ongoing. Go to the <b>Sessions</b> page and click the corresponding <button class="btn btn-secondary btn-sm">Results</button> button.
+        <a [tmRouterLink]="instructorHelpPath" [queryParams]="{questionId: SessionsSectionQuestions.SESSION_VIEW_RESULTS, section: Sections.sessions}">View responses</a>: see what respondents have answered, even if the session is still ongoing. Go to the <b>Sessions</b> page and click the corresponding <button class="btn btn-light btn-sm dropdown-toggle">Results</button> button.
       </li>
       <li>
-        Moderate responses: edit inappropriate responses from respondents before publishing the responses.
+        <a [tmRouterLink]="instructorHelpPath" [queryParams]="{questionId: SessionsSectionQuestions.MODERATE_RESPONSE, section: Sections.sessions}">Moderate responses</a>: edit inappropriate responses from respondents before publishing the responses.
       </li>
       <li>
         <a [tmRouterLink]="instructorHelpPath" [queryParams]="{questionId: SessionsSectionQuestions.SESSION_ADD_COMMENTS, section: Sections.sessions}">Add comments to responses</a>: reply to respondents' answers, or add your own notes on a response. You can make your comment visible to other instructors, the response giver, and/or the response giver's team.
       </li>
       <li>
-        Remind students to submit responses: TEAMMATES automatically sends reminders to students; however, you can also manually send reminder emails to students at any time while a session is open. Click the <button class="btn btn-sm btn-secondary">Remind</button> button of the session from the <b>Home</b> or <b>Sessions</b> page.
+        Remind students to submit responses: TEAMMATES automatically sends reminders to students; however, you can also manually send reminder emails to students at any time while a session is open. Use the <button class="btn btn-light btn-sm dropdown-toggle">Remind</button> button of the session from the <b>Home</b> or <b>Sessions</b> page.
       </li>
       <li>
         <a [tmRouterLink]="instructorHelpPath" [queryParams]="{questionId: SessionsSectionQuestions.SUBMIT_FOR_STUDENT, section: Sections.sessions}">Submit responses for students</a>: if a student has missed the closing time of the session, or is unable to submit the evaluation due to technical problems, you can submit the student's responses on his/her behalf.
       </li>
     </ul>
+    <br>
     <p>
       After a session closes, you may:
     </p>
     <ul>
       <li>
-        Publish results: make a session's results visible to students. Click the <button class="btn btn-sm btn-secondary dropdown-toggle">Results</button> dropdown on the <b>Sessions</b> page, then select <b>Publish Results</b>. Students will not be able to view the session's results until you publish them.
+        Publish results: make a session's results visible to students. Click the corresponding <button class="btn btn-light btn-sm dropdown-toggle">Results</button> button on the <b>Sessions</b> page, then select <b>Publish Results</b>. Students will not be able to view the session's results until you publish them.
       </li>
       <li>
-        Download results of a session in spreadsheet format: first view the course-wide results of a session, then click <button class="btn btn-sm btn-primary">Download Results</button> to download the results of a session as a CSV file.
+        Download results of a session in spreadsheet format: first view the course-wide results of a session, then click <button class="btn btn-sm btn-primary"><i class="fas fa-file-download"></i> Download Results</button> to download the results of a session as a CSV file.
       </li>
     </ul>
   </div>
