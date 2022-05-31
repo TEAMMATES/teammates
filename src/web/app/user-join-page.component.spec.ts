@@ -295,69 +295,64 @@ describe('UserJoinPageComponent creating account', () => {
     expect(navSpy).toHaveBeenLastCalledWith(expect.anything(), '/web/instructor/home');
   });
 
-  describe('should stop loading and show error message', () => {
-    beforeEach(() => {
-      jest.spyOn(authService, 'getAuthUser').mockReturnValue(of({
-        user: {
-          id: 'user',
-          isAdmin: false,
-          isInstructor: false,
-          isStudent: false,
-          isMaintainer: false,
-        },
-        masquerade: false,
-      }));
-    });
+  it('should stop loading and show error message if 404 is returned when creating account', () => {
+    jest.spyOn(authService, 'getAuthUser').mockReturnValue(of({
+      user: {
+        id: 'user',
+        isAdmin: false,
+        isInstructor: false,
+        isStudent: false,
+        isMaintainer: false,
+      },
+      masquerade: false,
+    }));
+    jest.spyOn(courseService, 'getJoinCourseStatus').mockReturnValue(throwError({
+      status: 404,
+    }));
 
-    it('if 404 is returned when creating account', () => {
-      jest.spyOn(courseService, 'getJoinCourseStatus').mockReturnValue(throwError({
-        status: 404,
-      }));
+    component.ngOnInit();
 
-      component.ngOnInit();
+    expect(component.entityType).toBe('instructor');
+    expect(component.isCreatingAccount).toBeTruthy();
+    expect(component.isLoading).toBeFalsy();
+    expect(component.validUrl).toBeFalsy();
+  });
 
-      expect(component.entityType).toBe('instructor');
-      expect(component.isCreatingAccount).toBeTruthy();
-      expect(component.isLoading).toBeFalsy();
-      expect(component.validUrl).toBeFalsy();
-    });
+  it('should show error message if 5xx is returned when joining course', () => {
+    const errorMessage = '502 ERROR';
+    jest.spyOn(courseService, 'joinCourse').mockReturnValue(throwError({
+      error: {
+        message: errorMessage,
+      },
+      status: 502,
+    }));
 
-    it('if 5xx is returned when joining course', () => {
-      const errorMessage = '502 ERROR';
-      jest.spyOn(courseService, 'joinCourse').mockReturnValue(throwError({
-        error: {
-          message: errorMessage,
-        },
-        status: 502,
-      }));
+    const modalSpy = jest
+        .spyOn(ngbModal, 'open')
+        .mockReturnValue(createMockNgbModalRef());
 
-      const modalSpy = jest
-          .spyOn(ngbModal, 'open')
-          .mockReturnValue(createMockNgbModalRef());
+    component.joinCourse();
 
-      component.joinCourse();
+    expect(modalSpy).toHaveBeenCalledTimes(1);
+  });
 
-      expect(modalSpy).toHaveBeenCalledTimes(1);
-    });
+  it('should show error message if 4xx is returned when joining course', () => {
+    const errorMessage = '404 ERROR';
+    jest.spyOn(courseService, 'joinCourse').mockReturnValue(throwError({
+      error: {
+        message: errorMessage,
+      },
+      status: 404,
+    }));
 
-    it('if 4xx is returned when joining course', () => {
-      const errorMessage = '404 ERROR';
-      jest.spyOn(courseService, 'joinCourse').mockReturnValue(throwError({
-        error: {
-          message: errorMessage,
-        },
-        status: 404,
-      }));
+    const modalSpy = jest
+        .spyOn(simpleModalService, 'openInformationModal')
+        .mockReturnValue(createMockNgbModalRef());
 
-      const modalSpy = jest
-          .spyOn(simpleModalService, 'openInformationModal')
-          .mockReturnValue(createMockNgbModalRef());
+    component.joinCourse();
 
-      component.joinCourse();
-
-      expect(modalSpy).toHaveBeenCalledTimes(1);
-      expect(modalSpy).toHaveBeenCalledWith('ERROR',
-          SimpleModalType.DANGER, errorMessage);
-    });
+    expect(modalSpy).toHaveBeenCalledTimes(1);
+    expect(modalSpy).toHaveBeenCalledWith('ERROR',
+        SimpleModalType.DANGER, errorMessage);
   });
 });
