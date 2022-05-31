@@ -19,6 +19,7 @@ import {
   QuestionSubmissionFormModule,
 } from '../../components/question-submission-form/question-submission-form.module';
 import { QuestionTextWithInfoModule } from '../../components/question-text-with-info/question-text-with-info.module';
+import { RichTextEditorModule } from '../../components/rich-text-editor/rich-text-editor.module';
 import {
   SessionEditFormModule,
 } from '../../components/session-edit-form/session-edit-form.module';
@@ -94,6 +95,7 @@ const routes: Routes = [
     PreviewSessionPanelModule,
     ViewResultsPanelModule,
     QuestionResponsePanelModule,
+    RichTextEditorModule,
   ],
   declarations: [
     InstructorHelpPageComponent,
