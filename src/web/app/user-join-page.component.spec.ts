@@ -333,7 +333,7 @@ describe('UserJoinPageComponent creating account', () => {
     expect(navSpy).toHaveBeenLastCalledWith(expect.anything(), '/web/instructor/home');
   });
 
-  it('should stop loading and show error message if 404 is returned when creating account', () => {
+  it('should stop loading and show error message if 404 is returned when creating new account', () => {
     jest.spyOn(authService, 'getAuthUser').mockReturnValue(of({
       user: {
         id: 'user',
