@@ -270,6 +270,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     @Override
     public List<String> validateResponsesDetails(List<FeedbackResponseDetails> responses, int numRecipients) {
         List<String> errors = new ArrayList<>();
+        int actualTotal = 0;
 
         for (FeedbackResponseDetails response : responses) {
             FeedbackContributionResponseDetails details = (FeedbackContributionResponseDetails) response;
@@ -282,24 +283,23 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             if (isValidRange && isMultipleOf10) {
                 validAnswer = true;
             }
-            if (details.getAnswer() == Const.POINTS_NOT_SURE && isNotSureAllowed
-                    || details.getAnswer() == Const.POINTS_NOT_SUBMITTED) {
+
+            boolean isValidNotSure = details.getAnswer() == Const.POINTS_NOT_SURE && isNotSureAllowed;
+            boolean isValidNotSubmitted = details.getAnswer() == Const.POINTS_NOT_SUBMITTED && !isZeroSum;
+            if (isValidNotSure || isValidNotSubmitted) {
                 validAnswer = true;
             }
+
             if (!validAnswer) {
                 errors.add(CONTRIB_ERROR_INVALID_OPTION);
             }
+
+            actualTotal += details.getAnswer();
         }
 
-        if (isZeroSum) {
-            int actualTotal = responses
-                    .stream()
-                    .map(response -> ((FeedbackContributionResponseDetails) response).getAnswer())
-                    .reduce(0, Integer::sum);
-            int expectedTotal = numRecipients * 100;
-            if (actualTotal != expectedTotal) {
-                errors.add(CONTRIB_ERROR_INVALID_OPTION);
-            }
+        int expectedTotal = numRecipients * 100;
+        if (actualTotal != expectedTotal && isZeroSum) {
+            errors.add(CONTRIB_ERROR_INVALID_OPTION);
         }
 
         return errors;
