@@ -23,15 +23,19 @@
       <td>
         <div class="input-group">
           <div class="btn-group-vertical">
-            <button type="button" class="btn btn-light" [disabled]="i === 0 || !isEditable" ngbTooltip="Move row up"
-                    (click)="moveRow(i, i - 1)"><i class="fas fa-arrow-up"></i></button>
+            <button type="button" class="btn btn-light" [disabled]="i === 0 || !isEditable"
+                    ngbTooltip="Move row up" (click)="moveRow(i, i - 1)">
+              <i class="fas fa-arrow-up"></i>
+            </button>
             <button id="btn-delete-subquestion" type="button" class="btn btn-light" (click)="deleteSubQuestion(i)"
                     (mouseover)="rowToHighlight = i" (mouseleave)="rowToHighlight = -1"
-                    [disabled]="model.rubricSubQuestions.length === 1 || !isEditable"
-            ><i class="fas fa-times"></i></button>
+                    [disabled]="model.rubricSubQuestions.length === 1 || !isEditable">
+              <i class="fas fa-times"></i>
+            </button>
             <button type="button" class="btn btn-light" [disabled]="i === this.model.rubricSubQuestions.length - 1 || !isEditable"
-                    ngbTooltip="Move row down"
-                    (click)="moveRow(i, i + 1)"><i class="fas fa-arrow-down"></i></button>
+                    ngbTooltip="Move row down" (click)="moveRow(i, i + 1)">
+              <i class="fas fa-arrow-down"></i>
+            </button>
           </div>
           <textarea class="form-control" [ngModel]="model.rubricSubQuestions[i]"
                     (ngModelChange)="triggerRubricSubQuestionChange($event, i)" rows="3" [disabled]="!isEditable"></textarea>
@@ -49,15 +53,19 @@
       <td></td>
       <td *ngFor="let rubricChoice of model.rubricChoices; let j = index;" class="text-center" [ngClass]="{'highlight-deletion': j === columnToHighlight}">
         <div class="btn-group">
-          <button type="button" class="btn btn-light" [disabled]="j === 0 || !isEditable" ngbTooltip="Move column left"
-                  (click)="moveChoice(j, j - 1)"><i class="fas fa-arrow-left"></i></button>
+          <button type="button" class="btn btn-light" [disabled]="j === 0 || !isEditable"
+                  ngbTooltip="Move column left" (click)="moveChoice(j, j - 1)">
+            <i class="fas fa-arrow-left"></i>
+          </button>
           <button id="btn-delete-choice" type="button" class="btn btn-light" (click)="deleteChoice(j)"
                   (mouseover)="columnToHighlight = j" (mouseleave)="columnToHighlight = -1"
-                  [disabled]="model.rubricChoices.length === 1 || !isEditable"
-          ><i class="fas fa-times"></i></button>
+                  [disabled]="model.rubricChoices.length === 1 || !isEditable">
+            <i class="fas fa-times"></i>
+          </button>
           <button type="button" class="btn btn-light" [disabled]="j === this.model.rubricChoices.length - 1 || !isEditable"
-                  ngbTooltip="Move column right"
-                  (click)="moveChoice(j, j + 1)"><i class="fas fa-arrow-right"></i></button>
+                  ngbTooltip="Move column right" (click)="moveChoice(j, j + 1)">
+            <i class="fas fa-arrow-right"></i>
+          </button>
         </div>
       </td>
     </tr>
