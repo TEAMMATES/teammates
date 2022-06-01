@@ -260,7 +260,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     public List<String> validateQuestionDetails() {
         List<String> errors = new ArrayList<>();
 
-        if (this.isZeroSum && this.isNotSureAllowed) {
+        if (isZeroSum && isNotSureAllowed) {
             errors.add(CONTRIB_ERROR_INVALID_OPTION);
         }
 
