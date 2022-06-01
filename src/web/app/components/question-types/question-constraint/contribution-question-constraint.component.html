@@ -2,12 +2,12 @@
   <div class="col-12">
     <p *ngIf="isInsufficientSharesDistributed" class="text-danger">
       <span class="fa fa-times"></span>
-      Actual total is {{ totalAnsweredShares }}! Distribute the remaining {{ totalRequiredShares - totalAnsweredShares }} shares.
+      Shares are under distributed! Distribute the remaining shares.
     </p>
 
     <p *ngIf="isSharesOverAllocated" class="text-danger">
       <span class="fa fa-times"></span>
-      Actual total is {{ totalAnsweredShares }}! Remove the extra  {{ totalAnsweredShares - totalRequiredShares }} shares allocated.
+      Shares are over distributed! Remove the extra shares allocated.
     </p>
 
     <p *ngIf="isAllSharesDistributed && !isAllFormsAnswered" class="text-danger">
