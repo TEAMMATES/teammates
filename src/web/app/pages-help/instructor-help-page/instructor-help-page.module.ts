@@ -19,6 +19,7 @@ import {
   QuestionSubmissionFormModule,
 } from '../../components/question-submission-form/question-submission-form.module';
 import { QuestionTextWithInfoModule } from '../../components/question-text-with-info/question-text-with-info.module';
+import { RichTextEditorModule } from '../../components/rich-text-editor/rich-text-editor.module';
 import {
   SessionEditFormModule,
 } from '../../components/session-edit-form/session-edit-form.module';
@@ -43,6 +44,9 @@ import { ExampleBoxModule } from './example-box/example-box.module';
 import {
   InstructorHelpCoursesSectionComponent,
 } from './instructor-help-courses-section/instructor-help-courses-section.component';
+import {
+  InstructorHelpGeneralSectionComponent,
+} from './instructor-help-general-section/instructor-help-general-section.component';
 import { InstructorHelpPageComponent } from './instructor-help-page.component';
 import { InstructorHelpPanelComponent } from './instructor-help-panel/instructor-help-panel.component';
 import {
@@ -94,6 +98,7 @@ const routes: Routes = [
     PreviewSessionPanelModule,
     ViewResultsPanelModule,
     QuestionResponsePanelModule,
+    RichTextEditorModule,
   ],
   declarations: [
     InstructorHelpPageComponent,
@@ -102,6 +107,7 @@ const routes: Routes = [
     InstructorHelpSessionsSectionComponent,
     InstructorHelpQuestionsSectionComponent,
     InstructorHelpCoursesSectionComponent,
+    InstructorHelpGeneralSectionComponent,
   ],
   exports: [
     InstructorHelpPageComponent,
