@@ -23,6 +23,11 @@ export enum Sections {
   questions = 'questions',
 
   /**
+   * General section.
+   */
+  general = 'general',
+
+  /**
    * Reference to the top.
    */
   body = 'body',
