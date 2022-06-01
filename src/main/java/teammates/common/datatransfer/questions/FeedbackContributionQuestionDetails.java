@@ -290,6 +290,18 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 errors.add(CONTRIB_ERROR_INVALID_OPTION);
             }
         }
+
+        if (isZeroSum) {
+            int actualTotal = responses
+                    .stream()
+                    .map(response -> ((FeedbackContributionResponseDetails) response).getAnswer())
+                    .reduce(0, Integer::sum);
+            int expectedTotal = numRecipients * 100;
+            if (actualTotal != expectedTotal) {
+                errors.add(CONTRIB_ERROR_INVALID_OPTION);
+            }
+        }
+
         return errors;
     }
 
