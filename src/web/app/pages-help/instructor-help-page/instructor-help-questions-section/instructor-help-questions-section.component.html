@@ -489,6 +489,60 @@
               [instructorCommentTableModel]="exampleInstructorCommentTableModel">
       </tm-instructor-session-result-question-view>
     </tm-example-box>
+    <h5><strong>Question settings:</strong></h5>
+    <div>
+      <strong>Zero-sum i.e., ratings must add up to <code>(Team Size) x (Equal Share)</code>:</strong>
+      <p>
+        Suppose Ann, whose team members are Betty and Charlie, is submitting responses for a team contribution question.
+        If this setting is not enabled, Ann can submit either of the two sets of ratings below, to indicate that Betty did more than the others two.
+        In (a), she is exaggerating the total amount of work but still indicating Betty did more than others (without using negative values for anyone).
+      </p>
+      <table class="table table-bordered table-striped margin-bottom-20px">
+        <thead>
+          <tr>
+            <th>-</th>
+            <th>Ann</th>
+            <th>Betty</th>
+            <th>Charlie</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>(a)</td>
+            <td><code class="color-neutral">Equal share</code></td>
+            <td><code class="color-positive">Equal share + 30%</code></td>
+            <td><code class="color-neutral">Equal share</code></td>
+            <td><code>3 x Equal share + 30%</code></td>
+          </tr>
+          <tr>
+            <td>(b)</td>
+              <td><code class="color-negative">Equal share - 10%</code></td>
+            <td><code class="color-positive">Equal share + 20%</code></td>
+            <td><code class="color-negative">Equal share - 10%</code></td>
+            <td><code>3 x Equal share</code></td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+        As hinted earlier, although (a) and (b) are using two different scales, TEAMMATES will internally 'normalize' ratings from different team members to use the same scale.
+        Furthermore, when TEAMMATES shows the team perception to Ann (i.e., when the session results are published), it will scale up/down the team perception to match the scale Ann used in her own submission so that Ann can compare her perception of the work distribution directly with the team perception.
+      </p>
+      <p>
+        Therefore, unselecting this option gives students the flexibility to use their own scale.
+        However, one downside is that the team perception numbers each student sees can be different from what their team members see.
+      </p>
+      <p>
+        If this setting is selected, Ann will not be allowed to submit (a) as it does not add up to <code>3 x Equal Share</code>.
+        She will be forced to use a mathematically correct scale to indicate the work distribution (such as (b)) but the team perception numbers seen by all team members will be the same (as all were forced to use the same scale).
+      </p>
+      <p>
+        CAUTION: Keep this option selected if you plan to announce marks/grades connected to team perception numbers (e.g., "I will deduct marks if the team perception of your contribution is lower than <code>Equal share - 5%</code>"), as you want all team members to see the same team perception numbers in such cases.
+      </p>
+    </div>
+    <div>
+      <strong>Allow response giver to select 'Not Sure' as the answer</strong>: Enabling this option gives even more flexibility to the response giver, but it is not available if the zero-sum option is selected.
+    </div>
   </tm-instructor-help-panel>
   <!-- Question -->
   <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(QuestionsSectionQuestions.RUBRIC)"
