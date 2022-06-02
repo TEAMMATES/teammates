@@ -272,7 +272,7 @@
     </tm-example-box>
     <p>
       Contribution questions in TEAMMATES are unique because they are targeted at measuring team contributions. <br>
-      Thus, TEAMMATES purposefully prevents students from influencing their own ‘perceived contribution’ value.
+      Thus, TEAMMATES purposefully prevents students from influencing their own 'perceived contribution' value.
     </p>
     <p>
       Perceived contribution is calculated based on what a student's other team members perceive as his/her contribution.
@@ -397,14 +397,14 @@
                     <strong>Denormalize <code>normalizedAveragePerceived</code></strong>
                     <div>
                       For each student, denormalize <code>normalizedAveragePerceived</code>. We scale back to match the total of original
-                      input by student. That way, student can compare his input (i.e., his opinion of the team’s work distribution)
-                      with the team’s opinion. In the example used above, we should use 330/300 as the denormalizing factor for that student.
+                      input by student. That way, student can compare his input (i.e., his opinion of the team's work distribution)
+                      with the team's opinion. In the example used above, we should use 330/300 as the denormalizing factor for that student.
                       The result could be something like this:
                       <br>
                       <br>
                       <div class="bs-example">
-                        student’s opinion: <code>90</code> [self], <code>110</code>, <code>130</code>, <code>N/A</code> (total = <code>330</code>)
-                        <br>team’s opinion : <code>95</code>, <code>105</code>, <code>125</code>, <code>115</code> (total = <code>440</code>)
+                        student's opinion: <code>90</code> [self], <code>110</code>, <code>130</code>, <code>N/A</code> (total = <code>330</code>)
+                        <br>team's opinion : <code>95</code>, <code>105</code>, <code>125</code>, <code>115</code> (total = <code>440</code>)
                       </div>
                       Value transformation steps: input (i.e. claimed) → <code>normalizedClaimed</code> →
                       <code>peerContributionRatio</code> → <code>averagePerceived</code> →
@@ -453,7 +453,7 @@
     </p>
     <ul>
       <li>
-        <b>E (Equal share)</b>: a relative measure of work done. e.g. For a 3-person team, an ‘Equal share’ means ‘a third of the total work done’.
+        <b>E (Equal share)</b>: a relative measure of work done. e.g. For a 3-person team, an 'Equal share' means 'a third of the total work done'.
       </li>
       <li>
         <b >CC (Claimed Contribution)</b>: This is what the student claimed he contributed.
@@ -462,8 +462,8 @@
         <b>Ratings Received </b>: These are the peer opinions as to how much the student contributed. These values have been adjusted to neutralize any attempts by students to boost their own standing by rating others low.
       </li>
       <li>
-        <b>PC (Perceived Contribution)</b>: This is the average value of the ‘Ratings Received’. This can be considered as the
-        <i>team’s perception of how much the student contributed</i>.
+        <b>PC (Perceived Contribution)</b>: This is the average value of the 'Ratings Received'. This can be considered as the
+        <i>team's perception of how much the student contributed</i>.
       </li>
       <li>
         <b>Diff</b>: The difference between the claimed contribution (CC) and the perceived contribution (PC). This value can be used to identify those who have over/under-estimated their own contribution.
@@ -471,13 +471,13 @@
     </ul>
     <p>
       The ratings in a contribution question can be used to identify relative contribution levels of students in a team.
-      If you use these values for grading, also refer the ‘Interpret contribution numbers with care’ caveat in the
+      If you use these values for grading, also refer the 'Interpret contribution numbers with care' caveat in the
       <button class="btn btn-link" (click)="collapsePeerEvalTips.emit()">tips for conducting 'team peer evaluation' sessions</button> section.
     </p>
     <p>
-      The actual contribution values entered by the student may appear different from the values shown in the results because the system ‘normalizes’ those values so that there is no artificial inflation of contribution.
-      For example, if a student says everyone contributed ‘Equal share + 10%’, the system automatically normalizes it to ‘Equal share’ because in reality that is what the student means.
-      ‘Normalize’ here means scale up/down the values so that the <code>(sum of contributions) = ( n x Equal Share)</code> where <code>n</code> is the number of students being reviewed.
+      The actual contribution values entered by the student may appear different from the values shown in the results because the system 'normalizes' those values so that there is no artificial inflation of contribution.
+      For example, if a student says everyone contributed 'Equal share + 10%', the system automatically normalizes it to 'Equal share' because in reality that is what the student means.
+      'Normalize' here means scale up/down the values so that the <code>(sum of contributions) = ( n x Equal Share)</code> where <code>n</code> is the number of students being reviewed.
     </p>
     <tm-example-box *ngIf="questionsToCollapsed[QuestionsSectionQuestions.CONTRIBUTION]" @collapseAnim>
       <tm-instructor-session-result-question-view
