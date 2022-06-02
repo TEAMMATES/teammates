@@ -1,13 +1,26 @@
 <div class="row" *ngIf="questionDetails.isZeroSum && !isAllFormsNotAnswered">
   <div class="col-12">
-    <p *ngIf="isInsufficientSharesDistributed" class="text-danger">
+    <p *ngIf="isInsufficientSharesDistributed || isSharesOverAllocated" class="text-danger">
       <span class="fa fa-times"></span>
-      Shares are under distributed! Distribute the remaining shares.
-    </p>
-
-    <p *ngIf="isSharesOverAllocated" class="text-danger">
-      <span class="fa fa-times"></span>
-      Shares are over distributed! Remove the extra shares allocated.
+      Current total
+      <code>
+        {{
+          totalAnsweredShares === 0
+              ? '0%'
+              : totalAnsweredShares / 100 < 1
+                  ? ('1 x Equal Share - ' + (100 - totalAnsweredShares % 100).toString() + '%')
+                  : totalAnsweredShares % 100 === 0
+                      ? (toFloor(totalAnsweredShares / 100).toString() + ' x Equal Share')
+                      : (toFloor(totalAnsweredShares / 100).toString() + ' x Equal Share + ' + (totalAnsweredShares % 100).toString() + '%')
+        }}
+      </code>
+      does not match the expected total <code>{{ totalRequiredShares / 100 }} x Equal Share</code>!
+      <span *ngIf="isInsufficientSharesDistributed">
+        Please distribute the remaining shares.
+      </span>
+      <span *ngIf="isSharesOverAllocated">
+        Please remove the extra shares allocated.
+      </span>
     </p>
 
     <p *ngIf="isAllSharesDistributed && !isAllFormsAnswered" class="text-danger">
