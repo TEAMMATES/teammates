@@ -1195,6 +1195,10 @@ public class InstructorFeedbackEditPage extends AppPage {
         return getQuestionForm(questionNum).findElement(By.id("other-checkbox"));
     }
 
+    private WebElement getQuestionDropdownCheckbox(int questionNum) {
+        return getQuestionForm(questionNum).findElement(By.id("make-question-dropdown"));
+    }
+
     private String getGeneratedOptionString(FeedbackParticipantType type) {
         switch (type) {
         case STUDENTS:
@@ -1286,6 +1290,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         inputOptions(questionNum, questionDetails.getMcqChoices());
         inputOptionWeights(questionNum, questionDetails.isHasAssignedWeights(), questionDetails.getMcqWeights());
         inputOtherChoice(questionNum, questionDetails.isOtherEnabled(), questionDetails.getMcqOtherWeight());
+        inputDropdownEnabledChoice(questionNum, questionDetails.isQuestionDropdownEnabled());
     }
 
     private boolean inputGenerateOptions(int questionNum, FeedbackParticipantType participantType) {
@@ -1341,6 +1346,14 @@ public class InstructorFeedbackEditPage extends AppPage {
             }
         } else {
             markOptionAsUnselected(getOtherOptionCheckbox(questionNum));
+        }
+    }
+
+    private void inputDropdownEnabledChoice(int questionNum, boolean hasOther) {
+        if (hasOther) {
+            markOptionAsSelected(getQuestionDropdownCheckbox(questionNum));
+        } else {
+            markOptionAsUnselected(getQuestionDropdownCheckbox(questionNum));
         }
     }
 
