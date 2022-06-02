@@ -137,20 +137,25 @@ describe('UserJoinPageComponent', () => {
 
   it('should show error message if 5xx is returned when joining course', () => {
     const errorMessage = '502 ERROR';
+    const requestId = 'requestId';
     jest.spyOn(courseService, 'joinCourse').mockReturnValue(throwError({
       error: {
         message: errorMessage,
+        requestId,
       },
       status: 502,
     }));
 
+    const mockModalRef = createMockNgbModalRef();
     const modalSpy = jest
         .spyOn(ngbModal, 'open')
-        .mockReturnValue(createMockNgbModalRef());
+        .mockReturnValue(mockModalRef);
 
     component.joinCourse();
 
     expect(modalSpy).toHaveBeenCalledTimes(1);
+    expect(mockModalRef.componentInstance.requestId).toEqual(requestId);
+    expect(mockModalRef.componentInstance.errorMessage).toEqual(errorMessage);
   });
 
   it('should join course when join course button is clicked on', () => {
