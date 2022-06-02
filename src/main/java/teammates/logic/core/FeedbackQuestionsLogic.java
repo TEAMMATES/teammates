@@ -333,10 +333,12 @@ public final class FeedbackQuestionsLogic {
                     // instructor can only see students in allowed sections for him/her
                     continue;
                 }
-                // Ensure student does not evaluate himself
-                if (!giverEmail.equals(student.getEmail())) {
-                    recipients.put(student.getEmail(), student.getName());
+                // Ensure student does not evaluate him/herself if it's STUDENTS_EXCLUDING_SELF or
+                // STUDENTS_IN_SAME_SECTION
+                if (giverEmail.equals(student.getEmail()) && generateOptionsFor != FeedbackParticipantType.STUDENTS) {
+                    continue;
                 }
+                recipients.put(student.getEmail(), student.getName());
             }
             break;
         case INSTRUCTORS:
@@ -381,11 +383,13 @@ public final class FeedbackQuestionsLogic {
                     // instructor can only see teams in allowed sections for him/her
                     continue;
                 }
-                // Ensure student('s team) does not evaluate own team.
-                if (!giverTeam.equals(team.getKey())) {
-                    // recipientEmail doubles as team name in this case.
-                    recipients.put(team.getKey(), team.getKey());
+                // Ensure student('s team) does not evaluate own team if it's TEAMS_EXCLUDING_SELF or
+                // TEAMS_IN_SAME_SECTION
+                if (giverTeam.equals(team.getKey()) && generateOptionsFor != FeedbackParticipantType.TEAMS) {
+                    continue;
                 }
+                // recipientEmail doubles as team name in this case.
+                recipients.put(team.getKey(), team.getKey());
             }
             break;
         case OWN_TEAM:

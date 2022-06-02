@@ -2,14 +2,18 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { of, throwError } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
 import { AccountService } from '../services/account.service';
 import { AuthService } from '../services/auth.service';
 import { CourseService } from '../services/course.service';
 import { NavigationService } from '../services/navigation.service';
+import { SimpleModalService } from '../services/simple-modal.service';
 import { TimezoneService } from '../services/timezone.service';
+import { createMockNgbModalRef } from '../test-helpers/mock-ngb-modal-ref';
 import { LoadingSpinnerModule } from './components/loading-spinner/loading-spinner.module';
+import { SimpleModalType } from './components/simple-modal/simple-modal-type';
 import { UserJoinPageComponent } from './user-join-page.component';
 
 describe('UserJoinPageComponent', () => {
@@ -18,6 +22,8 @@ describe('UserJoinPageComponent', () => {
   let navService: NavigationService;
   let courseService: CourseService;
   let authService: AuthService;
+  let simpleModalService: SimpleModalService;
+  let ngbModal: NgbModal;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -31,6 +37,7 @@ describe('UserJoinPageComponent', () => {
         NavigationService,
         CourseService,
         AuthService,
+        SimpleModalService,
         AccountService,
         {
           provide: ActivatedRoute,
@@ -49,9 +56,11 @@ describe('UserJoinPageComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UserJoinPageComponent);
     component = fixture.componentInstance;
+    ngbModal = TestBed.inject(NgbModal);
     navService = TestBed.inject(NavigationService);
     courseService = TestBed.inject(CourseService);
     authService = TestBed.inject(AuthService);
+    simpleModalService = TestBed.inject(SimpleModalService);
     fixture.detectChanges();
   });
 
@@ -104,6 +113,49 @@ describe('UserJoinPageComponent', () => {
     fixture.detectChanges();
 
     expect(fixture).toMatchSnapshot();
+  });
+
+  it('should show error message if 4xx is returned when joining course', () => {
+    const errorMessage = '404 ERROR';
+    jest.spyOn(courseService, 'joinCourse').mockReturnValue(throwError({
+      error: {
+        message: errorMessage,
+      },
+      status: 404,
+    }));
+
+    const modalSpy = jest
+        .spyOn(simpleModalService, 'openInformationModal')
+        .mockReturnValue(createMockNgbModalRef());
+
+    component.joinCourse();
+
+    expect(modalSpy).toHaveBeenCalledTimes(1);
+    expect(modalSpy).toHaveBeenCalledWith('ERROR',
+        SimpleModalType.DANGER, errorMessage);
+  });
+
+  it('should show error message if 5xx is returned when joining course', () => {
+    const errorMessage = '502 ERROR';
+    const requestId = 'requestId';
+    jest.spyOn(courseService, 'joinCourse').mockReturnValue(throwError({
+      error: {
+        message: errorMessage,
+        requestId,
+      },
+      status: 502,
+    }));
+
+    const mockModalRef = createMockNgbModalRef();
+    const modalSpy = jest
+        .spyOn(ngbModal, 'open')
+        .mockReturnValue(mockModalRef);
+
+    component.joinCourse();
+
+    expect(modalSpy).toHaveBeenCalledTimes(1);
+    expect(mockModalRef.componentInstance.requestId).toEqual(requestId);
+    expect(mockModalRef.componentInstance.errorMessage).toEqual(errorMessage);
   });
 
   it('should join course when join course button is clicked on', () => {

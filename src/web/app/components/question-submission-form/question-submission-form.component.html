@@ -175,8 +175,8 @@
 
     <div class="alert alert-warning" role="alert" *ngIf="!model.recipientList.length && model.isLoaded">
       <span *ngIf="model.recipientType === FeedbackParticipantType.OWN_TEAM_MEMBERS">This question is for team members and you don't have any team members. Therefore, you will not be able to answer this question.</span>
-      <span *ngIf="model.recipientType === FeedbackParticipantType.TEAMS">This question is for other teams in this course and this course doesn't have any other team. Therefore, you will not be able to answer this question.</span>
-      <span *ngIf="model.recipientType === FeedbackParticipantType.STUDENTS">This question is for other students in this course and this course doesn't have any other student. Therefore, you will not be able to answer this question.</span>
+      <span *ngIf="model.recipientType === FeedbackParticipantType.TEAMS_EXCLUDING_SELF">This question is for other teams in this course and this course doesn't have any other team. Therefore, you will not be able to answer this question.</span>
+      <span *ngIf="model.recipientType === FeedbackParticipantType.STUDENTS_EXCLUDING_SELF">This question is for other students in this course and this course doesn't have any other student. Therefore, you will not be able to answer this question.</span>
     </div>
 
     <div class="row" *ngIf="model.recipientList.length > 0">

@@ -231,4 +231,28 @@ export class RubricQuestionEditDetailsFormComponent
           isEnabled ? this.model.rubricDescriptions.map((arr: string[]) => arr.map(() => 0)) : [],
     });
   }
+
+  /**
+   * Moves a row.
+   */
+  moveRow(from: number, to: number): void {
+    const newSubQuestions: string[] = this.model.rubricSubQuestions.slice();
+    moveItemInArray(newSubQuestions, from, to);
+
+    const newDescriptions: string[][] = this.model.rubricDescriptions.slice();
+    moveItemInArray(newDescriptions, from, to);
+
+    // update weights
+    let newWeights: number[][] = [];
+    if (this.model.hasAssignedWeights) {
+      newWeights = this.model.rubricWeightsForEachCell.slice();
+      moveItemInArray(newWeights, from, to);
+    }
+
+    this.triggerModelChangeBatch({
+      rubricSubQuestions: newSubQuestions,
+      rubricDescriptions: newDescriptions,
+      rubricWeightsForEachCell: newWeights,
+    });
+  }
 }

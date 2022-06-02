@@ -304,6 +304,7 @@ public final class FeedbackResponsesLogic {
         }
         boolean isStudentRecipientType =
                    question.getRecipientType().equals(FeedbackParticipantType.STUDENTS)
+                || question.getRecipientType().equals(FeedbackParticipantType.STUDENTS_EXCLUDING_SELF)
                 || question.getRecipientType().equals(FeedbackParticipantType.STUDENTS_IN_SAME_SECTION)
                 || question.getRecipientType().equals(FeedbackParticipantType.OWN_TEAM_MEMBERS)
                 || question.getRecipientType().equals(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF)

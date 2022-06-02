@@ -7,9 +7,11 @@ import { AccountService } from '../services/account.service';
 import { AuthService } from '../services/auth.service';
 import { CourseService } from '../services/course.service';
 import { NavigationService } from '../services/navigation.service';
+import { SimpleModalService } from '../services/simple-modal.service';
 import { TimezoneService } from '../services/timezone.service';
 import { AuthInfo, JoinStatus } from '../types/api-output';
 import { ErrorReportComponent } from './components/error-report/error-report.component';
+import { SimpleModalType } from './components/simple-modal/simple-modal-type';
 import { ErrorMessageOutput } from './error-message-output';
 
 /**
@@ -38,6 +40,7 @@ export class UserJoinPageComponent implements OnInit {
               private courseService: CourseService,
               private navigationService: NavigationService,
               private authService: AuthService,
+              private simpleModalService: SimpleModalService,
               private timezoneService: TimezoneService,
               private ngbModal: NgbModal) {}
 
@@ -97,9 +100,16 @@ export class UserJoinPageComponent implements OnInit {
     this.courseService.joinCourse(this.key, this.entityType).subscribe(() => {
       this.navigationService.navigateByURL(this.router, `/web/${this.entityType}`);
     }, (resp: ErrorMessageOutput) => {
-      const modalRef: any = this.ngbModal.open(ErrorReportComponent);
-      modalRef.componentInstance.requestId = resp.error.requestId;
-      modalRef.componentInstance.errorMessage = resp.error.message;
+      const errorMessage = resp.error.message;
+
+      if (resp.status >= 500) {
+        const modalRef: any = this.ngbModal.open(ErrorReportComponent);
+        modalRef.componentInstance.requestId = resp.error.requestId;
+        modalRef.componentInstance.errorMessage = errorMessage;
+      } else {
+        this.simpleModalService.openInformationModal('ERROR',
+            SimpleModalType.DANGER, errorMessage);
+      }
     });
   }
 
