@@ -662,6 +662,7 @@ public abstract class AppPage {
         case STUDENTS_IN_SAME_SECTION:
             return "Other students in the same section";
         case STUDENTS:
+            return "Students in the course";
         case STUDENTS_EXCLUDING_SELF:
             return "Other students in the course";
         case INSTRUCTORS:
@@ -669,6 +670,7 @@ public abstract class AppPage {
         case TEAMS_IN_SAME_SECTION:
             return "Other teams in the same section";
         case TEAMS:
+            return "Teams in the course";
         case TEAMS_EXCLUDING_SELF:
             return "Other teams in the course";
         case OWN_TEAM:

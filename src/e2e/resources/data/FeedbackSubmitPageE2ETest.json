@@ -221,7 +221,7 @@
       "questionDescription": "<p>Question description for qn1</p>",
       "questionNumber": 1,
       "giverType": "STUDENTS",
-      "recipientType": "STUDENTS",
+      "recipientType": "STUDENTS_EXCLUDING_SELF",
       "numberOfEntitiesToGiveFeedbackTo": 3,
       "showResponsesTo": [
         "INSTRUCTORS",
@@ -298,7 +298,7 @@
       },
       "questionNumber": 4,
       "giverType": "TEAMS",
-      "recipientType": "TEAMS",
+      "recipientType": "TEAMS_EXCLUDING_SELF",
       "numberOfEntitiesToGiveFeedbackTo": 3,
       "showResponsesTo": [
         "RECEIVER"
@@ -345,7 +345,7 @@
       },
       "questionNumber": 1,
       "giverType": "STUDENTS",
-      "recipientType": "TEAMS",
+      "recipientType": "TEAMS_EXCLUDING_SELF",
       "numberOfEntitiesToGiveFeedbackTo": 3,
       "showResponsesTo": [
         "INSTRUCTORS",
@@ -371,7 +371,7 @@
       },
       "questionNumber": 2,
       "giverType": "STUDENTS",
-      "recipientType": "TEAMS",
+      "recipientType": "TEAMS_EXCLUDING_SELF",
       "numberOfEntitiesToGiveFeedbackTo": 3,
       "showResponsesTo": [
         "RECEIVER"
