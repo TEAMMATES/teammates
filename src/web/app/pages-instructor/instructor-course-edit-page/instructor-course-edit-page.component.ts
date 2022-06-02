@@ -3,7 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import { finalize} from 'rxjs/operators';
 import { AuthService } from '../../../services/auth.service';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
@@ -15,7 +15,7 @@ import { StudentService } from '../../../services/student.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import {
   AuthInfo,
-  Course,
+  Course, Courses,
   FeedbackSession,
   FeedbackSessions,
   Instructor,
@@ -38,6 +38,7 @@ import {
   DEFAULT_PRIVILEGE_TUTOR,
 } from '../../../types/default-instructor-privilege';
 import { FormValidator } from '../../../types/form-validator';
+import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
@@ -45,6 +46,12 @@ import {
   CoursesSectionQuestions,
 } from '../../pages-help/instructor-help-page/instructor-help-courses-section/courses-section-questions';
 import { Sections } from '../../pages-help/instructor-help-page/sections';
+import {
+  CourseTabModel
+} from './copy-instructors-from-other-courses-modal/copy-instructors-from-other-courses-modal-model';
+import {
+  CopyInstructorsFromOtherCoursesModalComponent
+} from './copy-instructors-from-other-courses-modal/copy-instructors-from-other-courses-modal.component';
 import {
   InstructorOverallPermission,
   InstructorSectionLevelPermission,
@@ -124,6 +131,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
   instructorDetailPanels: InstructorEditPanelDetail[] = [];
 
   isAddingNewInstructor: boolean = false;
+  isCopyingInstructor: boolean = false;
   newInstructorPanel: InstructorEditPanel = {
     googleId: '',
     courseId: '',
@@ -681,6 +689,69 @@ export class InstructorCourseEditPageComponent implements OnInit {
           (sectionLevel: InstructorSectionLevelPermission) => sectionLevel.sectionNames.length !== 0);
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorToast(resp.error.message);
+    });
+  }
+
+  /**
+   * Copies instructors from existing courses.
+   */
+  copyInstructors(): void {
+    this.isCopyingInstructor = true;
+    console.log('copying............................');
+    const courseTabModels: CourseTabModel[] = [];
+
+    forkJoin([
+      this.courseService.getAllCoursesAsInstructor('active'),
+      this.courseService.getAllCoursesAsInstructor('archived'),
+    ]).pipe(
+      finalize(() => {
+        this.isCopyingInstructor = false;
+      }),
+    ).subscribe((values: any[]) => {
+      const activeCourses: Courses = values[0] as Courses;
+      const archivedCourses: Courses = values[1] as Courses;
+
+      activeCourses.courses.forEach((course: Course) => {
+        const model: CourseTabModel = {
+          courseId: course.courseId,
+          courseName: course.courseName,
+          creationTimestamp: course.creationTimestamp,
+          isArchived: false,
+          instructorCandidates: [],
+          instructorCandidatesSortBy: SortBy.NONE,
+          instructorCandidatesSortOrder: SortOrder.ASC,
+          hasInstructorsLoaded: false,
+          isTabExpanded: false,
+          hasLoadingFailed: false,
+        };
+        courseTabModels.push(model);
+      });
+      archivedCourses.courses.forEach((course: Course) => {
+        const model: CourseTabModel = {
+          courseId: course.courseId,
+          courseName: course.courseName,
+          creationTimestamp: course.creationTimestamp,
+          isArchived: true,
+          instructorCandidates: [],
+          instructorCandidatesSortBy: SortBy.NONE,
+          instructorCandidatesSortOrder: SortOrder.ASC,
+          hasInstructorsLoaded: false,
+          isTabExpanded: false,
+          hasLoadingFailed: false,
+        };
+        courseTabModels.push(model);
+      });
+    }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); }, () => {
+      const modalRef: NgbModalRef = this.ngbModal.open(CopyInstructorsFromOtherCoursesModalComponent);
+      modalRef.componentInstance.courses = courseTabModels;
+
+      modalRef.result.then((result) => {
+          console.log(result);
+          this.isCopyingInstructor = false;
+        }, () => {
+          this.isCopyingInstructor = false;
+        }
+      );
     });
   }
 }

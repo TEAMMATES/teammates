@@ -1,0 +1,100 @@
+<div class="modal-header">
+  <h4 class="modal-title">Copy Instructors</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div id="copy-question-modal" class="modal-body">
+  <div class="col-12 mb-3 text-md-right">
+    <strong class="d-inline"> Sort Courses By: </strong>
+    <div class="btn-group" data-toggle="buttons">
+      <button id="sort-course-id" class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.COURSE_ID)" (click)="sortCourses(SortBy.COURSE_ID)">Course ID</button>
+      <button id="sort-course-name" class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.COURSE_NAME)" (click)="sortCourses(SortBy.COURSE_NAME)">Course Name</button>
+      <button id="sort-course-creation-date" class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.COURSE_CREATION_DATE)" (click)="sortCourses(SortBy.COURSE_CREATION_DATE)">Creation Date</button>
+    </div>
+  </div>
+  <div class="feedback-session-tabs" *ngFor="let course of courses">
+    <div class="card">
+      <div class="card-header cursor-pointer text-white" [ngClass]="{'bg-primary': !course.isArchived, 'bg-info': course.isArchived}" (click)="toggleCard(course)">
+        <strong class="text-break" *ngIf="!course.isArchived">[{{course.courseId}}]: {{course.courseName}}</strong>
+        <strong class="text-break" *ngIf="course.isArchived">[{{course.courseId}}] (Archived): {{course.courseName}}</strong>
+        <div class="card-header-btn-toolbar">
+          <tm-panel-chevron [isExpanded]="course.isTabExpanded"></tm-panel-chevron>
+        </div>
+      </div>
+
+      <div *ngIf="course.isTabExpanded">
+        <tm-loading-retry [shouldShowRetry]="course.hasLoadingFailed" [message]="'Failed to load instructors'" (retryEvent)="loadInstructors(course)">
+          <div *tmIsLoading="!course.hasInstructorsLoaded">
+            <div *ngIf="!course.hasLoadingFailed" class="card-body">
+              <ng-container *ngIf="course.hasInstructorsLoaded && course.instructorCandidates.length > 0, else noInstructorsTemplate">
+                <table id="copy-instructor-table" class="table table-bordered table-responsive-lg">
+                  <thead class="text-white" [ngClass]="{'bg-primary': !course.isArchived, 'bg-info': course.isArchived}">
+                    <tr>
+                      <th>#</th>
+                      <th class="sortable-header" (click)="sortInstructorsToCopyForCourse(course, SortBy.RESPONDENT_NAME)">
+                        Instructor Name
+                        <span class="fa-stack">
+                          <i class="fas fa-sort"></i>
+                          <i *ngIf="isSortInstructorsBy(course, SortBy.RESPONDENT_NAME, SortOrder.DESC)" class="fas fa-sort-down"></i>
+                          <i *ngIf="isSortInstructorsBy(course, SortBy.RESPONDENT_NAME, SortOrder.ASC)" class="fas fa-sort-up"></i>
+                        </span>
+                      </th>
+                      <th class="sortable-header" (click)="sortInstructorsToCopyForCourse(course, SortBy.RESPONDENT_EMAIL)">
+                        Instructor Email
+                        <span class="fa-stack">
+                          <i class="fas fa-sort"></i>
+                          <i *ngIf="isSortInstructorsBy(course, SortBy.RESPONDENT_EMAIL, SortOrder.DESC)" class="fas fa-sort-down"></i>
+                          <i *ngIf="isSortInstructorsBy(course, SortBy.RESPONDENT_EMAIL, SortOrder.ASC)" class="fas fa-sort-up"></i>
+                        </span>
+                      </th>
+                      <th class="sortable-header" (click)="sortInstructorsToCopyForCourse(course, SortBy.INSTRUCTOR_DISPLAYED_TEXT)">
+                        Displayed to Student As
+                        <span class="fa-stack">
+                          <i class="fas fa-sort"></i>
+                          <i *ngIf="isSortInstructorsBy(course, SortBy.INSTRUCTOR_DISPLAYED_TEXT, SortOrder.DESC)" class="fas fa-sort-down"></i>
+                          <i *ngIf="isSortInstructorsBy(course, SortBy.INSTRUCTOR_DISPLAYED_TEXT, SortOrder.ASC)" class="fas fa-sort-up"></i>
+                        </span>
+                      </th>
+                      <th class="sortable-header" (click)="sortInstructorsToCopyForCourse(course, SortBy.INSTRUCTOR_PERMISSION_ROLE)">
+                        Access Level
+                        <span class="fa-stack">
+                          <i class="fas fa-sort"></i>
+                          <i *ngIf="isSortInstructorsBy(course, SortBy.INSTRUCTOR_PERMISSION_ROLE, SortOrder.DESC)" class="fas fa-sort-down"></i>
+                          <i *ngIf="isSortInstructorsBy(course, SortBy.INSTRUCTOR_PERMISSION_ROLE, SortOrder.ASC)" class="fas fa-sort-up"></i>
+                        </span>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let instructorCandidate of course.instructorCandidates">
+                      <td><input type="checkbox" class="form-control no-shadow" [(ngModel)]="instructorCandidate.isSelected"></td>
+                      <td>{{ instructorCandidate.instructor.name }}</td>
+                      <td>{{ instructorCandidate.instructor.email }}</td>
+                      <td>{{ instructorCandidate.instructor.isDisplayedToStudents ? instructorCandidate.instructor.displayedToStudentsAs : notDisplayedToStudentText }}</td>
+                      <td>{{ instructorCandidate.instructor.role  | instructorRoleName }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </ng-container>
+              <button (click)="loadInstructors(course)" class="btn float-right mt-2 mb-3" [ngClass]="{'btn-primary': !course.isArchived, 'btn-info': course.isArchived}">
+                <i class="fas fa-redo" aria-hidden="true"></i>
+                &nbsp;Reload
+              </button>
+            </div>
+          </div>
+        </tm-loading-retry>
+      </div>
+
+      <ng-template #noInstructorsTemplate>
+        <h5>There are no instructors in this course available for copying.</h5>
+      </ng-template>
+
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button id="btn-confirm-copy-instructor" type="button" class="btn btn-primary" (click)="activeModal.close(getSelectedInstructors())"
+          [disabled]="!isAnyInstructorCandidatesSelected">Copy</button>
+  <button type="button" class="btn btn-light" (click)="activeModal.dismiss()">Cancel</button>
+</div>

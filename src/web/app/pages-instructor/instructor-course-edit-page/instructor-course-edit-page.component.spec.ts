@@ -16,6 +16,9 @@ import { SimpleModalModule } from '../../components/simple-modal/simple-modal.mo
 import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
 import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';
 import {
+  CopyInstructorsFromOtherCoursesModalComponent,
+} from './copy-instructors-from-other-courses-modal/copy-instructors-from-other-courses-modal.component';
+import {
   CustomPrivilegeSettingPanelComponent,
 } from './custom-privilege-setting-panel/custom-privilege-setting-panel.component';
 import { InstructorCourseEditPageComponent } from './instructor-course-edit-page.component';
@@ -96,6 +99,7 @@ describe('InstructorCourseEditPageComponent', () => {
         InstructorEditPanelComponent,
         ViewRolePrivilegesModalComponent,
         CustomPrivilegeSettingPanelComponent,
+        CopyInstructorsFromOtherCoursesModalComponent,
       ],
       imports: [
         NgbModule,
