@@ -8,7 +8,7 @@ import { StudentService } from '../../../services/student.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import { ApiConst } from '../../../types/api-const';
 import {
-  Course,
+  Course, FeedbackSession,
   FeedbackSessionLog, FeedbackSessionLogEntry,
   FeedbackSessionLogs, FeedbackSessionLogType,
   Student,
@@ -19,6 +19,7 @@ import { DateFormat } from '../../components/datepicker/datepicker.component';
 import { ColumnData, SortableTableCellData } from '../../components/sortable-table/sortable-table.component';
 import { TimeFormat } from '../../components/timepicker/timepicker.component';
 import { ErrorMessageOutput } from '../../error-message-output';
+import { ActivatedRoute } from "@angular/router";
 
 /**
  * Model for searching of logs
@@ -28,7 +29,8 @@ interface SearchLogsFormModel {
   logsDateTo: DateFormat;
   logsTimeFrom: TimeFormat;
   logsTimeTo: TimeFormat;
-  courseId: string;
+  logType: string;
+  feedbackSessionName: string;
   studentEmail: string;
 }
 
@@ -54,6 +56,7 @@ interface FeedbackSessionLogModel {
 export class InstructorStudentActivityLogsComponent implements OnInit {
   LOGS_DATE_TIME_FORMAT: string = 'ddd, DD MMM YYYY hh:mm:ss A';
   LOGS_RETENTION_PERIOD: number = ApiConst.LOGS_RETENTION_PERIOD;
+  LOG_TYPES = ["session access", "response submission", "result view"];
 
   // enum
   SortBy: typeof SortBy = SortBy;
@@ -63,24 +66,44 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
     logsTimeFrom: { hour: 0, minute: 0 },
     logsDateTo: { year: 0, month: 0, day: 0 },
     logsTimeTo: { hour: 0, minute: 0 },
-    courseId: '',
+    logType: '',
     studentEmail: '',
+    feedbackSessionName: '',
+  };
+  course: Course = {
+    courseId: '',
+    courseName: '',
+    institute: '',
+    timeZone: '',
+    creationTimestamp: 0,
+    deletionTimestamp: 0,
   };
   dateToday: DateFormat = { year: 0, month: 0, day: 0 };
   earliestSearchDate: DateFormat = { year: 0, month: 0, day: 0 };
-  courses: Course[] = [];
-  courseToStudents: Record<string, Student[]> = {};
+  students: Student[] = [];
+  feedbackSessions: FeedbackSession[] = [];
   searchResults: FeedbackSessionLogModel[] = [];
   isLoading: boolean = true;
   isSearching: boolean = false;
 
-  constructor(private courseService: CourseService,
+  constructor(private route: ActivatedRoute,
+              private courseService: CourseService,
               private studentService: StudentService,
               private logsService: LogService,
               private timezoneService: TimezoneService,
               private statusMessageService: StatusMessageService) { }
 
   ngOnInit(): void {
+    this.route.queryParams.subscribe((queryParams: any) => {
+      this.loadControlPanel();
+      this.loadCourse(queryParams.courseid);
+    });
+  }
+
+  /**
+   * Loads the control panel based on the given course ID.
+   */
+  loadControlPanel(): void {
     const today: Date = new Date();
     this.dateToday.year = today.getFullYear();
     this.dateToday.month = today.getMonth() + 1;
@@ -102,7 +125,6 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
     this.formModel.logsDateTo = { ...this.dateToday };
     this.formModel.logsTimeFrom = { hour: 23, minute: 59 };
     this.formModel.logsTimeTo = { hour: 23, minute: 59 };
-    this.loadCourses();
   }
 
   /**
@@ -111,16 +133,14 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
   search(): void {
     this.isSearching = true;
     this.searchResults = [];
-    const selectedCourse: Course | undefined =
-      this.courses.find((course: Course) => course.courseId === this.formModel.courseId);
-    const timeZone: string = selectedCourse ? selectedCourse.timeZone : this.timezoneService.guessTimezone();
+    const timeZone: string = this.course.timeZone;
     const searchFrom: number = this.timezoneService.resolveLocalDateTime(
         this.formModel.logsDateFrom, this.formModel.logsTimeFrom, timeZone, true);
     const searchUntil: number = this.timezoneService.resolveLocalDateTime(
         this.formModel.logsDateTo, this.formModel.logsTimeTo, timeZone, true);
 
     this.logsService.searchFeedbackSessionLog({
-      courseId: this.formModel.courseId,
+      courseId: this.course.courseId,
       searchFrom: searchFrom.toString(),
       searchUntil: searchUntil.toString(),
       studentEmail: this.formModel.studentEmail,
@@ -137,22 +157,15 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
   }
 
   /**
-   * Load all courses that the instructor has
+   * Load the course based on the course id
    */
-  private loadCourses(): void {
+  private loadCourse(courseId: string): void {
     this.courseService
-        .getAllCoursesAsInstructor('active')
+        .getCourseAsInstructor(courseId)
         .pipe(finalize(() => {
           this.isLoading = false;
         }))
-        .subscribe(({ courses }: { courses: Course[] }) => courses
-            .filter((course: Course) =>
-                course.privileges?.canModifyStudent
-                && course.privileges?.canModifySession
-                && course.privileges?.canModifySession)
-            .forEach((course: Course) => {
-              this.courses.push(course);
-            }),
+        .subscribe((course: Course) => this.course = course,
             (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
   }
 
@@ -160,10 +173,9 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
    * Load all students for the selected course
    */
   loadStudents(): void {
-    const courseId: string = this.formModel.courseId;
-    if (!this.courseToStudents[courseId]) {
+    if (this.students.length === 0) {
       this.isLoading = true;
-      this.studentService.getStudentsFromCourse({ courseId })
+      this.studentService.getStudentsFromCourse({ courseId: this.course.courseId })
           .pipe(finalize(() => { this.isLoading = false; }))
           .subscribe(({ students }: { students: Student[] }) => {
             const emptyStudent: Student = {
@@ -172,7 +184,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
             students.sort((a: Student, b: Student): number => a.name.localeCompare(b.name));
 
             // Student with no name is selectable to search for all students since the field is optional
-            this.courseToStudents[courseId] = [emptyStudent, ...students];
+            this.students = [emptyStudent, ...students];
           });
     }
   }

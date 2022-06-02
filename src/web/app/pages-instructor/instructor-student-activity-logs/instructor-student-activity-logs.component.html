@@ -7,13 +7,13 @@
     <div class="row form-group">
       <div class="col-4">
         <div class="col-12">
-          <label for="course-id-dropdown" class="font-weight-bold">Course ID</label>
+          <label for="course-id-dropdown" class="font-weight-bold">Activity Type</label>
         </div>
         <div class="col-12">
-          <select id="course-id-dropdown" class="form-control col-12" [(ngModel)]="formModel.courseId" (change)="loadStudents()">
-            <option value="" disabled selected hidden>Select Course ID</option>
-            <option *ngFor="let course of courses">
-              {{course.courseId}}
+          <select id="course-id-dropdown" class="form-control col-12" [(ngModel)]="formModel.logType">
+            <option value="" disabled selected hidden>Select Activity Type</option>
+            <option *ngFor="let logType of LOG_TYPES">
+              {{logType}}
             </option>
           </select>
         </div>
@@ -42,7 +42,7 @@
         </div>
         <div class="col-12">
           <select id="student-name-dropdown" class="form-control col-12" [(ngModel)]="formModel.studentEmail">
-            <option *ngFor="let student of courseToStudents[formModel.courseId]" [value]="student.email">
+            <option *ngFor="let student of courseToStudents[courseId]" [value]="student.email">
               {{student.name}} {{student.email ? '&lt;' + student.email + '&gt;' : ''}}
             </option>
           </select>
@@ -63,8 +63,22 @@
             <tm-timepicker id="logs-to-timepicker" [(time)]="formModel.logsTimeTo"></tm-timepicker>
           </div>
           <div class="col-md-2">
-            <button id="search-button" class="float-right btn btn-primary" (click)="search()" [disabled]="!formModel.courseId || isSearching">Search</button>
+            <button id="search-button" class="float-right btn btn-primary" (click)="search()" [disabled]="!courseId || isSearching">Search</button>
           </div>
+        </div>
+      </div>
+    </div>
+    <div class="row form-group">
+      <div class="col-5">
+        <div class="col-12">
+          <label for="session-dropdown" class="font-weight-bold">Feedback Session Name</label>
+        </div>
+        <div class="col-12">
+          <select id="session-dropdown" class="form-control col-md-12" [(ngModel)]="formModel.feedbackSessionName">
+            <option *ngFor="let session of courseToFeedbackSession[courseId]" [value]="session.feedbackSessionName">
+              {{session.feedbackSessionName}}
+            </option>
+          </select>
         </div>
       </div>
     </div>
