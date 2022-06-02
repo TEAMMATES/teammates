@@ -15,9 +15,11 @@ export class RecipientTypeNamePipe implements PipeTransform {
   transform(recipientType: FeedbackParticipantType, giverType: FeedbackParticipantType): string {
     switch (recipientType) {
       case FeedbackParticipantType.TEAMS:
+      case FeedbackParticipantType.TEAMS_EXCLUDING_SELF:
       case FeedbackParticipantType.OWN_TEAM:
         return 'Team';
       case FeedbackParticipantType.STUDENTS:
+      case FeedbackParticipantType.STUDENTS_EXCLUDING_SELF:
         return 'Student';
       case FeedbackParticipantType.INSTRUCTORS:
         return 'Instructor';
