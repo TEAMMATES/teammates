@@ -25,7 +25,7 @@ public class LogsProcessor {
     private final LogService service;
 
     LogsProcessor() {
-        if (Config.isDevServer()) {
+        if (Config.IS_DEV_SERVER) {
             service = new LocalLoggingService();
         } else {
             service = new GoogleCloudLoggingService();

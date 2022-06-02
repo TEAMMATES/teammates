@@ -50,7 +50,7 @@ abstract class SearchManager<T extends EntityAttributes<?>> {
     private final boolean isResetAllowed;
 
     SearchManager(String searchServiceHost, boolean isResetAllowed) {
-        this.isResetAllowed = Config.isDevServer() && isResetAllowed;
+        this.isResetAllowed = Config.IS_DEV_SERVER && isResetAllowed;
 
         if (StringHelper.isEmpty(searchServiceHost)) {
             this.client = null;

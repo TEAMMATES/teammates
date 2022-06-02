@@ -164,7 +164,7 @@
       "questionDescription": "<p>Testing description</p>",
       "questionNumber": 1,
       "giverType": "STUDENTS",
-      "recipientType": "TEAMS",
+      "recipientType": "TEAMS_EXCLUDING_SELF",
       "numberOfEntitiesToGiveFeedbackTo": 2,
       "showResponsesTo": [
         "STUDENTS",

@@ -119,6 +119,7 @@ public class AccountsLogicTest extends BaseLogicTest {
 
         String correctStudentId = "correctStudentId";
         String courseId = "idOfTypicalCourse1";
+        String deletedCourseId = "idOfTypicalCourse3";
         String originalEmail = "original@email.com";
 
         // Create correct student with original@email.com
@@ -194,6 +195,17 @@ public class AccountsLogicTest extends BaseLogicTest {
                 () -> accountsLogic.joinCourseForStudent(finalStudent.getKey(), "wrongstudent"));
         assertEquals("Student has already joined course", eaee.getMessage());
 
+        ______TS("failure: course deleted");
+
+        studentData.setCourse(deletedCourseId);
+        studentData = studentsLogic.createStudent(studentData);
+        StudentAttributes finalDeletedCourseStudent = studentData;
+
+        ednee = assertThrows(EntityDoesNotExistException.class,
+                () -> accountsLogic.joinCourseForStudent(finalDeletedCourseStudent.getKey(),
+                        finalDeletedCourseStudent.getGoogleId()));
+        assertEquals("The course you are trying to join has been deleted by an instructor", ednee.getMessage());
+
         ______TS("success: with encryption and new account to be created");
 
         accountsLogic.deleteAccountCascade(correctStudentId);
@@ -229,7 +241,7 @@ public class AccountsLogicTest extends BaseLogicTest {
 
     @Test
     public void testJoinCourseForInstructor() throws Exception {
-
+        String deletedCourseId = "idOfTypicalCourse3";
         InstructorAttributes instructor = dataBundle.instructors.get("instructorNotYetJoinCourse");
         String loggedInGoogleId = "AccLogicT.instr.id";
         String[] key = new String[] {
@@ -339,6 +351,17 @@ public class AccountsLogicTest extends BaseLogicTest {
                 () -> accountsLogic.joinCourseForInstructor(invalidKey, loggedInGoogleId));
         assertEquals("No instructor with given registration key: " + invalidKey,
                 ednee.getMessage());
+
+        ______TS("failure: course deleted");
+
+        instructor.setCourseId(deletedCourseId);
+        instructor = instructorsLogic.createInstructor(instructor);
+        InstructorAttributes finalDeletedCourseInstructor = instructor;
+
+        ednee = assertThrows(EntityDoesNotExistException.class,
+                () -> accountsLogic.joinCourseForInstructor(finalDeletedCourseInstructor.getKey(),
+                        finalDeletedCourseInstructor.getGoogleId()));
+        assertEquals("The course you are trying to join has been deleted by an instructor", ednee.getMessage());
     }
 
     @Test

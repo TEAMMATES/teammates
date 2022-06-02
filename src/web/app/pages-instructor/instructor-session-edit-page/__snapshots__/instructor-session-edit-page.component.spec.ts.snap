@@ -3985,45 +3985,55 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                           <option
                             value="1: STUDENTS"
                           >
+                            Students in the course
+                          </option>
+                          <option
+                            value="2: STUDENTS_EXCLUDING_SELF"
+                          >
                             Other students in the course
                           </option>
                           <option
-                            value="2: STUDENTS_IN_SAME_SECTION"
+                            value="3: STUDENTS_IN_SAME_SECTION"
                           >
                             Other students in the same section
                           </option>
                           <option
-                            value="3: INSTRUCTORS"
+                            value="4: INSTRUCTORS"
                           >
                             Instructors in the course
                           </option>
                           <option
-                            value="4: TEAMS"
+                            value="5: TEAMS"
+                          >
+                            Teams in the course
+                          </option>
+                          <option
+                            value="6: TEAMS_EXCLUDING_SELF"
                           >
                             Other teams in the course
                           </option>
                           <option
-                            value="5: TEAMS_IN_SAME_SECTION"
+                            value="7: TEAMS_IN_SAME_SECTION"
                           >
                             Other teams in the same section
                           </option>
                           <option
-                            value="6: OWN_TEAM"
+                            value="8: OWN_TEAM"
                           >
                             Giver's team
                           </option>
                           <option
-                            value="7: OWN_TEAM_MEMBERS"
+                            value="9: OWN_TEAM_MEMBERS"
                           >
                             Giver's team members
                           </option>
                           <option
-                            value="8: OWN_TEAM_MEMBERS_INCLUDING_SELF"
+                            value="10: OWN_TEAM_MEMBERS_INCLUDING_SELF"
                           >
                             Giver's team members and Giver
                           </option>
                           <option
-                            value="9: NONE"
+                            value="11: NONE"
                           >
                             Nobody specific (For general class feedback)
                           </option>

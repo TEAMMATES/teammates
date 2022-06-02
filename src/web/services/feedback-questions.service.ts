@@ -61,22 +61,22 @@ export class FeedbackQuestionsService {
       case FeedbackQuestionType.RANK_RECIPIENTS:
       case FeedbackQuestionType.CONSTSUM_RECIPIENTS:
         paths.set(FeedbackParticipantType.SELF,
-          [FeedbackParticipantType.STUDENTS, FeedbackParticipantType.STUDENTS_IN_SAME_SECTION,
-            FeedbackParticipantType.INSTRUCTORS, FeedbackParticipantType.TEAMS,
+          [FeedbackParticipantType.STUDENTS_EXCLUDING_SELF, FeedbackParticipantType.STUDENTS_IN_SAME_SECTION,
+            FeedbackParticipantType.INSTRUCTORS, FeedbackParticipantType.TEAMS_EXCLUDING_SELF,
             FeedbackParticipantType.TEAMS_IN_SAME_SECTION]);
         paths.set(FeedbackParticipantType.STUDENTS,
-          [FeedbackParticipantType.STUDENTS, FeedbackParticipantType.STUDENTS_IN_SAME_SECTION,
-            FeedbackParticipantType.INSTRUCTORS, FeedbackParticipantType.TEAMS,
+          [FeedbackParticipantType.STUDENTS_EXCLUDING_SELF, FeedbackParticipantType.STUDENTS_IN_SAME_SECTION,
+            FeedbackParticipantType.INSTRUCTORS, FeedbackParticipantType.TEAMS_EXCLUDING_SELF,
             FeedbackParticipantType.TEAMS_IN_SAME_SECTION,
             FeedbackParticipantType.OWN_TEAM_MEMBERS,
             FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF]);
         paths.set(FeedbackParticipantType.INSTRUCTORS,
-          [FeedbackParticipantType.STUDENTS, FeedbackParticipantType.STUDENTS_IN_SAME_SECTION,
-            FeedbackParticipantType.INSTRUCTORS, FeedbackParticipantType.TEAMS,
+          [FeedbackParticipantType.STUDENTS_EXCLUDING_SELF, FeedbackParticipantType.STUDENTS_IN_SAME_SECTION,
+            FeedbackParticipantType.INSTRUCTORS, FeedbackParticipantType.TEAMS_EXCLUDING_SELF,
             FeedbackParticipantType.TEAMS_IN_SAME_SECTION]);
         paths.set(FeedbackParticipantType.TEAMS,
-          [FeedbackParticipantType.STUDENTS, FeedbackParticipantType.STUDENTS_IN_SAME_SECTION,
-            FeedbackParticipantType.INSTRUCTORS, FeedbackParticipantType.TEAMS,
+          [FeedbackParticipantType.STUDENTS_EXCLUDING_SELF, FeedbackParticipantType.STUDENTS_IN_SAME_SECTION,
+            FeedbackParticipantType.INSTRUCTORS, FeedbackParticipantType.TEAMS_EXCLUDING_SELF,
             FeedbackParticipantType.TEAMS_IN_SAME_SECTION,
             FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF]);
         break;
@@ -89,16 +89,16 @@ export class FeedbackQuestionsService {
       case FeedbackQuestionType.CONSTSUM_OPTIONS:
         paths.set(FeedbackParticipantType.SELF,
           [FeedbackParticipantType.SELF, FeedbackParticipantType.STUDENTS,
-            FeedbackParticipantType.STUDENTS_IN_SAME_SECTION,
+            FeedbackParticipantType.STUDENTS_EXCLUDING_SELF, FeedbackParticipantType.STUDENTS_IN_SAME_SECTION,
             FeedbackParticipantType.INSTRUCTORS, FeedbackParticipantType.TEAMS,
-            FeedbackParticipantType.TEAMS_IN_SAME_SECTION,
+            FeedbackParticipantType.TEAMS_EXCLUDING_SELF, FeedbackParticipantType.TEAMS_IN_SAME_SECTION,
             FeedbackParticipantType.OWN_TEAM, FeedbackParticipantType.NONE]);
 
         paths.set(FeedbackParticipantType.STUDENTS,
           [FeedbackParticipantType.SELF, FeedbackParticipantType.STUDENTS,
-            FeedbackParticipantType.STUDENTS_IN_SAME_SECTION,
+            FeedbackParticipantType.STUDENTS_EXCLUDING_SELF, FeedbackParticipantType.STUDENTS_IN_SAME_SECTION,
             FeedbackParticipantType.INSTRUCTORS, FeedbackParticipantType.TEAMS,
-            FeedbackParticipantType.TEAMS_IN_SAME_SECTION,
+            FeedbackParticipantType.TEAMS_EXCLUDING_SELF, FeedbackParticipantType.TEAMS_IN_SAME_SECTION,
             FeedbackParticipantType.OWN_TEAM, FeedbackParticipantType.OWN_TEAM_MEMBERS,
             FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF,
             FeedbackParticipantType.NONE]);
@@ -112,9 +112,9 @@ export class FeedbackQuestionsService {
 
         paths.set(FeedbackParticipantType.TEAMS,
           [FeedbackParticipantType.SELF, FeedbackParticipantType.STUDENTS,
-            FeedbackParticipantType.STUDENTS_IN_SAME_SECTION,
+            FeedbackParticipantType.STUDENTS_EXCLUDING_SELF, FeedbackParticipantType.STUDENTS_IN_SAME_SECTION,
             FeedbackParticipantType.INSTRUCTORS, FeedbackParticipantType.TEAMS,
-            FeedbackParticipantType.TEAMS_IN_SAME_SECTION,
+            FeedbackParticipantType.TEAMS_EXCLUDING_SELF, FeedbackParticipantType.TEAMS_IN_SAME_SECTION,
             FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF,
             FeedbackParticipantType.NONE]);
         break;

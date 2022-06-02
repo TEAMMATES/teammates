@@ -17,7 +17,7 @@ class GetDeadlineExtensionAction extends Action {
 
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
-        if (!Config.isDevServer()) {
+        if (!Config.IS_DEV_SERVER) {
             throw new UnauthorizedAccessException("Not authorised to access this resource.");
         }
     }

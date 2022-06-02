@@ -11,6 +11,7 @@ export interface SimpleModalOptions {
   isInformationOnly?: boolean;
   confirmMessage?: string; // custom text message for confirm button
   cancelMessage?: string; // custom text message for cancel button
+  onClosed?: () => void;
 }
 
 /**
@@ -44,6 +45,14 @@ export class SimpleModalService {
       Object.entries(simpleModalOptions).forEach(([key, value]: [string, string | boolean]) => {
         modalRef.componentInstance[key] = value;
       });
+      if (simpleModalOptions.onClosed) {
+        modalRef.closed.subscribe(() => {
+          simpleModalOptions.onClosed!();
+        });
+        modalRef.dismissed.subscribe(() => {
+          simpleModalOptions.onClosed!();
+        });
+      }
     }
     return modalRef;
   }

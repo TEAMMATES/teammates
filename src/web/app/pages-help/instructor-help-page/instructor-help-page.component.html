@@ -39,6 +39,10 @@
       <tm-instructor-help-questions-section #questionsHelpSection [key]="key" (matchFound)="updateMatchFoundNumber($event)" (collapsePeerEvalTips)="collapsePeerEvalTips()">
       </tm-instructor-help-questions-section>
     </div>
+    <div id="{{Sections.general}}" class="section-body">
+      <tm-instructor-help-general-section #generalHelpSection [key]="key" (matchFound)="updateMatchFoundNumber($event)">
+      </tm-instructor-help-general-section>
+    </div>
   </div>
 
   <div class="side-nav container-fluid col-lg-2">
@@ -58,6 +62,9 @@
       </li>
       <li class="nav-item">
         <a (click)="scroll(Sections.questions)" [tmRouterLink]="">Questions</a>
+      </li>
+      <li class="nav-item">
+        <a (click)="scroll(Sections.general)" [tmRouterLink]="">General</a>
       </li>
     </ul>
     <br>

@@ -1,5 +1,9 @@
 import { FeedbackParticipantType } from '../../../types/api-output';
-import { GiverTypeDescriptionPipe, RecipientTypeDescriptionPipe } from './feedback-path.pipe';
+import {
+  GiverTypeDescriptionPipe,
+  RecipientTypeDescriptionPipe,
+  RecipientTypeSimplifiedDescriptionPipe,
+} from './feedback-path.pipe';
 
 describe('GiverTypeDescriptionPipe', () => {
   const pipe: GiverTypeDescriptionPipe = new GiverTypeDescriptionPipe();
@@ -54,7 +58,12 @@ describe('RecipientTypeDescriptionPipe', () => {
 
   it('transform FeedbackParticipantType.STUDENTS', () => {
     expect(pipe.transform(FeedbackParticipantType.STUDENTS))
-      .toBe('Other students in the course');
+      .toBe('Students in the course');
+  });
+
+  it('transform FeedbackParticipantType.STUDENTS_EXCLUDING_SELF', () => {
+    expect(pipe.transform(FeedbackParticipantType.STUDENTS_EXCLUDING_SELF))
+        .toBe('Other students in the course');
   });
 
   it('transform FeedbackParticipantType.STUDENTS_IN_SAME_SECTION', () => {
@@ -69,7 +78,12 @@ describe('RecipientTypeDescriptionPipe', () => {
 
   it('transform FeedbackParticipantType.TEAMS', () => {
     expect(pipe.transform(FeedbackParticipantType.TEAMS))
-      .toBe('Other teams in the course');
+      .toBe('Teams in the course');
+  });
+
+  it('transform FeedbackParticipantType.TEAMS_EXCLUDING_SELF', () => {
+    expect(pipe.transform(FeedbackParticipantType.TEAMS_EXCLUDING_SELF))
+        .toBe('Other teams in the course');
   });
 
   it('transform FeedbackParticipantType.TEAMS_IN_SAME_SECTION', () => {
@@ -97,14 +111,58 @@ describe('RecipientTypeDescriptionPipe', () => {
       .toBe('Nobody specific (For general class feedback)');
   });
 
+  it('transform default', () => {
+    expect(pipe.transform('' as FeedbackParticipantType))
+      .toBe('Unknown');
+  });
+
+});
+
+describe('RecipientTypeSimplifiedDescriptionPipe', () => {
+  const pipe: RecipientTypeSimplifiedDescriptionPipe = new RecipientTypeSimplifiedDescriptionPipe();
+
+  it('create an instance', () => {
+    expect(pipe).toBeTruthy();
+  });
+
+  it('transform FeedbackParticipantType.STUDENTS', () => {
+    expect(pipe.transform(FeedbackParticipantType.STUDENTS))
+        .toBe('students');
+  });
+
+  it('transform FeedbackParticipantType.STUDENTS_EXCLUDING_SELF', () => {
+    expect(pipe.transform(FeedbackParticipantType.STUDENTS_EXCLUDING_SELF))
+        .toBe('students');
+  });
+
+  it('transform FeedbackParticipantType.STUDENTS_IN_SAME_SECTION', () => {
+    expect(pipe.transform(FeedbackParticipantType.STUDENTS_IN_SAME_SECTION))
+        .toBe('students');
+  });
+
+  it('transform FeedbackParticipantType.INSTRUCTORS', () => {
+    expect(pipe.transform(FeedbackParticipantType.INSTRUCTORS))
+        .toBe('instructors');
+  });
+
+  it('transform FeedbackParticipantType.TEAMS', () => {
+    expect(pipe.transform(FeedbackParticipantType.TEAMS))
+        .toBe('teams');
+  });
+
   it('transform FeedbackParticipantType.TEAMS_EXCLUDING_SELF', () => {
     expect(pipe.transform(FeedbackParticipantType.TEAMS_EXCLUDING_SELF))
-        .toBe('Unknown');
+        .toBe('teams');
+  });
+
+  it('transform FeedbackParticipantType.TEAMS_IN_SAME_SECTION', () => {
+    expect(pipe.transform(FeedbackParticipantType.TEAMS_IN_SAME_SECTION))
+        .toBe('teams');
   });
 
   it('transform default', () => {
     expect(pipe.transform('' as FeedbackParticipantType))
-      .toBe('Unknown');
+        .toBe('Unknown');
   });
 
 });
