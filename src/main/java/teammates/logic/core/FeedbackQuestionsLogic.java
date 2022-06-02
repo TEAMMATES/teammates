@@ -333,7 +333,8 @@ public final class FeedbackQuestionsLogic {
                     // instructor can only see students in allowed sections for him/her
                     continue;
                 }
-                // Ensure student does not evaluate himself if it's STUDENTS_EXCLUDING_SELF or STUDENTS_IN_SAME_SECTION
+                // Ensure student does not evaluate him/herself if it's STUDENTS_EXCLUDING_SELF or
+                // STUDENTS_IN_SAME_SECTION
                 if (giverEmail.equals(student.getEmail()) && generateOptionsFor != FeedbackParticipantType.STUDENTS) {
                     continue;
                 }
