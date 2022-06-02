@@ -1,36 +1,36 @@
 <div class="row" *ngIf="questionDetails.isZeroSum && !isAllFormsNotAnswered">
   <div class="col-12">
-    <p *ngIf="isInsufficientSharesDistributed || isSharesOverAllocated" class="text-danger">
+    <p *ngIf="isInsufficientContributionsDistributed || isContributionsOverAllocated" class="text-danger">
       <span class="fa fa-times"></span>
       Current total
       <code>
         {{
-          totalAnsweredShares === 0
+          totalAnsweredContributions === 0
               ? '0%'
-              : totalAnsweredShares / 100 < 1
-                  ? ('1 x Equal Share - ' + (100 - totalAnsweredShares % 100).toString() + '%')
-                  : totalAnsweredShares % 100 === 0
-                      ? (toFloor(totalAnsweredShares / 100).toString() + ' x Equal Share')
-                      : (toFloor(totalAnsweredShares / 100).toString() + ' x Equal Share + ' + (totalAnsweredShares % 100).toString() + '%')
+              : totalAnsweredContributions / 100 < 1
+                  ? ('1 x Equal Share - ' + (100 - totalAnsweredContributions % 100).toString() + '%')
+                  : totalAnsweredContributions % 100 === 0
+                      ? (toFloor(totalAnsweredContributions / 100).toString() + ' x Equal Share')
+                      : (toFloor(totalAnsweredContributions / 100).toString() + ' x Equal Share + ' + (totalAnsweredContributions % 100).toString() + '%')
         }}
       </code>
-      does not match the expected total <code>{{ totalRequiredShares / 100 }} x Equal Share</code>!
-      <span *ngIf="isInsufficientSharesDistributed">
-        Please distribute the remaining shares.
+      does not match the expected total <code>{{ totalRequiredContributions / 100 }} x Equal Share</code>!
+      <span *ngIf="isInsufficientContributionsDistributed">
+        Please distribute the remaining contributions.
       </span>
-      <span *ngIf="isSharesOverAllocated">
-        Please remove the extra shares allocated.
+      <span *ngIf="isContributionsOverAllocated">
+        Please remove the extra contributions allocated.
       </span>
     </p>
 
-    <p *ngIf="isAllSharesDistributed && !isAllFormsAnswered" class="text-danger">
+    <p *ngIf="isAllContributionsDistributed && !isAllFormsAnswered" class="text-danger">
       <span class="fa fa-times"></span>
-      All shares distributed but not all recipients are allocated a share.
+      All contributions distributed but not all recipients are allocated a share.
     </p>
 
-    <p *ngIf="isAllSharesDistributed && isAllFormsAnswered" class="text-success">
+    <p *ngIf="isAllContributionsDistributed && isAllFormsAnswered" class="text-success">
       <span class="fa fa-check"></span>
-      All shares distributed!
+      All contributions distributed!
     </p>
   </div>
 </div>

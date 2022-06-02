@@ -48,7 +48,7 @@ export class ContributionQuestionConstraintComponent
   /**
    * Gets total required shares.
    */
-  get totalRequiredShares(): number {
+  get totalRequiredContributions(): number {
     return 100 * this.recipientSubmissionForms.length;
   }
 
@@ -70,33 +70,33 @@ export class ContributionQuestionConstraintComponent
   /**
    * Gets total answer shares.
    */
-  get totalAnsweredShares(): number {
+  get totalAnsweredContributions(): number {
     return this.allAnswers.reduce((total: number, curr: number) => total + curr, 0);
   }
 
   /**
    * Checks if all shares have been distributed.
    */
-  get isAllSharesDistributed(): boolean {
-    return this.totalAnsweredShares === this.totalRequiredShares;
+  get isAllContributionsDistributed(): boolean {
+    return this.totalAnsweredContributions === this.totalRequiredContributions;
   }
 
   /**
    * Checks if the shares have been insufficiently distributed.
    */
-  get isInsufficientSharesDistributed(): boolean {
-    return this.totalAnsweredShares < this.totalRequiredShares;
+  get isInsufficientContributionsDistributed(): boolean {
+    return this.totalAnsweredContributions < this.totalRequiredContributions;
   }
 
   /**
    * Checks if the shares have been over allocated.
    */
-  get isSharesOverAllocated(): boolean {
-    return this.totalAnsweredShares > this.totalRequiredShares;
+  get isContributionsOverAllocated(): boolean {
+    return this.totalAnsweredContributions > this.totalRequiredContributions;
   }
 
   get isValid(): boolean {
-    return !this.questionDetails.isZeroSum || (this.isAllFormsAnswered && this.isAllSharesDistributed);
+    return !this.questionDetails.isZeroSum || (this.isAllFormsAnswered && this.isAllContributionsDistributed);
   }
 
   toFloor(num: number): number {
