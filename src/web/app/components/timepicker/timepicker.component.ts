@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { DateFormat } from '../datepicker/datepicker.component';
 
 /**
  * Time picker with fixed time to pick.
@@ -15,6 +16,21 @@ export class TimepickerComponent {
 
   @Input()
   time: TimeFormat = { hour: 0, minute: 0 };
+
+  @Input()
+  minTime: TimeFormat | undefined;
+
+  @Input()
+  maxTime: TimeFormat | undefined;
+
+  @Input()
+  date: DateFormat = { year: 0, month: 0, day: 0 };
+
+  @Input()
+  minDate: DateFormat | undefined;
+
+  @Input()
+  maxDate: DateFormat | undefined;
 
   @Output()
   timeChange: EventEmitter<TimeFormat> = new EventEmitter();
@@ -44,6 +60,18 @@ export class TimepickerComponent {
    */
   timeCompareFn(t1: TimeFormat, t2: TimeFormat): boolean {
     return t1 && t2 && t1.hour === t2.hour && t1.minute === t2.minute;
+  }
+
+  isOptionDisabled(t: TimeFormat): boolean {
+    if (this.minTime) {
+      return this.date.year === this.minDate?.year && this.date.month === this.minDate?.month
+          && this.date.day === this.minDate?.day && t.hour < this.minTime?.hour;
+    }
+    if (this.maxTime) {
+      return this.date.year === this.maxDate?.year && this.date.month === this.maxDate?.month
+          && this.date.day === this.maxDate?.day && t.hour > this.maxTime?.hour;
+    }
+    return false;
   }
 
   /**

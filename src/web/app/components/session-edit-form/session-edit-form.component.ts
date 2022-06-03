@@ -15,6 +15,7 @@ import { DatePickerFormatter } from '../datepicker/datepicker-formatter';
 import { DateFormat } from '../datepicker/datepicker.component';
 import { SimpleModalType } from '../simple-modal/simple-modal-type';
 import { collapseAnim } from '../teammates-common/collapse-anim';
+import { TimeFormat } from '../timepicker/timepicker.component';
 import { SessionEditFormMode, SessionEditFormModel } from './session-edit-form-model';
 
 /**
@@ -126,6 +127,32 @@ export class SessionEditFormComponent {
   }
 
   /**
+   * Triggers changes of the question details for the form.
+   */
+  triggerModelChangeBatch(obj: Partial<SessionEditFormModel>): void {
+    this.modelChange.emit({ ...this.model, ...obj });
+  }
+
+  /**
+   * Triggers the change of the submission start date for the form.
+   */
+  triggerSubmissionStartDateChange(data: DateFormat): void {
+    const newSubmissionStartDate: moment.Moment = this.getMomentInstance(data);
+    const submissionEndDate: moment.Moment = this.getMomentInstance(this.model.submissionEndDate);
+    if (submissionEndDate.isBefore(newSubmissionStartDate)) {
+      newSubmissionStartDate.add(1, 'days');
+      const newSubmissionEndDate: DateFormat = this.getDateInstance(newSubmissionStartDate);
+      this.triggerModelChangeBatch({
+        ...this.model,
+        submissionStartDate: data,
+        submissionEndDate: newSubmissionEndDate,
+      });
+    } else {
+      this.triggerModelChange('submissionStartDate', data);
+    }
+  }
+
+  /**
    * Handles course Id change event.
    *
    * <p>Used in ADD mode.
@@ -141,6 +168,54 @@ export class SessionEditFormComponent {
         timeZone: course.timeZone,
       });
     }
+  }
+
+  /**
+   * Gets the minimum time for a session to be opened.
+   */
+  get minTimeForSessionOpen(): TimeFormat {
+    const now = moment();
+    now.add(1, 'hours');
+    return {
+      hour: now.hour(),
+      minute: 0,
+    };
+  }
+
+  /**
+   * Gets the minimum date for a session to be opened.
+   */
+  get minDateForSessionOpen(): DateFormat {
+    const today = moment();
+    today.add(1, 'days');
+    return this.getDateInstance(today);
+  }
+
+  /**
+   * Gets the maximum date for a session to be opened.
+   */
+  get maxDateForSessionOpen(): DateFormat {
+    const today = moment();
+    today.add(90, 'days');
+    return this.getDateInstance(today);
+  }
+
+  /**
+   * Gets the maximum date for a session to be closed.
+   */
+  get maxDateForSessionClose(): DateFormat {
+    const today = moment();
+    today.add(180, 'days');
+    return this.getDateInstance(today);
+  }
+
+  /**
+   * Gets the minimum date for a session to be visible based on the input model.
+   */
+  get minDateForSessionVisible(): DateFormat {
+    const submissionStartDate: moment.Moment = this.getMomentInstance(this.model.submissionStartDate);
+    submissionStartDate.subtract(30, 'days');
+    return this.getDateInstance(submissionStartDate);
   }
 
   /**
@@ -170,6 +245,31 @@ export class SessionEditFormComponent {
   }
 
   /**
+   * Gets the maximum time for a session to be visible based on the input model.
+   */
+  get maxTimeForSessionVisible(): TimeFormat {
+    switch (this.model.responseVisibleSetting) {
+      case ResponseVisibleSetting.LATER:
+      case ResponseVisibleSetting.AT_VISIBLE:
+        return this.model.submissionStartTime;
+      case ResponseVisibleSetting.CUSTOM: {
+        const submissionStartDate: moment.Moment = this.getMomentInstance(this.model.submissionStartDate);
+        const responseVisibleDate: moment.Moment = this.getMomentInstance(this.model.customResponseVisibleDate);
+        if (submissionStartDate.isBefore(responseVisibleDate)) {
+          return this.model.submissionStartTime;
+        }
+
+        return this.model.customResponseVisibleTime;
+      }
+      default:
+        return {
+          hour: 0,
+          minute: 0,
+        };
+    }
+  }
+
+  /**
    * Gets the minimum date for responses to be visible based on the input model.
    */
   get minDateForResponseVisible(): DateFormat {
@@ -188,6 +288,23 @@ export class SessionEditFormComponent {
   }
 
   /**
+   * Gets the minimum time for responses to be visible based on the input model.
+   */
+  get minTimeForResponseVisible(): TimeFormat {
+    switch (this.model.sessionVisibleSetting) {
+      case SessionVisibleSetting.AT_OPEN:
+        return this.model.submissionStartTime;
+      case SessionVisibleSetting.CUSTOM:
+        return this.model.customSessionVisibleTime;
+      default:
+        return {
+          hour: 0,
+          minute: 0,
+        };
+    }
+  }
+
+  /**
    * Gets a moment instance from a date.
    */
   getMomentInstance(date: DateFormat): moment.Moment {
@@ -196,6 +313,17 @@ export class SessionEditFormComponent {
     inst.set('month', date.month - 1); // moment month is from 0-11
     inst.set('date', date.day);
     return inst;
+  }
+
+  /**
+   * Gets a date instance from a moment.
+   */
+  getDateInstance(mmt: moment.Moment): DateFormat {
+    return {
+      year: mmt.year(),
+      month: mmt.month() + 1, // moment month is from 0-11
+      day: mmt.date(),
+    };
   }
 
   /**
