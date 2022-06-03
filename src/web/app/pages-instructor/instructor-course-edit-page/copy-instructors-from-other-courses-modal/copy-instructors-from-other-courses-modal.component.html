@@ -73,7 +73,7 @@
                           <input disabled type="checkbox" class="form-control no-shadow">
                         </div>
                         <div *ngIf="instructorCandidate.instructor.role !== InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM">
-                          <input type="checkbox" class="form-control no-shadow" [(ngModel)]="instructorCandidate.isSelected">
+                          <input [disabled]="isSavingInstructorsToCopy" type="checkbox" class="form-control no-shadow" [(ngModel)]="instructorCandidate.isSelected">
                         </div>
                       </td>
                       <td>{{ instructorCandidate.instructor.name }}</td>
@@ -84,7 +84,7 @@
                   </tbody>
                 </table>
               </ng-container>
-              <button (click)="loadInstructors(course)" class="btn float-right mt-2 mb-3" [ngClass]="{'btn-primary': !course.isArchived, 'btn-info': course.isArchived}">
+              <button (click)="loadInstructors(course)" class="btn btn-secondary float-right mt-2 mb-3">
                 <i class="fas fa-redo" aria-hidden="true"></i>
                 &nbsp;Reload
               </button>
@@ -101,7 +101,8 @@
   </div>
 </div>
 <div class="modal-footer">
-  <button id="btn-confirm-copy-instructor" type="button" class="btn btn-primary" (click)="activeModal.close(getSelectedInstructors())"
-          [disabled]="!isAnyInstructorCandidatesSelected">Copy</button>
+  <button id="btn-confirm-copy-instructor" type="button" class="btn btn-primary" (click)="saveInstructorsToCopy()" [disabled]="!isAnyInstructorCandidatesSelected">
+    <tm-ajax-loading *ngIf="isSavingInstructorsToCopy"></tm-ajax-loading>Copy
+  </button>
   <button type="button" class="btn btn-light" (click)="activeModal.dismiss()">Cancel</button>
 </div>

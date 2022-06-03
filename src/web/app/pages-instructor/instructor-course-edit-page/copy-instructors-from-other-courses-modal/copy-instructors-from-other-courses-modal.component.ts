@@ -19,17 +19,18 @@ import { CourseTabModel, InstructorToCopyCandidateModel } from './copy-instructo
 })
 export class CopyInstructorsFromOtherCoursesModalComponent {
 
-  notDisplayedToStudentText: string = '(NOT displayed to students)';
-
   // enum
   SortBy: typeof SortBy = SortBy;
   SortOrder: typeof SortOrder = SortOrder;
   InstructorPermissionRole: typeof InstructorPermissionRole = InstructorPermissionRole;
 
   // data
+  currentCourseId: string = '';
   courses: CourseTabModel[] = [];
 
+  readonly notDisplayedToStudentText: string = '(NOT displayed to students)';
   coursesSortBy: SortBy | undefined;
+  isSavingInstructorsToCopy: boolean = false;
 
   constructor(public activeModal: NgbActiveModal,
               public statusMessageService: StatusMessageService,
@@ -69,6 +70,40 @@ export class CopyInstructorsFromOtherCoursesModalComponent {
       course.hasLoadingFailed = true;
       this.statusMessageService.showErrorToast(resp.error.message);
     });
+  }
+
+  /**
+   * Verifies that no two selected instructors have the same email addresses and any selected instructor's
+   * email addresses already exists in the course. Closes this modal if and only if the check passes.
+   */
+  saveInstructorsToCopy(): void {
+    this.isSavingInstructorsToCopy = true;
+    const instructors: Instructor[] = this.getSelectedInstructors();
+    this.instructorService.loadInstructors({
+      courseId: this.currentCourseId,
+      intent: Intent.FULL_DETAIL,
+    }).subscribe((response: Instructors) => {
+      if (!this.hasRepeatedEmail(instructors.concat(response.instructors))) {
+        this.activeModal.close(instructors);
+      }
+      this.isSavingInstructorsToCopy = false;
+    });
+  }
+
+  /**
+   * Checks if the specified array contains two instructors with the same email address.
+   */
+  hasRepeatedEmail(instructors: Instructor[]): boolean {
+    const emailSet: Set<string> = new Set();
+    for (const instructor of instructors) {
+      if (emailSet.has(instructor.email)) {
+        this.statusMessageService.showErrorToast('An instructor with email address ' + instructor.email
+          + ' already exists in the course and/or you have selected more than one instructor with this email address.');
+        return true;
+      }
+      emailSet.add(instructor.email);
+    }
+    return false;
   }
 
   /**

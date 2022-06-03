@@ -748,6 +748,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
     }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); }, () => {
       const modalRef: NgbModalRef = this.ngbModal.open(CopyInstructorsFromOtherCoursesModalComponent);
       modalRef.componentInstance.courses = courseTabModels;
+      modalRef.componentInstance.currentCourseId = this.courseId;
 
       modalRef.result.then((result) => {
           console.log(result);
