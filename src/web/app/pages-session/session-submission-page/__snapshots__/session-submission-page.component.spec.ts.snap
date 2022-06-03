@@ -1956,7 +1956,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         class="row"
                       >
                         <div
-                          class="col-lg-5 col-md-12 col-sm-6 col-xs-12"
+                          class="col-lg-3 col-sm-6 col-xs-12"
                         >
                           <select
                             class="form-control color-negative ng-untouched ng-pristine ng-valid"
@@ -2213,7 +2213,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                           </select>
                         </div>
                         <div
-                          class="col-lg-7 col-md-12 col-sm-6 col-xs-12"
+                          class="col-lg-9 col-sm-6 col-xs-12"
                         >
                           <button
                             class="btn btn-link"
@@ -4308,7 +4308,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         class="row"
                       >
                         <div
-                          class="col-lg-5 col-md-12 col-sm-6 col-xs-12"
+                          class="col-lg-3 col-sm-6 col-xs-12"
                         >
                           <select
                             class="form-control color-negative ng-untouched ng-pristine ng-valid"
@@ -4565,7 +4565,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                           </select>
                         </div>
                         <div
-                          class="col-lg-7 col-md-12 col-sm-6 col-xs-12"
+                          class="col-lg-9 col-sm-6 col-xs-12"
                         >
                           <button
                             class="btn btn-link"
