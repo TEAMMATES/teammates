@@ -10,10 +10,12 @@
       </div>
     </div>
     <div *ngIf="questionDetails.questionDropdownEnabled">
+      <select class="form-control margin-bottom-8px">
+        <option *ngFor="let num of questionDetails.mcqChoices; let i = index;"
+                [value]="questionDetails.mcqChoices[i] | safeHtml"
+                [selected]="isMcqOptionSelected[i]" (click)="updateSelectedMcqOption(i)" [disabled]="isDisabled">{{ questionDetails.mcqChoices[i] }}</option>
+      </select>
     </div>
-    <select>
-      <option *ngFor="let num of questionDetails.mcqChoices; let i = index;" [value]="questionDetails.mcqChoices[i] | safeHtml">{{ questionDetails.mcqChoices[i] }}</option>
-    </select>
     <div id="other-option" class="radio" *ngIf="questionDetails.otherEnabled">
       <label class="margin-right-15px">
         <input type="radio" class="margin-right-15px" name="mcq-{{ id }}" [checked]="responseDetails.isOther"
