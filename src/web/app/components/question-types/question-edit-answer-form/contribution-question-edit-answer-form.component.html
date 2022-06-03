@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-lg-4 col-sm-6 col-xs-12">
+  <div class="col-lg-5 col-md-12 col-sm-6 col-xs-12">
     <select class="form-control"
             [ngClass]="{'color-positive': responseDetails.answer > 100,
               'color-negative': responseDetails.answer < 100 && responseDetails.answer !== CONTRIBUTION_POINT_NOT_SURE && responseDetails.answer !== CONTRIBUTION_POINT_NOT_SUBMITTED,
@@ -13,7 +13,7 @@
       <option *ngIf="questionDetails.isNotSureAllowed" [ngValue]="CONTRIBUTION_POINT_NOT_SURE" class="color-neutral">Not Sure</option>
     </select>
   </div>
-  <div class="col-lg-8 col-sm-6 col-xs-12" *ngIf="shouldShowHelpLink">
+  <div class="col-lg-7 col-md-12 col-sm-6 col-xs-12" *ngIf="shouldShowHelpLink">
     <button type="button" class="btn btn-link" (click)="openHelpModal(equalShareHelp)"><i class="fas fa-exclamation-circle"></i> More info about the <code>Equal Share</code> scale</button>
   </div>
   <ng-template #equalShareHelp>
