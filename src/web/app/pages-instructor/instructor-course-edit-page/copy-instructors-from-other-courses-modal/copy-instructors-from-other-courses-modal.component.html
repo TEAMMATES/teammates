@@ -68,7 +68,14 @@
                   </thead>
                   <tbody>
                     <tr *ngFor="let instructorCandidate of course.instructorCandidates">
-                      <td><input type="checkbox" class="form-control no-shadow" [(ngModel)]="instructorCandidate.isSelected"></td>
+                      <td>
+                        <div *ngIf="instructorCandidate.instructor.role === InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM" class="ngb-tooltip-class" ngbTooltip="This instructor has a customised access level and cannot be copied.">
+                          <input disabled type="checkbox" class="form-control no-shadow">
+                        </div>
+                        <div *ngIf="instructorCandidate.instructor.role !== InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM">
+                          <input type="checkbox" class="form-control no-shadow" [(ngModel)]="instructorCandidate.isSelected">
+                        </div>
+                      </td>
                       <td>{{ instructorCandidate.instructor.name }}</td>
                       <td>{{ instructorCandidate.instructor.email }}</td>
                       <td>{{ instructorCandidate.instructor.isDisplayedToStudents ? instructorCandidate.instructor.displayedToStudentsAs : notDisplayedToStudentText }}</td>

@@ -712,34 +712,38 @@ export class InstructorCourseEditPageComponent implements OnInit {
       const archivedCourses: Courses = values[1] as Courses;
 
       activeCourses.courses.forEach((course: Course) => {
-        const model: CourseTabModel = {
-          courseId: course.courseId,
-          courseName: course.courseName,
-          creationTimestamp: course.creationTimestamp,
-          isArchived: false,
-          instructorCandidates: [],
-          instructorCandidatesSortBy: SortBy.NONE,
-          instructorCandidatesSortOrder: SortOrder.ASC,
-          hasInstructorsLoaded: false,
-          isTabExpanded: false,
-          hasLoadingFailed: false,
-        };
-        courseTabModels.push(model);
+        if (course.courseId !== this.courseId) {
+          const model: CourseTabModel = {
+            courseId: course.courseId,
+            courseName: course.courseName,
+            creationTimestamp: course.creationTimestamp,
+            isArchived: false,
+            instructorCandidates: [],
+            instructorCandidatesSortBy: SortBy.NONE,
+            instructorCandidatesSortOrder: SortOrder.ASC,
+            hasInstructorsLoaded: false,
+            isTabExpanded: false,
+            hasLoadingFailed: false,
+          };
+          courseTabModels.push(model);
+        }
       });
       archivedCourses.courses.forEach((course: Course) => {
-        const model: CourseTabModel = {
-          courseId: course.courseId,
-          courseName: course.courseName,
-          creationTimestamp: course.creationTimestamp,
-          isArchived: true,
-          instructorCandidates: [],
-          instructorCandidatesSortBy: SortBy.NONE,
-          instructorCandidatesSortOrder: SortOrder.ASC,
-          hasInstructorsLoaded: false,
-          isTabExpanded: false,
-          hasLoadingFailed: false,
-        };
-        courseTabModels.push(model);
+        if (course.courseId !== this.courseId) {
+          const model: CourseTabModel = {
+            courseId: course.courseId,
+            courseName: course.courseName,
+            creationTimestamp: course.creationTimestamp,
+            isArchived: true,
+            instructorCandidates: [],
+            instructorCandidatesSortBy: SortBy.NONE,
+            instructorCandidatesSortOrder: SortOrder.ASC,
+            hasInstructorsLoaded: false,
+            isTabExpanded: false,
+            hasLoadingFailed: false,
+          };
+          courseTabModels.push(model);
+        }
       });
     }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); }, () => {
       const modalRef: NgbModalRef = this.ngbModal.open(CopyInstructorsFromOtherCoursesModalComponent);

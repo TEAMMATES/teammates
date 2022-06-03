@@ -3,7 +3,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { InstructorService } from '../../../../services/instructor.service';
 import { StatusMessageService } from '../../../../services/status-message.service';
 import { TableComparatorService } from '../../../../services/table-comparator.service';
-import { Instructor, Instructors } from '../../../../types/api-output';
+import { Instructor, InstructorPermissionRole, Instructors } from '../../../../types/api-output';
 import { Intent } from '../../../../types/api-request';
 import { SortBy, SortOrder } from '../../../../types/sort-properties';
 import { ErrorMessageOutput } from '../../../error-message-output';
@@ -24,11 +24,12 @@ export class CopyInstructorsFromOtherCoursesModalComponent {
   // enum
   SortBy: typeof SortBy = SortBy;
   SortOrder: typeof SortOrder = SortOrder;
+  InstructorPermissionRole: typeof InstructorPermissionRole = InstructorPermissionRole;
 
   // data
   courses: CourseTabModel[] = [];
 
-  coursesSortBy: SortBy = SortBy.COURSE_CREATION_DATE;
+  coursesSortBy: SortBy | undefined;
 
   constructor(public activeModal: NgbActiveModal,
               public statusMessageService: StatusMessageService,
