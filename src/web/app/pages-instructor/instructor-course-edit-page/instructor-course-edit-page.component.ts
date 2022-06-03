@@ -2,8 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { forkJoin, Observable } from 'rxjs';
-import { finalize, map } from 'rxjs/operators';
+import { forkJoin, Observable, of } from 'rxjs';
+import { concatMap, finalize, map } from 'rxjs/operators';
 import { AuthService } from '../../../services/auth.service';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
@@ -15,7 +15,8 @@ import { StudentService } from '../../../services/student.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import {
   AuthInfo,
-  Course, Courses,
+  Course,
+  Courses,
   FeedbackSession,
   FeedbackSessions,
   Instructor,
@@ -749,7 +750,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
       const modalRef: NgbModalRef = this.ngbModal.open(CopyInstructorsFromOtherCoursesModalComponent);
       modalRef.componentInstance.courses = courseTabModels;
 
-      modalRef.componentInstance.copyClick.subscribe((instructors: Instructor[]) => {
+      modalRef.componentInstance.copyClickedEvent.subscribe((instructors: Instructor[]) => {
         console.log(instructors);
         // modalRef.componentInstance.isSavingInstructorsToCopy = true;
         this.verifyInstructorsToCopy(instructors).subscribe((hasCheckPassed: boolean) => {
@@ -758,13 +759,14 @@ export class InstructorCourseEditPageComponent implements OnInit {
             return;
           }
           // TODO: add instructors
-          console.log('I am here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-          setTimeout(() => {
-            modalRef.componentInstance.isSavingInstructorsToCopy = false;
-            setTimeout(() => {
-              modalRef.close();
-            }, 1000);
-          }, 3000);
+          // console.log('I am here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+          // setTimeout(() => {
+          //   modalRef.componentInstance.isSavingInstructorsToCopy = false;
+          //   setTimeout(() => {
+          //     modalRef.close();
+          //   }, 1000);
+          // }, 3000);
+          this.addNewInstructors(instructors, modalRef);
         });
       });
 
@@ -776,6 +778,44 @@ export class InstructorCourseEditPageComponent implements OnInit {
       //   }
       // );
     });
+  }
+
+  /**
+   * Adds new instructors.
+   */
+  addNewInstructors(instructors: Instructor[], modalRef: NgbModalRef): void {
+    of(...instructors).pipe(
+      concatMap((instructor: Instructor) => {
+        return this.instructorService.createInstructor({
+          courseId: this.courseId,
+          requestBody: {
+            name: instructor.name,
+            email: instructor.email,
+            role: instructor.role!,
+            displayName: instructor.displayedToStudentsAs,
+            isDisplayedToStudent: instructor.isDisplayedToStudents!,
+          }
+        });
+      }),
+      finalize(() => {
+        modalRef.componentInstance.isCopyingSelectedInstructors = false;
+        modalRef.close();
+        this.statusMessageService.showSuccessToast(`"The selected instructor(s) have been added successfully.
+        An email containing how to 'join' this course will be sent to them in a few minutes."`,
+        );
+      }),
+    ).subscribe((newInstructor: Instructor) => {
+      // TODO: update privileges
+      const newDetailPanels: InstructorEditPanelDetail = {
+        originalInstructor: { ...newInstructor },
+        originalPanel: this.getInstructorEditPanelModel(newInstructor),
+        editPanel: this.getInstructorEditPanelModel(newInstructor),
+      };
+      newDetailPanels.editPanel.permission = this.newInstructorPanel.permission;
+      newDetailPanels.originalPanel = JSON.parse(JSON.stringify(newDetailPanels.editPanel));
+
+      this.instructorDetailPanels.push(newDetailPanels);
+    }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
   }
 
   /**
@@ -800,8 +840,8 @@ export class InstructorCourseEditPageComponent implements OnInit {
     const emailSet: Set<string> = new Set();
     for (const instructor of instructors) {
       if (emailSet.has(instructor.email)) {
-        this.statusMessageService.showErrorToast('An instructor with email address ' + instructor.email
-          + ' already exists in the course and/or you have selected more than one instructor with this email address.');
+        this.statusMessageService.showErrorToast(`"An instructor with email address ${instructor.email} 
+        already exists in the course and/or you have selected more than one instructor with this email address."`);
         return false;
       }
       emailSet.add(instructor.email);
