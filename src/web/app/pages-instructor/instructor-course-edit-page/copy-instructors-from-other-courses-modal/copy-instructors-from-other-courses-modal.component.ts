@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { InstructorService } from '../../../../services/instructor.service';
 import { StatusMessageService } from '../../../../services/status-message.service';
@@ -19,18 +19,20 @@ import { CourseTabModel, InstructorToCopyCandidateModel } from './copy-instructo
 })
 export class CopyInstructorsFromOtherCoursesModalComponent {
 
+  @Output()
+  copyClickedEvent: EventEmitter<Instructor[]> = new EventEmitter();
+
   // enum
   SortBy: typeof SortBy = SortBy;
   SortOrder: typeof SortOrder = SortOrder;
   InstructorPermissionRole: typeof InstructorPermissionRole = InstructorPermissionRole;
 
   // data
-  currentCourseId: string = '';
   courses: CourseTabModel[] = [];
 
   readonly notDisplayedToStudentText: string = '(NOT displayed to students)';
   coursesSortBy: SortBy | undefined;
-  isSavingInstructorsToCopy: boolean = false;
+  isCopyingSelectedInstructors: boolean = false;
 
   constructor(public activeModal: NgbActiveModal,
               public statusMessageService: StatusMessageService,
@@ -73,37 +75,12 @@ export class CopyInstructorsFromOtherCoursesModalComponent {
   }
 
   /**
-   * Verifies that no two selected instructors have the same email addresses and any selected instructor's
-   * email addresses already exists in the course. Closes this modal if and only if the check passes.
+   * Attempts to copy the selected instructors.
    */
-  saveInstructorsToCopy(): void {
-    this.isSavingInstructorsToCopy = true;
+  copySelectedInstructors(): void {
+    this.isCopyingSelectedInstructors = true;
     const instructors: Instructor[] = this.getSelectedInstructors();
-    this.instructorService.loadInstructors({
-      courseId: this.currentCourseId,
-      intent: Intent.FULL_DETAIL,
-    }).subscribe((response: Instructors) => {
-      if (!this.hasRepeatedEmail(instructors.concat(response.instructors))) {
-        this.activeModal.close(instructors);
-      }
-      this.isSavingInstructorsToCopy = false;
-    });
-  }
-
-  /**
-   * Checks if the specified array contains two instructors with the same email address.
-   */
-  hasRepeatedEmail(instructors: Instructor[]): boolean {
-    const emailSet: Set<string> = new Set();
-    for (const instructor of instructors) {
-      if (emailSet.has(instructor.email)) {
-        this.statusMessageService.showErrorToast('An instructor with email address ' + instructor.email
-          + ' already exists in the course and/or you have selected more than one instructor with this email address.');
-        return true;
-      }
-      emailSet.add(instructor.email);
-    }
-    return false;
+    this.copyClickedEvent.emit(instructors);
   }
 
   /**

@@ -2,8 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { forkJoin } from 'rxjs';
-import { finalize} from 'rxjs/operators';
+import { forkJoin, Observable } from 'rxjs';
+import { finalize, map } from 'rxjs/operators';
 import { AuthService } from '../../../services/auth.service';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
@@ -748,15 +748,64 @@ export class InstructorCourseEditPageComponent implements OnInit {
     }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); }, () => {
       const modalRef: NgbModalRef = this.ngbModal.open(CopyInstructorsFromOtherCoursesModalComponent);
       modalRef.componentInstance.courses = courseTabModels;
-      modalRef.componentInstance.currentCourseId = this.courseId;
 
-      modalRef.result.then((result) => {
-          console.log(result);
-          this.isCopyingInstructor = false;
-        }, () => {
-          this.isCopyingInstructor = false;
-        }
-      );
+      modalRef.componentInstance.copyClick.subscribe((instructors: Instructor[]) => {
+        console.log(instructors);
+        // modalRef.componentInstance.isSavingInstructorsToCopy = true;
+        this.verifyInstructorsToCopy(instructors).subscribe((hasCheckPassed: boolean) => {
+          if (!hasCheckPassed) {
+            modalRef.componentInstance.isCopyingSelectedInstructors = false;
+            return;
+          }
+          // TODO: add instructors
+          console.log('I am here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+          setTimeout(() => {
+            modalRef.componentInstance.isSavingInstructorsToCopy = false;
+            setTimeout(() => {
+              modalRef.close();
+            }, 1000);
+          }, 3000);
+        });
+      });
+
+      // modalRef.result.then((result) => {
+      //     console.log(result);
+      //     this.isCopyingInstructor = false;
+      //   }, () => {
+      //     this.isCopyingInstructor = false;
+      //   }
+      // );
     });
+  }
+
+  /**
+   * Verifies that no two selected instructors have the same email addresses and any selected instructor's
+   * email addresses already exists in the course.
+   */
+  verifyInstructorsToCopy(instructors: Instructor[]): Observable<boolean> {
+    return forkJoin([
+      this.instructorService.loadInstructors({
+        courseId: this.courseId,
+        intent: Intent.FULL_DETAIL,
+      }),
+    ]).pipe(
+      map((values: [Instructors]) => this.hasNoRepeatedEmail(instructors.concat(values[0].instructors))),
+    );
+  }
+
+  /**
+   * Checks if the specified array contains two instructors with the same email address.
+   */
+  hasNoRepeatedEmail(instructors: Instructor[]): boolean {
+    const emailSet: Set<string> = new Set();
+    for (const instructor of instructors) {
+      if (emailSet.has(instructor.email)) {
+        this.statusMessageService.showErrorToast('An instructor with email address ' + instructor.email
+          + ' already exists in the course and/or you have selected more than one instructor with this email address.');
+        return false;
+      }
+      emailSet.add(instructor.email);
+    }
+    return true;
   }
 }
