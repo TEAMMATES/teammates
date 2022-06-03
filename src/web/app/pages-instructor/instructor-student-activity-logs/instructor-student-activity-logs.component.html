@@ -42,7 +42,7 @@
         </div>
         <div class="col-12">
           <select id="student-name-dropdown" class="form-control col-12" [(ngModel)]="formModel.studentEmail">
-            <option *ngFor="let student of courseToStudents[courseId]" [value]="student.email">
+            <option *ngFor="let student of students" [value]="student.email">
               {{student.name}} {{student.email ? '&lt;' + student.email + '&gt;' : ''}}
             </option>
           </select>
@@ -63,7 +63,7 @@
             <tm-timepicker id="logs-to-timepicker" [(time)]="formModel.logsTimeTo"></tm-timepicker>
           </div>
           <div class="col-md-2">
-            <button id="search-button" class="float-right btn btn-primary" (click)="search()" [disabled]="!courseId || isSearching">Search</button>
+            <button id="search-button" class="float-right btn btn-primary" (click)="search()" [disabled]="course.courseId === '' || isSearching">Search</button>
           </div>
         </div>
       </div>
@@ -75,7 +75,7 @@
         </div>
         <div class="col-12">
           <select id="session-dropdown" class="form-control col-md-12" [(ngModel)]="formModel.feedbackSessionName">
-            <option *ngFor="let session of courseToFeedbackSession[courseId]" [value]="session.feedbackSessionName">
+            <option *ngFor="let session of feedbackSessions" [value]="session.feedbackSessionName">
               {{session.feedbackSessionName}}
             </option>
           </select>
