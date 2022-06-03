@@ -751,32 +751,22 @@ export class InstructorCourseEditPageComponent implements OnInit {
       modalRef.componentInstance.courses = courseTabModels;
 
       modalRef.componentInstance.copyClickedEvent.subscribe((instructors: Instructor[]) => {
-        console.log(instructors);
-        // modalRef.componentInstance.isSavingInstructorsToCopy = true;
+        if (!this.currInstructorCoursePrivilege.canModifyInstructor) {
+          modalRef.componentInstance.isCopyingSelectedInstructors = false;
+          modalRef.close();
+          this.statusMessageService.showErrorToast('You are not authorized to access this resource.');
+          return;
+        }
+
         this.verifyInstructorsToCopy(instructors).subscribe((hasCheckPassed: boolean) => {
           if (!hasCheckPassed) {
             modalRef.componentInstance.isCopyingSelectedInstructors = false;
             return;
           }
-          // TODO: add instructors
-          // console.log('I am here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-          // setTimeout(() => {
-          //   modalRef.componentInstance.isSavingInstructorsToCopy = false;
-          //   setTimeout(() => {
-          //     modalRef.close();
-          //   }, 1000);
-          // }, 3000);
+
           this.addNewInstructors(instructors, modalRef);
         });
       });
-
-      // modalRef.result.then((result) => {
-      //     console.log(result);
-      //     this.isCopyingInstructor = false;
-      //   }, () => {
-      //     this.isCopyingInstructor = false;
-      //   }
-      // );
     });
   }
 
@@ -800,9 +790,6 @@ export class InstructorCourseEditPageComponent implements OnInit {
       finalize(() => {
         modalRef.componentInstance.isCopyingSelectedInstructors = false;
         modalRef.close();
-        this.statusMessageService.showSuccessToast(`"The selected instructor(s) have been added successfully.
-        An email containing how to 'join' this course will be sent to them in a few minutes."`,
-        );
       }),
     ).subscribe((newInstructor: Instructor) => {
       // TODO: update privileges
@@ -815,7 +802,12 @@ export class InstructorCourseEditPageComponent implements OnInit {
       newDetailPanels.originalPanel = JSON.parse(JSON.stringify(newDetailPanels.editPanel));
 
       this.instructorDetailPanels.push(newDetailPanels);
-    }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
+    }, (err: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorToast(err.error.message);
+    }, () => {
+      this.statusMessageService.showSuccessToast(`The selected instructor(s) have been added successfully.
+      An email containing how to 'join' this course will be sent to them in a few minutes.`);
+    });
   }
 
   /**
@@ -840,8 +832,8 @@ export class InstructorCourseEditPageComponent implements OnInit {
     const emailSet: Set<string> = new Set();
     for (const instructor of instructors) {
       if (emailSet.has(instructor.email)) {
-        this.statusMessageService.showErrorToast(`"An instructor with email address ${instructor.email} 
-        already exists in the course and/or you have selected more than one instructor with this email address."`);
+        this.statusMessageService.showErrorToast(`An instructor with email address ${instructor.email} 
+        already exists in the course and/or you have selected more than one instructor with this email address.`);
         return false;
       }
       emailSet.add(instructor.email);
