@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { environment } from '../../../../environments/environment';
 import { TemplateSession } from '../../../../services/feedback-sessions.service';
 import {
   Course,
@@ -65,6 +65,8 @@ export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectio
   InstructorSessionResultSectionType: typeof InstructorSessionResultSectionType = InstructorSessionResultSectionType;
   SessionsSectionQuestions: typeof SessionsSectionQuestions = SessionsSectionQuestions;
 
+  readonly supportEmail: string = environment.supportEmail;
+  readonly frontendUrl: string = environment.frontendUrl;
   readonly exampleCommentEditFormModel: CommentEditFormModel = EXAMPLE_COMMENT_EDIT_FORM_MODEL;
   readonly exampleSessionEditFormModel: SessionEditFormModel = EXAMPLE_SESSION_EDIT_FORM_MODEL;
   readonly exampleResponse: ResponseOutput = EXAMPLE_RESPONSE;
@@ -85,13 +87,22 @@ export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectio
     SessionsSectionQuestions.TIPS_FOR_CONDUCTION_PEER_EVAL,
     SessionsSectionQuestions.SESSION_NEW_FEEDBACK,
     SessionsSectionQuestions.SESSION_QUESTIONS,
+    SessionsSectionQuestions.SET_QUESTION_COMPULSORY,
     SessionsSectionQuestions.SESSION_PREVIEW,
-    SessionsSectionQuestions.SESSION_CANNOT_SUBMIT,
+    SessionsSectionQuestions.LET_STUDENT_KNOW_SESSION,
+    SessionsSectionQuestions.STUDENT_DID_NOT_RECEIVE_SUBMISSION_LINK,
+    SessionsSectionQuestions.EXTEND_SESSION_DEADLINE,
+    SessionsSectionQuestions.CHANGE_VISIBILITY_AFTER_SESSION_START,
+    SessionsSectionQuestions.STUDENT_EDIT_RESPONSE,
+    SessionsSectionQuestions.SUBMIT_FOR_STUDENT,
+    SessionsSectionQuestions.STUDENT_ACCESS_SUBMISSION_PAGE,
     SessionsSectionQuestions.SESSION_VIEW_RESULTS,
     SessionsSectionQuestions.VIEW_ALL_RESPONSES,
+    SessionsSectionQuestions.MODERATE_RESPONSE,
+    SessionsSectionQuestions.STUDENT_SEE_RESPONSE,
+    SessionsSectionQuestions.STUDENT_DID_NOT_RECEIVE_RESULT_LINK,
     SessionsSectionQuestions.SESSION_ADD_COMMENTS,
     SessionsSectionQuestions.EDIT_DEL_COMMENT,
-    SessionsSectionQuestions.SESSION_SEARCH,
     SessionsSectionQuestions.VIEW_DELETED_SESSION,
     SessionsSectionQuestions.RESTORE_SESSION,
     SessionsSectionQuestions.PERMANENT_DEL_SESSION,

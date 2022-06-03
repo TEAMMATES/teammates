@@ -6,7 +6,7 @@
         <p>
           Have questions about how to use TEAMMATES? This page answers some frequently asked questions.
           <br> If you are new to TEAMMATES, our <a [tmRouterLink]="instructorGettingStartedPath">Getting Started</a> guide will introduce you to the basic functions of TEAMMATES.
-          <br> If you have any remaining questions, don't hesitate to <a href="mailto:{{ supportEmail }}">email us</a>. We respond within 24 hours.
+          <br> If you have any remaining questions, don't hesitate to <a href="mailto:{{ supportEmail }}">email us</a>. We usually respond within 24 hours.
         </p>
         <div class="row">
           <div class="col-md-9">
@@ -39,6 +39,10 @@
       <tm-instructor-help-questions-section #questionsHelpSection [key]="key" (matchFound)="updateMatchFoundNumber($event)" (collapsePeerEvalTips)="collapsePeerEvalTips()">
       </tm-instructor-help-questions-section>
     </div>
+    <div id="{{Sections.general}}" class="section-body">
+      <tm-instructor-help-general-section #generalHelpSection [key]="key" (matchFound)="updateMatchFoundNumber($event)">
+      </tm-instructor-help-general-section>
+    </div>
   </div>
 
   <div class="side-nav container-fluid col-lg-2">
@@ -58,6 +62,9 @@
       </li>
       <li class="nav-item">
         <a (click)="scroll(Sections.questions)" [tmRouterLink]="">Questions</a>
+      </li>
+      <li class="nav-item">
+        <a (click)="scroll(Sections.general)" [tmRouterLink]="">General</a>
       </li>
     </ul>
     <br>

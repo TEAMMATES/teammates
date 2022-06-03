@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -167,6 +168,16 @@ public final class AccountsLogic {
             throw new EntityDoesNotExistException("No instructor with given registration key: " + registrationKey);
         }
 
+        CourseAttributes courseAttributes = coursesLogic.getCourse(instructorForKey.getCourseId());
+
+        if (courseAttributes == null) {
+            throw new EntityDoesNotExistException("Course with id " + instructorForKey.getCourseId() + " does not exist");
+        }
+
+        if (courseAttributes.isCourseDeleted()) {
+            throw new EntityDoesNotExistException("The course you are trying to join has been deleted by an instructor");
+        }
+
         if (instructorForKey.isRegistered()) {
             if (instructorForKey.getGoogleId().equals(googleId)) {
                 AccountAttributes existingAccount = accountsDb.getAccount(googleId);
@@ -196,6 +207,16 @@ public final class AccountsLogic {
 
         if (studentRole == null) {
             throw new EntityDoesNotExistException("No student with given registration key: " + registrationKey);
+        }
+
+        CourseAttributes courseAttributes = coursesLogic.getCourse(studentRole.getCourse());
+
+        if (courseAttributes == null) {
+            throw new EntityDoesNotExistException("Course with id " + studentRole.getCourse() + " does not exist");
+        }
+
+        if (courseAttributes.isCourseDeleted()) {
+            throw new EntityDoesNotExistException("The course you are trying to join has been deleted by an instructor");
         }
 
         if (studentRole.isRegistered()) {

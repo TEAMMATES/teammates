@@ -35,12 +35,14 @@ export class VisibilityEntityNamePipe implements PipeTransform {
             recipientEntityName = 'instructor';
             break;
           case FeedbackParticipantType.STUDENTS:
+          case FeedbackParticipantType.STUDENTS_EXCLUDING_SELF:
           case FeedbackParticipantType.STUDENTS_IN_SAME_SECTION:
           case FeedbackParticipantType.OWN_TEAM_MEMBERS:
           case FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF:
             recipientEntityName = 'student';
             break;
           case FeedbackParticipantType.TEAMS:
+          case FeedbackParticipantType.TEAMS_EXCLUDING_SELF:
           case FeedbackParticipantType.TEAMS_IN_SAME_SECTION:
           case FeedbackParticipantType.OWN_TEAM:
             recipientEntityName = 'team';
@@ -49,7 +51,9 @@ export class VisibilityEntityNamePipe implements PipeTransform {
             return 'unknown';
         }
 
-        if ([FeedbackParticipantType.INSTRUCTORS, FeedbackParticipantType.STUDENTS, FeedbackParticipantType.TEAMS]
+        if ([FeedbackParticipantType.INSTRUCTORS, FeedbackParticipantType.STUDENTS,
+          FeedbackParticipantType.STUDENTS_EXCLUDING_SELF, FeedbackParticipantType.TEAMS,
+          FeedbackParticipantType.TEAMS_EXCLUDING_SELF]
             .includes(questionRecipientType)) {
           // if questionRecipientType is one of certain participant type, add the plural form
           if (numberOfEntitiesToGiveFeedbackToSetting === NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED

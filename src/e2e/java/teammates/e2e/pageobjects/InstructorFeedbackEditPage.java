@@ -1056,7 +1056,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         selectDropdownOptionByText(questionForm.findElement(By.id("giver-type")),
                 getDisplayGiverName(FeedbackParticipantType.STUDENTS));
         selectDropdownOptionByText(questionForm.findElement(By.id("receiver-type")),
-                getDisplayRecipientName(FeedbackParticipantType.STUDENTS));
+                getDisplayRecipientName(FeedbackParticipantType.STUDENTS_EXCLUDING_SELF));
         if (feedbackQuestion.getNumberOfEntitiesToGiveFeedbackTo() == Const.MAX_POSSIBLE_RECIPIENTS) {
             click(questionForm.findElement(By.id("unlimited-recipients")));
         } else {
@@ -1119,7 +1119,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         if (!giver.equals(FeedbackParticipantType.STUDENTS)) {
             possibleTypes.remove(FeedbackParticipantType.OWN_TEAM_MEMBERS);
         }
-        if (!receiver.equals(FeedbackParticipantType.STUDENTS)) {
+        if (!receiver.equals(FeedbackParticipantType.STUDENTS_EXCLUDING_SELF)) {
             possibleTypes.remove(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
         }
         if (receiver.equals(FeedbackParticipantType.NONE)
