@@ -1023,7 +1023,7 @@
       },
       "questionNumber": 2,
       "giverType": "STUDENTS",
-      "recipientType": "STUDENTS",
+      "recipientType": "STUDENTS_EXCLUDING_SELF",
       "numberOfEntitiesToGiveFeedbackTo": 1,
       "showResponsesTo": [
         "INSTRUCTORS",
@@ -1128,7 +1128,7 @@
       },
       "questionNumber": 1,
       "giverType": "TEAMS",
-      "recipientType": "TEAMS",
+      "recipientType": "TEAMS_EXCLUDING_SELF",
       "numberOfEntitiesToGiveFeedbackTo": 2,
       "showResponsesTo": [
         "RECEIVER"
@@ -1220,7 +1220,7 @@
       },
       "questionNumber": 1,
       "giverType": "TEAMS",
-      "recipientType": "TEAMS",
+      "recipientType": "TEAMS_EXCLUDING_SELF",
       "numberOfEntitiesToGiveFeedbackTo": 2,
       "showResponsesTo": [
         "RECEIVER"
@@ -1304,7 +1304,7 @@
       },
       "questionNumber": 1,
       "giverType": "STUDENTS",
-      "recipientType": "STUDENTS",
+      "recipientType": "STUDENTS_EXCLUDING_SELF",
       "numberOfEntitiesToGiveFeedbackTo": 4,
       "showResponsesTo": [
         "RECEIVER"

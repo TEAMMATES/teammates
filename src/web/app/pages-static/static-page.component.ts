@@ -45,11 +45,11 @@ export class StaticPageComponent implements OnInit {
       children: [
         {
           url: '/web/front/help/student',
-          display: 'Student Help',
+          display: 'Help for Students',
         },
         {
           url: '/web/front/help/instructor',
-          display: 'Instructor Help',
+          display: 'Help for Instructors',
         },
         {
           url: '/web/front/help/session-links-recovery',
