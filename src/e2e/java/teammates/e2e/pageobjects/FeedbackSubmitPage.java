@@ -658,11 +658,13 @@ public class FeedbackSubmitPage extends AppPage {
     private String getRecipientString(FeedbackParticipantType recipientType) {
         switch(recipientType) {
         case TEAMS:
+        case TEAMS_EXCLUDING_SELF:
         case TEAMS_IN_SAME_SECTION:
             return "teams";
         case OWN_TEAM_MEMBERS:
             return "student";
         case STUDENTS:
+        case STUDENTS_EXCLUDING_SELF:
         case STUDENTS_IN_SAME_SECTION:
             return "students";
         case INSTRUCTORS:

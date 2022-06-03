@@ -552,8 +552,10 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   getQuestionSubmissionFormMode(model: QuestionSubmissionFormModel): QuestionSubmissionFormMode {
     const isNumberOfEntitiesToGiveFeedbackToSettingLimited: boolean =
         (model.recipientType === FeedbackParticipantType.STUDENTS
+            || model.recipientType === FeedbackParticipantType.STUDENTS_EXCLUDING_SELF
             || model.recipientType === FeedbackParticipantType.STUDENTS_IN_SAME_SECTION
             || model.recipientType === FeedbackParticipantType.TEAMS
+            || model.recipientType === FeedbackParticipantType.TEAMS_EXCLUDING_SELF
             || model.recipientType === FeedbackParticipantType.TEAMS_IN_SAME_SECTION
             || model.recipientType === FeedbackParticipantType.INSTRUCTORS)
         && model.numberOfEntitiesToGiveFeedbackToSetting === NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM
